@@ -10,7 +10,7 @@ from colour.hints import (
     Union,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     filter_kwargs,
     usage_warning,
     validate_method,
@@ -27,12 +27,17 @@ from .aces import (
     log_decoding_ACEScct,
 )
 from .arib_std_b67 import oetf_ARIBSTDB67, oetf_inverse_ARIBSTDB67
-from .arri_alexa_log_c import log_encoding_ALEXALogC, log_decoding_ALEXALogC
+from .arri import (
+    log_encoding_ARRILogC3,
+    log_decoding_ARRILogC3,
+    log_encoding_ARRILogC4,
+    log_decoding_ARRILogC4,
+)
 from .blackmagic_design import (
     oetf_BlackmagicFilmGeneration5,
     oetf_inverse_BlackmagicFilmGeneration5,
 )
-from .canon_log import (
+from .canon import (
     log_encoding_CanonLog,
     log_decoding_CanonLog,
     log_encoding_CanonLog2,
@@ -47,37 +52,39 @@ from .davinci_intermediate import (
 )
 from .dcdm import eotf_inverse_DCDM, eotf_DCDM
 from .dicom_gsdf import eotf_inverse_DICOMGSDF, eotf_DICOMGSDF
-from .dji_dlog import log_encoding_DJIDLog, log_decoding_DJIDLog
+from .dji_d_log import log_encoding_DJIDLog, log_decoding_DJIDLog
 from .exponent import exponent_function_basic, exponent_function_monitor_curve
 from .filmic_pro import log_encoding_FilmicPro6, log_decoding_FilmicPro6
-from .filmlight_tlog import (
+from .filmlight_t_log import (
     log_encoding_FilmLightTLog,
     log_decoding_FilmLightTLog,
 )
 from .gopro import log_encoding_Protune, log_decoding_Protune
 from .itur_bt_601 import oetf_BT601, oetf_inverse_BT601
 from .itur_bt_709 import oetf_BT709, oetf_inverse_BT709
+from .itur_bt_1361 import oetf_BT1361, oetf_inverse_BT1361
 from .itur_bt_1886 import eotf_inverse_BT1886, eotf_BT1886
-from .itur_bt_2020 import eotf_inverse_BT2020, eotf_BT2020
+from .itur_bt_2020 import oetf_BT2020, oetf_inverse_BT2020
 from .st_2084 import eotf_inverse_ST2084, eotf_ST2084
 from .itur_bt_2100 import (
-    oetf_PQ_BT2100,
-    oetf_inverse_PQ_BT2100,
-    eotf_PQ_BT2100,
-    eotf_inverse_PQ_BT2100,
-    ootf_PQ_BT2100,
-    ootf_inverse_PQ_BT2100,
-    oetf_HLG_BT2100,
-    oetf_inverse_HLG_BT2100,
+    oetf_BT2100_PQ,
+    oetf_inverse_BT2100_PQ,
+    eotf_BT2100_PQ,
+    eotf_inverse_BT2100_PQ,
+    ootf_BT2100_PQ,
+    ootf_inverse_BT2100_PQ,
+    oetf_BT2100_HLG,
+    oetf_inverse_BT2100_HLG,
     BT2100_HLG_EOTF_METHODS,
-    eotf_HLG_BT2100,
+    eotf_BT2100_HLG,
     BT2100_HLG_EOTF_INVERSE_METHODS,
-    eotf_inverse_HLG_BT2100,
+    eotf_inverse_BT2100_HLG,
     BT2100_HLG_OOTF_METHODS,
-    ootf_HLG_BT2100,
+    ootf_BT2100_HLG,
     BT2100_HLG_OOTF_INVERSE_METHODS,
-    ootf_inverse_HLG_BT2100,
+    ootf_inverse_BT2100_HLG,
 )
+from .leica_l_log import log_encoding_LLog, log_decoding_LLog
 from .linear import linear_function
 from .log import (
     logarithmic_function_basic,
@@ -87,11 +94,11 @@ from .log import (
     log_decoding_Log2,
 )
 from .panalog import log_encoding_Panalog, log_decoding_Panalog
-from .panasonic_vlog import log_encoding_VLog, log_decoding_VLog
-from .fujifilm_flog import log_encoding_FLog, log_decoding_FLog
-from .nikon_nlog import log_encoding_NLog, log_decoding_NLog
+from .panasonic_v_log import log_encoding_VLog, log_decoding_VLog
+from .fujifilm_f_log import log_encoding_FLog, log_decoding_FLog
+from .nikon_n_log import log_encoding_NLog, log_decoding_NLog
 from .pivoted_log import log_encoding_PivotedLog, log_decoding_PivotedLog
-from .red_log import (
+from .red import (
     log_encoding_REDLog,
     log_decoding_REDLog,
     log_encoding_REDLogFilm,
@@ -114,7 +121,7 @@ from .rimm_romm_rgb import (
     log_decoding_ERIMMRGB,
 )
 from .smpte_240m import oetf_SMPTE240M, eotf_SMPTE240M
-from .sony_slog import (
+from .sony import (
     log_encoding_SLog,
     log_decoding_SLog,
     log_encoding_SLog2,
@@ -124,6 +131,16 @@ from .sony_slog import (
 )
 from .srgb import eotf_inverse_sRGB, eotf_sRGB
 from .viper_log import log_encoding_ViperLog, log_decoding_ViperLog
+from .itut_h_273 import (
+    oetf_H273_Log,
+    oetf_inverse_H273_Log,
+    oetf_H273_LogSqrt,
+    oetf_inverse_H273_LogSqrt,
+    oetf_H273_IEC61966_2,
+    oetf_inverse_H273_IEC61966_2,
+    eotf_inverse_H273_ST428_1,
+    eotf_H273_ST428_1,
+)
 
 __all__ = [
     "CV_range",
@@ -146,8 +163,10 @@ __all__ += [
     "oetf_inverse_ARIBSTDB67",
 ]
 __all__ += [
-    "log_encoding_ALEXALogC",
-    "log_decoding_ALEXALogC",
+    "log_encoding_ARRILogC3",
+    "log_decoding_ARRILogC3",
+    "log_encoding_ARRILogC4",
+    "log_decoding_ARRILogC4",
 ]
 __all__ += [
     "oetf_BlackmagicFilmGeneration5",
@@ -206,34 +225,42 @@ __all__ += [
     "oetf_inverse_BT709",
 ]
 __all__ += [
+    "oetf_BT1361",
+    "oetf_inverse_BT1361",
+]
+__all__ += [
     "eotf_inverse_BT1886",
     "eotf_BT1886",
 ]
 __all__ += [
-    "eotf_inverse_BT2020",
-    "eotf_BT2020",
+    "oetf_BT2020",
+    "oetf_inverse_BT2020",
 ]
 __all__ += [
     "eotf_inverse_ST2084",
     "eotf_ST2084",
 ]
 __all__ += [
-    "oetf_PQ_BT2100",
-    "oetf_inverse_PQ_BT2100",
-    "eotf_PQ_BT2100",
-    "eotf_inverse_PQ_BT2100",
-    "ootf_PQ_BT2100",
-    "ootf_inverse_PQ_BT2100",
-    "oetf_HLG_BT2100",
-    "oetf_inverse_HLG_BT2100",
+    "oetf_BT2100_PQ",
+    "oetf_inverse_BT2100_PQ",
+    "eotf_BT2100_PQ",
+    "eotf_inverse_BT2100_PQ",
+    "ootf_BT2100_PQ",
+    "ootf_inverse_BT2100_PQ",
+    "oetf_BT2100_HLG",
+    "oetf_inverse_BT2100_HLG",
     "BT2100_HLG_EOTF_METHODS",
-    "eotf_HLG_BT2100",
+    "eotf_BT2100_HLG",
     "BT2100_HLG_EOTF_INVERSE_METHODS",
-    "eotf_inverse_HLG_BT2100",
+    "eotf_inverse_BT2100_HLG",
     "BT2100_HLG_OOTF_METHODS",
-    "ootf_HLG_BT2100",
+    "ootf_BT2100_HLG",
     "BT2100_HLG_OOTF_INVERSE_METHODS",
-    "ootf_inverse_HLG_BT2100",
+    "ootf_inverse_BT2100_HLG",
+]
+__all__ += [
+    "log_encoding_LLog",
+    "log_decoding_LLog",
 ]
 __all__ += [
     "linear_function",
@@ -307,13 +334,24 @@ __all__ += [
     "log_encoding_ViperLog",
     "log_decoding_ViperLog",
 ]
+__all__ += [
+    "oetf_H273_Log",
+    "oetf_inverse_H273_Log",
+    "oetf_H273_LogSqrt",
+    "oetf_inverse_H273_LogSqrt",
+    "oetf_H273_IEC61966_2",
+    "oetf_inverse_H273_IEC61966_2",
+    "eotf_inverse_H273_ST428_1",
+    "eotf_H273_ST428_1",
+]
 
-LOG_ENCODINGS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+LOG_ENCODINGS: CanonicalMapping = CanonicalMapping(
     {
         "ACEScc": log_encoding_ACEScc,
         "ACEScct": log_encoding_ACEScct,
         "ACESproxy": log_encoding_ACESproxy,
-        "ALEXA Log C": log_encoding_ALEXALogC,
+        "ARRI LogC3": log_encoding_ARRILogC3,
+        "ARRI LogC4": log_encoding_ARRILogC4,
         "Canon Log 2": log_encoding_CanonLog2,
         "Canon Log 3": log_encoding_CanonLog3,
         "Canon Log": log_encoding_CanonLog,
@@ -322,6 +360,7 @@ LOG_ENCODINGS: CaseInsensitiveMapping = CaseInsensitiveMapping(
         "ERIMM RGB": log_encoding_ERIMMRGB,
         "F-Log": log_encoding_FLog,
         "Filmic Pro 6": log_encoding_FilmicPro6,
+        "L-Log": log_encoding_LLog,
         "Log2": log_encoding_Log2,
         "Log3G10": log_encoding_Log3G10,
         "Log3G12": log_encoding_Log3G12,
@@ -351,7 +390,8 @@ def log_encoding(
             "ACEScc",
             "ACEScct",
             "ACESproxy",
-            "ALEXA Log C",
+            "ARRI LogC3",
+            "ARRI LogC4",
             "Canon Log 2",
             "Canon Log 3",
             "Canon Log",
@@ -360,6 +400,7 @@ def log_encoding(
             "ERIMM RGB",
             "F-Log",
             "Filmic Pro 6",
+            "L-Log",
             "Log2",
             "Log3G10",
             "Log3G12",
@@ -397,7 +438,8 @@ def log_encoding(
         {:func:`colour.models.log_encoding_ACEScc`,
         :func:`colour.models.log_encoding_ACEScct`,
         :func:`colour.models.log_encoding_ACESproxy`,
-        :func:`colour.models.log_encoding_ALEXALogC`,
+        :func:`colour.models.log_encoding_ARRILogC3`,
+        :func:`colour.models.log_encoding_ARRILogC4`,
         :func:`colour.models.log_encoding_CanonLog2`,
         :func:`colour.models.log_encoding_CanonLog3`,
         :func:`colour.models.log_encoding_CanonLog`,
@@ -406,6 +448,7 @@ def log_encoding(
         :func:`colour.models.log_encoding_ERIMMRGB`,
         :func:`colour.models.log_encoding_FLog`,
         :func:`colour.models.log_encoding_FilmicPro6`,
+        :func:`colour.models.log_encoding_LLog`,
         :func:`colour.models.log_encoding_Log2`,
         :func:`colour.models.log_encoding_Log3G10`,
         :func:`colour.models.log_encoding_Log3G12`,
@@ -432,12 +475,12 @@ def log_encoding(
     --------
     >>> log_encoding(0.18)  # doctest: +ELLIPSIS
     0.4573196...
-    >>> log_encoding(0.18, function='ACEScc')  # doctest: +ELLIPSIS
+    >>> log_encoding(0.18, function="ACEScc")  # doctest: +ELLIPSIS
     0.4135884...
-    >>> log_encoding(0.18, function='PLog', log_reference=400)
+    >>> log_encoding(0.18, function="PLog", log_reference=400)
     ... # doctest: +ELLIPSIS
     0.3910068...
-    >>> log_encoding(0.18, function='S-Log')  # doctest: +ELLIPSIS
+    >>> log_encoding(0.18, function="S-Log")  # doctest: +ELLIPSIS
     0.3849708...
     """
 
@@ -452,12 +495,13 @@ def log_encoding(
     return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
-LOG_DECODINGS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+LOG_DECODINGS: CanonicalMapping = CanonicalMapping(
     {
         "ACEScc": log_decoding_ACEScc,
         "ACEScct": log_decoding_ACEScct,
         "ACESproxy": log_decoding_ACESproxy,
-        "ALEXA Log C": log_decoding_ALEXALogC,
+        "ARRI LogC3": log_decoding_ARRILogC3,
+        "ARRI LogC4": log_decoding_ARRILogC4,
         "Canon Log 2": log_decoding_CanonLog2,
         "Canon Log 3": log_decoding_CanonLog3,
         "Canon Log": log_decoding_CanonLog,
@@ -466,6 +510,7 @@ LOG_DECODINGS: CaseInsensitiveMapping = CaseInsensitiveMapping(
         "ERIMM RGB": log_decoding_ERIMMRGB,
         "F-Log": log_decoding_FLog,
         "Filmic Pro 6": log_decoding_FilmicPro6,
+        "L-Log": log_decoding_LLog,
         "Log2": log_decoding_Log2,
         "Log3G10": log_decoding_Log3G10,
         "Log3G12": log_decoding_Log3G12,
@@ -495,7 +540,8 @@ def log_decoding(
             "ACEScc",
             "ACEScct",
             "ACESproxy",
-            "ALEXA Log C",
+            "ARRI LogC3",
+            "ARRI LogC4",
             "Canon Log 2",
             "Canon Log 3",
             "Canon Log",
@@ -504,6 +550,7 @@ def log_decoding(
             "ERIMM RGB",
             "F-Log",
             "Filmic Pro 6",
+            "L-Log",
             "Log2",
             "Log3G10",
             "Log3G12",
@@ -541,7 +588,8 @@ def log_decoding(
         {:func:`colour.models.log_decoding_ACEScc`,
         :func:`colour.models.log_decoding_ACEScct`,
         :func:`colour.models.log_decoding_ACESproxy`,
-        :func:`colour.models.log_decoding_ALEXALogC`,
+        :func:`colour.models.log_decoding_ARRILogC3`,
+        :func:`colour.models.log_decoding_ARRILogC4`,
         :func:`colour.models.log_decoding_CanonLog2`,
         :func:`colour.models.log_decoding_CanonLog3`,
         :func:`colour.models.log_decoding_CanonLog`,
@@ -550,6 +598,7 @@ def log_decoding(
         :func:`colour.models.log_decoding_ERIMMRGB`,
         :func:`colour.models.log_decoding_FLog`,
         :func:`colour.models.log_decoding_FilmicPro6`,
+        :func:`colour.models.log_decoding_LLog`,
         :func:`colour.models.log_decoding_Log2`,
         :func:`colour.models.log_decoding_Log3G10`,
         :func:`colour.models.log_decoding_Log3G12`,
@@ -576,13 +625,13 @@ def log_decoding(
     --------
     >>> log_decoding(0.457319613085418)  # doctest: +ELLIPSIS
     0.1...
-    >>> log_decoding(0.413588402492442, function='ACEScc')
+    >>> log_decoding(0.413588402492442, function="ACEScc")
     ... # doctest: +ELLIPSIS
     0.1...
-    >>> log_decoding(0.391006842619746, function='PLog', log_reference=400)
+    >>> log_decoding(0.391006842619746, function="PLog", log_reference=400)
     ... # doctest: +ELLIPSIS
     0.1...
-    >>> log_decoding(0.376512722254600, function='S-Log')
+    >>> log_decoding(0.376512722254600, function="S-Log")
     ... # doctest: +ELLIPSIS
     0.1...
     """
@@ -607,15 +656,19 @@ __all__ += [
     "log_decoding",
 ]
 
-OETFS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+OETFS: CanonicalMapping = CanonicalMapping(
     {
         "ARIB STD-B67": oetf_ARIBSTDB67,
         "Blackmagic Film Generation 5": oetf_BlackmagicFilmGeneration5,
         "DaVinci Intermediate": oetf_DaVinciIntermediate,
-        "ITU-R BT.2100 HLG": oetf_HLG_BT2100,
-        "ITU-R BT.2100 PQ": oetf_PQ_BT2100,
+        "ITU-R BT.2020": oetf_BT2020,
+        "ITU-R BT.2100 HLG": oetf_BT2100_HLG,
+        "ITU-R BT.2100 PQ": oetf_BT2100_PQ,
         "ITU-R BT.601": oetf_BT601,
         "ITU-R BT.709": oetf_BT709,
+        "ITU-T H.273 Log": oetf_H273_Log,
+        "ITU-T H.273 Log Sqrt": oetf_H273_LogSqrt,
+        "ITU-T H.273 IEC 61966-2": oetf_H273_IEC61966_2,
         "SMPTE 240M": oetf_SMPTE240M,
     }
 )
@@ -631,10 +684,14 @@ def oetf(
             "ARIB STD-B67",
             "Blackmagic Film Generation 5",
             "DaVinci Intermediate",
+            "ITU-R BT.2020",
             "ITU-R BT.2100 HLG",
             "ITU-R BT.2100 PQ",
             "ITU-R BT.601",
             "ITU-R BT.709",
+            "ITU-T H.273 Log",
+            "ITU-T H.273 Log Sqrt",
+            "ITU-T H.273 IEC 61966-2",
             "SMPTE 240M",
         ],
         str,
@@ -659,8 +716,9 @@ def oetf(
         {:func:`colour.models.oetf_ARIBSTDB67`,
         :func:`colour.models.oetf_BlackmagicFilmGeneration5`,
         :func:`colour.models.oetf_DaVinciIntermediate`,
-        :func:`colour.models.oetf_HLG_BT2100`,
-        :func:`colour.models.oetf_PQ_BT2100`,
+        :func:`colour.models.oetf_BT2020`,
+        :func:`colour.models.oetf_BT2100_HLG`,
+        :func:`colour.models.oetf_BT2100_PQ`,
         :func:`colour.models.oetf_BT601`,
         :func:`colour.models.oetf_BT709`,
         :func:`colour.models.oetf_SMPTE240M`},
@@ -675,7 +733,7 @@ def oetf(
     --------
     >>> oetf(0.18)  # doctest: +ELLIPSIS
     0.4090077...
-    >>> oetf(0.18, function='ITU-R BT.601')  # doctest: +ELLIPSIS
+    >>> oetf(0.18, function="ITU-R BT.601")  # doctest: +ELLIPSIS
     0.4090077...
     """
 
@@ -688,15 +746,19 @@ def oetf(
     return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
-OETF_INVERSES: CaseInsensitiveMapping = CaseInsensitiveMapping(
+OETF_INVERSES: CanonicalMapping = CanonicalMapping(
     {
         "ARIB STD-B67": oetf_inverse_ARIBSTDB67,
         "Blackmagic Film Generation 5": oetf_inverse_BlackmagicFilmGeneration5,
         "DaVinci Intermediate": oetf_inverse_DaVinciIntermediate,
-        "ITU-R BT.2100 HLG": oetf_inverse_HLG_BT2100,
-        "ITU-R BT.2100 PQ": oetf_inverse_PQ_BT2100,
+        "ITU-R BT.2020": oetf_inverse_BT2020,
+        "ITU-R BT.2100 HLG": oetf_inverse_BT2100_HLG,
+        "ITU-R BT.2100 PQ": oetf_inverse_BT2100_PQ,
         "ITU-R BT.601": oetf_inverse_BT601,
         "ITU-R BT.709": oetf_inverse_BT709,
+        "ITU-T H.273 Log": oetf_inverse_H273_Log,
+        "ITU-T H.273 Log Sqrt": oetf_inverse_H273_LogSqrt,
+        "ITU-T H.273 IEC 61966-2": oetf_inverse_H273_IEC61966_2,
     }
 )
 OETF_INVERSES.__doc__ = """
@@ -711,10 +773,14 @@ def oetf_inverse(
             "ARIB STD-B67",
             "Blackmagic Film Generation 5",
             "DaVinci Intermediate",
+            "ITU-R BT.2020",
             "ITU-R BT.2100 HLG",
             "ITU-R BT.2100 PQ",
             "ITU-R BT.601",
             "ITU-R BT.709",
+            "ITU-T H.273 Log",
+            "ITU-T H.273 Log Sqrt",
+            "ITU-T H.273 IEC 61966-2",
         ],
         str,
     ] = "ITU-R BT.709",
@@ -738,8 +804,9 @@ def oetf_inverse(
         {:func:`colour.models.oetf_inverse_ARIBSTDB67`,
         :func:`colour.models.oetf_inverse_BlackmagicFilmGeneration5`,
         :func:`colour.models.oetf_inverse_DaVinciIntermediate`,
-        :func:`colour.models.oetf_inverse_HLG_BT2100`,
-        :func:`colour.models.oetf_inverse_PQ_BT2100`,
+        :func:`colour.models.oetf_inverse_BT2020`,
+        :func:`colour.models.oetf_inverse_BT2100_HLG`,
+        :func:`colour.models.oetf_inverse_BT2100_PQ`,
         :func:`colour.models.oetf_inverse_BT601`,
         :func:`colour.models.oetf_inverse_BT709`},
         See the documentation of the previously listed definitions.
@@ -755,7 +822,8 @@ def oetf_inverse(
     >>> oetf_inverse(0.409007728864150)  # doctest: +ELLIPSIS
     0.1...
     >>> oetf_inverse(  # doctest: +ELLIPSIS
-    ...     0.409007728864150, function='ITU-R BT.601')
+    ...     0.409007728864150, function="ITU-R BT.601"
+    ... )
     0.1...
     """
 
@@ -770,14 +838,14 @@ def oetf_inverse(
     return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
-EOTFS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+EOTFS: CanonicalMapping = CanonicalMapping(
     {
         "DCDM": eotf_DCDM,
         "DICOM GSDF": eotf_DICOMGSDF,
         "ITU-R BT.1886": eotf_BT1886,
-        "ITU-R BT.2020": eotf_BT2020,
-        "ITU-R BT.2100 HLG": eotf_HLG_BT2100,
-        "ITU-R BT.2100 PQ": eotf_PQ_BT2100,
+        "ITU-R BT.2100 HLG": eotf_BT2100_HLG,
+        "ITU-R BT.2100 PQ": eotf_BT2100_PQ,
+        "ITU-T H.273 ST.428-1": eotf_H273_ST428_1,
         "SMPTE 240M": eotf_SMPTE240M,
         "ST 2084": eotf_ST2084,
         "sRGB": eotf_sRGB,
@@ -795,9 +863,9 @@ def eotf(
             "DCDM",
             "DICOM GSDF",
             "ITU-R BT.1886",
-            "ITU-R BT.2020",
             "ITU-R BT.2100 HLG",
             "ITU-R BT.2100 PQ",
+            "ITU-T H.273 ST.428-1",
             "SMPTE 240M",
             "ST 2084",
             "sRGB",
@@ -823,9 +891,8 @@ def eotf(
         {:func:`colour.models.eotf_DCDM`,
         :func:`colour.models.eotf_DICOMGSDF`,
         :func:`colour.models.eotf_BT1886`,
-        :func:`colour.models.eotf_BT2020`,
-        :func:`colour.models.eotf_HLG_BT2100`,
-        :func:`colour.models.eotf_PQ_BT2100`,
+        :func:`colour.models.eotf_BT2100_HLG`,
+        :func:`colour.models.eotf_BT2100_PQ`,
         :func:`colour.models.eotf_SMPTE240M`,
         :func:`colour.models.eotf_ST2084`,
         :func:`colour.models.eotf_sRGB`},
@@ -840,10 +907,7 @@ def eotf(
     --------
     >>> eotf(0.461356129500442)  # doctest: +ELLIPSIS
     0.1...
-    >>> eotf(0.409007728864150, function='ITU-R BT.2020')
-    ... # doctest: +ELLIPSIS
-    0.1...
-    >>> eotf(0.182011532850008, function='ST 2084', L_p=1000)
+    >>> eotf(0.182011532850008, function="ST 2084", L_p=1000)
     ... # doctest: +ELLIPSIS
     0.1...
     """
@@ -857,14 +921,14 @@ def eotf(
     return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
-EOTF_INVERSES: CaseInsensitiveMapping = CaseInsensitiveMapping(
+EOTF_INVERSES: CanonicalMapping = CanonicalMapping(
     {
         "DCDM": eotf_inverse_DCDM,
         "DICOM GSDF": eotf_inverse_DICOMGSDF,
         "ITU-R BT.1886": eotf_inverse_BT1886,
-        "ITU-R BT.2020": eotf_inverse_BT2020,
-        "ITU-R BT.2100 HLG": eotf_inverse_HLG_BT2100,
-        "ITU-R BT.2100 PQ": eotf_inverse_PQ_BT2100,
+        "ITU-R BT.2100 HLG": eotf_inverse_BT2100_HLG,
+        "ITU-R BT.2100 PQ": eotf_inverse_BT2100_PQ,
+        "ITU-T H.273 ST.428-1": eotf_inverse_H273_ST428_1,
         "ST 2084": eotf_inverse_ST2084,
         "sRGB": eotf_inverse_sRGB,
     }
@@ -881,9 +945,9 @@ def eotf_inverse(
             "DCDM",
             "DICOM GSDF",
             "ITU-R BT.1886",
-            "ITU-R BT.2020",
             "ITU-R BT.2100 HLG",
             "ITU-R BT.2100 PQ",
+            "ITU-T H.273 ST.428-1",
             "ST 2084",
             "sRGB",
         ],
@@ -909,9 +973,8 @@ def eotf_inverse(
         {:func:`colour.models.eotf_inverse_DCDM`,
         :func:`colour.models.eotf_inverse_DICOMGSDF`,
         :func:`colour.models.eotf_inverse_BT1886`,
-        :func:`colour.models.eotf_inverse_BT2020`,
-        :func:`colour.models.eotf_inverse_HLG_BT2100`,
-        :func:`colour.models.eotf_inverse_PQ_BT2100`,
+        :func:`colour.models.eotf_inverse_BT2100_HLG`,
+        :func:`colour.models.eotf_inverse_BT2100_PQ`,
         :func:`colour.models.eotf_inverse_ST2084`,
         :func:`colour.models.eotf_inverse_sRGB`},
         See the documentation of the previously listed definitions.
@@ -926,7 +989,8 @@ def eotf_inverse(
     >>> eotf_inverse(0.11699185725296059)  # doctest: +ELLIPSIS
     0.4090077...
     >>> eotf_inverse(  # doctest: +ELLIPSIS
-    ...     0.11699185725296059, function='ITU-R BT.1886')
+    ...     0.11699185725296059, function="ITU-R BT.1886"
+    ... )
     0.4090077...
     """
 
@@ -954,7 +1018,7 @@ __all__ += [
     "eotf_inverse",
 ]
 
-CCTF_ENCODINGS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+CCTF_ENCODINGS: CanonicalMapping = CanonicalMapping(
     {
         "Gamma 2.2": partial(gamma_function, exponent=1 / 2.2),
         "Gamma 2.4": partial(gamma_function, exponent=1 / 2.4),
@@ -992,7 +1056,8 @@ def cctf_encoding(
             "ACEScc",
             "ACEScct",
             "ACESproxy",
-            "ALEXA Log C",
+            "ARRI LogC3",
+            "ARRI LogC4",
             "ARIB STD-B67",
             "Blackmagic Film Generation 5",
             "Canon Log 2",
@@ -1073,14 +1138,15 @@ def cctf_encoding(
 
     Examples
     --------
-    >>> cctf_encoding(0.18, function='PLog', log_reference=400)
+    >>> cctf_encoding(0.18, function="PLog", log_reference=400)
     ... # doctest: +ELLIPSIS
     0.3910068...
-    >>> cctf_encoding(0.18, function='ST 2084', L_p=1000)
+    >>> cctf_encoding(0.18, function="ST 2084", L_p=1000)
     ... # doctest: +ELLIPSIS
     0.1820115...
     >>> cctf_encoding(  # doctest: +ELLIPSIS
-    ...     0.11699185725296059, function='ITU-R BT.1886')
+    ...     0.11699185725296059, function="ITU-R BT.1886"
+    ... )
     0.4090077...
     """
 
@@ -1103,7 +1169,7 @@ def cctf_encoding(
     return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
-CCTF_DECODINGS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+CCTF_DECODINGS: CanonicalMapping = CanonicalMapping(
     {
         "Gamma 2.2": partial(gamma_function, exponent=2.2),
         "Gamma 2.4": partial(gamma_function, exponent=2.4),
@@ -1146,7 +1212,8 @@ def cctf_decoding(
             "ACEScc",
             "ACEScct",
             "ACESproxy",
-            "ALEXA Log C",
+            "ARRI LogC3",
+            "ARRI LogC4",
             "ARIB STD-B67",
             "Blackmagic Film Generation 5",
             "Canon Log 2",
@@ -1227,14 +1294,15 @@ def cctf_decoding(
 
     Examples
     --------
-    >>> cctf_decoding(0.391006842619746, function='PLog', log_reference=400)
+    >>> cctf_decoding(0.391006842619746, function="PLog", log_reference=400)
     ... # doctest: +ELLIPSIS
     0.1...
-    >>> cctf_decoding(0.182011532850008, function='ST 2084', L_p=1000)
+    >>> cctf_decoding(0.182011532850008, function="ST 2084", L_p=1000)
     ... # doctest: +ELLIPSIS
     0.1...
     >>> cctf_decoding(  # doctest: +ELLIPSIS
-    ...     0.461356129500442, function='ITU-R BT.1886')
+    ...     0.461356129500442, function="ITU-R BT.1886"
+    ... )
     0.1...
     """
 
@@ -1266,10 +1334,10 @@ __all__ += [
     "cctf_decoding",
 ]
 
-OOTFS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+OOTFS: CanonicalMapping = CanonicalMapping(
     {
-        "ITU-R BT.2100 HLG": ootf_HLG_BT2100,
-        "ITU-R BT.2100 PQ": ootf_PQ_BT2100,
+        "ITU-R BT.2100 HLG": ootf_BT2100_HLG,
+        "ITU-R BT.2100 PQ": ootf_BT2100_PQ,
     }
 )
 OOTFS.__doc__ = """
@@ -1298,8 +1366,8 @@ def ootf(
     Other Parameters
     ----------------
     kwargs
-        {:func:`colour.models.ootf_HLG_BT2100`,
-        :func:`colour.models.ootf_PQ_BT2100`},
+        {:func:`colour.models.ootf_BT2100_HLG`,
+        :func:`colour.models.ootf_BT2100_PQ`},
         See the documentation of the previously listed definitions.
 
     Returns
@@ -1311,7 +1379,7 @@ def ootf(
     --------
     >>> ootf(0.1)  # doctest: +ELLIPSIS
     779.9883608...
-    >>> ootf(0.1, function='ITU-R BT.2100 HLG')  # doctest: +ELLIPSIS
+    >>> ootf(0.1, function="ITU-R BT.2100 HLG")  # doctest: +ELLIPSIS
     63.0957344...
     """
 
@@ -1324,10 +1392,10 @@ def ootf(
     return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
-OOTF_INVERSES: CaseInsensitiveMapping = CaseInsensitiveMapping(
+OOTF_INVERSES: CanonicalMapping = CanonicalMapping(
     {
-        "ITU-R BT.2100 HLG": ootf_inverse_HLG_BT2100,
-        "ITU-R BT.2100 PQ": ootf_inverse_PQ_BT2100,
+        "ITU-R BT.2100 HLG": ootf_inverse_BT2100_HLG,
+        "ITU-R BT.2100 PQ": ootf_inverse_BT2100_PQ,
     }
 )
 OOTF_INVERSES.__doc__ = """
@@ -1356,8 +1424,8 @@ def ootf_inverse(
     Other Parameters
     ----------------
     kwargs
-        {:func:`colour.models.ootf_inverse_HLG_BT2100`,
-        :func:`colour.models.ootf_inverse_PQ_BT2100`},
+        {:func:`colour.models.ootf_inverse_BT2100_HLG`,
+        :func:`colour.models.ootf_inverse_BT2100_PQ`},
         See the documentation of the previously listed definitions.
 
     Returns
@@ -1370,7 +1438,8 @@ def ootf_inverse(
     >>> ootf_inverse(779.988360834115840)  # doctest: +ELLIPSIS
     0.1000000...
     >>> ootf_inverse(  # doctest: +ELLIPSIS
-    ...     63.095734448019336, function='ITU-R BT.2100 HLG')
+    ...     63.095734448019336, function="ITU-R BT.2100 HLG"
+    ... )
     0.1000000...
     """
 

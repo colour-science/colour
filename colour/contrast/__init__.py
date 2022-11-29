@@ -20,7 +20,7 @@ from __future__ import annotations
 
 from colour.hints import FloatingOrNDArray, Literal, Union
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     filter_kwargs,
     validate_method,
 )
@@ -43,7 +43,7 @@ __all__ = [
     "contrast_sensitivity_function_Barten1999",
 ]
 
-CONTRAST_SENSITIVITY_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+CONTRAST_SENSITIVITY_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Barten 1999": contrast_sensitivity_function_Barten1999,
     }
@@ -138,7 +138,7 @@ def contrast_sensitivity_function(
     --------
     >>> contrast_sensitivity_function(u=4)  # doctest: +ELLIPSIS
     360.8691122...
-    >>> contrast_sensitivity_function('Barten 1999', u=4)  # doctest: +ELLIPSIS
+    >>> contrast_sensitivity_function("Barten 1999", u=4)  # doctest: +ELLIPSIS
     360.8691122...
     """
 

@@ -20,7 +20,9 @@ if os.environ.get("READTHEDOCS") == "True":
         os.environ["READTHEDOCS_VERSION"]
         .replace("experimental-", "experimental/")
         .replace("feature-", "feature/")
-        .replace("hotfix-", "hotfix/"),
+        .replace("hotfix-", "hotfix/")
+        .replace("latest", "develop")
+        .replace("stable", "master"),
         safe="",
     )
     url = (
@@ -49,14 +51,11 @@ extensions = [
 ]
 
 intersphinx_mapping = {
-    "python": ("https://docs.python.org/3.8", None),
+    "python": ("https://docs.python.org/3.11", None),
     "matplotlib": ("https://matplotlib.org/stable", None),
     "numpy": ("https://numpy.org/doc/stable", None),
     "pandas": ("https://pandas.pydata.org/pandas-docs/dev", None),
-    "scipy": (
-        "https://docs.scipy.org/doc/scipy-1.8.0/html-scipyorg",
-        None,
-    ),
+    "scipy": ("https://docs.scipy.org/doc/scipy-1.8.0/", None),
 }
 
 autodoc_member_order = "bysource"
@@ -73,7 +72,6 @@ autodoc_mock_imports = [
     "scipy",
     "scipy.interpolate",
     "scipy.ndimage",
-    "scipy.ndimage.filters",
     "scipy.optimize",
     "scipy.spatial",
     "scipy.spatial.distance",

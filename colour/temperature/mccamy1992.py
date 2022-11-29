@@ -23,6 +23,7 @@ from __future__ import annotations
 import numpy as np
 from scipy.optimize import minimize
 
+from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import (
     ArrayLike,
@@ -76,7 +77,9 @@ def xy_to_CCT_McCamy1992(xy: ArrayLike) -> FloatingOrNDArray:
 
     x, y = tsplit(xy)
 
-    n = (x - 0.3320) / (y - 0.1858)
+    with sdiv_mode():
+        n = sdiv(x - 0.3320, y - 0.1858)
+
     CCT = -449 * n**3 + 3525 * n**2 - 6823.3 * n + 5520.33
 
     return as_float(CCT)
@@ -122,12 +125,11 @@ def CCT_to_xy_McCamy1992(
     """
 
     usage_warning(
-        '"McCamy (1992)" method for computing "CIE xy" '
-        "chromaticity coordinates from given correlated colour "
-        "temperature is not a bijective function and might produce "
-        "unexpected results. It is given for consistency with other "
-        "correlated colour temperature computation methods but "
-        "should be avoided for practical applications."
+        '"McCamy (1992)" method for computing "CIE xy" chromaticity '
+        "coordinates from given correlated colour temperature is not a "
+        "bijective function and might produce unexpected results. It is given "
+        "for consistency with other correlated colour temperature computation "
+        "methods but should be avoided for practical applications."
     )
 
     CCT = as_float_array(CCT)

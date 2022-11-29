@@ -47,7 +47,7 @@ from colour.appearance.ciecam02 import (
     matrix_post_adaptation_non_linear_response_compression,
     saturation_correlate,
     temporary_magnitude_quantity_inverse,
-    viewing_condition_dependent_parameters,
+    viewing_conditions_dependent_parameters,
 )
 from colour.hints import (
     ArrayLike,
@@ -59,7 +59,7 @@ from colour.hints import (
     Union,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     MixinDataclassArithmetic,
     as_float,
     as_float_array,
@@ -122,7 +122,7 @@ class InductionFactors_CAM16(
     """
 
 
-VIEWING_CONDITIONS_CAM16: CaseInsensitiveMapping = CaseInsensitiveMapping(
+VIEWING_CONDITIONS_CAM16: CanonicalMapping = CanonicalMapping(
     VIEWING_CONDITIONS_CIECAM02
 )
 VIEWING_CONDITIONS_CAM16.__doc__ = """
@@ -251,7 +251,7 @@ def XYZ_to_CAM16(
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
-    >>> surround = VIEWING_CONDITIONS_CAM16['Average']
+    >>> surround = VIEWING_CONDITIONS_CAM16["Average"]
     >>> XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)  # doctest: +ELLIPSIS
     CAM_Specification_CAM16(J=41.7312079..., C=0.1033557..., \
 h=217.0679597..., s=2.3450150..., Q=195.3717089..., M=0.1074367..., \
@@ -275,15 +275,11 @@ H=275.5949861..., HC=None)
         else ones(L_A.shape)
     )
 
-    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(
+    n, F_L, N_bb, N_cb, z = viewing_conditions_dependent_parameters(
         Y_b, Y_w, L_A
     )
 
-    D_RGB = (
-        D[..., np.newaxis] * Y_w[..., np.newaxis] / RGB_w
-        + 1
-        - D[..., np.newaxis]
-    )
+    D_RGB = D[..., None] * Y_w[..., None] / RGB_w + 1 - D[..., None]
     RGB_wc = D_RGB * RGB_w
 
     # Applying forward post-adaptation non-linear response compression.
@@ -369,7 +365,7 @@ def CAM16_to_XYZ(
 
     Parameters
     ----------
-    specification : CAM_Specification_CAM16
+    specification
         *CAM16* colour appearance model specification. Correlate of
         *Lightness* :math:`J`, correlate of *chroma* :math:`C` or correlate of
         *colourfulness* :math:`M` and *hue* angle :math:`h` in degrees must be
@@ -399,8 +395,8 @@ def CAM16_to_XYZ(
     Raises
     ------
     ValueError
-        If neither *C* or *M* correlates have been defined in the
-        ``CAM_Specification_CAM16`` argument.
+        If neither :math:`C` or :math:`M` correlates have been defined in the
+        ``specification`` argument.
 
     Notes
     -----
@@ -436,9 +432,9 @@ def CAM16_to_XYZ(
 
     Examples
     --------
-    >>> specification = CAM_Specification_CAM16(J=41.731207905126638,
-    ...                                         C=0.103355738709070,
-    ...                                         h=217.067959767393010)
+    >>> specification = CAM_Specification_CAM16(
+    ...     J=41.731207905126638, C=0.103355738709070, h=217.067959767393010
+    ... )
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
@@ -467,15 +463,11 @@ def CAM16_to_XYZ(
         else ones(L_A.shape)
     )
 
-    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(
+    n, F_L, N_bb, N_cb, z = viewing_conditions_dependent_parameters(
         Y_b, Y_w, L_A
     )
 
-    D_RGB = (
-        D[..., np.newaxis] * Y_w[..., np.newaxis] / RGB_w
-        + 1
-        - D[..., np.newaxis]
-    )
+    D_RGB = D[..., None] * Y_w[..., None] / RGB_w + 1 - D[..., None]
     RGB_wc = D_RGB * RGB_w
 
     # Applying forward post-adaptation non-linear response compression.
@@ -511,7 +503,8 @@ def CAM16_to_XYZ(
 
     # Step 3
     # Computing opponent colour dimensions :math:`a` and :math:`b`.
-    a, b = tsplit(opponent_colour_dimensions_inverse(P_n, h))
+    ab = opponent_colour_dimensions_inverse(P_n, h)
+    a, b = tsplit(ab) * np.where(t == 0, 0, 1)
 
     # Step 4
     # Applying post-adaptation non-linear response compression matrix.

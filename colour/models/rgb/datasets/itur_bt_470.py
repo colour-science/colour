@@ -1,8 +1,8 @@
 """
-ITU-R BT.470 Colourspaces
-=========================
+Recommendation ITU-R BT.470 Colourspaces
+========================================
 
-Defines the *ITU-R BT.470* colourspaces:
+Defines the *Recommendation ITU-R BT.470* colourspaces:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_BT470_525`.
 -   :attr:`colour.models.RGB_COLOURSPACE_BT470_625`.
@@ -58,23 +58,32 @@ PRIMARIES_BT470_525: NDArray = np.array(
         [0.1400, 0.0800],
     ]
 )
-"""*ITU-R BT.470 - 525* colourspace primaries."""
+"""*Recommendation ITU-R BT.470 - 525* colourspace primaries."""
 
 WHITEPOINT_NAME_BT470_525: str = "C"
-"""*ITU-R BT.470 - 525* colourspace whitepoint name."""
+"""*Recommendation ITU-R BT.470 - 525* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_BT470_525: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_BT470_525]
-"""*ITU-R BT.470 - 525* colourspace whitepoint chromaticity coordinates."""
+"""
+*Recommendation ITU-R BT.470 - 525* colourspace whitepoint chromaticity
+coordinates.
+"""
 
 MATRIX_BT470_525_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_BT470_525, CCS_WHITEPOINT_BT470_525
 )
-"""*ITU-R BT.470 - 525* colourspace to *CIE XYZ* tristimulus values matrix."""
+"""
+*Recommendation ITU-R BT.470 - 525* colourspace to *CIE XYZ* tristimulus values
+matrix.
+"""
 
 MATRIX_XYZ_TO_BT470_525: NDArray = np.linalg.inv(MATRIX_BT470_525_TO_XYZ)
-"""*CIE XYZ* tristimulus values to *ITU-R BT.470 - 525* colourspace matrix."""
+"""
+*CIE XYZ* tristimulus values to *Recommendation ITU-R BT.470 - 525* colourspace
+matrix.
+"""
 
 RGB_COLOURSPACE_BT470_525: RGB_Colourspace = RGB_Colourspace(
     "ITU-R BT.470 - 525",
@@ -87,7 +96,7 @@ RGB_COLOURSPACE_BT470_525: RGB_Colourspace = RGB_Colourspace(
     partial(gamma_function, exponent=2.8),
 )
 RGB_COLOURSPACE_BT470_525.__doc__ = """
-*ITU-R BT.470 - 525* colourspace.
+*Recommendation ITU-R BT.470 - 525* colourspace.
 
 References
 ----------
@@ -101,23 +110,32 @@ PRIMARIES_BT470_625: NDArray = np.array(
         [0.1500, 0.0600],
     ]
 )
-"""*ITU-R BT.470 - 625* colourspace primaries."""
+"""*Recommendation ITU-R BT.470 - 625* colourspace primaries."""
 
 WHITEPOINT_NAME_BT470_625: str = "D65"
-"""*ITU-R BT.470 - 625* colourspace whitepoint name."""
+"""*Recommendation ITU-R BT.470 - 625* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_BT470_625: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_BT470_625]
-"""*ITU-R BT.470 - 625* colourspace whitepoint chromaticity coordinates."""
+"""
+*Recommendation ITU-R BT.470 - 625* colourspace whitepoint chromaticity
+coordinates.
+"""
 
 MATRIX_BT470_625_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_BT470_625, CCS_WHITEPOINT_BT470_625
 )
-"""*ITU-R BT.470 - 625* colourspace to *CIE XYZ* tristimulus values matrix."""
+"""
+*Recommendation ITU-R BT.470 - 625* colourspace to *CIE XYZ* tristimulus values
+matrix.
+"""
 
 MATRIX_XYZ_TO_BT470_625: NDArray = np.linalg.inv(MATRIX_BT470_625_TO_XYZ)
-"""*CIE XYZ* tristimulus values to *ITU-R BT.470 - 625* colourspace matrix."""
+"""
+*CIE XYZ* tristimulus values to *Recommendation ITU-R BT.470 - 625* colourspace
+matrix.
+"""
 
 RGB_COLOURSPACE_BT470_625: RGB_Colourspace = RGB_Colourspace(
     "ITU-R BT.470 - 625",
@@ -130,7 +148,7 @@ RGB_COLOURSPACE_BT470_625: RGB_Colourspace = RGB_Colourspace(
     partial(gamma_function, exponent=2.8),
 )
 RGB_COLOURSPACE_BT470_625.__doc__ = """
-*ITU-R BT.470 - 625* colourspace.
+*Recommendation ITU-R BT.470 - 625* colourspace.
 
 References
 ----------

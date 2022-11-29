@@ -85,7 +85,7 @@ corresponding_chromaticities_prediction` definition.
 
     Examples
     --------
-    >>> plot_corresponding_chromaticities_prediction(1, 'Von Kries')
+    >>> plot_corresponding_chromaticities_prediction(1, "Von Kries")
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 

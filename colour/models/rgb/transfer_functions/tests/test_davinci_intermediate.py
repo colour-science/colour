@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
+Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
 davinci_intermediate` module.
 """
 
@@ -67,19 +67,19 @@ davinci_intermediate.oetf_DaVinciIntermediate` definition n-dimensional arrays
 
         L = np.tile(L, 6)
         V = np.tile(V, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             oetf_DaVinciIntermediate(L), V, decimal=7
         )
 
         L = np.reshape(L, (2, 3))
         V = np.reshape(V, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             oetf_DaVinciIntermediate(L), V, decimal=7
         )
 
         L = np.reshape(L, (2, 3, 1))
         V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             oetf_DaVinciIntermediate(L), V, decimal=7
         )
 
@@ -96,7 +96,7 @@ davinci_intermediate.oetf_DaVinciIntermediate` definition domain and range
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     oetf_DaVinciIntermediate(L * factor), V * factor, decimal=7
                 )
 
@@ -161,19 +161,19 @@ davinci_intermediate.oetf_inverse_DaVinciIntermediate` definition n-dimensional
 
         V = np.tile(V, 6)
         L = np.tile(L, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             oetf_inverse_DaVinciIntermediate(V), L, decimal=7
         )
 
         V = np.reshape(V, (2, 3))
         L = np.reshape(L, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             oetf_inverse_DaVinciIntermediate(V), L, decimal=7
         )
 
         V = np.reshape(V, (2, 3, 1))
         L = np.reshape(L, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             oetf_inverse_DaVinciIntermediate(V), L, decimal=7
         )
 
@@ -190,7 +190,7 @@ davinci_intermediate.oetf_inverse_DaVinciIntermediate` definition domain and
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     oetf_inverse_DaVinciIntermediate(V * factor),
                     L * factor,
                     decimal=7,

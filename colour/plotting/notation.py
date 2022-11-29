@@ -45,7 +45,7 @@ def plot_single_munsell_value_function(
     ----------
     function
         *Munsell* value function to plot. ``function`` can be of any type or
-        form supported by the :func:`colour.plotting.filter_passthrough`
+        form supported by the :func:`colour.plotting.common.filter_passthrough`
         definition.
 
     Other Parameters
@@ -63,7 +63,7 @@ def plot_single_munsell_value_function(
 
     Examples
     --------
-    >>> plot_single_munsell_value_function('ASTM D1535')  # doctest: +ELLIPSIS
+    >>> plot_single_munsell_value_function("ASTM D1535")  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Munsell_Value_Function.png
@@ -92,7 +92,7 @@ def plot_multi_munsell_value_functions(
     functions
         *Munsell* value functions to plot. ``functions`` elements can be of any
         type or form supported by the
-        :func:`colour.plotting.filter_passthrough` definition.
+        :func:`colour.plotting.common.filter_passthrough` definition.
 
     Other Parameters
     ----------------
@@ -109,7 +109,7 @@ def plot_multi_munsell_value_functions(
 
     Examples
     --------
-    >>> plot_multi_munsell_value_functions(['ASTM D1535', 'McCamy 1987'])
+    >>> plot_multi_munsell_value_functions(["ASTM D1535", "McCamy 1987"])
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 

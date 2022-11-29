@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.io.luts.operator` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.io.luts.operator` module."""
 
 import numpy as np
 import textwrap
@@ -175,7 +176,7 @@ LUTOperatorMatrix([[ 0.        ,  0.06666667,  0.13333333,  0.2       ],
 
         np.testing.assert_array_equal(LUTOperatorMatrix().apply(RGB), RGB)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._lut_operator_matrix.apply(RGB),
             np.array(
                 [
@@ -188,7 +189,7 @@ LUTOperatorMatrix([[ 0.        ,  0.06666667,  0.13333333,  0.2       ],
             ),
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._lut_operator_matrix.apply(RGB, apply_offset_first=True),
             np.array(
                 [
@@ -205,7 +206,7 @@ LUTOperatorMatrix([[ 0.        ,  0.06666667,  0.13333333,  0.2       ],
 
         np.testing.assert_array_equal(LUTOperatorMatrix().apply(RGBA), RGBA)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._lut_operator_matrix.apply(RGBA),
             np.array(
                 [
@@ -218,7 +219,7 @@ LUTOperatorMatrix([[ 0.        ,  0.06666667,  0.13333333,  0.2       ],
             ),
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._lut_operator_matrix.apply(RGBA, apply_offset_first=True),
             np.array(
                 [

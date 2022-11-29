@@ -42,7 +42,7 @@ specification = colour.XYZ_to_CAM16(
 )
 print(
     colour.JMh_CAM16_to_CAM16UCS(
-        colour.utilities.tstack(
+        np.array(
             [
                 specification.J,
                 specification.M,

@@ -1,13 +1,17 @@
-"""Defines the unit tests for the :mod:`colour.utilities.verbose` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.utilities.verbose` module."""
 
 import os
 import sys
 import unittest
+import textwrap
 
 from colour.utilities import (
     show_warning,
     suppress_warnings,
     describe_environment,
+    multiline_str,
+    multiline_repr,
 )
 from colour.utilities import warning
 
@@ -22,6 +26,8 @@ __all__ = [
     "TestShowWarning",
     "TestSuppressWarnings",
     "TestDescribeEnvironment",
+    "TestMultilineStr",
+    "TestMultilineRepr",
 ]
 
 
@@ -96,6 +102,117 @@ class TestDescribeEnvironment(unittest.TestCase):
                 "Runtime",
                 "colour-science.org",
             ],
+        )
+
+
+class TestMultilineStr(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.verbose.multiline_str` definition unit
+    tests methods.
+    """
+
+    def test_multiline_str(self):
+        """Test :func:`colour.utilities.verbose.multiline_str` definition."""
+
+        class Data:
+            def __init__(self, a: str, b: int, c: list) -> None:
+                self._a = a
+                self._b = b
+                self._c = c
+
+            def __str__(self) -> str:
+                return multiline_str(
+                    self,
+                    [
+                        {
+                            "formatter": lambda x: (
+                                f"Object - {self.__class__.__name__}"
+                            ),
+                            "header": True,
+                        },
+                        {"line_break": True},
+                        {"label": "Data", "section": True},
+                        {"line_break": True},
+                        {"label": "String", "section": True},
+                        {"name": "_a", "label": 'String "a"'},
+                        {"line_break": True},
+                        {"label": "Integer", "section": True},
+                        {"name": "_b", "label": 'Integer "b"'},
+                        {"line_break": True},
+                        {"label": "List", "section": True},
+                        {
+                            "name": "_c",
+                            "label": 'List "c"',
+                            "formatter": lambda x: "; ".join(x),
+                        },
+                    ],
+                )
+
+        self.assertEqual(
+            str(Data("Foo", 1, ["John", "Doe"])),
+            textwrap.dedent(
+                """
+                Object - Data
+                =============
+
+                Data
+                ----
+
+                String
+                ------
+                String "a"  : Foo
+
+                Integer
+                -------
+                Integer "b" : 1
+
+                List
+                ----
+                List "c"    : John; Doe
+                """
+            ).strip(),
+        )
+
+
+class TestMultilineRepr(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.verbose.multiline_repr` definition unit
+    tests methods.
+    """
+
+    def test_multiline_repr(self):
+        """Test :func:`colour.utilities.verbose.multiline_repr` definition."""
+
+        class Data:
+            def __init__(self, a: str, b: int, c: list) -> None:
+                self._a = a
+                self._b = b
+                self._c = c
+
+            def __repr__(self) -> str:
+                return multiline_repr(
+                    self,
+                    [
+                        {"name": "_a"},
+                        {"name": "_b"},
+                        {
+                            "name": "_c",
+                            "formatter": lambda x: repr(x)
+                            .replace("[", "(")
+                            .replace("]", ")"),
+                        },
+                    ],
+                )
+
+        self.assertEqual(
+            repr(Data("Foo", 1, ["John", "Doe"])),
+            textwrap.dedent(
+                """
+                Data('Foo',
+                     1,
+                     ('John', 'Doe'))
+                """
+            ).strip(),
         )
 
 

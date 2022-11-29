@@ -1,9 +1,9 @@
 # !/usr/bin/env python
-"""Defines the unit tests for the :mod:`colour.appearance.hunt` module."""
+"""Define the unit tests for the :mod:`colour.appearance.hunt` module."""
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.appearance import (
     VIEWING_CONDITIONS_HUNT,
@@ -111,7 +111,7 @@ class TestXYZ_to_Hunt(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         specification = np.tile(specification, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w),
             specification,
             decimal=7,
@@ -119,7 +119,7 @@ class TestXYZ_to_Hunt(unittest.TestCase):
 
         XYZ_w = np.tile(XYZ_w, (6, 1))
         XYZ_b = np.tile(XYZ_b, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w),
             specification,
             decimal=7,
@@ -129,7 +129,7 @@ class TestXYZ_to_Hunt(unittest.TestCase):
         XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
         XYZ_b = np.reshape(XYZ_b, (2, 3, 3))
         specification = np.reshape(specification, (2, 3, 8))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w),
             specification,
             decimal=7,
@@ -158,7 +158,7 @@ class TestXYZ_to_Hunt(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_Hunt(
                         XYZ * factor_a,
                         XYZ_w * factor_a,
@@ -215,7 +215,7 @@ class TestXYZ_to_Hunt(unittest.TestCase):
         surround = VIEWING_CONDITIONS_HUNT["Normal Scenes"]
         CCT_w = 6504.0
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunt(
                 XYZ,
                 XYZ_w,
@@ -248,12 +248,18 @@ class TestXYZ_to_Hunt(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_w = np.array(case)
-            XYZ_b = np.array(case)
-            L_A = case[0]
-            surround = InductionFactors_Hunt(case[0], case[0])
-            CCT_w = case[0]
-            XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        surround = InductionFactors_Hunt(cases[0, 0], cases[0, 0])
+        XYZ_to_Hunt(
+            cases,
+            cases,
+            cases,
+            cases[0, 0],
+            surround,
+            cases[0, 0],
+            CCT_w=cases,
+        )
+
+
+if __name__ == "__main__":
+    unittest.main()

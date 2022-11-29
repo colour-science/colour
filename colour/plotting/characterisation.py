@@ -64,7 +64,7 @@ def plot_single_colour_checker(
     colour_checker
         Color checker to plot. ``colour_checker`` can be of any type or form
         supported by the
-        :func:`colour.plotting.filter_colour_checkers` definition.
+        :func:`colour.plotting.common.filter_colour_checkers` definition.
 
     Other Parameters
     ----------------
@@ -81,7 +81,7 @@ def plot_single_colour_checker(
 
     Examples
     --------
-    >>> plot_single_colour_checker('ColorChecker 2005')  # doctest: +ELLIPSIS
+    >>> plot_single_colour_checker("ColorChecker 2005")  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Colour_Checker.png
@@ -115,7 +115,7 @@ def plot_multi_colour_checkers(
     colour_checkers
         Color checker to plot, count must be less than or equal to 2.
         ``colour_checkers`` elements can be of any type or form supported by
-        the :func:`colour.plotting.filter_colour_checkers` definition.
+        the :func:`colour.plotting.common.filter_colour_checkers` definition.
 
     Other Parameters
     ----------------
@@ -132,7 +132,7 @@ def plot_multi_colour_checkers(
 
     Examples
     --------
-    >>> plot_multi_colour_checkers(['ColorChecker 1976', 'ColorChecker 2005'])
+    >>> plot_multi_colour_checkers(["ColorChecker 1976", "ColorChecker 2005"])
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -218,5 +218,6 @@ def plot_multi_colour_checkers(
             "title": ", ".join(colour_checker_names),
         }
     )
+    settings.update(kwargs)
 
     return render(**settings)

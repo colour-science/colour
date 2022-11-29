@@ -33,6 +33,7 @@ from __future__ import annotations
 
 import numpy as np
 
+from colour.algebra import sdiv, sdiv_mode
 from colour.hints import (
     Any,
     ArrayLike,
@@ -41,7 +42,7 @@ from colour.hints import (
     Union,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float,
     filter_kwargs,
     from_range_100,
@@ -118,7 +119,8 @@ def yellowness_ASTMD1925(XYZ: ArrayLike) -> FloatingOrNDArray:
 
     X, Y, Z = tsplit(to_domain_100(XYZ))
 
-    YI = (100 * (1.28 * X - 1.06 * Z)) / Y
+    with sdiv_mode():
+        YI = sdiv(100 * (1.28 * X - 1.06 * Z), Y)
 
     return as_float(from_range_100(YI))
 
@@ -176,28 +178,27 @@ def yellowness_ASTME313_alternative(XYZ: ArrayLike) -> FloatingOrNDArray:
 
     _X, Y, Z = tsplit(to_domain_100(XYZ))
 
-    WI = 100 * (1 - (0.847 * Z) / Y)
+    with sdiv_mode():
+        WI = 100 * (1 - sdiv(0.847 * Z, Y))
 
     return as_float(from_range_100(WI))
 
 
-YELLOWNESS_COEFFICIENTS_ASTME313: CaseInsensitiveMapping = (
-    CaseInsensitiveMapping(
-        {
-            "CIE 1931 2 Degree Standard Observer": CaseInsensitiveMapping(
-                {
-                    "C": np.array([1.2769, 1.0592]),
-                    "D65": np.array([1.2985, 1.1335]),
-                }
-            ),
-            "CIE 1964 10 Degree Standard Observer": CaseInsensitiveMapping(
-                {
-                    "C": np.array([1.2871, 1.0781]),
-                    "D65": np.array([1.3013, 1.1498]),
-                }
-            ),
-        }
-    )
+YELLOWNESS_COEFFICIENTS_ASTME313: CanonicalMapping = CanonicalMapping(
+    {
+        "CIE 1931 2 Degree Standard Observer": CanonicalMapping(
+            {
+                "C": np.array([1.2769, 1.0592]),
+                "D65": np.array([1.2985, 1.1335]),
+            }
+        ),
+        "CIE 1964 10 Degree Standard Observer": CanonicalMapping(
+            {
+                "C": np.array([1.2871, 1.0781]),
+                "D65": np.array([1.3013, 1.1498]),
+            }
+        ),
+    }
 )
 YELLOWNESS_COEFFICIENTS_ASTME313.__doc__ = """
 Coefficients :math:`C_X` and :math:`C_Z` for the *ASTM E313* *yellowness* index
@@ -276,12 +277,13 @@ def yellowness_ASTME313(
     X, Y, Z = tsplit(to_domain_100(XYZ))
     C_X, C_Z = tsplit(C_XZ)
 
-    WI = 100 * (C_X * X - C_Z * Z) / Y
+    with sdiv_mode():
+        WI = 100 * sdiv(C_X * X - C_Z * Z, Y)
 
     return as_float(from_range_100(WI))
 
 
-YELLOWNESS_METHODS = CaseInsensitiveMapping(
+YELLOWNESS_METHODS = CanonicalMapping(
     {
         "ASTM D1925": yellowness_ASTMD1925,
         "ASTM E313 Alternative": yellowness_ASTME313_alternative,
@@ -351,9 +353,9 @@ def yellowness(
     >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
     >>> yellowness(XYZ)  # doctest: +ELLIPSIS
     4.3400000...
-    >>> yellowness(XYZ, method='ASTM E313 Alternative')  # doctest: +ELLIPSIS
+    >>> yellowness(XYZ, method="ASTM E313 Alternative")  # doctest: +ELLIPSIS
     11.0650000...
-    >>> yellowness(XYZ, method='ASTM D1925')  # doctest: +ELLIPSIS
+    >>> yellowness(XYZ, method="ASTM D1925")  # doctest: +ELLIPSIS
     10.2999999...
     """
 

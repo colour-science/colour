@@ -1,8 +1,9 @@
-"""Defines the unit tests for the :mod:`colour.models.rgb.ictcp` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.models.rgb.ictcp` module."""
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models.rgb import (
     RGB_to_ICtCp,
@@ -36,13 +37,13 @@ class TestRGB_to_ICtCp(unittest.TestCase):
     def test_RGB_to_ICtCp(self):
         """Test :func:`colour.models.rgb.ictcp.RGB_to_ICtCp` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_ICtCp(np.array([0.45620519, 0.03081071, 0.04091952])),
             np.array([0.07351364, 0.00475253, 0.09351596]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_ICtCp(
                 np.array([0.45620519, 0.03081071, 0.04091952]), L_p=4000
             ),
@@ -50,7 +51,7 @@ class TestRGB_to_ICtCp(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_ICtCp(
                 np.array([0.45620519, 0.03081071, 0.04091952]), L_p=1000
             ),
@@ -58,7 +59,7 @@ class TestRGB_to_ICtCp(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_ICtCp(
                 np.array([0.45620519, 0.03081071, 0.04091952]),
                 method="ITU-R BT.2100-1 PQ",
@@ -67,7 +68,7 @@ class TestRGB_to_ICtCp(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_ICtCp(
                 np.array([0.45620519, 0.03081071, 0.04091952]),
                 method="ITU-R BT.2100-2 PQ",
@@ -76,7 +77,7 @@ class TestRGB_to_ICtCp(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_ICtCp(
                 np.array([0.45620519, 0.03081071, 0.04091952]),
                 method="ITU-R BT.2100-1 HLG",
@@ -85,7 +86,7 @@ class TestRGB_to_ICtCp(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_ICtCp(
                 np.array([0.45620519, 0.03081071, 0.04091952]),
                 method="ITU-R BT.2100-2 HLG",
@@ -105,11 +106,15 @@ class TestRGB_to_ICtCp(unittest.TestCase):
 
         RGB = np.tile(RGB, (6, 1))
         ICtCp = np.tile(ICtCp, (6, 1))
-        np.testing.assert_almost_equal(RGB_to_ICtCp(RGB), ICtCp, decimal=7)
+        np.testing.assert_array_almost_equal(
+            RGB_to_ICtCp(RGB), ICtCp, decimal=7
+        )
 
         RGB = np.reshape(RGB, (2, 3, 3))
         ICtCp = np.reshape(ICtCp, (2, 3, 3))
-        np.testing.assert_almost_equal(RGB_to_ICtCp(RGB), ICtCp, decimal=7)
+        np.testing.assert_array_almost_equal(
+            RGB_to_ICtCp(RGB), ICtCp, decimal=7
+        )
 
     def test_domain_range_scale_RGB_to_ICtCp(self):
         """
@@ -123,7 +128,7 @@ class TestRGB_to_ICtCp(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     RGB_to_ICtCp(RGB * factor), ICtCp * factor, decimal=7
                 )
 
@@ -135,10 +140,8 @@ class TestRGB_to_ICtCp(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            RGB = np.array(case)
-            RGB_to_ICtCp(RGB)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        RGB_to_ICtCp(cases)
 
 
 class TestICtCp_to_RGB(unittest.TestCase):
@@ -150,13 +153,13 @@ class TestICtCp_to_RGB(unittest.TestCase):
     def test_ICtCp_to_RGB(self):
         """Test :func:`colour.models.rgb.ictcp.ICtCp_to_RGB` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ICtCp_to_RGB(np.array([0.07351364, 0.00475253, 0.09351596])),
             np.array([0.45620519, 0.03081071, 0.04091952]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ICtCp_to_RGB(
                 np.array([0.10516931, 0.00514031, 0.12318730]), L_p=4000
             ),
@@ -164,7 +167,7 @@ class TestICtCp_to_RGB(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ICtCp_to_RGB(
                 np.array([0.17079612, 0.00485580, 0.17431356]), L_p=1000
             ),
@@ -172,7 +175,7 @@ class TestICtCp_to_RGB(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ICtCp_to_RGB(
                 np.array([0.07351364, 0.00475253, 0.09351596]),
                 method="ITU-R BT.2100-1 PQ",
@@ -181,7 +184,7 @@ class TestICtCp_to_RGB(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ICtCp_to_RGB(
                 np.array([0.07351364, 0.00475253, 0.09351596]),
                 method="ITU-R BT.2100-2 PQ",
@@ -190,7 +193,7 @@ class TestICtCp_to_RGB(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ICtCp_to_RGB(
                 np.array([0.62567899, -0.03622422, 0.67786522]),
                 method="ITU-R BT.2100-1 HLG",
@@ -199,7 +202,7 @@ class TestICtCp_to_RGB(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ICtCp_to_RGB(
                 np.array([0.62567899, -0.01984490, 0.35911259]),
                 method="ITU-R BT.2100-2 HLG",
@@ -219,11 +222,15 @@ class TestICtCp_to_RGB(unittest.TestCase):
 
         ICtCp = np.tile(ICtCp, (6, 1))
         RGB = np.tile(RGB, (6, 1))
-        np.testing.assert_almost_equal(ICtCp_to_RGB(ICtCp), RGB, decimal=7)
+        np.testing.assert_array_almost_equal(
+            ICtCp_to_RGB(ICtCp), RGB, decimal=7
+        )
 
         ICtCp = np.reshape(ICtCp, (2, 3, 3))
         RGB = np.reshape(RGB, (2, 3, 3))
-        np.testing.assert_almost_equal(ICtCp_to_RGB(ICtCp), RGB, decimal=7)
+        np.testing.assert_array_almost_equal(
+            ICtCp_to_RGB(ICtCp), RGB, decimal=7
+        )
 
     def test_domain_range_scale_ICtCp_to_RGB(self):
         """
@@ -237,7 +244,7 @@ class TestICtCp_to_RGB(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     ICtCp_to_RGB(ICtCp * factor), RGB * factor, decimal=7
                 )
 
@@ -249,10 +256,8 @@ class TestICtCp_to_RGB(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            ICtCp = np.array(case)
-            ICtCp_to_RGB(ICtCp)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        ICtCp_to_RGB(cases)
 
 
 class TestXYZ_to_ICtCp(unittest.TestCase):
@@ -264,13 +269,13 @@ class TestXYZ_to_ICtCp(unittest.TestCase):
     def test_XYZ_to_ICtCp(self):
         """Test :func:`colour.models.rgb.ictcp.XYZ_to_ICtCp` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_ICtCp(np.array([0.20654008, 0.12197225, 0.05136952])),
             np.array([0.06858097, -0.00283842, 0.06020983]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_ICtCp(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 np.array([0.34570, 0.35850]),
@@ -279,7 +284,7 @@ class TestXYZ_to_ICtCp(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_ICtCp(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 np.array([0.34570, 0.35850]),
@@ -289,7 +294,7 @@ class TestXYZ_to_ICtCp(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_ICtCp(
                 np.array([0.20654008, 0.12197225, 0.05136952]), L_p=4000
             ),
@@ -297,7 +302,7 @@ class TestXYZ_to_ICtCp(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_ICtCp(
                 np.array([0.20654008, 0.12197225, 0.05136952]), L_p=1000
             ),
@@ -305,7 +310,7 @@ class TestXYZ_to_ICtCp(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_ICtCp(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 method="ITU-R BT.2100-1 PQ",
@@ -314,7 +319,7 @@ class TestXYZ_to_ICtCp(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_ICtCp(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 method="ITU-R BT.2100-2 PQ",
@@ -323,7 +328,7 @@ class TestXYZ_to_ICtCp(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_ICtCp(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 method="ITU-R BT.2100-1 HLG",
@@ -332,7 +337,7 @@ class TestXYZ_to_ICtCp(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_ICtCp(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 method="ITU-R BT.2100-2 HLG",
@@ -352,11 +357,15 @@ class TestXYZ_to_ICtCp(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         ICtCp = np.tile(ICtCp, (6, 1))
-        np.testing.assert_almost_equal(XYZ_to_ICtCp(XYZ), ICtCp, decimal=7)
+        np.testing.assert_array_almost_equal(
+            XYZ_to_ICtCp(XYZ), ICtCp, decimal=7
+        )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         ICtCp = np.reshape(ICtCp, (2, 3, 3))
-        np.testing.assert_almost_equal(XYZ_to_ICtCp(XYZ), ICtCp, decimal=7)
+        np.testing.assert_array_almost_equal(
+            XYZ_to_ICtCp(XYZ), ICtCp, decimal=7
+        )
 
     def test_domain_range_scale_XYZ_to_ICtCp(self):
         """
@@ -370,7 +379,7 @@ class TestXYZ_to_ICtCp(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_ICtCp(XYZ * factor), ICtCp * factor, decimal=7
                 )
 
@@ -382,10 +391,8 @@ class TestXYZ_to_ICtCp(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_to_ICtCp(XYZ)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_ICtCp(cases)
 
 
 class TestICtCp_to_XYZ(unittest.TestCase):
@@ -397,13 +404,13 @@ class TestICtCp_to_XYZ(unittest.TestCase):
     def test_ICtCp_to_XYZ(self):
         """Test :func:`colour.models.rgb.ictcp.ICtCp_to_XYZ` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ICtCp_to_XYZ(np.array([0.06858097, -0.00283842, 0.06020983])),
             np.array([0.20654008, 0.12197225, 0.05136952]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ICtCp_to_XYZ(
                 np.array([0.06792437, 0.00452089, 0.05514480]),
                 np.array([0.34570, 0.35850]),
@@ -412,7 +419,7 @@ class TestICtCp_to_XYZ(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ICtCp_to_XYZ(
                 np.array([0.06783951, 0.00476111, 0.05523093]),
                 np.array([0.34570, 0.35850]),
@@ -422,7 +429,7 @@ class TestICtCp_to_XYZ(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ICtCp_to_XYZ(
                 np.array([0.09871102, -0.00447247, 0.07984812]), L_p=4000
             ),
@@ -430,7 +437,7 @@ class TestICtCp_to_XYZ(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ICtCp_to_XYZ(
                 np.array([0.16173872, -0.00792543, 0.11409458]), L_p=1000
             ),
@@ -438,7 +445,7 @@ class TestICtCp_to_XYZ(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ICtCp_to_XYZ(
                 np.array([0.06858097, -0.00283842, 0.06020983]),
                 method="ITU-R BT.2100-1 PQ",
@@ -447,7 +454,7 @@ class TestICtCp_to_XYZ(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ICtCp_to_XYZ(
                 np.array([0.06858097, -0.00283842, 0.06020983]),
                 method="ITU-R BT.2100-2 PQ",
@@ -456,7 +463,7 @@ class TestICtCp_to_XYZ(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ICtCp_to_XYZ(
                 np.array([0.59242792, -0.06824263, 0.47421473]),
                 method="ITU-R BT.2100-1 HLG",
@@ -465,7 +472,7 @@ class TestICtCp_to_XYZ(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ICtCp_to_XYZ(
                 np.array([0.59242792, -0.03740730, 0.25122675]),
                 method="ITU-R BT.2100-2 HLG",
@@ -485,11 +492,15 @@ class TestICtCp_to_XYZ(unittest.TestCase):
 
         ICtCp = np.tile(ICtCp, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(ICtCp_to_XYZ(ICtCp), XYZ, decimal=7)
+        np.testing.assert_array_almost_equal(
+            ICtCp_to_XYZ(ICtCp), XYZ, decimal=7
+        )
 
         ICtCp = np.reshape(ICtCp, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(ICtCp_to_XYZ(ICtCp), XYZ, decimal=7)
+        np.testing.assert_array_almost_equal(
+            ICtCp_to_XYZ(ICtCp), XYZ, decimal=7
+        )
 
     def test_domain_range_scale_ICtCp_to_XYZ(self):
         """
@@ -503,7 +514,7 @@ class TestICtCp_to_XYZ(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     ICtCp_to_XYZ(ICtCp * factor), XYZ * factor, decimal=7
                 )
 
@@ -515,10 +526,8 @@ class TestICtCp_to_XYZ(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            ICtCp = np.array(case)
-            ICtCp_to_XYZ(ICtCp)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        ICtCp_to_XYZ(cases)
 
 
 if __name__ == "__main__":

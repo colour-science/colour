@@ -11,8 +11,9 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import Any, ArrayLike, NDArray
-from colour.utilities import as_float_array, required
+from colour.io import as_3_channels_image
+from colour.hints import Any, ArrayLike, FloatingOrNDArray
+from colour.utilities import as_float_array, as_float_scalar, required
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -26,17 +27,21 @@ __all__ = [
 ]
 
 
+# TODO: Reinstate coverage and doctests when "Pypi" wheel compatible with "ARM"
+#  on "macOS" is released.
+
+
 @required("OpenColorIO")
 def process_image_OpenColorIO(
     a: ArrayLike, *args: Any, **kwargs: Any
-) -> NDArray:
+) -> FloatingOrNDArray:  # pragma: no cover
     """
-    Process given image with *OpenColorIO*.
+    Process given image data with *OpenColorIO*.
 
     Parameters
     ----------
     a
-        Image to process with *OpenColorIO*.
+        Image data to process with *OpenColorIO*.
 
     Other Parameters
     ----------------
@@ -52,48 +57,78 @@ def process_image_OpenColorIO(
     Returns
     -------
     :class:`numpy.ndarray`
-        Processed image.
+        Processed image data.
 
     Examples
     --------
-    # TODO: Reinstate when "Pypi" wheel compatible with "ARM" on "macOS" is
-    # released.
-
     >>> import os
     >>> import PyOpenColorIO as ocio  # doctest: +SKIP
     >>> from colour.utilities import full
     >>> config = os.path.join(
-    ...     os.path.dirname(__file__), 'tests', 'resources',
-    ...     'config-aces-reference.ocio.yaml')
+    ...     os.path.dirname(__file__),
+    ...     "tests",
+    ...     "resources",
+    ...     "config-aces-reference.ocio.yaml",
+    ... )
+    >>> a = 0.18
+    >>> process_image_OpenColorIO(  # doctest: +SKIP
+    ...     a, "ACES - ACES2065-1", "ACES - ACEScct", config=config
+    ... )
+    0.4135884...
+    >>> a = np.array([0.18])
+    >>> process_image_OpenColorIO(  # doctest: +SKIP
+    ...     a, "ACES - ACES2065-1", "ACES - ACEScct", config=config
+    ... )
+    array([ 0.4135884...])
+    >>> a = np.array([0.18, 0.18, 0.18])
+    >>> process_image_OpenColorIO(  # doctest: +SKIP
+    ...     a, "ACES - ACES2065-1", "ACES - ACEScct", config=config
+    ... )
+    array([ 0.4135884...,  0.4135884...,  0.4135884...])
+    >>> a = np.array([[0.18, 0.18, 0.18]])
+    >>> process_image_OpenColorIO(  # doctest: +SKIP
+    ...     a, "ACES - ACES2065-1", "ACES - ACEScct", config=config
+    ... )
+    array([[ 0.4135884...,  0.4135884...,  0.4135884...]])
+    >>> a = np.array([[[0.18, 0.18, 0.18]]])
+    >>> process_image_OpenColorIO(  # doctest: +SKIP
+    ...     a, "ACES - ACES2065-1", "ACES - ACEScct", config=config
+    ... )
+    array([[[ 0.4135884...,  0.4135884...,  0.4135884...]]])
     >>> a = full([4, 2, 3], 0.18)
     >>> process_image_OpenColorIO(  # doctest: +SKIP
-    ...     a, 'ACES - ACES2065-1', 'ACES - ACEScct', config=config)
-    array([[[ 0.4135878...,  0.4135878...,  0.4135878...],
-            [ 0.4135878...,  0.4135878...,  0.4135878...]],
+    ...     a, "ACES - ACES2065-1", "ACES - ACEScct", config=config
+    ... )
+    array([[[ 0.4135884...,  0.4135884...,  0.4135884...],
+            [ 0.4135884...,  0.4135884...,  0.4135884...]],
     <BLANKLINE>
-           [[ 0.4135878...,  0.4135878...,  0.4135878...],
-            [ 0.4135878...,  0.4135878...,  0.4135878...]],
+           [[ 0.4135884...,  0.4135884...,  0.4135884...],
+            [ 0.4135884...,  0.4135884...,  0.4135884...]],
     <BLANKLINE>
-           [[ 0.4135878...,  0.4135878...,  0.4135878...],
-            [ 0.4135878...,  0.4135878...,  0.4135878...]],
+           [[ 0.4135884...,  0.4135884...,  0.4135884...],
+            [ 0.4135884...,  0.4135884...,  0.4135884...]],
     <BLANKLINE>
-           [[ 0.4135878...,  0.4135878...,  0.4135878...],
-            [ 0.4135878...,  0.4135878...,  0.4135878...]]], dtype=float32)
+           [[ 0.4135884...,  0.4135884...,  0.4135884...],
+            [ 0.4135884...,  0.4135884...,  0.4135884...]]])
     >>> process_image_OpenColorIO(  # doctest: +SKIP
-    ...     a, 'ACES - ACES2065-1', 'Display - sRGB',
-    ...     'Output - SDR Video - ACES 1.0', ocio.TRANSFORM_DIR_FORWARD,
-    ...     config=config)
-    array([[[ 0.3559523...,  0.3559525...,  0.3559525...],
-            [ 0.3559523...,  0.3559525...,  0.3559525...]],
+    ...     a,
+    ...     "ACES - ACES2065-1",
+    ...     "Display - sRGB",
+    ...     "Output - SDR Video - ACES 1.0",
+    ...     ocio.TRANSFORM_DIR_FORWARD,
+    ...     config=config,
+    ... )
+    array([[[ 0.3559542...,  0.3559542...,  0.3559542...],
+            [ 0.3559542...,  0.3559542...,  0.3559542...]],
     <BLANKLINE>
-           [[ 0.3559523...,  0.3559525...,  0.3559525...],
-            [ 0.3559523...,  0.3559525...,  0.3559525...]],
+           [[ 0.3559542...,  0.3559542...,  0.3559542...],
+            [ 0.3559542...,  0.3559542...,  0.3559542...]],
     <BLANKLINE>
-           [[ 0.3559523...,  0.3559525...,  0.3559525...],
-            [ 0.3559523...,  0.3559525...,  0.3559525...]],
+           [[ 0.3559542...,  0.3559542...,  0.3559542...],
+            [ 0.3559542...,  0.3559542...,  0.3559542...]],
     <BLANKLINE>
-           [[ 0.3559523...,  0.3559525...,  0.3559525...],
-            [ 0.3559523...,  0.3559525...,  0.3559525...]]], dtype=float32)
+           [[ 0.3559542...,  0.3559542...,  0.3559542...],
+            [ 0.3559542...,  0.3559542...,  0.3559542...]]])
     """
 
     import PyOpenColorIO as ocio
@@ -105,7 +140,10 @@ def process_image_OpenColorIO(
         else ocio.Config.CreateFromFile(config)
     )
 
-    a = as_float_array(np.atleast_3d(a), dtype=np.float32)
+    a = as_float_array(a)
+    shape, dtype = a.shape, a.dtype
+    a = as_3_channels_image(a).astype(np.float32)
+
     height, width, channels = a.shape
 
     processor = config.getProcessor(*args).getDefaultCPUProcessor()
@@ -114,4 +152,11 @@ def process_image_OpenColorIO(
 
     processor.apply(image_desc)
 
-    return image_desc.getData().reshape([height, width, channels])
+    b = image_desc.getData().reshape([height, width, channels]).astype(dtype)
+
+    if len(shape) == 0:
+        return as_float_scalar(np.squeeze(b)[0])
+    elif shape[-1] == 1:
+        return np.reshape(b[..., 0], shape)
+    else:
+        return np.reshape(b, shape)

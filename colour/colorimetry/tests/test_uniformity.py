@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.colorimetry.uniformity` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.colorimetry.uniformity` module."""
 
 from __future__ import annotations
 
@@ -235,13 +236,13 @@ class TestSpectralUniformity(unittest.TestCase):
 
         from colour.quality.datasets import SDS_TCS
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             spectral_uniformity(SDS_TCS.values()),
             DATA_UNIFORMITY_FIRST_ORDER_DERIVATIVES,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             spectral_uniformity(
                 SDS_TCS.values(), use_second_order_derivatives=True
             ),

@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.plotting.models` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.plotting.models` module."""
 
 import numpy as np
 import unittest
@@ -69,25 +70,25 @@ class TestCommonColourspaceModelAxisReorder(unittest.TestCase):
 
         a = np.array([0, 1, 2])
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             colourspace_model_axis_reorder(a, "CIE Lab"),
             np.array([1, 2, 0]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             colourspace_model_axis_reorder(a, "IPT"),
             np.array([1, 2, 0]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             colourspace_model_axis_reorder(a, "OSA UCS"),
             np.array([1, 2, 0]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             colourspace_model_axis_reorder(
                 colourspace_model_axis_reorder(a, "OSA UCS"),
                 "OSA UCS",

@@ -5,8 +5,8 @@ Cameras Sensitivities
 Defines the spectral distributions classes for the datasets from
 the :mod:`colour.characterisation.datasets.cameras` module:
 
--   :class:`colour.characterisation.RGB_CameraSensitivities`: Implements
-    support for a camera *RGB* sensitivities.
+-   :class:`colour.characterisation.RGB_CameraSensitivities`: Implement support
+    for a camera *RGB* sensitivities.
 """
 
 from __future__ import annotations
@@ -74,7 +74,7 @@ class RGB_CameraSensitivities(MultiSpectralDistributions):
         of the :class:`colour.SpectralDistribution` class instances.
     name
        Multi-spectral distributions name.
-    strict_labels
+    display_labels
         Multi-spectral distributions labels for figures, default to
         :attr:`colour.colorimetry.RGB_CameraSensitivities.labels` property
         value.
@@ -98,7 +98,7 @@ class RGB_CameraSensitivities(MultiSpectralDistributions):
         domain: Optional[Union[ArrayLike, SpectralShape]] = None,
         labels: Optional[Sequence] = None,
         **kwargs: Any,
-    ):
+    ) -> None:
         super().__init__(
             data, domain, labels=("red", "green", "blue"), **kwargs
         )

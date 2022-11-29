@@ -73,7 +73,7 @@ Most of the public API is available from the root ``colour`` namespace:
 
     import colour
 
-    print(colour.__all__[:5] + ['...'])
+    print(colour.__all__[:5] + ["..."])
 
 .. code-block:: text
 
@@ -85,15 +85,36 @@ The various sub-packages also expose their public API:
 
     from pprint import pprint
 
-    for sub_package in ('adaptation', 'algebra', 'appearance', 'biochemistry',
-                        'blindness', 'characterisation', 'colorimetry',
-                        'constants', 'continuous', 'contrast', 'corresponding',
-                        'difference', 'geometry', 'graph', 'hints', 'io', 'models',
-                        'notation', 'phenomena', 'plotting', 'quality',
-                        'recovery', 'temperature', 'utilities', 'volume'):
+    for sub_package in (
+        "adaptation",
+        "algebra",
+        "appearance",
+        "biochemistry",
+        "blindness",
+        "characterisation",
+        "colorimetry",
+        "constants",
+        "continuous",
+        "contrast",
+        "corresponding",
+        "difference",
+        "geometry",
+        "graph",
+        "hints",
+        "io",
+        "models",
+        "notation",
+        "phenomena",
+        "plotting",
+        "quality",
+        "recovery",
+        "temperature",
+        "utilities",
+        "volume",
+    ):
         print(sub_package.title())
-        pprint(getattr(colour, sub_package).__all__[:5] + ['...'])
-        print('\n')
+        pprint(getattr(colour, sub_package).__all__[:5] + ["..."])
+        print("\n")
 
 .. code-block:: text
 
@@ -294,8 +315,8 @@ The various sub-packages also expose their public API:
     Utilities
     ['Lookup',
      'Structure',
-     'CaseInsensitiveMapping',
-     'LazyCaseInsensitiveMapping',
+     'CanonicalMapping',
+     'LazyCanonicalMapping',
      'Node',
      '...']
 
@@ -342,8 +363,9 @@ The codebase is documented and most docstrings have usage examples:
     >>> from pprint import pprint
     >>> from colour import MSDS_CMFS, SPECTRAL_SHAPE_DEFAULT
     >>> cmfs = (
-    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
-    ...     copy().align(SPECTRAL_SHAPE_DEFAULT)
+    ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    ...     .copy()
+    ...     .align(SPECTRAL_SHAPE_DEFAULT)
     ... )
     >>> CCT_D_uv = np.array([6507.4342201047066, 0.003223690901513])
     >>> CCT_to_uv_Ohno2013(CCT_D_uv, cmfs)  # doctest: +ELLIPSIS
@@ -587,9 +609,10 @@ illuminants, spectral data is manipulated using an object built with the
         765: 0.465,
         770: 0.448,
         775: 0.432,
-        780: 0.421}
+        780: 0.421,
+    }
 
-    sd = colour.SpectralDistribution(data_sample, name='Sample')
+    sd = colour.SpectralDistribution(data_sample, name="Sample")
     print(repr(sd))
 
 .. code-block:: text
@@ -722,9 +745,10 @@ spectral dimensions and is instantiated as follows:
     for wavelength in shape:
         print(wavelength)
 
-    # *colour.SpectralShape.range* method is providing the complete range of values.
+    # *colour.SpectralShape.wavelengths* property is providing the complete
+    # range of wavelengths.
     shape = colour.SpectralShape(0, 10, 0.5)
-    shape.range()
+    shape.wavelengths
 
 .. code-block:: text
 
@@ -887,7 +911,7 @@ interpolation defaults to the ``colour.SpragueInterpolator`` interpolator.
 .. code:: python
 
     # Comparing the interpolated spectral distribution with the original one.
-    plot_multi_sds([sd, sd_copy], bounding_box=[730,780, 0.25, 0.5])
+    plot_multi_sds([sd, sd_copy], bounding_box=[730, 780, 0.25, 0.5])
 
 .. image:: _static/Tutorial_SD_Interpolation.png
 
@@ -911,10 +935,13 @@ interpolators:
 
 .. code:: python
 
-    pprint([
-        export for export in colour.algebra.interpolation.__all__
-        if 'Interpolator' in export
-    ])
+    pprint(
+        [
+            export
+            for export in colour.algebra.interpolation.__all__
+            if "Interpolator" in export
+        ]
+    )
 
 .. code-block:: text
 
@@ -929,7 +956,9 @@ interpolators:
 
     # Changing interpolator while trimming the copied spectral distribution.
     sd_copy.interpolate(
-        colour.SpectralShape(400, 700, 10), interpolator=colour.LinearInterpolator)
+        colour.SpectralShape(400, 700, 10),
+        interpolator=colour.LinearInterpolator,
+    )
 
 .. code-block:: text
 
@@ -978,10 +1007,8 @@ and ``right`` values:
     # Extrapolating the copied sample spectral distribution with *Linear* method.
     sd_copy.extrapolate(
         colour.SpectralShape(340, 830, 1),
-        extrapolator_kwargs={
-            'method': 'Linear',
-            'right': 0
-        })
+        extrapolator_kwargs={"method": "Linear", "right": 0},
+    )
     sd_copy[340], sd_copy[830]
 
 .. code-block:: text
@@ -1011,20 +1038,28 @@ operations like *addition*, *subtraction*, *multiplication*, *division* or
 
 .. code:: python
 
-    sd = colour.SpectralDistribution({
-        410: 0.25,
-        420: 0.50,
-        430: 0.75,
-        440: 1.0,
-        450: 0.75,
-        460: 0.50,
-        480: 0.25
-    })
+    sd = colour.SpectralDistribution(
+        {
+            410: 0.25,
+            420: 0.50,
+            430: 0.75,
+            440: 1.0,
+            450: 0.75,
+            460: 0.50,
+            480: 0.25,
+        }
+    )
 
     print((sd.copy() + 1).values)
     print((sd.copy() * 2).values)
     print((sd * [0.35, 1.55, 0.75, 2.55, 0.95, 0.65, 0.15]).values)
-    print((sd * colour.sd_constant(2, sd.shape) * colour.sd_constant(3, sd.shape)).values)
+    print(
+        (
+            sd
+            * colour.sd_constant(2, sd.shape)
+            * colour.sd_constant(3, sd.shape)
+        ).values
+    )
 
 .. code-block:: text
 
@@ -1107,8 +1142,8 @@ calculated:
 .. code:: python
 
     sd = colour.SpectralDistribution(data_sample)
-    cmfs = colour.MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
-    illuminant = colour.SDS_ILLUMINANTS['D65']
+    cmfs = colour.MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    illuminant = colour.SDS_ILLUMINANTS["D65"]
 
     # Calculating the sample spectral distribution *CIE XYZ* tristimulus values.
     XYZ = colour.sd_to_XYZ(sd, cmfs, illuminant)
@@ -1182,8 +1217,8 @@ values in order to display them on screen:
 
     # Plotting the *sRGB* colourspace colour of the *Sample* spectral distribution.
     plot_single_colour_swatch(
-        ColourSwatch(RGB, 'Sample'),
-        text_kwargs={'size': 'x-large'})
+        ColourSwatch(RGB, "Sample"), text_kwargs={"size": "x-large"}
+    )
 
 .. image:: _static/Tutorial_Sample_Swatch.png
 
@@ -1223,14 +1258,14 @@ various colour rendition charts:
 .. code:: python
 
     # Plotting the *sRGB* colourspace colour of *neutral 5 (.70 D)* patch.
-    patch_name = 'neutral 5 (.70 D)'
-    patch_sd = colour.SDS_COLOURCHECKERS['ColorChecker N Ohta'][patch_name]
+    patch_name = "neutral 5 (.70 D)"
+    patch_sd = colour.SDS_COLOURCHECKERS["ColorChecker N Ohta"][patch_name]
     XYZ = colour.sd_to_XYZ(patch_sd, cmfs, illuminant)
     RGB = colour.XYZ_to_sRGB(XYZ / 100)
 
     plot_single_colour_swatch(
-        ColourSwatch(RGB, patch_name.title()),
-        text_kwargs={'size': 'x-large'})
+        ColourSwatch(RGB, patch_name.title()), text_kwargs={"size": "x-large"}
+    )
 
 .. image:: _static/Tutorial_Neutral5.png
 
@@ -1240,7 +1275,8 @@ rendition charts figures:
 .. code:: python
 
     plot_single_colour_checker(
-        colour_checker='ColorChecker 2005', text_kwargs={'visible': False})
+        colour_checker="ColorChecker 2005", text_kwargs={"visible": False}
+    )
 
 .. image:: _static/Tutorial_Colour_Checker.png
 
@@ -1253,7 +1289,7 @@ using the ``colour.XYZ_to_xy`` definition:
 .. code:: python
 
     # Computing *CIE xy* chromaticity coordinates for the *neutral 5 (.70 D)* patch.
-    xy =  colour.XYZ_to_xy(XYZ)
+    xy = colour.XYZ_to_xy(XYZ)
     print(xy)
 
 .. code-block:: text
@@ -1273,21 +1309,24 @@ Chromaticity coordinates *CIE xy* can be plotted into the *CIE 1931 Chromaticity
 
     # Plotting the *CIE xy* chromaticity coordinates.
     x, y = xy
-    plt.plot(x, y, 'o-', color='white')
+    plt.plot(x, y, "o-", color="white")
 
     # Annotating the plot.
-    plt.annotate(patch_sd.name.title(),
-                 xy=xy,
-                 xytext=(-50, 30),
-                 textcoords='offset points',
-                 arrowprops=dict(arrowstyle='->', connectionstyle='arc3, rad=-0.2'))
+    plt.annotate(
+        patch_sd.name.title(),
+        xy=xy,
+        xytext=(-50, 30),
+        textcoords="offset points",
+        arrowprops=dict(arrowstyle="->", connectionstyle="arc3, rad=-0.2"),
+    )
 
     # Displaying the plot.
     render(
         standalone=True,
         limits=(-0.1, 0.9, -0.1, 0.9),
         x_tighten=True,
-        y_tighten=True)
+        y_tighten=True,
+    )
 
 .. image:: _static/Tutorial_CIE_1931_Chromaticity_Diagram.png
 

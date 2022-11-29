@@ -32,7 +32,7 @@ The following methods are available:
 
 References
 ----------
--   :cite:`Abebe2017a` : Abebe, M. A., Pouli, T., Larabi, M.-C., & Reinhard,
+-   :cite:`Abebe2017` : Abebe, M. A., Pouli, T., Larabi, M.-C., & Reinhard,
     E. (2017). Perceptual Lightness Modeling for High-Dynamic-Range Imaging.
     ACM Transactions on Applied Perception, 15(1), 1-19. doi:10.1145/3086577
 -   :cite:`ASTMInternational2008a` : ASTM International. (2008). ASTM
@@ -78,7 +78,7 @@ from colour.hints import (
     Union,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float,
     as_float_array,
     filter_kwargs,
@@ -434,7 +434,7 @@ def luminance_Fairchild2011(
     --------
     >>> luminance_Fairchild2011(51.852958445912506)  # doctest: +ELLIPSIS
     0.1219722...
-    >>> luminance_Fairchild2011(51.643108411718522, method='hdr-IPT')
+    >>> luminance_Fairchild2011(51.643108411718522, method="hdr-IPT")
     ... # doctest: +ELLIPSIS
     0.1219722...
     """
@@ -508,13 +508,13 @@ def luminance_Abebe2017(
 
     References
     ----------
-    :cite:`Abebe2017a`
+    :cite:`Abebe2017`
 
     Examples
     --------
     >>> luminance_Abebe2017(0.486955571109229)  # doctest: +ELLIPSIS
     12.1972253...
-    >>> luminance_Abebe2017(0.474544792145434, method='Stevens')
+    >>> luminance_Abebe2017(0.474544792145434, method="Stevens")
     ... # doctest: +ELLIPSIS
     12.1972253...
     """
@@ -550,7 +550,7 @@ def luminance_Abebe2017(
     return as_float(Y)
 
 
-LUMINANCE_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+LUMINANCE_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Newhall 1943": luminance_Newhall1943,
         "ASTM D1535": luminance_ASTMD1535,
@@ -635,7 +635,7 @@ def luminance(
 
     References
     ----------
-    :cite:`Abebe2017a`, :cite:`ASTMInternational2008a`, :cite:`CIETC1-482004m`,
+    :cite:`Abebe2017`, :cite:`ASTMInternational2008a`, :cite:`CIETC1-482004m`,
     :cite:`Fairchild2010`, :cite:`Fairchild2011`, :cite:`Newhall1943a`,
     :cite:`Wikipedia2001b`, :cite:`Wyszecki2000bd`
 
@@ -647,13 +647,13 @@ def luminance(
     12.1972253...
     >>> luminance(42.51993072812094, Y_n=95)  # doctest: +ELLIPSIS
     12.1972253...
-    >>> luminance(4.08244375 * 10, method='Newhall 1943')
+    >>> luminance(4.08244375 * 10, method="Newhall 1943")
     ... # doctest: +ELLIPSIS
     12.5500788...
-    >>> luminance(4.08244375 * 10, method='ASTM D1535')
+    >>> luminance(4.08244375 * 10, method="ASTM D1535")
     ... # doctest: +ELLIPSIS
     12.2363426...
-    >>> luminance(29.829510892279330, epsilon=0.710, method='Fairchild 2011')
+    >>> luminance(29.829510892279330, epsilon=0.710, method="Fairchild 2011")
     ... # doctest: +ELLIPSIS
     12.1972253...
     """

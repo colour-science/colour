@@ -37,7 +37,7 @@ from colour.hints import (
     cast,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_int_array,
     filter_kwargs,
     ones,
@@ -61,7 +61,7 @@ __all__ = [
     "primitive",
 ]
 
-MAPPING_PLANE_TO_AXIS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+MAPPING_PLANE_TO_AXIS: CanonicalMapping = CanonicalMapping(
     {
         "yz": "+x",
         "zy": "-x",
@@ -454,7 +454,7 @@ def primitive_cube(
     return vertices, faces, outline
 
 
-PRIMITIVE_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+PRIMITIVE_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Grid": primitive_grid,
         "Cube": primitive_cube,
@@ -599,7 +599,7 @@ def primitive(
      [22 23]
      [23 21]
      [21 20]]
-    >>> vertices, faces, outline = primitive('Grid')
+    >>> vertices, faces, outline = primitive("Grid")
     >>> print(vertices)
     [([-0.5,  0.5,  0. ], [ 0.,  1.], [ 0.,  0.,  1.], [ 0.,  1.,  0.,  1.])
      ([ 0.5,  0.5,  0. ], [ 1.,  1.], [ 0.,  0.,  1.], [ 1.,  1.,  0.,  1.])

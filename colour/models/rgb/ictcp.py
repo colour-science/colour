@@ -31,13 +31,13 @@ import numpy as np
 
 from colour.algebra import vector_dot
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import ArrayLike, Floating, Literal, NDArray, Union
+from colour.hints import ArrayLike, Floating, Literal, NDArray, Optional, Union
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 from colour.models.rgb.transfer_functions import (
     eotf_ST2084,
     eotf_inverse_ST2084,
-    oetf_HLG_BT2100,
-    oetf_inverse_HLG_BT2100,
+    oetf_BT2100_HLG,
+    oetf_inverse_BT2100_HLG,
 )
 from colour.utilities import (
     as_float_array,
@@ -57,8 +57,8 @@ __all__ = [
     "MATRIX_ICTCP_LMS_TO_RGB",
     "MATRIX_ICTCP_LMS_P_TO_ICTCP",
     "MATRIX_ICTCP_ICTCP_TO_LMS_P",
-    "MATRIX_ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2",
-    "MATRIX_ICTCP_ICTCP_TO_LMS_P_HLG_BT2100_2",
+    "MATRIX_ICTCP_LMS_P_TO_ICTCP_BT2100_HLG_2",
+    "MATRIX_ICTCP_ICTCP_TO_LMS_P_BT2100_HLG_2",
     "RGB_to_ICtCp",
     "ICtCp_to_RGB",
     "XYZ_to_ICtCp",
@@ -106,7 +106,7 @@ MATRIX_ICTCP_ICTCP_TO_LMS_P: NDArray = np.linalg.inv(
 normalised cone responses matrix.
 """
 
-MATRIX_ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2: NDArray = (
+MATRIX_ICTCP_LMS_P_TO_ICTCP_BT2100_HLG_2: NDArray = (
     np.array(
         [
             [2048, 2048, 0],
@@ -121,8 +121,8 @@ MATRIX_ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2: NDArray = (
 :math:`IC_TC_P` colour encoding matrix as given in *ITU-R BT.2100-2*.
 """
 
-MATRIX_ICTCP_ICTCP_TO_LMS_P_HLG_BT2100_2: NDArray = np.linalg.inv(
-    MATRIX_ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2
+MATRIX_ICTCP_ICTCP_TO_LMS_P_BT2100_HLG_2: NDArray = np.linalg.inv(
+    MATRIX_ICTCP_LMS_P_TO_ICTCP_BT2100_HLG_2
 )
 """
 :math:`IC_TC_P` colour encoding to :math:`LMS_p` *SMPTE ST 2084:2014* encoded
@@ -229,7 +229,7 @@ def RGB_to_ICtCp(
     >>> RGB = np.array([0.45620519, 0.03081071, 0.04091952])
     >>> RGB_to_ICtCp(RGB)  # doctest: +ELLIPSIS
     array([ 0.0735136...,  0.0047525...,  0.0935159...])
-    >>> RGB_to_ICtCp(RGB, method='ITU-R BT.2100-2 HLG')  # doctest: +ELLIPSIS
+    >>> RGB_to_ICtCp(RGB, method="ITU-R BT.2100-2 HLG")  # doctest: +ELLIPSIS
     array([ 0.6256789..., -0.0198449...,  0.3591125...])
     """
 
@@ -252,13 +252,13 @@ def RGB_to_ICtCp(
 
     with domain_range_scale("ignore"):
         LMS_p = (
-            oetf_HLG_BT2100(LMS)
+            oetf_BT2100_HLG(LMS)
             if is_hlg_method
             else eotf_inverse_ST2084(LMS, L_p)
         )
 
     ICtCp = (
-        vector_dot(MATRIX_ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2, LMS_p)
+        vector_dot(MATRIX_ICTCP_LMS_P_TO_ICTCP_BT2100_HLG_2, LMS_p)
         if (is_hlg_method and is_BT2100_2_method)
         else vector_dot(MATRIX_ICTCP_LMS_P_TO_ICTCP, LMS_p)
     )
@@ -364,7 +364,7 @@ def ICtCp_to_RGB(
     >>> ICtCp_to_RGB(ICtCp)  # doctest: +ELLIPSIS
     array([ 0.4562052...,  0.0308107...,  0.0409195...])
     >>> ICtCp = np.array([0.62567899, -0.01984490, 0.35911259])
-    >>> ICtCp_to_RGB(ICtCp, method='ITU-R BT.2100-2 HLG')  # doctest: +ELLIPSIS
+    >>> ICtCp_to_RGB(ICtCp, method="ITU-R BT.2100-2 HLG")  # doctest: +ELLIPSIS
     array([ 0.4562052...,  0.0308107...,  0.0409195...])
     """
 
@@ -384,14 +384,14 @@ def ICtCp_to_RGB(
     is_BT2100_2_method = "2100-2" in method
 
     LMS_p = (
-        vector_dot(MATRIX_ICTCP_ICTCP_TO_LMS_P_HLG_BT2100_2, ICtCp)
+        vector_dot(MATRIX_ICTCP_ICTCP_TO_LMS_P_BT2100_HLG_2, ICtCp)
         if (is_hlg_method and is_BT2100_2_method)
         else vector_dot(MATRIX_ICTCP_ICTCP_TO_LMS_P, ICtCp)
     )
 
     with domain_range_scale("ignore"):
         LMS = (
-            oetf_inverse_HLG_BT2100(LMS_p)
+            oetf_inverse_BT2100_HLG(LMS_p)
             if is_hlg_method
             else eotf_ST2084(LMS_p, L_p)
         )
@@ -404,22 +404,24 @@ def ICtCp_to_RGB(
 def XYZ_to_ICtCp(
     XYZ: ArrayLike,
     illuminant=CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"],
-    chromatic_adaptation_transform: Union[
-        Literal[
-            "Bianco 2010",
-            "Bianco PC 2010",
-            "Bradford",
-            "CAT02 Brill 2008",
-            "CAT02",
-            "CAT16",
-            "CMCCAT2000",
-            "CMCCAT97",
-            "Fairchild",
-            "Sharp",
-            "Von Kries",
-            "XYZ Scaling",
-        ],
-        str,
+    chromatic_adaptation_transform: Optional[
+        Union[
+            Literal[
+                "Bianco 2010",
+                "Bianco PC 2010",
+                "Bradford",
+                "CAT02 Brill 2008",
+                "CAT02",
+                "CAT16",
+                "CMCCAT2000",
+                "CMCCAT97",
+                "Fairchild",
+                "Sharp",
+                "Von Kries",
+                "XYZ Scaling",
+            ],
+            str,
+        ]
     ] = "CAT02",
     method: Union[
         Literal[
@@ -522,7 +524,7 @@ def XYZ_to_ICtCp(
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_ICtCp(XYZ)  # doctest: +ELLIPSIS
     array([ 0.0685809..., -0.0028384...,  0.0602098...])
-    >>> XYZ_to_ICtCp(XYZ, method='ITU-R BT.2100-2 HLG')  # doctest: +ELLIPSIS
+    >>> XYZ_to_ICtCp(XYZ, method="ITU-R BT.2100-2 HLG")  # doctest: +ELLIPSIS
     array([ 0.5924279..., -0.0374073...,  0.2512267...])
     """
 
@@ -542,22 +544,24 @@ def XYZ_to_ICtCp(
 def ICtCp_to_XYZ(
     ICtCp: ArrayLike,
     illuminant=CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"],
-    chromatic_adaptation_transform: Union[
-        Literal[
-            "Bianco 2010",
-            "Bianco PC 2010",
-            "Bradford",
-            "CAT02 Brill 2008",
-            "CAT02",
-            "CAT16",
-            "CMCCAT2000",
-            "CMCCAT97",
-            "Fairchild",
-            "Sharp",
-            "Von Kries",
-            "XYZ Scaling",
-        ],
-        str,
+    chromatic_adaptation_transform: Optional[
+        Union[
+            Literal[
+                "Bianco 2010",
+                "Bianco PC 2010",
+                "Bradford",
+                "CAT02 Brill 2008",
+                "CAT02",
+                "CAT16",
+                "CMCCAT2000",
+                "CMCCAT97",
+                "Fairchild",
+                "Sharp",
+                "Von Kries",
+                "XYZ Scaling",
+            ],
+            str,
+        ]
     ] = "CAT02",
     method: Union[
         Literal[
@@ -659,7 +663,7 @@ def ICtCp_to_XYZ(
     >>> ICtCp_to_XYZ(ICtCp)  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     >>> ICtCp = np.array([0.59242792, -0.03740730, 0.25122675])
-    >>> ICtCp_to_XYZ(ICtCp, method='ITU-R BT.2100-2 HLG')  # doctest: +ELLIPSIS
+    >>> ICtCp_to_XYZ(ICtCp, method="ITU-R BT.2100-2 HLG")  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 

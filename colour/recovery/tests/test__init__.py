@@ -1,5 +1,5 @@
 # !/usr/bin/env python
-"""Defines the unit tests for the :mod:`colour.recovery` module."""
+"""Define the unit tests for the :mod:`colour.recovery` module."""
 
 import numpy as np
 import unittest
@@ -73,7 +73,7 @@ class TestXYZ_to_sd(unittest.TestCase):
         for method, value in zip(m, v):
             for scale, factor_a, factor_b in d_r:
                 with domain_range_scale(scale):
-                    np.testing.assert_almost_equal(
+                    np.testing.assert_array_almost_equal(
                         sd_to_XYZ_integration(
                             XYZ_to_sd(
                                 XYZ * factor_a,

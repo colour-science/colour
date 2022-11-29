@@ -1,8 +1,9 @@
-"""Defines the unit tests for the :mod:`colour.models.rgb.cylindrical` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.models.rgb.cylindrical` module."""
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models.rgb.cylindrical import (
     RGB_to_HSV,
@@ -40,25 +41,25 @@ class TestRGB_to_HSV(unittest.TestCase):
     def test_RGB_to_HSV(self):
         """Test :func:`colour.models.rgb.cylindrical.RGB_to_HSV` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_HSV(np.array([0.45620519, 0.03081071, 0.04091952])),
             np.array([0.99603944, 0.93246304, 0.45620519]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_HSV(np.array([0.00000000, 0.00000000, 0.00000000])),
             np.array([0.00000000, 0.00000000, 0.00000000]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_HSV(np.array([1.00000000, 1.00000000, 1.00000000])),
             np.array([0.00000000, 0.00000000, 1.00000000]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_HSV(np.array([0.00000000, 1.00000000, 1.00000000])),
             np.array([0.50000000, 1.00000000, 1.00000000]),
             decimal=7,
@@ -75,11 +76,11 @@ class TestRGB_to_HSV(unittest.TestCase):
 
         RGB = np.tile(RGB, (6, 1))
         HSV = np.tile(HSV, (6, 1))
-        np.testing.assert_almost_equal(RGB_to_HSV(RGB), HSV, decimal=7)
+        np.testing.assert_array_almost_equal(RGB_to_HSV(RGB), HSV, decimal=7)
 
         RGB = np.reshape(RGB, (2, 3, 3))
         HSV = np.reshape(HSV, (2, 3, 3))
-        np.testing.assert_almost_equal(RGB_to_HSV(RGB), HSV, decimal=7)
+        np.testing.assert_array_almost_equal(RGB_to_HSV(RGB), HSV, decimal=7)
 
     def test_domain_range_scale_RGB_to_HSV(self):
         """
@@ -93,7 +94,7 @@ class TestRGB_to_HSV(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     RGB_to_HSV(RGB * factor), HSV * factor, decimal=7
                 )
 
@@ -105,10 +106,8 @@ class TestRGB_to_HSV(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            RGB = np.array(case)
-            RGB_to_HSV(RGB)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        RGB_to_HSV(cases)
 
 
 class TestHSV_to_RGB(unittest.TestCase):
@@ -120,25 +119,25 @@ class TestHSV_to_RGB(unittest.TestCase):
     def test_HSV_to_RGB(self):
         """Test :func:`colour.models.rgb.cylindrical.HSV_to_RGB` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             HSV_to_RGB(np.array([0.99603944, 0.93246304, 0.45620519])),
             np.array([0.45620519, 0.03081071, 0.04091952]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             HSV_to_RGB(np.array([0.00000000, 0.00000000, 0.00000000])),
             np.array([0.00000000, 0.00000000, 0.00000000]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             HSV_to_RGB(np.array([0.00000000, 0.00000000, 1.00000000])),
             np.array([1.00000000, 1.00000000, 1.00000000]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             HSV_to_RGB(np.array([0.50000000, 1.00000000, 1.00000000])),
             np.array([0.00000000, 1.00000000, 1.00000000]),
             decimal=7,
@@ -155,11 +154,11 @@ class TestHSV_to_RGB(unittest.TestCase):
 
         HSV = np.tile(HSV, (6, 1))
         RGB = np.tile(RGB, (6, 1))
-        np.testing.assert_almost_equal(HSV_to_RGB(HSV), RGB, decimal=7)
+        np.testing.assert_array_almost_equal(HSV_to_RGB(HSV), RGB, decimal=7)
 
         HSV = np.reshape(HSV, (2, 3, 3))
         RGB = np.reshape(RGB, (2, 3, 3))
-        np.testing.assert_almost_equal(HSV_to_RGB(HSV), RGB, decimal=7)
+        np.testing.assert_array_almost_equal(HSV_to_RGB(HSV), RGB, decimal=7)
 
     def test_domain_range_scale_HSV_to_RGB(self):
         """
@@ -173,7 +172,7 @@ class TestHSV_to_RGB(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     HSV_to_RGB(HSV * factor), RGB * factor, decimal=7
                 )
 
@@ -185,10 +184,8 @@ class TestHSV_to_RGB(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            HSV = np.array(case)
-            HSV_to_RGB(HSV)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        HSV_to_RGB(cases)
 
 
 class TestRGB_to_HSL(unittest.TestCase):
@@ -200,25 +197,25 @@ class TestRGB_to_HSL(unittest.TestCase):
     def test_RGB_to_HSL(self):
         """Test :func:`colour.models.rgb.cylindrical.RGB_to_HSL` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_HSL(np.array([0.45620519, 0.03081071, 0.04091952])),
             np.array([0.99603944, 0.87347144, 0.24350795]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_HSL(np.array([0.00000000, 0.00000000, 0.00000000])),
             np.array([0.00000000, 0.00000000, 0.00000000]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_HSL(np.array([1.00000000, 1.00000000, 1.00000000])),
             np.array([0.00000000, 0.00000000, 1.00000000]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_HSL(np.array([1.00000000, 0.00000000, 0.00000000])),
             np.array([0.00000000, 1.00000000, 0.50000000]),
             decimal=7,
@@ -235,11 +232,11 @@ class TestRGB_to_HSL(unittest.TestCase):
 
         RGB = np.tile(RGB, (6, 1))
         HSL = np.tile(HSL, (6, 1))
-        np.testing.assert_almost_equal(RGB_to_HSL(RGB), HSL, decimal=7)
+        np.testing.assert_array_almost_equal(RGB_to_HSL(RGB), HSL, decimal=7)
 
         RGB = np.reshape(RGB, (2, 3, 3))
         HSL = np.reshape(HSL, (2, 3, 3))
-        np.testing.assert_almost_equal(RGB_to_HSL(RGB), HSL, decimal=7)
+        np.testing.assert_array_almost_equal(RGB_to_HSL(RGB), HSL, decimal=7)
 
     def test_domain_range_scale_RGB_to_HSL(self):
         """
@@ -253,7 +250,7 @@ class TestRGB_to_HSL(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     RGB_to_HSL(RGB * factor), HSL * factor, decimal=7
                 )
 
@@ -265,10 +262,8 @@ class TestRGB_to_HSL(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            RGB = np.array(case)
-            RGB_to_HSL(RGB)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        RGB_to_HSL(cases)
 
 
 class TestHSL_to_RGB(unittest.TestCase):
@@ -280,25 +275,25 @@ class TestHSL_to_RGB(unittest.TestCase):
     def test_HSL_to_RGB(self):
         """Test :func:`colour.models.rgb.cylindrical.HSL_to_RGB` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             HSL_to_RGB(np.array([0.99603944, 0.87347144, 0.24350795])),
             np.array([0.45620519, 0.03081071, 0.04091952]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             HSL_to_RGB(np.array([0.00000000, 0.00000000, 0.00000000])),
             np.array([0.00000000, 0.00000000, 0.00000000]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             HSL_to_RGB(np.array([0.00000000, 0.00000000, 1.00000000])),
             np.array([1.00000000, 1.00000000, 1.00000000]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             HSL_to_RGB(np.array([0.00000000, 1.00000000, 0.50000000])),
             np.array([1.00000000, 0.00000000, 0.00000000]),
             decimal=7,
@@ -315,11 +310,11 @@ class TestHSL_to_RGB(unittest.TestCase):
 
         HSL = np.tile(HSL, (6, 1))
         RGB = np.tile(RGB, (6, 1))
-        np.testing.assert_almost_equal(HSL_to_RGB(HSL), RGB, decimal=7)
+        np.testing.assert_array_almost_equal(HSL_to_RGB(HSL), RGB, decimal=7)
 
         HSL = np.reshape(HSL, (2, 3, 3))
         RGB = np.reshape(RGB, (2, 3, 3))
-        np.testing.assert_almost_equal(HSL_to_RGB(HSL), RGB, decimal=7)
+        np.testing.assert_array_almost_equal(HSL_to_RGB(HSL), RGB, decimal=7)
 
     def test_domain_range_scale_HSL_to_RGB(self):
         """
@@ -333,7 +328,7 @@ class TestHSL_to_RGB(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     HSL_to_RGB(HSL * factor), RGB * factor, decimal=7
                 )
 
@@ -345,10 +340,8 @@ class TestHSL_to_RGB(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            HSL = np.array(case)
-            HSL_to_RGB(HSL)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        HSL_to_RGB(cases)
 
 
 class TestRGB_to_HCL(unittest.TestCase):
@@ -360,25 +353,25 @@ class TestRGB_to_HCL(unittest.TestCase):
     def test_RGB_to_HCL(self):
         """Test :func:`colour.models.rgb.cylindrical.RGB_to_HCL` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_HCL(np.array([0.45620519, 0.03081071, 0.04091952])),
             np.array([-0.03167854, 0.2841715, 0.22859647]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_HCL(np.array([1.00000000, 2.00000000, 0.50000000])),
             np.array([1.83120102, 1.0075282, 1.00941024]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_HCL(np.array([2.00000000, 1.00000000, 0.50000000])),
             np.array([0.30909841, 1.0075282, 1.00941024]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_HCL(np.array([0.50000000, 1.00000000, 2.00000000])),
             np.array([-2.40349351, 1.0075282, 1.00941024]),
             decimal=7,
@@ -395,11 +388,11 @@ class TestRGB_to_HCL(unittest.TestCase):
 
         RGB = np.tile(RGB, (6, 1))
         HCL = np.tile(HCL, (6, 1))
-        np.testing.assert_almost_equal(RGB_to_HCL(RGB), HCL, decimal=7)
+        np.testing.assert_array_almost_equal(RGB_to_HCL(RGB), HCL, decimal=7)
 
         RGB = np.reshape(RGB, (2, 3, 3))
         HCL = np.reshape(HCL, (2, 3, 3))
-        np.testing.assert_almost_equal(RGB_to_HCL(RGB), HCL, decimal=7)
+        np.testing.assert_array_almost_equal(RGB_to_HCL(RGB), HCL, decimal=7)
 
     def test_domain_range_scale_RGB_to_HCL(self):
         """
@@ -413,7 +406,7 @@ class TestRGB_to_HCL(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     RGB_to_HCL(RGB * factor), HCL * factor, decimal=7
                 )
 
@@ -425,10 +418,8 @@ class TestRGB_to_HCL(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            RGB = np.array(case)
-            RGB_to_HCL(RGB)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        RGB_to_HCL(cases)
 
 
 class TestHCL_to_RGB(unittest.TestCase):
@@ -440,25 +431,25 @@ class TestHCL_to_RGB(unittest.TestCase):
     def test_HCL_to_RGB(self):
         """Test :func:`colour.models.rgb.cylindrical.HCL_to_RGB` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             HCL_to_RGB(np.array([-0.03167854, 0.28417150, 0.22859647])),
             np.array([0.45620333, 0.03081048, 0.04091925]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             HCL_to_RGB(np.array([1.00000000, 2.00000000, 0.50000000])),
             np.array([0.92186029, 0.71091922, -2.26364935]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             HCL_to_RGB(np.array([2.00000000, 1.00000000, 0.50000000])),
             np.array([-0.31368585, 1.00732462, -0.51534497]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             HCL_to_RGB(np.array([0.50000000, 1.00000000, 2.00000000])),
             np.array([3.88095422, 3.11881934, 2.40881719]),
             decimal=7,
@@ -475,11 +466,11 @@ class TestHCL_to_RGB(unittest.TestCase):
 
         HCL = np.tile(HCL, (6, 1))
         RGB = np.tile(RGB, (6, 1))
-        np.testing.assert_almost_equal(HCL_to_RGB(HCL), RGB, decimal=7)
+        np.testing.assert_array_almost_equal(HCL_to_RGB(HCL), RGB, decimal=7)
 
         HCL = np.reshape(HCL, (2, 3, 3))
         RGB = np.reshape(RGB, (2, 3, 3))
-        np.testing.assert_almost_equal(HCL_to_RGB(HCL), RGB, decimal=7)
+        np.testing.assert_array_almost_equal(HCL_to_RGB(HCL), RGB, decimal=7)
 
     def test_domain_range_scale_HCL_to_RGB(self):
         """
@@ -493,7 +484,7 @@ class TestHCL_to_RGB(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     HCL_to_RGB(HCL * factor), RGB * factor, decimal=7
                 )
 
@@ -505,10 +496,8 @@ class TestHCL_to_RGB(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            HCL = np.array(case)
-            HCL_to_RGB(HCL)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        HCL_to_RGB(cases)
 
 
 if __name__ == "__main__":

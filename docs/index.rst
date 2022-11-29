@@ -49,8 +49,10 @@ conversion graph enabling easier colour conversions.
 
 .. code-block:: python
 
-    >>> sd = colour.SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin']
-    >>> colour.convert(sd, 'Spectral Distribution', 'sRGB', verbose={'mode': 'Short'})
+    >>> sd = colour.SDS_COLOURCHECKERS["ColorChecker N Ohta"]["dark skin"]
+    >>> colour.convert(
+    ...     sd, "Spectral Distribution", "sRGB", verbose={"mode": "Short"}
+    ... )
 
 ::
 
@@ -65,8 +67,13 @@ conversion graph enabling easier colour conversions.
 
 .. code-block:: python
 
-    >>> illuminant = colour.SDS_ILLUMINANTS['FL2']
-    >>> colour.convert(sd, 'Spectral Distribution', 'sRGB', sd_to_XYZ={'illuminant': illuminant})
+    >>> illuminant = colour.SDS_ILLUMINANTS["FL2"]
+    >>> colour.convert(
+    ...     sd,
+    ...     "Spectral Distribution",
+    ...     "sRGB",
+    ...     sd_to_XYZ={"illuminant": illuminant},
+    ... )
     array([ 0.47924575,  0.31676968,  0.17362725])
 
 Chromatic Adaptation - ``colour.adaptation``
@@ -75,10 +82,13 @@ Chromatic Adaptation - ``colour.adaptation``
 .. code-block:: python
 
     >>> XYZ = [0.20654008, 0.12197225, 0.05136952]
-    >>> D65 = colour.CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']
-    >>> A = colour.CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['A']
+    >>> D65 = colour.CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+    ...     "D65"
+    ... ]
+    >>> A = colour.CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["A"]
     >>> colour.chromatic_adaptation(
-    ...     XYZ, colour.xy_to_XYZ(D65), colour.xy_to_XYZ(A))
+    ...     XYZ, colour.xy_to_XYZ(D65), colour.xy_to_XYZ(A)
+    ... )
     array([ 0.2533053 ,  0.13765138,  0.01543307])
     >>> sorted(colour.CHROMATIC_ADAPTATION_METHODS)
     ['CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries', 'Zhai 2018']
@@ -117,8 +127,12 @@ Colour Appearance Models - ``colour.appearance``
     >>> Y_b = 20.0
     >>> colour.XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b)
     CAM_Specification_CIECAM02(J=34.434525727858997, C=67.365010921125943, h=22.279164147957065, s=62.81485585332716, Q=177.47124941102123, M=70.024939419291414, H=2.6896085344238898, HC=None)
+    >>> colour.XYZ_to_CIECAM16(XYZ, XYZ_w, L_A, Y_b)
+    CAM_Specification_CIECAM16(J=34.434525727858997, C=67.365010921125943, h=22.279164147957065, s=62.81485585332716, Q=177.47124941102123, M=70.024939419291414, H=2.6896085344238898, HC=None)
     >>> colour.XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b)
     CAM_Specification_CAM16(J=33.880368498111686, C=69.444353357408033, h=19.510887327451748, s=64.03612114840314, Q=176.03752758512178, M=72.18638534116765, H=399.52975599115319, HC=None)
+    >>> colour.XYZ_to_Hellwig2022(XYZ, XYZ_w, L_A)
+    CAM_Specification_Hellwig2022(J=33.880368498111686, C=40.347043294550311, h=19.510887327451748, s=117.38555017188679, Q=45.34489577734751, M=53.228355383108031, H=399.52975599115319, HC=None)
     >>> colour.XYZ_to_Kim2009(XYZ, XYZ_w, L_A)
     CAM_Specification_Kim2009(J=19.879918542450902, C=55.839055250876946, h=22.013388165090046, s=112.97979354939129, Q=36.309026130161449, M=46.346415858227864, H=2.3543198369639931, HC=None)
     >>> colour.XYZ_to_ZCAM(XYZ, XYZ_w, L_A, Y_b)
@@ -130,10 +144,12 @@ Colour Blindness - ``colour.blindness``
 .. code-block:: python
 
     >>> import numpy as np
-    >>> cmfs = colour.LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
-    >>> colour.msds_cmfs_anomalous_trichromacy_Machado2009(cmfs, np.array([15, 0, 0]))[450]
+    >>> cmfs = colour.LMS_CMFS["Stockman & Sharpe 2 Degree Cone Fundamentals"]
+    >>> colour.msds_cmfs_anomalous_trichromacy_Machado2009(
+    ...     cmfs, np.array([15, 0, 0])
+    ... )[450]
     array([ 0.08912884,  0.0870524 ,  0.955393  ])
-    >>> primaries = colour.MSDS_DISPLAY_PRIMARIES['Apple Studio Display']
+    >>> primaries = colour.MSDS_DISPLAY_PRIMARIES["Apple Studio Display"]
     >>> d_LMS = (15, 0, 0)
     >>> colour.matrix_anomalous_trichromacy_Machado2009(cmfs, primaries, d_LMS)
     array([[-0.27774652,  2.65150084, -1.37375432],
@@ -159,8 +175,8 @@ ACES Input Transform - ``colour characterisation``
 
 .. code-block:: python
 
-    >>> sensitivities = colour.MSDS_CAMERA_SENSITIVITIES['Nikon 5100 (NPL)']
-    >>> illuminant = colour.SDS_ILLUMINANTS['D55']
+    >>> sensitivities = colour.MSDS_CAMERA_SENSITIVITIES["Nikon 5100 (NPL)"]
+    >>> illuminant = colour.SDS_ILLUMINANTS["D55"]
     >>> colour.matrix_idt(sensitivities, illuminant)
     (array([[ 0.46579986,  0.13409221,  0.01935163],
            [ 0.01786092,  0.77557268, -0.16775531],
@@ -174,7 +190,7 @@ Spectral Computations
 
 .. code-block:: python
 
-    >>> colour.sd_to_XYZ(colour.SDS_LIGHT_SOURCES['Neodimium Incandescent'])
+    >>> colour.sd_to_XYZ(colour.SDS_LIGHT_SOURCES["Neodimium Incandescent"])
     array([ 36.94726204,  32.62076174,  13.0143849 ])
     >>> sorted(colour.SPECTRAL_TO_XYZ_METHODS)
     ['ASTM E308', 'Integration', 'astm2015']
@@ -185,22 +201,119 @@ Multi-Spectral Computations
 
 .. code-block:: python
 
-    >>> msds = np.array([
-    ...     [[0.01367208, 0.09127947, 0.01524376, 0.02810712, 0.19176012, 0.04299992],
-    ...      [0.00959792, 0.25822842, 0.41388571, 0.22275120, 0.00407416, 0.37439537],
-    ...      [0.01791409, 0.29707789, 0.56295109, 0.23752193, 0.00236515, 0.58190280]],
-    ...     [[0.01492332, 0.10421912, 0.02240025, 0.03735409, 0.57663846, 0.32416266],
-    ...      [0.04180972, 0.26402685, 0.03572137, 0.00413520, 0.41808194, 0.24696727],
-    ...      [0.00628672, 0.11454948, 0.02198825, 0.39906919, 0.63640803, 0.01139849]],
-    ...     [[0.04325933, 0.26825359, 0.23732357, 0.05175860, 0.01181048, 0.08233768],
-    ...      [0.02484169, 0.12027161, 0.00541695, 0.00654612, 0.18603799, 0.36247808],
-    ...      [0.03102159, 0.16815442, 0.37186235, 0.08610666, 0.00413520, 0.78492409]],
-    ...     [[0.11682307, 0.78883040, 0.74468607, 0.83375293, 0.90571451, 0.70054168],
-    ...      [0.06321812, 0.41898224, 0.15190357, 0.24591440, 0.55301750, 0.00657664],
-    ...      [0.00305180, 0.11288624, 0.11357290, 0.12924391, 0.00195315, 0.21771573]],
-    ... ])
-    >>> colour.msds_to_XYZ(msds, method='Integration',
-    ...                    shape=colour.SpectralShape(400, 700, 60))
+    >>> msds = np.array(
+    ...     [
+    ...         [
+    ...             [
+    ...                 0.01367208,
+    ...                 0.09127947,
+    ...                 0.01524376,
+    ...                 0.02810712,
+    ...                 0.19176012,
+    ...                 0.04299992,
+    ...             ],
+    ...             [
+    ...                 0.00959792,
+    ...                 0.25822842,
+    ...                 0.41388571,
+    ...                 0.22275120,
+    ...                 0.00407416,
+    ...                 0.37439537,
+    ...             ],
+    ...             [
+    ...                 0.01791409,
+    ...                 0.29707789,
+    ...                 0.56295109,
+    ...                 0.23752193,
+    ...                 0.00236515,
+    ...                 0.58190280,
+    ...             ],
+    ...         ],
+    ...         [
+    ...             [
+    ...                 0.01492332,
+    ...                 0.10421912,
+    ...                 0.02240025,
+    ...                 0.03735409,
+    ...                 0.57663846,
+    ...                 0.32416266,
+    ...             ],
+    ...             [
+    ...                 0.04180972,
+    ...                 0.26402685,
+    ...                 0.03572137,
+    ...                 0.00413520,
+    ...                 0.41808194,
+    ...                 0.24696727,
+    ...             ],
+    ...             [
+    ...                 0.00628672,
+    ...                 0.11454948,
+    ...                 0.02198825,
+    ...                 0.39906919,
+    ...                 0.63640803,
+    ...                 0.01139849,
+    ...             ],
+    ...         ],
+    ...         [
+    ...             [
+    ...                 0.04325933,
+    ...                 0.26825359,
+    ...                 0.23732357,
+    ...                 0.05175860,
+    ...                 0.01181048,
+    ...                 0.08233768,
+    ...             ],
+    ...             [
+    ...                 0.02484169,
+    ...                 0.12027161,
+    ...                 0.00541695,
+    ...                 0.00654612,
+    ...                 0.18603799,
+    ...                 0.36247808,
+    ...             ],
+    ...             [
+    ...                 0.03102159,
+    ...                 0.16815442,
+    ...                 0.37186235,
+    ...                 0.08610666,
+    ...                 0.00413520,
+    ...                 0.78492409,
+    ...             ],
+    ...         ],
+    ...         [
+    ...             [
+    ...                 0.11682307,
+    ...                 0.78883040,
+    ...                 0.74468607,
+    ...                 0.83375293,
+    ...                 0.90571451,
+    ...                 0.70054168,
+    ...             ],
+    ...             [
+    ...                 0.06321812,
+    ...                 0.41898224,
+    ...                 0.15190357,
+    ...                 0.24591440,
+    ...                 0.55301750,
+    ...                 0.00657664,
+    ...             ],
+    ...             [
+    ...                 0.00305180,
+    ...                 0.11288624,
+    ...                 0.11357290,
+    ...                 0.12924391,
+    ...                 0.00195315,
+    ...                 0.21771573,
+    ...             ],
+    ...         ],
+    ...     ]
+    ... )
+    >>> colour.msds_to_XYZ(
+    ...     msds,
+    ...     method="Integration",
+    ...     shape=colour.SpectralShape(400, 700, 60),
+    ... )
     array([[[  7.68544647,   4.09414317,   8.49324254],
             [ 17.12567298,  27.77681821,  25.52573685],
             [ 19.10280411,  34.45851476,  29.76319628]],
@@ -312,13 +425,13 @@ Luminous Flux, Efficiency & Efficacy Computation
 
 .. code-block:: python
 
-    >>> sd = colour.SDS_LIGHT_SOURCES['Neodimium Incandescent']
+    >>> sd = colour.SDS_LIGHT_SOURCES["Neodimium Incandescent"]
     >>> colour.luminous_flux(sd)
     23807.655527367202
-    >>> sd = colour.SDS_LIGHT_SOURCES['Neodimium Incandescent']
+    >>> sd = colour.SDS_LIGHT_SOURCES["Neodimium Incandescent"]
     >>> colour.luminous_efficiency(sd)
     0.19943935624521045
-    >>> sd = colour.SDS_LIGHT_SOURCES['Neodimium Incandescent']
+    >>> sd = colour.SDS_LIGHT_SOURCES["Neodimium Incandescent"]
     >>> colour.luminous_efficacy(sd)
     136.21708031547874
 
@@ -354,6 +467,7 @@ Colour Difference - ``colour.difference``
      'CIE 2000',
      'CMC',
      'DIN99',
+     'ITP',
      'cie1976',
      'cie1994',
      'cie2000']
@@ -366,7 +480,7 @@ Images
 
 .. code-block:: python
 
-    >>> RGB = colour.read_image('Ishihara_Colour_Blindness_Test_Plate_3.png')
+    >>> RGB = colour.read_image("Ishihara_Colour_Blindness_Test_Plate_3.png")
     >>> RGB.shape
     (276, 281, 3)
 
@@ -375,7 +489,7 @@ Look Up Table (LUT) Data
 
 .. code-block:: python
 
-    >>> LUT = colour.read_LUT('ACES_Proxy_10_to_ACES.cube')
+    >>> LUT = colour.read_LUT("ACES_Proxy_10_to_ACES.cube")
     >>> print(LUT)
 
 ::
@@ -464,9 +578,8 @@ CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
     >>> XYZ_w = [95.05, 100.00, 108.88]
     >>> L_A = 318.31
     >>> Y_b = 20.0
-    >>> surround = colour.VIEWING_CONDITIONS_CIECAM02['Average']
-    >>> specification = colour.XYZ_to_CIECAM02(
-            XYZ, XYZ_w, L_A, Y_b, surround)
+    >>> surround = colour.VIEWING_CONDITIONS_CIECAM02["Average"]
+    >>> specification = colour.XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)
     >>> JMh = (specification.J, specification.M, specification.h)
     >>> colour.JMh_CIECAM02_to_CAM02UCS(JMh)
     array([ 47.16899898,  38.72623785,  15.8663383 ])
@@ -484,9 +597,8 @@ CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
     >>> XYZ_w = [95.05, 100.00, 108.88]
     >>> L_A = 318.31
     >>> Y_b = 20.0
-    >>> surround = colour.VIEWING_CONDITIONS_CAM16['Average']
-    >>> specification = colour.XYZ_to_CAM16(
-            XYZ, XYZ_w, L_A, Y_b, surround)
+    >>> surround = colour.VIEWING_CONDITIONS_CAM16["Average"]
+    >>> specification = colour.XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)
     >>> JMh = (specification.J, specification.M, specification.h)
     >>> colour.JMh_CAM16_to_CAM16UCS(JMh)
     array([ 46.55542238,  40.22460974,  14.25288392]
@@ -518,6 +630,14 @@ IPT Colourspace
 
     >>> colour.XYZ_to_IPT([0.20654008, 0.12197225, 0.05136952])
     array([ 0.38426191,  0.38487306,  0.18886838])
+
+Munish Ragoo and Farup (2021) Optimised IPT Colourspace
+*******************************************************
+
+.. code-block:: python
+
+    >>> colour.XYZ_to_IPT_Munish2021([0.20654008, 0.12197225, 0.05136952])
+    array([ 0.42248243,  0.2910514 ,  0.20410663])
 
 DIN99 Colourspace
 *****************
@@ -633,17 +753,19 @@ RGB Colourspace and Transformations
     >>> XYZ = [0.21638819, 0.12570000, 0.03847493]
     >>> illuminant_XYZ = [0.34570, 0.35850]
     >>> illuminant_RGB = [0.31270, 0.32900]
-    >>> chromatic_adaptation_transform = 'Bradford'
+    >>> chromatic_adaptation_transform = "Bradford"
     >>> matrix_XYZ_to_RGB = [
-             [3.24062548, -1.53720797, -0.49862860],
-             [-0.96893071, 1.87575606, 0.04151752],
-             [0.05571012, -0.20402105, 1.05699594]]
+    ...     [3.24062548, -1.53720797, -0.49862860],
+    ...     [-0.96893071, 1.87575606, 0.04151752],
+    ...     [0.05571012, -0.20402105, 1.05699594],
+    ... ]
     >>> colour.XYZ_to_RGB(
-             XYZ,
-             illuminant_XYZ,
-             illuminant_RGB,
-             matrix_XYZ_to_RGB,
-             chromatic_adaptation_transform)
+    ...     XYZ,
+    ...     illuminant_XYZ,
+    ...     illuminant_RGB,
+    ...     matrix_XYZ_to_RGB,
+    ...     chromatic_adaptation_transform,
+    ... )
     array([ 0.45595571,  0.03039702,  0.04087245])
 
 RGB Colourspace Derivation
@@ -669,25 +791,27 @@ RGB Colourspaces
      'ACEScct',
      'ACEScg',
      'ACESproxy',
-     'ALEXA Wide Gamut',
+     'ARRI Wide Gamut 3',
+     'ARRI Wide Gamut 4',
      'Adobe RGB (1998)',
      'Adobe Wide Gamut RGB',
      'Apple RGB',
      'Best RGB',
      'Beta RGB',
-     'Blackmagic Wide Gamut'
+     'Blackmagic Wide Gamut',
      'CIE RGB',
      'Cinema Gamut',
      'ColorMatch RGB',
-     'DaVinci Wide Gamut',
      'DCDM XYZ',
      'DCI-P3',
-     'DCI-P3+',
+     'DCI-P3-P',
      'DJI D-Gamut',
      'DRAGONcolor',
      'DRAGONcolor2',
+     'DaVinci Wide Gamut',
      'Display P3',
      'Don RGB 4',
+     'EBU Tech. 3213-E',
      'ECI RGB v2',
      'ERIMM RGB',
      'Ekta Space PS 5',
@@ -697,7 +821,10 @@ RGB Colourspaces
      'ITU-R BT.470 - 525',
      'ITU-R BT.470 - 625',
      'ITU-R BT.709',
+     'ITU-T H.273 - 22 Unspecified',
+     'ITU-T H.273 - Generic Film',
      'Max RGB',
+     'N-Gamut',
      'NTSC (1953)',
      'NTSC (1987)',
      'P3-D65',
@@ -725,6 +852,8 @@ RGB Colourspaces
      'aces',
      'adobe1998',
      'prophoto',
+     'sRGB']
+
 
 OETFs
 *****
@@ -735,11 +864,16 @@ OETFs
     ['ARIB STD-B67',
      'Blackmagic Film Generation 5',
      'DaVinci Intermediate',
+     'ITU-R BT.2020',
      'ITU-R BT.2100 HLG',
      'ITU-R BT.2100 PQ',
      'ITU-R BT.601',
      'ITU-R BT.709',
+     'ITU-T H.273 IEC 61966-2',
+     'ITU-T H.273 Log',
+     'ITU-T H.273 Log Sqrt',
      'SMPTE 240M']
+
 
 EOTFs
 *****
@@ -750,9 +884,9 @@ EOTFs
     ['DCDM',
      'DICOM GSDF',
      'ITU-R BT.1886',
-     'ITU-R BT.2020',
      'ITU-R BT.2100 HLG',
      'ITU-R BT.2100 PQ',
+     'ITU-T H.273 ST.428-1',
      'SMPTE 240M',
      'ST 2084',
      'sRGB']
@@ -775,7 +909,8 @@ Log Encoding / Decoding
     ['ACEScc',
      'ACEScct',
      'ACESproxy',
-     'ALEXA Log C',
+     'ARRI LogC3',
+     'ARRI LogC4',
      'Canon Log',
      'Canon Log 2',
      'Canon Log 3',
@@ -784,6 +919,7 @@ Log Encoding / Decoding
      'ERIMM RGB',
      'F-Log',
      'Filmic Pro 6',
+     'L-Log',
      'Log2',
      'Log3G10',
      'Log3G12',
@@ -809,7 +945,8 @@ CCTFs Encoding / Decoding
     ['ACEScc',
      'ACEScct',
      'ACESproxy',
-     'ALEXA Log C',
+     'ARRI LogC3',
+     'ARRI LogC4',
      'ARIB STD-B67',
      'Canon Log',
      'Canon Log 2',
@@ -851,6 +988,63 @@ CCTFs Encoding / Decoding
      'ViperLog',
      'sRGB']
 
+Recommendation ITU-T H.273 Code points for Video Signal Type Identification
+***************************************************************************
+
+.. code-block:: python
+
+    >>> colour.COLOUR_PRIMARIES_ITUTH273.keys()
+    dict_keys([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 22, 23])
+    >>> colour.COLOUR_PRIMARIES_ITUTH273.keys()
+    >>> description = colour.models.describe_video_signal_colour_primaries(1)
+    ===============================================================================
+    *                                                                             *
+    *   Colour Primaries: 1                                                       *
+    *   -------------------                                                       *
+    *                                                                             *
+    *   Primaries        : [[ 0.64  0.33]                                         *
+    *                       [ 0.3   0.6 ]                                         *
+    *                       [ 0.15  0.06]]                                        *
+    *   Whitepoint       : [ 0.3127  0.329 ]                                      *
+    *   Whitepoint Name  : D65                                                    *
+    *   NPM              : [[ 0.4123908   0.35758434  0.18048079]                 *
+    *                       [ 0.21263901  0.71516868  0.07219232]                 *
+    *                       [ 0.01933082  0.11919478  0.95053215]]                *
+    *   NPM -1           : [[ 3.24096994 -1.53738318 -0.49861076]                 *
+    *                       [-0.96924364  1.8759675   0.04155506]                 *
+    *                       [ 0.05563008 -0.20397696  1.05697151]]                *
+    *   FFmpeg Constants : ['AVCOL_PRI_BT709', 'BT709']                           *
+    *                                                                             *
+    ===============================================================================
+    >>> colour.TRANSFER_CHARACTERISTICS_ITUTH273.keys()
+    dict_keys([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19])
+    >>> description = (
+    ...     colour.models.describe_video_signal_transfer_characteristics(1)
+    ... )
+    ===============================================================================
+    *                                                                             *
+    *   Transfer Characteristics: 1                                               *
+    *   ---------------------------                                               *
+    *                                                                             *
+    *   Function         : <function oetf_BT709 at 0x165bb3550>                   *
+    *   FFmpeg Constants : ['AVCOL_TRC_BT709', 'BT709']                           *
+    *                                                                             *
+    ===============================================================================
+    >>> colour.MATRIX_COEFFICIENTS_ITUTH273.keys()
+    dict_keys([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])
+    >>> description = colour.models.describe_video_signal_matrix_coefficients(
+    ...     1
+    ... )
+    ===============================================================================
+    *                                                                             *
+    *   Matrix Coefficients: 1                                                    *
+    *   ----------------------                                                    *
+    *                                                                             *
+    *   Matrix Coefficients : [ 0.2126  0.0722]                                   *
+    *   FFmpeg Constants    : ['AVCOL_SPC_BT709', 'BT709']                        *
+    *                                                                             *
+    ===============================================================================
+
 Colour Notation Systems - ``colour.notation``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -878,7 +1072,7 @@ Munsell Colour
 
     >>> colour.xyY_to_munsell_colour([0.38736945, 0.35751656, 0.59362000])
     '4.2YR 8.1/5.3'
-    >>> colour.munsell_colour_to_xyY('4.2YR 8.1/5.3')
+    >>> colour.munsell_colour_to_xyY("4.2YR 8.1/5.3")
     array([ 0.38736945,  0.35751656,  0.59362   ])
 
 Optical Phenomena - ``colour.phenomena``
@@ -907,7 +1101,7 @@ Colour Fidelity Index
 
 .. code-block:: python
 
-    >>> colour.colour_fidelity_index(colour.SDS_ILLUMINANTS['FL2'])
+    >>> colour.colour_fidelity_index(colour.SDS_ILLUMINANTS["FL2"])
     70.120825477833037
     >>> sorted(colour.COLOUR_FIDELITY_INDEX_METHODS)
     ['ANSI/IES TM-30-18', 'CIE 2017']
@@ -917,7 +1111,7 @@ Colour Rendering Index
 
 .. code-block:: python
 
-    >>> colour.colour_quality_scale(colour.SDS_ILLUMINANTS['FL2'])
+    >>> colour.colour_quality_scale(colour.SDS_ILLUMINANTS["FL2"])
     64.111703163816699
     >>> sorted(colour.COLOUR_QUALITY_SCALE_METHODS)
     ['NIST CQS 7.4', 'NIST CQS 9.0']
@@ -927,7 +1121,7 @@ Colour Quality Scale
 
 .. code-block:: python
 
-    >>> colour.colour_rendering_index(colour.SDS_ILLUMINANTS['FL2'])
+    >>> colour.colour_rendering_index(colour.SDS_ILLUMINANTS["FL2"])
     64.233724121664807
 
 Academy Spectral Similarity Index (SSI)
@@ -935,28 +1129,84 @@ Academy Spectral Similarity Index (SSI)
 
 .. code-block:: python
 
-    >>> colour.spectral_similarity_index(colour.SDS_ILLUMINANTS['C'], colour.SDS_ILLUMINANTS['D65'])
+    >>> colour.spectral_similarity_index(
+    ...     colour.SDS_ILLUMINANTS["C"], colour.SDS_ILLUMINANTS["D65"]
+    ... )
     94.0
 
-Spectral Up-Sampling & Reflectance Recovery - ``colour.recovery``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Spectral Up-Sampling & Recovery - ``colour.recovery``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Reflectance Recovery
+********************
 
 .. code-block:: python
 
     >>> colour.XYZ_to_sd([0.20654008, 0.12197225, 0.05136952])
-    SpectralDistribution([[  3.60000000e+02,   8.37868873e-02],
-                          [  3.65000000e+02,   8.39337988e-02],
+    SpectralDistribution([[  3.60000000e+02,   8.40144095e-02],
+                          [  3.65000000e+02,   8.41264236e-02],
+                          [  3.70000000e+02,   8.40057597e-02],
                           ...
-                          [  7.70000000e+02,   4.46793405e-01],
-                          [  7.75000000e+02,   4.46872853e-01],
-                          [  7.80000000e+02,   4.46914431e-01]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={'method': 'Constant', 'left': None, 'right': None})
+                          [  7.70000000e+02,   4.46743012e-01],
+                          [  7.75000000e+02,   4.46817187e-01],
+                          [  7.80000000e+02,   4.46857696e-01]],
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
 
     >>> sorted(colour.REFLECTANCE_RECOVERY_METHODS)
     ['Jakob 2019', 'Mallett 2019', 'Meng 2015', 'Otsu 2018', 'Smits 1999']
+
+Camera RGB Sensitivities Recovery
+*********************************
+
+    >>> illuminant = colour.colorimetry.SDS_ILLUMINANTS["D65"]
+    >>> sensitivities = colour.characterisation.MSDS_CAMERA_SENSITIVITIES[
+    ...     "Nikon 5100 (NPL)"
+    ... ]
+    >>> reflectances = [
+    ...     sd.copy().align(
+    ...         colour.recovery.SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017
+    ...     )
+    ...     for sd in colour.characterisation.SDS_COLOURCHECKERS[
+    ...         "BabelColor Average"
+    ...     ].values()
+    ... ]
+    >>> reflectances = colour.colorimetry.sds_and_msds_to_msds(reflectances)
+    >>> RGB = colour.colorimetry.msds_to_XYZ(
+    ...     reflectances,
+    ...     method="Integration",
+    ...     cmfs=sensitivities,
+    ...     illuminant=illuminant,
+    ...     k=0.01,
+    ...     shape=colour.recovery.SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
+    ... )
+    >>> colour.recovery.RGB_to_msds_camera_sensitivities_Jiang2013(
+    ...     RGB,
+    ...     illuminant,
+    ...     reflectances,
+    ...     colour.recovery.BASIS_FUNCTIONS_DYER2017,
+    ...     colour.recovery.SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
+    ... )
+    RGB_CameraSensitivities([[  4.00000000e+02,   7.22815777e-03,   9.22506480e-03,
+                               -9.88368972e-03],
+                             [  4.10000000e+02,  -8.50457609e-03,   1.12777480e-02,
+                                3.86248655e-03],
+                             [  4.20000000e+02,   4.58191132e-02,   7.15520948e-02,
+                                4.04068293e-01],
+                             ...
+                             [  6.80000000e+02,   4.08276173e-02,   5.55290476e-03,
+                                1.39907862e-03],
+                             [  6.90000000e+02,  -3.71437574e-03,   2.50935640e-03,
+                                3.97652622e-04],
+                             [  7.00000000e+02,  -5.62256563e-03,   1.56433970e-03,
+                                5.84726936e-04]],
+                            ['red', 'green', 'blue'],
+                            SpragueInterpolator,
+                            {},
+                            Extrapolator,
+                            {'method': 'Constant', 'left': None, 'right': None})
 
 Correlated Colour Temperature Computation Methods - ``colour.temperature``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -966,7 +1216,7 @@ Correlated Colour Temperature Computation Methods - ``colour.temperature``
     >>> colour.uv_to_CCT([0.1978, 0.3122])
     array([  6.50751282e+03,   3.22335875e-03])
     >>> sorted(colour.UV_TO_CCT_METHODS)
-    ['Krystek 1985', 'Ohno 2013', 'Robertson 1968', 'ohno2013', 'robertson1968']
+    ['Krystek 1985', 'Ohno 2013', 'Planck 1900', 'Robertson 1968', 'ohno2013', 'robertson1968']
     >>> sorted(colour.XY_TO_CCT_METHODS)
     ['CIE Illuminant D Series',
      'Hernandez 1999',
@@ -982,7 +1232,9 @@ Colour Volume - ``colour.volume``
 
 .. code-block:: python
 
-    >>> colour.RGB_colourspace_volume_MonteCarlo(colour.RGB_COLOURSPACE_RGB['sRGB'])
+    >>> colour.RGB_colourspace_volume_MonteCarlo(
+    ...     colour.RGB_COLOURSPACE_RGB["sRGB"]
+    ... )
     821958.30000000005
 
 Geometry Primitives Generation - ``colour.geometry``
@@ -990,7 +1242,7 @@ Geometry Primitives Generation - ``colour.geometry``
 
 .. code-block:: python
 
-    >>> colour.primitive('Grid')
+    >>> colour.primitive("Grid")
     (array([ ([-0.5,  0.5,  0. ], [ 0.,  1.], [ 0.,  0.,  1.], [ 0.,  1.,  0.,  1.]),
            ([ 0.5,  0.5,  0. ], [ 1.,  1.], [ 0.,  0.,  1.], [ 1.,  1.,  0.,  1.]),
            ([-0.5, -0.5,  0. ], [ 0.,  0.], [ 0.,  0.,  1.], [ 0.,  0.,  0.,  1.]),
@@ -1002,7 +1254,7 @@ Geometry Primitives Generation - ``colour.geometry``
            [1, 0]], dtype=uint32))
     >>> sorted(colour.PRIMITIVE_METHODS)
     ['Cube', 'Grid']
-    >>> colour.primitive_vertices('Quad MPL')
+    >>> colour.primitive_vertices("Quad MPL")
     array([[ 0.,  0.,  0.],
            [ 1.,  0.,  0.],
            [ 1.,  1.,  0.],
@@ -1025,7 +1277,7 @@ Visible Spectrum
 
 .. code-block:: python
 
-    >>> plot_visible_spectrum('CIE 1931 2 Degree Standard Observer')
+    >>> plot_visible_spectrum("CIE 1931 2 Degree Standard Observer")
 
 ..  image:: _static/Examples_Plotting_Visible_Spectrum.png
 
@@ -1034,7 +1286,7 @@ Spectral Distribution
 
 .. code-block:: python
 
-    >>> plot_single_illuminant_sd('FL1')
+    >>> plot_single_illuminant_sd("FL1")
 
 ..  image:: _static/Examples_Plotting_Illuminant_F1_SD.png
 
@@ -1049,13 +1301,11 @@ Blackbody
     ... ]
     >>> plot_multi_sds(
     ...     blackbody_sds,
-    ...     y_label='W / (sr m$^2$) / m',
-    ...     plot_kwargs={
-    ...         'use_sd_colours': True,
-    ...         'normalise_sd_colours': True,
-    ...     },
-    ...     legend_location='upper right',
-    ...     bounding_box=(0, 1250, 0, 2.5e6))
+    ...     y_label="W / (sr m$^2$) / m",
+    ...     plot_kwargs={"use_sd_colours": True, "normalise_sd_colours": True},
+    ...     legend_location="upper right",
+    ...     bounding_box=(0, 1250, 0, 2.5e6),
+    ... )
 ..  image:: _static/Examples_Plotting_Blackbodies.png
 
 Colour Matching Functions
@@ -1064,9 +1314,10 @@ Colour Matching Functions
 .. code-block:: python
 
     >>> plot_single_cmfs(
-    ...     'Stockman & Sharpe 2 Degree Cone Fundamentals',
-    ...     y_label='Sensitivity',
-    ...     bounding_box=(390, 870, 0, 1.1))
+    ...     "Stockman & Sharpe 2 Degree Cone Fundamentals",
+    ...     y_label="Sensitivity",
+    ...     bounding_box=(390, 870, 0, 1.1),
+    ... )
 
 ..  image:: _static/Examples_Plotting_Cone_Fundamentals.png
 
@@ -1076,15 +1327,19 @@ Luminous Efficiency
 .. code-block:: python
 
     >>> sd_mesopic_luminous_efficiency_function = (
-    ...     colour.sd_mesopic_luminous_efficiency_function(0.2))
+    ...     colour.sd_mesopic_luminous_efficiency_function(0.2)
+    ... )
     >>> plot_multi_sds(
-    ...     (sd_mesopic_luminous_efficiency_function,
-    ...      colour.PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
-    ...      colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']),
-    ...     y_label='Luminous Efficiency',
-    ...     legend_location='upper right',
+    ...     (
+    ...         sd_mesopic_luminous_efficiency_function,
+    ...         colour.PHOTOPIC_LEFS["CIE 1924 Photopic Standard Observer"],
+    ...         colour.SCOTOPIC_LEFS["CIE 1951 Scotopic Standard Observer"],
+    ...     ),
+    ...     y_label="Luminous Efficiency",
+    ...     legend_location="upper right",
     ...     y_tighten=True,
-    ...     margins=(0, 0, 0, 0.1))
+    ...     margins=(0, 0, 0, 0.1),
+    ... )
 
 ..  image:: _static/Examples_Plotting_Luminous_Efficiency.png
 
@@ -1094,25 +1349,28 @@ Colour Checker
 .. code-block:: python
 
     >>> from colour.characterisation.dataset.colour_checkers.sds import (
-    ...     COLOURCHECKER_INDEXES_TO_NAMES_MAPPING)
+    ...     COLOURCHECKER_INDEXES_TO_NAMES_MAPPING,
+    ... )
     >>> plot_multi_sds(
     ...     [
-    ...         colour.SDS_COLOURCHECKERS['BabelColor Average'][value]
+    ...         colour.SDS_COLOURCHECKERS["BabelColor Average"][value]
     ...         for key, value in sorted(
-    ...             COLOURCHECKER_INDEXES_TO_NAMES_MAPPING.items())
+    ...             COLOURCHECKER_INDEXES_TO_NAMES_MAPPING.items()
+    ...         )
     ...     ],
     ...     plot_kwargs={
-    ...         use_sd_colours=True,
+    ...         "use_sd_colours": True,
     ...     },
-    ...     title=('BabelColor Average - '
-    ...            'Spectral Distributions'))
+    ...     title=("BabelColor Average - " "Spectral Distributions"),
+    ... )
 
 ..  image:: _static/Examples_Plotting_BabelColor_Average.png
 
 .. code-block:: python
 
     >>> plot_single_colour_checker(
-    ...     'ColorChecker 2005', text_kwargs={'visible': False})
+    ...     "ColorChecker 2005", text_kwargs={"visible": False}
+    ... )
 
 ..  image:: _static/Examples_Plotting_ColorChecker_2005.png
 
@@ -1122,7 +1380,8 @@ Chromaticities Prediction
 .. code-block:: python
 
     >>> plot_corresponding_chromaticities_prediction(
-    ...     2, 'Von Kries', 'Bianco 2010')
+    ...     2, "Von Kries", "Bianco 2010"
+    ... )
 
 ..  image:: _static/Examples_Plotting_Chromaticities_Prediction.png
 
@@ -1134,8 +1393,11 @@ Chromaticities
     >>> import numpy as np
     >>> RGB = np.random.random((32, 32, 3))
     >>> plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
-    ...     RGB, 'ITU-R BT.709',
-    ...     colourspaces=['ACEScg', 'S-Gamut'], show_pointer_gamut=True)
+    ...     RGB,
+    ...     "ITU-R BT.709",
+    ...     colourspaces=["ACEScg", "S-Gamut"],
+    ...     show_pointer_gamut=True,
+    ... )
 
 ..  image:: _static/Examples_Plotting_Chromaticities_CIE_1931_Chromaticity_Diagram.png
 
@@ -1145,7 +1407,8 @@ Colour Rendering Index
 .. code-block:: python
 
     >>> plot_single_sd_colour_rendering_index_bars(
-    ...     colour.SDS_ILLUMINANTS['FL2'])
+    ...     colour.SDS_ILLUMINANTS["FL2"]
+    ... )
 
 ..  image:: _static/Examples_Plotting_CRI.png
 
@@ -1154,8 +1417,7 @@ ANSI/IES TM-30-18 Colour Rendition Report
 
 .. code-block:: python
 
-    >>> plot_single_sd_colour_rendition_report(
-    ...     colour.SDS_ILLUMINANTS['FL2'])
+    >>> plot_single_sd_colour_rendition_report(colour.SDS_ILLUMINANTS["FL2"])
 
 ..  image:: _static/Examples_Plotting_Colour_Rendition_Report.png
 
@@ -1164,13 +1426,17 @@ Gamut Section
 
 .. code-block:: python
 
-    >>> plot_visible_spectrum_section(section_colours='RGB', section_opacity=0.15)
+    >>> plot_visible_spectrum_section(
+    ...     section_colours="RGB", section_opacity=0.15
+    ... )
 
 ..  image:: _static/Examples_Plotting_Plot_Visible_Spectrum_Section.png
 
 .. code-block:: python
 
-    >>> plot_RGB_colourspace_section('sRGB', section_colours='RGB', section_opacity=0.15)
+    >>> plot_RGB_colourspace_section(
+    ...     "sRGB", section_colours="RGB", section_opacity=0.15
+    ... )
 
 ..  image:: _static/Examples_Plotting_Plot_RGB_Colourspace_Section.png
 
@@ -1179,7 +1445,9 @@ Colour Temperature
 
 .. code-block:: python
 
-    >>> plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(['A', 'B', 'C'])
+    >>> plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
+    ...     ["A", "B", "C"]
+    ... )
 
 ..  image:: _static/Examples_Plotting_CCT_CIE_1960_UCS_Chromaticity_Diagram.png
 

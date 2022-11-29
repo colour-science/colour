@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.models.rgb.datasets` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.models.rgb.datasets` module."""
 
 import numpy as np
 import pickle
@@ -38,7 +39,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
         tolerances = {
             "Adobe RGB (1998)": 1e-5,
-            "ALEXA Wide Gamut": 1e-6,
+            "ARRI Wide Gamut 3": 1e-6,
             "DJI D-Gamut": 1e-4,
             "ERIMM RGB": 1e-3,
             "ProPhoto RGB": 1e-3,
@@ -74,7 +75,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
             colourspace.use_derived_transformation_matrices(True)
             RGB = np.dot(colourspace.matrix_XYZ_to_RGB, XYZ_r)
             XYZ = np.dot(colourspace.matrix_RGB_to_XYZ, RGB)
-            np.testing.assert_almost_equal(XYZ_r, XYZ, decimal=7)
+            np.testing.assert_array_almost_equal(XYZ_r, XYZ, decimal=7)
 
     def test_cctf(self):
         """
@@ -98,7 +99,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
             cctf_encoding_s = colourspace.cctf_encoding(samples)
             cctf_decoding_s = colourspace.cctf_decoding(cctf_encoding_s)
 
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 samples,
                 cctf_decoding_s,
                 decimal=decimals.get(colourspace.name, 7),
@@ -118,7 +119,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
             value_cctf_decoding = colourspace.cctf_decoding(
                 colourspace.cctf_encoding(value_cctf_encoding)
             )
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 value_cctf_encoding,
                 value_cctf_decoding,
                 decimal=decimals.get(colourspace.name, 7),
@@ -126,7 +127,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
             value_cctf_encoding = np.tile(value_cctf_encoding, 6)
             value_cctf_decoding = np.tile(value_cctf_decoding, 6)
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 value_cctf_encoding,
                 value_cctf_decoding,
                 decimal=decimals.get(colourspace.name, 7),
@@ -134,7 +135,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
             value_cctf_encoding = np.reshape(value_cctf_encoding, (3, 2))
             value_cctf_decoding = np.reshape(value_cctf_decoding, (3, 2))
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 value_cctf_encoding,
                 value_cctf_decoding,
                 decimal=decimals.get(colourspace.name, 7),
@@ -142,7 +143,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
             value_cctf_encoding = np.reshape(value_cctf_encoding, (3, 2, 1))
             value_cctf_decoding = np.reshape(value_cctf_decoding, (3, 2, 1))
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 value_cctf_encoding,
                 value_cctf_decoding,
                 decimal=decimals.get(colourspace.name, 7),
@@ -158,9 +159,8 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         for colourspace in RGB_COLOURSPACES.values():
-            for case in cases:
-                colourspace.cctf_encoding(case)
-                colourspace.cctf_decoding(case)
+            colourspace.cctf_encoding(cases)
+            colourspace.cctf_decoding(cases)
 
     def test_pickle(self):
         """Test the "pickle-ability" of the *RGB* colourspaces."""

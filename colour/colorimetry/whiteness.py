@@ -53,7 +53,7 @@ from colour.hints import (
     Union,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float,
     as_float_array,
     get_domain_range_scale,
@@ -451,7 +451,7 @@ def whiteness_CIE2004(
     return from_range_100(WT)
 
 
-WHITENESS_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+WHITENESS_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Berger 1959": whiteness_Berger1959,
         "Taube 1960": whiteness_Taube1960,
@@ -547,7 +547,7 @@ def whiteness(
     array([ 93.85...,  -1.305...])
     >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
     >>> XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
-    >>> whiteness(XYZ, XYZ_0, method='Taube 1960')  # doctest: +ELLIPSIS
+    >>> whiteness(XYZ, XYZ_0, method="Taube 1960")  # doctest: +ELLIPSIS
     91.4071738...
     """
 

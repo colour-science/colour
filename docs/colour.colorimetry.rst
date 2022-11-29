@@ -49,6 +49,7 @@ Spectral Data Generation
     sd_CIE_standard_illuminant_A
     sd_CIE_illuminant_D_series
     sd_blackbody
+    sd_rayleigh_jeans
     sd_constant
     sd_ones
     sd_zeros
@@ -70,6 +71,8 @@ Spectral Data Generation
     :toctree: generated/
 
     blackbody_spectral_radiance
+    planck_law
+    rayleigh_jeans_law
     daylight_locus_function
     sd_gaussian_normal
     sd_gaussian_fwhm

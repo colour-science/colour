@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import numpy as np
 
+from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import (
     SPECTRAL_SHAPE_DEFAULT,
     SpectralDistribution,
@@ -451,7 +452,8 @@ def molecular_density(
     T = as_float_array(temperature)
     avogadro_constant = as_float_array(avogadro_constant)
 
-    N_s = (avogadro_constant / 22.4141) * (273.15 / T) * (1 / 1000)
+    with sdiv_mode():
+        N_s = (avogadro_constant / 22.4141) * sdiv(273.15, T) * (1 / 1000)
 
     return N_s
 
@@ -754,6 +756,7 @@ def sd_rayleigh_scattering(
     >>> from colour.utilities import numpy_print_options
     >>> with numpy_print_options(suppress=True):
     ...     sd_rayleigh_scattering()  # doctest: +ELLIPSIS
+    ...
     SpectralDistribution([[ 360.        ,    0.5991013...],
                           [ 361.        ,    0.5921706...],
                           [ 362.        ,    0.5853410...],
@@ -1175,16 +1178,15 @@ def sd_rayleigh_scattering(
                           [ 778.        ,    0.0255208...],
                           [ 779.        ,    0.0253888...],
                           [ 780.        ,    0.0252576...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     """
 
-    wavelengths = shape.range()
     return SpectralDistribution(
         rayleigh_optical_depth(
-            wavelengths * 10e-8,
+            shape.wavelengths * 10e-8,
             CO2_concentration,
             temperature,
             pressure,
@@ -1194,7 +1196,7 @@ def sd_rayleigh_scattering(
             n_s_function,
             F_air_function,
         ),
-        wavelengths,
+        shape.wavelengths,
         name=(
             "Rayleigh Scattering - "
             f"{CO2_concentration!r} ppm, "

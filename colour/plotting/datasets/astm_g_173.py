@@ -6050,7 +6050,6 @@ DATA_ASTMG173_DIRECT_CIRCUMSOLAR: Dict = {
     3995.0: 7.2263e-03,
     4000.0: 7.1199e-03,
 }
-# yapf: enable
 
 SD_ASTMG173_ETR: SpectralDistribution = SpectralDistribution(
     DATA_ASTMG173_ETR, name="ASTM G-173 ETR", interpolator=LinearInterpolator

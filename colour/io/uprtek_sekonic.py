@@ -51,16 +51,47 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
     Methods
     -------
     -   :meth:`~colour.SpectralDistribution_UPRTek.__init__`
+    -   :meth:`~colour.SpectralDistribution_UPRTek.__str__`
     -   :meth:`~colour.SpectralDistribution_UPRTek.read`
 
     Examples
     --------
     >>> from os.path import dirname, join
     >>> from colour import SpectralShape
-    >>> directory = join(dirname(__file__), 'tests', 'resources')
+    >>> directory = join(dirname(__file__), "tests", "resources")
     >>> sd = SpectralDistribution_UPRTek(
-    ...     join(directory, 'ESPD2021_0104_231446.xls'))
+    ...     join(directory, "ESPD2021_0104_231446.xls")
+    ... )
     >>> print(sd.read().align(SpectralShape(380, 780, 10)))
+    ... # doctest: +ELLIPSIS
+    UPRTek
+    ======
+    <BLANKLINE>
+    Path                  : ...
+    Spectral Quantity     : irradiance
+    Reflection Geometry   : None
+    Transmission Geometry : None
+    Bandwidth (FWHM)      : None
+    Bandwidth Corrected   : None
+    <BLANKLINE>
+    Header
+    ------
+    <BLANKLINE>
+    Manufacturer           : UPRTek
+    Catalog Number         : None
+    Description            : None
+    Document Creator       : None
+    Unique Identifier      : None
+    Measurement Equipment  : CV600
+    Laboratory             : None
+    Report Number          : None
+    Report Date            : 2021/01/04_23:14:46
+    Document Creation Date : None
+    Comments               : {...}
+    <BLANKLINE>
+    Spectral Data
+    -------------
+    <BLANKLINE>
     [[  3.80000000e+02   3.02670000e-02]
      [  3.90000000e+02   3.52230000e-02]
      [  4.00000000e+02   1.93250000e-02]
@@ -102,6 +133,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
      [  7.60000000e+02   6.90947000e-01]
      [  7.70000000e+02   5.08426000e-01]
      [  7.80000000e+02   4.11766000e-01]]
+
     >>> sd.header.comments
     '{"Model Name": "CV600", "Serial Number": "19J00789", \
 "Time": "2021/01/04_23:14:46", "Memo": [], "LUX": 695.154907, \
@@ -120,11 +152,11 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
 'LambdaPValue', 'CRI', 'R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7', 'R8', 'R9', \
 'R10', 'R11', 'R12', 'R13', 'R14', 'R15', 'TLCI', 'TLMF-A', 'SSI-A', 'Rf', \
 'Rg', 'IRR'])
-    >>> sd.write(join(directory, 'ESPD2021_0104_231446.spdx'))
+    >>> sd.write(join(directory, "ESPD2021_0104_231446.spdx"))
     ... # doctest: +SKIP
     """
 
-    def __init__(self, path: str, **kwargs: Any):
+    def __init__(self, path: str, **kwargs: Any) -> None:
         super().__init__(path, **kwargs)
 
         self._delimiter: str = "\t"
@@ -146,6 +178,105 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
 
         return self._metadata
 
+    def __str__(self) -> str:
+        """
+        Return a formatted string representation of the *UPRTek* spectral
+        distribution.
+
+        Returns
+        -------
+        :class:`str`
+            Formatted string representation.
+
+        Examples
+        --------
+        >>> from os.path import dirname, join
+        >>> from colour import SpectralShape
+        >>> directory = join(dirname(__file__), "tests", "resources")
+        >>> sd = SpectralDistribution_UPRTek(
+        ...     join(directory, "ESPD2021_0104_231446.xls")
+        ... )
+        >>> print(sd.read().align(SpectralShape(380, 780, 10)))
+        ... # doctest: +ELLIPSIS
+        UPRTek
+        ======
+        <BLANKLINE>
+        Path                  : ...
+        Spectral Quantity     : irradiance
+        Reflection Geometry   : None
+        Transmission Geometry : None
+        Bandwidth (FWHM)      : None
+        Bandwidth Corrected   : None
+        <BLANKLINE>
+        Header
+        ------
+        <BLANKLINE>
+        Manufacturer           : UPRTek
+        Catalog Number         : None
+        Description            : None
+        Document Creator       : None
+        Unique Identifier      : None
+        Measurement Equipment  : CV600
+        Laboratory             : None
+        Report Number          : None
+        Report Date            : 2021/01/04_23:14:46
+        Document Creation Date : None
+        Comments               : {...}
+        <BLANKLINE>
+        Spectral Data
+        -------------
+        <BLANKLINE>
+        [[  3.80000000e+02   3.02670000e-02]
+         [  3.90000000e+02   3.52230000e-02]
+         [  4.00000000e+02   1.93250000e-02]
+         [  4.10000000e+02   2.94260000e-02]
+         [  4.20000000e+02   8.76780000e-02]
+         [  4.30000000e+02   6.32578000e-01]
+         [  4.40000000e+02   3.62565900e+00]
+         [  4.50000000e+02   1.42069180e+01]
+         [  4.60000000e+02   1.70112970e+01]
+         [  4.70000000e+02   1.19673130e+01]
+         [  4.80000000e+02   8.42736200e+00]
+         [  4.90000000e+02   7.97729800e+00]
+         [  5.00000000e+02   8.71903600e+00]
+         [  5.10000000e+02   9.55321500e+00]
+         [  5.20000000e+02   9.90610500e+00]
+         [  5.30000000e+02   9.91394400e+00]
+         [  5.40000000e+02   9.74738000e+00]
+         [  5.50000000e+02   9.53404900e+00]
+         [  5.60000000e+02   9.27392200e+00]
+         [  5.70000000e+02   9.02323400e+00]
+         [  5.80000000e+02   8.91788800e+00]
+         [  5.90000000e+02   9.11454600e+00]
+         [  6.00000000e+02   9.55787100e+00]
+         [  6.10000000e+02   1.00600760e+01]
+         [  6.20000000e+02   1.04846200e+01]
+         [  6.30000000e+02   1.05679540e+01]
+         [  6.40000000e+02   1.04359870e+01]
+         [  6.50000000e+02   9.82122300e+00]
+         [  6.60000000e+02   8.77578300e+00]
+         [  6.70000000e+02   7.56471800e+00]
+         [  6.80000000e+02   6.29808600e+00]
+         [  6.90000000e+02   5.15623400e+00]
+         [  7.00000000e+02   4.05390600e+00]
+         [  7.10000000e+02   3.06638600e+00]
+         [  7.20000000e+02   2.19250000e+00]
+         [  7.30000000e+02   1.53922800e+00]
+         [  7.40000000e+02   1.14938200e+00]
+         [  7.50000000e+02   9.05095000e-01]
+         [  7.60000000e+02   6.90947000e-01]
+         [  7.70000000e+02   5.08426000e-01]
+         [  7.80000000e+02   4.11766000e-01]]
+        """
+
+        representation = super().__str__()
+
+        return representation.replace(
+            "IES TM-27-14 Spectral Distribution\n"
+            "==================================",
+            "UPRTek\n======",
+        )
+
     def read(self) -> SpectralDistribution_UPRTek:
         """
         Read and parses the spectral data from a given *UPRTek* *CSV* file.
@@ -159,10 +290,40 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
         --------
         >>> from os.path import dirname, join
         >>> from colour import SpectralShape
-        >>> directory = join(dirname(__file__), 'tests', 'resources')
+        >>> directory = join(dirname(__file__), "tests", "resources")
         >>> sd = SpectralDistribution_UPRTek(
-        ...     join(directory, 'ESPD2021_0104_231446.xls'))
+        ...     join(directory, "ESPD2021_0104_231446.xls")
+        ... )
         >>> print(sd.read().align(SpectralShape(380, 780, 10)))
+        ... # doctest: +ELLIPSIS
+        UPRTek
+        ======
+        <BLANKLINE>
+        Path                  : ...
+        Spectral Quantity     : irradiance
+        Reflection Geometry   : None
+        Transmission Geometry : None
+        Bandwidth (FWHM)      : None
+        Bandwidth Corrected   : None
+        <BLANKLINE>
+        Header
+        ------
+        <BLANKLINE>
+        Manufacturer           : UPRTek
+        Catalog Number         : None
+        Description            : None
+        Document Creator       : None
+        Unique Identifier      : None
+        Measurement Equipment  : CV600
+        Laboratory             : None
+        Report Number          : None
+        Report Date            : 2021/01/04_23:14:46
+        Document Creation Date : None
+        Comments               : {...}
+        <BLANKLINE>
+        Spectral Data
+        -------------
+        <BLANKLINE>
         [[  3.80000000e+02   3.02670000e-02]
          [  3.90000000e+02   3.52230000e-02]
          [  4.00000000e+02   1.93250000e-02]
@@ -283,16 +444,47 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
     Methods
     -------
     -   :meth:`~colour.SpectralDistribution_Sekonic.__init__`
+    -   :meth:`~colour.SpectralDistribution_Sekonic.__str__`
     -   :meth:`~colour.SpectralDistribution_Sekonic.read`
 
     Examples
     --------
     >>> from os.path import dirname, join
     >>> from colour import SpectralShape
-    >>> directory = join(dirname(__file__), 'tests', 'resources')
+    >>> directory = join(dirname(__file__), "tests", "resources")
     >>> sd = SpectralDistribution_Sekonic(
-    ...     join(directory, 'RANDOM_001_02._3262K.csv'))
+    ...     join(directory, "RANDOM_001_02._3262K.csv")
+    ... )
     >>> print(sd.read().align(SpectralShape(380, 780, 10)))
+    ... # doctest: +ELLIPSIS
+    Sekonic
+    =======
+    <BLANKLINE>
+    Path                  : ...
+    Spectral Quantity     : irradiance
+    Reflection Geometry   : None
+    Transmission Geometry : None
+    Bandwidth (FWHM)      : None
+    Bandwidth Corrected   : None
+    <BLANKLINE>
+    Header
+    ------
+    <BLANKLINE>
+    Manufacturer           : Sekonic
+    Catalog Number         : None
+    Description            : None
+    Document Creator       : None
+    Unique Identifier      : None
+    Measurement Equipment  : None
+    Laboratory             : None
+    Report Number          : None
+    Report Date            : 15/03/2021 3:44:14 p.m.
+    Document Creation Date : None
+    Comments               : {...}
+    <BLANKLINE>
+    Spectral Data
+    -------------
+    <BLANKLINE>
     [[  3.80000000e+02   1.69406589e-21]
      [  3.90000000e+02   2.11758237e-22]
      [  4.00000000e+02   1.19813650e-05]
@@ -334,18 +526,116 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
      [  7.60000000e+02   3.72199210e-05]
      [  7.70000000e+02   3.63058860e-05]
      [  7.80000000e+02   3.55755470e-05]]
-    >>> sd.header.comments # doctest: +SKIP
-    >>> sd.metadata.keys() # doctest: +SKIP
-    >>> sd.write(join(directory, 'RANDOM_001_02._3262K.spdx')
+    >>> sd.header.comments  # doctest: +SKIP
+    >>> sd.metadata.keys()  # doctest: +SKIP
+    >>> sd.write(join(directory, "RANDOM_001_02._3262K.spdx"))
     ... # doctest: +SKIP
     """
 
-    def __init__(self, path: str, **kwargs: Any):
+    def __init__(self, path: str, **kwargs: Any) -> None:
         super().__init__(path, **kwargs)
 
         self._delimiter: str = ","
         self._spectral_section: str = "380"
         self._spectral_data_pattern: str = "Spectral Data (\\d{3})\\[nm\\]"
+
+    def __str__(self) -> str:
+        """
+        Return a formatted string representation of the *Sekonic* spectral
+        distribution.
+
+        Returns
+        -------
+        :class:`str`
+            Formatted string representation.
+
+        Examples
+        --------
+        >>> from os.path import dirname, join
+        >>> from colour import SpectralShape
+        >>> directory = join(dirname(__file__), "tests", "resources")
+        >>> sd = SpectralDistribution_UPRTek(
+        ...     join(directory, "ESPD2021_0104_231446.xls")
+        ... )
+        >>> print(sd.read().align(SpectralShape(380, 780, 10)))
+        ... # doctest: +ELLIPSIS
+        UPRTek
+        ======
+        <BLANKLINE>
+        Path                  : ...
+        Spectral Quantity     : irradiance
+        Reflection Geometry   : None
+        Transmission Geometry : None
+        Bandwidth (FWHM)      : None
+        Bandwidth Corrected   : None
+        <BLANKLINE>
+        Header
+        ------
+        <BLANKLINE>
+        Manufacturer           : UPRTek
+        Catalog Number         : None
+        Description            : None
+        Document Creator       : None
+        Unique Identifier      : None
+        Measurement Equipment  : CV600
+        Laboratory             : None
+        Report Number          : None
+        Report Date            : 2021/01/04_23:14:46
+        Document Creation Date : None
+        Comments               : {...}
+        <BLANKLINE>
+        Spectral Data
+        -------------
+        <BLANKLINE>
+        [[  3.80000000e+02   3.02670000e-02]
+         [  3.90000000e+02   3.52230000e-02]
+         [  4.00000000e+02   1.93250000e-02]
+         [  4.10000000e+02   2.94260000e-02]
+         [  4.20000000e+02   8.76780000e-02]
+         [  4.30000000e+02   6.32578000e-01]
+         [  4.40000000e+02   3.62565900e+00]
+         [  4.50000000e+02   1.42069180e+01]
+         [  4.60000000e+02   1.70112970e+01]
+         [  4.70000000e+02   1.19673130e+01]
+         [  4.80000000e+02   8.42736200e+00]
+         [  4.90000000e+02   7.97729800e+00]
+         [  5.00000000e+02   8.71903600e+00]
+         [  5.10000000e+02   9.55321500e+00]
+         [  5.20000000e+02   9.90610500e+00]
+         [  5.30000000e+02   9.91394400e+00]
+         [  5.40000000e+02   9.74738000e+00]
+         [  5.50000000e+02   9.53404900e+00]
+         [  5.60000000e+02   9.27392200e+00]
+         [  5.70000000e+02   9.02323400e+00]
+         [  5.80000000e+02   8.91788800e+00]
+         [  5.90000000e+02   9.11454600e+00]
+         [  6.00000000e+02   9.55787100e+00]
+         [  6.10000000e+02   1.00600760e+01]
+         [  6.20000000e+02   1.04846200e+01]
+         [  6.30000000e+02   1.05679540e+01]
+         [  6.40000000e+02   1.04359870e+01]
+         [  6.50000000e+02   9.82122300e+00]
+         [  6.60000000e+02   8.77578300e+00]
+         [  6.70000000e+02   7.56471800e+00]
+         [  6.80000000e+02   6.29808600e+00]
+         [  6.90000000e+02   5.15623400e+00]
+         [  7.00000000e+02   4.05390600e+00]
+         [  7.10000000e+02   3.06638600e+00]
+         [  7.20000000e+02   2.19250000e+00]
+         [  7.30000000e+02   1.53922800e+00]
+         [  7.40000000e+02   1.14938200e+00]
+         [  7.50000000e+02   9.05095000e-01]
+         [  7.60000000e+02   6.90947000e-01]
+         [  7.70000000e+02   5.08426000e-01]
+         [  7.80000000e+02   4.11766000e-01]]
+        """
+
+        representation = super().__str__()
+
+        return representation.replace(
+            "UPRTek\n======",
+            "Sekonic\n=======",
+        )
 
     def read(self) -> SpectralDistribution_Sekonic:
         """
@@ -361,10 +651,40 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
         --------
         >>> from os.path import dirname, join
         >>> from colour import SpectralShape
-        >>> directory = join(dirname(__file__), 'tests', 'resources')
+        >>> directory = join(dirname(__file__), "tests", "resources")
         >>> sd = SpectralDistribution_Sekonic(
-        ...     join(directory, 'RANDOM_001_02._3262K.csv'))
+        ...     join(directory, "RANDOM_001_02._3262K.csv")
+        ... )
         >>> print(sd.read().align(SpectralShape(380, 780, 10)))
+        ... # doctest: +ELLIPSIS
+        Sekonic
+        =======
+        <BLANKLINE>
+        Path                  : ...
+        Spectral Quantity     : irradiance
+        Reflection Geometry   : None
+        Transmission Geometry : None
+        Bandwidth (FWHM)      : None
+        Bandwidth Corrected   : None
+        <BLANKLINE>
+        Header
+        ------
+        <BLANKLINE>
+        Manufacturer           : Sekonic
+        Catalog Number         : None
+        Description            : None
+        Document Creator       : None
+        Unique Identifier      : None
+        Measurement Equipment  : None
+        Laboratory             : None
+        Report Number          : None
+        Report Date            : 15/03/2021 3:44:14 p.m.
+        Document Creation Date : None
+        Comments               : {...}
+        <BLANKLINE>
+        Spectral Data
+        -------------
+        <BLANKLINE>
         [[  3.80000000e+02   1.69406589e-21]
          [  3.90000000e+02   2.11758237e-22]
          [  4.00000000e+02   1.19813650e-05]

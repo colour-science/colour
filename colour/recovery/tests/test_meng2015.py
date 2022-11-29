@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.recovery.meng2015` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.recovery.meng2015` module."""
 
 import numpy as np
 import unittest
@@ -47,7 +48,7 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
         """Test :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition."""
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sd_to_XYZ_integration(
                 XYZ_to_sd_Meng2015(XYZ, self._cmfs, self._sd_D65),
                 self._cmfs,
@@ -58,7 +59,7 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sd_to_XYZ_integration(
                 XYZ_to_sd_Meng2015(XYZ, self._cmfs, self._sd_E),
                 self._cmfs,
@@ -69,7 +70,7 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sd_to_XYZ_integration(
                 XYZ_to_sd_Meng2015(
                     XYZ,
@@ -92,7 +93,7 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
         shape = SpectralShape(400, 700, 5)
         # pylint: disable=E1102
         cmfs = reshape_msds(self._cmfs, shape)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sd_to_XYZ_integration(
                 XYZ_to_sd_Meng2015(XYZ, cmfs, self._sd_D65), cmfs, self._sd_D65
             )
@@ -132,7 +133,7 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
         d_r = (("reference", 1, 1), ("1", 1, 0.01), ("100", 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     sd_to_XYZ_integration(
                         XYZ_to_sd_Meng2015(
                             XYZ_i * factor_a, self._cmfs, self._sd_D65

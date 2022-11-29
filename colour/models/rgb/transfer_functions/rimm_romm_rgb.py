@@ -179,9 +179,9 @@ def cctf_decoding_ROMMRGB(
 
     Examples
     --------
-    >>> cctf_decoding_ROMMRGB(0.385711424751138) # doctest: +ELLIPSIS
+    >>> cctf_decoding_ROMMRGB(0.385711424751138)  # doctest: +ELLIPSIS
     0.1...
-    >>> cctf_decoding_ROMMRGB(98, in_int=True) # doctest: +ELLIPSIS
+    >>> cctf_decoding_ROMMRGB(98, in_int=True)  # doctest: +ELLIPSIS
     0.1...
     """
 
@@ -445,6 +445,9 @@ def log_encoding_ERIMMRGB(
 
     E_t = np.exp(1) * E_min
 
+    l_E_t = np.log(E_t)
+    l_E_min = np.log(E_min)
+    l_E_clip = np.log(E_clip)
     X_p = np.select(
         [
             X < 0.0,
@@ -454,14 +457,8 @@ def log_encoding_ERIMMRGB(
         ],
         [
             0,
-            I_max
-            * (
-                (np.log(E_t) - np.log(E_min))
-                / (np.log(E_clip) - np.log(E_min))
-            )
-            * (X / E_t),
-            I_max
-            * ((np.log(X) - np.log(E_min)) / (np.log(E_clip) - np.log(E_min))),
+            I_max * ((l_E_t - l_E_min) / (l_E_clip - l_E_min)) * X / E_t,
+            I_max * ((np.log(X) - l_E_min) / (l_E_clip - l_E_min)),
             I_max,
         ],
     )
@@ -525,9 +522,9 @@ def log_decoding_ERIMMRGB(
 
     Examples
     --------
-    >>> log_decoding_ERIMMRGB(0.410052389492129) # doctest: +ELLIPSIS
+    >>> log_decoding_ERIMMRGB(0.410052389492129)  # doctest: +ELLIPSIS
     0.1...
-    >>> log_decoding_ERIMMRGB(105, in_int=True) # doctest: +ELLIPSIS
+    >>> log_decoding_ERIMMRGB(105, in_int=True)  # doctest: +ELLIPSIS
     0.1...
     """
 
@@ -540,15 +537,13 @@ def log_decoding_ERIMMRGB(
 
     E_t = np.exp(1) * E_min
 
+    l_E_t = np.log(E_t)
+    l_E_min = np.log(E_min)
+    l_E_clip = np.log(E_clip)
     X = np.where(
-        X_p
-        <= I_max
-        * ((np.log(E_t) - np.log(E_min)) / (np.log(E_clip) - np.log(E_min))),
-        ((np.log(E_clip) - np.log(E_min)) / (np.log(E_t) - np.log(E_min)))
-        * ((X_p * E_t) / I_max),
-        np.exp(
-            (X_p / I_max) * (np.log(E_clip) - np.log(E_min)) + np.log(E_min)
-        ),
+        X_p <= I_max * ((l_E_t - l_E_min) / (l_E_clip - l_E_min)),
+        ((l_E_clip - l_E_min) / (l_E_t - l_E_min)) * ((X_p * E_t) / I_max),
+        np.exp((X_p / I_max) * (l_E_clip - l_E_min) + l_E_min),
     )
 
     return as_float(from_range_1(X))

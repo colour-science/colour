@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the
+Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.log` module.
 """
 
@@ -91,19 +91,19 @@ logarithmic_function_basic` definition n-dimensional arrays support.
 
             a = np.tile(a, 6)
             a_p = np.tile(a_p, 6)
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 logarithmic_function_basic(a, style), a_p, decimal=7
             )
 
             a = np.reshape(a, (2, 3))
             a_p = np.reshape(a_p, (2, 3))
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 logarithmic_function_basic(a, style), a_p, decimal=7
             )
 
             a = np.reshape(a, (2, 3, 1))
             a_p = np.reshape(a_p, (2, 3, 1))
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 logarithmic_function_basic(a, style), a_p, decimal=7
             )
 
@@ -116,10 +116,8 @@ logarithmic_function_basic` definition nan support.
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         styles = ["log10", "antiLog10", "log2", "antiLog2", "logB", "antiLogB"]
-
-        for case in cases:
-            for style in styles:
-                logarithmic_function_basic(case, style)
+        for style in styles:
+            logarithmic_function_basic(cases, style)
 
 
 class TestLogarithmFunction_Quasilog(unittest.TestCase):
@@ -230,19 +228,19 @@ logarithmic_function_quasilog` definition n-dimensional arrays support.
 
             a = np.tile(a, 6)
             a_p = np.tile(a_p, 6)
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 logarithmic_function_quasilog(a, style), a_p, decimal=7
             )
 
             a = np.reshape(a, (2, 3))
             a_p = np.reshape(a_p, (2, 3))
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 logarithmic_function_quasilog(a, style), a_p, decimal=7
             )
 
             a = np.reshape(a, (2, 3, 1))
             a_p = np.reshape(a_p, (2, 3, 1))
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 logarithmic_function_quasilog(a, style), a_p, decimal=7
             )
 
@@ -255,10 +253,8 @@ logarithmic_function_quasilog` definition nan support.
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         styles = ["lintolog", "logtolin"]
-
-        for case in cases:
-            for style in styles:
-                logarithmic_function_quasilog(case, style)
+        for style in styles:
+            logarithmic_function_quasilog(cases, style)
 
 
 class TestLogarithmFunction_Camera(unittest.TestCase):
@@ -446,19 +442,19 @@ logarithmic_function_camera` definition n-dimensional arrays support.
 
             a = np.tile(a, 6)
             a_p = np.tile(a_p, 6)
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 logarithmic_function_camera(a, style), a_p, decimal=7
             )
 
             a = np.reshape(a, (2, 3))
             a_p = np.reshape(a_p, (2, 3))
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 logarithmic_function_camera(a, style), a_p, decimal=7
             )
 
             a = np.reshape(a, (2, 3, 1))
             a_p = np.reshape(a_p, (2, 3, 1))
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 logarithmic_function_camera(a, style), a_p, decimal=7
             )
 
@@ -471,10 +467,8 @@ logarithmic_function_camera` definition nan support.
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         styles = ["cameraLinToLog", "cameraLogToLin"]
-
-        for case in cases:
-            for style in styles:
-                logarithmic_function_camera(case, style)
+        for style in styles:
+            logarithmic_function_camera(cases, style)
 
 
 class TestLogEncoding_Log2(unittest.TestCase):
@@ -524,15 +518,21 @@ log_encoding_Log2` definition n-dimensional arrays support.
 
         x = np.tile(x, 6)
         y = np.tile(y, 6)
-        np.testing.assert_almost_equal(log_encoding_Log2(x), y, decimal=7)
+        np.testing.assert_array_almost_equal(
+            log_encoding_Log2(x), y, decimal=7
+        )
 
         x = np.reshape(x, (2, 3))
         y = np.reshape(y, (2, 3))
-        np.testing.assert_almost_equal(log_encoding_Log2(x), y, decimal=7)
+        np.testing.assert_array_almost_equal(
+            log_encoding_Log2(x), y, decimal=7
+        )
 
         x = np.reshape(x, (2, 3, 1))
         y = np.reshape(y, (2, 3, 1))
-        np.testing.assert_almost_equal(log_encoding_Log2(x), y, decimal=7)
+        np.testing.assert_array_almost_equal(
+            log_encoding_Log2(x), y, decimal=7
+        )
 
     def test_domain_range_scale_log_encoding_Log2(self):
         """
@@ -546,7 +546,7 @@ log_encoding_Log2` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     log_encoding_Log2(x * factor), y * factor, decimal=7
                 )
 
@@ -609,15 +609,21 @@ log_decoding_Log2` definition n-dimensional arrays support.
 
         y = np.tile(y, 6)
         x = np.tile(x, 6)
-        np.testing.assert_almost_equal(log_decoding_Log2(y), x, decimal=7)
+        np.testing.assert_array_almost_equal(
+            log_decoding_Log2(y), x, decimal=7
+        )
 
         y = np.reshape(y, (2, 3))
         x = np.reshape(x, (2, 3))
-        np.testing.assert_almost_equal(log_decoding_Log2(y), x, decimal=7)
+        np.testing.assert_array_almost_equal(
+            log_decoding_Log2(y), x, decimal=7
+        )
 
         y = np.reshape(y, (2, 3, 1))
         x = np.reshape(x, (2, 3, 1))
-        np.testing.assert_almost_equal(log_decoding_Log2(y), x, decimal=7)
+        np.testing.assert_array_almost_equal(
+            log_decoding_Log2(y), x, decimal=7
+        )
 
     def test_domain_range_scale_log_decoding_Log2(self):
         """
@@ -631,7 +637,7 @@ log_decoding_Log2` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     log_decoding_Log2(y * factor), x * factor, decimal=7
                 )
 

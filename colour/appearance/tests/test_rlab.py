@@ -1,9 +1,9 @@
 # !/usr/bin/env python
-"""Defines the unit tests for the :mod:`colour.appearance.rlab` module."""
+"""Define the unit tests for the :mod:`colour.appearance.rlab` module."""
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.appearance import (
     D_FACTOR_RLAB,
@@ -98,19 +98,19 @@ class TestXYZ_to_RLAB(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         specification = np.tile(specification, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma), specification, decimal=7
         )
 
         XYZ_n = np.tile(XYZ_n, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma), specification, decimal=7
         )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         XYZ_n = np.reshape(XYZ_n, (2, 3, 3))
         specification = np.reshape(specification, (2, 3, 7))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma), specification, decimal=7
         )
 
@@ -134,7 +134,7 @@ class TestXYZ_to_RLAB(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_RLAB(
                         XYZ * factor_a, XYZ_n * factor_a, Y_n, sigma, D
                     ),
@@ -150,11 +150,9 @@ class TestXYZ_to_RLAB(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_n = np.array(case)
-            Y_n = case[0]
-            sigma = case[0]
-            D = case[0]
-            XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_RLAB(cases, cases, cases[..., 0], cases[..., 0], cases[..., 0])
+
+
+if __name__ == "__main__":
+    unittest.main()

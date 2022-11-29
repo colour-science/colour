@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the
+Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.common` module.
 """
 
@@ -100,7 +100,7 @@ class TestTransferFunctions(unittest.TestCase):
             "Filmic Pro 6",
         )
 
-        decimals = {"D-Log": 1, "F-Log": 4, "N-Log": 3}
+        decimals = {"D-Log": 1, "F-Log": 4, "L-Log": 4, "N-Log": 3}
 
         reciprocal_mappings = [
             (LOG_ENCODINGS, LOG_DECODINGS),
@@ -119,11 +119,19 @@ class TestTransferFunctions(unittest.TestCase):
                 if name in ignored_transfer_functions:
                     continue
 
-                encoded_s = CCTF_ENCODINGS[name](samples)
-                decoded_s = CCTF_DECODINGS[name](encoded_s)
+                samples_r = np.copy(samples)
 
-                np.testing.assert_almost_equal(
-                    samples, decoded_s, decimal=decimals.get(name, 7)
+                if name == "ITU-T H.273 Log":
+                    samples_r = np.clip(samples_r, 0.1, np.inf)
+
+                if name == "ITU-T H.273 Log Sqrt":
+                    samples_r = np.clip(samples_r, np.sqrt(10) / 1000, np.inf)
+
+                samples_e = CCTF_ENCODINGS[name](samples_r)
+                samples_d = CCTF_DECODINGS[name](samples_e)
+
+                np.testing.assert_array_almost_equal(
+                    samples_r, samples_d, decimal=decimals.get(name, 7)
                 )
 
 

@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.geometry.primitives` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.geometry.primitives` module."""
 
 import numpy as np
 import unittest
@@ -35,7 +36,7 @@ class TestPrimitiveGrid(unittest.TestCase):
         """
 
         vertices, faces, outline = primitive_grid()
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             vertices["position"],
             np.array(
                 [
@@ -48,19 +49,19 @@ class TestPrimitiveGrid(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             vertices["uv"],
             np.array([[0, 1], [1, 1], [0, 0], [1, 0]]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             vertices["normal"],
             np.array([[0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1]]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             vertices["colour"],
             np.array(
                 [
@@ -87,7 +88,7 @@ class TestPrimitiveGrid(unittest.TestCase):
             axis="+z",
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             vertices["position"],
             np.array(
                 [
@@ -102,7 +103,7 @@ class TestPrimitiveGrid(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             vertices["uv"],
             np.array(
                 [
@@ -117,7 +118,7 @@ class TestPrimitiveGrid(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             vertices["normal"],
             np.array(
                 [
@@ -132,7 +133,7 @@ class TestPrimitiveGrid(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             vertices["colour"],
             np.array(
                 [
@@ -176,7 +177,7 @@ class TestPrimitiveGrid(unittest.TestCase):
         )
 
         for plane in MAPPING_PLANE_TO_AXIS.keys():
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 primitive_grid(axis=plane)[0]["position"],
                 primitive_grid(axis=MAPPING_PLANE_TO_AXIS[plane])[0][
                     "position"
@@ -198,7 +199,7 @@ class TestPrimitiveCube(unittest.TestCase):
         """
 
         vertices, faces, outline = primitive_cube()
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             vertices["position"],
             np.array(
                 [
@@ -231,7 +232,7 @@ class TestPrimitiveCube(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             vertices["uv"],
             np.array(
                 [
@@ -264,7 +265,7 @@ class TestPrimitiveCube(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             vertices["normal"],
             np.array(
                 [
@@ -297,7 +298,7 @@ class TestPrimitiveCube(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             vertices["colour"],
             np.array(
                 [
@@ -391,7 +392,7 @@ class TestPrimitiveCube(unittest.TestCase):
             depth_segments=3,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             vertices["position"],
             np.array(
                 [
@@ -452,7 +453,7 @@ class TestPrimitiveCube(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             vertices["uv"],
             np.array(
                 [
@@ -513,7 +514,7 @@ class TestPrimitiveCube(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             vertices["normal"],
             np.array(
                 [
@@ -574,7 +575,7 @@ class TestPrimitiveCube(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             vertices["colour"],
             np.array(
                 [
@@ -784,7 +785,7 @@ class TestPrimitiveCube(unittest.TestCase):
         )
 
         for plane in MAPPING_PLANE_TO_AXIS.keys():
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 primitive_cube(planes=[plane])[0]["position"],
                 primitive_cube(planes=[MAPPING_PLANE_TO_AXIS[plane]])[0][
                     "position"

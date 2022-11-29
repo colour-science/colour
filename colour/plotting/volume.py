@@ -58,6 +58,7 @@ from colour.utilities import (
     optional,
     zeros,
 )
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -436,7 +437,7 @@ def plot_RGB_colourspaces_gamuts(
     colourspaces: Union[
         RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]
     ],
-    reference_colourspace: Union[
+    model: Union[
         Literal[
             "CAM02LCD",
             "CAM02SCD",
@@ -487,11 +488,10 @@ def plot_RGB_colourspaces_gamuts(
     colourspaces
         *RGB* colourspaces to plot the gamuts. ``colourspaces`` elements
         can be of any type or form supported by the
-        :func:`colour.plotting.filter_RGB_colourspaces` definition.
-    reference_colourspace
-        Reference colourspace model to plot the gamuts into, see
-        :attr:`colour.COLOURSPACE_MODELS` attribute for the list of supported
-        colourspace models.
+        :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
+    model
+        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
+        the list of supported colourspace models.
     segments
         Edge segments count for each *RGB* colourspace cubes.
     show_grid
@@ -505,7 +505,7 @@ def plot_RGB_colourspaces_gamuts(
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
     chromatically_adapt
         Whether to chromatically adapt the *RGB* colourspaces given in
         ``colourspaces`` to the whitepoint of the default plotting colourspace.
@@ -534,7 +534,7 @@ def plot_RGB_colourspaces_gamuts(
 
     Examples
     --------
-    >>> plot_RGB_colourspaces_gamuts(['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
+    >>> plot_RGB_colourspaces_gamuts(["ITU-R BT.709", "ACEScg", "S-Gamut"])
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...Axes3DSubplot...>)
 
@@ -542,6 +542,13 @@ def plot_RGB_colourspaces_gamuts(
         :align: center
         :alt: plot_RGB_colourspaces_gamuts
     """
+
+    model = handle_arguments_deprecation(
+        {
+            "ArgumentRenamed": [["reference_colourspace", "model"]],
+        },
+        **kwargs,
+    ).get("model", model)
 
     colourspaces = cast(
         List[RGB_Colourspace],
@@ -554,7 +561,7 @@ def plot_RGB_colourspaces_gamuts(
 
     title = (
         f"{', '.join([colourspace.name for colourspace in colourspaces])} "
-        f"- {reference_colourspace} Reference Colourspace"
+        f"- {model}"
     )
 
     illuminant = CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint
@@ -584,8 +591,8 @@ def plot_RGB_colourspaces_gamuts(
         XYZ = cmfs.values
 
         points = colourspace_model_axis_reorder(
-            convert(XYZ, "CIE XYZ", reference_colourspace, **convert_settings),
-            reference_colourspace,
+            convert(XYZ, "CIE XYZ", model, **convert_settings),
+            model,
         )
 
         points[np.isnan(points)] = 0
@@ -644,10 +651,8 @@ def plot_RGB_colourspaces_gamuts(
 
         quads_c.extend(
             colourspace_model_axis_reorder(
-                convert(
-                    XYZ, "CIE XYZ", reference_colourspace, **convert_settings
-                ),
-                reference_colourspace,
+                convert(XYZ, "CIE XYZ", model, **convert_settings),
+                model,
             )
         )
 
@@ -677,10 +682,8 @@ def plot_RGB_colourspaces_gamuts(
             max_a = np.maximum(np.max(quads[..., i]), np.max(points[..., i]))
             getattr(axes, f"set_{axis}lim")((min_a, max_a))
 
-    labels = np.array(COLOURSPACE_MODELS_AXIS_LABELS[reference_colourspace])[
-        as_int_array(
-            colourspace_model_axis_reorder([0, 1, 2], reference_colourspace)
-        )
+    labels = np.array(COLOURSPACE_MODELS_AXIS_LABELS[model])[
+        as_int_array(colourspace_model_axis_reorder([0, 1, 2], model))
     ]
     for i, axis in enumerate("xyz"):
         getattr(axes, f"set_{axis}label")(labels[i])
@@ -714,8 +717,8 @@ def plot_RGB_scatter(
     RGB: ArrayLike,
     colourspace: Union[
         RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]
-    ],
-    reference_colourspace: Union[
+    ] = "sRGB",
+    model: Union[
         Literal[
             "CAM02LCD",
             "CAM02SCD",
@@ -772,15 +775,14 @@ def plot_RGB_scatter(
     colourspace
         *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
         type or form supported by the
-        :func:`colour.plotting.filter_RGB_colourspaces` definition.
-    reference_colourspace
-        Reference colourspace model to plot the gamuts into, see
-        :attr:`colour.COLOURSPACE_MODELS` attribute for the list of supported
-        colourspace models.
+        :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
+    model
+        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
+        the list of supported colourspace models.
     colourspaces
         *RGB* colourspaces to plot the gamuts. ``colourspaces`` elements
         can be of any type or form supported by the
-        :func:`colour.plotting.filter_RGB_colourspaces` definition.
+        :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     segments
         Edge segments count for each *RGB* colourspace cubes.
     show_grid
@@ -796,7 +798,7 @@ def plot_RGB_scatter(
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
     chromatically_adapt
         Whether to chromatically adapt the *RGB* colourspaces given in
         ``colourspaces`` to the whitepoint of the default plotting colourspace.
@@ -818,7 +820,7 @@ def plot_RGB_scatter(
     Examples
     --------
     >>> RGB = np.random.random((128, 128, 3))
-    >>> plot_RGB_scatter(RGB, 'ITU-R BT.709')  # doctest: +ELLIPSIS
+    >>> plot_RGB_scatter(RGB, "ITU-R BT.709")  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...Axes3DSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_RGB_Scatter.png
@@ -848,7 +850,7 @@ def plot_RGB_scatter(
 
     plot_RGB_colourspaces_gamuts(
         colourspaces=colourspaces,
-        reference_colourspace=reference_colourspace,
+        model=model,
         segments=segments,
         show_grid=show_grid,
         grid_segments=grid_segments,
@@ -870,8 +872,8 @@ def plot_RGB_scatter(
     convert_settings.update(convert_kwargs)
 
     points = colourspace_model_axis_reorder(
-        convert(XYZ, "CIE XYZ", reference_colourspace, **convert_settings),
-        reference_colourspace,
+        convert(XYZ, "CIE XYZ", model, **convert_settings),
+        model,
     )
 
     axes = plt.gca()

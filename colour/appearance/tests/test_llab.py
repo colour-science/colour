@@ -1,10 +1,10 @@
 # !/usr/bin/env python
-"""Defines the unit tests for the :mod:`colour.appearance.llab` module."""
+"""Define the unit tests for the :mod:`colour.appearance.llab` module."""
 
 import numpy as np
 import unittest
 from unittest import mock
-from itertools import permutations
+from itertools import product
 
 from colour.appearance import (
     VIEWING_CONDITIONS_LLAB,
@@ -110,26 +110,26 @@ class TestXYZ_to_LLAB(unittest.TestCase):
         XYZ_0 = np.array([95.05, 100.00, 108.88])
         Y_b = 20
         L = 318.31
-        surround = surround = VIEWING_CONDITIONS_LLAB[
+        surround = VIEWING_CONDITIONS_LLAB[
             "Reference Samples & Images, Average Surround, Subtending < 4"
         ]
         specification = XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround)
 
         XYZ = np.tile(XYZ, (6, 1))
         specification = np.tile(specification, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround), specification, decimal=7
         )
 
         XYZ_0 = np.tile(XYZ_0, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround), specification, decimal=7
         )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         XYZ_0 = np.reshape(XYZ_0, (2, 3, 3))
         specification = np.reshape(specification, (2, 3, 8))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround), specification, decimal=7
         )
 
@@ -145,7 +145,7 @@ class TestXYZ_to_LLAB(unittest.TestCase):
         for _ in range(100000):
             result = llab.MATRIX_RGB_TO_XYZ_LLAB.dot(result)
             result = llab.MATRIX_XYZ_TO_RGB_LLAB.dot(result)
-        np.testing.assert_almost_equal(start, result, decimal=7)
+        np.testing.assert_array_almost_equal(start, result, decimal=7)
 
     def test_domain_range_scale_XYZ_to_LLAB(self):
         """
@@ -167,7 +167,7 @@ class TestXYZ_to_LLAB(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_LLAB(
                         XYZ * factor_a, XYZ_0 * factor_a, Y_b, L, surround
                     ),
@@ -183,11 +183,12 @@ class TestXYZ_to_LLAB(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_0 = np.array(case)
-            Y_b = case[0]
-            L = case[0]
-            surround = InductionFactors_LLAB(1, case[0], case[0], case[0])
-            XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        surround = InductionFactors_LLAB(
+            1, cases[0, 0], cases[0, 0], cases[0, 0]
+        )
+        XYZ_to_LLAB(cases, cases, cases[..., 0], cases[..., 0], surround)
+
+
+if __name__ == "__main__":
+    unittest.main()

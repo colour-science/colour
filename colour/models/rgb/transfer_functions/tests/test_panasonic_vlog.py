@@ -1,6 +1,6 @@
 """
-Defines the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
-panasonic_vlog` module.
+Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
+panasonic_v_log` module.
 """
 
 import numpy as np
@@ -27,13 +27,13 @@ __all__ = [
 
 class TestLogEncoding_VLog(unittest.TestCase):
     """
-    Define :func:`colour.models.rgb.transfer_functions.panasonic_vlog.\
+    Define :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_encoding_VLog` definition unit tests methods.
     """
 
     def test_log_encoding_VLog(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.panasonic_vlog.\
+        Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_encoding_VLog` definition.
         """
 
@@ -63,7 +63,7 @@ log_encoding_VLog` definition.
 
     def test_n_dimensional_log_encoding_VLog(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.panasonic_vlog.\
+        Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_encoding_VLog` definition n-dimensional arrays support.
         """
 
@@ -72,25 +72,25 @@ log_encoding_VLog` definition n-dimensional arrays support.
 
         L_in = np.tile(L_in, 6)
         V_out = np.tile(V_out, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_VLog(L_in), V_out, decimal=7
         )
 
         L_in = np.reshape(L_in, (2, 3))
         V_out = np.reshape(V_out, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_VLog(L_in), V_out, decimal=7
         )
 
         L_in = np.reshape(L_in, (2, 3, 1))
         V_out = np.reshape(V_out, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_VLog(L_in), V_out, decimal=7
         )
 
     def test_domain_range_scale_log_encoding_VLog(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.panasonic_vlog.\
+        Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_encoding_VLog` definition domain and range scale support.
         """
 
@@ -100,14 +100,14 @@ log_encoding_VLog` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     log_encoding_VLog(L_in * factor), V_out * factor, decimal=7
                 )
 
     @ignore_numpy_errors
     def test_nan_log_encoding_VLog(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.panasonic_vlog.\
+        Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_encoding_VLog` definition nan support.
         """
 
@@ -116,13 +116,13 @@ log_encoding_VLog` definition nan support.
 
 class TestLogDecoding_VLog(unittest.TestCase):
     """
-    Define :func:`colour.models.rgb.transfer_functions.panasonic_vlog.\
+    Define :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_decoding_VLog` definition unit tests methods.
     """
 
     def test_log_decoding_VLog(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.panasonic_vlog.\
+        Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_decoding_VLog` definition.
         """
 
@@ -152,7 +152,7 @@ log_decoding_VLog` definition.
 
     def test_n_dimensional_log_decoding_VLog(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.panasonic_vlog.\
+        Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_decoding_VLog` definition n-dimensional arrays support.
         """
 
@@ -161,25 +161,25 @@ log_decoding_VLog` definition n-dimensional arrays support.
 
         V_out = np.tile(V_out, 6)
         L_in = np.tile(L_in, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_VLog(V_out), L_in, decimal=7
         )
 
         V_out = np.reshape(V_out, (2, 3))
         L_in = np.reshape(L_in, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_VLog(V_out), L_in, decimal=7
         )
 
         V_out = np.reshape(V_out, (2, 3, 1))
         L_in = np.reshape(L_in, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_VLog(V_out), L_in, decimal=7
         )
 
     def test_domain_range_scale_log_decoding_VLog(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.panasonic_vlog.\
+        Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_decoding_VLog` definition domain and range scale support.
         """
 
@@ -189,14 +189,14 @@ log_decoding_VLog` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     log_decoding_VLog(V_out * factor), L_in * factor, decimal=7
                 )
 
     @ignore_numpy_errors
     def test_nan_log_decoding_VLog(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.panasonic_vlog.\
+        Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_decoding_VLog` definition nan support.
         """
 

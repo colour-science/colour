@@ -50,7 +50,7 @@ from matplotlib.path import Path
 
 from colour.colorimetry import MultiSpectralDistributions
 from colour.constants import EPSILON
-from colour.algebra import (
+from colour.geometry import (
     point_at_angle_on_ellipse,
     ellipse_coefficients_canonical_form,
     ellipse_fitting,
@@ -113,7 +113,7 @@ from colour.plotting import (
 )
 from colour.plotting.diagrams import plot_chromaticity_diagram
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_array,
     as_float_array,
     as_int_array,
@@ -153,7 +153,7 @@ __all__ = [
     "plot_constant_hue_loci",
 ]
 
-COLOURSPACE_MODELS_AXIS_ORDER: CaseInsensitiveMapping = CaseInsensitiveMapping(
+COLOURSPACE_MODELS_AXIS_ORDER: CanonicalMapping = CanonicalMapping(
     {
         "CAM02LCD": (1, 2, 0),
         "CAM02SCD": (1, 2, 0),
@@ -175,6 +175,7 @@ COLOURSPACE_MODELS_AXIS_ORDER: CaseInsensitiveMapping = CaseInsensitiveMapping(
         "ICaCb": (1, 2, 0),
         "ICtCp": (1, 2, 0),
         "IPT": (1, 2, 0),
+        "IPT Munish 2021": (1, 2, 0),
         "IgPgTg": (1, 2, 0),
         "Jzazbz": (1, 2, 0),
         "OSA UCS": (1, 2, 0),
@@ -210,6 +211,7 @@ def colourspace_model_axis_reorder(
             "ICaCb",
             "ICtCp",
             "IPT",
+            "IPT Munish 2021",
             "IgPgTg",
             "Jzazbz",
             "OSA UCS",
@@ -243,14 +245,14 @@ def colourspace_model_axis_reorder(
     Examples
     --------
     >>> a = np.array([0, 1, 2])
-    >>> colourspace_model_axis_reorder(a, 'CIE Lab')
+    >>> colourspace_model_axis_reorder(a, "CIE Lab")
     array([ 1.,  2.,  0.])
-    >>> colourspace_model_axis_reorder(a, 'IPT')
+    >>> colourspace_model_axis_reorder(a, "IPT")
     array([ 1.,  2.,  0.])
-    >>> colourspace_model_axis_reorder(a, 'OSA UCS')
+    >>> colourspace_model_axis_reorder(a, "OSA UCS")
     array([ 1.,  2.,  0.])
     >>> b = np.array([1, 2, 0])
-    >>> colourspace_model_axis_reorder(b, 'OSA UCS', 'Inverse')
+    >>> colourspace_model_axis_reorder(b, "OSA UCS", "Inverse")
     array([ 0.,  1.,  2.])
     """
 
@@ -457,11 +459,11 @@ def plot_RGB_colourspaces_in_chromaticity_diagram(
     colourspaces
         *RGB* colourspaces to plot. ``colourspaces`` elements
         can be of any type or form supported by the
-        :func:`colour.plotting.filter_RGB_colourspaces` definition.
+        :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
     chromaticity_diagram_callable
         Callable responsible for drawing the *Chromaticity Diagram*.
     method
@@ -498,12 +500,13 @@ def plot_RGB_colourspaces_in_chromaticity_diagram(
     Examples
     --------
     >>> plot_kwargs = [
-    ...     {'color': 'r'},
-    ...     {'linestyle': 'dashed'},
-    ...     {'marker': None}
+    ...     {"color": "r"},
+    ...     {"linestyle": "dashed"},
+    ...     {"marker": None},
     ... ]
     >>> plot_RGB_colourspaces_in_chromaticity_diagram(
-    ...     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'], plot_kwargs=plot_kwargs)
+    ...     ["ITU-R BT.709", "ACEScg", "S-Gamut"], plot_kwargs=plot_kwargs
+    ... )
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -693,11 +696,11 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
     colourspaces
         *RGB* colourspaces to plot. ``colourspaces`` elements
         can be of any type or form supported by the
-        :func:`colour.plotting.filter_RGB_colourspaces` definition.
+        :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
     chromaticity_diagram_callable_CIE1931
         Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
     show_whitepoints
@@ -734,7 +737,8 @@ plot_RGB_colourspaces_in_chromaticity_diagram`,
     Examples
     --------
     >>> plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
-    ...     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
+    ...     ["ITU-R BT.709", "ACEScg", "S-Gamut"]
+    ... )
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -786,11 +790,11 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
     colourspaces
         *RGB* colourspaces to plot. ``colourspaces`` elements
         can be of any type or form supported by the
-        :func:`colour.plotting.filter_RGB_colourspaces` definition.
+        :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
     chromaticity_diagram_callable_CIE1960UCS
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
@@ -828,7 +832,8 @@ plot_RGB_colourspaces_in_chromaticity_diagram`,
     Examples
     --------
     >>> plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
-    ...     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
+    ...     ["ITU-R BT.709", "ACEScg", "S-Gamut"]
+    ... )
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -880,11 +885,11 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
     colourspaces
         *RGB* colourspaces to plot. ``colourspaces`` elements
         can be of any type or form supported by the
-        :func:`colour.plotting.filter_RGB_colourspaces` definition.
+        :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
     chromaticity_diagram_callable_CIE1976UCS
         Callable responsible for drawing the
         *CIE 1976 UCS Chromaticity Diagram*.
@@ -922,7 +927,8 @@ plot_RGB_colourspaces_in_chromaticity_diagram`,
     Examples
     --------
     >>> plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
-    ...     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
+    ...     ["ITU-R BT.709", "ACEScg", "S-Gamut"]
+    ... )
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -973,7 +979,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram(
     colourspace
         *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
         type or form supported by the
-        :func:`colour.plotting.filter_RGB_colourspaces` definition.
+        :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     chromaticity_diagram_callable
         Callable responsible for drawing the *Chromaticity Diagram*.
     method
@@ -1003,8 +1009,7 @@ plot_RGB_colourspaces_in_chromaticity_diagram`,
     Examples
     --------
     >>> RGB = np.random.random((128, 128, 3))
-    >>> plot_RGB_chromaticities_in_chromaticity_diagram(
-    ...     RGB, 'ITU-R BT.709')
+    >>> plot_RGB_chromaticities_in_chromaticity_diagram(RGB, "ITU-R BT.709")
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -1042,9 +1047,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
         first_item(filter_RGB_colourspaces(colourspace).values()),
     )
 
-    settings["colourspaces"] = [f"^{colourspace.name}$"] + settings.get(
-        "colourspaces", []
-    )
+    settings["colourspaces"] = [colourspace] + settings.get("colourspaces", [])
 
     chromaticity_diagram_callable(**settings)
 
@@ -1113,7 +1116,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
     colourspace
         *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
         type or form supported by the
-        :func:`colour.plotting.filter_RGB_colourspaces` definition.
+        :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     chromaticity_diagram_callable_CIE1931
         Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
     scatter_kwargs
@@ -1142,7 +1145,8 @@ plot_RGB_colourspaces_in_chromaticity_diagram`,
     --------
     >>> RGB = np.random.random((128, 128, 3))
     >>> plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
-    ...     RGB, 'ITU-R BT.709')
+    ...     RGB, "ITU-R BT.709"
+    ... )
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -1187,7 +1191,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
     colourspace
         *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
         type or form supported by the
-        :func:`colour.plotting.filter_RGB_colourspaces` definition.
+        :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     chromaticity_diagram_callable_CIE1960UCS
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
@@ -1217,7 +1221,8 @@ plot_RGB_colourspaces_in_chromaticity_diagram`,
     --------
     >>> RGB = np.random.random((128, 128, 3))
     >>> plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
-    ...     RGB, 'ITU-R BT.709')
+    ...     RGB, "ITU-R BT.709"
+    ... )
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -1262,7 +1267,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
     colourspace
         *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
         type or form supported by the
-        :func:`colour.plotting.filter_RGB_colourspaces` definition.
+        :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     chromaticity_diagram_callable_CIE1976UCS
         Callable responsible for drawing the
         *CIE 1976 UCS Chromaticity Diagram*.
@@ -1292,7 +1297,8 @@ plot_RGB_colourspaces_in_chromaticity_diagram`,
     --------
     >>> RGB = np.random.random((128, 128, 3))
     >>> plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
-    ...     RGB, 'ITU-R BT.709')
+    ...     RGB, "ITU-R BT.709"
+    ... )
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -1720,7 +1726,7 @@ def plot_single_cctf(
     cctf
         Colour component transfer function to plot. ``function`` can be of any
         type or form supported by the
-        :func:`colour.plotting.filter_passthrough` definition.
+        :func:`colour.plotting.common.filter_passthrough` definition.
     cctf_decoding
         Plot the decoding colour component transfer function instead.
 
@@ -1739,7 +1745,7 @@ def plot_single_cctf(
 
     Examples
     --------
-    >>> plot_single_cctf('ITU-R BT.709')  # doctest: +ELLIPSIS
+    >>> plot_single_cctf("ITU-R BT.709")  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_CCTF.png
@@ -1769,7 +1775,7 @@ def plot_multi_cctfs(
     cctfs
         Colour component transfer function to plot. ``cctfs`` elements can be
         of any type or form supported by the
-        :func:`colour.plotting.filter_passthrough` definition.
+        :func:`colour.plotting.common.filter_passthrough` definition.
     cctf_decoding
         Plot the decoding colour component transfer function instead.
 
@@ -1788,7 +1794,7 @@ def plot_multi_cctfs(
 
     Examples
     --------
-    >>> plot_multi_cctfs(['ITU-R BT.709', 'sRGB'])  # doctest: +ELLIPSIS
+    >>> plot_multi_cctfs(["ITU-R BT.709", "sRGB"])  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_CCTFs.png
@@ -1839,6 +1845,7 @@ def plot_constant_hue_loci(
             "ICaCb",
             "ICtCp",
             "IPT",
+            "IPT Munish 2021",
             "IgPgTg",
             "Jzazbz",
             "OSA UCS",
@@ -1910,70 +1917,82 @@ def plot_constant_hue_loci(
 
     Examples
     --------
-    >>> data = np.array([
+    >>> data = np.array(
     ...     [
-    ...         None,
-    ...         np.array([0.95010000, 1.00000000, 1.08810000]),
-    ...         np.array([0.40920000, 0.28120000, 0.30600000]),
-    ...         np.array([
-    ...             [0.02495100, 0.01908600, 0.02032900],
-    ...             [0.10944300, 0.06235900, 0.06788100],
-    ...             [0.27186500, 0.18418700, 0.19565300],
-    ...             [0.48898900, 0.40749400, 0.44854600],
-    ...         ]),
-    ...         None,
-    ...     ],
-    ...     [
-    ...         None,
-    ...         np.array([0.95010000, 1.00000000, 1.08810000]),
-    ...         np.array([0.30760000, 0.48280000, 0.42770000]),
-    ...         np.array([
-    ...             [0.02108000, 0.02989100, 0.02790400],
-    ...             [0.06194700, 0.11251000, 0.09334400],
-    ...             [0.15255800, 0.28123300, 0.23234900],
-    ...             [0.34157700, 0.56681300, 0.47035300],
-    ...         ]),
-    ...         None,
-    ...     ],
-    ...     [
-    ...         None,
-    ...         np.array([0.95010000, 1.00000000, 1.08810000]),
-    ...         np.array([0.39530000, 0.28120000, 0.18450000]),
-    ...         np.array([
-    ...             [0.02436400, 0.01908600, 0.01468800],
-    ...             [0.10331200, 0.06235900, 0.02854600],
-    ...             [0.26311900, 0.18418700, 0.12109700],
-    ...             [0.43158700, 0.40749400, 0.39008600],
-    ...         ]),
-    ...         None,
-    ...     ],
-    ...     [
-    ...         None,
-    ...         np.array([0.95010000, 1.00000000, 1.08810000]),
-    ...         np.array([0.20510000, 0.18420000, 0.57130000]),
-    ...         np.array([
-    ...             [0.03039800, 0.02989100, 0.06123300],
-    ...             [0.08870000, 0.08498400, 0.21843500],
-    ...             [0.18405800, 0.18418700, 0.40111400],
-    ...             [0.32550100, 0.34047200, 0.50296900],
-    ...             [0.53826100, 0.56681300, 0.80010400],
-    ...         ]),
-    ...         None,
-    ...     ],
-    ...     [
-    ...         None,
-    ...         np.array([0.95010000, 1.00000000, 1.08810000]),
-    ...         np.array([0.35770000, 0.28120000, 0.11250000]),
-    ...         np.array([
-    ...             [0.03678100, 0.02989100, 0.01481100],
-    ...             [0.17127700, 0.11251000, 0.01229900],
-    ...             [0.30080900, 0.28123300, 0.21229800],
-    ...             [0.52976000, 0.40749400, 0.11720000],
-    ...         ]),
-    ...         None,
-    ...     ],
-    ... ])
-    >>> plot_constant_hue_loci(data, 'CIE Lab')  # doctest: +ELLIPSIS
+    ...         [
+    ...             None,
+    ...             np.array([0.95010000, 1.00000000, 1.08810000]),
+    ...             np.array([0.40920000, 0.28120000, 0.30600000]),
+    ...             np.array(
+    ...                 [
+    ...                     [0.02495100, 0.01908600, 0.02032900],
+    ...                     [0.10944300, 0.06235900, 0.06788100],
+    ...                     [0.27186500, 0.18418700, 0.19565300],
+    ...                     [0.48898900, 0.40749400, 0.44854600],
+    ...                 ]
+    ...             ),
+    ...             None,
+    ...         ],
+    ...         [
+    ...             None,
+    ...             np.array([0.95010000, 1.00000000, 1.08810000]),
+    ...             np.array([0.30760000, 0.48280000, 0.42770000]),
+    ...             np.array(
+    ...                 [
+    ...                     [0.02108000, 0.02989100, 0.02790400],
+    ...                     [0.06194700, 0.11251000, 0.09334400],
+    ...                     [0.15255800, 0.28123300, 0.23234900],
+    ...                     [0.34157700, 0.56681300, 0.47035300],
+    ...                 ]
+    ...             ),
+    ...             None,
+    ...         ],
+    ...         [
+    ...             None,
+    ...             np.array([0.95010000, 1.00000000, 1.08810000]),
+    ...             np.array([0.39530000, 0.28120000, 0.18450000]),
+    ...             np.array(
+    ...                 [
+    ...                     [0.02436400, 0.01908600, 0.01468800],
+    ...                     [0.10331200, 0.06235900, 0.02854600],
+    ...                     [0.26311900, 0.18418700, 0.12109700],
+    ...                     [0.43158700, 0.40749400, 0.39008600],
+    ...                 ]
+    ...             ),
+    ...             None,
+    ...         ],
+    ...         [
+    ...             None,
+    ...             np.array([0.95010000, 1.00000000, 1.08810000]),
+    ...             np.array([0.20510000, 0.18420000, 0.57130000]),
+    ...             np.array(
+    ...                 [
+    ...                     [0.03039800, 0.02989100, 0.06123300],
+    ...                     [0.08870000, 0.08498400, 0.21843500],
+    ...                     [0.18405800, 0.18418700, 0.40111400],
+    ...                     [0.32550100, 0.34047200, 0.50296900],
+    ...                     [0.53826100, 0.56681300, 0.80010400],
+    ...                 ]
+    ...             ),
+    ...             None,
+    ...         ],
+    ...         [
+    ...             None,
+    ...             np.array([0.95010000, 1.00000000, 1.08810000]),
+    ...             np.array([0.35770000, 0.28120000, 0.11250000]),
+    ...             np.array(
+    ...                 [
+    ...                     [0.03678100, 0.02989100, 0.01481100],
+    ...                     [0.17127700, 0.11251000, 0.01229900],
+    ...                     [0.30080900, 0.28123300, 0.21229800],
+    ...                     [0.52976000, 0.40749400, 0.11720000],
+    ...                 ]
+    ...             ),
+    ...             None,
+    ...         ],
+    ...     ]
+    ... )
+    >>> plot_constant_hue_loci(data, "CIE Lab")  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Constant_Hue_Loci.png

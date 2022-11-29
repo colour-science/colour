@@ -3,12 +3,15 @@ name: Continuous Integration - Quality & Unit Tests
 on: [push, pull_request]
 
 jobs:
-  continuous-integration-package:
+  continuous-integration-quality-unit-tests:
     name: ${{ matrix.os }} - Python ${{ matrix.python-version }}
     strategy:
       matrix:
-        os: [macOS-latest, ubuntu-20.04, windows-latest]
-        python-version: [3.8, 3.9, '3.10']
+        os: [macOS-latest, ubuntu-22.04, windows-latest]
+        python-version: [3.9, '3.10', 3.11]
+        exclude:
+          - os: windows-latest
+            python-version: 3.8
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
@@ -18,54 +21,52 @@ jobs:
         echo "CI_PYTHON_VERSION=${{ matrix.python-version }}" >> $GITHUB_ENV
         echo "CI_PACKAGE=colour" >> $GITHUB_ENV
         echo "CI_SHA=${{ github.sha }}" >> $GITHUB_ENV
-        echo "CI_OPENIMAGEIO_VERSION=2.2.18.0" >> $GITHUB_ENV
-        echo "CI_OPENIMAGEIO_ARTIFACT=https://github.com/colour-science/artifacts/releases/download/OpenImageIO-Release-2.2.18.0/OpenImageIO-Release-2.2.18.0.zip" >> $GITHUB_ENV
+        echo "CI_OPENIMAGEIO_VERSION=2.4.5.0" >> $GITHUB_ENV
+        echo "CI_OPENIMAGEIO_ARTIFACT=https://github.com/colour-science/artifacts/releases/download/OpenImageIO-Release-2.4.5.0/OpenImageIO-Release-2.4.5.0.zip" >> $GITHUB_ENV
         echo "COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }}" >> $GITHUB_ENV
         echo "MPLBACKEND=AGG" >> $GITHUB_ENV
       shell: bash
+    - name: Set up Python 3.9 for Pre-Commit
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.9
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install Dependencies (macOS)
-      if: matrix.os == 'macOS-latest'
-      run: |
-        brew install gnu-sed graphviz
-        ln -s /usr/local/bin/gsed /usr/local/bin/sed
-      shell: bash
     - name: Install Dependencies (Ubuntu)
-      if: matrix.os == 'ubuntu-20.04'
+      if: matrix.os == 'ubuntu-22.04'
       run: |
+        sudo apt-get update
         sudo apt-get --yes install graphviz graphviz-dev libboost-all-dev libilmbase-dev libopenexr-dev libpng-dev libtiff5-dev
     - name: Install Poetry
       run: |
-        curl -L https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py -o get-poetry.py
-        python get-poetry.py --version 1.1.12
+        curl -sSL https://install.python-poetry.org | POETRY_HOME=$HOME/.poetry python3 -
         echo "$HOME/.poetry/bin" >> $GITHUB_PATH
       shell: bash
-    - name: Install Package Dependencies (macOS & Ubuntu)
-      if: matrix.os == 'macOS-latest' || matrix.os == 'ubuntu-20.04'
+    - name: Install Package Dependencies (Ubuntu)
+      if: matrix.os == 'ubuntu-22.04'
       run: |
         poetry run python -m pip install --upgrade pip
         poetry install --extras "graphviz meshing optional plotting"
         poetry run python -c "import imageio;imageio.plugins.freeimage.download()"
       shell: bash
-    - name: Install Package Dependencies (Windows)
-      if: matrix.os == 'windows-latest'
+    - name: Install Package Dependencies (macOS & Windows)
+      if: matrix.os == 'macOS-latest' || matrix.os == 'windows-latest'
       run: |
         poetry run python -m pip install --upgrade pip
         poetry install --extras "meshing optional plotting"
         poetry run python -c "import imageio;imageio.plugins.freeimage.download()"
       shell: bash
     - name: Install OpenImageIO (Ubuntu)
-      if: matrix.os == 'ubuntu-20.04' && matrix.python-version == '3.8'
+      if: matrix.os == 'ubuntu-22.04' && matrix.python-version == '3.10'
       run: |
         curl -L $CI_OPENIMAGEIO_ARTIFACT -o OpenImageIO-Release-$CI_OPENIMAGEIO_VERSION.zip
         unzip OpenImageIO-Release-$CI_OPENIMAGEIO_VERSION.zip -d OpenImageIO-Release-$CI_OPENIMAGEIO_VERSION
-        sudo cp OpenImageIO-Release-$CI_OPENIMAGEIO_VERSION/linux64/bin/* /usr/bin/
-        sudo cp -r OpenImageIO-Release-$CI_OPENIMAGEIO_VERSION/linux64/lib/* /usr/lib/
+        sudo cp OpenImageIO-Release-$CI_OPENIMAGEIO_VERSION/bin/* /usr/bin/
+        sudo cp -r OpenImageIO-Release-$CI_OPENIMAGEIO_VERSION/lib/* /usr/lib/
         sudo rm -rf /usr/lib/python$CI_PYTHON_VERSION
-        cp OpenImageIO-Release-$CI_OPENIMAGEIO_VERSION/linux64/lib/python$CI_PYTHON_VERSION/site-packages/OpenImageIO.*.so $(poetry env info -p)/lib/python$CI_PYTHON_VERSION/site-packages/OpenImageIO.so
+        cp -r OpenImageIO-Release-$CI_OPENIMAGEIO_VERSION/lib/python$CI_PYTHON_VERSION/site-packages/OpenImageIO $(poetry env info -p)/lib/python$CI_PYTHON_VERSION/site-packages/
       shell: bash
     - name: Pre-Commit (All Files)
       run: |
@@ -77,10 +78,10 @@ jobs:
       shell: bash
     - name: Test with Pytest
       run: |
-        poetry run python -W ignore -m py.test --disable-warnings --doctest-modules --ignore=$CI_PACKAGE/examples --cov=$CI_PACKAGE $CI_PACKAGE
+        poetry run python -W ignore -m pytest --disable-warnings --doctest-modules --ignore=$CI_PACKAGE/examples --cov=$CI_PACKAGE $CI_PACKAGE
       shell: bash
     - name: Upload Coverage to coveralls.io
-      if: matrix.os == 'ubuntu-20.04' && matrix.python-version == '3.8'
+      if: matrix.os == 'ubuntu-22.04' && matrix.python-version == '3.10'
       run: |
         if [ -z "$COVERALLS_REPO_TOKEN" ]; then echo \"COVERALLS_REPO_TOKEN\" secret is undefined!; else poetry run coveralls; fi
       shell: bash

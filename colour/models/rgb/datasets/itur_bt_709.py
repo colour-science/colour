@@ -1,8 +1,8 @@
 """
-ITU-R BT.709 Colourspace
-========================
+Recommendation ITU-R BT.709 Colourspace
+=======================================
 
-Defines the *ITU-R BT.709* colourspace:
+Defines the *Recommendation ITU-R BT.709* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_BT709`.
 
@@ -52,23 +52,31 @@ PRIMARIES_BT709: NDArray = np.array(
         [0.1500, 0.0600],
     ]
 )
-"""*ITU-R BT.709* colourspace primaries."""
+"""*Recommendation ITU-R BT.709* colourspace primaries."""
 
 WHITEPOINT_NAME_BT709: str = "D65"
-"""*ITU-R BT.709* colourspace whitepoint name."""
+"""*Recommendation ITU-R BT.709* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_BT709: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_BT709]
-"""*ITU-R BT.709* colourspace whitepoint chromaticity coordinates."""
+"""
+*Recommendation ITU-R BT.709* colourspace whitepoint chromaticity coordinates.
+"""
 
 MATRIX_BT709_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_BT709, CCS_WHITEPOINT_BT709
 )
-"""*ITU-R BT.709* colourspace to *CIE XYZ* tristimulus values matrix."""
+"""
+*Recommendation ITU-R BT.709* colourspace to *CIE XYZ* tristimulus values
+matrix.
+"""
 
 MATRIX_XYZ_TO_BT709: NDArray = np.linalg.inv(MATRIX_BT709_TO_XYZ)
-"""*CIE XYZ* tristimulus values to *ITU-R BT.709* colourspace matrix."""
+"""
+*CIE XYZ* tristimulus values to *Recommendation ITU-R BT.709* colourspace
+matrix.
+"""
 
 RGB_COLOURSPACE_BT709: RGB_Colourspace = RGB_Colourspace(
     "ITU-R BT.709",
@@ -81,7 +89,7 @@ RGB_COLOURSPACE_BT709: RGB_Colourspace = RGB_Colourspace(
     oetf_inverse_BT709,
 )
 RGB_COLOURSPACE_BT709.__doc__ = """
-*ITU-R BT.709* colourspace.
+*Recommendation ITU-R BT.709* colourspace.
 
 References
 ----------

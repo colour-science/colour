@@ -55,6 +55,15 @@ print("\n")
 CCT = 6503.49254150
 message_box(
     f'Converting to "CIE UCS" colourspace "uv" chromaticity coordinates from '
+    f'given "CCT" using "Planck (1900)" method:\n\n\t{CCT_D_uv}'
+)
+print(colour.CCT_to_uv(CCT, method="Planck 1900"))
+print(colour.temperature.CCT_to_uv_Planck1900(CCT))
+
+print("\n")
+
+message_box(
+    f'Converting to "CIE UCS" colourspace "uv" chromaticity coordinates from '
     f'given "CCT" using "Krystek (1985)" method:\n\n\t({CCT})'
 )
 print(colour.CCT_to_uv(CCT, method="Krystek 1985"))

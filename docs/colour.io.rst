@@ -31,6 +31,7 @@ Image Data
     write_image_OpenImageIO
     read_image_Imageio
     write_image_Imageio
+    as_3_channels_image
 
 OpenColorIO Processing
 ----------------------

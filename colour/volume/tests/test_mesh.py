@@ -1,8 +1,9 @@
-"""Defines the unit tests for the :mod:`colour.volume.mesh` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.volume.mesh` module."""
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.volume import is_within_mesh_volume
 from colour.utilities import ignore_numpy_errors
@@ -76,11 +77,15 @@ class TestIsWithinMeshVolume(unittest.TestCase):
 
         a = np.tile(a, (6, 1))
         b = np.tile(b, 6)
-        np.testing.assert_almost_equal(is_within_mesh_volume(a, self._mesh), b)
+        np.testing.assert_array_almost_equal(
+            is_within_mesh_volume(a, self._mesh), b
+        )
 
         a = np.reshape(a, (2, 3, 3))
         b = np.reshape(b, (2, 3))
-        np.testing.assert_almost_equal(is_within_mesh_volume(a, self._mesh), b)
+        np.testing.assert_array_almost_equal(
+            is_within_mesh_volume(a, self._mesh), b
+        )
 
     @ignore_numpy_errors
     def test_nan_is_within_mesh_volume(self):
@@ -90,9 +95,8 @@ class TestIsWithinMeshVolume(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            is_within_mesh_volume(case, self._mesh)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        is_within_mesh_volume(cases, self._mesh)
 
 
 if __name__ == "__main__":

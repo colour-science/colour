@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-20.04]
-        python-version: [3.8]
+        python-version: [3.11]
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
@@ -31,8 +31,7 @@ jobs:
         sudo apt-get --yes install graphviz graphviz-dev latexmk texlive-full
     - name: Install Poetry
       run: |
-        curl -L https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py -o get-poetry.py
-        python get-poetry.py
+        curl -sSL https://install.python-poetry.org | POETRY_HOME=$HOME/.poetry python3 -
         echo "$HOME/.poetry/bin" >> $GITHUB_PATH
       shell: bash
     - name: Install Package Dependencies

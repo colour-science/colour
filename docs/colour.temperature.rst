@@ -59,6 +59,19 @@ Ohno (2013)
     uv_to_CCT_Ohno2013
     CCT_to_uv_Ohno2013
 
+Planck (1900)
+~~~~~~~~~~~~~
+
+``colour.temperature``
+
+.. currentmodule:: colour.temperature
+
+.. autosummary::
+    :toctree: generated/
+
+    uv_to_CCT_Planck1900
+    CCT_to_uv_Planck1900
+
 McCamy (1992)
 ~~~~~~~~~~~~~
 

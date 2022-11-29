@@ -91,6 +91,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(
     >>> from colour.utilities import numpy_print_options
     >>> with numpy_print_options(suppress=True):
     ...     RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(700)  # doctest: +ELLIPSIS
+    ...
     array([ 0.0113577...,  0.004102  ,  0.        ])
     """
 
@@ -116,8 +117,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(
         ]
     )
 
-    xyz = vector_dot(M1, rgb)
-    xyz /= vector_dot(M2, rgb)
+    xyz = vector_dot(M1, rgb) / vector_dot(M2, rgb)
 
     x, y, z = xyz[..., 0], xyz[..., 1], xyz[..., 2]
 
@@ -167,6 +167,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(
     >>> from colour.utilities import numpy_print_options
     >>> with numpy_print_options(suppress=True):
     ...     RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(700)  # doctest: +ELLIPSIS
+    ...
     array([ 0.0096432...,  0.0037526..., -0.0000041...])
     """
 
@@ -220,6 +221,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(
     >>> from colour.utilities import numpy_print_options
     >>> with numpy_print_options(suppress=True):
     ...     RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(700)  # doctest: +ELLIPSIS
+    ...
     array([ 0.0052860...,  0.0003252...,  0.        ])
     """
 
@@ -246,7 +248,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(
 ) -> NDArray:
     """
     Convert *Stockman & Sharpe 2 Degree Cone Fundamentals* colour matching
-    functions into the *CIE 2012 2 Degree Standard Observer* colour matching
+    functions into the *CIE 2015 2 Degree Standard Observer* colour matching
     functions.
 
     Parameters
@@ -257,11 +259,11 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(
     Returns
     -------
     :class:`numpy.ndarray`
-        *CIE 2012 2 Degree Standard Observer* spectral tristimulus values.
+        *CIE 2015 2 Degree Standard Observer* spectral tristimulus values.
 
     Notes
     -----
-    -   Data for the *CIE 2012 2 Degree Standard Observer* already exists,
+    -   Data for the *CIE 2015 2 Degree Standard Observer* already exists,
         this definition is intended for educational purpose.
 
     References
@@ -273,6 +275,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(
     >>> from colour.utilities import numpy_print_options
     >>> with numpy_print_options(suppress=True):
     ...     LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(700)  # doctest: +ELLIPSIS
+    ...
     array([ 0.0109677...,  0.0041959...,  0.        ])
     """
 
@@ -298,7 +301,7 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(
 ) -> NDArray:
     """
     Convert *Stockman & Sharpe 10 Degree Cone Fundamentals* colour matching
-    functions into the *CIE 2012 10 Degree Standard Observer* colour matching
+    functions into the *CIE 2015 10 Degree Standard Observer* colour matching
     functions.
 
     Parameters
@@ -309,11 +312,11 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(
     Returns
     -------
     :class:`numpy.ndarray`
-        *CIE 2012 10 Degree Standard Observer* spectral tristimulus values.
+        *CIE 2015 10 Degree Standard Observer* spectral tristimulus values.
 
     Notes
     -----
-    -   Data for the *CIE 2012 10 Degree Standard Observer* already exists,
+    -   Data for the *CIE 2015 10 Degree Standard Observer* already exists,
         this definition is intended for educational purpose.
 
     References
@@ -325,6 +328,7 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(
     >>> from colour.utilities import numpy_print_options
     >>> with numpy_print_options(suppress=True):
     ...     LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(700)  # doctest: +ELLIPSIS
+    ...
     array([ 0.0098162...,  0.0037761...,  0.        ])
     """
 

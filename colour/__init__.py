@@ -28,7 +28,7 @@ Sub-packages
 -   corresponding: Corresponding colour chromaticities computations.
 -   difference: Colour difference computations.
 -   examples: Examples for the sub-packages.
--   geometry: Geometry primitives generation.
+-   geometry: Geometry computations.
 -   graph: Graph for automatic colour conversions.
 -   hints: Type hints for annotations.
 -   io: Input / output objects for reading and writing data.
@@ -128,6 +128,7 @@ from .colorimetry import (
     sd_mesopic_luminous_efficiency_function,
     sd_multi_leds,
     sd_ones,
+    sd_rayleigh_jeans,
     sd_single_led,
     sd_to_XYZ,
     sd_zeros,
@@ -146,6 +147,8 @@ from .appearance import (
     CAM_Specification_ATD95,
     CAM_Specification_CAM16,
     CAM_Specification_CIECAM02,
+    CAM_Specification_CIECAM16,
+    CAM_Specification_Hellwig2022,
     CAM_Specification_Hunt,
     CAM_Specification_Kim2009,
     CAM_Specification_LLAB,
@@ -154,13 +157,17 @@ from .appearance import (
     CAM_Specification_ZCAM,
     CAM16_to_XYZ,
     CIECAM02_to_XYZ,
+    CIECAM16_to_XYZ,
     HKE_NAYATANI1997_METHODS,
+    Hellwig2022_to_XYZ,
     HelmholtzKohlrausch_effect_object_Nayatani1997,
     HelmholtzKohlrausch_effect_luminous_Nayatani1997,
     Kim2009_to_XYZ,
     MEDIA_PARAMETERS_KIM2009,
     VIEWING_CONDITIONS_CAM16,
     VIEWING_CONDITIONS_CIECAM02,
+    VIEWING_CONDITIONS_CIECAM16,
+    VIEWING_CONDITIONS_HELLWIG2022,
     VIEWING_CONDITIONS_HUNT,
     VIEWING_CONDITIONS_KIM2009,
     VIEWING_CONDITIONS_LLAB,
@@ -169,7 +176,9 @@ from .appearance import (
     XYZ_to_ATD95,
     XYZ_to_CAM16,
     XYZ_to_CIECAM02,
+    XYZ_to_CIECAM16,
     XYZ_to_Kim2009,
+    XYZ_to_Hellwig2022,
     XYZ_to_Hunt,
     XYZ_to_LLAB,
     XYZ_to_Nayatani95,
@@ -190,6 +199,7 @@ from .geometry import (
     primitive_vertices,
 )
 from .io import (
+    Header_IESTM2714,
     LUT1D,
     LUT3x1D,
     LUT3D,
@@ -228,6 +238,7 @@ from .models import (
     CMY_to_CMYK,
     CMY_to_RGB,
     COLOURSPACE_MODELS,
+    COLOUR_PRIMARIES_ITUTH273,
     CV_range,
     DATA_MACADAM_1942_ELLIPSES,
     DIN99_to_Lab,
@@ -248,6 +259,7 @@ from .models import (
     IgPgTg_to_XYZ,
     IPT_hue_angle,
     IPT_to_XYZ,
+    IPT_Munish2021_to_XYZ,
     JMh_CAM16_to_CAM16LCD,
     JMh_CAM16_to_CAM16SCD,
     JMh_CAM16_to_CAM16UCS,
@@ -266,6 +278,7 @@ from .models import (
     Luv_to_XYZ,
     Luv_to_uv,
     Luv_uv_to_xy,
+    MATRIX_COEFFICIENTS_ITUTH273,
     OETFS,
     OETF_INVERSES,
     OOTFS,
@@ -290,6 +303,7 @@ from .models import (
     RGB_to_YCbCr,
     RGB_to_YCoCg,
     RGB_to_YcCbcCrc,
+    TRANSFER_CHARACTERISTICS_ITUTH273,
     UCS_to_XYZ,
     UCS_to_uv,
     UCS_uv_to_xy,
@@ -308,6 +322,7 @@ from .models import (
     XYZ_to_ICtCp,
     XYZ_to_IgPgTg,
     XYZ_to_IPT,
+    XYZ_to_IPT_Munish2021,
     XYZ_to_Jzazbz,
     XYZ_to_K_ab_HunterLab1966,
     XYZ_to_Lab,
@@ -535,6 +550,7 @@ __all__ += [
     "sd_mesopic_luminous_efficiency_function",
     "sd_multi_leds",
     "sd_ones",
+    "sd_rayleigh_jeans",
     "sd_single_led",
     "sd_to_XYZ",
     "sd_zeros",
@@ -553,6 +569,8 @@ __all__ += [
     "CAM_Specification_ATD95",
     "CAM_Specification_CAM16",
     "CAM_Specification_CIECAM02",
+    "CAM_Specification_CIECAM16",
+    "CAM_Specification_Hellwig2022",
     "CAM_Specification_Hunt",
     "CAM_Specification_Kim2009",
     "CAM_Specification_LLAB",
@@ -561,13 +579,17 @@ __all__ += [
     "CAM_Specification_ZCAM",
     "CAM16_to_XYZ",
     "CIECAM02_to_XYZ",
+    "CIECAM16_to_XYZ",
     "HKE_NAYATANI1997_METHODS",
+    "Hellwig2022_to_XYZ",
     "HelmholtzKohlrausch_effect_object_Nayatani1997",
     "HelmholtzKohlrausch_effect_luminous_Nayatani1997",
     "Kim2009_to_XYZ",
     "MEDIA_PARAMETERS_KIM2009",
     "VIEWING_CONDITIONS_CAM16",
     "VIEWING_CONDITIONS_CIECAM02",
+    "VIEWING_CONDITIONS_CIECAM16",
+    "VIEWING_CONDITIONS_HELLWIG2022",
     "VIEWING_CONDITIONS_HUNT",
     "VIEWING_CONDITIONS_KIM2009",
     "VIEWING_CONDITIONS_LLAB",
@@ -576,7 +598,9 @@ __all__ += [
     "XYZ_to_ATD95",
     "XYZ_to_CAM16",
     "XYZ_to_CIECAM02",
+    "XYZ_to_CIECAM16",
     "XYZ_to_Kim2009",
+    "XYZ_to_Hellwig2022",
     "XYZ_to_Hunt",
     "XYZ_to_LLAB",
     "XYZ_to_Nayatani95",
@@ -597,6 +621,7 @@ __all__ += [
     "primitive_vertices",
 ]
 __all__ += [
+    "Header_IESTM2714",
     "LUT1D",
     "LUT3x1D",
     "LUT3D",
@@ -635,6 +660,7 @@ __all__ += [
     "CMY_to_CMYK",
     "CMY_to_RGB",
     "COLOURSPACE_MODELS",
+    "COLOUR_PRIMARIES_ITUTH273",
     "CV_range",
     "DATA_MACADAM_1942_ELLIPSES",
     "DIN99_to_Lab",
@@ -655,6 +681,7 @@ __all__ += [
     "IgPgTg_to_XYZ",
     "IPT_hue_angle",
     "IPT_to_XYZ",
+    "IPT_Munish2021_to_XYZ",
     "JMh_CAM16_to_CAM16LCD",
     "JMh_CAM16_to_CAM16SCD",
     "JMh_CAM16_to_CAM16UCS",
@@ -673,6 +700,7 @@ __all__ += [
     "Luv_to_XYZ",
     "Luv_to_uv",
     "Luv_uv_to_xy",
+    "MATRIX_COEFFICIENTS_ITUTH273",
     "OETFS",
     "OETF_INVERSES",
     "OOTFS",
@@ -697,6 +725,7 @@ __all__ += [
     "RGB_to_YCbCr",
     "RGB_to_YCoCg",
     "RGB_to_YcCbcCrc",
+    "TRANSFER_CHARACTERISTICS_ITUTH273",
     "UCS_to_XYZ",
     "UCS_to_uv",
     "UCS_uv_to_xy",
@@ -715,6 +744,7 @@ __all__ += [
     "XYZ_to_ICtCp",
     "XYZ_to_IgPgTg",
     "XYZ_to_IPT",
+    "XYZ_to_IPT_Munish2021",
     "XYZ_to_Jzazbz",
     "XYZ_to_K_ab_HunterLab1966",
     "XYZ_to_Lab",
@@ -850,7 +880,7 @@ __application_name__ = "Colour"
 
 __major_version__ = "0"
 __minor_version__ = "4"
-__change_version__ = "1"
+__change_version__ = "2"
 __version__ = ".".join(
     (__major_version__, __minor_version__, __change_version__)
 )
@@ -923,5 +953,5 @@ colour.__disable_lazy_load__ = True  # type: ignore[attr-defined]
 __disable_lazy_load__ = colour.__disable_lazy_load__  # type: ignore[attr-defined]
 """
 Ensures that the lazy loaded datasets are not transformed during import.
-See :class:`colour.utilities.LazyCaseInsensitiveMapping` for more information.
+See :class:`colour.utilities.LazyCanonicalMapping` for more information.
 """

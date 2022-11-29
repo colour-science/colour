@@ -121,7 +121,7 @@ arithmetical_operation`
     -   :meth:`~colour.continuous.AbstractContinuousFunction.copy`
     """
 
-    def __init__(self, name: Optional[str] = None):
+    def __init__(self, name: Optional[str] = None) -> None:
         self._name: str = f"{self.__class__.__name__} ({id(self)})"
         self.name = optional(name, self._name)
 
@@ -154,9 +154,7 @@ arithmetical_operation`
 
         self._name = value
 
-    # TODO: Remove pragma when https://github.com/python/mypy/issues/4165 is
-    # resolved.
-    @property  # type: ignore[misc]
+    @property
     @abstractmethod
     def dtype(self) -> Type[DTypeFloating]:
         """
@@ -176,7 +174,7 @@ arithmetical_operation`
 
         ...  # pragma: no cover
 
-    @dtype.setter  # type: ignore[misc]
+    @dtype.setter
     @abstractmethod
     def dtype(self, value: Type[DTypeFloating]):
         """
@@ -186,7 +184,7 @@ arithmetical_operation`
 
         ...  # pragma: no cover
 
-    @property  # type: ignore[misc]
+    @property
     @abstractmethod
     def domain(self) -> NDArray:
         """
@@ -208,7 +206,7 @@ arithmetical_operation`
 
         ...  # pragma: no cover
 
-    @domain.setter  # type: ignore[misc]
+    @domain.setter
     @abstractmethod
     def domain(self, value: ArrayLike):
         """
@@ -218,7 +216,7 @@ arithmetical_operation`
 
         ...  # pragma: no cover
 
-    @property  # type: ignore[misc]
+    @property
     @abstractmethod
     def range(self) -> NDArray:
         """
@@ -241,7 +239,7 @@ arithmetical_operation`
 
         ...  # pragma: no cover
 
-    @range.setter  # type: ignore[misc]
+    @range.setter
     @abstractmethod
     def range(self, value: ArrayLike):
         """
@@ -251,7 +249,7 @@ arithmetical_operation`
 
         ...  # pragma: no cover
 
-    @property  # type: ignore[misc]
+    @property
     @abstractmethod
     def interpolator(self) -> Type[TypeInterpolator]:
         """
@@ -272,7 +270,7 @@ arithmetical_operation`
 
         ...  # pragma: no cover
 
-    @interpolator.setter  # type: ignore[misc]
+    @interpolator.setter
     @abstractmethod
     def interpolator(self, value: Type[TypeInterpolator]):
         """
@@ -282,7 +280,7 @@ arithmetical_operation`
 
         ...  # pragma: no cover
 
-    @property  # type: ignore[misc]
+    @property
     @abstractmethod
     def interpolator_kwargs(self) -> Dict:
         """
@@ -305,7 +303,7 @@ arithmetical_operation`
 
         ...  # pragma: no cover
 
-    @interpolator_kwargs.setter  # type: ignore[misc]
+    @interpolator_kwargs.setter
     @abstractmethod
     def interpolator_kwargs(self, value: dict):
         """
@@ -315,7 +313,7 @@ arithmetical_operation`
 
         ...  # pragma: no cover
 
-    @property  # type: ignore[misc]
+    @property
     @abstractmethod
     def extrapolator(self) -> Type[TypeExtrapolator]:
         """
@@ -336,7 +334,7 @@ arithmetical_operation`
 
         ...  # pragma: no cover
 
-    @extrapolator.setter  # type: ignore[misc]
+    @extrapolator.setter
     @abstractmethod
     def extrapolator(self, value: Type[TypeExtrapolator]):
         """
@@ -346,7 +344,7 @@ arithmetical_operation`
 
         ...  # pragma: no cover
 
-    @property  # type: ignore[misc]
+    @property
     @abstractmethod
     def extrapolator_kwargs(self) -> Dict:
         """
@@ -369,7 +367,7 @@ arithmetical_operation`
 
         ...  # pragma: no cover
 
-    @extrapolator_kwargs.setter  # type: ignore[misc]
+    @extrapolator_kwargs.setter
     @abstractmethod
     def extrapolator_kwargs(self, value: dict):
         """
@@ -406,7 +404,7 @@ arithmetical_operation`
             Formatted string representation.
         """
 
-        ...  # pragma: no cover
+        return super().__repr__()  # pragma: no cover
 
     @abstractmethod
     def __repr__(self) -> str:
@@ -420,7 +418,7 @@ arithmetical_operation`
             Evaluable string representation.
         """
 
-        ...  # pragma: no cover
+        return super().__repr__()  # pragma: no cover
 
     @abstractmethod
     def __hash__(self) -> Integer:

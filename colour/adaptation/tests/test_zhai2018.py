@@ -1,9 +1,9 @@
 # !/usr/bin/env python
-"""Defines the unit tests for the :mod:`colour.adaptation.zhai2018` module."""
+"""Define the unit tests for the :mod:`colour.adaptation.zhai2018` module."""
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.adaptation import chromatic_adaptation_Zhai2018
 from colour.utilities import domain_range_scale, ignore_numpy_errors
@@ -32,7 +32,7 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             chromatic_adaptation_Zhai2018(
                 XYZ_b=np.array([48.900, 43.620, 6.250]),
                 XYZ_wb=np.array([109.850, 100, 35.585]),
@@ -45,7 +45,7 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             chromatic_adaptation_Zhai2018(
                 XYZ_b=np.array([48.900, 43.620, 6.250]),
                 XYZ_wb=np.array([109.850, 100, 35.585]),
@@ -59,7 +59,7 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             chromatic_adaptation_Zhai2018(
                 XYZ_b=np.array([52.034, 58.824, 23.703]),
                 XYZ_wb=np.array([92.288, 100, 38.775]),
@@ -72,7 +72,7 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             chromatic_adaptation_Zhai2018(
                 XYZ_b=np.array([52.034, 58.824, 23.703]),
                 XYZ_wb=np.array([92.288, 100, 38.775]),
@@ -86,7 +86,7 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             chromatic_adaptation_Zhai2018(
                 XYZ_b=np.array([48.900, 43.620, 6.250]),
                 XYZ_wb=np.array([109.850, 100, 35.585]),
@@ -111,7 +111,7 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
 
         XYZ_b = np.tile(XYZ_b, (6, 1))
         XYZ_d = np.tile(XYZ_d, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             chromatic_adaptation_Zhai2018(XYZ_b, XYZ_wb, XYZ_wd, D_b, D_d),
             XYZ_d,
             decimal=7,
@@ -121,7 +121,7 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
         XYZ_wd = np.tile(XYZ_wd, (6, 1))
         D_b = np.tile(D_b, (6, 1))
         D_d = np.tile(D_d, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             chromatic_adaptation_Zhai2018(XYZ_b, XYZ_wb, XYZ_wd, D_b, D_d),
             XYZ_d,
             decimal=7,
@@ -133,7 +133,7 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
         D_b = np.reshape(D_b, (2, 3, 1))
         D_d = np.reshape(D_d, (2, 3, 1))
         XYZ_d = np.reshape(XYZ_d, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             chromatic_adaptation_Zhai2018(XYZ_b, XYZ_wb, XYZ_wd, D_b, D_d),
             XYZ_d,
             decimal=7,
@@ -153,7 +153,7 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     chromatic_adaptation_Zhai2018(
                         XYZ_b * factor, XYZ_wb * factor, XYZ_wd * factor
                     ),
@@ -169,17 +169,10 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ_b = np.array(case)
-            XYZ_wb = np.array(case)
-            XYZ_wd = np.array(case)
-            D_b = case[0]
-            D_d = case[0]
-            XYZ_wo = np.array(case)
-            chromatic_adaptation_Zhai2018(
-                XYZ_b, XYZ_wb, XYZ_wd, D_b, D_d, XYZ_wo
-            )
+        cases = np.array(list(set(product(cases, repeat=3))))
+        chromatic_adaptation_Zhai2018(
+            cases, cases, cases, cases[0, 0], cases[0, 0], cases
+        )
 
 
 if __name__ == "__main__":

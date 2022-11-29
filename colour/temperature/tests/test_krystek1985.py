@@ -1,8 +1,9 @@
-"""Defines the unit tests for the :mod:`colour.temperature.krystek1985` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.temperature.krystek1985` module."""
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.temperature import uv_to_CCT_Krystek1985, CCT_to_uv_Krystek1985
 from colour.utilities import ignore_numpy_errors
@@ -72,13 +73,13 @@ class TestUv_to_CCT_Krystek1985(unittest.TestCase):
 
         uv = np.tile(uv, (6, 1))
         CCT = np.tile(CCT, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_CCT_Krystek1985(uv), CCT, decimal=7
         )
 
         uv = np.reshape(uv, (2, 3, 2))
         CCT = np.reshape(CCT, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_CCT_Krystek1985(uv), CCT, decimal=7
         )
 
@@ -90,9 +91,8 @@ class TestUv_to_CCT_Krystek1985(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            uv_to_CCT_Krystek1985(case)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        uv_to_CCT_Krystek1985(cases)
 
 
 class TestCCT_to_uv_Krystek1985(unittest.TestCase):
@@ -107,19 +107,19 @@ class TestCCT_to_uv_Krystek1985(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Krystek1985(1000),
             np.array([0.448087794140145, 0.354731965027727]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Krystek1985(7000),
             np.array([0.198152565091092, 0.307023596915037]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Krystek1985(15000),
             np.array([0.185675876767054, 0.282233658593898]),
             decimal=7,
@@ -136,13 +136,13 @@ class TestCCT_to_uv_Krystek1985(unittest.TestCase):
 
         CCT = np.tile(CCT, 6)
         uv = np.tile(uv, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Krystek1985(CCT), uv, decimal=7
         )
 
         CCT = np.reshape(CCT, (2, 3))
         uv = np.reshape(uv, (2, 3, 2))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Krystek1985(CCT), uv, decimal=7
         )
 
@@ -154,9 +154,7 @@ class TestCCT_to_uv_Krystek1985(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=1))
-        for case in cases:
-            CCT_to_uv_Krystek1985(case)
+        CCT_to_uv_Krystek1985(cases)
 
 
 if __name__ == "__main__":

@@ -16,11 +16,11 @@ References
 from __future__ import annotations
 
 import numpy as np
-from scipy.ndimage.filters import convolve1d
+from scipy.ndimage import convolve1d
 
-from colour.algebra import LinearInterpolator
+from colour.algebra import LinearInterpolator, sdiv, sdiv_mode
 from colour.colorimetry import SpectralDistribution, SpectralShape, reshape_sd
-from colour.hints import NDArray, Optional
+from colour.hints import NDArray, Optional, cast
 from colour.utilities import zeros
 
 __author__ = "Colour Developers"
@@ -69,8 +69,8 @@ def spectral_similarity_index(
     Examples
     --------
     >>> from colour import SDS_ILLUMINANTS
-    >>> sd_test = SDS_ILLUMINANTS['C']
-    >>> sd_reference = SDS_ILLUMINANTS['D65']
+    >>> sd_test = SDS_ILLUMINANTS["C"]
+    >>> sd_reference = SDS_ILLUMINANTS["D65"]
     >>> spectral_similarity_index(sd_test, sd_reference)
     94.0
     """
@@ -80,8 +80,8 @@ def spectral_similarity_index(
     if _MATRIX_INTEGRATION is None:
         _MATRIX_INTEGRATION = zeros(
             (
-                len(_SPECTRAL_SHAPE_SSI_LARGE.range()),
-                len(SPECTRAL_SHAPE_SSI.range()),
+                len(_SPECTRAL_SHAPE_SSI_LARGE.wavelengths),
+                len(SPECTRAL_SHAPE_SSI.wavelengths),
             )
         )
 
@@ -103,11 +103,14 @@ def spectral_similarity_index(
     test_i = np.dot(_MATRIX_INTEGRATION, sd_test.values)
     reference_i = np.dot(_MATRIX_INTEGRATION, sd_reference.values)
 
-    test_i /= np.sum(test_i)
-    reference_i /= np.sum(reference_i)
+    with sdiv_mode():
+        test_i = sdiv(test_i, np.sum(test_i))
+        reference_i = sdiv(reference_i, np.sum(reference_i))
+        dr_i = cast(
+            NDArray,
+            sdiv(test_i - reference_i, reference_i + np.mean(reference_i)),
+        )
 
-    d_i = test_i - reference_i
-    dr_i = d_i / (reference_i + np.mean(reference_i))
     wdr_i = dr_i * [
         12 / 45,
         22 / 45,

@@ -39,7 +39,13 @@ from colour.colorimetry import (
     reshape_msds,
 )
 from colour.hints import ArrayLike, Floating, Literal, NDArray, Union, cast
-from colour.utilities import as_float_array, tsplit, tstack, usage_warning
+from colour.utilities import (
+    as_float_array,
+    as_int_scalar,
+    tsplit,
+    tstack,
+    usage_warning,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -92,11 +98,10 @@ def matrix_RGB_to_WSYBRG(
     --------
     >>> from colour.characterisation import MSDS_DISPLAY_PRIMARIES
     >>> from colour.colorimetry import MSDS_CMFS_LMS
-    >>> cmfs = MSDS_CMFS_LMS['Stockman & Sharpe 2 Degree Cone Fundamentals']
+    >>> cmfs = MSDS_CMFS_LMS["Stockman & Sharpe 2 Degree Cone Fundamentals"]
     >>> d_LMS = np.array([15, 0, 0])
-    >>> primaries = MSDS_DISPLAY_PRIMARIES['Apple Studio Display']
-    >>> matrix_RGB_to_WSYBRG(  # doctest: +ELLIPSIS
-    ...     cmfs, primaries)
+    >>> primaries = MSDS_DISPLAY_PRIMARIES["Apple Studio Display"]
+    >>> matrix_RGB_to_WSYBRG(cmfs, primaries)  # doctest: +ELLIPSIS
     array([[  0.2126535...,   0.6704626...,   0.1168838...],
            [  4.7095295...,  12.4862869..., -16.1958165...],
            [-11.1518474...,  15.2534789...,  -3.1016315...]])
@@ -139,7 +144,7 @@ def matrix_RGB_to_WSYBRG(
     PYB = 1 / (YB_R + YB_G + YB_B)
     PRG = 1 / (RG_R + RG_G + RG_B)
 
-    M_G *= np.array([PWS, PYB, PRG])[:, np.newaxis]
+    M_G *= np.array([PWS, PYB, PRG])[:, None]
 
     return M_G
 
@@ -189,11 +194,14 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(
     Examples
     --------
     >>> from colour.colorimetry import MSDS_CMFS_LMS
-    >>> cmfs = MSDS_CMFS_LMS['Stockman & Sharpe 2 Degree Cone Fundamentals']
+    >>> cmfs = MSDS_CMFS_LMS["Stockman & Sharpe 2 Degree Cone Fundamentals"]
     >>> cmfs[450]
     array([ 0.0498639,  0.0870524,  0.955393 ])
     >>> msds_cmfs_anomalous_trichromacy_Machado2009(
-    ...     cmfs, np.array([15, 0, 0]))[450]  # doctest: +ELLIPSIS
+    ...     cmfs, np.array([15, 0, 0])
+    ... )[
+    ...     450
+    ... ]  # doctest: +ELLIPSIS
     array([ 0.0891288...,  0.0870524 ,  0.955393  ])
     """
 
@@ -237,7 +245,7 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(
     severity = f"{d_L}, {d_M}, {d_S}"
     template = "{0} - Anomalous Trichromacy ({1})"
     cmfs.name = template.format(cmfs.name, severity)
-    cmfs.strict_name = template.format(cmfs.strict_name, severity)
+    cmfs.display_name = template.format(cmfs.display_name, severity)
 
     return cmfs
 
@@ -283,9 +291,9 @@ def matrix_anomalous_trichromacy_Machado2009(
     --------
     >>> from colour.characterisation import MSDS_DISPLAY_PRIMARIES
     >>> from colour.colorimetry import MSDS_CMFS_LMS
-    >>> cmfs = MSDS_CMFS_LMS['Stockman & Sharpe 2 Degree Cone Fundamentals']
+    >>> cmfs = MSDS_CMFS_LMS["Stockman & Sharpe 2 Degree Cone Fundamentals"]
     >>> d_LMS = np.array([15, 0, 0])
-    >>> primaries = MSDS_DISPLAY_PRIMARIES['Apple Studio Display']
+    >>> primaries = MSDS_DISPLAY_PRIMARIES["Apple Studio Display"]
     >>> matrix_anomalous_trichromacy_Machado2009(cmfs, primaries, d_LMS)
     ... # doctest: +ELLIPSIS
     array([[-0.2777465...,  2.6515008..., -1.3737543...],
@@ -346,7 +354,7 @@ def matrix_cvd_Machado2009(
 
     Examples
     --------
-    >>> matrix_cvd_Machado2009('Protanomaly', 0.15)  # doctest: +ELLIPSIS
+    >>> matrix_cvd_Machado2009("Protanomaly", 0.15)  # doctest: +ELLIPSIS
     array([[ 0.7869875...,  0.2694875..., -0.0564735...],
            [ 0.0431695...,  0.933774 ...,  0.023058 ...],
            [-0.004238 ..., -0.0024515...,  1.0066895...]])
@@ -364,7 +372,9 @@ def matrix_cvd_Machado2009(
 
     matrices = CVD_MATRICES_MACHADO2010[deficiency]
     samples = np.array(sorted(matrices.keys()))
-    index = np.clip(np.searchsorted(samples, severity), 0, len(samples) - 1)
+    index = as_int_scalar(
+        np.clip(np.searchsorted(samples, severity), 0, len(samples) - 1)
+    )
 
     a = samples[index]
     b = samples[min(index + 1, len(samples) - 1)]

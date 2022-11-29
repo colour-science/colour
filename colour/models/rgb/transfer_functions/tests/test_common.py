@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the
+Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.common` module.
 """
 
@@ -47,7 +47,7 @@ class TestCV_range(unittest.TestCase):
             CV_range(8, False, True), np.array([0, 255])
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CV_range(8, True, False),
             np.array([0.06274510, 0.92156863]),
             decimal=7,
@@ -65,7 +65,7 @@ class TestCV_range(unittest.TestCase):
             CV_range(10, False, True), np.array([0, 1023])
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CV_range(10, True, False),
             np.array([0.06256109, 0.91886608]),
             decimal=7,
@@ -117,19 +117,19 @@ class TestLegalToFull(unittest.TestCase):
 
         CV_l = np.tile(CV_l, 6)
         CV_f = np.tile(CV_f, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             legal_to_full(CV_l, 10), CV_f, decimal=7
         )
 
         CV_l = np.reshape(CV_l, (2, 3))
         CV_f = np.reshape(CV_f, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             legal_to_full(CV_l, 10), CV_f, decimal=7
         )
 
         CV_l = np.reshape(CV_l, (2, 3, 1))
         CV_f = np.reshape(CV_f, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             legal_to_full(CV_l, 10), CV_f, decimal=7
         )
 
@@ -188,19 +188,19 @@ class TestFullToLegal(unittest.TestCase):
 
         CF_f = np.tile(CF_f, 6)
         CV_l = np.tile(CV_l, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             full_to_legal(CF_f, 10), CV_l, decimal=7
         )
 
         CF_f = np.reshape(CF_f, (2, 3))
         CV_l = np.reshape(CV_l, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             full_to_legal(CF_f, 10), CV_l, decimal=7
         )
 
         CF_f = np.reshape(CF_f, (2, 3, 1))
         CV_l = np.reshape(CV_l, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             full_to_legal(CF_f, 10), CV_l, decimal=7
         )
 

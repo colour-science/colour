@@ -8,11 +8,11 @@ Defines various data structures classes:
     type.
 -   :class:`colour.utilities.Lookup`: A :class:`dict` sub-class acting as a
     lookup to retrieve keys by values.
--   :class:`CaseInsensitiveMapping`: A case insensitive
-    :class:`dict`-like object allowing values retrieving from keys while
-    ignoring the key case.
--   :class:`colour.utilities.LazyCaseInsensitiveMapping`: Another case
-    insensitive mapping allowing lazy values retrieving from keys while
+-   :class:`colour.utilities.CanonicalMapping`: A delimiter and
+    case-insensitive :class:`dict`-like object allowing values retrieving from
+    keys while ignoring the key case.
+-   :class:`colour.utilities.LazyCanonicalMapping`: Another delimiter and
+    case-insensitive mapping allowing lazy values retrieving from keys while
     ignoring the key case.
 -   :class:`colour.utilities.Node`: A basic node object supporting creation of
     basic node trees.
@@ -22,16 +22,15 @@ References
 -   :cite:`Mansencalc` : Mansencal, T. (n.d.). Lookup.
     https://github.com/KelSolaar/Foundations/blob/develop/foundations/\
 data_structures.py
--   :cite:`Rakotoarison2017` : Rakotoarison, H. (2017). Bunch. Retrieved
-    December 4, 2021, from https://github.com/scikit-learn/scikit-learn/blob/\
-0d378913b/sklearn/utils/__init__.py#L83
--   :cite:`Reitza` : Reitz, K. (n.d.). CaseInsensitiveDict.
-    https://github.com/kennethreitz/requests/blob/v1.2.3/requests/\
-structures.py#L37
+-   :cite:`Rakotoarison2017` : Rakotoarison, H. (2017). Bunch.
+    https://github.com/scikit-learn/scikit-learn/blob/\
+fb5a498d0bd00fc2b42fbd19b6ef18e1dfeee47e/sklearn/utils/__init__.py#L65
 """
 
 from __future__ import annotations
 
+import re
+from collections import Counter
 from collections.abc import MutableMapping
 
 from colour.hints import (
@@ -56,31 +55,12 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "attest",
     "Structure",
     "Lookup",
-    "CaseInsensitiveMapping",
-    "LazyCaseInsensitiveMapping",
+    "CanonicalMapping",
+    "LazyCanonicalMapping",
     "Node",
 ]
-
-
-def attest(condition: Boolean, message: str = ""):
-    """
-    Provide the `assert` statement functionality without being disabled by
-    optimised Python execution.
-
-    See :func:`colour.utilities.assert` for more information.
-
-    Notes
-    -----
-    -   This definition is duplicated to avoid import circular dependency.
-    """
-
-    # Avoiding circular dependency.
-    import colour.utilities
-
-    colour.utilities.attest(condition, message)
 
 
 class Structure(dict):
@@ -110,16 +90,16 @@ class Structure(dict):
 
     Examples
     --------
-    >>> person = Structure(first_name='John', last_name='Doe', gender='male')
+    >>> person = Structure(first_name="John", last_name="Doe", gender="male")
     >>> person.first_name
     'John'
     >>> sorted(person.keys())
     ['first_name', 'gender', 'last_name']
-    >>> person['gender']
+    >>> person["gender"]
     'male'
     """
 
-    def __init__(self, *args: Any, **kwargs: Any):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
     def __setattr__(self, name: str, value: Any):
@@ -207,11 +187,11 @@ class Lookup(dict):
 
     Examples
     --------
-    >>> person = Lookup(first_name='John', last_name='Doe', gender='male')
-    >>> person.first_key_from_value('John')
+    >>> person = Lookup(first_name="John", last_name="Doe", gender="male")
+    >>> person.first_key_from_value("John")
     'first_name'
-    >>> persons = Lookup(John='Doe', Jane='Doe', Luke='Skywalker')
-    >>> sorted(persons.keys_from_value('Doe'))
+    >>> persons = Lookup(John="Doe", Jane="Doe", Luke="Skywalker")
+    >>> sorted(persons.keys_from_value("Doe"))
     ['Jane', 'John']
     """
 
@@ -262,19 +242,34 @@ class Lookup(dict):
         return self.keys_from_value(value)[0]
 
 
-class CaseInsensitiveMapping(MutableMapping):
+class CanonicalMapping(MutableMapping):
     """
-    Implement a case-insensitive :class:`dict`-like object.
+    Implement a delimiter and case-insensitive :class:`dict`-like object with
+    support for slugs, i.e. *SEO* friendly and human-readable version of the
+    keys but also canonical keys, i.e. slugified keys without delimiters.
 
-    Allows values retrieving from keys while ignoring the key case.
-    The keys are expected to be str or :class:`str`-like objects supporting the
-    :meth:`str.lower` method.
+    The item keys are expected to be :class:`str`-like objects thus supporting
+    the :meth:`str.lower` method. Setting items is done by using the given
+    keys. Retrieving or deleting an item and testing whether an item exist is
+    done by transforming the item's key in a sequence as follows:
+
+    -   *Original Key*
+    -   *Lowercase Key*
+    -   *Slugified Key*
+    -   *Canonical Key*
+
+    For example, given the ``McCamy 1992`` key:
+
+    -   *Original Key* : ``McCamy 1992``
+    -   *Lowercase Key* : ``mccamy 1992``
+    -   *Slugified Key* : ``mccamy-1992``
+    -   *Canonical Key* : ``mccamy1992``
 
     Parameters
     ----------
     data
-        Data to store into the case-insensitive :class:`dict`-like object at
-        initialisation.
+        Data to store into the delimiter and case-insensitive
+        :class:`dict`-like object at initialisation.
 
     Other Parameters
     ----------------
@@ -283,37 +278,44 @@ class CaseInsensitiveMapping(MutableMapping):
 
     Attributes
     ----------
-    -   :attr:`~colour.utilities.CaseInsensitiveMapping.data`
+    -   :attr:`~colour.utilities.CanonicalMapping.data`
 
     Methods
     -------
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__init__`
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__repr__`
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__setitem__`
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__getitem__`
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__delitem__`
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__contains__`
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__iter__`
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__len__`
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__eq__`
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__ne__`
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.copy`
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.lower_items`
-
-    References
-    ----------
-    :cite:`Reitza`
+    -   :meth:`~colour.utilities.CanonicalMapping.__init__`
+    -   :meth:`~colour.utilities.CanonicalMapping.__repr__`
+    -   :meth:`~colour.utilities.CanonicalMapping.__setitem__`
+    -   :meth:`~colour.utilities.CanonicalMapping.__getitem__`
+    -   :meth:`~colour.utilities.CanonicalMapping.__delitem__`
+    -   :meth:`~colour.utilities.CanonicalMapping.__contains__`
+    -   :meth:`~colour.utilities.CanonicalMapping.__iter__`
+    -   :meth:`~colour.utilities.CanonicalMapping.__len__`
+    -   :meth:`~colour.utilities.CanonicalMapping.__eq__`
+    -   :meth:`~colour.utilities.CanonicalMapping.__ne__`
+    -   :meth:`~colour.utilities.CanonicalMapping.copy`
+    -   :meth:`~colour.utilities.CanonicalMapping.lower_keys`
+    -   :meth:`~colour.utilities.CanonicalMapping.lower_items`
+    -   :meth:`~colour.utilities.CanonicalMapping.slugified_keys`
+    -   :meth:`~colour.utilities.CanonicalMapping.slugified_items`
+    -   :meth:`~colour.utilities.CanonicalMapping.canonical_keys`
+    -   :meth:`~colour.utilities.CanonicalMapping.canonical_items`
 
     Examples
     --------
-    >>> methods = CaseInsensitiveMapping({'McCamy': 1, 'Hernandez': 2})
-    >>> methods['mccamy']
+    >>> methods = CanonicalMapping({"McCamy 1992": 1, "Hernandez 1999": 2})
+    >>> methods["mccamy 1992"]
+    1
+    >>> methods["MCCAMY 1992"]
+    1
+    >>> methods["mccamy-1992"]
+    1
+    >>> methods["mccamy1992"]
     1
     """
 
     def __init__(
         self, data: Optional[Union[Generator, Mapping]] = None, **kwargs: Any
-    ):
+    ) -> None:
         self._data: Dict = dict()
 
         self.update({} if data is None else data, **kwargs)
@@ -321,8 +323,8 @@ class CaseInsensitiveMapping(MutableMapping):
     @property
     def data(self) -> Dict:
         """
-        Getter property for the case-insensitive :class:`dict`-like object
-        data.
+        Getter property for the delimiter and case-insensitive
+        :class:`dict`-like object data.
 
         Returns
         -------
@@ -334,8 +336,8 @@ class CaseInsensitiveMapping(MutableMapping):
 
     def __repr__(self) -> str:
         """
-        Return an evaluable string representation of the case-insensitive
-        :class:`dict`-like object.
+        Return an evaluable string representation of the delimiter and
+        case-insensitive :class:`dict`-like object.
 
         Returns
         -------
@@ -353,36 +355,31 @@ class CaseInsensitiveMapping(MutableMapping):
 
     def __setitem__(self, item: Union[str, Any], value: Any):
         """
-        Set given item with given value in the case-insensitive
+        Set given item with given value in the delimiter and case-insensitive
         :class:`dict`-like object.
 
         Parameters
         ----------
         item
-            Item to set in the case-insensitive :class:`dict`-like object.
+            Item to set in the delimiter and case-insensitive
+            :class:`dict`-like object.
         value
-            Value to store in the case-insensitive :class:`dict`-like object.
-
-        Notes
-        -----
-        -   The item is stored as lower-case while the original name and its
-            value are stored together as the value in a *tuple*::
-
-            {"item.lower()": ("item", value)}
+            Value to store in the delimiter and case-insensitive
+            :class:`dict`-like object.
         """
 
-        self._data[self._lower_key(item)] = (item, value)
+        self._data[item] = value
 
     def __getitem__(self, item: Union[str, Any]) -> Any:
         """
-        Return the value of given item from the case-insensitive
+        Return the value of given item from the delimiter and case-insensitive
         :class:`dict`-like object.
 
         Parameters
         ----------
         item
-            Item to retrieve the value of from the case-insensitive
-            :class:`dict`-like object.
+            Item to retrieve the value of from the delimiter and
+            case-insensitive :class:`dict`-like object.
 
         Returns
         -------
@@ -391,51 +388,107 @@ class CaseInsensitiveMapping(MutableMapping):
 
         Notes
         -----
-        -   The item value is retrieved by using its lower-case variant.
+        -   The item value can be retrieved by using either its lower-case,
+            slugified or canonical variant.
         """
 
-        return self._data[self._lower_key(item)][1]
+        try:
+            return self._data[item]
+        except KeyError:
+            pass
+
+        try:
+            return self[
+                dict(zip(self.lower_keys(), self.keys()))[str(item).lower()]
+            ]
+        except KeyError:
+            pass
+
+        try:
+            return self[dict(zip(self.slugified_keys(), self.keys()))[item]]
+        except KeyError:
+            pass
+
+        return self[dict(zip(self.canonical_keys(), self.keys()))[item]]
 
     def __delitem__(self, item: Union[str, Any]):
         """
-        Delete given item from the case-insensitive :class:`dict`-like object.
+        Delete given item from the delimiter and case-insensitive
+        :class:`dict`-like object.
 
         Parameters
         ----------
         item
-            Item to delete from the case-insensitive :class:`dict`-like object.
+            Item to delete from the delimiter and case-insensitive
+            :class:`dict`-like object.
 
         Notes
         -----
-        -   The item is deleted by using its lower-case variant.
+        -   The item can be deleted by using either its lower-case, slugified
+            or canonical variant.
         """
 
-        del self._data[self._lower_key(item)]
+        try:
+            del self._data[item]
+            return
+        except KeyError:
+            pass
+
+        try:
+            del self._data[
+                dict(zip(self.lower_keys(), self.keys()))[str(item).lower()]
+            ]
+            return
+        except KeyError:
+            pass
+
+        try:
+            del self[dict(zip(self.slugified_keys(), self.keys()))[item]]
+            return
+        except KeyError:
+            pass
+
+        del self[dict(zip(self.canonical_keys(), self.keys()))[item]]
 
     def __contains__(self, item: Union[str, Any]) -> bool:
         """
-        Return whether the case-insensitive :class:`dict`-like object contains
-        given item.
+        Return whether the delimiter and case-insensitive :class:`dict`-like
+        object contains given item.
 
         Parameters
         ----------
         item
-            Item to find whether it is in the case-insensitive
+            Item to find whether it is in the delimiter and case-insensitive
             :class:`dict`-like object.
 
         Returns
         -------
         :class:`bool`
-            Whether given item is in the case-insensitive :class:`dict`-like
-            object.
+            Whether given item is in the delimiter and case-insensitive
+            :class:`dict`-like object.
+
+        Notes
+        -----
+        -   The item presence can be checked by using either its lower-case,
+            slugified or canonical variant.
         """
 
-        return self._lower_key(item) in self._data
+        if any(
+            [
+                item in self._data,
+                str(item).lower() in self.lower_keys(),
+                item in self.slugified_keys(),
+                item in self.canonical_keys(),
+            ]
+        ):
+            return True
+        else:
+            return False
 
     def __iter__(self) -> Generator:
         """
-        Iterate over the items of the case-insensitive :class:`dict`-like
-        object.
+        Iterate over the items of the delimiter and case-insensitive
+        :class:`dict`-like object.
 
         Yields
         ------
@@ -447,7 +500,7 @@ class CaseInsensitiveMapping(MutableMapping):
         -   The iterated items are the original items.
         """
 
-        return (item for item, value in self._data.values())
+        yield from self._data.keys()
 
     def __len__(self) -> Integer:
         """
@@ -463,117 +516,190 @@ class CaseInsensitiveMapping(MutableMapping):
 
     def __eq__(self, other: Any) -> bool:
         """
-        Return whether the case-insensitive :class:`dict`-like object is equal
-        to given other object.
+        Return whether the delimiter and case-insensitive :class:`dict`-like
+        object is equal to given other object.
 
         Parameters
         ----------
         other
-            Object to test whether it is equal to the case-insensitive
-            :class:`dict`-like object
+            Object to test whether it is equal to the delimiter and
+            case-insensitive :class:`dict`-like object
 
         Returns
         -------
         :class:`bool`
-            Whether given object is equal to the case-insensitive
+            Whether given object is equal to the delimiter and case-insensitive
             :class:`dict`-like object.
         """
 
         if isinstance(other, Mapping):
-            other_mapping = CaseInsensitiveMapping(other)
+            other_mapping = CanonicalMapping(other)
         else:
             raise ValueError(
                 f"Impossible to test equality with "
                 f'"{other.__class__.__name__}" class type!'
             )
 
-        return dict(self.lower_items()) == dict(other_mapping.lower_items())
+        return self._data == other_mapping.data
 
     def __ne__(self, other: Any) -> bool:
         """
-        Return whether the case-insensitive :class:`dict`-like object is not
-        equal to given other object.
+        Return whether the delimiter and case-insensitive :class:`dict`-like
+        object is not equal to given other object.
 
         Parameters
         ----------
         other
-            Object to test whether it is not equal to the case-insensitive
-            :class:`dict`-like object
+            Object to test whether it is not equal to the delimiter and
+            case-insensitive :class:`dict`-like object
 
         Returns
         -------
         :class:`bool`
-            Whether given object is not equal to the case-insensitive
-            :class:`dict`-like object.
+            Whether given object is not equal to the delimiter and
+            case-insensitive :class:`dict`-like object.
         """
 
         return not (self == other)
 
     @staticmethod
-    def _lower_key(key: Union[str, Any]) -> Union[str, Any]:
+    def _collision_warning(keys: List):
         """
-        Return the lower-case variant of given key, if the key cannot be
-        lower-cased, it is passed unmodified.
+        Issue a runtime warning when given keys are colliding.
 
         Parameters
         ----------
-        key
-            Key to return the lower-case variant.
+        keys
+        """
+
+        from colour.utilities import usage_warning
+
+        collisions = [
+            key for (key, value) in Counter(keys).items() if value > 1
+        ]
+
+        if collisions:
+            usage_warning(f"{list(set(keys))} key(s) collide(s)!")
+
+    def copy(self) -> CanonicalMapping:
+        """
+        Return a copy of the delimiter and case-insensitive :class:`dict`-like
+        object.
 
         Returns
         -------
-        :class:`str` or :class:`object`
-            Key lower-case variant.
-        """
-
-        try:
-            return key.lower()
-        except AttributeError:
-            return key
-
-    def copy(self) -> CaseInsensitiveMapping:
-        """
-        Return a copy of the case-insensitive :class:`dict`-like object.
-
-        Returns
-        -------
-        :class:`CaseInsensitiveMapping`
+        :class:`CanonicalMapping`
             Case-insensitive :class:`dict`-like object copy.
 
         Warnings
         --------
-        -   The :class:`CaseInsensitiveMapping` class copy returned is a
+        -   The :class:`CanonicalMapping` class copy returned is a
             *copy* of the object not a *deepcopy*!
         """
 
-        return CaseInsensitiveMapping(dict(self._data.values()))
+        return CanonicalMapping(dict(**self._data))
 
-    def lower_items(self) -> Generator:
+    def lower_keys(self) -> Generator:
         """
-        Iterate over the lower-case items of the case-insensitive
+        Iterate over the lower-case keys of the delimiter and case-insensitive
         :class:`dict`-like object.
 
         Yields
         ------
         Generator
             Item generator.
-
-        Notes
-        -----
-        -   The iterated items are the lower-case items.
         """
 
-        return ((item, value[1]) for (item, value) in self._data.items())
+        lower_keys = [str(key).lower() for key in self._data]
+
+        self._collision_warning(lower_keys)
+
+        yield from iter(lower_keys)
+
+    def lower_items(self) -> Generator:
+        """
+        Iterate over the lower-case items of the delimiter and case-insensitive
+        :class:`dict`-like object.
+
+        Yields
+        ------
+        Generator
+            Item generator.
+        """
+
+        yield from (
+            (str(key).lower(), value) for (key, value) in self._data.items()
+        )
+
+    def slugified_keys(self) -> Generator:
+        """
+        Iterate over the slugified keys of the delimiter and case-insensitive
+        :class:`dict`-like object.
+
+        Yields
+        ------
+        Generator
+            Item generator.
+        """
+
+        from colour.utilities import slugify
+
+        slugified_keys = [slugify(key) for key in self.lower_keys()]
+
+        self._collision_warning(slugified_keys)
+
+        yield from iter(slugified_keys)
+
+    def slugified_items(self) -> Generator:
+        """
+        Iterate over the slugified items of the delimiter and case-insensitive
+        :class:`dict`-like object.
+
+        Yields
+        ------
+        Generator
+            Item generator.
+        """
+
+        yield from zip(self.slugified_keys(), self.values())
+
+    def canonical_keys(self) -> Generator:
+        """
+        Iterate over the canonical keys of the delimiter and case-insensitive
+        :class:`dict`-like object.
+
+        Yields
+        ------
+        Generator
+            Item generator.
+        """
+
+        canonical_keys = [
+            re.sub("-|_", "", key) for key in self.slugified_keys()
+        ]
+
+        self._collision_warning(canonical_keys)
+
+        yield from iter(canonical_keys)
+
+    def canonical_items(self) -> Generator:
+        """
+        Iterate over the canonical items of the delimiter and case-insensitive
+        :class:`dict`-like object.
+
+        Yields
+        ------
+        Generator
+            Item generator.
+        """
+
+        yield from zip(self.canonical_keys(), self.values())
 
 
-class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
+class LazyCanonicalMapping(CanonicalMapping):
     """
-    Implement a lazy case-insensitive :class:`dict`-like object inheriting
-    from :class:`CaseInsensitiveMapping` class.
-
-    Allows lay values retrieving from keys while ignoring the key case.
-    The keys are expected to be str or :class:`str`-like objects supporting the
-    :meth:`str.lower` method.
+    Implement a lazy delimiter and case-insensitive :class:`dict`-like object
+    inheriting from :class:`colour.utilities.CanonicalMapping` class.
 
     The lazy retrieval is performed as follows: If the value is a callable,
     then it is evaluated and its return value is stored in place of the current
@@ -582,8 +708,8 @@ class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
     Parameters
     ----------
     data
-        Data to store into the lazy case-insensitive :class:`dict`-like object
-        at initialisation.
+        Data to store into the lazy delimiter and case-insensitive
+        :class:`dict`-like object at initialisation.
 
     Other Parameters
     ----------------
@@ -592,41 +718,37 @@ class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
 
     Methods
     -------
-    -   :meth:`~colour.utilities.LazyCaseInsensitiveMapping.__getitem__`
+    -   :meth:`~colour.utilities.LazyCanonicalMapping.__getitem__`
 
     Examples
     --------
     >>> def callable_a():
     ...     print(2)
     ...     return 2
-    >>> methods = LazyCaseInsensitiveMapping(
-    ...     {'McCamy': 1, 'Hernandez': callable_a})
-    >>> methods['mccamy']
+    ...
+    >>> methods = LazyCanonicalMapping({"McCamy": 1, "Hernandez": callable_a})
+    >>> methods["mccamy"]
     1
-    >>> methods['hernandez']
+    >>> methods["hernandez"]
     2
     2
     """
 
     def __getitem__(self, item: Union[str, Any]) -> Any:
         """
-        Return the value of given item from the case-insensitive
-        :class:`dict`-like object.
+        Return the value of given item from the lazy delimiter and
+        case-insensitive :class:`dict`-like object.
 
         Parameters
         ----------
         item
-            Item to retrieve the value of from the case-insensitive
-            :class:`dict`-like object.
+            Item to retrieve the value of from the lazy delimiter and
+            case-insensitive :class:`dict`-like object.
 
         Returns
         -------
         :class:`object`
             Item value.
-
-        Notes
-        -----
-        -   The item value is retrieved by using its lower-case variant.
         """
 
         import colour
@@ -680,14 +802,14 @@ class Node:
 
     Examples
     --------
-    >>> node_a = Node('Node A')
-    >>> node_b = Node('Node B', node_a)
-    >>> node_c = Node('Node C', node_a)
-    >>> node_d = Node('Node D', node_b)
-    >>> node_e = Node('Node E', node_b)
-    >>> node_f = Node('Node F', node_d)
-    >>> node_g = Node('Node G', node_f)
-    >>> node_h = Node('Node H', node_g)
+    >>> node_a = Node("Node A")
+    >>> node_b = Node("Node B", node_a)
+    >>> node_c = Node("Node C", node_a)
+    >>> node_d = Node("Node D", node_b)
+    >>> node_e = Node("Node E", node_b)
+    >>> node_f = Node("Node F", node_d)
+    >>> node_g = Node("Node G", node_f)
+    >>> node_h = Node("Node H", node_g)
     >>> [node.name for node in node_a.leaves]
     ['Node H', 'Node E', 'Node C']
     >>> print(node_h.root.name)
@@ -728,7 +850,7 @@ class Node:
         parent: Optional[Node] = None,
         children: Optional[List[Node]] = None,
         data: Optional[Any] = None,
-    ):
+    ) -> None:
         self._name: str = f"{self.__class__.__name__}#{self.id}"
         self.name = self._name if name is None else name
         self._parent: Optional[Node] = None
@@ -759,6 +881,8 @@ class Node:
     def name(self, value: str):
         """Setter for the **self.name** property."""
 
+        from colour.utilities import attest
+
         attest(
             isinstance(value, str),
             f'"name" property: "{value}" type is not "str"!',
@@ -787,6 +911,8 @@ class Node:
     @parent.setter
     def parent(self, value: Optional[Node]):
         """Setter for the **self.parent** property."""
+
+        from colour.utilities import attest
 
         if value is not None:
             attest(
@@ -820,6 +946,8 @@ class Node:
     @children.setter
     def children(self, value: List[Node]):
         """Setter for the **self.children** property."""
+
+        from colour.utilities import attest
 
         attest(
             isinstance(value, list),
@@ -957,9 +1085,9 @@ class Node:
 
         Examples
         --------
-        >>> node_a = Node('Node A')
-        >>> node_b = Node('Node B', node_a)
-        >>> node_c = Node('Node C', node_b)
+        >>> node_a = Node("Node A")
+        >>> node_b = Node("Node B", node_a)
+        >>> node_c = Node("Node C", node_b)
         >>> node_a.is_root()
         True
         >>> node_b.is_root()
@@ -979,9 +1107,9 @@ class Node:
 
         Examples
         --------
-        >>> node_a = Node('Node A')
-        >>> node_b = Node('Node B', node_a)
-        >>> node_c = Node('Node C', node_b)
+        >>> node_a = Node("Node A")
+        >>> node_b = Node("Node B", node_a)
+        >>> node_c = Node("Node C", node_b)
         >>> node_a.is_inner()
         False
         >>> node_b.is_inner()
@@ -1001,9 +1129,9 @@ class Node:
 
         Examples
         --------
-        >>> node_a = Node('Node A')
-        >>> node_b = Node('Node B', node_a)
-        >>> node_c = Node('Node C', node_b)
+        >>> node_a = Node("Node A")
+        >>> node_b = Node("Node B", node_a)
+        >>> node_c = Node("Node C", node_b)
         >>> node_a.is_leaf()
         False
         >>> node_c.is_leaf()
@@ -1029,16 +1157,17 @@ class Node:
 
         Examples
         --------
-        >>> node_a = Node('Node A')
-        >>> node_b = Node('Node B', node_a)
-        >>> node_c = Node('Node C', node_a)
-        >>> node_d = Node('Node D', node_b)
-        >>> node_e = Node('Node E', node_b)
-        >>> node_f = Node('Node F', node_d)
-        >>> node_g = Node('Node G', node_f)
-        >>> node_h = Node('Node H', node_g)
+        >>> node_a = Node("Node A")
+        >>> node_b = Node("Node B", node_a)
+        >>> node_c = Node("Node C", node_a)
+        >>> node_d = Node("Node D", node_b)
+        >>> node_e = Node("Node E", node_b)
+        >>> node_f = Node("Node F", node_d)
+        >>> node_g = Node("Node G", node_f)
+        >>> node_h = Node("Node H", node_g)
         >>> for node in node_a.walk():
         ...     print(node.name)
+        ...
         Node B
         Node D
         Node F
@@ -1077,9 +1206,9 @@ class Node:
 
         Examples
         --------
-        >>> node_a = Node('Node A')
-        >>> node_b = Node('Node B', node_a)
-        >>> node_c = Node('Node C', node_a)
+        >>> node_a = Node("Node A")
+        >>> node_b = Node("Node B", node_a)
+        >>> node_c = Node("Node C", node_a)
         >>> print(node_a.render())
         |----"Node A"
             |----"Node B"

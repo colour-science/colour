@@ -36,6 +36,12 @@ R-REC-BT.2020-2-201510-I!!PDF-E.pdf
     exchange BT Series Broadcasting service (pp. 1-32).
     https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
 R-REC-BT.709-6-201506-I!!PDF-E.pdf
+-   :cite:`InternationalTelecommunicationUnion2018` : International
+    Telecommunication Union. (2018). Recommendation ITU-R BT.2100-2 - Image
+    parameter values for high dynamic range television for use in production
+    and international programme exchange.
+    https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+R-REC-BT.2100-2-201807-I!!PDF-E.pdf
 -   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b` : Society of
     Motion Picture and Television Engineers. (1999). ANSI/SMPTE 240M-1995 -
     Signal Parameters - 1125-Line High-Definition Production Systems (pp. 1-7).
@@ -52,11 +58,11 @@ import numpy as np
 from colour.hints import Any, ArrayLike, Boolean, Integer, NDArray
 from colour.models.rgb.transfer_functions import (
     CV_range,
-    eotf_inverse_BT2020,
-    eotf_BT2020,
+    oetf_BT2020,
+    oetf_inverse_BT2020,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float_array,
     as_int_array,
     domain_range_scale,
@@ -75,6 +81,7 @@ __status__ = "Development"
 
 __all__ = [
     "WEIGHTS_YCBCR",
+    "round_BT2100",
     "ranges_YCbCr",
     "matrix_YCbCr",
     "offset_YCbCr",
@@ -84,7 +91,7 @@ __all__ = [
     "YcCbcCrc_to_RGB",
 ]
 
-WEIGHTS_YCBCR: CaseInsensitiveMapping = CaseInsensitiveMapping(
+WEIGHTS_YCBCR: CanonicalMapping = CanonicalMapping(
     {
         "ITU-R BT.601": np.array([0.2990, 0.1140]),
         "ITU-R BT.709": np.array([0.2126, 0.0722]),
@@ -103,6 +110,34 @@ References
 :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`,
 :cite:`Wikipedia2004d`
 """
+
+
+def round_BT2100(a: ArrayLike) -> NDArray:
+    """
+    Round given array :math:`a` to the nearest integer using the method define
+    as `Round` in *RecommendationITU-R BT.2100*.
+
+    Parameters
+    ----------
+    a
+        Array :math:`a` to round.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Rounded array :math:`a`.
+
+    References
+    ----------
+    :cite:`InternationalTelecommunicationUnion2018`
+
+    Examples
+    --------
+    >>> round_BT2100(np.array([0.4, 0.5, 0.6]))
+    array([ 0.,  1.,  1.])
+    """
+
+    return as_float_array(np.sign(a) * np.floor(np.abs(a) + 0.5))
 
 
 def ranges_YCbCr(bits: Integer, is_legal: Boolean, is_int: Boolean) -> NDArray:
@@ -128,24 +163,29 @@ def ranges_YCbCr(bits: Integer, is_legal: Boolean, is_int: Boolean) -> NDArray:
     Examples
     --------
     >>> ranges_YCbCr(8, True, True)
-    array([ 16, 235,  16, 240])
+    array([  16.,  235.,   16.,  240.])
     >>> ranges_YCbCr(8, True, False)  # doctest: +ELLIPSIS
     array([ 0.0627451...,  0.9215686...,  0.0627451...,  0.9411764...])
     >>> ranges_YCbCr(10, False, False)
     array([ 0. ,  1. , -0.5,  0.5])
+    >>> ranges_YCbCr(10, False, True)
+    array([  0.0000000...e+00,   1.0230000...e+03,   5.0000000...e-01,
+             1.0235000...e+03])
     """
 
     if is_legal:
-        ranges = np.array([16, 235, 16, 240])
+        ranges = as_float_array([16, 235, 16, 240])
         ranges *= 2 ** (bits - 8)
     else:
-        ranges = np.array([0, 2**bits - 1, 0, 2**bits - 1])
+        ranges = as_float_array([0, 2**bits - 1, 0, 2**bits - 1])
 
     if not is_int:
         ranges = as_int_array(ranges) / (2**bits - 1)
 
     if is_int and not is_legal:
-        ranges[3] = 2**bits
+        ranges = as_float_array(ranges)
+        ranges[2] = 0.5
+        ranges[3] = 2**bits - 0.5
 
     if not is_int and not is_legal:
         ranges[2] = -0.5
@@ -161,7 +201,7 @@ def matrix_YCbCr(
     is_int: Boolean = False,
 ) -> NDArray:
     """
-    Compute the *R'G'B'* to *Y'CbCr* matrix for given weights, bit depth,
+    Compute the *Y'CbCr* to *R'G'B'* matrix for given weights, bit depth,
     range legality and representation.
 
     The related offset for the *R'G'B'* to *Y'CbCr* matrix can be computed with
@@ -192,7 +232,7 @@ def matrix_YCbCr(
     array([[  1.0000000...e+00,  ...,   1.5748000...e+00],
            [  1.0000000...e+00,  -1.8732427...e-01,  -4.6812427...e-01],
            [  1.0000000...e+00,   1.8556000...e+00,  ...]])
-    >>> matrix_YCbCr(K=WEIGHTS_YCBCR['ITU-R BT.601'])  # doctest: +ELLIPSIS
+    >>> matrix_YCbCr(K=WEIGHTS_YCBCR["ITU-R BT.601"])  # doctest: +ELLIPSIS
     array([[  1.0000000...e+00,  ...,   1.4020000...e+00],
            [  1.0000000...e+00,  -3.4413628...e-01,  -7.1413628...e-01],
            [  1.0000000...e+00,   1.7720000...e+00,  ...]])
@@ -291,6 +331,7 @@ def RGB_to_YCbCr(
     out_bits: Integer = 8,
     out_legal: Boolean = True,
     out_int: Boolean = False,
+    clamp_int: Boolean = True,
     **kwargs: Any,
 ) -> NDArray:
     """
@@ -324,6 +365,9 @@ def RGB_to_YCbCr(
     out_int
         Whether to return values as ``out_bits`` integer code values. Default
         is *False*.
+    clamp_int
+        Whether to clamp integer output to allowable range for ``out_bits``.
+        Default is *True*.
 
     Other Parameters
     ----------------
@@ -392,8 +436,9 @@ def RGB_to_YCbCr(
     Matching the float output of *The Foundry Nuke*'s *Colorspace* node set to
     *YCbCr*:
 
-    >>> RGB_to_YCbCr(RGB,
-    ...              out_range=(16 / 255, 235 / 255, 15.5 / 255, 239.5 / 255))
+    >>> RGB_to_YCbCr(
+    ...     RGB, out_range=(16 / 255, 235 / 255, 15.5 / 255, 239.5 / 255)
+    ... )
     ... # doctest: +ELLIPSIS
     array([ 0.9215686...,  0.5       ,  0.5       ])
 
@@ -413,23 +458,34 @@ def RGB_to_YCbCr(
     For *JFIF JPEG* conversion as per *Recommendation ITU-T T.871*
 
     >>> RGB = np.array([102, 0, 51])
-    >>> RGB_to_YCbCr(RGB, K=WEIGHTS_YCBCR['ITU-R BT.601'], in_range=(0, 255),
-    ...              out_range=(0, 255, 0, 256), out_int=True)
+    >>> RGB_to_YCbCr(
+    ...     RGB,
+    ...     K=WEIGHTS_YCBCR["ITU-R BT.601"],
+    ...     in_range=(0, 255),
+    ...     out_range=(0, 255, 0.5, 255.5),
+    ...     out_int=True,
+    ... )
     ... # doctest: +ELLIPSIS
     array([ 36, 136, 175]...)
 
-    Note the use of 256 for the max *Cb / Cr* value, which is required so that
-    the *Cb* and *Cr* output is centered about 128. Using 255 centres it
+    Note the use of [0.5, 255.5] for the *Cb / Cr* range, which is required so
+    that the *Cb* and *Cr* output is centered about 128. Using 255 centres it
     about 127.5, meaning that there is no integer code value to represent
     achromatic colours. This does however create the possibility of output
     integer codes with value of 256, which cannot be stored in 8-bit integer
     representation. *Recommendation ITU-T T.871* specifies these should be
-    clamped to 255.
+    clamped to 255, which is applied with the default ``clamp_int=True``.
 
     These *JFIF JPEG* ranges are also obtained as follows:
 
-    >>> RGB_to_YCbCr(RGB, K=WEIGHTS_YCBCR['ITU-R BT.601'], in_bits=8,
-    ...              in_int=True, out_legal=False, out_int=True)
+    >>> RGB_to_YCbCr(
+    ...     RGB,
+    ...     K=WEIGHTS_YCBCR["ITU-R BT.601"],
+    ...     in_bits=8,
+    ...     in_int=True,
+    ...     out_legal=False,
+    ...     out_int=True,
+    ... )
     ... # doctest: +ELLIPSIS
     array([ 36, 136, 175]...)
     """
@@ -464,7 +520,11 @@ def RGB_to_YCbCr(
     YCbCr = tstack([Y, Cb, Cr])
 
     if out_int:
-        return as_int_array(np.round(YCbCr))
+        return as_int_array(
+            round_BT2100(
+                np.clip(YCbCr, 0, 2**out_bits - 1) if clamp_int else YCbCr
+            )
+        )
     else:
         return from_range_1(YCbCr)
 
@@ -478,6 +538,7 @@ def YCbCr_to_RGB(
     out_bits: Integer = 10,
     out_legal: Boolean = False,
     out_int: Boolean = False,
+    clamp_int: Boolean = True,
     **kwargs: Any,
 ) -> NDArray:
     """
@@ -511,6 +572,9 @@ def YCbCr_to_RGB(
     out_int
         Whether to return values as ``out_bits`` integer code values. Default
         is *False*.
+    clamp_int
+        Whether to clamp integer output to allowable range for ``out_bits``.
+        Default is *True*.
 
     Other Parameters
     ----------------
@@ -596,7 +660,15 @@ def YCbCr_to_RGB(
     RGB *= RGB_max - RGB_min
     RGB += RGB_min
 
-    RGB = as_int_array(np.round(RGB)) if out_int else from_range_1(RGB)
+    RGB = (
+        as_int_array(
+            round_BT2100(
+                np.clip(RGB, 0, 2**out_bits - 1) if clamp_int else RGB
+            )
+        )
+        if out_int
+        else from_range_1(RGB)
+    )
 
     return RGB
 
@@ -674,8 +746,13 @@ def RGB_to_YcCbcCrc(
     Examples
     --------
     >>> RGB = np.array([0.18, 0.18, 0.18])
-    >>> RGB_to_YcCbcCrc(RGB, out_legal=True, out_bits=10, out_int=True,
-    ...                 is_12_bits_system=False)
+    >>> RGB_to_YcCbcCrc(
+    ...     RGB,
+    ...     out_legal=True,
+    ...     out_bits=10,
+    ...     out_int=True,
+    ...     is_12_bits_system=False,
+    ... )
     ... # doctest: +ELLIPSIS
     array([422, 512, 512]...)
     """
@@ -688,9 +765,9 @@ def RGB_to_YcCbcCrc(
     Yc = 0.2627 * R + 0.6780 * G + 0.0593 * B
 
     with domain_range_scale("ignore"):
-        Yc = eotf_inverse_BT2020(Yc, is_12_bits_system=is_12_bits_system)
-        R = eotf_inverse_BT2020(R, is_12_bits_system=is_12_bits_system)
-        B = eotf_inverse_BT2020(B, is_12_bits_system=is_12_bits_system)
+        Yc = oetf_BT2020(Yc, is_12_bits_system=is_12_bits_system)
+        R = oetf_BT2020(R, is_12_bits_system=is_12_bits_system)
+        B = oetf_BT2020(B, is_12_bits_system=is_12_bits_system)
 
     Cbc = np.where((B - Yc) <= 0, (B - Yc) / 1.9404, (B - Yc) / 1.5816)
     Crc = np.where((R - Yc) <= 0, (R - Yc) / 1.7184, (R - Yc) / 0.9936)
@@ -782,8 +859,13 @@ def YcCbcCrc_to_RGB(
     Examples
     --------
     >>> YcCbcCrc = np.array([1689, 2048, 2048])
-    >>> YcCbcCrc_to_RGB(YcCbcCrc, in_legal=True, in_bits=12, in_int=True,
-    ...                 is_12_bits_system=True)
+    >>> YcCbcCrc_to_RGB(
+    ...     YcCbcCrc,
+    ...     in_legal=True,
+    ...     in_bits=12,
+    ...     in_int=True,
+    ...     is_12_bits_system=True,
+    ... )
     ... # doctest: +ELLIPSIS
     array([ 0.1800903...,  0.1800903...,  0.1800903...])
     """
@@ -808,9 +890,9 @@ def YcCbcCrc_to_RGB(
     R = np.where(Crc <= 0, Crc * 1.7184 + Yc, Crc * 0.9936 + Yc)
 
     with domain_range_scale("ignore"):
-        Yc = as_float_array(eotf_BT2020(Yc, is_12_bits_system))
-        B = as_float_array(eotf_BT2020(B, is_12_bits_system))
-        R = as_float_array(eotf_BT2020(R, is_12_bits_system))
+        Yc = as_float_array(oetf_inverse_BT2020(Yc, is_12_bits_system))
+        B = as_float_array(oetf_inverse_BT2020(B, is_12_bits_system))
+        R = as_float_array(oetf_inverse_BT2020(R, is_12_bits_system))
 
     G = (Yc - 0.0593 * B - 0.2627 * R) / 0.6780
 

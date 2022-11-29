@@ -47,7 +47,7 @@ from colour.hints import (
     Optional,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     MixinDataclassArithmetic,
     as_float,
     as_float_array,
@@ -110,7 +110,7 @@ class InductionFactors_Kim2009(
     """
 
 
-VIEWING_CONDITIONS_KIM2009: CaseInsensitiveMapping = CaseInsensitiveMapping(
+VIEWING_CONDITIONS_KIM2009: CanonicalMapping = CanonicalMapping(
     VIEWING_CONDITIONS_CIECAM02
 )
 VIEWING_CONDITIONS_KIM2009.__doc__ = """
@@ -146,7 +146,7 @@ class MediaParameters_Kim2009(namedtuple("MediaParameters_Kim2009", ("E",))):
         return super().__new__(cls, E)
 
 
-MEDIA_PARAMETERS_KIM2009: CaseInsensitiveMapping = CaseInsensitiveMapping(
+MEDIA_PARAMETERS_KIM2009: CanonicalMapping = CanonicalMapping(
     {
         "High-luminance LCD Display": MediaParameters_Kim2009(1),
         "Transparent Advertising Media": MediaParameters_Kim2009(1.2175),
@@ -294,8 +294,8 @@ def XYZ_to_Kim2009(
     >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
-    >>> media = MEDIA_PARAMETERS_KIM2009['CRT Displays']
-    >>> surround = VIEWING_CONDITIONS_KIM2009['Average']
+    >>> media = MEDIA_PARAMETERS_KIM2009["CRT Displays"]
+    >>> surround = VIEWING_CONDITIONS_KIM2009["Average"]
     >>> XYZ_to_Kim2009(XYZ, XYZ_w, L_A, media, surround)
     ... # doctest: +ELLIPSIS
     CAM_Specification_Kim2009(J=28.8619089..., C=0.5592455..., \
@@ -429,8 +429,8 @@ def Kim2009_to_XYZ(
     Raises
     ------
     ValueError
-        If neither *C* or *M* correlates have been defined in the
-        ``CAM_Specification_Kim2009`` argument.
+        If neither :math:`C` or :math:`M` correlates have been defined in the
+        ``specification`` argument.
 
     Notes
     -----
@@ -466,13 +466,13 @@ def Kim2009_to_XYZ(
 
     Examples
     --------
-    >>> specification = CAM_Specification_Kim2009(J=28.861908975839647,
-    ...                                           C=0.5592455924373706,
-    ...                                           h=219.04806677662953)
+    >>> specification = CAM_Specification_Kim2009(
+    ...     J=28.861908975839647, C=0.5592455924373706, h=219.04806677662953
+    ... )
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
-    >>> media = MEDIA_PARAMETERS_KIM2009['CRT Displays']
-    >>> surround = VIEWING_CONDITIONS_KIM2009['Average']
+    >>> media = MEDIA_PARAMETERS_KIM2009["CRT Displays"]
+    >>> surround = VIEWING_CONDITIONS_KIM2009["Average"]
     >>> Kim2009_to_XYZ(specification, XYZ_w, L_A, media, surround)
     ... # doctest: +ELLIPSIS
     array([ 19.0099995...,  19.9999999...,  21.7800000...])

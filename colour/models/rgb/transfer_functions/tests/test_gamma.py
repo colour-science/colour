@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the
+Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.gamma` module.
 """
 
@@ -84,85 +84,91 @@ gamma_function` definition n-dimensional arrays support.
 
         a = np.tile(a, 6)
         a_p = np.tile(a_p, 6)
-        np.testing.assert_almost_equal(gamma_function(a, 2.2), a_p, decimal=7)
+        np.testing.assert_array_almost_equal(
+            gamma_function(a, 2.2), a_p, decimal=7
+        )
 
         a = np.reshape(a, (2, 3))
         a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_almost_equal(gamma_function(a, 2.2), a_p, decimal=7)
+        np.testing.assert_array_almost_equal(
+            gamma_function(a, 2.2), a_p, decimal=7
+        )
 
         a = np.reshape(a, (2, 3, 1))
         a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_almost_equal(gamma_function(a, 2.2), a_p, decimal=7)
+        np.testing.assert_array_almost_equal(
+            gamma_function(a, 2.2), a_p, decimal=7
+        )
 
         a = -0.18
         a_p = -0.022993204992707
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             gamma_function(a, 2.2, "Mirror"), a_p, decimal=7
         )
 
         a = np.tile(a, 6)
         a_p = np.tile(a_p, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             gamma_function(a, 2.2, "Mirror"), a_p, decimal=7
         )
 
         a = np.reshape(a, (2, 3))
         a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             gamma_function(a, 2.2, "Mirror"), a_p, decimal=7
         )
 
         a = np.reshape(a, (2, 3, 1))
         a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             gamma_function(a, 2.2, "Mirror"), a_p, decimal=7
         )
 
         a = -0.18
         a_p = -0.18
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             gamma_function(a, 2.2, "Preserve"), a_p, decimal=7
         )
 
         a = np.tile(a, 6)
         a_p = np.tile(a_p, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             gamma_function(a, 2.2, "Preserve"), a_p, decimal=7
         )
 
         a = np.reshape(a, (2, 3))
         a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             gamma_function(a, 2.2, "Preserve"), a_p, decimal=7
         )
 
         a = np.reshape(a, (2, 3, 1))
         a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             gamma_function(a, 2.2, "Preserve"), a_p, decimal=7
         )
 
         a = -0.18
         a_p = 0.0
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             gamma_function(a, 2.2, "Clamp"), a_p, decimal=7
         )
 
         a = np.tile(a, 6)
         a_p = np.tile(a_p, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             gamma_function(a, 2.2, "Clamp"), a_p, decimal=7
         )
 
         a = np.reshape(a, (2, 3))
         a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             gamma_function(a, 2.2, "Clamp"), a_p, decimal=7
         )
 
         a = np.reshape(a, (2, 3, 1))
         a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             gamma_function(a, 2.2, "Clamp"), a_p, decimal=7
         )
 
@@ -174,9 +180,7 @@ gamma_function` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-
-        for case in cases:
-            gamma_function(case, case)
+        gamma_function(cases, cases)
 
 
 if __name__ == "__main__":

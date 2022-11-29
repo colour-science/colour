@@ -35,7 +35,7 @@ from functools import partial
 
 from colour.characterisation import RGB_DisplayPrimaries
 from colour.hints import Dict
-from colour.utilities import LazyCaseInsensitiveMapping
+from colour.utilities import LazyCanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -135,16 +135,14 @@ DATA_DISPLAY_PRIMARIES_LCD: Dict = {
     }
 }
 
-MSDS_DISPLAY_PRIMARIES_LCD: LazyCaseInsensitiveMapping = (
-    LazyCaseInsensitiveMapping(
-        {
-            "Apple Studio Display": partial(
-                RGB_DisplayPrimaries,
-                DATA_DISPLAY_PRIMARIES_LCD["Apple Studio Display"],
-                name="Apple Studio Display",
-            )
-        }
-    )
+MSDS_DISPLAY_PRIMARIES_LCD: LazyCanonicalMapping = LazyCanonicalMapping(
+    {
+        "Apple Studio Display": partial(
+            RGB_DisplayPrimaries,
+            DATA_DISPLAY_PRIMARIES_LCD["Apple Studio Display"],
+            name="Apple Studio Display",
+        )
+    }
 )
 """
 Primaries multi-spectral distributions of *LCD* displays.

@@ -1,10 +1,11 @@
-"""Defines the unit tests for the :mod:`colour.temperature.robertson1968` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.temperature.robertson1968` module."""
 
 from __future__ import annotations
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.hints import Dict
 from colour.temperature import CCT_to_uv_Robertson1968, uv_to_CCT_Robertson1968
@@ -18,7 +19,7 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "Testuv_to_CCT_Robertson1968",
+    "TestUv_to_CCT_Robertson1968",
     "TestCCT_to_uv_Robertson1968",
 ]
 
@@ -126,7 +127,7 @@ TEMPERATURE_DUV_TO_UV: Dict = {
 }
 
 
-class Testuv_to_CCT_Robertson1968(unittest.TestCase):
+class TestUv_to_CCT_Robertson1968(unittest.TestCase):
     """
     Define :func:`colour.temperature.robertson1968.uv_to_CCT_Robertson1968`
     definition unit tests methods.
@@ -154,13 +155,13 @@ class Testuv_to_CCT_Robertson1968(unittest.TestCase):
 
         uv = np.tile(uv, (6, 1))
         CCT_D_uv = np.tile(CCT_D_uv, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_CCT_Robertson1968(uv), CCT_D_uv, decimal=7
         )
 
         uv = np.reshape(uv, (2, 3, 2))
         CCT_D_uv = np.reshape(CCT_D_uv, (2, 3, 2))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_CCT_Robertson1968(uv), CCT_D_uv, decimal=7
         )
 
@@ -172,10 +173,8 @@ class Testuv_to_CCT_Robertson1968(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            uv = np.array(case)
-            uv_to_CCT_Robertson1968(uv)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        uv_to_CCT_Robertson1968(cases)
 
 
 class TestCCT_to_uv_Robertson1968(unittest.TestCase):
@@ -191,7 +190,7 @@ class TestCCT_to_uv_Robertson1968(unittest.TestCase):
         """
 
         for key, value in TEMPERATURE_DUV_TO_UV.items():
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 CCT_to_uv_Robertson1968(key), value, decimal=7
             )
 
@@ -206,13 +205,13 @@ class TestCCT_to_uv_Robertson1968(unittest.TestCase):
 
         CCT_D_uv = np.tile(CCT_D_uv, (6, 1))
         uv = np.tile(uv, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Robertson1968(CCT_D_uv), uv, decimal=7
         )
 
         CCT_D_uv = np.reshape(CCT_D_uv, (2, 3, 2))
         uv = np.reshape(uv, (2, 3, 2))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Robertson1968(CCT_D_uv), uv, decimal=7
         )
 
@@ -224,10 +223,8 @@ class TestCCT_to_uv_Robertson1968(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            CCT_D_uv = np.array(case)
-            CCT_to_uv_Robertson1968(CCT_D_uv)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        CCT_to_uv_Robertson1968(cases)
 
 
 if __name__ == "__main__":

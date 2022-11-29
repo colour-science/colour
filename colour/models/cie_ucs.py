@@ -22,6 +22,7 @@ References
 
 from __future__ import annotations
 
+from colour.algebra import sdiv, sdiv_mode
 from colour.hints import ArrayLike, Floating, NDArray
 from colour.utilities import (
     as_float_scalar,
@@ -182,7 +183,8 @@ def UCS_to_uv(UVW: ArrayLike) -> NDArray:
 
     U_V_W = U + V + W
 
-    uv = tstack([U / U_V_W, V / U_V_W])
+    with sdiv_mode():
+        uv = tstack([sdiv(U, U_V_W), sdiv(V, U_V_W)])
 
     return uv
 
@@ -221,7 +223,10 @@ def uv_to_UCS(uv: ArrayLike, V: Floating = 1) -> NDArray:
     u, v = tsplit(uv)
     V = as_float_scalar(to_domain_1(V))
 
-    UVW = tstack([V * u / v, full(u.shape, V), -V * (u + v - 1) / v])
+    with sdiv_mode():
+        UVW = tstack(
+            [V * sdiv(u, v), full(u.shape, V), -V * sdiv(u + v - 1, v)]
+        )
 
     return from_range_1(UVW)
 

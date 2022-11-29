@@ -122,13 +122,15 @@ def RGB_to_sd_Smits1999(RGB: ArrayLike) -> SpectralDistribution:
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> RGB = XYZ_to_RGB_Smits1999(XYZ)
     >>> cmfs = (
-    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
-    ...     copy().align(SpectralShape(360, 780, 10))
+    ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    ...     .copy()
+    ...     .align(SpectralShape(360, 780, 10))
     ... )
-    >>> illuminant = SDS_ILLUMINANTS['E'].copy().align(cmfs.shape)
+    >>> illuminant = SDS_ILLUMINANTS["E"].copy().align(cmfs.shape)
     >>> sd = RGB_to_sd_Smits1999(RGB)
     >>> with numpy_print_options(suppress=True):
-    ...     sd # doctest: +ELLIPSIS
+    ...     sd  # doctest: +ELLIPSIS
+    ...
     SpectralDistribution([[ 380.        ,    0.0787830...],
                           [ 417.7778    ,    0.0622018...],
                           [ 455.5556    ,    0.0446206...],
@@ -139,49 +141,49 @@ def RGB_to_sd_Smits1999(RGB: ArrayLike) -> SpectralDistribution:
                           [ 644.4444    ,    0.3836164...],
                           [ 682.2222    ,    0.3836164...],
                           [ 720.        ,    0.3835649...]],
-                         interpolator=LinearInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         LinearInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
     array([ 0.1894770...,  0.1126470...,  0.0474420...])
     """
 
-    white_sd = SDS_SMITS1999["white"].copy()
-    cyan_sd = SDS_SMITS1999["cyan"].copy()
-    magenta_sd = SDS_SMITS1999["magenta"].copy()
-    yellow_sd = SDS_SMITS1999["yellow"].copy()
-    red_sd = SDS_SMITS1999["red"].copy()
-    green_sd = SDS_SMITS1999["green"].copy()
-    blue_sd = SDS_SMITS1999["blue"].copy()
+    sd_white = SDS_SMITS1999["white"].copy()
+    sd_cyan = SDS_SMITS1999["cyan"].copy()
+    sd_magenta = SDS_SMITS1999["magenta"].copy()
+    sd_yellow = SDS_SMITS1999["yellow"].copy()
+    sd_red = SDS_SMITS1999["red"].copy()
+    sd_green = SDS_SMITS1999["green"].copy()
+    sd_blue = SDS_SMITS1999["blue"].copy()
 
     R, G, B = to_domain_1(RGB)
-    sd = white_sd.copy() * 0
+    sd = sd_white.copy() * 0
     sd.name = f"Smits (1999) - {RGB!r}"
 
     if R <= G and R <= B:
-        sd += white_sd * R
+        sd += sd_white * R
         if G <= B:
-            sd += cyan_sd * (G - R)
-            sd += blue_sd * (B - G)
+            sd += sd_cyan * (G - R)
+            sd += sd_blue * (B - G)
         else:
-            sd += cyan_sd * (B - R)
-            sd += green_sd * (G - B)
+            sd += sd_cyan * (B - R)
+            sd += sd_green * (G - B)
     elif G <= R and G <= B:
-        sd += white_sd * G
+        sd += sd_white * G
         if R <= B:
-            sd += magenta_sd * (R - G)
-            sd += blue_sd * (B - R)
+            sd += sd_magenta * (R - G)
+            sd += sd_blue * (B - R)
         else:
-            sd += magenta_sd * (B - G)
-            sd += red_sd * (R - B)
+            sd += sd_magenta * (B - G)
+            sd += sd_red * (R - B)
     else:
-        sd += white_sd * B
+        sd += sd_white * B
         if R <= G:
-            sd += yellow_sd * (R - B)
-            sd += green_sd * (G - R)
+            sd += sd_yellow * (R - B)
+            sd += sd_green * (G - R)
         else:
-            sd += yellow_sd * (G - B)
-            sd += red_sd * (R - G)
+            sd += sd_yellow * (G - B)
+            sd += sd_red * (R - G)
 
     return sd

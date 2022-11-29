@@ -1,14 +1,17 @@
-"""Defines the unit tests for the :mod:`colour.utilities.common` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.utilities.common` module."""
 
 from __future__ import annotations
 
 import numpy as np
 import unittest
+import unicodedata
 from functools import partial
 
 from colour.hints import Any, Floating, Number, Tuple
 from colour.utilities import (
     CacheRegistry,
+    CanonicalMapping,
     attest,
     batch,
     multiprocessing_pool,
@@ -22,6 +25,7 @@ from colour.utilities import (
     first_item,
     validate_method,
     optional,
+    slugify,
 )
 
 __author__ = "Colour Developers"
@@ -46,6 +50,7 @@ __all__ = [
     "TestFirstItem",
     "TestValidateMethod",
     "TestOptional",
+    "TestSlugify",
 ]
 
 
@@ -331,13 +336,13 @@ class TestIsSibling(unittest.TestCase):
         class Element:
             """:func:`is_sibling` unit tests :class:`Element` class."""
 
-            def __init__(self, name):
+            def __init__(self, name: str) -> None:
                 self.name = name
 
         class NotElement:
             """:func:`is_sibling` unit tests :class:`NotElement` class."""
 
-            def __init__(self, name):
+            def __init__(self, name: str) -> None:
                 self.name = name
 
         mapping = {
@@ -400,7 +405,7 @@ class TestFilterMapping(unittest.TestCase):
         class Element:
             """:func:`filter_mapping` unit tests :class:`Element` class."""
 
-            def __init__(self, name):
+            def __init__(self, name: str) -> None:
                 self.name = name
 
         mapping = {
@@ -411,46 +416,30 @@ class TestFilterMapping(unittest.TestCase):
         }
 
         self.assertListEqual(
-            sorted(filter_mapping(mapping, "\\w+\\s+A")), ["Element A"]
+            sorted(filter_mapping(mapping, "Element A")), ["Element A"]
+        )
+
+        self.assertDictEqual(filter_mapping(mapping, "Element"), {})
+
+        mapping = CanonicalMapping(
+            {
+                "Element A": Element("A"),
+                "Element B": Element("B"),
+                "Element C": Element("C"),
+                "Not Element C": Element("Not C"),
+            }
         )
 
         self.assertListEqual(
-            sorted(filter_mapping(mapping, "Element.*")),
-            [
-                "Element A",
-                "Element B",
-                "Element C",
-            ],
+            sorted(filter_mapping(mapping, "element a")), ["Element A"]
         )
 
         self.assertListEqual(
-            sorted(filter_mapping(mapping, "^Element.*")),
-            [
-                "Element A",
-                "Element B",
-                "Element C",
-            ],
+            sorted(filter_mapping(mapping, "element-a")), ["Element A"]
         )
 
         self.assertListEqual(
-            sorted(filter_mapping(mapping, "^Element.*", False)),
-            [
-                "Element A",
-                "Element B",
-                "Element C",
-            ],
-        )
-
-        self.assertListEqual(
-            sorted(filter_mapping(mapping, [".*A", ".*B"])),
-            [
-                "Element A",
-                "Element B",
-            ],
-        )
-
-        self.assertIsInstance(
-            filter_mapping(mapping, "^Element.*", False), type(mapping)
+            sorted(filter_mapping(mapping, "elementa")), ["Element A"]
         )
 
 
@@ -507,6 +496,44 @@ class TestOptional(unittest.TestCase):
         self.assertEqual(optional("Foo", "Bar"), "Foo")
 
         self.assertEqual(optional(None, "Bar"), "Bar")
+
+
+class TestSlugify(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.common.slugify` definition unit tests
+    methods.
+    """
+
+    def test_slugify(self):
+        """Test :func:`colour.utilities.common.optional` definition."""
+
+        self.assertEqual(
+            slugify(
+                " Jack & Jill like numbers 1,2,3 and 4 and "
+                "silly characters ?%.$!/"
+            ),
+            "jack-jill-like-numbers-123-and-4-and-silly-characters",
+        )
+
+        self.assertEqual(
+            slugify("Un \xe9l\xe9phant \xe0 l'or\xe9e du bois"),
+            "un-elephant-a-loree-du-bois",
+        )
+
+        # NOTE: Our "utilities/unicode_to_ascii.py" utility script normalises
+        # the reference string.
+        self.assertEqual(
+            unicodedata.normalize(
+                "NFD",
+                slugify(
+                    "Un \xe9l\xe9phant \xe0 l'or\xe9e du bois",
+                    allow_unicode=True,
+                ),
+            ),
+            "un-éléphant-à-lorée-du-bois",
+        )
+
+        self.assertEqual(slugify(123), "123")
 
 
 if __name__ == "__main__":

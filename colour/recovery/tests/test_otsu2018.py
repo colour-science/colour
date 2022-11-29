@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.recovery.jakob2019` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.recovery.jakob2019` module."""
 
 import numpy as np
 import os
@@ -273,7 +274,7 @@ class TestXYZ_to_sd_Otsu2018(unittest.TestCase):
         d_r = (("reference", 1, 1), ("1", 1, 0.01), ("100", 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     sd_to_XYZ(
                         XYZ_to_sd_Otsu2018(
                             XYZ_i * factor_a, self._cmfs, self._sd_D65
@@ -446,7 +447,7 @@ class TestData_Otsu2018(unittest.TestCase):
 
         data.PCA()
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             data.basis_functions,
             np.array(
                 [
@@ -569,7 +570,7 @@ class TestData_Otsu2018(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             data.mean,
             np.array(
                 [
@@ -624,7 +625,7 @@ class TestData_Otsu2018(unittest.TestCase):
 
         data.PCA()
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             data.reconstruct(
                 np.array(
                     [
@@ -905,7 +906,7 @@ class TestTree_Otsu2018(unittest.TestCase):
         property.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._tree.reflectances,
             np.transpose(
                 reshape_msds(

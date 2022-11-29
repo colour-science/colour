@@ -1,8 +1,9 @@
-"""Defines the unit tests for the :mod:`colour.models.cie_xyy` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.models.cie_xyy` module."""
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models import (
     XYZ_to_xyY,
@@ -40,31 +41,31 @@ class TestXYZ_to_xyY(unittest.TestCase):
     def test_XYZ_to_xyY(self):
         """Test :func:`colour.models.cie_xyy.XYZ_to_xyY` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_xyY(np.array([0.20654008, 0.12197225, 0.05136952])),
             np.array([0.54369557, 0.32107944, 0.12197225]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_xyY(np.array([0.14222010, 0.23042768, 0.10495772])),
             np.array([0.29777735, 0.48246446, 0.23042768]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_xyY(np.array([0.07818780, 0.06157201, 0.28099326])),
             np.array([0.18582823, 0.14633764, 0.06157201]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_xyY(np.array([0.00000000, 0.00000000, 1.00000000])),
             np.array([0.00000000, 0.00000000, 0.00000000]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_xyY(
                 np.array(
                     [
@@ -96,19 +97,19 @@ class TestXYZ_to_xyY(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         xyY = np.tile(xyY, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_xyY(XYZ, illuminant), xyY, decimal=7
         )
 
         illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_xyY(XYZ, illuminant), xyY, decimal=7
         )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         illuminant = np.reshape(illuminant, (2, 3, 2))
         xyY = np.reshape(xyY, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_xyY(XYZ, illuminant), xyY, decimal=7
         )
 
@@ -130,7 +131,7 @@ class TestXYZ_to_xyY(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_xyY(XYZ * factor_a), xyY * factor_b, decimal=7
                 )
 
@@ -139,11 +140,8 @@ class TestXYZ_to_xyY(unittest.TestCase):
         """Test :func:`colour.models.cie_xyy.XYZ_to_xyY` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            illuminant = np.array(case[0:2])
-            XYZ_to_xyY(XYZ, illuminant)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_xyY(cases, cases[..., 0:2])
 
 
 class TestxyY_to_XYZ(unittest.TestCase):
@@ -155,31 +153,31 @@ class TestxyY_to_XYZ(unittest.TestCase):
     def test_xyY_to_XYZ(self):
         """Test :func:`colour.models.cie_xyy.xyY_to_XYZ` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xyY_to_XYZ(np.array([0.54369557, 0.32107944, 0.12197225])),
             np.array([0.20654008, 0.12197225, 0.05136952]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xyY_to_XYZ(np.array([0.29777735, 0.48246446, 0.23042768])),
             np.array([0.14222010, 0.23042768, 0.10495772]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xyY_to_XYZ(np.array([0.18582823, 0.14633764, 0.06157201])),
             np.array([0.07818780, 0.06157201, 0.28099326]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xyY_to_XYZ(np.array([0.34567, 0.3585, 0.00000000])),
             np.array([0.00000000, 0.00000000, 0.00000000]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xyY_to_XYZ(
                 np.array(
                     [
@@ -210,11 +208,11 @@ class TestxyY_to_XYZ(unittest.TestCase):
 
         xyY = np.tile(xyY, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(xyY_to_XYZ(xyY), XYZ, decimal=7)
+        np.testing.assert_array_almost_equal(xyY_to_XYZ(xyY), XYZ, decimal=7)
 
         xyY = np.reshape(xyY, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(xyY_to_XYZ(xyY), XYZ, decimal=7)
+        np.testing.assert_array_almost_equal(xyY_to_XYZ(xyY), XYZ, decimal=7)
 
     def test_domain_range_scale_xyY_to_XYZ(self):
         """
@@ -234,7 +232,7 @@ class TestxyY_to_XYZ(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     xyY_to_XYZ(xyY * factor_a), XYZ * factor_b, decimal=7
                 )
 
@@ -243,10 +241,8 @@ class TestxyY_to_XYZ(unittest.TestCase):
         """Test :func:`colour.models.cie_xyy.xyY_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            xyY = np.array(case)
-            xyY_to_XYZ(xyY)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        xyY_to_XYZ(cases)
 
 
 class TestxyY_to_xy(unittest.TestCase):
@@ -258,25 +254,25 @@ class TestxyY_to_xy(unittest.TestCase):
     def test_xyY_to_xy(self):
         """Test :func:`colour.models.cie_xyy.xyY_to_xy` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xyY_to_xy(np.array([0.54369557, 0.32107944, 0.12197225])),
             np.array([0.54369557, 0.32107944]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xyY_to_xy(np.array([0.29777735, 0.48246446, 0.23042768])),
             np.array([0.29777735, 0.48246446]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xyY_to_xy(np.array([0.18582823, 0.14633764, 0.06157201])),
             np.array([0.18582823, 0.14633764]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xyY_to_xy(np.array([0.31270, 0.32900])),
             np.array([0.31270000, 0.32900000]),
             decimal=7,
@@ -293,11 +289,11 @@ class TestxyY_to_xy(unittest.TestCase):
 
         xyY = np.tile(xyY, (6, 1))
         xy = np.tile(xy, (6, 1))
-        np.testing.assert_almost_equal(xyY_to_xy(xyY), xy, decimal=7)
+        np.testing.assert_array_almost_equal(xyY_to_xy(xyY), xy, decimal=7)
 
         xyY = np.reshape(xyY, (2, 3, 3))
         xy = np.reshape(xy, (2, 3, 2))
-        np.testing.assert_almost_equal(xyY_to_xy(xyY), xy, decimal=7)
+        np.testing.assert_array_almost_equal(xyY_to_xy(xyY), xy, decimal=7)
 
     def test_domain_range_scale_xyY_to_xy(self):
         """
@@ -317,7 +313,7 @@ class TestxyY_to_xy(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     xyY_to_xy(xyY * factor_a), xy * factor_b, decimal=7
                 )
 
@@ -326,10 +322,8 @@ class TestxyY_to_xy(unittest.TestCase):
         """Test :func:`colour.models.cie_xyy.xyY_to_xy` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            xyY = np.array(case)
-            xyY_to_xy(xyY)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        xyY_to_xy(cases)
 
 
 class Testxy_to_xyY(unittest.TestCase):
@@ -341,31 +335,31 @@ class Testxy_to_xyY(unittest.TestCase):
     def test_xy_to_xyY(self):
         """Test :func:`colour.models.cie_xyy.xy_to_xyY` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xy_to_xyY(np.array([0.54369557, 0.32107944])),
             np.array([0.54369557, 0.32107944, 1.00000000]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xy_to_xyY(np.array([0.29777735, 0.48246446])),
             np.array([0.29777735, 0.48246446, 1.00000000]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xy_to_xyY(np.array([0.18582823, 0.14633764])),
             np.array([0.18582823, 0.14633764, 1.00000000]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xy_to_xyY(np.array([0.31270000, 0.32900000, 1.00000000])),
             np.array([0.31270000, 0.32900000, 1.00000000]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xy_to_xyY(np.array([0.31270000, 0.32900000]), 100),
             np.array([0.31270000, 0.32900000, 100.00000000]),
             decimal=7,
@@ -382,11 +376,11 @@ class Testxy_to_xyY(unittest.TestCase):
 
         xy = np.tile(xy, (6, 1))
         xyY = np.tile(xyY, (6, 1))
-        np.testing.assert_almost_equal(xy_to_xyY(xy), xyY, decimal=7)
+        np.testing.assert_array_almost_equal(xy_to_xyY(xy), xyY, decimal=7)
 
         xy = np.reshape(xy, (2, 3, 2))
         xyY = np.reshape(xyY, (2, 3, 3))
-        np.testing.assert_almost_equal(xy_to_xyY(xy), xyY, decimal=7)
+        np.testing.assert_array_almost_equal(xy_to_xyY(xy), xyY, decimal=7)
 
     def test_domain_range_scale_xy_to_xyY(self):
         """
@@ -410,7 +404,7 @@ class Testxy_to_xyY(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     xy_to_xyY(xy * factor_a), xyY * factor_b, decimal=7
                 )
 
@@ -419,10 +413,8 @@ class Testxy_to_xyY(unittest.TestCase):
         """Test :func:`colour.models.cie_xyy.xy_to_xyY` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            xy = np.array(case)
-            xy_to_xyY(xy)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        xy_to_xyY(cases)
 
 
 class TestXYZ_to_xy(unittest.TestCase):
@@ -434,25 +426,25 @@ class TestXYZ_to_xy(unittest.TestCase):
     def test_XYZ_to_xy(self):
         """Test :func:`colour.models.cie_xyy.XYZ_to_xy` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_xy(np.array([0.20654008, 0.12197225, 0.05136952])),
             np.array([0.54369557, 0.32107944]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_xy(np.array([0.14222010, 0.23042768, 0.10495772])),
             np.array([0.29777735, 0.48246446]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_xy(np.array([0.07818780, 0.06157201, 0.28099326])),
             np.array([0.18582823, 0.14633764]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_xy(np.array([0.00000000, 0.00000000, 0.00000000])),
             np.array([0.31270000, 0.32900000]),
             decimal=7,
@@ -470,19 +462,19 @@ class TestXYZ_to_xy(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         xy = np.tile(xy, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_xy(XYZ, illuminant), xy, decimal=7
         )
 
         illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_xy(XYZ, illuminant), xy, decimal=7
         )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         illuminant = np.reshape(xy, (2, 3, 2))
         xy = np.reshape(xy, (2, 3, 2))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_xy(XYZ, illuminant), xy, decimal=7
         )
 
@@ -500,7 +492,7 @@ class TestXYZ_to_xy(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_xy(XYZ * factor), xy, decimal=7
                 )
 
@@ -509,11 +501,8 @@ class TestXYZ_to_xy(unittest.TestCase):
         """Test :func:`colour.models.cie_xyy.XYZ_to_xy` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            illuminant = np.array(case[0:2])
-            XYZ_to_xy(XYZ, illuminant)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_xy(cases, cases[..., 0:2])
 
 
 class Testxy_to_XYZ(unittest.TestCase):
@@ -525,25 +514,25 @@ class Testxy_to_XYZ(unittest.TestCase):
     def test_xy_to_XYZ(self):
         """Test :func:`colour.models.cie_xyy.xy_to_XYZ` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xy_to_XYZ(np.array([0.54369557, 0.32107944])),
             np.array([1.69333661, 1.00000000, 0.42115742]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xy_to_XYZ(np.array([0.29777735, 0.48246446])),
             np.array([0.61720059, 1.00000000, 0.45549094]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xy_to_XYZ(np.array([0.18582823, 0.14633764])),
             np.array([1.26985942, 1.00000000, 4.56365245]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xy_to_XYZ(np.array([0.31270000, 0.32900000])),
             np.array([0.95045593, 1.00000000, 1.08905775]),
             decimal=7,
@@ -560,11 +549,11 @@ class Testxy_to_XYZ(unittest.TestCase):
 
         xy = np.tile(xy, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(xy_to_XYZ(xy), XYZ, decimal=7)
+        np.testing.assert_array_almost_equal(xy_to_XYZ(xy), XYZ, decimal=7)
 
         xy = np.reshape(xy, (2, 3, 2))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(xy_to_XYZ(xy), XYZ, decimal=7)
+        np.testing.assert_array_almost_equal(xy_to_XYZ(xy), XYZ, decimal=7)
 
     def test_domain_range_scale_xy_to_XYZ(self):
         """
@@ -584,7 +573,7 @@ class Testxy_to_XYZ(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     xy_to_XYZ(xy * factor_a), XYZ * factor_b, decimal=7
                 )
 
@@ -593,10 +582,8 @@ class Testxy_to_XYZ(unittest.TestCase):
         """Test :func:`colour.models.cie_xyy.xy_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            xy = np.array(case)
-            xy_to_XYZ(xy)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        xy_to_XYZ(cases)
 
 
 if __name__ == "__main__":

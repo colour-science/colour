@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import LazyCanonicalMapping, usage_warning
 from .aces import (
     RGB_COLOURSPACE_ACES2065_1,
     RGB_COLOURSPACE_ACESCC,
@@ -11,7 +11,10 @@ from .aces import (
 from .adobe_rgb_1998 import RGB_COLOURSPACE_ADOBE_RGB1998
 from .adobe_wide_gamut_rgb import RGB_COLOURSPACE_ADOBE_WIDE_GAMUT_RGB
 from .apple_rgb import RGB_COLOURSPACE_APPLE_RGB
-from .arri_alexa_wide_gamut import RGB_COLOURSPACE_ALEXA_WIDE_GAMUT
+from .arri import (
+    RGB_COLOURSPACE_ARRI_WIDE_GAMUT_3,
+    RGB_COLOURSPACE_ARRI_WIDE_GAMUT_4,
+)
 from .best_rgb import RGB_COLOURSPACE_BEST_RGB
 from .beta_rgb import RGB_COLOURSPACE_BETA_RGB
 from .blackmagic_design import RGB_COLOURSPACE_BLACKMAGIC_WIDE_GAMUT
@@ -22,19 +25,24 @@ from .davinci_wide_gamut import RGB_COLOURSPACE_DAVINCI_WIDE_GAMUT
 from .dcdm_xyz import RGB_COLOURSPACE_DCDM_XYZ
 from .dci_p3 import RGB_COLOURSPACE_DCI_P3, RGB_COLOURSPACE_DCI_P3_P
 from .display_p3 import RGB_COLOURSPACE_DISPLAY_P3
-from .p3_d65 import RGB_COLOURSPACE_P3_D65
+from .dji_d_gamut import RGB_COLOURSPACE_DJI_D_GAMUT
 from .don_rgb_4 import RGB_COLOURSPACE_DON_RGB_4
-from .dji_dgamut import RGB_COLOURSPACE_DJI_D_GAMUT
+from .ebu_3213_e import RGB_COLOURSPACE_EBU_3213_E
 from .eci_rgb_v2 import RGB_COLOURSPACE_ECI_RGB_V2
 from .ekta_space_ps5 import RGB_COLOURSPACE_EKTA_SPACE_PS_5
 from .fujifilm_f_gamut import RGB_COLOURSPACE_F_GAMUT
-from .filmlight_egamut import RGB_COLOURSPACE_FILMLIGHT_E_GAMUT
+from .filmlight_e_gamut import RGB_COLOURSPACE_FILMLIGHT_E_GAMUT
 from .gopro import RGB_COLOURSPACE_PROTUNE_NATIVE
 from .itur_bt_470 import RGB_COLOURSPACE_BT470_525, RGB_COLOURSPACE_BT470_625
 from .itur_bt_709 import RGB_COLOURSPACE_BT709
 from .itur_bt_2020 import RGB_COLOURSPACE_BT2020
+from .itut_h_273 import (
+    RGB_COLOURSPACE_H273_GENERIC_FILM,
+    RGB_COLOURSPACE_H273_22_UNSPECIFIED,
+)
 from .max_rgb import RGB_COLOURSPACE_MAX_RGB
 from .nikon_n_gamut import RGB_COLOURSPACE_N_GAMUT
+from .p3_d65 import RGB_COLOURSPACE_P3_D65
 from .pal_secam import RGB_COLOURSPACE_PAL_SECAM
 from .red import (
     RGB_COLOURSPACE_RED_COLOR,
@@ -69,7 +77,7 @@ from .xtreme_rgb import RGB_COLOURSPACE_XTREME_RGB
 
 from colour.models.rgb import RGB_Colourspace
 
-RGB_COLOURSPACES: CaseInsensitiveMapping = CaseInsensitiveMapping(
+RGB_COLOURSPACES: LazyCanonicalMapping = LazyCanonicalMapping(
     dict(
         sorted(
             (colourspace.name, colourspace)
@@ -95,7 +103,6 @@ RGB_COLOURSPACES["adobe1998"] = RGB_COLOURSPACES[
 RGB_COLOURSPACES["prophoto"] = RGB_COLOURSPACES[
     RGB_COLOURSPACE_PROPHOTO_RGB.name
 ]
-# yapf: enable
 
 __all__ = [
     "RGB_COLOURSPACES",
@@ -108,7 +115,8 @@ __all__ += [
     "RGB_COLOURSPACE_ACESCG",
     "RGB_COLOURSPACE_ADOBE_RGB1998",
     "RGB_COLOURSPACE_ADOBE_WIDE_GAMUT_RGB",
-    "RGB_COLOURSPACE_ALEXA_WIDE_GAMUT",
+    "RGB_COLOURSPACE_ARRI_WIDE_GAMUT_3",
+    "RGB_COLOURSPACE_ARRI_WIDE_GAMUT_4",
     "RGB_COLOURSPACE_APPLE_RGB",
     "RGB_COLOURSPACE_BEST_RGB",
     "RGB_COLOURSPACE_BETA_RGB",
@@ -117,6 +125,8 @@ __all__ += [
     "RGB_COLOURSPACE_BT470_625",
     "RGB_COLOURSPACE_BT709",
     "RGB_COLOURSPACE_BT2020",
+    "RGB_COLOURSPACE_H273_GENERIC_FILM",
+    "RGB_COLOURSPACE_H273_22_UNSPECIFIED",
     "RGB_COLOURSPACE_CIE_RGB",
     "RGB_COLOURSPACE_CINEMA_GAMUT",
     "RGB_COLOURSPACE_COLOR_MATCH_RGB",
@@ -126,6 +136,7 @@ __all__ += [
     "RGB_COLOURSPACE_DCI_P3_P",
     "RGB_COLOURSPACE_DISPLAY_P3",
     "RGB_COLOURSPACE_DJI_D_GAMUT",
+    "RGB_COLOURSPACE_EBU_3213_E",
     "RGB_COLOURSPACE_DON_RGB_4",
     "RGB_COLOURSPACE_ECI_RGB_V2",
     "RGB_COLOURSPACE_EKTA_SPACE_PS_5",
@@ -162,3 +173,20 @@ __all__ += [
     "RGB_COLOURSPACE_XTREME_RGB",
     "RGB_COLOURSPACE_F_GAMUT",
 ]
+
+
+# ----------------------------------------------------------------------------#
+# ---                API Changes and Deprecation Management                ---#
+# ----------------------------------------------------------------------------#
+# v0.4.2
+def _alexa_wide_gamut():
+    usage_warning(
+        'The "ALEXA Wide Gamut" RGB colourspace has been renamed to '
+        '"ARRI Wide Gamut 3" for consistency with ARRI\'s new naming '
+        "convention."
+    )
+
+    return RGB_COLOURSPACE_ARRI_WIDE_GAMUT_3
+
+
+RGB_COLOURSPACES["ALEXA Wide Gamut"] = _alexa_wide_gamut

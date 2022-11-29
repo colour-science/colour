@@ -174,7 +174,7 @@ def generate_pulse_waves(
            [ 1.,  1.,  0.,  1.,  1.],
            [ 1.,  1.,  1.,  0.,  1.],
            [ 1.,  1.,  1.,  1.,  1.]])
-    >>> generate_pulse_waves(5, 'Pulse Wave Width')
+    >>> generate_pulse_waves(5, "Pulse Wave Width")
     array([[ 0.,  0.,  0.,  0.,  0.],
            [ 1.,  0.,  0.,  0.,  0.],
            [ 1.,  1.,  0.,  0.,  0.],
@@ -197,7 +197,7 @@ def generate_pulse_waves(
            [ 1.,  0.,  0.,  1.,  1.],
            [ 1.,  1.,  0.,  1.,  1.],
            [ 1.,  1.,  1.,  1.,  1.]])
-    >>> generate_pulse_waves(5, 'Pulse Wave Width', True)
+    >>> generate_pulse_waves(5, "Pulse Wave Width", True)
     array([[ 0.,  0.,  0.,  0.,  0.],
            [ 1.,  0.,  0.,  0.,  0.],
            [ 1.,  1.,  0.,  0.,  1.],
@@ -309,7 +309,7 @@ def XYZ_outer_surface(
     >>> shape = SpectralShape(
     ...     SPECTRAL_SHAPE_DEFAULT.start, SPECTRAL_SHAPE_DEFAULT.end, 84
     ... )
-    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     >>> XYZ_outer_surface(cmfs.copy().align(shape))  # doctest: +ELLIPSIS
     array([[  0.0000000...e+00,   0.0000000...e+00,   0.0000000...e+00],
            [  9.6361381...e-05,   2.9056776...e-06,   4.4961226...e-04],
@@ -433,8 +433,7 @@ def is_within_visible_spectrum(
     >>> import numpy as np
     >>> is_within_visible_spectrum(np.array([0.3205, 0.4131, 0.51]))
     array(True, dtype=bool)
-    >>> a = np.array([[0.3205, 0.4131, 0.51],
-    ...               [-0.0005, 0.0031, 0.001]])
+    >>> a = np.array([[0.3205, 0.4131, 0.51], [-0.0005, 0.0031, 0.001]])
     >>> is_within_visible_spectrum(a)
     array([ True, False], dtype=bool)
     """

@@ -25,6 +25,7 @@ from colour.hints import (
     Callable,
     Dict,
     Integer,
+    List,
     LiteralWarning,
     Mapping,
     Generator,
@@ -59,6 +60,8 @@ __all__ = [
     "ANCILLARY_DEVELOPMENT_PACKAGES",
     "ANCILLARY_EXTRAS_PACKAGES",
     "describe_environment",
+    "multiline_str",
+    "multiline_repr",
 ]
 
 
@@ -109,9 +112,10 @@ def message_box(
     Examples
     --------
     >>> message = (
-    ...     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, '
-    ...     'sed do eiusmod tempor incididunt ut labore et dolore magna '
-    ...     'aliqua.')
+    ...     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, "
+    ...     "sed do eiusmod tempor incididunt ut labore et dolore magna "
+    ...     "aliqua."
+    ... )
     >>> message_box(message, width=75)
     ===========================================================================
     *                                                                         *
@@ -254,7 +258,7 @@ def warning(*args: Any, **kwargs: Any):
 
     Examples
     --------
-    >>> warning('This is a warning!')  # doctest: +SKIP
+    >>> warning("This is a warning!")  # doctest: +SKIP
     """
 
     kwargs["category"] = kwargs.get("category", ColourWarning)
@@ -275,7 +279,7 @@ def runtime_warning(*args: Any, **kwargs: Any):
 
     Examples
     --------
-    >>> usage_warning('This is a runtime warning!')  # doctest: +SKIP
+    >>> usage_warning("This is a runtime warning!")  # doctest: +SKIP
     """
 
     kwargs["category"] = ColourRuntimeWarning
@@ -296,7 +300,7 @@ def usage_warning(*args: Any, **kwargs: Any):
 
     Examples
     --------
-    >>> usage_warning('This is an usage warning!')  # doctest: +SKIP
+    >>> usage_warning("This is an usage warning!")  # doctest: +SKIP
     """
 
     kwargs["category"] = ColourUsageWarning
@@ -364,7 +368,7 @@ def filter_warnings(
 
     Enabling all the *Colour* and Python warnings using the *default* action:
 
-    >>> filter_warnings(*['default'] * 4)
+    >>> filter_warnings(*["default"] * 4)
 
     Setting back the default state:
 
@@ -465,8 +469,8 @@ def numpy_print_options(*args: Any, **kwargs: Any) -> Generator:
     --------
     >>> np.array([np.pi])  # doctest: +ELLIPSIS
     array([ 3.1415926...])
-    >>> with numpy_print_options(formatter={'float': '{:0.1f}'.format}):
-    ...      np.array([np.pi])
+    >>> with numpy_print_options(formatter={"float": "{:0.1f}".format}):
+    ...     np.array([np.pi])
     array([3.1])
     """
 
@@ -652,7 +656,6 @@ def describe_environment(
             "pygraphviz",
             "PyOpenColorIO",
             "scipy",
-            "sklearn",
             "tqdm",
             "trimesh",
         ]:
@@ -766,3 +769,249 @@ def describe_environment(
         message_box(message.strip(), **kwargs)
 
     return environment
+
+
+def multiline_str(
+    object_: Any,
+    attributes: List[Dict],
+    header_underline: str = "=",
+    section_underline: str = "-",
+    separator: str = " : ",
+) -> str:  # noqa: D405,D410,D407,D411
+    """
+    Return a formatted string representation of the given object.
+
+    Parameters
+    ----------
+    object_
+        Object to format.
+    attributes
+        Attributes to format.
+    header_underline
+        Underline character to use for a header.
+    section_underline
+        Underline character to use for a section.
+    separator
+        Separator to use when formatting the attributes and their values.
+
+    Returns
+    -------
+    :class:`str`
+        Formatted string representation.
+
+    Examples
+    --------
+    >>> class Data:
+    ...     def __init__(self, a: str, b: int, c: list):
+    ...         self._a = a
+    ...         self._b = b
+    ...         self._c = c
+    ...
+    ...     def __str__(self) -> str:
+    ...         return multiline_str(
+    ...             self,
+    ...             [
+    ...                 {
+    ...                     "formatter": lambda x: (
+    ...                         f"Object - {self.__class__.__name__}"
+    ...                     ),
+    ...                     "header": True,
+    ...                 },
+    ...                 {"line_break": True},
+    ...                 {"label": "Data", "section": True},
+    ...                 {"line_break": True},
+    ...                 {"label": "String", "section": True},
+    ...                 {"name": "_a", "label": 'String "a"'},
+    ...                 {"line_break": True},
+    ...                 {"label": "Integer", "section": True},
+    ...                 {"name": "_b", "label": 'Integer "b"'},
+    ...                 {"line_break": True},
+    ...                 {"label": "List", "section": True},
+    ...                 {
+    ...                     "name": "_c",
+    ...                     "label": 'List "c"',
+    ...                     "formatter": lambda x: "; ".join(x),
+    ...                 },
+    ...             ],
+    ...         )
+    ...
+    >>> print(Data("Foo", 1, ["John", "Doe"]))
+    Object - Data
+    =============
+    <BLANKLINE>
+    Data
+    ----
+    <BLANKLINE>
+    String
+    ------
+    String "a"  : Foo
+    <BLANKLINE>
+    Integer
+    -------
+    Integer "b" : 1
+    <BLANKLINE>
+    List
+    ----
+    List "c"    : John; Doe
+    """
+
+    attribute_defaults = {
+        "name": None,
+        "label": None,
+        "formatter": str,
+        "header": False,
+        "section": False,
+        "line_break": False,
+    }
+
+    try:
+        justify = max(
+            len(attribute["label"])
+            for attribute in attributes
+            if (
+                attribute.get("label")
+                and not attribute.get("header")
+                and not attribute.get("section")
+            )
+        )
+    except ValueError:
+        justify = 0
+
+    representation = []
+    for attribute in attributes:
+        attribute = dict(attribute_defaults, **attribute)
+
+        if not attribute["line_break"]:
+            if attribute["name"] is not None:
+                formatted = attribute["formatter"](
+                    getattr(object_, attribute["name"])
+                )
+            else:
+                formatted = attribute["formatter"](None)
+
+            if (
+                attribute["label"] is not None
+                and not attribute["header"]
+                and not attribute["section"]
+            ):
+                lines = formatted.splitlines()
+                if len(lines) > 1:
+                    for i, line in enumerate(lines[1:]):
+                        lines[
+                            i + 1
+                        ] = f"{'':{justify}}{' ' * len(separator)}{line}"
+                formatted = "\n".join(lines)
+
+                representation.append(
+                    f"{attribute['label']:{justify}}{separator}{formatted}",
+                )
+            elif attribute["label"] is not None and (
+                attribute["header"] or attribute["section"]
+            ):
+                representation.append(attribute["label"])
+            else:
+                representation.append(f"{formatted}")
+
+            if attribute["header"]:
+                representation.append(
+                    header_underline * len(representation[-1])
+                )
+
+            if attribute["section"]:
+                representation.append(
+                    section_underline * len(representation[-1])
+                )
+        else:
+            representation.append("")
+
+    return "\n".join(representation)
+
+
+def multiline_repr(
+    object_: Any,
+    attributes: List[Dict],
+    reduce_array_representation: Boolean = True,
+) -> str:  # noqa: D405,D410,D407,D411
+    """
+    Return an (almost) evaluable string representation of the given object.
+
+    Parameters
+    ----------
+    object_
+        Object to format.
+    attributes
+        Attributes to format.
+    reduce_array_representation
+        Whether to remove the *Numpy* `array(` and `)` affixes.
+
+    Returns
+    -------
+    :class`str`
+        (Almost) evaluable string representation.
+
+    Examples
+    --------
+    >>> class Data:
+    ...     def __init__(self, a: str, b: int, c: list):
+    ...         self._a = a
+    ...         self._b = b
+    ...         self._c = c
+    ...
+    ...     def __repr__(self) -> str:
+    ...         return multiline_repr(
+    ...             self,
+    ...             [
+    ...                 {"name": "_a"},
+    ...                 {"name": "_b"},
+    ...                 {
+    ...                     "name": "_c",
+    ...                     "formatter": lambda x: repr(x)
+    ...                     .replace("[", "(")
+    ...                     .replace("]", ")"),
+    ...                 },
+    ...             ],
+    ...         )
+    ...
+    >>> Data("Foo", 1, ["John", "Doe"])
+    Data('Foo',
+         1,
+         ('John', 'Doe'))
+    """
+
+    attribute_defaults = {"name": None, "formatter": repr}
+
+    justify = len(f"{object_.__class__.__name__}") + 1
+
+    def _format(attribute: Dict) -> str:
+        """Format given attribute and its value."""
+
+        if attribute["name"] is not None:
+            value = attribute["formatter"](getattr(object_, attribute["name"]))
+        else:
+            value = attribute["formatter"](None)
+
+        if reduce_array_representation:
+            if value.startswith("array("):
+                lines = value.splitlines()
+                for i, line in enumerate(lines):
+                    lines[i] = line[6:]
+                value = "\n".join(lines)[:-1]
+
+        lines = value.splitlines()
+
+        if len(lines) > 1:
+            for i, line in enumerate(lines[1:]):
+                lines[i + 1] = f"{'':{justify}}{line}"
+
+        return "\n".join(lines)
+
+    attribute = dict(attribute_defaults, **attributes.pop(0))
+
+    representation = [f"{object_.__class__.__name__}({_format(attribute)}"]
+
+    for attribute in attributes:
+        attribute = dict(attribute_defaults, **attribute)
+
+        representation.append(f"{'':{justify}}{_format(attribute)}")
+
+    return "{})".format(",\n".join(representation))

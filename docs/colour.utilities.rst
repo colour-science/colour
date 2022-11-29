@@ -42,12 +42,13 @@ Common
     batch
     disable_multiprocessing
     multiprocessing_pool
+    is_ctlrender_installed
+    is_graphviz_installed
     is_matplotlib_installed
     is_networkx_installed
     is_opencolorio_installed
     is_openimageio_installed
     is_pandas_installed
-    is_sklearn_installed
     is_tqdm_installed
     is_trimesh_installed
     required
@@ -62,6 +63,7 @@ Common
     copy_definition
     validate_method
     optional
+    slugify
 
 Array
 -----
@@ -143,8 +145,8 @@ Data Structures
     :toctree: generated/
     :template: class.rst
 
-    CaseInsensitiveMapping
-    LazyCaseInsensitiveMapping
+    CanonicalMapping
+    LazyCanonicalMapping
     Lookup
     Node
     Structure
@@ -166,6 +168,8 @@ Verbose
     suppress_warnings
     numpy_print_options
     describe_environment
+    multiline_str
+    multiline_repr
 
 **Ancillary Objects**
 

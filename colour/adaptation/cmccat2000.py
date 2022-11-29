@@ -36,7 +36,7 @@ from colour.hints import (
     Union,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float_array,
     from_range_100,
     to_domain_100,
@@ -84,7 +84,7 @@ class InductionFactors_CMCCAT2000(NamedTuple):
     F: Floating
 
 
-VIEWING_CONDITIONS_CMCCAT2000: CaseInsensitiveMapping = CaseInsensitiveMapping(
+VIEWING_CONDITIONS_CMCCAT2000: CanonicalMapping = CanonicalMapping(
     {
         "Average": InductionFactors_CMCCAT2000(1),
         "Dim": InductionFactors_CMCCAT2000(0.8),
@@ -189,9 +189,7 @@ def chromatic_adaptation_forward_CMCCAT2000(
     D = np.clip(D, 0, 1)
     a = D * XYZ_w[..., 1] / XYZ_wr[..., 1]
 
-    RGB_c = RGB * (
-        a[..., np.newaxis] * (RGB_wr / RGB_w) + 1 - D[..., np.newaxis]
-    )
+    RGB_c = RGB * (a[..., None] * (RGB_wr / RGB_w) + 1 - D[..., None])
     XYZ_c = vector_dot(CAT_INVERSE_CMCCAT2000, RGB_c)
 
     return from_range_100(XYZ_c)
@@ -262,8 +260,9 @@ def chromatic_adaptation_inverse_CMCCAT2000(
     >>> XYZ_wr = np.array([94.81, 100.00, 107.30])
     >>> L_A1 = 200
     >>> L_A2 = 200
-    >>> chromatic_adaptation_inverse_CMCCAT2000(XYZ_c, XYZ_w, XYZ_wr, L_A1,
-    ...                                         L_A2)
+    >>> chromatic_adaptation_inverse_CMCCAT2000(
+    ...     XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2
+    ... )
     ... # doctest: +ELLIPSIS
     array([ 22.4839876...,  22.7419485...,   8.5393392...])
     """
@@ -287,9 +286,7 @@ def chromatic_adaptation_inverse_CMCCAT2000(
     D = np.clip(D, 0, 1)
     a = D * XYZ_w[..., 1] / XYZ_wr[..., 1]
 
-    RGB = RGB_c / (
-        a[..., np.newaxis] * (RGB_wr / RGB_w) + 1 - D[..., np.newaxis]
-    )
+    RGB = RGB_c / (a[..., None] * (RGB_wr / RGB_w) + 1 - D[..., None])
     XYZ = vector_dot(CAT_INVERSE_CMCCAT2000, RGB)
 
     return from_range_100(XYZ)
@@ -368,7 +365,8 @@ def chromatic_adaptation_CMCCAT2000(
     >>> L_A1 = 200
     >>> L_A2 = 200
     >>> chromatic_adaptation_CMCCAT2000(
-    ...     XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, direction='Forward')
+    ...     XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, direction="Forward"
+    ... )
     ... # doctest: +ELLIPSIS
     array([ 19.5269832...,  23.0683396...,  24.9717522...])
 
@@ -380,7 +378,8 @@ def chromatic_adaptation_CMCCAT2000(
     >>> L_A1 = 200
     >>> L_A2 = 200
     >>> chromatic_adaptation_CMCCAT2000(
-    ...     XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, direction='Inverse')
+    ...     XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, direction="Inverse"
+    ... )
     ... # doctest: +ELLIPSIS
     array([ 22.48,  22.74,   8.54])
     """

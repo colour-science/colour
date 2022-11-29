@@ -22,9 +22,10 @@ from __future__ import annotations
 
 import numpy as np
 
+from colour.algebra import sdiv, sdiv_mode
 from colour.hints import FloatingOrArrayLike, FloatingOrNDArray, Literal, Union
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float,
     as_float_array,
     validate_method,
@@ -79,16 +80,17 @@ def index_stress_Garcia2007(
     d_E = as_float_array(d_E)
     d_V = as_float_array(d_V)
 
-    F_1 = np.sum(d_E**2) / np.sum(d_E * d_V)
+    with sdiv_mode():
+        F_1 = sdiv(np.sum(d_E**2), np.sum(d_E * d_V))
 
-    stress = np.sqrt(
-        np.sum((d_E - F_1 * d_V) ** 2) / np.sum(F_1**2 * d_V**2)
-    )
+        stress = np.sqrt(
+            sdiv(np.sum((d_E - F_1 * d_V) ** 2), np.sum(F_1**2 * d_V**2))
+        )
 
     return as_float(stress)
 
 
-INDEX_STRESS_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+INDEX_STRESS_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Garcia 2007": index_stress_Garcia2007,
     }

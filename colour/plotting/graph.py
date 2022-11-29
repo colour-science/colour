@@ -29,6 +29,7 @@ __all__ = [
 ]
 
 
+@required("Graphviz")
 @required("NetworkX")
 def plot_automatic_colour_conversion_graph(
     filename: str,
@@ -67,8 +68,8 @@ def plot_automatic_colour_conversion_graph(
     >>> import colour
     >>> from colour import read_image
     >>> from colour.plotting import plot_image
-    >>> filename = '{0}.png'.format(tempfile.mkstemp()[-1])
-    >>> _ = plot_automatic_colour_conversion_graph(filename, 'dot')
+    >>> filename = "{0}.png".format(tempfile.mkstemp()[-1])
+    >>> _ = plot_automatic_colour_conversion_graph(filename, "dot")
     ... # doctest: +SKIP
     >>> plot_image(read_image(filename))  # doctest: +SKIP
 
@@ -113,6 +114,7 @@ def plot_automatic_colour_conversion_graph(
         "ATD95",
         "CAM16",
         "CIECAM02",
+        "Hellwig 2022",
         "Hunt",
         "Kim 2009",
         "LLAB",

@@ -20,7 +20,7 @@ from .tm3018 import (
     ColourQuality_Specification_ANSIIESTM3018,
     colour_fidelity_index_ANSIIESTM3018,
 )
-from colour.utilities import CaseInsensitiveMapping, validate_method
+from colour.utilities import CanonicalMapping, validate_method
 
 __all__ = []
 __all__ += datasets.__all__
@@ -45,7 +45,7 @@ __all__ += [
     "spectral_similarity_index",
 ]
 
-COLOUR_FIDELITY_INDEX_METHODS = CaseInsensitiveMapping(
+COLOUR_FIDELITY_INDEX_METHODS = CanonicalMapping(
     {
         "CIE 2017": colour_fidelity_index_CIE2017,
         "ANSI/IES TM-30-18": colour_fidelity_index_ANSIIESTM3018,
@@ -96,7 +96,7 @@ def colour_fidelity_index(
     Examples
     --------
     >>> from colour.colorimetry import SDS_ILLUMINANTS
-    >>> sd = SDS_ILLUMINANTS['FL2']
+    >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> colour_fidelity_index(sd)  # doctest: +ELLIPSIS
     70.1208254...
     """

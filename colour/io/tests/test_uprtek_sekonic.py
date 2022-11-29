@@ -21,13 +21,13 @@ __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 __all__ = [
-    "RESOURCES_DIRECTORY",
+    "ROOT_RESOURCES",
     "AbstractSpectralDistributionTest",
     "TestSpectralDistributionUprTek",
     "TestSpectralDistributionSekonic",
 ]
 
-RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), "resources")
+ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 
 
 class AbstractSpectralDistributionTest(unittest.TestCase):
@@ -37,7 +37,7 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
     methods.
     """
 
-    def __init__(self, *args: Any):
+    def __init__(self, *args: Any) -> None:
         """
         Create an instance of the class.
 
@@ -52,6 +52,7 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
         self._sd_factory: Any = None
         self._path: Optional[str] = None
         self._spectral_data: Optional[Dict] = None
+        self._prefix: Optional[str] = None
 
     def test_required_attributes(self):
         """Test the presence of required attributes."""
@@ -74,10 +75,28 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
     def test_required_methods(self):
         """Test the presence of required methods."""
 
-        required_methods = ("__init__", "read", "write")
+        required_methods = ("__init__", "__str__", "read", "write")
 
         for method in required_methods:
             self.assertIn(method, dir(SpectralDistribution_UPRTek))
+
+    def test__str__(self):
+        """
+        Test :meth:`colour.SpectralDistribution_UPRTek.__str__` and
+        :meth:`colour.SpectralDistribution_Sekonic.__str__` methods.
+        """
+
+        if self._sd_factory is None:
+            return
+
+        self.assertTrue(
+            str(
+                # pylint: disable=E1102
+                self._sd_factory(
+                    os.path.join(ROOT_RESOURCES, self._path)
+                ).read()
+            ).startswith(self._prefix)
+        )
 
     def test_read(self):
         """
@@ -88,14 +107,13 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
         if self._sd_factory is None:
             return
 
-        sd = self._sd_factory(
-            os.path.join(RESOURCES_DIRECTORY, self._path)
-        ).read()
+        # pylint: disable=E1102
+        sd = self._sd_factory(os.path.join(ROOT_RESOURCES, self._path)).read()
 
         sd_r = SpectralDistribution(self._spectral_data)
 
         np.testing.assert_array_equal(sd_r.domain, sd.domain)
-        np.testing.assert_almost_equal(sd_r.values, sd.values, decimal=6)
+        np.testing.assert_array_almost_equal(sd_r.values, sd.values, decimal=6)
 
         for key, value in self._header.items():
             for specification in sd.header.mapping.elements:
@@ -116,7 +134,7 @@ class TestSpectralDistributionUprTek(AbstractSpectralDistributionTest):
     methods.
     """
 
-    def __init__(self, *args: Any):
+    def __init__(self, *args: Any) -> None:
         """
         Create an instance of the class.
 
@@ -588,6 +606,7 @@ class TestSpectralDistributionUprTek(AbstractSpectralDistributionTest):
                 "IRR": 2.607891,
             },
         }
+        self._prefix = "UPRTek"
 
 
 class TestSpectralDistributionSekonic(AbstractSpectralDistributionTest):
@@ -596,7 +615,7 @@ class TestSpectralDistributionSekonic(AbstractSpectralDistributionTest):
     methods.
     """
 
-    def __init__(self, *args: Any):
+    def __init__(self, *args: Any) -> None:
         """
         Create an instance of the class.
 
@@ -1094,6 +1113,7 @@ class TestSpectralDistributionSekonic(AbstractSpectralDistributionTest):
             },
             "SpectralQuantity": "Irradiance",
         }
+        self._prefix = "Sekonic"
 
 
 if __name__ == "__main__":

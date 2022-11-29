@@ -1,15 +1,13 @@
-"""Defines the unit tests for the :mod:`colour.temperature.ohno2013` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.temperature.ohno2013` module."""
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.colorimetry import MSDS_CMFS
 from colour.temperature import CCT_to_uv_Ohno2013, uv_to_CCT_Ohno2013
-from colour.temperature.ohno2013 import (
-    planckian_table,
-    planckian_table_minimal_distance_index,
-)
+from colour.temperature.ohno2013 import planckian_table
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
@@ -21,25 +19,9 @@ __status__ = "Production"
 
 __all__ = [
     "TestPlanckianTable",
-    "TestPlanckianTableMinimalDistanceIndex",
-    "Testuv_to_CCT_Ohno2013",
+    "TestUv_to_CCT_Ohno2013",
     "TestCCT_to_uv_Ohno2013",
 ]
-
-PLANCKIAN_TABLE = np.array(
-    [
-        [1000.00000000, 0.44796288, 0.35462962, 0.25373557],
-        [1001.11111111, 0.44770303, 0.35465214, 0.25348315],
-        [1002.22222222, 0.44744348, 0.35467461, 0.25323104],
-        [1003.33333333, 0.44718423, 0.35469704, 0.25297924],
-        [1004.44444444, 0.44692529, 0.35471942, 0.25272774],
-        [1005.55555556, 0.44666666, 0.35474175, 0.25247656],
-        [1006.66666667, 0.44640833, 0.35476404, 0.25222569],
-        [1007.77777778, 0.44615030, 0.35478628, 0.25197512],
-        [1008.88888889, 0.44589258, 0.35480848, 0.25172487],
-        [1010.00000000, 0.44563516, 0.35483063, 0.25147492],
-    ]
-)
 
 
 class TestPlanckianTable(unittest.TestCase):
@@ -51,48 +33,84 @@ class TestPlanckianTable(unittest.TestCase):
     def test_planckian_table(self):
         """Test :func:`colour.temperature.ohno2013.planckian_table` definition."""
 
-        np.testing.assert_almost_equal(
-            [
-                (x.Ti, x.ui, x.vi, x.di)
-                for x in planckian_table(
-                    np.array([0.1978, 0.3122]),
-                    MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
-                    1000,
-                    1010,
-                    10,
-                )
-            ],
-            PLANCKIAN_TABLE,
-        )
-
-
-class TestPlanckianTableMinimalDistanceIndex(unittest.TestCase):
-    """
-    Define :func:`colour.temperature.ohno2013.\
-planckian_table_minimal_distance_index` definition unit tests methods.
-    """
-
-    def test_planckian_table_minimal_distance_index(self):
-        """
-        Test :func:`colour.temperature.ohno2013.\
-planckian_table_minimal_distance_index` definition.
-        """
-
-        self.assertEqual(
-            planckian_table_minimal_distance_index(
-                planckian_table(
-                    np.array([0.1978, 0.3122]),
-                    MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
-                    1000,
-                    1010,
-                    10,
-                )
+        np.testing.assert_allclose(
+            planckian_table(
+                np.array([0.1978, 0.3122]),
+                MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
+                5000,
+                6000,
+                10,
             ),
-            9,
+            np.array(
+                [
+                    [
+                        5.00000000e03,
+                        2.11424442e-01,
+                        3.23115810e-01,
+                        1.74579593e-02,
+                    ],
+                    [
+                        5.11111111e03,
+                        2.10314324e-01,
+                        3.22008326e-01,
+                        1.59000490e-02,
+                    ],
+                    [
+                        5.22222222e03,
+                        2.09265149e-01,
+                        3.20929009e-01,
+                        1.44099008e-02,
+                    ],
+                    [
+                        5.33333333e03,
+                        2.08272619e-01,
+                        3.19877383e-01,
+                        1.29852974e-02,
+                    ],
+                    [
+                        5.44444444e03,
+                        2.07332799e-01,
+                        3.18852924e-01,
+                        1.16247859e-02,
+                    ],
+                    [
+                        5.55555556e03,
+                        2.06442082e-01,
+                        3.17855076e-01,
+                        1.03278973e-02,
+                    ],
+                    [
+                        5.66666667e03,
+                        2.05597159e-01,
+                        3.16883254e-01,
+                        9.09552364e-03,
+                    ],
+                    [
+                        5.77777778e03,
+                        2.04794988e-01,
+                        3.15936852e-01,
+                        7.93056919e-03,
+                    ],
+                    [
+                        5.88888889e03,
+                        2.04032772e-01,
+                        3.15015254e-01,
+                        6.83908641e-03,
+                    ],
+                    [
+                        6.00000000e03,
+                        2.03307932e-01,
+                        3.14117832e-01,
+                        5.83227190e-03,
+                    ],
+                ]
+            ),
+            rtol=0.000001,
+            atol=0.000001,
         )
 
 
-class Testuv_to_CCT_Ohno2013(unittest.TestCase):
+class TestUv_to_CCT_Ohno2013(unittest.TestCase):
     """
     Define :func:`colour.temperature.ohno2013.uv_to_CCT_Ohno2013` definition
     unit tests methods.
@@ -104,19 +122,19 @@ class Testuv_to_CCT_Ohno2013(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_CCT_Ohno2013(np.array([0.1978, 0.3122])),
             np.array([6507.47380460, 0.00322335]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_CCT_Ohno2013(np.array([0.4328, 0.2883])),
             np.array([1041.68315360, -0.06737802]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_CCT_Ohno2013(np.array([0.2927, 0.2722]), iterations=4),
             np.array([2452.15316417, -0.08437064]),
             decimal=7,
@@ -133,13 +151,13 @@ class Testuv_to_CCT_Ohno2013(unittest.TestCase):
 
         uv = np.tile(uv, (6, 1))
         CCT_D_uv = np.tile(CCT_D_uv, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_CCT_Ohno2013(uv), CCT_D_uv, decimal=7
         )
 
         uv = np.reshape(uv, (2, 3, 2))
         CCT_D_uv = np.reshape(CCT_D_uv, (2, 3, 2))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_CCT_Ohno2013(uv), CCT_D_uv, decimal=7
         )
 
@@ -151,10 +169,8 @@ class Testuv_to_CCT_Ohno2013(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            uv = np.array(case)
-            uv_to_CCT_Ohno2013(uv)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        uv_to_CCT_Ohno2013(cases)
 
 
 class TestCCT_to_uv_Ohno2013(unittest.TestCase):
@@ -169,19 +185,19 @@ class TestCCT_to_uv_Ohno2013(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Ohno2013(np.array([6507.47380460, 0.00322335])),
             np.array([0.19779997, 0.31219997]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Ohno2013(np.array([1041.68315360, -0.06737802])),
             np.array([0.43279885, 0.28830013]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Ohno2013(np.array([2452.15316417, -0.08437064])),
             np.array([0.29247364, 0.27215157]),
             decimal=7,
@@ -198,13 +214,13 @@ class TestCCT_to_uv_Ohno2013(unittest.TestCase):
 
         CCT_D_uv = np.tile(CCT_D_uv, (6, 1))
         uv = np.tile(uv, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Ohno2013(CCT_D_uv), uv, decimal=7
         )
 
         CCT_D_uv = np.reshape(CCT_D_uv, (2, 3, 2))
         uv = np.reshape(uv, (2, 3, 2))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Ohno2013(CCT_D_uv), uv, decimal=7
         )
 
@@ -216,10 +232,8 @@ class TestCCT_to_uv_Ohno2013(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            CCT_D_uv = np.array(case)
-            CCT_to_uv_Ohno2013(CCT_D_uv)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        CCT_to_uv_Ohno2013(cases)
 
 
 if __name__ == "__main__":

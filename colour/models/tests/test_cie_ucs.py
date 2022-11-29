@@ -1,8 +1,9 @@
-"""Defines the unit tests for the :mod:`colour.models.cie_ucs` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.models.cie_ucs` module."""
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models import (
     XYZ_to_UCS,
@@ -40,19 +41,19 @@ class TestXYZ_to_UCS(unittest.TestCase):
     def test_XYZ_to_UCS(self):
         """Test :func:`colour.models.cie_ucs.XYZ_to_UCS` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_UCS(np.array([0.20654008, 0.12197225, 0.05136952])),
             np.array([0.13769339, 0.12197225, 0.10537310]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_UCS(np.array([0.14222010, 0.23042768, 0.10495772])),
             np.array([0.09481340, 0.23042768, 0.32701033]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_UCS(np.array([0.07818780, 0.06157201, 0.28099326])),
             np.array([0.05212520, 0.06157201, 0.19376075]),
             decimal=7,
@@ -69,11 +70,11 @@ class TestXYZ_to_UCS(unittest.TestCase):
 
         UCS = np.tile(UCS, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(XYZ_to_UCS(XYZ), UCS, decimal=7)
+        np.testing.assert_array_almost_equal(XYZ_to_UCS(XYZ), UCS, decimal=7)
 
         UCS = np.reshape(UCS, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(XYZ_to_UCS(XYZ), UCS, decimal=7)
+        np.testing.assert_array_almost_equal(XYZ_to_UCS(XYZ), UCS, decimal=7)
 
     def test_domain_range_scale_XYZ_to_UCS(self):
         """
@@ -87,7 +88,7 @@ class TestXYZ_to_UCS(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_UCS(XYZ * factor), UCS * factor, decimal=7
                 )
 
@@ -96,10 +97,8 @@ class TestXYZ_to_UCS(unittest.TestCase):
         """Test :func:`colour.models.cie_ucs.XYZ_to_UCS` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_to_UCS(XYZ)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_UCS(cases)
 
 
 class TestUCS_to_XYZ(unittest.TestCase):
@@ -111,19 +110,19 @@ class TestUCS_to_XYZ(unittest.TestCase):
     def test_UCS_to_XYZ(self):
         """Test :func:`colour.models.cie_ucs.UCS_to_XYZ` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             UCS_to_XYZ(np.array([0.13769339, 0.12197225, 0.10537310])),
             np.array([0.20654008, 0.12197225, 0.05136952]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             UCS_to_XYZ(np.array([0.09481340, 0.23042768, 0.32701033])),
             np.array([0.14222010, 0.23042768, 0.10495772]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             UCS_to_XYZ(np.array([0.05212520, 0.06157201, 0.19376075])),
             np.array([0.07818780, 0.06157201, 0.28099326]),
             decimal=7,
@@ -140,11 +139,11 @@ class TestUCS_to_XYZ(unittest.TestCase):
 
         UCS = np.tile(UCS, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(UCS_to_XYZ(UCS), XYZ, decimal=7)
+        np.testing.assert_array_almost_equal(UCS_to_XYZ(UCS), XYZ, decimal=7)
 
         UCS = np.reshape(UCS, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(UCS_to_XYZ(UCS), XYZ, decimal=7)
+        np.testing.assert_array_almost_equal(UCS_to_XYZ(UCS), XYZ, decimal=7)
 
     def test_domain_range_scale_UCS_to_XYZ(self):
         """
@@ -158,7 +157,7 @@ class TestUCS_to_XYZ(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     UCS_to_XYZ(UCS * factor), XYZ * factor, decimal=7
                 )
 
@@ -167,10 +166,8 @@ class TestUCS_to_XYZ(unittest.TestCase):
         """Test :func:`colour.models.cie_ucs.UCS_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            UCS = np.array(case)
-            UCS_to_XYZ(UCS)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        UCS_to_XYZ(cases)
 
 
 class TestUCS_to_uv(unittest.TestCase):
@@ -182,19 +179,19 @@ class TestUCS_to_uv(unittest.TestCase):
     def test_UCS_to_uv(self):
         """Test :func:`colour.models.cie_ucs.UCS_to_uv` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             UCS_to_uv(np.array([0.13769339, 0.12197225, 0.10537310])),
             np.array([0.37720213, 0.33413508]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             UCS_to_uv(np.array([0.09481340, 0.23042768, 0.32701033])),
             np.array([0.14536327, 0.35328046]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             UCS_to_uv(np.array([0.05212520, 0.06157201, 0.19376075])),
             np.array([0.16953602, 0.20026156]),
             decimal=7,
@@ -211,11 +208,11 @@ class TestUCS_to_uv(unittest.TestCase):
 
         UCS = np.tile(UCS, (6, 1))
         uv = np.tile(uv, (6, 1))
-        np.testing.assert_almost_equal(UCS_to_uv(UCS), uv, decimal=7)
+        np.testing.assert_array_almost_equal(UCS_to_uv(UCS), uv, decimal=7)
 
         UCS = np.reshape(UCS, (2, 3, 3))
         uv = np.reshape(uv, (2, 3, 2))
-        np.testing.assert_almost_equal(UCS_to_uv(UCS), uv, decimal=7)
+        np.testing.assert_array_almost_equal(UCS_to_uv(UCS), uv, decimal=7)
 
     def test_domain_range_scale_UCS_to_uv(self):
         """
@@ -229,7 +226,7 @@ class TestUCS_to_uv(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     UCS_to_uv(UCS * factor), uv, decimal=7
                 )
 
@@ -238,10 +235,8 @@ class TestUCS_to_uv(unittest.TestCase):
         """Test :func:`colour.models.cie_ucs.UCS_to_uv` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            UCS = np.array(case)
-            UCS_to_uv(UCS)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        UCS_to_uv(cases)
 
 
 class Testuv_to_UCS(unittest.TestCase):
@@ -253,25 +248,25 @@ class Testuv_to_UCS(unittest.TestCase):
     def test_uv_to_UCS(self):
         """Test :func:`colour.models.cie_ucs.uv_to_UCS` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_UCS(np.array([0.37720213, 0.33413508])),
             np.array([1.12889114, 1.00000000, 0.86391046]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_UCS(np.array([0.14536327, 0.35328046])),
             np.array([0.41146705, 1.00000000, 1.41914520]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_UCS(np.array([0.16953602, 0.20026156])),
             np.array([0.84657295, 1.00000000, 3.14689659]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_UCS(np.array([0.37720213, 0.33413508]), V=0.18),
             np.array([0.20320040, 0.18000000, 0.15550388]),
             decimal=7,
@@ -288,11 +283,11 @@ class Testuv_to_UCS(unittest.TestCase):
 
         uv = np.tile(uv, (6, 1))
         UCS = np.tile(UCS, (6, 1))
-        np.testing.assert_almost_equal(uv_to_UCS(uv), UCS, decimal=7)
+        np.testing.assert_array_almost_equal(uv_to_UCS(uv), UCS, decimal=7)
 
         uv = np.reshape(uv, (2, 3, 2))
         UCS = np.reshape(UCS, (2, 3, 3))
-        np.testing.assert_almost_equal(uv_to_UCS(uv), UCS, decimal=7)
+        np.testing.assert_array_almost_equal(uv_to_UCS(uv), UCS, decimal=7)
 
     def test_domain_range_scale_uv_to_UCS(self):
         """
@@ -307,7 +302,7 @@ class Testuv_to_UCS(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     uv_to_UCS(uv, V * factor), UCS * factor, decimal=7
                 )
 
@@ -316,10 +311,8 @@ class Testuv_to_UCS(unittest.TestCase):
         """Test :func:`colour.models.cie_ucs.uv_to_UCS` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            uv = np.array(case)
-            uv_to_UCS(uv)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        uv_to_UCS(cases)
 
 
 class TestUCS_uv_to_xy(unittest.TestCase):
@@ -331,19 +324,19 @@ class TestUCS_uv_to_xy(unittest.TestCase):
     def test_UCS_uv_to_xy(self):
         """Test :func:`colour.models.cie_ucs.UCS_uv_to_xy` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             UCS_uv_to_xy(np.array([0.37720213, 0.33413508])),
             np.array([0.54369555, 0.32107941]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             UCS_uv_to_xy(np.array([0.14536327, 0.35328046])),
             np.array([0.29777734, 0.48246445]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             UCS_uv_to_xy(np.array([0.16953602, 0.20026156])),
             np.array([0.18582823, 0.14633764]),
             decimal=7,
@@ -360,11 +353,11 @@ class TestUCS_uv_to_xy(unittest.TestCase):
 
         uv = np.tile(uv, (6, 1))
         xy = np.tile(xy, (6, 1))
-        np.testing.assert_almost_equal(UCS_uv_to_xy(uv), xy, decimal=7)
+        np.testing.assert_array_almost_equal(UCS_uv_to_xy(uv), xy, decimal=7)
 
         uv = np.reshape(uv, (2, 3, 2))
         xy = np.reshape(xy, (2, 3, 2))
-        np.testing.assert_almost_equal(UCS_uv_to_xy(uv), xy, decimal=7)
+        np.testing.assert_array_almost_equal(UCS_uv_to_xy(uv), xy, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_UCS_uv_to_xy(self):
@@ -374,10 +367,8 @@ class TestUCS_uv_to_xy(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            uv = np.array(case)
-            UCS_uv_to_xy(uv)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        UCS_uv_to_xy(cases)
 
 
 class TestXy_to_UCS_uv(unittest.TestCase):
@@ -389,19 +380,19 @@ class TestXy_to_UCS_uv(unittest.TestCase):
     def test_xy_to_UCS_uv(self):
         """Test :func:`colour.models.cie_ucs.xy_to_UCS_uv` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xy_to_UCS_uv(np.array([0.54369555, 0.32107941])),
             np.array([0.37720213, 0.33413508]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xy_to_UCS_uv(np.array([0.29777734, 0.48246445])),
             np.array([0.14536327, 0.35328046]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xy_to_UCS_uv(np.array([0.18582823, 0.14633764])),
             np.array([0.16953602, 0.20026156]),
             decimal=7,
@@ -418,11 +409,11 @@ class TestXy_to_UCS_uv(unittest.TestCase):
 
         xy = np.tile(xy, (6, 1))
         uv = np.tile(uv, (6, 1))
-        np.testing.assert_almost_equal(xy_to_UCS_uv(xy), uv, decimal=7)
+        np.testing.assert_array_almost_equal(xy_to_UCS_uv(xy), uv, decimal=7)
 
         xy = np.reshape(xy, (2, 3, 2))
         uv = np.reshape(uv, (2, 3, 2))
-        np.testing.assert_almost_equal(xy_to_UCS_uv(xy), uv, decimal=7)
+        np.testing.assert_array_almost_equal(xy_to_UCS_uv(xy), uv, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_xy_to_UCS_uv(self):
@@ -432,10 +423,8 @@ class TestXy_to_UCS_uv(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            xy = np.array(case)
-            xy_to_UCS_uv(xy)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        xy_to_UCS_uv(cases)
 
 
 if __name__ == "__main__":

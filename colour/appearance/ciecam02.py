@@ -36,7 +36,7 @@ import numpy as np
 from collections import namedtuple
 from dataclasses import astuple, dataclass, field
 
-from colour.algebra import matrix_dot, spow, vector_dot
+from colour.algebra import matrix_dot, sdiv, sdiv_mode, spow, vector_dot
 from colour.adaptation import CAT_CAT02
 from colour.appearance.hunt import (
     MATRIX_HPE_TO_XYZ,
@@ -54,10 +54,11 @@ from colour.hints import (
     NDArray,
     Optional,
     Tuple,
+    cast,
 )
 from colour.models import xy_to_XYZ
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     MixinDataclassArithmetic,
     as_float,
     as_float_array,
@@ -95,7 +96,7 @@ __all__ = [
     "CIECAM02_to_XYZ",
     "chromatic_induction_factors",
     "base_exponential_non_linearity",
-    "viewing_condition_dependent_parameters",
+    "viewing_conditions_dependent_parameters",
     "degree_of_adaptation",
     "full_chromatic_adaptation_forward",
     "full_chromatic_adaptation_inverse",
@@ -147,7 +148,7 @@ class InductionFactors_CIECAM02(
     """
 
 
-VIEWING_CONDITIONS_CIECAM02: CaseInsensitiveMapping = CaseInsensitiveMapping(
+VIEWING_CONDITIONS_CIECAM02: CanonicalMapping = CanonicalMapping(
     {
         "Average": InductionFactors_CIECAM02(1, 0.69, 1),
         "Dim": InductionFactors_CIECAM02(0.9, 0.59, 0.9),
@@ -327,7 +328,7 @@ def XYZ_to_CIECAM02(
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
-    >>> surround = VIEWING_CONDITIONS_CIECAM02['Average']
+    >>> surround = VIEWING_CONDITIONS_CIECAM02["Average"]
     >>> XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)  # doctest: +ELLIPSIS
     CAM_Specification_CIECAM02(J=41.7310911..., C=0.1047077..., \
 h=219.0484326..., s=2.3603053..., Q=195.3713259..., M=0.1088421..., \
@@ -340,7 +341,7 @@ H=278.0607358..., HC=None)
     L_A = as_float_array(L_A)
     Y_b = as_float_array(Y_b)
 
-    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(
+    n, F_L, N_bb, N_cb, z = viewing_conditions_dependent_parameters(
         Y_b, Y_w, L_A
     )
 
@@ -459,8 +460,8 @@ def CIECAM02_to_XYZ(
     Raises
     ------
     ValueError
-        If neither *C* or *M* correlates have been defined in the
-        ``CAM_Specification_CIECAM02`` argument.
+        If neither :math:`C` or :math:`M` correlates have been defined in the
+        ``specification`` argument.
 
     Notes
     -----
@@ -516,9 +517,9 @@ def CIECAM02_to_XYZ(
 
     Examples
     --------
-    >>> specification = CAM_Specification_CIECAM02(J=41.731091132513917,
-    ...                                            C=0.104707757171031,
-    ...                                            h=219.048432658311780)
+    >>> specification = CAM_Specification_CIECAM02(
+    ...     J=41.731091132513917, C=0.104707757171031, h=219.048432658311780
+    ... )
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
@@ -536,7 +537,7 @@ def CIECAM02_to_XYZ(
     XYZ_w = to_domain_100(XYZ_w)
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
 
-    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(
+    n, F_L, N_bb, N_cb, z = viewing_conditions_dependent_parameters(
         Y_b, Y_w, L_A
     )
 
@@ -587,7 +588,8 @@ def CIECAM02_to_XYZ(
     _P_1, P_2, _P_3 = tsplit(P_n)
 
     # Computing opponent colour dimensions :math:`a` and :math:`b`.
-    a, b = tsplit(opponent_colour_dimensions_inverse(P_n, h))
+    ab = opponent_colour_dimensions_inverse(P_n, h)
+    a, b = tsplit(ab) * np.where(t == 0, 0, 1)
 
     # Applying post-adaptation non-linear response compression matrix.
     RGB_a = matrix_post_adaptation_non_linear_response_compression(P_2, a, b)
@@ -630,7 +632,9 @@ def chromatic_induction_factors(n: FloatingOrArrayLike) -> NDArray:
 
     n = as_float_array(n)
 
-    N_bb = N_cb = as_float(0.725) * spow(1 / n, 0.2)
+    with sdiv_mode():
+        N_bb = N_cb = as_float(0.725) * spow(sdiv(1, n), 0.2)
+
     N_bbcb = tstack([N_bb, N_cb])
 
     return N_bbcb
@@ -665,7 +669,7 @@ def base_exponential_non_linearity(
     return z
 
 
-def viewing_condition_dependent_parameters(
+def viewing_conditions_dependent_parameters(
     Y_b: FloatingOrArrayLike,
     Y_w: FloatingOrArrayLike,
     L_A: FloatingOrArrayLike,
@@ -695,7 +699,7 @@ def viewing_condition_dependent_parameters(
 
     Examples
     --------
-    >>> viewing_condition_dependent_parameters(20.0, 100.0, 318.31)
+    >>> viewing_conditions_dependent_parameters(20.0, 100.0, 318.31)
     ... # doctest: +ELLIPSIS
     (0.2000000..., 1.1675444..., 1.0003040..., 1.0003040..., 1.9272135...)
     """
@@ -703,7 +707,8 @@ def viewing_condition_dependent_parameters(
     Y_b = as_float_array(Y_b)
     Y_w = as_float_array(Y_w)
 
-    n = Y_b / Y_w
+    with sdiv_mode():
+        n = sdiv(Y_b, Y_w)
 
     F_L = luminance_level_adaptation_factor(L_A)
     N_bb, N_cb = tsplit(chromatic_induction_factors(n))
@@ -789,11 +794,10 @@ def full_chromatic_adaptation_forward(
     Y_w = as_float_array(Y_w)
     D = as_float_array(D)
 
-    RGB_c = (
-        (Y_w[..., np.newaxis] * D[..., np.newaxis] / RGB_w)
-        + 1
-        - D[..., np.newaxis]
-    ) * RGB
+    with sdiv_mode():
+        RGB_c = (
+            Y_w[..., None] * sdiv(D[..., None], RGB_w) + 1 - D[..., None]
+        ) * RGB
 
     return RGB_c
 
@@ -840,13 +844,12 @@ def full_chromatic_adaptation_inverse(
     Y_w = as_float_array(Y_w)
     D = as_float_array(D)
 
-    RGB_c = RGB / (
-        Y_w[..., np.newaxis] * (D[..., np.newaxis] / RGB_w)
-        + 1
-        - D[..., np.newaxis]
-    )
+    with sdiv_mode():
+        RGB_c = RGB / (
+            Y_w[..., None] * sdiv(D[..., None], RGB_w) + 1 - D[..., None]
+        )
 
-    return RGB_c
+    return cast(NDArray, RGB_c)
 
 
 def RGB_to_rgb(RGB: ArrayLike) -> NDArray:
@@ -939,7 +942,7 @@ def post_adaptation_non_linear_response_compression_forward(
     RGB = as_float_array(RGB)
     F_L = as_float_array(F_L)
 
-    F_L_RGB = spow(F_L[..., np.newaxis] * np.absolute(RGB) / 100, 0.42)
+    F_L_RGB = spow(F_L[..., None] * np.absolute(RGB) / 100, 0.42)
     RGB_c = (400 * np.sign(RGB) * F_L_RGB) / (27.13 + F_L_RGB) + 0.1
 
     return RGB_c
@@ -978,7 +981,8 @@ def post_adaptation_non_linear_response_compression_inverse(
 
     RGB_p = (
         np.sign(RGB - 0.1)
-        * (100 / F_L[..., np.newaxis])
+        * 100
+        / F_L[..., None]
         * spow(
             (27.13 * np.absolute(RGB - 0.1)) / (400 - np.absolute(RGB - 0.1)),
             1 / 0.42,
@@ -1039,11 +1043,6 @@ def opponent_colour_dimensions_inverse(
     :class:`numpy.ndarray`
         Opponent colour dimensions.
 
-    Notes
-    -----
-    -   This definition implements negative values handling as per
-        :cite:`Luo2013`.
-
     Examples
     --------
     >>> P_n = np.array([30162.89081534, 24.23720547, 1.05000000])
@@ -1058,49 +1057,53 @@ def opponent_colour_dimensions_inverse(
     sin_hr = np.sin(hr)
     cos_hr = np.cos(hr)
 
-    P_4 = P_1 / sin_hr
-    P_5 = P_1 / cos_hr
+    with sdiv_mode():
+        cos_hr_sin_hr = sdiv(cos_hr, sin_hr)
+        sin_hr_cos_hr = sdiv(sin_hr, cos_hr)
+
+        P_4 = sdiv(P_1, sin_hr)
+        P_5 = sdiv(P_1, cos_hr)
+
     n = P_2 * (2 + P_3) * (460 / 1403)
 
     a = zeros(hr.shape)
     b = zeros(hr.shape)
 
+    abs_sin_hr_gt_cos_hr = np.abs(sin_hr) >= np.abs(cos_hr)
+    abs_sin_hr_lt_cos_hr = np.abs(sin_hr) < np.abs(cos_hr)
+
     b = np.where(
-        np.isfinite(P_1) * np.abs(sin_hr) >= np.abs(cos_hr),
-        (
-            n
-            / (
-                P_4
-                + (2 + P_3) * (220 / 1403) * (cos_hr / sin_hr)
-                - (27 / 1403)
-                + P_3 * (6300 / 1403)
-            )
+        abs_sin_hr_gt_cos_hr,
+        n
+        / (
+            P_4
+            + (2 + P_3) * (220 / 1403) * cos_hr_sin_hr
+            - (27 / 1403)
+            + P_3 * (6300 / 1403)
         ),
         b,
     )
 
     a = np.where(
-        np.isfinite(P_1) * np.abs(sin_hr) >= np.abs(cos_hr),
-        b * (cos_hr / sin_hr),
+        abs_sin_hr_gt_cos_hr,
+        b * cos_hr_sin_hr,
         a,
     )
 
     a = np.where(
-        np.isfinite(P_1) * np.abs(sin_hr) < np.abs(cos_hr),
-        (
-            n
-            / (
-                P_5
-                + (2 + P_3) * (220 / 1403)
-                - ((27 / 1403) - P_3 * (6300 / 1403)) * (sin_hr / cos_hr)
-            )
+        abs_sin_hr_lt_cos_hr,
+        n
+        / (
+            P_5
+            + (2 + P_3) * (220 / 1403)
+            - ((27 / 1403) - P_3 * (6300 / 1403)) * sin_hr_cos_hr
         ),
         a,
     )
 
     b = np.where(
-        np.isfinite(P_1) * np.abs(sin_hr) < np.abs(cos_hr),
-        a * (sin_hr / cos_hr),
+        abs_sin_hr_lt_cos_hr,
+        a * sin_hr_cos_hr,
         b,
     )
 
@@ -1351,7 +1354,8 @@ def lightness_correlate(
     c = as_float_array(c)
     z = as_float_array(z)
 
-    J = 100 * spow(A / A_w, c * z)
+    with sdiv_mode():
+        J = 100 * spow(sdiv(A, A_w), c * z)
 
     return J
 
@@ -1453,11 +1457,10 @@ def temporary_magnitude_quantity_forward(
     b = as_float_array(b)
     Ra, Ga, Ba = tsplit(RGB_a)
 
-    t = (
-        ((50000 / 13) * N_c * N_cb)
-        * (e_t * spow(a**2 + b**2, 0.5))
-        / (Ra + Ga + 21 * Ba / 20)
-    )
+    with sdiv_mode():
+        t = ((50000 / 13) * N_c * N_cb) * sdiv(
+            e_t * spow(a**2 + b**2, 0.5), Ra + Ga + 21 * Ba / 20
+        )
 
     return t
 
@@ -1482,11 +1485,6 @@ def temporary_magnitude_quantity_inverse(
     -------
     :class:`numpy.floating` or :class:`numpy.ndarray`
          Temporary magnitude quantity :math:`t`.
-
-    Notes
-    -----
-    -   This definition implements negative values handling as per
-        :cite:`Luo2013`.
 
     Examples
     --------
@@ -1630,7 +1628,8 @@ def saturation_correlate(
     M = as_float_array(M)
     Q = as_float_array(Q)
 
-    s = 100 * spow(M / Q, 0.5)
+    with sdiv_mode():
+        s = 100 * spow(sdiv(M, Q), 0.5)
 
     return s
 
@@ -1685,9 +1684,11 @@ def P(
     A = as_float_array(A)
     N_bb = as_float_array(N_bb)
 
-    P_1 = ((50000 / 13) * N_c * N_cb * e_t) / t
+    with sdiv_mode():
+        P_1 = sdiv((50000 / 13) * N_c * N_cb * e_t, t)
+
     P_2 = A / N_bb + 0.305
-    P_3 = ones(P_1.shape) * (21 / 20)
+    P_3 = ones(cast(NDArray, P_1).shape) * (21 / 20)
 
     P_n = tstack([P_1, P_2, P_3])
 

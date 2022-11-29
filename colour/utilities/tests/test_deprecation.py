@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.utilities.deprecation` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.utilities.deprecation` module."""
 
 import sys
 import unittest
@@ -384,11 +385,15 @@ class TestGetAttribute(unittest.TestCase):
             get_attribute("colour.utilities.array.as_float"), as_float
         )
 
-        if "colour.utilities.tests.test_deprecated" in sys.modules:
+        if (
+            "colour.utilities.tests.test_deprecated" in sys.modules
+        ):  # pragma: no cover
             del sys.modules["colour.utilities.tests.test_deprecated"]
+
         attribute = get_attribute(
             "colour.utilities.tests.test_deprecated.NEW_NAME"
         )
+
         import colour.utilities.tests.test_deprecated
 
         self.assertIs(

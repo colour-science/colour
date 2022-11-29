@@ -30,7 +30,7 @@ from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import ArrayLike, Floating, Literal, NDArray, Union
 from colour.models import Lab_to_XYZ, XYZ_to_Lab
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     from_range_100,
     tsplit,
     tstack,
@@ -53,7 +53,7 @@ __all__ = [
     "DIN99_to_XYZ",
 ]
 
-DIN99_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+DIN99_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "ASTMD2244-07": np.array(
             [105.509, 0.0158, 16.0, 0.7, 1, 9 / 200, 0.0, 9 / 200]
@@ -246,7 +246,7 @@ def DIN99_to_Lab(
     h_99 = np.arctan2(b_99, a_99) - np.radians(c_7)
 
     C_99 = np.sqrt(a_99**2 + b_99**2)
-    G = np.expm1((c_8 / c_5) * (C_99) * k_CH * k_E) / c_6
+    G = np.expm1((c_8 / c_5) * C_99 * k_CH * k_E) / c_6
 
     e = G * np.cos(h_99)
     f = G * np.sin(h_99)

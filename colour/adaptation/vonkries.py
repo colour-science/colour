@@ -19,7 +19,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
-from colour.algebra import matrix_dot, vector_dot
+from colour.algebra import matrix_dot, vector_dot, sdiv, sdiv_mode
 from colour.hints import ArrayLike, Literal, NDArray, Union
 from colour.utilities import (
     from_range_1,
@@ -109,7 +109,7 @@ def matrix_chromatic_adaptation_VonKries(
 
     >>> XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
     >>> XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
-    >>> method = 'Bradford'
+    >>> method = "Bradford"
     >>> matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr, method)
     ... # doctest: +ELLIPSIS
     array([[ 1.0479297...,  0.0229468..., -0.0501922...],
@@ -132,7 +132,8 @@ def matrix_chromatic_adaptation_VonKries(
     RGB_w = np.einsum("...i,...ij->...j", XYZ_w, np.transpose(M))
     RGB_wr = np.einsum("...i,...ij->...j", XYZ_wr, np.transpose(M))
 
-    D = RGB_wr / RGB_w
+    with sdiv_mode():
+        D = sdiv(RGB_wr, RGB_w)
 
     D = row_as_diagonal(D)
 
@@ -220,7 +221,7 @@ def chromatic_adaptation_VonKries(
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
     >>> XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
-    >>> transform = 'Bradford'
+    >>> transform = "Bradford"
     >>> chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform)
     ... # doctest: +ELLIPSIS
     array([ 0.2166600...,  0.1260477...,  0.0385506...])

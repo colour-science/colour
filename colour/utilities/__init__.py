@@ -7,8 +7,8 @@ from colour.hints import Any, Dict
 from .data_structures import (
     Lookup,
     Structure,
-    CaseInsensitiveMapping,
-    LazyCaseInsensitiveMapping,
+    CanonicalMapping,
+    LazyCanonicalMapping,
     Node,
 )
 from .common import (
@@ -24,12 +24,13 @@ from .common import (
     batch,
     disable_multiprocessing,
     multiprocessing_pool,
+    is_ctlrender_installed,
+    is_graphviz_installed,
     is_matplotlib_installed,
     is_networkx_installed,
     is_opencolorio_installed,
     is_openimageio_installed,
     is_pandas_installed,
-    is_sklearn_installed,
     is_tqdm_installed,
     is_trimesh_installed,
     required,
@@ -44,6 +45,7 @@ from .common import (
     copy_definition,
     validate_method,
     optional,
+    slugify,
 )
 from .verbose import (
     ColourWarning,
@@ -62,6 +64,8 @@ from .verbose import (
     ANCILLARY_DEVELOPMENT_PACKAGES,
     ANCILLARY_EXTRAS_PACKAGES,
     describe_environment,
+    multiline_str,
+    multiline_repr,
 )
 from .array import (
     MixinDataclassFields,
@@ -108,13 +112,6 @@ from .array import (
     full,
     index_along_last_axis,
 )
-from ..algebra.common import (
-    normalise_maximum,
-    vector_dot,
-    matrix_dot,
-    linear_conversion,
-    linstep_function,
-)
 from .metrics import metric_mse, metric_psnr
 
 from colour.utilities.deprecation import ModuleAPI, build_API_changes
@@ -123,8 +120,8 @@ from colour.utilities.documentation import is_documentation_building
 __all__ = [
     "Lookup",
     "Structure",
-    "CaseInsensitiveMapping",
-    "LazyCaseInsensitiveMapping",
+    "CanonicalMapping",
+    "LazyCanonicalMapping",
     "Node",
 ]
 __all__ += [
@@ -140,12 +137,13 @@ __all__ += [
     "batch",
     "disable_multiprocessing",
     "multiprocessing_pool",
+    "is_ctlrender_installed",
+    "is_graphviz_installed",
     "is_matplotlib_installed",
     "is_networkx_installed",
     "is_opencolorio_installed",
     "is_openimageio_installed",
     "is_pandas_installed",
-    "is_sklearn_installed",
     "is_tqdm_installed",
     "is_trimesh_installed",
     "required",
@@ -160,6 +158,7 @@ __all__ += [
     "copy_definition",
     "validate_method",
     "optional",
+    "slugify",
 ]
 __all__ += [
     "ColourWarning",
@@ -178,6 +177,8 @@ __all__ += [
     "ANCILLARY_DEVELOPMENT_PACKAGES",
     "ANCILLARY_EXTRAS_PACKAGES",
     "describe_environment",
+    "multiline_str",
+    "multiline_repr",
 ]
 __all__ += [
     "MixinDataclassFields",
@@ -282,8 +283,22 @@ API_CHANGES: Dict = {
         ],
     ],
 }
+
+# v0.4.2
+API_CHANGES["ObjectRenamed"].extend(
+    [
+        [
+            "colour.utilities.CaseInsensitiveMapping",
+            "colour.utilities.CanonicalMapping",
+        ],
+        [
+            "colour.utilities.LazyCaseInsensitiveMapping",
+            "colour.utilities.LazyCanonicalMapping",
+        ],
+    ]
+)
 """
-Defines the *colour.utilities* sub-package API changes.
+Define the *colour.utilities* sub-package API changes.
 
 API_CHANGES
 """

@@ -11,16 +11,14 @@ from colour.plotting import (
 )
 from colour.utilities.verbose import message_box
 
-RESOURCES_DIRECTORY = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), "resources"
-)
+ROOT_RESOURCES = os.path.join(os.path.dirname(__file__), "resources")
 
 colour_style()
 
 ISHIHARA_CBT_3_IMAGE = colour.cctf_decoding(
     colour.read_image(
         os.path.join(
-            RESOURCES_DIRECTORY, "Ishihara_Colour_Blindness_Test_Plate_3.png"
+            ROOT_RESOURCES, "Ishihara_Colour_Blindness_Test_Plate_3.png"
         )
     ),
     function="sRGB",

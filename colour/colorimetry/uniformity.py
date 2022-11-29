@@ -7,7 +7,7 @@ Defines the objects to compute the *spectral uniformity*
 
 References
 ----------
--   :cite:`David2015a` : David, A., Fini, P. T., Houser, K. W., Ohno, Y.,
+-   :cite:`David2015` : David, A., Fini, P. T., Houser, K. W., Ohno, Y.,
     Royer, M. P., Smet, K. A. G., Wei, M., & Whitehead, L. (2015). Development
     of the IES method for evaluating the color rendition of light sources.
     Optics Express, 23(12), 15888. doi:10.1364/OE.23.015888
@@ -76,7 +76,7 @@ def spectral_uniformity(
 
     References
     ----------
-    :cite:`David2015a`
+    :cite:`David2015`
 
     Examples
     --------

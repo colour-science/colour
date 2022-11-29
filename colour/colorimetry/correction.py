@@ -30,7 +30,7 @@ import numpy as np
 
 from colour.colorimetry import SpectralDistribution
 from colour.hints import Floating, Literal, Union
-from colour.utilities import CaseInsensitiveMapping, validate_method
+from colour.utilities import CanonicalMapping, validate_method
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -79,21 +79,22 @@ def bandpass_correction_Stearns1988(
     ...     540: 0.0772,
     ...     560: 0.0870,
     ...     580: 0.1128,
-    ...     600: 0.1360
+    ...     600: 0.1360,
     ... }
     >>> with numpy_print_options(suppress=True):
     ...     bandpass_correction_Stearns1988(SpectralDistribution(data))
     ... # doctest: +ELLIPSIS
+    ...
     SpectralDistribution([[ 500.        ,    0.0646518...],
                           [ 520.        ,    0.0704293...],
                           [ 540.        ,    0.0769485...],
                           [ 560.        ,    0.0856928...],
                           [ 580.        ,    0.1129644...],
                           [ 600.        ,    0.1379256...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     """
 
     values = np.copy(sd.values)
@@ -115,7 +116,7 @@ def bandpass_correction_Stearns1988(
     return sd
 
 
-BANDPASS_CORRECTION_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+BANDPASS_CORRECTION_METHODS: CanonicalMapping = CanonicalMapping(
     {"Stearns 1988": bandpass_correction_Stearns1988}
 )
 BANDPASS_CORRECTION_METHODS.__doc__ = """
@@ -157,21 +158,22 @@ def bandpass_correction(
     ...     540: 0.0772,
     ...     560: 0.0870,
     ...     580: 0.1128,
-    ...     600: 0.1360
+    ...     600: 0.1360,
     ... }
     >>> with numpy_print_options(suppress=True):
     ...     bandpass_correction(SpectralDistribution(data))
     ... # doctest: +ELLIPSIS
+    ...
     SpectralDistribution([[ 500.        ,    0.0646518...],
                           [ 520.        ,    0.0704293...],
                           [ 540.        ,    0.0769485...],
                           [ 560.        ,    0.0856928...],
                           [ 580.        ,    0.1129644...],
                           [ 600.        ,    0.1379256...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     """
 
     method = validate_method(method, BANDPASS_CORRECTION_METHODS)

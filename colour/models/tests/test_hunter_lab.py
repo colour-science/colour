@@ -1,8 +1,9 @@
-"""Defines the unit tests for the :mod:`colour.models.hunter_lab` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.models.hunter_lab` module."""
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.colorimetry import TVS_ILLUMINANTS_HUNTERLAB
 from colour.models import (
@@ -39,7 +40,7 @@ class TestXYZ_to_K_ab_HunterLab1966(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_K_ab_HunterLab1966(
                 np.array([0.20654008, 0.12197225, 0.05136952]) * 100
             ),
@@ -47,7 +48,7 @@ class TestXYZ_to_K_ab_HunterLab1966(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_K_ab_HunterLab1966(
                 np.array([0.14222010, 0.23042768, 0.10495772]) * 100
             ),
@@ -55,7 +56,7 @@ class TestXYZ_to_K_ab_HunterLab1966(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_K_ab_HunterLab1966(
                 np.array([0.07818780, 0.06157201, 0.28099326]) * 100
             ),
@@ -74,13 +75,13 @@ class TestXYZ_to_K_ab_HunterLab1966(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         K_ab = np.tile(K_ab, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_K_ab_HunterLab1966(XYZ), K_ab, decimal=7
         )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         K_ab = np.reshape(K_ab, (2, 3, 2))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_K_ab_HunterLab1966(XYZ), K_ab, decimal=7
         )
 
@@ -92,9 +93,8 @@ class TestXYZ_to_K_ab_HunterLab1966(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ_to_K_ab_HunterLab1966(np.array(case))
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_K_ab_HunterLab1966(cases)
 
 
 class TestXYZ_to_Hunter_Lab(unittest.TestCase):
@@ -106,7 +106,7 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
     def test_XYZ_to_Hunter_Lab(self):
         """Test :func:`colour.models.hunter_lab.XYZ_to_Hunter_Lab` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunter_Lab(
                 np.array([0.20654008, 0.12197225, 0.05136952]) * 100
             ),
@@ -114,7 +114,7 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunter_Lab(
                 np.array([0.14222010, 0.23042768, 0.10495772]) * 100
             ),
@@ -122,7 +122,7 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunter_Lab(
                 np.array([0.07818780, 0.06157201, 0.28099326]) * 100
             ),
@@ -132,7 +132,7 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
 
         h_i = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"]
         A = h_i["A"]
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunter_Lab(
                 np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
                 A.XYZ_n,
@@ -143,7 +143,7 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
         )
 
         D65 = h_i["D65"]
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunter_Lab(
                 np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
                 D65.XYZ_n,
@@ -153,7 +153,7 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunter_Lab(
                 np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
                 D65.XYZ_n,
@@ -179,13 +179,13 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         Lab = np.tile(Lab, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunter_Lab(XYZ, XYZ_n, K_ab), Lab, decimal=7
         )
 
         XYZ_n = np.tile(XYZ_n, (6, 1))
         K_ab = np.tile(K_ab, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunter_Lab(XYZ, XYZ_n, K_ab), Lab, decimal=7
         )
 
@@ -193,7 +193,7 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
         XYZ_n = np.reshape(XYZ_n, (2, 3, 3))
         K_ab = np.reshape(K_ab, (2, 3, 2))
         Lab = np.reshape(Lab, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunter_Lab(XYZ, XYZ_n, K_ab), Lab, decimal=7
         )
 
@@ -214,7 +214,7 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_Hunter_Lab(XYZ * factor, XYZ_n * factor, K_ab),
                     Lab * factor,
                     decimal=7,
@@ -228,12 +228,8 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_n = np.array(case[0:3])
-            K_ab = np.array(case[0:2])
-            XYZ_to_Hunter_Lab(XYZ, XYZ_n, K_ab)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_Hunter_Lab(cases, cases, cases[..., 0:2])
 
 
 class TestHunter_Lab_to_XYZ(unittest.TestCase):
@@ -245,7 +241,7 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
     def test_Hunter_Lab_to_XYZ(self):
         """Test :func:`colour.models.hunter_lab.Hunter_Lab_to_XYZ` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Hunter_Lab_to_XYZ(
                 np.array([34.92452577, 47.06189858, 14.38615107])
             ),
@@ -253,7 +249,7 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Hunter_Lab_to_XYZ(
                 np.array([48.00288325, -28.98551622, 18.75564181])
             ),
@@ -261,7 +257,7 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Hunter_Lab_to_XYZ(
                 np.array([24.81370791, 14.38300039, -53.25539126])
             ),
@@ -271,7 +267,7 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
 
         h_i = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"]
         A = h_i["A"]
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Hunter_Lab_to_XYZ(
                 np.array([34.92452577, 35.04243086, -2.47688619]),
                 A.XYZ_n,
@@ -282,7 +278,7 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
         )
 
         D65 = h_i["D65"]
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Hunter_Lab_to_XYZ(
                 np.array([34.92452577, 47.06189858, 14.38615107]),
                 D65.XYZ_n,
@@ -292,7 +288,7 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Hunter_Lab_to_XYZ(
                 np.array([34.92452577, 47.05669614, 14.38385238]),
                 D65.XYZ_n,
@@ -318,13 +314,13 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
 
         Lab = np.tile(Lab, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Hunter_Lab_to_XYZ(Lab, XYZ_n, K_ab), XYZ, decimal=7
         )
 
         K_ab = np.tile(K_ab, (6, 1))
         XYZ_n = np.tile(XYZ_n, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Hunter_Lab_to_XYZ(Lab, XYZ_n, K_ab), XYZ, decimal=7
         )
 
@@ -332,7 +328,7 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
         XYZ_n = np.reshape(XYZ_n, (2, 3, 3))
         K_ab = np.reshape(K_ab, (2, 3, 2))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Hunter_Lab_to_XYZ(Lab, XYZ_n, K_ab), XYZ, decimal=7
         )
 
@@ -353,7 +349,7 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     Hunter_Lab_to_XYZ(Lab * factor, XYZ_n * factor, K_ab),
                     XYZ * factor,
                     decimal=7,
@@ -367,12 +363,8 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Lab = np.array(case)
-            XYZ_n = np.array(case[0:3])
-            K_ab = np.array(case[0:2])
-            Hunter_Lab_to_XYZ(Lab, XYZ_n, K_ab)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        Hunter_Lab_to_XYZ(cases, cases, cases[..., 0:2])
 
 
 if __name__ == "__main__":

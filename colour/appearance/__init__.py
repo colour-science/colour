@@ -20,6 +20,20 @@ from .cam16 import (
     XYZ_to_CAM16,
     CAM16_to_XYZ,
 )
+from .ciecam16 import (
+    InductionFactors_CIECAM16,
+    VIEWING_CONDITIONS_CIECAM16,
+    CAM_Specification_CIECAM16,
+    XYZ_to_CIECAM16,
+    CIECAM16_to_XYZ,
+)
+from .hellwig2022 import (
+    InductionFactors_Hellwig2022,
+    VIEWING_CONDITIONS_HELLWIG2022,
+    CAM_Specification_Hellwig2022,
+    XYZ_to_Hellwig2022,
+    Hellwig2022_to_XYZ,
+)
 from .hke import (
     HKE_NAYATANI1997_METHODS,
     HelmholtzKohlrausch_effect_object_Nayatani1997,
@@ -80,6 +94,20 @@ __all__ += [
     "CAM_Specification_CAM16",
     "XYZ_to_CAM16",
     "CAM16_to_XYZ",
+]
+__all__ += [
+    "InductionFactors_CIECAM16",
+    "VIEWING_CONDITIONS_CIECAM16",
+    "CAM_Specification_CIECAM16",
+    "XYZ_to_CIECAM16",
+    "CIECAM16_to_XYZ",
+]
+__all__ += [
+    "InductionFactors_Hellwig2022",
+    "VIEWING_CONDITIONS_HELLWIG2022",
+    "CAM_Specification_Hellwig2022",
+    "XYZ_to_Hellwig2022",
+    "Hellwig2022_to_XYZ",
 ]
 __all__ += [
     "HKE_NAYATANI1997_METHODS",

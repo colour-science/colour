@@ -74,7 +74,7 @@ class AbstractLUTSequenceOperator(ABC):
         self,
         name: Optional[str] = None,
         comments: Optional[Sequence[str]] = None,
-    ):
+    ) -> None:
         self._name = f"LUT Sequence Operator {id(self)}"
         self.name = optional(name, self._name)
         # TODO: Remove pragma when https://github.com/python/mypy/issues/3004
@@ -205,7 +205,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
     --------
     Instantiating an identity matrix:
 
-    >>> print(LUTOperatorMatrix(name='Identity'))
+    >>> print(LUTOperatorMatrix(name="Identity"))
     LUTOperatorMatrix - Identity
     ----------------------------
     <BLANKLINE>
@@ -217,13 +217,20 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
     Instantiating a matrix with comments:
 
-    >>> matrix = np.array([[ 1.45143932, -0.23651075, -0.21492857],
-    ...                    [-0.07655377,  1.1762297 , -0.09967593],
-    ...                    [ 0.00831615, -0.00603245,  0.9977163 ]])
-    >>> print(LUTOperatorMatrix(
+    >>> matrix = np.array(
+    ...     [
+    ...         [1.45143932, -0.23651075, -0.21492857],
+    ...         [-0.07655377, 1.1762297, -0.09967593],
+    ...         [0.00831615, -0.00603245, 0.9977163],
+    ...     ]
+    ... )
+    >>> print(
+    ...     LUTOperatorMatrix(
     ...         matrix,
-    ...         name='AP0 to AP1',
-    ...         comments=['A first comment.', 'A second comment.']))
+    ...         name="AP0 to AP1",
+    ...         comments=["A first comment.", "A second comment."],
+    ...     )
+    ... )
     LUTOperatorMatrix - AP0 to AP1
     ------------------------------
     <BLANKLINE>
@@ -243,7 +250,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         offset: Optional[ArrayLike] = None,
         *args: Any,
         **kwargs: Any,
-    ):
+    ) -> None:
         super().__init__(*args, **kwargs)
 
         # TODO: Remove pragma when https://github.com/python/mypy/issues/3004
@@ -353,8 +360,8 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         Offset     : [ 0.  0.  0.  0.]
         """
 
-        def _indent_array(a: ArrayLike) -> str:
-            """Indent given array string representation."""
+        def _format(a: ArrayLike) -> str:
+            """Format given array string representation."""
 
             return str(a).replace(" [", " " * 14 + "[")
 
@@ -363,12 +370,14 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
         underline = "-" * (len(self.__class__.__name__) + 3 + len(self._name))
 
-        return (
-            f"{self.__class__.__name__} - {self._name}\n"
-            f"{underline}\n\n"
-            f"Matrix     : {_indent_array(self._matrix)}\n"
-            f"Offset     : {_indent_array(self._offset)}"
-            f"{comments}"
+        return "\n".join(
+            [
+                f"{self.__class__.__name__} - {self._name}",
+                f"{underline}",
+                "",
+                f"Matrix     : {_format(self._matrix)}",
+                f"Offset     : {_format(self._offset)}{comments}",
+            ]
         )
 
     def __repr__(self) -> str:
@@ -383,7 +392,8 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         Examples
         --------
         >>> LUTOperatorMatrix(
-        ...     comments=['A first comment.', 'A second comment.'])
+        ...     comments=["A first comment.", "A second comment."]
+        ... )
         ... # doctest: +ELLIPSIS
         LUTOperatorMatrix([[ 1.,  0.,  0.,  0.],
                            [ 0.,  1.,  0.,  0.],
@@ -410,12 +420,13 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
             else ""
         )
 
-        return (
-            f"{representation[:-1]},\n"
-            f"{indentation}"
-            f'{repr(self._offset).replace("array(", "").replace(")", "")},\n'
-            f"{indentation}name='{self._name}'"
-            f"{comments})"
+        return "\n".join(
+            [
+                f"{representation[:-1]},",
+                f"{indentation}"
+                f'{repr(self._offset).replace("array(", "").replace(")", "")},',
+                f"{indentation}name='{self._name}'{comments})",
+            ]
         )
 
     def __eq__(self, other: Any) -> bool:
@@ -466,7 +477,8 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         Examples
         --------
         >>> LUTOperatorMatrix() != LUTOperatorMatrix(
-        ...     np.linspace(0, 1, 16).reshape([4, 4]))
+        ...     np.linspace(0, 1, 16).reshape([4, 4])
+        ... )
         True
         """
 
@@ -493,9 +505,13 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
         Examples
         --------
-        >>> matrix = np.array([[ 1.45143932, -0.23651075, -0.21492857],
-        ...                    [-0.07655377,  1.1762297 , -0.09967593],
-        ...                    [ 0.00831615, -0.00603245,  0.9977163 ]])
+        >>> matrix = np.array(
+        ...     [
+        ...         [1.45143932, -0.23651075, -0.21492857],
+        ...         [-0.07655377, 1.1762297, -0.09967593],
+        ...         [0.00831615, -0.00603245, 0.9977163],
+        ...     ]
+        ... )
         >>> M = LUTOperatorMatrix(matrix)
         >>> RGB = np.array([0.3, 0.4, 0.5])
         >>> M.apply(RGB)  # doctest: +ELLIPSIS

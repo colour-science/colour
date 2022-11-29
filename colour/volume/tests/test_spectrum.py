@@ -1,8 +1,9 @@
-"""Defines the unit tests for the :mod:`colour.volume.spectrum` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.volume.spectrum` module."""
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.colorimetry import (
     MSDS_CMFS,
@@ -228,11 +229,11 @@ class TestIsWithinVisibleSpectrum(unittest.TestCase):
 
         a = np.tile(a, (6, 1))
         b = np.tile(b, 6)
-        np.testing.assert_almost_equal(is_within_visible_spectrum(a), b)
+        np.testing.assert_array_almost_equal(is_within_visible_spectrum(a), b)
 
         a = np.reshape(a, (2, 3, 3))
         b = np.reshape(b, (2, 3))
-        np.testing.assert_almost_equal(is_within_visible_spectrum(a), b)
+        np.testing.assert_array_almost_equal(is_within_visible_spectrum(a), b)
 
     @ignore_numpy_errors
     def test_nan_is_within_visible_spectrum(self):
@@ -242,9 +243,8 @@ class TestIsWithinVisibleSpectrum(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            is_within_visible_spectrum(case)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        is_within_visible_spectrum(cases)
 
 
 if __name__ == "__main__":

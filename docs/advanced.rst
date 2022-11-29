@@ -81,9 +81,16 @@ Assuming it is available for import, a typical usage would be as follows:
     import sys
     from mock_for_colour import MockModule
 
-    for module in ('scipy', 'scipy.interpolate', 'scipy.linalg',
-                   'scipy.ndimage', 'scipy.ndimage.filters', 'scipy.spatial',
-                   'scipy.spatial.distance', 'scipy.optimize'):
+    for module in (
+        "scipy",
+        "scipy.interpolate",
+        "scipy.linalg",
+        "scipy.ndimage",
+        "scipy.ndimage.filters",
+        "scipy.spatial",
+        "scipy.spatial.distance",
+        "scipy.optimize",
+    ):
         sys.modules[str(module)] = MockModule(str(module))
 
     import colour

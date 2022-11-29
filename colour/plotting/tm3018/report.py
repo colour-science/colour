@@ -277,7 +277,7 @@ def plot_single_sd_colour_rendition_report_full(
     Examples
     --------
     >>> from colour import SDS_ILLUMINANTS
-    >>> sd = SDS_ILLUMINANTS['FL2']
+    >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> plot_single_sd_colour_rendition_report_full(sd)
     ... # doctest: +ELLIPSIS
     (<Figure size ... with ... Axes>, <...AxesSubplot...>)
@@ -522,7 +522,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
     axes_CRI.text(
         0.5,
         1 / 5,
-        f"$R_9$ {float(CRI_spec.Q_as[8].Q_a):.0f}",
+        f"$R_9$ {float(CRI_spec.Q_as[9].Q_a):.0f}",
         ha="center",
         va="center",
         size="medium",
@@ -582,7 +582,7 @@ def plot_single_sd_colour_rendition_report_intermediate(
     Examples
     --------
     >>> from colour import SDS_ILLUMINANTS
-    >>> sd = SDS_ILLUMINANTS['FL2']
+    >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> plot_single_sd_colour_rendition_report_intermediate(sd)
     ... # doctest: +ELLIPSIS
     (<Figure size ... with ... Axes>, <...AxesSubplot...>)
@@ -685,7 +685,7 @@ def plot_single_sd_colour_rendition_report_simple(
     Examples
     --------
     >>> from colour import SDS_ILLUMINANTS
-    >>> sd = SDS_ILLUMINANTS['FL2']
+    >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> plot_single_sd_colour_rendition_report_simple(sd)
     ... # doctest: +ELLIPSIS
     (<Figure size ... with ... Axes>, <...AxesSubplot...>)
@@ -775,7 +775,7 @@ plot_single_sd_colour_rendition_report_intermediate`, \
     Examples
     --------
     >>> from colour import SDS_ILLUMINANTS
-    >>> sd = SDS_ILLUMINANTS['FL2']
+    >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> plot_single_sd_colour_rendition_report(sd)
     ... # doctest: +ELLIPSIS
     (<Figure size ... with ... Axes>, <...AxesSubplot...>)
@@ -785,7 +785,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
         :align: center
         :alt: plot_single_sd_colour_rendition_report_full
 
-    >>> plot_single_sd_colour_rendition_report(sd, 'Intermediate')
+    >>> plot_single_sd_colour_rendition_report(sd, "Intermediate")
     ... # doctest: +ELLIPSIS
     (<Figure size ... with ... Axes>, <...AxesSubplot...>)
 
@@ -794,7 +794,7 @@ Plot_Single_SD_Colour_Rendition_Report_Intermediate.png
         :align: center
         :alt: plot_single_sd_colour_rendition_report_intermediate
 
-    >>> plot_single_sd_colour_rendition_report(sd, 'Simple')
+    >>> plot_single_sd_colour_rendition_report(sd, "Simple")
     ... # doctest: +ELLIPSIS
     (<Figure size ... with ... Axes>, <...AxesSubplot...>)
 

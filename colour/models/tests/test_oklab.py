@@ -1,8 +1,9 @@
-"""Defines the unit tests for the :mod:`colour.models.oklab` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.models.oklab` module."""
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models import XYZ_to_Oklab, Oklab_to_XYZ
 from colour.utilities import domain_range_scale, ignore_numpy_errors
@@ -29,19 +30,19 @@ class TestXYZ_to_Oklab(unittest.TestCase):
     def test_XYZ_to_Oklab(self):
         """Test :func:`colour.models.oklab.XYZ_to_Oklab` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Oklab(np.array([0.20654008, 0.12197225, 0.05136952])),
             np.array([0.51634019, 0.15469500, 0.06289579]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Oklab(np.array([0.14222010, 0.23042768, 0.10495772])),
             np.array([0.59910746, -0.11139207, 0.07508465]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Oklab(np.array([0.96907232, 1.00000000, 1.12179215])),
             np.array([1.00121561, 0.00899591, -0.00535107]),
             decimal=7,
@@ -58,11 +59,15 @@ class TestXYZ_to_Oklab(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         Oklab = np.tile(Oklab, (6, 1))
-        np.testing.assert_almost_equal(XYZ_to_Oklab(XYZ), Oklab, decimal=7)
+        np.testing.assert_array_almost_equal(
+            XYZ_to_Oklab(XYZ), Oklab, decimal=7
+        )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         Oklab = np.reshape(Oklab, (2, 3, 3))
-        np.testing.assert_almost_equal(XYZ_to_Oklab(XYZ), Oklab, decimal=7)
+        np.testing.assert_array_almost_equal(
+            XYZ_to_Oklab(XYZ), Oklab, decimal=7
+        )
 
     def test_domain_range_scale_XYZ_to_Oklab(self):
         """
@@ -76,7 +81,7 @@ class TestXYZ_to_Oklab(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_Oklab(XYZ * factor), Oklab * factor, decimal=7
                 )
 
@@ -88,10 +93,8 @@ class TestXYZ_to_Oklab(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_to_Oklab(XYZ)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_Oklab(cases)
 
 
 class TestOklab_to_XYZ(unittest.TestCase):
@@ -172,10 +175,8 @@ class TestOklab_to_XYZ(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Oklab = np.array(case)
-            Oklab_to_XYZ(Oklab)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        Oklab_to_XYZ(cases)
 
 
 if __name__ == "__main__":

@@ -1,12 +1,12 @@
 """
-ITU-R BT.2020
-=============
+Recommendation ITU-R BT.2020
+============================
 
-Defines the *ITU-R BT.2020* opto-electrical transfer function (OETF) and
-electro-optical transfer function (EOTF):
+Defines the *Recommendation ITU-R BT.2020* opto-electrical transfer function
+(OETF) and its inverse:
 
--   :func:`colour.models.eotf_inverse_BT2020`
--   :func:`colour.models.eotf_BT2020`
+-   :func:`colour.models.oetf_BT2020`
+-   :func:`colour.models.oetf_inverse_BT2020`
 
 References
 ----------
@@ -42,22 +42,22 @@ __status__ = "Production"
 __all__ = [
     "CONSTANTS_BT2020",
     "CONSTANTS_BT2020_PRECISE",
-    "eotf_inverse_BT2020",
-    "eotf_BT2020",
+    "oetf_BT2020",
+    "oetf_inverse_BT2020",
 ]
 
 CONSTANTS_BT2020: Structure = Structure(
     alpha=lambda x: 1.0993 if x else 1.099,
     beta=lambda x: 0.0181 if x else 0.018,
 )
-"""*BT.2020* colourspace constants."""
+"""*BT.2020* constants."""
 
 CONSTANTS_BT2020_PRECISE: Structure = Structure(
     alpha=lambda x: 1.09929682680944, beta=lambda x: 0.018053968510807
 )
 """
-*BT.2020* colourspace constants at double precision to connect the two curve
-segments smoothly.
+*BT.2020* constants at double precision to connect the two curve segments
+smoothly.
 
 References
 ----------
@@ -65,14 +65,14 @@ References
 """
 
 
-def eotf_inverse_BT2020(
+def oetf_BT2020(
     E: FloatingOrArrayLike,
     is_12_bits_system: Boolean = False,
     constants: Structure = CONSTANTS_BT2020,
 ) -> FloatingOrNDArray:
     """
-    Define *Recommendation ITU-R BT.2020* inverse electro-optical transfer
-    function (EOTF).
+    Define *Recommendation ITU-R BT.2020* opto-electronic transfer function
+    (OETF).
 
     Parameters
     ----------
@@ -110,7 +110,7 @@ def eotf_inverse_BT2020(
 
     Examples
     --------
-    >>> eotf_inverse_BT2020(0.18)  # doctest: +ELLIPSIS
+    >>> oetf_BT2020(0.18)  # doctest: +ELLIPSIS
     0.4090077...
     """
 
@@ -124,14 +124,14 @@ def eotf_inverse_BT2020(
     return as_float(from_range_1(E_p))
 
 
-def eotf_BT2020(
+def oetf_inverse_BT2020(
     E_p: FloatingOrArrayLike,
     is_12_bits_system: Boolean = False,
     constants: Structure = CONSTANTS_BT2020,
 ) -> FloatingOrNDArray:
     """
-    Define *Recommendation ITU-R BT.2020* electro-optical transfer function
-    (EOTF).
+    Define *Recommendation ITU-R BT.2020* inverse opto-electronic transfer
+    function (OETF).
 
     Parameters
     ----------
@@ -167,7 +167,7 @@ def eotf_BT2020(
 
     Examples
     --------
-    >>> eotf_BT2020(0.705515089922121)  # doctest: +ELLIPSIS
+    >>> oetf_inverse_BT2020(0.705515089922121)  # doctest: +ELLIPSIS
     0.4999999...
     """
 
@@ -178,7 +178,7 @@ def eotf_BT2020(
 
     with domain_range_scale("ignore"):
         E = np.where(
-            E_p < eotf_inverse_BT2020(b),
+            E_p < oetf_BT2020(b),
             E_p / 4.5,
             spow((E_p + (a - 1)) / a, 1 / 0.45),
         )

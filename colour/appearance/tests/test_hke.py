@@ -1,9 +1,9 @@
 # !/usr/bin/env python
-"""Defines the unit tests for the :mod:`colour.appearance.hke` module."""
+"""Define the unit tests for the :mod:`colour.appearance.hke` module."""
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.appearance.hke import (
     HelmholtzKohlrausch_effect_object_Nayatani1997,
@@ -87,7 +87,7 @@ HelmholtzKohlrausch_effect_object_Nayatani1997` definition n_dimensional
         result_vcc = np.tile(result_vcc, 6)
         result_vac = np.tile(result_vac, 6)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             HelmholtzKohlrausch_effect_object_Nayatani1997(
                 uv, uv_d65, L_a, method="VCC"
             ),
@@ -95,7 +95,7 @@ HelmholtzKohlrausch_effect_object_Nayatani1997` definition n_dimensional
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             HelmholtzKohlrausch_effect_object_Nayatani1997(
                 uv, uv_d65, L_a, method="VAC"
             ),
@@ -108,7 +108,7 @@ HelmholtzKohlrausch_effect_object_Nayatani1997` definition n_dimensional
         result_vcc = np.reshape(result_vcc, (2, 3))
         result_vac = np.reshape(result_vac, (2, 3))
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             HelmholtzKohlrausch_effect_object_Nayatani1997(
                 uv, uv_d65, L_a, method="VCC"
             ),
@@ -116,7 +116,7 @@ HelmholtzKohlrausch_effect_object_Nayatani1997` definition n_dimensional
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             HelmholtzKohlrausch_effect_object_Nayatani1997(
                 uv, uv_d65, L_a, method="VAC"
             ),
@@ -132,7 +132,7 @@ HelmholtzKohlrausch_effect_object_Nayatani1997` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 2, r=2))
+        cases = np.array(list(set(product(cases, repeat=2))))
         for case in cases:
             HelmholtzKohlrausch_effect_object_Nayatani1997(case, case, case[0])
 
@@ -197,7 +197,7 @@ HelmholtzKohlrausch_effect_luminous_Nayatani1997` definition n_dimensional
         result_vcc = np.tile(result_vcc, 6)
         result_vac = np.tile(result_vac, 6)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             HelmholtzKohlrausch_effect_luminous_Nayatani1997(
                 uv, uv_d65, L_a, method="VCC"
             ),
@@ -205,7 +205,7 @@ HelmholtzKohlrausch_effect_luminous_Nayatani1997` definition n_dimensional
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             HelmholtzKohlrausch_effect_luminous_Nayatani1997(
                 uv, uv_d65, L_a, method="VAC"
             ),
@@ -218,7 +218,7 @@ HelmholtzKohlrausch_effect_luminous_Nayatani1997` definition n_dimensional
         result_vcc = np.reshape(result_vcc, (2, 3))
         result_vac = np.reshape(result_vac, (2, 3))
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             HelmholtzKohlrausch_effect_luminous_Nayatani1997(
                 uv, uv_d65, L_a, method="VCC"
             ),
@@ -226,7 +226,7 @@ HelmholtzKohlrausch_effect_luminous_Nayatani1997` definition n_dimensional
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             HelmholtzKohlrausch_effect_luminous_Nayatani1997(
                 uv, uv_d65, L_a, method="VAC"
             ),
@@ -242,7 +242,7 @@ HelmholtzKohlrausch_effect_luminous_Nayatani1997` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 2, r=2))
+        cases = np.array(list(set(product(cases, repeat=2))))
         for case in cases:
             HelmholtzKohlrausch_effect_luminous_Nayatani1997(
                 case, case, case[0]
@@ -296,19 +296,19 @@ class TestCoefficient_K_Br_Nayatani1997(unittest.TestCase):
 
         L_a = np.tile(L_a, 6)
         K_Br = np.tile(K_Br, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             coefficient_K_Br_Nayatani1997(L_a), K_Br, decimal=7
         )
 
         L_a = np.reshape(L_a, (2, 3))
         K_Br = np.reshape(K_Br, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             coefficient_K_Br_Nayatani1997(L_a), K_Br, decimal=7
         )
 
         L_a = np.reshape(L_a, (2, 3, 1))
         K_Br = np.reshape(K_Br, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             coefficient_K_Br_Nayatani1997(L_a), K_Br, decimal=7
         )
 
@@ -320,8 +320,7 @@ class TestCoefficient_K_Br_Nayatani1997(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        for case in cases:
-            coefficient_K_Br_Nayatani1997(case)
+        coefficient_K_Br_Nayatani1997(cases)
 
 
 class TestCoefficient_q_Nayatani1997(unittest.TestCase):
@@ -365,19 +364,19 @@ class TestCoefficient_q_Nayatani1997(unittest.TestCase):
 
         L_a = np.tile(L_a, 6)
         q = np.tile(q, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             coefficient_q_Nayatani1997(L_a), q, decimal=7
         )
 
         L_a = np.reshape(L_a, (2, 3))
         q = np.reshape(q, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             coefficient_q_Nayatani1997(L_a), q, decimal=7
         )
 
         L_a = np.reshape(L_a, (2, 3, 1))
         q = np.reshape(q, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             coefficient_q_Nayatani1997(L_a), q, decimal=7
         )
 
@@ -389,5 +388,8 @@ class TestCoefficient_q_Nayatani1997(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        for case in cases:
-            coefficient_q_Nayatani1997(case)
+        coefficient_q_Nayatani1997(cases)
+
+
+if __name__ == "__main__":
+    unittest.main()

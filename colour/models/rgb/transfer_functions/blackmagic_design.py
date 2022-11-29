@@ -51,7 +51,7 @@ def oetf_BlackmagicFilmGeneration5(
 ) -> FloatingOrNDArray:
     """
     Define the *Blackmagic Film Generation 5* opto-electronic transfer
-    function.
+    function (OETF).
 
     Parameters
     ----------

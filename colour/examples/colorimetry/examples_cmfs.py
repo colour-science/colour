@@ -61,13 +61,13 @@ print("\n")
 message_box(
     'Converting from the "Stockman & Sharpe 2 Degree Cone Fundamentals" '
     "colour matching functions functions to the "
-    '"CIE 2012 2 Degree Standard Observer" spectral sensitivity '
+    '"CIE 2015 2 Degree Standard Observer" spectral sensitivity '
     "functions at wavelength 700 nm."
 )
-print(colour.MSDS_CMFS["CIE 2012 2 Degree Standard Observer"][700])
+print(colour.MSDS_CMFS["CIE 2015 2 Degree Standard Observer"][700])
 print(
     colour.colorimetry.MSDS_CMFS_STANDARD_OBSERVER[
-        "CIE 2012 2 Degree Standard Observer"
+        "CIE 2015 2 Degree Standard Observer"
     ][700]
 )
 print(colour.colorimetry.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(700))
@@ -77,13 +77,13 @@ print("\n")
 message_box(
     'Converting from the "Stockman & Sharpe 10 Degree Cone Fundamentals" '
     "colour matching functions functions to the "
-    '"CIE 2012 10 Degree Standard Observer" spectral sensitivity '
+    '"CIE 2015 10 Degree Standard Observer" spectral sensitivity '
     "functions at wavelength 700 nm."
 )
-print(colour.MSDS_CMFS["CIE 2012 10 Degree Standard Observer"][700])
+print(colour.MSDS_CMFS["CIE 2015 10 Degree Standard Observer"][700])
 print(
     colour.colorimetry.MSDS_CMFS_STANDARD_OBSERVER[
-        "CIE 2012 10 Degree Standard Observer"
+        "CIE 2015 10 Degree Standard Observer"
     ][700]
 )
 print(colour.colorimetry.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(700))

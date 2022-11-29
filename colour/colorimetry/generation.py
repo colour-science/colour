@@ -53,7 +53,7 @@ from colour.hints import (
     Union,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float_array,
     full,
     ones,
@@ -129,10 +129,9 @@ def sd_constant(
     settings = {"name": f"{k} Constant"}
     settings.update(kwargs)
 
-    wavelengths = shape.range()
-    values = full(len(wavelengths), k)
+    values = full(len(shape.wavelengths), k)
 
-    return SpectralDistribution(values, wavelengths, **settings)
+    return SpectralDistribution(values, shape.wavelengths, **settings)
 
 
 def sd_zeros(
@@ -251,7 +250,7 @@ def msds_constant(
 
     Examples
     --------
-    >>> msds = msds_constant(100, labels=['a', 'b', 'c'])
+    >>> msds = msds_constant(100, labels=["a", "b", "c"])
     >>> msds.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> msds[400]
@@ -263,7 +262,7 @@ def msds_constant(
     settings = {"name": f"{k} Constant"}
     settings.update(kwargs)
 
-    wavelengths = shape.range()
+    wavelengths = shape.wavelengths
     values = full((len(wavelengths), len(labels)), k)
 
     return MultiSpectralDistributions(
@@ -306,7 +305,7 @@ def msds_zeros(
 
     Examples
     --------
-    >>> msds = msds_zeros(labels=['a', 'b', 'c'])
+    >>> msds = msds_zeros(labels=["a", "b", "c"])
     >>> msds.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> msds[400]
@@ -353,7 +352,7 @@ def msds_ones(
 
     Examples
     --------
-    >>> msds = msds_ones(labels=['a', 'b', 'c'])
+    >>> msds = msds_ones(labels=["a", "b", "c"])
     >>> msds.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> msds[400]
@@ -407,7 +406,7 @@ def sd_gaussian_normal(
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> sd[555]  # doctest: +ELLIPSIS
-    1.0000000...
+    1...
     >>> sd[530]  # doctest: +ELLIPSIS
     0.6065306...
     """
@@ -415,11 +414,9 @@ def sd_gaussian_normal(
     settings = {"name": f"{mu}nm - {sigma} Sigma - Gaussian"}
     settings.update(kwargs)
 
-    wavelengths = shape.range()
+    values = np.exp(-((shape.wavelengths - mu) ** 2) / (2 * sigma**2))
 
-    values = np.exp(-((wavelengths - mu) ** 2) / (2 * sigma**2))
-
-    return SpectralDistribution(values, wavelengths, **settings)
+    return SpectralDistribution(values, shape.wavelengths, **settings)
 
 
 def sd_gaussian_fwhm(
@@ -464,8 +461,8 @@ def sd_gaussian_fwhm(
     >>> sd = sd_gaussian_fwhm(555, 25)
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
-    >>> sd[555]
-    1.0
+    >>> sd[555]  # doctest: +ELLIPSIS
+    1...
     >>> sd[530]  # doctest: +ELLIPSIS
     0.3678794...
     """
@@ -473,14 +470,12 @@ def sd_gaussian_fwhm(
     settings = {"name": f"{peak_wavelength}nm - {fwhm} FWHM - Gaussian"}
     settings.update(kwargs)
 
-    wavelengths = shape.range()
+    values = np.exp(-(((shape.wavelengths - peak_wavelength) / fwhm) ** 2))
 
-    values = np.exp(-(((wavelengths - peak_wavelength) / fwhm) ** 2))
-
-    return SpectralDistribution(values, wavelengths, **settings)
+    return SpectralDistribution(values, shape.wavelengths, **settings)
 
 
-SD_GAUSSIAN_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+SD_GAUSSIAN_METHODS: CanonicalMapping = CanonicalMapping(
     {"Normal": sd_gaussian_normal, "FWHM": sd_gaussian_fwhm}
 )
 SD_GAUSSIAN_METHODS.__doc__ = """
@@ -537,14 +532,14 @@ def sd_gaussian(
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> sd[555]  # doctest: +ELLIPSIS
-    1.0000000...
+    1...
     >>> sd[530]  # doctest: +ELLIPSIS
     0.6065306...
-    >>> sd = sd_gaussian(555, 25, method='FWHM')
+    >>> sd = sd_gaussian(555, 25, method="FWHM")
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
-    >>> sd[555]
-    1.0
+    >>> sd[555]  # doctest: +ELLIPSIS
+    1...
     >>> sd[530]  # doctest: +ELLIPSIS
     0.3678794...
     """
@@ -604,7 +599,7 @@ def sd_single_led_Ohno2005(
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> sd[555]  # doctest: +ELLIPSIS
-    1.0000000...
+    1...
     """
 
     settings = {"name": f"{peak_wavelength}nm - {fwhm} FWHM LED - Ohno (2005)"}
@@ -617,7 +612,7 @@ def sd_single_led_Ohno2005(
     return sd
 
 
-SD_SINGLE_LED_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+SD_SINGLE_LED_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Ohno 2005": sd_single_led_Ohno2005,
     }
@@ -678,7 +673,7 @@ def sd_single_led(
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> sd[555]  # doctest: +ELLIPSIS
-    1.0000000...
+    1...
     """
 
     method = validate_method(method, SD_SINGLE_LED_METHODS)
@@ -786,7 +781,7 @@ def sd_multi_leds_Ohno2005(
     return sd
 
 
-SD_MULTI_LEDS_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+SD_MULTI_LEDS_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Ohno 2005": sd_multi_leds_Ohno2005,
     }

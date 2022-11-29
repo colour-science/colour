@@ -32,7 +32,6 @@ import matplotlib.patches as Patch
 import matplotlib.pyplot as plt
 import matplotlib.ticker
 import numpy as np
-import re
 from dataclasses import dataclass, field
 from functools import partial
 from matplotlib.colors import LinearSegmentedColormap
@@ -58,7 +57,6 @@ from colour.hints import (
     Mapping,
     NDArray,
     Optional,
-    RegexFlag,
     Sequence,
     Tuple,
     TypedDict,
@@ -67,7 +65,7 @@ from colour.hints import (
 )
 from colour.models import RGB_COLOURSPACES, RGB_Colourspace, XYZ_to_RGB
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     Structure,
     as_float_array,
     attest,
@@ -307,10 +305,11 @@ def override_style(**kwargs: Any) -> Callable:
 
     Examples
     --------
-    >>> @override_style(**{'text.color': 'red'})
+    >>> @override_style(**{"text.color": "red"})
     ... def f():
-    ...     plt.text(0.5, 0.5, 'This is a text!')
+    ...     plt.text(0.5, 0.5, "This is a text!")
     ...     plt.show()
+    ...
     >>> f()  # doctest: +SKIP
     """
 
@@ -342,22 +341,24 @@ def override_style(**kwargs: Any) -> Callable:
 def XYZ_to_plotting_colourspace(
     XYZ: ArrayLike,
     illuminant: ArrayLike = RGB_COLOURSPACES["sRGB"].whitepoint,
-    chromatic_adaptation_transform: Union[
-        Literal[
-            "Bianco 2010",
-            "Bianco PC 2010",
-            "Bradford",
-            "CAT02 Brill 2008",
-            "CAT02",
-            "CAT16",
-            "CMCCAT2000",
-            "CMCCAT97",
-            "Fairchild",
-            "Sharp",
-            "Von Kries",
-            "XYZ Scaling",
-        ],
-        str,
+    chromatic_adaptation_transform: Optional[
+        Union[
+            Literal[
+                "Bianco 2010",
+                "Bianco PC 2010",
+                "Bradford",
+                "CAT02 Brill 2008",
+                "CAT02",
+                "CAT16",
+                "CMCCAT2000",
+                "CMCCAT97",
+                "Fairchild",
+                "Sharp",
+                "Von Kries",
+                "XYZ Scaling",
+            ],
+            str,
+        ]
     ] = "CAT02",
     apply_cctf_encoding: Boolean = True,
 ) -> NDArray:
@@ -815,9 +816,7 @@ def uniform_axes3d(**kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
 def filter_passthrough(
     mapping: Mapping,
     filterers: Union[Any, str, Sequence[Union[Any, str]]],
-    anchors: Boolean = True,
     allow_non_siblings: Boolean = True,
-    flags: Union[Integer, RegexFlag] = re.IGNORECASE,
 ) -> Dict:
     """
     Return mapping objects matching given filterers while passing through
@@ -827,19 +826,13 @@ def filter_passthrough(
     plotting definitions that by default expect the key from a dataset element.
 
     For example, a typical call to :func:`colour.plotting.\
-plot_multi_illuminant_sds` definition with a regex pattern automatically
-    anchored at boundaries by default is as follows:
+plot_multi_illuminant_sds` definition is as follows:
 
     >>> import colour
-    >>> colour.plotting.plot_multi_illuminant_sds(['A'])
+    >>> colour.plotting.plot_multi_illuminant_sds(["A"])
     ... # doctest: +SKIP
 
-    Here, `'A'` is by default anchored at boundaries and transformed into
-    `'^A$'`. Note that because it is a regex pattern, special characters such
-    as parenthesis must be escaped: `'Adobe RGB (1998)'` must be written
-    `'Adobe RGB \\(1998\\)'` instead.
-
-    With the previous example, t is also possible to pass a custom spectral
+    With the previous example, it is also possible to pass a custom spectral
     distribution as follows:
 
     >>> data = {
@@ -848,23 +841,26 @@ plot_multi_illuminant_sds` definition with a regex pattern automatically
     ...     540: 0.0772,
     ...     560: 0.0870,
     ...     580: 0.1128,
-    ...     600: 0.1360
+    ...     600: 0.1360,
     ... }
     >>> colour.plotting.plot_multi_illuminant_sds(
-    ...     ['A', colour.SpectralDistribution(data)])
+    ...     ["A", colour.SpectralDistribution(data)]
+    ... )
     ... # doctest: +SKIP
 
     Similarly, a typical call to :func:`colour.plotting.\
 plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
 
     >>> colour.plotting.plot_planckian_locus_in_chromaticity_diagram_CIE1931(
-    ...     ['A'])
+    ...     ["A"]
+    ... )
     ... # doctest: +SKIP
 
     But it is also possible to pass a custom whitepoint as follows:
 
     >>> colour.plotting.plot_planckian_locus_in_chromaticity_diagram_CIE1931(
-    ...     ['A', {'Custom': np.array([1 / 3 + 0.05, 1 / 3 + 0.05])}])
+    ...     ["A", {"Custom": np.array([1 / 3 + 0.05, 1 / 3 + 0.05])}]
+    ... )
     ... # doctest: +SKIP
 
     Parameters
@@ -875,18 +871,19 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
         Filterer or object class instance (which is passed through directly if
         its type is one of the mapping element types) or list
         of filterers.
-    anchors
-        Whether to use Regex line anchors, i.e. *^* and *$* are added,
-        surrounding the filterers patterns.
     allow_non_siblings
         Whether to allow non-siblings to be also passed through.
-    flags
-        Regex flags.
 
     Returns
     -------
     :class:`dict`
         Filtered mapping.
+
+    Notes
+    -----
+    -   If the mapping passed is a :class:`colour.utilities.CanonicalMapping`
+        class instance, then the lower, slugified and canonical keys are also
+        used for matching.
     """
 
     if is_string(filterers):
@@ -917,13 +914,11 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
 
             object_filterers.extend(non_siblings)
 
-    filtered_mapping = filter_mapping(
-        mapping, string_filterers, anchors, flags
-    )
+    filtered_mapping = filter_mapping(mapping, string_filterers)
 
     for filterer in object_filterers:
         # TODO: Consider using "MutableMapping" here.
-        if isinstance(filterer, (dict, CaseInsensitiveMapping)):
+        if isinstance(filterer, (dict, CanonicalMapping)):
             for key, value in filterer.items():
                 filtered_mapping[key] = value
         else:
@@ -944,9 +939,7 @@ def filter_RGB_colourspaces(
     filterers: Union[
         RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]
     ],
-    anchors: Boolean = True,
     allow_non_siblings: Boolean = True,
-    flags: Union[Integer, RegexFlag] = re.IGNORECASE,
 ) -> Dict[str, RGB_Colourspace]:
     """
     Return the *RGB* colourspaces matching given filterers.
@@ -957,15 +950,10 @@ def filter_RGB_colourspaces(
         Filterer or :class:`colour.RGB_Colourspace` class instance (which is
         passed through directly if its type is one of the mapping element
         types) or list of filterers. ``filterers`` elements can also be of any
-        form supported by the :func:`colour.plotting.filter_passthrough`
+        form supported by the :func:`colour.plotting.common.filter_passthrough`
         definition.
-    anchors
-        Whether to use Regex line anchors, i.e. *^* and *$* are added,
-        surrounding the filterers patterns.
     allow_non_siblings
         Whether to allow non-siblings to be also passed through.
-    flags
-        Regex flags.
 
     Returns
     -------
@@ -973,9 +961,7 @@ def filter_RGB_colourspaces(
         Filtered *RGB* colourspaces.
     """
 
-    return filter_passthrough(
-        RGB_COLOURSPACES, filterers, anchors, allow_non_siblings, flags
-    )
+    return filter_passthrough(RGB_COLOURSPACES, filterers, allow_non_siblings)
 
 
 def filter_cmfs(
@@ -984,9 +970,7 @@ def filter_cmfs(
         str,
         Sequence[Union[MultiSpectralDistributions, str]],
     ],
-    anchors: Boolean = True,
     allow_non_siblings: Boolean = True,
-    flags: Union[Integer, RegexFlag] = re.IGNORECASE,
 ) -> Dict[str, MultiSpectralDistributions]:
     """
     Return the colour matching functions matching given filterers.
@@ -999,15 +983,10 @@ def filter_cmfs(
         :class:`colour.XYZ_ColourMatchingFunctions` class instance (which is
         passed through directly if its type is one of the mapping element
         types) or list of filterers. ``filterers`` elements can also be of any
-        form supported by the :func:`colour.plotting.filter_passthrough`
+        form supported by the :func:`colour.plotting.common.filter_passthrough`
         definition.
-    anchors
-        Whether to use Regex line anchors, i.e. *^* and *$* are added,
-        surrounding the filterers patterns.
     allow_non_siblings
         Whether to allow non-siblings to be also passed through.
-    flags
-        Regex flags.
 
     Returns
     -------
@@ -1015,18 +994,14 @@ def filter_cmfs(
         Filtered colour matching functions.
     """
 
-    return filter_passthrough(
-        MSDS_CMFS, filterers, anchors, allow_non_siblings, flags
-    )
+    return filter_passthrough(MSDS_CMFS, filterers, allow_non_siblings)
 
 
 def filter_illuminants(
     filterers: Union[
         SpectralDistribution, str, Sequence[Union[SpectralDistribution, str]]
     ],
-    anchors: Boolean = True,
     allow_non_siblings: Boolean = True,
-    flags: Union[Integer, RegexFlag] = re.IGNORECASE,
 ) -> Dict[str, SpectralDistribution]:
     """
     Return the illuminants matching given filterers.
@@ -1037,15 +1012,10 @@ def filter_illuminants(
         Filterer or :class:`colour.SpectralDistribution` class instance
         (which is passed through directly if its type is one of the mapping
         element types) or list of filterers. ``filterers`` elements can also be
-        of any form supported by the :func:`colour.plotting.filter_passthrough`
-        definition.
-    anchors
-        Whether to use Regex line anchors, i.e. *^* and *$* are added,
-        surrounding the filterers patterns.
+        of any form supported by the
+        :func:`colour.plotting.common.filter_passthrough` definition.
     allow_non_siblings
         Whether to allow non-siblings to be also passed through.
-    flags
-        Regex flags.
 
     Returns
     -------
@@ -1056,15 +1026,11 @@ def filter_illuminants(
     illuminants = {}
 
     illuminants.update(
-        filter_passthrough(
-            SDS_ILLUMINANTS, filterers, anchors, allow_non_siblings, flags
-        )
+        filter_passthrough(SDS_ILLUMINANTS, filterers, allow_non_siblings)
     )
 
     illuminants.update(
-        filter_passthrough(
-            SDS_LIGHT_SOURCES, filterers, anchors, allow_non_siblings, flags
-        )
+        filter_passthrough(SDS_LIGHT_SOURCES, filterers, allow_non_siblings)
     )
 
     return illuminants
@@ -1072,9 +1038,7 @@ def filter_illuminants(
 
 def filter_colour_checkers(
     filterers: Union[ColourChecker, str, Sequence[Union[ColourChecker, str]]],
-    anchors: Boolean = True,
     allow_non_siblings: Boolean = True,
-    flags: Union[Integer, RegexFlag] = re.IGNORECASE,
 ) -> Dict[str, ColourChecker]:
     """
     Return the colour checkers matching given filterers.
@@ -1086,14 +1050,9 @@ def filter_colour_checkers(
         instance (which is passed through directly if its type is one of the
         mapping element types) or list of filterers. ``filterers`` elements
         can also be of any form supported by the
-        :func:`colour.plotting.filter_passthrough` definition.
-    anchors
-        Whether to use Regex line anchors, i.e. *^* and *$* are added,
-        surrounding the filterers patterns.
+        :func:`colour.plotting.common.filter_passthrough` definition.
     allow_non_siblings
         Whether to allow non-siblings to be also passed through.
-    flags
-        Regex flags.
 
     Returns
     -------
@@ -1102,7 +1061,7 @@ def filter_colour_checkers(
     """
 
     return filter_passthrough(
-        CCS_COLOURCHECKERS, filterers, anchors, allow_non_siblings, flags
+        CCS_COLOURCHECKERS, filterers, allow_non_siblings
     )
 
 
@@ -1127,12 +1086,12 @@ def update_settings_collection(
     Examples
     --------
     >>> settings_collection = [{1: 2}, {3: 4}]
-    >>> keyword_arguments = {5 : 6}
+    >>> keyword_arguments = {5: 6}
     >>> update_settings_collection(settings_collection, keyword_arguments, 2)
     >>> print(settings_collection)
     [{1: 2, 5: 6}, {3: 4, 5: 6}]
     >>> settings_collection = [{1: 2}, {3: 4}]
-    >>> keyword_arguments = [{5 : 6}, {7: 8}]
+    >>> keyword_arguments = [{5: 6}, {7: 8}]
     >>> update_settings_collection(settings_collection, keyword_arguments, 2)
     >>> print(settings_collection)
     [{1: 2, 5: 6}, {3: 4, 7: 8}]
@@ -1534,9 +1493,9 @@ def plot_multi_functions(
     Examples
     --------
     >>> functions = {
-    ...     'Gamma 2.2' : lambda x: x ** (1 / 2.2),
-    ...     'Gamma 2.4' : lambda x: x ** (1 / 2.4),
-    ...     'Gamma 2.6' : lambda x: x ** (1 / 2.6),
+    ...     "Gamma 2.2": lambda x: x ** (1 / 2.2),
+    ...     "Gamma 2.4": lambda x: x ** (1 / 2.4),
+    ...     "Gamma 2.6": lambda x: x ** (1 / 2.6),
     ... }
     >>> plot_multi_functions(functions)
     ... # doctest: +ELLIPSIS
@@ -1664,8 +1623,12 @@ def plot_image(
     >>> import colour
     >>> from colour import read_image
     >>> path = os.path.join(
-    ...     colour.__path__[0], 'examples', 'plotting', 'resources',
-    ...     'Ishihara_Colour_Blindness_Test_Plate_3.png')
+    ...     colour.__path__[0],
+    ...     "examples",
+    ...     "plotting",
+    ...     "resources",
+    ...     "Ishihara_Colour_Blindness_Test_Plate_3.png",
+    ... )
     >>> plot_image(read_image(path))  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 

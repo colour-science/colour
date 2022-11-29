@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the :mod:`colour.colorimetry.transformations`
+Define the unit tests for the :mod:`colour.colorimetry.transformations`
 module.
 """
 
@@ -69,19 +69,19 @@ RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition n-dimensional arrays
 
         wl = np.tile(wl, 6)
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ
         )
 
         wl = np.reshape(wl, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ
         )
 
         wl = np.reshape(wl, (2, 3, 1))
         XYZ = np.reshape(XYZ, (2, 3, 1, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ
         )
 
@@ -140,19 +140,19 @@ RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition n-dimensional arrays
 
         wl = np.tile(wl, 6)
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl), XYZ
         )
 
         wl = np.reshape(wl, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl), XYZ
         )
 
         wl = np.reshape(wl, (2, 3, 1))
         XYZ = np.reshape(XYZ, (2, 3, 1, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl), XYZ
         )
 
@@ -211,19 +211,19 @@ RGB_10_degree_cmfs_to_LMS_10_degree_cmfs` definition n-dimensional arrays
 
         wl = np.tile(wl, 6)
         LMS = np.tile(LMS, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl), LMS
         )
 
         wl = np.reshape(wl, (2, 3))
         LMS = np.reshape(LMS, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl), LMS
         )
 
         wl = np.reshape(wl, (2, 3, 1))
         LMS = np.reshape(LMS, (2, 3, 1, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl), LMS
         )
 
@@ -251,7 +251,7 @@ LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition unit tests methods.
 LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition.
         """
 
-        cmfs = MSDS_CMFS["CIE 2012 2 Degree Standard Observer"]
+        cmfs = MSDS_CMFS["CIE 2015 2 Degree Standard Observer"]
         np.testing.assert_allclose(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(435),
             cmfs[435],
@@ -282,19 +282,19 @@ LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition n-dimensional arrays
 
         wl = np.tile(wl, 6)
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ
         )
 
         wl = np.reshape(wl, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ
         )
 
         wl = np.reshape(wl, (2, 3, 1))
         XYZ = np.reshape(XYZ, (2, 3, 1, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ
         )
 
@@ -322,7 +322,7 @@ LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition unit tests methods.
 LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition.
         """
 
-        cmfs = MSDS_CMFS["CIE 2012 10 Degree Standard Observer"]
+        cmfs = MSDS_CMFS["CIE 2015 10 Degree Standard Observer"]
         np.testing.assert_allclose(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(435),
             cmfs[435],
@@ -353,19 +353,19 @@ LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition n-dimensional arrays
 
         wl = np.tile(wl, 6)
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl), XYZ
         )
 
         wl = np.reshape(wl, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl), XYZ
         )
 
         wl = np.reshape(wl, (2, 3, 1))
         XYZ = np.reshape(XYZ, (2, 3, 1, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl), XYZ
         )
 

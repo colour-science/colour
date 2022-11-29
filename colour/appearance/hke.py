@@ -36,7 +36,7 @@ from colour.hints import (
     Union,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float_array,
     tsplit,
     validate_method,
@@ -57,7 +57,7 @@ __all__ = [
     "coefficient_K_Br_Nayatani1997",
 ]
 
-HKE_NAYATANI1997_METHODS = CaseInsensitiveMapping(
+HKE_NAYATANI1997_METHODS = CanonicalMapping(
     {
         "VAC": -0.1340,
         "VCC": -0.8660,
@@ -108,10 +108,12 @@ def HelmholtzKohlrausch_effect_object_Nayatani1997(
     >>> import colour
     >>> white = colour.xy_to_Luv_uv(colour.temperature.CCT_to_xy_CIE_D(6504))
     >>> colours = colour.XYZ_to_xy(
-    ...     [colour.wavelength_to_XYZ(430 + i * 50) for i in range(5)])
+    ...     [colour.wavelength_to_XYZ(430 + i * 50) for i in range(5)]
+    ... )
     >>> L_adapting = 65
     >>> HelmholtzKohlrausch_effect_object_Nayatani1997(  # doctest: +ELLIPSIS
-    ...     colour.xy_to_Luv_uv(colours), white, L_adapting)
+    ...     colour.xy_to_Luv_uv(colours), white, L_adapting
+    ... )
     array([ 2.2468383...,  1.4619799...,  1.1801658...,  0.9031318...,  \
 1.7999376...])
     """
@@ -163,10 +165,12 @@ def HelmholtzKohlrausch_effect_luminous_Nayatani1997(
     >>> import colour
     >>> white = colour.xy_to_Luv_uv(colour.temperature.CCT_to_xy_CIE_D(6504))
     >>> colours = colour.XYZ_to_xy(
-    ...     [colour.wavelength_to_XYZ(430 + i * 50) for i in range(5)])
+    ...     [colour.wavelength_to_XYZ(430 + i * 50) for i in range(5)]
+    ... )
     >>> L_adapting = 65
     >>> HelmholtzKohlrausch_effect_luminous_Nayatani1997(  # doctest: +ELLIPSIS
-    ...     colour.xy_to_Luv_uv(colours), white, L_adapting)
+    ...     colour.xy_to_Luv_uv(colours), white, L_adapting
+    ... )
     array([ 7.4460471...,  2.4767159...,  1.4723422...,  0.7938695...,  \
 4.1828629...])
     """

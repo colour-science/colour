@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the :mod:`colour.quality.CIE2017` module.
+Define the unit tests for the :mod:`colour.quality.CIE2017` module.
 
 Notes
 -----
@@ -553,8 +553,8 @@ class TestColourFidelityIndexCIE2017(unittest.TestCase):
             specification = colour_fidelity_index_CIE2017(
                 sd, additional_data=True
             )
-            np.testing.assert_almost_equal(specification.R_f, 81.6, 1)
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(specification.R_f, 81.6, 1)
+            np.testing.assert_array_almost_equal(
                 specification.R_s,
                 [
                     89.5,
@@ -663,8 +663,8 @@ class TestColourFidelityIndexCIE2017(unittest.TestCase):
         specification = colour_fidelity_index_CIE2017(
             SDS_ILLUMINANTS["FL1"], additional_data=True
         )
-        np.testing.assert_almost_equal(specification.R_f, 80.6, 1)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(specification.R_f, 80.6, 1)
+        np.testing.assert_array_almost_equal(
             specification.R_s,
             [
                 85.1,
@@ -773,8 +773,8 @@ class TestColourFidelityIndexCIE2017(unittest.TestCase):
         specification = colour_fidelity_index_CIE2017(
             SDS_ILLUMINANTS["FL2"], additional_data=True
         )
-        np.testing.assert_almost_equal(specification.R_f, 70.1, 1)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(specification.R_f, 70.1, 1)
+        np.testing.assert_array_almost_equal(
             specification.R_s,
             [
                 78.9,

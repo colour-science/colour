@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.plotting.common` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.plotting.common` module."""
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -117,7 +118,7 @@ class TestXyzToPlottingColourspace(unittest.TestCase):
         """
 
         XYZ = np.random.random(3)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_sRGB(XYZ), XYZ_to_plotting_colourspace(XYZ), decimal=7
         )
 
@@ -133,19 +134,19 @@ class TestColourCycle(unittest.TestCase):
 
         cycler = colour_cycle()
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             next(cycler),
             np.array([0.95686275, 0.26274510, 0.21176471, 1.00000000]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             next(cycler),
             np.array([0.61582468, 0.15423299, 0.68456747, 1.00000000]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             next(cycler),
             np.array([0.25564014, 0.31377163, 0.70934256, 1.00000000]),
             decimal=7,
@@ -153,7 +154,7 @@ class TestColourCycle(unittest.TestCase):
 
         cycler = colour_cycle(colour_cycle_map="viridis")
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             next(cycler),
             np.array([0.26700400, 0.00487400, 0.32941500, 1.00000000]),
             decimal=7,
@@ -298,20 +299,22 @@ class TestFilterPassthrough(unittest.TestCase):
             sorted(
                 colourspace.name
                 for colourspace in filter_passthrough(
-                    RGB_COLOURSPACES, ["^ACES.*"]
+                    RGB_COLOURSPACES, ["ACES2065-1"]
                 ).values()
             ),
-            ["ACES2065-1", "ACEScc", "ACEScct", "ACEScg", "ACESproxy"],
+            ["ACES2065-1"],
         )
 
         self.assertListEqual(
-            sorted(filter_passthrough(RGB_COLOURSPACES, ["^ACEScc$"]).keys()),
-            ["ACEScc"],
+            sorted(
+                filter_passthrough(RGB_COLOURSPACES, ["aces2065-1"]).keys()
+            ),
+            ["ACES2065-1"],
         )
 
         self.assertListEqual(
-            sorted(filter_passthrough(RGB_COLOURSPACES, ["^acescc$"]).keys()),
-            ["ACEScc"],
+            sorted(filter_passthrough(RGB_COLOURSPACES, ["aces20651"]).keys()),
+            ["ACES2065-1"],
         )
 
         self.assertDictEqual(
@@ -359,10 +362,10 @@ class TestFilterRgbColourspaces(unittest.TestCase):
             sorted(
                 colourspace.name
                 for colourspace in filter_RGB_colourspaces(
-                    ["^ACES.*"]
+                    ["ACES2065-1"]
                 ).values()
             ),
-            ["ACES2065-1", "ACEScc", "ACEScct", "ACEScg", "ACESproxy"],
+            ["ACES2065-1"],
         )
 
 
@@ -377,14 +380,13 @@ class TestFilterCmfs(unittest.TestCase):
 
         self.assertListEqual(
             sorted(
-                cmfs.name for cmfs in filter_cmfs([".*2 Degree.*"]).values()
+                cmfs.name
+                for cmfs in filter_cmfs(
+                    ["CIE 1931 2 Degree Standard Observer"]
+                ).values()
             ),
             [
                 "CIE 1931 2 Degree Standard Observer",
-                "CIE 2012 2 Degree Standard Observer",
-                "Stiles & Burch 1955 2 Degree RGB CMFs",
-                "Stockman & Sharpe 2 Degree Cone Fundamentals",
-                "Wright & Guild 1931 2 Degree RGB CMFs",
             ],
         )
 
@@ -399,8 +401,8 @@ class TestFilterIlluminants(unittest.TestCase):
         """Test :func:`colour.plotting.common.filter_illuminants` definition."""
 
         self.assertListEqual(
-            sorted(filter_illuminants(["^D.*"]).keys()),
-            ["D50", "D55", "D60", "D65", "D75", "Daylight FL"],
+            sorted(filter_illuminants(["D50"]).keys()),
+            ["D50"],
         )
 
 
@@ -417,12 +419,11 @@ class TestFilterColourCheckers(unittest.TestCase):
             sorted(
                 colour_checker.name
                 for colour_checker in filter_colour_checkers(
-                    [".*24.*"]
+                    ["ColorChecker24 - After November 2014"]
                 ).values()
             ),
             [
                 "ColorChecker24 - After November 2014",
-                "ColorChecker24 - Before November 2014",
             ],
         )
 

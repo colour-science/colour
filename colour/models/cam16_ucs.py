@@ -31,7 +31,14 @@ from __future__ import annotations
 import re
 from functools import partial
 
-from colour.hints import Callable, Any, ArrayLike, NDArray
+from colour.hints import (
+    Callable,
+    Any,
+    ArrayLike,
+    FloatingOrNDArray,
+    NDArray,
+    cast,
+)
 from colour.models.cam02_ucs import (
     COEFFICIENTS_UCS_LUO2006,
     JMh_CIECAM02_to_UCS_Luo2006,
@@ -231,14 +238,15 @@ def XYZ_to_UCS_Li2017(
     --------
     >>> import numpy as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-    >>> XYZ_to_UCS_Li2017(XYZ, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
+    >>> XYZ_to_UCS_Li2017(XYZ, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
     ... # doctest: +ELLIPSIS
     array([ 46.0658603...,  41.0758649...,  14.5102582...])
 
     >>> from colour.appearance import CAM_KWARGS_CIECAM02_sRGB
-    >>> XYZ_w = CAM_KWARGS_CIECAM02_sRGB['XYZ_w']
+    >>> XYZ_w = CAM_KWARGS_CIECAM02_sRGB["XYZ_w"]
     >>> XYZ_to_UCS_Li2017(
-    ...     XYZ, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'], XYZ_w=XYZ_w / 100)
+    ...     XYZ, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"], XYZ_w=XYZ_w / 100
+    ... )
     ... # doctest: +ELLIPSIS
     array([ 46.0658603...,  41.0758649...,  14.5102582...])
     """
@@ -257,7 +265,13 @@ def XYZ_to_UCS_Li2017(
         XYZ = as_float_array(XYZ) * 100
 
     specification = XYZ_to_CAM16(XYZ, **settings)
-    JMh = tstack([specification.J, specification.M, specification.h])
+    JMh = tstack(
+        [
+            cast(FloatingOrNDArray, specification.J),
+            cast(FloatingOrNDArray, specification.M),
+            cast(FloatingOrNDArray, specification.h),
+        ]
+    )
 
     return JMh_CAM16_to_UCS_Li2017(JMh, coefficients)
 
@@ -320,15 +334,15 @@ def UCS_Li2017_to_XYZ(
     --------
     >>> import numpy as np
     >>> Jpapbp = np.array([46.06586037, 41.07586491, 14.51025828])
-    >>> UCS_Li2017_to_XYZ(
-    ...     Jpapbp, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
+    >>> UCS_Li2017_to_XYZ(Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
     ... # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
 
     >>> from colour.appearance import CAM_KWARGS_CIECAM02_sRGB
-    >>> XYZ_w = CAM_KWARGS_CIECAM02_sRGB['XYZ_w']
+    >>> XYZ_w = CAM_KWARGS_CIECAM02_sRGB["XYZ_w"]
     >>> UCS_Li2017_to_XYZ(
-    ...     Jpapbp, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'], XYZ_w=XYZ_w / 100)
+    ...     Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"], XYZ_w=XYZ_w / 100
+    ... )
     ... # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """

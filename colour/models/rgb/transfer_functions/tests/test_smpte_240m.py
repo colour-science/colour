@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the
+Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.smpte_240m` module.
 """
 
@@ -57,15 +57,21 @@ oetf_SMPTE240M` definition n-dimensional arrays support.
 
         L_c = np.tile(L_c, 6)
         V_c = np.tile(V_c, 6)
-        np.testing.assert_almost_equal(oetf_SMPTE240M(L_c), V_c, decimal=7)
+        np.testing.assert_array_almost_equal(
+            oetf_SMPTE240M(L_c), V_c, decimal=7
+        )
 
         L_c = np.reshape(L_c, (2, 3))
         V_c = np.reshape(V_c, (2, 3))
-        np.testing.assert_almost_equal(oetf_SMPTE240M(L_c), V_c, decimal=7)
+        np.testing.assert_array_almost_equal(
+            oetf_SMPTE240M(L_c), V_c, decimal=7
+        )
 
         L_c = np.reshape(L_c, (2, 3, 1))
         V_c = np.reshape(V_c, (2, 3, 1))
-        np.testing.assert_almost_equal(oetf_SMPTE240M(L_c), V_c, decimal=7)
+        np.testing.assert_array_almost_equal(
+            oetf_SMPTE240M(L_c), V_c, decimal=7
+        )
 
     def test_domain_range_scale_oetf_SMPTE240M(self):
         """
@@ -79,7 +85,7 @@ oetf_SMPTE240M` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     oetf_SMPTE240M(L_c * factor), V_c * factor, decimal=7
                 )
 
@@ -128,15 +134,21 @@ eotf_SMPTE240M` definition n-dimensional arrays support.
 
         V_r = np.tile(V_r, 6)
         L_r = np.tile(L_r, 6)
-        np.testing.assert_almost_equal(eotf_SMPTE240M(V_r), L_r, decimal=7)
+        np.testing.assert_array_almost_equal(
+            eotf_SMPTE240M(V_r), L_r, decimal=7
+        )
 
         V_r = np.reshape(V_r, (2, 3))
         L_r = np.reshape(L_r, (2, 3))
-        np.testing.assert_almost_equal(eotf_SMPTE240M(V_r), L_r, decimal=7)
+        np.testing.assert_array_almost_equal(
+            eotf_SMPTE240M(V_r), L_r, decimal=7
+        )
 
         V_r = np.reshape(V_r, (2, 3, 1))
         L_r = np.reshape(L_r, (2, 3, 1))
-        np.testing.assert_almost_equal(eotf_SMPTE240M(V_r), L_r, decimal=7)
+        np.testing.assert_array_almost_equal(
+            eotf_SMPTE240M(V_r), L_r, decimal=7
+        )
 
     def test_domain_range_scale_eotf_SMPTE240M(self):
         """
@@ -150,7 +162,7 @@ eotf_SMPTE240M` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     eotf_SMPTE240M(V_r * factor), L_r * factor, decimal=7
                 )
 

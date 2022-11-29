@@ -6,11 +6,13 @@ from colour.utilities.documentation import is_documentation_building
 from colour.hints import Any
 
 from .common import (
-    Jab_to_JCh,
-    JCh_to_Jab,
     COLOURSPACE_MODELS,
     COLOURSPACE_MODELS_AXIS_LABELS,
     COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE,
+    Jab_to_JCh,
+    JCh_to_Jab,
+    XYZ_to_Iab,
+    Iab_to_XYZ,
 )
 from .cam02_ucs import (
     JMh_CIECAM02_to_CAM02LCD,
@@ -90,6 +92,7 @@ from .jzazbz import (
     Izazbz_to_XYZ,
     Jzazbz_to_XYZ,
 )
+from .munish2021 import XYZ_to_IPT_Munish2021, IPT_Munish2021_to_XYZ
 from .hdr_ipt import HDR_IPT_METHODS, XYZ_to_hdr_IPT, hdr_IPT_to_XYZ
 from .oklab import XYZ_to_Oklab, Oklab_to_XYZ
 from .osa_ucs import XYZ_to_OSA_UCS, OSA_UCS_to_XYZ
@@ -123,8 +126,10 @@ from .rgb import (
     log_decoding_ACEScct,
     oetf_ARIBSTDB67,
     oetf_inverse_ARIBSTDB67,
-    log_encoding_ALEXALogC,
-    log_decoding_ALEXALogC,
+    log_encoding_ARRILogC3,
+    log_decoding_ARRILogC3,
+    log_encoding_ARRILogC4,
+    log_decoding_ARRILogC4,
     oetf_BlackmagicFilmGeneration5,
     oetf_inverse_BlackmagicFilmGeneration5,
     log_encoding_CanonLog,
@@ -151,32 +156,42 @@ from .rgb import (
     log_decoding_FilmLightTLog,
     log_encoding_Protune,
     log_decoding_Protune,
+    oetf_BT2020,
+    oetf_inverse_BT2020,
     oetf_BT601,
     oetf_inverse_BT601,
     oetf_BT709,
     oetf_inverse_BT709,
+    oetf_BT1361,
+    oetf_inverse_BT1361,
     eotf_inverse_BT1886,
     eotf_BT1886,
-    eotf_inverse_BT2020,
-    eotf_BT2020,
     eotf_inverse_ST2084,
     eotf_ST2084,
-    oetf_PQ_BT2100,
-    oetf_inverse_PQ_BT2100,
-    eotf_PQ_BT2100,
-    eotf_inverse_PQ_BT2100,
-    ootf_PQ_BT2100,
-    ootf_inverse_PQ_BT2100,
-    oetf_HLG_BT2100,
-    oetf_inverse_HLG_BT2100,
+    oetf_BT2100_PQ,
+    oetf_inverse_BT2100_PQ,
+    eotf_BT2100_PQ,
+    eotf_inverse_BT2100_PQ,
+    ootf_BT2100_PQ,
+    ootf_inverse_BT2100_PQ,
+    oetf_BT2100_HLG,
+    oetf_inverse_BT2100_HLG,
     BT2100_HLG_EOTF_METHODS,
-    eotf_HLG_BT2100,
+    eotf_BT2100_HLG,
     BT2100_HLG_EOTF_INVERSE_METHODS,
-    eotf_inverse_HLG_BT2100,
+    eotf_inverse_BT2100_HLG,
     BT2100_HLG_OOTF_METHODS,
-    ootf_HLG_BT2100,
+    ootf_BT2100_HLG,
     BT2100_HLG_OOTF_INVERSE_METHODS,
-    ootf_inverse_HLG_BT2100,
+    ootf_inverse_BT2100_HLG,
+    oetf_H273_Log,
+    oetf_inverse_H273_Log,
+    oetf_H273_LogSqrt,
+    oetf_inverse_H273_LogSqrt,
+    oetf_H273_IEC61966_2,
+    oetf_inverse_H273_IEC61966_2,
+    eotf_H273_ST428_1,
+    eotf_inverse_H273_ST428_1,
     linear_function,
     logarithmic_function_basic,
     logarithmic_function_quasilog,
@@ -189,6 +204,8 @@ from .rgb import (
     log_decoding_VLog,
     log_encoding_FLog,
     log_decoding_FLog,
+    log_encoding_LLog,
+    log_decoding_LLog,
     log_encoding_NLog,
     log_decoding_NLog,
     log_encoding_PivotedLog,
@@ -255,7 +272,8 @@ from .rgb import (
     RGB_COLOURSPACE_ACESCG,
     RGB_COLOURSPACE_ADOBE_RGB1998,
     RGB_COLOURSPACE_ADOBE_WIDE_GAMUT_RGB,
-    RGB_COLOURSPACE_ALEXA_WIDE_GAMUT,
+    RGB_COLOURSPACE_ARRI_WIDE_GAMUT_3,
+    RGB_COLOURSPACE_ARRI_WIDE_GAMUT_4,
     RGB_COLOURSPACE_APPLE_RGB,
     RGB_COLOURSPACE_BEST_RGB,
     RGB_COLOURSPACE_BETA_RGB,
@@ -274,9 +292,12 @@ from .rgb import (
     RGB_COLOURSPACE_DISPLAY_P3,
     RGB_COLOURSPACE_DJI_D_GAMUT,
     RGB_COLOURSPACE_DON_RGB_4,
+    RGB_COLOURSPACE_EBU_3213_E,
     RGB_COLOURSPACE_ECI_RGB_V2,
     RGB_COLOURSPACE_EKTA_SPACE_PS_5,
     RGB_COLOURSPACE_FILMLIGHT_E_GAMUT,
+    RGB_COLOURSPACE_H273_GENERIC_FILM,
+    RGB_COLOURSPACE_H273_22_UNSPECIFIED,
     RGB_COLOURSPACE_PROTUNE_NATIVE,
     RGB_COLOURSPACE_MAX_RGB,
     RGB_COLOURSPACE_N_GAMUT,
@@ -333,13 +354,23 @@ from .rgb import (
 )
 from .rgb import RGB_to_YCoCg, YCoCg_to_RGB
 from .rgb import RGB_to_ICtCp, ICtCp_to_RGB, XYZ_to_ICtCp, ICtCp_to_XYZ
+from .rgb import (
+    COLOUR_PRIMARIES_ITUTH273,
+    TRANSFER_CHARACTERISTICS_ITUTH273,
+    MATRIX_COEFFICIENTS_ITUTH273,
+    describe_video_signal_colour_primaries,
+    describe_video_signal_transfer_characteristics,
+    describe_video_signal_matrix_coefficients,
+)
 
 __all__ = [
-    "Jab_to_JCh",
-    "JCh_to_Jab",
     "COLOURSPACE_MODELS",
     "COLOURSPACE_MODELS_AXIS_LABELS",
     "COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE",
+    "Jab_to_JCh",
+    "JCh_to_Jab",
+    "XYZ_to_Iab",
+    "Iab_to_XYZ",
 ]
 __all__ += [
     "JMh_CIECAM02_to_CAM02LCD",
@@ -447,6 +478,10 @@ __all__ += [
     "Jzazbz_to_XYZ",
 ]
 __all__ += [
+    "XYZ_to_IPT_Munish2021",
+    "IPT_Munish2021_to_XYZ",
+]
+__all__ += [
     "HDR_IPT_METHODS",
     "XYZ_to_hdr_IPT",
     "hdr_IPT_to_XYZ",
@@ -492,8 +527,10 @@ __all__ += [
     "log_decoding_ACEScct",
     "oetf_ARIBSTDB67",
     "oetf_inverse_ARIBSTDB67",
-    "log_encoding_ALEXALogC",
-    "log_decoding_ALEXALogC",
+    "log_encoding_ARRILogC3",
+    "log_decoding_ARRILogC3",
+    "log_encoding_ARRILogC4",
+    "log_decoding_ARRILogC4",
     "oetf_BlackmagicFilmGeneration5",
     "oetf_inverse_BlackmagicFilmGeneration5",
     "log_encoding_CanonLog",
@@ -520,32 +557,42 @@ __all__ += [
     "log_decoding_FilmLightTLog",
     "log_encoding_Protune",
     "log_decoding_Protune",
+    "oetf_BT2020",
+    "oetf_inverse_BT2020",
     "oetf_BT601",
     "oetf_inverse_BT601",
     "oetf_BT709",
     "oetf_inverse_BT709",
+    "oetf_BT1361",
+    "oetf_inverse_BT1361",
     "eotf_inverse_BT1886",
     "eotf_BT1886",
-    "eotf_inverse_BT2020",
-    "eotf_BT2020",
     "eotf_inverse_ST2084",
     "eotf_ST2084",
-    "oetf_PQ_BT2100",
-    "oetf_inverse_PQ_BT2100",
-    "eotf_PQ_BT2100",
-    "eotf_inverse_PQ_BT2100",
-    "ootf_PQ_BT2100",
-    "ootf_inverse_PQ_BT2100",
-    "oetf_HLG_BT2100",
-    "oetf_inverse_HLG_BT2100",
+    "oetf_BT2100_PQ",
+    "oetf_inverse_BT2100_PQ",
+    "eotf_BT2100_PQ",
+    "eotf_inverse_BT2100_PQ",
+    "ootf_BT2100_PQ",
+    "ootf_inverse_BT2100_PQ",
+    "oetf_BT2100_HLG",
+    "oetf_inverse_BT2100_HLG",
     "BT2100_HLG_EOTF_METHODS",
-    "eotf_HLG_BT2100",
+    "eotf_BT2100_HLG",
     "BT2100_HLG_EOTF_INVERSE_METHODS",
-    "eotf_inverse_HLG_BT2100",
+    "eotf_inverse_BT2100_HLG",
     "BT2100_HLG_OOTF_METHODS",
-    "ootf_HLG_BT2100",
+    "ootf_BT2100_HLG",
     "BT2100_HLG_OOTF_INVERSE_METHODS",
-    "ootf_inverse_HLG_BT2100",
+    "ootf_inverse_BT2100_HLG",
+    "oetf_H273_Log",
+    "oetf_inverse_H273_Log",
+    "oetf_H273_LogSqrt",
+    "oetf_inverse_H273_LogSqrt",
+    "oetf_H273_IEC61966_2",
+    "oetf_inverse_H273_IEC61966_2",
+    "eotf_H273_ST428_1",
+    "eotf_inverse_H273_ST428_1",
     "linear_function",
     "logarithmic_function_basic",
     "logarithmic_function_quasilog",
@@ -558,6 +605,8 @@ __all__ += [
     "log_decoding_VLog",
     "log_encoding_FLog",
     "log_decoding_FLog",
+    "log_encoding_LLog",
+    "log_decoding_LLog",
     "log_encoding_NLog",
     "log_decoding_NLog",
     "log_encoding_PivotedLog",
@@ -624,7 +673,8 @@ __all__ += [
     "RGB_COLOURSPACE_ACESCG",
     "RGB_COLOURSPACE_ADOBE_RGB1998",
     "RGB_COLOURSPACE_ADOBE_WIDE_GAMUT_RGB",
-    "RGB_COLOURSPACE_ALEXA_WIDE_GAMUT",
+    "RGB_COLOURSPACE_ARRI_WIDE_GAMUT_3",
+    "RGB_COLOURSPACE_ARRI_WIDE_GAMUT_4",
     "RGB_COLOURSPACE_APPLE_RGB",
     "RGB_COLOURSPACE_BEST_RGB",
     "RGB_COLOURSPACE_BETA_RGB",
@@ -643,9 +693,12 @@ __all__ += [
     "RGB_COLOURSPACE_DISPLAY_P3",
     "RGB_COLOURSPACE_DJI_D_GAMUT",
     "RGB_COLOURSPACE_DON_RGB_4",
+    "RGB_COLOURSPACE_EBU_3213_E",
     "RGB_COLOURSPACE_ECI_RGB_V2",
     "RGB_COLOURSPACE_EKTA_SPACE_PS_5",
     "RGB_COLOURSPACE_FILMLIGHT_E_GAMUT",
+    "RGB_COLOURSPACE_H273_GENERIC_FILM",
+    "RGB_COLOURSPACE_H273_22_UNSPECIFIED",
     "RGB_COLOURSPACE_PROTUNE_NATIVE",
     "RGB_COLOURSPACE_MAX_RGB",
     "RGB_COLOURSPACE_N_GAMUT",
@@ -702,6 +755,14 @@ __all__ += [
 ]
 __all__ += ["RGB_to_YCoCg", "YCoCg_to_RGB"]
 __all__ += ["RGB_to_ICtCp", "ICtCp_to_RGB", "XYZ_to_ICtCp", "ICtCp_to_XYZ"]
+__all__ += [
+    "COLOUR_PRIMARIES_ITUTH273",
+    "TRANSFER_CHARACTERISTICS_ITUTH273",
+    "MATRIX_COEFFICIENTS_ITUTH273",
+    "describe_video_signal_colour_primaries",
+    "describe_video_signal_transfer_characteristics",
+    "describe_video_signal_matrix_coefficients",
+]
 
 
 # ----------------------------------------------------------------------------#
@@ -745,6 +806,80 @@ API_CHANGES = {
         ],
     ]
 }
+
+# v0.4.2
+API_CHANGES["ObjectRenamed"].extend(
+    [
+        [
+            "colour.models.RGB_COLOURSPACE_ALEXA_WIDE_GAMUT",
+            "colour.models.RGB_COLOURSPACE_ARRI_WIDE_GAMUT_3",
+        ],
+        [
+            "colour.models.eotf_inverse_BT2020",
+            "colour.models.oetf_BT2020",
+        ],
+        [
+            "colour.models.eotf_BT2020",
+            "colour.models.oetf_inverse_BT2020",
+        ],
+        [
+            "colour.models.oetf_PQ_BT2100",
+            "colour.models.oetf_BT2100_PQ",
+        ],
+        [
+            "colour.models.oetf_inverse_PQ_BT2100",
+            "colour.models.oetf_inverse_BT2100_PQ",
+        ],
+        [
+            "colour.models.eotf_PQ_BT2100",
+            "colour.models.eotf_BT2100_PQ",
+        ],
+        [
+            "colour.models.eotf_inverse_PQ_BT2100",
+            "colour.models.eotf_inverse_BT2100_PQ",
+        ],
+        [
+            "colour.models.ootf_PQ_BT2100",
+            "colour.models.ootf_BT2100_PQ",
+        ],
+        [
+            "colour.models.ootf_inverse_PQ_BT2100",
+            "colour.models.ootf_inverse_BT2100_PQ",
+        ],
+        [
+            "colour.models.oetf_HLG_BT2100",
+            "colour.models.oetf_BT2100_HLG",
+        ],
+        [
+            "colour.models.oetf_inverse_HLG_BT2100",
+            "colour.models.oetf_inverse_BT2100_HLG",
+        ],
+        [
+            "colour.models.eotf_HLG_BT2100",
+            "colour.models.eotf_BT2100_HLG",
+        ],
+        [
+            "colour.models.eotf_inverse_HLG_BT2100",
+            "colour.models.eotf_inverse_BT2100_HLG",
+        ],
+        [
+            "colour.models.ootf_HLG_BT2100",
+            "colour.models.ootf_BT2100_HLG",
+        ],
+        [
+            "colour.models.ootf_inverse_HLG_BT2100",
+            "colour.models.ootf_inverse_BT2100_HLG",
+        ],
+        [
+            "colour.models.log_decoding_ALEXALogC",
+            "colour.models.log_decoding_ARRILogC3",
+        ],
+        [
+            "colour.models.log_encoding_ALEXALogC",
+            "colour.models.log_encoding_ARRILogC3",
+        ],
+    ]
+)
 """Defines the *colour.models* sub-package API changes."""
 
 if not is_documentation_building():

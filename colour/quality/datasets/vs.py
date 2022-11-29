@@ -32,7 +32,7 @@ from __future__ import annotations
 
 from colour.colorimetry import SpectralDistribution
 from colour.hints import Dict
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -68,8 +68,8 @@ INDEXES_TO_NAMES_VS: Dict = {
 }
 """*NIST CQS* test colour samples indexes to names mapping."""
 
-APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS74: CaseInsensitiveMapping = (
-    CaseInsensitiveMapping(
+APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS74: CanonicalMapping = (
+    CanonicalMapping(
         {
             "VS1": "7.5P 4/10",
             "VS2": "10PB 4/10",
@@ -91,8 +91,8 @@ APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS74: CaseInsensitiveMapping = (
 )
 """*NIST CQS 7.4* test colour samples *Munsell* colour approximations."""
 
-APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS90: CaseInsensitiveMapping = (
-    CaseInsensitiveMapping(
+APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS90: CanonicalMapping = (
+    CanonicalMapping(
         {
             "VS1": "5R 4/14",
             "VS2": "10R 6/12",
@@ -2971,7 +2971,7 @@ DATA_VS: Dict = {
     },
 }
 
-SDS_VS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+SDS_VS: CanonicalMapping = CanonicalMapping(
     {
         key: {
             name: SpectralDistribution(data, name=name)

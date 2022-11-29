@@ -1,8 +1,9 @@
-"""Defines the unit tests for the :mod:`colour.notation.hexadecimal` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.notation.hexadecimal` module."""
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.notation.hexadecimal import (
     RGB_to_HEX,
@@ -99,10 +100,8 @@ class TestRGB_to_HEX(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            RGB = np.array(case)
-            RGB_to_HEX(RGB)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        RGB_to_HEX(cases)
 
 
 class TestHEX_to_RGB(unittest.TestCase):
@@ -114,19 +113,19 @@ class TestHEX_to_RGB(unittest.TestCase):
     def test_HEX_to_RGB(self):
         """Test :func:`colour.notation.hexadecimal.HEX_to_RGB` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             HEX_to_RGB("#74070a"),
             np.array([0.45620519, 0.03081071, 0.04091952]),
             decimal=2,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             HEX_to_RGB("#000000"),
             np.array([0.00000000, 0.00000000, 0.00000000]),
             decimal=2,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             HEX_to_RGB("#ffffff"),
             np.array([1.00000000, 1.00000000, 1.00000000]),
             decimal=2,
@@ -143,11 +142,11 @@ class TestHEX_to_RGB(unittest.TestCase):
 
         HEX = np.tile(HEX, 6)
         RGB = np.tile(RGB, (6, 1))
-        np.testing.assert_almost_equal(HEX_to_RGB(HEX), RGB, decimal=2)
+        np.testing.assert_array_almost_equal(HEX_to_RGB(HEX), RGB, decimal=2)
 
         HEX = np.reshape(HEX, (2, 3))
         RGB = np.reshape(RGB, (2, 3, 3))
-        np.testing.assert_almost_equal(HEX_to_RGB(HEX), RGB, decimal=2)
+        np.testing.assert_array_almost_equal(HEX_to_RGB(HEX), RGB, decimal=2)
 
     def test_domain_range_scale_HEX_to_RGB(self):
         """
@@ -161,7 +160,7 @@ class TestHEX_to_RGB(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     HEX_to_RGB(HEX), RGB * factor, decimal=2
                 )
 

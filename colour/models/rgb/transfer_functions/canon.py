@@ -1,0 +1,513 @@
+"""
+Canon Log Encodings
+===================
+
+Defines the *Canon Log* encodings:
+
+-   :func:`colour.models.log_encoding_CanonLog`
+-   :func:`colour.models.log_decoding_CanonLog`
+-   :func:`colour.models.log_encoding_CanonLog2`
+-   :func:`colour.models.log_decoding_CanonLog2`
+-   :func:`colour.models.log_encoding_CanonLog3`
+-   :func:`colour.models.log_decoding_CanonLog3`
+
+Notes
+-----
+-   :cite:`Canona` is available as a *Drivers & Downloads* *Software* for
+    Windows 10 (x64) *Operating System*, a copy of the archive is hosted at
+    this url: https://drive.google.com/open?id=0B_IQZQdc4Vy8ZGYyY29pMEVwZU0
+
+References
+----------
+-   :cite:`Canona` : Canon. (2016). EOS C300 Mark II - EOS C300 Mark II Input
+    Transform Version 2.0 (for Cinema Gamut / BT.2020). Retrieved August 23,
+    2016, from
+    https://www.usa.canon.com/internet/portal/us/home/support/details/cameras/cinema-eos/eos-c300-mark-ii
+-   :cite:`Thorpe2012a` : Thorpe, L. (2012). CANON-LOG TRANSFER CHARACTERISTIC.
+    Retrieved September 25, 2014, from
+    http://downloads.canon.com/CDLC/Canon-Log_Transfer_Characteristic_6-20-2012.pdf
+"""
+
+from __future__ import annotations
+
+import numpy as np
+
+from colour.hints import (
+    Boolean,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    Integer,
+)
+from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
+from colour.utilities import (
+    as_float,
+    domain_range_scale,
+    from_range_1,
+    to_domain_1,
+)
+
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
+
+__all__ = [
+    "log_encoding_CanonLog",
+    "log_decoding_CanonLog",
+    "log_encoding_CanonLog2",
+    "log_decoding_CanonLog2",
+    "log_encoding_CanonLog3",
+    "log_decoding_CanonLog3",
+]
+
+
+def log_encoding_CanonLog(
+    x: FloatingOrArrayLike,
+    bit_depth: Integer = 10,
+    out_normalised_code_value: Boolean = True,
+    in_reflection: Boolean = True,
+) -> FloatingOrNDArray:
+    """
+    Define the *Canon Log* log encoding curve / opto-electronic transfer
+    function.
+
+    Parameters
+    ----------
+    x
+        Linear data :math:`x`.
+    bit_depth
+        Bit depth used for conversion.
+    out_normalised_code_value
+        Whether the *Canon Log* non-linear data is encoded as normalised code
+        values.
+    in_reflection
+        Whether the light level :math:`x` to a camera is reflection.
+
+    Returns
+    -------
+    :class:`numpy.floating` or :class:`numpy.ndarray`
+        *Canon Log* non-linear data.
+
+    References
+    ----------
+    :cite:`Thorpe2012a`
+
+    Notes
+    -----
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``x``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``clog``   | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    Examples
+    --------
+    >>> log_encoding_CanonLog(0.18) * 100  # doctest: +ELLIPSIS
+    34.3389651...
+
+    The values of *Table 2 Canon-Log Code Values* table in :cite:`Thorpe2012a`
+    are obtained as follows:
+
+    >>> x = np.array([0, 2, 18, 90, 720]) / 100
+    >>> np.around(log_encoding_CanonLog(x) * (2**10 - 1)).astype(np.int)
+    array([ 128,  169,  351,  614, 1016])
+    >>> np.around(log_encoding_CanonLog(x, 10, False) * 100, 1)
+    array([   7.3,   12. ,   32.8,   62.7,  108.7])
+    """
+
+    x = to_domain_1(x)
+
+    if in_reflection:
+        x = x / 0.9
+
+    with domain_range_scale("ignore"):
+        clog = np.where(
+            x < log_decoding_CanonLog(0.0730597, bit_depth, False),
+            -(0.529136 * (np.log10(-x * 10.1596 + 1)) - 0.0730597),
+            0.529136 * np.log10(10.1596 * x + 1) + 0.0730597,
+        )
+
+    clog_cv = (
+        full_to_legal(clog, bit_depth) if out_normalised_code_value else clog
+    )
+
+    return as_float(from_range_1(clog_cv))
+
+
+def log_decoding_CanonLog(
+    clog: FloatingOrArrayLike,
+    bit_depth: Integer = 10,
+    in_normalised_code_value: Boolean = True,
+    out_reflection: Boolean = True,
+) -> FloatingOrNDArray:
+    """
+    Define the *Canon Log* log decoding curve / electro-optical transfer
+    function.
+
+    Parameters
+    ----------
+    clog
+        *Canon Log* non-linear data.
+    bit_depth
+        Bit depth used for conversion.
+    in_normalised_code_value
+        Whether the *Canon Log* non-linear data is encoded with normalised
+        code values.
+    out_reflection
+        Whether the light level :math:`x` to a camera is reflection.
+
+    Returns
+    -------
+    :class:`numpy.floating` or :class:`numpy.ndarray`
+        Linear data :math:`x`.
+
+    Notes
+    -----
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``clog``   | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``x``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    References
+    ----------
+    :cite:`Thorpe2012a`
+
+    Examples
+    --------
+    >>> log_decoding_CanonLog(34.338965172606912 / 100)  # doctest: +ELLIPSIS
+    0.17999999...
+    """
+
+    clog = to_domain_1(clog)
+
+    clog = legal_to_full(clog, bit_depth) if in_normalised_code_value else clog
+
+    x = np.where(
+        clog < 0.0730597,
+        -(10 ** ((0.0730597 - clog) / 0.529136) - 1) / 10.1596,
+        (10 ** ((clog - 0.0730597) / 0.529136) - 1) / 10.1596,
+    )
+
+    if out_reflection:
+        x = x * 0.9
+
+    return as_float(from_range_1(x))
+
+
+def log_encoding_CanonLog2(
+    x: FloatingOrArrayLike,
+    bit_depth: Integer = 10,
+    out_normalised_code_value: Boolean = True,
+    in_reflection: Boolean = True,
+) -> FloatingOrNDArray:
+    """
+    Define the *Canon Log 2* log encoding curve / opto-electronic transfer
+    function.
+
+    Parameters
+    ----------
+    x
+        Linear data :math:`x`.
+    bit_depth
+        Bit depth used for conversion.
+    out_normalised_code_value
+        Whether the *Canon Log 2* non-linear data is encoded as normalised
+        code values.
+    in_reflection
+        Whether the light level :math:`x` to a camera is reflection.
+
+    Returns
+    -------
+    :class:`numpy.floating` or :class:`numpy.ndarray`
+        *Canon Log 2* non-linear data.
+
+    Notes
+    -----
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``x``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``clog2``  | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    References
+    ----------
+    :cite:`Canona`
+
+    Examples
+    --------
+    >>> log_encoding_CanonLog2(0.18) * 100  # doctest: +ELLIPSIS
+    39.8254694...
+    """
+
+    x = to_domain_1(x)
+
+    if in_reflection:
+        x = x / 0.9
+
+    with domain_range_scale("ignore"):
+        clog2 = np.where(
+            x < log_decoding_CanonLog2(0.035388128, bit_depth, False),
+            -(0.281863093 * (np.log10(-x * 87.09937546 + 1)) - 0.035388128),
+            0.281863093 * np.log10(x * 87.09937546 + 1) + 0.035388128,
+        )
+
+    clog2_cv = (
+        full_to_legal(clog2, bit_depth) if out_normalised_code_value else clog2
+    )
+
+    return as_float(from_range_1(clog2_cv))
+
+
+def log_decoding_CanonLog2(
+    clog2: FloatingOrArrayLike,
+    bit_depth: Integer = 10,
+    in_normalised_code_value: Boolean = True,
+    out_reflection: Boolean = True,
+) -> FloatingOrNDArray:
+    """
+    Define the *Canon Log 2* log decoding curve / electro-optical transfer
+    function.
+
+    Parameters
+    ----------
+    clog2
+        *Canon Log 2* non-linear data.
+    bit_depth
+        Bit depth used for conversion.
+    in_normalised_code_value
+        Whether the *Canon Log 2* non-linear data is encoded with normalised
+        code values.
+    out_reflection
+        Whether the light level :math:`x` to a camera is reflection.
+
+    Returns
+    -------
+    :class:`numpy.floating` or :class:`numpy.ndarray`
+        Linear data :math:`x`.
+
+    Notes
+    -----
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``clog2``  | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``x``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    References
+    ----------
+    :cite:`Canona`
+
+    Examples
+    --------
+    >>> log_decoding_CanonLog2(39.825469498316735 / 100)  # doctest: +ELLIPSIS
+    0.1799999...
+    """
+
+    clog2 = to_domain_1(clog2)
+
+    clog2 = (
+        legal_to_full(clog2, bit_depth) if in_normalised_code_value else clog2
+    )
+
+    x = np.where(
+        clog2 < 0.035388128,
+        -(10 ** ((0.035388128 - clog2) / 0.281863093) - 1) / 87.09937546,
+        (10 ** ((clog2 - 0.035388128) / 0.281863093) - 1) / 87.09937546,
+    )
+
+    if out_reflection:
+        x = x * 0.9
+
+    return as_float(from_range_1(x))
+
+
+def log_encoding_CanonLog3(
+    x: FloatingOrArrayLike,
+    bit_depth: Integer = 10,
+    out_normalised_code_value: Boolean = True,
+    in_reflection: Boolean = True,
+) -> FloatingOrNDArray:
+    """
+    Define the *Canon Log 3* log encoding curve / opto-electronic transfer
+    function.
+
+    Parameters
+    ----------
+    x
+        Linear data :math:`x`.
+    bit_depth
+        Bit depth used for conversion.
+    out_normalised_code_value
+        Whether the *Canon Log 3* non-linear data is encoded as normalised code
+        values.
+    in_reflection
+        Whether the light level :math:`x` to a camera is reflection.
+
+    Returns
+    -------
+    :class:`numpy.floating` or :class:`numpy.ndarray`
+        *Canon Log 3* non-linear data.
+
+    Notes
+    -----
+    -   Introspection of the grafting points by Shaw, N. (2018) shows that the
+        *Canon Log 3* IDT was likely derived from its encoding curve as the
+        latter is grafted at *+/-0.014*::
+
+            >>> clog3 = 0.04076162
+            >>> (clog3 - 0.073059361) / 2.3069815
+            -0.014000000000000002
+            >>> clog3 = 0.105357102
+            >>> (clog3 - 0.073059361) / 2.3069815
+            0.013999999999999997
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``x``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``clog3``  | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    References
+    ----------
+    :cite:`Canona`
+
+    Examples
+    --------
+    >>> log_encoding_CanonLog3(0.18) * 100  # doctest: +ELLIPSIS
+    34.3389369...
+    """
+
+    x = to_domain_1(x)
+
+    if in_reflection:
+        x = x / 0.9
+
+    with domain_range_scale("ignore"):
+        clog3 = np.select(
+            (
+                x
+                < log_decoding_CanonLog3(0.04076162, bit_depth, False, False),
+                x
+                <= log_decoding_CanonLog3(
+                    0.105357102, bit_depth, False, False
+                ),
+                x
+                > log_decoding_CanonLog3(0.105357102, bit_depth, False, False),
+            ),
+            (
+                -0.42889912 * np.log10(-x * 14.98325 + 1) + 0.07623209,
+                2.3069815 * x + 0.073059361,
+                0.42889912 * np.log10(x * 14.98325 + 1) + 0.069886632,
+            ),
+        )
+
+    clog3_cv = (
+        full_to_legal(clog3, bit_depth) if out_normalised_code_value else clog3
+    )
+
+    return as_float(from_range_1(clog3_cv))
+
+
+def log_decoding_CanonLog3(
+    clog3: FloatingOrArrayLike,
+    bit_depth: Integer = 10,
+    in_normalised_code_value: Boolean = True,
+    out_reflection: Boolean = True,
+) -> FloatingOrNDArray:
+    """
+    Define the *Canon Log 3* log decoding curve / electro-optical transfer
+    function.
+
+    Parameters
+    ----------
+    clog3
+        *Canon Log 3* non-linear data.
+    bit_depth
+        Bit depth used for conversion.
+    in_normalised_code_value
+        Whether the *Canon Log 3* non-linear data is encoded with normalised
+        code values.
+    out_reflection
+        Whether the light level :math:`x` to a camera is reflection.
+
+    Returns
+    -------
+    :class:`numpy.floating` or :class:`numpy.ndarray`
+        Linear data :math:`x`.
+
+    Notes
+    -----
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``clog3``  | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``x``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    References
+    ----------
+    :cite:`Canona`
+
+    Examples
+    --------
+    >>> log_decoding_CanonLog3(34.338936938868677 / 100)  # doctest: +ELLIPSIS
+    0.1800000...
+    """
+
+    clog3 = to_domain_1(clog3)
+
+    clog3 = (
+        legal_to_full(clog3, bit_depth) if in_normalised_code_value else clog3
+    )
+
+    x = np.select(
+        (clog3 < 0.04076162, clog3 <= 0.105357102, clog3 > 0.105357102),
+        (
+            -(10 ** ((0.07623209 - clog3) / 0.42889912) - 1) / 14.98325,
+            (clog3 - 0.073059361) / 2.3069815,
+            (10 ** ((clog3 - 0.069886632) / 0.42889912) - 1) / 14.98325,
+        ),
+    )
+
+    if out_reflection:
+        x = x * 0.9
+
+    return as_float(from_range_1(x))

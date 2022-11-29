@@ -31,7 +31,12 @@ import numpy as np
 from functools import reduce
 from matplotlib.patches import Polygon
 
-from colour.algebra import LinearInterpolator, normalise_maximum
+from colour.algebra import (
+    LinearInterpolator,
+    normalise_maximum,
+    sdiv,
+    sdiv_mode,
+)
 from colour.colorimetry import (
     CCS_ILLUMINANTS,
     SDS_ILLUMINANTS,
@@ -53,6 +58,7 @@ from colour.hints import (
     Dict,
     Floating,
     List,
+    NDArray,
     Optional,
     Sequence,
     Tuple,
@@ -127,7 +133,7 @@ def plot_single_sd(
     cmfs
         Standard observer colour matching functions used for computing the
         spectrum domain and colours. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
     out_of_gamut_clipping
         Whether to clip out of gamut colours otherwise, the colours will be
         offset by the absolute minimal colour leading to a rendering on
@@ -166,9 +172,9 @@ def plot_single_sd(
     ...     540: 0.0772,
     ...     560: 0.0870,
     ...     580: 0.1128,
-    ...     600: 0.1360
+    ...     600: 0.1360,
     ... }
-    >>> sd = SpectralDistribution(data, name='Custom')
+    >>> sd = SpectralDistribution(data, name="Custom")
     >>> plot_single_sd(sd)  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -207,7 +213,8 @@ def plot_single_sd(
     RGB = normalise_maximum(RGB)
 
     if modulate_colours_with_sd_amplitude:
-        RGB *= (values / np.max(values))[..., np.newaxis]
+        with sdiv_mode():
+            RGB *= cast(NDArray, sdiv(values, np.max(values)))[..., None]
 
     RGB = CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding(RGB)
 
@@ -254,7 +261,7 @@ def plot_single_sd(
     settings: Dict[str, Any] = {
         "axes": axes,
         "bounding_box": (x_min, x_max, y_min, y_max),
-        "title": f"{sd.strict_name} - {cmfs.strict_name}",
+        "title": f"{sd.display_name} - {cmfs.display_name}",
         "x_label": "Wavelength $\\lambda$ (nm)",
         "y_label": "Spectral Distribution",
     }
@@ -296,11 +303,11 @@ def plot_multi_sds(
             distributions colours. The default is the illuminant associated
             with the whitepoint of the default plotting colourspace.
             ``illuminant`` can be of any type or form supported by the
-            :func:`colour.plotting.filter_cmfs` definition.
+            :func:`colour.plotting.common.filter_cmfs` definition.
         -   ``cmfs`` : The standard observer colour matching functions used for
             computing the spectral distributions colours. ``cmfs`` can be of
             any type or form supported by the
-            :func:`colour.plotting.filter_cmfs` definition.
+            :func:`colour.plotting.common.filter_cmfs` definition.
         -   ``normalise_sd_colours`` : Whether to normalise the computed
             spectral distributions colours. The default is *True*.
         -   ``use_sd_colours`` : Whether to use the computed spectral
@@ -330,7 +337,7 @@ def plot_multi_sds(
     ...     530: 0.165500,
     ...     540: 0.290400,
     ...     550: 0.433450,
-    ...     560: 0.594500
+    ...     560: 0.594500,
     ... }
     >>> data_2 = {
     ...     500: 0.323000,
@@ -339,13 +346,13 @@ def plot_multi_sds(
     ...     530: 0.862000,
     ...     540: 0.954000,
     ...     550: 0.994950,
-    ...     560: 0.995000
+    ...     560: 0.995000,
     ... }
-    >>> sd_1 = SpectralDistribution(data_1, name='Custom 1')
-    >>> sd_2 = SpectralDistribution(data_2, name='Custom 2')
+    >>> sd_1 = SpectralDistribution(data_1, name="Custom 1")
+    >>> sd_2 = SpectralDistribution(data_2, name="Custom 2")
     >>> plot_kwargs = [
-    ...     {'use_sd_colours': True},
-    ...     {'use_sd_colours': True, 'linestyle': 'dashed'},
+    ...     {"use_sd_colours": True},
+    ...     {"use_sd_colours": True, "linestyle": "dashed"},
     ... ]
     >>> plot_multi_sds([sd_1, sd_2], plot_kwargs=plot_kwargs)
     ... # doctest: +ELLIPSIS
@@ -362,7 +369,7 @@ def plot_multi_sds(
 
     plot_settings_collection = [
         {
-            "label": f"{sd.strict_name}",
+            "label": f"{sd.display_name}",
             "zorder": CONSTANTS_COLOUR_STYLE.zorder.midground_line,
             "cmfs": "CIE 1931 2 Degree Standard Observer",
             "illuminant": SDS_ILLUMINANTS[
@@ -451,7 +458,7 @@ def plot_single_cmfs(
     ----------
     cmfs
         Colour matching functions to plot. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
 
     Other Parameters
     ----------------
@@ -468,7 +475,7 @@ def plot_single_cmfs(
 
     Examples
     --------
-    >>> plot_single_cmfs('CIE 1931 2 Degree Standard Observer')
+    >>> plot_single_cmfs("CIE 1931 2 Degree Standard Observer")
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -482,7 +489,7 @@ def plot_single_cmfs(
     )
 
     settings: Dict[str, Any] = {
-        "title": f"{cmfs.strict_name} - Colour Matching Functions"
+        "title": f"{cmfs.display_name} - Colour Matching Functions"
     }
     settings.update(kwargs)
 
@@ -505,7 +512,7 @@ def plot_multi_cmfs(
     ----------
     cmfs
         Colour matching functions to plot. ``cmfs`` elements can be of any
-        type or form supported by the :func:`colour.plotting.filter_cmfs`
+        type or form supported by the :func:`colour.plotting.common.filter_cmfs`
         definition.
 
     Other Parameters
@@ -522,8 +529,8 @@ def plot_multi_cmfs(
     Examples
     --------
     >>> cmfs = [
-    ...     'CIE 1931 2 Degree Standard Observer',
-    ...     'CIE 1964 10 Degree Standard Observer',
+    ...     "CIE 1931 2 Degree Standard Observer",
+    ...     "CIE 1964 10 Degree Standard Observer",
     ... ]
     >>> plot_multi_cmfs(cmfs)  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
@@ -563,7 +570,7 @@ def plot_multi_cmfs(
                 cmfs_i.wavelengths,
                 values,
                 color=RGB,
-                label=f"{cmfs_i.strict_labels[j]} - {cmfs_i.strict_name}",
+                label=f"{cmfs_i.display_labels[j]} - {cmfs_i.display_name}",
                 zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
             )
 
@@ -573,8 +580,8 @@ def plot_multi_cmfs(
         min(y_limit_min) - np.abs(np.min(y_limit_min)) * 0.05,
         max(y_limit_max) + np.abs(np.max(y_limit_max)) * 0.05,
     )
-    cmfs_strict_names = ", ".join([cmfs_i.strict_name for cmfs_i in cmfs])
-    title = f"{cmfs_strict_names} - Colour Matching Functions"
+    cmfs_display_names = ", ".join([cmfs_i.display_name for cmfs_i in cmfs])
+    title = f"{cmfs_display_names} - Colour Matching Functions"
 
     settings: Dict[str, Any] = {
         "axes": axes,
@@ -606,11 +613,11 @@ def plot_single_illuminant_sd(
     ----------
     illuminant
         Illuminant to plot. ``illuminant`` can be of any type or form supported
-        by the :func:`colour.plotting.filter_illuminants` definition.
+        by the :func:`colour.plotting.common.filter_illuminants` definition.
     cmfs
         Standard observer colour matching functions used for computing the
         spectrum domain and colours. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
 
     Other Parameters
     ----------------
@@ -631,7 +638,7 @@ def plot_single_illuminant_sd(
 
     Examples
     --------
-    >>> plot_single_illuminant_sd('A')  # doctest: +ELLIPSIS
+    >>> plot_single_illuminant_sd("A")  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Illuminant_SD.png
@@ -643,7 +650,7 @@ def plot_single_illuminant_sd(
         MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
     )
 
-    title = f"Illuminant {illuminant} - {cmfs.strict_name}"
+    title = f"Illuminant {illuminant} - {cmfs.display_name}"
 
     illuminant = first_item(filter_illuminants(illuminant).values())
 
@@ -667,7 +674,7 @@ def plot_multi_illuminant_sds(
     ----------
     illuminants
         Illuminants to plot. ``illuminants`` elements can be of any type or
-        form supported by the :func:`colour.plotting.filter_illuminants`
+        form supported by the :func:`colour.plotting.common.filter_illuminants`
         definition.
 
     Other Parameters
@@ -685,7 +692,7 @@ def plot_multi_illuminant_sds(
 
     Examples
     --------
-    >>> plot_multi_illuminant_sds(['A', 'B', 'C'])  # doctest: +ELLIPSIS
+    >>> plot_multi_illuminant_sds(["A", "B", "C"])  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Illuminant_SDS.png
@@ -708,10 +715,10 @@ def plot_multi_illuminant_sds(
         list(filter_illuminants(illuminants).values()),
     )
 
-    illuminant_strict_names = ", ".join(
-        [illuminant.strict_name for illuminant in illuminants]
+    illuminant_display_names = ", ".join(
+        [illuminant.display_name for illuminant in illuminants]
     )
-    title = f"{illuminant_strict_names} - Illuminants Spectral Distributions"
+    title = f"{illuminant_display_names} - Illuminants Spectral Distributions"
 
     settings: Dict[str, Any] = {"title": title, "y_label": "Relative Power"}
     settings.update(kwargs)
@@ -743,7 +750,7 @@ def plot_visible_spectrum(
     cmfs
         Standard observer colour matching functions used for computing the
         spectrum domain and colours. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
     out_of_gamut_clipping
         Whether to clip out of gamut colours otherwise, the colours will be
         offset by the absolute minimal colour leading to a rendering on
@@ -799,7 +806,7 @@ def plot_visible_spectrum(
     settings = {
         "axes": axes,
         "standalone": True,
-        "title": f"The Visible Spectrum - {cmfs.strict_name}",
+        "title": f"The Visible Spectrum - {cmfs.display_name}",
         "x_label": "Wavelength $\\lambda$ (nm)",
     }
     settings.update(kwargs)
@@ -818,7 +825,7 @@ def plot_single_lightness_function(
     ----------
     function
         *Lightness* function to plot. ``function`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_passthrough` definition.
+        supported by the :func:`colour.plotting.common.filter_passthrough` definition.
 
     Other Parameters
     ----------------
@@ -835,7 +842,7 @@ def plot_single_lightness_function(
 
     Examples
     --------
-    >>> plot_single_lightness_function('CIE 1976')  # doctest: +ELLIPSIS
+    >>> plot_single_lightness_function("CIE 1976")  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Lightness_Function.png
@@ -862,7 +869,7 @@ def plot_multi_lightness_functions(
     functions
         *Lightness* functions to plot. ``functions`` elements can be of any
         type or form supported by the
-        :func:`colour.plotting.filter_passthrough` definition.
+        :func:`colour.plotting.common.filter_passthrough` definition.
 
     Other Parameters
     ----------------
@@ -879,7 +886,7 @@ def plot_multi_lightness_functions(
 
     Examples
     --------
-    >>> plot_multi_lightness_functions(['CIE 1976', 'Wyszecki 1963'])
+    >>> plot_multi_lightness_functions(["CIE 1976", "Wyszecki 1963"])
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -930,7 +937,7 @@ def plot_single_luminance_function(
 
     Examples
     --------
-    >>> plot_single_luminance_function('CIE 1976')  # doctest: +ELLIPSIS
+    >>> plot_single_luminance_function("CIE 1976")  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Luminance_Function.png
@@ -957,7 +964,7 @@ def plot_multi_luminance_functions(
     functions
         *Luminance* functions to plot. ``functions`` elements can be of any
         type or form supported by the
-        :func:`colour.plotting.filter_passthrough` definition.
+        :func:`colour.plotting.common.filter_passthrough` definition.
 
     Other Parameters
     ----------------
@@ -974,7 +981,7 @@ def plot_multi_luminance_functions(
 
     Examples
     --------
-    >>> plot_multi_luminance_functions(['CIE 1976', 'Newhall 1943'])
+    >>> plot_multi_luminance_functions(["CIE 1976", "Newhall 1943"])
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -1019,7 +1026,7 @@ def plot_blackbody_spectral_radiance(
     cmfs
         Standard observer colour matching functions used for computing the
         spectrum domain and colours. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
     blackbody
         Blackbody name.
 
@@ -1038,7 +1045,7 @@ def plot_blackbody_spectral_radiance(
 
     Examples
     --------
-    >>> plot_blackbody_spectral_radiance(3500, blackbody='VY Canis Major')
+    >>> plot_blackbody_spectral_radiance(3500, blackbody="VY Canis Major")
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 2 Axes>, <...AxesSubplot...>)
 
@@ -1120,7 +1127,7 @@ def plot_blackbody_colours(
     cmfs
         Standard observer colour matching functions used for computing the
         blackbody colours. ``cmfs`` can be of any type or form supported by the
-        :func:`colour.plotting.filter_cmfs` definition.
+        :func:`colour.plotting.common.filter_cmfs` definition.
 
     Other Parameters
     ----------------

@@ -1,8 +1,9 @@
-"""Defines the unit tests for the :mod:`colour.difference.cam02_ucs` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.difference.cam02_ucs` module."""
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.difference import (
     delta_E_CAM02LCD,
@@ -98,7 +99,7 @@ class TestDelta_E_Luo2006(unittest.TestCase):
         Jpapbp_1 = np.tile(Jpapbp_1, (6, 1))
         Jpapbp_2 = np.tile(Jpapbp_2, (6, 1))
         delta_E_p = np.tile(delta_E_p, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             delta_E_Luo2006(
                 Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
             ),
@@ -109,7 +110,7 @@ class TestDelta_E_Luo2006(unittest.TestCase):
         Jpapbp_1 = np.reshape(Jpapbp_1, (2, 3, 3))
         Jpapbp_2 = np.reshape(Jpapbp_2, (2, 3, 3))
         delta_E_p = np.reshape(delta_E_p, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             delta_E_Luo2006(
                 Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
             ),
@@ -125,13 +126,8 @@ class TestDelta_E_Luo2006(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Jpapbp_1 = np.array(case)
-            Jpapbp_2 = np.array(case)
-            delta_E_Luo2006(
-                Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
-            ),
+        cases = np.array(list(set(product(cases, repeat=3))))
+        delta_E_Luo2006(cases, cases, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
 
 
 if __name__ == "__main__":

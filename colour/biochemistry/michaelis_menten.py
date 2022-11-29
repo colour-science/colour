@@ -17,7 +17,7 @@ substrate_concentration_MichaelisMenten_Abebe2017`
 
 References
 ----------
--   :cite:`Abebe2017a` : Abebe, M. A., Pouli, T., Larabi, M.-C., & Reinhard,
+-   :cite:`Abebe2017` : Abebe, M. A., Pouli, T., Larabi, M.-C., & Reinhard,
     E. (2017). Perceptual Lightness Modeling for High-Dynamic-Range Imaging.
     ACM Transactions on Applied Perception, 15(1), 1-19. doi:10.1145/3086577
 -   :cite:`Wikipedia2003d` : Wikipedia. (2003). Michaelis-Menten kinetics.
@@ -35,7 +35,7 @@ from colour.hints import (
     Union,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float,
     as_float_array,
     filter_kwargs,
@@ -138,7 +138,7 @@ def reaction_rate_MichaelisMenten_Abebe2017(
 
     References
     ----------
-    :cite:`Abebe2017a`
+    :cite:`Abebe2017`
 
     Examples
     --------
@@ -157,13 +157,11 @@ def reaction_rate_MichaelisMenten_Abebe2017(
     return as_float(v)
 
 
-REACTION_RATE_MICHAELISMENTEN_METHODS: CaseInsensitiveMapping = (
-    CaseInsensitiveMapping(
-        {
-            "Michaelis 1913": reaction_rate_MichaelisMenten_Michaelis1913,
-            "Abebe 2017": reaction_rate_MichaelisMenten_Abebe2017,
-        }
-    )
+REACTION_RATE_MICHAELISMENTEN_METHODS: CanonicalMapping = CanonicalMapping(
+    {
+        "Michaelis 1913": reaction_rate_MichaelisMenten_Michaelis1913,
+        "Abebe 2017": reaction_rate_MichaelisMenten_Abebe2017,
+    }
 )
 REACTION_RATE_MICHAELISMENTEN_METHODS.__doc__ = """
 Supported *Michaelis-Menten* kinetics reaction rate equation computation
@@ -171,7 +169,7 @@ methods.
 
 References
 ----------
-:cite:`Wikipedia2003d`, :cite:`Abebe2017a`
+:cite:`Wikipedia2003d`, :cite:`Abebe2017`
 """
 
 
@@ -215,14 +213,15 @@ def reaction_rate_MichaelisMenten(
 
     References
     ----------
-    :cite:`Wikipedia2003d`, :cite:`Abebe2017a`
+    :cite:`Wikipedia2003d`, :cite:`Abebe2017`
 
     Examples
     --------
     >>> reaction_rate_MichaelisMenten(0.5, 2.5, 0.8)  # doctest: +ELLIPSIS
     0.9615384...
     >>> reaction_rate_MichaelisMenten(
-    ... 0.5, 2.5, 0.8, method='Abebe 2017', b_m=0.813)  # doctest: +ELLIPSIS
+    ...     0.5, 2.5, 0.8, method="Abebe 2017", b_m=0.813
+    ... )  # doctest: +ELLIPSIS
     1.0360547...
     """
 
@@ -310,12 +309,13 @@ def substrate_concentration_MichaelisMenten_Abebe2017(
 
     References
     ----------
-    :cite:`Abebe2017a`
+    :cite:`Abebe2017`
 
     Examples
     --------
     >>> substrate_concentration_MichaelisMenten_Abebe2017(
-    ...     0.695151224195871, 1.448, 0.635, 0.813)  # doctest: +ELLIPSIS
+    ...     0.695151224195871, 1.448, 0.635, 0.813
+    ... )  # doctest: +ELLIPSIS
     0.4999999...
     """
 
@@ -330,8 +330,8 @@ def substrate_concentration_MichaelisMenten_Abebe2017(
 
 
 SUBSTRATE_CONCENTRATION_MICHAELISMENTEN_METHODS: (
-    CaseInsensitiveMapping
-) = CaseInsensitiveMapping(
+    CanonicalMapping
+) = CanonicalMapping(
     {
         "Michaelis 1913": substrate_concentration_MichaelisMenten_Michaelis1913,
         "Abebe 2017": substrate_concentration_MichaelisMenten_Abebe2017,
@@ -343,7 +343,7 @@ computation methods.
 
 References
 ----------
-:cite:`Wikipedia2003d`, :cite:`Abebe2017a`
+:cite:`Wikipedia2003d`, :cite:`Abebe2017`
 """
 
 
@@ -387,7 +387,7 @@ substrate_concentration_MichaelisMenten_Abebe2017`},
 
     References
     ----------
-    :cite:`Wikipedia2003d`, :cite:`Abebe2017a`
+    :cite:`Wikipedia2003d`, :cite:`Abebe2017`
 
     Examples
     --------
@@ -395,7 +395,8 @@ substrate_concentration_MichaelisMenten_Abebe2017`},
     ... # doctest: +ELLIPSIS
     0.4999999...
     >>> substrate_concentration_MichaelisMenten(
-    ... 1.036054703688355, 2.5, 0.8, method='Abebe 2017', b_m=0.813)
+    ...     1.036054703688355, 2.5, 0.8, method="Abebe 2017", b_m=0.813
+    ... )
     ... # doctest: +ELLIPSIS
     0.5000000...
     """

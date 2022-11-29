@@ -20,7 +20,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.algebra import NullInterpolator
+from colour.algebra import NullInterpolator, sdiv, sdiv_mode
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.hints import (
     DTypeNumber,
@@ -114,7 +114,7 @@ class Extrapolator:
 
     Extrapolating an `ArrayLike` variable:
 
-    >>> extrapolator(np.array([6, 7 , 8]))
+    >>> extrapolator(np.array([6, 7, 8]))
     array([ 4.,  5.,  6.])
 
     Using the *Constant* extrapolation method:
@@ -122,7 +122,7 @@ class Extrapolator:
     >>> x = np.array([3, 4, 5])
     >>> y = np.array([1, 2, 3])
     >>> interpolator = LinearInterpolator(x, y)
-    >>> extrapolator = Extrapolator(interpolator, method='Constant')
+    >>> extrapolator = Extrapolator(interpolator, method="Constant")
     >>> extrapolator(np.array([0.1, 0.2, 8, 9]))
     array([ 1.,  1.,  3.,  3.])
 
@@ -131,7 +131,7 @@ class Extrapolator:
     >>> x = np.array([3, 4, 5])
     >>> y = np.array([1, 2, 3])
     >>> interpolator = LinearInterpolator(x, y)
-    >>> extrapolator = Extrapolator(interpolator, method='Constant', left=0)
+    >>> extrapolator = Extrapolator(interpolator, method="Constant", left=0)
     >>> extrapolator(np.array([0.1, 0.2, 8, 9]))
     array([ 0.,  0.,  3.,  3.])
     """
@@ -143,7 +143,7 @@ class Extrapolator:
         left: Optional[Number] = None,
         right: Optional[Number] = None,
         dtype: Optional[Type[DTypeNumber]] = None,
-    ):
+    ) -> None:
         dtype = cast(Type[DTypeNumber], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
         self._interpolator: TypeInterpolator = NullInterpolator(
@@ -151,10 +151,7 @@ class Extrapolator:
         )
         self.interpolator = optional(interpolator, self._interpolator)
         self._method: Union[Literal["Linear", "Constant"], str] = "Linear"
-        self.method = cast(
-            Union[Literal["Linear", "Constant"], str],
-            optional(method, self._method),
-        )
+        self.method = optional(method, self._method)
         self._right: Optional[Number] = None
         self.right = right
         self._left: Optional[Number] = None
@@ -331,12 +328,13 @@ class Extrapolator:
         y = np.empty_like(x)
 
         if self._method == "linear":
-            y[x < xi[0]] = yi[0] + (x[x < xi[0]] - xi[0]) * (yi[1] - yi[0]) / (
-                xi[1] - xi[0]
-            )
-            y[x > xi[-1]] = yi[-1] + (x[x > xi[-1]] - xi[-1]) * (
-                yi[-1] - yi[-2]
-            ) / (xi[-1] - xi[-2])
+            with sdiv_mode():
+                y[x < xi[0]] = yi[0] + (x[x < xi[0]] - xi[0]) * sdiv(
+                    yi[1] - yi[0], xi[1] - xi[0]
+                )
+                y[x > xi[-1]] = yi[-1] + (x[x > xi[-1]] - xi[-1]) * sdiv(
+                    yi[-1] - yi[-2], xi[-1] - xi[-2]
+                )
         elif self._method == "constant":
             y[x < xi[0]] = yi[0]
             y[x > xi[-1]] = yi[-1]

@@ -120,7 +120,7 @@ def plot_planckian_locus(
 
     Examples
     --------
-    >>> plot_planckian_locus(planckian_locus_colours='RGB')
+    >>> plot_planckian_locus(planckian_locus_colours="RGB")
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -269,7 +269,7 @@ def plot_planckian_locus_in_chromaticity_diagram(
     illuminants
         Illuminants to plot. ``illuminants`` elements can be of any
         type or form supported by the
-        :func:`colour.plotting.filter_passthrough` definition.
+        :func:`colour.plotting.common.filter_passthrough` definition.
     chromaticity_diagram_callable
         Callable responsible for drawing the *Chromaticity Diagram*.
     method
@@ -308,21 +308,21 @@ def plot_planckian_locus_in_chromaticity_diagram(
     Examples
     --------
     >>> annotate_kwargs = [
-    ...     {'xytext': (-25, 15), 'arrowprops':{'arrowstyle':'-'}},
-    ...     {'arrowprops':{'arrowstyle':'-['}},
+    ...     {"xytext": (-25, 15), "arrowprops": {"arrowstyle": "-"}},
+    ...     {"arrowprops": {"arrowstyle": "-["}},
     ...     {},
     ... ]
     >>> plot_kwargs = [
     ...     {
-    ...         'markersize' : 15,
+    ...         "markersize": 15,
     ...     },
-    ...     {   'color': 'r'},
+    ...     {"color": "r"},
     ...     {},
     ... ]
     >>> plot_planckian_locus_in_chromaticity_diagram(
-    ...     ['A', 'B', 'C'],
+    ...     ["A", "B", "C"],
     ...     annotate_kwargs=annotate_kwargs,
-    ...     plot_kwargs=plot_kwargs
+    ...     plot_kwargs=plot_kwargs,
     ... )  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -331,6 +331,8 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
         :align: center
         :alt: plot_planckian_locus_in_chromaticity_diagram
     """
+
+    method = validate_method(method, ["CIE 1931", "CIE 1960 UCS"])
 
     cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
 
@@ -375,11 +377,6 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
             return UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(xy)))
 
         bounding_box = (-0.1, 0.7, -0.2, 0.6)
-    else:
-        raise ValueError(
-            f'Invalid method: "{method}", must be one of '
-            f'["CIE 1931", "CIE 1960 UCS"]'
-        )
 
     annotate_settings_collection = [
         {
@@ -478,7 +475,7 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
     illuminants
         Illuminants to plot. ``illuminants`` elements can be of any
         type or form supported by the
-        :func:`colour.plotting.filter_passthrough` definition.
+        :func:`colour.plotting.common.filter_passthrough` definition.
     chromaticity_diagram_callable_CIE1931
         Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
     annotate_kwargs
@@ -516,7 +513,7 @@ plot_planckian_locus_in_chromaticity_diagram`,
 
     Examples
     --------
-    >>> plot_planckian_locus_in_chromaticity_diagram_CIE1931(['A', 'B', 'C'])
+    >>> plot_planckian_locus_in_chromaticity_diagram_CIE1931(["A", "B", "C"])
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -557,7 +554,7 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
     illuminants
         Illuminants to plot. ``illuminants`` elements can be of any
         type or form supported by the
-        :func:`colour.plotting.filter_passthrough` definition.
+        :func:`colour.plotting.common.filter_passthrough` definition.
     chromaticity_diagram_callable_CIE1960UCS
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
@@ -597,7 +594,8 @@ plot_planckian_locus_in_chromaticity_diagram`,
     Examples
     --------
     >>> plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
-    ...     ['A', 'C', 'E'])  # doctest: +ELLIPSIS
+    ...     ["A", "C", "E"]
+    ... )  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_\

@@ -23,7 +23,7 @@ from __future__ import annotations
 import numpy as np
 from dataclasses import dataclass, field
 
-from colour.algebra import matrix_dot, spow, vector_dot
+from colour.algebra import matrix_dot, sdiv, sdiv_mode, spow, vector_dot
 from colour.appearance.hunt import MATRIX_XYZ_TO_HPE, XYZ_to_rgb
 from colour.hints import (
     ArrayLike,
@@ -33,7 +33,7 @@ from colour.hints import (
     Optional,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     MixinDataclassArray,
     as_float,
     as_float_array,
@@ -68,7 +68,7 @@ MATRIX_R: NDArray = np.array(
 )
 """*RLAB* colour appearance model precomputed helper matrix."""
 
-VIEWING_CONDITIONS_RLAB: CaseInsensitiveMapping = CaseInsensitiveMapping(
+VIEWING_CONDITIONS_RLAB: CanonicalMapping = CanonicalMapping(
     {"Average": 1 / 2.3, "Dim": 1 / 2.9, "Dark": 1 / 3.5}
 )
 VIEWING_CONDITIONS_RLAB.__doc__ = """
@@ -79,7 +79,7 @@ References
 :cite:`Fairchild1996a`, :cite:`Fairchild2013w`
 """
 
-D_FACTOR_RLAB: CaseInsensitiveMapping = CaseInsensitiveMapping(
+D_FACTOR_RLAB: CanonicalMapping = CanonicalMapping(
     {
         "Hard Copy Images": 1,
         "Soft Copy Images": 0,
@@ -248,8 +248,8 @@ def XYZ_to_RLAB(
     >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_n = np.array([109.85, 100, 35.58])
     >>> Y_n = 31.83
-    >>> sigma = VIEWING_CONDITIONS_RLAB['Average']
-    >>> D = D_FACTOR_RLAB['Hard Copy Images']
+    >>> sigma = VIEWING_CONDITIONS_RLAB["Average"]
+    >>> D = D_FACTOR_RLAB["Hard Copy Images"]
     >>> XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D)  # doctest: +ELLIPSIS
     CAM_Specification_RLAB(J=49.8347069..., C=54.8700585..., \
 h=286.4860208..., s=1.1010410..., HC=None, a=15.5711021..., \
@@ -266,11 +266,12 @@ b=-52.6142956...)
     LMS_n = XYZ_to_rgb(XYZ_n)
 
     # Computing the :math:`A` matrix.
-    LMS_l_E = (3 * LMS_n) / np.sum(LMS_n, axis=-1)[..., np.newaxis]
-    LMS_p_L = (1 + spow(Y_n[..., np.newaxis], 1 / 3) + LMS_l_E) / (
-        1 + spow(Y_n[..., np.newaxis], 1 / 3) + (1 / LMS_l_E)
+    LMS_l_E = 3 * LMS_n / np.sum(LMS_n, axis=-1)[..., None]
+    LMS_p_L = (1 + spow(Y_n[..., None], 1 / 3) + LMS_l_E) / (
+        1 + spow(Y_n[..., None], 1 / 3) + 1 / LMS_l_E
     )
-    LMS_a_L = (LMS_p_L + D[..., np.newaxis] * (1 - LMS_p_L)) / LMS_n
+
+    LMS_a_L = (LMS_p_L + D[..., None] * (1 - LMS_p_L)) / LMS_n
 
     M = matrix_dot(
         matrix_dot(MATRIX_R, row_as_diagonal(LMS_a_L)), MATRIX_XYZ_TO_HPE
@@ -294,7 +295,8 @@ b=-52.6142956...)
     CR = np.hypot(aR, bR)
 
     # Computing the correlate of *saturation* :math:`s^R`.
-    sR = CR / LR
+    with sdiv_mode():
+        sR = sdiv(CR, LR)
 
     return CAM_Specification_RLAB(
         LR,

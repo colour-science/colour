@@ -25,6 +25,7 @@ from __future__ import annotations
 import numpy as np
 from scipy.optimize import minimize
 
+from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import (
     ArrayLike,
@@ -78,7 +79,9 @@ def xy_to_CCT_Hernandez1999(xy: ArrayLike) -> FloatingOrNDArray:
 
     x, y = tsplit(xy)
 
-    n = (x - 0.3366) / (y - 0.1735)
+    with sdiv_mode():
+        n = sdiv(x - 0.3366, y - 0.1735)
+
     CCT = (
         -949.86315
         + 6253.80338 * np.exp(-n / 0.92159)
@@ -139,13 +142,11 @@ def CCT_to_xy_Hernandez1999(
     """
 
     usage_warning(
-        '"Hernandez-Andres et al. (1999)" method for computing '
-        '"CIE xy" chromaticity coordinates from given correlated '
-        "colour temperature is not a bijective function and and"
-        "might produce unexpected results. It is given for "
-        "consistency with other correlated colour temperature "
-        "computation methods but should be avoided for practical "
-        "applications."
+        '"Hernandez-Andres et al. (1999)" method for computing "CIE xy" '
+        "chromaticity coordinates from given correlated colour temperature is "
+        "not a bijective function and might produce unexpected results. It is "
+        "given for consistency with other correlated colour temperature "
+        "computation methods but should be avoided for practical applications."
     )
 
     CCT = as_float_array(CCT)

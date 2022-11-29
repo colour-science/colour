@@ -1,8 +1,9 @@
-"""Defines the unit tests for the :mod:`colour.models.prolab` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.models.prolab` module."""
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models import XYZ_to_ProLab, ProLab_to_XYZ
 from colour.utilities import ignore_numpy_errors, domain_range_scale
@@ -29,19 +30,19 @@ class TestXYZ_to_ProLab(unittest.TestCase):
     def test_XYZ_to_ProLab(self):
         """Test :func:`colour.models.ProLab.XYZ_to_ProLab` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_ProLab(np.array([0.20654008, 0.12197225, 0.05136952])),
             np.array([48.7948929, 35.31503175, 13.30044932]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_ProLab(np.array([0.14222010, 0.23042768, 0.10495772])),
             np.array([64.45929636, -21.67007419, 13.25749056]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_ProLab(np.array([0.96907232, 1.00000000, 0.12179215])),
             np.array([100.0, 5.47367608, 37.26313098]),
             decimal=7,
@@ -58,11 +59,15 @@ class TestXYZ_to_ProLab(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         ProLab = np.tile(ProLab, (6, 1))
-        np.testing.assert_almost_equal(XYZ_to_ProLab(XYZ), ProLab, decimal=7)
+        np.testing.assert_array_almost_equal(
+            XYZ_to_ProLab(XYZ), ProLab, decimal=7
+        )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         ProLab = np.reshape(ProLab, (2, 3, 3))
-        np.testing.assert_almost_equal(XYZ_to_ProLab(XYZ), ProLab, decimal=7)
+        np.testing.assert_array_almost_equal(
+            XYZ_to_ProLab(XYZ), ProLab, decimal=7
+        )
 
     def test_domain_range_scale_XYZ_to_ProLab(self):
         """
@@ -76,7 +81,7 @@ class TestXYZ_to_ProLab(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_ProLab(XYZ * factor), ProLab * factor, decimal=7
                 )
 
@@ -88,10 +93,8 @@ class TestXYZ_to_ProLab(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_to_ProLab(XYZ)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_ProLab(cases)
 
 
 class TestProLab_to_XYZ(unittest.TestCase):
@@ -103,17 +106,17 @@ class TestProLab_to_XYZ(unittest.TestCase):
     def test_ProLab_to_XYZ(self):
         """Test :func:`colour.models.ProLab.ProLab_to_XYZ` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ProLab_to_XYZ(np.array([48.7948929, 35.31503175, 13.30044932])),
             np.array([0.20654008, 0.12197225, 0.05136952]),
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ProLab_to_XYZ(np.array([64.45929636, -21.67007419, 13.25749056])),
             np.array([0.14222010, 0.23042768, 0.10495772]),
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ProLab_to_XYZ(np.array([100.0, 5.47367608, 37.26313098])),
             np.array([0.96907232, 1.00000000, 0.12179215]),
         )
@@ -129,11 +132,15 @@ class TestProLab_to_XYZ(unittest.TestCase):
 
         ProLab = np.tile(ProLab, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(ProLab_to_XYZ(ProLab), XYZ, decimal=7)
+        np.testing.assert_array_almost_equal(
+            ProLab_to_XYZ(ProLab), XYZ, decimal=7
+        )
 
         ProLab = np.reshape(ProLab, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(ProLab_to_XYZ(ProLab), XYZ, decimal=7)
+        np.testing.assert_array_almost_equal(
+            ProLab_to_XYZ(ProLab), XYZ, decimal=7
+        )
 
     def test_domain_range_scale_XYZ_to_ProLab(self):
         """
@@ -147,7 +154,7 @@ class TestProLab_to_XYZ(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_ProLab(ProLab * factor), XYZ * factor, decimal=7
                 )
 
@@ -159,10 +166,8 @@ class TestProLab_to_XYZ(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            ProLab = np.array(case)
-            ProLab_to_XYZ(ProLab)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        ProLab_to_XYZ(cases)
 
 
 if __name__ == "__main__":

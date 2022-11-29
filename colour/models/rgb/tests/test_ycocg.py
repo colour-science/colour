@@ -1,8 +1,9 @@
-"""Defines the unit tests for the :mod:`colour.models.rgb.ycocg` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.models.rgb.ycocg` module."""
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models.rgb import RGB_to_YCoCg, YCoCg_to_RGB
 from colour.utilities import ignore_numpy_errors
@@ -79,10 +80,8 @@ class TestRGB_to_YCoCg(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            RGB = np.array(case)
-            RGB_to_YCoCg(RGB)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        RGB_to_YCoCg(cases)
 
 
 class TestYCoCg_to_RGB(unittest.TestCase):
@@ -144,10 +143,8 @@ class TestYCoCg_to_RGB(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            YCoCg = np.array(case)
-            YCoCg_to_RGB(YCoCg)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        YCoCg_to_RGB(cases)
 
 
 if __name__ == "__main__":

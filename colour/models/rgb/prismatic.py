@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import numpy as np
 
+from colour.algebra import sdiv, sdiv_mode
 from colour.hints import ArrayLike, NDArray
 from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
 
@@ -83,10 +84,11 @@ def RGB_to_Prismatic(RGB: ArrayLike) -> NDArray:
     RGB = to_domain_1(RGB)
 
     L = np.max(RGB, axis=-1)
-    s = np.sum(RGB, axis=-1)[..., np.newaxis]
-    one_s = 1 / s
-    # Handling zero-division *NaNs*.
-    one_s[s == 0] = 0
+    s = np.sum(RGB, axis=-1)
+
+    with sdiv_mode():
+        one_s = sdiv(1, s[..., None])
+
     r, g, b = tsplit(one_s * RGB)
 
     Lrgb = tstack([L, r, g, b])
@@ -137,10 +139,11 @@ def Prismatic_to_RGB(Lrgb: ArrayLike) -> NDArray:
     Lrgb = to_domain_1(Lrgb)
 
     rgb = Lrgb[..., 1:]
-    m = np.max(rgb, axis=-1)[..., np.newaxis]
-    RGB = Lrgb[..., 0][..., np.newaxis] / m
-    # Handling zero-division *NaNs*.
-    RGB[m == 0] = 0
+    m = np.max(rgb, axis=-1)
+
+    with sdiv_mode():
+        RGB = sdiv(Lrgb[..., 0][..., None], m[..., None])
+
     RGB = RGB * rgb
 
     return from_range_1(RGB)

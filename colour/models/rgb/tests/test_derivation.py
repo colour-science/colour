@@ -1,9 +1,10 @@
-"""Defines the unit tests for the :mod:`colour.models.rgb.derivation` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.models.rgb.derivation` module."""
 
 import numpy as np
 import re
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models import (
     normalised_primary_matrix,
@@ -41,15 +42,15 @@ class Testxy_to_z(unittest.TestCase):
     def test_xy_to_z(self):
         """Test :func:`colour.models.rgb.derivation.xy_to_z` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xy_to_z(np.array([0.2500, 0.2500])), 0.50000000, decimal=7
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xy_to_z(np.array([0.0001, -0.0770])), 1.07690000, decimal=7
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xy_to_z(np.array([0.0000, 1.0000])), 0.00000000, decimal=7
         )
 
@@ -67,11 +68,11 @@ class Testxy_to_z(unittest.TestCase):
             z,
             6,
         )
-        np.testing.assert_almost_equal(xy_to_z(xy), z, decimal=7)
+        np.testing.assert_array_almost_equal(xy_to_z(xy), z, decimal=7)
 
         xy = np.reshape(xy, (2, 3, 2))
         z = np.reshape(z, (2, 3))
-        np.testing.assert_almost_equal(xy_to_z(xy), z, decimal=7)
+        np.testing.assert_array_almost_equal(xy_to_z(xy), z, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_xy_to_z(self):
@@ -81,9 +82,8 @@ class Testxy_to_z(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            xy_to_z(case)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        xy_to_z(cases)
 
 
 class TestNormalisedPrimaryMatrix(unittest.TestCase):
@@ -98,7 +98,7 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             normalised_primary_matrix(
                 np.array(
                     [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]
@@ -115,7 +115,7 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             normalised_primary_matrix(
                 np.array([0.640, 0.330, 0.300, 0.600, 0.150, 0.060]),
                 np.array([0.3127, 0.3290]),
@@ -138,10 +138,10 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
+        cases = np.array(list(set(product(cases, repeat=2))))
         for case in cases:
             P = np.array(np.vstack([case, case, case]))
-            W = np.array(case)
+            W = case
             try:
                 normalised_primary_matrix(P, W)
             except np.linalg.linalg.LinAlgError:
@@ -160,7 +160,7 @@ chromatically_adapted_primaries` definition unit tests methods.
 chromatically_adapted_primaries` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             chromatically_adapted_primaries(
                 np.array(
                     [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]
@@ -178,7 +178,7 @@ chromatically_adapted_primaries` definition.
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             chromatically_adapted_primaries(
                 np.array([0.640, 0.330, 0.300, 0.600, 0.150, 0.060]),
                 np.array([0.31270, 0.32900]),
@@ -194,7 +194,7 @@ chromatically_adapted_primaries` definition.
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             chromatically_adapted_primaries(
                 np.array([0.640, 0.330, 0.300, 0.600, 0.150, 0.060]),
                 np.array([0.31270, 0.32900]),
@@ -219,10 +219,10 @@ chromatically_adapted_primaries` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
+        cases = np.array(list(set(product(cases, repeat=2))))
         for case in cases:
             P = np.array(np.vstack([case, case, case]))
-            W = np.array(case)
+            W = case
             chromatically_adapted_primaries(P, W, W)
 
 
@@ -247,7 +247,7 @@ class TestPrimariesWhitepoint(unittest.TestCase):
                 ]
             )
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             P,
             np.array(
                 [
@@ -258,7 +258,7 @@ class TestPrimariesWhitepoint(unittest.TestCase):
             ),
             decimal=7,
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             W, np.array([0.32168, 0.33767]), decimal=7
         )
 
@@ -271,7 +271,7 @@ class TestPrimariesWhitepoint(unittest.TestCase):
                 ]
             )
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             P,
             np.array(
                 [
@@ -282,7 +282,7 @@ class TestPrimariesWhitepoint(unittest.TestCase):
             ),
             decimal=7,
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             W, np.array([0.31271591, 0.32900148]), decimal=7
         )
 
@@ -294,7 +294,7 @@ class TestPrimariesWhitepoint(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
+        cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
             M = np.array(np.vstack([case, case, case]))
             primaries_whitepoint(M)
@@ -399,11 +399,11 @@ class TestRGBLuminance(unittest.TestCase):
 
         RGB = np.tile(RGB, (6, 1))
         Y = np.tile(Y, 6)
-        np.testing.assert_almost_equal(RGB_luminance(RGB, P, W), Y)
+        np.testing.assert_array_almost_equal(RGB_luminance(RGB, P, W), Y)
 
         RGB = np.reshape(RGB, (2, 3, 3))
         Y = np.reshape(Y, (2, 3))
-        np.testing.assert_almost_equal(RGB_luminance(RGB, P, W), Y)
+        np.testing.assert_array_almost_equal(RGB_luminance(RGB, P, W), Y)
 
     @ignore_numpy_errors
     def test_nan_RGB_luminance(self):
@@ -413,11 +413,11 @@ class TestRGBLuminance(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
+        cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
-            RGB = np.array(case)
+            RGB = case
             P = np.array(np.vstack([case[0:2], case[0:2], case[0:2]]))
-            W = np.array(case[0:2])
+            W = case[0:2]
             try:
                 RGB_luminance(RGB, P, W)
             except np.linalg.linalg.LinAlgError:

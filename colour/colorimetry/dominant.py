@@ -28,12 +28,16 @@ import scipy.spatial.distance
 
 from colour.algebra import (
     euclidean_distance,
-    extend_line_segment,
-    intersect_line_segments,
+    sdiv,
+    sdiv_mode,
 )
 from colour.colorimetry import (
     MultiSpectralDistributions,
     handle_spectral_arguments,
+)
+from colour.geometry import (
+    extend_line_segment,
+    intersect_line_segments,
 )
 from colour.hints import (
     ArrayLike,
@@ -97,14 +101,14 @@ def closest_spectral_locus_wavelength(
     Examples
     --------
     >>> from colour.colorimetry import MSDS_CMFS
-    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_n = np.array([0.31270000, 0.32900000])
     >>> xy_s = XYZ_to_xy(cmfs.values)
     >>> ix, intersect = closest_spectral_locus_wavelength(xy, xy_n, xy_s)
-    >>> print(ix) #
+    >>> print(ix)  #
     256
-    >>> print(intersect) # doctest: +ELLIPSIS
+    >>> print(intersect)  # doctest: +ELLIPSIS
     [ 0.6835474...  0.3162840...]
     """
 
@@ -127,13 +131,6 @@ def closest_spectral_locus_wavelength(
     ).xy
     # Extracting the first intersection per-wavelength.
     xy_wl = np.sort(xy_wl, 1)[:, 0, :]
-
-    if not len(xy_wl):
-        raise ValueError(
-            f"No closest spectral locus wavelength index and coordinates "
-            f'found for "{xy}" colour stimulus and "{xy_n}" achromatic '
-            f'stimulus "xy" chromaticity coordinates!'
-        )
 
     i_wl = np.argmin(scipy.spatial.distance.cdist(xy_wl, xy_s), axis=-1)
 
@@ -160,7 +157,7 @@ def dominant_wavelength(
 
     The *complementary wavelength* is indicated by a negative sign and the
     :math:`xy_{cw}` second intersection coordinates which are set by default to
-    the same value than :math:`xy_wl` first intersection coordinates will be
+    the same value as :math:`xy_wl` first intersection coordinates will be
     set to the *complementary dominant wavelength* intersection coordinates
     with the spectral locus.
 
@@ -194,7 +191,7 @@ def dominant_wavelength(
 
     >>> from colour.colorimetry import MSDS_CMFS
     >>> from pprint import pprint
-    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_n = np.array([0.31270000, 0.32900000])
     >>> pprint(dominant_wavelength(xy, xy_n, cmfs))  # doctest: +ELLIPSIS
@@ -239,7 +236,7 @@ def dominant_wavelength(
     wl_r = -cmfs.wavelengths[i_wl_r]
 
     wl = np.where(intersect, wl_r, wl)
-    xy_cwl = np.where(intersect[..., np.newaxis], xy_cwl_r, xy_cwl)
+    xy_cwl = np.where(intersect[..., None], xy_cwl_r, xy_cwl)
 
     return wl, np.squeeze(xy_wl), np.squeeze(xy_cwl)
 
@@ -291,7 +288,7 @@ def complementary_wavelength(
 
     >>> from colour.colorimetry import MSDS_CMFS
     >>> from pprint import pprint
-    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     >>> xy = np.array([0.37605506, 0.24452225])
     >>> xy_n = np.array([0.31270000, 0.32900000])
     >>> pprint(complementary_wavelength(xy, xy_n, cmfs))  # doctest: +ELLIPSIS
@@ -343,7 +340,7 @@ def excitation_purity(
     Examples
     --------
     >>> from colour.colorimetry import MSDS_CMFS
-    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_n = np.array([0.31270000, 0.32900000])
     >>> excitation_purity(xy, xy_n, cmfs)  # doctest: +ELLIPSIS
@@ -352,7 +349,11 @@ def excitation_purity(
 
     _wl, xy_wl, _xy_cwl = dominant_wavelength(xy, xy_n, cmfs)
 
-    P_e = euclidean_distance(xy_n, xy) / euclidean_distance(xy_n, xy_wl)
+    with sdiv_mode():
+        P_e = sdiv(
+            euclidean_distance(xy_n, xy),
+            euclidean_distance(xy_n, xy_wl),
+        )
 
     return P_e
 
@@ -388,7 +389,7 @@ def colorimetric_purity(
     Examples
     --------
     >>> from colour.colorimetry import MSDS_CMFS
-    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_n = np.array([0.31270000, 0.32900000])
     >>> colorimetric_purity(xy, xy_n, cmfs)  # doctest: +ELLIPSIS
@@ -400,6 +401,7 @@ def colorimetric_purity(
     _wl, xy_wl, _xy_cwl = dominant_wavelength(xy, xy_n, cmfs)
     P_e = excitation_purity(xy, xy_n, cmfs)
 
-    P_c = P_e * xy_wl[..., 1] / xy[..., 1]
+    with sdiv_mode():
+        P_c = P_e * sdiv(xy_wl[..., 1], xy[..., 1])
 
     return P_c

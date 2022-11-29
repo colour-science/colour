@@ -82,7 +82,7 @@ class LMS_ConeFundamentals(MultiSpectralDistributions):
         of the :class:`colour.SpectralDistribution` class instances.
     name
        Multi-spectral distributions name.
-    strict_labels
+    display_labels
         Multi-spectral distributions labels for figures, default to
         :attr:`colour.colorimetry.LMS_ConeFundamentals.labels` property
         value.
@@ -106,12 +106,12 @@ class LMS_ConeFundamentals(MultiSpectralDistributions):
         domain: Optional[Union[ArrayLike, SpectralShape]] = None,
         labels: Optional[Sequence] = None,
         **kwargs: Any,
-    ):
+    ) -> None:
         super().__init__(
             data,
             domain,
             labels=("l_bar", "m_bar", "s_bar"),
-            strict_labels=("$\\bar{l}$", "$\\bar{m}$", "$\\bar{s}$"),
+            display_labels=("$\\bar{l}$", "$\\bar{m}$", "$\\bar{s}$"),
             **kwargs,
         )
 
@@ -150,7 +150,7 @@ class RGB_ColourMatchingFunctions(MultiSpectralDistributions):
         of the :class:`colour.SpectralDistribution` class instances.
     name
        Multi-spectral distributions name.
-    strict_labels
+    display_labels
         Multi-spectral distributions labels for figures, default to
         :attr:`colour.colorimetry.RGB_ColourMatchingFunctions.labels` property
         value.
@@ -174,12 +174,12 @@ class RGB_ColourMatchingFunctions(MultiSpectralDistributions):
         domain: Optional[Union[ArrayLike, SpectralShape]] = None,
         labels: Optional[Sequence] = None,
         **kwargs: Any,
-    ):
+    ) -> None:
         super().__init__(
             data,
             domain,
             labels=("r_bar", "g_bar", "b_bar"),
-            strict_labels=("$\\bar{r}$", "$\\bar{g}$", "$\\bar{b}$"),
+            display_labels=("$\\bar{r}$", "$\\bar{g}$", "$\\bar{b}$"),
             **kwargs,
         )
 
@@ -219,7 +219,7 @@ class XYZ_ColourMatchingFunctions(MultiSpectralDistributions):
         of the :class:`colour.SpectralDistribution` class instances.
     name
        Multi-spectral distributions name.
-    strict_labels
+    display_labels
         Multi-spectral distributions labels for figures, default to
         :attr:`colour.colorimetry.XYZ_ColourMatchingFunctions.labels` property
         value.
@@ -243,11 +243,11 @@ class XYZ_ColourMatchingFunctions(MultiSpectralDistributions):
         domain: Optional[Union[ArrayLike, SpectralShape]] = None,
         labels: Optional[Sequence] = None,
         **kwargs: Any,
-    ):
+    ) -> None:
         super().__init__(
             data,
             domain,
             labels=("x_bar", "y_bar", "z_bar"),
-            strict_labels=("$\\bar{x}$", "$\\bar{y}$", "$\\bar{z}$"),
+            display_labels=("$\\bar{x}$", "$\\bar{y}$", "$\\bar{z}$"),
             **kwargs,
         )

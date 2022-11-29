@@ -20,7 +20,7 @@ from __future__ import annotations
 import numpy as np
 from dataclasses import dataclass
 
-from colour.algebra import euclidean_distance, spow
+from colour.algebra import euclidean_distance, sdiv, sdiv_mode, spow
 from colour.colorimetry import (
     MSDS_CMFS,
     MultiSpectralDistributions,
@@ -55,8 +55,8 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "TCS_ColorimetryData",
-    "TCS_ColourQualityScaleData",
+    "DataColorimetry_TCS",
+    "DataColourQualityScale_TCS",
     "ColourRendering_Specification_CRI",
     "colour_rendering_index",
     "tcs_colorimetry_data",
@@ -65,7 +65,7 @@ __all__ = [
 
 
 @dataclass
-class TCS_ColorimetryData:
+class DataColorimetry_TCS:
     """Define the class storing *test colour samples* colorimetry data."""
 
     name: str
@@ -75,10 +75,9 @@ class TCS_ColorimetryData:
 
 
 @dataclass
-class TCS_ColourQualityScaleData:
+class DataColourQualityScale_TCS:
     """
-    Define the class storing *test colour samples* colour rendering
-    index data.
+    Define the class storing *test colour samples* colour rendering index data.
     """
 
     name: str
@@ -108,9 +107,9 @@ class ColourRendering_Specification_CRI:
 
     name: str
     Q_a: Floating
-    Q_as: Dict[Integer, TCS_ColourQualityScaleData]
+    Q_as: Dict[Integer, DataColourQualityScale_TCS]
     colorimetry_data: Tuple[
-        Tuple[TCS_ColorimetryData, ...], Tuple[TCS_ColorimetryData, ...]
+        Tuple[DataColorimetry_TCS, ...], Tuple[DataColorimetry_TCS, ...]
     ]
 
 
@@ -141,7 +140,7 @@ def colour_rendering_index(
     Examples
     --------
     >>> from colour import SDS_ILLUMINANTS
-    >>> sd = SDS_ILLUMINANTS['FL2']
+    >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> colour_rendering_index(sd)  # doctest: +ELLIPSIS
     64.2337241...
     """
@@ -204,7 +203,7 @@ def tcs_colorimetry_data(
     sds_tcs: Dict[str, SpectralDistribution],
     cmfs: MultiSpectralDistributions,
     chromatic_adaptation: Boolean = False,
-) -> Tuple[TCS_ColorimetryData, ...]:
+) -> Tuple[DataColorimetry_TCS, ...]:
     """
     Return the *test colour samples* colorimetry data.
 
@@ -215,7 +214,7 @@ def tcs_colorimetry_data(
     sd_r
         Reference spectral distribution.
     sds_tcs
-        *Test colour samples* spectral distributions.
+        *Test colour samples* spectral reflectance distributions.
     cmfs
         Standard observer colour matching functions.
     chromatic_adaptation
@@ -250,31 +249,36 @@ def tcs_colorimetry_data(
             ) -> FloatingOrNDArray:
                 """Compute the :math:`c` term."""
 
-                return (4 - x - 10 * y) / y
+                with sdiv_mode():
+                    return sdiv(4 - x - 10 * y, y)
 
             def d(
                 x: FloatingOrNDArray, y: FloatingOrNDArray
             ) -> FloatingOrNDArray:
                 """Compute the :math:`d` term."""
 
-                return (1.708 * y + 0.404 - 1.481 * x) / y
+                with sdiv_mode():
+                    return sdiv(1.708 * y + 0.404 - 1.481 * x, y)
 
             c_t, d_t = c(u_t, v_t), d(u_t, v_t)
             c_r, d_r = c(u_r, v_r), d(u_r, v_r)
             tcs_c, tcs_d = c(u_tcs, v_tcs), d(u_tcs, v_tcs)
+
+            with sdiv_mode():
+                c_r_c_t = sdiv(c_r, c_t)
+                d_r_d_t = sdiv(d_r, d_t)
+
             u_tcs = (
-                10.872 + 0.404 * c_r / c_t * tcs_c - 4 * d_r / d_t * tcs_d
-            ) / (16.518 + 1.481 * c_r / c_t * tcs_c - d_r / d_t * tcs_d)
-            v_tcs = 5.52 / (
-                16.518 + 1.481 * c_r / c_t * tcs_c - d_r / d_t * tcs_d
-            )
+                10.872 + 0.404 * c_r_c_t * tcs_c - 4 * d_r_d_t * tcs_d
+            ) / (16.518 + 1.481 * c_r_c_t * tcs_c - d_r_d_t * tcs_d)
+            v_tcs = 5.52 / (16.518 + 1.481 * c_r_c_t * tcs_c - d_r_d_t * tcs_d)
 
         W_tcs = 25 * spow(xyY_tcs[-1], 1 / 3) - 17
         U_tcs = 13 * W_tcs * (u_tcs - u_r)
         V_tcs = 13 * W_tcs * (v_tcs - v_r)
 
         tcs_data.append(
-            TCS_ColorimetryData(
+            DataColorimetry_TCS(
                 sd_tcs.name, XYZ_tcs, uv_tcs, np.array([U_tcs, V_tcs, W_tcs])
             )
         )
@@ -283,9 +287,9 @@ def tcs_colorimetry_data(
 
 
 def colour_rendering_indexes(
-    test_data: Tuple[TCS_ColorimetryData, ...],
-    reference_data: Tuple[TCS_ColorimetryData, ...],
-) -> Dict[Integer, TCS_ColourQualityScaleData]:
+    test_data: Tuple[DataColorimetry_TCS, ...],
+    reference_data: Tuple[DataColorimetry_TCS, ...],
+) -> Dict[Integer, DataColourQualityScale_TCS]:
     """
     Return the *test colour samples* rendering indexes :math:`Q_a`.
 
@@ -304,7 +308,7 @@ def colour_rendering_indexes(
 
     Q_as = {}
     for i in range(len(test_data)):
-        Q_as[i + 1] = TCS_ColourQualityScaleData(
+        Q_as[i + 1] = DataColourQualityScale_TCS(
             test_data[i].name,
             100
             - 4.6

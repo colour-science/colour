@@ -1,8 +1,8 @@
 """
-ITU-R BT.2020 Colourspace
-=========================
+Recommendation ITU-R BT.2020 Colourspace
+========================================
 
-Defines the *ITU-R BT.2020* colourspace:
+Defines the *RecommendationITU-R BT.2020* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_BT2020`.
 
@@ -25,8 +25,8 @@ from colour.hints import NDArray
 from colour.models.rgb import (
     RGB_Colourspace,
     normalised_primary_matrix,
-    eotf_inverse_BT2020,
-    eotf_BT2020,
+    oetf_BT2020,
+    oetf_inverse_BT2020,
 )
 
 __author__ = "Colour Developers"
@@ -52,23 +52,31 @@ PRIMARIES_BT2020: NDArray = np.array(
         [0.1310, 0.0460],
     ]
 )
-"""*ITU-R BT.2020* colourspace primaries."""
+"""*RecommendationITU-R BT.2020* colourspace primaries."""
 
 WHITEPOINT_NAME_BT2020: str = "D65"
-"""*ITU-R BT.2020* colourspace whitepoint name."""
+"""*RecommendationITU-R BT.2020* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_BT2020: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_BT2020]
-"""*ITU-R BT.2020* colourspace whitepoint chromaticity coordinates."""
+"""
+*RecommendationITU-R BT.2020* colourspace whitepoint chromaticity coordinates.
+"""
 
 MATRIX_BT2020_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_BT2020, CCS_WHITEPOINT_BT2020
 )
-"""*ITU-R BT.2020* colourspace to *CIE XYZ* tristimulus values matrix."""
+"""
+*RecommendationITU-R BT.2020* colourspace to *CIE XYZ* tristimulus values
+matrix.
+"""
 
 MATRIX_XYZ_TO_BT2020: NDArray = np.linalg.inv(MATRIX_BT2020_TO_XYZ)
-"""*CIE XYZ* tristimulus values to *ITU-R BT.2020* colourspace matrix."""
+"""
+*CIE XYZ* tristimulus values to *RecommendationITU-R BT.2020* colourspace
+matrix.
+"""
 
 RGB_COLOURSPACE_BT2020: RGB_Colourspace = RGB_Colourspace(
     "ITU-R BT.2020",
@@ -77,13 +85,13 @@ RGB_COLOURSPACE_BT2020: RGB_Colourspace = RGB_Colourspace(
     WHITEPOINT_NAME_BT2020,
     MATRIX_BT2020_TO_XYZ,
     MATRIX_XYZ_TO_BT2020,
-    eotf_inverse_BT2020,
-    eotf_BT2020,
+    oetf_BT2020,
+    oetf_inverse_BT2020,
 )
 RGB_COLOURSPACE_BT2020.__doc__ = """
-*ITU-R BT.2020* colourspace.
+*RecommendationITU-R BT.2020* colourspace.
 
-The wavelength of the *ITU-R BT.2020* primary colours are:
+The wavelength of the *RecommendationITU-R BT.2020* primary colours are:
 
 -   630nm for the red primary colour
 -   532nm for the green primary colour

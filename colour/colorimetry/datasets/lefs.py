@@ -47,7 +47,7 @@ from functools import partial
 
 from colour.colorimetry import SpectralDistribution
 from colour.hints import Dict
-from colour.utilities import CaseInsensitiveMapping, LazyCaseInsensitiveMapping
+from colour.utilities import CanonicalMapping, LazyCanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -2346,7 +2346,7 @@ DATA_LEFS_PHOTOPIC: Dict = {
     },
 }
 
-SDS_LEFS_PHOTOPIC: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
+SDS_LEFS_PHOTOPIC: LazyCanonicalMapping = LazyCanonicalMapping(
     {
         "CIE 1924 Photopic Standard Observer": partial(
             SpectralDistribution,
@@ -2373,7 +2373,7 @@ SDS_LEFS_PHOTOPIC: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
                 "CIE 1964 Photopic 10 Degree Standard Observer"
             ],
             name="CIE 1964 Photopic 10 Degree Standard Observer",
-            strict_name="CIE 1964 Photopic 10$^\\circ$ Standard Observer",
+            display_name="CIE 1964 Photopic 10$^\\circ$ Standard Observer",
         ),
         "CIE 2008 2 Degree Physiologically Relevant LEF": partial(
             SpectralDistribution,
@@ -2381,7 +2381,7 @@ SDS_LEFS_PHOTOPIC: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
                 "CIE 2008 2 Degree Physiologically Relevant LEF"
             ],
             name="CIE 2008 2 Degree Physiologically Relevant LEF",
-            strict_name="CIE 2008 2$^\\circ$ Physiologically Relevant LEF",
+            display_name="CIE 2008 2$^\\circ$ Physiologically Relevant LEF",
         ),
         "CIE 2008 10 Degree Physiologically Relevant LEF": partial(
             SpectralDistribution,
@@ -2389,7 +2389,7 @@ SDS_LEFS_PHOTOPIC: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
                 "CIE 2008 10 Degree Physiologically Relevant LEF"
             ],
             name="CIE 2008 10 Degree Physiologically Relevant LEF",
-            strict_name="CIE 2008 10$^\\circ$ Physiologically Relevant LEF",
+            display_name="CIE 2008 10$^\\circ$ Physiologically Relevant LEF",
         ),
     }
 )
@@ -2818,7 +2818,7 @@ DATA_LEFS_SCOTOPIC: Dict = {
     }
 }
 
-SDS_LEFS_SCOTOPIC: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
+SDS_LEFS_SCOTOPIC: LazyCanonicalMapping = LazyCanonicalMapping(
     {
         "CIE 1951 Scotopic Standard Observer": partial(
             SpectralDistribution,
@@ -2842,9 +2842,7 @@ SDS_LEFS_SCOTOPIC["cie_1951"] = SDS_LEFS_SCOTOPIC[
     "CIE 1951 Scotopic Standard Observer"
 ]
 
-SDS_LEFS: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
-    SDS_LEFS_PHOTOPIC
-)
+SDS_LEFS: LazyCanonicalMapping = LazyCanonicalMapping(SDS_LEFS_PHOTOPIC)
 SDS_LEFS.__doc__ = """
 Spectral distributions of the luminous efficiency functions.
 
@@ -2855,28 +2853,28 @@ References
 SDS_LEFS.update(SDS_LEFS_SCOTOPIC)
 
 DATA_MESOPIC_X: Dict = {
-    0.01: CaseInsensitiveMapping(
+    0.01: CanonicalMapping(
         {
-            "Blue Heavy": CaseInsensitiveMapping({"MOVE": 0.13, "LRC": 0.04}),
-            "Red Heavy": CaseInsensitiveMapping({"MOVE": 0.00, "LRC": 0.01}),
+            "Blue Heavy": CanonicalMapping({"MOVE": 0.13, "LRC": 0.04}),
+            "Red Heavy": CanonicalMapping({"MOVE": 0.00, "LRC": 0.01}),
         }
     ),
-    0.1: CaseInsensitiveMapping(
+    0.1: CanonicalMapping(
         {
-            "Blue Heavy": CaseInsensitiveMapping({"MOVE": 0.42, "LRC": 0.28}),
-            "Red Heavy": CaseInsensitiveMapping({"MOVE": 0.34, "LRC": 0.11}),
+            "Blue Heavy": CanonicalMapping({"MOVE": 0.42, "LRC": 0.28}),
+            "Red Heavy": CanonicalMapping({"MOVE": 0.34, "LRC": 0.11}),
         }
     ),
-    1.0: CaseInsensitiveMapping(
+    1.0: CanonicalMapping(
         {
-            "Blue Heavy": CaseInsensitiveMapping({"MOVE": 0.70, "LRC": 1.00}),
-            "Red Heavy": CaseInsensitiveMapping({"MOVE": 0.68, "LRC": 1.00}),
+            "Blue Heavy": CanonicalMapping({"MOVE": 0.70, "LRC": 1.00}),
+            "Red Heavy": CanonicalMapping({"MOVE": 0.68, "LRC": 1.00}),
         }
     ),
-    10: CaseInsensitiveMapping(
+    10: CanonicalMapping(
         {
-            "Blue Heavy": CaseInsensitiveMapping({"MOVE": 0.98, "LRC": 1.00}),
-            "Red Heavy": CaseInsensitiveMapping({"MOVE": 0.98, "LRC": 1.00}),
+            "Blue Heavy": CanonicalMapping({"MOVE": 0.98, "LRC": 1.00}),
+            "Red Heavy": CanonicalMapping({"MOVE": 0.98, "LRC": 1.00}),
         }
     ),
 }

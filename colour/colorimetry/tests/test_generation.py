@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.colorimetry.generation` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.colorimetry.generation` module."""
 
 import numpy as np
 import unittest
@@ -105,15 +106,15 @@ class TestMsdsConstant(unittest.TestCase):
 
         msds = msds_constant(np.pi, labels=["a", "b", "c"])
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             msds[360], np.array([np.pi, np.pi, np.pi]), decimal=7
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             msds[555], np.array([np.pi, np.pi, np.pi]), decimal=7
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             msds[780], np.array([np.pi, np.pi, np.pi]), decimal=7
         )
 

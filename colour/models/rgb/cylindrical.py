@@ -43,6 +43,7 @@ from __future__ import annotations
 
 import numpy as np
 
+from colour.algebra import sdiv, sdiv_mode
 from colour.hints import ArrayLike, Floating, NDArray
 from colour.utilities import (
     as_float_array,
@@ -117,12 +118,12 @@ def RGB_to_HSV(RGB: ArrayLike) -> NDArray:
 
     R, G, B = tsplit(RGB)
 
-    S = as_float_array(delta / maximum)
-    S[np.asarray(delta == 0)] = 0
+    with sdiv_mode():
+        S = sdiv(delta, maximum)
 
-    delta_R = (((maximum - R) / 6) + (delta / 2)) / delta
-    delta_G = (((maximum - G) / 6) + (delta / 2)) / delta
-    delta_B = (((maximum - B) / 6) + (delta / 2)) / delta
+        delta_R = sdiv(((maximum - R) / 6) + (delta / 2), delta)
+        delta_G = sdiv(((maximum - G) / 6) + (delta / 2), delta)
+        delta_B = sdiv(((maximum - B) / 6) + (delta / 2), delta)
 
     H = delta_B - delta_G
     H = np.where(G == maximum, (1 / 3) + delta_R - delta_B, H)
@@ -252,16 +253,16 @@ def RGB_to_HSL(RGB: ArrayLike) -> NDArray:
 
     L = (maximum + minimum) / 2
 
-    S = np.where(
-        L < 0.5,
-        delta / (maximum + minimum),
-        delta / (2 - maximum - minimum),
-    )
-    S[np.asarray(delta == 0)] = 0
+    with sdiv_mode():
+        S = np.where(
+            L < 0.5,
+            sdiv(delta, maximum + minimum),
+            sdiv(delta, 2 - maximum - minimum),
+        )
 
-    delta_R = (((maximum - R) / 6) + (delta / 2)) / delta
-    delta_G = (((maximum - G) / 6) + (delta / 2)) / delta
-    delta_B = (((maximum - B) / 6) + (delta / 2)) / delta
+        delta_R = sdiv(((maximum - R) / 6) + (delta / 2), delta)
+        delta_G = sdiv(((maximum - G) / 6) + (delta / 2), delta)
+        delta_B = sdiv(((maximum - B) / 6) + (delta / 2), delta)
 
     H = delta_B - delta_G
     H = np.where(G == maximum, (1 / 3) + delta_R - delta_B, H)
@@ -406,7 +407,8 @@ def RGB_to_HCL(
     Min = np.minimum(np.minimum(R, G), B)
     Max = np.maximum(np.maximum(R, G), B)
 
-    alpha = (Min / Max) / Y_0
+    with sdiv_mode():
+        alpha = sdiv(Min, Max) / Y_0
 
     Q = np.exp(alpha * gamma)
 
@@ -418,7 +420,8 @@ def RGB_to_HCL(
 
     C = Q * (np.abs(R_G) + np.abs(G_B) + np.abs(B_R)) / 3
 
-    H = np.arctan(G_B / R_G)
+    with sdiv_mode():
+        H = np.arctan(sdiv(G_B, R_G))
 
     _2_3_H = 2 / 3 * H
     _4_3_H = 4 / 3 * H
@@ -491,10 +494,11 @@ def HCL_to_RGB(
 
     H, C, L = tsplit(to_domain_1(HCL))
 
-    Q = np.exp((1 - (3 * C) / (4 * L)) * (gamma / Y_0))
+    with sdiv_mode():
+        Q = np.exp((1 - sdiv(3 * C, 4 * L)) * gamma / Y_0)
 
-    Min = (4 * L - 3 * C) / (4 * Q - 2)
-    Max = Min + (3 * C) / (2 * Q)
+        Min = sdiv(4 * L - 3 * C, 4 * Q - 2)
+        Max = Min + sdiv(3 * C, 2 * Q)
 
     def _1_2_3(a: ArrayLike) -> NDArray:
         """Tail-stack given :math:`a` array as a *bool* dtype."""
@@ -506,59 +510,65 @@ def HCL_to_RGB(
     tan_3_4_H = np.tan(3 / 4 * H)
     tan_3_2_H_PP = np.tan(3 / 2 * (H + np.pi))
 
-    RGB = np.select(
-        [
-            _1_2_3(np.logical_and(0 <= H, H <= np.radians(60))),
-            _1_2_3(np.logical_and(np.radians(60) < H, H <= np.radians(120))),
-            _1_2_3(np.logical_and(np.radians(120) < H, H <= np.pi)),
-            _1_2_3(np.logical_and(np.radians(-60) <= H, H < 0)),
-            _1_2_3(np.logical_and(np.radians(-120) <= H, H < np.radians(-60))),
-            _1_2_3(np.logical_and(-np.pi < H, H < np.radians(-120))),
-        ],
-        [
-            tstack(
-                [
-                    Max,
-                    (Max * tan_3_2_H + Min) / (1 + tan_3_2_H),
-                    Min,
-                ]
-            ),
-            tstack(
-                [
-                    (Max * (1 + tan_3_4_H_MP) - Min) / tan_3_4_H_MP,
-                    Max,
-                    Min,
-                ]
-            ),
-            tstack(
-                [
-                    Min,
-                    Max,
-                    Max * (1 + tan_3_4_H_MP) - Min * tan_3_4_H_MP,
-                ]
-            ),
-            tstack(
-                [
-                    Max,
-                    Min,
-                    Min * (1 + tan_3_4_H) - Max * tan_3_4_H,
-                ]
-            ),
-            tstack(
-                [
-                    (Min * (1 + tan_3_4_H) - Max) / tan_3_4_H,
-                    Min,
-                    Max,
-                ]
-            ),
-            tstack(
-                [
-                    Min,
-                    (Min * tan_3_2_H_PP + Max) / (1 + tan_3_2_H_PP),
-                    Max,
-                ]
-            ),
-        ],
-    )
+    r_p60 = np.radians(60)
+    r_p120 = np.radians(120)
+    r_n60 = np.radians(-60)
+    r_n120 = np.radians(-120)
+
+    with sdiv_mode():
+        RGB = np.select(
+            [
+                _1_2_3(np.logical_and(0 <= H, H <= r_p60)),
+                _1_2_3(np.logical_and(r_p60 < H, H <= r_p120)),
+                _1_2_3(np.logical_and(r_p120 < H, H <= np.pi)),
+                _1_2_3(np.logical_and(r_n60 <= H, H < 0)),
+                _1_2_3(np.logical_and(r_n120 <= H, H < r_n60)),
+                _1_2_3(np.logical_and(-np.pi < H, H < r_n120)),
+            ],
+            [
+                tstack(
+                    [
+                        Max,
+                        (Max * tan_3_2_H + Min) / (1 + tan_3_2_H),
+                        Min,
+                    ]
+                ),
+                tstack(
+                    [
+                        sdiv(Max * (1 + tan_3_4_H_MP) - Min, tan_3_4_H_MP),
+                        Max,
+                        Min,
+                    ]
+                ),
+                tstack(
+                    [
+                        Min,
+                        Max,
+                        Max * (1 + tan_3_4_H_MP) - Min * tan_3_4_H_MP,
+                    ]
+                ),
+                tstack(
+                    [
+                        Max,
+                        Min,
+                        Min * (1 + tan_3_4_H) - Max * tan_3_4_H,
+                    ]
+                ),
+                tstack(
+                    [
+                        sdiv(Min * (1 + tan_3_4_H) - Max, tan_3_4_H),
+                        Min,
+                        Max,
+                    ]
+                ),
+                tstack(
+                    [
+                        Min,
+                        (Min * tan_3_2_H_PP + Max) / (1 + tan_3_2_H_PP),
+                        Max,
+                    ]
+                ),
+            ],
+        )
 
     return from_range_1(RGB)

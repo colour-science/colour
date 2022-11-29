@@ -127,7 +127,7 @@ References
 """
 
 RGB_COLOURSPACE_DCI_P3_P: RGB_Colourspace = RGB_Colourspace(
-    "DCI-P3+",
+    "DCI-P3-P",
     PRIMARIES_DCI_P3_P,
     CCS_WHITEPOINT_DCI_P3,
     WHITEPOINT_NAME_DCI_P3,
@@ -138,6 +138,11 @@ RGB_COLOURSPACE_DCI_P3_P: RGB_Colourspace = RGB_Colourspace(
 )
 RGB_COLOURSPACE_DCI_P3_P.__doc__ = """
 *DCI-P3+* colourspace.
+
+Notes
+-----
+-   The actual *DCI-P3+* colourspace name is `DCI-P3-P` to avoid canonical key
+    collisions in the `colour.utilities.CanonicalMapping` class.
 
 References
 ----------

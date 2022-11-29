@@ -133,9 +133,10 @@ def XYZ_to_Hunter_Lab(
     Examples
     --------
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
-    >>> D65 = TVS_ILLUMINANTS_HUNTERLAB[
-    ...     'CIE 1931 2 Degree Standard Observer']['D65']
-    >>> XYZ_to_Hunter_Lab(XYZ, D65.XYZ_n, D65.K_ab)   # doctest: +ELLIPSIS
+    >>> D65 = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
+    ...     "D65"
+    ... ]
+    >>> XYZ_to_Hunter_Lab(XYZ, D65.XYZ_n, D65.K_ab)  # doctest: +ELLIPSIS
     array([ 34.9245257...,  47.0618985...,  14.3861510...])
     """
 
@@ -214,8 +215,9 @@ def Hunter_Lab_to_XYZ(
     Examples
     --------
     >>> Lab = np.array([34.92452577, 47.06189858, 14.38615107])
-    >>> D65 = TVS_ILLUMINANTS_HUNTERLAB[
-    ...     'CIE 1931 2 Degree Standard Observer']['D65']
+    >>> D65 = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
+    ...     "D65"
+    ... ]
     >>> Hunter_Lab_to_XYZ(Lab, D65.XYZ_n, D65.K_ab)
     array([ 20.654008,  12.197225,   5.136952])
     """

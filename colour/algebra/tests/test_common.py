@@ -1,21 +1,32 @@
-"""Defines the unit tests for the :mod:`colour.algebra.common` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.algebra.common` module."""
 
 import numpy as np
 import unittest
+from itertools import product
 
 from colour.algebra import (
+    get_sdiv_mode,
+    set_sdiv_mode,
+    sdiv_mode,
+    sdiv,
     is_spow_enabled,
     set_spow_enable,
     spow_enable,
     spow,
     smoothstep_function,
+    normalise_vector,
     normalise_maximum,
     vector_dot,
     matrix_dot,
+    euclidean_distance,
+    manhattan_distance,
     linear_conversion,
     linstep_function,
     is_identity,
+    eigen_decomposition,
 )
+from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -25,18 +36,171 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "TestGetSdivMode",
+    "TestSetSdivMode",
+    "TestSdivMode",
+    "TestSdiv",
     "TestIsSpowEnabled",
     "TestSetSpowEnabled",
     "TestSpowEnable",
     "TestSpow",
     "TestSmoothstepFunction",
+    "TestNormaliseVector",
     "TestNormaliseMaximum",
     "TestVectorDot",
     "TestMatrixDot",
+    "TestEuclideanDistance",
+    "TestManhattanDistance",
     "TestLinearConversion",
     "TestLinstepFunction",
     "TestIsIdentity",
+    "TestEigenDecomposition",
 ]
+
+
+class TestGetSdivMode(unittest.TestCase):
+    """
+    Define :func:`colour.algebra.common.get_sdiv_mode` definition unit tests
+    methods.
+    """
+
+    def test_get_sdiv_mode(self):
+        """Test :func:`colour.algebra.common.get_sdiv_mode` definition."""
+
+        with sdiv_mode("Numpy"):
+            self.assertEqual(get_sdiv_mode(), "numpy")
+
+        with sdiv_mode("Ignore"):
+            self.assertEqual(get_sdiv_mode(), "ignore")
+
+        with sdiv_mode("Warning"):
+            self.assertEqual(get_sdiv_mode(), "warning")
+
+        with sdiv_mode("Raise"):
+            self.assertEqual(get_sdiv_mode(), "raise")
+
+        with sdiv_mode("Ignore Zero Conversion"):
+            self.assertEqual(get_sdiv_mode(), "ignore zero conversion")
+
+        with sdiv_mode("Warning Zero Conversion"):
+            self.assertEqual(get_sdiv_mode(), "warning zero conversion")
+
+        with sdiv_mode("Ignore Limit Conversion"):
+            self.assertEqual(get_sdiv_mode(), "ignore limit conversion")
+
+        with sdiv_mode("Warning Limit Conversion"):
+            self.assertEqual(get_sdiv_mode(), "warning limit conversion")
+
+
+class TestSetSdivMode(unittest.TestCase):
+    """
+    Define :func:`colour.algebra.common.set_sdiv_mode` definition unit tests
+    methods.
+    """
+
+    def test_set_sdiv_mode(self):
+        """Test :func:`colour.algebra.common.set_sdiv_mode` definition."""
+
+        with sdiv_mode(get_sdiv_mode()):
+            set_sdiv_mode("Numpy")
+            self.assertEqual(get_sdiv_mode(), "numpy")
+
+            set_sdiv_mode("Ignore")
+            self.assertEqual(get_sdiv_mode(), "ignore")
+
+            set_sdiv_mode("Warning")
+            self.assertEqual(get_sdiv_mode(), "warning")
+
+            set_sdiv_mode("Raise")
+            self.assertEqual(get_sdiv_mode(), "raise")
+
+            set_sdiv_mode("Ignore Zero Conversion")
+            self.assertEqual(get_sdiv_mode(), "ignore zero conversion")
+
+            set_sdiv_mode("Warning Zero Conversion")
+            self.assertEqual(get_sdiv_mode(), "warning zero conversion")
+
+            set_sdiv_mode("Ignore Limit Conversion")
+            self.assertEqual(get_sdiv_mode(), "ignore limit conversion")
+
+            set_sdiv_mode("Warning Limit Conversion")
+            self.assertEqual(get_sdiv_mode(), "warning limit conversion")
+
+
+class TestSdivMode(unittest.TestCase):
+    """
+    Define :func:`colour.algebra.common.sdiv_mode` definition unit
+    tests methods.
+    """
+
+    def test_sdiv_mode(self):
+        """Test :func:`colour.algebra.common.sdiv_mode` definition."""
+
+        with sdiv_mode("Raise"):
+            self.assertEqual(get_sdiv_mode(), "raise")
+
+        with sdiv_mode("Ignore Zero Conversion"):
+            self.assertEqual(get_sdiv_mode(), "ignore zero conversion")
+
+        @sdiv_mode("Raise")
+        def fn_a():
+            """:func:`sdiv_mode` unit tests :func:`fn_a` definition."""
+
+            self.assertEqual(get_sdiv_mode(), "raise")
+
+        fn_a()
+
+        @sdiv_mode("Ignore Zero Conversion")
+        def fn_b():
+            """:func:`sdiv_mode` unit tests :func:`fn_b` definition."""
+
+            self.assertEqual(get_sdiv_mode(), "ignore zero conversion")
+
+        fn_b()
+
+
+class TestSdiv(unittest.TestCase):
+    """
+    Define :func:`colour.algebra.common.sdiv` definition unit
+    tests methods.
+    """
+
+    def test_sdiv(self):
+        """Test :func:`colour.algebra.common.sdiv` definition."""
+
+        a = np.array([0, 1, 2])
+        b = np.array([2, 1, 0])
+
+        with sdiv_mode("Numpy"):
+            self.assertWarns(RuntimeWarning, sdiv, a, b)
+
+        with sdiv_mode("Ignore"):
+            np.testing.assert_equal(sdiv(a, b), np.array([0, 1, np.inf]))
+
+        with sdiv_mode("Warning"):
+            self.assertWarns(RuntimeWarning, sdiv, a, b)
+            np.testing.assert_equal(sdiv(a, b), np.array([0, 1, np.inf]))
+
+        with sdiv_mode("Raise"):
+            self.assertRaises(FloatingPointError, sdiv, a, b)
+
+        with sdiv_mode("Ignore Zero Conversion"):
+            np.testing.assert_equal(sdiv(a, b), np.array([0, 1, 0]))
+
+        with sdiv_mode("Warning Zero Conversion"):
+            self.assertWarns(RuntimeWarning, sdiv, a, b)
+            np.testing.assert_equal(sdiv(a, b), np.array([0, 1, 0]))
+
+        with sdiv_mode("Ignore Limit Conversion"):
+            np.testing.assert_equal(
+                sdiv(a, b), np.nan_to_num(np.array([0, 1, np.inf]))
+            )
+
+        with sdiv_mode("Warning Limit Conversion"):
+            self.assertWarns(RuntimeWarning, sdiv, a, b)
+            np.testing.assert_equal(
+                sdiv(a, b), np.nan_to_num(np.array([0, 1, np.inf]))
+            )
 
 
 class TestIsSpowEnabled(unittest.TestCase):
@@ -118,14 +282,14 @@ class TestSpow(unittest.TestCase):
 
         self.assertEqual(spow(-2, 2), -4.0)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             spow([2, -2, -2, 0], [2, 2, 0.15, 0]),
             np.array([4.00000000, -4.00000000, -1.10956947, 0.00000000]),
             decimal=7,
         )
 
         with spow_enable(True):
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 spow(-2, 0.15), -1.10956947, decimal=7
             )
 
@@ -133,22 +297,50 @@ class TestSpow(unittest.TestCase):
             np.testing.assert_equal(spow(-2, 0.15), np.nan)
 
 
+class TestNormaliseVector(unittest.TestCase):
+    """
+    Define :func:`colour.algebra.common.normalise_vector` definition unit
+    tests methods.
+    """
+
+    def test_normalise_vector(self):
+        """Test :func:`colour.algebra.common.normalise_vector` definition."""
+
+        np.testing.assert_array_almost_equal(
+            normalise_vector(np.array([0.20654008, 0.12197225, 0.05136952])),
+            np.array([0.84197033, 0.49722560, 0.20941026]),
+            decimal=7,
+        )
+
+        np.testing.assert_array_almost_equal(
+            normalise_vector(np.array([0.14222010, 0.23042768, 0.10495772])),
+            np.array([0.48971705, 0.79344877, 0.36140872]),
+            decimal=7,
+        )
+
+        np.testing.assert_array_almost_equal(
+            normalise_vector(np.array([0.07818780, 0.06157201, 0.28099326])),
+            np.array([0.26229003, 0.20655044, 0.94262445]),
+            decimal=7,
+        )
+
+
 class TestNormaliseMaximum(unittest.TestCase):
     """
-    Define :func:`colour.utilities.array.normalise_maximum` definition unit
+    Define :func:`colour.algebra.common.normalise_maximum` definition unit
     tests methods.
     """
 
     def test_normalise_maximum(self):
-        """Test :func:`colour.utilities.array.normalise_maximum` definition."""
+        """Test :func:`colour.algebra.common.normalise_maximum` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             normalise_maximum(np.array([0.20654008, 0.12197225, 0.05136952])),
             np.array([1.00000000, 0.59055003, 0.24871454]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             normalise_maximum(
                 np.array(
                     [
@@ -168,7 +360,7 @@ class TestNormaliseMaximum(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             normalise_maximum(
                 np.array(
                     [
@@ -189,7 +381,7 @@ class TestNormaliseMaximum(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             normalise_maximum(
                 np.array([0.20654008, 0.12197225, 0.05136952]), factor=10
             ),
@@ -197,7 +389,7 @@ class TestNormaliseMaximum(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             normalise_maximum(
                 np.array([-0.11518475, -0.10080000, 0.05089373])
             ),
@@ -205,7 +397,7 @@ class TestNormaliseMaximum(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             normalise_maximum(
                 np.array([-0.20654008, -0.12197225, 0.05136952]), clip=False
             ),
@@ -216,12 +408,12 @@ class TestNormaliseMaximum(unittest.TestCase):
 
 class TestVectorDot(unittest.TestCase):
     """
-    Define :func:`colour.utilities.array.vector_dot` definition unit tests
+    Define :func:`colour.algebra.common.vector_dot` definition unit tests
     methods.
     """
 
     def test_vector_dot(self):
-        """Test :func:`colour.utilities.array.vector_dot` definition."""
+        """Test :func:`colour.algebra.common.vector_dot` definition."""
 
         m = np.array(
             [
@@ -235,7 +427,7 @@ class TestVectorDot(unittest.TestCase):
         v = np.array([0.20654008, 0.12197225, 0.05136952])
         v = np.tile(v, (6, 1))
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             vector_dot(m, v),
             np.array(
                 [
@@ -253,12 +445,12 @@ class TestVectorDot(unittest.TestCase):
 
 class TestMatrixDot(unittest.TestCase):
     """
-    Define :func:`colour.utilities.array.matrix_dot` definition unit tests
+    Define :func:`colour.algebra.common.matrix_dot` definition unit tests
     methods.
     """
 
     def test_matrix_dot(self):
-        """Test :func:`colour.utilities.array.matrix_dot` definition."""
+        """Test :func:`colour.algebra.common.matrix_dot` definition."""
 
         a = np.array(
             [
@@ -271,7 +463,7 @@ class TestMatrixDot(unittest.TestCase):
 
         b = a
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             matrix_dot(a, b),
             np.array(
                 [
@@ -311,16 +503,160 @@ class TestMatrixDot(unittest.TestCase):
         )
 
 
+class TestEuclideanDistance(unittest.TestCase):
+    """
+    Define :func:`colour.algebra.common.euclidean_distance` definition unit
+    tests methods.
+    """
+
+    def test_euclidean_distance(self):
+        """Test :func:`colour.algebra.common.euclidean_distance` definition."""
+
+        self.assertAlmostEqual(
+            euclidean_distance(
+                np.array([100.00000000, 21.57210357, 272.22819350]),
+                np.array([100.00000000, 426.67945353, 72.39590835]),
+            ),
+            451.71330197,
+            places=7,
+        )
+
+        self.assertAlmostEqual(
+            euclidean_distance(
+                np.array([100.00000000, 21.57210357, 272.22819350]),
+                np.array([100.00000000, 74.05216981, 276.45318193]),
+            ),
+            52.64986116,
+            places=7,
+        )
+
+        self.assertAlmostEqual(
+            euclidean_distance(
+                np.array([100.00000000, 21.57210357, 272.22819350]),
+                np.array([100.00000000, 8.32281957, -73.58297716]),
+            ),
+            346.06489172,
+            places=7,
+        )
+
+    def test_n_dimensional_euclidean_distance(self):
+        """
+        Test :func:`colour.algebra.common.euclidean_distance` definition
+        n-dimensional arrays support.
+        """
+
+        a = np.array([100.00000000, 21.57210357, 272.22819350])
+        b = np.array([100.00000000, 426.67945353, 72.39590835])
+        distance = euclidean_distance(a, b)
+
+        a = np.tile(a, (6, 1))
+        b = np.tile(b, (6, 1))
+        distance = np.tile(distance, 6)
+        np.testing.assert_array_almost_equal(
+            euclidean_distance(a, b), distance, decimal=7
+        )
+
+        a = np.reshape(a, (2, 3, 3))
+        b = np.reshape(b, (2, 3, 3))
+        distance = np.reshape(distance, (2, 3))
+        np.testing.assert_array_almost_equal(
+            euclidean_distance(a, b), distance, decimal=7
+        )
+
+    @ignore_numpy_errors
+    def test_nan_euclidean_distance(self):
+        """
+        Test :func:`colour.algebra.common.euclidean_distance` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = np.array(list(set(product(cases, repeat=3))))
+        euclidean_distance(cases, cases)
+
+
+class TestManhattanDistance(unittest.TestCase):
+    """
+    Define :func:`colour.algebra.common.manhattan_distance` definition unit
+    tests methods.
+    """
+
+    def test_manhattan_distance(self):
+        """Test :func:`colour.algebra.common.manhattan_distance` definition."""
+
+        self.assertAlmostEqual(
+            manhattan_distance(
+                np.array([100.00000000, 21.57210357, 272.22819350]),
+                np.array([100.00000000, 426.67945353, 72.39590835]),
+            ),
+            604.93963510999993,
+            places=7,
+        )
+
+        self.assertAlmostEqual(
+            manhattan_distance(
+                np.array([100.00000000, 21.57210357, 272.22819350]),
+                np.array([100.00000000, 74.05216981, 276.45318193]),
+            ),
+            56.705054670000052,
+            places=7,
+        )
+
+        self.assertAlmostEqual(
+            manhattan_distance(
+                np.array([100.00000000, 21.57210357, 272.22819350]),
+                np.array([100.00000000, 8.32281957, -73.58297716]),
+            ),
+            359.06045465999995,
+            places=7,
+        )
+
+    def test_n_dimensional_manhattan_distance(self):
+        """
+        Test :func:`colour.algebra.common.manhattan_distance` definition
+        n-dimensional arrays support.
+        """
+
+        a = np.array([100.00000000, 21.57210357, 272.22819350])
+        b = np.array([100.00000000, 426.67945353, 72.39590835])
+        distance = manhattan_distance(a, b)
+
+        a = np.tile(a, (6, 1))
+        b = np.tile(b, (6, 1))
+        distance = np.tile(distance, 6)
+        np.testing.assert_array_almost_equal(
+            manhattan_distance(a, b), distance, decimal=7
+        )
+
+        a = np.reshape(a, (2, 3, 3))
+        b = np.reshape(b, (2, 3, 3))
+        distance = np.reshape(distance, (2, 3))
+        np.testing.assert_array_almost_equal(
+            manhattan_distance(a, b), distance, decimal=7
+        )
+
+    @ignore_numpy_errors
+    def test_nan_manhattan_distance(self):
+        """
+        Test :func:`colour.algebra.common.manhattan_distance` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = np.array(list(set(product(cases, repeat=3))))
+        manhattan_distance(cases, cases)
+
+
 class TestLinearConversion(unittest.TestCase):
     """
-    Define :func:`colour.utilities.array.linear_conversion` definition unit
+    Define :func:`colour.algebra.common.linear_conversion` definition unit
     tests methods.
     """
 
     def test_linear_conversion(self):
-        """Test :func:`colour.utilities.array.linear_conversion` definition."""
+        """Test :func:`colour.algebra.common.linear_conversion` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             linear_conversion(
                 np.linspace(0, 1, 10), np.array([0, 1]), np.array([1, np.pi])
             ),
@@ -344,14 +680,14 @@ class TestLinearConversion(unittest.TestCase):
 
 class TestLinstepFunction(unittest.TestCase):
     """
-    Define :func:`colour.utilities.array.linstep_function` definition unit
+    Define :func:`colour.algebra.common.linstep_function` definition unit
     tests methods.
     """
 
     def test_linstep_function(self):
-        """Test :func:`colour.utilities.array.linstep_function` definition."""
+        """Test :func:`colour.algebra.common.linstep_function` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             linstep_function(
                 np.linspace(0, 1, 10),
                 np.linspace(0, 1, 10),
@@ -374,7 +710,7 @@ class TestLinstepFunction(unittest.TestCase):
             decimal=8,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             linstep_function(
                 np.linspace(0, 2, 10),
                 np.linspace(0.25, 0.5, 10),
@@ -413,11 +749,11 @@ class TestSmoothstepFunction(unittest.TestCase):
         self.assertEqual(smoothstep_function(0.75), 0.84375)
 
         x = np.linspace(-2, 2, 5)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             smoothstep_function(x),
             np.array([28.00000, 5.00000, 0.00000, 1.00000, -4.00000]),
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             smoothstep_function(x, -2, 2, clip=True),
             np.array([0.00000, 0.15625, 0.50000, 0.84375, 1.00000]),
         )
@@ -425,12 +761,12 @@ class TestSmoothstepFunction(unittest.TestCase):
 
 class TestIsIdentity(unittest.TestCase):
     """
-    Define :func:`colour.algebra.matrix.is_identity` definition unit tests
+    Define :func:`colour.algebra.common.is_identity` definition unit tests
     methods.
     """
 
     def test_is_identity(self):
-        """Test :func:`colour.algebra.matrix.is_identity` definition."""
+        """Test :func:`colour.algebra.common.is_identity` definition."""
 
         self.assertTrue(
             is_identity(np.array([1, 0, 0, 0, 1, 0, 0, 0, 1]).reshape([3, 3]))
@@ -443,6 +779,48 @@ class TestIsIdentity(unittest.TestCase):
         self.assertTrue(is_identity(np.array([1, 0, 0, 1]).reshape([2, 2])))
 
         self.assertFalse(is_identity(np.array([1, 2, 0, 1]).reshape([2, 2])))
+
+
+class TestEigenDecomposition(unittest.TestCase):
+    """
+    Define :func:`colour.algebra.common.eigen_decomposition` definition unit
+    tests methods.
+    """
+
+    def test_is_identity(self):
+        """Test :func:`colour.algebra.common.eigen_decomposition` definition."""
+
+        a = np.diag([1, 2, 3])
+
+        w, v = eigen_decomposition(a)
+        np.testing.assert_equal(w, np.array([3.0, 2.0, 1.0]))
+        np.testing.assert_equal(
+            v, np.array([[0.0, 0.0, 1.0], [0.0, 1.0, 0.0], [1.0, 0.0, 0.0]])
+        )
+
+        w, v = eigen_decomposition(a, 1)
+        np.testing.assert_equal(w, np.array([3.0]))
+        np.testing.assert_equal(v, np.array([[0.0], [0.0], [1.0]]))
+
+        w, v = eigen_decomposition(a, descending_order=False)
+        np.testing.assert_equal(w, np.array([1.0, 2.0, 3.0]))
+        np.testing.assert_equal(
+            v, np.array([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]])
+        )
+
+        w, v = eigen_decomposition(a, covariance_matrix=True)
+        np.testing.assert_equal(w, np.array([9.0, 4.0, 1.0]))
+        np.testing.assert_equal(
+            v, np.array([[0.0, 0.0, 1.0], [0.0, 1.0, 0.0], [1.0, 0.0, 0.0]])
+        )
+
+        w, v = eigen_decomposition(
+            a, descending_order=False, covariance_matrix=True
+        )
+        np.testing.assert_equal(w, np.array([1.0, 4.0, 9.0]))
+        np.testing.assert_equal(
+            v, np.array([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]])
+        )
 
 
 if __name__ == "__main__":

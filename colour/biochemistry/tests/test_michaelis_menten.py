@@ -1,11 +1,11 @@
 """
-Defines the unit tests for the :mod:`colour.biochemistry.michaelis_menten`
+Define the unit tests for the :mod:`colour.biochemistry.michaelis_menten`
 module.
 """
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.biochemistry import (
     reaction_rate_MichaelisMenten_Michaelis1913,
@@ -74,7 +74,7 @@ reaction_rate_MichaelisMenten_Michaelis1913` definition n-dimensional arrays
 
         v = np.tile(v, (6, 1))
         S = np.tile(S, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             reaction_rate_MichaelisMenten_Michaelis1913(v, V_max, K_m),
             S,
             decimal=7,
@@ -82,7 +82,7 @@ reaction_rate_MichaelisMenten_Michaelis1913` definition n-dimensional arrays
 
         V_max = np.tile(V_max, (6, 1))
         K_m = np.tile(K_m, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             reaction_rate_MichaelisMenten_Michaelis1913(v, V_max, K_m),
             S,
             decimal=7,
@@ -92,7 +92,7 @@ reaction_rate_MichaelisMenten_Michaelis1913` definition n-dimensional arrays
         V_max = np.reshape(V_max, (2, 3, 1))
         K_m = np.reshape(K_m, (2, 3, 1))
         S = np.reshape(S, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             reaction_rate_MichaelisMenten_Michaelis1913(v, V_max, K_m),
             S,
             decimal=7,
@@ -106,12 +106,8 @@ reaction_rate_MichaelisMenten_Michaelis1913` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            v = np.array(case)
-            V_max = np.array(case)
-            K_m = np.array(case)
-            reaction_rate_MichaelisMenten_Michaelis1913(v, V_max, K_m)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        reaction_rate_MichaelisMenten_Michaelis1913(cases, cases, cases)
 
 
 class TestSubstrateConcentrationMichaelisMentenMichaelis1913(
@@ -170,7 +166,7 @@ substrate_concentration_MichaelisMenten_Michaelis1913` definition n-dimensional
 
         S = np.tile(S, (6, 1))
         v = np.tile(v, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             substrate_concentration_MichaelisMenten_Michaelis1913(
                 S, V_max, K_m
             ),
@@ -180,7 +176,7 @@ substrate_concentration_MichaelisMenten_Michaelis1913` definition n-dimensional
 
         V_max = np.tile(V_max, (6, 1))
         K_m = np.tile(K_m, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             substrate_concentration_MichaelisMenten_Michaelis1913(
                 S, V_max, K_m
             ),
@@ -192,7 +188,7 @@ substrate_concentration_MichaelisMenten_Michaelis1913` definition n-dimensional
         V_max = np.reshape(V_max, (2, 3, 1))
         K_m = np.reshape(K_m, (2, 3, 1))
         v = np.reshape(v, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             substrate_concentration_MichaelisMenten_Michaelis1913(
                 S, V_max, K_m
             ),
@@ -208,14 +204,10 @@ substrate_concentration_MichaelisMenten_Michaelis1913` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            s = np.array(case)
-            V_max = np.array(case)
-            K_m = np.array(case)
-            substrate_concentration_MichaelisMenten_Michaelis1913(
-                s, V_max, K_m
-            )
+        cases = np.array(list(set(product(cases, repeat=3))))
+        substrate_concentration_MichaelisMenten_Michaelis1913(
+            cases, cases, cases
+        )
 
 
 class TestReactionRateMichaelisMentenAbebe2017(unittest.TestCase):
@@ -263,7 +255,7 @@ reaction_rate_MichaelisMenten_Abebe2017` definition n-dimensional arrays
 
         v = np.tile(v, (6, 1))
         S = np.tile(S, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             reaction_rate_MichaelisMenten_Abebe2017(v, V_max, K_m, b_m),
             S,
             decimal=7,
@@ -272,7 +264,7 @@ reaction_rate_MichaelisMenten_Abebe2017` definition n-dimensional arrays
         V_max = np.tile(V_max, (6, 1))
         K_m = np.tile(K_m, (6, 1))
         b_m = np.tile(b_m, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             reaction_rate_MichaelisMenten_Abebe2017(v, V_max, K_m, b_m),
             S,
             decimal=7,
@@ -283,7 +275,7 @@ reaction_rate_MichaelisMenten_Abebe2017` definition n-dimensional arrays
         K_m = np.reshape(K_m, (2, 3, 1))
         b_m = np.reshape(b_m, (2, 3, 1))
         S = np.reshape(S, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             reaction_rate_MichaelisMenten_Abebe2017(v, V_max, K_m, b_m),
             S,
             decimal=7,
@@ -297,13 +289,8 @@ reaction_rate_MichaelisMenten_Abebe2017` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            v = np.array(case)
-            V_max = np.array(case)
-            K_m = np.array(case)
-            b_m = np.array(case)
-            reaction_rate_MichaelisMenten_Abebe2017(v, V_max, K_m, b_m)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        reaction_rate_MichaelisMenten_Abebe2017(cases, cases, cases, cases)
 
 
 class TestSubstrateConcentrationMichaelisMentenAbebe2017(unittest.TestCase):
@@ -361,7 +348,7 @@ substrate_concentration_MichaelisMenten_Abebe2017` definition n-dimensional
 
         S = np.tile(S, (6, 1))
         v = np.tile(v, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             substrate_concentration_MichaelisMenten_Abebe2017(
                 S, V_max, K_m, b_m
             ),
@@ -372,7 +359,7 @@ substrate_concentration_MichaelisMenten_Abebe2017` definition n-dimensional
         V_max = np.tile(V_max, (6, 1))
         K_m = np.tile(K_m, (6, 1))
         b_m = np.tile(b_m, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             substrate_concentration_MichaelisMenten_Abebe2017(
                 S, V_max, K_m, b_m
             ),
@@ -385,7 +372,7 @@ substrate_concentration_MichaelisMenten_Abebe2017` definition n-dimensional
         K_m = np.reshape(K_m, (2, 3, 1))
         b_m = np.reshape(b_m, (2, 3, 1))
         v = np.reshape(v, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             substrate_concentration_MichaelisMenten_Abebe2017(
                 S, V_max, K_m, b_m
             ),
@@ -401,15 +388,10 @@ substrate_concentration_MichaelisMenten_Abebe2017` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            s = np.array(case)
-            V_max = np.array(case)
-            K_m = np.array(case)
-            b_m = np.array(case)
-            substrate_concentration_MichaelisMenten_Abebe2017(
-                s, V_max, K_m, b_m
-            )
+        cases = np.array(list(set(product(cases, repeat=3))))
+        substrate_concentration_MichaelisMenten_Abebe2017(
+            cases, cases, cases, cases
+        )
 
 
 if __name__ == "__main__":

@@ -3,12 +3,12 @@ name: Continuous Integration - Static Type Checking
 on: [push, pull_request]
 
 jobs:
-  continuous-integration-package:
+  continuous-integration-static-type-checking:
     name: ${{ matrix.os }} - Python ${{ matrix.python-version }}
     strategy:
       matrix:
         os: [macOS-latest]
-        python-version: [3.9]
+        python-version: [3.11]
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
@@ -22,11 +22,14 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install Dependencies (macOS)
+      if: matrix.os == 'macOS-latest'
       run: |
-        brew install gnu-sed graphviz
-        ln -s /usr/local/bin/gsed /usr/local/bin/sed
-      shell: bash
-    - name: Static Type Checking
+        brew install graphviz
+        export GRAPHVIZ_DIR="/usr/local/Cellar/graphviz/<VERSION>"
+        pip install pygraphviz --global-option=build_ext --global-option="-I$GRAPHVIZ_DIR/include" --global-option="-L$GRAPHVIZ_DIR/lib"
+    - name: Install Package Dependencies
       run: |
         pip install -r requirements.txt
-        mypy --install-types --non-interactive --show-error-codes --warn-unused-ignores --warn-redundant-casts -p $CI_PACKAGE
+    - name: Static Type Checking
+      run: |
+        mypy --install-types --non-interactive --show-error-codes --warn-unused-ignores --warn-redundant-casts $CI_PACKAGE

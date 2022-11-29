@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
+Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
 blackmagic_design` module.
 """
 
@@ -69,19 +69,19 @@ blackmagic_design.oetf_BlackmagicFilmGeneration5` definition n-dimensional
 
         L = np.tile(L, 6)
         V = np.tile(V, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             oetf_BlackmagicFilmGeneration5(L), V, decimal=7
         )
 
         L = np.reshape(L, (2, 3))
         V = np.reshape(V, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             oetf_BlackmagicFilmGeneration5(L), V, decimal=7
         )
 
         L = np.reshape(L, (2, 3, 1))
         V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             oetf_BlackmagicFilmGeneration5(L), V, decimal=7
         )
 
@@ -98,7 +98,7 @@ blackmagic_design.oetf_BlackmagicFilmGeneration5` definition domain and range
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     oetf_BlackmagicFilmGeneration5(L * factor),
                     V * factor,
                     decimal=7,
@@ -171,19 +171,19 @@ blackmagic_design.oetf_inverse_BlackmagicFilmGeneration5` definition
 
         V = np.tile(V, 6)
         L = np.tile(L, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             oetf_inverse_BlackmagicFilmGeneration5(V), L, decimal=7
         )
 
         V = np.reshape(V, (2, 3))
         L = np.reshape(L, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             oetf_inverse_BlackmagicFilmGeneration5(V), L, decimal=7
         )
 
         V = np.reshape(V, (2, 3, 1))
         L = np.reshape(L, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             oetf_inverse_BlackmagicFilmGeneration5(V), L, decimal=7
         )
 
@@ -200,7 +200,7 @@ blackmagic_design.oetf_inverse_BlackmagicFilmGeneration5` definition domain and
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     oetf_inverse_BlackmagicFilmGeneration5(V * factor),
                     L * factor,
                     decimal=7,

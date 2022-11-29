@@ -27,7 +27,7 @@ from functools import partial
 
 from colour.colorimetry import SpectralDistribution
 from colour.hints import Dict
-from colour.utilities import LazyCaseInsensitiveMapping
+from colour.utilities import LazyCanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -69,7 +69,7 @@ DATA_FILTERS_ISO: Dict = {
     }
 }
 
-SDS_FILTERS_ISO: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
+SDS_FILTERS_ISO: LazyCanonicalMapping = LazyCanonicalMapping(
     {
         "ISO 7589 Diffuser": partial(
             SpectralDistribution,
@@ -86,9 +86,7 @@ References
 :cite:`InternationalOrganizationforStandardization2002`
 """
 
-SDS_FILTERS: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
-    SDS_FILTERS_ISO
-)
+SDS_FILTERS: LazyCanonicalMapping = LazyCanonicalMapping(SDS_FILTERS_ISO)
 SDS_FILTERS.__doc__ = """
 Spectral distributions of filters.
 

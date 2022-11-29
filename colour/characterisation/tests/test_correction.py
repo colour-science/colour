@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the :mod:`colour.characterisation.correction`
+Define the unit tests for the :mod:`colour.characterisation.correction`
 module.
 """
 
@@ -8,7 +8,7 @@ from __future__ import annotations
 import numpy as np
 import platform
 import unittest
-from itertools import permutations
+from itertools import product
 from numpy.linalg import LinAlgError
 
 from colour.characterisation.correction import (
@@ -313,7 +313,7 @@ matrix_augmented_Cheung2004` definition.
         for i, terms in enumerate(
             [3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22]
         ):
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 matrix_augmented_Cheung2004(RGB, terms),
                 polynomials[i],
                 decimal=7,
@@ -340,9 +340,8 @@ matrix_augmented_Cheung2004` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            matrix_augmented_Cheung2004(case)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        matrix_augmented_Cheung2004(cases)
 
 
 class TestPolynomialExpansionFinlayson2015(unittest.TestCase):
@@ -500,12 +499,12 @@ polynomial_expansion_Finlayson2015` definition.
         ]
 
         for i in range(4):
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 polynomial_expansion_Finlayson2015(RGB, i + 1, False),
                 polynomials[i][0],
                 decimal=7,
             )
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 polynomial_expansion_Finlayson2015(RGB, i + 1, True),
                 polynomials[i][1],
                 decimal=7,
@@ -532,9 +531,8 @@ polynomial_expansion_Finlayson2015` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            polynomial_expansion_Finlayson2015(case)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        polynomial_expansion_Finlayson2015(cases)
 
 
 class TestPolynomialExpansionVandermonde(unittest.TestCase):
@@ -598,7 +596,7 @@ polynomial_expansion_Vandermonde` definition.
         ]
 
         for i in range(4):
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 polynomial_expansion_Vandermonde(RGB, i + 1),
                 polynomials[i],
                 decimal=7,
@@ -612,9 +610,8 @@ polynomial_expansion_Vandermonde` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            polynomial_expansion_Vandermonde(case)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        polynomial_expansion_Vandermonde(cases)
 
 
 class TestMatrixColourCorrectionCheung2004(unittest.TestCase):
@@ -629,7 +626,7 @@ matrix_colour_correction_Cheung2004` definition unit tests methods.
 matrix_colour_correction_Cheung2004` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             matrix_colour_correction_Cheung2004(MATRIX_TEST, MATRIX_REFERENCE),
             np.array(
                 [
@@ -641,7 +638,7 @@ matrix_colour_correction_Cheung2004` definition.
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             matrix_colour_correction_Cheung2004(
                 MATRIX_TEST, MATRIX_REFERENCE, terms=7
             ),
@@ -691,7 +688,7 @@ matrix_colour_correction_Cheung2004` definition.
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = list(set(permutations(cases * 3, r=3)))[0:4]
+        cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
             try:
                 matrix_colour_correction_Cheung2004(
@@ -714,7 +711,7 @@ matrix_colour_correction_Finlayson2015` definition unit tests methods.
 matrix_colour_correction_Finlayson2015` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             matrix_colour_correction_Finlayson2015(
                 MATRIX_TEST, MATRIX_REFERENCE
             ),
@@ -728,7 +725,7 @@ matrix_colour_correction_Finlayson2015` definition.
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             matrix_colour_correction_Finlayson2015(
                 MATRIX_TEST, MATRIX_REFERENCE, degree=3
             ),
@@ -798,7 +795,7 @@ matrix_colour_correction_Finlayson2015` definition.
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = list(set(permutations(cases * 3, r=3)))[0:4]
+        cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
             try:
                 matrix_colour_correction_Finlayson2015(
@@ -821,7 +818,7 @@ matrix_colour_correction_Vandermonde` definition unit tests methods.
 matrix_colour_correction_Vandermonde` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             matrix_colour_correction_Vandermonde(
                 MATRIX_TEST, MATRIX_REFERENCE
             ),
@@ -835,7 +832,7 @@ matrix_colour_correction_Vandermonde` definition.
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             matrix_colour_correction_Vandermonde(
                 MATRIX_TEST, MATRIX_REFERENCE, degree=3
             ),
@@ -896,7 +893,7 @@ matrix_colour_correction_Vandermonde` definition.
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = list(set(permutations(cases * 3, r=3)))[0:4]
+        cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
             try:
                 matrix_colour_correction_Vandermonde(
@@ -921,13 +918,13 @@ colour_correction_Cheung2004` definition.
 
         RGB = np.array([0.17224810, 0.09170660, 0.06416938])
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             colour_correction_Cheung2004(RGB, MATRIX_TEST, MATRIX_REFERENCE),
             np.array([0.13348722, 0.08439216, 0.05990144]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             colour_correction_Cheung2004(
                 RGB, MATRIX_TEST, MATRIX_REFERENCE, terms=7
             ),
@@ -948,7 +945,7 @@ colour_correction_Cheung2004` definition n-dimensional support.
 
         RGB = np.tile(RGB, (6, 1))
         RGB_c = np.tile(RGB_c, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             colour_correction_Cheung2004(RGB, MATRIX_TEST, MATRIX_REFERENCE),
             RGB_c,
             decimal=7,
@@ -956,7 +953,7 @@ colour_correction_Cheung2004` definition n-dimensional support.
 
         RGB = np.reshape(RGB, (2, 3, 3))
         RGB_c = np.reshape(RGB_c, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             colour_correction_Cheung2004(RGB, MATRIX_TEST, MATRIX_REFERENCE),
             RGB_c,
             decimal=7,
@@ -974,7 +971,7 @@ colour_correction_Cheung2004` definition nan support.
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = list(set(permutations(cases * 3, r=3)))[0:4]
+        cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
             try:
                 colour_correction_Cheung2004(
@@ -1000,7 +997,7 @@ colour_correction_Finlayson2015` definition.
 
         RGB = np.array([0.17224810, 0.09170660, 0.06416938])
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             colour_correction_Finlayson2015(
                 RGB, MATRIX_TEST, MATRIX_REFERENCE
             ),
@@ -1008,7 +1005,7 @@ colour_correction_Finlayson2015` definition.
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             colour_correction_Finlayson2015(
                 RGB, MATRIX_TEST, MATRIX_REFERENCE, degree=3
             ),
@@ -1029,7 +1026,7 @@ colour_correction_Finlayson2015` definition n-dimensional support.
 
         RGB = np.tile(RGB, (6, 1))
         RGB_c = np.tile(RGB_c, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             colour_correction_Finlayson2015(
                 RGB, MATRIX_TEST, MATRIX_REFERENCE
             ),
@@ -1039,7 +1036,7 @@ colour_correction_Finlayson2015` definition n-dimensional support.
 
         RGB = np.reshape(RGB, (2, 3, 3))
         RGB_c = np.reshape(RGB_c, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             colour_correction_Finlayson2015(
                 RGB, MATRIX_TEST, MATRIX_REFERENCE
             ),
@@ -1059,7 +1056,7 @@ colour_correction_Finlayson2015` definition n-dimensional support.
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = list(set(permutations(cases * 3, r=3)))[0:4]
+        cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
             try:
                 colour_correction_Finlayson2015(
@@ -1085,13 +1082,13 @@ colour_correction_Vandermonde` definition.
 
         RGB = np.array([0.17224810, 0.09170660, 0.06416938])
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             colour_correction_Vandermonde(RGB, MATRIX_TEST, MATRIX_REFERENCE),
             np.array([0.15034881, 0.10503956, 0.10512517]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             colour_correction_Vandermonde(
                 RGB, MATRIX_TEST, MATRIX_REFERENCE, degree=3
             ),
@@ -1112,7 +1109,7 @@ colour_correction_Vandermonde` definition n-dimensional support.
 
         RGB = np.tile(RGB, (6, 1))
         RGB_c = np.tile(RGB_c, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             colour_correction_Vandermonde(RGB, MATRIX_TEST, MATRIX_REFERENCE),
             RGB_c,
             decimal=7,
@@ -1120,7 +1117,7 @@ colour_correction_Vandermonde` definition n-dimensional support.
 
         RGB = np.reshape(RGB, (2, 3, 3))
         RGB_c = np.reshape(RGB_c, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             colour_correction_Vandermonde(RGB, MATRIX_TEST, MATRIX_REFERENCE),
             RGB_c,
             decimal=7,
@@ -1138,7 +1135,7 @@ colour_correction_Vandermonde` definition nan support.
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = list(set(permutations(cases * 3, r=3)))[0:4]
+        cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
             try:
                 colour_correction_Vandermonde(

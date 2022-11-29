@@ -36,7 +36,7 @@ from colour.appearance.ciecam02 import (
     degree_of_adaptation,
     hue_angle,
 )
-from colour.algebra import spow
+from colour.algebra import sdiv, sdiv_mode, spow
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import (
     ArrayLike,
@@ -49,7 +49,7 @@ from colour.hints import (
 )
 from colour.models import Izazbz_to_XYZ, XYZ_to_Izazbz, xy_to_XYZ
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     MixinDataclassArithmetic,
     as_float,
     as_float_array,
@@ -109,7 +109,7 @@ class InductionFactors_ZCAM(
     """
 
 
-VIEWING_CONDITIONS_ZCAM: CaseInsensitiveMapping = CaseInsensitiveMapping(
+VIEWING_CONDITIONS_ZCAM: CanonicalMapping = CanonicalMapping(
     {
         "Average": InductionFactors_ZCAM(
             0.69, *VIEWING_CONDITIONS_CIECAM02["Average"]
@@ -419,7 +419,7 @@ def XYZ_to_ZCAM(
     >>> XYZ_w = np.array([256, 264, 202])
     >>> L_A = 264
     >>> Y_b = 100
-    >>> surround = VIEWING_CONDITIONS_ZCAM['Average']
+    >>> surround = VIEWING_CONDITIONS_ZCAM["Average"]
     >>> XYZ_to_ZCAM(XYZ, XYZ_w, L_A, Y_b, surround)
     ... # doctest: +ELLIPSIS
     CAM_Specification_ZCAM(J=92.2504437..., C=3.0216926..., h=196.3245737..., \
@@ -433,13 +433,13 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
     L_A = as_float_array(L_A)
     Y_b = as_float_array(Y_b)
 
-    F_s, _F, _c, _N_c = surround
+    F_s, F, _c, _N_c = surround
 
     # Step 0 (Forward) - Chromatic adaptation from reference illuminant to
     # "CIE Standard Illuminant D65" illuminant using "CAT02".
     # Computing degree of adaptation :math:`D`.
     D = (
-        degree_of_adaptation(surround.F, L_A)
+        degree_of_adaptation(F, L_A)
         if not discount_illuminant
         else ones(L_A.shape)
     )
@@ -460,7 +460,7 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
     # and yellowness-blueness (:math:`b_z`, :math:`b_{z,w}`).
     with domain_range_scale("ignore"):
         I_z, a_z, b_z = tsplit(XYZ_to_Izazbz(XYZ_D65, method="Safdar 2021"))
-        I_z_w, _a_z_w, b_z_w = tsplit(
+        I_z_w, _a_z_w, _b_z_w = tsplit(
             XYZ_to_Izazbz(XYZ_w, method="Safdar 2021")
         )
 
@@ -475,12 +475,12 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
 
     # Step 5 (Forward) - Computing brightness :math:`Q_z`,
     # lightness :math:`J_z`, colourfulness :math`M_z`, and chroma :math:`C_z`
-    Q_z_p = (1.6 * F_s) / F_b**0.12
+    Q_z_p = (1.6 * F_s) / (F_b**0.12)
     Q_z_m = F_s**2.2 * F_b**0.5 * spow(F_L, 0.2)
     Q_z = 2700 * spow(I_z, Q_z_p) * Q_z_m
     Q_z_w = 2700 * spow(I_z_w, Q_z_p) * Q_z_m
 
-    J_z = 100 * (Q_z / Q_z_w)
+    J_z = 100 * Q_z / Q_z_w
 
     M_z = (
         100
@@ -491,11 +491,12 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
         )
     )
 
-    C_z = 100 * (M_z / Q_z_w)
+    C_z = 100 * M_z / Q_z_w
 
     # Step 6 (Forward) - Computing saturation :math:`S_z`,
     # vividness :math:`V_z`, blackness :math:`K_z`, and whiteness :math:`W_z`.
-    S_z = 100 * spow(F_L, 0.6) * np.sqrt(M_z / Q_z)
+    with sdiv_mode():
+        S_z = 100 * spow(F_L, 0.6) * np.sqrt(sdiv(M_z, Q_z))
 
     V_z = np.sqrt((J_z - 58) ** 2 + 3.4 * C_z**2)
 
@@ -563,8 +564,8 @@ def ZCAM_to_XYZ(
     Raises
     ------
     ValueError
-        If neither *C* or *M* correlates have been defined in the
-        ``CAM_Specification_ZCAM`` argument.
+        If neither :math:`C` or :math:`M` correlates have been defined in the
+        ``specification`` argument.
 
     Warnings
     --------
@@ -634,13 +635,13 @@ def ZCAM_to_XYZ(
 
     Examples
     --------
-    >>> specification = CAM_Specification_ZCAM(J=92.250443780723629,
-    ...                                        C=3.0216926733329013,
-    ...                                        h=196.32457375575581)
+    >>> specification = CAM_Specification_ZCAM(
+    ...     J=92.250443780723629, C=3.0216926733329013, h=196.32457375575581
+    ... )
     >>> XYZ_w = np.array([256, 264, 202])
     >>> L_A = 264
     >>> Y_b = 100
-    >>> surround = VIEWING_CONDITIONS_ZCAM['Average']
+    >>> surround = VIEWING_CONDITIONS_ZCAM["Average"]
     >>> ZCAM_to_XYZ(specification, XYZ_w, L_A, Y_b, surround)
     ... # doctest: +ELLIPSIS
     array([ 185.,  206.,  163.])
@@ -666,7 +667,7 @@ def ZCAM_to_XYZ(
     # "CIE Standard Illuminant D65" illuminant using "CAT02".
     # Computing degree of adaptation :math:`D`.
     D = (
-        degree_of_adaptation(surround.F, L_A)
+        degree_of_adaptation(F, L_A)
         if not discount_illuminant
         else ones(L_A.shape)
     )
@@ -687,11 +688,11 @@ def ZCAM_to_XYZ(
         )
 
     # Step 1 (Inverse) - Computing achromatic response (:math:`I_z`).
-    Q_z_p = (1.6 * F_s) / F_b**0.12
-    Q_z_m = F_s**2.2 * F_b**0.5 * spow(F_L, 0.2)
+    Q_z_p = (1.6 * F_s) / spow(F_b, 0.12)
+    Q_z_m = spow(F_s, 2.2) * spow(F_b, 0.5) * spow(F_L, 0.2)
     Q_z_w = 2700 * spow(I_z_w, Q_z_p) * Q_z_m
 
-    I_z_p = (F_b**0.12) / (1.6 * F_s)
+    I_z_p = spow(F_b, 0.12) / (1.6 * F_s)
     I_z_d = 2700 * 100 * Q_z_m
 
     I_z = spow((J_z * Q_z_w) / I_z_d, I_z_p)
@@ -717,8 +718,8 @@ def ZCAM_to_XYZ(
     # C_z_p_e = 1.3514
     C_z_p_e = 50 / 37
     C_z_p = spow(
-        (M_z * spow(I_z_w, 0.78) * F_b**0.1)
-        / (100 * e_z**0.068 * spow(F_L, 0.2)),
+        (M_z * spow(I_z_w, 0.78) * spow(F_b, 0.1))
+        / (100 * spow(e_z, 0.068) * spow(F_L, 0.2)),
         C_z_p_e,
     )
     a_z = C_z_p * np.cos(h_z_r)
@@ -773,8 +774,8 @@ def hue_quadrature(h: FloatingOrArrayLike) -> FloatingOrNDArray:
     h_ii1 = h_i[i + 1]
     e_ii1 = e_i[i + 1]
 
-    H = H_ii + (
-        (100 * (h - h_ii) / e_ii) / ((h - h_ii) / e_ii + (h_ii1 - h) / e_ii1)
-    )
+    h_h_ii = h - h_ii
+
+    H = H_ii + (100 * h_h_ii / e_ii) / (h_h_ii / e_ii + (h_ii1 - h) / e_ii1)
 
     return as_float(H)

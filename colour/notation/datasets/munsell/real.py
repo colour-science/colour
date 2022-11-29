@@ -2789,7 +2789,6 @@ MUNSELL_COLOURS_REAL: Tuple = (
     (("7.5RP", 9.0, 4.0), np.array([0.3350, 0.3099, 78.6600])),
     (("7.5RP", 9.0, 6.0), np.array([0.3512, 0.3052, 78.6600])),
 )
-# yapf: enable
 """
 *Real*, within MacAdam limits, published *Munsell* colours as a *tuple* as
 follows::

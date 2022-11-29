@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.colorimetry.illuminants` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.colorimetry.illuminants` module."""
 
 from __future__ import annotations
 
@@ -143,7 +144,7 @@ sd_CIE_standard_illuminant_A` definition unit tests methods.
 sd_CIE_standard_illuminant_A` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sd_CIE_standard_illuminant_A(SpectralShape(360, 830, 5)).values,
             DATA_A,
             decimal=7,
@@ -216,13 +217,13 @@ class TestDaylightLocusFunction(unittest.TestCase):
 
         x_D = np.tile(x_D, (6, 1))
         y_D = np.tile(y_D, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             daylight_locus_function(x_D), y_D, decimal=7
         )
 
         x_D = np.reshape(x_D, (2, 3, 1))
         y_D = np.reshape(y_D, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             daylight_locus_function(x_D), y_D, decimal=7
         )
 
@@ -234,8 +235,7 @@ class TestDaylightLocusFunction(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        for case in cases:
-            daylight_locus_function(case)
+        daylight_locus_function(cases)
 
 
 if __name__ == "__main__":

@@ -41,6 +41,32 @@ CIECAM02
     CAM_KWARGS_CIECAM02_sRGB
     InductionFactors_CIECAM02
 
+CIECAM16
+--------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_CIECAM16
+    CIECAM16_to_XYZ
+    CAM_Specification_CIECAM16
+    VIEWING_CONDITIONS_CIECAM16
+
+**Ancillary Objects**
+
+``colour.appearance``
+
+.. currentmodule:: colour.appearance
+
+.. autosummary::
+    :toctree: generated/
+
+    InductionFactors_CIECAM16
+
 CAM16
 -----
 
@@ -66,6 +92,32 @@ CAM16
     :toctree: generated/
 
     InductionFactors_CAM16
+
+Hellwig and Fairchild (2022) Colour Appearance Model
+----------------------------------------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_Hellwig2022
+    Hellwig2022_to_XYZ
+    CAM_Specification_Hellwig2022
+    VIEWING_CONDITIONS_HELLWIG2022
+
+**Ancillary Objects**
+
+``colour.appearance``
+
+.. currentmodule:: colour.appearance
+
+.. autosummary::
+    :toctree: generated/
+
+    InductionFactors_Hellwig2022
 
 Hunt
 ----

@@ -11,11 +11,18 @@ import os
 import re
 import toml
 import uuid
-from invoke import Context, task
 
 import colour
 from colour.hints import Boolean
 from colour.utilities import message_box
+
+import inspect
+
+if not hasattr(inspect, "getargspec"):
+    inspect.getargspec = inspect.getfullargspec
+
+from invoke import Context, task
+
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -28,6 +35,7 @@ __all__ = [
     "APPLICATION_NAME",
     "APPLICATION_VERSION",
     "PYTHON_PACKAGE_NAME",
+    "PYPI_ARCHIVE_NAME",
     "PYPI_PACKAGE_NAME",
     "BIBLIOGRAPHY_NAME",
     "clean",
@@ -54,33 +62,9 @@ APPLICATION_VERSION: str = colour.__version__
 PYTHON_PACKAGE_NAME: str = colour.__name__
 
 PYPI_PACKAGE_NAME: str = "colour-science"
+PYPI_ARCHIVE_NAME: str = PYPI_PACKAGE_NAME.replace("-", "_")
 
 BIBLIOGRAPHY_NAME: str = "BIBLIOGRAPHY.bib"
-
-
-def _patch_invoke_annotations_support():
-    """See https://github.com/pyinvoke/invoke/issues/357."""
-
-    import invoke
-    from unittest.mock import patch
-    from inspect import getfullargspec, ArgSpec
-
-    def patched_inspect_getargspec(function):
-        spec = getfullargspec(function)
-        return ArgSpec(*spec[0:4])
-
-    org_task_argspec = invoke.tasks.Task.argspec
-
-    def patched_task_argspec(*args, **kwargs):
-        with patch(
-            target="inspect.getargspec", new=patched_inspect_getargspec
-        ):
-            return org_task_argspec(*args, **kwargs)
-
-    invoke.tasks.Task.argspec = patched_task_argspec
-
-
-_patch_invoke_annotations_support()
 
 
 @task
@@ -208,7 +192,7 @@ def quality(
             f"--show-error-codes "
             f"--warn-unused-ignores "
             f"--warn-redundant-casts "
-            f"-p {PYTHON_PACKAGE_NAME} "
+            f"{PYTHON_PACKAGE_NAME} "
             f"|| true"
         )
 
@@ -245,12 +229,11 @@ def tests(ctx: Context):
 
     message_box('Running "Pytest"...')
     ctx.run(
-        "py.test "
+        "pytest "
         "--disable-warnings "
         "--doctest-modules "
         f"--ignore={PYTHON_PACKAGE_NAME}/examples "
-        f"{PYTHON_PACKAGE_NAME}",
-        env={"MPLBACKEND": "AGG"},
+        f"{PYTHON_PACKAGE_NAME}"
     )
 
 
@@ -426,10 +409,10 @@ def build(ctx: Context):
     ctx.run("git checkout -- README.rst")
 
     with ctx.cd("dist"):
-        ctx.run(f"tar -xvf {PYPI_PACKAGE_NAME}-{APPLICATION_VERSION}.tar.gz")
-        ctx.run(f"cp {PYPI_PACKAGE_NAME}-{APPLICATION_VERSION}/setup.py ../")
+        ctx.run(f"tar -xvf {PYPI_ARCHIVE_NAME}-{APPLICATION_VERSION}.tar.gz")
+        ctx.run(f"cp {PYPI_ARCHIVE_NAME}-{APPLICATION_VERSION}/setup.py ../")
 
-        ctx.run(f"rm -rf {PYPI_PACKAGE_NAME}-{APPLICATION_VERSION}")
+        ctx.run(f"rm -rf {PYPI_ARCHIVE_NAME}-{APPLICATION_VERSION}")
 
     with open("setup.py") as setup_file:
         source = setup_file.read()
@@ -499,8 +482,8 @@ def virtualise(ctx: Context, tests: Boolean = True):
 
     unique_name = f"{PYPI_PACKAGE_NAME}-{uuid.uuid1()}"
     with ctx.cd("dist"):
-        ctx.run(f"tar -xvf {PYPI_PACKAGE_NAME}-{APPLICATION_VERSION}.tar.gz")
-        ctx.run(f"mv {PYPI_PACKAGE_NAME}-{APPLICATION_VERSION} {unique_name}")
+        ctx.run(f"tar -xvf {PYPI_ARCHIVE_NAME}-{APPLICATION_VERSION}.tar.gz")
+        ctx.run(f"mv {PYPI_ARCHIVE_NAME}-{APPLICATION_VERSION} {unique_name}")
         with ctx.cd(unique_name):
             ctx.run(
                 'poetry install --extras "graphviz meshing optional plotting"'
@@ -606,4 +589,4 @@ def sha256(ctx: Context):
 
     message_box('Computing "sha256"...')
     with ctx.cd("dist"):
-        ctx.run(f"openssl sha256 {PYPI_PACKAGE_NAME}-*.tar.gz")
+        ctx.run(f"openssl sha256 {PYPI_ARCHIVE_NAME}-*.tar.gz")

@@ -1,9 +1,9 @@
 # !/usr/bin/env python
-"""Defines the unit tests for the :mod:`colour.appearance.nayatani95` module."""
+"""Define the unit tests for the :mod:`colour.appearance.nayatani95` module."""
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.appearance import XYZ_to_Nayatani95
 from colour.utilities import (
@@ -101,14 +101,14 @@ class TestXYZ_to_Nayatani95(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         specification = np.tile(specification, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
             specification,
             decimal=7,
         )
 
         XYZ_n = np.tile(XYZ_n, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
             specification,
             decimal=7,
@@ -117,7 +117,7 @@ class TestXYZ_to_Nayatani95(unittest.TestCase):
         XYZ = np.reshape(XYZ, (2, 3, 3))
         XYZ_n = np.reshape(XYZ_n, (2, 3, 3))
         specification = np.reshape(specification, (2, 3, 9))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
             specification,
             decimal=7,
@@ -147,7 +147,7 @@ class TestXYZ_to_Nayatani95(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_Nayatani95(
                         XYZ * factor_a, XYZ_n * factor_a, Y_o, E_o, E_or
                     ),
@@ -163,11 +163,11 @@ class TestXYZ_to_Nayatani95(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_n = np.array(case)
-            Y_o = case[0]
-            E_o = case[0]
-            E_or = case[0]
-            XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_Nayatani95(
+            cases, cases, cases[..., 0], cases[..., 0], cases[..., 0]
+        )
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the
+Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.linear` module.
 """
 
@@ -50,15 +50,21 @@ linear_function` definition n-dimensional arrays support.
 
         a = np.tile(a, 6)
         a_p = np.tile(a_p, 6)
-        np.testing.assert_almost_equal(linear_function(a), a_p, decimal=7)
+        np.testing.assert_array_almost_equal(
+            linear_function(a), a_p, decimal=7
+        )
 
         a = np.reshape(a, (2, 3))
         a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_almost_equal(linear_function(a), a_p, decimal=7)
+        np.testing.assert_array_almost_equal(
+            linear_function(a), a_p, decimal=7
+        )
 
         a = np.reshape(a, (2, 3, 1))
         a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_almost_equal(linear_function(a), a_p, decimal=7)
+        np.testing.assert_array_almost_equal(
+            linear_function(a), a_p, decimal=7
+        )
 
     @ignore_numpy_errors
     def test_nan_linear_function(self):
@@ -68,9 +74,7 @@ linear_function` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-
-        for case in cases:
-            linear_function(case)
+        linear_function(cases)
 
 
 if __name__ == "__main__":

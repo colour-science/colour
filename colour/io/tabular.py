@@ -18,7 +18,7 @@ import tempfile
 
 from colour.colorimetry import SpectralDistribution
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.hints import Any, Boolean, Dict, NDArray
+from colour.hints import Any, Boolean, Dict, NDArray, cast
 from colour.utilities import filter_kwargs
 
 __author__ = "Colour Developers"
@@ -82,8 +82,12 @@ def read_spectral_data_from_csv_file(
     --------
     >>> import os
     >>> from pprint import pprint
-    >>> csv_file = os.path.join(os.path.dirname(__file__), 'tests',
-    ...                         'resources', 'colorchecker_n_ohta.csv')
+    >>> csv_file = os.path.join(
+    ...     os.path.dirname(__file__),
+    ...     "tests",
+    ...     "resources",
+    ...     "colorchecker_n_ohta.csv",
+    ... )
     >>> sds_data = read_spectral_data_from_csv_file(csv_file)
     >>> pprint(list(sds_data.keys()))
     ['wavelength',
@@ -123,7 +127,7 @@ def read_spectral_data_from_csv_file(
 
     transpose = settings.get("transpose")
     if transpose:
-        delimiter = settings.get("delimiter", ",")
+        delimiter = cast(str, settings.get("delimiter", ","))
         if settings.get("delimiter") is not None:
             del settings["delimiter"]
 
@@ -171,14 +175,19 @@ def read_sds_from_csv_file(
     --------
     >>> from colour.utilities import numpy_print_options
     >>> import os
-    >>> csv_file = os.path.join(os.path.dirname(__file__), 'tests',
-    ...                         'resources', 'colorchecker_n_ohta.csv')
+    >>> csv_file = os.path.join(
+    ...     os.path.dirname(__file__),
+    ...     "tests",
+    ...     "resources",
+    ...     "colorchecker_n_ohta.csv",
+    ... )
     >>> sds = read_sds_from_csv_file(csv_file)
     >>> print(tuple(sds.keys()))
     ('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', \
 '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24')
     >>> with numpy_print_options(suppress=True):
-    ...     sds['1']  # doctest: +ELLIPSIS
+    ...     sds["1"]  # doctest: +ELLIPSIS
+    ...
     SpectralDistribution([[ 380.   ,    0.048],
                           [ 385.   ,    0.051],
                           [ 390.   ,    0.055],
@@ -260,10 +269,10 @@ def read_sds_from_csv_file(
                           [ 770.   ,    0.448],
                           [ 775.   ,    0.432],
                           [ 780.   ,    0.421]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     """
 
     data = read_spectral_data_from_csv_file(path, **kwargs)

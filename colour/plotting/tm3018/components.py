@@ -20,6 +20,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
+from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import sd_to_XYZ
 from colour.hints import (
     Any,
@@ -52,7 +53,7 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "RESOURCES_DIRECTORY_ANSIIESTM3018",
+    "ROOT_RESOURCES_ANSIIESTM3018",
     "plot_spectra_ANSIIESTM3018",
     "plot_colour_vector_graphic",
     "plot_16_bin_bars",
@@ -62,7 +63,7 @@ __all__ = [
     "plot_colour_fidelity_indexes",
 ]
 
-RESOURCES_DIRECTORY_ANSIIESTM3018: str = os.path.join(
+ROOT_RESOURCES_ANSIIESTM3018: str = os.path.join(
     os.path.dirname(__file__), "resources"
 )
 """Resources directory."""
@@ -236,7 +237,7 @@ def plot_spectra_ANSIIESTM3018(
     --------
     >>> from colour import SDS_ILLUMINANTS
     >>> from colour.quality import colour_fidelity_index_ANSIIESTM3018
-    >>> sd = SDS_ILLUMINANTS['FL2']
+    >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
     >>> plot_spectra_ANSIIESTM3018(specification)
     ... # doctest: +ELLIPSIS
@@ -250,16 +251,20 @@ def plot_spectra_ANSIIESTM3018(
     Y_reference = sd_to_XYZ(specification.sd_reference)[1]
     Y_test = sd_to_XYZ(specification.sd_test)[1]
 
+    with sdiv_mode():
+        reference_values = sdiv(specification.sd_reference.values, Y_reference)
+        test_values = sdiv(specification.sd_test.values, Y_test)
+
     axes.plot(
         specification.sd_reference.wavelengths,
-        specification.sd_reference.values / Y_reference,
+        reference_values,
         "black",
         label="Reference",
         zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
     )
     axes.plot(
         specification.sd_test.wavelengths,
-        specification.sd_test.values / Y_test,
+        test_values,
         "#F05046",
         label="Test",
         zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
@@ -306,7 +311,7 @@ def plot_colour_vector_graphic(
     --------
     >>> from colour import SDS_ILLUMINANTS
     >>> from colour.quality import colour_fidelity_index_ANSIIESTM3018
-    >>> sd = SDS_ILLUMINANTS['FL2']
+    >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
     >>> plot_colour_vector_graphic(specification)
     ... # doctest: +ELLIPSIS
@@ -318,7 +323,7 @@ def plot_colour_vector_graphic(
 
     # Background
     background_image = read_image(
-        os.path.join(RESOURCES_DIRECTORY_ANSIIESTM3018, "CVG_Background.jpg")
+        os.path.join(ROOT_RESOURCES_ANSIIESTM3018, "CVG_Background.jpg")
     )
     _figure, axes = plot_image(
         background_image,
@@ -415,7 +420,7 @@ def plot_colour_vector_graphic(
     # Arrow offsets as defined by the standard.
     offsets = (
         specification.averages_test - specification.averages_reference
-    ) / specification.average_norms[:, np.newaxis]
+    ) / specification.average_norms[:, None]
     xy_test = xy_reference + offsets
 
     # Arrows.
@@ -434,7 +439,7 @@ def plot_colour_vector_graphic(
         )
 
     # Red (test) gamut shape.
-    loop = np.append(xy_test, xy_test[0, np.newaxis], axis=0)
+    loop = np.append(xy_test, xy_test[0, None], axis=0)
     axes.plot(
         loop[:, 0],
         loop[:, 1],
@@ -525,7 +530,7 @@ def plot_16_bin_bars(
 
     Examples
     --------
-    >>> plot_16_bin_bars(np.arange(16), '{0}')
+    >>> plot_16_bin_bars(np.arange(16), "{0}")
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
     """
@@ -622,7 +627,7 @@ def plot_local_chroma_shifts(
     --------
     >>> from colour import SDS_ILLUMINANTS
     >>> from colour.quality import colour_fidelity_index_ANSIIESTM3018
-    >>> sd = SDS_ILLUMINANTS['FL2']
+    >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
     >>> plot_local_chroma_shifts(specification)
     ... # doctest: +ELLIPSIS
@@ -680,7 +685,7 @@ def plot_local_hue_shifts(
     --------
     >>> from colour import SDS_ILLUMINANTS
     >>> from colour.quality import colour_fidelity_index_ANSIIESTM3018
-    >>> sd = SDS_ILLUMINANTS['FL2']
+    >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
     >>> plot_local_hue_shifts(specification)
     ... # doctest: +ELLIPSIS
@@ -734,7 +739,7 @@ def plot_local_colour_fidelities(
     --------
     >>> from colour import SDS_ILLUMINANTS
     >>> from colour.quality import colour_fidelity_index_ANSIIESTM3018
-    >>> sd = SDS_ILLUMINANTS['FL2']
+    >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
     >>> plot_local_colour_fidelities(specification)
     ... # doctest: +ELLIPSIS
@@ -784,7 +789,7 @@ def plot_colour_fidelity_indexes(
     --------
     >>> from colour import SDS_ILLUMINANTS
     >>> from colour.quality import colour_fidelity_index_ANSIIESTM3018
-    >>> sd = SDS_ILLUMINANTS['FL2']
+    >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
     >>> plot_colour_fidelity_indexes(specification)
     ... # doctest: +ELLIPSIS

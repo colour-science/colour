@@ -10,14 +10,7 @@ imports.
 from __future__ import annotations
 
 import numpy as np
-
-# TODO: Drop mocking when minimal "Numpy" version is 1.20.x.
-try:
-    import numpy.typing as npt
-except ImportError:  # pragma: no cover
-    from unittest import mock
-
-    npt = mock.MagicMock()
+import numpy.typing as npt
 import re
 from types import ModuleType
 from typing import (
@@ -39,8 +32,8 @@ from typing import (
     Type,
     TypeVar,
     cast,
+    overload,
 )
-from typing_extensions import runtime_checkable
 
 try:
     from typing import (
@@ -48,14 +41,17 @@ try:
         Protocol,
         SupportsIndex,
         TypedDict,
+        runtime_checkable,
     )
 # TODO: Drop "typing_extensions" when "Google Colab" uses Python >= 3.8.
+# Remove exclusion in ".pre-commit-config.yaml" file for "pyupgrade".
 except ImportError:  # pragma: no cover
-    from typing_extensions import (  # type: ignore[misc]
+    from typing_extensions import (  # type: ignore[assignment]
         Literal,
         Protocol,
         SupportsIndex,
         TypedDict,
+        runtime_checkable,
     )
 
 __author__ = "Colour Developers"
@@ -171,13 +167,88 @@ Literal = Literal
 Dataclass = Any
 
 # TODO: Drop mocking when minimal "Numpy" version is 1.21.x.
-try:
-    NestedSequence = npt._NestedSequence
-except AttributeError:
-    NestedSequence = Any  # type: ignore[assignment, misc]
+_T_co = TypeVar("_T_co", covariant=True)
+
+
+class NestedSequence(Protocol[_T_co]):
+    """A protocol for representing nested sequences.
+
+    Warning
+    -------
+    `NestedSequence` currently does not work in combination with typevars,
+    *e.g.* ``def func(a: _NestedSequnce[T]) -> T: ...``.
+
+    See Also
+    --------
+    collections.abc.Sequence
+        ABCs for read-only and mutable :term:`sequences`.
+
+    Examples
+    --------
+    >>> from __future__ import annotations
+
+    >>> from typing import TYPE_CHECKING
+    >>> import numpy as np
+
+    >>> def get_dtype(seq: NestedSequence[float]) -> np.dtype[np.float64]:
+    ...     return np.asarray(seq).dtype
+
+    >>> a = get_dtype([1.0])
+    >>> b = get_dtype([[1.0]])
+    >>> c = get_dtype([[[1.0]]])
+    >>> d = get_dtype([[[[1.0]]]])
+
+    >>> if TYPE_CHECKING:
+    ...     reveal_locals()
+    ...     # note: Revealed local types are:
+    ...     # note:     a: numpy.dtype[numpy.floating[numpy._typing._64Bit]]
+    ...     # note:     b: numpy.dtype[numpy.floating[numpy._typing._64Bit]]
+    ...     # note:     c: numpy.dtype[numpy.floating[numpy._typing._64Bit]]
+    ...     # note:     d: numpy.dtype[numpy.floating[numpy._typing._64Bit]]
+    ...
+
+    """
+
+    def __len__(self) -> int:
+        """Implement ``len(self)``."""
+        raise NotImplementedError
+
+    @overload
+    def __getitem__(
+        self, index: int
+    ) -> _T_co | NestedSequence[_T_co]:  # noqa: D105
+        ...
+
+    @overload
+    def __getitem__(self, index: slice) -> NestedSequence[_T_co]:  # noqa: D105
+        ...
+
+    def __getitem__(self, index):
+        """Implement ``self[x]``."""
+        raise NotImplementedError
+
+    def __contains__(self, x: object) -> bool:
+        """Implement ``x in self``."""
+        raise NotImplementedError
+
+    def __iter__(self) -> Iterator[_T_co | NestedSequence[_T_co]]:
+        """Implement ``iter(self)``."""
+        raise NotImplementedError
+
+    def __reversed__(self) -> Iterator[_T_co | NestedSequence[_T_co]]:
+        """Implement ``reversed(self)``."""
+        raise NotImplementedError
+
+    def count(self, value: Any) -> int:
+        """Return the number of occurrences of `value`."""
+        raise NotImplementedError
+
+    def index(self, value: Any) -> int:
+        """Return the first index of `value`."""
+        raise NotImplementedError
+
 
 ArrayLike = npt.ArrayLike
-
 IntegerOrArrayLike = Union[Integer, ArrayLike]
 FloatingOrArrayLike = Union[Floating, ArrayLike]
 NumberOrArrayLike = Union[Number, ArrayLike]
@@ -224,7 +295,7 @@ class TypeInterpolator(Protocol):  # noqa: D101
     x: NDArray
     y: NDArray
 
-    def __init__(self, *args: Any, **kwargs: Any):  # noqa: D102
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # noqa: D102
         ...  # pragma: no cover
 
     def __call__(
@@ -236,7 +307,7 @@ class TypeInterpolator(Protocol):  # noqa: D101
 class TypeExtrapolator(Protocol):  # noqa: D101
     interpolator: TypeInterpolator
 
-    def __init__(self, *args: Any, **kwargs: Any):  # noqa: D102
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # noqa: D102
         ...  # pragma: no cover
 
     def __call__(
@@ -258,11 +329,13 @@ LiteralWarning = Literal[
 cast = cast
 
 
-def arraylike(a: ArrayLike | NestedSequence[ArrayLike]) -> NDArray:
+def arraylike(  # type: ignore[empty-body]
+    a: ArrayLike | NestedSequence[ArrayLike],
+) -> NDArray:
     ...
 
 
-def number_or_arraylike(
+def number_or_arraylike(  # type: ignore[empty-body]
     a: NumberOrArrayLike | NestedSequence[ArrayLike],
 ) -> NDArray:
     ...

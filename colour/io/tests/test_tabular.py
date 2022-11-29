@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.io.tabular` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.io.tabular` module."""
 
 from __future__ import annotations
 
@@ -23,14 +24,14 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "RESOURCES_DIRECTORY",
+    "ROOT_RESOURCES",
     "COLOURCHECKER_N_OHTA_1",
     "TestReadSpectralDataFromCsvFile",
     "TestReadSdsFromCsvFile",
     "TestWriteSdsToCsvFile",
 ]
 
-RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), "resources")
+ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 
 COLOURCHECKER_N_OHTA_1: Dict = {
     380.0: 0.048,
@@ -130,7 +131,7 @@ class TestReadSpectralDataFromCsvFile(unittest.TestCase):
         """
 
         colour_checker_n_ohta = os.path.join(
-            RESOURCES_DIRECTORY, "colorchecker_n_ohta.csv"
+            ROOT_RESOURCES, "colorchecker_n_ohta.csv"
         )
         data = read_spectral_data_from_csv_file(colour_checker_n_ohta)
         self.assertListEqual(
@@ -141,7 +142,7 @@ class TestReadSpectralDataFromCsvFile(unittest.TestCase):
         )
 
         colour_checker_n_ohta_transposed = os.path.join(
-            RESOURCES_DIRECTORY, "colorchecker_n_ohta_transposed.csv"
+            ROOT_RESOURCES, "colorchecker_n_ohta_transposed.csv"
         )
         data = read_spectral_data_from_csv_file(
             colour_checker_n_ohta_transposed, transpose=True, delimiter="\t"
@@ -153,7 +154,7 @@ class TestReadSpectralDataFromCsvFile(unittest.TestCase):
             dict(zip(data["wavelength"], data["1"])), COLOURCHECKER_N_OHTA_1
         )
 
-        linss2_10e_5 = os.path.join(RESOURCES_DIRECTORY, "linss2_10e_5.csv")
+        linss2_10e_5 = os.path.join(ROOT_RESOURCES, "linss2_10e_5.csv")
         data = read_spectral_data_from_csv_file(
             linss2_10e_5,
             names=["wavelength", "l_bar", "m_bar", "s_bar"],
@@ -181,7 +182,7 @@ class TestReadSdsFromCsvFile(unittest.TestCase):
         """Test :func:`colour.io.tabular.read_sds_from_csv_file` definition."""
 
         colour_checker_n_ohta = os.path.join(
-            RESOURCES_DIRECTORY, "colorchecker_n_ohta.csv"
+            ROOT_RESOURCES, "colorchecker_n_ohta.csv"
         )
         sds = read_sds_from_csv_file(colour_checker_n_ohta)
         for sd in sds.values():
@@ -212,7 +213,7 @@ class TestWriteSdsToCsvFile(unittest.TestCase):
         """Test :func:`colour.io.tabular.write_sds_to_csv_file` definition."""
 
         colour_checker_n_ohta = os.path.join(
-            RESOURCES_DIRECTORY, "colorchecker_n_ohta.csv"
+            ROOT_RESOURCES, "colorchecker_n_ohta.csv"
         )
         sds = read_sds_from_csv_file(colour_checker_n_ohta)
         colour_checker_n_ohta_test = os.path.join(
@@ -230,7 +231,7 @@ class TestWriteSdsToCsvFile(unittest.TestCase):
         """
 
         colour_checker_n_ohta = os.path.join(
-            RESOURCES_DIRECTORY, "colorchecker_n_ohta.csv"
+            ROOT_RESOURCES, "colorchecker_n_ohta.csv"
         )
         sds = read_sds_from_csv_file(colour_checker_n_ohta)
         key = list(sds.keys())[0]

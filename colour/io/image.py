@@ -26,7 +26,7 @@ from colour.hints import (
     cast,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float_array,
     as_int_array,
     attest,
@@ -34,6 +34,7 @@ from colour.utilities import (
     filter_kwargs,
     optional,
     required,
+    tstack,
     usage_warning,
     validate_method,
 )
@@ -57,6 +58,7 @@ __all__ = [
     "write_image_Imageio",
     "WRITE_IMAGE_METHODS",
     "write_image",
+    "as_3_channels_image",
 ]
 
 
@@ -105,7 +107,7 @@ class ImageAttribute_Specification:
 if is_openimageio_installed():  # pragma: no cover
     from OpenImageIO import UINT8, UINT16, HALF, FLOAT, DOUBLE
 
-    MAPPING_BIT_DEPTH: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    MAPPING_BIT_DEPTH: CanonicalMapping = CanonicalMapping(
         {
             "uint8": BitDepth_Specification("uint8", np.uint8, UINT8),
             "uint16": BitDepth_Specification("uint16", np.uint16, UINT16),
@@ -119,8 +121,8 @@ if is_openimageio_installed():  # pragma: no cover
             "float128", np.float128, DOUBLE  # type: ignore[arg-type]
         )
 else:  # pragma: no cover
-    MAPPING_BIT_DEPTH: CaseInsensitiveMapping = (  # type: ignore[no-redef]
-        CaseInsensitiveMapping(
+    MAPPING_BIT_DEPTH: CanonicalMapping = (  # type: ignore[no-redef]
+        CanonicalMapping(
             {
                 "uint8": BitDepth_Specification("uint8", np.uint8, None),
                 "uint16": BitDepth_Specification("uint16", np.uint16, None),
@@ -161,16 +163,16 @@ def convert_bit_depth(
     Examples
     --------
     >>> a = np.array([0.0, 0.5, 1.0])
-    >>> convert_bit_depth(a, 'uint8')
+    >>> convert_bit_depth(a, "uint8")
     array([  0, 128, 255], dtype=uint8)
-    >>> convert_bit_depth(a, 'uint16')
+    >>> convert_bit_depth(a, "uint16")
     array([    0, 32768, 65535], dtype=uint16)
-    >>> convert_bit_depth(a, 'float16')
+    >>> convert_bit_depth(a, "float16")
     array([ 0. ,  0.5,  1. ], dtype=float16)
     >>> a = np.array([0, 128, 255], dtype=np.uint8)
-    >>> convert_bit_depth(a, 'uint16')
+    >>> convert_bit_depth(a, "uint16")
     array([    0, 32896, 65535], dtype=uint16)
-    >>> convert_bit_depth(a, 'float32')  # doctest: +ELLIPSIS
+    >>> convert_bit_depth(a, "float32")  # doctest: +ELLIPSIS
     array([ 0.       ,  0.501960...,  1.       ], dtype=float32)
     """
 
@@ -221,7 +223,7 @@ def read_image_OpenImageIO(
     attributes: Boolean = False,
 ) -> Union[NDArray, Tuple[NDArray, List]]:  # noqa: D405,D410,D407,D411
     """
-    Read the image at given path using *OpenImageIO*.
+    Read the image data at given path using *OpenImageIO*.
 
     Parameters
     ----------
@@ -248,8 +250,13 @@ def read_image_OpenImageIO(
     --------
     >>> import os
     >>> import colour
-    >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
-    ...                     'CMS_Test_Pattern.exr')
+    >>> path = os.path.join(
+    ...     colour.__path__[0],
+    ...     "io",
+    ...     "tests",
+    ...     "resources",
+    ...     "CMS_Test_Pattern.exr",
+    ... )
     >>> image = read_image_OpenImageIO(path)  # doctest: +SKIP
     """
 
@@ -278,8 +285,7 @@ def read_image_OpenImageIO(
 
     if attributes:
         extra_attributes = []
-        for i in range(len(specification.extra_attribs)):
-            attribute = specification.extra_attribs[i]
+        for attribute in specification.extra_attribs:
             extra_attributes.append(
                 ImageAttribute_Specification(
                     attribute.name, attribute.value, attribute.type
@@ -299,7 +305,7 @@ def read_image_Imageio(
     **kwargs: Any,
 ) -> NDArray:
     """
-    Read the image at given path using *Imageio*.
+    Read the image data at given path using *Imageio*.
 
     Parameters
     ----------
@@ -328,8 +334,13 @@ def read_image_Imageio(
     --------
     >>> import os
     >>> import colour
-    >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
-    ...                     'CMS_Test_Pattern.exr')
+    >>> path = os.path.join(
+    ...     colour.__path__[0],
+    ...     "io",
+    ...     "tests",
+    ...     "resources",
+    ...     "CMS_Test_Pattern.exr",
+    ... )
     >>> image = read_image_Imageio(path)
     >>> image.shape  # doctest: +SKIP
     (1267, 1274, 3)
@@ -344,7 +355,7 @@ def read_image_Imageio(
     return convert_bit_depth(image, bit_depth)
 
 
-READ_IMAGE_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+READ_IMAGE_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Imageio": read_image_Imageio,
         "OpenImageIO": read_image_OpenImageIO,
@@ -364,7 +375,7 @@ def read_image(
     **kwargs: Any,
 ) -> NDArray:  # noqa: D405,D407,D410,D411,D414
     """
-    Read the image at given path using given method.
+    Read the image data at given path using given method.
 
     Parameters
     ----------
@@ -402,8 +413,13 @@ def read_image(
     --------
     >>> import os
     >>> import colour
-    >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
-    ...                     'CMS_Test_Pattern.exr')
+    >>> path = os.path.join(
+    ...     colour.__path__[0],
+    ...     "io",
+    ...     "tests",
+    ...     "resources",
+    ...     "CMS_Test_Pattern.exr",
+    ... )
     >>> image = read_image(path)
     >>> image.shape  # doctest: +SKIP
     (1267, 1274, 3)
@@ -439,7 +455,7 @@ def write_image_OpenImageIO(
     attributes: Optional[Sequence] = None,
 ) -> Boolean:  # noqa: D405,D407,D410,D411
     """
-    Write given image at given path using *OpenImageIO*.
+    Write given image data at given path using *OpenImageIO*.
 
     Parameters
     ----------
@@ -465,18 +481,28 @@ def write_image_OpenImageIO(
 
     >>> import os
     >>> import colour
-    >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
-    ...                     'CMS_Test_Pattern.exr')
+    >>> path = os.path.join(
+    ...     colour.__path__[0],
+    ...     "io",
+    ...     "tests",
+    ...     "resources",
+    ...     "CMS_Test_Pattern.exr",
+    ... )
     >>> image = read_image(path)  # doctest: +SKIP
-    >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
-    ...                     'CMSTestPattern.tif')
+    >>> path = os.path.join(
+    ...     colour.__path__[0],
+    ...     "io",
+    ...     "tests",
+    ...     "resources",
+    ...     "CMSTestPattern.tif",
+    ... )
     >>> write_image_OpenImageIO(image, path)  # doctest: +SKIP
     True
 
     Advanced image writing while setting attributes:
 
-    >>> compression = ImageAttribute_Specification('Compression', 'none')
-    >>> write_image_OpenImageIO(image, path, 'uint8', [compression])
+    >>> compression = ImageAttribute_Specification("Compression", "none")
+    >>> write_image_OpenImageIO(image, path, "uint8", [compression])
     ... # doctest: +SKIP
     True
 
@@ -484,14 +510,26 @@ def write_image_OpenImageIO(
 
     >>> if is_openimageio_installed():  # doctest: +SKIP
     ...     from OpenImageIO import TypeDesc
+    ...
     ...     chromaticities = (
-    ...         0.7347, 0.2653, 0.0, 1.0, 0.0001, -0.077, 0.32168, 0.33767)
+    ...         0.7347,
+    ...         0.2653,
+    ...         0.0,
+    ...         1.0,
+    ...         0.0001,
+    ...         -0.077,
+    ...         0.32168,
+    ...         0.33767,
+    ...     )
     ...     attributes = [
-    ...         ImageAttribute_Specification('acesImageContainerFlag', True),
+    ...         ImageAttribute_Specification("acesImageContainerFlag", True),
     ...         ImageAttribute_Specification(
-    ...             'chromaticities', chromaticities, TypeDesc('float[8]')),
-    ...         ImageAttribute_Specification('compression', 'none')]
+    ...             "chromaticities", chromaticities, TypeDesc("float[8]")
+    ...         ),
+    ...         ImageAttribute_Specification("compression", "none"),
+    ...     ]
     ...     write_image_OpenImageIO(image, path, attributes=attributes)
+    ...
     """
 
     from OpenImageIO import ImageOutput, ImageSpec
@@ -550,9 +588,9 @@ def write_image_Imageio(
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
     **kwargs: Any,
-) -> Boolean:
+) -> Optional[bytes]:
     """
-    Write given image at given path using *Imageio*.
+    Write given image data at given path using *Imageio*.
 
     Parameters
     ----------
@@ -575,27 +613,55 @@ def write_image_Imageio(
     :class:`bool`
         Definition success.
 
+    Notes
+    -----
+    -   It is possible to control how the image are saved by the *Freeimage*
+        backend by using the ``flags`` keyword argument and passing a desired
+        value. See the *Load / Save flag constants* section in
+        https://sourceforge.net/p/freeimage/svn/HEAD/tree/FreeImage/trunk/\
+Source/FreeImage.h
+
     Examples
     --------
     >>> import os
     >>> import colour
-    >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
-    ...                     'CMS_Test_Pattern.exr')
+    >>> path = os.path.join(
+    ...     colour.__path__[0],
+    ...     "io",
+    ...     "tests",
+    ...     "resources",
+    ...     "CMS_Test_Pattern.exr",
+    ... )
     >>> image = read_image(path)  # doctest: +SKIP
-    >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
-    ...                     'CMSTestPattern.tif')
+    >>> path = os.path.join(
+    ...     colour.__path__[0],
+    ...     "io",
+    ...     "tests",
+    ...     "resources",
+    ...     "CMSTestPattern.tif",
+    ... )
     >>> write_image_Imageio(image, path)  # doctest: +SKIP
     True
     """
 
     from imageio import imwrite
 
+    if all(
+        [
+            path.lower().endswith(".exr"),
+            bit_depth in ("float32", "float64", "float128"),
+        ]
+    ):
+        # Ensures that "OpenEXR" images are saved as "Float32" according to the
+        # image bit-depth.
+        kwargs["flags"] = 0x0001
+
     image = convert_bit_depth(image, bit_depth)
 
     return imwrite(path, image, **kwargs)
 
 
-WRITE_IMAGE_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+WRITE_IMAGE_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Imageio": write_image_Imageio,
         "OpenImageIO": write_image_OpenImageIO,
@@ -616,7 +682,7 @@ def write_image(
     **kwargs: Any,
 ) -> Boolean:  # noqa: D405,D407,D410,D411,D414
     """
-    Write given image at given path using given method.
+    Write given image data at given path using given method.
 
     Parameters
     ----------
@@ -649,6 +715,11 @@ def write_image(
         writing will be performed by *Imageio*.
     -   If the given method is *Imageio*, ``kwargs`` is passed directly to the
         wrapped definition.
+    -   It is possible to control how the image are saved by the *Freeimage*
+        backend by using the ``flags`` keyword argument and passing a desired
+        value. See the *Load / Save flag constants* section in
+        https://sourceforge.net/p/freeimage/svn/HEAD/tree/FreeImage/trunk/\
+Source/FreeImage.h
 
     Examples
     --------
@@ -656,18 +727,28 @@ def write_image(
 
     >>> import os
     >>> import colour
-    >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
-    ...                     'CMS_Test_Pattern.exr')
+    >>> path = os.path.join(
+    ...     colour.__path__[0],
+    ...     "io",
+    ...     "tests",
+    ...     "resources",
+    ...     "CMS_Test_Pattern.exr",
+    ... )
     >>> image = read_image(path)  # doctest: +SKIP
-    >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
-    ...                     'CMSTestPattern.tif')
+    >>> path = os.path.join(
+    ...     colour.__path__[0],
+    ...     "io",
+    ...     "tests",
+    ...     "resources",
+    ...     "CMSTestPattern.tif",
+    ... )
     >>> write_image(image, path)  # doctest: +SKIP
     True
 
     Advanced image writing while setting attributes using *OpenImageIO*:
 
-    >>> compression = ImageAttribute_Specification('Compression', 'none')
-    >>> write_image(image, path, bit_depth='uint8', attributes=[compression])
+    >>> compression = ImageAttribute_Specification("Compression", "none")
+    >>> write_image(image, path, bit_depth="uint8", attributes=[compression])
     ... # doctest: +SKIP
     True
     """
@@ -688,3 +769,46 @@ def write_image(
         kwargs = filter_kwargs(function, **kwargs)
 
     return function(image, path, bit_depth, **kwargs)
+
+
+def as_3_channels_image(a: ArrayLike) -> NDArray:
+    """
+    Convert given array :math:`a` to a 3-channels image-like representation.
+
+    Parameters
+    ----------
+    a
+         Array :math:`a` to convert to a 3-channels image-like representation.
+
+    Returns
+    -------
+    :class`numpy.ndarray`
+        3-channels image-like representation of array :math:`a`.
+
+    Examples
+    --------
+    >>> as_3_channels_image(0.18)
+    array([[[ 0.18,  0.18,  0.18]]])
+    >>> as_3_channels_image([0.18])
+    array([[[ 0.18,  0.18,  0.18]]])
+    >>> as_3_channels_image([0.18, 0.18, 0.18])
+    array([[[ 0.18,  0.18,  0.18]]])
+    >>> as_3_channels_image([[0.18, 0.18, 0.18]])
+    array([[[ 0.18,  0.18,  0.18]]])
+    >>> as_3_channels_image([[[0.18, 0.18, 0.18]]])
+    array([[[ 0.18,  0.18,  0.18]]])
+    """
+    a = as_float_array(a)
+
+    if len(a.shape) == 0:
+        a = tstack([a, a, a])
+
+    if a.shape[-1] == 1:
+        a = tstack([a, a, a])
+
+    if len(a.shape) == 1:
+        a = a[None, None, ...]
+    elif len(a.shape) == 2:
+        a = a[None, ...]
+
+    return a

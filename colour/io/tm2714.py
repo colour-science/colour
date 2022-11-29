@@ -39,6 +39,8 @@ from colour.utilities import (
     as_float_scalar,
     attest,
     optional,
+    multiline_str,
+    multiline_repr,
     is_numeric,
     is_string,
     tstack,
@@ -108,9 +110,8 @@ class Header_IESTM2714:
     description
         Description of the spectral data in the spectral data *XML* file.
     document_creator
-        Creator of the spectral data *XML* file, which may be a
-        test lab, a research group, a standard body, a company or an
-        individual.
+        Creator of the spectral data *XML* file, which may be a test lab, a
+        research group, a standard body, a company or an individual.
     unique_identifier
         Unique identifier to the product under test or the spectral data in the
         document.
@@ -147,15 +148,27 @@ class Header_IESTM2714:
     Methods
     -------
     -   :meth:`~colour.io.ies_tm2714.Header_IESTM2714.__init__`
+    -   :meth:`~colour.io.ies_tm2714.Header_IESTM2714.__str__`
+    -   :meth:`~colour.io.ies_tm2714.Header_IESTM2714.__repr__`
     -   :meth:`~colour.io.ies_tm2714.Header_IESTM2714.__hash__`
     -   :meth:`~colour.io.ies_tm2714.Header_IESTM2714.__eq__`
     -   :meth:`~colour.io.ies_tm2714.Header_IESTM2714.__ne__`
 
     Examples
     --------
-    >>> Header_IESTM2714('colour-science')  # doctest: +ELLIPSIS
-    <...Header_IESTM2714 object at 0x...>
-    >>> Header_IESTM2714('colour-science').manufacturer  # doctest: +SKIP
+    >>> Header_IESTM2714("colour-science")  # doctest: +ELLIPSIS
+    Header_IESTM2714('colour-science',
+                     None,
+                     None,
+                     None,
+                     None,
+                     None,
+                     None,
+                     None,
+                     None,
+                     None,
+                     None)
+    >>> Header_IESTM2714("colour-science").manufacturer  # doctest: +SKIP
     'colour-science'
     """
 
@@ -172,7 +185,7 @@ class Header_IESTM2714:
         report_date: Optional[str] = None,
         document_creation_date: Optional[str] = None,
         comments: Optional[str] = None,
-    ):
+    ) -> None:
 
         self._mapping: Structure = Structure(
             **{
@@ -583,6 +596,96 @@ class Header_IESTM2714:
 
         self._comments = value
 
+    def __str__(self) -> str:
+        """
+        Return a formatted string representation of the header.
+
+        Returns
+        -------
+        :class:`str`
+            Formatted string representation.
+
+        Examples
+        --------
+        >>> print(Header_IESTM2714("colour-science"))
+        Manufacturer           : colour-science
+        Catalog Number         : None
+        Description            : None
+        Document Creator       : None
+        Unique Identifier      : None
+        Measurement Equipment  : None
+        Laboratory             : None
+        Report Number          : None
+        Report Date            : None
+        Document Creation Date : None
+        Comments               : None
+        """
+
+        return multiline_str(
+            self,
+            [
+                {"name": "_manufacturer", "label": "Manufacturer"},
+                {"name": "_catalog_number", "label": "Catalog Number"},
+                {"name": "_description", "label": "Description"},
+                {"name": "_document_creator", "label": "Document Creator"},
+                {"name": "_unique_identifier", "label": "Unique Identifier"},
+                {
+                    "name": "_measurement_equipment",
+                    "label": "Measurement Equipment",
+                },
+                {"name": "_laboratory", "label": "Laboratory"},
+                {"name": "_report_number", "label": "Report Number"},
+                {"name": "_report_date", "label": "Report Date"},
+                {
+                    "name": "_document_creation_date",
+                    "label": "Document Creation Date",
+                },
+                {"name": "_comments", "label": "Comments"},
+            ],
+        )
+
+    def __repr__(self) -> str:
+        """
+        Return an evaluable string representation of the header.
+
+        Returns
+        -------
+        :class:`str`
+            Evaluable string representation.
+
+        Examples
+        --------
+        >>> Header_IESTM2714("colour-science")
+        Header_IESTM2714('colour-science',
+                         None,
+                         None,
+                         None,
+                         None,
+                         None,
+                         None,
+                         None,
+                         None,
+                         None,
+                         None)
+        """
+
+        return multiline_repr(
+            self,
+            [
+                {"name": "_manufacturer"},
+                {"name": "_catalog_number"},
+                {"name": "_description"},
+                {"name": "_document_creator"},
+                {"name": "_unique_identifier"},
+                {"name": "_measurement_equipment"},
+                {"name": "_laboratory"},
+                {"name": "_report_number"},
+                {"name": "_report_date"},
+                {"name": "_document_creation_date"},
+                {"name": "_comments"},
+            ],
+        )
+
     def __hash__(self) -> Integer:
         """
         Return the header hash.
@@ -625,9 +728,9 @@ class Header_IESTM2714:
 
         Examples
         --------
-        >>> Header_IESTM2714('Foo') == Header_IESTM2714('Foo')
+        >>> Header_IESTM2714("Foo") == Header_IESTM2714("Foo")
         True
-        >>> Header_IESTM2714('Foo') == Header_IESTM2714('Bar')
+        >>> Header_IESTM2714("Foo") == Header_IESTM2714("Bar")
         False
         """
 
@@ -666,9 +769,9 @@ class Header_IESTM2714:
 
         Examples
         --------
-        >>> Header_IESTM2714('Foo') != Header_IESTM2714('Foo')
+        >>> Header_IESTM2714("Foo") != Header_IESTM2714("Foo")
         False
-        >>> Header_IESTM2714('Foo') != Header_IESTM2714('Bar')
+        >>> Header_IESTM2714("Foo") != Header_IESTM2714("Bar")
         True
         """
 
@@ -719,7 +822,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         Arguments to use when instantiating the interpolating function.
     name
         Spectral distribution name.
-    strict_name
+    display_name
         Spectral distribution name for figures, default to
         :attr:`colour.SpectralDistribution.name` property value.
 
@@ -764,6 +867,8 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     Methods
     -------
     -   :meth:`~colour.SpectralDistribution_IESTM2714.__init__`
+    -   :meth:`~colour.SpectralDistribution_IESTM2714.__str__`
+    -   :meth:`~colour.SpectralDistribution_IESTM2714.__repr__`
     -   :meth:`~colour.SpectralDistribution_IESTM2714.read`
     -   :meth:`~colour.SpectralDistribution_IESTM2714.write`
 
@@ -774,9 +879,10 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     Examples
     --------
     >>> from os.path import dirname, join
-    >>> directory = join(dirname(__file__), 'tests', 'resources')
+    >>> directory = join(dirname(__file__), "tests", "resources")
     >>> sd = SpectralDistribution_IESTM2714(
-    ...     join(directory, 'Fluorescent.spdx')).read()
+    ...     join(directory, "Fluorescent.spdx")
+    ... ).read()
     >>> sd.name  # doctest: +SKIP
     'Unknown - N/A - Rare earth fluorescent lamp'
     >>> sd.header.comments
@@ -827,7 +933,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         bandwidth_FWHM: Optional[Floating] = None,
         bandwidth_corrected: Optional[Boolean] = None,
         **kwargs,
-    ):
+    ) -> None:
 
         super().__init__(**kwargs)
 
@@ -847,7 +953,11 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                     Element_Specification_IESTM2714(
                         "BandwidthFWHM",
                         "bandwidth_FWHM",
-                        read_conversion=as_float_scalar,
+                        read_conversion=(
+                            lambda x: None
+                            if x == "None"
+                            else as_float_scalar(x)
+                        ),
                     ),
                     Element_Specification_IESTM2714(
                         "BandwidthCorrected",
@@ -856,7 +966,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                             lambda x: True if x == "true" else False
                         ),
                         write_conversion=(
-                            lambda x: "true" if x is True else "False"
+                            lambda x: "true" if x is True else "false"
                         ),
                     ),
                 ),
@@ -1217,6 +1327,340 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
         self._bandwidth_corrected = value
 
+    def __str__(self) -> str:
+        """
+        Return a formatted string representation of the *IES TM-27-14*
+        spectral distribution.
+
+        Returns
+        -------
+        :class:`str`
+            Formatted string representation.
+
+        Examples
+        --------
+        >>> from os.path import dirname, join
+        >>> directory = join(dirname(__file__), "tests", "resources")
+        >>> print(
+        ...     SpectralDistribution_IESTM2714(
+        ...         join(directory, "Fluorescent.spdx")
+        ...     ).read()
+        ... )
+        ... # doctest: +ELLIPSIS
+        IES TM-27-14 Spectral Distribution
+        ==================================
+        <BLANKLINE>
+        Path                  : ...
+        Spectral Quantity     : relative
+        Reflection Geometry   : other
+        Transmission Geometry : other
+        Bandwidth (FWHM)      : 2.0
+        Bandwidth Corrected   : True
+        <BLANKLINE>
+        Header
+        ------
+        <BLANKLINE>
+        Manufacturer           : Unknown
+        Catalog Number         : N/A
+        Description            : Rare earth fluorescent lamp
+        Document Creator       : byHeart Consultants
+        Unique Identifier      : C3567553-C75B-4354-961E-35CEB9FEB42C
+        Measurement Equipment  : None
+        Laboratory             : N/A
+        Report Number          : N/A
+        Report Date            : N/A
+        Document Creation Date : 2014-06-23
+        Comments               : Ambient temperature 25 degrees C.
+        <BLANKLINE>
+        Spectral Data
+        -------------
+        <BLANKLINE>
+        [[  4.00000000e+02   3.40000000e-02]
+         [  4.03100000e+02   3.70000000e-02]
+         [  4.05500000e+02   6.90000000e-02]
+         [  4.07500000e+02   3.70000000e-02]
+         [  4.20600000e+02   4.20000000e-02]
+         [  4.31000000e+02   4.90000000e-02]
+         [  4.33700000e+02   6.00000000e-02]
+         [  4.37000000e+02   3.57000000e-01]
+         [  4.38900000e+02   6.00000000e-02]
+         [  4.60000000e+02   6.80000000e-02]
+         [  4.77000000e+02   7.50000000e-02]
+         [  4.81000000e+02   8.50000000e-02]
+         [  4.88200000e+02   2.04000000e-01]
+         [  4.92600000e+02   1.66000000e-01]
+         [  5.01700000e+02   9.50000000e-02]
+         [  5.07600000e+02   7.80000000e-02]
+         [  5.17600000e+02   7.10000000e-02]
+         [  5.29900000e+02   7.60000000e-02]
+         [  5.35400000e+02   9.90000000e-02]
+         [  5.39900000e+02   4.23000000e-01]
+         [  5.43200000e+02   8.02000000e-01]
+         [  5.44400000e+02   7.13000000e-01]
+         [  5.47200000e+02   9.99000000e-01]
+         [  5.48700000e+02   5.73000000e-01]
+         [  5.50200000e+02   3.40000000e-01]
+         [  5.53800000e+02   2.08000000e-01]
+         [  5.57300000e+02   1.39000000e-01]
+         [  5.63700000e+02   1.29000000e-01]
+         [  5.74800000e+02   1.31000000e-01]
+         [  5.78000000e+02   1.98000000e-01]
+         [  5.79200000e+02   1.90000000e-01]
+         [  5.80400000e+02   2.05000000e-01]
+         [  5.84800000e+02   2.44000000e-01]
+         [  5.85900000e+02   2.36000000e-01]
+         [  5.87500000e+02   2.56000000e-01]
+         [  5.90300000e+02   1.80000000e-01]
+         [  5.93500000e+02   2.18000000e-01]
+         [  5.95500000e+02   1.59000000e-01]
+         [  5.97000000e+02   1.47000000e-01]
+         [  5.99400000e+02   1.70000000e-01]
+         [  6.02200000e+02   1.34000000e-01]
+         [  6.04600000e+02   1.21000000e-01]
+         [  6.07400000e+02   1.40000000e-01]
+         [  6.09400000e+02   2.29000000e-01]
+         [  6.10200000e+02   4.65000000e-01]
+         [  6.12000000e+02   9.52000000e-01]
+         [  6.14600000e+02   4.77000000e-01]
+         [  6.16900000e+02   2.08000000e-01]
+         [  6.18500000e+02   1.35000000e-01]
+         [  6.22100000e+02   1.50000000e-01]
+         [  6.25600000e+02   1.55000000e-01]
+         [  6.28400000e+02   1.34000000e-01]
+         [  6.31200000e+02   1.68000000e-01]
+         [  6.33200000e+02   8.70000000e-02]
+         [  6.35600000e+02   6.80000000e-02]
+         [  6.42700000e+02   5.80000000e-02]
+         [  6.48700000e+02   5.80000000e-02]
+         [  6.50700000e+02   7.40000000e-02]
+         [  6.52600000e+02   6.30000000e-02]
+         [  6.56200000e+02   5.30000000e-02]
+         [  6.57000000e+02   5.60000000e-02]
+         [  6.60600000e+02   4.90000000e-02]
+         [  6.62600000e+02   5.90000000e-02]
+         [  6.64200000e+02   4.80000000e-02]
+         [  6.86000000e+02   4.10000000e-02]
+         [  6.87600000e+02   4.80000000e-02]
+         [  6.89200000e+02   3.90000000e-02]
+         [  6.92400000e+02   3.80000000e-02]
+         [  6.93500000e+02   4.40000000e-02]
+         [  6.95500000e+02   3.40000000e-02]
+         [  7.02300000e+02   3.60000000e-02]
+         [  7.06700000e+02   4.20000000e-02]
+         [  7.07100000e+02   6.10000000e-02]
+         [  7.10200000e+02   6.10000000e-02]
+         [  7.11000000e+02   4.10000000e-02]
+         [  7.12200000e+02   5.20000000e-02]
+         [  7.14200000e+02   3.30000000e-02]
+         [  7.48400000e+02   3.40000000e-02]
+         [  7.57900000e+02   3.10000000e-02]
+         [  7.60700000e+02   3.90000000e-02]
+         [  7.63900000e+02   2.90000000e-02]
+         [  8.08800000e+02   2.90000000e-02]
+         [  8.10700000e+02   3.90000000e-02]
+         [  8.12700000e+02   3.00000000e-02]
+         [  8.50100000e+02   3.00000000e-02]]
+        """
+
+        try:
+            str_parent = super().__str__()
+
+            return multiline_str(
+                self,
+                [
+                    {
+                        "label": "IES TM-27-14 Spectral Distribution",
+                        "header": True,
+                    },
+                    {"line_break": True},
+                    {"name": "path", "label": "Path"},
+                    {
+                        "name": "spectral_quantity",
+                        "label": "Spectral Quantity",
+                    },
+                    {
+                        "name": "reflection_geometry",
+                        "label": "Reflection Geometry",
+                    },
+                    {
+                        "name": "transmission_geometry",
+                        "label": "Transmission Geometry",
+                    },
+                    {"name": "bandwidth_FWHM", "label": "Bandwidth (FWHM)"},
+                    {
+                        "name": "bandwidth_corrected",
+                        "label": "Bandwidth Corrected",
+                    },
+                    {"line_break": True},
+                    {"label": "Header", "section": True},
+                    {"line_break": True},
+                    {"formatter": lambda x: str(self.header)},
+                    {"line_break": True},
+                    {"label": "Spectral Data", "section": True},
+                    {"line_break": True},
+                    {"formatter": lambda x: str_parent},
+                ],
+            )
+        except TypeError:
+            return super().__str__()
+
+    def __repr__(self) -> str:
+        """
+        Return an evaluable string representation of the *IES TM-27-14*
+        spectral distribution.
+
+        Returns
+        -------
+        :class:`str`
+            Evaluable string representation.
+
+        Examples
+        --------
+        >>> from os.path import dirname, join
+        >>> directory = join(dirname(__file__), "tests", "resources")
+        >>> SpectralDistribution_IESTM2714(
+        ...     join(directory, "Fluorescent.spdx")
+        ... ).read()
+        ... # doctest: +ELLIPSIS
+        SpectralDistribution_IESTM2714('...',
+                                       Header_IESTM2714('Unknown',
+                                                        'N/A',
+                                                        'Rare earth ...',
+                                                        'byHeart Consultants',
+                                                        'C3567553-C75B-...',
+                                                        None,
+                                                        'N/A',
+                                                        'N/A',
+                                                        'N/A',
+                                                        '2014-06-23',
+                                                        'Ambient ...'),
+                                       'relative',
+                                       'other',
+                                       'other',
+                                       2.0,
+                                       True,
+                                       [[  4.00000000e+02,   3.40000000e-02],
+                                        [  4.03100000e+02,   3.70000000e-02],
+                                        [  4.05500000e+02,   6.90000000e-02],
+                                        [  4.07500000e+02,   3.70000000e-02],
+                                        [  4.20600000e+02,   4.20000000e-02],
+                                        [  4.31000000e+02,   4.90000000e-02],
+                                        [  4.33700000e+02,   6.00000000e-02],
+                                        [  4.37000000e+02,   3.57000000e-01],
+                                        [  4.38900000e+02,   6.00000000e-02],
+                                        [  4.60000000e+02,   6.80000000e-02],
+                                        [  4.77000000e+02,   7.50000000e-02],
+                                        [  4.81000000e+02,   8.50000000e-02],
+                                        [  4.88200000e+02,   2.04000000e-01],
+                                        [  4.92600000e+02,   1.66000000e-01],
+                                        [  5.01700000e+02,   9.50000000e-02],
+                                        [  5.07600000e+02,   7.80000000e-02],
+                                        [  5.17600000e+02,   7.10000000e-02],
+                                        [  5.29900000e+02,   7.60000000e-02],
+                                        [  5.35400000e+02,   9.90000000e-02],
+                                        [  5.39900000e+02,   4.23000000e-01],
+                                        [  5.43200000e+02,   8.02000000e-01],
+                                        [  5.44400000e+02,   7.13000000e-01],
+                                        [  5.47200000e+02,   9.99000000e-01],
+                                        [  5.48700000e+02,   5.73000000e-01],
+                                        [  5.50200000e+02,   3.40000000e-01],
+                                        [  5.53800000e+02,   2.08000000e-01],
+                                        [  5.57300000e+02,   1.39000000e-01],
+                                        [  5.63700000e+02,   1.29000000e-01],
+                                        [  5.74800000e+02,   1.31000000e-01],
+                                        [  5.78000000e+02,   1.98000000e-01],
+                                        [  5.79200000e+02,   1.90000000e-01],
+                                        [  5.80400000e+02,   2.05000000e-01],
+                                        [  5.84800000e+02,   2.44000000e-01],
+                                        [  5.85900000e+02,   2.36000000e-01],
+                                        [  5.87500000e+02,   2.56000000e-01],
+                                        [  5.90300000e+02,   1.80000000e-01],
+                                        [  5.93500000e+02,   2.18000000e-01],
+                                        [  5.95500000e+02,   1.59000000e-01],
+                                        [  5.97000000e+02,   1.47000000e-01],
+                                        [  5.99400000e+02,   1.70000000e-01],
+                                        [  6.02200000e+02,   1.34000000e-01],
+                                        [  6.04600000e+02,   1.21000000e-01],
+                                        [  6.07400000e+02,   1.40000000e-01],
+                                        [  6.09400000e+02,   2.29000000e-01],
+                                        [  6.10200000e+02,   4.65000000e-01],
+                                        [  6.12000000e+02,   9.52000000e-01],
+                                        [  6.14600000e+02,   4.77000000e-01],
+                                        [  6.16900000e+02,   2.08000000e-01],
+                                        [  6.18500000e+02,   1.35000000e-01],
+                                        [  6.22100000e+02,   1.50000000e-01],
+                                        [  6.25600000e+02,   1.55000000e-01],
+                                        [  6.28400000e+02,   1.34000000e-01],
+                                        [  6.31200000e+02,   1.68000000e-01],
+                                        [  6.33200000e+02,   8.70000000e-02],
+                                        [  6.35600000e+02,   6.80000000e-02],
+                                        [  6.42700000e+02,   5.80000000e-02],
+                                        [  6.48700000e+02,   5.80000000e-02],
+                                        [  6.50700000e+02,   7.40000000e-02],
+                                        [  6.52600000e+02,   6.30000000e-02],
+                                        [  6.56200000e+02,   5.30000000e-02],
+                                        [  6.57000000e+02,   5.60000000e-02],
+                                        [  6.60600000e+02,   4.90000000e-02],
+                                        [  6.62600000e+02,   5.90000000e-02],
+                                        [  6.64200000e+02,   4.80000000e-02],
+                                        [  6.86000000e+02,   4.10000000e-02],
+                                        [  6.87600000e+02,   4.80000000e-02],
+                                        [  6.89200000e+02,   3.90000000e-02],
+                                        [  6.92400000e+02,   3.80000000e-02],
+                                        [  6.93500000e+02,   4.40000000e-02],
+                                        [  6.95500000e+02,   3.40000000e-02],
+                                        [  7.02300000e+02,   3.60000000e-02],
+                                        [  7.06700000e+02,   4.20000000e-02],
+                                        [  7.07100000e+02,   6.10000000e-02],
+                                        [  7.10200000e+02,   6.10000000e-02],
+                                        [  7.11000000e+02,   4.10000000e-02],
+                                        [  7.12200000e+02,   5.20000000e-02],
+                                        [  7.14200000e+02,   3.30000000e-02],
+                                        [  7.48400000e+02,   3.40000000e-02],
+                                        [  7.57900000e+02,   3.10000000e-02],
+                                        [  7.60700000e+02,   3.90000000e-02],
+                                        [  7.63900000e+02,   2.90000000e-02],
+                                        [  8.08800000e+02,   2.90000000e-02],
+                                        [  8.10700000e+02,   3.90000000e-02],
+                                        [  8.12700000e+02,   3.00000000e-02],
+                                        [  8.50100000e+02,   3.00000000e-02]],
+                                       CubicSplineInterpolator,
+                                       {},
+                                       Extrapolator,
+                                       {...})
+        """
+
+        try:
+            return multiline_repr(
+                self,
+                [
+                    {"name": "path"},
+                    {"name": "header"},
+                    {"name": "spectral_quantity"},
+                    {"name": "reflection_geometry"},
+                    {"name": "transmission_geometry"},
+                    {"name": "bandwidth_FWHM"},
+                    {"name": "bandwidth_corrected"},
+                    {
+                        "formatter": lambda x: repr(
+                            tstack([self.domain, self.range])
+                        ),
+                    },
+                    {
+                        "name": "interpolator",
+                        "formatter": lambda x: self.interpolator.__name__,
+                    },
+                    {"name": "interpolator_kwargs"},
+                    {
+                        "name": "extrapolator",
+                        "formatter": lambda x: self.extrapolator.__name__,
+                    },
+                    {"name": "extrapolator_kwargs"},
+                ],
+            )
+        except TypeError:
+            return super().__repr__()
+
     def read(self) -> SpectralDistribution_IESTM2714:
         """
         Read and parses the spectral data *XML* file path.
@@ -1234,9 +1678,10 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         Examples
         --------
         >>> from os.path import dirname, join
-        >>> directory = join(dirname(__file__), 'tests', 'resources')
+        >>> directory = join(dirname(__file__), "tests", "resources")
         >>> sd = SpectralDistribution_IESTM2714(
-        ...     join(directory, 'Fluorescent.spdx')).read()
+        ...     join(directory, "Fluorescent.spdx")
+        ... ).read()
         >>> sd.name  # doctest: +SKIP
         'Unknown - N/A - Rare earth fluorescent lamp'
         >>> sd.header.comments
@@ -1326,11 +1771,12 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         >>> from os.path import dirname, join
         >>> from shutil import rmtree
         >>> from tempfile import mkdtemp
-        >>> directory = join(dirname(__file__), 'tests', 'resources')
+        >>> directory = join(dirname(__file__), "tests", "resources")
         >>> sd = SpectralDistribution_IESTM2714(
-        ...     join(directory, 'Fluorescent.spdx')).read()
+        ...     join(directory, "Fluorescent.spdx")
+        ... ).read()
         >>> temporary_directory = mkdtemp()
-        >>> sd.path = join(temporary_directory, 'Fluorescent.spdx')
+        >>> sd.path = join(temporary_directory, "Fluorescent.spdx")
         >>> sd.write()
         True
         >>> rmtree(temporary_directory)

@@ -164,6 +164,7 @@ def sd_mesopic_luminous_efficiency_function(
     >>> from colour.utilities import numpy_print_options
     >>> with numpy_print_options(suppress=True):
     ...     sd_mesopic_luminous_efficiency_function(0.2)  # doctest: +ELLIPSIS
+    ...
     SpectralDistribution([[ 380.        ,    0.000424 ...],
                           [ 381.        ,    0.0004781...],
                           [ 382.        ,    0.0005399...],
@@ -565,10 +566,10 @@ def sd_mesopic_luminous_efficiency_function(
                           [ 778.        ,    0.0000086...],
                           [ 779.        ,    0.0000080...],
                           [ 780.        ,    0.0000075...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     """
 
     photopic_lef = cast(
@@ -593,13 +594,11 @@ def sd_mesopic_luminous_efficiency_function(
         max([photopic_lef.shape.interval, scotopic_lef.shape.interval]),
     )
 
-    wavelengths = shape.range()
-
     sd = SpectralDistribution(
         mesopic_weighting_function(
-            wavelengths, L_p, source, method, photopic_lef, scotopic_lef
+            shape.wavelengths, L_p, source, method, photopic_lef, scotopic_lef
         ),
-        wavelengths,
+        shape.wavelengths,
         name=f"{L_p} Lp Mesopic Luminous Efficiency Function",
     )
 

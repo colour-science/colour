@@ -1,8 +1,9 @@
-"""Defines the unit tests for the :mod:`colour.temperature.kang2002` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.temperature.kang2002` module."""
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.temperature import xy_to_CCT_Kang2002, CCT_to_xy_Kang2002
 from colour.utilities import ignore_numpy_errors
@@ -73,11 +74,15 @@ class TestXy_to_CCT_Kang2002(unittest.TestCase):
 
         uv = np.tile(uv, (6, 1))
         CCT = np.tile(CCT, 6)
-        np.testing.assert_almost_equal(xy_to_CCT_Kang2002(uv), CCT, decimal=7)
+        np.testing.assert_array_almost_equal(
+            xy_to_CCT_Kang2002(uv), CCT, decimal=7
+        )
 
         uv = np.reshape(uv, (2, 3, 2))
         CCT = np.reshape(CCT, (2, 3))
-        np.testing.assert_almost_equal(xy_to_CCT_Kang2002(uv), CCT, decimal=7)
+        np.testing.assert_array_almost_equal(
+            xy_to_CCT_Kang2002(uv), CCT, decimal=7
+        )
 
     @ignore_numpy_errors
     def test_nan_xy_to_CCT_Kang2002(self):
@@ -87,9 +92,8 @@ class TestXy_to_CCT_Kang2002(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            xy_to_CCT_Kang2002(case)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        xy_to_CCT_Kang2002(cases)
 
 
 class TestCCT_to_xy_Kang2002(unittest.TestCase):
@@ -104,19 +108,19 @@ class TestCCT_to_xy_Kang2002(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_xy_Kang2002(4000),
             np.array([0.380528282812500, 0.376733530961114]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_xy_Kang2002(7000),
             np.array([0.306374019533528, 0.316552869726577]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_xy_Kang2002(25000),
             np.array([0.252472994438400, 0.252254791243654]),
             decimal=7,
@@ -133,11 +137,15 @@ class TestCCT_to_xy_Kang2002(unittest.TestCase):
 
         CCT = np.tile(CCT, 6)
         xy = np.tile(xy, (6, 1))
-        np.testing.assert_almost_equal(CCT_to_xy_Kang2002(CCT), xy, decimal=7)
+        np.testing.assert_array_almost_equal(
+            CCT_to_xy_Kang2002(CCT), xy, decimal=7
+        )
 
         CCT = np.reshape(CCT, (2, 3))
         xy = np.reshape(xy, (2, 3, 2))
-        np.testing.assert_almost_equal(CCT_to_xy_Kang2002(CCT), xy, decimal=7)
+        np.testing.assert_array_almost_equal(
+            CCT_to_xy_Kang2002(CCT), xy, decimal=7
+        )
 
     @ignore_numpy_errors
     def test_nan_CCT_to_xy_Kang2002(self):
@@ -147,9 +155,8 @@ class TestCCT_to_xy_Kang2002(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            CCT_to_xy_Kang2002(case)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        CCT_to_xy_Kang2002(cases)
 
 
 if __name__ == "__main__":

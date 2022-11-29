@@ -124,6 +124,8 @@ from colour.algebra import (
     cartesian_to_cylindrical,
     euclidean_distance,
     polar_to_cartesian,
+    sdiv,
+    sdiv_mode,
     spow,
 )
 from colour.colorimetry import CCS_ILLUMINANTS, luminance_ASTMD1535
@@ -152,7 +154,7 @@ from colour.volume import is_within_macadam_limits
 from colour.notation import MUNSELL_COLOURS_ALL
 from colour.utilities import (
     CACHE_REGISTRY,
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     Lookup,
     as_float,
     as_float_array,
@@ -260,17 +262,17 @@ CCS_ILLUMINANT_MUNSELL: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][ILLUMINANT_NAME_MUNSELL]
 
-_MUNSELL_SPECIFICATIONS_CACHE: Dict = CACHE_REGISTRY.register_cache(
-    f"{__name__}._MUNSELL_SPECIFICATIONS_CACHE"
+_CACHE_MUNSELL_SPECIFICATIONS: Dict = CACHE_REGISTRY.register_cache(
+    f"{__name__}._CACHE_MUNSELL_SPECIFICATIONS"
 )
-_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE: Dict = (
+_CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR: Dict = (
     CACHE_REGISTRY.register_cache(
-        f"{__name__}._MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE"
+        f"{__name__}._CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR"
     )
 )
-_MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE: Dict = (
+_CACHE_MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION: Dict = (
     CACHE_REGISTRY.register_cache(
-        f"{__name__}._MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE"
+        f"{__name__}._CACHE_MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION"
     )
 )
 
@@ -302,10 +304,10 @@ def _munsell_specifications() -> NDArray:
         *Munsell Renotation System* specifications.
     """
 
-    global _MUNSELL_SPECIFICATIONS_CACHE
+    global _CACHE_MUNSELL_SPECIFICATIONS
 
-    if "All" in _MUNSELL_SPECIFICATIONS_CACHE:
-        return _MUNSELL_SPECIFICATIONS_CACHE["All"]
+    if "All" in _CACHE_MUNSELL_SPECIFICATIONS:
+        return _CACHE_MUNSELL_SPECIFICATIONS["All"]
 
     munsell_specifications = np.array(
         [
@@ -316,7 +318,7 @@ def _munsell_specifications() -> NDArray:
         ]
     )
 
-    _MUNSELL_SPECIFICATIONS_CACHE["All"] = munsell_specifications
+    _CACHE_MUNSELL_SPECIFICATIONS["All"] = munsell_specifications
 
     return munsell_specifications
 
@@ -332,12 +334,12 @@ def _munsell_value_ASTMD1535_interpolator() -> Extrapolator:
         *Munsell* value interpolator for *ASTM D1535-08e1* method.
     """
 
-    global _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE
+    global _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR
 
     if "ASTM D1535-08 Interpolator" in (
-        _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE
+        _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR
     ):
-        return _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE[
+        return _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR[
             "ASTM D1535-08 Interpolator"
         ]
 
@@ -347,7 +349,7 @@ def _munsell_value_ASTMD1535_interpolator() -> Extrapolator:
     )
     extrapolator = Extrapolator(interpolator)
 
-    _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE[
+    _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR[
         "ASTM D1535-08 Interpolator"
     ] = extrapolator
 
@@ -367,12 +369,12 @@ def _munsell_maximum_chromas_from_renotation() -> Tuple[
         Maximum *Munsell* chromas.
     """
 
-    global _MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE
+    global _CACHE_MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION
 
     if "Maximum Chromas From Renotation" in (
-        _MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE
+        _CACHE_MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION
     ):
-        return _MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE[
+        return _CACHE_MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION[
             "Maximum Chromas From Renotation"
         ]
 
@@ -393,7 +395,7 @@ def _munsell_maximum_chromas_from_renotation() -> Tuple[
         zip(chromas.keys(), chromas.values())
     )
 
-    _MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE[
+    _CACHE_MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION[
         "Maximum Chromas From Renotation"
     ] = maximum_chromas_from_renotation
 
@@ -672,17 +674,18 @@ def munsell_value_McCamy1987(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Y = to_domain_100(Y)
 
-    V = np.where(
-        Y <= 0.9,
-        0.87445 * spow(Y, 0.9967),
-        2.49268 * spow(Y, 1 / 3)
-        - 1.5614
-        - (0.985 / (((0.1073 * Y - 3.084) ** 2) + 7.54))
-        + (0.0133 / spow(Y, 2.3))
-        + 0.0084 * np.sin(4.1 * spow(Y, 1 / 3) + 1)
-        + (0.0221 / Y) * np.sin(0.39 * (Y - 2))
-        - (0.0037 / (0.44 * Y)) * np.sin(1.28 * (Y - 0.53)),
-    )
+    with sdiv_mode():
+        V = np.where(
+            Y <= 0.9,
+            0.87445 * spow(Y, 0.9967),
+            2.49268 * spow(Y, 1 / 3)
+            - 1.5614
+            - (0.985 / (((0.1073 * Y - 3.084) ** 2) + 7.54))
+            + sdiv(0.0133, spow(Y, 2.3))
+            + 0.0084 * np.sin(4.1 * spow(Y, 1 / 3) + 1)
+            + sdiv(0.0221, Y) * np.sin(0.39 * (Y - 2))
+            - (sdiv(0.0037, 0.44 * Y)) * np.sin(1.28 * (Y - 0.53)),
+        )
 
     return as_float(from_range_10(V))
 
@@ -736,7 +739,7 @@ def munsell_value_ASTMD1535(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_10(V))
 
 
-MUNSELL_VALUE_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+MUNSELL_VALUE_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Priest 1920": munsell_value_Priest1920,
         "Munsell 1933": munsell_value_Munsell1933,
@@ -814,18 +817,18 @@ def munsell_value(
     --------
     >>> munsell_value(12.23634268)  # doctest: +ELLIPSIS
     4.0824437...
-    >>> munsell_value(12.23634268, method='Priest 1920') # doctest: +ELLIPSIS
+    >>> munsell_value(12.23634268, method="Priest 1920")  # doctest: +ELLIPSIS
     3.4980484...
-    >>> munsell_value(12.23634268, method='Munsell 1933') # doctest: +ELLIPSIS
+    >>> munsell_value(12.23634268, method="Munsell 1933")  # doctest: +ELLIPSIS
     4.1627702...
-    >>> munsell_value(12.23634268, method='Moon 1943') # doctest: +ELLIPSIS
+    >>> munsell_value(12.23634268, method="Moon 1943")  # doctest: +ELLIPSIS
     4.0688120...
-    >>> munsell_value(12.23634268, method='Saunderson 1944')
+    >>> munsell_value(12.23634268, method="Saunderson 1944")
     ... # doctest: +ELLIPSIS
     4.0444736...
-    >>> munsell_value(12.23634268, method='Ladd 1955') # doctest: +ELLIPSIS
+    >>> munsell_value(12.23634268, method="Ladd 1955")  # doctest: +ELLIPSIS
     4.0511633...
-    >>> munsell_value(12.23634268, method='McCamy 1987') # doctest: +ELLIPSIS
+    >>> munsell_value(12.23634268, method="McCamy 1987")  # doctest: +ELLIPSIS
     4.0814348...
     """
 
@@ -1014,9 +1017,9 @@ def munsell_colour_to_xyY(munsell_colour: StrOrArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> munsell_colour_to_xyY('4.2YR 8.1/5.3')  # doctest: +ELLIPSIS
+    >>> munsell_colour_to_xyY("4.2YR 8.1/5.3")  # doctest: +ELLIPSIS
     array([ 0.3873694...,  0.3575165...,  0.59362   ])
-    >>> munsell_colour_to_xyY('N8.9')  # doctest: +ELLIPSIS
+    >>> munsell_colour_to_xyY("N8.9")  # doctest: +ELLIPSIS
     array([ 0.31006  ,  0.31616  ,  0.7461345...])
     """
 
@@ -1061,6 +1064,8 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArray:
         a result.
     """
 
+    xyY = as_float_array(xyY)
+
     x, y, Y = tsplit(xyY)
     Y = to_domain_1(Y)
 
@@ -1090,14 +1095,16 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArray:
     if rho_input < grey_threshold:
         return from_range_10(normalise_munsell_specification(value))
 
-    X, Y, Z = xyY_to_XYZ([x, y, Y])
-    xi, yi = CCS_ILLUMINANT_MUNSELL
-    Xr, Yr, Zr = xyY_to_XYZ([xi, yi, Y])
+    XYZ = xyY_to_XYZ(xyY)
 
-    XYZ = np.array([X, Y, Z])
-    XYZr = np.array([(1 / Yr) * Xr, 1, (1 / Yr) * Zr])
+    _X, Y, _Z = tsplit(XYZ)
+    x_i, y_i = CCS_ILLUMINANT_MUNSELL
+    X_r, Y_r, Z_r = xyY_to_XYZ([x_i, y_i, Y])
 
-    Lab = XYZ_to_Lab(XYZ, XYZ_to_xy(XYZr))
+    with sdiv_mode():
+        XYZ_r = np.array([(1 / Y_r) * X_r, 1, (1 / Y_r) * Z_r])
+
+    Lab = XYZ_to_Lab(XYZ, XYZ_to_xy(XYZ_r))
     LCHab = Lab_to_LCHab(Lab)
     hue_initial, _value_initial, chroma_initial, code_initial = tsplit(
         LCHab_to_munsell_specification(LCHab)
@@ -1281,9 +1288,11 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArray:
                     "without convergence!"
                 )
 
-            chroma_inner = (
-                (rho_input / rho_current) ** iterations_inner
-            ) * chroma_current
+            with sdiv_mode():
+                chroma_inner = (
+                    (rho_input / rho_current) ** iterations_inner
+                ) * chroma_current
+
             if chroma_inner > chroma_maximum:
                 chroma_inner = specification_current[2] = chroma_maximum
 
@@ -1489,9 +1498,9 @@ def parse_munsell_colour(munsell_colour: str) -> NDArray:
 
     Examples
     --------
-    >>> parse_munsell_colour('N5.2')
+    >>> parse_munsell_colour("N5.2")
     array([ nan,  5.2,  nan,  nan])
-    >>> parse_munsell_colour('0YR 2.0/4.0')
+    >>> parse_munsell_colour("0YR 2.0/4.0")
     array([ 0.,  2.,  4.,  6.])
     """
 
@@ -1570,11 +1579,11 @@ def normalise_munsell_specification(specification: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> normalise_munsell_specification(
-    ...     np.array([0.0, 2.0, 4.0, 6]))
+    >>> normalise_munsell_specification(np.array([0.0, 2.0, 4.0, 6]))
     array([ 10.,   2.,   4.,   7.])
     >>> normalise_munsell_specification(
-    ...     np.array([np.nan, 0.5, np.nan, np.nan]))
+    ...     np.array([np.nan, 0.5, np.nan, np.nan])
+    ... )
     array([ nan,  0.5,  nan,  nan])
     """
 
@@ -1612,9 +1621,9 @@ def munsell_colour_to_munsell_specification(munsell_colour: str) -> NDArray:
 
     Examples
     --------
-    >>> munsell_colour_to_munsell_specification('N5.2')
+    >>> munsell_colour_to_munsell_specification("N5.2")
     array([ nan,  5.2,  nan,  nan])
-    >>> munsell_colour_to_munsell_specification('0YR 2.0/4.0')
+    >>> munsell_colour_to_munsell_specification("0YR 2.0/4.0")
     array([ 10.,   2.,   4.,   7.])
     """
 
@@ -1651,10 +1660,10 @@ def munsell_specification_to_munsell_colour(
     Examples
     --------
     >>> munsell_specification_to_munsell_colour(
-    ...     np.array([np.nan, 5.2, np.nan, np.nan]))
+    ...     np.array([np.nan, 5.2, np.nan, np.nan])
+    ... )
     'N5.2'
-    >>> munsell_specification_to_munsell_colour(
-    ...     np.array([10, 2.0, 4.0, 7]))
+    >>> munsell_specification_to_munsell_colour(np.array([10, 2.0, 4.0, 7]))
     '10.0R 2.0/4.0'
     """
 

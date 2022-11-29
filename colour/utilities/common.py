@@ -6,6 +6,9 @@ Defines the common utilities objects that don't fall in any specific category.
 
 References
 ----------
+-   :cite:`DjangoSoftwareFoundation2022` : Django Software Foundation. (2022).
+    slugify. Retrieved June 1, 2022, from https://github.com/django/django/\
+blob/0dd29209091280ccf34e07c9468746c396b7778e/django/utils/text.py#L400
 -   :cite:`Kienzle2011a` : Kienzle, P., Patel, N., & Krycka, J. (2011).
     refl1d.numpyerrors - Refl1D v0.6.19 documentation. Retrieved January 30,
     2015, from
@@ -16,11 +19,11 @@ numpyerrors.html
 from __future__ import annotations
 
 import inspect
-import multiprocessing
-import multiprocessing.pool
 import functools
 import numpy as np
 import re
+import subprocess  # nosec
+import unicodedata
 import types
 import warnings
 from contextlib import contextmanager
@@ -33,18 +36,18 @@ from colour.hints import (
     Boolean,
     Callable,
     Dict,
+    DTypeBoolean,
     Generator,
     Integer,
     Iterable,
     Literal,
     Mapping,
     Optional,
-    RegexFlag,
     Sequence,
     TypeVar,
     Union,
 )
-from colour.utilities import CaseInsensitiveMapping, Lookup
+from colour.utilities import CanonicalMapping, Lookup
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -66,12 +69,13 @@ __all__ = [
     "batch",
     "disable_multiprocessing",
     "multiprocessing_pool",
+    "is_ctlrender_installed",
+    "is_graphviz_installed",
     "is_matplotlib_installed",
     "is_networkx_installed",
     "is_opencolorio_installed",
     "is_openimageio_installed",
     "is_pandas_installed",
-    "is_sklearn_installed",
     "is_tqdm_installed",
     "is_trimesh_installed",
     "required",
@@ -86,6 +90,7 @@ __all__ = [
     "copy_definition",
     "validate_method",
     "optional",
+    "slugify",
 ]
 
 
@@ -109,25 +114,25 @@ class CacheRegistry:
     Examples
     --------
     >>> cache_registry = CacheRegistry()
-    >>> cache_a = cache_registry.register_cache('Cache A')
-    >>> cache_a['Foo'] = 'Bar'
-    >>> cache_b = cache_registry.register_cache('Cache B')
-    >>> cache_b['John'] = 'Doe'
-    >>> cache_b['Luke'] = 'Skywalker'
+    >>> cache_a = cache_registry.register_cache("Cache A")
+    >>> cache_a["Foo"] = "Bar"
+    >>> cache_b = cache_registry.register_cache("Cache B")
+    >>> cache_b["John"] = "Doe"
+    >>> cache_b["Luke"] = "Skywalker"
     >>> print(cache_registry)
     {'Cache A': '1 item(s)', 'Cache B': '2 item(s)'}
-    >>> cache_registry.clear_cache('Cache A')
+    >>> cache_registry.clear_cache("Cache A")
     >>> print(cache_registry)
     {'Cache A': '0 item(s)', 'Cache B': '2 item(s)'}
-    >>> cache_registry.unregister_cache('Cache B')
+    >>> cache_registry.unregister_cache("Cache B")
     >>> print(cache_registry)
     {'Cache A': '0 item(s)'}
     >>> print(cache_b)
     {}
     """
 
-    def __init__(self):
-        self._registry = {}
+    def __init__(self) -> None:
+        self._registry: Dict = {}
 
     @property
     def registry(self) -> Dict:
@@ -176,11 +181,11 @@ class CacheRegistry:
         Examples
         --------
         >>> cache_registry = CacheRegistry()
-        >>> cache_a = cache_registry.register_cache('Cache A')
-        >>> cache_a['Foo'] = 'Bar'
-        >>> cache_b = cache_registry.register_cache('Cache B')
-        >>> cache_b['John'] = 'Doe'
-        >>> cache_b['Luke'] = 'Skywalker'
+        >>> cache_a = cache_registry.register_cache("Cache A")
+        >>> cache_a["Foo"] = "Bar"
+        >>> cache_b = cache_registry.register_cache("Cache B")
+        >>> cache_b["John"] = "Doe"
+        >>> cache_b["Luke"] = "Skywalker"
         >>> print(cache_registry)
         {'Cache A': '1 item(s)', 'Cache B': '2 item(s)'}
         """
@@ -205,14 +210,14 @@ class CacheRegistry:
         Examples
         --------
         >>> cache_registry = CacheRegistry()
-        >>> cache_a = cache_registry.register_cache('Cache A')
-        >>> cache_a['Foo'] = 'Bar'
-        >>> cache_b = cache_registry.register_cache('Cache B')
-        >>> cache_b['John'] = 'Doe'
-        >>> cache_b['Luke'] = 'Skywalker'
+        >>> cache_a = cache_registry.register_cache("Cache A")
+        >>> cache_a["Foo"] = "Bar"
+        >>> cache_b = cache_registry.register_cache("Cache B")
+        >>> cache_b["John"] = "Doe"
+        >>> cache_b["Luke"] = "Skywalker"
         >>> print(cache_registry)
         {'Cache A': '1 item(s)', 'Cache B': '2 item(s)'}
-        >>> cache_registry.unregister_cache('Cache B')
+        >>> cache_registry.unregister_cache("Cache B")
         >>> print(cache_registry)
         {'Cache A': '1 item(s)'}
         >>> print(cache_b)
@@ -235,11 +240,11 @@ class CacheRegistry:
         Examples
         --------
         >>> cache_registry = CacheRegistry()
-        >>> cache_a = cache_registry.register_cache('Cache A')
-        >>> cache_a['Foo'] = 'Bar'
+        >>> cache_a = cache_registry.register_cache("Cache A")
+        >>> cache_a["Foo"] = "Bar"
         >>> print(cache_registry)
         {'Cache A': '1 item(s)'}
-        >>> cache_registry.clear_cache('Cache A')
+        >>> cache_registry.clear_cache("Cache A")
         >>> print(cache_registry)
         {'Cache A': '0 item(s)'}
         """
@@ -253,11 +258,11 @@ class CacheRegistry:
         Examples
         --------
         >>> cache_registry = CacheRegistry()
-        >>> cache_a = cache_registry.register_cache('Cache A')
-        >>> cache_a['Foo'] = 'Bar'
-        >>> cache_b = cache_registry.register_cache('Cache B')
-        >>> cache_b['John'] = 'Doe'
-        >>> cache_b['Luke'] = 'Skywalker'
+        >>> cache_a = cache_registry.register_cache("Cache A")
+        >>> cache_a["Foo"] = "Bar"
+        >>> cache_b = cache_registry.register_cache("Cache B")
+        >>> cache_b["John"] = "Doe"
+        >>> cache_b["Luke"] = "Skywalker"
         >>> print(cache_registry)
         {'Cache A': '1 item(s)', 'Cache B': '2 item(s)'}
         >>> cache_registry.clear_all_caches()
@@ -298,9 +303,10 @@ def handle_numpy_errors(**kwargs: Any) -> Callable:
     Examples
     --------
     >>> import numpy
-    >>> @handle_numpy_errors(all='ignore')
+    >>> @handle_numpy_errors(all="ignore")
     ... def f():
     ...     1 / numpy.zeros(3)
+    ...
     >>> f()
     """
 
@@ -344,7 +350,8 @@ def ignore_python_warnings(function: Callable) -> Callable:
     --------
     >>> @ignore_python_warnings
     ... def f():
-    ...     warnings.warn('This is an ignored warning!')
+    ...     warnings.warn("This is an ignored warning!")
+    ...
     >>> f()
     """
 
@@ -360,7 +367,7 @@ def ignore_python_warnings(function: Callable) -> Callable:
     return wrapper
 
 
-def attest(condition: Boolean, message: str = ""):
+def attest(condition: Union[Boolean, DTypeBoolean], message: str = ""):
     """
     Provide the `assert` statement functionality without being disabled by
     optimised Python execution.
@@ -470,6 +477,15 @@ def _initializer(kwargs: Any):
         "scale", "reference"
     )  # pragma: no cover
 
+    import colour.algebra.common  # pragma: no cover
+
+    colour.algebra.common._SDIV_MODE = kwargs.get(
+        "sdiv_mode", "Ignore Zero Conversion"
+    )  # pragma: no cover
+    colour.algebra.common._SPOW_ENABLED = kwargs.get(
+        "spow_enabled", True
+    )  # pragma: no cover
+
 
 @contextmanager
 def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
@@ -493,12 +509,15 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
     >>> from functools import partial
     >>> def _add(a, b):
     ...     return a + b
+    ...
     >>> with multiprocessing_pool() as pool:
     ...     pool.map(partial(_add, b=2), range(10))
     ... # doctest: +SKIP
+    ...
     [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
     """
 
+    from colour.algebra import get_sdiv_mode, is_spow_enabled
     from colour.utilities import get_domain_range_scale
 
     class _DummyPool:
@@ -513,7 +532,7 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
             Keywords arguments.
         """
 
-        def __init__(self, *args: Any, **kwargs: Any):
+        def __init__(self, *args: Any, **kwargs: Any) -> None:
             pass
 
         def map(self, func, iterable, chunksize=None):
@@ -527,10 +546,18 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
             pass
 
     kwargs["initializer"] = _initializer
-    kwargs["initargs"] = ({"scale": get_domain_range_scale()},)
+    kwargs["initargs"] = (
+        {
+            "scale": get_domain_range_scale(),
+            "sdiv_mode": get_sdiv_mode(),
+            "spow_enabled": is_spow_enabled(),
+        },
+    )
 
     pool_factory: Callable
     if _MULTIPROCESSING_ENABLED:
+        import multiprocessing
+
         pool_factory = multiprocessing.Pool
     else:
         pool_factory = _DummyPool
@@ -541,6 +568,84 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
         yield pool
     finally:
         pool.terminate()
+
+
+def is_ctlrender_installed(raise_exception: Boolean = False) -> Boolean:
+    """
+    Return whether *ctlrender* is installed and available.
+
+    Parameters
+    ----------
+    raise_exception
+        Whether to raise an exception if *ctlrender* is unavailable.
+
+    Returns
+    -------
+    :class:`bool`
+        Whether *ctlrender* is installed.
+
+    Raises
+    ------
+    :class:`ImportError`
+        If *ctlrender* is not installed.
+    """
+
+    try:  # pragma: no cover
+        stdout = subprocess.run(
+            ["ctlrender", "-help"], capture_output=True
+        ).stdout.decode(
+            "utf-8"
+        )  # nosec
+
+        if "transforms an image using one or more CTL scripts" not in stdout:
+            raise FileNotFoundError()
+
+        return True
+    except FileNotFoundError as error:  # pragma: no cover
+        if raise_exception:
+            raise FileNotFoundError(
+                '"ctlrender" related API features are not available: '
+                f'"{error}".\nSee the installation guide for more information: '
+                "https://www.colour-science.org/installation-guide/"
+            )
+
+        return False
+
+
+def is_graphviz_installed(raise_exception: Boolean = False) -> Boolean:
+    """
+    Return whether *Graphviz* is installed and available.
+
+    Parameters
+    ----------
+    raise_exception
+        Whether to raise an exception if *Graphviz* is unavailable.
+
+    Returns
+    -------
+    :class:`bool`
+        Whether *Graphviz* is installed.
+
+    Raises
+    ------
+    :class:`ImportError`
+        If *Graphviz* is not installed.
+    """
+
+    try:  # pragma: no cover
+        # pylint: disable=W0611
+        import pygraphviz  # noqa
+
+        return True
+    except ImportError as error:  # pragma: no cover
+        if raise_exception:
+            raise ImportError(
+                '"Graphviz" related API features are not available: '
+                f'"{error}".\nSee the installation guide for more information: '
+                "https://www.colour-science.org/installation-guide/"
+            )
+
+        return False
 
 
 def is_matplotlib_installed(raise_exception: Boolean = False) -> Boolean:
@@ -564,7 +669,7 @@ def is_matplotlib_installed(raise_exception: Boolean = False) -> Boolean:
     """
 
     try:  # pragma: no cover
-        # pylint: disable=W0612
+        # pylint: disable=W0611
         import matplotlib  # noqa
 
         return True
@@ -600,7 +705,7 @@ def is_networkx_installed(raise_exception: Boolean = False) -> Boolean:
     """
 
     try:  # pragma: no cover
-        # pylint: disable=W0612
+        # pylint: disable=W0611
         import networkx  # noqa
 
         return True
@@ -637,7 +742,7 @@ def is_opencolorio_installed(raise_exception: Boolean = False) -> Boolean:
     """
 
     try:  # pragma: no cover
-        # pylint: disable=W0612
+        # pylint: disable=W0611
         import PyOpenColorIO  # noqa
 
         return True
@@ -673,7 +778,7 @@ def is_openimageio_installed(raise_exception: Boolean = False) -> Boolean:
     """
 
     try:  # pragma: no cover
-        # pylint: disable=W0612
+        # pylint: disable=W0611
         import OpenImageIO  # noqa
 
         return True
@@ -709,7 +814,7 @@ def is_pandas_installed(raise_exception: Boolean = False) -> Boolean:
     """
 
     try:  # pragma: no cover
-        # pylint: disable=W0612
+        # pylint: disable=W0611
         import pandas  # noqa
 
         return True
@@ -718,43 +823,6 @@ def is_pandas_installed(raise_exception: Boolean = False) -> Boolean:
             raise ImportError(
                 f'"Pandas" related API features are not available: "{error}".\n'
                 "See the installation guide for more information: "
-                "https://www.colour-science.org/installation-guide/"
-            )
-
-        return False
-
-
-def is_sklearn_installed(raise_exception: Boolean = False) -> Boolean:
-    """
-    Return whether *Scikit-Learn* (sklearn) is installed and available.
-
-    Parameters
-    ----------
-    raise_exception
-        Whether to raise an exception if *Scikit-Learn* (sklearn) is
-        unavailable.
-
-    Returns
-    -------
-    :class:`bool`
-        Whether *Scikit- isLearn* (sklearn) installed.
-
-    Raises
-    ------
-    :class:`ImportError`
-        If *Scikit-Learn* (sklearn) is not installed.
-    """
-
-    try:  # pragma: no cover
-        # pylint: disable=W0612
-        import sklearn  # noqa
-
-        return True
-    except ImportError as error:  # pragma: no cover
-        if raise_exception:
-            raise ImportError(
-                '"Scikit-Learn" related API features are not available: '
-                f'"{error}".\nSee the installation guide for more information: '
                 "https://www.colour-science.org/installation-guide/"
             )
 
@@ -782,7 +850,7 @@ def is_tqdm_installed(raise_exception: Boolean = False) -> Boolean:
     """
 
     try:  # pragma: no cover
-        # pylint: disable=W0612
+        # pylint: disable=W0611
         import tqdm  # noqa
 
         return True
@@ -818,7 +886,7 @@ def is_trimesh_installed(raise_exception: Boolean = False) -> Boolean:
     """
 
     try:  # pragma: no cover
-        # pylint: disable=W0612
+        # pylint: disable=W0611
         import trimesh  # noqa
 
         return True
@@ -833,35 +901,33 @@ def is_trimesh_installed(raise_exception: Boolean = False) -> Boolean:
         return False
 
 
-_REQUIREMENTS_TO_CALLABLE: CaseInsensitiveMapping = CaseInsensitiveMapping(
+_REQUIREMENTS_TO_CALLABLE: CanonicalMapping = CanonicalMapping(
     {
+        "ctlrender": is_ctlrender_installed,
+        "Graphviz": is_graphviz_installed,
         "Matplotlib": is_matplotlib_installed,
         "NetworkX": is_networkx_installed,
         "OpenColorIO": is_opencolorio_installed,
         "OpenImageIO": is_openimageio_installed,
         "Pandas": is_pandas_installed,
-        "Scikit-Learn": is_sklearn_installed,
         "tqdm": is_tqdm_installed,
         "trimesh": is_trimesh_installed,
     }
 )
 """
 Mapping of requirements to their respective callables.
-
-_REQUIREMENTS_TO_CALLABLE
-    **{'Matplotlib', 'NetworkX', 'OpenColorIO', 'OpenImageIO', 'Pandas',
-    'Scikit-Learn', 'tqdm', 'trimesh'}**
 """
 
 
 def required(
     *requirements: Literal[
+        "ctlrender",
+        "Graphviz",
         "Matplotlib",
         "NetworkX",
         "OpenColorIO",
         "OpenImageIO",
         "Pandas",
-        "Scikit-Learn",
         "tqdm",
         "trimesh",
     ]
@@ -1058,10 +1124,13 @@ def filter_kwargs(function: Callable, **kwargs: Any) -> Dict:
     --------
     >>> def fn_a(a):
     ...     return a
+    ...
     >>> def fn_b(a, b=0):
     ...     return a, b
+    ...
     >>> def fn_c(a, b=0, c=0):
     ...     return a, b, c
+    ...
     >>> fn_a(1, **filter_kwargs(fn_a, b=2, c=3))
     1
     >>> fn_b(1, **filter_kwargs(fn_b, b=2, c=3))
@@ -1083,26 +1152,16 @@ def filter_kwargs(function: Callable, **kwargs: Any) -> Dict:
     return kwargs
 
 
-def filter_mapping(
-    mapping: Mapping,
-    filterers: Union[str, Sequence[str]],
-    anchors: Boolean = True,
-    flags: Union[Integer, RegexFlag] = re.IGNORECASE,
-) -> Dict:
+def filter_mapping(mapping: Mapping, names: Union[str, Sequence[str]]) -> Dict:
     """
-    Filter given mapping with given filterers.
+    Filter given mapping with given names.
 
     Parameters
     ----------
     mapping
         Mapping to filter.
-    filterers
-        Filterer pattern for given mapping elements or a list of filterers.
-    anchors
-        Whether to use Regex line anchors, i.e. *^* and *$* are added,
-        surrounding the filterer pattern.
-    flags
-        Regex flags.
+    names
+        Name for given mapping elements or a list of names.
 
     Returns
     -------
@@ -1111,45 +1170,37 @@ def filter_mapping(
 
     Notes
     -----
-    -   To honour the filterers ordering, the return value is an
-        :class:`dict` class instance.
+    -   If the mapping passed is a :class:`colour.utilities.CanonicalMapping`
+        class instance, then the lower, slugified and canonical keys are also
+        used for matching.
+    -   To honour the filterers ordering, the return value is a :class:`dict`
+        class instance.
 
     Examples
     --------
     >>> class Element:
     ...     pass
+    ...
     >>> mapping = {
-    ...     'Element A': Element(),
-    ...     'Element B': Element(),
-    ...     'Element C': Element(),
-    ...     'Not Element C': Element(),
+    ...     "Element A": Element(),
+    ...     "Element B": Element(),
+    ...     "Element C": Element(),
+    ...     "Not Element C": Element(),
     ... }
-    >>> filter_mapping(mapping, '\\w+\\s+A')  # doctest: +ELLIPSIS
+    >>> filter_mapping(mapping, "Element A")  # doctest: +ELLIPSIS
     {'Element A': <colour.utilities.common.Element object at 0x...>}
-    >>> sorted(filter_mapping(mapping, 'Element.*'))
-    ['Element A', 'Element B', 'Element C']
     """
 
-    def filter_mapping_with_filter(
-        mapping: Mapping,
-        filterer: str,
-        anchors: Boolean = True,
-        flags: Union[Integer, RegexFlag] = re.IGNORECASE,
-    ) -> Dict:
+    def filter_mapping_with_name(mapping: Mapping, name: str) -> Dict:
         """
-        Filter given mapping with given filterer.
+        Filter given mapping with given name.
 
         Parameters
         ----------
         mapping
             Mapping to filter.
-        filterer
-            Filterer pattern for given mapping elements.
-        anchors
-            Whether to use Regex line anchors, i.e. *^* and *$* are added,
-            surrounding the filterer pattern.
-        flags
-            Regex flags.
+        name
+            Name for given mapping elements.
 
         Returns
         -------
@@ -1157,15 +1208,14 @@ def filter_mapping(
             Filtered mapping elements.
         """
 
-        if anchors:
-            filterer = f"^{filterer}$"
-            filterer = filterer.replace("^^", "^").replace("$$", "$")
+        keys = list(mapping.keys())
 
-        elements = [
-            mapping[element]
-            for element in mapping
-            if re.match(filterer, element, flags)
-        ]
+        if isinstance(mapping, CanonicalMapping):
+            keys += list(mapping.lower_keys())
+            keys += list(mapping.slugified_keys())
+            keys += list(mapping.canonical_keys())
+
+        elements = [mapping[key] for key in keys if name == key]
 
         lookup = Lookup(mapping)
 
@@ -1174,14 +1224,12 @@ def filter_mapping(
             for element in elements
         }
 
-    filterers = [str(filterers)] if is_string(filterers) else filterers
+    names = [str(names)] if is_string(names) else names
 
     filtered_mapping = {}
 
-    for filterer in filterers:
-        filtered_mapping.update(
-            filter_mapping_with_filter(mapping, filterer, anchors, flags)
-        )
+    for filterer in names:
+        filtered_mapping.update(filter_mapping_with_name(mapping, filterer))
 
     return filtered_mapping
 
@@ -1236,10 +1284,10 @@ def copy_definition(
 
     copy = types.FunctionType(
         definition.__code__,
-        definition.__globals__,  # type: ignore[attr-defined]
+        definition.__globals__,
         str(name or definition.__name__),
-        definition.__defaults__,  # type: ignore[attr-defined]
-        definition.__closure__,  # type: ignore[attr-defined]
+        definition.__defaults__,
+        definition.__closure__,
     )
     copy.__dict__.update(definition.__dict__)
 
@@ -1276,7 +1324,7 @@ def validate_method(
 
     Examples
     --------
-    >>> validate_method('Valid', ['Valid', 'Yes', 'Ok'])
+    >>> validate_method("Valid", ["Valid", "Yes", "Ok"])
     'valid'
     """
 
@@ -1312,9 +1360,9 @@ def optional(value: Optional[T], default: T) -> T:
 
     Examples
     --------
-    >>> optional('Foo', 'Bar')
+    >>> optional("Foo", "Bar")
     'Foo'
-    >>> optional(None, 'Bar')
+    >>> optional(None, "Bar")
     'Bar'
     """
 
@@ -1322,3 +1370,52 @@ def optional(value: Optional[T], default: T) -> T:
         return default
     else:
         return value
+
+
+def slugify(object_: Any, allow_unicode: Boolean = False) -> str:
+    """
+    Generate a *SEO* friendly and human-readable slug from given object.
+
+    Convert to ASCII if ``allow_unicode`` is *False*. Convert spaces or
+    repeated dashes to single dashes. Remove characters that aren't
+    alphanumerics, underscores, or hyphens. Convert to lowercase. Also strip
+    leading and trailing whitespace, dashes, and underscores.
+
+    Parameters
+    ----------
+    object_
+        Object to convert to a slug.
+    allow_unicode
+        Whether to allow unicode characters in the generated slug.
+
+    Returns
+    -------
+    :class:`str`
+        Generated slug.
+
+    References
+    ----------
+    :cite:`DjangoSoftwareFoundation2022`
+
+    Examples
+    --------
+    >>> slugify(
+    ...     " Jack & Jill like numbers 1,2,3 and 4 and silly characters ?%.$!/"
+    ... )
+    'jack-jill-like-numbers-123-and-4-and-silly-characters'
+    """
+
+    value = str(object_)
+
+    if allow_unicode:
+        value = unicodedata.normalize("NFKC", value)
+    else:
+        value = (
+            unicodedata.normalize("NFKD", value)
+            .encode("ascii", "ignore")
+            .decode("ascii")
+        )
+
+    value = re.sub(r"[^\w\s-]", "", value.lower())
+
+    return re.sub(r"[-\s]+", "-", value).strip("-_")

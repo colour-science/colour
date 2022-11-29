@@ -14,7 +14,6 @@ Defines various RGB colourspace volume computation objects:
 from __future__ import annotations
 
 import itertools
-import multiprocessing
 import numpy as np
 
 from colour.algebra import random_triplet_generator
@@ -27,6 +26,7 @@ from colour.hints import (
     Integer,
     Literal,
     NDArray,
+    Optional,
     Tuple,
     Union,
 )
@@ -83,25 +83,27 @@ def sample_RGB_colourspace_volume_MonteCarlo(
     illuminant_Lab: ArrayLike = CCS_ILLUMINANTS[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-    chromatic_adaptation_transform: Union[
-        Literal[
-            "Bianco 2010",
-            "Bianco PC 2010",
-            "Bradford",
-            "CAT02 Brill 2008",
-            "CAT02",
-            "CAT16",
-            "CMCCAT2000",
-            "CMCCAT97",
-            "Fairchild",
-            "Sharp",
-            "Von Kries",
-            "XYZ Scaling",
-        ],
-        str,
+    chromatic_adaptation_transform: Optional[
+        Union[
+            Literal[
+                "Bianco 2010",
+                "Bianco PC 2010",
+                "Bradford",
+                "CAT02 Brill 2008",
+                "CAT02",
+                "CAT16",
+                "CMCCAT2000",
+                "CMCCAT97",
+                "Fairchild",
+                "Sharp",
+                "Von Kries",
+                "XYZ Scaling",
+            ],
+            str,
+        ]
     ] = "CAT02",
     random_generator: Callable = random_triplet_generator,
-    random_state: np.random.RandomState = None,
+    random_state: Optional[np.random.RandomState] = None,
 ) -> Integer:
     """
     Randomly sample the *CIE L\\*a\\*b\\** colourspace volume and returns the
@@ -231,25 +233,27 @@ def RGB_colourspace_volume_MonteCarlo(
     illuminant_Lab: ArrayLike = CCS_ILLUMINANTS[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-    chromatic_adaptation_transform: Union[
-        Literal[
-            "Bianco 2010",
-            "Bianco PC 2010",
-            "Bradford",
-            "CAT02 Brill 2008",
-            "CAT02",
-            "CAT16",
-            "CMCCAT2000",
-            "CMCCAT97",
-            "Fairchild",
-            "Sharp",
-            "Von Kries",
-            "XYZ Scaling",
-        ],
-        str,
+    chromatic_adaptation_transform: Optional[
+        Union[
+            Literal[
+                "Bianco 2010",
+                "Bianco PC 2010",
+                "Bradford",
+                "CAT02 Brill 2008",
+                "CAT02",
+                "CAT16",
+                "CMCCAT2000",
+                "CMCCAT97",
+                "Fairchild",
+                "Sharp",
+                "Von Kries",
+                "XYZ Scaling",
+            ],
+            str,
+        ]
     ] = "CAT02",
     random_generator: Callable = random_triplet_generator,
-    random_state: np.random.RandomState = None,
+    random_state: Optional[np.random.RandomState] = None,
 ) -> Floating:
     """
     Perform given *RGB* colourspace volume computation using *Monte Carlo*
@@ -298,8 +302,11 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
     >>> with disable_multiprocessing():
     ...     RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng)
     ... # doctest: +SKIP
+    ...
     8...
     """
+
+    import multiprocessing
 
     processes = multiprocessing.cpu_count()
     process_samples = DEFAULT_INT_DTYPE(np.round(samples / processes))
@@ -332,7 +339,7 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
     coverage_sampler: Callable,
     samples: Integer = 1000000,
     random_generator: Callable = random_triplet_generator,
-    random_state: np.random.RandomState = None,
+    random_state: Optional[np.random.RandomState] = None,
 ) -> Floating:
     """
     Return given *RGB* colourspace percentage coverage of an arbitrary volume.
@@ -361,7 +368,8 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
     >>> from colour.models import RGB_COLOURSPACE_sRGB as sRGB
     >>> prng = np.random.RandomState(2)
     >>> RGB_colourspace_volume_coverage_MonteCarlo(
-    ...     sRGB, is_within_pointer_gamut, 10e3, random_state=prng)
+    ...     sRGB, is_within_pointer_gamut, 10e3, random_state=prng
+    ... )
     ... # doctest: +ELLIPSIS
     81...
     """
@@ -393,7 +401,7 @@ def RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
     colourspace: RGB_Colourspace,
     samples: Integer = 1000000,
     random_generator: Callable = random_triplet_generator,
-    random_state: np.random.RandomState = None,
+    random_state: Optional[np.random.RandomState] = None,
 ) -> Floating:
     """
     Return given *RGB* colourspace percentage coverage of Pointer's Gamut
@@ -421,7 +429,8 @@ def RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
     >>> from colour.models import RGB_COLOURSPACE_sRGB as sRGB
     >>> prng = np.random.RandomState(2)
     >>> RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
-    ...     sRGB, 10e3, random_state=prng)  # doctest: +ELLIPSIS
+    ...     sRGB, 10e3, random_state=prng
+    ... )  # doctest: +ELLIPSIS
     81...
     """
 
@@ -438,7 +447,7 @@ def RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
     colourspace: RGB_Colourspace,
     samples: Integer = 1000000,
     random_generator: Callable = random_triplet_generator,
-    random_state: np.random.RandomState = None,
+    random_state: Optional[np.random.RandomState] = None,
 ) -> Floating:
     """
     Return given *RGB* colourspace percentage coverage of visible spectrum
@@ -466,7 +475,8 @@ def RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
     >>> from colour.models import RGB_COLOURSPACE_sRGB as sRGB
     >>> prng = np.random.RandomState(2)
     >>> RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
-    ...     sRGB, 10e3, random_state=prng)  # doctest: +ELLIPSIS
+    ...     sRGB, 10e3, random_state=prng
+    ... )  # doctest: +ELLIPSIS
     46...
     """
 

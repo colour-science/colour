@@ -59,7 +59,7 @@ from colour.plotting import (
 )
 from colour.volume import solid_RoschMacAdam
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_int_array,
     first_item,
     full,
@@ -85,7 +85,7 @@ __all__ = [
     "plot_RGB_colourspace_section",
 ]
 
-MAPPING_AXIS_TO_PLANE: CaseInsensitiveMapping = CaseInsensitiveMapping(
+MAPPING_AXIS_TO_PLANE: CanonicalMapping = CanonicalMapping(
     {"+x": (1, 2), "+y": (0, 2), "+z": (0, 1)}
 )
 MAPPING_AXIS_TO_PLANE.__doc__ = """Axis to plane mapping."""
@@ -179,16 +179,18 @@ def plot_hull_section_colours(
     >>> from colour.utilities import is_trimesh_installed
     >>> vertices, faces, _outline = primitive_cube(1, 1, 1, 64, 64, 64)
     >>> XYZ_vertices = RGB_to_XYZ(
-    ...     vertices['position'] + 0.5,
+    ...     vertices["position"] + 0.5,
     ...     RGB_COLOURSPACE_sRGB.whitepoint,
     ...     RGB_COLOURSPACE_sRGB.whitepoint,
     ...     RGB_COLOURSPACE_sRGB.matrix_RGB_to_XYZ,
     ... )
     >>> if is_trimesh_installed:
     ...     import trimesh
+    ...
     ...     hull = trimesh.Trimesh(XYZ_vertices, faces, process=False)
-    ...     plot_hull_section_colours(hull, section_colours='RGB')
+    ...     plot_hull_section_colours(hull, section_colours="RGB")
     ...     # doctest: +ELLIPSIS
+    ...
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Hull_Section_Colours.png
@@ -386,16 +388,18 @@ def plot_hull_section_contour(
     >>> from colour.utilities import is_trimesh_installed
     >>> vertices, faces, _outline = primitive_cube(1, 1, 1, 64, 64, 64)
     >>> XYZ_vertices = RGB_to_XYZ(
-    ...     vertices['position'] + 0.5,
+    ...     vertices["position"] + 0.5,
     ...     RGB_COLOURSPACE_sRGB.whitepoint,
     ...     RGB_COLOURSPACE_sRGB.whitepoint,
     ...     RGB_COLOURSPACE_sRGB.matrix_RGB_to_XYZ,
     ... )
     >>> if is_trimesh_installed:
     ...     import trimesh
+    ...
     ...     hull = trimesh.Trimesh(XYZ_vertices, faces, process=False)
-    ...     plot_hull_section_contour(hull, contour_colours='RGB')
+    ...     plot_hull_section_contour(hull, contour_colours="RGB")
     ...     # doctest: +ELLIPSIS
+    ...
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Hull_Section_Contour.png
@@ -528,11 +532,12 @@ def plot_visible_spectrum_section(
     cmfs
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.  ``cmfs`` can be of any type or
-        form supported by the :func:`colour.plotting.filter_cmfs` definition.
+        form supported by the :func:`colour.plotting.common.filter_cmfs`
+        definition.
     illuminant
         Illuminant spectral distribution, default to *CIE Illuminant D65*.
         ``illuminant`` can be of any type or form supported by the
-        :func:`colour.plotting.filter_illuminants` definition.
+        :func:`colour.plotting.common.filter_illuminants` definition.
     model
         Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
         the list of supported colourspace models.
@@ -566,8 +571,10 @@ def plot_visible_spectrum_section(
     >>> from colour.utilities import is_trimesh_installed
     >>> if is_trimesh_installed:
     ...     plot_visible_spectrum_section(
-    ...         section_colours='RGB', section_opacity=0.15)
+    ...         section_colours="RGB", section_opacity=0.15
+    ...     )
     ...     # doctest: +ELLIPSIS
+    ...
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Visible_Spectrum_Section.png
@@ -622,7 +629,7 @@ def plot_visible_spectrum_section(
         f"Visible Spectrum Section - "
         f"{f'{origin * 100}%' if normalise else origin} - "
         f"{model} - "
-        f"{cmfs.strict_name}"
+        f"{cmfs.display_name}"
     )
 
     plane = MAPPING_AXIS_TO_PLANE[axis]
@@ -696,7 +703,7 @@ def plot_RGB_colourspace_section(
     colourspace
         *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
         type or form supported by the
-        :func:`colour.plotting.filter_RGB_colourspaces` definition.
+        :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     model
         Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
         the list of supported colourspace models.
@@ -730,8 +737,10 @@ def plot_RGB_colourspace_section(
     >>> from colour.utilities import is_trimesh_installed
     >>> if is_trimesh_installed:
     ...     plot_RGB_colourspace_section(
-    ...         'sRGB', section_colours='RGB', section_opacity=0.15)
+    ...         "sRGB", section_colours="RGB", section_opacity=0.15
+    ...     )
     ...     # doctest: +ELLIPSIS
+    ...
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_RGB_Colourspace_Section.png

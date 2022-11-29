@@ -1,9 +1,9 @@
 """
-ITU-R BT.601-7
-==============
+Recommendation ITU-R BT.601-7
+=============================
 
-Defines the *ITU-R BT.601-7* opto-electrical transfer function (OETF)
-and its inverse:
+Defines the *Recommendation ITU-R BT.601-7* opto-electrical transfer function
+(OETF) and its inverse:
 
 -   :func:`colour.models.oetf_BT601`
 -   :func:`colour.models.oetf_inverse_BT601`

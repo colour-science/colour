@@ -19,16 +19,22 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.algebra import spow, vector_dot
+from colour.algebra import sdiv, sdiv_mode, spow, vector_dot
 from colour.adaptation import CAT_VON_KRIES
-from colour.hints import ArrayLike, Boolean, FloatingOrArrayLike, NDArray
+from colour.hints import (
+    ArrayLike,
+    Boolean,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    NDArray,
+    cast,
+)
 from colour.utilities import (
     as_float_array,
     from_range_100,
     ones,
     row_as_diagonal,
     to_domain_100,
-    tsplit,
     tstack,
 )
 
@@ -249,28 +255,25 @@ def degrees_of_adaptation(
     Y_n = as_float_array(Y_n)
     v = as_float_array(v)
 
-    L, M, S = tsplit(LMS)
-
     # E illuminant.
     LMS_E = vector_dot(CAT_VON_KRIES, ones(LMS.shape))
-    L_E, M_E, S_E = tsplit(LMS_E)
 
-    Ye_n = spow(Y_n, v)
+    Ye_n = cast(NDArray, spow(Y_n, v))
 
-    def m_E(x: NDArray, y: NDArray) -> NDArray:
+    def m_E(x: FloatingOrNDArray, y: FloatingOrNDArray) -> FloatingOrNDArray:
         """Compute the :math:`m_E` term."""
 
-        return (3 * (x / y)) / (L / L_E + M / M_E + S / S_E)
+        return (3 * x / y) / np.sum(x / y, axis=-1)[..., None]
 
-    def P_c(x: NDArray) -> NDArray:
+    def P_c(x: FloatingOrNDArray) -> FloatingOrNDArray:
         """Compute the :math:`P_L`, :math:`P_M` or :math:`P_S` terms."""
 
-        return (1 + Ye_n + x) / (1 + Ye_n + 1 / x)
+        return sdiv(
+            1 + Ye_n[..., None] + x,
+            1 + Ye_n[..., None] + sdiv(1, x),
+        )
 
-    p_L = P_c(m_E(L, L_E))
-    p_M = P_c(m_E(M, M_E))
-    p_S = P_c(m_E(S, S_E))
-
-    p_LMS = tstack([p_L, p_M, p_S])
+    with sdiv_mode():
+        p_LMS = cast(NDArray, P_c(m_E(LMS, LMS_E)))
 
     return p_LMS

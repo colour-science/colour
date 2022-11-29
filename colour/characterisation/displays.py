@@ -76,7 +76,7 @@ class RGB_DisplayPrimaries(MultiSpectralDistributions):
         of the :class:`colour.SpectralDistribution` class instances.
     name
        Multi-spectral distributions name.
-    strict_labels
+    display_labels
         Multi-spectral distributions labels for figures, default to
         :attr:`colour.colorimetry.RGB_DisplayPrimaries.labels` property
         value.
@@ -100,7 +100,7 @@ class RGB_DisplayPrimaries(MultiSpectralDistributions):
         domain: Optional[Union[ArrayLike, SpectralShape]] = None,
         labels: Optional[Sequence] = None,
         **kwargs: Any,
-    ):
+    ) -> None:
         super().__init__(
             data, domain, labels=("red", "green", "blue"), **kwargs
         )

@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.graph.conversion` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.graph.conversion` module."""
 
 import numpy as np
 import unittest
@@ -62,13 +63,13 @@ class TestConvert(unittest.TestCase):
             "Spectral Distribution",
             "sRGB",
         )
-        np.testing.assert_almost_equal(
-            RGB_a, np.array([0.45675795, 0.30986982, 0.24861924]), decimal=7
+        np.testing.assert_array_almost_equal(
+            RGB_a, np.array([0.49034776, 0.30185875, 0.23587685]), decimal=7
         )
 
         Jpapbp = convert(RGB_a, "Output-Referred RGB", "CAM16UCS")
-        np.testing.assert_almost_equal(
-            Jpapbp, np.array([0.39994810, 0.09206557, 0.08127526]), decimal=7
+        np.testing.assert_array_almost_equal(
+            Jpapbp, np.array([0.40738741, 0.12046560, 0.09284385]), decimal=7
         )
 
         RGB_b = convert(
@@ -77,9 +78,9 @@ class TestConvert(unittest.TestCase):
         # NOTE: The "CIE XYZ" tristimulus values to "sRGB" matrix is given
         # rounded at 4 decimals as per "IEC 61966-2-1:1999" and thus preventing
         # exact roundtrip.
-        np.testing.assert_allclose(RGB_a, RGB_b, rtol=1e-5, atol=1e-5)
+        np.testing.assert_allclose(RGB_a, RGB_b, rtol=1e-4, atol=1e-4)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             convert("#808080", "Hexadecimal", "Scene-Referred RGB"),
             np.array([0.21586050, 0.21586050, 0.21586050]),
             decimal=7,
@@ -91,7 +92,7 @@ class TestConvert(unittest.TestCase):
             places=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             convert(
                 convert(
                     np.array([0.5, 0.5, 0.5]),
@@ -105,14 +106,14 @@ class TestConvert(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             convert(
                 RGB_a,
                 "RGB",
                 "Scene-Referred RGB",
                 RGB_to_RGB={"output_colourspace": RGB_COLOURSPACE_ACES2065_1},
             ),
-            np.array([0.36364180, 0.31715308, 0.25888531]),
+            np.array([0.37308227, 0.31241444, 0.24746366]),
             decimal=7,
         )
 
@@ -135,7 +136,7 @@ class TestConvert(unittest.TestCase):
         illuminant = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
             "D50"
         ]
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             convert(
                 a, "CIE XYZ", "CIE xyY", XYZ_to_xyY={"illuminant": illuminant}
             ),

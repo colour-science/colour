@@ -27,6 +27,7 @@ from operator import (
     isub,
     itruediv,
 )
+from scipy.spatial import KDTree
 
 from colour.algebra import (
     Extrapolator,
@@ -38,6 +39,7 @@ from colour.hints import (
     Any,
     ArrayLike,
     Boolean,
+    Dict,
     FloatingOrArrayLike,
     Integer,
     IntegerOrArrayLike,
@@ -60,8 +62,9 @@ from colour.utilities import (
     is_iterable,
     is_string,
     full,
+    multiline_str,
+    multiline_repr,
     optional,
-    required,
     runtime_warning,
     tsplit,
     tstack,
@@ -154,7 +157,7 @@ class AbstractLUT(ABC):
         domain: Optional[ArrayLike] = None,
         size: Optional[IntegerOrArrayLike] = None,
         comments: Optional[Sequence] = None,
-    ):
+    ) -> None:
         self._name: str = f"Unity {size!r}" if table is None else f"{id(self)}"
         self.name = optional(name, self._name)
         self._dimensions = optional(dimensions, 0)
@@ -319,29 +322,35 @@ class AbstractLUT(ABC):
             Formatted string representation.
         """
 
-        def _indent_array(a: ArrayLike) -> str:
-            """Indent given array string representation."""
+        attributes = [
+            {
+                "formatter": lambda x: (
+                    f"{self.__class__.__name__} - {self.name}"
+                ),
+                "section": True,
+            },
+            {"line_break": True},
+            {"name": "dimensions", "label": "Dimensions"},
+            {"name": "domain", "label": "Domain"},
+            {
+                "label": "Size",
+                "formatter": lambda x: str(self.table.shape),
+            },
+        ]
 
-            return str(a).replace(" [", " " * 14 + "[")
+        if self.comments:
+            attributes.append(
+                {
+                    "formatter": lambda x: "\n".join(
+                        [
+                            f"Comment {str(i + 1).zfill(2)} : {comment}"
+                            for i, comment in enumerate(self.comments)
+                        ]
+                    ),
+                }
+            )
 
-        comments = "\n".join(
-            [
-                f"Comment {str(i + 1).zfill(2)} : {comment}"
-                for i, comment in enumerate(self.comments)
-            ]
-        )
-        comments = f"\n{comments}" if comments else ""
-
-        underline = "-" * (len(self.__class__.__name__) + 3 + len(self.name))
-
-        return (
-            f"{self.__class__.__name__} - {self.name}\n"
-            f"{underline}\n\n"
-            f"Dimensions : {self.dimensions}\n"
-            f"Domain     : {_indent_array(self.domain)}\n"
-            f'Size       : {str(self.table.shape).replace("L", "")}'
-            f"{comments}"
-        )
+        return multiline_str(self, cast(List[Dict], attributes))
 
     def __repr__(self) -> str:
         """
@@ -353,32 +362,17 @@ class AbstractLUT(ABC):
             Evaluable string representation.
         """
 
-        representation = repr(self.table)
-        representation = representation.replace(
-            "array", self.__class__.__name__
-        )
-        representation = representation.replace(
-            "       [", f"{' ' * (len(self.__class__.__name__) + 2)}["
-        )
+        attributes = [
+            {"name": "table"},
+            {"name": "name"},
+            {"name": "domain"},
+            {"name": "size"},
+        ]
 
-        domain = repr(self.domain).replace("array(", "").replace(")", "")
-        domain = domain.replace(
-            "       [", f"{' ' * (len(self.__class__.__name__) + 9)}["
-        )
+        if self.comments:
+            attributes.append({"name": "comments"})
 
-        indentation = " " * (len(self.__class__.__name__) + 1)
-        comments = (
-            f",\n\n{indentation}comments={repr(self.comments)}"
-            if self.comments
-            else ""
-        )
-
-        return (
-            f"{representation[:-1]},\n"
-            f"{indentation}name='{self.name}',\n"
-            f"{indentation}domain={domain}"
-            f"{comments})"
-        )
+        return multiline_repr(self, attributes)
 
     def __eq__(self, other: Any) -> bool:
         """
@@ -921,11 +915,14 @@ class LUT1D(AbstractLUT):
 
     >>> from colour.algebra import spow
     >>> domain = np.array([-0.1, 1.5])
-    >>> print(LUT1D(
-    ...     spow(LUT1D.linear_table(16, domain), 1 / 2.2),
-    ...     'My LUT',
-    ...     domain,
-    ...     comments=['A first comment.', 'A second comment.']))
+    >>> print(
+    ...     LUT1D(
+    ...         spow(LUT1D.linear_table(16, domain), 1 / 2.2),
+    ...         "My LUT",
+    ...         domain,
+    ...         comments=["A first comment.", "A second comment."],
+    ...     )
+    ... )
     LUT1D - My LUT
     --------------
     <BLANKLINE>
@@ -943,7 +940,7 @@ class LUT1D(AbstractLUT):
         domain: Optional[ArrayLike] = None,
         size: Optional[IntegerOrArrayLike] = None,
         comments: Optional[Sequence] = None,
-    ):
+    ) -> None:
 
         domain = as_float_array(
             cast(ArrayLike, optional(domain, np.array([0, 1])))
@@ -1097,7 +1094,7 @@ class LUT1D(AbstractLUT):
         Dimensions : 1
         Domain     : [ 0.          0.3683438...  0.5047603...  0.6069133...  \
 0.6916988...  0.7655385...
-          0.8316843...  0.8920493...  0.9478701...  1.        ]
+                       0.8316843...  0.8920493...  0.9478701...  1.        ]
         Size       : (10,)
         >>> print(LUT.invert().table)  # doctest: +ELLIPSIS
         [ 0.       ...  0.1111111...  0.2222222...  0.3333333...  \
@@ -1161,7 +1158,7 @@ class LUT1D(AbstractLUT):
         *LUT* applied to the modified *RGB* colourspace in the inverse
         direction:
 
-        >>> LUT.apply(LUT.apply(RGB), direction='Inverse')
+        >>> LUT.apply(LUT.apply(RGB), direction="Inverse")
         ... # doctest: +ELLIPSIS
         array([ 0.18...,  0.18...,  0.18...])
         """
@@ -1341,11 +1338,14 @@ class LUT3x1D(AbstractLUT):
 
     >>> from colour.algebra import spow
     >>> domain = np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]])
-    >>> print(LUT3x1D(
-    ...     spow(LUT3x1D.linear_table(16), 1 / 2.2),
-    ...     'My LUT',
-    ...     domain,
-    ...     comments=['A first comment.', 'A second comment.']))
+    >>> print(
+    ...     LUT3x1D(
+    ...         spow(LUT3x1D.linear_table(16), 1 / 2.2),
+    ...         "My LUT",
+    ...         domain,
+    ...         comments=["A first comment.", "A second comment."],
+    ...     )
+    ... )
     LUT3x1D - My LUT
     ----------------
     <BLANKLINE>
@@ -1364,7 +1364,7 @@ class LUT3x1D(AbstractLUT):
         domain: Optional[ArrayLike] = None,
         size: Optional[IntegerOrArrayLike] = None,
         comments: Optional[Sequence] = None,
-    ):
+    ) -> None:
         domain = cast(
             ArrayLike, optional(domain, np.array([[0, 0, 0], [1, 1, 1]]))
         )
@@ -1490,7 +1490,8 @@ class LUT3x1D(AbstractLUT):
         Examples
         --------
         >>> LUT3x1D.linear_table(
-        ...     5, np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]))
+        ...     5, np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]])
+        ... )
         array([[-0.1, -0.2, -0.4],
                [ 0.3,  0.6,  1.2],
                [ 0.7,  1.4,  2.8],
@@ -1498,17 +1499,22 @@ class LUT3x1D(AbstractLUT):
                [ 1.5,  3. ,  6. ]])
         >>> LUT3x1D.linear_table(
         ...     np.array([5, 3, 2]),
-        ...     np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]))
+        ...     np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]),
+        ... )
         array([[-0.1, -0.2, -0.4],
                [ 0.3,  1.4,  6. ],
                [ 0.7,  3. ,  nan],
                [ 1.1,  nan,  nan],
                [ 1.5,  nan,  nan]])
-        >>> domain = np.array([[-0.1, -0.2, -0.4],
-        ...                    [0.3, 1.4, 6.0],
-        ...                    [0.7, 3.0, np.nan],
-        ...                    [1.1, np.nan, np.nan],
-        ...                    [1.5, np.nan, np.nan]])
+        >>> domain = np.array(
+        ...     [
+        ...         [-0.1, -0.2, -0.4],
+        ...         [0.3, 1.4, 6.0],
+        ...         [0.7, 3.0, np.nan],
+        ...         [1.1, np.nan, np.nan],
+        ...         [1.5, np.nan, np.nan],
+        ...     ]
+        ... )
         >>> LUT3x1D.linear_table(domain=domain)
         array([[-0.1, -0.2, -0.4],
                [ 0.3,  1.4,  6. ],
@@ -1669,7 +1675,7 @@ class LUT3x1D(AbstractLUT):
         >>> RGB = np.array([0.18, 0.18, 0.18])
         >>> LUT.apply(RGB)  # doctest: +ELLIPSIS
         array([ 0.4529220...,  0.4529220...,  0.4529220...])
-        >>> LUT.apply(LUT.apply(RGB), direction='Inverse')
+        >>> LUT.apply(LUT.apply(RGB), direction="Inverse")
         ... # doctest: +ELLIPSIS
         array([ 0.18...,  0.18...,  0.18...])
         >>> from colour.algebra import spow
@@ -1679,11 +1685,15 @@ class LUT3x1D(AbstractLUT):
         >>> RGB = np.array([0.18, 0.18, 0.18])
         >>> LUT.apply(RGB)  # doctest: +ELLIPSIS
         array([ 0.4423903...,  0.4503801...,  0.3581625...])
-        >>> domain = np.array([[-0.1, -0.2, -0.4],
-        ...                    [0.3, 1.4, 6.0],
-        ...                    [0.7, 3.0, np.nan],
-        ...                    [1.1, np.nan, np.nan],
-        ...                    [1.5, np.nan, np.nan]])
+        >>> domain = np.array(
+        ...     [
+        ...         [-0.1, -0.2, -0.4],
+        ...         [0.3, 1.4, 6.0],
+        ...         [0.7, 3.0, np.nan],
+        ...         [1.1, np.nan, np.nan],
+        ...         [1.5, np.nan, np.nan],
+        ...     ]
+        ... )
         >>> table = spow(LUT3x1D.linear_table(domain=domain), 1 / 2.2)
         >>> LUT = LUT3x1D(table, domain=domain)
         >>> RGB = np.array([0.18, 0.18, 0.18])
@@ -1884,11 +1894,14 @@ class LUT3D(AbstractLUT):
 
     >>> from colour.algebra import spow
     >>> domain = np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]])
-    >>> print(LUT3D(
-    ...     spow(LUT3D.linear_table(16), 1 / 2.2),
-    ...     'My LUT',
-    ...     domain,
-    ...     comments=['A first comment.', 'A second comment.']))
+    >>> print(
+    ...     LUT3D(
+    ...         spow(LUT3D.linear_table(16), 1 / 2.2),
+    ...         "My LUT",
+    ...         domain,
+    ...         comments=["A first comment.", "A second comment."],
+    ...     )
+    ... )
     LUT3D - My LUT
     --------------
     <BLANKLINE>
@@ -1907,7 +1920,7 @@ class LUT3D(AbstractLUT):
         domain: Optional[ArrayLike] = None,
         size: Optional[IntegerOrArrayLike] = None,
         comments: Optional[Sequence] = None,
-    ):
+    ) -> None:
         domain = cast(
             ArrayLike, optional(domain, np.array([[0, 0, 0], [1, 1, 1]]))
         )
@@ -1998,9 +2011,9 @@ class LUT3D(AbstractLUT):
         --------
         >>> LUT3D().is_domain_explicit()
         False
-        >>> domain = np.array([[-0.1, -0.2, -0.4],
-        ...                    [0.7, 1.4, 6.0],
-        ...                    [1.5, 3.0, np.nan]])
+        >>> domain = np.array(
+        ...     [[-0.1, -0.2, -0.4], [0.7, 1.4, 6.0], [1.5, 3.0, np.nan]]
+        ... )
         >>> LUT3D(domain=domain).is_domain_explicit()
         True
         """
@@ -2032,7 +2045,8 @@ class LUT3D(AbstractLUT):
         Examples
         --------
         >>> LUT3D.linear_table(
-        ...     3, np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]))
+        ...     3, np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]])
+        ... )
         array([[[[-0.1, -0.2, -0.4],
                  [-0.1, -0.2,  2.8],
                  [-0.1, -0.2,  6. ]],
@@ -2072,7 +2086,8 @@ class LUT3D(AbstractLUT):
                  [ 1.5,  3. ,  6. ]]]])
         >>> LUT3D.linear_table(
         ...     np.array([3, 3, 2]),
-        ...     np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]))
+        ...     np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]),
+        ... )
         array([[[[-0.1, -0.2, -0.4],
                  [-0.1, -0.2,  6. ]],
         <BLANKLINE>
@@ -2101,9 +2116,9 @@ class LUT3D(AbstractLUT):
         <BLANKLINE>
                 [[ 1.5,  3. , -0.4],
                  [ 1.5,  3. ,  6. ]]]])
-        >>> domain = np.array([[-0.1, -0.2, -0.4],
-        ...                    [0.7, 1.4, 6.0],
-        ...                    [1.5, 3.0, np.nan]])
+        >>> domain = np.array(
+        ...     [[-0.1, -0.2, -0.4], [0.7, 1.4, 6.0], [1.5, 3.0, np.nan]]
+        ... )
         >>> LUT3D.linear_table(domain=domain)
         array([[[[-0.1, -0.2, -0.4],
                  [-0.1, -0.2,  6. ]],
@@ -2174,7 +2189,6 @@ class LUT3D(AbstractLUT):
 
         return table
 
-    @required("Scikit-Learn")
     def invert(self, **kwargs: Any) -> LUT3D:
         """
         Compute and returns an inverse copy of the *LUT*.
@@ -2223,9 +2237,11 @@ class LUT3D(AbstractLUT):
         Size       : (108, 108, 108, 3)
         """
 
-        # TODO: Drop "sklearn" requirement whenever "Scipy" 1.7 can be
-        # defined as the minimal version.
-        from sklearn.neighbors import KDTree
+        if self.is_domain_explicit():
+            raise NotImplementedError(
+                'Inverting a "LUT3D" with an explicit domain is not '
+                "implemented!"
+            )
 
         interpolator = kwargs.get(
             "interpolator", table_interpolation_trilinear
@@ -2239,7 +2255,7 @@ class LUT3D(AbstractLUT):
             "size", (as_int(2 ** (np.sqrt(source_size) + 1) + 1))
         )
 
-        if target_size > 129:
+        if target_size > 129:  # pragma: no cover
             usage_warning("LUT3D inverse computation time could be excessive!")
 
         if extrapolate:
@@ -2276,14 +2292,9 @@ class LUT3D(AbstractLUT):
                 [target_size, target_size, target_size, 3]
             )
 
-        # "LUT_i" is the final inverse LUT generated by applying "LUT_q" on
-        # an identity LUT at the target size.
-        LUT_i = LUT3D(size=target_size, domain=LUT.domain)
-        LUT_i.table = LUT_q.apply(LUT_i.table, interpolator=interpolator)
+        LUT_q.name = f"{self.name} - Inverse"
 
-        LUT_i.name = f"{self.name} - Inverse"
-
-        return LUT_i
+        return LUT_q
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:
         """
@@ -2327,15 +2338,19 @@ class LUT3D(AbstractLUT):
         >>> RGB = np.array([0.18, 0.18, 0.18])
         >>> LUT.apply(RGB)  # doctest: +ELLIPSIS
         array([ 0.4583277...,  0.4583277...,  0.4583277...])
-        >>> LUT.apply(LUT.apply(RGB), direction='Inverse')
+        >>> LUT.apply(LUT.apply(RGB), direction="Inverse")
         ... # doctest: +ELLIPSIS
         array([ 0.1781995...,  0.1809414...,  0.1809513...])
         >>> from colour.algebra import spow
-        >>> domain = np.array([[-0.1, -0.2, -0.4],
-        ...                    [0.3, 1.4, 6.0],
-        ...                    [0.7, 3.0, np.nan],
-        ...                    [1.1, np.nan, np.nan],
-        ...                    [1.5, np.nan, np.nan]])
+        >>> domain = np.array(
+        ...     [
+        ...         [-0.1, -0.2, -0.4],
+        ...         [0.3, 1.4, 6.0],
+        ...         [0.7, 3.0, np.nan],
+        ...         [1.1, np.nan, np.nan],
+        ...         [1.5, np.nan, np.nan],
+        ...     ]
+        ... )
         >>> table = spow(LUT3D.linear_table(domain=domain), 1 / 2.2)
         >>> LUT = LUT3D(table, domain=domain)
         >>> RGB = np.array([0.18, 0.18, 0.18])

@@ -328,7 +328,7 @@ class ModuleAPI:
     Examples
     --------
     >>> import sys
-    >>> sys.modules['colour'] = ModuleAPI(sys.modules['colour'])
+    >>> sys.modules["colour"] = ModuleAPI(sys.modules["colour"])
     ... # doctest: +SKIP
     """
 
@@ -401,7 +401,7 @@ def get_attribute(attribute: str) -> Any:
     ----------
     attribute
         Attribute to retrieve, ``attribute`` must have a namespace module, e.g.
-        *colour.models.eotf_BT2020*.
+        *colour.models.oetf_inverse_BT2020*.
 
     Returns
     -------
@@ -410,8 +410,10 @@ def get_attribute(attribute: str) -> Any:
 
     Examples
     --------
-    >>> get_attribute('colour.models.eotf_BT2020')  # doctest: +ELLIPSIS
-    <function eotf_BT2020 at 0x...>
+    >>> get_attribute(
+    ...     "colour.models.oetf_inverse_BT2020"
+    ... )  # doctest: +ELLIPSIS
+    <function oetf_inverse_BT2020 at 0x...>
     """
 
     attest("." in attribute, '"{0}" attribute has no namespace!')
@@ -446,21 +448,27 @@ def build_API_changes(changes: dict) -> Dict:
     --------
     >>> from pprint import pprint
     >>> changes = {
-    ...     'ObjectRenamed': [[
-    ...         'module.object_1_name',
-    ...         'module.object_1_new_name',
-    ...     ]],
-    ...     'ObjectFutureRename': [[
-    ...         'module.object_2_name',
-    ...         'module.object_2_new_name',
-    ...     ]],
-    ...     'ObjectFutureAccessChange': [[
-    ...         'module.object_3_access',
-    ...         'module.sub_module.object_3_new_access',
-    ...     ]],
-    ...     'ObjectRemoved': ['module.object_4_name'],
-    ...     'ObjectFutureRemove': ['module.object_5_name'],
-    ...     'ObjectFutureAccessRemove': ['module.object_6_access'],
+    ...     "ObjectRenamed": [
+    ...         [
+    ...             "module.object_1_name",
+    ...             "module.object_1_new_name",
+    ...         ]
+    ...     ],
+    ...     "ObjectFutureRename": [
+    ...         [
+    ...             "module.object_2_name",
+    ...             "module.object_2_new_name",
+    ...         ]
+    ...     ],
+    ...     "ObjectFutureAccessChange": [
+    ...         [
+    ...             "module.object_3_access",
+    ...             "module.sub_module.object_3_new_access",
+    ...         ]
+    ...     ],
+    ...     "ObjectRemoved": ["module.object_4_name"],
+    ...     "ObjectFutureRemove": ["module.object_5_name"],
+    ...     "ObjectFutureAccessRemove": ["module.object_6_access"],
     ... }
     >>> pprint(build_API_changes(changes))  # doctest: +SKIP
     {'object_1_name': ObjectRenamed(name='module.object_1_name', \
@@ -521,19 +529,27 @@ def handle_arguments_deprecation(changes: dict, **kwargs: Any) -> Dict:
     Examples
     --------
     >>> changes = {
-    ...     'ArgumentRenamed': [[
-    ...         'argument_1_name',
-    ...         'argument_1_new_name',
-    ...     ]],
-    ...     'ArgumentFutureRename': [[
-    ...         'argument_2_name',
-    ...         'argument_2_new_name',
-    ...     ]],
-    ...     'ArgumentRemoved': ['argument_3_name'],
-    ...     'ArgumentFutureRemove': ['argument_4_name'],
+    ...     "ArgumentRenamed": [
+    ...         [
+    ...             "argument_1_name",
+    ...             "argument_1_new_name",
+    ...         ]
+    ...     ],
+    ...     "ArgumentFutureRename": [
+    ...         [
+    ...             "argument_2_name",
+    ...             "argument_2_new_name",
+    ...         ]
+    ...     ],
+    ...     "ArgumentRemoved": ["argument_3_name"],
+    ...     "ArgumentFutureRemove": ["argument_4_name"],
     ... }
-    >>> handle_arguments_deprecation(changes, argument_1_name=True,
-    ...                             argument_2_name=True, argument_4_name=True)
+    >>> handle_arguments_deprecation(
+    ...     changes,
+    ...     argument_1_name=True,
+    ...     argument_2_name=True,
+    ...     argument_4_name=True,
+    ... )
     ... # doctest: +SKIP
     {'argument_4_name': True, 'argument_1_new_name': True, \
 'argument_2_new_name': True}

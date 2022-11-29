@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the :mod:`colour.models.rgb.transfer_functions.aces`
+Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.aces`
 module.
 """
 
@@ -74,19 +74,19 @@ log_encoding_ACESproxy` definition n-dimensional arrays support.
 
         lin_AP1 = np.tile(lin_AP1, 6)
         ACESproxy = np.tile(ACESproxy, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_ACESproxy(lin_AP1), ACESproxy, decimal=7
         )
 
         lin_AP1 = np.reshape(lin_AP1, (2, 3))
         ACESproxy = np.reshape(ACESproxy, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_ACESproxy(lin_AP1), ACESproxy, decimal=7
         )
 
         lin_AP1 = np.reshape(lin_AP1, (2, 3, 1))
         ACESproxy = np.reshape(ACESproxy, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_ACESproxy(lin_AP1), ACESproxy, decimal=7
         )
 
@@ -102,7 +102,7 @@ log_encoding_ACESproxy` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     log_encoding_ACESproxy(lin_AP1 * factor),
                     ACESproxy * factor,
                     decimal=7,
@@ -179,19 +179,19 @@ log_decoding_ACESproxy` definition n-dimensional arrays support.
 
         ACESproxy = np.tile(ACESproxy, 6)
         lin_AP1 = np.tile(lin_AP1, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_ACESproxy(ACESproxy), lin_AP1, decimal=7
         )
 
         ACESproxy = np.reshape(ACESproxy, (2, 3))
         lin_AP1 = np.reshape(lin_AP1, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_ACESproxy(ACESproxy), lin_AP1, decimal=7
         )
 
         ACESproxy = np.reshape(ACESproxy, (2, 3, 1))
         lin_AP1 = np.reshape(lin_AP1, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_ACESproxy(ACESproxy), lin_AP1, decimal=7
         )
 
@@ -207,7 +207,7 @@ log_decoding_ACESproxy` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     log_decoding_ACESproxy(ACESproxy * factor),
                     lin_AP1 * factor,
                     decimal=7,
@@ -260,19 +260,19 @@ log_encoding_ACEScc` definition n-dimensional arrays support.
 
         lin_AP1 = np.tile(lin_AP1, 6)
         ACEScc = np.tile(ACEScc, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_ACEScc(lin_AP1), ACEScc, decimal=7
         )
 
         lin_AP1 = np.reshape(lin_AP1, (2, 3))
         ACEScc = np.reshape(ACEScc, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_ACEScc(lin_AP1), ACEScc, decimal=7
         )
 
         lin_AP1 = np.reshape(lin_AP1, (2, 3, 1))
         ACEScc = np.reshape(ACEScc, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_ACEScc(lin_AP1), ACEScc, decimal=7
         )
 
@@ -288,7 +288,7 @@ log_encoding_ACEScc` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     log_encoding_ACEScc(lin_AP1 * factor),
                     ACEScc * factor,
                     decimal=7,
@@ -341,19 +341,19 @@ log_decoding_ACEScc` definition n-dimensional arrays support.
 
         ACEScc = np.tile(ACEScc, 6)
         lin_AP1 = np.tile(lin_AP1, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_ACEScc(ACEScc), lin_AP1, decimal=7
         )
 
         ACEScc = np.reshape(ACEScc, (2, 3))
         lin_AP1 = np.reshape(lin_AP1, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_ACEScc(ACEScc), lin_AP1, decimal=7
         )
 
         ACEScc = np.reshape(ACEScc, (2, 3, 1))
         lin_AP1 = np.reshape(lin_AP1, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_ACEScc(ACEScc), lin_AP1, decimal=7
         )
 
@@ -369,7 +369,7 @@ log_decoding_ACEScc` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     log_decoding_ACEScc(ACEScc * factor),
                     lin_AP1 * factor,
                     decimal=7,
@@ -422,19 +422,19 @@ log_encoding_ACEScct` definition n-dimensional arrays support.
 
         lin_AP1 = np.tile(lin_AP1, 6)
         ACEScct = np.tile(ACEScct, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_ACEScct(lin_AP1), ACEScct, decimal=7
         )
 
         lin_AP1 = np.reshape(lin_AP1, (2, 3))
         ACEScct = np.reshape(ACEScct, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_ACEScct(lin_AP1), ACEScct, decimal=7
         )
 
         lin_AP1 = np.reshape(lin_AP1, (2, 3, 1))
         ACEScct = np.reshape(ACEScct, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_ACEScct(lin_AP1), ACEScct, decimal=7
         )
 
@@ -450,7 +450,7 @@ log_encoding_ACEScct` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     log_encoding_ACEScct(lin_AP1 * factor),
                     ACEScct * factor,
                     decimal=7,
@@ -466,7 +466,7 @@ S-2016-001/introduction.tex#L14)
         """
 
         equiv = np.linspace(0.0078125, 222.86094420380761, 100)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_ACEScct(equiv), log_encoding_ACEScc(equiv), decimal=7
         )
 
@@ -517,19 +517,19 @@ log_decoding_ACEScct` definition n-dimensional arrays support.
 
         ACEScct = np.tile(ACEScct, 6)
         lin_AP1 = np.tile(lin_AP1, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_ACEScct(ACEScct), lin_AP1, decimal=7
         )
 
         ACEScct = np.reshape(ACEScct, (2, 3))
         lin_AP1 = np.reshape(lin_AP1, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_ACEScct(ACEScct), lin_AP1, decimal=7
         )
 
         ACEScct = np.reshape(ACEScct, (2, 3, 1))
         lin_AP1 = np.reshape(lin_AP1, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_ACEScct(ACEScct), lin_AP1, decimal=7
         )
 
@@ -545,7 +545,7 @@ log_decoding_ACEScct` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     log_decoding_ACEScct(ACEScc * factor),
                     lin_AP1 * factor,
                     decimal=7,
@@ -561,7 +561,7 @@ S-2016-001/introduction.tex#L14)
         """
 
         equiv = np.linspace(0.15525114155251146, 1.0, 100)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_ACEScct(equiv), log_decoding_ACEScc(equiv), decimal=7
         )
 

@@ -1,9 +1,9 @@
 # !/usr/bin/env python
-"""Defines the unit tests for the :mod:`colour.adaptation.vonkries` module."""
+"""Define the unit tests for the :mod:`colour.adaptation.vonkries` module."""
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.adaptation import (
     matrix_chromatic_adaptation_VonKries,
@@ -36,7 +36,7 @@ matrix_chromatic_adaptation_VonKries` definition unit tests methods.
 matrix_chromatic_adaptation_VonKries` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             matrix_chromatic_adaptation_VonKries(
                 np.array([0.95045593, 1.00000000, 1.08905775]),
                 np.array([0.96429568, 1.00000000, 0.82510460]),
@@ -51,7 +51,7 @@ matrix_chromatic_adaptation_VonKries` definition.
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             matrix_chromatic_adaptation_VonKries(
                 np.array([0.95045593, 1.00000000, 1.08905775]),
                 np.array([1.09846607, 1.00000000, 0.35582280]),
@@ -66,7 +66,7 @@ matrix_chromatic_adaptation_VonKries` definition.
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             matrix_chromatic_adaptation_VonKries(
                 np.array([0.95045593, 1.00000000, 1.08905775]),
                 np.array([0.99144661, 1.00000000, 0.67315942]),
@@ -80,7 +80,7 @@ matrix_chromatic_adaptation_VonKries` definition.
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             matrix_chromatic_adaptation_VonKries(
                 np.array([0.95045593, 1.00000000, 1.08905775]),
                 np.array([0.96429568, 1.00000000, 0.82510460]),
@@ -96,7 +96,7 @@ matrix_chromatic_adaptation_VonKries` definition.
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             matrix_chromatic_adaptation_VonKries(
                 np.array([0.95045593, 1.00000000, 1.08905775]),
                 np.array([0.96429568, 1.00000000, 0.82510460]),
@@ -112,7 +112,7 @@ matrix_chromatic_adaptation_VonKries` definition.
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             matrix_chromatic_adaptation_VonKries(
                 np.array([0.95045593, 1.00000000, 1.08905775]),
                 np.array([0.96429568, 1.00000000, 0.82510460]),
@@ -141,14 +141,14 @@ matrix_chromatic_adaptation_VonKries` definition n-dimensional arrays support.
         XYZ_w = np.tile(XYZ_w, (6, 1))
         XYZ_wr = np.tile(XYZ_wr, (6, 1))
         M = np.reshape(np.tile(M, (6, 1)), (6, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr), M, decimal=7
         )
 
         XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
         XYZ_wr = np.reshape(XYZ_wr, (2, 3, 3))
         M = np.reshape(M, (2, 3, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr), M, decimal=7
         )
 
@@ -166,7 +166,7 @@ matrix_chromatic_adaptation_VonKries` definition domain and range scale
         d_r = (("reference", 1), ("1", 1), ("100", 0.01))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     matrix_chromatic_adaptation_VonKries(
                         XYZ_w * factor, XYZ_wr * factor
                     ),
@@ -182,11 +182,8 @@ matrix_chromatic_adaptation_VonKries` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ_w = np.array(case)
-            XYZ_wr = np.array(case)
-            matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        matrix_chromatic_adaptation_VonKries(cases, cases)
 
 
 class TestChromaticAdaptationVonKries(unittest.TestCase):
@@ -201,7 +198,7 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             chromatic_adaptation_VonKries(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 np.array([0.95045593, 1.00000000, 1.08905775]),
@@ -211,7 +208,7 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             chromatic_adaptation_VonKries(
                 np.array([0.14222010, 0.23042768, 0.10495772]),
                 np.array([0.95045593, 1.00000000, 1.08905775]),
@@ -221,7 +218,7 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             chromatic_adaptation_VonKries(
                 np.array([0.07818780, 0.06157201, 0.28099326]),
                 np.array([0.95045593, 1.00000000, 1.08905775]),
@@ -231,7 +228,7 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             chromatic_adaptation_VonKries(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 np.array([0.95045593, 1.00000000, 1.08905775]),
@@ -242,7 +239,7 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             chromatic_adaptation_VonKries(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 np.array([0.95045593, 1.00000000, 1.08905775]),
@@ -253,7 +250,7 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             chromatic_adaptation_VonKries(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 np.array([0.95045593, 1.00000000, 1.08905775]),
@@ -279,7 +276,7 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
         XYZ_w = np.tile(XYZ_w, (6, 1))
         XYZ_wr = np.tile(XYZ_wr, (6, 1))
         XYZ_a = np.tile(XYZ_a, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr), XYZ_a, decimal=7
         )
 
@@ -287,7 +284,7 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
         XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
         XYZ_wr = np.reshape(XYZ_wr, (2, 3, 3))
         XYZ_a = np.reshape(XYZ_a, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr), XYZ_a, decimal=7
         )
 
@@ -305,7 +302,7 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 0.01))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     chromatic_adaptation_VonKries(
                         XYZ * factor, XYZ_w * factor, XYZ_wr * factor
                     ),
@@ -321,12 +318,8 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_w = np.array(case)
-            XYZ_wr = np.array(case)
-            chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        chromatic_adaptation_VonKries(cases, cases, cases)
 
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models.rgb import RGB_to_IHLS, IHLS_to_RGB
 from colour.utilities import domain_range_scale, ignore_numpy_errors
@@ -29,19 +29,19 @@ class TestRGB_to_IHLS(unittest.TestCase):
     def test_RGB_to_IHLS(self):
         """Test :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_IHLS(np.array([0.45620519, 0.03081071, 0.04091952])),
             np.array([6.26236117, 0.12197943, 0.42539448]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_IHLS(np.array([0.00000000, 0.00000000, 0.00000000])),
             np.array([0.00000000, 0.00000000, 0.00000000]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_IHLS(np.array([1.00000000, 1.00000000, 1.00000000])),
             np.array([0.00000000, 1.00000000, 0.00000000]),
             decimal=7,
@@ -58,11 +58,11 @@ class TestRGB_to_IHLS(unittest.TestCase):
 
         RGB = np.tile(RGB, (6, 1))
         HYS = np.tile(HYS, (6, 1))
-        np.testing.assert_almost_equal(RGB_to_IHLS(RGB), HYS, decimal=7)
+        np.testing.assert_array_almost_equal(RGB_to_IHLS(RGB), HYS, decimal=7)
 
         RGB = np.reshape(RGB, (2, 3, 3))
         HYS = np.reshape(HYS, (2, 3, 3))
-        np.testing.assert_almost_equal(RGB_to_IHLS(RGB), HYS, decimal=7)
+        np.testing.assert_array_almost_equal(RGB_to_IHLS(RGB), HYS, decimal=7)
 
     def test_domain_range_scale_RGB_to_IHLS(self):
         """
@@ -76,7 +76,7 @@ class TestRGB_to_IHLS(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     RGB_to_IHLS(RGB * factor), HYS * factor, decimal=7
                 )
 
@@ -88,10 +88,8 @@ class TestRGB_to_IHLS(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            RGB = np.array(case)
-            RGB_to_IHLS(RGB)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        RGB_to_IHLS(cases)
 
 
 class TestIHLS_to_RGB(unittest.TestCase):
@@ -103,19 +101,19 @@ class TestIHLS_to_RGB(unittest.TestCase):
     def test_IHLS_to_RGB(self):
         """Test :func:`colour.models.rgb.hanbury2003.IHLS_to_RGB` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             IHLS_to_RGB(np.array([6.26236117, 0.12197943, 0.42539448])),
             np.array([0.45620519, 0.03081071, 0.04091952]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             IHLS_to_RGB(np.array([0.00000000, 0.00000000, 0.00000000])),
             np.array([0.00000000, 0.00000000, 0.00000000]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             IHLS_to_RGB(np.array([0.00000000, 1.00000000, 0.00000000])),
             np.array([1.00000000, 1.00000000, 1.00000000]),
             decimal=7,
@@ -132,11 +130,11 @@ class TestIHLS_to_RGB(unittest.TestCase):
 
         HYS = np.tile(HYS, (6, 1))
         RGB = np.tile(RGB, (6, 1))
-        np.testing.assert_almost_equal(IHLS_to_RGB(HYS), RGB, decimal=7)
+        np.testing.assert_array_almost_equal(IHLS_to_RGB(HYS), RGB, decimal=7)
 
         HYS = np.reshape(HYS, (2, 3, 3))
         RGB = np.reshape(RGB, (2, 3, 3))
-        np.testing.assert_almost_equal(IHLS_to_RGB(HYS), RGB, decimal=7)
+        np.testing.assert_array_almost_equal(IHLS_to_RGB(HYS), RGB, decimal=7)
 
     def test_domain_range_scale_IHLS_to_RGB(self):
         """
@@ -150,7 +148,7 @@ class TestIHLS_to_RGB(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     IHLS_to_RGB(HYS * factor), RGB * factor, decimal=7
                 )
 
@@ -162,10 +160,8 @@ class TestIHLS_to_RGB(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            HYS = np.array(case)
-            IHLS_to_RGB(HYS)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        IHLS_to_RGB(cases)
 
 
 if __name__ == "__main__":

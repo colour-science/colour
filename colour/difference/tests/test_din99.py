@@ -1,8 +1,9 @@
-"""Defines the unit tests for the :mod:`colour.difference.din99` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.difference.din99` module."""
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.difference import delta_E_DIN99
 
@@ -99,14 +100,14 @@ class TestDelta_E_DIN99(unittest.TestCase):
         Lab_1 = np.tile(Lab_1, (6, 1))
         Lab_2 = np.tile(Lab_2, (6, 1))
         delta_E = np.tile(delta_E, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             delta_E_DIN99(Lab_1, Lab_2), delta_E, decimal=7
         )
 
         Lab_1 = np.reshape(Lab_1, (2, 3, 3))
         Lab_2 = np.reshape(Lab_2, (2, 3, 3))
         delta_E = np.reshape(delta_E, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             delta_E_DIN99(Lab_1, Lab_2), delta_E, decimal=7
         )
 
@@ -123,7 +124,7 @@ class TestDelta_E_DIN99(unittest.TestCase):
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     delta_E_DIN99(Lab_1 * factor, Lab_2 * factor),
                     delta_E,
                     decimal=7,
@@ -137,11 +138,8 @@ class TestDelta_E_DIN99(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Lab_1 = np.array(case)
-            Lab_2 = np.array(case)
-            delta_E_DIN99(Lab_1, Lab_2)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        delta_E_DIN99(cases, cases)
 
 
 if __name__ == "__main__":

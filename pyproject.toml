@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "colour"
-version = "0.4.1"
+version = "0.4.2"
 description = "Colour Science for Python"
 license = "BSD-3-Clause"
 authors = [ "Colour Developers <colour-developers@colour-science.org>" ]
@@ -43,22 +43,22 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = ">= 3.8, < 3.11"
+python = ">= 3.9, < 3.12"
 imageio = ">= 2, < 3"
-numpy = ">= 1.19, < 2"
-scipy = ">= 1.5, < 2"
+numpy = ">= 1.20, < 2"
+scipy = ">= 1.7, < 2"
 typing-extensions = ">= 4, < 5"  # Convenience for Google Colab.
 
-matplotlib = { version = ">= 3.2, != 3.5.0, != 3.5.1", optional = true }
-networkx = { version = ">= 2, < 3", optional = true }
-pandas = { version = ">= 1, < 2", optional = true }
+matplotlib = { version = ">= 3.4, != 3.5.0, != 3.5.1", optional = true }
+networkx = { version = ">= 2.6, < 3", optional = true }
+pandas = { version = ">= 1.3, < 2", optional = true }
 pygraphviz = { version = ">= 1, < 2", optional = true }
-scikit-learn = { version = ">= 1, < 2", optional = true }
 tqdm = { version = ">= 4, < 5", optional = true }
 trimesh = { version = ">= 3, < 4", optional = true }
 
 biblib-simple = { version = "*", optional = true }  # Development dependency.
 black = { version = "*", optional = true }  # Development dependency.
+blackdoc = { version = "*", optional = true }  # Development dependency.
 coverage = { version = "!= 6.3", optional = true }  # Development dependency.
 coveralls = { version = "*", optional = true }  # Development dependency.
 flake8 = { version = "*", optional = true }  # Development dependency.
@@ -71,6 +71,7 @@ pydata-sphinx-theme = { version = "*", optional = true }  # Development dependen
 pydocstyle = { version = "*", optional = true }  # Development dependency.
 pytest = { version = "*", optional = true }  # Development dependency.
 pytest-cov = { version = "*", optional = true }  # Development dependency.
+pytest-xdist = { version = "*", optional = true} #Development dependency
 pyupgrade = { version = "*", optional = true }  # Development dependency.
 restructuredtext-lint = { version = "*", optional = true }  # Development dependency.
 sphinx = { version = ">= 4, < 5", optional = true }  # Development dependency.
@@ -81,6 +82,7 @@ twine = { version = "*", optional = true }  # Development dependency.
 [tool.poetry.dev-dependencies]
 biblib-simple = "*"
 black = "*"
+blackdoc = "*"
 coverage = "!= 6.3"
 coveralls = "*"
 flake8 = "*"
@@ -93,6 +95,7 @@ pydata-sphinx-theme = "*"
 pydocstyle = "*"
 pytest = "*"
 pytest-cov = "*"
+pytest-xdist = "*"
 pyupgrade = "*"
 restructuredtext-lint = "*"
 sphinx = ">= 4, < 5"
@@ -104,6 +107,7 @@ twine = "*"
 development = [
     "biblib-simple",
     "black",
+    "blackdoc",
     "coverage",
     "coveralls",
     "flake8",
@@ -116,6 +120,7 @@ development = [
     "pydocstyle",
     "pytest",
     "pytest-cov",
+    "pytest-xdist",
     "pyupgrade",
     "restructuredtext-lint",
     "sphinx",
@@ -158,6 +163,9 @@ ignore_missing_imports = true
 convention = "numpy"
 add-ignore = "D104,D200,D202,D205,D301,D400"
 
+[tool.pytest.ini_options]
+addopts = "-n auto --dist=loadscope --durations=5"
+
 [build-system]
-requires = ["poetry_core>=1.0.0"]
+requires = [ "poetry_core>=1.0.0" ]
 build-backend = "poetry.core.masonry.api"

@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.colorimetry.photometry` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.colorimetry.photometry` module."""
 
 import unittest
 

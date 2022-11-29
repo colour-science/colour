@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the :mod:`colour.volume.rgb` module.
+Define the unit tests for the :mod:`colour.volume.rgb` module.
 
 Notes
 -----
@@ -61,7 +61,7 @@ class TestRGB_colourspaceLimits(unittest.TestCase):
     def test_RGB_colourspace_limits(self):
         """Test :func:`colour.volume.rgb.RGB_colourspace_limits` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_colourspace_limits(RGB_COLOURSPACE_BT709),
             np.array(
                 [
@@ -73,7 +73,7 @@ class TestRGB_colourspaceLimits(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_colourspace_limits(RGB_COLOURSPACE_BT2020),
             np.array(
                 [
@@ -85,7 +85,7 @@ class TestRGB_colourspaceLimits(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_colourspace_limits(RGB_COLOURSPACE_ACES2065_1),
             np.array(
                 [
@@ -143,7 +143,7 @@ RGB_colourspace_volume_coverage_MonteCarlo` definition unit tests methods.
 RGB_colourspace_volume_coverage_MonteCarlo` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_colourspace_volume_coverage_MonteCarlo(
                 RGB_COLOURSPACE_BT709,
                 is_within_pointer_gamut,
@@ -172,7 +172,7 @@ RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition unit tests
 RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
                 RGB_COLOURSPACE_BT709,
                 10e3,
@@ -200,7 +200,7 @@ RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition unit tests
 RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
                 RGB_COLOURSPACE_BT709,
                 10e3,

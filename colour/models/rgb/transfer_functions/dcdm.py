@@ -14,6 +14,9 @@ References
     Digital Cinema System Specification - Version 1.1.
     http://www.dcimovies.com/archives/spec_v1_1/\
 DCI_DCinema_System_Spec_v1_1.pdf
+-   :cite:`SocietyofMotionPictureandTelevisionEngineers2019` : Society of
+    Motion Picture and Television Engineers. (2019). ST 428-1:2019 - D-Cinema
+    Distribution Master — Image Characteristic. doi:10.5594/SMPTE.ST428-1.2019
 """
 
 from __future__ import annotations

@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.io.luts.sony_spi1d` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.io.luts.sony_spi1d` module."""
 
 from __future__ import annotations
 
@@ -18,12 +19,12 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "LUTS_DIRECTORY",
+    "ROOT_LUTS",
     "TestReadLUTSonySPI1D",
     "TestWriteLUTSonySPI1D",
 ]
 
-LUTS_DIRECTORY: str = os.path.join(
+ROOT_LUTS: str = os.path.join(
     os.path.dirname(__file__), "resources", "sony_spi1d"
 )
 
@@ -38,10 +39,10 @@ class TestReadLUTSonySPI1D(unittest.TestCase):
         """Test :func:`colour.io.luts.sony_spi1d.read_LUT_SonySPI1D` definition."""
 
         LUT_1 = read_LUT_SonySPI1D(
-            os.path.join(LUTS_DIRECTORY, "eotf_sRGB_1D.spi1d")
+            os.path.join(ROOT_LUTS, "eotf_sRGB_1D.spi1d")
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_1.table,
             np.array(
                 [
@@ -74,7 +75,7 @@ class TestReadLUTSonySPI1D(unittest.TestCase):
         )
 
         LUT_2 = read_LUT_SonySPI1D(
-            os.path.join(LUTS_DIRECTORY, "eotf_sRGB_3x1D.spi1d")
+            os.path.join(ROOT_LUTS, "eotf_sRGB_3x1D.spi1d")
         )
         self.assertListEqual(
             LUT_2.comments,
@@ -105,7 +106,7 @@ class TestWriteLUTSonySPI1D(unittest.TestCase):
         """Test :func:`colour.io.luts.sony_spi1d.write_LUT_SonySPI1D` definition."""
 
         LUT_1_r = read_LUT_SonySPI1D(
-            os.path.join(LUTS_DIRECTORY, "eotf_sRGB_1D.spi1d")
+            os.path.join(ROOT_LUTS, "eotf_sRGB_1D.spi1d")
         )
         write_LUT_SonySPI1D(
             LUT_1_r,
@@ -117,7 +118,7 @@ class TestWriteLUTSonySPI1D(unittest.TestCase):
         self.assertEqual(LUT_1_r, LUT_1_t)
 
         LUT_2_r = read_LUT_SonySPI1D(
-            os.path.join(LUTS_DIRECTORY, "eotf_sRGB_3x1D.spi1d")
+            os.path.join(ROOT_LUTS, "eotf_sRGB_3x1D.spi1d")
         )
         write_LUT_SonySPI1D(
             LUT_2_r,

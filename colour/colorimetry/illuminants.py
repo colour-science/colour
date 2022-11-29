@@ -120,24 +120,23 @@ def sd_CIE_standard_illuminant_A(
                           [ 680.        ,  185.4292591...],
                           [ 690.        ,  191.9309499...],
                           [ 700.        ,  198.2612232...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     """
 
-    wavelengths = shape.range()
     values = (
         100
-        * (560 / wavelengths) ** 5
+        * (560 / shape.wavelengths) ** 5
         * (
             np.expm1((1.435 * 10**7) / (2848 * 560))
-            / np.expm1((1.435 * 10**7) / (2848 * wavelengths))
+            / np.expm1((1.435 * 10**7) / (2848 * shape.wavelengths))
         )
     )
 
     return SpectralDistribution(
-        values, wavelengths, name="CIE Standard Illuminant A"
+        values, shape.wavelengths, name="CIE Standard Illuminant A"
     )
 
 
@@ -182,6 +181,7 @@ def sd_CIE_illuminant_D_series(
     >>> xy = CCT_to_xy_CIE_D(CCT_D65)
     >>> with numpy_print_options(suppress=True):
     ...     sd_CIE_illuminant_D_series(xy)  # doctest: +ELLIPSIS
+    ...
     SpectralDistribution([[ 300.     ,    0.0341...],
                           [ 305.     ,    1.6643...],
                           [ 310.     ,    3.2945...],
@@ -289,10 +289,10 @@ def sd_CIE_illuminant_D_series(
                           [ 820.     ,   57.4406...],
                           [ 825.     ,   58.8765...],
                           [ 830.     ,   60.3125...]],
-                         interpolator=LinearInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         LinearInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     """
 
     xy = as_float_array(xy)

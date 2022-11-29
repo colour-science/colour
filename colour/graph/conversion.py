@@ -21,9 +21,6 @@ from pprint import pformat
 import colour
 from colour.colorimetry import (
     CCS_ILLUMINANTS,
-    MultiSpectralDistributions,
-    SDS_ILLUMINANTS,
-    SpectralDistribution,
     TVS_ILLUMINANTS_HUNTERLAB,
 )
 from colour.colorimetry import (
@@ -36,6 +33,7 @@ from colour.colorimetry import (
     luminous_efficacy,
     luminous_efficiency,
     luminous_flux,
+    sd_to_XYZ,
     whiteness,
     yellowness,
     wavelength_to_XYZ,
@@ -51,7 +49,6 @@ from colour.hints import (
     List,
     Literal,
     NDArray,
-    Number,
     Optional,
     Union,
     cast,
@@ -79,6 +76,7 @@ from colour.models import (
     IHLS_to_RGB,
     IgPgTg_to_XYZ,
     IPT_to_XYZ,
+    IPT_Munish2021_to_XYZ,
     JMh_CAM16_to_CAM16LCD,
     JMh_CAM16_to_CAM16SCD,
     JMh_CAM16_to_CAM16UCS,
@@ -122,6 +120,7 @@ from colour.models import (
     XYZ_to_ICtCp,
     XYZ_to_IgPgTg,
     XYZ_to_IPT,
+    XYZ_to_IPT_Munish2021,
     XYZ_to_Jzazbz,
     XYZ_to_Lab,
     XYZ_to_Luv,
@@ -163,13 +162,19 @@ from colour.notation import (
 from colour.quality import colour_quality_scale, colour_rendering_index
 from colour.appearance import (
     CAM_Specification_CAM16,
-    CAM16_to_XYZ,
     CAM_Specification_CIECAM02,
+    CAM_Specification_CIECAM16,
+    CAM_Specification_Hellwig2022,
+    CAM16_to_XYZ,
     CIECAM02_to_XYZ,
+    CIECAM16_to_XYZ,
     Kim2009_to_XYZ,
+    Hellwig2022_to_XYZ,
     XYZ_to_ATD95,
     XYZ_to_CAM16,
     XYZ_to_CIECAM02,
+    XYZ_to_CIECAM16,
+    XYZ_to_Hellwig2022,
     XYZ_to_Hunt,
     XYZ_to_Kim2009,
     XYZ_to_LLAB,
@@ -185,7 +190,6 @@ from colour.utilities import (
     domain_range_scale,
     filter_kwargs,
     message_box,
-    optional,
     required,
     tsplit,
     tstack,
@@ -202,11 +206,12 @@ __status__ = "Production"
 
 __all__ = [
     "Conversion_Specification",
-    "sd_to_XYZ",
     "CIECAM02_to_JMh_CIECAM02",
     "JMh_CIECAM02_to_CIECAM02",
     "CAM16_to_JMh_CAM16",
     "JMh_CAM16_to_CAM16",
+    "Hellwig2022_to_JMh_Hellwig2022",
+    "JMh_Hellwig2022_to_Hellwig2022",
     "XYZ_to_luminance",
     "RGB_luminance_to_RGB",
     "CONVERSION_SPECIFICATIONS_DATA",
@@ -248,41 +253,6 @@ class Conversion_Specification(
         )
 
 
-def sd_to_XYZ(
-    sd: Union[ArrayLike, SpectralDistribution, MultiSpectralDistributions],
-    cmfs: Optional[MultiSpectralDistributions] = None,
-    illuminant: Optional[SpectralDistribution] = None,
-    k: Optional[Number] = None,
-    method: Union[Literal["ASTM E308", "Integration"], str] = "ASTM E308",
-    **kwargs: Any,
-) -> NDArray:
-    """
-    Convert given spectral distribution to *CIE XYZ* tristimulus values using
-    given colour matching functions, illuminant and method.
-
-    This placeholder docstring is replaced with the modified
-    :func:`colour.sd_to_XYZ` definition docstring.
-    """
-
-    illuminant = cast(
-        SpectralDistribution,
-        optional(illuminant, SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT]),
-    )
-
-    return colour.sd_to_XYZ(sd, cmfs, illuminant, k, method, **kwargs)
-
-
-# If-clause required for optimised python launch.
-if colour.sd_to_XYZ.__doc__ is not None:
-    sd_to_XYZ.__doc__ = colour.sd_to_XYZ.__doc__.replace(
-        "CIE Illuminant E",
-        "CIE Standard Illuminant D65",
-    ).replace(
-        "sd_to_XYZ(sd)",
-        "sd_to_XYZ(sd)  # doctest: +SKIP",
-    )
-
-
 def CIECAM02_to_JMh_CIECAM02(
     specification: CAM_Specification_CIECAM02,
 ) -> NDArray:
@@ -302,14 +272,20 @@ def CIECAM02_to_JMh_CIECAM02(
 
     Examples
     --------
-    >>> specification = CAM_Specification_CIECAM02(J=41.731091132513917,
-    ...                                            M=0.108842175669226,
-    ...                                            h=219.048432658311780)
+    >>> specification = CAM_Specification_CIECAM02(
+    ...     J=41.731091132513917, M=0.108842175669226, h=219.048432658311780
+    ... )
     >>> CIECAM02_to_JMh_CIECAM02(specification)  # doctest: +ELLIPSIS
     array([  4.1731091...e+01,   1.0884217...e-01,   2.1904843...e+02])
     """
 
-    return tstack([specification.J, specification.M, specification.h])
+    return tstack(
+        [
+            cast(FloatingOrNDArray, specification.J),
+            cast(FloatingOrNDArray, specification.M),
+            cast(FloatingOrNDArray, specification.h),
+        ]
+    )
 
 
 def JMh_CIECAM02_to_CIECAM02(JMh: ArrayLike) -> CAM_Specification_CIECAM02:
@@ -330,7 +306,7 @@ def JMh_CIECAM02_to_CIECAM02(JMh: ArrayLike) -> CAM_Specification_CIECAM02:
     Examples
     --------
     >>> import numpy as np
-    >>> JMh = np.array([4.17310911e+01, 1.08842176e-01, 2.19048433e+02])
+    >>> JMh = np.array([4.17310911e01, 1.08842176e-01, 2.19048433e02])
     >>> JMh_CIECAM02_to_CIECAM02(JMh)  # doctest: +ELLIPSIS
     CAM_Specification_CIECAM02(J=41.7310911..., C=None, h=219.0484329..., \
 s=None, Q=None, M=0.1088421..., H=None, HC=None)
@@ -357,9 +333,9 @@ def CAM16_to_JMh_CAM16(specification) -> NDArray:
 
     Examples
     --------
-    >>> specification = CAM_Specification_CAM16(J=41.731207905126638,
-    ...                                         M=0.107436772335905,
-    ...                                         h=217.067959767393010)
+    >>> specification = CAM_Specification_CAM16(
+    ...     J=41.731207905126638, M=0.107436772335905, h=217.067959767393010
+    ... )
     >>> CAM16_to_JMh_CAM16(specification)  # doctest: +ELLIPSIS
     array([  4.1731207...e+01,   1.0743677...e-01,   2.1706796...e+02])
     """
@@ -384,7 +360,7 @@ def JMh_CAM16_to_CAM16(JMh: ArrayLike) -> CAM_Specification_CAM16:
     Examples
     --------
     >>> import numpy as np
-    >>> JMh = np.array([4.17312079e+01, 1.07436772e-01, 2.17067960e+02])
+    >>> JMh = np.array([4.17312079e01, 1.07436772e-01, 2.17067960e02])
     >>> JMh_CAM16_to_CAM16(JMh)  # doctest: +ELLIPSIS
     CAM_Specification_CAM16(J=41.7312079..., C=None, h=217.06796..., s=None, \
 Q=None, M=0.1074367..., H=None, HC=None)
@@ -393,6 +369,118 @@ Q=None, M=0.1074367..., H=None, HC=None)
     J, M, h = tsplit(JMh)
 
     return CAM_Specification_CAM16(J=J, M=M, h=h)
+
+
+def CIECAM16_to_JMh_CIECAM16(specification) -> NDArray:
+    """
+    Convert from *CIECAM16* specification to *CIECAM16* :math:`JMh` correlates.
+
+    Parameters
+    ----------
+    specification
+        *CIECAM16* colour appearance model specification.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        *CIECAM16* :math:`JMh` correlates.
+
+    Examples
+    --------
+    >>> specification = CAM_Specification_CIECAM16(
+    ...     J=41.731207905126638, M=0.107436772335905, h=217.067959767393010
+    ... )
+    >>> CIECAM16_to_JMh_CIECAM16(specification)  # doctest: +ELLIPSIS
+    array([  4.1731207...e+01,   1.0743677...e-01,   2.1706796...e+02])
+    """
+
+    return tstack([specification.J, specification.M, specification.h])
+
+
+def JMh_CIECAM16_to_CIECAM16(JMh: ArrayLike) -> CAM_Specification_CIECAM16:
+    """
+    Convert from *CAM6* :math:`JMh` correlates to *CAM6* specification.
+
+    Parameters
+    ----------
+    JMh
+         *CAM6* :math:`JMh` correlates.
+
+    Returns
+    -------
+    :class:`colour.CAM6_Specification`
+        *CAM6* colour appearance model specification.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> JMh = np.array([4.17312079e01, 1.07436772e-01, 2.17067960e02])
+    >>> JMh_CIECAM16_to_CIECAM16(JMh)  # doctest: +ELLIPSIS
+    CAM_Specification_CIECAM16(J=41.7312079..., C=None, h=217.06796..., \
+s=None, Q=None, M=0.1074367..., H=None, HC=None)
+    """
+
+    J, M, h = tsplit(JMh)
+
+    return CAM_Specification_CIECAM16(J=J, M=M, h=h)
+
+
+def Hellwig2022_to_JMh_Hellwig2022(specification) -> NDArray:
+    """
+    Convert from *Hellwig and Fairchild (2022)* specification to
+    *Hellwig and Fairchild (2022)* :math:`JMh` correlates.
+
+    Parameters
+    ----------
+    specification
+        *Hellwig and Fairchild (2022)* colour appearance model specification.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        *Hellwig and Fairchild (2022)* :math:`JMh` correlates.
+
+    Examples
+    --------
+    >>> specification = CAM_Specification_Hellwig2022(
+    ...     J=41.731207905126638, M=0.029382869535427687, h=217.06795976739301
+    ... )
+    >>> Hellwig2022_to_JMh_Hellwig2022(specification)  # doctest: +ELLIPSIS
+    array([  4.1731207...e+01,   2.9382869...e-02,   2.1706796...e+02])
+    """
+
+    return tstack([specification.J, specification.M, specification.h])
+
+
+def JMh_Hellwig2022_to_Hellwig2022(
+    JMh: ArrayLike,
+) -> CAM_Specification_Hellwig2022:
+    """
+    Convert from *Hellwig and Fairchild (2022)* :math:`JMh` correlates to
+    *Hellwig and Fairchild (2022)* specification.
+
+    Parameters
+    ----------
+    JMh
+         *Hellwig and Fairchild (2022)* :math:`JMh` correlates.
+
+    Returns
+    -------
+    :class:`colour.CAM6_Specification`
+        *Hellwig and Fairchild (2022)* colour appearance model specification.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> JMh = np.array([4.17312079e01, 2.93828695e-02, 2.17067960e02])
+    >>> JMh_Hellwig2022_to_Hellwig2022(JMh)  # doctest: +ELLIPSIS
+    CAM_Specification_Hellwig2022(J=41.7312079..., C=None, h=217.06796, \
+s=None, Q=None, M=0.0293828..., H=None, HC=None, J_HK=None, Q_HK=None)
+    """
+
+    J, M, h = tsplit(JMh)
+
+    return CAM_Specification_Hellwig2022(J=J, M=M, h=h)
 
 
 def XYZ_to_luminance(XYZ: ArrayLike) -> FloatingOrNDArray:
@@ -600,6 +688,8 @@ CONVERSION_SPECIFICATIONS_DATA: List = [
     ("IgPgTg", "CIE XYZ", IgPgTg_to_XYZ),
     ("CIE XYZ", "IPT", XYZ_to_IPT),
     ("IPT", "CIE XYZ", IPT_to_XYZ),
+    ("CIE XYZ", "IPT Munish 2021", XYZ_to_IPT_Munish2021),
+    ("IPT Munish 2021", "CIE XYZ", IPT_Munish2021_to_XYZ),
     ("CIE XYZ", "Jzazbz", XYZ_to_Jzazbz),
     ("Jzazbz", "CIE XYZ", Jzazbz_to_XYZ),
     ("CIE XYZ", "hdr-IPT", XYZ_to_hdr_IPT),
@@ -726,6 +816,30 @@ CONVERSION_SPECIFICATIONS_DATA: List = [
     ("CAM16", "CIE XYZ", partial(CAM16_to_XYZ, **_CAM_KWARGS_CIECAM02_sRGB)),
     ("CAM16", "CAM16 JMh", CAM16_to_JMh_CAM16),
     ("CAM16 JMh", "CAM16", JMh_CAM16_to_CAM16),
+    (
+        "CIE XYZ",
+        "CIECAM16",
+        partial(XYZ_to_CIECAM16, **_CAM_KWARGS_CIECAM02_sRGB),
+    ),
+    (
+        "CIECAM16",
+        "CIE XYZ",
+        partial(CIECAM16_to_XYZ, **_CAM_KWARGS_CIECAM02_sRGB),
+    ),
+    ("CIECAM16", "CIECAM16 JMh", CIECAM16_to_JMh_CIECAM16),
+    ("CIECAM16 JMh", "CIECAM16", JMh_CIECAM16_to_CIECAM16),
+    (
+        "CIE XYZ",
+        "Hellwig 2022",
+        partial(XYZ_to_Hellwig2022, **_CAM_KWARGS_CIECAM02_sRGB),
+    ),
+    (
+        "Hellwig 2022",
+        "CIE XYZ",
+        partial(Hellwig2022_to_XYZ, **_CAM_KWARGS_CIECAM02_sRGB),
+    ),
+    ("Hellwig 2022", "Hellwig 2022 JMh", Hellwig2022_to_JMh_Hellwig2022),
+    ("Hellwig 2022 JMh", "Hellwig 2022", JMh_Hellwig2022_to_Hellwig2022),
     (
         "CIE XYZ",
         "Kim 2009",
@@ -883,7 +997,7 @@ def _conversion_path(source: str, target: str) -> List[Callable]:
 
     Examples
     --------
-    >>> _conversion_path('cie lab', 'cct')
+    >>> _conversion_path("cie lab", "cct")
     ... # doctest: +ELLIPSIS
     [<function Lab_to_XYZ at 0x...>, <function XYZ_to_xy at 0x...>, \
 <function xy_to_UCS_uv at 0x...>, <function uv_to_CCT at 0x...>]
@@ -965,7 +1079,7 @@ def describe_conversion_path(
 
     Examples
     --------
-    >>> describe_conversion_path('Spectral Distribution', 'sRGB', width=75)
+    >>> describe_conversion_path("Spectral Distribution", "sRGB", width=75)
     ===========================================================================
     *                                                                         *
     *   [ Conversion Path ]                                                   *
@@ -978,7 +1092,7 @@ def describe_conversion_path(
     try:  # pragma: no cover
         signature_inspection = inspect.signature
     except AttributeError:  # pragma: no cover
-        signature_inspection = inspect.getargspec  # type: ignore[assignment]
+        signature_inspection = inspect.getfullargspec  # type: ignore[assignment]
 
     source, target = source.lower(), target.lower()
     mode = validate_method(
@@ -1180,15 +1294,16 @@ verbose={'mode': 'Long'})
 
             convert(RGB, 'Output-Referred RGB', 'Scene-Referred RGB')
 
-    -   Various defaults have been adopted compared to the low-level *Colour*
-        API:
+    -   The following defaults have been adopted:
 
         -   The default illuminant for the computation is
             *CIE Standard Illuminant D Series* *D65*. It can be changed on a
-            per-definition basis along the conversion path.
+            per-definition basis along the conversion path. Note that the
+            conversion from spectral to *CIE XYZ* tristimulus values remains
+            unchanged.
         -   The default *RGB* colourspace primaries and whitepoint are that of
-            the *BT.709*/*sRGB* colourspace. They can be changed on a per
-            definition basis along the conversion path.
+            the *BT.709*/*sRGB* colourspace. They can be changed on a
+            per-definition basis along the conversion path.
         -   When using **sRGB** as a source or target colour representation,
             the convenient :func:`colour.sRGB_to_XYZ` and
             :func:`colour.XYZ_to_sRGB` definitions are used, respectively.
@@ -1202,10 +1317,14 @@ verbose={'mode': 'Long'})
     Examples
     --------
     >>> import numpy as np
-    >>> from colour import SDS_COLOURCHECKERS
-    >>> sd = SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin']
-    >>> convert(sd, 'Spectral Distribution', 'sRGB',
-    ...     verbose={'mode': 'Short', 'width': 75})
+    >>> from colour import SDS_COLOURCHECKERS, SDS_ILLUMINANTS
+    >>> sd = SDS_COLOURCHECKERS["ColorChecker N Ohta"]["dark skin"]
+    >>> convert(
+    ...     sd,
+    ...     "Spectral Distribution",
+    ...     "sRGB",
+    ...     verbose={"mode": "Short", "width": 75},
+    ... )
     ... # doctest: +ELLIPSIS
     ===========================================================================
     *                                                                         *
@@ -1214,18 +1333,22 @@ verbose={'mode': 'Long'})
     *   "sd_to_XYZ" --> "XYZ_to_sRGB"                                         *
     *                                                                         *
     ===========================================================================
-    array([ 0.4567579...,  0.3098698...,  0.2486192...])
-    >>> illuminant = SDS_ILLUMINANTS['FL2']
-    >>> convert(sd, 'Spectral Distribution', 'sRGB',
-    ...     sd_to_XYZ={'illuminant': illuminant})
+    array([ 0.4903477...,  0.3018587...,  0.2358768...])
+    >>> illuminant = SDS_ILLUMINANTS["FL2"]
+    >>> convert(
+    ...     sd,
+    ...     "Spectral Distribution",
+    ...     "sRGB",
+    ...     sd_to_XYZ={"illuminant": illuminant},
+    ... )
     ... # doctest: +ELLIPSIS
     array([ 0.4792457...,  0.3167696...,  0.1736272...])
     >>> a = np.array([0.45675795, 0.30986982, 0.24861924])
-    >>> convert(a, 'Output-Referred RGB', 'CAM16UCS')
+    >>> convert(a, "Output-Referred RGB", "CAM16UCS")
     ... # doctest: +ELLIPSIS
     array([ 0.3999481...,  0.0920655...,  0.0812752...])
     >>> a = np.array([0.39994811, 0.09206558, 0.08127526])
-    >>> convert(a, 'CAM16UCS', 'sRGB', verbose={'mode': 'Short', 'width': 75})
+    >>> convert(a, "CAM16UCS", "sRGB", verbose={"mode": "Short", "width": 75})
     ... # doctest: +ELLIPSIS
     ===========================================================================
     *                                                                         *

@@ -4,7 +4,7 @@ Contributors
 The Colour Developers
 ---------------------
 
--   **Thomas Mansencal**, *Lead Pipeline Developer @ WetaFX*
+-   **Thomas Mansencal**, *Technology Supervisor @ Wētā FX*
 
     Maintainer, project coordination, overall development.
 
@@ -180,6 +180,18 @@ Development & Technical Support
 
     Documentation improvements.
 
+-   **François-Xavier Thomas**, *Senior Image Science Engineer @ DXOMARK*
+
+    Support for Recommendation ITU-T H.273 / INTERNATIONAL STANDARD ISO/IEC 23091-2.
+
+-   **Sabarish Srinivasan**, *SWE Intern @ SmallHD*
+
+    Support for Recommendation ITU-R BT.2124-0.
+
+-   **Tucker Downs**, *R&D Manager & Color Scientist @ ROE Visual*
+
+    Technical support.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
@@ -217,7 +229,7 @@ Acknowledgements
 Special Mentions
 ----------------
 
--   **Aurélia Sellier**, *FX Production Coordinator @ WetaFX*
+-   **Aurélia Sellier**, *Production Manager @ Wētā FX*
 
 Issues & Discussions
 --------------------
@@ -234,116 +246,146 @@ Issues & Discussions
 -   Ryan Bass
 -   Vishal Vashistha
 -   Vlad Enache
+-   @Alt-Shivam
+-   @Ampersandme
+-   @AndersAtEndian
+-   @Apoorva-13
+-   @Chandler
+-   @ChunHsinWang
+-   @Edwardlin-zlt
+-   @Floschoe
+-   @JarrettR
+-   @JayPalm
+-   @Jerry2001
+-   @JopdeBoo
+-   @JoshuaEbenezer
+-   @KOLANICH
+-   @KrisKennaway
+-   @Kunkka1988
+-   @LandonSwartz
+-   @LaughingMaann
+-   @LeCyberDucky
+-   @Legendin
+-   @MMehdiMousavi
+-   @MarcusCalhoun-Lopez
+-   @MrColourBlind
+-   @Myndex
+-   @Naughty-Monkey
+-   @NekoAlosama
+-   @NoRoKr
+-   @Patil2099
+-   @Paul-Sims
+-   @Queuecumber
+-   @Rob-Welch
+-   @Ron024
+-   @RutNij
+-   @TFiFiE
+-   @TomFryers
+-   @ValZapod
+-   @Wagyx
+-   @Wangld5
+-   @Willingo
 -   @aarondemolder
 -   @abnormally-distributed
 -   @ademmler
 -   @ahemberger
 -   @alban-sol
 -   @alianoroozi
--   @Alt-Shivam
--   @Ampersandme
--   @AndersAtEndian
+-   @andurilhuang
 -   @anshulxyz
--   @Apoorva-13
 -   @aurelienbl
 -   @awehring
 -   @baileyji
 -   @beckstev
 -   @bersbersbers
+-   @blue-j
 -   @brandondube
 -   @briend
 -   @bsdis
 -   @cclauss
--   @Chandler
 -   @chesschi
--   @ChunHsinWang
 -   @codycuellar
+-   @cuixiaofei
 -   @daviesj
 -   @dfoxfranke
+-   @digital-prepress
+-   @diuming
 -   @dtbulmerJRs
--   @Edwardlin-zlt
+-   @ema2159
+-   @ems1111
 -   @eyeforcolor
 -   @fangjy88
--   @Floschoe
 -   @foutoucour
+-   @fxthomas
 -   @goofy2k
 -   @gutenzwerg
 -   @habemus-papadum
 -   @hajimen
+-   @hakanai
 -   @heinemannj
 -   @henczati
 -   @hminle
 -   @iCagarro
 -   @iinnovations
 -   @jaguarondi
--   @Jerry2001
--   @JoshuaEbenezer
--   @KOLANICH
--   @KrisKennaway
+-   @kaihagseth
+-   @kljumat
 -   @kunal9922
--   @Kunkka1988
 -   @lavrovd
--   @LeCyberDucky
--   @Legendin
 -   @leklbk
 -   @lensz
 -   @lishichengyan
--   @MarcusCalhoun-Lopez
+-   @luoww1992
+-   @matt-roberts
 -   @matthiasbirkich
 -   @meshing
--   @MMehdiMousavi
+-   @mforbes
 -   @mokincha
 -   @monkeywithacupcake
--   @MrColourBlind
--   @Myndex
 -   @naavis
 -   @nadersadoughi
--   @Naughty-Monkey
--   @NekoAlosama
--   @NoRoKr
 -   @nschloe
 -   @parthxtripathi
--   @Patil2099
--   @Paul-Sims
 -   @peteroupc
 -   @pfk-beta
+-   @pjaesung2
 -   @priikone
--   @Queuecumber
+-   @qiuboujun
 -   @ramparvathaneni
--   @Rob-Welch
+-   @richardstardust
 -   @robbuckley
 -   @romanovar
--   @Ron024
 -   @rsnitsch
--   @RutNij
 -   @sdbbs
 -   @senyai
 -   @shanest
+-   @sherlockedlee
 -   @shirubana
 -   @shpurdikhub
+-   @sliedes
+-   @soldivelot
 -   @spicymatt
 -   @ssh4net
 -   @stakemura
 -   @starkcolour
 -   @starkfan007
+-   @stereomatchingkiss
 -   @tashdor
--   @TFiFiE
 -   @thunders82
 -   @tingeman
 -   @tospe
 -   @totyped
 -   @ujjayants
--   @ValZapod
 -   @vidakDK
 -   @volkerjaenisch
 -   @vvclin-git
--   @Wagyx
 -   @whornsby
--   @Willingo
 -   @willSmallHD
 -   @wuuawu
+-   @xeggbee
 -   @xjossy
 -   @yuhao
+-   @yulincoder
 
 About
 -----

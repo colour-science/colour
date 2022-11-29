@@ -94,7 +94,7 @@ def log_encoding_FilmicPro6(t: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_1(y))
 
 
-_LOG_DECODING_FILMICPRO_INTERPOLATOR_CACHE: Optional[Extrapolator] = None
+_CACHE_LOG_DECODING_FILMICPRO_INTERPOLATOR: Optional[Extrapolator] = None
 
 
 def _log_decoding_FilmicPro6_interpolator() -> Extrapolator:
@@ -109,15 +109,15 @@ def _log_decoding_FilmicPro6_interpolator() -> Extrapolator:
         function interpolator.
     """
 
-    global _LOG_DECODING_FILMICPRO_INTERPOLATOR_CACHE
+    global _CACHE_LOG_DECODING_FILMICPRO_INTERPOLATOR
 
     t = np.arange(0, 1, 0.0001)
-    if _LOG_DECODING_FILMICPRO_INTERPOLATOR_CACHE is None:
-        _LOG_DECODING_FILMICPRO_INTERPOLATOR_CACHE = Extrapolator(
+    if _CACHE_LOG_DECODING_FILMICPRO_INTERPOLATOR is None:
+        _CACHE_LOG_DECODING_FILMICPRO_INTERPOLATOR = Extrapolator(
             LinearInterpolator(log_encoding_FilmicPro6(t), t)
         )
 
-    return _LOG_DECODING_FILMICPRO_INTERPOLATOR_CACHE
+    return _CACHE_LOG_DECODING_FILMICPRO_INTERPOLATOR
 
 
 def log_decoding_FilmicPro6(y: FloatingOrArrayLike) -> FloatingOrNDArray:

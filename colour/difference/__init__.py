@@ -5,6 +5,11 @@ References
     Standard Practice for Calculation of Color Tolerances and Color Differences
     from Instrumentally Measured Color Coordinates: Vol. i (pp. 1-10).
     doi:10.1520/D2244-16
+-   :cite:`InternationalTelecommunicationUnion2019` : International
+    Telecommunication Union. (2019). Recommendation ITU-R BT.2124-0 -
+    Objective metric for the assessment of the potential visibility of colour
+    differences in television (pp. 1-36). http://www.itu.int/dms_pubrec/itu-r/\
+rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
 -   :cite:`Li2017` : Li, C., Li, Z., Wang, Z., Xu, Y., Luo, M. R., Cui, G.,
     Melgosa, M., Brill, M. H., & Pointer, M. (2017). Comprehensive color
     solutions: CAM16, CAT16, and CAM16-UCS. Color Research & Application,
@@ -34,7 +39,7 @@ from __future__ import annotations
 
 from colour.hints import Any, ArrayLike, FloatingOrNDArray, Literal, Union
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     filter_kwargs,
     validate_method,
 )
@@ -47,6 +52,7 @@ from .delta_e import (
     delta_E_CIE1994,
     delta_E_CIE2000,
     delta_E_CMC,
+    delta_E_ITP,
 )
 from .din99 import delta_E_DIN99
 from .huang2015 import power_function_Huang2015
@@ -68,6 +74,7 @@ __all__ += [
     "delta_E_CIE1994",
     "delta_E_CIE2000",
     "delta_E_CMC",
+    "delta_E_ITP",
 ]
 __all__ += [
     "delta_E_DIN99",
@@ -81,12 +88,13 @@ __all__ += [
     "index_stress",
 ]
 
-DELTA_E_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+DELTA_E_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "CIE 1976": delta_E_CIE1976,
         "CIE 1994": delta_E_CIE1994,
         "CIE 2000": delta_E_CIE2000,
         "CMC": delta_E_CMC,
+        "ITP": delta_E_ITP,
         "CAM02-LCD": delta_E_CAM02LCD,
         "CAM02-SCD": delta_E_CAM02SCD,
         "CAM02-UCS": delta_E_CAM02UCS,
@@ -125,6 +133,7 @@ def delta_E(
             "CIE 1994",
             "CIE 2000",
             "CMC",
+            "ITP",
             "CAM02-LCD",
             "CAM02-SCD",
             "CAM02-UCS",
@@ -139,14 +148,17 @@ def delta_E(
 ) -> FloatingOrNDArray:
     """
     Return the difference :math:`\\Delta E_{ab}` between two given
-    *CIE L\\*a\\*b\\** or :math:`J'a'b'` colourspace arrays using given method.
+    *CIE L\\*a\\*b\\**, :math:`IC_TC_P`, or :math:`J'a'b'` colourspace arrays
+    using given method.
 
     Parameters
     ----------
     a
-        *CIE L\\*a\\*b\\** or :math:`J'a'b'` colourspace array :math:`a`.
+        *CIE L\\*a\\*b\\**, :math:`IC_TC_P`, or :math:`J'a'b'` colourspace
+        array :math:`a`.
     b
-        *CIE L\\*a\\*b\\** or :math:`J'a'b'` colourspace array :math:`b`.
+        *CIE L\\*a\\*b\\**, :math:`IC_TC_P`, or :math:`J'a'b'` colourspace
+        array :math:`b`.
     method
         Computation method.
 
@@ -174,9 +186,11 @@ def delta_E(
 
     References
     ----------
-    :cite:`ASTMInternational2007`, :cite:`Li2017`, :cite:`Lindbloom2003c`,
-    :cite:`Lindbloom2011a`, :cite:`Lindbloom2009e`, :cite:`Lindbloom2009f`,
-    :cite:`Luo2006b`, :cite:`Melgosa2013b`, :cite:`Wikipedia2008b`
+    :cite:`ASTMInternational2007`,
+    :cite:`InternationalTelecommunicationUnion2019`, :cite:`Li2017`,
+    :cite:`Lindbloom2003c`, :cite:`Lindbloom2011a`, :cite:`Lindbloom2009e`,
+    :cite:`Lindbloom2009f`, :cite:`Luo2006b`, :cite:`Melgosa2013b`,
+    :cite:`Wikipedia2008b`
 
     Examples
     --------
@@ -185,22 +199,26 @@ def delta_E(
     >>> b = np.array([100.00000000, 426.67945353, 72.39590835])
     >>> delta_E(a, b)  # doctest: +ELLIPSIS
     94.0356490...
-    >>> delta_E(a, b, method='CIE 2000')  # doctest: +ELLIPSIS
+    >>> delta_E(a, b, method="CIE 2000")  # doctest: +ELLIPSIS
     94.0356490...
-    >>> delta_E(a, b, method='CIE 1976')  # doctest: +ELLIPSIS
+    >>> delta_E(a, b, method="CIE 1976")  # doctest: +ELLIPSIS
     451.7133019...
-    >>> delta_E(a, b, method='CIE 1994')  # doctest: +ELLIPSIS
+    >>> delta_E(a, b, method="CIE 1994")  # doctest: +ELLIPSIS
     83.7792255...
-    >>> delta_E(a, b, method='CIE 1994', textiles=False)
+    >>> delta_E(a, b, method="CIE 1994", textiles=False)
     ... # doctest: +ELLIPSIS
     83.7792255...
-    >>> delta_E(a, b, method='DIN99')  # doctest: +ELLIPSIS
+    >>> delta_E(a, b, method="DIN99")  # doctest: +ELLIPSIS
     66.1119282...
+    >>> a = np.array([0.4885468072, -0.04739350675, 0.07475401302])
+    >>> b = np.array([0.4899203231, -0.04567508203, 0.07361341775])
+    >>> delta_E(a, b, method="ITP")  # doctest: +ELLIPSIS
+    1.42657228...
     >>> a = np.array([54.90433134, -0.08450395, -0.06854831])
     >>> b = np.array([54.90433134, -0.08442362, -0.06848314])
-    >>> delta_E(a, b, method='CAM02-UCS')  # doctest: +ELLIPSIS
+    >>> delta_E(a, b, method="CAM02-UCS")  # doctest: +ELLIPSIS
     0.0001034...
-    >>> delta_E(a, b, method='CAM16-LCD')  # doctest: +ELLIPSIS
+    >>> delta_E(a, b, method="CAM16-LCD")  # doctest: +ELLIPSIS
     0.0001034...
     """
 

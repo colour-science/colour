@@ -26,7 +26,7 @@ import numpy as np
 from collections import namedtuple
 
 from colour.hints import Tuple
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -61,8 +61,8 @@ DATA_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931: Tuple = (
 )
 
 TVS_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
-    CaseInsensitiveMapping
-) = CaseInsensitiveMapping(
+    CanonicalMapping
+) = CanonicalMapping(
     {
         x[0]: Illuminant_Specification_HunterLab(*x)
         for x in DATA_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931
@@ -90,8 +90,8 @@ DATA_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964: Tuple = (
 )
 
 TVS_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964: (
-    CaseInsensitiveMapping
-) = CaseInsensitiveMapping(
+    CanonicalMapping
+) = CanonicalMapping(
     {
         x[0]: Illuminant_Specification_HunterLab(*x)
         for x in DATA_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964
@@ -106,7 +106,7 @@ References
 :cite:`HunterLab2008b`, :cite:`HunterLab2008c`
 """
 
-TVS_ILLUMINANTS_HUNTERLAB: CaseInsensitiveMapping = CaseInsensitiveMapping(
+TVS_ILLUMINANTS_HUNTERLAB: CanonicalMapping = CanonicalMapping(
     {
         "CIE 1931 2 Degree Standard Observer": (
             TVS_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931

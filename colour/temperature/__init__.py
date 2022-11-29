@@ -9,6 +9,9 @@ Set_xy_coord. https://www.adobe.com/support/downloads/dng/dng_sdk.html
     Development Kit (SDK) - 1.3.0.0 -
     dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp::dng_temperature::xy_coord.
     https://www.adobe.com/support/downloads/dng/dng_sdk.html
+-   :cite:`CIETC1-482004i` : CIE TC 1-48. (2004). APPENDIX E. INFORMATION ON
+    THE USE OF PLANCK'S EQUATION FOR STANDARD AIR. In CIE 015:2004 Colorimetry,
+    3rd Edition (pp. 77-82). ISBN:978-3-901906-33-6
 -   :cite:`Hernandez-Andres1999a` : Hernández-Andrés, J., Lee, R. L., &
     Romero, J. (1999). Calculating correlated color temperatures across the
     entire gamut of daylight and skylight chromaticities. Applied Optics,
@@ -48,7 +51,7 @@ from colour.hints import (
     Union,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     filter_kwargs,
     validate_method,
 )
@@ -58,6 +61,7 @@ from .hernandez1999 import xy_to_CCT_Hernandez1999, CCT_to_xy_Hernandez1999
 from .kang2002 import xy_to_CCT_Kang2002, CCT_to_xy_Kang2002
 from .krystek1985 import uv_to_CCT_Krystek1985, CCT_to_uv_Krystek1985
 from .mccamy1992 import xy_to_CCT_McCamy1992, CCT_to_xy_McCamy1992
+from .planck1900 import uv_to_CCT_Planck1900, CCT_to_uv_Planck1900
 from .ohno2013 import uv_to_CCT_Ohno2013, CCT_to_uv_Ohno2013
 from .robertson1968 import uv_to_CCT_Robertson1968, CCT_to_uv_Robertson1968
 
@@ -82,6 +86,10 @@ __all__ += [
     "CCT_to_xy_McCamy1992",
 ]
 __all__ += [
+    "uv_to_CCT_Planck1900",
+    "CCT_to_uv_Planck1900",
+]
+__all__ += [
     "uv_to_CCT_Ohno2013",
     "CCT_to_uv_Ohno2013",
 ]
@@ -90,10 +98,11 @@ __all__ += [
     "CCT_to_uv_Robertson1968",
 ]
 
-UV_TO_CCT_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+UV_TO_CCT_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Krystek 1985": uv_to_CCT_Krystek1985,
         "Ohno 2013": uv_to_CCT_Ohno2013,
+        "Planck 1900": uv_to_CCT_Planck1900,
         "Robertson 1968": uv_to_CCT_Robertson1968,
     }
 )
@@ -103,8 +112,8 @@ colour temperature :math:`T_{cp}` computation methods.
 
 References
 ----------
-:cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`, :cite:`Krystek1985b`,
-:cite:`Ohno2014a`, :cite:`Wyszecki2000y`
+:cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`, :cite:`CIETC1-482004i`,
+:cite:`Krystek1985b`, :cite:`Ohno2014a`, :cite:`Wyszecki2000y`
 
 Aliases:
 
@@ -118,7 +127,8 @@ UV_TO_CCT_METHODS["robertson1968"] = UV_TO_CCT_METHODS["Robertson 1968"]
 def uv_to_CCT(
     uv: ArrayLike,
     method: Union[
-        Literal["Krystek 1985", "Ohno 2013", "Robertson 1968"], str
+        Literal["Krystek 1985", "Ohno 2013", "Planck 1900", "Robertson 1968"],
+        str,
     ] = "Ohno 2013",
     **kwargs: Any,
 ) -> NDArray:
@@ -137,7 +147,8 @@ def uv_to_CCT(
     Other Parameters
     ----------------
     cmfs
-        {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
+        {:func:`colour.temperature.uv_to_CCT_Ohno2013`,
+        :func:`colour.temperature.uv_to_CCT_Planck1900`},
         Standard observer colour matching functions.
     count
         {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
@@ -162,8 +173,9 @@ def uv_to_CCT(
 
     References
     ----------
-    :cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`, :cite:`Krystek1985b`,
-    :cite:`Ohno2014a`, :cite:`Wyszecki2000y`
+    :cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`,
+    :cite:`CIETC1-482004i`, :cite:`Krystek1985b`, :cite:`Ohno2014a`,
+    :cite:`Wyszecki2000y`
 
     Examples
     --------
@@ -180,10 +192,11 @@ def uv_to_CCT(
     return function(uv, **filter_kwargs(function, **kwargs))
 
 
-CCT_TO_UV_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+CCT_TO_UV_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Krystek 1985": CCT_to_uv_Krystek1985,
         "Ohno 2013": CCT_to_uv_Ohno2013,
+        "Planck 1900": CCT_to_uv_Planck1900,
         "Robertson 1968": CCT_to_uv_Robertson1968,
     }
 )
@@ -193,8 +206,8 @@ Supported correlated colour temperature :math:`T_{cp}` to *CIE UCS* colourspace
 
 References
 ----------
-:cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`, :cite:`Krystek1985b`,
-:cite:`Ohno2014a`, :cite:`Wyszecki2000y`
+:cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`, :cite:`CIETC1-482004i`,
+:cite:`Krystek1985b`, :cite:`Ohno2014a`, :cite:`Wyszecki2000y`
 
 Aliases:
 
@@ -208,7 +221,8 @@ CCT_TO_UV_METHODS["robertson1968"] = CCT_TO_UV_METHODS["Robertson 1968"]
 def CCT_to_uv(
     CCT_D_uv: ArrayLike,
     method: Union[
-        Literal["Krystek 1985", "Ohno 2013", "Robertson 1968"], str
+        Literal["Krystek 1985", "Ohno 2013", "Planck 1900", "Robertson 1968"],
+        str,
     ] = "Ohno 2013",
     **kwargs: Any,
 ) -> NDArray:
@@ -226,7 +240,8 @@ def CCT_to_uv(
     Other Parameters
     ----------------
     cmfs
-        {:func:`colour.temperature.CCT_to_uv_Ohno2013`},
+        {:func:`colour.temperature.CCT_to_uv_Ohno2013`,
+        :func:`colour.temperature.CCT_to_uv_Planck1900`},
         Standard observer colour matching functions.
 
     Returns
@@ -236,8 +251,9 @@ def CCT_to_uv(
 
     References
     ----------
-    :cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`, :cite:`Krystek1985b`,
-    :cite:`Ohno2014a`, :cite:`Wyszecki2000y`
+    :cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`,
+    :cite:`CIETC1-482004i`, :cite:`Krystek1985b`, :cite:`Ohno2014a`,
+    :cite:`Wyszecki2000y`
 
     Examples
     --------
@@ -263,7 +279,7 @@ __all__ += [
     "CCT_to_uv",
 ]
 
-XY_TO_CCT_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+XY_TO_CCT_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "CIE Illuminant D Series": xy_to_CCT_CIE_D,
         "Hernandez 1999": xy_to_CCT_Hernandez1999,
@@ -338,7 +354,7 @@ def xy_to_CCT(
     >>> import numpy as np
     >>> xy_to_CCT(np.array([0.31270, 0.32900]))  # doctest: +ELLIPSIS
     6508.1175148...
-    >>> xy_to_CCT(np.array([0.31270, 0.32900]), 'Hernandez 1999')
+    >>> xy_to_CCT(np.array([0.31270, 0.32900]), "Hernandez 1999")
     ... # doctest: +ELLIPSIS
     6500.7420431...
     """
@@ -348,7 +364,7 @@ def xy_to_CCT(
     return XY_TO_CCT_METHODS[method](xy)
 
 
-CCT_TO_XY_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+CCT_TO_XY_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "CIE Illuminant D Series": CCT_to_xy_CIE_D,
         "Hernandez 1999": CCT_to_xy_Hernandez1999,
@@ -422,7 +438,7 @@ def CCT_to_xy(
     --------
     >>> CCT_to_xy(6504.38938305)  # doctest: +ELLIPSIS
     array([ 0.3127077...,  0.3291128...])
-    >>> CCT_to_xy(6504.38938305, 'Kang 2002')
+    >>> CCT_to_xy(6504.38938305, "Kang 2002")
     ... # doctest: +ELLIPSIS
     array([ 0.313426 ...,  0.3235959...])
     """

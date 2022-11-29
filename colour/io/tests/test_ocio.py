@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.io.ocio` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.io.ocio` module."""
 
 from __future__ import annotations
 
@@ -17,11 +18,11 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "RESOURCES_DIRECTORY",
+    "ROOT_RESOURCES",
     "TestProcessImageOpenColorIO",
 ]
 
-RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), "resources")
+ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 
 
 class TestProcessImageOpenColorIO(unittest.TestCase):
@@ -41,12 +42,12 @@ class TestProcessImageOpenColorIO(unittest.TestCase):
         import PyOpenColorIO as ocio
 
         config = os.path.join(
-            RESOURCES_DIRECTORY, "config-aces-reference.ocio.yaml"
+            ROOT_RESOURCES, "config-aces-reference.ocio.yaml"
         )
 
         a = full([4, 2, 3], 0.18)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             process_image_OpenColorIO(
                 a, "ACES - ACES2065-1", "ACES - ACEScct", config=config
             ),
@@ -73,7 +74,7 @@ class TestProcessImageOpenColorIO(unittest.TestCase):
             decimal=5,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             process_image_OpenColorIO(
                 a,
                 "ACES - ACES2065-1",

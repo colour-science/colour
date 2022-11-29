@@ -1,5 +1,52 @@
-Geometry Primitives Generation
-==============================
+Geometry Computations
+=====================
+
+Ellipse
+-------
+
+``colour.geometry``
+
+.. currentmodule:: colour.geometry
+
+.. autosummary::
+    :toctree: generated/
+
+    ellipse_coefficients_general_form
+    ellipse_coefficients_canonical_form
+    point_at_angle_on_ellipse
+    ELLIPSE_FITTING_METHODS
+    ellipse_fitting
+
+**Ancillary Objects**
+
+``colour.geometry``
+
+.. autosummary::
+    :toctree: generated/
+
+    ellipse_fitting_Halir1998
+
+Intersection
+------------
+
+``colour.geometry``
+
+.. currentmodule:: colour.geometry
+
+.. autosummary::
+    :toctree: generated/
+
+    extend_line_segment
+    intersect_line_segments
+
+**Ancillary Objects**
+
+``colour.geometry``
+
+.. autosummary::
+    :toctree: generated/
+
+    LineSegmentsIntersections_Specification
 
 Primitives
 ----------

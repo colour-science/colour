@@ -1,7 +1,7 @@
 from .all import MUNSELL_COLOURS_ALL
 from .experimental import MUNSELL_COLOURS_1929
 from .real import MUNSELL_COLOURS_REAL
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CanonicalMapping
 
 __all__ = [
     "MUNSELL_COLOURS_ALL",
@@ -13,7 +13,7 @@ __all__ += [
     "MUNSELL_COLOURS_REAL",
 ]
 
-MUNSELL_COLOURS = CaseInsensitiveMapping(
+MUNSELL_COLOURS = CanonicalMapping(
     {
         "Munsell Colours All": MUNSELL_COLOURS_ALL,
         "Munsell Colours 1929": MUNSELL_COLOURS_1929,
@@ -21,7 +21,7 @@ MUNSELL_COLOURS = CaseInsensitiveMapping(
     }
 )
 MUNSELL_COLOURS.__doc__ = """
-Defines the *Munsell Renotation System* datasets.
+Define the *Munsell Renotation System* datasets.
 
 -   ``Munsell Colours All``: *all* published *Munsell* colours, including the
     extrapolated colors.

@@ -75,7 +75,6 @@ from colour.utilities import (
     optional,
     tsplit,
     tstack,
-    suppress_warnings,
     validate_method,
 )
 
@@ -123,7 +122,7 @@ def plot_spectral_locus(
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
     spectral_locus_colours
         Colours of the *Spectral Locus*, if ``spectral_locus_colours`` is set
         to *RGB*, the colours will be computed according to the corresponding
@@ -150,7 +149,7 @@ def plot_spectral_locus(
 
     Examples
     --------
-    >>> plot_spectral_locus(spectral_locus_colours='RGB')  # doctest: +ELLIPSIS
+    >>> plot_spectral_locus(spectral_locus_colours="RGB")  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Spectral_Locus.png
@@ -343,7 +342,7 @@ def plot_spectral_locus(
             > 0
             else np.array([dy, -dx])
         )
-        normal = normalise_vector(normal) / 30
+        normal = as_float_array(normalise_vector(normal) / 30)
 
         label_colour = (
             spectral_locus_colours
@@ -419,7 +418,7 @@ def plot_chromaticity_diagram_colours(
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
     method
         *Chromaticity Diagram* method.
 
@@ -436,7 +435,7 @@ def plot_chromaticity_diagram_colours(
 
     Examples
     --------
-    >>> plot_chromaticity_diagram_colours(diagram_colours='RGB')
+    >>> plot_chromaticity_diagram_colours(diagram_colours="RGB")
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -483,16 +482,12 @@ def plot_chromaticity_diagram_colours(
         )
         ij = tstack([ii, jj])
 
-        # NOTE: Various values in the grid have potential to generate
-        # zero-divisions, they could be avoided by perturbing the grid, e.g.
-        # adding a small epsilon. It was decided instead to disable warnings.
-        with suppress_warnings(python_warnings=True):
-            if method == "cie 1931":
-                XYZ = xy_to_XYZ(ij)
-            elif method == "cie 1960 ucs":
-                XYZ = xy_to_XYZ(UCS_uv_to_xy(ij))
-            elif method == "cie 1976 ucs":
-                XYZ = xy_to_XYZ(Luv_uv_to_xy(ij))
+        if method == "cie 1931":
+            XYZ = xy_to_XYZ(ij)
+        elif method == "cie 1960 ucs":
+            XYZ = xy_to_XYZ(UCS_uv_to_xy(ij))
+        elif method == "cie 1976 ucs":
+            XYZ = xy_to_XYZ(Luv_uv_to_xy(ij))
 
         diagram_colours = normalise_maximum(
             XYZ_to_plotting_colourspace(XYZ, illuminant), axis=-1
@@ -553,7 +548,7 @@ def plot_chromaticity_diagram(
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
     show_diagram_colours
         Whether to display the *Chromaticity Diagram* background colours.
     show_spectral_locus
@@ -624,7 +619,7 @@ def plot_chromaticity_diagram(
             "CIE v'",
         )
 
-    title = f"{method.upper()} Chromaticity Diagram - {cmfs.strict_name}"
+    title = f"{method.upper()} Chromaticity Diagram - {cmfs.display_name}"
 
     settings.update(
         {
@@ -660,7 +655,7 @@ def plot_chromaticity_diagram_CIE1931(
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
     show_diagram_colours
         Whether to display the *Chromaticity Diagram* background colours.
     show_spectral_locus
@@ -716,7 +711,7 @@ def plot_chromaticity_diagram_CIE1960UCS(
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
     show_diagram_colours
         Whether to display the *Chromaticity Diagram* background colours.
     show_spectral_locus
@@ -772,7 +767,7 @@ def plot_chromaticity_diagram_CIE1976UCS(
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
     show_diagram_colours
         Whether to display the *Chromaticity Diagram* background colours.
     show_spectral_locus
@@ -843,7 +838,7 @@ def plot_sds_in_chromaticity_diagram(
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
     chromaticity_diagram_callable
         Callable responsible for drawing the *Chromaticity Diagram*.
     method
@@ -871,11 +866,11 @@ def plot_sds_in_chromaticity_diagram(
             distributions colours. The default is the illuminant associated
             with the whitepoint of the default plotting colourspace.
             ``illuminant`` can be of any type or form supported by the
-            :func:`colour.plotting.filter_cmfs` definition.
+            :func:`colour.plotting.common.filter_cmfs` definition.
         -   ``cmfs`` : The standard observer colour matching functions used for
             computing the spectral distributions colours. ``cmfs`` can be of
             any type or form supported by the
-            :func:`colour.plotting.filter_cmfs` definition.
+            :func:`colour.plotting.common.filter_cmfs` definition.
         -   ``normalise_sd_colours`` : Whether to normalise the computed
             spectral distributions colours. The default is *True*.
         -   ``use_sd_colours`` : Whether to use the computed spectral
@@ -899,23 +894,24 @@ def plot_sds_in_chromaticity_diagram(
 
     Examples
     --------
-    >>> A = SDS_ILLUMINANTS['A']
-    >>> D65 = SDS_ILLUMINANTS['D65']
+    >>> A = SDS_ILLUMINANTS["A"]
+    >>> D65 = SDS_ILLUMINANTS["D65"]
     >>> annotate_kwargs = [
-    ...     {'xytext': (-25, 15), 'arrowprops':{'arrowstyle':'-'}},
-    ...     {}
+    ...     {"xytext": (-25, 15), "arrowprops": {"arrowstyle": "-"}},
+    ...     {},
     ... ]
     >>> plot_kwargs = [
     ...     {
-    ...         'illuminant': SDS_ILLUMINANTS['E'],
-    ...         'markersize' : 15,
-    ...         'normalise_sd_colours': True,
-    ...         'use_sd_colours': True
+    ...         "illuminant": SDS_ILLUMINANTS["E"],
+    ...         "markersize": 15,
+    ...         "normalise_sd_colours": True,
+    ...         "use_sd_colours": True,
     ...     },
-    ...     {'illuminant': SDS_ILLUMINANTS['E']},
+    ...     {"illuminant": SDS_ILLUMINANTS["E"]},
     ... ]
     >>> plot_sds_in_chromaticity_diagram(
-    ...     [A, D65], annotate_kwargs=annotate_kwargs, plot_kwargs=plot_kwargs)
+    ...     [A, D65], annotate_kwargs=annotate_kwargs, plot_kwargs=plot_kwargs
+    ... )
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -1000,7 +996,7 @@ def plot_sds_in_chromaticity_diagram(
     plot_settings_collection = [
         {
             "color": CONSTANTS_COLOUR_STYLE.colour.brightest,
-            "label": f"{sd.strict_name}",
+            "label": f"{sd.display_name}",
             "marker": "o",
             "markeredgecolor": CONSTANTS_COLOUR_STYLE.colour.dark,
             "markeredgewidth": CONSTANTS_COLOUR_STYLE.geometry.short * 0.75,
@@ -1100,7 +1096,7 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
     chromaticity_diagram_callable_CIE1931
         Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
     annotate_kwargs
@@ -1126,11 +1122,11 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
             distributions colours. The default is the illuminant associated
             with the whitepoint of the default plotting colourspace.
             ``illuminant`` can be of any type or form supported by the
-            :func:`colour.plotting.filter_cmfs` definition.
+            :func:`colour.plotting.common.filter_cmfs` definition.
         -   ``cmfs`` : The standard observer colour matching functions used for
             computing the spectral distributions colours. ``cmfs`` can be of
             any type or form supported by the
-            :func:`colour.plotting.filter_cmfs` definition.
+            :func:`colour.plotting.common.filter_cmfs` definition.
         -   ``normalise_sd_colours`` : Whether to normalise the computed
             spectral distributions colours. The default is *True*.
         -   ``use_sd_colours`` : Whether to use the computed spectral
@@ -1154,8 +1150,8 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
 
     Examples
     --------
-    >>> A = SDS_ILLUMINANTS['A']
-    >>> D65 = SDS_ILLUMINANTS['D65']
+    >>> A = SDS_ILLUMINANTS["A"]
+    >>> D65 = SDS_ILLUMINANTS["D65"]
     >>> plot_sds_in_chromaticity_diagram_CIE1931([A, D65])
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
@@ -1212,7 +1208,7 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
     chromaticity_diagram_callable_CIE1960UCS
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
@@ -1239,11 +1235,11 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
             distributions colours. The default is the illuminant associated
             with the whitepoint of the default plotting colourspace.
             ``illuminant`` can be of any type or form supported by the
-            :func:`colour.plotting.filter_cmfs` definition.
+            :func:`colour.plotting.common.filter_cmfs` definition.
         -   ``cmfs`` : The standard observer colour matching functions used for
             computing the spectral distributions colours. ``cmfs`` can be of
             any type or form supported by the
-            :func:`colour.plotting.filter_cmfs` definition.
+            :func:`colour.plotting.common.filter_cmfs` definition.
         -   ``normalise_sd_colours`` : Whether to normalise the computed
             spectral distributions colours. The default is *True*.
         -   ``use_sd_colours`` : Whether to use the computed spectral
@@ -1267,8 +1263,8 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
 
     Examples
     --------
-    >>> A = SDS_ILLUMINANTS['A']
-    >>> D65 = SDS_ILLUMINANTS['D65']
+    >>> A = SDS_ILLUMINANTS["A"]
+    >>> D65 = SDS_ILLUMINANTS["D65"]
     >>> plot_sds_in_chromaticity_diagram_CIE1960UCS([A, D65])
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
@@ -1325,7 +1321,7 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
     chromaticity_diagram_callable_CIE1976UCS
         Callable responsible for drawing the
         *CIE 1976 UCS Chromaticity Diagram*.
@@ -1352,11 +1348,11 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
             distributions colours. The default is the illuminant associated
             with the whitepoint of the default plotting colourspace.
             ``illuminant`` can be of any type or form supported by the
-            :func:`colour.plotting.filter_cmfs` definition.
+            :func:`colour.plotting.common.filter_cmfs` definition.
         -   ``cmfs`` : The standard observer colour matching functions used for
             computing the spectral distributions colours. ``cmfs`` can be of
             any type or form supported by the
-            :func:`colour.plotting.filter_cmfs` definition.
+            :func:`colour.plotting.common.filter_cmfs` definition.
         -   ``normalise_sd_colours`` : Whether to normalise the computed
             spectral distributions colours. The default is *True*.
         -   ``use_sd_colours`` : Whether to use the computed spectral
@@ -1380,8 +1376,8 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
 
     Examples
     --------
-    >>> A = SDS_ILLUMINANTS['A']
-    >>> D65 = SDS_ILLUMINANTS['D65']
+    >>> A = SDS_ILLUMINANTS["A"]
+    >>> D65 = SDS_ILLUMINANTS["D65"]
     >>> plot_sds_in_chromaticity_diagram_CIE1976UCS([A, D65])
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)

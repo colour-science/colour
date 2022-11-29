@@ -65,6 +65,7 @@ import scipy.interpolate
 from collections.abc import Mapping
 from functools import reduce
 
+from colour.algebra import sdiv, sdiv_mode
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.hints import (
     Any,
@@ -85,7 +86,7 @@ from colour.hints import (
     cast,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_array,
     as_float_array,
     as_float,
@@ -371,8 +372,9 @@ class KernelInterpolator:
     --------
     Interpolating a single numeric variable:
 
-    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100,
-    ...               69.5900, 27.8007, 86.0500])
+    >>> y = np.array(
+    ...     [5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500]
+    ... )
     >>> x = np.arange(len(y))
     >>> f = KernelInterpolator(x, y)
     >>> f(0.5)  # doctest: +ELLIPSIS
@@ -392,11 +394,8 @@ class KernelInterpolator:
     Using a different window size:
 
     >>> f = KernelInterpolator(
-    ...     x,
-    ...     y,
-    ...     window=16,
-    ...     kernel=kernel_lanczos,
-    ...     kernel_kwargs={'a': 16})
+    ...     x, y, window=16, kernel=kernel_lanczos, kernel_kwargs={"a": 16}
+    ... )
     >>> f([0.25, 0.75])  # doctest: +ELLIPSIS
     array([ 5.3961792...,  5.6521093...])
     """
@@ -410,7 +409,7 @@ class KernelInterpolator:
         kernel_kwargs: Optional[Dict] = None,
         padding_kwargs: Optional[Dict] = None,
         dtype: Optional[Type[DTypeNumber]] = None,
-    ):
+    ) -> None:
         dtype = cast(Type[DTypeNumber], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
         self._x_p: NDArray = np.array([])
@@ -692,9 +691,7 @@ class KernelInterpolator:
         x_interval = interval(self._x)[0]
         x_f = np.floor(x / x_interval)
 
-        windows = x_f[:, np.newaxis] + np.arange(
-            -self._window + 1, self._window + 1
-        )
+        windows = x_f[:, None] + np.arange(-self._window + 1, self._window + 1)
         clip_l = min(self._x_p) / x_interval
         clip_h = max(self._x_p) / x_interval
         windows = np.clip(windows, clip_l, clip_h) - clip_l
@@ -703,7 +700,7 @@ class KernelInterpolator:
         return np.sum(
             self._y_p[windows]
             * self._kernel(
-                x[:, np.newaxis] / x_interval
+                x[:, None] / x_interval
                 - windows
                 - min(self._x_p) / x_interval,
                 **self._kernel_kwargs,
@@ -758,7 +755,7 @@ class NearestNeighbourInterpolator(KernelInterpolator):
     -   :meth:`~colour.NearestNeighbourInterpolator.__init__`
     """
 
-    def __init__(self, *args: Any, **kwargs: Any):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         kwargs["kernel"] = kernel_nearest_neighbour
         if "kernel_kwargs" in kwargs:
             del kwargs["kernel_kwargs"]
@@ -799,8 +796,9 @@ class LinearInterpolator:
     --------
     Interpolating a single numeric variable:
 
-    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100,
-    ...               69.5900, 27.8007, 86.0500])
+    >>> y = np.array(
+    ...     [5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500]
+    ... )
     >>> x = np.arange(len(y))
     >>> f = LinearInterpolator(x, y)
     >>> f(0.5)  # doctest: +ELLIPSIS
@@ -817,7 +815,7 @@ class LinearInterpolator:
         x: ArrayLike,
         y: ArrayLike,
         dtype: Optional[Type[DTypeNumber]] = None,
-    ):
+    ) -> None:
         dtype = cast(Type[DTypeNumber], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
         self._x: NDArray = np.array([])
@@ -1001,8 +999,9 @@ class SpragueInterpolator:
     --------
     Interpolating a single numeric variable:
 
-    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100,
-    ...               69.5900, 27.8007, 86.0500])
+    >>> y = np.array(
+    ...     [5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500]
+    ... )
     >>> x = np.arange(len(y))
     >>> f = SpragueInterpolator(x, y)
     >>> f(0.5)  # doctest: +ELLIPSIS
@@ -1038,7 +1037,7 @@ class SpragueInterpolator:
         x: ArrayLike,
         y: ArrayLike,
         dtype: Optional[Type[DTypeNumber]] = None,
-    ):
+    ) -> None:
         dtype = cast(Type[DTypeNumber], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
         self._xp: NDArray = np.array([])
@@ -1225,7 +1224,8 @@ class SpragueInterpolator:
         self._validate_interpolation_range(x)
 
         i = np.searchsorted(self._xp, x) - 1
-        X = (x - self._xp[i]) / (self._xp[i + 1] - self._xp[i])
+        with sdiv_mode():
+            X = sdiv(x - self._xp[i], self._xp[i + 1] - self._xp[i])
 
         r = self._yp
 
@@ -1307,7 +1307,7 @@ class CubicSplineInterpolator(scipy.interpolate.interp1d):
     -   This class is a wrapper around *scipy.interpolate.interp1d* class.
     """
 
-    def __init__(self, *args: Any, **kwargs: Any):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(kind="cubic", *args, **kwargs)
 
 
@@ -1330,7 +1330,9 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
         class.
     """
 
-    def __init__(self, x: ArrayLike, y: ArrayLike, *args: Any, **kwargs: Any):
+    def __init__(
+        self, x: ArrayLike, y: ArrayLike, *args: Any, **kwargs: Any
+    ) -> None:
         super().__init__(x, y, *args, **kwargs)
 
         self._y: NDArray = as_float_array(y)
@@ -1388,8 +1390,9 @@ class NullInterpolator:
 
     Examples
     --------
-    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100,
-    ...               69.5900, 27.8007, 86.0500])
+    >>> y = np.array(
+    ...     [5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500]
+    ... )
     >>> x = np.arange(len(y))
     >>> f = NullInterpolator(x, y)
     >>> f(0.5)
@@ -1409,7 +1412,7 @@ class NullInterpolator:
         relative_tolerance: Floating = 10e-7,
         default: Floating = np.nan,
         dtype: Optional[Type[DTypeNumber]] = None,
-    ):
+    ) -> None:
         dtype = cast(Type[DTypeNumber], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
         self._x: NDArray = np.array([])
@@ -1715,8 +1718,15 @@ def vertices_and_relative_coordinates(
     >>> import os
     >>> import colour
     >>> path = os.path.join(
-    ...     os.path.dirname(__file__),'..', 'io', 'luts', 'tests', 'resources',
-    ...     'iridas_cube', 'Colour_Correct.cube')
+    ...     os.path.dirname(__file__),
+    ...     "..",
+    ...     "io",
+    ...     "luts",
+    ...     "tests",
+    ...     "resources",
+    ...     "iridas_cube",
+    ...     "Colour_Correct.cube",
+    ... )
     >>> LUT = colour.read_LUT(path)
     >>> table = LUT.table
     >>> prng = np.random.RandomState(4)
@@ -1825,8 +1835,15 @@ def table_interpolation_trilinear(
     >>> import os
     >>> import colour
     >>> path = os.path.join(
-    ...     os.path.dirname(__file__),'..', 'io', 'luts', 'tests', 'resources',
-    ...     'iridas_cube', 'Colour_Correct.cube')
+    ...     os.path.dirname(__file__),
+    ...     "..",
+    ...     "io",
+    ...     "luts",
+    ...     "tests",
+    ...     "resources",
+    ...     "iridas_cube",
+    ...     "Colour_Correct.cube",
+    ... )
     >>> LUT = colour.read_LUT(path)
     >>> table = LUT.table
     >>> prng = np.random.RandomState(4)
@@ -1846,7 +1863,7 @@ def table_interpolation_trilinear(
     vertices, V_xyzr = vertices_and_relative_coordinates(V_xyz, table)
 
     vertices = np.moveaxis(vertices, 0, 1)
-    x, y, z = (f[:, np.newaxis] for f in tsplit(V_xyzr))
+    x, y, z = (f[:, None] for f in tsplit(V_xyzr))
 
     weights = np.moveaxis(
         np.transpose(
@@ -1898,8 +1915,15 @@ def table_interpolation_tetrahedral(
     >>> import os
     >>> import colour
     >>> path = os.path.join(
-    ...     os.path.dirname(__file__),'..', 'io', 'luts', 'tests', 'resources',
-    ...     'iridas_cube', 'Colour_Correct.cube')
+    ...     os.path.dirname(__file__),
+    ...     "..",
+    ...     "io",
+    ...     "luts",
+    ...     "tests",
+    ...     "resources",
+    ...     "iridas_cube",
+    ...     "Colour_Correct.cube",
+    ... )
     >>> LUT = colour.read_LUT(path)
     >>> table = LUT.table
     >>> prng = np.random.RandomState(4)
@@ -1920,7 +1944,7 @@ def table_interpolation_tetrahedral(
 
     vertices = np.moveaxis(vertices, 0, -1)
     V000, V001, V010, V011, V100, V101, V110, V111 = tsplit(vertices)
-    x, y, z = (r[:, np.newaxis] for r in tsplit(V_xyzr))
+    x, y, z = (r[:, None] for r in tsplit(V_xyzr))
 
     xyz_o = np.select(
         [
@@ -1946,7 +1970,7 @@ def table_interpolation_tetrahedral(
     return xyz_o
 
 
-TABLE_INTERPOLATION_METHODS = CaseInsensitiveMapping(
+TABLE_INTERPOLATION_METHODS = CanonicalMapping(
     {
         "Trilinear": table_interpolation_trilinear,
         "Tetrahedral": table_interpolation_tetrahedral,
@@ -1993,8 +2017,15 @@ def table_interpolation(
     >>> import os
     >>> import colour
     >>> path = os.path.join(
-    ...     os.path.dirname(__file__),'..', 'io', 'luts', 'tests', 'resources',
-    ...     'iridas_cube', 'Colour_Correct.cube')
+    ...     os.path.dirname(__file__),
+    ...     "..",
+    ...     "io",
+    ...     "luts",
+    ...     "tests",
+    ...     "resources",
+    ...     "iridas_cube",
+    ...     "Colour_Correct.cube",
+    ... )
     >>> LUT = colour.read_LUT(path)
     >>> table = LUT.table
     >>> prng = np.random.RandomState(4)
@@ -2007,7 +2038,7 @@ def table_interpolation(
     array([[ 1.0120664...,  0.7539146...,  1.0228540...],
            [ 0.5075794...,  0.6479459...,  0.1066404...],
            [ 1.0976519...,  0.1785998...,  0.2299897...]])
-    >>> table_interpolation(V_xyz, table, method='Tetrahedral')
+    >>> table_interpolation(V_xyz, table, method="Tetrahedral")
     ... # doctest: +ELLIPSIS
     array([[ 1.0196197...,  0.7674062...,  1.0311751...],
            [ 0.5105603...,  0.6466722...,  0.1077296...],

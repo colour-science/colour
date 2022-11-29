@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.io.luts.lut` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.io.luts.lut` module."""
 
 from __future__ import annotations
 
@@ -38,7 +39,7 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "RESOURCES_DIRECTORY",
+    "ROOT_RESOURCES",
     "RANDOM_TRIPLETS",
     "TestAbstractLUT",
     "AbstractLUTTest",
@@ -47,7 +48,7 @@ __all__ = [
     "TestLUT3D",
 ]
 
-RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), "resources")
+ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 
 RANDOM_TRIPLETS: NDArray = np.reshape(
     random_triplet_generator(8, random_state=np.random.RandomState(4)),
@@ -112,7 +113,7 @@ class AbstractLUTTest(unittest.TestCase):
     :class:`colour.io.luts.lut.LUT3D` classes common unit tests methods.
     """
 
-    def __init__(self, *args: Any):
+    def __init__(self, *args: Any) -> None:
         """
         Create an instance of the class.
 
@@ -185,7 +186,9 @@ class AbstractLUTTest(unittest.TestCase):
         # pylint: disable=E1102
         LUT = self._LUT_factory(self._table_1)
 
-        np.testing.assert_almost_equal(LUT.table, self._table_1, decimal=7)
+        np.testing.assert_array_almost_equal(
+            LUT.table, self._table_1, decimal=7
+        )
 
         self.assertEqual(str(id(LUT)), LUT.name)
 
@@ -215,7 +218,7 @@ class AbstractLUTTest(unittest.TestCase):
 
         table_1 = self._table_1 * 0.8 + 0.1
         LUT.table = table_1
-        np.testing.assert_almost_equal(LUT.table, table_1, decimal=7)
+        np.testing.assert_array_almost_equal(LUT.table, table_1, decimal=7)
 
     def test_name(self):
         """
@@ -332,7 +335,9 @@ class AbstractLUTTest(unittest.TestCase):
             return
 
         # pylint: disable=E1102
-        LUT = self._LUT_factory(name="Nemo")
+        LUT = self._LUT_factory(
+            name="Nemo", comments=["A first comment.", "A second comment."]
+        )
 
         # The default LUT representation is too large to be embedded, given
         # that :class:`colour.io.luts.lut.LUT3D.__str__` method is defined by
@@ -418,81 +423,81 @@ class AbstractLUTTest(unittest.TestCase):
         # pylint: disable=E1102
         LUT_2 = self._LUT_factory()
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_1.arithmetical_operation(10, "+", False).table,
             self._table_1 + 10,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_1.arithmetical_operation(10, "-", False).table,
             self._table_1 - 10,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_1.arithmetical_operation(10, "*", False).table,
             self._table_1 * 10,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_1.arithmetical_operation(10, "/", False).table,
             self._table_1 / 10,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_1.arithmetical_operation(10, "**", False).table,
             self._table_1**10,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             (LUT_1 + 10).table, self._table_1 + 10, decimal=7
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             (LUT_1 - 10).table, self._table_1 - 10, decimal=7
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             (LUT_1 * 10).table, self._table_1 * 10, decimal=7
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             (LUT_1 / 10).table, self._table_1 / 10, decimal=7
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             (LUT_1**10).table, self._table_1**10, decimal=7
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_2.arithmetical_operation(10, "+", True).table,
             self._table_1 + 10,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_2.arithmetical_operation(10, "-", True).table,
             self._table_1,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_2.arithmetical_operation(10, "*", True).table,
             self._table_1 * 10,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_2.arithmetical_operation(10, "/", True).table,
             self._table_1,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_2.arithmetical_operation(10, "**", True).table,
             self._table_1**10,
             decimal=7,
@@ -501,13 +506,13 @@ class AbstractLUTTest(unittest.TestCase):
         # pylint: disable=E1102
         LUT_2 = self._LUT_factory()
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_2.arithmetical_operation(self._table_1, "+", False).table,
             LUT_2.table + self._table_1,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_2.arithmetical_operation(LUT_2, "+", False).table,
             LUT_2.table + LUT_2.table,
             decimal=7,
@@ -526,11 +531,11 @@ class AbstractLUTTest(unittest.TestCase):
         # pylint: disable=E1102
         LUT_1 = self._LUT_factory()
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_1.linear_table(self._size), self._table_1, decimal=7
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             spow(
                 self._LUT_factory.linear_table(**self._table_3_kwargs), 1 / 2.6
             ),
@@ -569,7 +574,7 @@ class AbstractLUTTest(unittest.TestCase):
             interpolator=self._interpolator_1, **self._invert_kwargs_1
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_i.apply(RANDOM_TRIPLETS), self._inverted_apply_1, decimal=7
         )
 
@@ -578,9 +583,23 @@ class AbstractLUTTest(unittest.TestCase):
             interpolator=self._interpolator_2, **self._invert_kwargs_2
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_i.apply(RANDOM_TRIPLETS), self._inverted_apply_2, decimal=7
         )
+
+        # pylint: disable=E1102
+        LUT_i = self._LUT_factory(self._table_2, domain=self._domain_4)
+
+        try:
+            LUT_i = LUT_i.invert(
+                interpolator=self._interpolator_2, **self._invert_kwargs_2
+            )
+
+            np.testing.assert_array_almost_equal(
+                LUT_i.apply(RANDOM_TRIPLETS), self._inverted_apply_2, decimal=7
+            )
+        except NotImplementedError:
+            pass
 
     def test_apply(self):
         """
@@ -595,7 +614,7 @@ class AbstractLUTTest(unittest.TestCase):
         # pylint: disable=E1102
         LUT_1 = self._LUT_factory(self._table_2)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_1.apply(RANDOM_TRIPLETS), self._applied_1, decimal=7
         )
 
@@ -603,21 +622,21 @@ class AbstractLUTTest(unittest.TestCase):
         LUT_2 = self._LUT_factory(domain=self._domain_2)
         LUT_2.table = spow(LUT_2.table, 1 / 2.2)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_2.apply(RANDOM_TRIPLETS), self._applied_2, decimal=7
         )
 
         # pylint: disable=E1102
         LUT_3 = self._LUT_factory(self._table_3, domain=self._domain_3)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_3.apply(RANDOM_TRIPLETS), self._applied_3, decimal=7
         )
 
         # pylint: disable=E1102
         LUT_4 = self._LUT_factory(self._table_2)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_4.apply(
                 RANDOM_TRIPLETS,
                 direction="Inverse",
@@ -633,7 +652,7 @@ class AbstractLUTTest(unittest.TestCase):
 class TestLUT1D(AbstractLUTTest):
     """Define :class:`colour.io.luts.lut.LUT1D` class unit tests methods."""
 
-    def __init__(self, *args: Any):
+    def __init__(self, *args: Any) -> None:
         """
         Create an instance of the class.
 
@@ -652,7 +671,8 @@ class TestLUT1D(AbstractLUTTest):
         self._domain_1 = np.array([0, 1])
         self._domain_2 = np.array([-0.1, 1.5])
         self._domain_3 = np.linspace(-0.1, 1.5, 10)
-        self._table_1 = np.linspace(0, 1, 10)
+        self._domain_4 = np.linspace(0, 1, 10)
+        self._table_1 = self._domain_4
         self._table_2 = self._table_1 ** (1 / 2.2)
         self._table_3 = as_float_array(
             spow(np.linspace(-0.1, 1.5, self._size), (1 / 2.6))
@@ -673,15 +693,19 @@ class TestLUT1D(AbstractLUTTest):
 
             Dimensions : 1
             Domain     : [ 0.  1.]
-            Size       : (10,)"""
-        )[1:]
+            Size       : (10,)
+            """
+        ).strip()
         self._repr = textwrap.dedent(
             """
     LUT1D([ 0.        ,  0.11111111,  0.22222222,  0.33333333,  0.44444444,
             0.55555556,  0.66666667,  0.77777778,  0.88888889,  1.        ],
-          name='Nemo',
-          domain=[ 0.,  1.])"""
-        )[1:]
+          'Nemo',
+          [ 0.,  1.],
+          10,
+          ['A first comment.', 'A second comment.'])
+          """
+        ).strip()
         self._inverted_apply_1 = np.array(
             [
                 [
@@ -769,7 +793,7 @@ class TestLUT1D(AbstractLUTTest):
 class TestLUT3x1D(AbstractLUTTest):
     """Define :class:`colour.io.luts.lut.LUT3x1D` class unit tests methods."""
 
-    def __init__(self, *args: Any):
+    def __init__(self, *args: Any) -> None:
         """
         Create an instance of the class.
 
@@ -797,7 +821,8 @@ class TestLUT3x1D(AbstractLUTTest):
                 samples_3,
             ]
         )
-        self._table_1 = tstack([samples_1, samples_1, samples_1])
+        self._domain_4 = tstack([samples_1, samples_1, samples_1])
+        self._table_1 = self._domain_4
         self._table_2 = self._table_1 ** (1 / 2.2)
         self._table_3 = as_float_array(
             spow(
@@ -831,8 +856,9 @@ class TestLUT3x1D(AbstractLUTTest):
             Dimensions : 2
             Domain     : [[ 0.  0.  0.]
                           [ 1.  1.  1.]]
-            Size       : (10, 3)"""
-        )[1:]
+            Size       : (10, 3)
+            """
+        ).strip()
         self._repr = textwrap.dedent(
             """
             LUT3x1D([[ 0.        ,  0.        ,  0.        ],
@@ -845,10 +871,13 @@ class TestLUT3x1D(AbstractLUTTest):
                      [ 0.77777778,  0.77777778,  0.77777778],
                      [ 0.88888889,  0.88888889,  0.88888889],
                      [ 1.        ,  1.        ,  1.        ]],
-                    name='Nemo',
-                    domain=[[ 0.,  0.,  0.],
-                            [ 1.,  1.,  1.]])"""
-        )[1:]
+                    'Nemo',
+                    [[ 0.,  0.,  0.],
+                     [ 1.,  1.,  1.]],
+                    10,
+                    ['A first comment.', 'A second comment.'])
+                    """
+        ).strip()
         self._inverted_apply_1 = np.array(
             [
                 [
@@ -936,7 +965,7 @@ class TestLUT3x1D(AbstractLUTTest):
 class TestLUT3D(AbstractLUTTest):
     """Define :class:`colour.io.luts.lut.LUT3D` class unit tests methods."""
 
-    def __init__(self, *args: Any):
+    def __init__(self, *args: Any) -> None:
         """
         Create an instance of the class.
 
@@ -964,6 +993,7 @@ class TestLUT3D(AbstractLUTTest):
                 samples_3,
             ]
         )
+        self._domain_4 = self._domain_3
         self._table_1 = as_float_array(
             np.flip(
                 np.transpose(
@@ -1016,8 +1046,9 @@ class TestLUT3D(AbstractLUTTest):
             Dimensions : 3
             Domain     : [[ 0.  0.  0.]
                           [ 1.  1.  1.]]
-            Size       : (33, 33, 33, 3)"""
-        )[1:]
+            Size       : (33, 33, 33, 3)
+            """
+        ).strip()
         self._repr = None
         self._inverted_apply_1 = np.array(
             [
@@ -1163,7 +1194,7 @@ class TestLUT_to_LUT(unittest.TestCase):
 
         LUT = LUT_to_LUT(self._LUT_1, LUT3D, force_conversion=True, size=5)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT.table,
             np.array(
                 [
@@ -1397,7 +1428,7 @@ class TestLUT_to_LUT(unittest.TestCase):
 
         LUT = LUT_to_LUT(self._LUT_2, LUT3D, force_conversion=True, size=5)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT.table,
             np.array(
                 [
@@ -1603,7 +1634,7 @@ class TestLUT_to_LUT(unittest.TestCase):
             channel_weights=channel_weights,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT.table,
             np.array(
                 [
@@ -1636,7 +1667,7 @@ class TestLUT_to_LUT(unittest.TestCase):
             channel_weights=channel_weights,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT.table,
             np.array(
                 [
@@ -1665,7 +1696,7 @@ class TestLUT_to_LUT(unittest.TestCase):
 
         LUT = LUT_to_LUT(self._LUT_3, LUT3x1D, force_conversion=True, size=16)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT.table,
             np.array(
                 [

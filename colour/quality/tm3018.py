@@ -34,10 +34,10 @@ from colour.hints import (
 from colour.quality import colour_fidelity_index_CIE2017
 from colour.quality.cfi2017 import (
     ColourRendering_Specification_CIE2017,
-    TCS_ColorimetryData_CIE2017,
+    DataColorimetry_TCS_CIE2017,
     delta_E_to_R_f,
 )
-from colour.utilities import as_float_array, as_int_scalar
+from colour.utilities import as_float_array, as_float_scalar, as_int_scalar
 
 
 @dataclass
@@ -92,8 +92,8 @@ class ColourQuality_Specification_ANSIIESTM3018:
     CCT: Floating
     D_uv: Floating
     colorimetry_data: Tuple[
-        Tuple[TCS_ColorimetryData_CIE2017, ...],
-        Tuple[TCS_ColorimetryData_CIE2017, ...],
+        Tuple[DataColorimetry_TCS_CIE2017, ...],
+        Tuple[DataColorimetry_TCS_CIE2017, ...],
     ]
     R_g: Floating
     bins: List[List[int]]
@@ -136,7 +136,7 @@ def colour_fidelity_index_ANSIIESTM3018(
     Examples
     --------
     >>> from colour import SDS_ILLUMINANTS
-    >>> sd = SDS_ILLUMINANTS['FL2']
+    >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> colour_fidelity_index_ANSIIESTM3018(sd)  # doctest: +ELLIPSIS
     70.1208254...
     """
@@ -244,4 +244,4 @@ def averages_area(averages: ArrayLike) -> Floating:
         v = averages[(i + 1) % N, :]
         triangle_areas[i] = (u[0] * v[1] - u[1] * v[0]) / 2
 
-    return np.sum(triangle_areas)
+    return as_float_scalar(np.sum(triangle_areas))

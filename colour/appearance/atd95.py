@@ -249,10 +249,10 @@ T_2=0.0205377..., D_2=0.0107584...)
 
     # Computing adaptation model.
     LMS = XYZ_to_LMS_ATD95(XYZ)
-    XYZ_a = k_1[..., np.newaxis] * XYZ + k_2[..., np.newaxis] * XYZ_0
+    XYZ_a = k_1[..., None] * XYZ + k_2[..., None] * XYZ_0
     LMS_a = XYZ_to_LMS_ATD95(XYZ_a)
 
-    LMS_g = LMS * (sigma[..., np.newaxis] / (sigma[..., np.newaxis] + LMS_a))
+    LMS_g = LMS * (sigma[..., None] / (sigma[..., None] + LMS_a))
 
     # Computing opponent colour dimensions.
     A_1, T_1, D_1, A_2, T_2, D_2 = tsplit(opponent_colour_dimensions(LMS_g))
@@ -310,7 +310,7 @@ def luminance_to_retinal_illuminance(
     XYZ = as_float_array(XYZ)
     Y_c = as_float_array(Y_c)
 
-    return as_float_array(18 * spow(Y_c[..., np.newaxis] * XYZ / 100, 0.8))
+    return as_float_array(18 * spow(Y_c[..., None] * XYZ / 100, 0.8))
 
 
 def XYZ_to_LMS_ATD95(XYZ: ArrayLike) -> NDArray:

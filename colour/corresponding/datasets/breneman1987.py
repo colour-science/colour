@@ -178,7 +178,6 @@ BRENEMAN_EXPERIMENT_1_RESULTS = (
         "Purple", (0.278, 0.456), (0.231, 0.365), (4, 25), (0, 2), (-5, 7)
     ),
 )
-# yapf: enable
 """
 *Breneman (1987)* experiment 1 results.
 
@@ -229,7 +228,6 @@ BRENEMAN_EXPERIMENT_2_RESULTS = (
         "Purple", (0.258, 0.431), (0.244, 0.349), (4, 19), (-3, 13), (-4, 19)
     ),
 )
-# yapf: enable
 """
 *Breneman (1987)* experiment 2 results.
 
@@ -285,7 +283,6 @@ BRENEMAN_EXPERIMENT_3_RESULTS = (
         "Purple", (0.258, 0.432), (0.238, 0.396), (4, 8), (5, 3), (4, -11)
     ),
 )
-# yapf: enable
 """
 *Breneman (1987)* experiment 3 results.
 
@@ -341,7 +338,6 @@ BRENEMAN_EXPERIMENT_4_RESULTS = (
         "Purple", (0.278, 0.455), (0.229, 0.388), (6, 14), (1, 12), (3, 0)
     ),
 )
-# yapf: enable
 """
 *Breneman (1987)* experiment 4 results.
 
@@ -373,7 +369,6 @@ BRENEMAN_EXPERIMENT_5_RESULTS = (
         "Purple", (0.245, 0.364), (0.239, 0.401), (4, 16)
     ),
 )
-# yapf: enable
 """
 *Breneman (1987)* experiment 5 results.
 
@@ -423,7 +418,6 @@ BRENEMAN_EXPERIMENT_6_RESULTS = (
         "Purple", (0.276, 0.456), (0.227, 0.369), (6, 27), (-2, 4), (-3, 9)
     ),
 )
-# yapf: enable
 """
 *Breneman (1987)* experiment 6 results.
 
@@ -455,7 +449,6 @@ BRENEMAN_EXPERIMENT_7_RESULTS = (
         "Purple", (0.245, 0.365), (0.240, 0.398), (4, 10)
     ),
 )
-# yapf: enable
 """
 *Breneman (1987)* experiment 7 results.
 
@@ -505,7 +498,6 @@ BRENEMAN_EXPERIMENT_8_RESULTS = (
         "Purple", (0.277, 0.454), (0.226, 0.389), (4, 10), (1, 4), (1, -8)
     ),
 )
-# yapf: enable
 """
 *Breneman (1987)* experiment 8 results.
 
@@ -575,7 +567,6 @@ BRENEMAN_EXPERIMENT_9_RESULTS = (
         "(Purple)h", (0.277, 0.456), (0.236, 0.422), (6, 11), None, (-2, -29)
     ),
 )
-# yapf: enable
 """
 *Breneman (1987)* experiment 9 results.
 
@@ -609,7 +600,6 @@ BRENEMAN_EXPERIMENT_10_RESULTS = (
         "Purple", (0.245, 0.366), (0.240, 0.402), (3, 12)
     ),
 )
-# yapf: enable
 """
 *Breneman (1987)* experiment 10 results.
 
@@ -659,7 +649,6 @@ BRENEMAN_EXPERIMENT_11_RESULTS = (
         "Purple", (0.245, 0.366), (0.216, 0.419), (4, 13), (-3, 8), (4, -2)
     ),
 )
-# yapf: enable
 """
 *Breneman (1987)* experiment 1 results.
 
@@ -710,7 +699,6 @@ BRENEMAN_EXPERIMENT_12_RESULTS = (
         "Purple", (0.246, 0.366), (0.222, 0.404), (5, 15), (-4, 2), (4, 2)
     ),
 )
-# yapf: enable
 """
 *Breneman (1987)* experiment 12 results.
 
@@ -771,7 +759,6 @@ BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES = {
         (0.345, 0.127),
     ),
 }
-# yapf: enable
 if is_documentation_building():  # pragma: no cover
     BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES = DocstringDict(
         BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES

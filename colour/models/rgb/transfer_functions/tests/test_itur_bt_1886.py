@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the
+Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.itur_bt_1886` module.
 """
 
@@ -56,15 +56,21 @@ eotf_inverse_BT1886` definition n-dimensional arrays support.
 
         L = np.tile(L, 6)
         V = np.tile(V, 6)
-        np.testing.assert_almost_equal(eotf_inverse_BT1886(L), V, decimal=7)
+        np.testing.assert_array_almost_equal(
+            eotf_inverse_BT1886(L), V, decimal=7
+        )
 
         L = np.reshape(L, (2, 3))
         V = np.reshape(V, (2, 3))
-        np.testing.assert_almost_equal(eotf_inverse_BT1886(L), V, decimal=7)
+        np.testing.assert_array_almost_equal(
+            eotf_inverse_BT1886(L), V, decimal=7
+        )
 
         L = np.reshape(L, (2, 3, 1))
         V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_almost_equal(eotf_inverse_BT1886(L), V, decimal=7)
+        np.testing.assert_array_almost_equal(
+            eotf_inverse_BT1886(L), V, decimal=7
+        )
 
     def test_domain_range_scale_eotf_inverse_BT1886(self):
         """
@@ -78,7 +84,7 @@ eotf_inverse_BT1886` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     eotf_inverse_BT1886(L * factor), V * factor, decimal=7
                 )
 
@@ -123,15 +129,15 @@ eotf_BT1886` definition n-dimensional arrays support.
 
         V = np.tile(V, 6)
         L = np.tile(L, 6)
-        np.testing.assert_almost_equal(eotf_BT1886(V), L, decimal=7)
+        np.testing.assert_array_almost_equal(eotf_BT1886(V), L, decimal=7)
 
         V = np.reshape(V, (2, 3))
         L = np.reshape(L, (2, 3))
-        np.testing.assert_almost_equal(eotf_BT1886(V), L, decimal=7)
+        np.testing.assert_array_almost_equal(eotf_BT1886(V), L, decimal=7)
 
         V = np.reshape(V, (2, 3, 1))
         L = np.reshape(L, (2, 3, 1))
-        np.testing.assert_almost_equal(eotf_BT1886(V), L, decimal=7)
+        np.testing.assert_array_almost_equal(eotf_BT1886(V), L, decimal=7)
 
     def test_domain_range_scale_eotf_BT1886(self):
         """
@@ -145,7 +151,7 @@ eotf_BT1886` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     eotf_BT1886(V * factor), L * factor, decimal=7
                 )
 

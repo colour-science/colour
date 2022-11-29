@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.continuous.abstract` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.continuous.abstract` module."""
 
 import unittest
 

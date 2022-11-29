@@ -26,7 +26,7 @@ from __future__ import annotations
 import numpy as np
 from dataclasses import dataclass
 
-from colour.algebra import euclidean_distance
+from colour.algebra import euclidean_distance, sdiv, sdiv_mode
 from colour.colorimetry import (
     CCS_ILLUMINANTS,
     MSDS_CMFS,
@@ -50,6 +50,7 @@ from colour.hints import (
     Optional,
     Tuple,
     Union,
+    cast,
 )
 from colour.models import (
     Lab_to_LCHab,
@@ -83,8 +84,8 @@ __status__ = "Production"
 
 __all__ = [
     "GAMUT_AREA_D65",
-    "VS_ColorimetryData",
-    "VS_ColourQualityScaleData",
+    "DataColorimetry_VS",
+    "DataColourQualityScale_VS",
     "ColourRendering_Specification_CQS",
     "COLOUR_QUALITY_SCALE_METHODS",
     "colour_quality_scale",
@@ -101,7 +102,7 @@ GAMUT_AREA_D65: Integer = 8210
 
 
 @dataclass
-class VS_ColorimetryData:
+class DataColorimetry_VS:
     """Define the class storing *VS test colour samples* colorimetry data."""
 
     name: str
@@ -111,7 +112,7 @@ class VS_ColorimetryData:
 
 
 @dataclass
-class VS_ColourQualityScaleData:
+class DataColourQualityScale_VS:
     """
     Define the class storing *VS test colour samples* colour quality scale
     data.
@@ -170,9 +171,9 @@ class ColourRendering_Specification_CQS:
     Q_p: Optional[Floating]
     Q_g: Floating
     Q_d: Optional[Floating]
-    Q_as: Dict[Integer, VS_ColourQualityScaleData]
+    Q_as: Dict[Integer, DataColourQualityScale_VS]
     colorimetry_data: Tuple[
-        Tuple[VS_ColorimetryData, ...], Tuple[VS_ColorimetryData, ...]
+        Tuple[DataColorimetry_VS, ...], Tuple[DataColorimetry_VS, ...]
     ]
 
 
@@ -221,7 +222,7 @@ def colour_quality_scale(
     Examples
     --------
     >>> from colour import SDS_ILLUMINANTS
-    >>> sd = SDS_ILLUMINANTS['FL2']
+    >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> colour_quality_scale(sd)  # doctest: +ELLIPSIS
     64.1117031...
     """
@@ -356,7 +357,7 @@ def gamut_area(Lab: ArrayLike) -> Floating:
     ...     np.array([69.63154351, 28.24532497, 59.45609803]),
     ...     np.array([61.26281449, 40.87950839, 44.97606172]),
     ...     np.array([41.62567821, 57.34129516, 27.46718170]),
-    ...     np.array([40.52565174, 48.87449192, 3.45121680])
+    ...     np.array([40.52565174, 48.87449192, 3.45121680]),
     ... ]
     >>> gamut_area(Lab)  # doctest: +ELLIPSIS
     8335.9482018...
@@ -383,7 +384,7 @@ def vs_colorimetry_data(
     sds_vs: Dict[str, SpectralDistribution],
     cmfs: MultiSpectralDistributions,
     chromatic_adaptation: Boolean = False,
-) -> Tuple[VS_ColorimetryData, ...]:
+) -> Tuple[DataColorimetry_VS, ...]:
     """
     Return the *VS test colour samples* colorimetry data.
 
@@ -394,7 +395,7 @@ def vs_colorimetry_data(
     sd_reference
         Reference spectral distribution.
     sds_vs
-        *VS test colour samples* spectral distributions.
+        *VS test colour samples* spectral reflectance distributions.
     cmfs
         Standard observer colour matching functions.
     chromatic_adaptation
@@ -407,10 +408,15 @@ def vs_colorimetry_data(
     """
 
     XYZ_t = sd_to_XYZ(sd_test, cmfs)
-    XYZ_t /= XYZ_t[1]
+
+    with sdiv_mode():
+        XYZ_t = cast(NDArray, sdiv(XYZ_t, XYZ_t[1]))
 
     XYZ_r = sd_to_XYZ(sd_reference, cmfs)
-    XYZ_r /= XYZ_r[1]
+
+    with sdiv_mode():
+        XYZ_r = cast(NDArray, sdiv(XYZ_r, XYZ_r[1]))
+
     xy_r = XYZ_to_xy(XYZ_r)
 
     vs_data = []
@@ -428,13 +434,13 @@ def vs_colorimetry_data(
         Lab_vs = XYZ_to_Lab(XYZ_vs, illuminant=xy_r)
         _L_vs, C_vs, _Hab = Lab_to_LCHab(Lab_vs)
 
-        vs_data.append(VS_ColorimetryData(sd_vs.name, XYZ_vs, Lab_vs, C_vs))
+        vs_data.append(DataColorimetry_VS(sd_vs.name, XYZ_vs, Lab_vs, C_vs))
 
     return tuple(vs_data)
 
 
 def CCT_factor(
-    reference_data: Tuple[VS_ColorimetryData, ...], XYZ_r: ArrayLike
+    reference_data: Tuple[DataColorimetry_VS, ...], XYZ_r: ArrayLike
 ) -> Floating:
     """
     Return the correlated colour temperature factor penalizing lamps with
@@ -500,7 +506,7 @@ def scale_conversion(
 
 
 def delta_E_RMS(
-    CQS_data: Dict[Integer, VS_ColourQualityScaleData], attribute: str
+    CQS_data: Dict[Integer, DataColourQualityScale_VS], attribute: str
 ) -> Floating:
     """
     Compute the root-mean-square average for given *Colour Quality Scale*
@@ -533,11 +539,11 @@ def delta_E_RMS(
 
 
 def colour_quality_scales(
-    test_data: Tuple[VS_ColorimetryData, ...],
-    reference_data: Tuple[VS_ColorimetryData, ...],
+    test_data: Tuple[DataColorimetry_VS, ...],
+    reference_data: Tuple[DataColorimetry_VS, ...],
     scaling_f: Floating,
     CCT_f: Floating,
-) -> Dict[Integer, VS_ColourQualityScaleData]:
+) -> Dict[Integer, DataColourQualityScale_VS]:
     """
     Return the *VS test colour samples* rendering scales.
 
@@ -573,7 +579,7 @@ def colour_quality_scales(
 
         Q_a = scale_conversion(D_Ep_ab, CCT_f, scaling_f)
 
-        Q_as[i + 1] = VS_ColourQualityScaleData(
+        Q_as[i + 1] = DataColourQualityScale_VS(
             test_data[i].name, Q_a, D_C_ab, D_E_ab, D_Ep_ab
         )
     return Q_as

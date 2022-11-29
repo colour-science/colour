@@ -17,17 +17,13 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.algebra import vector_dot
-from colour.hints import ArrayLike, NDArray
+from colour.hints import ArrayLike, NDArray, cast
+from colour.models import Iab_to_XYZ, XYZ_to_Iab
 from colour.models.rgb.transfer_functions import (
     eotf_ST2084,
     eotf_inverse_ST2084,
 )
-from colour.utilities import (
-    domain_range_scale,
-    from_range_1,
-    to_domain_1,
-)
+from colour.utilities import domain_range_scale
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -116,13 +112,21 @@ def XYZ_to_ICaCb(XYZ: ArrayLike) -> NDArray:
     array([ 0.06875297,  0.05753352,  0.02081548])
     """
 
-    XYZ = to_domain_1(XYZ)
-    LMS = vector_dot(MATRIX_ICACB_XYZ_TO_LMS, XYZ)
+    def LMS_to_LMS_p_callable(LMS: ArrayLike) -> NDArray:
+        """
+        Callable applying the forward non-linearity to the :math:`LMS`
+        colourspace array.
+        """
 
-    with domain_range_scale("ignore"):
-        LMS_prime = eotf_inverse_ST2084(LMS)
+        with domain_range_scale("ignore"):
+            return cast(NDArray, eotf_inverse_ST2084(LMS))
 
-    return from_range_1(vector_dot(MATRIX_ICACB_XYZ_TO_LMS_2, LMS_prime))
+    return XYZ_to_Iab(
+        XYZ,
+        LMS_to_LMS_p_callable,
+        MATRIX_ICACB_XYZ_TO_LMS,
+        MATRIX_ICACB_XYZ_TO_LMS_2,
+    )
 
 
 def ICaCb_to_XYZ(ICaCb: ArrayLike) -> NDArray:
@@ -168,10 +172,18 @@ def ICaCb_to_XYZ(ICaCb: ArrayLike) -> NDArray:
     array([ 0.20654008,  0.12197225,  0.05136951])
     """
 
-    ICaCb = to_domain_1(ICaCb)
-    LMS_prime = vector_dot(MATRIX_ICACB_LMS_TO_XYZ_2, ICaCb)
+    def LMS_p_to_LMS_callable(LMS_p: ArrayLike) -> NDArray:
+        """
+        Callable applying the reverse non-linearity to the :math:`LMS_p`
+        colourspace array.
+        """
 
-    with domain_range_scale("ignore"):
-        LMS = eotf_ST2084(LMS_prime)
+        with domain_range_scale("ignore"):
+            return cast(NDArray, eotf_ST2084(LMS_p))
 
-    return from_range_1(vector_dot(MATRIX_ICACB_LMS_TO_XYZ, LMS))
+    return Iab_to_XYZ(
+        ICaCb,
+        LMS_p_to_LMS_callable,
+        MATRIX_ICACB_LMS_TO_XYZ_2,
+        MATRIX_ICACB_LMS_TO_XYZ,
+    )

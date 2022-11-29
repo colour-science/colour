@@ -29,7 +29,13 @@ import numpy as np
 from collections import namedtuple
 from dataclasses import dataclass, field
 
-from colour.algebra import polar_to_cartesian, spow, vector_dot
+from colour.algebra import (
+    polar_to_cartesian,
+    sdiv,
+    sdiv_mode,
+    spow,
+    vector_dot,
+)
 from colour.hints import (
     ArrayLike,
     FloatingOrArrayLike,
@@ -38,7 +44,7 @@ from colour.hints import (
     Optional,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     MixinDataclassArithmetic,
     as_float,
     as_float_array,
@@ -98,7 +104,7 @@ class InductionFactors_LLAB(
     """
 
 
-VIEWING_CONDITIONS_LLAB: CaseInsensitiveMapping = CaseInsensitiveMapping(
+VIEWING_CONDITIONS_LLAB: CanonicalMapping = CanonicalMapping(
     {
         "Reference Samples & Images, Average Surround, Subtending > 4": (
             InductionFactors_LLAB(1, 3, 0, 1)
@@ -315,7 +321,7 @@ def XYZ_to_LLAB(
     >>> XYZ_0 = np.array([95.05, 100.00, 108.88])
     >>> Y_b = 20.0
     >>> L = 318.31
-    >>> surround = VIEWING_CONDITIONS_LLAB['ref_average_4_minus']
+    >>> surround = VIEWING_CONDITIONS_LLAB["ref_average_4_minus"]
     >>> XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround)  # doctest: +ELLIPSIS
     CAM_Specification_LLAB(J=37.3668650..., C=0.0089496..., h=270..., \
 s=0.0002395..., M=0.0190185..., HC=None, a=..., b=-0.0190185...)
@@ -400,12 +406,10 @@ def XYZ_to_RGB_LLAB(XYZ: ArrayLike) -> NDArray:
     array([ 0.9414279...,  1.0404012...,  1.0897088...])
     """
 
-    _X, Y, _Z = tsplit(XYZ)
+    XYZ = as_float_array(XYZ)
 
-    Y = tstack([Y, Y, Y])
-    XYZ_n = XYZ / Y
-
-    return vector_dot(MATRIX_XYZ_TO_RGB_LLAB, XYZ_n)
+    with sdiv_mode():
+        return vector_dot(MATRIX_XYZ_TO_RGB_LLAB, sdiv(XYZ, XYZ[..., 1, None]))
 
 
 def chromatic_adaptation(
@@ -456,9 +460,9 @@ def chromatic_adaptation(
 
     beta = spow(B_0 / B_0r, 0.0834)
 
-    R_r = (D * (R_0r / R_0) + 1 - D) * R
-    G_r = (D * (G_0r / G_0) + 1 - D) * G
-    B_r = (D * (B_0r / spow(B_0, beta)) + 1 - D) * spow(B, beta)
+    R_r = (D * R_0r / R_0 + 1 - D) * R
+    G_r = (D * G_0r / G_0 + 1 - D) * G
+    B_r = (D * B_0r / spow(B_0, beta) + 1 - D) * spow(B, beta)
 
     RGB_r = tstack([R_r, G_r, B_r])
 
@@ -497,10 +501,12 @@ def f(x: FloatingOrArrayLike, F_S: FloatingOrArrayLike) -> FloatingOrNDArray:
     x = as_float_array(x)
     F_S = as_float_array(F_S)
 
+    one_F_s = 1 / F_S
+
     x_m = np.where(
         x > 0.008856,
-        spow(x, 1 / F_S),
-        ((spow(0.008856, 1 / F_S) - (16 / 116)) / 0.008856) * x + (16 / 116),
+        spow(x, one_F_s),
+        ((spow(0.008856, one_F_s) - (16 / 116)) / 0.008856) * x + (16 / 116),
     )
 
     return as_float(x_m)

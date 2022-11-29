@@ -30,7 +30,7 @@ The following methods are available:
 
 References
 ----------
--   :cite:`Abebe2017a` : Abebe, M. A., Pouli, T., Larabi, M.-C., & Reinhard,
+-   :cite:`Abebe2017` : Abebe, M. A., Pouli, T., Larabi, M.-C., & Reinhard,
     E. (2017). Perceptual Lightness Modeling for High-Dynamic-Range Imaging.
     ACM Transactions on Applied Perception, 15(1), 1-19. doi:10.1145/3086577
 -   :cite:`CIETC1-482004m` : CIE TC 1-48. (2004). CIE 1976 uniform colour
@@ -77,7 +77,7 @@ from colour.hints import (
     Union,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float,
     as_float_array,
     filter_kwargs,
@@ -426,7 +426,7 @@ def lightness_Fairchild2011(
     --------
     >>> lightness_Fairchild2011(12.19722535 / 100)  # doctest: +ELLIPSIS
     51.8529584...
-    >>> lightness_Fairchild2011(12.19722535 / 100, method='hdr-IPT')
+    >>> lightness_Fairchild2011(12.19722535 / 100, method="hdr-IPT")
     ... # doctest: +ELLIPSIS
     51.6431084...
     """
@@ -498,13 +498,13 @@ def lightness_Abebe2017(
 
     References
     ----------
-    :cite:`Abebe2017a`
+    :cite:`Abebe2017`
 
     Examples
     --------
     >>> lightness_Abebe2017(12.19722535)  # doctest: +ELLIPSIS
     0.4869555...
-    >>> lightness_Abebe2017(12.19722535, method='Stevens')
+    >>> lightness_Abebe2017(12.19722535, method="Stevens")
     ... # doctest: +ELLIPSIS
     0.4745447...
     """
@@ -534,7 +534,7 @@ def lightness_Abebe2017(
     return as_float(L)
 
 
-LIGHTNESS_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+LIGHTNESS_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Glasser 1958": lightness_Glasser1958,
         "Wyszecki 1963": lightness_Wyszecki1963,
@@ -617,7 +617,7 @@ def lightness(
 
     References
     ----------
-    :cite:`Abebe2017a`, :cite:`CIETC1-482004m`, :cite:`Fairchild2010`,
+    :cite:`Abebe2017`, :cite:`CIETC1-482004m`, :cite:`Fairchild2010`,
     :cite:`Fairchild2011`, :cite:`Glasser1958a`, :cite:`Wikipedia2007c`,
     :cite:`Wyszecki1963b`, :cite:`Wyszecki2000bd`
 
@@ -629,17 +629,17 @@ def lightness(
     41.5278758...
     >>> lightness(12.19722535, Y_n=95)  # doctest: +ELLIPSIS
     42.5199307...
-    >>> lightness(12.19722535, method='Glasser 1958')  # doctest: +ELLIPSIS
+    >>> lightness(12.19722535, method="Glasser 1958")  # doctest: +ELLIPSIS
     39.8351264...
-    >>> lightness(12.19722535, method='Wyszecki 1963')  # doctest: +ELLIPSIS
+    >>> lightness(12.19722535, method="Wyszecki 1963")  # doctest: +ELLIPSIS
     40.5475745...
-    >>> lightness(12.19722535, epsilon=0.710, method='Fairchild 2011')
+    >>> lightness(12.19722535, epsilon=0.710, method="Fairchild 2011")
     ... # doctest: +ELLIPSIS
     29.8295108...
-    >>> lightness(12.19722535, epsilon=0.710, method='Fairchild 2011')
+    >>> lightness(12.19722535, epsilon=0.710, method="Fairchild 2011")
     ... # doctest: +ELLIPSIS
     29.8295108...
-    >>> lightness(12.19722535, method='Abebe 2017')
+    >>> lightness(12.19722535, method="Abebe 2017")
     ... # doctest: +ELLIPSIS
     48.6955571...
     """

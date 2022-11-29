@@ -1,8 +1,9 @@
-"""Defines the unit tests for the :mod:`colour.models.cie_luv` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.models.cie_luv` module."""
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models import (
     XYZ_to_Luv,
@@ -44,25 +45,25 @@ class TestXYZ_to_Luv(unittest.TestCase):
     def test_XYZ_to_Luv(self):
         """Test :func:`colour.models.cie_luv.XYZ_to_Luv` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Luv(np.array([0.20654008, 0.12197225, 0.05136952])),
             np.array([41.52787529, 96.83626054, 17.75210149]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Luv(np.array([0.14222010, 0.23042768, 0.10495772])),
             np.array([55.11636304, -37.59308176, 44.13768458]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Luv(np.array([0.07818780, 0.06157201, 0.28099326])),
             np.array([29.80565520, -10.96316802, -65.06751860]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Luv(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 np.array([0.44757, 0.40745]),
@@ -71,7 +72,7 @@ class TestXYZ_to_Luv(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Luv(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 np.array([0.34570, 0.35850]),
@@ -80,7 +81,7 @@ class TestXYZ_to_Luv(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Luv(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 np.array([0.34570, 0.35850, 1.00000]),
@@ -101,19 +102,19 @@ class TestXYZ_to_Luv(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         Luv = np.tile(Luv, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Luv(XYZ, illuminant), Luv, decimal=7
         )
 
         illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Luv(XYZ, illuminant), Luv, decimal=7
         )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         illuminant = np.reshape(illuminant, (2, 3, 2))
         Luv = np.reshape(Luv, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Luv(XYZ, illuminant), Luv, decimal=7
         )
 
@@ -130,7 +131,7 @@ class TestXYZ_to_Luv(unittest.TestCase):
         d_r = (("reference", 1, 1), ("1", 1, 0.01), ("100", 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_Luv(XYZ * factor_a, illuminant),
                     Luv * factor_b,
                     decimal=7,
@@ -141,11 +142,8 @@ class TestXYZ_to_Luv(unittest.TestCase):
         """Test :func:`colour.models.cie_luv.XYZ_to_Luv` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            illuminant = np.array(case[0:2])
-            XYZ_to_Luv(XYZ, illuminant)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_Luv(cases, cases[..., 0:2])
 
 
 class TestLuv_to_XYZ(unittest.TestCase):
@@ -157,25 +155,25 @@ class TestLuv_to_XYZ(unittest.TestCase):
     def test_Luv_to_XYZ(self):
         """Test :func:`colour.models.cie_luv.Luv_to_XYZ` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Luv_to_XYZ(np.array([41.52787529, 96.83626054, 17.75210149])),
             np.array([0.20654008, 0.12197225, 0.05136952]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Luv_to_XYZ(np.array([55.11636304, -37.59308176, 44.13768458])),
             np.array([0.14222010, 0.23042768, 0.10495772]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Luv_to_XYZ(np.array([29.80565520, -10.96316802, -65.06751860])),
             np.array([0.07818780, 0.06157201, 0.28099326]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Luv_to_XYZ(
                 np.array([41.52787529, 65.45180940, -12.46626977]),
                 np.array([0.44757, 0.40745]),
@@ -184,7 +182,7 @@ class TestLuv_to_XYZ(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Luv_to_XYZ(
                 np.array([41.52787529, 90.70925962, 7.08455273]),
                 np.array([0.34570, 0.35850]),
@@ -193,7 +191,7 @@ class TestLuv_to_XYZ(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Luv_to_XYZ(
                 np.array([41.52787529, 90.70925962, 7.08455273]),
                 np.array([0.34570, 0.35850, 1.00000]),
@@ -214,19 +212,19 @@ class TestLuv_to_XYZ(unittest.TestCase):
 
         Luv = np.tile(Luv, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Luv_to_XYZ(Luv, illuminant), XYZ, decimal=7
         )
 
         illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Luv_to_XYZ(Luv, illuminant), XYZ, decimal=7
         )
 
         Luv = np.reshape(Luv, (2, 3, 3))
         illuminant = np.reshape(illuminant, (2, 3, 2))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Luv_to_XYZ(Luv, illuminant), XYZ, decimal=7
         )
 
@@ -243,7 +241,7 @@ class TestLuv_to_XYZ(unittest.TestCase):
         d_r = (("reference", 1, 1), ("1", 0.01, 1), ("100", 1, 100))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     Luv_to_XYZ(Luv * factor_a, illuminant),
                     XYZ * factor_b,
                     decimal=7,
@@ -254,11 +252,8 @@ class TestLuv_to_XYZ(unittest.TestCase):
         """Test :func:`colour.models.cie_luv.Luv_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Luv = np.array(case)
-            illuminant = np.array(case[0:2])
-            Luv_to_XYZ(Luv, illuminant)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        Luv_to_XYZ(cases, cases[..., 0:2])
 
 
 class TestLuv_to_uv(unittest.TestCase):
@@ -270,25 +265,25 @@ class TestLuv_to_uv(unittest.TestCase):
     def test_Luv_to_uv(self):
         """Test :func:`colour.models.cie_luv.Luv_to_uv` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Luv_to_uv(np.array([41.52787529, 96.83626054, 17.75210149])),
             np.array([0.37720213, 0.50120264]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Luv_to_uv(np.array([55.11636304, -37.59308176, 44.13768458])),
             np.array([0.14536327, 0.52992069]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Luv_to_uv(np.array([29.80565520, -10.96316802, -65.06751860])),
             np.array([0.16953603, 0.30039234]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Luv_to_uv(
                 np.array([41.52787529, 65.45180940, -12.46626977]),
                 np.array([0.44757, 0.40745]),
@@ -297,7 +292,7 @@ class TestLuv_to_uv(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Luv_to_uv(
                 np.array([41.52787529, 90.70925962, 7.08455273]),
                 np.array([0.34570, 0.35850]),
@@ -306,7 +301,7 @@ class TestLuv_to_uv(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Luv_to_uv(
                 np.array([41.52787529, 90.70925962, 7.08455273]),
                 np.array([0.34570, 0.35850, 1.00000]),
@@ -327,19 +322,19 @@ class TestLuv_to_uv(unittest.TestCase):
 
         Luv = np.tile(Luv, (6, 1))
         uv = np.tile(uv, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Luv_to_uv(Luv, illuminant), uv, decimal=7
         )
 
         illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Luv_to_uv(Luv, illuminant), uv, decimal=7
         )
 
         Luv = np.reshape(Luv, (2, 3, 3))
         illuminant = np.reshape(illuminant, (2, 3, 2))
         uv = np.reshape(uv, (2, 3, 2))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Luv_to_uv(Luv, illuminant), uv, decimal=7
         )
 
@@ -356,7 +351,7 @@ class TestLuv_to_uv(unittest.TestCase):
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     Luv_to_uv(Luv * factor, illuminant), uv, decimal=7
                 )
 
@@ -365,11 +360,8 @@ class TestLuv_to_uv(unittest.TestCase):
         """Test :func:`colour.models.cie_luv.Luv_to_uv` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Luv = np.array(case)
-            illuminant = np.array(case[0:2])
-            Luv_to_uv(Luv, illuminant)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        Luv_to_uv(cases, cases[..., 0:2])
 
 
 class Testuv_to_Luv(unittest.TestCase):
@@ -381,25 +373,25 @@ class Testuv_to_Luv(unittest.TestCase):
     def test_uv_to_Luv(self):
         """Test :func:`colour.models.cie_luv.uv_to_Luv` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_Luv(np.array([0.37720213, 0.50120264])),
             np.array([100.00000000, 233.18376036, 42.74743858]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_Luv(np.array([0.14536327, 0.52992069])),
             np.array([100.00000000, -68.20675764, 80.08090358]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_Luv(np.array([0.16953603, 0.30039234])),
             np.array([100.00000000, -36.78216964, -218.3059514]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_Luv(
                 np.array([0.37720213, 0.50120264]),
                 np.array([0.44757, 0.40745]),
@@ -408,7 +400,7 @@ class Testuv_to_Luv(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_Luv(
                 np.array([0.37720213, 0.50120264]),
                 np.array([0.34570, 0.35850]),
@@ -417,7 +409,7 @@ class Testuv_to_Luv(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_Luv(
                 np.array([0.37720213, 0.50120264]),
                 np.array([0.34570, 0.35850, 1.00000]),
@@ -426,7 +418,7 @@ class Testuv_to_Luv(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_Luv(np.array([0.37720213, 0.50120264]), Y=0.18),
             np.array([49.49610761, 115.41688496, -243.29048251]),
             decimal=7,
@@ -444,19 +436,19 @@ class Testuv_to_Luv(unittest.TestCase):
 
         uv = np.tile(uv, (6, 1))
         Luv = np.tile(Luv, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_Luv(uv, illuminant), Luv, decimal=7
         )
 
         illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_Luv(uv, illuminant), Luv, decimal=7
         )
 
         uv = np.reshape(uv, (2, 3, 2))
         illuminant = np.reshape(illuminant, (2, 3, 2))
         Luv = np.reshape(Luv, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_Luv(uv, illuminant), Luv, decimal=7
         )
 
@@ -474,7 +466,7 @@ class Testuv_to_Luv(unittest.TestCase):
         d_r = (("reference", 1, 1), ("1", 1, 0.01), ("100", 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     uv_to_Luv(uv, illuminant, Y * factor_a),
                     Luv * factor_b,
                     decimal=7,
@@ -485,11 +477,8 @@ class Testuv_to_Luv(unittest.TestCase):
         """Test :func:`colour.models.cie_luv.uv_to_Luv` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            uv = np.array(case)
-            illuminant = np.array(case[0:2])
-            uv_to_Luv(uv, illuminant)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        uv_to_Luv(cases, cases[..., 0:2])
 
 
 class TestLuv_uv_to_xy(unittest.TestCase):
@@ -501,19 +490,19 @@ class TestLuv_uv_to_xy(unittest.TestCase):
     def test_Luv_uv_to_xy(self):
         """Test :func:`colour.models.cie_luv.Luv_uv_to_xy` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Luv_uv_to_xy(np.array([0.37720213, 0.50120264])),
             np.array([0.54369558, 0.32107944]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Luv_uv_to_xy(np.array([0.14536327, 0.52992069])),
             np.array([0.29777734, 0.48246445]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Luv_uv_to_xy(np.array([0.16953603, 0.30039234])),
             np.array([0.18582824, 0.14633764]),
             decimal=7,
@@ -530,11 +519,11 @@ class TestLuv_uv_to_xy(unittest.TestCase):
 
         uv = np.tile(uv, (6, 1))
         xy = np.tile(xy, (6, 1))
-        np.testing.assert_almost_equal(Luv_uv_to_xy(uv), xy, decimal=7)
+        np.testing.assert_array_almost_equal(Luv_uv_to_xy(uv), xy, decimal=7)
 
         uv = np.reshape(uv, (2, 3, 2))
         xy = np.reshape(xy, (2, 3, 2))
-        np.testing.assert_almost_equal(Luv_uv_to_xy(uv), xy, decimal=7)
+        np.testing.assert_array_almost_equal(Luv_uv_to_xy(uv), xy, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_Luv_uv_to_xy(self):
@@ -544,10 +533,8 @@ class TestLuv_uv_to_xy(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            uv = np.array(case)
-            Luv_uv_to_xy(uv)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        Luv_uv_to_xy(cases)
 
 
 class TestXy_to_Luv_uv(unittest.TestCase):
@@ -559,19 +546,19 @@ class TestXy_to_Luv_uv(unittest.TestCase):
     def test_xy_to_Luv_uv(self):
         """Test :func:`colour.models.cie_luv.xy_to_Luv_uv` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xy_to_Luv_uv(np.array([0.54369558, 0.32107944])),
             np.array([0.37720213, 0.50120264]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xy_to_Luv_uv(np.array([0.29777734, 0.48246445])),
             np.array([0.14536327, 0.52992069]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xy_to_Luv_uv(np.array([0.18582824, 0.14633764])),
             np.array([0.16953603, 0.30039234]),
             decimal=7,
@@ -588,11 +575,11 @@ class TestXy_to_Luv_uv(unittest.TestCase):
 
         xy = np.tile(xy, (6, 1))
         uv = np.tile(uv, (6, 1))
-        np.testing.assert_almost_equal(xy_to_Luv_uv(xy), uv, decimal=7)
+        np.testing.assert_array_almost_equal(xy_to_Luv_uv(xy), uv, decimal=7)
 
         xy = np.reshape(xy, (2, 3, 2))
         uv = np.reshape(uv, (2, 3, 2))
-        np.testing.assert_almost_equal(xy_to_Luv_uv(xy), uv, decimal=7)
+        np.testing.assert_array_almost_equal(xy_to_Luv_uv(xy), uv, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_xy_to_Luv_uv(self):
@@ -602,10 +589,8 @@ class TestXy_to_Luv_uv(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            xy = np.array(case)
-            xy_to_Luv_uv(xy)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        xy_to_Luv_uv(cases)
 
 
 class TestLuv_to_LCHuv(unittest.TestCase):
@@ -617,19 +602,19 @@ class TestLuv_to_LCHuv(unittest.TestCase):
     def test_Luv_to_LCHuv(self):
         """Test :func:`colour.models.cie_luv.Luv_to_LCHuv` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Luv_to_LCHuv(np.array([41.52787529, 96.83626054, 17.75210149])),
             np.array([41.52787529, 98.44997950, 10.38816348]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Luv_to_LCHuv(np.array([55.11636304, -37.59308176, 44.13768458])),
             np.array([55.11636304, 57.97736624, 130.42180076]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Luv_to_LCHuv(np.array([29.80565520, -10.96316802, -65.06751860])),
             np.array([29.80565520, 65.98464238, 260.43611196]),
             decimal=7,
@@ -646,11 +631,15 @@ class TestLuv_to_LCHuv(unittest.TestCase):
 
         Luv = np.tile(Luv, (6, 1))
         LCHuv = np.tile(LCHuv, (6, 1))
-        np.testing.assert_almost_equal(Luv_to_LCHuv(Luv), LCHuv, decimal=7)
+        np.testing.assert_array_almost_equal(
+            Luv_to_LCHuv(Luv), LCHuv, decimal=7
+        )
 
         Luv = np.reshape(Luv, (2, 3, 3))
         LCHuv = np.reshape(LCHuv, (2, 3, 3))
-        np.testing.assert_almost_equal(Luv_to_LCHuv(Luv), LCHuv, decimal=7)
+        np.testing.assert_array_almost_equal(
+            Luv_to_LCHuv(Luv), LCHuv, decimal=7
+        )
 
     def test_domain_range_scale_Luv_to_LCHuv(self):
         """
@@ -668,7 +657,7 @@ class TestLuv_to_LCHuv(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     Luv_to_LCHuv(Luv * factor_a), LCHuv * factor_b, decimal=7
                 )
 
@@ -680,10 +669,8 @@ class TestLuv_to_LCHuv(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Luv = np.array(case)
-            Luv_to_LCHuv(Luv)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        Luv_to_LCHuv(cases)
 
 
 class TestLCHuv_to_Luv(unittest.TestCase):
@@ -695,19 +682,19 @@ class TestLCHuv_to_Luv(unittest.TestCase):
     def test_LCHuv_to_Luv(self):
         """Test :func:`colour.models.cie_luv.LCHuv_to_Luv` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LCHuv_to_Luv(np.array([41.52787529, 98.44997950, 10.38816348])),
             np.array([41.52787529, 96.83626054, 17.75210149]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LCHuv_to_Luv(np.array([55.11636304, 57.97736624, 130.42180076])),
             np.array([55.11636304, -37.59308176, 44.13768458]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LCHuv_to_Luv(np.array([29.80565520, 65.98464238, 260.43611196])),
             np.array([29.80565520, -10.96316802, -65.06751860]),
             decimal=7,
@@ -724,11 +711,15 @@ class TestLCHuv_to_Luv(unittest.TestCase):
 
         Luv = np.tile(Luv, (6, 1))
         LCHuv = np.tile(LCHuv, (6, 1))
-        np.testing.assert_almost_equal(LCHuv_to_Luv(LCHuv), Luv, decimal=7)
+        np.testing.assert_array_almost_equal(
+            LCHuv_to_Luv(LCHuv), Luv, decimal=7
+        )
 
         Luv = np.reshape(Luv, (2, 3, 3))
         LCHuv = np.reshape(LCHuv, (2, 3, 3))
-        np.testing.assert_almost_equal(LCHuv_to_Luv(LCHuv), Luv, decimal=7)
+        np.testing.assert_array_almost_equal(
+            LCHuv_to_Luv(LCHuv), Luv, decimal=7
+        )
 
     def test_domain_range_scale_LCHuv_to_Lab(self):
         """
@@ -746,7 +737,7 @@ class TestLCHuv_to_Luv(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     LCHuv_to_Luv(LCHuv * factor_a), Luv * factor_b, decimal=7
                 )
 
@@ -758,10 +749,8 @@ class TestLCHuv_to_Luv(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            LCHuv = np.array(case)
-            LCHuv_to_Luv(LCHuv)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        LCHuv_to_Luv(cases)
 
 
 if __name__ == "__main__":

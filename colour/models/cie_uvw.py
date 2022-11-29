@@ -16,14 +16,12 @@ References
 
 from __future__ import annotations
 
-from colour.algebra import spow
+from colour.algebra import sdiv, sdiv_mode, spow
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import ArrayLike, NDArray
+from colour.hints import ArrayLike, NDArray, cast
 from colour.models import (
-    UCS_to_uv,
     UCS_uv_to_xy,
-    XYZ_to_UCS,
-    XYZ_to_xyY,
+    XYZ_to_xy,
     xy_to_UCS_uv,
     xyY_to_XYZ,
     xyY_to_xy,
@@ -100,16 +98,15 @@ def XYZ_to_UVW(
 
     XYZ = to_domain_100(XYZ)
 
-    xy = xyY_to_xy(illuminant)
-    xyY = XYZ_to_xyY(XYZ, xy)
-    _x, _y, Y = tsplit(xyY)
+    xy = XYZ_to_xy(XYZ / 100)
+    xy_n = xyY_to_xy(illuminant)
+    Y = XYZ[..., 1]
 
-    u, v = tsplit(UCS_to_uv(XYZ_to_UCS(XYZ / 100)))
-    u_0, v_0 = tsplit(xy_to_UCS_uv(xy))
+    uv = xy_to_UCS_uv(xy)
+    uv_0 = xy_to_UCS_uv(xy_n)
 
-    W = 25 * spow(Y, 1 / 3) - 17
-    U = 13 * W * (u - u_0)
-    V = 13 * W * (v - v_0)
+    W = 25 * cast(NDArray, spow(Y, 1 / 3)) - 17
+    U, V = tsplit(13 * W[..., None] * (uv - uv_0))
 
     UVW = tstack([U, V, W])
 
@@ -176,8 +173,10 @@ def UVW_to_XYZ(
     u_0, v_0 = tsplit(xy_to_UCS_uv(xyY_to_xy(illuminant)))
 
     Y = ((W + 17) / 25) ** 3
-    u = U / (13 * W) + u_0
-    v = V / (13 * W) + v_0
+
+    with sdiv_mode():
+        u = sdiv(U, 13 * W) + u_0
+        v = sdiv(V, 13 * W) + v_0
 
     x, y = tsplit(UCS_uv_to_xy(tstack([u, v])))
 

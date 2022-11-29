@@ -42,7 +42,7 @@ Similarly, all the RGB colourspaces can be individually accessed from the
                              RGB_COLOURSPACE_ACES2065_1           RGB_COLOURSPACE_ACESPROXY            RGB_COLOURSPACE_APPLE_RGB            RGB_COLOURSPACE_BT470_525
                              RGB_COLOURSPACE_ACESCC               RGB_COLOURSPACE_ADOBE_RGB1998        RGB_COLOURSPACE_BEST_RGB             RGB_COLOURSPACE_BT470_625
                              RGB_COLOURSPACE_ACESCCT              RGB_COLOURSPACE_ADOBE_WIDE_GAMUT_RGB RGB_COLOURSPACE_BETA_RGB             RGB_COLOURSPACE_BT709                >
-                             RGB_COLOURSPACE_ACESCG               RGB_COLOURSPACE_ALEXA_WIDE_GAMUT     RGB_COLOURSPACE_BT2020               RGB_COLOURSPACE_CIE_RGB
+                             RGB_COLOURSPACE_ACESCG               RGB_COLOURSPACE_ARRI_WIDE_GAMUT_3    RGB_COLOURSPACE_BT2020               RGB_COLOURSPACE_CIE_RGB
 
 Abbreviations
 -------------
@@ -148,10 +148,10 @@ Which enables image processing:
 
 .. code:: python
 
-    RGB = colour.read_image('_static/Logo_Small_001.png')
+    RGB = colour.read_image("_static/Logo_Small_001.png")
     RGB = RGB[..., 0:3]  # Discarding alpha channel.
     XYZ = colour.sRGB_to_XYZ(RGB)
-    colour.plotting.plot_image(XYZ, text_kwargs={'text': 'sRGB to XYZ'})
+    colour.plotting.plot_image(XYZ, text_kwargs={"text": "sRGB to XYZ"})
 
 .. image:: _static/Basics_Logo_Small_001_CIE_XYZ.png
 
@@ -190,7 +190,7 @@ spectrometer is typically saved with 3 digits decimal precision:
     Baseline correction enabled: true
     XAxis mode: Wavelengths
     Number of Pixels in Spectrum: 1024
-    >>>>>Begin Spectral Data<<<<<
+    # >>>>>Begin Spectral Data<<<<<
     338.028	279.71
     338.482	285.43
     338.936	291.33
@@ -206,7 +206,7 @@ which was allowing to retrieve decimal keys within a given precision:
 
 .. code:: python
 
-    data_1 = {0.1999999998: 'Nemo', 0.2000000000: 'John'}
+    data_1 = {0.1999999998: "Nemo", 0.2000000000: "John"}
     apm_1 = ArbitraryPrecisionMapping(data_1, key_decimals=10)
     tuple(apm_1.keys())
 
@@ -270,7 +270,7 @@ given wavelength:
         540: 0.0772,
         560: 0.0870,
         580: 0.1128,
-        600: 0.1360
+        600: 0.1360,
     }
     sd = colour.SpectralDistribution(data)
     sd[555.5]
@@ -318,7 +318,7 @@ follows:
         540: 0.0772,
         560: 0.0870,
         580: 0.1128,
-        600: 0.1360
+        600: 0.1360,
     }
     sd = colour.SpectralDistribution(data)
     sd[555]
@@ -382,7 +382,7 @@ be changed directly via the properties or slicing:
         540: 0.0772,
         560: 0.0870,
         580: 0.1128,
-        600: 0.1360
+        600: 0.1360,
     }
     sd = colour.SpectralDistribution(data)
     # Note: The wavelength 500nm is at index 0.
@@ -529,7 +529,9 @@ with the :func:`colour.set_domain_range_scale` definition:
     Y_o = 20
     E_o1 = 1000
     E_o2 = 1000
-    colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
+    colour.adaptation.chromatic_adaptation_CIE1994(
+        XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2
+    )
 
 .. code-block:: text
 
@@ -537,11 +539,13 @@ with the :func:`colour.set_domain_range_scale` definition:
 
 .. code:: python
 
-    colour.set_domain_range_scale('1')
+    colour.set_domain_range_scale("1")
 
     XYZ_1 = [0.2800, 0.2126, 0.0527]
     Y_o = 0.2
-    colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
+    colour.adaptation.chromatic_adaptation_CIE1994(
+        XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2
+    )
 
 .. code-block:: text
 
@@ -556,9 +560,11 @@ would result in unexpected values and a warning in that case:
 
 .. code:: python
 
-    colour.set_domain_range_scale('Reference')
+    colour.set_domain_range_scale("Reference")
 
-    colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
+    colour.adaptation.chromatic_adaptation_CIE1994(
+        XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2
+    )
 
 .. code-block:: text
 
@@ -587,8 +593,10 @@ scale value:
 
 .. code:: python
 
-    with colour.domain_range_scale('1'):
-        colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
+    with colour.domain_range_scale("1"):
+        colour.adaptation.chromatic_adaptation_CIE1994(
+            XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2
+        )
 
 .. code-block:: text
 
@@ -610,3 +618,86 @@ scale upon child processes spawning.
 The :class:`colour.utilities.multiprocessing_pool` context manager conveniently
 performs the required initialisation so that the domain-range scale is
 propagated appropriately to child processes.
+
+Safe Power and Division
+-----------------------
+
+**Colour** default handling of fractional power and zero-division occurring
+during practical applications is managed via varous definitions and context
+managers.
+
+Safe Power
+~~~~~~~~~~
+
+NaNs generation occurs when a negative number :math:`a` is raised to the
+fractional power :math:`p`. This can be avoided using the
+:func:`colour.algebra.spow` definition that raises to the power as follows:
+:math:`sign(a) * |a|^p`.
+
+To the extent possible, the :func:`colour.algebra.spow` definition has been
+used throughout the codebase. The default behaviour is controlled with the
+following definitions:
+
+-   :func:`colour.algebra.is_spow_enabled`
+-   :func:`colour.algebra.set_spow_enabled`
+-   :func:`colour.algebra.spow_enable` (Context Manager & Decorator)
+
+Safe Division
+~~~~~~~~~~~~~
+
+NaNs and +/- infs generation occurs when a number :math:`a` is divided 0. This
+can be avoided using the :func:`colour.algebra.sdiv` definition. It has been
+used wherever deemed relevant in the codebase. The default behaviour is
+controlled with the following definitions:
+
+-   :func:`colour.algebra.get_sdiv_mode`
+-   :func:`colour.algebra.set_sdiv_mode`
+-   :func:`colour.algebra.sdiv_mode` (Context Manager & Decorator)
+
+The following modes are available:
+
+-   ``Numpy``: The current *Numpy* zero-division handling occurs.
+-   ``Ignore``: Zero-division occurs silently.
+-   ``Warning``: Zero-division occurs with a warning.
+-   ``Ignore Zero Conversion``: Zero-division occurs silently and NaNs or
+    +/- infs values are converted to zeros. See :func:`numpy.nan_to_num`
+    definition for more details.
+-   ``Warning Zero Conversion``: Zero-division occurs with a warning and NaNs
+    or +/- infs values are converted to zeros. See :func:`numpy.nan_to_num`
+    definition for more details.
+-   ``Ignore Limit Conversion``: Zero-division occurs silently and NaNs or
+    +/- infs values are converted to zeros or the largest +/- finite floating
+    point values representable by the division result :class:`numpy.dtype`.
+    See :func:`numpy.nan_to_num` definition for more details.
+-   ``Warning Limit Conversion``: Zero-division occurs  with a warning and
+    NaNs or +/- infs values are converted to zeros or the largest +/- finite
+    floating point values representable by the division result
+    :class:`numpy.dtype`.
+
+.. code:: python
+
+    colour.algebra.get_sdiv_mode()
+
+.. code-block:: text
+
+    'Ignore Zero Conversion'
+
+.. code:: python
+
+    colour.algebra.set_sdiv_mode("Numpy")
+    colour.UCS_to_uv([0, 0, 0])
+
+.. code-block:: text
+
+    /Users/kelsolaar/Documents/Development/colour-science/colour/colour/algebra/common.py:317: RuntimeWarning: invalid value encountered in true_divide
+      c = a / b
+    array([ nan,  nan])
+
+.. code:: python
+
+    colour.algebra.set_sdiv_mode("Ignore Zero Conversion")
+    colour.UCS_to_uv([0, 0, 0])
+
+.. code-block:: text
+
+    array([ 0.,  0.])

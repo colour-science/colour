@@ -56,8 +56,12 @@ def read_LUT_SonySPI1D(path: str) -> Union[LUT1D, LUT3x1D]:
 
     >>> import os
     >>> path = os.path.join(
-    ...     os.path.dirname(__file__), 'tests', 'resources', 'sony_spi1d',
-    ...     'eotf_sRGB_1D.spi1d')
+    ...     os.path.dirname(__file__),
+    ...     "tests",
+    ...     "resources",
+    ...     "sony_spi1d",
+    ...     "eotf_sRGB_1D.spi1d",
+    ... )
     >>> print(read_LUT_SonySPI1D(path))
     LUT1D - eotf sRGB 1D
     --------------------
@@ -71,8 +75,12 @@ def read_LUT_SonySPI1D(path: str) -> Union[LUT1D, LUT3x1D]:
     Reading a 3x1D *Sony* *.spi1d* *LUT*:
 
     >>> path = os.path.join(
-    ...     os.path.dirname(__file__), 'tests', 'resources', 'sony_spi1d',
-    ...     'eotf_sRGB_3x1D.spi1d')
+    ...     os.path.dirname(__file__),
+    ...     "tests",
+    ...     "resources",
+    ...     "sony_spi1d",
+    ...     "eotf_sRGB_3x1D.spi1d",
+    ... )
     >>> print(read_LUT_SonySPI1D(path))
     LUT3x1D - eotf sRGB 3x1D
     ------------------------
@@ -179,20 +187,22 @@ def write_LUT_SonySPI1D(
     >>> domain = np.array([-0.1, 1.5])
     >>> LUT = LUT1D(
     ...     spow(LUT1D.linear_table(16), 1 / 2.2),
-    ...     'My LUT',
+    ...     "My LUT",
     ...     domain,
-    ...     comments=['A first comment.', 'A second comment.'])
-    >>> write_LUT_SonySPI1D(LUT, 'My_LUT.cube')  # doctest: +SKIP
+    ...     comments=["A first comment.", "A second comment."],
+    ... )
+    >>> write_LUT_SonySPI1D(LUT, "My_LUT.cube")  # doctest: +SKIP
 
     Writing a 3x1D *Sony* *.spi1d* *LUT*:
 
     >>> domain = np.array([[-0.1, -0.1, -0.1], [1.5, 1.5, 1.5]])
     >>> LUT = LUT3x1D(
     ...     spow(LUT3x1D.linear_table(16), 1 / 2.2),
-    ...     'My LUT',
+    ...     "My LUT",
     ...     domain,
-    ...     comments=['A first comment.', 'A second comment.'])
-    >>> write_LUT_SonySPI1D(LUT, 'My_LUT.cube')  # doctest: +SKIP
+    ...     comments=["A first comment.", "A second comment."],
+    ... )
+    >>> write_LUT_SonySPI1D(LUT, "My_LUT.cube")  # doctest: +SKIP
     """
 
     if isinstance(LUT, LUTSequence):

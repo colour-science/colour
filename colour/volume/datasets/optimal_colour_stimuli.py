@@ -30,7 +30,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.hints import NDArray
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -739,14 +739,12 @@ References
 :cite:`Wyszecki2000bh`
 """
 
-OPTIMAL_COLOUR_STIMULI_ILLUMINANTS: CaseInsensitiveMapping = (
-    CaseInsensitiveMapping(
-        {
-            "A": OPTIMAL_COLOUR_STIMULI_A,
-            "C": OPTIMAL_COLOUR_STIMULI_C,
-            "D65": OPTIMAL_COLOUR_STIMULI_D65,
-        }
-    )
+OPTIMAL_COLOUR_STIMULI_ILLUMINANTS: CanonicalMapping = CanonicalMapping(
+    {
+        "A": OPTIMAL_COLOUR_STIMULI_A,
+        "C": OPTIMAL_COLOUR_STIMULI_C,
+        "D65": OPTIMAL_COLOUR_STIMULI_D65,
+    }
 )
 OPTIMAL_COLOUR_STIMULI_ILLUMINANTS.__doc__ = """
 Illuminants *Optimal Colour Stimuli*.

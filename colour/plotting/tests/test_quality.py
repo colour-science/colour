@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.plotting.quality` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.plotting.quality` module."""
 
 import unittest
 from matplotlib.pyplot import Axes, Figure

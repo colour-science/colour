@@ -2,11 +2,11 @@
 SMPTE ST 2084:2014
 ==================
 
-Defines the *SMPTE ST 2084:2014* opto-electrical transfer function
-(OETF) and electro-optical transfer function (EOTF):
+Defines the *SMPTE ST 2084:2014* electro-optical transfer function (EOTF) and
+its inverse:
 
--   :func:`colour.models.eotf_ST2084`
 -   :func:`colour.models.eotf_inverse_ST2084`
+-   :func:`colour.models.eotf_ST2084`
 
 References
 ----------
@@ -119,12 +119,15 @@ def eotf_inverse_ST2084(
 
     C = as_float_array(C)
 
-    Y_p = spow(C / L_p, constants.m_1)
+    c_1 = constants.c_1
+    c_2 = constants.c_2
+    c_3 = constants.c_3
+    m_1 = constants.m_1
+    m_2 = constants.m_2
 
-    N = spow(
-        (constants.c_1 + constants.c_2 * Y_p) / (constants.c_3 * Y_p + 1),
-        constants.m_2,
-    )
+    Y_p = spow(C / L_p, m_1)
+
+    N = spow((c_1 + c_2 * Y_p) / (c_3 * Y_p + 1), m_2)
 
     return as_float(N)
 
@@ -195,16 +198,18 @@ def eotf_ST2084(
 
     N = as_float_array(N)
 
-    m_1_d = 1 / constants.m_1
-    m_2_d = 1 / constants.m_2
+    c_1 = constants.c_1
+    c_2 = constants.c_2
+    c_3 = constants.c_3
+    m_1 = constants.m_1
+    m_2 = constants.m_2
+
+    m_1_d = 1 / m_1
+    m_2_d = 1 / m_2
 
     V_p = spow(N, m_2_d)
-
-    n = V_p - constants.c_1
-    # Limiting negative values.
-    n = np.where(n < 0, 0, n)
-
-    L = spow((n / (constants.c_2 - constants.c_3 * V_p)), m_1_d)
+    n = np.maximum(0, V_p - c_1)
+    L = spow((n / (c_2 - c_3 * V_p)), m_1_d)
     C = L_p * L
 
     return as_float(C)

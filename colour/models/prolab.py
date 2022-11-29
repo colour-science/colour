@@ -9,7 +9,7 @@ Defines the *ProLab* colourspace transformations:
 
 References
 ----------
--   :cite:`Ivan2021` : Ivan A. Konovalenko, Anna A. Smagina, Dmitry P.
+-   :cite:`Konovalenko2021` : Ivan A. Konovalenko, Anna A. Smagina, Dmitry P.
     Nikolaev, Petr P. Nikolaev. ProLab: perceptually uniform projective colour
     coordinate system. doi:10.1109/ACCESS.2017
 """
@@ -79,7 +79,7 @@ def projective_transformation(a: ArrayLike, Q: ArrayLike) -> NDArray:
     M[..., :-1] = a
 
     homography = np.dot(M, np.transpose(Q))
-    homography[..., 0:-1] /= homography[..., -1][..., np.newaxis]
+    homography[..., 0:-1] /= homography[..., -1][..., None]
 
     return homography[..., 0:-1]
 
@@ -126,12 +126,12 @@ def XYZ_to_ProLab(
 
     References
     ----------
-    :cite:`Ivan2021`
+    :cite:`Konovalenko2021`
 
     Examples
     --------
     >>> Lab = np.array([0.51634019, 0.15469500, 0.06289579])
-    >>> XYZ_to_ProLab(Lab) # doctest: +ELLIPSIS
+    >>> XYZ_to_ProLab(Lab)  # doctest: +ELLIPSIS
     array([  59.846628... ,  115.039635... ,   20.1251035...])
     """
 
@@ -185,12 +185,12 @@ def ProLab_to_XYZ(
 
     References
     ----------
-    :cite:`Ivan2021`
+    :cite:`Konovalenko2021`
 
     Examples
     --------
     >>> ProLab = np.array([59.8466286, 115.0396354, 20.12510352])
-    >>> ProLab_to_XYZ(ProLab) # doctest: +ELLIPSIS
+    >>> ProLab_to_XYZ(ProLab)  # doctest: +ELLIPSIS
     array([ 0.5163401...,  0.154695 ...,  0.0628957...])
     """
 

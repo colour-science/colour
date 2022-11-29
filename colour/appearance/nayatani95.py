@@ -271,9 +271,7 @@ H=None, HC=None, L_star_N=50.0039154...)
     xi, eta, _zeta = tsplit(xez)
 
     # Computing adapting field cone responses.
-    RGB_o = (
-        (Y_o[..., np.newaxis] * E_o[..., np.newaxis]) / (100 * np.pi)
-    ) * xez
+    RGB_o = ((Y_o[..., None] * E_o[..., None]) / (100 * np.pi)) * xez
 
     # Computing stimulus cone responses.
     RGB = XYZ_to_RGB_Nayatani95(XYZ)
@@ -738,7 +736,7 @@ def normalised_achromatic_lightness_correlate(
     B_r = as_float_array(B_r)
     B_rw = as_float_array(B_rw)
 
-    return as_float(100 * (B_r / B_rw))
+    return as_float(100 * B_r / B_rw)
 
 
 def hue_angle(
@@ -857,8 +855,8 @@ def saturation_components(
     p = as_float_array(p)
 
     E_s = chromatic_strength_function(h)
-    S_RG = (488.93 / bL_or) * E_s * t
-    S_YB = (488.93 / bL_or) * E_s * p
+    S_RG = 488.93 / bL_or * E_s * t
+    S_YB = 488.93 / bL_or * E_s * p
 
     return tstack([S_RG, S_YB])
 
