@@ -182,7 +182,7 @@ __all__ += [
 def _alexa_wide_gamut():
     usage_warning(
         'The "ALEXA Wide Gamut" RGB colourspace has been renamed to '
-        '"ARRI Wide Gamut 3" for consistency with "ARRI" new naming '
+        '"ARRI Wide Gamut 3" for consistency with ARRI\'s new naming '
         "convention."
     )
 
