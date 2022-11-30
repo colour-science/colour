@@ -23,7 +23,6 @@ if not hasattr(inspect, "getargspec"):
 
 from invoke import Context, task
 
-
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
@@ -35,8 +34,8 @@ __all__ = [
     "APPLICATION_NAME",
     "APPLICATION_VERSION",
     "PYTHON_PACKAGE_NAME",
-    "PYPI_ARCHIVE_NAME",
     "PYPI_PACKAGE_NAME",
+    "PYPI_ARCHIVE_NAME",
     "BIBLIOGRAPHY_NAME",
     "clean",
     "formatting",
