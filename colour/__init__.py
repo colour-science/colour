@@ -445,6 +445,7 @@ from .volume import (
     is_within_mesh_volume,
     is_within_pointer_gamut,
     is_within_visible_spectrum,
+    macadam_limits,
 )
 from .graph import describe_conversion_path, convert
 
@@ -867,6 +868,7 @@ __all__ += [
     "RGB_colourspace_volume_MonteCarlo",
     "RGB_colourspace_volume_coverage_MonteCarlo",
     "is_within_macadam_limits",
+    "macadam_limits",
     "is_within_mesh_volume",
     "is_within_pointer_gamut",
     "is_within_visible_spectrum",

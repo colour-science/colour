@@ -1,6 +1,7 @@
 from .datasets import *  # noqa
 from . import datasets
 from .macadam_limits import is_within_macadam_limits
+from .macadam_limits import macadam_limits
 from .mesh import is_within_mesh_volume
 from .pointer_gamut import is_within_pointer_gamut
 from .spectrum import (
@@ -22,6 +23,7 @@ __all__ += datasets.__all__
 __all__ += [
     "is_within_macadam_limits",
 ]
+__all__ += ["macadam_limits"]
 __all__ += [
     "is_within_mesh_volume",
 ]
