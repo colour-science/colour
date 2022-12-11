@@ -23,7 +23,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
     cctf_encoding_ROMMRGB,
@@ -69,7 +69,7 @@ __all__ = [
     "RGB_COLOURSPACE_PROPHOTO_RGB",
 ]
 
-PRIMARIES_ROMM_RGB: NDArray = np.array(
+PRIMARIES_ROMM_RGB: NDArrayFloat = np.array(
     [
         [0.7347, 0.2653],
         [0.1596, 0.8404],
@@ -81,12 +81,12 @@ PRIMARIES_ROMM_RGB: NDArray = np.array(
 WHITEPOINT_NAME_ROMM_RGB: str = "D50"
 """*ROMM RGB* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_ROMM_RGB: NDArray = CCS_ILLUMINANTS[
+CCS_WHITEPOINT_ROMM_RGB: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_ROMM_RGB]
 """*ROMM RGB* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_ROMM_RGB_TO_XYZ: NDArray = np.array(
+MATRIX_ROMM_RGB_TO_XYZ: NDArrayFloat = np.array(
     [
         [0.7977, 0.1352, 0.0313],
         [0.2880, 0.7119, 0.0001],
@@ -95,7 +95,7 @@ MATRIX_ROMM_RGB_TO_XYZ: NDArray = np.array(
 )
 """*ROMM RGB* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_ROMM_RGB: NDArray = np.array(
+MATRIX_XYZ_TO_ROMM_RGB: NDArrayFloat = np.array(
     [
         [1.3460, -0.2556, -0.0511],
         [-0.5446, 1.5082, 0.0205],
@@ -122,19 +122,19 @@ References
 :cite:`ANSI2003a`, :cite:`Spaulding2000b`
 """
 
-PRIMARIES_RIMM_RGB: NDArray = PRIMARIES_ROMM_RGB
+PRIMARIES_RIMM_RGB: NDArrayFloat = PRIMARIES_ROMM_RGB
 """*RIMM RGB* colourspace primaries."""
 
 WHITEPOINT_NAME_RIMM_RGB: str = WHITEPOINT_NAME_ROMM_RGB
 """*RIMM RGB* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_RIMM_RGB: NDArray = CCS_WHITEPOINT_ROMM_RGB
+CCS_WHITEPOINT_RIMM_RGB: NDArrayFloat = CCS_WHITEPOINT_ROMM_RGB
 """*RIMM RGB* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_RIMM_RGB_TO_XYZ: NDArray = MATRIX_ROMM_RGB_TO_XYZ
+MATRIX_RIMM_RGB_TO_XYZ: NDArrayFloat = MATRIX_ROMM_RGB_TO_XYZ
 """*RIMM RGB* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_RIMM_RGB: NDArray = MATRIX_XYZ_TO_ROMM_RGB
+MATRIX_XYZ_TO_RIMM_RGB: NDArrayFloat = MATRIX_XYZ_TO_ROMM_RGB
 """*CIE XYZ* tristimulus values to *RIMM RGB* colourspace matrix."""
 
 RGB_COLOURSPACE_RIMM_RGB: RGB_Colourspace = RGB_Colourspace(
@@ -157,19 +157,19 @@ References
 :cite:`Spaulding2000b`
 """
 
-PRIMARIES_ERIMM_RGB: NDArray = PRIMARIES_ROMM_RGB
+PRIMARIES_ERIMM_RGB: NDArrayFloat = PRIMARIES_ROMM_RGB
 """*ERIMM RGB* colourspace primaries."""
 
 WHITEPOINT_NAME_ERIMM_RGB: str = WHITEPOINT_NAME_ROMM_RGB
 """*ERIMM RGB* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_ERIMM_RGB: NDArray = CCS_WHITEPOINT_ROMM_RGB
+CCS_WHITEPOINT_ERIMM_RGB: NDArrayFloat = CCS_WHITEPOINT_ROMM_RGB
 """*ERIMM RGB* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_ERIMM_RGB_TO_XYZ: NDArray = MATRIX_ROMM_RGB_TO_XYZ
+MATRIX_ERIMM_RGB_TO_XYZ: NDArrayFloat = MATRIX_ROMM_RGB_TO_XYZ
 """*ERIMM RGB* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_ERIMM_RGB: NDArray = MATRIX_XYZ_TO_ROMM_RGB
+MATRIX_XYZ_TO_ERIMM_RGB: NDArrayFloat = MATRIX_XYZ_TO_ROMM_RGB
 """*CIE XYZ* tristimulus values to *ERIMM RGB* colourspace matrix."""
 
 RGB_COLOURSPACE_ERIMM_RGB: RGB_Colourspace = RGB_Colourspace(
@@ -190,19 +190,19 @@ References
 :cite:`Spaulding2000b`
 """
 
-PRIMARIES_PROPHOTO_RGB: NDArray = PRIMARIES_ROMM_RGB
+PRIMARIES_PROPHOTO_RGB: NDArrayFloat = PRIMARIES_ROMM_RGB
 """*ProPhoto RGB* colourspace primaries."""
 
 WHITEPOINT_NAME_PROPHOTO_RGB: str = WHITEPOINT_NAME_ROMM_RGB
 """*ProPhoto RGB* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_PROPHOTO_RGB: NDArray = CCS_WHITEPOINT_ROMM_RGB
+CCS_WHITEPOINT_PROPHOTO_RGB: NDArrayFloat = CCS_WHITEPOINT_ROMM_RGB
 """*ProPhoto RGB* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_PROPHOTO_RGB_TO_XYZ: NDArray = MATRIX_ROMM_RGB_TO_XYZ
+MATRIX_PROPHOTO_RGB_TO_XYZ: NDArrayFloat = MATRIX_ROMM_RGB_TO_XYZ
 """*ProPhoto RGB* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_PROPHOTO_RGB: NDArray = MATRIX_XYZ_TO_ROMM_RGB
+MATRIX_XYZ_TO_PROPHOTO_RGB: NDArrayFloat = MATRIX_XYZ_TO_ROMM_RGB
 """*CIE XYZ* tristimulus values to *ProPhoto RGB* colourspace matrix."""
 
 RGB_COLOURSPACE_PROPHOTO_RGB: RGB_Colourspace = RGB_Colourspace(

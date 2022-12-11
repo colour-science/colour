@@ -25,13 +25,7 @@ from colour.colorimetry import (
     SpectralShape,
 )
 from colour.constants import CONSTANT_BOLTZMANN, CONSTANT_LIGHT_SPEED
-from colour.hints import (
-    Floating,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    NDArray,
-    cast,
-)
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import as_float, as_float_array
 
 __author__ = "Colour Developers"
@@ -62,12 +56,12 @@ CONSTANT_N: float = 1
 
 
 def planck_law(
-    wavelength: FloatingOrArrayLike,
-    temperature: FloatingOrArrayLike,
-    c1: Floating = CONSTANT_C1,
-    c2: Floating = CONSTANT_C2,
-    n: Floating = CONSTANT_N,
-) -> FloatingOrNDArray:
+    wavelength: ArrayLike,
+    temperature: ArrayLike,
+    c1: float = CONSTANT_C1,
+    c2: float = CONSTANT_C2,
+    n: float = CONSTANT_N,
+) -> NDArrayFloat:
     """
     Return the spectral radiance of a blackbody as a function of wavelength at
     thermodynamic temperature :math:`T[K]` in a medium having index of
@@ -97,7 +91,7 @@ def planck_law(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Radiance in *watts per steradian per square metre* (:math:`W/sr/m^2`).
 
     Warnings
@@ -134,7 +128,7 @@ def planck_law(
     t = np.ravel(t)[None, ...]
 
     with sdiv_mode():
-        d = cast(NDArray, sdiv(c2, (n * l * t)))
+        d = sdiv(c2, (n * l * t))
 
     d[d != 0] = np.expm1(d[d != 0]) ** -1
     p = ((c1 * n**-2 * l**-5) / np.pi) * d
@@ -146,11 +140,11 @@ blackbody_spectral_radiance = planck_law
 
 
 def sd_blackbody(
-    temperature: Floating,
+    temperature: float,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
-    c1: Floating = CONSTANT_C1,
-    c2: Floating = CONSTANT_C2,
-    n: Floating = CONSTANT_N,
+    c1: float = CONSTANT_C1,
+    c2: float = CONSTANT_C2,
+    n: float = CONSTANT_N,
 ) -> SpectralDistribution:
     """
     Return the spectral distribution of the planckian radiator for given
@@ -224,8 +218,8 @@ def sd_blackbody(
 
 
 def rayleigh_jeans_law(
-    wavelength: FloatingOrArrayLike, temperature: FloatingOrArrayLike
-) -> FloatingOrNDArray:
+    wavelength: ArrayLike, temperature: ArrayLike
+) -> NDArrayFloat:
     """
     Return the approximation of the spectral radiance of a blackbody as a
     function of wavelength at thermodynamic temperature :math:`T[K]` according
@@ -240,7 +234,7 @@ def rayleigh_jeans_law(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Radiance in *watts per steradian per square metre* (:math:`W/sr/m^2`).
 
     Warnings
@@ -291,7 +285,7 @@ def rayleigh_jeans_law(
 
 
 def sd_rayleigh_jeans(
-    temperature: Floating,
+    temperature: float,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
 ) -> SpectralDistribution:
     """

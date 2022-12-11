@@ -13,13 +13,13 @@ from dataclasses import dataclass, field
 from colour.hints import (
     Any,
     ArrayLike,
-    Boolean,
-    DTypeNumber,
-    List,
+    DTypeReal,
     Literal,
-    NDArray,
+    NDArrayFloat,
+    NDArrayReal,
     Optional,
     Sequence,
+    TYPE_CHECKING,
     Tuple,
     Type,
     Union,
@@ -78,7 +78,7 @@ class BitDepth_Specification:
     """
 
     name: str
-    numpy: Type[DTypeNumber]
+    numpy: Type[DTypeReal]
     openimageio: Any
 
 
@@ -99,7 +99,7 @@ class ImageAttribute_Specification:
 
     name: str
     value: Any
-    type_: Optional[OpenImageIO.TypeDesc] = field(  # type: ignore[name-defined] # noqa
+    type_: Optional[OpenImageIO.TypeDesc] = field(  # pyright: ignore  # noqa
         default_factory=lambda: None
     )
 
@@ -116,26 +116,26 @@ if is_openimageio_installed():  # pragma: no cover
             "float64": BitDepth_Specification("float64", np.float64, DOUBLE),
         }
     )
-    if hasattr(np, "float128"):  # pragma: no cover
-        MAPPING_BIT_DEPTH["float128"] = BitDepth_Specification(
-            "float128", np.float128, DOUBLE  # type: ignore[arg-type]
-        )
+    if not TYPE_CHECKING:
+        if hasattr(np, "float128"):  # pragma: no cover
+            MAPPING_BIT_DEPTH["float128"] = BitDepth_Specification(
+                "float128", np.float128, DOUBLE
+            )
 else:  # pragma: no cover
-    MAPPING_BIT_DEPTH: CanonicalMapping = (  # type: ignore[no-redef]
-        CanonicalMapping(
-            {
-                "uint8": BitDepth_Specification("uint8", np.uint8, None),
-                "uint16": BitDepth_Specification("uint16", np.uint16, None),
-                "float16": BitDepth_Specification("float16", np.float16, None),
-                "float32": BitDepth_Specification("float32", np.float32, None),
-                "float64": BitDepth_Specification("float64", np.float64, None),
-            }
-        )
+    MAPPING_BIT_DEPTH: CanonicalMapping = CanonicalMapping(
+        {
+            "uint8": BitDepth_Specification("uint8", np.uint8, None),
+            "uint16": BitDepth_Specification("uint16", np.uint16, None),
+            "float16": BitDepth_Specification("float16", np.float16, None),
+            "float32": BitDepth_Specification("float32", np.float32, None),
+            "float64": BitDepth_Specification("float64", np.float64, None),
+        }
     )
-    if hasattr(np, "float128"):  # pragma: no cover
-        MAPPING_BIT_DEPTH["float128"] = BitDepth_Specification(
-            "float128", np.float128, None  # type: ignore[arg-type]
-        )
+    if not TYPE_CHECKING:
+        if hasattr(np, "float128"):  # pragma: no cover
+            MAPPING_BIT_DEPTH["float128"] = BitDepth_Specification(
+                "float128", np.float128, None
+            )
 
 
 def convert_bit_depth(
@@ -143,7 +143,7 @@ def convert_bit_depth(
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
-) -> NDArray:
+) -> NDArrayReal:
     """
     Convert given array to given bit depth, the current bit depth of the array
     is used to determine the appropriate conversion path.
@@ -211,7 +211,7 @@ def convert_bit_depth(
         elif bit_depth in ("float16", "float32", "float64", "float128"):
             a = a.astype(target_dtype)
 
-    return a  # type: ignore[return-value]
+    return a
 
 
 @required("OpenImageIO")
@@ -220,8 +220,8 @@ def read_image_OpenImageIO(
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
-    attributes: Boolean = False,
-) -> Union[NDArray, Tuple[NDArray, List]]:  # noqa: D405,D410,D407,D411
+    attributes: bool = False,
+) -> Union[NDArrayReal, Tuple[NDArrayReal, list]]:  # noqa: D405,D410,D407,D411
     """
     Read the image data at given path using *OpenImageIO*.
 
@@ -303,7 +303,7 @@ def read_image_Imageio(
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
     **kwargs: Any,
-) -> NDArray:
+) -> NDArrayReal:
     """
     Read the image data at given path using *Imageio*.
 
@@ -373,7 +373,7 @@ def read_image(
     ] = "float32",
     method: Union[Literal["Imageio", "OpenImageIO"], str] = "OpenImageIO",
     **kwargs: Any,
-) -> NDArray:  # noqa: D405,D407,D410,D411,D414
+) -> NDArrayReal:  # noqa: D405,D407,D410,D411,D414
     """
     Read the image data at given path using given method.
 
@@ -453,7 +453,7 @@ def write_image_OpenImageIO(
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
     attributes: Optional[Sequence] = None,
-) -> Boolean:  # noqa: D405,D407,D410,D411
+) -> bool:  # noqa: D405,D407,D410,D411
     """
     Write given image data at given path using *OpenImageIO*.
 
@@ -537,7 +537,7 @@ def write_image_OpenImageIO(
     image = as_float_array(image)
     path = str(path)
 
-    attributes = cast(List, optional(attributes, []))
+    attributes = cast(list, optional(attributes, []))
 
     bit_depth_specification = MAPPING_BIT_DEPTH[bit_depth]
 
@@ -680,7 +680,7 @@ def write_image(
     ] = "float32",
     method: Union[Literal["Imageio", "OpenImageIO"], str] = "OpenImageIO",
     **kwargs: Any,
-) -> Boolean:  # noqa: D405,D407,D410,D411,D414
+) -> bool:  # noqa: D405,D407,D410,D411,D414
     """
     Write given image data at given path using given method.
 
@@ -771,7 +771,7 @@ Source/FreeImage.h
     return function(image, path, bit_depth, **kwargs)
 
 
-def as_3_channels_image(a: ArrayLike) -> NDArray:
+def as_3_channels_image(a: ArrayLike) -> NDArrayFloat:
     """
     Convert given array :math:`a` to a 3-channels image-like representation.
 
@@ -798,6 +798,7 @@ def as_3_channels_image(a: ArrayLike) -> NDArray:
     >>> as_3_channels_image([[[0.18, 0.18, 0.18]]])
     array([[[ 0.18,  0.18,  0.18]]])
     """
+
     a = as_float_array(a)
 
     if len(a.shape) == 0:

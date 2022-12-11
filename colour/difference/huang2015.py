@@ -23,7 +23,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import FloatingOrArrayLike, FloatingOrNDArray, Literal, Union
+from colour.hints import ArrayLike, NDArrayFloat, Literal, Union
 from colour.utilities import CanonicalMapping, tsplit, validate_method
 
 __author__ = "Colour Developers"
@@ -78,7 +78,7 @@ COEFFICIENTS_HUANG2015["cie2000"] = COEFFICIENTS_HUANG2015["CIE 2000"]
 
 
 def power_function_Huang2015(
-    d_E: FloatingOrArrayLike,
+    d_E: ArrayLike,
     coefficients: Union[
         Literal[
             "CIE 1976",
@@ -95,7 +95,7 @@ def power_function_Huang2015(
         ],
         str,
     ] = "CIE 2000",
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Improve the performance of the :math:`\\Delta E` value for given
     coefficients using
@@ -111,7 +111,7 @@ def power_function_Huang2015(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Improved math:`\\Delta E` value.
 
     References

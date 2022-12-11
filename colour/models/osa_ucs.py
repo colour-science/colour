@@ -24,7 +24,7 @@ import numpy as np
 from scipy.optimize import fmin
 
 from colour.algebra import sdiv, sdiv_mode, spow, vector_dot
-from colour.hints import ArrayLike, Dict, FloatingOrNDArray, NDArray, Optional
+from colour.hints import ArrayLike, NDArrayFloat, Optional
 from colour.models import XYZ_to_xyY
 from colour.utilities import (
     as_float,
@@ -48,7 +48,7 @@ __all__ = [
     "OSA_UCS_to_XYZ",
 ]
 
-MATRIX_XYZ_TO_RGB_OSA_UCS: NDArray = np.array(
+MATRIX_XYZ_TO_RGB_OSA_UCS: NDArrayFloat = np.array(
     [
         [0.799, 0.4194, -0.1648],
         [-0.4493, 1.3265, 0.0927],
@@ -61,7 +61,7 @@ colourspace.
 """
 
 
-def XYZ_to_OSA_UCS(XYZ: ArrayLike) -> NDArray:
+def XYZ_to_OSA_UCS(XYZ: ArrayLike) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values under the
     *CIE 1964 10 Degree Standard Observer* to *OSA UCS* colourspace.
@@ -147,8 +147,8 @@ def XYZ_to_OSA_UCS(XYZ: ArrayLike) -> NDArray:
 
 
 def OSA_UCS_to_XYZ(
-    Ljg: ArrayLike, optimisation_kwargs: Optional[Dict] = None
-) -> NDArray:
+    Ljg: ArrayLike, optimisation_kwargs: Optional[dict] = None
+) -> NDArrayFloat:
     """
     Convert from *OSA UCS* colourspace to *CIE XYZ* tristimulus values under
     the *CIE 1964 10 Degree Standard Observer*.
@@ -214,12 +214,12 @@ def OSA_UCS_to_XYZ(
     if optimisation_kwargs is not None:
         optimisation_settings.update(optimisation_kwargs)
 
-    def error_function(XYZ: ArrayLike, Ljg: ArrayLike) -> FloatingOrNDArray:
+    def error_function(XYZ: NDArrayFloat, Ljg: NDArrayFloat) -> NDArrayFloat:
         """Error function."""
 
         # Error must be computed in "reference" domain and range.
         with domain_range_scale("ignore"):
-            error = np.linalg.norm(XYZ_to_OSA_UCS(XYZ) - as_float_array(Ljg))
+            error = np.linalg.norm(XYZ_to_OSA_UCS(XYZ) - Ljg)
 
         return as_float(error)
 
@@ -227,7 +227,7 @@ def OSA_UCS_to_XYZ(
     XYZ = as_float_array(
         [
             fmin(error_function, x_0, (Ljg_i,), **optimisation_settings)
-            for Ljg_i in as_float_array(Ljg)
+            for Ljg_i in Ljg
         ]
     )
 

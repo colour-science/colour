@@ -22,18 +22,7 @@ import matplotlib.pyplot as plt
 
 from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import sd_to_XYZ
-from colour.hints import (
-    Any,
-    ArrayLike,
-    Boolean,
-    Dict,
-    Floating,
-    List,
-    Literal,
-    Tuple,
-    Union,
-    cast,
-)
+from colour.hints import Any, ArrayLike, Dict, Literal, Tuple, Union, cast
 from colour.io import read_image
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
@@ -68,7 +57,7 @@ ROOT_RESOURCES_ANSIIESTM3018: str = os.path.join(
 )
 """Resources directory."""
 
-_COLOURS_BIN_BAR: List = [
+_COLOURS_BIN_BAR: list = [
     "#A35C60",
     "#CC765E",
     "#CC8145",
@@ -87,7 +76,7 @@ _COLOURS_BIN_BAR: List = [
     "#BA7A8E",
 ]
 
-_COLOURS_BIN_ARROW: List = [
+_COLOURS_BIN_ARROW: list = [
     "#E62828",
     "#E74B4B",
     "#FB812E",
@@ -106,7 +95,7 @@ _COLOURS_BIN_ARROW: List = [
     "#A74F81",
 ]
 
-_COLOURS_TCS_BAR: List = [
+_COLOURS_TCS_BAR: list = [
     "#F1BDCD",
     "#CA6183",
     "#573A40",
@@ -400,15 +389,10 @@ def plot_colour_vector_graphic(
     average_hues = np.radians(
         [
             np.mean(
-                as_float_array(
-                    [
-                        cast(
-                            Floating,
-                            specification.colorimetry_data[1][i].CAM.h,
-                        )
-                        for i in specification.bins[j]
-                    ]
-                )
+                [
+                    cast(float, specification.colorimetry_data[1][i].CAM.h)
+                    for i in specification.bins[j]
+                ]
             )
             for j in range(16)
         ]
@@ -496,7 +480,7 @@ def plot_colour_vector_graphic(
 def plot_16_bin_bars(
     values: ArrayLike,
     label_template: str,
-    x_ticker: Boolean = False,
+    x_ticker: bool = False,
     label_orientation: Union[
         Literal["Horizontal", "Vertical"], str
     ] = "Vertical",
@@ -598,7 +582,7 @@ def plot_16_bin_bars(
 
 def plot_local_chroma_shifts(
     specification: ColourQuality_Specification_ANSIIESTM3018,
-    x_ticker: Boolean = False,
+    x_ticker: bool = False,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -656,7 +640,7 @@ def plot_local_chroma_shifts(
 
 def plot_local_hue_shifts(
     specification: ColourQuality_Specification_ANSIIESTM3018,
-    x_ticker: Boolean = False,
+    x_ticker: bool = False,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -710,7 +694,7 @@ def plot_local_hue_shifts(
 
 def plot_local_colour_fidelities(
     specification: ColourQuality_Specification_ANSIIESTM3018,
-    x_ticker: Boolean = False,
+    x_ticker: bool = False,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """

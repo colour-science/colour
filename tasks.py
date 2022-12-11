@@ -13,13 +13,12 @@ import toml
 import uuid
 
 import colour
-from colour.hints import Boolean
 from colour.utilities import message_box
 
 import inspect
 
 if not hasattr(inspect, "getargspec"):
-    inspect.getargspec = inspect.getfullargspec
+    inspect.getargspec = inspect.getfullargspec  # pyright: ignore
 
 from invoke import Context, task
 
@@ -69,10 +68,9 @@ BIBLIOGRAPHY_NAME: str = "BIBLIOGRAPHY.bib"
 @task
 def clean(
     ctx: Context,
-    docs: Boolean = True,
-    bytecode: Boolean = False,
-    mypy: Boolean = True,
-    pytest: Boolean = True,
+    docs: bool = True,
+    bytecode: bool = False,
+    pytest: bool = True,
 ):
     """
     Clean the project.
@@ -85,8 +83,6 @@ def clean(
         Whether to clean the *docs* directory.
     bytecode
         Whether to clean the bytecode files, e.g. *.pyc* files.
-    mypy
-        Whether to clean the *Mypy* cache directory.
     pytest
         Whether to clean the *Pytest* cache directory.
     """
@@ -103,9 +99,6 @@ def clean(
         patterns.append("**/__pycache__")
         patterns.append("**/*.pyc")
 
-    if mypy:
-        patterns.append(".mypy_cache")
-
     if pytest:
         patterns.append(".pytest_cache")
 
@@ -116,8 +109,8 @@ def clean(
 @task
 def formatting(
     ctx: Context,
-    asciify: Boolean = True,
-    bibtex: Boolean = True,
+    asciify: bool = True,
+    bibtex: bool = True,
 ):
     """
     Convert unicode characters to ASCII and cleanup the *BibTeX* file.
@@ -163,37 +156,26 @@ def formatting(
 @task
 def quality(
     ctx: Context,
-    mypy: Boolean = True,
-    rstlint: Boolean = True,
+    pyright: bool = True,
+    rstlint: bool = True,
 ):
     """
-    Check the codebase with *Mypy* and lints various *restructuredText*
+    Check the codebase with *Pyright* and lints various *restructuredText*
     files with *rst-lint*.
 
     Parameters
     ----------
     ctx
         Context.
-    flake8
-        Whether to check the codebase with *Flake8*.
-    mypy
-        Whether to check the codebase with *Mypy*.
+    pyright
+        Whether to check the codebase with *Pyright*.
     rstlint
         Whether to lint various *restructuredText* files with *rst-lint*.
     """
 
-    if mypy:
-        message_box('Checking codebase with "Mypy"...')
-        ctx.run(
-            f"mypy "
-            f"--install-types "
-            f"--non-interactive "
-            f"--show-error-codes "
-            f"--warn-unused-ignores "
-            f"--warn-redundant-casts "
-            f"{PYTHON_PACKAGE_NAME} "
-            f"|| true"
-        )
+    if pyright:
+        message_box('Checking codebase with "Pyright"...')
+        ctx.run("pyright --skipunannotated")
 
     if rstlint:
         message_box('Linting "README.rst" file...')
@@ -237,7 +219,7 @@ def tests(ctx: Context):
 
 
 @task
-def examples(ctx: Context, plots: Boolean = False):
+def examples(ctx: Context, plots: bool = False):
     """
     Run the examples.
 
@@ -285,9 +267,9 @@ def preflight(ctx: Context):
 @task
 def docs(
     ctx: Context,
-    plots: Boolean = True,
-    html: Boolean = True,
-    pdf: Boolean = True,
+    plots: bool = True,
+    html: bool = True,
+    pdf: bool = True,
 ):
     """
     Build the documentation.
@@ -467,7 +449,7 @@ setup({0}
 
 
 @task
-def virtualise(ctx: Context, tests: Boolean = True):
+def virtualise(ctx: Context, tests: bool = True):
     """
     Create a virtual environment for the project build.
 
@@ -525,17 +507,17 @@ def tag(ctx: Context):
         file_content = file_handle.read()
         major_version = re.search(
             '__major_version__\\s+=\\s+"(.*)"', file_content
-        ).group(  # type: ignore[union-attr]
+        ).group(  # pyright: ignore
             1
         )
         minor_version = re.search(
             '__minor_version__\\s+=\\s+"(.*)"', file_content
-        ).group(  # type: ignore[union-attr]
+        ).group(  # pyright: ignore
             1
         )
         change_version = re.search(
             '__change_version__\\s+=\\s+"(.*)"', file_content
-        ).group(  # type: ignore[union-attr]
+        ).group(  # pyright: ignore
             1
         )
 

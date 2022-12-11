@@ -23,13 +23,9 @@ from colour.graph import convert
 from colour.hints import (
     Any,
     ArrayLike,
-    Boolean,
-    Dict,
-    Floating,
-    Integer,
     List,
     Literal,
-    NDArray,
+    NDArrayFloat,
     Optional,
     Sequence,
     Tuple,
@@ -77,11 +73,11 @@ __all__ = [
 
 def nadir_grid(
     limits: Optional[ArrayLike] = None,
-    segments: Integer = 10,
+    segments: int = 10,
     labels: Optional[Sequence[str]] = None,
     axes: Optional[plt.Axes] = None,
     **kwargs: Any,
-) -> Tuple[NDArray, NDArray, NDArray]:
+) -> Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]:
     """
     Return a grid on *CIE xy* plane made of quad geometric elements and its
     associated faces and edges colours. Ticks and labels are added to the
@@ -186,9 +182,7 @@ def nadir_grid(
            [ 0.  ,  0.  ,  0.  ,  1.  ]]))
     """
 
-    limits = as_float_array(
-        cast(ArrayLike, optional(limits, np.array([[-1, 1], [-1, 1]])))
-    )
+    limits = as_float_array(optional(limits, np.array([[-1, 1], [-1, 1]])))
     labels = cast(Sequence, optional(labels, ("x", "y")))
 
     extent = np.max(np.abs(limits[..., 1] - limits[..., 0]))
@@ -336,9 +330,9 @@ def nadir_grid(
 
 
 def RGB_identity_cube(
-    width_segments: Integer = 16,
-    height_segments: Integer = 16,
-    depth_segments: Integer = 16,
+    width_segments: int = 16,
+    height_segments: int = 16,
+    depth_segments: int = 16,
     planes: Optional[
         Literal[
             "-x",
@@ -355,7 +349,7 @@ def RGB_identity_cube(
             "zy",
         ]
     ] = None,
-) -> Tuple[NDArray, NDArray]:
+) -> Tuple[NDArrayFloat, NDArrayFloat]:
     """
     Return an *RGB* identity cube made of quad geometric elements and its
     associated *RGB* colours.
@@ -466,18 +460,18 @@ def plot_RGB_colourspaces_gamuts(
         ],
         str,
     ] = "CIE xyY",
-    segments: Integer = 8,
-    show_grid: Boolean = True,
-    grid_segments: Integer = 10,
-    show_spectral_locus: Boolean = False,
+    segments: int = 8,
+    show_grid: bool = True,
+    grid_segments: int = 10,
+    show_spectral_locus: bool = False,
     spectral_locus_colour: Optional[Union[ArrayLike, str]] = None,
     cmfs: Union[
         MultiSpectralDistributions,
         str,
         Sequence[Union[MultiSpectralDistributions, str]],
     ] = "CIE 1931 2 Degree Standard Observer",
-    chromatically_adapt: Boolean = False,
-    convert_kwargs: Optional[Dict] = None,
+    chromatically_adapt: bool = False,
+    convert_kwargs: Optional[dict] = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -553,7 +547,7 @@ def plot_RGB_colourspaces_gamuts(
     colourspaces = cast(
         List[RGB_Colourspace],
         list(filter_RGB_colourspaces(colourspaces).values()),
-    )
+    )  # pyright: ignore
 
     convert_kwargs = optional(convert_kwargs, {})
 
@@ -620,9 +614,9 @@ def plot_RGB_colourspaces_gamuts(
 
     plotting_colourspace = CONSTANTS_COLOUR_STYLE.colour.colourspace
 
-    quads_c: List = []
-    RGB_cf: List = []
-    RGB_ce: List = []
+    quads_c: list = []
+    RGB_cf: list = []
+    RGB_ce: list = []
     for i, colourspace in enumerate(colourspaces):
 
         if chromatically_adapt and not np.array_equal(
@@ -750,19 +744,19 @@ def plot_RGB_scatter(
     colourspaces: Optional[
         Union[RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]]
     ] = None,
-    segments: Integer = 8,
-    show_grid: Boolean = True,
-    grid_segments: Integer = 10,
-    show_spectral_locus: Boolean = False,
+    segments: int = 8,
+    show_grid: bool = True,
+    grid_segments: int = 10,
+    show_spectral_locus: bool = False,
     spectral_locus_colour: Optional[Union[ArrayLike, str]] = None,
-    points_size: Floating = 12,
+    points_size: float = 12,
     cmfs: Union[
         MultiSpectralDistributions,
         str,
         Sequence[Union[MultiSpectralDistributions, str]],
     ] = "CIE 1931 2 Degree Standard Observer",
-    chromatically_adapt: Boolean = False,
-    convert_kwargs: Optional[Dict] = None,
+    chromatically_adapt: bool = False,
+    convert_kwargs: Optional[dict] = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """

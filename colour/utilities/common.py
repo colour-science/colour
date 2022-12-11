@@ -33,12 +33,9 @@ from pprint import pformat
 from colour.constants import INTEGER_THRESHOLD
 from colour.hints import (
     Any,
-    Boolean,
     Callable,
-    Dict,
     DTypeBoolean,
     Generator,
-    Integer,
     Iterable,
     Literal,
     Mapping,
@@ -132,10 +129,10 @@ class CacheRegistry:
     """
 
     def __init__(self) -> None:
-        self._registry: Dict = {}
+        self._registry: dict = {}
 
     @property
-    def registry(self) -> Dict:
+    def registry(self) -> dict:
         """
         Getter property for the cache registry.
 
@@ -164,7 +161,7 @@ class CacheRegistry:
             }
         )
 
-    def register_cache(self, name: str) -> Dict:
+    def register_cache(self, name: str) -> dict:
         """
         Register a new cache with given name in the registry.
 
@@ -367,7 +364,7 @@ def ignore_python_warnings(function: Callable) -> Callable:
     return wrapper
 
 
-def attest(condition: Union[Boolean, DTypeBoolean], message: str = ""):
+def attest(condition: Union[bool, DTypeBoolean], message: str = ""):
     """
     Provide the `assert` statement functionality without being disabled by
     optimised Python execution.
@@ -384,7 +381,7 @@ def attest(condition: Union[Boolean, DTypeBoolean], message: str = ""):
         raise AssertionError(message)
 
 
-def batch(sequence: Sequence, k: Union[Integer, Literal[3]] = 3) -> Generator:
+def batch(sequence: Sequence, k: Union[int, Literal[3]] = 3) -> Generator:
     """
     Return a batch generator from given sequence.
 
@@ -410,7 +407,7 @@ def batch(sequence: Sequence, k: Union[Integer, Literal[3]] = 3) -> Generator:
         yield sequence[i : i + k]
 
 
-_MULTIPROCESSING_ENABLED: Boolean = True
+_MULTIPROCESSING_ENABLED: bool = True
 """*Colour* multiprocessing state."""
 
 
@@ -570,7 +567,7 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
         pool.terminate()
 
 
-def is_ctlrender_installed(raise_exception: Boolean = False) -> Boolean:
+def is_ctlrender_installed(raise_exception: bool = False) -> bool:
     """
     Return whether *ctlrender* is installed and available.
 
@@ -612,7 +609,7 @@ def is_ctlrender_installed(raise_exception: Boolean = False) -> Boolean:
         return False
 
 
-def is_graphviz_installed(raise_exception: Boolean = False) -> Boolean:
+def is_graphviz_installed(raise_exception: bool = False) -> bool:
     """
     Return whether *Graphviz* is installed and available.
 
@@ -648,7 +645,7 @@ def is_graphviz_installed(raise_exception: Boolean = False) -> Boolean:
         return False
 
 
-def is_matplotlib_installed(raise_exception: Boolean = False) -> Boolean:
+def is_matplotlib_installed(raise_exception: bool = False) -> bool:
     """
     Return whether *Matplotlib* is installed and available.
 
@@ -684,7 +681,7 @@ def is_matplotlib_installed(raise_exception: Boolean = False) -> Boolean:
         return False
 
 
-def is_networkx_installed(raise_exception: Boolean = False) -> Boolean:
+def is_networkx_installed(raise_exception: bool = False) -> bool:
     """
     Return whether *NetworkX* is installed and available.
 
@@ -721,7 +718,7 @@ def is_networkx_installed(raise_exception: Boolean = False) -> Boolean:
         return False
 
 
-def is_opencolorio_installed(raise_exception: Boolean = False) -> Boolean:
+def is_opencolorio_installed(raise_exception: bool = False) -> bool:
     """
     Return whether *OpenColorIO* is installed and available.
 
@@ -757,7 +754,7 @@ def is_opencolorio_installed(raise_exception: Boolean = False) -> Boolean:
         return False
 
 
-def is_openimageio_installed(raise_exception: Boolean = False) -> Boolean:
+def is_openimageio_installed(raise_exception: bool = False) -> bool:
     """
     Return whether *OpenImageIO* is installed and available.
 
@@ -793,7 +790,7 @@ def is_openimageio_installed(raise_exception: Boolean = False) -> Boolean:
         return False
 
 
-def is_pandas_installed(raise_exception: Boolean = False) -> Boolean:
+def is_pandas_installed(raise_exception: bool = False) -> bool:
     """
     Return whether *Pandas* is installed and available.
 
@@ -829,7 +826,7 @@ def is_pandas_installed(raise_exception: Boolean = False) -> Boolean:
         return False
 
 
-def is_tqdm_installed(raise_exception: Boolean = False) -> Boolean:
+def is_tqdm_installed(raise_exception: bool = False) -> bool:
     """
     Return whether *tqdm* is installed and available.
 
@@ -865,7 +862,7 @@ def is_tqdm_installed(raise_exception: Boolean = False) -> Boolean:
         return False
 
 
-def is_trimesh_installed(raise_exception: Boolean = False) -> Boolean:
+def is_trimesh_installed(raise_exception: bool = False) -> bool:
     """
     Return whether *Trimesh* is installed and available.
 
@@ -963,7 +960,7 @@ def required(
     return wrapper
 
 
-def is_iterable(a: Any) -> Boolean:
+def is_iterable(a: Any) -> bool:
     """
     Return whether given variable :math:`a` is iterable.
 
@@ -988,7 +985,7 @@ def is_iterable(a: Any) -> Boolean:
     return is_string(a) or (True if getattr(a, "__iter__", False) else False)
 
 
-def is_string(a: Any) -> Boolean:
+def is_string(a: Any) -> bool:
     """
     Return whether given variable :math:`a` is a :class:`str`-like variable.
 
@@ -1013,9 +1010,9 @@ def is_string(a: Any) -> Boolean:
     return True if isinstance(a, str) else False
 
 
-def is_numeric(a: Any) -> Boolean:
+def is_numeric(a: Any) -> bool:
     """
-    Return whether given variable :math:`a` is a :class:`Number`-like
+    Return whether given variable :math:`a` is a :class:`Real`-like
     variable.
 
     Parameters
@@ -1026,7 +1023,7 @@ def is_numeric(a: Any) -> Boolean:
     Returns
     -------
     :class:`bool`
-        Whether variable :math:`a` is a :class:`Number`-like variable.
+        Whether variable :math:`a` is a :class:`Real`-like variable.
 
     Examples
     --------
@@ -1043,12 +1040,26 @@ def is_numeric(a: Any) -> Boolean:
             float,
             complex,
             np.integer,
+            np.int8,
+            np.int8,
+            np.int16,
+            np.int32,
+            np.int64,
+            np.uint8,
+            np.uint16,
+            np.uint32,
+            np.uint64,
             np.floating,
-        ),
+            np.float16,
+            np.float32,
+            np.float64,
+            np.csingle,
+            np.cdouble,
+        ),  # pyright: ignore
     )
 
 
-def is_integer(a: Any) -> Boolean:
+def is_integer(a: Any) -> bool:
     """
     Return whether given variable :math:`a` is an :class:`numpy.integer`-like
     variable under given threshold.
@@ -1079,7 +1090,7 @@ def is_integer(a: Any) -> Boolean:
     return abs(a - np.around(a)) <= INTEGER_THRESHOLD
 
 
-def is_sibling(element: Any, mapping: Mapping) -> Boolean:
+def is_sibling(element: Any, mapping: Mapping) -> bool:
     """
     Return whether given element type is present in given mapping types.
 
@@ -1101,7 +1112,7 @@ def is_sibling(element: Any, mapping: Mapping) -> Boolean:
     )
 
 
-def filter_kwargs(function: Callable, **kwargs: Any) -> Dict:
+def filter_kwargs(function: Callable, **kwargs: Any) -> dict:
     """
     Filter keyword arguments incompatible with the given function signature.
 
@@ -1152,7 +1163,7 @@ def filter_kwargs(function: Callable, **kwargs: Any) -> Dict:
     return kwargs
 
 
-def filter_mapping(mapping: Mapping, names: Union[str, Sequence[str]]) -> Dict:
+def filter_mapping(mapping: Mapping, names: Union[str, Sequence[str]]) -> dict:
     """
     Filter given mapping with given names.
 
@@ -1191,7 +1202,7 @@ def filter_mapping(mapping: Mapping, names: Union[str, Sequence[str]]) -> Dict:
     {'Element A': <colour.utilities.common.Element object at 0x...>}
     """
 
-    def filter_mapping_with_name(mapping: Mapping, name: str) -> Dict:
+    def filter_mapping_with_name(mapping: Mapping, name: str) -> dict:
         """
         Filter given mapping with given name.
 
@@ -1372,7 +1383,7 @@ def optional(value: Optional[T], default: T) -> T:
         return value
 
 
-def slugify(object_: Any, allow_unicode: Boolean = False) -> str:
+def slugify(object_: Any, allow_unicode: bool = False) -> str:
     """
     Generate a *SEO* friendly and human-readable slug from given object.
 

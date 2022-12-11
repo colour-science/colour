@@ -19,7 +19,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     as_float,
     as_float_array,
@@ -41,9 +41,9 @@ __all__ = [
 
 
 def log_encoding_Cineon(
-    x: FloatingOrArrayLike,
-    black_offset: FloatingOrArrayLike = 10 ** ((95 - 685) / 300),
-) -> FloatingOrNDArray:
+    x: ArrayLike,
+    black_offset: ArrayLike = 10 ** ((95 - 685) / 300),
+) -> NDArrayFloat:
     """
     Define the *Cineon* log encoding curve / opto-electronic transfer
     function.
@@ -57,7 +57,7 @@ def log_encoding_Cineon(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Non-linear data :math:`y`.
 
     Notes
@@ -93,9 +93,9 @@ def log_encoding_Cineon(
 
 
 def log_decoding_Cineon(
-    y: FloatingOrArrayLike,
-    black_offset: FloatingOrArrayLike = 10 ** ((95 - 685) / 300),
-) -> FloatingOrNDArray:
+    y: ArrayLike,
+    black_offset: ArrayLike = 10 ** ((95 - 685) / 300),
+) -> NDArrayFloat:
     """
     Define the *Cineon* log decoding curve / electro-optical transfer
     function.
@@ -109,7 +109,7 @@ def log_decoding_Cineon(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear data :math:`x`.
 
     Notes

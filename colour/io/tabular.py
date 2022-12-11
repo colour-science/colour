@@ -18,7 +18,7 @@ import tempfile
 
 from colour.colorimetry import SpectralDistribution
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.hints import Any, Boolean, Dict, NDArray, cast
+from colour.hints import Any, Dict, NDArrayFloat, cast
 from colour.utilities import filter_kwargs
 
 __author__ = "Colour Developers"
@@ -37,7 +37,7 @@ __all__ = [
 
 def read_spectral_data_from_csv_file(
     path: str, **kwargs: Any
-) -> Dict[str, NDArray]:
+) -> Dict[str, NDArrayFloat]:
     """
     Read the spectral data from given *CSV* file in the following form::
 
@@ -146,7 +146,7 @@ def read_spectral_data_from_csv_file(
     if transpose:
         os.unlink(transposed_csv_file.name)
 
-    return {name: data[name] for name in data.dtype.names}
+    return {name: data[name] for name in data.dtype.names}  # pyright: ignore
 
 
 def read_sds_from_csv_file(
@@ -169,7 +169,7 @@ def read_sds_from_csv_file(
     Returns
     -------
     :class:`dict`
-        *Dict* of :class:`colour.SpectralDistribution` class instances.
+        *dict* of :class:`colour.SpectralDistribution` class instances.
 
     Examples
     --------
@@ -292,7 +292,7 @@ def read_sds_from_csv_file(
 
 def write_sds_to_csv_file(
     sds: Dict[str, SpectralDistribution], path: str
-) -> Boolean:
+) -> bool:
     """
     Write the given spectral distributions to given *CSV* file.
 

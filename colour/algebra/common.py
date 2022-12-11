@@ -14,14 +14,9 @@ import numpy as np
 from colour.hints import (
     Any,
     ArrayLike,
-    Boolean,
     Callable,
-    Floating,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    Integer,
     Literal,
-    NDArray,
+    NDArrayFloat,
     Optional,
     Tuple,
     Union,
@@ -238,7 +233,7 @@ class sdiv_mode:
         return wrapper
 
 
-def sdiv(a: FloatingOrArrayLike, b: FloatingOrArrayLike) -> FloatingOrNDArray:
+def sdiv(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     """
     Divide given array :math:`b` with array :math:`b` while handling
     zero-division.
@@ -276,7 +271,7 @@ def sdiv(a: FloatingOrArrayLike, b: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.ndarray`
         Array :math:`b` safely divided by :math:`a`.
 
     Examples
@@ -354,14 +349,14 @@ def sdiv(a: FloatingOrArrayLike, b: FloatingOrArrayLike) -> FloatingOrNDArray:
     return c
 
 
-_SPOW_ENABLED: Boolean = True
+_SPOW_ENABLED: bool = True
 """
 Global variable storing the current *Colour* safe / symmetrical power function
 enabled state.
 """
 
 
-def is_spow_enabled() -> Boolean:
+def is_spow_enabled() -> bool:
     """
     Return whether *Colour* safe / symmetrical power function is enabled.
 
@@ -385,7 +380,7 @@ def is_spow_enabled() -> Boolean:
     return _SPOW_ENABLED
 
 
-def set_spow_enable(enable: Boolean):
+def set_spow_enable(enable: bool):
     """
     Set *Colour* safe / symmetrical power function enabled state.
 
@@ -422,7 +417,7 @@ class spow_enable:
         function.
     """
 
-    def __init__(self, enable: Boolean) -> None:
+    def __init__(self, enable: bool) -> None:
         self._enable = enable
         self._previous_state = is_spow_enabled()
 
@@ -455,7 +450,7 @@ class spow_enable:
         return wrapper
 
 
-def spow(a: FloatingOrArrayLike, p: FloatingOrArrayLike) -> FloatingOrNDArray:
+def spow(a: ArrayLike, p: ArrayLike) -> NDArrayFloat:
     """
     Raise given array :math:`a` to the power :math:`p` as follows:
     :math:`sign(a) * |a|^p`.
@@ -474,7 +469,7 @@ def spow(a: FloatingOrArrayLike, p: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.ndarray`
         Array :math:`a` safely raised to the power :math:`p`.
 
     Examples
@@ -500,7 +495,7 @@ def spow(a: FloatingOrArrayLike, p: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(a_p)
 
 
-def normalise_vector(a: FloatingOrArrayLike) -> FloatingOrNDArray:
+def normalise_vector(a: ArrayLike) -> NDArrayFloat:
     """
     Normalise given vector :math:`a`.
 
@@ -529,10 +524,10 @@ def normalise_vector(a: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def normalise_maximum(
     a: ArrayLike,
-    axis: Optional[Integer] = None,
-    factor: Floating = 1,
-    clip: Boolean = True,
-) -> NDArray:
+    axis: Optional[int] = None,
+    factor: float = 1,
+    clip: bool = True,
+) -> NDArrayFloat:
     """
     Normalise given array :math:`a` values by :math:`a` maximum value and
     optionally clip them between.
@@ -570,7 +565,7 @@ def normalise_maximum(
     return np.clip(a, 0, factor) if clip else a
 
 
-def vector_dot(m: ArrayLike, v: ArrayLike) -> NDArray:
+def vector_dot(m: ArrayLike, v: ArrayLike) -> NDArrayFloat:
     """
     Perform the dot product of the matrix array :math:`m` with the vector
     array :math:`v`.
@@ -614,7 +609,7 @@ def vector_dot(m: ArrayLike, v: ArrayLike) -> NDArray:
     return np.einsum("...ij,...j->...i", as_float_array(m), as_float_array(v))
 
 
-def matrix_dot(a: ArrayLike, b: ArrayLike) -> NDArray:
+def matrix_dot(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     """
     Perform the dot product of the matrix array :math:`a` with the matrix
     array :math:`b`.
@@ -675,7 +670,7 @@ def matrix_dot(a: ArrayLike, b: ArrayLike) -> NDArray:
     )
 
 
-def euclidean_distance(a: ArrayLike, b: ArrayLike) -> FloatingOrNDArray:
+def euclidean_distance(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     """
     Return the *Euclidean* distance between point array :math:`a` and point
     array :math:`b`.
@@ -693,7 +688,7 @@ def euclidean_distance(a: ArrayLike, b: ArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.ndarray`
         *Euclidean* distance.
 
     Examples
@@ -709,7 +704,7 @@ def euclidean_distance(a: ArrayLike, b: ArrayLike) -> FloatingOrNDArray:
     )
 
 
-def manhattan_distance(a: ArrayLike, b: ArrayLike) -> FloatingOrNDArray:
+def manhattan_distance(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     """
     Return the *Manhattan* (or *City-Block*) distance between point array
     :math:`a` and point array :math:`b`.
@@ -727,7 +722,7 @@ def manhattan_distance(a: ArrayLike, b: ArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.ndarray`
         *Manhattan* distance.
 
     Examples
@@ -745,7 +740,7 @@ def manhattan_distance(a: ArrayLike, b: ArrayLike) -> FloatingOrNDArray:
 
 def linear_conversion(
     a: ArrayLike, old_range: ArrayLike, new_range: ArrayLike
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Perform a simple linear conversion of given array :math:`a` between the
     old and new ranges.
@@ -780,11 +775,11 @@ def linear_conversion(
 
 
 def linstep_function(
-    x: FloatingOrArrayLike,
-    a: FloatingOrArrayLike = 0,
-    b: FloatingOrArrayLike = 1,
-    clip: Boolean = False,
-) -> NDArray:
+    x: ArrayLike,
+    a: ArrayLike = 0,
+    b: ArrayLike = 1,
+    clip: bool = False,
+) -> NDArrayFloat:
     """
     Perform a simple linear interpolation between given array :math:`a` and
     array :math:`b` using :math:`x` array.
@@ -827,11 +822,11 @@ lerp = linstep_function
 
 
 def smoothstep_function(
-    x: FloatingOrArrayLike,
-    a: FloatingOrArrayLike = 0,
-    b: FloatingOrArrayLike = 1,
-    clip: Boolean = False,
-) -> NDArray:
+    x: ArrayLike,
+    a: ArrayLike = 0,
+    b: ArrayLike = 1,
+    clip: bool = False,
+) -> NDArrayFloat:
     """
     Evaluate the *smoothstep* sigmoid-like function on array :math:`x`.
 
@@ -870,7 +865,7 @@ def smoothstep_function(
 smooth = smoothstep_function
 
 
-def is_identity(a: ArrayLike) -> Boolean:
+def is_identity(a: ArrayLike) -> bool:
     """
     Return whether :math:`a` array is an identity matrix.
 
@@ -897,10 +892,10 @@ def is_identity(a: ArrayLike) -> Boolean:
 
 def eigen_decomposition(
     a: ArrayLike,
-    eigen_w_v_count: Optional[Integer] = None,
-    descending_order: Boolean = True,
-    covariance_matrix: Boolean = False,
-) -> Tuple[NDArray, NDArray]:
+    eigen_w_v_count: Optional[int] = None,
+    descending_order: bool = True,
+    covariance_matrix: bool = False,
+) -> Tuple[NDArrayFloat, NDArrayFloat]:
     """
     Return the eigen-values :math:`w` and eigen-vectors :math:`v` of given
     array :math:`a` in given order.

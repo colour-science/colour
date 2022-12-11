@@ -37,7 +37,7 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
 
 from __future__ import annotations
 
-from colour.hints import Any, ArrayLike, FloatingOrNDArray, Literal, Union
+from colour.hints import Any, ArrayLike, NDArrayFloat, Literal, Union
 from colour.utilities import (
     CanonicalMapping,
     filter_kwargs,
@@ -145,7 +145,7 @@ def delta_E(
         str,
     ] = "CIE 2000",
     **kwargs: Any,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Return the difference :math:`\\Delta E_{ab}` between two given
     *CIE L\\*a\\*b\\**, :math:`IC_TC_P`, or :math:`J'a'b'` colourspace arrays
@@ -181,7 +181,7 @@ def delta_E(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Colour difference :math:`\\Delta E_{ab}`.
 
     References

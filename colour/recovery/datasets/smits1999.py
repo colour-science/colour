@@ -15,7 +15,6 @@ from __future__ import annotations
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry.spectrum import SpectralDistribution
-from colour.hints import Dict
 from colour.utilities import CanonicalMapping
 
 __author__ = "Colour Developers"
@@ -30,7 +29,7 @@ __all__ = [
     "SDS_SMITS1999",
 ]
 
-DATA_SMITS1999: Dict = {
+DATA_SMITS1999: dict = {
     "white": {
         380.0000: 1.0000,
         417.7778: 1.0000,

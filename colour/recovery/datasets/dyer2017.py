@@ -16,7 +16,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.colorimetry import SpectralShape
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -38,7 +38,7 @@ SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017: SpectralShape = SpectralShape(
 Spectral shape of the *Dyer et al. (2017)* basis functions.
 """
 
-BASIS_FUNCTIONS_DYER2017: NDArray = np.array(
+BASIS_FUNCTIONS_DYER2017: NDArrayFloat = np.array(
     [
         [
             [0.007056580228771, 0.004260510453546, 0.012005618620200],

@@ -35,12 +35,7 @@ from colour.colorimetry import (
     SpectralDistribution,
     SpectralShape,
 )
-from colour.hints import (
-    ArrayLike,
-    Boolean,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-)
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import as_float_array, as_float, tsplit
 
 __author__ = "Colour Developers"
@@ -141,7 +136,7 @@ def sd_CIE_standard_illuminant_A(
 
 
 def sd_CIE_illuminant_D_series(
-    xy: ArrayLike, M1_M2_rounding: Boolean = True
+    xy: ArrayLike, M1_M2_rounding: bool = True
 ) -> SpectralDistribution:
     """
     Return the spectral distribution of given *CIE Illuminant D Series* using
@@ -321,7 +316,7 @@ def sd_CIE_illuminant_D_series(
     )
 
 
-def daylight_locus_function(x_D: FloatingOrArrayLike) -> FloatingOrNDArray:
+def daylight_locus_function(x_D: ArrayLike) -> NDArrayFloat:
     """
     Return the daylight locus as *CIE xy* chromaticity coordinates.
 
@@ -332,7 +327,7 @@ def daylight_locus_function(x_D: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Daylight locus as *CIE xy* chromaticity coordinates.
 
     References

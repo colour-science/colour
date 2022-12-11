@@ -34,7 +34,6 @@ from __future__ import annotations
 from functools import partial
 
 from colour.characterisation import RGB_DisplayPrimaries
-from colour.hints import Dict
 from colour.utilities import LazyCanonicalMapping
 
 __author__ = "Colour Developers"
@@ -49,7 +48,7 @@ __all__ = [
     "MSDS_DISPLAY_PRIMARIES_LCD",
 ]
 
-DATA_DISPLAY_PRIMARIES_LCD: Dict = {
+DATA_DISPLAY_PRIMARIES_LCD: dict = {
     "Apple Studio Display": {
         380: (0.0000, 0.0000, 0.0000),
         385: (0.0000, 0.0000, 0.0000),

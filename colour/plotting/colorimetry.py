@@ -53,12 +53,9 @@ from colour.colorimetry import (
 )
 from colour.hints import (
     Any,
-    Boolean,
     Callable,
     Dict,
-    Floating,
     List,
-    NDArray,
     Optional,
     Sequence,
     Tuple,
@@ -118,9 +115,9 @@ def plot_single_sd(
         str,
         Sequence[Union[MultiSpectralDistributions, str]],
     ] = "CIE 1931 2 Degree Standard Observer",
-    out_of_gamut_clipping: Boolean = True,
-    modulate_colours_with_sd_amplitude: Boolean = False,
-    equalize_sd_amplitude: Boolean = False,
+    out_of_gamut_clipping: bool = True,
+    modulate_colours_with_sd_amplitude: bool = False,
+    equalize_sd_amplitude: bool = False,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -189,7 +186,7 @@ def plot_single_sd(
         MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
     )
 
-    sd = cast(SpectralDistribution, sd.copy())
+    sd = sd.copy()
     sd.interpolator = LinearInterpolator
     wavelengths = cmfs.wavelengths[
         np.logical_and(
@@ -199,7 +196,7 @@ def plot_single_sd(
             <= min(max(cmfs.wavelengths), max(sd.wavelengths)),
         )
     ]
-    values = as_float_array(sd[wavelengths])
+    values = sd[wavelengths]
 
     RGB = XYZ_to_plotting_colourspace(
         wavelength_to_XYZ(wavelengths, cmfs),
@@ -214,7 +211,7 @@ def plot_single_sd(
 
     if modulate_colours_with_sd_amplitude:
         with sdiv_mode():
-            RGB *= cast(NDArray, sdiv(values, np.max(values)))[..., None]
+            RGB *= sdiv(values, np.max(values))[..., None]
 
     RGB = CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding(RGB)
 
@@ -276,7 +273,7 @@ def plot_multi_sds(
         Sequence[Union[SpectralDistribution, MultiSpectralDistributions]],
         MultiSpectralDistributions,
     ],
-    plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+    plot_kwargs: Optional[Union[dict, List[dict]]] = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -289,7 +286,7 @@ def plot_multi_sds(
         plot. `sds` can be a single
         :class:`colour.MultiSpectralDistributions` class instance, a list
         of :class:`colour.MultiSpectralDistributions` class instances or a
-        list of :class:`colour.SpectralDistribution` class instances.
+        List of :class:`colour.SpectralDistribution` class instances.
     plot_kwargs
         Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
         used to control the style of the plotted spectral distributions.
@@ -542,7 +539,7 @@ def plot_multi_cmfs(
 
     cmfs = cast(
         List[MultiSpectralDistributions], list(filter_cmfs(cmfs).values())
-    )
+    )  # pyright: ignore
 
     _figure, axes = artist(**kwargs)
 
@@ -652,7 +649,10 @@ def plot_single_illuminant_sd(
 
     title = f"Illuminant {illuminant} - {cmfs.display_name}"
 
-    illuminant = first_item(filter_illuminants(illuminant).values())
+    illuminant = cast(
+        SpectralDistribution,
+        first_item(filter_illuminants(illuminant).values()),
+    )
 
     settings: Dict[str, Any] = {"title": title, "y_label": "Relative Power"}
     settings.update(kwargs)
@@ -713,7 +713,7 @@ def plot_multi_illuminant_sds(
     illuminants = cast(
         List[SpectralDistribution],
         list(filter_illuminants(illuminants).values()),
-    )
+    )  # pyright: ignore
 
     illuminant_display_names = ", ".join(
         [illuminant.display_name for illuminant in illuminants]
@@ -738,7 +738,7 @@ def plot_visible_spectrum(
         str,
         Sequence[Union[MultiSpectralDistributions, str]],
     ] = "CIE 1931 2 Degree Standard Observer",
-    out_of_gamut_clipping: Boolean = True,
+    out_of_gamut_clipping: bool = True,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -1007,7 +1007,7 @@ def plot_multi_luminance_functions(
 
 @override_style()
 def plot_blackbody_spectral_radiance(
-    temperature: Floating = 3500,
+    temperature: float = 3500,
     cmfs: Union[
         MultiSpectralDistributions,
         str,

@@ -31,14 +31,7 @@ from __future__ import annotations
 import re
 from functools import partial
 
-from colour.hints import (
-    Callable,
-    Any,
-    ArrayLike,
-    FloatingOrNDArray,
-    NDArray,
-    cast,
-)
+from colour.hints import Callable, Any, ArrayLike, NDArrayFloat, cast
 from colour.models.cam02_ucs import (
     COEFFICIENTS_UCS_LUO2006,
     JMh_CIECAM02_to_UCS_Luo2006,
@@ -183,7 +176,7 @@ CAM16UCS_to_JMh_CAM16.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(
 
 def XYZ_to_UCS_Li2017(
     XYZ: ArrayLike, coefficients: ArrayLike, **kwargs: Any
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to one of the *Li et al. (2017)*
     *CAM16-LCD*, *CAM16-SCD*, or *CAM16-UCS* colourspaces :math:`J'a'b'` array.
@@ -267,9 +260,9 @@ def XYZ_to_UCS_Li2017(
     specification = XYZ_to_CAM16(XYZ, **settings)
     JMh = tstack(
         [
-            cast(FloatingOrNDArray, specification.J),
-            cast(FloatingOrNDArray, specification.M),
-            cast(FloatingOrNDArray, specification.h),
+            cast(NDArrayFloat, specification.J),
+            cast(NDArrayFloat, specification.M),
+            cast(NDArrayFloat, specification.h),
         ]
     )
 
@@ -278,7 +271,7 @@ def XYZ_to_UCS_Li2017(
 
 def UCS_Li2017_to_XYZ(
     Jpapbp: ArrayLike, coefficients: ArrayLike, **kwargs: Any
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert from one of the *Li et al. (2017)* *CAM16-LCD*, *CAM16-SCD*, or
     *CAM16-UCS* colourspaces :math:`J'a'b'` array to *CIE XYZ* tristimulus

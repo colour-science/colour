@@ -22,7 +22,7 @@ from colour.characterisation.correction import (
     colour_correction_Finlayson2015,
     colour_correction_Vandermonde,
 )
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
@@ -46,7 +46,7 @@ __all__ = [
     "TestColourCorrectionVandermonde",
 ]
 
-MATRIX_TEST: NDArray = np.array(
+MATRIX_TEST: NDArrayFloat = np.array(
     [
         [0.17224810, 0.09170660, 0.06416938],
         [0.49189645, 0.27802050, 0.21923399],
@@ -75,7 +75,7 @@ MATRIX_TEST: NDArray = np.array(
     ]
 )
 
-MATRIX_REFERENCE: NDArray = np.array(
+MATRIX_REFERENCE: NDArrayFloat = np.array(
     [
         [0.15579559, 0.09715755, 0.07514556],
         [0.39113140, 0.25943419, 0.21266708],

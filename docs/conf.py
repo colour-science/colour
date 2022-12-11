@@ -6,6 +6,7 @@ Colour - Documentation Configuration
 import os
 import re
 import setuptools.archive_util
+import urllib.parse
 import urllib.request
 
 import colour as package  # noqa
@@ -79,27 +80,20 @@ autodoc_mock_imports = [
 autodoc_typehints = "both"
 autodoc_type_aliases = {
     "ArrayLike": "ArrayLike",
-    "Boolean": "bool",
-    "BooleanOrArrayLike": "BooleanOrArrayLike",
-    "BooleanOrNDArray": "BooleanOrNDArray",
     "DType": "DType",
     "DTypeBoolean": "DTypeBoolean",
     "DTypeComplex": "DTypeComplex",
-    "DTypeFloating": "DTypeFloating",
-    "DTypeInteger": "DTypeInteger",
-    "DTypeNumber": "DTypeNumber",
-    "Floating": "float",
-    "FloatingOrArrayLike": "FloatingOrArrayLike",
-    "FloatingOrNDArray": "FloatingOrNDArray",
-    "Integer": "int",
-    "IntegerOrArrayLike": "IntegerOrArrayLike",
-    "IntegerOrNDArray": "IntegerOrNDArray",
-    "NestedSequence": "NestedSequence",
-    "Number": "Number",
-    "NumberOrArrayLike": "NumberOrArrayLike",
-    "NumberOrNDArray": "NumberOrNDArray",
-    "StrOrArrayLike": "StrOrArrayLike",
-    "StrOrNDArray": "StrOrNDArray",
+    "DTypeFloat": "DTypeFloat",
+    "DTypeInt": "DTypeInt",
+    "DTypeReal": "DTypeReal",
+    "Dataclass": "Dataclass",
+    "NDArrayBoolean": "NDArrayBoolean",
+    "NDArrayComplex": "NDArrayComplex",
+    "NDArrayFloat": "NDArrayFloat",
+    "NDArrayInt": "NDArrayInt",
+    "NDArrayReal": "NDArrayReal",
+    "NDArrayStr": "NDArrayStr",
+    "Real": "Real",
 }
 autodoc_preserve_defaults = True
 

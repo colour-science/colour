@@ -68,7 +68,9 @@ print(
         verbose_kwargs={"describe": "Extended", "width": 75},
     )
 )
-J, M, h = colour.utilities.tsplit(colour.CAM16UCS_to_JMh_CAM16(Jpapbp * 100))
+J, M, h = colour.utilities.tsplit(  # pyright: ignore
+    colour.CAM16UCS_to_JMh_CAM16(Jpapbp * 100)
+)
 specification = colour.CAM_Specification_CAM16(J=J, M=M, h=h)
 print(
     colour.XYZ_to_sRGB(

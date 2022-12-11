@@ -15,7 +15,7 @@ import numpy as np
 
 from colour.io.luts import LUT1D, LUT3x1D, LUTSequence
 from colour.io.luts.common import path_to_title
-from colour.hints import Boolean, Integer, List, Tuple, Union
+from colour.hints import Union
 from colour.utilities import (
     as_float_array,
     as_int_scalar,
@@ -154,8 +154,8 @@ def read_LUT_SonySPI1D(path: str) -> Union[LUT1D, LUT3x1D]:
 
 
 def write_LUT_SonySPI1D(
-    LUT: Union[LUT1D, LUT3x1D, LUTSequence], path: str, decimals: Integer = 7
-) -> Boolean:
+    LUT: Union[LUT1D, LUT3x1D, LUTSequence], path: str, decimals: int = 7
+) -> bool:
     """
     Write given *LUT* to given *Sony* *.spi1d* *LUT* file.
 
@@ -230,7 +230,7 @@ def write_LUT_SonySPI1D(
 
         attest(len(domain) == 2, 'Non-uniform "LUT" domain is unsupported!')
 
-    def _format_array(array: Union[List, Tuple]) -> str:
+    def _format_array(array: Union[list, tuple]) -> str:
         """Format given array as a *Sony* *.spi1d* data row."""
 
         return " {1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)

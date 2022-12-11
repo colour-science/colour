@@ -17,13 +17,7 @@ import numpy as np
 
 from colour.algebra import vector_dot
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
-from colour.hints import (
-    ArrayLike,
-    FloatingOrArrayLike,
-    Literal,
-    NDArray,
-    Union,
-)
+from colour.hints import ArrayLike, Literal, NDArrayFloat, Union
 from colour.utilities import (
     as_float_array,
     from_range_100,
@@ -47,11 +41,11 @@ def chromatic_adaptation_Zhai2018(
     XYZ_b: ArrayLike,
     XYZ_wb: ArrayLike,
     XYZ_wd: ArrayLike,
-    D_b: FloatingOrArrayLike = 1,
-    D_d: FloatingOrArrayLike = 1,
+    D_b: ArrayLike = 1,
+    D_d: ArrayLike = 1,
     XYZ_wo: ArrayLike = np.array([1, 1, 1]),
     transform: Union[Literal["CAT02", "CAT16"], str] = "CAT02",
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Adapt given sample colour :math:`XYZ_{\\beta}` tristimulus values from
     input viewing conditions under :math:`\\beta` illuminant to output viewing

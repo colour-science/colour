@@ -28,12 +28,10 @@ from colour.graph import convert
 from colour.hints import (
     Any,
     ArrayLike,
-    Boolean,
     Dict,
-    Floating,
-    Integer,
     Literal,
     Optional,
+    Real,
     Sequence,
     Tuple,
     Union,
@@ -94,7 +92,7 @@ MAPPING_AXIS_TO_PLANE.__doc__ = """Axis to plane mapping."""
 @required("trimesh")
 @override_style()
 def plot_hull_section_colours(
-    hull: trimesh.Trimesh,  # type: ignore[name-defined]  # noqa
+    hull: trimesh.Trimesh,  # pyright: ignore  # noqa
     model: Union[
         Literal[
             "CAM02LCD",
@@ -125,12 +123,12 @@ def plot_hull_section_colours(
         str,
     ] = "CIE xyY",
     axis: Union[Literal["+z", "+x", "+y"], str] = "+z",
-    origin: Floating = 0.5,
-    normalise: Boolean = True,
+    origin: float = 0.5,
+    normalise: bool = True,
     section_colours: Optional[Union[ArrayLike, str]] = None,
-    section_opacity: Floating = 1,
-    convert_kwargs: Optional[Dict] = None,
-    samples: Integer = 256,
+    section_opacity: float = 1,
+    convert_kwargs: Optional[dict] = None,
+    samples: int = 256,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -259,7 +257,8 @@ def plot_hull_section_colours(
         )
         ij = tstack([ii, jj])
         ijk_section = full(
-            (samples, samples, 3), np.median(section[..., index_origin])
+            (samples, samples, 3),
+            cast(Real, np.median(section[..., index_origin])),
         )
         ijk_section[..., plane] = ij
         ijk_section /= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[
@@ -306,7 +305,7 @@ def plot_hull_section_colours(
 @required("trimesh")
 @override_style()
 def plot_hull_section_contour(
-    hull: trimesh.Trimesh,  # type: ignore[name-defined]  # noqa
+    hull: trimesh.Trimesh,  # pyright: ignore # noqa
     model: Union[
         Literal[
             "CAM02LCD",
@@ -337,11 +336,11 @@ def plot_hull_section_contour(
         str,
     ] = "CIE xyY",
     axis: Union[Literal["+z", "+x", "+y"], str] = "+z",
-    origin: Floating = 0.5,
-    normalise: Boolean = True,
+    origin: float = 0.5,
+    normalise: bool = True,
     contour_colours: Optional[Union[ArrayLike, str]] = None,
-    contour_opacity: Floating = 1,
-    convert_kwargs: Optional[Dict] = None,
+    contour_opacity: float = 1,
+    convert_kwargs: Optional[dict] = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -517,10 +516,10 @@ def plot_visible_spectrum_section(
         str,
     ] = "CIE xyY",
     axis: Union[Literal["+z", "+x", "+y"], str] = "+z",
-    origin: Floating = 0.5,
-    normalise: Boolean = True,
-    show_section_colours: Boolean = True,
-    show_section_contour: Boolean = True,
+    origin: float = 0.5,
+    normalise: bool = True,
+    show_section_colours: bool = True,
+    show_section_contour: bool = True,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -590,8 +589,11 @@ def plot_visible_spectrum_section(
     _figure, axes = artist(**settings)
 
     # pylint: disable=E1102
-    cmfs = reshape_msds(
-        first_item(filter_cmfs(cmfs).values()), SpectralShape(360, 780, 1)
+    cmfs = cast(
+        MultiSpectralDistributions,
+        reshape_msds(
+            first_item(filter_cmfs(cmfs).values()), SpectralShape(360, 780, 1)
+        ),
     )
     illuminant = cast(
         SpectralDistribution,
@@ -689,10 +691,10 @@ def plot_RGB_colourspace_section(
         str,
     ] = "CIE xyY",
     axis: Union[Literal["+z", "+x", "+y"], str] = "+z",
-    origin: Floating = 0.5,
-    normalise: Boolean = True,
-    show_section_colours: Boolean = True,
-    show_section_contour: Boolean = True,
+    origin: float = 0.5,
+    normalise: bool = True,
+    show_section_colours: bool = True,
+    show_section_contour: bool = True,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """

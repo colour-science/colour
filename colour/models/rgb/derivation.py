@@ -28,15 +28,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.adaptation import chromatic_adaptation_VonKries
-from colour.hints import (
-    Floating,
-    FloatingOrNDArray,
-    ArrayLike,
-    Literal,
-    NDArray,
-    Tuple,
-    Union,
-)
+from colour.hints import ArrayLike, Literal, NDArrayFloat, Tuple, Union
 from colour.models import XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ
 from colour.utilities import as_float, as_float_array, ones, tsplit
 
@@ -57,7 +49,7 @@ __all__ = [
 ]
 
 
-def xy_to_z(xy: ArrayLike) -> Floating:
+def xy_to_z(xy: ArrayLike) -> float:
     """
     Return the *z* coordinate using given :math:`xy` chromaticity coordinates.
 
@@ -68,7 +60,7 @@ def xy_to_z(xy: ArrayLike) -> Floating:
 
     Returns
     -------
-    :class:`numpy.floating`
+    :class:`float`
         *z* coordinate.
 
     Examples
@@ -86,7 +78,7 @@ def xy_to_z(xy: ArrayLike) -> Floating:
 
 def normalised_primary_matrix(
     primaries: ArrayLike, whitepoint: ArrayLike
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Compute the *Normalised Primary Matrix* (NPM) converting a *RGB*
     colourspace array to *CIE XYZ* tristimulus values using given *primaries*
@@ -154,7 +146,7 @@ def chromatically_adapted_primaries(
         ],
         str,
     ] = "CAT02",
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Chromatically adapt given *primaries* :math:`xy` chromaticity coordinates
     from test ``whitepoint_t`` to reference ``whitepoint_r``.
@@ -204,7 +196,7 @@ def chromatically_adapted_primaries(
     return P_a
 
 
-def primaries_whitepoint(npm: ArrayLike) -> Tuple[NDArray, NDArray]:
+def primaries_whitepoint(npm: ArrayLike) -> Tuple[NDArrayFloat, NDArrayFloat]:
     """
     Compute the *primaries* and *whitepoint* :math:`xy` chromaticity
     coordinates using given *Normalised Primary Matrix* (NPM).
@@ -282,7 +274,7 @@ def RGB_luminance_equation(primaries: ArrayLike, whitepoint: ArrayLike) -> str:
 
 def RGB_luminance(
     RGB: ArrayLike, primaries: ArrayLike, whitepoint: ArrayLike
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Return the *luminance* :math:`Y` of given *RGB* components from given
     *primaries* and *whitepoint*.
@@ -298,7 +290,7 @@ def RGB_luminance(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Luminance* :math:`Y`.
 
     Examples

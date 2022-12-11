@@ -75,7 +75,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.utilities import CanonicalMapping
 
 __author__ = "Colour Developers"
@@ -101,7 +101,7 @@ __all__ = [
     "CHROMATIC_ADAPTATION_TRANSFORMS",
 ]
 
-CAT_XYZ_SCALING: NDArray = np.array(np.identity(3)).reshape([3, 3])
+CAT_XYZ_SCALING: NDArrayFloat = np.array(np.identity(3)).reshape([3, 3])
 """
 *XYZ Scaling* chromatic adaptation transform.
 
@@ -110,7 +110,7 @@ References
 :cite:`Lindbloom2009g`
 """
 
-CAT_VON_KRIES: NDArray = np.array(
+CAT_VON_KRIES: NDArrayFloat = np.array(
     [
         [0.4002400, 0.7076000, -0.0808100],
         [-0.2263000, 1.1653200, 0.0457000],
@@ -126,7 +126,7 @@ References
 :cite:`Nayatani1995a`
 """
 
-CAT_BRADFORD: NDArray = np.array(
+CAT_BRADFORD: NDArrayFloat = np.array(
     [
         [0.8951000, 0.2664000, -0.1614000],
         [-0.7502000, 1.7135000, 0.0367000],
@@ -141,7 +141,7 @@ References
 :cite:`Lindbloom2009g`
 """
 
-CAT_SHARP: NDArray = np.array(
+CAT_SHARP: NDArrayFloat = np.array(
     [
         [1.2694, -0.0988, -0.1706],
         [-0.8364, 1.8006, 0.0357],
@@ -156,7 +156,7 @@ References
 :cite:`Bianco2010a`
 """
 
-CAT_FAIRCHILD: NDArray = np.array(
+CAT_FAIRCHILD: NDArrayFloat = np.array(
     [
         [0.8562, 0.3372, -0.1934],
         [-0.8360, 1.8327, 0.0033],
@@ -171,7 +171,7 @@ References
 :cite:`Fairchildb`
 """
 
-CAT_CMCCAT97: NDArray = np.array(
+CAT_CMCCAT97: NDArrayFloat = np.array(
     [
         [0.8951, -0.7502, 0.0389],
         [0.2664, 1.7135, 0.0685],
@@ -186,7 +186,7 @@ References
 :cite:`Westland2012g`
 """
 
-CAT_CMCCAT2000: NDArray = np.array(
+CAT_CMCCAT2000: NDArrayFloat = np.array(
     [
         [0.7982, 0.3389, -0.1371],
         [-0.5918, 1.5512, 0.0406],
@@ -201,7 +201,7 @@ References
 :cite:`Westland2012k`
 """
 
-CAT_CAT02: NDArray = np.array(
+CAT_CAT02: NDArrayFloat = np.array(
     [
         [0.7328, 0.4296, -0.1624],
         [-0.7036, 1.6975, 0.0061],
@@ -216,7 +216,7 @@ References
 :cite:`Wikipedia2007`
 """
 
-CAT_CAT02_BRILL2008: NDArray = np.array(
+CAT_CAT02_BRILL2008: NDArrayFloat = np.array(
     [
         [0.7328, 0.4296, -0.1624],
         [-0.7036, 1.6975, 0.0061],
@@ -232,7 +232,7 @@ References
 :cite:`Brill2008a`, :cite:`Li2007e`
 """
 
-CAT_CAT16: NDArray = np.array(
+CAT_CAT16: NDArrayFloat = np.array(
     [
         [0.401288, 0.650173, -0.051461],
         [-0.250268, 1.204414, 0.045854],
@@ -247,7 +247,7 @@ References
 :cite:`Li2017`
 """
 
-CAT_BIANCO2010: NDArray = np.array(
+CAT_BIANCO2010: NDArrayFloat = np.array(
     [
         [0.8752, 0.2787, -0.1539],
         [-0.8904, 1.8709, 0.0195],
@@ -262,7 +262,7 @@ References
 :cite:`Bianco2010a`
 """
 
-CAT_PC_BIANCO2010: NDArray = np.array(
+CAT_PC_BIANCO2010: NDArrayFloat = np.array(
     [
         [0.6489, 0.3915, -0.0404],
         [-0.3775, 1.3055, 0.0720],

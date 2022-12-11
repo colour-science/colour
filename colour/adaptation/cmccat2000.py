@@ -27,14 +27,7 @@ from typing import NamedTuple
 
 from colour.adaptation import CAT_CMCCAT2000
 from colour.algebra import vector_dot
-from colour.hints import (
-    ArrayLike,
-    Floating,
-    FloatingOrArrayLike,
-    Literal,
-    NDArray,
-    Union,
-)
+from colour.hints import ArrayLike, Literal, NDArrayFloat, Union
 from colour.utilities import (
     CanonicalMapping,
     as_float_array,
@@ -59,7 +52,7 @@ __all__ = [
     "chromatic_adaptation_CMCCAT2000",
 ]
 
-CAT_INVERSE_CMCCAT2000: NDArray = np.linalg.inv(CAT_CMCCAT2000)
+CAT_INVERSE_CMCCAT2000: NDArrayFloat = np.linalg.inv(CAT_CMCCAT2000)
 """
 Inverse *CMCCAT2000* chromatic adaptation transform.
 
@@ -81,7 +74,7 @@ class InductionFactors_CMCCAT2000(NamedTuple):
     :cite:`Li2002a`, :cite:`Westland2012k`
     """
 
-    F: Floating
+    F: float
 
 
 VIEWING_CONDITIONS_CMCCAT2000: CanonicalMapping = CanonicalMapping(
@@ -104,12 +97,12 @@ def chromatic_adaptation_forward_CMCCAT2000(
     XYZ: ArrayLike,
     XYZ_w: ArrayLike,
     XYZ_wr: ArrayLike,
-    L_A1: FloatingOrArrayLike,
-    L_A2: FloatingOrArrayLike,
+    L_A1: ArrayLike,
+    L_A2: ArrayLike,
     surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000[
         "Average"
     ],
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Adapt given stimulus *CIE XYZ* tristimulus values from test viewing
     conditions to reference viewing conditions using *CMCCAT2000* forward
@@ -199,12 +192,12 @@ def chromatic_adaptation_inverse_CMCCAT2000(
     XYZ_c: ArrayLike,
     XYZ_w: ArrayLike,
     XYZ_wr: ArrayLike,
-    L_A1: FloatingOrArrayLike,
-    L_A2: FloatingOrArrayLike,
+    L_A1: ArrayLike,
+    L_A2: ArrayLike,
     surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000[
         "Average"
     ],
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Adapt given stimulus corresponding colour *CIE XYZ* tristimulus values
     from reference viewing conditions to test viewing conditions using
@@ -296,13 +289,13 @@ def chromatic_adaptation_CMCCAT2000(
     XYZ: ArrayLike,
     XYZ_w: ArrayLike,
     XYZ_wr: ArrayLike,
-    L_A1: FloatingOrArrayLike,
-    L_A2: FloatingOrArrayLike,
+    L_A1: ArrayLike,
+    L_A2: ArrayLike,
     surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000[
         "Average"
     ],
     direction: Union[Literal["Forward", "Inverse"], str] = "Forward",
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Adapt given stimulus *CIE XYZ* tristimulus values using given viewing
     conditions.

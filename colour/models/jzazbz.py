@@ -26,14 +26,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import vector_dot
-from colour.hints import (
-    ArrayLike,
-    Literal,
-    NDArray,
-    Optional,
-    Tuple,
-    Union,
-)
+from colour.hints import ArrayLike, Literal, NDArrayFloat, Optional, Union
 from colour.models.rgb.transfer_functions import (
     eotf_inverse_ST2084,
     eotf_ST2084,
@@ -97,7 +90,7 @@ CONSTANTS_JZAZBZ_SAFDAR2021: Structure = Structure(
 CONSTANTS_JZAZBZ_SAFDAR2021.d_0 = 3.7035226210190005 * 10**-11
 """:math:`J_za_zb_z` colourspace constants for the *ZCAM* colour appearance model."""
 
-MATRIX_JZAZBZ_XYZ_TO_LMS: NDArray = np.array(
+MATRIX_JZAZBZ_XYZ_TO_LMS: NDArrayFloat = np.array(
     [
         [0.41478972, 0.579999, 0.0146480],
         [-0.2015100, 1.120649, 0.0531008],
@@ -109,13 +102,15 @@ MATRIX_JZAZBZ_XYZ_TO_LMS: NDArray = np.array(
 matrix.
 """
 
-MATRIX_JZAZBZ_LMS_TO_XYZ: NDArray = np.linalg.inv(MATRIX_JZAZBZ_XYZ_TO_LMS)
+MATRIX_JZAZBZ_LMS_TO_XYZ: NDArrayFloat = np.linalg.inv(
+    MATRIX_JZAZBZ_XYZ_TO_LMS
+)
 """
 :math:`J_za_zb_z` normalised cone responses to *CIE XYZ* tristimulus values
 matrix.
 """
 
-MATRIX_JZAZBZ_LMS_P_TO_IZAZBZ_SAFDAR2017: NDArray = np.array(
+MATRIX_JZAZBZ_LMS_P_TO_IZAZBZ_SAFDAR2017: NDArrayFloat = np.array(
     [
         [0.500000, 0.500000, 0.000000],
         [3.524000, -4.066708, 0.542708],
@@ -127,7 +122,7 @@ MATRIX_JZAZBZ_LMS_P_TO_IZAZBZ_SAFDAR2017: NDArray = np.array(
 :math:`I_za_zb_z` intermediate colourspace matrix.
 """
 
-MATRIX_JZAZBZ_IZAZBZ_TO_LMS_P_SAFDAR2017: NDArray = np.linalg.inv(
+MATRIX_JZAZBZ_IZAZBZ_TO_LMS_P_SAFDAR2017: NDArrayFloat = np.linalg.inv(
     MATRIX_JZAZBZ_LMS_P_TO_IZAZBZ_SAFDAR2017
 )
 """
@@ -135,7 +130,7 @@ MATRIX_JZAZBZ_IZAZBZ_TO_LMS_P_SAFDAR2017: NDArray = np.linalg.inv(
 *SMPTE ST 2084:2014* encoded normalised cone responses matrix.
 """
 
-MATRIX_JZAZBZ_LMS_P_TO_IZAZBZ_SAFDAR2021: NDArray = np.array(
+MATRIX_JZAZBZ_LMS_P_TO_IZAZBZ_SAFDAR2021: NDArrayFloat = np.array(
     [
         [0.000000, 1.000000, 0.000000],
         [3.524000, -4.066708, 0.542708],
@@ -151,7 +146,7 @@ References
 :cite:`Safdar2021`
 """
 
-MATRIX_JZAZBZ_IZAZBZ_TO_LMS_P_SAFDAR2021: NDArray = np.linalg.inv(
+MATRIX_JZAZBZ_IZAZBZ_TO_LMS_P_SAFDAR2021: NDArrayFloat = np.linalg.inv(
     MATRIX_JZAZBZ_LMS_P_TO_IZAZBZ_SAFDAR2021
 )
 """
@@ -163,7 +158,7 @@ References
 :cite:`Safdar2021`
 """
 
-IZAZBZ_METHODS: Tuple = ("Safdar 2017", "Safdar 2021", "ZCAM")
+IZAZBZ_METHODS: tuple = ("Safdar 2017", "Safdar 2021", "ZCAM")
 if is_documentation_building():  # pragma: no cover
     IZAZBZ_METHODS = DocstringTuple(IZAZBZ_METHODS)
     IZAZBZ_METHODS.__doc__ = """
@@ -181,7 +176,7 @@ def XYZ_to_Izazbz(
     method: Union[
         Literal["Safdar 2017", "Safdar 2021", "ZCAM"], str
     ] = "Safdar 2017",
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to :math:`I_za_zb_z`
     colourspace.
@@ -280,7 +275,7 @@ def Izazbz_to_XYZ(
     method: Union[
         Literal["Safdar 2017", "Safdar 2021", "ZCAM"], str
     ] = "Safdar 2017",
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert from :math:`I_za_zb_z` colourspace to *CIE XYZ* tristimulus
     values.
@@ -375,7 +370,7 @@ def Izazbz_to_XYZ(
 
 def XYZ_to_Jzazbz(
     XYZ_D65: ArrayLike, constants: Structure = CONSTANTS_JZAZBZ_SAFDAR2017
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to :math:`J_za_zb_z`
     colourspace.
@@ -452,7 +447,7 @@ def XYZ_to_Jzazbz(
 
 def Jzazbz_to_XYZ(
     Jzazbz: ArrayLike, constants: Structure = CONSTANTS_JZAZBZ_SAFDAR2017
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert from :math:`J_za_zb_z` colourspace to *CIE XYZ* tristimulus
     values.

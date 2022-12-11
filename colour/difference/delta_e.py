@@ -43,7 +43,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import euclidean_distance
-from colour.hints import ArrayLike, Boolean, Floating, FloatingOrNDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import as_float, to_domain_100, tsplit
 from colour.utilities.documentation import (
     DocstringFloat,
@@ -91,7 +91,7 @@ References
 """
 
 
-def delta_E_CIE1976(Lab_1: ArrayLike, Lab_2: ArrayLike) -> FloatingOrNDArray:
+def delta_E_CIE1976(Lab_1: ArrayLike, Lab_2: ArrayLike) -> NDArrayFloat:
     """
     Return the difference :math:`\\Delta E_{76}` between two given
     *CIE L\\*a\\*b\\** colourspace arrays using *CIE 1976* recommendation.
@@ -105,7 +105,7 @@ def delta_E_CIE1976(Lab_1: ArrayLike, Lab_2: ArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Colour difference :math:`\\Delta E_{76}`.
 
     Notes
@@ -144,8 +144,8 @@ def delta_E_CIE1976(Lab_1: ArrayLike, Lab_2: ArrayLike) -> FloatingOrNDArray:
 
 
 def delta_E_CIE1994(
-    Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: Boolean = False
-) -> FloatingOrNDArray:
+    Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: bool = False
+) -> NDArrayFloat:
     """
     Return the difference :math:`\\Delta E_{94}` between two given
     *CIE L\\*a\\*b\\** colourspace arrays using *CIE 1994* recommendation.
@@ -163,7 +163,7 @@ def delta_E_CIE1994(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Colour difference :math:`\\Delta E_{94}`.
 
     Notes
@@ -236,8 +236,8 @@ def delta_E_CIE1994(
 
 
 def delta_E_CIE2000(
-    Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: Boolean = False
-) -> FloatingOrNDArray:
+    Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: bool = False
+) -> NDArrayFloat:
     """
     Return the difference :math:`\\Delta E_{00}` between two given
     *CIE L\\*a\\*b\\** colourspace arrays using *CIE 2000* recommendation.
@@ -255,7 +255,7 @@ def delta_E_CIE2000(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Colour difference :math:`\\Delta E_{00}`.
 
     Notes
@@ -388,9 +388,9 @@ def delta_E_CIE2000(
 def delta_E_CMC(
     Lab_1: ArrayLike,
     Lab_2: ArrayLike,
-    l: Floating = 2,  # noqa
-    c: Floating = 1,
-) -> FloatingOrNDArray:
+    l: float = 2,  # noqa
+    c: float = 1,
+) -> NDArrayFloat:
     """
     Return the difference :math:`\\Delta E_{CMC}` between two given
     *CIE L\\*a\\*b\\** colourspace arrays using *Colour Measurement Committee*
@@ -414,7 +414,7 @@ def delta_E_CMC(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Colour difference :math:`\\Delta E_{CMC}`.
 
     Notes
@@ -481,7 +481,7 @@ def delta_E_CMC(
     return as_float(d_E)
 
 
-def delta_E_ITP(ICtCp_1: ArrayLike, ICtCp_2: ArrayLike) -> FloatingOrNDArray:
+def delta_E_ITP(ICtCp_1: ArrayLike, ICtCp_2: ArrayLike) -> NDArrayFloat:
     """
     Return the difference :math:`\\Delta E_{ITP}` between two given
     :math:`IC_TC_P` colour encoding arrays using
@@ -496,7 +496,7 @@ def delta_E_ITP(ICtCp_1: ArrayLike, ICtCp_2: ArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Colour difference :math:`\\Delta E_{ITP}`.
 
     Notes

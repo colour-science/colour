@@ -7,8 +7,6 @@ Defines the documentation related objects.
 
 from __future__ import annotations
 
-from colour.hints import Boolean
-
 import os
 
 __author__ = "Colour Developers"
@@ -73,7 +71,7 @@ class DocstringTuple(tuple):
     pass
 
 
-def is_documentation_building() -> Boolean:
+def is_documentation_building() -> bool:
     """
     Return whether the documentation is being built by checking whether the
     *READTHEDOCS* or *COLOUR_SCIENCE__DOCUMENTATION_BUILD* environment

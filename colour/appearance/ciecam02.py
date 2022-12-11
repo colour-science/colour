@@ -45,17 +45,7 @@ from colour.appearance.hunt import (
 )
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.constants import EPSILON
-from colour.hints import (
-    ArrayLike,
-    Boolean,
-    Dict,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    NDArray,
-    Optional,
-    Tuple,
-    cast,
-)
+from colour.hints import ArrayLike, NDArrayFloat, Optional, Tuple, Union, cast
 from colour.models import xy_to_XYZ
 from colour.utilities import (
     CanonicalMapping,
@@ -122,7 +112,7 @@ __all__ = [
     "matrix_post_adaptation_non_linear_response_compression",
 ]
 
-CAT_INVERSE_CAT02: NDArray = np.linalg.inv(CAT_CAT02)
+CAT_INVERSE_CAT02: NDArrayFloat = np.linalg.inv(CAT_CAT02)
 """Inverse CAT02 chromatic adaptation transform."""
 
 
@@ -164,13 +154,13 @@ References
 :cite:`Wikipedia2007a`
 """
 
-HUE_DATA_FOR_HUE_QUADRATURE: Dict = {
+HUE_DATA_FOR_HUE_QUADRATURE: dict = {
     "h_i": np.array([20.14, 90.00, 164.25, 237.53, 380.14]),
     "e_i": np.array([0.8, 0.7, 1.0, 1.2, 0.8]),
     "H_i": np.array([0.0, 100.0, 200.0, 300.0, 400.0]),
 }
 
-CAM_KWARGS_CIECAM02_sRGB: Dict = {
+CAM_KWARGS_CIECAM02_sRGB: dict = {
     "XYZ_w": xy_to_XYZ(
         CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
     )
@@ -222,25 +212,41 @@ class CAM_Specification_CIECAM02(MixinDataclassArithmetic):
     :cite:`Wikipedia2007a`
     """
 
-    J: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    C: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    h: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    s: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    Q: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    M: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    H: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    HC: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    J: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    C: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    h: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    s: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    Q: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    M: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    H: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    HC: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
 
 
 def XYZ_to_CIECAM02(
     XYZ: ArrayLike,
     XYZ_w: ArrayLike,
-    L_A: FloatingOrArrayLike,
-    Y_b: FloatingOrArrayLike,
+    L_A: ArrayLike,
+    Y_b: ArrayLike,
     surround: InductionFactors_CIECAM02 = VIEWING_CONDITIONS_CIECAM02[
         "Average"
     ],
-    discount_illuminant: Boolean = False,
+    discount_illuminant: bool = False,
 ) -> CAM_Specification_CIECAM02:
     """
     Compute the *CIECAM02* colour appearance model correlates from given
@@ -418,13 +424,13 @@ H=278.0607358..., HC=None)
 def CIECAM02_to_XYZ(
     specification: CAM_Specification_CIECAM02,
     XYZ_w: ArrayLike,
-    L_A: FloatingOrArrayLike,
-    Y_b: FloatingOrArrayLike,
+    L_A: ArrayLike,
+    Y_b: ArrayLike,
     surround: InductionFactors_CIECAM02 = VIEWING_CONDITIONS_CIECAM02[
         "Average"
     ],
-    discount_illuminant: Boolean = False,
-) -> NDArray:
+    discount_illuminant: bool = False,
+) -> NDArrayFloat:
     """
     Convert from *CIECAM02* specification to *CIE XYZ* tristimulus values.
 
@@ -610,7 +616,7 @@ def CIECAM02_to_XYZ(
     return from_range_100(XYZ)
 
 
-def chromatic_induction_factors(n: FloatingOrArrayLike) -> NDArray:
+def chromatic_induction_factors(n: ArrayLike) -> NDArrayFloat:
     """
     Return the chromatic induction factors :math:`N_{bb}` and :math:`N_{cb}`.
 
@@ -633,7 +639,7 @@ def chromatic_induction_factors(n: FloatingOrArrayLike) -> NDArray:
     n = as_float_array(n)
 
     with sdiv_mode():
-        N_bb = N_cb = as_float(0.725) * spow(sdiv(1, n), 0.2)
+        N_bb = N_cb = 0.725 * spow(sdiv(1, n), 0.2)
 
     N_bbcb = tstack([N_bb, N_cb])
 
@@ -641,8 +647,8 @@ def chromatic_induction_factors(n: FloatingOrArrayLike) -> NDArray:
 
 
 def base_exponential_non_linearity(
-    n: FloatingOrArrayLike,
-) -> FloatingOrNDArray:
+    n: ArrayLike,
+) -> NDArrayFloat:
     """
     Return the base exponential non-linearity :math:`n`.
 
@@ -653,7 +659,7 @@ def base_exponential_non_linearity(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Base exponential non-linearity :math:`z`.
 
     Examples
@@ -670,15 +676,15 @@ def base_exponential_non_linearity(
 
 
 def viewing_conditions_dependent_parameters(
-    Y_b: FloatingOrArrayLike,
-    Y_w: FloatingOrArrayLike,
-    L_A: FloatingOrArrayLike,
+    Y_b: ArrayLike,
+    Y_w: ArrayLike,
+    L_A: ArrayLike,
 ) -> Tuple[
-    FloatingOrNDArray,
-    FloatingOrNDArray,
-    FloatingOrNDArray,
-    FloatingOrNDArray,
-    FloatingOrNDArray,
+    NDArrayFloat,
+    NDArrayFloat,
+    NDArrayFloat,
+    NDArrayFloat,
+    NDArrayFloat,
 ]:
     """
     Return the viewing condition dependent parameters.
@@ -717,9 +723,7 @@ def viewing_conditions_dependent_parameters(
     return n, F_L, N_bb, N_cb, z
 
 
-def degree_of_adaptation(
-    F: FloatingOrArrayLike, L_A: FloatingOrArrayLike
-) -> FloatingOrNDArray:
+def degree_of_adaptation(F: ArrayLike, L_A: ArrayLike) -> NDArrayFloat:
     """
     Return the degree of adaptation :math:`D` from given surround maximum
     degree of adaptation :math:`F` and adapting field *luminance* :math:`L_A`
@@ -734,7 +738,7 @@ def degree_of_adaptation(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Degree of adaptation :math:`D`.
 
     Examples
@@ -754,9 +758,9 @@ def degree_of_adaptation(
 def full_chromatic_adaptation_forward(
     RGB: ArrayLike,
     RGB_w: ArrayLike,
-    Y_w: FloatingOrArrayLike,
-    D: FloatingOrArrayLike,
-) -> NDArray:
+    Y_w: ArrayLike,
+    D: ArrayLike,
+) -> NDArrayFloat:
     """
     Apply full chromatic adaptation to given *CMCCAT2000* transform sharpened
     *RGB* array using given *CMCCAT2000* transform sharpened whitepoint
@@ -805,9 +809,9 @@ def full_chromatic_adaptation_forward(
 def full_chromatic_adaptation_inverse(
     RGB: ArrayLike,
     RGB_w: ArrayLike,
-    Y_w: FloatingOrArrayLike,
-    D: FloatingOrArrayLike,
-) -> NDArray:
+    Y_w: ArrayLike,
+    D: ArrayLike,
+) -> NDArrayFloat:
     """
     Revert full chromatic adaptation of given *CMCCAT2000* transform sharpened
     *RGB* array using given *CMCCAT2000* transform sharpened whitepoint
@@ -849,10 +853,10 @@ def full_chromatic_adaptation_inverse(
             Y_w[..., None] * sdiv(D[..., None], RGB_w) + 1 - D[..., None]
         )
 
-    return cast(NDArray, RGB_c)
+    return cast(NDArrayFloat, RGB_c)
 
 
-def RGB_to_rgb(RGB: ArrayLike) -> NDArray:
+def RGB_to_rgb(RGB: ArrayLike) -> NDArrayFloat:
     """
     Convert given *RGB* array to *Hunt-Pointer-Estevez*
     :math:`\\rho\\gamma\\beta` colourspace.
@@ -879,7 +883,7 @@ def RGB_to_rgb(RGB: ArrayLike) -> NDArray:
     return rgb
 
 
-def rgb_to_RGB(rgb: ArrayLike) -> NDArray:
+def rgb_to_RGB(rgb: ArrayLike) -> NDArrayFloat:
     """
     Convert given *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta`
     colourspace array to *RGB* array.
@@ -907,8 +911,8 @@ def rgb_to_RGB(rgb: ArrayLike) -> NDArray:
 
 
 def post_adaptation_non_linear_response_compression_forward(
-    RGB: ArrayLike, F_L: FloatingOrArrayLike
-) -> NDArray:
+    RGB: ArrayLike, F_L: ArrayLike
+) -> NDArrayFloat:
     """
     Return given *CMCCAT2000* transform sharpened *RGB* array with post
     adaptation non-linear response compression.
@@ -949,8 +953,8 @@ def post_adaptation_non_linear_response_compression_forward(
 
 
 def post_adaptation_non_linear_response_compression_inverse(
-    RGB: ArrayLike, F_L: FloatingOrArrayLike
-) -> NDArray:
+    RGB: ArrayLike, F_L: ArrayLike
+) -> NDArrayFloat:
     """
     Return given *CMCCAT2000* transform sharpened *RGB* array without post
     adaptation non-linear response compression.
@@ -992,7 +996,7 @@ def post_adaptation_non_linear_response_compression_inverse(
     return RGB_p
 
 
-def opponent_colour_dimensions_forward(RGB: ArrayLike) -> NDArray:
+def opponent_colour_dimensions_forward(RGB: ArrayLike) -> NDArrayFloat:
     """
     Return opponent colour dimensions from given compressed *CMCCAT2000*
     transform sharpened *RGB* array for forward *CIECAM02* implementation.
@@ -1025,8 +1029,8 @@ def opponent_colour_dimensions_forward(RGB: ArrayLike) -> NDArray:
 
 
 def opponent_colour_dimensions_inverse(
-    P_n: ArrayLike, h: FloatingOrArrayLike
-) -> NDArray:
+    P_n: ArrayLike, h: ArrayLike
+) -> NDArrayFloat:
     """
     Return opponent colour dimensions from given points :math:`P_n` and hue
     :math:`h` in degrees for inverse *CIECAM02* implementation.
@@ -1112,9 +1116,7 @@ def opponent_colour_dimensions_inverse(
     return ab
 
 
-def hue_angle(
-    a: FloatingOrArrayLike, b: FloatingOrArrayLike
-) -> FloatingOrNDArray:
+def hue_angle(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     """
     Return the *hue* angle :math:`h` in degrees.
 
@@ -1127,7 +1129,7 @@ def hue_angle(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Hue* angle :math:`h` in degrees.
 
     Examples
@@ -1146,7 +1148,7 @@ def hue_angle(
     return as_float(h)
 
 
-def hue_quadrature(h: FloatingOrArrayLike) -> FloatingOrNDArray:
+def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
     """
     Return the hue quadrature from given hue :math:`h` angle in degrees.
 
@@ -1157,7 +1159,7 @@ def hue_quadrature(h: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Hue quadrature.
 
     Examples
@@ -1203,7 +1205,7 @@ def hue_quadrature(h: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(H)
 
 
-def eccentricity_factor(h: FloatingOrArrayLike) -> FloatingOrNDArray:
+def eccentricity_factor(h: ArrayLike) -> NDArrayFloat:
     """
     Return the eccentricity factor :math:`e_t` from given hue :math:`h` angle
     in degrees for forward *CIECAM02* implementation.
@@ -1215,7 +1217,7 @@ def eccentricity_factor(h: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Eccentricity factor :math:`e_t`.
 
     Examples
@@ -1232,8 +1234,8 @@ def eccentricity_factor(h: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 
 def achromatic_response_forward(
-    RGB: ArrayLike, N_bb: FloatingOrArrayLike
-) -> FloatingOrNDArray:
+    RGB: ArrayLike, N_bb: ArrayLike
+) -> NDArrayFloat:
     """
     Return the achromatic response :math:`A` from given compressed
     *CMCCAT2000* transform sharpened *RGB* array and :math:`N_{bb}` chromatic
@@ -1248,7 +1250,7 @@ def achromatic_response_forward(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Achromatic response :math:`A`.
 
     Examples
@@ -1267,11 +1269,11 @@ def achromatic_response_forward(
 
 
 def achromatic_response_inverse(
-    A_w: FloatingOrArrayLike,
-    J: FloatingOrArrayLike,
-    c: FloatingOrArrayLike,
-    z: FloatingOrArrayLike,
-) -> FloatingOrNDArray:
+    A_w: ArrayLike,
+    J: ArrayLike,
+    c: ArrayLike,
+    z: ArrayLike,
+) -> NDArrayFloat:
     """
     Return the achromatic response :math:`A` from given achromatic response
     :math:`A_w` for the whitepoint, *Lightness* correlate :math:`J`, surround
@@ -1291,7 +1293,7 @@ def achromatic_response_inverse(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Achromatic response :math:`A`.
 
     Examples
@@ -1315,11 +1317,11 @@ def achromatic_response_inverse(
 
 
 def lightness_correlate(
-    A: FloatingOrArrayLike,
-    A_w: FloatingOrArrayLike,
-    c: FloatingOrArrayLike,
-    z: FloatingOrArrayLike,
-) -> FloatingOrNDArray:
+    A: ArrayLike,
+    A_w: ArrayLike,
+    c: ArrayLike,
+    z: ArrayLike,
+) -> NDArrayFloat:
     """
     Return the *Lightness* correlate :math:`J`.
 
@@ -1336,7 +1338,7 @@ def lightness_correlate(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Lightness* correlate :math:`J`.
 
     Examples
@@ -1361,11 +1363,11 @@ def lightness_correlate(
 
 
 def brightness_correlate(
-    c: FloatingOrArrayLike,
-    J: FloatingOrArrayLike,
-    A_w: FloatingOrArrayLike,
-    F_L: FloatingOrArrayLike,
-) -> FloatingOrNDArray:
+    c: ArrayLike,
+    J: ArrayLike,
+    A_w: ArrayLike,
+    F_L: ArrayLike,
+) -> NDArrayFloat:
     """
     Return the *brightness* correlate :math:`Q`.
 
@@ -1382,7 +1384,7 @@ def brightness_correlate(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Brightness* correlate :math:`Q`.
 
     Examples
@@ -1406,13 +1408,13 @@ def brightness_correlate(
 
 
 def temporary_magnitude_quantity_forward(
-    N_c: FloatingOrArrayLike,
-    N_cb: FloatingOrArrayLike,
-    e_t: FloatingOrArrayLike,
-    a: FloatingOrArrayLike,
-    b: FloatingOrArrayLike,
+    N_c: ArrayLike,
+    N_cb: ArrayLike,
+    e_t: ArrayLike,
+    a: ArrayLike,
+    b: ArrayLike,
     RGB_a: ArrayLike,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Return the temporary magnitude quantity :math:`t`. for forward *CIECAM02*
     implementation.
@@ -1434,7 +1436,7 @@ def temporary_magnitude_quantity_forward(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
          Temporary magnitude quantity :math:`t`.
 
     Examples
@@ -1466,8 +1468,8 @@ def temporary_magnitude_quantity_forward(
 
 
 def temporary_magnitude_quantity_inverse(
-    C: FloatingOrArrayLike, J: FloatingOrArrayLike, n: FloatingOrArrayLike
-) -> FloatingOrNDArray:
+    C: ArrayLike, J: ArrayLike, n: ArrayLike
+) -> NDArrayFloat:
     """
     Return the temporary magnitude quantity :math:`t`. for inverse *CIECAM02*
     implementation.
@@ -1483,7 +1485,7 @@ def temporary_magnitude_quantity_inverse(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
          Temporary magnitude quantity :math:`t`.
 
     Examples
@@ -1505,15 +1507,15 @@ def temporary_magnitude_quantity_inverse(
 
 
 def chroma_correlate(
-    J: FloatingOrArrayLike,
-    n: FloatingOrArrayLike,
-    N_c: FloatingOrArrayLike,
-    N_cb: FloatingOrArrayLike,
-    e_t: FloatingOrArrayLike,
-    a: FloatingOrArrayLike,
-    b: FloatingOrArrayLike,
+    J: ArrayLike,
+    n: ArrayLike,
+    N_c: ArrayLike,
+    N_cb: ArrayLike,
+    e_t: ArrayLike,
+    a: ArrayLike,
+    b: ArrayLike,
     RGB_a: ArrayLike,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Return the *chroma* correlate :math:`C`.
 
@@ -1538,7 +1540,7 @@ def chroma_correlate(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Chroma* correlate :math:`C`.
 
     Examples
@@ -1565,9 +1567,7 @@ def chroma_correlate(
     return C
 
 
-def colourfulness_correlate(
-    C: FloatingOrArrayLike, F_L: FloatingOrArrayLike
-) -> FloatingOrNDArray:
+def colourfulness_correlate(C: ArrayLike, F_L: ArrayLike) -> NDArrayFloat:
     """
     Return the *colourfulness* correlate :math:`M`.
 
@@ -1580,7 +1580,7 @@ def colourfulness_correlate(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Colourfulness* correlate :math:`M`.
 
     Examples
@@ -1599,9 +1599,7 @@ def colourfulness_correlate(
     return M
 
 
-def saturation_correlate(
-    M: FloatingOrArrayLike, Q: FloatingOrArrayLike
-) -> FloatingOrNDArray:
+def saturation_correlate(M: ArrayLike, Q: ArrayLike) -> NDArrayFloat:
     """
     Return the *saturation* correlate :math:`s`.
 
@@ -1614,7 +1612,7 @@ def saturation_correlate(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Saturation* correlate :math:`s`.
 
     Examples
@@ -1635,13 +1633,13 @@ def saturation_correlate(
 
 
 def P(
-    N_c: FloatingOrArrayLike,
-    N_cb: FloatingOrArrayLike,
-    e_t: FloatingOrArrayLike,
-    t: FloatingOrArrayLike,
-    A: FloatingOrArrayLike,
-    N_bb: FloatingOrArrayLike,
-) -> NDArray:
+    N_c: ArrayLike,
+    N_cb: ArrayLike,
+    e_t: ArrayLike,
+    t: ArrayLike,
+    A: ArrayLike,
+    N_bb: ArrayLike,
+) -> NDArrayFloat:
     """
     Return the points :math:`P_1`, :math:`P_2` and :math:`P_3`.
 
@@ -1688,7 +1686,7 @@ def P(
         P_1 = sdiv((50000 / 13) * N_c * N_cb * e_t, t)
 
     P_2 = A / N_bb + 0.305
-    P_3 = ones(cast(NDArray, P_1).shape) * (21 / 20)
+    P_3 = ones(P_1.shape) * (21 / 20)
 
     P_n = tstack([P_1, P_2, P_3])
 
@@ -1696,8 +1694,8 @@ def P(
 
 
 def matrix_post_adaptation_non_linear_response_compression(
-    P_2: FloatingOrArrayLike, a: FloatingOrArrayLike, b: FloatingOrArrayLike
-) -> NDArray:
+    P_2: ArrayLike, a: ArrayLike, b: ArrayLike
+) -> NDArrayFloat:
     """
     Apply the post-adaptation non-linear-response compression matrix.
 

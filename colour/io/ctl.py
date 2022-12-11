@@ -22,16 +22,15 @@ from colour.hints import (
     Any,
     ArrayLike,
     Dict,
-    FloatingOrNDArray,
+    NDArrayFloat,
     Optional,
     Sequence,
-    Tuple,
     Union,
 )
 from colour.io import as_3_channels_image, read_image, write_image
 from colour.utilities import (
     as_float_array,
-    as_float_scalar,
+    as_float,
     optional,
     required,
 )
@@ -58,7 +57,7 @@ EXECUTABLE_CTL_RENDER: str = "ctlrender"
 *ctlrender* executable name.
 """
 
-ARGUMENTS_CTL_RENDER_DEFAULTS: Tuple = ("-verbose", "-force")
+ARGUMENTS_CTL_RENDER_DEFAULTS: tuple = ("-verbose", "-force")
 """
 *ctlrender* invocation default arguments.
 """
@@ -200,7 +199,7 @@ def process_image_ctl(
     ctl_transforms: Union[Sequence[str], Dict[str, Sequence[str]]],
     *args: Any,
     **kwargs: Any,
-) -> FloatingOrNDArray:  # pragma: no cover
+) -> NDArrayFloat:  # pragma: no cover
     """
     Process given image data with *ctlrender* using given *CTL* transforms.
 
@@ -289,7 +288,7 @@ def process_image_ctl(
     os.remove(temp_output_filename)
 
     if len(shape) == 0:
-        return as_float_scalar(np.squeeze(b)[0])
+        return as_float(np.squeeze(b)[0])
     elif shape[-1] == 1:
         return np.reshape(b[..., 0], shape)
     else:

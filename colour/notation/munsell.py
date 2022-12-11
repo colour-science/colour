@@ -135,19 +135,14 @@ from colour.constants import (
 )
 from colour.hints import (
     ArrayLike,
-    Boolean,
     Dict,
-    Floating,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    Integer,
     Literal,
-    NDArray,
+    NDArrayFloat,
+    NDArrayStr,
     Optional,
-    StrOrArrayLike,
-    StrOrNDArray,
     Tuple,
     Union,
+    cast,
 )
 from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
 from colour.volume import is_within_macadam_limits
@@ -258,26 +253,26 @@ MUNSELL_HUE_LETTER_CODES: Lookup = Lookup(
 )
 
 ILLUMINANT_NAME_MUNSELL: str = "C"
-CCS_ILLUMINANT_MUNSELL: NDArray = CCS_ILLUMINANTS[
+CCS_ILLUMINANT_MUNSELL: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][ILLUMINANT_NAME_MUNSELL]
 
-_CACHE_MUNSELL_SPECIFICATIONS: Dict = CACHE_REGISTRY.register_cache(
+_CACHE_MUNSELL_SPECIFICATIONS: dict = CACHE_REGISTRY.register_cache(
     f"{__name__}._CACHE_MUNSELL_SPECIFICATIONS"
 )
-_CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR: Dict = (
+_CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR: dict = (
     CACHE_REGISTRY.register_cache(
         f"{__name__}._CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR"
     )
 )
-_CACHE_MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION: Dict = (
+_CACHE_MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION: dict = (
     CACHE_REGISTRY.register_cache(
         f"{__name__}._CACHE_MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION"
     )
 )
 
 
-def _munsell_specifications() -> NDArray:
+def _munsell_specifications() -> NDArrayFloat:
     """
     Return the *Munsell Renotation System* specifications and caches them if
     not existing.
@@ -300,7 +295,7 @@ def _munsell_specifications() -> NDArray:
 
     Returns
     -------
-    :class:`numpy.ndarray`
+    :class:`numpy.NDArrayFloat`
         *Munsell Renotation System* specifications.
     """
 
@@ -357,7 +352,7 @@ def _munsell_value_ASTMD1535_interpolator() -> Extrapolator:
 
 
 def _munsell_maximum_chromas_from_renotation() -> Tuple[
-    Tuple[Tuple[Floating, Floating, Floating], Floating], ...
+    Tuple[Tuple[float, float], float], ...
 ]:
     """
     Return the maximum *Munsell* chromas from *Munsell Renotation System* data
@@ -378,7 +373,7 @@ def _munsell_maximum_chromas_from_renotation() -> Tuple[
             "Maximum Chromas From Renotation"
         ]
 
-    chromas: Dict[Tuple[Floating, Floating, Floating], Floating] = {}
+    chromas = {}
     for munsell_colour in MUNSELL_COLOURS_ALL:
         hue, value, chroma, code = tsplit(
             munsell_colour_to_munsell_specification(
@@ -389,7 +384,7 @@ def _munsell_maximum_chromas_from_renotation() -> Tuple[
         if index in chromas:
             chroma = max([chromas[index], chroma])
 
-        chromas[index] = chroma
+        chromas[index] = cast(float, chroma)
 
     maximum_chromas_from_renotation = tuple(
         zip(chromas.keys(), chromas.values())
@@ -402,7 +397,7 @@ def _munsell_maximum_chromas_from_renotation() -> Tuple[
     return maximum_chromas_from_renotation
 
 
-def munsell_value_Priest1920(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
+def munsell_value_Priest1920(Y: ArrayLike) -> NDArrayFloat:
     """
     Return the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
     *Priest et al. (1920)* method.
@@ -414,7 +409,7 @@ def munsell_value_Priest1920(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.NDArrayFloat`
         *Munsell* value :math:`V`.
 
     Notes
@@ -448,7 +443,7 @@ def munsell_value_Priest1920(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_10(V))
 
 
-def munsell_value_Munsell1933(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
+def munsell_value_Munsell1933(Y: ArrayLike) -> NDArrayFloat:
     """
     Return the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
     *Munsell et al. (1933)* method.
@@ -460,7 +455,7 @@ def munsell_value_Munsell1933(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.NDArrayFloat`
         *Munsell* value :math:`V`.
 
     Notes
@@ -494,7 +489,7 @@ def munsell_value_Munsell1933(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_10(V))
 
 
-def munsell_value_Moon1943(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
+def munsell_value_Moon1943(Y: ArrayLike) -> NDArrayFloat:
     """
     Return the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
     *Moon and Spencer (1943)* method.
@@ -507,7 +502,7 @@ def munsell_value_Moon1943(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.NDArrayFloat`
         *Munsell* value :math:`V`.
 
     Notes
@@ -541,7 +536,7 @@ def munsell_value_Moon1943(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_10(V))
 
 
-def munsell_value_Saunderson1944(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
+def munsell_value_Saunderson1944(Y: ArrayLike) -> NDArrayFloat:
     """
     Return the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
     *Saunderson and Milner (1944)* method.
@@ -553,7 +548,7 @@ def munsell_value_Saunderson1944(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.NDArrayFloat`
         *Munsell* value :math:`V`.
 
     Notes
@@ -587,7 +582,7 @@ def munsell_value_Saunderson1944(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_10(V))
 
 
-def munsell_value_Ladd1955(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
+def munsell_value_Ladd1955(Y: ArrayLike) -> NDArrayFloat:
     """
     Return the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
     *Ladd and Pinney (1955)* method.
@@ -599,7 +594,7 @@ def munsell_value_Ladd1955(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.NDArrayFloat`
         *Munsell* value :math:`V`.
 
     Notes
@@ -633,7 +628,7 @@ def munsell_value_Ladd1955(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_10(V))
 
 
-def munsell_value_McCamy1987(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
+def munsell_value_McCamy1987(Y: ArrayLike) -> NDArrayFloat:
     """
     Return the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
     *McCamy (1987)* method.
@@ -645,7 +640,7 @@ def munsell_value_McCamy1987(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.NDArrayFloat`
         *Munsell* value :math:`V`.
 
     Notes
@@ -690,7 +685,7 @@ def munsell_value_McCamy1987(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_10(V))
 
 
-def munsell_value_ASTMD1535(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
+def munsell_value_ASTMD1535(Y: ArrayLike) -> NDArrayFloat:
     """
     Return the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
     an inverse lookup table from *ASTM D1535-08e1* method.
@@ -702,7 +697,7 @@ def munsell_value_ASTMD1535(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.NDArrayFloat`
         *Munsell* value :math:`V`.
 
     Notes
@@ -765,7 +760,7 @@ MUNSELL_VALUE_METHODS["astm2008"] = MUNSELL_VALUE_METHODS["ASTM D1535"]
 
 
 def munsell_value(
-    Y: FloatingOrArrayLike,
+    Y: ArrayLike,
     method: Union[
         Literal[
             "ASTM D1535",
@@ -778,7 +773,7 @@ def munsell_value(
         ],
         str,
     ] = "ASTM D1535",
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Return the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
     given method.
@@ -792,7 +787,7 @@ def munsell_value(
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.NDArrayFloat`
         *Munsell* value :math:`V`.
 
     Notes
@@ -837,20 +832,20 @@ def munsell_value(
     return MUNSELL_VALUE_METHODS[method](Y)
 
 
-def _munsell_scale_factor() -> NDArray:
+def _munsell_scale_factor() -> NDArrayFloat:
     """
     Return the domain-range scale factor for *Munsell Renotation System*.
 
     Returns
     -------
-    :class:`numpy.ndarray`
+    :class:`numpy.NDArrayFloat`
         Domain-range scale factor for *Munsell Renotation System*.
     """
 
     return np.array([10, 10, 50 if get_domain_range_scale() == "1" else 2, 10])
 
 
-def _munsell_specification_to_xyY(specification: ArrayLike) -> NDArray:
+def _munsell_specification_to_xyY(specification: ArrayLike) -> NDArrayFloat:
     """
     Convert given *Munsell* *Colorlab* specification to *CIE xyY* colourspace.
 
@@ -861,14 +856,14 @@ def _munsell_specification_to_xyY(specification: ArrayLike) -> NDArray:
 
     Returns
     -------
-    :class:`numpy.ndarray`
+    :class:`numpy.NDArrayFloat`
         *CIE xyY* colourspace array.
     """
 
     specification = normalise_munsell_specification(specification)
 
     if is_grey_munsell_colour(specification):
-        specification = as_float_array(to_domain_10(specification))
+        specification = to_domain_10(specification)
         hue, value, chroma, code = specification
     else:
         specification = to_domain_10(specification, _munsell_scale_factor())
@@ -915,8 +910,8 @@ def _munsell_specification_to_xyY(specification: ArrayLike) -> NDArray:
         y = y_minus
     else:
         with domain_range_scale("ignore"):
-            Y_minus = as_float_array(luminance_ASTMD1535(value_minus))
-            Y_plus = as_float_array(luminance_ASTMD1535(value_plus))
+            Y_minus = luminance_ASTMD1535(value_minus)
+            Y_plus = luminance_ASTMD1535(value_plus)
 
         Y_minus_plus = np.squeeze([Y_minus, Y_plus])
         x_minus_plus = np.squeeze([x_minus, x_plus])
@@ -928,7 +923,7 @@ def _munsell_specification_to_xyY(specification: ArrayLike) -> NDArray:
     return tstack([x, y, from_range_1(Y / 100)])
 
 
-def munsell_specification_to_xyY(specification: ArrayLike) -> NDArray:
+def munsell_specification_to_xyY(specification: ArrayLike) -> NDArrayFloat:
     """
     Convert given *Munsell* *Colorlab* specification to *CIE xyY* colourspace.
 
@@ -939,7 +934,7 @@ def munsell_specification_to_xyY(specification: ArrayLike) -> NDArray:
 
     Returns
     -------
-    :class:`numpy.ndarray`
+    :class:`numpy.NDArrayFloat`
         *CIE xyY* colourspace array.
 
     Notes
@@ -989,7 +984,7 @@ def munsell_specification_to_xyY(specification: ArrayLike) -> NDArray:
     return np.reshape(as_float_array(xyY), shape)
 
 
-def munsell_colour_to_xyY(munsell_colour: StrOrArrayLike) -> NDArray:
+def munsell_colour_to_xyY(munsell_colour: ArrayLike) -> NDArrayFloat:
     """
     Convert given *Munsell* colour to *CIE xyY* colourspace.
 
@@ -1000,7 +995,7 @@ def munsell_colour_to_xyY(munsell_colour: StrOrArrayLike) -> NDArray:
 
     Returns
     -------
-    :class:`numpy.ndarray`
+    :class:`numpy.NDArrayFloat`
         *CIE xyY* colourspace array.
 
     Notes
@@ -1040,7 +1035,7 @@ def munsell_colour_to_xyY(munsell_colour: StrOrArrayLike) -> NDArray:
     )
 
 
-def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArray:
+def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArrayFloat:
     """
     Convert from *CIE xyY* colourspace to *Munsell* *Colorlab* specification.
 
@@ -1051,7 +1046,7 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArray:
 
     Returns
     -------
-    :class:`numpy.ndarray`
+    :class:`numpy.NDArrayFloat`
         *Munsell* *Colorlab* specification.
 
     Raises
@@ -1226,9 +1221,11 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArray:
             )(0)
             % 360
         )
-        hue_angle_new = (hue_angle_current + hue_angle_difference_new) % 360
+        hue_angle_new = cast(
+            float, (hue_angle_current + hue_angle_difference_new) % 360
+        )
 
-        hue_new, code_new = hue_angle_to_hue(as_float_scalar(hue_angle_new))
+        hue_new, code_new = hue_angle_to_hue(hue_angle_new)
         specification_current = [hue_new, value, chroma_current, code_new]
 
         with domain_range_scale("ignore"):
@@ -1346,7 +1343,7 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArray:
     )
 
 
-def xyY_to_munsell_specification(xyY: ArrayLike) -> NDArray:
+def xyY_to_munsell_specification(xyY: ArrayLike) -> NDArrayFloat:
     """
     Convert from *CIE xyY* colourspace to *Munsell* *Colorlab* specification.
 
@@ -1357,7 +1354,7 @@ def xyY_to_munsell_specification(xyY: ArrayLike) -> NDArray:
 
     Returns
     -------
-    :class:`numpy.ndarray`
+    :class:`numpy.NDArrayFloat`
         *Munsell* *Colorlab* specification.
 
     Raises
@@ -1414,10 +1411,10 @@ def xyY_to_munsell_specification(xyY: ArrayLike) -> NDArray:
 
 def xyY_to_munsell_colour(
     xyY: ArrayLike,
-    hue_decimals: Integer = 1,
-    value_decimals: Integer = 1,
-    chroma_decimals: Integer = 1,
-) -> StrOrNDArray:
+    hue_decimals: int = 1,
+    value_decimals: int = 1,
+    chroma_decimals: int = 1,
+) -> Union[str, NDArrayStr]:
     """
     Convert from *CIE xyY* colourspace to *Munsell* colour.
 
@@ -1434,7 +1431,7 @@ def xyY_to_munsell_colour(
 
     Returns
     -------
-    :class:`str` or :class:`numpy.ndarray`
+    :class:`str` or :class:`numpy.NDArrayFloat`
         *Munsell* colour.
 
     Notes
@@ -1475,7 +1472,7 @@ def xyY_to_munsell_colour(
     return str(munsell_colour) if shape == [4] else munsell_colour
 
 
-def parse_munsell_colour(munsell_colour: str) -> NDArray:
+def parse_munsell_colour(munsell_colour: str) -> NDArrayFloat:
     """
     Parse given *Munsell* colour and returns an intermediate *Munsell*
     *Colorlab* specification.
@@ -1487,7 +1484,7 @@ def parse_munsell_colour(munsell_colour: str) -> NDArray:
 
     Returns
     -------
-    :class:`numpy.ndarray`
+    :class:`numpy.NDArrayFloat`
         Intermediate *Munsell* *Colorlab* specification.
 
     Raises
@@ -1534,7 +1531,7 @@ def parse_munsell_colour(munsell_colour: str) -> NDArray:
     )
 
 
-def is_grey_munsell_colour(specification: ArrayLike) -> Boolean:
+def is_grey_munsell_colour(specification: ArrayLike) -> bool:
     """
     Return if given *Munsell* *Colorlab* specification is a grey colour.
 
@@ -1563,7 +1560,7 @@ def is_grey_munsell_colour(specification: ArrayLike) -> Boolean:
     return is_numeric(as_float(specification))
 
 
-def normalise_munsell_specification(specification: ArrayLike) -> NDArray:
+def normalise_munsell_specification(specification: ArrayLike) -> NDArrayFloat:
     """
     Normalise given *Munsell* *Colorlab* specification.
 
@@ -1574,7 +1571,7 @@ def normalise_munsell_specification(specification: ArrayLike) -> NDArray:
 
     Returns
     -------
-    :class:`numpy.ndarray`
+    :class:`numpy.NDArrayFloat`
         Normalised *Munsell* *Colorlab* specification.
 
     Examples
@@ -1604,7 +1601,9 @@ def normalise_munsell_specification(specification: ArrayLike) -> NDArray:
             return tstack([hue, value, chroma, code])
 
 
-def munsell_colour_to_munsell_specification(munsell_colour: str) -> NDArray:
+def munsell_colour_to_munsell_specification(
+    munsell_colour: str,
+) -> NDArrayFloat:
     """
     Retrieve a normalised *Munsell* *Colorlab* specification from given
     *Munsell* colour.
@@ -1616,7 +1615,7 @@ def munsell_colour_to_munsell_specification(munsell_colour: str) -> NDArray:
 
     Returns
     -------
-    :class:`numpy.ndarray`
+    :class:`numpy.NDArrayFloat`
         Normalised *Munsell* *Colorlab* specification.
 
     Examples
@@ -1634,9 +1633,9 @@ def munsell_colour_to_munsell_specification(munsell_colour: str) -> NDArray:
 
 def munsell_specification_to_munsell_colour(
     specification: ArrayLike,
-    hue_decimals: Integer = 1,
-    value_decimals: Integer = 1,
-    chroma_decimals: Integer = 1,
+    hue_decimals: int = 1,
+    value_decimals: int = 1,
+    chroma_decimals: int = 1,
 ) -> str:
     """
     Convert from *Munsell* *Colorlab* specification to given *Munsell* colour.
@@ -1719,7 +1718,7 @@ def munsell_specification_to_munsell_colour(
             )
 
 
-def xyY_from_renotation(specification: ArrayLike) -> NDArray:
+def xyY_from_renotation(specification: ArrayLike) -> NDArrayFloat:
     """
     Return given existing *Munsell* *Colorlab* specification *CIE xyY*
     colourspace vector from *Munsell Renotation System* data.
@@ -1731,7 +1730,7 @@ def xyY_from_renotation(specification: ArrayLike) -> NDArray:
 
     Returns
     -------
-    :class:`numpy.ndarray`
+    :class:`numpy.NDArrayFloat`
         *CIE xyY* colourspace vector.
 
     Raises
@@ -1761,7 +1760,7 @@ def xyY_from_renotation(specification: ArrayLike) -> NDArray:
         )
 
 
-def is_specification_in_renotation(specification: ArrayLike) -> Boolean:
+def is_specification_in_renotation(specification: ArrayLike) -> bool:
     """
     Return whether given *Munsell* *Colorlab* specification is in
     *Munsell Renotation System* data.
@@ -1792,7 +1791,7 @@ def is_specification_in_renotation(specification: ArrayLike) -> Boolean:
         return False
 
 
-def bounding_hues_from_renotation(hue_and_code: ArrayLike) -> NDArray:
+def bounding_hues_from_renotation(hue_and_code: ArrayLike) -> NDArrayFloat:
     """
     Return for a given *Munsell* *Colorlab* specification hue and *Munsell*
     *Colorlab* specification code the two bounding hues from
@@ -1806,7 +1805,7 @@ def bounding_hues_from_renotation(hue_and_code: ArrayLike) -> NDArray:
 
     Returns
     -------
-    :class:`numpy.ndarray`
+    :class:`numpy.NDArrayFloat`
         Bounding hues.
 
     References
@@ -1828,10 +1827,10 @@ def bounding_hues_from_renotation(hue_and_code: ArrayLike) -> NDArray:
 
     hue, code = as_float_array(hue_and_code)
 
-    hue_cw: Floating
-    code_cw: Floating
-    hue_ccw: Floating
-    code_ccw: Floating
+    hue_cw: float
+    code_cw: float
+    hue_ccw: float
+    code_ccw: float
 
     if hue % 2.5 == 0:
         if hue == 0:
@@ -1860,7 +1859,7 @@ def bounding_hues_from_renotation(hue_and_code: ArrayLike) -> NDArray:
     return as_float_array([(hue_cw, code_cw), (hue_ccw, code_ccw)])
 
 
-def hue_to_hue_angle(hue_and_code: ArrayLike) -> Floating:
+def hue_to_hue_angle(hue_and_code: ArrayLike) -> float:
     """
     Convert from the *Munsell* *Colorlab* specification hue and *Munsell*
     *Colorlab* specification code to hue angle in degrees.
@@ -1873,7 +1872,7 @@ def hue_to_hue_angle(hue_and_code: ArrayLike) -> Floating:
 
     Returns
     -------
-    :class:`numpy.floating`
+    :class:`float`
         Hue angle in degrees.
 
     References
@@ -1897,7 +1896,7 @@ def hue_to_hue_angle(hue_and_code: ArrayLike) -> Floating:
     return as_float_scalar(hue_angle)
 
 
-def hue_angle_to_hue(hue_angle: Floating) -> NDArray:
+def hue_angle_to_hue(hue_angle: float) -> NDArrayFloat:
     """
     Convert from hue angle in degrees to the *Munsell* *Colorlab*
     specification hue and code.
@@ -1909,7 +1908,7 @@ def hue_angle_to_hue(hue_angle: Floating) -> NDArray:
 
     Returns
     -------
-    :class:`numpy.ndarray`
+    :class:`numpy.NDArrayFloat`
         (*Munsell* *Colorlab* specification hue, *Munsell* *Colorlab*
         specification code).
 
@@ -1954,10 +1953,10 @@ def hue_angle_to_hue(hue_angle: Floating) -> NDArray:
     if hue == 0:
         hue = 10
 
-    return tstack([hue, code])
+    return tstack(cast(ArrayLike, [hue, code]))
 
 
-def hue_to_ASTM_hue(hue_and_code) -> Floating:
+def hue_to_ASTM_hue(hue_and_code) -> float:
     """
     Convert from the *Munsell* *Colorlab* specification hue and *Munsell*
     *Colorlab* specification codeto *ASTM* hue number.
@@ -1971,7 +1970,7 @@ def hue_to_ASTM_hue(hue_and_code) -> Floating:
 
     Returns
     -------
-    :class:`numpy.floating`
+    :class:`float`
         *ASTM* hue number.
 
     References
@@ -2021,9 +2020,7 @@ def interpolation_method_from_renotation_ovoid(
 
     specification = normalise_munsell_specification(specification)
 
-    interpolation_methods: Dict[
-        Integer, Optional[Literal["Linear", "Radial"]]
-    ] = {
+    interpolation_methods: Dict[int, Optional[Literal["Linear", "Radial"]]] = {
         0: None,
         1: "Linear",
         2: "Radial",
@@ -2043,7 +2040,7 @@ def interpolation_method_from_renotation_ovoid(
 
         attest(
             is_integer(value),
-            f'"{specification}" specification value must be an integer!',
+            f'"{specification}" specification value must be an int!',
         )
 
         value = round(value)
@@ -2056,7 +2053,7 @@ def interpolation_method_from_renotation_ovoid(
 
         attest(
             abs(2 * (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD,
-            f'"{specification}" specification chroma must be an integer and '
+            f'"{specification}" specification chroma must be an int and '
             f"multiple of 2!",
         )
 
@@ -2299,7 +2296,7 @@ def interpolation_method_from_renotation_ovoid(
     return interpolation_methods[interpolation_method]
 
 
-def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArray:
+def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArrayFloat:
     """
     Convert given *Munsell* *Colorlab* specification to *CIE xy* chromaticity
     coordinates on *Munsell Renotation System* ovoid.
@@ -2314,7 +2311,7 @@ def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArray:
 
     Returns
     -------
-    :class:`numpy.ndarray`
+    :class:`numpy.NDArrayFloat`
         *CIE xy* chromaticity coordinates.
 
     Raises
@@ -2352,7 +2349,7 @@ def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArray:
 
         attest(
             is_integer(value),
-            f'"{specification}" specification value must be an integer!',
+            f'"{specification}" specification value must be an int!',
         )
 
         value = round(value)
@@ -2365,7 +2362,7 @@ def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArray:
 
         attest(
             abs(2 * (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD,
-            f'"{specification}" specification chroma must be an integer and '
+            f'"{specification}" specification chroma must be an int and '
             f"multiple of 2!",
         )
 
@@ -2387,9 +2384,9 @@ def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArray:
 
             return tstack([x, y])
 
-        hue_cw, hue_ccw = bounding_hues_from_renotation([hue, code])
-        hue_minus, code_minus = hue_cw
-        hue_plus, code_plus = hue_ccw
+        hue_code_cw, hue_code_ccw = bounding_hues_from_renotation([hue, code])
+        hue_minus, code_minus = hue_code_cw
+        hue_plus, code_plus = hue_code_ccw
 
         x_grey, y_grey = CCS_ILLUMINANT_MUNSELL
 
@@ -2434,9 +2431,7 @@ def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArray:
             f"\"{', '.join(['Linear', 'Radial'])}\"",
         )
 
-        hue_angle_lower_upper = np.squeeze(
-            as_float_array([hue_angle_lower, hue_angle_upper])
-        )
+        hue_angle_lower_upper = np.squeeze([hue_angle_lower, hue_angle_upper])
 
         if interpolation_method == "Linear":
             x_minus_plus = np.squeeze([x_minus, x_plus])
@@ -2471,7 +2466,7 @@ def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArray:
         return tstack([x, y])
 
 
-def LCHab_to_munsell_specification(LCHab: ArrayLike) -> NDArray:
+def LCHab_to_munsell_specification(LCHab: ArrayLike) -> NDArrayFloat:
     """
     Convert from *CIE L\\*C\\*Hab* colourspace to approximate *Munsell*
     *Colorlab* specification.
@@ -2483,7 +2478,7 @@ def LCHab_to_munsell_specification(LCHab: ArrayLike) -> NDArray:
 
     Returns
     -------
-    :class:`numpy.ndarray`
+    :class:`numpy.NDArrayFloat`
         *Munsell* *Colorlab* specification.
 
     References
@@ -2529,12 +2524,10 @@ def LCHab_to_munsell_specification(LCHab: ArrayLike) -> NDArray:
     value = L / 10
     chroma = C / 5
 
-    return tstack([hue, value, chroma, code])
+    return tstack(cast(ArrayLike, [hue, value, chroma, code]))
 
 
-def maximum_chroma_from_renotation(
-    hue_and_value_and_code: ArrayLike,
-) -> Floating:
+def maximum_chroma_from_renotation(hue_and_value_and_code: ArrayLike) -> float:
     """
     Return the maximum *Munsell* chroma from *Munsell Renotation System* data
     using given *Munsell* *Colorlab* specification hue, *Munsell* *Colorlab*
@@ -2548,7 +2541,7 @@ def maximum_chroma_from_renotation(
 
     Returns
     -------
-    :class:`numpy.floating`
+    :class:`float`
         Maximum chroma.
 
     References
@@ -2579,28 +2572,36 @@ def maximum_chroma_from_renotation(
         value_minus = np.floor(value)
         value_plus = value_minus + 1
 
-    hue_cw, hue_ccw = bounding_hues_from_renotation([hue, code])
-    hue_cw, code_cw = hue_cw
-    hue_ccw, code_ccw = hue_ccw
+    hue_code_cw, hue_code_ccw = bounding_hues_from_renotation([hue, code])
+    hue_cw, code_cw = hue_code_cw
+    hue_ccw, code_ccw = hue_code_ccw
 
     maximum_chromas = _munsell_maximum_chromas_from_renotation()
     specification_for_indexes = [chroma[0] for chroma in maximum_chromas]
 
     ma_limit_mcw = maximum_chromas[
-        specification_for_indexes.index((hue_cw, value_minus, code_cw))
+        specification_for_indexes.index(
+            (hue_cw, value_minus, code_cw)  # pyright: ignore
+        )
     ][1]
     ma_limit_mccw = maximum_chromas[
-        specification_for_indexes.index((hue_ccw, value_minus, code_ccw))
+        specification_for_indexes.index(
+            (hue_ccw, value_minus, code_ccw)  # pyright: ignore
+        )
     ][1]
 
     if value_plus <= 9:
         ma_limit_pcw = maximum_chromas[
-            specification_for_indexes.index((hue_cw, value_plus, code_cw))
+            specification_for_indexes.index(
+                (hue_cw, value_plus, code_cw)  # pyright: ignore
+            )
         ][1]
         ma_limit_pccw = maximum_chromas[
-            specification_for_indexes.index((hue_ccw, value_plus, code_ccw))
+            specification_for_indexes.index(
+                (hue_ccw, value_plus, code_ccw)  # pyright: ignore
+            )
         ][1]
-        max_chroma = min(
+        max_chroma = np.min(
             [ma_limit_mcw, ma_limit_mccw, ma_limit_pcw, ma_limit_pccw]
         )
     else:
@@ -2608,21 +2609,17 @@ def maximum_chroma_from_renotation(
         L9 = as_float_scalar(luminance_ASTMD1535(9))
         L10 = as_float_scalar(luminance_ASTMD1535(10))
 
-        max_chroma = min(
+        max_chroma = np.min(
             [
-                as_float_scalar(
-                    LinearInterpolator([L9, L10], [ma_limit_mcw, 0])(L)
-                ),
-                as_float_scalar(
-                    LinearInterpolator([L9, L10], [ma_limit_mccw, 0])(L)
-                ),
+                LinearInterpolator([L9, L10], [ma_limit_mcw, 0])(L),
+                LinearInterpolator([L9, L10], [ma_limit_mccw, 0])(L),
             ]
         )
 
-    return max_chroma
+    return as_float_scalar(max_chroma)
 
 
-def munsell_specification_to_xy(specification: ArrayLike) -> NDArray:
+def munsell_specification_to_xy(specification: ArrayLike) -> NDArrayFloat:
     """
     Convert given *Munsell* *Colorlab* specification to *CIE xy* chromaticity
     coordinates by interpolating over *Munsell Renotation System* data.
@@ -2634,7 +2631,7 @@ def munsell_specification_to_xy(specification: ArrayLike) -> NDArray:
 
     Returns
     -------
-    :class:`numpy.ndarray`
+    :class:`numpy.NDArrayFloat`
         *CIE xy* chromaticity coordinates.
 
     References
@@ -2666,7 +2663,7 @@ def munsell_specification_to_xy(specification: ArrayLike) -> NDArray:
 
         attest(
             is_integer(value),
-            f'"{specification}" specification value must be an integer!',
+            f'"{specification}" specification value must be an int!',
         )
 
         value = round(value)

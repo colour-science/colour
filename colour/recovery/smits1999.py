@@ -16,7 +16,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS, SpectralDistribution
-from colour.hints import ArrayLike, NDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.models import (
     XYZ_to_RGB,
     normalised_primary_matrix,
@@ -40,15 +40,15 @@ __all__ = [
     "RGB_to_sd_Smits1999",
 ]
 
-PRIMARIES_SMITS1999: NDArray = RGB_COLOURSPACE_sRGB.primaries
+PRIMARIES_SMITS1999: NDArrayFloat = RGB_COLOURSPACE_sRGB.primaries
 """Current *Smits (1999)* method implementation colourspace primaries."""
 
-CCS_WHITEPOINT_SMITS1999: NDArray = CCS_ILLUMINANTS[
+CCS_WHITEPOINT_SMITS1999: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ]["E"]
 """Current *Smits (1999)* method implementation colourspace whitepoint."""
 
-MATRIX_XYZ_TO_RGB_SMITS1999: NDArray = np.linalg.inv(
+MATRIX_XYZ_TO_RGB_SMITS1999: NDArrayFloat = np.linalg.inv(
     normalised_primary_matrix(PRIMARIES_SMITS1999, CCS_WHITEPOINT_SMITS1999)
 )
 """
@@ -57,7 +57,7 @@ Current *Smits (1999)* method implementation *RGB* colourspace to
 """
 
 
-def XYZ_to_RGB_Smits1999(XYZ: ArrayLike) -> NDArray:
+def XYZ_to_RGB_Smits1999(XYZ: ArrayLike) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *RGB* colourspace with
     conditions required by the current *Smits (1999)* method implementation.

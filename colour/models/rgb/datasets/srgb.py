@@ -26,7 +26,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.models.rgb import RGB_Colourspace, eotf_inverse_sRGB, eotf_sRGB
 
 __author__ = "Colour Developers"
@@ -45,7 +45,7 @@ __all__ = [
     "RGB_COLOURSPACE_sRGB",
 ]
 
-PRIMARIES_sRGB: NDArray = np.array(
+PRIMARIES_sRGB: NDArrayFloat = np.array(
     [
         [0.6400, 0.3300],
         [0.3000, 0.6000],
@@ -57,12 +57,12 @@ PRIMARIES_sRGB: NDArray = np.array(
 WHITEPOINT_NAME_sRGB: str = "D65"
 """*sRGB* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_sRGB: NDArray = CCS_ILLUMINANTS[
+CCS_WHITEPOINT_sRGB: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_sRGB]
 """*sRGB* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_sRGB_TO_XYZ: NDArray = np.array(
+MATRIX_sRGB_TO_XYZ: NDArrayFloat = np.array(
     [
         [0.4124, 0.3576, 0.1805],
         [0.2126, 0.7152, 0.0722],
@@ -71,7 +71,7 @@ MATRIX_sRGB_TO_XYZ: NDArray = np.array(
 )
 """*sRGB* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_sRGB: NDArray = np.array(
+MATRIX_XYZ_TO_sRGB: NDArrayFloat = np.array(
     [
         [3.2406, -1.5372, -0.4986],
         [-0.9689, 1.8758, 0.0415],

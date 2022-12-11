@@ -19,7 +19,7 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
     gamma_function,
@@ -42,7 +42,7 @@ __all__ = [
     "RGB_COLOURSPACE_ADOBE_WIDE_GAMUT_RGB",
 ]
 
-PRIMARIES_ADOBE_WIDE_GAMUT_RGB: NDArray = np.array(
+PRIMARIES_ADOBE_WIDE_GAMUT_RGB: NDArrayFloat = np.array(
     [
         [0.7347, 0.2653],
         [0.1152, 0.8264],
@@ -54,17 +54,17 @@ PRIMARIES_ADOBE_WIDE_GAMUT_RGB: NDArray = np.array(
 WHITEPOINT_NAME_ADOBE_WIDE_GAMUT_RGB: str = "D50"
 """*Adobe Wide Gamut RGB* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_ADOBE_WIDE_GAMUT_RGB: NDArray = CCS_ILLUMINANTS[
+CCS_WHITEPOINT_ADOBE_WIDE_GAMUT_RGB: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_ADOBE_WIDE_GAMUT_RGB]
 """*Adobe Wide Gamut RGB* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_ADOBE_WIDE_GAMUT_RGB_TO_XYZ: NDArray = normalised_primary_matrix(
+MATRIX_ADOBE_WIDE_GAMUT_RGB_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
     PRIMARIES_ADOBE_WIDE_GAMUT_RGB, CCS_WHITEPOINT_ADOBE_WIDE_GAMUT_RGB
 )
 """*Adobe Wide Gamut RGB* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_ADOBE_WIDE_GAMUT_RGB: NDArray = np.linalg.inv(
+MATRIX_XYZ_TO_ADOBE_WIDE_GAMUT_RGB: NDArrayFloat = np.linalg.inv(
     MATRIX_ADOBE_WIDE_GAMUT_RGB_TO_XYZ
 )
 """*CIE XYZ* tristimulus values to *Adobe Wide Gamut RGB* colourspace matrix."""

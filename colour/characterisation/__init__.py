@@ -109,7 +109,7 @@ API_CHANGES = {
 if not is_documentation_building():
     sys.modules[
         "colour.characterisation"
-    ] = characterisation(  # type: ignore[assignment]
+    ] = characterisation(  # pyright: ignore
         sys.modules["colour.characterisation"], build_API_changes(API_CHANGES)
     )
 

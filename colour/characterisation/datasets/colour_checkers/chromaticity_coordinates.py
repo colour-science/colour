@@ -49,7 +49,7 @@ import numpy as np
 from collections import namedtuple
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import Dict, NDArray, Tuple
+from colour.hints import NDArrayFloat
 from colour.models import Lab_to_XYZ, XYZ_to_xyY
 from colour.utilities import CanonicalMapping
 
@@ -106,7 +106,7 @@ class ColourChecker(
     """
 
 
-SAMPLE_LABELS_COLORCHECKER_CLASSIC: Tuple = (
+SAMPLE_LABELS_COLORCHECKER_CLASSIC: tuple = (
     "dark skin",
     "light skin",
     "blue sky",
@@ -134,7 +134,7 @@ SAMPLE_LABELS_COLORCHECKER_CLASSIC: Tuple = (
 )
 """*ColorChecker Classic* illuminant."""
 
-DATA_COLORCHECKER1976: Dict = dict(
+DATA_COLORCHECKER1976: dict = dict(
     zip(
         SAMPLE_LABELS_COLORCHECKER_CLASSIC,
         [
@@ -166,7 +166,7 @@ DATA_COLORCHECKER1976: Dict = dict(
     )
 )
 
-CCS_ILLUMINANT_COLORCHECKER1976: NDArray = CCS_ILLUMINANTS[
+CCS_ILLUMINANT_COLORCHECKER1976: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ]["C"]
 """*ColorChecker Classic 1976* illuminant."""
@@ -179,7 +179,7 @@ CCS_COLORCHECKER1976: ColourChecker = ColourChecker(
 Division of Kollmorgen.
 """
 
-DATA_COLORCHECKER2005: Dict = dict(
+DATA_COLORCHECKER2005: dict = dict(
     zip(
         SAMPLE_LABELS_COLORCHECKER_CLASSIC,
         [
@@ -211,7 +211,7 @@ DATA_COLORCHECKER2005: Dict = dict(
     )
 )
 
-CCS_ILLUMINANT_COLORCHECKER2005: NDArray = CCS_ILLUMINANTS[
+CCS_ILLUMINANT_COLORCHECKER2005: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ]["ICC D50"]
 """*ColorChecker Classic 2005* illuminant."""
@@ -220,7 +220,7 @@ CCS_COLORCHECKER2005: ColourChecker = ColourChecker(
     "ColorChecker 2005", DATA_COLORCHECKER2005, CCS_ILLUMINANT_COLORCHECKER2005
 )
 """*ColorChecker Classic* data from *GretagMacbeth (2005)*."""
-DATA_BABELCOLOR_AVERAGE: Dict = dict(
+DATA_BABELCOLOR_AVERAGE: dict = dict(
     zip(
         SAMPLE_LABELS_COLORCHECKER_CLASSIC,
         [
@@ -252,7 +252,7 @@ DATA_BABELCOLOR_AVERAGE: Dict = dict(
     )
 )
 
-CCS_ILLUMINANT_BABELCOLOR_AVERAGE: NDArray = CCS_ILLUMINANTS[
+CCS_ILLUMINANT_BABELCOLOR_AVERAGE: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ]["ICC D50"]
 """*BabelColor Average* illuminant."""
@@ -264,7 +264,7 @@ CCS_BABELCOLOR_AVERAGE: ColourChecker = ColourChecker(
 )
 """Average data derived from measurements of 30 *ColorChecker Classic* charts."""
 
-DATA_COLORCHECKER24_BEFORE_NOV2014_CIE_LAB: Dict = dict(
+DATA_COLORCHECKER24_BEFORE_NOV2014_CIE_LAB: dict = dict(
     zip(
         SAMPLE_LABELS_COLORCHECKER_CLASSIC,
         [
@@ -296,7 +296,7 @@ DATA_COLORCHECKER24_BEFORE_NOV2014_CIE_LAB: Dict = dict(
     )
 )
 
-DATA_COLORCHECKER24_BEFORE_NOV2014: Dict = dict(
+DATA_COLORCHECKER24_BEFORE_NOV2014: dict = dict(
     zip(
         SAMPLE_LABELS_COLORCHECKER_CLASSIC,
         XYZ_to_xyY(
@@ -310,7 +310,7 @@ DATA_COLORCHECKER24_BEFORE_NOV2014: Dict = dict(
     )
 )
 
-CCS_ILLUMINANT_COLORCHECKER24_BEFORE_NOV2014: NDArray = CCS_ILLUMINANTS[
+CCS_ILLUMINANT_COLORCHECKER24_BEFORE_NOV2014: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ]["ICC D50"]
 """*ColorChecker24 - Before November 2014* illuminant."""
@@ -330,7 +330,7 @@ Notes
     original *CIE L\\*a\\*b\\** colourspace values.
 """
 
-DATA_COLORCHECKER24_AFTER_NOV2014_CIE_LAB: Dict = dict(
+DATA_COLORCHECKER24_AFTER_NOV2014_CIE_LAB: dict = dict(
     [
         ("dark skin", np.array([37.54, 14.37, 14.92])),
         ("light skin", np.array([64.66, 19.27, 17.5])),
@@ -359,7 +359,7 @@ DATA_COLORCHECKER24_AFTER_NOV2014_CIE_LAB: Dict = dict(
     ]
 )
 
-DATA_COLORCHECKER24_AFTER_NOV2014: Dict = dict(
+DATA_COLORCHECKER24_AFTER_NOV2014: dict = dict(
     zip(
         SAMPLE_LABELS_COLORCHECKER_CLASSIC,
         XYZ_to_xyY(
@@ -373,7 +373,7 @@ DATA_COLORCHECKER24_AFTER_NOV2014: Dict = dict(
     )
 )
 
-CCS_ILLUMINANT_COLORCHECKER24_AFTER_NOV2014: NDArray = CCS_ILLUMINANTS[
+CCS_ILLUMINANT_COLORCHECKER24_AFTER_NOV2014: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ]["ICC D50"]
 """*ColorChecker24 - After November 2014* illuminant."""

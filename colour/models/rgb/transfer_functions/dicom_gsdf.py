@@ -27,14 +27,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import (
-    Boolean,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    IntegerOrArrayLike,
-    IntegerOrNDArray,
-    Union,
-)
+from colour.hints import ArrayLike, NDArrayFloat, NDArrayReal, Union
 from colour.utilities import (
     Structure,
     as_float,
@@ -81,10 +74,10 @@ CONSTANTS_DICOMGSDF: Structure = Structure(
 
 
 def eotf_inverse_DICOMGSDF(
-    L: FloatingOrArrayLike,
-    out_int: Boolean = False,
+    L: ArrayLike,
+    out_int: bool = False,
     constants: Structure = CONSTANTS_DICOMGSDF,
-) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
+) -> NDArrayReal:
     """
     Define the *DICOM - Grayscale Standard Display Function* inverse
     electro-optical transfer function (EOTF).
@@ -94,14 +87,14 @@ def eotf_inverse_DICOMGSDF(
     L
         *Luminance* :math:`L`.
     out_int
-        Whether to return value as integer code value or float equivalent of a
+        Whether to return value as int code value or float equivalent of a
         code value at a given bit depth.
     constants
         *DICOM - Grayscale Standard Display Function* constants.
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.integer` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Just-Noticeable Difference (JND) Index, :math:`j`.
 
     Notes
@@ -163,10 +156,10 @@ def eotf_inverse_DICOMGSDF(
 
 
 def eotf_DICOMGSDF(
-    J: Union[FloatingOrArrayLike, IntegerOrArrayLike],
-    in_int: Boolean = False,
+    J: Union[ArrayLike, ArrayLike],
+    in_int: bool = False,
     constants: Structure = CONSTANTS_DICOMGSDF,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Define the *DICOM - Grayscale Standard Display Function* electro-optical
     transfer function (EOTF).
@@ -176,14 +169,14 @@ def eotf_DICOMGSDF(
     J
         Just-Noticeable Difference (JND) Index, :math:`j`.
     in_int
-        Whether to treat the input value as integer code value or float
+        Whether to treat the input value as int code value or float
         equivalent of a code value at a given bit depth.
     constants
         *DICOM - Grayscale Standard Display Function* constants.
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding *luminance* :math:`L`.
 
     Notes

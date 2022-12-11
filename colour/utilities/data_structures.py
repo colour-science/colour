@@ -35,14 +35,12 @@ from collections.abc import MutableMapping
 
 from colour.hints import (
     Any,
-    Boolean,
-    Dict,
     Generator,
-    Integer,
     Iterable,
     List,
     Mapping,
     Optional,
+    Self,
     Union,
 )
 from colour.utilities.documentation import is_documentation_building
@@ -195,7 +193,7 @@ class Lookup(dict):
     ['Jane', 'John']
     """
 
-    def keys_from_value(self, value: Any) -> List:
+    def keys_from_value(self, value: Any) -> list:
         """
         Get the keys associated with given value.
 
@@ -316,12 +314,12 @@ class CanonicalMapping(MutableMapping):
     def __init__(
         self, data: Optional[Union[Generator, Mapping]] = None, **kwargs: Any
     ) -> None:
-        self._data: Dict = dict()
+        self._data: dict = dict()
 
         self.update({} if data is None else data, **kwargs)
 
     @property
-    def data(self) -> Dict:
+    def data(self) -> dict:
         """
         Getter property for the delimiter and case-insensitive
         :class:`dict`-like object data.
@@ -502,13 +500,13 @@ class CanonicalMapping(MutableMapping):
 
         yield from self._data.keys()
 
-    def __len__(self) -> Integer:
+    def __len__(self) -> int:
         """
         Return the items count.
 
         Returns
         -------
-        :class:`numpy.integer`
+        :class:`int`
             Items count.
         """
 
@@ -563,7 +561,7 @@ class CanonicalMapping(MutableMapping):
         return not (self == other)
 
     @staticmethod
-    def _collision_warning(keys: List):
+    def _collision_warning(keys: list):
         """
         Issue a runtime warning when given keys are colliding.
 
@@ -818,14 +816,14 @@ class Node:
     7
     """
 
-    _INSTANCE_ID: Integer = 1
+    _INSTANCE_ID: int = 1
     """
     Node id counter.
 
     _INSTANCE_ID
     """
 
-    def __new__(cls, *args: Any, **kwargs: Any) -> Node:
+    def __new__(cls, *args: Any, **kwargs: Any) -> Self:
         """
         Return a new instance of the :class:`colour.utilities.Node` class.
 
@@ -839,7 +837,7 @@ class Node:
 
         instance = super().__new__(cls)
 
-        instance._id = Node._INSTANCE_ID  # type: ignore[attr-defined]
+        instance._id = Node._INSTANCE_ID  # pyright: ignore
         Node._INSTANCE_ID += 1
 
         return instance
@@ -847,16 +845,18 @@ class Node:
     def __init__(
         self,
         name: Optional[str] = None,
-        parent: Optional[Node] = None,
-        children: Optional[List[Node]] = None,
+        parent: Optional[Self] = None,
+        children: Optional[List[Self]] = None,
         data: Optional[Any] = None,
     ) -> None:
         self._name: str = f"{self.__class__.__name__}#{self.id}"
         self.name = self._name if name is None else name
-        self._parent: Optional[Node] = None
+        self._parent: Optional[Self] = None
         self.parent = parent
-        self._children: List[Node] = []
-        self.children = self._children if children is None else children
+        self._children: List[Self] = []
+        self.children = (  # pyright: ignore
+            self._children if children is None else children
+        )
         self._data: Optional[Any] = data
 
     @property
@@ -891,7 +891,7 @@ class Node:
         self._name = value
 
     @property
-    def parent(self) -> Optional[Node]:
+    def parent(self) -> Optional[Self]:
         """
         Getter and setter property for the node parent.
 
@@ -909,7 +909,7 @@ class Node:
         return self._parent
 
     @parent.setter
-    def parent(self, value: Optional[Node]):
+    def parent(self, value: Optional[Self]):
         """Setter for the **self.parent** property."""
 
         from colour.utilities import attest
@@ -918,7 +918,7 @@ class Node:
             attest(
                 issubclass(value.__class__, Node),
                 f'"parent" property: "{value}" is not a '
-                f'"{Node.__class__.__name__}" subclass!',
+                f'"{self.__class__.__name__}" subclass!',
             )
 
             value.children.append(self)
@@ -926,7 +926,7 @@ class Node:
         self._parent = value
 
     @property
-    def children(self) -> List[Node]:
+    def children(self) -> List[Self]:
         """
         Getter and setter property for the node children.
 
@@ -944,7 +944,7 @@ class Node:
         return self._children
 
     @children.setter
-    def children(self, value: List[Node]):
+    def children(self, value: List[Self]):
         """Setter for the **self.children** property."""
 
         from colour.utilities import attest
@@ -958,7 +958,7 @@ class Node:
             attest(
                 issubclass(element.__class__, Node),
                 f'"children" property: A "{element}" element is not a '
-                f'"{Node.__class__.__name__}" subclass!',
+                f'"{self.__class__.__name__}" subclass!',
             )
 
         for node in value:
@@ -967,20 +967,20 @@ class Node:
         self._children = value
 
     @property
-    def id(self) -> Integer:
+    def id(self) -> int:
         """
         Getter property for the node id.
 
         Returns
         -------
-        :class:`numpy.integer`
+        :class:`int`
             Node id.
         """
 
-        return self._id  # type: ignore[attr-defined]
+        return self._id  # pyright: ignore
 
     @property
-    def root(self) -> Node:
+    def root(self) -> Self:
         """
         Getter property for the node tree.
 
@@ -1023,7 +1023,7 @@ class Node:
         """
 
         if self.parent is None:
-            return (sibling for sibling in ())  # type: ignore[var-annotated]
+            return (sibling for sibling in ())
         else:
             return (
                 sibling
@@ -1062,19 +1062,19 @@ class Node:
 
         return f"{self.__class__.__name__}#{self.id}({self._data})"
 
-    def __len__(self) -> Integer:
+    def __len__(self) -> int:
         """
         Return the number of children of the node.
 
         Returns
         -------
-        :class:`numpy.integer`
+        :class:`int`
             Number of children of the node.
         """
 
         return len(list(self.walk()))
 
-    def is_root(self) -> Boolean:
+    def is_root(self) -> bool:
         """
         Return whether the node is a root node.
 
@@ -1096,7 +1096,7 @@ class Node:
 
         return self.parent is None
 
-    def is_inner(self) -> Boolean:
+    def is_inner(self) -> bool:
         """
         Return whether the node is an inner node.
 
@@ -1118,7 +1118,7 @@ class Node:
 
         return all([not self.is_root(), not self.is_leaf()])
 
-    def is_leaf(self) -> Boolean:
+    def is_leaf(self) -> bool:
         """
         Return whether the node is a leaf node.
 
@@ -1140,7 +1140,7 @@ class Node:
 
         return len(self._children) == 0
 
-    def walk(self, ascendants: Boolean = False) -> Generator:
+    def walk(self, ascendants: bool = False) -> Generator:
         """
         Return a generator used to walk into :class:`colour.utilities.Node`
         trees.
@@ -1190,7 +1190,7 @@ class Node:
 
             yield from node.walk(ascendants=ascendants)
 
-    def render(self, tab_level: Integer = 0):
+    def render(self, tab_level: int = 0):
         """
         Render the current node and its children as a string.
 

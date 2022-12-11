@@ -21,10 +21,8 @@ from warnings import filterwarnings, formatwarning, warn
 from colour.utilities import is_string, optional
 from colour.hints import (
     Any,
-    Boolean,
     Callable,
     Dict,
-    Integer,
     List,
     LiteralWarning,
     Mapping,
@@ -91,8 +89,8 @@ class ColourRuntimeWarning(Warning):
 
 def message_box(
     message: str,
-    width: Integer = 79,
-    padding: Integer = 3,
+    width: int = 79,
+    padding: int = 3,
     print_callable: Callable = print,
 ):
     """
@@ -172,7 +170,7 @@ def show_warning(
     message: Union[Warning, str],
     category: Type[Warning],
     filename: str,
-    lineno: Integer,
+    lineno: int,
     file: Optional[TextIO] = None,
     line: Optional[str] = None,
 ) -> None:
@@ -512,10 +510,10 @@ ANCILLARY_EXTRAS_PACKAGES
 
 
 def describe_environment(
-    runtime_packages: Boolean = True,
-    development_packages: Boolean = False,
-    extras_packages: Boolean = False,
-    print_environment: Boolean = True,
+    runtime_packages: bool = True,
+    development_packages: bool = False,
+    extras_packages: bool = False,
+    print_environment: bool = True,
     **kwargs: Any,
 ) -> defaultdict:
     """
@@ -636,7 +634,7 @@ def describe_environment(
     try:  # pragma: no cover
         output = subprocess.check_output(  # nosec
             ["git", "describe"],
-            cwd=colour.__path__[0],
+            cwd=colour.__path__[0],  # pyright: ignore
             stderr=subprocess.STDOUT,
         ).strip()
         version = output.decode("utf-8")
@@ -773,7 +771,7 @@ def describe_environment(
 
 def multiline_str(
     object_: Any,
-    attributes: List[Dict],
+    attributes: List[dict],
     header_underline: str = "=",
     section_underline: str = "-",
     separator: str = " : ",
@@ -929,8 +927,8 @@ def multiline_str(
 
 def multiline_repr(
     object_: Any,
-    attributes: List[Dict],
-    reduce_array_representation: Boolean = True,
+    attributes: List[dict],
+    reduce_array_representation: bool = True,
 ) -> str:  # noqa: D405,D410,D407,D411
     """
     Return an (almost) evaluable string representation of the given object.
@@ -982,7 +980,7 @@ def multiline_repr(
 
     justify = len(f"{object_.__class__.__name__}") + 1
 
-    def _format(attribute: Dict) -> str:
+    def _format(attribute: dict) -> str:
         """Format given attribute and its value."""
 
         if attribute["name"] is not None:

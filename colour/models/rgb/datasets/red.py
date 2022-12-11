@@ -30,7 +30,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
     normalised_primary_matrix,
@@ -92,7 +92,7 @@ __all__ = [
     "RGB_COLOURSPACE_RED_WIDE_GAMUT_RGB",
 ]
 
-PRIMARIES_RED_COLOR: NDArray = np.array(
+PRIMARIES_RED_COLOR: NDArrayFloat = np.array(
     [
         [0.701058563171395, 0.330180975940326],
         [0.298811317306316, 0.625169245953133],
@@ -104,17 +104,17 @@ PRIMARIES_RED_COLOR: NDArray = np.array(
 WHITEPOINT_NAME_RED_COLOR: str = "D65"
 """*REDcolor* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_RED_COLOR: NDArray = CCS_ILLUMINANTS[
+CCS_WHITEPOINT_RED_COLOR: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_RED_COLOR]
 """*REDcolor* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_RED_COLOR_TO_XYZ: NDArray = normalised_primary_matrix(
+MATRIX_RED_COLOR_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
     PRIMARIES_RED_COLOR, CCS_WHITEPOINT_RED_COLOR
 )
 """*REDcolor* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_RED_COLOR: NDArray = np.linalg.inv(MATRIX_RED_COLOR_TO_XYZ)
+MATRIX_XYZ_TO_RED_COLOR: NDArrayFloat = np.linalg.inv(MATRIX_RED_COLOR_TO_XYZ)
 """*CIE XYZ* tristimulus values to *REDcolor* colourspace matrix."""
 
 RGB_COLOURSPACE_RED_COLOR: RGB_Colourspace = RGB_Colourspace(
@@ -135,7 +135,7 @@ References
 :cite:`Mansencal2015d`, :cite:`SonyImageworks2012a`
 """
 
-PRIMARIES_RED_COLOR_2: NDArray = np.array(
+PRIMARIES_RED_COLOR_2: NDArrayFloat = np.array(
     [
         [0.897407221929776, 0.330776225980398],
         [0.296022094516625, 0.684635550900945],
@@ -147,15 +147,17 @@ PRIMARIES_RED_COLOR_2: NDArray = np.array(
 WHITEPOINT_NAME_RED_COLOR_2: str = WHITEPOINT_NAME_RED_COLOR
 """*REDcolor2* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_RED_COLOR_2: NDArray = CCS_WHITEPOINT_RED_COLOR
+CCS_WHITEPOINT_RED_COLOR_2: NDArrayFloat = CCS_WHITEPOINT_RED_COLOR
 """*REDcolor2* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_RED_COLOR_2_TO_XYZ: NDArray = normalised_primary_matrix(
+MATRIX_RED_COLOR_2_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
     PRIMARIES_RED_COLOR_2, CCS_WHITEPOINT_RED_COLOR_2
 )
 """*REDcolor2* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_RED_COLOR_2: NDArray = np.linalg.inv(MATRIX_RED_COLOR_2_TO_XYZ)
+MATRIX_XYZ_TO_RED_COLOR_2: NDArrayFloat = np.linalg.inv(
+    MATRIX_RED_COLOR_2_TO_XYZ
+)
 """*CIE XYZ* tristimulus values to *REDcolor2* colourspace matrix."""
 
 RGB_COLOURSPACE_RED_COLOR_2: RGB_Colourspace = RGB_Colourspace(
@@ -176,7 +178,7 @@ References
 :cite:`Mansencal2015d`, :cite:`SonyImageworks2012a`
 """
 
-PRIMARIES_RED_COLOR_3: NDArray = np.array(
+PRIMARIES_RED_COLOR_3: NDArrayFloat = np.array(
     [
         [0.702598658589917, 0.330185588938484],
         [0.295782235737268, 0.689748258397534],
@@ -188,15 +190,17 @@ PRIMARIES_RED_COLOR_3: NDArray = np.array(
 WHITEPOINT_NAME_RED_COLOR_3: str = WHITEPOINT_NAME_RED_COLOR
 """*REDcolor3* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_RED_COLOR_3: NDArray = CCS_WHITEPOINT_RED_COLOR
+CCS_WHITEPOINT_RED_COLOR_3: NDArrayFloat = CCS_WHITEPOINT_RED_COLOR
 """*REDcolor3* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_RED_COLOR_3_TO_XYZ: NDArray = normalised_primary_matrix(
+MATRIX_RED_COLOR_3_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
     PRIMARIES_RED_COLOR_3, CCS_WHITEPOINT_RED_COLOR_3
 )
 """*REDcolor3* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_RED_COLOR_3: NDArray = np.linalg.inv(MATRIX_RED_COLOR_3_TO_XYZ)
+MATRIX_XYZ_TO_RED_COLOR_3: NDArrayFloat = np.linalg.inv(
+    MATRIX_RED_COLOR_3_TO_XYZ
+)
 """*CIE XYZ* tristimulus values to *REDcolor3* colourspace matrix."""
 
 RGB_COLOURSPACE_RED_COLOR_3: RGB_Colourspace = RGB_Colourspace(
@@ -217,7 +221,7 @@ References
 :cite:`Mansencal2015d`, :cite:`SonyImageworks2012a`
 """
 
-PRIMARIES_RED_COLOR_4: NDArray = np.array(
+PRIMARIES_RED_COLOR_4: NDArrayFloat = np.array(
     [
         [0.702598154635438, 0.330185096210515],
         [0.295782328047083, 0.689748253964859],
@@ -229,15 +233,17 @@ PRIMARIES_RED_COLOR_4: NDArray = np.array(
 WHITEPOINT_NAME_RED_COLOR_4: str = WHITEPOINT_NAME_RED_COLOR
 """*REDcolor4* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_RED_COLOR_4: NDArray = CCS_WHITEPOINT_RED_COLOR
+CCS_WHITEPOINT_RED_COLOR_4: NDArrayFloat = CCS_WHITEPOINT_RED_COLOR
 """*REDcolor4* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_RED_COLOR_4_TO_XYZ: NDArray = normalised_primary_matrix(
+MATRIX_RED_COLOR_4_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
     PRIMARIES_RED_COLOR_4, CCS_WHITEPOINT_RED_COLOR_4
 )
 """*REDcolor4* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_RED_COLOR_4: NDArray = np.linalg.inv(MATRIX_RED_COLOR_4_TO_XYZ)
+MATRIX_XYZ_TO_RED_COLOR_4: NDArrayFloat = np.linalg.inv(
+    MATRIX_RED_COLOR_4_TO_XYZ
+)
 """*CIE XYZ* tristimulus values to *REDcolor4* colourspace matrix."""
 
 RGB_COLOURSPACE_RED_COLOR_4: RGB_Colourspace = RGB_Colourspace(
@@ -258,7 +264,7 @@ References
 :cite:`Mansencal2015d`, :cite:`SonyImageworks2012a`
 """
 
-PRIMARIES_DRAGON_COLOR: NDArray = np.array(
+PRIMARIES_DRAGON_COLOR: NDArrayFloat = np.array(
     [
         [0.758655892599321, 0.330355348611293],
         [0.294923619810175, 0.708053242065117],
@@ -270,15 +276,17 @@ PRIMARIES_DRAGON_COLOR: NDArray = np.array(
 WHITEPOINT_NAME_DRAGON_COLOR: str = WHITEPOINT_NAME_RED_COLOR
 """*DRAGONcolor* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_DRAGON_COLOR: NDArray = CCS_WHITEPOINT_RED_COLOR
+CCS_WHITEPOINT_DRAGON_COLOR: NDArrayFloat = CCS_WHITEPOINT_RED_COLOR
 """*DRAGONcolor* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_DRAGON_COLOR_TO_XYZ: NDArray = normalised_primary_matrix(
+MATRIX_DRAGON_COLOR_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
     PRIMARIES_DRAGON_COLOR, CCS_WHITEPOINT_DRAGON_COLOR
 )
 """*DRAGONcolor* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_DRAGON_COLOR: NDArray = np.linalg.inv(MATRIX_DRAGON_COLOR_TO_XYZ)
+MATRIX_XYZ_TO_DRAGON_COLOR: NDArrayFloat = np.linalg.inv(
+    MATRIX_DRAGON_COLOR_TO_XYZ
+)
 """*CIE XYZ* tristimulus values to *DRAGONcolor* colourspace matrix."""
 
 RGB_COLOURSPACE_DRAGON_COLOR: RGB_Colourspace = RGB_Colourspace(
@@ -299,7 +307,7 @@ References
 :cite:`Mansencal2015d`, :cite:`SonyImageworks2012a`
 """
 
-PRIMARIES_DRAGON_COLOR_2: NDArray = np.array(
+PRIMARIES_DRAGON_COLOR_2: NDArrayFloat = np.array(
     [
         [0.758656214177604, 0.330355835762678],
         [0.294923887732982, 0.708053363192126],
@@ -311,15 +319,15 @@ PRIMARIES_DRAGON_COLOR_2: NDArray = np.array(
 WHITEPOINT_NAME_DRAGON_COLOR_2: str = WHITEPOINT_NAME_RED_COLOR
 """*DRAGONcolor2* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_DRAGON_COLOR_2: NDArray = CCS_WHITEPOINT_RED_COLOR
+CCS_WHITEPOINT_DRAGON_COLOR_2: NDArrayFloat = CCS_WHITEPOINT_RED_COLOR
 """*DRAGONcolor2* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_DRAGON_COLOR_2_TO_XYZ: NDArray = normalised_primary_matrix(
+MATRIX_DRAGON_COLOR_2_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
     PRIMARIES_DRAGON_COLOR_2, CCS_WHITEPOINT_DRAGON_COLOR_2
 )
 """*DRAGONcolor2* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_DRAGON_COLOR_2: NDArray = np.linalg.inv(
+MATRIX_XYZ_TO_DRAGON_COLOR_2: NDArrayFloat = np.linalg.inv(
     MATRIX_DRAGON_COLOR_2_TO_XYZ
 )
 """*CIE XYZ* tristimulus values to *DRAGONcolor2* colourspace matrix."""
@@ -342,7 +350,7 @@ References
 :cite:`Mansencal2015d`, :cite:`SonyImageworks2012a`
 """
 
-PRIMARIES_RED_WIDE_GAMUT_RGB: NDArray = np.array(
+PRIMARIES_RED_WIDE_GAMUT_RGB: NDArrayFloat = np.array(
     [
         [0.780308, 0.304253],
         [0.121595, 1.493994],
@@ -357,7 +365,7 @@ WHITEPOINT_NAME_RED_WIDE_GAMUT_RGB: str = WHITEPOINT_NAME_RED_COLOR
 CCS_WHITEPOINT_RED_WIDE_GAMUT_RGB = CCS_WHITEPOINT_RED_COLOR
 """*REDWideGamutRGB* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_RED_WIDE_GAMUT_RGB_TO_XYZ: NDArray = np.array(
+MATRIX_RED_WIDE_GAMUT_RGB_TO_XYZ: NDArrayFloat = np.array(
     [
         [0.735275, 0.068609, 0.146571],
         [0.286694, 0.842979, -0.129673],
@@ -366,7 +374,7 @@ MATRIX_RED_WIDE_GAMUT_RGB_TO_XYZ: NDArray = np.array(
 )
 """*REDWideGamutRGB* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_RED_WIDE_GAMUT_RGB: NDArray = np.linalg.inv(
+MATRIX_XYZ_TO_RED_WIDE_GAMUT_RGB: NDArrayFloat = np.linalg.inv(
     MATRIX_RED_WIDE_GAMUT_RGB_TO_XYZ
 )
 """*CIE XYZ* tristimulus values to *REDWideGamutRGB* colourspace matrix."""

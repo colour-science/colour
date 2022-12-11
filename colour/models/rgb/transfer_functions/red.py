@@ -38,12 +38,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import (
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    Literal,
-    Union,
-)
+from colour.hints import ArrayLike, NDArrayFloat, Literal, Union
 from colour.models.rgb.transfer_functions import (
     log_encoding_Cineon,
     log_decoding_Cineon,
@@ -85,9 +80,9 @@ __all__ = [
 
 
 def log_encoding_REDLog(
-    x: FloatingOrArrayLike,
-    black_offset: FloatingOrArrayLike = 10 ** ((0 - 1023) / 511),
-) -> FloatingOrNDArray:
+    x: ArrayLike,
+    black_offset: ArrayLike = 10 ** ((0 - 1023) / 511),
+) -> NDArrayFloat:
     """
     Define the *REDLog* log encoding curve / opto-electronic transfer
     function.
@@ -101,7 +96,7 @@ def log_encoding_REDLog(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Non-linear data :math:`y`.
 
     Notes
@@ -137,9 +132,9 @@ def log_encoding_REDLog(
 
 
 def log_decoding_REDLog(
-    y: FloatingOrArrayLike,
-    black_offset: FloatingOrArrayLike = 10 ** ((0 - 1023) / 511),
-) -> FloatingOrNDArray:
+    y: ArrayLike,
+    black_offset: ArrayLike = 10 ** ((0 - 1023) / 511),
+) -> NDArrayFloat:
     """
     Define the *REDLog* log decoding curve / electro-optical transfer
     function.
@@ -153,7 +148,7 @@ def log_decoding_REDLog(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear data :math:`x`.
 
     Notes
@@ -189,9 +184,9 @@ def log_decoding_REDLog(
 
 
 def log_encoding_REDLogFilm(
-    x: FloatingOrArrayLike,
-    black_offset: FloatingOrArrayLike = 10 ** ((95 - 685) / 300),
-) -> FloatingOrNDArray:
+    x: ArrayLike,
+    black_offset: ArrayLike = 10 ** ((95 - 685) / 300),
+) -> NDArrayFloat:
     """
     Define the *REDLogFilm* log encoding curve / opto-electronic transfer
     function.
@@ -205,7 +200,7 @@ def log_encoding_REDLogFilm(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Non-linear data :math:`y`.
 
     Notes
@@ -236,9 +231,9 @@ def log_encoding_REDLogFilm(
 
 
 def log_decoding_REDLogFilm(
-    y: FloatingOrArrayLike,
-    black_offset: FloatingOrArrayLike = 10 ** ((95 - 685) / 300),
-) -> FloatingOrNDArray:
+    y: ArrayLike,
+    black_offset: ArrayLike = 10 ** ((95 - 685) / 300),
+) -> NDArrayFloat:
     """
     Define the *REDLogFilm* log decoding curve / electro-optical transfer
     function.
@@ -252,7 +247,7 @@ def log_decoding_REDLogFilm(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear data :math:`x`.
 
     Notes
@@ -282,7 +277,7 @@ def log_decoding_REDLogFilm(
     return log_decoding_Cineon(y, black_offset)
 
 
-def log_encoding_Log3G10_v1(x: FloatingOrArrayLike) -> FloatingOrNDArray:
+def log_encoding_Log3G10_v1(x: ArrayLike) -> NDArrayFloat:
     """
     Define the *Log3G10* *v1* log encoding curve / opto-electronic transfer
     function, the curve used in *REDCINE-X PRO Beta 42* and *Resolve 12.5.2*.
@@ -294,7 +289,7 @@ def log_encoding_Log3G10_v1(x: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Non-linear data :math:`y`.
 
     Notes
@@ -328,7 +323,7 @@ def log_encoding_Log3G10_v1(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_1(y))
 
 
-def log_decoding_Log3G10_v1(y: FloatingOrArrayLike) -> FloatingOrNDArray:
+def log_decoding_Log3G10_v1(y: ArrayLike) -> NDArrayFloat:
     """
     Define the *Log3G10* *v1* log decoding curve / electro-optical transfer
     function, the curve used in *REDCINE-X PRO Beta 42* and *Resolve 12.5.2*.
@@ -340,7 +335,7 @@ def log_decoding_Log3G10_v1(y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear data :math:`x`.
 
     Notes
@@ -374,7 +369,7 @@ def log_decoding_Log3G10_v1(y: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_1(x))
 
 
-def log_encoding_Log3G10_v2(x: FloatingOrArrayLike) -> FloatingOrNDArray:
+def log_encoding_Log3G10_v2(x: ArrayLike) -> NDArrayFloat:
     """
     Define the *Log3G10* *v2* log encoding curve / opto-electronic transfer
     function, the current curve in *REDCINE-X PRO*.
@@ -386,7 +381,7 @@ def log_encoding_Log3G10_v2(x: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Non-linear data :math:`y`.
 
     Notes
@@ -424,7 +419,7 @@ def log_encoding_Log3G10_v2(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_1(y))
 
 
-def log_decoding_Log3G10_v2(y: FloatingOrArrayLike) -> FloatingOrNDArray:
+def log_decoding_Log3G10_v2(y: ArrayLike) -> NDArrayFloat:
     """
     Define the *Log3G10* *v2* log decoding curve / electro-optical transfer
     function, the current curve in *REDCINE-X PRO*.
@@ -436,7 +431,7 @@ def log_decoding_Log3G10_v2(y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear data :math:`x`.
 
     Notes
@@ -470,7 +465,7 @@ def log_decoding_Log3G10_v2(y: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_1(x))
 
 
-def log_encoding_Log3G10_v3(x: FloatingOrArrayLike) -> FloatingOrNDArray:
+def log_encoding_Log3G10_v3(x: ArrayLike) -> NDArrayFloat:
     """
     Define the *Log3G10* *v3* log encoding curve / opto-electronic transfer
     function, the curve described in the *RedLog3G10* Whitepaper.
@@ -482,7 +477,7 @@ def log_encoding_Log3G10_v3(x: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Non-linear data :math:`y`.
 
     Notes
@@ -525,7 +520,7 @@ def log_encoding_Log3G10_v3(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_1(y))
 
 
-def log_decoding_Log3G10_v3(y: FloatingOrArrayLike) -> FloatingOrNDArray:
+def log_decoding_Log3G10_v3(y: ArrayLike) -> NDArrayFloat:
     """
     Define the *Log3G10* *v3* log decoding curve / electro-optical transfer
     function, the curve described in the *RedLog3G10* whitepaper.
@@ -537,7 +532,7 @@ def log_decoding_Log3G10_v3(y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear data :math:`x`.
 
     Notes
@@ -598,9 +593,9 @@ References
 
 
 def log_encoding_Log3G10(
-    x: FloatingOrArrayLike,
+    x: ArrayLike,
     method: Union[Literal["v1", "v2", "v3"], str] = "v3",
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Define the *Log3G10* log encoding curve / opto-electronic transfer
     function.
@@ -614,7 +609,7 @@ def log_encoding_Log3G10(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Non-linear data :math:`y`.
 
     Notes
@@ -697,7 +692,7 @@ References
 
 def log_decoding_Log3G10(
     y, method: Union[Literal["v1", "v2", "v3"], str] = "v3"
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Define the *Log3G10* log decoding curve / electro-optical transfer
     function.
@@ -711,7 +706,7 @@ def log_decoding_Log3G10(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear data :math:`x`.
 
     Notes
@@ -745,7 +740,7 @@ def log_decoding_Log3G10(
     return LOG3G10_DECODING_METHODS[method](y)
 
 
-def log_encoding_Log3G12(x: FloatingOrArrayLike) -> FloatingOrNDArray:
+def log_encoding_Log3G12(x: ArrayLike) -> NDArrayFloat:
     """
     Define the *Log3G12* log encoding curve / opto-electronic transfer
     function.
@@ -757,7 +752,7 @@ def log_encoding_Log3G12(x: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Non-linear data :math:`y`.
 
     Notes
@@ -791,7 +786,7 @@ def log_encoding_Log3G12(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_1(y))
 
 
-def log_decoding_Log3G12(y: FloatingOrArrayLike) -> FloatingOrNDArray:
+def log_decoding_Log3G12(y: ArrayLike) -> NDArrayFloat:
     """
     Define the *Log3G12* log decoding curve / electro-optical transfer
     function.
@@ -803,7 +798,7 @@ def log_decoding_Log3G12(y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear data :math:`x`.
 
     Notes

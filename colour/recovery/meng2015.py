@@ -27,7 +27,7 @@ from colour.colorimetry import (
     sd_ones,
     sd_to_XYZ_integration,
 )
-from colour.hints import ArrayLike, Dict, FloatingOrNDArray, NDArray, Optional
+from colour.hints import ArrayLike, NDArrayFloat, Optional, cast
 from colour.utilities import to_domain_1, from_range_100
 
 __author__ = "Colour Developers"
@@ -53,7 +53,7 @@ def XYZ_to_sd_Meng2015(
     XYZ: ArrayLike,
     cmfs: Optional[MultiSpectralDistributions] = None,
     illuminant: Optional[SpectralDistribution] = None,
-    optimisation_kwargs: Optional[Dict] = None,
+    optimisation_kwargs: Optional[dict] = None,
 ) -> SpectralDistribution:
     """
     Recover the spectral distribution of given *CIE XYZ* tristimulus values
@@ -172,12 +172,12 @@ def XYZ_to_sd_Meng2015(
 
     sd = sd_ones(cmfs.shape)
 
-    def objective_function(a: ArrayLike) -> FloatingOrNDArray:
+    def objective_function(a: ArrayLike) -> NDArrayFloat:
         """Define the objective function."""
 
-        return np.sum(np.diff(a) ** 2)
+        return cast(NDArrayFloat, np.sum(np.diff(a) ** 2))
 
-    def constraint_function(a: ArrayLike) -> NDArray:
+    def constraint_function(a: ArrayLike) -> NDArrayFloat:
         """Define the constraint function."""
 
         sd[:] = a

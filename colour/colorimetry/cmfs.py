@@ -22,16 +22,26 @@ from colour.colorimetry import (
     SpectralShape,
 )
 from colour.continuous import MultiSignals, Signal
-from colour.hints import ArrayLike, Any, Optional, Sequence, Union
+from colour.hints import (
+    ArrayLike,
+    Any,
+    Optional,
+    Sequence,
+    TYPE_CHECKING,
+    Union,
+)
 from colour.utilities import is_pandas_installed
 
-if is_pandas_installed():
-    from pandas import DataFrame, Series
-else:  # pragma: no cover
-    from unittest import mock
+if TYPE_CHECKING:
+    from pandas import DataFrame, Series  # pragma: no cover
+else:
+    if is_pandas_installed():
+        from pandas import DataFrame, Series
+    else:  # pragma: no cover
+        from unittest import mock
 
-    DataFrame = mock.MagicMock()
-    Series = mock.MagicMock()
+        DataFrame = mock.MagicMock()
+        Series = mock.MagicMock()
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

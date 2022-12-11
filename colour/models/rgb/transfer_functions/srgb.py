@@ -28,7 +28,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     as_float,
     domain_range_scale,
@@ -49,7 +49,7 @@ __all__ = [
 ]
 
 
-def eotf_inverse_sRGB(L: FloatingOrArrayLike) -> FloatingOrNDArray:
+def eotf_inverse_sRGB(L: ArrayLike) -> NDArrayFloat:
     """
     Define the *IEC 61966-2-1:1999* *sRGB* inverse electro-optical transfer
     function (EOTF).
@@ -61,7 +61,7 @@ def eotf_inverse_sRGB(L: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding electrical signal :math:`V`.
 
     Notes
@@ -96,7 +96,7 @@ def eotf_inverse_sRGB(L: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_1(V))
 
 
-def eotf_sRGB(V: FloatingOrArrayLike) -> FloatingOrNDArray:
+def eotf_sRGB(V: ArrayLike) -> NDArrayFloat:
     """
     Define the *IEC 61966-2-1:1999* *sRGB* electro-optical transfer function
     (EOTF).
@@ -108,7 +108,7 @@ def eotf_sRGB(V: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding *luminance* :math:`L` of the image.
 
     Notes

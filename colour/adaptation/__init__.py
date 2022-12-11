@@ -26,7 +26,7 @@ References
 
 from __future__ import annotations
 
-from colour.hints import Any, ArrayLike, Literal, NDArray, Union
+from colour.hints import Any, ArrayLike, Literal, NDArrayFloat, Union
 from colour.utilities import (
     CanonicalMapping,
     filter_kwargs,
@@ -136,7 +136,7 @@ def chromatic_adaptation(
         str,
     ] = "Von Kries",
     **kwargs: Any,
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Adapt given stimulus from test viewing conditions to reference viewing
     conditions.

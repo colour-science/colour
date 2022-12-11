@@ -54,7 +54,6 @@ from functools import partial
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry.spectrum import SpectralDistribution
-from colour.hints import Dict
 from colour.utilities import LazyCanonicalMapping
 
 __author__ = "Colour Developers"
@@ -78,7 +77,7 @@ __all__ = [
     "SDS_LIGHT_SOURCES",
 ]
 
-DATA_LIGHT_SOURCES_RIT: Dict = {
+DATA_LIGHT_SOURCES_RIT: dict = {
     "Natural": {
         380: 1.88,
         385: 2.24,
@@ -772,7 +771,7 @@ References
 :cite:`Pointer1980a`
 """
 
-DATA_LIGHT_SOURCES_NIST_TRADITIONAL: Dict = {
+DATA_LIGHT_SOURCES_NIST_TRADITIONAL: dict = {
     "Cool White FL": {
         380: 0.03353465,
         385: 0.04082136,
@@ -1628,7 +1627,7 @@ References
 :cite:`Ohno2008a`
 """
 
-DATA_LIGHT_SOURCES_NIST_LED: Dict = {
+DATA_LIGHT_SOURCES_NIST_LED: dict = {
     "3-LED-1 (457/540/605)": {
         380: 8.47479023841784e-08,
         385: 5.45760813791522e-07,
@@ -2893,7 +2892,7 @@ Spectral distributions of the LED light sources from the *NIST*
 *NIST CQS simulation 7.4.xls* spreadsheet.
 """
 
-DATA_LIGHT_SOURCES_NIST_PHILIPS: Dict = {
+DATA_LIGHT_SOURCES_NIST_PHILIPS: dict = {
     "60 A/W (Soft White)": {
         380: 0.0221129274,
         385: 0.0257550191,
@@ -4739,7 +4738,7 @@ Spectral distributions of the Philips light sources from the *NIST*
 *NIST CQS simulation 7.4.xls* spreadsheet.
 """
 
-DATA_LIGHT_SOURCES_COMMON: Dict = {
+DATA_LIGHT_SOURCES_COMMON: dict = {
     "Kinoton 75P": {
         380: 0.0001099667,
         382: 0.0001415667,

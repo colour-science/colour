@@ -7,7 +7,6 @@ import numpy as np
 import unittest
 
 from colour.colorimetry import SDS_ILLUMINANTS, SpectralDistribution
-from colour.hints import Dict
 from colour.quality import (
     ColourRendering_Specification_CRI,
     colour_rendering_index,
@@ -25,7 +24,7 @@ __all__ = [
     "TestColourRenderingIndex",
 ]
 
-DATA_SAMPLE: Dict = {
+DATA_SAMPLE: dict = {
     380: 0.00588346,
     385: 0.00315377,
     390: 0.00242868,

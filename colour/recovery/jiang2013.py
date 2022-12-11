@@ -32,10 +32,8 @@ from colour.colorimetry import (
 )
 from colour.hints import (
     ArrayLike,
-    Boolean,
-    Integer,
     Mapping,
-    NDArray,
+    NDArrayFloat,
     Optional,
     Tuple,
     Union,
@@ -61,11 +59,14 @@ __all__ = [
 
 def PCA_Jiang2013(
     msds_camera_sensitivities: Mapping[str, MultiSpectralDistributions],
-    eigen_w_v_count: Optional[Integer] = None,
-    additional_data: Boolean = False,
+    eigen_w_v_count: Optional[int] = None,
+    additional_data: bool = False,
 ) -> Union[
-    Tuple[Tuple[NDArray, NDArray, NDArray], Tuple[NDArray, NDArray, NDArray]],
-    Tuple[NDArray, NDArray, NDArray],
+    Tuple[
+        Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat],
+        Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat],
+    ],
+    Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat],
 ]:
     """
     Perform the *Principal Component Analysis* (PCA) on given camera *RGB*
@@ -105,7 +106,7 @@ def PCA_Jiang2013(
 
     def normalised_sensitivity(
         msds: MultiSpectralDistributions, channel: str
-    ) -> NDArray:
+    ) -> NDArrayFloat:
         """Return a normalised camera *RGB* sensitivity."""
 
         sensitivity = cast(SpectralDistribution, msds.signals[channel].copy())
@@ -405,8 +406,6 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
 
     msds_camera_sensitivities = RGB_CameraSensitivities([S_R, S_G, S_B])
 
-    msds_camera_sensitivities /= np.max(  # type: ignore[misc]
-        msds_camera_sensitivities.values
-    )
+    msds_camera_sensitivities /= np.max(msds_camera_sensitivities.values)
 
     return msds_camera_sensitivities

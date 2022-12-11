@@ -10,15 +10,7 @@ from __future__ import annotations
 import numpy as np
 from scipy.spatial import Delaunay
 
-from colour.hints import (
-    ArrayLike,
-    Dict,
-    Floating,
-    Literal,
-    NDArray,
-    Optional,
-    Union,
-)
+from colour.hints import ArrayLike, Literal, NDArrayFloat, Optional, Union
 from colour.models import xyY_to_XYZ
 from colour.volume import OPTIMAL_COLOUR_STIMULI_ILLUMINANTS
 from colour.utilities import CACHE_REGISTRY, validate_method
@@ -34,11 +26,11 @@ __all__ = [
     "is_within_macadam_limits",
 ]
 
-_CACHE_OPTIMAL_COLOUR_STIMULI_XYZ: Dict = CACHE_REGISTRY.register_cache(
+_CACHE_OPTIMAL_COLOUR_STIMULI_XYZ: dict = CACHE_REGISTRY.register_cache(
     f"{__name__}._CACHE_OPTIMAL_COLOUR_STIMULI_XYZ"
 )
 
-_CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS: Dict = (
+_CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS: dict = (
     CACHE_REGISTRY.register_cache(
         f"{__name__}._CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS"
     )
@@ -47,7 +39,7 @@ _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS: Dict = (
 
 def _XYZ_optimal_colour_stimuli(
     illuminant: Union[Literal["A", "C", "D65"], str] = "D65"
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Return given illuminant *Optimal Colour Stimuli* in *CIE XYZ* tristimulus
     values and caches it if not existing.
@@ -84,8 +76,8 @@ def _XYZ_optimal_colour_stimuli(
 def is_within_macadam_limits(
     xyY: ArrayLike,
     illuminant: Union[Literal["A", "C", "D65"], str] = "D65",
-    tolerance: Optional[Floating] = None,
-) -> NDArray:
+    tolerance: Optional[float] = None,
+) -> NDArrayFloat:
     """
     Return whether given *CIE xyY* colourspace array is within MacAdam limits
     of given illuminant.

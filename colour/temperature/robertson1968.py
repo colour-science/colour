@@ -39,7 +39,7 @@ import numpy as np
 from dataclasses import dataclass
 
 from colour.algebra import sdiv, sdiv_mode
-from colour.hints import ArrayLike, Floating, List, NDArray, Tuple
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import as_float_array, tsplit
 
 __author__ = "Colour Developers"
@@ -57,7 +57,7 @@ __all__ = [
     "CCT_to_uv_Robertson1968",
 ]
 
-DATA_ISOTEMPERATURE_LINES_ROBERTSON1968: Tuple = (
+DATA_ISOTEMPERATURE_LINES_ROBERTSON1968: tuple = (
     (0, 0.18006, 0.26352, -0.24341),
     (10, 0.18066, 0.26589, -0.25479),
     (20, 0.18133, 0.26846, -0.26876),
@@ -129,19 +129,19 @@ class ISOTemperatureLine_Specification_Robertson1968:
         Slope of the *v* chromaticity coordinate.
     """
 
-    r: Floating
-    u: Floating
-    v: Floating
-    t: Floating
+    r: float
+    u: float
+    v: float
+    t: float
 
 
-ISOTEMPERATURE_LINES_ROBERTSON1968: List = [
+ISOTEMPERATURE_LINES_ROBERTSON1968: list = [
     ISOTemperatureLine_Specification_Robertson1968(*x)
     for x in DATA_ISOTEMPERATURE_LINES_ROBERTSON1968
 ]
 
 
-def _uv_to_CCT_Robertson1968(uv: ArrayLike) -> NDArray:
+def _uv_to_CCT_Robertson1968(uv: ArrayLike) -> NDArrayFloat:
     """
     Return the correlated colour temperature :math:`T_{cp}` and
     :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
@@ -162,6 +162,7 @@ def _uv_to_CCT_Robertson1968(uv: ArrayLike) -> NDArray:
 
     last_dt = last_dv = last_du = 0
 
+    D_uv = 0
     for i in range(1, 31):
         wr_ruvt = ISOTEMPERATURE_LINES_ROBERTSON1968[i]
         wr_ruvt_previous = ISOTEMPERATURE_LINES_ROBERTSON1968[i - 1]
@@ -211,7 +212,7 @@ def _uv_to_CCT_Robertson1968(uv: ArrayLike) -> NDArray:
     return np.array([T, -D_uv])
 
 
-def uv_to_CCT_Robertson1968(uv: ArrayLike) -> NDArray:
+def uv_to_CCT_Robertson1968(uv: ArrayLike) -> NDArrayFloat:
     """
     Return the correlated colour temperature :math:`T_{cp}` and
     :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
@@ -242,10 +243,10 @@ def uv_to_CCT_Robertson1968(uv: ArrayLike) -> NDArray:
 
     CCT_D_uv = [_uv_to_CCT_Robertson1968(a) for a in np.reshape(uv, (-1, 2))]
 
-    return np.reshape(as_float_array(CCT_D_uv), uv.shape)
+    return np.reshape(CCT_D_uv, uv.shape)
 
 
-def _CCT_to_uv_Robertson1968(CCT_D_uv: ArrayLike) -> NDArray:
+def _CCT_to_uv_Robertson1968(CCT_D_uv: ArrayLike) -> NDArrayFloat:
     """
     Return the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` using
@@ -306,7 +307,7 @@ def _CCT_to_uv_Robertson1968(CCT_D_uv: ArrayLike) -> NDArray:
     return np.array([u, v])
 
 
-def CCT_to_uv_Robertson1968(CCT_D_uv: ArrayLike) -> NDArray:
+def CCT_to_uv_Robertson1968(CCT_D_uv: ArrayLike) -> NDArrayFloat:
     """
     Return the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` using
@@ -337,4 +338,4 @@ def CCT_to_uv_Robertson1968(CCT_D_uv: ArrayLike) -> NDArray:
 
     uv = [_CCT_to_uv_Robertson1968(a) for a in np.reshape(CCT_D_uv, (-1, 2))]
 
-    return np.reshape(as_float_array(uv), CCT_D_uv.shape)
+    return np.reshape(uv, CCT_D_uv.shape)

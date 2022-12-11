@@ -32,4 +32,4 @@ jobs:
         pip install -r requirements.txt
     - name: Static Type Checking
       run: |
-        mypy --install-types --non-interactive --show-error-codes --warn-unused-ignores --warn-redundant-casts $CI_PACKAGE
+        pyright --skipunannotated

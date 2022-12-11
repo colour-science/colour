@@ -39,14 +39,7 @@ from colour.geometry import (
     extend_line_segment,
     intersect_line_segments,
 )
-from colour.hints import (
-    ArrayLike,
-    Boolean,
-    FloatingOrNDArray,
-    NDArray,
-    Optional,
-    Tuple,
-)
+from colour.hints import ArrayLike, NDArrayFloat, Optional, Tuple
 from colour.models import XYZ_to_xy
 from colour.utilities import as_float_array
 
@@ -67,8 +60,8 @@ __all__ = [
 
 
 def closest_spectral_locus_wavelength(
-    xy: ArrayLike, xy_n: ArrayLike, xy_s: ArrayLike, inverse: Boolean = False
-) -> Tuple[NDArray, NDArray]:
+    xy: ArrayLike, xy_n: ArrayLike, xy_s: ArrayLike, inverse: bool = False
+) -> Tuple[NDArrayFloat, NDArrayFloat]:
     """
     Return the coordinates and closest spectral locus wavelength index to the
     point where the line defined by the given achromatic stimulus :math:`xy_n`
@@ -145,7 +138,7 @@ def dominant_wavelength(
     xy_n: ArrayLike,
     cmfs: Optional[MultiSpectralDistributions] = None,
     inverse: bool = False,
-) -> Tuple[NDArray, NDArray, NDArray]:
+) -> Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]:
     """
     Return the *dominant wavelength* :math:`\\lambda_d` for given colour
     stimulus :math:`xy` and the related :math:`xy_wl` first and :math:`xy_{cw}`
@@ -245,7 +238,7 @@ def complementary_wavelength(
     xy: ArrayLike,
     xy_n: ArrayLike,
     cmfs: Optional[MultiSpectralDistributions] = None,
-) -> Tuple[NDArray, NDArray, NDArray]:
+) -> Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]:
     """
     Return the *complementary wavelength* :math:`\\lambda_c` for given colour
     stimulus :math:`xy` and the related :math:`xy_wl` first and :math:`xy_{cw}`
@@ -313,7 +306,7 @@ def excitation_purity(
     xy: ArrayLike,
     xy_n: ArrayLike,
     cmfs: Optional[MultiSpectralDistributions] = None,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Return the *excitation purity* :math:`P_e` for given colour stimulus
     :math:`xy`.
@@ -330,7 +323,7 @@ def excitation_purity(
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.ndarray`
         *Excitation purity* :math:`P_e`.
 
     References
@@ -362,7 +355,7 @@ def colorimetric_purity(
     xy: ArrayLike,
     xy_n: ArrayLike,
     cmfs: Optional[MultiSpectralDistributions] = None,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Return the *colorimetric purity* :math:`P_c` for given colour stimulus
     :math:`xy`.
@@ -379,7 +372,7 @@ def colorimetric_purity(
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.ndarray`
         *Colorimetric purity* :math:`P_c`.
 
     References

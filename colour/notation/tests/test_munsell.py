@@ -7,7 +7,7 @@ import numpy as np
 import unittest
 from itertools import product
 
-from colour.hints import List, NDArray, Tuple
+from colour.hints import NDArrayFloat
 from colour.notation.munsell import (
     CCS_ILLUMINANT_MUNSELL,
 )
@@ -104,7 +104,7 @@ __all__ = [
 ]
 
 
-def _generate_unit_tests_specifications() -> Tuple:  # pragma: no cover
+def _generate_unit_tests_specifications() -> tuple:  # pragma: no cover
     """
     Generate the unit tests specifications.
 
@@ -154,7 +154,7 @@ def _generate_unit_tests_specifications() -> Tuple:  # pragma: no cover
     return specifications, specifications_r
 
 
-MUNSELL_SPECIFICATIONS: NDArray = np.array(
+MUNSELL_SPECIFICATIONS: NDArrayFloat = np.array(
     [
         [
             [7.18927191, 5.34025196, 16.05861170, 3.00000000],
@@ -559,7 +559,7 @@ MUNSELL_SPECIFICATIONS: NDArray = np.array(
     ]
 )
 
-MUNSELL_GREYS_SPECIFICATIONS: NDArray = np.array(
+MUNSELL_GREYS_SPECIFICATIONS: NDArrayFloat = np.array(
     list(
         zip(
             np.linspace(0, 10, 25)[:, None],
@@ -594,7 +594,7 @@ MUNSELL_GREYS_SPECIFICATIONS: NDArray = np.array(
     )
 )
 
-MUNSELL_EVEN_SPECIFICATIONS: NDArray = np.array(
+MUNSELL_EVEN_SPECIFICATIONS: NDArrayFloat = np.array(
     [
         [(7.5, 6.0, 16.0, 3), [0.18320000, 0.44140000, 0.29301153]],
         [(7.5, 9.0, 12.0, 3), [0.24190000, 0.39850000, 0.76695586]],
@@ -697,10 +697,10 @@ MUNSELL_EVEN_SPECIFICATIONS: NDArray = np.array(
         [(7.5, 5.0, 4.0, 5), [0.38500000, 0.41200000, 0.19271844]],
         [(2.5, 6.0, 10.0, 7), [0.43200000, 0.31180000, 0.29301153]],
         [(8.0, 2, 14.0, 1), [0.07257382, 0.10413956, 0.03048116]],
-    ]
+    ]  # pyright: ignore
 )
 
-MUNSELL_BOUNDING_HUES: NDArray = np.array(
+MUNSELL_BOUNDING_HUES: NDArrayFloat = np.array(
     [
         ((5.0, 3.0), (7.5, 3.0)),
         ((5.0, 3.0), (7.5, 3.0)),
@@ -805,7 +805,7 @@ MUNSELL_BOUNDING_HUES: NDArray = np.array(
     ]
 )
 
-MUNSELL_HUE_TO_ANGLE: NDArray = np.array(
+MUNSELL_HUE_TO_ANGLE: NDArrayFloat = np.array(
     [
         [2.5, 1, 208.750],
         [2.5, 2, 153.750],
@@ -847,10 +847,10 @@ MUNSELL_HUE_TO_ANGLE: NDArray = np.array(
         [10.0, 8, 337.500],
         [10.0, 9, 285.000],
         [10.0, 10, 247.500],
-    ]
+    ]  # pyright: ignore
 )
 
-MUNSELL_HUE_TO_ASTM_HUE: NDArray = np.array(
+MUNSELL_HUE_TO_ASTM_HUE: NDArrayFloat = np.array(
     [
         [2.5, 0, 72.5],
         [2.5, 1, 62.5],
@@ -896,10 +896,10 @@ MUNSELL_HUE_TO_ASTM_HUE: NDArray = np.array(
         [10.0, 8, 100.0],
         [10.0, 9, 90.0],
         [10.0, 10, 80.0],
-    ]
+    ]  # pyright: ignore
 )
 
-MUNSELL_INTERPOLATION_METHODS: List = [
+MUNSELL_INTERPOLATION_METHODS: list = [
     "Linear",
     "Linear",
     "Radial",
@@ -1003,7 +1003,7 @@ MUNSELL_INTERPOLATION_METHODS: List = [
     "Radial",
 ]
 
-MUNSELL_XY_FROM_RENOTATION_OVOID: List = [
+MUNSELL_XY_FROM_RENOTATION_OVOID: list = [
     [0.1832, 0.4414],
     [0.2419, 0.3985],
     [0.3564, 0.3279],

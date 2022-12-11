@@ -8,7 +8,7 @@ Defines various RGB colour models common utilities.
 from __future__ import annotations
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import ArrayLike, Boolean, Literal, NDArray, Optional, Union
+from colour.hints import ArrayLike, Literal, NDArrayFloat, Optional, Union
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 
 __author__ = "Colour Developers"
@@ -48,8 +48,8 @@ def XYZ_to_sRGB(
             str,
         ]
     ] = "CAT02",
-    apply_cctf_encoding: Boolean = True,
-) -> NDArray:
+    apply_cctf_encoding: bool = True,
+) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *sRGB* colourspace.
 
@@ -128,8 +128,8 @@ def sRGB_to_XYZ(
             str,
         ]
     ] = "CAT02",
-    apply_cctf_decoding: Boolean = True,
-) -> NDArray:
+    apply_cctf_decoding: bool = True,
+) -> NDArrayFloat:
     """
     Convert from *sRGB* colourspace to *CIE XYZ* tristimulus values.
 

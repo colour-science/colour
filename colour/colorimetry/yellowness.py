@@ -34,13 +34,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode
-from colour.hints import (
-    Any,
-    ArrayLike,
-    FloatingOrNDArray,
-    Literal,
-    Union,
-)
+from colour.hints import Any, ArrayLike, NDArrayFloat, Literal, Union
 from colour.utilities import (
     CanonicalMapping,
     as_float,
@@ -68,7 +62,7 @@ __all__ = [
 ]
 
 
-def yellowness_ASTMD1925(XYZ: ArrayLike) -> FloatingOrNDArray:
+def yellowness_ASTMD1925(XYZ: ArrayLike) -> NDArrayFloat:
     """
     Return the *yellowness* index :math:`YI` of given sample *CIE XYZ*
     tristimulus values using *ASTM D1925* method.
@@ -86,7 +80,7 @@ def yellowness_ASTMD1925(XYZ: ArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.ndarray`
         *Yellowness* :math:`YI`.
 
     Notes
@@ -125,7 +119,7 @@ def yellowness_ASTMD1925(XYZ: ArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_100(YI))
 
 
-def yellowness_ASTME313_alternative(XYZ: ArrayLike) -> FloatingOrNDArray:
+def yellowness_ASTME313_alternative(XYZ: ArrayLike) -> NDArrayFloat:
     """
     Return the *yellowness* index :math:`YI` of given sample *CIE XYZ*
     tristimulus values using the alternative *ASTM E313* method.
@@ -145,7 +139,7 @@ def yellowness_ASTME313_alternative(XYZ: ArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.ndarray`
         *Yellowness* :math:`YI`.
 
     Notes
@@ -226,7 +220,7 @@ def yellowness_ASTME313(
     C_XZ: ArrayLike = YELLOWNESS_COEFFICIENTS_ASTME313[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Return the *yellowness* index :math:`YI` of given sample *CIE XYZ*
     tristimulus values using *ASTM E313* method.
@@ -246,7 +240,7 @@ def yellowness_ASTME313(
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.ndarray`
         *Yellowness* :math:`YI`.
 
     Notes
@@ -305,7 +299,7 @@ def yellowness(
         Literal["ASTM D1925", "ASTM E313", "ASTM E313 Alternative"], str
     ] = "ASTM E313",
     **kwargs: Any,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Return the *yellowness* :math:`W` using given method.
 
@@ -327,7 +321,7 @@ def yellowness(
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.ndarray`
         *Yellowness* :math:`Y`.
 
     Notes

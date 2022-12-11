@@ -19,7 +19,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
@@ -35,7 +35,7 @@ __all__ = [
 ]
 
 
-def log_encoding_DJIDLog(x: FloatingOrArrayLike) -> FloatingOrNDArray:
+def log_encoding_DJIDLog(x: ArrayLike) -> NDArrayFloat:
     """
     Define the *DJI D-Log* log encoding curve.
 
@@ -46,7 +46,7 @@ def log_encoding_DJIDLog(x: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *DJI D-Log* encoded data :math:`y`.
 
     References
@@ -84,7 +84,7 @@ def log_encoding_DJIDLog(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_1(y))
 
 
-def log_decoding_DJIDLog(y: FloatingOrArrayLike) -> FloatingOrNDArray:
+def log_decoding_DJIDLog(y: ArrayLike) -> NDArrayFloat:
     """
     Define the *DJI D-Log* log decoding curve.
 
@@ -95,7 +95,7 @@ def log_decoding_DJIDLog(y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear reflection data :math`x`.
 
     References

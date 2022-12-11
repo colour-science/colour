@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import Floating, Literal, Union
+from colour.hints import Literal, Union
 
 from .datasets import *  # noqa
 from . import datasets
@@ -65,7 +65,7 @@ def colour_fidelity_index(
     additional_data=False,
     method: Union[Literal["CIE 2017", "ANSI/IES TM-30-18"], str] = "CIE 2017",
 ) -> Union[
-    Floating,
+    float,
     ColourRendering_Specification_CIE2017,
     ColourQuality_Specification_ANSIIESTM3018,
 ]:
@@ -84,7 +84,7 @@ def colour_fidelity_index(
 
     Returns
     -------
-    :class:`numpy.floating` or \
+    :class:`float` or \
 :class:`colour.quality.ColourRendering_Specification_CIE2017` or \
 :class:`colour.quality.ColourQuality_Specification_ANSIIESTM3018`
         *Colour Fidelity Index* (CFI) :math:`R_f`.

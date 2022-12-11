@@ -49,15 +49,7 @@ from colour.appearance.ciecam02 import (
     temporary_magnitude_quantity_inverse,
     viewing_conditions_dependent_parameters,
 )
-from colour.hints import (
-    ArrayLike,
-    Boolean,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    NDArray,
-    Optional,
-    Union,
-)
+from colour.hints import ArrayLike, NDArrayFloat, Optional, Union
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
@@ -89,10 +81,10 @@ __all__ = [
     "CAM16_to_XYZ",
 ]
 
-MATRIX_16: NDArray = CAT_CAT16
+MATRIX_16: NDArrayFloat = CAT_CAT16
 """Adaptation matrix :math:`M_{16}`."""
 
-MATRIX_INVERSE_16: NDArray = np.linalg.inv(MATRIX_16)
+MATRIX_INVERSE_16: NDArrayFloat = np.linalg.inv(MATRIX_16)
 """Inverse adaptation matrix :math:`M^{-1}_{16}`."""
 
 
@@ -163,25 +155,41 @@ class CAM_Specification_CAM16(MixinDataclassArithmetic):
     :cite:`Li2017`
     """
 
-    J: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    C: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    h: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    s: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    Q: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    M: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    H: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    HC: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    J: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    C: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    h: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    s: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    Q: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    M: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    H: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    HC: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
 
 
 def XYZ_to_CAM16(
     XYZ: ArrayLike,
     XYZ_w: ArrayLike,
-    L_A: FloatingOrArrayLike,
-    Y_b: FloatingOrArrayLike,
+    L_A: ArrayLike,
+    Y_b: ArrayLike,
     surround: Union[
         InductionFactors_CIECAM02, InductionFactors_CAM16
     ] = VIEWING_CONDITIONS_CAM16["Average"],
-    discount_illuminant: Boolean = False,
+    discount_illuminant: bool = False,
 ) -> CAM_Specification_CAM16:
     """
     Compute the *CAM16* colour appearance model correlates from given
@@ -353,13 +361,13 @@ H=275.5949861..., HC=None)
 def CAM16_to_XYZ(
     specification: CAM_Specification_CAM16,
     XYZ_w: ArrayLike,
-    L_A: FloatingOrArrayLike,
-    Y_b: FloatingOrArrayLike,
+    L_A: ArrayLike,
+    Y_b: ArrayLike,
     surround: Union[
         InductionFactors_CIECAM02, InductionFactors_CAM16
     ] = VIEWING_CONDITIONS_CAM16["Average"],
-    discount_illuminant: Boolean = False,
-) -> NDArray:
+    discount_illuminant: bool = False,
+) -> NDArrayFloat:
     """
     Convert from *CAM16* specification to *CIE XYZ* tristimulus values.
 

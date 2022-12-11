@@ -72,7 +72,7 @@ def oetf_H273_Log(L_c):
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding electrical signal :math:`V`.
 
     Notes
@@ -134,7 +134,7 @@ def oetf_inverse_H273_Log(V):
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding scene *Luminance* :math:`L_c`.
 
     Notes
@@ -195,7 +195,7 @@ def oetf_H273_LogSqrt(L_c):
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding electrical signal :math:`V`.
 
     Notes
@@ -258,7 +258,7 @@ def oetf_inverse_H273_LogSqrt(V):
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding scene *Luminance* :math:`L_c`.
 
     Notes
@@ -319,7 +319,7 @@ def oetf_H273_IEC61966_2(L_c):
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding electrical signal :math:`V`.
 
     Notes
@@ -378,7 +378,7 @@ def oetf_inverse_H273_IEC61966_2(V):
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding scene luminance :math:`L_c`.
 
     Notes
@@ -436,7 +436,7 @@ def eotf_inverse_H273_ST428_1(L_o):
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding electrical signal :math:`V`.
 
     Notes
@@ -485,7 +485,7 @@ def eotf_H273_ST428_1(V):
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding output display *Luminance* :math:`L_o` of the image.
 
     Notes

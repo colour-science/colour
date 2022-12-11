@@ -8,7 +8,6 @@ from colour.colorimetry import (
     SpectralDistribution,
     bandpass_correction_Stearns1988,
 )
-from colour.hints import Tuple
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -23,7 +22,7 @@ __all__ = [
     "TestBandpassCorrectionStearns1988",
 ]
 
-DATA_NON_BANDPASS_CORRECTED: Tuple = (
+DATA_NON_BANDPASS_CORRECTED: tuple = (
     9.3700,
     12.3200,
     12.4600,
@@ -42,7 +41,7 @@ DATA_NON_BANDPASS_CORRECTED: Tuple = (
     86.0500,
 )
 
-DATA_BANDPASS_CORRECTED: Tuple = (
+DATA_BANDPASS_CORRECTED: tuple = (
     9.12515000,
     12.57355255,
     12.69542514,

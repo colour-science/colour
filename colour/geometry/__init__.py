@@ -91,7 +91,7 @@ API_CHANGES = {
 """Defines the *colour.geometry* sub-package API changes."""
 
 if not is_documentation_building():
-    sys.modules["colour.geometry"] = geometry(  # type:ignore[assignment]
+    sys.modules["colour.geometry"] = geometry(  # pyright: ignore
         sys.modules["colour.geometry"], build_API_changes(API_CHANGES)
     )
 

@@ -15,18 +15,9 @@ import matplotlib.pyplot as plt
 from colour.algebra import normalise_maximum
 from colour.colorimetry import (
     MultiSpectralDistributions,
-    SpectralDistribution,
     sd_to_XYZ,
 )
-from colour.hints import (
-    Any,
-    Dict,
-    FloatingOrArrayLike,
-    Sequence,
-    Tuple,
-    Union,
-    cast,
-)
+from colour.hints import Any, ArrayLike, Dict, Sequence, Tuple, Union, cast
 from colour.phenomena import sd_rayleigh_scattering
 from colour.phenomena.rayleigh import (
     CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
@@ -63,11 +54,11 @@ __all__ = [
 
 @override_style()
 def plot_single_sd_rayleigh_scattering(
-    CO2_concentration: FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
-    temperature: FloatingOrArrayLike = CONSTANT_STANDARD_AIR_TEMPERATURE,
-    pressure: FloatingOrArrayLike = CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
-    latitude: FloatingOrArrayLike = CONSTANT_DEFAULT_LATITUDE,
-    altitude: FloatingOrArrayLike = CONSTANT_DEFAULT_ALTITUDE,
+    CO2_concentration: ArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
+    temperature: ArrayLike = CONSTANT_STANDARD_AIR_TEMPERATURE,
+    pressure: ArrayLike = CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
+    latitude: ArrayLike = CONSTANT_DEFAULT_LATITUDE,
+    altitude: ArrayLike = CONSTANT_DEFAULT_ALTITUDE,
     cmfs: Union[
         MultiSpectralDistributions,
         str,
@@ -190,7 +181,7 @@ def plot_the_blue_sky(
         MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
     )
 
-    ASTMG173_sd = cast(SpectralDistribution, SD_ASTMG173_ETR.copy())
+    ASTMG173_sd = SD_ASTMG173_ETR.copy()
     rayleigh_sd = sd_rayleigh_scattering()
     ASTMG173_sd.align(rayleigh_sd.shape)
 
@@ -230,9 +221,7 @@ def plot_the_blue_sky(
     settings.update(kwargs)
     settings["standalone"] = False
 
-    blue_sky_color = XYZ_to_plotting_colourspace(
-        sd_to_XYZ(cast(SpectralDistribution, sd))
-    )
+    blue_sky_color = XYZ_to_plotting_colourspace(sd_to_XYZ(sd))
 
     figure, axes = plot_single_colour_swatch(
         ColourSwatch(normalise_maximum(blue_sky_color)), **settings

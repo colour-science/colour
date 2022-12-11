@@ -42,13 +42,9 @@ from colour.hints import (
     Any,
     ArrayLike,
     Callable,
-    Dict,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    Integer,
     List,
     Literal,
-    NDArray,
+    NDArrayFloat,
     Optional,
     Union,
     cast,
@@ -255,7 +251,7 @@ class Conversion_Specification(
 
 def CIECAM02_to_JMh_CIECAM02(
     specification: CAM_Specification_CIECAM02,
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert from *CIECAM02* specification to *CIECAM02* :math:`JMh`
     correlates.
@@ -281,9 +277,9 @@ def CIECAM02_to_JMh_CIECAM02(
 
     return tstack(
         [
-            cast(FloatingOrNDArray, specification.J),
-            cast(FloatingOrNDArray, specification.M),
-            cast(FloatingOrNDArray, specification.h),
+            cast(NDArrayFloat, specification.J),
+            cast(NDArrayFloat, specification.M),
+            cast(NDArrayFloat, specification.h),
         ]
     )
 
@@ -317,7 +313,7 @@ s=None, Q=None, M=0.1088421..., H=None, HC=None)
     return CAM_Specification_CIECAM02(J=J, M=M, h=h)
 
 
-def CAM16_to_JMh_CAM16(specification) -> NDArray:
+def CAM16_to_JMh_CAM16(specification) -> NDArrayFloat:
     """
     Convert from *CAM16* specification to *CAM16* :math:`JMh` correlates.
 
@@ -371,7 +367,7 @@ Q=None, M=0.1074367..., H=None, HC=None)
     return CAM_Specification_CAM16(J=J, M=M, h=h)
 
 
-def CIECAM16_to_JMh_CIECAM16(specification) -> NDArray:
+def CIECAM16_to_JMh_CIECAM16(specification) -> NDArrayFloat:
     """
     Convert from *CIECAM16* specification to *CIECAM16* :math:`JMh` correlates.
 
@@ -425,7 +421,7 @@ s=None, Q=None, M=0.1074367..., H=None, HC=None)
     return CAM_Specification_CIECAM16(J=J, M=M, h=h)
 
 
-def Hellwig2022_to_JMh_Hellwig2022(specification) -> NDArray:
+def Hellwig2022_to_JMh_Hellwig2022(specification) -> NDArrayFloat:
     """
     Convert from *Hellwig and Fairchild (2022)* specification to
     *Hellwig and Fairchild (2022)* :math:`JMh` correlates.
@@ -483,7 +479,7 @@ s=None, Q=None, M=0.0293828..., H=None, HC=None, J_HK=None, Q_HK=None)
     return CAM_Specification_Hellwig2022(J=J, M=M, h=h)
 
 
-def XYZ_to_luminance(XYZ: ArrayLike) -> FloatingOrNDArray:
+def XYZ_to_luminance(XYZ: ArrayLike) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *luminance* :math:`Y`.
 
@@ -494,7 +490,7 @@ def XYZ_to_luminance(XYZ: ArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Luminance* :math:`Y`.
 
     Examples
@@ -510,7 +506,7 @@ def XYZ_to_luminance(XYZ: ArrayLike) -> FloatingOrNDArray:
     return Y
 
 
-def RGB_luminance_to_RGB(Y: FloatingOrArrayLike) -> NDArray:
+def RGB_luminance_to_RGB(Y: ArrayLike) -> NDArrayFloat:
     """
     Convert from *luminance* :math:`Y` to *RGB*.
 
@@ -538,7 +534,7 @@ def RGB_luminance_to_RGB(Y: FloatingOrArrayLike) -> NDArray:
 _ILLUMINANT_DEFAULT: str = "D65"
 """Default automatic colour conversion graph illuminant name."""
 
-_CCS_ILLUMINANT_DEFAULT: NDArray = CCS_ILLUMINANTS[
+_CCS_ILLUMINANT_DEFAULT: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][_ILLUMINANT_DEFAULT]
 """
@@ -546,7 +542,7 @@ Default automatic colour conversion graph illuminant *CIE xy* chromaticity
 coordinates.
 """
 
-_TVS_ILLUMINANT_DEFAULT: NDArray = xy_to_XYZ(_CCS_ILLUMINANT_DEFAULT)
+_TVS_ILLUMINANT_DEFAULT: NDArrayFloat = xy_to_XYZ(_CCS_ILLUMINANT_DEFAULT)
 """
 Default automatic colour conversion graph illuminant *CIE XYZ* tristimulus
 values.
@@ -555,7 +551,7 @@ values.
 _RGB_COLOURSPACE_DEFAULT: RGB_Colourspace = RGB_COLOURSPACE_sRGB
 """Default automatic colour conversion graph *RGB* colourspace."""
 
-_CAM_KWARGS_CIECAM02_sRGB: Dict = CAM_KWARGS_CIECAM02_sRGB.copy()
+_CAM_KWARGS_CIECAM02_sRGB: dict = CAM_KWARGS_CIECAM02_sRGB.copy()
 """
 Default parameter values for the *CIECAM02* colour appearance model usage in
 the context of *sRGB*.
@@ -568,7 +564,7 @@ for the domain-range scale **'1'**.
 
 _CAM_KWARGS_CIECAM02_sRGB["XYZ_w"] = _CAM_KWARGS_CIECAM02_sRGB["XYZ_w"] / 100
 
-CONVERSION_SPECIFICATIONS_DATA: List = [
+CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
     # Colorimetry
     ("Spectral Distribution", "CIE XYZ", sd_to_XYZ),
     ("CIE XYZ", "Spectral Distribution", XYZ_to_sd),
@@ -922,7 +918,7 @@ Automatic colour conversion graph specifications data describing two nodes and
 the edge in the graph.
 """
 
-CONVERSION_SPECIFICATIONS: List = [
+CONVERSION_SPECIFICATIONS: list = [
     Conversion_Specification(*specification)
     for specification in CONVERSION_SPECIFICATIONS_DATA
 ]
@@ -931,7 +927,7 @@ Automatic colour conversion graph specifications describing two nodes and
 the edge in the graph.
 """
 
-CONVERSION_GRAPH_NODE_LABELS: Dict = {
+CONVERSION_GRAPH_NODE_LABELS: dict = {
     specification[0].lower(): specification[0]
     for specification in CONVERSION_SPECIFICATIONS_DATA
 }
@@ -946,7 +942,7 @@ CONVERSION_GRAPH_NODE_LABELS.update(
 
 
 @required("NetworkX")
-def _build_graph() -> networkx.DiGraph:  # type: ignore[name-defined]  # noqa
+def _build_graph() -> networkx.DiGraph:  # pyright: ignore  # noqa
     """
     Build the automatic colour conversion graph.
 
@@ -970,8 +966,8 @@ def _build_graph() -> networkx.DiGraph:  # type: ignore[name-defined]  # noqa
     return graph
 
 
-CONVERSION_GRAPH: (  # type: ignore[name-defined]
-    Optional[networkx.DiGraph]  # noqa
+CONVERSION_GRAPH: (
+    Optional[networkx.DiGraph]  # pyright: ignore  # noqa
 ) = None
 """Automatic colour conversion graph."""
 
@@ -1014,7 +1010,9 @@ def _conversion_path(source: str, target: str) -> List[Callable]:
     path = nx.shortest_path(CONVERSION_GRAPH, source, target)
 
     return [
-        CONVERSION_GRAPH.get_edge_data(a, b)["conversion_function"]
+        CONVERSION_GRAPH.get_edge_data(a, b)[  # pyright: ignore
+            "conversion_function"
+        ]
         for a, b in zip(path[:-1], path[1:])
     ]
 
@@ -1043,8 +1041,8 @@ def describe_conversion_path(
     source: str,
     target: str,
     mode: Union[Literal["Short", "Long", "Extended"], str] = "Short",
-    width: Integer = 79,
-    padding: Integer = 3,
+    width: int = 79,
+    padding: int = 3,
     print_callable: Callable = print,
     **kwargs: Any,
 ):
@@ -1092,7 +1090,7 @@ def describe_conversion_path(
     try:  # pragma: no cover
         signature_inspection = inspect.signature
     except AttributeError:  # pragma: no cover
-        signature_inspection = inspect.getfullargspec  # type: ignore[assignment]
+        signature_inspection = inspect.getfullargspec
 
     source, target = source.lower(), target.lower()
     mode = validate_method(

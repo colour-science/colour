@@ -14,7 +14,7 @@ from colour.colorimetry import (
     rayleigh_jeans_law,
     sd_rayleigh_jeans,
 )
-from colour.hints import Dict, NDArray
+from colour.hints import NDArrayFloat
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
@@ -36,7 +36,7 @@ __all__ = [
 ]
 
 
-DATA_PLANCK_LAW: Dict = {
+DATA_PLANCK_LAW: dict = {
     1667: np.array(
         [
             0.000000000000000e000,
@@ -139,7 +139,7 @@ DATA_PLANCK_LAW: Dict = {
     ),
 }
 
-DATA_BLACKBODY: NDArray = np.array(
+DATA_BLACKBODY: NDArrayFloat = np.array(
     [
         6654.27827064,
         6709.60527925,
@@ -615,7 +615,7 @@ DATA_BLACKBODY: NDArray = np.array(
     ]
 )
 
-DATA_RAYLEIGH_JEANS_LAW: Dict = {
+DATA_RAYLEIGH_JEANS_LAW: dict = {
     1667: np.array(
         [
             1.379970796097092e25,
@@ -718,7 +718,7 @@ DATA_RAYLEIGH_JEANS_LAW: Dict = {
     ),
 }
 
-DATA_RAYLEIGH_JEANS: NDArray = np.array(
+DATA_RAYLEIGH_JEANS: NDArrayFloat = np.array(
     [
         2464304.08580116,
         2437112.02495309,

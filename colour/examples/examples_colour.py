@@ -140,8 +140,8 @@ print(colour.CCT_to_xy(CCT))
 print("\n")
 
 message_box(
-    'Definitions mixing "ArrayLike" and "Number" parameters expect the '
-    '"Number" parameters to have a dimension less than the "ArrayLike" '
+    'Definitions mixing "ArrayLike" and "Real" parameters expect the '
+    '"Real" parameters to have a dimension less than the "ArrayLike" '
     "parameters."
 )
 XYZ_1 = np.array([28.00, 21.26, 5.27])
