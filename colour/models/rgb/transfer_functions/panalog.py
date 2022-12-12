@@ -19,7 +19,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     as_float,
     as_float_array,
@@ -41,9 +41,9 @@ __all__ = [
 
 
 def log_encoding_Panalog(
-    x: FloatingOrArrayLike,
-    black_offset: FloatingOrArrayLike = 10 ** ((64 - 681) / 444),
-) -> FloatingOrNDArray:
+    x: ArrayLike,
+    black_offset: ArrayLike = 10 ** ((64 - 681) / 444),
+) -> NDArrayFloat:
     """
     Define the *Panalog* log encoding curve / opto-electronic transfer
     function.
@@ -57,7 +57,7 @@ def log_encoding_Panalog(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Non-linear data :math:`y`.
 
     Warnings
@@ -98,9 +98,9 @@ def log_encoding_Panalog(
 
 
 def log_decoding_Panalog(
-    y: FloatingOrArrayLike,
-    black_offset: FloatingOrArrayLike = 10 ** ((64 - 681) / 444),
-) -> FloatingOrNDArray:
+    y: ArrayLike,
+    black_offset: ArrayLike = 10 ** ((64 - 681) / 444),
+) -> NDArrayFloat:
     """
     Define the *Panalog* log decoding curve / electro-optical transfer
     function.
@@ -114,7 +114,7 @@ def log_decoding_Panalog(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear data :math:`x`.
 
     Warnings

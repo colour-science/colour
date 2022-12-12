@@ -18,7 +18,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
     log_encoding_FLog,
@@ -42,7 +42,7 @@ __all__ = [
     "RGB_COLOURSPACE_F_GAMUT",
 ]
 
-PRIMARIES_F_GAMUT: NDArray = np.array(
+PRIMARIES_F_GAMUT: NDArrayFloat = np.array(
     [
         [0.70800, 0.29200],
         [0.17000, 0.79700],
@@ -54,17 +54,17 @@ PRIMARIES_F_GAMUT: NDArray = np.array(
 WHITEPOINT_NAME_F_GAMUT: str = "D65"
 """*Fujifilm F-Gamut* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_F_GAMUT: NDArray = CCS_ILLUMINANTS[
+CCS_WHITEPOINT_F_GAMUT: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_F_GAMUT]
 """*Fujifilm F-Gamut* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_F_GAMUT_TO_XYZ: NDArray = normalised_primary_matrix(
+MATRIX_F_GAMUT_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
     PRIMARIES_F_GAMUT, CCS_WHITEPOINT_F_GAMUT
 )
 """*Fujifilm F-Gamut* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_F_GAMUT: NDArray = np.linalg.inv(MATRIX_F_GAMUT_TO_XYZ)
+MATRIX_XYZ_TO_F_GAMUT: NDArrayFloat = np.linalg.inv(MATRIX_F_GAMUT_TO_XYZ)
 """*CIE XYZ* tristimulus values to *Fujifilm F-Gamut* colourspace matrix."""
 
 RGB_COLOURSPACE_F_GAMUT: RGB_Colourspace = RGB_Colourspace(

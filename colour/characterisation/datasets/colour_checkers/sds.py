@@ -48,7 +48,6 @@ from __future__ import annotations
 from functools import partial
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import Dict
 from colour.utilities import CanonicalMapping, LazyCanonicalMapping
 
 __author__ = "Colour Developers"
@@ -71,7 +70,7 @@ __all__ = [
     "SDS_COLOURCHECKERS",
 ]
 
-DATA_BABELCOLOR_AVERAGE: Dict = dict(
+DATA_BABELCOLOR_AVERAGE: dict = dict(
     [
         (
             "dark skin",

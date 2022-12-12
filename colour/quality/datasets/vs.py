@@ -31,7 +31,6 @@ usp=sharing
 from __future__ import annotations
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import Dict
 from colour.utilities import CanonicalMapping
 
 __author__ = "Colour Developers"
@@ -49,7 +48,7 @@ __all__ = [
     "SDS_VS",
 ]
 
-INDEXES_TO_NAMES_VS: Dict = {
+INDEXES_TO_NAMES_VS: dict = {
     1: "VS1",
     2: "VS2",
     3: "VS3",
@@ -114,7 +113,7 @@ APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS90: CanonicalMapping = (
 )
 """*NIST CQS 9.0* test colour samples *Munsell* colour approximations."""
 
-DATA_VS: Dict = {
+DATA_VS: dict = {
     "NIST CQS 7.4": {
         "VS1": {
             380: 0.1086,

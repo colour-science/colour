@@ -883,7 +883,7 @@ API_CHANGES["ObjectRenamed"].extend(
 """Defines the *colour.models* sub-package API changes."""
 
 if not is_documentation_building():
-    sys.modules["colour.models"] = models(  # type: ignore[assignment]
+    sys.modules["colour.models"] = models(  # pyright: ignore
         sys.modules["colour.models"], build_API_changes(API_CHANGES)
     )
 

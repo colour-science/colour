@@ -15,7 +15,7 @@ from colour.corresponding import (
     CorrespondingColourDataset,
     corresponding_chromaticities_prediction,
 )
-from colour.hints import Any, Dict, Literal, Optional, Tuple, Union
+from colour.hints import Any, Dict, Literal, Optional, Tuple, Union, cast
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
     artist,
@@ -52,7 +52,7 @@ def plot_corresponding_chromaticities_prediction(
         ],
         str,
     ] = "Von Kries",
-    corresponding_chromaticities_prediction_kwargs: Optional[Dict] = None,
+    corresponding_chromaticities_prediction_kwargs: Optional[dict] = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -106,7 +106,7 @@ Plot_Corresponding_Chromaticities_Prediction.png
     name = (
         f"Experiment {experiment}"
         if is_numeric(experiment)
-        else experiment.name  # type: ignore[union-attr]
+        else cast(CorrespondingColourDataset, experiment).name
     )
     title = (
         f"Corresponding Chromaticities Prediction - {model} - {name} - "

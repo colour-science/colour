@@ -7,7 +7,6 @@ import os
 import unittest
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import Dict
 from colour.io import read_sds_from_xrite_file
 
 __author__ = "Colour Developers"
@@ -25,7 +24,7 @@ __all__ = [
 
 ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 
-COLOURCHECKER_XRITE_1: Dict = {
+COLOURCHECKER_XRITE_1: dict = {
     380.0: 0.0069,
     390.0: 0.0069,
     400.0: 0.0068,

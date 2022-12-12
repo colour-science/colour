@@ -22,7 +22,7 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
     gamma_function,
@@ -51,7 +51,7 @@ __all__ = [
     "RGB_COLOURSPACE_BT470_625",
 ]
 
-PRIMARIES_BT470_525: NDArray = np.array(
+PRIMARIES_BT470_525: NDArrayFloat = np.array(
     [
         [0.6700, 0.3300],
         [0.2100, 0.7100],
@@ -63,7 +63,7 @@ PRIMARIES_BT470_525: NDArray = np.array(
 WHITEPOINT_NAME_BT470_525: str = "C"
 """*Recommendation ITU-R BT.470 - 525* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_BT470_525: NDArray = CCS_ILLUMINANTS[
+CCS_WHITEPOINT_BT470_525: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_BT470_525]
 """
@@ -71,7 +71,7 @@ CCS_WHITEPOINT_BT470_525: NDArray = CCS_ILLUMINANTS[
 coordinates.
 """
 
-MATRIX_BT470_525_TO_XYZ: NDArray = normalised_primary_matrix(
+MATRIX_BT470_525_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
     PRIMARIES_BT470_525, CCS_WHITEPOINT_BT470_525
 )
 """
@@ -79,7 +79,7 @@ MATRIX_BT470_525_TO_XYZ: NDArray = normalised_primary_matrix(
 matrix.
 """
 
-MATRIX_XYZ_TO_BT470_525: NDArray = np.linalg.inv(MATRIX_BT470_525_TO_XYZ)
+MATRIX_XYZ_TO_BT470_525: NDArrayFloat = np.linalg.inv(MATRIX_BT470_525_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *Recommendation ITU-R BT.470 - 525* colourspace
 matrix.
@@ -103,7 +103,7 @@ References
 :cite:`InternationalTelecommunicationUnion1998a`
 """
 
-PRIMARIES_BT470_625: NDArray = np.array(
+PRIMARIES_BT470_625: NDArrayFloat = np.array(
     [
         [0.6400, 0.3300],
         [0.2900, 0.6000],
@@ -115,7 +115,7 @@ PRIMARIES_BT470_625: NDArray = np.array(
 WHITEPOINT_NAME_BT470_625: str = "D65"
 """*Recommendation ITU-R BT.470 - 625* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_BT470_625: NDArray = CCS_ILLUMINANTS[
+CCS_WHITEPOINT_BT470_625: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_BT470_625]
 """
@@ -123,7 +123,7 @@ CCS_WHITEPOINT_BT470_625: NDArray = CCS_ILLUMINANTS[
 coordinates.
 """
 
-MATRIX_BT470_625_TO_XYZ: NDArray = normalised_primary_matrix(
+MATRIX_BT470_625_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
     PRIMARIES_BT470_625, CCS_WHITEPOINT_BT470_625
 )
 """
@@ -131,7 +131,7 @@ MATRIX_BT470_625_TO_XYZ: NDArray = normalised_primary_matrix(
 matrix.
 """
 
-MATRIX_XYZ_TO_BT470_625: NDArray = np.linalg.inv(MATRIX_BT470_625_TO_XYZ)
+MATRIX_XYZ_TO_BT470_625: NDArrayFloat = np.linalg.inv(MATRIX_BT470_625_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *Recommendation ITU-R BT.470 - 625* colourspace
 matrix.

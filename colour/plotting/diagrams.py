@@ -31,14 +31,11 @@ from colour.colorimetry import (
 from colour.hints import (
     Any,
     ArrayLike,
-    Boolean,
-    Callable,
     Dict,
-    Floating,
-    Integer,
+    Callable,
     List,
     Literal,
-    NDArray,
+    NDArrayFloat,
     Optional,
     Sequence,
     Tuple,
@@ -107,7 +104,7 @@ def plot_spectral_locus(
         Sequence[Union[MultiSpectralDistributions, str]],
     ] = "CIE 1931 2 Degree Standard Observer",
     spectral_locus_colours: Optional[Union[ArrayLike, str]] = None,
-    spectral_locus_opacity: Floating = 1,
+    spectral_locus_opacity: float = 1,
     spectral_locus_labels: Optional[Sequence] = None,
     method: Union[
         Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"], str
@@ -179,94 +176,86 @@ def plot_spectral_locus(
     wavelengths = list(cmfs.wavelengths)
     equal_energy = np.array([1 / 3] * 2)
 
+    labels = tuple()
     if method == "cie 1931":
         ij = XYZ_to_xy(cmfs.values, illuminant)
-        labels = cast(
-            Tuple,
-            optional(
-                spectral_locus_labels,
-                (
-                    390,
-                    460,
-                    470,
-                    480,
-                    490,
-                    500,
-                    510,
-                    520,
-                    540,
-                    560,
-                    580,
-                    600,
-                    620,
-                    700,
-                ),
+        labels = optional(
+            spectral_locus_labels,
+            (
+                390,
+                460,
+                470,
+                480,
+                490,
+                500,
+                510,
+                520,
+                540,
+                560,
+                580,
+                600,
+                620,
+                700,
             ),
         )
     elif method == "cie 1960 ucs":
         ij = UCS_to_uv(XYZ_to_UCS(cmfs.values))
-        labels = cast(
-            Tuple,
-            optional(
-                spectral_locus_labels,
-                (
-                    420,
-                    440,
-                    450,
-                    460,
-                    470,
-                    480,
-                    490,
-                    500,
-                    510,
-                    520,
-                    530,
-                    540,
-                    550,
-                    560,
-                    570,
-                    580,
-                    590,
-                    600,
-                    610,
-                    620,
-                    630,
-                    645,
-                    680,
-                ),
+        labels = optional(
+            spectral_locus_labels,
+            (
+                420,
+                440,
+                450,
+                460,
+                470,
+                480,
+                490,
+                500,
+                510,
+                520,
+                530,
+                540,
+                550,
+                560,
+                570,
+                580,
+                590,
+                600,
+                610,
+                620,
+                630,
+                645,
+                680,
             ),
         )
     elif method == "cie 1976 ucs":
         ij = Luv_to_uv(XYZ_to_Luv(cmfs.values, illuminant), illuminant)
-        labels = cast(
-            Tuple,
-            optional(
-                spectral_locus_labels,
-                (
-                    420,
-                    440,
-                    450,
-                    460,
-                    470,
-                    480,
-                    490,
-                    500,
-                    510,
-                    520,
-                    530,
-                    540,
-                    550,
-                    560,
-                    570,
-                    580,
-                    590,
-                    600,
-                    610,
-                    620,
-                    630,
-                    645,
-                    680,
-                ),
+        labels = optional(
+            spectral_locus_labels,
+            (
+                420,
+                440,
+                450,
+                460,
+                470,
+                480,
+                490,
+                500,
+                510,
+                520,
+                530,
+                540,
+                550,
+                560,
+                570,
+                580,
+                590,
+                600,
+                610,
+                620,
+                630,
+                645,
+                680,
             ),
         )
 
@@ -342,12 +331,12 @@ def plot_spectral_locus(
             > 0
             else np.array([dy, -dx])
         )
-        normal = as_float_array(normalise_vector(normal) / 30)
+        normal = normalise_vector(normal) / 30
 
         label_colour = (
             spectral_locus_colours
             if is_string(spectral_locus_colours)
-            else spectral_locus_colours[index]  # type: ignore[index]
+            else cast(NDArrayFloat, spectral_locus_colours)[index]
         )
         axes.plot(
             (i, i + normal[0] * 0.75),
@@ -385,9 +374,9 @@ def plot_spectral_locus(
 
 @override_style()
 def plot_chromaticity_diagram_colours(
-    samples: Integer = 256,
+    samples: int = 256,
     diagram_colours: Optional[Union[ArrayLike, str]] = None,
-    diagram_opacity: Floating = 1,
+    diagram_opacity: float = 1,
     diagram_clipping_path: Optional[ArrayLike] = None,
     cmfs: Union[
         MultiSpectralDistributions,
@@ -533,8 +522,8 @@ def plot_chromaticity_diagram(
         str,
         Sequence[Union[MultiSpectralDistributions, str]],
     ] = "CIE 1931 2 Degree Standard Observer",
-    show_diagram_colours: Boolean = True,
-    show_spectral_locus: Boolean = True,
+    show_diagram_colours: bool = True,
+    show_spectral_locus: bool = True,
     method: Union[
         Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"], str
     ] = "CIE 1931",
@@ -643,8 +632,8 @@ def plot_chromaticity_diagram_CIE1931(
         str,
         Sequence[Union[MultiSpectralDistributions, str]],
     ] = "CIE 1931 2 Degree Standard Observer",
-    show_diagram_colours: Boolean = True,
-    show_spectral_locus: Boolean = True,
+    show_diagram_colours: bool = True,
+    show_spectral_locus: bool = True,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -699,8 +688,8 @@ def plot_chromaticity_diagram_CIE1960UCS(
         str,
         Sequence[Union[MultiSpectralDistributions, str]],
     ] = "CIE 1931 2 Degree Standard Observer",
-    show_diagram_colours: Boolean = True,
-    show_spectral_locus: Boolean = True,
+    show_diagram_colours: bool = True,
+    show_spectral_locus: bool = True,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -755,8 +744,8 @@ def plot_chromaticity_diagram_CIE1976UCS(
         str,
         Sequence[Union[MultiSpectralDistributions, str]],
     ] = "CIE 1931 2 Degree Standard Observer",
-    show_diagram_colours: Boolean = True,
-    show_spectral_locus: Boolean = True,
+    show_diagram_colours: bool = True,
+    show_spectral_locus: bool = True,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -819,8 +808,8 @@ def plot_sds_in_chromaticity_diagram(
     method: Union[
         Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"], str
     ] = "CIE 1931",
-    annotate_kwargs: Optional[Union[Dict, List[Dict]]] = None,
-    plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+    annotate_kwargs: Optional[Union[dict, List[dict]]] = None,
+    plot_kwargs: Optional[Union[dict, List[dict]]] = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -834,7 +823,7 @@ def plot_sds_in_chromaticity_diagram(
         plot. `sds` can be a single
         :class:`colour.MultiSpectralDistributions` class instance, a list
         of :class:`colour.MultiSpectralDistributions` class instances or a
-        list of :class:`colour.SpectralDistribution` class instances.
+        List of :class:`colour.SpectralDistribution` class instances.
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
@@ -944,7 +933,7 @@ def plot_sds_in_chromaticity_diagram(
 
     if method == "cie 1931":
 
-        def XYZ_to_ij(XYZ: NDArray) -> NDArray:
+        def XYZ_to_ij(XYZ: NDArrayFloat) -> NDArrayFloat:
             """
             Convert given *CIE XYZ* tristimulus values to *ij* chromaticity
             coordinates.
@@ -955,7 +944,7 @@ def plot_sds_in_chromaticity_diagram(
         bounding_box = (-0.1, 0.9, -0.1, 0.9)
     elif method == "cie 1960 ucs":
 
-        def XYZ_to_ij(XYZ: NDArray) -> NDArray:
+        def XYZ_to_ij(XYZ: NDArrayFloat) -> NDArrayFloat:
             """
             Convert given *CIE XYZ* tristimulus values to *ij* chromaticity
             coordinates.
@@ -967,7 +956,7 @@ def plot_sds_in_chromaticity_diagram(
 
     elif method == "cie 1976 ucs":
 
-        def XYZ_to_ij(XYZ: NDArray) -> NDArray:
+        def XYZ_to_ij(XYZ: NDArrayFloat) -> NDArrayFloat:
             """
             Convert given *CIE XYZ* tristimulus values to *ij* chromaticity
             coordinates.
@@ -1077,8 +1066,8 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
     chromaticity_diagram_callable_CIE1931: Callable = (
         plot_chromaticity_diagram_CIE1931
     ),
-    annotate_kwargs: Optional[Union[Dict, List[Dict]]] = None,
-    plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+    annotate_kwargs: Optional[Union[dict, List[dict]]] = None,
+    plot_kwargs: Optional[Union[dict, List[dict]]] = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -1189,8 +1178,8 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
     chromaticity_diagram_callable_CIE1960UCS: Callable = (
         plot_chromaticity_diagram_CIE1960UCS
     ),
-    annotate_kwargs: Optional[Union[Dict, List[Dict]]] = None,
-    plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+    annotate_kwargs: Optional[Union[dict, List[dict]]] = None,
+    plot_kwargs: Optional[Union[dict, List[dict]]] = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -1302,8 +1291,8 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
     chromaticity_diagram_callable_CIE1976UCS: Callable = (
         plot_chromaticity_diagram_CIE1976UCS
     ),
-    annotate_kwargs: Optional[Union[Dict, List[Dict]]] = None,
-    plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+    annotate_kwargs: Optional[Union[dict, List[dict]]] = None,
+    plot_kwargs: Optional[Union[dict, List[dict]]] = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """

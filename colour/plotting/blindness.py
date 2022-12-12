@@ -17,7 +17,6 @@ from colour.hints import (
     Any,
     ArrayLike,
     Dict,
-    Floating,
     Literal,
     Optional,
     Tuple,
@@ -45,7 +44,7 @@ def plot_cvd_simulation_Machado2009(
     deficiency: Union[
         Literal["Deuteranomaly", "Protanomaly", "Tritanomaly"], str
     ] = "Protanomaly",
-    severity: Floating = 0.5,
+    severity: float = 0.5,
     M_a: Optional[ArrayLike] = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:

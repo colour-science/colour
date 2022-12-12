@@ -140,17 +140,7 @@ from colour.models.rgb.transfer_functions import (
     oetf_H273_LogSqrt,
     oetf_SMPTE240M,
 )
-from colour.hints import (
-    Any,
-    Boolean,
-    Callable,
-    Dict,
-    Integer,
-    List,
-    NDArray,
-    Tuple,
-    Union,
-)
+from colour.hints import Any, Callable, Dict, NDArrayFloat, Union
 from colour.utilities import message_box, multiline_str
 from colour.utilities.documentation import (
     DocstringDict,
@@ -196,7 +186,7 @@ __all__ = [
 
 
 def _clipped_domain_function(
-    function: Callable, domain: Union[List, Tuple] = (0, 1)
+    function: Callable, domain: Union[list, tuple] = (0, 1)
 ) -> Callable:
     """
     Wrap given function and produce a new callable clipping the input value to
@@ -260,7 +250,7 @@ def _unspecified(*args: Any):
     )
 
 
-COLOUR_PRIMARIES_ITUTH273: Dict[Integer, NDArray] = {
+COLOUR_PRIMARIES_ITUTH273: Dict[int, NDArrayFloat] = {
     0: np.array("Reserved"),
     # For future use by ITU-T | ISO/IEC.
     #
@@ -405,7 +395,7 @@ class FFmpegConstantsColourPrimaries_ITUTH273(IntEnum):
     NB = AVCOL_PRI_NB
 
 
-TRANSFER_CHARACTERISTICS_ITUTH273: Dict[Integer, Callable] = {
+TRANSFER_CHARACTERISTICS_ITUTH273: Dict[int, Callable] = {
     0: _reserved,
     # For future use by ITU-T | ISO/IEC.
     #
@@ -582,7 +572,7 @@ class FFmpegConstantsTransferCharacteristics_ITUTH273(IntEnum):
     NB = AVCOL_TRC_NB
 
 
-MATRIX_COEFFICIENTS_ITUTH273: Dict[Integer, NDArray] = {
+MATRIX_COEFFICIENTS_ITUTH273: Dict[int, NDArrayFloat] = {
     0: np.array("Identity"),
     # The identity matrix. Typically used for GBR (often referred to as RGB);
     # however, may also be used for YZX (often referred to as XYZ);
@@ -722,7 +712,7 @@ class FFmpegConstantsMatrixCoefficients_ITUTH273(IntEnum):
     NB = AVCOL_SPC_NB
 
 
-CCS_WHITEPOINTS_ITUTH273: Dict[Integer, NDArray] = {
+CCS_WHITEPOINTS_ITUTH273: Dict[int, NDArrayFloat] = {
     0: np.array("Reserved"),
     1: CCS_WHITEPOINT_BT709,
     2: np.array("Unspecified"),
@@ -764,7 +754,7 @@ Notes
 """
 
 
-WHITEPOINT_NAMES_ITUTH273: Dict[Integer, str] = {
+WHITEPOINT_NAMES_ITUTH273: Dict[int, str] = {
     0: "Reserved",
     1: WHITEPOINT_NAME_BT709,
     2: "Unspecified",
@@ -904,7 +894,7 @@ MATRICES_XYZ_TO_ISO14496_10_RGB = MATRICES_XYZ_TO_ITUTH273_RGB
 
 
 def describe_video_signal_colour_primaries(
-    code_point: Integer, print_description: Boolean = True, **kwargs
+    code_point: int, print_description: bool = True, **kwargs
 ) -> str:
     """
     Describe given video signal colour primaries code point.
@@ -1007,13 +997,13 @@ def describe_video_signal_colour_primaries(
     class SpecificationColourPrimaries:
         """Specification for video signal colour primaries code point."""
 
-        code_point: Integer
-        primaries: NDArray
-        whitepoint: NDArray
+        code_point: int
+        primaries: NDArrayFloat
+        whitepoint: NDArrayFloat
         whitepoint_name: str
-        matrix_RGB_to_XYZ: NDArray
-        matrix_XYZ_to_RGB: NDArray
-        ffmpeg_constants: List
+        matrix_RGB_to_XYZ: NDArrayFloat
+        matrix_XYZ_to_RGB: NDArrayFloat
+        ffmpeg_constants: list
 
     members = FFmpegConstantsColourPrimaries_ITUTH273.__members__.items()
     ffmpeg_constants = [
@@ -1060,7 +1050,7 @@ def describe_video_signal_colour_primaries(
 
 
 def describe_video_signal_transfer_characteristics(
-    code_point: Integer, print_description: Boolean = True, **kwargs
+    code_point: int, print_description: bool = True, **kwargs
 ) -> str:
     """
     Describe given video signal transfer characteristics code point.
@@ -1147,9 +1137,9 @@ def describe_video_signal_transfer_characteristics(
     class SpecificationTransferCharacteristics:
         """Specification for video signal transfer characteristics code point."""
 
-        code_point: Integer
+        code_point: int
         function: Callable
-        ffmpeg_constants: List
+        ffmpeg_constants: list
 
     members = (
         FFmpegConstantsTransferCharacteristics_ITUTH273.__members__.items()
@@ -1190,7 +1180,7 @@ def describe_video_signal_transfer_characteristics(
 
 
 def describe_video_signal_matrix_coefficients(
-    code_point: Integer, print_description: Boolean = True, **kwargs
+    code_point: int, print_description: bool = True, **kwargs
 ) -> str:
     """
     Describe given video signal matrix coefficients code point.
@@ -1269,9 +1259,9 @@ def describe_video_signal_matrix_coefficients(
     class SpecificationMatrixCoefficients:
         """Specification for video signal matrix coefficients code point."""
 
-        code_point: Integer
-        matrix_coefficients: NDArray
-        ffmpeg_constants: List
+        code_point: int
+        matrix_coefficients: NDArrayFloat
+        ffmpeg_constants: list
 
     members = FFmpegConstantsMatrixCoefficients_ITUTH273.__members__.items()
     ffmpeg_constants = [

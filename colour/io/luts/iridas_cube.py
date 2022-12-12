@@ -20,7 +20,7 @@ import numpy as np
 
 from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence
 from colour.io.luts.common import path_to_title
-from colour.hints import Boolean, Integer, List, Tuple, Union
+from colour.hints import Union
 from colour.utilities import (
     as_float_array,
     as_int_scalar,
@@ -120,8 +120,8 @@ def read_LUT_IridasCube(path: str) -> Union[LUT3x1D, LUT3D]:
 
     title = path_to_title(path)
     domain_min, domain_max = np.array([0, 0, 0]), np.array([1, 1, 1])
-    dimensions: Integer = 3
-    size: Integer = 2
+    dimensions: int = 3
+    size: int = 2
     data = []
     comments = []
 
@@ -180,8 +180,8 @@ def read_LUT_IridasCube(path: str) -> Union[LUT3x1D, LUT3D]:
 
 
 def write_LUT_IridasCube(
-    LUT: Union[LUT3x1D, LUT3D, LUTSequence], path: str, decimals: Integer = 7
-) -> Boolean:
+    LUT: Union[LUT3x1D, LUT3D, LUTSequence], path: str, decimals: int = 7
+) -> bool:
     """
     Write given *LUT* to given  *Iridas* *.cube* *LUT* file.
 
@@ -261,7 +261,7 @@ def write_LUT_IridasCube(
     else:
         attest(2 <= size <= 256, '"LUT" size must be in domain [2, 256]!')
 
-    def _format_array(array: Union[List, Tuple]) -> str:
+    def _format_array(array: Union[list, tuple]) -> str:
         """Format given array as an *Iridas* *.cube* data row."""
 
         return "{1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)

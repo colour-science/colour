@@ -25,7 +25,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import ArrayLike, NDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     as_float_array,
     from_range_1,
@@ -49,7 +49,7 @@ __all__ = [
 ]
 
 
-def RGB_to_CMY(RGB: ArrayLike) -> NDArray:
+def RGB_to_CMY(RGB: ArrayLike) -> NDArrayFloat:
     """
     Convert from *RGB* colourspace to *CMY* colourspace.
 
@@ -93,7 +93,7 @@ def RGB_to_CMY(RGB: ArrayLike) -> NDArray:
     return from_range_1(CMY)
 
 
-def CMY_to_RGB(CMY: ArrayLike) -> NDArray:
+def CMY_to_RGB(CMY: ArrayLike) -> NDArrayFloat:
     """
     Convert from *CMY* colourspace to *CMY* colourspace.
 
@@ -137,7 +137,7 @@ def CMY_to_RGB(CMY: ArrayLike) -> NDArray:
     return from_range_1(RGB)
 
 
-def CMY_to_CMYK(CMY: ArrayLike) -> NDArray:
+def CMY_to_CMYK(CMY: ArrayLike) -> NDArrayFloat:
     """
     Convert from *CMY* colourspace to *CMYK* colourspace.
 
@@ -195,7 +195,7 @@ def CMY_to_CMYK(CMY: ArrayLike) -> NDArray:
     return from_range_1(CMYK)
 
 
-def CMYK_to_CMY(CMYK: ArrayLike) -> NDArray:
+def CMYK_to_CMY(CMYK: ArrayLike) -> NDArrayFloat:
     """
     Convert from *CMYK* colourspace to *CMY* colourspace.
 

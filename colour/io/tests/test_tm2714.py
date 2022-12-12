@@ -13,7 +13,7 @@ import textwrap
 from copy import deepcopy
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import Dict, List, Optional, Tuple, Union, cast
+from colour.hints import Optional, List, Tuple, Union, cast
 from colour.io.tm2714 import Header_IESTM2714, SpectralDistribution_IESTM2714
 from colour.utilities import optional
 
@@ -35,7 +35,7 @@ __all__ = [
 
 ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 
-FLUORESCENT_FILE_HEADER: Dict = {
+FLUORESCENT_FILE_HEADER: dict = {
     "Manufacturer": "Unknown",
     "CatalogNumber": "N/A",
     "Description": "Rare earth fluorescent lamp",
@@ -48,13 +48,13 @@ FLUORESCENT_FILE_HEADER: Dict = {
     "Comments": "Ambient temperature 25 degrees C.",
 }
 
-FLUORESCENT_FILE_SPECTRAL_DESCRIPTION: Dict = {
+FLUORESCENT_FILE_SPECTRAL_DESCRIPTION: dict = {
     "SpectralQuantity": "relative",
     "BandwidthFWHM": 2.0,
     "BandwidthCorrected": True,
 }
 
-FLUORESCENT_FILE_SPECTRAL_DATA: Dict = {
+FLUORESCENT_FILE_SPECTRAL_DATA: dict = {
     400.0: 0.034,
     403.1: 0.037,
     405.5: 0.069,
@@ -599,7 +599,7 @@ SpectralDistribution_IESTM2714(...,
 
         test_read: List[
             Tuple[
-                Dict, Union[Header_IESTM2714, SpectralDistribution_IESTM2714]
+                dict, Union[Header_IESTM2714, SpectralDistribution_IESTM2714]
             ]
         ] = [
             (FLUORESCENT_FILE_HEADER, sd.header),

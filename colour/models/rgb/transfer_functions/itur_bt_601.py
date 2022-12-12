@@ -23,7 +23,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     as_float,
     domain_range_scale,
@@ -44,7 +44,7 @@ __all__ = [
 ]
 
 
-def oetf_BT601(L: FloatingOrArrayLike) -> FloatingOrNDArray:
+def oetf_BT601(L: ArrayLike) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.601-7* opto-electronic transfer function
     (OETF).
@@ -56,7 +56,7 @@ def oetf_BT601(L: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding electrical signal :math:`E`.
 
     Notes
@@ -90,7 +90,7 @@ def oetf_BT601(L: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_1(E))
 
 
-def oetf_inverse_BT601(E: FloatingOrArrayLike) -> FloatingOrNDArray:
+def oetf_inverse_BT601(E: ArrayLike) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.601-7* inverse opto-electronic transfer
     function (OETF).
@@ -102,7 +102,7 @@ def oetf_inverse_BT601(E: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding *luminance* :math:`L` of the image.
 
     Notes

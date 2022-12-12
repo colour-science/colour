@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import os
 
-from colour.hints import Any, Boolean, Integer, Literal, Optional, Union, cast
+from colour.hints import Any, Literal, Optional, Union
 from colour.utilities import (
     CanonicalMapping,
     filter_kwargs,
@@ -220,11 +220,8 @@ or :class:`colour.LUTSequence` or :class:`colour.LUTOperatorMatrix`
     Offset     : [ 0.  0.  0.  0.]
     """
 
-    method = cast(
-        str,
-        optional(
-            method, MAPPING_EXTENSION_TO_LUT_FORMAT[os.path.splitext(path)[-1]]
-        ),
+    method = optional(
+        method, MAPPING_EXTENSION_TO_LUT_FORMAT[os.path.splitext(path)[-1]]
     )
 
     method = validate_method(method, LUT_READ_METHODS)
@@ -265,7 +262,7 @@ References
 def write_LUT(
     LUT: Union[LUT1D, LUT3x1D, LUT3D, LUTSequence, LUTOperatorMatrix],
     path: str,
-    decimals: Integer = 7,
+    decimals: int = 7,
     method: Optional[
         Union[
             Literal[
@@ -280,7 +277,7 @@ def write_LUT(
         ]
     ] = None,
     **kwargs: Any,
-) -> Boolean:
+) -> bool:
     """
     Write given *LUT* to given file using given method.
 
@@ -346,11 +343,8 @@ def write_LUT(
     >>> write_LUT(LUT, "My_LUT.cube")  # doctest: +SKIP
     """
 
-    method = cast(
-        str,
-        optional(
-            method, MAPPING_EXTENSION_TO_LUT_FORMAT[os.path.splitext(path)[-1]]
-        ),
+    method = optional(
+        method, MAPPING_EXTENSION_TO_LUT_FORMAT[os.path.splitext(path)[-1]]
     )
 
     method = validate_method(method, LUT_WRITE_METHODS)

@@ -29,7 +29,7 @@ from colour.colorimetry import (
     SpectralShape,
 )
 from colour.constants import CONSTANT_AVOGADRO
-from colour.hints import Callable, FloatingOrArrayLike, FloatingOrNDArray
+from colour.hints import Callable, ArrayLike, NDArrayFloat
 from colour.utilities import as_float, as_float_array, filter_kwargs
 
 __author__ = "Colour Developers"
@@ -80,8 +80,8 @@ CONSTANT_DEFAULT_ALTITUDE: float = 0
 
 
 def air_refraction_index_Penndorf1957(
-    wavelength: FloatingOrArrayLike,
-) -> FloatingOrNDArray:
+    wavelength: ArrayLike,
+) -> NDArrayFloat:
     """
     Return the air refraction index :math:`n_s` from given wavelength
     :math:`\\lambda` in  micrometers (:math:`\\mu m`) using *Penndorf (1957)*
@@ -94,7 +94,7 @@ def air_refraction_index_Penndorf1957(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Air refraction index :math:`n_s`.
 
     Examples
@@ -113,8 +113,8 @@ def air_refraction_index_Penndorf1957(
 
 
 def air_refraction_index_Edlen1966(
-    wavelength: FloatingOrArrayLike,
-) -> FloatingOrNDArray:
+    wavelength: ArrayLike,
+) -> NDArrayFloat:
     """
     Return the air refraction index :math:`n_s` from given wavelength
     :math:`\\lambda` in micrometers (:math:`\\mu m`) using *Edlen (1966)*
@@ -127,7 +127,7 @@ def air_refraction_index_Edlen1966(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Air refraction index :math:`n_s`.
 
     Examples
@@ -146,8 +146,8 @@ def air_refraction_index_Edlen1966(
 
 
 def air_refraction_index_Peck1972(
-    wavelength: FloatingOrArrayLike,
-) -> FloatingOrNDArray:
+    wavelength: ArrayLike,
+) -> NDArrayFloat:
     """
     Return the air refraction index :math:`n_s` from given wavelength
     :math:`\\lambda` in micrometers (:math:`\\mu m`) using
@@ -160,7 +160,7 @@ def air_refraction_index_Peck1972(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Air refraction index :math:`n_s`.
 
     Examples
@@ -183,9 +183,9 @@ def air_refraction_index_Peck1972(
 
 
 def air_refraction_index_Bodhaine1999(
-    wavelength: FloatingOrArrayLike,
-    CO2_concentration: FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
-) -> FloatingOrNDArray:
+    wavelength: ArrayLike,
+    CO2_concentration: ArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
+) -> NDArrayFloat:
     """
     Return the air refraction index :math:`n_s` from given wavelength
     :math:`\\lambda` in micrometers (:math:`\\mu m`) using
@@ -200,7 +200,7 @@ def air_refraction_index_Bodhaine1999(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Air refraction index :math:`n_s`.
 
     Examples
@@ -219,7 +219,7 @@ def air_refraction_index_Bodhaine1999(
     return as_float(n)
 
 
-def N2_depolarisation(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
+def N2_depolarisation(wavelength: ArrayLike) -> NDArrayFloat:
     """
     Return the depolarisation of nitrogen :math:`N_2` as function of
     wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
@@ -231,7 +231,7 @@ def N2_depolarisation(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Nitrogen :math:`N_2` depolarisation.
 
     Examples
@@ -247,7 +247,7 @@ def N2_depolarisation(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     return N2
 
 
-def O2_depolarisation(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
+def O2_depolarisation(wavelength: ArrayLike) -> NDArrayFloat:
     """
     Return the depolarisation of oxygen :math:`O_2` as function of
     wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
@@ -259,7 +259,7 @@ def O2_depolarisation(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Oxygen :math:`O_2` depolarisation.
 
     Examples
@@ -277,7 +277,7 @@ def O2_depolarisation(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     return O2
 
 
-def F_air_Penndorf1957(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
+def F_air_Penndorf1957(wavelength: ArrayLike) -> NDArrayFloat:
     """
     Return :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* using *Penndorf (1957)* method.
@@ -289,7 +289,7 @@ def F_air_Penndorf1957(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Air depolarisation.
 
     Notes
@@ -309,7 +309,7 @@ def F_air_Penndorf1957(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(np.resize(np.array([1.0608]), wl.shape))
 
 
-def F_air_Young1981(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
+def F_air_Young1981(wavelength: ArrayLike) -> NDArrayFloat:
     """
     Return :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* using *Young (1981)* method.
@@ -321,7 +321,7 @@ def F_air_Young1981(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Air depolarisation.
 
     Notes
@@ -341,7 +341,7 @@ def F_air_Young1981(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(np.resize(np.array([1.0480]), wl.shape))
 
 
-def F_air_Bates1984(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
+def F_air_Bates1984(wavelength: ArrayLike) -> NDArrayFloat:
     """
     Return :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* as function of wavelength :math:`\\lambda` in micrometers
@@ -354,7 +354,7 @@ def F_air_Bates1984(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Air depolarisation.
 
     Examples
@@ -376,9 +376,9 @@ def F_air_Bates1984(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 
 def F_air_Bodhaine1999(
-    wavelength: FloatingOrArrayLike,
-    CO2_concentration: FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
-) -> FloatingOrNDArray:
+    wavelength: ArrayLike,
+    CO2_concentration: ArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
+) -> NDArrayFloat:
     """
     Return :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* as function of wavelength :math:`\\lambda` in micrometers
@@ -394,7 +394,7 @@ def F_air_Bodhaine1999(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Air depolarisation.
 
     Examples
@@ -415,9 +415,9 @@ def F_air_Bodhaine1999(
 
 
 def molecular_density(
-    temperature: FloatingOrArrayLike = CONSTANT_STANDARD_AIR_TEMPERATURE,
-    avogadro_constant: FloatingOrArrayLike = CONSTANT_AVOGADRO,
-) -> FloatingOrNDArray:
+    temperature: ArrayLike = CONSTANT_STANDARD_AIR_TEMPERATURE,
+    avogadro_constant: ArrayLike = CONSTANT_AVOGADRO,
+) -> NDArrayFloat:
     """
     Return the molecular density :math:`N_s` (molecules :math:`cm^{-3}`)
     as function of air temperature :math:`T[K]` in kelvin degrees.
@@ -431,7 +431,7 @@ def molecular_density(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Molecular density :math:`N_s` (molecules :math:`cm^{-3}`).
 
     Notes
@@ -459,8 +459,8 @@ def molecular_density(
 
 
 def mean_molecular_weights(
-    CO2_concentration: FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
-) -> FloatingOrNDArray:
+    CO2_concentration: ArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
+) -> NDArrayFloat:
     """
     Return the mean molecular weights :math:`m_a` for dry air as function of
     :math:`CO_2` concentration in parts per million (ppm).
@@ -472,7 +472,7 @@ def mean_molecular_weights(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Mean molecular weights :math:`m_a` for dry air.
 
     Examples
@@ -490,13 +490,13 @@ def mean_molecular_weights(
 
 
 def gravity_List1968(
-    latitude: FloatingOrArrayLike = CONSTANT_DEFAULT_LATITUDE,
-    altitude: FloatingOrArrayLike = CONSTANT_DEFAULT_ALTITUDE,
-) -> FloatingOrNDArray:
+    latitude: ArrayLike = CONSTANT_DEFAULT_LATITUDE,
+    altitude: ArrayLike = CONSTANT_DEFAULT_ALTITUDE,
+) -> NDArrayFloat:
     """
     Return the gravity :math:`g` in :math:`cm/s_2` (gal) representative of the
     mass-weighted column of air molecules above the site of given latitude and
-    altitude using *List (1968)* method.
+    altitude using *list (1968)* method.
 
     Parameters
     ----------
@@ -507,7 +507,7 @@ def gravity_List1968(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Gravity :math:`g` in :math:`cm/s_2` (gal).
 
     Examples
@@ -542,13 +542,13 @@ def gravity_List1968(
 
 
 def scattering_cross_section(
-    wavelength: FloatingOrArrayLike,
-    CO2_concentration: FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
-    temperature: FloatingOrArrayLike = CONSTANT_STANDARD_AIR_TEMPERATURE,
-    avogadro_constant: FloatingOrArrayLike = CONSTANT_AVOGADRO,
+    wavelength: ArrayLike,
+    CO2_concentration: ArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
+    temperature: ArrayLike = CONSTANT_STANDARD_AIR_TEMPERATURE,
+    avogadro_constant: ArrayLike = CONSTANT_AVOGADRO,
     n_s_function: Callable = air_refraction_index_Bodhaine1999,
     F_air_function: Callable = F_air_Bodhaine1999,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Return the scattering cross section per molecule :math:`\\sigma` of dry
     air as function of wavelength :math:`\\lambda` in centimeters (cm) using
@@ -573,7 +573,7 @@ def scattering_cross_section(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Scattering cross section per molecule :math:`\\sigma` of dry air.
 
     Warnings
@@ -620,16 +620,16 @@ def scattering_cross_section(
 
 
 def rayleigh_optical_depth(
-    wavelength: FloatingOrArrayLike,
-    CO2_concentration: FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
-    temperature: FloatingOrArrayLike = CONSTANT_STANDARD_AIR_TEMPERATURE,
-    pressure: FloatingOrArrayLike = CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
-    latitude: FloatingOrArrayLike = CONSTANT_DEFAULT_LATITUDE,
-    altitude: FloatingOrArrayLike = CONSTANT_DEFAULT_ALTITUDE,
-    avogadro_constant: FloatingOrArrayLike = CONSTANT_AVOGADRO,
+    wavelength: ArrayLike,
+    CO2_concentration: ArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
+    temperature: ArrayLike = CONSTANT_STANDARD_AIR_TEMPERATURE,
+    pressure: ArrayLike = CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
+    latitude: ArrayLike = CONSTANT_DEFAULT_LATITUDE,
+    altitude: ArrayLike = CONSTANT_DEFAULT_ALTITUDE,
+    avogadro_constant: ArrayLike = CONSTANT_AVOGADRO,
     n_s_function: Callable = air_refraction_index_Bodhaine1999,
     F_air_function: Callable = F_air_Bodhaine1999,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Return the *Rayleigh* optical depth :math:`T_r(\\lambda)` as function of
     wavelength :math:`\\lambda` in centimeters (cm).
@@ -658,7 +658,7 @@ def rayleigh_optical_depth(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Rayleigh* optical depth :math:`T_r(\\lambda)`.
 
     Warnings
@@ -682,6 +682,7 @@ def rayleigh_optical_depth(
     pressure = as_float_array(pressure)
     latitude = as_float_array(latitude)
     altitude = as_float_array(altitude)
+    avogadro_constant = as_float_array(avogadro_constant)
     # Conversion from pascal to dyne/cm2.
     P = as_float_array(pressure * 10)
 
@@ -707,12 +708,12 @@ rayleigh_scattering = rayleigh_optical_depth
 
 def sd_rayleigh_scattering(
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
-    CO2_concentration: FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
-    temperature: FloatingOrArrayLike = CONSTANT_STANDARD_AIR_TEMPERATURE,
-    pressure: FloatingOrArrayLike = CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
-    latitude: FloatingOrArrayLike = CONSTANT_DEFAULT_LATITUDE,
-    altitude: FloatingOrArrayLike = CONSTANT_DEFAULT_ALTITUDE,
-    avogadro_constant: FloatingOrArrayLike = CONSTANT_AVOGADRO,
+    CO2_concentration: ArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
+    temperature: ArrayLike = CONSTANT_STANDARD_AIR_TEMPERATURE,
+    pressure: ArrayLike = CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
+    latitude: ArrayLike = CONSTANT_DEFAULT_LATITUDE,
+    altitude: ArrayLike = CONSTANT_DEFAULT_ALTITUDE,
+    avogadro_constant: ArrayLike = CONSTANT_AVOGADRO,
     n_s_function: Callable = air_refraction_index_Bodhaine1999,
     F_air_function: Callable = F_air_Bodhaine1999,
 ) -> SpectralDistribution:

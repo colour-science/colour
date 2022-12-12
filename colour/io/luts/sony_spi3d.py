@@ -15,7 +15,7 @@ import numpy as np
 
 from colour.io.luts import LUT3D, LUTSequence
 from colour.io.luts.common import path_to_title
-from colour.hints import Boolean, Integer, List, Tuple, Union
+from colour.hints import Union
 from colour.utilities import (
     as_float_array,
     as_int_array,
@@ -92,7 +92,7 @@ def read_LUT_SonySPI3D(path: str) -> LUT3D:
 
     title = path_to_title(path)
     domain_min, domain_max = np.array([0, 0, 0]), np.array([1, 1, 1])
-    size: Integer = 2
+    size: int = 2
     data_table = []
     data_indexes = []
     comments = []
@@ -139,8 +139,8 @@ def read_LUT_SonySPI3D(path: str) -> LUT3D:
 
 
 def write_LUT_SonySPI3D(
-    LUT: Union[LUT3D, LUTSequence], path: str, decimals: Integer = 7
-) -> Boolean:
+    LUT: Union[LUT3D, LUTSequence], path: str, decimals: int = 7
+) -> bool:
     """
     Write given *LUT* to given *Sony* *.spi3d* *LUT* file.
 
@@ -203,7 +203,7 @@ def write_LUT_SonySPI3D(
         '"LUT" domain must be [[0, 0, 0], [1, 1, 1]]!',
     )
 
-    def _format_array(array: Union[List, Tuple]) -> str:
+    def _format_array(array: Union[list, tuple]) -> str:
         """Format given array as a *Sony* *.spi3d* data row."""
 
         return "{1:d} {2:d} {3:d} {4:0.{0}f} {5:0.{0}f} {6:0.{0}f}".format(

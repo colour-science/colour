@@ -39,8 +39,6 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import Tuple
-
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
@@ -53,7 +51,7 @@ __all__ = [
 ]
 
 
-MUNSELL_COLOURS_REAL: Tuple = (
+MUNSELL_COLOURS_REAL: tuple = (
     (("10RP", 1.0, 2.0), np.array([0.3629, 0.2710, 1.2100])),
     (("10RP", 1.0, 4.0), np.array([0.3920, 0.2423, 1.2100])),
     (("10RP", 1.0, 6.0), np.array([0.4151, 0.2169, 1.2100])),

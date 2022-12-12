@@ -6,8 +6,8 @@ import numpy as np
 from scipy.optimize import fmin
 
 import colour
-from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
-from colour.utilities import as_float, message_box
+from colour.hints import ArrayLike, NDArrayFloat
+from colour.utilities import as_float, as_float_array, message_box
 from colour.plotting import colour_style, plot_single_function
 
 message_box("Contrast Sensitivity Computations")
@@ -44,7 +44,7 @@ settings_BT2246 = {
 }
 
 
-def maximise_spatial_frequency(L: FloatingOrArrayLike) -> FloatingOrNDArray:
+def maximise_spatial_frequency(L: ArrayLike) -> NDArrayFloat:
     """
     Maximise the spatial frequency :math:`u` for given luminance value.
 
@@ -55,11 +55,11 @@ def maximise_spatial_frequency(L: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.ndarray`
         Maximised spatial frequency :math:`u`.
     """
 
-    L = colour.utilities.as_float_array(L)
+    L = as_float_array(L)
 
     maximised_spatial_frequency = []
     for L_v in L:
@@ -79,7 +79,7 @@ def maximise_spatial_frequency(L: FloatingOrArrayLike) -> FloatingOrNDArray:
             )[0]
         )
 
-    return as_float(np.array(maximised_spatial_frequency))
+    return as_float(maximised_spatial_frequency)
 
 
 L = np.logspace(np.log10(0.01), np.log10(100), 100)
@@ -92,12 +92,7 @@ u = maximise_spatial_frequency(L)
 pprint(
     1
     / colour.contrast_sensitivity_function(
-        u=u,
-        sigma=sigma,
-        E=E,
-        X_0=X_0,
-        Y_0=Y_0,
-        **settings_BT2246  # type: ignore[arg-type]
+        u=u, sigma=sigma, E=E, X_0=X_0, Y_0=Y_0, **settings_BT2246
     )
     * 2
     * (1 / 1.27)

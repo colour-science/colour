@@ -18,8 +18,8 @@ import re
 from collections import defaultdict
 
 from colour.io import SpectralDistribution_IESTM2714
-from colour.hints import Any, Dict, List, cast
-from colour.utilities import as_float_array
+from colour.hints import Any, cast
+from colour.utilities import as_float_array, as_float_scalar
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -163,10 +163,10 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
         self._spectral_section: str = "380"
         self._spectral_data_pattern: str = "(\\d{3})nm"
 
-        self._metadata: Dict = {}
+        self._metadata: dict = {}
 
     @property
-    def metadata(self) -> Dict:
+    def metadata(self) -> dict:
         """
         Getter property for the metadata.
 
@@ -369,13 +369,13 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
 
         path = cast(str, self.path)
 
-        def as_array(a: Any) -> List:
+        def as_array(a: Any) -> list:
             """
             Input list of numbers and converts each element to
             float data type.
             """
 
-            return [float(e) for e in a]
+            return [as_float_scalar(e) for e in a]
 
         spectral_sections = defaultdict(list)
         with open(path, encoding="utf-8") as csv_file:
@@ -403,8 +403,8 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
                     for method in (int, float, as_array):
                         try:
                             self._metadata[attribute] = method(
-                                value
-                            )  # type: ignore[operator]
+                                value  # pyright: ignore
+                            )
                             break
                         except Exception:
                             self._metadata[attribute] = value

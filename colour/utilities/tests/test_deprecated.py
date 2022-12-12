@@ -27,7 +27,7 @@ NEW_NAME: Any = None
 try:
     sys.modules[
         "colour.utilities.tests.test_deprecated"
-    ] = deprecated(  # type: ignore[assignment]
+    ] = deprecated(  # pyright: ignore
         sys.modules["colour.utilities.tests.test_deprecated"],
         {
             "OLD_NAME": ObjectRenamed(

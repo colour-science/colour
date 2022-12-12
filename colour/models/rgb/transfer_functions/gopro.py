@@ -19,7 +19,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
@@ -35,7 +35,7 @@ __all__ = [
 ]
 
 
-def log_encoding_Protune(x: FloatingOrArrayLike) -> FloatingOrNDArray:
+def log_encoding_Protune(x: ArrayLike) -> NDArrayFloat:
     """
     Define the *Protune* log encoding curve / opto-electronic transfer
     function.
@@ -47,7 +47,7 @@ def log_encoding_Protune(x: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Non-linear data :math:`y`.
 
     Notes
@@ -81,7 +81,7 @@ def log_encoding_Protune(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_1(y))
 
 
-def log_decoding_Protune(y: FloatingOrArrayLike) -> FloatingOrNDArray:
+def log_decoding_Protune(y: ArrayLike) -> NDArrayFloat:
     """
     Define the *Protune* log decoding curve / electro-optical transfer
     function.
@@ -93,7 +93,7 @@ def log_decoding_Protune(y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear data :math:`x`.
 
     Notes

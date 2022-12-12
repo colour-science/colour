@@ -21,9 +21,7 @@ from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUT_to_LUT
 from colour.hints import (
     Any,
     Callable,
-    Dict,
-    Integer,
-    NDArray,
+    NDArrayFloat,
     Optional,
     Type,
     TypeInterpolator,
@@ -50,7 +48,7 @@ __all__ = [
 
 ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 
-RANDOM_TRIPLETS: NDArray = np.reshape(
+RANDOM_TRIPLETS: NDArrayFloat = np.reshape(
     random_triplet_generator(8, random_state=np.random.RandomState(4)),
     (4, 2, 3),
 )
@@ -127,35 +125,35 @@ class AbstractLUTTest(unittest.TestCase):
 
         self._LUT_factory: Any = None
 
-        self._size: Optional[Integer] = None
-        self._dimensions: Optional[Integer] = None
-        self._domain_1: Optional[NDArray] = None
-        self._domain_2: Optional[NDArray] = None
-        self._domain_3: Optional[NDArray] = None
-        self._table_1: Optional[NDArray] = None
-        self._table_2: Optional[NDArray] = None
-        self._table_3: Optional[NDArray] = None
-        self._table_1_kwargs: Optional[Dict] = None
-        self._table_2_kwargs: Optional[Dict] = None
-        self._table_3_kwargs: Optional[Dict] = None
+        self._size: Optional[int] = None
+        self._dimensions: Optional[int] = None
+        self._domain_1: Optional[NDArrayFloat] = None
+        self._domain_2: Optional[NDArrayFloat] = None
+        self._domain_3: Optional[NDArrayFloat] = None
+        self._table_1: Optional[NDArrayFloat] = None
+        self._table_2: Optional[NDArrayFloat] = None
+        self._table_3: Optional[NDArrayFloat] = None
+        self._table_1_kwargs: Optional[dict] = None
+        self._table_2_kwargs: Optional[dict] = None
+        self._table_3_kwargs: Optional[dict] = None
         self._interpolator_1: Optional[
             Union[Callable, Type[TypeInterpolator]]
         ] = None
-        self._interpolator_kwargs_1: Dict = {}
+        self._interpolator_kwargs_1: dict = {}
         self._interpolator_2: Optional[
             Union[Callable, Type[TypeInterpolator]]
         ] = None
-        self._interpolator_kwargs_2: Dict = {}
-        self._invert_kwargs_1: Dict = {}
-        self._invert_kwargs_2: Dict = {}
+        self._interpolator_kwargs_2: dict = {}
+        self._invert_kwargs_1: dict = {}
+        self._invert_kwargs_2: dict = {}
         self._str: Optional[str] = None
         self._repr: Optional[str] = None
-        self._inverted_apply_1: Optional[NDArray] = None
-        self._inverted_apply_2: Optional[NDArray] = None
-        self._applied_1: Optional[NDArray] = None
-        self._applied_2: Optional[NDArray] = None
-        self._applied_3: Optional[NDArray] = None
-        self._applied_4: Optional[NDArray] = None
+        self._inverted_apply_1: Optional[NDArrayFloat] = None
+        self._inverted_apply_2: Optional[NDArrayFloat] = None
+        self._applied_1: Optional[NDArrayFloat] = None
+        self._applied_2: Optional[NDArrayFloat] = None
+        self._applied_3: Optional[NDArrayFloat] = None
+        self._applied_4: Optional[NDArrayFloat] = None
 
     def test_required_methods(self):
         """Test the presence of required methods."""
@@ -813,7 +811,7 @@ class TestLUT3x1D(AbstractLUTTest):
         samples_2 = np.linspace(-0.1, 1.5, 15)
         samples_3 = np.linspace(-0.1, 3.0, 20)
         self._domain_1 = np.array([[0, 0, 0], [1, 1, 1]])
-        self._domain_2 = np.array([[0, -0.1, -0.2], [1, 1.5, 3.0]])
+        self._domain_2 = np.array([[0.0, -0.1, -0.2], [1.0, 1.5, 3.0]])
         self._domain_3 = tstack(
             [
                 np.hstack([samples_1, np.full(10, np.nan)]),
@@ -985,7 +983,7 @@ class TestLUT3D(AbstractLUTTest):
         samples_2 = np.linspace(-0.1, 1.5, 15)
         samples_3 = np.linspace(-0.1, 3.0, 20)
         self._domain_1 = np.array([[0, 0, 0], [1, 1, 1]])
-        self._domain_2 = np.array([[0, -0.1, -0.2], [1, 1.5, 3.0]])
+        self._domain_2 = np.array([[0.0, -0.1, -0.2], [1.0, 1.5, 3.0]])
         self._domain_3 = tstack(
             [
                 np.hstack([samples_1, np.full(10, np.nan)]),

@@ -44,7 +44,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode
-from colour.hints import ArrayLike, Floating, NDArray
+from colour.hints import ArrayLike, NDArrayFloat, cast
 from colour.utilities import (
     as_float_array,
     from_range_1,
@@ -70,7 +70,7 @@ __all__ = [
 ]
 
 
-def RGB_to_HSV(RGB: ArrayLike) -> NDArray:
+def RGB_to_HSV(RGB: ArrayLike) -> NDArrayFloat:
     """
     Convert from *RGB* colourspace to *HSV* colourspace.
 
@@ -137,7 +137,7 @@ def RGB_to_HSV(RGB: ArrayLike) -> NDArray:
     return from_range_1(HSV)
 
 
-def HSV_to_RGB(HSV: ArrayLike) -> NDArray:
+def HSV_to_RGB(HSV: ArrayLike) -> NDArrayFloat:
     """
     Convert from *HSV* colourspace to *RGB* colourspace.
 
@@ -204,7 +204,7 @@ def HSV_to_RGB(HSV: ArrayLike) -> NDArray:
     return from_range_1(RGB)
 
 
-def RGB_to_HSL(RGB: ArrayLike) -> NDArray:
+def RGB_to_HSL(RGB: ArrayLike) -> NDArrayFloat:
     """
     Convert from *RGB* colourspace to *HSL* colourspace.
 
@@ -276,7 +276,7 @@ def RGB_to_HSL(RGB: ArrayLike) -> NDArray:
     return from_range_1(HSL)
 
 
-def HSL_to_RGB(HSL: ArrayLike) -> NDArray:
+def HSL_to_RGB(HSL: ArrayLike) -> NDArrayFloat:
     """
     Convert from *HSL* colourspace to *RGB* colourspace.
 
@@ -317,7 +317,9 @@ def HSL_to_RGB(HSL: ArrayLike) -> NDArray:
 
     H, S, L = tsplit(to_domain_1(HSL))
 
-    def H_to_RGB(vi: NDArray, vj: NDArray, vH: NDArray) -> NDArray:
+    def H_to_RGB(
+        vi: NDArrayFloat, vj: NDArrayFloat, vH: NDArrayFloat
+    ) -> NDArrayFloat:
         """Convert *hue* value to *RGB* colourspace."""
 
         vH = as_float_array(vH)
@@ -357,8 +359,8 @@ def HSL_to_RGB(HSL: ArrayLike) -> NDArray:
 
 
 def RGB_to_HCL(
-    RGB: ArrayLike, gamma: Floating = 3, Y_0: Floating = 100
-) -> NDArray:
+    RGB: ArrayLike, gamma: float = 3, Y_0: float = 100
+) -> NDArrayFloat:
     """
     Convert from *RGB* colourspace to *HCL* colourspace according to
     *Sarifuddin and Missaoui (2005)* method.
@@ -447,8 +449,8 @@ def RGB_to_HCL(
 
 
 def HCL_to_RGB(
-    HCL: ArrayLike, gamma: Floating = 3, Y_0: Floating = 100
-) -> NDArray:
+    HCL: ArrayLike, gamma: float = 3, Y_0: float = 100
+) -> NDArrayFloat:
     """
     Convert from *HCL* colourspace to *RGB* colourspace according to
     *Sarifuddin and Missaoui (2005)* method.
@@ -500,10 +502,10 @@ def HCL_to_RGB(
         Min = sdiv(4 * L - 3 * C, 4 * Q - 2)
         Max = Min + sdiv(3 * C, 2 * Q)
 
-    def _1_2_3(a: ArrayLike) -> NDArray:
+    def _1_2_3(a: ArrayLike) -> NDArrayFloat:
         """Tail-stack given :math:`a` array as a *bool* dtype."""
 
-        return tstack([a, a, a], dtype=np.bool_)
+        return tstack(cast(ArrayLike, [a, a, a]), dtype=np.bool_)
 
     tan_3_2_H = np.tan(3 / 2 * H)
     tan_3_4_H_MP = np.tan(3 / 4 * (H - np.pi))

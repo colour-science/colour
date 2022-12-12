@@ -18,7 +18,7 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
     gamma_function,
@@ -41,7 +41,7 @@ __all__ = [
     "RGB_COLOURSPACE_MAX_RGB",
 ]
 
-PRIMARIES_MAX_RGB: NDArray = np.array(
+PRIMARIES_MAX_RGB: NDArrayFloat = np.array(
     [
         [0.73413379, 0.26586621],
         [0.10039113, 0.89960887],
@@ -53,17 +53,17 @@ PRIMARIES_MAX_RGB: NDArray = np.array(
 WHITEPOINT_NAME_MAX_RGB: str = "D50"
 """*Max RGB* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_MAX_RGB: NDArray = CCS_ILLUMINANTS[
+CCS_WHITEPOINT_MAX_RGB: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_MAX_RGB]
 """*Max RGB* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_MAX_RGB_TO_XYZ: NDArray = normalised_primary_matrix(
+MATRIX_MAX_RGB_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
     PRIMARIES_MAX_RGB, CCS_WHITEPOINT_MAX_RGB
 )
 """*Max RGB* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_MAX_RGB: NDArray = np.linalg.inv(MATRIX_MAX_RGB_TO_XYZ)
+MATRIX_XYZ_TO_MAX_RGB: NDArrayFloat = np.linalg.inv(MATRIX_MAX_RGB_TO_XYZ)
 """*CIE XYZ* tristimulus values to *Max RGB* colourspace matrix."""
 
 RGB_COLOURSPACE_MAX_RGB: RGB_Colourspace = RGB_Colourspace(

@@ -22,17 +22,7 @@ from xml.etree import ElementTree  # nosec
 from xml.dom import minidom  # nosec
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import (
-    Any,
-    ArrayLike,
-    Boolean,
-    Callable,
-    Floating,
-    Integer,
-    Literal,
-    Optional,
-    cast,
-)
+from colour.hints import Any, Callable, Literal, Optional
 from colour.utilities import (
     Structure,
     as_float_array,
@@ -90,7 +80,7 @@ class Element_Specification_IESTM2714:
     element: str
     attribute: str
     type_: Any = field(default_factory=str)
-    required: Boolean = field(default_factory=lambda: False)
+    required: bool = field(default_factory=lambda: False)
     read_conversion: Callable = field(
         default_factory=lambda: lambda x: None if x == "None" else str(x)
     )
@@ -686,13 +676,13 @@ class Header_IESTM2714:
             ],
         )
 
-    def __hash__(self) -> Integer:
+    def __hash__(self) -> int:
         """
         Return the header hash.
 
         Returns
         -------
-        :class:`numpy.integer`
+        :class:`int`
             Object hash.
         """
 
@@ -712,7 +702,7 @@ class Header_IESTM2714:
             )
         )
 
-    def __eq__(self, other: Any) -> Boolean:
+    def __eq__(self, other: Any) -> bool:
         """
         Return whether the header is equal to given other object.
 
@@ -753,7 +743,7 @@ class Header_IESTM2714:
             )
         return False
 
-    def __ne__(self, other: Any) -> Boolean:
+    def __ne__(self, other: Any) -> bool:
         """
         Return whether the header is not equal to given other object.
 
@@ -930,8 +920,8 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         transmission_geometry: Optional[
             Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"]
         ] = None,
-        bandwidth_FWHM: Optional[Floating] = None,
-        bandwidth_corrected: Optional[Boolean] = None,
+        bandwidth_FWHM: Optional[float] = None,
+        bandwidth_corrected: Optional[bool] = None,
         **kwargs,
     ) -> None:
 
@@ -1018,9 +1008,9 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
             Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"]
         ] = None
         self.transmission_geometry = transmission_geometry
-        self._bandwidth_FWHM: Optional[Floating] = None
+        self._bandwidth_FWHM: Optional[float] = None
         self.bandwidth_FWHM = bandwidth_FWHM
-        self._bandwidth_corrected: Optional[Boolean] = None
+        self._bandwidth_corrected: Optional[bool] = None
         self.bandwidth_corrected = bandwidth_corrected
 
     @property
@@ -1265,7 +1255,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         self._transmission_geometry = value
 
     @property
-    def bandwidth_FWHM(self) -> Optional[Floating]:
+    def bandwidth_FWHM(self) -> Optional[float]:
         """
         Getter and setter property for the full-width half-maximum bandwidth.
 
@@ -1276,14 +1266,14 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
         Returns
         -------
-        :py:data:`None` or :class:`numpy.floating`
+        :py:data:`None` or :class:`float`
             Full-width half-maximum bandwidth.
         """
 
         return self._bandwidth_FWHM
 
     @bandwidth_FWHM.setter
-    def bandwidth_FWHM(self, value: Optional[Floating]):
+    def bandwidth_FWHM(self, value: Optional[float]):
         """Setter for the **self.bandwidth_FWHM** property."""
 
         if value is not None:
@@ -1297,7 +1287,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         self._bandwidth_FWHM = value
 
     @property
-    def bandwidth_corrected(self) -> Optional[Boolean]:
+    def bandwidth_corrected(self) -> Optional[bool]:
         """
         Getter and setter property for whether bandwidth correction has been
         applied to the measured data.
@@ -1316,7 +1306,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         return self._bandwidth_corrected
 
     @bandwidth_corrected.setter
-    def bandwidth_corrected(self, value: Optional[Boolean]):
+    def bandwidth_corrected(self, value: Optional[bool]):
         """Setter for the **self.bandwidth_corrected** property."""
 
         if value is not None:
@@ -1710,7 +1700,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
             iterator = root.iter
 
             for header_element in (self.header, self):
-                mapping = header_element.mapping  # type: ignore[attr-defined]
+                mapping = header_element.mapping
                 for specification in mapping.elements:
                     element = root.find(
                         formatter.format(
@@ -1749,7 +1739,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
             )
 
             self.wavelengths = as_float_array(wavelengths)
-            self.values = as_float_array(cast(ArrayLike, values))
+            self.values = as_float_array(values)
 
             return self
         else:
@@ -1757,7 +1747,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                 'The "IES TM-27-14" spectral distribution path is undefined!'
             )
 
-    def write(self) -> Boolean:
+    def write(self) -> bool:
         """
         Write the spectral distribution spectral data to *XML* file path.
 
@@ -1791,7 +1781,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
             spectral_distribution = ElementTree.Element("")
             for header_element in (self.header, self):
-                mapping = header_element.mapping  # type: ignore[attr-defined]
+                mapping = header_element.mapping
                 element = ElementTree.SubElement(root, mapping.element)
                 for specification in mapping.elements:
                     element_child = ElementTree.SubElement(

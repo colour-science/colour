@@ -27,7 +27,7 @@ import numpy as np
 
 from colour.algebra import spow
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import ArrayLike, Floating, Literal, NDArray, Union
+from colour.hints import ArrayLike, Literal, NDArrayFloat, Union
 from colour.models import Lab_to_XYZ, XYZ_to_Lab
 from colour.utilities import (
     CanonicalMapping,
@@ -78,12 +78,12 @@ References
 
 def Lab_to_DIN99(
     Lab: ArrayLike,
-    k_E: Floating = 1,
-    k_CH: Floating = 1,
+    k_E: float = 1,
+    k_CH: float = 1,
     method: Union[
         Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"], str
     ] = "DIN99",
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert from *CIE L\\*a\\*b\\** colourspace to *DIN99* colourspace or
     one of the *DIN99b*, *DIN99c*, *DIN99d* refined formulas according
@@ -170,12 +170,12 @@ def Lab_to_DIN99(
 
 def DIN99_to_Lab(
     Lab_99: ArrayLike,
-    k_E: Floating = 1,
-    k_CH: Floating = 1,
+    k_E: float = 1,
+    k_CH: float = 1,
     method: Union[
         Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"], str
     ] = "DIN99",
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*,
     *DIN99d* refined formulas according to *Cui et al. (2002)* to
@@ -265,12 +265,12 @@ def XYZ_to_DIN99(
     illuminant: ArrayLike = CCS_ILLUMINANTS[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-    k_E: Floating = 1,
-    k_CH: Floating = 1,
+    k_E: float = 1,
+    k_CH: float = 1,
     method: Union[
         Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"], str
     ] = "DIN99",
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *DIN99* colourspace or
     one of the *DIN99b*, *DIN99c*, *DIN99d* refined formulas according
@@ -340,12 +340,12 @@ def DIN99_to_XYZ(
     illuminant: ArrayLike = CCS_ILLUMINANTS[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-    k_E: Floating = 1,
-    k_CH: Floating = 1,
+    k_E: float = 1,
+    k_CH: float = 1,
     method: Union[
         Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"], str
     ] = "DIN99",
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*,
     *DIN99d* refined formulas according to *Cui et al. (2002)* to *CIE XYZ*

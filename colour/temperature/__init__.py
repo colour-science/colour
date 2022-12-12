@@ -41,15 +41,7 @@ Set_xy_coord. https://www.adobe.com/support/downloads/dng/dng_sdk.html
 
 from __future__ import annotations
 
-from colour.hints import (
-    Any,
-    ArrayLike,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    NDArray,
-    Literal,
-    Union,
-)
+from colour.hints import Any, ArrayLike, NDArrayFloat, Literal, Union
 from colour.utilities import (
     CanonicalMapping,
     filter_kwargs,
@@ -131,7 +123,7 @@ def uv_to_CCT(
         str,
     ] = "Ohno 2013",
     **kwargs: Any,
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Return the correlated colour temperature :math:`T_{cp}` and
     :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
@@ -225,7 +217,7 @@ def CCT_to_uv(
         str,
     ] = "Ohno 2013",
     **kwargs: Any,
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Return the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}` using given method.
@@ -320,7 +312,7 @@ def xy_to_CCT(
         ],
         str,
     ] = "CIE Illuminant D Series",
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Return the correlated colour temperature :math:`T_{cp}` from given
     *CIE xy* chromaticity coordinates using given method.
@@ -341,7 +333,7 @@ def xy_to_CCT(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Correlated colour temperature :math:`T_{cp}`.
 
     References
@@ -395,7 +387,7 @@ CCT_TO_XY_METHODS["hernandez1999"] = CCT_TO_XY_METHODS["Hernandez 1999"]
 
 
 def CCT_to_xy(
-    CCT: FloatingOrArrayLike,
+    CCT: ArrayLike,
     method: Union[
         Literal[
             "CIE Illuminant D Series",
@@ -405,7 +397,7 @@ def CCT_to_xy(
         ],
         str,
     ] = "CIE Illuminant D Series",
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Return the *CIE xy* chromaticity coordinates from given correlated colour
     temperature :math:`T_{cp}` using given method.

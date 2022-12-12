@@ -904,12 +904,12 @@ class colour(ModuleAPI):
         return super().__getattr__(attribute)
 
 
-colour.__application_name__ = __application_name__  # type: ignore[attr-defined]
+colour.__application_name__ = __application_name__  # pyright: ignore
 
-colour.__major_version__ = __major_version__  # type: ignore[attr-defined]
-colour.__minor_version__ = __minor_version__  # type: ignore[attr-defined]
-colour.__change_version__ = __change_version__  # type: ignore[attr-defined]
-colour.__version__ = __version__  # type: ignore[attr-defined]
+colour.__major_version__ = __major_version__  # pyright: ignore
+colour.__minor_version__ = __minor_version__  # pyright: ignore
+colour.__change_version__ = __change_version__  # pyright: ignore
+colour.__version__ = __version__  # pyright: ignore
 
 # v0.4.0
 API_CHANGES = {
@@ -943,14 +943,14 @@ API_CHANGES = {
 """Defines the *colour.models* sub-package API changes."""
 
 if not is_documentation_building():
-    sys.modules["colour"] = colour(  # type: ignore[assignment]
+    sys.modules["colour"] = colour(  # pyright: ignore
         sys.modules["colour"], build_API_changes(API_CHANGES)
     )
 
     del ModuleAPI, is_documentation_building, build_API_changes, sys
 
-colour.__disable_lazy_load__ = True  # type: ignore[attr-defined]
-__disable_lazy_load__ = colour.__disable_lazy_load__  # type: ignore[attr-defined]
+colour.__disable_lazy_load__ = True  # pyright: ignore
+__disable_lazy_load__ = colour.__disable_lazy_load__  # pyright: ignore
 """
 Ensures that the lazy loaded datasets are not transformed during import.
 See :class:`colour.utilities.LazyCanonicalMapping` for more information.

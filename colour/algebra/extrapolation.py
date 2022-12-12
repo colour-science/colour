@@ -23,13 +23,13 @@ import numpy as np
 from colour.algebra import NullInterpolator, sdiv, sdiv_mode
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.hints import (
-    DTypeNumber,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
+    Any,
+    ArrayLike,
+    DTypeReal,
     Literal,
-    NDArray,
-    Number,
+    NDArrayFloat,
     Optional,
+    Real,
     Type,
     TypeInterpolator,
     Union,
@@ -140,11 +140,13 @@ class Extrapolator:
         self,
         interpolator: Optional[TypeInterpolator] = None,
         method: Union[Literal["Linear", "Constant"], str] = "Linear",
-        left: Optional[Number] = None,
-        right: Optional[Number] = None,
-        dtype: Optional[Type[DTypeNumber]] = None,
+        left: Optional[Real] = None,
+        right: Optional[Real] = None,
+        dtype: Optional[Type[DTypeReal]] = None,
+        *args: Any,
+        **kwargs: Any,
     ) -> None:
-        dtype = cast(Type[DTypeNumber], optional(dtype, DEFAULT_FLOAT_DTYPE))
+        dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
 
         self._interpolator: TypeInterpolator = NullInterpolator(
             np.array([-np.inf, np.inf]), np.array([-np.inf, np.inf])
@@ -152,12 +154,12 @@ class Extrapolator:
         self.interpolator = optional(interpolator, self._interpolator)
         self._method: Union[Literal["Linear", "Constant"], str] = "Linear"
         self.method = optional(method, self._method)
-        self._right: Optional[Number] = None
+        self._right: Optional[Real] = None
         self.right = right
-        self._left: Optional[Number] = None
+        self._left: Optional[Real] = None
         self.left = left
 
-        self._dtype: Type[DTypeNumber] = dtype
+        self._dtype: Type[DTypeReal] = dtype
 
     @property
     def interpolator(self) -> TypeInterpolator:
@@ -227,7 +229,7 @@ class Extrapolator:
         self._method = value
 
     @property
-    def left(self) -> Optional[Number]:
+    def left(self) -> Optional[Real]:
         """
         Getter and setter property for left value to return for x < xi[0].
 
@@ -238,14 +240,14 @@ class Extrapolator:
 
         Returns
         -------
-        :py:data:`None` or Number
+        :py:data:`None` or Real
             Left value to return for x < xi[0].
         """
 
         return self._left
 
     @left.setter
-    def left(self, value: Optional[Number]):
+    def left(self, value: Optional[Real]):
         """Setter for the **self.left** property."""
 
         if value is not None:
@@ -257,7 +259,7 @@ class Extrapolator:
             self._left = value
 
     @property
-    def right(self) -> Optional[Number]:
+    def right(self) -> Optional[Real]:
         """
         Getter and setter property for right value to return for x > xi[-1].
 
@@ -268,14 +270,14 @@ class Extrapolator:
 
         Returns
         -------
-        :py:data:`None` or Number
+        :py:data:`None` or Real
             Right value to return for x > xi[-1].
         """
 
         return self._right
 
     @right.setter
-    def right(self, value: Optional[Number]):
+    def right(self, value: Optional[Real]):
         """Setter for the **self.right** property."""
 
         if value is not None:
@@ -286,7 +288,7 @@ class Extrapolator:
 
             self._right = value
 
-    def __call__(self, x: FloatingOrArrayLike) -> FloatingOrNDArray:
+    def __call__(self, x: ArrayLike) -> NDArrayFloat:
         """
         Evaluate the Extrapolator at given point(s).
 
@@ -297,17 +299,17 @@ class Extrapolator:
 
         Returns
         -------
-        :class:`numpy.floating` or :class:`numpy.ndarray`
+        :class:`numpy.ndarray`
             Extrapolated points value(s).
         """
 
-        x = np.atleast_1d(x).astype(self._dtype)
+        x = cast(NDArrayFloat, np.atleast_1d(x).astype(self._dtype))
 
-        xe = as_float(self._evaluate(x))
+        xe = self._evaluate(x)
 
-        return xe
+        return as_float(xe)
 
-    def _evaluate(self, x: NDArray) -> NDArray:
+    def _evaluate(self, x: NDArrayFloat) -> NDArrayFloat:
         """
         Perform the extrapolating evaluation at given points.
 

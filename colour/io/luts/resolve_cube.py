@@ -19,7 +19,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import Boolean, Integer, List, Tuple, Union
+from colour.hints import Union
 from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence
 from colour.io.luts.common import path_to_title
 from colour.utilities import as_float_array, as_int_scalar, attest, tstack
@@ -157,8 +157,8 @@ def read_LUT_ResolveCube(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
 
     title = path_to_title(path)
     domain_3x1D, domain_3D = None, None
-    size_3x1D: Integer = 2
-    size_3D: Integer = 2
+    size_3x1D: int = 2
+    size_3D: int = 2
     data = []
     comments = []
     has_3x1D, has_3D = False, False
@@ -230,8 +230,8 @@ def read_LUT_ResolveCube(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
 def write_LUT_ResolveCube(
     LUT: Union[LUT1D, LUT3x1D, LUT3D, LUTSequence],
     path: str,
-    decimals: Integer = 7,
-) -> Boolean:
+    decimals: int = 7,
+) -> bool:
     """
     Write given *LUT* to given  *Resolve* *.cube* *LUT* file.
 
@@ -364,12 +364,12 @@ def write_LUT_ResolveCube(
             2 <= LUT[1].size <= 256, "Cube size must be in domain [2, 256]!"
         )
 
-    def _format_array(array: Union[List, Tuple]) -> str:
+    def _format_array(array: Union[list, tuple]) -> str:
         """Format given array as a *Resolve* *.cube* data row."""
 
         return "{1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)
 
-    def _format_tuple(array: Union[List, Tuple]) -> str:
+    def _format_tuple(array: Union[list, tuple]) -> str:
         """
         Format given array as 2 space separated values to *decimals*
         precision.

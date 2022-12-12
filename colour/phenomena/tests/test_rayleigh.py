@@ -6,7 +6,6 @@ from __future__ import annotations
 import numpy as np
 import unittest
 
-from colour.hints import Tuple
 from colour.phenomena.rayleigh import (
     air_refraction_index_Penndorf1957,
     air_refraction_index_Edlen1966,
@@ -56,7 +55,7 @@ __all__ = [
     "TestSdRayleighScattering",
 ]
 
-DATA_SD_RAYLEIGH_SCATTERING: Tuple = (
+DATA_SD_RAYLEIGH_SCATTERING: tuple = (
     0.59910134,
     0.59217069,
     0.58534101,

@@ -25,14 +25,7 @@ from scipy.optimize import minimize
 
 from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import (
-    ArrayLike,
-    Dict,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    NDArray,
-    Optional,
-)
+from colour.hints import ArrayLike, NDArrayFloat, Optional
 from colour.utilities import as_float_array, as_float, tsplit, usage_warning
 
 __author__ = "Colour Developers"
@@ -48,7 +41,7 @@ __all__ = [
 ]
 
 
-def xy_to_CCT_McCamy1992(xy: ArrayLike) -> FloatingOrNDArray:
+def xy_to_CCT_McCamy1992(xy: ArrayLike) -> NDArrayFloat:
     """
     Return the correlated colour temperature :math:`T_{cp}` from given
     *CIE xy* chromaticity coordinates using *McCamy (1992)* method.
@@ -60,7 +53,7 @@ def xy_to_CCT_McCamy1992(xy: ArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Correlated colour temperature :math:`T_{cp}`.
 
     References
@@ -86,8 +79,8 @@ def xy_to_CCT_McCamy1992(xy: ArrayLike) -> FloatingOrNDArray:
 
 
 def CCT_to_xy_McCamy1992(
-    CCT: FloatingOrArrayLike, optimisation_kwargs: Optional[Dict] = None
-) -> NDArray:
+    CCT: ArrayLike, optimisation_kwargs: Optional[dict] = None
+) -> NDArrayFloat:
     """
     Return the *CIE xy* chromaticity coordinates from given correlated colour
     temperature :math:`T_{cp}` using *McCamy (1992)* method.
@@ -137,13 +130,11 @@ def CCT_to_xy_McCamy1992(
     CCT = np.atleast_1d(CCT.reshape([-1, 1]))
 
     def objective_function(
-        xy: ArrayLike, CCT: FloatingOrArrayLike
-    ) -> FloatingOrNDArray:
+        xy: NDArrayFloat, CCT: NDArrayFloat
+    ) -> NDArrayFloat:
         """Objective function."""
 
-        objective = np.linalg.norm(
-            xy_to_CCT_McCamy1992(xy) - as_float_array(CCT)
-        )
+        objective = np.linalg.norm(xy_to_CCT_McCamy1992(xy) - CCT)
 
         return as_float(objective)
 
@@ -166,7 +157,7 @@ def CCT_to_xy_McCamy1992(
                 args=(CCT_i,),
                 **optimisation_settings,
             ).x
-            for CCT_i in as_float_array(CCT)
+            for CCT_i in CCT
         ]
     )
 

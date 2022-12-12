@@ -24,9 +24,7 @@ from colour.colorimetry import (
 )
 from colour.hints import (
     Any,
-    Boolean,
     Dict,
-    Integer,
     List,
     Literal,
     Optional,
@@ -76,9 +74,9 @@ def plot_colour_quality_bars(
             ColourRendering_Specification_CRI,
         ]
     ],
-    labels: Boolean = True,
-    hatching: Optional[Boolean] = None,
-    hatching_repeat: Integer = 2,
+    labels: bool = True,
+    hatching: Optional[bool] = None,
+    hatching_repeat: int = 2,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -164,10 +162,7 @@ def plot_colour_quality_bars(
         )
         y = as_float_array(
             [Q_a]
-            + [
-                s[1].Q_a  # type: ignore[attr-defined]
-                for s in sorted(Q_as.items(), key=lambda s: s[0])
-            ]
+            + [s[1].Q_a for s in sorted(Q_as.items(), key=lambda s: s[0])]
         )
 
         bars = axes.bar(
@@ -183,9 +178,7 @@ def plot_colour_quality_bars(
         hatches = (
             [next(patterns) * hatching_repeat] * (count_Q_as + 1)
             if hatching
-            else list(
-                np.where(y < 0, next(patterns), None)  # type: ignore[call-overload]
-            )
+            else list(np.where(y < 0, next(patterns), None))  # pyright: ignore
         )
 
         for j, bar in enumerate(bars.patches):
@@ -312,7 +305,7 @@ def plot_multi_sds_colour_rendering_indexes_bars(
         plot. `sds` can be a single
         :class:`colour.MultiSpectralDistributions` class instance, a list
         of :class:`colour.MultiSpectralDistributions` class instances or a
-        list of :class:`colour.SpectralDistribution` class instances.
+        List of :class:`colour.SpectralDistribution` class instances.
 
     Other Parameters
     ----------------
@@ -453,7 +446,7 @@ def plot_multi_sds_colour_quality_scales_bars(
         plot. `sds` can be a single
         :class:`colour.MultiSpectralDistributions` class instance, a list
         of :class:`colour.MultiSpectralDistributions` class instances or a
-        list of :class:`colour.SpectralDistribution` class instances.
+        List of :class:`colour.SpectralDistribution` class instances.
     method
         *Colour Quality Scale* (CQS) computation method.
 

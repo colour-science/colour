@@ -563,7 +563,7 @@ API_CHANGES = {
 """Defines the *colour.recovery* sub-package API changes."""
 
 if not is_documentation_building():
-    sys.modules["colour.recovery"] = recovery(  # type: ignore[assignment]
+    sys.modules["colour.recovery"] = recovery(  # pyright: ignore
         sys.modules["colour.recovery"], build_API_changes(API_CHANGES)
     )
 

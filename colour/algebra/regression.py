@@ -19,7 +19,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import ArrayLike, NDArray
+from colour.hints import ArrayLike, NDArrayFloat
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -33,7 +33,9 @@ __all__ = [
 ]
 
 
-def least_square_mapping_MoorePenrose(y: ArrayLike, x: ArrayLike) -> NDArray:
+def least_square_mapping_MoorePenrose(
+    y: ArrayLike, x: ArrayLike
+) -> NDArrayFloat:
     """
     Compute the *least-squares* mapping from dependent variable :math:`y` to
     independent variable :math:`x` using *Moore-Penrose* inverse.

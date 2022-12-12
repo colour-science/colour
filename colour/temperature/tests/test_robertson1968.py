@@ -7,7 +7,6 @@ import numpy as np
 import unittest
 from itertools import product
 
-from colour.hints import Dict
 from colour.temperature import CCT_to_uv_Robertson1968, uv_to_CCT_Robertson1968
 from colour.utilities import ignore_numpy_errors
 
@@ -23,7 +22,7 @@ __all__ = [
     "TestCCT_to_uv_Robertson1968",
 ]
 
-TEMPERATURE_DUV_TO_UV: Dict = {
+TEMPERATURE_DUV_TO_UV: dict = {
     (2000, -0.0500): np.array([0.309448284638118, 0.309263824757947]),
     (2000, -0.0250): np.array([0.307249142319059, 0.334166912378974]),
     (2000, 0.0000): np.array([0.305050000000000, 0.359070000000000]),

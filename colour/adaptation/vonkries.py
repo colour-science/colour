@@ -20,7 +20,7 @@ import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
 from colour.algebra import matrix_dot, vector_dot, sdiv, sdiv_mode
-from colour.hints import ArrayLike, Literal, NDArray, Union
+from colour.hints import ArrayLike, Literal, NDArrayFloat, Union
 from colour.utilities import (
     from_range_1,
     row_as_diagonal,
@@ -61,7 +61,7 @@ def matrix_chromatic_adaptation_VonKries(
         ],
         str,
     ] = "CAT02",
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Compute the *chromatic adaptation* matrix from test viewing conditions
     to reference viewing conditions.
@@ -164,7 +164,7 @@ def chromatic_adaptation_VonKries(
         ],
         str,
     ] = "CAT02",
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Adapt given stimulus from test viewing conditions to reference viewing
     conditions.

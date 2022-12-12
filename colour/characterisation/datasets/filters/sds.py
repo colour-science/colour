@@ -26,7 +26,6 @@ from __future__ import annotations
 from functools import partial
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import Dict
 from colour.utilities import LazyCanonicalMapping
 
 __author__ = "Colour Developers"
@@ -42,7 +41,7 @@ __all__ = [
     "SDS_FILTERS",
 ]
 
-DATA_FILTERS_ISO: Dict = {
+DATA_FILTERS_ISO: dict = {
     "ISO 7589 Diffuser": {
         350: 0.00,
         360: 0.00,

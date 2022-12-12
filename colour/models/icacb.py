@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import ArrayLike, NDArray, cast
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.models import Iab_to_XYZ, XYZ_to_Iab
 from colour.models.rgb.transfer_functions import (
     eotf_ST2084,
@@ -41,7 +41,7 @@ __all__ = [
     "ICaCb_to_XYZ",
 ]
 
-MATRIX_ICACB_XYZ_TO_LMS: NDArray = np.array(
+MATRIX_ICACB_XYZ_TO_LMS: NDArrayFloat = np.array(
     [
         [0.37613, 0.70431, -0.05675],
         [-0.21649, 1.14744, 0.05356],
@@ -50,10 +50,10 @@ MATRIX_ICACB_XYZ_TO_LMS: NDArray = np.array(
 )
 """*CIE XYZ* tristimulus values to normalised cone responses matrix."""
 
-MATRIX_ICACB_LMS_TO_XYZ: NDArray = np.linalg.inv(MATRIX_ICACB_XYZ_TO_LMS)
+MATRIX_ICACB_LMS_TO_XYZ: NDArrayFloat = np.linalg.inv(MATRIX_ICACB_XYZ_TO_LMS)
 """Normalised cone responses to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_ICACB_XYZ_TO_LMS_2: NDArray = np.array(
+MATRIX_ICACB_XYZ_TO_LMS_2: NDArrayFloat = np.array(
     [
         [0.4949, 0.5037, 0.0015],
         [4.2854, -4.5462, 0.2609],
@@ -62,11 +62,13 @@ MATRIX_ICACB_XYZ_TO_LMS_2: NDArray = np.array(
 )
 """Normalised non-linear cone responses to :math:`IC_AC_B` colourspace matrix."""
 
-MATRIX_ICACB_LMS_TO_XYZ_2: NDArray = np.linalg.inv(MATRIX_ICACB_XYZ_TO_LMS_2)
+MATRIX_ICACB_LMS_TO_XYZ_2: NDArrayFloat = np.linalg.inv(
+    MATRIX_ICACB_XYZ_TO_LMS_2
+)
 """:math:`IC_AC_B` to normalised non-linear cone responses colourspace matrix."""
 
 
-def XYZ_to_ICaCb(XYZ: ArrayLike) -> NDArray:
+def XYZ_to_ICaCb(XYZ: ArrayLike) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to :math:`IC_AC_B` colourspace.
 
@@ -112,14 +114,14 @@ def XYZ_to_ICaCb(XYZ: ArrayLike) -> NDArray:
     array([ 0.06875297,  0.05753352,  0.02081548])
     """
 
-    def LMS_to_LMS_p_callable(LMS: ArrayLike) -> NDArray:
+    def LMS_to_LMS_p_callable(LMS: ArrayLike) -> NDArrayFloat:
         """
         Callable applying the forward non-linearity to the :math:`LMS`
         colourspace array.
         """
 
         with domain_range_scale("ignore"):
-            return cast(NDArray, eotf_inverse_ST2084(LMS))
+            return eotf_inverse_ST2084(LMS)
 
     return XYZ_to_Iab(
         XYZ,
@@ -129,7 +131,7 @@ def XYZ_to_ICaCb(XYZ: ArrayLike) -> NDArray:
     )
 
 
-def ICaCb_to_XYZ(ICaCb: ArrayLike) -> NDArray:
+def ICaCb_to_XYZ(ICaCb: ArrayLike) -> NDArrayFloat:
     """
     Convert from :math:`IC_AC_B` tristimulus values to *CIE XYZ* colourspace.
 
@@ -172,14 +174,14 @@ def ICaCb_to_XYZ(ICaCb: ArrayLike) -> NDArray:
     array([ 0.20654008,  0.12197225,  0.05136951])
     """
 
-    def LMS_p_to_LMS_callable(LMS_p: ArrayLike) -> NDArray:
+    def LMS_p_to_LMS_callable(LMS_p: ArrayLike) -> NDArrayFloat:
         """
         Callable applying the reverse non-linearity to the :math:`LMS_p`
         colourspace array.
         """
 
         with domain_range_scale("ignore"):
-            return cast(NDArray, eotf_ST2084(LMS_p))
+            return eotf_ST2084(LMS_p)
 
     return Iab_to_XYZ(
         ICaCb,

@@ -20,7 +20,7 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
     gamma_function,
@@ -43,7 +43,7 @@ __all__ = [
     "RGB_COLOURSPACE_SMPTE_C",
 ]
 
-PRIMARIES_SMPTE_C: NDArray = np.array(
+PRIMARIES_SMPTE_C: NDArrayFloat = np.array(
     [
         [0.630, 0.340],
         [0.310, 0.595],
@@ -55,17 +55,17 @@ PRIMARIES_SMPTE_C: NDArray = np.array(
 WHITEPOINT_NAME_SMPTE_C: str = "D65"
 """*SMPTE C* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_SMPTE_C: NDArray = CCS_ILLUMINANTS[
+CCS_WHITEPOINT_SMPTE_C: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_SMPTE_C]
 """*SMPTE C* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_SMPTE_C_TO_XYZ: NDArray = normalised_primary_matrix(
+MATRIX_SMPTE_C_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
     PRIMARIES_SMPTE_C, CCS_WHITEPOINT_SMPTE_C
 )
 """*SMPTE C* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_SMPTE_C: NDArray = np.linalg.inv(MATRIX_SMPTE_C_TO_XYZ)
+MATRIX_XYZ_TO_SMPTE_C: NDArrayFloat = np.linalg.inv(MATRIX_SMPTE_C_TO_XYZ)
 """*CIE XYZ* tristimulus values to *SMPTE C* colourspace matrix."""
 
 RGB_COLOURSPACE_SMPTE_C: RGB_Colourspace = RGB_Colourspace(

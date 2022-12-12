@@ -31,7 +31,6 @@ from __future__ import annotations
 from functools import partial
 
 from colour.characterisation import RGB_CameraSensitivities
-from colour.hints import Dict
 from colour.utilities import LazyCanonicalMapping
 
 __author__ = "Colour Developers"
@@ -46,7 +45,7 @@ __all__ = [
     "MSDS_CAMERA_SENSITIVITIES_DSLR",
 ]
 
-DATA_CAMERA_SENSITIVITIES_DSLR: Dict = {
+DATA_CAMERA_SENSITIVITIES_DSLR: dict = {
     "Nikon 5100 (NPL)": {
         380.0: (
             0.00156384299336578000,

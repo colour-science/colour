@@ -29,7 +29,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import Floating, Literal, Union
+from colour.hints import Literal, Union
 from colour.utilities import CanonicalMapping, validate_method
 
 __author__ = "Colour Developers"
@@ -45,7 +45,7 @@ __all__ = [
     "bandpass_correction",
 ]
 
-CONSTANT_ALPHA_STEARNS: Floating = 0.083
+CONSTANT_ALPHA_STEARNS: float = 0.083
 
 
 def bandpass_correction_Stearns1988(

@@ -23,7 +23,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import Boolean, FloatingOrArrayLike, FloatingOrNDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     Structure,
     as_float,
@@ -66,10 +66,10 @@ References
 
 
 def oetf_BT2020(
-    E: FloatingOrArrayLike,
-    is_12_bits_system: Boolean = False,
+    E: ArrayLike,
+    is_12_bits_system: bool = False,
     constants: Structure = CONSTANTS_BT2020,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2020* opto-electronic transfer function
     (OETF).
@@ -87,7 +87,7 @@ def oetf_BT2020(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Resulting non-linear signal :math:`E'`.
 
     Notes
@@ -125,10 +125,10 @@ def oetf_BT2020(
 
 
 def oetf_inverse_BT2020(
-    E_p: FloatingOrArrayLike,
-    is_12_bits_system: Boolean = False,
+    E_p: ArrayLike,
+    is_12_bits_system: bool = False,
     constants: Structure = CONSTANTS_BT2020,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2020* inverse opto-electronic transfer
     function (OETF).
@@ -144,7 +144,7 @@ def oetf_inverse_BT2020(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Resulting voltage :math:`E`.
 
     Notes

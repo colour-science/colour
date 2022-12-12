@@ -21,16 +21,7 @@ import numpy as np
 from dataclasses import dataclass
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import (
-    ArrayLike,
-    Boolean,
-    Floating,
-    List,
-    NDArray,
-    Tuple,
-    Union,
-    cast,
-)
+from colour.hints import ArrayLike, List, NDArrayFloat, Tuple, Union, cast
 from colour.quality import colour_fidelity_index_CIE2017
 from colour.quality.cfi2017 import (
     ColourRendering_Specification_CIE2017,
@@ -87,28 +78,28 @@ class ColourQuality_Specification_ANSIIESTM3018:
     name: str
     sd_test: SpectralDistribution
     sd_reference: SpectralDistribution
-    R_f: Floating
-    R_s: NDArray
-    CCT: Floating
-    D_uv: Floating
+    R_f: float
+    R_s: NDArrayFloat
+    CCT: float
+    D_uv: float
     colorimetry_data: Tuple[
         Tuple[DataColorimetry_TCS_CIE2017, ...],
         Tuple[DataColorimetry_TCS_CIE2017, ...],
     ]
-    R_g: Floating
+    R_g: float
     bins: List[List[int]]
-    averages_test: NDArray
-    averages_reference: NDArray
-    average_norms: NDArray
-    R_fs: NDArray
-    R_cs: NDArray
-    R_hs: NDArray
+    averages_test: NDArrayFloat
+    averages_reference: NDArrayFloat
+    average_norms: NDArrayFloat
+    R_fs: NDArrayFloat
+    R_cs: NDArrayFloat
+    R_hs: NDArrayFloat
 
 
 def colour_fidelity_index_ANSIIESTM3018(
-    sd_test: SpectralDistribution, additional_data: Boolean = False
+    sd_test: SpectralDistribution, additional_data: bool = False
 ) -> Union[
-    Floating,
+    float,
     ColourQuality_Specification_ANSIIESTM3018,
     ColourRendering_Specification_CIE2017,
 ]:
@@ -125,7 +116,7 @@ def colour_fidelity_index_ANSIIESTM3018(
 
     Returns
     -------
-    :class:`numpy.floating` or \
+    :class:`float` or \
 :class:`colour.quality.ColourQuality_Specification_ANSIIESTM3018`
         *ANSI/IES TM-30-18 Colour Fidelity Index* (CFI).
 
@@ -144,18 +135,15 @@ def colour_fidelity_index_ANSIIESTM3018(
     if not additional_data:
         return colour_fidelity_index_CIE2017(sd_test, False)
 
-    specification: (
-        ColourRendering_Specification_CIE2017
-    ) = colour_fidelity_index_CIE2017(
-        sd_test, True
-    )  # type: ignore[assignment]
+    specification = cast(
+        ColourRendering_Specification_CIE2017,
+        colour_fidelity_index_CIE2017(sd_test, True),
+    )
 
     # Setup bins based on where the reference a'b' points are located.
     bins: List[List[int]] = [[] for _i in range(16)]
     for i, sample in enumerate(specification.colorimetry_data[1]):
-        bin_index = as_int_scalar(
-            np.floor(cast(Floating, sample.CAM.h) / 22.5)
-        )
+        bin_index = as_int_scalar(np.floor(cast(float, sample.CAM.h) / 22.5))
         bins[bin_index].append(i)
 
     # Per-bin a'b' averages.
@@ -219,7 +207,7 @@ def colour_fidelity_index_ANSIIESTM3018(
     )
 
 
-def averages_area(averages: ArrayLike) -> Floating:
+def averages_area(averages: ArrayLike) -> float:
     """
     Compute the area of the polygon formed by the hue bin averages.
 
@@ -230,7 +218,7 @@ def averages_area(averages: ArrayLike) -> Floating:
 
     Returns
     -------
-    :class:`numpy.floating`
+    :class:`float`
         Area of the polygon.
     """
 

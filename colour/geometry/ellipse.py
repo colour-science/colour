@@ -23,12 +23,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import (
-    ArrayLike,
-    Literal,
-    NDArray,
-    Union,
-)
+from colour.hints import ArrayLike, Literal, NDArrayFloat, Union, cast
 from colour.utilities import (
     CanonicalMapping,
     ones,
@@ -54,7 +49,7 @@ __all__ = [
 ]
 
 
-def ellipse_coefficients_general_form(coefficients: ArrayLike) -> NDArray:
+def ellipse_coefficients_general_form(coefficients: ArrayLike) -> NDArrayFloat:
     """
     Return the general form ellipse coefficients from given canonical form
     ellipse coefficients.
@@ -105,7 +100,9 @@ def ellipse_coefficients_general_form(coefficients: ArrayLike) -> NDArray:
     return np.array([a, b, c, d, e, f])
 
 
-def ellipse_coefficients_canonical_form(coefficients: ArrayLike) -> NDArray:
+def ellipse_coefficients_canonical_form(
+    coefficients: ArrayLike,
+) -> NDArrayFloat:
     """
     Return the canonical form ellipse coefficients from given general form
     ellipse coefficients.
@@ -170,7 +167,7 @@ def ellipse_coefficients_canonical_form(coefficients: ArrayLike) -> NDArray:
 
 def point_at_angle_on_ellipse(
     phi: ArrayLike, coefficients: ArrayLike
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Return the coordinates of the point at angle :math:`\\phi` in degrees on
     the ellipse with given canonical form coefficients.
@@ -213,7 +210,7 @@ def point_at_angle_on_ellipse(
     return tstack([x, y])
 
 
-def ellipse_fitting_Halir1998(a: ArrayLike) -> NDArray:
+def ellipse_fitting_Halir1998(a: ArrayLike) -> NDArrayFloat:
     """
     Return the coefficients of the implicit second-order polynomial/quadratic
     curve that fits given point array :math:`a` using
@@ -280,7 +277,7 @@ def ellipse_fitting_Halir1998(a: ArrayLike) -> NDArray:
     A1 = v[:, np.nonzero(4 * v[0, :] * v[2, :] - v[1, :] ** 2 > 0)[0]]
     A2 = np.dot(T, A1)
 
-    A = np.ravel([A1, A2])
+    A = cast(NDArrayFloat, np.ravel([A1, A2]))
 
     return A
 
@@ -299,7 +296,7 @@ References
 
 def ellipse_fitting(
     a: ArrayLike, method: Union[Literal["Halir 1998"], str] = "Halir 1998"
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Return the coefficients of the implicit second-order polynomial/quadratic
     curve that fits given point array :math:`a` using

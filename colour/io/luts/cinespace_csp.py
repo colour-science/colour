@@ -19,22 +19,14 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import (
-    ArrayLike,
-    Boolean,
-    Integer,
-    List,
-    NDArray,
-    Tuple,
-    Union,
-)
+from colour.hints import ArrayLike, List, NDArrayFloat, Union
 from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence
 from colour.utilities import (
+    as_float_array,
+    as_int_array,
     attest,
     tsplit,
     tstack,
-    as_float_array,
-    as_int_array,
 )
 
 __author__ = "Colour Developers"
@@ -112,12 +104,12 @@ def read_LUT_Cinespace(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
 
     unity_range = np.array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]])
 
-    def _parse_metadata_section(metadata: List) -> Tuple:
+    def _parse_metadata_section(metadata: list) -> tuple:
         """Parse the metadata at given lines."""
 
         return (metadata[0], metadata[1:]) if len(metadata) > 0 else ("", [])
 
-    def _parse_domain_section(lines: List[str]) -> NDArray:
+    def _parse_domain_section(lines: List[str]) -> NDArrayFloat:
         """Parse the domain at given lines."""
 
         pre_LUT_size = max(int(lines[i]) for i in [0, 3, 6])
@@ -253,8 +245,8 @@ def read_LUT_Cinespace(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
 
 
 def write_LUT_Cinespace(
-    LUT: Union[LUT3x1D, LUT3D, LUTSequence], path: str, decimals: Integer = 7
-) -> Boolean:
+    LUT: Union[LUT3x1D, LUT3D, LUTSequence], path: str, decimals: int = 7
+) -> bool:
     """
     Write given *LUT* to given  *Cinespace* *.csp* *LUT* file.
 
@@ -347,7 +339,7 @@ def write_LUT_Cinespace(
             2 <= LUT[1].size <= 256, "Cube size must be in domain [2, 256]!"
         )
 
-    def _ragged_size(table: ArrayLike) -> List:
+    def _ragged_size(table: ArrayLike) -> list:
         """Return the ragged size of given table."""
 
         R, G, B = tsplit(table)
@@ -358,12 +350,12 @@ def write_LUT_Cinespace(
 
         return [R_len, G_len, B_len]
 
-    def _format_array(array: Union[List, Tuple]) -> str:
+    def _format_array(array: Union[list, tuple]) -> str:
         """Format given array as a *Cinespace* *.cube* data row."""
 
         return "{1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)
 
-    def _format_tuple(array: Union[List, Tuple]) -> str:
+    def _format_tuple(array: Union[list, tuple]) -> str:
         """
         Format given array as 2 space separated values to *decimals*
         precision.

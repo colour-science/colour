@@ -19,7 +19,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
     log_encoding_DJIDLog,
@@ -42,7 +42,7 @@ __all__ = [
     "RGB_COLOURSPACE_DJI_D_GAMUT",
 ]
 
-PRIMARIES_DJI_D_GAMUT: NDArray = np.array(
+PRIMARIES_DJI_D_GAMUT: NDArrayFloat = np.array(
     [
         [0.71, 0.31],
         [0.21, 0.88],
@@ -54,12 +54,12 @@ PRIMARIES_DJI_D_GAMUT: NDArray = np.array(
 WHITEPOINT_NAME_DJI_D_GAMUT: str = "D65"
 """*DJI D-Gamut* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_DJI_D_GAMUT: NDArray = CCS_ILLUMINANTS[
+CCS_WHITEPOINT_DJI_D_GAMUT: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_DJI_D_GAMUT]
 """*DJI D-Gamut* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_DJI_D_GAMUT_TO_XYZ: NDArray = np.array(
+MATRIX_DJI_D_GAMUT_TO_XYZ: NDArrayFloat = np.array(
     [
         [0.6482, 0.1940, 0.1082],
         [0.2830, 0.8132, -0.0962],
@@ -68,7 +68,7 @@ MATRIX_DJI_D_GAMUT_TO_XYZ: NDArray = np.array(
 )
 """*DJI D-Gamut* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_DJI_D_GAMUT: NDArray = np.array(
+MATRIX_XYZ_TO_DJI_D_GAMUT: NDArrayFloat = np.array(
     [
         [1.7257, -0.4314, -0.1917],
         [-0.6025, 1.3906, 0.1671],

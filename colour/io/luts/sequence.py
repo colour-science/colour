@@ -16,9 +16,8 @@ from copy import deepcopy
 from colour.hints import (
     Any,
     ArrayLike,
-    Integer,
     List,
-    NDArray,
+    NDArrayFloat,
     Sequence,
     TypeLUTSequenceItem,
     Union,
@@ -112,10 +111,8 @@ class LUTSequence(MutableSequence):
     """
 
     def __init__(self, *args: TypeLUTSequenceItem) -> None:
-        # TODO: Remove pragma when https://github.com/python/mypy/issues/3004
-        # is resolved.
         self._sequence: List[TypeLUTSequenceItem] = []
-        self.sequence = args  # type: ignore[assignment]
+        self.sequence = args
 
     @property
     def sequence(self) -> List[TypeLUTSequenceItem]:
@@ -148,7 +145,7 @@ class LUTSequence(MutableSequence):
 
         self._sequence = list(value)
 
-    def __getitem__(self, index: Union[Integer, slice]) -> Any:
+    def __getitem__(self, index: Union[int, slice]) -> Any:
         """
         Return the *LUT* sequence item(s) at given index (or slice).
 
@@ -165,7 +162,7 @@ class LUTSequence(MutableSequence):
 
         return self._sequence[index]
 
-    def __setitem__(self, index: Union[Integer, slice], value: Any):
+    def __setitem__(self, index: Union[int, slice], value: Any):
         """
         Set the *LUT* sequence at given index (or slice) with given value.
 
@@ -186,7 +183,7 @@ class LUTSequence(MutableSequence):
 
         self._sequence[index] = value
 
-    def __delitem__(self, index: Union[Integer, slice]):
+    def __delitem__(self, index: Union[int, slice]):
         """
         Delete the *LUT* sequence item(s) at given index (or slice).
 
@@ -198,13 +195,13 @@ class LUTSequence(MutableSequence):
 
         del self._sequence[index]
 
-    def __len__(self) -> Integer:
+    def __len__(self) -> int:
         """
         Return the *LUT* sequence items count.
 
         Returns
         -------
-        :class:`numpy.integer`
+        :class:`int`
             *LUT* sequence items count.
         """
 
@@ -310,7 +307,7 @@ class LUTSequence(MutableSequence):
 
         return not (self == other)
 
-    def insert(self, index: Integer, item: TypeLUTSequenceItem):
+    def insert(self, index: int, item: TypeLUTSequenceItem):
         """
         Insert given *LUT* at given index into the *LUT* sequence.
 
@@ -330,7 +327,7 @@ class LUTSequence(MutableSequence):
 
         self._sequence.insert(index, item)
 
-    def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:
+    def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArrayFloat:
         """
         Apply the *LUT* sequence sequentially to given *RGB* colourspace
         array.

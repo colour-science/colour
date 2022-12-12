@@ -483,7 +483,7 @@ def generate_documentation_plots(output_directory: str):
         output_directory, "Plotting_Plot_Image.png"
     )
     path = os.path.join(
-        colour.__path__[0],
+        colour.__path__[0],  # pyright: ignore
         "examples",
         "plotting",
         "resources",
@@ -783,7 +783,7 @@ def generate_documentation_plots(output_directory: str):
                 ),
                 None,
             ],
-        ]
+        ]  # pyright: ignore
     )
     arguments["filename"] = os.path.join(
         output_directory, "Plotting_Plot_Constant_Hue_Loci.png"
@@ -822,7 +822,11 @@ def generate_documentation_plots(output_directory: str):
     light_source = light_source.copy().align(SpectralShape(360, 830, 1))
     cqs_i = colour_quality_scale(illuminant, additional_data=True)
     cqs_l = colour_quality_scale(light_source, additional_data=True)
-    plt.close(plot_colour_quality_bars([cqs_i, cqs_l], **arguments)[0])
+    plt.close(
+        plot_colour_quality_bars(
+            [cqs_i, cqs_l], **arguments  # pyright: ignore
+        )[0]
+    )
 
     arguments["filename"] = os.path.join(
         output_directory,

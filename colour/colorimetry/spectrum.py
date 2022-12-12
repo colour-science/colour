@@ -30,6 +30,7 @@ from __future__ import annotations
 import numpy as np
 from collections.abc import Mapping
 
+
 from colour.algebra import (
     Extrapolator,
     CubicSplineInterpolator,
@@ -42,21 +43,20 @@ from colour.continuous import Signal, MultiSignals
 from colour.hints import (
     ArrayLike,
     Any,
-    Dict,
-    DTypeFloating,
-    FloatingOrArrayLike,
+    DTypeFloat,
     Generator,
-    Integer,
     List,
     Literal,
-    NDArray,
-    Number,
+    NDArrayFloat,
     Optional,
+    Real,
     Sequence,
-    Tuple,
+    Self,
+    TYPE_CHECKING,
     Type,
     TypeExtrapolator,
     TypeInterpolator,
+    TypeVar,
     Union,
     cast,
 )
@@ -81,13 +81,16 @@ from colour.utilities import (
 )
 from colour.utilities.deprecation import ObjectRenamed
 
-if is_pandas_installed():
-    from pandas import DataFrame, Series
-else:  # pragma: no cover
-    from unittest import mock
+if TYPE_CHECKING:
+    from pandas import DataFrame, Series  # pragma: no cover
+else:
+    if is_pandas_installed():
+        from pandas import DataFrame, Series
+    else:  # pragma: no cover
+        from unittest import mock
 
-    DataFrame = mock.MagicMock()
-    Series = mock.MagicMock()
+        DataFrame = mock.MagicMock()
+        Series = mock.MagicMock()
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -107,7 +110,7 @@ __all__ = [
     "sds_and_msds_to_msds",
 ]
 
-_CACHE_SHAPE_RANGE: Dict = CACHE_REGISTRY.register_cache(
+_CACHE_SHAPE_RANGE: dict = CACHE_REGISTRY.register_cache(
     f"{__name__}._CACHE_SHAPE_RANGE"
 )
 
@@ -152,16 +155,16 @@ class SpectralShape:
     SpectralShape(360, 830, 1)
     """
 
-    def __init__(self, start: Number, end: Number, interval: Number) -> None:
-        self._start: Number = 360
-        self._end: Number = 780
-        self._interval: Number = 1
+    def __init__(self, start: Real, end: Real, interval: Real) -> None:
+        self._start: Real = 360
+        self._end: Real = 780
+        self._interval: Real = 1
         self.start = start
         self.end = end
         self.interval = interval
 
     @property
-    def start(self) -> Number:
+    def start(self) -> Real:
         """
         Getter and setter property for the spectral shape start.
 
@@ -172,14 +175,14 @@ class SpectralShape:
 
         Returns
         -------
-        Number
+        Real
             Spectral shape start.
         """
 
         return self._start
 
     @start.setter
-    def start(self, value: Number):
+    def start(self, value: Real):
         """Setter for the **self.start** property."""
 
         attest(
@@ -196,7 +199,7 @@ class SpectralShape:
         self._start = value
 
     @property
-    def end(self) -> Number:
+    def end(self) -> Real:
         """
         Getter and setter property for the spectral shape end.
 
@@ -207,14 +210,14 @@ class SpectralShape:
 
         Returns
         -------
-        Number
+        Real
             Spectral shape end.
         """
 
         return self._end
 
     @end.setter
-    def end(self, value: Number):
+    def end(self, value: Real):
         """Setter for the **self.end** property."""
 
         attest(
@@ -231,7 +234,7 @@ class SpectralShape:
         self._end = value
 
     @property
-    def interval(self) -> Number:
+    def interval(self) -> Real:
         """
         Getter and setter property for the spectral shape interval.
 
@@ -242,14 +245,14 @@ class SpectralShape:
 
         Returns
         -------
-        Number
+        Real
             Spectral shape interval.
         """
 
         return self._interval
 
     @interval.setter
-    def interval(self, value: Number):
+    def interval(self, value: Real):
         """Setter for the **self.interval** property."""
 
         attest(
@@ -260,7 +263,7 @@ class SpectralShape:
         self._interval = value
 
     @property
-    def boundaries(self) -> Tuple:
+    def boundaries(self) -> tuple:
         """
         Getter and setter property for the spectral shape boundaries.
 
@@ -292,7 +295,7 @@ class SpectralShape:
         self.start, self.end = value
 
     @property
-    def wavelengths(self) -> NDArray:
+    def wavelengths(self) -> NDArrayFloat:
         """
         Getter property for the spectral shape wavelengths.
 
@@ -328,13 +331,13 @@ class SpectralShape:
 
         return f"SpectralShape({self._start}, {self._end}, {self._interval})"
 
-    def __hash__(self) -> Integer:
+    def __hash__(self) -> int:
         """
         Return the spectral shape hash.
 
         Returns
         -------
-        :class:`numpy.integer`
+        :class:`int`
             Object hash.
         """
 
@@ -370,7 +373,7 @@ class SpectralShape:
 
         yield from self.wavelengths
 
-    def __contains__(self, wavelength: FloatingOrArrayLike) -> bool:
+    def __contains__(self, wavelength: ArrayLike) -> bool:
         """
         Return if the spectral shape contains given wavelength
         :math:`\\lambda`.
@@ -400,13 +403,13 @@ class SpectralShape:
         False
         """
 
-        decimals = np.finfo(DEFAULT_FLOAT_DTYPE).precision
+        decimals = np.finfo(cast(Any, DEFAULT_FLOAT_DTYPE)).precision
 
         return bool(
             np.all(
                 np.in1d(
                     np.around(
-                        wavelength,  # type: ignore[arg-type]
+                        wavelength,  # pyright: ignore
                         decimals,
                     ),
                     np.around(
@@ -417,13 +420,13 @@ class SpectralShape:
             )
         )
 
-    def __len__(self) -> Integer:
+    def __len__(self) -> int:
         """
         Return the spectral shape wavelength :math:`\\lambda_n` count.
 
         Returns
         -------
-        :class:`numpy.integer`
+        :class:`int`
             Spectral shape wavelength :math:`\\lambda_n` count.
 
         Examples
@@ -485,7 +488,7 @@ class SpectralShape:
 
         return not (self == other)
 
-    def range(self, dtype: Optional[Type[DTypeFloating]] = None) -> NDArray:
+    def range(self, dtype: Optional[Type[DTypeFloat]] = None) -> NDArrayFloat:
         """
         Return an iterable range for the spectral shape.
 
@@ -516,7 +519,7 @@ class SpectralShape:
                  9.9,  10. ])
         """
 
-        dtype = cast(Type[DTypeFloating], optional(dtype, DEFAULT_FLOAT_DTYPE))
+        dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
 
         hash_key = tuple(hash(arg) for arg in (self, dtype))
         if hash_key in _CACHE_SHAPE_RANGE:
@@ -536,7 +539,7 @@ class SpectralShape:
         _CACHE_SHAPE_RANGE[hash_key] = range_
 
         if interval_effective != self._interval:
-            self._interval = interval_effective
+            self._interval = cast(float, interval_effective)
             runtime_warning(
                 f'"{(start, end, interval)}" shape could not be honoured, '
                 f'using "{self}"!'
@@ -684,9 +687,7 @@ class SpectralDistribution(Signal):
 
     def __init__(
         self,
-        data: Optional[
-            Union[ArrayLike, dict, Series, Signal, SpectralDistribution]
-        ] = None,
+        data: Optional[Union[ArrayLike, dict, Self, Series, Signal]] = None,
         domain: Optional[Union[ArrayLike, SpectralShape]] = None,
         **kwargs: Any,
     ) -> None:
@@ -746,7 +747,7 @@ class SpectralDistribution(Signal):
         self._display_name = value
 
     @property
-    def wavelengths(self) -> NDArray:
+    def wavelengths(self) -> NDArrayFloat:
         """
         Getter and setter property for the spectral distribution wavelengths
         :math:`\\lambda_n`.
@@ -772,7 +773,7 @@ class SpectralDistribution(Signal):
         self.domain = as_float_array(value, self.dtype)
 
     @property
-    def values(self) -> NDArray:
+    def values(self) -> NDArrayFloat:
         """
         Getter and setter property for the spectral distribution values.
 
@@ -852,8 +853,8 @@ class SpectralDistribution(Signal):
         self,
         shape: SpectralShape,
         interpolator: Optional[Type[TypeInterpolator]] = None,
-        interpolator_kwargs: Optional[Dict] = None,
-    ) -> SpectralDistribution:
+        interpolator_kwargs: Optional[dict] = None,
+    ) -> Self:
         """
         Interpolate the spectral distribution in-place according to
         *CIE 167:2005* recommendation (if the interpolator has not been changed
@@ -1210,10 +1211,8 @@ class SpectralDistribution(Signal):
         wavelengths, values = self.wavelengths, self.values
 
         self.domain = shape.wavelengths
-        self.range = as_float_array(
-            interpolator(wavelengths, values, **interpolator_kwargs)(
-                self.domain
-            )
+        self.range = interpolator(wavelengths, values, **interpolator_kwargs)(
+            self.domain
         )
 
         return self
@@ -1222,8 +1221,8 @@ class SpectralDistribution(Signal):
         self,
         shape: SpectralShape,
         extrapolator: Optional[Type[TypeExtrapolator]] = None,
-        extrapolator_kwargs: Optional[Dict] = None,
-    ) -> SpectralDistribution:
+        extrapolator_kwargs: Optional[dict] = None,
+    ) -> Self:
         """
         Extrapolate the spectral distribution in-place according to
         *CIE 15:2004* and *CIE 167:2005* recommendations or given extrapolation
@@ -1323,10 +1322,10 @@ class SpectralDistribution(Signal):
         self,
         shape: SpectralShape,
         interpolator: Optional[Type[TypeInterpolator]] = None,
-        interpolator_kwargs: Optional[Dict] = None,
+        interpolator_kwargs: Optional[dict] = None,
         extrapolator: Optional[Type[TypeExtrapolator]] = None,
-        extrapolator_kwargs: Optional[Dict] = None,
-    ) -> SpectralDistribution:
+        extrapolator_kwargs: Optional[dict] = None,
+    ) -> Self:
         """
         Align the spectral distribution in-place to given spectral shape:
         Interpolates first then extrapolates to fit the given range.
@@ -1465,7 +1464,7 @@ class SpectralDistribution(Signal):
 
         return self
 
-    def trim(self, shape: SpectralShape) -> SpectralDistribution:
+    def trim(self, shape: SpectralShape) -> Self:
         """
         Trim the spectral distribution wavelengths to given spectral shape.
 
@@ -1574,7 +1573,7 @@ class SpectralDistribution(Signal):
 
         return self
 
-    def normalise(self, factor: Number = 1) -> SpectralDistribution:
+    def normalise(self, factor: Real = 1) -> Self:
         """
         Normalise the spectral distribution using given normalization factor.
 
@@ -1612,7 +1611,7 @@ class SpectralDistribution(Signal):
         """
 
         with sdiv_mode():
-            self *= sdiv(1, max(self.values)) * factor  # type: ignore[misc]
+            self *= sdiv(1, max(self.values)) * factor
 
         return self
 
@@ -1826,7 +1825,7 @@ class MultiSpectralDistributions(MultiSignals):
                 DataFrame,
                 dict,
                 MultiSignals,
-                MultiSpectralDistributions,
+                Self,
                 Sequence,
                 Series,
                 Signal,
@@ -1865,7 +1864,7 @@ class MultiSpectralDistributions(MultiSignals):
 
         self._display_name: str = self.name
         self.display_name = kwargs.get("display_name", self._display_name)
-        self._display_labels: List = list(self.signals.keys())
+        self._display_labels: list = list(self.signals.keys())
         self.display_labels = kwargs.get(
             "display_labels", self._display_labels
         )
@@ -1946,7 +1945,7 @@ class MultiSpectralDistributions(MultiSignals):
             ).display_name = self._display_labels[i]
 
     @property
-    def wavelengths(self) -> NDArray:
+    def wavelengths(self) -> NDArrayFloat:
         """
         Getter and setter property for the multi-spectral distributions
         wavelengths :math:`\\lambda_n`.
@@ -1972,7 +1971,7 @@ class MultiSpectralDistributions(MultiSignals):
         self.domain = as_float_array(value, self.dtype)
 
     @property
-    def values(self) -> NDArray:
+    def values(self) -> NDArrayFloat:
         """
         Getter and setter property for the multi-spectral distributions values.
 
@@ -2045,8 +2044,8 @@ class MultiSpectralDistributions(MultiSignals):
         self,
         shape: SpectralShape,
         interpolator: Optional[Type[TypeInterpolator]] = None,
-        interpolator_kwargs: Optional[Dict] = None,
-    ) -> MultiSpectralDistributions:
+        interpolator_kwargs: Optional[dict] = None,
+    ) -> Self:
         """
         Interpolate the multi-spectral distributions in-place according to
         *CIE 167:2005* recommendation (if the interpolator has not been changed
@@ -2273,8 +2272,8 @@ class MultiSpectralDistributions(MultiSignals):
         self,
         shape: SpectralShape,
         extrapolator: Optional[Type[TypeExtrapolator]] = None,
-        extrapolator_kwargs: Optional[Dict] = None,
-    ) -> MultiSpectralDistributions:
+        extrapolator_kwargs: Optional[dict] = None,
+    ) -> Self:
         """
         Extrapolate the multi-spectral distributions in-place according to
         *CIE 15:2004* and *CIE 167:2005* recommendations or given extrapolation
@@ -2360,10 +2359,10 @@ class MultiSpectralDistributions(MultiSignals):
         self,
         shape: SpectralShape,
         interpolator: Optional[Type[TypeInterpolator]] = None,
-        interpolator_kwargs: Optional[Dict] = None,
+        interpolator_kwargs: Optional[dict] = None,
         extrapolator: Optional[Type[TypeExtrapolator]] = None,
-        extrapolator_kwargs: Optional[Dict] = None,
-    ) -> MultiSpectralDistributions:
+        extrapolator_kwargs: Optional[dict] = None,
+    ) -> Self:
         """
         Align the multi-spectral distributions in-place to given spectral
         shape: Interpolates first then extrapolates to fit the given range.
@@ -2509,7 +2508,7 @@ class MultiSpectralDistributions(MultiSignals):
 
         return self
 
-    def trim(self, shape: SpectralShape) -> MultiSpectralDistributions:
+    def trim(self, shape: SpectralShape) -> Self:
         """
         Trim the multi-spectral distributions wavelengths to given shape.
 
@@ -2589,7 +2588,7 @@ class MultiSpectralDistributions(MultiSignals):
 
         return self
 
-    def normalise(self, factor: Number = 1) -> MultiSpectralDistributions:
+    def normalise(self, factor: Real = 1) -> Self:
         """
         Normalise the multi-spectral distributions with given normalization
         factor.
@@ -2754,19 +2753,24 @@ class MultiSpectralDistributions(MultiSignals):
         self.display_labels = value
 
 
-_CACHE_RESHAPED_SDS_AND_MSDS: Dict = CACHE_REGISTRY.register_cache(
+_CACHE_RESHAPED_SDS_AND_MSDS: dict = CACHE_REGISTRY.register_cache(
     f"{__name__}._CACHE_RESHAPED_SDS_AND_MSDS"
 )
 
 
+TypeSpectralDistribution = TypeVar(
+    "TypeSpectralDistribution", bound="SpectralDistribution"
+)
+
+
 def reshape_sd(
-    sd: SpectralDistribution,
+    sd: TypeSpectralDistribution,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     method: Union[
         Literal["Align", "Extrapolate", "Interpolate", "Trim"], str
     ] = "Align",
     **kwargs: Any,
-) -> SpectralDistribution:
+) -> TypeSpectralDistribution:
     """
     Reshape given spectral distribution with given spectral shape.
 
@@ -2827,14 +2831,19 @@ def reshape_sd(
     return reshaped_sd
 
 
+TypeMultiSpectralDistributions = TypeVar(
+    "TypeMultiSpectralDistributions", bound="MultiSpectralDistributions"
+)
+
+
 def reshape_msds(
-    msds: MultiSpectralDistributions,
+    msds: TypeMultiSpectralDistributions,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     method: Union[
         Literal["Align", "Extrapolate", "Interpolate", "Trim"], str
     ] = "Align",
     **kwargs: Any,
-) -> MultiSpectralDistributions:
+) -> TypeMultiSpectralDistributions:
     """
     Reshape given multi-spectral distributions with given spectral shape.
 
@@ -2869,9 +2878,7 @@ def reshape_msds(
     data!
     """
 
-    return reshape_sd(
-        msds, shape, method, **kwargs  # type: ignore[arg-type]
-    )  # type: ignore[return-value]
+    return reshape_sd(msds, shape, method, **kwargs)  # pyright: ignore
 
 
 def sds_and_msds_to_sds(

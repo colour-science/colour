@@ -28,14 +28,7 @@ from colour.colorimetry import (
     MultiSpectralDistributions,
     handle_spectral_arguments,
 )
-from colour.hints import (
-    ArrayLike,
-    Dict,
-    Floating,
-    Integer,
-    NDArray,
-    Optional,
-)
+from colour.hints import ArrayLike, NDArrayFloat, Optional
 from colour.temperature import CCT_to_uv_Planck1900
 from colour.utilities import (
     CACHE_REGISTRY,
@@ -63,13 +56,12 @@ __all__ = [
     "CCT_to_uv_Ohno2013",
 ]
 
+CCT_MINIMAL_OHNO2013: float = 1000
+CCT_MAXIMAL_OHNO2013: float = 100000
+CCT_SAMPLES_OHNO2013: int = 10
+CCT_ITERATIONS_OHNO2013: int = 6
 
-CCT_MINIMAL_OHNO2013: Floating = 1000
-CCT_MAXIMAL_OHNO2013: Floating = 100000
-CCT_SAMPLES_OHNO2013: Integer = 10
-CCT_ITERATIONS_OHNO2013: Integer = 6
-
-_CACHE_PLANCKIAN_TABLE_ROW: Dict = CACHE_REGISTRY.register_cache(
+_CACHE_PLANCKIAN_TABLE_ROW: dict = CACHE_REGISTRY.register_cache(
     f"{__name__}._CACHE_PLANCKIAN_TABLE_ROW"
 )
 
@@ -77,10 +69,10 @@ _CACHE_PLANCKIAN_TABLE_ROW: Dict = CACHE_REGISTRY.register_cache(
 def planckian_table(
     uv: ArrayLike,
     cmfs: MultiSpectralDistributions,
-    start: Floating,
-    end: Floating,
-    count: Integer,
-) -> NDArray:
+    start: float,
+    end: float,
+    count: int,
+) -> NDArrayFloat:
     """
     Return a planckian table from given *CIE UCS* colourspace *uv*
     chromaticity coordinates, colour matching functions and temperature range
@@ -158,11 +150,11 @@ def planckian_table(
 def uv_to_CCT_Ohno2013(
     uv: ArrayLike,
     cmfs: Optional[MultiSpectralDistributions] = None,
-    start: Optional[Floating] = None,
-    end: Optional[Floating] = None,
-    count: Optional[Integer] = None,
-    iterations: Optional[Integer] = None,
-) -> NDArray:
+    start: Optional[float] = None,
+    end: Optional[float] = None,
+    count: Optional[int] = None,
+    iterations: Optional[int] = None,
+) -> NDArrayFloat:
     """
     Return the correlated colour temperature :math:`T_{cp}` and
     :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
@@ -298,12 +290,12 @@ def uv_to_CCT_Ohno2013(
         tstack([T_t, D_uv_t]),
     )
 
-    return np.reshape(as_float_array(CCT_D_uv), shape)
+    return np.reshape(CCT_D_uv, shape)
 
 
 def CCT_to_uv_Ohno2013(
     CCT_D_uv: ArrayLike, cmfs: Optional[MultiSpectralDistributions] = None
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Return the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}` and
@@ -361,4 +353,4 @@ def CCT_to_uv_Ohno2013(
 
     uv[D_uv == 0] = uv_0[D_uv == 0]
 
-    return as_float_array(uv)
+    return uv

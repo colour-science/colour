@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import sys
 
-from colour.hints import Any, Dict
+from colour.hints import Any
 
 from .data_structures import (
     Lookup,
@@ -249,7 +249,7 @@ class utilities(ModuleAPI):
 
 
 # v0.4.0
-API_CHANGES: Dict = {
+API_CHANGES: dict = {
     "ObjectRenamed": [
         [
             "colour.utilities.set_int_precision",
@@ -304,7 +304,7 @@ API_CHANGES
 """
 
 if not is_documentation_building():
-    sys.modules["colour.utilities"] = utilities(  # type: ignore[assignment]
+    sys.modules["colour.utilities"] = utilities(  # pyright: ignore
         sys.modules["colour.utilities"], build_API_changes(API_CHANGES)
     )
 

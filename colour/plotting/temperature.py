@@ -24,10 +24,9 @@ from colour.hints import (
     ArrayLike,
     Callable,
     Dict,
-    Floating,
     List,
     Literal,
-    NDArray,
+    NDArrayFloat,
     Optional,
     Sequence,
     Tuple,
@@ -82,7 +81,7 @@ __all__ = [
 @override_style()
 def plot_planckian_locus(
     planckian_locus_colours: Optional[Union[ArrayLike, str]] = None,
-    planckian_locus_opacity: Floating = 1,
+    planckian_locus_opacity: float = 1,
     planckian_locus_labels: Optional[Sequence] = None,
     method: Union[
         Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"], str
@@ -138,7 +137,7 @@ def plot_planckian_locus(
     )
 
     labels = cast(
-        Tuple,
+        tuple,
         optional(
             planckian_locus_labels,
             (10**6 / 600, 2000, 2500, 3000, 4000, 6000, 10**6 / 100),
@@ -153,7 +152,7 @@ def plot_planckian_locus(
 
     if method == "cie 1931":
 
-        def uv_to_ij(uv: NDArray) -> NDArray:
+        def uv_to_ij(uv: NDArrayFloat) -> NDArrayFloat:
             """
             Convert given *uv* chromaticity coordinates to *ij* chromaticity
             coordinates.
@@ -163,7 +162,7 @@ def plot_planckian_locus(
 
     elif method == "cie 1960 ucs":
 
-        def uv_to_ij(uv: NDArray) -> NDArray:
+        def uv_to_ij(uv: NDArrayFloat) -> NDArrayFloat:
             """
             Convert given *uv* chromaticity coordinates to *ij* chromaticity
             coordinates.
@@ -173,7 +172,7 @@ def plot_planckian_locus(
 
     elif method == "cie 1976 ucs":
 
-        def uv_to_ij(uv: NDArray) -> NDArray:
+        def uv_to_ij(uv: NDArrayFloat) -> NDArrayFloat:
             """
             Convert given *uv* chromaticity coordinates to *ij* chromaticity
             coordinates.
@@ -252,12 +251,10 @@ def plot_planckian_locus(
 @override_style()
 def plot_planckian_locus_in_chromaticity_diagram(
     illuminants: Union[str, Sequence[str]],
-    chromaticity_diagram_callable: Callable = (
-        plot_chromaticity_diagram  # type: ignore[has-type]
-    ),
+    chromaticity_diagram_callable: Callable = plot_chromaticity_diagram,
     method: Union[Literal["CIE 1931", "CIE 1960 UCS"], str] = "CIE 1931",
-    annotate_kwargs: Optional[Union[Dict, List[Dict]]] = None,
-    plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+    annotate_kwargs: Optional[Union[dict, List[dict]]] = None,
+    plot_kwargs: Optional[Union[dict, List[dict]]] = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -337,7 +334,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
     cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
 
     illuminants_filtered = filter_passthrough(
-        CCS_ILLUMINANTS.get(cmfs.name), illuminants  # type: ignore[arg-type]
+        CCS_ILLUMINANTS[cmfs.name], illuminants
     )
 
     settings: Dict[str, Any] = {"uniform": True}
@@ -357,7 +354,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
 
     if method == "CIE 1931":
 
-        def xy_to_ij(xy: NDArray) -> NDArray:
+        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
             """
             Convert given *CIE xy* chromaticity coordinates to *ij*
             chromaticity coordinates.
@@ -368,7 +365,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
         bounding_box = (-0.1, 0.9, -0.1, 0.9)
     elif method == "CIE 1960 UCS":
 
-        def xy_to_ij(xy: NDArray) -> NDArray:
+        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
             """
             Convert given *CIE xy* chromaticity coordinates to *ij*
             chromaticity coordinates.
@@ -460,10 +457,10 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
 def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
     illuminants: Union[str, Sequence[str]],
     chromaticity_diagram_callable_CIE1931: Callable = (
-        plot_chromaticity_diagram_CIE1931  # type: ignore[has-type]
+        plot_chromaticity_diagram_CIE1931
     ),
-    annotate_kwargs: Optional[Union[Dict, List[Dict]]] = None,
-    plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+    annotate_kwargs: Optional[Union[dict, List[dict]]] = None,
+    plot_kwargs: Optional[Union[dict, List[dict]]] = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -539,10 +536,10 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1931.png
 def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
     illuminants: Union[str, Sequence[str]],
     chromaticity_diagram_callable_CIE1960UCS: Callable = (
-        plot_chromaticity_diagram_CIE1960UCS  # type: ignore[has-type]
+        plot_chromaticity_diagram_CIE1960UCS
     ),
-    annotate_kwargs: Optional[Union[Dict, List[Dict]]] = None,
-    plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+    annotate_kwargs: Optional[Union[dict, List[dict]]] = None,
+    plot_kwargs: Optional[Union[dict, List[dict]]] = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """

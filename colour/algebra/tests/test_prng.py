@@ -16,7 +16,7 @@ import numpy as np
 import unittest
 
 from colour.algebra import random_triplet_generator
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -30,7 +30,7 @@ __all__ = [
     "TestRandomTripletGenerator",
 ]
 
-RANDOM_TRIPLETS: NDArray = np.array(
+RANDOM_TRIPLETS: NDArrayFloat = np.array(
     [
         [0.96702984, 0.77938292, 0.43614665],
         [0.54723225, 0.19768507, 0.94897731],

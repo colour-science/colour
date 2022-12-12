@@ -47,15 +47,12 @@ from colour.colorimetry import (
 from colour.hints import (
     Any,
     ArrayLike,
-    Boolean,
     Callable,
     Dict,
-    Floating,
-    Integer,
     List,
     Literal,
     Mapping,
-    NDArray,
+    NDArrayFloat,
     Optional,
     Sequence,
     Tuple,
@@ -207,7 +204,7 @@ CONSTANTS_ARROW_STYLE: Structure = Structure(
 """Annotation arrow settings used across the plotting sub-package."""
 
 
-def colour_style(use_style: Boolean = True) -> Dict:
+def colour_style(use_style: bool = True) -> dict:
     """
     Return *Colour* plotting style.
 
@@ -360,8 +357,8 @@ def XYZ_to_plotting_colourspace(
             str,
         ]
     ] = "CAT02",
-    apply_cctf_encoding: Boolean = True,
-) -> NDArray:
+    apply_cctf_encoding: bool = True,
+) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to the default plotting
     colourspace.
@@ -468,7 +465,7 @@ class KwargsArtist(TypedDict):
     """
 
     axes: plt.Axes
-    uniform: Boolean
+    uniform: bool
 
 
 def artist(**kwargs: Union[KwargsArtist, Any]) -> Tuple[plt.Figure, plt.Axes]:
@@ -521,8 +518,8 @@ class KwargsCamera(TypedDict):
 
     figure: plt.Figure
     axes: plt.Axes
-    azimuth: Optional[Floating]
-    elevation: Optional[Floating]
+    azimuth: Optional[float]
+    elevation: Optional[float]
     camera_aspect: Union[Literal["equal"], str]
 
 
@@ -607,20 +604,20 @@ class KwargsRender(TypedDict):
     figure: plt.Figure
     axes: plt.Axes
     filename: str
-    standalone: Boolean
-    aspect: Union[Literal["auto", "equal"], Floating]
-    axes_visible: Boolean
+    standalone: bool
+    aspect: Union[Literal["auto", "equal"], float]
+    axes_visible: bool
     bounding_box: ArrayLike
-    tight_layout: Boolean
-    legend: Boolean
-    legend_columns: Integer
-    transparent_background: Boolean
+    tight_layout: bool
+    legend: bool
+    legend_columns: int
+    transparent_background: bool
     title: str
-    wrap_title: Boolean
+    wrap_title: bool
     x_label: str
     y_label: str
-    x_ticker: Boolean
-    y_ticker: Boolean
+    x_ticker: bool
+    y_ticker: bool
 
 
 def render(**kwargs: Union[KwargsRender, Any]) -> Tuple[plt.Figure, plt.Axes]:
@@ -703,7 +700,7 @@ def label_rectangles(
     labels: Sequence[str],
     rectangles: Sequence[Patch],
     rotation: Union[Literal["horizontal", "vertical"], str] = "vertical",
-    text_size: Floating = 10,
+    text_size: float = 10,
     offset: Optional[ArrayLike] = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
@@ -745,7 +742,7 @@ def label_rectangles(
     figure = kwargs.get("figure", plt.gcf())
     axes = kwargs.get("axes", plt.gca())
 
-    offset = as_float_array(cast(ArrayLike, optional(offset, (0.0, 0.025))))
+    offset = as_float_array(optional(offset, (0.0, 0.025)))
 
     x_m, y_m = 0, 0
     for rectangle in rectangles:
@@ -816,8 +813,8 @@ def uniform_axes3d(**kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
 def filter_passthrough(
     mapping: Mapping,
     filterers: Union[Any, str, Sequence[Union[Any, str]]],
-    allow_non_siblings: Boolean = True,
-) -> Dict:
+    allow_non_siblings: bool = True,
+) -> dict:
     """
     Return mapping objects matching given filterers while passing through
     class instances whose type is one of the mapping element types.
@@ -939,7 +936,7 @@ def filter_RGB_colourspaces(
     filterers: Union[
         RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]
     ],
-    allow_non_siblings: Boolean = True,
+    allow_non_siblings: bool = True,
 ) -> Dict[str, RGB_Colourspace]:
     """
     Return the *RGB* colourspaces matching given filterers.
@@ -970,7 +967,7 @@ def filter_cmfs(
         str,
         Sequence[Union[MultiSpectralDistributions, str]],
     ],
-    allow_non_siblings: Boolean = True,
+    allow_non_siblings: bool = True,
 ) -> Dict[str, MultiSpectralDistributions]:
     """
     Return the colour matching functions matching given filterers.
@@ -1001,7 +998,7 @@ def filter_illuminants(
     filterers: Union[
         SpectralDistribution, str, Sequence[Union[SpectralDistribution, str]]
     ],
-    allow_non_siblings: Boolean = True,
+    allow_non_siblings: bool = True,
 ) -> Dict[str, SpectralDistribution]:
     """
     Return the illuminants matching given filterers.
@@ -1038,7 +1035,7 @@ def filter_illuminants(
 
 def filter_colour_checkers(
     filterers: Union[ColourChecker, str, Sequence[Union[ColourChecker, str]]],
-    allow_non_siblings: Boolean = True,
+    allow_non_siblings: bool = True,
 ) -> Dict[str, ColourChecker]:
     """
     Return the colour checkers matching given filterers.
@@ -1066,9 +1063,9 @@ def filter_colour_checkers(
 
 
 def update_settings_collection(
-    settings_collection: Union[Dict, List[Dict]],
-    keyword_arguments: Union[Dict, List[Dict]],
-    expected_count: Integer,
+    settings_collection: Union[dict, List[dict]],
+    keyword_arguments: Union[dict, List[dict]],
+    expected_count: int,
 ):
     """
     Update given settings collection, *in-place*, with given keyword arguments
@@ -1170,12 +1167,12 @@ def plot_single_colour_swatch(
 )
 def plot_multi_colour_swatches(
     colour_swatches: Sequence[Union[ArrayLike, ColourSwatch]],
-    width: Floating = 1,
-    height: Floating = 1,
-    spacing: Floating = 0,
-    columns: Optional[Integer] = None,
+    width: float = 1,
+    height: float = 1,
+    spacing: float = 0,
+    columns: Optional[int] = None,
     direction: Union[Literal["+y", "-y"], str] = "+y",
-    text_kwargs: Optional[Dict] = None,
+    text_kwargs: Optional[dict] = None,
     background_colour: ArrayLike = (1.0, 1.0, 1.0),
     compare_swatches: Optional[
         Union[Literal["Diagonal", "Stacked"], str]
@@ -1290,8 +1287,8 @@ def plot_multi_colour_swatches(
         text_settings.update(text_kwargs)
     text_offset = text_settings.pop("offset")
 
-    offset_X: Floating = 0
-    offset_Y: Floating = 0
+    offset_X: float = 0
+    offset_Y: float = 0
     x_min, x_max, y_min, y_max = 0, width, 0, height
     y = 1 if direction == "+y" else -1
     for i, colour_swatch in enumerate(colour_swatches_reference):
@@ -1383,9 +1380,9 @@ def plot_multi_colour_swatches(
 def plot_single_function(
     function: Callable,
     samples: Optional[ArrayLike] = None,
-    log_x: Optional[Integer] = None,
-    log_y: Optional[Integer] = None,
-    plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+    log_x: Optional[int] = None,
+    log_y: Optional[int] = None,
+    plot_kwargs: Optional[Union[dict, List[dict]]] = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -1452,9 +1449,9 @@ def plot_single_function(
 def plot_multi_functions(
     functions: Dict[str, Callable],
     samples: Optional[ArrayLike] = None,
-    log_x: Optional[Integer] = None,
-    log_y: Optional[Integer] = None,
-    plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+    log_x: Optional[int] = None,
+    log_y: Optional[int] = None,
+    plot_kwargs: Optional[Union[dict, List[dict]]] = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -1587,8 +1584,8 @@ def plot_multi_functions(
 @override_style()
 def plot_image(
     image: ArrayLike,
-    imshow_kwargs: Optional[Dict] = None,
-    text_kwargs: Optional[Dict] = None,
+    imshow_kwargs: Optional[dict] = None,
+    text_kwargs: Optional[dict] = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """

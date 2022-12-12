@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import ArrayLike, Integer, NDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import as_float_array, tstack
 
 __author__ = "Colour Developers"
@@ -37,10 +37,10 @@ RANDOM_STATE = np.random.RandomState()
 
 
 def random_triplet_generator(
-    size: Integer,
+    size: int,
     limits: ArrayLike = np.array([[0, 1], [0, 1], [0, 1]]),
     random_state: np.random.RandomState = RANDOM_STATE,
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Return a generator yielding random triplets.
 

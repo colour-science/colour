@@ -48,15 +48,7 @@ from colour.appearance.ciecam02 import (
     temporary_magnitude_quantity_inverse,
     viewing_conditions_dependent_parameters,
 )
-from colour.hints import (
-    ArrayLike,
-    Boolean,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    NDArray,
-    Optional,
-    Union,
-)
+from colour.hints import ArrayLike, NDArrayFloat, Optional, Union
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
@@ -158,25 +150,41 @@ class CAM_Specification_CIECAM16(MixinDataclassArithmetic):
     :cite:`CIEDivision12022`
     """
 
-    J: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    C: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    h: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    s: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    Q: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    M: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    H: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    HC: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    J: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    C: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    h: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    s: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    Q: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    M: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    H: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    HC: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
 
 
 def XYZ_to_CIECAM16(
     XYZ: ArrayLike,
     XYZ_w: ArrayLike,
-    L_A: FloatingOrArrayLike,
-    Y_b: FloatingOrArrayLike,
+    L_A: ArrayLike,
+    Y_b: ArrayLike,
     surround: Union[
         InductionFactors_CIECAM02, InductionFactors_CIECAM16
     ] = VIEWING_CONDITIONS_CIECAM16["Average"],
-    discount_illuminant: Boolean = False,
+    discount_illuminant: bool = False,
 ) -> CAM_Specification_CIECAM16:
     """
     Compute the *CIECAM16* colour appearance model correlates from given
@@ -365,13 +373,13 @@ H=275.5949861..., HC=None)
 def CIECAM16_to_XYZ(
     specification: CAM_Specification_CIECAM16,
     XYZ_w: ArrayLike,
-    L_A: FloatingOrArrayLike,
-    Y_b: FloatingOrArrayLike,
+    L_A: ArrayLike,
+    Y_b: ArrayLike,
     surround: Union[
         InductionFactors_CIECAM02, InductionFactors_CIECAM16
     ] = VIEWING_CONDITIONS_CIECAM16["Average"],
-    discount_illuminant: Boolean = False,
-) -> NDArray:
+    discount_illuminant: bool = False,
+) -> NDArrayFloat:
     """
     Convert from *CIECAM16* specification to *CIE XYZ* tristimulus values.
 
@@ -554,7 +562,7 @@ def CIECAM16_to_XYZ(
     return from_range_100(XYZ)
 
 
-def f_e_forward(RGB_c: ArrayLike, F_L: FloatingOrArrayLike) -> NDArray:
+def f_e_forward(RGB_c: ArrayLike, F_L: ArrayLike) -> NDArrayFloat:
     """
     Compute the post-adaptation cone responses.
 
@@ -603,7 +611,7 @@ def f_e_forward(RGB_c: ArrayLike, F_L: FloatingOrArrayLike) -> NDArray:
     )
 
 
-def f_e_inverse(RGB_a: ArrayLike, F_L: FloatingOrArrayLike) -> NDArray:
+def f_e_inverse(RGB_a: ArrayLike, F_L: ArrayLike) -> NDArrayFloat:
     """
     Compute the modified cone-like responses.
 
@@ -654,7 +662,7 @@ def f_e_inverse(RGB_a: ArrayLike, F_L: FloatingOrArrayLike) -> NDArray:
     )
 
 
-def f_q(F_L: FloatingOrArrayLike, q: FloatingOrArrayLike) -> FloatingOrNDArray:
+def f_q(F_L: ArrayLike, q: ArrayLike) -> NDArrayFloat:
     """
     Define the :math:`f(q)` function.
 
@@ -686,9 +694,7 @@ def f_q(F_L: FloatingOrArrayLike, q: FloatingOrArrayLike) -> FloatingOrNDArray:
     return (400 * F_L_q_100) / (27.13 + F_L_q_100)
 
 
-def d_f_q(
-    F_L: FloatingOrArrayLike, q: FloatingOrArrayLike
-) -> FloatingOrNDArray:
+def d_f_q(F_L: ArrayLike, q: ArrayLike) -> NDArrayFloat:
     """
     Define the :math:`f'(q)` function derivative.
 

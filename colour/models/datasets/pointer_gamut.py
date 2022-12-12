@@ -15,7 +15,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.colorimetry import CCS_LIGHT_SOURCES
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -30,7 +30,7 @@ __all__ = [
     "CCS_POINTER_GAMUT_BOUNDARY",
 ]
 
-CCS_ILLUMINANT_POINTER_GAMUT: NDArray = CCS_LIGHT_SOURCES[
+CCS_ILLUMINANT_POINTER_GAMUT: NDArrayFloat = CCS_LIGHT_SOURCES[
     "CIE 1931 2 Degree Standard Observer"
 ]["SC"]
 """
@@ -41,7 +41,7 @@ References
 :cite:`Pointer1980a`
 """
 
-DATA_POINTER_GAMUT_VOLUME: NDArray = np.array(
+DATA_POINTER_GAMUT_VOLUME: NDArrayFloat = np.array(
     [
         [15, 10, 0],
         [15, 15, 10],
@@ -629,7 +629,7 @@ References
 :cite:`Pointer1980a`
 """
 
-CCS_POINTER_GAMUT_BOUNDARY: NDArray = np.array(
+CCS_POINTER_GAMUT_BOUNDARY: NDArrayFloat = np.array(
     [
         [0.659, 0.316],
         [0.634, 0.351],

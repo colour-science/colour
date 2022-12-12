@@ -18,12 +18,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import (
-    Boolean,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    Integer,
-)
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import Structure, as_float, from_range_1, to_domain_1
 
@@ -54,12 +49,12 @@ CONSTANTS_FLOG: Structure = Structure(
 
 
 def log_encoding_FLog(
-    in_r: FloatingOrArrayLike,
-    bit_depth: Integer = 10,
-    out_normalised_code_value: Boolean = True,
-    in_reflection: Boolean = True,
+    in_r: ArrayLike,
+    bit_depth: int = 10,
+    out_normalised_code_value: bool = True,
+    in_reflection: bool = True,
     constants: Structure = CONSTANTS_FLOG,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Define the *Fujifilm F-Log* log encoding curve / opto-electronic transfer
     function.
@@ -80,7 +75,7 @@ def log_encoding_FLog(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Non-linear data :math:`out`.
 
     Notes
@@ -143,12 +138,12 @@ def log_encoding_FLog(
 
 
 def log_decoding_FLog(
-    out_r: FloatingOrArrayLike,
-    bit_depth: Integer = 10,
-    in_normalised_code_value: Boolean = True,
-    out_reflection: Boolean = True,
+    out_r: ArrayLike,
+    bit_depth: int = 10,
+    in_normalised_code_value: bool = True,
+    out_reflection: bool = True,
     constants: Structure = CONSTANTS_FLOG,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Define the *Fujifilm F-Log* log decoding curve / electro-optical transfer
     function.
@@ -169,7 +164,7 @@ def log_decoding_FLog(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear reflection data :math`in`.
 
     Notes

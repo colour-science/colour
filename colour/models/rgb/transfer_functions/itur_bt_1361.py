@@ -53,7 +53,7 @@ def oetf_BT1361(L):
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding non-linear primary signal :math:`E'`.
 
     Notes
@@ -114,7 +114,7 @@ def oetf_inverse_BT1361(E_p):
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding scene *Luminance* :math:`L`.
 
     Notes

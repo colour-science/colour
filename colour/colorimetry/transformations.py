@@ -41,7 +41,7 @@ from colour.colorimetry import (
     SDS_LEFS_PHOTOPIC,
     reshape_sd,
 )
-from colour.hints import FloatingOrArrayLike, NDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import tstack
 
 __author__ = "Colour Developers"
@@ -61,8 +61,8 @@ __all__ = [
 
 
 def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(
-    wavelength: FloatingOrArrayLike,
-) -> NDArray:
+    wavelength: ArrayLike,
+) -> NDArrayFloat:
     """
     Convert *Wright & Guild 1931 2 Degree RGB CMFs* colour matching functions
     into the *CIE 1931 2 Degree Standard Observer* colour matching functions.
@@ -136,8 +136,8 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(
 
 
 def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(
-    wavelength: FloatingOrArrayLike,
-) -> NDArray:
+    wavelength: ArrayLike,
+) -> NDArrayFloat:
     """
     Convert *Stiles & Burch 1959 10 Degree RGB CMFs* colour matching
     functions into the *CIE 1964 10 Degree Standard Observer* colour matching
@@ -189,8 +189,8 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(
 
 
 def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(
-    wavelength: FloatingOrArrayLike,
-) -> NDArray:
+    wavelength: ArrayLike,
+) -> NDArrayFloat:
     """
     Convert *Stiles & Burch 1959 10 Degree RGB CMFs* colour matching
     functions into the *Stockman & Sharpe 10 Degree Cone Fundamentals*
@@ -244,8 +244,8 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(
 
 
 def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(
-    wavelength: FloatingOrArrayLike,
-) -> NDArray:
+    wavelength: ArrayLike,
+) -> NDArrayFloat:
     """
     Convert *Stockman & Sharpe 2 Degree Cone Fundamentals* colour matching
     functions into the *CIE 2015 2 Degree Standard Observer* colour matching
@@ -297,8 +297,8 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(
 
 
 def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(
-    wavelength: FloatingOrArrayLike,
-) -> NDArray:
+    wavelength: ArrayLike,
+) -> NDArrayFloat:
     """
     Convert *Stockman & Sharpe 10 Degree Cone Fundamentals* colour matching
     functions into the *CIE 2015 10 Degree Standard Observer* colour matching

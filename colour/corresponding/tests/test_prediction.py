@@ -17,7 +17,7 @@ from colour.corresponding import (
     corresponding_chromaticities_prediction_VonKries,
     corresponding_chromaticities_prediction_Zhai2018,
 )
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 
 
 __author__ = "Colour Developers"
@@ -138,7 +138,7 @@ DATASET_CORRESPONDING_COLOUR_1: CorrespondingColourDataset = (
     )
 )
 
-DATA_PREDICTION_FAIRCHILD1990: NDArray = np.array(
+DATA_PREDICTION_FAIRCHILD1990: NDArrayFloat = np.array(
     [
         [(0.199, 0.487), (0.200554934448681, 0.470155699619516)],
         [(0.420, 0.509), (0.389214449896027, 0.514002881379267)],
@@ -155,7 +155,7 @@ DATA_PREDICTION_FAIRCHILD1990: NDArray = np.array(
     ]
 )
 
-DATA_PREDICTION_CIE1994: NDArray = np.array(
+DATA_PREDICTION_CIE1994: NDArrayFloat = np.array(
     [
         [(0.199, 0.487), (0.261386136420622, 0.533662817418878)],
         [(0.420, 0.509), (0.451546322781523, 0.521730655299867)],
@@ -172,7 +172,7 @@ DATA_PREDICTION_CIE1994: NDArray = np.array(
     ]
 )
 
-DATA_PREDICTION_CMCCAT2000: NDArray = np.array(
+DATA_PREDICTION_CMCCAT2000: NDArrayFloat = np.array(
     [
         [(0.199, 0.487), (0.200011273633451, 0.470539230354398)],
         [(0.420, 0.509), (0.407637147823942, 0.504672206472439)],
@@ -189,7 +189,7 @@ DATA_PREDICTION_CMCCAT2000: NDArray = np.array(
     ]
 )
 
-DATA_PREDICTION_VONKRIES: NDArray = np.array(
+DATA_PREDICTION_VONKRIES: NDArrayFloat = np.array(
     [
         [(0.199, 0.487), (0.199994235295863, 0.470596132542110)],
         [(0.420, 0.509), (0.414913855668385, 0.503766204685646)],
@@ -206,7 +206,7 @@ DATA_PREDICTION_VONKRIES: NDArray = np.array(
     ]
 )
 
-DATA_PREDICTION_ZHAI2018: NDArray = np.array(
+DATA_PREDICTION_ZHAI2018: NDArrayFloat = np.array(
     [
         [(0.199, 0.487), (0.199994235295863, 0.470596132542110)],
         [(0.420, 0.509), (0.414913855668385, 0.503766204685646)],

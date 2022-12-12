@@ -16,7 +16,7 @@ import unittest
 from itertools import product
 
 from colour.algebra.interpolation import vertices_and_relative_coordinates
-from colour.hints import NDArray, Tuple
+from colour.hints import NDArrayFloat, cast
 from colour.algebra import (
     kernel_nearest_neighbour,
     kernel_linear,
@@ -35,7 +35,7 @@ from colour.algebra import (
     table_interpolation_tetrahedral,
 )
 from colour.algebra import random_triplet_generator
-from colour.io import read_LUT
+from colour.io import LUT3D, read_LUT
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
@@ -70,7 +70,7 @@ __all__ = [
     "TestTableInterpolationTetrahedral",
 ]
 
-DATA_POINTS_A: Tuple = (
+DATA_POINTS_A: tuple = (
     9.3700,
     12.3200,
     12.4600,
@@ -89,7 +89,7 @@ DATA_POINTS_A: Tuple = (
     86.0500,
 )
 
-DATA_POINTS_A_LINEAR_INTERPOLATED_10_SAMPLES: Tuple = (
+DATA_POINTS_A_LINEAR_INTERPOLATED_10_SAMPLES: tuple = (
     9.370,
     9.665,
     9.960,
@@ -243,7 +243,7 @@ DATA_POINTS_A_LINEAR_INTERPOLATED_10_SAMPLES: Tuple = (
     86.050,
 )
 
-DATA_POINTS_A_SPRAGUE_INTERPOLATED_10_SAMPLES: Tuple = (
+DATA_POINTS_A_SPRAGUE_INTERPOLATED_10_SAMPLES: tuple = (
     9.37000000,
     9.72075073,
     10.06936191,
@@ -397,7 +397,7 @@ DATA_POINTS_A_SPRAGUE_INTERPOLATED_10_SAMPLES: Tuple = (
     86.05000000,
 )
 
-DATA_POINTS_A_CUBIC_SPLINE_INTERPOLATED_X2_SAMPLES: Tuple = (
+DATA_POINTS_A_CUBIC_SPLINE_INTERPOLATED_X2_SAMPLES: tuple = (
     9.37000000,
     11.08838189,
     12.26359953,
@@ -432,7 +432,7 @@ DATA_POINTS_A_CUBIC_SPLINE_INTERPOLATED_X2_SAMPLES: Tuple = (
     86.05000000,
 )
 
-LAGRANGE_COEFFICIENTS_A: NDArray = np.array(
+LAGRANGE_COEFFICIENTS_A: NDArrayFloat = np.array(
     [
         [0.92625, 0.09750, -0.02375],
         [0.85500, 0.19000, -0.04500],
@@ -456,7 +456,7 @@ LAGRANGE_COEFFICIENTS_A: NDArray = np.array(
     ]
 )
 
-LAGRANGE_COEFFICIENTS_B: NDArray = np.array(
+LAGRANGE_COEFFICIENTS_B: NDArrayFloat = np.array(
     [
         [-0.0154375, 0.9725625, 0.0511875, -0.0083125],
         [-0.0285000, 0.9405000, 0.1045000, -0.0165000],
@@ -480,19 +480,22 @@ LAGRANGE_COEFFICIENTS_B: NDArray = np.array(
     ]
 )
 
-LUT_TABLE: NDArray = read_LUT(
-    os.path.join(
-        os.path.dirname(__file__),
-        "..",
-        "..",
-        "io",
-        "luts",
-        "tests",
-        "resources",
-        "iridas_cube",
-        "Colour_Correct.cube",
-    )
-).table  # type: ignore[union-attr]
+LUT_TABLE: NDArrayFloat = cast(
+    LUT3D,
+    read_LUT(
+        os.path.join(
+            os.path.dirname(__file__),
+            "..",
+            "..",
+            "io",
+            "luts",
+            "tests",
+            "resources",
+            "iridas_cube",
+            "Colour_Correct.cube",
+        )
+    ),
+).table
 
 
 class TestKernelNearestNeighbour(unittest.TestCase):

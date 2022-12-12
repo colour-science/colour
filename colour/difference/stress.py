@@ -23,7 +23,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode
-from colour.hints import FloatingOrArrayLike, FloatingOrNDArray, Literal, Union
+from colour.hints import ArrayLike, NDArrayFloat, Literal, Union
 from colour.utilities import (
     CanonicalMapping,
     as_float,
@@ -45,9 +45,7 @@ __all__ = [
 ]
 
 
-def index_stress_Garcia2007(
-    d_E: FloatingOrArrayLike, d_V: FloatingOrArrayLike
-) -> FloatingOrNDArray:
+def index_stress_Garcia2007(d_E: ArrayLike, d_V: ArrayLike) -> NDArrayFloat:
     """
     Compute the
     *Kruskal's Standardized Residual Sum of Squares (:math:`STRESS`)*
@@ -62,7 +60,7 @@ def index_stress_Garcia2007(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         :math:`STRESS` index.
 
     References
@@ -105,10 +103,10 @@ References
 
 
 def index_stress(
-    d_E: FloatingOrArrayLike,
-    d_V: FloatingOrArrayLike,
+    d_E: ArrayLike,
+    d_V: ArrayLike,
     method: Union[Literal["Garcia 2007"], str] = "Garcia 2007",
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Compute the
     *Kruskal's Standardized Residual Sum of Squares (:math:`STRESS`)*
@@ -125,7 +123,7 @@ def index_stress(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         :math:`STRESS` index.
 
     References

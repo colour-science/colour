@@ -19,7 +19,6 @@ from colour.colorimetry import (
     reshape_sd,
     sd_blackbody,
 )
-from colour.hints import Dict
 from colour.quality.cfi2017 import (
     CCT_reference_illuminant,
     sd_reference_illuminant,
@@ -44,7 +43,7 @@ __all__ = [
     "TestSdReferenceIlluminant",
 ]
 
-DATA_SD_SAMPLE_5NM: Dict = {
+DATA_SD_SAMPLE_5NM: dict = {
     380: 0.000,
     385: 0.000,
     390: 0.001,
@@ -130,7 +129,7 @@ DATA_SD_SAMPLE_5NM: Dict = {
 
 SD_SAMPLE_5NM: SpectralDistribution = SpectralDistribution(DATA_SD_SAMPLE_5NM)
 
-DATA_SD_SAMPLE_1NM: Dict = {
+DATA_SD_SAMPLE_1NM: dict = {
     380: 0.000,
     381: 0.000,
     382: 0.000,
