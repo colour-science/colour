@@ -305,7 +305,7 @@ def write_LUT_Cinespace(
             '"LUTSequence" must be "1D + 3D" or "3x1D + 3D"!',
         )
         LUT[0] = (
-            LUT[0].as_LUT(LUT3x1D) if isinstance(LUT[0], LUT1D) else LUT[0]
+            LUT[0].convert(LUT3x1D) if isinstance(LUT[0], LUT1D) else LUT[0]
         )
         name = f"{LUT[0].name} - {LUT[1].name}"
         has_3x1D = True
@@ -314,7 +314,7 @@ def write_LUT_Cinespace(
     elif isinstance(LUT, LUT1D):
         name = LUT.name
         has_3x1D = True
-        LUT = LUTSequence(LUT.as_LUT(LUT3x1D), LUT3D())
+        LUT = LUTSequence(LUT.convert(LUT3x1D), LUT3D())
 
     elif isinstance(LUT, LUT3x1D):
         name = LUT.name

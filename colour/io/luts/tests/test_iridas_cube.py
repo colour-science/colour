@@ -186,7 +186,7 @@ class TestWriteLUTIridasCube(unittest.TestCase):
             os.path.join(ROOT_LUTS, "ACES_Proxy_10_to_ACES.cube")
         )
         write_LUT_IridasCube(
-            LUT_4_r.as_LUT(LUT1D, force_conversion=True),
+            LUT_4_r.convert(LUT1D, force_conversion=True),
             os.path.join(
                 self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"
             ),
