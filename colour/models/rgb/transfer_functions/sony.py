@@ -72,7 +72,7 @@ def log_encoding_SLog(
         Reflection or :math:`IRE / 100` input light level :math:`x` to a
         camera.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     out_normalised_code_value
         Whether the non-linear *Sony S-Log* data :math:`y` is encoded as
         normalised code values.
@@ -148,7 +148,7 @@ def log_decoding_SLog(
     y
         Non-linear *Sony S-Log* data :math:`y`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     in_normalised_code_value
         Whether the non-linear *Sony S-Log* data :math:`y` is encoded as
         normalised code values.
@@ -218,7 +218,7 @@ def log_encoding_SLog2(
         Reflection or :math:`IRE / 100` input light level :math:`x` to a
         camera.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     out_normalised_code_value
         Whether the non-linear *Sony S-Log2* data :math:`y` is encoded as
         normalised code values.
@@ -285,7 +285,7 @@ def log_decoding_SLog2(
     y
         Non-linear *Sony S-Log2* data :math:`y`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     in_normalised_code_value
         Whether the non-linear *Sony S-Log2* data :math:`y` is encoded as
         normalised code values.
@@ -347,7 +347,7 @@ def log_encoding_SLog3(
         Reflection or :math:`IRE / 100` input light level :math:`x` to a
         camera.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     out_normalised_code_value
         Whether the non-linear *Sony S-Log3* data :math:`y` is encoded as
         normalised code values.
@@ -423,7 +423,7 @@ def log_decoding_SLog3(
     y
         Non-linear *Sony S-Log3* data :math:`y`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     in_normalised_code_value
         Whether the non-linear *Sony S-Log3* data :math:`y` is encoded as
         normalised code values.

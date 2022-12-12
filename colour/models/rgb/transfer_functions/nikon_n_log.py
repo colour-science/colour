@@ -64,7 +64,7 @@ def log_encoding_NLog(
     y
         Reflectance :math:`y`, "y = 0.18" is equivalent to Stop 0.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     out_normalised_code_value
         Whether the non-linear *Nikon N-Log* data :math:`x` is encoded as
         normalised code values.
@@ -140,7 +140,7 @@ def log_decoding_NLog(
     x
         *N-Log* 10-bit equivalent code value :math:`x`
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     in_normalised_code_value
         Whether the non-linear *Nikon N-Log* data :math:`x` is encoded as
         normalised code values.

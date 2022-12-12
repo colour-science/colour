@@ -57,7 +57,7 @@ def log_encoding_VLog(
     L_in
         Linear reflection data :math`L_{in}`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     out_normalised_code_value
         Whether the non-linear *Panasonic V-Log* data :math:`V_{out}` is
         encoded as normalised code values.
@@ -149,7 +149,7 @@ def log_decoding_VLog(
     V_out
         Non-linear data :math:`V_{out}`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     in_normalised_code_value
         Whether the non-linear *Panasonic V-Log* data :math:`V_{out}` is
         encoded as normalised code values.

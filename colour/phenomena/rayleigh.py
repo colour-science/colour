@@ -550,7 +550,7 @@ def scattering_cross_section(
     F_air_function: Callable = F_air_Bodhaine1999,
 ) -> NDArrayFloat:
     """
-    Return the scattering cross section per molecule :math:`\\sigma` of dry
+    Return the scattering cross-section per molecule :math:`\\sigma` of dry
     air as function of wavelength :math:`\\lambda` in centimeters (cm) using
     given :math:`CO_2` concentration in parts per million (ppm) and temperature
     :math:`T[K]` in kelvin degrees following *Van de Hulst (1957)* method.
@@ -574,7 +574,7 @@ def scattering_cross_section(
     Returns
     -------
     :class:`numpy.ndarray`
-        Scattering cross section per molecule :math:`\\sigma` of dry air.
+        Scattering cross-section per molecule :math:`\\sigma` of dry air.
 
     Warnings
     --------

@@ -65,16 +65,16 @@ __all__ = [
 @dataclass(frozen=True)
 class BitDepth_Specification:
     """
-    Define a bit depth specification.
+    Define a bit-depth specification.
 
     Parameters
     ----------
     name
         Attribute name.
     numpy
-        Object representing the *Numpy* bit depth.
+        Object representing the *Numpy* bit-depth.
     openimageio
-        Object representing the *OpenImageIO* bit depth.
+        Object representing the *OpenImageIO* bit-depth.
     """
 
     name: str
@@ -145,15 +145,15 @@ def convert_bit_depth(
     ] = "float32",
 ) -> NDArrayReal:
     """
-    Convert given array to given bit depth, the current bit depth of the array
+    Convert given array to given bit-depth, the current bit-depth of the array
     is used to determine the appropriate conversion path.
 
     Parameters
     ----------
     a
-        Array to convert to given bit depth.
+        Array to convert to given bit-depth.
     bit_depth
-        Bit depth.
+        Bit-depth.
 
     Returns
     -------
@@ -182,12 +182,12 @@ def convert_bit_depth(
 
     attest(
         bit_depth in bit_depths,
-        f'Incorrect bit depth was specified, it must be one of: "{bit_depths}"!',
+        f'Incorrect bit-depth was specified, it must be one of: "{bit_depths}"!',
     )
 
     attest(
         str(a.dtype) in bit_depths,
-        f'Image bit depth must be one of: "{bit_depths}"!',
+        f'Image bit-depth must be one of: "{bit_depths}"!',
     )
 
     source_dtype = str(a.dtype)
@@ -230,7 +230,7 @@ def read_image_OpenImageIO(
     path
         Image path.
     bit_depth
-        Returned image bit depth, the bit depth conversion behaviour is driven
+        Returned image bit-depth, the bit-depth conversion behaviour is driven
         directly by *OpenImageIO*, this definition only converts to the
         relevant data type after reading.
     attributes
@@ -312,7 +312,7 @@ def read_image_Imageio(
     path
         Image path.
     bit_depth
-        Returned image bit depth, the image data is converted with
+        Returned image bit-depth, the image data is converted with
         :func:`colour.io.convert_bit_depth` definition after reading the
         image.
 
@@ -382,9 +382,9 @@ def read_image(
     path
         Image path.
     bit_depth
-        Returned image bit depth, for the *Imageio* method, the image data is
+        Returned image bit-depth, for the *Imageio* method, the image data is
         converted with :func:`colour.io.convert_bit_depth` definition after
-        reading the image, for the *OpenImageIO* method, the bit depth
+        reading the image, for the *OpenImageIO* method, the bit-depth
         conversion behaviour is driven directly by the library, this definition
         only converts to the relevant data type after reading.
     method
@@ -464,7 +464,7 @@ def write_image_OpenImageIO(
     path
         Image path.
     bit_depth
-        Bit depth to write the image at, the bit depth conversion behaviour is
+        Bit-depth to write the image at, the bit-depth conversion behaviour is
         ruled directly by *OpenImageIO*.
     attributes
         An array of :class:`colour.io.ImageAttribute_Specification` class
@@ -599,7 +599,7 @@ def write_image_Imageio(
     path
         Image path.
     bit_depth
-        Bit depth to write the image at, the image data is converted with
+        Bit-depth to write the image at, the image data is converted with
         :func:`colour.io.convert_bit_depth` definition prior to writing the
         image.
 
@@ -691,7 +691,7 @@ def write_image(
     path
         Image path.
     bit_depth
-        Bit depth to write the image at, for the *Imageio* method, the image
+        Bit-depth to write the image at, for the *Imageio* method, the image
         data is converted with :func:`colour.io.convert_bit_depth` definition
         prior to writing the image.
     method

@@ -64,7 +64,7 @@ def log_encoding_FLog(
     in_r
         Linear reflection data :math`in`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     out_normalised_code_value
         Whether the non-linear *Fujifilm F-Log* data :math:`out` is encoded as
         normalised code values.
@@ -153,7 +153,7 @@ def log_decoding_FLog(
     out_r
         Non-linear data :math:`out`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     in_normalised_code_value
         Whether the non-linear *Fujifilm F-Log* data :math:`out` is encoded as
         normalised code values.

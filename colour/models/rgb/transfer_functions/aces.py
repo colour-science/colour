@@ -129,10 +129,10 @@ def log_encoding_ACESproxy(
     lin_AP1
         *lin_AP1* value.
     bit_depth
-        *ACESproxy* bit depth.
+        *ACESproxy* bit-depth.
     out_in
         Whether to return value as int code value or float equivalent of a
-        code value at a given bit depth.
+        code value at a given bit-depth.
     constants
         *ACESproxy* constants.
 
@@ -217,10 +217,10 @@ def log_decoding_ACESproxy(
     ACESproxy
         *ACESproxy* non-linear value.
     bit_depth
-        *ACESproxy* bit depth.
+        *ACESproxy* bit-depth.
     in_int
         Whether to treat the input value as int code value or float
-        equivalent of a code value at a given bit depth.
+        equivalent of a code value at a given bit-depth.
     constants
         *ACESproxy* constants.
 

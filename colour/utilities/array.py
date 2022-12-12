@@ -1356,7 +1356,7 @@ def to_domain_int(
     a
         Array :math:`a` to scale to int domain.
     bit_depth
-        Bit depth, usually *int* but can be a :class:`numpy.ndarray` if
+        Bit-depth, usually *int* but can be a :class:`numpy.ndarray` if
         some axis need different scaling to be brought to int domain.
     dtype
         Data type used for the conversion to :class:`np.ndarray`.
@@ -1716,7 +1716,7 @@ def from_range_int(
     a
         Array :math:`a` to scale from int range.
     bit_depth
-        Bit depth, usually *int* but can be a :class:`numpy.ndarray` if
+        Bit-depth, usually *int* but can be a :class:`numpy.ndarray` if
         some axis need different scaling to be brought from int range.
     dtype
         Data type used for the conversion to :class:`np.ndarray`.

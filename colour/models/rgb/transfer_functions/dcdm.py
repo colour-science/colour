@@ -50,7 +50,7 @@ def eotf_inverse_DCDM(XYZ: ArrayLike, out_int: bool = False) -> NDArrayReal:
         *CIE XYZ* tristimulus values.
     out_int
         Whether to return value as int code value or float equivalent of a
-        code value at a given bit depth.
+        code value at a given bit-depth.
 
     Returns
     -------
@@ -117,7 +117,7 @@ def eotf_DCDM(
         Non-linear *CIE XYZ'* tristimulus values.
     in_int
         Whether to treat the input value as int code value or float
-        equivalent of a code value at a given bit depth.
+        equivalent of a code value at a given bit-depth.
 
     Returns
     -------
