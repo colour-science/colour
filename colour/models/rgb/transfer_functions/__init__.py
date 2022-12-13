@@ -94,7 +94,7 @@ from .log import (
 )
 from .panalog import log_encoding_Panalog, log_decoding_Panalog
 from .panasonic_v_log import log_encoding_VLog, log_decoding_VLog
-from .fujifilm_flog import (
+from .fujifilm_f_log import (
     log_encoding_FLog,
     log_decoding_FLog,
     log_decoding_FLog2,

@@ -11,10 +11,10 @@ Defines the *Fujifilm F-Log* log encoding:
 
 References
 ----------
--   :cite:`Fujifilm2022a` : Fujifilm. (2022). F-Log Data Sheet Ver.1.1 (pp.
-    1-4). https://dl.fujifilm-x.com/support/lut/F-Log_DataSheet_E_Ver.1.1.pdf
--   :cite:`Fujifilm2022b` : Fujifilm. (2022). F-Log2 Data Sheet Ver.1.0 (pp.
-    1-4). https://dl.fujifilm-x.com/support/lut/F-Log2_DataSheet_E_Ver.1.0.pdf
+-   :cite:`Fujifilm2022` : Fujifilm. (2022). F-Log Data Sheet Ver.1.1 (pp.
+    1–4). https://dl.fujifilm-x.com/support/lut/F-Log_DataSheet_E_Ver.1.1.pdf
+-   :cite:`Fujifilm2022a` : Fujifilm. (2022). F-Log2 Data Sheet Ver.1.0 (pp.
+    1–4). https://dl.fujifilm-x.com/support/lut/F-Log2_DataSheet_E_Ver.1.0.pdf
 """
 
 from __future__ import annotations
@@ -36,9 +36,9 @@ __all__ = [
     "CONSTANTS_FLOG",
     "CONSTANTS_FLOG2",
     "log_encoding_FLog",
-    "log_encoding_FLog2",
     "log_decoding_FLog",
-    "log_decoding_FLog2"
+    "log_encoding_FLog2",
+    "log_decoding_FLog2",
 ]
 
 CONSTANTS_FLOG: Structure = Structure(
@@ -112,14 +112,14 @@ def log_encoding_FLog(
 
     References
     ----------
-    :cite:`Fujifilm2022a`
+    :cite:`Fujifilm2022`
 
     Examples
     --------
     >>> log_encoding_FLog(0.18)  # doctest: +ELLIPSIS
     0.4593184...
 
-    The values of *2-2. F-Log Code Value* table in :cite:`Fujifilm2022a` are
+    The values of *2-2. F-Log Code Value* table in :cite:`Fujifilm2022` are
     obtained as follows:
 
     >>> x = np.array([0, 18, 90]) / 100
@@ -201,7 +201,7 @@ def log_decoding_FLog(
 
     References
     ----------
-    :cite:`Fujifilm2022a`
+    :cite:`Fujifilm2022`
 
     Examples
     --------
@@ -236,12 +236,12 @@ def log_decoding_FLog(
 
 
 def log_encoding_FLog2(
-    in_r: FloatingOrArrayLike,
-    bit_depth: Integer = 10,
-    out_normalised_code_value: Boolean = True,
-    in_reflection: Boolean = True,
+    in_r: ArrayLike,
+    bit_depth: int = 10,
+    out_normalised_code_value: bool = True,
+    in_reflection: bool = True,
     constants: Structure = CONSTANTS_FLOG2,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Define the *Fujifilm F-Log2* log encoding curve / opto-electronic transfer
     function.
@@ -281,20 +281,20 @@ def log_encoding_FLog2(
 
     References
     ----------
-    :cite:`Fujifilm2022b`
+    :cite:`Fujifilm2022a`
 
     Examples
     --------
     >>> log_encoding_FLog2(0.18)  # doctest: +ELLIPSIS
     0.3910072...
 
-    The values of *2-2. F-Log2 Code Value* table in :cite:`Fujifilm2022b` are
+    The values of *2-2. F-Log2 Code Value* table in :cite:`Fujifilm2022a` are
     obtained as follows:
 
     >>> x = np.array([0, 18, 90]) / 100
     >>> np.around(log_encoding_FLog2(x, 10, False) * 100, 1)
     array([  3.5,  38.4,  57.8])
-    >>> np.around(log_encoding_FLog2(x) * (2 ** 10 - 1)).astype(np.int)
+    >>> np.around(log_encoding_FLog2(x) * (2**10 - 1)).astype(np.int)
     array([ 95, 400, 570])
     """
 
@@ -325,12 +325,12 @@ def log_encoding_FLog2(
 
 
 def log_decoding_FLog2(
-    out_r: FloatingOrArrayLike,
-    bit_depth: Integer = 10,
-    in_normalised_code_value: Boolean = True,
-    out_reflection: Boolean = True,
+    out_r: ArrayLike,
+    bit_depth: int = 10,
+    in_normalised_code_value: bool = True,
+    out_reflection: bool = True,
     constants: Structure = CONSTANTS_FLOG2,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Define the *Fujifilm F-Log2* log decoding curve / electro-optical transfer
     function.
@@ -370,12 +370,12 @@ def log_decoding_FLog2(
 
     References
     ----------
-    :cite:`Fujifilm2022b`
+    :cite:`Fujifilm2022a`
 
     Examples
     --------
     >>> log_decoding_FLog2(0.39100724189123004)  # doctest: +ELLIPSIS
-    0.1800000...
+    0.1799999...
     """
 
     out_r = to_domain_1(out_r)
