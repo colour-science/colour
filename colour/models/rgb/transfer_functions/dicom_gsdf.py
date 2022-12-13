@@ -88,7 +88,7 @@ def eotf_inverse_DICOMGSDF(
         *Luminance* :math:`L`.
     out_int
         Whether to return value as int code value or float equivalent of a
-        code value at a given bit depth.
+        code value at a given bit-depth.
     constants
         *DICOM - Grayscale Standard Display Function* constants.
 
@@ -170,7 +170,7 @@ def eotf_DICOMGSDF(
         Just-Noticeable Difference (JND) Index, :math:`j`.
     in_int
         Whether to treat the input value as int code value or float
-        equivalent of a code value at a given bit depth.
+        equivalent of a code value at a given bit-depth.
     constants
         *DICOM - Grayscale Standard Display Function* constants.
 

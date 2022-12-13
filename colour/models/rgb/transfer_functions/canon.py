@@ -73,7 +73,7 @@ def log_encoding_CanonLog(
     x
         Linear data :math:`x`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     out_normalised_code_value
         Whether the *Canon Log* non-linear data is encoded as normalised code
         values.
@@ -152,7 +152,7 @@ def log_decoding_CanonLog(
     clog
         *Canon Log* non-linear data.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     in_normalised_code_value
         Whether the *Canon Log* non-linear data is encoded with normalised
         code values.
@@ -219,7 +219,7 @@ def log_encoding_CanonLog2(
     x
         Linear data :math:`x`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     out_normalised_code_value
         Whether the *Canon Log 2* non-linear data is encoded as normalised
         code values.
@@ -289,7 +289,7 @@ def log_decoding_CanonLog2(
     clog2
         *Canon Log 2* non-linear data.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     in_normalised_code_value
         Whether the *Canon Log 2* non-linear data is encoded with normalised
         code values.
@@ -358,7 +358,7 @@ def log_encoding_CanonLog3(
     x
         Linear data :math:`x`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     out_normalised_code_value
         Whether the *Canon Log 3* non-linear data is encoded as normalised code
         values.
@@ -451,7 +451,7 @@ def log_decoding_CanonLog3(
     clog3
         *Canon Log 3* non-linear data.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     in_normalised_code_value
         Whether the *Canon Log 3* non-linear data is encoded with normalised
         code values.

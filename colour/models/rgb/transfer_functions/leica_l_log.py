@@ -65,7 +65,7 @@ def log_encoding_LLog(
     LSR
         Linear scene reflection :math:`LSR` values.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     out_normalised_code_value
         Whether the non-linear *Leica L-Log* data :math:`L-Log` is encoded as
         normalised code values.
@@ -145,7 +145,7 @@ def log_decoding_LLog(
     LLog
         *L-Log* 10-bit equivalent code value :math:`L-Log`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     in_normalised_code_value
         Whether the non-linear *Leica L-Log* data :math:`L-Log` is encoded as
         normalised code values.

@@ -142,13 +142,13 @@ def round_BT2100(a: ArrayLike) -> NDArrayFloat:
 
 def ranges_YCbCr(bits: int, is_legal: bool, is_int: bool) -> NDArrayFloat:
     """
-    Return the *Y'CbCr* colour encoding ranges array for given bit depth,
+    Return the *Y'CbCr* colour encoding ranges array for given bit-depth,
     range legality and representation.
 
     Parameters
     ----------
     bits
-        Bit depth of the *Y'CbCr* colour encoding ranges array.
+        Bit-depth of the *Y'CbCr* colour encoding ranges array.
     is_legal
         Whether the *Y'CbCr* colour encoding ranges array is legal.
     is_int
@@ -201,7 +201,7 @@ def matrix_YCbCr(
     is_int: bool = False,
 ) -> NDArrayFloat:
     """
-    Compute the *Y'CbCr* to *R'G'B'* matrix for given weights, bit depth,
+    Compute the *Y'CbCr* to *R'G'B'* matrix for given weights, bit-depth,
     range legality and representation.
 
     The related offset for the *R'G'B'* to *Y'CbCr* matrix can be computed with
@@ -214,7 +214,7 @@ def matrix_YCbCr(
         :attr:`colour.WEIGHTS_YCBCR` for presets. Default is
         *(0.2126, 0.0722)*, the weightings for *ITU-R BT.709*.
     bits
-        Bit depth of the *Y'CbCr* colour encoding ranges array.
+        Bit-depth of the *Y'CbCr* colour encoding ranges array.
     is_legal
         Whether the *Y'CbCr* colour encoding ranges array is legal.
     is_int
@@ -285,7 +285,7 @@ def offset_YCbCr(
     bits: int = 8, is_legal: bool = False, is_int: bool = False
 ) -> NDArrayFloat:
     """
-    Compute the *R'G'B'* to *Y'CbCr* offsets for given bit depth, range
+    Compute the *R'G'B'* to *Y'CbCr* offsets for given bit-depth, range
     legality and representation.
 
     The related *R'G'B'* to *Y'CbCr* matrix can be computed with the
@@ -294,7 +294,7 @@ def offset_YCbCr(
     Parameters
     ----------
     bits
-        Bit depth of the *Y'CbCr* colour encoding ranges array.
+        Bit-depth of the *Y'CbCr* colour encoding ranges array.
     is_legal
         Whether the *Y'CbCr* colour encoding ranges array is legal.
     is_int
@@ -347,7 +347,7 @@ def RGB_to_YCbCr(
         :attr:`colour.WEIGHTS_YCBCR` for presets. Default is
         *(0.2126, 0.0722)*, the weightings for *ITU-R BT.709*.
     in_bits
-        Bit depth for int input, or used in the calculation of the
+        Bit-depth for int input, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
         value for legal white is *235 / 255*. Default is *10*.
     in_legal
@@ -356,7 +356,7 @@ def RGB_to_YCbCr(
         Whether to treat the input values as ``in_bits`` int code values.
         Default is *False*.
     out_bits
-        Bit depth for int output, or used in the calculation of the
+        Bit-depth for int output, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
         value for legal white is *235 / 255*. Ignored if ``out_legal`` and
         ``out_int`` are both *False*. Default is *8*.
@@ -554,7 +554,7 @@ def YCbCr_to_RGB(
         :attr:`colour.WEIGHTS_YCBCR` for presets. Default is
         *(0.2126, 0.0722)*, the weightings for *ITU-R BT.709*.
     in_bits
-        Bit depth for int input, or used in the calculation of the
+        Bit-depth for int input, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
         value for legal white is *235 / 255*. Default is *8*.
     in_legal
@@ -563,7 +563,7 @@ def YCbCr_to_RGB(
         Whether to treat the input values as ``in_bits`` int code values.
         Default is *False*.
     out_bits
-        Bit depth for int output, or used in the calculation of the
+        Bit-depth for int output, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
         value for legal white is *235 / 255*. Ignored if ``out_legal`` and
         ``out_int`` are both *False*. Default is *10*.
@@ -690,7 +690,7 @@ def RGB_to_YcCbcCrc(
     RGB
         Input *RGB* array of linear float values.
     out_bits
-        Bit depth for int output, or used in the calculation of the
+        Bit-depth for int output, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
         value for legal white is *235 / 255*. Ignored if ``out_legal`` and
         ``out_int`` are both *False*. Default is *10*.
@@ -803,7 +803,7 @@ def YcCbcCrc_to_RGB(
     YcCbcCrc
         Input *Yc'Cbc'Crc'* colour encoding array of linear float values.
     in_bits
-        Bit depth for int input, or used in the calculation of the
+        Bit-depth for int input, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
         value for legal white is *235 / 255*. Default is *10*.
     in_legal

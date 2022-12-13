@@ -70,10 +70,10 @@ def cctf_encoding_ROMMRGB(
     X
         Linear data :math:`X_{ROMM}`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     out_int
         Whether to return value as int code value or float equivalent of a
-        code value at a given bit depth.
+        code value at a given bit-depth.
 
     Returns
     -------
@@ -137,10 +137,10 @@ def cctf_decoding_ROMMRGB(
     X_p
         Non-linear data :math:`X'_{ROMM}`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     in_int
         Whether to treat the input value as int code value or float
-        equivalent of a code value at a given bit depth.
+        equivalent of a code value at a given bit-depth.
 
     Returns
     -------
@@ -234,10 +234,10 @@ def cctf_encoding_RIMMRGB(
     X
         Linear data :math:`X_{RIMM}`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     out_int
         Whether to return value as int code value or float equivalent of a
-        code value at a given bit depth.
+        code value at a given bit-depth.
     E_clip
         Maximum exposure level.
 
@@ -308,10 +308,10 @@ def cctf_decoding_RIMMRGB(
     X_p
         Non-linear data :math:`X'_{RIMM}`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     in_int
         Whether to treat the input value as int code value or float
-        equivalent of a code value at a given bit depth.
+        equivalent of a code value at a given bit-depth.
     E_clip
         Maximum exposure level.
 
@@ -387,10 +387,10 @@ def log_encoding_ERIMMRGB(
     X
         Linear data :math:`X_{ERIMM}`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     out_int
         Whether to return value as int code value or float equivalent of a
-        code value at a given bit depth.
+        code value at a given bit-depth.
     E_min
         Minimum exposure limit.
     E_clip
@@ -476,10 +476,10 @@ def log_decoding_ERIMMRGB(
     X_p
         Non-linear data :math:`X'_{ERIMM}`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     in_int
         Whether to treat the input value as int code value or float
-        equivalent of a code value at a given bit depth.
+        equivalent of a code value at a given bit-depth.
     E_min
         Minimum exposure limit.
     E_clip

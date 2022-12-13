@@ -210,7 +210,7 @@ class TestWriteLUTResolveCube(unittest.TestCase):
             os.path.join(ROOT_LUTS, "Three_Dimensional_Table_With_Shaper.cube")
         )
 
-        LUT_4_r.sequence[0] = LUT_4_r.sequence[0].as_LUT(
+        LUT_4_r.sequence[0] = LUT_4_r.sequence[0].convert(
             LUT1D, force_conversion=True
         )
 
@@ -240,7 +240,7 @@ class TestWriteLUTResolveCube(unittest.TestCase):
         )
 
         write_LUT_ResolveCube(
-            LUT_5_r.as_LUT(LUT1D, force_conversion=True),
+            LUT_5_r.convert(LUT1D, force_conversion=True),
             os.path.join(
                 self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"
             ),

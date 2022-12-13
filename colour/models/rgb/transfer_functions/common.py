@@ -30,13 +30,13 @@ def CV_range(
     bit_depth: int = 10, is_legal: bool = False, is_int: bool = False
 ) -> NDArrayReal:
     """
-    Return the code value :math:`CV` range for given bit depth, range legality
+    Return the code value :math:`CV` range for given bit-depth, range legality
     and representation.
 
     Parameters
     ----------
     bit_depth
-        Bit depth of the code value :math:`CV` range.
+        Bit-depth of the code value :math:`CV` range.
     is_legal
         Whether the code value :math:`CV` range is legal.
     is_int
@@ -77,28 +77,28 @@ def legal_to_full(
 ) -> NDArrayReal:
     """
     Convert given code value :math:`CV` or float equivalent of a code value at
-    a given bit depth from legal range (studio swing) to full range
+    a given bit-depth from legal range (studio swing) to full range
     (full swing).
 
     Parameters
     ----------
     CV
         Legal range code value :math:`CV` or float equivalent of a code value
-        at a given bit depth.
+        at a given bit-depth.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     in_int
         Whether to treat the input value as int code value or float
-        equivalent of a code value at a given bit depth.
+        equivalent of a code value at a given bit-depth.
     out_int
         Whether to return value as int code value or float equivalent of a
-        code value at a given bit depth.
+        code value at a given bit-depth.
 
     Returns
     -------
     :class:`numpy.ndarray`
         Full range code value :math:`CV` or float equivalent of a code value
-        at a given bit depth.
+        at a given bit-depth.
 
     Examples
     --------
@@ -144,28 +144,28 @@ def full_to_legal(
 ) -> NDArrayReal:
     """
     Convert given code value :math:`CV` or float equivalent of a code value at
-    a given bit depth from full range (full swing) to legal range
+    a given bit-depth from full range (full swing) to legal range
     (studio swing).
 
     Parameters
     ----------
     CV
         Full range code value :math:`CV` or float equivalent of a code value at
-        a given bit depth.
+        a given bit-depth.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     in_int
         Whether to treat the input value as int code value or float
-        equivalent of a code value at a given bit depth.
+        equivalent of a code value at a given bit-depth.
     out_int
         Whether to return value as int code value or float equivalent of a
-        code value at a given bit depth.
+        code value at a given bit-depth.
 
     Returns
     -------
     :class:`numpy.ndarray`
         Legal range code value :math:`CV` or float equivalent of a code value
-        at a given bit depth.
+        at a given bit-depth.
 
     Examples
     --------

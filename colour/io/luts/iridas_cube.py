@@ -242,7 +242,7 @@ def write_LUT_IridasCube(
         )
         LUTxD = LUT[0]
     elif isinstance(LUT, LUT1D):
-        LUTxD = LUT.as_LUT(LUT3x1D)
+        LUTxD = LUT.convert(LUT3x1D)
     else:
         LUTxD = LUT
 
