@@ -383,7 +383,9 @@ def Luv_uv_to_xy(uv: ArrayLike) -> NDArrayFloat:
     u, v = tsplit(uv)
 
     d = 6 * u - 16 * v + 12
-    xy = tstack([9 * u / d, 4 * v / d])
+
+    with sdiv_mode():
+        xy = tstack([sdiv(9 * u, d), sdiv(4 * v, d)])
 
     return xy
 
@@ -418,7 +420,9 @@ def xy_to_Luv_uv(xy: ArrayLike) -> NDArrayFloat:
     x, y = tsplit(xy)
 
     d = -2 * x + 12 * y + 3
-    uv = tstack([4 * x / d, 9 * y / d])
+
+    with sdiv_mode():
+        uv = tstack([sdiv(4 * x, d), sdiv(9 * y, d)])
 
     return uv
 

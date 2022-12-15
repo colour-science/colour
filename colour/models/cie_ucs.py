@@ -261,7 +261,9 @@ def UCS_uv_to_xy(uv: ArrayLike) -> NDArrayFloat:
     u, v = tsplit(uv)
 
     d = 2 * u - 8 * v + 4
-    xy = tstack([3 * u / d, 2 * v / d])
+
+    with sdiv_mode():
+        xy = tstack([sdiv(3 * u, d), sdiv(2 * v, d)])
 
     return xy
 
@@ -296,6 +298,8 @@ def xy_to_UCS_uv(xy: ArrayLike) -> NDArrayFloat:
     x, y = tsplit(xy)
 
     d = 12 * y - 2 * x + 3
-    uv = tstack([4 * x / d, 6 * y / d])
+
+    with sdiv_mode():
+        uv = tstack([sdiv(4 * x, d), sdiv(6 * y, d)])
 
     return uv
