@@ -289,7 +289,9 @@ log_encoding_FLog2` definition domain and range scale support.
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    log_encoding_FLog2(L_in * factor), V_out * factor, decimal=7
+                    log_encoding_FLog2(L_in * factor),
+                    V_out * factor,
+                    decimal=7,
                 )
 
     @ignore_numpy_errors
@@ -380,7 +382,9 @@ log_decoding_FLog2` definition domain and range scale support.
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    log_decoding_FLog2(V_out * factor), L_in * factor, decimal=7
+                    log_decoding_FLog2(V_out * factor),
+                    L_in * factor,
+                    decimal=7,
                 )
 
     @ignore_numpy_errors
