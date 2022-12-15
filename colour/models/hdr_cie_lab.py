@@ -227,7 +227,7 @@ def XYZ_to_hdr_CIELab(
 
     e = exponent_hdr_CIELab(Y_s, Y_abs, method)
 
-    # Domain and range scaling has already be handled.
+    # Domain and range scaling has already been handled.
     with domain_range_scale("ignore"):
         L_hdr = lightness_callable(Y / Y_n, e)
         a_hdr = 5 * (lightness_callable(X / X_n, e) - L_hdr)
