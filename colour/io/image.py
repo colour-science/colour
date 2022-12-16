@@ -542,8 +542,11 @@ def write_image_OpenImageIO(
     bit_depth_specification = MAPPING_BIT_DEPTH[bit_depth]
 
     if bit_depth_specification.numpy in [np.uint8, np.uint16]:
-        mininum, maximum = np.iinfo(np.uint8).min, np.iinfo(np.uint8).max
-        image = np.clip(image * maximum, mininum, maximum)
+        minimum, maximum = (
+            np.iinfo(bit_depth_specification.numpy).min,
+            np.iinfo(bit_depth_specification.numpy).max,
+        )
+        image = np.clip(image * maximum, minimum, maximum)
 
         image = as_int_array(image, bit_depth_specification.numpy)
 
