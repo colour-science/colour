@@ -303,7 +303,7 @@ def override_style(**kwargs: Any) -> Callable:
     Examples
     --------
     >>> @override_style(**{"text.color": "red"})
-    ... def f():
+    ... def f(*args, **kwargs):
     ...     plt.text(0.5, 0.5, "This is a text!")
     ...     plt.show()
     ...
