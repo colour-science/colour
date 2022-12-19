@@ -14,15 +14,18 @@ References
 
 from __future__ import annotations
 
-import numpy as np
-
-from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
     log_encoding_FLog,
-    normalised_primary_matrix,
     log_decoding_FLog,
+)
+from colour.models.rgb.datasets.itur_bt_2020 import (
+    PRIMARIES_BT2020,
+    WHITEPOINT_NAME_BT2020,
+    CCS_WHITEPOINT_BT2020,
+    MATRIX_BT2020_TO_XYZ,
+    MATRIX_XYZ_TO_BT2020,
 )
 
 __author__ = "Colour Developers"
@@ -41,29 +44,19 @@ __all__ = [
     "RGB_COLOURSPACE_F_GAMUT",
 ]
 
-PRIMARIES_F_GAMUT: NDArrayFloat = np.array(
-    [
-        [0.70800, 0.29200],
-        [0.17000, 0.79700],
-        [0.13100, 0.04600],
-    ]
-)
+PRIMARIES_F_GAMUT: NDArrayFloat = PRIMARIES_BT2020
 """*Fujifilm F-Gamut* colourspace primaries."""
 
-WHITEPOINT_NAME_F_GAMUT: str = "D65"
+WHITEPOINT_NAME_F_GAMUT: str = WHITEPOINT_NAME_BT2020
 """*Fujifilm F-Gamut* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_F_GAMUT: NDArrayFloat = CCS_ILLUMINANTS[
-    "CIE 1931 2 Degree Standard Observer"
-][WHITEPOINT_NAME_F_GAMUT]
+CCS_WHITEPOINT_F_GAMUT: NDArrayFloat = CCS_WHITEPOINT_BT2020
 """*Fujifilm F-Gamut* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_F_GAMUT_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
-    PRIMARIES_F_GAMUT, CCS_WHITEPOINT_F_GAMUT
-)
+MATRIX_F_GAMUT_TO_XYZ: NDArrayFloat = MATRIX_BT2020_TO_XYZ
 """*Fujifilm F-Gamut* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_F_GAMUT: NDArrayFloat = np.linalg.inv(MATRIX_F_GAMUT_TO_XYZ)
+MATRIX_XYZ_TO_F_GAMUT: NDArrayFloat = MATRIX_XYZ_TO_BT2020
 """*CIE XYZ* tristimulus values to *Fujifilm F-Gamut* colourspace matrix."""
 
 RGB_COLOURSPACE_F_GAMUT: RGB_Colourspace = RGB_Colourspace(
