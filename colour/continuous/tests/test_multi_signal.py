@@ -79,6 +79,7 @@ class TestMultiSignals(unittest.TestCase):
             "__getitem__",
             "__setitem__",
             "__contains__",
+            "__iter__",
             "__eq__",
             "__ne__",
             "arithmetical_operation",
@@ -744,6 +745,16 @@ function` property raised exception.
         self.assertIn(0, self._multi_signals)
         self.assertIn(0.5, self._multi_signals)
         self.assertNotIn(1000, self._multi_signals)
+
+    def test__iter__(self):
+        """Test :func:`colour.continuous.signal.Signal.__iter__` method."""
+
+        domain = np.arange(0, 10)
+        for i, domain_range_value in enumerate(self._multi_signals):
+            np.testing.assert_array_equal(domain_range_value[0], domain[i])
+            np.testing.assert_array_equal(
+                domain_range_value[1:], self._range_2[i]
+            )
 
     def test__len__(self):
         """

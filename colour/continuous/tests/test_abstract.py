@@ -51,6 +51,7 @@ class TestAbstractContinuousFunction(unittest.TestCase):
             "__getitem__",
             "__setitem__",
             "__contains__",
+            "__iter__",
             "__len__",
             "__eq__",
             "__ne__",

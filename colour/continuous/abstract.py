@@ -19,6 +19,7 @@ from colour.hints import (
     ArrayLike,
     Callable,
     DTypeFloat,
+    Generator,
     Literal,
     NDArrayFloat,
     Optional,
@@ -96,6 +97,7 @@ AbstractContinuousFunction.extrapolator_kwargs`
     -   :meth:`~colour.continuous.AbstractContinuousFunction.__getitem__`
     -   :meth:`~colour.continuous.AbstractContinuousFunction.__setitem__`
     -   :meth:`~colour.continuous.AbstractContinuousFunction.__contains__`
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.__iter__`
     -   :meth:`~colour.continuous.AbstractContinuousFunction.__len__`
     -   :meth:`~colour.continuous.AbstractContinuousFunction.__eq__`
     -   :meth:`~colour.continuous.AbstractContinuousFunction.__ne__`
@@ -483,6 +485,18 @@ arithmetical_operation`
         """
 
         ...  # pragma: no cover
+
+    def __iter__(self) -> Generator:
+        """
+        Return a generator for the abstract continuous function.
+
+        Yields
+        ------
+        Generator
+           Abstract continuous function generator.
+        """
+
+        yield from np.column_stack([self.domain, self.range])
 
     def __len__(self) -> int:
         """
