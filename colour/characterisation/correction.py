@@ -64,6 +64,7 @@ from colour.algebra import least_square_mapping_MoorePenrose, spow
 from colour.hints import ArrayLike, Any, Literal, NDArrayFloat, Union
 from colour.utilities import (
     CanonicalMapping,
+    as_float,
     as_float_array,
     as_int,
     closest,
@@ -414,9 +415,9 @@ def polynomial_expansion_Finlayson2015(
         if root_polynomial_expansion:
             return tstack(
                 [
-                    R,
-                    G,
-                    B,
+                    as_float(R),
+                    as_float(G),
+                    as_float(B),
                     spow(R * G, 1 / 2),
                     spow(G * B, 1 / 2),
                     spow(R * B, 1 / 2),
@@ -441,9 +442,9 @@ def polynomial_expansion_Finlayson2015(
         if root_polynomial_expansion:
             return tstack(
                 [
-                    R,
-                    G,
-                    B,
+                    as_float(R),
+                    as_float(G),
+                    as_float(B),
                     spow(R * G, 1 / 2),
                     spow(G * B, 1 / 2),
                     spow(R * B, 1 / 2),
@@ -484,9 +485,9 @@ def polynomial_expansion_Finlayson2015(
         if root_polynomial_expansion:
             return tstack(
                 [
-                    R,
-                    G,
-                    B,
+                    as_float(R),
+                    as_float(G),
+                    as_float(B),
                     spow(R * G, 1 / 2),
                     spow(G * B, 1 / 2),
                     spow(R * B, 1 / 2),

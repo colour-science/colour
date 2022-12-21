@@ -49,6 +49,7 @@ from colour.hints import (
     cast,
 )
 from colour.utilities import (
+    as_array,
     as_float_array,
     as_int,
     as_int_array,
@@ -2118,10 +2119,15 @@ class LUT3D(AbstractLUT):
         if domain.shape != (2, 3):
             samples = list(
                 np.flip(
-                    [
-                        axes[: (~np.isnan(axes)).cumsum().argmax() + 1]
-                        for axes in np.transpose(domain)
-                    ],
+                    # NOTE: "dtype=object" is required for ragged array support
+                    # in "Numpy" 1.24.0.
+                    as_array(
+                        [
+                            axes[: (~np.isnan(axes)).cumsum().argmax() + 1]
+                            for axes in np.transpose(domain)
+                        ],
+                        dtype=object,  # pyright: ignore
+                    ),
                     -1,
                 )
             )

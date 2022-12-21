@@ -111,9 +111,9 @@ def log_encoding_SLog(
     :cite:`SonyCorporation2012a` are obtained as follows:
 
     >>> x = np.array([0, 18, 90]) / 100
-    >>> np.around(log_encoding_SLog(x, 10, False) * 100).astype(np.int)
+    >>> np.around(log_encoding_SLog(x, 10, False) * 100).astype(np.int_)
     array([ 3, 38, 65])
-    >>> np.around(log_encoding_SLog(x) * (2**10 - 1)).astype(np.int)
+    >>> np.around(log_encoding_SLog(x) * (2**10 - 1)).astype(np.int_)
     array([ 90, 394, 636])
     """
 
@@ -257,9 +257,9 @@ def log_encoding_SLog2(
     :cite:`SonyCorporation2012a` are obtained as follows:
 
     >>> x = np.array([0, 18, 90]) / 100
-    >>> np.around(log_encoding_SLog2(x, 10, False) * 100).astype(np.int)
+    >>> np.around(log_encoding_SLog2(x, 10, False) * 100).astype(np.int_)
     array([ 3, 32, 59])
-    >>> np.around(log_encoding_SLog2(x) * (2**10 - 1)).astype(np.int)
+    >>> np.around(log_encoding_SLog2(x) * (2**10 - 1)).astype(np.int_)
     array([ 90, 347, 582])
     """
 
@@ -386,9 +386,9 @@ def log_encoding_SLog3(
     :cite:`SonyCorporationd` are obtained as follows:
 
     >>> x = np.array([0, 18, 90]) / 100
-    >>> np.around(log_encoding_SLog3(x, 10, False) * 100).astype(np.int)
+    >>> np.around(log_encoding_SLog3(x, 10, False) * 100).astype(np.int_)
     array([ 4, 41, 61])
-    >>> np.around(log_encoding_SLog3(x) * (2**10 - 1)).astype(np.int)
+    >>> np.around(log_encoding_SLog3(x) * (2**10 - 1)).astype(np.int_)
     array([ 95, 420, 598])
     """
 
