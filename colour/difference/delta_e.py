@@ -23,9 +23,6 @@ rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
 -   :cite:`Lindbloom2003c` : Lindbloom, B. (2003). Delta E (CIE 1976).
     Retrieved February 24, 2014, from
     http://brucelindbloom.com/Eqn_DeltaE_CIE76.html
--   :cite:`Lindbloom2009e` : Lindbloom, B. (2009). Delta E (CIE 2000).
-    Retrieved February 24, 2014, from
-    http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html
 -   :cite:`Lindbloom2009f` : Lindbloom, B. (2009). Delta E (CMC). Retrieved
     February 24, 2014, from http://brucelindbloom.com/Eqn_DeltaE_CMC.html
 -   :cite:`Lindbloom2011a` : Lindbloom, B. (2011). Delta E (CIE 1994).
@@ -34,6 +31,10 @@ rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
 -   :cite:`Melgosa2013b` : Melgosa, M. (2013). CIE / ISO new standard:
     CIEDE2000. http://www.color.org/events/colorimetry/\
 Melgosa_CIEDE2000_Workshop-July4.pdf
+-   :cite:`Sharma2005b` : Sharma, G., Wu, W., & Dalal, E. N. (2005). The
+    CIEDE2000 color-difference formula: Implementation notes, supplementary
+    test data, and mathematical observations. Color Research & Application,
+    30(1), 21-30. doi:10.1002/col.20070
 -   :cite:`Mokrzycki2011` : Mokrzycki, W., & Tatol, M. (2011). Color difference
     Delta E - A survey. Machine Graphics and Vision, 20, 383-411.
 """
@@ -292,7 +293,7 @@ def delta_E_CIE2000(
 
     References
     ----------
-    :cite:`Lindbloom2009e`, :cite:`Melgosa2013b`
+    :cite:`Melgosa2013b`, :cite:`Sharma2005b`
 
     Examples
     --------
@@ -314,72 +315,102 @@ def delta_E_CIE2000(
     k_C = 1
     k_H = 1
 
-    l_bar_prime = 0.5 * (L_1 + L_2)
+    C_1_ab = np.hypot(a_1, b_1)
+    C_2_ab = np.hypot(a_2, b_2)
 
-    c_1 = np.hypot(a_1, b_1)
-    c_2 = np.hypot(a_2, b_2)
+    C_bar_ab = (C_1_ab + C_2_ab) / 2
+    C_bar_ab_7 = C_bar_ab**7
 
-    c_bar = 0.5 * (c_1 + c_2)
-    c_bar7 = c_bar**7
+    G = 0.5 * (1 - np.sqrt(C_bar_ab_7 / (C_bar_ab_7 + 25**7)))
 
-    g = 0.5 * (1 - np.sqrt(c_bar7 / (c_bar7 + 25**7)))
+    a_p_1 = (1 + G) * a_1
+    a_p_2 = (1 + G) * a_2
 
-    a_1_prime = a_1 * (1 + g)
-    a_2_prime = a_2 * (1 + g)
-    c_1_prime = np.hypot(a_1_prime, b_1)
-    c_2_prime = np.hypot(a_2_prime, b_2)
-    c_bar_prime = 0.5 * (c_1_prime + c_2_prime)
+    C_p_1 = np.hypot(a_p_1, b_1)
+    C_p_2 = np.hypot(a_p_2, b_2)
 
-    h_1_prime = np.degrees(np.arctan2(b_1, a_1_prime)) % 360
-    h_2_prime = np.degrees(np.arctan2(b_2, a_2_prime)) % 360
-
-    h_bar_prime = np.where(
-        np.fabs(h_1_prime - h_2_prime) <= 180,
-        0.5 * (h_1_prime + h_2_prime),
-        (0.5 * (h_1_prime + h_2_prime + 360)),
+    h_p_1 = np.where(
+        np.logical_and(b_1 == 0, a_p_1 == 0),
+        0,
+        np.degrees(np.arctan2(b_1, a_p_1)) % 360,
+    )
+    h_p_2 = np.where(
+        np.logical_and(b_2 == 0, a_p_2 == 0),
+        0,
+        np.degrees(np.arctan2(b_2, a_p_2)) % 360,
     )
 
-    t = (
+    delta_L_p = L_2 - L_1
+
+    delta_C_p = C_p_2 - C_p_1
+
+    h_p_2_s_1 = h_p_2 - h_p_1
+    C_p_1_m_2 = C_p_1 * C_p_2
+    delta_h_p = np.select(
+        [
+            C_p_1_m_2 == 0,
+            np.fabs(h_p_2_s_1) <= 180,
+            h_p_2_s_1 > 180,
+            h_p_2_s_1 < -180,
+        ],
+        [
+            0,
+            h_p_2_s_1,
+            h_p_2_s_1 - 360,
+            h_p_2_s_1 + 360,
+        ],
+    )
+
+    delta_H_p = 2 * np.sqrt(C_p_1_m_2) * np.sin(np.deg2rad(delta_h_p / 2))
+
+    L_bar_p = (L_1 + L_2) / 2
+
+    C_bar_p = (C_p_1 + C_p_2) / 2
+
+    a_h_p_1_s_2 = np.fabs(h_p_1 - h_p_2)
+    h_p_1_a_2 = h_p_1 + h_p_2
+    h_bar_p = np.select(
+        [
+            C_p_1_m_2 == 0,
+            a_h_p_1_s_2 <= 180,
+            np.logical_and(a_h_p_1_s_2 > 180, h_p_1_a_2 < 360),
+            np.logical_and(a_h_p_1_s_2 > 180, h_p_1_a_2 >= 360),
+        ],
+        [
+            h_p_1_a_2,
+            h_p_1_a_2 / 2,
+            (h_p_1_a_2 + 360) / 2,
+            (h_p_1_a_2 - 360) / 2,
+        ],
+    )
+
+    T = (
         1
-        - 0.17 * np.cos(np.deg2rad(h_bar_prime - 30))
-        + 0.24 * np.cos(np.deg2rad(2 * h_bar_prime))
-        + 0.32 * np.cos(np.deg2rad(3 * h_bar_prime + 6))
-        - 0.20 * np.cos(np.deg2rad(4 * h_bar_prime - 63))
+        - 0.17 * np.cos(np.deg2rad(h_bar_p - 30))
+        + 0.24 * np.cos(np.deg2rad(2 * h_bar_p))
+        + 0.32 * np.cos(np.deg2rad(3 * h_bar_p + 6))
+        - 0.20 * np.cos(np.deg2rad(4 * h_bar_p - 63))
     )
 
-    h = h_2_prime - h_1_prime
-    delta_h_prime = np.where(h_2_prime <= h_1_prime, h - 360, h + 360)
-    delta_h_prime = np.where(np.fabs(h) <= 180, h, delta_h_prime)
+    delta_theta = 30 * np.exp(-(((h_bar_p - 275) / 25) ** 2))
 
-    delta_L_prime = L_2 - L_1
-    delta_C_prime = c_2_prime - c_1_prime
-    delta_H_prime = (
-        2
-        * np.sqrt(c_1_prime * c_2_prime)
-        * np.sin(np.deg2rad(0.5 * delta_h_prime))
-    )
+    C_bar_p_7 = C_bar_p**7
+    R_C = 2 * np.sqrt(C_bar_p_7 / (C_bar_p_7 + 25**7))
 
-    s_L = 1 + (
-        (0.015 * (l_bar_prime - 50) * (l_bar_prime - 50))
-        / np.sqrt(20 + (l_bar_prime - 50) * (l_bar_prime - 50))
-    )
-    s_C = 1 + 0.045 * c_bar_prime
-    s_H = 1 + 0.015 * c_bar_prime * t
+    L_bar_p_2 = (L_bar_p - 50) ** 2
+    S_L = 1 + ((0.015 * L_bar_p_2) / np.sqrt(20 + L_bar_p_2))
 
-    delta_theta = 30 * np.exp(
-        -((h_bar_prime - 275) / 25) * ((h_bar_prime - 275) / 25)
-    )
+    S_C = 1 + 0.045 * C_bar_p
 
-    c_bar_prime7 = c_bar_prime**7
+    S_H = 1 + 0.015 * C_bar_p * T
 
-    r_C = np.sqrt(c_bar_prime7 / (c_bar_prime7 + 25**7))
-    r_T = -2 * r_C * np.sin(np.deg2rad(2 * delta_theta))
+    R_T = -np.sin(np.deg2rad(2 * delta_theta)) * R_C
 
     d_E = np.sqrt(
-        (delta_L_prime / (k_L * s_L)) ** 2
-        + (delta_C_prime / (k_C * s_C)) ** 2
-        + (delta_H_prime / (k_H * s_H)) ** 2
-        + (delta_C_prime / (k_C * s_C)) * (delta_H_prime / (k_H * s_H)) * r_T
+        (delta_L_p / (k_L * S_L)) ** 2
+        + (delta_C_p / (k_C * S_C)) ** 2
+        + (delta_H_p / (k_H * S_H)) ** 2
+        + R_T * (delta_C_p / (k_C * S_C)) * (delta_H_p / (k_H * S_H))
     )
 
     return as_float(d_E)
