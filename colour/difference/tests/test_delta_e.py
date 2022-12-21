@@ -255,7 +255,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 8.32281957, -73.58297716]),
             ),
-            68.23094879,
+            68.23111251,
             places=7,
         )
 
@@ -285,7 +285,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
                 np.array([50.00000000, 8.32281957, -73.58297716]),
                 textiles=True,
             ),
-            70.63198003,
+            70.63213819,
             places=7,
         )
 
