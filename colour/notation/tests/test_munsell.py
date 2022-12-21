@@ -52,6 +52,7 @@ from colour.notation import (
     munsell_value_ASTMD1535,
 )
 from colour.utilities import (
+    as_array,
     as_float_array,
     domain_range_scale,
     ignore_numpy_errors,
@@ -154,7 +155,7 @@ def _generate_unit_tests_specifications() -> tuple:  # pragma: no cover
     return specifications, specifications_r
 
 
-MUNSELL_SPECIFICATIONS: NDArrayFloat = np.array(
+MUNSELL_SPECIFICATIONS: NDArrayFloat = as_array(
     [
         [
             [7.18927191, 5.34025196, 16.05861170, 3.00000000],
@@ -556,10 +557,11 @@ MUNSELL_SPECIFICATIONS: NDArrayFloat = np.array(
             [3.40490668, 6.59689139, 9.20874115, 7.00000000],
             [0.41967010, 0.31821655, 0.36537324],
         ],
-    ]
+    ],
+    dtype=object,  # pyright: ignore
 )
 
-MUNSELL_GREYS_SPECIFICATIONS: NDArrayFloat = np.array(
+MUNSELL_GREYS_SPECIFICATIONS: NDArrayFloat = as_array(
     list(
         zip(
             np.linspace(0, 10, 25)[:, None],
@@ -591,10 +593,11 @@ MUNSELL_GREYS_SPECIFICATIONS: NDArrayFloat = np.array(
                 [0.31006, 0.31616, 1.00000000],
             ),
         )
-    )
+    ),
+    dtype=object,  # pyright: ignore
 )
 
-MUNSELL_EVEN_SPECIFICATIONS: NDArrayFloat = np.array(
+MUNSELL_EVEN_SPECIFICATIONS: NDArrayFloat = as_array(
     [
         [(7.5, 6.0, 16.0, 3), [0.18320000, 0.44140000, 0.29301153]],
         [(7.5, 9.0, 12.0, 3), [0.24190000, 0.39850000, 0.76695586]],
@@ -697,10 +700,11 @@ MUNSELL_EVEN_SPECIFICATIONS: NDArrayFloat = np.array(
         [(7.5, 5.0, 4.0, 5), [0.38500000, 0.41200000, 0.19271844]],
         [(2.5, 6.0, 10.0, 7), [0.43200000, 0.31180000, 0.29301153]],
         [(8.0, 2, 14.0, 1), [0.07257382, 0.10413956, 0.03048116]],
-    ]  # pyright: ignore
+    ],
+    dtype=object,  # pyright: ignore
 )
 
-MUNSELL_BOUNDING_HUES: NDArrayFloat = np.array(
+MUNSELL_BOUNDING_HUES: NDArrayFloat = as_float_array(
     [
         ((5.0, 3.0), (7.5, 3.0)),
         ((5.0, 3.0), (7.5, 3.0)),

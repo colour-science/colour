@@ -74,7 +74,7 @@ __all__ = [
 def nadir_grid(
     limits: Optional[ArrayLike] = None,
     segments: int = 10,
-    labels: Optional[Sequence[str]] = None,
+    labels: Optional[Union[ArrayLike, Sequence[str]]] = None,
     axes: Optional[plt.Axes] = None,
     **kwargs: Any,
 ) -> Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]:

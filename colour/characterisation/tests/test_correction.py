@@ -683,8 +683,8 @@ matrix_colour_correction_Cheung2004` definition.
         matrix_colour_correction_Cheung2004` definition nan support.
         """
 
-        # NOTE: Hangs on "Linux".
-        if platform.system() == "Linux":
+        # NOTE: Hangs on "macOS" and "Linux".
+        if platform.system() in ("Darwin", "Linux"):
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -790,8 +790,8 @@ matrix_colour_correction_Finlayson2015` definition.
         matrix_colour_correction_Finlayson2015` definition nan support.
         """
 
-        # NOTE: Hangs on "Linux".
-        if platform.system() == "Linux":
+        # NOTE: Hangs on "macOS" and "Linux".
+        if platform.system() in ("Darwin", "Linux"):
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -888,8 +888,8 @@ matrix_colour_correction_Vandermonde` definition.
         matrix_colour_correction_Vandermonde` definition nan support.
         """
 
-        # NOTE: Hangs on "Linux".
-        if platform.system() == "Linux":
+        # NOTE: Hangs on "macOS" and "Linux".
+        if platform.system() in ("Darwin", "Linux"):
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -966,8 +966,8 @@ colour_correction_Cheung2004` definition n-dimensional support.
 colour_correction_Cheung2004` definition nan support.
         """
 
-        # NOTE: Hangs on "Linux".
-        if platform.system() == "Linux":
+        # NOTE: Hangs on "macOS" and "Linux".
+        if platform.system() in ("Darwin", "Linux"):
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -1051,8 +1051,8 @@ colour_correction_Finlayson2015` definition n-dimensional support.
         colour_correction_Finlayson2015` definition nan support.
         """
 
-        # NOTE: Hangs on "Linux".
-        if platform.system() == "Linux":
+        # NOTE: Hangs on "macOS" and "Linux".
+        if platform.system() in ("Darwin", "Linux"):
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -1130,8 +1130,8 @@ colour_correction_Vandermonde` definition n-dimensional support.
 colour_correction_Vandermonde` definition nan support.
         """
 
-        # NOTE: Hangs on "Linux".
-        if platform.system() == "Linux":
+        # NOTE: Hangs on "macOS" and "Linux".
+        if platform.system() in ("Darwin", "Linux"):
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]

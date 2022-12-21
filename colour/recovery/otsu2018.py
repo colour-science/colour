@@ -1576,14 +1576,13 @@ the initial error.
             selector_array = zeros(4)
         else:
 
-            def add_rows(node, data=None):
+            def add_rows(
+                node: Node_Otsu2018, data: Optional[dict] = None
+            ) -> Optional[dict]:
                 """Add rows for given node and its children."""
 
-                data = cast(
-                    dict,
-                    optional(
-                        data, {"rows": [], "node_to_leaf_id": {}, "leaf_id": 0}
-                    ),
+                data = optional(
+                    data, {"rows": [], "node_to_leaf_id": {}, "leaf_id": 0}
                 )
 
                 if node.is_leaf():
@@ -1599,7 +1598,7 @@ the initial error.
 
                 return data
 
-            data = add_rows(self)
+            data = cast(dict, add_rows(self))
             rows = data["rows"]
 
             for i, row in enumerate(rows):

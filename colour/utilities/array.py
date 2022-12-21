@@ -594,14 +594,19 @@ def as_int(a: ArrayLike, dtype: Optional[Type[DTypeInt]] = None) -> NDArrayInt:
     dtype = optional(dtype, DEFAULT_INT_DTYPE)
 
     args = getattr(DTypeInt, "__args__")
+
     attest(
         dtype in args,
         f'"dtype" must be one of the following types: {args}',
     )
 
-    # TODO: Reassess implementation when and if
-    # https://github.com/numpy/numpy/issues/11956 is addressed.
-    return dtype(np.squeeze(a))  # pyright: ignore
+    try:
+        if len(a) == 1:  # pyright: ignore
+            a = np.squeeze(a)
+    except TypeError:
+        pass
+
+    return dtype(a)  # pyright: ignore
 
 
 def as_float(
@@ -642,6 +647,12 @@ def as_float(
         dtype in args,
         f'"dtype" must be one of the following types: {args}',
     )
+
+    try:
+        if len(a) == 1:  # pyright: ignore
+            a = np.squeeze(a)
+    except TypeError:
+        pass
 
     return dtype(a)  # pyright: ignore
 

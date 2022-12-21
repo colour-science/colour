@@ -906,8 +906,8 @@ def _munsell_specification_to_xyY(specification: ArrayLike) -> NDArrayFloat:
     x_plus, y_plus = tsplit(munsell_specification_to_xy(specification_plus))
 
     if value_minus == value_plus:
-        x = x_minus
-        y = y_minus
+        x = as_float(x_minus)
+        y = as_float(y_minus)
     else:
         with domain_range_scale("ignore"):
             Y_minus = luminance_ASTMD1535(value_minus)
@@ -917,10 +917,12 @@ def _munsell_specification_to_xyY(specification: ArrayLike) -> NDArrayFloat:
         x_minus_plus = np.squeeze([x_minus, x_plus])
         y_minus_plus = np.squeeze([y_minus, y_plus])
 
-        x = LinearInterpolator(Y_minus_plus, x_minus_plus)(Y)
-        y = LinearInterpolator(Y_minus_plus, y_minus_plus)(Y)
+        x = as_float(LinearInterpolator(Y_minus_plus, x_minus_plus)(Y))
+        y = as_float(LinearInterpolator(Y_minus_plus, y_minus_plus)(Y))
 
-    return tstack([x, y, from_range_1(Y / 100)])
+    Y = from_range_1(Y / 100)
+
+    return tstack([x, y, Y])
 
 
 def munsell_specification_to_xyY(specification: ArrayLike) -> NDArrayFloat:
@@ -1293,12 +1295,12 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArrayFloat:
             if chroma_inner > chroma_maximum:
                 chroma_inner = specification_current[2] = chroma_maximum
 
-            specification_inner = (
+            specification_inner = [
                 hue_current,
                 value,
                 chroma_inner,
                 code_current,
-            )
+            ]
 
             with domain_range_scale("ignore"):
                 x_inner, y_inner, _Y_inner = _munsell_specification_to_xyY(
