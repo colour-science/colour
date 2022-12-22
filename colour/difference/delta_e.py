@@ -316,36 +316,51 @@ def delta_E_CIE2000(
     k_H = 1
 
     C_1_ab = np.hypot(a_1, b_1)
+    print(f"C_1_ab: {C_1_ab:.15f}")
     C_2_ab = np.hypot(a_2, b_2)
+    print(f"C_2_ab: {C_2_ab:.15f}")
 
     C_bar_ab = (C_1_ab + C_2_ab) / 2
+    print(f"C_bar_ab: {C_bar_ab:.15f}")
     C_bar_ab_7 = C_bar_ab**7
+    print(f"C_bar_ab_7: {C_bar_ab_7:.15f}")
 
     G = 0.5 * (1 - np.sqrt(C_bar_ab_7 / (C_bar_ab_7 + 25**7)))
+    print(f"G: {G:.15f}")
 
     a_p_1 = (1 + G) * a_1
+    print(f"a_p_1: {a_p_1:.15f}")
     a_p_2 = (1 + G) * a_2
+    print(f"a_p_2: {a_p_2:.15f}")
 
     C_p_1 = np.hypot(a_p_1, b_1)
+    print(f"C_p_1: {C_p_1:.15f}")
     C_p_2 = np.hypot(a_p_2, b_2)
+    print(f"C_p_2: {C_p_2:.15f}")
 
     h_p_1 = np.where(
         np.logical_and(b_1 == 0, a_p_1 == 0),
         0,
         np.degrees(np.arctan2(b_1, a_p_1)) % 360,
     )
+    print(f"h_p_1: {h_p_1:.15f}")
     h_p_2 = np.where(
         np.logical_and(b_2 == 0, a_p_2 == 0),
         0,
         np.degrees(np.arctan2(b_2, a_p_2)) % 360,
     )
+    print(f"h_p_2: {h_p_2:.15f}")
 
     delta_L_p = L_2 - L_1
+    print(f"delta_L_p: {delta_L_p:.15f}")
 
     delta_C_p = C_p_2 - C_p_1
+    print(f"delta_C_p: {delta_C_p:.15f}")
 
     h_p_2_s_1 = h_p_2 - h_p_1
+    print(f"h_p_2_s_1: {h_p_2_s_1:.15f}")
     C_p_1_m_2 = C_p_1 * C_p_2
+    print(f"C_p_1_m_2: {C_p_1_m_2:.15f}")
     delta_h_p = np.select(
         [
             C_p_1_m_2 == 0,
@@ -360,15 +375,21 @@ def delta_E_CIE2000(
             h_p_2_s_1 + 360,
         ],
     )
+    print(f"delta_h_p: {delta_h_p:.15f}")
 
     delta_H_p = 2 * np.sqrt(C_p_1_m_2) * np.sin(np.deg2rad(delta_h_p / 2))
+    print(f"delta_H_p: {delta_H_p:.15f}")
 
     L_bar_p = (L_1 + L_2) / 2
+    print(f"L_bar_p: {L_bar_p:.15f}")
 
     C_bar_p = (C_p_1 + C_p_2) / 2
+    print(f"C_bar_p: {C_bar_p:.15f}")
 
     a_h_p_1_s_2 = np.fabs(h_p_1 - h_p_2)
+    print(f"a_h_p_1_s_2: {a_h_p_1_s_2:.15f}")
     h_p_1_a_2 = h_p_1 + h_p_2
+    print(f"h_p_1_a_2: {h_p_1_a_2:.15f}")
     h_bar_p = np.select(
         [
             C_p_1_m_2 == 0,
@@ -383,6 +404,7 @@ def delta_E_CIE2000(
             (h_p_1_a_2 - 360) / 2,
         ],
     )
+    print(f"h_bar_p: {h_bar_p:.15f}")
 
     T = (
         1
@@ -391,20 +413,29 @@ def delta_E_CIE2000(
         + 0.32 * np.cos(np.deg2rad(3 * h_bar_p + 6))
         - 0.20 * np.cos(np.deg2rad(4 * h_bar_p - 63))
     )
+    print(f"T: {T:.15f}")
 
     delta_theta = 30 * np.exp(-(((h_bar_p - 275) / 25) ** 2))
+    print(f"delta_theta: {delta_theta:.15f}")
 
     C_bar_p_7 = C_bar_p**7
+    print(f"C_bar_p_7: {C_bar_p_7:.15f}")
     R_C = 2 * np.sqrt(C_bar_p_7 / (C_bar_p_7 + 25**7))
+    print(f"R_C: {R_C:.15f}")
 
     L_bar_p_2 = (L_bar_p - 50) ** 2
+    print(f"L_bar_p_2: {L_bar_p_2:.15f}")
     S_L = 1 + ((0.015 * L_bar_p_2) / np.sqrt(20 + L_bar_p_2))
+    print(f"S_L: {S_L:.15f}")
 
     S_C = 1 + 0.045 * C_bar_p
+    print(f"S_C: {S_C:.15f}")
 
     S_H = 1 + 0.015 * C_bar_p * T
+    print(f"S_H: {S_H:.15f}")
 
     R_T = -np.sin(np.deg2rad(2 * delta_theta)) * R_C
+    print(f"R_T: {R_T:.15f}")
 
     d_E = np.sqrt(
         (delta_L_p / (k_L * S_L)) ** 2
@@ -412,6 +443,7 @@ def delta_E_CIE2000(
         + (delta_H_p / (k_H * S_H)) ** 2
         + R_T * (delta_C_p / (k_C * S_C)) * (delta_H_p / (k_H * S_H))
     )
+    print(f"d_E: {d_E:.15f}")
 
     return as_float(d_E)
 
@@ -558,3 +590,12 @@ def delta_E_ITP(ICtCp_1: ArrayLike, ICtCp_2: ArrayLike) -> NDArrayFloat:
     )
 
     return as_float(d_E_ITP)
+
+
+if __name__ == "__main__":
+    np.set_printoptions(formatter={"float": "{:0.15f}".format}, suppress=True)
+
+    Lab_1 = np.array([50.0000000, -0.0010000, 2.4900000])
+    Lab_2 = np.array([50.0000000, 0.0010000, -2.4900000])
+
+    delta_E_CIE2000(Lab_1, Lab_2)

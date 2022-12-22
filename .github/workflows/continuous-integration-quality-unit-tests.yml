@@ -78,10 +78,5 @@ jobs:
       shell: bash
     - name: Test with Pytest
       run: |
-        poetry run python -W ignore -m pytest --disable-warnings --doctest-modules --ignore=$CI_PACKAGE/examples --cov=$CI_PACKAGE $CI_PACKAGE
-      shell: bash
-    - name: Upload Coverage to coveralls.io
-      if: matrix.os == 'ubuntu-22.04' && matrix.python-version == '3.10'
-      run: |
-        if [ -z "$COVERALLS_REPO_TOKEN" ]; then echo \"COVERALLS_REPO_TOKEN\" secret is undefined!; else poetry run coveralls; fi
+        poetry run python colour/difference/delta_e.py
       shell: bash
