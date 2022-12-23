@@ -271,6 +271,7 @@ def plot_single_sd(
 def plot_multi_sds(
     sds: Union[
         Sequence[Union[SpectralDistribution, MultiSpectralDistributions]],
+        SpectralDistribution,
         MultiSpectralDistributions,
     ],
     plot_kwargs: Optional[Union[dict, List[dict]]] = None,

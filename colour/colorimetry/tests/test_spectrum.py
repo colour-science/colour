@@ -1950,6 +1950,7 @@ class TestSdsAndMdsToSds(unittest.TestCase):
         multi_sds_1 = MultiSpectralDistributions(DATA_MULTI_SAMPLE_ABRIDGED)
         multi_sds_2 = MultiSpectralDistributions(DATA_MULTI_SAMPLE_ABRIDGED)
 
+        self.assertEqual(sds_and_msds_to_sds(sd_1), [sd_1])
         self.assertEqual(
             len(
                 sds_and_msds_to_sds(
@@ -1983,6 +1984,8 @@ class TestSdsAndMsdsToMsds(unittest.TestCase):
         sd_2 = SpectralDistribution(DATA_SAMPLE_ABRIDGED)
         multi_sds_1 = MultiSpectralDistributions(DATA_MULTI_SAMPLE_ABRIDGED)
         multi_sds_2 = MultiSpectralDistributions(DATA_MULTI_SAMPLE_ABRIDGED)
+
+        self.assertEqual(len(sds_and_msds_to_msds(sd_1)), 6)
 
         self.assertEqual(sds_and_msds_to_msds(multi_sds_1), multi_sds_1)
 

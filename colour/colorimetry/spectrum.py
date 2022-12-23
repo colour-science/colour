@@ -30,7 +30,6 @@ from __future__ import annotations
 import numpy as np
 from collections.abc import Mapping
 
-
 from colour.algebra import (
     Extrapolator,
     CubicSplineInterpolator,
@@ -2757,7 +2756,6 @@ _CACHE_RESHAPED_SDS_AND_MSDS: dict = CACHE_REGISTRY.register_cache(
     f"{__name__}._CACHE_RESHAPED_SDS_AND_MSDS"
 )
 
-
 TypeSpectralDistribution = TypeVar(
     "TypeSpectralDistribution", bound="SpectralDistribution"
 )
@@ -2884,6 +2882,7 @@ def reshape_msds(
 def sds_and_msds_to_sds(
     sds: Union[
         Sequence[Union[SpectralDistribution, MultiSpectralDistributions]],
+        SpectralDistribution,
         MultiSpectralDistributions,
     ]
 ) -> List[SpectralDistribution]:
@@ -2929,7 +2928,9 @@ def sds_and_msds_to_sds(
     8
     """
 
-    if isinstance(sds, MultiSpectralDistributions):
+    if isinstance(sds, SpectralDistribution):
+        return sds_and_msds_to_sds([sds])
+    elif isinstance(sds, MultiSpectralDistributions):
         sds_converted = sds.to_sds()
     else:
         sds_converted = []
@@ -2946,6 +2947,7 @@ def sds_and_msds_to_sds(
 def sds_and_msds_to_msds(
     sds: Union[
         Sequence[Union[SpectralDistribution, MultiSpectralDistributions]],
+        SpectralDistribution,
         MultiSpectralDistributions,
     ]
 ) -> MultiSpectralDistributions:
@@ -3028,7 +3030,9 @@ def sds_and_msds_to_msds(
                                extrapolator_kwargs={...})
     """
 
-    if isinstance(sds, MultiSpectralDistributions):
+    if isinstance(sds, SpectralDistribution):
+        return sds_and_msds_to_msds([sds])
+    elif isinstance(sds, MultiSpectralDistributions):
         msds_converted = sds
     else:
         sds_converted = sds_and_msds_to_sds(sds)
