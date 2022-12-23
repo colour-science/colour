@@ -797,6 +797,7 @@ def plot_chromaticity_diagram_CIE1976UCS(
 def plot_sds_in_chromaticity_diagram(
     sds: Union[
         Sequence[Union[SpectralDistribution, MultiSpectralDistributions]],
+        SpectralDistribution,
         MultiSpectralDistributions,
     ],
     cmfs: Union[

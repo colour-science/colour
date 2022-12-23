@@ -39,6 +39,7 @@ __all__ = [
 def spectral_uniformity(
     sds: Union[
         Sequence[Union[SpectralDistribution, MultiSpectralDistributions]],
+        SpectralDistribution,
         MultiSpectralDistributions,
     ],
     use_second_order_derivatives: bool = False,

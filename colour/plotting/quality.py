@@ -290,6 +290,7 @@ Plot_Single_SD_Colour_Rendering_Index_Bars.png
 def plot_multi_sds_colour_rendering_indexes_bars(
     sds: Union[
         Sequence[Union[SpectralDistribution, MultiSpectralDistributions]],
+        SpectralDistribution,
         MultiSpectralDistributions,
     ],
     **kwargs: Any,
@@ -428,6 +429,7 @@ Plot_Single_SD_Colour_Quality_Scale_Bars.png
 def plot_multi_sds_colour_quality_scales_bars(
     sds: Union[
         Sequence[Union[SpectralDistribution, MultiSpectralDistributions]],
+        SpectralDistribution,
         MultiSpectralDistributions,
     ],
     method: Union[
