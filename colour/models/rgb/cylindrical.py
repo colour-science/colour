@@ -12,7 +12,7 @@ Defines various cylindrical and spherical colour models:
 -   :func:`colour.HCL_to_RGB`
 
 These colour models trade off perceptual relevance for computation speed.
-They should not be used in the colour science domain although they are useful
+They should not be used in the colour science domain, although they are useful
 for image analysis and provide end user software colour selection tools.
 
 They are provided for convenience and completeness.
