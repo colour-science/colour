@@ -1212,20 +1212,20 @@ def convert(a: Any, source: str, target: str, **kwargs: Any) -> Any:
         distribution to *sRGB* colourspace, passing arguments to the
         :func:`colour.sd_to_XYZ` definition is done as follows::
 
-            convert(sd, 'Spectral Distribution', 'sRGB', sd_to_XYZ={\
-'illuminant': SDS_ILLUMINANTS['FL2']})
+            convert(sd, "Spectral Distribution", "sRGB", sd_to_XYZ={\
+"illuminant": SDS_ILLUMINANTS["FL2"]})
 
         It is also possible to pass keyword arguments directly to the various
         conversion definitions irrespective of their name. This is
         ``dangerous`` and could cause unexpected behaviour, consider the
         following conversion::
 
-             convert(sd, 'Spectral Distribution', 'sRGB', 'illuminant': \
-SDS_ILLUMINANTS['FL2'])
+             convert(sd, "Spectral Distribution", "sRGB", "illuminant": \
+SDS_ILLUMINANTS["FL2"])
 
         Because both the :func:`colour.sd_to_XYZ` and
         :func:`colour.XYZ_to_sRGB` definitions have an *illuminant* argument,
-        `SDS_ILLUMINANTS['FL2']` will be passed to both of them and will raise
+        `SDS_ILLUMINANTS["FL2"]` will be passed to both of them and will raise
         an exception in the :func:`colour.XYZ_to_sRGB` definition. This will
         be addressed in the future by either catching the exception and trying
         a new time without the keyword argument or more elegantly via type
@@ -1239,15 +1239,15 @@ SDS_ILLUMINANTS['FL2'])
 
             a = np.array([0.20654008, 0.12197225, 0.05136952])
             illuminant = CCS_ILLUMINANTS[\
-'CIE 1931 2 Degree Standard Observer']['D65']
-            for model in ('CIE xyY', 'CIE Lab'):
-                convert(a, 'CIE XYZ', model, illuminant=illuminant)
+"CIE 1931 2 Degree Standard Observer"]["D65"]
+            for model in ("CIE xyY", "CIE Lab"):
+                convert(a, "CIE XYZ", model, illuminant=illuminant)
 
         Instead of::
 
-            for model in ('CIE xyY', 'CIE Lab'):
-                convert(a, 'CIE XYZ', model, XYZ_to_xyY={'illuminant': \
-illuminant}, XYZ_to_Lab={'illuminant': illuminant})
+            for model in ("CIE xyY", "CIE Lab"):
+                convert(a, "CIE XYZ", model, XYZ_to_xyY={"illuminant": \
+illuminant}, XYZ_to_Lab={"illuminant": illuminant})
 
         Mixing both approaches is possible for the brevity benefits. It is made
         possible because the keyword arguments directly passed are filtered
@@ -1255,16 +1255,16 @@ illuminant}, XYZ_to_Lab={'illuminant': illuminant})
         conversion definition arguments::
 
             illuminant = CCS_ILLUMINANTS[\
-'CIE 1931 2 Degree Standard Observer']['D65']
-             convert(sd, 'Spectral Distribution', 'sRGB', 'illuminant': \
-SDS_ILLUMINANTS['FL2'], XYZ_to_sRGB={'illuminant': illuminant})
+"CIE 1931 2 Degree Standard Observer"]["D65"]
+             convert(sd, "Spectral Distribution", "sRGB", "illuminant": \
+SDS_ILLUMINANTS["FL2"], XYZ_to_sRGB={"illuminant": illuminant})
 
         For inspection purposes, verbose is enabled by passing arguments to the
         :func:`colour.describe_conversion_path` definition via the ``verbose``
         keyword argument as follows::
 
-            convert(sd, 'Spectral Distribution', 'sRGB', \
-verbose={'mode': 'Long'})
+            convert(sd, "Spectral Distribution", "sRGB", \
+verbose={"mode": "Long"})
 
     Returns
     -------
@@ -1285,12 +1285,12 @@ verbose={'mode': 'Long'})
         opto-electronic transfer function (OETF), the
         **Output-Referred RGB** representation must be used::
 
-             convert(RGB, 'Scene-Referred RGB', 'Output-Referred RGB')
+             convert(RGB, "Scene-Referred RGB", "Output-Referred RGB")
 
         Likewise, encoded *output-referred* *RGB* values can be decoded with
         the **Scene-Referred RGB** representation::
 
-            convert(RGB, 'Output-Referred RGB', 'Scene-Referred RGB')
+            convert(RGB, "Output-Referred RGB", "Scene-Referred RGB")
 
     -   The following defaults have been adopted:
 

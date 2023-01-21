@@ -12,7 +12,7 @@ Defines various cylindrical and spherical colour models:
 -   :func:`colour.HCL_to_RGB`
 
 These colour models trade off perceptual relevance for computation speed.
-They should not be used in the colour science domain although they are useful
+They should not be used in the colour science domain, although they are useful
 for image analysis and provide end user software colour selection tools.
 
 They are provided for convenience and completeness.
@@ -35,6 +35,9 @@ References
 -   :cite:`Sarifuddin2005` : Sarifuddin, M., & Missaoui, R. (2005). A New
     Perceptually Uniform Color Space with Associated Color Similarity Measure
     for ContentBased Image and Video Retrieval.
+-   :cite:`Sarifuddin2005a` : Sarifuddin, M., & Missaoui, R. (2005). HCL: a new
+    Color Space for a more Effective Content-based Image Retrieval.
+    http://w3.uqo.ca/missaoui/Publications/TRColorSpace.zip
 -   :cite:`Wikipedia2015` : Wikipedia. (2015). HCL color space. Retrieved
     April 4, 2021, from https://en.wikipedia.org/wiki/HCL_color_space
 """
@@ -393,9 +396,12 @@ def RGB_to_HCL(
     | ``HCL``    | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
+    -   This implementation uses the equations given in
+        :cite:`Sarifuddin2005a`.
+
     References
     ----------
-    :cite:`Sarifuddin2005`, :cite:`Wikipedia2015`
+    :cite:`Sarifuddin2005`, :cite:`Sarifuddin2005a`, :cite:`Wikipedia2015`
 
     Examples
     --------
@@ -483,9 +489,12 @@ def HCL_to_RGB(
     | ``RGB``    | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
+    -   This implementation uses the equations given in
+        :cite:`Sarifuddin2005a`.
+
     References
     ----------
-    :cite:`Sarifuddin2005`, :cite:`Wikipedia2015`
+    :cite:`Sarifuddin2005`, :cite:`Sarifuddin2005a`, :cite:`Wikipedia2015`
 
     Examples
     --------
