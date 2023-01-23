@@ -9,7 +9,7 @@
 .. |NumFOCUS| image:: https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat-square&colorA=E1523D&colorB=007D8A
     :target: http://numfocus.org
     :alt: Powered by NumFOCUS
-.. |actions| image:: https://img.shields.io/github/workflow/status/colour-science/colour/Continuous%20Integration%20-%20Quality%20&%20Unit%20Tests?label=actions&logo=github&style=flat-square
+.. |actions| image:: https://img.shields.io/github/actions/workflow/status/colour-science/colour/.github/workflows/continuous-integration-quality-unit-tests.yml?branch=develop&style=flat-square
     :target: https://github.com/colour-science/colour/actions
     :alt: Develop Build Status
 .. |coveralls| image:: http://img.shields.io/coveralls/colour-science/colour/develop.svg?style=flat-square
