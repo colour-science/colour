@@ -120,6 +120,8 @@ arithmetical_operation`
     """
 
     def __init__(self, name: Optional[str] = None) -> None:
+        super().__init__()
+
         self._name: str = f"{self.__class__.__name__} ({id(self)})"
         self.name = optional(name, self._name)
 
