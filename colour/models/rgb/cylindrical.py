@@ -38,6 +38,9 @@ References
 -   :cite:`Sarifuddin2005a` : Sarifuddin, M., & Missaoui, R. (2005). HCL: a new
     Color Space for a more Effective Content-based Image Retrieval.
     http://w3.uqo.ca/missaoui/Publications/TRColorSpace.zip
+-   :cite:`Sarifuddin2021` : Sarifuddin, M. (2021). RGB to HCL and HCL to RGB
+    color conversion (1.0.0). https://www.mathworks.com/matlabcentral/\
+fileexchange/100878-rgb-to-hcl-and-hcl-to-rgb-color-conversion
 -   :cite:`Wikipedia2015` : Wikipedia. (2015). HCL color space. Retrieved
     April 4, 2021, from https://en.wikipedia.org/wiki/HCL_color_space
 """
@@ -396,8 +399,9 @@ def RGB_to_HCL(
     | ``HCL``    | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
-    -   This implementation uses the equations given in
-        :cite:`Sarifuddin2005a`.
+    -   This implementation used the equations given in
+        :cite:`Sarifuddin2005a` and the corrections from
+        :cite:`Sarifuddin2021`.
 
     References
     ----------
@@ -416,9 +420,7 @@ def RGB_to_HCL(
     Max = np.maximum(np.maximum(R, G), B)
 
     with sdiv_mode():
-        alpha = sdiv(Min, Max) / Y_0
-
-    Q = np.exp(alpha * gamma)
+        Q = np.exp(sdiv(Min * gamma, Max * Y_0))
 
     L = (Q * Max + (Q - 1) * Min) / 2
 
@@ -428,24 +430,26 @@ def RGB_to_HCL(
 
     C = Q * (np.abs(R_G) + np.abs(G_B) + np.abs(B_R)) / 3
 
-    with sdiv_mode():
+    with sdiv_mode("Ignore"):
         H = np.arctan(sdiv(G_B, R_G))
 
-    _2_3_H = 2 / 3 * H
-    _4_3_H = 4 / 3 * H
+    _2_H_3 = 2 * H / 3
+    _4_H_3 = 4 * H / 3
 
     H = np.select(
         [
+            C == 0,
             np.logical_and(R_G >= 0, G_B >= 0),
             np.logical_and(R_G >= 0, G_B < 0),
             np.logical_and(R_G < 0, G_B >= 0),
             np.logical_and(R_G < 0, G_B < 0),
         ],
         [
-            _2_3_H,
-            _4_3_H,
-            np.pi + _4_3_H,
-            _2_3_H - np.pi,
+            0,
+            _2_H_3,
+            _4_H_3,
+            np.pi + _4_H_3,
+            _2_H_3 - np.pi,
         ],
     )
 
@@ -489,8 +493,9 @@ def HCL_to_RGB(
     | ``RGB``    | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
-    -   This implementation uses the equations given in
-        :cite:`Sarifuddin2005a`.
+    -   This implementation used the equations given in
+        :cite:`Sarifuddin2005a` and the corrections from
+        :cite:`Sarifuddin2021`.
 
     References
     ----------
@@ -511,11 +516,6 @@ def HCL_to_RGB(
         Min = sdiv(4 * L - 3 * C, 4 * Q - 2)
         Max = Min + sdiv(3 * C, 2 * Q)
 
-    def _1_2_3(a: ArrayLike) -> NDArrayFloat:
-        """Tail-stack given :math:`a` array as a *bool* dtype."""
-
-        return tstack(cast(ArrayLike, [a, a, a]), dtype=np.bool_)
-
     tan_3_2_H = np.tan(3 / 2 * H)
     tan_3_4_H_MP = np.tan(3 / 4 * (H - np.pi))
     tan_3_4_H = np.tan(3 / 4 * H)
@@ -525,6 +525,11 @@ def HCL_to_RGB(
     r_p120 = np.radians(120)
     r_n60 = np.radians(-60)
     r_n120 = np.radians(-120)
+
+    def _1_2_3(a: ArrayLike) -> NDArrayFloat:
+        """Tail-stack given :math:`a` array as a *bool* dtype."""
+
+        return tstack(cast(ArrayLike, [a, a, a]), dtype=np.bool_)
 
     with sdiv_mode():
         RGB = np.select(
