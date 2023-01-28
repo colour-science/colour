@@ -24,13 +24,13 @@ from colour.hints import (
     Literal,
     NDArrayFloat,
     Optional,
+    ProtocolExtrapolator,
+    ProtocolInterpolator,
     Real,
     Sequence,
     Self,
     TYPE_CHECKING,
     Type,
-    TypeExtrapolator,
-    TypeInterpolator,
     Union,
     cast,
 )
@@ -422,7 +422,7 @@ class MultiSignals(AbstractContinuousFunction):
                 signal.range = y
 
     @property
-    def interpolator(self) -> Type[TypeInterpolator]:
+    def interpolator(self) -> Type[ProtocolInterpolator]:
         """
         Getter and setter property for the :class:`colour.continuous.Signal`
         sub-class instances interpolator type.
@@ -435,7 +435,7 @@ class MultiSignals(AbstractContinuousFunction):
 
         Returns
         -------
-        Type[TypeInterpolator]
+        Type[ProtocolInterpolator]
             :class:`colour.continuous.Signal` sub-class instances interpolator
             type.
         """
@@ -443,7 +443,7 @@ class MultiSignals(AbstractContinuousFunction):
         return first_item(self._signals.values()).interpolator
 
     @interpolator.setter
-    def interpolator(self, value: Type[TypeInterpolator]):
+    def interpolator(self, value: Type[ProtocolInterpolator]):
         """Setter for the **self.interpolator** property."""
 
         if value is not None:
@@ -479,7 +479,7 @@ class MultiSignals(AbstractContinuousFunction):
             signal.interpolator_kwargs = value
 
     @property
-    def extrapolator(self) -> Type[TypeExtrapolator]:
+    def extrapolator(self) -> Type[ProtocolExtrapolator]:
         """
         Getter and setter property for the :class:`colour.continuous.Signal`
         sub-class instances extrapolator type.
@@ -492,7 +492,7 @@ class MultiSignals(AbstractContinuousFunction):
 
         Returns
         -------
-        Type[TypeExtrapolator]
+        Type[ProtocolExtrapolator]
             :class:`colour.continuous.Signal` sub-class instances extrapolator
             type.
         """
@@ -500,7 +500,7 @@ class MultiSignals(AbstractContinuousFunction):
         return first_item(self._signals.values()).extrapolator
 
     @extrapolator.setter
-    def extrapolator(self, value: Type[TypeExtrapolator]):
+    def extrapolator(self, value: Type[ProtocolExtrapolator]):
         """Setter for the **self.extrapolator** property."""
 
         for signal in self._signals.values():

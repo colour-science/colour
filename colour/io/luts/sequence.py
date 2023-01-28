@@ -18,8 +18,8 @@ from colour.hints import (
     ArrayLike,
     List,
     NDArrayFloat,
+    ProtocolLUTSequenceItem,
     Sequence,
-    TypeLUTSequenceItem,
     Union,
 )
 from colour.utilities import as_float_array, attest, is_iterable
@@ -40,7 +40,7 @@ class LUTSequence(MutableSequence):
     """
     Define the base class for a *LUT* sequence, i.e. a series of *LUTs*,
     *LUT* operators or objects implementing the
-    :class:`colour.hints.TypeLUTSequenceItem` protocol.
+    :class:`colour.hints.ProtocolLUTSequenceItem` protocol.
 
     The `colour.LUTSequence` class can be used to model series of *LUTs* such
     as when a shaper *LUT* is combined with a 3D *LUT*.
@@ -49,7 +49,7 @@ class LUTSequence(MutableSequence):
     ----------------
     args
         Sequence of objects implementing the
-        :class:`colour.hints.TypeLUTSequenceItem` protocol.
+        :class:`colour.hints.ProtocolLUTSequenceItem` protocol.
 
     Attributes
     ----------
@@ -110,12 +110,12 @@ class LUTSequence(MutableSequence):
         Size       : (10, 3)
     """
 
-    def __init__(self, *args: TypeLUTSequenceItem) -> None:
-        self._sequence: List[TypeLUTSequenceItem] = []
+    def __init__(self, *args: ProtocolLUTSequenceItem) -> None:
+        self._sequence: List[ProtocolLUTSequenceItem] = []
         self.sequence = args
 
     @property
-    def sequence(self) -> List[TypeLUTSequenceItem]:
+    def sequence(self) -> List[ProtocolLUTSequenceItem]:
         """
         Getter and setter property for the underlying *LUT* sequence.
 
@@ -133,13 +133,13 @@ class LUTSequence(MutableSequence):
         return self._sequence
 
     @sequence.setter
-    def sequence(self, value: Sequence[TypeLUTSequenceItem]):
+    def sequence(self, value: Sequence[ProtocolLUTSequenceItem]):
         """Setter for the **self.sequence** property."""
 
         for item in value:
             attest(
-                isinstance(item, TypeLUTSequenceItem),
-                '"value" items must implement the "TypeLUTSequenceItem" '
+                isinstance(item, ProtocolLUTSequenceItem),
+                '"value" items must implement the "ProtocolLUTSequenceItem" '
                 "protocol!",
             )
 
@@ -156,7 +156,7 @@ class LUTSequence(MutableSequence):
 
         Returns
         -------
-        TypeLUTSequenceItem
+        ProtocolLUTSequenceItem
             *LUT* sequence item(s) at given index (or slice).
         """
 
@@ -176,8 +176,8 @@ class LUTSequence(MutableSequence):
 
         for item in value if is_iterable(value) else [value]:
             attest(
-                isinstance(item, TypeLUTSequenceItem),
-                '"value" items must implement the "TypeLUTSequenceItem" '
+                isinstance(item, ProtocolLUTSequenceItem),
+                '"value" items must implement the "ProtocolLUTSequenceItem" '
                 "protocol!",
             )
 
@@ -307,7 +307,7 @@ class LUTSequence(MutableSequence):
 
         return not (self == other)
 
-    def insert(self, index: int, item: TypeLUTSequenceItem):
+    def insert(self, index: int, item: ProtocolLUTSequenceItem):
         """
         Insert given *LUT* at given index into the *LUT* sequence.
 
@@ -320,8 +320,8 @@ class LUTSequence(MutableSequence):
         """
 
         attest(
-            isinstance(item, TypeLUTSequenceItem),
-            '"value" items must implement the "TypeLUTSequenceItem" '
+            isinstance(item, ProtocolLUTSequenceItem),
+            '"value" items must implement the "ProtocolLUTSequenceItem" '
             "protocol!",
         )
 

@@ -92,9 +92,9 @@ __all__ = [
     "NDArrayComplex",
     "NDArrayBoolean",
     "NDArrayStr",
-    "TypeInterpolator",
-    "TypeExtrapolator",
-    "TypeLUTSequenceItem",
+    "ProtocolInterpolator",
+    "ProtocolExtrapolator",
+    "ProtocolLUTSequenceItem",
     "LiteralWarning",
 ]
 
@@ -129,7 +129,7 @@ NDArrayBoolean = NDArray[DTypeBoolean]
 NDArrayStr = NDArray[np.str_]
 
 
-class TypeInterpolator(Protocol):  # noqa: D101
+class ProtocolInterpolator(Protocol):  # noqa: D101
     @property
     def x(self) -> NDArray:  # noqa: D102
         ...
@@ -153,13 +153,13 @@ class TypeInterpolator(Protocol):  # noqa: D101
         ...  # pragma: no cover
 
 
-class TypeExtrapolator(Protocol):  # noqa: D101
+class ProtocolExtrapolator(Protocol):  # noqa: D101
     @property
-    def interpolator(self) -> TypeInterpolator:  # noqa: D102
+    def interpolator(self) -> ProtocolInterpolator:  # noqa: D102
         ...
 
     @interpolator.setter
-    def interpolator(self, value: TypeInterpolator):  # noqa: D102
+    def interpolator(self, value: ProtocolInterpolator):  # noqa: D102
         ...
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:  # noqa: D102
@@ -170,7 +170,7 @@ class TypeExtrapolator(Protocol):  # noqa: D101
 
 
 @runtime_checkable
-class TypeLUTSequenceItem(Protocol):  # noqa: D101
+class ProtocolLUTSequenceItem(Protocol):  # noqa: D101
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: D102
         ...  # pragma: no cover
 
