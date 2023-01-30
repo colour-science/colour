@@ -34,12 +34,12 @@ from colour.hints import (
     Literal,
     NDArrayFloat,
     Optional,
+    ProtocolExtrapolator,
+    ProtocolInterpolator,
     Real,
     Self,
     TYPE_CHECKING,
     Type,
-    TypeExtrapolator,
-    TypeInterpolator,
     Union,
     cast,
 )
@@ -252,9 +252,9 @@ class Signal(AbstractContinuousFunction):
         self._dtype: Type[DTypeFloat] = DEFAULT_FLOAT_DTYPE
         self._domain: NDArrayFloat = np.array([])
         self._range: NDArrayFloat = np.array([])
-        self._interpolator: Type[TypeInterpolator] = KernelInterpolator
+        self._interpolator: Type[ProtocolInterpolator] = KernelInterpolator
         self._interpolator_kwargs: dict = {}
-        self._extrapolator: Type[TypeExtrapolator] = Extrapolator
+        self._extrapolator: Type[ProtocolExtrapolator] = Extrapolator
         self._extrapolator_kwargs: dict = {
             "method": "Constant",
             "left": np.nan,
@@ -395,7 +395,7 @@ class Signal(AbstractContinuousFunction):
         self._function = None  # Invalidate the underlying continuous function.
 
     @property
-    def interpolator(self) -> Type[TypeInterpolator]:
+    def interpolator(self) -> Type[ProtocolInterpolator]:
         """
         Getter and setter property for the continuous signal interpolator type.
 
@@ -407,14 +407,14 @@ class Signal(AbstractContinuousFunction):
 
         Returns
         -------
-        Type[TypeInterpolator]
+        Type[ProtocolInterpolator]
             Continuous signal interpolator type.
         """
 
         return self._interpolator
 
     @interpolator.setter
-    def interpolator(self, value: Type[TypeInterpolator]):
+    def interpolator(self, value: Type[ProtocolInterpolator]):
         """Setter for the **self.interpolator** property."""
 
         # TODO: Check for interpolator compatibility.
@@ -455,7 +455,7 @@ class Signal(AbstractContinuousFunction):
         self._function = None  # Invalidate the underlying continuous function.
 
     @property
-    def extrapolator(self) -> Type[TypeExtrapolator]:
+    def extrapolator(self) -> Type[ProtocolExtrapolator]:
         """
         Getter and setter property for the continuous signal extrapolator type.
 
@@ -467,14 +467,14 @@ class Signal(AbstractContinuousFunction):
 
         Returns
         -------
-        Type[TypeExtrapolator]
+        Type[ProtocolExtrapolator]
             Continuous signal extrapolator type.
         """
 
         return self._extrapolator
 
     @extrapolator.setter
-    def extrapolator(self, value: Type[TypeExtrapolator]):
+    def extrapolator(self, value: Type[ProtocolExtrapolator]):
         """Setter for the **self.extrapolator** property."""
 
         # TODO: Check for extrapolator compatibility.

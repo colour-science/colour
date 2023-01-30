@@ -23,11 +23,11 @@ from colour.hints import (
     Literal,
     NDArrayFloat,
     Optional,
+    ProtocolExtrapolator,
+    ProtocolInterpolator,
     Real,
     Self,
     Type,
-    TypeExtrapolator,
-    TypeInterpolator,
     Union,
 )
 from colour.utilities import (
@@ -120,6 +120,8 @@ arithmetical_operation`
     """
 
     def __init__(self, name: Optional[str] = None) -> None:
+        super().__init__()
+
         self._name: str = f"{self.__class__.__name__} ({id(self)})"
         self.name = optional(name, self._name)
 
@@ -249,7 +251,7 @@ arithmetical_operation`
 
     @property
     @abstractmethod
-    def interpolator(self) -> Type[TypeInterpolator]:
+    def interpolator(self) -> Type[ProtocolInterpolator]:
         """
         Getter and setter property for the abstract continuous function
         interpolator type, must be reimplemented by sub-classes.
@@ -262,7 +264,7 @@ arithmetical_operation`
 
         Returns
         -------
-        Type[TypeInterpolator]
+        Type[ProtocolInterpolator]
             Abstract continuous function interpolator type.
         """
 
@@ -270,7 +272,7 @@ arithmetical_operation`
 
     @interpolator.setter
     @abstractmethod
-    def interpolator(self, value: Type[TypeInterpolator]):
+    def interpolator(self, value: Type[ProtocolInterpolator]):
         """
         Setter for the **self.interpolator** property, must be reimplemented by
         sub-classes.
@@ -313,7 +315,7 @@ arithmetical_operation`
 
     @property
     @abstractmethod
-    def extrapolator(self) -> Type[TypeExtrapolator]:
+    def extrapolator(self) -> Type[ProtocolExtrapolator]:
         """
         Getter and setter property for the abstract continuous function
         extrapolator type, must be reimplemented by sub-classes.
@@ -326,7 +328,7 @@ arithmetical_operation`
 
         Returns
         -------
-        Type[TypeExtrapolator]
+        Type[ProtocolExtrapolator]
             Abstract continuous function extrapolator type.
         """
 
@@ -334,7 +336,7 @@ arithmetical_operation`
 
     @extrapolator.setter
     @abstractmethod
-    def extrapolator(self, value: Type[TypeExtrapolator]):
+    def extrapolator(self, value: Type[ProtocolExtrapolator]):
         """
         Setter for the **self.extrapolator** property, must be reimplemented by
         sub-classes.

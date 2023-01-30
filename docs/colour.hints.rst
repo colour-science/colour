@@ -48,9 +48,9 @@ Annotation Type Hints
     NDArrayComplex
     NDArrayBoolean
     NDArrayStr
-    TypeInterpolator
-    TypeExtrapolator
-    TypeLUTSequenceItem
+    ProtocolInterpolator
+    ProtocolExtrapolator
+    ProtocolLUTSequenceItem
     LiteralWarning
 
 
