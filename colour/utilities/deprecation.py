@@ -13,7 +13,7 @@ from collections import namedtuple
 from operator import attrgetter
 
 from colour.utilities import attest, optional, usage_warning
-from colour.hints import Any, ModuleType, Optional
+from colour.hints import Any, ModuleType
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -332,7 +332,7 @@ class ModuleAPI:
     ... # doctest: +SKIP
     """
 
-    def __init__(self, module: ModuleType, changes: Optional[dict] = None):
+    def __init__(self, module: ModuleType, changes: dict | None = None):
         self._module = module
         self._changes = optional(changes, {})
 
@@ -492,7 +492,7 @@ name='module.object_6_access')}
         ArgumentFutureRename,
     ):
         for change in changes.pop(rename_type.__name__, []):
-            changes[change[0].split(".")[-1]] = rename_type(*change)  # noqa
+            changes[change[0].split(".")[-1]] = rename_type(*change)
 
     for remove_type in (
         ObjectRemoved,
@@ -502,7 +502,7 @@ name='module.object_6_access')}
         ArgumentFutureRemove,
     ):
         for change in changes.pop(remove_type.__name__, []):
-            changes[change.split(".")[-1]] = remove_type(change)  # noqa
+            changes[change.split(".")[-1]] = remove_type(change)
 
     return changes
 

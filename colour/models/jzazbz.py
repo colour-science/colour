@@ -26,7 +26,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import vector_dot
-from colour.hints import ArrayLike, Literal, NDArrayFloat, Optional, Union
+from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.models.rgb.transfer_functions import (
     eotf_inverse_ST2084,
     eotf_ST2084,
@@ -172,10 +172,9 @@ References
 
 def XYZ_to_Izazbz(
     XYZ_D65: ArrayLike,
-    constants: Optional[Structure] = None,
-    method: Union[
-        Literal["Safdar 2017", "Safdar 2021", "ZCAM"], str
-    ] = "Safdar 2017",
+    constants: Structure | None = None,
+    method: Literal["Safdar 2017", "Safdar 2021", "ZCAM"]
+    | str = "Safdar 2017",
 ) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to :math:`I_za_zb_z`
@@ -271,10 +270,9 @@ def XYZ_to_Izazbz(
 
 def Izazbz_to_XYZ(
     Izazbz: ArrayLike,
-    constants: Optional[Structure] = None,
-    method: Union[
-        Literal["Safdar 2017", "Safdar 2021", "ZCAM"], str
-    ] = "Safdar 2017",
+    constants: Structure | None = None,
+    method: Literal["Safdar 2017", "Safdar 2021", "ZCAM"]
+    | str = "Safdar 2017",
 ) -> NDArrayFloat:
     """
     Convert from :math:`I_za_zb_z` colourspace to *CIE XYZ* tristimulus

@@ -1,7 +1,7 @@
 """
 References
 ----------
--   :cite:`Jakob2019` : Jakob, W., & Hanika, J. (2019). A Low‐Dimensional
+-   :cite:`Jakob2019` : Jakob, W., & Hanika, J. (2019). A Low-Dimensional
     Function Space for Efficient Spectral Upsampling. Computer Graphics Forum,
     38(2), 147-155. doi:10.1111/cgf.13626
 -   :cite:`Mallett2019` : Mallett, I., & Yuksel, C. (2019). Spectral Primary
@@ -23,7 +23,7 @@ from __future__ import annotations
 import sys
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import Any, ArrayLike, Literal, Union
+from colour.hints import Any, ArrayLike, Literal
 from colour.utilities.deprecation import ModuleAPI, build_API_changes
 from colour.utilities.documentation import is_documentation_building
 from colour.utilities import (
@@ -33,7 +33,7 @@ from colour.utilities import (
     validate_method,
 )
 
-from .datasets import *  # noqa
+from .datasets import *  # noqa: F403
 from . import datasets
 from .jakob2019 import (
     sd_Jakob2019,
@@ -104,16 +104,10 @@ References
 
 def XYZ_to_sd(
     XYZ: ArrayLike,
-    method: Union[
-        Literal[
-            "Jakob 2019",
-            "Mallett 2019",
-            "Meng 2015",
-            "Otsu 2018",
-            "Smits 1999",
-        ],
-        str,
-    ] = "Meng 2015",
+    method: Literal[
+        "Jakob 2019", "Mallett 2019", "Meng 2015", "Otsu 2018", "Smits 1999"
+    ]
+    | str = "Meng 2015",
     **kwargs: Any,
 ) -> SpectralDistribution:
     """

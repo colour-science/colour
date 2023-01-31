@@ -140,7 +140,7 @@ def eotf_sRGB(V: ArrayLike) -> NDArrayFloat:
 
     with domain_range_scale("ignore"):
         L = np.where(
-            V <= eotf_inverse_sRGB(0.0031308),
+            eotf_inverse_sRGB(0.0031308) >= V,
             V / 12.92,
             spow((V + 0.055) / 1.055, 2.4),
         )

@@ -15,7 +15,6 @@ import numpy as np
 
 from colour.io.luts import LUT1D, LUT3x1D, LUTSequence
 from colour.io.luts.common import path_to_title
-from colour.hints import Union
 from colour.utilities import (
     as_float_array,
     as_int_scalar,
@@ -36,7 +35,7 @@ __all__ = [
 ]
 
 
-def read_LUT_SonySPI1D(path: str) -> Union[LUT1D, LUT3x1D]:
+def read_LUT_SonySPI1D(path: str) -> LUT1D | LUT3x1D:
     """
     Read given *Sony* *.spi1d* *LUT* file.
 
@@ -129,7 +128,7 @@ def read_LUT_SonySPI1D(path: str) -> Union[LUT1D, LUT3x1D]:
 
     table = as_float_array(data)
 
-    LUT: Union[LUT1D, LUT3x1D]
+    LUT: LUT1D | LUT3x1D
     if dimensions == 1:
         LUT = LUT1D(
             np.squeeze(table),
@@ -154,7 +153,7 @@ def read_LUT_SonySPI1D(path: str) -> Union[LUT1D, LUT3x1D]:
 
 
 def write_LUT_SonySPI1D(
-    LUT: Union[LUT1D, LUT3x1D, LUTSequence], path: str, decimals: int = 7
+    LUT: LUT1D | LUT3x1D | LUTSequence, path: str, decimals: int = 7
 ) -> bool:
     """
     Write given *LUT* to given *Sony* *.spi1d* *LUT* file.
@@ -217,7 +216,7 @@ def write_LUT_SonySPI1D(
     attest(not LUTxD.is_domain_explicit(), '"LUT" domain must be implicit!')
 
     attest(
-        isinstance(LUTxD, LUT1D) or isinstance(LUTxD, LUT3x1D),
+        isinstance(LUTxD, (LUT1D, LUT3x1D)),
         '"LUT" must be either a 1D or 3x1D "LUT"!',
     )
 
@@ -230,7 +229,7 @@ def write_LUT_SonySPI1D(
 
         attest(len(domain) == 2, 'Non-uniform "LUT" domain is unsupported!')
 
-    def _format_array(array: Union[list, tuple]) -> str:
+    def _format_array(array: list | tuple) -> str:
         """Format given array as a *Sony* *.spi1d* data row."""
 
         return " {1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)

@@ -9,7 +9,7 @@ import setuptools.archive_util
 import urllib.parse
 import urllib.request
 
-import colour as package  # noqa
+import colour as package
 
 basename = re.sub(
     "_(\\w)", lambda x: x.group(1).upper(), package.__name__.title()
@@ -31,7 +31,7 @@ if os.environ.get("READTHEDOCS") == "True":
         f"continuous-integration-documentation/{branch}/{archive}"
     )
 
-    print(f"Using artifact url: {url}")
+    print(f"Using artifact url: {url}")  # noqa: T201
 
     urllib.request.urlretrieve(url, filename=archive)
     setuptools.archive_util.unpack_archive(archive, "_static")
@@ -111,7 +111,7 @@ source_suffix = ".rst"
 master_doc = "index"
 
 project = package.__application_name__
-copyright = package.__copyright__.replace("Copyright (C)", "")
+copyright = package.__copyright__.replace("Copyright (C)", "")  # noqa: A001
 version = f"{package.__major_version__}.{package.__minor_version__}"
 release = package.__version__
 
@@ -222,7 +222,9 @@ epub_copyright = package.__copyright__.replace("Copyright (C)", "")
 epub_exclude_files = ["search.html"]
 
 
-def autodoc_process_docstring(app, what, name, obj, options, lines):
+def autodoc_process_docstring(
+    app, what, name, obj, options, lines  # noqa: ARG001
+):
     """Process the docstrings to remove the *# noqa* *flake8* pragma."""
 
     for i, line in enumerate(lines):

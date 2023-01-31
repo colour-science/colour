@@ -328,7 +328,7 @@ def write_sds_to_csv_file(
         writer = csv.DictWriter(
             csv_file,
             delimiter=",",
-            fieldnames=["wavelength"] + fields,
+            fieldnames=["wavelength", *fields],
             lineterminator="\n",
         )
 

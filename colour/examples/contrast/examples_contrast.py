@@ -62,8 +62,8 @@ def maximise_spatial_frequency(L: ArrayLike) -> NDArrayFloat:
     L = as_float_array(L)
 
     maximised_spatial_frequency = []
+    X_0 = 60
     for L_v in L:
-        X_0 = 60
         d = colour.contrast.pupil_diameter_Barten1999(L_v, X_0)
         sigma = colour.contrast.sigma_Barten1999(0.5 / 60, 0.08 / 60, d)
         E = colour.contrast.retinal_illuminance_Barten1999(L_v, d, True)
@@ -71,7 +71,11 @@ def maximise_spatial_frequency(L: ArrayLike) -> NDArrayFloat:
             fmin(
                 lambda x: (
                     -colour.contrast.contrast_sensitivity_function_Barten1999(
-                        u=x, sigma=sigma, X_0=X_0, E=E, **settings_BT2246
+                        u=x,
+                        sigma=sigma,  # noqa: B023
+                        X_0=X_0,
+                        E=E,  # noqa: B023
+                        **settings_BT2246
                     )
                 ),
                 0,
@@ -107,7 +111,7 @@ pprint(
 )
 
 plot_single_function(
-    lambda x: (
+    lambda x: (  # noqa: ARG005
         1
         / colour.contrast.contrast_sensitivity_function_Barten1999(
             u=u, sigma=sigma, E=E, X_0=X_0, Y_0=Y_0, **settings_BT2246

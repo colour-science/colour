@@ -23,7 +23,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import ArrayLike, Literal, NDArrayFloat, Union, cast
+from colour.hints import ArrayLike, Literal, NDArrayFloat, cast
 from colour.utilities import (
     CanonicalMapping,
     ones,
@@ -295,7 +295,7 @@ References
 
 
 def ellipse_fitting(
-    a: ArrayLike, method: Union[Literal["Halir 1998"], str] = "Halir 1998"
+    a: ArrayLike, method: Literal["Halir 1998"] | str = "Halir 1998"
 ) -> NDArrayFloat:
     """
     Return the coefficients of the implicit second-order polynomial/quadratic

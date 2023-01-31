@@ -49,7 +49,7 @@ Default epsilon value for tolerance and singularities avoidance in various
 computations.
 """
 
-DEFAULT_INT_DTYPE: Type[Union[np.int32, np.int64]] = cast(
+DEFAULT_INT_DTYPE: Type[np.int32 | np.int64] = cast(
     Type[Union[np.int32, np.int64]],
     np.sctypeDict.get(
         os.environ.get("COLOUR_SCIENCE__DEFAULT_INT_DTYPE", "int64"), np.int64

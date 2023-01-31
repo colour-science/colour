@@ -30,9 +30,7 @@ for ppm in (0, 50, 300):
     sds_rayleigh.append(sd_rayleigh)
 plot_multi_sds(
     sds_rayleigh,
-    title=(
-        "Rayleigh Optical Depth - " 'Comparing "C02" Concentration Influence'
-    ),
+    title='Rayleigh Optical Depth - Comparing "C02" Concentration Influence',
     y_label="Optical Depth",
 )
 

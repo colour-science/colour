@@ -135,7 +135,7 @@ class ProtocolInterpolator(Protocol):  # noqa: D101
         ...
 
     @x.setter
-    def x(self, value: ArrayLike):  # noqa: D102
+    def x(self, value: ArrayLike):
         ...
 
     @property
@@ -143,10 +143,10 @@ class ProtocolInterpolator(Protocol):  # noqa: D101
         ...
 
     @y.setter
-    def y(self, value: ArrayLike):  # noqa: D102
+    def y(self, value: ArrayLike):
         ...
 
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # noqa: D102
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         ...  # pragma: no cover
 
     def __call__(self, x: ArrayLike) -> NDArray:  # noqa: D102
@@ -159,10 +159,10 @@ class ProtocolExtrapolator(Protocol):  # noqa: D101
         ...
 
     @interpolator.setter
-    def interpolator(self, value: ProtocolInterpolator):  # noqa: D102
+    def interpolator(self, value: ProtocolInterpolator):
         ...
 
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # noqa: D102
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         ...  # pragma: no cover
 
     def __call__(self, x: ArrayLike) -> NDArray:  # noqa: D102
@@ -180,11 +180,11 @@ LiteralWarning = Literal[
 ]
 
 
-def arraylike(a: ArrayLike) -> NDArray:
+def arraylike(a: ArrayLike) -> NDArray:  # noqa: ARG001, D103
     ...
 
 
-def number_or_arraylike(a: ArrayLike) -> NDArray:
+def number_or_arraylike(a: ArrayLike) -> NDArray:  # noqa: ARG001, D103
     ...
 
 

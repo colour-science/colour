@@ -77,9 +77,7 @@ from colour.hints import (
     Literal,
     Mapping,
     NDArrayFloat,
-    Optional,
     Tuple,
-    Union,
     cast,
 )
 from colour.io import read_sds_from_csv_file
@@ -139,26 +137,23 @@ S_FLARE_FACTOR: float = 0.18000 / (0.18000 + FLARE_PERCENTAGE)
 
 def sd_to_aces_relative_exposure_values(
     sd: SpectralDistribution,
-    illuminant: Optional[SpectralDistribution] = None,
-    chromatic_adaptation_transform: Optional[
-        Union[
-            Literal[
-                "Bianco 2010",
-                "Bianco PC 2010",
-                "Bradford",
-                "CAT02 Brill 2008",
-                "CAT02",
-                "CAT16",
-                "CMCCAT2000",
-                "CMCCAT97",
-                "Fairchild",
-                "Sharp",
-                "Von Kries",
-                "XYZ Scaling",
-            ],
-            str,
-        ]
-    ] = "CAT02",
+    illuminant: SpectralDistribution | None = None,
+    chromatic_adaptation_transform: Literal[
+        "Bianco 2010",
+        "Bianco PC 2010",
+        "Bradford",
+        "CAT02 Brill 2008",
+        "CAT02",
+        "CAT16",
+        "CMCCAT2000",
+        "CMCCAT97",
+        "Fairchild",
+        "Sharp",
+        "Von Kries",
+        "XYZ Scaling",
+    ]
+    | str
+    | None = "CAT02",
     **kwargs,
 ) -> NDArrayFloat:
     """
@@ -303,7 +298,7 @@ Notes
     for the complete *RAW to ACES* v1 dataset, i.e. *3372171*.
 """
 
-_TRAINING_DATA_RAWTOACES_V1: Optional[MultiSpectralDistributions] = None
+_TRAINING_DATA_RAWTOACES_V1: MultiSpectralDistributions | None = None
 
 
 def read_training_data_rawtoaces_v1() -> MultiSpectralDistributions:
@@ -340,7 +335,7 @@ def read_training_data_rawtoaces_v1() -> MultiSpectralDistributions:
     return training_data
 
 
-_ILLUMINANTS_RAWTOACES_V1: Optional[CanonicalMapping] = None
+_ILLUMINANTS_RAWTOACES_V1: CanonicalMapping | None = None
 
 
 def generate_illuminants_rawtoaces_v1() -> CanonicalMapping:
@@ -654,25 +649,22 @@ def training_data_sds_to_XYZ(
     training_data: MultiSpectralDistributions,
     cmfs: MultiSpectralDistributions,
     illuminant: SpectralDistribution,
-    chromatic_adaptation_transform: Optional[
-        Union[
-            Literal[
-                "Bianco 2010",
-                "Bianco PC 2010",
-                "Bradford",
-                "CAT02 Brill 2008",
-                "CAT02",
-                "CAT16",
-                "CMCCAT2000",
-                "CMCCAT97",
-                "Fairchild",
-                "Sharp",
-                "Von Kries",
-                "XYZ Scaling",
-            ],
-            str,
-        ]
-    ] = "CAT02",
+    chromatic_adaptation_transform: Literal[
+        "Bianco 2010",
+        "Bianco PC 2010",
+        "Bradford",
+        "CAT02 Brill 2008",
+        "CAT02",
+        "CAT16",
+        "CMCCAT2000",
+        "CMCCAT97",
+        "Fairchild",
+        "Sharp",
+        "Von Kries",
+        "XYZ Scaling",
+    ]
+    | str
+    | None = "CAT02",
 ) -> NDArrayFloat:
     """
     Convert given training data to *CIE XYZ* tristimulus values using given
@@ -851,33 +843,29 @@ def optimisation_factory_Jzazbz() -> Tuple[Callable, Callable]:
 def matrix_idt(
     sensitivities: RGB_CameraSensitivities,
     illuminant: SpectralDistribution,
-    training_data: Optional[MultiSpectralDistributions] = None,
-    cmfs: Optional[MultiSpectralDistributions] = None,
+    training_data: MultiSpectralDistributions | None = None,
+    cmfs: MultiSpectralDistributions | None = None,
     optimisation_factory: Callable = optimisation_factory_rawtoaces_v1,
-    optimisation_kwargs: Optional[dict] = None,
-    chromatic_adaptation_transform: Optional[
-        Union[
-            Literal[
-                "Bianco 2010",
-                "Bianco PC 2010",
-                "Bradford",
-                "CAT02 Brill 2008",
-                "CAT02",
-                "CAT16",
-                "CMCCAT2000",
-                "CMCCAT97",
-                "Fairchild",
-                "Sharp",
-                "Von Kries",
-                "XYZ Scaling",
-            ],
-            str,
-        ]
-    ] = "CAT02",
+    optimisation_kwargs: dict | None = None,
+    chromatic_adaptation_transform: Literal[
+        "Bianco 2010",
+        "Bianco PC 2010",
+        "Bradford",
+        "CAT02 Brill 2008",
+        "CAT02",
+        "CAT16",
+        "CMCCAT2000",
+        "CMCCAT97",
+        "Fairchild",
+        "Sharp",
+        "Von Kries",
+        "XYZ Scaling",
+    ]
+    | str
+    | None = "CAT02",
     additional_data: bool = False,
-) -> Union[
-    Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat, NDArrayFloat],
-    Tuple[NDArrayFloat, NDArrayFloat],
+) -> Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat, NDArrayFloat] | Tuple[
+    NDArrayFloat, NDArrayFloat
 ]:
     """
     Compute an *Input Device Transform* (IDT) matrix for given camera *RGB*

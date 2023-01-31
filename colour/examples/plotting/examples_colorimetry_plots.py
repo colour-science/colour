@@ -24,7 +24,7 @@ message_box("Colorimetry Plots")
 
 colour_style()
 
-message_box("Plotting a single illuminant spectral " "distribution.")
+message_box("Plotting a single illuminant spectral distribution.")
 plot_single_illuminant_sd("FL1")
 
 print("\n")
@@ -149,7 +149,7 @@ data_sample = {
 }
 
 # http://speclib.jpl.nasa.gov/speclibdata/
-# jhu.becknic.manmade.roofing.metal.solid.0525uuua.spectrum.txt  # noqa
+# jhu.becknic.manmade.roofing.metal.solid.0525uuua.spectrum.txt
 data_galvanized_steel_metal = {
     360: 2.24,
     362: 2.25,

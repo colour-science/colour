@@ -44,7 +44,7 @@ c/09_color_calculations_en.pdf
 
 from __future__ import annotations
 
-from colour.hints import Any, ArrayLike, Literal, NDArrayFloat, Union
+from colour.hints import Any, ArrayLike, Literal, NDArrayFloat
 from colour.utilities import (
     CanonicalMapping,
     as_float,
@@ -469,17 +469,15 @@ WHITENESS_METHODS["cie2004"] = WHITENESS_METHODS["CIE 2004"]
 def whiteness(
     XYZ: ArrayLike,
     XYZ_0: ArrayLike,
-    method: Union[
-        Literal[
-            "ASTM E313",
-            "CIE 2004",
-            "Berger 1959",
-            "Ganz 1979",
-            "Stensby 1968",
-            "Taube 1960",
-        ],
-        str,
-    ] = "CIE 2004",
+    method: Literal[
+        "ASTM E313",
+        "CIE 2004",
+        "Berger 1959",
+        "Ganz 1979",
+        "Stensby 1968",
+        "Taube 1960",
+    ]
+    | str = "CIE 2004",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """

@@ -24,10 +24,8 @@ from colour.algebra import sdiv, sdiv_mode
 from colour.hints import (
     ArrayLike,
     NDArrayFloat,
-    Optional,
     Real,
     Tuple,
-    Union,
 )
 from colour.utilities import as_float, as_float_array, zeros
 
@@ -47,7 +45,7 @@ __all__ = [
 def metric_mse(
     a: ArrayLike,
     b: ArrayLike,
-    axis: Optional[Union[int, Tuple[int]]] = None,
+    axis: int | Tuple[int] | None = None,
 ) -> NDArrayFloat:
     """
     Compute the mean squared error (MSE) or mean squared deviation (MSD)
@@ -91,7 +89,7 @@ def metric_psnr(
     a: ArrayLike,
     b: ArrayLike,
     max_a: Real = 1,
-    axis: Optional[Union[int, Tuple[int]]] = None,
+    axis: int | Tuple[int] | None = None,
 ) -> NDArrayFloat:
     """
     Compute the peak signal-to-noise ratio (PSNR) between given variables

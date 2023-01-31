@@ -303,7 +303,7 @@ extrapolator_kwargs` property.
         property.
         """
 
-        attest(hasattr(self._multi_signals.function, "__call__"))
+        attest(callable(self._multi_signals.function))
 
     def test_raise_exception_function(self):
         """
@@ -383,8 +383,6 @@ function` property raised exception.
 
         class NotSignal(Signal):
             """Not :class:`Signal` class."""
-
-            pass
 
         multi_signals = MultiSignals(self._range_1, signal_type=NotSignal)
         self.assertIsInstance(multi_signals.signals["0"], NotSignal)
@@ -806,8 +804,6 @@ function` property raised exception.
 
         class NotExtrapolator(Extrapolator):
             """Not :class:`Extrapolator` class."""
-
-            pass
 
         multi_signals_2.extrapolator = NotExtrapolator
         self.assertNotEqual(multi_signals_1, multi_signals_2)

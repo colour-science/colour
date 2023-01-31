@@ -32,16 +32,12 @@ class DocstringDict(dict):
     instances.
     """
 
-    pass
-
 
 class DocstringFloat(float):
     """
     A :class:`float` sub-class that allows settings a docstring to
     :class:`float` instances.
     """
-
-    pass
 
 
 class DocstringInt(int):
@@ -50,8 +46,6 @@ class DocstringInt(int):
     :class:`numpy.integer` instances.
     """
 
-    pass
-
 
 class DocstringText(str):
     """
@@ -59,16 +53,12 @@ class DocstringText(str):
     :class:`str` instances.
     """
 
-    pass
-
 
 class DocstringTuple(tuple):
     """
     A :class:`tuple` sub-class that allows settings a docstring to
     :class:`tuple` instances.
     """
-
-    pass
 
 
 def is_documentation_building() -> bool:

@@ -19,7 +19,6 @@ from colour.hints import (
     ArrayLike,
     List,
     NDArrayFloat,
-    Optional,
     Sequence,
     cast,
 )
@@ -72,8 +71,8 @@ class AbstractLUTSequenceOperator(ABC):
 
     def __init__(
         self,
-        name: Optional[str] = None,
-        comments: Optional[Sequence[str]] = None,
+        name: str | None = None,
+        comments: Sequence[str] | None = None,
     ) -> None:
         self._name = f"LUT Sequence Operator {id(self)}"
         self.name = optional(name, self._name)
@@ -161,8 +160,6 @@ class AbstractLUTSequenceOperator(ABC):
             Processed *RGB* colourspace array.
         """
 
-        pass
-
 
 class LUTOperatorMatrix(AbstractLUTSequenceOperator):
     """
@@ -244,8 +241,8 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
     def __init__(
         self,
-        matrix: Optional[ArrayLike] = None,
-        offset: Optional[ArrayLike] = None,
+        matrix: ArrayLike | None = None,
+        offset: ArrayLike | None = None,
         *args: Any,
         **kwargs: Any,
     ) -> None:
@@ -441,14 +438,13 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         True
         """
 
-        if isinstance(other, LUTOperatorMatrix):
-            if all(
-                [
-                    np.array_equal(self._matrix, other._matrix),
-                    np.array_equal(self._offset, other._offset),
-                ]
-            ):
-                return True
+        if isinstance(other, LUTOperatorMatrix) and all(
+            [
+                np.array_equal(self._matrix, other._matrix),
+                np.array_equal(self._offset, other._offset),
+            ]
+        ):
+            return True
 
         return False
 
@@ -476,7 +472,9 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
         return not (self == other)
 
-    def apply(self, RGB: ArrayLike, *args: Any, **kwargs: Any) -> NDArrayFloat:
+    def apply(
+        self, RGB: ArrayLike, *args: Any, **kwargs: Any  # noqa: ARG002
+    ) -> NDArrayFloat:
         """
         Apply the *LUT* operator to given *RGB* array.
 

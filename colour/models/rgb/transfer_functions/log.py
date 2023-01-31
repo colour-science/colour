@@ -44,8 +44,6 @@ from colour.hints import (
     ArrayLike,
     NDArrayFloat,
     Literal,
-    Optional,
-    Union,
     cast,
 )
 from colour.utilities import (
@@ -78,10 +76,10 @@ FLT_MIN = 1.175494e-38
 
 def logarithmic_function_basic(
     x: ArrayLike,
-    style: Union[
-        Literal["log10", "antiLog10", "log2", "antiLog2", "logB", "antiLogB"],
-        str,
-    ] = "log2",
+    style: Literal[
+        "log10", "antiLog10", "log2", "antiLog2", "logB", "antiLogB"
+    ]
+    | str = "log2",
     base: int = 2,
 ) -> NDArrayFloat:
     """
@@ -156,7 +154,7 @@ def logarithmic_function_basic(
 
 def logarithmic_function_quasilog(
     x: ArrayLike,
-    style: Union[Literal["linToLog", "logToLin"], str] = "linToLog",
+    style: Literal["linToLog", "logToLin"] | str = "linToLog",
     base: int = 2,
     log_side_slope: float = 1,
     lin_side_slope: float = 1,
@@ -238,16 +236,15 @@ def logarithmic_function_quasilog(
 
 def logarithmic_function_camera(
     x: ArrayLike,
-    style: Union[
-        Literal["cameraLinToLog", "cameraLogToLin"], str
-    ] = "cameraLinToLog",
+    style: Literal["cameraLinToLog", "cameraLogToLin"]
+    | str = "cameraLinToLog",
     base: int = 2,
     log_side_slope: float = 1,
     lin_side_slope: float = 1,
     log_side_offset: float = 0,
     lin_side_offset: float = 0,
     lin_side_break: float = 0.005,
-    linear_slope: Optional[float] = None,
+    linear_slope: float | None = None,
 ) -> NDArrayFloat:
     """
     Define the camera logarithmic function.

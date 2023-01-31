@@ -74,10 +74,8 @@ from colour.hints import (
     DTypeReal,
     Literal,
     NDArrayFloat,
-    Optional,
     Tuple,
     Type,
-    Union,
     cast,
 )
 from colour.utilities import (
@@ -402,11 +400,11 @@ class KernelInterpolator:
         y: ArrayLike,
         window: float = 3,
         kernel: Callable = kernel_lanczos,
-        kernel_kwargs: Optional[dict] = None,
-        padding_kwargs: Optional[dict] = None,
-        dtype: Optional[Type[DTypeReal]] = None,
-        *args: Any,
-        **kwargs: Any,
+        kernel_kwargs: dict | None = None,
+        padding_kwargs: dict | None = None,
+        dtype: Type[DTypeReal] | None = None,
+        *args: Any,  # noqa: ARG002
+        **kwargs: Any,  # noqa: ARG002
     ) -> None:
         dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
 
@@ -577,7 +575,7 @@ class KernelInterpolator:
         """Setter for the **self.kernel** property."""
 
         attest(
-            hasattr(value, "__call__"),
+            callable(value),
             f'"kernel" property: "{value}" is not callable!',
         )
 
@@ -810,9 +808,9 @@ class LinearInterpolator:
         self,
         x: ArrayLike,
         y: ArrayLike,
-        dtype: Optional[Type[DTypeReal]] = None,
-        *args: Any,
-        **kwargs: Any,
+        dtype: Type[DTypeReal] | None = None,
+        *args: Any,  # noqa: ARG002
+        **kwargs: Any,  # noqa: ARG002
     ) -> None:
         dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
 
@@ -1032,9 +1030,9 @@ class SpragueInterpolator:
         self,
         x: ArrayLike,
         y: ArrayLike,
-        dtype: Optional[Type[DTypeReal]] = None,
-        *args: Any,
-        **kwargs: Any,
+        dtype: Type[DTypeReal] | None = None,
+        *args: Any,  # noqa: ARG002
+        **kwargs: Any,  # noqa: ARG002
     ) -> None:
         dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
 
@@ -1304,7 +1302,8 @@ class CubicSplineInterpolator(scipy.interpolate.interp1d):
     """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
-        super().__init__(kind="cubic", *args, **kwargs)
+        kwargs["kind"] = "cubic"
+        super().__init__(*args, **kwargs)
 
 
 class PchipInterpolator(scipy.interpolate.PchipInterpolator):
@@ -1407,9 +1406,9 @@ class NullInterpolator:
         absolute_tolerance: float = 10e-7,
         relative_tolerance: float = 10e-7,
         default: float = np.nan,
-        dtype: Optional[Type[DTypeReal]] = None,
-        *args: Any,
-        **kwargs: Any,
+        dtype: Type[DTypeReal] | None = None,
+        *args: Any,  # noqa: ARG002
+        **kwargs: Any,  # noqa: ARG002
     ) -> None:
         dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
 
@@ -1684,7 +1683,7 @@ def lagrange_coefficients(r: float, n: int = 4) -> NDArrayFloat:
         basis = [
             (r - r_i[i]) / (r_i[j] - r_i[i]) for i in range(len(r_i)) if i != j
         ]
-        L_n.append(reduce(lambda x, y: x * y, basis))  # noqa
+        L_n.append(reduce(lambda x, y: x * y, basis))
 
     return np.array(L_n)
 
@@ -1984,7 +1983,7 @@ References
 def table_interpolation(
     V_xyz: ArrayLike,
     table: ArrayLike,
-    method: Union[Literal["Trilinear", "Tetrahedral"], str] = "Trilinear",
+    method: Literal["Trilinear", "Tetrahedral"] | str = "Trilinear",
 ) -> NDArrayFloat:
     """
     Perform interpolation of given :math:`V_{xyz}` values using given

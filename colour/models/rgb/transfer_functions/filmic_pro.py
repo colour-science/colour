@@ -18,7 +18,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import Extrapolator, LinearInterpolator
-from colour.hints import ArrayLike, NDArrayFloat, Optional
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
@@ -90,7 +90,7 @@ def log_encoding_FilmicPro6(t: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_1(y))
 
 
-_CACHE_LOG_DECODING_FILMICPRO_INTERPOLATOR: Optional[Extrapolator] = None
+_CACHE_LOG_DECODING_FILMICPRO_INTERPOLATOR: Extrapolator | None = None
 
 
 def _log_decoding_FilmicPro6_interpolator() -> Extrapolator:

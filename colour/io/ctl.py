@@ -23,9 +23,7 @@ from colour.hints import (
     ArrayLike,
     Dict,
     NDArrayFloat,
-    Optional,
     Sequence,
-    Union,
 )
 from colour.io import as_3_channels_image, read_image, write_image
 from colour.utilities import (
@@ -70,7 +68,7 @@ ARGUMENTS_CTL_RENDER_DEFAULTS: tuple = ("-verbose", "-force")
 def ctl_render(
     path_input: str,
     path_output: str,
-    ctl_transforms: Union[Sequence[str], Dict[str, Sequence[str]]],
+    ctl_transforms: Sequence[str] | Dict[str, Sequence[str]],
     *args: Any,
     **kwargs: Any,
 ) -> subprocess.CompletedProcess:  # pragma: no cover
@@ -196,7 +194,7 @@ def ctl_render(
 @required("ctlrender")
 def process_image_ctl(
     a: ArrayLike,
-    ctl_transforms: Union[Sequence[str], Dict[str, Sequence[str]]],
+    ctl_transforms: Sequence[str] | Dict[str, Sequence[str]],
     *args: Any,
     **kwargs: Any,
 ) -> NDArrayFloat:  # pragma: no cover
@@ -297,13 +295,13 @@ def process_image_ctl(
 
 def template_ctl_transform_float(
     R_function: str,
-    G_function: Optional[str] = None,
-    B_function: Optional[str] = None,
-    description: Optional[str] = None,
-    parameters: Optional[Sequence[str]] = None,
-    imports: Optional[Sequence[str]] = None,
-    header: Optional[str] = None,
-) -> str:  # noqa: D405,D407,D410,D411
+    G_function: str | None = None,
+    B_function: str | None = None,
+    description: str | None = None,
+    parameters: Sequence[str] | None = None,
+    imports: Sequence[str] | None = None,
+    header: str | None = None,
+) -> str:
     """
     Generate the code for a *CTL* transform to test a function processing
     per-float channel.
@@ -396,7 +394,7 @@ def template_ctl_transform_float(
         bOut = Y_2_linCV(bIn, CINEMA_WHITE, CINEMA_BLACK);
         aOut = aIn;
     }
-    """
+    """  # noqa: D405, D407, D410, D411
 
     G_function = optional(G_function, R_function)
     B_function = optional(B_function, R_function)
@@ -453,11 +451,11 @@ void main
 
 def template_ctl_transform_float3(
     RGB_function: str,
-    description: Optional[str] = None,
-    parameters: Optional[Sequence[str]] = None,
-    imports: Optional[Sequence[str]] = None,
-    header: Optional[str] = None,
-) -> str:  # noqa: D405,D407,D410,D411
+    description: str | None = None,
+    parameters: Sequence[str] | None = None,
+    imports: Sequence[str] | None = None,
+    header: str | None = None,
+) -> str:
     """
     Generate the code for a *CTL* transform to test a function processing
     RGB channels.
@@ -523,7 +521,7 @@ def template_ctl_transform_float3(
         bOut = rgbOut[2];
         aOut = aIn;
     }
-    """
+    """  # noqa: D405, D407, D410, D411
 
     parameters = optional(parameters, "")
     imports = optional(imports, [])

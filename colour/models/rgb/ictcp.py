@@ -31,7 +31,7 @@ import numpy as np
 
 from colour.algebra import vector_dot
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import ArrayLike, Literal, NDArrayFloat, Optional, Union
+from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 from colour.models.rgb.transfer_functions import (
     eotf_ST2084,
@@ -132,16 +132,14 @@ normalised cone responses matrix as given in *ITU-R BT.2100-2*.
 
 def RGB_to_ICtCp(
     RGB: ArrayLike,
-    method: Union[
-        Literal[
-            "Dolby 2016",
-            "ITU-R BT.2100-1 HLG",
-            "ITU-R BT.2100-1 PQ",
-            "ITU-R BT.2100-2 HLG",
-            "ITU-R BT.2100-2 PQ",
-        ],
-        str,
-    ] = "Dolby 2016",
+    method: Literal[
+        "Dolby 2016",
+        "ITU-R BT.2100-1 HLG",
+        "ITU-R BT.2100-1 PQ",
+        "ITU-R BT.2100-2 HLG",
+        "ITU-R BT.2100-2 PQ",
+    ]
+    | str = "Dolby 2016",
     L_p: float = 10000,
 ) -> NDArrayFloat:
     """
@@ -268,16 +266,14 @@ def RGB_to_ICtCp(
 
 def ICtCp_to_RGB(
     ICtCp: ArrayLike,
-    method: Union[
-        Literal[
-            "Dolby 2016",
-            "ITU-R BT.2100-1 HLG",
-            "ITU-R BT.2100-1 PQ",
-            "ITU-R BT.2100-2 HLG",
-            "ITU-R BT.2100-2 PQ",
-        ],
-        str,
-    ] = "Dolby 2016",
+    method: Literal[
+        "Dolby 2016",
+        "ITU-R BT.2100-1 HLG",
+        "ITU-R BT.2100-1 PQ",
+        "ITU-R BT.2100-2 HLG",
+        "ITU-R BT.2100-2 PQ",
+    ]
+    | str = "Dolby 2016",
     L_p: float = 10000,
 ) -> NDArrayFloat:
     """
@@ -404,35 +400,30 @@ def ICtCp_to_RGB(
 def XYZ_to_ICtCp(
     XYZ: ArrayLike,
     illuminant=CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"],
-    chromatic_adaptation_transform: Optional[
-        Union[
-            Literal[
-                "Bianco 2010",
-                "Bianco PC 2010",
-                "Bradford",
-                "CAT02 Brill 2008",
-                "CAT02",
-                "CAT16",
-                "CMCCAT2000",
-                "CMCCAT97",
-                "Fairchild",
-                "Sharp",
-                "Von Kries",
-                "XYZ Scaling",
-            ],
-            str,
-        ]
-    ] = "CAT02",
-    method: Union[
-        Literal[
-            "Dolby 2016",
-            "ITU-R BT.2100-1 HLG",
-            "ITU-R BT.2100-1 PQ",
-            "ITU-R BT.2100-2 HLG",
-            "ITU-R BT.2100-2 PQ",
-        ],
-        str,
-    ] = "Dolby 2016",
+    chromatic_adaptation_transform: Literal[
+        "Bianco 2010",
+        "Bianco PC 2010",
+        "Bradford",
+        "CAT02 Brill 2008",
+        "CAT02",
+        "CAT16",
+        "CMCCAT2000",
+        "CMCCAT97",
+        "Fairchild",
+        "Sharp",
+        "Von Kries",
+        "XYZ Scaling",
+    ]
+    | str
+    | None = "CAT02",
+    method: Literal[
+        "Dolby 2016",
+        "ITU-R BT.2100-1 HLG",
+        "ITU-R BT.2100-1 PQ",
+        "ITU-R BT.2100-2 HLG",
+        "ITU-R BT.2100-2 PQ",
+    ]
+    | str = "Dolby 2016",
     L_p: float = 10000,
 ) -> NDArrayFloat:
     """
@@ -544,35 +535,30 @@ def XYZ_to_ICtCp(
 def ICtCp_to_XYZ(
     ICtCp: ArrayLike,
     illuminant=CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"],
-    chromatic_adaptation_transform: Optional[
-        Union[
-            Literal[
-                "Bianco 2010",
-                "Bianco PC 2010",
-                "Bradford",
-                "CAT02 Brill 2008",
-                "CAT02",
-                "CAT16",
-                "CMCCAT2000",
-                "CMCCAT97",
-                "Fairchild",
-                "Sharp",
-                "Von Kries",
-                "XYZ Scaling",
-            ],
-            str,
-        ]
-    ] = "CAT02",
-    method: Union[
-        Literal[
-            "Dolby 2016",
-            "ITU-R BT.2100-1 HLG",
-            "ITU-R BT.2100-1 PQ",
-            "ITU-R BT.2100-2 HLG",
-            "ITU-R BT.2100-2 PQ",
-        ],
-        str,
-    ] = "Dolby 2016",
+    chromatic_adaptation_transform: Literal[
+        "Bianco 2010",
+        "Bianco PC 2010",
+        "Bradford",
+        "CAT02 Brill 2008",
+        "CAT02",
+        "CAT16",
+        "CMCCAT2000",
+        "CMCCAT97",
+        "Fairchild",
+        "Sharp",
+        "Von Kries",
+        "XYZ Scaling",
+    ]
+    | str
+    | None = "CAT02",
+    method: Literal[
+        "Dolby 2016",
+        "ITU-R BT.2100-1 HLG",
+        "ITU-R BT.2100-1 PQ",
+        "ITU-R BT.2100-2 HLG",
+        "ITU-R BT.2100-2 PQ",
+    ]
+    | str = "Dolby 2016",
     L_p: float = 10000,
 ) -> NDArrayFloat:
     """

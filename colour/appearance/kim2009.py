@@ -37,7 +37,7 @@ from colour.appearance.ciecam02 import (
     rgb_to_RGB,
 )
 from colour.algebra import vector_dot, spow
-from colour.hints import ArrayLike, NDArrayFloat, Optional, Union
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
@@ -203,30 +203,14 @@ class CAM_Specification_Kim2009(MixinDataclassArithmetic):
     :cite:`Kim2009`
     """
 
-    J: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    C: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    h: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    s: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    Q: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    M: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    H: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    HC: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
+    J: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    C: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    h: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    s: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    Q: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    M: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    H: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    HC: float | NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 def XYZ_to_Kim2009(

@@ -64,10 +64,8 @@ from colour.hints import (
     List,
     Literal,
     NDArrayFloat,
-    Optional,
     Sequence,
     Tuple,
-    Union,
     cast,
 )
 from colour.models import (
@@ -187,39 +185,37 @@ COLOURSPACE_MODELS_AXIS_ORDER: CanonicalMapping = CanonicalMapping(
 
 def colourspace_model_axis_reorder(
     a: ArrayLike,
-    model: Union[
-        Literal[
-            "CAM02LCD",
-            "CAM02SCD",
-            "CAM02UCS",
-            "CAM16LCD",
-            "CAM16SCD",
-            "CAM16UCS",
-            "CIE XYZ",
-            "CIE xyY",
-            "CIE Lab",
-            "CIE LCHab",
-            "CIE Luv",
-            "CIE LCHuv",
-            "CIE UCS",
-            "CIE UVW",
-            "DIN99",
-            "Hunter Lab",
-            "Hunter Rdab",
-            "ICaCb",
-            "ICtCp",
-            "IPT",
-            "IPT Munish 2021",
-            "IgPgTg",
-            "Jzazbz",
-            "OSA UCS",
-            "Oklab",
-            "hdr-CIELAB",
-            "hdr-IPT",
-        ],
-        str,
-    ],
-    direction: Union[Literal["Forward", "Inverse"], str] = "Forward",
+    model: Literal[
+        "CAM02LCD",
+        "CAM02SCD",
+        "CAM02UCS",
+        "CAM16LCD",
+        "CAM16SCD",
+        "CAM16UCS",
+        "CIE XYZ",
+        "CIE xyY",
+        "CIE Lab",
+        "CIE LCHab",
+        "CIE Luv",
+        "CIE LCHuv",
+        "CIE UCS",
+        "CIE UVW",
+        "DIN99",
+        "Hunter Lab",
+        "Hunter Rdab",
+        "ICaCb",
+        "ICtCp",
+        "IPT",
+        "IPT Munish 2021",
+        "IgPgTg",
+        "Jzazbz",
+        "OSA UCS",
+        "Oklab",
+        "hdr-CIELAB",
+        "hdr-IPT",
+    ]
+    | str,
+    direction: Literal["Forward", "Inverse"] | str = "Forward",
 ) -> NDArrayFloat:
     """
     Reorder the axes of given colourspace model :math:`a` array according to
@@ -280,11 +276,10 @@ def colourspace_model_axis_reorder(
 
 @override_style()
 def plot_pointer_gamut(
-    pointer_gamut_colours: Optional[Union[ArrayLike, str]] = None,
+    pointer_gamut_colours: ArrayLike | str | None = None,
     pointer_gamut_opacity: float = 1,
-    method: Union[
-        Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"], str
-    ] = "CIE 1931",
+    method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+    | str = "CIE 1931",
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -356,7 +351,9 @@ def plot_pointer_gamut(
 
     elif method == "cie 1960 ucs":
 
-        def XYZ_to_ij(XYZ: NDArrayFloat, *args: Any) -> NDArrayFloat:
+        def XYZ_to_ij(
+            XYZ: NDArrayFloat, *args: Any  # noqa: ARG001
+        ) -> NDArrayFloat:
             """
             Convert given *CIE XYZ* tristimulus values to *ij* chromaticity
             coordinates.
@@ -428,22 +425,19 @@ def plot_pointer_gamut(
 
 @override_style()
 def plot_RGB_colourspaces_in_chromaticity_diagram(
-    colourspaces: Union[
-        RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]
-    ],
-    cmfs: Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
+    colourspaces: RGB_Colourspace | str | Sequence[RGB_Colourspace | str],
+    cmfs: MultiSpectralDistributions
+    | str
+    | Sequence[
+        MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
     chromaticity_diagram_callable: Callable = (plot_chromaticity_diagram),
-    method: Union[
-        Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"], str
-    ] = "CIE 1931",
+    method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+    | str = "CIE 1931",
     show_whitepoints: bool = True,
     show_pointer_gamut: bool = False,
     chromatically_adapt: bool = False,
-    plot_kwargs: Optional[Union[dict, List[dict]]] = None,
+    plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -667,13 +661,11 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
 
 @override_style()
 def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
-    colourspaces: Union[
-        RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]
-    ],
-    cmfs: Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
+    colourspaces: RGB_Colourspace | str | Sequence[RGB_Colourspace | str],
+    cmfs: MultiSpectralDistributions
+    | str
+    | Sequence[
+        MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
     chromaticity_diagram_callable_CIE1931: Callable = (
         plot_chromaticity_diagram_CIE1931
@@ -681,7 +673,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
     show_whitepoints: bool = True,
     show_pointer_gamut: bool = False,
     chromatically_adapt: bool = False,
-    plot_kwargs: Optional[Union[dict, List[dict]]] = None,
+    plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -761,13 +753,11 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1931.png
 
 @override_style()
 def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
-    colourspaces: Union[
-        RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]
-    ],
-    cmfs: Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
+    colourspaces: RGB_Colourspace | str | Sequence[RGB_Colourspace | str],
+    cmfs: MultiSpectralDistributions
+    | str
+    | Sequence[
+        MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
     chromaticity_diagram_callable_CIE1960UCS: Callable = (
         plot_chromaticity_diagram_CIE1960UCS
@@ -775,7 +765,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
     show_whitepoints: bool = True,
     show_pointer_gamut: bool = False,
     chromatically_adapt: bool = False,
-    plot_kwargs: Optional[Union[dict, List[dict]]] = None,
+    plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -856,13 +846,11 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1960UCS.png
 
 @override_style()
 def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
-    colourspaces: Union[
-        RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]
-    ],
-    cmfs: Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
+    colourspaces: RGB_Colourspace | str | Sequence[RGB_Colourspace | str],
+    cmfs: MultiSpectralDistributions
+    | str
+    | Sequence[
+        MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
     chromaticity_diagram_callable_CIE1976UCS: Callable = (
         plot_chromaticity_diagram_CIE1976UCS
@@ -870,7 +858,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
     show_whitepoints: bool = True,
     show_pointer_gamut: bool = False,
     chromatically_adapt: bool = False,
-    plot_kwargs: Optional[Union[dict, List[dict]]] = None,
+    plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -952,16 +940,15 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1976UCS.png
 @override_style()
 def plot_RGB_chromaticities_in_chromaticity_diagram(
     RGB: ArrayLike,
-    colourspace: Union[
-        RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]
-    ] = "sRGB",
+    colourspace: RGB_Colourspace
+    | str
+    | Sequence[RGB_Colourspace | str] = "sRGB",
     chromaticity_diagram_callable: Callable = (
         plot_RGB_colourspaces_in_chromaticity_diagram
     ),
-    method: Union[
-        Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"], str
-    ] = "CIE 1931",
-    scatter_kwargs: Optional[dict] = None,
+    method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+    | str = "CIE 1931",
+    scatter_kwargs: dict | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -1043,7 +1030,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
         first_item(filter_RGB_colourspaces(colourspace).values()),
     )
 
-    settings["colourspaces"] = [colourspace] + settings.get("colourspaces", [])
+    settings["colourspaces"] = [colourspace, *settings.get("colourspaces", [])]
 
     chromaticity_diagram_callable(**settings)
 
@@ -1093,13 +1080,13 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
 @override_style()
 def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
     RGB: ArrayLike,
-    colourspace: Union[
-        RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]
-    ] = "sRGB",
+    colourspace: RGB_Colourspace
+    | str
+    | Sequence[RGB_Colourspace | str] = "sRGB",
     chromaticity_diagram_callable_CIE1931: Callable = (
         plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931
     ),
-    scatter_kwargs: Optional[dict] = None,
+    scatter_kwargs: dict | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -1167,13 +1154,13 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1931.png
 @override_style()
 def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
     RGB: ArrayLike,
-    colourspace: Union[
-        RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]
-    ] = "sRGB",
+    colourspace: RGB_Colourspace
+    | str
+    | Sequence[RGB_Colourspace | str] = "sRGB",
     chromaticity_diagram_callable_CIE1960UCS: Callable = (
         plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS
     ),
-    scatter_kwargs: Optional[dict] = None,
+    scatter_kwargs: dict | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -1243,13 +1230,13 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1960UCS.png
 @override_style()
 def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
     RGB: ArrayLike,
-    colourspace: Union[
-        RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]
-    ] = "sRGB",
+    colourspace: RGB_Colourspace
+    | str
+    | Sequence[RGB_Colourspace | str] = "sRGB",
     chromaticity_diagram_callable_CIE1976UCS: Callable = (
         plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS
     ),
-    scatter_kwargs: Optional[dict] = None,
+    scatter_kwargs: dict | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -1317,9 +1304,8 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1976UCS.png
 
 
 def ellipses_MacAdam1942(
-    method: Union[
-        Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"], str
-    ] = "CIE 1931"
+    method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+    | str = "CIE 1931"
 ) -> List[NDArrayFloat]:
     """
     Return *MacAdam (1942) Ellipses (Observer PGN)* coefficients according to
@@ -1396,11 +1382,10 @@ def ellipses_MacAdam1942(
 @override_style()
 def plot_ellipses_MacAdam1942_in_chromaticity_diagram(
     chromaticity_diagram_callable: Callable = (plot_chromaticity_diagram),
-    method: Union[
-        Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"], str
-    ] = "CIE 1931",
+    method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+    | str = "CIE 1931",
     chromaticity_diagram_clipping: bool = False,
-    ellipse_kwargs: Optional[Union[dict, List[dict]]] = None,
+    ellipse_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -1520,7 +1505,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931(
         plot_chromaticity_diagram_CIE1931
     ),
     chromaticity_diagram_clipping: bool = False,
-    ellipse_kwargs: Optional[Union[dict, List[dict]]] = None,
+    ellipse_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -1584,7 +1569,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS(
         plot_chromaticity_diagram_CIE1960UCS
     ),
     chromaticity_diagram_clipping: bool = False,
-    ellipse_kwargs: Optional[Union[dict, List[dict]]] = None,
+    ellipse_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -1649,7 +1634,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS(
         plot_chromaticity_diagram_CIE1976UCS
     ),
     chromaticity_diagram_clipping: bool = False,
-    ellipse_kwargs: Optional[Union[dict, List[dict]]] = None,
+    ellipse_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -1710,7 +1695,7 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1976UCS.png
 
 @override_style()
 def plot_single_cctf(
-    cctf: Union[Callable, str], cctf_decoding: bool = False, **kwargs: Any
+    cctf: Callable | str, cctf_decoding: bool = False, **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plot given colourspace colour component transfer function.
@@ -1757,7 +1742,7 @@ def plot_single_cctf(
 
 @override_style()
 def plot_multi_cctfs(
-    cctfs: Union[Callable, str, Sequence[Union[Callable, str]]],
+    cctfs: Callable | str | Sequence[Callable | str],
     cctf_decoding: bool = False,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
@@ -1801,7 +1786,7 @@ def plot_multi_cctfs(
     )
 
     mode = "Decoding" if cctf_decoding else "Encoding"
-    title = f"{', '.join([cctf for cctf in cctfs_filtered])} - {mode} CCTFs"
+    title = f"{', '.join(list(cctfs_filtered))} - {mode} CCTFs"
 
     settings: Dict[str, Any] = {
         "bounding_box": (0, 1, 0, 1),
@@ -1819,38 +1804,36 @@ def plot_multi_cctfs(
 @override_style()
 def plot_constant_hue_loci(
     data: ArrayLike,
-    model: Union[
-        Literal[
-            "CAM02LCD",
-            "CAM02SCD",
-            "CAM02UCS",
-            "CAM16LCD",
-            "CAM16SCD",
-            "CAM16UCS",
-            "CIE XYZ",
-            "CIE xyY",
-            "CIE Lab",
-            "CIE Luv",
-            "CIE UCS",
-            "CIE UVW",
-            "DIN99",
-            "Hunter Lab",
-            "Hunter Rdab",
-            "ICaCb",
-            "ICtCp",
-            "IPT",
-            "IPT Munish 2021",
-            "IgPgTg",
-            "Jzazbz",
-            "OSA UCS",
-            "Oklab",
-            "hdr-CIELAB",
-            "hdr-IPT",
-        ],
-        str,
-    ] = "CIE Lab",
-    scatter_kwargs: Optional[dict] = None,
-    convert_kwargs: Optional[dict] = None,
+    model: Literal[
+        "CAM02LCD",
+        "CAM02SCD",
+        "CAM02UCS",
+        "CAM16LCD",
+        "CAM16SCD",
+        "CAM16UCS",
+        "CIE XYZ",
+        "CIE xyY",
+        "CIE Lab",
+        "CIE Luv",
+        "CIE UCS",
+        "CIE UVW",
+        "DIN99",
+        "Hunter Lab",
+        "Hunter Rdab",
+        "ICaCb",
+        "ICtCp",
+        "IPT",
+        "IPT Munish 2021",
+        "IgPgTg",
+        "Jzazbz",
+        "OSA UCS",
+        "Oklab",
+        "hdr-CIELAB",
+        "hdr-IPT",
+    ]
+    | str = "CIE Lab",
+    scatter_kwargs: dict | None = None,
+    convert_kwargs: dict | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -2063,7 +2046,7 @@ def plot_constant_hue_loci(
 
                 return XYZ_to_RGB(
                     XYZ,
-                    xy_r,
+                    xy_r,  # noqa: B023
                     colourspace.whitepoint,
                     colourspace.matrix_XYZ_to_RGB,
                     cctf_encoding=colourspace.cctf_encoding,

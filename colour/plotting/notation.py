@@ -13,7 +13,7 @@ from __future__ import annotations
 import matplotlib.pyplot as plt
 import numpy as np
 
-from colour.hints import Any, Callable, Dict, Sequence, Tuple, Union
+from colour.hints import Any, Callable, Dict, Sequence, Tuple
 from colour.notation import MUNSELL_VALUE_METHODS
 from colour.plotting import (
     filter_passthrough,
@@ -36,7 +36,7 @@ __all__ = [
 
 @override_style()
 def plot_single_munsell_value_function(
-    function: Union[Callable, str], **kwargs: Any
+    function: Callable | str, **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plot given *Lightness* function.
@@ -81,7 +81,7 @@ def plot_single_munsell_value_function(
 
 @override_style()
 def plot_multi_munsell_value_functions(
-    functions: Union[Callable, str, Sequence[Union[Callable, str]]],
+    functions: Callable | str | Sequence[Callable | str],
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """

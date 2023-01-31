@@ -31,7 +31,7 @@ message_box(
 )
 plot_multi_sds(
     colour.SDS_COLOURCHECKERS["BabelColor Average"].values(),
-    title=("BabelColor Average - " "Spectral Distributions"),
+    title="BabelColor Average - Spectral Distributions",
     plot_kwargs={
         "use_sd_colours": True,
     },

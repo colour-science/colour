@@ -25,7 +25,7 @@ from dataclasses import dataclass, field
 
 from colour.algebra import matrix_dot, sdiv, sdiv_mode, spow, vector_dot
 from colour.appearance.hunt import MATRIX_XYZ_TO_HPE, XYZ_to_rgb
-from colour.hints import ArrayLike, NDArrayFloat, Optional, Union
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArray,
@@ -130,27 +130,13 @@ class CAM_ReferenceSpecification_RLAB(MixinDataclassArray):
     :cite:`Fairchild1996a`, :cite:`Fairchild2013w`
     """
 
-    LR: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    CR: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    hR: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    sR: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    HR: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    aR: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    bR: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
+    LR: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    CR: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    hR: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    sR: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    HR: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    aR: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    bR: float | NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 @dataclass
@@ -188,13 +174,13 @@ class CAM_Specification_RLAB(MixinDataclassArray):
     :cite:`Fairchild1996a`, :cite:`Fairchild2013w`
     """
 
-    J: Optional[NDArrayFloat] = field(default_factory=lambda: None)
-    C: Optional[NDArrayFloat] = field(default_factory=lambda: None)
-    h: Optional[NDArrayFloat] = field(default_factory=lambda: None)
-    s: Optional[NDArrayFloat] = field(default_factory=lambda: None)
-    HC: Optional[NDArrayFloat] = field(default_factory=lambda: None)
-    a: Optional[NDArrayFloat] = field(default_factory=lambda: None)
-    b: Optional[NDArrayFloat] = field(default_factory=lambda: None)
+    J: NDArrayFloat | None = field(default_factory=lambda: None)
+    C: NDArrayFloat | None = field(default_factory=lambda: None)
+    h: NDArrayFloat | None = field(default_factory=lambda: None)
+    s: NDArrayFloat | None = field(default_factory=lambda: None)
+    HC: NDArrayFloat | None = field(default_factory=lambda: None)
+    a: NDArrayFloat | None = field(default_factory=lambda: None)
+    b: NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 def XYZ_to_RLAB(

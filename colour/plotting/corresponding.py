@@ -15,7 +15,7 @@ from colour.corresponding import (
     CorrespondingColourDataset,
     corresponding_chromaticities_prediction,
 )
-from colour.hints import Any, Dict, Literal, Optional, Tuple, Union, cast
+from colour.hints import Any, Dict, Literal, Tuple, cast
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
     artist,
@@ -39,20 +39,13 @@ __all__ = [
 
 @override_style()
 def plot_corresponding_chromaticities_prediction(
-    experiment: Union[
-        Literal[1, 2, 3, 4, 6, 8, 9, 11, 12], CorrespondingColourDataset
-    ] = 1,
-    model: Union[
-        Literal[
-            "CIE 1994",
-            "CMCCAT2000",
-            "Fairchild 1990",
-            "Von Kries",
-            "Zhai 2018",
-        ],
-        str,
-    ] = "Von Kries",
-    corresponding_chromaticities_prediction_kwargs: Optional[dict] = None,
+    experiment: Literal[1, 2, 3, 4, 6, 8, 9, 11, 12]
+    | CorrespondingColourDataset = 1,
+    model: Literal[
+        "CIE 1994", "CMCCAT2000", "Fairchild 1990", "Von Kries", "Zhai 2018"
+    ]
+    | str = "Von Kries",
+    corresponding_chromaticities_prediction_kwargs: dict | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """

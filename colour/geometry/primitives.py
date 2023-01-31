@@ -28,10 +28,8 @@ from colour.hints import (
     DTypeInt,
     Literal,
     NDArray,
-    Optional,
     Tuple,
     Type,
-    Union,
 )
 from colour.utilities import (
     CanonicalMapping,
@@ -79,8 +77,8 @@ def primitive_grid(
     axis: Literal[
         "-x", "+x", "-y", "+y", "-z", "+z", "xy", "xz", "yz", "yx", "zx", "zy"
     ] = "+z",
-    dtype_vertices: Optional[Type[DTypeFloat]] = None,
-    dtype_indexes: Optional[Type[DTypeInt]] = None,
+    dtype_vertices: Type[DTypeFloat] | None = None,
+    dtype_indexes: Type[DTypeInt] | None = None,
 ) -> Tuple[NDArray, NDArray, NDArray]:
     """
     Generate vertices and indexes for a filled and outlined grid primitive.
@@ -234,24 +232,12 @@ def primitive_cube(
     width_segments: int = 1,
     height_segments: int = 1,
     depth_segments: int = 1,
-    planes: Optional[
-        Literal[
-            "-x",
-            "+x",
-            "-y",
-            "+y",
-            "-z",
-            "+z",
-            "xy",
-            "xz",
-            "yz",
-            "yx",
-            "zx",
-            "zy",
-        ]
-    ] = None,
-    dtype_vertices: Optional[Type[DTypeFloat]] = None,
-    dtype_indexes: Optional[Type[DTypeInt]] = None,
+    planes: Literal[
+        "-x", "+x", "-y", "+y", "-z", "+z", "xy", "xz", "yz", "yx", "zx", "zy"
+    ]
+    | None = None,
+    dtype_vertices: Type[DTypeFloat] | None = None,
+    dtype_indexes: Type[DTypeInt] | None = None,
 ) -> Tuple[NDArray, NDArray, NDArray]:
     """
     Generate vertices and indexes for a filled and outlined cube primitive.
@@ -356,7 +342,7 @@ def primitive_cube(
     """
 
     axis = (
-        sorted(list(MAPPING_PLANE_TO_AXIS.values()))
+        sorted(MAPPING_PLANE_TO_AXIS.values())
         if planes is None
         else [
             MAPPING_PLANE_TO_AXIS.get(plane, plane).lower() for plane in planes
@@ -455,7 +441,7 @@ Supported geometry primitive generation methods.
 
 
 def primitive(
-    method: Union[Literal["Cube", "Grid"], str] = "Cube", **kwargs: Any
+    method: Literal["Cube", "Grid"] | str = "Cube", **kwargs: Any
 ) -> Tuple[NDArray, NDArray, NDArray]:
     """
     Return a geometry primitive using given method.

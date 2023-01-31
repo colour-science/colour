@@ -419,7 +419,7 @@ def delta_E_CIE2000(
 def delta_E_CMC(
     Lab_1: ArrayLike,
     Lab_2: ArrayLike,
-    l: float = 2,  # noqa
+    l: float = 2,  # noqa: E741
     c: float = 1,
 ) -> NDArrayFloat:
     """

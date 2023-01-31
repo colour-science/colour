@@ -17,7 +17,7 @@ from colour.colorimetry import (
     MultiSpectralDistributions,
     sd_to_XYZ,
 )
-from colour.hints import Any, ArrayLike, Dict, Sequence, Tuple, Union, cast
+from colour.hints import Any, ArrayLike, Dict, Sequence, Tuple, cast
 from colour.phenomena import sd_rayleigh_scattering
 from colour.phenomena.rayleigh import (
     CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
@@ -59,10 +59,10 @@ def plot_single_sd_rayleigh_scattering(
     pressure: ArrayLike = CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
     latitude: ArrayLike = CONSTANT_DEFAULT_LATITUDE,
     altitude: ArrayLike = CONSTANT_DEFAULT_ALTITUDE,
-    cmfs: Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
+    cmfs: MultiSpectralDistributions
+    | str
+    | Sequence[
+        MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
@@ -132,10 +132,10 @@ def plot_single_sd_rayleigh_scattering(
 
 @override_style()
 def plot_the_blue_sky(
-    cmfs: Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
+    cmfs: MultiSpectralDistributions
+    | str
+    | Sequence[
+        MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:

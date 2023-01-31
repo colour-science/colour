@@ -69,7 +69,7 @@ from colour.biochemistry import (
     reaction_rate_MichaelisMenten_Michaelis1913,
     reaction_rate_MichaelisMenten_Abebe2017,
 )
-from colour.hints import Any, ArrayLike, NDArrayFloat, Literal, Union
+from colour.hints import Any, ArrayLike, NDArrayFloat, Literal
 from colour.utilities import (
     CanonicalMapping,
     as_float,
@@ -375,7 +375,7 @@ def lightness_Fairchild2010(
 def lightness_Fairchild2011(
     Y: ArrayLike,
     epsilon: ArrayLike = 0.474,
-    method: Union[Literal["hdr-CIELAB", "hdr-IPT"], str] = "hdr-CIELAB",
+    method: Literal["hdr-CIELAB", "hdr-IPT"] | str = "hdr-CIELAB",
 ) -> NDArrayFloat:
     """
     Compute *Lightness* :math:`L_{hdr}` of given *luminance* :math:`Y` using
@@ -426,10 +426,7 @@ def lightness_Fairchild2011(
     Y = to_domain_1(Y)
     method = validate_method(method, ["hdr-CIELAB", "hdr-IPT"])
 
-    if method == "hdr-cielab":
-        maximum_perception = 247
-    else:
-        maximum_perception = 246
+    maximum_perception = 247 if method == "hdr-cielab" else 246
 
     L_hdr = (
         reaction_rate_MichaelisMenten_Michaelis1913(
@@ -444,9 +441,7 @@ def lightness_Fairchild2011(
 def lightness_Abebe2017(
     Y: ArrayLike,
     Y_n: ArrayLike = 100,
-    method: Union[
-        Literal["Michaelis-Menten", "Stevens"], str
-    ] = "Michaelis-Menten",
+    method: Literal["Michaelis-Menten", "Stevens"] | str = "Michaelis-Menten",
 ) -> NDArrayFloat:
     """
     Compute *Lightness* :math:`L` of given *luminance* :math:`Y` using
@@ -553,17 +548,15 @@ LIGHTNESS_METHODS["Lstar1976"] = LIGHTNESS_METHODS["CIE 1976"]
 
 def lightness(
     Y: ArrayLike,
-    method: Union[
-        Literal[
-            "Abebe 2017",
-            "CIE 1976",
-            "Glasser 1958",
-            "Fairchild 2010",
-            "Fairchild 2011",
-            "Wyszecki 1963",
-        ],
-        str,
-    ] = "CIE 1976",
+    method: Literal[
+        "Abebe 2017",
+        "CIE 1976",
+        "Glasser 1958",
+        "Fairchild 2010",
+        "Fairchild 2011",
+        "Wyszecki 1963",
+    ]
+    | str = "CIE 1976",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """

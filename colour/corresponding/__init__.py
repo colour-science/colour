@@ -1,4 +1,4 @@
-from .datasets import *  # noqa
+from .datasets import *  # noqa: F403
 from . import datasets
 from .prediction import (
     CorrespondingColourDataset,

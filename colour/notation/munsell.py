@@ -139,9 +139,7 @@ from colour.hints import (
     Literal,
     NDArrayFloat,
     NDArrayStr,
-    Optional,
     Tuple,
-    Union,
     cast,
 )
 from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
@@ -299,7 +297,7 @@ def _munsell_specifications() -> NDArrayFloat:
         *Munsell Renotation System* specifications.
     """
 
-    global _CACHE_MUNSELL_SPECIFICATIONS
+    global _CACHE_MUNSELL_SPECIFICATIONS  # noqa: PLW0602
 
     if "All" in _CACHE_MUNSELL_SPECIFICATIONS:
         return _CACHE_MUNSELL_SPECIFICATIONS["All"]
@@ -329,7 +327,7 @@ def _munsell_value_ASTMD1535_interpolator() -> Extrapolator:
         *Munsell* value interpolator for *ASTM D1535-08e1* method.
     """
 
-    global _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR
+    global _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR  # noqa: PLW0602
 
     if "ASTM D1535-08 Interpolator" in (
         _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR
@@ -351,9 +349,9 @@ def _munsell_value_ASTMD1535_interpolator() -> Extrapolator:
     return extrapolator
 
 
-def _munsell_maximum_chromas_from_renotation() -> Tuple[
-    Tuple[Tuple[float, float], float], ...
-]:
+def _munsell_maximum_chromas_from_renotation() -> (
+    Tuple[Tuple[Tuple[float, float], float], ...]
+):
     """
     Return the maximum *Munsell* chromas from *Munsell Renotation System* data
     and caches them if not existing.
@@ -364,7 +362,7 @@ def _munsell_maximum_chromas_from_renotation() -> Tuple[
         Maximum *Munsell* chromas.
     """
 
-    global _CACHE_MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION
+    global _CACHE_MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION  # noqa: PLW0602
 
     if "Maximum Chromas From Renotation" in (
         _CACHE_MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION
@@ -761,18 +759,16 @@ MUNSELL_VALUE_METHODS["astm2008"] = MUNSELL_VALUE_METHODS["ASTM D1535"]
 
 def munsell_value(
     Y: ArrayLike,
-    method: Union[
-        Literal[
-            "ASTM D1535",
-            "Ladd 1955",
-            "McCamy 1987",
-            "Moon 1943",
-            "Munsell 1933",
-            "Priest 1920",
-            "Saunderson 1944",
-        ],
-        str,
-    ] = "ASTM D1535",
+    method: Literal[
+        "ASTM D1535",
+        "Ladd 1955",
+        "McCamy 1987",
+        "Moon 1943",
+        "Munsell 1933",
+        "Priest 1920",
+        "Saunderson 1944",
+    ]
+    | str = "ASTM D1535",
 ) -> NDArrayFloat:
     """
     Return the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
@@ -1032,7 +1028,7 @@ def munsell_colour_to_xyY(munsell_colour: ArrayLike) -> NDArrayFloat:
 
     return munsell_specification_to_xyY(
         from_range_10(
-            specification.reshape(shape + [4]), _munsell_scale_factor()
+            specification.reshape([*shape, 4]), _munsell_scale_factor()
         )
     )
 
@@ -1188,7 +1184,12 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArrayFloat:
 
             with domain_range_scale("ignore"):
                 x_inner, y_inner, _Y_inner = _munsell_specification_to_xyY(
-                    [hue_inner, value, chroma_current, code_inner]
+                    [
+                        hue_inner,
+                        value,
+                        chroma_current,  # pyright: ignore
+                        code_inner,
+                    ]
                 )
 
             if len(phi_differences_data) >= 2:
@@ -1416,7 +1417,7 @@ def xyY_to_munsell_colour(
     hue_decimals: int = 1,
     value_decimals: int = 1,
     chroma_decimals: int = 1,
-) -> Union[str, NDArrayStr]:
+) -> str | NDArrayStr:
     """
     Convert from *CIE xyY* colourspace to *Munsell* colour.
 
@@ -1755,11 +1756,11 @@ def xyY_from_renotation(specification: ArrayLike) -> NDArrayFloat:
         )
 
         return MUNSELL_COLOURS_ALL[int(index[0])][1]
-    except Exception:
+    except Exception as error:
         raise ValueError(
             f'"{specification}" specification does not exists in '
             '"Munsell Renotation System" data!'
-        )
+        ) from error
 
 
 def is_specification_in_renotation(specification: ArrayLike) -> bool:
@@ -1994,7 +1995,7 @@ def hue_to_ASTM_hue(hue_and_code) -> float:
 
 def interpolation_method_from_renotation_ovoid(
     specification: ArrayLike,
-) -> Optional[Literal["Linear", "Radial"]]:
+) -> Literal["Linear", "Radial"] | None:
     """
     Return whether to use linear or radial interpolation when drawing ovoids
     through data points in the *Munsell Renotation System* data from given
@@ -2022,7 +2023,7 @@ def interpolation_method_from_renotation_ovoid(
 
     specification = normalise_munsell_specification(specification)
 
-    interpolation_methods: Dict[int, Optional[Literal["Linear", "Radial"]]] = {
+    interpolation_methods: Dict[int, Literal["Linear", "Radial"] | None] = {
         0: None,
         1: "Linear",
         2: "Radial",
@@ -2081,15 +2082,9 @@ def interpolation_method_from_renotation_ovoid(
                 else:
                     interpolation_method = 1
             elif chroma == 6:
-                if 55 < ASTM_hue < 80:
-                    interpolation_method = 2
-                else:
-                    interpolation_method = 1
+                interpolation_method = 2 if 55 < ASTM_hue < 80 else 1
             elif chroma == 8:
-                if 67.5 < ASTM_hue < 77.5:
-                    interpolation_method = 2
-                else:
-                    interpolation_method = 1
+                interpolation_method = 2 if 67.5 < ASTM_hue < 77.5 else 1
             elif chroma >= 10:
                 # NOTE: This condition is likely never "True" while producing a
                 # valid "Munsell Specification" in practice: 1M iterations with
@@ -2123,10 +2118,7 @@ def interpolation_method_from_renotation_ovoid(
                 else:
                     interpolation_method = 1
             elif chroma >= 10:
-                if 65 < ASTM_hue < 77.5:
-                    interpolation_method = 2
-                else:
-                    interpolation_method = 1
+                interpolation_method = 2 if 65 < ASTM_hue < 77.5 else 1
             else:  # pragma: no cover
                 interpolation_method = 1
         elif value == 3:
@@ -2280,15 +2272,9 @@ def interpolation_method_from_renotation_ovoid(
                 else:
                     interpolation_method = 1
             elif chroma in (6, 8, 10, 12, 14):
-                if 5 < ASTM_hue < 42.5:
-                    interpolation_method = 2
-                else:
-                    interpolation_method = 1
+                interpolation_method = 2 if 5 < ASTM_hue < 42.5 else 1
             elif chroma >= 16:
-                if 35 < ASTM_hue < 42.5:
-                    interpolation_method = 2
-                else:
-                    interpolation_method = 1
+                interpolation_method = 2 if 35 < ASTM_hue < 42.5 else 1
             else:  # pragma: no cover
                 interpolation_method = 1
         elif value == 10:

@@ -260,7 +260,7 @@ class TestWriteLUTResolveCube(unittest.TestCase):
         definition raised exception.
         """
 
-        self.assertRaises(ValueError, write_LUT_ResolveCube, object(), "")
+        self.assertRaises(TypeError, write_LUT_ResolveCube, object(), "")
 
 
 if __name__ == "__main__":

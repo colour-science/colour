@@ -1174,8 +1174,6 @@ padding_kwargs` property.
         # TODO: Revisit if the interpolator can be applied on non-uniform "x"
         # independent variable.
 
-        pass
-
 
 class TestNearestNeighbourInterpolator(unittest.TestCase):
     """

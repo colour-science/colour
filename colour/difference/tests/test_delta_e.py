@@ -72,8 +72,6 @@ class TestDelta_E_CIE1976(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        pass
-
     def test_domain_range_scale_delta_E_CIE1976(self):
         """
         Test :func:`colour.difference.delta_e.delta_E_CIE1976` definition
@@ -98,8 +96,6 @@ class TestDelta_E_CIE1976(unittest.TestCase):
         Test :func:`colour.difference.delta_e.delta_E_CIE1976` definition nan
         support.
         """
-
-        pass
 
 
 class TestDelta_E_CIE1994(unittest.TestCase):
@@ -554,7 +550,7 @@ class TestDelta_E_CMC(unittest.TestCase):
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 426.67945353, 72.39590835]),
                 l=1,
-            ),  # noqa
+            ),
             172.70477129,
             places=7,
         )
@@ -564,7 +560,7 @@ class TestDelta_E_CMC(unittest.TestCase):
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 74.05216981, 276.45318193]),
                 l=1,
-            ),  # noqa
+            ),
             20.59732717,
             places=7,
         )
@@ -574,7 +570,7 @@ class TestDelta_E_CMC(unittest.TestCase):
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 8.32281957, -73.58297716]),
                 l=1,
-            ),  # noqa
+            ),
             121.71841479,
             places=7,
         )

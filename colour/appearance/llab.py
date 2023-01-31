@@ -135,10 +135,10 @@ Aliases:
 -   'projected_dark': '35mm Projection Transparency, Dark Surround'
 """
 VIEWING_CONDITIONS_LLAB["ref_average_4_plus"] = VIEWING_CONDITIONS_LLAB[
-    "Reference Samples & Images, " "Average Surround, Subtending > 4"
+    "Reference Samples & Images, Average Surround, Subtending > 4"
 ]
 VIEWING_CONDITIONS_LLAB["ref_average_4_minus"] = VIEWING_CONDITIONS_LLAB[
-    "Reference Samples & Images, " "Average Surround, Subtending < 4"
+    "Reference Samples & Images, Average Surround, Subtending < 4"
 ]
 VIEWING_CONDITIONS_LLAB["tv_dim"] = VIEWING_CONDITIONS_LLAB[
     "Television & VDU Displays, Dim Surround"

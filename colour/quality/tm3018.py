@@ -21,7 +21,7 @@ import numpy as np
 from dataclasses import dataclass
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import ArrayLike, List, NDArrayFloat, Tuple, Union, cast
+from colour.hints import ArrayLike, List, NDArrayFloat, Tuple, cast
 from colour.quality import colour_fidelity_index_CIE2017
 from colour.quality.cfi2017 import (
     ColourRendering_Specification_CIE2017,
@@ -98,11 +98,11 @@ class ColourQuality_Specification_ANSIIESTM3018:
 
 def colour_fidelity_index_ANSIIESTM3018(
     sd_test: SpectralDistribution, additional_data: bool = False
-) -> Union[
-    float,
-    ColourQuality_Specification_ANSIIESTM3018,
-    ColourRendering_Specification_CIE2017,
-]:
+) -> (
+    float
+    | ColourQuality_Specification_ANSIIESTM3018
+    | ColourRendering_Specification_CIE2017
+):
     """
     Return the *ANSI/IES TM-30-18 Colour Fidelity Index* (CFI) :math:`R_f`
     of given spectral distribution.

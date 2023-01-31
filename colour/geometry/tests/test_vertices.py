@@ -587,7 +587,7 @@ class TestPrimitiveVerticesCubeMpl(unittest.TestCase):
             decimal=7,
         )
 
-        for plane in MAPPING_PLANE_TO_AXIS.keys():
+        for plane in MAPPING_PLANE_TO_AXIS:
             np.testing.assert_array_almost_equal(
                 primitive_vertices_cube_mpl(planes=[plane]),
                 primitive_vertices_cube_mpl(

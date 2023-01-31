@@ -21,7 +21,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import ArrayLike, NDArrayFloat, Literal, Union
+from colour.hints import ArrayLike, NDArrayFloat, Literal
 from colour.utilities import (
     CanonicalMapping,
     Structure,
@@ -552,11 +552,9 @@ exposure factor for *SUP 3.x* and signal and normalised sensor signal for
 
 def log_encoding_ARRILogC3(
     x: ArrayLike,
-    firmware: Union[Literal["SUP 2.x", "SUP 3.x"], str] = "SUP 3.x",
-    method: Union[
-        Literal["Linear Scene Exposure Factor", "Normalised Sensor Signal"],
-        str,
-    ] = "Linear Scene Exposure Factor",
+    firmware: Literal["SUP 2.x", "SUP 3.x"] | str = "SUP 3.x",
+    method: Literal["Linear Scene Exposure Factor", "Normalised Sensor Signal"]
+    | str = "Linear Scene Exposure Factor",
     EI: Literal[
         160, 200, 250, 320, 400, 500, 640, 800, 1000, 1280, 1600
     ] = 800,
@@ -622,11 +620,9 @@ def log_encoding_ARRILogC3(
 
 def log_decoding_ARRILogC3(
     t: ArrayLike,
-    firmware: Union[Literal["SUP 2.x", "SUP 3.x"], str] = "SUP 3.x",
-    method: Union[
-        Literal["Linear Scene Exposure Factor", "Normalised Sensor Signal"],
-        str,
-    ] = "Linear Scene Exposure Factor",
+    firmware: Literal["SUP 2.x", "SUP 3.x"] | str = "SUP 3.x",
+    method: Literal["Linear Scene Exposure Factor", "Normalised Sensor Signal"]
+    | str = "Linear Scene Exposure Factor",
     EI: Literal[
         160, 200, 250, 320, 400, 500, 640, 800, 1000, 1280, 1600
     ] = 800,

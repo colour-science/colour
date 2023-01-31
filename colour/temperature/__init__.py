@@ -41,7 +41,7 @@ Set_xy_coord. https://www.adobe.com/support/downloads/dng/dng_sdk.html
 
 from __future__ import annotations
 
-from colour.hints import Any, ArrayLike, NDArrayFloat, Literal, Union
+from colour.hints import Any, ArrayLike, NDArrayFloat, Literal
 from colour.utilities import (
     CanonicalMapping,
     filter_kwargs,
@@ -118,10 +118,10 @@ UV_TO_CCT_METHODS["robertson1968"] = UV_TO_CCT_METHODS["Robertson 1968"]
 
 def uv_to_CCT(
     uv: ArrayLike,
-    method: Union[
-        Literal["Krystek 1985", "Ohno 2013", "Planck 1900", "Robertson 1968"],
-        str,
-    ] = "Ohno 2013",
+    method: Literal[
+        "Krystek 1985", "Ohno 2013", "Planck 1900", "Robertson 1968"
+    ]
+    | str = "Ohno 2013",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
@@ -212,10 +212,10 @@ CCT_TO_UV_METHODS["robertson1968"] = CCT_TO_UV_METHODS["Robertson 1968"]
 
 def CCT_to_uv(
     CCT_D_uv: ArrayLike,
-    method: Union[
-        Literal["Krystek 1985", "Ohno 2013", "Planck 1900", "Robertson 1968"],
-        str,
-    ] = "Ohno 2013",
+    method: Literal[
+        "Krystek 1985", "Ohno 2013", "Planck 1900", "Robertson 1968"
+    ]
+    | str = "Ohno 2013",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
@@ -303,15 +303,10 @@ XY_TO_CCT_METHODS["hernandez1999"] = XY_TO_CCT_METHODS["Hernandez 1999"]
 
 def xy_to_CCT(
     xy: ArrayLike,
-    method: Union[
-        Literal[
-            "CIE Illuminant D Series",
-            "Kang 2002",
-            "Hernandez 1999",
-            "McCamy 1992",
-        ],
-        str,
-    ] = "CIE Illuminant D Series",
+    method: Literal[
+        "CIE Illuminant D Series", "Kang 2002", "Hernandez 1999", "McCamy 1992"
+    ]
+    | str = "CIE Illuminant D Series",
 ) -> NDArrayFloat:
     """
     Return the correlated colour temperature :math:`T_{cp}` from given
@@ -388,15 +383,10 @@ CCT_TO_XY_METHODS["hernandez1999"] = CCT_TO_XY_METHODS["Hernandez 1999"]
 
 def CCT_to_xy(
     CCT: ArrayLike,
-    method: Union[
-        Literal[
-            "CIE Illuminant D Series",
-            "Kang 2002",
-            "Hernandez 1999",
-            "McCamy 1992",
-        ],
-        str,
-    ] = "CIE Illuminant D Series",
+    method: Literal[
+        "CIE Illuminant D Series", "Kang 2002", "Hernandez 1999", "McCamy 1992"
+    ]
+    | str = "CIE Illuminant D Series",
 ) -> NDArrayFloat:
     """
     Return the *CIE xy* chromaticity coordinates from given correlated colour

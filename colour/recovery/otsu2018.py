@@ -38,7 +38,6 @@ from colour.hints import (
     Dict,
     List,
     NDArrayFloat,
-    Optional,
     Self,
     Tuple,
     cast,
@@ -155,28 +154,28 @@ class Dataset_Otsu2018:
 
     def __init__(
         self,
-        shape: Optional[SpectralShape] = None,
-        basis_functions: Optional[NDArrayFloat] = None,
-        means: Optional[NDArrayFloat] = None,
-        selector_array: Optional[NDArrayFloat] = None,
+        shape: SpectralShape | None = None,
+        basis_functions: NDArrayFloat | None = None,
+        means: NDArrayFloat | None = None,
+        selector_array: NDArrayFloat | None = None,
     ) -> None:
-        self._shape: Optional[SpectralShape] = shape
-        self._basis_functions: Optional[NDArrayFloat] = (
+        self._shape: SpectralShape | None = shape
+        self._basis_functions: NDArrayFloat | None = (
             basis_functions
             if basis_functions is None
             else as_float_array(basis_functions)
         )
-        self._means: Optional[NDArrayFloat] = (
+        self._means: NDArrayFloat | None = (
             means if means is None else as_float_array(means)
         )
-        self._selector_array: Optional[NDArrayFloat] = (
+        self._selector_array: NDArrayFloat | None = (
             selector_array
             if selector_array is None
             else as_float_array(selector_array)
         )
 
     @property
-    def shape(self) -> Optional[SpectralShape]:
+    def shape(self) -> SpectralShape | None:
         """
         Getter property for the shape used by the *Otsu et al. (2018)* dataset.
 
@@ -189,7 +188,7 @@ class Dataset_Otsu2018:
         return self._shape
 
     @property
-    def basis_functions(self) -> Optional[NDArrayFloat]:
+    def basis_functions(self) -> NDArrayFloat | None:
         """
         Getter property for the basis functions of the *Otsu et al. (2018)*
         dataset.
@@ -203,7 +202,7 @@ class Dataset_Otsu2018:
         return self._basis_functions
 
     @property
-    def means(self) -> Optional[NDArrayFloat]:
+    def means(self) -> NDArrayFloat | None:
         """
         Getter property for means of the *Otsu et al. (2018)* dataset.
 
@@ -216,7 +215,7 @@ class Dataset_Otsu2018:
         return self._means
 
     @property
-    def selector_array(self) -> Optional[NDArrayFloat]:
+    def selector_array(self) -> NDArrayFloat | None:
         """
         Getter property for the selector array of the *Otsu et al. (2018)*
         dataset.
@@ -426,8 +425,8 @@ Builtin *Otsu et al. (2018)* dataset as a
 
 def XYZ_to_sd_Otsu2018(
     XYZ: ArrayLike,
-    cmfs: Optional[MultiSpectralDistributions] = None,
-    illuminant: Optional[SpectralDistribution] = None,
+    cmfs: MultiSpectralDistributions | None = None,
+    illuminant: SpectralDistribution | None = None,
     dataset: Dataset_Otsu2018 = DATASET_REFERENCE_OTSU2018,
     clip: bool = True,
 ) -> SpectralDistribution:
@@ -650,28 +649,28 @@ class Data_Otsu2018:
 
     def __init__(
         self,
-        reflectances: Optional[ArrayLike],
+        reflectances: ArrayLike | None,
         cmfs: MultiSpectralDistributions,
         illuminant: SpectralDistribution,
     ) -> None:
         self._cmfs: MultiSpectralDistributions = cmfs
         self._illuminant: SpectralDistribution = illuminant
 
-        self._XYZ: Optional[NDArrayFloat] = None
-        self._xy: Optional[NDArrayFloat] = None
+        self._XYZ: NDArrayFloat | None = None
+        self._xy: NDArrayFloat | None = None
 
-        self._reflectances: Optional[NDArrayFloat] = np.array([])
+        self._reflectances: NDArrayFloat | None = np.array([])
         self.reflectances = reflectances
 
-        self._basis_functions: Optional[NDArrayFloat] = None
-        self._mean: Optional[NDArrayFloat] = None
-        self._M: Optional[NDArrayFloat] = None
-        self._XYZ_mu: Optional[NDArrayFloat] = None
+        self._basis_functions: NDArrayFloat | None = None
+        self._mean: NDArrayFloat | None = None
+        self._M: NDArrayFloat | None = None
+        self._XYZ_mu: NDArrayFloat | None = None
 
-        self._reconstruction_error: Optional[float] = None
+        self._reconstruction_error: float | None = None
 
     @property
-    def reflectances(self) -> Optional[NDArrayFloat]:
+    def reflectances(self) -> NDArrayFloat | None:
         """
         Getter and setter property for the reference reflectances.
 
@@ -689,7 +688,7 @@ class Data_Otsu2018:
         return self._reflectances
 
     @reflectances.setter
-    def reflectances(self, value: Optional[ArrayLike]):
+    def reflectances(self, value: ArrayLike | None):
         """Setter for the **self.reflectances** property."""
 
         if value is not None:
@@ -734,7 +733,7 @@ class Data_Otsu2018:
         return self._illuminant
 
     @property
-    def basis_functions(self) -> Optional[NDArrayFloat]:
+    def basis_functions(self) -> NDArrayFloat | None:
         """
         Getter property for the basis functions.
 
@@ -747,7 +746,7 @@ class Data_Otsu2018:
         return self._basis_functions
 
     @property
-    def mean(self) -> Optional[NDArrayFloat]:
+    def mean(self) -> NDArrayFloat | None:
         """
         Getter property for the mean distribution.
 
@@ -1009,19 +1008,19 @@ class Node_Otsu2018(Node):
 
     def __init__(
         self,
-        parent: Optional[Self] = None,
-        children: Optional[list] = None,
-        data: Optional[Self] = None,
+        parent: Self | None = None,
+        children: list | None = None,
+        data: Self | None = None,
     ) -> None:
         super().__init__(parent=parent, children=children, data=data)
 
-        self._partition_axis: Optional[PartitionAxis] = None
-        self._best_partition: Optional[
-            Tuple[List[Node_Otsu2018], PartitionAxis, float]
-        ] = None
+        self._partition_axis: PartitionAxis | None = None
+        self._best_partition: Tuple[
+            List[Node_Otsu2018], PartitionAxis, float
+        ] | None = None
 
     @property
-    def partition_axis(self) -> Optional[PartitionAxis]:
+    def partition_axis(self) -> PartitionAxis | None:
         """
         Getter property for the node partition axis.
 
@@ -1321,8 +1320,8 @@ class Tree_Otsu2018(Node_Otsu2018):
     def __init__(
         self,
         reflectances: MultiSpectralDistributions,
-        cmfs: Optional[MultiSpectralDistributions] = None,
-        illuminant: Optional[SpectralDistribution] = None,
+        cmfs: MultiSpectralDistributions | None = None,
+        illuminant: SpectralDistribution | None = None,
     ) -> None:
         super().__init__()
 
@@ -1383,7 +1382,7 @@ class Tree_Otsu2018(Node_Otsu2018):
     def optimise(
         self,
         iterations: int = 8,
-        minimum_cluster_size: Optional[int] = None,
+        minimum_cluster_size: int | None = None,
         print_callable: Callable = print,
     ):
         """
@@ -1577,8 +1576,8 @@ the initial error.
         else:
 
             def add_rows(
-                node: Node_Otsu2018, data: Optional[dict] = None
-            ) -> Optional[dict]:
+                node: Node_Otsu2018, data: dict | None = None
+            ) -> dict | None:
                 """Add rows for given node and its children."""
 
                 data = optional(
@@ -1588,7 +1587,7 @@ the initial error.
                 if node.is_leaf():
                     data["node_to_leaf_id"][node] = data["leaf_id"]
                     data["leaf_id"] += 1
-                    return
+                    return None
 
                 data["node_to_leaf_id"][node] = -len(data["rows"])
                 data["rows"].append(list(node.row))

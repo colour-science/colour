@@ -28,7 +28,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import ArrayLike, NDArrayFloat, NDArrayReal, Union
+from colour.hints import ArrayLike, NDArrayFloat, NDArrayReal
 from colour.utilities import (
     as_float,
     as_float_scalar,
@@ -115,7 +115,7 @@ def cctf_encoding_ROMMRGB(
 
     E_t = 16 ** (1.8 / (1 - 1.8))
 
-    X_p = np.where(X < E_t, X * 16 * I_max, spow(X, 1 / 1.8) * I_max)
+    X_p = np.where(E_t > X, X * 16 * I_max, spow(X, 1 / 1.8) * I_max)
 
     if out_int:
         return as_int(np.round(X_p))
@@ -124,7 +124,7 @@ def cctf_encoding_ROMMRGB(
 
 
 def cctf_decoding_ROMMRGB(
-    X_p: Union[ArrayLike, ArrayLike],
+    X_p: ArrayLike | ArrayLike,
     bit_depth: int = 8,
     in_int: bool = False,
 ) -> NDArrayFloat:
@@ -283,7 +283,7 @@ def cctf_encoding_RIMMRGB(
     q = I_max / V_clip
 
     X_p = q * np.select(
-        [X < 0.0, X < 0.018, X >= 0.018, X > E_clip],
+        [X < 0.0, X < 0.018, X >= 0.018, E_clip < X],
         [0, 4.5 * X, 1.099 * spow(X, 0.45) - 0.099, I_max],
     )
 
@@ -294,7 +294,7 @@ def cctf_encoding_RIMMRGB(
 
 
 def cctf_decoding_RIMMRGB(
-    X_p: Union[ArrayLike, ArrayLike],
+    X_p: ArrayLike | ArrayLike,
     bit_depth: int = 8,
     in_int: bool = False,
     E_clip: float = 2.0,
@@ -442,9 +442,9 @@ def log_encoding_ERIMMRGB(
     X_p = np.select(
         [
             X < 0.0,
-            X <= E_t,
-            X > E_t,
-            X > E_clip,
+            E_t >= X,
+            E_t < X,
+            E_clip < X,
         ],
         [
             0,
@@ -461,7 +461,7 @@ def log_encoding_ERIMMRGB(
 
 
 def log_decoding_ERIMMRGB(
-    X_p: Union[ArrayLike, ArrayLike],
+    X_p: ArrayLike | ArrayLike,
     bit_depth: int = 8,
     in_int: bool = False,
     E_min: float = 0.001,

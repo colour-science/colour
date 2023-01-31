@@ -39,9 +39,7 @@ from colour.hints import (
     Iterable,
     List,
     Mapping,
-    Optional,
     Self,
-    Union,
 )
 from colour.utilities.documentation import is_documentation_building
 
@@ -159,15 +157,13 @@ class Structure(dict):
 
         try:
             return self[name]
-        except KeyError:
-            raise AttributeError(name)
+        except KeyError as error:
+            raise AttributeError(name) from error
 
     def __setstate__(self, state):
         """Set the object state when unpickling."""
         # See https://github.com/scikit-learn/scikit-learn/issues/6196 for more
         # information.
-
-        pass
 
 
 class Lookup(dict):
@@ -312,9 +308,9 @@ class CanonicalMapping(MutableMapping):
     """
 
     def __init__(
-        self, data: Optional[Union[Generator, Mapping]] = None, **kwargs: Any
+        self, data: Generator | Mapping | None = None, **kwargs: Any
     ) -> None:
-        self._data: dict = dict()
+        self._data: dict = {}
 
         self.update({} if data is None else data, **kwargs)
 
@@ -351,7 +347,7 @@ class CanonicalMapping(MutableMapping):
         else:
             return f"{self.__class__.__name__}({dict(self.items())})"
 
-    def __setitem__(self, item: Union[str, Any], value: Any):
+    def __setitem__(self, item: str | Any, value: Any):
         """
         Set given item with given value in the delimiter and case-insensitive
         :class:`dict`-like object.
@@ -368,7 +364,7 @@ class CanonicalMapping(MutableMapping):
 
         self._data[item] = value
 
-    def __getitem__(self, item: Union[str, Any]) -> Any:
+    def __getitem__(self, item: str | Any) -> Any:
         """
         Return the value of given item from the delimiter and case-insensitive
         :class:`dict`-like object.
@@ -409,7 +405,7 @@ class CanonicalMapping(MutableMapping):
 
         return self[dict(zip(self.canonical_keys(), self.keys()))[item]]
 
-    def __delitem__(self, item: Union[str, Any]):
+    def __delitem__(self, item: str | Any):
         """
         Delete given item from the delimiter and case-insensitive
         :class:`dict`-like object.
@@ -448,7 +444,7 @@ class CanonicalMapping(MutableMapping):
 
         del self[dict(zip(self.canonical_keys(), self.keys()))[item]]
 
-    def __contains__(self, item: Union[str, Any]) -> bool:
+    def __contains__(self, item: str | Any) -> bool:
         """
         Return whether the delimiter and case-insensitive :class:`dict`-like
         object contains given item.
@@ -471,17 +467,16 @@ class CanonicalMapping(MutableMapping):
             slugified or canonical variant.
         """
 
-        if any(
-            [
-                item in self._data,
-                str(item).lower() in self.lower_keys(),
-                item in self.slugified_keys(),
-                item in self.canonical_keys(),
-            ]
-        ):
-            return True
-        else:
-            return False
+        return bool(
+            any(
+                [
+                    item in self._data,
+                    str(item).lower() in self.lower_keys(),
+                    item in self.slugified_keys(),
+                    item in self.canonical_keys(),
+                ]
+            )
+        )
 
     def __iter__(self) -> Generator:
         """
@@ -533,7 +528,7 @@ class CanonicalMapping(MutableMapping):
         if isinstance(other, Mapping):
             other_mapping = CanonicalMapping(other)
         else:
-            raise ValueError(
+            raise TypeError(
                 f"Impossible to test equality with "
                 f'"{other.__class__.__name__}" class type!'
             )
@@ -732,7 +727,7 @@ class LazyCanonicalMapping(CanonicalMapping):
     2
     """
 
-    def __getitem__(self, item: Union[str, Any]) -> Any:
+    def __getitem__(self, item: str | Any) -> Any:
         """
         Return the value of given item from the lazy delimiter and
         case-insensitive :class:`dict`-like object.
@@ -823,7 +818,7 @@ class Node:
     _INSTANCE_ID
     """
 
-    def __new__(cls, *args: Any, **kwargs: Any) -> Self:
+    def __new__(cls, *args: Any, **kwargs: Any) -> Self:  # noqa: ARG003
         """
         Return a new instance of the :class:`colour.utilities.Node` class.
 
@@ -844,20 +839,20 @@ class Node:
 
     def __init__(
         self,
-        name: Optional[str] = None,
-        parent: Optional[Self] = None,
-        children: Optional[List[Self]] = None,
-        data: Optional[Any] = None,
+        name: str | None = None,
+        parent: Self | None = None,
+        children: List[Self] | None = None,
+        data: Any | None = None,
     ) -> None:
         self._name: str = f"{self.__class__.__name__}#{self.id}"
         self.name = self._name if name is None else name
-        self._parent: Optional[Self] = None
+        self._parent: Self | None = None
         self.parent = parent
         self._children: List[Self] = []
         self.children = (  # pyright: ignore
             self._children if children is None else children
         )
-        self._data: Optional[Any] = data
+        self._data: Any | None = data
 
     @property
     def name(self) -> str:
@@ -891,7 +886,7 @@ class Node:
         self._name = value
 
     @property
-    def parent(self) -> Optional[Self]:
+    def parent(self) -> Self | None:
         """
         Getter and setter property for the node parent.
 
@@ -909,7 +904,7 @@ class Node:
         return self._parent
 
     @parent.setter
-    def parent(self, value: Optional[Self]):
+    def parent(self, value: Self | None):
         """Setter for the **self.parent** property."""
 
         from colour.utilities import attest
@@ -967,7 +962,7 @@ class Node:
         self._children = value
 
     @property
-    def id(self) -> int:
+    def id(self) -> int:  # noqa: A003
         """
         Getter property for the node id.
 

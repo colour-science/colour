@@ -251,7 +251,7 @@ class TestIsIterable(unittest.TestCase):
 
         self.assertTrue(is_iterable([]))
 
-        self.assertTrue(is_iterable(dict()))
+        self.assertTrue(is_iterable({}))
 
         self.assertTrue(is_iterable(set()))
 

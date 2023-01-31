@@ -44,6 +44,7 @@ Sub-packages
 -   volume: Colourspace volumes computation and optimal colour stimuli.
 """
 
+import contextlib
 import numpy as np
 import sys
 
@@ -452,7 +453,7 @@ from colour.utilities import is_matplotlib_installed
 
 # Exposing "colour.plotting" sub-package if "Matplotlib" is available.
 if is_matplotlib_installed():
-    import colour.plotting as plotting  # noqa
+    import colour.plotting as plotting  # noqa: F401, PLR0402
 else:
 
     class MockPlotting:  # pragma: no cover
@@ -886,10 +887,8 @@ __version__ = ".".join(
 )
 
 # TODO: Remove legacy printing support when deemed appropriate.
-try:
+with contextlib.suppress(TypeError):
     np.set_printoptions(legacy="1.13")
-except TypeError:  # pragma: no cover
-    pass
 
 
 # ----------------------------------------------------------------------------#

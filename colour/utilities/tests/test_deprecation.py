@@ -336,7 +336,7 @@ class TestModuleAPI(unittest.TestCase):
         def assert_warns():
             """Help to test the runtime warning."""
 
-            getattr(colour.utilities.tests.test_deprecated, "OLD_NAME")
+            colour.utilities.tests.test_deprecated.OLD_NAME
 
         self.assertWarns(ColourUsageWarning, assert_warns)
 

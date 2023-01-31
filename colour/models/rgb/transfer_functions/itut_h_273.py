@@ -173,7 +173,7 @@ def oetf_inverse_H273_Log(V):
     V = to_domain_1(V)
 
     L_c = np.where(
-        V >= oetf_H273_Log(0.01),
+        oetf_H273_Log(0.01) <= V,
         # L_c in [0.01, 1] range
         spow(10, (V - 1) * 2),
         # L_c in [0, 0.01] range
@@ -296,7 +296,7 @@ def oetf_inverse_H273_LogSqrt(V):
     V = to_domain_1(V)
 
     L_c = np.where(
-        V >= oetf_H273_LogSqrt(np.sqrt(10) / 1000),
+        oetf_H273_LogSqrt(np.sqrt(10) / 1000) <= V,
         # L_c in [sqrt(10)/1000, 1] range
         spow(10, (V - 1) * 2.5),
         # L_c in [0, sqrt(10)/1000] range

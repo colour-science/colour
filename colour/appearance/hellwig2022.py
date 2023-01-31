@@ -48,7 +48,7 @@ from colour.appearance.ciecam02 import (
     matrix_post_adaptation_non_linear_response_compression,
 )
 from colour.appearance.hunt import luminance_level_adaptation_factor
-from colour.hints import ArrayLike, NDArrayFloat, Optional, Tuple, Union
+from colour.hints import ArrayLike, NDArrayFloat, Tuple
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
@@ -168,36 +168,16 @@ class CAM_Specification_Hellwig2022(MixinDataclassArithmetic):
     :cite:`Fairchild2022`, :cite:`Hellwig2022`, :cite:`Hellwig2022a`
     """
 
-    J: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    C: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    h: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    s: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    Q: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    M: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    H: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    HC: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    J_HK: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    Q_HK: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
+    J: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    C: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    h: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    s: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    Q: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    M: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    H: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    HC: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    J_HK: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    Q_HK: float | NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 def XYZ_to_Hellwig2022(
@@ -205,9 +185,8 @@ def XYZ_to_Hellwig2022(
     XYZ_w: ArrayLike,
     L_A: ArrayLike,
     Y_b: ArrayLike,
-    surround: Union[
-        InductionFactors_CIECAM02, InductionFactors_Hellwig2022
-    ] = VIEWING_CONDITIONS_HELLWIG2022["Average"],
+    surround: InductionFactors_CIECAM02
+    | InductionFactors_Hellwig2022 = VIEWING_CONDITIONS_HELLWIG2022["Average"],
     discount_illuminant: bool = False,
 ) -> CAM_Specification_Hellwig2022:
     """
@@ -415,9 +394,8 @@ def Hellwig2022_to_XYZ(
     XYZ_w: ArrayLike,
     L_A: ArrayLike,
     Y_b: ArrayLike,
-    surround: Union[
-        InductionFactors_CIECAM02, InductionFactors_Hellwig2022
-    ] = VIEWING_CONDITIONS_HELLWIG2022["Average"],
+    surround: InductionFactors_CIECAM02
+    | InductionFactors_Hellwig2022 = VIEWING_CONDITIONS_HELLWIG2022["Average"],
     discount_illuminant: bool = False,
 ) -> NDArrayFloat:
     """

@@ -30,7 +30,7 @@ import numpy as np
 from dataclasses import dataclass, field
 
 from colour.algebra import spow, vector_dot
-from colour.hints import ArrayLike, NDArrayFloat, Optional, Union
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     MixinDataclassArithmetic,
     as_float,
@@ -97,33 +97,15 @@ class CAM_ReferenceSpecification_ATD95(MixinDataclassArithmetic):
     :cite:`Fairchild2013v`, :cite:`Guth1995a`
     """
 
-    H: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    C: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    Br: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    A_1: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    T_1: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    D_1: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    A_2: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    T_2: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    D_2: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
+    H: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    C: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    Br: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    A_1: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    T_1: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    D_1: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    A_2: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    T_2: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    D_2: float | NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 @dataclass
@@ -169,33 +151,15 @@ class CAM_Specification_ATD95(MixinDataclassArithmetic):
     :cite:`Fairchild2013v`, :cite:`Guth1995a`
     """
 
-    h: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    C: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    Q: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    A_1: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    T_1: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    D_1: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    A_2: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    T_2: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    D_2: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
+    h: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    C: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    Q: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    A_1: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    T_1: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    D_1: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    A_2: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    T_2: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    D_2: float | NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 def XYZ_to_ATD95(

@@ -13,7 +13,7 @@ from __future__ import annotations
 import numpy as np
 import matplotlib.pyplot as plt
 
-from colour.hints import Any, Dict, Sequence, Tuple, Union
+from colour.hints import Any, Dict, Sequence, Tuple
 from colour.characterisation import ColourChecker
 from colour.models import xyY_to_XYZ
 from colour.plotting import (
@@ -51,9 +51,8 @@ __all__ = [
     }
 )
 def plot_single_colour_checker(
-    colour_checker: Union[
-        ColourChecker, str
-    ] = "ColorChecker24 - After November 2014",
+    colour_checker: ColourChecker
+    | str = "ColorChecker24 - After November 2014",
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -102,9 +101,7 @@ def plot_single_colour_checker(
     }
 )
 def plot_multi_colour_checkers(
-    colour_checkers: Union[
-        ColourChecker, str, Sequence[Union[ColourChecker, str]]
-    ],
+    colour_checkers: ColourChecker | str | Sequence[ColourChecker | str],
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """

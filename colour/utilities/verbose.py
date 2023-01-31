@@ -27,10 +27,8 @@ from colour.hints import (
     LiteralWarning,
     Mapping,
     Generator,
-    Optional,
     TextIO,
     Type,
-    Union,
     cast,
 )
 
@@ -167,12 +165,12 @@ def message_box(
 
 
 def show_warning(
-    message: Union[Warning, str],
+    message: Warning | str,
     category: Type[Warning],
     filename: str,
     lineno: int,
-    file: Optional[TextIO] = None,
-    line: Optional[str] = None,
+    file: TextIO | None = None,
+    line: str | None = None,
 ) -> None:
     """
     Alternative :func:`warnings.showwarning` definition that allows traceback
@@ -218,7 +216,7 @@ def show_warning(
         frame_in, frame_out = frame_range
 
         try:
-            raise ZeroDivisionError
+            raise ZeroDivisionError  # noqa: TRY301
         except ZeroDivisionError:
             exception_traceback = sys.exc_info()[2]
             frame = (
@@ -234,7 +232,7 @@ def show_warning(
 
         file.write(formatwarning(message, category, filename, lineno, line))
     except (OSError, UnicodeError):
-        pass
+        pass  # noqa: S110
 
 
 if os.environ.get(  # pragma: no cover
@@ -307,10 +305,10 @@ def usage_warning(*args: Any, **kwargs: Any):
 
 
 def filter_warnings(
-    colour_runtime_warnings: Optional[Union[bool, LiteralWarning]] = None,
-    colour_usage_warnings: Optional[Union[bool, LiteralWarning]] = None,
-    colour_warnings: Optional[Union[bool, LiteralWarning]] = None,
-    python_warnings: Optional[Union[bool, LiteralWarning]] = None,
+    colour_runtime_warnings: bool | LiteralWarning | None = None,
+    colour_usage_warnings: bool | LiteralWarning | None = None,
+    colour_warnings: bool | LiteralWarning | None = None,
+    python_warnings: bool | LiteralWarning | None = None,
 ):
     """
     Filter *Colour* and also optionally overall Python warnings.
@@ -396,10 +394,10 @@ filter_warnings(colour_runtime_warnings=True)
 
 @contextmanager
 def suppress_warnings(
-    colour_runtime_warnings: Optional[Union[bool, LiteralWarning]] = None,
-    colour_usage_warnings: Optional[Union[bool, LiteralWarning]] = None,
-    colour_warnings: Optional[Union[bool, LiteralWarning]] = None,
-    python_warnings: Optional[Union[bool, LiteralWarning]] = None,
+    colour_runtime_warnings: bool | LiteralWarning | None = None,
+    colour_usage_warnings: bool | LiteralWarning | None = None,
+    colour_warnings: bool | LiteralWarning | None = None,
+    python_warnings: bool | LiteralWarning | None = None,
 ) -> Generator:
     """
     Define a context manager filtering *Colour* and also optionally overall
@@ -680,9 +678,7 @@ def describe_environment(
         if package in mapping:
             import pkg_resources
 
-            distributions = [
-                distribution for distribution in pkg_resources.working_set
-            ]
+            distributions = list(pkg_resources.working_set)
 
             for distribution in distributions:
                 if distribution.project_name == mapping[package]:
@@ -775,7 +771,7 @@ def multiline_str(
     header_underline: str = "=",
     section_underline: str = "-",
     separator: str = " : ",
-) -> str:  # noqa: D405,D410,D407,D411
+) -> str:
     """
     Return a formatted string representation of the given object.
 
@@ -851,7 +847,7 @@ def multiline_str(
     List
     ----
     List "c"    : John; Doe
-    """
+    """  # noqa: D405, D407, D410, D411
 
     attribute_defaults = {
         "name": None,
@@ -929,7 +925,7 @@ def multiline_repr(
     object_: Any,
     attributes: List[dict],
     reduce_array_representation: bool = True,
-) -> str:  # noqa: D405,D410,D407,D411
+) -> str:
     """
     Return an (almost) evaluable string representation of the given object.
 
@@ -974,7 +970,7 @@ def multiline_repr(
     Data('Foo',
          1,
          ('John', 'Doe'))
-    """
+    """  # noqa: D405, D407, D410, D411
 
     attribute_defaults = {"name": None, "formatter": repr}
 
@@ -988,12 +984,11 @@ def multiline_repr(
         else:
             value = attribute["formatter"](None)
 
-        if reduce_array_representation:
-            if value.startswith("array("):
-                lines = value.splitlines()
-                for i, line in enumerate(lines):
-                    lines[i] = line[6:]
-                value = "\n".join(lines)[:-1]
+        if reduce_array_representation and value.startswith("array("):
+            lines = value.splitlines()
+            for i, line in enumerate(lines):
+                lines[i] = line[6:]
+            value = "\n".join(lines)[:-1]
 
         lines = value.splitlines()
 

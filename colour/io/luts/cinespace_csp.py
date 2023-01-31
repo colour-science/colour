@@ -19,7 +19,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import ArrayLike, List, NDArrayFloat, Union
+from colour.hints import ArrayLike, List, NDArrayFloat
 from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence
 from colour.utilities import (
     as_float_array,
@@ -42,7 +42,7 @@ __all__ = [
 ]
 
 
-def read_LUT_Cinespace(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
+def read_LUT_Cinespace(path: str) -> LUT3x1D | LUT3D | LUTSequence:
     """
     Read given *Cinespace* *.csp* *LUT* file.
 
@@ -179,7 +179,7 @@ def read_LUT_Cinespace(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
 
         attest(np.product(size) == len(table), '"LUT" table size is invalid!')
 
-    LUT: Union[LUT3x1D, LUT3D, LUTSequence]
+    LUT: LUT3x1D | LUT3D | LUTSequence
     if (
         is_3D
         and pre_LUT.shape == (6, 2)
@@ -245,7 +245,7 @@ def read_LUT_Cinespace(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
 
 
 def write_LUT_Cinespace(
-    LUT: Union[LUT3x1D, LUT3D, LUTSequence], path: str, decimals: int = 7
+    LUT: LUT3x1D | LUT3D | LUTSequence, path: str, decimals: int = 7
 ) -> bool:
     """
     Write given *LUT* to given  *Cinespace* *.csp* *LUT* file.
@@ -327,7 +327,7 @@ def write_LUT_Cinespace(
         LUT = LUTSequence(LUT3x1D(), LUT)
 
     else:
-        raise ValueError("LUT must be 1D, 3x1D, 3D, 1D + 3D or 3x1D + 3D!")
+        raise TypeError("LUT must be 1D, 3x1D, 3D, 1D + 3D or 3x1D + 3D!")
 
     if has_3x1D:
         attest(
@@ -350,12 +350,12 @@ def write_LUT_Cinespace(
 
         return [R_len, G_len, B_len]
 
-    def _format_array(array: Union[list, tuple]) -> str:
+    def _format_array(array: list | tuple) -> str:
         """Format given array as a *Cinespace* *.cube* data row."""
 
         return "{1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)
 
-    def _format_tuple(array: Union[list, tuple]) -> str:
+    def _format_tuple(array: list | tuple) -> str:
         """
         Format given array as 2 space separated values to *decimals*
         precision.

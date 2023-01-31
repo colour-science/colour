@@ -56,10 +56,8 @@ from colour.hints import (
     Callable,
     Dict,
     List,
-    Optional,
     Sequence,
     Tuple,
-    Union,
     cast,
 )
 from colour.plotting import (
@@ -110,10 +108,10 @@ __all__ = [
 @override_style()
 def plot_single_sd(
     sd: SpectralDistribution,
-    cmfs: Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
+    cmfs: MultiSpectralDistributions
+    | str
+    | Sequence[
+        MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
     out_of_gamut_clipping: bool = True,
     modulate_colours_with_sd_amplitude: bool = False,
@@ -269,12 +267,10 @@ def plot_single_sd(
 
 @override_style()
 def plot_multi_sds(
-    sds: Union[
-        Sequence[Union[SpectralDistribution, MultiSpectralDistributions]],
-        SpectralDistribution,
-        MultiSpectralDistributions,
-    ],
-    plot_kwargs: Optional[Union[dict, List[dict]]] = None,
+    sds: Sequence[SpectralDistribution | MultiSpectralDistributions]
+    | SpectralDistribution
+    | MultiSpectralDistributions,
+    plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -442,10 +438,10 @@ def plot_multi_sds(
 
 @override_style()
 def plot_single_cmfs(
-    cmfs: Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
+    cmfs: MultiSpectralDistributions
+    | str
+    | Sequence[
+        MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
@@ -496,11 +492,9 @@ def plot_single_cmfs(
 
 @override_style()
 def plot_multi_cmfs(
-    cmfs: Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
-    ],
+    cmfs: MultiSpectralDistributions
+    | str
+    | Sequence[MultiSpectralDistributions | str],
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -596,11 +590,11 @@ def plot_multi_cmfs(
 
 @override_style()
 def plot_single_illuminant_sd(
-    illuminant: Union[SpectralDistribution, str],
-    cmfs: Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
+    illuminant: SpectralDistribution | str,
+    cmfs: MultiSpectralDistributions
+    | str
+    | Sequence[
+        MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
@@ -663,9 +657,9 @@ def plot_single_illuminant_sd(
 
 @override_style()
 def plot_multi_illuminant_sds(
-    illuminants: Union[
-        SpectralDistribution, str, Sequence[Union[SpectralDistribution, str]]
-    ],
+    illuminants: SpectralDistribution
+    | str
+    | Sequence[SpectralDistribution | str],
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -734,10 +728,10 @@ def plot_multi_illuminant_sds(
     }
 )
 def plot_visible_spectrum(
-    cmfs: Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
+    cmfs: MultiSpectralDistributions
+    | str
+    | Sequence[
+        MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
     out_of_gamut_clipping: bool = True,
     **kwargs: Any,
@@ -817,7 +811,7 @@ def plot_visible_spectrum(
 
 @override_style()
 def plot_single_lightness_function(
-    function: Union[Callable, str], **kwargs: Any
+    function: Callable | str, **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plot given *Lightness* function.
@@ -859,7 +853,7 @@ def plot_single_lightness_function(
 
 @override_style()
 def plot_multi_lightness_functions(
-    functions: Union[Callable, str, Sequence[Union[Callable, str]]],
+    functions: Callable | str | Sequence[Callable | str],
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -913,7 +907,7 @@ def plot_multi_lightness_functions(
 
 @override_style()
 def plot_single_luminance_function(
-    function: Union[Callable, str], **kwargs: Any
+    function: Callable | str, **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plot given *Luminance* function.
@@ -954,7 +948,7 @@ def plot_single_luminance_function(
 
 @override_style()
 def plot_multi_luminance_functions(
-    functions: Union[Callable, str, Sequence[Union[Callable, str]]],
+    functions: Callable | str | Sequence[Callable | str],
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -1009,10 +1003,10 @@ def plot_multi_luminance_functions(
 @override_style()
 def plot_blackbody_spectral_radiance(
     temperature: float = 3500,
-    cmfs: Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
+    cmfs: MultiSpectralDistributions
+    | str
+    | Sequence[
+        MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
     blackbody: str = "VY Canis Major",
     **kwargs: Any,
@@ -1111,10 +1105,10 @@ def plot_blackbody_spectral_radiance(
 )
 def plot_blackbody_colours(
     shape: SpectralShape = SpectralShape(150, 12500, 50),
-    cmfs: Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
+    cmfs: MultiSpectralDistributions
+    | str
+    | Sequence[
+        MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:

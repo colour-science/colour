@@ -10,14 +10,14 @@ import matplotlib
 
 matplotlib.use("AGG")
 
-import matplotlib.pyplot as plt  # noqa
-import numpy as np  # noqa
-import os  # noqa
-import trimesh  # noqa
+import matplotlib.pyplot as plt  # noqa: E402
+import numpy as np  # noqa: E402
+import os  # noqa: E402
+import trimesh  # noqa: E402
 
-import colour  # noqa
-from colour.characterisation import SDS_COLOURCHECKERS  # noqa
-from colour.colorimetry import (  # noqa
+import colour  # noqa: E402
+from colour.characterisation import SDS_COLOURCHECKERS  # noqa: E402
+from colour.colorimetry import (  # noqa: E402
     SDS_ILLUMINANTS,
     SDS_LIGHT_SOURCES,
     SDS_LEFS_PHOTOPIC,
@@ -29,16 +29,16 @@ from colour.colorimetry import (  # noqa
     sd_mesopic_luminous_efficiency_function,
     sd_to_XYZ,
 )
-from colour.geometry import primitive_cube  # noqa
-from colour.io import read_image  # noqa
-from colour.models import (  # noqa
+from colour.geometry import primitive_cube  # noqa: E402
+from colour.io import read_image  # noqa: E402
+from colour.models import (  # noqa: E402
     RGB_COLOURSPACE_sRGB,
     RGB_to_XYZ,
     sRGB_to_XYZ,
     XYZ_to_sRGB,
     XYZ_to_xy,
 )
-from colour.plotting import (  # noqa
+from colour.plotting import (  # noqa: E402
     colour_style,
     ColourSwatch,
     plot_automatic_colour_conversion_graph,
@@ -100,28 +100,31 @@ from colour.plotting import (  # noqa
     plot_visible_spectrum_section,
     render,
 )
-from colour.plotting.diagrams import (  # noqa
+from colour.plotting.diagrams import (  # noqa: E402
     plot_spectral_locus,
     plot_chromaticity_diagram_colours,
     plot_chromaticity_diagram,
     plot_sds_in_chromaticity_diagram,
 )
-from colour.plotting.models import (  # noqa
+from colour.plotting.models import (  # noqa: E402
     plot_RGB_colourspaces_in_chromaticity_diagram,
     plot_RGB_chromaticities_in_chromaticity_diagram,
     plot_ellipses_MacAdam1942_in_chromaticity_diagram,
 )
-from colour.plotting.quality import plot_colour_quality_bars  # noqa
-from colour.plotting.section import (  # noqa
+from colour.plotting.quality import plot_colour_quality_bars  # noqa: E402
+from colour.plotting.section import (  # noqa: E402
     plot_hull_section_colours,
     plot_hull_section_contour,
 )
-from colour.plotting.temperature import (  # noqa
+from colour.plotting.temperature import (  # noqa: E402
     plot_planckian_locus,
     plot_planckian_locus_in_chromaticity_diagram,
 )
-from colour.quality import colour_quality_scale  # noqa
-from colour.utilities import domain_range_scale, filter_warnings  # noqa
+from colour.quality import colour_quality_scale  # noqa: E402
+from colour.utilities import (  # noqa: E402
+    domain_range_scale,
+    filter_warnings,
+)  # noqa: RUF100
 
 __copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
@@ -231,7 +234,7 @@ def generate_documentation_plots(output_directory: str):
         plot_multi_sds(
             SDS_COLOURCHECKERS["BabelColor Average"].values(),
             plot_kwargs={"use_sd_colours": True},
-            title=("BabelColor Average - " "Spectral Distributions"),
+            title="BabelColor Average - Spectral Distributions",
             **arguments,
         )[0]
     )
@@ -617,7 +620,7 @@ def generate_documentation_plots(output_directory: str):
 
     arguments["filename"] = os.path.join(
         output_directory,
-        "Plotting_Plot_RGB_Chromaticities_In_" "Chromaticity_Diagram.png",
+        "Plotting_Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png",
     )
     RGB = np.random.random((128, 128, 3))
     plt.close(
@@ -1167,7 +1170,7 @@ def generate_documentation_plots(output_directory: str):
         xy=xy,
         xytext=(-50, 30),
         textcoords="offset points",
-        arrowprops=dict(arrowstyle="->", connectionstyle="arc3, rad=-0.2"),
+        arrowprops={"arrowstyle": "->", "connectionstyle": "arc3, rad=-0.2"},
     )
     plt.close(
         render(

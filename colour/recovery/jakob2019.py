@@ -12,7 +12,7 @@ Defines the objects for reflectance recovery, i.e. spectral upsampling, using
 
 References
 ----------
--   :cite:`Jakob2019` : Jakob, W., & Hanika, J. (2019). A Low‐Dimensional
+-   :cite:`Jakob2019` : Jakob, W., & Hanika, J. (2019). A Low-Dimensional
     Function Space for Efficient Spectral Upsampling. Computer Graphics Forum,
     38(2), 147-155. doi:10.1111/cgf.13626
 """
@@ -39,9 +39,7 @@ from colour.hints import (
     ArrayLike,
     Callable,
     NDArrayFloat,
-    Optional,
     Tuple,
-    Union,
 )
 from colour.models import RGB_Colourspace, XYZ_to_xy, XYZ_to_Lab, RGB_to_XYZ
 from colour.utilities import (
@@ -74,7 +72,7 @@ __status__ = "Production"
 
 __all__ = [
     "SPECTRAL_SHAPE_JAKOB2019",
-    "StopMinimizationEarly",
+    "StopMinimizationEarlyError",
     "sd_Jakob2019",
     "error_function",
     "dimensionalise_coefficients",
@@ -88,7 +86,7 @@ SPECTRAL_SHAPE_JAKOB2019: SpectralShape = SpectralShape(360, 780, 5)
 """Spectral shape for *Jakob and Hanika (2019)* method."""
 
 
-class StopMinimizationEarly(Exception):
+class StopMinimizationEarlyError(Exception):
     """
     The exception used to stop :func:`scipy.optimize.minimize` once the
     value of the minimized function is small enough. *SciPy* doesn't currently
@@ -96,8 +94,8 @@ class StopMinimizationEarly(Exception):
 
     Attributes
     ----------
-    -   :attr:`~colour.recovery.jakob2019.StopMinimizationEarly.coefficients`
-    -   :attr:`~colour.recovery.jakob2019.StopMinimizationEarly.error`
+    -   :attr:`~colour.recovery.jakob2019.StopMinimizationEarlyError.coefficients`
+    -   :attr:`~colour.recovery.jakob2019.StopMinimizationEarlyError.error`
     """
 
     def __init__(self, coefficients: ArrayLike, error: float) -> None:
@@ -201,11 +199,10 @@ def error_function(
     target: ArrayLike,
     cmfs: MultiSpectralDistributions,
     illuminant: SpectralDistribution,
-    max_error: Optional[float] = None,
+    max_error: float | None = None,
     additional_data: bool = False,
-) -> Union[
-    Tuple[float, NDArrayFloat],
-    Tuple[float, NDArrayFloat, NDArrayFloat, NDArrayFloat, NDArrayFloat],
+) -> Tuple[float, NDArrayFloat] | Tuple[
+    float, NDArrayFloat, NDArrayFloat, NDArrayFloat, NDArrayFloat
 ]:
     """
     Compute :math:`\\Delta E_{76}` between the target colour and the colour
@@ -223,7 +220,7 @@ def error_function(
     illuminant
         Illuminant spectral distribution.
     max_error
-        Raise ``StopMinimizationEarly`` if the error is smaller than this.
+        Raise ``StopMinimizationEarlyError`` if the error is smaller than this.
         The default is *None* and the function doesn't raise anything.
     additional_data
         If *True*, some intermediate calculations are returned, for use in
@@ -241,7 +238,7 @@ def error_function(
 
     Raises
     ------
-    StopMinimizationEarly
+    StopMinimizationEarlyError
         Raised when the error is below ``max_error``.
     """
 
@@ -276,7 +273,7 @@ def error_function(
     )
 
     def intermediate_XYZ_to_Lab(
-        XYZ_i: NDArrayFloat, offset: Optional[float] = 16
+        XYZ_i: NDArrayFloat, offset: float | None = 16
     ) -> NDArrayFloat:
         """
         Return the final intermediate value for the *CIE Lab* to *CIE XYZ*
@@ -296,7 +293,7 @@ def error_function(
 
     error = np.sqrt(np.sum((Lab_i - target) ** 2))
     if max_error is not None and error <= max_error:
-        raise StopMinimizationEarly(coefficients, error)
+        raise StopMinimizationEarlyError(coefficients, error)
 
     derror = (
         np.sum(dLab_i * (Lab_i[..., None] - target[..., None]), axis=0) / error
@@ -378,8 +375,8 @@ def lightness_scale(steps: int) -> NDArrayFloat:
 
 def find_coefficients_Jakob2019(
     XYZ: ArrayLike,
-    cmfs: Optional[MultiSpectralDistributions] = None,
-    illuminant: Optional[SpectralDistribution] = None,
+    cmfs: MultiSpectralDistributions | None = None,
+    illuminant: SpectralDistribution | None = None,
     coefficients_0: ArrayLike = zeros(3),
     max_error: float = JND_CIE1976 / 100,
     dimensionalise: bool = True,
@@ -449,7 +446,7 @@ def find_coefficients_Jakob2019(
             )
 
             return result.x, result.fun
-        except StopMinimizationEarly as error:
+        except StopMinimizationEarlyError as error:
             return error.coefficients, error.error
 
     xy_n = XYZ_to_xy(sd_to_XYZ_integration(illuminant, cmfs))
@@ -493,11 +490,11 @@ def find_coefficients_Jakob2019(
 
 def XYZ_to_sd_Jakob2019(
     XYZ: ArrayLike,
-    cmfs: Optional[MultiSpectralDistributions] = None,
-    illuminant: Optional[SpectralDistribution] = None,
-    optimisation_kwargs: Optional[dict] = None,
+    cmfs: MultiSpectralDistributions | None = None,
+    illuminant: SpectralDistribution | None = None,
+    optimisation_kwargs: dict | None = None,
     additional_data: bool = False,
-) -> Union[Tuple[SpectralDistribution, float], SpectralDistribution]:
+) -> Tuple[SpectralDistribution, float] | SpectralDistribution:
     """
     Recover the spectral distribution of given RGB colourspace array
     using *Jakob and Hanika (2019)* method.
@@ -736,7 +733,7 @@ class LUT3D_Jakob2019:
     """
 
     def __init__(self) -> None:
-        self._interpolator: Optional[RegularGridInterpolator] = None
+        self._interpolator: RegularGridInterpolator | None = None
         self._size: int = 0
         self._lightness_scale: NDArrayFloat = np.array([])
         self._coefficients: NDArrayFloat = np.array([])
@@ -812,8 +809,8 @@ class LUT3D_Jakob2019:
     def generate(
         self,
         colourspace: RGB_Colourspace,
-        cmfs: Optional[MultiSpectralDistributions] = None,
-        illuminant: Optional[SpectralDistribution] = None,
+        cmfs: MultiSpectralDistributions | None = None,
+        illuminant: SpectralDistribution | None = None,
         size: int = 64,
         print_callable: Callable = print,
     ):
@@ -914,7 +911,7 @@ class LUT3D_Jakob2019:
         print_callable(f"\nOptimising {total_coefficients} coefficients...\n")
 
         def optimize(
-            ijkL: ArrayLike, coefficients_0: ArrayLike
+            ijkL: ArrayLike, coefficients_0: ArrayLike, chroma: NDArrayFloat
         ) -> NDArrayFloat:
             """
             Solve for a specific lightness and stores the result in the
@@ -951,21 +948,21 @@ class LUT3D_Jakob2019:
                 # find_coefficients_Jakob2019" definition.
                 L_middle = lightness_steps // 3
                 coefficients_middle = optimize(
-                    np.hstack([ijk, L_middle]), zeros(3)
+                    np.hstack([ijk, L_middle]), zeros(3), chroma
                 )
 
                 # Down the lightness scale.
                 coefficients_0 = coefficients_middle
                 for L in reversed(range(0, L_middle)):
                     coefficients_0 = optimize(
-                        np.hstack([ijk, L]), coefficients_0
+                        np.hstack([ijk, L]), coefficients_0, chroma
                     )
 
                 # Up the lightness scale.
                 coefficients_0 = coefficients_middle
                 for L in range(L_middle + 1, lightness_steps):
                     coefficients_0 = optimize(
-                        np.hstack([ijk, L]), coefficients_0
+                        np.hstack([ijk, L]), coefficients_0, chroma
                     )
 
         self._size = size

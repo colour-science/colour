@@ -27,7 +27,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import ArrayLike, NDArrayFloat, NDArrayReal, Union
+from colour.hints import ArrayLike, NDArrayFloat, NDArrayReal
 from colour.utilities import (
     Structure,
     as_float,
@@ -69,7 +69,7 @@ CONSTANTS_DICOMGSDF: Structure = Structure(
     G=-0.18014349,
     H=0.14710899,
     I=-0.017046845,
-)  # noqa
+)
 """*DICOM Grayscale Standard Display Function* constants."""
 
 
@@ -135,7 +135,7 @@ def eotf_inverse_DICOMGSDF(
     F = constants.F
     G = constants.G
     H = constants.H
-    I = constants.I  # noqa
+    I = constants.I  # noqa: E741
 
     J = (
         A
@@ -156,7 +156,7 @@ def eotf_inverse_DICOMGSDF(
 
 
 def eotf_DICOMGSDF(
-    J: Union[ArrayLike, ArrayLike],
+    J: ArrayLike | ArrayLike,
     in_int: bool = False,
     constants: Structure = CONSTANTS_DICOMGSDF,
 ) -> NDArrayFloat:

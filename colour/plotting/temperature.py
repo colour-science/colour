@@ -27,10 +27,8 @@ from colour.hints import (
     List,
     Literal,
     NDArrayFloat,
-    Optional,
     Sequence,
     Tuple,
-    Union,
     cast,
 )
 from colour.models import (
@@ -80,12 +78,11 @@ __all__ = [
 
 @override_style()
 def plot_planckian_locus(
-    planckian_locus_colours: Optional[Union[ArrayLike, str]] = None,
+    planckian_locus_colours: ArrayLike | str | None = None,
     planckian_locus_opacity: float = 1,
-    planckian_locus_labels: Optional[Sequence] = None,
-    method: Union[
-        Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"], str
-    ] = "CIE 1931",
+    planckian_locus_labels: Sequence | None = None,
+    method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+    | str = "CIE 1931",
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -250,11 +247,11 @@ def plot_planckian_locus(
 
 @override_style()
 def plot_planckian_locus_in_chromaticity_diagram(
-    illuminants: Union[str, Sequence[str]],
+    illuminants: str | Sequence[str],
     chromaticity_diagram_callable: Callable = plot_chromaticity_diagram,
-    method: Union[Literal["CIE 1931", "CIE 1960 UCS"], str] = "CIE 1931",
-    annotate_kwargs: Optional[Union[dict, List[dict]]] = None,
-    plot_kwargs: Optional[Union[dict, List[dict]]] = None,
+    method: Literal["CIE 1931", "CIE 1960 UCS"] | str = "CIE 1931",
+    annotate_kwargs: dict | List[dict] | None = None,
+    plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -455,12 +452,12 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
 
 @override_style()
 def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
-    illuminants: Union[str, Sequence[str]],
+    illuminants: str | Sequence[str],
     chromaticity_diagram_callable_CIE1931: Callable = (
         plot_chromaticity_diagram_CIE1931
     ),
-    annotate_kwargs: Optional[Union[dict, List[dict]]] = None,
-    plot_kwargs: Optional[Union[dict, List[dict]]] = None,
+    annotate_kwargs: dict | List[dict] | None = None,
+    plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -534,12 +531,12 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1931.png
 
 @override_style()
 def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
-    illuminants: Union[str, Sequence[str]],
+    illuminants: str | Sequence[str],
     chromaticity_diagram_callable_CIE1960UCS: Callable = (
         plot_chromaticity_diagram_CIE1960UCS
     ),
-    annotate_kwargs: Optional[Union[dict, List[dict]]] = None,
-    plot_kwargs: Optional[Union[dict, List[dict]]] = None,
+    annotate_kwargs: dict | List[dict] | None = None,
+    plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """

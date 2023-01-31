@@ -22,7 +22,7 @@ from xml.etree import ElementTree  # nosec
 from xml.dom import minidom  # nosec
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import Any, Callable, Literal, Optional
+from colour.hints import Any, Callable, Literal
 from colour.utilities import (
     Structure,
     as_float_array,
@@ -164,17 +164,17 @@ class Header_IESTM2714:
 
     def __init__(
         self,
-        manufacturer: Optional[str] = None,
-        catalog_number: Optional[str] = None,
-        description: Optional[str] = None,
-        document_creator: Optional[str] = None,
-        unique_identifier: Optional[str] = None,
-        measurement_equipment: Optional[str] = None,
-        laboratory: Optional[str] = None,
-        report_number: Optional[str] = None,
-        report_date: Optional[str] = None,
-        document_creation_date: Optional[str] = None,
-        comments: Optional[str] = None,
+        manufacturer: str | None = None,
+        catalog_number: str | None = None,
+        description: str | None = None,
+        document_creator: str | None = None,
+        unique_identifier: str | None = None,
+        measurement_equipment: str | None = None,
+        laboratory: str | None = None,
+        report_number: str | None = None,
+        report_date: str | None = None,
+        document_creation_date: str | None = None,
+        comments: str | None = None,
     ) -> None:
 
         self._mapping: Structure = Structure(
@@ -220,27 +220,27 @@ class Header_IESTM2714:
             }
         )
 
-        self._manufacturer: Optional[str] = None
+        self._manufacturer: str | None = None
         self.manufacturer = manufacturer
-        self._catalog_number: Optional[str] = None
+        self._catalog_number: str | None = None
         self.catalog_number = catalog_number
-        self._description: Optional[str] = None
+        self._description: str | None = None
         self.description = description
-        self._document_creator: Optional[str] = None
+        self._document_creator: str | None = None
         self.document_creator = document_creator
-        self._unique_identifier: Optional[str] = None
+        self._unique_identifier: str | None = None
         self.unique_identifier = unique_identifier
-        self._measurement_equipment: Optional[str] = None
+        self._measurement_equipment: str | None = None
         self.measurement_equipment = measurement_equipment
-        self._laboratory: Optional[str] = None
+        self._laboratory: str | None = None
         self.laboratory = laboratory
-        self._report_number: Optional[str] = None
+        self._report_number: str | None = None
         self.report_number = report_number
-        self._report_date: Optional[str] = None
+        self._report_date: str | None = None
         self.report_date = report_date
-        self._document_creation_date: Optional[str] = None
+        self._document_creation_date: str | None = None
         self.document_creation_date = document_creation_date
-        self._comments: Optional[str] = None
+        self._comments: str | None = None
         self.comments = comments
 
     @property
@@ -257,7 +257,7 @@ class Header_IESTM2714:
         return self._mapping
 
     @property
-    def manufacturer(self) -> Optional[str]:
+    def manufacturer(self) -> str | None:
         """
         Getter and setter property for the manufacturer.
 
@@ -275,7 +275,7 @@ class Header_IESTM2714:
         return self._manufacturer
 
     @manufacturer.setter
-    def manufacturer(self, value: Optional[str]):
+    def manufacturer(self, value: str | None):
         """Setter for the **self.manufacturer** property."""
 
         if value is not None:
@@ -287,7 +287,7 @@ class Header_IESTM2714:
         self._manufacturer = value
 
     @property
-    def catalog_number(self) -> Optional[str]:
+    def catalog_number(self) -> str | None:
         """
         Getter and setter property for the catalog number.
 
@@ -305,7 +305,7 @@ class Header_IESTM2714:
         return self._catalog_number
 
     @catalog_number.setter
-    def catalog_number(self, value: Optional[str]):
+    def catalog_number(self, value: str | None):
         """Setter for the **self.catalog_number** property."""
 
         if value is not None:
@@ -317,7 +317,7 @@ class Header_IESTM2714:
         self._catalog_number = value
 
     @property
-    def description(self) -> Optional[str]:
+    def description(self) -> str | None:
         """
         Getter and setter property for the description.
 
@@ -335,7 +335,7 @@ class Header_IESTM2714:
         return self._description
 
     @description.setter
-    def description(self, value: Optional[str]):
+    def description(self, value: str | None):
         """Setter for the **self.description** property."""
 
         if value is not None:
@@ -347,7 +347,7 @@ class Header_IESTM2714:
         self._description = value
 
     @property
-    def document_creator(self) -> Optional[str]:
+    def document_creator(self) -> str | None:
         """
         Getter and setter property for the document creator.
 
@@ -365,7 +365,7 @@ class Header_IESTM2714:
         return self._document_creator
 
     @document_creator.setter
-    def document_creator(self, value: Optional[str]):
+    def document_creator(self, value: str | None):
         """Setter for the **self.document_creator** property."""
 
         if value is not None:
@@ -377,7 +377,7 @@ class Header_IESTM2714:
         self._document_creator = value
 
     @property
-    def unique_identifier(self) -> Optional[str]:
+    def unique_identifier(self) -> str | None:
         """
         Getter and setter property for the unique identifier.
 
@@ -395,7 +395,7 @@ class Header_IESTM2714:
         return self._unique_identifier
 
     @unique_identifier.setter
-    def unique_identifier(self, value: Optional[str]):
+    def unique_identifier(self, value: str | None):
         """Setter for the **self.unique_identifier** property."""
 
         if value is not None:
@@ -407,7 +407,7 @@ class Header_IESTM2714:
         self._unique_identifier = value
 
     @property
-    def measurement_equipment(self) -> Optional[str]:
+    def measurement_equipment(self) -> str | None:
         """
         Getter and setter property for the measurement equipment.
 
@@ -425,7 +425,7 @@ class Header_IESTM2714:
         return self._measurement_equipment
 
     @measurement_equipment.setter
-    def measurement_equipment(self, value: Optional[str]):
+    def measurement_equipment(self, value: str | None):
         """Setter for the **self.measurement_equipment** property."""
 
         if value is not None:
@@ -437,7 +437,7 @@ class Header_IESTM2714:
         self._measurement_equipment = value
 
     @property
-    def laboratory(self) -> Optional[str]:
+    def laboratory(self) -> str | None:
         """
         Getter and setter property for the laboratory.
 
@@ -455,7 +455,7 @@ class Header_IESTM2714:
         return self._laboratory
 
     @laboratory.setter
-    def laboratory(self, value: Optional[str]):
+    def laboratory(self, value: str | None):
         """Setter for the **self.measurement_equipment** property."""
 
         if value is not None:
@@ -467,7 +467,7 @@ class Header_IESTM2714:
         self._laboratory = value
 
     @property
-    def report_number(self) -> Optional[str]:
+    def report_number(self) -> str | None:
         """
         Getter and setter property for the report number.
 
@@ -485,7 +485,7 @@ class Header_IESTM2714:
         return self._report_number
 
     @report_number.setter
-    def report_number(self, value: Optional[str]):
+    def report_number(self, value: str | None):
         """Setter for the **self.report_number** property."""
 
         if value is not None:
@@ -497,7 +497,7 @@ class Header_IESTM2714:
         self._report_number = value
 
     @property
-    def report_date(self) -> Optional[str]:
+    def report_date(self) -> str | None:
         """
         Getter and setter property for the report date.
 
@@ -515,7 +515,7 @@ class Header_IESTM2714:
         return self._report_date
 
     @report_date.setter
-    def report_date(self, value: Optional[str]):
+    def report_date(self, value: str | None):
         """Setter for the **self.report_date** property."""
 
         if value is not None:
@@ -527,7 +527,7 @@ class Header_IESTM2714:
         self._report_date = value
 
     @property
-    def document_creation_date(self) -> Optional[str]:
+    def document_creation_date(self) -> str | None:
         """
         Getter and setter property for the document creation date.
 
@@ -545,7 +545,7 @@ class Header_IESTM2714:
         return self._document_creation_date
 
     @document_creation_date.setter
-    def document_creation_date(self, value: Optional[str]):
+    def document_creation_date(self, value: str | None):
         """Setter for the **self.document_creation_date** property."""
 
         if value is not None:
@@ -557,7 +557,7 @@ class Header_IESTM2714:
         self._document_creation_date = value
 
     @property
-    def comments(self) -> Optional[str]:
+    def comments(self) -> str | None:
         """
         Getter and setter property for the comments.
 
@@ -575,7 +575,7 @@ class Header_IESTM2714:
         return self._comments
 
     @comments.setter
-    def comments(self, value: Optional[str]):
+    def comments(self, value: str | None):
         """Setter for the **self.comments** property."""
 
         if value is not None:
@@ -883,45 +883,44 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
     def __init__(
         self,
-        path: Optional[str] = None,
-        header: Optional[Header_IESTM2714] = None,
-        spectral_quantity: Optional[
-            Literal[
-                "absorptance",
-                "exitance",
-                "flux",
-                "intensity",
-                "irradiance",
-                "radiance",
-                "reflectance",
-                "relative",
-                "transmittance",
-                "R-Factor",
-                "T-Factor",
-                "other",
-            ]
-        ] = None,
-        reflection_geometry: Optional[
-            Literal[
-                "di:8",
-                "de:8",
-                "8:di",
-                "8:de",
-                "d:d",
-                "d:0",
-                "45a:0",
-                "45c:0",
-                "0:45a",
-                "45x:0",
-                "0:45x",
-                "other",
-            ]
-        ] = None,
-        transmission_geometry: Optional[
-            Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"]
-        ] = None,
-        bandwidth_FWHM: Optional[float] = None,
-        bandwidth_corrected: Optional[bool] = None,
+        path: str | None = None,
+        header: Header_IESTM2714 | None = None,
+        spectral_quantity: Literal[
+            "absorptance",
+            "exitance",
+            "flux",
+            "intensity",
+            "irradiance",
+            "radiance",
+            "reflectance",
+            "relative",
+            "transmittance",
+            "R-Factor",
+            "T-Factor",
+            "other",
+        ]
+        | None = None,
+        reflection_geometry: Literal[
+            "di:8",
+            "de:8",
+            "8:di",
+            "8:de",
+            "d:d",
+            "d:0",
+            "45a:0",
+            "45c:0",
+            "0:45a",
+            "45x:0",
+            "0:45x",
+            "other",
+        ]
+        | None = None,
+        transmission_geometry: Literal[
+            "0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"
+        ]
+        | None = None,
+        bandwidth_FWHM: float | None = None,
+        bandwidth_corrected: bool | None = None,
         **kwargs,
     ) -> None:
 
@@ -952,9 +951,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                     Element_Specification_IESTM2714(
                         "BandwidthCorrected",
                         "bandwidth_corrected",
-                        read_conversion=(
-                            lambda x: True if x == "true" else False
-                        ),
+                        read_conversion=(lambda x: bool(x == "true")),
                         write_conversion=(
                             lambda x: "true" if x is True else "false"
                         ),
@@ -966,51 +963,47 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
             }
         )
 
-        self._path: Optional[str] = None
+        self._path: str | None = None
         self.path = path
         self._header: Header_IESTM2714 = Header_IESTM2714()
         self.header = optional(header, self._header)
-        self._spectral_quantity: Optional[
-            Literal[
-                "absorptance",
-                "exitance",
-                "flux",
-                "intensity",
-                "irradiance",
-                "radiance",
-                "reflectance",
-                "relative",
-                "transmittance",
-                "R-Factor",
-                "T-Factor",
-                "other",
-            ]
-        ] = None
+        self._spectral_quantity: Literal[
+            "absorptance",
+            "exitance",
+            "flux",
+            "intensity",
+            "irradiance",
+            "radiance",
+            "reflectance",
+            "relative",
+            "transmittance",
+            "R-Factor",
+            "T-Factor",
+            "other",
+        ] | None = None
         self.spectral_quantity = spectral_quantity
-        self._reflection_geometry: Optional[
-            Literal[
-                "di:8",
-                "de:8",
-                "8:di",
-                "8:de",
-                "d:d",
-                "d:0",
-                "45a:0",
-                "45c:0",
-                "0:45a",
-                "45x:0",
-                "0:45x",
-                "other",
-            ]
-        ] = None
+        self._reflection_geometry: Literal[
+            "di:8",
+            "de:8",
+            "8:di",
+            "8:de",
+            "d:d",
+            "d:0",
+            "45a:0",
+            "45c:0",
+            "0:45a",
+            "45x:0",
+            "0:45x",
+            "other",
+        ] | None = None
         self.reflection_geometry = reflection_geometry
-        self._transmission_geometry: Optional[
-            Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"]
-        ] = None
+        self._transmission_geometry: Literal[
+            "0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"
+        ] | None = None
         self.transmission_geometry = transmission_geometry
-        self._bandwidth_FWHM: Optional[float] = None
+        self._bandwidth_FWHM: float | None = None
         self.bandwidth_FWHM = bandwidth_FWHM
-        self._bandwidth_corrected: Optional[bool] = None
+        self._bandwidth_corrected: bool | None = None
         self.bandwidth_corrected = bandwidth_corrected
 
     @property
@@ -1027,7 +1020,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         return self._mapping
 
     @property
-    def path(self) -> Optional[str]:
+    def path(self) -> str | None:
         """
         Getter and setter property for the path.
 
@@ -1045,7 +1038,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         return self._path
 
     @path.setter
-    def path(self, value: Optional[str]):
+    def path(self, value: str | None):
         """Setter for the **self.path** property."""
 
         if value is not None:
@@ -1088,22 +1081,20 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     @property
     def spectral_quantity(
         self,
-    ) -> Optional[
-        Literal[
-            "absorptance",
-            "exitance",
-            "flux",
-            "intensity",
-            "irradiance",
-            "radiance",
-            "reflectance",
-            "relative",
-            "transmittance",
-            "R-Factor",
-            "T-Factor",
-            "other",
-        ]
-    ]:
+    ) -> Literal[
+        "absorptance",
+        "exitance",
+        "flux",
+        "intensity",
+        "irradiance",
+        "radiance",
+        "reflectance",
+        "relative",
+        "transmittance",
+        "R-Factor",
+        "T-Factor",
+        "other",
+    ] | None:
         """
         Getter and setter property for the spectral quantity.
 
@@ -1123,22 +1114,21 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     @spectral_quantity.setter
     def spectral_quantity(
         self,
-        value: Optional[
-            Literal[
-                "absorptance",
-                "exitance",
-                "flux",
-                "intensity",
-                "irradiance",
-                "radiance",
-                "reflectance",
-                "relative",
-                "transmittance",
-                "R-Factor",
-                "T-Factor",
-                "other",
-            ]
-        ],
+        value: Literal[
+            "absorptance",
+            "exitance",
+            "flux",
+            "intensity",
+            "irradiance",
+            "radiance",
+            "reflectance",
+            "relative",
+            "transmittance",
+            "R-Factor",
+            "T-Factor",
+            "other",
+        ]
+        | None,
     ):
         """Setter for the **self.spectral_quantity** property."""
 
@@ -1153,22 +1143,20 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     @property
     def reflection_geometry(
         self,
-    ) -> Optional[
-        Literal[
-            "di:8",
-            "de:8",
-            "8:di",
-            "8:de",
-            "d:d",
-            "d:0",
-            "45a:0",
-            "45c:0",
-            "0:45a",
-            "45x:0",
-            "0:45x",
-            "other",
-        ]
-    ]:
+    ) -> Literal[
+        "di:8",
+        "de:8",
+        "8:di",
+        "8:de",
+        "d:d",
+        "d:0",
+        "45a:0",
+        "45c:0",
+        "0:45a",
+        "45x:0",
+        "0:45x",
+        "other",
+    ] | None:
         """
         Getter and setter property for the reflection geometry.
 
@@ -1188,22 +1176,21 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     @reflection_geometry.setter
     def reflection_geometry(
         self,
-        value: Optional[
-            Literal[
-                "di:8",
-                "de:8",
-                "8:di",
-                "8:de",
-                "d:d",
-                "d:0",
-                "45a:0",
-                "45c:0",
-                "0:45a",
-                "45x:0",
-                "0:45x",
-                "other",
-            ]
-        ],
+        value: Literal[
+            "di:8",
+            "de:8",
+            "8:di",
+            "8:de",
+            "d:d",
+            "d:0",
+            "45a:0",
+            "45c:0",
+            "0:45a",
+            "45x:0",
+            "0:45x",
+            "other",
+        ]
+        | None,
     ):
         """Setter for the **self.reflection_geometry** property."""
 
@@ -1218,9 +1205,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     @property
     def transmission_geometry(
         self,
-    ) -> Optional[
-        Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"]
-    ]:
+    ) -> Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"] | None:
         """
         Getter and setter property for the transmission geometry.
 
@@ -1240,9 +1225,8 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     @transmission_geometry.setter
     def transmission_geometry(
         self,
-        value: Optional[
-            Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"]
-        ],
+        value: Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"]
+        | None,
     ):
         """Setter for the **self.transmission_geometry** property."""
 
@@ -1255,7 +1239,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         self._transmission_geometry = value
 
     @property
-    def bandwidth_FWHM(self) -> Optional[float]:
+    def bandwidth_FWHM(self) -> float | None:
         """
         Getter and setter property for the full-width half-maximum bandwidth.
 
@@ -1273,7 +1257,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         return self._bandwidth_FWHM
 
     @bandwidth_FWHM.setter
-    def bandwidth_FWHM(self, value: Optional[float]):
+    def bandwidth_FWHM(self, value: float | None):
         """Setter for the **self.bandwidth_FWHM** property."""
 
         if value is not None:
@@ -1287,7 +1271,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         self._bandwidth_FWHM = value
 
     @property
-    def bandwidth_corrected(self) -> Optional[bool]:
+    def bandwidth_corrected(self) -> bool | None:
         """
         Getter and setter property for whether bandwidth correction has been
         applied to the measured data.
@@ -1306,7 +1290,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         return self._bandwidth_corrected
 
     @bandwidth_corrected.setter
-    def bandwidth_corrected(self, value: Optional[bool]):
+    def bandwidth_corrected(self, value: bool | None):
         """Setter for the **self.bandwidth_corrected** property."""
 
         if value is not None:
@@ -1484,11 +1468,11 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                     {"line_break": True},
                     {"label": "Header", "section": True},
                     {"line_break": True},
-                    {"formatter": lambda x: str(self.header)},
+                    {"formatter": lambda x: str(self.header)},  # noqa: ARG005
                     {"line_break": True},
                     {"label": "Spectral Data", "section": True},
                     {"line_break": True},
-                    {"formatter": lambda x: str_parent},
+                    {"formatter": lambda x: str_parent},  # noqa: ARG005
                 ],
             )
         except TypeError:
@@ -1632,18 +1616,22 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                     {"name": "bandwidth_FWHM"},
                     {"name": "bandwidth_corrected"},
                     {
-                        "formatter": lambda x: repr(
+                        "formatter": lambda x: repr(  # noqa: ARG005
                             tstack([self.domain, self.range])
                         ),
                     },
                     {
                         "name": "interpolator",
-                        "formatter": lambda x: self.interpolator.__name__,
+                        "formatter": lambda x: (  # noqa: ARG005
+                            self.interpolator.__name__
+                        ),
                     },
                     {"name": "interpolator_kwargs"},
                     {
                         "name": "extrapolator",
-                        "formatter": lambda x: self.extrapolator.__name__,
+                        "formatter": lambda x: (  # noqa: ARG005
+                            self.extrapolator.__name__
+                        ),
                     },
                     {"name": "extrapolator_kwargs"},
                 ],

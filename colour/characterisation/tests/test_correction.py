@@ -5,6 +5,7 @@ module.
 
 from __future__ import annotations
 
+import contextlib
 import numpy as np
 import platform
 import unittest
@@ -690,13 +691,11 @@ matrix_colour_correction_Cheung2004` definition.
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
-            try:
+            with contextlib.suppress(LinAlgError):
                 matrix_colour_correction_Cheung2004(
                     np.vstack([case, case, case]),
                     np.transpose(np.vstack([case, case, case])),
                 )
-            except LinAlgError:
-                pass
 
 
 class TestMatrixColourCorrectionFinlayson2015(unittest.TestCase):
@@ -797,13 +796,11 @@ matrix_colour_correction_Finlayson2015` definition.
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
-            try:
+            with contextlib.suppress(LinAlgError):
                 matrix_colour_correction_Finlayson2015(
                     np.vstack([case, case, case]),
                     np.transpose(np.vstack([case, case, case])),
                 )
-            except LinAlgError:
-                pass
 
 
 class TestMatrixColourCorrectionVandermonde(unittest.TestCase):
@@ -895,13 +892,11 @@ matrix_colour_correction_Vandermonde` definition.
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
-            try:
+            with contextlib.suppress(LinAlgError):
                 matrix_colour_correction_Vandermonde(
                     np.vstack([case, case, case]),
                     np.transpose(np.vstack([case, case, case])),
                 )
-            except LinAlgError:
-                pass
 
 
 class TestColourCorrectionCheung2004(unittest.TestCase):
@@ -973,14 +968,12 @@ colour_correction_Cheung2004` definition nan support.
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
-            try:
+            with contextlib.suppress(LinAlgError):
                 colour_correction_Cheung2004(
                     case,
                     np.vstack([case, case, case]),
                     np.transpose(np.vstack([case, case, case])),
                 )
-            except LinAlgError:
-                pass
 
 
 class TestColourCorrectionFinlayson2015(unittest.TestCase):
@@ -1058,14 +1051,12 @@ colour_correction_Finlayson2015` definition n-dimensional support.
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
-            try:
+            with contextlib.suppress(LinAlgError):
                 colour_correction_Finlayson2015(
                     case,
                     np.vstack([case, case, case]),
                     np.transpose(np.vstack([case, case, case])),
                 )
-            except LinAlgError:
-                pass
 
 
 class TestColourCorrectionVandermonde(unittest.TestCase):
@@ -1137,14 +1128,12 @@ colour_correction_Vandermonde` definition nan support.
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
-            try:
+            with contextlib.suppress(LinAlgError):
                 colour_correction_Vandermonde(
                     case,
                     np.vstack([case, case, case]),
                     np.transpose(np.vstack([case, case, case])),
                 )
-            except LinAlgError:
-                pass
 
 
 if __name__ == "__main__":

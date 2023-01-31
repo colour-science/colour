@@ -133,7 +133,7 @@ def oetf_inverse_BT601(E: ArrayLike) -> NDArrayFloat:
 
     with domain_range_scale("ignore"):
         L = np.where(
-            E < oetf_BT601(0.018),
+            oetf_BT601(0.018) > E,
             E / 4.5,
             spow((E + 0.099) / 1.099, 1 / 0.45),
         )

@@ -42,11 +42,9 @@ from colour.hints import (
     NDArrayInt,
     Literal,
     NDArray,
-    Optional,
     Real,
     Tuple,
     Type,
-    Union,
     cast,
 )
 from colour.utilities import (
@@ -232,7 +230,7 @@ class MixinDataclassArray(MixinDataclassIterable):
         -   :class:`colour.utilities.MixinDataclassFields`
     """
 
-    def __array__(self, dtype: Optional[Type[DTypeReal]] = None) -> NDArray:
+    def __array__(self, dtype: Type[DTypeReal] | None = None) -> NDArray:
         """
         Implement support for :class:`dataclass`-like class conversion to
         :class:`numpy.ndarray` class.
@@ -527,7 +525,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
 def as_array(
     a: ArrayLike,
-    dtype: Optional[Type[DType]] = None,
+    dtype: Type[DType] | None = None,
 ) -> NDArray:
     """
     Convert given variable :math:`a` to :class:`numpy.ndarray` using given
@@ -563,7 +561,7 @@ def as_array(
     return np.asarray(a, dtype)
 
 
-def as_int(a: ArrayLike, dtype: Optional[Type[DTypeInt]] = None) -> NDArrayInt:
+def as_int(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> NDArrayInt:
     """
     Attempt to convert given variable :math:`a` to :class:`numpy.integer`
     using given :class:`numpy.dtype`. If variable :math:`a` is not a scalar or
@@ -593,7 +591,7 @@ def as_int(a: ArrayLike, dtype: Optional[Type[DTypeInt]] = None) -> NDArrayInt:
 
     dtype = optional(dtype, DEFAULT_INT_DTYPE)
 
-    args = getattr(DTypeInt, "__args__")
+    args = DTypeInt.__args__  # pyright: ignore
 
     attest(
         dtype in args,
@@ -610,7 +608,7 @@ def as_int(a: ArrayLike, dtype: Optional[Type[DTypeInt]] = None) -> NDArrayInt:
 
 
 def as_float(
-    a: ArrayLike, dtype: Optional[Type[DTypeFloat]] = None
+    a: ArrayLike, dtype: Type[DTypeFloat] | None = None
 ) -> NDArrayFloat:
     """
     Attempt to convert given variable :math:`a` to :class:`numpy.floating`
@@ -641,7 +639,7 @@ def as_float(
 
     dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
 
-    args = getattr(DTypeFloat, "__args__")
+    args = DTypeFloat.__args__  # pyright: ignore
 
     attest(
         dtype in args,
@@ -658,7 +656,7 @@ def as_float(
 
 
 def as_int_array(
-    a: ArrayLike, dtype: Optional[Type[DTypeInt]] = None
+    a: ArrayLike, dtype: Type[DTypeInt] | None = None
 ) -> NDArrayInt:
     """
     Convert given variable :math:`a` to :class:`numpy.ndarray` using given
@@ -686,7 +684,7 @@ def as_int_array(
 
     dtype = optional(dtype, DEFAULT_INT_DTYPE)
 
-    args = getattr(DTypeInt, "__args__")
+    args = DTypeInt.__args__  # pyright: ignore
 
     attest(
         dtype in args,
@@ -697,7 +695,7 @@ def as_int_array(
 
 
 def as_float_array(
-    a: ArrayLike, dtype: Optional[Type[DTypeFloat]] = None
+    a: ArrayLike, dtype: Type[DTypeFloat] | None = None
 ) -> NDArrayFloat:
     """
     Convert given variable :math:`a` to :class:`numpy.ndarray` using given
@@ -733,7 +731,7 @@ def as_float_array(
     return as_array(a, dtype)
 
 
-def as_int_scalar(a: ArrayLike, dtype: Optional[Type[DTypeInt]] = None) -> int:
+def as_int_scalar(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> int:
     """
     Convert given :math:`a` variable to :class:`numpy.integer` using given
     :class:`numpy.dtype`.
@@ -771,7 +769,7 @@ def as_int_scalar(a: ArrayLike, dtype: Optional[Type[DTypeInt]] = None) -> int:
 
 
 def as_float_scalar(
-    a: ArrayLike, dtype: Optional[Type[DTypeFloat]] = None
+    a: ArrayLike, dtype: Type[DTypeFloat] | None = None
 ) -> float:
     """
     Convert given :math:`a` variable to :class:`numpy.floating` using given
@@ -854,7 +852,7 @@ def set_default_int_dtype(
             if not hasattr(module, "DEFAULT_INT_DTYPE"):
                 continue
 
-            setattr(module, "DEFAULT_INT_DTYPE", dtype)
+            module.DEFAULT_INT_DTYPE = dtype  # pyright: ignore
 
 
 def set_default_float_dtype(
@@ -902,7 +900,7 @@ def set_default_float_dtype(
             if not hasattr(module, "DEFAULT_FLOAT_DTYPE"):
                 continue
 
-            setattr(module, "DEFAULT_FLOAT_DTYPE", dtype)
+            module.DEFAULT_FLOAT_DTYPE = dtype  # pyright: ignore
 
 
 # TODO: Annotate with "Union[Literal['ignore', 'reference', '1', '100'], str]"
@@ -915,9 +913,9 @@ _DOMAIN_RANGE_SCALE
 """
 
 
-def get_domain_range_scale() -> Union[
-    Literal["ignore", "reference", "1", "100"], str
-]:
+def get_domain_range_scale() -> Literal[
+    "ignore", "reference", "1", "100"
+] | str:
     """
     Return the current *Colour* domain-range scale. The following scales are
     available:
@@ -945,9 +943,8 @@ def get_domain_range_scale() -> Union[
 
 
 def set_domain_range_scale(
-    scale: Union[
-        Literal["ignore", "reference", "Ignore", "Reference", "1", "100"], str
-    ] = "reference"
+    scale: Literal["ignore", "reference", "Ignore", "Reference", "1", "100"]
+    | str = "reference"
 ):
     """
     Set the current *Colour* domain-range scale. The following scales are
@@ -1044,10 +1041,10 @@ class domain_range_scale:
 
     def __init__(
         self,
-        scale: Union[
-            Literal["ignore", "reference", "Ignore", "Reference", "1", "100"],
-            str,
-        ],
+        scale: Literal[
+            "ignore", "reference", "Ignore", "Reference", "1", "100"
+        ]
+        | str,
     ) -> None:
         self._scale = scale
         self._previous_scale = get_domain_range_scale()
@@ -1078,7 +1075,7 @@ class domain_range_scale:
 def to_domain_1(
     a: ArrayLike,
     scale_factor: ArrayLike = 100,
-    dtype: Optional[Type[DTypeFloat]] = None,
+    dtype: Type[DTypeFloat] | None = None,
 ) -> NDArray:
     """
     Scale given array :math:`a` to domain **'1'**. The behaviour is as
@@ -1143,7 +1140,7 @@ def to_domain_1(
 def to_domain_10(
     a: ArrayLike,
     scale_factor: ArrayLike = 10,
-    dtype: Optional[Type[DTypeFloat]] = None,
+    dtype: Type[DTypeFloat] | None = None,
 ) -> NDArray:
     """
     Scale given array :math:`a` to domain **'10'**, used by
@@ -1213,7 +1210,7 @@ def to_domain_10(
 def to_domain_100(
     a: ArrayLike,
     scale_factor: ArrayLike = 100,
-    dtype: Optional[Type[DTypeFloat]] = None,
+    dtype: Type[DTypeFloat] | None = None,
 ) -> NDArray:
     """
     Scale given array :math:`a` to domain **'100'**. The behaviour is as
@@ -1278,7 +1275,7 @@ def to_domain_100(
 def to_domain_degrees(
     a: ArrayLike,
     scale_factor: ArrayLike = 360,
-    dtype: Optional[Type[DTypeFloat]] = None,
+    dtype: Type[DTypeFloat] | None = None,
 ) -> NDArray:
     """
     Scale given array :math:`a` to degrees domain. The behaviour is as
@@ -1348,7 +1345,7 @@ def to_domain_degrees(
 def to_domain_int(
     a: ArrayLike,
     bit_depth: ArrayLike = 8,
-    dtype: Optional[Type[DTypeFloat]] = None,
+    dtype: Type[DTypeFloat] | None = None,
 ) -> NDArray:
     """
     Scale given array :math:`a` to int domain. The behaviour is as follows:
@@ -1423,7 +1420,7 @@ def to_domain_int(
 def from_range_1(
     a: ArrayLike,
     scale_factor: ArrayLike = 100,
-    dtype: Optional[Type[DTypeFloat]] = None,
+    dtype: Type[DTypeFloat] | None = None,
 ) -> NDArray:
     """
     Scale given array :math:`a` from range **'1'**. The behaviour is as
@@ -1492,7 +1489,7 @@ def from_range_1(
 def from_range_10(
     a: ArrayLike,
     scale_factor: ArrayLike = 10,
-    dtype: Optional[Type[DTypeFloat]] = None,
+    dtype: Type[DTypeFloat] | None = None,
 ) -> NDArray:
     """
     Scale given array :math:`a` from range **'10'**, used by
@@ -1566,7 +1563,7 @@ def from_range_10(
 def from_range_100(
     a: ArrayLike,
     scale_factor: ArrayLike = 100,
-    dtype: Optional[Type[DTypeFloat]] = None,
+    dtype: Type[DTypeFloat] | None = None,
 ) -> NDArray:
     """
     Scale given array :math:`a` from range **'100'**. The behaviour is as
@@ -1635,7 +1632,7 @@ def from_range_100(
 def from_range_degrees(
     a: ArrayLike,
     scale_factor: ArrayLike = 360,
-    dtype: Optional[Type[DTypeFloat]] = None,
+    dtype: Type[DTypeFloat] | None = None,
 ) -> NDArray:
     """
     Scale given array :math:`a` from degrees range. The behaviour is as
@@ -1709,7 +1706,7 @@ def from_range_degrees(
 def from_range_int(
     a: ArrayLike,
     bit_depth: ArrayLike = 8,
-    dtype: Optional[Type[DTypeFloat]] = None,
+    dtype: Type[DTypeFloat] | None = None,
 ) -> NDArray:
     """
     Scale given array :math:`a` from int range. The behaviour is as follows:
@@ -1941,7 +1938,7 @@ def is_uniform(distribution: ArrayLike) -> bool:
     False
     """
 
-    return True if interval(distribution).size == 1 else False
+    return bool(interval(distribution).size == 1)
 
 
 def in_array(a: ArrayLike, b: ArrayLike, tolerance: Real = EPSILON) -> NDArray:
@@ -1990,7 +1987,7 @@ def in_array(a: ArrayLike, b: ArrayLike, tolerance: Real = EPSILON) -> NDArray:
 
 def tstack(
     a: ArrayLike,
-    dtype: Optional[Union[Type[DTypeBoolean], Type[DTypeReal]]] = None,
+    dtype: Type[DTypeBoolean] | Type[DTypeReal] | None = None,
 ) -> NDArray:
     """
     Stack given array of arrays :math:`a` along the last axis (tail) to
@@ -2056,7 +2053,7 @@ def tstack(
 
 def tsplit(
     a: ArrayLike,
-    dtype: Optional[Union[Type[DTypeBoolean], Type[DTypeReal]]] = None,
+    dtype: Type[DTypeBoolean] | Type[DTypeReal] | None = None,
 ) -> NDArray:
     """
     Split given stacked array :math:`a` along the last axis (tail) to produce
@@ -2184,9 +2181,8 @@ def row_as_diagonal(a: ArrayLike) -> NDArray:
 
 def orient(
     a: ArrayLike,
-    orientation: Union[
-        Literal["Ignore", "Flip", "Flop", "90 CW", "90 CCW", "180"], str
-    ] = "Ignore",
+    orientation: Literal["Ignore", "Flip", "Flop", "90 CW", "90 CCW", "180"]
+    | str = "Ignore",
 ) -> NDArray:
     """
     Orient given array :math:`a` according to given orientation.
@@ -2291,7 +2287,7 @@ def centroid(a: ArrayLike) -> NDArray:
 
 def fill_nan(
     a: ArrayLike,
-    method: Union[Literal["Interpolation", "Constant"], str] = "Interpolation",
+    method: Literal["Interpolation", "Constant"] | str = "Interpolation",
     default: Real = 0,
 ) -> NDArray:
     """
@@ -2408,8 +2404,8 @@ def ndarray_write(a: ArrayLike) -> Generator:
 
 
 def zeros(
-    shape: Union[int, Tuple[int, ...]],
-    dtype: Optional[Type[DTypeReal]] = None,
+    shape: int | Tuple[int, ...],
+    dtype: Type[DTypeReal] | None = None,
     order: Literal["C", "F"] = "C",
 ) -> NDArray:
     """
@@ -2446,8 +2442,8 @@ def zeros(
 
 
 def ones(
-    shape: Union[int, Tuple[int, ...]],
-    dtype: Optional[Type[DTypeReal]] = None,
+    shape: int | Tuple[int, ...],
+    dtype: Type[DTypeReal] | None = None,
     order: Literal["C", "F"] = "C",
 ) -> NDArray:
     """
@@ -2484,9 +2480,9 @@ def ones(
 
 
 def full(
-    shape: Union[int, Tuple[int, ...]],
+    shape: int | Tuple[int, ...],
     fill_value: Real,
-    dtype: Optional[Type[DTypeReal]] = None,
+    dtype: Type[DTypeReal] | None = None,
     order: Literal["C", "F"] = "C",
 ) -> NDArray:
     """

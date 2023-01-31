@@ -18,7 +18,7 @@ References
 
 from __future__ import annotations
 
-from colour.hints import NDArrayFloat, Literal, Union
+from colour.hints import NDArrayFloat, Literal
 from colour.utilities import (
     CanonicalMapping,
     filter_kwargs,
@@ -59,7 +59,7 @@ References
 
 
 def contrast_sensitivity_function(
-    method: Union[Literal["Barten 1999"], str] = "Barten 1999", **kwargs
+    method: Literal["Barten 1999"] | str = "Barten 1999", **kwargs
 ) -> NDArrayFloat:
     """
     Return the contrast sensitivity :math:`S` of the human eye according to

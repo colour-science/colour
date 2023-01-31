@@ -1,10 +1,12 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.rgb.derivation` module."""
 
+import contextlib
 import numpy as np
 import re
 import unittest
 from itertools import product
+from numpy.linalg import LinAlgError
 
 from colour.models import (
     normalised_primary_matrix,
@@ -142,10 +144,8 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
         for case in cases:
             P = np.array(np.vstack([case, case, case]))
             W = case
-            try:
+            with contextlib.suppress(LinAlgError):
                 normalised_primary_matrix(P, W)
-            except np.linalg.linalg.LinAlgError:
-                pass
 
 
 class TestChromaticallyAdaptedPrimaries(unittest.TestCase):
@@ -418,10 +418,8 @@ class TestRGBLuminance(unittest.TestCase):
             RGB = case
             P = np.array(np.vstack([case[0:2], case[0:2], case[0:2]]))
             W = case[0:2]
-            try:
+            with contextlib.suppress(LinAlgError):
                 RGB_luminance(RGB, P, W)
-            except np.linalg.linalg.LinAlgError:
-                pass
 
 
 if __name__ == "__main__":
