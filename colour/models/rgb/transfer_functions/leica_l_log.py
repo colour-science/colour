@@ -117,7 +117,7 @@ def log_encoding_LLog(
     f = constants.f
 
     LLog = np.where(
-        LSR <= cut1,
+        cut1 >= LSR,
         a * LSR + b,
         c * np.log10(d * LSR + e) + f,
     )

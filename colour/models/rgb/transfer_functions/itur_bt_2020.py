@@ -53,7 +53,8 @@ CONSTANTS_BT2020: Structure = Structure(
 """*BT.2020* constants."""
 
 CONSTANTS_BT2020_PRECISE: Structure = Structure(
-    alpha=lambda x: 1.09929682680944, beta=lambda x: 0.018053968510807
+    alpha=lambda x: 1.09929682680944,  # noqa: ARG005
+    beta=lambda x: 0.018053968510807,  # noqa: ARG005
 )
 """
 *BT.2020* constants at double precision to connect the two curve segments
@@ -119,7 +120,7 @@ def oetf_BT2020(
     a = constants.alpha(is_12_bits_system)
     b = constants.beta(is_12_bits_system)
 
-    E_p = np.where(E < b, E * 4.5, a * spow(E, 0.45) - (a - 1))
+    E_p = np.where(b > E, E * 4.5, a * spow(E, 0.45) - (a - 1))
 
     return as_float(from_range_1(E_p))
 

@@ -29,7 +29,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import Literal, Union
+from colour.hints import Literal
 from colour.utilities import CanonicalMapping, validate_method
 
 __author__ = "Colour Developers"
@@ -126,7 +126,7 @@ Supported spectral bandpass dependence correction methods.
 
 def bandpass_correction(
     sd: SpectralDistribution,
-    method: Union[Literal["Stearns 1988"], str] = "Stearns 1988",
+    method: Literal["Stearns 1988"] | str = "Stearns 1988",
 ) -> SpectralDistribution:
     """
     Implement spectral bandpass dependence correction on given spectral

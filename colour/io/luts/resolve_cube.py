@@ -19,7 +19,6 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import Union
 from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence
 from colour.io.luts.common import path_to_title
 from colour.utilities import as_float_array, as_int_scalar, attest, tstack
@@ -37,7 +36,7 @@ __all__ = [
 ]
 
 
-def read_LUT_ResolveCube(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
+def read_LUT_ResolveCube(path: str) -> LUT3x1D | LUT3D | LUTSequence:
     """
     Read given *Resolve* *.cube* *LUT* file.
 
@@ -193,7 +192,7 @@ def read_LUT_ResolveCube(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
 
     table = as_float_array(data)
 
-    LUT: Union[LUT3x1D, LUT3D, LUTSequence]
+    LUT: LUT3x1D | LUT3D | LUTSequence
     if has_3x1D and has_3D:
         table_1D = table[: int(size_3x1D)]
         # The lines of table data shall be in ascending index order,
@@ -228,7 +227,7 @@ def read_LUT_ResolveCube(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
 
 
 def write_LUT_ResolveCube(
-    LUT: Union[LUT1D, LUT3x1D, LUT3D, LUTSequence],
+    LUT: LUT1D | LUT3x1D | LUT3D | LUTSequence,
     path: str,
     decimals: int = 7,
 ) -> bool:
@@ -339,7 +338,7 @@ def write_LUT_ResolveCube(
         has_3D = True
         LUT = LUTSequence(LUT3x1D(), LUT)
     else:
-        raise ValueError("LUT must be 1D, 3x1D, 3D, 1D + 3D or 3x1D + 3D!")
+        raise TypeError("LUT must be 1D, 3x1D, 3D, 1D + 3D or 3x1D + 3D!")
 
     for i in range(2):
         attest(
@@ -364,12 +363,12 @@ def write_LUT_ResolveCube(
             2 <= LUT[1].size <= 256, "Cube size must be in domain [2, 256]!"
         )
 
-    def _format_array(array: Union[list, tuple]) -> str:
+    def _format_array(array: list | tuple) -> str:
         """Format given array as a *Resolve* *.cube* data row."""
 
         return "{1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)
 
-    def _format_tuple(array: Union[list, tuple]) -> str:
+    def _format_tuple(array: list | tuple) -> str:
         """
         Format given array as 2 space separated values to *decimals*
         precision.

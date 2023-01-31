@@ -61,19 +61,17 @@ black = { version = "*", optional = true }  # Development dependency.
 blackdoc = { version = "*", optional = true }  # Development dependency.
 coverage = { version = "!= 6.3", optional = true }  # Development dependency.
 coveralls = { version = "*", optional = true }  # Development dependency.
-flake8 = { version = "*", optional = true }  # Development dependency.
 flynt = { version = "*", optional = true }  # Development dependency.
 invoke = { version = "*", optional = true }  # Development dependency.
 jupyter = { version = "*", optional = true }  # Development dependency.
 pre-commit = { version = "*", optional = true }  # Development dependency.
 pydata-sphinx-theme = { version = "*", optional = true }  # Development dependency.
-pydocstyle = { version = "*", optional = true }  # Development dependency.
 pyright = { version = "*", optional = true }  # Development dependency.
 pytest = { version = "*", optional = true }  # Development dependency.
 pytest-cov = { version = "*", optional = true }  # Development dependency.
 pytest-xdist = { version = "*", optional = true} #Development dependency
-pyupgrade = { version = "*", optional = true }  # Development dependency.
 restructuredtext-lint = { version = "*", optional = true }  # Development dependency.
+ruff = { version = "*", optional = true }  # Development dependency.
 sphinx = { version = ">= 4, < 5", optional = true }  # Development dependency.
 sphinxcontrib-bibtex = { version = "*", optional = true }  # Development dependency.
 toml = { version = "*", optional = true }  # Development dependency.
@@ -85,19 +83,17 @@ black = "*"
 blackdoc = "*"
 coverage = "!= 6.3"
 coveralls = "*"
-flake8 = "*"
 flynt = "*"
 invoke = "*"
 jupyter = "*"
 pre-commit = "*"
 pydata-sphinx-theme = "*"
-pydocstyle = "*"
 pyright = "*"
 pytest = "*"
 pytest-cov = "*"
 pytest-xdist = "*"
-pyupgrade = "*"
 restructuredtext-lint = "*"
+ruff = "*"
 sphinx = ">= 4, < 5"
 sphinxcontrib-bibtex = "*"
 toml = "*"
@@ -110,19 +106,17 @@ development = [
     "blackdoc",
     "coverage",
     "coveralls",
-    "flake8",
     "flynt",
     "invoke",
     "jupyter",
     "pre-commit",
     "pydata-sphinx-theme",
-    "pydocstyle",
     "pyright",
     "pytest",
     "pytest-cov",
     "pytest-xdist",
-    "pyupgrade",
     "restructuredtext-lint",
+    "ruff",
     "sphinx",
     "sphinxcontrib-bibtex",
     "toml",
@@ -154,10 +148,6 @@ exclude = '''
 [tool.flynt]
 line_length=999
 
-[tool.pydocstyle]
-convention = "numpy"
-add-ignore = "D104,D200,D202,D205,D301,D400"
-
 [tool.pyright]
 reportMissingImports = false
 reportMissingModuleSource = false
@@ -169,6 +159,93 @@ reportUnusedExpression = false
 
 [tool.pytest.ini_options]
 addopts = "-n auto --dist=loadscope --durations=5"
+
+[tool.ruff]
+target-version = "py39"
+line-length = 88
+select = [
+    "A",      # flake8-builtins
+    "ARG",    # flake8-unused-arguments
+    # "ANN",  # flake8-annotations
+    "B",      # flake8-bugbear
+    # "BLE",  # flake8-blind-except
+    "C4",   # flake8-comprehensions
+    # "C90",  # mccabe
+    # "COM",  # flake8-commas
+    "DTZ",    # flake8-datetimez
+    "D",      # pydocstyle
+    "E",      # pydocstyle
+    # "ERA",  # eradicate
+    # "EM",   # flake8-errmsg
+    "EXE",    # flake8-executable
+    "F",      # flake8
+    # "FBT",  # flake8-boolean-trap
+    "G",      # flake8-logging-format
+    "I",      # isort
+    "ICN",    # flake8-import-conventions
+    "INP",    # flake8-no-pep420
+    "ISC",    # flake8-implicit-str-concat
+    "N",      # pep8-naming
+    # "PD",   # pandas-vet
+    "PIE",    # flake8-pie
+    "PGH",    # pygrep-hooks
+    "PL",     # pylint
+    # "PT",   # flake8-pytest-style
+    # "PTH",  # flake8-use-pathlib          [Enable]
+    "Q",      # flake8-quotes
+    "RET",    # flake8-return
+    "RUF",    # Ruff
+    "S",      # flake8-bandit
+    "SIM",    # flake8-simplify
+    "T10",    # flake8-debugger
+    "T20",    # flake8-print
+    # "TCH",  # flake8-type-checking
+    "TID",    # flake8-tidy-imports
+    "TRY",    # tryceratops
+    "UP",     # pyupgrade
+    "W",      # pydocstyle
+    "YTT"     # flake8-2020
+]
+ignore = [
+    "B008",
+    "B905",
+    "D104",
+    "D200",
+    "D202",
+    "D205",
+    "D301",
+    "D400",
+    "I001",
+    "N801",
+    "N802",
+    "N803",
+    "N806",
+    "N813",
+    "N815",
+    "N816",
+    "PIE804",
+    "PLE0605",
+    "PLR2004",
+    "RET504",
+    "RET505",
+    "RET506",
+    "RET507",
+    "RET508",
+    "TRY003",
+    "TRY300",
+]
+typing-modules = ["colour.hints"]
+fixable = ["B", "C", "E", "F", "PIE", "RUF", "SIM", "UP", "W"]
+
+[tool.ruff.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.per-file-ignores]
+"colour/examples/*" = ["INP", "T201", "T203"]
+"docs/*" = ["INP"]
+"setup.py" = ["INP"]
+"tasks.py" = ["INP"]
+"utilities/*" = ["EXE001", "INP"]
 
 [build-system]
 requires = [ "poetry_core>=1.0.0" ]

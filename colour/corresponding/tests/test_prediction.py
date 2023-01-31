@@ -280,7 +280,7 @@ convert_experiment_results_Breneman1987` definition.
 
 class TestCorrespondingChromaticitiesPredictionFairchild1990(
     unittest.TestCase
-):  # noqa
+):
     """
     Define :func:`colour.corresponding.prediction.\
 corresponding_chromaticities_prediction_Fairchild1990` definition unit tests

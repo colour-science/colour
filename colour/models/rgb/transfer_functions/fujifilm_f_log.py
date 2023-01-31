@@ -12,9 +12,9 @@ Defines the *Fujifilm F-Log* log encoding:
 References
 ----------
 -   :cite:`Fujifilm2022` : Fujifilm. (2022). F-Log Data Sheet Ver.1.1 (pp.
-    1–4). https://dl.fujifilm-x.com/support/lut/F-Log_DataSheet_E_Ver.1.1.pdf
+    1-4). https://dl.fujifilm-x.com/support/lut/F-Log_DataSheet_E_Ver.1.1.pdf
 -   :cite:`Fujifilm2022a` : Fujifilm. (2022). F-Log2 Data Sheet Ver.1.0 (pp.
-    1–4). https://dl.fujifilm-x.com/support/lut/F-Log2_DataSheet_E_Ver.1.0.pdf
+    1-4). https://dl.fujifilm-x.com/support/lut/F-Log2_DataSheet_E_Ver.1.0.pdf
 """
 
 from __future__ import annotations

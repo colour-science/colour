@@ -25,7 +25,7 @@ from scipy.optimize import minimize
 
 from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import ArrayLike, NDArrayFloat, Optional
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import as_float_array, as_float, tsplit, usage_warning
 
 __author__ = "Colour Developers"
@@ -79,7 +79,7 @@ def xy_to_CCT_McCamy1992(xy: ArrayLike) -> NDArrayFloat:
 
 
 def CCT_to_xy_McCamy1992(
-    CCT: ArrayLike, optimisation_kwargs: Optional[dict] = None
+    CCT: ArrayLike, optimisation_kwargs: dict | None = None
 ) -> NDArrayFloat:
     """
     Return the *CIE xy* chromaticity coordinates from given correlated colour
@@ -161,4 +161,4 @@ def CCT_to_xy_McCamy1992(
         ]
     )
 
-    return np.reshape(xy, (shape + [2]))
+    return np.reshape(xy, ([*shape, 2]))

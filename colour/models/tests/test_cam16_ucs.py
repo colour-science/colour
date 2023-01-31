@@ -57,16 +57,12 @@ class TestXYZ_to_UCS_Li2017(TestXYZ_to_UCS_Luo2006):
     definition unit tests methods.
     """
 
-    pass
-
 
 class TestUCS_Li2017_to_XYZ(TestUCS_Luo2006_to_XYZ):
     """
     Define :func:`colour.models.cam16_ucs.UCS_Li2017_to_XYZ`
     definition unit tests methods.
     """
-
-    pass
 
 
 if __name__ == "__main__":

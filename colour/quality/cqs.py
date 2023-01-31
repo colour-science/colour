@@ -44,9 +44,7 @@ from colour.hints import (
     Dict,
     Literal,
     NDArrayFloat,
-    Optional,
     Tuple,
-    Union,
     cast,
 )
 from colour.models import (
@@ -164,9 +162,9 @@ class ColourRendering_Specification_CQS:
     name: str
     Q_a: float
     Q_f: float
-    Q_p: Optional[float]
+    Q_p: float | None
     Q_g: float
-    Q_d: Optional[float]
+    Q_d: float | None
     Q_as: Dict[int, DataColourQualityScale_VS]
     colorimetry_data: Tuple[
         Tuple[DataColorimetry_VS, ...], Tuple[DataColorimetry_VS, ...]
@@ -188,10 +186,8 @@ References
 def colour_quality_scale(
     sd_test: SpectralDistribution,
     additional_data: bool = False,
-    method: Union[
-        Literal["NIST CQS 7.4", "NIST CQS 9.0"], str
-    ] = "NIST CQS 9.0",
-) -> Union[float, ColourRendering_Specification_CQS]:
+    method: Literal["NIST CQS 7.4", "NIST CQS 9.0"] | str = "NIST CQS 9.0",
+) -> float | ColourRendering_Specification_CQS:
     """
     Return the *Colour Quality Scale* (CQS) of given spectral distribution
     using given method.
@@ -278,10 +274,7 @@ def colour_quality_scale(
 
     Q_a = scale_conversion(D_Ep_RMS, CCT_f, scaling_f)
 
-    if method == "nist cqs 9.0":
-        scaling_f = 2.93 * 1.0343
-    else:
-        scaling_f = 2.928
+    scaling_f = 2.93 * 1.0343 if method == "nist cqs 9.0" else 2.928
 
     Q_f = scale_conversion(D_E_RMS, CCT_f, scaling_f)
 

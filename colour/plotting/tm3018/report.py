@@ -17,7 +17,7 @@ from __future__ import annotations
 import matplotlib.pyplot as plt
 
 from colour.colorimetry import SpectralDistribution, sd_to_XYZ
-from colour.hints import Any, Dict, Literal, Optional, Tuple, Union, cast
+from colour.hints import Any, Dict, Literal, Tuple, cast
 from colour.io import SpectralDistribution_IESTM2714
 from colour.models import XYZ_to_xy, XYZ_to_Luv, Luv_to_uv
 from colour.plotting.tm3018.components import (
@@ -221,16 +221,16 @@ def _plot_report_footer(axes: plt.Axes) -> plt.Axes:
 @override_style(**CONSTANTS_REPORT_STYLE)
 def plot_single_sd_colour_rendition_report_full(
     sd: SpectralDistribution,
-    source: Optional[str] = None,
-    date: Optional[str] = None,
-    manufacturer: Optional[str] = None,
-    model: Optional[str] = None,
-    notes: Optional[str] = None,
+    source: str | None = None,
+    date: str | None = None,
+    manufacturer: str | None = None,
+    model: str | None = None,
+    notes: str | None = None,
     report_size: tuple = CONSTANT_REPORT_SIZE_FULL,
     report_row_height_ratios: tuple = CONSTANT_REPORT_ROW_HEIGHT_RATIOS_FULL,
-    report_box_padding: Optional[dict] = None,
+    report_box_padding: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:  # noqa: D405,D407,D410,D411
+) -> Tuple[plt.Figure, plt.Axes]:
     """
     Generate the full *ANSI/IES TM-30-18 Colour Rendition Report* for given
     spectral distribution.
@@ -291,7 +291,7 @@ def plot_single_sd_colour_rendition_report_full(
 Plot_Single_SD_Colour_Rendition_Report_Full.png
         :align: center
         :alt: plot_single_sd_colour_rendition_report_full
-    """
+    """  # noqa: D405, D407, D410, D411
 
     report_box_padding = optional(
         report_box_padding, CONSTANT_REPORT_PADDING_FULL
@@ -553,7 +553,7 @@ def plot_single_sd_colour_rendition_report_intermediate(
     report_row_height_ratios: tuple = (
         CONSTANT_REPORT_ROW_HEIGHT_RATIOS_INTERMEDIATE
     ),
-    report_box_padding: Optional[dict] = None,
+    report_box_padding: dict | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -656,7 +656,7 @@ def plot_single_sd_colour_rendition_report_simple(
     sd: SpectralDistribution,
     report_size: tuple = CONSTANT_REPORT_SIZE_SIMPLE,
     report_row_height_ratios: tuple = CONSTANT_REPORT_ROW_HEIGHT_RATIOS_SIMPLE,
-    report_box_padding: Optional[dict] = None,
+    report_box_padding: dict | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -747,7 +747,7 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
 
 def plot_single_sd_colour_rendition_report(
     sd: SpectralDistribution,
-    method: Union[Literal["Full", "Intermediate", "Simple"], str] = "Full",
+    method: Literal["Full", "Intermediate", "Simple"] | str = "Full",
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """

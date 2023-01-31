@@ -47,7 +47,6 @@ from colour.hints import (
     List,
     Literal,
     NDArrayFloat,
-    Optional,
     ProtocolExtrapolator,
     ProtocolInterpolator,
     Real,
@@ -56,7 +55,6 @@ from colour.hints import (
     TYPE_CHECKING,
     Type,
     TypeVar,
-    Union,
     cast,
 )
 from colour.utilities import (
@@ -487,7 +485,9 @@ class SpectralShape:
 
         return not (self == other)
 
-    def range(self, dtype: Optional[Type[DTypeFloat]] = None) -> NDArrayFloat:
+    def range(  # noqa: A003
+        self, dtype: Type[DTypeFloat] | None = None
+    ) -> NDArrayFloat:
         """
         Return an iterable range for the spectral shape.
 
@@ -686,8 +686,8 @@ class SpectralDistribution(Signal):
 
     def __init__(
         self,
-        data: Optional[Union[ArrayLike, dict, Self, Series, Signal]] = None,
-        domain: Optional[Union[ArrayLike, SpectralShape]] = None,
+        data: ArrayLike | dict | Self | Series | Signal | None = None,
+        domain: ArrayLike | SpectralShape | None = None,
         **kwargs: Any,
     ) -> None:
         domain = (
@@ -851,8 +851,8 @@ class SpectralDistribution(Signal):
     def interpolate(
         self,
         shape: SpectralShape,
-        interpolator: Optional[Type[ProtocolInterpolator]] = None,
-        interpolator_kwargs: Optional[dict] = None,
+        interpolator: Type[ProtocolInterpolator] | None = None,
+        interpolator_kwargs: dict | None = None,
     ) -> Self:
         """
         Interpolate the spectral distribution in-place according to
@@ -1219,8 +1219,8 @@ class SpectralDistribution(Signal):
     def extrapolate(
         self,
         shape: SpectralShape,
-        extrapolator: Optional[Type[ProtocolExtrapolator]] = None,
-        extrapolator_kwargs: Optional[dict] = None,
+        extrapolator: Type[ProtocolExtrapolator] | None = None,
+        extrapolator_kwargs: dict | None = None,
     ) -> Self:
         """
         Extrapolate the spectral distribution in-place according to
@@ -1320,10 +1320,10 @@ class SpectralDistribution(Signal):
     def align(
         self,
         shape: SpectralShape,
-        interpolator: Optional[Type[ProtocolInterpolator]] = None,
-        interpolator_kwargs: Optional[dict] = None,
-        extrapolator: Optional[Type[ProtocolExtrapolator]] = None,
-        extrapolator_kwargs: Optional[dict] = None,
+        interpolator: Type[ProtocolInterpolator] | None = None,
+        interpolator_kwargs: dict | None = None,
+        extrapolator: Type[ProtocolExtrapolator] | None = None,
+        extrapolator_kwargs: dict | None = None,
     ) -> Self:
         """
         Align the spectral distribution in-place to given spectral shape:
@@ -1632,7 +1632,7 @@ class SpectralDistribution(Signal):
         return self.display_name
 
     @strict_name.setter
-    def strict_name(self, value):  # pragma: no cover  # noqa: D102
+    def strict_name(self, value):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         usage_warning(
             str(
@@ -1818,21 +1818,18 @@ class MultiSpectralDistributions(MultiSignals):
 
     def __init__(
         self,
-        data: Optional[
-            Union[
-                ArrayLike,
-                DataFrame,
-                dict,
-                MultiSignals,
-                Self,
-                Sequence,
-                Series,
-                Signal,
-                SpectralDistribution,
-            ]
-        ] = None,
-        domain: Optional[Union[ArrayLike, SpectralShape]] = None,
-        labels: Optional[Sequence] = None,
+        data: ArrayLike
+        | DataFrame
+        | dict
+        | MultiSignals
+        | Self
+        | Sequence
+        | Series
+        | Signal
+        | SpectralDistribution
+        | None = None,
+        domain: ArrayLike | SpectralShape | None = None,
+        labels: Sequence | None = None,
         **kwargs: Any,
     ) -> None:
         domain = (
@@ -2042,8 +2039,8 @@ class MultiSpectralDistributions(MultiSignals):
     def interpolate(
         self,
         shape: SpectralShape,
-        interpolator: Optional[Type[ProtocolInterpolator]] = None,
-        interpolator_kwargs: Optional[dict] = None,
+        interpolator: Type[ProtocolInterpolator] | None = None,
+        interpolator_kwargs: dict | None = None,
     ) -> Self:
         """
         Interpolate the multi-spectral distributions in-place according to
@@ -2270,8 +2267,8 @@ class MultiSpectralDistributions(MultiSignals):
     def extrapolate(
         self,
         shape: SpectralShape,
-        extrapolator: Optional[Type[ProtocolExtrapolator]] = None,
-        extrapolator_kwargs: Optional[dict] = None,
+        extrapolator: Type[ProtocolExtrapolator] | None = None,
+        extrapolator_kwargs: dict | None = None,
     ) -> Self:
         """
         Extrapolate the multi-spectral distributions in-place according to
@@ -2357,10 +2354,10 @@ class MultiSpectralDistributions(MultiSignals):
     def align(
         self,
         shape: SpectralShape,
-        interpolator: Optional[Type[ProtocolInterpolator]] = None,
-        interpolator_kwargs: Optional[dict] = None,
-        extrapolator: Optional[Type[ProtocolExtrapolator]] = None,
-        extrapolator_kwargs: Optional[dict] = None,
+        interpolator: Type[ProtocolInterpolator] | None = None,
+        interpolator_kwargs: dict | None = None,
+        extrapolator: Type[ProtocolExtrapolator] | None = None,
+        extrapolator_kwargs: dict | None = None,
     ) -> Self:
         """
         Align the multi-spectral distributions in-place to given spectral
@@ -2710,7 +2707,7 @@ class MultiSpectralDistributions(MultiSignals):
         return self.display_name
 
     @strict_name.setter
-    def strict_name(self, value):  # pragma: no cover  # noqa: D102
+    def strict_name(self, value):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         usage_warning(
             str(
@@ -2738,7 +2735,7 @@ class MultiSpectralDistributions(MultiSignals):
         return self.display_labels
 
     @strict_labels.setter
-    def strict_labels(self, value):  # pragma: no cover  # noqa: D102
+    def strict_labels(self, value):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         usage_warning(
             str(
@@ -2764,9 +2761,8 @@ TypeSpectralDistribution = TypeVar(
 def reshape_sd(
     sd: TypeSpectralDistribution,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
-    method: Union[
-        Literal["Align", "Extrapolate", "Interpolate", "Trim"], str
-    ] = "Align",
+    method: Literal["Align", "Extrapolate", "Interpolate", "Trim"]
+    | str = "Align",
     **kwargs: Any,
 ) -> TypeSpectralDistribution:
     """
@@ -2837,9 +2833,8 @@ TypeMultiSpectralDistributions = TypeVar(
 def reshape_msds(
     msds: TypeMultiSpectralDistributions,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
-    method: Union[
-        Literal["Align", "Extrapolate", "Interpolate", "Trim"], str
-    ] = "Align",
+    method: Literal["Align", "Extrapolate", "Interpolate", "Trim"]
+    | str = "Align",
     **kwargs: Any,
 ) -> TypeMultiSpectralDistributions:
     """
@@ -2880,11 +2875,9 @@ def reshape_msds(
 
 
 def sds_and_msds_to_sds(
-    sds: Union[
-        Sequence[Union[SpectralDistribution, MultiSpectralDistributions]],
-        SpectralDistribution,
-        MultiSpectralDistributions,
-    ]
+    sds: Sequence[SpectralDistribution | MultiSpectralDistributions]
+    | SpectralDistribution
+    | MultiSpectralDistributions,
 ) -> List[SpectralDistribution]:
     """
     Convert given spectral and multi-spectral distributions to a list of
@@ -2945,11 +2938,9 @@ def sds_and_msds_to_sds(
 
 
 def sds_and_msds_to_msds(
-    sds: Union[
-        Sequence[Union[SpectralDistribution, MultiSpectralDistributions]],
-        SpectralDistribution,
-        MultiSpectralDistributions,
-    ]
+    sds: Sequence[SpectralDistribution | MultiSpectralDistributions]
+    | SpectralDistribution
+    | MultiSpectralDistributions,
 ) -> MultiSpectralDistributions:
     """
     Convert given spectral and multi-spectral distributions to

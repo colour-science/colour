@@ -28,7 +28,7 @@ from .common import (
     is_identity,
     eigen_decomposition,
 )
-from .coordinates import *  # noqa
+from .coordinates import *  # noqa: F403
 from . import coordinates
 from .interpolation import (
     kernel_nearest_neighbour,

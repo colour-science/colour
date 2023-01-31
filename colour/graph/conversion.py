@@ -46,7 +46,6 @@ from colour.hints import (
     Literal,
     NDArrayFloat,
     Optional,
-    Union,
     cast,
 )
 from colour.recovery import XYZ_to_sd
@@ -942,7 +941,7 @@ CONVERSION_GRAPH_NODE_LABELS.update(
 
 
 @required("NetworkX")
-def _build_graph() -> networkx.DiGraph:  # pyright: ignore  # noqa
+def _build_graph() -> networkx.DiGraph:  # pyright: ignore  # noqa: F821
     """
     Build the automatic colour conversion graph.
 
@@ -967,7 +966,7 @@ def _build_graph() -> networkx.DiGraph:  # pyright: ignore  # noqa
 
 
 CONVERSION_GRAPH: (
-    Optional[networkx.DiGraph]  # pyright: ignore  # noqa
+    Optional[networkx.DiGraph]  # pyright: ignore  # noqa: F821, UP007
 ) = None
 """Automatic colour conversion graph."""
 
@@ -1040,7 +1039,7 @@ def _lower_order_function(callable_: Callable) -> Callable:
 def describe_conversion_path(
     source: str,
     target: str,
-    mode: Union[Literal["Short", "Long", "Extended"], str] = "Short",
+    mode: Literal["Short", "Long", "Extended"] | str = "Short",
     width: int = 79,
     padding: int = 3,
     print_callable: Callable = print,

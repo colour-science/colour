@@ -13,7 +13,7 @@ import numpy as np
 
 from colour.algebra import linear_conversion
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.hints import Any, ArrayLike, Literal, NDArrayFloat, Union, cast
+from colour.hints import Any, ArrayLike, Literal, NDArrayFloat, cast
 from colour.utilities import (
     as_float_array,
     as_float_scalar,
@@ -176,8 +176,8 @@ def unique_vertices(
 
 @required("trimesh")
 def hull_section(
-    hull: trimesh.Trimesh,  # pyright: ignore  # noqa
-    axis: Union[Literal["+z", "+x", "+y"], str] = "+z",
+    hull: trimesh.Trimesh,  # pyright: ignore  # noqa: F821
+    axis: Literal["+z", "+x", "+y"] | str = "+z",
     origin: float = 0.5,
     normalise: bool = False,
 ) -> NDArrayFloat:

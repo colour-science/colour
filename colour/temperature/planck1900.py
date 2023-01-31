@@ -26,7 +26,7 @@ from colour.colorimetry import (
     msds_to_XYZ_integration,
     planck_law,
 )
-from colour.hints import ArrayLike, NDArrayFloat, Optional
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.models import UCS_to_uv, XYZ_to_UCS
 from colour.utilities import as_float, as_float_array
 
@@ -45,8 +45,8 @@ __all__ = [
 
 def uv_to_CCT_Planck1900(
     uv: ArrayLike,
-    cmfs: Optional[MultiSpectralDistributions] = None,
-    optimisation_kwargs: Optional[dict] = None,
+    cmfs: MultiSpectralDistributions | None = None,
+    optimisation_kwargs: dict | None = None,
 ) -> NDArrayFloat:
     """
     Return the correlated colour temperature :math:`T_{cp}` of a blackbody from
@@ -125,7 +125,7 @@ def uv_to_CCT_Planck1900(
 
 
 def CCT_to_uv_Planck1900(
-    CCT: ArrayLike, cmfs: Optional[MultiSpectralDistributions] = None
+    CCT: ArrayLike, cmfs: MultiSpectralDistributions | None = None
 ) -> NDArrayFloat:
     """
     Return the *CIE UCS* colourspace *uv* chromaticity coordinates from given
@@ -170,4 +170,4 @@ def CCT_to_uv_Planck1900(
     UVW = XYZ_to_UCS(XYZ)
     uv = UCS_to_uv(UVW)
 
-    return np.reshape(uv, list(CCT.shape) + [2])
+    return np.reshape(uv, [*list(CCT.shape), 2])

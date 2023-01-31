@@ -20,7 +20,7 @@ from colour.colorimetry import (
     SpectralShape,
 )
 from colour.colorimetry.datasets.lefs import DATA_MESOPIC_X
-from colour.hints import ArrayLike, NDArrayFloat, Literal, Optional, Union
+from colour.hints import ArrayLike, NDArrayFloat, Literal
 from colour.utilities import closest, optional, validate_method
 
 __author__ = "Colour Developers"
@@ -39,10 +39,10 @@ __all__ = [
 def mesopic_weighting_function(
     wavelength: ArrayLike,
     L_p: float,
-    source: Union[Literal["Blue Heavy", "Red Heavy"], str] = "Blue Heavy",
-    method: Union[Literal["MOVE", "LRC"], str] = "MOVE",
-    photopic_lef: Optional[SpectralDistribution] = None,
-    scotopic_lef: Optional[SpectralDistribution] = None,
+    source: Literal["Blue Heavy", "Red Heavy"] | str = "Blue Heavy",
+    method: Literal["MOVE", "LRC"] | str = "MOVE",
+    photopic_lef: SpectralDistribution | None = None,
+    scotopic_lef: SpectralDistribution | None = None,
 ) -> NDArrayFloat:
     """
     Calculate the mesopic weighting function factor :math:`V_m` at given
@@ -112,10 +112,10 @@ def mesopic_weighting_function(
 
 def sd_mesopic_luminous_efficiency_function(
     L_p: float,
-    source: Union[Literal["Blue Heavy", "Red Heavy"], str] = "Blue Heavy",
-    method: Union[Literal["MOVE", "LRC"], str] = "MOVE",
-    photopic_lef: Optional[SpectralDistribution] = None,
-    scotopic_lef: Optional[SpectralDistribution] = None,
+    source: Literal["Blue Heavy", "Red Heavy"] | str = "Blue Heavy",
+    method: Literal["MOVE", "LRC"] | str = "MOVE",
+    photopic_lef: SpectralDistribution | None = None,
+    scotopic_lef: SpectralDistribution | None = None,
 ) -> SpectralDistribution:
     """
     Return the mesopic luminous efficiency function :math:`V_m(\\lambda)` for

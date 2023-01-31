@@ -22,7 +22,7 @@ import matplotlib.pyplot as plt
 
 from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import sd_to_XYZ
-from colour.hints import Any, ArrayLike, Dict, Literal, Tuple, Union, cast
+from colour.hints import Any, ArrayLike, Dict, Literal, Tuple, cast
 from colour.io import read_image
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
@@ -369,7 +369,7 @@ def plot_colour_vector_graphic(
         axes.add_artist(circle)
 
     # -/+20% marks near the white circles.
-    props = dict(ha="right", color="white", size=7)
+    props = {"ha": "right", "color": "white", "size": 7}
     axes.annotate(
         "-20%",
         xy=(0, -0.8),
@@ -481,9 +481,7 @@ def plot_16_bin_bars(
     values: ArrayLike,
     label_template: str,
     x_ticker: bool = False,
-    label_orientation: Union[
-        Literal["Horizontal", "Vertical"], str
-    ] = "Vertical",
+    label_orientation: Literal["Horizontal", "Vertical"] | str = "Vertical",
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """

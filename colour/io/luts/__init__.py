@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import os
 
-from colour.hints import Any, Literal, Optional, Union
+from colour.hints import Any, Literal
 from colour.utilities import (
     CanonicalMapping,
     filter_kwargs,
@@ -103,21 +103,18 @@ References
 
 def read_LUT(
     path: str,
-    method: Optional[
-        Union[
-            Literal[
-                "Cinespace",
-                "Iridas Cube",
-                "Resolve Cube",
-                "Sony SPI1D",
-                "Sony SPI3D",
-                "Sony SPImtx",
-            ],
-            str,
-        ]
-    ] = None,
+    method: Literal[
+        "Cinespace",
+        "Iridas Cube",
+        "Resolve Cube",
+        "Sony SPI1D",
+        "Sony SPI3D",
+        "Sony SPImtx",
+    ]
+    | str
+    | None = None,
     **kwargs: Any,
-) -> Union[LUT1D, LUT3x1D, LUT3D, LUTSequence, LUTOperatorMatrix]:
+) -> LUT1D | LUT3x1D | LUT3D | LUTSequence | LUTOperatorMatrix:
     """
     Read given *LUT* file using given method.
 
@@ -237,7 +234,7 @@ or :class:`colour.LUTSequence` or :class:`colour.LUTOperatorMatrix`
             function = LUT_READ_METHODS["Resolve Cube"]
             return function(path, **filter_kwargs(function, **kwargs))
         else:
-            raise error
+            raise ValueError from error
 
 
 LUT_WRITE_METHODS = CanonicalMapping(
@@ -260,22 +257,19 @@ References
 
 
 def write_LUT(
-    LUT: Union[LUT1D, LUT3x1D, LUT3D, LUTSequence, LUTOperatorMatrix],
+    LUT: LUT1D | LUT3x1D | LUT3D | LUTSequence | LUTOperatorMatrix,
     path: str,
     decimals: int = 7,
-    method: Optional[
-        Union[
-            Literal[
-                "Cinespace",
-                "Iridas Cube",
-                "Resolve Cube",
-                "Sony SPI1D",
-                "Sony SPI3D",
-                "Sony SPImtx",
-            ],
-            str,
-        ]
-    ] = None,
+    method: Literal[
+        "Cinespace",
+        "Iridas Cube",
+        "Resolve Cube",
+        "Sony SPI1D",
+        "Sony SPI3D",
+        "Sony SPImtx",
+    ]
+    | str
+    | None = None,
     **kwargs: Any,
 ) -> bool:
     """

@@ -27,10 +27,8 @@ from colour.hints import (
     Dict,
     List,
     Literal,
-    Optional,
     Sequence,
     Tuple,
-    Union,
     cast,
 )
 from colour.plotting import (
@@ -69,13 +67,10 @@ __all__ = [
 @override_style()
 def plot_colour_quality_bars(
     specifications: Sequence[
-        Union[
-            ColourRendering_Specification_CQS,
-            ColourRendering_Specification_CRI,
-        ]
+        ColourRendering_Specification_CQS | ColourRendering_Specification_CRI
     ],
     labels: bool = True,
-    hatching: Optional[bool] = None,
+    hatching: bool | None = None,
     hatching_repeat: int = 2,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
@@ -133,7 +128,7 @@ def plot_colour_quality_bars(
     count_s, count_Q_as = len(specifications), 0
     patterns = cycle(CONSTANTS_COLOUR_STYLE.hatch.patterns)
     if hatching is None:
-        hatching = False if count_s == 1 else True
+        hatching = count_s != 1
 
     for i, specification in enumerate(specifications):
         Q_a, Q_as, colorimetry_data = (
@@ -288,11 +283,9 @@ Plot_Single_SD_Colour_Rendering_Index_Bars.png
 
 @override_style()
 def plot_multi_sds_colour_rendering_indexes_bars(
-    sds: Union[
-        Sequence[Union[SpectralDistribution, MultiSpectralDistributions]],
-        SpectralDistribution,
-        MultiSpectralDistributions,
-    ],
+    sds: Sequence[SpectralDistribution | MultiSpectralDistributions]
+    | SpectralDistribution
+    | MultiSpectralDistributions,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -376,9 +369,7 @@ Plot_Multi_SDS_Colour_Rendering_Indexes_Bars.png
 @override_style()
 def plot_single_sd_colour_quality_scale_bars(
     sd: SpectralDistribution,
-    method: Union[
-        Literal["NIST CQS 7.4", "NIST CQS 9.0"], str
-    ] = "NIST CQS 9.0",
+    method: Literal["NIST CQS 7.4", "NIST CQS 9.0"] | str = "NIST CQS 9.0",
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -427,14 +418,10 @@ Plot_Single_SD_Colour_Quality_Scale_Bars.png
 
 @override_style()
 def plot_multi_sds_colour_quality_scales_bars(
-    sds: Union[
-        Sequence[Union[SpectralDistribution, MultiSpectralDistributions]],
-        SpectralDistribution,
-        MultiSpectralDistributions,
-    ],
-    method: Union[
-        Literal["NIST CQS 7.4", "NIST CQS 9.0"], str
-    ] = "NIST CQS 9.0",
+    sds: Sequence[SpectralDistribution | MultiSpectralDistributions]
+    | SpectralDistribution
+    | MultiSpectralDistributions,
+    method: Literal["NIST CQS 7.4", "NIST CQS 9.0"] | str = "NIST CQS 9.0",
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """

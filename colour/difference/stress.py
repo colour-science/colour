@@ -23,7 +23,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode
-from colour.hints import ArrayLike, NDArrayFloat, Literal, Union
+from colour.hints import ArrayLike, NDArrayFloat, Literal
 from colour.utilities import (
     CanonicalMapping,
     as_float,
@@ -105,7 +105,7 @@ References
 def index_stress(
     d_E: ArrayLike,
     d_V: ArrayLike,
-    method: Union[Literal["Garcia 2007"], str] = "Garcia 2007",
+    method: Literal["Garcia 2007"] | str = "Garcia 2007",
 ) -> NDArrayFloat:
     """
     Compute the

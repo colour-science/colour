@@ -7,7 +7,7 @@ from colour.hints import Any
 
 from .cameras import RGB_CameraSensitivities
 from .displays import RGB_DisplayPrimaries
-from .datasets import *  # noqa
+from .datasets import *  # noqa: F403
 from . import datasets
 from .aces_it import (
     sd_to_aces_relative_exposure_values,

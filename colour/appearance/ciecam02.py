@@ -45,7 +45,7 @@ from colour.appearance.hunt import (
 )
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.constants import EPSILON
-from colour.hints import ArrayLike, NDArrayFloat, Optional, Tuple, Union, cast
+from colour.hints import ArrayLike, NDArrayFloat, Tuple, cast
 from colour.models import xy_to_XYZ
 from colour.utilities import (
     CanonicalMapping,
@@ -212,30 +212,14 @@ class CAM_Specification_CIECAM02(MixinDataclassArithmetic):
     :cite:`Wikipedia2007a`
     """
 
-    J: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    C: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    h: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    s: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    Q: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    M: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    H: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    HC: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
+    J: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    C: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    h: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    s: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    Q: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    M: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    H: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    HC: float | NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 def XYZ_to_CIECAM02(

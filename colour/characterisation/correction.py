@@ -61,7 +61,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import least_square_mapping_MoorePenrose, spow
-from colour.hints import ArrayLike, Any, Literal, NDArrayFloat, Union
+from colour.hints import ArrayLike, Any, Literal, NDArrayFloat
 from colour.utilities import (
     CanonicalMapping,
     as_float,
@@ -330,7 +330,7 @@ def matrix_augmented_Cheung2004(
                 tail,
             ]
         )
-    elif terms == 22:
+    elif terms == 22:  # noqa: RET503
         return tstack(
             [
                 R,
@@ -481,7 +481,7 @@ def polynomial_expansion_Finlayson2015(
                     R * G * B,
                 ]
             )
-    elif degree == 4:
+    elif degree == 4:  # noqa: RET503
         if root_polynomial_expansion:
             return tstack(
                 [
@@ -607,9 +607,8 @@ References
 
 def polynomial_expansion(
     a: ArrayLike,
-    method: Union[
-        Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"], str
-    ] = "Cheung 2004",
+    method: Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"]
+    | str = "Cheung 2004",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
@@ -816,9 +815,8 @@ References
 def matrix_colour_correction(
     M_T: ArrayLike,
     M_R: ArrayLike,
-    method: Union[
-        Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"], str
-    ] = "Cheung 2004",
+    method: Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"]
+    | str = "Cheung 2004",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
@@ -1119,9 +1117,8 @@ def colour_correction(
     RGB: ArrayLike,
     M_T: ArrayLike,
     M_R: ArrayLike,
-    method: Union[
-        Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"], str
-    ] = "Cheung 2004",
+    method: Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"]
+    | str = "Cheung 2004",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """

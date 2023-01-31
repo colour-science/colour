@@ -38,7 +38,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import ArrayLike, NDArrayFloat, Literal, Union
+from colour.hints import ArrayLike, NDArrayFloat, Literal
 from colour.models.rgb.transfer_functions import (
     log_encoding_Cineon,
     log_decoding_Cineon,
@@ -594,7 +594,7 @@ References
 
 def log_encoding_Log3G10(
     x: ArrayLike,
-    method: Union[Literal["v1", "v2", "v3"], str] = "v3",
+    method: Literal["v1", "v2", "v3"] | str = "v3",
 ) -> NDArrayFloat:
     """
     Define the *Log3G10* log encoding curve / opto-electronic transfer
@@ -691,7 +691,7 @@ References
 
 
 def log_decoding_Log3G10(
-    y, method: Union[Literal["v1", "v2", "v3"], str] = "v3"
+    y, method: Literal["v1", "v2", "v3"] | str = "v3"
 ) -> NDArrayFloat:
     """
     Define the *Log3G10* log decoding curve / electro-optical transfer

@@ -148,7 +148,7 @@ substrate_concentration_MichaelisMenten_Michaelis1913` definition.
             places=7,
         )
 
-    def test_n_dimensional_substrate_concentration_MichaelisMenten_Michaelis1913(  # noqa
+    def test_n_dimensional_substrate_concentration_MichaelisMenten_Michaelis1913(  # noqa: E501
         self,
     ):
         """
@@ -329,7 +329,7 @@ substrate_concentration_MichaelisMenten_Abebe2017` definition.
             places=7,
         )
 
-    def test_n_dimensional_substrate_concentration_MichaelisMenten_Abebe2017(  # noqa
+    def test_n_dimensional_substrate_concentration_MichaelisMenten_Abebe2017(
         self,
     ):
         """

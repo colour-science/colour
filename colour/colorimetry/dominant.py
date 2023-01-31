@@ -39,7 +39,7 @@ from colour.geometry import (
     extend_line_segment,
     intersect_line_segments,
 )
-from colour.hints import ArrayLike, NDArrayFloat, Optional, Tuple
+from colour.hints import ArrayLike, NDArrayFloat, Tuple
 from colour.models import XYZ_to_xy
 from colour.utilities import as_float_array
 
@@ -136,7 +136,7 @@ def closest_spectral_locus_wavelength(
 def dominant_wavelength(
     xy: ArrayLike,
     xy_n: ArrayLike,
-    cmfs: Optional[MultiSpectralDistributions] = None,
+    cmfs: MultiSpectralDistributions | None = None,
     inverse: bool = False,
 ) -> Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]:
     """
@@ -237,7 +237,7 @@ def dominant_wavelength(
 def complementary_wavelength(
     xy: ArrayLike,
     xy_n: ArrayLike,
-    cmfs: Optional[MultiSpectralDistributions] = None,
+    cmfs: MultiSpectralDistributions | None = None,
 ) -> Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]:
     """
     Return the *complementary wavelength* :math:`\\lambda_c` for given colour
@@ -305,7 +305,7 @@ def complementary_wavelength(
 def excitation_purity(
     xy: ArrayLike,
     xy_n: ArrayLike,
-    cmfs: Optional[MultiSpectralDistributions] = None,
+    cmfs: MultiSpectralDistributions | None = None,
 ) -> NDArrayFloat:
     """
     Return the *excitation purity* :math:`P_e` for given colour stimulus
@@ -354,7 +354,7 @@ def excitation_purity(
 def colorimetric_purity(
     xy: ArrayLike,
     xy_n: ArrayLike,
-    cmfs: Optional[MultiSpectralDistributions] = None,
+    cmfs: MultiSpectralDistributions | None = None,
 ) -> NDArrayFloat:
     """
     Return the *colorimetric purity* :math:`P_c` for given colour stimulus

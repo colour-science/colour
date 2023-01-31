@@ -24,7 +24,7 @@ from collections import namedtuple
 from dataclasses import dataclass, field
 
 from colour.algebra import spow, vector_dot
-from colour.hints import ArrayLike, NDArrayFloat, Optional, Union, cast
+from colour.hints import ArrayLike, NDArrayFloat, cast
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
@@ -212,30 +212,14 @@ class CAM_ReferenceSpecification_Hunt(MixinDataclassArithmetic):
     :cite:`Fairchild2013u`, :cite:`Hunt2004b`
     """
 
-    J: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    C_94: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    h_S: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    s: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    Q: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    M_94: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    H: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    H_C: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
+    J: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    C_94: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    h_S: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    s: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    Q: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    M_94: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    H: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    H_C: float | NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 @dataclass
@@ -275,30 +259,14 @@ class CAM_Specification_Hunt(MixinDataclassArithmetic):
     :cite:`Fairchild2013u`, :cite:`Hunt2004b`
     """
 
-    J: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    C: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    h: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    s: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    Q: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    M: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    H: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    HC: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
+    J: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    C: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    h: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    s: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    Q: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    M: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    H: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    HC: float | NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 def XYZ_to_Hunt(
@@ -307,12 +275,12 @@ def XYZ_to_Hunt(
     XYZ_b: ArrayLike,
     L_A: ArrayLike,
     surround: InductionFactors_Hunt = VIEWING_CONDITIONS_HUNT["Normal Scenes"],
-    L_AS: Optional[ArrayLike] = None,
-    CCT_w: Optional[ArrayLike] = None,
-    XYZ_p: Optional[ArrayLike] = None,
-    p: Optional[ArrayLike] = None,
-    S: Optional[ArrayLike] = None,
-    S_w: Optional[ArrayLike] = None,
+    L_AS: ArrayLike | None = None,
+    CCT_w: ArrayLike | None = None,
+    XYZ_p: ArrayLike | None = None,
+    p: ArrayLike | None = None,
+    S: ArrayLike | None = None,
+    S_w: ArrayLike | None = None,
     helson_judd_effect: bool = False,
     discount_illuminant: bool = True,
 ) -> CAM_Specification_Hunt:
@@ -699,8 +667,8 @@ def chromatic_adaptation(
     XYZ_b: ArrayLike,
     L_A,
     F_L,
-    XYZ_p: Optional[ArrayLike] = None,
-    p: Optional[ArrayLike] = None,
+    XYZ_p: ArrayLike | None = None,
+    p: ArrayLike | None = None,
     helson_judd_effect: bool = False,
     discount_illuminant: bool = True,
 ) -> NDArrayFloat:

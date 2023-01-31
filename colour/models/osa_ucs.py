@@ -24,7 +24,7 @@ import numpy as np
 from scipy.optimize import fmin
 
 from colour.algebra import sdiv, sdiv_mode, spow, vector_dot
-from colour.hints import ArrayLike, NDArrayFloat, Optional
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.models import XYZ_to_xyY
 from colour.utilities import (
     as_float,
@@ -147,7 +147,7 @@ def XYZ_to_OSA_UCS(XYZ: ArrayLike) -> NDArrayFloat:
 
 
 def OSA_UCS_to_XYZ(
-    Ljg: ArrayLike, optimisation_kwargs: Optional[dict] = None
+    Ljg: ArrayLike, optimisation_kwargs: dict | None = None
 ) -> NDArrayFloat:
     """
     Convert from *OSA UCS* colourspace to *CIE XYZ* tristimulus values under

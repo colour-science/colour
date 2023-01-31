@@ -32,7 +32,7 @@ from colour.colorimetry import (
     sd_blackbody,
     sd_to_XYZ,
 )
-from colour.hints import Dict, NDArrayFloat, Tuple, Union, cast
+from colour.hints import Dict, NDArrayFloat, Tuple, cast
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
 from colour.quality.datasets.tcs import INDEXES_TO_NAMES_TCS, SDS_TCS
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Robertson1968
@@ -106,7 +106,7 @@ class ColourRendering_Specification_CRI:
 
 def colour_rendering_index(
     sd_test: SpectralDistribution, additional_data: bool = False
-) -> Union[float, ColourRendering_Specification_CRI]:
+) -> float | ColourRendering_Specification_CRI:
     """
     Return the *Colour Rendering Index* (CRI) :math:`Q_a` of given spectral
     distribution.

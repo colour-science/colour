@@ -80,7 +80,7 @@ def read_sds_from_xrite_file(path: str) -> Dict[str, SpectralDistribution]:
                 is_spectral_data = False
 
             if is_spectral_data_format:
-                wavelengths = [x for x in re.findall("nm(\\d+)", line)]
+                wavelengths = list(re.findall("nm(\\d+)", line))
                 index = len(wavelengths)
 
             if is_spectral_data:

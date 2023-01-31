@@ -51,7 +51,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import ArrayLike, NDArrayFloat, NDArrayInt, Literal, Union
+from colour.hints import ArrayLike, NDArrayFloat, NDArrayInt, Literal
 from colour.utilities import (
     Structure,
     as_float,
@@ -119,7 +119,7 @@ def log_encoding_ACESproxy(
     bit_depth: Literal[10, 12] = 10,
     out_int: bool = False,
     constants: dict = CONSTANTS_ACES_PROXY,
-) -> Union[NDArrayFloat, NDArrayInt]:
+) -> NDArrayFloat | NDArrayInt:
     """
     Define the *ACESproxy* colourspace log encoding curve / opto-electronic
     transfer function.
@@ -203,7 +203,7 @@ def log_encoding_ACESproxy(
 
 # pylint: disable=W0102
 def log_decoding_ACESproxy(
-    ACESproxy: Union[ArrayLike, ArrayLike],
+    ACESproxy: ArrayLike | ArrayLike,
     bit_depth: Literal[10, 12] = 10,
     in_int: bool = False,
     constants: dict = CONSTANTS_ACES_PROXY,

@@ -176,7 +176,7 @@ class TestPrimitiveGrid(unittest.TestCase):
             ),
         )
 
-        for plane in MAPPING_PLANE_TO_AXIS.keys():
+        for plane in MAPPING_PLANE_TO_AXIS:
             np.testing.assert_array_almost_equal(
                 primitive_grid(axis=plane)[0]["position"],
                 primitive_grid(axis=MAPPING_PLANE_TO_AXIS[plane])[0][
@@ -784,7 +784,7 @@ class TestPrimitiveCube(unittest.TestCase):
             ),
         )
 
-        for plane in MAPPING_PLANE_TO_AXIS.keys():
+        for plane in MAPPING_PLANE_TO_AXIS:
             np.testing.assert_array_almost_equal(
                 primitive_cube(planes=[plane])[0]["position"],
                 primitive_cube(planes=[MAPPING_PLANE_TO_AXIS[plane]])[0][

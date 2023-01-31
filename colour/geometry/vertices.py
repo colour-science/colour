@@ -18,7 +18,7 @@ import numpy as np
 
 from colour.algebra import spherical_to_cartesian
 from colour.geometry import MAPPING_PLANE_TO_AXIS
-from colour.hints import Any, ArrayLike, Literal, NDArrayFloat, Optional, Union
+from colour.hints import Any, ArrayLike, Literal, NDArrayFloat
 from colour.utilities import (
     CanonicalMapping,
     as_float_array,
@@ -53,7 +53,7 @@ def primitive_vertices_quad_mpl(
     height: float = 1,
     depth: float = 0,
     origin: ArrayLike = np.array([0, 0]),
-    axis: Union[Literal["+z", "+x", "+y", "yz", "xz", "xy"], str] = "+z",
+    axis: Literal["+z", "+x", "+y", "yz", "xz", "xy"] | str = "+z",
 ) -> NDArrayFloat:
     """
     Return the vertices of a quad primitive for use with *Matplotlib*
@@ -126,7 +126,7 @@ def primitive_vertices_grid_mpl(
     width_segments: int = 1,
     height_segments: int = 1,
     origin: ArrayLike = np.array([0, 0]),
-    axis: Union[Literal["+z", "+x", "+y", "yz", "xz", "xy"], str] = "+z",
+    axis: Literal["+z", "+x", "+y", "yz", "xz", "xy"] | str = "+z",
 ) -> NDArrayFloat:
     """
     Return the vertices of a grid primitive made of quad primitives for use
@@ -204,22 +204,10 @@ def primitive_vertices_cube_mpl(
     height_segments: int = 1,
     depth_segments: int = 1,
     origin: ArrayLike = np.array([0, 0, 0]),
-    planes: Optional[
-        Literal[
-            "-x",
-            "+x",
-            "-y",
-            "+y",
-            "-z",
-            "+z",
-            "xy",
-            "xz",
-            "yz",
-            "yx",
-            "zx",
-            "zy",
-        ]
-    ] = None,
+    planes: Literal[
+        "-x", "+x", "-y", "+y", "-z", "+z", "xy", "xz", "yz", "yx", "zx", "zy"
+    ]
+    | None = None,
 ) -> NDArrayFloat:
     """
     Return the vertices of a cube primitive made of grid primitives for use
@@ -285,7 +273,7 @@ def primitive_vertices_cube_mpl(
     """
 
     axis = (
-        sorted(list(MAPPING_PLANE_TO_AXIS.values()))
+        sorted(MAPPING_PLANE_TO_AXIS.values())
         if planes is None
         else [
             MAPPING_PLANE_TO_AXIS.get(plane, plane).lower() for plane in planes
@@ -344,7 +332,7 @@ def primitive_vertices_sphere(
     segments: int = 8,
     intermediate: bool = False,
     origin: ArrayLike = np.array([0, 0, 0]),
-    axis: Union[Literal["+z", "+x", "+y", "yz", "xz", "xy"], str] = "+z",
+    axis: Literal["+z", "+x", "+y", "yz", "xz", "xy"] | str = "+z",
 ) -> NDArrayFloat:
     """
     Return the vertices of a latitude-longitude sphere primitive.
@@ -476,9 +464,8 @@ Supported geometry primitive vertices generation methods.
 
 
 def primitive_vertices(
-    method: Union[
-        Literal["Cube MPL", "Quad MPL", "Grid MPL", "Sphere"], str
-    ] = "Cube MPL",
+    method: Literal["Cube MPL", "Quad MPL", "Grid MPL", "Sphere"]
+    | str = "Cube MPL",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """

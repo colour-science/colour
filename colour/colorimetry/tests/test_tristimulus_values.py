@@ -1476,7 +1476,7 @@ msds_to_XYZ_ASTME308` definition domain and range scale support.
 msds_to_XYZ_ASTME308` definition raise exception.
         """
 
-        self.assertRaises(ValueError, msds_to_XYZ_ASTME308, DATA_TWO)
+        self.assertRaises(TypeError, msds_to_XYZ_ASTME308, DATA_TWO)
 
 
 class TestAbsoluteIntegrationToXYZ(unittest.TestCase):

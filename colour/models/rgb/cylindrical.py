@@ -132,8 +132,8 @@ def RGB_to_HSV(RGB: ArrayLike) -> NDArrayFloat:
         delta_B = sdiv(((maximum - B) / 6) + (delta / 2), delta)
 
     H = delta_B - delta_G
-    H = np.where(G == maximum, (1 / 3) + delta_R - delta_B, H)
-    H = np.where(B == maximum, (2 / 3) + delta_G - delta_R, H)
+    H = np.where(maximum == G, (1 / 3) + delta_R - delta_B, H)
+    H = np.where(maximum == B, (2 / 3) + delta_G - delta_R, H)
     H[np.asarray(H < 0)] += 1
     H[np.asarray(H > 1)] -= 1
     H[np.asarray(delta == 0)] = 0
@@ -190,7 +190,7 @@ def HSV_to_RGB(HSV: ArrayLike) -> NDArrayFloat:
     i = np.floor(h)
     j = V * (1 - S)
     k = V * (1 - S * (h - i))
-    l = V * (1 - S * (1 - (h - i)))  # noqa
+    l = V * (1 - S * (1 - (h - i)))  # noqa: E741
 
     i = tstack([i, i, i]).astype(np.uint8)
 
@@ -271,8 +271,8 @@ def RGB_to_HSL(RGB: ArrayLike) -> NDArrayFloat:
         delta_B = sdiv(((maximum - B) / 6) + (delta / 2), delta)
 
     H = delta_B - delta_G
-    H = np.where(G == maximum, (1 / 3) + delta_R - delta_B, H)
-    H = np.where(B == maximum, (2 / 3) + delta_G - delta_R, H)
+    H = np.where(maximum == G, (1 / 3) + delta_R - delta_B, H)
+    H = np.where(maximum == B, (2 / 3) + delta_G - delta_R, H)
     H[np.asarray(H < 0)] += 1
     H[np.asarray(H > 1)] -= 1
     H[np.asarray(delta == 0)] = 0
@@ -534,12 +534,12 @@ def HCL_to_RGB(
     with sdiv_mode():
         RGB = np.select(
             [
-                _1_2_3(np.logical_and(0 <= H, H <= r_p60)),
-                _1_2_3(np.logical_and(r_p60 < H, H <= r_p120)),
-                _1_2_3(np.logical_and(r_p120 < H, H <= np.pi)),
+                _1_2_3(np.logical_and(0 <= H, r_p60 >= H)),
+                _1_2_3(np.logical_and(r_p60 < H, r_p120 >= H)),
+                _1_2_3(np.logical_and(r_p120 < H, np.pi >= H)),
                 _1_2_3(np.logical_and(r_n60 <= H, H < 0)),
-                _1_2_3(np.logical_and(r_n120 <= H, H < r_n60)),
-                _1_2_3(np.logical_and(-np.pi < H, H < r_n120)),
+                _1_2_3(np.logical_and(r_n120 <= H, r_n60 > H)),
+                _1_2_3(np.logical_and(-np.pi < H, r_n120 > H)),
             ],
             [
                 tstack(

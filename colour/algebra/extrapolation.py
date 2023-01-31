@@ -28,11 +28,9 @@ from colour.hints import (
     DTypeReal,
     Literal,
     NDArrayFloat,
-    Optional,
     ProtocolInterpolator,
     Real,
     Type,
-    Union,
     cast,
 )
 from colour.utilities import (
@@ -138,13 +136,13 @@ class Extrapolator:
 
     def __init__(
         self,
-        interpolator: Optional[ProtocolInterpolator] = None,
-        method: Union[Literal["Linear", "Constant"], str] = "Linear",
-        left: Optional[Real] = None,
-        right: Optional[Real] = None,
-        dtype: Optional[Type[DTypeReal]] = None,
-        *args: Any,
-        **kwargs: Any,
+        interpolator: ProtocolInterpolator | None = None,
+        method: Literal["Linear", "Constant"] | str = "Linear",
+        left: Real | None = None,
+        right: Real | None = None,
+        dtype: Type[DTypeReal] | None = None,
+        *args: Any,  # noqa: ARG002
+        **kwargs: Any,  # noqa: ARG002
     ) -> None:
         dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
 
@@ -152,11 +150,11 @@ class Extrapolator:
             np.array([-np.inf, np.inf]), np.array([-np.inf, np.inf])
         )
         self.interpolator = optional(interpolator, self._interpolator)
-        self._method: Union[Literal["Linear", "Constant"], str] = "Linear"
+        self._method: Literal["Linear", "Constant"] | str = "Linear"
         self.method = optional(method, self._method)
-        self._right: Optional[Real] = None
+        self._right: Real | None = None
         self.right = right
-        self._left: Optional[Real] = None
+        self._left: Real | None = None
         self.left = left
 
         self._dtype: Type[DTypeReal] = dtype
@@ -198,7 +196,7 @@ class Extrapolator:
         self._interpolator = value
 
     @property
-    def method(self) -> Union[Literal["Linear", "Constant"], str]:
+    def method(self) -> Literal["Linear", "Constant"] | str:
         """
         Getter and setter property for the extrapolation method.
 
@@ -216,7 +214,7 @@ class Extrapolator:
         return self._method
 
     @method.setter
-    def method(self, value: Union[Literal["Linear", "Constant"], str]):
+    def method(self, value: Literal["Linear", "Constant"] | str):
         """Setter for the **self.method** property."""
 
         attest(
@@ -229,7 +227,7 @@ class Extrapolator:
         self._method = value
 
     @property
-    def left(self) -> Optional[Real]:
+    def left(self) -> Real | None:
         """
         Getter and setter property for left value to return for x < xi[0].
 
@@ -247,7 +245,7 @@ class Extrapolator:
         return self._left
 
     @left.setter
-    def left(self, value: Optional[Real]):
+    def left(self, value: Real | None):
         """Setter for the **self.left** property."""
 
         if value is not None:
@@ -259,7 +257,7 @@ class Extrapolator:
             self._left = value
 
     @property
-    def right(self) -> Optional[Real]:
+    def right(self) -> Real | None:
         """
         Getter and setter property for right value to return for x > xi[-1].
 
@@ -277,7 +275,7 @@ class Extrapolator:
         return self._right
 
     @right.setter
-    def right(self, value: Optional[Real]):
+    def right(self, value: Real | None):
         """Setter for the **self.right** property."""
 
         if value is not None:

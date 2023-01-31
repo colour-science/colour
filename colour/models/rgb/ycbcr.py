@@ -490,10 +490,7 @@ def RGB_to_YCbCr(
     array([ 36, 136, 175]...)
     """
 
-    if in_int:
-        RGB = as_float_array(RGB)
-    else:
-        RGB = to_domain_1(RGB)
+    RGB = as_float_array(RGB) if in_int else to_domain_1(RGB)
 
     Kr, Kb = K
     RGB_min, RGB_max = kwargs.get(
@@ -632,10 +629,7 @@ def YCbCr_to_RGB(
     array([ 0.5,  0.5,  0.5])
     """
 
-    if in_int:
-        YCbCr = as_float_array(YCbCr)
-    else:
-        YCbCr = to_domain_1(YCbCr)
+    YCbCr = as_float_array(YCbCr) if in_int else to_domain_1(YCbCr)
 
     Y, Cb, Cr = tsplit(YCbCr)
     Kr, Kb = K
@@ -870,10 +864,7 @@ def YcCbcCrc_to_RGB(
     array([ 0.1800903...,  0.1800903...,  0.1800903...])
     """
 
-    if in_int:
-        YcCbcCrc = as_float_array(YcCbcCrc)
-    else:
-        YcCbcCrc = to_domain_1(YcCbcCrc)
+    YcCbcCrc = as_float_array(YcCbcCrc) if in_int else to_domain_1(YcCbcCrc)
 
     Yc, Cbc, Crc = tsplit(YcCbcCrc)
     Y_min, Y_max, C_min, C_max = kwargs.get(

@@ -730,7 +730,7 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
                     "RLAB",
                     "ZCAM",
                 ):
-                    if target.endswith(specification):
+                    if target.endswith(specification):  # noqa: B023
                         return getattr(x, fields(x)[0].name).dtype
 
                 return x.dtype

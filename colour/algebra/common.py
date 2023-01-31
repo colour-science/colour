@@ -17,9 +17,7 @@ from colour.hints import (
     Callable,
     Literal,
     NDArrayFloat,
-    Optional,
     Tuple,
-    Union,
     cast,
 )
 from colour.utilities import (
@@ -111,19 +109,17 @@ def get_sdiv_mode() -> Literal[
 
 
 def set_sdiv_mode(
-    mode: Union[
-        Literal[
-            "Numpy",
-            "Ignore",
-            "Warning",
-            "Raise",
-            "Ignore Zero Conversion",
-            "Warning Zero Conversion",
-            "Ignore Limit Conversion",
-            "Warning Limit Conversion",
-        ],
-        str,
+    mode: Literal[
+        "Numpy",
+        "Ignore",
+        "Warning",
+        "Raise",
+        "Ignore Zero Conversion",
+        "Warning Zero Conversion",
+        "Ignore Limit Conversion",
+        "Warning Limit Conversion",
     ]
+    | str
 ):
     """
     Set *Colour* safe division function mode.
@@ -188,18 +184,17 @@ class sdiv_mode:
 
     def __init__(
         self,
-        mode: Optional[
-            Literal[
-                "Numpy",
-                "Ignore",
-                "Warning",
-                "Raise",
-                "Ignore Zero Conversion",
-                "Warning Zero Conversion",
-                "Ignore Limit Conversion",
-                "Warning Limit Conversion",
-            ]
-        ] = None,
+        mode: Literal[
+            "Numpy",
+            "Ignore",
+            "Warning",
+            "Raise",
+            "Ignore Zero Conversion",
+            "Warning Zero Conversion",
+            "Ignore Limit Conversion",
+            "Warning Limit Conversion",
+        ]
+        | None = None,
     ) -> None:
         self._mode = optional(mode, get_sdiv_mode())
         self._previous_mode = get_sdiv_mode()
@@ -524,7 +519,7 @@ def normalise_vector(a: ArrayLike) -> NDArrayFloat:
 
 def normalise_maximum(
     a: ArrayLike,
-    axis: Optional[int] = None,
+    axis: int | None = None,
     factor: float = 1,
     clip: bool = True,
 ) -> NDArrayFloat:
@@ -892,7 +887,7 @@ def is_identity(a: ArrayLike) -> bool:
 
 def eigen_decomposition(
     a: ArrayLike,
-    eigen_w_v_count: Optional[int] = None,
+    eigen_w_v_count: int | None = None,
     descending_order: bool = True,
     covariance_matrix: bool = False,
 ) -> Tuple[NDArrayFloat, NDArrayFloat]:

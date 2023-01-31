@@ -330,34 +330,32 @@ Notes
     original *CIE L\\*a\\*b\\** colourspace values.
 """
 
-DATA_COLORCHECKER24_AFTER_NOV2014_CIE_LAB: dict = dict(
-    [
-        ("dark skin", np.array([37.54, 14.37, 14.92])),
-        ("light skin", np.array([64.66, 19.27, 17.5])),
-        ("blue sky", np.array([49.32, -3.82, -22.54])),
-        ("foliage", np.array([43.46, -12.74, 22.72])),
-        ("blue flower", np.array([54.94, 9.61, -24.79])),
-        ("bluish green", np.array([70.48, -32.26, -0.37])),
-        ("orange", np.array([62.73, 35.83, 56.5])),
-        ("purplish blue", np.array([39.43, 10.75, -45.17])),
-        ("moderate red", np.array([50.57, 48.64, 16.67])),
-        ("purple", np.array([30.1, 22.54, -20.87])),
-        ("yellow green", np.array([71.77, -24.13, 58.19])),
-        ("orange yellow", np.array([71.51, 18.24, 67.37])),
-        ("blue", np.array([28.37, 15.42, -49.8])),
-        ("green", np.array([54.38, -39.72, 32.27])),
-        ("red", np.array([42.43, 51.05, 28.62])),
-        ("yellow", np.array([81.8, 2.67, 80.41])),
-        ("magenta", np.array([50.63, 51.28, -14.12])),
-        ("cyan", np.array([49.57, -29.71, -28.32])),
-        ("white 9.5 (.05 D)", np.array([95.19, -1.03, 2.93])),
-        ("neutral 8 (.23 D)", np.array([81.29, -0.57, 0.44])),
-        ("neutral 6.5 (.44 D)", np.array([66.89, -0.75, -0.06])),
-        ("neutral 5 (.70 D)", np.array([50.76, -0.13, 0.14])),
-        ("neutral 3.5 (1.05 D)", np.array([35.63, -0.46, -0.48])),
-        ("black 2 (1.5 D)", np.array([20.64, 0.07, -0.46])),
-    ]
-)
+DATA_COLORCHECKER24_AFTER_NOV2014_CIE_LAB: dict = {
+    "dark skin": np.array([37.54, 14.37, 14.92]),
+    "light skin": np.array([64.66, 19.27, 17.5]),
+    "blue sky": np.array([49.32, -3.82, -22.54]),
+    "foliage": np.array([43.46, -12.74, 22.72]),
+    "blue flower": np.array([54.94, 9.61, -24.79]),
+    "bluish green": np.array([70.48, -32.26, -0.37]),
+    "orange": np.array([62.73, 35.83, 56.5]),
+    "purplish blue": np.array([39.43, 10.75, -45.17]),
+    "moderate red": np.array([50.57, 48.64, 16.67]),
+    "purple": np.array([30.1, 22.54, -20.87]),
+    "yellow green": np.array([71.77, -24.13, 58.19]),
+    "orange yellow": np.array([71.51, 18.24, 67.37]),
+    "blue": np.array([28.37, 15.42, -49.8]),
+    "green": np.array([54.38, -39.72, 32.27]),
+    "red": np.array([42.43, 51.05, 28.62]),
+    "yellow": np.array([81.8, 2.67, 80.41]),
+    "magenta": np.array([50.63, 51.28, -14.12]),
+    "cyan": np.array([49.57, -29.71, -28.32]),
+    "white 9.5 (.05 D)": np.array([95.19, -1.03, 2.93]),
+    "neutral 8 (.23 D)": np.array([81.29, -0.57, 0.44]),
+    "neutral 6.5 (.44 D)": np.array([66.89, -0.75, -0.06]),
+    "neutral 5 (.70 D)": np.array([50.76, -0.13, 0.14]),
+    "neutral 3.5 (1.05 D)": np.array([35.63, -0.46, -0.48]),
+    "black 2 (1.5 D)": np.array([20.64, 0.07, -0.46]),
+}
 
 DATA_COLORCHECKER24_AFTER_NOV2014: dict = dict(
     zip(

@@ -30,7 +30,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import ArrayLike, NDArrayFloat, Optional
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import as_float_array, as_float
 
 __author__ = "Colour Developers"
@@ -91,7 +91,7 @@ def optical_MTF_Barten1999(
 def pupil_diameter_Barten1999(
     L: ArrayLike,
     X_0: ArrayLike = 60,
-    Y_0: Optional[ArrayLike] = None,
+    Y_0: ArrayLike | None = None,
 ) -> NDArrayFloat:
     """
     Return the pupil diameter for given luminance and object or stimulus
@@ -302,9 +302,9 @@ def contrast_sensitivity_function_Barten1999(
     k: ArrayLike = 3.0,
     T: ArrayLike = 0.1,
     X_0: ArrayLike = 60,
-    Y_0: Optional[ArrayLike] = None,
+    Y_0: ArrayLike | None = None,
     X_max: ArrayLike = 12,
-    Y_max: Optional[ArrayLike] = None,
+    Y_max: ArrayLike | None = None,
     N_max: ArrayLike = 15,
     n: ArrayLike = 0.03,
     p: ArrayLike = 1.2274 * 10**6,

@@ -27,7 +27,7 @@ References
 
 from __future__ import annotations
 
-from colour.hints import Any, ArrayLike, NDArrayFloat, Literal, Union
+from colour.hints import Any, ArrayLike, NDArrayFloat, Literal
 from colour.utilities import (
     CanonicalMapping,
     as_float,
@@ -171,9 +171,7 @@ def reaction_rate_MichaelisMenten(
     S: ArrayLike,
     V_max: ArrayLike,
     K_m: ArrayLike,
-    method: Union[
-        Literal["Michaelis 1913", "Abebe 2017"], str
-    ] = "Michaelis 1913",
+    method: Literal["Michaelis 1913", "Abebe 2017"] | str = "Michaelis 1913",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
@@ -345,9 +343,7 @@ def substrate_concentration_MichaelisMenten(
     v: ArrayLike,
     V_max: ArrayLike,
     K_m: ArrayLike,
-    method: Union[
-        Literal["Michaelis 1913", "Abebe 2017"], str
-    ] = "Michaelis 1913",
+    method: Literal["Michaelis 1913", "Abebe 2017"] | str = "Michaelis 1913",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """

@@ -28,7 +28,7 @@ from colour.colorimetry import (
     MultiSpectralDistributions,
     handle_spectral_arguments,
 )
-from colour.hints import ArrayLike, NDArrayFloat, Optional
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.temperature import CCT_to_uv_Planck1900
 from colour.utilities import (
     CACHE_REGISTRY,
@@ -149,11 +149,11 @@ def planckian_table(
 
 def uv_to_CCT_Ohno2013(
     uv: ArrayLike,
-    cmfs: Optional[MultiSpectralDistributions] = None,
-    start: Optional[float] = None,
-    end: Optional[float] = None,
-    count: Optional[int] = None,
-    iterations: Optional[int] = None,
+    cmfs: MultiSpectralDistributions | None = None,
+    start: float | None = None,
+    end: float | None = None,
+    count: int | None = None,
+    iterations: int | None = None,
 ) -> NDArrayFloat:
     """
     Return the correlated colour temperature :math:`T_{cp}` and
@@ -253,7 +253,7 @@ def uv_to_CCT_Ohno2013(
     Tin, uin, vin, din = tsplit(tables[:, 2, :])
 
     # Triangular solution.
-    l = np.hypot(uin - uip, vin - vip)  # noqa
+    l = np.hypot(uin - uip, vin - vip)  # noqa: E741
     x = (dip**2 - din**2 + l**2) / (2 * l)
     T_t = Tip + (Tin - Tip) * (x / l)
 
@@ -294,7 +294,7 @@ def uv_to_CCT_Ohno2013(
 
 
 def CCT_to_uv_Ohno2013(
-    CCT_D_uv: ArrayLike, cmfs: Optional[MultiSpectralDistributions] = None
+    CCT_D_uv: ArrayLike, cmfs: MultiSpectralDistributions | None = None
 ) -> NDArrayFloat:
     """
     Return the *CIE UCS* colourspace *uv* chromaticity coordinates from given

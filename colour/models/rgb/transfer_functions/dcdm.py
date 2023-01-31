@@ -24,7 +24,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import ArrayLike, NDArrayFloat, NDArrayReal, Union
+from colour.hints import ArrayLike, NDArrayFloat, NDArrayReal
 from colour.utilities import as_float_array, as_float, as_int
 
 __author__ = "Colour Developers"
@@ -105,7 +105,7 @@ def eotf_inverse_DCDM(XYZ: ArrayLike, out_int: bool = False) -> NDArrayReal:
 
 
 def eotf_DCDM(
-    XYZ_p: Union[ArrayLike, ArrayLike],
+    XYZ_p: ArrayLike | ArrayLike,
     in_int: bool = False,
 ) -> NDArrayFloat:
     """

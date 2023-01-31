@@ -20,7 +20,7 @@ from __future__ import annotations
 
 
 from colour.algebra import sdiv, sdiv_mode
-from colour.hints import ArrayLike, Literal, NDArrayFloat, Union
+from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.utilities import (
     as_float,
     as_float_array,
@@ -44,17 +44,15 @@ __all__ = [
 def exponent_function_basic(
     x: ArrayLike,
     exponent: ArrayLike = 1,
-    style: Union[
-        Literal[
-            "basicFwd",
-            "basicRev",
-            "basicMirrorFwd",
-            "basicMirrorRev",
-            "basicPassThruFwd",
-            "basicPassThruRev",
-        ],
-        str,
-    ] = "basicFwd",
+    style: Literal[
+        "basicFwd",
+        "basicRev",
+        "basicMirrorFwd",
+        "basicMirrorRev",
+        "basicPassThruFwd",
+        "basicPassThruRev",
+    ]
+    | str = "basicFwd",
 ) -> NDArrayFloat:
     """
     Define the *basic* exponent transfer function.
@@ -193,15 +191,10 @@ def exponent_function_monitor_curve(
     x: ArrayLike,
     exponent: ArrayLike = 1,
     offset: ArrayLike = 0,
-    style: Union[
-        Literal[
-            "monCurveFwd",
-            "monCurveRev",
-            "monCurveMirrorFwd",
-            "monCurveMirrorRev",
-        ],
-        str,
-    ] = "monCurveFwd",
+    style: Literal[
+        "monCurveFwd", "monCurveRev", "monCurveMirrorFwd", "monCurveMirrorRev"
+    ]
+    | str = "monCurveFwd",
 ) -> NDArrayFloat:
     """
     Define the *Monitor Curve* exponent transfer function.

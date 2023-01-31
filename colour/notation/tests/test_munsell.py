@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import numpy as np
 import unittest
 from itertools import product
@@ -140,8 +141,8 @@ def _generate_unit_tests_specifications() -> tuple:  # pragma: no cover
             xyY = munsell_specification_to_xyY(specification)
             xyY_r = munsell_specification_to_xyY(specification_r)
 
-            _munsell_colour = xyY_to_munsell_colour(xyY)  # noqa
-            _munsell_colour_r = xyY_to_munsell_colour(xyY_r)  # noqa
+            _munsell_colour = xyY_to_munsell_colour(xyY)
+            _munsell_colour_r = xyY_to_munsell_colour(xyY_r)
 
             specifications.append([specification, xyY])
             specifications_r.append([specification_r, xyY_r])
@@ -149,8 +150,8 @@ def _generate_unit_tests_specifications() -> tuple:  # pragma: no cover
             if len(specifications) == 100:
                 break
         except Exception as error:
-            print(specification)
-            print(error)
+            print(specification)  # noqa: T201
+            print(error)  # noqa: T201
 
     return specifications, specifications_r
 
@@ -1794,10 +1795,8 @@ class TestMunsellSpecification_to_xyY(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=4))))
         for case in cases:
-            try:
+            with contextlib.suppress(AssertionError, TypeError, ValueError):
                 munsell_specification_to_xyY(case)
-            except (AssertionError, TypeError, ValueError):
-                pass
 
 
 class TestMunsellColour_to_xyY(unittest.TestCase):
@@ -1972,10 +1971,8 @@ class TestxyY_to_munsell_specification(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
-            try:
+            with contextlib.suppress(AssertionError, TypeError, ValueError):
                 xyY_to_munsell_specification(case)
-            except (AssertionError, TypeError, ValueError):
-                pass
 
 
 class TestxyY_to_munsell_colour(unittest.TestCase):
@@ -2021,7 +2018,7 @@ class TestxyY_to_munsell_colour(unittest.TestCase):
         munsell_colour = np.reshape(munsell_colour, (2, 3))
         np.testing.assert_equal(xyY_to_munsell_colour(xyY), munsell_colour)
 
-        xyY = list(CCS_ILLUMINANT_MUNSELL) + [1.0]
+        xyY = [*list(CCS_ILLUMINANT_MUNSELL), 1.0]
         munsell_colour = xyY_to_munsell_colour(xyY)
 
         xyY = np.tile(xyY, (6, 1))

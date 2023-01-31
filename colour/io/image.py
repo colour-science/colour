@@ -22,7 +22,6 @@ from colour.hints import (
     TYPE_CHECKING,
     Tuple,
     Type,
-    Union,
     cast,
 )
 from colour.utilities import (
@@ -99,7 +98,9 @@ class ImageAttribute_Specification:
 
     name: str
     value: Any
-    type_: Optional[OpenImageIO.TypeDesc] = field(  # pyright: ignore  # noqa
+    type_: Optional[  # noqa: UP007
+        OpenImageIO.TypeDesc  # pyright: ignore # noqa: F821
+    ] = field(  # noqa: RUF100
         default_factory=lambda: None
     )
 
@@ -116,11 +117,10 @@ if is_openimageio_installed():  # pragma: no cover
             "float64": BitDepth_Specification("float64", np.float64, DOUBLE),
         }
     )
-    if not TYPE_CHECKING:
-        if hasattr(np, "float128"):  # pragma: no cover
-            MAPPING_BIT_DEPTH["float128"] = BitDepth_Specification(
-                "float128", np.float128, DOUBLE
-            )
+    if not TYPE_CHECKING and hasattr(np, "float128"):  # pragma: no cover
+        MAPPING_BIT_DEPTH["float128"] = BitDepth_Specification(
+            "float128", np.float128, DOUBLE
+        )
 else:  # pragma: no cover
     MAPPING_BIT_DEPTH: CanonicalMapping = CanonicalMapping(
         {
@@ -131,11 +131,10 @@ else:  # pragma: no cover
             "float64": BitDepth_Specification("float64", np.float64, None),
         }
     )
-    if not TYPE_CHECKING:
-        if hasattr(np, "float128"):  # pragma: no cover
-            MAPPING_BIT_DEPTH["float128"] = BitDepth_Specification(
-                "float128", np.float128, None
-            )
+    if not TYPE_CHECKING and hasattr(np, "float128"):  # pragma: no cover
+        MAPPING_BIT_DEPTH["float128"] = BitDepth_Specification(
+            "float128", np.float128, None
+        )
 
 
 def convert_bit_depth(
@@ -221,7 +220,7 @@ def read_image_OpenImageIO(
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
     attributes: bool = False,
-) -> Union[NDArrayReal, Tuple[NDArrayReal, list]]:  # noqa: D405,D410,D407,D411
+) -> NDArrayReal | Tuple[NDArrayReal, list]:
     """
     Read the image data at given path using *OpenImageIO*.
 
@@ -258,7 +257,7 @@ def read_image_OpenImageIO(
     ...     "CMS_Test_Pattern.exr",
     ... )
     >>> image = read_image_OpenImageIO(path)  # doctest: +SKIP
-    """
+    """  # noqa: D405, D407, D410, D411
 
     from OpenImageIO import ImageInput
 
@@ -371,9 +370,9 @@ def read_image(
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
-    method: Union[Literal["Imageio", "OpenImageIO"], str] = "OpenImageIO",
+    method: Literal["Imageio", "OpenImageIO"] | str = "OpenImageIO",
     **kwargs: Any,
-) -> NDArrayReal:  # noqa: D405,D407,D410,D411,D414
+) -> NDArrayReal:
     """
     Read the image data at given path using given method.
 
@@ -425,17 +424,18 @@ def read_image(
     (1267, 1274, 3)
     >>> image.dtype
     dtype('float32')
-    """
+    """  # noqa: D405, D407, D410, D411, D414
 
     method = validate_method(method, READ_IMAGE_METHODS)
 
-    if method == "openimageio":  # pragma: no cover
-        if not is_openimageio_installed():
-            usage_warning(
-                '"OpenImageIO" related API features are not available, '
-                'switching to "Imageio"!'
-            )
-            method = "Imageio"
+    if (
+        method == "openimageio" and not is_openimageio_installed()
+    ):  # pragma: no cover
+        usage_warning(
+            '"OpenImageIO" related API features are not available, '
+            'switching to "Imageio"!'
+        )
+        method = "Imageio"
 
     function = READ_IMAGE_METHODS[method]
 
@@ -452,8 +452,8 @@ def write_image_OpenImageIO(
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
-    attributes: Optional[Sequence] = None,
-) -> bool:  # noqa: D405,D407,D410,D411
+    attributes: Sequence | None = None,
+) -> bool:
     """
     Write given image data at given path using *OpenImageIO*.
 
@@ -530,7 +530,7 @@ def write_image_OpenImageIO(
     ...     ]
     ...     write_image_OpenImageIO(image, path, attributes=attributes)
     ...
-    """
+    """  # noqa: D405, D407, D410, D411
 
     from OpenImageIO import ImageOutput, ImageSpec
 
@@ -591,7 +591,7 @@ def write_image_Imageio(
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
     **kwargs: Any,
-) -> Optional[bytes]:
+) -> bytes | None:
     """
     Write given image data at given path using *Imageio*.
 
@@ -681,9 +681,9 @@ def write_image(
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
-    method: Union[Literal["Imageio", "OpenImageIO"], str] = "OpenImageIO",
+    method: Literal["Imageio", "OpenImageIO"] | str = "OpenImageIO",
     **kwargs: Any,
-) -> bool:  # noqa: D405,D407,D410,D411,D414
+) -> bool:
     """
     Write given image data at given path using given method.
 
@@ -754,17 +754,18 @@ Source/FreeImage.h
     >>> write_image(image, path, bit_depth="uint8", attributes=[compression])
     ... # doctest: +SKIP
     True
-    """
+    """  # noqa: D405, D407, D410, D411, D414
 
     method = validate_method(method, WRITE_IMAGE_METHODS)
 
-    if method == "openimageio":  # pragma: no cover
-        if not is_openimageio_installed():
-            usage_warning(
-                '"OpenImageIO" related API features are not available, '
-                'switching to "Imageio"!'
-            )
-            method = "Imageio"
+    if (
+        method == "openimageio" and not is_openimageio_installed()
+    ):  # pragma: no cover
+        usage_warning(
+            '"OpenImageIO" related API features are not available, '
+            'switching to "Imageio"!'
+        )
+        method = "Imageio"
 
     function = WRITE_IMAGE_METHODS[method]
 

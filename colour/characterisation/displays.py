@@ -21,10 +21,8 @@ from colour.continuous import MultiSignals, Signal
 from colour.hints import (
     ArrayLike,
     Any,
-    Optional,
     Sequence,
     TYPE_CHECKING,
-    Union,
 )
 from colour.utilities import is_pandas_installed
 
@@ -94,21 +92,18 @@ class RGB_DisplayPrimaries(MultiSpectralDistributions):
 
     def __init__(
         self,
-        data: Optional[
-            Union[
-                ArrayLike,
-                DataFrame,
-                dict,
-                MultiSignals,
-                MultiSpectralDistributions,
-                Sequence,
-                Series,
-                Signal,
-                SpectralDistribution,
-            ]
-        ] = None,
-        domain: Optional[Union[ArrayLike, SpectralShape]] = None,
-        labels: Optional[Sequence] = None,
+        data: ArrayLike
+        | DataFrame
+        | dict
+        | MultiSignals
+        | MultiSpectralDistributions
+        | Sequence
+        | Series
+        | Signal
+        | SpectralDistribution
+        | None = None,
+        domain: ArrayLike | SpectralShape | None = None,
+        labels: Sequence | None = None,  # noqa: ARG002
         **kwargs: Any,
     ) -> None:
         super().__init__(

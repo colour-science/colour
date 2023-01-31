@@ -278,7 +278,7 @@ class TestWriteLUTCinespace(unittest.TestCase):
         definition raised exception.
         """
 
-        self.assertRaises(ValueError, write_LUT_Cinespace, object(), "")
+        self.assertRaises(TypeError, write_LUT_Cinespace, object(), "")
 
 
 if __name__ == "__main__":

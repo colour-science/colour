@@ -28,7 +28,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import ArrayLike, NDArrayFloat, Literal, Union
+from colour.hints import ArrayLike, NDArrayFloat, Literal
 from colour.utilities import (
     CanonicalMapping,
     as_float_array,
@@ -71,7 +71,7 @@ def HelmholtzKohlrausch_effect_object_Nayatani1997(
     uv: ArrayLike,
     uv_c: ArrayLike,
     L_a: ArrayLike,
-    method: Union[Literal["VAC", "VCC"], str] = "VCC",
+    method: Literal["VAC", "VCC"] | str = "VCC",
 ) -> NDArrayFloat:
     """
     Return the *HKE* value for object colours using *Nayatani (1997)* method.
@@ -128,7 +128,7 @@ def HelmholtzKohlrausch_effect_luminous_Nayatani1997(
     uv: ArrayLike,
     uv_c: ArrayLike,
     L_a: ArrayLike,
-    method: Union[Literal["VAC", "VCC"], str] = "VCC",
+    method: Literal["VAC", "VCC"] | str = "VCC",
 ) -> NDArrayFloat:
     """
     Return the *HKE* factor for luminous colours using *Nayatani (1997)* method.

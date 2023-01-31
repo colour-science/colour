@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import ArrayLike, NDArrayReal, Union
+from colour.hints import ArrayLike, NDArrayReal
 from colour.utilities import as_float, as_int, as_float_array, as_int_array
 
 __author__ = "Colour Developers"
@@ -70,7 +70,7 @@ def CV_range(
 
 
 def legal_to_full(
-    CV: Union[ArrayLike, ArrayLike],
+    CV: ArrayLike | ArrayLike,
     bit_depth: int = 10,
     in_int: bool = False,
     out_int: bool = False,
@@ -137,7 +137,7 @@ def legal_to_full(
 
 
 def full_to_legal(
-    CV: Union[ArrayLike, ArrayLike],
+    CV: ArrayLike | ArrayLike,
     bit_depth: int = 10,
     in_int: bool = False,
     out_int: bool = False,

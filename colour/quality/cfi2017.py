@@ -36,7 +36,7 @@ from colour.colorimetry import (
     sd_ones,
     sd_CIE_illuminant_D_series,
 )
-from colour.hints import ArrayLike, NDArrayFloat, Tuple, Union, cast
+from colour.hints import ArrayLike, NDArrayFloat, Tuple, cast
 from colour.models import XYZ_to_UCS, UCS_to_uv, JMh_CIECAM02_to_CAM02UCS
 from colour.temperature import uv_to_CCT_Ohno2013, CCT_to_xy_CIE_D
 from colour.utilities import (
@@ -139,7 +139,7 @@ class ColourRendering_Specification_CIE2017:
 
 def colour_fidelity_index_CIE2017(
     sd_test: SpectralDistribution, additional_data: bool = False
-) -> Union[float, ColourRendering_Specification_CIE2017]:
+) -> float | ColourRendering_Specification_CIE2017:
     """
     Return the *CIE 2017 Colour Fidelity Index* (CFI) :math:`R_f` of given
     spectral distribution.
@@ -267,7 +267,7 @@ def load_TCS_CIE2017(shape: SpectralShape) -> MultiSpectralDistributions:
     99
     """
 
-    global _CACHE_TCS_CIE2017
+    global _CACHE_TCS_CIE2017  # noqa: PLW0602
 
     interval = shape.interval
 

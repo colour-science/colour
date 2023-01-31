@@ -38,7 +38,7 @@ from colour.appearance.ciecam02 import (
 )
 from colour.algebra import sdiv, sdiv_mode, spow
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import ArrayLike, NDArrayFloat, Optional, Union
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.models import Izazbz_to_XYZ, XYZ_to_Izazbz, xy_to_XYZ
 from colour.utilities import (
     CanonicalMapping,
@@ -167,39 +167,17 @@ class CAM_ReferenceSpecification_ZCAM(MixinDataclassArithmetic):
     :cite:`Safdar2021`
     """
 
-    J_z: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    C_z: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    h_z: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    S_z: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    Q_z: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    M_z: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    H: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    H_z: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    V_z: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    K_z: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    W_z: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
+    J_z: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    C_z: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    h_z: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    S_z: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    Q_z: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    M_z: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    H: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    H_z: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    V_z: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    K_z: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    W_z: float | NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 @dataclass
@@ -305,39 +283,17 @@ class CAM_Specification_ZCAM(MixinDataclassArithmetic):
     :cite:`Safdar2021`
     """
 
-    J: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    C: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    h: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    s: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    Q: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    M: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    H: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    HC: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    V: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    K: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    W: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
+    J: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    C: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    h: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    s: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    Q: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    M: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    H: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    HC: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    V: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    K: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    W: float | NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 TVS_D65: NDArrayFloat = xy_to_XYZ(

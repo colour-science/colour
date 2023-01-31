@@ -419,7 +419,7 @@ LUTSequence(
                 self._gamma = as_float_array(gamma)
 
             def apply(
-                self, RGB: ArrayLike, *args: Any, **kwargs: Any
+                self, RGB: ArrayLike, *args: Any, **kwargs: Any  # noqa: ARG002
             ) -> NDArrayFloat:
                 """
                 Apply the *LUT* sequence operator to given *RGB* colourspace

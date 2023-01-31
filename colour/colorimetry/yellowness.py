@@ -34,7 +34,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode
-from colour.hints import Any, ArrayLike, NDArrayFloat, Literal, Union
+from colour.hints import Any, ArrayLike, NDArrayFloat, Literal
 from colour.utilities import (
     CanonicalMapping,
     as_float,
@@ -126,7 +126,7 @@ def yellowness_ASTME313_alternative(XYZ: ArrayLike) -> NDArrayFloat:
 
     In the original form of *Test Method E313*, an alternative equation was
     recommended for a *yellowness* index. In terms of colorimeter readings,
-    it was :math:`YI = 100(1 − B/G)` where :math:`B` and :math:`G` are,
+    it was :math:`YI = 100(1 - B/G)` where :math:`B` and :math:`G` are,
     respectively, blue and green colorimeter readings. Its derivation assumed
     that, because of the limitation of the concept to yellow (or blue) colors,
     it was not necessary to take account of variations in the amber or red
@@ -295,9 +295,8 @@ References
 
 def yellowness(
     XYZ: ArrayLike,
-    method: Union[
-        Literal["ASTM D1925", "ASTM E313", "ASTM E313 Alternative"], str
-    ] = "ASTM E313",
+    method: Literal["ASTM D1925", "ASTM E313", "ASTM E313 Alternative"]
+    | str = "ASTM E313",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """

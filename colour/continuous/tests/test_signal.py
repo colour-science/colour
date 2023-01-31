@@ -239,7 +239,7 @@ class TestSignal(unittest.TestCase):
     def test_function(self):
         """Test :func:`colour.continuous.signal.Signal.function` property."""
 
-        attest(hasattr(self._signal.function, "__call__"))
+        attest(callable(self._signal.function))
 
     def test_raise_exception_function(self):
         """
@@ -525,8 +525,6 @@ class TestSignal(unittest.TestCase):
 
         class NotExtrapolator(Extrapolator):
             """Not :class:`Extrapolator` class."""
-
-            pass
 
         signal_2.extrapolator = NotExtrapolator
         self.assertNotEqual(signal_1, signal_2)

@@ -37,8 +37,6 @@ from colour.hints import (
     ArrayLike,
     Literal,
     NDArrayFloat,
-    Optional,
-    Union,
 )
 from colour.volume import is_within_mesh_volume
 from colour.utilities import CACHE_REGISTRY, zeros, validate_method
@@ -75,7 +73,7 @@ _CACHE_OUTER_SURFACE_XYZ_POINTS: dict = CACHE_REGISTRY.register_cache(
 
 def generate_pulse_waves(
     bins: int,
-    pulse_order: Union[Literal["Bins", "Pulse Wave Width"], str] = "Bins",
+    pulse_order: Literal["Bins", "Pulse Wave Width"] | str = "Bins",
     filter_jagged_pulses: bool = False,
 ) -> NDArrayFloat:
     """
@@ -241,9 +239,9 @@ def generate_pulse_waves(
 
 
 def XYZ_outer_surface(
-    cmfs: Optional[MultiSpectralDistributions] = None,
-    illuminant: Optional[SpectralDistribution] = None,
-    point_order: Union[Literal["Bins", "Pulse Wave Width"], str] = "Bins",
+    cmfs: MultiSpectralDistributions | None = None,
+    illuminant: SpectralDistribution | None = None,
+    point_order: Literal["Bins", "Pulse Wave Width"] | str = "Bins",
     filter_jagged_points: bool = False,
     **kwargs: Any,
 ) -> NDArrayFloat:
@@ -382,9 +380,9 @@ solid_RoschMacAdam = XYZ_outer_surface
 
 def is_within_visible_spectrum(
     XYZ: ArrayLike,
-    cmfs: Optional[MultiSpectralDistributions] = None,
-    illuminant: Optional[SpectralDistribution] = None,
-    tolerance: Optional[float] = None,
+    cmfs: MultiSpectralDistributions | None = None,
+    illuminant: SpectralDistribution | None = None,
+    tolerance: float | None = None,
     **kwargs: Any,
 ) -> NDArrayFloat:
     """

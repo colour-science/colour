@@ -243,8 +243,8 @@ class Signal(AbstractContinuousFunction):
 
     def __init__(
         self,
-        data: Optional[Union[ArrayLike, dict, Self, Series]] = None,
-        domain: Optional[ArrayLike] = None,
+        data: ArrayLike | dict | Self | Series | None = None,
+        domain: ArrayLike | None = None,
         **kwargs: Any,
     ) -> None:
         super().__init__(kwargs.get("name"))
@@ -274,7 +274,7 @@ class Signal(AbstractContinuousFunction):
             "extrapolator_kwargs", self._extrapolator_kwargs
         )
 
-        self._function: Union[Callable, None] = None
+        self._function: Callable | None = None
 
     @property
     def dtype(self) -> Type[DTypeFloat]:
@@ -355,7 +355,7 @@ class Signal(AbstractContinuousFunction):
         self._function = None  # Invalidate the underlying continuous function.
 
     @property
-    def range(self) -> NDArrayFloat:
+    def range(self) -> NDArrayFloat:  # noqa: A003
         """
         Getter and setter property for the continuous signal corresponding
         range variable :math:`y`.
@@ -375,7 +375,7 @@ class Signal(AbstractContinuousFunction):
         return np.copy(self._range)
 
     @range.setter
-    def range(self, value: ArrayLike):
+    def range(self, value: ArrayLike):  # noqa: A003
         """Setter for the **self.range** property."""
 
         value = as_float_array(value, self.dtype)
@@ -537,7 +537,9 @@ class Signal(AbstractContinuousFunction):
                 )
             else:
 
-                def _undefined_function(*args: Any, **kwargs: Any):
+                def _undefined_function(
+                    *args: Any, **kwargs: Any  # noqa: ARG001
+                ):
                     """
                     Raise a :class:`ValueError` exception.
 
@@ -626,18 +628,18 @@ class Signal(AbstractContinuousFunction):
             self,
             [
                 {
-                    "formatter": lambda x: repr(
+                    "formatter": lambda x: repr(  # noqa: ARG005
                         tstack([self.domain, self.range])
                     ),
                 },
                 {
                     "name": "interpolator",
-                    "formatter": lambda x: self.interpolator.__name__,
+                    "formatter": lambda x: self.interpolator.__name__,  # noqa: ARG005
                 },
                 {"name": "interpolator_kwargs"},
                 {
                     "name": "extrapolator",
-                    "formatter": lambda x: self.extrapolator.__name__,
+                    "formatter": lambda x: self.extrapolator.__name__,  # noqa: ARG005
                 },
                 {"name": "extrapolator_kwargs"},
             ],
@@ -664,7 +666,7 @@ class Signal(AbstractContinuousFunction):
             )
         )
 
-    def __getitem__(self, x: Union[ArrayLike, slice]) -> NDArrayFloat:
+    def __getitem__(self, x: ArrayLike | slice) -> NDArrayFloat:
         """
         Return the corresponding range variable :math:`y` for independent
         domain variable :math:`x`.
@@ -710,7 +712,7 @@ class Signal(AbstractContinuousFunction):
         else:
             return self.function(x)
 
-    def __setitem__(self, x: Union[ArrayLike, slice], y: ArrayLike):
+    def __setitem__(self, x: ArrayLike | slice, y: ArrayLike):
         """
         Set the corresponding range variable :math:`y` for independent domain
         variable :math:`x`.
@@ -925,9 +927,7 @@ class Signal(AbstractContinuousFunction):
 
     def _fill_domain_nan(
         self,
-        method: Union[
-            Literal["Constant", "Interpolation"], str
-        ] = "Interpolation",
+        method: Literal["Constant", "Interpolation"] | str = "Interpolation",
         default: Real = 0,
     ):
         """
@@ -953,9 +953,7 @@ class Signal(AbstractContinuousFunction):
 
     def _fill_range_nan(
         self,
-        method: Union[
-            Literal["Constant", "Interpolation"], str
-        ] = "Interpolation",
+        method: Literal["Constant", "Interpolation"] | str = "Interpolation",
         default: Real = 0,
     ):
         """
@@ -981,7 +979,7 @@ class Signal(AbstractContinuousFunction):
 
     def arithmetical_operation(
         self,
-        a: Union[ArrayLike, AbstractContinuousFunction],
+        a: ArrayLike | AbstractContinuousFunction,
         operation: Literal["+", "-", "*", "/", "**"],
         in_place: bool = False,
     ) -> AbstractContinuousFunction:
@@ -1088,8 +1086,8 @@ class Signal(AbstractContinuousFunction):
     @staticmethod
     def signal_unpack_data(
         data=Optional[Union[ArrayLike, dict, Series, "Signal"]],
-        domain: Optional[ArrayLike] = None,
-        dtype: Optional[Type[DTypeFloat]] = None,
+        domain: ArrayLike | None = None,
+        dtype: Type[DTypeFloat] | None = None,
     ) -> tuple:
         """
         Unpack given data for continuous signal instantiation.
@@ -1189,11 +1187,10 @@ class Signal(AbstractContinuousFunction):
             domain_unpacked, range_unpacked = tsplit(
                 sorted(cast(Mapping, data).items())
             )
-        elif is_pandas_installed():
-            if isinstance(data, Series):
-                series = cast(Series, data)
-                domain_unpacked = series.index.values
-                range_unpacked = series.values
+        elif is_pandas_installed() and isinstance(data, Series):
+            series = cast(Series, data)
+            domain_unpacked = series.index.values
+            range_unpacked = series.values
 
         if domain is not None:
             domain_array = as_float_array(domain, dtype)
@@ -1212,9 +1209,7 @@ class Signal(AbstractContinuousFunction):
 
     def fill_nan(
         self,
-        method: Union[
-            Literal["Constant", "Interpolation"], str
-        ] = "Interpolation",
+        method: Literal["Constant", "Interpolation"] | str = "Interpolation",
         default: Real = 0,
     ) -> AbstractContinuousFunction:
         """

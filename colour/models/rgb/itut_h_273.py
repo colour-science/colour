@@ -215,7 +215,7 @@ def _clipped_domain_function(
     return wrapped
 
 
-def _reserved(*args: Any):
+def _reserved(*args: Any):  # noqa: ARG001
     """
     Define a reserved function.
 
@@ -231,7 +231,7 @@ def _reserved(*args: Any):
     raise RuntimeError("Reserved; For future use by ITU-T | ISO/IEC.")
 
 
-def _unspecified(*args: Any):
+def _unspecified(*args: Any):  # noqa: ARG001
     """
     Define an unspecified function.
 

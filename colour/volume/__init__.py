@@ -1,4 +1,4 @@
-from .datasets import *  # noqa
+from .datasets import *  # noqa: F403
 from . import datasets
 from .macadam_limits import is_within_macadam_limits
 from .mesh import is_within_mesh_volume

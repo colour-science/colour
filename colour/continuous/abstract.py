@@ -22,13 +22,11 @@ from colour.hints import (
     Generator,
     Literal,
     NDArrayFloat,
-    Optional,
     ProtocolExtrapolator,
     ProtocolInterpolator,
     Real,
     Self,
     Type,
-    Union,
 )
 from colour.utilities import (
     as_float,
@@ -119,7 +117,7 @@ arithmetical_operation`
     -   :meth:`~colour.continuous.AbstractContinuousFunction.copy`
     """
 
-    def __init__(self, name: Optional[str] = None) -> None:
+    def __init__(self, name: str | None = None) -> None:
         super().__init__()
 
         self._name: str = f"{self.__class__.__name__} ({id(self)})"
@@ -218,7 +216,7 @@ arithmetical_operation`
 
     @property
     @abstractmethod
-    def range(self) -> NDArrayFloat:
+    def range(self) -> NDArrayFloat:  # noqa: A003
         """
         Getter and setter property for the abstract continuous function
         corresponding range variable :math:`y`, must be reimplemented by
@@ -241,7 +239,7 @@ arithmetical_operation`
 
     @range.setter
     @abstractmethod
-    def range(self, value: ArrayLike):
+    def range(self, value: ArrayLike):  # noqa: A003
         """
         Setter for the **self.range** property, must be reimplemented by
         sub-classes.
@@ -434,7 +432,7 @@ arithmetical_operation`
         ...  # pragma: no cover
 
     @abstractmethod
-    def __getitem__(self, x: Union[ArrayLike, slice]) -> NDArrayFloat:
+    def __getitem__(self, x: ArrayLike | slice) -> NDArrayFloat:
         """
         Return the corresponding range variable :math:`y` for independent
         domain variable :math:`x`, must be reimplemented by sub-classes.
@@ -453,7 +451,7 @@ arithmetical_operation`
         ...  # pragma: no cover
 
     @abstractmethod
-    def __setitem__(self, x: Union[ArrayLike, slice], y: ArrayLike):
+    def __setitem__(self, x: ArrayLike | slice, y: ArrayLike):
         """
         Set the corresponding range variable :math:`y` for independent domain
         variable :math:`x`, must be reimplemented by sub-classes.
@@ -469,7 +467,7 @@ arithmetical_operation`
         ...  # pragma: no cover
 
     @abstractmethod
-    def __contains__(self, x: Union[ArrayLike, slice]) -> bool:
+    def __contains__(self, x: ArrayLike | slice) -> bool:
         """
         Return whether the abstract continuous function contains given
         independent domain variable :math:`x`, must be reimplemented by
@@ -555,7 +553,7 @@ arithmetical_operation`
 
         ...  # pragma: no cover
 
-    def __add__(self, a: Union[ArrayLike, Self]) -> Self:
+    def __add__(self, a: ArrayLike | Self) -> Self:
         """
         Implement support for addition.
 
@@ -572,7 +570,7 @@ arithmetical_operation`
 
         return self.arithmetical_operation(a, "+")
 
-    def __iadd__(self, a: Union[ArrayLike, Self]) -> Self:
+    def __iadd__(self, a: ArrayLike | Self) -> Self:
         """
         Implement support for in-place addition.
 
@@ -589,7 +587,7 @@ arithmetical_operation`
 
         return self.arithmetical_operation(a, "+", True)
 
-    def __sub__(self, a: Union[ArrayLike, Self]) -> Self:
+    def __sub__(self, a: ArrayLike | Self) -> Self:
         """
         Implement support for subtraction.
 
@@ -606,7 +604,7 @@ arithmetical_operation`
 
         return self.arithmetical_operation(a, "-")
 
-    def __isub__(self, a: Union[ArrayLike, Self]) -> Self:
+    def __isub__(self, a: ArrayLike | Self) -> Self:
         """
         Implement support for in-place subtraction.
 
@@ -623,7 +621,7 @@ arithmetical_operation`
 
         return self.arithmetical_operation(a, "-", True)
 
-    def __mul__(self, a: Union[ArrayLike, Self]) -> Self:
+    def __mul__(self, a: ArrayLike | Self) -> Self:
         """
         Implement support for multiplication.
 
@@ -640,7 +638,7 @@ arithmetical_operation`
 
         return self.arithmetical_operation(a, "*")
 
-    def __imul__(self, a: Union[ArrayLike, Self]) -> Self:
+    def __imul__(self, a: ArrayLike | Self) -> Self:
         """
         Implement support for in-place multiplication.
 
@@ -657,7 +655,7 @@ arithmetical_operation`
 
         return self.arithmetical_operation(a, "*", True)
 
-    def __div__(self, a: Union[ArrayLike, Self]) -> Self:
+    def __div__(self, a: ArrayLike | Self) -> Self:
         """
         Implement support for division.
 
@@ -674,7 +672,7 @@ arithmetical_operation`
 
         return self.arithmetical_operation(a, "/")
 
-    def __idiv__(self, a: Union[ArrayLike, Self]) -> Self:
+    def __idiv__(self, a: ArrayLike | Self) -> Self:
         """
         Implement support for in-place division.
 
@@ -694,7 +692,7 @@ arithmetical_operation`
     __itruediv__ = __idiv__
     __truediv__ = __div__
 
-    def __pow__(self, a: Union[ArrayLike, Self]) -> Self:
+    def __pow__(self, a: ArrayLike | Self) -> Self:
         """
         Implement support for exponentiation.
 
@@ -711,7 +709,7 @@ arithmetical_operation`
 
         return self.arithmetical_operation(a, "**")
 
-    def __ipow__(self, a: Union[ArrayLike, Self]) -> Self:
+    def __ipow__(self, a: ArrayLike | Self) -> Self:
         """
         Implement support for in-place exponentiation.
 
@@ -731,7 +729,7 @@ arithmetical_operation`
     @abstractmethod
     def arithmetical_operation(
         self,
-        a: Union[ArrayLike, Self],
+        a: ArrayLike | Self,
         operation: Literal["+", "-", "*", "/", "**"],
         in_place: bool = False,
     ) -> Self:
@@ -760,9 +758,7 @@ arithmetical_operation`
     @abstractmethod
     def fill_nan(
         self,
-        method: Union[
-            Literal["Constant", "Interpolation"], str
-        ] = "Interpolation",
+        method: Literal["Constant", "Interpolation"] | str = "Interpolation",
         default: Real = 0,
     ) -> Self:
         """

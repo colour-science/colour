@@ -34,9 +34,7 @@ from colour.hints import (
     ArrayLike,
     Mapping,
     NDArrayFloat,
-    Optional,
     Tuple,
-    Union,
     cast,
 )
 from colour.recovery import BASIS_FUNCTIONS_DYER2017
@@ -59,15 +57,12 @@ __all__ = [
 
 def PCA_Jiang2013(
     msds_camera_sensitivities: Mapping[str, MultiSpectralDistributions],
-    eigen_w_v_count: Optional[int] = None,
+    eigen_w_v_count: int | None = None,
     additional_data: bool = False,
-) -> Union[
-    Tuple[
-        Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat],
-        Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat],
-    ],
+) -> Tuple[
     Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat],
-]:
+    Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat],
+] | Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]:
     """
     Perform the *Principal Component Analysis* (PCA) on given camera *RGB*
     sensitivities.
@@ -142,7 +137,7 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
     illuminant: SpectralDistribution,
     reflectances: MultiSpectralDistributions,
     eigen_w: ArrayLike,
-    shape: Optional[SpectralShape] = None,
+    shape: SpectralShape | None = None,
 ) -> SpectralDistribution:
     """
     Recover a single camera *RGB* sensitivity for given camera *RGB* values
@@ -278,7 +273,7 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
     illuminant: SpectralDistribution,
     reflectances: MultiSpectralDistributions,
     basis_functions=BASIS_FUNCTIONS_DYER2017,
-    shape: Optional[SpectralShape] = None,
+    shape: SpectralShape | None = None,
 ) -> MultiSpectralDistributions:
     """
     Recover the camera *RGB* sensitivities for given camera *RGB* values using

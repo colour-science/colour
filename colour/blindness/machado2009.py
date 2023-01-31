@@ -38,7 +38,7 @@ from colour.colorimetry import (
     SpectralShape,
     reshape_msds,
 )
-from colour.hints import ArrayLike, Literal, NDArrayFloat, Union
+from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.utilities import (
     as_float_array,
     as_int_scalar,
@@ -318,9 +318,7 @@ def matrix_anomalous_trichromacy_Machado2009(
 
 
 def matrix_cvd_Machado2009(
-    deficiency: Union[
-        Literal["Deuteranomaly", "Protanomaly", "Tritanomaly"], str
-    ],
+    deficiency: Literal["Deuteranomaly", "Protanomaly", "Tritanomaly"] | str,
     severity: float,
 ) -> NDArrayFloat:
     """

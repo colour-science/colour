@@ -30,7 +30,7 @@ from colour.adaptation.cie1994 import (
     exponential_factors,
     intermediate_values,
 )
-from colour.hints import ArrayLike, NDArrayFloat, Optional, Union, cast
+from colour.hints import ArrayLike, NDArrayFloat, cast
 from colour.models import XYZ_to_xy
 from colour.utilities import (
     MixinDataclassArithmetic,
@@ -116,33 +116,15 @@ class CAM_ReferenceSpecification_Nayatani95(MixinDataclassArithmetic):
     :cite:`Fairchild2013ba`, :cite:`Nayatani1995a`
     """
 
-    L_star_P: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    C: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    theta: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    S: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    B_r: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    M: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    H: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    H_C: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    L_star_N: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
+    L_star_P: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    C: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    theta: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    S: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    B_r: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    M: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    H: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    H_C: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    L_star_N: float | NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 @dataclass
@@ -184,33 +166,15 @@ class CAM_Specification_Nayatani95(MixinDataclassArithmetic):
     :cite:`Fairchild2013ba`, :cite:`Nayatani1995a`
     """
 
-    L_star_P: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    C: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    h: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    s: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    Q: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    M: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    H: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    HC: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    L_star_N: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
+    L_star_P: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    C: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    h: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    s: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    Q: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    M: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    H: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    HC: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    L_star_N: float | NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 def XYZ_to_Nayatani95(

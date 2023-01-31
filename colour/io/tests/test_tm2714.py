@@ -13,7 +13,7 @@ import textwrap
 from copy import deepcopy
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import Optional, List, Tuple, Union, cast
+from colour.hints import List, Tuple, cast
 from colour.io.tm2714 import Header_IESTM2714, SpectralDistribution_IESTM2714
 from colour.utilities import optional
 
@@ -459,7 +459,7 @@ class TestIES_TM2714_Sd(unittest.TestCase):
                 "SpectralDistribution_IESTM2714(...,",
                 repr(self._sd),
             ),
-            textwrap.dedent(  # noqa
+            textwrap.dedent(
                 """
 SpectralDistribution_IESTM2714(...,
                                Header_IESTM2714('Unknown',
@@ -571,7 +571,7 @@ SpectralDistribution_IESTM2714(...,
             ).strip(),
         )
 
-    def test_read(self, sd: Optional[SpectralDistribution] = None):
+    def test_read(self, sd: SpectralDistribution | None = None):
         """
         Test :meth:`colour.io.tm2714.SpectralDistribution_IESTM2714.read`
         method.
@@ -598,9 +598,7 @@ SpectralDistribution_IESTM2714(...,
         np.testing.assert_array_almost_equal(sd_r.values, sd.values, decimal=7)
 
         test_read: List[
-            Tuple[
-                dict, Union[Header_IESTM2714, SpectralDistribution_IESTM2714]
-            ]
+            Tuple[dict, Header_IESTM2714 | SpectralDistribution_IESTM2714]
         ] = [
             (FLUORESCENT_FILE_HEADER, sd.header),
             (FLUORESCENT_FILE_SPECTRAL_DESCRIPTION, sd),

@@ -1,6 +1,4 @@
-#!/usr/bin/env python
-
-from .datasets import *  # noqa
+from .datasets import *  # noqa: F403
 from . import datasets
 from .machado2009 import (
     msds_cmfs_anomalous_trichromacy_Machado2009,

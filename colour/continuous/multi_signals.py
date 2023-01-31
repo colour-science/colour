@@ -23,7 +23,6 @@ from colour.hints import (
     List,
     Literal,
     NDArrayFloat,
-    Optional,
     ProtocolExtrapolator,
     ProtocolInterpolator,
     Real,
@@ -31,7 +30,6 @@ from colour.hints import (
     Self,
     TYPE_CHECKING,
     Type,
-    Union,
     cast,
 )
 from colour.utilities import (
@@ -305,19 +303,16 @@ class MultiSignals(AbstractContinuousFunction):
 
     def __init__(
         self,
-        data: Optional[
-            Union[
-                ArrayLike,
-                DataFrame,
-                dict,
-                Self,
-                Sequence,
-                Series,
-                Signal,
-            ]
-        ] = None,
-        domain: Optional[ArrayLike] = None,
-        labels: Optional[Sequence] = None,
+        data: ArrayLike
+        | DataFrame
+        | dict
+        | Self
+        | Sequence
+        | Series
+        | Signal
+        | None = None,
+        domain: ArrayLike | None = None,
+        labels: Sequence | None = None,
         **kwargs: Any,
     ) -> None:
         super().__init__(kwargs.get("name"))
@@ -382,7 +377,7 @@ class MultiSignals(AbstractContinuousFunction):
             signal.domain = as_float_array(value, self.dtype)
 
     @property
-    def range(self) -> NDArrayFloat:
+    def range(self) -> NDArrayFloat:  # noqa: A003
         """
         Getter and setter property for the :class:`colour.continuous.Signal`
         sub-class instances corresponding range variable :math:`y`.
@@ -403,7 +398,7 @@ class MultiSignals(AbstractContinuousFunction):
         return tstack([signal.range for signal in self._signals.values()])
 
     @range.setter
-    def range(self, value: ArrayLike):
+    def range(self, value: ArrayLike):  # noqa: A003
         """Setter for the **self.range** property."""
 
         value = as_float_array(value)
@@ -570,9 +565,7 @@ class MultiSignals(AbstractContinuousFunction):
     @signals.setter
     def signals(
         self,
-        value: Optional[
-            Union[ArrayLike, DataFrame, dict, Self, Series, Signal]
-        ],
+        value: ArrayLike | DataFrame | dict | Self | Series | Signal | None,
     ):
         """Setter for the **self.signals** property."""
 
@@ -598,7 +591,7 @@ class MultiSignals(AbstractContinuousFunction):
             :class:`colour.continuous.Signal` sub-class instance names.
         """
 
-        return [str(key) for key in self._signals.keys()]
+        return [str(key) for key in self._signals]
 
     @labels.setter
     def labels(self, value: Sequence):
@@ -708,19 +701,19 @@ class MultiSignals(AbstractContinuousFunction):
             self,
             [
                 {
-                    "formatter": lambda x: repr(
+                    "formatter": lambda x: repr(  # noqa: ARG005
                         np.hstack([self.domain[:, None], self.range])
                     ),
                 },
                 {"name": "labels"},
                 {
                     "name": "interpolator",
-                    "formatter": lambda x: self.interpolator.__name__,
+                    "formatter": lambda x: self.interpolator.__name__,  # noqa: ARG005
                 },
                 {"name": "interpolator_kwargs"},
                 {
                     "name": "extrapolator",
-                    "formatter": lambda x: self.extrapolator.__name__,
+                    "formatter": lambda x: self.extrapolator.__name__,  # noqa: ARG005
                 },
                 {"name": "extrapolator_kwargs"},
             ],
@@ -747,7 +740,7 @@ class MultiSignals(AbstractContinuousFunction):
             )
         )
 
-    def __getitem__(self, x: Union[ArrayLike, slice]) -> NDArrayFloat:
+    def __getitem__(self, x: ArrayLike | slice) -> NDArrayFloat:
         """
         Return the corresponding range variable :math:`y` for independent
         domain variable :math:`x`.
@@ -813,7 +806,7 @@ class MultiSignals(AbstractContinuousFunction):
 
         return values[..., x_c]  # pyright: ignore
 
-    def __setitem__(self, x: Union[ArrayLike, slice], y: ArrayLike):
+    def __setitem__(self, x: ArrayLike | slice, y: ArrayLike):
         """
         Set the corresponding range variable :math:`y` for independent domain
         variable :math:`x`.
@@ -944,7 +937,7 @@ class MultiSignals(AbstractContinuousFunction):
         for signal, y in values[x_c]:  # pyright: ignore
             signal[x_r] = y
 
-    def __contains__(self, x: Union[ArrayLike, slice]) -> bool:
+    def __contains__(self, x: ArrayLike | slice) -> bool:
         """
         Return whether the multi-continuous signals contains given independent
         domain variable :math:`x`.
@@ -1061,7 +1054,7 @@ class MultiSignals(AbstractContinuousFunction):
 
     def arithmetical_operation(
         self,
-        a: Union[ArrayLike, AbstractContinuousFunction],
+        a: ArrayLike | AbstractContinuousFunction,
         operation: Literal["+", "-", "*", "/", "**"],
         in_place: bool = False,
     ) -> AbstractContinuousFunction:
@@ -1216,20 +1209,17 @@ class MultiSignals(AbstractContinuousFunction):
 
     @staticmethod
     def multi_signals_unpack_data(
-        data: Optional[
-            Union[
-                ArrayLike,
-                DataFrame,
-                dict,
-                MultiSignals,
-                Sequence,
-                Series,
-                Signal,
-            ]
-        ] = None,
-        domain: Optional[ArrayLike] = None,
-        labels: Optional[Sequence] = None,
-        dtype: Optional[Type[DTypeFloat]] = None,
+        data: ArrayLike
+        | DataFrame
+        | dict
+        | MultiSignals
+        | Sequence
+        | Series
+        | Signal
+        | None = None,
+        domain: ArrayLike | None = None,
+        labels: Sequence | None = None,
+        dtype: Type[DTypeFloat] | None = None,
         signal_type: Type[Signal] = Signal,
         **kwargs: Any,
     ) -> Dict[str, Signal]:
@@ -1487,10 +1477,7 @@ class MultiSignals(AbstractContinuousFunction):
             data_mapping = dict(cast(Mapping, data))
 
             is_signal = all(
-                [
-                    True if isinstance(i, Signal) else False
-                    for i in data_mapping.values()
-                ]
+                [bool(isinstance(i, Signal)) for i in data_mapping.values()]
             )
 
             if is_signal:
@@ -1502,9 +1489,9 @@ class MultiSignals(AbstractContinuousFunction):
                 domain_unpacked, range_unpacked = zip(
                     *sorted(data_mapping.items())
                 )
-                for i, range_unpacked in enumerate(tsplit(range_unpacked)):
+                for i, values_unpacked in enumerate(tsplit(range_unpacked)):
                     signals[str(i)] = signal_type(
-                        range_unpacked, domain_unpacked, **settings
+                        values_unpacked, domain_unpacked, **settings
                     )
         elif is_pandas_installed():
             if isinstance(data, Series):
@@ -1560,9 +1547,7 @@ class MultiSignals(AbstractContinuousFunction):
 
     def fill_nan(
         self,
-        method: Union[
-            Literal["Constant", "Interpolation"], str
-        ] = "Interpolation",
+        method: Literal["Constant", "Interpolation"] | str = "Interpolation",
         default: Real = 0,
     ) -> AbstractContinuousFunction:
         """

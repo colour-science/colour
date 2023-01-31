@@ -1,6 +1,7 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.adaptation.fairchild1990` module."""
 
+import contextlib
 import numpy as np
 import unittest
 from itertools import product
@@ -143,10 +144,8 @@ chromatic_adaptation_Fairchild1990` definition nan support.
             XYZ_n = case
             XYZ_r = case
             Y_n = case[0]
-            try:
+            with contextlib.suppress(LinAlgError):
                 chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n)
-            except LinAlgError:
-                pass
 
 
 if __name__ == "__main__":

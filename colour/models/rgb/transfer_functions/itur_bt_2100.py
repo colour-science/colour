@@ -56,7 +56,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import ArrayLike, Literal, NDArrayFloat, Optional, Union
+from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.models.rgb.transfer_functions import (
     eotf_BT1886,
     eotf_ST2084,
@@ -557,7 +557,7 @@ def oetf_inverse_BT2100_HLG(
 
 
 def black_level_lift_BT2100_HLG(
-    L_B: float = 0, L_W: float = 1000, gamma: Optional[float] = None
+    L_B: float = 0, L_W: float = 1000, gamma: float | None = None
 ) -> float:
     """
     Return the *Reference HLG* black level lift :math:`\\beta` for given
@@ -602,7 +602,7 @@ def eotf_BT2100_HLG_1(
     E_p: ArrayLike,
     L_B: float = 0,
     L_W: float = 1000,
-    gamma: Optional[float] = None,
+    gamma: float | None = None,
     constants: Structure = CONSTANTS_BT2100_HLG,
 ) -> NDArrayFloat:
     """
@@ -669,7 +669,7 @@ def eotf_BT2100_HLG_2(
     E_p: ArrayLike,
     L_B: float = 0,
     L_W: float = 1000,
-    gamma: Optional[float] = None,
+    gamma: float | None = None,
     constants: Structure = CONSTANTS_BT2100_HLG,
 ) -> NDArrayFloat:
     """
@@ -761,11 +761,10 @@ def eotf_BT2100_HLG(
     E_p: ArrayLike,
     L_B: float = 0,
     L_W: float = 1000,
-    gamma: Optional[float] = None,
+    gamma: float | None = None,
     constants: Structure = CONSTANTS_BT2100_HLG,
-    method: Union[
-        Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"], str
-    ] = "ITU-R BT.2100-2",
+    method: Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"]
+    | str = "ITU-R BT.2100-2",
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
@@ -838,7 +837,7 @@ def eotf_inverse_BT2100_HLG_1(
     F_D: ArrayLike,
     L_B: float = 0,
     L_W: float = 1000,
-    gamma: Optional[float] = None,
+    gamma: float | None = None,
     constants: Structure = CONSTANTS_BT2100_HLG,
 ) -> NDArrayFloat:
     """
@@ -906,7 +905,7 @@ def eotf_inverse_BT2100_HLG_2(
     F_D: ArrayLike,
     L_B: float = 0,
     L_W: float = 1000,
-    gamma: Optional[float] = None,
+    gamma: float | None = None,
     constants: Structure = CONSTANTS_BT2100_HLG,
 ) -> NDArrayFloat:
     """
@@ -996,11 +995,10 @@ def eotf_inverse_BT2100_HLG(
     F_D: ArrayLike,
     L_B: float = 0,
     L_W: float = 1000,
-    gamma: Optional[float] = None,
+    gamma: float | None = None,
     constants: Structure = CONSTANTS_BT2100_HLG,
-    method: Union[
-        Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"], str
-    ] = "ITU-R BT.2100-2",
+    method: Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"]
+    | str = "ITU-R BT.2100-2",
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse
@@ -1072,7 +1070,7 @@ def ootf_BT2100_HLG_1(
     E: ArrayLike,
     L_B: float = 0,
     L_W: float = 1000,
-    gamma: Optional[float] = None,
+    gamma: float | None = None,
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
@@ -1163,7 +1161,7 @@ def ootf_BT2100_HLG_1(
 def ootf_BT2100_HLG_2(
     E: ArrayLike,
     L_W: float = 1000,
-    gamma: Optional[float] = None,
+    gamma: float | None = None,
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
@@ -1266,10 +1264,9 @@ def ootf_BT2100_HLG(
     E: ArrayLike,
     L_B: float = 0,
     L_W: float = 1000,
-    gamma: Optional[float] = None,
-    method: Union[
-        Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"], str
-    ] = "ITU-R BT.2100-2",
+    gamma: float | None = None,
+    method: Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"]
+    | str = "ITU-R BT.2100-2",
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
@@ -1341,7 +1338,7 @@ def ootf_inverse_BT2100_HLG_1(
     F_D: ArrayLike,
     L_B: float = 0,
     L_W: float = 1000,
-    gamma: Optional[float] = None,
+    gamma: float | None = None,
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse opto-optical
@@ -1418,17 +1415,17 @@ def ootf_inverse_BT2100_HLG_1(
     Y_D_beta = np.abs((Y_D - beta) / alpha) ** ((1 - gamma) / gamma)
 
     R_S = np.where(
-        Y_D == beta,
+        beta == Y_D,
         0.0,
         Y_D_beta * (R_D - beta) / alpha,
     )
     G_S = np.where(
-        Y_D == beta,
+        beta == Y_D,
         0.0,
         Y_D_beta * (G_D - beta) / alpha,
     )
     B_S = np.where(
-        Y_D == beta,
+        beta == Y_D,
         0.0,
         Y_D_beta * (B_D - beta) / alpha,
     )
@@ -1444,7 +1441,7 @@ def ootf_inverse_BT2100_HLG_1(
 def ootf_inverse_BT2100_HLG_2(
     F_D: ArrayLike,
     L_W: float = 1000,
-    gamma: Optional[float] = None,
+    gamma: float | None = None,
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse opto-optical
@@ -1559,10 +1556,9 @@ def ootf_inverse_BT2100_HLG(
     F_D: ArrayLike,
     L_B: float = 0,
     L_W: float = 1000,
-    gamma: Optional[float] = None,
-    method: Union[
-        Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"], str
-    ] = "ITU-R BT.2100-2",
+    gamma: float | None = None,
+    method: Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"]
+    | str = "ITU-R BT.2100-2",
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse opto-optical

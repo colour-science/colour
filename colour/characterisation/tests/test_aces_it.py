@@ -192,7 +192,7 @@ generate_illuminants_rawtoaces_v1` definition unit tests methods.
         """
 
         self.assertListEqual(
-            list(sorted(generate_illuminants_rawtoaces_v1().keys())),
+            sorted(generate_illuminants_rawtoaces_v1().keys()),
             [
                 "1000K Blackbody",
                 "1500K Blackbody",

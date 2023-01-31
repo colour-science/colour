@@ -24,7 +24,7 @@ from __future__ import annotations
 import numpy as np
 from scipy.optimize import minimize
 
-from colour.hints import ArrayLike, NDArrayFloat, Optional
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import as_float_array, as_float, tstack, usage_warning
 
 __author__ = "Colour Developers"
@@ -41,7 +41,7 @@ __all__ = [
 
 
 def xy_to_CCT_Kang2002(
-    xy: ArrayLike, optimisation_kwargs: Optional[dict] = None
+    xy: ArrayLike, optimisation_kwargs: dict | None = None
 ) -> NDArrayFloat:
     """
     Return the correlated colour temperature :math:`T_{cp}` from given

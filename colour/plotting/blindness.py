@@ -18,9 +18,7 @@ from colour.hints import (
     ArrayLike,
     Dict,
     Literal,
-    Optional,
     Tuple,
-    Union,
     cast,
 )
 from colour.plotting import CONSTANTS_COLOUR_STYLE, plot_image, override_style
@@ -41,11 +39,10 @@ __all__ = [
 @override_style()
 def plot_cvd_simulation_Machado2009(
     RGB: ArrayLike,
-    deficiency: Union[
-        Literal["Deuteranomaly", "Protanomaly", "Tritanomaly"], str
-    ] = "Protanomaly",
+    deficiency: Literal["Deuteranomaly", "Protanomaly", "Tritanomaly"]
+    | str = "Protanomaly",
     severity: float = 0.5,
-    M_a: Optional[ArrayLike] = None,
+    M_a: ArrayLike | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """

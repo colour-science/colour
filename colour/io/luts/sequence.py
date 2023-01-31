@@ -20,7 +20,6 @@ from colour.hints import (
     NDArrayFloat,
     ProtocolLUTSequenceItem,
     Sequence,
-    Union,
 )
 from colour.utilities import as_float_array, attest, is_iterable
 
@@ -145,7 +144,7 @@ class LUTSequence(MutableSequence):
 
         self._sequence = list(value)
 
-    def __getitem__(self, index: Union[int, slice]) -> Any:
+    def __getitem__(self, index: int | slice) -> Any:
         """
         Return the *LUT* sequence item(s) at given index (or slice).
 
@@ -162,7 +161,7 @@ class LUTSequence(MutableSequence):
 
         return self._sequence[index]
 
-    def __setitem__(self, index: Union[int, slice], value: Any):
+    def __setitem__(self, index: int | slice, value: Any):
         """
         Set the *LUT* sequence at given index (or slice) with given value.
 
@@ -183,7 +182,7 @@ class LUTSequence(MutableSequence):
 
         self._sequence[index] = value
 
-    def __delitem__(self, index: Union[int, slice]):
+    def __delitem__(self, index: int | slice):
         """
         Delete the *LUT* sequence item(s) at given index (or slice).
 
@@ -284,11 +283,7 @@ class LUTSequence(MutableSequence):
             return False
 
         # pylint: disable=C0200
-        for i in range(len(self)):
-            if self[i] != other[i]:
-                return False
-
-        return True
+        return all(self[i] == other[i] for i in range(len(self)))
 
     def __ne__(self, other) -> bool:
         """

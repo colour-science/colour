@@ -39,10 +39,8 @@ from colour.hints import (
     Iterable,
     Literal,
     Mapping,
-    Optional,
     Sequence,
     TypeVar,
-    Union,
 )
 from colour.utilities import CanonicalMapping, Lookup
 
@@ -364,7 +362,7 @@ def ignore_python_warnings(function: Callable) -> Callable:
     return wrapper
 
 
-def attest(condition: Union[bool, DTypeBoolean], message: str = ""):
+def attest(condition: bool | DTypeBoolean, message: str = ""):
     """
     Provide the `assert` statement functionality without being disabled by
     optimised Python execution.
@@ -381,7 +379,7 @@ def attest(condition: Union[bool, DTypeBoolean], message: str = ""):
         raise AssertionError(message)
 
 
-def batch(sequence: Sequence, k: Union[int, Literal[3]] = 3) -> Generator:
+def batch(sequence: Sequence, k: int | Literal[3] = 3) -> Generator:
     """
     Return a batch generator from given sequence.
 
@@ -532,15 +530,13 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
         def __init__(self, *args: Any, **kwargs: Any) -> None:
             pass
 
-        def map(self, func, iterable, chunksize=None):
+        def map(self, func, iterable, chunksize=None):  # noqa: A003, ARG002
             """Apply given function to each element of given iterable."""
 
             return [func(a) for a in iterable]
 
         def terminate(self):
             """Terminate the process."""
-
-            pass
 
     kwargs["initializer"] = _initializer
     kwargs["initargs"] = (
@@ -595,7 +591,7 @@ def is_ctlrender_installed(raise_exception: bool = False) -> bool:
         )  # nosec
 
         if "transforms an image using one or more CTL scripts" not in stdout:
-            raise FileNotFoundError()
+            raise FileNotFoundError  # noqa: TRY301
 
         return True
     except FileNotFoundError as error:  # pragma: no cover
@@ -604,7 +600,7 @@ def is_ctlrender_installed(raise_exception: bool = False) -> bool:
                 '"ctlrender" related API features are not available: '
                 f'"{error}".\nSee the installation guide for more information: '
                 "https://www.colour-science.org/installation-guide/"
-            )
+            ) from error
 
         return False
 
@@ -631,7 +627,7 @@ def is_graphviz_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         # pylint: disable=W0611
-        import pygraphviz  # noqa
+        import pygraphviz  # noqa: F401
 
         return True
     except ImportError as error:  # pragma: no cover
@@ -640,7 +636,7 @@ def is_graphviz_installed(raise_exception: bool = False) -> bool:
                 '"Graphviz" related API features are not available: '
                 f'"{error}".\nSee the installation guide for more information: '
                 "https://www.colour-science.org/installation-guide/"
-            )
+            ) from error
 
         return False
 
@@ -667,7 +663,7 @@ def is_matplotlib_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         # pylint: disable=W0611
-        import matplotlib  # noqa
+        import matplotlib  # noqa: F401
 
         return True
     except ImportError as error:  # pragma: no cover
@@ -676,7 +672,7 @@ def is_matplotlib_installed(raise_exception: bool = False) -> bool:
                 '"Matplotlib" related API features are not available: '
                 f'"{error}".\nSee the installation guide for more information: '
                 "https://www.colour-science.org/installation-guide/"
-            )
+            ) from error
 
         return False
 
@@ -703,7 +699,7 @@ def is_networkx_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         # pylint: disable=W0611
-        import networkx  # noqa
+        import networkx  # noqa: F401
 
         return True
     except ImportError as error:  # pragma: no cover
@@ -713,7 +709,7 @@ def is_networkx_installed(raise_exception: bool = False) -> bool:
                 f'conversion graph, are not available: "{error}".\nPlease refer '
                 "to the installation guide for more information: "
                 "https://www.colour-science.org/installation-guide/"
-            )
+            ) from error
 
         return False
 
@@ -740,7 +736,7 @@ def is_opencolorio_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         # pylint: disable=W0611
-        import PyOpenColorIO  # noqa
+        import PyOpenColorIO  # noqa: F401
 
         return True
     except ImportError as error:  # pragma: no cover
@@ -749,7 +745,7 @@ def is_opencolorio_installed(raise_exception: bool = False) -> bool:
                 '"OpenColorIO" related API features are not available: '
                 f'"{error}".\nSee the installation guide for more information: '
                 "https://www.colour-science.org/installation-guide/"
-            )
+            ) from error
 
         return False
 
@@ -776,7 +772,7 @@ def is_openimageio_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         # pylint: disable=W0611
-        import OpenImageIO  # noqa
+        import OpenImageIO  # noqa: F401
 
         return True
     except ImportError as error:  # pragma: no cover
@@ -785,7 +781,7 @@ def is_openimageio_installed(raise_exception: bool = False) -> bool:
                 '"OpenImageIO" related API features are not available: '
                 f'"{error}".\nSee the installation guide for more information: '
                 "https://www.colour-science.org/installation-guide/"
-            )
+            ) from error
 
         return False
 
@@ -812,7 +808,7 @@ def is_pandas_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         # pylint: disable=W0611
-        import pandas  # noqa
+        import pandas  # noqa: F401, ICN001
 
         return True
     except ImportError as error:  # pragma: no cover
@@ -821,7 +817,7 @@ def is_pandas_installed(raise_exception: bool = False) -> bool:
                 f'"Pandas" related API features are not available: "{error}".\n'
                 "See the installation guide for more information: "
                 "https://www.colour-science.org/installation-guide/"
-            )
+            ) from error
 
         return False
 
@@ -848,7 +844,7 @@ def is_tqdm_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         # pylint: disable=W0611
-        import tqdm  # noqa
+        import tqdm  # noqa: F401
 
         return True
     except ImportError as error:  # pragma: no cover
@@ -857,7 +853,7 @@ def is_tqdm_installed(raise_exception: bool = False) -> bool:
                 f'"tqdm" related API features are not available: "{error}".\n'
                 "See the installation guide for more information: "
                 "https://www.colour-science.org/installation-guide/"
-            )
+            ) from error
 
         return False
 
@@ -884,7 +880,7 @@ def is_trimesh_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         # pylint: disable=W0611
-        import trimesh  # noqa
+        import trimesh  # noqa: F401
 
         return True
     except ImportError as error:  # pragma: no cover
@@ -893,7 +889,7 @@ def is_trimesh_installed(raise_exception: bool = False) -> bool:
                 '"Trimesh" related API features are not available: '
                 f'"{error}".\nSee the installation guide for more information: '
                 "https://www.colour-science.org/installation-guide/"
-            )
+            ) from error
 
         return False
 
@@ -982,7 +978,7 @@ def is_iterable(a: Any) -> bool:
     False
     """
 
-    return is_string(a) or (True if getattr(a, "__iter__", False) else False)
+    return is_string(a) or (bool(getattr(a, "__iter__", False)))
 
 
 def is_string(a: Any) -> bool:
@@ -1007,7 +1003,7 @@ def is_string(a: Any) -> bool:
     False
     """
 
-    return True if isinstance(a, str) else False
+    return bool(isinstance(a, str))
 
 
 def is_numeric(a: Any) -> bool:
@@ -1163,7 +1159,7 @@ def filter_kwargs(function: Callable, **kwargs: Any) -> dict:
     return kwargs
 
 
-def filter_mapping(mapping: Mapping, names: Union[str, Sequence[str]]) -> dict:
+def filter_mapping(mapping: Mapping, names: str | Sequence[str]) -> dict:
     """
     Filter given mapping with given names.
 
@@ -1273,9 +1269,7 @@ def first_item(a: Iterable) -> Any:
     return next(iter(a))
 
 
-def copy_definition(
-    definition: Callable, name: Optional[str] = None
-) -> Callable:
+def copy_definition(definition: Callable, name: str | None = None) -> Callable:
     """
     Copy a definition using the same code, globals, defaults, closure, and
     name.
@@ -1307,7 +1301,7 @@ def copy_definition(
 
 def validate_method(
     method: str,
-    valid_methods: Union[Sequence, Mapping],
+    valid_methods: Sequence | Mapping,
     message: str = '"{0}" method is invalid, it must be one of {1}!',
 ) -> str:
     """
@@ -1353,7 +1347,7 @@ def validate_method(
 T = TypeVar("T")
 
 
-def optional(value: Optional[T], default: T) -> T:
+def optional(value: T | None, default: T) -> T:
     """
     Handle optional argument value by providing a default value.
 

@@ -8,7 +8,7 @@ import os
 import unittest
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import Any, Optional
+from colour.hints import Any
 from colour.io import (
     SpectralDistribution_UPRTek,
     SpectralDistribution_Sekonic,
@@ -50,9 +50,9 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
         super().__init__(*args)
 
         self._sd_factory: Any = None
-        self._path: Optional[str] = None
-        self._spectral_data: Optional[dict] = None
-        self._prefix: Optional[str] = None
+        self._path: str | None = None
+        self._spectral_data: dict | None = None
+        self._prefix: str | None = None
 
     def test_required_attributes(self):
         """Test the presence of required attributes."""

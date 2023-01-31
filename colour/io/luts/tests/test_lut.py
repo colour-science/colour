@@ -22,10 +22,8 @@ from colour.hints import (
     Any,
     Callable,
     NDArrayFloat,
-    Optional,
     ProtocolInterpolator,
     Type,
-    Union,
 )
 from colour.utilities import as_float_array, tsplit, tstack
 
@@ -125,35 +123,35 @@ class AbstractLUTTest(unittest.TestCase):
 
         self._LUT_factory: Any = None
 
-        self._size: Optional[int] = None
-        self._dimensions: Optional[int] = None
-        self._domain_1: Optional[NDArrayFloat] = None
-        self._domain_2: Optional[NDArrayFloat] = None
-        self._domain_3: Optional[NDArrayFloat] = None
-        self._table_1: Optional[NDArrayFloat] = None
-        self._table_2: Optional[NDArrayFloat] = None
-        self._table_3: Optional[NDArrayFloat] = None
-        self._table_1_kwargs: Optional[dict] = None
-        self._table_2_kwargs: Optional[dict] = None
-        self._table_3_kwargs: Optional[dict] = None
-        self._interpolator_1: Optional[
-            Union[Callable, Type[ProtocolInterpolator]]
-        ] = None
+        self._size: int | None = None
+        self._dimensions: int | None = None
+        self._domain_1: NDArrayFloat | None = None
+        self._domain_2: NDArrayFloat | None = None
+        self._domain_3: NDArrayFloat | None = None
+        self._table_1: NDArrayFloat | None = None
+        self._table_2: NDArrayFloat | None = None
+        self._table_3: NDArrayFloat | None = None
+        self._table_1_kwargs: dict | None = None
+        self._table_2_kwargs: dict | None = None
+        self._table_3_kwargs: dict | None = None
+        self._interpolator_1: Callable | Type[
+            ProtocolInterpolator
+        ] | None = None
         self._interpolator_kwargs_1: dict = {}
-        self._interpolator_2: Optional[
-            Union[Callable, Type[ProtocolInterpolator]]
-        ] = None
+        self._interpolator_2: Callable | Type[
+            ProtocolInterpolator
+        ] | None = None
         self._interpolator_kwargs_2: dict = {}
         self._invert_kwargs_1: dict = {}
         self._invert_kwargs_2: dict = {}
-        self._str: Optional[str] = None
-        self._repr: Optional[str] = None
-        self._inverted_apply_1: Optional[NDArrayFloat] = None
-        self._inverted_apply_2: Optional[NDArrayFloat] = None
-        self._applied_1: Optional[NDArrayFloat] = None
-        self._applied_2: Optional[NDArrayFloat] = None
-        self._applied_3: Optional[NDArrayFloat] = None
-        self._applied_4: Optional[NDArrayFloat] = None
+        self._str: str | None = None
+        self._repr: str | None = None
+        self._inverted_apply_1: NDArrayFloat | None = None
+        self._inverted_apply_2: NDArrayFloat | None = None
+        self._applied_1: NDArrayFloat | None = None
+        self._applied_2: NDArrayFloat | None = None
+        self._applied_3: NDArrayFloat | None = None
+        self._applied_4: NDArrayFloat | None = None
 
     def test_required_methods(self):
         """Test the presence of required methods."""

@@ -27,7 +27,7 @@ import numpy as np
 
 from colour.algebra import spow
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import ArrayLike, Literal, NDArrayFloat, Union
+from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.models import Lab_to_XYZ, XYZ_to_Lab
 from colour.utilities import (
     CanonicalMapping,
@@ -80,9 +80,8 @@ def Lab_to_DIN99(
     Lab: ArrayLike,
     k_E: float = 1,
     k_CH: float = 1,
-    method: Union[
-        Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"], str
-    ] = "DIN99",
+    method: Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"]
+    | str = "DIN99",
 ) -> NDArrayFloat:
     """
     Convert from *CIE L\\*a\\*b\\** colourspace to *DIN99* colourspace or
@@ -172,9 +171,8 @@ def DIN99_to_Lab(
     Lab_99: ArrayLike,
     k_E: float = 1,
     k_CH: float = 1,
-    method: Union[
-        Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"], str
-    ] = "DIN99",
+    method: Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"]
+    | str = "DIN99",
 ) -> NDArrayFloat:
     """
     Convert from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*,
@@ -267,9 +265,8 @@ def XYZ_to_DIN99(
     ]["D65"],
     k_E: float = 1,
     k_CH: float = 1,
-    method: Union[
-        Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"], str
-    ] = "DIN99",
+    method: Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"]
+    | str = "DIN99",
 ) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *DIN99* colourspace or
@@ -342,9 +339,8 @@ def DIN99_to_XYZ(
     ]["D65"],
     k_E: float = 1,
     k_CH: float = 1,
-    method: Union[
-        Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"], str
-    ] = "DIN99",
+    method: Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"]
+    | str = "DIN99",
 ) -> NDArrayFloat:
     """
     Convert from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*,

@@ -1351,7 +1351,7 @@ class TestSpectralShape(unittest.TestCase):
         """
 
         np.testing.assert_array_almost_equal(
-            [wavelength for wavelength in SpectralShape(0, 10, 0.1)],
+            list(SpectralShape(0, 10, 0.1)),
             np.arange(0, 10 + 0.1, 0.1),
         )
 
@@ -1400,7 +1400,7 @@ class TestSpectralShape(unittest.TestCase):
         """Test :func:`colour.colorimetry.spectrum.SpectralShape.range` method."""
 
         np.testing.assert_array_almost_equal(
-            [wavelength for wavelength in SpectralShape(0, 10, 0.1)],
+            list(SpectralShape(0, 10, 0.1)),
             np.arange(0, 10 + 0.1, 0.1),
         )
 

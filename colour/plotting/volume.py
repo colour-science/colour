@@ -26,10 +26,8 @@ from colour.hints import (
     List,
     Literal,
     NDArrayFloat,
-    Optional,
     Sequence,
     Tuple,
-    Union,
     cast,
 )
 from colour.models import RGB_Colourspace, RGB_to_XYZ
@@ -72,10 +70,10 @@ __all__ = [
 
 
 def nadir_grid(
-    limits: Optional[ArrayLike] = None,
+    limits: ArrayLike | None = None,
     segments: int = 10,
-    labels: Optional[Union[ArrayLike, Sequence[str]]] = None,
-    axes: Optional[plt.Axes] = None,
+    labels: ArrayLike | Sequence[str] | None = None,
+    axes: plt.Axes | None = None,
     **kwargs: Any,
 ) -> Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]:
     """
@@ -262,7 +260,7 @@ def nadir_grid(
             h_a = "center" if axis == "x" else "left" if x_s == 1 else "right"
             v_a = "center"
 
-            ticks = list(sorted(set(quads_g[..., 0, i])))
+            ticks = sorted(set(quads_g[..., 0, i]))
             ticks += [ticks[-1] + ticks[-1] - ticks[-2]]
             for tick in ticks:
                 x = (
@@ -333,22 +331,10 @@ def RGB_identity_cube(
     width_segments: int = 16,
     height_segments: int = 16,
     depth_segments: int = 16,
-    planes: Optional[
-        Literal[
-            "-x",
-            "+x",
-            "-y",
-            "+y",
-            "-z",
-            "+z",
-            "xy",
-            "xz",
-            "yz",
-            "yx",
-            "zx",
-            "zy",
-        ]
-    ] = None,
+    planes: Literal[
+        "-x", "+x", "-y", "+y", "-z", "+z", "xy", "xz", "yz", "yx", "zx", "zy"
+    ]
+    | None = None,
 ) -> Tuple[NDArrayFloat, NDArrayFloat]:
     """
     Return an *RGB* identity cube made of quad geometric elements and its
@@ -428,50 +414,46 @@ def RGB_identity_cube(
 
 @override_style()
 def plot_RGB_colourspaces_gamuts(
-    colourspaces: Union[
-        RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]
-    ],
-    model: Union[
-        Literal[
-            "CAM02LCD",
-            "CAM02SCD",
-            "CAM02UCS",
-            "CAM16LCD",
-            "CAM16SCD",
-            "CAM16UCS",
-            "CIE XYZ",
-            "CIE xyY",
-            "CIE Lab",
-            "CIE Luv",
-            "CIE UCS",
-            "CIE UVW",
-            "DIN99",
-            "Hunter Lab",
-            "Hunter Rdab",
-            "ICaCb",
-            "ICtCp",
-            "IPT",
-            "IgPgTg",
-            "Jzazbz",
-            "OSA UCS",
-            "Oklab",
-            "hdr-CIELAB",
-            "hdr-IPT",
-        ],
-        str,
-    ] = "CIE xyY",
+    colourspaces: RGB_Colourspace | str | Sequence[RGB_Colourspace | str],
+    model: Literal[
+        "CAM02LCD",
+        "CAM02SCD",
+        "CAM02UCS",
+        "CAM16LCD",
+        "CAM16SCD",
+        "CAM16UCS",
+        "CIE XYZ",
+        "CIE xyY",
+        "CIE Lab",
+        "CIE Luv",
+        "CIE UCS",
+        "CIE UVW",
+        "DIN99",
+        "Hunter Lab",
+        "Hunter Rdab",
+        "ICaCb",
+        "ICtCp",
+        "IPT",
+        "IgPgTg",
+        "Jzazbz",
+        "OSA UCS",
+        "Oklab",
+        "hdr-CIELAB",
+        "hdr-IPT",
+    ]
+    | str = "CIE xyY",
     segments: int = 8,
     show_grid: bool = True,
     grid_segments: int = 10,
     show_spectral_locus: bool = False,
-    spectral_locus_colour: Optional[Union[ArrayLike, str]] = None,
-    cmfs: Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
+    spectral_locus_colour: ArrayLike | str | None = None,
+    cmfs: MultiSpectralDistributions
+    | str
+    | Sequence[
+        MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
     chromatically_adapt: bool = False,
-    convert_kwargs: Optional[dict] = None,
+    convert_kwargs: dict | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -709,54 +691,53 @@ def plot_RGB_colourspaces_gamuts(
 @override_style()
 def plot_RGB_scatter(
     RGB: ArrayLike,
-    colourspace: Union[
-        RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]
-    ] = "sRGB",
-    model: Union[
-        Literal[
-            "CAM02LCD",
-            "CAM02SCD",
-            "CAM02UCS",
-            "CAM16LCD",
-            "CAM16SCD",
-            "CAM16UCS",
-            "CIE XYZ",
-            "CIE xyY",
-            "CIE Lab",
-            "CIE Luv",
-            "CIE UCS",
-            "CIE UVW",
-            "DIN99",
-            "Hunter Lab",
-            "Hunter Rdab",
-            "ICaCb",
-            "ICtCp",
-            "IPT",
-            "IgPgTg",
-            "Jzazbz",
-            "OSA UCS",
-            "Oklab",
-            "hdr-CIELAB",
-            "hdr-IPT",
-        ],
-        str,
-    ] = "CIE xyY",
-    colourspaces: Optional[
-        Union[RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]]
-    ] = None,
+    colourspace: RGB_Colourspace
+    | str
+    | Sequence[RGB_Colourspace | str] = "sRGB",
+    model: Literal[
+        "CAM02LCD",
+        "CAM02SCD",
+        "CAM02UCS",
+        "CAM16LCD",
+        "CAM16SCD",
+        "CAM16UCS",
+        "CIE XYZ",
+        "CIE xyY",
+        "CIE Lab",
+        "CIE Luv",
+        "CIE UCS",
+        "CIE UVW",
+        "DIN99",
+        "Hunter Lab",
+        "Hunter Rdab",
+        "ICaCb",
+        "ICtCp",
+        "IPT",
+        "IgPgTg",
+        "Jzazbz",
+        "OSA UCS",
+        "Oklab",
+        "hdr-CIELAB",
+        "hdr-IPT",
+    ]
+    | str = "CIE xyY",
+    colourspaces: RGB_Colourspace
+    | str
+    | Sequence[RGB_Colourspace | str]
+    | None = None,
     segments: int = 8,
     show_grid: bool = True,
     grid_segments: int = 10,
     show_spectral_locus: bool = False,
-    spectral_locus_colour: Optional[Union[ArrayLike, str]] = None,
+    spectral_locus_colour: ArrayLike | str | None = None,
     points_size: float = 12,
-    cmfs: Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
+    cmfs: MultiSpectralDistributions
+    | str
+    | Sequence[
+        MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
     chromatically_adapt: bool = False,
-    convert_kwargs: Optional[dict] = None,
+    convert_kwargs: dict | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
