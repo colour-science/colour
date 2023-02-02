@@ -5,8 +5,8 @@ Invoke - Tasks
 
 from __future__ import annotations
 
-import contextlib
 import biblib.bib
+import contextlib
 import fnmatch
 import os
 import re
