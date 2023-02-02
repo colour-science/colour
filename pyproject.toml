@@ -246,6 +246,7 @@ convention = "numpy"
 "setup.py" = ["INP"]
 "tasks.py" = ["INP"]
 "utilities/*" = ["EXE001", "INP"]
+"utilities/unicode_to_ascii.py" = ["RUF001"]
 
 [build-system]
 requires = [ "poetry_core>=1.0.0" ]
