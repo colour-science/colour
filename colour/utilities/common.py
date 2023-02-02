@@ -663,7 +663,7 @@ def is_matplotlib_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         # pylint: disable=W0611
-        import matplotlib  # noqa: F401
+        import matplotlib as mpl  # noqa: F401
 
         return True
     except ImportError as error:  # pragma: no cover

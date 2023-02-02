@@ -6,9 +6,9 @@ Generate Plots
 
 from __future__ import annotations
 
-import matplotlib
+import matplotlib as mpl
 
-matplotlib.use("AGG")
+mpl.use("AGG")
 
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
