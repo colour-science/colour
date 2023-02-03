@@ -27,7 +27,7 @@ from __future__ import annotations
 import contextlib
 import functools
 import itertools
-import matplotlib
+import matplotlib as mpl
 import matplotlib.cm
 import matplotlib.pyplot as plt
 import matplotlib.ticker
@@ -1510,7 +1510,7 @@ def plot_multi_functions(
 
     # TODO: Remove when "Matplotlib" minimum version can be set to 3.5.0.
     matplotlib_3_5 = tuple(
-        int(token) for token in matplotlib.__version__.split(".")[:2]
+        int(token) for token in mpl.__version__.split(".")[:2]
     ) >= (3, 5)
 
     if log_x is not None and log_y is not None:

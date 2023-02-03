@@ -17,16 +17,11 @@ from typing import (
     Any,
     Callable,
     Dict,
-    Generator,
-    Iterable,
-    Iterator,
     List,
     Literal,
-    Mapping,
     NewType,
     Optional,
     Protocol,
-    Sequence,
     SupportsIndex,
     TYPE_CHECKING,
     TextIO,
@@ -39,6 +34,7 @@ from typing import (
     overload,
     runtime_checkable,
 )
+from collections.abc import Generator, Iterable, Iterator, Mapping, Sequence
 from typing_extensions import Self
 
 __author__ = "Colour Developers"
