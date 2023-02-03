@@ -69,7 +69,7 @@ pydata-sphinx-theme = { version = "*", optional = true }  # Development dependen
 pyright = { version = "*", optional = true }  # Development dependency.
 pytest = { version = "*", optional = true }  # Development dependency.
 pytest-cov = { version = "*", optional = true }  # Development dependency.
-pytest-xdist = { version = "*", optional = true} #Development dependency
+pytest-xdist = { version = "*", optional = true} # Development dependency
 restructuredtext-lint = { version = "*", optional = true }  # Development dependency.
 ruff = { version = "*", optional = true }  # Development dependency.
 sphinx = { version = ">= 4, < 5", optional = true }  # Development dependency.
