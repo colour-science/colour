@@ -973,6 +973,10 @@ def plot_RGB_chromaticities_in_chromaticity_diagram(
 
         -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the colours
             as given by the ``RGB`` argument.
+        -   ``apply_cctf_encoding`` : If ``apply_cctf_encoding`` is set to
+            *False*, the encoding colour component transfer function /
+            opto-electronic transfer function is not applied when encoding the
+            samples to the plotting space.
 
     Other Parameters
     ----------------
@@ -1018,6 +1022,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
         "marker": "o",
         "alpha": 0.85,
         "zorder": CONSTANTS_COLOUR_STYLE.zorder.midground_scatter,
+        "apply_cctf_encoding": True,
     }
     if scatter_kwargs is not None:
         scatter_settings.update(scatter_kwargs)
@@ -1035,6 +1040,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
     chromaticity_diagram_callable(**settings)
 
     use_RGB_colours = str(scatter_settings["c"]).upper() == "RGB"
+    apply_cctf_encoding = scatter_settings.pop("apply_cctf_encoding")
     if use_RGB_colours:
         RGB = RGB[RGB[:, 1].argsort()]
         scatter_settings["c"] = np.clip(
@@ -1043,7 +1049,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
                     RGB,
                     colourspace,
                     CONSTANTS_COLOUR_STYLE.colour.colourspace,
-                    apply_cctf_encoding=True,
+                    apply_cctf_encoding=apply_cctf_encoding,
                 ),
                 (-1, 3),
             ),
@@ -1108,6 +1114,10 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
 
         -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the colours
             as given by the ``RGB`` argument.
+        -   ``apply_cctf_encoding`` : If ``apply_cctf_encoding`` is set to
+            *False*, the encoding colour component transfer function /
+            opto-electronic transfer function is not applied when encoding the
+            samples to the plotting space.
 
     Other Parameters
     ----------------
@@ -1184,6 +1194,10 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
 
         -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the colours
             as given by the ``RGB`` argument.
+        -   ``apply_cctf_encoding`` : If ``apply_cctf_encoding`` is set to
+            *False*, the encoding colour component transfer function /
+            opto-electronic transfer function is not applied when encoding the
+            samples to the plotting space.
 
     Other Parameters
     ----------------
@@ -1260,6 +1274,10 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
 
         -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the colours
             as given by the ``RGB`` argument.
+        -   ``apply_cctf_encoding`` : If ``apply_cctf_encoding`` is set to
+            *False*, the encoding colour component transfer function /
+            opto-electronic transfer function is not applied when encoding the
+            samples to the plotting space.
 
     Other Parameters
     ----------------
