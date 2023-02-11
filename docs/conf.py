@@ -220,21 +220,3 @@ epub_author = package.__author__
 epub_publisher = package.__author__
 epub_copyright = package.__copyright__.replace("Copyright (C)", "")
 epub_exclude_files = ["search.html"]
-
-
-def autodoc_process_docstring(
-    app, what, name, obj, options, lines  # noqa: ARG001
-):
-    """Process the docstrings to remove the *# noqa* *flake8* pragma."""
-
-    for i, line in enumerate(lines):
-        lines[i] = line.replace("# noqa", "")
-
-
-def setup(app):
-    """
-    Prepare the extension and linking resources that Sphinx uses in the
-    build process.
-    """
-
-    app.connect("autodoc-process-docstring", autodoc_process_docstring)
