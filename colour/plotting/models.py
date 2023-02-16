@@ -308,7 +308,7 @@ def plot_pointer_gamut(
     Examples
     --------
     >>> plot_pointer_gamut()  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Pointer_Gamut.png
         :align: center
@@ -498,7 +498,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram(
     ...     ["ITU-R BT.709", "ACEScg", "S-Gamut"], plot_kwargs=plot_kwargs
     ... )
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_\
 Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
@@ -728,7 +728,7 @@ plot_RGB_colourspaces_in_chromaticity_diagram`,
     ...     ["ITU-R BT.709", "ACEScg", "S-Gamut"]
     ... )
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_\
 Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1931.png
@@ -821,7 +821,7 @@ plot_RGB_colourspaces_in_chromaticity_diagram`,
     ...     ["ITU-R BT.709", "ACEScg", "S-Gamut"]
     ... )
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_\
 Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1960UCS.png
@@ -914,7 +914,7 @@ plot_RGB_colourspaces_in_chromaticity_diagram`,
     ...     ["ITU-R BT.709", "ACEScg", "S-Gamut"]
     ... )
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_\
 Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1976UCS.png
@@ -973,6 +973,10 @@ def plot_RGB_chromaticities_in_chromaticity_diagram(
 
         -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the colours
             as given by the ``RGB`` argument.
+        -   ``apply_cctf_encoding`` : If ``apply_cctf_encoding`` is set to
+            *False*, the encoding colour component transfer function /
+            opto-electronic transfer function is not applied when encoding the
+            samples to the plotting space.
 
     Other Parameters
     ----------------
@@ -994,7 +998,7 @@ plot_RGB_colourspaces_in_chromaticity_diagram`,
     >>> RGB = np.random.random((128, 128, 3))
     >>> plot_RGB_chromaticities_in_chromaticity_diagram(RGB, "ITU-R BT.709")
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_\
 Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
@@ -1018,6 +1022,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
         "marker": "o",
         "alpha": 0.85,
         "zorder": CONSTANTS_COLOUR_STYLE.zorder.midground_scatter,
+        "apply_cctf_encoding": True,
     }
     if scatter_kwargs is not None:
         scatter_settings.update(scatter_kwargs)
@@ -1035,6 +1040,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
     chromaticity_diagram_callable(**settings)
 
     use_RGB_colours = str(scatter_settings["c"]).upper() == "RGB"
+    apply_cctf_encoding = scatter_settings.pop("apply_cctf_encoding")
     if use_RGB_colours:
         RGB = RGB[RGB[:, 1].argsort()]
         scatter_settings["c"] = np.clip(
@@ -1043,7 +1049,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
                     RGB,
                     colourspace,
                     CONSTANTS_COLOUR_STYLE.colour.colourspace,
-                    apply_cctf_encoding=True,
+                    apply_cctf_encoding=apply_cctf_encoding,
                 ),
                 (-1, 3),
             ),
@@ -1108,6 +1114,10 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
 
         -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the colours
             as given by the ``RGB`` argument.
+        -   ``apply_cctf_encoding`` : If ``apply_cctf_encoding`` is set to
+            *False*, the encoding colour component transfer function /
+            opto-electronic transfer function is not applied when encoding the
+            samples to the plotting space.
 
     Other Parameters
     ----------------
@@ -1131,7 +1141,7 @@ plot_RGB_colourspaces_in_chromaticity_diagram`,
     ...     RGB, "ITU-R BT.709"
     ... )
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_\
 Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1931.png
@@ -1184,6 +1194,10 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
 
         -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the colours
             as given by the ``RGB`` argument.
+        -   ``apply_cctf_encoding`` : If ``apply_cctf_encoding`` is set to
+            *False*, the encoding colour component transfer function /
+            opto-electronic transfer function is not applied when encoding the
+            samples to the plotting space.
 
     Other Parameters
     ----------------
@@ -1207,7 +1221,7 @@ plot_RGB_colourspaces_in_chromaticity_diagram`,
     ...     RGB, "ITU-R BT.709"
     ... )
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_\
 Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1960UCS.png
@@ -1260,6 +1274,10 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
 
         -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the colours
             as given by the ``RGB`` argument.
+        -   ``apply_cctf_encoding`` : If ``apply_cctf_encoding`` is set to
+            *False*, the encoding colour component transfer function /
+            opto-electronic transfer function is not applied when encoding the
+            samples to the plotting space.
 
     Other Parameters
     ----------------
@@ -1283,7 +1301,7 @@ plot_RGB_colourspaces_in_chromaticity_diagram`,
     ...     RGB, "ITU-R BT.709"
     ... )
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_\
 Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1976UCS.png
@@ -1423,7 +1441,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram(
     --------
     >>> plot_ellipses_MacAdam1942_in_chromaticity_diagram()
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/\
 Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram.png
@@ -1544,7 +1562,7 @@ plot_ellipses_MacAdam1942_in_chromaticity_diagram`},
     --------
     >>> plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931()
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/\
 Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1931.png
@@ -1609,7 +1627,7 @@ plot_ellipses_MacAdam1942_in_chromaticity_diagram`},
     --------
     >>> plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS()
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/\
 Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1960UCS.png
@@ -1674,7 +1692,7 @@ plot_ellipses_MacAdam1942_in_chromaticity_diagram`},
     --------
     >>> plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS()
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/\
 Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1976UCS.png
@@ -1725,7 +1743,7 @@ def plot_single_cctf(
     Examples
     --------
     >>> plot_single_cctf("ITU-R BT.709")  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Single_CCTF.png
         :align: center
@@ -1774,7 +1792,7 @@ def plot_multi_cctfs(
     Examples
     --------
     >>> plot_multi_cctfs(["ITU-R BT.709", "sRGB"])  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_CCTFs.png
         :align: center
@@ -1968,7 +1986,7 @@ def plot_constant_hue_loci(
     ...     ],
     ... ]
     >>> plot_constant_hue_loci(data, "CIE Lab")  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Constant_Hue_Loci.png
         :align: center

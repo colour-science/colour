@@ -277,7 +277,9 @@ def colour_style(use_style: bool = True) -> dict:
         "lines.markersize": constants.geometry.short * 3,
         "lines.markeredgewidth": constants.geometry.short * 0.75,
         # Cycle
-        "axes.prop_cycle": matplotlib.cycler(color=constants.colour.cycle),
+        "axes.prop_cycle": matplotlib.cycler(  # pyright: ignore
+            color=constants.colour.cycle
+        ),
     }
 
     if use_style:
@@ -1136,7 +1138,7 @@ def plot_single_colour_swatch(
     --------
     >>> RGB = ColourSwatch((0.45620519, 0.03081071, 0.04091952))
     >>> plot_single_colour_swatch(RGB)  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Colour_Swatch.png
         :align: center
@@ -1218,7 +1220,7 @@ def plot_multi_colour_swatches(
     >>> RGB_1 = ColourSwatch((0.45293517, 0.31732158, 0.26414773))
     >>> RGB_2 = ColourSwatch((0.77875824, 0.57726450, 0.50453169))
     >>> plot_multi_colour_swatches([RGB_1, RGB_2])  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Colour_Swatches.png
         :align: center
@@ -1410,7 +1412,7 @@ def plot_single_function(
     >>> from colour.models import gamma_function
     >>> plot_single_function(partial(gamma_function, exponent=1 / 2.2))
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Function.png
         :align: center
@@ -1484,7 +1486,7 @@ def plot_multi_functions(
     ... }
     >>> plot_multi_functions(functions)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Functions.png
         :align: center
@@ -1615,7 +1617,7 @@ def plot_image(
     ...     "Ishihara_Colour_Blindness_Test_Plate_3.png",
     ... )
     >>> plot_image(read_image(path))  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Image.png
         :align: center

@@ -186,7 +186,7 @@ def plot_hull_section_colours(
     ...     plot_hull_section_colours(hull, section_colours="RGB")
     ...     # doctest: +ELLIPSIS
     ...
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Hull_Section_Colours.png
         :align: center
@@ -394,7 +394,7 @@ def plot_hull_section_contour(
     ...     plot_hull_section_contour(hull, contour_colours="RGB")
     ...     # doctest: +ELLIPSIS
     ...
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Hull_Section_Contour.png
         :align: center
@@ -567,7 +567,7 @@ def plot_visible_spectrum_section(
     ...     )
     ...     # doctest: +ELLIPSIS
     ...
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Visible_Spectrum_Section.png
         :align: center
@@ -732,7 +732,7 @@ def plot_RGB_colourspace_section(
     ...     )
     ...     # doctest: +ELLIPSIS
     ...
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_RGB_Colourspace_Section.png
         :align: center

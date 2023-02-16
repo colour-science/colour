@@ -102,7 +102,7 @@ def plot_single_sd_rayleigh_scattering(
     Examples
     --------
     >>> plot_single_sd_rayleigh_scattering()  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Single_SD_Rayleigh_Scattering.png
         :align: center
@@ -166,7 +166,7 @@ def plot_the_blue_sky(
     Examples
     --------
     >>> plot_the_blue_sky()  # doctest: +ELLIPSIS
-    (<Figure size ... with 2 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 2 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_The_Blue_Sky.png
         :align: center

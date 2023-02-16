@@ -17,9 +17,6 @@ rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
 -   :cite:`Lindbloom2003c` : Lindbloom, B. (2003). Delta E (CIE 1976).
     Retrieved February 24, 2014, from
     http://brucelindbloom.com/Eqn_DeltaE_CIE76.html
--   :cite:`Lindbloom2009e` : Lindbloom, B. (2009). Delta E (CIE 2000).
-    Retrieved February 24, 2014, from
-    http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html
 -   :cite:`Lindbloom2009f` : Lindbloom, B. (2009). Delta E (CMC). Retrieved
     February 24, 2014, from http://brucelindbloom.com/Eqn_DeltaE_CMC.html
 -   :cite:`Lindbloom2011a` : Lindbloom, B. (2011). Delta E (CIE 1994).
@@ -110,8 +107,8 @@ Supported :math:`\\Delta E_{ab}` computation methods.
 References
 ----------
 :cite:`ASTMInternational2007`, :cite:`Li2017`, :cite:`Lindbloom2003c`,
-:cite:`Lindbloom2011a`, :cite:`Lindbloom2009e`, :cite:`Lindbloom2009f`,
-:cite:`Luo2006b`, :cite:`Melgosa2013b`, :cite:`Wikipedia2008b`
+:cite:`Lindbloom2011a`, :cite:`Lindbloom2009f`, :cite:`Luo2006b`,
+:cite:`Melgosa2013b`, :cite:`Wikipedia2008b`
 
 Aliases:
 

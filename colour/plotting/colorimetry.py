@@ -171,7 +171,7 @@ def plot_single_sd(
     ... }
     >>> sd = SpectralDistribution(data, name="Custom")
     >>> plot_single_sd(sd)  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Single_SD.png
         :align: center
@@ -350,7 +350,7 @@ def plot_multi_sds(
     ... ]
     >>> plot_multi_sds([sd_1, sd_2], plot_kwargs=plot_kwargs)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_SDS.png
         :align: center
@@ -471,7 +471,7 @@ def plot_single_cmfs(
     --------
     >>> plot_single_cmfs("CIE 1931 2 Degree Standard Observer")
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Single_CMFS.png
         :align: center
@@ -525,7 +525,7 @@ def plot_multi_cmfs(
     ...     "CIE 1964 10 Degree Standard Observer",
     ... ]
     >>> plot_multi_cmfs(cmfs)  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_CMFS.png
         :align: center
@@ -631,7 +631,7 @@ def plot_single_illuminant_sd(
     Examples
     --------
     >>> plot_single_illuminant_sd("A")  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Illuminant_SD.png
         :align: center
@@ -688,7 +688,7 @@ def plot_multi_illuminant_sds(
     Examples
     --------
     >>> plot_multi_illuminant_sds(["A", "B", "C"])  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Illuminant_SDS.png
         :align: center
@@ -771,7 +771,7 @@ def plot_visible_spectrum(
     Examples
     --------
     >>> plot_visible_spectrum()  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Visible_Spectrum.png
         :align: center
@@ -796,7 +796,13 @@ def plot_visible_spectrum(
     )
 
     # Removing wavelength line as it doubles with the axes spine.
-    axes.lines.pop(0)
+    # NOTE: Support for Matplotlib < 3.7
+    try:
+        axes.lines.pop(0)
+    except AttributeError:
+        # NOTE: Support for Matplotlib >= 3.7
+        for line in axes.lines:
+            line.remove()
 
     settings = {
         "axes": axes,
@@ -838,7 +844,7 @@ def plot_single_lightness_function(
     Examples
     --------
     >>> plot_single_lightness_function("CIE 1976")  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Lightness_Function.png
         :align: center
@@ -883,7 +889,7 @@ def plot_multi_lightness_functions(
     --------
     >>> plot_multi_lightness_functions(["CIE 1976", "Wyszecki 1963"])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Lightness_Functions.png
         :align: center
@@ -933,7 +939,7 @@ def plot_single_luminance_function(
     Examples
     --------
     >>> plot_single_luminance_function("CIE 1976")  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Luminance_Function.png
         :align: center
@@ -978,7 +984,7 @@ def plot_multi_luminance_functions(
     --------
     >>> plot_multi_luminance_functions(["CIE 1976", "Newhall 1943"])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Luminance_Functions.png
         :align: center
@@ -1042,7 +1048,7 @@ def plot_blackbody_spectral_radiance(
     --------
     >>> plot_blackbody_spectral_radiance(3500, blackbody="VY Canis Major")
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 2 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 2 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Blackbody_Spectral_Radiance.png
         :align: center
@@ -1139,7 +1145,7 @@ def plot_blackbody_colours(
     --------
     >>> plot_blackbody_colours(SpectralShape(150, 12500, 50))
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Blackbody_Colours.png
         :align: center
