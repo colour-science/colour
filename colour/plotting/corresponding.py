@@ -80,7 +80,7 @@ corresponding_chromaticities_prediction` definition.
     --------
     >>> plot_corresponding_chromaticities_prediction(1, "Von Kries")
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Corresponding_Chromaticities_Prediction.png

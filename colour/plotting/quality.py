@@ -111,7 +111,7 @@ def plot_colour_quality_bars(
     >>> cqs_i = colour_quality_scale(illuminant, additional_data=True)
     >>> cqs_l = colour_quality_scale(light_source, additional_data=True)
     >>> plot_colour_quality_bars([cqs_i, cqs_l])  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_Plot_Colour_Quality_Bars.png
         :align: center
@@ -270,7 +270,7 @@ def plot_single_sd_colour_rendering_index_bars(
     >>> illuminant = SDS_ILLUMINANTS["FL2"]
     >>> plot_single_sd_colour_rendering_index_bars(illuminant)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Single_SD_Colour_Rendering_Index_Bars.png
@@ -322,7 +322,7 @@ def plot_multi_sds_colour_rendering_indexes_bars(
     >>> plot_multi_sds_colour_rendering_indexes_bars(
     ...     [illuminant, light_source]
     ... )  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Multi_SDS_Colour_Rendering_Indexes_Bars.png
@@ -403,7 +403,7 @@ def plot_single_sd_colour_quality_scale_bars(
     >>> illuminant = SDS_ILLUMINANTS["FL2"]
     >>> plot_single_sd_colour_quality_scale_bars(illuminant)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Single_SD_Colour_Quality_Scale_Bars.png
@@ -459,7 +459,7 @@ def plot_multi_sds_colour_quality_scales_bars(
     >>> light_source = SDS_LIGHT_SOURCES["Kinoton 75P"]
     >>> plot_multi_sds_colour_quality_scales_bars([illuminant, light_source])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Multi_SDS_Colour_Quality_Scales_Bars.png
