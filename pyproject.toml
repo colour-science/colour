@@ -159,6 +159,23 @@ reportUnusedExpression = false
 
 [tool.pytest.ini_options]
 addopts = "-n auto --dist=loadscope --durations=5"
+filterwarnings = [
+    "ignore::RuntimeWarning",
+    "ignore::pytest.PytestCollectionWarning",
+    "ignore::colour.utilities.ColourWarning",
+    "ignore::colour.utilities.ColourRuntimeWarning",
+    "ignore::colour.utilities.ColourUsageWarning",
+    "ignore:Implicit None on return values is deprecated:DeprecationWarning",
+    "ignore:Jupyter is migrating its paths:DeprecationWarning",
+    "ignore:the imp module is deprecated:DeprecationWarning",
+    "ignore:Method Nelder-Mead does not use gradient information:RuntimeWarning",
+    "ignore:More than 20 figures have been opened:RuntimeWarning",
+    "ignore:divide by zero encountered:RuntimeWarning",
+    "ignore:invalid value encountered in:RuntimeWarning",
+    "ignore:overflow encountered in:RuntimeWarning",
+    "ignore:Matplotlib is currently using agg:UserWarning",
+    "ignore:override the edgecolor or facecolor properties:UserWarning",
+]
 
 [tool.ruff]
 target-version = "py39"

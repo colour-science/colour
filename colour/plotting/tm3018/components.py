@@ -230,7 +230,7 @@ def plot_spectra_ANSIIESTM3018(
     >>> specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
     >>> plot_spectra_ANSIIESTM3018(specification)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
     """
 
     settings: Dict[str, Any] = dict(kwargs)
@@ -304,7 +304,7 @@ def plot_colour_vector_graphic(
     >>> specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
     >>> plot_colour_vector_graphic(specification)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
     """
 
     settings: Dict[str, Any] = dict(kwargs)
@@ -514,7 +514,7 @@ def plot_16_bin_bars(
     --------
     >>> plot_16_bin_bars(np.arange(16), "{0}")
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
     """
 
     values = as_float_array(values)
@@ -613,7 +613,7 @@ def plot_local_chroma_shifts(
     >>> specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
     >>> plot_local_chroma_shifts(specification)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
     """
 
     settings: Dict[str, Any] = dict(kwargs)
@@ -671,7 +671,7 @@ def plot_local_hue_shifts(
     >>> specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
     >>> plot_local_hue_shifts(specification)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
     """
 
     settings: Dict[str, Any] = dict(kwargs)
@@ -725,7 +725,7 @@ def plot_local_colour_fidelities(
     >>> specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
     >>> plot_local_colour_fidelities(specification)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
     """
 
     settings: Dict[str, Any] = dict(kwargs)
@@ -775,7 +775,7 @@ def plot_colour_fidelity_indexes(
     >>> specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
     >>> plot_colour_fidelity_indexes(specification)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
     """
 
     _figure, axes = artist(**kwargs)

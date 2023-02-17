@@ -144,7 +144,7 @@ def plot_spectral_locus(
     Examples
     --------
     >>> plot_spectral_locus(spectral_locus_colours="RGB")  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Spectral_Locus.png
         :align: center
@@ -422,7 +422,7 @@ def plot_chromaticity_diagram_colours(
     --------
     >>> plot_chromaticity_diagram_colours(diagram_colours="RGB")
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Chromaticity_Diagram_Colours.png
         :align: center
@@ -557,7 +557,7 @@ def plot_chromaticity_diagram(
     Examples
     --------
     >>> plot_chromaticity_diagram()  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Chromaticity_Diagram.png
         :align: center
@@ -661,7 +661,7 @@ def plot_chromaticity_diagram_CIE1931(
     Examples
     --------
     >>> plot_chromaticity_diagram_CIE1931()  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Chromaticity_Diagram_CIE1931.png
         :align: center
@@ -717,7 +717,7 @@ def plot_chromaticity_diagram_CIE1960UCS(
     Examples
     --------
     >>> plot_chromaticity_diagram_CIE1960UCS()  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Chromaticity_Diagram_CIE1960UCS.png
         :align: center
@@ -773,7 +773,7 @@ def plot_chromaticity_diagram_CIE1976UCS(
     Examples
     --------
     >>> plot_chromaticity_diagram_CIE1976UCS()  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Chromaticity_Diagram_CIE1976UCS.png
         :align: center
@@ -895,7 +895,7 @@ def plot_sds_in_chromaticity_diagram(
     ...     [A, D65], annotate_kwargs=annotate_kwargs, plot_kwargs=plot_kwargs
     ... )
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_SDS_In_Chromaticity_Diagram.png
         :align: center
@@ -1134,7 +1134,7 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
     >>> D65 = SDS_ILLUMINANTS["D65"]
     >>> plot_sds_in_chromaticity_diagram_CIE1931([A, D65])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_\
 Plot_SDS_In_Chromaticity_Diagram_CIE1931.png
@@ -1245,7 +1245,7 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
     >>> D65 = SDS_ILLUMINANTS["D65"]
     >>> plot_sds_in_chromaticity_diagram_CIE1960UCS([A, D65])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_\
 Plot_SDS_In_Chromaticity_Diagram_CIE1960UCS.png
@@ -1356,7 +1356,7 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
     >>> D65 = SDS_ILLUMINANTS["D65"]
     >>> plot_sds_in_chromaticity_diagram_CIE1976UCS([A, D65])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_\
 Plot_SDS_In_Chromaticity_Diagram_CIE1976UCS.png

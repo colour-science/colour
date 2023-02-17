@@ -285,7 +285,7 @@ def plot_single_sd_colour_rendition_report_full(
     >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> plot_single_sd_colour_rendition_report_full(sd)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with ... Axes>, <...>)
+    (<Figure size ... with ... Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Single_SD_Colour_Rendition_Report_Full.png
@@ -538,7 +538,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
     axes_footer = figure.add_subplot(gridspec_footer[0])
     _plot_report_footer(axes_footer)
 
-    figure.set_constrained_layout_pads(**report_box_padding)
+    figure.get_layout_engine().set(**report_box_padding)
 
     settings = dict(kwargs)
     settings["tight_layout"] = False
@@ -590,7 +590,7 @@ def plot_single_sd_colour_rendition_report_intermediate(
     >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> plot_single_sd_colour_rendition_report_intermediate(sd)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with ... Axes>, <...>)
+    (<Figure size ... with ... Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Single_SD_Colour_Rendition_Report_Intermediate.png
@@ -644,7 +644,7 @@ Plot_Single_SD_Colour_Rendition_Report_Intermediate.png
     axes_footer = figure.add_subplot(gridspec_footer[0])
     _plot_report_footer(axes_footer)
 
-    figure.set_constrained_layout_pads(**report_box_padding)
+    figure.get_layout_engine().set(**report_box_padding)
 
     settings = dict(kwargs)
     settings["tight_layout"] = False
@@ -693,7 +693,7 @@ def plot_single_sd_colour_rendition_report_simple(
     >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> plot_single_sd_colour_rendition_report_simple(sd)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with ... Axes>, <...>)
+    (<Figure size ... with ... Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Single_SD_Colour_Rendition_Report_Simple.png
@@ -737,7 +737,7 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
     axes_footer = figure.add_subplot(gridspec_footer[0])
     _plot_report_footer(axes_footer)
 
-    figure.set_constrained_layout_pads(**report_box_padding)
+    figure.get_layout_engine().set(**report_box_padding)
 
     settings = dict(kwargs)
     settings["tight_layout"] = False
@@ -783,7 +783,7 @@ plot_single_sd_colour_rendition_report_intermediate`, \
     >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> plot_single_sd_colour_rendition_report(sd)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with ... Axes>, <...>)
+    (<Figure size ... with ... Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Single_SD_Colour_Rendition_Report_Full.png
@@ -792,7 +792,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
 
     >>> plot_single_sd_colour_rendition_report(sd, "Intermediate")
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with ... Axes>, <...>)
+    (<Figure size ... with ... Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Single_SD_Colour_Rendition_Report_Intermediate.png
@@ -801,7 +801,7 @@ Plot_Single_SD_Colour_Rendition_Report_Intermediate.png
 
     >>> plot_single_sd_colour_rendition_report(sd, "Simple")
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with ... Axes>, <...>)
+    (<Figure size ... with ... Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Single_SD_Colour_Rendition_Report_Simple.png

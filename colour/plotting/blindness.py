@@ -82,7 +82,7 @@ def plot_cvd_simulation_Machado2009(
     >>> import numpy as np
     >>> RGB = np.random.rand(32, 32, 3)
     >>> plot_cvd_simulation_Machado2009(RGB)  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_CVD_Simulation_Machado2009.png
         :align: center

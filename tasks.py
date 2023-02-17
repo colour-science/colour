@@ -210,7 +210,6 @@ def tests(ctx: Context):
     message_box('Running "Pytest"...')
     ctx.run(
         "pytest "
-        "--disable-warnings "
         "--doctest-modules "
         f"--ignore={PYTHON_PACKAGE_NAME}/examples "
         f"{PYTHON_PACKAGE_NAME}"
@@ -477,7 +476,6 @@ def virtualise(ctx: Context, tests: bool = True):
             if tests:
                 ctx.run(
                     "poetry run py.test "
-                    "--disable-warnings "
                     "--doctest-modules "
                     f"--ignore={PYTHON_PACKAGE_NAME}/examples "
                     f"{PYTHON_PACKAGE_NAME}",
