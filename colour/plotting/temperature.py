@@ -118,7 +118,7 @@ def plot_planckian_locus(
     --------
     >>> plot_planckian_locus(planckian_locus_colours="RGB")
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Planckian_Locus.png
         :align: center
@@ -318,7 +318,7 @@ def plot_planckian_locus_in_chromaticity_diagram(
     ...     annotate_kwargs=annotate_kwargs,
     ...     plot_kwargs=plot_kwargs,
     ... )  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Planckian_Locus_In_Chromaticity_Diagram.png
@@ -509,7 +509,7 @@ plot_planckian_locus_in_chromaticity_diagram`,
     --------
     >>> plot_planckian_locus_in_chromaticity_diagram_CIE1931(["A", "B", "C"])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1931.png
@@ -590,7 +590,7 @@ plot_planckian_locus_in_chromaticity_diagram`,
     >>> plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
     ...     ["A", "C", "E"]
     ... )  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1960UCS.png
