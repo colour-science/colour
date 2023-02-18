@@ -431,7 +431,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram(
     | Sequence[
         MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
-    chromaticity_diagram_callable: Callable = (plot_chromaticity_diagram),
+    chromaticity_diagram_callable: Callable = plot_chromaticity_diagram,
     method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
     | str = "CIE 1931",
     show_whitepoints: bool = True,
@@ -1399,7 +1399,7 @@ def ellipses_MacAdam1942(
 
 @override_style()
 def plot_ellipses_MacAdam1942_in_chromaticity_diagram(
-    chromaticity_diagram_callable: Callable = (plot_chromaticity_diagram),
+    chromaticity_diagram_callable: Callable = plot_chromaticity_diagram,
     method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
     | str = "CIE 1931",
     chromaticity_diagram_clipping: bool = False,
