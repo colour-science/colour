@@ -124,7 +124,7 @@ def cctf_encoding_ROMMRGB(
 
 
 def cctf_decoding_ROMMRGB(
-    X_p: ArrayLike | ArrayLike,
+    X_p: ArrayLike,
     bit_depth: int = 8,
     in_int: bool = False,
 ) -> NDArrayFloat:
@@ -294,7 +294,7 @@ def cctf_encoding_RIMMRGB(
 
 
 def cctf_decoding_RIMMRGB(
-    X_p: ArrayLike | ArrayLike,
+    X_p: ArrayLike,
     bit_depth: int = 8,
     in_int: bool = False,
     E_clip: float = 2.0,
@@ -461,7 +461,7 @@ def log_encoding_ERIMMRGB(
 
 
 def log_decoding_ERIMMRGB(
-    X_p: ArrayLike | ArrayLike,
+    X_p: ArrayLike,
     bit_depth: int = 8,
     in_int: bool = False,
     E_min: float = 0.001,

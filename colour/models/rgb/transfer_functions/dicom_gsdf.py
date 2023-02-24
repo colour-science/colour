@@ -156,7 +156,7 @@ def eotf_inverse_DICOMGSDF(
 
 
 def eotf_DICOMGSDF(
-    J: ArrayLike | ArrayLike,
+    J: ArrayLike,
     in_int: bool = False,
     constants: Structure = CONSTANTS_DICOMGSDF,
 ) -> NDArrayFloat:
