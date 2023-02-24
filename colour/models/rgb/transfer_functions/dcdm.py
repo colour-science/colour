@@ -105,7 +105,7 @@ def eotf_inverse_DCDM(XYZ: ArrayLike, out_int: bool = False) -> NDArrayReal:
 
 
 def eotf_DCDM(
-    XYZ_p: ArrayLike | ArrayLike,
+    XYZ_p: ArrayLike,
     in_int: bool = False,
 ) -> NDArrayFloat:
     """

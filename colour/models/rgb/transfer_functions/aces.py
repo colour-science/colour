@@ -203,7 +203,7 @@ def log_encoding_ACESproxy(
 
 # pylint: disable=W0102
 def log_decoding_ACESproxy(
-    ACESproxy: ArrayLike | ArrayLike,
+    ACESproxy: ArrayLike,
     bit_depth: Literal[10, 12] = 10,
     in_int: bool = False,
     constants: dict = CONSTANTS_ACES_PROXY,

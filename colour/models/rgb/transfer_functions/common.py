@@ -70,7 +70,7 @@ def CV_range(
 
 
 def legal_to_full(
-    CV: ArrayLike | ArrayLike,
+    CV: ArrayLike,
     bit_depth: int = 10,
     in_int: bool = False,
     out_int: bool = False,
@@ -137,7 +137,7 @@ def legal_to_full(
 
 
 def full_to_legal(
-    CV: ArrayLike | ArrayLike,
+    CV: ArrayLike,
     bit_depth: int = 10,
     in_int: bool = False,
     out_int: bool = False,
