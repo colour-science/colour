@@ -854,7 +854,7 @@ def colourfulness_correlate(
     a = as_float_array(a)
     b = as_float_array(b)
 
-    M = 43 * N_c * e_t * np.sqrt(a**2 + b**2)
+    M = 43.0 * N_c * e_t * np.sqrt(a**2 + b**2)
 
     return M
 

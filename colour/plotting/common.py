@@ -277,9 +277,7 @@ def colour_style(use_style: bool = True) -> dict:
         "lines.markersize": constants.geometry.short * 3,
         "lines.markeredgewidth": constants.geometry.short * 0.75,
         # Cycle
-        "axes.prop_cycle": matplotlib.cycler(  # pyright: ignore
-            color=constants.colour.cycle
-        ),
+        "axes.prop_cycle": matplotlib.cycler(color=constants.colour.cycle),
     }
 
     if use_style:

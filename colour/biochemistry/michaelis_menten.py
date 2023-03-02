@@ -316,7 +316,7 @@ def substrate_concentration_MichaelisMenten_Abebe2017(
     K_m = as_float_array(K_m)
     b_m = as_float_array(b_m)
 
-    S = (v * K_m) / (V_max - b_m * v)
+    S = (v * K_m) / (V_max - b_m * v)  # pyright: ignore
 
     return as_float(S)
 
