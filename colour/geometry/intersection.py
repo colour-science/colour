@@ -215,9 +215,9 @@ def intersect_line_segments(
     x_2_x_1 = x_2 - x_1
     y_2_y_1 = y_2 - y_1
 
-    numerator_a = x_4_x_3 * y_1_y_3 - y_4_y_3 * x_1_x_3
-    numerator_b = x_2_x_1 * y_1_y_3 - y_2_y_1 * x_1_x_3
-    denominator = y_4_y_3 * x_2_x_1 - x_4_x_3 * y_2_y_1
+    numerator_a = x_4_x_3 * y_1_y_3 - y_4_y_3 * x_1_x_3  # pyright: ignore
+    numerator_b = x_2_x_1 * y_1_y_3 - y_2_y_1 * x_1_x_3  # pyright: ignore
+    denominator = y_4_y_3 * x_2_x_1 - x_4_x_3 * y_2_y_1  # pyright: ignore
 
     with sdiv_mode("Ignore"):
         u_a = sdiv(numerator_a, denominator)

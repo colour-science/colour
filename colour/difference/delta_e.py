@@ -481,10 +481,10 @@ def delta_E_CMC(
     L_1, a_1, b_1 = tsplit(to_domain_100(Lab_1))
     L_2, a_2, b_2 = tsplit(to_domain_100(Lab_2))
 
-    c_1 = np.hypot(a_1, b_1)
-    c_2 = np.hypot(a_2, b_2)
-    s_l = np.where(L_1 < 16, 0.511, (0.040975 * L_1) / (1 + 0.01765 * L_1))
-    s_c = 0.0638 * c_1 / (1 + 0.0131 * c_1) + 0.638
+    C_1 = np.hypot(a_1, b_1)
+    C_2 = np.hypot(a_2, b_2)
+    s_L = np.where(L_1 < 16, 0.511, (0.040975 * L_1) / (1 + 0.01765 * L_1))
+    s_C = 0.0638 * C_1 / (1 + 0.0131 * C_1) + 0.638
     h_1 = np.degrees(np.arctan2(b_1, a_1)) % 360
 
     t = np.where(
@@ -493,18 +493,18 @@ def delta_E_CMC(
         0.36 + np.fabs(0.4 * np.cos(np.deg2rad(h_1 + 35))),
     )
 
-    c_4 = c_1 * c_1 * c_1 * c_1
-    f = np.sqrt(c_4 / (c_4 + 1900))
-    s_h = s_c * (f * t + 1 - f)
+    C_4 = C_1 * C_1 * C_1 * C_1
+    f = np.sqrt(C_4 / (C_4 + 1900))
+    s_h = s_C * (f * t + 1 - f)
 
     delta_L = L_1 - L_2
-    delta_C = c_1 - c_2
+    delta_C = C_1 - C_2
     delta_A = a_1 - a_2
     delta_B = b_1 - b_2
     delta_H2 = delta_A**2 + delta_B**2 - delta_C**2
 
-    v_1 = delta_L / (l * s_l)
-    v_2 = delta_C / (c * s_c)
+    v_1 = delta_L / (l * s_L)
+    v_2 = delta_C / (c * s_C)
     v_3 = s_h
 
     d_E = np.sqrt(v_1**2 + v_2**2 + (delta_H2 / (v_3 * v_3)))

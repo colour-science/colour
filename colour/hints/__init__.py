@@ -45,6 +45,8 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "ArrayLike",
+    "NDArray",
     "ModuleType",
     "Any",
     "Callable",
@@ -71,8 +73,6 @@ __all__ = [
     "overload",
     "runtime_checkable",
     "Self",
-    "ArrayLike",
-    "NDArray",
     "RegexFlag",
     "DTypeInt",
     "DTypeFloat",

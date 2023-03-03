@@ -1590,7 +1590,9 @@ def normalise_munsell_specification(specification: ArrayLike) -> NDArrayFloat:
     specification = as_float_array(specification)
 
     if is_grey_munsell_colour(specification):
-        return specification * np.array([np.nan, 1, np.nan, np.nan])
+        return specification * np.array(
+            [np.nan, 1, np.nan, np.nan]
+        )  # pyright: ignore
     else:
         hue, value, chroma, code = specification
 

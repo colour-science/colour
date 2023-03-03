@@ -8,6 +8,8 @@ Annotation Type Hints
 .. autosummary::
     :toctree: generated/
 
+    ArrayLike
+    NDArray
     ModuleType
     Any
     Callable
@@ -31,8 +33,6 @@ Annotation Type Hints
     cast
     runtime_checkable
     Self
-    ArrayLike
-    NDArray
     RegexFlag
     DTypeInt
     DTypeFloat

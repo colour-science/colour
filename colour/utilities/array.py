@@ -129,7 +129,7 @@ class MixinDataclassFields:
            Tuple of :class:`dataclass`-like class fields.
         """
 
-        return fields(self)
+        return fields(self)  # pyright: ignore
 
 
 class MixinDataclassIterable(MixinDataclassFields):
@@ -513,7 +513,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
             {field: None for field, value in self if value is None}
         )
 
-        dataclass = replace(self, **field_values)
+        dataclass = replace(self, **field_values)  # pyright: ignore
 
         if in_place:
             for field in self.keys:
@@ -913,9 +913,9 @@ _DOMAIN_RANGE_SCALE
 """
 
 
-def get_domain_range_scale() -> Literal[
-    "ignore", "reference", "1", "100"
-] | str:
+def get_domain_range_scale() -> (
+    Literal["ignore", "reference", "1", "100"] | str
+):
     """
     Return the current *Colour* domain-range scale. The following scales are
     available:

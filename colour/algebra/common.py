@@ -808,7 +808,7 @@ def linstep_function(
     a = as_float_array(a)
     b = as_float_array(b)
 
-    y = (1 - x) * a + x * b
+    y = (1.0 - x) * a + x * b
 
     return np.clip(y, a, b) if clip else y
 
@@ -854,7 +854,7 @@ def smoothstep_function(
 
     i = np.clip((x - a) / (b - a), 0, 1) if clip else x
 
-    return (i**2) * (3 - 2 * i)
+    return (i**2) * (3.0 - 2.0 * i)
 
 
 smooth = smoothstep_function
