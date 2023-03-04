@@ -55,7 +55,12 @@ from .krystek1985 import uv_to_CCT_Krystek1985, CCT_to_uv_Krystek1985
 from .mccamy1992 import xy_to_CCT_McCamy1992, CCT_to_xy_McCamy1992
 from .planck1900 import uv_to_CCT_Planck1900, CCT_to_uv_Planck1900
 from .ohno2013 import uv_to_CCT_Ohno2013, CCT_to_uv_Ohno2013
-from .robertson1968 import uv_to_CCT_Robertson1968, CCT_to_uv_Robertson1968
+from .robertson1968 import (
+    CCT_to_mired,
+    mired_to_CCT,
+    uv_to_CCT_Robertson1968,
+    CCT_to_uv_Robertson1968,
+)
 
 __all__ = [
     "xy_to_CCT_CIE_D",
@@ -86,6 +91,8 @@ __all__ += [
     "CCT_to_uv_Ohno2013",
 ]
 __all__ += [
+    "CCT_to_mired",
+    "mired_to_CCT",
     "uv_to_CCT_Robertson1968",
     "CCT_to_uv_Robertson1968",
 ]

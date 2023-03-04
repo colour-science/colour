@@ -7,7 +7,12 @@ import numpy as np
 import unittest
 from itertools import product
 
-from colour.temperature import CCT_to_uv_Robertson1968, uv_to_CCT_Robertson1968
+from colour.temperature import (
+    mired_to_CCT,
+    CCT_to_mired,
+    CCT_to_uv_Robertson1968,
+    uv_to_CCT_Robertson1968,
+)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
@@ -18,6 +23,8 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "TestMired_to_CCT",
+    "TestCCT_to_mired",
     "TestUv_to_CCT_Robertson1968",
     "TestCCT_to_uv_Robertson1968",
 ]
@@ -124,6 +131,112 @@ TEMPERATURE_DUV_TO_UV: dict = {
     (49500, 0.0250): np.array([0.157203932244369, 0.275011422146831]),
     (49500, 0.0500): np.array([0.133062712973587, 0.281507692778510]),
 }
+
+
+class TestMired_to_CCT(unittest.TestCase):
+    """
+    Define :func:`colour.temperature.robertson1968.mired_to_CCT`
+    definition unit tests methods.
+    """
+
+    def test_mired_to_CCT(self):
+        """
+        Test :func:`colour.temperature.robertson1968.mired_to_CCT`
+        definition.
+        """
+
+        self.assertAlmostEqual(CCT_to_mired(312.5), 3200, places=7)
+
+        self.assertAlmostEqual(CCT_to_mired(153.846153846154), 6500, places=7)
+
+        self.assertAlmostEqual(
+            CCT_to_mired(66.666666666666667), 15000, places=7
+        )
+
+    def test_n_dimensional_mired_to_CCT(self):
+        """
+        Test :func:`colour.temperature.robertson1968.mired_to_CCT`
+        definition n-dimensional arrays support.
+        """
+
+        mired = 312.5
+        CCT = mired_to_CCT(mired)
+
+        mired = np.tile(mired, (6, 1))
+        CCT = np.tile(CCT, (6, 1))
+        np.testing.assert_array_almost_equal(
+            mired_to_CCT(mired), CCT, decimal=7
+        )
+
+        mired = np.reshape(mired, (2, 3, 1))
+        CCT = np.reshape(CCT, (2, 3, 1))
+        np.testing.assert_array_almost_equal(
+            mired_to_CCT(mired), CCT, decimal=7
+        )
+
+    @ignore_numpy_errors
+    def test_nan_mired_to_CCT(self):
+        """
+        Test :func:`colour.temperature.robertson1968.mired_to_CCT`
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = np.array(list(set(product(cases, repeat=2))))
+        mired_to_CCT(cases)
+
+
+class TestCCT_to_mired(unittest.TestCase):
+    """
+    Define :func:`colour.temperature.robertson1968.CCT_to_mired`
+    definition unit tests methods.
+    """
+
+    def test_CCT_to_mired(self):
+        """
+        Test :func:`colour.temperature.robertson1968.CCT_to_mired`
+        definition.
+        """
+
+        self.assertAlmostEqual(CCT_to_mired(3200), 312.5, places=7)
+
+        self.assertAlmostEqual(CCT_to_mired(6500), 153.846153846154, places=7)
+
+        self.assertAlmostEqual(
+            CCT_to_mired(15000), 66.666666666666667, places=7
+        )
+
+    def test_n_dimensional_CCT_to_mired(self):
+        """
+        Test :func:`colour.temperature.robertson1968.CCT_to_mired`
+        definition n-dimensional arrays support.
+        """
+
+        CCT = 3200
+        mired = CCT_to_mired(CCT)
+
+        CCT = np.tile(CCT, (6, 1))
+        mired = np.tile(mired, (6, 1))
+        np.testing.assert_array_almost_equal(
+            CCT_to_mired(CCT), mired, decimal=7
+        )
+
+        CCT = np.reshape(CCT, (2, 3, 1))
+        mired = np.reshape(mired, (2, 3, 1))
+        np.testing.assert_array_almost_equal(
+            CCT_to_mired(CCT), mired, decimal=7
+        )
+
+    @ignore_numpy_errors
+    def test_nan_CCT_to_mired(self):
+        """
+        Test :func:`colour.temperature.robertson1968.CCT_to_mired`
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = np.array(list(set(product(cases, repeat=2))))
+        CCT_to_mired(cases)
 
 
 class TestUv_to_CCT_Robertson1968(unittest.TestCase):
