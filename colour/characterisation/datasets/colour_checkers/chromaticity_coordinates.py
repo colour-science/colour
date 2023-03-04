@@ -446,14 +446,14 @@ DATA_TE226_V2: dict = dict(
         tuple(DATA_TE226_V2_CIE_XYZ.keys()),
         XYZ_to_xyY(
             list(DATA_TE226_V2_CIE_XYZ.values()),
-            CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["ICC D65"],
+            CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"],
         ),
     )
 )
 
 CCS_ILLUMINANT_TE226_V2: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
-]["ICC D65"]
+]["D65"]
 """*TE226 V2* illuminant."""
 
 CCS_TE226_V2: ColourChecker = ColourChecker(
