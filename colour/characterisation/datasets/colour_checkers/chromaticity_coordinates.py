@@ -29,8 +29,7 @@ chromaticity_coordinates.CCS_COLORCHECKER24_AFTER_NOV2014`:
     *ColorChecker Classic* reference data from *X-Rite* published in 2015 and
     matching the *ColorChecker Classic* edition after November 2014.
 -   :attr:`colour.characterisation.datasets.colour_checkers.\
-chromaticity_coordinates. CCS_TE226_V2`:
-    Reference data from *TE226 V2*.
+chromaticity_coordinates. CCS_TE226_V2`: Reference data from *TE226 V2*.
 
 References
 ----------
@@ -91,6 +90,7 @@ __all__ = [
     "DATA_COLORCHECKER24_AFTER_NOV2014",
     "CCS_ILLUMINANT_COLORCHECKER24_AFTER_NOV2014",
     "CCS_COLORCHECKER24_AFTER_NOV2014",
+    "DATA_TE226_V2",
     "CCS_TE226_V2",
     "CCS_COLOURCHECKERS",
 ]
@@ -465,7 +465,6 @@ CCS_TE226_V2: ColourChecker = ColourChecker(
 Reference data from *TE226 V2*. Transparent color rendition test chart
 for HDTV cameras, in addition to known colors from “ColorChecker”, the test
 chart contains colors which are critical in reproduction.
-https://www.image-engineering.de/content/products/charts/te226/downloads/TE226_D_data_sheet.pdf
 """
 
 CCS_COLOURCHECKERS: CanonicalMapping = CanonicalMapping(
