@@ -28,6 +28,9 @@ chromaticity_coordinates.CCS_COLORCHECKER24_BEFORE_NOV2014`:
 chromaticity_coordinates.CCS_COLORCHECKER24_AFTER_NOV2014`:
     *ColorChecker Classic* reference data from *X-Rite* published in 2015 and
     matching the *ColorChecker Classic* edition after November 2014.
+-   :attr:`colour.characterisation.datasets.colour_checkers.\
+chromaticity_coordinates. CCS_TE226_V2`:
+    Reference data from *TE226 V2*.
 
 References
 ----------
@@ -37,6 +40,9 @@ References
 -   :cite:`BabelColor2012c` : BabelColor. (2012). ColorChecker RGB and
     spectra.
     http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls
+-   :cite:`ImageEngineering2017` : Image Engineering. (2017). TE226 V2 data
+    sheet, from https://www.image-engineering.de/content/products/charts/\
+te226/downloads/TE226_D_data_sheet.pdf
 -   :cite:`X-Rite2016` : X-Rite. (2016). New color specifications for
     ColorChecker SG and Classic Charts. Retrieved October 29, 2018, from
     http://xritephoto.com/ph_product_overview.aspx?ID=938&Action=Support&\
@@ -85,6 +91,7 @@ __all__ = [
     "DATA_COLORCHECKER24_AFTER_NOV2014",
     "CCS_ILLUMINANT_COLORCHECKER24_AFTER_NOV2014",
     "CCS_COLORCHECKER24_AFTER_NOV2014",
+    "CCS_TE226_V2",
     "CCS_COLOURCHECKERS",
 ]
 
@@ -386,6 +393,81 @@ Reference *ColorChecker Classic* data from *X-Rite (2015)* and matching the
 *ColorChecker Classic* edition after November 2014.
 """
 
+DATA_TE226_V2_CIE_XYZ: dict = {
+    "dark skin": np.array([0.1278, 0.1074, 0.0726]),
+    "light skin": np.array([0.4945, 0.4484, 0.3586]),
+    "blue sky": np.array([0.1459, 0.1690, 0.2925]),
+    "foliage": np.array([0.0714, 0.1243, 0.0254]),
+    "blue flower": np.array([0.4470, 0.4039, 0.7304]),
+    "bluish green": np.array([0.3921, 0.5420, 0.6113]),
+    "orange": np.array([0.4574, 0.3628, 0.0624]),
+    "purplish blue": np.array([0.2979, 0.3180, 0.8481]),
+    "moderate red": np.array([0.3884, 0.2794, 0.1886]),
+    "purple": np.array([0.1324, 0.0796, 0.3824]),
+    "yellow green": np.array([0.3399, 0.5786, 0.1360]),
+    "orange yellow": np.array([0.5417, 0.4677, 0.0644]),
+    "blue": np.array([0.0859, 0.0361, 0.4728]),
+    "green": np.array([0.1000, 0.2297, 0.0530]),
+    "red": np.array([0.3594, 0.1796, 0.0197]),
+    "yellow": np.array([0.5236, 0.5972, 0.0368]),
+    "magenta": np.array([0.4253, 0.2050, 0.5369]),
+    "cyan": np.array([0.4942, 0.6119, 1.0304]),
+    "patch 19": np.array([0.2646, 0.2542, 0.1631]),
+    "patch 20": np.array([0.7921, 0.7560, 0.5988]),
+    "patch 21": np.array([0.4409, 0.4004, 0.3366]),
+    "patch 22": np.array([0.1546, 0.3395, 0.1016]),
+    "patch 23": np.array([0.3182, 0.3950, 0.5857]),
+    "patch 24": np.array([0.5920, 0.5751, 0.9892]),
+    "patch 25": np.array([0.4287, 0.2583, 0.0444]),
+    "patch 26": np.array([0.4282, 0.5757, 0.4770]),
+    "patch 27": np.array([0.1697, 0.1294, 0.7026]),
+    "patch 28": np.array([0.2143, 0.1564, 0.1908]),
+    "patch 29": np.array([0.1659, 0.3876, 0.3945]),
+    "patch 30": np.array([0.1869, 0.1093, 0.7069]),
+    "patch 31": np.array([0.3316, 0.1596, 0.1714]),
+    "patch 32": np.array([0.8298, 0.8910, 0.5199]),
+    "patch 33": np.array([0.1412, 0.1758, 0.4643]),
+    "patch 34": np.array([0.0153, 0.0668, 0.0694]),
+    "patch 35": np.array([0.6053, 0.5088, 0.1593]),
+    "patch 36": np.array([0.4217, 0.4459, 0.3173]),
+    "white": np.array([0.9505, 1.0000, 1.0888]),
+    "neutral 87": np.array([0.8331, 0.8801, 0.9576]),
+    "neutral 63": np.array([0.6050, 0.6401, 0.6958]),
+    "neutral 44": np.array([0.4119, 0.4358, 0.4724]),
+    "neutral 28": np.array([0.2638, 0.2798, 0.3018]),
+    "neutral 15": np.array([0.1405, 0.1489, 0.1598]),
+    "neutral 7": np.array([0.0628, 0.0665, 0.0701]),
+    "neutral 2": np.array([0.0190, 0.0202, 0.0202]),
+    "neutral < 0.1": np.array([0.0000, 0.0001, 0.0000]),
+}
+
+DATA_TE226_V2: dict = dict(
+    zip(
+        tuple(DATA_TE226_V2_CIE_XYZ.keys()),
+        XYZ_to_xyY(
+            list(DATA_TE226_V2_CIE_XYZ.values()),
+            CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"],
+        ),
+    )
+)
+
+CCS_ILLUMINANT_TE226_V2: NDArrayFloat = CCS_ILLUMINANTS[
+    "CIE 1931 2 Degree Standard Observer"
+]["D65"]
+"""*TE226 V2* illuminant."""
+
+CCS_TE226_V2: ColourChecker = ColourChecker(
+    "ColorChecker45 - TE226 V2",
+    DATA_TE226_V2,
+    CCS_ILLUMINANT_TE226_V2,
+)
+"""
+Reference data from *TE226 V2*. Transparent color rendition test chart
+for HDTV cameras, in addition to known colors from “ColorChecker”, the test
+chart contains colors which are critical in reproduction.
+https://www.image-engineering.de/content/products/charts/te226/downloads/TE226_D_data_sheet.pdf
+"""
+
 CCS_COLOURCHECKERS: CanonicalMapping = CanonicalMapping(
     {
         "ColorChecker 1976": CCS_COLORCHECKER1976,
@@ -393,6 +475,7 @@ CCS_COLOURCHECKERS: CanonicalMapping = CanonicalMapping(
         "BabelColor Average": CCS_BABELCOLOR_AVERAGE,
         "ColorChecker24 - Before November 2014": CCS_COLORCHECKER24_BEFORE_NOV2014,
         "ColorChecker24 - After November 2014": CCS_COLORCHECKER24_AFTER_NOV2014,
+        "TE226 V2": CCS_TE226_V2,
     }
 )
 CCS_COLOURCHECKERS.__doc__ = """
@@ -400,7 +483,8 @@ Chromaticity coordinates of the colour checkers.
 
 References
 ----------
-:cite:`BabelColor2012b`, :cite:`BabelColor2012c`, :cite:`X-Rite2016`
+:cite:`BabelColor2012b`, :cite:`BabelColor2012c`,
+:cite:`ImageEngineering2017`, :cite:`X-Rite2016`
 
 Aliases:
 
