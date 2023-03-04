@@ -97,7 +97,9 @@ __all__ = [
 
 
 class ColourChecker(
-    namedtuple("ColourChecker", ("name", "data", "illuminant"))
+    namedtuple(
+        "ColourChecker", ("name", "data", "illuminant", "rows", "columns")
+    )
 ):
     """
     *Colour Checker* data.
@@ -110,6 +112,10 @@ class ColourChecker(
         Chromaticity coordinates in *CIE xyY* colourspace.
     illuminant
         *Colour Checker* illuminant chromaticity coordinates.
+    rows
+        *Colour Checker* row count.
+    columns
+        *Colour Checker* column count.
     """
 
 
@@ -179,7 +185,11 @@ CCS_ILLUMINANT_COLORCHECKER1976: NDArrayFloat = CCS_ILLUMINANTS[
 """*ColorChecker Classic 1976* illuminant."""
 
 CCS_COLORCHECKER1976: ColourChecker = ColourChecker(
-    "ColorChecker 1976", DATA_COLORCHECKER1976, CCS_ILLUMINANT_COLORCHECKER1976
+    "ColorChecker 1976",
+    DATA_COLORCHECKER1976,
+    CCS_ILLUMINANT_COLORCHECKER1976,
+    4,
+    6,
 )
 """
 *ColorChecker Classic* developed by *McCamy et al.* (1976) at Macbeth, a
@@ -224,7 +234,11 @@ CCS_ILLUMINANT_COLORCHECKER2005: NDArrayFloat = CCS_ILLUMINANTS[
 """*ColorChecker Classic 2005* illuminant."""
 
 CCS_COLORCHECKER2005: ColourChecker = ColourChecker(
-    "ColorChecker 2005", DATA_COLORCHECKER2005, CCS_ILLUMINANT_COLORCHECKER2005
+    "ColorChecker 2005",
+    DATA_COLORCHECKER2005,
+    CCS_ILLUMINANT_COLORCHECKER2005,
+    4,
+    6,
 )
 """*ColorChecker Classic* data from *GretagMacbeth (2005)*."""
 DATA_BABELCOLOR_AVERAGE: dict = dict(
@@ -268,6 +282,8 @@ CCS_BABELCOLOR_AVERAGE: ColourChecker = ColourChecker(
     "BabelColor Average",
     DATA_BABELCOLOR_AVERAGE,
     CCS_ILLUMINANT_BABELCOLOR_AVERAGE,
+    4,
+    6,
 )
 """Average data derived from measurements of 30 *ColorChecker Classic* charts."""
 
@@ -326,6 +342,8 @@ CCS_COLORCHECKER24_BEFORE_NOV2014: ColourChecker = ColourChecker(
     "ColorChecker24 - Before November 2014",
     DATA_COLORCHECKER24_BEFORE_NOV2014,
     CCS_ILLUMINANT_COLORCHECKER24_BEFORE_NOV2014,
+    4,
+    6,
 )
 """
 Reference *ColorChecker Classic* data from *X-Rite (2015)*.
@@ -387,6 +405,8 @@ CCS_COLORCHECKER24_AFTER_NOV2014: ColourChecker = ColourChecker(
     "ColorChecker24 - After November 2014",
     DATA_COLORCHECKER24_AFTER_NOV2014,
     CCS_ILLUMINANT_COLORCHECKER24_AFTER_NOV2014,
+    4,
+    6,
 )
 """
 Reference *ColorChecker Classic* data from *X-Rite (2015)* and matching the
@@ -457,9 +477,7 @@ CCS_ILLUMINANT_TE226_V2: NDArrayFloat = CCS_ILLUMINANTS[
 """*TE226 V2* illuminant."""
 
 CCS_TE226_V2: ColourChecker = ColourChecker(
-    "ColorChecker45 - TE226 V2",
-    DATA_TE226_V2,
-    CCS_ILLUMINANT_TE226_V2,
+    "TE226 V2", DATA_TE226_V2, CCS_ILLUMINANT_TE226_V2, 5, 9
 )
 """
 Reference data from *TE226 V2*. Transparent color rendition test chart

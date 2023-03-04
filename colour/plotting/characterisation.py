@@ -151,16 +151,21 @@ def plot_multi_colour_checkers(
 
     compare_swatches = len(filtered_colour_checkers) == 2
 
+    column_counts = []
     colour_swatches = []
     colour_checker_names = []
     for colour_checker in filtered_colour_checkers:
         colour_checker_names.append(colour_checker.name)
+        column_counts.append(colour_checker.columns)
         for label, xyY in colour_checker.data.items():
             XYZ = xyY_to_XYZ(xyY)
             RGB = XYZ_to_plotting_colourspace(XYZ, colour_checker.illuminant)
             colour_swatches.append(
                 ColourSwatch(np.clip(np.ravel(RGB), 0, 1), label.title())
             )
+
+    columns = np.unique(column_counts)
+    attest(len(columns) == 1)
 
     if compare_swatches:
         colour_swatches = [
@@ -175,7 +180,6 @@ def plot_multi_colour_checkers(
     background_colour = "0.1"
     width = height = 1.0
     spacing = 0.25
-    columns = 6
 
     settings: Dict[str, Any] = {
         "axes": axes,
