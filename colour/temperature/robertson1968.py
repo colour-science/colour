@@ -5,6 +5,10 @@ Robertson (1968) Correlated Colour Temperature
 Defines the *Robertson (1968)* correlated colour temperature :math:`T_{cp}`
 computations objects:
 
+-   :func:`colour.temperature.mired_to_CCT`: Micro reciprocal degree to
+    correlated colour temperature :math:`T_{cp}` computation.
+-   :func:`colour.temperature.CCT_to_mired`: Correlated colour
+    temperature :math:`T_{cp}` to micro reciprocal degree computation.
 -   :func:`colour.temperature.uv_to_CCT_Robertson1968`: Correlated colour
     temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` computation of given
     *CIE UCS* colourspace *uv* chromaticity coordinates using *Robertson
@@ -53,6 +57,8 @@ __all__ = [
     "DATA_ISOTEMPERATURE_LINES_ROBERTSON1968",
     "ISOTemperatureLine_Specification_Robertson1968",
     "ISOTEMPERATURE_LINES_ROBERTSON1968",
+    "mired_to_CCT",
+    "CCT_to_mired",
     "uv_to_CCT_Robertson1968",
     "CCT_to_uv_Robertson1968",
 ]
@@ -141,6 +147,60 @@ ISOTEMPERATURE_LINES_ROBERTSON1968: list = [
 ]
 
 
+def mired_to_CCT(mired: ArrayLike) -> NDArrayFloat:
+    """
+    Convert given micro reciprocal degree to correlated colour temperature
+    :math:`T_{cp}`.
+
+    Parameters
+    ----------
+    mired
+         Micro reciprocal degree (mired).
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Correlated colour temperature :math:`T_{cp}`.
+
+    Examples
+    --------
+    >>> CCT_to_mired(153.84615384615384)  # doctest: +ELLIPSIS
+    6500.0
+    """
+
+    mired = as_float_array(mired)
+
+    with sdiv_mode():
+        return sdiv(1.0e6, mired)
+
+
+def CCT_to_mired(CCT: ArrayLike) -> NDArrayFloat:
+    """
+    Convert given correlated colour temperature :math:`T_{cp}` to micro
+    reciprocal degree (mired).
+
+    Parameters
+    ----------
+    CCT
+         Correlated colour temperature :math:`T_{cp}`.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Micro reciprocal degree (mired).
+
+    Examples
+    --------
+    >>> CCT_to_mired(6500)  # doctest: +ELLIPSIS
+    153.8461538...
+    """
+
+    CCT = as_float_array(CCT)
+
+    with sdiv_mode():
+        return sdiv(1.0e6, CCT)
+
+
 def _uv_to_CCT_Robertson1968(uv: ArrayLike) -> NDArrayFloat:
     """
     Return the correlated colour temperature :math:`T_{cp}` and
@@ -188,7 +248,7 @@ def _uv_to_CCT_Robertson1968(uv: ArrayLike) -> NDArrayFloat:
 
             f = 0 if i == 1 else dt / (last_dt + dt)
 
-            T = 1.0e6 / (wr_ruvt_previous.r * f + wr_ruvt.r * (1 - f))
+            T = mired_to_CCT(wr_ruvt_previous.r * f + wr_ruvt.r * (1 - f))
 
             uu = u - (wr_ruvt_previous.u * f + wr_ruvt.u * (1 - f))
             vv = v - (wr_ruvt_previous.v * f + wr_ruvt.v * (1 - f))
@@ -265,8 +325,7 @@ def _CCT_to_uv_Robertson1968(CCT_D_uv: ArrayLike) -> NDArrayFloat:
 
     CCT, D_uv = tsplit(CCT_D_uv)
 
-    with sdiv_mode():
-        r = sdiv(1.0e6, CCT)
+    r = CCT_to_mired(CCT)
 
     u, v = 0, 0
     for i in range(30):
