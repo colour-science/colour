@@ -38,7 +38,7 @@ from colour.models import (
     xy_to_Luv_uv,
     xy_to_XYZ,
 )
-from colour.temperature import CCT_to_uv
+from colour.temperature import mired_to_CCT, CCT_to_uv
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
     CONSTANTS_ARROW_STYLE,
@@ -54,6 +54,7 @@ from colour.plotting import (
 from colour.plotting.diagrams import plot_chromaticity_diagram
 from colour.utilities import (
     as_int_scalar,
+    as_float_scalar,
     full,
     optional,
     tstack,
@@ -81,6 +82,7 @@ def plot_planckian_locus(
     planckian_locus_colours: ArrayLike | str | None = None,
     planckian_locus_opacity: float = 1,
     planckian_locus_labels: Sequence | None = None,
+    planckian_locus_use_mireds: bool = False,
     method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
     | str = "CIE 1931",
     **kwargs: Any,
@@ -100,6 +102,8 @@ def plot_planckian_locus(
         Array of labels used to customise which iso-temperature lines will be
         drawn along the *Planckian Locus*. Passing an empty array will result
         in no iso-temperature lines being drawn.
+    planckian_locus_use_mireds
+        Whether to use micro reciprocal degrees for the iso-temperature lines.
     method
         *Chromaticity Diagram* method.
 
@@ -116,7 +120,11 @@ def plot_planckian_locus(
 
     Examples
     --------
-    >>> plot_planckian_locus(planckian_locus_colours="RGB")
+    >>> plot_planckian_locus(
+    ...     planckian_locus_colours="RGB",
+    ...     method="CIE 1960 UCS",
+    ...     use_mireds=True,
+    ... )
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...Axes...>)
 
@@ -137,7 +145,9 @@ def plot_planckian_locus(
         tuple,
         optional(
             planckian_locus_labels,
-            (10**6 / 600, 2000, 2500, 3000, 4000, 6000, 10**6 / 100),
+            (0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000)
+            if planckian_locus_use_mireds
+            else (1e6 / 600, 2000, 2500, 3000, 4000, 6000, 1e6 / 100),
         ),
     )
     D_uv = 0.05
@@ -190,8 +200,12 @@ def plot_planckian_locus(
             axis=-1,
         )
 
-    start, end = 10**6 / 600, 10**6 / 10
-    CCT = np.arange(start, end + 100, 100)
+    start, end = (
+        (0, 1000) if planckian_locus_use_mireds else (1e6 / 600, 1e6 / 10)
+    )
+
+    CCT = np.arange(start, end + 100, 10)
+    CCT = mired_to_CCT(CCT) if planckian_locus_use_mireds else CCT
     CCT_D_uv = np.reshape(tstack([CCT, zeros(CCT.shape)]), (-1, 1, 2))
     ij = uv_to_ij(CCT_to_uv(CCT_D_uv, "Robertson 1968"))
 
@@ -213,7 +227,18 @@ def plot_planckian_locus(
 
     for label in labels:
         CCT_D_uv = np.reshape(
-            tstack([full(10, label), np.linspace(-D_uv, D_uv, 10)]), (-1, 1, 2)
+            tstack(
+                [
+                    full(
+                        10,
+                        as_float_scalar(mired_to_CCT(label))
+                        if planckian_locus_use_mireds
+                        else label,
+                    ),
+                    np.linspace(-D_uv, D_uv, 10),
+                ]
+            ),
+            (-1, 1, 2),
         )
 
         if use_RGB_planckian_locus_colours:
@@ -231,7 +256,7 @@ def plot_planckian_locus(
         )
         axes.add_collection(line_collection)
         axes.annotate(
-            f"{as_int_scalar(label)}K",
+            f'{as_int_scalar(label)}{"M" if planckian_locus_use_mireds else "K"}',
             xy=(ij[-1, :, 0], ij[-1, :, 1]),
             xytext=(0, CONSTANTS_COLOUR_STYLE.geometry.long / 2),
             textcoords="offset points",
