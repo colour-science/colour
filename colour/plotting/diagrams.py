@@ -988,9 +988,7 @@ def plot_sds_in_chromaticity_diagram(
             ),
             "zorder": CONSTANTS_COLOUR_STYLE.zorder.midground_line,
             "cmfs": cmfs,
-            "illuminant": SDS_ILLUMINANTS[
-                CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint_name
-            ],
+            "illuminant": SDS_ILLUMINANTS["E"],
             "use_sd_colours": False,
             "normalise_sd_colours": False,
         }

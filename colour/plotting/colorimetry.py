@@ -366,9 +366,7 @@ def plot_multi_sds(
             "label": f"{sd.display_name}",
             "zorder": CONSTANTS_COLOUR_STYLE.zorder.midground_line,
             "cmfs": "CIE 1931 2 Degree Standard Observer",
-            "illuminant": SDS_ILLUMINANTS[
-                CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint_name
-            ],
+            "illuminant": SDS_ILLUMINANTS["E"],
             "use_sd_colours": False,
             "normalise_sd_colours": False,
         }
