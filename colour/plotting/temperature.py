@@ -83,6 +83,7 @@ def plot_planckian_locus(
     planckian_locus_opacity: float = 1,
     planckian_locus_labels: Sequence | None = None,
     planckian_locus_use_mireds: bool = False,
+    planckian_locus_iso_temperature_lines_D_uv: float = 0.05,
     method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
     | str = "CIE 1931",
     **kwargs: Any,
@@ -104,6 +105,10 @@ def plot_planckian_locus(
         in no iso-temperature lines being drawn.
     planckian_locus_use_mireds
         Whether to use micro reciprocal degrees for the iso-temperature lines.
+    planckian_locus_iso_temperature_lines_D_uv
+        Iso-temperature lines :math:`\\Delta_{uv}` length on each side of the
+        *Planckian Locus*.
+
     method
         *Chromaticity Diagram* method.
 
@@ -150,7 +155,7 @@ def plot_planckian_locus(
             else (1e6 / 600, 2000, 2500, 3000, 4000, 6000, 1e6 / 100),
         ),
     )
-    D_uv = 0.05
+    D_uv = planckian_locus_iso_temperature_lines_D_uv
 
     settings: Dict[str, Any] = {"uniform": True}
     settings.update(kwargs)
