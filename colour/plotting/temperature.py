@@ -128,7 +128,6 @@ def plot_planckian_locus(
     >>> plot_planckian_locus(
     ...     planckian_locus_colours="RGB",
     ...     method="CIE 1960 UCS",
-    ...     use_mireds=True,
     ... )
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...Axes...>)
@@ -194,8 +193,8 @@ def plot_planckian_locus(
 
     def CCT_D_uv_to_plotting_colourspace(CCT_D_uv):
         """
-        Convert given *uv* chromaticity coordinates to the default plotting
-        colourspace.
+        Convert given correlated colour temperature :math:`T_{cp}` and
+        :math:`\\Delta_{uv}` to the default plotting colourspace.
         """
 
         return normalise_maximum(
