@@ -272,6 +272,7 @@ Colour Temperature & Correlated Colour Temperature
 .. autosummary::
     :toctree: generated/
 
+    plot_daylight_locus
     plot_planckian_locus
     plot_planckian_locus_in_chromaticity_diagram
 

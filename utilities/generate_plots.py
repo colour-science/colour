@@ -117,6 +117,7 @@ from colour.plotting.section import (  # noqa: E402
     plot_hull_section_contour,
 )
 from colour.plotting.temperature import (  # noqa: E402
+    plot_daylight_locus,
     plot_planckian_locus,
     plot_planckian_locus_in_chromaticity_diagram,
 )
@@ -907,6 +908,13 @@ def generate_documentation_plots(output_directory: str):
         plot_RGB_colourspace_section(
             "sRGB", section_colours="RGB", section_opacity=0.15, **arguments
         )[0]
+    )
+
+    arguments["filename"] = os.path.join(
+        output_directory, "Plotting_Plot_Daylight_Locus.png"
+    )
+    plt.close(
+        plot_daylight_locus(daylight_locus_colours="RGB", **arguments)[0]
     )
 
     arguments["filename"] = os.path.join(
