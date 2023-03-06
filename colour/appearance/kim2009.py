@@ -352,7 +352,7 @@ H=278.0602824..., HC=None)
 
     # Computing the correlate of *chroma* :math:`C`.
     a_k, n_k = 456.5, 0.62
-    C = a_k * spow(np.sqrt(a**2 + b**2), n_k)
+    C = a_k * spow(np.hypot(a, b), n_k)
 
     # Computing the correlate of *colourfulness* :math:`M`.
     a_m, b_m = 0.11, 0.61

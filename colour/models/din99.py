@@ -243,7 +243,7 @@ def DIN99_to_Lab(
 
     h_99 = np.arctan2(b_99, a_99) - np.radians(c_7)
 
-    C_99 = np.sqrt(a_99**2 + b_99**2)
+    C_99 = np.hypot(a_99, b_99)
     G = np.expm1((c_8 / c_5) * C_99 * k_CH * k_E) / c_6
 
     e = G * np.cos(h_99)

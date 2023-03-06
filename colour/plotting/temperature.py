@@ -36,9 +36,10 @@ from colour.models import (
     UCS_uv_to_xy,
     XYZ_to_UCS,
     xy_to_Luv_uv,
+    xy_to_UCS_uv,
     xy_to_XYZ,
 )
-from colour.temperature import mired_to_CCT, CCT_to_uv
+from colour.temperature import mired_to_CCT, CCT_to_uv, CCT_to_xy_CIE_D
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
     CONSTANTS_ARROW_STYLE,
@@ -70,11 +71,146 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "plot_daylight_locus",
     "plot_planckian_locus",
     "plot_planckian_locus_in_chromaticity_diagram",
     "plot_planckian_locus_in_chromaticity_diagram_CIE1931",
     "plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS",
 ]
+
+
+@override_style()
+def plot_daylight_locus(
+    daylight_locus_colours: ArrayLike | str | None = None,
+    daylight_locus_opacity: float = 1,
+    daylight_locus_use_mireds: bool = False,
+    method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+    | str = "CIE 1931",
+    **kwargs: Any,
+) -> Tuple[plt.Figure, plt.Axes]:
+    """
+    Plot the *Daylight Locus* according to given method.
+
+    Parameters
+    ----------
+    daylight_locus_colours
+        Colours of the *Daylight Locus*, if ``daylight_locus_colours`` is set
+        to *RGB*, the colours will be computed according to the corresponding
+        chromaticity coordinates.
+    daylight_locus_opacity
+       Opacity of the *Daylight Locus*.
+    daylight_locus_use_mireds
+        Whether to use micro reciprocal degrees for the iso-temperature lines.
+    method
+        *Chromaticity Diagram* method.
+
+    Other Parameters
+    ----------------
+    kwargs
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        See the documentation of the previously listed definitions.
+
+    Returns
+    -------
+    :class:`tuple`
+        Current figure and axes.
+
+    Examples
+    --------
+    >>> plot_daylight_locus(
+    ...     daylight_locus_colours="RGB",
+    ...     method="CIE 1960 UCS",
+    ... )
+    ... # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, <...Axes...>)
+
+    .. image:: ../_static/Plotting_Plot_Daylight_Locus.png
+        :align: center
+        :alt: plot_daylight_locus
+    """
+
+    method = validate_method(
+        method, ["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+    )
+
+    daylight_locus_colours = optional(
+        daylight_locus_colours, CONSTANTS_COLOUR_STYLE.colour.dark
+    )
+
+    settings: Dict[str, Any] = {"uniform": True}
+    settings.update(kwargs)
+
+    _figure, axes = artist(**settings)
+
+    if method == "cie 1931":
+
+        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
+            """
+            Convert given *CIE xy* chromaticity coordinates to *ij*
+            chromaticity coordinates.
+            """
+
+            return xy
+
+    elif method == "cie 1960 ucs":
+
+        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
+            """
+            Convert given *CIE xy* chromaticity coordinates to *ij*
+            chromaticity coordinates.
+            """
+
+            return xy_to_UCS_uv(xy)
+
+    elif method == "cie 1976 ucs":
+
+        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
+            """
+            Convert given *CIE xy* chromaticity coordinates to *ij*
+            chromaticity coordinates.
+            """
+
+            return xy_to_Luv_uv(xy)
+
+    def CCT_to_plotting_colourspace(CCT):
+        """
+        Convert given correlated colour temperature :math:`T_{cp}` to the
+        default plotting colourspace.
+        """
+
+        return normalise_maximum(
+            XYZ_to_plotting_colourspace(xy_to_XYZ(CCT_to_xy_CIE_D(CCT))),
+            axis=-1,
+        )
+
+    start, end = (
+        (0, 1000) if daylight_locus_use_mireds else (1e6 / 600, 1e6 / 10)
+    )
+
+    CCT = np.arange(start, end + 100, 10) * 1.4388 / 1.4380
+    CCT = mired_to_CCT(CCT) if daylight_locus_use_mireds else CCT
+    ij = xy_to_ij(CCT_to_xy_CIE_D(CCT)).reshape(-1, 1, 2)
+
+    use_RGB_daylight_locus_colours = (
+        str(daylight_locus_colours).upper() == "RGB"
+    )
+    if use_RGB_daylight_locus_colours:
+        pl_colours = CCT_to_plotting_colourspace(CCT)
+    else:
+        pl_colours = daylight_locus_colours
+
+    line_collection = LineCollection(
+        np.concatenate([ij[:-1], ij[1:]], axis=1),
+        colors=pl_colours,
+        alpha=daylight_locus_opacity,
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
+    )
+    axes.add_collection(line_collection)
+
+    settings = {"axes": axes}
+    settings.update(kwargs)
+
+    return render(**settings)
 
 
 @override_style()
@@ -128,7 +264,6 @@ def plot_planckian_locus(
     >>> plot_planckian_locus(
     ...     planckian_locus_colours="RGB",
     ...     method="CIE 1960 UCS",
-    ...     use_mireds=True,
     ... )
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...Axes...>)
@@ -194,8 +329,8 @@ def plot_planckian_locus(
 
     def CCT_D_uv_to_plotting_colourspace(CCT_D_uv):
         """
-        Convert given *uv* chromaticity coordinates to the default plotting
-        colourspace.
+        Convert given correlated colour temperature :math:`T_{cp}` and
+        :math:`\\Delta_{uv}` to the default plotting colourspace.
         """
 
         return normalise_maximum(
