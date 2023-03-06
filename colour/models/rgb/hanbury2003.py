@@ -98,7 +98,7 @@ def RGB_to_IHLS(RGB: ArrayLike) -> NDArrayFloat:
 
     Y, C_1, C_2 = tsplit(vector_dot(MATRIX_RGB_TO_YC_1_C_2, RGB))
 
-    C = np.sqrt(C_1**2 + C_2**2)
+    C = np.hypot(C_1, C_2)
 
     with sdiv_mode():
         C_1_C = sdiv(C_1, C)

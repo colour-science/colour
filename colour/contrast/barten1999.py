@@ -189,7 +189,7 @@ def sigma_Barten1999(
     C_ab = as_float_array(C_ab)
     d = as_float_array(d)
 
-    return as_float(np.sqrt(sigma_0**2 + (C_ab * d) ** 2))
+    return as_float(np.hypot(sigma_0, C_ab * d))
 
 
 def retinal_illuminance_Barten1999(
