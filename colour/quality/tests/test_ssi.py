@@ -576,6 +576,25 @@ class TestSpectralSimilarityIndex(unittest.TestCase):
             72.0,
         )
 
+    def test_spectral_similarity_continuous(self):
+        # Test values were computed at ed2e90
+        self.assertAlmostEqual(
+            spectral_similarity_index(
+                SDS_ILLUMINANTS["C"], SDS_ILLUMINANTS["D65"], continuous=True
+            ),
+            94.178,
+            places=2,
+        )
+        self.assertAlmostEqual(
+            spectral_similarity_index(
+                SpectralDistribution(DATA_HMI),
+                SDS_ILLUMINANTS["D50"],
+                continuous=True,
+            ),
+            71.772,
+            places=2,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
