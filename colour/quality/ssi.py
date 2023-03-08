@@ -47,7 +47,7 @@ def spectral_similarity_index(
     sd_test: SpectralDistribution,
     sd_reference: SpectralDistribution,
     continuous: bool = False,
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Return the *Academy Spectral Similarity Index* (SSI) of given test
     spectral distribution with given reference spectral distribution.
