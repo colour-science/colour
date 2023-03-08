@@ -21,7 +21,7 @@ from scipy.ndimage import convolve1d
 from colour.algebra import LinearInterpolator, sdiv, sdiv_mode
 from colour.colorimetry import SpectralDistribution, SpectralShape, reshape_sd
 from colour.hints import NDArrayFloat
-from colour.utilities import as_float_scalar, zeros
+from colour.utilities import zeros
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

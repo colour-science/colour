@@ -577,6 +577,9 @@ class TestSpectralSimilarityIndex(unittest.TestCase):
         )
 
     def test_spectral_similarity_continuous(self):
+        """Test :func:`colour.quality.ssi.spectral_similarity_index` for
+        producing continuous values."""
+
         # Test values were computed at ed2e90
         self.assertAlmostEqual(
             spectral_similarity_index(
