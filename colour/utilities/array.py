@@ -2045,9 +2045,6 @@ def tstack(
 
     a = as_array(a, dtype)
     if a.ndim <= 2:
-        return a.T
-
-    if a.ndim <= 2:
         return np.transpose(a)
 
     return np.concatenate([x[..., None] for x in a], axis=-1)
