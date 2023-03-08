@@ -22,5 +22,3 @@ docs/_static/Tutorial_*.png
 docs/generated
 poetry.lock
 references
-
-.dmypy.json
