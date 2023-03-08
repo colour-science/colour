@@ -10,7 +10,7 @@ transformations:
 
 References
 ----------
--   :cite:`Munish2021` : Munish Ragoo, L., & Farup, I. (2021). Optimising
+-   :cite:`MunishRagoo2021` : Munish Ragoo, L., & Farup, I. (2021). Optimising
     a Euclidean Colour Space Transform for Colour Order and Perceptual
     Uniformity. Color and Imaging Conference, 29(1), 282-287.
     doi:10.2352/issn.2169-2629.2021.29.282
@@ -23,7 +23,7 @@ from functools import partial
 
 from colour.algebra import spow
 from colour.models import Iab_to_XYZ, XYZ_to_Iab
-from colour.hints import ArrayLike, NDArray
+from colour.hints import ArrayLike, NDArrayFloat
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -41,7 +41,7 @@ __all__ = [
     "IPT_Munish2021_to_XYZ",
 ]
 
-MATRIX_IPT_XYZ_TO_LMS: NDArray = np.array(
+MATRIX_IPT_XYZ_TO_LMS: NDArrayFloat = np.array(
     [
         [0.4321, 0.6906, -0.0930],
         [-0.1793, 1.1458, 0.0226],
@@ -50,10 +50,10 @@ MATRIX_IPT_XYZ_TO_LMS: NDArray = np.array(
 )
 """*CIE XYZ* tristimulus values to normalised cone responses matrix."""
 
-MATRIX_IPT_LMS_TO_XYZ: NDArray = np.linalg.inv(MATRIX_IPT_XYZ_TO_LMS)
+MATRIX_IPT_LMS_TO_XYZ: NDArrayFloat = np.linalg.inv(MATRIX_IPT_XYZ_TO_LMS)
 """Normalised cone responses to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_IPT_LMS_P_TO_IPT: NDArray = np.array(
+MATRIX_IPT_LMS_P_TO_IPT: NDArrayFloat = np.array(
     [
         [0.3037, 0.6688, 0.0276],
         [3.9247, -4.7339, 0.8093],
@@ -65,14 +65,14 @@ Normalised non-linear cone responses to *Munish Ragoo and Farup (2021)*
 *Optimised IPT* colourspace matrix.
 """
 
-MATRIX_IPT_IPT_TO_LMS_P: NDArray = np.linalg.inv(MATRIX_IPT_LMS_P_TO_IPT)
+MATRIX_IPT_IPT_TO_LMS_P: NDArrayFloat = np.linalg.inv(MATRIX_IPT_LMS_P_TO_IPT)
 """
 *Munish Ragoo and Farup (2021)* *Optimised IPT* colourspace to normalised
 non-linear cone responses matrix.
 """
 
 
-def XYZ_to_IPT_Munish2021(XYZ: ArrayLike) -> NDArray:
+def XYZ_to_IPT_Munish2021(XYZ: ArrayLike) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to
     *Munish Ragoo and Farup (2021)* *Optimised IPT* colourspace.
@@ -110,7 +110,7 @@ def XYZ_to_IPT_Munish2021(XYZ: ArrayLike) -> NDArray:
 
     References
     ----------
-    :cite:`Munish2021`
+    :cite:`MunishRagoo2021`
 
     Examples
     --------
@@ -127,7 +127,7 @@ def XYZ_to_IPT_Munish2021(XYZ: ArrayLike) -> NDArray:
     )
 
 
-def IPT_Munish2021_to_XYZ(IPT: ArrayLike) -> NDArray:
+def IPT_Munish2021_to_XYZ(IPT: ArrayLike) -> NDArrayFloat:
     """
     Convert from *Munish Ragoo and Farup (2021)* *Optimised IPT* colourspace to
     *CIE XYZ* tristimulus values.
@@ -162,7 +162,7 @@ def IPT_Munish2021_to_XYZ(IPT: ArrayLike) -> NDArray:
 
     References
     ----------
-    :cite:`Munish2021`
+    :cite:`MunishRagoo2021`
 
     Examples
     --------

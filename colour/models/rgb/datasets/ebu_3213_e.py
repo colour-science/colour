@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
     linear_function,
@@ -40,7 +40,7 @@ __all__ = [
     "RGB_COLOURSPACE_EBU_3213_E",
 ]
 
-PRIMARIES_EBU_3213_E: NDArray = np.array(
+PRIMARIES_EBU_3213_E: NDArrayFloat = np.array(
     [
         [0.64, 0.33],
         [0.29, 0.60],
@@ -52,15 +52,15 @@ PRIMARIES_EBU_3213_E: NDArray = np.array(
 WHITEPOINT_NAME_EBU_3213_E: str = "D65"
 """*EBU Tech. 3213-E* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_EBU_3213_E: NDArray = np.array([0.313, 0.329])
+CCS_WHITEPOINT_EBU_3213_E: NDArrayFloat = np.array([0.313, 0.329])
 """*EBU Tech. 3213-E* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_EBU_3213_E_RGB_TO_XYZ: NDArray = normalised_primary_matrix(
+MATRIX_EBU_3213_E_RGB_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
     PRIMARIES_EBU_3213_E, CCS_WHITEPOINT_EBU_3213_E
 )
 """*EBU Tech. 3213-E* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_EBU_3213_E_RGB: NDArray = np.linalg.inv(
+MATRIX_XYZ_TO_EBU_3213_E_RGB: NDArrayFloat = np.linalg.inv(
     MATRIX_EBU_3213_E_RGB_TO_XYZ
 )
 """*CIE XYZ* tristimulus values to *EBU Tech. 3213-E* colourspace matrix."""

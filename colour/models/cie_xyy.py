@@ -26,7 +26,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import ArrayLike, Floating, NDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     as_float_array,
     as_float_scalar,
@@ -60,7 +60,7 @@ def XYZ_to_xyY(
     illuminant: ArrayLike = CCS_ILLUMINANTS[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *CIE xyY* colourspace and
     reference *illuminant*.
@@ -126,7 +126,7 @@ def XYZ_to_xyY(
     return xyY
 
 
-def xyY_to_XYZ(xyY: ArrayLike) -> NDArray:
+def xyY_to_XYZ(xyY: ArrayLike) -> NDArrayFloat:
     """
     Convert from *CIE xyY* colourspace to *CIE XYZ* tristimulus values.
 
@@ -182,7 +182,7 @@ def xyY_to_XYZ(xyY: ArrayLike) -> NDArray:
     return from_range_1(XYZ)
 
 
-def xyY_to_xy(xyY: ArrayLike) -> NDArray:
+def xyY_to_xy(xyY: ArrayLike) -> NDArrayFloat:
     """
     Convert from *CIE xyY* colourspace to *CIE xy* chromaticity coordinates.
 
@@ -234,7 +234,7 @@ def xyY_to_xy(xyY: ArrayLike) -> NDArray:
     return xy
 
 
-def xy_to_xyY(xy: ArrayLike, Y: Floating = 1) -> NDArray:
+def xy_to_xyY(xy: ArrayLike, Y: float = 1) -> NDArrayFloat:
     """
     Convert from *CIE xy* chromaticity coordinates to *CIE xyY* colourspace by
     extending the array last dimension with given :math:`Y` *luminance*.
@@ -312,7 +312,7 @@ def XYZ_to_xy(
     illuminant: ArrayLike = CCS_ILLUMINANTS[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Return the *CIE xy* chromaticity coordinates from given *CIE XYZ*
     tristimulus values.
@@ -351,7 +351,7 @@ def XYZ_to_xy(
     return xyY_to_xy(XYZ_to_xyY(XYZ, illuminant))
 
 
-def xy_to_XYZ(xy: ArrayLike) -> NDArray:
+def xy_to_XYZ(xy: ArrayLike) -> NDArrayFloat:
     """
     Return the *CIE XYZ* tristimulus values from given *CIE xy* chromaticity
     coordinates.

@@ -13,12 +13,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import (
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    Literal,
-    Union,
-)
+from colour.hints import ArrayLike, NDArrayFloat, Literal
 from colour.utilities import as_float_array, as_float, validate_method
 
 __author__ = "Colour Developers"
@@ -34,12 +29,13 @@ __all__ = [
 
 
 def gamma_function(
-    a: FloatingOrArrayLike,
-    exponent: FloatingOrArrayLike = 1,
-    negative_number_handling: Union[
-        Literal["Clamp", "Indeterminate", "Mirror", "Preserve"], str
-    ] = "Indeterminate",
-) -> FloatingOrNDArray:
+    a: ArrayLike,
+    exponent: ArrayLike = 1,
+    negative_number_handling: Literal[
+        "Clamp", "Indeterminate", "Mirror", "Preserve"
+    ]
+    | str = "Indeterminate",
+) -> NDArrayFloat:
     """
     Define a typical gamma encoding / decoding function.
 
@@ -65,7 +61,7 @@ def gamma_function(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Encoded / decoded array.
 
     Examples

@@ -18,7 +18,7 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
     gamma_function,
@@ -41,7 +41,7 @@ __all__ = [
     "RGB_COLOURSPACE_EKTA_SPACE_PS_5",
 ]
 
-PRIMARIES_EKTA_SPACE_PS_5: NDArray = np.array(
+PRIMARIES_EKTA_SPACE_PS_5: NDArrayFloat = np.array(
     [
         [0.694736842105263, 0.305263157894737],
         [0.260000000000000, 0.700000000000000],
@@ -53,17 +53,17 @@ PRIMARIES_EKTA_SPACE_PS_5: NDArray = np.array(
 WHITEPOINT_NAME_EKTA_SPACE_PS_5_V: str = "D50"
 """*Ekta Space PS 5* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_EKTA_SPACE_PS_5: NDArray = CCS_ILLUMINANTS[
+CCS_WHITEPOINT_EKTA_SPACE_PS_5: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_EKTA_SPACE_PS_5_V]
 """*Ekta Space PS 5* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_EKTA_SPACE_PS_5_TO_XYZ: NDArray = normalised_primary_matrix(
+MATRIX_EKTA_SPACE_PS_5_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
     PRIMARIES_EKTA_SPACE_PS_5, CCS_WHITEPOINT_EKTA_SPACE_PS_5
 )
 """*Ekta Space PS 5* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_EKTA_SPACE_PS_5: NDArray = np.linalg.inv(
+MATRIX_XYZ_TO_EKTA_SPACE_PS_5: NDArrayFloat = np.linalg.inv(
     MATRIX_EKTA_SPACE_PS_5_TO_XYZ
 )
 """*CIE XYZ* tristimulus values to *Ekta Space PS 5* colourspace matrix."""

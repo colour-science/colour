@@ -35,14 +35,8 @@ from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.hints import (
     Any,
     ArrayLike,
-    Boolean,
-    Dict,
-    Floating,
-    Integer,
     Literal,
-    NDArray,
-    Optional,
-    Union,
+    NDArrayFloat,
 )
 from colour.volume import is_within_mesh_volume
 from colour.utilities import CACHE_REGISTRY, zeros, validate_method
@@ -68,20 +62,20 @@ Default spectral shape according to *ASTM E308-15* practise shape but using an
 interval of 5.
 """
 
-_CACHE_OUTER_SURFACE_XYZ: Dict = CACHE_REGISTRY.register_cache(
+_CACHE_OUTER_SURFACE_XYZ: dict = CACHE_REGISTRY.register_cache(
     f"{__name__}._CACHE_OUTER_SURFACE_XYZ"
 )
 
-_CACHE_OUTER_SURFACE_XYZ_POINTS: Dict = CACHE_REGISTRY.register_cache(
+_CACHE_OUTER_SURFACE_XYZ_POINTS: dict = CACHE_REGISTRY.register_cache(
     f"{__name__}._CACHE_OUTER_SURFACE_XYZ_POINTS"
 )
 
 
 def generate_pulse_waves(
-    bins: Integer,
-    pulse_order: Union[Literal["Bins", "Pulse Wave Width"], str] = "Bins",
-    filter_jagged_pulses: Boolean = False,
-) -> NDArray:
+    bins: int,
+    pulse_order: Literal["Bins", "Pulse Wave Width"] | str = "Bins",
+    filter_jagged_pulses: bool = False,
+) -> NDArrayFloat:
     """
     Generate the pulse waves of given number of bins necessary to totally
     stimulate the colour matching functions and produce the *Rösch-MacAdam*
@@ -245,12 +239,12 @@ def generate_pulse_waves(
 
 
 def XYZ_outer_surface(
-    cmfs: Optional[MultiSpectralDistributions] = None,
-    illuminant: Optional[SpectralDistribution] = None,
-    point_order: Union[Literal["Bins", "Pulse Wave Width"], str] = "Bins",
-    filter_jagged_points: Boolean = False,
+    cmfs: MultiSpectralDistributions | None = None,
+    illuminant: SpectralDistribution | None = None,
+    point_order: Literal["Bins", "Pulse Wave Width"] | str = "Bins",
+    filter_jagged_points: bool = False,
     **kwargs: Any,
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Generate the *Rösch-MacAdam* colour solid, i.e. *CIE XYZ* colourspace
     outer surface, for given colour matching functions using multi-spectral
@@ -386,11 +380,11 @@ solid_RoschMacAdam = XYZ_outer_surface
 
 def is_within_visible_spectrum(
     XYZ: ArrayLike,
-    cmfs: Optional[MultiSpectralDistributions] = None,
-    illuminant: Optional[SpectralDistribution] = None,
-    tolerance: Optional[Floating] = None,
+    cmfs: MultiSpectralDistributions | None = None,
+    illuminant: SpectralDistribution | None = None,
+    tolerance: float | None = None,
     **kwargs: Any,
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Return whether given *CIE XYZ* tristimulus values are within the visible
     spectrum volume, i.e. *Rösch-MacAdam* colour solid, for given colour

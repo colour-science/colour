@@ -38,8 +38,6 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import Tuple
-
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
@@ -52,7 +50,7 @@ __all__ = [
 ]
 
 
-MUNSELL_COLOURS_ALL: Tuple = (
+MUNSELL_COLOURS_ALL: tuple = (
     (("2.5GY", 0.2, 2.0), np.array([0.7130, 1.4140, 0.2370])),
     (("5GY", 0.2, 2.0), np.array([0.4490, 1.1450, 0.2370])),
     (("7.5GY", 0.2, 2.0), np.array([0.2620, 0.8370, 0.2370])),

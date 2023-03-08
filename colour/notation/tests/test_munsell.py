@@ -3,11 +3,12 @@
 
 from __future__ import annotations
 
+import contextlib
 import numpy as np
 import unittest
 from itertools import product
 
-from colour.hints import List, NDArray, Tuple
+from colour.hints import NDArrayFloat
 from colour.notation.munsell import (
     CCS_ILLUMINANT_MUNSELL,
 )
@@ -52,6 +53,7 @@ from colour.notation import (
     munsell_value_ASTMD1535,
 )
 from colour.utilities import (
+    as_array,
     as_float_array,
     domain_range_scale,
     ignore_numpy_errors,
@@ -104,7 +106,7 @@ __all__ = [
 ]
 
 
-def _generate_unit_tests_specifications() -> Tuple:  # pragma: no cover
+def _generate_unit_tests_specifications() -> tuple:  # pragma: no cover
     """
     Generate the unit tests specifications.
 
@@ -139,8 +141,8 @@ def _generate_unit_tests_specifications() -> Tuple:  # pragma: no cover
             xyY = munsell_specification_to_xyY(specification)
             xyY_r = munsell_specification_to_xyY(specification_r)
 
-            _munsell_colour = xyY_to_munsell_colour(xyY)  # noqa
-            _munsell_colour_r = xyY_to_munsell_colour(xyY_r)  # noqa
+            _munsell_colour = xyY_to_munsell_colour(xyY)
+            _munsell_colour_r = xyY_to_munsell_colour(xyY_r)
 
             specifications.append([specification, xyY])
             specifications_r.append([specification_r, xyY_r])
@@ -148,13 +150,13 @@ def _generate_unit_tests_specifications() -> Tuple:  # pragma: no cover
             if len(specifications) == 100:
                 break
         except Exception as error:
-            print(specification)
-            print(error)
+            print(specification)  # noqa: T201
+            print(error)  # noqa: T201
 
     return specifications, specifications_r
 
 
-MUNSELL_SPECIFICATIONS: NDArray = np.array(
+MUNSELL_SPECIFICATIONS: NDArrayFloat = as_array(
     [
         [
             [7.18927191, 5.34025196, 16.05861170, 3.00000000],
@@ -556,10 +558,11 @@ MUNSELL_SPECIFICATIONS: NDArray = np.array(
             [3.40490668, 6.59689139, 9.20874115, 7.00000000],
             [0.41967010, 0.31821655, 0.36537324],
         ],
-    ]
+    ],
+    dtype=object,  # pyright: ignore
 )
 
-MUNSELL_GREYS_SPECIFICATIONS: NDArray = np.array(
+MUNSELL_GREYS_SPECIFICATIONS: NDArrayFloat = as_array(
     list(
         zip(
             np.linspace(0, 10, 25)[:, None],
@@ -591,10 +594,11 @@ MUNSELL_GREYS_SPECIFICATIONS: NDArray = np.array(
                 [0.31006, 0.31616, 1.00000000],
             ),
         )
-    )
+    ),
+    dtype=object,  # pyright: ignore
 )
 
-MUNSELL_EVEN_SPECIFICATIONS: NDArray = np.array(
+MUNSELL_EVEN_SPECIFICATIONS: NDArrayFloat = as_array(
     [
         [(7.5, 6.0, 16.0, 3), [0.18320000, 0.44140000, 0.29301153]],
         [(7.5, 9.0, 12.0, 3), [0.24190000, 0.39850000, 0.76695586]],
@@ -697,10 +701,11 @@ MUNSELL_EVEN_SPECIFICATIONS: NDArray = np.array(
         [(7.5, 5.0, 4.0, 5), [0.38500000, 0.41200000, 0.19271844]],
         [(2.5, 6.0, 10.0, 7), [0.43200000, 0.31180000, 0.29301153]],
         [(8.0, 2, 14.0, 1), [0.07257382, 0.10413956, 0.03048116]],
-    ]
+    ],
+    dtype=object,  # pyright: ignore
 )
 
-MUNSELL_BOUNDING_HUES: NDArray = np.array(
+MUNSELL_BOUNDING_HUES: NDArrayFloat = as_float_array(
     [
         ((5.0, 3.0), (7.5, 3.0)),
         ((5.0, 3.0), (7.5, 3.0)),
@@ -805,7 +810,7 @@ MUNSELL_BOUNDING_HUES: NDArray = np.array(
     ]
 )
 
-MUNSELL_HUE_TO_ANGLE: NDArray = np.array(
+MUNSELL_HUE_TO_ANGLE: NDArrayFloat = np.array(
     [
         [2.5, 1, 208.750],
         [2.5, 2, 153.750],
@@ -847,10 +852,10 @@ MUNSELL_HUE_TO_ANGLE: NDArray = np.array(
         [10.0, 8, 337.500],
         [10.0, 9, 285.000],
         [10.0, 10, 247.500],
-    ]
+    ]  # pyright: ignore
 )
 
-MUNSELL_HUE_TO_ASTM_HUE: NDArray = np.array(
+MUNSELL_HUE_TO_ASTM_HUE: NDArrayFloat = np.array(
     [
         [2.5, 0, 72.5],
         [2.5, 1, 62.5],
@@ -896,10 +901,10 @@ MUNSELL_HUE_TO_ASTM_HUE: NDArray = np.array(
         [10.0, 8, 100.0],
         [10.0, 9, 90.0],
         [10.0, 10, 80.0],
-    ]
+    ]  # pyright: ignore
 )
 
-MUNSELL_INTERPOLATION_METHODS: List = [
+MUNSELL_INTERPOLATION_METHODS: list = [
     "Linear",
     "Linear",
     "Radial",
@@ -1003,7 +1008,7 @@ MUNSELL_INTERPOLATION_METHODS: List = [
     "Radial",
 ]
 
-MUNSELL_XY_FROM_RENOTATION_OVOID: List = [
+MUNSELL_XY_FROM_RENOTATION_OVOID: list = [
     [0.1832, 0.4414],
     [0.2419, 0.3985],
     [0.3564, 0.3279],
@@ -1790,10 +1795,8 @@ class TestMunsellSpecification_to_xyY(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=4))))
         for case in cases:
-            try:
+            with contextlib.suppress(AssertionError, TypeError, ValueError):
                 munsell_specification_to_xyY(case)
-            except (AssertionError, TypeError, ValueError):
-                pass
 
 
 class TestMunsellColour_to_xyY(unittest.TestCase):
@@ -1968,10 +1971,8 @@ class TestxyY_to_munsell_specification(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
-            try:
+            with contextlib.suppress(AssertionError, TypeError, ValueError):
                 xyY_to_munsell_specification(case)
-            except (AssertionError, TypeError, ValueError):
-                pass
 
 
 class TestxyY_to_munsell_colour(unittest.TestCase):
@@ -2017,7 +2018,7 @@ class TestxyY_to_munsell_colour(unittest.TestCase):
         munsell_colour = np.reshape(munsell_colour, (2, 3))
         np.testing.assert_equal(xyY_to_munsell_colour(xyY), munsell_colour)
 
-        xyY = list(CCS_ILLUMINANT_MUNSELL) + [1.0]
+        xyY = [*list(CCS_ILLUMINANT_MUNSELL), 1.0]
         munsell_colour = xyY_to_munsell_colour(xyY)
 
         xyY = np.tile(xyY, (6, 1))

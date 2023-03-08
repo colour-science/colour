@@ -730,7 +730,7 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
                     "RLAB",
                     "ZCAM",
                 ):
-                    if target.endswith(specification):
+                    if target.endswith(specification):  # noqa: B023
                         return getattr(x, fields(x)[0].name).dtype
 
                 return x.dtype
@@ -1753,7 +1753,7 @@ class TestIndexAlongLastAxis(unittest.TestCase):
             indexes = np.array([123, 456])
             index_along_last_axis(a, indexes)
 
-        # Non-integer indexes
+        # Non-int indexes
         with self.assertRaises(IndexError):
             indexes = np.array([0.0, 0.0])
             index_along_last_axis(a, indexes)

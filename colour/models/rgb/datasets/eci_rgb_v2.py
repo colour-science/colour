@@ -24,10 +24,9 @@ from colour.colorimetry import (
     luminance_CIE1976,
 )
 from colour.hints import (
+    ArrayLike,
     Callable,
-    NDArray,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
+    NDArrayFloat,
 )
 from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
 from colour.utilities import as_float_array
@@ -48,7 +47,7 @@ __all__ = [
     "RGB_COLOURSPACE_ECI_RGB_V2",
 ]
 
-PRIMARIES_ECI_RGB_V2: NDArray = np.array(
+PRIMARIES_ECI_RGB_V2: NDArrayFloat = np.array(
     [
         [0.670103092783505, 0.329896907216495],
         [0.209905660377358, 0.709905660377358],
@@ -60,23 +59,25 @@ PRIMARIES_ECI_RGB_V2: NDArray = np.array(
 WHITEPOINT_NAME_ECI_RGB_V: str = "D50"
 """*ECI RGB v2* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_ECI_RGB_V2: NDArray = CCS_ILLUMINANTS[
+CCS_WHITEPOINT_ECI_RGB_V2: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_ECI_RGB_V]
 """*ECI RGB v2* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_ECI_RGB_V2_TO_XYZ: NDArray = normalised_primary_matrix(
+MATRIX_ECI_RGB_V2_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
     PRIMARIES_ECI_RGB_V2, CCS_WHITEPOINT_ECI_RGB_V2
 )
 """*ECI RGB v2* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_ECI_RGB_V2: NDArray = np.linalg.inv(MATRIX_ECI_RGB_V2_TO_XYZ)
+MATRIX_XYZ_TO_ECI_RGB_V2: NDArrayFloat = np.linalg.inv(
+    MATRIX_ECI_RGB_V2_TO_XYZ
+)
 """*CIE XYZ* tristimulus values to *ECI RGB v2* colourspace matrix."""
 
 
 def _scale_domain_0_100_range_0_1(
-    a: FloatingOrArrayLike, callable_: Callable
-) -> FloatingOrNDArray:
+    a: ArrayLike, callable_: Callable
+) -> NDArrayFloat:
     """
     Scale the input domain of given *luminance* :math:`Y` or *Lightness*
     :math:`L^*` array to [0, 100], call the given callable, and
@@ -94,7 +95,7 @@ def _scale_domain_0_100_range_0_1(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Scaled *luminance* :math:`Y` or *Lightness* :math:`L^*` array.
     """
 

@@ -13,7 +13,7 @@ from colour.colorimetry import (
     sd_CIE_illuminant_D_series,
     daylight_locus_function,
 )
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.temperature import CCT_to_xy_CIE_D
 from colour.utilities import ignore_numpy_errors
 
@@ -31,7 +31,7 @@ __all__ = [
     "TestDaylightLocusFunction",
 ]
 
-DATA_A: NDArray = np.array(
+DATA_A: NDArrayFloat = np.array(
     [
         6.14461778,
         6.94719899,

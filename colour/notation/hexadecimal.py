@@ -13,7 +13,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import normalise_maximum
-from colour.hints import ArrayLike, List, NDArray, StrOrArrayLike, StrOrNDArray
+from colour.hints import ArrayLike, NDArrayFloat, NDArrayStr
 from colour.models import eotf_inverse_sRGB, eotf_sRGB
 from colour.utilities import (
     as_float_array,
@@ -36,7 +36,7 @@ __all__ = [
 ]
 
 
-def RGB_to_HEX(RGB: ArrayLike) -> StrOrNDArray:
+def RGB_to_HEX(RGB: ArrayLike) -> NDArrayStr:
     """
     Convert from *RGB* colourspace to hexadecimal representation.
 
@@ -91,7 +91,7 @@ def RGB_to_HEX(RGB: ArrayLike) -> StrOrNDArray:
     return HEX
 
 
-def HEX_to_RGB(HEX: StrOrArrayLike) -> NDArray:
+def HEX_to_RGB(HEX: ArrayLike) -> NDArrayFloat:
     """
     Convert from hexadecimal representation to *RGB* colourspace.
 
@@ -120,15 +120,15 @@ def HEX_to_RGB(HEX: StrOrArrayLike) -> NDArray:
     array([ 0.6666666...,  0.8666666...,  1.        ])
     """
 
-    HEX = np.core.defchararray.lstrip(HEX, "#")  # type: ignore[arg-type]
+    HEX = np.core.defchararray.lstrip(HEX, "#")  # pyright: ignore
 
-    def to_RGB(x: List) -> List:
+    def to_RGB(x: list) -> list:
         """Convert given hexadecimal representation to *RGB*."""
 
         l_x = len(x)
 
         return [
-            int(x[i : i + l_x // 3], 16)  # type: ignore[call-overload]
+            int(x[i : i + l_x // 3], 16)  # pyright: ignore
             for i in range(0, l_x, l_x // 3)
         ]
 

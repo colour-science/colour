@@ -7,7 +7,7 @@ Defines the objects to compute the *spectral uniformity*
 
 References
 ----------
--   :cite:`David2015a` : David, A., Fini, P. T., Houser, K. W., Ohno, Y.,
+-   :cite:`David2015` : David, A., Fini, P. T., Houser, K. W., Ohno, Y.,
     Royer, M. P., Smet, K. A. G., Wei, M., & Whitehead, L. (2015). Development
     of the IES method for evaluating the color rendition of light sources.
     Optics Express, 23(12), 15888. doi:10.1364/OE.23.015888
@@ -22,7 +22,7 @@ from colour.colorimetry import (
     SpectralDistribution,
     sds_and_msds_to_msds,
 )
-from colour.hints import Boolean, List, NDArray, Union
+from colour.hints import NDArrayFloat, Sequence
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -37,12 +37,11 @@ __all__ = [
 
 
 def spectral_uniformity(
-    sds: Union[
-        List[Union[SpectralDistribution, MultiSpectralDistributions]],
-        MultiSpectralDistributions,
-    ],
-    use_second_order_derivatives: Boolean = False,
-) -> NDArray:
+    sds: Sequence[SpectralDistribution | MultiSpectralDistributions]
+    | SpectralDistribution
+    | MultiSpectralDistributions,
+    use_second_order_derivatives: bool = False,
+) -> NDArrayFloat:
     """
     Compute the *spectral uniformity* (or *spectral flatness*) of given
     spectral distributions.
@@ -61,7 +60,7 @@ def spectral_uniformity(
         compute the spectral uniformity of. `sds` can be a single
         :class:`colour.MultiSpectralDistributions` class instance, a list
         of :class:`colour.MultiSpectralDistributions` class instances or a
-        list of :class:`colour.SpectralDistribution` class instances.
+        List of :class:`colour.SpectralDistribution` class instances.
     use_second_order_derivatives
         Whether to use the second-order derivatives in the computations.
 
@@ -76,7 +75,7 @@ def spectral_uniformity(
 
     References
     ----------
-    :cite:`David2015a`
+    :cite:`David2015`
 
     Examples
     --------

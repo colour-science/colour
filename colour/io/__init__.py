@@ -1,4 +1,4 @@
-from .luts import *  # noqa
+from .luts import *  # noqa: F403
 from . import luts
 from .image import ImageAttribute_Specification, convert_bit_depth
 from .image import read_image_OpenImageIO, write_image_OpenImageIO

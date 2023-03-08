@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import sys
 
-from colour.hints import Any, Dict
+from colour.hints import Any
 
 from .data_structures import (
     Lookup,
@@ -31,7 +31,6 @@ from .common import (
     is_opencolorio_installed,
     is_openimageio_installed,
     is_pandas_installed,
-    is_sklearn_installed,
     is_tqdm_installed,
     is_trimesh_installed,
     required,
@@ -145,7 +144,6 @@ __all__ += [
     "is_opencolorio_installed",
     "is_openimageio_installed",
     "is_pandas_installed",
-    "is_sklearn_installed",
     "is_tqdm_installed",
     "is_trimesh_installed",
     "required",
@@ -251,7 +249,7 @@ class utilities(ModuleAPI):
 
 
 # v0.4.0
-API_CHANGES: Dict = {
+API_CHANGES: dict = {
     "ObjectRenamed": [
         [
             "colour.utilities.set_int_precision",
@@ -306,7 +304,7 @@ API_CHANGES
 """
 
 if not is_documentation_building():
-    sys.modules["colour.utilities"] = utilities(  # type: ignore[assignment]
+    sys.modules["colour.utilities"] = utilities(  # pyright: ignore
         sys.modules["colour.utilities"], build_API_changes(API_CHANGES)
     )
 

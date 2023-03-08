@@ -9,7 +9,6 @@ import unittest
 import tempfile
 
 from colour.colorimetry import SpectralDistribution, SpectralShape
-from colour.hints import Dict
 from colour.io import (
     read_spectral_data_from_csv_file,
     read_sds_from_csv_file,
@@ -33,7 +32,7 @@ __all__ = [
 
 ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 
-COLOURCHECKER_N_OHTA_1: Dict = {
+COLOURCHECKER_N_OHTA_1: dict = {
     380.0: 0.048,
     385.0: 0.051,
     390.0: 0.055,

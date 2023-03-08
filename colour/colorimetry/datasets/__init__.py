@@ -4,9 +4,9 @@ from .cmfs import (
     MSDS_CMFS_RGB,
     MSDS_CMFS_STANDARD_OBSERVER,
 )
-from .illuminants import *  # noqa
+from .illuminants import *  # noqa: F403
 from . import illuminants
-from .light_sources import *  # noqa
+from .light_sources import *  # noqa: F403
 from . import light_sources
 from .lefs import SDS_LEFS, SDS_LEFS_PHOTOPIC, SDS_LEFS_SCOTOPIC
 

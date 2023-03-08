@@ -6,6 +6,8 @@ import unittest
 from itertools import product
 
 from colour.models.rgb.ycbcr import (
+    round_BT2100,
+    ranges_YCbCr,
     matrix_YCbCr,
     offset_YCbCr,
     RGB_to_YCbCr,
@@ -24,6 +26,8 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Development"
 
 __all__ = [
+    "TestRoundBT2100",
+    "TestRangeYCbCr",
     "TestMatrixYCbCr",
     "TestOffsetYCbCr",
     "TestRGB_to_YCbCr",
@@ -31,6 +35,79 @@ __all__ = [
     "TestRGB_to_YcCbcCrc",
     "TestYcCbcCrc_to_RGB",
 ]
+
+
+class TestRoundBT2100(unittest.TestCase):
+    """
+    Define :func:`colour.models.rgb.ycbcr.round_BT2100` definition unit tests
+    methods.
+    """
+
+    def test_round_BT2100(self):
+        """Test :func:`colour.models.rgb.ycbcr.round_BT2100` definition."""
+
+        np.testing.assert_array_equal(
+            round_BT2100([-0.6, -0.5, -0.4, 0.4, 0.5, 0.6]),
+            np.array([-1.0, -1.0, -0.0, 0.0, 1.0, 1.0]),
+        )
+
+
+class TestRangeYCbCr(unittest.TestCase):
+    """
+    Define :func:`colour.models.rgb.ycbcr.ranges_YCbCr` definition unit tests
+    methods.
+    """
+
+    def test_ranges_YCbCr(self):
+        """Test :func:`colour.models.rgb.ycbcr.ranges_YCbCr` definition."""
+
+        np.testing.assert_array_almost_equal(
+            ranges_YCbCr(8, True, True),
+            np.array([16.00000000, 235.00000000, 16.00000000, 240.00000000]),
+            decimal=7,
+        )
+
+        np.testing.assert_array_almost_equal(
+            ranges_YCbCr(8, True, False),
+            np.array([0.06274510, 0.92156863, 0.06274510, 0.94117647]),
+            decimal=7,
+        )
+
+        np.testing.assert_array_almost_equal(
+            ranges_YCbCr(8, False, True),
+            np.array([0.00000000, 255.00000000, 0.50000000, 255.50000000]),
+            decimal=7,
+        )
+
+        np.testing.assert_array_almost_equal(
+            ranges_YCbCr(8, False, False),
+            np.array([0.00000000, 1.00000000, -0.50000000, 0.50000000]),
+            decimal=7,
+        )
+
+        np.testing.assert_array_almost_equal(
+            ranges_YCbCr(10, True, True),
+            np.array([64.00000000, 940.00000000, 64.00000000, 960.00000000]),
+            decimal=7,
+        )
+
+        np.testing.assert_array_almost_equal(
+            ranges_YCbCr(10, True, False),
+            np.array([0.06256109, 0.91886608, 0.06256109, 0.93841642]),
+            decimal=7,
+        )
+
+        np.testing.assert_array_almost_equal(
+            ranges_YCbCr(10, False, True),
+            np.array([0.00000000, 1023.00000000, 0.50000000, 1023.50000000]),
+            decimal=7,
+        )
+
+        np.testing.assert_array_almost_equal(
+            ranges_YCbCr(10, False, False),
+            np.array([0.00000000, 1.00000000, -0.50000000, 0.50000000]),
+            decimal=7,
+        )
 
 
 class TestMatrixYCbCr(unittest.TestCase):

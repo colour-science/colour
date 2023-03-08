@@ -10,7 +10,7 @@ from __future__ import annotations
 import numpy as np
 from scipy.spatial import Delaunay
 
-from colour.hints import ArrayLike, Floating, NDArray, Optional
+from colour.hints import ArrayLike, NDArrayFloat
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -25,8 +25,8 @@ __all__ = [
 
 
 def is_within_mesh_volume(
-    points: ArrayLike, mesh: ArrayLike, tolerance: Optional[Floating] = None
-) -> NDArray:
+    points: ArrayLike, mesh: ArrayLike, tolerance: float | None = None
+) -> NDArrayFloat:
     """
     Return whether given points are within given mesh volume using Delaunay
     triangulation.

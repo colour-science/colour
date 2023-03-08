@@ -23,12 +23,9 @@ import numpy as np
 from colour.algebra import sdiv, sdiv_mode
 from colour.hints import (
     ArrayLike,
-    FloatingOrNDArray,
-    Integer,
-    Number,
-    Optional,
+    NDArrayFloat,
+    Real,
     Tuple,
-    Union,
 )
 from colour.utilities import as_float, as_float_array, zeros
 
@@ -48,8 +45,8 @@ __all__ = [
 def metric_mse(
     a: ArrayLike,
     b: ArrayLike,
-    axis: Optional[Union[Integer, Tuple[Integer]]] = None,
-) -> FloatingOrNDArray:
+    axis: int | Tuple[int] | None = None,
+) -> NDArrayFloat:
     """
     Compute the mean squared error (MSE) or mean squared deviation (MSD)
     between given variables :math:`a` and :math:`b`.
@@ -68,7 +65,7 @@ def metric_mse(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Mean squared error (MSE).
 
     References
@@ -91,9 +88,9 @@ def metric_mse(
 def metric_psnr(
     a: ArrayLike,
     b: ArrayLike,
-    max_a: Number = 1,
-    axis: Optional[Union[Integer, Tuple[Integer]]] = None,
-) -> FloatingOrNDArray:
+    max_a: Real = 1,
+    axis: int | Tuple[int] | None = None,
+) -> NDArrayFloat:
     """
     Compute the peak signal-to-noise ratio (PSNR) between given variables
     :math:`a` and :math:`b`.
@@ -114,7 +111,7 @@ def metric_psnr(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Peak signal-to-noise ratio (PSNR).
 
     References

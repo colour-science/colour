@@ -343,6 +343,18 @@ class TestWriteImageOpenImageIO(unittest.TestCase):
 
         from OpenImageIO import TypeDesc
 
+        image_path = os.path.join(self._temporary_directory, "8-bit.png")
+        RGB = full((1, 1, 3), 255, np.uint8)
+        write_image_OpenImageIO(RGB, image_path, bit_depth="uint8")
+        image = read_image_OpenImageIO(image_path, bit_depth="uint8")
+        np.testing.assert_equal(np.squeeze(RGB), image)
+
+        image_path = os.path.join(self._temporary_directory, "16-bit.png")
+        RGB = full((1, 1, 3), 65535, np.uint16)
+        write_image_OpenImageIO(RGB, image_path, bit_depth="uint16")
+        image = read_image_OpenImageIO(image_path, bit_depth="uint16")
+        np.testing.assert_equal(np.squeeze(RGB), image)
+
         source_image_path = os.path.join(
             ROOT_RESOURCES, "Overflowing_Gradient.png"
         )

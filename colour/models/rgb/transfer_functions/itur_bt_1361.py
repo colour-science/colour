@@ -53,7 +53,7 @@ def oetf_BT1361(L):
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding non-linear primary signal :math:`E'`.
 
     Notes
@@ -91,7 +91,7 @@ def oetf_BT1361(L):
             L >= 0,
             oetf_BT709(L),
             np.where(
-                L <= -0.0045,
+                -0.0045 >= L,
                 # L in [-0.25, -0.0045] range
                 -(1.099 * spow(-4 * L, 0.45) - 0.099) / 4,
                 # L in [-0.0045, 0] range
@@ -114,7 +114,7 @@ def oetf_inverse_BT1361(E_p):
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding scene *Luminance* :math:`L`.
 
     Notes

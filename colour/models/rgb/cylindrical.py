@@ -12,7 +12,7 @@ Defines various cylindrical and spherical colour models:
 -   :func:`colour.HCL_to_RGB`
 
 These colour models trade off perceptual relevance for computation speed.
-They should not be used in the colour science domain although they are useful
+They should not be used in the colour science domain, although they are useful
 for image analysis and provide end user software colour selection tools.
 
 They are provided for convenience and completeness.
@@ -35,6 +35,12 @@ References
 -   :cite:`Sarifuddin2005` : Sarifuddin, M., & Missaoui, R. (2005). A New
     Perceptually Uniform Color Space with Associated Color Similarity Measure
     for ContentBased Image and Video Retrieval.
+-   :cite:`Sarifuddin2005a` : Sarifuddin, M., & Missaoui, R. (2005). HCL: a new
+    Color Space for a more Effective Content-based Image Retrieval.
+    http://w3.uqo.ca/missaoui/Publications/TRColorSpace.zip
+-   :cite:`Sarifuddin2021` : Sarifuddin, M. (2021). RGB to HCL and HCL to RGB
+    color conversion (1.0.0). https://www.mathworks.com/matlabcentral/\
+fileexchange/100878-rgb-to-hcl-and-hcl-to-rgb-color-conversion
 -   :cite:`Wikipedia2015` : Wikipedia. (2015). HCL color space. Retrieved
     April 4, 2021, from https://en.wikipedia.org/wiki/HCL_color_space
 """
@@ -44,7 +50,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode
-from colour.hints import ArrayLike, Floating, NDArray
+from colour.hints import ArrayLike, NDArrayFloat, cast
 from colour.utilities import (
     as_float_array,
     from_range_1,
@@ -70,7 +76,7 @@ __all__ = [
 ]
 
 
-def RGB_to_HSV(RGB: ArrayLike) -> NDArray:
+def RGB_to_HSV(RGB: ArrayLike) -> NDArrayFloat:
     """
     Convert from *RGB* colourspace to *HSV* colourspace.
 
@@ -126,8 +132,8 @@ def RGB_to_HSV(RGB: ArrayLike) -> NDArray:
         delta_B = sdiv(((maximum - B) / 6) + (delta / 2), delta)
 
     H = delta_B - delta_G
-    H = np.where(G == maximum, (1 / 3) + delta_R - delta_B, H)
-    H = np.where(B == maximum, (2 / 3) + delta_G - delta_R, H)
+    H = np.where(maximum == G, (1 / 3) + delta_R - delta_B, H)
+    H = np.where(maximum == B, (2 / 3) + delta_G - delta_R, H)
     H[np.asarray(H < 0)] += 1
     H[np.asarray(H > 1)] -= 1
     H[np.asarray(delta == 0)] = 0
@@ -137,7 +143,7 @@ def RGB_to_HSV(RGB: ArrayLike) -> NDArray:
     return from_range_1(HSV)
 
 
-def HSV_to_RGB(HSV: ArrayLike) -> NDArray:
+def HSV_to_RGB(HSV: ArrayLike) -> NDArrayFloat:
     """
     Convert from *HSV* colourspace to *RGB* colourspace.
 
@@ -184,7 +190,7 @@ def HSV_to_RGB(HSV: ArrayLike) -> NDArray:
     i = np.floor(h)
     j = V * (1 - S)
     k = V * (1 - S * (h - i))
-    l = V * (1 - S * (1 - (h - i)))  # noqa
+    l = V * (1 - S * (1 - (h - i)))  # noqa: E741
 
     i = tstack([i, i, i]).astype(np.uint8)
 
@@ -204,7 +210,7 @@ def HSV_to_RGB(HSV: ArrayLike) -> NDArray:
     return from_range_1(RGB)
 
 
-def RGB_to_HSL(RGB: ArrayLike) -> NDArray:
+def RGB_to_HSL(RGB: ArrayLike) -> NDArrayFloat:
     """
     Convert from *RGB* colourspace to *HSL* colourspace.
 
@@ -265,8 +271,8 @@ def RGB_to_HSL(RGB: ArrayLike) -> NDArray:
         delta_B = sdiv(((maximum - B) / 6) + (delta / 2), delta)
 
     H = delta_B - delta_G
-    H = np.where(G == maximum, (1 / 3) + delta_R - delta_B, H)
-    H = np.where(B == maximum, (2 / 3) + delta_G - delta_R, H)
+    H = np.where(maximum == G, (1 / 3) + delta_R - delta_B, H)
+    H = np.where(maximum == B, (2 / 3) + delta_G - delta_R, H)
     H[np.asarray(H < 0)] += 1
     H[np.asarray(H > 1)] -= 1
     H[np.asarray(delta == 0)] = 0
@@ -276,7 +282,7 @@ def RGB_to_HSL(RGB: ArrayLike) -> NDArray:
     return from_range_1(HSL)
 
 
-def HSL_to_RGB(HSL: ArrayLike) -> NDArray:
+def HSL_to_RGB(HSL: ArrayLike) -> NDArrayFloat:
     """
     Convert from *HSL* colourspace to *RGB* colourspace.
 
@@ -317,7 +323,9 @@ def HSL_to_RGB(HSL: ArrayLike) -> NDArray:
 
     H, S, L = tsplit(to_domain_1(HSL))
 
-    def H_to_RGB(vi: NDArray, vj: NDArray, vH: NDArray) -> NDArray:
+    def H_to_RGB(
+        vi: NDArrayFloat, vj: NDArrayFloat, vH: NDArrayFloat
+    ) -> NDArrayFloat:
         """Convert *hue* value to *RGB* colourspace."""
 
         vH = as_float_array(vH)
@@ -357,8 +365,8 @@ def HSL_to_RGB(HSL: ArrayLike) -> NDArray:
 
 
 def RGB_to_HCL(
-    RGB: ArrayLike, gamma: Floating = 3, Y_0: Floating = 100
-) -> NDArray:
+    RGB: ArrayLike, gamma: float = 3, Y_0: float = 100
+) -> NDArrayFloat:
     """
     Convert from *RGB* colourspace to *HCL* colourspace according to
     *Sarifuddin and Missaoui (2005)* method.
@@ -391,9 +399,13 @@ def RGB_to_HCL(
     | ``HCL``    | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
+    -   This implementation used the equations given in
+        :cite:`Sarifuddin2005a` and the corrections from
+        :cite:`Sarifuddin2021`.
+
     References
     ----------
-    :cite:`Sarifuddin2005`, :cite:`Wikipedia2015`
+    :cite:`Sarifuddin2005`, :cite:`Sarifuddin2005a`, :cite:`Wikipedia2015`
 
     Examples
     --------
@@ -408,9 +420,7 @@ def RGB_to_HCL(
     Max = np.maximum(np.maximum(R, G), B)
 
     with sdiv_mode():
-        alpha = sdiv(Min, Max) / Y_0
-
-    Q = np.exp(alpha * gamma)
+        Q = np.exp(sdiv(Min * gamma, Max * Y_0))
 
     L = (Q * Max + (Q - 1) * Min) / 2
 
@@ -420,24 +430,26 @@ def RGB_to_HCL(
 
     C = Q * (np.abs(R_G) + np.abs(G_B) + np.abs(B_R)) / 3
 
-    with sdiv_mode():
+    with sdiv_mode("Ignore"):
         H = np.arctan(sdiv(G_B, R_G))
 
-    _2_3_H = 2 / 3 * H
-    _4_3_H = 4 / 3 * H
+    _2_H_3 = 2 * H / 3
+    _4_H_3 = 4 * H / 3
 
     H = np.select(
         [
+            C == 0,
             np.logical_and(R_G >= 0, G_B >= 0),
             np.logical_and(R_G >= 0, G_B < 0),
             np.logical_and(R_G < 0, G_B >= 0),
             np.logical_and(R_G < 0, G_B < 0),
         ],
         [
-            _2_3_H,
-            _4_3_H,
-            np.pi + _4_3_H,
-            _2_3_H - np.pi,
+            0,
+            _2_H_3,
+            _4_H_3,
+            np.pi + _4_H_3,
+            _2_H_3 - np.pi,
         ],
     )
 
@@ -447,8 +459,8 @@ def RGB_to_HCL(
 
 
 def HCL_to_RGB(
-    HCL: ArrayLike, gamma: Floating = 3, Y_0: Floating = 100
-) -> NDArray:
+    HCL: ArrayLike, gamma: float = 3, Y_0: float = 100
+) -> NDArrayFloat:
     """
     Convert from *HCL* colourspace to *RGB* colourspace according to
     *Sarifuddin and Missaoui (2005)* method.
@@ -481,9 +493,13 @@ def HCL_to_RGB(
     | ``RGB``    | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
+    -   This implementation used the equations given in
+        :cite:`Sarifuddin2005a` and the corrections from
+        :cite:`Sarifuddin2021`.
+
     References
     ----------
-    :cite:`Sarifuddin2005`, :cite:`Wikipedia2015`
+    :cite:`Sarifuddin2005`, :cite:`Sarifuddin2005a`, :cite:`Wikipedia2015`
 
     Examples
     --------
@@ -500,11 +516,6 @@ def HCL_to_RGB(
         Min = sdiv(4 * L - 3 * C, 4 * Q - 2)
         Max = Min + sdiv(3 * C, 2 * Q)
 
-    def _1_2_3(a: ArrayLike) -> NDArray:
-        """Tail-stack given :math:`a` array as a *bool* dtype."""
-
-        return tstack([a, a, a], dtype=np.bool_)
-
     tan_3_2_H = np.tan(3 / 2 * H)
     tan_3_4_H_MP = np.tan(3 / 4 * (H - np.pi))
     tan_3_4_H = np.tan(3 / 4 * H)
@@ -515,15 +526,20 @@ def HCL_to_RGB(
     r_n60 = np.radians(-60)
     r_n120 = np.radians(-120)
 
+    def _1_2_3(a: ArrayLike) -> NDArrayFloat:
+        """Tail-stack given :math:`a` array as a *bool* dtype."""
+
+        return tstack(cast(ArrayLike, [a, a, a]), dtype=np.bool_)
+
     with sdiv_mode():
         RGB = np.select(
             [
-                _1_2_3(np.logical_and(0 <= H, H <= r_p60)),
-                _1_2_3(np.logical_and(r_p60 < H, H <= r_p120)),
-                _1_2_3(np.logical_and(r_p120 < H, H <= np.pi)),
+                _1_2_3(np.logical_and(0 <= H, r_p60 >= H)),
+                _1_2_3(np.logical_and(r_p60 < H, r_p120 >= H)),
+                _1_2_3(np.logical_and(r_p120 < H, np.pi >= H)),
                 _1_2_3(np.logical_and(r_n60 <= H, H < 0)),
-                _1_2_3(np.logical_and(r_n120 <= H, H < r_n60)),
-                _1_2_3(np.logical_and(-np.pi < H, H < r_n120)),
+                _1_2_3(np.logical_and(r_n120 <= H, r_n60 > H)),
+                _1_2_3(np.logical_and(-np.pi < H, r_n120 > H)),
             ],
             [
                 tstack(

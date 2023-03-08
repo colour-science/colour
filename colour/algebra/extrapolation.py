@@ -23,16 +23,14 @@ import numpy as np
 from colour.algebra import NullInterpolator, sdiv, sdiv_mode
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.hints import (
-    DTypeNumber,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
+    Any,
+    ArrayLike,
+    DTypeReal,
     Literal,
-    NDArray,
-    Number,
-    Optional,
+    NDArrayFloat,
+    ProtocolInterpolator,
+    Real,
     Type,
-    TypeInterpolator,
-    Union,
     cast,
 )
 from colour.utilities import (
@@ -138,29 +136,31 @@ class Extrapolator:
 
     def __init__(
         self,
-        interpolator: Optional[TypeInterpolator] = None,
-        method: Union[Literal["Linear", "Constant"], str] = "Linear",
-        left: Optional[Number] = None,
-        right: Optional[Number] = None,
-        dtype: Optional[Type[DTypeNumber]] = None,
+        interpolator: ProtocolInterpolator | None = None,
+        method: Literal["Linear", "Constant"] | str = "Linear",
+        left: Real | None = None,
+        right: Real | None = None,
+        dtype: Type[DTypeReal] | None = None,
+        *args: Any,  # noqa: ARG002
+        **kwargs: Any,  # noqa: ARG002
     ) -> None:
-        dtype = cast(Type[DTypeNumber], optional(dtype, DEFAULT_FLOAT_DTYPE))
+        dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
 
-        self._interpolator: TypeInterpolator = NullInterpolator(
+        self._interpolator: ProtocolInterpolator = NullInterpolator(
             np.array([-np.inf, np.inf]), np.array([-np.inf, np.inf])
         )
         self.interpolator = optional(interpolator, self._interpolator)
-        self._method: Union[Literal["Linear", "Constant"], str] = "Linear"
+        self._method: Literal["Linear", "Constant"] | str = "Linear"
         self.method = optional(method, self._method)
-        self._right: Optional[Number] = None
+        self._right: Real | None = None
         self.right = right
-        self._left: Optional[Number] = None
+        self._left: Real | None = None
         self.left = left
 
-        self._dtype: Type[DTypeNumber] = dtype
+        self._dtype: Type[DTypeReal] = dtype
 
     @property
-    def interpolator(self) -> TypeInterpolator:
+    def interpolator(self) -> ProtocolInterpolator:
         """
         Getter and setter property for the *Colour* or *scipy* interpolator
         class instance.
@@ -173,14 +173,14 @@ class Extrapolator:
 
         Returns
         -------
-        TypeInterpolator
+        ProtocolInterpolator
             *Colour* or *scipy* interpolator class instance.
         """
 
         return self._interpolator
 
     @interpolator.setter
-    def interpolator(self, value: TypeInterpolator):
+    def interpolator(self, value: ProtocolInterpolator):
         """Setter for the **self.interpolator** property."""
 
         attest(
@@ -196,7 +196,7 @@ class Extrapolator:
         self._interpolator = value
 
     @property
-    def method(self) -> Union[Literal["Linear", "Constant"], str]:
+    def method(self) -> Literal["Linear", "Constant"] | str:
         """
         Getter and setter property for the extrapolation method.
 
@@ -214,7 +214,7 @@ class Extrapolator:
         return self._method
 
     @method.setter
-    def method(self, value: Union[Literal["Linear", "Constant"], str]):
+    def method(self, value: Literal["Linear", "Constant"] | str):
         """Setter for the **self.method** property."""
 
         attest(
@@ -227,7 +227,7 @@ class Extrapolator:
         self._method = value
 
     @property
-    def left(self) -> Optional[Number]:
+    def left(self) -> Real | None:
         """
         Getter and setter property for left value to return for x < xi[0].
 
@@ -238,14 +238,14 @@ class Extrapolator:
 
         Returns
         -------
-        :py:data:`None` or Number
+        :py:data:`None` or Real
             Left value to return for x < xi[0].
         """
 
         return self._left
 
     @left.setter
-    def left(self, value: Optional[Number]):
+    def left(self, value: Real | None):
         """Setter for the **self.left** property."""
 
         if value is not None:
@@ -257,7 +257,7 @@ class Extrapolator:
             self._left = value
 
     @property
-    def right(self) -> Optional[Number]:
+    def right(self) -> Real | None:
         """
         Getter and setter property for right value to return for x > xi[-1].
 
@@ -268,14 +268,14 @@ class Extrapolator:
 
         Returns
         -------
-        :py:data:`None` or Number
+        :py:data:`None` or Real
             Right value to return for x > xi[-1].
         """
 
         return self._right
 
     @right.setter
-    def right(self, value: Optional[Number]):
+    def right(self, value: Real | None):
         """Setter for the **self.right** property."""
 
         if value is not None:
@@ -286,7 +286,7 @@ class Extrapolator:
 
             self._right = value
 
-    def __call__(self, x: FloatingOrArrayLike) -> FloatingOrNDArray:
+    def __call__(self, x: ArrayLike) -> NDArrayFloat:
         """
         Evaluate the Extrapolator at given point(s).
 
@@ -297,17 +297,17 @@ class Extrapolator:
 
         Returns
         -------
-        :class:`numpy.floating` or :class:`numpy.ndarray`
+        :class:`numpy.ndarray`
             Extrapolated points value(s).
         """
 
-        x = np.atleast_1d(x).astype(self._dtype)
+        x = cast(NDArrayFloat, np.atleast_1d(x).astype(self._dtype))
 
-        xe = as_float(self._evaluate(x))
+        xe = self._evaluate(x)
 
-        return xe
+        return as_float(xe)
 
-    def _evaluate(self, x: NDArray) -> NDArray:
+    def _evaluate(self, x: NDArrayFloat) -> NDArrayFloat:
         """
         Perform the extrapolating evaluation at given points.
 

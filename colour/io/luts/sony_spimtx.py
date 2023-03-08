@@ -13,10 +13,8 @@ from __future__ import annotations
 import numpy as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.hints import Integer
 from colour.io.luts.common import path_to_title
 from colour.io.luts import LUTOperatorMatrix
-from colour.hints import Boolean
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -77,8 +75,8 @@ def read_LUT_SonySPImtx(path: str) -> LUTOperatorMatrix:
 
 
 def write_LUT_SonySPImtx(
-    LUT: LUTOperatorMatrix, path: str, decimals: Integer = 7
-) -> Boolean:
+    LUT: LUTOperatorMatrix, path: str, decimals: int = 7
+) -> bool:
     """
     Write given *LUT* to given *Sony* *.spimtx* *LUT* file.
 

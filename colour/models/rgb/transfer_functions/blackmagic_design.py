@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import Structure, as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
@@ -46,9 +46,9 @@ CONSTANTS_BLACKMAGIC_FILM_GENERATION_5: Structure = Structure(
 
 
 def oetf_BlackmagicFilmGeneration5(
-    x: FloatingOrArrayLike,
+    x: ArrayLike,
     constants: Structure = CONSTANTS_BLACKMAGIC_FILM_GENERATION_5,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Define the *Blackmagic Film Generation 5* opto-electronic transfer
     function (OETF).
@@ -62,7 +62,7 @@ def oetf_BlackmagicFilmGeneration5(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Encoded value :math:`y`.
 
     Notes
@@ -108,9 +108,9 @@ def oetf_BlackmagicFilmGeneration5(
 
 
 def oetf_inverse_BlackmagicFilmGeneration5(
-    y: FloatingOrArrayLike,
+    y: ArrayLike,
     constants: Structure = CONSTANTS_BLACKMAGIC_FILM_GENERATION_5,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Define the *Blackmagic Film Generation 5* inverse opto-electronic transfer
     function (OETF).
@@ -124,7 +124,7 @@ def oetf_inverse_BlackmagicFilmGeneration5(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear light value :math`x`.
 
     Notes

@@ -17,7 +17,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.colorimetry import SpectralShape
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -42,7 +42,7 @@ References
 :cite:`Otsu2018`
 """
 
-BASIS_FUNCTIONS_OTSU2018: NDArray = np.array(
+BASIS_FUNCTIONS_OTSU2018: NDArrayFloat = np.array(
     [
         [
             [
@@ -985,7 +985,7 @@ References
 :cite:`Otsu2018`
 """
 
-CLUSTER_MEANS_OTSU2018: NDArray = np.array(
+CLUSTER_MEANS_OTSU2018: NDArrayFloat = np.array(
     [
         [
             0.10085069182389943000,
@@ -1304,7 +1304,7 @@ References
 :cite:`Otsu2018`
 """
 
-SELECTOR_ARRAY_OTSU2018: NDArray = np.array(
+SELECTOR_ARRAY_OTSU2018: NDArrayFloat = np.array(
     [
         [0.333444973048471, 1, -3, -1],
         [0.428556829741043, 0, 1, -2],
@@ -1313,7 +1313,7 @@ SELECTOR_ARRAY_OTSU2018: NDArray = np.array(
         [0.464102042665547, 0, 2, 6],
         [0.288243127874986, 0, 0, -6],
         [0.247072787814766, 1, 3, 4],
-    ]
+    ]  # pyright: ignore
 )
 """
 Array describing how to select the appropriate cluster for given *CIE xy*

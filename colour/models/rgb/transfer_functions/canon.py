@@ -32,12 +32,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import (
-    Boolean,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    Integer,
-)
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import (
     as_float,
@@ -64,11 +59,11 @@ __all__ = [
 
 
 def log_encoding_CanonLog(
-    x: FloatingOrArrayLike,
-    bit_depth: Integer = 10,
-    out_normalised_code_value: Boolean = True,
-    in_reflection: Boolean = True,
-) -> FloatingOrNDArray:
+    x: ArrayLike,
+    bit_depth: int = 10,
+    out_normalised_code_value: bool = True,
+    in_reflection: bool = True,
+) -> NDArrayFloat:
     """
     Define the *Canon Log* log encoding curve / opto-electronic transfer
     function.
@@ -78,7 +73,7 @@ def log_encoding_CanonLog(
     x
         Linear data :math:`x`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     out_normalised_code_value
         Whether the *Canon Log* non-linear data is encoded as normalised code
         values.
@@ -87,7 +82,7 @@ def log_encoding_CanonLog(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Canon Log* non-linear data.
 
     References
@@ -117,7 +112,7 @@ def log_encoding_CanonLog(
     are obtained as follows:
 
     >>> x = np.array([0, 2, 18, 90, 720]) / 100
-    >>> np.around(log_encoding_CanonLog(x) * (2**10 - 1)).astype(np.int)
+    >>> np.around(log_encoding_CanonLog(x) * (2**10 - 1)).astype(np.int_)
     array([ 128,  169,  351,  614, 1016])
     >>> np.around(log_encoding_CanonLog(x, 10, False) * 100, 1)
     array([   7.3,   12. ,   32.8,   62.7,  108.7])
@@ -143,11 +138,11 @@ def log_encoding_CanonLog(
 
 
 def log_decoding_CanonLog(
-    clog: FloatingOrArrayLike,
-    bit_depth: Integer = 10,
-    in_normalised_code_value: Boolean = True,
-    out_reflection: Boolean = True,
-) -> FloatingOrNDArray:
+    clog: ArrayLike,
+    bit_depth: int = 10,
+    in_normalised_code_value: bool = True,
+    out_reflection: bool = True,
+) -> NDArrayFloat:
     """
     Define the *Canon Log* log decoding curve / electro-optical transfer
     function.
@@ -157,7 +152,7 @@ def log_decoding_CanonLog(
     clog
         *Canon Log* non-linear data.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     in_normalised_code_value
         Whether the *Canon Log* non-linear data is encoded with normalised
         code values.
@@ -166,7 +161,7 @@ def log_decoding_CanonLog(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear data :math:`x`.
 
     Notes
@@ -210,11 +205,11 @@ def log_decoding_CanonLog(
 
 
 def log_encoding_CanonLog2(
-    x: FloatingOrArrayLike,
-    bit_depth: Integer = 10,
-    out_normalised_code_value: Boolean = True,
-    in_reflection: Boolean = True,
-) -> FloatingOrNDArray:
+    x: ArrayLike,
+    bit_depth: int = 10,
+    out_normalised_code_value: bool = True,
+    in_reflection: bool = True,
+) -> NDArrayFloat:
     """
     Define the *Canon Log 2* log encoding curve / opto-electronic transfer
     function.
@@ -224,7 +219,7 @@ def log_encoding_CanonLog2(
     x
         Linear data :math:`x`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     out_normalised_code_value
         Whether the *Canon Log 2* non-linear data is encoded as normalised
         code values.
@@ -233,7 +228,7 @@ def log_encoding_CanonLog2(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Canon Log 2* non-linear data.
 
     Notes
@@ -280,11 +275,11 @@ def log_encoding_CanonLog2(
 
 
 def log_decoding_CanonLog2(
-    clog2: FloatingOrArrayLike,
-    bit_depth: Integer = 10,
-    in_normalised_code_value: Boolean = True,
-    out_reflection: Boolean = True,
-) -> FloatingOrNDArray:
+    clog2: ArrayLike,
+    bit_depth: int = 10,
+    in_normalised_code_value: bool = True,
+    out_reflection: bool = True,
+) -> NDArrayFloat:
     """
     Define the *Canon Log 2* log decoding curve / electro-optical transfer
     function.
@@ -294,7 +289,7 @@ def log_decoding_CanonLog2(
     clog2
         *Canon Log 2* non-linear data.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     in_normalised_code_value
         Whether the *Canon Log 2* non-linear data is encoded with normalised
         code values.
@@ -303,7 +298,7 @@ def log_decoding_CanonLog2(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear data :math:`x`.
 
     Notes
@@ -349,11 +344,11 @@ def log_decoding_CanonLog2(
 
 
 def log_encoding_CanonLog3(
-    x: FloatingOrArrayLike,
-    bit_depth: Integer = 10,
-    out_normalised_code_value: Boolean = True,
-    in_reflection: Boolean = True,
-) -> FloatingOrNDArray:
+    x: ArrayLike,
+    bit_depth: int = 10,
+    out_normalised_code_value: bool = True,
+    in_reflection: bool = True,
+) -> NDArrayFloat:
     """
     Define the *Canon Log 3* log encoding curve / opto-electronic transfer
     function.
@@ -363,7 +358,7 @@ def log_encoding_CanonLog3(
     x
         Linear data :math:`x`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     out_normalised_code_value
         Whether the *Canon Log 3* non-linear data is encoded as normalised code
         values.
@@ -372,7 +367,7 @@ def log_encoding_CanonLog3(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Canon Log 3* non-linear data.
 
     Notes
@@ -442,11 +437,11 @@ def log_encoding_CanonLog3(
 
 
 def log_decoding_CanonLog3(
-    clog3: FloatingOrArrayLike,
-    bit_depth: Integer = 10,
-    in_normalised_code_value: Boolean = True,
-    out_reflection: Boolean = True,
-) -> FloatingOrNDArray:
+    clog3: ArrayLike,
+    bit_depth: int = 10,
+    in_normalised_code_value: bool = True,
+    out_reflection: bool = True,
+) -> NDArrayFloat:
     """
     Define the *Canon Log 3* log decoding curve / electro-optical transfer
     function.
@@ -456,7 +451,7 @@ def log_decoding_CanonLog3(
     clog3
         *Canon Log 3* non-linear data.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     in_normalised_code_value
         Whether the *Canon Log 3* non-linear data is encoded with normalised
         code values.
@@ -465,7 +460,7 @@ def log_decoding_CanonLog3(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear data :math:`x`.
 
     Notes

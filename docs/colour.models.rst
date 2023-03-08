@@ -684,6 +684,8 @@ Log Encoding and Decoding
     log_decoding_ERIMMRGB
     log_encoding_FLog
     log_decoding_FLog
+    log_encoding_FLog2
+    log_decoding_FLog2
     log_encoding_LLog
     log_decoding_LLog
     log_encoding_Log2

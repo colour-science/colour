@@ -32,7 +32,7 @@ The following methods are available:
 
 References
 ----------
--   :cite:`Abebe2017a` : Abebe, M. A., Pouli, T., Larabi, M.-C., & Reinhard,
+-   :cite:`Abebe2017` : Abebe, M. A., Pouli, T., Larabi, M.-C., & Reinhard,
     E. (2017). Perceptual Lightness Modeling for High-Dynamic-Range Imaging.
     ACM Transactions on Applied Perception, 15(1), 1-19. doi:10.1145/3086577
 -   :cite:`ASTMInternational2008a` : ASTM International. (2008). ASTM
@@ -70,13 +70,7 @@ from colour.biochemistry import (
     substrate_concentration_MichaelisMenten_Michaelis1913,
     substrate_concentration_MichaelisMenten_Abebe2017,
 )
-from colour.hints import (
-    Any,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    Literal,
-    Union,
-)
+from colour.hints import Any, ArrayLike, NDArrayFloat, Literal
 from colour.utilities import (
     CanonicalMapping,
     as_float,
@@ -110,7 +104,7 @@ __all__ = [
 ]
 
 
-def luminance_Newhall1943(V: FloatingOrArrayLike) -> FloatingOrNDArray:
+def luminance_Newhall1943(V: ArrayLike) -> NDArrayFloat:
     """
     Return the *luminance* :math:`R_Y` of given *Munsell* value :math:`V`
     using *Newhall et al. (1943)* method.
@@ -122,7 +116,7 @@ def luminance_Newhall1943(V: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Luminance* :math:`R_Y`.
 
     Notes
@@ -162,7 +156,7 @@ def luminance_Newhall1943(V: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_100(R_Y))
 
 
-def luminance_ASTMD1535(V: FloatingOrArrayLike) -> FloatingOrNDArray:
+def luminance_ASTMD1535(V: ArrayLike) -> NDArrayFloat:
     """
     Return the *luminance* :math:`Y` of given *Munsell* value :math:`V` using
     *ASTM D1535-08e1* method.
@@ -174,7 +168,7 @@ def luminance_ASTMD1535(V: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Luminance* :math:`Y`.
 
     Notes
@@ -215,8 +209,8 @@ def luminance_ASTMD1535(V: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 
 def intermediate_luminance_function_CIE1976(
-    f_Y_Y_n: FloatingOrArrayLike, Y_n: FloatingOrArrayLike = 100
-) -> FloatingOrNDArray:
+    f_Y_Y_n: ArrayLike, Y_n: ArrayLike = 100
+) -> NDArrayFloat:
     """
     Return the *luminance* :math:`Y` in the *luminance* :math:`Y`
     computation for given intermediate value :math:`f(Y/Yn)` using given
@@ -231,7 +225,7 @@ def intermediate_luminance_function_CIE1976(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Luminance* :math:`Y`.
 
     Notes
@@ -274,9 +268,7 @@ def intermediate_luminance_function_CIE1976(
     return as_float(Y)
 
 
-def luminance_CIE1976(
-    L_star: FloatingOrArrayLike, Y_n: FloatingOrArrayLike = 100
-) -> FloatingOrNDArray:
+def luminance_CIE1976(L_star: ArrayLike, Y_n: ArrayLike = 100) -> NDArrayFloat:
     """
     Return the *luminance* :math:`Y` of given *Lightness* :math:`L^*` with
     given reference white *luminance* :math:`Y_n`.
@@ -290,7 +282,7 @@ def luminance_CIE1976(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Luminance* :math:`Y`.
 
     Notes
@@ -330,8 +322,8 @@ def luminance_CIE1976(
 
 
 def luminance_Fairchild2010(
-    L_hdr: FloatingOrArrayLike, epsilon: FloatingOrArrayLike = 1.836
-) -> FloatingOrNDArray:
+    L_hdr: ArrayLike, epsilon: ArrayLike = 1.836
+) -> NDArrayFloat:
     """
     Compute *luminance* :math:`Y` of given *Lightness* :math:`L_{hdr}` using
     *Fairchild and Wyble (2010)* method according to *Michaelis-Menten*
@@ -346,7 +338,7 @@ def luminance_Fairchild2010(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Luminance* :math:`Y`.
 
     Notes
@@ -389,10 +381,10 @@ def luminance_Fairchild2010(
 
 
 def luminance_Fairchild2011(
-    L_hdr: FloatingOrArrayLike,
-    epsilon: FloatingOrArrayLike = 0.474,
-    method: Union[Literal["hdr-CIELAB", "hdr-IPT"], str] = "hdr-CIELAB",
-) -> FloatingOrNDArray:
+    L_hdr: ArrayLike,
+    epsilon: ArrayLike = 0.474,
+    method: Literal["hdr-CIELAB", "hdr-IPT"] | str = "hdr-CIELAB",
+) -> NDArrayFloat:
     """
     Compute *luminance* :math:`Y` of given *Lightness* :math:`L_{hdr}` using
     *Fairchild and Chen (2011)* method according to *Michaelis-Menten*
@@ -409,7 +401,7 @@ def luminance_Fairchild2011(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Luminance* :math:`Y`.
 
     Notes
@@ -442,10 +434,7 @@ def luminance_Fairchild2011(
     L_hdr = to_domain_100(L_hdr)
     method = validate_method(method, ["hdr-CIELAB", "hdr-IPT"])
 
-    if method == "hdr-cielab":
-        maximum_perception = 247
-    else:
-        maximum_perception = 246
+    maximum_perception = 247 if method == "hdr-cielab" else 246
 
     Y = np.exp(
         np.log(
@@ -460,12 +449,10 @@ def luminance_Fairchild2011(
 
 
 def luminance_Abebe2017(
-    L: FloatingOrArrayLike,
-    Y_n: FloatingOrArrayLike = 100,
-    method: Union[
-        Literal["Michaelis-Menten", "Stevens"], str
-    ] = "Michaelis-Menten",
-) -> FloatingOrNDArray:
+    L: ArrayLike,
+    Y_n: ArrayLike = 100,
+    method: Literal["Michaelis-Menten", "Stevens"] | str = "Michaelis-Menten",
+) -> NDArrayFloat:
     """
     Compute *luminance* :math:`Y` of *Lightness* :math:`L` using
     *Abebe, Pouli, Larabi and Reinhard (2017)* method according to
@@ -482,7 +469,7 @@ def luminance_Abebe2017(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Luminance* :math:`Y` in :math:`cd/m^2`.
 
     Notes
@@ -508,7 +495,7 @@ def luminance_Abebe2017(
 
     References
     ----------
-    :cite:`Abebe2017a`
+    :cite:`Abebe2017`
 
     Examples
     --------
@@ -578,20 +565,18 @@ LUMINANCE_METHODS["cie1976"] = LUMINANCE_METHODS["CIE 1976"]
 
 
 def luminance(
-    LV: FloatingOrArrayLike,
-    method: Union[
-        Literal[
-            "Abebe 2017",
-            "CIE 1976",
-            "Glasser 1958",
-            "Fairchild 2010",
-            "Fairchild 2011",
-            "Wyszecki 1963",
-        ],
-        str,
-    ] = "CIE 1976",
+    LV: ArrayLike,
+    method: Literal[
+        "Abebe 2017",
+        "CIE 1976",
+        "Glasser 1958",
+        "Fairchild 2010",
+        "Fairchild 2011",
+        "Wyszecki 1963",
+    ]
+    | str = "CIE 1976",
     **kwargs: Any,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Return the *luminance* :math:`Y` of given *Lightness* :math:`L^*` or given
     *Munsell* value :math:`V`.
@@ -616,7 +601,7 @@ def luminance(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Luminance* :math:`Y`.
 
     Notes
@@ -635,7 +620,7 @@ def luminance(
 
     References
     ----------
-    :cite:`Abebe2017a`, :cite:`ASTMInternational2008a`, :cite:`CIETC1-482004m`,
+    :cite:`Abebe2017`, :cite:`ASTMInternational2008a`, :cite:`CIETC1-482004m`,
     :cite:`Fairchild2010`, :cite:`Fairchild2011`, :cite:`Newhall1943a`,
     :cite:`Wikipedia2001b`, :cite:`Wyszecki2000bd`
 

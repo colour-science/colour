@@ -30,6 +30,8 @@ Robertson (1968)
 .. autosummary::
     :toctree: generated/
 
+    mired_to_CCT
+    CCT_to_mired
     uv_to_CCT_Robertson1968
     CCT_to_uv_Robertson1968
 

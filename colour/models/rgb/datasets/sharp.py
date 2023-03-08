@@ -25,7 +25,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
     linear_function,
@@ -48,7 +48,7 @@ __all__ = [
     "RGB_COLOURSPACE_SHARP_RGB",
 ]
 
-PRIMARIES_SHARP_RGB: NDArray = np.array(
+PRIMARIES_SHARP_RGB: NDArrayFloat = np.array(
     [
         [0.6898, 0.3206],
         [0.0736, 0.9003],
@@ -83,17 +83,17 @@ and whitepoint:
 WHITEPOINT_NAME_SHARP_RGB: str = "E"
 """*Sharp RGB* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_SHARP_RGB: NDArray = CCS_ILLUMINANTS[
+CCS_WHITEPOINT_SHARP_RGB: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_SHARP_RGB]
 """*Sharp RGB* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_SHARP_RGB_TO_XYZ: NDArray = normalised_primary_matrix(
+MATRIX_SHARP_RGB_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
     PRIMARIES_SHARP_RGB, CCS_WHITEPOINT_SHARP_RGB
 )
 """*Sharp RGB* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_SHARP_RGB: NDArray = np.linalg.inv(MATRIX_SHARP_RGB_TO_XYZ)
+MATRIX_XYZ_TO_SHARP_RGB: NDArrayFloat = np.linalg.inv(MATRIX_SHARP_RGB_TO_XYZ)
 """*CIE XYZ* tristimulus values to *Sharp RGB* colourspace matrix."""
 
 RGB_COLOURSPACE_SHARP_RGB: RGB_Colourspace = RGB_Colourspace(

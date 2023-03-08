@@ -72,17 +72,12 @@ from colour.colorimetry import (
 from colour.characterisation import MSDS_ACES_RICD, RGB_CameraSensitivities
 from colour.hints import (
     ArrayLike,
-    Boolean,
     Callable,
-    Dict,
-    Floating,
-    FloatingOrNDArray,
+    DTypeFloat,
     Literal,
     Mapping,
-    NDArray,
-    Optional,
+    NDArrayFloat,
     Tuple,
-    Union,
     cast,
 )
 from colour.io import read_sds_from_csv_file
@@ -133,37 +128,34 @@ __all__ = [
     "camera_RGB_to_ACES2065_1",
 ]
 
-FLARE_PERCENTAGE: Floating = 0.00500
+FLARE_PERCENTAGE: float = 0.00500
 """Flare percentage in the *ACES* system."""
 
-S_FLARE_FACTOR: Floating = 0.18000 / (0.18000 + FLARE_PERCENTAGE)
+S_FLARE_FACTOR: float = 0.18000 / (0.18000 + FLARE_PERCENTAGE)
 """Flare modulation factor in the *ACES* system."""
 
 
 def sd_to_aces_relative_exposure_values(
     sd: SpectralDistribution,
-    illuminant: Optional[SpectralDistribution] = None,
-    chromatic_adaptation_transform: Optional[
-        Union[
-            Literal[
-                "Bianco 2010",
-                "Bianco PC 2010",
-                "Bradford",
-                "CAT02 Brill 2008",
-                "CAT02",
-                "CAT16",
-                "CMCCAT2000",
-                "CMCCAT97",
-                "Fairchild",
-                "Sharp",
-                "Von Kries",
-                "XYZ Scaling",
-            ],
-            str,
-        ]
-    ] = "CAT02",
+    illuminant: SpectralDistribution | None = None,
+    chromatic_adaptation_transform: Literal[
+        "Bianco 2010",
+        "Bianco PC 2010",
+        "Bradford",
+        "CAT02 Brill 2008",
+        "CAT02",
+        "CAT16",
+        "CMCCAT2000",
+        "CMCCAT97",
+        "Fairchild",
+        "Sharp",
+        "Von Kries",
+        "XYZ Scaling",
+    ]
+    | str
+    | None = "CAT02",
     **kwargs,
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert given spectral distribution to *ACES2065-1* colourspace relative
     exposure values.
@@ -233,9 +225,7 @@ def sd_to_aces_relative_exposure_values(
         **kwargs,
     )
 
-    illuminant = cast(
-        SpectralDistribution, optional(illuminant, SDS_ILLUMINANTS["D65"])
-    )
+    illuminant = optional(illuminant, SDS_ILLUMINANTS["D65"])
 
     shape = MSDS_ACES_RICD.shape
     if sd.shape != MSDS_ACES_RICD.shape:
@@ -249,7 +239,7 @@ def sd_to_aces_relative_exposure_values(
 
     r_bar, g_bar, b_bar = tsplit(MSDS_ACES_RICD.values)
 
-    def k(x: NDArray, y: NDArray) -> NDArray:
+    def k(x: NDArrayFloat, y: NDArrayFloat) -> DTypeFloat:
         """Compute the :math:`K_r`, :math:`K_g` or :math:`K_b` scale factors."""
 
         return 1 / np.sum(x * y)
@@ -308,7 +298,7 @@ Notes
     for the complete *RAW to ACES* v1 dataset, i.e. *3372171*.
 """
 
-_TRAINING_DATA_RAWTOACES_V1: Optional[MultiSpectralDistributions] = None
+_TRAINING_DATA_RAWTOACES_V1: MultiSpectralDistributions | None = None
 
 
 def read_training_data_rawtoaces_v1() -> MultiSpectralDistributions:
@@ -345,7 +335,7 @@ def read_training_data_rawtoaces_v1() -> MultiSpectralDistributions:
     return training_data
 
 
-_ILLUMINANTS_RAWTOACES_V1: Optional[CanonicalMapping] = None
+_ILLUMINANTS_RAWTOACES_V1: CanonicalMapping | None = None
 
 
 def generate_illuminants_rawtoaces_v1() -> CanonicalMapping:
@@ -422,7 +412,7 @@ def generate_illuminants_rawtoaces_v1() -> CanonicalMapping:
 
 def white_balance_multipliers(
     sensitivities: RGB_CameraSensitivities, illuminant: SpectralDistribution
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Compute the *RGB* white balance multipliers for given camera *RGB*
     spectral sensitivities and illuminant.
@@ -524,7 +514,7 @@ def best_illuminant(
             sse = sse_c
             illuminant_b = illuminant
 
-    return illuminant_b  # type: ignore[return-value]
+    return cast(SpectralDistribution, illuminant_b)
 
 
 def normalise_illuminant(
@@ -583,7 +573,7 @@ def training_data_sds_to_RGB(
     training_data: MultiSpectralDistributions,
     sensitivities: RGB_CameraSensitivities,
     illuminant: SpectralDistribution,
-) -> Tuple[NDArray, NDArray]:
+) -> Tuple[NDArrayFloat, NDArrayFloat]:
     """
     Convert given training data to *RGB* tristimulus values using given
     illuminant and given camera *RGB* spectral sensitivities.
@@ -659,26 +649,23 @@ def training_data_sds_to_XYZ(
     training_data: MultiSpectralDistributions,
     cmfs: MultiSpectralDistributions,
     illuminant: SpectralDistribution,
-    chromatic_adaptation_transform: Optional[
-        Union[
-            Literal[
-                "Bianco 2010",
-                "Bianco PC 2010",
-                "Bradford",
-                "CAT02 Brill 2008",
-                "CAT02",
-                "CAT16",
-                "CMCCAT2000",
-                "CMCCAT97",
-                "Fairchild",
-                "Sharp",
-                "Von Kries",
-                "XYZ Scaling",
-            ],
-            str,
-        ]
-    ] = "CAT02",
-) -> NDArray:
+    chromatic_adaptation_transform: Literal[
+        "Bianco 2010",
+        "Bianco PC 2010",
+        "Bradford",
+        "CAT02 Brill 2008",
+        "CAT02",
+        "CAT16",
+        "CMCCAT2000",
+        "CMCCAT97",
+        "Fairchild",
+        "Sharp",
+        "Von Kries",
+        "XYZ Scaling",
+    ]
+    | str
+    | None = "CAT02",
+) -> NDArrayFloat:
     """
     Convert given training data to *CIE XYZ* tristimulus values using given
     illuminant and given standard observer colour matching functions.
@@ -785,8 +772,8 @@ def optimisation_factory_rawtoaces_v1() -> Tuple[Callable, Callable]:
     """
 
     def objective_function(
-        M: ArrayLike, RGB: ArrayLike, Lab: ArrayLike
-    ) -> FloatingOrNDArray:
+        M: NDArrayFloat, RGB: NDArrayFloat, Lab: NDArrayFloat
+    ) -> NDArrayFloat:
         """Objective function according to *RAW to ACES* v1."""
 
         M = np.reshape(M, [3, 3])
@@ -798,7 +785,7 @@ def optimisation_factory_rawtoaces_v1() -> Tuple[Callable, Callable]:
 
         return as_float(np.linalg.norm(Lab_t - Lab))
 
-    def XYZ_to_optimization_colour_model(XYZ: ArrayLike) -> NDArray:
+    def XYZ_to_optimization_colour_model(XYZ: ArrayLike) -> NDArrayFloat:
         """*CIE XYZ* colourspace to *CIE L\\*a\\*b\\** colourspace function."""
 
         return XYZ_to_Lab(XYZ, RGB_COLOURSPACE_ACES2065_1.whitepoint)
@@ -833,7 +820,7 @@ def optimisation_factory_Jzazbz() -> Tuple[Callable, Callable]:
 
     def objective_function(
         M: ArrayLike, RGB: ArrayLike, Jab: ArrayLike
-    ) -> FloatingOrNDArray:
+    ) -> NDArrayFloat:
         """:math:`J_za_zb_z` colourspace based objective function."""
 
         M = np.reshape(M, [3, 3])
@@ -845,7 +832,7 @@ def optimisation_factory_Jzazbz() -> Tuple[Callable, Callable]:
 
         return as_float(np.sum(euclidean_distance(Jab, Jab_t)))
 
-    def XYZ_to_optimization_colour_model(XYZ: ArrayLike) -> NDArray:
+    def XYZ_to_optimization_colour_model(XYZ: ArrayLike) -> NDArrayFloat:
         """*CIE XYZ* colourspace to :math:`J_za_zb_z` colourspace function."""
 
         return XYZ_to_Jzazbz(XYZ)
@@ -856,31 +843,30 @@ def optimisation_factory_Jzazbz() -> Tuple[Callable, Callable]:
 def matrix_idt(
     sensitivities: RGB_CameraSensitivities,
     illuminant: SpectralDistribution,
-    training_data: Optional[MultiSpectralDistributions] = None,
-    cmfs: Optional[MultiSpectralDistributions] = None,
+    training_data: MultiSpectralDistributions | None = None,
+    cmfs: MultiSpectralDistributions | None = None,
     optimisation_factory: Callable = optimisation_factory_rawtoaces_v1,
-    optimisation_kwargs: Optional[Dict] = None,
-    chromatic_adaptation_transform: Optional[
-        Union[
-            Literal[
-                "Bianco 2010",
-                "Bianco PC 2010",
-                "Bradford",
-                "CAT02 Brill 2008",
-                "CAT02",
-                "CAT16",
-                "CMCCAT2000",
-                "CMCCAT97",
-                "Fairchild",
-                "Sharp",
-                "Von Kries",
-                "XYZ Scaling",
-            ],
-            str,
-        ]
-    ] = "CAT02",
-    additional_data: Boolean = False,
-) -> Union[Tuple[NDArray, NDArray, NDArray, NDArray], Tuple[NDArray, NDArray]]:
+    optimisation_kwargs: dict | None = None,
+    chromatic_adaptation_transform: Literal[
+        "Bianco 2010",
+        "Bianco PC 2010",
+        "Bradford",
+        "CAT02 Brill 2008",
+        "CAT02",
+        "CAT16",
+        "CMCCAT2000",
+        "CMCCAT97",
+        "Fairchild",
+        "Sharp",
+        "Von Kries",
+        "XYZ Scaling",
+    ]
+    | str
+    | None = "CAT02",
+    additional_data: bool = False,
+) -> Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat, NDArrayFloat] | Tuple[
+    NDArrayFloat, NDArrayFloat
+]:
     """
     Compute an *Input Device Transform* (IDT) matrix for given camera *RGB*
     spectral sensitivities, illuminant, training data, standard observer colour
@@ -975,7 +961,7 @@ def matrix_idt(
             f'Aligning "{sensitivities.name}" sensitivities shape to "{shape}".'
         )
         # pylint: disable=E1102
-        sensitivities = reshape_msds(sensitivities, shape)  # type: ignore[assignment]
+        sensitivities = reshape_msds(sensitivities, shape)
 
     if training_data.shape != shape:
         runtime_warning(
@@ -1023,8 +1009,8 @@ def camera_RGB_to_ACES2065_1(
     B: ArrayLike,
     b: ArrayLike,
     k: ArrayLike = np.ones(3),
-    clip: Boolean = False,
-) -> NDArray:
+    clip: bool = False,
+) -> NDArrayFloat:
     """
     Convert given camera *RGB* colourspace array to *ACES2065-1* colourspace
     using the *Input Device Transform* (IDT) matrix :math:`B`, the white

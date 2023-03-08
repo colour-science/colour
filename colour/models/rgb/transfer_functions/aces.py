@@ -27,7 +27,7 @@ References
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014s` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project Subcommittee. (2013). Specification
-    S-2013-001 - ACESproxy, an Integer Log Encoding of ACES Image Data.
+    S-2013-001 - ACESproxy, an int Log Encoding of ACES Image Data.
     Retrieved December 19, 2014, from http://j.mp/S-2013-001
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014t` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
@@ -51,17 +51,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import (
-    Boolean,
-    Dict,
-    Floating,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    IntegerOrArrayLike,
-    IntegerOrNDArray,
-    Literal,
-    Union,
-)
+from colour.hints import ArrayLike, NDArrayFloat, NDArrayInt, Literal
 from colour.utilities import (
     Structure,
     as_float,
@@ -108,7 +98,7 @@ CONSTANTS_ACES_PROXY_12: Structure = Structure(
 )
 """*ACESproxy* 12 bit constants."""
 
-CONSTANTS_ACES_PROXY: Dict = {
+CONSTANTS_ACES_PROXY: dict = {
     10: CONSTANTS_ACES_PROXY_10,
     12: CONSTANTS_ACES_PROXY_12,
 }
@@ -125,11 +115,11 @@ CONSTANTS_ACES_CCT: Structure = Structure(
 
 # pylint: disable=W0102
 def log_encoding_ACESproxy(
-    lin_AP1: FloatingOrArrayLike,
+    lin_AP1: ArrayLike,
     bit_depth: Literal[10, 12] = 10,
-    out_int: Boolean = False,
-    constants: Dict = CONSTANTS_ACES_PROXY,
-) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
+    out_int: bool = False,
+    constants: dict = CONSTANTS_ACES_PROXY,
+) -> NDArrayFloat | NDArrayInt:
     """
     Define the *ACESproxy* colourspace log encoding curve / opto-electronic
     transfer function.
@@ -139,16 +129,16 @@ def log_encoding_ACESproxy(
     lin_AP1
         *lin_AP1* value.
     bit_depth
-        *ACESproxy* bit depth.
+        *ACESproxy* bit-depth.
     out_in
-        Whether to return value as integer code value or float equivalent of a
-        code value at a given bit depth.
+        Whether to return value as int code value or float equivalent of a
+        code value at a given bit-depth.
     constants
         *ACESproxy* constants.
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.integer` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *ACESproxy* non-linear value.
 
     Notes
@@ -165,7 +155,7 @@ def log_encoding_ACESproxy(
     | ``ACESproxy``  | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    \\* This definition has an output integer switch, thus the domain-range
+    \\* This definition has an output int switch, thus the domain-range
     scale information is only given for the floating point mode.
 
     References
@@ -191,7 +181,7 @@ def log_encoding_ACESproxy(
     mid_log_offset = constants[bit_depth].mid_log_offset
     steps_per_stop = constants[bit_depth].steps_per_stop
 
-    def float_2_cv(x: Floating) -> Floating:
+    def float_2_cv(x: float) -> float:
         """Convert given numeric to code value."""
 
         return np.maximum(CV_min, np.minimum(CV_max, np.round(x)))
@@ -213,11 +203,11 @@ def log_encoding_ACESproxy(
 
 # pylint: disable=W0102
 def log_decoding_ACESproxy(
-    ACESproxy: Union[FloatingOrArrayLike, IntegerOrArrayLike],
+    ACESproxy: ArrayLike,
     bit_depth: Literal[10, 12] = 10,
-    in_int: Boolean = False,
-    constants: Dict = CONSTANTS_ACES_PROXY,
-) -> FloatingOrNDArray:
+    in_int: bool = False,
+    constants: dict = CONSTANTS_ACES_PROXY,
+) -> NDArrayFloat:
     """
     Define the *ACESproxy* colourspace log decoding curve / electro-optical
     transfer function.
@@ -227,16 +217,16 @@ def log_decoding_ACESproxy(
     ACESproxy
         *ACESproxy* non-linear value.
     bit_depth
-        *ACESproxy* bit depth.
+        *ACESproxy* bit-depth.
     in_int
-        Whether to treat the input value as integer code value or float
-        equivalent of a code value at a given bit depth.
+        Whether to treat the input value as int code value or float
+        equivalent of a code value at a given bit-depth.
     constants
         *ACESproxy* constants.
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *lin_AP1* value.
 
     Notes
@@ -253,7 +243,7 @@ def log_decoding_ACESproxy(
     | ``lin_AP1``    | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    \\* This definition has an input integer switch, thus the domain-range
+    \\* This definition has an input int switch, thus the domain-range
     scale information is only given for the floating point mode.
 
     References
@@ -287,7 +277,7 @@ def log_decoding_ACESproxy(
     return as_float(from_range_1(lin_AP1))
 
 
-def log_encoding_ACEScc(lin_AP1: FloatingOrArrayLike) -> FloatingOrNDArray:
+def log_encoding_ACEScc(lin_AP1: ArrayLike) -> NDArrayFloat:
     """
     Define the *ACEScc* colourspace log encoding / opto-electronic transfer
     function.
@@ -299,7 +289,7 @@ def log_encoding_ACEScc(lin_AP1: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *ACEScc* non-linear value.
 
     Notes
@@ -345,7 +335,7 @@ def log_encoding_ACEScc(lin_AP1: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_1(ACEScc))
 
 
-def log_decoding_ACEScc(ACEScc: FloatingOrArrayLike) -> FloatingOrNDArray:
+def log_decoding_ACEScc(ACEScc: ArrayLike) -> NDArrayFloat:
     """
     Define the *ACEScc* colourspace log decoding / electro-optical transfer
     function.
@@ -357,7 +347,7 @@ def log_decoding_ACEScc(ACEScc: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *lin_AP1* value.
 
     Notes
@@ -405,8 +395,8 @@ def log_decoding_ACEScc(ACEScc: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 # pylint: disable=W0102
 def log_encoding_ACEScct(
-    lin_AP1: FloatingOrArrayLike, constants: Structure = CONSTANTS_ACES_CCT
-) -> FloatingOrNDArray:
+    lin_AP1: ArrayLike, constants: Structure = CONSTANTS_ACES_CCT
+) -> NDArrayFloat:
     """
     Define the *ACEScct* colourspace log encoding / opto-electronic transfer
     function.
@@ -420,7 +410,7 @@ def log_encoding_ACEScct(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *ACEScct* non-linear value.
 
     Notes
@@ -463,8 +453,8 @@ def log_encoding_ACEScct(
 
 # pylint: disable=W0102
 def log_decoding_ACEScct(
-    ACEScct: FloatingOrArrayLike, constants: Structure = CONSTANTS_ACES_CCT
-) -> FloatingOrNDArray:
+    ACEScct: ArrayLike, constants: Structure = CONSTANTS_ACES_CCT
+) -> NDArrayFloat:
     """
     Define the *ACEScct* colourspace log decoding / electro-optical transfer
     function.
@@ -478,7 +468,7 @@ def log_decoding_ACEScct(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *lin_AP1* value.
 
     References

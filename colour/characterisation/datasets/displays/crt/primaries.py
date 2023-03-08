@@ -30,7 +30,6 @@ from __future__ import annotations
 from functools import partial
 
 from colour.characterisation import RGB_DisplayPrimaries
-from colour.hints import Dict
 from colour.utilities import LazyCanonicalMapping
 
 __author__ = "Colour Developers"
@@ -45,7 +44,7 @@ __all__ = [
     "MSDS_DISPLAY_PRIMARIES_CRT",
 ]
 
-DATA_DISPLAY_PRIMARIES_CRT: Dict = {
+DATA_DISPLAY_PRIMARIES_CRT: dict = {
     "Typical CRT Brainard 1997": {
         380.0: (0.0025, 0.0018, 0.0219),
         385.0: (0.0017, 0.0016, 0.0336),

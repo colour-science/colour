@@ -23,7 +23,6 @@ from colour.colorimetry import (
     reshape_sd,
 )
 from colour.constants import CONSTANT_K_M
-from colour.hints import Floating, Optional, cast
 from colour.utilities import as_float_scalar, optional
 
 __author__ = "Colour Developers"
@@ -42,9 +41,9 @@ __all__ = [
 
 def luminous_flux(
     sd: SpectralDistribution,
-    lef: Optional[SpectralDistribution] = None,
-    K_m: Floating = CONSTANT_K_M,
-) -> Floating:
+    lef: SpectralDistribution | None = None,
+    K_m: float = CONSTANT_K_M,
+) -> float:
     """
     Return the *luminous flux* for given spectral distribution using given
     luminous efficiency function.
@@ -61,7 +60,7 @@ def luminous_flux(
 
     Returns
     -------
-    :class:`numpy.floating`
+    :class:`float`
         Luminous flux.
 
     References
@@ -76,11 +75,8 @@ def luminous_flux(
     23807.6555273...
     """
 
-    lef = cast(
-        SpectralDistribution,
-        optional(
-            lef, SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"]
-        ),
+    lef = optional(
+        lef, SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"]
     )
 
     lef = reshape_sd(
@@ -95,8 +91,8 @@ def luminous_flux(
 
 
 def luminous_efficiency(
-    sd: SpectralDistribution, lef: Optional[SpectralDistribution] = None
-) -> Floating:
+    sd: SpectralDistribution, lef: SpectralDistribution | None = None
+) -> float:
     """
     Return the *luminous efficiency* of given spectral distribution using
     given luminous efficiency function.
@@ -111,7 +107,7 @@ def luminous_efficiency(
 
     Returns
     -------
-    :class:`numpy.floating`
+    :class:`float`
         Luminous efficiency.
 
     References
@@ -126,11 +122,8 @@ def luminous_efficiency(
     0.1994393...
     """
 
-    lef = cast(
-        SpectralDistribution,
-        optional(
-            lef, SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"]
-        ),
+    lef = optional(
+        lef, SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"]
     )
 
     lef = reshape_sd(
@@ -147,8 +140,8 @@ def luminous_efficiency(
 
 
 def luminous_efficacy(
-    sd: SpectralDistribution, lef: Optional[SpectralDistribution] = None
-) -> Floating:
+    sd: SpectralDistribution, lef: SpectralDistribution | None = None
+) -> float:
     """
     Return the *luminous efficacy* in :math:`lm\\cdot W^{-1}` of given
     spectral distribution using given luminous efficiency function.
@@ -163,7 +156,7 @@ def luminous_efficacy(
 
     Returns
     -------
-    :class:`numpy.floating`
+    :class:`float`
         Luminous efficacy in :math:`lm\\cdot W^{-1}`.
 
     References

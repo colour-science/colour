@@ -55,7 +55,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import Any, ArrayLike, Boolean, Integer, NDArray
+from colour.hints import Any, ArrayLike, NDArrayFloat, NDArrayReal, cast
 from colour.models.rgb.transfer_functions import (
     CV_range,
     oetf_BT2020,
@@ -112,9 +112,9 @@ References
 """
 
 
-def round_BT2100(a: ArrayLike) -> NDArray:
+def round_BT2100(a: ArrayLike) -> NDArrayFloat:
     """
-    Round given array :math:`a` to the nearest integer using the method define
+    Round given array :math:`a` to the nearest int using the method define
     as `Round` in *RecommendationITU-R BT.2100*.
 
     Parameters
@@ -137,22 +137,22 @@ def round_BT2100(a: ArrayLike) -> NDArray:
     array([ 0.,  1.,  1.])
     """
 
-    return as_float_array(np.sign(a) * np.floor(np.abs(a) + 0.5))
+    return cast(NDArrayFloat, np.sign(a) * np.floor(np.abs(a) + 0.5))
 
 
-def ranges_YCbCr(bits: Integer, is_legal: Boolean, is_int: Boolean) -> NDArray:
+def ranges_YCbCr(bits: int, is_legal: bool, is_int: bool) -> NDArrayFloat:
     """
-    Return the *Y'CbCr* colour encoding ranges array for given bit depth,
+    Return the *Y'CbCr* colour encoding ranges array for given bit-depth,
     range legality and representation.
 
     Parameters
     ----------
     bits
-        Bit depth of the *Y'CbCr* colour encoding ranges array.
+        Bit-depth of the *Y'CbCr* colour encoding ranges array.
     is_legal
         Whether the *Y'CbCr* colour encoding ranges array is legal.
     is_int
-        Whether the *Y'CbCr* colour encoding ranges array represents integer
+        Whether the *Y'CbCr* colour encoding ranges array represents int
         code values.
 
     Returns
@@ -195,13 +195,13 @@ def ranges_YCbCr(bits: Integer, is_legal: Boolean, is_int: Boolean) -> NDArray:
 
 
 def matrix_YCbCr(
-    K: NDArray = WEIGHTS_YCBCR["ITU-R BT.709"],
-    bits: Integer = 8,
-    is_legal: Boolean = False,
-    is_int: Boolean = False,
-) -> NDArray:
+    K: NDArrayFloat = WEIGHTS_YCBCR["ITU-R BT.709"],
+    bits: int = 8,
+    is_legal: bool = False,
+    is_int: bool = False,
+) -> NDArrayFloat:
     """
-    Compute the *Y'CbCr* to *R'G'B'* matrix for given weights, bit depth,
+    Compute the *Y'CbCr* to *R'G'B'* matrix for given weights, bit-depth,
     range legality and representation.
 
     The related offset for the *R'G'B'* to *Y'CbCr* matrix can be computed with
@@ -214,11 +214,11 @@ def matrix_YCbCr(
         :attr:`colour.WEIGHTS_YCBCR` for presets. Default is
         *(0.2126, 0.0722)*, the weightings for *ITU-R BT.709*.
     bits
-        Bit depth of the *Y'CbCr* colour encoding ranges array.
+        Bit-depth of the *Y'CbCr* colour encoding ranges array.
     is_legal
         Whether the *Y'CbCr* colour encoding ranges array is legal.
     is_int
-        Whether the *Y'CbCr* colour encoding ranges array represents integer
+        Whether the *Y'CbCr* colour encoding ranges array represents int
         code values.
 
     Returns
@@ -282,10 +282,10 @@ def matrix_YCbCr(
 
 
 def offset_YCbCr(
-    bits: Integer = 8, is_legal: Boolean = False, is_int: Boolean = False
-) -> NDArray:
+    bits: int = 8, is_legal: bool = False, is_int: bool = False
+) -> NDArrayFloat:
     """
-    Compute the *R'G'B'* to *Y'CbCr* offsets for given bit depth, range
+    Compute the *R'G'B'* to *Y'CbCr* offsets for given bit-depth, range
     legality and representation.
 
     The related *R'G'B'* to *Y'CbCr* matrix can be computed with the
@@ -294,11 +294,11 @@ def offset_YCbCr(
     Parameters
     ----------
     bits
-        Bit depth of the *Y'CbCr* colour encoding ranges array.
+        Bit-depth of the *Y'CbCr* colour encoding ranges array.
     is_legal
         Whether the *Y'CbCr* colour encoding ranges array is legal.
     is_int
-        Whether the *Y'CbCr* colour encoding ranges array represents integer
+        Whether the *Y'CbCr* colour encoding ranges array represents int
         code values.
 
     Returns
@@ -324,16 +324,16 @@ def offset_YCbCr(
 
 def RGB_to_YCbCr(
     RGB: ArrayLike,
-    K: NDArray = WEIGHTS_YCBCR["ITU-R BT.709"],
-    in_bits: Integer = 10,
-    in_legal: Boolean = False,
-    in_int: Boolean = False,
-    out_bits: Integer = 8,
-    out_legal: Boolean = True,
-    out_int: Boolean = False,
-    clamp_int: Boolean = True,
+    K: NDArrayFloat = WEIGHTS_YCBCR["ITU-R BT.709"],
+    in_bits: int = 10,
+    in_legal: bool = False,
+    in_int: bool = False,
+    out_bits: int = 8,
+    out_legal: bool = True,
+    out_int: bool = False,
+    clamp_int: bool = True,
     **kwargs: Any,
-) -> NDArray:
+) -> NDArrayReal:
     """
     Convert an array of *R'G'B'* values to the corresponding *Y'CbCr* colour
     encoding values array.
@@ -341,32 +341,32 @@ def RGB_to_YCbCr(
     Parameters
     ----------
     RGB
-        Input *R'G'B'* array of floats or integer values.
+        Input *R'G'B'* array of floats or int values.
     K
         Luma weighting coefficients of red and blue. See
         :attr:`colour.WEIGHTS_YCBCR` for presets. Default is
         *(0.2126, 0.0722)*, the weightings for *ITU-R BT.709*.
     in_bits
-        Bit depth for integer input, or used in the calculation of the
+        Bit-depth for int input, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
         value for legal white is *235 / 255*. Default is *10*.
     in_legal
         Whether to treat the input values as legal range. Default is *False*.
     in_int
-        Whether to treat the input values as ``in_bits`` integer code values.
+        Whether to treat the input values as ``in_bits`` int code values.
         Default is *False*.
     out_bits
-        Bit depth for integer output, or used in the calculation of the
+        Bit-depth for int output, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
         value for legal white is *235 / 255*. Ignored if ``out_legal`` and
         ``out_int`` are both *False*. Default is *8*.
     out_legal
         Whether to return legal range values. Default is *True*.
     out_int
-        Whether to return values as ``out_bits`` integer code values. Default
+        Whether to return values as ``out_bits`` int code values. Default
         is *False*.
     clamp_int
-        Whether to clamp integer output to allowable range for ``out_bits``.
+        Whether to clamp int output to allowable range for ``out_bits``.
         Default is *True*.
 
     Other Parameters
@@ -385,7 +385,7 @@ def RGB_to_YCbCr(
     Returns
     -------
     :class:`numpy.ndarray`
-        *Y'CbCr* colour encoding array of integer or float values.
+        *Y'CbCr* colour encoding array of int or float values.
 
     Warnings
     --------
@@ -408,7 +408,7 @@ def RGB_to_YCbCr(
     | ``YCbCr``      | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    \\* This definition has input and output integer switches, thus the
+    \\* This definition has input and output int switches, thus the
     domain-range scale information is only given for the floating point mode.
 
     -   The default arguments, ``**{'in_bits': 10, 'in_legal': False,
@@ -417,7 +417,7 @@ def RGB_to_YCbCr(
         (``in_bits`` is ignored) to a float *Y'CbCr* output array where *Y'* is
         normalised to range [16 / 255, 235 / 255] and *Cb* and *Cr* are
         normalised to range [16 / 255, 240./255]. The float values are
-        calculated based on an [0, 255] integer range, but no 8-bit
+        calculated based on an [0, 255] int range, but no 8-bit
         quantisation or clamping are performed.
 
     References
@@ -449,7 +449,7 @@ def RGB_to_YCbCr(
     ... # doctest: +ELLIPSIS
     array([ 1.,  0.,  0.])
 
-    Creating integer code values as per standard *10-bit SDI*:
+    Creating int code values as per standard *10-bit SDI*:
 
     >>> RGB_to_YCbCr(RGB, out_legal=True, out_bits=10, out_int=True)
     ... # doctest: +ELLIPSIS
@@ -470,9 +470,9 @@ def RGB_to_YCbCr(
 
     Note the use of [0.5, 255.5] for the *Cb / Cr* range, which is required so
     that the *Cb* and *Cr* output is centered about 128. Using 255 centres it
-    about 127.5, meaning that there is no integer code value to represent
+    about 127.5, meaning that there is no int code value to represent
     achromatic colours. This does however create the possibility of output
-    integer codes with value of 256, which cannot be stored in 8-bit integer
+    int codes with value of 256, which cannot be stored in 8-bit int
     representation. *Recommendation ITU-T T.871* specifies these should be
     clamped to 255, which is applied with the default ``clamp_int=True``.
 
@@ -490,10 +490,7 @@ def RGB_to_YCbCr(
     array([ 36, 136, 175]...)
     """
 
-    if in_int:
-        RGB = as_float_array(RGB)
-    else:
-        RGB = to_domain_1(RGB)
+    RGB = as_float_array(RGB) if in_int else to_domain_1(RGB)
 
     Kr, Kb = K
     RGB_min, RGB_max = kwargs.get(
@@ -531,16 +528,16 @@ def RGB_to_YCbCr(
 
 def YCbCr_to_RGB(
     YCbCr: ArrayLike,
-    K: NDArray = WEIGHTS_YCBCR["ITU-R BT.709"],
-    in_bits: Integer = 8,
-    in_legal: Boolean = True,
-    in_int: Boolean = False,
-    out_bits: Integer = 10,
-    out_legal: Boolean = False,
-    out_int: Boolean = False,
-    clamp_int: Boolean = True,
+    K: NDArrayFloat = WEIGHTS_YCBCR["ITU-R BT.709"],
+    in_bits: int = 8,
+    in_legal: bool = True,
+    in_int: bool = False,
+    out_bits: int = 10,
+    out_legal: bool = False,
+    out_int: bool = False,
+    clamp_int: bool = True,
     **kwargs: Any,
-) -> NDArray:
+) -> NDArrayReal:
     """
     Convert an array of *Y'CbCr* colour encoding values to the corresponding
     *R'G'B'* values array.
@@ -548,32 +545,32 @@ def YCbCr_to_RGB(
     Parameters
     ----------
     YCbCr
-        Input *Y'CbCr* colour encoding array of integer or float values.
+        Input *Y'CbCr* colour encoding array of int or float values.
     K
         Luma weighting coefficients of red and blue. See
         :attr:`colour.WEIGHTS_YCBCR` for presets. Default is
         *(0.2126, 0.0722)*, the weightings for *ITU-R BT.709*.
     in_bits
-        Bit depth for integer input, or used in the calculation of the
+        Bit-depth for int input, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
         value for legal white is *235 / 255*. Default is *8*.
     in_legal
         Whether to treat the input values as legal range. Default is *True*.
     in_int
-        Whether to treat the input values as ``in_bits`` integer code values.
+        Whether to treat the input values as ``in_bits`` int code values.
         Default is *False*.
     out_bits
-        Bit depth for integer output, or used in the calculation of the
+        Bit-depth for int output, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
         value for legal white is *235 / 255*. Ignored if ``out_legal`` and
         ``out_int`` are both *False*. Default is *10*.
     out_legal
         Whether to return legal range values. Default is *False*.
     out_int
-        Whether to return values as ``out_bits`` integer code values. Default
+        Whether to return values as ``out_bits`` int code values. Default
         is *False*.
     clamp_int
-        Whether to clamp integer output to allowable range for ``out_bits``.
+        Whether to clamp int output to allowable range for ``out_bits``.
         Default is *True*.
 
     Other Parameters
@@ -592,7 +589,7 @@ def YCbCr_to_RGB(
     Returns
     -------
     :class:`numpy.ndarray`
-        *R'G'B'* array of integer or float values.
+        *R'G'B'* array of int or float values.
 
     Notes
     -----
@@ -608,7 +605,7 @@ def YCbCr_to_RGB(
     | ``RGB``        | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    \\* This definition has input and output integer switches, thus the
+    \\* This definition has input and output int switches, thus the
     domain-range scale information is only given for the floating point mode.
 
     Warnings
@@ -632,10 +629,7 @@ def YCbCr_to_RGB(
     array([ 0.5,  0.5,  0.5])
     """
 
-    if in_int:
-        YCbCr = as_float_array(YCbCr)
-    else:
-        YCbCr = to_domain_1(YCbCr)
+    YCbCr = as_float_array(YCbCr) if in_int else to_domain_1(YCbCr)
 
     Y, Cb, Cr = tsplit(YCbCr)
     Kr, Kb = K
@@ -675,12 +669,12 @@ def YCbCr_to_RGB(
 
 def RGB_to_YcCbcCrc(
     RGB: ArrayLike,
-    out_bits: Integer = 10,
-    out_legal: Boolean = True,
-    out_int: Boolean = False,
-    is_12_bits_system: Boolean = False,
+    out_bits: int = 10,
+    out_legal: bool = True,
+    out_int: bool = False,
+    is_12_bits_system: bool = False,
     **kwargs: Any,
-) -> NDArray:
+) -> NDArrayReal:
     """
     Convert an array of *RGB* linear values to the corresponding *Yc'Cbc'Crc'*
     colour encoding values array.
@@ -690,14 +684,14 @@ def RGB_to_YcCbcCrc(
     RGB
         Input *RGB* array of linear float values.
     out_bits
-        Bit depth for integer output, or used in the calculation of the
+        Bit-depth for int output, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
         value for legal white is *235 / 255*. Ignored if ``out_legal`` and
         ``out_int`` are both *False*. Default is *10*.
     out_legal
         Whether to return legal range values. Default is *True*.
     out_int
-        Whether to return values as ``out_bits`` integer code values. Default
+        Whether to return values as ``out_bits`` int code values. Default
         is *False*.
     is_12_bits_system
         *Recommendation ITU-R BT.2020* OETF (OECF) adopts different parameters
@@ -714,7 +708,7 @@ def RGB_to_YcCbcCrc(
     Returns
     -------
     :class:`numpy.ndarray`
-        *Yc'Cbc'Crc'* colour encoding array of integer or float values.
+        *Yc'Cbc'Crc'* colour encoding array of int or float values.
 
     Notes
     -----
@@ -730,7 +724,7 @@ def RGB_to_YcCbcCrc(
     | ``YcCbcCrc``   | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    \\* This definition has input and output integer switches, thus the
+    \\* This definition has input and output int switches, thus the
     domain-range scale information is only given for the floating point mode.
 
     Warnings
@@ -788,12 +782,12 @@ def RGB_to_YcCbcCrc(
 
 def YcCbcCrc_to_RGB(
     YcCbcCrc: ArrayLike,
-    in_bits: Integer = 10,
-    in_legal: Boolean = True,
-    in_int: Boolean = False,
-    is_12_bits_system: Boolean = False,
+    in_bits: int = 10,
+    in_legal: bool = True,
+    in_int: bool = False,
+    is_12_bits_system: bool = False,
     **kwargs: Any,
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert an array of *Yc'Cbc'Crc'* colour encoding values to the
     corresponding *RGB* array of linear values.
@@ -803,13 +797,13 @@ def YcCbcCrc_to_RGB(
     YcCbcCrc
         Input *Yc'Cbc'Crc'* colour encoding array of linear float values.
     in_bits
-        Bit depth for integer input, or used in the calculation of the
+        Bit-depth for int input, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
         value for legal white is *235 / 255*. Default is *10*.
     in_legal
         Whether to treat the input values as legal range. Default is *False*.
     in_int
-        Whether to treat the input values as ``in_bits`` integer code values.
+        Whether to treat the input values as ``in_bits`` int code values.
         Default is *False*.
     is_12_bits_system
         *Recommendation ITU-R BT.2020* EOTF (EOCF) adopts different parameters
@@ -842,7 +836,7 @@ def YcCbcCrc_to_RGB(
     | ``RGB``        | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    \\* This definition has input and output integer switches, thus the
+    \\* This definition has input and output int switches, thus the
     domain-range scale information is only given for the floating point mode.
 
     Warnings
@@ -870,10 +864,7 @@ def YcCbcCrc_to_RGB(
     array([ 0.1800903...,  0.1800903...,  0.1800903...])
     """
 
-    if in_int:
-        YcCbcCrc = as_float_array(YcCbcCrc)
-    else:
-        YcCbcCrc = to_domain_1(YcCbcCrc)
+    YcCbcCrc = as_float_array(YcCbcCrc) if in_int else to_domain_1(YcCbcCrc)
 
     Yc, Cbc, Crc = tsplit(YcCbcCrc)
     Y_min, Y_max, C_min, C_max = kwargs.get(
@@ -890,9 +881,9 @@ def YcCbcCrc_to_RGB(
     R = np.where(Crc <= 0, Crc * 1.7184 + Yc, Crc * 0.9936 + Yc)
 
     with domain_range_scale("ignore"):
-        Yc = as_float_array(oetf_inverse_BT2020(Yc, is_12_bits_system))
-        B = as_float_array(oetf_inverse_BT2020(B, is_12_bits_system))
-        R = as_float_array(oetf_inverse_BT2020(R, is_12_bits_system))
+        Yc = oetf_inverse_BT2020(Yc, is_12_bits_system)
+        B = oetf_inverse_BT2020(B, is_12_bits_system)
+        R = oetf_inverse_BT2020(R, is_12_bits_system)
 
     G = (Yc - 0.0593 * B - 0.2627 * R) / 0.6780
 

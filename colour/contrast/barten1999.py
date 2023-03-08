@@ -30,12 +30,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import (
-    Boolean,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    Optional,
-)
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import as_float_array, as_float
 
 __author__ = "Colour Developers"
@@ -56,8 +51,8 @@ __all__ = [
 
 
 def optical_MTF_Barten1999(
-    u: FloatingOrArrayLike, sigma: FloatingOrArrayLike = 0.01
-) -> FloatingOrNDArray:
+    u: ArrayLike, sigma: ArrayLike = 0.01
+) -> NDArrayFloat:
     """
     Return the optical modulation transfer function (MTF) :math:`M_{opt}` of
     the eye using *Barten (1999)* method.
@@ -73,7 +68,7 @@ def optical_MTF_Barten1999(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Optical modulation transfer function (MTF) :math:`M_{opt}` of the eye.
 
     References
@@ -94,10 +89,10 @@ def optical_MTF_Barten1999(
 
 
 def pupil_diameter_Barten1999(
-    L: FloatingOrArrayLike,
-    X_0: FloatingOrArrayLike = 60,
-    Y_0: Optional[FloatingOrArrayLike] = None,
-) -> FloatingOrNDArray:
+    L: ArrayLike,
+    X_0: ArrayLike = 60,
+    Y_0: ArrayLike | None = None,
+) -> NDArrayFloat:
     """
     Return the pupil diameter for given luminance and object or stimulus
     angular size using *Barten (1999)* method.
@@ -113,7 +108,7 @@ def pupil_diameter_Barten1999(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Pupil diameter.
 
     References
@@ -139,10 +134,10 @@ def pupil_diameter_Barten1999(
 
 
 def sigma_Barten1999(
-    sigma_0: FloatingOrArrayLike = 0.5 / 60,
-    C_ab: FloatingOrArrayLike = 0.08 / 60,
-    d: FloatingOrArrayLike = 2.1,
-) -> FloatingOrNDArray:
+    sigma_0: ArrayLike = 0.5 / 60,
+    C_ab: ArrayLike = 0.08 / 60,
+    d: ArrayLike = 2.1,
+) -> NDArrayFloat:
     """
     Return the standard deviation :math:`\\sigma` of the line-spread function
     resulting from the convolution of the different elements of the convolution
@@ -166,7 +161,7 @@ def sigma_Barten1999(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Standard deviation :math:`\\sigma` of the line-spread function
         resulting from the convolution of the different elements of the
         convolution process.
@@ -194,14 +189,14 @@ def sigma_Barten1999(
     C_ab = as_float_array(C_ab)
     d = as_float_array(d)
 
-    return as_float(np.sqrt(sigma_0**2 + (C_ab * d) ** 2))
+    return as_float(np.hypot(sigma_0, C_ab * d))
 
 
 def retinal_illuminance_Barten1999(
-    L: FloatingOrArrayLike,
-    d: FloatingOrArrayLike = 2.1,
-    apply_stiles_crawford_effect_correction: Boolean = True,
-) -> FloatingOrNDArray:
+    L: ArrayLike,
+    d: ArrayLike = 2.1,
+    apply_stiles_crawford_effect_correction: bool = True,
+) -> NDArrayFloat:
     """
     Return the retinal illuminance :math:`E` in Trolands for given average
     luminance :math:`L` and pupil diameter :math:`d` using *Barten (1999)*
@@ -218,7 +213,7 @@ def retinal_illuminance_Barten1999(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Retinal illuminance :math:`E` in Trolands.
 
     Notes
@@ -253,11 +248,11 @@ def retinal_illuminance_Barten1999(
 
 
 def maximum_angular_size_Barten1999(
-    u: FloatingOrArrayLike,
-    X_0: FloatingOrArrayLike = 60,
-    X_max: FloatingOrArrayLike = 12,
-    N_max: FloatingOrArrayLike = 15,
-) -> FloatingOrNDArray:
+    u: ArrayLike,
+    X_0: ArrayLike = 60,
+    X_max: ArrayLike = 12,
+    N_max: ArrayLike = 15,
+) -> NDArrayFloat:
     """
     Return the maximum angular size :math:`X` of the object considered using
     *Barten (1999)* method.
@@ -277,7 +272,7 @@ def maximum_angular_size_Barten1999(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Maximum angular size :math:`X` of the object considered.
 
     References
@@ -302,21 +297,21 @@ def maximum_angular_size_Barten1999(
 
 
 def contrast_sensitivity_function_Barten1999(
-    u: FloatingOrArrayLike,
-    sigma: FloatingOrArrayLike = sigma_Barten1999(0.5 / 60, 0.08 / 60, 2.1),
-    k: FloatingOrArrayLike = 3.0,
-    T: FloatingOrArrayLike = 0.1,
-    X_0: FloatingOrArrayLike = 60,
-    Y_0: Optional[FloatingOrArrayLike] = None,
-    X_max: FloatingOrArrayLike = 12,
-    Y_max: Optional[FloatingOrArrayLike] = None,
-    N_max: FloatingOrArrayLike = 15,
-    n: FloatingOrArrayLike = 0.03,
-    p: FloatingOrArrayLike = 1.2274 * 10**6,
-    E: FloatingOrArrayLike = retinal_illuminance_Barten1999(20, 2.1),
-    phi_0: FloatingOrArrayLike = 3 * 10**-8,
-    u_0: FloatingOrArrayLike = 7,
-) -> FloatingOrNDArray:
+    u: ArrayLike,
+    sigma: ArrayLike = sigma_Barten1999(0.5 / 60, 0.08 / 60, 2.1),
+    k: ArrayLike = 3.0,
+    T: ArrayLike = 0.1,
+    X_0: ArrayLike = 60,
+    Y_0: ArrayLike | None = None,
+    X_max: ArrayLike = 12,
+    Y_max: ArrayLike | None = None,
+    N_max: ArrayLike = 15,
+    n: ArrayLike = 0.03,
+    p: ArrayLike = 1.2274 * 10**6,
+    E: ArrayLike = retinal_illuminance_Barten1999(20, 2.1),
+    phi_0: ArrayLike = 3 * 10**-8,
+    u_0: ArrayLike = 7,
+) -> NDArrayFloat:
     """
     Return the contrast sensitivity :math:`S` of the human eye according to
     the contrast sensitivity function (CSF) described by *Barten (1999)*.
@@ -372,7 +367,7 @@ def contrast_sensitivity_function_Barten1999(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Contrast sensitivity :math:`S`.
 
     Warnings

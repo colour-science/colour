@@ -20,7 +20,6 @@ import numpy as np
 
 from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence
 from colour.io.luts.common import path_to_title
-from colour.hints import Boolean, Integer, List, Tuple, Union
 from colour.utilities import (
     as_float_array,
     as_int_scalar,
@@ -41,7 +40,7 @@ __all__ = [
 ]
 
 
-def read_LUT_IridasCube(path: str) -> Union[LUT3x1D, LUT3D]:
+def read_LUT_IridasCube(path: str) -> LUT3x1D | LUT3D:
     """
     Read given *Iridas* *.cube* *LUT* file.
 
@@ -120,8 +119,8 @@ def read_LUT_IridasCube(path: str) -> Union[LUT3x1D, LUT3D]:
 
     title = path_to_title(path)
     domain_min, domain_max = np.array([0, 0, 0]), np.array([1, 1, 1])
-    dimensions: Integer = 3
-    size: Integer = 2
+    dimensions: int = 3
+    size: int = 2
     data = []
     comments = []
 
@@ -155,7 +154,7 @@ def read_LUT_IridasCube(path: str) -> Union[LUT3x1D, LUT3D]:
 
     table = as_float_array(data)
 
-    LUT: Union[LUT3x1D, LUT3D]
+    LUT: LUT3x1D | LUT3D
     if dimensions == 2:
         LUT = LUT3x1D(
             table,
@@ -180,8 +179,8 @@ def read_LUT_IridasCube(path: str) -> Union[LUT3x1D, LUT3D]:
 
 
 def write_LUT_IridasCube(
-    LUT: Union[LUT3x1D, LUT3D, LUTSequence], path: str, decimals: Integer = 7
-) -> Boolean:
+    LUT: LUT3x1D | LUT3D | LUTSequence, path: str, decimals: int = 7
+) -> bool:
     """
     Write given *LUT* to given  *Iridas* *.cube* *LUT* file.
 
@@ -242,7 +241,7 @@ def write_LUT_IridasCube(
         )
         LUTxD = LUT[0]
     elif isinstance(LUT, LUT1D):
-        LUTxD = LUT.as_LUT(LUT3x1D)
+        LUTxD = LUT.convert(LUT3x1D)
     else:
         LUTxD = LUT
 
@@ -261,7 +260,7 @@ def write_LUT_IridasCube(
     else:
         attest(2 <= size <= 256, '"LUT" size must be in domain [2, 256]!')
 
-    def _format_array(array: Union[List, Tuple]) -> str:
+    def _format_array(array: list | tuple) -> str:
         """Format given array as an *Iridas* *.cube* data row."""
 
         return "{1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)
@@ -282,10 +281,11 @@ def write_LUT_IridasCube(
             cube_file.write(f"DOMAIN_MIN {_format_array(LUTxD.domain[0])}\n")
             cube_file.write(f"DOMAIN_MAX {_format_array(LUTxD.domain[1])}\n")
 
-        if not is_3x1D:
-            table = LUTxD.table.reshape([-1, 3], order="F")
-        else:
-            table = LUTxD.table
+        table = (
+            LUTxD.table.reshape([-1, 3], order="F")
+            if not is_3x1D
+            else LUTxD.table
+        )
 
         for row in table:
             cube_file.write(f"{_format_array(row)}\n")

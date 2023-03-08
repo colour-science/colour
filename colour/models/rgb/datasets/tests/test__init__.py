@@ -10,7 +10,7 @@ from colour.models import (
     RGB_COLOURSPACES,
     normalised_primary_matrix,
 )
-from colour.utilities import as_int, ignore_numpy_errors
+from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -89,7 +89,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
         decimals = {"DJI D-Gamut": 1, "F-Gamut": 4, "N-Gamut": 3}
 
         samples = np.hstack(
-            [np.linspace(0, 1, as_int(1e5)), np.linspace(0, 65504, 65504 * 10)]
+            [np.linspace(0, 1, int(1e5)), np.linspace(0, 65504, 65504 * 10)]
         )
 
         for colourspace in RGB_COLOURSPACES.values():

@@ -20,8 +20,8 @@ from scipy.ndimage import convolve1d
 
 from colour.algebra import LinearInterpolator, sdiv, sdiv_mode
 from colour.colorimetry import SpectralDistribution, SpectralShape, reshape_sd
-from colour.hints import NDArray, Optional, cast
-from colour.utilities import zeros
+from colour.hints import NDArrayFloat
+from colour.utilities import as_float_scalar, zeros
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -40,7 +40,7 @@ SPECTRAL_SHAPE_SSI: SpectralShape = SpectralShape(375, 675, 1)
 
 _SPECTRAL_SHAPE_SSI_LARGE: SpectralShape = SpectralShape(380, 670, 10)
 
-_MATRIX_INTEGRATION: Optional[NDArray] = None
+_MATRIX_INTEGRATION: NDArrayFloat | None = None
 
 
 def spectral_similarity_index(
@@ -110,10 +110,7 @@ def spectral_similarity_index(
     with sdiv_mode():
         test_i = sdiv(test_i, np.sum(test_i))
         reference_i = sdiv(reference_i, np.sum(reference_i))
-        dr_i = cast(
-            NDArray,
-            sdiv(test_i - reference_i, reference_i + np.mean(reference_i)),
-        )
+        dr_i = sdiv(test_i - reference_i, reference_i + np.mean(reference_i))
 
     wdr_i = dr_i * [
         12 / 45,

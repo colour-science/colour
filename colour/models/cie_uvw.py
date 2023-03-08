@@ -18,7 +18,7 @@ from __future__ import annotations
 
 from colour.algebra import sdiv, sdiv_mode, spow
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import ArrayLike, NDArray, cast
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.models import (
     UCS_uv_to_xy,
     XYZ_to_xy,
@@ -46,7 +46,7 @@ def XYZ_to_UVW(
     illuminant: ArrayLike = CCS_ILLUMINANTS[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *CIE 1964 U\\*V\\*W\\**
     colourspace.
@@ -105,7 +105,7 @@ def XYZ_to_UVW(
     uv = xy_to_UCS_uv(xy)
     uv_0 = xy_to_UCS_uv(xy_n)
 
-    W = 25 * cast(NDArray, spow(Y, 1 / 3)) - 17
+    W = 25 * spow(Y, 1 / 3) - 17
     U, V = tsplit(13 * W[..., None] * (uv - uv_0))
 
     UVW = tstack([U, V, W])
@@ -118,7 +118,7 @@ def UVW_to_XYZ(
     illuminant: ArrayLike = CCS_ILLUMINANTS[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert *CIE 1964 U\\*V\\*W\\** colourspace to *CIE XYZ* tristimulus
     values.

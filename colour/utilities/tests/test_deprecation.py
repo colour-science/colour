@@ -336,7 +336,7 @@ class TestModuleAPI(unittest.TestCase):
         def assert_warns():
             """Help to test the runtime warning."""
 
-            getattr(colour.utilities.tests.test_deprecated, "OLD_NAME")
+            colour.utilities.tests.test_deprecated.OLD_NAME
 
         self.assertWarns(ColourUsageWarning, assert_warns)
 
@@ -385,11 +385,15 @@ class TestGetAttribute(unittest.TestCase):
             get_attribute("colour.utilities.array.as_float"), as_float
         )
 
-        if "colour.utilities.tests.test_deprecated" in sys.modules:
+        if (
+            "colour.utilities.tests.test_deprecated" in sys.modules
+        ):  # pragma: no cover
             del sys.modules["colour.utilities.tests.test_deprecated"]
+
         attribute = get_attribute(
             "colour.utilities.tests.test_deprecated.NEW_NAME"
         )
+
         import colour.utilities.tests.test_deprecated
 
         self.assertIs(

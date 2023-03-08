@@ -20,13 +20,7 @@ from __future__ import annotations
 
 
 from colour.algebra import sdiv, sdiv_mode
-from colour.hints import (
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    Literal,
-    NDArray,
-    Union,
-)
+from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.utilities import (
     as_float,
     as_float_array,
@@ -48,20 +42,18 @@ __all__ = [
 
 
 def exponent_function_basic(
-    x: FloatingOrArrayLike,
-    exponent: FloatingOrArrayLike = 1,
-    style: Union[
-        Literal[
-            "basicFwd",
-            "basicRev",
-            "basicMirrorFwd",
-            "basicMirrorRev",
-            "basicPassThruFwd",
-            "basicPassThruRev",
-        ],
-        str,
-    ] = "basicFwd",
-) -> FloatingOrNDArray:
+    x: ArrayLike,
+    exponent: ArrayLike = 1,
+    style: Literal[
+        "basicFwd",
+        "basicRev",
+        "basicMirrorFwd",
+        "basicMirrorRev",
+        "basicPassThruFwd",
+        "basicPassThruRev",
+    ]
+    | str = "basicFwd",
+) -> NDArrayFloat:
     """
     Define the *basic* exponent transfer function.
 
@@ -101,7 +93,7 @@ def exponent_function_basic(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Exponentially converted data.
 
     Examples
@@ -163,12 +155,12 @@ def exponent_function_basic(
         '"{0}" style is invalid, it must be one of {1}!',
     )
 
-    def exponent_forward(x: NDArray) -> NDArray:
+    def exponent_forward(x: NDArrayFloat) -> NDArrayFloat:
         """Return the input raised to the exponent value."""
 
         return x**exponent
 
-    def exponent_reverse(y: NDArray) -> NDArray:
+    def exponent_reverse(y: NDArrayFloat) -> NDArrayFloat:
         """Return the input raised to the inverse exponent value."""
 
         return y ** (as_float_array(1) / exponent)
@@ -196,19 +188,14 @@ def exponent_function_basic(
 
 
 def exponent_function_monitor_curve(
-    x: FloatingOrArrayLike,
-    exponent: FloatingOrArrayLike = 1,
-    offset: FloatingOrArrayLike = 0,
-    style: Union[
-        Literal[
-            "monCurveFwd",
-            "monCurveRev",
-            "monCurveMirrorFwd",
-            "monCurveMirrorRev",
-        ],
-        str,
-    ] = "monCurveFwd",
-) -> FloatingOrNDArray:
+    x: ArrayLike,
+    exponent: ArrayLike = 1,
+    offset: ArrayLike = 0,
+    style: Literal[
+        "monCurveFwd", "monCurveRev", "monCurveMirrorFwd", "monCurveMirrorRev"
+    ]
+    | str = "monCurveFwd",
+) -> NDArrayFloat:
     """
     Define the *Monitor Curve* exponent transfer function.
 
@@ -240,7 +227,7 @@ def exponent_function_monitor_curve(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Exponentially converted data.
 
     Examples
@@ -299,8 +286,8 @@ def exponent_function_monitor_curve(
         )
 
     def monitor_curve_forward(
-        x: NDArray, offset: NDArray, exponent: NDArray
-    ) -> NDArray:
+        x: NDArrayFloat, offset: NDArrayFloat, exponent: NDArrayFloat
+    ) -> NDArrayFloat:
         """Define the *Monitor Curve Forward* function."""
 
         with sdiv_mode():
@@ -315,8 +302,8 @@ def exponent_function_monitor_curve(
         return y
 
     def monitor_curve_reverse(
-        y: NDArray, offset: NDArray, exponent: NDArray
-    ) -> NDArray:
+        y: NDArrayFloat, offset: NDArrayFloat, exponent: NDArrayFloat
+    ) -> NDArrayFloat:
         """Define the *Monitor Curve Reverse* function."""
 
         with sdiv_mode():

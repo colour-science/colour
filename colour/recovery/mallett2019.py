@@ -27,7 +27,7 @@ from colour.colorimetry import (
     handle_spectral_arguments,
 )
 from colour.models import RGB_Colourspace
-from colour.hints import ArrayLike, Callable, Dict, Optional, Tuple
+from colour.hints import ArrayLike, Callable
 from colour.recovery import MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019
 from colour.utilities import to_domain_1
 
@@ -46,11 +46,11 @@ __all__ = [
 
 def spectral_primary_decomposition_Mallett2019(
     colourspace: RGB_Colourspace,
-    cmfs: Optional[MultiSpectralDistributions] = None,
-    illuminant: Optional[SpectralDistribution] = None,
+    cmfs: MultiSpectralDistributions | None = None,
+    illuminant: SpectralDistribution | None = None,
     metric: Callable = np.linalg.norm,
-    metric_args: Tuple = tuple(),
-    optimisation_kwargs: Optional[Dict] = None,
+    metric_args: tuple = (),
+    optimisation_kwargs: dict | None = None,
 ) -> MultiSpectralDistributions:
     """
     Perform the spectral primary decomposition as described in *Mallett and

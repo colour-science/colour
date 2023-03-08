@@ -5,6 +5,7 @@ module.
 
 from __future__ import annotations
 
+import contextlib
 import numpy as np
 import platform
 import unittest
@@ -22,7 +23,7 @@ from colour.characterisation.correction import (
     colour_correction_Finlayson2015,
     colour_correction_Vandermonde,
 )
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
@@ -46,7 +47,7 @@ __all__ = [
     "TestColourCorrectionVandermonde",
 ]
 
-MATRIX_TEST: NDArray = np.array(
+MATRIX_TEST: NDArrayFloat = np.array(
     [
         [0.17224810, 0.09170660, 0.06416938],
         [0.49189645, 0.27802050, 0.21923399],
@@ -75,7 +76,7 @@ MATRIX_TEST: NDArray = np.array(
     ]
 )
 
-MATRIX_REFERENCE: NDArray = np.array(
+MATRIX_REFERENCE: NDArrayFloat = np.array(
     [
         [0.15579559, 0.09715755, 0.07514556],
         [0.39113140, 0.25943419, 0.21266708],
@@ -683,20 +684,18 @@ matrix_colour_correction_Cheung2004` definition.
         matrix_colour_correction_Cheung2004` definition nan support.
         """
 
-        # NOTE: Hangs on "Linux".
-        if platform.system() == "Linux":
+        # NOTE: Hangs on "macOS" and "Linux".
+        if platform.system() in ("Darwin", "Linux"):
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
-            try:
+            with contextlib.suppress(LinAlgError):
                 matrix_colour_correction_Cheung2004(
                     np.vstack([case, case, case]),
                     np.transpose(np.vstack([case, case, case])),
                 )
-            except LinAlgError:
-                pass
 
 
 class TestMatrixColourCorrectionFinlayson2015(unittest.TestCase):
@@ -790,20 +789,18 @@ matrix_colour_correction_Finlayson2015` definition.
         matrix_colour_correction_Finlayson2015` definition nan support.
         """
 
-        # NOTE: Hangs on "Linux".
-        if platform.system() == "Linux":
+        # NOTE: Hangs on "macOS" and "Linux".
+        if platform.system() in ("Darwin", "Linux"):
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
-            try:
+            with contextlib.suppress(LinAlgError):
                 matrix_colour_correction_Finlayson2015(
                     np.vstack([case, case, case]),
                     np.transpose(np.vstack([case, case, case])),
                 )
-            except LinAlgError:
-                pass
 
 
 class TestMatrixColourCorrectionVandermonde(unittest.TestCase):
@@ -888,20 +885,18 @@ matrix_colour_correction_Vandermonde` definition.
         matrix_colour_correction_Vandermonde` definition nan support.
         """
 
-        # NOTE: Hangs on "Linux".
-        if platform.system() == "Linux":
+        # NOTE: Hangs on "macOS" and "Linux".
+        if platform.system() in ("Darwin", "Linux"):
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
-            try:
+            with contextlib.suppress(LinAlgError):
                 matrix_colour_correction_Vandermonde(
                     np.vstack([case, case, case]),
                     np.transpose(np.vstack([case, case, case])),
                 )
-            except LinAlgError:
-                pass
 
 
 class TestColourCorrectionCheung2004(unittest.TestCase):
@@ -966,21 +961,19 @@ colour_correction_Cheung2004` definition n-dimensional support.
 colour_correction_Cheung2004` definition nan support.
         """
 
-        # NOTE: Hangs on "Linux".
-        if platform.system() == "Linux":
+        # NOTE: Hangs on "macOS" and "Linux".
+        if platform.system() in ("Darwin", "Linux"):
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
-            try:
+            with contextlib.suppress(LinAlgError):
                 colour_correction_Cheung2004(
                     case,
                     np.vstack([case, case, case]),
                     np.transpose(np.vstack([case, case, case])),
                 )
-            except LinAlgError:
-                pass
 
 
 class TestColourCorrectionFinlayson2015(unittest.TestCase):
@@ -1051,21 +1044,19 @@ colour_correction_Finlayson2015` definition n-dimensional support.
         colour_correction_Finlayson2015` definition nan support.
         """
 
-        # NOTE: Hangs on "Linux".
-        if platform.system() == "Linux":
+        # NOTE: Hangs on "macOS" and "Linux".
+        if platform.system() in ("Darwin", "Linux"):
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
-            try:
+            with contextlib.suppress(LinAlgError):
                 colour_correction_Finlayson2015(
                     case,
                     np.vstack([case, case, case]),
                     np.transpose(np.vstack([case, case, case])),
                 )
-            except LinAlgError:
-                pass
 
 
 class TestColourCorrectionVandermonde(unittest.TestCase):
@@ -1130,21 +1121,19 @@ colour_correction_Vandermonde` definition n-dimensional support.
 colour_correction_Vandermonde` definition nan support.
         """
 
-        # NOTE: Hangs on "Linux".
-        if platform.system() == "Linux":
+        # NOTE: Hangs on "macOS" and "Linux".
+        if platform.system() in ("Darwin", "Linux"):
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
-            try:
+            with contextlib.suppress(LinAlgError):
                 colour_correction_Vandermonde(
                     case,
                     np.vstack([case, case, case]),
                     np.transpose(np.vstack([case, case, case])),
                 )
-            except LinAlgError:
-                pass
 
 
 if __name__ == "__main__":

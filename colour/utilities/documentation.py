@@ -7,8 +7,6 @@ Defines the documentation related objects.
 
 from __future__ import annotations
 
-from colour.hints import Boolean
-
 import os
 
 __author__ = "Colour Developers"
@@ -34,16 +32,12 @@ class DocstringDict(dict):
     instances.
     """
 
-    pass
-
 
 class DocstringFloat(float):
     """
     A :class:`float` sub-class that allows settings a docstring to
     :class:`float` instances.
     """
-
-    pass
 
 
 class DocstringInt(int):
@@ -52,16 +46,12 @@ class DocstringInt(int):
     :class:`numpy.integer` instances.
     """
 
-    pass
-
 
 class DocstringText(str):
     """
     A :class:`str` sub-class that allows settings a docstring to
     :class:`str` instances.
     """
-
-    pass
 
 
 class DocstringTuple(tuple):
@@ -70,10 +60,8 @@ class DocstringTuple(tuple):
     :class:`tuple` instances.
     """
 
-    pass
 
-
-def is_documentation_building() -> Boolean:
+def is_documentation_building() -> bool:
     """
     Return whether the documentation is being built by checking whether the
     *READTHEDOCS* or *COLOUR_SCIENCE__DOCUMENTATION_BUILD* environment

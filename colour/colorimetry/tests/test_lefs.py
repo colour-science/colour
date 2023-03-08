@@ -8,7 +8,6 @@ from colour.colorimetry import (
     mesopic_weighting_function,
     sd_mesopic_luminous_efficiency_function,
 )
-from colour.hints import Tuple
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
@@ -24,7 +23,7 @@ __all__ = [
     "TestSdMesopicLuminousEfficiencyFunction",
 ]
 
-DATA_MESOPIC_LEF: Tuple = (
+DATA_MESOPIC_LEF: tuple = (
     0.000423996221042,
     0.000478105586021,
     0.000539901310829,

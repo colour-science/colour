@@ -70,8 +70,8 @@ message_box(
     f"\t{Lab_1}\n"
     f"\t{Lab_2}"
 )
-print(colour.delta_E(Lab_1, Lab_2, method="CMC", l=1))  # noqa
-print(colour.difference.delta_E_CMC(Lab_1, Lab_2, l=1))  # noqa
+print(colour.delta_E(Lab_1, Lab_2, method="CMC", l=1))  # noqa: RUF100
+print(colour.difference.delta_E_CMC(Lab_1, Lab_2, l=1))  # noqa: RUF100
 
 print("\n")
 

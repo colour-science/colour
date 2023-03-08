@@ -7,7 +7,7 @@ from colour.hints import Any
 
 from .cameras import RGB_CameraSensitivities
 from .displays import RGB_DisplayPrimaries
-from .datasets import *  # noqa
+from .datasets import *  # noqa: F403
 from . import datasets
 from .aces_it import (
     sd_to_aces_relative_exposure_values,
@@ -109,7 +109,7 @@ API_CHANGES = {
 if not is_documentation_building():
     sys.modules[
         "colour.characterisation"
-    ] = characterisation(  # type: ignore[assignment]
+    ] = characterisation(  # pyright: ignore
         sys.modules["colour.characterisation"], build_API_changes(API_CHANGES)
     )
 

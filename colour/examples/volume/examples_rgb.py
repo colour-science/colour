@@ -18,7 +18,7 @@ if __name__ == "__main__":
 
     samples = int(10e4)
     message_box(
-        f'Computing the"ProPhoto RGB" RGB colourspace volume using {samples} '
+        f'Computing the "ProPhoto RGB" RGB colourspace volume using {samples} '
         f"samples."
     )
     print(

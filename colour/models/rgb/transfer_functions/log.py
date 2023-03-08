@@ -41,13 +41,9 @@ import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode
 from colour.hints import (
-    Floating,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    Integer,
+    ArrayLike,
+    NDArrayFloat,
     Literal,
-    Optional,
-    Union,
     cast,
 )
 from colour.utilities import (
@@ -79,13 +75,13 @@ FLT_MIN = 1.175494e-38
 
 
 def logarithmic_function_basic(
-    x: FloatingOrArrayLike,
-    style: Union[
-        Literal["log10", "antiLog10", "log2", "antiLog2", "logB", "antiLogB"],
-        str,
-    ] = "log2",
-    base: Integer = 2,
-) -> FloatingOrNDArray:
+    x: ArrayLike,
+    style: Literal[
+        "log10", "antiLog10", "log2", "antiLog2", "logB", "antiLogB"
+    ]
+    | str = "log2",
+    base: int = 2,
+) -> NDArrayFloat:
     """
     Define the basic logarithmic function.
 
@@ -108,7 +104,7 @@ def logarithmic_function_basic(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Logarithmically converted data.
 
     Examples
@@ -157,14 +153,14 @@ def logarithmic_function_basic(
 
 
 def logarithmic_function_quasilog(
-    x: FloatingOrArrayLike,
-    style: Union[Literal["linToLog", "logToLin"], str] = "linToLog",
-    base: Integer = 2,
-    log_side_slope: Floating = 1,
-    lin_side_slope: Floating = 1,
-    log_side_offset: Floating = 0,
-    lin_side_offset: Floating = 0,
-) -> FloatingOrNDArray:
+    x: ArrayLike,
+    style: Literal["linToLog", "logToLin"] | str = "linToLog",
+    base: int = 2,
+    log_side_slope: float = 1,
+    lin_side_slope: float = 1,
+    log_side_offset: float = 0,
+    lin_side_offset: float = 0,
+) -> NDArrayFloat:
     """
     Define the quasilog logarithmic function.
 
@@ -196,7 +192,7 @@ def logarithmic_function_quasilog(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Encoded/Decoded data.
 
     Examples
@@ -239,18 +235,17 @@ def logarithmic_function_quasilog(
 
 
 def logarithmic_function_camera(
-    x: FloatingOrArrayLike,
-    style: Union[
-        Literal["cameraLinToLog", "cameraLogToLin"], str
-    ] = "cameraLinToLog",
-    base: Integer = 2,
-    log_side_slope: Floating = 1,
-    lin_side_slope: Floating = 1,
-    log_side_offset: Floating = 0,
-    lin_side_offset: Floating = 0,
-    lin_side_break: Floating = 0.005,
-    linear_slope: Optional[Floating] = None,
-) -> FloatingOrNDArray:
+    x: ArrayLike,
+    style: Literal["cameraLinToLog", "cameraLogToLin"]
+    | str = "cameraLinToLog",
+    base: int = 2,
+    log_side_slope: float = 1,
+    lin_side_slope: float = 1,
+    log_side_offset: float = 0,
+    lin_side_offset: float = 0,
+    lin_side_break: float = 0.005,
+    linear_slope: float | None = None,
+) -> NDArrayFloat:
     """
     Define the camera logarithmic function.
 
@@ -289,7 +284,7 @@ def logarithmic_function_camera(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Encoded/Decoded data.
 
     Examples
@@ -322,7 +317,7 @@ def logarithmic_function_camera(
 
     with sdiv_mode():
         linear_slope = cast(
-            Floating,
+            float,
             optional(
                 linear_slope,
                 (
@@ -371,11 +366,11 @@ def logarithmic_function_camera(
 
 
 def log_encoding_Log2(
-    lin: FloatingOrArrayLike,
-    middle_grey: Floating = 0.18,
-    min_exposure: Floating = -6.5,
-    max_exposure: Floating = 6.5,
-) -> FloatingOrNDArray:
+    lin: ArrayLike,
+    middle_grey: float = 0.18,
+    min_exposure: float = -6.5,
+    max_exposure: float = 6.5,
+) -> NDArrayFloat:
     """
     Define the common *Log2* encoding function.
 
@@ -392,7 +387,7 @@ def log_encoding_Log2(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Non-linear *Log2* encoded data.
 
     Notes
@@ -427,11 +422,11 @@ def log_encoding_Log2(
 
 
 def log_decoding_Log2(
-    log_norm: FloatingOrArrayLike,
-    middle_grey: Floating = 0.18,
-    min_exposure: Floating = -6.5,
-    max_exposure: Floating = 6.5,
-) -> FloatingOrNDArray:
+    log_norm: ArrayLike,
+    middle_grey: float = 0.18,
+    min_exposure: float = -6.5,
+    max_exposure: float = 6.5,
+) -> NDArrayFloat:
     """
     Define the common *Log2* decoding function.
 
@@ -448,7 +443,7 @@ def log_decoding_Log2(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear *Log2* decoded data.
 
     Notes

@@ -44,7 +44,7 @@ class TestStructure(unittest.TestCase):
         self.assertIn("John", structure)
         self.assertTrue(hasattr(structure, "John"))
 
-        setattr(structure, "John", "Nemo")
+        structure.John = "Nemo"
         self.assertEqual(structure["John"], "Nemo")
 
         structure["John"] = "Vador"
@@ -351,7 +351,7 @@ __contains__` method.
         """
 
         self.assertRaises(
-            ValueError,
+            TypeError,
             operator.eq,
             CanonicalMapping(John="Doe", Jane="Doe"),
             ["John", "Doe", "Jane", "Doe"],
@@ -375,7 +375,7 @@ __contains__` method.
         """
 
         self.assertRaises(
-            ValueError,
+            TypeError,
             operator.ne,
             CanonicalMapping(John="Doe", Jane="Doe"),
             ["John", "Doe", "Jane", "Doe"],

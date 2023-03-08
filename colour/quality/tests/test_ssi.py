@@ -6,7 +6,6 @@ from __future__ import annotations
 import unittest
 
 from colour.colorimetry import SDS_ILLUMINANTS, SpectralDistribution
-from colour.hints import Dict
 from colour.quality import spectral_similarity_index
 
 __author__ = "Colour Developers"
@@ -20,7 +19,7 @@ __all__ = [
     "TestSpectralSimilarityIndex",
 ]
 
-DATA_HMI: Dict = {
+DATA_HMI: dict = {
     300: 0.000000000000000,
     301: 0.000000000000000,
     302: 0.000000000000000,

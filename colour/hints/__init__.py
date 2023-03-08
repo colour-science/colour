@@ -10,49 +10,32 @@ imports.
 from __future__ import annotations
 
 import numpy as np
-import numpy.typing as npt
 import re
+from numpy.typing import ArrayLike, NDArray
 from types import ModuleType
 from typing import (
     Any,
     Callable,
     Dict,
-    Generator,
-    Iterable,
-    Iterator,
     List,
-    Mapping,
+    Literal,
     NewType,
     Optional,
-    Union,
-    Sequence,
+    Protocol,
+    SupportsIndex,
+    TYPE_CHECKING,
     TextIO,
     Tuple,
-    TYPE_CHECKING,
     Type,
     TypeVar,
+    TypedDict,
+    Union,
     cast,
     overload,
+    runtime_checkable,
 )
-
-try:
-    from typing import (
-        Literal,
-        Protocol,
-        SupportsIndex,
-        TypedDict,
-        runtime_checkable,
-    )
-# TODO: Drop "typing_extensions" when "Google Colab" uses Python >= 3.8.
-# Remove exclusion in ".pre-commit-config.yaml" file for "pyupgrade".
-except ImportError:  # pragma: no cover
-    from typing_extensions import (  # type: ignore[assignment]
-        Literal,
-        Protocol,
-        SupportsIndex,
-        TypedDict,
-        runtime_checkable,
-    )
+from collections.abc import Generator, Iterable, Iterator, Mapping, Sequence
+from typing_extensions import Self
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -62,6 +45,9 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "ArrayLike",
+    "NDArray",
+    "ModuleType",
     "Any",
     "Callable",
     "Dict",
@@ -69,76 +55,48 @@ __all__ = [
     "Iterable",
     "Iterator",
     "List",
+    "Literal",
     "Mapping",
-    "ModuleType",
+    "NewType",
     "Optional",
-    "Union",
+    "Protocol",
     "Sequence",
     "SupportsIndex",
+    "TYPE_CHECKING",
     "TextIO",
     "Tuple",
     "Type",
-    "TypedDict",
     "TypeVar",
-    "RegexFlag",
-    "DTypeBoolean",
-    "DTypeInteger",
-    "DTypeFloating",
-    "DTypeNumber",
-    "DTypeComplex",
-    "DType",
-    "Integer",
-    "Floating",
-    "Number",
-    "Complex",
-    "Boolean",
-    "Literal",
-    "Dataclass",
-    "NestedSequence",
-    "ArrayLike",
-    "IntegerOrArrayLike",
-    "FloatingOrArrayLike",
-    "NumberOrArrayLike",
-    "ComplexOrArrayLike",
-    "BooleanOrArrayLike",
-    "ScalarType",
-    "StrOrArrayLike",
-    "NDArray",
-    "IntegerOrNDArray",
-    "FloatingOrNDArray",
-    "NumberOrNDArray",
-    "ComplexOrNDArray",
-    "BooleanOrNDArray",
-    "StrOrNDArray",
-    "TypeInterpolator",
-    "TypeExtrapolator",
-    "TypeLUTSequenceItem",
-    "LiteralWarning",
+    "TypedDict",
+    "Union",
     "cast",
+    "overload",
+    "runtime_checkable",
+    "Self",
+    "RegexFlag",
+    "DTypeInt",
+    "DTypeFloat",
+    "DTypeReal",
+    "DTypeComplex",
+    "DTypeBoolean",
+    "DType",
+    "Real",
+    "Dataclass",
+    "NDArrayInt",
+    "NDArrayFloat",
+    "NDArrayReal",
+    "NDArrayComplex",
+    "NDArrayBoolean",
+    "NDArrayStr",
+    "ProtocolInterpolator",
+    "ProtocolExtrapolator",
+    "ProtocolLUTSequenceItem",
+    "LiteralWarning",
 ]
-
-Any = Any
-Callable = Callable
-Dict = Dict
-Generator = Generator
-Iterable = Iterable
-Iterator = Iterator
-List = List
-Mapping = Mapping
-ModuleType = ModuleType
-Optional = Optional
-Union = Union
-Sequence = Sequence
-SupportsIndex = SupportsIndex
-TextIO = TextIO
-Tuple = Tuple
-Type = Type
-TypedDict = TypedDict
-TypeVar = TypeVar
 
 RegexFlag = NewType("RegexFlag", re.RegexFlag)
 
-DTypeInteger = Union[
+DTypeInt = Union[
     np.int8,
     np.int16,
     np.int32,
@@ -148,176 +106,67 @@ DTypeInteger = Union[
     np.uint32,
     np.uint64,
 ]
-DTypeFloating = Union[np.float16, np.float32, np.float64]
-DTypeNumber = Union[DTypeInteger, DTypeFloating]
+DTypeFloat = Union[np.float16, np.float32, np.float64]
+DTypeReal = Union[DTypeInt, DTypeFloat]
 DTypeComplex = Union[np.csingle, np.cdouble]
 DTypeBoolean = np.bool_
-DType = Union[DTypeBoolean, DTypeNumber, DTypeComplex]
+DType = Union[DTypeBoolean, DTypeReal, DTypeComplex]
 
-Integer = int
-Floating = float
-Number = Union[Integer, Floating]
-Complex = complex
-Boolean = bool
-
-# TODO: Use "typing.Literal" when minimal Python version is raised to 3.8.
-Literal = Literal
+Real = Union[int, float]
 
 # TODO: Revisit to use Protocol.
 Dataclass = Any
 
-# TODO: Drop mocking when minimal "Numpy" version is 1.21.x.
-_T_co = TypeVar("_T_co", covariant=True)
+NDArrayInt = NDArray[DTypeInt]
+NDArrayFloat = NDArray[DTypeFloat]
+NDArrayReal = NDArray[Union[DTypeInt, DTypeFloat]]
+NDArrayComplex = NDArray[DTypeComplex]
+NDArrayBoolean = NDArray[DTypeBoolean]
+NDArrayStr = NDArray[np.str_]
 
 
-class NestedSequence(Protocol[_T_co]):
-    """A protocol for representing nested sequences.
-
-    Warning
-    -------
-    `NestedSequence` currently does not work in combination with typevars,
-    *e.g.* ``def func(a: _NestedSequnce[T]) -> T: ...``.
-
-    See Also
-    --------
-    collections.abc.Sequence
-        ABCs for read-only and mutable :term:`sequences`.
-
-    Examples
-    --------
-    >>> from __future__ import annotations
-
-    >>> from typing import TYPE_CHECKING
-    >>> import numpy as np
-
-    >>> def get_dtype(seq: NestedSequence[float]) -> np.dtype[np.float64]:
-    ...     return np.asarray(seq).dtype
-
-    >>> a = get_dtype([1.0])
-    >>> b = get_dtype([[1.0]])
-    >>> c = get_dtype([[[1.0]]])
-    >>> d = get_dtype([[[[1.0]]]])
-
-    >>> if TYPE_CHECKING:
-    ...     reveal_locals()
-    ...     # note: Revealed local types are:
-    ...     # note:     a: numpy.dtype[numpy.floating[numpy._typing._64Bit]]
-    ...     # note:     b: numpy.dtype[numpy.floating[numpy._typing._64Bit]]
-    ...     # note:     c: numpy.dtype[numpy.floating[numpy._typing._64Bit]]
-    ...     # note:     d: numpy.dtype[numpy.floating[numpy._typing._64Bit]]
-    ...
-
-    """
-
-    def __len__(self) -> int:
-        """Implement ``len(self)``."""
-        raise NotImplementedError
-
-    @overload
-    def __getitem__(
-        self, index: int
-    ) -> _T_co | NestedSequence[_T_co]:  # noqa: D105
+class ProtocolInterpolator(Protocol):  # noqa: D101
+    @property
+    def x(self) -> NDArray:  # noqa: D102
         ...
 
-    @overload
-    def __getitem__(self, index: slice) -> NestedSequence[_T_co]:  # noqa: D105
+    @x.setter
+    def x(self, value: ArrayLike):
         ...
 
-    def __getitem__(self, index):
-        """Implement ``self[x]``."""
-        raise NotImplementedError
+    @property
+    def y(self) -> NDArray:  # noqa: D102
+        ...
 
-    def __contains__(self, x: object) -> bool:
-        """Implement ``x in self``."""
-        raise NotImplementedError
+    @y.setter
+    def y(self, value: ArrayLike):
+        ...
 
-    def __iter__(self) -> Iterator[_T_co | NestedSequence[_T_co]]:
-        """Implement ``iter(self)``."""
-        raise NotImplementedError
-
-    def __reversed__(self) -> Iterator[_T_co | NestedSequence[_T_co]]:
-        """Implement ``reversed(self)``."""
-        raise NotImplementedError
-
-    def count(self, value: Any) -> int:
-        """Return the number of occurrences of `value`."""
-        raise NotImplementedError
-
-    def index(self, value: Any) -> int:
-        """Return the first index of `value`."""
-        raise NotImplementedError
-
-
-ArrayLike = npt.ArrayLike
-IntegerOrArrayLike = Union[Integer, ArrayLike]
-FloatingOrArrayLike = Union[Floating, ArrayLike]
-NumberOrArrayLike = Union[Number, ArrayLike]
-ComplexOrArrayLike = Union[Complex, ArrayLike]
-
-BooleanOrArrayLike = Union[Boolean, ArrayLike]
-
-StrOrArrayLike = Union[str, ArrayLike]
-
-ScalarType = TypeVar("ScalarType", bound=np.generic, covariant=True)
-
-# TODO: Use "numpy.typing.NDArray" when minimal Numpy version is raised to
-# 1.21.
-if TYPE_CHECKING:  # pragma: no cover
-    NDArray = np.ndarray[Any, np.dtype[ScalarType]]
-else:
-    NDArray = np.ndarray
-
-# TODO: Drop when minimal Python is raised to 3.9.
-if TYPE_CHECKING:  # pragma: no cover
-    IntegerOrNDArray = Union[Integer, NDArray[DTypeInteger]]
-    FloatingOrNDArray = Union[Floating, NDArray[DTypeFloating]]
-    NumberOrNDArray = Union[
-        Number, NDArray[Union[DTypeInteger, DTypeFloating]]
-    ]
-    ComplexOrNDArray = Union[Complex, NDArray[DTypeComplex]]
-
-    BooleanOrNDArray = Union[Boolean, NDArray[DTypeBoolean]]
-
-    StrOrNDArray = Union[str, NDArray[np.str_]]
-
-else:
-    IntegerOrNDArray = Union[Integer, NDArray]
-    FloatingOrNDArray = Union[Floating, NDArray]
-    NumberOrNDArray = Union[Number, NDArray]
-    ComplexOrNDArray = Union[Complex, NDArray]
-
-    BooleanOrNDArray = Union[Boolean, NDArray]
-
-    StrOrNDArray = Union[str, NDArray]
-
-
-class TypeInterpolator(Protocol):  # noqa: D101
-    x: NDArray
-    y: NDArray
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # noqa: D102
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         ...  # pragma: no cover
 
-    def __call__(
-        self, x: FloatingOrArrayLike
-    ) -> FloatingOrNDArray:  # noqa: D102
+    def __call__(self, x: ArrayLike) -> NDArray:  # noqa: D102
         ...  # pragma: no cover
 
 
-class TypeExtrapolator(Protocol):  # noqa: D101
-    interpolator: TypeInterpolator
+class ProtocolExtrapolator(Protocol):  # noqa: D101
+    @property
+    def interpolator(self) -> ProtocolInterpolator:  # noqa: D102
+        ...
 
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # noqa: D102
+    @interpolator.setter
+    def interpolator(self, value: ProtocolInterpolator):
+        ...
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         ...  # pragma: no cover
 
-    def __call__(
-        self, x: FloatingOrArrayLike
-    ) -> FloatingOrNDArray:  # noqa: D102
+    def __call__(self, x: ArrayLike) -> NDArray:  # noqa: D102
         ...  # pragma: no cover
 
 
 @runtime_checkable
-class TypeLUTSequenceItem(Protocol):  # noqa: D101
+class ProtocolLUTSequenceItem(Protocol):  # noqa: D101
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: D102
         ...  # pragma: no cover
 
@@ -326,29 +175,23 @@ LiteralWarning = Literal[
     "default", "error", "ignore", "always", "module", "once"
 ]
 
-cast = cast
 
-
-def arraylike(  # type: ignore[empty-body]
-    a: ArrayLike | NestedSequence[ArrayLike],
-) -> NDArray:
+def arraylike(a: ArrayLike) -> NDArray:  # noqa: ARG001, D103
     ...
 
 
-def number_or_arraylike(  # type: ignore[empty-body]
-    a: NumberOrArrayLike | NestedSequence[ArrayLike],
-) -> NDArray:
+def number_or_arraylike(a: ArrayLike) -> NDArray:  # noqa: ARG001, D103
     ...
 
 
-a: DTypeFloating = np.float64(1)
+a: DTypeFloat = np.float64(1)
 b: float = 1
-c: Floating = 1
+c: float = 1
 d: ArrayLike = [c, c]
-e: FloatingOrArrayLike = d
-s_a: Sequence[DTypeFloating] = [a, a]
+e: ArrayLike = d
+s_a: Sequence[DTypeFloat] = [a, a]
 s_b: Sequence[float] = [b, b]
-s_c: Sequence[Floating] = [c, c]
+s_c: Sequence[float] = [c, c]
 
 arraylike(a)
 arraylike(b)
@@ -384,3 +227,18 @@ np.atleast_1d(s_b)
 np.atleast_1d(s_c)
 
 del a, b, c, d, e, s_a, s_b, s_c
+
+
+# ----------------------------------------------------------------------------#
+# ---                API Changes and Deprecation Management                ---#
+# ----------------------------------------------------------------------------#
+if not TYPE_CHECKING:
+    DTypeFloating = DTypeFloat
+    DTypeInteger = DTypeInt
+    DTypeNumber = DTypeReal
+    Boolean = bool
+    Floating = float
+    Integer = int
+    Number = Real
+    FloatingOrArrayLike = ArrayLike
+    FloatingOrNDArray = NDArrayFloat

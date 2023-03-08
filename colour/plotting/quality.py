@@ -24,15 +24,11 @@ from colour.colorimetry import (
 )
 from colour.hints import (
     Any,
-    Boolean,
     Dict,
-    Integer,
     List,
     Literal,
-    Optional,
     Sequence,
     Tuple,
-    Union,
     cast,
 )
 from colour.plotting import (
@@ -71,14 +67,11 @@ __all__ = [
 @override_style()
 def plot_colour_quality_bars(
     specifications: Sequence[
-        Union[
-            ColourRendering_Specification_CQS,
-            ColourRendering_Specification_CRI,
-        ]
+        ColourRendering_Specification_CQS | ColourRendering_Specification_CRI
     ],
-    labels: Boolean = True,
-    hatching: Optional[Boolean] = None,
-    hatching_repeat: Integer = 2,
+    labels: bool = True,
+    hatching: bool | None = None,
+    hatching_repeat: int = 2,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -118,7 +111,7 @@ def plot_colour_quality_bars(
     >>> cqs_i = colour_quality_scale(illuminant, additional_data=True)
     >>> cqs_l = colour_quality_scale(light_source, additional_data=True)
     >>> plot_colour_quality_bars([cqs_i, cqs_l])  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Colour_Quality_Bars.png
         :align: center
@@ -135,7 +128,7 @@ def plot_colour_quality_bars(
     count_s, count_Q_as = len(specifications), 0
     patterns = cycle(CONSTANTS_COLOUR_STYLE.hatch.patterns)
     if hatching is None:
-        hatching = False if count_s == 1 else True
+        hatching = count_s != 1
 
     for i, specification in enumerate(specifications):
         Q_a, Q_as, colorimetry_data = (
@@ -164,10 +157,7 @@ def plot_colour_quality_bars(
         )
         y = as_float_array(
             [Q_a]
-            + [
-                s[1].Q_a  # type: ignore[attr-defined]
-                for s in sorted(Q_as.items(), key=lambda s: s[0])
-            ]
+            + [s[1].Q_a for s in sorted(Q_as.items(), key=lambda s: s[0])]
         )
 
         bars = axes.bar(
@@ -183,9 +173,7 @@ def plot_colour_quality_bars(
         hatches = (
             [next(patterns) * hatching_repeat] * (count_Q_as + 1)
             if hatching
-            else list(
-                np.where(y < 0, next(patterns), None)  # type: ignore[call-overload]
-            )
+            else list(np.where(y < 0, next(patterns), None))  # pyright: ignore
         )
 
         for j, bar in enumerate(bars.patches):
@@ -282,7 +270,7 @@ def plot_single_sd_colour_rendering_index_bars(
     >>> illuminant = SDS_ILLUMINANTS["FL2"]
     >>> plot_single_sd_colour_rendering_index_bars(illuminant)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Single_SD_Colour_Rendering_Index_Bars.png
@@ -295,10 +283,9 @@ Plot_Single_SD_Colour_Rendering_Index_Bars.png
 
 @override_style()
 def plot_multi_sds_colour_rendering_indexes_bars(
-    sds: Union[
-        Sequence[Union[SpectralDistribution, MultiSpectralDistributions]],
-        MultiSpectralDistributions,
-    ],
+    sds: Sequence[SpectralDistribution | MultiSpectralDistributions]
+    | SpectralDistribution
+    | MultiSpectralDistributions,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -312,7 +299,7 @@ def plot_multi_sds_colour_rendering_indexes_bars(
         plot. `sds` can be a single
         :class:`colour.MultiSpectralDistributions` class instance, a list
         of :class:`colour.MultiSpectralDistributions` class instances or a
-        list of :class:`colour.SpectralDistribution` class instances.
+        List of :class:`colour.SpectralDistribution` class instances.
 
     Other Parameters
     ----------------
@@ -335,7 +322,7 @@ def plot_multi_sds_colour_rendering_indexes_bars(
     >>> plot_multi_sds_colour_rendering_indexes_bars(
     ...     [illuminant, light_source]
     ... )  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Multi_SDS_Colour_Rendering_Indexes_Bars.png
@@ -382,9 +369,7 @@ Plot_Multi_SDS_Colour_Rendering_Indexes_Bars.png
 @override_style()
 def plot_single_sd_colour_quality_scale_bars(
     sd: SpectralDistribution,
-    method: Union[
-        Literal["NIST CQS 7.4", "NIST CQS 9.0"], str
-    ] = "NIST CQS 9.0",
+    method: Literal["NIST CQS 7.4", "NIST CQS 9.0"] | str = "NIST CQS 9.0",
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -418,7 +403,7 @@ def plot_single_sd_colour_quality_scale_bars(
     >>> illuminant = SDS_ILLUMINANTS["FL2"]
     >>> plot_single_sd_colour_quality_scale_bars(illuminant)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Single_SD_Colour_Quality_Scale_Bars.png
@@ -433,13 +418,10 @@ Plot_Single_SD_Colour_Quality_Scale_Bars.png
 
 @override_style()
 def plot_multi_sds_colour_quality_scales_bars(
-    sds: Union[
-        Sequence[Union[SpectralDistribution, MultiSpectralDistributions]],
-        MultiSpectralDistributions,
-    ],
-    method: Union[
-        Literal["NIST CQS 7.4", "NIST CQS 9.0"], str
-    ] = "NIST CQS 9.0",
+    sds: Sequence[SpectralDistribution | MultiSpectralDistributions]
+    | SpectralDistribution
+    | MultiSpectralDistributions,
+    method: Literal["NIST CQS 7.4", "NIST CQS 9.0"] | str = "NIST CQS 9.0",
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -453,7 +435,7 @@ def plot_multi_sds_colour_quality_scales_bars(
         plot. `sds` can be a single
         :class:`colour.MultiSpectralDistributions` class instance, a list
         of :class:`colour.MultiSpectralDistributions` class instances or a
-        list of :class:`colour.SpectralDistribution` class instances.
+        List of :class:`colour.SpectralDistribution` class instances.
     method
         *Colour Quality Scale* (CQS) computation method.
 
@@ -477,7 +459,7 @@ def plot_multi_sds_colour_quality_scales_bars(
     >>> light_source = SDS_LIGHT_SOURCES["Kinoton 75P"]
     >>> plot_multi_sds_colour_quality_scales_bars([illuminant, light_source])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Multi_SDS_Colour_Quality_Scales_Bars.png

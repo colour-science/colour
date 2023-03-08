@@ -15,23 +15,18 @@ from abc import ABC, abstractmethod
 from copy import deepcopy
 
 from colour.hints import (
-    ArrayLike,
     Any,
-    Boolean,
+    ArrayLike,
     Callable,
-    Dict,
-    DTypeFloating,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    Integer,
+    DTypeFloat,
+    Generator,
     Literal,
-    NDArray,
-    Number,
-    Optional,
+    NDArrayFloat,
+    ProtocolExtrapolator,
+    ProtocolInterpolator,
+    Real,
+    Self,
     Type,
-    TypeExtrapolator,
-    TypeInterpolator,
-    Union,
 )
 from colour.utilities import (
     as_float,
@@ -100,6 +95,7 @@ AbstractContinuousFunction.extrapolator_kwargs`
     -   :meth:`~colour.continuous.AbstractContinuousFunction.__getitem__`
     -   :meth:`~colour.continuous.AbstractContinuousFunction.__setitem__`
     -   :meth:`~colour.continuous.AbstractContinuousFunction.__contains__`
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.__iter__`
     -   :meth:`~colour.continuous.AbstractContinuousFunction.__len__`
     -   :meth:`~colour.continuous.AbstractContinuousFunction.__eq__`
     -   :meth:`~colour.continuous.AbstractContinuousFunction.__ne__`
@@ -121,7 +117,9 @@ arithmetical_operation`
     -   :meth:`~colour.continuous.AbstractContinuousFunction.copy`
     """
 
-    def __init__(self, name: Optional[str] = None) -> None:
+    def __init__(self, name: str | None = None) -> None:
+        super().__init__()
+
         self._name: str = f"{self.__class__.__name__} ({id(self)})"
         self.name = optional(name, self._name)
 
@@ -154,11 +152,9 @@ arithmetical_operation`
 
         self._name = value
 
-    # TODO: Remove pragma when https://github.com/python/mypy/issues/4165 is
-    # resolved.
     @property
     @abstractmethod
-    def dtype(self) -> Type[DTypeFloating]:
+    def dtype(self) -> Type[DTypeFloat]:
         """
         Getter and setter property for the abstract continuous function dtype,
         must be reimplemented by sub-classes.
@@ -170,7 +166,7 @@ arithmetical_operation`
 
         Returns
         -------
-        Type[DTypeFloating]
+        Type[DTypeFloat]
             Abstract continuous function dtype.
         """
 
@@ -178,7 +174,7 @@ arithmetical_operation`
 
     @dtype.setter
     @abstractmethod
-    def dtype(self, value: Type[DTypeFloating]):
+    def dtype(self, value: Type[DTypeFloat]):
         """
         Setter for the **self.dtype** property, must be reimplemented by
         sub-classes.
@@ -188,7 +184,7 @@ arithmetical_operation`
 
     @property
     @abstractmethod
-    def domain(self) -> NDArray:
+    def domain(self) -> NDArrayFloat:
         """
         Getter and setter property for the abstract continuous function
         independent domain variable :math:`x`, must be reimplemented by
@@ -220,7 +216,7 @@ arithmetical_operation`
 
     @property
     @abstractmethod
-    def range(self) -> NDArray:
+    def range(self) -> NDArrayFloat:  # noqa: A003
         """
         Getter and setter property for the abstract continuous function
         corresponding range variable :math:`y`, must be reimplemented by
@@ -243,7 +239,7 @@ arithmetical_operation`
 
     @range.setter
     @abstractmethod
-    def range(self, value: ArrayLike):
+    def range(self, value: ArrayLike):  # noqa: A003
         """
         Setter for the **self.range** property, must be reimplemented by
         sub-classes.
@@ -253,7 +249,7 @@ arithmetical_operation`
 
     @property
     @abstractmethod
-    def interpolator(self) -> Type[TypeInterpolator]:
+    def interpolator(self) -> Type[ProtocolInterpolator]:
         """
         Getter and setter property for the abstract continuous function
         interpolator type, must be reimplemented by sub-classes.
@@ -266,7 +262,7 @@ arithmetical_operation`
 
         Returns
         -------
-        Type[TypeInterpolator]
+        Type[ProtocolInterpolator]
             Abstract continuous function interpolator type.
         """
 
@@ -274,7 +270,7 @@ arithmetical_operation`
 
     @interpolator.setter
     @abstractmethod
-    def interpolator(self, value: Type[TypeInterpolator]):
+    def interpolator(self, value: Type[ProtocolInterpolator]):
         """
         Setter for the **self.interpolator** property, must be reimplemented by
         sub-classes.
@@ -284,7 +280,7 @@ arithmetical_operation`
 
     @property
     @abstractmethod
-    def interpolator_kwargs(self) -> Dict:
+    def interpolator_kwargs(self) -> dict:
         """
         Getter and setter property for the abstract continuous function
         interpolator instantiation time arguments, must be reimplemented by
@@ -317,7 +313,7 @@ arithmetical_operation`
 
     @property
     @abstractmethod
-    def extrapolator(self) -> Type[TypeExtrapolator]:
+    def extrapolator(self) -> Type[ProtocolExtrapolator]:
         """
         Getter and setter property for the abstract continuous function
         extrapolator type, must be reimplemented by sub-classes.
@@ -330,7 +326,7 @@ arithmetical_operation`
 
         Returns
         -------
-        Type[TypeExtrapolator]
+        Type[ProtocolExtrapolator]
             Abstract continuous function extrapolator type.
         """
 
@@ -338,7 +334,7 @@ arithmetical_operation`
 
     @extrapolator.setter
     @abstractmethod
-    def extrapolator(self, value: Type[TypeExtrapolator]):
+    def extrapolator(self, value: Type[ProtocolExtrapolator]):
         """
         Setter for the **self.extrapolator** property, must be reimplemented by
         sub-classes.
@@ -348,7 +344,7 @@ arithmetical_operation`
 
     @property
     @abstractmethod
-    def extrapolator_kwargs(self) -> Dict:
+    def extrapolator_kwargs(self) -> dict:
         """
         Getter and setter property for the abstract continuous function
         extrapolator instantiation time arguments, must be reimplemented by
@@ -423,22 +419,20 @@ arithmetical_operation`
         return super().__repr__()  # pragma: no cover
 
     @abstractmethod
-    def __hash__(self) -> Integer:
+    def __hash__(self) -> int:
         """
         Return the abstract continuous function hash.
 
         Returns
         -------
-        :class:`numpy.integer`
+        :class:`int`
             Object hash.
         """
 
         ...  # pragma: no cover
 
     @abstractmethod
-    def __getitem__(
-        self, x: Union[FloatingOrArrayLike, slice]
-    ) -> FloatingOrNDArray:
+    def __getitem__(self, x: ArrayLike | slice) -> NDArrayFloat:
         """
         Return the corresponding range variable :math:`y` for independent
         domain variable :math:`x`, must be reimplemented by sub-classes.
@@ -450,16 +444,14 @@ arithmetical_operation`
 
         Returns
         -------
-        :class:`numpy.floating` or :class:`numpy.ndarray`
+        :class:`numpy.ndarray`
             Variable :math:`y` range value.
         """
 
         ...  # pragma: no cover
 
     @abstractmethod
-    def __setitem__(
-        self, x: Union[FloatingOrArrayLike, slice], y: FloatingOrArrayLike
-    ):
+    def __setitem__(self, x: ArrayLike | slice, y: ArrayLike):
         """
         Set the corresponding range variable :math:`y` for independent domain
         variable :math:`x`, must be reimplemented by sub-classes.
@@ -475,7 +467,7 @@ arithmetical_operation`
         ...  # pragma: no cover
 
     @abstractmethod
-    def __contains__(self, x: Union[FloatingOrArrayLike, slice]) -> bool:
+    def __contains__(self, x: ArrayLike | slice) -> bool:
         """
         Return whether the abstract continuous function contains given
         independent domain variable :math:`x`, must be reimplemented by
@@ -494,7 +486,19 @@ arithmetical_operation`
 
         ...  # pragma: no cover
 
-    def __len__(self) -> Integer:
+    def __iter__(self) -> Generator:
+        """
+        Return a generator for the abstract continuous function.
+
+        Yields
+        ------
+        Generator
+           Abstract continuous function generator.
+        """
+
+        yield from np.column_stack([self.domain, self.range])
+
+    def __len__(self) -> int:
         """
         Return the abstract continuous function independent domain :math:`x`
         variable elements count.
@@ -502,7 +506,7 @@ arithmetical_operation`
 
         Returns
         -------
-        :class:`numpy.integer`
+        :class:`int`
             Independent domain variable :math:`x` elements count.
         """
 
@@ -549,9 +553,7 @@ arithmetical_operation`
 
         ...  # pragma: no cover
 
-    def __add__(
-        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
-    ) -> AbstractContinuousFunction:
+    def __add__(self, a: ArrayLike | Self) -> Self:
         """
         Implement support for addition.
 
@@ -568,9 +570,7 @@ arithmetical_operation`
 
         return self.arithmetical_operation(a, "+")
 
-    def __iadd__(
-        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
-    ) -> AbstractContinuousFunction:
+    def __iadd__(self, a: ArrayLike | Self) -> Self:
         """
         Implement support for in-place addition.
 
@@ -587,9 +587,7 @@ arithmetical_operation`
 
         return self.arithmetical_operation(a, "+", True)
 
-    def __sub__(
-        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
-    ) -> AbstractContinuousFunction:
+    def __sub__(self, a: ArrayLike | Self) -> Self:
         """
         Implement support for subtraction.
 
@@ -606,9 +604,7 @@ arithmetical_operation`
 
         return self.arithmetical_operation(a, "-")
 
-    def __isub__(
-        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
-    ) -> AbstractContinuousFunction:
+    def __isub__(self, a: ArrayLike | Self) -> Self:
         """
         Implement support for in-place subtraction.
 
@@ -625,9 +621,7 @@ arithmetical_operation`
 
         return self.arithmetical_operation(a, "-", True)
 
-    def __mul__(
-        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
-    ) -> AbstractContinuousFunction:
+    def __mul__(self, a: ArrayLike | Self) -> Self:
         """
         Implement support for multiplication.
 
@@ -644,9 +638,7 @@ arithmetical_operation`
 
         return self.arithmetical_operation(a, "*")
 
-    def __imul__(
-        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
-    ) -> AbstractContinuousFunction:
+    def __imul__(self, a: ArrayLike | Self) -> Self:
         """
         Implement support for in-place multiplication.
 
@@ -663,9 +655,7 @@ arithmetical_operation`
 
         return self.arithmetical_operation(a, "*", True)
 
-    def __div__(
-        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
-    ) -> AbstractContinuousFunction:
+    def __div__(self, a: ArrayLike | Self) -> Self:
         """
         Implement support for division.
 
@@ -682,9 +672,7 @@ arithmetical_operation`
 
         return self.arithmetical_operation(a, "/")
 
-    def __idiv__(
-        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
-    ) -> AbstractContinuousFunction:
+    def __idiv__(self, a: ArrayLike | Self) -> Self:
         """
         Implement support for in-place division.
 
@@ -704,9 +692,7 @@ arithmetical_operation`
     __itruediv__ = __idiv__
     __truediv__ = __div__
 
-    def __pow__(
-        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
-    ) -> AbstractContinuousFunction:
+    def __pow__(self, a: ArrayLike | Self) -> Self:
         """
         Implement support for exponentiation.
 
@@ -723,9 +709,7 @@ arithmetical_operation`
 
         return self.arithmetical_operation(a, "**")
 
-    def __ipow__(
-        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
-    ) -> AbstractContinuousFunction:
+    def __ipow__(self, a: ArrayLike | Self) -> Self:
         """
         Implement support for in-place exponentiation.
 
@@ -745,10 +729,10 @@ arithmetical_operation`
     @abstractmethod
     def arithmetical_operation(
         self,
-        a: Union[FloatingOrArrayLike, AbstractContinuousFunction],
+        a: ArrayLike | Self,
         operation: Literal["+", "-", "*", "/", "**"],
-        in_place: Boolean = False,
-    ) -> AbstractContinuousFunction:
+        in_place: bool = False,
+    ) -> Self:
         """
         Perform given arithmetical operation with operand :math:`a`, the
         operation can be either performed on a copy or in-place, must be
@@ -774,11 +758,9 @@ arithmetical_operation`
     @abstractmethod
     def fill_nan(
         self,
-        method: Union[
-            Literal["Constant", "Interpolation"], str
-        ] = "Interpolation",
-        default: Number = 0,
-    ) -> AbstractContinuousFunction:
+        method: Literal["Constant", "Interpolation"] | str = "Interpolation",
+        default: Real = 0,
+    ) -> Self:
         """
         Fill NaNs in independent domain variable :math:`x` and corresponding
         range variable :math:`y` using given method, must be reimplemented by
@@ -800,7 +782,7 @@ arithmetical_operation`
 
         ...  # pragma: no cover
 
-    def domain_distance(self, a: FloatingOrArrayLike) -> FloatingOrNDArray:
+    def domain_distance(self, a: ArrayLike) -> NDArrayFloat:
         """
         Return the euclidean distance between given array and independent
         domain :math:`x` closest element.
@@ -813,7 +795,7 @@ arithmetical_operation`
 
         Returns
         -------
-        :class:`numpy.floating` or :class:`numpy.ndarray`
+        :class:`numpy.ndarray`
             Euclidean distance between independent domain variable :math:`x`
             and given variable :math:`a`.
         """
@@ -822,7 +804,7 @@ arithmetical_operation`
 
         return as_float(np.abs(a - n))
 
-    def is_uniform(self) -> Boolean:
+    def is_uniform(self) -> bool:
         """
         Return if independent domain variable :math:`x` is uniform.
 
@@ -834,7 +816,7 @@ arithmetical_operation`
 
         return is_uniform(self.domain)
 
-    def copy(self) -> AbstractContinuousFunction:
+    def copy(self) -> Self:
         """
         Return a copy of the sub-class instance.
 

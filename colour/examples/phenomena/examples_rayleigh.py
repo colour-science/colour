@@ -16,7 +16,7 @@ print("\n")
 
 wavelength = 555 * 10e-8
 message_box(
-    f"Computing the scattering cross section per molecule at given wavelength "
+    f"Computing the scattering cross-section per molecule at given wavelength "
     f"in cm:\n\n\tWavelength: {wavelength}cm"
 )
 print(colour.phenomena.scattering_cross_section(wavelength))

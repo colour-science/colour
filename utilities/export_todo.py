@@ -34,7 +34,7 @@ About
 -----
 
 | **Colour** by Colour Developers
-| Copyright 2013 Colour Developers – \
+| Copyright 2013 Colour Developers - \
 `colour-developers@colour-science.org <colour-developers@colour-science.org>`__
 | This software is released under terms of New BSD License: \
 https://opensource.org/licenses/BSD-3-Clause
@@ -108,9 +108,9 @@ def export_todo_items(todo_items: dict, file_path: str):
     """
 
     todo_rst = []
-    for module, todo_items in todo_items.items():
+    for module, module_todo_items in todo_items.items():
         todo_rst.append(f"-   {module}\n")
-        for line_numer, todo_item in todo_items:
+        for line_numer, todo_item in module_todo_items:
             todo_rst.append(f"    -   Line {line_numer} : {todo_item}")
 
         todo_rst.append("\n")

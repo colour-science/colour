@@ -204,6 +204,8 @@ from .rgb import (
     log_decoding_VLog,
     log_encoding_FLog,
     log_decoding_FLog,
+    log_encoding_FLog2,
+    log_decoding_FLog2,
     log_encoding_LLog,
     log_decoding_LLog,
     log_encoding_NLog,
@@ -605,6 +607,8 @@ __all__ += [
     "log_decoding_VLog",
     "log_encoding_FLog",
     "log_decoding_FLog",
+    "log_encoding_FLog2",
+    "log_decoding_FLog2",
     "log_encoding_LLog",
     "log_decoding_LLog",
     "log_encoding_NLog",
@@ -883,7 +887,7 @@ API_CHANGES["ObjectRenamed"].extend(
 """Defines the *colour.models* sub-package API changes."""
 
 if not is_documentation_building():
-    sys.modules["colour.models"] = models(  # type: ignore[assignment]
+    sys.modules["colour.models"] = models(  # pyright: ignore
         sys.modules["colour.models"], build_API_changes(API_CHANGES)
     )
 

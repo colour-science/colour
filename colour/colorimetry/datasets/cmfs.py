@@ -70,7 +70,6 @@ from colour.colorimetry import (
     RGB_ColourMatchingFunctions,
     XYZ_ColourMatchingFunctions,
 )
-from colour.hints import Dict
 from colour.utilities import LazyCanonicalMapping, usage_warning
 
 __author__ = "Colour Developers"
@@ -92,7 +91,7 @@ __all__ = [
 
 # *S-cone* spectral sensitivity data wasn't measurable after 615 nm and has
 # been set to zero.
-DATA_CMFS_LMS: Dict = {
+DATA_CMFS_LMS: dict = {
     "Stockman & Sharpe 2 Degree Cone Fundamentals": {
         390: (4.15003e-04, 3.68349e-04, 9.54729e-03),
         391: (5.02650e-04, 4.48015e-04, 1.14794e-02),
@@ -1094,7 +1093,7 @@ References
 :cite:`CVRLu`, :cite:`Machado2010a`
 """
 
-DATA_CMFS_RGB: Dict = {
+DATA_CMFS_RGB: dict = {
     "Wright & Guild 1931 2 Degree RGB CMFs": {
         380: (0.00003, -0.00001, 0.00117),
         385: (0.00005, -0.00002, 0.00189),
@@ -1372,7 +1371,7 @@ References
 :cite:`Broadbent2009a`, :cite:`CVRLt`, :cite:`CVRLw`
 """
 
-DATA_CMFS_STANDARD_OBSERVER: Dict = {
+DATA_CMFS_STANDARD_OBSERVER: dict = {
     "CIE 1931 2 Degree Standard Observer": {
         360: (0.000129900000, 0.000003917000, 0.000606100000),
         361: (0.000145847000, 0.000004393581, 0.000680879200),

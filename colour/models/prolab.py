@@ -9,7 +9,7 @@ Defines the *ProLab* colourspace transformations:
 
 References
 ----------
--   :cite:`Ivan2021` : Ivan A. Konovalenko, Anna A. Smagina, Dmitry P.
+-   :cite:`Konovalenko2021` : Ivan A. Konovalenko, Anna A. Smagina, Dmitry P.
     Nikolaev, Petr P. Nikolaev. ProLab: perceptually uniform projective colour
     coordinate system. doi:10.1109/ACCESS.2017
 """
@@ -19,7 +19,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import ArrayLike, NDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import as_float_array, from_range_1, ones, to_domain_1
 
@@ -37,21 +37,21 @@ __all__ = [
     "XYZ_to_ProLab",
 ]
 
-MATRIX_Q: NDArray = np.array(
+MATRIX_Q: NDArrayFloat = np.array(
     [
-        [75.54, 486.66, 167.39, 0],
-        [617.72, -595.45, -22.27, 0],
-        [48.34, 194.94, -243.28, 0],
-        [0.7554, 3.8666, 1.6739, 1],
+        [75.54, 486.66, 167.39, 0.0],
+        [617.72, -595.45, -22.27, 0.0],
+        [48.34, 194.94, -243.28, 0.0],
+        [0.7554, 3.8666, 1.6739, 1.0],
     ]
 )
 """Normalised cone responses to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_INVERSE_Q: NDArray = np.linalg.inv(MATRIX_Q)
+MATRIX_INVERSE_Q: NDArrayFloat = np.linalg.inv(MATRIX_Q)
 """Normalised cone responses to *ProLab* colourspace matrix."""
 
 
-def projective_transformation(a: ArrayLike, Q: ArrayLike) -> NDArray:
+def projective_transformation(a: ArrayLike, Q: ArrayLike) -> NDArrayFloat:
     """
     Transform given array :math:`a` with the projective transformation matrix
     :math:`Q`.
@@ -89,7 +89,7 @@ def XYZ_to_ProLab(
     illuminant: ArrayLike = CCS_ILLUMINANTS[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *ProLab* colourspace.
 
@@ -126,7 +126,7 @@ def XYZ_to_ProLab(
 
     References
     ----------
-    :cite:`Ivan2021`
+    :cite:`Konovalenko2021`
 
     Examples
     --------
@@ -148,7 +148,7 @@ def ProLab_to_XYZ(
     illuminant: ArrayLike = CCS_ILLUMINANTS[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert from *ProLab* colourspace to *CIE XYZ* tristimulus values.
 
@@ -185,7 +185,7 @@ def ProLab_to_XYZ(
 
     References
     ----------
-    :cite:`Ivan2021`
+    :cite:`Konovalenko2021`
 
     Examples
     --------

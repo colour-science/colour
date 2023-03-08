@@ -15,13 +15,13 @@ is available to guide the process: https://www.colour-science.org/contributing/.
 **Code Style and Quality**
 
 - [ ] Unit tests have been implemented and passed.
-- [ ] Mypy static checking has been run and passed.
+- [ ] Pyright static checking has been run and passed.
 - [ ] Pre-commit hooks have been run and passed.
 - [ ] New transformations have been added to the *Automatic Colour Conversion Graph*.
 - [ ] New transformations have been exported to the relevant namespaces, e.g. `colour`, `colour.models`.
 
 <!-- The unit tests can be invoked with `poetry run invoke tests` -->
-<!-- Mypy can be started with `dmypy run -- --show-error-codes --warn-unused-ignores --warn-redundant-casts --install-types --non-interactive -p colour` -->
+<!-- Pyright can be started with `pyright --skipunannotated` -->
 
 **Documentation**
 

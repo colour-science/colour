@@ -21,13 +21,9 @@ from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUT_to_LUT
 from colour.hints import (
     Any,
     Callable,
-    Dict,
-    Integer,
-    NDArray,
-    Optional,
+    NDArrayFloat,
+    ProtocolInterpolator,
     Type,
-    TypeInterpolator,
-    Union,
 )
 from colour.utilities import as_float_array, tsplit, tstack
 
@@ -50,7 +46,7 @@ __all__ = [
 
 ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 
-RANDOM_TRIPLETS: NDArray = np.reshape(
+RANDOM_TRIPLETS: NDArrayFloat = np.reshape(
     random_triplet_generator(8, random_state=np.random.RandomState(4)),
     (4, 2, 3),
 )
@@ -127,35 +123,35 @@ class AbstractLUTTest(unittest.TestCase):
 
         self._LUT_factory: Any = None
 
-        self._size: Optional[Integer] = None
-        self._dimensions: Optional[Integer] = None
-        self._domain_1: Optional[NDArray] = None
-        self._domain_2: Optional[NDArray] = None
-        self._domain_3: Optional[NDArray] = None
-        self._table_1: Optional[NDArray] = None
-        self._table_2: Optional[NDArray] = None
-        self._table_3: Optional[NDArray] = None
-        self._table_1_kwargs: Optional[Dict] = None
-        self._table_2_kwargs: Optional[Dict] = None
-        self._table_3_kwargs: Optional[Dict] = None
-        self._interpolator_1: Optional[
-            Union[Callable, Type[TypeInterpolator]]
-        ] = None
-        self._interpolator_kwargs_1: Dict = {}
-        self._interpolator_2: Optional[
-            Union[Callable, Type[TypeInterpolator]]
-        ] = None
-        self._interpolator_kwargs_2: Dict = {}
-        self._invert_kwargs_1: Dict = {}
-        self._invert_kwargs_2: Dict = {}
-        self._str: Optional[str] = None
-        self._repr: Optional[str] = None
-        self._inverted_apply_1: Optional[NDArray] = None
-        self._inverted_apply_2: Optional[NDArray] = None
-        self._applied_1: Optional[NDArray] = None
-        self._applied_2: Optional[NDArray] = None
-        self._applied_3: Optional[NDArray] = None
-        self._applied_4: Optional[NDArray] = None
+        self._size: int | None = None
+        self._dimensions: int | None = None
+        self._domain_1: NDArrayFloat | None = None
+        self._domain_2: NDArrayFloat | None = None
+        self._domain_3: NDArrayFloat | None = None
+        self._table_1: NDArrayFloat | None = None
+        self._table_2: NDArrayFloat | None = None
+        self._table_3: NDArrayFloat | None = None
+        self._table_1_kwargs: dict | None = None
+        self._table_2_kwargs: dict | None = None
+        self._table_3_kwargs: dict | None = None
+        self._interpolator_1: Callable | Type[
+            ProtocolInterpolator
+        ] | None = None
+        self._interpolator_kwargs_1: dict = {}
+        self._interpolator_2: Callable | Type[
+            ProtocolInterpolator
+        ] | None = None
+        self._interpolator_kwargs_2: dict = {}
+        self._invert_kwargs_1: dict = {}
+        self._invert_kwargs_2: dict = {}
+        self._str: str | None = None
+        self._repr: str | None = None
+        self._inverted_apply_1: NDArrayFloat | None = None
+        self._inverted_apply_2: NDArrayFloat | None = None
+        self._applied_1: NDArrayFloat | None = None
+        self._applied_2: NDArrayFloat | None = None
+        self._applied_3: NDArrayFloat | None = None
+        self._applied_4: NDArrayFloat | None = None
 
     def test_required_methods(self):
         """Test the presence of required methods."""
@@ -335,7 +331,9 @@ class AbstractLUTTest(unittest.TestCase):
             return
 
         # pylint: disable=E1102
-        LUT = self._LUT_factory(name="Nemo")
+        LUT = self._LUT_factory(
+            name="Nemo", comments=["A first comment.", "A second comment."]
+        )
 
         # The default LUT representation is too large to be embedded, given
         # that :class:`colour.io.luts.lut.LUT3D.__str__` method is defined by
@@ -585,6 +583,20 @@ class AbstractLUTTest(unittest.TestCase):
             LUT_i.apply(RANDOM_TRIPLETS), self._inverted_apply_2, decimal=7
         )
 
+        # pylint: disable=E1102
+        LUT_i = self._LUT_factory(self._table_2, domain=self._domain_4)
+
+        try:
+            LUT_i = LUT_i.invert(
+                interpolator=self._interpolator_2, **self._invert_kwargs_2
+            )
+
+            np.testing.assert_array_almost_equal(
+                LUT_i.apply(RANDOM_TRIPLETS), self._inverted_apply_2, decimal=7
+            )
+        except NotImplementedError:
+            pass
+
     def test_apply(self):
         """
         Test :class:`colour.io.luts.lut.LUT1D.apply`,
@@ -655,7 +667,8 @@ class TestLUT1D(AbstractLUTTest):
         self._domain_1 = np.array([0, 1])
         self._domain_2 = np.array([-0.1, 1.5])
         self._domain_3 = np.linspace(-0.1, 1.5, 10)
-        self._table_1 = np.linspace(0, 1, 10)
+        self._domain_4 = np.linspace(0, 1, 10)
+        self._table_1 = self._domain_4
         self._table_2 = self._table_1 ** (1 / 2.2)
         self._table_3 = as_float_array(
             spow(np.linspace(-0.1, 1.5, self._size), (1 / 2.6))
@@ -685,7 +698,8 @@ class TestLUT1D(AbstractLUTTest):
             0.55555556,  0.66666667,  0.77777778,  0.88888889,  1.        ],
           'Nemo',
           [ 0.,  1.],
-          10)
+          10,
+          ['A first comment.', 'A second comment.'])
           """
         ).strip()
         self._inverted_apply_1 = np.array(
@@ -795,7 +809,7 @@ class TestLUT3x1D(AbstractLUTTest):
         samples_2 = np.linspace(-0.1, 1.5, 15)
         samples_3 = np.linspace(-0.1, 3.0, 20)
         self._domain_1 = np.array([[0, 0, 0], [1, 1, 1]])
-        self._domain_2 = np.array([[0, -0.1, -0.2], [1, 1.5, 3.0]])
+        self._domain_2 = np.array([[0.0, -0.1, -0.2], [1.0, 1.5, 3.0]])
         self._domain_3 = tstack(
             [
                 np.hstack([samples_1, np.full(10, np.nan)]),
@@ -803,7 +817,8 @@ class TestLUT3x1D(AbstractLUTTest):
                 samples_3,
             ]
         )
-        self._table_1 = tstack([samples_1, samples_1, samples_1])
+        self._domain_4 = tstack([samples_1, samples_1, samples_1])
+        self._table_1 = self._domain_4
         self._table_2 = self._table_1 ** (1 / 2.2)
         self._table_3 = as_float_array(
             spow(
@@ -855,7 +870,8 @@ class TestLUT3x1D(AbstractLUTTest):
                     'Nemo',
                     [[ 0.,  0.,  0.],
                      [ 1.,  1.,  1.]],
-                    10)
+                    10,
+                    ['A first comment.', 'A second comment.'])
                     """
         ).strip()
         self._inverted_apply_1 = np.array(
@@ -965,7 +981,7 @@ class TestLUT3D(AbstractLUTTest):
         samples_2 = np.linspace(-0.1, 1.5, 15)
         samples_3 = np.linspace(-0.1, 3.0, 20)
         self._domain_1 = np.array([[0, 0, 0], [1, 1, 1]])
-        self._domain_2 = np.array([[0, -0.1, -0.2], [1, 1.5, 3.0]])
+        self._domain_2 = np.array([[0.0, -0.1, -0.2], [1.0, 1.5, 3.0]])
         self._domain_3 = tstack(
             [
                 np.hstack([samples_1, np.full(10, np.nan)]),
@@ -973,6 +989,7 @@ class TestLUT3D(AbstractLUTTest):
                 samples_3,
             ]
         )
+        self._domain_4 = self._domain_3
         self._table_1 = as_float_array(
             np.flip(
                 np.transpose(

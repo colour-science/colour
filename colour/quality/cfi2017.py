@@ -36,17 +36,7 @@ from colour.colorimetry import (
     sd_ones,
     sd_CIE_illuminant_D_series,
 )
-from colour.hints import (
-    Boolean,
-    Dict,
-    Floating,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    NDArray,
-    Tuple,
-    Union,
-    cast,
-)
+from colour.hints import ArrayLike, NDArrayFloat, Tuple, cast
 from colour.models import XYZ_to_UCS, UCS_to_uv, JMh_CIECAM02_to_CAM02UCS
 from colour.temperature import uv_to_CCT_Ohno2013, CCT_to_xy_CIE_D
 from colour.utilities import (
@@ -92,7 +82,7 @@ ROOT_RESOURCES_CIE2017: str = os.path.join(
 )
 """*CIE 2017 Colour Fidelity Index* resources directory."""
 
-_CACHE_TCS_CIE2017: Dict = CACHE_REGISTRY.register_cache(
+_CACHE_TCS_CIE2017: dict = CACHE_REGISTRY.register_cache(
     f"{__name__}._CACHE_TCS_CIE2017"
 )
 
@@ -102,10 +92,10 @@ class DataColorimetry_TCS_CIE2017:
     """Define the class storing *test colour samples* colorimetry data."""
 
     name: str
-    XYZ: NDArray
+    XYZ: NDArrayFloat
     CAM: CAM_Specification_CIECAM02
-    JMh: NDArray
-    Jpapbp: NDArray
+    JMh: NDArrayFloat
+    Jpapbp: NDArrayFloat
 
 
 @dataclass
@@ -136,20 +126,20 @@ class ColourRendering_Specification_CIE2017:
 
     name: str
     sd_reference: SpectralDistribution
-    R_f: Floating
-    R_s: NDArray
-    CCT: Floating
-    D_uv: Floating
+    R_f: float
+    R_s: NDArrayFloat
+    CCT: float
+    D_uv: float
     colorimetry_data: Tuple[
         Tuple[DataColorimetry_TCS_CIE2017, ...],
         Tuple[DataColorimetry_TCS_CIE2017, ...],
     ]
-    delta_E_s: NDArray
+    delta_E_s: NDArrayFloat
 
 
 def colour_fidelity_index_CIE2017(
-    sd_test: SpectralDistribution, additional_data: Boolean = False
-) -> Union[Floating, ColourRendering_Specification_CIE2017]:
+    sd_test: SpectralDistribution, additional_data: bool = False
+) -> float | ColourRendering_Specification_CIE2017:
     """
     Return the *CIE 2017 Colour Fidelity Index* (CFI) :math:`R_f` of given
     spectral distribution.
@@ -163,7 +153,7 @@ def colour_fidelity_index_CIE2017(
 
     Returns
     -------
-    :class:`numpy.floating` or \
+    :class:`float` or \
 :class:`colour.quality.ColourRendering_Specification_CIE2017`
         *CIE 2017 Colour Fidelity Index* (CFI) :math:`R_f`.
 
@@ -181,14 +171,14 @@ def colour_fidelity_index_CIE2017(
 
     if sd_test.shape.start > 380 or sd_test.shape.end < 780:
         usage_warning(
-            "Test spectral distribution shape does not span the"
-            "recommended 380-780nm range, missing values will be"
+            "Test spectral distribution shape does not span the "
+            "recommended 380-780nm range, missing values will be "
             "filled with zeros!"
         )
 
         # NOTE: "CIE 2017 Colour Fidelity Index" standard recommends filling
         # missing values with zeros.
-        sd_test = cast(SpectralDistribution, sd_test.copy())
+        sd_test = sd_test.copy()
         sd_test.extrapolator = Extrapolator
         sd_test.extrapolator_kwargs = {
             "method": "constant",
@@ -234,8 +224,8 @@ def colour_fidelity_index_CIE2017(
             reference_tcs_colorimetry_data[i].Jpapbp,
         )
 
-    R_s = as_float_array(delta_E_to_R_f(delta_E_s))
-    R_f = as_float_scalar(delta_E_to_R_f(np.average(delta_E_s)))
+    R_s = delta_E_to_R_f(delta_E_s)
+    R_f = cast(float, delta_E_to_R_f(np.average(delta_E_s)))
 
     if additional_data:
         return ColourRendering_Specification_CIE2017(
@@ -277,7 +267,7 @@ def load_TCS_CIE2017(shape: SpectralShape) -> MultiSpectralDistributions:
     99
     """
 
-    global _CACHE_TCS_CIE2017
+    global _CACHE_TCS_CIE2017  # noqa: PLW0602
 
     interval = shape.interval
 
@@ -303,7 +293,7 @@ def load_TCS_CIE2017(shape: SpectralShape) -> MultiSpectralDistributions:
     return tcs
 
 
-def CCT_reference_illuminant(sd: SpectralDistribution) -> NDArray:
+def CCT_reference_illuminant(sd: SpectralDistribution) -> NDArrayFloat:
     """
     Compute the reference illuminant correlated colour temperature
     :math:`T_{cp}` and :math:`\\Delta_{uv}` for given test spectral
@@ -333,7 +323,7 @@ def CCT_reference_illuminant(sd: SpectralDistribution) -> NDArray:
 
 
 def sd_reference_illuminant(
-    CCT: Floating, shape: SpectralShape
+    CCT: float, shape: SpectralShape
 ) -> SpectralDistribution:
     """
     Compute the reference illuminant for a given correlated colour temperature
@@ -400,8 +390,8 @@ def sd_reference_illuminant(
     elif 4000 <= CCT <= 5000:
         # Planckian and daylight illuminant must be normalised so that the
         # mixture isn't biased.
-        sd_planckian /= sd_to_XYZ(sd_planckian)[1]  # type: ignore[misc]
-        sd_daylight /= sd_to_XYZ(sd_daylight)[1]  # type: ignore[misc]
+        sd_planckian /= sd_to_XYZ(sd_planckian)[1]
+        sd_daylight /= sd_to_XYZ(sd_daylight)[1]
 
         # Mixture: 4200K should be 80% Planckian, 20% CIE Illuminant D Series.
         m = (CCT - 4000) / 1000
@@ -463,9 +453,9 @@ def tcs_colorimetry_data(
         specification = XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround, True)
         JMh = tstack(
             [
-                cast(FloatingOrNDArray, specification.J),
-                cast(FloatingOrNDArray, specification.M),
-                cast(FloatingOrNDArray, specification.h),
+                cast(NDArrayFloat, specification.J),
+                cast(NDArrayFloat, specification.M),
+                cast(NDArrayFloat, specification.h),
             ]
         )
         Jpapbp = JMh_CIECAM02_to_CAM02UCS(JMh)
@@ -479,7 +469,7 @@ def tcs_colorimetry_data(
     return tuple(tcs_data)
 
 
-def delta_E_to_R_f(delta_E: FloatingOrArrayLike) -> FloatingOrNDArray:
+def delta_E_to_R_f(delta_E: ArrayLike) -> NDArrayFloat:
     """
     Convert from colour-appearance difference to
     *CIE 2017 Colour Fidelity Index* (CFI) :math:`R_f` value.
@@ -491,7 +481,7 @@ def delta_E_to_R_f(delta_E: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding *CIE 2017 Colour Fidelity Index* (CFI) :math:`R_f` value.
     """
 

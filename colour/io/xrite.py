@@ -43,7 +43,7 @@ def read_sds_from_xrite_file(path: str) -> Dict[str, SpectralDistribution]:
     Returns
     -------
     :class:`dict`
-        *Dict* of :class:`colour.SpectralDistribution` class instances.
+        *dict* of :class:`colour.SpectralDistribution` class instances.
 
     Notes
     -----
@@ -67,6 +67,7 @@ def read_sds_from_xrite_file(path: str) -> Dict[str, SpectralDistribution]:
     with codecs.open(path, encoding=XRITE_FILE_ENCODING) as xrite_file:
         lines = xrite_file.read().strip().split("\n")
 
+        index = 0
         xrite_sds = {}
         is_spectral_data_format, is_spectral_data = False, False
         for line in lines:
@@ -79,7 +80,7 @@ def read_sds_from_xrite_file(path: str) -> Dict[str, SpectralDistribution]:
                 is_spectral_data = False
 
             if is_spectral_data_format:
-                wavelengths = [x for x in re.findall("nm(\\d+)", line)]
+                wavelengths = list(re.findall("nm(\\d+)", line))
                 index = len(wavelengths)
 
             if is_spectral_data:

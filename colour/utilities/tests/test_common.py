@@ -8,7 +8,7 @@ import unittest
 import unicodedata
 from functools import partial
 
-from colour.hints import Any, Floating, Number, Tuple
+from colour.hints import Any, Real, Tuple
 from colour.utilities import (
     CacheRegistry,
     CanonicalMapping,
@@ -195,7 +195,7 @@ class TestBatch(unittest.TestCase):
         )
 
 
-def _add(a: Number, b: Number):
+def _add(a: Real, b: Real):
     """
     Add two numbers.
 
@@ -251,7 +251,7 @@ class TestIsIterable(unittest.TestCase):
 
         self.assertTrue(is_iterable([]))
 
-        self.assertTrue(is_iterable(dict()))
+        self.assertTrue(is_iterable({}))
 
         self.assertTrue(is_iterable(set()))
 
@@ -370,14 +370,14 @@ class TestFilterKwargs(unittest.TestCase):
 
             return a
 
-        def fn_b(a: Any, b: Floating = 0) -> Tuple[Any, Floating]:
+        def fn_b(a: Any, b: float = 0) -> Tuple[Any, float]:
             """:func:`filter_kwargs` unit tests :func:`fn_b` definition."""
 
             return a, b
 
         def fn_c(
-            a: Any, b: Floating = 0, c: Floating = 0
-        ) -> Tuple[Any, Floating, Floating]:
+            a: Any, b: float = 0, c: float = 0
+        ) -> Tuple[float, float, float]:
             """:func:`filter_kwargs` unit tests :func:`fn_c` definition."""
 
             return a, b, c

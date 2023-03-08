@@ -9,7 +9,7 @@
 .. |NumFOCUS| image:: https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat-square&colorA=E1523D&colorB=007D8A
     :target: http://numfocus.org
     :alt: Powered by NumFOCUS
-.. |actions| image:: https://img.shields.io/github/workflow/status/colour-science/colour/Continuous%20Integration%20-%20Quality%20&%20Unit%20Tests?label=actions&logo=github&style=flat-square
+.. |actions| image:: https://img.shields.io/github/actions/workflow/status/colour-science/colour/.github/workflows/continuous-integration-quality-unit-tests.yml?branch=develop&style=flat-square
     :target: https://github.com/colour-science/colour/actions
     :alt: Develop Build Status
 .. |coveralls| image:: http://img.shields.io/coveralls/colour-science/colour/develop.svg?style=flat-square
@@ -21,8 +21,8 @@
 .. |version| image:: https://img.shields.io/pypi/v/colour-science.svg?style=flat-square
     :target: https://pypi.org/project/colour-science
     :alt: Package Version
-.. |zenodo| image:: https://img.shields.io/badge/DOI-10.5281/zenodo.6288658-blue.svg?style=flat-square
-    :target: https://dx.doi.org/10.5281/zenodo.6288658
+.. |zenodo| image:: https://img.shields.io/badge/DOI-10.5281/zenodo.7367239-blue.svg?style=flat-square
+    :target: https://dx.doi.org/10.5281/zenodo.7367239
     :alt: DOI
 
 .. end-badges
@@ -113,9 +113,10 @@ If you'd like to join them, please consider
                     <p><a href="https://caveacademy.com" target="_blank">CAVE Academy</a></p>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="126px" src="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://www.zhannaalekseeva.nyc" target="_blank">
+                        <img width="126px" src="https://images.opencollective.com/studio-zhanna-alekseeva-nyc/a60e20f/avatar/256.png">
                     </a>
+                    <p><a href="https://www.zhannaalekseeva.nyc" target="_blank">Studio Zhanna Alekseeva.NYC</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
@@ -1136,6 +1137,7 @@ Log Encoding / Decoding
      'D-Log',
      'ERIMM RGB',
      'F-Log',
+     'F-Log2',
      'Filmic Pro 6',
      'L-Log',
      'Log2',
@@ -1175,6 +1177,7 @@ CCTFs Encoding / Decoding
      'DICOM GSDF',
      'ERIMM RGB',
      'F-Log',
+     'F-Log2',
      'Filmic Pro 6',
      'Gamma 2.2',
      'Gamma 2.4',

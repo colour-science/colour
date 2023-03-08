@@ -29,7 +29,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.utilities import CanonicalMapping
 
 __author__ = "Colour Developers"
@@ -46,7 +46,7 @@ __all__ = [
     "OPTIMAL_COLOUR_STIMULI_ILLUMINANTS",
 ]
 
-OPTIMAL_COLOUR_STIMULI_A: NDArray = np.array(
+OPTIMAL_COLOUR_STIMULI_A: NDArrayFloat = np.array(
     [
         [0.1120, 0.1985, 10],
         [0.0859, 0.2957, 10],
@@ -268,7 +268,7 @@ OPTIMAL_COLOUR_STIMULI_A: NDArray = np.array(
         [0.4392, 0.4080, 95],
         [0.4294, 0.4151, 95],
         [0.4254, 0.4180, 95],
-    ]
+    ]  # pyright: ignore
 )
 """
 *CIE Standard Illuminant A* *Optimal Colour Stimuli*.
@@ -278,7 +278,7 @@ References
 :cite:`Wyszecki2000bb`
 """
 
-OPTIMAL_COLOUR_STIMULI_C: NDArray = np.array(
+OPTIMAL_COLOUR_STIMULI_C: NDArrayFloat = np.array(
     [
         [0.1363, 0.0692, 10],
         [0.1308, 0.0792, 10],
@@ -477,7 +477,7 @@ OPTIMAL_COLOUR_STIMULI_C: NDArray = np.array(
         [0.3270, 0.3172, 95],
         [0.3160, 0.3069, 95],
         [0.3053, 0.3096, 95],
-    ]
+    ]  # pyright: ignore
 )
 """
 *CIE Illuminant C* *Optimal Colour Stimuli*.
@@ -487,7 +487,7 @@ References
 :cite:`MacAdam1935a`
 """
 
-OPTIMAL_COLOUR_STIMULI_D65: NDArray = np.array(
+OPTIMAL_COLOUR_STIMULI_D65: NDArrayFloat = np.array(
     [
         [0.1346, 0.0747, 10],
         [0.0990, 0.1607, 10],
@@ -729,7 +729,7 @@ OPTIMAL_COLOUR_STIMULI_D65: NDArray = np.array(
         [0.3103, 0.3214, 95],
         [0.3006, 0.3259, 95],
         [0.2900, 0.3308, 95],
-    ]
+    ]  # pyright: ignore
 )
 """
 *CIE Standard Illuminant D Series D65* *Optimal Colour Stimuli*.

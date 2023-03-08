@@ -20,7 +20,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode, vector_dot
-from colour.hints import ArrayLike, NDArray, cast
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     from_range_1,
     to_domain_1,
@@ -41,7 +41,7 @@ __all__ = [
     "IHLS_to_RGB",
 ]
 
-MATRIX_RGB_TO_YC_1_C_2: NDArray = np.array(
+MATRIX_RGB_TO_YC_1_C_2: NDArrayFloat = np.array(
     [
         [0.2126, 0.7152, 0.0722],
         [1, -0.5, -0.5],
@@ -50,11 +50,11 @@ MATRIX_RGB_TO_YC_1_C_2: NDArray = np.array(
 )
 """*RGB* colourspace to *YC_1C_2* colourspace matrix."""
 
-MATRIX_YC_1_C_2_TO_RGB: NDArray = np.linalg.inv(MATRIX_RGB_TO_YC_1_C_2)
+MATRIX_YC_1_C_2_TO_RGB: NDArrayFloat = np.linalg.inv(MATRIX_RGB_TO_YC_1_C_2)
 """*YC_1C_2* colourspace to *RGB* colourspace matrix."""
 
 
-def RGB_to_IHLS(RGB: ArrayLike) -> NDArray:
+def RGB_to_IHLS(RGB: ArrayLike) -> NDArrayFloat:
     """
     Convert from *RGB* colourspace to *IHLS* (Improved HLS) colourspace.
 
@@ -98,10 +98,10 @@ def RGB_to_IHLS(RGB: ArrayLike) -> NDArray:
 
     Y, C_1, C_2 = tsplit(vector_dot(MATRIX_RGB_TO_YC_1_C_2, RGB))
 
-    C = np.sqrt(C_1**2 + C_2**2)
+    C = np.hypot(C_1, C_2)
 
     with sdiv_mode():
-        C_1_C = cast(NDArray, sdiv(C_1, C))
+        C_1_C = sdiv(C_1, C)
 
     arcos_C_1_C_2 = zeros(C_1_C.shape)
     arcos_C_1_C_2[C_1_C != 0] = np.arccos(C_1_C[C_1_C != 0])
@@ -115,7 +115,7 @@ def RGB_to_IHLS(RGB: ArrayLike) -> NDArray:
     return from_range_1(HYS)
 
 
-def IHLS_to_RGB(HYS: ArrayLike) -> NDArray:
+def IHLS_to_RGB(HYS: ArrayLike) -> NDArrayFloat:
     """
     Convert from *IHLS* (Improved HLS) colourspace to *RGB* colourspace.
 

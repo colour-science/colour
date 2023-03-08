@@ -41,15 +41,10 @@ from colour.colorimetry import (
 )
 from colour.hints import (
     ArrayLike,
-    Boolean,
     Dict,
-    Floating,
-    Integer,
     Literal,
-    NDArray,
-    Optional,
+    NDArrayFloat,
     Tuple,
-    Union,
     cast,
 )
 from colour.models import (
@@ -65,7 +60,6 @@ from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
 from colour.adaptation import chromatic_adaptation_VonKries
 from colour.utilities import (
     as_float_array,
-    as_float_scalar,
     domain_range_scale,
     tsplit,
     validate_method,
@@ -97,7 +91,7 @@ __all__ = [
     "colour_quality_scales",
 ]
 
-GAMUT_AREA_D65: Integer = 8210
+GAMUT_AREA_D65: int = 8210
 """Gamut area for *CIE Illuminant D Series D65*."""
 
 
@@ -106,9 +100,9 @@ class DataColorimetry_VS:
     """Define the class storing *VS test colour samples* colorimetry data."""
 
     name: str
-    XYZ: NDArray
-    Lab: NDArray
-    C: NDArray
+    XYZ: NDArrayFloat
+    Lab: NDArrayFloat
+    C: NDArrayFloat
 
 
 @dataclass
@@ -119,10 +113,10 @@ class DataColourQualityScale_VS:
     """
 
     name: str
-    Q_a: Floating
-    D_C_ab: Floating
-    D_E_ab: Floating
-    D_Ep_ab: Floating
+    Q_a: float
+    D_C_ab: float
+    D_E_ab: float
+    D_Ep_ab: float
 
 
 @dataclass
@@ -166,18 +160,18 @@ class ColourRendering_Specification_CQS:
     """
 
     name: str
-    Q_a: Floating
-    Q_f: Floating
-    Q_p: Optional[Floating]
-    Q_g: Floating
-    Q_d: Optional[Floating]
-    Q_as: Dict[Integer, DataColourQualityScale_VS]
+    Q_a: float
+    Q_f: float
+    Q_p: float | None
+    Q_g: float
+    Q_d: float | None
+    Q_as: Dict[int, DataColourQualityScale_VS]
     colorimetry_data: Tuple[
         Tuple[DataColorimetry_VS, ...], Tuple[DataColorimetry_VS, ...]
     ]
 
 
-COLOUR_QUALITY_SCALE_METHODS: Tuple = ("NIST CQS 7.4", "NIST CQS 9.0")
+COLOUR_QUALITY_SCALE_METHODS: tuple = ("NIST CQS 7.4", "NIST CQS 9.0")
 if is_documentation_building():  # pragma: no cover
     COLOUR_QUALITY_SCALE_METHODS = DocstringTuple(COLOUR_QUALITY_SCALE_METHODS)
     COLOUR_QUALITY_SCALE_METHODS.__doc__ = """
@@ -191,11 +185,9 @@ References
 
 def colour_quality_scale(
     sd_test: SpectralDistribution,
-    additional_data: Boolean = False,
-    method: Union[
-        Literal["NIST CQS 7.4", "NIST CQS 9.0"], str
-    ] = "NIST CQS 9.0",
-) -> Union[Floating, ColourRendering_Specification_CQS]:
+    additional_data: bool = False,
+    method: Literal["NIST CQS 7.4", "NIST CQS 9.0"] | str = "NIST CQS 9.0",
+) -> float | ColourRendering_Specification_CQS:
     """
     Return the *Colour Quality Scale* (CQS) of given spectral distribution
     using given method.
@@ -211,7 +203,7 @@ def colour_quality_scale(
 
     Returns
     -------
-    :class:`numpy.floating` or \
+    :class:`float` or \
 :class:`colour.quality.ColourRendering_Specification_CQS`
         *Colour Quality Scale* (CQS).
 
@@ -260,7 +252,7 @@ def colour_quality_scale(
         sd_reference, sd_reference, vs_sds, cmfs
     )
 
-    CCT_f: Floating
+    CCT_f: float
     if method == "nist cqs 9.0":
         CCT_f = 1
         scaling_f = 3.2
@@ -282,10 +274,7 @@ def colour_quality_scale(
 
     Q_a = scale_conversion(D_Ep_RMS, CCT_f, scaling_f)
 
-    if method == "nist cqs 9.0":
-        scaling_f = 2.93 * 1.0343
-    else:
-        scaling_f = 2.928
+    scaling_f = 2.93 * 1.0343 if method == "nist cqs 9.0" else 2.928
 
     Q_f = scale_conversion(D_E_RMS, CCT_f, scaling_f)
 
@@ -301,14 +290,17 @@ def colour_quality_scale(
     if method == "nist cqs 9.0":
         Q_p = Q_d = None
     else:
-        p_delta_C = np.average(
-            [
-                sample_data.D_C_ab if sample_data.D_C_ab > 0 else 0
-                for sample_data in Q_as.values()
-            ]
+        p_delta_C = cast(
+            float,
+            np.average(
+                [
+                    sample_data.D_C_ab if sample_data.D_C_ab > 0 else 0
+                    for sample_data in Q_as.values()
+                ]
+            ),
         )
-        Q_p = as_float_scalar(100 - 3.6 * (D_Ep_RMS - p_delta_C))
-        Q_d = as_float_scalar(G_t / G_r * CCT_f * 100)
+        Q_p = 100 - 3.6 * (D_Ep_RMS - p_delta_C)
+        Q_d = G_t / G_r * CCT_f * 100
 
     if additional_data:
         return ColourRendering_Specification_CQS(
@@ -325,7 +317,7 @@ def colour_quality_scale(
         return Q_a
 
 
-def gamut_area(Lab: ArrayLike) -> Floating:
+def gamut_area(Lab: ArrayLike) -> float:
     """
     Return the gamut area :math:`G` covered by given *CIE L\\*a\\*b\\**
     matrices.
@@ -337,7 +329,7 @@ def gamut_area(Lab: ArrayLike) -> Floating:
 
     Returns
     -------
-    :class:`numpy.floating`
+    :class:`float`
         Gamut area :math:`G`.
 
     Examples
@@ -383,7 +375,7 @@ def vs_colorimetry_data(
     sd_reference: SpectralDistribution,
     sds_vs: Dict[str, SpectralDistribution],
     cmfs: MultiSpectralDistributions,
-    chromatic_adaptation: Boolean = False,
+    chromatic_adaptation: bool = False,
 ) -> Tuple[DataColorimetry_VS, ...]:
     """
     Return the *VS test colour samples* colorimetry data.
@@ -410,12 +402,12 @@ def vs_colorimetry_data(
     XYZ_t = sd_to_XYZ(sd_test, cmfs)
 
     with sdiv_mode():
-        XYZ_t = cast(NDArray, sdiv(XYZ_t, XYZ_t[1]))
+        XYZ_t = sdiv(XYZ_t, XYZ_t[1])
 
     XYZ_r = sd_to_XYZ(sd_reference, cmfs)
 
     with sdiv_mode():
-        XYZ_r = cast(NDArray, sdiv(XYZ_r, XYZ_r[1]))
+        XYZ_r = sdiv(XYZ_r, XYZ_r[1])
 
     xy_r = XYZ_to_xy(XYZ_r)
 
@@ -441,7 +433,7 @@ def vs_colorimetry_data(
 
 def CCT_factor(
     reference_data: Tuple[DataColorimetry_VS, ...], XYZ_r: ArrayLike
-) -> Floating:
+) -> float:
     """
     Return the correlated colour temperature factor penalizing lamps with
     extremely low correlated colour temperatures.
@@ -455,7 +447,7 @@ def CCT_factor(
 
     Returns
     -------
-    :class:`numpy.floating`
+    :class:`float`
         Correlated colour temperature factor.
     """
 
@@ -478,9 +470,7 @@ def CCT_factor(
     return CCT_f
 
 
-def scale_conversion(
-    D_E_ab: Floating, CCT_f: Floating, scaling_f: Floating
-) -> Floating:
+def scale_conversion(D_E_ab: float, CCT_f: float, scaling_f: float) -> float:
     """
     Return the *Colour Quality Scale* (CQS) for given :math:`\\Delta E_{ab}`
     value and given correlated colour temperature penalizing factor.
@@ -496,7 +486,7 @@ def scale_conversion(
 
     Returns
     -------
-    :class:`numpy.floating`
+    :class:`float`
         *Colour Quality Scale* (CQS).
     """
 
@@ -506,8 +496,8 @@ def scale_conversion(
 
 
 def delta_E_RMS(
-    CQS_data: Dict[Integer, DataColourQualityScale_VS], attribute: str
-) -> Floating:
+    CQS_data: Dict[int, DataColourQualityScale_VS], attribute: str
+) -> float:
     """
     Compute the root-mean-square average for given *Colour Quality Scale*
     (CQS) data.
@@ -522,7 +512,7 @@ def delta_E_RMS(
 
     Returns
     -------
-    :class:`numpy.floating`
+    :class:`float`
         Root-mean-square average.
     """
 
@@ -541,9 +531,9 @@ def delta_E_RMS(
 def colour_quality_scales(
     test_data: Tuple[DataColorimetry_VS, ...],
     reference_data: Tuple[DataColorimetry_VS, ...],
-    scaling_f: Floating,
-    CCT_f: Floating,
-) -> Dict[Integer, DataColourQualityScale_VS]:
+    scaling_f: float,
+    CCT_f: float,
+) -> Dict[int, DataColourQualityScale_VS]:
     """
     Return the *VS test colour samples* rendering scales.
 
@@ -567,19 +557,17 @@ def colour_quality_scales(
 
     Q_as = {}
     for i in range(len(test_data)):
-        D_C_ab = test_data[i].C - reference_data[i].C
-        D_E_ab = as_float_scalar(
-            euclidean_distance(test_data[i].Lab, reference_data[i].Lab)
+        D_C_ab = cast(float, test_data[i].C - reference_data[i].C)
+        D_E_ab = cast(
+            float, euclidean_distance(test_data[i].Lab, reference_data[i].Lab)
+        )
+        D_Ep_ab = cast(
+            float, np.sqrt(D_E_ab**2 - D_C_ab**2) if D_C_ab > 0 else D_E_ab
         )
 
-        if D_C_ab > 0:
-            D_Ep_ab = np.sqrt(D_E_ab**2 - D_C_ab**2)
-        else:
-            D_Ep_ab = D_E_ab
-
         Q_a = scale_conversion(D_Ep_ab, CCT_f, scaling_f)
-
         Q_as[i + 1] = DataColourQualityScale_VS(
             test_data[i].name, Q_a, D_C_ab, D_E_ab, D_Ep_ab
         )
+
     return Q_as

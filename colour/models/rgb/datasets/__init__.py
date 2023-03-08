@@ -30,12 +30,12 @@ from .don_rgb_4 import RGB_COLOURSPACE_DON_RGB_4
 from .ebu_3213_e import RGB_COLOURSPACE_EBU_3213_E
 from .eci_rgb_v2 import RGB_COLOURSPACE_ECI_RGB_V2
 from .ekta_space_ps5 import RGB_COLOURSPACE_EKTA_SPACE_PS_5
-from .fujifilm_f_gamut import RGB_COLOURSPACE_F_GAMUT
 from .filmlight_e_gamut import RGB_COLOURSPACE_FILMLIGHT_E_GAMUT
 from .gopro import RGB_COLOURSPACE_PROTUNE_NATIVE
 from .itur_bt_470 import RGB_COLOURSPACE_BT470_525, RGB_COLOURSPACE_BT470_625
 from .itur_bt_709 import RGB_COLOURSPACE_BT709
 from .itur_bt_2020 import RGB_COLOURSPACE_BT2020
+from .fujifilm_f_gamut import RGB_COLOURSPACE_F_GAMUT
 from .itut_h_273 import (
     RGB_COLOURSPACE_H273_GENERIC_FILM,
     RGB_COLOURSPACE_H273_22_UNSPECIFIED,
@@ -182,7 +182,7 @@ __all__ += [
 def _alexa_wide_gamut():
     usage_warning(
         'The "ALEXA Wide Gamut" RGB colourspace has been renamed to '
-        '"ARRI Wide Gamut 3" for consistency with "ARRI" new naming '
+        '"ARRI Wide Gamut 3" for consistency with ARRI\'s new naming '
         "convention."
     )
 

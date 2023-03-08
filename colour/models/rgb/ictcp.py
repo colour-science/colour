@@ -31,7 +31,7 @@ import numpy as np
 
 from colour.algebra import vector_dot
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import ArrayLike, Floating, Literal, NDArray, Optional, Union
+from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 from colour.models.rgb.transfer_functions import (
     eotf_ST2084,
@@ -65,7 +65,7 @@ __all__ = [
     "ICtCp_to_XYZ",
 ]
 
-MATRIX_ICTCP_RGB_TO_LMS: NDArray = (
+MATRIX_ICTCP_RGB_TO_LMS: NDArrayFloat = (
     np.array(
         [
             [1688, 2146, 262],
@@ -77,13 +77,13 @@ MATRIX_ICTCP_RGB_TO_LMS: NDArray = (
 )
 """*ITU-R BT.2020* colourspace to normalised cone responses matrix."""
 
-MATRIX_ICTCP_LMS_TO_RGB: NDArray = np.linalg.inv(MATRIX_ICTCP_RGB_TO_LMS)
+MATRIX_ICTCP_LMS_TO_RGB: NDArrayFloat = np.linalg.inv(MATRIX_ICTCP_RGB_TO_LMS)
 """
 :math:`IC_TC_P` colourspace normalised cone responses to *ITU-R BT.2020*
 colourspace matrix.
 """
 
-MATRIX_ICTCP_LMS_P_TO_ICTCP: NDArray = (
+MATRIX_ICTCP_LMS_P_TO_ICTCP: NDArrayFloat = (
     np.array(
         [
             [2048, 2048, 0],
@@ -98,7 +98,7 @@ MATRIX_ICTCP_LMS_P_TO_ICTCP: NDArray = (
 :math:`IC_TC_P` colour encoding matrix.
 """
 
-MATRIX_ICTCP_ICTCP_TO_LMS_P: NDArray = np.linalg.inv(
+MATRIX_ICTCP_ICTCP_TO_LMS_P: NDArrayFloat = np.linalg.inv(
     MATRIX_ICTCP_LMS_P_TO_ICTCP
 )
 """
@@ -106,7 +106,7 @@ MATRIX_ICTCP_ICTCP_TO_LMS_P: NDArray = np.linalg.inv(
 normalised cone responses matrix.
 """
 
-MATRIX_ICTCP_LMS_P_TO_ICTCP_BT2100_HLG_2: NDArray = (
+MATRIX_ICTCP_LMS_P_TO_ICTCP_BT2100_HLG_2: NDArrayFloat = (
     np.array(
         [
             [2048, 2048, 0],
@@ -121,7 +121,7 @@ MATRIX_ICTCP_LMS_P_TO_ICTCP_BT2100_HLG_2: NDArray = (
 :math:`IC_TC_P` colour encoding matrix as given in *ITU-R BT.2100-2*.
 """
 
-MATRIX_ICTCP_ICTCP_TO_LMS_P_BT2100_HLG_2: NDArray = np.linalg.inv(
+MATRIX_ICTCP_ICTCP_TO_LMS_P_BT2100_HLG_2: NDArrayFloat = np.linalg.inv(
     MATRIX_ICTCP_LMS_P_TO_ICTCP_BT2100_HLG_2
 )
 """
@@ -132,18 +132,16 @@ normalised cone responses matrix as given in *ITU-R BT.2100-2*.
 
 def RGB_to_ICtCp(
     RGB: ArrayLike,
-    method: Union[
-        Literal[
-            "Dolby 2016",
-            "ITU-R BT.2100-1 HLG",
-            "ITU-R BT.2100-1 PQ",
-            "ITU-R BT.2100-2 HLG",
-            "ITU-R BT.2100-2 PQ",
-        ],
-        str,
-    ] = "Dolby 2016",
-    L_p: Floating = 10000,
-) -> NDArray:
+    method: Literal[
+        "Dolby 2016",
+        "ITU-R BT.2100-1 HLG",
+        "ITU-R BT.2100-1 PQ",
+        "ITU-R BT.2100-2 HLG",
+        "ITU-R BT.2100-2 PQ",
+    ]
+    | str = "Dolby 2016",
+    L_p: float = 10000,
+) -> NDArrayFloat:
     """
     Convert from *ITU-R BT.2020* colourspace to :math:`IC_TC_P` colour
     encoding.
@@ -268,18 +266,16 @@ def RGB_to_ICtCp(
 
 def ICtCp_to_RGB(
     ICtCp: ArrayLike,
-    method: Union[
-        Literal[
-            "Dolby 2016",
-            "ITU-R BT.2100-1 HLG",
-            "ITU-R BT.2100-1 PQ",
-            "ITU-R BT.2100-2 HLG",
-            "ITU-R BT.2100-2 PQ",
-        ],
-        str,
-    ] = "Dolby 2016",
-    L_p: Floating = 10000,
-) -> NDArray:
+    method: Literal[
+        "Dolby 2016",
+        "ITU-R BT.2100-1 HLG",
+        "ITU-R BT.2100-1 PQ",
+        "ITU-R BT.2100-2 HLG",
+        "ITU-R BT.2100-2 PQ",
+    ]
+    | str = "Dolby 2016",
+    L_p: float = 10000,
+) -> NDArrayFloat:
     """
     Convert from :math:`IC_TC_P` colour encoding to *ITU-R BT.2020*
     colourspace.
@@ -404,37 +400,32 @@ def ICtCp_to_RGB(
 def XYZ_to_ICtCp(
     XYZ: ArrayLike,
     illuminant=CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"],
-    chromatic_adaptation_transform: Optional[
-        Union[
-            Literal[
-                "Bianco 2010",
-                "Bianco PC 2010",
-                "Bradford",
-                "CAT02 Brill 2008",
-                "CAT02",
-                "CAT16",
-                "CMCCAT2000",
-                "CMCCAT97",
-                "Fairchild",
-                "Sharp",
-                "Von Kries",
-                "XYZ Scaling",
-            ],
-            str,
-        ]
-    ] = "CAT02",
-    method: Union[
-        Literal[
-            "Dolby 2016",
-            "ITU-R BT.2100-1 HLG",
-            "ITU-R BT.2100-1 PQ",
-            "ITU-R BT.2100-2 HLG",
-            "ITU-R BT.2100-2 PQ",
-        ],
-        str,
-    ] = "Dolby 2016",
-    L_p: Floating = 10000,
-) -> NDArray:
+    chromatic_adaptation_transform: Literal[
+        "Bianco 2010",
+        "Bianco PC 2010",
+        "Bradford",
+        "CAT02 Brill 2008",
+        "CAT02",
+        "CAT16",
+        "CMCCAT2000",
+        "CMCCAT97",
+        "Fairchild",
+        "Sharp",
+        "Von Kries",
+        "XYZ Scaling",
+    ]
+    | str
+    | None = "CAT02",
+    method: Literal[
+        "Dolby 2016",
+        "ITU-R BT.2100-1 HLG",
+        "ITU-R BT.2100-1 PQ",
+        "ITU-R BT.2100-2 HLG",
+        "ITU-R BT.2100-2 PQ",
+    ]
+    | str = "Dolby 2016",
+    L_p: float = 10000,
+) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to :math:`IC_TC_P` colour
     encoding.
@@ -544,37 +535,32 @@ def XYZ_to_ICtCp(
 def ICtCp_to_XYZ(
     ICtCp: ArrayLike,
     illuminant=CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"],
-    chromatic_adaptation_transform: Optional[
-        Union[
-            Literal[
-                "Bianco 2010",
-                "Bianco PC 2010",
-                "Bradford",
-                "CAT02 Brill 2008",
-                "CAT02",
-                "CAT16",
-                "CMCCAT2000",
-                "CMCCAT97",
-                "Fairchild",
-                "Sharp",
-                "Von Kries",
-                "XYZ Scaling",
-            ],
-            str,
-        ]
-    ] = "CAT02",
-    method: Union[
-        Literal[
-            "Dolby 2016",
-            "ITU-R BT.2100-1 HLG",
-            "ITU-R BT.2100-1 PQ",
-            "ITU-R BT.2100-2 HLG",
-            "ITU-R BT.2100-2 PQ",
-        ],
-        str,
-    ] = "Dolby 2016",
-    L_p: Floating = 10000,
-) -> NDArray:
+    chromatic_adaptation_transform: Literal[
+        "Bianco 2010",
+        "Bianco PC 2010",
+        "Bradford",
+        "CAT02 Brill 2008",
+        "CAT02",
+        "CAT16",
+        "CMCCAT2000",
+        "CMCCAT97",
+        "Fairchild",
+        "Sharp",
+        "Von Kries",
+        "XYZ Scaling",
+    ]
+    | str
+    | None = "CAT02",
+    method: Literal[
+        "Dolby 2016",
+        "ITU-R BT.2100-1 HLG",
+        "ITU-R BT.2100-1 PQ",
+        "ITU-R BT.2100-2 HLG",
+        "ITU-R BT.2100-2 PQ",
+    ]
+    | str = "Dolby 2016",
+    L_p: float = 10000,
+) -> NDArrayFloat:
     """
     Convert from :math:`IC_TC_P` colour encoding to *CIE XYZ* tristimulus
     values.

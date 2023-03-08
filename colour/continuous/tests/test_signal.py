@@ -65,6 +65,7 @@ class TestSignal(unittest.TestCase):
             "__getitem__",
             "__setitem__",
             "__contains__",
+            "__iter__",
             "__eq__",
             "__ne__",
             "arithmetical_operation",
@@ -137,6 +138,13 @@ class TestSignal(unittest.TestCase):
             np.array([10.0, 20.0, 30.0]) * 10,
             decimal=7,
         )
+
+        def assert_warns():
+            """Help to test the runtime warning."""
+
+            signal.range = self._range * np.inf
+
+        self.assertWarns(ColourRuntimeWarning, assert_warns)
 
     def test_interpolator(self):
         """Test :func:`colour.continuous.signal.Signal.interpolator` property."""
@@ -231,7 +239,7 @@ class TestSignal(unittest.TestCase):
     def test_function(self):
         """Test :func:`colour.continuous.signal.Signal.function` property."""
 
-        attest(hasattr(self._signal.function, "__call__"))
+        attest(callable(self._signal.function))
 
     def test_raise_exception_function(self):
         """
@@ -470,6 +478,14 @@ class TestSignal(unittest.TestCase):
         self.assertIn(0.5, self._signal)
         self.assertNotIn(1000, self._signal)
 
+    def test__iter__(self):
+        """Test :func:`colour.continuous.signal.Signal.__iter__` method."""
+
+        domain = np.arange(0, 10)
+        for i, (domain_value, range_value) in enumerate(self._signal):
+            np.testing.assert_array_equal(domain_value, domain[i])
+            np.testing.assert_array_equal(range_value, self._range[i])
+
     def test__len__(self):
         """Test :func:`colour.continuous.signal.Signal.__len__` method."""
 
@@ -509,8 +525,6 @@ class TestSignal(unittest.TestCase):
 
         class NotExtrapolator(Extrapolator):
             """Not :class:`Extrapolator` class."""
-
-            pass
 
         signal_2.extrapolator = NotExtrapolator
         self.assertNotEqual(signal_1, signal_2)

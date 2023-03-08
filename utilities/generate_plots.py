@@ -6,18 +6,18 @@ Generate Plots
 
 from __future__ import annotations
 
-import matplotlib
+import matplotlib as mpl
 
-matplotlib.use("AGG")
+mpl.use("AGG")
 
-import matplotlib.pyplot as plt  # noqa
-import numpy as np  # noqa
-import os  # noqa
-import trimesh  # noqa
+import matplotlib.pyplot as plt  # noqa: E402
+import numpy as np  # noqa: E402
+import os  # noqa: E402
+import trimesh  # noqa: E402
 
-import colour  # noqa
-from colour.characterisation import SDS_COLOURCHECKERS  # noqa
-from colour.colorimetry import (  # noqa
+import colour  # noqa: E402
+from colour.characterisation import SDS_COLOURCHECKERS  # noqa: E402
+from colour.colorimetry import (  # noqa: E402
     SDS_ILLUMINANTS,
     SDS_LIGHT_SOURCES,
     SDS_LEFS_PHOTOPIC,
@@ -29,16 +29,16 @@ from colour.colorimetry import (  # noqa
     sd_mesopic_luminous_efficiency_function,
     sd_to_XYZ,
 )
-from colour.geometry import primitive_cube  # noqa
-from colour.io import read_image  # noqa
-from colour.models import (  # noqa
+from colour.geometry import primitive_cube  # noqa: E402
+from colour.io import read_image  # noqa: E402
+from colour.models import (  # noqa: E402
     RGB_COLOURSPACE_sRGB,
     RGB_to_XYZ,
     sRGB_to_XYZ,
     XYZ_to_sRGB,
     XYZ_to_xy,
 )
-from colour.plotting import (  # noqa
+from colour.plotting import (  # noqa: E402
     colour_style,
     ColourSwatch,
     plot_automatic_colour_conversion_graph,
@@ -100,28 +100,32 @@ from colour.plotting import (  # noqa
     plot_visible_spectrum_section,
     render,
 )
-from colour.plotting.diagrams import (  # noqa
+from colour.plotting.diagrams import (  # noqa: E402
     plot_spectral_locus,
     plot_chromaticity_diagram_colours,
     plot_chromaticity_diagram,
     plot_sds_in_chromaticity_diagram,
 )
-from colour.plotting.models import (  # noqa
+from colour.plotting.models import (  # noqa: E402
     plot_RGB_colourspaces_in_chromaticity_diagram,
     plot_RGB_chromaticities_in_chromaticity_diagram,
     plot_ellipses_MacAdam1942_in_chromaticity_diagram,
 )
-from colour.plotting.quality import plot_colour_quality_bars  # noqa
-from colour.plotting.section import (  # noqa
+from colour.plotting.quality import plot_colour_quality_bars  # noqa: E402
+from colour.plotting.section import (  # noqa: E402
     plot_hull_section_colours,
     plot_hull_section_contour,
 )
-from colour.plotting.temperature import (  # noqa
+from colour.plotting.temperature import (  # noqa: E402
+    plot_daylight_locus,
     plot_planckian_locus,
     plot_planckian_locus_in_chromaticity_diagram,
 )
-from colour.quality import colour_quality_scale  # noqa
-from colour.utilities import domain_range_scale, filter_warnings  # noqa
+from colour.quality import colour_quality_scale  # noqa: E402
+from colour.utilities import (  # noqa: E402
+    domain_range_scale,
+    filter_warnings,
+)  # noqa: RUF100
 
 __copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
@@ -231,7 +235,7 @@ def generate_documentation_plots(output_directory: str):
         plot_multi_sds(
             SDS_COLOURCHECKERS["BabelColor Average"].values(),
             plot_kwargs={"use_sd_colours": True},
-            title=("BabelColor Average - " "Spectral Distributions"),
+            title="BabelColor Average - Spectral Distributions",
             **arguments,
         )[0]
     )
@@ -483,7 +487,7 @@ def generate_documentation_plots(output_directory: str):
         output_directory, "Plotting_Plot_Image.png"
     )
     path = os.path.join(
-        colour.__path__[0],
+        colour.__path__[0],  # pyright: ignore
         "examples",
         "plotting",
         "resources",
@@ -617,7 +621,7 @@ def generate_documentation_plots(output_directory: str):
 
     arguments["filename"] = os.path.join(
         output_directory,
-        "Plotting_Plot_RGB_Chromaticities_In_" "Chromaticity_Diagram.png",
+        "Plotting_Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png",
     )
     RGB = np.random.random((128, 128, 3))
     plt.close(
@@ -710,81 +714,79 @@ def generate_documentation_plots(output_directory: str):
     )
     plt.close(plot_multi_cctfs(["ITU-R BT.709", "sRGB"], **arguments)[0])
 
-    data = np.array(
+    data = [
         [
-            [
-                None,
-                np.array([0.95010000, 1.00000000, 1.08810000]),
-                np.array([0.40920000, 0.28120000, 0.30600000]),
-                np.array(
-                    [
-                        [0.02495100, 0.01908600, 0.02032900],
-                        [0.10944300, 0.06235900, 0.06788100],
-                        [0.27186500, 0.18418700, 0.19565300],
-                        [0.48898900, 0.40749400, 0.44854600],
-                    ]
-                ),
-                None,
-            ],
-            [
-                None,
-                np.array([0.95010000, 1.00000000, 1.08810000]),
-                np.array([0.30760000, 0.48280000, 0.42770000]),
-                np.array(
-                    [
-                        [0.02108000, 0.02989100, 0.02790400],
-                        [0.06194700, 0.11251000, 0.09334400],
-                        [0.15255800, 0.28123300, 0.23234900],
-                        [0.34157700, 0.56681300, 0.47035300],
-                    ]
-                ),
-                None,
-            ],
-            [
-                None,
-                np.array([0.95010000, 1.00000000, 1.08810000]),
-                np.array([0.39530000, 0.28120000, 0.18450000]),
-                np.array(
-                    [
-                        [0.02436400, 0.01908600, 0.01468800],
-                        [0.10331200, 0.06235900, 0.02854600],
-                        [0.26311900, 0.18418700, 0.12109700],
-                        [0.43158700, 0.40749400, 0.39008600],
-                    ]
-                ),
-                None,
-            ],
-            [
-                None,
-                np.array([0.95010000, 1.00000000, 1.08810000]),
-                np.array([0.20510000, 0.18420000, 0.57130000]),
-                np.array(
-                    [
-                        [0.03039800, 0.02989100, 0.06123300],
-                        [0.08870000, 0.08498400, 0.21843500],
-                        [0.18405800, 0.18418700, 0.40111400],
-                        [0.32550100, 0.34047200, 0.50296900],
-                        [0.53826100, 0.56681300, 0.80010400],
-                    ]
-                ),
-                None,
-            ],
-            [
-                None,
-                np.array([0.95010000, 1.00000000, 1.08810000]),
-                np.array([0.35770000, 0.28120000, 0.11250000]),
-                np.array(
-                    [
-                        [0.03678100, 0.02989100, 0.01481100],
-                        [0.17127700, 0.11251000, 0.01229900],
-                        [0.30080900, 0.28123300, 0.21229800],
-                        [0.52976000, 0.40749400, 0.11720000],
-                    ]
-                ),
-                None,
-            ],
-        ]
-    )
+            None,
+            np.array([0.95010000, 1.00000000, 1.08810000]),
+            np.array([0.40920000, 0.28120000, 0.30600000]),
+            np.array(
+                [
+                    [0.02495100, 0.01908600, 0.02032900],
+                    [0.10944300, 0.06235900, 0.06788100],
+                    [0.27186500, 0.18418700, 0.19565300],
+                    [0.48898900, 0.40749400, 0.44854600],
+                ]
+            ),
+            None,
+        ],
+        [
+            None,
+            np.array([0.95010000, 1.00000000, 1.08810000]),
+            np.array([0.30760000, 0.48280000, 0.42770000]),
+            np.array(
+                [
+                    [0.02108000, 0.02989100, 0.02790400],
+                    [0.06194700, 0.11251000, 0.09334400],
+                    [0.15255800, 0.28123300, 0.23234900],
+                    [0.34157700, 0.56681300, 0.47035300],
+                ]
+            ),
+            None,
+        ],
+        [
+            None,
+            np.array([0.95010000, 1.00000000, 1.08810000]),
+            np.array([0.39530000, 0.28120000, 0.18450000]),
+            np.array(
+                [
+                    [0.02436400, 0.01908600, 0.01468800],
+                    [0.10331200, 0.06235900, 0.02854600],
+                    [0.26311900, 0.18418700, 0.12109700],
+                    [0.43158700, 0.40749400, 0.39008600],
+                ]
+            ),
+            None,
+        ],
+        [
+            None,
+            np.array([0.95010000, 1.00000000, 1.08810000]),
+            np.array([0.20510000, 0.18420000, 0.57130000]),
+            np.array(
+                [
+                    [0.03039800, 0.02989100, 0.06123300],
+                    [0.08870000, 0.08498400, 0.21843500],
+                    [0.18405800, 0.18418700, 0.40111400],
+                    [0.32550100, 0.34047200, 0.50296900],
+                    [0.53826100, 0.56681300, 0.80010400],
+                ]
+            ),
+            None,
+        ],
+        [
+            None,
+            np.array([0.95010000, 1.00000000, 1.08810000]),
+            np.array([0.35770000, 0.28120000, 0.11250000]),
+            np.array(
+                [
+                    [0.03678100, 0.02989100, 0.01481100],
+                    [0.17127700, 0.11251000, 0.01229900],
+                    [0.30080900, 0.28123300, 0.21229800],
+                    [0.52976000, 0.40749400, 0.11720000],
+                ]
+            ),
+            None,
+        ],
+    ]
     arguments["filename"] = os.path.join(
         output_directory, "Plotting_Plot_Constant_Hue_Loci.png"
     )
@@ -822,7 +824,11 @@ def generate_documentation_plots(output_directory: str):
     light_source = light_source.copy().align(SpectralShape(360, 830, 1))
     cqs_i = colour_quality_scale(illuminant, additional_data=True)
     cqs_l = colour_quality_scale(light_source, additional_data=True)
-    plt.close(plot_colour_quality_bars([cqs_i, cqs_l], **arguments)[0])
+    plt.close(
+        plot_colour_quality_bars(
+            [cqs_i, cqs_l], **arguments  # pyright: ignore
+        )[0]
+    )
 
     arguments["filename"] = os.path.join(
         output_directory,
@@ -902,6 +908,13 @@ def generate_documentation_plots(output_directory: str):
         plot_RGB_colourspace_section(
             "sRGB", section_colours="RGB", section_opacity=0.15, **arguments
         )[0]
+    )
+
+    arguments["filename"] = os.path.join(
+        output_directory, "Plotting_Plot_Daylight_Locus.png"
+    )
+    plt.close(
+        plot_daylight_locus(daylight_locus_colours="RGB", **arguments)[0]
     )
 
     arguments["filename"] = os.path.join(
@@ -1165,7 +1178,7 @@ def generate_documentation_plots(output_directory: str):
         xy=xy,
         xytext=(-50, 30),
         textcoords="offset points",
-        arrowprops=dict(arrowstyle="->", connectionstyle="arc3, rad=-0.2"),
+        arrowprops={"arrowstyle": "->", "connectionstyle": "arc3, rad=-0.2"},
     )
     plt.close(
         render(

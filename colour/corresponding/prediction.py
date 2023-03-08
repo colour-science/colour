@@ -52,14 +52,7 @@ from colour.corresponding import (
     BRENEMAN_EXPERIMENTS,
     BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES,
 )
-from colour.hints import (
-    Any,
-    ArrayLike,
-    FloatingOrArrayLike,
-    Literal,
-    Union,
-    Tuple,
-)
+from colour.hints import Any, ArrayLike, Literal, Tuple
 from colour.models import (
     Luv_to_uv,
     Luv_uv_to_xy,
@@ -71,7 +64,6 @@ from colour.models import (
 from colour.utilities import (
     CanonicalMapping,
     attest,
-    as_float,
     as_float_scalar,
     domain_range_scale,
     filter_kwargs,
@@ -258,7 +250,7 @@ def convert_experiment_results_Breneman1987(
 
     experiment_results = list(BRENEMAN_EXPERIMENTS[experiment])
     illuminant_chromaticities = experiment_results.pop(0)
-    Y_r = Y_t = as_float(
+    Y_r = Y_t = as_float_scalar(
         BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES[experiment].Y
     )
     B_r = B_t = 0.3
@@ -268,7 +260,7 @@ def convert_experiment_results_Breneman1987(
             np.hstack(
                 [
                     Luv_uv_to_xy(illuminant_chromaticities[1:3]),
-                    full((2, 1), as_float_scalar(Y_r)),
+                    full((2, 1), Y_r),
                 ]
             )
         )
@@ -303,9 +295,8 @@ def convert_experiment_results_Breneman1987(
 
 
 def corresponding_chromaticities_prediction_Fairchild1990(
-    experiment: Union[
-        Literal[1, 2, 3, 4, 6, 8, 9, 11, 12], CorrespondingColourDataset
-    ] = 1
+    experiment: Literal[1, 2, 3, 4, 6, 8, 9, 11, 12]
+    | CorrespondingColourDataset = 1
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
     Return the corresponding chromaticities prediction for *Fairchild (1990)*
@@ -374,9 +365,8 @@ def corresponding_chromaticities_prediction_Fairchild1990(
 
 
 def corresponding_chromaticities_prediction_CIE1994(
-    experiment: Union[
-        Literal[1, 2, 3, 4, 6, 8, 9, 11, 12], CorrespondingColourDataset
-    ] = 1
+    experiment: Literal[1, 2, 3, 4, 6, 8, 9, 11, 12]
+    | CorrespondingColourDataset = 1
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
     Return the corresponding chromaticities prediction for *CIE 1994*
@@ -448,9 +438,8 @@ def corresponding_chromaticities_prediction_CIE1994(
 
 
 def corresponding_chromaticities_prediction_CMCCAT2000(
-    experiment: Union[
-        Literal[1, 2, 3, 4, 6, 8, 9, 11, 12], CorrespondingColourDataset
-    ] = 1
+    experiment: Literal[1, 2, 3, 4, 6, 8, 9, 11, 12]
+    | CorrespondingColourDataset = 1
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
     Return the corresponding chromaticities prediction for *CMCCAT2000*
@@ -522,26 +511,23 @@ def corresponding_chromaticities_prediction_CMCCAT2000(
 
 
 def corresponding_chromaticities_prediction_VonKries(
-    experiment: Union[
-        Literal[1, 2, 3, 4, 6, 8, 9, 11, 12], CorrespondingColourDataset
-    ] = 1,
-    transform: Union[
-        Literal[
-            "Bianco 2010",
-            "Bianco PC 2010",
-            "Bradford",
-            "CAT02 Brill 2008",
-            "CAT02",
-            "CAT16",
-            "CMCCAT2000",
-            "CMCCAT97",
-            "Fairchild",
-            "Sharp",
-            "Von Kries",
-            "XYZ Scaling",
-        ],
-        str,
-    ] = "CAT02",
+    experiment: Literal[1, 2, 3, 4, 6, 8, 9, 11, 12]
+    | CorrespondingColourDataset = 1,
+    transform: Literal[
+        "Bianco 2010",
+        "Bianco PC 2010",
+        "Bradford",
+        "CAT02 Brill 2008",
+        "CAT02",
+        "CAT16",
+        "CMCCAT2000",
+        "CMCCAT97",
+        "Fairchild",
+        "Sharp",
+        "Von Kries",
+        "XYZ Scaling",
+    ]
+    | str = "CAT02",
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
     Return the corresponding chromaticities prediction for *Von Kries*
@@ -610,19 +596,12 @@ def corresponding_chromaticities_prediction_VonKries(
 
 
 def corresponding_chromaticities_prediction_Zhai2018(
-    experiment: Union[
-        Literal[1, 2, 3, 4, 6, 8, 9, 11, 12], CorrespondingColourDataset
-    ] = 1,
-    D_b: FloatingOrArrayLike = 1,
-    D_d: FloatingOrArrayLike = 1,
+    experiment: Literal[1, 2, 3, 4, 6, 8, 9, 11, 12]
+    | CorrespondingColourDataset = 1,
+    D_b: ArrayLike = 1,
+    D_d: ArrayLike = 1,
     XYZ_wo: ArrayLike = np.array([1, 1, 1]),
-    transform: Union[
-        Literal[
-            "CAT02",
-            "CAT16",
-        ],
-        str,
-    ] = "CAT02",
+    transform: Literal["CAT02", "CAT16"] | str = "CAT02",
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
     Return the corresponding chromaticities prediction for
@@ -728,19 +707,12 @@ CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS[
 
 
 def corresponding_chromaticities_prediction(
-    experiment: Union[
-        Literal[1, 2, 3, 4, 6, 8, 9, 11, 12], CorrespondingColourDataset
-    ] = 1,
-    model: Union[
-        Literal[
-            "CIE 1994",
-            "CMCCAT2000",
-            "Fairchild 1990",
-            "Von Kries",
-            "Zhai 2018",
-        ],
-        str,
-    ] = "Von Kries",
+    experiment: Literal[1, 2, 3, 4, 6, 8, 9, 11, 12]
+    | CorrespondingColourDataset = 1,
+    model: Literal[
+        "CIE 1994", "CMCCAT2000", "Fairchild 1990", "Von Kries", "Zhai 2018"
+    ]
+    | str = "Von Kries",
     **kwargs: Any,
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """

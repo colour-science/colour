@@ -17,7 +17,6 @@ from __future__ import annotations
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import SpectralDistribution
-from colour.hints import Dict
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -36,7 +35,7 @@ __all__ = [
 ]
 
 
-DATA_ASTMG173_ETR: Dict = {
+DATA_ASTMG173_ETR: dict = {
     280.0: 8.2000e-02,
     280.5: 9.9000e-02,
     281.0: 1.5000e-01,
@@ -2041,7 +2040,7 @@ DATA_ASTMG173_ETR: Dict = {
     4000.0: 8.6800e-03,
 }
 
-DATA_ASTMG173_GLOBAL_TILT: Dict = {
+DATA_ASTMG173_GLOBAL_TILT: dict = {
     280.0: 4.7309e-23,
     280.5: 1.2307e-21,
     281.0: 5.6895e-21,
@@ -4046,7 +4045,7 @@ DATA_ASTMG173_GLOBAL_TILT: Dict = {
     4000.0: 7.1043e-03,
 }
 
-DATA_ASTMG173_DIRECT_CIRCUMSOLAR: Dict = {
+DATA_ASTMG173_DIRECT_CIRCUMSOLAR: dict = {
     280.0: 2.5361e-26,
     280.5: 1.0917e-24,
     281.0: 6.1253e-24,

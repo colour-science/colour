@@ -134,8 +134,8 @@ package_data = {
 
 install_requires = [
     "imageio>=2,<3",
-    "numpy>=1.19,<2",
-    "scipy>=1.5,<2",
+    "numpy>=1.20,<2",
+    "scipy>=1.7,<2",
     "typing-extensions>=4,<5",
 ]
 
@@ -143,6 +143,7 @@ extras_require = {
     "development": [
         "biblib-simple",
         "black",
+        "blackdoc",
         "coverage!=6.3",
         "coveralls",
         "flake8",
@@ -155,6 +156,7 @@ extras_require = {
         "pydocstyle",
         "pytest",
         "pytest-cov",
+        "pytest-xdist",
         "pyupgrade",
         "restructuredtext-lint",
         "sphinx>=4,<5",
@@ -164,16 +166,11 @@ extras_require = {
     ],
     "graphviz": ["pygraphviz>=1,<2"],
     "meshing": ["trimesh>=3,<4"],
-    "optional": [
-        "networkx>=2,<3",
-        "pandas>=1,<2",
-        "scikit-learn>=1,<2",
-        "tqdm>=4,<5",
-    ],
-    "plotting": ["matplotlib>=3.2,!=3.5.0,!=3.5.1"],
+    "optional": ["networkx>=2.6,<3", "pandas>=1.3,<2", "tqdm>=4,<5"],
+    "plotting": ["matplotlib>=3.4,!=3.5.0,!=3.5.1"],
     "read-the-docs": [
-        "matplotlib>=3.2,!=3.5.0,!=3.5.1",
-        "networkx>=2,<3",
+        "matplotlib>=3.4,!=3.5.0,!=3.5.1",
+        "networkx>=2.6,<3",
         "pygraphviz>=1,<2",
         "trimesh>=3,<4",
         "pydata-sphinx-theme",
@@ -183,7 +180,7 @@ extras_require = {
 
 setup(
     name="colour-science",
-    version="0.4.1",
+    version="0.4.2",
     description="Colour Science for Python",
     long_description=codecs.open("README.rst", encoding="utf8").read(),
     author="Colour Developers",
@@ -196,5 +193,5 @@ setup(
     package_data=package_data,
     install_requires=install_requires,
     extras_require=extras_require,
-    python_requires=">=3.8,<3.11",
+    python_requires=">=3.9,<3.12",
 )

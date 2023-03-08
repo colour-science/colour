@@ -63,7 +63,7 @@ __all__ = [
 def oetf_H273_Log(L_c):
     """
     Define *Recommendation ITU-T H.273* opto-electronic transfer function
-    (OETF) for L_ogarithmic encoding (100:1 range).
+    (OETF) for logarithmic encoding (100:1 range).
 
     Parameters
     ----------
@@ -72,7 +72,7 @@ def oetf_H273_Log(L_c):
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding electrical signal :math:`V`.
 
     Notes
@@ -125,7 +125,7 @@ def oetf_H273_Log(L_c):
 def oetf_inverse_H273_Log(V):
     """
     Define *Recommendation ITU-T H.273* inverse-opto-electronic transfer
-    function (OETF) for L_ogarithmic encoding (100:1 range).
+    function (OETF) for logarithmic encoding (100:1 range).
 
     Parameters
     ----------
@@ -134,7 +134,7 @@ def oetf_inverse_H273_Log(V):
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding scene *Luminance* :math:`L_c`.
 
     Notes
@@ -158,7 +158,7 @@ def oetf_inverse_H273_Log(V):
     Warnings
     --------
     -   The function is clamped to domain
-        [:func:`colour.models.oetf_H273_Log`(0.01), np.inf].
+        [:func:`colour.models.oetf_H273_Log` (0.01), np.inf].
 
     Examples
     --------
@@ -173,7 +173,7 @@ def oetf_inverse_H273_Log(V):
     V = to_domain_1(V)
 
     L_c = np.where(
-        V >= oetf_H273_Log(0.01),
+        oetf_H273_Log(0.01) <= V,
         # L_c in [0.01, 1] range
         spow(10, (V - 1) * 2),
         # L_c in [0, 0.01] range
@@ -186,7 +186,7 @@ def oetf_inverse_H273_Log(V):
 def oetf_H273_LogSqrt(L_c):
     """
     Define *Recommendation ITU-T H.273* opto-electronic transfer function
-    (OETF) for L_ogarithmic encoding (100*Sqrt(10):1 range.
+    (OETF) for logarithmic encoding (100\\*Sqrt(10):1 range).
 
     Parameters
     ----------
@@ -195,7 +195,7 @@ def oetf_H273_LogSqrt(L_c):
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding electrical signal :math:`V`.
 
     Notes
@@ -219,7 +219,7 @@ def oetf_H273_LogSqrt(L_c):
     Warnings
     --------
     -   The function is clamped to domain
-        [:func:`colour.models.oetf_H273_LogSqrt`(sqrt(10) / 1000), np.inf].
+        [:func:`colour.models.oetf_H273_LogSqrt` (sqrt(10) / 1000), np.inf].
 
     Examples
     --------
@@ -249,7 +249,7 @@ def oetf_H273_LogSqrt(L_c):
 def oetf_inverse_H273_LogSqrt(V):
     """
     Define *Recommendation ITU-T H.273* inverse-opto-electronic transfer
-    function (OETF) for L_ogarithmic encoding (100*Sqrt(10):1 range).
+    function (OETF) for logarithmic encoding (100\\*Sqrt(10):1 range).
 
     Parameters
     ----------
@@ -258,7 +258,7 @@ def oetf_inverse_H273_LogSqrt(V):
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding scene *Luminance* :math:`L_c`.
 
     Notes
@@ -296,7 +296,7 @@ def oetf_inverse_H273_LogSqrt(V):
     V = to_domain_1(V)
 
     L_c = np.where(
-        V >= oetf_H273_LogSqrt(np.sqrt(10) / 1000),
+        oetf_H273_LogSqrt(np.sqrt(10) / 1000) <= V,
         # L_c in [sqrt(10)/1000, 1] range
         spow(10, (V - 1) * 2.5),
         # L_c in [0, sqrt(10)/1000] range
@@ -319,7 +319,7 @@ def oetf_H273_IEC61966_2(L_c):
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding electrical signal :math:`V`.
 
     Notes
@@ -378,7 +378,7 @@ def oetf_inverse_H273_IEC61966_2(V):
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding scene luminance :math:`L_c`.
 
     Notes
@@ -436,7 +436,7 @@ def eotf_inverse_H273_ST428_1(L_o):
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding electrical signal :math:`V`.
 
     Notes
@@ -485,7 +485,7 @@ def eotf_H273_ST428_1(V):
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding output display *Luminance* :math:`L_o` of the image.
 
     Notes

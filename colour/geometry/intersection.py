@@ -25,16 +25,8 @@ import numpy as np
 from dataclasses import dataclass
 
 from colour.algebra import euclidean_distance, sdiv, sdiv_mode
-from colour.hints import (
-    ArrayLike,
-    Floating,
-    NDArray,
-    cast,
-)
-from colour.utilities import (
-    tsplit,
-    tstack,
-)
+from colour.hints import ArrayLike, NDArrayFloat
+from colour.utilities import as_float_array, tsplit, tstack
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -51,8 +43,8 @@ __all__ = [
 
 
 def extend_line_segment(
-    a: ArrayLike, b: ArrayLike, distance: Floating = 1
-) -> NDArray:
+    a: ArrayLike, b: ArrayLike, distance: float = 1
+) -> NDArrayFloat:
     """
     Extend the line segment defined by point arrays :math:`a` and :math:`b` by
     given distance and return the new end point.
@@ -125,10 +117,10 @@ class LineSegmentsIntersections_Specification:
         :math:`l_2` are coincident.
     """
 
-    xy: NDArray
-    intersect: NDArray
-    parallel: NDArray
-    coincident: NDArray
+    xy: NDArrayFloat
+    intersect: NDArrayFloat
+    parallel: NDArrayFloat
+    coincident: NDArrayFloat
 
 
 def intersect_line_segments(
@@ -199,6 +191,9 @@ def intersect_line_segments(
            [False, False, False]], dtype=bool)
     """
 
+    l_1 = as_float_array(l_1)
+    l_2 = as_float_array(l_2)
+
     l_1 = np.reshape(l_1, (-1, 4))
     l_2 = np.reshape(l_2, (-1, 4))
 
@@ -220,13 +215,13 @@ def intersect_line_segments(
     x_2_x_1 = x_2 - x_1
     y_2_y_1 = y_2 - y_1
 
-    numerator_a = x_4_x_3 * y_1_y_3 - y_4_y_3 * x_1_x_3
-    numerator_b = x_2_x_1 * y_1_y_3 - y_2_y_1 * x_1_x_3
-    denominator = y_4_y_3 * x_2_x_1 - x_4_x_3 * y_2_y_1
+    numerator_a = x_4_x_3 * y_1_y_3 - y_4_y_3 * x_1_x_3  # pyright: ignore
+    numerator_b = x_2_x_1 * y_1_y_3 - y_2_y_1 * x_1_x_3  # pyright: ignore
+    denominator = y_4_y_3 * x_2_x_1 - x_4_x_3 * y_2_y_1  # pyright: ignore
 
     with sdiv_mode("Ignore"):
-        u_a = cast(NDArray, sdiv(numerator_a, denominator))
-        u_b = cast(NDArray, sdiv(numerator_b, denominator))
+        u_a = sdiv(numerator_a, denominator)
+        u_b = sdiv(numerator_b, denominator)
 
     intersect = np.logical_and.reduce((u_a >= 0, u_a <= 1, u_b >= 0, u_b <= 1))
     xy = tstack([x_1 + x_2_x_1 * u_a, y_1 + y_2_y_1 * u_a])

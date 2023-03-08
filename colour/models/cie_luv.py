@@ -36,7 +36,7 @@ from colour.colorimetry import (
     lightness_CIE1976,
     luminance_CIE1976,
 )
-from colour.hints import ArrayLike, Floating, NDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.models import xy_to_xyY, xyY_to_XYZ, Jab_to_JCh, JCh_to_Jab
 from colour.utilities import (
     domain_range_scale,
@@ -74,7 +74,7 @@ def XYZ_to_Luv(
     illuminant: ArrayLike = CCS_ILLUMINANTS[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *CIE L\\*u\\*v\\**
     colourspace.
@@ -148,7 +148,7 @@ def Luv_to_XYZ(
     illuminant: ArrayLike = CCS_ILLUMINANTS[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert from *CIE L\\*u\\*v\\** colourspace to *CIE XYZ* tristimulus
     values.
@@ -230,7 +230,7 @@ def Luv_to_uv(
     illuminant: ArrayLike = CCS_ILLUMINANTS[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Return the :math:`uv^p` chromaticity coordinates from given
     *CIE L\\*u\\*v\\** colourspace array.
@@ -291,8 +291,8 @@ def uv_to_Luv(
     illuminant: ArrayLike = CCS_ILLUMINANTS[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-    Y: Floating = 1,
-) -> NDArray:
+    Y: float = 1,
+) -> NDArrayFloat:
     """
     Return the *CIE L\\*u\\*v\\** colourspace array from given :math:`uv^p`
     chromaticity coordinates by extending the array last dimension with given
@@ -353,7 +353,7 @@ def uv_to_Luv(
     return XYZ_to_Luv(from_range_1(XYZ), illuminant)
 
 
-def Luv_uv_to_xy(uv: ArrayLike) -> NDArray:
+def Luv_uv_to_xy(uv: ArrayLike) -> NDArrayFloat:
     """
     Return the *CIE xy* chromaticity coordinates from given *CIE L\\*u\\*v\\**
     colourspace :math:`uv^p` chromaticity coordinates.
@@ -383,12 +383,14 @@ def Luv_uv_to_xy(uv: ArrayLike) -> NDArray:
     u, v = tsplit(uv)
 
     d = 6 * u - 16 * v + 12
-    xy = tstack([9 * u / d, 4 * v / d])
+
+    with sdiv_mode():
+        xy = tstack([sdiv(9 * u, d), sdiv(4 * v, d)])
 
     return xy
 
 
-def xy_to_Luv_uv(xy: ArrayLike) -> NDArray:
+def xy_to_Luv_uv(xy: ArrayLike) -> NDArrayFloat:
     """
     Return the *CIE L\\*u\\*v\\** colourspace :math:`uv^p` chromaticity
     coordinates from given *CIE xy* chromaticity coordinates.
@@ -418,12 +420,14 @@ def xy_to_Luv_uv(xy: ArrayLike) -> NDArray:
     x, y = tsplit(xy)
 
     d = -2 * x + 12 * y + 3
-    uv = tstack([4 * x / d, 9 * y / d])
+
+    with sdiv_mode():
+        uv = tstack([sdiv(4 * x, d), sdiv(9 * y, d)])
 
     return uv
 
 
-def Luv_to_LCHuv(Luv: ArrayLike) -> NDArray:
+def Luv_to_LCHuv(Luv: ArrayLike) -> NDArrayFloat:
     """
     Convert from *CIE L\\*u\\*v\\** colourspace to *CIE L\\*C\\*Huv*
     colourspace.
@@ -475,7 +479,7 @@ def Luv_to_LCHuv(Luv: ArrayLike) -> NDArray:
     return Jab_to_JCh(Luv)
 
 
-def LCHuv_to_Luv(LCHuv: ArrayLike) -> NDArray:
+def LCHuv_to_Luv(LCHuv: ArrayLike) -> NDArrayFloat:
     """
     Convert from *CIE L\\*C\\*Huv* colourspace to *CIE L\\*u\\*v\\**
     colourspace.

@@ -18,12 +18,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import (
-    Boolean,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    Integer,
-)
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import Structure, as_float, from_range_1, to_domain_1
 
@@ -47,12 +42,12 @@ CONSTANTS_VLOG: Structure = Structure(
 
 
 def log_encoding_VLog(
-    L_in: FloatingOrArrayLike,
-    bit_depth: Integer = 10,
-    out_normalised_code_value: Boolean = True,
-    in_reflection: Boolean = True,
+    L_in: ArrayLike,
+    bit_depth: int = 10,
+    out_normalised_code_value: bool = True,
+    in_reflection: bool = True,
     constants: Structure = CONSTANTS_VLOG,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Define the *Panasonic V-Log* log encoding curve / opto-electronic transfer
     function.
@@ -62,7 +57,7 @@ def log_encoding_VLog(
     L_in
         Linear reflection data :math`L_{in}`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     out_normalised_code_value
         Whether the non-linear *Panasonic V-Log* data :math:`V_{out}` is
         encoded as normalised code values.
@@ -73,7 +68,7 @@ def log_encoding_VLog(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Non-linear data :math:`V_{out}`.
 
     Notes
@@ -103,11 +98,11 @@ def log_encoding_VLog(
     are obtained as follows:
 
     >>> L_in = np.array([0, 18, 90]) / 100
-    >>> np.around(log_encoding_VLog(L_in, 10, False) * 100).astype(np.int)
+    >>> np.around(log_encoding_VLog(L_in, 10, False) * 100).astype(np.int_)
     array([ 7, 42, 61])
-    >>> np.around(log_encoding_VLog(L_in) * (2**10 - 1)).astype(np.int)
+    >>> np.around(log_encoding_VLog(L_in) * (2**10 - 1)).astype(np.int_)
     array([128, 433, 602])
-    >>> np.around(log_encoding_VLog(L_in) * (2**12 - 1)).astype(np.int)
+    >>> np.around(log_encoding_VLog(L_in) * (2**12 - 1)).astype(np.int_)
     array([ 512, 1733, 2409])
 
     Note that some values in the last column values of
@@ -139,12 +134,12 @@ def log_encoding_VLog(
 
 
 def log_decoding_VLog(
-    V_out: FloatingOrArrayLike,
-    bit_depth: Integer = 10,
-    in_normalised_code_value: Boolean = True,
-    out_reflection: Boolean = True,
+    V_out: ArrayLike,
+    bit_depth: int = 10,
+    in_normalised_code_value: bool = True,
+    out_reflection: bool = True,
     constants: Structure = CONSTANTS_VLOG,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Define the *Panasonic V-Log* log decoding curve / electro-optical transfer
     function.
@@ -154,7 +149,7 @@ def log_decoding_VLog(
     V_out
         Non-linear data :math:`V_{out}`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     in_normalised_code_value
         Whether the non-linear *Panasonic V-Log* data :math:`V_{out}` is
         encoded as normalised code values.
@@ -165,7 +160,7 @@ def log_decoding_VLog(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear reflection data :math`L_{in}`.
 
     Notes

@@ -6,9 +6,10 @@ Colour - Documentation Configuration
 import os
 import re
 import setuptools.archive_util
+import urllib.parse
 import urllib.request
 
-import colour as package  # noqa
+import colour as package
 
 basename = re.sub(
     "_(\\w)", lambda x: x.group(1).upper(), package.__name__.title()
@@ -30,7 +31,7 @@ if os.environ.get("READTHEDOCS") == "True":
         f"continuous-integration-documentation/{branch}/{archive}"
     )
 
-    print(f"Using artifact url: {url}")
+    print(f"Using artifact url: {url}")  # noqa: T201
 
     urllib.request.urlretrieve(url, filename=archive)
     setuptools.archive_util.unpack_archive(archive, "_static")
@@ -51,7 +52,7 @@ extensions = [
 ]
 
 intersphinx_mapping = {
-    "python": ("https://docs.python.org/3.8", None),
+    "python": ("https://docs.python.org/3.11", None),
     "matplotlib": ("https://matplotlib.org/stable", None),
     "numpy": ("https://numpy.org/doc/stable", None),
     "pandas": ("https://pandas.pydata.org/pandas-docs/dev", None),
@@ -79,27 +80,20 @@ autodoc_mock_imports = [
 autodoc_typehints = "both"
 autodoc_type_aliases = {
     "ArrayLike": "ArrayLike",
-    "Boolean": "bool",
-    "BooleanOrArrayLike": "BooleanOrArrayLike",
-    "BooleanOrNDArray": "BooleanOrNDArray",
     "DType": "DType",
     "DTypeBoolean": "DTypeBoolean",
     "DTypeComplex": "DTypeComplex",
-    "DTypeFloating": "DTypeFloating",
-    "DTypeInteger": "DTypeInteger",
-    "DTypeNumber": "DTypeNumber",
-    "Floating": "float",
-    "FloatingOrArrayLike": "FloatingOrArrayLike",
-    "FloatingOrNDArray": "FloatingOrNDArray",
-    "Integer": "int",
-    "IntegerOrArrayLike": "IntegerOrArrayLike",
-    "IntegerOrNDArray": "IntegerOrNDArray",
-    "NestedSequence": "NestedSequence",
-    "Number": "Number",
-    "NumberOrArrayLike": "NumberOrArrayLike",
-    "NumberOrNDArray": "NumberOrNDArray",
-    "StrOrArrayLike": "StrOrArrayLike",
-    "StrOrNDArray": "StrOrNDArray",
+    "DTypeFloat": "DTypeFloat",
+    "DTypeInt": "DTypeInt",
+    "DTypeReal": "DTypeReal",
+    "Dataclass": "Dataclass",
+    "NDArrayBoolean": "NDArrayBoolean",
+    "NDArrayComplex": "NDArrayComplex",
+    "NDArrayFloat": "NDArrayFloat",
+    "NDArrayInt": "NDArrayInt",
+    "NDArrayReal": "NDArrayReal",
+    "NDArrayStr": "NDArrayStr",
+    "Real": "Real",
 }
 autodoc_preserve_defaults = True
 
@@ -117,7 +111,7 @@ source_suffix = ".rst"
 master_doc = "index"
 
 project = package.__application_name__
-copyright = package.__copyright__.replace("Copyright (C)", "")
+copyright = package.__copyright__.replace("Copyright (C)", "")  # noqa: A001
 version = f"{package.__major_version__}.{package.__minor_version__}"
 release = package.__version__
 
@@ -226,19 +220,3 @@ epub_author = package.__author__
 epub_publisher = package.__author__
 epub_copyright = package.__copyright__.replace("Copyright (C)", "")
 epub_exclude_files = ["search.html"]
-
-
-def autodoc_process_docstring(app, what, name, obj, options, lines):
-    """Process the docstrings to remove the *# noqa* *flake8* pragma."""
-
-    for i, line in enumerate(lines):
-        lines[i] = line.replace("# noqa", "")
-
-
-def setup(app):
-    """
-    Prepare the extension and linking resources that Sphinx uses in the
-    build process.
-    """
-
-    app.connect("autodoc-process-docstring", autodoc_process_docstring)

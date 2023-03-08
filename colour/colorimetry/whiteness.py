@@ -44,14 +44,7 @@ c/09_color_calculations_en.pdf
 
 from __future__ import annotations
 
-from colour.hints import (
-    Any,
-    ArrayLike,
-    FloatingOrNDArray,
-    Literal,
-    NDArray,
-    Union,
-)
+from colour.hints import Any, ArrayLike, Literal, NDArrayFloat
 from colour.utilities import (
     CanonicalMapping,
     as_float,
@@ -84,9 +77,7 @@ __all__ = [
 ]
 
 
-def whiteness_Berger1959(
-    XYZ: ArrayLike, XYZ_0: ArrayLike
-) -> FloatingOrNDArray:
+def whiteness_Berger1959(XYZ: ArrayLike, XYZ_0: ArrayLike) -> NDArrayFloat:
     """
     Return the *whiteness* index :math:`WI` of given sample *CIE XYZ*
     tristimulus values using *Berger (1959)* method.
@@ -100,7 +91,7 @@ def whiteness_Berger1959(
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.ndarray`
         *Whiteness* :math:`WI`.
 
     Notes
@@ -143,7 +134,7 @@ def whiteness_Berger1959(
     return as_float(from_range_100(WI))
 
 
-def whiteness_Taube1960(XYZ: ArrayLike, XYZ_0: ArrayLike) -> FloatingOrNDArray:
+def whiteness_Taube1960(XYZ: ArrayLike, XYZ_0: ArrayLike) -> NDArrayFloat:
     """
     Return the *whiteness* index :math:`WI` of given sample *CIE XYZ*
     tristimulus values using *Taube (1960)* method.
@@ -157,7 +148,7 @@ def whiteness_Taube1960(XYZ: ArrayLike, XYZ_0: ArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.ndarray`
         *Whiteness* :math:`WI`.
 
     Notes
@@ -200,7 +191,7 @@ def whiteness_Taube1960(XYZ: ArrayLike, XYZ_0: ArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_100(WI))
 
 
-def whiteness_Stensby1968(Lab: ArrayLike) -> FloatingOrNDArray:
+def whiteness_Stensby1968(Lab: ArrayLike) -> NDArrayFloat:
     """
     Return the *whiteness* index :math:`WI` of given sample *CIE L\\*a\\*b\\**
     colourspace array using *Stensby (1968)* method.
@@ -212,7 +203,7 @@ def whiteness_Stensby1968(Lab: ArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.ndarray`
         *Whiteness* :math:`WI`.
 
     Notes
@@ -255,7 +246,7 @@ def whiteness_Stensby1968(Lab: ArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_100(WI))
 
 
-def whiteness_ASTME313(XYZ: ArrayLike) -> FloatingOrNDArray:
+def whiteness_ASTME313(XYZ: ArrayLike) -> NDArrayFloat:
     """
     Return the *whiteness* index :math:`WI` of given sample *CIE XYZ*
     tristimulus values using *ASTM E313* method.
@@ -267,7 +258,7 @@ def whiteness_ASTME313(XYZ: ArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.ndarray`
         *Whiteness* :math:`WI`.
 
     Notes
@@ -303,7 +294,7 @@ def whiteness_ASTME313(XYZ: ArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_100(WI))
 
 
-def whiteness_Ganz1979(xy: ArrayLike, Y: FloatingOrNDArray) -> NDArray:
+def whiteness_Ganz1979(xy: ArrayLike, Y: ArrayLike) -> NDArrayFloat:
     """
     Return the *whiteness* index :math:`W` and *tint* :math:`T` of given
     sample *CIE xy* chromaticity coordinates using *Ganz and Griesser (1979)*
@@ -370,13 +361,13 @@ def whiteness_Ganz1979(xy: ArrayLike, Y: FloatingOrNDArray) -> NDArray:
 
 def whiteness_CIE2004(
     xy: ArrayLike,
-    Y: FloatingOrNDArray,
+    Y: ArrayLike,
     xy_n: ArrayLike,
     observer: Literal[
         "CIE 1931 2 Degree Standard Observer",
         "CIE 1964 10 Degree Standard Observer",
     ] = ("CIE 1931 2 Degree Standard Observer"),
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Return the *whiteness* :math:`W` or :math:`W_{10}` and *tint* :math:`T`
     or :math:`T_{10}` of given sample *CIE xy* chromaticity coordinates using
@@ -478,19 +469,17 @@ WHITENESS_METHODS["cie2004"] = WHITENESS_METHODS["CIE 2004"]
 def whiteness(
     XYZ: ArrayLike,
     XYZ_0: ArrayLike,
-    method: Union[
-        Literal[
-            "ASTM E313",
-            "CIE 2004",
-            "Berger 1959",
-            "Ganz 1979",
-            "Stensby 1968",
-            "Taube 1960",
-        ],
-        str,
-    ] = "CIE 2004",
+    method: Literal[
+        "ASTM E313",
+        "CIE 2004",
+        "Berger 1959",
+        "Ganz 1979",
+        "Stensby 1968",
+        "Taube 1960",
+    ]
+    | str = "CIE 2004",
     **kwargs: Any,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Return the *whiteness* :math:`W` using given method.
 
@@ -512,7 +501,7 @@ def whiteness(
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.ndarray`
         *Whiteness* :math:`W`.
 
     Notes

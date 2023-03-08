@@ -61,17 +61,10 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import least_square_mapping_MoorePenrose, spow
-from colour.hints import (
-    ArrayLike,
-    Any,
-    Boolean,
-    Integer,
-    Literal,
-    NDArray,
-    Union,
-)
+from colour.hints import ArrayLike, Any, Literal, NDArrayFloat
 from colour.utilities import (
     CanonicalMapping,
+    as_float,
     as_float_array,
     as_int,
     closest,
@@ -111,7 +104,7 @@ __all__ = [
 def matrix_augmented_Cheung2004(
     RGB: ArrayLike,
     terms: Literal[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22] = 3,
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Perform polynomial expansion of given *RGB* colourspace array using
     *Cheung et al. (2004)* method.
@@ -337,7 +330,7 @@ def matrix_augmented_Cheung2004(
                 tail,
             ]
         )
-    elif terms == 22:
+    elif terms == 22:  # noqa: RET503
         return tstack(
             [
                 R,
@@ -369,8 +362,8 @@ def matrix_augmented_Cheung2004(
 def polynomial_expansion_Finlayson2015(
     RGB: ArrayLike,
     degree: Literal[1, 2, 3, 4] = 1,
-    root_polynomial_expansion: Boolean = True,
-) -> NDArray:
+    root_polynomial_expansion: bool = True,
+) -> NDArrayFloat:
     """
     Perform polynomial expansion of given *RGB* colourspace array using
     *Finlayson et al. (2015)* method.
@@ -422,9 +415,9 @@ def polynomial_expansion_Finlayson2015(
         if root_polynomial_expansion:
             return tstack(
                 [
-                    R,
-                    G,
-                    B,
+                    as_float(R),
+                    as_float(G),
+                    as_float(B),
                     spow(R * G, 1 / 2),
                     spow(G * B, 1 / 2),
                     spow(R * B, 1 / 2),
@@ -449,9 +442,9 @@ def polynomial_expansion_Finlayson2015(
         if root_polynomial_expansion:
             return tstack(
                 [
-                    R,
-                    G,
-                    B,
+                    as_float(R),
+                    as_float(G),
+                    as_float(B),
                     spow(R * G, 1 / 2),
                     spow(G * B, 1 / 2),
                     spow(R * B, 1 / 2),
@@ -488,13 +481,13 @@ def polynomial_expansion_Finlayson2015(
                     R * G * B,
                 ]
             )
-    elif degree == 4:
+    elif degree == 4:  # noqa: RET503
         if root_polynomial_expansion:
             return tstack(
                 [
-                    R,
-                    G,
-                    B,
+                    as_float(R),
+                    as_float(G),
+                    as_float(B),
                     spow(R * G, 1 / 2),
                     spow(G * B, 1 / 2),
                     spow(R * B, 1 / 2),
@@ -558,8 +551,8 @@ def polynomial_expansion_Finlayson2015(
 
 
 def polynomial_expansion_Vandermonde(
-    a: ArrayLike, degree: Integer = 1
-) -> NDArray:
+    a: ArrayLike, degree: int = 1
+) -> NDArrayFloat:
     """
     Perform polynomial expansion of given :math:`a` array using *Vandermonde*
     method.
@@ -614,11 +607,10 @@ References
 
 def polynomial_expansion(
     a: ArrayLike,
-    method: Union[
-        Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"], str
-    ] = "Cheung 2004",
+    method: Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"]
+    | str = "Cheung 2004",
     **kwargs: Any,
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Perform polynomial expansion of given :math:`a` array.
 
@@ -674,7 +666,7 @@ def matrix_colour_correction_Cheung2004(
     M_T: ArrayLike,
     M_R: ArrayLike,
     terms: Literal[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22] = 3,
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Compute a colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array using *Cheung et al. (2004)* method.
@@ -717,8 +709,8 @@ def matrix_colour_correction_Finlayson2015(
     M_T: ArrayLike,
     M_R: ArrayLike,
     degree: Literal[1, 2, 3, 4] = 1,
-    root_polynomial_expansion: Boolean = True,
-) -> NDArray:
+    root_polynomial_expansion: bool = True,
+) -> NDArrayFloat:
     """
     Compute a colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array using *Finlayson et al. (2015)* method.
@@ -763,8 +755,8 @@ def matrix_colour_correction_Finlayson2015(
 
 
 def matrix_colour_correction_Vandermonde(
-    M_T: ArrayLike, M_R: ArrayLike, degree: Integer = 1
-) -> NDArray:
+    M_T: ArrayLike, M_R: ArrayLike, degree: int = 1
+) -> NDArrayFloat:
     """
     Compute a colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array using *Vandermonde* method.
@@ -823,11 +815,10 @@ References
 def matrix_colour_correction(
     M_T: ArrayLike,
     M_R: ArrayLike,
-    method: Union[
-        Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"], str
-    ] = "Cheung 2004",
+    method: Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"]
+    | str = "Cheung 2004",
     **kwargs: Any,
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Compute a colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array.
@@ -947,7 +938,7 @@ def colour_correction_Cheung2004(
     M_T: ArrayLike,
     M_R: ArrayLike,
     terms: Literal[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22] = 3,
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Perform colour correction of given *RGB* colourspace array using the
     colour correction matrix from given :math:`M_T` colour array to
@@ -1000,8 +991,8 @@ def colour_correction_Finlayson2015(
     M_T: ArrayLike,
     M_R: ArrayLike,
     degree: Literal[1, 2, 3, 4] = 1,
-    root_polynomial_expansion: Boolean = True,
-) -> NDArray:
+    root_polynomial_expansion: bool = True,
+) -> NDArrayFloat:
     """
     Perform colour correction of given *RGB* colourspace array using the
     colour correction matrix from given :math:`M_T` colour array to
@@ -1056,8 +1047,8 @@ def colour_correction_Finlayson2015(
 
 
 def colour_correction_Vandermonde(
-    RGB: ArrayLike, M_T: ArrayLike, M_R: ArrayLike, degree: Integer = 1
-) -> NDArray:
+    RGB: ArrayLike, M_T: ArrayLike, M_R: ArrayLike, degree: int = 1
+) -> NDArrayFloat:
     """
     Perform colour correction of given *RGB* colourspace array using the
     colour correction matrix from given :math:`M_T` colour array to
@@ -1126,11 +1117,10 @@ def colour_correction(
     RGB: ArrayLike,
     M_T: ArrayLike,
     M_R: ArrayLike,
-    method: Union[
-        Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"], str
-    ] = "Cheung 2004",
+    method: Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"]
+    | str = "Cheung 2004",
     **kwargs: Any,
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Perform colour correction of given *RGB* colourspace array using the
     colour correction matrix from given :math:`M_T` colour array to

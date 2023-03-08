@@ -14,7 +14,7 @@ from colour.graph import (
     CONVERSION_GRAPH_NODE_LABELS,
     describe_conversion_path,
 )
-from colour.hints import Literal, Union
+from colour.hints import Literal
 from colour.utilities import required, validate_method
 
 __author__ = "Colour Developers"
@@ -33,11 +33,10 @@ __all__ = [
 @required("NetworkX")
 def plot_automatic_colour_conversion_graph(
     filename: str,
-    prog: Union[
-        Literal["circo", "dot", "fdp", "neato", "nop", "twopi"], str
-    ] = "fdp",
+    prog: Literal["circo", "dot", "fdp", "neato", "nop", "twopi"]
+    | str = "fdp",
     args: str = "",
-) -> AGraph:  # type: ignore[name-defined]  # noqa
+) -> AGraph:  # pyright: ignore  # noqa: F821
     """
     Plot *Colour* automatic colour conversion graph using
     `Graphviz <https://www.graphviz.org/>`__ and

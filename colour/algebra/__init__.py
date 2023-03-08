@@ -28,7 +28,7 @@ from .common import (
     is_identity,
     eigen_decomposition,
 )
-from .coordinates import *  # noqa
+from .coordinates import *  # noqa: F403
 from . import coordinates
 from .interpolation import (
     kernel_nearest_neighbour,
@@ -164,7 +164,7 @@ API_CHANGES = {
 """Defines the *colour.algebra* sub-package API changes."""
 
 if not is_documentation_building():
-    sys.modules["colour.algebra"] = algebra(  # type: ignore[assignment]
+    sys.modules["colour.algebra"] = algebra(  # pyright: ignore
         sys.modules["colour.algebra"], build_API_changes(API_CHANGES)
     )
 

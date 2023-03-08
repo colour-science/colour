@@ -30,13 +30,7 @@ import numpy as np
 from dataclasses import dataclass, field
 
 from colour.algebra import spow, vector_dot
-from colour.hints import (
-    ArrayLike,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    NDArray,
-    Optional,
-)
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     MixinDataclassArithmetic,
     as_float,
@@ -103,15 +97,15 @@ class CAM_ReferenceSpecification_ATD95(MixinDataclassArithmetic):
     :cite:`Fairchild2013v`, :cite:`Guth1995a`
     """
 
-    H: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    C: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    Br: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    A_1: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    T_1: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    D_1: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    A_2: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    T_2: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    D_2: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    H: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    C: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    Br: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    A_1: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    T_1: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    D_1: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    A_2: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    T_2: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    D_2: float | NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 @dataclass
@@ -157,24 +151,24 @@ class CAM_Specification_ATD95(MixinDataclassArithmetic):
     :cite:`Fairchild2013v`, :cite:`Guth1995a`
     """
 
-    h: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    C: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    Q: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    A_1: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    T_1: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    D_1: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    A_2: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    T_2: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    D_2: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    h: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    C: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    Q: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    A_1: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    T_1: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    D_1: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    A_2: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    T_2: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    D_2: float | NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 def XYZ_to_ATD95(
     XYZ: ArrayLike,
     XYZ_0: ArrayLike,
-    Y_0: FloatingOrArrayLike,
-    k_1: FloatingOrArrayLike,
-    k_2: FloatingOrArrayLike,
-    sigma: FloatingOrArrayLike = 300,
+    Y_0: ArrayLike,
+    k_1: ArrayLike,
+    k_2: ArrayLike,
+    sigma: ArrayLike = 300,
 ) -> CAM_Specification_ATD95:
     """
     Compute the *ATD (1995)* colour vision model correlates.
@@ -281,8 +275,8 @@ T_2=0.0205377..., D_2=0.0107584...)
 
 
 def luminance_to_retinal_illuminance(
-    XYZ: ArrayLike, Y_c: FloatingOrArrayLike
-) -> NDArray:
+    XYZ: ArrayLike, Y_c: ArrayLike
+) -> NDArrayFloat:
     """
     Convert from luminance in :math:`cd/m^2` to retinal illuminance in
     trolands.
@@ -310,10 +304,10 @@ def luminance_to_retinal_illuminance(
     XYZ = as_float_array(XYZ)
     Y_c = as_float_array(Y_c)
 
-    return as_float_array(18 * spow(Y_c[..., None] * XYZ / 100, 0.8))
+    return 18 * spow(Y_c[..., None] * XYZ / 100, 0.8)
 
 
-def XYZ_to_LMS_ATD95(XYZ: ArrayLike) -> NDArray:
+def XYZ_to_LMS_ATD95(XYZ: ArrayLike) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *LMS* cone responses.
 
@@ -347,10 +341,10 @@ def XYZ_to_LMS_ATD95(XYZ: ArrayLike) -> NDArray:
     LMS_p = spow(LMS, 0.7)
     LMS_p += np.array([0.024, 0.036, 0.31])
 
-    return as_float_array(LMS_p)
+    return LMS_p
 
 
-def opponent_colour_dimensions(LMS_g: ArrayLike) -> NDArray:
+def opponent_colour_dimensions(LMS_g: ArrayLike) -> NDArrayFloat:
     """
     Return opponent colour dimensions from given post adaptation cone signals.
 
@@ -390,7 +384,7 @@ def opponent_colour_dimensions(LMS_g: ArrayLike) -> NDArray:
     return tstack([A_1, T_1, D_1, A_2, T_2, D_2])
 
 
-def final_response(value: FloatingOrArrayLike) -> FloatingOrNDArray:
+def final_response(value: ArrayLike) -> NDArrayFloat:
     """
     Return the final response of given opponent colour dimension.
 
@@ -401,7 +395,7 @@ def final_response(value: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Final response of opponent colour dimension.
 
     Examples

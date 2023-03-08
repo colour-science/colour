@@ -45,12 +45,9 @@ from colour.colorimetry import (
 from colour.hints import (
     Any,
     ArrayLike,
-    Floating,
     Literal,
-    NDArray,
-    Optional,
+    NDArrayFloat,
     Sequence,
-    Union,
 )
 from colour.utilities import (
     CanonicalMapping,
@@ -88,7 +85,7 @@ __all__ = [
 
 
 def sd_constant(
-    k: Floating, shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT, **kwargs: Any
+    k: float, shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT, **kwargs: Any
 ) -> SpectralDistribution:
     """
     Return a spectral distribution of given spectral shape filled with
@@ -213,7 +210,7 @@ def sd_ones(
 
 
 def msds_constant(
-    k: Floating,
+    k: float,
     labels: Sequence,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     **kwargs: Any,
@@ -365,8 +362,8 @@ def msds_ones(
 
 
 def sd_gaussian_normal(
-    mu: Floating,
-    sigma: Floating,
+    mu: float,
+    sigma: float,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     **kwargs: Any,
 ) -> SpectralDistribution:
@@ -420,8 +417,8 @@ def sd_gaussian_normal(
 
 
 def sd_gaussian_fwhm(
-    peak_wavelength: Floating,
-    fwhm: Floating,
+    peak_wavelength: float,
+    fwhm: float,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     **kwargs: Any,
 ) -> SpectralDistribution:
@@ -484,10 +481,10 @@ Supported gaussian spectral distribution computation methods.
 
 
 def sd_gaussian(
-    mu_peak_wavelength: Floating,
-    sigma_fwhm: Floating,
+    mu_peak_wavelength: float,
+    sigma_fwhm: float,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
-    method: Union[Literal["Normal", "FWHM"], str] = "Normal",
+    method: Literal["Normal", "FWHM"] | str = "Normal",
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
@@ -552,8 +549,8 @@ def sd_gaussian(
 
 
 def sd_single_led_Ohno2005(
-    peak_wavelength: Floating,
-    fwhm: Floating,
+    peak_wavelength: float,
+    fwhm: float,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     **kwargs: Any,
 ) -> SpectralDistribution:
@@ -623,10 +620,10 @@ Supported single *LED* spectral distribution computation methods.
 
 
 def sd_single_led(
-    peak_wavelength: Floating,
-    fwhm: Floating,
+    peak_wavelength: float,
+    fwhm: float,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
-    method: Union[Literal["Ohno 2005"], str] = "Ohno 2005",
+    method: Literal["Ohno 2005"] | str = "Ohno 2005",
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
@@ -686,7 +683,7 @@ def sd_single_led(
 def sd_multi_leds_Ohno2005(
     peak_wavelengths: ArrayLike,
     fwhm: ArrayLike,
-    peak_power_ratios: Optional[ArrayLike] = None,
+    peak_power_ratios: ArrayLike | None = None,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     **kwargs: Any,
 ) -> SpectralDistribution:
@@ -761,12 +758,12 @@ def sd_multi_leds_Ohno2005(
     for (peak_wavelength, fwhm_s, peak_power_ratio) in zip(
         peak_wavelengths, fwhm, peak_power_ratios
     ):
-        sd += (  # type: ignore[misc]
+        sd += (
             sd_single_led_Ohno2005(peak_wavelength, fwhm_s, **kwargs)
             * peak_power_ratio
         )
 
-    def _format_array(a: NDArray) -> str:
+    def _format_array(a: NDArrayFloat) -> str:
         """Format given array :math:`a`."""
 
         return ", ".join([str(e) for e in a])
@@ -794,9 +791,9 @@ Supported multi *LED* spectral distribution computation methods.
 def sd_multi_leds(
     peak_wavelengths: ArrayLike,
     fwhm: ArrayLike,
-    peak_power_ratios: Optional[ArrayLike] = None,
+    peak_power_ratios: ArrayLike | None = None,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
-    method: Union[Literal["Ohno 2005"], str] = "Ohno 2005",
+    method: Literal["Ohno 2005"] | str = "Ohno 2005",
     **kwargs: Any,
 ) -> SpectralDistribution:
     """

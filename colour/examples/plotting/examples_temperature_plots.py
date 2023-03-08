@@ -20,6 +20,6 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931(["A", "B", "C"])
 print("\n")
 
 message_box(
-    'Plotting planckian locus in the"CIE 1960 UCS Chromaticity Diagram".'
+    'Plotting planckian locus in the "CIE 1960 UCS Chromaticity Diagram".'
 )
 plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(["A", "B", "C"])

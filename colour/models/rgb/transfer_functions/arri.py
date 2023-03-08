@@ -21,7 +21,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import FloatingOrArrayLike, FloatingOrNDArray, Literal, Union
+from colour.hints import ArrayLike, NDArrayFloat, Literal
 from colour.utilities import (
     CanonicalMapping,
     Structure,
@@ -551,16 +551,14 @@ exposure factor for *SUP 3.x* and signal and normalised sensor signal for
 
 
 def log_encoding_ARRILogC3(
-    x: FloatingOrArrayLike,
-    firmware: Union[Literal["SUP 2.x", "SUP 3.x"], str] = "SUP 3.x",
-    method: Union[
-        Literal["Linear Scene Exposure Factor", "Normalised Sensor Signal"],
-        str,
-    ] = "Linear Scene Exposure Factor",
+    x: ArrayLike,
+    firmware: Literal["SUP 2.x", "SUP 3.x"] | str = "SUP 3.x",
+    method: Literal["Linear Scene Exposure Factor", "Normalised Sensor Signal"]
+    | str = "Linear Scene Exposure Factor",
     EI: Literal[
         160, 200, 250, 320, 400, 500, 640, 800, 1000, 1280, 1600
     ] = 800,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Define the *ARRI LogC3* log encoding curve / opto-electronic transfer
     function.
@@ -578,7 +576,7 @@ def log_encoding_ARRILogC3(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *ARRI LogC3* encoded data :math:`t`.
 
     References
@@ -621,16 +619,14 @@ def log_encoding_ARRILogC3(
 
 
 def log_decoding_ARRILogC3(
-    t: FloatingOrArrayLike,
-    firmware: Union[Literal["SUP 2.x", "SUP 3.x"], str] = "SUP 3.x",
-    method: Union[
-        Literal["Linear Scene Exposure Factor", "Normalised Sensor Signal"],
-        str,
-    ] = "Linear Scene Exposure Factor",
+    t: ArrayLike,
+    firmware: Literal["SUP 2.x", "SUP 3.x"] | str = "SUP 3.x",
+    method: Literal["Linear Scene Exposure Factor", "Normalised Sensor Signal"]
+    | str = "Linear Scene Exposure Factor",
     EI: Literal[
         160, 200, 250, 320, 400, 500, 640, 800, 1000, 1280, 1600
     ] = 800,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Define the *ARRI LogC3* log decoding curve / electro-optical transfer
     function.
@@ -648,7 +644,7 @@ def log_decoding_ARRILogC3(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear data :math:`x`.
 
     Notes
@@ -707,9 +703,9 @@ del _a, _b, _c
 
 
 def log_encoding_ARRILogC4(
-    E_scene: FloatingOrArrayLike,
+    E_scene: ArrayLike,
     constants: Structure = CONSTANTS_ARRILOGC4,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Define the *ARRI LogC4* log encoding curve / opto-electronic transfer
     function.
@@ -723,7 +719,7 @@ def log_encoding_ARRILogC4(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *ARRI LogC4* encoded signal :math:`E'`.
 
     References
@@ -768,9 +764,9 @@ def log_encoding_ARRILogC4(
 
 
 def log_decoding_ARRILogC4(
-    E_p: FloatingOrArrayLike,
+    E_p: ArrayLike,
     constants: Structure = CONSTANTS_ARRILOGC4,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Define the *ARRI LogC4* log decoding curve / electro-optical transfer
     function.
@@ -784,7 +780,7 @@ def log_decoding_ARRILogC4(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear data :math:`E_{scene}`.
 
     Notes

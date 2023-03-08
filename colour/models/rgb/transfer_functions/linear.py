@@ -10,7 +10,7 @@ related objects:
 
 from __future__ import annotations
 
-from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import as_float
 
 __author__ = "Colour Developers"
@@ -25,7 +25,7 @@ __all__ = [
 ]
 
 
-def linear_function(a: FloatingOrArrayLike) -> FloatingOrNDArray:
+def linear_function(a: ArrayLike) -> NDArrayFloat:
     """
     Define a typical linear encoding / decoding function, essentially a
     pass-through function.
@@ -37,7 +37,7 @@ def linear_function(a: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Encoded / decoded array.
 
     Examples

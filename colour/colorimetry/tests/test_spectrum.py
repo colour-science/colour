@@ -4,8 +4,6 @@
 import colour
 import numpy as np
 import unittest
-import scipy
-from distutils.version import LooseVersion
 
 from colour.algebra import CubicSplineInterpolator
 from colour.colorimetry.spectrum import SPECTRAL_SHAPE_DEFAULT
@@ -18,7 +16,6 @@ from colour.colorimetry.spectrum import (
     sds_and_msds_to_sds,
     sds_and_msds_to_msds,
 )
-from colour.hints import Dict, Tuple
 from colour.utilities import tstack
 
 __author__ = "Colour Developers"
@@ -46,7 +43,7 @@ __all__ = [
     "TestSdsAndMsdsToMsds",
 ]
 
-DATA_SAMPLE: Dict = {
+DATA_SAMPLE: dict = {
     340: 0.0000,
     360: 0.0000,
     380: 0.0000,
@@ -74,7 +71,7 @@ DATA_SAMPLE: Dict = {
     820: 0.0000,
 }
 
-DATA_SAMPLE_NON_UNIFORM: Dict = {
+DATA_SAMPLE_NON_UNIFORM: dict = {
     391.898: 16.331740,
     392.069: 16.333122,
     405.606: 40.197224,
@@ -131,7 +128,7 @@ DATA_SAMPLE_NON_UNIFORM: Dict = {
     805.862: 8.850659,
 }
 
-DATA_SAMPLE_INTERPOLATED: Tuple = (
+DATA_SAMPLE_INTERPOLATED: tuple = (
     0.000000000000000,
     0.000230709627131,
     0.000384144814593,
@@ -615,7 +612,7 @@ DATA_SAMPLE_INTERPOLATED: Tuple = (
     0.000000000000000,
 )
 
-DATA_SAMPLE_INTERPOLATED_NON_UNIFORM: Tuple = (
+DATA_SAMPLE_INTERPOLATED_NON_UNIFORM: tuple = (
     16.329808636577400,
     16.722487609243078,
     17.780769796558388,
@@ -1032,7 +1029,7 @@ DATA_SAMPLE_INTERPOLATED_NON_UNIFORM: Tuple = (
     7.652991396265083,
 )
 
-DATA_SAMPLE_NORMALISED: Tuple = (
+DATA_SAMPLE_NORMALISED: tuple = (
     0.000000000000000,
     0.000000000000000,
     0.000000000000000,
@@ -1060,7 +1057,7 @@ DATA_SAMPLE_NORMALISED: Tuple = (
     0.000000000000000,
 )
 
-DATA_STANDARD_OBSERVER_2_DEGREE_CIE1931: Dict = {
+DATA_STANDARD_OBSERVER_2_DEGREE_CIE1931: dict = {
     380: (0.001368, 0.000039, 0.006450),
     385: (0.002236, 0.000064, 0.010550),
     390: (0.004243, 0.000120, 0.020050),
@@ -1144,7 +1141,7 @@ DATA_STANDARD_OBSERVER_2_DEGREE_CIE1931: Dict = {
     780: (0.000042, 0.000015, 0.000000),
 }
 
-DATA_CMFS: Dict = {
+DATA_CMFS: dict = {
     380: np.array([0.001368, 3.90e-05, 0.006450]),
     385: np.array([0.002236, 6.40e-05, 0.010550]),
     390: np.array([0.004243, 0.000120, 0.020050]),
@@ -1228,7 +1225,7 @@ DATA_CMFS: Dict = {
     780: np.array([4.20e-05, 1.50e-05, 0.000000]),
 }
 
-DATA_SAMPLE_ABRIDGED: Dict = {
+DATA_SAMPLE_ABRIDGED: dict = {
     500: 0.0651,
     520: 0.0705,
     540: 0.0772,
@@ -1237,7 +1234,7 @@ DATA_SAMPLE_ABRIDGED: Dict = {
     600: 0.1360,
 }
 
-DATA_MULTI_SAMPLE_ABRIDGED: Dict = {
+DATA_MULTI_SAMPLE_ABRIDGED: dict = {
     500: (0.004900, 0.323000, 0.272000),
     510: (0.009300, 0.503000, 0.158200),
     520: (0.063270, 0.710000, 0.078250),
@@ -1354,7 +1351,7 @@ class TestSpectralShape(unittest.TestCase):
         """
 
         np.testing.assert_array_almost_equal(
-            [wavelength for wavelength in SpectralShape(0, 10, 0.1)],
+            list(SpectralShape(0, 10, 0.1)),
             np.arange(0, 10 + 0.1, 0.1),
         )
 
@@ -1403,7 +1400,7 @@ class TestSpectralShape(unittest.TestCase):
         """Test :func:`colour.colorimetry.spectrum.SpectralShape.range` method."""
 
         np.testing.assert_array_almost_equal(
-            [wavelength for wavelength in SpectralShape(0, 10, 0.1)],
+            list(SpectralShape(0, 10, 0.1)),
             np.arange(0, 10 + 0.1, 0.1),
         )
 
@@ -1527,12 +1524,6 @@ SpectralDistribution.interpolate` method.
             DATA_SAMPLE_INTERPOLATED,
             decimal=7,
         )
-
-        # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum
-        # version.
-        # Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
-        if LooseVersion(scipy.__version__) < LooseVersion("0.19.0"):
-            return  # pragma: no cover
 
         np.testing.assert_allclose(
             reshape_sd(
@@ -1781,12 +1772,6 @@ MultiSpectralDistributions.interpolate` method.
                 signal.values, DATA_SAMPLE_INTERPOLATED, decimal=7
             )
 
-        # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum
-        # version.
-        # Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
-        if LooseVersion(scipy.__version__) < LooseVersion("0.19.0"):
-            return  # pragma: no cover
-
         # pylint: disable=E1102
         msds = reshape_msds(
             self._non_uniform_sample_msds,
@@ -1965,6 +1950,7 @@ class TestSdsAndMdsToSds(unittest.TestCase):
         multi_sds_1 = MultiSpectralDistributions(DATA_MULTI_SAMPLE_ABRIDGED)
         multi_sds_2 = MultiSpectralDistributions(DATA_MULTI_SAMPLE_ABRIDGED)
 
+        self.assertEqual(sds_and_msds_to_sds(sd_1), [sd_1])
         self.assertEqual(
             len(
                 sds_and_msds_to_sds(
@@ -1998,6 +1984,8 @@ class TestSdsAndMsdsToMsds(unittest.TestCase):
         sd_2 = SpectralDistribution(DATA_SAMPLE_ABRIDGED)
         multi_sds_1 = MultiSpectralDistributions(DATA_MULTI_SAMPLE_ABRIDGED)
         multi_sds_2 = MultiSpectralDistributions(DATA_MULTI_SAMPLE_ABRIDGED)
+
+        self.assertEqual(len(sds_and_msds_to_msds(sd_1)), 6)
 
         self.assertEqual(sds_and_msds_to_msds(multi_sds_1), multi_sds_1)
 

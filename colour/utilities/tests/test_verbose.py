@@ -125,7 +125,7 @@ class TestMultilineStr(unittest.TestCase):
                     self,
                     [
                         {
-                            "formatter": lambda x: (
+                            "formatter": lambda x: (  # noqa: ARG005
                                 f"Object - {self.__class__.__name__}"
                             ),
                             "header": True,
