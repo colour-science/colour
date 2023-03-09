@@ -1,5 +1,6 @@
 [run]
 source = colour
+concurrency = multiprocessing
 sigterm = True
 [report]
 exclude_lines =
