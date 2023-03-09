@@ -212,6 +212,7 @@ def tests(ctx: Context):
         "pytest "
         "--doctest-modules "
         f"--ignore={PYTHON_PACKAGE_NAME}/examples "
+        f"--cov={PYTHON_PACKAGE_NAME} "
         f"{PYTHON_PACKAGE_NAME}"
     )
 
