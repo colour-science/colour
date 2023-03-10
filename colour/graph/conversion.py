@@ -179,7 +179,7 @@ from colour.appearance import (
     ZCAM_to_XYZ,
 )
 from colour.appearance.ciecam02 import CAM_KWARGS_CIECAM02_sRGB
-from colour.temperature import CCT_to_uv, uv_to_CCT
+from colour.temperature import CCT_to_mired, CCT_to_uv, mired_to_CCT, uv_to_CCT
 from colour.utilities import (
     as_float_array,
     domain_range_scale,
@@ -190,6 +190,7 @@ from colour.utilities import (
     tstack,
     usage_warning,
     validate_method,
+    zeros,
 )
 
 __author__ = "Colour Developers"
@@ -209,6 +210,8 @@ __all__ = [
     "JMh_Hellwig2022_to_Hellwig2022",
     "XYZ_to_luminance",
     "RGB_luminance_to_RGB",
+    "CCT_D_uv_to_mired",
+    "mired_to_CCT_D_uv",
     "CONVERSION_SPECIFICATIONS_DATA",
     "CONVERSION_GRAPH_NODE_LABELS",
     "CONVERSION_SPECIFICATIONS",
@@ -530,6 +533,60 @@ def RGB_luminance_to_RGB(Y: ArrayLike) -> NDArrayFloat:
     return tstack([Y, Y, Y])
 
 
+def CCT_D_uv_to_mired(CCT_D_uv: ArrayLike) -> NDArrayFloat:
+    """
+    Convert given correlated colour temperature :math:`T_{cp}` and
+    :math:`\\Delta_{uv}` to micro reciprocal degree (mired).
+
+    Parameters
+    ----------
+    CCT_D_uv
+        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Micro reciprocal degree (mired).
+
+    Examples
+    --------
+    >>> CCT_D_uv = np.array([6500.0081378199056, 0.008333331244225])
+    >>> CCT_D_uv_to_mired(CCT_D_uv)  # doctest: +ELLIPSIS
+    153.8459612...
+    """
+
+    CCT, _D_uv = tsplit(CCT_D_uv)
+
+    return CCT_to_mired(CCT)
+
+
+def mired_to_CCT_D_uv(mired: ArrayLike) -> NDArrayFloat:
+    """
+    Convert given micro reciprocal degree (mired) to correlated colour
+    temperature :math:`T_{cp}` and :math:`\\Delta_{uv}`.
+
+    Parameters
+    ----------
+    Micro reciprocal degree (mired).
+
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
+
+    Examples
+    --------
+    >>> mired = 153.84596123527297
+    >>> mired_to_CCT_D_uv(mired)  # doctest: +ELLIPSIS
+    array([ 6500.0081378...,     0.        ])
+    """
+
+    mired = as_float_array(mired)
+
+    return tstack([mired_to_CCT(mired), zeros(mired.shape)])
+
+
 _ILLUMINANT_DEFAULT: str = "D65"
 """Default automatic colour conversion graph illuminant name."""
 
@@ -783,6 +840,8 @@ CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
     # Colour Temperature
     ("CCT", "CIE UCS uv", CCT_to_uv),
     ("CIE UCS uv", "CCT", uv_to_CCT),
+    ("CCT", "Mired", CCT_D_uv_to_mired),
+    ("Mired", "CCT", mired_to_CCT_D_uv),
     # Advanced Colorimetry
     (
         "CIE XYZ",
@@ -994,8 +1053,8 @@ def _conversion_path(source: str, target: str) -> List[Callable]:
     --------
     >>> _conversion_path("cie lab", "cct")
     ... # doctest: +ELLIPSIS
-    [<function Lab_to_XYZ at 0x...>, <function XYZ_to_xy at 0x...>, \
-<function xy_to_UCS_uv at 0x...>, <function uv_to_CCT at 0x...>]
+    [<function Lab_to_XYZ at 0x...>, <function XYZ_to_UCS at 0x...>, \
+<function UCS_to_uv at 0x...>, <function uv_to_CCT at 0x...>]
     """
 
     import networkx as nx
