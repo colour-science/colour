@@ -587,7 +587,7 @@ class TestSpectralSimilarityIndex(unittest.TestCase):
             spectral_similarity_index(
                 SDS_ILLUMINANTS["C"],
                 SDS_ILLUMINANTS["D65"],
-                round_results=False,
+                round_result=False,
             ),
             94.178,
             places=2,
@@ -596,7 +596,7 @@ class TestSpectralSimilarityIndex(unittest.TestCase):
             spectral_similarity_index(
                 SpectralDistribution(DATA_HMI),
                 SDS_ILLUMINANTS["D50"],
-                round_results=False,
+                round_result=False,
             ),
             71.772,
             places=2,
