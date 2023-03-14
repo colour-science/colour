@@ -770,6 +770,7 @@ class SpectralDistribution(Signal):
         """Setter for the **self.wavelengths** property."""
 
         self.domain = as_float_array(value, self.dtype)
+        self._shape = None
 
     @property
     def values(self) -> NDArrayFloat:
@@ -836,6 +837,9 @@ class SpectralDistribution(Signal):
         SpectralShape(500.0, 600.0, 10.0)
         """
 
+        if hasattr(self, "_shape") and self._shape is not None:
+            return self._shape
+
         wavelengths = self.wavelengths
         wavelengths_interval = interval(wavelengths)
         if wavelengths_interval.size != 1:
@@ -844,9 +848,10 @@ class SpectralDistribution(Signal):
                 f"minimum interval!"
             )
 
-        return SpectralShape(
+        self._shape = SpectralShape(
             wavelengths[0], wavelengths[-1], min(wavelengths_interval)
         )
+        return self._shape
 
     def interpolate(
         self,
@@ -1209,7 +1214,7 @@ class SpectralDistribution(Signal):
 
         wavelengths, values = self.wavelengths, self.values
 
-        self.domain = shape.wavelengths
+        self.wavelengths = shape.wavelengths
         self.range = interpolator(wavelengths, values, **interpolator_kwargs)(
             self.domain
         )
@@ -1460,7 +1465,7 @@ class SpectralDistribution(Signal):
 
         self.interpolate(shape, interpolator, interpolator_kwargs)
         self.extrapolate(shape, extrapolator, extrapolator_kwargs)
-
+        self._shape = None
         return self
 
     def trim(self, shape: SpectralShape) -> Self:
