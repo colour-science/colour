@@ -118,6 +118,8 @@ _CACHE_SD_TO_XYZ: dict = CACHE_REGISTRY.register_cache(
     f"{__name__}._CACHE_SD_TO_XYZ"
 )
 
+_CACHE_CMFS: dict = CACHE_REGISTRY.register_cache(f"{__name__}._CACHE_CMFS")
+
 
 def handle_spectral_arguments(
     cmfs: MultiSpectralDistributions | None = None,
