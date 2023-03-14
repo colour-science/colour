@@ -442,14 +442,14 @@ def tcs_colorimetry_data(
     70.1208254...
     """
 
-    XYZ_w = sd_to_XYZ(sd_ones(), cmfs, sd_irradiance)
+    XYZ_w = sd_to_XYZ(sd_ones(), cmfs, sd_irradiance, use_practice_range=False)
     Y_b = 20
     L_A = 100
     surround = VIEWING_CONDITIONS_CIECAM02["Average"]
 
     tcs_data = []
     for sd_tcs in sds_tcs.to_sds():
-        XYZ = sd_to_XYZ(sd_tcs, cmfs, sd_irradiance)
+        XYZ = sd_to_XYZ(sd_tcs, cmfs, sd_irradiance, use_practice_range=False)
         specification = XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround, True)
         JMh = tstack(
             [
