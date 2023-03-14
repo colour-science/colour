@@ -21,7 +21,7 @@ from scipy.ndimage import convolve1d
 from colour.algebra import LinearInterpolator, sdiv, sdiv_mode
 from colour.colorimetry import SpectralDistribution, SpectralShape, reshape_sd
 from colour.hints import NDArrayFloat
-from colour.utilities import as_float_scalar, zeros
+from colour.utilities import zeros
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -44,8 +44,10 @@ _MATRIX_INTEGRATION: NDArrayFloat | None = None
 
 
 def spectral_similarity_index(
-    sd_test: SpectralDistribution, sd_reference: SpectralDistribution
-) -> float:
+    sd_test: SpectralDistribution,
+    sd_reference: SpectralDistribution,
+    round_results: bool = True,
+) -> NDArrayFloat:
     """
     Return the *Academy Spectral Similarity Index* (SSI) of given test
     spectral distribution with given reference spectral distribution.
@@ -56,6 +58,9 @@ def spectral_similarity_index(
         Test spectral distribution.
     sd_reference
         Reference spectral distribution.
+    round_results
+        Controls rounding the results. Particularly useful when using SSI in an
+        optimization routine. Default True.
 
     Returns
     -------
@@ -143,6 +148,8 @@ def spectral_similarity_index(
     c_wdr_i = convolve1d(np.hstack([0, wdr_i, 0]), [0.22, 0.56, 0.22])
     m_v = np.sum(c_wdr_i**2)
 
-    SSI = np.around(100 - 32 * np.sqrt(m_v))
+    SSI = 100 - 32 * np.sqrt(m_v)
 
-    return as_float_scalar(SSI)
+    if round_results:
+        return np.around(SSI)
+    return SSI

@@ -576,6 +576,32 @@ class TestSpectralSimilarityIndex(unittest.TestCase):
             72.0,
         )
 
+    def test_spectral_similarity_rounding(self):
+        """
+        Test :func:`colour.quality.ssi.spectral_similarity_index` for
+        producing continuous values.
+        """
+
+        # Test values were computed at ed2e90
+        self.assertAlmostEqual(
+            spectral_similarity_index(
+                SDS_ILLUMINANTS["C"],
+                SDS_ILLUMINANTS["D65"],
+                round_results=False,
+            ),
+            94.178,
+            places=2,
+        )
+        self.assertAlmostEqual(
+            spectral_similarity_index(
+                SpectralDistribution(DATA_HMI),
+                SDS_ILLUMINANTS["D50"],
+                round_results=False,
+            ),
+            71.772,
+            places=2,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
