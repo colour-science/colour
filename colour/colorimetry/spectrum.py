@@ -1319,7 +1319,7 @@ class SpectralDistribution(Signal):
 
         self.extrapolator = self_extrapolator
         self.extrapolator_kwargs = self_extrapolator_kwargs
-
+        self._shape = None
         return self
 
     def align(
