@@ -46,7 +46,7 @@ _MATRIX_INTEGRATION: NDArrayFloat | None = None
 def spectral_similarity_index(
     sd_test: SpectralDistribution,
     sd_reference: SpectralDistribution,
-    round_results: bool = True,
+    round_result: bool = True,
 ) -> NDArrayFloat:
     """
     Return the *Academy Spectral Similarity Index* (SSI) of given test
@@ -58,9 +58,9 @@ def spectral_similarity_index(
         Test spectral distribution.
     sd_reference
         Reference spectral distribution.
-    round_results
-        Controls rounding the results. Particularly useful when using SSI in an
-        optimization routine. Default True.
+    round_result
+        Whether to round the result/output. This is particularly useful when
+        using SSI in an optimization routine. Default is *True*.
 
     Returns
     -------
@@ -150,6 +150,4 @@ def spectral_similarity_index(
 
     SSI = 100 - 32 * np.sqrt(m_v)
 
-    if round_results:
-        return np.around(SSI)
-    return SSI
+    return np.around(SSI) if round_result else SSI
