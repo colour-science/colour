@@ -118,7 +118,9 @@ _CACHE_SD_TO_XYZ: dict = CACHE_REGISTRY.register_cache(
     f"{__name__}._CACHE_SD_TO_XYZ"
 )
 
-_CACHE_CMFS: dict = CACHE_REGISTRY.register_cache(f"{__name__}._CACHE_CMFS")
+_CACHE_CMFS_ILLUMINANT: dict = CACHE_REGISTRY.register_cache(
+    f"{__name__}._CACHE_CMFS_ILLUMINANT"
+)
 
 
 def handle_spectral_arguments(
@@ -1012,7 +1014,7 @@ def sd_to_XYZ_ASTME308(
             "with measurement interval of 1, 5, 10 or 20nm!"
         )
 
-    if use_practice_range:
+    if use_practice_range and cmfs.shape != SPECTRAL_SHAPE_ASTME308:
         # pylint: disable=E1102
         cmfs = reshape_msds(cmfs, SPECTRAL_SHAPE_ASTME308, "Trim", copy=False)
 
