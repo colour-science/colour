@@ -1907,7 +1907,11 @@ def interval(distribution: ArrayLike, unique: bool = True) -> NDArray:
 
     distribution = as_float_array(distribution)
     hash_key = hash(
-        (distribution.tobytes(), np.array(distribution.shape).tobytes())
+        (
+            distribution.tobytes(),
+            np.array(distribution.shape).tobytes(),
+            unique,
+        )
     )
     if hash_key in _CACHE_DISTRIBUTION_INTERVAL:
         return np.copy(_CACHE_DISTRIBUTION_INTERVAL[hash_key])
