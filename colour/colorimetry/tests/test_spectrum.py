@@ -1515,26 +1515,38 @@ class TestSpectralDistribution(unittest.TestCase):
 SpectralDistribution.interpolate` method.
         """
 
+        sd = self._sd.copy()
+        new_shape = SpectralShape(sd.shape.start, sd.shape.end, 1)
+        sd.interpolate(new_shape)
         np.testing.assert_array_almost_equal(
-            reshape_sd(
-                self._sd,
-                SpectralShape(self._sd.shape.start, self._sd.shape.end, 1),
-                "Interpolate",
-            ).values,
+            sd.values,
             DATA_SAMPLE_INTERPOLATED,
             decimal=7,
         )
+        self.assertEqual(
+            sd.shape,
+            new_shape,
+            "Interpolation must invalidate cached shape parameter",
+        )
+
+        sd = self._non_uniform_sd.copy()
+
+        # Interpolate does not alow non-integer start points.
+        # Commented at v.0.4.2
+        new_shape = SpectralShape(
+            np.ceil(sd.shape.start), np.floor(sd.shape.end), 1
+        )
+        sd.interpolate(new_shape)
+
+        # Check shape
+        self.assertEqual(
+            sd.shape,
+            new_shape,
+            "Interpolation must internaly invalidate cached shape parameter",
+        )
 
         np.testing.assert_allclose(
-            reshape_sd(
-                self._non_uniform_sd,
-                SpectralShape(
-                    self._non_uniform_sd.shape.start,
-                    self._non_uniform_sd.shape.end,
-                    1,
-                ),
-                "Interpolate",
-            ).values,
+            sd.values,
             DATA_SAMPLE_INTERPOLATED_NON_UNIFORM,
             rtol=0.0000001,
             atol=0.0000001,
@@ -1548,7 +1560,16 @@ SpectralDistribution.extrapolate` method.
 
         data = dict(zip(range(25, 35), [0] * 5 + [1] * 5))
         sd = SpectralDistribution(data)
+        old_shape = sd.shape
         sd.extrapolate(SpectralShape(10, 50, 5))
+
+        # Check shape
+        # Extrapolate preserves the current shape interval
+        self.assertEqual(
+            sd.shape,
+            SpectralShape(10, 50, old_shape.interval),
+            "Extrapolation must invalidate cached shape parameter",
+        )
 
         self.assertAlmostEqual(sd[10], 0, places=7)
         self.assertAlmostEqual(sd[50], 1, places=7)
@@ -1767,6 +1788,15 @@ MultiSpectralDistributions.interpolate` method.
             ),
             "Interpolate",
         )
+
+        # Check shape
+        self.assertEqual(
+            msds.shape,
+            SpectralShape(
+                self._sample_msds.shape.start, self._sample_msds.shape.end, 1
+            ),
+            "Interpolation must invalidate cached shape parameter",
+        )
         for signal in msds.signals.values():
             np.testing.assert_array_almost_equal(
                 signal.values, DATA_SAMPLE_INTERPOLATED, decimal=7
@@ -1799,6 +1829,14 @@ MultiSpectralDistributions.extrapolate` method.
         data = dict(zip(range(25, 35), tstack([[0] * 5 + [1] * 5] * 3)))
         msds = MultiSpectralDistributions(data)
         msds.extrapolate(SpectralShape(10, 50, 5))
+
+        # Check shape
+        # Extrapolation preserves original interval
+        self.assertEqual(
+            msds.shape,
+            SpectralShape(10, 50, 1),
+            "Extrapolation must invalidate cache'd shape parameter",
+        )
 
         np.testing.assert_array_almost_equal(
             msds[10], np.array([0.0, 0.0, 0.0]), decimal=7
