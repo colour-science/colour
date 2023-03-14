@@ -481,7 +481,7 @@ CCS_TE226_V2: ColourChecker = ColourChecker(
 )
 """
 Reference data from *TE226 V2*. Transparent color rendition test chart
-for HDTV cameras, in addition to known colors from “ColorChecker”, the test
+for HDTV cameras, in addition to known colors from "ColorChecker", the test
 chart contains colors which are critical in reproduction.
 """
 
