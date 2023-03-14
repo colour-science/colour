@@ -700,7 +700,7 @@ class SpectralDistribution(Signal):
         kwargs["interpolator"] = kwargs.get(
             "interpolator",
             SpragueInterpolator
-            if is_uniform(domain_unpacked)
+            if domain_unpacked.size != 0 and is_uniform(domain_unpacked)
             else CubicSplineInterpolator,
         )
         kwargs["interpolator_kwargs"] = kwargs.get("interpolator_kwargs", {})
