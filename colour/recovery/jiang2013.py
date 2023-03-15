@@ -248,14 +248,14 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
             f'Aligning "{illuminant.name}" illuminant shape to "{shape}".'
         )
         # pylint: disable=E1102
-        illuminant = reshape_sd(illuminant, shape)
+        illuminant = reshape_sd(illuminant, shape, copy=False)
 
     if reflectances.shape != shape:
         runtime_warning(
             f'Aligning "{reflectances.name}" reflectances shape to "{shape}".'
         )
         # pylint: disable=E1102
-        reflectances = reshape_msds(reflectances, shape)
+        reflectances = reshape_msds(reflectances, shape, copy=False)
 
     S = np.diag(illuminant.values)
     R = np.transpose(reflectances.values)
@@ -380,14 +380,14 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
             f'Aligning "{illuminant.name}" illuminant shape to "{shape}".'
         )
         # pylint: disable=E1102
-        illuminant = reshape_sd(illuminant, shape)
+        illuminant = reshape_sd(illuminant, shape, copy=False)
 
     if reflectances.shape != shape:
         runtime_warning(
             f'Aligning "{reflectances.name}" reflectances shape to "{shape}".'
         )
         # pylint: disable=E1102
-        reflectances = reshape_msds(reflectances, shape)
+        reflectances = reshape_msds(reflectances, shape, copy=False)
 
     S_R = RGB_to_sd_camera_sensitivity_Jiang2013(
         R, illuminant, reflectances, R_w, shape

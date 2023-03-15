@@ -225,11 +225,15 @@ def colour_quality_scale(
     cmfs = reshape_msds(
         MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
         SPECTRAL_SHAPE_DEFAULT,
+        copy=False,
     )
 
     shape = cmfs.shape
-    sd_test = reshape_sd(sd_test, shape)
-    vs_sds = {sd.name: reshape_sd(sd, shape) for sd in SDS_VS[method].values()}
+    sd_test = reshape_sd(sd_test, shape, copy=False)
+    vs_sds = {
+        sd.name: reshape_sd(sd, shape, copy=False)
+        for sd in SDS_VS[method].values()
+    }
 
     with domain_range_scale("1"):
         XYZ = sd_to_XYZ(sd_test, cmfs)

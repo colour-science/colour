@@ -585,7 +585,9 @@ def plot_visible_spectrum_section(
     cmfs = cast(
         MultiSpectralDistributions,
         reshape_msds(
-            first_item(filter_cmfs(cmfs).values()), SpectralShape(360, 780, 1)
+            first_item(filter_cmfs(cmfs).values()),
+            SpectralShape(360, 780, 1),
+            copy=False,
         ),
     )
     illuminant = cast(

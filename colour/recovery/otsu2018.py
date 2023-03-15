@@ -1333,7 +1333,7 @@ class Tree_Otsu2018(Node_Otsu2018):
         self._illuminant: SpectralDistribution = illuminant
 
         self._reflectances: NDArrayFloat = np.transpose(
-            reshape_msds(reflectances, self._cmfs.shape).values
+            reshape_msds(reflectances, self._cmfs.shape, copy=False).values
         )
 
         self.data: Data_Otsu2018 = Data_Otsu2018(
