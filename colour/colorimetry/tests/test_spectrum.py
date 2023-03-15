@@ -1932,6 +1932,10 @@ class TestReshapeSd(unittest.TestCase):
         sd_reshaped = reshape_sd(sd, shape, method="Trim")
         self.assertEqual(sd_reshaped, sd.copy().trim(shape))
 
+        self.assertIs(
+            reshape_sd(sd, shape, method="Trim", copy=False), sd_reshaped
+        )
+
 
 class TestSdsAndMdsToSds(unittest.TestCase):
     """
