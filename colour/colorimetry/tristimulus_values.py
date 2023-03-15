@@ -179,9 +179,14 @@ SpectralShape(400.0, 700.0, 20.0), 'D65', SpectralShape(400.0, 700.0, 20.0))
 
     from colour import MSDS_CMFS, SDS_ILLUMINANTS
 
-    cmfs = optional(cmfs, reshape_msds(MSDS_CMFS[cmfs_default], shape_default))
+    cmfs = optional(
+        cmfs, reshape_msds(MSDS_CMFS[cmfs_default], shape_default, copy=False)
+    )
     illuminant = optional(
-        illuminant, reshape_sd(SDS_ILLUMINANTS[illuminant_default], cmfs.shape)
+        illuminant,
+        reshape_sd(
+            SDS_ILLUMINANTS[illuminant_default], cmfs.shape, copy=False
+        ),
     )
 
     if illuminant.shape != cmfs.shape:
@@ -190,7 +195,7 @@ SpectralShape(400.0, 700.0, 20.0), 'D65', SpectralShape(400.0, 700.0, 20.0))
             f"colour matching functions shape."
         )
 
-        illuminant = reshape_sd(illuminant, cmfs.shape)
+        illuminant = reshape_sd(illuminant, cmfs.shape, copy=False)
 
     return cmfs, illuminant
 
@@ -674,9 +679,9 @@ def sd_to_XYZ_integration(
             )
 
             sd = (
-                reshape_sd(sd, shape)
+                reshape_sd(sd, shape, copy=False)
                 if isinstance(sd, SpectralDistribution)
-                else reshape_msds(sd, shape)
+                else reshape_msds(sd, shape, copy=False)
             )
 
         R = np.transpose(sd.values)
@@ -705,13 +710,13 @@ def sd_to_XYZ_integration(
         if cmfs.shape != shape:
             runtime_warning(f'Aligning "{cmfs.name}" cmfs shape to "{shape}".')
             # pylint: disable=E1102
-            cmfs = reshape_msds(cmfs, shape)
+            cmfs = reshape_msds(cmfs, shape, copy=False)
 
     if illuminant.shape != shape:
         runtime_warning(
             f'Aligning "{illuminant.name}" illuminant shape to "{shape}".'
         )
-        illuminant = reshape_sd(illuminant, shape)
+        illuminant = reshape_sd(illuminant, shape, copy=False)
 
     XYZ_b = cmfs.values
     S = illuminant.values
@@ -842,6 +847,7 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
             cmfs,
             SpectralShape(cmfs.shape.start, cmfs.shape.end, 1),
             "Interpolate",
+            copy=False,
         )
 
     if illuminant.shape != cmfs.shape:
@@ -849,14 +855,14 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
             f'Aligning "{illuminant.name}" illuminant shape to "{cmfs.name}" '
             f"colour matching functions shape."
         )
-        illuminant = reshape_sd(illuminant, cmfs.shape)
+        illuminant = reshape_sd(illuminant, cmfs.shape, copy=False)
 
     if sd.shape.boundaries != cmfs.shape.boundaries:
         runtime_warning(
             f'Trimming "{illuminant.name}" spectral distribution shape to '
             f'"{cmfs.name}" colour matching functions shape.'
         )
-        sd = reshape_sd(sd, cmfs.shape, "Trim")
+        sd = reshape_sd(sd, cmfs.shape, "Trim", copy=False)
 
     W = tristimulus_weighting_factors_ASTME2022(
         cmfs,
@@ -1006,7 +1012,7 @@ def sd_to_XYZ_ASTME308(
 
     if use_practice_range:
         # pylint: disable=E1102
-        cmfs = reshape_msds(cmfs, SPECTRAL_SHAPE_ASTME308, "Trim")
+        cmfs = reshape_msds(cmfs, SPECTRAL_SHAPE_ASTME308, "Trim", copy=False)
 
     method = sd_to_XYZ_tristimulus_weighting_factors_ASTME308
     if sd.shape.interval == 1:
@@ -1018,6 +1024,7 @@ def sd_to_XYZ_ASTME308(
                 cmfs,
                 SpectralShape(cmfs.shape.start, cmfs.shape.end, 5),
                 "Interpolate",
+                copy=False,
             )
         method = sd_to_XYZ_integration
     elif sd.shape.interval == 20 and mi_20nm_interpolation_method:

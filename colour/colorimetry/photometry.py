@@ -82,6 +82,7 @@ def luminous_flux(
     lef = reshape_sd(
         lef,
         sd.shape,
+        copy=False,
         extrapolator_kwargs={"method": "Constant", "left": 0, "right": 0},
     )
 
@@ -129,6 +130,7 @@ def luminous_efficiency(
     lef = reshape_sd(
         lef,
         sd.shape,
+        copy=False,
         extrapolator_kwargs={"method": "Constant", "left": 0, "right": 0},
     )
 

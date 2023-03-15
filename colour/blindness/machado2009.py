@@ -115,6 +115,7 @@ def matrix_RGB_to_WSYBRG(
     primaries = reshape_msds(
         primaries,
         cmfs.shape,
+        copy=False,
         extrapolator_kwargs={"method": "Constant", "left": 0, "right": 0},
     )
 
@@ -308,6 +309,7 @@ def matrix_anomalous_trichromacy_Machado2009(
             cmfs,
             SpectralShape(cmfs.shape.start, cmfs.shape.end, 1),
             "Interpolate",
+            copy=False,
         )
 
     M_n = matrix_RGB_to_WSYBRG(cmfs, primaries)

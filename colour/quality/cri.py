@@ -140,11 +140,14 @@ def colour_rendering_index(
     cmfs = reshape_msds(
         MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
         SPECTRAL_SHAPE_DEFAULT,
+        copy=False,
     )
 
     shape = cmfs.shape
-    sd_test = reshape_sd(sd_test, shape)
-    tcs_sds = {sd.name: reshape_sd(sd, shape) for sd in SDS_TCS.values()}
+    sd_test = reshape_sd(sd_test, shape, copy=False)
+    tcs_sds = {
+        sd.name: reshape_sd(sd, shape, copy=False) for sd in SDS_TCS.values()
+    }
 
     with domain_range_scale("1"):
         XYZ = sd_to_XYZ(sd_test, cmfs)

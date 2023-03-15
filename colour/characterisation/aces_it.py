@@ -229,10 +229,10 @@ def sd_to_aces_relative_exposure_values(
 
     shape = MSDS_ACES_RICD.shape
     if sd.shape != MSDS_ACES_RICD.shape:
-        sd = reshape_sd(sd, shape)
+        sd = reshape_sd(sd, shape, copy=False)
 
     if illuminant.shape != MSDS_ACES_RICD.shape:
-        illuminant = reshape_sd(illuminant, shape)
+        illuminant = reshape_sd(illuminant, shape, copy=False)
 
     s_v = sd.values
     i_v = illuminant.values
@@ -453,7 +453,7 @@ def white_balance_multipliers(
         runtime_warning(
             f'Aligning "{illuminant.name}" illuminant shape to "{shape}".'
         )
-        illuminant = reshape_sd(illuminant, shape)
+        illuminant = reshape_sd(illuminant, shape, copy=False)
 
     RGB_w = 1 / np.sum(
         sensitivities.values * illuminant.values[..., None], axis=0
@@ -624,14 +624,14 @@ def training_data_sds_to_RGB(
         runtime_warning(
             f'Aligning "{illuminant.name}" illuminant shape to "{shape}".'
         )
-        illuminant = reshape_sd(illuminant, shape)
+        illuminant = reshape_sd(illuminant, shape, copy=False)
 
     if training_data.shape != shape:
         runtime_warning(
             f'Aligning "{training_data.name}" training data shape to "{shape}".'
         )
         # pylint: disable=E1102
-        training_data = reshape_msds(training_data, shape)
+        training_data = reshape_msds(training_data, shape, copy=False)
 
     RGB_w = white_balance_multipliers(sensitivities, illuminant)
 
@@ -716,14 +716,14 @@ def training_data_sds_to_XYZ(
         runtime_warning(
             f'Aligning "{illuminant.name}" illuminant shape to "{shape}".'
         )
-        illuminant = reshape_sd(illuminant, shape)
+        illuminant = reshape_sd(illuminant, shape, copy=False)
 
     if training_data.shape != shape:
         runtime_warning(
             f'Aligning "{training_data.name}" training data shape to "{shape}".'
         )
         # pylint: disable=E1102
-        training_data = reshape_msds(training_data, shape)
+        training_data = reshape_msds(training_data, shape, copy=False)
 
     XYZ = np.dot(
         np.transpose(illuminant.values[..., None] * training_data.values),
@@ -961,14 +961,14 @@ def matrix_idt(
             f'Aligning "{sensitivities.name}" sensitivities shape to "{shape}".'
         )
         # pylint: disable=E1102
-        sensitivities = reshape_msds(sensitivities, shape)
+        sensitivities = reshape_msds(sensitivities, shape, copy=False)
 
     if training_data.shape != shape:
         runtime_warning(
             f'Aligning "{training_data.name}" training data shape to "{shape}".'
         )
         # pylint: disable=E1102
-        training_data = reshape_msds(training_data, shape)
+        training_data = reshape_msds(training_data, shape, copy=False)
 
     illuminant = normalise_illuminant(illuminant, sensitivities)
 

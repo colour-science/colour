@@ -122,7 +122,9 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(
     x, y, z = xyz[..., 0], xyz[..., 1], xyz[..., 2]
 
     V = reshape_sd(
-        SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"], cmfs.shape
+        SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"],
+        cmfs.shape,
+        copy=False,
     )
     L = V[wavelength]
 
