@@ -2763,6 +2763,7 @@ def reshape_sd(
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     method: Literal["Align", "Extrapolate", "Interpolate", "Trim"]
     | str = "Align",
+    copy: bool = True,
     **kwargs: Any,
 ) -> TypeSpectralDistribution:
     """
@@ -2779,6 +2780,9 @@ def reshape_sd(
         Spectral shape to reshape the spectral distribution with.
     method
         Reshape method.
+    copy
+        Whether to return a copy of the cached spectral distribution. Default
+        is *True*.
 
     Other Parameters
     ----------------
@@ -2812,7 +2816,9 @@ def reshape_sd(
         hash(arg) for arg in (sd, shape, method, tuple(kwargs_items))
     )
     if hash_key in _CACHE_RESHAPED_SDS_AND_MSDS:
-        return _CACHE_RESHAPED_SDS_AND_MSDS[hash_key].copy()
+        reshaped_sd = _CACHE_RESHAPED_SDS_AND_MSDS[hash_key]
+
+        return reshaped_sd.copy() if copy else reshaped_sd
 
     function = getattr(sd, method)
 
@@ -2835,6 +2841,7 @@ def reshape_msds(
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     method: Literal["Align", "Extrapolate", "Interpolate", "Trim"]
     | str = "Align",
+    copy: bool = True,
     **kwargs: Any,
 ) -> TypeMultiSpectralDistributions:
     """
@@ -2851,6 +2858,9 @@ def reshape_msds(
         Spectral shape to reshape the multi-spectral distributions with.
     method
         Reshape method.
+    copy
+        Whether to return a copy of the cached multi-spectra distributions.
+        Default is *True*.
 
     Other Parameters
     ----------------
@@ -2871,7 +2881,7 @@ def reshape_msds(
     data!
     """
 
-    return reshape_sd(msds, shape, method, **kwargs)  # pyright: ignore
+    return reshape_sd(msds, shape, method, copy, **kwargs)  # pyright: ignore
 
 
 def sds_and_msds_to_sds(
