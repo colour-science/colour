@@ -80,7 +80,7 @@ class RGB_Colourspace:
     Colour science literature related to *RGB* colourspaces and encodings
     defines their dataset using different degree of precision or rounding.
     While instances where a whitepoint is being defined with a value
-    different than its canonical agreed one are rare, it is however very
+    different from its canonical agreed one are rare, it is however very
     common to have normalised primary matrices rounded at different
     decimals. This can yield large discrepancies in computations.
 
