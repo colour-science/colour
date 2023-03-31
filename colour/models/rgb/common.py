@@ -89,15 +89,12 @@ def XYZ_to_sRGB(
     array([ 0.7057393...,  0.1924826...,  0.2235416...])
     """
 
-    sRGB = RGB_COLOURSPACES["sRGB"]
-
     return XYZ_to_RGB(
         XYZ,
+        RGB_COLOURSPACES["sRGB"],
         illuminant,
-        sRGB.whitepoint,
-        sRGB.matrix_XYZ_to_RGB,
         chromatic_adaptation_transform,
-        sRGB.cctf_encoding if apply_cctf_encoding else None,
+        apply_cctf_encoding,
     )
 
 
@@ -166,13 +163,10 @@ def sRGB_to_XYZ(
     array([ 0.2065429...,  0.1219794...,  0.0513714...])
     """
 
-    sRGB = RGB_COLOURSPACES["sRGB"]
-
     return RGB_to_XYZ(
         RGB,
-        sRGB.whitepoint,
+        RGB_COLOURSPACES["sRGB"],
         illuminant,
-        sRGB.matrix_RGB_to_XYZ,
         chromatic_adaptation_transform,
-        sRGB.cctf_decoding if apply_cctf_decoding else None,
+        apply_cctf_decoding,
     )

@@ -67,12 +67,7 @@ message_box(
 D65 = colour.CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
 print(
     colour.XYZ_to_RGB(
-        XYZ,
-        D65,
-        colour.RGB_COLOURSPACES["sRGB"].whitepoint,
-        colour.RGB_COLOURSPACES["sRGB"].matrix_XYZ_to_RGB,
-        "Bradford",
-        colour.RGB_COLOURSPACES["sRGB"].cctf_encoding,
+        XYZ, colour.RGB_COLOURSPACES["sRGB"], D65, "Bradford", True
     )
 )
 
@@ -85,12 +80,7 @@ message_box(
 )
 print(
     colour.RGB_to_XYZ(
-        RGB,
-        colour.RGB_COLOURSPACES["sRGB"].whitepoint,
-        D65,
-        colour.RGB_COLOURSPACES["sRGB"].matrix_RGB_to_XYZ,
-        "Bradford",
-        colour.RGB_COLOURSPACES["sRGB"].cctf_decoding,
+        RGB, colour.RGB_COLOURSPACES["sRGB"], D65, "Bradford", True
     )
 )
 

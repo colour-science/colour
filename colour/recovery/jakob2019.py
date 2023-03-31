@@ -201,9 +201,10 @@ def error_function(
     illuminant: SpectralDistribution,
     max_error: float | None = None,
     additional_data: bool = False,
-) -> Tuple[float, NDArrayFloat] | Tuple[
-    float, NDArrayFloat, NDArrayFloat, NDArrayFloat, NDArrayFloat
-]:
+) -> (
+    Tuple[float, NDArrayFloat]
+    | Tuple[float, NDArrayFloat, NDArrayFloat, NDArrayFloat, NDArrayFloat]
+):
     """
     Compute :math:`\\Delta E_{76}` between the target colour and the colour
     defined by given spectral model, along with its gradient.
@@ -922,12 +923,7 @@ class LUT3D_Jakob2019:
 
             RGB = self._lightness_scale[L] * chroma
 
-            XYZ = RGB_to_XYZ(
-                RGB,
-                colourspace.whitepoint,
-                xy_n,
-                colourspace.matrix_RGB_to_XYZ,
-            )
+            XYZ = RGB_to_XYZ(RGB, colourspace, xy_n)
 
             coefficients, _error = find_coefficients_Jakob2019(
                 XYZ, cmfs, illuminant, coefficients_0, dimensionalise=False

@@ -323,12 +323,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
             full(3, 0.5),
             ones(3),
         ]:
-            XYZ = RGB_to_XYZ(
-                RGB,
-                self._RGB_colourspace.whitepoint,
-                self._xy_D65,
-                self._RGB_colourspace.matrix_RGB_to_XYZ,
-            )
+            XYZ = RGB_to_XYZ(RGB, self._RGB_colourspace, self._xy_D65)
             Lab = XYZ_to_Lab(XYZ, self._xy_D65)
 
             recovered_sd = LUT.RGB_to_sd(RGB)

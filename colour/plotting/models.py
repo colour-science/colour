@@ -1057,12 +1057,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
             1,
         )
 
-    XYZ = RGB_to_XYZ(
-        RGB,
-        colourspace.whitepoint,
-        colourspace.whitepoint,
-        colourspace.matrix_RGB_to_XYZ,
-    )
+    XYZ = RGB_to_XYZ(RGB, colourspace)
 
     if method == "cie 1931":
         ij = XYZ_to_xy(XYZ, colourspace.whitepoint)
@@ -2058,23 +2053,12 @@ def plot_constant_hue_loci(
         )
 
         if use_RGB_colours:
-
-            def _XYZ_to_RGB(XYZ: NDArrayFloat) -> NDArrayFloat:
-                """
-                Convert given *CIE XYZ* tristimulus values to
-                ``colour.plotting`` *RGB* colourspace.
-                """
-
-                return XYZ_to_RGB(
-                    XYZ,
-                    xy_r,  # noqa: B023
-                    colourspace.whitepoint,
-                    colourspace.matrix_XYZ_to_RGB,
-                    cctf_encoding=colourspace.cctf_encoding,
-                )
-
-            RGB_ct = _XYZ_to_RGB(XYZ_ct)
-            RGB_cr = _XYZ_to_RGB(XYZ_cr)
+            RGB_ct = XYZ_to_RGB(
+                XYZ_ct, colourspace, xy_r, apply_cctf_encoding=True
+            )
+            RGB_cr = XYZ_to_RGB(
+                XYZ_cr, colourspace, xy_r, apply_cctf_encoding=True
+            )
 
             scatter_settings["c"] = np.clip(RGB_ct, 0, 1)
 

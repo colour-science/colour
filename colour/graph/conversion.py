@@ -756,22 +756,12 @@ CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
     (
         "CIE XYZ",
         "RGB",
-        partial(
-            XYZ_to_RGB,
-            illuminant_XYZ=_RGB_COLOURSPACE_DEFAULT.whitepoint,
-            illuminant_RGB=_RGB_COLOURSPACE_DEFAULT.whitepoint,
-            matrix_XYZ_to_RGB=_RGB_COLOURSPACE_DEFAULT.matrix_XYZ_to_RGB,
-        ),
+        partial(XYZ_to_RGB, colourspace=_RGB_COLOURSPACE_DEFAULT),
     ),
     (
         "RGB",
         "CIE XYZ",
-        partial(
-            RGB_to_XYZ,
-            illuminant_RGB=_RGB_COLOURSPACE_DEFAULT.whitepoint,
-            illuminant_XYZ=_RGB_COLOURSPACE_DEFAULT.whitepoint,
-            matrix_RGB_to_XYZ=_RGB_COLOURSPACE_DEFAULT.matrix_RGB_to_XYZ,
-        ),
+        partial(RGB_to_XYZ, colourspace=_RGB_COLOURSPACE_DEFAULT),
     ),
     (
         "RGB",

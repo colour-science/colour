@@ -386,13 +386,10 @@ def XYZ_to_plotting_colourspace(
 
     return XYZ_to_RGB(
         XYZ,
+        CONSTANTS_COLOUR_STYLE.colour.colourspace,
         illuminant,
-        CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint,
-        CONSTANTS_COLOUR_STYLE.colour.colourspace.matrix_XYZ_to_RGB,
         chromatic_adaptation_transform,
-        CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding
-        if apply_cctf_encoding
-        else None,
+        apply_cctf_encoding,
     )
 
 

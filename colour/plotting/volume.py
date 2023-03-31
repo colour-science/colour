@@ -600,7 +600,6 @@ def plot_RGB_colourspaces_gamuts(
     RGB_cf: list = []
     RGB_ce: list = []
     for i, colourspace in enumerate(colourspaces):
-
         if chromatically_adapt and not np.array_equal(
             colourspace.whitepoint, plotting_colourspace.whitepoint
         ):
@@ -615,12 +614,7 @@ def plot_RGB_colourspaces_gamuts(
             depth_segments=segments,
         )
 
-        XYZ = RGB_to_XYZ(
-            quads_cb,
-            colourspace.whitepoint,
-            colourspace.whitepoint,
-            colourspace.matrix_RGB_to_XYZ,
-        )
+        XYZ = RGB_to_XYZ(quads_cb, colourspace)
 
         convert_settings = {"illuminant": colourspace.whitepoint}
         convert_settings.update(convert_kwargs)
@@ -836,12 +830,7 @@ def plot_RGB_scatter(
         **settings,
     )
 
-    XYZ = RGB_to_XYZ(
-        RGB,
-        colourspace.whitepoint,
-        colourspace.whitepoint,
-        colourspace.matrix_RGB_to_XYZ,
-    )
+    XYZ = RGB_to_XYZ(RGB, colourspace)
 
     convert_settings = {"illuminant": colourspace.whitepoint}
     convert_settings.update(convert_kwargs)

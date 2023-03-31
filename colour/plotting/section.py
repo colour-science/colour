@@ -754,12 +754,7 @@ def plot_RGB_colourspace_section(
     )
 
     vertices, faces, _outline = primitive_cube(1, 1, 1, 64, 64, 64)
-    XYZ_vertices = RGB_to_XYZ(
-        vertices["position"] + 0.5,
-        colourspace.whitepoint,
-        colourspace.whitepoint,
-        colourspace.matrix_RGB_to_XYZ,
-    )
+    XYZ_vertices = RGB_to_XYZ(vertices["position"] + 0.5, colourspace)
     hull = trimesh.Trimesh(XYZ_vertices, faces, process=False)
 
     if show_section_colours:
