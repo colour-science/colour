@@ -83,10 +83,10 @@ from colour.hints import (
 from colour.io import read_sds_from_csv_file
 from colour.models import XYZ_to_Jzazbz, XYZ_to_Lab, XYZ_to_xy, xy_to_XYZ
 from colour.models.rgb import (
+    RGB_Colourspace,
     RGB_COLOURSPACE_ACES2065_1,
     RGB_to_XYZ,
     XYZ_to_RGB,
-    normalised_primary_matrix,
 )
 from colour.temperature import CCT_to_xy_CIE_D
 from colour.utilities import (
@@ -259,23 +259,18 @@ def sd_to_aces_relative_exposure_values(
     E_rgb *= S_FLARE_FACTOR
 
     if chromatic_adaptation_transform is not None:
-        xy = XYZ_to_xy(sd_to_XYZ(illuminant) / 100)
-        NPM = normalised_primary_matrix(
-            RGB_COLOURSPACE_ACES2065_1.primaries, xy
-        )
         XYZ = RGB_to_XYZ(
             E_rgb,
-            xy,
+            RGB_Colourspace(
+                "~ACES2065-1",
+                RGB_COLOURSPACE_ACES2065_1.primaries,
+                XYZ_to_xy(sd_to_XYZ(illuminant) / 100),
+                illuminant.name,
+            ),
             RGB_COLOURSPACE_ACES2065_1.whitepoint,
-            NPM,
             chromatic_adaptation_transform,
         )
-        E_rgb = XYZ_to_RGB(
-            XYZ,
-            RGB_COLOURSPACE_ACES2065_1.whitepoint,
-            RGB_COLOURSPACE_ACES2065_1.whitepoint,
-            RGB_COLOURSPACE_ACES2065_1.matrix_XYZ_to_RGB,
-        )
+        E_rgb = XYZ_to_RGB(XYZ, RGB_COLOURSPACE_ACES2065_1)
 
     return from_range_1(E_rgb)
 
@@ -864,9 +859,10 @@ def matrix_idt(
     | str
     | None = "CAT02",
     additional_data: bool = False,
-) -> Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat, NDArrayFloat] | Tuple[
-    NDArrayFloat, NDArrayFloat
-]:
+) -> (
+    Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat, NDArrayFloat]
+    | Tuple[NDArrayFloat, NDArrayFloat]
+):
     """
     Compute an *Input Device Transform* (IDT) matrix for given camera *RGB*
     spectral sensitivities, illuminant, training data, standard observer colour

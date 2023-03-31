@@ -152,10 +152,9 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
     Lab = random_generator(DEFAULT_INT_DTYPE(samples), limits, random_state)
     RGB = XYZ_to_RGB(
         Lab_to_XYZ(Lab, illuminant_Lab),
+        colourspace,
         illuminant_Lab,
-        colourspace.whitepoint,
-        colourspace.matrix_XYZ_to_RGB,
-        chromatic_adaptation_transform=chromatic_adaptation_transform,
+        chromatic_adaptation_transform,
     )
     RGB_w = RGB[
         np.logical_and(np.min(RGB, axis=-1) >= 0, np.max(RGB, axis=-1) <= 1)
@@ -200,12 +199,7 @@ def RGB_colourspace_limits(colourspace: RGB_Colourspace) -> NDArrayFloat:
     for combination in list(itertools.product([0, 1], repeat=3)):
         Lab_c.append(
             XYZ_to_Lab(
-                RGB_to_XYZ(
-                    combination,
-                    colourspace.whitepoint,
-                    colourspace.whitepoint,
-                    colourspace.matrix_RGB_to_XYZ,
-                ),
+                RGB_to_XYZ(combination, colourspace),
                 colourspace.whitepoint,
             )
         )
@@ -372,12 +366,7 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
     )
     XYZ_vs = XYZ[coverage_sampler(XYZ)]
 
-    RGB = XYZ_to_RGB(
-        XYZ_vs,
-        colourspace.whitepoint,
-        colourspace.whitepoint,
-        colourspace.matrix_XYZ_to_RGB,
-    )
+    RGB = XYZ_to_RGB(XYZ_vs, colourspace)
 
     RGB_c = RGB[
         np.logical_and(np.min(RGB, axis=-1) >= 0, np.max(RGB, axis=-1) <= 1)

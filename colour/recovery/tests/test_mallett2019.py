@@ -82,12 +82,7 @@ class TestMixinMallett2019:
         for name, sd in SDS_COLOURCHECKERS["ColorChecker N Ohta"].items():
             XYZ = sd_to_XYZ(sd, self._cmfs, self._sd_D65) / 100
             Lab = XYZ_to_Lab(XYZ, self._xy_D65)
-            RGB = XYZ_to_RGB(
-                XYZ,
-                self._RGB_colourspace.whitepoint,
-                self._xy_D65,
-                self._RGB_colourspace.matrix_XYZ_to_RGB,
-            )
+            RGB = XYZ_to_RGB(XYZ, self._RGB_colourspace, self._xy_D65)
 
             recovered_sd = RGB_to_sd_Mallett2019(RGB, self._basis)
             recovered_XYZ = (

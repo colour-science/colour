@@ -54,6 +54,8 @@ from colour.utilities import (
     optional,
     to_domain_1,
     is_string,
+    usage_warning,
+    validate_method,
 )
 
 __author__ = "Colour Developers"
@@ -941,9 +943,8 @@ class RGB_Colourspace:
 
 def XYZ_to_RGB(
     XYZ: ArrayLike,
-    illuminant_XYZ: ArrayLike,
-    illuminant_RGB: ArrayLike,
-    matrix_XYZ_to_RGB: ArrayLike,
+    colourspace: RGB_Colourspace | str,
+    illuminant: ArrayLike | None = None,
     chromatic_adaptation_transform: Literal[
         "Bianco 2010",
         "Bianco PC 2010",
@@ -960,7 +961,9 @@ def XYZ_to_RGB(
     ]
     | str
     | None = "CAT02",
-    cctf_encoding: Callable | None = None,
+    apply_cctf_encoding: bool = False,
+    *args: Any,
+    **kwargs: Any,
 ) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *RGB* colourspace array.
@@ -969,21 +972,24 @@ def XYZ_to_RGB(
     ----------
     XYZ
         *CIE XYZ* tristimulus values.
-    illuminant_XYZ
+    colourspace
+        Output *RGB* colourspace.
+    illuminant
         *CIE xy* chromaticity coordinates or *CIE xyY* colourspace array of the
         *illuminant* for the input *CIE XYZ* tristimulus values.
-    illuminant_RGB
-        *CIE xy* chromaticity coordinates or *CIE xyY* colourspace array of the
-        *illuminant* for the output *RGB* colourspace array.
-    matrix_XYZ_to_RGB
-        Matrix converting the *CIE XYZ* tristimulus values to *RGB* colourspace
-        array, i.e. the inverse *Normalised Primary Matrix* (NPM).
     chromatic_adaptation_transform
         *Chromatic adaptation* transform, if *None* no chromatic adaptation is
         performed.
-    cctf_encoding
-        Encoding colour component transfer function (Encoding CCTF) or
-        opto-electronic transfer function (OETF).
+    apply_cctf_encoding
+        Apply the *RGB* colourspace encoding colour component transfer
+        function / opto-electronic transfer function.
+
+    Other Parameters
+    ----------------
+    args
+        Arguments for deprecation management.
+    kwargs
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -1010,41 +1016,73 @@ def XYZ_to_RGB(
 
     Examples
     --------
+    >>> from colour.models import RGB_COLOURSPACE_sRGB
     >>> XYZ = np.array([0.21638819, 0.12570000, 0.03847493])
-    >>> illuminant_XYZ = np.array([0.34570, 0.35850])
-    >>> illuminant_RGB = np.array([0.31270, 0.32900])
-    >>> chromatic_adaptation_transform = "Bradford"
-    >>> matrix_XYZ_to_RGB = np.array(
-    ...     [
-    ...         [3.24062548, -1.53720797, -0.49862860],
-    ...         [-0.96893071, 1.87575606, 0.04151752],
-    ...         [0.05571012, -0.20402105, 1.05699594],
-    ...     ]
-    ... )
-    >>> XYZ_to_RGB(
-    ...     XYZ,
-    ...     illuminant_XYZ,
-    ...     illuminant_RGB,
-    ...     matrix_XYZ_to_RGB,
-    ...     chromatic_adaptation_transform,
-    ... )  # doctest: +ELLIPSIS
-    array([ 0.4559557...,  0.0303970...,  0.0408724...])
+    >>> illuminant = np.array([0.34570, 0.35850])
+    >>> XYZ_to_RGB(XYZ, RGB_COLOURSPACE_sRGB, illuminant, "Bradford")
+    ... # doctest: +ELLIPSIS
+    array([ 0.4559528...,  0.0304078...,  0.0408731...])
+    >>> XYZ_to_RGB(XYZ, "sRGB", illuminant, "Bradford")
+    ... # doctest: +ELLIPSIS
+    array([ 0.4559528...,  0.0304078...,  0.0408731...])
     """
 
+    from colour.models import RGB_COLOURSPACES
+
     XYZ = to_domain_1(XYZ)
+
+    if not isinstance(colourspace, (RGB_Colourspace, str)):
+        usage_warning(
+            'The "colour.XYZ_to_RGB" definition signature has changed with '
+            '"Colour 0.4.3". The used call arguments are deprecated, '
+            "please refer to the documentation for more information about the "
+            "new signature."
+        )
+        illuminant_XYZ = kwargs.pop("illuminant_XYZ", colourspace)
+        illuminant_RGB = kwargs.pop("illuminant_RGB", illuminant)
+        matrix_XYZ_to_RGB = kwargs.pop(
+            "matrix_XYZ_to_RGB", chromatic_adaptation_transform
+        )
+        chromatic_adaptation_transform = kwargs.pop(
+            "chromatic_adaptation_transform",
+            (
+                apply_cctf_encoding
+                if not isinstance(apply_cctf_encoding, bool)
+                else "CAT02"
+            ),
+        )
+        cctf_encoding = kwargs.pop(
+            "cctf_encoding", args[0] if len(args) == 1 else None
+        )
+        apply_cctf_encoding = True
+    else:
+        if isinstance(colourspace, str):
+            colourspace = validate_method(
+                colourspace,
+                RGB_COLOURSPACES,
+                '"{0}" "RGB" colourspace is invalid, it must be one of {1}!',
+            )
+            colourspace = RGB_COLOURSPACES[colourspace]
+
+        illuminant_XYZ = optional(
+            illuminant, colourspace.whitepoint  # pyright: ignore
+        )
+        illuminant_RGB = colourspace.whitepoint  # pyright: ignore
+        matrix_XYZ_to_RGB = colourspace.matrix_XYZ_to_RGB  # pyright: ignore
+        cctf_encoding = colourspace.cctf_encoding  # pyright: ignore
 
     if chromatic_adaptation_transform is not None:
         M_CAT = matrix_chromatic_adaptation_VonKries(
             xyY_to_XYZ(xy_to_xyY(illuminant_XYZ)),
-            xyY_to_XYZ(xy_to_xyY(illuminant_RGB)),
+            xyY_to_XYZ(xy_to_xyY(illuminant_RGB)),  # pyright: ignore
             transform=chromatic_adaptation_transform,
         )
 
         XYZ = vector_dot(M_CAT, XYZ)
 
-    RGB = vector_dot(matrix_XYZ_to_RGB, XYZ)
+    RGB = vector_dot(matrix_XYZ_to_RGB, XYZ)  # pyright: ignore
 
-    if cctf_encoding is not None:
+    if apply_cctf_encoding and cctf_encoding is not None:
         with domain_range_scale("ignore"):
             RGB = cctf_encoding(RGB)
 
@@ -1053,9 +1091,8 @@ def XYZ_to_RGB(
 
 def RGB_to_XYZ(
     RGB: ArrayLike,
-    illuminant_RGB: ArrayLike,
-    illuminant_XYZ: ArrayLike,
-    matrix_RGB_to_XYZ: ArrayLike,
+    colourspace: RGB_Colourspace | str,
+    illuminant: ArrayLike | None = None,
     chromatic_adaptation_transform: Literal[
         "Bianco 2010",
         "Bianco PC 2010",
@@ -1072,7 +1109,9 @@ def RGB_to_XYZ(
     ]
     | str
     | None = "CAT02",
-    cctf_decoding: Callable | None = None,
+    apply_cctf_decoding: bool = False,
+    *args,
+    **kwargs,
 ) -> NDArrayFloat:
     """
     Convert given *RGB* colourspace array to *CIE XYZ* tristimulus values.
@@ -1081,21 +1120,24 @@ def RGB_to_XYZ(
     ----------
     RGB
         *RGB* colourspace array.
-    illuminant_RGB
-        *CIE xy* chromaticity coordinates or *CIE xyY* colourspace array of the
-        *illuminant* for the input *RGB* colourspace array.
-    illuminant_XYZ
+    colourspace
+        Input *RGB* colourspace.
+    illuminant
         *CIE xy* chromaticity coordinates or *CIE xyY* colourspace array of the
         *illuminant* for the output *CIE XYZ* tristimulus values.
-    matrix_RGB_to_XYZ
-        Matrix converting the *RGB* colourspace array to *CIE XYZ* tristimulus
-        values, i.e. the *Normalised Primary Matrix* (NPM).
     chromatic_adaptation_transform
         *Chromatic adaptation* transform, if *None* no chromatic adaptation is
         performed.
-    cctf_decoding
-        Decoding colour component transfer function (Decoding CCTF) or
-        electro-optical transfer function (EOTF).
+    apply_cctf_decoding
+        Apply the *RGB* colourspace decoding colour component transfer
+        function / opto-electronic transfer function.
+
+    Other Parameters
+    ----------------
+    args
+        Arguments for deprecation management.
+    kwargs
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -1122,39 +1164,71 @@ def RGB_to_XYZ(
 
     Examples
     --------
+    >>> from colour.models import RGB_COLOURSPACE_sRGB
     >>> RGB = np.array([0.45595571, 0.03039702, 0.04087245])
-    >>> illuminant_RGB = np.array([0.31270, 0.32900])
-    >>> illuminant_XYZ = np.array([0.34570, 0.35850])
-    >>> chromatic_adaptation_transform = "Bradford"
-    >>> matrix_RGB_to_XYZ = np.array(
-    ...     [
-    ...         [0.41240000, 0.35760000, 0.18050000],
-    ...         [0.21260000, 0.71520000, 0.07220000],
-    ...         [0.01930000, 0.11920000, 0.95050000],
-    ...     ]
-    ... )
-    >>> RGB_to_XYZ(
-    ...     RGB,
-    ...     illuminant_RGB,
-    ...     illuminant_XYZ,
-    ...     matrix_RGB_to_XYZ,
-    ...     chromatic_adaptation_transform,
-    ... )  # doctest: +ELLIPSIS
+    >>> illuminant = np.array([0.34570, 0.35850])
+    >>> RGB_to_XYZ(RGB, RGB_COLOURSPACE_sRGB, illuminant, "Bradford")
+    ... # doctest: +ELLIPSIS
+    array([ 0.2163881...,  0.1257    ,  0.0384749...])
+    >>> RGB_to_XYZ(RGB, "sRGB", illuminant, "Bradford")
+    ... # doctest: +ELLIPSIS
     array([ 0.2163881...,  0.1257    ,  0.0384749...])
     """
 
+    from colour.models import RGB_COLOURSPACES
+
     RGB = to_domain_1(RGB)
 
-    if cctf_decoding is not None:
+    if not isinstance(colourspace, (RGB_Colourspace, str)):
+        usage_warning(
+            'The "colour.RGB_to_XYZ" definition signature has changed with '
+            '"Colour 0.4.3". The used call arguments are deprecated, '
+            "please refer to the documentation for more information about the "
+            "new signature."
+        )
+        illuminant_RGB = kwargs.pop("illuminant_RGB", colourspace)
+        illuminant_XYZ = kwargs.pop("illuminant_XYZ", illuminant)
+        matrix_RGB_to_XYZ = kwargs.pop(
+            "matrix_RGB_to_XYZ", chromatic_adaptation_transform
+        )
+        chromatic_adaptation_transform = kwargs.pop(
+            "chromatic_adaptation_transform",
+            (
+                apply_cctf_decoding
+                if not isinstance(apply_cctf_decoding, bool)
+                else "CAT02"
+            ),
+        )
+        cctf_decoding = kwargs.pop(
+            "cctf_decoding", args[0] if len(args) == 1 else None
+        )
+        apply_cctf_decoding = True
+    else:
+        if isinstance(colourspace, str):
+            colourspace = validate_method(
+                colourspace,
+                RGB_COLOURSPACES,
+                '"{0}" "RGB" colourspace is invalid, it must be one of {1}!',
+            )
+            colourspace = RGB_COLOURSPACES[colourspace]
+
+        illuminant_XYZ = optional(
+            illuminant, colourspace.whitepoint  # pyright: ignore
+        )
+        illuminant_RGB = colourspace.whitepoint  # pyright: ignore
+        matrix_RGB_to_XYZ = colourspace.matrix_RGB_to_XYZ  # pyright: ignore
+        cctf_decoding = colourspace.cctf_decoding  # pyright: ignore
+
+    if apply_cctf_decoding and cctf_decoding is not None:
         with domain_range_scale("ignore"):
             RGB = cctf_decoding(RGB)
 
-    XYZ = vector_dot(matrix_RGB_to_XYZ, RGB)
+    XYZ = vector_dot(matrix_RGB_to_XYZ, RGB)  # pyright: ignore
 
     if chromatic_adaptation_transform is not None:
         M_CAT = matrix_chromatic_adaptation_VonKries(
             xyY_to_XYZ(xy_to_xyY(illuminant_RGB)),
-            xyY_to_XYZ(xy_to_xyY(illuminant_XYZ)),
+            xyY_to_XYZ(xy_to_xyY(illuminant_XYZ)),  # pyright: ignore
             transform=chromatic_adaptation_transform,
         )
 
@@ -1272,11 +1346,11 @@ def RGB_to_RGB(
         *Chromatic adaptation* transform, if *None* no chromatic adaptation is
         performed.
     apply_cctf_decoding
-        Apply input colourspace decoding colour component transfer function /
-        electro-optical transfer function.
+        Apply the input colourspace decoding colour component transfer function
+        / electro-optical transfer function.
     apply_cctf_encoding
-        Apply output colourspace encoding colour component transfer function /
-        opto-electronic transfer function.
+        Apply the output colourspace encoding colour component transfer
+        function / opto-electronic transfer function.
 
     Other Parameters
     ----------------

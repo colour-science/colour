@@ -519,13 +519,10 @@ def XYZ_to_ICtCp(
     array([ 0.5924279..., -0.0374073...,  0.2512267...])
     """
 
-    BT2020 = RGB_COLOURSPACES["ITU-R BT.2020"]
-
     RGB = XYZ_to_RGB(
         XYZ,
+        RGB_COLOURSPACES["ITU-R BT.2020"],
         illuminant,
-        BT2020.whitepoint,
-        BT2020.matrix_XYZ_to_RGB,
         chromatic_adaptation_transform,
     )
 
@@ -655,13 +652,10 @@ def ICtCp_to_XYZ(
 
     RGB = ICtCp_to_RGB(ICtCp, method, L_p)
 
-    BT2020 = RGB_COLOURSPACES["ITU-R BT.2020"]
-
     XYZ = RGB_to_XYZ(
         RGB,
-        BT2020.whitepoint,
+        RGB_COLOURSPACES["ITU-R BT.2020"],
         illuminant,
-        BT2020.matrix_RGB_to_XYZ,
         chromatic_adaptation_transform,
     )
 

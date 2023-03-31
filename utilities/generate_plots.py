@@ -874,12 +874,7 @@ def generate_documentation_plots(output_directory: str):
         output_directory, "Plotting_Plot_Hull_Section_Colours.png"
     )
     vertices, faces, _outline = primitive_cube(1, 1, 1, 64, 64, 64)
-    XYZ_vertices = RGB_to_XYZ(
-        vertices["position"] + 0.5,
-        RGB_COLOURSPACE_sRGB.whitepoint,
-        RGB_COLOURSPACE_sRGB.whitepoint,
-        RGB_COLOURSPACE_sRGB.matrix_RGB_to_XYZ,
-    )
+    XYZ_vertices = RGB_to_XYZ(vertices["position"] + 0.5, RGB_COLOURSPACE_sRGB)
     hull = trimesh.Trimesh(XYZ_vertices, faces, process=False)
     plt.close(
         plot_hull_section_colours(hull, section_colours="RGB", **arguments)[0]
