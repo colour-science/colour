@@ -35,6 +35,8 @@ jobs:
         sudo apt-get update
         sudo apt-get --yes install graphviz graphviz-dev libboost-all-dev libilmbase-dev libopenexr-dev libpng-dev libtiff5-dev
     - name: Install Poetry
+      env:
+        POETRY_VERSION: 1.4.0
       run: |
         curl -sSL https://install.python-poetry.org | POETRY_HOME=$HOME/.poetry python3 -
         echo "$HOME/.poetry/bin" >> $GITHUB_PATH
