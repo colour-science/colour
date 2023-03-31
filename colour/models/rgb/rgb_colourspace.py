@@ -1238,8 +1238,8 @@ def RGB_to_XYZ(
 
 
 def matrix_RGB_to_RGB(
-    input_colourspace: RGB_Colourspace,
-    output_colourspace: RGB_Colourspace,
+    input_colourspace: RGB_Colourspace | str,
+    output_colourspace: RGB_Colourspace | str,
     chromatic_adaptation_transform: Literal[
         "Bianco 2010",
         "Bianco PC 2010",
@@ -1288,7 +1288,34 @@ def matrix_RGB_to_RGB(
     array([[ 0.5288241...,  0.3340609...,  0.1373616...],
            [ 0.0975294...,  0.8790074...,  0.0233981...],
            [ 0.0163599...,  0.1066124...,  0.8772485...]])
+    >>> matrix_RGB_to_RGB("sRGB", "ProPhoto RGB")
+    ... # doctest: +ELLIPSIS
+    array([[ 0.5288241...,  0.3340609...,  0.1373616...],
+           [ 0.0975294...,  0.8790074...,  0.0233981...],
+           [ 0.0163599...,  0.1066124...,  0.8772485...]])
     """
+
+    from colour.models import RGB_COLOURSPACES
+
+    if isinstance(input_colourspace, str):
+        input_colourspace = validate_method(
+            input_colourspace,
+            RGB_COLOURSPACES,
+            '"{0}" "RGB" colourspace is invalid, it must be one of {1}!',
+        )
+        input_colourspace = cast(
+            RGB_Colourspace, RGB_COLOURSPACES[input_colourspace]
+        )
+
+    if isinstance(output_colourspace, str):
+        output_colourspace = validate_method(
+            output_colourspace,
+            RGB_COLOURSPACES,
+            '"{0}" "RGB" colourspace is invalid, it must be one of {1}!',
+        )
+        output_colourspace = cast(
+            RGB_Colourspace, RGB_COLOURSPACES[output_colourspace]
+        )
 
     M = input_colourspace.matrix_RGB_to_XYZ
 
@@ -1308,8 +1335,8 @@ def matrix_RGB_to_RGB(
 
 def RGB_to_RGB(
     RGB: ArrayLike,
-    input_colourspace: RGB_Colourspace,
-    output_colourspace: RGB_Colourspace,
+    input_colourspace: RGB_Colourspace | str,
+    output_colourspace: RGB_Colourspace | str,
     chromatic_adaptation_transform: Literal[
         "Bianco 2010",
         "Bianco PC 2010",
@@ -1386,7 +1413,32 @@ def RGB_to_RGB(
     >>> RGB_to_RGB(RGB, RGB_COLOURSPACE_sRGB, RGB_COLOURSPACE_PROPHOTO_RGB)
     ... # doctest: +ELLIPSIS
     array([ 0.2568891...,  0.0721446...,  0.0465553...])
+    >>> RGB_to_RGB(RGB, "sRGB", "ProPhoto RGB")
+    ... # doctest: +ELLIPSIS
+    array([ 0.2568891...,  0.0721446...,  0.0465553...])
     """
+
+    from colour.models import RGB_COLOURSPACES
+
+    if isinstance(input_colourspace, str):
+        input_colourspace = validate_method(
+            input_colourspace,
+            RGB_COLOURSPACES,
+            '"{0}" "RGB" colourspace is invalid, it must be one of {1}!',
+        )
+        input_colourspace = cast(
+            RGB_Colourspace, RGB_COLOURSPACES[input_colourspace]
+        )
+
+    if isinstance(output_colourspace, str):
+        output_colourspace = validate_method(
+            output_colourspace,
+            RGB_COLOURSPACES,
+            '"{0}" "RGB" colourspace is invalid, it must be one of {1}!',
+        )
+        output_colourspace = cast(
+            RGB_Colourspace, RGB_COLOURSPACES[output_colourspace]
+        )
 
     RGB = to_domain_1(RGB)
 
