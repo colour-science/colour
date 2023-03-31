@@ -761,6 +761,12 @@ class TestMatrix_RGB_to_RGB(unittest.TestCase):
             decimal=7,
         )
 
+        np.testing.assert_array_almost_equal(
+            matrix_RGB_to_RGB(aces_2065_1_colourspace, sRGB_colourspace),
+            matrix_RGB_to_RGB("ACES2065-1", "sRGB"),
+            decimal=7,
+        )
+
 
 class TestRGB_to_RGB(unittest.TestCase):
     """
@@ -852,6 +858,20 @@ class TestRGB_to_RGB(unittest.TestCase):
                 out_int=True,
             ),
             np.array([120, 59, 46]),
+        )
+
+        np.testing.assert_array_almost_equal(
+            RGB_to_RGB(
+                np.array([0.21931722, 0.06950287, 0.04694832]),
+                aces_2065_1_colourspace,
+                sRGB_colourspace,
+            ),
+            RGB_to_RGB(
+                np.array([0.21931722, 0.06950287, 0.04694832]),
+                "ACES2065-1",
+                "sRGB",
+            ),
+            decimal=7,
         )
 
     def test_n_dimensional_RGB_to_RGB(self):
