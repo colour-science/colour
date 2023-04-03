@@ -116,8 +116,8 @@ def matrix_chromatic_adaptation_VonKries(
 
     M = CHROMATIC_ADAPTATION_TRANSFORMS[transform]
 
-    RGB_w = np.einsum("...i,...ij->...j", XYZ_w, np.transpose(M))
-    RGB_wr = np.einsum("...i,...ij->...j", XYZ_wr, np.transpose(M))
+    RGB_w = vector_dot(M, XYZ_w)
+    RGB_wr = vector_dot(M, XYZ_wr)
 
     with sdiv_mode():
         D = sdiv(RGB_wr, RGB_w)
