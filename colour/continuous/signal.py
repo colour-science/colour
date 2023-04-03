@@ -556,9 +556,9 @@ class Signal(AbstractContinuousFunction):
                     """
 
                     raise ValueError(
-                        "Underlying signal interpolator function does not exists, "
-                        "please ensure you defined both "
-                        '"domain" and "range" variables!'
+                        "Underlying signal interpolator function does not "
+                        'exists, please ensure that both "domain" and "range" '
+                        "variables are defined!"
                     )
 
                 self._function = cast(Callable, _undefined_function)
