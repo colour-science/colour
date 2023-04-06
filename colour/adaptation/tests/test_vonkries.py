@@ -153,7 +153,7 @@ matrix_chromatic_adaptation_VonKries` definition n-dimensional arrays support.
             matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr), M, decimal=7
         )
 
-    def test_domain_range_scale_chromatic_adaptation_VonKries(self):
+    def test_domain_range_scale_matrix_chromatic_adaptation_VonKries(self):
         """
         Test :func:`colour.adaptation.vonkries.\
 matrix_chromatic_adaptation_VonKries` definition domain and range scale
