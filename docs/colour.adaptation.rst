@@ -36,6 +36,20 @@ Fairchild (1990)
 
     chromatic_adaptation_Fairchild1990
 
+Fairchild (2020)
+----------------
+
+``colour.adaptation``
+
+.. currentmodule:: colour.adaptation
+
+.. autosummary::
+    :toctree: generated/
+
+    CONDITIONS_DEGREE_OF_ADAPTATION_VK20
+    matrix_chromatic_adaptation_vk20
+    chromatic_adaptation_vK20
+
 CIE 1994
 --------
 
