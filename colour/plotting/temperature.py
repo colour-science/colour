@@ -117,10 +117,7 @@ def plot_daylight_locus(
 
     Examples
     --------
-    >>> plot_daylight_locus(
-    ...     daylight_locus_colours="RGB",
-    ...     method="CIE 1960 UCS",
-    ... )
+    >>> plot_daylight_locus(daylight_locus_colours="RGB")
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...Axes...>)
 
@@ -261,10 +258,7 @@ def plot_planckian_locus(
 
     Examples
     --------
-    >>> plot_planckian_locus(
-    ...     planckian_locus_colours="RGB",
-    ...     method="CIE 1960 UCS",
-    ... )
+    >>> plot_planckian_locus(planckian_locus_colours="RGB")
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...Axes...>)
 
