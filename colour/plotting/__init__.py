@@ -98,6 +98,7 @@ from .section import (  # noqa: E402
 from .temperature import (  # noqa: E402
     plot_planckian_locus_in_chromaticity_diagram_CIE1931,
     plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS,
+    plot_planckian_locus_in_chromaticity_diagram_CIE1976UCS,
 )
 from .tm3018 import plot_single_sd_colour_rendition_report  # noqa: E402
 from .volume import (  # noqa: E402
@@ -205,6 +206,7 @@ __all__ += [
 __all__ += [
     "plot_planckian_locus_in_chromaticity_diagram_CIE1931",
     "plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS",
+    "plot_planckian_locus_in_chromaticity_diagram_CIE1976UCS",
 ]
 __all__ += [
     "plot_single_sd_colour_rendition_report",

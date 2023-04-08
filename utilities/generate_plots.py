@@ -68,6 +68,7 @@ from colour.plotting import (  # noqa: E402
     plot_multi_sds,
     plot_planckian_locus_in_chromaticity_diagram_CIE1931,
     plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS,
+    plot_planckian_locus_in_chromaticity_diagram_CIE1976UCS,
     plot_pointer_gamut,
     plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931,
     plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS,
@@ -993,6 +994,16 @@ def generate_documentation_plots(output_directory: str):
     )
     plt.close(
         plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
+            ["A", "B", "C"], **arguments
+        )[0]
+    )
+
+    arguments["filename"] = os.path.join(
+        output_directory,
+        "Plotting_Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1976UCS.png",
+    )
+    plt.close(
+        plot_planckian_locus_in_chromaticity_diagram_CIE1976UCS(
             ["A", "B", "C"], **arguments
         )[0]
     )
