@@ -134,3 +134,19 @@ Hexadecimal Representation
 
     RGB_to_HEX
     HEX_to_RGB
+
+Web Colours
+-----------
+
+``colour.notation``
+
+.. currentmodule:: colour.notation
+
+.. autosummary::
+    :toctree: generated/
+
+    CSS_COLOR_3_BASIC
+    CSS_COLOR_3_EXTENDED
+    CSS_COLOR_3
+    keyword_to_RGB_CSSColor3
+

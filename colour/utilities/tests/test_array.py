@@ -702,6 +702,9 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
             if source == "Hexadecimal":
                 a = np.array(["#FFFFFF", "#FFFFFF"])
 
+            if source == "CSS Color 3":
+                a = "aliceblue"
+
             if source == "Munsell Colour":
                 a = ["4.2YR 8.1/5.3", "4.2YR 8.1/5.3"]
 

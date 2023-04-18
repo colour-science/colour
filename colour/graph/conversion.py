@@ -150,6 +150,7 @@ from colour.models import (
 from colour.notation import (
     HEX_to_RGB,
     RGB_to_HEX,
+    keyword_to_RGB_CSSColor3,
     munsell_value,
     munsell_colour_to_xyY,
     xyY_to_munsell_colour,
@@ -820,6 +821,7 @@ CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
     # Colour Notation Systems
     ("Output-Referred RGB", "Hexadecimal", RGB_to_HEX),
     ("Hexadecimal", "Output-Referred RGB", HEX_to_RGB),
+    ("CSS Color 3", "Output-Referred RGB", keyword_to_RGB_CSSColor3),
     ("CIE xyY", "Munsell Colour", xyY_to_munsell_colour),
     ("Munsell Colour", "CIE xyY", munsell_colour_to_xyY),
     ("Luminance", "Munsell Value", munsell_value),

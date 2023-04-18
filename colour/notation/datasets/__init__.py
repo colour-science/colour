@@ -1,3 +1,4 @@
+from .css_color_3 import CSS_COLOR_3_BASIC, CSS_COLOR_3_EXTENDED, CSS_COLOR_3
 from .munsell import (
     MUNSELL_COLOURS_ALL,
     MUNSELL_COLOURS_1929,
@@ -6,6 +7,11 @@ from .munsell import (
 )
 
 __all__ = [
+    "CSS_COLOR_3_BASIC",
+    "CSS_COLOR_3_EXTENDED",
+    "CSS_COLOR_3",
+]
+__all__ += [
     "MUNSELL_COLOURS_ALL",
     "MUNSELL_COLOURS_1929",
     "MUNSELL_COLOURS_REAL",
