@@ -19,6 +19,7 @@ from colour.characterisation import (
     normalise_illuminant,
     training_data_sds_to_RGB,
     training_data_sds_to_XYZ,
+    whitepoint_preserving_matrix,
     optimisation_factory_rawtoaces_v1,
     optimisation_factory_Jzazbz,
     matrix_idt,
@@ -57,6 +58,7 @@ __all__ = [
     "TestNormaliseIlluminant",
     "TestTrainingDataSdsToRGB",
     "TestTrainingDataSdsToXYZ",
+    "TestWhitepointPreservingMatrix",
     "TestOptimizationFactoryRawtoacesV1",
     "TestOptimizationFactoryJzazbz",
     "TestMatrixIdt",
@@ -895,6 +897,36 @@ class TestTrainingDataSdsToXYZ(unittest.TestCase):
         )
 
 
+class TestWhitepointPreservingMatrix(unittest.TestCase):
+    """
+    Define :func:`colour.characterisation.aces_it.whitepoint_preserving_matrix`
+    definition unit tests methods.
+    """
+
+    def test_whitepoint_preserving_matrix(self):
+        """
+        Test :func:`colour.characterisation.aces_it.\
+whitepoint_preserving_matrix` definition.
+        """
+
+        np.testing.assert_array_equal(
+            whitepoint_preserving_matrix(np.arange(9).reshape([3, 3])),
+            np.array([[0, 1, 0], [3, 4, -6], [6, 7, -12]]),
+        )
+
+        np.testing.assert_array_equal(
+            whitepoint_preserving_matrix(np.arange(12).reshape([3, 4])),
+            np.array([[0, 1, 2, -2], [4, 5, 6, -14], [8, 9, 10, -26]]),
+        )
+
+        np.testing.assert_array_equal(
+            whitepoint_preserving_matrix(
+                np.arange(9).reshape([3, 3]), np.array([1, 2, 3])
+            ),
+            np.array([[0, 1, 0], [3, 4, -5], [6, 7, -10]]),
+        )
+
+
 class TestOptimizationFactoryRawtoacesV1(unittest.TestCase):
     """
     Define :func:`colour.characterisation.aces_it.\
@@ -927,14 +959,13 @@ optimisation_factory_Jzazbz` definition.
 
 class TestMatrixIdt(unittest.TestCase):
     """
-    Define :func:`colour.characterisation.aces_it.matrix_idt`
-    definition unit tests methods.
+    Define :func:`colour.characterisation.aces_it.matrix_idt` definition unit
+    tests methods.
     """
 
     def test_matrix_idt(self):
         """
-        Test :func:`colour.characterisation.aces_it.matrix_idt`
-        definition.
+        Test :func:`colour.characterisation.aces_it.matrix_idt` definition.
         """
 
         # The *RAW to ACES* v1 matrix for the same camera and optimized by
@@ -947,9 +978,9 @@ class TestMatrixIdt(unittest.TestCase):
             matrix_idt(MSDS_CANON_EOS_5DMARK_II, SDS_ILLUMINANTS["D55"])[0],
             np.array(
                 [
-                    [0.84993207, -0.01605594, 0.15143504],
-                    [0.05090392, 1.12559930, -0.18498249],
-                    [0.02006825, -0.19445149, 1.16206549],
+                    [0.84993176, -0.01605547, 0.16612371],
+                    [0.05090372, 1.12559957, -0.17650329],
+                    [0.02006808, -0.19445118, 1.17438310],
                 ]
             ),
             rtol=0.0001,
@@ -968,9 +999,9 @@ class TestMatrixIdt(unittest.TestCase):
             )[0],
             np.array(
                 [
-                    [0.85895300, -0.04381920, 0.15978620],
-                    [0.01024800, 1.08825364, -0.11392229],
-                    [-0.02327674, -0.18044292, 1.15903609],
+                    [0.85895280, -0.04381891, 0.18486611],
+                    [0.01024789, 1.08825376, -0.09850165],
+                    [-0.02327680, -0.18044278, 1.20371958],
                 ]
             ),
             rtol=0.0001,
@@ -986,9 +1017,9 @@ class TestMatrixIdt(unittest.TestCase):
             M,
             np.array(
                 [
-                    [0.84841492, -0.01569765, 0.15799332],
-                    [0.05333075, 1.11428542, -0.17523500],
-                    [0.02262287, -0.22527728, 1.19646895],
+                    [0.84841343, -0.01569484, 0.16728141],
+                    [0.05332939, 1.11428808, -0.16761748],
+                    [0.02262148, -0.22527442, 1.20265294],
                 ]
             ),
             rtol=0.0001,
@@ -1010,9 +1041,9 @@ class TestMatrixIdt(unittest.TestCase):
             M,
             np.array(
                 [
-                    [0.71327381, 0.19213397, 0.11115511],
-                    [-0.05788252, 1.31165598, -0.21730625],
-                    [-0.05913103, -0.02787107, 1.10737947],
+                    [0.71327381, 0.19213397, 0.09459221],
+                    [-0.05788252, 1.31165598, -0.25377346],
+                    [-0.05913103, -0.02787107, 1.08700210],
                 ]
             ),
             rtol=0.0001,
@@ -1041,9 +1072,9 @@ class TestMatrixIdt(unittest.TestCase):
             )[0],
             np.array(
                 [
-                    [0.74041064, 0.10951105, 0.11963256],
-                    [-0.00467360, 1.09238438, -0.11398966],
-                    [0.06728533, -0.29530438, 1.18589793],
+                    [0.74041099, 0.10951033, 0.15007869],
+                    [-0.00467327, 1.09238362, -0.08771035],
+                    [0.06728548, -0.29530472, 1.22801923],
                 ]
             ),
             rtol=0.0001,
@@ -1058,9 +1089,9 @@ class TestMatrixIdt(unittest.TestCase):
             )[0],
             np.array(
                 [
-                    [0.85020607, -0.01371074, 0.14907913],
-                    [0.05074081, 1.12898863, -0.18800656],
-                    [0.02095822, -0.20110079, 1.16769711],
+                    [0.85020607, -0.01371073, 0.16350466],
+                    [0.05074080, 1.12898863, -0.17972943],
+                    [0.02095822, -0.20110079, 1.18014256],
                 ]
             ),
             rtol=0.0001,
@@ -1106,30 +1137,30 @@ class TestMatrixIdt(unittest.TestCase):
 
 class TestCamera_RGB_to_ACES2065_1(unittest.TestCase):
     """
-    Define :func:`colour.characterisation.aces_it.\
-camera_RGB_to_ACES2065_1` definition unit tests methods.
+    Define :func:`colour.characterisation.aces_it.camera_RGB_to_ACES2065_1`
+    definition unit tests methods.
     """
 
     def test_camera_RGB_to_ACES2065_1(self):
         """
-        Test :func:`colour.characterisation.aces_it.\
-camera_RGB_to_ACES2065_1` definition.
+        Test :func:`colour.characterisation.aces_it.camera_RGB_to_ACES2065_1`
+        definition.
         """
 
         B, b = matrix_idt(MSDS_CANON_EOS_5DMARK_II, SDS_ILLUMINANTS["D55"])
         np.testing.assert_array_almost_equal(
             camera_RGB_to_ACES2065_1(np.array([0.1, 0.2, 0.3]), B, b),
-            np.array([0.26468115, 0.15288980, 0.49443355]),
+            np.array([0.27136313, 0.15674702, 0.50003691]),
         )
 
         np.testing.assert_array_almost_equal(
             camera_RGB_to_ACES2065_1(np.array([1.5, 1.5, 1.5]), B, b),
-            np.array([3.30542136, 1.44643555, 2.42192985]),
+            np.array([3.33883121, 1.46572163, 2.44994665]),
         )
 
         np.testing.assert_array_almost_equal(
             camera_RGB_to_ACES2065_1(np.array([1.0, 1.0, 1.0]), B, b, True),
-            np.array([2.20361424, 0.96429036, 1.61461990]),
+            np.array([2.22588747, 0.97714775, 1.63329776]),
         )
 
 
