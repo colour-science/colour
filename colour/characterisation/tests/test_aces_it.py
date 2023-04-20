@@ -959,14 +959,13 @@ optimisation_factory_Jzazbz` definition.
 
 class TestMatrixIdt(unittest.TestCase):
     """
-    Define :func:`colour.characterisation.aces_it.matrix_idt`
-    definition unit tests methods.
+    Define :func:`colour.characterisation.aces_it.matrix_idt` definition unit
+    tests methods.
     """
 
     def test_matrix_idt(self):
         """
-        Test :func:`colour.characterisation.aces_it.matrix_idt`
-        definition.
+        Test :func:`colour.characterisation.aces_it.matrix_idt` definition.
         """
 
         # The *RAW to ACES* v1 matrix for the same camera and optimized by
@@ -1138,14 +1137,14 @@ class TestMatrixIdt(unittest.TestCase):
 
 class TestCamera_RGB_to_ACES2065_1(unittest.TestCase):
     """
-    Define :func:`colour.characterisation.aces_it.\
-camera_RGB_to_ACES2065_1` definition unit tests methods.
+    Define :func:`colour.characterisation.aces_it.camera_RGB_to_ACES2065_1`
+    definition unit tests methods.
     """
 
     def test_camera_RGB_to_ACES2065_1(self):
         """
-        Test :func:`colour.characterisation.aces_it.\
-camera_RGB_to_ACES2065_1` definition.
+        Test :func:`colour.characterisation.aces_it.camera_RGB_to_ACES2065_1`
+        definition.
         """
 
         B, b = matrix_idt(MSDS_CANON_EOS_5DMARK_II, SDS_ILLUMINANTS["D55"])
