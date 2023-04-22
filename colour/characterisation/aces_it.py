@@ -781,7 +781,9 @@ def whitepoint_preserving_matrix(
     return M
 
 
-def optimisation_factory_rawtoaces_v1() -> Tuple[Callable, Callable]:
+def optimisation_factory_rawtoaces_v1(
+    whitepoint_preservation: bool = True,
+) -> Tuple[Callable, Callable]:
     """
     Produce the objective function and *CIE XYZ* colourspace to optimisation
     colourspace/colour model function according to *RAW to ACES* v1.
@@ -789,6 +791,12 @@ def optimisation_factory_rawtoaces_v1() -> Tuple[Callable, Callable]:
     The objective function returns the euclidean distance between the training
     data *RGB* tristimulus values and the training data *CIE XYZ* tristimulus
     values** in *CIE L\\*a\\*b\\** colourspace.
+
+    Parameters
+    ----------
+    whitepoint_preservation
+        Whether to use whitepoint preservation, i.e. optimisation uses 6 terms
+        instead of 9 and rows summation is constrained to 1.
 
     Returns
     -------
@@ -810,8 +818,12 @@ def optimisation_factory_rawtoaces_v1() -> Tuple[Callable, Callable]:
     ) -> NDArrayFloat:
         """Objective function according to *RAW to ACES* v1."""
 
-        M = whitepoint_preserving_matrix(
-            np.hstack([np.reshape(M, (3, 2)), zeros((3, 1))])
+        M = (
+            whitepoint_preserving_matrix(
+                np.hstack([np.reshape(M, (3, 2)), zeros((3, 1))])
+            )
+            if whitepoint_preservation
+            else np.reshape(M, (3, 3))
         )
 
         XYZ_t = vector_dot(
@@ -829,7 +841,9 @@ def optimisation_factory_rawtoaces_v1() -> Tuple[Callable, Callable]:
     return objective_function, XYZ_to_optimization_colour_model
 
 
-def optimisation_factory_Jzazbz() -> Tuple[Callable, Callable]:
+def optimisation_factory_Jzazbz(
+    whitepoint_preservation: bool = True,
+) -> Tuple[Callable, Callable]:
     """
     Produce the objective function and *CIE XYZ* colourspace to optimisation
     colourspace/colour model function based on the :math:`J_za_zb_z`
@@ -838,6 +852,12 @@ def optimisation_factory_Jzazbz() -> Tuple[Callable, Callable]:
     The objective function returns the euclidean distance between the training
     data *RGB* tristimulus values and the training data *CIE XYZ* tristimulus
     values** in the :math:`J_za_zb_z` colourspace.
+
+    Parameters
+    ----------
+    whitepoint_preservation
+        Whether to use whitepoint preservation, i.e. optimisation uses 6 terms
+        instead of 9 and rows summation is constrained to 1.
 
     Returns
     -------
@@ -859,8 +879,12 @@ def optimisation_factory_Jzazbz() -> Tuple[Callable, Callable]:
     ) -> NDArrayFloat:
         """:math:`J_za_zb_z` colourspace based objective function."""
 
-        M = whitepoint_preserving_matrix(
-            np.hstack([np.reshape(M, (3, 2)), zeros((3, 1))])
+        M = (
+            whitepoint_preserving_matrix(
+                np.hstack([np.reshape(M, (3, 2)), zeros((3, 1))])
+            )
+            if whitepoint_preservation
+            else np.reshape(M, (3, 3))
         )
 
         XYZ_t = vector_dot(
@@ -901,6 +925,7 @@ def matrix_idt(
     ]
     | str
     | None = "CAT02",
+    whitepoint_preservation: bool = True,
     additional_data: bool = False,
 ) -> (
     Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat, NDArrayFloat]
@@ -932,15 +957,17 @@ def matrix_idt(
     chromatic_adaptation_transform
         *Chromatic adaptation* transform, if *None* no chromatic adaptation is
         performed.
+    whitepoint_preservation
+        Whether to use whitepoint preservation, i.e. optimisation uses 6 terms
+        instead of 9 and rows summation is constrained to 1.
     additional_data
         If *True*, the *XYZ* and *RGB* tristimulus values are also returned.
 
     Returns
     -------
     :class:`tuple`
-        Tuple of *Input Device Transform* (IDT) matrix and white balance
-        multipliers or tuple of *Input Device Transform* (IDT) matrix, white
-        balance multipliers, *XYZ* and *RGB* tristimulus values.
+        Tuple of IDT matrix and white balance multipliers or tuple of IDT
+        matrix, white balance multipliers, *XYZ* and *RGB* tristimulus values.
 
     References
     ----------
@@ -948,9 +975,8 @@ def matrix_idt(
 
     Examples
     --------
-    Computing the *Input Device Transform* (IDT) matrix for a
-    *CANON EOS 5DMark II* and *CIE Illuminant D Series* *D55* using
-    the method given in *RAW to ACES* v1:
+    Computing the IDT matrix for a *CANON EOS 5DMark II* and
+    *CIE Illuminant D Series* *D55* using the method given in *RAW to ACES* v1:
 
     >>> path = os.path.join(
     ...     ROOT_RESOURCES_RAWTOACES,
@@ -1022,7 +1048,7 @@ def matrix_idt(
     (
         objective_function,
         XYZ_to_optimization_colour_model,
-    ) = optimisation_factory()
+    ) = optimisation_factory(whitepoint_preservation)
     optimisation_settings = {
         "method": "BFGS",
         "jac": "2-point",
@@ -1030,15 +1056,23 @@ def matrix_idt(
     if optimisation_kwargs is not None:
         optimisation_settings.update(optimisation_kwargs)
 
+    x_0 = (
+        np.identity(3)[..., :-1] if whitepoint_preservation else np.identity(3)
+    )
+
     M = minimize(
         objective_function,
-        np.ravel(np.identity(3)[..., :-1]),
+        np.ravel(x_0),
         (RGB, XYZ_to_optimization_colour_model(XYZ)),
         **optimisation_settings,
     ).x
 
-    M = whitepoint_preserving_matrix(
-        np.hstack([np.reshape(M, (3, 2)), zeros((3, 1))])
+    M = (
+        whitepoint_preserving_matrix(
+            np.hstack([np.reshape(M, (3, 2)), zeros((3, 1))])
+        )
+        if whitepoint_preservation
+        else np.reshape(M, (3, 3))
     )
 
     if additional_data:
