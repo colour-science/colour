@@ -565,13 +565,13 @@ def luminance_level_adaptation_factor(
     1.1675444...
     """
 
-    L_A = as_float_array(L_A)
+    L_A = np.array(L_A, dtype=np.float32)
 
     k = 1 / (5 * L_A + 1)
     k4 = k**4
-    F_L = 0.2 * k4 * (5 * L_A) + 0.1 * (1 - k4) ** 2 * spow(5 * L_A, 1 / 3)
+    F_L = 0.2 * k4 * (5 * L_A) + 0.1 * (1 - k4) ** 2 * np.power(5 * L_A, 1 / 3)
 
-    return as_float(F_L)
+    return F_L.astype(np.float32)
 
 
 def illuminant_scotopic_luminance(

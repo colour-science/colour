@@ -74,16 +74,18 @@ Global variable storing the current *Colour* safe division function mode.
 """
 
 
-def get_sdiv_mode() -> Literal[
-    "Numpy",
-    "Ignore",
-    "Warning",
-    "Raise",
-    "Ignore Zero Conversion",
-    "Warning Zero Conversion",
-    "Ignore Limit Conversion",
-    "Warning Limit Conversion",
-]:
+def get_sdiv_mode() -> (
+    Literal[
+        "Numpy",
+        "Ignore",
+        "Warning",
+        "Raise",
+        "Ignore Zero Conversion",
+        "Warning Zero Conversion",
+        "Ignore Limit Conversion",
+        "Warning Limit Conversion",
+    ]
+):
     """
     Return *Colour* safe division mode.
 
@@ -601,7 +603,11 @@ def vector_dot(m: ArrayLike, v: ArrayLike) -> NDArrayFloat:
            [ 0.1954094...,  0.0620396...,  0.0527952...]])
     """
 
-    return np.einsum("...ij,...j->...i", as_float_array(m), as_float_array(v))
+    return np.einsum(
+        "...ij,...j->...i",
+        np.array(m, dtype=np.float64),
+        np.array(v, dtype=np.float64),
+    )
 
 
 def matrix_dot(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
@@ -661,7 +667,9 @@ def matrix_dot(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     """
 
     return np.einsum(
-        "...ij,...jk->...ik", as_float_array(a), as_float_array(b)
+        "...ij,...jk->...ik",
+        np.array(a, dtype=np.float64),
+        np.array(b, dtype=np.float64),
     )
 
 

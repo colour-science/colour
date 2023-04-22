@@ -449,7 +449,14 @@ def tcs_colorimetry_data(
 
     tcs_data = []
     for sd_tcs in sds_tcs.to_sds():
-        XYZ = sd_to_XYZ(sd_tcs, cmfs, sd_irradiance, use_practice_range=False)
+        XYZ = sd_to_XYZ(
+            sd_tcs.values,
+            cmfs,
+            sd_irradiance,
+            use_practice_range=False,
+            method="Integration",
+            shape=sd_tcs.shape,
+        )
         specification = XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround, True)
         JMh = tstack(
             [
