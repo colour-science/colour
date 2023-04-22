@@ -836,8 +836,12 @@ class SpectralDistribution(Signal):
         >>> SpectralDistribution(data).shape
         SpectralShape(500.0, 600.0, 10.0)
         """
-
-        if hasattr(self, "_shape") and self._shape is not None:
+        if (
+            hasattr(self, "_domain_hash")
+            and hash(self.domain.tobytes()) == self._domain_hash
+            and hasattr(self, "_shape")
+            and self._shape is not None
+        ):
             return self._shape
 
         wavelengths = self.wavelengths
@@ -848,6 +852,7 @@ class SpectralDistribution(Signal):
                 f"minimum interval!"
             )
 
+        self._domain_hash = hash(self.domain.tobytes())
         self._shape = SpectralShape(
             wavelengths[0], wavelengths[-1], min(wavelengths_interval)
         )
