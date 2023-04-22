@@ -811,7 +811,7 @@ def optimisation_factory_rawtoaces_v1() -> Tuple[Callable, Callable]:
         """Objective function according to *RAW to ACES* v1."""
 
         M = whitepoint_preserving_matrix(
-            np.hstack([np.reshape(M, [3, 2]), zeros([3, 1])])
+            np.hstack([np.reshape(M, (3, 2)), zeros((3, 1))])
         )
 
         XYZ_t = vector_dot(
@@ -860,7 +860,7 @@ def optimisation_factory_Jzazbz() -> Tuple[Callable, Callable]:
         """:math:`J_za_zb_z` colourspace based objective function."""
 
         M = whitepoint_preserving_matrix(
-            np.hstack([np.reshape(M, [3, 2]), zeros([3, 1])])
+            np.hstack([np.reshape(M, (3, 2)), zeros((3, 1))])
         )
 
         XYZ_t = vector_dot(
@@ -1038,7 +1038,7 @@ def matrix_idt(
     ).x
 
     M = whitepoint_preserving_matrix(
-        np.hstack([np.reshape(M, [3, 2]), zeros([3, 1])])
+        np.hstack([np.reshape(M, (3, 2)), zeros((3, 1))])
     )
 
     if additional_data:
