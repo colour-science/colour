@@ -2822,8 +2822,7 @@ def reshape_sd(
     )
     if hash_key in _CACHE_RESHAPED_SDS_AND_MSDS:
         reshaped_sd = _CACHE_RESHAPED_SDS_AND_MSDS[hash_key]
-        if hash(reshaped_sd[0]) == reshaped_sd[1]:
-            return reshaped_sd[0].copy() if copy else reshaped_sd[0]
+        return reshaped_sd.copy() if copy else reshaped_sd
 
     function = getattr(sd, method)
 
@@ -2831,7 +2830,7 @@ def reshape_sd(
         shape, **filter_kwargs(function, **kwargs)
     )
 
-    _CACHE_RESHAPED_SDS_AND_MSDS[hash_key] = (reshaped_sd, hash(reshaped_sd))
+    _CACHE_RESHAPED_SDS_AND_MSDS[hash_key] = reshaped_sd
 
     return reshaped_sd
 
