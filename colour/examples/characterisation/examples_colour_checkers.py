@@ -22,7 +22,9 @@ message_box(
     '"ColorChecker 2005" colour rendition chart chromaticity coordinates data:\n\n'
     '\t("Patch Number", "Patch Name", "xyY")'
 )
-name, data, illuminant = colour.CCS_COLOURCHECKERS["ColorChecker 2005"]
+name, data, illuminant, rows, columns = colour.CCS_COLOURCHECKERS[
+    "ColorChecker 2005"
+]
 for name, xyY in data.items():
     print(name, xyY)
 
