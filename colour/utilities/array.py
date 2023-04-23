@@ -523,6 +523,18 @@ class MixinDataclassArithmetic(MixinDataclassArray):
             return dataclass
 
 
+# NOTE : The following messages are pre-generated for performance reasons.
+_ASSERTION_MESSAGE_DTYPE_INT = (
+    f'"dtype" must be one of the following types: '
+    f"{DTypeInt.__args__}"  # pyright: ignore
+)
+
+_ASSERTION_MESSAGE_DTYPE_FLOAT = (
+    f'"dtype" must be one of the following types: '
+    f"{DTypeFloat.__args__}"  # pyright: ignore
+)
+
+
 def as_array(
     a: ArrayLike,
     dtype: Type[DType] | None = None,
@@ -591,11 +603,9 @@ def as_int(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> NDArrayInt:
 
     dtype = optional(dtype, DEFAULT_INT_DTYPE)
 
-    args = DTypeInt.__args__  # pyright: ignore
-
     attest(
-        dtype in args,
-        f'"dtype" must be one of the following types: {args}',
+        dtype in DTypeInt.__args__,  # pyright: ignore
+        _ASSERTION_MESSAGE_DTYPE_INT,
     )
 
     try:
@@ -639,11 +649,9 @@ def as_float(
 
     dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
 
-    args = DTypeFloat.__args__  # pyright: ignore
-
     attest(
-        dtype in args,
-        f'"dtype" must be one of the following types: {args}',
+        dtype in DTypeFloat.__args__,  # pyright: ignore
+        _ASSERTION_MESSAGE_DTYPE_FLOAT,
     )
 
     try:
@@ -684,11 +692,9 @@ def as_int_array(
 
     dtype = optional(dtype, DEFAULT_INT_DTYPE)
 
-    args = DTypeInt.__args__  # pyright: ignore
-
     attest(
-        dtype in args,
-        f'"dtype" must be one of the following types: {args}',
+        dtype in DTypeInt.__args__,  # pyright: ignore
+        _ASSERTION_MESSAGE_DTYPE_INT,
     )
 
     return as_array(a, dtype)
@@ -724,8 +730,8 @@ def as_float_array(
     dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
 
     attest(
-        dtype in np.sctypes["float"],
-        f"\"dtype\" must be one of the following types: {np.sctypes['float']}",
+        dtype in DTypeFloat.__args__,  # pyright: ignore
+        _ASSERTION_MESSAGE_DTYPE_FLOAT,
     )
 
     return as_array(a, dtype)
