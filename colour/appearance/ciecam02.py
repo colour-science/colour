@@ -619,7 +619,7 @@ def chromatic_induction_factors(n: ArrayLike) -> NDArrayFloat:
     array([ 1.000304,  1.000304])
     """
 
-    n = np.array(n, np.float32)
+    n = as_float_array(n)
 
     N_bb = N_cb = 0.725 * np.power((1 / n), 0.2)
 
@@ -650,7 +650,7 @@ def base_exponential_non_linearity(
     1.9272135...
     """
 
-    n = np.array(n, dtype=np.float32)
+    n = as_float_array(n)
 
     z = 1.48 + np.sqrt(n)
 
@@ -692,8 +692,8 @@ def viewing_conditions_dependent_parameters(
     (0.2000000..., 1.1675444..., 1.0003040..., 1.0003040..., 1.9272135...)
     """
 
-    Y_b = np.array(Y_b, dtype=np.float32)
-    Y_w = np.array(Y_w, dtype=np.float32)
+    Y_b = as_float_array(Y_b)
+    Y_w = as_float_array(Y_w)
 
     n = Y_b / Y_w
 
@@ -774,10 +774,10 @@ def full_chromatic_adaptation_forward(
     array([ 19.9937078...,  20.0039363...,  20.0132638...])
     """
 
-    RGB = np.array(RGB, dtype=np.float32)
-    RGB_w = np.array(RGB_w, dtype=np.float32)
-    Y_w = np.array(Y_w, dtype=np.float32)
-    D = np.array(D, dtype=np.float32)
+    RGB = as_float_array(RGB)
+    RGB_w = as_float_array(RGB_w)
+    Y_w = as_float_array(Y_w)
+    D = as_float_array(D)
 
     RGB_c = (Y_w[..., None] * (D[..., None] / RGB_w) + 1 - D[..., None]) * RGB
 
@@ -921,8 +921,8 @@ def post_adaptation_non_linear_response_compression_forward(
     array([ 7.9463202...,  7.9471152...,  7.9489959...])
     """
 
-    RGB = np.array(RGB, dtype=np.float32)
-    F_L = np.array(F_L, dtype=np.float32)
+    RGB = as_float_array(RGB)
+    F_L = as_float_array(F_L)
 
     F_L_RGB = np.power(F_L[..., None] * np.absolute(RGB) / 100, 0.42)
     RGB_c = (400 * np.sign(RGB) * F_L_RGB) / (27.13 + F_L_RGB) + 0.1
@@ -1146,7 +1146,7 @@ def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
     278.0607358...
     """
 
-    h = np.array(h, dtype=np.float32)
+    h = as_float_array(h)
 
     h_i = HUE_DATA_FOR_HUE_QUADRATURE["h_i"]
     e_i = HUE_DATA_FOR_HUE_QUADRATURE["e_i"]
@@ -1180,7 +1180,7 @@ def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
         ),
         H,
     )
-    return H.astype(np.float32)
+    return H
 
 
 def eccentricity_factor(h: ArrayLike) -> NDArrayFloat:
@@ -1328,14 +1328,14 @@ def lightness_correlate(
     >>> lightness_correlate(A, A_w, c, z)  # doctest: +ELLIPSIS
     41.7310911...
     """
-    A = np.array(A, dtype=np.float32)
-    A_w = np.array(A_w, dtype=np.float32)
-    c = np.array(c, dtype=np.float32)
-    z = np.array(z, dtype=np.float32)
+    A = as_float_array(A)
+    A_w = as_float_array(A_w)
+    c = as_float_array(c)
+    z = as_float_array(z)
 
     J = 100 * np.power(A / A_w, c * z)
 
-    return J.astype(np.float32)
+    return J
 
 
 def brightness_correlate(
@@ -1373,14 +1373,14 @@ def brightness_correlate(
     195.3713259...
     """
 
-    c = np.array(c, dtype=np.float32)
-    J = np.array(J, dtype=np.float32)
-    A_w = np.array(A_w, dtype=np.float32)
-    F_L = np.array(F_L, dtype=np.float32)
+    c = as_float_array(c)
+    J = as_float_array(J)
+    A_w = as_float_array(A_w)
+    F_L = as_float_array(F_L)
 
     Q = (4 / c) * np.sqrt(J / 100) * (A_w + 4) * np.power(F_L, 0.25)
 
-    return Q.astype(np.float32)
+    return Q
 
 
 def temporary_magnitude_quantity_forward(
@@ -1428,15 +1428,15 @@ def temporary_magnitude_quantity_forward(
     0.1497462...
     """
 
-    N_c = np.array(N_c, dtype=np.float32)
-    N_cb = np.array(N_cb, dtype=np.float32)
-    e_t = np.array(e_t, dtype=np.float32)
-    a = np.array(a, dtype=np.float32)
-    b = np.array(b, dtype=np.float32)
+    N_c = as_float_array(N_c)
+    N_cb = as_float_array(N_cb)
+    e_t = as_float_array(e_t)
+    a = as_float_array(a)
+    b = as_float_array(b)
     Ra, Ga, Ba = tsplit(RGB_a)
 
     t = ((50000 / 13) * N_c * N_cb) * (
-        e_t * (a**2 + b**2) ** 0.5 / Ra + Ga + 21 * Ba / 20
+        (e_t * (a**2 + b**2) ** 0.5) / (Ra + Ga + Ba * 21 / 20)
     )
 
     return t
@@ -1472,9 +1472,9 @@ def temporary_magnitude_quantity_inverse(
     202.3873619...
     """
 
-    C = np.array(C, dtype=np.float32)
+    C = as_float_array(C)
     J = np.maximum(J, EPSILON)
-    n = np.array(n, dtype=np.float32)
+    n = as_float_array(n)
 
     t = np.power(
         C / (np.sqrt(J / 100) * np.power(1.64 - 0.29**n, 0.73)), 1 / 0.9
@@ -1535,8 +1535,8 @@ def chroma_correlate(
     0.1047077...
     """
 
-    J = np.array(J, dtype=np.float32)
-    n = np.array(n, dtype=np.float32)
+    J = as_float_array(J)
+    n = as_float_array(n)
 
     t = temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a)
     C = (
@@ -1545,7 +1545,7 @@ def chroma_correlate(
         * np.power(1.64 - 0.29**n, 0.73)
     )
 
-    return C.astype(np.float32)
+    return C
 
 
 def colourfulness_correlate(C: ArrayLike, F_L: ArrayLike) -> NDArrayFloat:
@@ -1572,8 +1572,8 @@ def colourfulness_correlate(C: ArrayLike, F_L: ArrayLike) -> NDArrayFloat:
     0.1088421...
     """
 
-    C = np.array(C, dtype=np.float32)
-    F_L = np.array(F_L, dtype=np.float32)
+    C = as_float_array(C)
+    F_L = as_float_array(F_L)
 
     M = C * np.power(F_L, 0.25)
 
@@ -1604,12 +1604,12 @@ def saturation_correlate(M: ArrayLike, Q: ArrayLike) -> NDArrayFloat:
     2.3603053...
     """
 
-    M = np.array(M, dtype=np.float32)
-    Q = np.array(Q, dtype=np.float32)
+    M = as_float_array(M)
+    Q = as_float_array(Q)
 
     s = 100 * np.power(M / Q, 0.5)
 
-    return s.astype(np.float32)
+    return s
 
 
 def P(
