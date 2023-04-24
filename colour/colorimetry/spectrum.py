@@ -711,6 +711,9 @@ class SpectralDistribution(Signal):
             {"method": "Constant", "left": None, "right": None},
         )
 
+        self._domain_hash = None
+        self._shape = None
+
         super().__init__(range_unpacked, domain_unpacked, **kwargs)
 
         self._display_name: str = self.name
@@ -770,6 +773,7 @@ class SpectralDistribution(Signal):
         """Setter for the **self.wavelengths** property."""
 
         self.domain = as_float_array(value, self.dtype)
+        self._domain_hash = None
         self._shape = None
 
     @property
