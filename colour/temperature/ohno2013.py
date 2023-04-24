@@ -61,8 +61,8 @@ CCT_MAXIMAL_OHNO2013: float = 100000
 CCT_SAMPLES_OHNO2013: int = 10
 CCT_ITERATIONS_OHNO2013: int = 6
 
-_CACHE_PLANCKIAN_TABLE_ROW: dict = CACHE_REGISTRY.register_cache(
-    f"{__name__}._CACHE_PLANCKIAN_TABLE_ROW"
+_CACHE_PLANCKIAN_TABLE: dict = CACHE_REGISTRY.register_cache(
+    f"{__name__}._CACHE_PLANCKIAN_TABLE"
 )
 
 
@@ -129,19 +129,16 @@ def planckian_table(
               2.5147492...e-01]])
     """
 
+    cache_key = hash((cmfs.values.tobytes(), start, end, count))
+    if cache_key in _CACHE_PLANCKIAN_TABLE:
+        table = _CACHE_PLANCKIAN_TABLE[cache_key].copy()
+    else:
+        Ti = np.linspace(start, end, count)
+        u_i, v_i = tsplit(CCT_to_uv_Planck1900(Ti, cmfs))
+        table = as_float_array([Ti, u_i, v_i, np.ones(Ti.shape) * -1]).T
+        _CACHE_PLANCKIAN_TABLE[cache_key] = table.copy()
+
     ux, vx = tsplit(uv)
-
-    table_data = []
-    for Ti in np.linspace(start, end, count):
-        cache_key = Ti
-        if cache_key in _CACHE_PLANCKIAN_TABLE_ROW:
-            row = _CACHE_PLANCKIAN_TABLE_ROW[cache_key]
-        else:
-            u_i, v_i = tsplit(CCT_to_uv_Planck1900(Ti, cmfs))
-            _CACHE_PLANCKIAN_TABLE_ROW[cache_key] = row = [Ti, u_i, v_i, -1]
-        table_data.append(row)
-
-    table = as_float_array(table_data)
     table[..., -1] = np.hypot(ux - table[..., 1], vx - table[..., 2])
 
     return table
