@@ -94,10 +94,12 @@ from colour.utilities import (
     as_float,
     as_float_array,
     from_range_1,
+    ones,
     optional,
     runtime_warning,
     suppress_warnings,
     tsplit,
+    zeros,
 )
 from colour.utilities.deprecation import handle_arguments_deprecation
 
@@ -122,6 +124,7 @@ __all__ = [
     "normalise_illuminant",
     "training_data_sds_to_RGB",
     "training_data_sds_to_XYZ",
+    "whitepoint_preserving_matrix",
     "optimisation_factory_rawtoaces_v1",
     "optimisation_factory_Jzazbz",
     "matrix_idt",
@@ -742,7 +745,45 @@ def training_data_sds_to_XYZ(
     return XYZ
 
 
-def optimisation_factory_rawtoaces_v1() -> Tuple[Callable, Callable]:
+def whitepoint_preserving_matrix(
+    M: ArrayLike, RGB_w: ArrayLike = ones(3)
+) -> NDArrayFloat:
+    """
+    Normalise given matrix :math:`M` to preserve given white point
+    :math:`RGB_w`.
+
+    Parameters
+    ----------
+    M
+        Matrix :math:`M` to normalise.
+    RGB_w
+        White point :math:`RGB_w` to normalise the matrix :math:`M` with.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Normalised matrix :math:`M`.
+
+    Examples
+    --------
+    >>> M = np.arange(9).reshape([3, 3])
+    >>> whitepoint_preserving_matrix(M)
+    array([[  0.,   1.,   0.],
+           [  3.,   4.,  -6.],
+           [  6.,   7., -12.]])
+    """
+
+    M = as_float_array(M)
+    RGB_w = as_float_array(RGB_w)
+
+    M[..., -1] = RGB_w - np.sum(M[..., :-1], axis=-1)
+
+    return M
+
+
+def optimisation_factory_rawtoaces_v1(
+    whitepoint_preservation: bool = True,
+) -> Tuple[Callable, Callable]:
     """
     Produce the objective function and *CIE XYZ* colourspace to optimisation
     colourspace/colour model function according to *RAW to ACES* v1.
@@ -750,6 +791,12 @@ def optimisation_factory_rawtoaces_v1() -> Tuple[Callable, Callable]:
     The objective function returns the euclidean distance between the training
     data *RGB* tristimulus values and the training data *CIE XYZ* tristimulus
     values** in *CIE L\\*a\\*b\\** colourspace.
+
+    Parameters
+    ----------
+    whitepoint_preservation
+        Whether to use whitepoint preservation, i.e. optimisation uses 6 terms
+        instead of 9 and rows summation is constrained to 1.
 
     Returns
     -------
@@ -771,7 +818,13 @@ def optimisation_factory_rawtoaces_v1() -> Tuple[Callable, Callable]:
     ) -> NDArrayFloat:
         """Objective function according to *RAW to ACES* v1."""
 
-        M = np.reshape(M, [3, 3])
+        M = (
+            whitepoint_preserving_matrix(
+                np.hstack([np.reshape(M, (3, 2)), zeros((3, 1))])
+            )
+            if whitepoint_preservation
+            else np.reshape(M, (3, 3))
+        )
 
         XYZ_t = vector_dot(
             RGB_COLOURSPACE_ACES2065_1.matrix_RGB_to_XYZ, vector_dot(M, RGB)
@@ -788,7 +841,9 @@ def optimisation_factory_rawtoaces_v1() -> Tuple[Callable, Callable]:
     return objective_function, XYZ_to_optimization_colour_model
 
 
-def optimisation_factory_Jzazbz() -> Tuple[Callable, Callable]:
+def optimisation_factory_Jzazbz(
+    whitepoint_preservation: bool = True,
+) -> Tuple[Callable, Callable]:
     """
     Produce the objective function and *CIE XYZ* colourspace to optimisation
     colourspace/colour model function based on the :math:`J_za_zb_z`
@@ -797,6 +852,12 @@ def optimisation_factory_Jzazbz() -> Tuple[Callable, Callable]:
     The objective function returns the euclidean distance between the training
     data *RGB* tristimulus values and the training data *CIE XYZ* tristimulus
     values** in the :math:`J_za_zb_z` colourspace.
+
+    Parameters
+    ----------
+    whitepoint_preservation
+        Whether to use whitepoint preservation, i.e. optimisation uses 6 terms
+        instead of 9 and rows summation is constrained to 1.
 
     Returns
     -------
@@ -818,7 +879,13 @@ def optimisation_factory_Jzazbz() -> Tuple[Callable, Callable]:
     ) -> NDArrayFloat:
         """:math:`J_za_zb_z` colourspace based objective function."""
 
-        M = np.reshape(M, [3, 3])
+        M = (
+            whitepoint_preserving_matrix(
+                np.hstack([np.reshape(M, (3, 2)), zeros((3, 1))])
+            )
+            if whitepoint_preservation
+            else np.reshape(M, (3, 3))
+        )
 
         XYZ_t = vector_dot(
             RGB_COLOURSPACE_ACES2065_1.matrix_RGB_to_XYZ, vector_dot(M, RGB)
@@ -858,6 +925,7 @@ def matrix_idt(
     ]
     | str
     | None = "CAT02",
+    whitepoint_preservation: bool = True,
     additional_data: bool = False,
 ) -> (
     Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat, NDArrayFloat]
@@ -889,15 +957,17 @@ def matrix_idt(
     chromatic_adaptation_transform
         *Chromatic adaptation* transform, if *None* no chromatic adaptation is
         performed.
+    whitepoint_preservation
+        Whether to use whitepoint preservation, i.e. optimisation uses 6 terms
+        instead of 9 and rows summation is constrained to 1.
     additional_data
         If *True*, the *XYZ* and *RGB* tristimulus values are also returned.
 
     Returns
     -------
     :class:`tuple`
-        Tuple of *Input Device Transform* (IDT) matrix and white balance
-        multipliers or tuple of *Input Device Transform* (IDT) matrix, white
-        balance multipliers, *XYZ* and *RGB* tristimulus values.
+        Tuple of IDT matrix and white balance multipliers or tuple of IDT
+        matrix, white balance multipliers, *XYZ* and *RGB* tristimulus values.
 
     References
     ----------
@@ -905,9 +975,8 @@ def matrix_idt(
 
     Examples
     --------
-    Computing the *Input Device Transform* (IDT) matrix for a
-    *CANON EOS 5DMark II* and *CIE Illuminant D Series* *D55* using
-    the method given in *RAW to ACES* v1:
+    Computing the IDT matrix for a *CANON EOS 5DMark II* and
+    *CIE Illuminant D Series* *D55* using the method given in *RAW to ACES* v1:
 
     >>> path = os.path.join(
     ...     ROOT_RESOURCES_RAWTOACES,
@@ -919,9 +988,9 @@ def matrix_idt(
     >>> illuminant = SDS_ILLUMINANTS["D55"]
     >>> M, RGB_w = matrix_idt(sensitivities, illuminant)
     >>> np.around(M, 3)
-    array([[ 0.85 , -0.016,  0.151],
-           [ 0.051,  1.126, -0.185],
-           [ 0.02 , -0.194,  1.162]])
+    array([[ 0.865, -0.026,  0.161],
+           [ 0.057,  1.123, -0.18 ],
+           [ 0.024, -0.203,  1.179]])
     >>> RGB_w  # doctest: +ELLIPSIS
     array([ 2.3414154...,  1.        ,  1.5163375...])
 
@@ -938,9 +1007,9 @@ def matrix_idt(
     ...     optimisation_factory=optimisation_factory_Jzazbz,
     ... )
     >>> np.around(M, 3)
-    array([[ 0.848, -0.016,  0.158],
-           [ 0.053,  1.114, -0.175],
-           [ 0.023, -0.225,  1.196]])
+    array([[ 0.852, -0.009,  0.158],
+           [ 0.054,  1.122, -0.176],
+           [ 0.023, -0.224,  1.2  ]])
     >>> RGB_w  # doctest: +ELLIPSIS
     array([ 2.3414154...,  1.        ,  1.5163375...])
     """
@@ -979,7 +1048,7 @@ def matrix_idt(
     (
         objective_function,
         XYZ_to_optimization_colour_model,
-    ) = optimisation_factory()
+    ) = optimisation_factory(whitepoint_preservation)
     optimisation_settings = {
         "method": "BFGS",
         "jac": "2-point",
@@ -987,12 +1056,24 @@ def matrix_idt(
     if optimisation_kwargs is not None:
         optimisation_settings.update(optimisation_kwargs)
 
+    x_0 = (
+        np.identity(3)[..., :-1] if whitepoint_preservation else np.identity(3)
+    )
+
     M = minimize(
         objective_function,
-        np.ravel(np.identity(3)),
+        np.ravel(x_0),
         (RGB, XYZ_to_optimization_colour_model(XYZ)),
         **optimisation_settings,
-    ).x.reshape([3, 3])
+    ).x
+
+    M = (
+        whitepoint_preserving_matrix(
+            np.hstack([np.reshape(M, (3, 2)), zeros((3, 1))])
+        )
+        if whitepoint_preservation
+        else np.reshape(M, (3, 3))
+    )
 
     if additional_data:
         return M, RGB_w, XYZ, RGB
@@ -1051,7 +1132,7 @@ def camera_RGB_to_ACES2065_1(
     >>> B, b = matrix_idt(sensitivities, illuminant)
     >>> camera_RGB_to_ACES2065_1(np.array([0.1, 0.2, 0.3]), B, b)
     ... # doctest: +ELLIPSIS
-    array([ 0.2646811...,  0.1528898...,  0.4944335...])
+    array([ 0.270644 ...,  0.1561487...,  0.5012965...])
     """
 
     RGB = as_float_array(RGB)

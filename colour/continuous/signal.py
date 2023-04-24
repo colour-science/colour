@@ -299,9 +299,9 @@ class Signal(AbstractContinuousFunction):
         """Setter for the **self.dtype** property."""
 
         attest(
-            value in np.sctypes["float"],
+            value in DTypeFloat.__args__,  # pyright: ignore
             f'"dtype" must be one of the following types: '
-            f"{np.sctypes['float']}",
+            f"{DTypeFloat.__args__}",  # pyright: ignore
         )
 
         self._dtype = value

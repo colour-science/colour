@@ -50,10 +50,11 @@ ACES Input Transform Computation
     read_training_data_rawtoaces_v1
     generate_illuminants_rawtoaces_v1
     white_balance_multipliers
+    best_illuminant
     normalise_illuminant
     training_data_sds_to_RGB
     training_data_sds_to_XYZ
-    best_illuminant
+    whitepoint_preserving_matrix
     optimisation_factory_rawtoaces_v1
     optimisation_factory_Jzazbz
 
