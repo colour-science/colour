@@ -605,8 +605,8 @@ def vector_dot(m: ArrayLike, v: ArrayLike) -> NDArrayFloat:
 
     return np.einsum(
         "...ij,...j->...i",
-        np.array(m, dtype=np.float64),
-        np.array(v, dtype=np.float64),
+        as_float_array(m),
+        as_float_array(v),
     )
 
 
@@ -668,8 +668,8 @@ def matrix_dot(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
 
     return np.einsum(
         "...ij,...jk->...ik",
-        np.array(a, dtype=np.float64),
-        np.array(b, dtype=np.float64),
+        as_float_array(a),
+        as_float_array(b),
     )
 
 

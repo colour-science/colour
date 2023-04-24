@@ -450,6 +450,7 @@ def tcs_colorimetry_data(
         shape=sd_irradiance.shape,
         method="Integration",
     )
+    XYZ_w *= 100 / XYZ_w[1]
     Y_b = 20
     L_A = 100
     surround = VIEWING_CONDITIONS_CIECAM02["Average"]

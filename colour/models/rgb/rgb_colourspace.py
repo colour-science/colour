@@ -371,7 +371,8 @@ class RGB_Colourspace:
         value = as_float_array(value)
 
         self._whitepoint = value
-        self._npm = None
+        self._derived_matrix_XYZ_to_RGB = None
+        self._derived_matrix_RGB_to_XYZ = None
 
     @property
     def whitepoint_name(self) -> str | None:
@@ -692,7 +693,8 @@ class RGB_Colourspace:
         Use Derived NPM    : False
         Use Derived NPM -1 : False
         """
-
+        if self._derived_matrix_XYZ_to_RGB is None:
+            self._derive_transformation_matrices()
         return multiline_str(
             self,
             [
