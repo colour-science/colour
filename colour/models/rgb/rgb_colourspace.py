@@ -337,8 +337,8 @@ class RGB_Colourspace:
         value = np.reshape(value, (3, 2))
 
         self._primaries = value
-
-        self._derive_transformation_matrices()
+        self._derived_matrix_RGB_to_XYZ = None
+        self._derived_matrix_XYZ_to_RGB = None
 
     @property
     def whitepoint(self) -> NDArrayFloat:
@@ -371,8 +371,7 @@ class RGB_Colourspace:
         value = as_float_array(value)
 
         self._whitepoint = value
-
-        self._derive_transformation_matrices()
+        self._npm = None
 
     @property
     def whitepoint_name(self) -> str | None:
@@ -427,6 +426,8 @@ class RGB_Colourspace:
             self._matrix_RGB_to_XYZ is None
             or self._use_derived_matrix_RGB_to_XYZ
         ):
+            if self._derived_matrix_RGB_to_XYZ is None:
+                self._derive_transformation_matrices()
             return self._derived_matrix_RGB_to_XYZ
         else:
             return self._matrix_RGB_to_XYZ
@@ -469,6 +470,8 @@ class RGB_Colourspace:
             self._matrix_XYZ_to_RGB is None
             or self._use_derived_matrix_XYZ_to_RGB
         ):
+            if self._derived_matrix_XYZ_to_RGB is None:
+                self._derive_transformation_matrices()
             return self._derived_matrix_XYZ_to_RGB
         else:
             return self._matrix_XYZ_to_RGB

@@ -395,7 +395,7 @@ class MultiSignals(AbstractContinuousFunction):
             range variable :math:`y`.
         """
 
-        return tstack([signal.range for signal in self._signals.values()])
+        return tstack([signal._range for signal in self._signals.values()])
 
     @range.setter
     def range(self, value: ArrayLike):  # noqa: A003
@@ -732,7 +732,10 @@ class MultiSignals(AbstractContinuousFunction):
         return hash(
             (
                 self.domain.tobytes(),
-                self.range.tobytes(),
+                *[
+                    signal._range.tobytes()
+                    for signal in self._signals.values()
+                ],
                 self.interpolator.__name__,
                 repr(self.interpolator_kwargs),
                 self.extrapolator.__name__,

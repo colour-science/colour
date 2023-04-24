@@ -28,7 +28,7 @@ from colour.quality.cfi2017 import (
     DataColorimetry_TCS_CIE2017,
     delta_E_to_R_f,
 )
-from colour.utilities import as_float_array, as_float_scalar, as_int_scalar
+from colour.utilities import as_float_array, as_float_scalar
 
 
 @dataclass
@@ -141,25 +141,26 @@ def colour_fidelity_index_ANSIIESTM3018(
     )
 
     # Setup bins based on where the reference a'b' points are located.
-    bins: List[List[int]] = [[] for _i in range(16)]
-    for i, sample in enumerate(specification.colorimetry_data[1]):
-        bin_index = as_int_scalar(np.floor(cast(float, sample.CAM.h) / 22.5))
-        bins[bin_index].append(i)
+    bins = np.floor(
+        as_float_array(
+            [sample.CAM.h for sample in specification.colorimetry_data[1]]
+        )
+        / 22.5
+    )
+    bins = [np.where(bins == b)[0] for b in range(16)]
 
     # Per-bin a'b' averages.
     averages_test = np.empty([16, 2])
     averages_reference = np.empty([16, 2])
-    for i in range(16):
-        apbp_s = [
-            specification.colorimetry_data[0][j].Jpapbp[[1, 2]]
-            for j in bins[i]
-        ]
-        averages_test[i, :] = np.mean(apbp_s, axis=0)
-        apbp_s = [
-            specification.colorimetry_data[1][j].Jpapbp[[1, 2]]
-            for j in bins[i]
-        ]
-        averages_reference[i, :] = np.mean(apbp_s, axis=0)
+    test_apbp = as_float_array(
+        [j.Jpapbp[1:] for j in specification.colorimetry_data[0]]
+    )
+    ref_apbp = as_float_array(
+        [j.Jpapbp[1:] for j in specification.colorimetry_data[1]]
+    )
+    for idx, b in enumerate(bins):
+        averages_test[idx, :] = np.mean(test_apbp[b], axis=0)
+        averages_reference[idx, :] = np.mean(ref_apbp[b], axis=0)
 
     # Gamut Index.
     R_g = 100 * (

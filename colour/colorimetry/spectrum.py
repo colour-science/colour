@@ -2822,9 +2822,7 @@ def reshape_sd(
         if isinstance(value, Mapping):
             kwargs_items[i] = (keyword, tuple(value.items()))
 
-    hash_key = tuple(
-        hash(arg) for arg in (sd, shape, method, tuple(kwargs_items))
-    )
+    hash_key = hash((sd, shape, method, tuple(kwargs_items)))
     if hash_key in _CACHE_RESHAPED_SDS_AND_MSDS:
         reshaped_sd = _CACHE_RESHAPED_SDS_AND_MSDS[hash_key]
         return reshaped_sd.copy() if copy else reshaped_sd

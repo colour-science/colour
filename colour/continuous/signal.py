@@ -657,8 +657,8 @@ class Signal(AbstractContinuousFunction):
 
         return hash(
             (
-                self.domain.tobytes(),
-                self.range.tobytes(),
+                self._domain.tobytes(),
+                self._range.tobytes(),
                 self.interpolator.__name__,
                 repr(self.interpolator_kwargs),
                 self.extrapolator.__name__,

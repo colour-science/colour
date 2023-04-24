@@ -33,7 +33,6 @@ from colour.colorimetry import (
     sd_to_XYZ,
     sd_blackbody,
     reshape_msds,
-    sd_ones,
     sd_CIE_illuminant_D_series,
 )
 from colour.colorimetry.tristimulus_values import msds_to_XYZ
@@ -211,19 +210,17 @@ def colour_fidelity_index_CIE2017(
     )
 
     # pylint: disable=E1102
-    sds_tcs = reshape_msds(load_TCS_CIE2017(shape), shape, copy=False)
+    sds_tcs = load_TCS_CIE2017(shape)
 
     test_tcs_colorimetry_data = tcs_colorimetry_data(sd_test, sds_tcs, cmfs_10)
     reference_tcs_colorimetry_data = tcs_colorimetry_data(
         sd_reference, sds_tcs, cmfs_10
     )
 
-    delta_E_s = np.empty(len(sds_tcs.labels))
-    for i, _delta_E in enumerate(delta_E_s):
-        delta_E_s[i] = euclidean_distance(
-            test_tcs_colorimetry_data[i].Jpapbp,
-            reference_tcs_colorimetry_data[i].Jpapbp,
-        )
+    delta_E_s = euclidean_distance(
+        [test_sample.Jpapbp for test_sample in test_tcs_colorimetry_data],
+        [ref_sample.Jpapbp for ref_sample in reference_tcs_colorimetry_data],
+    )
 
     R_s = delta_E_to_R_f(delta_E_s)
     R_f = cast(float, delta_E_to_R_f(np.average(delta_E_s)))
@@ -391,8 +388,12 @@ def sd_reference_illuminant(
     elif 4000 <= CCT <= 5000:
         # Planckian and daylight illuminant must be normalised so that the
         # mixture isn't biased.
-        sd_planckian /= sd_to_XYZ(sd_planckian)[1]
-        sd_daylight /= sd_to_XYZ(sd_daylight)[1]
+        sd_planckian /= sd_to_XYZ(
+            sd_planckian.values, shape=sd_planckian.shape, method="Integration"
+        )[1]
+        sd_daylight /= sd_to_XYZ(
+            sd_daylight.values, shape=sd_daylight.shape, method="Integration"
+        )[1]
 
         # Mixture: 4200K should be 80% Planckian, 20% CIE Illuminant D Series.
         m = (CCT - 4000) / 1000
@@ -443,7 +444,12 @@ def tcs_colorimetry_data(
     70.1208254...
     """
 
-    XYZ_w = sd_to_XYZ(sd_ones(), cmfs, sd_irradiance, use_practice_range=False)
+    XYZ_w = sd_to_XYZ(
+        sd_irradiance.values,
+        cmfs,
+        shape=sd_irradiance.shape,
+        method="Integration",
+    )
     Y_b = 20
     L_A = 100
     surround = VIEWING_CONDITIONS_CIECAM02["Average"]
@@ -456,7 +462,15 @@ def tcs_colorimetry_data(
         method="Integration",
         shape=sds_tcs.shape,
     )
-    specification = XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround, True)
+    specification = XYZ_to_CIECAM02(
+        XYZ,
+        XYZ_w,
+        L_A,
+        Y_b,
+        surround,
+        discount_illuminant=True,
+        compute_HQ=False,
+    )
     JMh = tstack(
         [
             cast(NDArrayFloat, specification.J),
@@ -468,7 +482,7 @@ def tcs_colorimetry_data(
     specification = as_float_array(specification)
     tcs_data = [
         DataColorimetry_TCS_CIE2017(
-            list(sds_tcs.signals.keys())[idx],  # @tjdcs Performance Hack
+            sds_tcs.display_labels[idx],  # @tjdcs Performance Hack
             XYZ[idx],
             CAM_Specification_CIECAM02(*specification[idx]),
             JMh[idx],
