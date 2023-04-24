@@ -318,7 +318,7 @@ def CCT_reference_illuminant(sd: SpectralDistribution) -> NDArrayFloat:
     array([  4.2244697...e+03,   1.7871111...e-03])
     """
 
-    XYZ = sd_to_XYZ(sd)
+    XYZ = sd_to_XYZ(sd.values, shape=sd.shape, method="Integration")
 
     return uv_to_CCT_Ohno2013(UCS_to_uv(XYZ_to_UCS(XYZ)))
 
@@ -468,13 +468,13 @@ def tcs_colorimetry_data(
     specification = as_float_array(specification)
     tcs_data = [
         DataColorimetry_TCS_CIE2017(
-            sd.name,
+            list(sds_tcs.signals.keys())[idx],  # @tjdcs Performance Hack
             XYZ[idx],
             CAM_Specification_CIECAM02(*specification[idx]),
             JMh[idx],
             Jpapbp[idx],
         )
-        for idx, sd in enumerate(sds_tcs.to_sds())
+        for idx in range(len(sds_tcs.signals))
     ]
 
     return tuple(tcs_data)
