@@ -36,6 +36,7 @@ from colour.colorimetry import (
     sd_ones,
     sd_CIE_illuminant_D_series,
 )
+from colour.colorimetry.tristimulus_values import msds_to_XYZ
 from colour.hints import ArrayLike, NDArrayFloat, Tuple, cast
 from colour.models import XYZ_to_UCS, UCS_to_uv, JMh_CIECAM02_to_CAM02UCS
 from colour.temperature import uv_to_CCT_Ohno2013, CCT_to_xy_CIE_D
@@ -447,31 +448,34 @@ def tcs_colorimetry_data(
     L_A = 100
     surround = VIEWING_CONDITIONS_CIECAM02["Average"]
 
-    tcs_data = []
-    for sd_tcs in sds_tcs.to_sds():
-        XYZ = sd_to_XYZ(
-            sd_tcs.values,
-            cmfs,
-            sd_irradiance,
-            use_practice_range=False,
-            method="Integration",
-            shape=sd_tcs.shape,
+    XYZ = msds_to_XYZ(
+        sds_tcs.values.T,
+        cmfs,
+        sd_irradiance,
+        use_practice_range=False,
+        method="Integration",
+        shape=sds_tcs.shape,
+    )
+    specification = XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround, True)
+    JMh = tstack(
+        [
+            cast(NDArrayFloat, specification.J),
+            cast(NDArrayFloat, specification.M),
+            cast(NDArrayFloat, specification.h),
+        ]
+    )
+    Jpapbp = JMh_CIECAM02_to_CAM02UCS(JMh)
+    specification = as_float_array(specification)
+    tcs_data = [
+        DataColorimetry_TCS_CIE2017(
+            sd.name,
+            XYZ[idx],
+            CAM_Specification_CIECAM02(*specification[idx]),
+            JMh[idx],
+            Jpapbp[idx],
         )
-        specification = XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround, True)
-        JMh = tstack(
-            [
-                cast(NDArrayFloat, specification.J),
-                cast(NDArrayFloat, specification.M),
-                cast(NDArrayFloat, specification.h),
-            ]
-        )
-        Jpapbp = JMh_CIECAM02_to_CAM02UCS(JMh)
-
-        tcs_data.append(
-            DataColorimetry_TCS_CIE2017(
-                sd_tcs.name, XYZ, specification, JMh, Jpapbp
-            )
-        )
+        for idx, sd in enumerate(sds_tcs.to_sds())
+    ]
 
     return tuple(tcs_data)
 
