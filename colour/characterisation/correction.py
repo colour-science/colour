@@ -740,7 +740,9 @@ def matrix_colour_correction_Finlayson2015(
     >>> prng = np.random.RandomState(2)
     >>> M_T = prng.random_sample((24, 3))
     >>> M_R = M_T + (prng.random_sample((24, 3)) - 0.5) * 0.5
-    >>> matrix_colour_correction_Finlayson2015(M_T, M_R)  # doctest: +ELLIPSIS
+    >>> matrix_colour_correction_Finlayson2015(
+    ...     M_T, M_R, 2
+    ... )  # doctest: +ELLIPSIS
     array([[ 1.0526376...,  0.1378078..., -0.2276339...],
            [ 0.0739584...,  1.0293994..., -0.1060115...],
            [ 0.0572550..., -0.2052633...,  1.1015194...]])

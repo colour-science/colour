@@ -989,22 +989,6 @@ class TestMatrixIdt(unittest.TestCase):
             atol=0.0001,
         )
 
-        np.testing.assert_allclose(
-            matrix_idt(
-                MSDS_CANON_EOS_5DMARK_II,
-                SDS_ILLUMINANTS["D55"],
-                whitepoint_preservation=False,
-            )[0],
-            np.array(
-                [
-                    [0.84993176, -0.01605547, 0.15143487],
-                    [0.05090372, 1.12559957, -0.18498253],
-                    [0.02006808, -0.19445118, 1.16206535],
-                ]
-            ),
-            rtol=0.0001,
-            atol=0.0001,
-        )
         # The *RAW to ACES* v1 matrix for the same camera and optimized by
         # `Ceres Solver <http://ceres-solver.org/>`__ is as follows:
         #
@@ -1035,9 +1019,9 @@ class TestMatrixIdt(unittest.TestCase):
             M,
             np.array(
                 [
-                    [0.85154529, -0.00930079, 0.15775549],
-                    [0.05413281, 1.12208831, -0.17622112],
-                    [0.02327675, -0.22372411, 1.20044737],
+                    [0.84841343, -0.01569484, 0.15799196],
+                    [0.05332939, 1.11428808, -0.17523625],
+                    [0.02262148, -0.22527442, 1.19646745],
                 ]
             ),
             rtol=0.0001,
