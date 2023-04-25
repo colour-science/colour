@@ -143,7 +143,7 @@ def colour_fidelity_index_ANSIIESTM3018(
     # Setup bins based on where the reference a'b' points are located.
     bins = np.floor(
         as_float_array(
-            [sample.CAM.h for sample in specification.colorimetry_data[1]]
+            [sample.JMh[2] for sample in specification.colorimetry_data[1]]
         )
         / 22.5
     )

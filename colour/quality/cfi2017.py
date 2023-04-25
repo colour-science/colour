@@ -21,7 +21,6 @@ from dataclasses import dataclass
 
 from colour.algebra import Extrapolator, euclidean_distance, linstep_function
 from colour.appearance import (
-    CAM_Specification_CIECAM02,
     XYZ_to_CIECAM02,
     VIEWING_CONDITIONS_CIECAM02,
 )
@@ -93,7 +92,6 @@ class DataColorimetry_TCS_CIE2017:
 
     name: str
     XYZ: NDArrayFloat
-    CAM: CAM_Specification_CIECAM02
     JMh: NDArrayFloat
     Jpapbp: NDArrayFloat
 
@@ -212,10 +210,10 @@ def colour_fidelity_index_CIE2017(
     # pylint: disable=E1102
     sds_tcs = load_TCS_CIE2017(shape)
 
-    test_tcs_colorimetry_data = tcs_colorimetry_data(sd_test, sds_tcs, cmfs_10)
-    reference_tcs_colorimetry_data = tcs_colorimetry_data(
-        sd_reference, sds_tcs, cmfs_10
-    )
+    (
+        test_tcs_colorimetry_data,
+        reference_tcs_colorimetry_data,
+    ) = tcs_colorimetry_data([sd_test, sd_reference], sds_tcs, cmfs_10)
 
     delta_E_s = euclidean_distance(
         [test_sample.Jpapbp for test_sample in test_tcs_colorimetry_data],
@@ -381,7 +379,7 @@ def sd_reference_illuminant(
 
     if CCT >= 4000:
         xy = CCT_to_xy_CIE_D(CCT)
-        sd_daylight = sd_CIE_illuminant_D_series(xy).align(shape)
+        sd_daylight = sd_CIE_illuminant_D_series(xy, shape=shape)
 
     if CCT < 4000:
         sd_reference = sd_planckian
@@ -413,7 +411,7 @@ def sd_reference_illuminant(
 
 
 def tcs_colorimetry_data(
-    sd_irradiance: SpectralDistribution,
+    sd_irradiance: SpectralDistribution | list[SpectralDistribution],
     sds_tcs: MultiSpectralDistributions,
     cmfs: MultiSpectralDistributions,
 ) -> Tuple[DataColorimetry_TCS_CIE2017, ...]:
@@ -443,29 +441,40 @@ def tcs_colorimetry_data(
     >>> delta_E_to_R_f(4.4410383190)  # doctest: +ELLIPSIS
     70.1208254...
     """
+    if type(sd_irradiance) is SpectralDistribution:
+        sd_irradiance = [sd_irradiance]
 
-    XYZ_w = sd_to_XYZ(
-        sd_irradiance.values,
-        cmfs,
-        shape=sd_irradiance.shape,
-        method="Integration",
-    )
-    XYZ_w *= 100 / XYZ_w[1]
+    XYZ_w = np.full((len(sd_irradiance), 3), np.nan)
+    for idx, sd in enumerate(sd_irradiance):
+        XYZ_t = sd_to_XYZ(
+            sd.values,
+            cmfs,
+            shape=sd.shape,
+            method="Integration",
+        )
+        k = 100 / XYZ_t[1]
+        XYZ_w[idx] = k * XYZ_t
+        sd_irradiance[idx] *= k
+    XYZ_w = as_float_array(XYZ_w)
+
     Y_b = 20
     L_A = 100
     surround = VIEWING_CONDITIONS_CIECAM02["Average"]
 
+    sds_tcs_t = np.tile(sds_tcs.values.T, (len(sd_irradiance), 1, 1))
+    sds_tcs_t = sds_tcs_t * as_float_array(
+        [sd.values for sd in sd_irradiance]
+    ).reshape(len(sd_irradiance), 1, len(sd_irradiance[0]))
+
     XYZ = msds_to_XYZ(
-        sds_tcs.values.T,
+        sds_tcs_t,
         cmfs,
-        sd_irradiance,
-        use_practice_range=False,
         method="Integration",
         shape=sds_tcs.shape,
     )
     specification = XYZ_to_CIECAM02(
         XYZ,
-        XYZ_w,
+        XYZ_w.reshape((len(sd_irradiance), 1, 3)),
         L_A,
         Y_b,
         surround,
@@ -481,16 +490,21 @@ def tcs_colorimetry_data(
     )
     Jpapbp = JMh_CIECAM02_to_CAM02UCS(JMh)
     specification = as_float_array(specification)
-    tcs_data = [
-        DataColorimetry_TCS_CIE2017(
-            sds_tcs.display_labels[idx],  # @tjdcs Performance Hack
-            XYZ[idx],
-            CAM_Specification_CIECAM02(*specification[idx]),
-            JMh[idx],
-            Jpapbp[idx],
+    tcs_data = []
+    # fmt: off
+    for sd_idx in range(len(sd_irradiance)):
+        tcs_data.append(
+            [
+                DataColorimetry_TCS_CIE2017(
+                    sds_tcs.display_labels[idx],  # @tjdcs Performance Hack
+                    XYZ[sd_idx][idx],
+                    JMh[sd_idx][idx],
+                    Jpapbp[sd_idx][idx],
+                )
+                for idx in range(len(sds_tcs.signals))
+            ]
         )
-        for idx in range(len(sds_tcs.signals))
-    ]
+        #fmt: on
 
     return tuple(tcs_data)
 

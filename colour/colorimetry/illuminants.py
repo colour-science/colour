@@ -35,6 +35,7 @@ from colour.colorimetry import (
     SpectralDistribution,
     SpectralShape,
 )
+from colour.colorimetry.spectrum import reshape_msds
 from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import as_float_array, as_float, tsplit
 
@@ -136,7 +137,9 @@ def sd_CIE_standard_illuminant_A(
 
 
 def sd_CIE_illuminant_D_series(
-    xy: ArrayLike, M1_M2_rounding: bool = True
+    xy: ArrayLike,
+    M1_M2_rounding: bool = True,
+    shape: SpectralShape | None = None,
 ) -> SpectralDistribution:
     """
     Return the spectral distribution of given *CIE Illuminant D Series* using
@@ -305,6 +308,11 @@ def sd_CIE_illuminant_D_series(
     S0 = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S0"]
     S1 = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S1"]
     S2 = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S2"]
+
+    if shape is not None:
+        S0 = reshape_msds(S0, shape=shape, copy=False)
+        S1 = reshape_msds(S1, shape=shape, copy=False)
+        S2 = reshape_msds(S2, shape=shape, copy=False)
 
     distribution = S0.values + M1 * S1.values + M2 * S2.values
 

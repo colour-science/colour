@@ -390,7 +390,7 @@ def plot_colour_vector_graphic(
         [
             np.mean(
                 [
-                    cast(float, specification.colorimetry_data[1][i].CAM.h)
+                    cast(float, specification.colorimetry_data[1][i].JMh[2])
                     for i in specification.bins[j]
                 ]
             )
