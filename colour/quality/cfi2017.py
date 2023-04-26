@@ -167,6 +167,19 @@ def colour_fidelity_index_CIE2017(
     70.1208254...
     """
 
+    if sd_test.shape.interval > 5:
+        raise ValueError(
+            "Test spectral distribution interval is greater than"
+            "5nm which is the maximum recommended value "
+            'for computing the "CIE 2017 Colour Fidelity Index"!'
+        )
+
+    shape = SpectralShape(
+        SPECTRAL_SHAPE_CIE2017.start,
+        SPECTRAL_SHAPE_CIE2017.end,
+        sd_test.shape.interval,
+    )
+
     if sd_test.shape.start > 380 or sd_test.shape.end < 780:
         usage_warning(
             "Test spectral distribution shape does not span the "
@@ -183,19 +196,7 @@ def colour_fidelity_index_CIE2017(
             "left": 0,
             "right": 0,
         }
-
-    if sd_test.shape.interval > 5:
-        raise ValueError(
-            "Test spectral distribution interval is greater than"
-            "5nm which is the maximum recommended value "
-            'for computing the "CIE 2017 Colour Fidelity Index"!'
-        )
-
-    shape = SpectralShape(
-        SPECTRAL_SHAPE_CIE2017.start,
-        SPECTRAL_SHAPE_CIE2017.end,
-        sd_test.shape.interval,
-    )
+        sd_test.align(shape=shape)
 
     CCT, D_uv = tsplit(CCT_reference_illuminant(sd_test))
     sd_reference = sd_reference_illuminant(CCT, shape)
