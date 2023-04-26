@@ -57,6 +57,7 @@ from colour.utilities import (
     tstack,
     validate_method,
 )
+from colour.utilities.common import CACHE_REGISTRY
 from colour.utilities.documentation import is_documentation_building
 
 if TYPE_CHECKING:
@@ -79,6 +80,10 @@ __status__ = "Production"
 __all__ = [
     "Signal",
 ]
+
+_CACHE_SIGNAL_UNPACK_REPEATED: dict = CACHE_REGISTRY.register_cache(
+    f"{__name__}._CACHE_SIGNAL_UNPACK_REPEATED", max_size=10
+)
 
 
 class Signal(AbstractContinuousFunction):
@@ -1166,6 +1171,12 @@ class Signal(AbstractContinuousFunction):
 
         dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
 
+        # If this function is called with it's own output, return the same.
+        if (
+            cache_key := (id(domain), id(data), dtype)
+        ) in _CACHE_SIGNAL_UNPACK_REPEATED:
+            return _CACHE_SIGNAL_UNPACK_REPEATED[cache_key]
+
         domain_unpacked: NDArrayFloat = np.array([])
         range_unpacked: NDArrayFloat = np.array([])
 
@@ -1205,6 +1216,12 @@ class Signal(AbstractContinuousFunction):
         if range_unpacked is not None:
             range_unpacked = as_float_array(range_unpacked, dtype)
 
+        _CACHE_SIGNAL_UNPACK_REPEATED[
+            (id(domain_unpacked), id(range_unpacked), dtype)
+        ] = (
+            domain_unpacked,
+            range_unpacked,
+        )
         return domain_unpacked, range_unpacked
 
     def fill_nan(
