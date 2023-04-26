@@ -17,6 +17,7 @@ numpyerrors.html
 """
 
 from __future__ import annotations
+from collections import OrderedDict
 
 import inspect
 import functools
@@ -54,6 +55,8 @@ __status__ = "Production"
 __all__ = [
     "CacheRegistry",
     "CACHE_REGISTRY",
+    "COLOUR_DEFAULT_LRU_CACHE_SIZE",
+    "ColourLRUCache",
     "handle_numpy_errors",
     "ignore_numpy_errors",
     "raise_numpy_errors",
@@ -87,6 +90,87 @@ __all__ = [
     "optional",
     "slugify",
 ]
+
+COLOUR_DEFAULT_LRU_CACHE_SIZE: int | None = None
+
+
+class ColourLRUCache(OrderedDict):
+    """A dict-like object for implementing least recently used (LRU) caching
+    with a maximum number of entries
+
+    Parameters
+    ----------
+    OrderedDict : _type_
+        _description_
+    """
+
+    def __init__(self, max_size: int | None):
+        """Create a new LRU size limited dict
+
+        Parameters
+        ----------
+        max_size : int | None
+            Maximum number of entries in the cache
+        """
+        self.max_size = max_size
+        super().__init__()
+
+    @property
+    def max_size(self) -> int | None:
+        """Max entries in LRU cache"""
+        return self._max_size
+
+    @max_size.setter
+    def max_size(self, value: int | None):
+        """Set max entries in LRU cache
+
+        Parameters
+        ----------
+        value : int | None
+            new max value size. None means the cache is unbounded
+        """
+        self._max_size = value
+        self._check_size_limit()
+
+    def _check_size_limit(self):
+        """Check the size limit of the cache and evict the oldest updated /
+        checked item
+        """
+        if self.max_size is not None:
+            while len(self) > self.max_size:
+                self.popitem(False)
+
+    def __contains__(self, key: Any) -> bool:
+        """Check if this cache contains an entry for the given `key`
+
+        Parameters
+        ----------
+        key : Any
+            Dictionary key
+
+        Returns
+        -------
+        bool
+        """
+        in_status = super().__contains__(key)
+        if in_status:
+            self.move_to_end(key=key)
+        return in_status
+
+    def __setitem__(self, key: Any, value: Any):
+        """Insert / update an item in the cache
+
+        Parameters
+        ----------
+        key : Any
+            Dictionary key
+        value : Any
+            New value
+        """
+        super().__setitem__(key, value)
+        self.move_to_end(key)
+
+        self._check_size_limit()
 
 
 class CacheRegistry:
@@ -159,7 +243,9 @@ class CacheRegistry:
             }
         )
 
-    def register_cache(self, name: str) -> dict:
+    def register_cache(
+        self, name: str, max_size: int | None = COLOUR_DEFAULT_LRU_CACHE_SIZE
+    ) -> dict:
         """
         Register a new cache with given name in the registry.
 
@@ -167,6 +253,9 @@ class CacheRegistry:
         ----------
         name
             Cache name for the registry.
+        max_size
+            Maximum number of entries in the cache. Internally controlls an LRU
+            cache. default: None
 
         Returns
         -------
@@ -185,7 +274,9 @@ class CacheRegistry:
         {'Cache A': '1 item(s)', 'Cache B': '2 item(s)'}
         """
 
-        self._registry[name] = {}
+        self._registry[name] = (
+            {} if max_size is None else ColourLRUCache(max_size=max_size)
+        )
 
         return self._registry[name]
 

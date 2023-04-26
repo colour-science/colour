@@ -27,6 +27,7 @@ from colour.utilities import (
     optional,
     slugify,
 )
+from colour.utilities.common import ColourLRUCache
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -52,6 +53,50 @@ __all__ = [
     "TestOptional",
     "TestSlugify",
 ]
+
+
+class TestColourLRUCache(unittest.TestCase):
+    """Test LRU cache implementation"""
+
+    def test_required_attributes(self):
+        """Chech required LRU cache attributes"""
+        cache = ColourLRUCache(None)
+        required_attributes = ("max_size",)
+
+        for attribute in required_attributes:
+            self.assertIn(attribute, dir(cache))
+
+    def test_LRU_Cache_Contents(self):
+        """Chech that cache preserves inserted values and can update values"""
+        cache = ColourLRUCache(max_size=5)
+        for idx in range(5):
+            cache[f"{idx}"] = idx
+
+        self.assertEqual(list(cache.values()), [0, 1, 2, 3, 4])
+
+        cache["2"] = 100
+        self.assertEqual(cache["2"], 100)
+
+    def test_LRU_Cache_Key_Lifetimes(self):
+        """Test LRU Cache eviction"""
+        cache = ColourLRUCache(max_size=5)
+        for idx in range(5):
+            cache[f"{idx}"] = idx
+
+        cache["5"] = 5
+        self.assertNotIn("0", cache)
+
+        # Touch "1"
+        self.assertIn("1", cache)
+        cache["6"] = 6
+        self.assertIn("1", cache)
+        self.assertEqual(len(cache), 5)
+        self.assertNotIn("2", cache)
+
+        cache["3"] = 7
+        cache["7"] = 8
+        self.assertIn("3", cache)
+        self.assertNotIn("4", cache)
 
 
 class TestCacheRegistry(unittest.TestCase):
