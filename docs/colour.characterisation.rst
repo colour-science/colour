@@ -57,6 +57,7 @@ ACES Input Transform Computation
     whitepoint_preserving_matrix
     optimisation_factory_rawtoaces_v1
     optimisation_factory_Jzazbz
+    optimisation_factory_Oklab_18
 
 Colour Fitting
 --------------

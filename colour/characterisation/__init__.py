@@ -39,6 +39,7 @@ from .aces_it import (
     whitepoint_preserving_matrix,
     optimisation_factory_rawtoaces_v1,
     optimisation_factory_Jzazbz,
+    optimisation_factory_Oklab_18,
     matrix_idt,
     camera_RGB_to_ACES2065_1,
 )
@@ -81,6 +82,7 @@ __all__ += [
     "whitepoint_preserving_matrix",
     "optimisation_factory_rawtoaces_v1",
     "optimisation_factory_Jzazbz",
+    "optimisation_factory_Oklab_18",
     "matrix_idt",
     "camera_RGB_to_ACES2065_1",
 ]

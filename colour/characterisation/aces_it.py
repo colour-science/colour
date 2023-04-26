@@ -15,6 +15,7 @@ Defines the *Academy Color Encoding System* (ACES) *Input Transform* utilities:
 -   :func:`colour.characterisation.training_data_sds_to_XYZ`
 -   :func:`colour.characterisation.optimisation_factory_rawtoaces_v1`
 -   :func:`colour.characterisation.optimisation_factory_Jzazbz`
+-   :func:`colour.characterisation.optimisation_factory_Oklab_18`
 -   :func:`colour.matrix_idt`
 -   :func:`colour.camera_RGB_to_ACES2065_1`
 
@@ -24,6 +25,10 @@ References
     M. (2017). RAW to ACES (Version 1.0) [Computer software].
 -   :cite:`Forsythe2018` : Borer, T. (2017). Private Discussion with Mansencal,
     T. and Shaw, N.
+-   :cite:`Finlayson2015` : Finlayson, G. D., MacKiewicz, M., & Hurlbert, A.
+    (2015). Color Correction Using Root-Polynomial Regression. IEEE
+    Transactions on Image Processing, 24(5), 1460-1470.
+    doi:10.1109/TIP.2015.2405336
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project Subcommittee. (2014). Technical
@@ -75,6 +80,7 @@ from colour.colorimetry import (
 from colour.characterisation import (
     MSDS_ACES_RICD,
     RGB_CameraSensitivities,
+    polynomial_expansion_Finlayson2015,
 )
 from colour.hints import (
     ArrayLike,
@@ -90,6 +96,7 @@ from colour.io import read_sds_from_csv_file
 from colour.models import (
     XYZ_to_Jzazbz,
     XYZ_to_Lab,
+    XYZ_to_Oklab,
     XYZ_to_xy,
     xy_to_XYZ,
 )
@@ -138,6 +145,7 @@ __all__ = [
     "whitepoint_preserving_matrix",
     "optimisation_factory_rawtoaces_v1",
     "optimisation_factory_Jzazbz",
+    "optimisation_factory_Oklab_18",
     "matrix_idt",
     "camera_RGB_to_ACES2065_1",
 ]
@@ -803,7 +811,7 @@ def optimisation_factory_rawtoaces_v1() -> (
     data *RGB* tristimulus values and the training data *CIE XYZ* tristimulus
     values** in *CIE L\\*a\\*b\\** colourspace.
 
-    It also implements whitepoint preservation.
+    It implements whitepoint preservation as an optimisation constraint.
 
     Returns
     -------
@@ -925,6 +933,86 @@ finaliser_function at 0x...>)
     )
 
 
+def optimisation_factory_Oklab_18() -> (
+    Tuple[NDArrayFloat, Callable, Callable, Callable]
+):
+    """
+    Produce the objective function and *CIE XYZ* colourspace to optimisation
+    colourspace/colour model function based on the *Oklab* colourspace.
+
+    The objective function returns the euclidean distance between the training
+    data *RGB* tristimulus values and the training data *CIE XYZ* tristimulus
+    values** in the *Oklab* colourspace.
+
+    It implements support for *Finlayson et al. (2015)* root-polynomials of
+    degree 2 and produces 18 terms.
+
+    Returns
+    -------
+    :class:`tuple`
+        :math:`x_0` initial values, objective function, *CIE XYZ* colourspace
+        to *Oklab* colourspace function and finaliser function.
+
+    References
+    ----------
+    :cite:`Finlayson2015`
+
+    Examples
+    --------
+    >>> optimisation_factory_Oklab_18()  # doctest: +SKIP
+    array([ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1., \
+1.,  1.,  1.,  1.,  1.]), \
+<function optimisation_factory_Oklab_18.<locals>\
+.objective_function at 0x...>, \
+<function optimisation_factory_Oklab_18.<locals>\
+.XYZ_to_optimization_colour_model at 0x...>, \
+<function optimisation_factory_Oklab_18.<locals>.\
+finaliser_function at 0x...>)
+    """
+
+    x_0 = ones(18)
+
+    def objective_function(
+        M: ArrayLike, RGB: ArrayLike, Jab: ArrayLike
+    ) -> NDArrayFloat:
+        """*Oklab* colourspace based objective function."""
+
+        M = np.reshape(M, (3, 6))
+
+        XYZ_t = np.transpose(
+            np.dot(
+                RGB_COLOURSPACE_ACES2065_1.matrix_RGB_to_XYZ,
+                np.dot(
+                    M,
+                    np.transpose(
+                        polynomial_expansion_Finlayson2015(RGB, 2, True)
+                    ),
+                ),
+            )
+        )
+
+        Jab_t = XYZ_to_Oklab(XYZ_t)
+
+        return as_float(np.sum(euclidean_distance(Jab, Jab_t)))
+
+    def XYZ_to_optimization_colour_model(XYZ: ArrayLike) -> NDArrayFloat:
+        """*CIE XYZ* colourspace to *Oklab* colourspace function."""
+
+        return XYZ_to_Oklab(XYZ)
+
+    def finaliser_function(M: NDArrayFloat) -> NDArrayFloat:
+        """Finaliser function."""
+
+        return np.reshape(M, (3, 6))
+
+    return (
+        x_0,
+        objective_function,
+        XYZ_to_optimization_colour_model,
+        finaliser_function,
+    )
+
+
 def matrix_idt(
     sensitivities: RGB_CameraSensitivities,
     illuminant: SpectralDistribution,
@@ -1029,6 +1117,18 @@ def matrix_idt(
     array([[ 0.848, -0.016,  0.158],
            [ 0.053,  1.114, -0.175],
            [ 0.023, -0.225,  1.196]])
+    >>> RGB_w  # doctest: +ELLIPSIS
+    array([ 2.3414154...,  1.        ,  1.5163375...])
+
+    >>> M, RGB_w = matrix_idt(
+    ...     sensitivities,
+    ...     illuminant,
+    ...     optimisation_factory=optimisation_factory_Oklab_18,
+    ... )
+    >>> np.around(M, 3)
+    array([[ 0.659, -0.556,  0.132,  0.69 ,  0.332, -0.26 ],
+           [-0.137,  0.815, -0.045,  0.578, -0.1  , -0.119],
+           [-0.145, -0.3  ,  1.448,  0.426, -0.426, -0.013]])
     >>> RGB_w  # doctest: +ELLIPSIS
     array([ 2.3414154...,  1.        ,  1.5163375...])
     """
