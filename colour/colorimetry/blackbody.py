@@ -18,7 +18,6 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import (
     SPECTRAL_SHAPE_DEFAULT,
     SpectralDistribution,
@@ -27,6 +26,7 @@ from colour.colorimetry import (
 from colour.constants import CONSTANT_BOLTZMANN, CONSTANT_LIGHT_SPEED
 from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import as_float, as_float_array
+from colour.utilities.common import attest
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -127,10 +127,10 @@ def planck_law(
     l = np.ravel(l)[..., None]  # noqa: E741
     t = np.ravel(t)[None, ...]
 
-    with sdiv_mode():
-        d = sdiv(c2, (n * l * t))
+    attest(np.all(l > 0), "Wavelengths must be positive real values")
 
-    d[d != 0] = np.expm1(d[d != 0]) ** -1
+    d = c2 / (n * l * t)
+    np.power(np.expm1(d, out=d), -1, out=d)
     p = ((c1 * n**-2 * l**-5) / np.pi) * d
 
     return as_float(np.squeeze(p))

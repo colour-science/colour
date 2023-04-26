@@ -24,11 +24,14 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode
+from colour.algebra.common import euclidean_distance
+
 from colour.colorimetry import (
     MultiSpectralDistributions,
     handle_spectral_arguments,
 )
 from colour.hints import ArrayLike, NDArrayFloat
+from colour.models.cie_ucs import UCS_to_XYZ, UCS_to_uv, XYZ_to_UCS, uv_to_UCS
 from colour.temperature import CCT_to_uv_Planck1900
 from colour.utilities import (
     CACHE_REGISTRY,
@@ -38,6 +41,7 @@ from colour.utilities import (
     tsplit,
     tstack,
 )
+from colour.utilities.common import attest
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -50,7 +54,7 @@ __all__ = [
     "CCT_MINIMAL_OHNO2013",
     "CCT_MAXIMAL_OHNO2013",
     "CCT_SAMPLES_OHNO2013",
-    "CCT_ITERATIONS_OHNO2013",
+    "CCT_DEFAULT_SPACING_OHNO2013",
     "planckian_table",
     "uv_to_CCT_Ohno2013",
     "CCT_to_uv_Ohno2013",
@@ -59,7 +63,7 @@ __all__ = [
 CCT_MINIMAL_OHNO2013: float = 1000
 CCT_MAXIMAL_OHNO2013: float = 100000
 CCT_SAMPLES_OHNO2013: int = 10
-CCT_ITERATIONS_OHNO2013: int = 6
+CCT_DEFAULT_SPACING_OHNO2013: float = 1.005
 
 _CACHE_PLANCKIAN_TABLE: dict = CACHE_REGISTRY.register_cache(
     f"{__name__}._CACHE_PLANCKIAN_TABLE"
@@ -67,11 +71,10 @@ _CACHE_PLANCKIAN_TABLE: dict = CACHE_REGISTRY.register_cache(
 
 
 def planckian_table(
-    uv: ArrayLike,
     cmfs: MultiSpectralDistributions,
     start: float,
     end: float,
-    count: int,
+    spacing: float,
 ) -> NDArrayFloat:
     """
     Return a planckian table from given *CIE UCS* colourspace *uv*
@@ -80,16 +83,14 @@ def planckian_table(
 
     Parameters
     ----------
-    uv
-        *uv* chromaticity coordinates.
     cmfs
         Standard observer colour matching functions.
     start
         Temperature range start in kelvin degrees.
     end
         Temperature range end in kelvin degrees.
-    count
-        Temperatures count in the planckian table.
+    spacing
+        The spacing between values expressed as a multiplier, default = 1.01
 
     Returns
     -------
@@ -129,19 +130,82 @@ def planckian_table(
               2.5147492...e-01]])
     """
 
-    cache_key = hash((cmfs.values.tobytes(), start, end, count))
+    # We are just using an internal caching function. Rather than hash the full
+    # MultispectralDistribution we can hash the id and name. Callers who
+    # repeatedly call with an identical cmfs object (in the same memory address)
+    # will get caching benefit. This is faster than hashing the cmfs and still
+    # gives good performance to library code / colour idomatic code.
+    cache_key = hash((id(cmfs), cmfs.name, start, end, spacing))
     if cache_key in _CACHE_PLANCKIAN_TABLE:
         table = _CACHE_PLANCKIAN_TABLE[cache_key].copy()
     else:
-        Ti = np.linspace(start, end, count)
-        u_i, v_i = tsplit(CCT_to_uv_Planck1900(Ti, cmfs))
-        table = as_float_array([Ti, u_i, v_i, np.ones(Ti.shape) * -1]).T
+        attest(spacing > 1.0, "spacing value must be > 1")
+
+        Ti = [start, start + 1]
+        next_ti = start + 1
+        next_spacing = spacing
+        while (next_ti := next_ti * next_spacing) < end:
+            Ti.append(next_ti)
+
+            # Slightly decrease stepsize for higher CCT
+            D = (next_ti - 1000) / (100_000 - 1000)
+            next_spacing = spacing * (1 - D) + (1 + (spacing - 1) / 10) * D
+        Ti = np.concatenate([Ti, [end - 1, end]])
+
+        table = np.concatenate(
+            [Ti.reshape((-1, 1)), CCT_to_uv_Planck1900(Ti, cmfs)], axis=1
+        )
         _CACHE_PLANCKIAN_TABLE[cache_key] = table.copy()
-
-    ux, vx = tsplit(uv)
-    table[..., -1] = np.hypot(ux - table[..., 1], vx - table[..., 2])
-
     return table
+
+
+def XYZ_to_CCT_Ohno2013(
+    XYZ: ArrayLike, cmfs: MultiSpectralDistributions | None = None
+):
+    """Calculate the CCT of a given XYZ value using the Ohno (2014) CCT
+    approximation method. Frequently used in lighting quality calculations
+
+    Parameters
+    ----------
+    XYZ
+        *XYZ* colourspace *uv* chromaticity coordinates.
+    cmfs
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
+
+    References
+    ----------
+    :cite:`Ohno2014a`
+    """
+    return uv_to_CCT_Ohno2013(UCS_to_uv(XYZ_to_UCS(XYZ)), cmfs)
+
+
+def CCT_to_XYZ_Ohno2013(
+    CCT_D_uv: ArrayLike, cmfs: MultiSpectralDistributions | None = None
+):
+    """Calculate an XYZ for a given CCT_duv. Provided as a convienience function
+    for frequent lighting calculations.
+
+    Parameters
+    ----------
+    CCT_D_uv : ArrayLike
+        Target CCT and d_uv values to convert to XYZ
+    cmfs
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        *CIE UCS* colourspace *uv* chromaticity coordinates.
+
+    """
+    return UCS_to_XYZ(uv_to_UCS(CCT_to_uv_Ohno2013(CCT_D_uv, cmfs)))
 
 
 def uv_to_CCT_Ohno2013(
@@ -149,8 +213,7 @@ def uv_to_CCT_Ohno2013(
     cmfs: MultiSpectralDistributions | None = None,
     start: float | None = None,
     end: float | None = None,
-    count: int | None = None,
-    iterations: int | None = None,
+    spacing: float | None = None,
 ) -> NDArrayFloat:
     """
     Return the correlated colour temperature :math:`T_{cp}` and
@@ -173,10 +236,9 @@ def uv_to_CCT_Ohno2013(
         Temperature range start in kelvin degrees, default to 1000.
     end
         Temperature range end in kelvin degrees, default to 100000.
-    count
-        Temperatures count/samples in the planckian tables, default to 10.
     iterations
-        Number of planckian tables to generate, default to 6.
+        Spacing used for CCT initial LUT. Default = 1.005. 1.01 gives a good
+        balance of performance and accuracy.
 
     Returns
     -------
@@ -205,8 +267,7 @@ def uv_to_CCT_Ohno2013(
     cmfs, _illuminant = handle_spectral_arguments(cmfs)
     start = optional(start, CCT_MINIMAL_OHNO2013)
     end = optional(end, CCT_MAXIMAL_OHNO2013)
-    count = optional(count, CCT_SAMPLES_OHNO2013)
-    iterations = optional(iterations, CCT_ITERATIONS_OHNO2013)
+    spacing = optional(spacing, CCT_DEFAULT_SPACING_OHNO2013)
 
     shape = uv.shape
     uv = np.reshape(uv, (-1, 2))
@@ -214,32 +275,28 @@ def uv_to_CCT_Ohno2013(
     # Planckian tables creation through cascade expansion.
     tables_data = []
     for uv_i in uv:
-        start_i, end_r = start, end
-        for _i in range(max(int(iterations), 1)):
-            table = planckian_table(uv_i, cmfs, start_i, end_r, count)
-            index = np.argmin(table[..., -1])
-            if index == 0:
-                runtime_warning(
-                    "Minimal distance index is on lowest planckian table bound, "
-                    "unpredictable results may occur!"
-                )
-                index += 1
-            elif index == len(table) - 1:
-                runtime_warning(
-                    "Minimal distance index is on highest planckian table bound, "
-                    "unpredictable results may occur!"
-                )
-                index -= 1
-
-            start_i = table[index - 1][0]
-            end_r = table[index + 1][0]
+        table = planckian_table(cmfs, start, end, spacing)
+        dists = euclidean_distance(table[:, 1:], uv_i)
+        index = np.argmin(dists)
+        if index == 0:
+            runtime_warning(
+                "Minimal distance index is on lowest planckian table bound, "
+                "unpredictable results may occur!"
+            )
+            index += 1
+        elif index == len(table) - 1:
+            runtime_warning(
+                "Minimal distance index is on highest planckian table bound, "
+                "unpredictable results may occur!"
+            )
+            index -= 1
 
         tables_data.append(
             np.vstack(
                 [
-                    table[index - 1, ...],
-                    table[index, ...],
-                    table[index + 1, ...],
+                    [*table[index - 1, ...], dists[index - 1]],
+                    [*table[index - 0, ...], dists[index - 0]],
+                    [*table[index + 1, ...], dists[index + 1]],
                 ]
             )
         )
