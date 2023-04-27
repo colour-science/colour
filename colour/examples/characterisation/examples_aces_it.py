@@ -6,7 +6,6 @@ computations.
 import os
 
 import colour
-import numpy as np
 from colour.hints import cast
 from colour.utilities import message_box
 
@@ -81,21 +80,3 @@ M, RGB_w = colour.matrix_idt(  # pyright: ignore
 )
 
 print((M, RGB_w))
-
-RGB = np.random.random((48, 3))
-
-print(
-    colour.utilities.vector_dot(  # pyright: ignore
-        colour.models.RGB_COLOURSPACE_ACES2065_1.matrix_RGB_to_XYZ,
-        np.transpose(
-            np.dot(
-                M,
-                np.transpose(
-                    colour.characterisation.polynomial_expansion_Finlayson2015(
-                        RGB, 2, True
-                    )
-                ),
-            )
-        ),
-    )
-)
