@@ -418,6 +418,7 @@ from .temperature import (
     xy_to_CCT,
 )
 from .characterisation import (
+    APPLY_MATRIX_COLOUR_CORRECTION_METHODS,
     CCS_COLOURCHECKERS,
     MATRIX_COLOUR_CORRECTION_METHODS,
     COLOUR_CORRECTION_METHODS,
@@ -427,6 +428,7 @@ from .characterisation import (
     SDS_COLOURCHECKERS,
     SDS_FILTERS,
     SDS_LENSES,
+    apply_matrix_colour_correction,
     camera_RGB_to_ACES2065_1,
     colour_correction,
     matrix_colour_correction,
@@ -843,6 +845,7 @@ __all__ += [
     "xy_to_CCT",
 ]
 __all__ += [
+    "APPLY_MATRIX_COLOUR_CORRECTION_METHODS",
     "CCS_COLOURCHECKERS",
     "MATRIX_COLOUR_CORRECTION_METHODS",
     "COLOUR_CORRECTION_METHODS",
@@ -852,6 +855,7 @@ __all__ += [
     "SDS_COLOURCHECKERS",
     "SDS_FILTERS",
     "SDS_LENSES",
+    "apply_matrix_colour_correction",
     "camera_RGB_to_ACES2065_1",
     "colour_correction",
     "matrix_colour_correction",

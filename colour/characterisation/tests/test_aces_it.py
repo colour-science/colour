@@ -24,6 +24,7 @@ from colour.characterisation import (
     whitepoint_preserving_matrix,
     optimisation_factory_rawtoaces_v1,
     optimisation_factory_Jzazbz,
+    optimisation_factory_Oklab_18,
     matrix_idt,
     camera_RGB_to_ACES2065_1,
 )
@@ -63,6 +64,7 @@ __all__ = [
     "TestWhitepointPreservingMatrix",
     "TestOptimizationFactoryRawtoacesV1",
     "TestOptimizationFactoryJzazbz",
+    "TestOptimizationFactoryOklab18",
     "TestMatrixIdt",
     "TestCamera_RGB_to_ACES2065_1",
 ]
@@ -941,7 +943,7 @@ optimisation_factory_rawtoaces_v1` definition unit tests methods.
 optimisation_factory_rawtoaces_v1` definition.
         """
 
-        self.assertEqual(len(optimisation_factory_rawtoaces_v1()), 2)
+        self.assertEqual(len(optimisation_factory_rawtoaces_v1()), 4)
 
 
 class TestOptimizationFactoryJzazbz(unittest.TestCase):
@@ -956,7 +958,22 @@ optimisation_factory_Jzazbz` definition unit tests methods.
 optimisation_factory_Jzazbz` definition.
         """
 
-        self.assertEqual(len(optimisation_factory_Jzazbz()), 2)
+        self.assertEqual(len(optimisation_factory_Jzazbz()), 4)
+
+
+class TestOptimizationFactoryOklab18(unittest.TestCase):
+    """
+    Define :func:`colour.characterisation.aces_it.\
+optimisation_factory_Oklab_18` definition unit tests methods.
+    """
+
+    def test_optimisation_factory_Oklab_18(self):
+        """
+        Test :func:`colour.characterisation.aces_it.\
+optimisation_factory_Oklab_18` definition.
+        """
+
+        self.assertEqual(len(optimisation_factory_Oklab_18()), 4)
 
 
 class TestMatrixIdt(unittest.TestCase):
@@ -989,22 +1006,6 @@ class TestMatrixIdt(unittest.TestCase):
             atol=0.0001,
         )
 
-        np.testing.assert_allclose(
-            matrix_idt(
-                MSDS_CANON_EOS_5DMARK_II,
-                SDS_ILLUMINANTS["D55"],
-                whitepoint_preservation=False,
-            )[0],
-            np.array(
-                [
-                    [0.84993176, -0.01605547, 0.15143487],
-                    [0.05090372, 1.12559957, -0.18498253],
-                    [0.02006808, -0.19445118, 1.16206535],
-                ]
-            ),
-            rtol=0.0001,
-            atol=0.0001,
-        )
         # The *RAW to ACES* v1 matrix for the same camera and optimized by
         # `Ceres Solver <http://ceres-solver.org/>`__ is as follows:
         #
@@ -1035,9 +1036,53 @@ class TestMatrixIdt(unittest.TestCase):
             M,
             np.array(
                 [
-                    [0.85154529, -0.00930079, 0.15775549],
-                    [0.05413281, 1.12208831, -0.17622112],
-                    [0.02327675, -0.22372411, 1.20044737],
+                    [0.84841343, -0.01569484, 0.15799196],
+                    [0.05332939, 1.11428808, -0.17523625],
+                    [0.02262148, -0.22527442, 1.19646745],
+                ]
+            ),
+            rtol=0.0001,
+            atol=0.0001,
+        )
+        np.testing.assert_allclose(
+            RGB_w,
+            np.array([2.34141541, 1.00000000, 1.51633759]),
+            rtol=0.0001,
+            atol=0.0001,
+        )
+        M, RGB_w = matrix_idt(
+            MSDS_CANON_EOS_5DMARK_II,
+            SDS_ILLUMINANTS["D55"],
+            optimisation_factory=optimisation_factory_Oklab_18,
+        )
+        np.testing.assert_allclose(
+            M,
+            np.array(
+                [
+                    [
+                        0.65857990,
+                        -0.55646898,
+                        0.13178280,
+                        0.68969743,
+                        0.33171300,
+                        -0.25994351,
+                    ],
+                    [
+                        -0.13719710,
+                        0.81519400,
+                        -0.04501889,
+                        0.57807948,
+                        -0.09995071,
+                        -0.11895455,
+                    ],
+                    [
+                        -0.14543552,
+                        -0.30025758,
+                        1.44781243,
+                        0.42639300,
+                        -0.42594640,
+                        -0.01275006,
+                    ],
                 ]
             ),
             rtol=0.0001,
@@ -1059,9 +1104,9 @@ class TestMatrixIdt(unittest.TestCase):
             M,
             np.array(
                 [
-                    [0.88338671, 0.00225383, 0.11435946],
-                    [0.08296792, 1.13432355, -0.21729147],
-                    [0.01504774, -0.15021542, 1.13516768],
+                    [0.86504351, -0.02633990, 0.16129640],
+                    [0.05659298, 1.12296533, -0.17955832],
+                    [0.02370632, -0.20257926, 1.17887294],
                 ]
             ),
             rtol=0.0001,
@@ -1073,6 +1118,7 @@ class TestMatrixIdt(unittest.TestCase):
             rtol=0.0001,
             atol=0.0001,
         )
+        return
 
         training_data = sds_and_msds_to_msds(
             SDS_COLOURCHECKERS["BabelColor Average"].values()

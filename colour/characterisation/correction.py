@@ -11,8 +11,8 @@ Defines various objects for colour correction, like colour matching two images:
     method.
 -   :func:`colour.characterisation.polynomial_expansion_Vandermonde` :
     Polynomial expansion using *Vandermonde* method.
--   :attr:`colour.POLYNOMIAL_EXPANSION_METHODS`: Supported polynomial expansion
-    methods.
+-   :attr:`colour.POLYNOMIAL_EXPANSION_METHODS` : Supported polynomial
+    expansion methods.
 -   :func:`colour.polynomial_expansion`: Polynomial expansion of given
     :math:`a` array.
 -   :func:`colour.characterisation.matrix_colour_correction_Cheung2004` :
@@ -20,22 +20,32 @@ Defines various objects for colour correction, like colour matching two images:
 -   :func:`colour.characterisation.matrix_colour_correction_Finlayson2015` :
     Colour correction matrix computation using *Finlayson et al. (2015)*
     method.
--   :func:`colour.characterisation.matrix_colour_correction_Vandermonde`
+-   :func:`colour.characterisation.matrix_colour_correction_Vandermonde` :
     Colour correction matrix computation using *Vandermonde* method.
--   :attr:`colour.MATRIX_COLOUR_CORRECTION_METHODS`: Supported colour
+-   :attr:`colour.MATRIX_COLOUR_CORRECTION_METHODS` : Supported colour
     correction matrix methods.
--   :func:`colour.matrix_colour_correction`: Colour correction matrix
+-   :func:`colour.matrix_colour_correction` : Colour correction matrix
     computation from given :math:`M_T` colour array to :math:`M_R` colour
     array.
+-   :func:`colour.apply_matrix_colour_correction_Cheung2004` : Apply a colour
+    correction matrix computed using *Cheung et al. (2004)* method.
+-   :func:`colour.apply_matrix_colour_correction_Finlayson2015 `: Apply a
+    colour correction matrix computed using *Finlayson et al. (2015)* method.
+-   :func:`colour.apply_matrix_colour_correction_Vandermonde` : Apply a colour
+    correction matrix computed using *Vandermonde* method.
+-   :attr:`colour.APPLY_MATRIX_COLOUR_CORRECTION_METHODS` : Supported methods
+    to apply a colour correction matrix .
+-   :func:`colour.apply_matrix_colour_correction` : Apply a colour correction
+    matrix.
 -   :func:`colour.characterisation.colour_correction_Cheung2004` :
     Colour correction using *Cheung et al. (2004)* method.
 -   :func:`colour.characterisation.colour_correction_Finlayson2015` :
     Colour correction using *Finlayson et al. (2015)* method.
 -   :func:`colour.characterisation.colour_correction_Vandermonde` :
     Colour correction using *Vandermonde* method.
--   :attr:`colour.COLOUR_CORRECTION_METHODS`: Supported colour correction
+-   :attr:`colour.COLOUR_CORRECTION_METHODS` : Supported colour correction
     methods.
--   :func:`colour.colour_correction`: Colour correction of given *RGB*
+-   :func:`colour.colour_correction` : Colour correction of given *RGB*
     colourspace array using the colour correction matrix from given
     :math:`M_T` colour array to :math:`M_R` colour array.
 
@@ -93,6 +103,11 @@ __all__ = [
     "matrix_colour_correction_Vandermonde",
     "MATRIX_COLOUR_CORRECTION_METHODS",
     "matrix_colour_correction",
+    "apply_matrix_colour_correction_Cheung2004",
+    "apply_matrix_colour_correction_Finlayson2015",
+    "apply_matrix_colour_correction_Vandermonde",
+    "APPLY_MATRIX_COLOUR_CORRECTION_METHODS",
+    "apply_matrix_colour_correction",
     "colour_correction_Cheung2004",
     "colour_correction_Finlayson2015",
     "colour_correction_Vandermonde",
@@ -933,6 +948,255 @@ def matrix_colour_correction(
     return function(M_T, M_R, **filter_kwargs(function, **kwargs))
 
 
+def apply_matrix_colour_correction_Cheung2004(
+    RGB: ArrayLike,
+    CCM: ArrayLike,
+    terms: Literal[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22] = 3,
+) -> NDArrayFloat:
+    """
+    Apply given colour correction matrix :math:`CCM` computed using
+    *Cheung et al. (2004)* method to given *RGB* colourspace array.
+
+    Parameters
+    ----------
+    RGB
+        *RGB* colourspace array to apply the colour correction matrix
+        :math:`CCM` to.
+    CCM
+        Colour correction matrix :math:`CCM`.
+    terms
+        Number of terms of the expanded polynomial.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Colour corrected *RGB* colourspace array.
+
+    References
+    ----------
+    :cite:`Cheung2004`, :cite:`Westland2004`
+
+    Examples
+    --------
+    >>> RGB = np.array([0.17224810, 0.09170660, 0.06416938])
+    >>> CCM = np.array(
+    ...     [
+    ...         [1.05263767, 0.13780789, -0.22763399],
+    ...         [0.07395843, 1.02939945, -0.1060115],
+    ...         [0.05725508, -0.20526336, 1.10151945],
+    ...     ]
+    ... )
+    >>> apply_matrix_colour_correction_Cheung2004(
+    ...     RGB, CCM
+    ... )  # doctest: +ELLIPSIS
+    array([ 0.1793456...,  0.1003392...,  0.0617218...])
+    """
+
+    RGB = as_float_array(RGB)
+    shape = RGB.shape
+
+    RGB = np.reshape(RGB, (-1, 3))
+
+    RGB_e = matrix_augmented_Cheung2004(RGB, terms)
+
+    return np.reshape(np.transpose(np.dot(CCM, np.transpose(RGB_e))), shape)
+
+
+def apply_matrix_colour_correction_Finlayson2015(
+    RGB: ArrayLike,
+    CCM: ArrayLike,
+    degree: Literal[1, 2, 3, 4] = 1,
+    root_polynomial_expansion: bool = True,
+) -> NDArrayFloat:
+    """
+    Apply given colour correction matrix :math:`CCM` computed using
+    *Finlayson et al. (2015)* method to given *RGB* colourspace array.
+
+    Parameters
+    ----------
+    RGB
+        *RGB* colourspace array to apply the colour correction matrix
+        :math:`CCM` to.
+    CCM
+        Colour correction matrix :math:`CCM`.
+    degree
+        Expanded polynomial degree.
+    root_polynomial_expansion
+        Whether to use the root-polynomials set for the expansion.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Colour corrected *RGB* colourspace array.
+
+    References
+    ----------
+    :cite:`Finlayson2015`
+
+    Examples
+    --------
+    >>> RGB = np.array([0.17224810, 0.09170660, 0.06416938])
+    >>> CCM = np.array(
+    ...     [
+    ...         [1.05263767, 0.13780789, -0.22763399],
+    ...         [0.07395843, 1.02939945, -0.1060115],
+    ...         [0.05725508, -0.20526336, 1.10151945],
+    ...     ]
+    ... )
+    >>> apply_matrix_colour_correction_Finlayson2015(
+    ...     RGB, CCM
+    ... )  # doctest: +ELLIPSIS
+    array([ 0.1793456...,  0.1003392...,  0.0617218...])
+    """
+
+    RGB = as_float_array(RGB)
+    shape = RGB.shape
+
+    RGB = np.reshape(RGB, (-1, 3))
+
+    RGB_e = polynomial_expansion_Finlayson2015(
+        RGB, degree, root_polynomial_expansion
+    )
+
+    return np.reshape(np.transpose(np.dot(CCM, np.transpose(RGB_e))), shape)
+
+
+def apply_matrix_colour_correction_Vandermonde(
+    RGB: ArrayLike, CCM: ArrayLike, degree: int = 1
+) -> NDArrayFloat:
+    """
+    Apply given colour correction matrix :math:`CCM` computed using
+    *Vandermonde* method to given *RGB* colourspace array.
+
+    Parameters
+    ----------
+    RGB
+        *RGB* colourspace array to apply the colour correction matrix
+        :math:`CCM` to.
+    CCM
+        Colour correction matrix :math:`CCM`.
+    degree
+        Expanded polynomial degree.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Colour corrected *RGB* colourspace array.
+
+    References
+    ----------
+    :cite:`Wikipedia2003e`
+
+    Examples
+    --------
+    >>> RGB = np.array([0.17224810, 0.09170660, 0.06416938])
+    >>> CCM = np.array(
+    ...     [
+    ...         [1.0300256, 0.11417701, -0.26218168, 0.04180222],
+    ...         [0.06702098, 1.02214943, -0.11661082, 0.01282503],
+    ...         [0.07446128, -0.18728192, 1.12780782, -0.03180856],
+    ...     ]
+    ... )
+    >>> apply_matrix_colour_correction_Vandermonde(
+    ...     RGB, CCM
+    ... )  # doctest: +ELLIPSIS
+    array([ 0.2128689...,  0.1106242...,  0.0362129...])
+    """
+
+    RGB = as_float_array(RGB)
+    shape = RGB.shape
+
+    RGB = np.reshape(RGB, (-1, 3))
+
+    RGB_e = polynomial_expansion_Vandermonde(RGB, degree)
+
+    return np.reshape(np.transpose(np.dot(CCM, np.transpose(RGB_e))), shape)
+
+
+APPLY_MATRIX_COLOUR_CORRECTION_METHODS = CanonicalMapping(
+    {
+        "Cheung 2004": apply_matrix_colour_correction_Cheung2004,
+        "Finlayson 2015": apply_matrix_colour_correction_Finlayson2015,
+        "Vandermonde": apply_matrix_colour_correction_Vandermonde,
+    }
+)
+APPLY_MATRIX_COLOUR_CORRECTION_METHODS.__doc__ = """
+Supported methods to apply a colour correction matrix.
+
+References
+----------
+:cite:`Cheung2004`, :cite:`Finlayson2015`, :cite:`Westland2004`,
+:cite:`Wikipedia2003e`
+"""
+
+
+def apply_matrix_colour_correction(
+    RGB: ArrayLike,
+    CCM: ArrayLike,
+    method: Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"]
+    | str = "Cheung 2004",
+    **kwargs: Any,
+) -> NDArrayFloat:
+    """
+    Apply given colour correction matrix :math:`CCM` to given *RGB* colourspace
+    array.
+
+    Parameters
+    ----------
+    RGB
+        *RGB* colourspace array to apply the colour correction matrix
+        :math:`CCM` to.
+    CCM
+        Colour correction matrix :math:`CCM`.
+    method
+        Computation method.
+
+    Other Parameters
+    ----------------
+    degree
+        {:func:`colour.characterisation.polynomial_expansion_Finlayson2015`,
+        :func:`colour.characterisation.polynomial_expansion_Vandermonde`},
+        Expanded polynomial degree, must be one of *[1, 2, 3, 4]* for
+        :func:`colour.characterisation.polynomial_expansion_Finlayson2015`
+        definition.
+    root_polynomial_expansion
+        {:func:`colour.characterisation.polynomial_expansion_Finlayson2015`},
+        Whether to use the root-polynomials set for the expansion.
+    terms
+        {:func:`colour.characterisation.matrix_augmented_Cheung2004`},
+        Number of terms of the expanded polynomial.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Colour corrected *RGB* colourspace array.
+
+    References
+    ----------
+    :cite:`Cheung2004`, :cite:`Finlayson2015`, :cite:`Westland2004`,
+    :cite:`Wikipedia2003e`
+
+    Examples
+    --------
+    >>> RGB = np.array([0.17224810, 0.09170660, 0.06416938])
+    >>> CCM = np.array(
+    ...     [
+    ...         [1.05263767, 0.13780789, -0.22763399],
+    ...         [0.07395843, 1.02939945, -0.1060115],
+    ...         [0.05725508, -0.20526336, 1.10151945],
+    ...     ]
+    ... )
+    >>> apply_matrix_colour_correction(RGB, CCM)  # doctest: +ELLIPSIS
+    array([ 0.1793456...,  0.1003392...,  0.0617218...])
+    """
+
+    method = validate_method(method, APPLY_MATRIX_COLOUR_CORRECTION_METHODS)
+
+    function = APPLY_MATRIX_COLOUR_CORRECTION_METHODS[method]
+
+    return function(RGB, CCM, **filter_kwargs(function, **kwargs))
+
+
 def colour_correction_Cheung2004(
     RGB: ArrayLike,
     M_T: ArrayLike,
@@ -974,16 +1238,9 @@ def colour_correction_Cheung2004(
     array([ 0.1793456...,  0.1003392...,  0.0617218...])
     """
 
-    RGB = as_float_array(RGB)
-    shape = RGB.shape
-
-    RGB = np.reshape(RGB, (-1, 3))
-
-    RGB_e = matrix_augmented_Cheung2004(RGB, terms)
-
-    CCM = matrix_colour_correction_Cheung2004(M_T, M_R, terms)
-
-    return np.reshape(np.transpose(np.dot(CCM, np.transpose(RGB_e))), shape)
+    return apply_matrix_colour_correction_Cheung2004(
+        RGB, matrix_colour_correction_Cheung2004(M_T, M_R, terms), terms
+    )
 
 
 def colour_correction_Finlayson2015(
@@ -1030,20 +1287,14 @@ def colour_correction_Finlayson2015(
     array([ 0.1793456...,  0.1003392...,  0.0617218...])
     """
 
-    RGB = as_float_array(RGB)
-    shape = RGB.shape
-
-    RGB = np.reshape(RGB, (-1, 3))
-
-    RGB_e = polynomial_expansion_Finlayson2015(
-        RGB, degree, root_polynomial_expansion
+    return apply_matrix_colour_correction_Finlayson2015(
+        RGB,
+        matrix_colour_correction_Finlayson2015(
+            M_T, M_R, degree, root_polynomial_expansion
+        ),
+        degree,
+        root_polynomial_expansion,
     )
-
-    CCM = matrix_colour_correction_Finlayson2015(
-        M_T, M_R, degree, root_polynomial_expansion
-    )
-
-    return np.reshape(np.transpose(np.dot(CCM, np.transpose(RGB_e))), shape)
 
 
 def colour_correction_Vandermonde(
@@ -1084,16 +1335,9 @@ def colour_correction_Vandermonde(
     array([ 0.2128689...,  0.1106242...,  0.036213 ...])
     """
 
-    RGB = as_float_array(RGB)
-    shape = RGB.shape
-
-    RGB = np.reshape(RGB, (-1, 3))
-
-    RGB_e = polynomial_expansion_Vandermonde(RGB, degree)
-
-    CCM = matrix_colour_correction_Vandermonde(M_T, M_R, degree)
-
-    return np.reshape(np.transpose(np.dot(CCM, np.transpose(RGB_e))), shape)
+    return apply_matrix_colour_correction_Vandermonde(
+        RGB, matrix_colour_correction_Vandermonde(M_T, M_R, degree), degree
+    )
 
 
 COLOUR_CORRECTION_METHODS = CanonicalMapping(

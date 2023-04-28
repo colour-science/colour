@@ -15,6 +15,7 @@ Defines the *Academy Color Encoding System* (ACES) *Input Transform* utilities:
 -   :func:`colour.characterisation.training_data_sds_to_XYZ`
 -   :func:`colour.characterisation.optimisation_factory_rawtoaces_v1`
 -   :func:`colour.characterisation.optimisation_factory_Jzazbz`
+-   :func:`colour.characterisation.optimisation_factory_Oklab_18`
 -   :func:`colour.matrix_idt`
 -   :func:`colour.camera_RGB_to_ACES2065_1`
 
@@ -24,6 +25,10 @@ References
     M. (2017). RAW to ACES (Version 1.0) [Computer software].
 -   :cite:`Forsythe2018` : Borer, T. (2017). Private Discussion with Mansencal,
     T. and Shaw, N.
+-   :cite:`Finlayson2015` : Finlayson, G. D., MacKiewicz, M., & Hurlbert, A.
+    (2015). Color Correction Using Root-Polynomial Regression. IEEE
+    Transactions on Image Processing, 24(5), 1460-1470.
+    doi:10.1109/TIP.2015.2405336
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project Subcommittee. (2014). Technical
@@ -55,7 +60,10 @@ import os
 from scipy.optimize import minimize
 
 from colour.adaptation import matrix_chromatic_adaptation_VonKries
-from colour.algebra import euclidean_distance, vector_dot
+from colour.algebra import (
+    euclidean_distance,
+    vector_dot,
+)
 from colour.colorimetry import (
     MultiSpectralDistributions,
     SDS_ILLUMINANTS,
@@ -69,7 +77,11 @@ from colour.colorimetry import (
     sd_blackbody,
     sd_to_XYZ,
 )
-from colour.characterisation import MSDS_ACES_RICD, RGB_CameraSensitivities
+from colour.characterisation import (
+    MSDS_ACES_RICD,
+    RGB_CameraSensitivities,
+    polynomial_expansion_Finlayson2015,
+)
 from colour.hints import (
     ArrayLike,
     Callable,
@@ -81,7 +93,13 @@ from colour.hints import (
     cast,
 )
 from colour.io import read_sds_from_csv_file
-from colour.models import XYZ_to_Jzazbz, XYZ_to_Lab, XYZ_to_xy, xy_to_XYZ
+from colour.models import (
+    XYZ_to_Jzazbz,
+    XYZ_to_Lab,
+    XYZ_to_Oklab,
+    XYZ_to_xy,
+    xy_to_XYZ,
+)
 from colour.models.rgb import (
     RGB_Colourspace,
     RGB_COLOURSPACE_ACES2065_1,
@@ -127,6 +145,7 @@ __all__ = [
     "whitepoint_preserving_matrix",
     "optimisation_factory_rawtoaces_v1",
     "optimisation_factory_Jzazbz",
+    "optimisation_factory_Oklab_18",
     "matrix_idt",
     "camera_RGB_to_ACES2065_1",
 ]
@@ -781,9 +800,9 @@ def whitepoint_preserving_matrix(
     return M
 
 
-def optimisation_factory_rawtoaces_v1(
-    whitepoint_preservation: bool = True,
-) -> Tuple[Callable, Callable]:
+def optimisation_factory_rawtoaces_v1() -> (
+    Tuple[NDArrayFloat, Callable, Callable, Callable]
+):
     """
     Produce the objective function and *CIE XYZ* colourspace to optimisation
     colourspace/colour model function according to *RAW to ACES* v1.
@@ -792,38 +811,35 @@ def optimisation_factory_rawtoaces_v1(
     data *RGB* tristimulus values and the training data *CIE XYZ* tristimulus
     values** in *CIE L\\*a\\*b\\** colourspace.
 
-    Parameters
-    ----------
-    whitepoint_preservation
-        Whether to use whitepoint preservation, i.e. optimisation uses 6 terms
-        instead of 9 and rows summation is constrained to 1.
+    It implements whitepoint preservation as an optimisation constraint.
 
     Returns
     -------
     :class:`tuple`
-        Objective function and *CIE XYZ* colourspace to *CIE L\\*a\\*b\\**
-        colourspace function.
+        :math:`x_0` initial values, objective function, *CIE XYZ* colourspace
+        to *CIE L\\*a\\*b\\** colourspace function and finaliser function.
 
     Examples
     --------
     >>> optimisation_factory_rawtoaces_v1()  # doctest: +SKIP
-    (<function optimisation_factory_rawtoaces_v1.<locals>\
+    (array([ 1.,  1.,  1.,  1.,  1.,  1.]), \
+<function optimisation_factory_rawtoaces_v1.<locals> \
 .objective_function at 0x...>, \
 <function optimisation_factory_rawtoaces_v1.<locals>\
-.XYZ_to_optimization_colour_model at 0x...>)
+.XYZ_to_optimization_colour_model at 0x...>, \
+<function optimisation_factory_rawtoaces_v1.<locals>\
+.finaliser_function at 0x...>)
     """
+
+    x_0 = ones(6)
 
     def objective_function(
         M: NDArrayFloat, RGB: NDArrayFloat, Lab: NDArrayFloat
     ) -> NDArrayFloat:
         """Objective function according to *RAW to ACES* v1."""
 
-        M = (
-            whitepoint_preserving_matrix(
-                np.hstack([np.reshape(M, (3, 2)), zeros((3, 1))])
-            )
-            if whitepoint_preservation
-            else np.reshape(M, (3, 3))
+        M = whitepoint_preserving_matrix(
+            np.hstack([np.reshape(M, (3, 2)), zeros((3, 1))])
         )
 
         XYZ_t = vector_dot(
@@ -838,12 +854,24 @@ def optimisation_factory_rawtoaces_v1(
 
         return XYZ_to_Lab(XYZ, RGB_COLOURSPACE_ACES2065_1.whitepoint)
 
-    return objective_function, XYZ_to_optimization_colour_model
+    def finaliser_function(M: NDArrayFloat) -> NDArrayFloat:
+        """Finaliser function."""
+
+        return whitepoint_preserving_matrix(
+            np.hstack([np.reshape(M, (3, 2)), zeros((3, 1))])
+        )
+
+    return (
+        x_0,
+        objective_function,
+        XYZ_to_optimization_colour_model,
+        finaliser_function,
+    )
 
 
-def optimisation_factory_Jzazbz(
-    whitepoint_preservation: bool = True,
-) -> Tuple[Callable, Callable]:
+def optimisation_factory_Jzazbz() -> (
+    Tuple[NDArrayFloat, Callable, Callable, Callable]
+):
     """
     Produce the objective function and *CIE XYZ* colourspace to optimisation
     colourspace/colour model function based on the :math:`J_za_zb_z`
@@ -853,39 +881,32 @@ def optimisation_factory_Jzazbz(
     data *RGB* tristimulus values and the training data *CIE XYZ* tristimulus
     values** in the :math:`J_za_zb_z` colourspace.
 
-    Parameters
-    ----------
-    whitepoint_preservation
-        Whether to use whitepoint preservation, i.e. optimisation uses 6 terms
-        instead of 9 and rows summation is constrained to 1.
-
     Returns
     -------
     :class:`tuple`
-        Objective function and *CIE XYZ* colourspace to :math:`J_za_zb_z`
-        colourspace function.
+        :math:`x_0` initial values, objective function, *CIE XYZ* colourspace
+        to :math:`J_za_zb_z` colourspace function and finaliser function.
 
     Examples
     --------
     >>> optimisation_factory_Jzazbz()  # doctest: +SKIP
-    (<function optimisation_factory_Jzazbz.<locals>\
+    (array([ 1.,  0.,  0.,  0.,  1.,  0.,  0.,  0.,  1.]), \
+<function optimisation_factory_Jzazbz.<locals>\
 .objective_function at 0x...>, \
 <function optimisation_factory_Jzazbz.<locals>\
-.XYZ_to_optimization_colour_model at 0x...>)
+.XYZ_to_optimization_colour_model at 0x...>, \
+<function optimisation_factory_Jzazbz.<locals>.\
+finaliser_function at 0x...>)
     """
+
+    x_0 = ones(9)
 
     def objective_function(
         M: ArrayLike, RGB: ArrayLike, Jab: ArrayLike
     ) -> NDArrayFloat:
         """:math:`J_za_zb_z` colourspace based objective function."""
 
-        M = (
-            whitepoint_preserving_matrix(
-                np.hstack([np.reshape(M, (3, 2)), zeros((3, 1))])
-            )
-            if whitepoint_preservation
-            else np.reshape(M, (3, 3))
-        )
+        M = np.reshape(M, (3, 3))
 
         XYZ_t = vector_dot(
             RGB_COLOURSPACE_ACES2065_1.matrix_RGB_to_XYZ, vector_dot(M, RGB)
@@ -899,7 +920,97 @@ def optimisation_factory_Jzazbz(
 
         return XYZ_to_Jzazbz(XYZ)
 
-    return objective_function, XYZ_to_optimization_colour_model
+    def finaliser_function(M: NDArrayFloat) -> NDArrayFloat:
+        """Finaliser function."""
+
+        return np.reshape(M, (3, 3))
+
+    return (
+        x_0,
+        objective_function,
+        XYZ_to_optimization_colour_model,
+        finaliser_function,
+    )
+
+
+def optimisation_factory_Oklab_18() -> (
+    Tuple[NDArrayFloat, Callable, Callable, Callable]
+):
+    """
+    Produce the objective function and *CIE XYZ* colourspace to optimisation
+    colourspace/colour model function based on the *Oklab* colourspace.
+
+    The objective function returns the euclidean distance between the training
+    data *RGB* tristimulus values and the training data *CIE XYZ* tristimulus
+    values** in the *Oklab* colourspace.
+
+    It implements support for *Finlayson et al. (2015)* root-polynomials of
+    degree 2 and produces 18 terms.
+
+    Returns
+    -------
+    :class:`tuple`
+        :math:`x_0` initial values, objective function, *CIE XYZ* colourspace
+        to *Oklab* colourspace function and finaliser function.
+
+    References
+    ----------
+    :cite:`Finlayson2015`
+
+    Examples
+    --------
+    >>> optimisation_factory_Oklab_18()  # doctest: +SKIP
+    array([ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1., \
+1.,  1.,  1.,  1.,  1.]), \
+<function optimisation_factory_Oklab_18.<locals>\
+.objective_function at 0x...>, \
+<function optimisation_factory_Oklab_18.<locals>\
+.XYZ_to_optimization_colour_model at 0x...>, \
+<function optimisation_factory_Oklab_18.<locals>.\
+finaliser_function at 0x...>)
+    """
+
+    x_0 = ones(18)
+
+    def objective_function(
+        M: ArrayLike, RGB: ArrayLike, Jab: ArrayLike
+    ) -> NDArrayFloat:
+        """*Oklab* colourspace based objective function."""
+
+        M = np.reshape(M, (3, 6))
+
+        XYZ_t = np.transpose(
+            np.dot(
+                RGB_COLOURSPACE_ACES2065_1.matrix_RGB_to_XYZ,
+                np.dot(
+                    M,
+                    np.transpose(
+                        polynomial_expansion_Finlayson2015(RGB, 2, True)
+                    ),
+                ),
+            )
+        )
+
+        Jab_t = XYZ_to_Oklab(XYZ_t)
+
+        return as_float(np.sum(euclidean_distance(Jab, Jab_t)))
+
+    def XYZ_to_optimization_colour_model(XYZ: ArrayLike) -> NDArrayFloat:
+        """*CIE XYZ* colourspace to *Oklab* colourspace function."""
+
+        return XYZ_to_Oklab(XYZ)
+
+    def finaliser_function(M: NDArrayFloat) -> NDArrayFloat:
+        """Finaliser function."""
+
+        return np.reshape(M, (3, 6))
+
+    return (
+        x_0,
+        objective_function,
+        XYZ_to_optimization_colour_model,
+        finaliser_function,
+    )
 
 
 def matrix_idt(
@@ -925,7 +1036,6 @@ def matrix_idt(
     ]
     | str
     | None = "CAT02",
-    whitepoint_preservation: bool = True,
     additional_data: bool = False,
 ) -> (
     Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat, NDArrayFloat]
@@ -957,9 +1067,6 @@ def matrix_idt(
     chromatic_adaptation_transform
         *Chromatic adaptation* transform, if *None* no chromatic adaptation is
         performed.
-    whitepoint_preservation
-        Whether to use whitepoint preservation, i.e. optimisation uses 6 terms
-        instead of 9 and rows summation is constrained to 1.
     additional_data
         If *True*, the *XYZ* and *RGB* tristimulus values are also returned.
 
@@ -1007,9 +1114,21 @@ def matrix_idt(
     ...     optimisation_factory=optimisation_factory_Jzazbz,
     ... )
     >>> np.around(M, 3)
-    array([[ 0.852, -0.009,  0.158],
-           [ 0.054,  1.122, -0.176],
-           [ 0.023, -0.224,  1.2  ]])
+    array([[ 0.848, -0.016,  0.158],
+           [ 0.053,  1.114, -0.175],
+           [ 0.023, -0.225,  1.196]])
+    >>> RGB_w  # doctest: +ELLIPSIS
+    array([ 2.3414154...,  1.        ,  1.5163375...])
+
+    >>> M, RGB_w = matrix_idt(
+    ...     sensitivities,
+    ...     illuminant,
+    ...     optimisation_factory=optimisation_factory_Oklab_18,
+    ... )
+    >>> np.around(M, 3)
+    array([[ 0.659, -0.556,  0.132,  0.69 ,  0.332, -0.26 ],
+           [-0.137,  0.815, -0.045,  0.578, -0.1  , -0.119],
+           [-0.145, -0.3  ,  1.448,  0.426, -0.426, -0.013]])
     >>> RGB_w  # doctest: +ELLIPSIS
     array([ 2.3414154...,  1.        ,  1.5163375...])
     """
@@ -1046,9 +1165,11 @@ def matrix_idt(
     )
 
     (
+        x_0,
         objective_function,
         XYZ_to_optimization_colour_model,
-    ) = optimisation_factory(whitepoint_preservation)
+        finaliser_function,
+    ) = optimisation_factory()
     optimisation_settings = {
         "method": "BFGS",
         "jac": "2-point",
@@ -1056,24 +1177,14 @@ def matrix_idt(
     if optimisation_kwargs is not None:
         optimisation_settings.update(optimisation_kwargs)
 
-    x_0 = (
-        np.identity(3)[..., :-1] if whitepoint_preservation else np.identity(3)
-    )
-
     M = minimize(
         objective_function,
-        np.ravel(x_0),
+        x_0,
         (RGB, XYZ_to_optimization_colour_model(XYZ)),
         **optimisation_settings,
     ).x
 
-    M = (
-        whitepoint_preserving_matrix(
-            np.hstack([np.reshape(M, (3, 2)), zeros((3, 1))])
-        )
-        if whitepoint_preservation
-        else np.reshape(M, (3, 3))
-    )
+    M = finaliser_function(M)
 
     if additional_data:
         return M, RGB_w, XYZ, RGB
