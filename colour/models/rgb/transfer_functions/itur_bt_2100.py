@@ -828,7 +828,7 @@ def eotf_BT2100_HLG(
     7.3321975...
     """
 
-    method = validate_method(method, BT2100_HLG_EOTF_METHODS)
+    method = validate_method(method, tuple(BT2100_HLG_EOTF_METHODS))
 
     return BT2100_HLG_EOTF_METHODS[method](E_p, L_B, L_W, gamma, constants)
 
@@ -1059,7 +1059,7 @@ def eotf_inverse_BT2100_HLG(
     0.2121320...
     """
 
-    method = validate_method(method, BT2100_HLG_EOTF_INVERSE_METHODS)
+    method = validate_method(method, tuple(BT2100_HLG_EOTF_INVERSE_METHODS))
 
     return BT2100_HLG_EOTF_INVERSE_METHODS[method](
         F_D, L_B, L_W, gamma, constants
@@ -1324,7 +1324,7 @@ def ootf_BT2100_HLG(
     63.1051034...
     """
 
-    method = validate_method(method, BT2100_HLG_OOTF_METHODS)
+    method = validate_method(method, tuple(BT2100_HLG_OOTF_METHODS))
 
     function = BT2100_HLG_OOTF_METHODS[method]
 
@@ -1617,7 +1617,7 @@ def ootf_inverse_BT2100_HLG(
     0.0999999...
     """
 
-    method = validate_method(method, BT2100_HLG_OOTF_INVERSE_METHODS)
+    method = validate_method(method, tuple(BT2100_HLG_OOTF_INVERSE_METHODS))
 
     function = BT2100_HLG_OOTF_INVERSE_METHODS[method]
 

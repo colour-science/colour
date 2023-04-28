@@ -295,7 +295,7 @@ def chromatic_adaptation(
     array([ 0.2152436...,  0.1253522...,  0.0388406...])
     """
 
-    method = validate_method(method, CHROMATIC_ADAPTATION_METHODS)
+    method = validate_method(method, tuple(CHROMATIC_ADAPTATION_METHODS))
 
     function = CHROMATIC_ADAPTATION_METHODS[method]
 

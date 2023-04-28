@@ -57,7 +57,7 @@ def _XYZ_optimal_colour_stimuli(
 
     illuminant = validate_method(
         illuminant,
-        list(OPTIMAL_COLOUR_STIMULI_ILLUMINANTS.keys()),
+        tuple(OPTIMAL_COLOUR_STIMULI_ILLUMINANTS),
         '"{0}" illuminant is invalid, it must be one of {1}!',
     )
 

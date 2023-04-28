@@ -520,7 +520,7 @@ def plot_16_bin_bars(
     values = as_float_array(values)
 
     label_orientation = validate_method(
-        label_orientation, ["Horizontal", "Vertical"]
+        label_orientation, ("Horizontal", "Vertical")
     )
 
     _figure, axes = artist(**kwargs)

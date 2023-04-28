@@ -226,7 +226,7 @@ def hull_section(
 
     axis = validate_method(
         axis,
-        ["+z", "+x", "+y"],
+        ("+z", "+x", "+y"),
         '"{0}" axis is invalid, it must be one of {1}!',
     )
 

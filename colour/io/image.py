@@ -426,7 +426,7 @@ def read_image(
     dtype('float32')
     """  # noqa: D405, D407, D410, D411, D414
 
-    method = validate_method(method, READ_IMAGE_METHODS)
+    method = validate_method(method, tuple(READ_IMAGE_METHODS))
 
     if (
         method == "openimageio" and not is_openimageio_installed()
@@ -756,7 +756,7 @@ Source/FreeImage.h
     True
     """  # noqa: D405, D407, D410, D411, D414
 
-    method = validate_method(method, WRITE_IMAGE_METHODS)
+    method = validate_method(method, tuple(WRITE_IMAGE_METHODS))
 
     if (
         method == "openimageio" and not is_openimageio_installed()

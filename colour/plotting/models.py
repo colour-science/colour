@@ -254,13 +254,13 @@ def colourspace_model_axis_reorder(
 
     model = validate_method(
         model,
-        list(COLOURSPACE_MODELS_AXIS_ORDER.keys()),
+        tuple(COLOURSPACE_MODELS_AXIS_ORDER),
         '"{0}" model is invalid, it must be one of {1}!',
     )
 
     direction = validate_method(
         direction,
-        ["Forward", "Inverse"],
+        ("Forward", "Inverse"),
         '"{0}" direction is invalid, it must be one of {1}!',
     )
 
@@ -316,7 +316,7 @@ def plot_pointer_gamut(
     """
 
     method = validate_method(
-        method, ["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+        method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS")
     )
 
     pointer_gamut_colours = optional(
@@ -507,7 +507,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
     """
 
     method = validate_method(
-        method, ["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+        method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS")
     )
 
     colourspaces = cast(
@@ -1008,7 +1008,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
 
     RGB = np.reshape(as_float_array(RGB), (-1, 3))
     method = validate_method(
-        method, ["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+        method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS")
     )
 
     settings: Dict[str, Any] = {"uniform": True}
@@ -1342,7 +1342,7 @@ def ellipses_MacAdam1942(
     """
 
     method = validate_method(
-        method, ["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+        method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS")
     )
 
     if method == "cie 1931":

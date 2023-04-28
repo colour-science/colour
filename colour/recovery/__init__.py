@@ -511,7 +511,7 @@ def XYZ_to_sd(
     """
 
     a = as_float_array(XYZ)
-    method = validate_method(method, XYZ_TO_SD_METHODS)
+    method = validate_method(method, tuple(XYZ_TO_SD_METHODS))
 
     function = XYZ_TO_SD_METHODS[method]
 

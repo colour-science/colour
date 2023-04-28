@@ -93,11 +93,11 @@ def mesopic_weighting_function(
 
     source = validate_method(
         source,
-        ["Blue Heavy", "Red Heavy"],
+        ("Blue Heavy", "Red Heavy"),
         '"{0}" light source colour temperature is invalid, '
         "it must be one of {1}!",
     )
-    method = validate_method(method, ["MOVE", "LRC"])
+    method = validate_method(method, ("MOVE", "LRC"))
 
     mesopic_x_luminance_values = sorted(DATA_MESOPIC_X.keys())
     index = mesopic_x_luminance_values.index(

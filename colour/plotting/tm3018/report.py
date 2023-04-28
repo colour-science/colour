@@ -809,7 +809,7 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
         :alt: plot_single_sd_colour_rendition_report_simple
     """
 
-    method = validate_method(method, ["Full", "Intermediate", "Simple"])
+    method = validate_method(method, ("Full", "Intermediate", "Simple"))
 
     if method == "full":
         return plot_single_sd_colour_rendition_report_full(sd, **kwargs)

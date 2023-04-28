@@ -424,7 +424,7 @@ def lightness_Fairchild2011(
     """
 
     Y = to_domain_1(Y)
-    method = validate_method(method, ["hdr-CIELAB", "hdr-IPT"])
+    method = validate_method(method, ("hdr-CIELAB", "hdr-IPT"))
 
     maximum_perception = 247 if method == "hdr-cielab" else 246
 
@@ -498,7 +498,7 @@ def lightness_Abebe2017(
 
     Y = as_float_array(Y)
     Y_n = as_float_array(Y_n)
-    method = validate_method(method, ["Michaelis-Menten", "Stevens"])
+    method = validate_method(method, ("Michaelis-Menten", "Stevens"))
 
     Y_Y_n = Y / Y_n
     if method == "stevens":
@@ -630,7 +630,7 @@ def lightness(
     """
 
     Y = as_float_array(Y)
-    method = validate_method(method, LIGHTNESS_METHODS)
+    method = validate_method(method, tuple(LIGHTNESS_METHODS))
 
     function = LIGHTNESS_METHODS[method]
 

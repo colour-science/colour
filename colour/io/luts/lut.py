@@ -1111,7 +1111,7 @@ class LUT1D(AbstractLUT):
         """
 
         direction = validate_method(
-            kwargs.get("direction", "Forward"), ["Forward", "Inverse"]
+            kwargs.get("direction", "Forward"), ("Forward", "Inverse")
         )
 
         interpolator = kwargs.get("interpolator", LinearInterpolator)
@@ -1646,7 +1646,7 @@ class LUT3x1D(AbstractLUT):
         """
 
         direction = validate_method(
-            kwargs.get("direction", "Forward"), ["Forward", "Inverse"]
+            kwargs.get("direction", "Forward"), ("Forward", "Inverse")
         )
 
         interpolator = kwargs.get("interpolator", LinearInterpolator)
@@ -2305,7 +2305,7 @@ class LUT3D(AbstractLUT):
         """
 
         direction = validate_method(
-            kwargs.get("direction", "Forward"), ["Forward", "Inverse"]
+            kwargs.get("direction", "Forward"), ("Forward", "Inverse")
         )
 
         interpolator = kwargs.get(

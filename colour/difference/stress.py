@@ -138,7 +138,7 @@ def index_stress(
     0.1211709...
     """
 
-    method = validate_method(method, INDEX_STRESS_METHODS)
+    method = validate_method(method, tuple(INDEX_STRESS_METHODS))
 
     function = INDEX_STRESS_METHODS[method]
 

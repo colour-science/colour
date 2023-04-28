@@ -411,7 +411,7 @@ Plot_Single_SD_Colour_Quality_Scale_Bars.png
         :alt: plot_single_sd_colour_quality_scale_bars
     """
 
-    method = validate_method(method, COLOUR_QUALITY_SCALE_METHODS)
+    method = validate_method(method, tuple(COLOUR_QUALITY_SCALE_METHODS))
 
     return plot_multi_sds_colour_quality_scales_bars([sd], method, **kwargs)
 
@@ -467,7 +467,7 @@ Plot_Multi_SDS_Colour_Quality_Scales_Bars.png
         :alt: plot_multi_sds_colour_quality_scales_bars
     """
 
-    method = validate_method(method, COLOUR_QUALITY_SCALE_METHODS)
+    method = validate_method(method, tuple(COLOUR_QUALITY_SCALE_METHODS))
 
     sds_converted = sds_and_msds_to_sds(sds)
 

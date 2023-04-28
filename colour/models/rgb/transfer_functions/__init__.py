@@ -495,7 +495,7 @@ def log_encoding(
 
     function = validate_method(
         function,
-        LOG_ENCODINGS,
+        tuple(LOG_ENCODINGS),
         '"{0}" "log" encoding function is invalid, it must be one of {1}!',
     )
 
@@ -650,7 +650,7 @@ def log_decoding(
 
     function = validate_method(
         function,
-        LOG_DECODINGS,
+        tuple(LOG_DECODINGS),
         '"{0}" "log" decoding function is invalid, it must be one of {1}!',
     )
 
@@ -750,7 +750,9 @@ def oetf(
     """
 
     function = validate_method(
-        function, OETFS, '"{0}" "OETF" is invalid, it must be one of {1}!'
+        function,
+        tuple(OETFS),
+        '"{0}" "OETF" is invalid, it must be one of {1}!',
     )
 
     callable_ = OETFS[function]
@@ -841,7 +843,7 @@ def oetf_inverse(
 
     function = validate_method(
         function,
-        OETF_INVERSES,
+        tuple(OETF_INVERSES),
         '"{0}" inverse "OETF" is invalid, it must be one of {1}!',
     )
 
@@ -925,7 +927,9 @@ def eotf(
     """
 
     function = validate_method(
-        function, EOTFS, '"{0}" "EOTF" is invalid, it must be one of {1}!'
+        function,
+        tuple(EOTFS),
+        '"{0}" "EOTF" is invalid, it must be one of {1}!',
     )
 
     callable_ = EOTFS[function]
@@ -1008,7 +1012,7 @@ def eotf_inverse(
 
     function = validate_method(
         function,
-        EOTF_INVERSES,
+        tuple(EOTF_INVERSES),
         '"{0}" inverse "EOTF" is invalid, it must be one of {1}!',
     )
 
@@ -1165,7 +1169,7 @@ def cctf_encoding(
 
     function = validate_method(
         function,
-        CCTF_ENCODINGS,
+        tuple(CCTF_ENCODINGS),
         '"{0}" encoding "CCTF" is invalid, it must be one of {1}!',
     )
 
@@ -1322,7 +1326,7 @@ def cctf_decoding(
 
     function = validate_method(
         function,
-        CCTF_DECODINGS,
+        tuple(CCTF_DECODINGS),
         '"{0}" decoding "CCTF" is invalid, it must be one of {1}!',
     )
 
@@ -1398,7 +1402,9 @@ def ootf(
     """
 
     function = validate_method(
-        function, OOTFS, '"{0}" "OOTF" is invalid, it must be one of {1}!'
+        function,
+        tuple(OOTFS),
+        '"{0}" "OOTF" is invalid, it must be one of {1}!',
     )
 
     callable_ = OOTFS[function]
@@ -1459,7 +1465,7 @@ def ootf_inverse(
 
     function = validate_method(
         function,
-        OOTF_INVERSES,
+        tuple(OOTF_INVERSES),
         '"{0}" inverse "OOTF" is invalid, it must be one of {1}!',
     )
 

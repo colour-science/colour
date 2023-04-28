@@ -1270,7 +1270,7 @@ class Signal(AbstractContinuousFunction):
          [   9.  100.]]
         """
 
-        method = validate_method(method, ["Interpolation", "Constant"])
+        method = validate_method(method, ("Interpolation", "Constant"))
 
         self._fill_domain_nan(method, default)
         self._fill_range_nan(method, default)

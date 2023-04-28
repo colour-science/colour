@@ -208,7 +208,7 @@ def generate_pulse_waves(
 
     pulse_order = validate_method(
         pulse_order,
-        ["Bins", "Pulse Wave Width"],
+        ("Bins", "Pulse Wave Width"),
         '"{0}" pulse order is invalid, it must be one of {1}!',
     )
 

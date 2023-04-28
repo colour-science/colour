@@ -255,7 +255,7 @@ def lagrange_coefficients_ASTME2022(
 
     interval_type = validate_method(
         interval_type,
-        ["Boundary", "Inner"],
+        ("Boundary", "Inner"),
         '"{0}" interval type is invalid, it must be one of {1}!',
     )
 
@@ -1243,7 +1243,7 @@ def sd_to_XYZ(
         cmfs, illuminant, illuminant_default="E"
     )
 
-    method = validate_method(method, SD_TO_XYZ_METHODS)
+    method = validate_method(method, tuple(SD_TO_XYZ_METHODS))
 
     global _CACHE_SD_TO_XYZ  # noqa: PLW0602
 
@@ -2019,7 +2019,7 @@ def msds_to_XYZ(
            [ 24.6452277...,  26.0809382...,  27.7106399...]])
     """
 
-    method = validate_method(method, MSDS_TO_XYZ_METHODS)
+    method = validate_method(method, tuple(MSDS_TO_XYZ_METHODS))
 
     function = MSDS_TO_XYZ_METHODS[method]
 

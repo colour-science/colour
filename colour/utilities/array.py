@@ -2231,7 +2231,7 @@ def orient(
     a = as_float_array(a)
 
     orientation = validate_method(
-        orientation, ["Ignore", "Flip", "Flop", "90 CW", "90 CCW", "180"]
+        orientation, ("Ignore", "Flip", "Flop", "90 CW", "90 CCW", "180")
     )
 
     if orientation == "ignore":
@@ -2324,7 +2324,7 @@ def fill_nan(
     """
 
     a = np.array(a, copy=True)
-    method = validate_method(method, ["Interpolation", "Constant"])
+    method = validate_method(method, ("Interpolation", "Constant"))
 
     mask = np.isnan(a)
 

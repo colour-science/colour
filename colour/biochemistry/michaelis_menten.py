@@ -217,7 +217,9 @@ def reaction_rate_MichaelisMenten(
     1.0360547...
     """
 
-    method = validate_method(method, REACTION_RATE_MICHAELISMENTEN_METHODS)
+    method = validate_method(
+        method, tuple(REACTION_RATE_MICHAELISMENTEN_METHODS)
+    )
 
     function = REACTION_RATE_MICHAELISMENTEN_METHODS[method]
 
@@ -392,7 +394,7 @@ substrate_concentration_MichaelisMenten_Abebe2017`},
     """
 
     method = validate_method(
-        method, SUBSTRATE_CONCENTRATION_MICHAELISMENTEN_METHODS
+        method, tuple(SUBSTRATE_CONCENTRATION_MICHAELISMENTEN_METHODS)
     )
 
     function = SUBSTRATE_CONCENTRATION_MICHAELISMENTEN_METHODS[method]

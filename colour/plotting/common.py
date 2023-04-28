@@ -728,7 +728,7 @@ def label_rectangles(
 
     rotation = validate_method(
         rotation,
-        ["horizontal", "vertical"],
+        ("horizontal", "vertical"),
         '"{0}" rotation is invalid, it must be one of {1}!',
     )
 
@@ -1224,14 +1224,14 @@ def plot_multi_colour_swatches(
 
     direction = validate_method(
         direction,
-        ["+y", "-y"],
+        ("+y", "-y"),
         '"{0}" direction is invalid, it must be one of {1}!',
     )
 
     if compare_swatches is not None:
         compare_swatches = validate_method(
             compare_swatches,
-            ["Diagonal", "Stacked"],
+            ("Diagonal", "Stacked"),
             '"{0}" compare swatches method is invalid, it must be one of {1}!',
         )
 

@@ -352,7 +352,7 @@ def yellowness(
     10.2999999...
     """
 
-    method = validate_method(method, YELLOWNESS_METHODS)
+    method = validate_method(method, tuple(YELLOWNESS_METHODS))
 
     function = YELLOWNESS_METHODS[method]
 

@@ -219,7 +219,7 @@ def colour_quality_scale(
     64.1117031...
     """
 
-    method = validate_method(method, COLOUR_QUALITY_SCALE_METHODS)
+    method = validate_method(method, tuple(COLOUR_QUALITY_SCALE_METHODS))
 
     # pylint: disable=E1102
     cmfs = reshape_msds(

@@ -590,7 +590,7 @@ def primitive(
      [1 0]]
     """
 
-    method = validate_method(method, PRIMITIVE_METHODS)
+    method = validate_method(method, tuple(PRIMITIVE_METHODS))
 
     function = PRIMITIVE_METHODS[method]
 

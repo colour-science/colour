@@ -115,7 +115,7 @@ def HelmholtzKohlrausch_effect_object_Nayatani1997(
     u, v = tsplit(uv)
     u_c, v_c = tsplit(uv_c)
 
-    method = validate_method(method, HKE_NAYATANI1997_METHODS)
+    method = validate_method(method, tuple(HKE_NAYATANI1997_METHODS))
 
     K_Br = coefficient_K_Br_Nayatani1997(L_a)
     q = coefficient_q_Nayatani1997(np.arctan2(v - v_c, u - u_c))

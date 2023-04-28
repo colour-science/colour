@@ -217,7 +217,7 @@ def delta_E(
     0.0001034...
     """
 
-    method = validate_method(method, DELTA_E_METHODS)
+    method = validate_method(method, tuple(DELTA_E_METHODS))
 
     function = DELTA_E_METHODS[method]
 

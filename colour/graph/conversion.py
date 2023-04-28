@@ -1145,7 +1145,7 @@ def describe_conversion_path(
     source, target = source.lower(), target.lower()
     mode = validate_method(
         mode,
-        ["Short", "Long", "Extended"],
+        ("Short", "Long", "Extended"),
         '"{0}" mode is invalid, it must be one of {1}!',
     )
 

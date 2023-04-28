@@ -2040,6 +2040,6 @@ def table_interpolation(
            [ 1.1178206...,  0.1762039...,  0.2209534...]])
     """
 
-    method = validate_method(method, TABLE_INTERPOLATION_METHODS)
+    method = validate_method(method, tuple(TABLE_INTERPOLATION_METHODS))
 
     return TABLE_INTERPOLATION_METHODS[method](V_xyz, table)

@@ -81,7 +81,7 @@ def plot_automatic_colour_conversion_graph(
 
     prog = validate_method(
         prog,
-        ["circo", "dot", "fdp", "neato", "nop", "twopi"],
+        ("circo", "dot", "fdp", "neato", "nop", "twopi"),
         '"{0}" program is invalid, it must be one of {1}!',
     )
 

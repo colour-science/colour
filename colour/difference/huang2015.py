@@ -125,7 +125,7 @@ def power_function_Huang2015(
 
     coefficients = validate_method(
         coefficients,
-        COEFFICIENTS_HUANG2015,
+        tuple(COEFFICIENTS_HUANG2015),
         '"{0}" coefficients are invalid, they must be one of {1}!',
     )
 

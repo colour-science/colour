@@ -176,6 +176,6 @@ def bandpass_correction(
                          {'method': 'Constant', 'left': None, 'right': None})
     """
 
-    method = validate_method(method, BANDPASS_CORRECTION_METHODS)
+    method = validate_method(method, tuple(BANDPASS_CORRECTION_METHODS))
 
     return BANDPASS_CORRECTION_METHODS[method](sd)

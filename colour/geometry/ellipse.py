@@ -337,7 +337,7 @@ def ellipse_fitting(
     array([-0., -0.,  2.,  1.,  0.])
     """
 
-    method = validate_method(method, ELLIPSE_FITTING_METHODS)
+    method = validate_method(method, tuple(ELLIPSE_FITTING_METHODS))
 
     function = ELLIPSE_FITTING_METHODS[method]
 

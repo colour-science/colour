@@ -670,7 +670,7 @@ def polynomial_expansion(
     array([ 0.1722481...,  0.0917066...,  0.0641693...,  0.0010136...,  1...])
     """
 
-    method = validate_method(method, POLYNOMIAL_EXPANSION_METHODS)
+    method = validate_method(method, tuple(POLYNOMIAL_EXPANSION_METHODS))
 
     function = POLYNOMIAL_EXPANSION_METHODS[method]
 
@@ -941,7 +941,7 @@ def matrix_colour_correction(
            [-0.0631495...,  0.0921247...,  0.9713415...]])
     """
 
-    method = validate_method(method, MATRIX_COLOUR_CORRECTION_METHODS)
+    method = validate_method(method, tuple(MATRIX_COLOUR_CORRECTION_METHODS))
 
     function = MATRIX_COLOUR_CORRECTION_METHODS[method]
 
@@ -1190,7 +1190,9 @@ def apply_matrix_colour_correction(
     array([ 0.1793456...,  0.1003392...,  0.0617218...])
     """
 
-    method = validate_method(method, APPLY_MATRIX_COLOUR_CORRECTION_METHODS)
+    method = validate_method(
+        method, tuple(APPLY_MATRIX_COLOUR_CORRECTION_METHODS)
+    )
 
     function = APPLY_MATRIX_COLOUR_CORRECTION_METHODS[method]
 
@@ -1469,7 +1471,7 @@ def colour_correction(
     array([ 0.1334872...,  0.0843921...,  0.0599014...])
     """
 
-    method = validate_method(method, COLOUR_CORRECTION_METHODS)
+    method = validate_method(method, tuple(COLOUR_CORRECTION_METHODS))
 
     function = COLOUR_CORRECTION_METHODS[method]
 

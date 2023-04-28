@@ -234,13 +234,13 @@ def RGB_to_ICtCp(
     RGB = as_float_array(RGB)
     method = validate_method(
         method,
-        [
+        (
             "Dolby 2016",
             "ITU-R BT.2100-1 HLG",
             "ITU-R BT.2100-1 PQ",
             "ITU-R BT.2100-2 HLG",
             "ITU-R BT.2100-2 PQ",
-        ],
+        ),
     )
 
     is_hlg_method = "hlg" in method
@@ -367,13 +367,13 @@ def ICtCp_to_RGB(
     ICtCp = as_float_array(ICtCp)
     method = validate_method(
         method,
-        [
+        (
             "Dolby 2016",
             "ITU-R BT.2100-1 HLG",
             "ITU-R BT.2100-1 PQ",
             "ITU-R BT.2100-2 HLG",
             "ITU-R BT.2100-2 PQ",
-        ],
+        ),
     )
 
     is_hlg_method = "hlg" in method
