@@ -2859,7 +2859,7 @@ def reshape_msds(
     method
         Reshape method.
     copy
-        Whether to return a copy of the cached multi-spectra distributions.
+        Whether to return a copy of the cached multi-spectral distributions.
         Default is *True*.
 
     Other Parameters
