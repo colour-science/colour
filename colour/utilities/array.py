@@ -115,7 +115,7 @@ class MixinDataclassFields:
 
     Attributes
     ----------
-    -   :meth:`~colour.utilities.MixinDataclassFields.fields`
+    -   :attr:`~colour.utilities.MixinDataclassFields.fields`
     """
 
     @property
@@ -139,9 +139,9 @@ class MixinDataclassIterable(MixinDataclassFields):
 
     Attributes
     ----------
-    -   :meth:`~colour.utilities.MixinDataclassIterable.keys`
-    -   :meth:`~colour.utilities.MixinDataclassIterable.values`
-    -   :meth:`~colour.utilities.MixinDataclassIterable.items`
+    -   :attr:`~colour.utilities.MixinDataclassIterable.keys`
+    -   :attr:`~colour.utilities.MixinDataclassIterable.values`
+    -   :attr:`~colour.utilities.MixinDataclassIterable.items`
 
     Methods
     -------
