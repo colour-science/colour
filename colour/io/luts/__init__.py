@@ -221,7 +221,7 @@ or :class:`colour.LUTSequence` or :class:`colour.LUTOperatorMatrix`
         method, MAPPING_EXTENSION_TO_LUT_FORMAT[os.path.splitext(path)[-1]]
     )
 
-    method = validate_method(method, LUT_READ_METHODS)
+    method = validate_method(method, tuple(LUT_READ_METHODS))
 
     function = LUT_READ_METHODS[method]
 
@@ -341,7 +341,7 @@ def write_LUT(
         method, MAPPING_EXTENSION_TO_LUT_FORMAT[os.path.splitext(path)[-1]]
     )
 
-    method = validate_method(method, LUT_WRITE_METHODS)
+    method = validate_method(method, tuple(LUT_WRITE_METHODS))
 
     if method == "iridas cube" and isinstance(LUT, LUTSequence):
         method = "resolve cube"

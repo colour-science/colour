@@ -134,7 +134,7 @@ def logarithmic_function_basic(
     x = as_float_array(x)
     style = validate_method(
         style,
-        ["log10", "antiLog10", "log2", "antiLog2", "logB", "antiLogB"],
+        ("log10", "antiLog10", "log2", "antiLog2", "logB", "antiLogB"),
         '"{0}" style is invalid, it must be one of {1}!',
     )
 
@@ -208,7 +208,7 @@ def logarithmic_function_quasilog(
     x = as_float_array(x)
     style = validate_method(
         style,
-        ["lintolog", "logtolin"],
+        ("lintolog", "logtolin"),
         '"{0}" style is invalid, it must be one of {1}!',
     )
 
@@ -302,7 +302,7 @@ def logarithmic_function_camera(
     x = as_float_array(x)
     style = validate_method(
         style,
-        ["cameraLinToLog", "cameraLogToLin"],
+        ("cameraLinToLog", "cameraLogToLin"),
         '"{0}" style is invalid, it must be one of {1}!',
     )
 

@@ -131,7 +131,7 @@ def plot_daylight_locus(
     """
 
     method = validate_method(
-        method, ["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+        method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS")
     )
 
     daylight_locus_colours = optional(
@@ -272,7 +272,7 @@ def plot_planckian_locus(
     """
 
     method = validate_method(
-        method, ["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+        method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS")
     )
 
     planckian_locus_colours = optional(
@@ -491,7 +491,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
     """
 
     method = validate_method(
-        method, ["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+        method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS")
     )
 
     cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]

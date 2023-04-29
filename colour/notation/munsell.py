@@ -822,7 +822,7 @@ def munsell_value(
     4.0814348...
     """
 
-    method = validate_method(method, MUNSELL_VALUE_METHODS)
+    method = validate_method(method, tuple(MUNSELL_VALUE_METHODS))
 
     return MUNSELL_VALUE_METHODS[method](Y)
 

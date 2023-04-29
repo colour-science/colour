@@ -142,7 +142,7 @@ def contrast_sensitivity_function(
     360.8691122...
     """
 
-    method = validate_method(method, CONTRAST_SENSITIVITY_METHODS)
+    method = validate_method(method, tuple(CONTRAST_SENSITIVITY_METHODS))
 
     function = CONTRAST_SENSITIVITY_METHODS[method]
 

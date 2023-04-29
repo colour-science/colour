@@ -101,7 +101,7 @@ def colour_fidelity_index(
     70.1208254...
     """
 
-    method = validate_method(method, COLOUR_FIDELITY_INDEX_METHODS)
+    method = validate_method(method, tuple(COLOUR_FIDELITY_INDEX_METHODS))
 
     function = COLOUR_FIDELITY_INDEX_METHODS[method]
 

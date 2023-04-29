@@ -470,7 +470,7 @@ class TestValidateMethod(unittest.TestCase):
         """Test :func:`colour.utilities.common.validate_method` definition."""
 
         self.assertEqual(
-            validate_method("Valid", ["Valid", "Yes", "Ok"]), "valid"
+            validate_method("Valid", ("Valid", "Yes", "Ok")), "valid"
         )
 
     def test_raise_exception_validate_method(self):
@@ -480,7 +480,7 @@ class TestValidateMethod(unittest.TestCase):
         """
 
         self.assertRaises(
-            ValueError, validate_method, "Invalid", ["Valid", "Yes", "Ok"]
+            ValueError, validate_method, "Invalid", ("Valid", "Yes", "Ok")
         )
 
 

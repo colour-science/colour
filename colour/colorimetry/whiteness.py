@@ -543,7 +543,7 @@ def whiteness(
     XYZ = as_float_array(XYZ)
     XYZ_0 = as_float_array(XYZ_0)
 
-    method = validate_method(method, WHITENESS_METHODS)
+    method = validate_method(method, tuple(WHITENESS_METHODS))
 
     kwargs.update({"XYZ": XYZ, "XYZ_0": XYZ_0})
 

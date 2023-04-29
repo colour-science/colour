@@ -668,7 +668,7 @@ def log_encoding_Log3G10(
     0.3333336...
     """
 
-    method = validate_method(method, LOG3G10_ENCODING_METHODS)
+    method = validate_method(method, tuple(LOG3G10_ENCODING_METHODS))
 
     return LOG3G10_ENCODING_METHODS[method](x)
 
@@ -735,7 +735,7 @@ def log_decoding_Log3G10(
     0.1799994...
     """
 
-    method = validate_method(method, LOG3G10_DECODING_METHODS)
+    method = validate_method(method, tuple(LOG3G10_DECODING_METHODS))
 
     return LOG3G10_DECODING_METHODS[method](y)
 

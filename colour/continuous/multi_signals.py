@@ -1608,7 +1608,7 @@ class MultiSignals(AbstractContinuousFunction):
          [   9.  100.  110.  120.]]
         """
 
-        method = validate_method(method, ["Interpolation", "Constant"])
+        method = validate_method(method, ("Interpolation", "Constant"))
 
         for signal in self._signals.values():
             signal.fill_nan(method, default)

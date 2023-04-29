@@ -1059,7 +1059,7 @@ def XYZ_to_RGB(
         if isinstance(colourspace, str):
             colourspace = validate_method(
                 colourspace,
-                RGB_COLOURSPACES,
+                tuple(RGB_COLOURSPACES),
                 '"{0}" "RGB" colourspace is invalid, it must be one of {1}!',
             )
             colourspace = RGB_COLOURSPACES[colourspace]
@@ -1207,7 +1207,7 @@ def RGB_to_XYZ(
         if isinstance(colourspace, str):
             colourspace = validate_method(
                 colourspace,
-                RGB_COLOURSPACES,
+                tuple(RGB_COLOURSPACES),
                 '"{0}" "RGB" colourspace is invalid, it must be one of {1}!',
             )
             colourspace = RGB_COLOURSPACES[colourspace]
@@ -1300,7 +1300,7 @@ def matrix_RGB_to_RGB(
     if isinstance(input_colourspace, str):
         input_colourspace = validate_method(
             input_colourspace,
-            RGB_COLOURSPACES,
+            tuple(RGB_COLOURSPACES),
             '"{0}" "RGB" colourspace is invalid, it must be one of {1}!',
         )
         input_colourspace = cast(
@@ -1310,7 +1310,7 @@ def matrix_RGB_to_RGB(
     if isinstance(output_colourspace, str):
         output_colourspace = validate_method(
             output_colourspace,
-            RGB_COLOURSPACES,
+            tuple(RGB_COLOURSPACES),
             '"{0}" "RGB" colourspace is invalid, it must be one of {1}!',
         )
         output_colourspace = cast(
@@ -1423,7 +1423,7 @@ def RGB_to_RGB(
     if isinstance(input_colourspace, str):
         input_colourspace = validate_method(
             input_colourspace,
-            RGB_COLOURSPACES,
+            tuple(RGB_COLOURSPACES),
             '"{0}" "RGB" colourspace is invalid, it must be one of {1}!',
         )
         input_colourspace = cast(
@@ -1433,7 +1433,7 @@ def RGB_to_RGB(
     if isinstance(output_colourspace, str):
         output_colourspace = validate_method(
             output_colourspace,
-            RGB_COLOURSPACES,
+            tuple(RGB_COLOURSPACES),
             '"{0}" "RGB" colourspace is invalid, it must be one of {1}!',
         )
         output_colourspace = cast(

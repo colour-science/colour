@@ -89,7 +89,7 @@ def primitive_vertices_quad_mpl(
 
     axis = MAPPING_PLANE_TO_AXIS.get(axis, axis).lower()
     axis = validate_method(
-        axis, ["+x", "+y", "+z"], '"{0}" axis invalid, it must be one of {1}!'
+        axis, ("+x", "+y", "+z"), '"{0}" axis invalid, it must be one of {1}!'
     )
 
     u, v = tsplit(origin)
@@ -396,7 +396,7 @@ def primitive_vertices_sphere(
 
     axis = MAPPING_PLANE_TO_AXIS.get(axis, axis).lower()
     axis = validate_method(
-        axis, ["+x", "+y", "+z"], '"{0}" axis invalid, it must be one of {1}!'
+        axis, ("+x", "+y", "+z"), '"{0}" axis invalid, it must be one of {1}!'
     )
 
     if not intermediate:
@@ -605,7 +605,7 @@ def primitive_vertices(
             [  3.7493994...e-33,   6.1232340...e-17,  -5.0000000...e-01]]])
     """
 
-    method = validate_method(method, PRIMITIVE_VERTICES_METHODS)
+    method = validate_method(method, tuple(PRIMITIVE_VERTICES_METHODS))
 
     function = PRIMITIVE_VERTICES_METHODS[method]
 

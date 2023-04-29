@@ -1299,9 +1299,10 @@ def copy_definition(definition: Callable, name: str | None = None) -> Callable:
     return copy
 
 
+@functools.cache
 def validate_method(
     method: str,
-    valid_methods: Sequence | Mapping,
+    valid_methods: tuple,
     message: str = '"{0}" method is invalid, it must be one of {1}!',
 ) -> str:
     """
@@ -1329,11 +1330,13 @@ def validate_method(
 
     Examples
     --------
-    >>> validate_method("Valid", ["Valid", "Yes", "Ok"])
+    >>> validate_method("Valid", ("Valid", "Yes", "Ok"))
     'valid'
     """
 
-    valid_methods = [str(valid_method) for valid_method in valid_methods]
+    valid_methods = tuple(
+        [str(valid_method) for valid_method in valid_methods]
+    )
 
     method_lower = method.lower()
     if method_lower not in [

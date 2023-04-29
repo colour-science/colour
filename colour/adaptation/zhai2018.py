@@ -149,7 +149,7 @@ def chromatic_adaptation_Zhai2018(
     Y_wd = XYZ_wd[..., 1][..., None]
     Y_wo = XYZ_wo[..., 1][..., None]
 
-    transform = validate_method(transform, ["CAT02", "CAT16"])
+    transform = validate_method(transform, ("CAT02", "CAT16"))
     M = CHROMATIC_ADAPTATION_TRANSFORMS[transform]
 
     RGB_b = vector_dot(M, XYZ_b)

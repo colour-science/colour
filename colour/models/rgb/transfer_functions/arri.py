@@ -604,9 +604,9 @@ def log_encoding_ARRILogC3(
     """
 
     x = to_domain_1(x)
-    firmware = validate_method(firmware, ["SUP 3.x", "SUP 2.x"])
+    firmware = validate_method(firmware, ("SUP 3.x", "SUP 2.x"))
     method = validate_method(
-        method, ["Linear Scene Exposure Factor", "Normalised Sensor Signal"]
+        method, ("Linear Scene Exposure Factor", "Normalised Sensor Signal")
     )
 
     cut, a, b, c, d, e, f, _e_cut_f = DATA_ALEXA_LOG_C_CURVE_CONVERSION[
@@ -673,7 +673,7 @@ def log_decoding_ARRILogC3(
 
     t = to_domain_1(t)
     method = validate_method(
-        method, ["Linear Scene Exposure Factor", "Normalised Sensor Signal"]
+        method, ("Linear Scene Exposure Factor", "Normalised Sensor Signal")
     )
 
     cut, a, b, c, d, e, f, _e_cut_f = DATA_ALEXA_LOG_C_CURVE_CONVERSION[

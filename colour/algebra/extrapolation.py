@@ -222,7 +222,7 @@ class Extrapolator:
             f'"method" property: "{value}" type is not "str"!',
         )
 
-        value = validate_method(value, ["Linear", "Constant"])
+        value = validate_method(value, ("Linear", "Constant"))
 
         self._method = value
 

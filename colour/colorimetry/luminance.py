@@ -432,7 +432,7 @@ def luminance_Fairchild2011(
     """
 
     L_hdr = to_domain_100(L_hdr)
-    method = validate_method(method, ["hdr-CIELAB", "hdr-IPT"])
+    method = validate_method(method, ("hdr-CIELAB", "hdr-IPT"))
 
     maximum_perception = 247 if method == "hdr-cielab" else 246
 
@@ -508,7 +508,7 @@ def luminance_Abebe2017(
 
     L = as_float_array(L)
     Y_n = as_float_array(Y_n)
-    method = validate_method(method, ["Michaelis-Menten", "Stevens"])
+    method = validate_method(method, ("Michaelis-Menten", "Stevens"))
 
     if method == "stevens":
         Y = np.where(
@@ -644,7 +644,7 @@ def luminance(
     """
 
     LV = as_float_array(LV)
-    method = validate_method(method, LUMINANCE_METHODS)
+    method = validate_method(method, tuple(LUMINANCE_METHODS))
 
     function = LUMINANCE_METHODS[method]
 

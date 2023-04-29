@@ -184,7 +184,7 @@ def uv_to_CCT(
     array([  6.507473...e+03,   3.223346...e-03])
     """
 
-    method = validate_method(method, UV_TO_CCT_METHODS)
+    method = validate_method(method, tuple(UV_TO_CCT_METHODS))
 
     function = UV_TO_CCT_METHODS[method]
 
@@ -262,7 +262,7 @@ def CCT_to_uv(
     array([ 0.1977999...,  0.3121999...])
     """
 
-    method = validate_method(method, CCT_TO_UV_METHODS)
+    method = validate_method(method, tuple(CCT_TO_UV_METHODS))
 
     function = CCT_TO_UV_METHODS[method]
 
@@ -353,7 +353,7 @@ def xy_to_CCT(
     6500.7420431...
     """
 
-    method = validate_method(method, XY_TO_CCT_METHODS)
+    method = validate_method(method, tuple(XY_TO_CCT_METHODS))
 
     return XY_TO_CCT_METHODS[method](xy)
 
@@ -432,7 +432,7 @@ def CCT_to_xy(
     array([ 0.313426 ...,  0.3235959...])
     """
 
-    method = validate_method(method, CCT_TO_XY_METHODS)
+    method = validate_method(method, tuple(CCT_TO_XY_METHODS))
 
     return CCT_TO_XY_METHODS[method](CCT)
 

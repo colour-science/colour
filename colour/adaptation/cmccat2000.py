@@ -379,7 +379,7 @@ def chromatic_adaptation_CMCCAT2000(
 
     direction = validate_method(
         direction,
-        ["Forward", "Inverse"],
+        ("Forward", "Inverse"),
         '"{0}" direction is invalid, it must be one of {1}!',
     )
 

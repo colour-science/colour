@@ -541,7 +541,7 @@ def sd_gaussian(
     0.3678794...
     """
 
-    method = validate_method(method, SD_GAUSSIAN_METHODS)
+    method = validate_method(method, tuple(SD_GAUSSIAN_METHODS))
 
     return SD_GAUSSIAN_METHODS[method](
         mu_peak_wavelength, sigma_fwhm, shape, **kwargs
@@ -673,7 +673,7 @@ def sd_single_led(
     1...
     """
 
-    method = validate_method(method, SD_SINGLE_LED_METHODS)
+    method = validate_method(method, tuple(SD_SINGLE_LED_METHODS))
 
     return SD_SINGLE_LED_METHODS[method](
         peak_wavelength, fwhm, shape, **kwargs
@@ -851,7 +851,7 @@ def sd_multi_leds(
     0.1295132...
     """
 
-    method = validate_method(method, SD_MULTI_LEDS_METHODS)
+    method = validate_method(method, tuple(SD_MULTI_LEDS_METHODS))
 
     return SD_MULTI_LEDS_METHODS[method](
         peak_wavelengths, fwhm, peak_power_ratios, shape, **kwargs

@@ -144,14 +144,14 @@ def exponent_function_basic(
     exponent = as_float_array(exponent)
     style = validate_method(
         style,
-        [
+        (
             "basicFwd",
             "basicRev",
             "basicMirrorFwd",
             "basicMirrorRev",
             "basicPassThruFwd",
             "basicPassThruRev",
-        ],
+        ),
         '"{0}" style is invalid, it must be one of {1}!',
     )
 
@@ -269,12 +269,12 @@ def exponent_function_monitor_curve(
     offset = as_float_array(offset)
     style = validate_method(
         style,
-        [
+        (
             "monCurveFwd",
             "monCurveRev",
             "monCurveMirrorFwd",
             "monCurveMirrorRev",
-        ],
+        ),
         '"{0}" style is invalid, it must be one of {1}!',
     )
 

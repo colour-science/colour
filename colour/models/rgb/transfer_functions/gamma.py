@@ -84,7 +84,7 @@ def gamma_function(
     exponent = as_float_array(exponent)
     negative_number_handling = validate_method(
         negative_number_handling,
-        ["Indeterminate", "Mirror", "Preserve", "Clamp"],
+        ("Indeterminate", "Mirror", "Preserve", "Clamp"),
         '"{0}" negative number handling is invalid, it must be one of {1}!',
     )
 

@@ -2803,7 +2803,7 @@ def reshape_sd(
     """
 
     method = validate_method(
-        method, valid_methods=["Align", "Extrapolate", "Interpolate", "Trim"]
+        method, valid_methods=("Align", "Extrapolate", "Interpolate", "Trim")
     )
 
     # Handling dict-like keyword arguments.

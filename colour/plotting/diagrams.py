@@ -152,7 +152,7 @@ def plot_spectral_locus(
     """
 
     method = validate_method(
-        method, ["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+        method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS")
     )
 
     spectral_locus_colours = optional(
@@ -430,7 +430,7 @@ def plot_chromaticity_diagram_colours(
     """
 
     method = validate_method(
-        method, ["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+        method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS")
     )
 
     settings: Dict[str, Any] = {"uniform": True}
@@ -565,7 +565,7 @@ def plot_chromaticity_diagram(
     """
 
     method = validate_method(
-        method, ["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+        method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS")
     )
 
     settings: Dict[str, Any] = {"uniform": True}
@@ -903,7 +903,7 @@ def plot_sds_in_chromaticity_diagram(
     """
 
     method = validate_method(
-        method, ["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+        method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS")
     )
 
     sds_converted = sds_and_msds_to_sds(sds)
