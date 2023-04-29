@@ -332,7 +332,9 @@ class ModuleAPI:
     ... # doctest: +SKIP
     """
 
-    def __init__(self, module: ModuleType, changes: dict | None = None):
+    def __init__(
+        self, module: ModuleType, changes: dict | None = None
+    ) -> None:
         self._module = module
         self._changes = optional(changes, {})
 
@@ -360,7 +362,6 @@ class ModuleAPI:
 
         if change is not None:
             if not isinstance(change, ObjectRemoved):
-
                 usage_warning(str(change))
 
                 return (
@@ -564,7 +565,6 @@ def handle_arguments_deprecation(changes: dict, **kwargs: Any) -> dict:
             continue
 
         if not isinstance(change, ArgumentRemoved):
-
             usage_warning(str(change))
 
             if isinstance(change, ArgumentFutureRemove):
