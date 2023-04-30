@@ -11,6 +11,10 @@ from .data_structures import (
     LazyCanonicalMapping,
     Node,
 )
+from .callback import (
+    Callback,
+    MixinCallback,
+)
 from .common import (
     CacheRegistry,
     CACHE_REGISTRY,
@@ -123,6 +127,10 @@ __all__ = [
     "CanonicalMapping",
     "LazyCanonicalMapping",
     "Node",
+]
+__all__ += [
+    "Callback",
+    "MixinCallback",
 ]
 __all__ += [
     "CacheRegistry",

@@ -1,6 +1,23 @@
 Utilities
 =========
 
+Callback Management
+-------------------
+
+``colour``
+
+
+``colour.utilities``
+
+.. currentmodule:: colour.utilities
+
+.. autosummary::
+    :toctree: generated/
+    :template: class.rst
+
+    Callback
+    MixinCallback
+
 Common
 ------
 
