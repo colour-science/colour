@@ -29,6 +29,7 @@ from colour.hints import (
     Type,
 )
 from colour.utilities import (
+    MixinCallback,
     as_float,
     attest,
     closest,
@@ -49,7 +50,7 @@ __all__ = [
 ]
 
 
-class AbstractContinuousFunction(ABC):
+class AbstractContinuousFunction(ABC, MixinCallback):
     """
     Define the base class for abstract continuous function.
 

@@ -948,8 +948,7 @@ class Signal(AbstractContinuousFunction):
             variable.
         """
 
-        self._domain = fill_nan(self._domain, method, default)
-        self._function = None  # Invalidate the underlying continuous function.
+        self.domain = fill_nan(self.domain, method, default)
 
     def _fill_range_nan(
         self,
@@ -974,8 +973,7 @@ class Signal(AbstractContinuousFunction):
             variable.
         """
 
-        self._range = fill_nan(self._range, method, default)
-        self._function = None  # Invalidate the underlying continuous function.
+        self.range = fill_nan(self.range, method, default)
 
     def arithmetical_operation(
         self,

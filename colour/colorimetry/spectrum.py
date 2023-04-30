@@ -716,6 +716,19 @@ class SpectralDistribution(Signal):
         self._display_name: str = self.name
         self.display_name = kwargs.get("display_name", self._display_name)
 
+        self._shape: SpectralShape | None = None
+
+        def _on_domain_changed(
+            self, name: str, value: NDArrayFloat
+        ) -> NDArrayFloat:
+            """Invalidate *self._shape* when *self._domain* is changed."""
+            if name == "_domain":
+                self._shape = None
+
+            return value
+
+        self.register_callback("on_domain_changed", _on_domain_changed)
+
     @property
     def display_name(self) -> str:
         """
@@ -836,17 +849,20 @@ class SpectralDistribution(Signal):
         SpectralShape(500.0, 600.0, 10.0)
         """
 
-        wavelengths = self.wavelengths
-        wavelengths_interval = interval(wavelengths)
-        if wavelengths_interval.size != 1:
-            runtime_warning(
-                f'"{self.name}" spectral distribution is not uniform, using '
-                f"minimum interval!"
+        if self._shape is None:
+            wavelengths = self.wavelengths
+            wavelengths_interval = interval(wavelengths)
+            if wavelengths_interval.size != 1:
+                runtime_warning(
+                    f'"{self.name}" spectral distribution is not uniform, '
+                    "using minimum interval!"
+                )
+
+            self._shape = SpectralShape(
+                wavelengths[0], wavelengths[-1], min(wavelengths_interval)
             )
 
-        return SpectralShape(
-            wavelengths[0], wavelengths[-1], min(wavelengths_interval)
-        )
+        return self._shape
 
     def interpolate(
         self,
