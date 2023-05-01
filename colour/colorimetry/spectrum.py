@@ -727,7 +727,9 @@ class SpectralDistribution(Signal):
 
             return value
 
-        self.register_callback("on_domain_changed", _on_domain_changed)
+        self.register_callback(
+            "_domain", "on_domain_changed", _on_domain_changed
+        )
 
     @property
     def display_name(self) -> str:

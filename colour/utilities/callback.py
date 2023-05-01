@@ -7,11 +7,13 @@ Defines the callback management objects.
 
 from __future__ import annotations
 
+from collections import defaultdict
 from dataclasses import dataclass
 
 from colour.hints import (
     Any,
     Callable,
+    List,
 )
 
 __author__ = "Colour Developers"
@@ -67,11 +69,9 @@ class MixinCallback:
     ...
     >>> with_callback = WithCallback()
     >>> def _on_attribute_a_changed(self, name: str, value: str) -> str:
-    ...     if name == "attribute_a":
-    ...         value = value.upper()
-    ...     return value
+    ...     return value.upper()
     >>> with_callback.register_callback(
-    ...     "on_attribute_a_changed", _on_attribute_a_changed
+    ...     "attribute_a", "on_attribute_a_changed", _on_attribute_a_changed
     ... )
     >>> with_callback.attribute_a = "a"
     >>> with_callback.attribute_a
@@ -81,16 +81,16 @@ class MixinCallback:
     def __init__(self) -> None:
         super().__init__()
 
-        self._callbacks: list = []
+        self._callbacks: defaultdict[str, List[Callback]] = defaultdict(list)
 
     @property
-    def callbacks(self) -> list:
+    def callbacks(self) -> defaultdict[str, List[Callback]]:
         """
         Getter property for the callbacks.
 
         Returns
         -------
-        :class:`list`
+        :class:`defaultdict`
             Callbacks.
         """
 
@@ -109,17 +109,21 @@ class MixinCallback:
         """
 
         if hasattr(self, "_callbacks"):
-            for callback in self._callbacks:
+            for callback in self._callbacks.get(name, []):
                 value = callback.function(self, name, value)
 
         super().__setattr__(name, value)
 
-    def register_callback(self, name: str, function: Callable) -> None:
+    def register_callback(
+        self, attribute: str, name: str, function: Callable
+    ) -> None:
         """
-        Register the callback with given name.
+        Register the callback with given name for given attribute.
 
         Parameters
         ----------
+        attribute
+            Attribute to register the callback for.
         name
             Callback name.
         function
@@ -130,21 +134,27 @@ class MixinCallback:
         >>> class WithCallback(MixinCallback):
         ...     def __init__(self):
         ...         super().__init__()
+        ...         self.attribute_a = "a"
         ...
         >>> with_callback = WithCallback()
-        >>> with_callback.register_callback("callback", lambda *args: None)
+        >>> with_callback.register_callback(
+        ...     "attribute_a", "callback", lambda *args: None
+        ... )
         >>> with_callback.callbacks  # doctest: +SKIP
-        [Callback(name='callback', function=<function <lambda> at 0x10fcf3420>)]
+        defaultdict(<class 'list'>, {'attribute_a': \
+[Callback(name='callback', function=<function <lambda> at 0x...>)]})
         """
 
-        self._callbacks.append(Callback(name, function))
+        self._callbacks[attribute].append(Callback(name, function))
 
-    def unregister_callback(self, name: str) -> None:
+    def unregister_callback(self, attribute: str, name: str) -> None:
         """
-        Unregister the callback with given name.
+        Unregister the callback with given name for given attribute.
 
         Parameters
         ----------
+        attribute
+            Attribute to unregister the callback for.
         name
             Callback name.
 
@@ -153,16 +163,28 @@ class MixinCallback:
         >>> class WithCallback(MixinCallback):
         ...     def __init__(self):
         ...         super().__init__()
+        ...         self.attribute_a = "a"
         ...
         >>> with_callback = WithCallback()
-        >>> with_callback.register_callback("callback", lambda s, n, v: v)
+        >>> with_callback.register_callback(
+        ...     "attribute_a", "callback", lambda s, n, v: v
+        ... )
         >>> with_callback.callbacks  # doctest: +SKIP
-        [Callback(name='callback', function=<function <lambda> at 0x10fcf3420>)]
-        >>> with_callback.unregister_callback("callback")
+        defaultdict(<class 'list'>, {'attribute_a': \
+[Callback(name='callback', function=<function <lambda> at 0x...>)]})
+        >>> with_callback.unregister_callback("attribute_a", "callback")
         >>> with_callback.callbacks
-        []
+        defaultdict(<class 'list'>, {})
         """
 
-        self._callbacks = [
-            callback for callback in self._callbacks if callback.name != name
+        if self._callbacks.get(attribute) is None:
+            return
+
+        self._callbacks[attribute] = [
+            callback
+            for callback in self._callbacks.get(attribute, [])
+            if callback.name != name
         ]
+
+        if len(self._callbacks[attribute]) == 0:
+            self._callbacks.pop(attribute, None)

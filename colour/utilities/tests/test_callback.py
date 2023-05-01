@@ -41,13 +41,12 @@ class TestMixinCallback(unittest.TestCase):
         def _on_attribute_a_changed(self, name: str, value: str) -> str:
             """Transform *self._attribute_a* to uppercase."""
 
-            if name == "attribute_a":
-                value = value.upper()
+            value = value.upper()
 
-                if getattr(self, name) != "a":
-                    raise RuntimeError(
-                        '"self" was not able to retrieve class instance value!'
-                    )
+            if getattr(self, name) != "a":
+                raise RuntimeError(
+                    '"self" was not able to retrieve class instance value!'
+                )
 
             return value
 
@@ -80,7 +79,9 @@ class TestMixinCallback(unittest.TestCase):
         """
 
         self._with_callback.register_callback(
-            "on_attribute_a_changed", self._on_attribute_a_changed
+            "attribute_a",
+            "on_attribute_a_changed",
+            self._on_attribute_a_changed,
         )
 
         self._with_callback.attribute_a = "a"
@@ -95,11 +96,15 @@ class TestMixinCallback(unittest.TestCase):
 
         if len(self._with_callback.callbacks) == 0:
             self._with_callback.register_callback(
-                "on_attribute_a_changed", self._on_attribute_a_changed
+                "attribute_a",
+                "on_attribute_a_changed",
+                self._on_attribute_a_changed,
             )
 
         self.assertEqual(len(self._with_callback.callbacks), 1)
-        self._with_callback.unregister_callback("on_attribute_a_changed")
+        self._with_callback.unregister_callback(
+            "attribute_a", "on_attribute_a_changed"
+        )
         self.assertEqual(len(self._with_callback.callbacks), 0)
         self._with_callback.attribute_a = "a"
         self.assertEqual(self._with_callback.attribute_a, "a")
