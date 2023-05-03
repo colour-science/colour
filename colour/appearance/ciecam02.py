@@ -231,6 +231,7 @@ def XYZ_to_CIECAM02(
         "Average"
     ],
     discount_illuminant: bool = False,
+    compute_HQ: bool = True,
 ) -> CAM_Specification_CIECAM02:
     """
     Compute the *CIECAM02* colour appearance model correlates from given
@@ -256,6 +257,9 @@ def XYZ_to_CIECAM02(
         Surround viewing conditions induction factors.
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
+    compute_HQ
+        Can be used to exclude hue quadrature from the computation. HQ is rarely
+        used, and expensive to compute. Useful for small performance gains
 
     Returns
     -------
@@ -368,7 +372,8 @@ H=278.0607358..., HC=None)
     h = hue_angle(a, b)
 
     # Computing hue :math:`h` quadrature :math:`H`.
-    H = hue_quadrature(h)
+    H = hue_quadrature(h) if compute_HQ else np.full(h.shape, np.nan)
+
     # TODO: Compute hue composition.
 
     # Computing eccentricity factor *e_t*.
