@@ -260,7 +260,7 @@ from .models import (
     IgPgTg_to_XYZ,
     IPT_hue_angle,
     IPT_to_XYZ,
-    IPT_Munish2021_to_XYZ,
+    IPT_Ragoo2021_to_XYZ,
     JMh_CAM16_to_CAM16LCD,
     JMh_CAM16_to_CAM16SCD,
     JMh_CAM16_to_CAM16UCS,
@@ -323,7 +323,7 @@ from .models import (
     XYZ_to_ICtCp,
     XYZ_to_IgPgTg,
     XYZ_to_IPT,
-    XYZ_to_IPT_Munish2021,
+    XYZ_to_IPT_Ragoo2021,
     XYZ_to_Jzazbz,
     XYZ_to_K_ab_HunterLab1966,
     XYZ_to_Lab,
@@ -684,7 +684,7 @@ __all__ += [
     "IgPgTg_to_XYZ",
     "IPT_hue_angle",
     "IPT_to_XYZ",
-    "IPT_Munish2021_to_XYZ",
+    "IPT_Ragoo2021_to_XYZ",
     "JMh_CAM16_to_CAM16LCD",
     "JMh_CAM16_to_CAM16SCD",
     "JMh_CAM16_to_CAM16UCS",
@@ -747,7 +747,7 @@ __all__ += [
     "XYZ_to_ICtCp",
     "XYZ_to_IgPgTg",
     "XYZ_to_IPT",
-    "XYZ_to_IPT_Munish2021",
+    "XYZ_to_IPT_Ragoo2021",
     "XYZ_to_Jzazbz",
     "XYZ_to_K_ab_HunterLab1966",
     "XYZ_to_Lab",
@@ -943,6 +943,20 @@ API_CHANGES = {
         ],
     ]
 }
+
+# v0.4.3
+API_CHANGES["ObjectRenamed"].extend(
+    [
+        [
+            "colour.XYZ_to_IPT_Munish2021",
+            "colour.XYZ_to_IPT_Ragoo2021",
+        ],
+        [
+            "colour.IPT_Munish2021_to_XYZ",
+            "colour.IPT_Ragoo2021_to_XYZ",
+        ],
+    ]
+)
 """Defines the *colour.models* sub-package API changes."""
 
 if not is_documentation_building():

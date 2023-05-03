@@ -332,20 +332,20 @@ print(colour.IPT_to_XYZ(IPT))
 print("\n")
 
 message_box(
-    f'Converting to "Munish Ragoo and Farup (2021)" "Optimised IPT" '
+    f'Converting to "Ragoo and Farup (2021)" "Optimised IPT" '
     f'colourspace from given "CIE XYZ" tristimulus values:\n\n\t{XYZ}'
 )
-print(colour.XYZ_to_IPT_Munish2021(XYZ))
+print(colour.XYZ_to_IPT_Ragoo2021(XYZ))
 
 print("\n")
 
 IPT = np.array([0.42248243, 4.05710276, 0.20410663])
 message_box(
     f'Converting to "CIE XYZ" tristimulus values from given'
-    f'"Munish Ragoo and Farup (2021)" "Optimised IPT" colourspace '
+    f'"Ragoo and Farup (2021)" "Optimised IPT" colourspace '
     f"values:\n\n\t{IPT}"
 )
-print(colour.IPT_Munish2021_to_XYZ(IPT))
+print(colour.IPT_Ragoo2021_to_XYZ(IPT))
 
 print("\n")
 

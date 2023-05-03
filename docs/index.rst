@@ -631,12 +631,12 @@ IPT Colourspace
     >>> colour.XYZ_to_IPT([0.20654008, 0.12197225, 0.05136952])
     array([ 0.38426191,  0.38487306,  0.18886838])
 
-Munish Ragoo and Farup (2021) Optimised IPT Colourspace
-*******************************************************
+Ragoo and Farup (2021) Optimised IPT Colourspace
+************************************************
 
 .. code-block:: python
 
-    >>> colour.XYZ_to_IPT_Munish2021([0.20654008, 0.12197225, 0.05136952])
+    >>> colour.XYZ_to_IPT_Ragoo2021([0.20654008, 0.12197225, 0.05136952])
     array([ 0.42248243,  0.2910514 ,  0.20410663])
 
 DIN99 Colourspace

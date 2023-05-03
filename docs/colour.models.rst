@@ -234,8 +234,8 @@ IPT Colourspace
     IPT_to_XYZ
     IPT_hue_angle
 
-Munish Ragoo and Farup (2021) Optimised IPT Colourspace
--------------------------------------------------------
+Ragoo and Farup (2021) Optimised IPT Colourspace
+------------------------------------------------
 
 ``colour``
 
@@ -244,8 +244,8 @@ Munish Ragoo and Farup (2021) Optimised IPT Colourspace
 .. autosummary::
     :toctree: generated/
 
-    XYZ_to_IPT_Munish2021
-    IPT_Munish2021_to_XYZ
+    XYZ_to_IPT_Ragoo2021
+    IPT_Ragoo2021_to_XYZ
 
 hdr-CIELAB Colourspace
 ----------------------
