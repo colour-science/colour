@@ -317,9 +317,12 @@ def CCT_reference_illuminant(sd: SpectralDistribution) -> NDArrayFloat:
     array([  4.2244697...e+03,   1.7871111...e-03])
     """
 
-    XYZ = sd_to_XYZ(sd)
+    XYZ = sd_to_XYZ(sd.values, shape=sd.shape, method="Integration")
 
-    return uv_to_CCT_Ohno2013(UCS_to_uv(XYZ_to_UCS(XYZ)))
+    # Use CFI2017 and TM30 range of 1,000K to 25,000K for performance.
+    return uv_to_CCT_Ohno2013(
+        UCS_to_uv(XYZ_to_UCS(XYZ)), start=1000, end=25000
+    )
 
 
 def sd_reference_illuminant(

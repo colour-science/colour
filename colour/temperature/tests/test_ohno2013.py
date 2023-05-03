@@ -7,8 +7,13 @@ from itertools import product
 
 from colour.colorimetry import MSDS_CMFS
 from colour.temperature import CCT_to_uv_Ohno2013, uv_to_CCT_Ohno2013
-from colour.temperature.ohno2013 import planckian_table
+from colour.temperature.ohno2013 import (
+    CCT_to_XYZ_Ohno2013,
+    XYZ_to_CCT_Ohno2013,
+    planckian_table,
+)
 from colour.utilities import ignore_numpy_errors
+from colour.utilities.array import as_float_array
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -35,78 +40,63 @@ class TestPlanckianTable(unittest.TestCase):
 
         np.testing.assert_allclose(
             planckian_table(
-                np.array([0.1978, 0.3122]),
                 MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
                 5000,
                 6000,
-                10,
+                1.01,
             ),
             np.array(
                 [
-                    [
-                        5.00000000e03,
-                        2.11424442e-01,
-                        3.23115810e-01,
-                        1.74579593e-02,
-                    ],
-                    [
-                        5.11111111e03,
-                        2.10314324e-01,
-                        3.22008326e-01,
-                        1.59000490e-02,
-                    ],
-                    [
-                        5.22222222e03,
-                        2.09265149e-01,
-                        3.20929009e-01,
-                        1.44099008e-02,
-                    ],
-                    [
-                        5.33333333e03,
-                        2.08272619e-01,
-                        3.19877383e-01,
-                        1.29852974e-02,
-                    ],
-                    [
-                        5.44444444e03,
-                        2.07332799e-01,
-                        3.18852924e-01,
-                        1.16247859e-02,
-                    ],
-                    [
-                        5.55555556e03,
-                        2.06442082e-01,
-                        3.17855076e-01,
-                        1.03278973e-02,
-                    ],
-                    [
-                        5.66666667e03,
-                        2.05597159e-01,
-                        3.16883254e-01,
-                        9.09552364e-03,
-                    ],
-                    [
-                        5.77777778e03,
-                        2.04794988e-01,
-                        3.15936852e-01,
-                        7.93056919e-03,
-                    ],
-                    [
-                        5.88888889e03,
-                        2.04032772e-01,
-                        3.15015254e-01,
-                        6.83908641e-03,
-                    ],
-                    [
-                        6.00000000e03,
-                        2.03307932e-01,
-                        3.14117832e-01,
-                        5.83227190e-03,
-                    ],
+                    [5.00000000e03, 2.11424442e-01, 3.23115810e-01],
+                    [5.00100000e03, 2.11414166e-01, 3.23105716e-01],
+                    [5.05101000e03, 2.10906941e-01, 3.22603850e-01],
+                    [5.09965995e03, 2.10425840e-01, 3.22121155e-01],
+                    [5.14875592e03, 2.09952257e-01, 3.21639518e-01],
+                    [5.19830158e03, 2.09486095e-01, 3.21159015e-01],
+                    [5.24830059e03, 2.09027261e-01, 3.20679719e-01],
+                    [5.29875665e03, 2.08575658e-01, 3.20201701e-01],
+                    [5.34967349e03, 2.08131192e-01, 3.19725033e-01],
+                    [5.40105483e03, 2.07693769e-01, 3.19249784e-01],
+                    [5.45290444e03, 2.07263296e-01, 3.18776019e-01],
+                    [5.50522609e03, 2.06839680e-01, 3.18303806e-01],
+                    [5.55802360e03, 2.06422828e-01, 3.17833209e-01],
+                    [5.61130078e03, 2.06012650e-01, 3.17364290e-01],
+                    [5.66506148e03, 2.05609054e-01, 3.16897111e-01],
+                    [5.71930956e03, 2.05211949e-01, 3.16431730e-01],
+                    [5.77404891e03, 2.04821246e-01, 3.15968207e-01],
+                    [5.82928344e03, 2.04436856e-01, 3.15506598e-01],
+                    [5.88501707e03, 2.04058690e-01, 3.15046958e-01],
+                    [5.94125375e03, 2.03686660e-01, 3.14589340e-01],
+                    [5.99799745e03, 2.03320679e-01, 3.14133796e-01],
+                    [5.99900000e03, 2.03314296e-01, 3.14125803e-01],
+                    [6.00000000e03, 2.03307932e-01, 3.14117832e-01],
                 ]
             ),
             rtol=0.000001,
             atol=0.000001,
+        )
+
+
+class TestXYZ_tofrom_CCT_Ohno2013(unittest.TestCase):
+    """Define :func:`colour.temperature.ohno2013.XYZ_to_CCT_Ohno2013` definition
+    unit tests methods.
+    """
+
+    def test_XYZ_to_CCT_Ohno2013(self):
+        """Test the XYZ to CCT Ohno method conversion"""
+        XYZ = [95, 100, 108]
+        np.testing.assert_allclose(
+            XYZ_to_CCT_Ohno2013(XYZ),
+            np.array([6.45204726e03, 0.0033180561896173355]),
+            rtol=1e-6,
+        )
+
+    def test_CCT_to_duv_Ohno2013(self):
+        """Test the CCT to Duv Ohno method conversion"""
+        CCT_duv = [5000, 0.002]
+        np.testing.assert_allclose(
+            CCT_to_XYZ_Ohno2013(CCT_duv),
+            np.array([0.9707001144701166, 1.0, 0.8389509590168589]),
         )
 
 
@@ -122,21 +112,31 @@ class TestUv_to_CCT_Ohno2013(unittest.TestCase):
         definition.
         """
 
+        CCT = np.linspace(1_000, 100_000, 3_000)
+        duv = np.linspace(-0.01, 0.01, 10)
+
+        CCT, duv = np.meshgrid(CCT, duv)
+        exact_table = as_float_array((CCT.flatten(), duv.flatten())).T
+        uv_table = CCT_to_uv_Ohno2013(exact_table)
+        calc_cct = uv_to_CCT_Ohno2013(uv_table)
+
+        np.testing.assert_allclose(calc_cct[1, :], exact_table[1, :], atol=1)
+
         np.testing.assert_array_almost_equal(
             uv_to_CCT_Ohno2013(np.array([0.1978, 0.3122])),
-            np.array([6507.47380460, 0.00322335]),
+            np.array([6.50760081e03, 3.22333560e-03]),
             decimal=7,
         )
 
         np.testing.assert_array_almost_equal(
             uv_to_CCT_Ohno2013(np.array([0.4328, 0.2883])),
-            np.array([1041.68315360, -0.06737802]),
+            np.array([1041.692826446935, -0.067378054025829637]),
             decimal=7,
         )
 
         np.testing.assert_array_almost_equal(
-            uv_to_CCT_Ohno2013(np.array([0.2927, 0.2722]), iterations=4),
-            np.array([2452.15316417, -0.08437064]),
+            uv_to_CCT_Ohno2013(np.array([0.2927, 0.2722])),
+            np.array([2445.0416505823432, -0.084370640066503882]),
             decimal=7,
         )
 

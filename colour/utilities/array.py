@@ -53,6 +53,7 @@ from colour.utilities import (
     suppress_warnings,
     validate_method,
 )
+from colour.utilities.common import CACHE_REGISTRY
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -2009,6 +2010,11 @@ def closest(a: ArrayLike, b: ArrayLike) -> NDArray:
     return a[closest_indexes(a, b)]
 
 
+_CACHE_DISTRIBUTION_INTERVAL: dict = CACHE_REGISTRY.register_cache(
+    f"{__name__}._CACHE_DISTRIBUTION_INTERVAL"
+)
+
+
 def interval(distribution: ArrayLike, unique: bool = True) -> NDArray:
     """
     Return the interval size of given distribution.
@@ -2046,13 +2052,27 @@ def interval(distribution: ArrayLike, unique: bool = True) -> NDArray:
     """
 
     distribution = as_float_array(distribution)
+    hash_key = hash(
+        (
+            distribution.tobytes(),
+            np.array(distribution.shape).tobytes(),
+            unique,
+        )
+    )
+    if hash_key in _CACHE_DISTRIBUTION_INTERVAL:
+        return np.copy(_CACHE_DISTRIBUTION_INTERVAL[hash_key])
 
     differences = np.abs(distribution[1:] - distribution[:-1])
 
-    if unique:
-        return np.unique(differences)
+    if unique and (differences == differences[0]).all():
+        out = np.array([differences[0]])
+    elif unique:
+        out = np.unique(differences)
     else:
-        return differences
+        out = differences
+
+    _CACHE_DISTRIBUTION_INTERVAL[hash_key] = np.copy(out)
+    return out
 
 
 def is_uniform(distribution: ArrayLike) -> bool:
@@ -2190,7 +2210,6 @@ def tstack(
     dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
 
     a = as_array(a, dtype)
-
     if a.ndim <= 2:
         return np.transpose(a)
 
