@@ -210,7 +210,7 @@ def colour_fidelity_index_CIE2017(
     )
 
     # pylint: disable=E1102
-    sds_tcs = reshape_msds(load_TCS_CIE2017(shape), shape, copy=False)
+    sds_tcs = load_TCS_CIE2017(shape)
 
     test_tcs_colorimetry_data = tcs_colorimetry_data(sd_test, sds_tcs, cmfs_10)
     reference_tcs_colorimetry_data = tcs_colorimetry_data(
@@ -383,7 +383,7 @@ def sd_reference_illuminant(
 
     if CCT >= 4000:
         xy = CCT_to_xy_CIE_D(CCT)
-        sd_daylight = sd_CIE_illuminant_D_series(xy).align(shape)
+        sd_daylight = sd_CIE_illuminant_D_series(xy, shape=shape)
 
     if CCT < 4000:
         sd_reference = sd_planckian
