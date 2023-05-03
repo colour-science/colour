@@ -1256,7 +1256,8 @@ class TestPlanckLaw(unittest.TestCase):
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
-        planck_law(cases, cases)
+        with self.assertRaises(AssertionError):
+            planck_law(cases, cases)
 
 
 class TestSdBlackbody(unittest.TestCase):
