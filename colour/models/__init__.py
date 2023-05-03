@@ -92,11 +92,11 @@ from .jzazbz import (
     Izazbz_to_XYZ,
     Jzazbz_to_XYZ,
 )
-from .munish2021 import XYZ_to_IPT_Munish2021, IPT_Munish2021_to_XYZ
 from .hdr_ipt import HDR_IPT_METHODS, XYZ_to_hdr_IPT, hdr_IPT_to_XYZ
 from .oklab import XYZ_to_Oklab, Oklab_to_XYZ
 from .osa_ucs import XYZ_to_OSA_UCS, OSA_UCS_to_XYZ
 from .prolab import XYZ_to_ProLab, ProLab_to_XYZ
+from .ragoo2021 import XYZ_to_IPT_Ragoo2021, IPT_Ragoo2021_to_XYZ
 from .datasets import (
     DATA_MACADAM_1942_ELLIPSES,
     CCS_ILLUMINANT_POINTER_GAMUT,
@@ -480,8 +480,8 @@ __all__ += [
     "Jzazbz_to_XYZ",
 ]
 __all__ += [
-    "XYZ_to_IPT_Munish2021",
-    "IPT_Munish2021_to_XYZ",
+    "XYZ_to_IPT_Ragoo2021",
+    "IPT_Ragoo2021_to_XYZ",
 ]
 __all__ += [
     "HDR_IPT_METHODS",
@@ -881,6 +881,21 @@ API_CHANGES["ObjectRenamed"].extend(
         [
             "colour.models.log_encoding_ALEXALogC",
             "colour.models.log_encoding_ARRILogC3",
+        ],
+    ]
+)
+
+
+# v0.4.3
+API_CHANGES["ObjectRenamed"].extend(
+    [
+        [
+            "colour.models.XYZ_to_IPT_Munish2021",
+            "colour.models.XYZ_to_IPT_Ragoo2021",
+        ],
+        [
+            "colour.models.IPT_Munish2021_to_XYZ",
+            "colour.models.IPT_Ragoo2021_to_XYZ",
         ],
     ]
 )

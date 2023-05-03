@@ -1515,29 +1515,34 @@ class TestSpectralDistribution(unittest.TestCase):
 SpectralDistribution.interpolate` method.
         """
 
+        shape = SpectralShape(self._sd.shape.start, self._sd.shape.end, 1)
+        sd = reshape_sd(self._sd, shape, "Interpolate")
         np.testing.assert_array_almost_equal(
-            reshape_sd(
-                self._sd,
-                SpectralShape(self._sd.shape.start, self._sd.shape.end, 1),
-                "Interpolate",
-            ).values,
+            sd.values,
             DATA_SAMPLE_INTERPOLATED,
             decimal=7,
         )
+        self.assertEqual(sd.shape, shape)
 
+        shape = SpectralShape(
+            self._non_uniform_sd.shape.start,
+            self._non_uniform_sd.shape.end,
+            1,
+        )
+        sd = reshape_sd(self._non_uniform_sd, shape, "Interpolate")
         np.testing.assert_allclose(
-            reshape_sd(
-                self._non_uniform_sd,
-                SpectralShape(
-                    self._non_uniform_sd.shape.start,
-                    self._non_uniform_sd.shape.end,
-                    1,
-                ),
-                "Interpolate",
-            ).values,
+            sd.values,
             DATA_SAMPLE_INTERPOLATED_NON_UNIFORM,
             rtol=0.0000001,
             atol=0.0000001,
+        )
+        self.assertEqual(
+            sd.shape,
+            SpectralShape(
+                np.ceil(self._non_uniform_sd.shape.start),
+                np.floor(self._non_uniform_sd.shape.end),
+                1,
+            ),
         )
 
     def test_extrapolate(self):
@@ -1556,8 +1561,9 @@ SpectralDistribution.extrapolate` method.
         sd = SpectralDistribution(
             np.linspace(0, 1, 10), np.linspace(25, 35, 10)
         )
+        shape = SpectralShape(10, 50, 10)
         sd.extrapolate(
-            SpectralShape(10, 50, 10),
+            shape,
             extrapolator_kwargs={
                 "method": "Linear",
                 "left": None,
@@ -1601,6 +1607,17 @@ SpectralDistribution.normalise` method.
         np.testing.assert_array_almost_equal(
             self._sd.copy().normalise(100).values, DATA_SAMPLE_NORMALISED
         )
+
+    def test_callback_on_domain_changed(self):
+        """
+        Test :class:`colour.colorimetry.spectrum.\
+SpectralDistribution` *on_domain_changed* callback.
+        """
+
+        sd = self._sd.copy()
+        self.assertEqual(sd.shape, SpectralShape(340, 820, 20))
+        sd[840] = 0
+        self.assertEqual(sd.shape, SpectralShape(340, 840, 20))
 
 
 class TestMultiSpectralDistributions(unittest.TestCase):
@@ -1760,26 +1777,25 @@ MultiSpectralDistributions.interpolate` method.
         """
 
         # pylint: disable=E1102
-        msds = reshape_msds(
-            self._sample_msds,
-            SpectralShape(
-                self._sample_msds.shape.start, self._sample_msds.shape.end, 1
-            ),
-            "Interpolate",
+        shape = SpectralShape(
+            self._sample_msds.shape.start, self._sample_msds.shape.end, 1
         )
+        msds = reshape_msds(self._sample_msds, shape, "Interpolate")
         for signal in msds.signals.values():
             np.testing.assert_array_almost_equal(
                 signal.values, DATA_SAMPLE_INTERPOLATED, decimal=7
             )
+        self.assertEqual(msds.shape, shape)
 
         # pylint: disable=E1102
+        shape = SpectralShape(
+            self._non_uniform_sample_msds.shape.start,
+            self._non_uniform_sample_msds.shape.end,
+            1,
+        )
         msds = reshape_msds(
             self._non_uniform_sample_msds,
-            SpectralShape(
-                self._non_uniform_sample_msds.shape.start,
-                self._non_uniform_sample_msds.shape.end,
-                1,
-            ),
+            shape,
             "Interpolate",
         )
         for signal in msds.signals.values():
@@ -1789,6 +1805,14 @@ MultiSpectralDistributions.interpolate` method.
                 rtol=0.0000001,
                 atol=0.0000001,
             )
+        self.assertEqual(
+            msds.shape,
+            SpectralShape(
+                np.ceil(self._non_uniform_sample_msds.shape.start),
+                np.floor(self._non_uniform_sample_msds.shape.end),
+                1,
+            ),
+        )
 
     def test_extrapolate(self):
         """
@@ -1853,7 +1877,7 @@ MultiSpectralDistributions.trim` method.
 
     def test_normalise(self):
         """
-                Test :func:`colour.colorimetry.spectrum.
+        Test :func:`colour.colorimetry.spectrum.
         MultiSpectralDistributions.normalise` method.
         """
 
@@ -1874,6 +1898,18 @@ MultiSpectralDistributions.to_sds` method.
         for i, sd in enumerate(sds):
             self.assertEqual(sd.name, self._labels[i])
             self.assertEqual(sd.display_name, self._display_labels[i])
+
+    def test_callback_on_domain_changed(self):
+        """
+        Test underlying :class:`colour.colorimetry.spectrum.\
+SpectralDistribution` *on_domain_changed* callback when used with
+        :class:`colour.colorimetry.spectrum.MultiSpectralDistributions` class.
+        """
+
+        msds = self._msds.copy()
+        self.assertEqual(msds.shape, SpectralShape(380, 780, 5))
+        msds[785] = 0
+        self.assertEqual(msds.shape, SpectralShape(380, 785, 5))
 
 
 class TestReshapeSd(unittest.TestCase):
