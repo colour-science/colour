@@ -26,6 +26,8 @@ from contextlib import contextmanager
 from dataclasses import fields, is_dataclass, replace
 from operator import add, mul, pow, sub, truediv
 
+from xxhash import xxh3_64_intdigest
+
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE, EPSILON
 from colour.hints import (
     Any,
@@ -2054,7 +2056,7 @@ def interval(distribution: ArrayLike, unique: bool = True) -> NDArray:
     distribution = as_float_array(distribution)
     hash_key = hash(
         (
-            distribution.tobytes(),
+            xxh3_64_intdigest(distribution.tobytes()),
             distribution.shape,
             unique,
         )

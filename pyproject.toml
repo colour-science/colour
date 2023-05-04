@@ -48,6 +48,7 @@ imageio = ">= 2, < 3"
 numpy = ">= 1.21, < 2"
 scipy = ">= 1.7, < 2"
 typing-extensions = ">= 4, < 5"
+xxhash = ">= 3.2.0"
 
 matplotlib = { version = ">= 3.5, != 3.5.0, != 3.5.1", optional = true }
 networkx = { version = ">= 2.6, < 3", optional = true }

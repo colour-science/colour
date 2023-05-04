@@ -338,7 +338,7 @@ class SpectralShape:
             Object hash.
         """
 
-        return hash(repr(self))
+        return hash((self.start, self.end, self.interval))
 
     def __iter__(self) -> Generator:
         """
@@ -520,7 +520,7 @@ class SpectralShape:
 
         dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
 
-        hash_key = tuple(hash(arg) for arg in (self, dtype))
+        hash_key = hash((self, dtype))
         if hash_key in _CACHE_SHAPE_RANGE:
             return _CACHE_SHAPE_RANGE[hash_key].copy()
 
@@ -2834,9 +2834,8 @@ def reshape_sd(
         if isinstance(value, Mapping):
             kwargs_items[i] = (keyword, tuple(value.items()))
 
-    hash_key = tuple(
-        hash(arg) for arg in (sd, shape, method, tuple(kwargs_items))
-    )
+    hash_key = hash((sd, shape, method, tuple(kwargs_items)))
+
     if hash_key in _CACHE_RESHAPED_SDS_AND_MSDS:
         reshaped_sd = _CACHE_RESHAPED_SDS_AND_MSDS[hash_key]
         return reshaped_sd.copy() if copy else reshaped_sd

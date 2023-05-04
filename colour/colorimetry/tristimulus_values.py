@@ -37,6 +37,7 @@ References
 from __future__ import annotations
 
 import numpy as np
+from xxhash import xxh3_64_intdigest
 
 from colour.algebra import lagrange_coefficients, sdiv, sdiv_mode
 from colour.colorimetry import (
@@ -259,7 +260,7 @@ def lagrange_coefficients_ASTME2022(
         '"{0}" interval type is invalid, it must be one of {1}!',
     )
 
-    hash_key = tuple(hash(arg) for arg in (interval, interval_type))
+    hash_key = hash((interval, interval_type))
     if hash_key in _CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS:
         return np.copy(_CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS[hash_key])
 
@@ -389,10 +390,7 @@ def tristimulus_weighting_factors_ASTME2022(
 
     global _CACHE_TRISTIMULUS_WEIGHTING_FACTORS  # noqa: PLW0602
 
-    hash_key = tuple(
-        hash(arg)
-        for arg in (cmfs, illuminant, shape, k, get_domain_range_scale())
-    )
+    hash_key = hash((cmfs, illuminant, shape, k, get_domain_range_scale()))
     if hash_key in _CACHE_TRISTIMULUS_WEIGHTING_FACTORS:
         return np.copy(_CACHE_TRISTIMULUS_WEIGHTING_FACTORS[hash_key])
 
@@ -1269,22 +1267,22 @@ def sd_to_XYZ(
 
     global _CACHE_SD_TO_XYZ  # noqa: PLW0602
 
-    hash_key = tuple(
-        hash(arg)
-        for arg in [
+    hash_key = hash(
+        (
             sd
             if isinstance(
                 sd, (SpectralDistribution, MultiSpectralDistributions)
             )
-            else sd.tobytes(),  # pyright: ignore
+            else xxh3_64_intdigest(sd.tobytes()),  # pyright: ignore
             cmfs,
             illuminant,
             k,
             method,
             tuple(kwargs.items()),
             get_domain_range_scale(),
-        ]
+        )
     )
+
     if hash_key in _CACHE_SD_TO_XYZ:
         return np.copy(_CACHE_SD_TO_XYZ[hash_key])
 

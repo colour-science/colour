@@ -23,6 +23,8 @@ from operator import (
     itruediv,
 )
 from collections.abc import Iterator, Mapping, Sequence, ValuesView
+
+from xxhash import xxh3_64_intdigest
 from colour.algebra import Extrapolator, KernelInterpolator
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction
@@ -666,8 +668,8 @@ class Signal(AbstractContinuousFunction):
 
         return hash(
             (
-                self._domain.tobytes(),
-                self._range.tobytes(),
+                xxh3_64_intdigest(self._domain.tobytes()),
+                xxh3_64_intdigest(self._range.tobytes()),
                 self.interpolator.__name__,
                 repr(self.interpolator_kwargs),
                 self.extrapolator.__name__,
