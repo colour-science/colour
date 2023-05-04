@@ -274,6 +274,7 @@ class RGB_Colourspace:
         self.use_derived_matrix_RGB_to_XYZ = use_derived_matrix_RGB_to_XYZ
         self._use_derived_matrix_XYZ_to_RGB: bool = False
         self.use_derived_matrix_XYZ_to_RGB = use_derived_matrix_XYZ_to_RGB
+        self._derived_matrix_RGB_to_XYZ: NDArrayFloat | None = None
 
     @property
     def name(self) -> str:

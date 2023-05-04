@@ -2055,7 +2055,7 @@ def interval(distribution: ArrayLike, unique: bool = True) -> NDArray:
     hash_key = hash(
         (
             distribution.tobytes(),
-            np.array(distribution.shape).tobytes(),
+            distribution.shape,
             unique,
         )
     )

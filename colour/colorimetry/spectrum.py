@@ -694,15 +694,14 @@ class SpectralDistribution(Signal):
             domain.wavelengths if isinstance(domain, SpectralShape) else domain
         )
 
-        super().__init__(data, domain, **kwargs)
-        domain_unpacked = self._domain
+        domain_unpacked, range_unpacked = self.signal_unpack_data(data, domain)
 
         # Initialising with *CIE 15:2004* and *CIE 167:2005* recommendations
         # defaults.
         kwargs["interpolator"] = kwargs.get(
             "interpolator",
             SpragueInterpolator
-            if is_uniform(domain_unpacked)
+            if domain_unpacked.size != 0 and is_uniform(domain_unpacked)
             else CubicSplineInterpolator,
         )
         kwargs["interpolator_kwargs"] = kwargs.get("interpolator_kwargs", {})
@@ -712,6 +711,7 @@ class SpectralDistribution(Signal):
             "extrapolator_kwargs",
             {"method": "Constant", "left": None, "right": None},
         )
+        super().__init__(range_unpacked, domain_unpacked, **kwargs)
 
         self._display_name: str = self.name
         self.display_name = kwargs.get("display_name", self._display_name)
@@ -2839,7 +2839,6 @@ def reshape_sd(
     )
     if hash_key in _CACHE_RESHAPED_SDS_AND_MSDS:
         reshaped_sd = _CACHE_RESHAPED_SDS_AND_MSDS[hash_key]
-
         return reshaped_sd.copy() if copy else reshaped_sd
 
     function = getattr(sd, method)

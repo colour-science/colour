@@ -53,16 +53,16 @@ __status__ = "Production"
 __all__ = [
     "CCT_MINIMAL_OHNO2013",
     "CCT_MAXIMAL_OHNO2013",
-    "CCT_SAMPLES_OHNO2013",
     "CCT_DEFAULT_SPACING_OHNO2013",
     "planckian_table",
     "uv_to_CCT_Ohno2013",
     "CCT_to_uv_Ohno2013",
+    "XYZ_to_CCT_Ohno2013",
+    "CCT_to_XYZ_Ohno2013",
 ]
 
 CCT_MINIMAL_OHNO2013: float = 1000
 CCT_MAXIMAL_OHNO2013: float = 100000
-CCT_SAMPLES_OHNO2013: int = 10
 CCT_DEFAULT_SPACING_OHNO2013: float = 1.005
 
 _CACHE_PLANCKIAN_TABLE: dict = CACHE_REGISTRY.register_cache(
@@ -145,6 +145,7 @@ def planckian_table(
 
             # Slightly decrease stepsize for higher CCT
             D = (next_ti - 1000) / (100_000 - 1000)
+            D = min(max(D, 0), 1)
             next_spacing = spacing * (1 - D) + (1 + (spacing - 1) / 10) * D
         Ti = np.concatenate([Ti, [end - 1, end]])
 
@@ -291,7 +292,7 @@ def uv_to_CCT_Ohno2013(
             np.vstack(
                 [
                     [*table[index - 1, ...], dists[index - 1]],
-                    [*table[index - 0, ...], dists[index - 0]],
+                    [*table[index, ...], dists[index]],
                     [*table[index + 1, ...], dists[index + 1]],
                 ]
             )

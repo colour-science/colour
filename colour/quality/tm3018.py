@@ -149,8 +149,8 @@ def colour_fidelity_index_ANSIIESTM3018(
     # to skip a list comprehension and keep all the mean calculation in numpy's
     # core.
     #
-    # To skip the list comprehension for geting the bins list we can use this
-    # convienient snippet.
+    # To skip the list comprehension for getting the bins list we can use this
+    # convenient snippet.
     #
     # https://stackoverflow.com/a/43094244
     bin_mask = np.choose(bin_mask, [np.nan, 1])
@@ -159,11 +159,11 @@ def colour_fidelity_index_ANSIIESTM3018(
     test_apbp = as_float_array(specification.colorimetry_data[0].Jpapbp[:, 1:])
     ref_apbp = as_float_array(specification.colorimetry_data[1].Jpapbp[:, 1:])
 
-    # Tile the apbp data in the 3rd dimmension and use broadcasting to place
-    # each bin mask along third dimmension. By multiplying these matriacies
+    # Tile the apbp data in the 3rd dimension and use broadcasting to place
+    # each bin mask along third dimension. By multiplying these matrices
     # together, numpy automatically expands the apbp data in the third
-    # dimmension and muliplies by the nan-filled bin mask. Finally nanmean can
-    # compute the bin mean apbp positons with the appropriate axis argument.
+    # dimension and multiplies by the nan-filled bin mask. Finally nanmean can
+    # compute the bin mean apbp positions with the appropriate axis argument.
     averages_test = np.transpose(
         np.nanmean(
             np.transpose(bin_mask).reshape((99, 1, 16))

@@ -494,17 +494,16 @@ def tcs_colorimetry_data(
     )
     Jpapbp = JMh_CIECAM02_to_CAM02UCS(JMh)
     tcs_data = []
-    # fmt: off
+
     for sd_idx in range(len(sd_irradiance)):
         tcs_data.append(
-                DataColorimetry_TCS_CIE2017(
-                    sds_tcs.display_labels,
-                    XYZ[sd_idx],
-                    JMh[sd_idx],
-                    Jpapbp[sd_idx],
-                )
+            DataColorimetry_TCS_CIE2017(
+                sds_tcs.display_labels,
+                XYZ[sd_idx],
+                JMh[sd_idx],
+                Jpapbp[sd_idx],
+            )
         )
-        #fmt: on
 
     return tuple(tcs_data)
 

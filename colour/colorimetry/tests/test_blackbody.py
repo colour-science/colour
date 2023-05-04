@@ -1248,7 +1248,7 @@ class TestPlanckLaw(unittest.TestCase):
         )
 
     @ignore_numpy_errors
-    def test_nan_planck_law(self):
+    def test_raise_exception_nan(self):
         """
         Test :func:`colour.colorimetry.blackbody.planck_law` definition
         nan support.

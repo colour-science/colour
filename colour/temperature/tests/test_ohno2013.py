@@ -77,7 +77,7 @@ class TestPlanckianTable(unittest.TestCase):
         )
 
 
-class TestXYZ_tofrom_CCT_Ohno2013(unittest.TestCase):
+class Test_XYZ_to_CCT_Ohno2013(unittest.TestCase):
     """Define :func:`colour.temperature.ohno2013.XYZ_to_CCT_Ohno2013` definition
     unit tests methods.
     """
@@ -91,7 +91,13 @@ class TestXYZ_tofrom_CCT_Ohno2013(unittest.TestCase):
             rtol=1e-6,
         )
 
-    def test_CCT_to_duv_Ohno2013(self):
+
+class Test_CCT_to_XYZ_Ohno2013(unittest.TestCase):
+    """Define :func:`colour.temperature.ohno2013.XYZ_to_CCT_Ohno2013` definition
+    unit tests methods.
+    """
+
+    def test_CCT_to_XYZ_Ohno2013(self):
         """Test the CCT to Duv Ohno method conversion"""
         CCT_duv = [5000, 0.002]
         np.testing.assert_allclose(
@@ -113,10 +119,10 @@ class TestUv_to_CCT_Ohno2013(unittest.TestCase):
         """
 
         CCT = np.linspace(1_000, 100_000, 3_000)
-        duv = np.linspace(-0.01, 0.01, 10)
+        D_uv = np.linspace(-0.01, 0.01, 10)
 
-        CCT, duv = np.meshgrid(CCT, duv)
-        exact_table = as_float_array((CCT.flatten(), duv.flatten())).T
+        CCT, D_uv = np.meshgrid(CCT, D_uv)
+        exact_table = as_float_array((CCT.flatten(), D_uv.flatten())).T
         uv_table = CCT_to_uv_Ohno2013(exact_table)
         calc_cct = uv_to_CCT_Ohno2013(uv_table)
 
