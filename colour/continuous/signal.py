@@ -667,10 +667,10 @@ class Signal(AbstractContinuousFunction):
             (
                 self._domain.tobytes(),
                 self._range.tobytes(),
-                self._interpolator.__name__,
-                repr(self._interpolator_kwargs),
-                self._extrapolator.__name__,
-                repr(self._extrapolator_kwargs),
+                self.interpolator.__name__,
+                repr(self.interpolator_kwargs),
+                self.extrapolator.__name__,
+                repr(self.extrapolator_kwargs),
             )
         )
 
