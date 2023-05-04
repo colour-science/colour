@@ -263,9 +263,9 @@ class Signal(AbstractContinuousFunction):
             "right": np.nan,
         }
 
-        self.domain, self.range = self.signal_unpack_data(
-            data, domain  # pyright: ignore
-        )
+        # Special case to skip size check in range setter during init
+        self._domain = None
+        self.range, self.domain = self.signal_unpack_data(data, domain)[::-1]
 
         self.dtype = kwargs.get("dtype", self._dtype)
 
@@ -312,8 +312,9 @@ class Signal(AbstractContinuousFunction):
 
         # The following self-assignments are written as intended and
         # triggers the rebuild of the underlying function.
-        self.domain = self.domain
-        self.range = self.range
+        if self.domain.dtype != value or self.range.dtype != value:
+            self.domain = self.domain
+            self.range = self.range
 
     @property
     def domain(self) -> NDArrayFloat:
@@ -391,7 +392,7 @@ class Signal(AbstractContinuousFunction):
             )
 
         attest(
-            value.size == self._domain.size,
+            self._domain is None or value.size == self._domain.size,
             '"domain" and "range" variables must have same size!',
         )
 
@@ -1186,7 +1187,11 @@ class Signal(AbstractContinuousFunction):
         elif issubclass(type(data), Sequence) or isinstance(
             data, (tuple, list, np.ndarray, Iterator, ValuesView)
         ):
-            data_array = tsplit(list(cast(Sequence, data)))
+            data_array = (
+                tsplit(list(cast(Sequence, data)))
+                if not isinstance(data, np.ndarray)
+                else data
+            )
 
             attest(data_array.ndim == 1, 'User "data" must be 1-dimensional!')
 

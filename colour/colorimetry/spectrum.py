@@ -693,9 +693,9 @@ class SpectralDistribution(Signal):
         domain = (
             domain.wavelengths if isinstance(domain, SpectralShape) else domain
         )
-        domain_unpacked, range_unpacked = self.signal_unpack_data(
-            data, domain  # pyright: ignore
-        )
+
+        super().__init__(data, domain, **kwargs)
+        domain_unpacked = self._domain
 
         # Initialising with *CIE 15:2004* and *CIE 167:2005* recommendations
         # defaults.
@@ -712,8 +712,6 @@ class SpectralDistribution(Signal):
             "extrapolator_kwargs",
             {"method": "Constant", "left": None, "right": None},
         )
-
-        super().__init__(range_unpacked, domain_unpacked, **kwargs)
 
         self._display_name: str = self.name
         self.display_name = kwargs.get("display_name", self._display_name)
