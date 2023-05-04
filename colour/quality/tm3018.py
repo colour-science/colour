@@ -28,7 +28,7 @@ from colour.quality.cfi2017 import (
     DataColorimetry_TCS_CIE2017,
     delta_E_to_R_f,
 )
-from colour.utilities import as_float_array, as_float_scalar, as_int_scalar
+from colour.utilities import as_float_array, as_float_scalar
 
 
 @dataclass
@@ -141,25 +141,43 @@ def colour_fidelity_index_ANSIIESTM3018(
     )
 
     # Setup bins based on where the reference a'b' points are located.
-    bins: List[List[int]] = [[] for _i in range(16)]
-    for i, sample in enumerate(specification.colorimetry_data[1]):
-        bin_index = as_int_scalar(np.floor(cast(float, sample.CAM.h) / 22.5))
-        bins[bin_index].append(i)
+    bins = np.floor(specification.colorimetry_data[1].JMh[:, 2] / 22.5)
+
+    bin_mask = bins == np.arange(16).reshape(-1, 1)
+
+    # We will use the bin mask laster with numpy shape broadcasting and argmean
+    # to skip a list comprehension and keep all the mean calculation in numpy's
+    # core.
+    #
+    # To skip the list comprehension for geting the bins list we can use this
+    # convienient snippet.
+    #
+    # https://stackoverflow.com/a/43094244
+    bin_mask = np.choose(bin_mask, [np.nan, 1])
 
     # Per-bin a'b' averages.
-    averages_test = np.empty([16, 2])
-    averages_reference = np.empty([16, 2])
-    for i in range(16):
-        apbp_s = [
-            specification.colorimetry_data[0][j].Jpapbp[[1, 2]]
-            for j in bins[i]
-        ]
-        averages_test[i, :] = np.mean(apbp_s, axis=0)
-        apbp_s = [
-            specification.colorimetry_data[1][j].Jpapbp[[1, 2]]
-            for j in bins[i]
-        ]
-        averages_reference[i, :] = np.mean(apbp_s, axis=0)
+    test_apbp = as_float_array(specification.colorimetry_data[0].Jpapbp[:, 1:])
+    ref_apbp = as_float_array(specification.colorimetry_data[1].Jpapbp[:, 1:])
+
+    # Tile the apbp data in the 3rd dimmension and use broadcasting to place
+    # each bin mask along third dimmension. By multiplying these matriacies
+    # together, numpy automatically expands the apbp data in the third
+    # dimmension and muliplies by the nan-filled bin mask. Finally nanmean can
+    # compute the bin mean apbp positons with the appropriate axis argument.
+    averages_test = np.transpose(
+        np.nanmean(
+            np.transpose(bin_mask).reshape((99, 1, 16))
+            * test_apbp.reshape((*ref_apbp.shape, 1)),
+            axis=0,
+        )
+    )
+    averages_reference = np.transpose(
+        np.nanmean(
+            np.transpose(bin_mask).reshape((99, 1, 16))
+            * ref_apbp.reshape((*ref_apbp.shape, 1)),
+            axis=0,
+        )
+    )
 
     # Gamut Index.
     R_g = 100 * (
@@ -167,9 +185,9 @@ def colour_fidelity_index_ANSIIESTM3018(
     )
 
     # Local colour fidelity indexes, i.e. 16 CFIs for each bin.
-    bin_delta_E_s = [
-        np.mean([specification.delta_E_s[bins[i]]]) for i in range(16)
-    ]
+    bin_delta_E_s = np.nanmean(
+        specification.delta_E_s.reshape(1, -1) * bin_mask, axis=1
+    )
     R_fs = as_float_array(delta_E_to_R_f(bin_delta_E_s))
 
     # Angles bisecting the hue bins.
