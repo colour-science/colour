@@ -76,7 +76,7 @@ message_box(
 M, RGB_w = colour.matrix_idt(  # pyright: ignore
     cast(colour.characterisation.RGB_CameraSensitivities, sensitivities),
     illuminant,
-    optimisation_factory=colour.characterisation.optimisation_factory_Oklab_18,
+    optimisation_factory=colour.characterisation.optimisation_factory_Oklab_15,
 )
 
 print((M, RGB_w))
