@@ -73,6 +73,7 @@ __all__ = [
     "is_pandas_installed",
     "is_tqdm_installed",
     "is_trimesh_installed",
+    "is_xxhash_installed",
     "required",
     "is_iterable",
     "is_string",
@@ -86,6 +87,7 @@ __all__ = [
     "validate_method",
     "optional",
     "slugify",
+    "int_digest",
 ]
 
 
@@ -894,6 +896,42 @@ def is_trimesh_installed(raise_exception: bool = False) -> bool:
         return False
 
 
+def is_xxhash_installed(raise_exception: bool = False) -> bool:
+    """
+    Return whether *xxhash* is installed and available.
+
+    Parameters
+    ----------
+    raise_exception
+        Whether to raise an exception if *xxhash* is unavailable.
+
+    Returns
+    -------
+    :class:`bool`
+        Whether *xxhash* is installed.
+
+    Raises
+    ------
+    :class:`ImportError`
+        If *xxhash* is not installed.
+    """
+
+    try:  # pragma: no cover
+        # pylint: disable=W0611
+        import xxhash  # noqa: F401
+
+        return True
+    except ImportError as error:  # pragma: no cover
+        if raise_exception:
+            raise ImportError(
+                '"xxhash" related API features are not available: '
+                f'"{error}".\nSee the installation guide for more information: '
+                "https://www.colour-science.org/installation-guide/"
+            ) from error
+
+        return False
+
+
 _REQUIREMENTS_TO_CALLABLE: CanonicalMapping = CanonicalMapping(
     {
         "ctlrender": is_ctlrender_installed,
@@ -905,6 +943,7 @@ _REQUIREMENTS_TO_CALLABLE: CanonicalMapping = CanonicalMapping(
         "Pandas": is_pandas_installed,
         "tqdm": is_tqdm_installed,
         "trimesh": is_trimesh_installed,
+        "xxhash": is_xxhash_installed,
     }
 )
 """
@@ -923,6 +962,7 @@ def required(
         "Pandas",
         "tqdm",
         "trimesh",
+        "xxhash",
     ]
 ) -> Callable:
     """
@@ -1427,3 +1467,43 @@ def slugify(object_: Any, allow_unicode: bool = False) -> str:
     value = re.sub(r"[^\w\s-]", "", value.lower())
 
     return re.sub(r"[-\s]+", "-", value).strip("-_")
+
+
+if is_xxhash_installed():
+    import xxhash
+    from colour.utilities.documentation import is_documentation_building
+
+    int_digest = xxhash.xxh3_64_intdigest  # pyright: ignore
+
+    if is_documentation_building():  # pragma: no cover
+        import array
+
+        def int_digest(
+            args: str  # noqa: ARG001
+            | bytes
+            | bytearray
+            | memoryview
+            | array.ArrayType[int],
+            seed: int = 0,  # noqa: ARG001
+        ) -> int:
+            """
+            Generate an integer digest for given argument using *xxhash* if
+            available or falling back to :func:`hash` if not.
+
+            Parameters
+            ----------
+            args
+                Argument to generate the int digest of.
+            seed
+                Seed used to alter result predictably.
+
+            Returns
+            -------
+            :class:`int`
+                Integer digest.
+            """
+
+            return -1
+
+else:
+    int_digest = hash  # pyright: ignore

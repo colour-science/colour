@@ -13,7 +13,7 @@ import sys
 import traceback
 import warnings
 from collections import defaultdict
-from contextlib import contextmanager
+from contextlib import contextmanager, suppress
 from itertools import chain
 from textwrap import TextWrapper
 from warnings import filterwarnings, formatwarning, warn
@@ -655,18 +655,19 @@ def describe_environment(
             "tqdm",
             "trimesh",
         ]:
-            try:
+            with suppress(ImportError):
                 namespace = __import__(package)
                 environment["Runtime"][package] = namespace.__version__
-            except ImportError:
-                continue
 
         # OpenImageIO
-        try:  # pragma: no cover
+        with suppress(ImportError):  # pragma: no cover
             namespace = __import__("OpenImageIO")
             environment["Runtime"]["OpenImageIO"] = namespace.VERSION_STRING
-        except ImportError:  # pragma: no cover
-            pass
+
+        # xxhash
+        with suppress(ImportError):  # pragma: no cover
+            namespace = __import__("xxhash")
+            environment["Runtime"]["xxhash"] = namespace.version.VERSION
 
         environment["Runtime"].update(ANCILLARY_RUNTIME_PACKAGES)
 

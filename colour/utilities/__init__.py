@@ -50,6 +50,7 @@ from .common import (
     validate_method,
     optional,
     slugify,
+    int_digest,
 )
 from .verbose import (
     ColourWarning,
@@ -167,6 +168,7 @@ __all__ += [
     "validate_method",
     "optional",
     "slugify",
+    "int_digest",
 ]
 __all__ += [
     "ColourWarning",
