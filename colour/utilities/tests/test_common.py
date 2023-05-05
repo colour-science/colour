@@ -505,7 +505,7 @@ class TestSlugify(unittest.TestCase):
     """
 
     def test_slugify(self):
-        """Test :func:`colour.utilities.common.optional` definition."""
+        """Test :func:`colour.utilities.common.slugify` definition."""
 
         self.assertEqual(
             slugify(
