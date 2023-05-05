@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import numpy as np
+import platform
 import unittest
 import unicodedata
 from functools import partial
@@ -26,6 +27,7 @@ from colour.utilities import (
     validate_method,
     optional,
     slugify,
+    int_digest,
 )
 
 __author__ = "Colour Developers"
@@ -534,6 +536,29 @@ class TestSlugify(unittest.TestCase):
         )
 
         self.assertEqual(slugify(123), "123")
+
+
+class TestIntDigest(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.common.int_digest` definition unit tests
+    methods.
+    """
+
+    def test_int_digest(self):
+        """Test :func:`colour.utilities.common.int_digest` definition."""
+
+        self.assertEqual(int_digest("Foo"), 7467386374397815550)
+
+        if platform.system() in ("Windows", "Microsoft"):  # pragma: no cover
+            self.assertEqual(
+                int_digest(np.array([1, 2, 3]).tobytes()), 7764052002911021640
+            )
+        else:
+            self.assertEqual(
+                int_digest(np.array([1, 2, 3]).tobytes()), 8964613590703056768
+            )
+
+        self.assertEqual(int_digest(repr((1, 2, 3))), 5069958125469218295)
 
 
 if __name__ == "__main__":

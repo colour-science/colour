@@ -68,6 +68,7 @@ Common
     is_pandas_installed
     is_tqdm_installed
     is_trimesh_installed
+    is_xxhash_installed
     required
     is_iterable
     is_string
@@ -81,6 +82,7 @@ Common
     validate_method
     optional
     slugify
+    int_digest
 
 Array
 -----
