@@ -881,6 +881,8 @@ def optimisation_factory_Jzazbz() -> (
     data *RGB* tristimulus values and the training data *CIE XYZ* tristimulus
     values** in the :math:`J_za_zb_z` colourspace.
 
+    It implements whitepoint preservation as a post-optimisation step.
+
     Returns
     -------
     :class:`tuple`
@@ -890,7 +892,7 @@ def optimisation_factory_Jzazbz() -> (
     Examples
     --------
     >>> optimisation_factory_Jzazbz()  # doctest: +SKIP
-    (array([ 1.,  0.,  0.,  0.,  1.,  0.,  0.,  0.,  1.]), \
+    (array([ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.]), \
 <function optimisation_factory_Jzazbz.<locals>\
 .objective_function at 0x...>, \
 <function optimisation_factory_Jzazbz.<locals>\
@@ -923,7 +925,9 @@ finaliser_function at 0x...>)
     def finaliser_function(M: NDArrayFloat) -> NDArrayFloat:
         """Finaliser function."""
 
-        return np.reshape(M, (3, 3))
+        M = np.reshape(M, (3, 3))
+
+        return M / np.sum(M, axis=-1)
 
     return (
         x_0,
@@ -1118,9 +1122,9 @@ def matrix_idt(
     ...     optimisation_factory=optimisation_factory_Jzazbz,
     ... )
     >>> np.around(M, 3)
-    array([[ 0.848, -0.016,  0.158],
-           [ 0.053,  1.114, -0.175],
-           [ 0.023, -0.225,  1.196]])
+    array([[ 0.856, -0.016,  0.159],
+           [ 0.054,  1.123, -0.176],
+           [ 0.023, -0.227,  1.204]])
     >>> RGB_w  # doctest: +ELLIPSIS
     array([ 2.3414154...,  1.        ,  1.5163375...])
 
