@@ -987,6 +987,10 @@ class TestMatrixIdt(unittest.TestCase):
         Test :func:`colour.characterisation.aces_it.matrix_idt` definition.
         """
 
+        np.set_printoptions(
+            formatter={"float": "{:0.8f}".format}, suppress=True
+        )
+
         # The *RAW to ACES* v1 matrix for the same camera and optimized by
         # `Ceres Solver <http://ceres-solver.org/>`__ is as follows:
         #
@@ -1036,9 +1040,9 @@ class TestMatrixIdt(unittest.TestCase):
             M,
             np.array(
                 [
-                    [0.84841343, -0.01569484, 0.15799196],
-                    [0.05332939, 1.11428808, -0.17523625],
-                    [0.02262148, -0.22527442, 1.19646745],
+                    [0.85636766, -0.01581340, 0.15897434],
+                    [0.05382848, 1.12284454, -0.17632775],
+                    [0.02283257, -0.22700195, 1.20391334],
                 ]
             ),
             rtol=0.0001,
