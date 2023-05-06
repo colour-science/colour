@@ -24,7 +24,7 @@ from colour.characterisation import (
     whitepoint_preserving_matrix,
     optimisation_factory_rawtoaces_v1,
     optimisation_factory_Jzazbz,
-    optimisation_factory_Oklab_18,
+    optimisation_factory_Oklab_15,
     matrix_idt,
     camera_RGB_to_ACES2065_1,
 )
@@ -964,16 +964,16 @@ optimisation_factory_Jzazbz` definition.
 class TestOptimizationFactoryOklab18(unittest.TestCase):
     """
     Define :func:`colour.characterisation.aces_it.\
-optimisation_factory_Oklab_18` definition unit tests methods.
+optimisation_factory_Oklab_15` definition unit tests methods.
     """
 
     def test_optimisation_factory_Oklab_18(self):
         """
         Test :func:`colour.characterisation.aces_it.\
-optimisation_factory_Oklab_18` definition.
+optimisation_factory_Oklab_15` definition.
         """
 
-        self.assertEqual(len(optimisation_factory_Oklab_18()), 4)
+        self.assertEqual(len(optimisation_factory_Oklab_15()), 4)
 
 
 class TestMatrixIdt(unittest.TestCase):
@@ -1053,35 +1053,35 @@ class TestMatrixIdt(unittest.TestCase):
         M, RGB_w = matrix_idt(
             MSDS_CANON_EOS_5DMARK_II,
             SDS_ILLUMINANTS["D55"],
-            optimisation_factory=optimisation_factory_Oklab_18,
+            optimisation_factory=optimisation_factory_Oklab_15,
         )
         np.testing.assert_allclose(
             M,
             np.array(
                 [
                     [
-                        0.65857990,
-                        -0.55646898,
-                        0.13178280,
-                        0.68969743,
-                        0.33171300,
-                        -0.25994351,
+                        0.64535942,
+                        -0.61130888,
+                        0.10668827,
+                        0.73619966,
+                        0.39808135,
+                        -0.27501982,
                     ],
                     [
-                        -0.13719710,
-                        0.81519400,
-                        -0.04501889,
-                        0.57807948,
-                        -0.09995071,
-                        -0.11895455,
+                        -0.15942100,
+                        0.72812052,
+                        -0.09069782,
+                        0.65082426,
+                        0.01006055,
+                        -0.13888651,
                     ],
                     [
-                        -0.14543552,
-                        -0.30025758,
-                        1.44781243,
-                        0.42639300,
-                        -0.42594640,
-                        -0.01275006,
+                        -0.17183392,
+                        -0.40291315,
+                        1.39402532,
+                        0.51025076,
+                        -0.29541153,
+                        -0.03411748,
                     ],
                 ]
             ),

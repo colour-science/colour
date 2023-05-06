@@ -15,7 +15,7 @@ Defines the *Academy Color Encoding System* (ACES) *Input Transform* utilities:
 -   :func:`colour.characterisation.training_data_sds_to_XYZ`
 -   :func:`colour.characterisation.optimisation_factory_rawtoaces_v1`
 -   :func:`colour.characterisation.optimisation_factory_Jzazbz`
--   :func:`colour.characterisation.optimisation_factory_Oklab_18`
+-   :func:`colour.characterisation.optimisation_factory_Oklab_15`
 -   :func:`colour.matrix_idt`
 -   :func:`colour.camera_RGB_to_ACES2065_1`
 
@@ -145,7 +145,7 @@ __all__ = [
     "whitepoint_preserving_matrix",
     "optimisation_factory_rawtoaces_v1",
     "optimisation_factory_Jzazbz",
-    "optimisation_factory_Oklab_18",
+    "optimisation_factory_Oklab_15",
     "matrix_idt",
     "camera_RGB_to_ACES2065_1",
 ]
@@ -933,7 +933,7 @@ finaliser_function at 0x...>)
     )
 
 
-def optimisation_factory_Oklab_18() -> (
+def optimisation_factory_Oklab_15() -> (
     Tuple[NDArrayFloat, Callable, Callable, Callable]
 ):
     """
@@ -945,7 +945,7 @@ def optimisation_factory_Oklab_18() -> (
     values** in the *Oklab* colourspace.
 
     It implements support for *Finlayson et al. (2015)* root-polynomials of
-    degree 2 and produces 18 terms.
+    degree 2 and produces 15 terms.
 
     Returns
     -------
@@ -959,25 +959,27 @@ def optimisation_factory_Oklab_18() -> (
 
     Examples
     --------
-    >>> optimisation_factory_Oklab_18()  # doctest: +SKIP
+    >>> optimisation_factory_Oklab_15()  # doctest: +SKIP
     array([ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1., \
 1.,  1.,  1.,  1.,  1.]), \
-<function optimisation_factory_Oklab_18.<locals>\
+<function optimisation_factory_Oklab_15.<locals>\
 .objective_function at 0x...>, \
-<function optimisation_factory_Oklab_18.<locals>\
+<function optimisation_factory_Oklab_15.<locals>\
 .XYZ_to_optimization_colour_model at 0x...>, \
-<function optimisation_factory_Oklab_18.<locals>.\
+<function optimisation_factory_Oklab_15.<locals>.\
 finaliser_function at 0x...>)
     """
 
-    x_0 = ones(18)
+    x_0 = ones(15)
 
     def objective_function(
         M: ArrayLike, RGB: ArrayLike, Jab: ArrayLike
     ) -> NDArrayFloat:
         """*Oklab* colourspace based objective function."""
 
-        M = np.reshape(M, (3, 6))
+        M = whitepoint_preserving_matrix(
+            np.hstack([np.reshape(M, (3, 5)), zeros((3, 1))])
+        )
 
         XYZ_t = np.transpose(
             np.dot(
@@ -1003,7 +1005,9 @@ finaliser_function at 0x...>)
     def finaliser_function(M: NDArrayFloat) -> NDArrayFloat:
         """Finaliser function."""
 
-        return np.reshape(M, (3, 6))
+        return whitepoint_preserving_matrix(
+            np.hstack([np.reshape(M, (3, 5)), zeros((3, 1))])
+        )
 
     return (
         x_0,
@@ -1123,12 +1127,12 @@ def matrix_idt(
     >>> M, RGB_w = matrix_idt(
     ...     sensitivities,
     ...     illuminant,
-    ...     optimisation_factory=optimisation_factory_Oklab_18,
+    ...     optimisation_factory=optimisation_factory_Oklab_15,
     ... )
     >>> np.around(M, 3)
-    array([[ 0.659, -0.556,  0.132,  0.69 ,  0.332, -0.26 ],
-           [-0.137,  0.815, -0.045,  0.578, -0.1  , -0.119],
-           [-0.145, -0.3  ,  1.448,  0.426, -0.426, -0.013]])
+    array([[ 0.645, -0.611,  0.107,  0.736,  0.398, -0.275],
+           [-0.159,  0.728, -0.091,  0.651,  0.01 , -0.139],
+           [-0.172, -0.403,  1.394,  0.51 , -0.295, -0.034]])
     >>> RGB_w  # doctest: +ELLIPSIS
     array([ 2.3414154...,  1.        ,  1.5163375...])
     """
