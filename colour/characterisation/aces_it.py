@@ -822,7 +822,7 @@ def optimisation_factory_rawtoaces_v1() -> (
     Examples
     --------
     >>> optimisation_factory_rawtoaces_v1()  # doctest: +SKIP
-    (array([ 1.,  1.,  1.,  1.,  1.,  1.]), \
+    (array([1, 0, 0, 1, 0, 0]), \
 <function optimisation_factory_rawtoaces_v1.<locals> \
 .objective_function at 0x...>, \
 <function optimisation_factory_rawtoaces_v1.<locals>\
@@ -831,7 +831,7 @@ def optimisation_factory_rawtoaces_v1() -> (
 .finaliser_function at 0x...>)
     """
 
-    x_0 = ones(6)
+    x_0 = np.array([1, 0, 0, 1, 0, 0])
 
     def objective_function(
         M: NDArrayFloat, RGB: NDArrayFloat, Lab: NDArrayFloat
@@ -892,7 +892,7 @@ def optimisation_factory_Jzazbz() -> (
     Examples
     --------
     >>> optimisation_factory_Jzazbz()  # doctest: +SKIP
-    (array([ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.]), \
+    (array([1, 0, 0, 1, 0, 0]), \
 <function optimisation_factory_Jzazbz.<locals>\
 .objective_function at 0x...>, \
 <function optimisation_factory_Jzazbz.<locals>\
@@ -901,14 +901,16 @@ def optimisation_factory_Jzazbz() -> (
 finaliser_function at 0x...>)
     """
 
-    x_0 = ones(9)
+    x_0 = np.array([1, 0, 0, 1, 0, 0])
 
     def objective_function(
         M: ArrayLike, RGB: ArrayLike, Jab: ArrayLike
     ) -> NDArrayFloat:
         """:math:`J_za_zb_z` colourspace based objective function."""
 
-        M = np.reshape(M, (3, 3))
+        M = whitepoint_preserving_matrix(
+            np.hstack([np.reshape(M, (3, 2)), zeros((3, 1))])
+        )
 
         XYZ_t = vector_dot(
             RGB_COLOURSPACE_ACES2065_1.matrix_RGB_to_XYZ, vector_dot(M, RGB)
@@ -925,9 +927,9 @@ finaliser_function at 0x...>)
     def finaliser_function(M: NDArrayFloat) -> NDArrayFloat:
         """Finaliser function."""
 
-        M = np.reshape(M, (3, 3))
-
-        return M / np.sum(M, axis=-1)
+        return whitepoint_preserving_matrix(
+            np.hstack([np.reshape(M, (3, 2)), zeros((3, 1))])
+        )
 
     return (
         x_0,
@@ -964,8 +966,7 @@ def optimisation_factory_Oklab_15() -> (
     Examples
     --------
     >>> optimisation_factory_Oklab_15()  # doctest: +SKIP
-    array([ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1., \
-1.,  1.,  1.,  1.,  1.]), \
+    (array([1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1]), \
 <function optimisation_factory_Oklab_15.<locals>\
 .objective_function at 0x...>, \
 <function optimisation_factory_Oklab_15.<locals>\
@@ -974,7 +975,7 @@ def optimisation_factory_Oklab_15() -> (
 finaliser_function at 0x...>)
     """
 
-    x_0 = ones(15)
+    x_0 = np.array([1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1])
 
     def objective_function(
         M: ArrayLike, RGB: ArrayLike, Jab: ArrayLike
@@ -1122,9 +1123,9 @@ def matrix_idt(
     ...     optimisation_factory=optimisation_factory_Jzazbz,
     ... )
     >>> np.around(M, 3)
-    array([[ 0.856, -0.016,  0.159],
-           [ 0.054,  1.123, -0.176],
-           [ 0.023, -0.227,  1.204]])
+    array([[ 0.852, -0.009,  0.158],
+           [ 0.054,  1.122, -0.176],
+           [ 0.023, -0.224,  1.2  ]])
     >>> RGB_w  # doctest: +ELLIPSIS
     array([ 2.3414154...,  1.        ,  1.5163375...])
 
