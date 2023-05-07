@@ -822,7 +822,7 @@ def optimisation_factory_rawtoaces_v1() -> (
     Examples
     --------
     >>> optimisation_factory_rawtoaces_v1()  # doctest: +SKIP
-    (array([1, 0, 0, 1, 0, 0]), \
+    (array([ 1.,  0.,  0.,  1.,  0.,  0.]), \
 <function optimisation_factory_rawtoaces_v1.<locals> \
 .objective_function at 0x...>, \
 <function optimisation_factory_rawtoaces_v1.<locals>\
@@ -831,7 +831,7 @@ def optimisation_factory_rawtoaces_v1() -> (
 .finaliser_function at 0x...>)
     """
 
-    x_0 = np.array([1, 0, 0, 1, 0, 0])
+    x_0 = as_float_array([1, 0, 0, 1, 0, 0])
 
     def objective_function(
         M: NDArrayFloat, RGB: NDArrayFloat, Lab: NDArrayFloat
@@ -892,7 +892,7 @@ def optimisation_factory_Jzazbz() -> (
     Examples
     --------
     >>> optimisation_factory_Jzazbz()  # doctest: +SKIP
-    (array([1, 0, 0, 1, 0, 0]), \
+    (array([ 1.,  0.,  0.,  1.,  0.,  0.]), \
 <function optimisation_factory_Jzazbz.<locals>\
 .objective_function at 0x...>, \
 <function optimisation_factory_Jzazbz.<locals>\
@@ -901,7 +901,7 @@ def optimisation_factory_Jzazbz() -> (
 finaliser_function at 0x...>)
     """
 
-    x_0 = np.array([1, 0, 0, 1, 0, 0])
+    x_0 = as_float_array([1, 0, 0, 1, 0, 0])
 
     def objective_function(
         M: ArrayLike, RGB: ArrayLike, Jab: ArrayLike
@@ -966,7 +966,8 @@ def optimisation_factory_Oklab_15() -> (
     Examples
     --------
     >>> optimisation_factory_Oklab_15()  # doctest: +SKIP
-    (array([1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1]), \
+    (array([ 1.,  0.,  0.,  0.,  0.,  0.,  0.,  1.,  0.,  0.,  0.,  0.,  0., \
+0.,  1.]), \
 <function optimisation_factory_Oklab_15.<locals>\
 .objective_function at 0x...>, \
 <function optimisation_factory_Oklab_15.<locals>\
@@ -975,7 +976,7 @@ def optimisation_factory_Oklab_15() -> (
 finaliser_function at 0x...>)
     """
 
-    x_0 = np.array([1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1])
+    x_0 = as_float_array([1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1])
 
     def objective_function(
         M: ArrayLike, RGB: ArrayLike, Jab: ArrayLike
