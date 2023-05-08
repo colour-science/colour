@@ -37,7 +37,6 @@ References
 from __future__ import annotations
 
 import numpy as np
-from xxhash import xxh3_64_intdigest
 
 from colour.algebra import lagrange_coefficients, sdiv, sdiv_mode
 from colour.colorimetry import (
@@ -69,6 +68,7 @@ from colour.utilities import (
     optional,
     runtime_warning,
     validate_method,
+    int_digest,
 )
 
 __author__ = "Colour Developers"
@@ -1273,7 +1273,7 @@ def sd_to_XYZ(
             if isinstance(
                 sd, (SpectralDistribution, MultiSpectralDistributions)
             )
-            else xxh3_64_intdigest(sd.tobytes()),  # pyright: ignore
+            else int_digest(sd.tobytes()),  # pyright: ignore
             cmfs,
             illuminant,
             k,

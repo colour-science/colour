@@ -26,8 +26,6 @@ from contextlib import contextmanager
 from dataclasses import fields, is_dataclass, replace
 from operator import add, mul, pow, sub, truediv
 
-from xxhash import xxh3_64_intdigest
-
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE, EPSILON
 from colour.hints import (
     Any,
@@ -55,7 +53,7 @@ from colour.utilities import (
     suppress_warnings,
     validate_method,
 )
-from colour.utilities.common import CACHE_REGISTRY
+from colour.utilities.common import CACHE_REGISTRY, int_digest
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -2056,7 +2054,7 @@ def interval(distribution: ArrayLike, unique: bool = True) -> NDArray:
     distribution = as_float_array(distribution)
     hash_key = hash(
         (
-            xxh3_64_intdigest(distribution.tobytes()),
+            int_digest(distribution.tobytes()),
             distribution.shape,
             unique,
         )

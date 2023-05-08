@@ -12,8 +12,6 @@ from __future__ import annotations
 import numpy as np
 from collections.abc import Iterator, Mapping, ValuesView
 
-from xxhash import xxh3_64_intdigest
-
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction, Signal
 from colour.hints import (
@@ -47,6 +45,7 @@ from colour.utilities import (
     tstack,
     validate_method,
 )
+from colour.utilities.common import int_digest
 from colour.utilities.documentation import is_documentation_building
 
 if TYPE_CHECKING:
@@ -733,9 +732,9 @@ class MultiSignals(AbstractContinuousFunction):
 
         return hash(
             (
-                xxh3_64_intdigest(self.domain.tobytes()),
+                int_digest(self.domain.tobytes()),
                 *[
-                    xxh3_64_intdigest(signal._range.tobytes())
+                    int_digest(signal._range.tobytes())
                     for signal in self._signals.values()
                 ],
                 self.interpolator.__name__,

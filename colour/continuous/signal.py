@@ -24,7 +24,6 @@ from operator import (
 )
 from collections.abc import Iterator, Mapping, Sequence, ValuesView
 
-from xxhash import xxh3_64_intdigest
 from colour.algebra import Extrapolator, KernelInterpolator
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction
@@ -61,6 +60,7 @@ from colour.utilities import (
     tstack,
     validate_method,
 )
+from colour.utilities.common import int_digest
 from colour.utilities.documentation import is_documentation_building
 
 if TYPE_CHECKING:
@@ -668,8 +668,8 @@ class Signal(AbstractContinuousFunction):
 
         return hash(
             (
-                xxh3_64_intdigest(self._domain.tobytes()),
-                xxh3_64_intdigest(self._range.tobytes()),
+                int_digest(self._domain.tobytes()),
+                int_digest(self._range.tobytes()),
                 self.interpolator.__name__,
                 repr(self.interpolator_kwargs),
                 self.extrapolator.__name__,
