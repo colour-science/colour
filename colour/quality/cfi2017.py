@@ -458,7 +458,7 @@ def tcs_colorimetry_data(
         )
         k = 100 / XYZ_t[1]
         XYZ_w[idx] = k * XYZ_t
-        sd_irradiance[idx] *= k
+        sd_irradiance[idx] = sd_irradiance[idx].copy() * k
     XYZ_w = as_float_array(XYZ_w)
 
     Y_b = 20
