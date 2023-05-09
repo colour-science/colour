@@ -129,8 +129,7 @@ def planck_law(
 
     attest(np.all(l > 0), "Wavelengths must be positive real values")
 
-    d = c2 / (n * l * t)
-    np.power(np.expm1(d, out=d), -1, out=d)
+    d = 1 / np.expm1(c2 / (n * l * t))
     p = ((c1 * n**-2 * l**-5) / np.pi) * d
 
     return as_float(np.squeeze(p))
