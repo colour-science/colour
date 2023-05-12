@@ -170,7 +170,7 @@ def OSA_UCS_to_XYZ(
     --------
     There is no analytical inverse transformation from *OSA UCS* to :math:`Ljg`
     lightness, jaune (yellowness), and greenness to *CIE XYZ* tristimulus
-    values, the current implementation relies on optimization using
+    values, the current implementation relies on optimisation using
     :func:`scipy.optimize.fmin` definition and thus has reduced precision and
     poor performance.
 

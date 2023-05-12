@@ -203,7 +203,7 @@ def XYZ_to_sd_Meng2015(
 
     if not result.success:
         raise RuntimeError(
-            f"Optimization failed for {XYZ} after {result.nit} iterations: "
+            f"Optimisation failed for {XYZ} after {result.nit} iterations: "
             f'"{result.message}".'
         )
 
