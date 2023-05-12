@@ -1054,7 +1054,7 @@ def matrix_idt(
     """
     Compute an *Input Device Transform* (IDT) matrix for given camera *RGB*
     spectral sensitivities, illuminant, training data, standard observer colour
-    matching functions and optimization settings according to *RAW to ACES* v1
+    matching functions and optimisation settings according to *RAW to ACES* v1
     and *P-2013-001* procedures.
 
     Parameters

@@ -60,7 +60,7 @@ def spectral_similarity_index(
         Reference spectral distribution.
     round_result
         Whether to round the result/output. This is particularly useful when
-        using SSI in an optimization routine. Default is *True*.
+        using SSI in an optimisation routine. Default is *True*.
 
     Returns
     -------

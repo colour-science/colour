@@ -121,7 +121,7 @@ def CCT_to_xy_Hernandez1999(
     function and might produce unexpected results. It is given for consistency
     with other correlated colour temperature computation methods but should be
     avoided for practical applications. The current implementation relies on
-    optimization using :func:`scipy.optimize.minimize` definition and thus has
+    optimisation using :func:`scipy.optimize.minimize` definition and thus has
     reduced precision and poor performance.
 
     References

@@ -626,7 +626,7 @@ class LUT3D_Jakob2019:
     """
     Define a class for working with pre-computed lookup tables for the
     *Jakob and Hanika (2019)* spectral upsampling method. It allows significant
-    time savings by performing the expensive numerical optimization ahead of
+    time savings by performing the expensive numerical optimisation ahead of
     time and storing the results in a file.
 
     The file format is compatible with the code and *\\*.coeff* files in the

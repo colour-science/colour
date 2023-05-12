@@ -70,7 +70,7 @@ def uv_to_CCT_Planck1900(
 
     Warnings
     --------
-    The current implementation relies on optimization using
+    The current implementation relies on optimisation using
     :func:`scipy.optimize.minimize` definition and thus has reduced precision
     and poor performance.
 
