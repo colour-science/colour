@@ -519,6 +519,7 @@ class Signal(AbstractContinuousFunction):
         self._function = None  # Invalidate the underlying continuous function.
 
     @property
+    @ndarray_copy_enable(False)
     def function(self) -> Callable:
         """
         Getter property for the continuous signal callable.
@@ -569,6 +570,7 @@ class Signal(AbstractContinuousFunction):
 
         return cast(Callable, self._function)
 
+    @ndarray_copy_enable(False)
     def __str__(self) -> str:
         """
         Return a formatted string representation of the continuous signal.
@@ -596,6 +598,7 @@ class Signal(AbstractContinuousFunction):
 
         return str(tstack([self._domain, self._range]))
 
+    @ndarray_copy_enable(False)
     def __repr__(self) -> str:
         """
         Return an evaluable string representation of the continuous signal.
@@ -649,6 +652,7 @@ class Signal(AbstractContinuousFunction):
             ],
         )
 
+    @ndarray_copy_enable(False)
     def __hash__(self) -> int:
         """
         Return the abstract continuous function hash.
@@ -930,6 +934,7 @@ class Signal(AbstractContinuousFunction):
 
         return not (self == other)
 
+    @ndarray_copy_enable(False)
     def _fill_domain_nan(
         self,
         method: Literal["Constant", "Interpolation"] | str = "Interpolation",
@@ -955,6 +960,7 @@ class Signal(AbstractContinuousFunction):
 
         self.domain = fill_nan(self._domain, method, default)
 
+    @ndarray_copy_enable(False)
     def _fill_range_nan(
         self,
         method: Literal["Constant", "Interpolation"] | str = "Interpolation",
@@ -1088,6 +1094,7 @@ class Signal(AbstractContinuousFunction):
             return copy
 
     @staticmethod
+    @ndarray_copy_enable(False)
     def signal_unpack_data(
         data=Optional[Union[ArrayLike, dict, Series, "Signal"]],
         domain: ArrayLike | None = None,
