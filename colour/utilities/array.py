@@ -88,6 +88,10 @@ __all__ = [
     "from_range_100",
     "from_range_degrees",
     "from_range_int",
+    "is_ndarray_copy_enabled",
+    "set_ndarray_copy_enable",
+    "ndarray_copy_enable",
+    "ndarray_copy",
     "closest_indexes",
     "closest",
     "interval",
@@ -1786,6 +1790,142 @@ def from_range_int(
         a /= maximum_code_value / 100
 
     return a
+
+
+_NDARRAY_COPY_ENABLED: bool = True
+"""
+Global variable storing the current *Colour* state for
+:class:`numpy.ndarray` copy.
+"""
+
+
+def is_ndarray_copy_enabled() -> bool:
+    """
+    Return whether *Colour* :class:`numpy.ndarray` copy is enabled: Various API
+    objects return a copy of their internal :class:`numpy.ndarray` for safety
+    purposes but this can be a slow operation impacting performance.
+
+    Returns
+    -------
+    :class:`bool`
+        Whether *Colour* :class:`numpy.ndarray` copy is enabled.
+
+    Examples
+    --------
+    >>> with ndarray_copy_enable(False):
+    ...     is_ndarray_copy_enabled()
+    ...
+    False
+    >>> with ndarray_copy_enable(True):
+    ...     is_ndarray_copy_enabled()
+    ...
+    True
+    """
+
+    return _NDARRAY_COPY_ENABLED
+
+
+def set_ndarray_copy_enable(enable: bool):
+    """
+    Set *Colour* :class:`numpy.ndarray` copy enabled state.
+
+    Parameters
+    ----------
+    enable
+        Whether to enable *Colour* :class:`numpy.ndarray` copy.
+
+    Examples
+    --------
+    >>> with ndarray_copy_enable(is_ndarray_copy_enabled()):
+    ...     print(is_ndarray_copy_enabled())
+    ...     set_ndarray_copy_enable(False)
+    ...     print(is_ndarray_copy_enabled())
+    ...
+    True
+    False
+    """
+
+    global _NDARRAY_COPY_ENABLED
+
+    _NDARRAY_COPY_ENABLED = enable
+
+
+class ndarray_copy_enable:
+    """
+    Define a context manager and decorator temporarily setting *Colour*
+    :class:`numpy.ndarray` copy enabled state.
+
+    Parameters
+    ----------
+    enable
+        Whether to enable or disable *Colour* :class:`numpy.ndarray` copy.
+    """
+
+    def __init__(self, enable: bool) -> None:
+        self._enable = enable
+        self._previous_state = is_ndarray_copy_enabled()
+
+    def __enter__(self) -> ndarray_copy_enable:
+        """
+        Set the *Colour* :class:`numpy.ndarray` copy enabled state
+        upon entering the context manager.
+        """
+
+        set_ndarray_copy_enable(self._enable)
+
+        return self
+
+    def __exit__(self, *args: Any):
+        """
+        Set the *Colour* :class:`numpy.ndarray` copy enabled state
+        upon exiting the context manager.
+        """
+
+        set_ndarray_copy_enable(self._previous_state)
+
+    def __call__(self, function: Callable) -> Callable:
+        """Call the wrapped definition."""
+
+        @functools.wraps(function)
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
+            with self:
+                return function(*args, **kwargs)
+
+        return wrapper
+
+
+def ndarray_copy(a: NDArray) -> NDArray:
+    """
+    Return a :class:`numpy.ndarray` copy if the relevant *Colour* state is
+    enabled: Various API objects return a copy of their internal
+    :class:`numpy.ndarray` for safety purposes but this can be a slow operation
+    impacting performance.
+
+    Parameters
+    ----------
+    a
+        Array :math:`a` to return a copy of.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Array :math:`a` copy according to *Colour* state.
+
+    Examples
+    --------
+    >>> a = np.linspace(0, 1, 10)
+    >>> id(a) == id(ndarray_copy(a))
+    False
+    >>> with ndarray_copy_enable(False):
+    ...     id(a) == id(ndarray_copy(a))
+    ...
+    True
+    """
+
+    if _NDARRAY_COPY_ENABLED:
+        return np.copy(a)
+    else:
+        return a
 
 
 def closest_indexes(a: ArrayLike, b: ArrayLike) -> NDArray:

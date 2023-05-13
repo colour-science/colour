@@ -122,6 +122,10 @@ Array
     from_range_100
     from_range_degrees
     from_range_int
+    is_ndarray_copy_enabled
+    set_ndarray_copy_enable
+    ndarray_copy_enable
+    ndarray_copy
     closest_indexes
     closest
     interval

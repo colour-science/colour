@@ -28,13 +28,17 @@ from colour.utilities import (
     to_domain_1,
     to_domain_10,
     to_domain_100,
-    to_domain_int,
     to_domain_degrees,
+    to_domain_int,
     from_range_1,
     from_range_10,
     from_range_100,
-    from_range_int,
     from_range_degrees,
+    from_range_int,
+    is_ndarray_copy_enabled,
+    set_ndarray_copy_enable,
+    ndarray_copy_enable,
+    ndarray_copy,
     closest_indexes,
     closest,
     interval,
@@ -89,6 +93,10 @@ __all__ = [
     "TestFromRange100",
     "TestFromRangeDegrees",
     "TestFromRangeInt",
+    "TestIsNdarrayCopyEnabled",
+    "TestSetNdarrayCopyEnabled",
+    "TestNdarrayCopyEnable",
+    "TestNdarrayCopy",
     "TestClosestIndexes",
     "TestClosest",
     "TestInterval",
@@ -1114,6 +1122,95 @@ class TestFromRangeInt(unittest.TestCase):
             self.assertEqual(
                 from_range_int(1, dtype=np.float16).dtype, np.float16
             )
+
+
+class TestIsNdarrayCopyEnabled(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.array.is_ndarray_copy_enabled` definition
+    unit tests methods.
+    """
+
+    def test_is_ndarray_copy_enabled(self):
+        """
+        Test :func:`colour.utilities.array.is_ndarray_copy_enabled` definition.
+        """
+
+        with ndarray_copy_enable(True):
+            self.assertTrue(is_ndarray_copy_enabled())
+
+        with ndarray_copy_enable(False):
+            self.assertFalse(is_ndarray_copy_enabled())
+
+
+class TestSetNdarrayCopyEnabled(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.array.set_ndarray_copy_enable` definition
+    unit tests methods.
+    """
+
+    def test_set_ndarray_copy_enable(self):
+        """
+        Test :func:`colour.utilities.array.set_ndarray_copy_enable` definition.
+        """
+
+        with ndarray_copy_enable(is_ndarray_copy_enabled()):
+            set_ndarray_copy_enable(True)
+            self.assertTrue(is_ndarray_copy_enabled())
+
+        with ndarray_copy_enable(is_ndarray_copy_enabled()):
+            set_ndarray_copy_enable(False)
+            self.assertFalse(is_ndarray_copy_enabled())
+
+
+class TestNdarrayCopyEnable(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.array.ndarray_copy_enable` definition unit
+    tests methods.
+    """
+
+    def test_ndarray_copy_enable(self):
+        """
+        Test :func:`colour.utilities.array.ndarray_copy_enable` definition.
+        """
+
+        with ndarray_copy_enable(True):
+            self.assertTrue(is_ndarray_copy_enabled())
+
+        with ndarray_copy_enable(False):
+            self.assertFalse(is_ndarray_copy_enabled())
+
+        @ndarray_copy_enable(True)
+        def fn_a():
+            """:func:`ndarray_copy_enable` unit tests :func:`fn_a` definition."""
+
+            self.assertTrue(is_ndarray_copy_enabled())
+
+        fn_a()
+
+        @ndarray_copy_enable(False)
+        def fn_b():
+            """:func:`ndarray_copy_enable` unit tests :func:`fn_b` definition."""
+
+            self.assertFalse(is_ndarray_copy_enabled())
+
+        fn_b()
+
+
+class TestNdarrayCopy(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.array.ndarray_copy` definition unit
+    tests methods.
+    """
+
+    def test_ndarray_copy(self):
+        """Test :func:`colour.utilities.array.ndarray_copy` definition."""
+
+        a = np.linspace(0, 1, 10)
+        with ndarray_copy_enable(True):
+            self.assertNotEqual(id(ndarray_copy(a)), id(a))
+
+        with ndarray_copy_enable(False):
+            self.assertEqual(id(ndarray_copy(a)), id(a))
 
 
 class TestClosestIndexes(unittest.TestCase):
