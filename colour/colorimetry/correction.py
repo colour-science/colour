@@ -26,8 +26,6 @@ References
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.colorimetry import SpectralDistribution
 from colour.hints import Literal
 from colour.utilities import CanonicalMapping, validate_method
@@ -97,18 +95,16 @@ def bandpass_correction_Stearns1988(
                          {'method': 'Constant', 'left': None, 'right': None})
     """
 
-    values = np.copy(sd.values)
-    values[0] = (1 + CONSTANT_ALPHA_STEARNS) * values[
-        0
-    ] - CONSTANT_ALPHA_STEARNS * values[1]
-    values[-1] = (1 + CONSTANT_ALPHA_STEARNS) * values[
-        -1
-    ] - CONSTANT_ALPHA_STEARNS * values[-2]
+    A_S = CONSTANT_ALPHA_STEARNS
+    values = sd.values
+
+    values[0] = (1 + A_S) * values[0] - A_S * values[1]
+    values[-1] = (1 + A_S) * values[-1] - A_S * values[-2]
     for i in range(1, len(values) - 1):
         values[i] = (
-            -CONSTANT_ALPHA_STEARNS * values[i - 1]
-            + (1 + 2 * CONSTANT_ALPHA_STEARNS) * values[i]
-            - CONSTANT_ALPHA_STEARNS * values[i + 1]
+            -A_S * values[i - 1]
+            + (1 + 2 * A_S) * values[i]
+            - A_S * values[i + 1]
         )
 
     sd.values = values
