@@ -50,6 +50,8 @@ from colour.utilities import (
     full,
     is_pandas_installed,
     multiline_repr,
+    ndarray_copy,
+    ndarray_copy_enable,
     optional,
     required,
     runtime_warning,
@@ -329,7 +331,7 @@ class Signal(AbstractContinuousFunction):
             Continuous signal independent domain variable :math:`x`.
         """
 
-        return np.copy(self._domain)
+        return ndarray_copy(self._domain)
 
     @domain.setter
     def domain(self, value: ArrayLike):
@@ -372,7 +374,7 @@ class Signal(AbstractContinuousFunction):
             Continuous signal corresponding range variable :math:`y`.
         """
 
-        return np.copy(self._range)
+        return ndarray_copy(self._range)
 
     @range.setter
     def range(self, value: ArrayLike):  # noqa: A003
@@ -531,7 +533,7 @@ class Signal(AbstractContinuousFunction):
             if self._domain.size != 0 and self._range.size != 0:
                 self._function = self._extrapolator(
                     self._interpolator(
-                        self.domain, self.range, **self._interpolator_kwargs
+                        self._domain, self._range, **self._interpolator_kwargs
                     ),
                     **self._extrapolator_kwargs,
                 )
@@ -590,7 +592,7 @@ class Signal(AbstractContinuousFunction):
          [   9.  100.]]
         """
 
-        return str(tstack([self.domain, self.range]))
+        return str(tstack([self._domain, self._range]))
 
     def __repr__(self) -> str:
         """
@@ -629,17 +631,17 @@ class Signal(AbstractContinuousFunction):
             [
                 {
                     "formatter": lambda x: repr(  # noqa: ARG005
-                        tstack([self.domain, self.range])
+                        tstack([self._domain, self._range])
                     ),
                 },
                 {
                     "name": "interpolator",
-                    "formatter": lambda x: self.interpolator.__name__,  # noqa: ARG005
+                    "formatter": lambda x: self._interpolator.__name__,  # noqa: ARG005
                 },
                 {"name": "interpolator_kwargs"},
                 {
                     "name": "extrapolator",
-                    "formatter": lambda x: self.extrapolator.__name__,  # noqa: ARG005
+                    "formatter": lambda x: self._extrapolator.__name__,  # noqa: ARG005
                 },
                 {"name": "extrapolator_kwargs"},
             ],
@@ -657,12 +659,12 @@ class Signal(AbstractContinuousFunction):
 
         return hash(
             (
-                self.domain.tobytes(),
-                self.range.tobytes(),
-                self.interpolator.__name__,
-                repr(self.interpolator_kwargs),
-                self.extrapolator.__name__,
-                repr(self.extrapolator_kwargs),
+                self._domain.tobytes(),
+                self._range.tobytes(),
+                self._interpolator.__name__,
+                repr(self._interpolator_kwargs),
+                self._extrapolator.__name__,
+                repr(self._extrapolator_kwargs),
             )
         )
 
@@ -842,6 +844,7 @@ class Signal(AbstractContinuousFunction):
             )
         )
 
+    @ndarray_copy_enable(False)
     def __eq__(self, other: Any) -> bool:
         """
         Return whether the continuous signal is equal to given other object.
@@ -948,7 +951,7 @@ class Signal(AbstractContinuousFunction):
             variable.
         """
 
-        self.domain = fill_nan(self.domain, method, default)
+        self.domain = fill_nan(self._domain, method, default)
 
     def _fill_range_nan(
         self,
@@ -973,8 +976,9 @@ class Signal(AbstractContinuousFunction):
             variable.
         """
 
-        self.range = fill_nan(self.range, method, default)
+        self.range = fill_nan(self._range, method, default)
 
+    @ndarray_copy_enable(False)
     def arithmetical_operation(
         self,
         a: ArrayLike | AbstractContinuousFunction,
@@ -1073,7 +1077,7 @@ class Signal(AbstractContinuousFunction):
                 exclusive_or = np.setxor1d(self._domain, a.domain)
                 self[exclusive_or] = full(exclusive_or.shape, np.nan)
             else:
-                self.range = ioperator(self.range, a)
+                self.range = ioperator(self._range, a)
 
             return self
         else:
