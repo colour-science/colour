@@ -314,6 +314,29 @@ ProLab Colourspace
     XYZ_to_ProLab
     ProLab_to_XYZ
 
+Yrg Colourspace - Kirk (2019)
+-----------------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_Yrg
+    Yrg_to_XYZ
+
+``colour.models``
+
+.. currentmodule:: colour.models
+
+.. autosummary::
+    :toctree: generated/
+
+    LMS_to_Yrg
+    Yrg_to_LMS
+
 :math:`Jzazbz` Colourspace
 --------------------------
 

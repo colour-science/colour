@@ -178,6 +178,7 @@ COLOURSPACE_MODELS_AXIS_ORDER: CanonicalMapping = CanonicalMapping(
         "Oklab": (1, 2, 0),
         "hdr-CIELAB": (1, 2, 0),
         "hdr-IPT": (1, 2, 0),
+        "Yrg": (1, 2, 0),
     }
 )
 """Colourspace models axis order."""
@@ -213,6 +214,7 @@ def colourspace_model_axis_reorder(
         "Oklab",
         "hdr-CIELAB",
         "hdr-IPT",
+        "Yrg",
     ]
     | str,
     direction: Literal["Forward", "Inverse"] | str = "Forward",

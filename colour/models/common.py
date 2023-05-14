@@ -82,6 +82,7 @@ COLOURSPACE_MODELS: tuple = (
     "Oklab",
     "hdr-CIELAB",
     "hdr-IPT",
+    "Yrg",
 )
 if is_documentation_building():  # pragma: no cover
     COLOURSPACE_MODELS = DocstringTuple(COLOURSPACE_MODELS)
@@ -117,6 +118,7 @@ COLOURSPACE_MODELS_AXIS_LABELS: CanonicalMapping = CanonicalMapping(
         "Oklab": ("$L$", "$a$", "$b$"),
         "hdr-CIELAB": ("L hdr", "a hdr", "b hdr"),
         "hdr-IPT": ("I hdr", "P hdr", "T hdr"),
+        "Yrg": ("Y", "r", "g"),
     }
 )
 """Colourspace models labels mapping."""
@@ -152,6 +154,7 @@ COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE: (
         "Oklab": np.array([1, 1, 1]),
         "hdr-CIELAB": np.array([100, 100, 100]),
         "hdr-IPT": np.array([100, 100, 100]),
+        "Yrg": np.array([1, 1, 1]),
     }
 )
 """Colourspace models domain-range scale **'1'** to **'Reference'** mapping."""

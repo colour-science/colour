@@ -130,9 +130,11 @@ from colour.models import (
     XYZ_to_sRGB,
     XYZ_to_xy,
     XYZ_to_xyY,
+    XYZ_to_Yrg,
     YCbCr_to_RGB,
     YCoCg_to_RGB,
     YcCbcCrc_to_RGB,
+    Yrg_to_XYZ,
     cctf_decoding,
     cctf_encoding,
     hdr_CIELab_to_XYZ,
@@ -753,6 +755,8 @@ CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
     ("Oklab", "CIE XYZ", Oklab_to_XYZ),
     ("CIE XYZ", "ProLab", XYZ_to_ProLab),
     ("ProLab", "CIE XYZ", ProLab_to_XYZ),
+    ("CIE XYZ", "Yrg", XYZ_to_Yrg),
+    ("Yrg", "CIE XYZ", Yrg_to_XYZ),
     # RGB Colour Models
     (
         "CIE XYZ",
