@@ -551,24 +551,6 @@ CIE 1964 U*V*W* Colourspace
     >>> colour.XYZ_to_UVW(XYZ)
     array([ 94.55035725,  11.55536523,  40.54757405])
 
-Hunter L,a,b Colour Scale
-*************************
-
-.. code-block:: python
-
-    >>> XYZ = [0.20654008 * 100, 0.12197225 * 100, 0.05136952 * 100]
-    >>> colour.XYZ_to_Hunter_Lab(XYZ)
-    array([ 34.92452577,  47.06189858,  14.38615107])
-
-Hunter Rd,a,b Colour Scale
-**************************
-
-.. code-block:: python
-
-    >>> XYZ = [0.20654008 * 100, 0.12197225 * 100, 0.05136952 * 100]
-    >>> colour.XYZ_to_Hunter_Rdab(XYZ)
-    array([ 12.197225  ,  57.12537874,  17.46241341])
-
 CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
 *************************************************************************
 
@@ -607,6 +589,15 @@ CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
     >>> colour.XYZ_to_CAM16UCS(XYZ, XYZ_w=XYZ_w, L_A=L_A, Y_b=Y_b)
     array([ 46.55542238,  40.22460974,  14.25288392])
 
+DIN99 Colourspace and DIN99b, DIN99c, DIN99d Refined Formulas
+*************************************************************
+
+.. code-block:: python
+
+    >>> Lab = [41.52787529, 52.63858304, 26.92317922]
+    >>> colour.Lab_to_DIN99(Lab)
+    array([ 53.22821988,  28.41634656,   3.89839552])
+
 ICaCb Colourspace
 ******************
 
@@ -631,22 +622,13 @@ IPT Colourspace
     >>> colour.XYZ_to_IPT([0.20654008, 0.12197225, 0.05136952])
     array([ 0.38426191,  0.38487306,  0.18886838])
 
-Ragoo and Farup (2021) Optimised IPT Colourspace
-************************************************
+Jzazbz Colourspace
+******************
 
 .. code-block:: python
 
-    >>> colour.XYZ_to_IPT_Ragoo2021([0.20654008, 0.12197225, 0.05136952])
-    array([ 0.42248243,  0.2910514 ,  0.20410663])
-
-DIN99 Colourspace
-*****************
-
-.. code-block:: python
-
-    >>> Lab = [41.52787529, 52.63858304, 26.92317922]
-    >>> colour.Lab_to_DIN99(Lab)
-    array([ 53.22821988,  28.41634656,   3.89839552])
+    >>> colour.XYZ_to_Jzazbz([0.20654008, 0.12197225, 0.05136952])
+    array([ 0.00535048,  0.00924302,  0.00526007])
 
 hdr-CIELAB Colourspace
 **********************
@@ -663,6 +645,24 @@ hdr-IPT Colourspace
 
     >>> colour.XYZ_to_hdr_IPT([0.20654008, 0.12197225, 0.05136952])
     array([ 25.18261761, -22.62111297,   3.18511729])
+
+Hunter L,a,b Colour Scale
+*************************
+
+.. code-block:: python
+
+    >>> XYZ = [0.20654008 * 100, 0.12197225 * 100, 0.05136952 * 100]
+    >>> colour.XYZ_to_Hunter_Lab(XYZ)
+    array([ 34.92452577,  47.06189858,  14.38615107])
+
+Hunter Rd,a,b Colour Scale
+**************************
+
+.. code-block:: python
+
+    >>> XYZ = [0.20654008 * 100, 0.12197225 * 100, 0.05136952 * 100]
+    >>> colour.XYZ_to_Hunter_Rdab(XYZ)
+    array([ 12.197225  ,  57.12537874,  17.46241341])
 
 Oklab Colourspace
 *****************
@@ -689,13 +689,13 @@ ProLab Colourspace
     >>> colour.XYZ_to_ProLab([0.51634019, 0.15469500, 0.06289579])
     array([1.24610688, 2.39525236, 0.41902126])
 
-Jzazbz Colourspace
-******************
+Ragoo and Farup (2021) Optimised IPT Colourspace
+************************************************
 
 .. code-block:: python
 
-    >>> colour.XYZ_to_Jzazbz([0.20654008, 0.12197225, 0.05136952])
-    array([ 0.00535048,  0.00924302,  0.00526007])
+    >>> colour.XYZ_to_IPT_Ragoo2021([0.20654008, 0.12197225, 0.05136952])
+    array([ 0.42248243,  0.2910514 ,  0.20410663])
 
 Y'CbCr Colour Encoding
 **********************
