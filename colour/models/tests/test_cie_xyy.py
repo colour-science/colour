@@ -78,7 +78,7 @@ class TestXYZ_to_xyY(unittest.TestCase):
             np.array(
                 [
                     [0.54369557, 0.32107944, 0.12197225],
-                    [0.31270000, 0.32900000, 0.00000000],
+                    [0.00000000, 0.00000000, 0.00000000],
                     [0.00000000, 1.00000000, 1.00000000],
                 ]
             ),
@@ -92,26 +92,15 @@ class TestXYZ_to_xyY(unittest.TestCase):
         """
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-        illuminant = np.array([0.31270, 0.32900])
-        xyY = XYZ_to_xyY(XYZ, illuminant)
+        xyY = XYZ_to_xyY(XYZ)
 
         XYZ = np.tile(XYZ, (6, 1))
         xyY = np.tile(xyY, (6, 1))
-        np.testing.assert_array_almost_equal(
-            XYZ_to_xyY(XYZ, illuminant), xyY, decimal=7
-        )
-
-        illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_array_almost_equal(
-            XYZ_to_xyY(XYZ, illuminant), xyY, decimal=7
-        )
+        np.testing.assert_array_almost_equal(XYZ_to_xyY(XYZ), xyY, decimal=7)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        illuminant = np.reshape(illuminant, (2, 3, 2))
         xyY = np.reshape(xyY, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
-            XYZ_to_xyY(XYZ, illuminant), xyY, decimal=7
-        )
+        np.testing.assert_array_almost_equal(XYZ_to_xyY(XYZ), xyY, decimal=7)
 
     def test_domain_range_scale_XYZ_to_xyY(self):
         """
@@ -141,7 +130,7 @@ class TestXYZ_to_xyY(unittest.TestCase):
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
-        XYZ_to_xyY(cases, cases[..., 0:2])
+        XYZ_to_xyY(cases)
 
 
 class TestxyY_to_XYZ(unittest.TestCase):
@@ -446,7 +435,7 @@ class TestXYZ_to_xy(unittest.TestCase):
 
         np.testing.assert_array_almost_equal(
             XYZ_to_xy(np.array([0.00000000, 0.00000000, 0.00000000])),
-            np.array([0.31270000, 0.32900000]),
+            np.array([0.00000000, 0.00000000]),
             decimal=7,
         )
 
@@ -457,26 +446,15 @@ class TestXYZ_to_xy(unittest.TestCase):
         """
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-        illuminant = np.array([0.31270, 0.32900])
-        xy = XYZ_to_xy(XYZ, illuminant)
+        xy = XYZ_to_xy(XYZ)
 
         XYZ = np.tile(XYZ, (6, 1))
         xy = np.tile(xy, (6, 1))
-        np.testing.assert_array_almost_equal(
-            XYZ_to_xy(XYZ, illuminant), xy, decimal=7
-        )
-
-        illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_array_almost_equal(
-            XYZ_to_xy(XYZ, illuminant), xy, decimal=7
-        )
+        np.testing.assert_array_almost_equal(XYZ_to_xy(XYZ), xy, decimal=7)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        illuminant = np.reshape(xy, (2, 3, 2))
         xy = np.reshape(xy, (2, 3, 2))
-        np.testing.assert_array_almost_equal(
-            XYZ_to_xy(XYZ, illuminant), xy, decimal=7
-        )
+        np.testing.assert_array_almost_equal(XYZ_to_xy(XYZ), xy, decimal=7)
 
     def test_domain_range_scale_XYZ_to_xy(self):
         """
@@ -502,7 +480,7 @@ class TestXYZ_to_xy(unittest.TestCase):
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
-        XYZ_to_xy(cases, cases[..., 0:2])
+        XYZ_to_xy(cases)
 
 
 class Testxy_to_XYZ(unittest.TestCase):

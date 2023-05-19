@@ -464,10 +464,7 @@ DATA_TE226_V2_CIE_XYZ: dict = {
 DATA_TE226_V2: dict = dict(
     zip(
         tuple(DATA_TE226_V2_CIE_XYZ.keys()),
-        XYZ_to_xyY(
-            list(DATA_TE226_V2_CIE_XYZ.values()),
-            CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"],
-        ),
+        XYZ_to_xyY(list(DATA_TE226_V2_CIE_XYZ.values())),
     )
 )
 
@@ -481,7 +478,7 @@ CCS_TE226_V2: ColourChecker = ColourChecker(
 )
 """
 Reference data from *TE226 V2*. Transparent color rendition test chart
-for HDTV cameras, in addition to known colors from “ColorChecker”, the test
+for HDTV cameras, in addition to known colors from "ColorChecker", the test
 chart contains colors which are critical in reproduction.
 """
 

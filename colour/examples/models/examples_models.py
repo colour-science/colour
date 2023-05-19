@@ -24,14 +24,6 @@ print(colour.XYZ_to_xyY(np.array([0.00000000, 0.00000000, 0.00000000])))
 
 print("\n")
 
-message_box("Using an alternative illuminant.")
-print(
-    colour.XYZ_to_xyY(
-        np.array([0.00000000, 0.00000000, 0.00000000]),
-        colour.CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["ACES"],
-    )
-)
-
 print("\n")
 
 xyY = np.array([0.26414772, 0.37770001, 0.10080000])
