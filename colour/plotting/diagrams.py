@@ -175,7 +175,7 @@ def plot_spectral_locus(
 
     labels = ()
     if method == "cie 1931":
-        ij = XYZ_to_xy(cmfs.values, illuminant)
+        ij = XYZ_to_xy(cmfs.values)
         labels = optional(
             spectral_locus_labels,
             (
@@ -452,7 +452,7 @@ def plot_chromaticity_diagram_colours(
     illuminant = CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint
 
     if method == "cie 1931":
-        spectral_locus = XYZ_to_xy(cmfs.values, illuminant)
+        spectral_locus = XYZ_to_xy(cmfs.values)
     elif method == "cie 1960 ucs":
         spectral_locus = UCS_to_uv(XYZ_to_UCS(cmfs.values))
     elif method == "cie 1976 ucs":

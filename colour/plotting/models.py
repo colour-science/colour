@@ -335,13 +335,15 @@ def plot_pointer_gamut(
 
     if method == "cie 1931":
 
-        def XYZ_to_ij(XYZ: NDArrayFloat, *args: Any) -> NDArrayFloat:
+        def XYZ_to_ij(
+            XYZ: NDArrayFloat, *args: Any  # noqa: ARG001
+        ) -> NDArrayFloat:
             """
             Convert given *CIE XYZ* tristimulus values to *ij* chromaticity
             coordinates.
             """
 
-            return XYZ_to_xy(XYZ, *args)
+            return XYZ_to_xy(XYZ)
 
         def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
             """
@@ -1062,7 +1064,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
     XYZ = RGB_to_XYZ(RGB, colourspace)
 
     if method == "cie 1931":
-        ij = XYZ_to_xy(XYZ, colourspace.whitepoint)
+        ij = XYZ_to_xy(XYZ)
 
     elif method == "cie 1960 ucs":
         ij = UCS_to_uv(XYZ_to_UCS(XYZ))

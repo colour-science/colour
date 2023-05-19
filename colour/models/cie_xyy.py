@@ -13,10 +13,9 @@ Defines the *CIE xyY* colourspace transformations:
 
 References
 ----------
--   :cite:`Lindbloom2003e` : Lindbloom, B. (2003). XYZ to xyY. Retrieved
-    February 24, 2014, from http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html
--   :cite:`Lindbloom2009d` : Lindbloom, B. (2009). xyY to XYZ. Retrieved
-    February 24, 2014, from http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html
+-   :cite:`CIETC1-482004h` : CIE TC 1-48. (2004). CIE 015:2004 Colorimetry,
+    3rd Edition. In CIE 015:2004 Colorimetry, 3rd Edition. Commission
+    Internationale de l'Eclairage. ISBN:978-3-901906-33-6
 -   :cite:`Wikipedia2005` : Wikipedia. (2005). CIE 1931 color space. Retrieved
     February 24, 2014, from http://en.wikipedia.org/wiki/CIE_1931_color_space
 """
@@ -25,7 +24,6 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     as_float_array,
@@ -55,22 +53,14 @@ __all__ = [
 ]
 
 
-def XYZ_to_xyY(
-    XYZ: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS[
-        "CIE 1931 2 Degree Standard Observer"
-    ]["D65"],
-) -> NDArrayFloat:
+def XYZ_to_xyY(XYZ: ArrayLike) -> NDArrayFloat:
     """
-    Convert from *CIE XYZ* tristimulus values to *CIE xyY* colourspace and
-    reference *illuminant*.
+    Convert from *CIE XYZ* tristimulus values to *CIE xyY* colourspace.
 
     Parameters
     ----------
     XYZ
         *CIE XYZ* tristimulus values.
-    illuminant
-        Reference *illuminant* chromaticity coordinates.
 
     Returns
     -------
@@ -93,7 +83,7 @@ def XYZ_to_xyY(
 
     References
     ----------
-    :cite:`Lindbloom2003e`, :cite:`Wikipedia2005`
+    :cite:`CIETC1-482004h`, :cite:`Wikipedia2005`
 
     Examples
     --------
@@ -103,12 +93,11 @@ def XYZ_to_xyY(
     """
 
     XYZ = to_domain_1(XYZ)
-    xy_w = as_float_array(illuminant)
 
     X, Y, Z = tsplit(XYZ)
 
     xyY = zeros(XYZ.shape)
-    xyY[..., 0:2] = xy_w
+    xyY[..., 0:2] = 0
 
     m_xyY = ~np.all(XYZ == 0, axis=-1)
     X_Y_Z = (X + Y + Z)[m_xyY]
@@ -156,7 +145,7 @@ def xyY_to_XYZ(xyY: ArrayLike) -> NDArrayFloat:
 
     References
     ----------
-    :cite:`Lindbloom2009d`, :cite:`Wikipedia2005`
+    :cite:`CIETC1-482004h`, :cite:`Wikipedia2005`
 
     Examples
     --------
@@ -210,7 +199,7 @@ def xyY_to_xy(xyY: ArrayLike) -> NDArrayFloat:
 
     References
     ----------
-    :cite:`Wikipedia2005`
+    :cite:`CIETC1-482004h`, :cite:`Wikipedia2005`
 
     Examples
     --------
@@ -277,7 +266,7 @@ def xy_to_xyY(xy: ArrayLike, Y: float = 1) -> NDArrayFloat:
 
     References
     ----------
-    :cite:`Wikipedia2005`
+    :cite:`CIETC1-482004h`, :cite:`Wikipedia2005`
 
     Examples
     --------
@@ -307,12 +296,7 @@ def xy_to_xyY(xy: ArrayLike, Y: float = 1) -> NDArrayFloat:
     return from_range_1(xyY, np.array([1, 1, 100]))
 
 
-def XYZ_to_xy(
-    XYZ: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS[
-        "CIE 1931 2 Degree Standard Observer"
-    ]["D65"],
-) -> NDArrayFloat:
+def XYZ_to_xy(XYZ: ArrayLike) -> NDArrayFloat:
     """
     Return the *CIE xy* chromaticity coordinates from given *CIE XYZ*
     tristimulus values.
@@ -321,8 +305,6 @@ def XYZ_to_xy(
     ----------
     XYZ
         *CIE XYZ* tristimulus values.
-    illuminant
-        Reference *illuminant* chromaticity coordinates.
 
     Returns
     -------
@@ -339,7 +321,7 @@ def XYZ_to_xy(
 
     References
     ----------
-    :cite:`Wikipedia2005`
+    :cite:`CIETC1-482004h`, :cite:`Wikipedia2005`
 
     Examples
     --------
@@ -348,7 +330,7 @@ def XYZ_to_xy(
     array([ 0.5436955...,  0.3210794...])
     """
 
-    return xyY_to_xy(XYZ_to_xyY(XYZ, illuminant))
+    return xyY_to_xy(XYZ_to_xyY(XYZ))
 
 
 def xy_to_XYZ(xy: ArrayLike) -> NDArrayFloat:
@@ -382,7 +364,7 @@ def xy_to_XYZ(xy: ArrayLike) -> NDArrayFloat:
 
     References
     ----------
-    :cite:`Wikipedia2005`
+    :cite:`CIETC1-482004h`, :cite:`Wikipedia2005`
 
     Examples
     --------

@@ -138,9 +138,9 @@ class TestConvert(unittest.TestCase):
         ]
         np.testing.assert_array_almost_equal(
             convert(
-                a, "CIE XYZ", "CIE xyY", XYZ_to_xyY={"illuminant": illuminant}
+                a, "CIE XYZ", "CIE UVW", XYZ_to_UVW={"illuminant": illuminant}
             ),
-            convert(a, "CIE XYZ", "CIE xyY", illuminant=illuminant),
+            convert(a, "CIE XYZ", "CIE UVW", illuminant=illuminant),
             decimal=7,
         )
 
