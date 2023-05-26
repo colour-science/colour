@@ -497,7 +497,7 @@ def XYZ_to_sd_Jakob2019(
     additional_data: bool = False,
 ) -> Tuple[SpectralDistribution, float] | SpectralDistribution:
     """
-    Recover the spectral distribution of given RGB colourspace array
+    Recover the spectral distribution of given *CIE XYZ* tristimulus values
     using *Jakob and Hanika (2019)* method.
 
     Parameters
