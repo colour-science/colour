@@ -177,9 +177,9 @@ def plot_hull_section_colours(
     ...     vertices["position"] + 0.5, RGB_COLOURSPACE_sRGB
     ... )
     >>> if is_trimesh_installed:
-    ...     import trimesh
+    ...     from trimesh import Trimesh
     ...
-    ...     hull = trimesh.Trimesh(XYZ_vertices, faces, process=False)
+    ...     hull = Trimesh(XYZ_vertices, faces, process=False)
     ...     plot_hull_section_colours(hull, section_colours="RGB")
     ...     # doctest: +ELLIPSIS
     ...
@@ -382,9 +382,9 @@ def plot_hull_section_contour(
     ...     vertices["position"] + 0.5, RGB_COLOURSPACE_sRGB
     ... )
     >>> if is_trimesh_installed:
-    ...     import trimesh
+    ...     from trimesh import Trimesh
     ...
-    ...     hull = trimesh.Trimesh(XYZ_vertices, faces, process=False)
+    ...     hull = Trimesh(XYZ_vertices, faces, process=False)
     ...     plot_hull_section_contour(hull, contour_colours="RGB")
     ...     # doctest: +ELLIPSIS
     ...
@@ -568,7 +568,8 @@ def plot_visible_spectrum_section(
         :alt: plot_visible_spectrum_section
     """
 
-    import trimesh
+    import trimesh.convex
+    from trimesh import Trimesh
 
     settings: Dict[str, Any] = {"uniform": True}
     settings.update(kwargs)
@@ -595,7 +596,7 @@ def plot_visible_spectrum_section(
         point_order="Pulse Wave Width",
         filter_jagged_points=True,
     )
-    mesh = trimesh.Trimesh(vertices)
+    mesh = Trimesh(vertices)
     hull = trimesh.convex.convex_hull(mesh)
 
     if show_section_colours:
@@ -735,7 +736,7 @@ def plot_RGB_colourspace_section(
         :alt: plot_RGB_colourspace_section
     """
 
-    import trimesh
+    from trimesh import Trimesh
 
     settings: Dict[str, Any] = {"uniform": True}
     settings.update(kwargs)
@@ -749,7 +750,7 @@ def plot_RGB_colourspace_section(
 
     vertices, faces, _outline = primitive_cube(1, 1, 1, 64, 64, 64)
     XYZ_vertices = RGB_to_XYZ(vertices["position"] + 0.5, colourspace)
-    hull = trimesh.Trimesh(XYZ_vertices, faces, process=False)
+    hull = Trimesh(XYZ_vertices, faces, process=False)
 
     if show_section_colours:
         settings = {"axes": axes}

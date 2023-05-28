@@ -1497,15 +1497,14 @@ class MultiSignals(AbstractContinuousFunction):
             if isinstance(data, Series):
                 signals["0"] = signal_type(data, **settings)
             elif isinstance(data, DataFrame):
-                dataframe = cast(DataFrame, data)
-                domain_unpacked = dataframe.index.values
+                domain_unpacked = cast(NDArrayFloat, data.index.values)
                 signals = {
                     label: signal_type(
-                        data[label],  # pyright: ignore
+                        data[label],
                         domain_unpacked,
                         **settings,
                     )
-                    for label in data  # pyright: ignore
+                    for label in data
                 }
 
         if domain is not None:

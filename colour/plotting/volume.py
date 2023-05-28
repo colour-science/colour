@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import matplotlib.pyplot as plt
 import numpy as np
+from mpl_toolkits.mplot3d.axes3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 from colour.colorimetry import MultiSpectralDistributions
@@ -73,7 +74,7 @@ def nadir_grid(
     limits: ArrayLike | None = None,
     segments: int = 10,
     labels: ArrayLike | Sequence[str] | None = None,
-    axes: plt.Axes | None = None,
+    axes: Axes3D | None = None,
     **kwargs: Any,
 ) -> Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]:
     """
@@ -320,9 +321,9 @@ def nadir_grid(
                 clip_on=True,
             )
 
-    quads = np.vstack([quads_g, quads_gs, quad_x, quad_y])
-    RGB_f = np.vstack([RGB_gf, RGB_gsf, RGB_x, RGB_y])
-    RGB_e = np.vstack([RGB_ge, RGB_gse, RGB_x, RGB_y])
+    quads = as_float_array(np.vstack([quads_g, quads_gs, quad_x, quad_y]))
+    RGB_f = as_float_array(np.vstack([RGB_gf, RGB_gsf, RGB_x, RGB_y]))
+    RGB_e = as_float_array(np.vstack([RGB_ge, RGB_gse, RGB_x, RGB_y]))
 
     return quads, RGB_f, RGB_e
 
@@ -455,7 +456,7 @@ def plot_RGB_colourspaces_gamuts(
     chromatically_adapt: bool = False,
     convert_kwargs: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[plt.Figure, Axes3D]:
     """
     Plot given *RGB* colourspaces gamuts in given reference colourspace.
 
@@ -733,7 +734,7 @@ def plot_RGB_scatter(
     chromatically_adapt: bool = False,
     convert_kwargs: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[plt.Figure, Axes3D]:
     """
     Plot given *RGB* colourspace array in a scatter plot.
 

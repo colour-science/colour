@@ -263,7 +263,9 @@ class Signal(AbstractContinuousFunction):
             "right": np.nan,
         }
 
-        self.domain, self.range = self.signal_unpack_data(data, domain)
+        self.domain, self.range = self.signal_unpack_data(
+            data, domain  # pyright: ignore
+        )
 
         self.dtype = kwargs.get("dtype", self._dtype)
 
@@ -1190,9 +1192,8 @@ class Signal(AbstractContinuousFunction):
                 sorted(cast(Mapping, data).items())
             )
         elif is_pandas_installed() and isinstance(data, Series):
-            series = cast(Series, data)
-            domain_unpacked = series.index.values
-            range_unpacked = series.values
+            domain_unpacked = data.index.values
+            range_unpacked = data.values
 
         if domain is not None:
             domain_array = as_float_array(domain, dtype)

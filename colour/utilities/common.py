@@ -1473,7 +1473,7 @@ if is_xxhash_installed():
     import xxhash
     from colour.utilities.documentation import is_documentation_building
 
-    int_digest = xxhash.xxh3_64_intdigest  # pyright: ignore
+    int_digest = xxhash.xxh3_64_intdigest
 
     if is_documentation_building():  # pragma: no cover
         import array

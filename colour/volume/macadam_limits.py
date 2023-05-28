@@ -10,6 +10,7 @@ from __future__ import annotations
 import numpy as np
 from scipy.spatial import Delaunay
 
+from colour.constants import EPSILON
 from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.models import xyY_to_XYZ
 from colour.volume import OPTIMAL_COLOUR_STIMULI_ILLUMINANTS
@@ -76,7 +77,7 @@ def _XYZ_optimal_colour_stimuli(
 def is_within_macadam_limits(
     xyY: ArrayLike,
     illuminant: Literal["A", "C", "D65"] | str = "D65",
-    tolerance: float | None = None,
+    tolerance: float = 100 * EPSILON,
 ) -> NDArrayFloat:
     """
     Return whether given *CIE xyY* colourspace array is within MacAdam limits

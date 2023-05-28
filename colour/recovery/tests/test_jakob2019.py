@@ -348,7 +348,7 @@ RGB_to_coefficients` method raised exception.
 
         LUT = LUT3D_Jakob2019()
 
-        self.assertRaises(RuntimeError, LUT.RGB_to_coefficients, np.array([]))
+        self.assertRaises(ValueError, LUT.RGB_to_coefficients, np.array([]))
 
     def test_raise_exception_read(self):
         """

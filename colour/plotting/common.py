@@ -27,10 +27,10 @@ from __future__ import annotations
 import contextlib
 import functools
 import itertools
-import matplotlib as mpl
 import matplotlib.cm
 import matplotlib.pyplot as plt
 import matplotlib.ticker
+from mpl_toolkits.mplot3d.axes3d import Axes3D
 import numpy as np
 from dataclasses import dataclass, field
 from functools import partial
@@ -487,7 +487,7 @@ def artist(**kwargs: KwargsArtist | Any) -> Tuple[plt.Figure, plt.Axes]:
 
         return figure, figure.gca()
     else:
-        return plt.gcf(), axes
+        return cast(plt.Figure, plt.gcf()), cast(plt.Axes, axes)
 
 
 class KwargsCamera(TypedDict):
@@ -516,7 +516,7 @@ class KwargsCamera(TypedDict):
     camera_aspect: Literal["equal"] | str
 
 
-def camera(**kwargs: KwargsCamera | Any) -> Tuple[plt.Figure, plt.Axes]:
+def camera(**kwargs: KwargsCamera | Any) -> Tuple[plt.Figure, Axes3D]:
     """
     Set the camera settings.
 
@@ -533,7 +533,7 @@ def camera(**kwargs: KwargsCamera | Any) -> Tuple[plt.Figure, plt.Axes]:
     """
 
     figure = cast(plt.Figure, kwargs.get("figure", plt.gcf()))
-    axes = cast(plt.Axes, kwargs.get("axes", plt.gca()))
+    axes = cast(Axes3D, kwargs.get("axes", plt.gca()))
 
     settings = Structure(
         **{"camera_aspect": "equal", "elevation": None, "azimuth": None}
@@ -669,9 +669,9 @@ def render(**kwargs: KwargsRender | Any) -> Tuple[plt.Figure, plt.Axes]:
     if settings.y_label:
         axes.set_ylabel(settings.y_label)
     if not settings.x_ticker:
-        axes.set_xticks([])
+        axes.set_xticks([])  # pyright: ignore
     if not settings.y_ticker:
-        axes.set_yticks([])
+        axes.set_yticks([])  # pyright: ignore
     if settings.legend:
         axes.legend(ncol=settings.legend_columns)
 
@@ -1505,11 +1505,6 @@ def plot_multi_functions(
             plot_settings_collection, plot_kwargs, len(functions)
         )
 
-    # TODO: Remove when "Matplotlib" minimum version can be set to 3.5.0.
-    matplotlib_3_5 = tuple(
-        int(token) for token in mpl.__version__.split(".")[:2]
-    ) >= (3, 5)
-
     if log_x is not None and log_y is not None:
         attest(
             log_x >= 2 and log_y >= 2,
@@ -1518,22 +1513,16 @@ def plot_multi_functions(
 
         plotting_function = axes.loglog
 
-        axes.set_xscale("log", base=log_x)
-        axes.set_yscale("log", base=log_y)
+        axes.set_xscale("log", base=log_x)  # pyright: ignore
+        axes.set_yscale("log", base=log_y)  # pyright: ignore
     elif log_x is not None:
         attest(log_x >= 2, "Log base must be equal or greater than 2.")
 
-        if matplotlib_3_5:  # pragma: no cover
-            plotting_function = partial(axes.semilogx, base=log_x)
-        else:  # pragma: no cover
-            plotting_function = partial(axes.semilogx, basex=log_x)
+        plotting_function = partial(axes.semilogx, base=log_x)
     elif log_y is not None:
         attest(log_y >= 2, "Log base must be equal or greater than 2.")
 
-        if matplotlib_3_5:  # pragma: no cover
-            plotting_function = partial(axes.semilogy, base=log_y)
-        else:  # pragma: no cover
-            plotting_function = partial(axes.semilogy, basey=log_y)
+        plotting_function = partial(axes.semilogy, base=log_y)
     else:
         plotting_function = axes.plot
 
@@ -1623,7 +1612,7 @@ def plot_image(
 
     imshow_settings = {
         "interpolation": "nearest",
-        "cmap": matplotlib.cm.Greys_r,
+        "cmap": matplotlib.colormaps["Greys_r"],
         "zorder": CONSTANTS_COLOUR_STYLE.zorder.background_polygon,
     }
     if imshow_kwargs is not None:

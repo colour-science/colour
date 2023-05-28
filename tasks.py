@@ -21,7 +21,8 @@ import inspect
 if not hasattr(inspect, "getargspec"):
     inspect.getargspec = inspect.getfullargspec  # pyright: ignore
 
-from invoke import Context, task
+from invoke.tasks import task
+from invoke.context import Context
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -351,7 +352,10 @@ def build(ctx: Context):
     """
 
     message_box("Building...")
-    if "modified:   pyproject.toml" in ctx.run("git status").stdout:
+    if (
+        "modified:   pyproject.toml"
+        in ctx.run("git status").stdout  # pyright: ignore
+    ):
         raise RuntimeError(
             'Please commit your changes to the "pyproject.toml" file!'
         )
@@ -364,7 +368,10 @@ def build(ctx: Context):
     with open("pyproject.toml", "w") as pyproject_file:
         toml.dump(pyproject_content, pyproject_file)
 
-    if "modified:   README.rst" in ctx.run("git status").stdout:
+    if (
+        "modified:   README.rst"
+        in ctx.run("git status").stdout  # pyright: ignore
+    ):
         raise RuntimeError(
             'Please commit your changes to the "README.rst" file!'
         )
@@ -498,7 +505,7 @@ def tag(ctx: Context):
     message_box("Tagging...")
     result = ctx.run("git rev-parse --abbrev-ref HEAD", hide="both")
 
-    if result.stdout.strip() == "develop":
+    if result.stdout.strip() == "develop":  # pyright: ignore
         raise RuntimeError("Are you still on a feature or master branch?")
 
     with open(os.path.join(PYTHON_PACKAGE_NAME, "__init__.py")) as file_handle:
@@ -522,7 +529,7 @@ def tag(ctx: Context):
         version = ".".join((major_version, minor_version, change_version))
 
         result = ctx.run("git ls-remote --tags upstream", hide="both")
-        remote_tags = result.stdout.strip().split("\n")
+        remote_tags = result.stdout.strip().split("\n")  # pyright: ignore
         tags = set()
         for remote_tag in remote_tags:
             tags.add(
