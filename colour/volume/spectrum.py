@@ -31,7 +31,7 @@ from colour.colorimetry import (
     handle_spectral_arguments,
     msds_to_XYZ,
 )
-from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.constants import DEFAULT_FLOAT_DTYPE, EPSILON
 from colour.hints import (
     Any,
     ArrayLike,
@@ -382,7 +382,7 @@ def is_within_visible_spectrum(
     XYZ: ArrayLike,
     cmfs: MultiSpectralDistributions | None = None,
     illuminant: SpectralDistribution | None = None,
-    tolerance: float | None = None,
+    tolerance: float = 100 * EPSILON,
     **kwargs: Any,
 ) -> NDArrayFloat:
     """

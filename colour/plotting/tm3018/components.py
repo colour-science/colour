@@ -259,7 +259,7 @@ def plot_spectra_ANSIIESTM3018(
         zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
     )
     axes.tick_params(axis="y", which="both", length=0)
-    axes.set_yticklabels([])
+    axes.set_yticklabels([])  # pyright: ignore
 
     settings = {
         "axes": axes,
@@ -360,7 +360,7 @@ def plot_colour_vector_graphic(
     for radius in [0.8, 0.9, 1.1, 1.2]:
         circle = plt.Circle(
             (0, 0),
-            radius,
+            radius,  # pyright: ignore
             color="white",
             lw=0.75,
             fill=False,
@@ -537,10 +537,10 @@ def plot_16_bin_bars(
     )
     axes.set_xlim(0.5, bar_count + 0.5)
     if x_ticker:
-        axes.set_xticks(np.arange(1, bar_count + 1))
+        axes.set_xticks(np.arange(1, bar_count + 1))  # pyright: ignore
         axes.set_xlabel("Hue-Angle Bin (j)")
     else:
-        axes.set_xticks([])
+        axes.set_xticks([])  # pyright: ignore
 
     label_orientation = label_orientation.lower()
     value_max = np.max(values)
@@ -627,8 +627,8 @@ def plot_local_chroma_shifts(
     axes.set_ylabel("Local Chroma Shift ($R_{cs,hj}$)")
 
     ticks = np.arange(-40, 41, 10)
-    axes.set_yticks(ticks)
-    axes.set_yticklabels([f"{value}%" for value in ticks])
+    axes.set_yticks(ticks)  # pyright: ignore
+    axes.set_yticklabels([f"{value}%" for value in ticks])  # pyright: ignore
 
     settings = {"standalone": True}
     settings.update(kwargs)
@@ -681,7 +681,7 @@ def plot_local_hue_shifts(
         specification.R_hs, "{0:.2f}", x_ticker, **settings
     )
     axes.set_ylim(-0.5, 0.5)
-    axes.set_yticks(np.arange(-0.5, 0.51, 0.1))
+    axes.set_yticks(np.arange(-0.5, 0.51, 0.1))  # pyright: ignore
     axes.set_ylabel("Local Hue Shift ($R_{hs,hj}$)")
 
     settings = {"standalone": True}
@@ -735,7 +735,7 @@ def plot_local_colour_fidelities(
         specification.R_fs, "{0:.0f}", x_ticker, "Horizontal", **settings
     )
     axes.set_ylim(0, 100)
-    axes.set_yticks(np.arange(0, 101, 10))
+    axes.set_yticks(np.arange(0, 101, 10))  # pyright: ignore
     axes.set_ylabel("Local Color Fidelity ($R_{f,hj}$)")
 
     settings = {"standalone": True}
@@ -792,15 +792,15 @@ def plot_colour_fidelity_indexes(
     )
     axes.set_xlim(0.5, bar_count + 0.5)
     axes.set_ylim(0, 100)
-    axes.set_yticks(np.arange(0, 110, 10))
+    axes.set_yticks(np.arange(0, 110, 10))  # pyright: ignore
     axes.set_ylabel("Color Sample Fidelity ($R_{f,CESi}$)")
 
     ticks = list(range(1, bar_count + 1, 1))
-    axes.set_xticks(ticks)
+    axes.set_xticks(ticks)  # pyright: ignore
 
     labels = [
         f"CES{i:02d}" if i % 3 == 1 else "" for i in range(1, bar_count + 1)
     ]
-    axes.set_xticklabels(labels, rotation=90)
+    axes.set_xticklabels(labels, rotation=90)  # pyright: ignore
 
     return render(**kwargs)

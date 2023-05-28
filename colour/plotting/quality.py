@@ -211,11 +211,13 @@ def plot_colour_quality_bars(
         )
         * bar_width
         + (count_s * bar_width / 2)
-    )
+    )  # pyright: ignore
     axes.set_xticklabels(
         ["Qa"] + [f"Q{index + 1}" for index in range(0, count_Q_as, 1)]
-    )
-    axes.set_yticks(range(0, 100 + y_ticks_interval, y_ticks_interval))
+    )  # pyright: ignore
+    axes.set_yticks(
+        range(0, 100 + y_ticks_interval, y_ticks_interval)
+    )  # pyright: ignore
 
     aspect = 1 / (120 / (bar_width + len(Q_as) + bar_width * 2))
     bounding_box = (

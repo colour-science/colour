@@ -109,7 +109,7 @@ bounding_box = [
     axes.get_ylim()[1],
 ]
 
-section_colours = colour.notation.HEX_to_RGB(  # pyright: ignore
+section_colours = colour.notation.HEX_to_RGB(
     colour.plotting.CONSTANTS_COLOUR_STYLE.colour.cycle[:4]
 )
 

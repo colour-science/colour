@@ -217,6 +217,8 @@ def _plot_report_footer(axes: plt.Axes) -> plt.Axes:
         zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_label,
     )
 
+    return axes
+
 
 @override_style(**CONSTANTS_REPORT_STYLE)
 def plot_single_sd_colour_rendition_report_full(

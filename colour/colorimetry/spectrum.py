@@ -686,14 +686,16 @@ class SpectralDistribution(Signal):
 
     def __init__(
         self,
-        data: ArrayLike | dict | Self | Series | Signal | None = None,
+        data: ArrayLike | dict | Series | "Signal" | None = None,
         domain: ArrayLike | SpectralShape | None = None,
         **kwargs: Any,
     ) -> None:
         domain = (
             domain.wavelengths if isinstance(domain, SpectralShape) else domain
         )
-        domain_unpacked, range_unpacked = self.signal_unpack_data(data, domain)
+        domain_unpacked, range_unpacked = self.signal_unpack_data(
+            data, domain  # pyright: ignore
+        )
 
         # Initialising with *CIE 15:2004* and *CIE 167:2005* recommendations
         # defaults.
@@ -1840,7 +1842,6 @@ class MultiSpectralDistributions(MultiSignals):
         | DataFrame
         | dict
         | MultiSignals
-        | Self
         | Sequence
         | Series
         | Signal

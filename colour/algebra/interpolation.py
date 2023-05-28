@@ -1335,8 +1335,14 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
     @property
     def y(self) -> NDArrayFloat:
         """
-        Getter property for the dependent and already known :math:`y`
-        variable.
+        Getter and setter property for the dependent and already known
+        :math:`y` variable.
+
+        Parameters
+        ----------
+        value
+            Value to set the dependent and already known :math:`y` variable
+            with.
 
         Returns
         -------
@@ -1345,6 +1351,12 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
         """
 
         return self._y
+
+    @y.setter
+    def y(self, value: ArrayLike):
+        """Setter for the **self.y** property."""
+
+        self._y = as_float_array(value)
 
 
 class NullInterpolator:

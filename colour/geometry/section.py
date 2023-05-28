@@ -222,7 +222,7 @@ def hull_section(
            [-0. , -0.5,  0. ]])
     """
 
-    import trimesh
+    import trimesh.intersections
 
     axis = validate_method(
         axis,
