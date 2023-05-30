@@ -770,7 +770,7 @@ def sd_multi_leds_Ohno2005(
 
     sd.name = (
         f"{_format_array(peak_wavelengths)}nm - "
-        f"{_format_array(fwhm)}FWHM - "
+        f"{_format_array(fwhm)} FWHM - "
         f"{_format_array(peak_power_ratios)} Peak Power Ratios - "
         f"LED - Ohno (2005)"
     )
