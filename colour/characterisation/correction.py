@@ -118,7 +118,7 @@ __all__ = [
 
 def matrix_augmented_Cheung2004(
     RGB: ArrayLike,
-    terms: Literal[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22] = 3,
+    terms: Literal[3, 4, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22, 35] = 3,
 ) -> NDArrayFloat:
     """
     Perform polynomial expansion of given *RGB* colourspace array using
@@ -157,7 +157,9 @@ def matrix_augmented_Cheung2004(
     R, G, B = tsplit(RGB)
     tail = ones(R.shape)
 
-    existing_terms = np.array([3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22])
+    existing_terms = np.array(
+        [3, 4, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22, 35]
+    )
     closest_terms = as_int(closest(existing_terms, terms))
     if closest_terms != terms:
         raise ValueError(
@@ -168,6 +170,8 @@ def matrix_augmented_Cheung2004(
 
     if terms == 3:
         return RGB
+    elif terms == 4:
+        return tstack([R, G, B, tail])
     elif terms == 5:
         return tstack(
             [
@@ -345,7 +349,7 @@ def matrix_augmented_Cheung2004(
                 tail,
             ]
         )
-    elif terms == 22:  # noqa: RET503
+    elif terms == 22:
         return tstack(
             [
                 R,
@@ -370,6 +374,46 @@ def matrix_augmented_Cheung2004(
                 R**2 * G * B,
                 R * G**2 * B,
                 R * G * B**2,
+            ]
+        )
+    elif terms == 35:  # noqa: RET503
+        return tstack(
+            [
+                R,
+                G,
+                B,
+                R * G,
+                R * B,
+                G * B,
+                R**2,
+                G**2,
+                B**2,
+                R * G * B,
+                R**2 * G,
+                G**2 * B,
+                B**2 * R,
+                R**2 * B,
+                G**2 * R,
+                B**2 * G,
+                R**3,
+                G**3,
+                B**3,
+                R**3 * G,
+                R**3 * B,
+                G**3 * R,
+                G**3 * B,
+                B**3 * R,
+                B**3 * G,
+                R**2 * G * B,
+                R * G**2 * B,
+                R * G * B**2,
+                R**2 * G**2,
+                R**2 * B**2,
+                G**2 * B**2,
+                R**4,
+                G**4,
+                B**4,
+                tail,
             ]
         )
 
