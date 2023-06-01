@@ -724,7 +724,7 @@ def polynomial_expansion(
 def matrix_colour_correction_Cheung2004(
     M_T: ArrayLike,
     M_R: ArrayLike,
-    terms: Literal[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22] = 3,
+    terms: Literal[3, 4, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22, 35] = 3,
 ) -> NDArrayFloat:
     """
     Compute a colour correction matrix from given :math:`M_T` colour array to
@@ -995,7 +995,7 @@ def matrix_colour_correction(
 def apply_matrix_colour_correction_Cheung2004(
     RGB: ArrayLike,
     CCM: ArrayLike,
-    terms: Literal[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22] = 3,
+    terms: Literal[3, 4, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22, 35] = 3,
 ) -> NDArrayFloat:
     """
     Apply given colour correction matrix :math:`CCM` computed using
@@ -1247,7 +1247,7 @@ def colour_correction_Cheung2004(
     RGB: ArrayLike,
     M_T: ArrayLike,
     M_R: ArrayLike,
-    terms: Literal[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22] = 3,
+    terms: Literal[3, 4, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22, 35] = 3,
 ) -> NDArrayFloat:
     """
     Perform colour correction of given *RGB* colourspace array using the
