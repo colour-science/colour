@@ -27,12 +27,12 @@ The following light sources are available:
     60 A/W (Soft White), C100S54 (HPS), C100S54C (HPS),
     F32T8/TL830 (Triphosphor), F32T8/TL835 (Triphosphor),
     F32T8/TL841 (Triphosphor), F32T8/TL850 (Triphosphor),
-    F32T8/TL865 /PLUS (Triphosphor), F34/CW/RS/EW (Cool White FL),
-    F34T12/LW/RS /EW, F34T12WW/RS /EW (Warm White FL),
+    F32T8/TL865/PLUS (Triphosphor), F34/CW/RS/EW (Cool White FL),
+    F34T12/LW/RS/EW, F34T12WW/RS/EW (Warm White FL),
     F40/C50 (Broadband FL), F40/C75 (Broadband FL),
     F40/CWX (Broadband FL), F40/DX (Broadband FL), F40/DXTP (Delux FL),
     F40/N (Natural FL), H38HT-100 (Mercury), H38JA-100/DX (Mercury DX),
-    MHC100/U/MP /3K, MHC100/U/MP /4K, SDW-T 100W/LV (Super HPS)
+    MHC100/U/MP/3K, MHC100/U/MP/4K, SDW-T 100W/LV (Super HPS)
 -   Projectors and Xenon Arc Lamps:
     Kinoton 75P
 
@@ -3474,7 +3474,7 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS: dict = {
         775: 0.0019264764,
         780: 0.0031394812,
     },
-    "F32T8/TL865 /PLUS (Triphosphor)": {
+    "F32T8/TL865/PLUS (Triphosphor)": {
         380: 0.0043823207,
         385: 0.0033077391,
         390: 0.0028637083,
@@ -3640,7 +3640,7 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS: dict = {
         775: 0.0107649726,
         780: 0.0787313519,
     },
-    "F34T12/LW/RS /EW": {
+    "F34T12/LW/RS/EW": {
         380: 0.0138848383,
         385: 0.0171879452,
         390: 0.0227765198,
@@ -3723,7 +3723,7 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS: dict = {
         775: 0.0077827634,
         780: 0.0553820445,
     },
-    "F34T12WW/RS /EW (Warm White FL)": {
+    "F34T12WW/RS/EW (Warm White FL)": {
         380: 0.0183484283,
         385: 0.0208397838,
         390: 0.0263238473,
@@ -4470,7 +4470,7 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS: dict = {
         775: 0.1140336555,
         780: 0.1114486233,
     },
-    "MHC100/U/MP /3K": {
+    "MHC100/U/MP/3K": {
         380: 0.0376147854,
         385: 0.0647066508,
         390: 0.0898482711,
@@ -4553,7 +4553,7 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS: dict = {
         775: 0.1376604646,
         780: 0.1168708812,
     },
-    "MHC100/U/MP /4K": {
+    "MHC100/U/MP/4K": {
         380: 0.0637674013,
         385: 0.1123934055,
         390: 0.1593879234,
