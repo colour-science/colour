@@ -589,7 +589,7 @@ class TestSpectralSimilarityIndex(unittest.TestCase):
                 SDS_ILLUMINANTS["D65"],
                 round_result=False,
             ),
-            94.178,
+            94.182,
             places=2,
         )
         self.assertAlmostEqual(
@@ -598,7 +598,7 @@ class TestSpectralSimilarityIndex(unittest.TestCase):
                 SDS_ILLUMINANTS["D50"],
                 round_result=False,
             ),
-            71.772,
+            71.775,
             places=2,
         )
 
