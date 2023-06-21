@@ -1335,8 +1335,8 @@ Colour Fidelity Index
     >>> sorted(colour.COLOUR_FIDELITY_INDEX_METHODS)
     ['ANSI/IES TM-30-18', 'CIE 2017']
 
-Colour Rendering Index
-**********************
+Colour Quality Scale
+********************
 
 .. code-block:: python
 
@@ -1345,8 +1345,8 @@ Colour Rendering Index
     >>> sorted(colour.COLOUR_QUALITY_SCALE_METHODS)
     ['NIST CQS 7.4', 'NIST CQS 9.0']
 
-Colour Quality Scale
-********************
+Colour Rendering Index
+**********************
 
 .. code-block:: python
 
