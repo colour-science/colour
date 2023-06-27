@@ -131,7 +131,7 @@ class ColourRendering_Specification_CIE2017:
     CCT: float
     D_uv: float
     colorimetry_data: Tuple[
-        DataColorimetry_TCS_CIE2017, DataColorimetry_TCS_CIE2017, ...
+        DataColorimetry_TCS_CIE2017, DataColorimetry_TCS_CIE2017
     ]
     delta_E_s: NDArrayFloat
 

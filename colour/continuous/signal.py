@@ -265,8 +265,6 @@ class Signal(AbstractContinuousFunction):
             "right": np.nan,
         }
 
-        # Special case to skip size check in range setter during init
-        self._domain = None
         self.range, self.domain = self.signal_unpack_data(data, domain)[::-1]
 
         self.dtype = kwargs.get("dtype", self._dtype)
@@ -393,8 +391,9 @@ class Signal(AbstractContinuousFunction):
                 f"unpredictable results may occur!"
             )
 
+        # Empty domain occurs during __init__ because range is set before domain
         attest(
-            self._domain is None or value.size == self._domain.size,
+            self._domain.size == 0 or value.size == self._domain.size,
             '"domain" and "range" variables must have same size!',
         )
 

@@ -30,6 +30,8 @@ from colour.quality.cfi2017 import (
 )
 from colour.utilities import as_float_array, as_float_scalar
 
+from colour.utilities.array import as_int_array
+
 
 @dataclass
 class ColourQuality_Specification_ANSIIESTM3018:
@@ -83,8 +85,7 @@ class ColourQuality_Specification_ANSIIESTM3018:
     CCT: float
     D_uv: float
     colorimetry_data: Tuple[
-        Tuple[DataColorimetry_TCS_CIE2017, ...],
-        Tuple[DataColorimetry_TCS_CIE2017, ...],
+        DataColorimetry_TCS_CIE2017, DataColorimetry_TCS_CIE2017
     ]
     R_g: float
     bins: List[List[int]]
@@ -141,7 +142,9 @@ def colour_fidelity_index_ANSIIESTM3018(
     )
 
     # Setup bins based on where the reference a'b' points are located.
-    bins = np.floor(specification.colorimetry_data[1].JMh[:, 2] / 22.5)
+    bins = as_int_array(
+        np.floor(specification.colorimetry_data[1].JMh[:, 2] / 22.5)
+    )
 
     bin_mask = bins == np.arange(16).reshape(-1, 1)
 
@@ -215,7 +218,7 @@ def colour_fidelity_index_ANSIIESTM3018(
         specification.D_uv,
         specification.colorimetry_data,
         R_g,
-        bins,
+        bins.tolist(),
         averages_test,
         averages_reference,
         average_norms,

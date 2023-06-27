@@ -33,6 +33,7 @@ usp=sharing
 """
 
 from __future__ import annotations
+from colour.algebra.interpolation import LinearInterpolator
 
 import numpy as np
 
@@ -123,7 +124,7 @@ def sd_constant(
     100.0
     """
 
-    settings = {"name": f"{k} Constant"}
+    settings = {"name": f"{k} Constant", "interpolator": LinearInterpolator}
     settings.update(kwargs)
 
     values = full(len(shape.wavelengths), k)
@@ -256,7 +257,7 @@ def msds_constant(
     ['a', 'b', 'c']
     """
 
-    settings = {"name": f"{k} Constant"}
+    settings = {"name": f"{k} Constant", "interpolator": LinearInterpolator}
     settings.update(kwargs)
 
     wavelengths = shape.wavelengths
@@ -755,7 +756,7 @@ def sd_multi_leds_Ohno2005(
 
     sd = sd_zeros(shape)
 
-    for (peak_wavelength, fwhm_s, peak_power_ratio) in zip(
+    for peak_wavelength, fwhm_s, peak_power_ratio in zip(
         peak_wavelengths, fwhm, peak_power_ratios
     ):
         sd += (

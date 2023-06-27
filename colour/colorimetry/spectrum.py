@@ -1860,7 +1860,11 @@ class MultiSpectralDistributions(MultiSignals):
         signals = self.multi_signals_unpack_data(data, domain, labels)
 
         domain = signals[list(signals.keys())[0]].domain if signals else None
-        uniform = is_uniform(domain) if domain is not None else True
+        uniform = (
+            is_uniform(domain)
+            if domain is not None and len(domain) > 0
+            else True
+        )
 
         # Initialising with *CIE 15:2004* and *CIE 167:2005* recommendations
         # defaults.
