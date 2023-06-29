@@ -1590,6 +1590,11 @@ class SpectralDistribution(Signal):
         self.wavelengths = wavelengths
         self.values = values
 
+        if self.shape.boundaries != shape.boundaries:
+            runtime_warning(
+                f'"{shape}" shape could not be honoured, using "{self.shape}"!'
+            )
+
         return self
 
     def normalise(self, factor: Real = 1) -> Self:
