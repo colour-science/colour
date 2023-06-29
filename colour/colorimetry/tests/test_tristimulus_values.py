@@ -1205,6 +1205,17 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
             decimal=7,
         )
 
+        np.testing.assert_array_almost_equal(
+            sd_to_XYZ_ASTME308(
+                reshape_sd(self._sd, SpectralShape(401, 701, 10)),
+                self._cmfs,
+                self._A,
+                k=1,
+            ),
+            np.array([15.6713226093, 11.7392254489, 2.2117708792]),
+            decimal=7,
+        )
+
     def test_sd_to_XYZ_ASTME308_mi_20nm(self):
         """
         Test :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ_ASTME308`
@@ -1307,6 +1318,16 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
                 k=1,
             ),
             np.array([15.6891747040, 11.7458332427, 2.2109475945]),
+            decimal=7,
+        )
+
+        np.testing.assert_array_almost_equal(
+            sd_to_XYZ_ASTME308(
+                reshape_sd(self._sd, SpectralShape(401, 701, 20)),
+                self._cmfs,
+                self._A,
+            ),
+            np.array([14.5220164311, 10.8790959535, 2.0490905325]),
             decimal=7,
         )
 

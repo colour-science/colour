@@ -859,7 +859,7 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
 
     if sd.shape.boundaries != cmfs.shape.boundaries:
         runtime_warning(
-            f'Trimming "{illuminant.name}" spectral distribution shape to '
+            f'Trimming "{sd.name}" spectral distribution boundaries using '
             f'"{cmfs.name}" colour matching functions shape.'
         )
         sd = reshape_sd(sd, cmfs.shape, "Trim", copy=False)
@@ -875,6 +875,7 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
     W = adjust_tristimulus_weighting_factors_ASTME308(
         W, SpectralShape(start_w, end_w, sd.shape.interval), sd.shape
     )
+
     R = sd.values
 
     XYZ = np.sum(W * R[..., None], axis=0)
@@ -1010,6 +1011,18 @@ def sd_to_XYZ_ASTME308(
             "with measurement interval of 1, 5, 10 or 20nm!"
         )
 
+    if sd.shape.interval in (10, 20) and (
+        sd.shape.start % 10 != 0 or sd.shape.end % 10 != 0
+    ):
+        runtime_warning(
+            f'"{sd.name}" spectral distribution shape does not start at a '
+            f'tenth and will be aligned to "{cmfs.name}" colour matching '
+            'functions shape! Note that practise "ASTM E308-15" does not '
+            "define a behaviour in this case."
+        )
+
+        sd = reshape_sd(sd, cmfs.shape, copy=False)
+
     if use_practice_range:
         # pylint: disable=E1102
         cmfs = reshape_msds(cmfs, SPECTRAL_SHAPE_ASTME308, "Trim", copy=False)
@@ -1031,13 +1044,17 @@ def sd_to_XYZ_ASTME308(
         sd = sd.copy()
         if sd.shape.boundaries != cmfs.shape.boundaries:
             runtime_warning(
-                f'Trimming "{illuminant.name}" spectral distribution shape to '
+                f'Trimming "{sd.name}" spectral distribution shape to '
                 f'"{cmfs.name}" colour matching functions shape.'
             )
-            sd.trim(cmfs.shape)
+            sd = reshape_sd(sd, cmfs.shape, "Trim", copy=False)
 
         # Extrapolation of additional 20nm padding intervals.
-        sd.align(SpectralShape(sd.shape.start - 20, sd.shape.end + 20, 10))
+        sd = reshape_sd(
+            sd,
+            SpectralShape(sd.shape.start - 20, sd.shape.end + 20, 10),
+            copy=False,
+        )
         for i in range(2):
             sd[sd.wavelengths[i]] = (
                 3 * sd.values[i + 2] - 3 * sd.values[i + 4] + sd.values[i + 6]
@@ -1060,7 +1077,12 @@ def sd_to_XYZ_ASTME308(
             )
 
         # Discarding the additional 20nm padding intervals.
-        sd.trim(SpectralShape(sd.shape.start + 20, sd.shape.end - 20, 10))
+        sd = reshape_sd(
+            sd,
+            SpectralShape(sd.shape.start + 20, sd.shape.end - 20, 10),
+            "Trim",
+            copy=False,
+        )
 
     XYZ = method(sd, cmfs, illuminant, k=k)
 
