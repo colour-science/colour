@@ -733,10 +733,7 @@ class MultiSignals(AbstractContinuousFunction):
         return hash(
             (
                 int_digest(self.domain.tobytes()),
-                *[
-                    int_digest(signal._range.tobytes())
-                    for signal in self._signals.values()
-                ],
+                *[hash(signal) for signal in self._signals.values()],
                 self.interpolator.__name__,
                 repr(self.interpolator_kwargs),
                 self.extrapolator.__name__,
