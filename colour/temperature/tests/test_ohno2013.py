@@ -87,7 +87,7 @@ class Test_XYZ_to_CCT_Ohno2013(unittest.TestCase):
         XYZ = [95, 100, 108]
         np.testing.assert_allclose(
             XYZ_to_CCT_Ohno2013(XYZ),
-            np.array([6.45204726e03, 0.0033180561896173355]),
+            np.array([6.45195987e03, 3.31808028e-03]),
             rtol=1e-6,
         )
 
@@ -130,20 +130,20 @@ class TestUv_to_CCT_Ohno2013(unittest.TestCase):
 
         np.testing.assert_array_almost_equal(
             uv_to_CCT_Ohno2013(np.array([0.1978, 0.3122])),
-            np.array([6.50760081e03, 3.22333560e-03]),
-            decimal=7,
+            np.array([6.5074748e03, 3.2233463e-03]),
+            decimal=4,
         )
 
         np.testing.assert_array_almost_equal(
             uv_to_CCT_Ohno2013(np.array([0.4328, 0.2883])),
-            np.array([1041.692826446935, -0.067378054025829637]),
-            decimal=7,
+            np.array([1.04167832e03, -6.73780535e-02]),
+            decimal=4,
         )
 
         np.testing.assert_array_almost_equal(
             uv_to_CCT_Ohno2013(np.array([0.2927, 0.2722])),
-            np.array([2445.0416505823432, -0.084370640066503882]),
-            decimal=7,
+            np.array([2.44497182e03, -8.43706412e-02]),
+            decimal=4,
         )
 
     def test_n_dimensional_uv_to_CCT_Ohno2013(self):

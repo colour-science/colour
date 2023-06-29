@@ -43,6 +43,8 @@ from colour.colorimetry import (
 from colour.io import read_sds_from_csv_file
 from colour.utilities import domain_range_scale
 
+from colour.algebra.interpolation import SpragueInterpolator
+
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
@@ -157,7 +159,9 @@ sd_to_aces_relative_exposure_values` definition.
         """
 
         shape = MSDS_ACES_RICD.shape
-        grey_reflector = sd_constant(0.18, shape)
+        grey_reflector = sd_constant(
+            0.18, shape, interpolator=SpragueInterpolator
+        )
         RGB = sd_to_aces_relative_exposure_values(grey_reflector)
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))

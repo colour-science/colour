@@ -1096,7 +1096,7 @@ class Signal(AbstractContinuousFunction):
             return copy
 
     @staticmethod
-    @ndarray_copy_enable(False)
+    @ndarray_copy_enable(True)
     def signal_unpack_data(
         data=Optional[Union[ArrayLike, dict, Series, "Signal"]],
         domain: ArrayLike | None = None,
@@ -1221,7 +1221,7 @@ class Signal(AbstractContinuousFunction):
         if range_unpacked is not None:
             range_unpacked = as_float_array(range_unpacked, dtype)
 
-        return domain_unpacked, range_unpacked
+        return ndarray_copy(domain_unpacked), ndarray_copy(range_unpacked)
 
     def fill_nan(
         self,

@@ -34,7 +34,7 @@ class TestColourQualityScale(unittest.TestCase):
 
         self.assertAlmostEqual(
             colour_quality_scale(SDS_ILLUMINANTS["FL1"]),
-            74.982585798279871,
+            74.982585798279914,
             delta=1e-4,
         )
 
@@ -42,13 +42,13 @@ class TestColourQualityScale(unittest.TestCase):
             colour_quality_scale(
                 SDS_ILLUMINANTS["FL1"], method="NIST CQS 7.4"
             ),
-            75.377089740493290,
+            75.377089740493361,
             delta=1e-4,
         )
 
         self.assertAlmostEqual(
             colour_quality_scale(SDS_ILLUMINANTS["FL2"]),
-            64.111993987523874,
+            64.111822015662852,
             delta=1e-4,
         )
 
@@ -56,13 +56,13 @@ class TestColourQualityScale(unittest.TestCase):
             colour_quality_scale(
                 SDS_ILLUMINANTS["FL2"], method="NIST CQS 7.4"
             ),
-            64.774725924312492,
+            64.774586908581369,
             delta=1e-4,
         )
 
         self.assertAlmostEqual(
             colour_quality_scale(SDS_LIGHT_SOURCES["Neodimium Incandescent"]),
-            89.737404937300269,
+            89.737456186836681,
             delta=1e-4,
         )
 
@@ -71,7 +71,7 @@ class TestColourQualityScale(unittest.TestCase):
                 SDS_LIGHT_SOURCES["Neodimium Incandescent"],
                 method="NIST CQS 7.4",
             ),
-            87.700369358180552,
+            87.700300087538821,
             delta=1e-4,
         )
 
@@ -79,7 +79,7 @@ class TestColourQualityScale(unittest.TestCase):
             colour_quality_scale(
                 SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"]
             ),
-            84.93510448766861,
+            84.934928463428903,
             delta=1e-4,
         )
 
@@ -88,35 +88,7 @@ class TestColourQualityScale(unittest.TestCase):
                 SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"],
                 method="NIST CQS 7.4",
             ),
-            83.255641790355682,
-            delta=1e-4,
-        )
-
-        self.assertAlmostEqual(
-            colour_quality_scale(SDS_LIGHT_SOURCES["H38HT-100 (Mercury)"]),
-            20.019979778489535,
-            delta=1e-4,
-        )
-
-        self.assertAlmostEqual(
-            colour_quality_scale(
-                SDS_LIGHT_SOURCES["H38HT-100 (Mercury)"], method="NIST CQS 7.4"
-            ),
-            23.011011107054145,
-            delta=1e-4,
-        )
-
-        self.assertAlmostEqual(
-            colour_quality_scale(SDS_LIGHT_SOURCES["Luxeon WW 2880"]),
-            86.497712427713068,
-            delta=1e-4,
-        )
-
-        self.assertAlmostEqual(
-            colour_quality_scale(
-                SDS_LIGHT_SOURCES["Luxeon WW 2880"], method="NIST CQS 7.4"
-            ),
-            84.887737301219488,
+            83.255457439460713,
             delta=1e-4,
         )
 

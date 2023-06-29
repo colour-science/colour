@@ -44,6 +44,8 @@ from colour.colorimetry import (
 from colour.hints import NDArrayFloat
 from colour.utilities import domain_range_scale
 
+from colour.algebra.interpolation import SpragueInterpolator
+
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
@@ -1552,7 +1554,9 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
         accounts for the :math:`\\delta w` term.
         """
 
-        sd = sd_zeros(SpectralShape(380, 780, 5))
+        sd = sd_zeros(
+            SpectralShape(380, 780, 5), interpolator=SpragueInterpolator
+        )
 
         # 1 watt at 555nm, 0 watt everywhere else.
         # For 5nm average sampling, this corresponds to 0.2 watt at 555nm.
