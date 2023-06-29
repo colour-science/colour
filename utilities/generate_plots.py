@@ -3,8 +3,15 @@
 Generate Plots
 ==============
 """
-
 from __future__ import annotations
+
+import os
+
+if __name__ == "__main__":
+    # Change to utilities context for debug executions
+    from pathlib import Path
+
+    os.chdir(Path(__file__).parent)
 
 import matplotlib as mpl
 

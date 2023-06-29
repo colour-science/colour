@@ -199,7 +199,7 @@ def colour_fidelity_index_CIE2017(
         }
         sd_test.align(shape=shape)
     if sd_test.shape.start != shape.start or sd_test.shape.end != shape.end:
-        sd_test.trim(shape)
+        sd_test.align(shape)
 
     CCT, D_uv = tsplit(CCT_reference_illuminant(sd_test))
     sd_reference = sd_reference_illuminant(CCT, shape)
