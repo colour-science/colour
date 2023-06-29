@@ -396,7 +396,7 @@ class MultiSignals(AbstractContinuousFunction):
             range variable :math:`y`.
         """
 
-        return tstack([signal._range for signal in self._signals.values()])
+        return tstack([signal.range for signal in self._signals.values()])
 
     @range.setter
     def range(self, value: ArrayLike):  # noqa: A003

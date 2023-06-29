@@ -468,7 +468,7 @@ def tcs_colorimetry_data(
     L_A = 100
     surround = VIEWING_CONDITIONS_CIECAM02["Average"]
 
-    sds_tcs_t = np.tile(sds_tcs.values.T, (len(sd_irradiance), 1, 1))
+    sds_tcs_t = np.tile(sds_tcs.values.transpose(), (len(sd_irradiance), 1, 1))
     sds_tcs_t = sds_tcs_t * as_float_array(
         [sd.values for sd in sd_irradiance]
     ).reshape(len(sd_irradiance), 1, len(sd_irradiance[0]))
