@@ -464,7 +464,7 @@ def adjust_tristimulus_weighting_factors_ASTME308(
     """
     Adjust given table of tristimulus weighting factors to account for a
     shorter wavelengths range of the test spectral shape compared to the
-    reference spectral shape using practise  *ASTM E308-15* method:
+    reference spectral shape using practise *ASTM E308-15* method:
     Weights at the wavelengths for which data are not available are added to
     the weights at the shortest and longest wavelength for which spectral data
     are available.
