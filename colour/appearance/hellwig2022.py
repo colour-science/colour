@@ -188,6 +188,7 @@ def XYZ_to_Hellwig2022(
     surround: InductionFactors_CIECAM02
     | InductionFactors_Hellwig2022 = VIEWING_CONDITIONS_HELLWIG2022["Average"],
     discount_illuminant: bool = False,
+    compute_H: bool = True,
 ) -> CAM_Specification_Hellwig2022:
     """
     Compute the *Hellwig and Fairchild (2022)* colour appearance model
@@ -216,6 +217,9 @@ def XYZ_to_Hellwig2022(
         Surround viewing conditions induction factors.
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
+    compute_H
+        Whether to compute *Hue* :math:`h` quadrature :math:`H`. :math:`H` is
+        rarely used, and expensive to compute.
 
     Returns
     -------
@@ -346,7 +350,7 @@ H=275.5949861..., HC=None, J_HK=41.8802782..., Q_HK=56.0518358...)
     e_t = eccentricity_factor(h)
 
     # Computing hue :math:`h` quadrature :math:`H`.
-    H = hue_quadrature(h)
+    H = hue_quadrature(h) if compute_H else np.full(h.shape, np.nan)
     # TODO: Compute hue composition.
 
     # Step 6

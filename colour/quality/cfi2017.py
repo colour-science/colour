@@ -486,7 +486,7 @@ def tcs_colorimetry_data(
         Y_b,
         surround,
         discount_illuminant=True,
-        compute_HQ=False,
+        compute_H=False,
     )
 
     JMh = tstack(

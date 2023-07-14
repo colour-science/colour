@@ -308,6 +308,7 @@ def XYZ_to_ZCAM(
     Y_b: ArrayLike,
     surround: InductionFactors_ZCAM = VIEWING_CONDITIONS_ZCAM["Average"],
     discount_illuminant: bool = False,
+    compute_H: bool = True,
 ) -> CAM_Specification_ZCAM:
     """
     Compute the *ZCAM* colour appearance model correlates from given *CIE XYZ*
@@ -335,6 +336,9 @@ def XYZ_to_ZCAM(
         Surround viewing conditions induction factors.
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
+    compute_H
+        Whether to compute *Hue* :math:`h` quadrature :math:`H`. :math:`H` is
+        rarely used, and expensive to compute.
 
     Returns
     -------
@@ -460,7 +464,7 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
     h_z = hue_angle(a_z, b_z)
 
     # Step 4 (Forward) - Computing hue quadrature :math:`H`.
-    H = hue_quadrature(h_z)
+    H = hue_quadrature(h_z) if compute_H else np.full(h_z.shape, np.nan)
 
     # Computing eccentricity factor :math:`e_z`.
     e_z = 1.015 + np.cos(np.radians(89.038 + h_z % 360))
