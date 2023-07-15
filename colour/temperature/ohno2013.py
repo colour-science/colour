@@ -23,25 +23,23 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.algebra import sdiv, sdiv_mode
-from colour.algebra.common import euclidean_distance
-
+from colour.algebra import euclidean_distance, sdiv, sdiv_mode
 from colour.colorimetry import (
     MultiSpectralDistributions,
     handle_spectral_arguments,
 )
 from colour.hints import ArrayLike, NDArrayFloat
-from colour.models.cie_ucs import UCS_to_XYZ, UCS_to_uv, XYZ_to_UCS, uv_to_UCS
+from colour.models import UCS_to_XYZ, UCS_to_uv, XYZ_to_UCS, uv_to_UCS
 from colour.temperature import CCT_to_uv_Planck1900
 from colour.utilities import (
     CACHE_REGISTRY,
     as_float_array,
+    attest,
     optional,
     runtime_warning,
     tsplit,
     tstack,
 )
-from colour.utilities.common import attest
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

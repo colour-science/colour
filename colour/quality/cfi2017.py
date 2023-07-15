@@ -14,7 +14,6 @@ References
 """
 
 from __future__ import annotations
-from colour.appearance.ciecam02 import CAM_Specification_CIECAM02
 
 import numpy as np
 import os
@@ -22,6 +21,7 @@ from dataclasses import dataclass
 
 from colour.algebra import Extrapolator, euclidean_distance, linstep_function
 from colour.appearance import (
+    CAM_Specification_CIECAM02,
     XYZ_to_CIECAM02,
     VIEWING_CONDITIONS_CIECAM02,
 )
@@ -30,12 +30,12 @@ from colour.colorimetry import (
     MultiSpectralDistributions,
     SpectralShape,
     SpectralDistribution,
+    msds_to_XYZ,
     sd_to_XYZ,
     sd_blackbody,
     reshape_msds,
     sd_CIE_illuminant_D_series,
 )
-from colour.colorimetry.tristimulus_values import msds_to_XYZ
 from colour.hints import ArrayLike, NDArrayFloat, Tuple, cast
 from colour.models import XYZ_to_UCS, UCS_to_uv, JMh_CIECAM02_to_CAM02UCS
 from colour.temperature import uv_to_CCT_Ohno2013, CCT_to_xy_CIE_D

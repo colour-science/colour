@@ -28,9 +28,7 @@ from colour.quality.cfi2017 import (
     DataColorimetry_TCS_CIE2017,
     delta_E_to_R_f,
 )
-from colour.utilities import as_float_array, as_float_scalar
-
-from colour.utilities.array import as_int_array
+from colour.utilities import as_float_array, as_float_scalar, as_int_array
 
 
 @dataclass

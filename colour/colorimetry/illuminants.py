@@ -34,8 +34,8 @@ from colour.colorimetry import (
     SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES,
     SpectralDistribution,
     SpectralShape,
+    reshape_sd,
 )
-from colour.colorimetry.spectrum import reshape_sd
 from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import as_float_array, as_float, tsplit
 

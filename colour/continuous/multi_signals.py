@@ -36,6 +36,7 @@ from colour.utilities import (
     as_float_array,
     attest,
     first_item,
+    int_digest,
     is_iterable,
     is_pandas_installed,
     multiline_repr,
@@ -45,7 +46,6 @@ from colour.utilities import (
     tstack,
     validate_method,
 )
-from colour.utilities.common import int_digest
 from colour.utilities.documentation import is_documentation_building
 
 if TYPE_CHECKING:

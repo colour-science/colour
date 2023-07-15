@@ -12,8 +12,7 @@ from colour.temperature.ohno2013 import (
     XYZ_to_CCT_Ohno2013,
     planckian_table,
 )
-from colour.utilities import ignore_numpy_errors
-from colour.utilities.array import as_float_array
+from colour.utilities import as_float_array, ignore_numpy_errors
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

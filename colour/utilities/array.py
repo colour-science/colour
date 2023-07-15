@@ -48,12 +48,13 @@ from colour.hints import (
     cast,
 )
 from colour.utilities import (
+    CACHE_REGISTRY,
     attest,
+    int_digest,
     optional,
     suppress_warnings,
     validate_method,
 )
-from colour.utilities.common import CACHE_REGISTRY, int_digest
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
