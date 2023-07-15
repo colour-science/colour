@@ -165,7 +165,7 @@ def colour_fidelity_index_CIE2017(
     >>> from colour.colorimetry import SDS_ILLUMINANTS
     >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> colour_fidelity_index_CIE2017(sd)  # doctest: +ELLIPSIS
-    70.1208...
+    70.1208244...
     """
 
     if sd_test.shape.interval > 5:
@@ -314,7 +314,7 @@ def CCT_reference_illuminant(sd: SpectralDistribution) -> NDArrayFloat:
     >>> from colour import SDS_ILLUMINANTS
     >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> CCT_reference_illuminant(sd)  # doctest: +ELLIPSIS
-    array([  4.2244...e+03,   1.7885...e-03])
+    array([  4.2244776...e+03,   1.7885608...e-03])
     """
 
     XYZ = sd_to_XYZ(sd.values, shape=sd.shape, method="Integration")
