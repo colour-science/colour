@@ -121,25 +121,25 @@ class TestColourRenderingIndex(unittest.TestCase):
         self.assertAlmostEqual(
             colour_rendering_index(SDS_ILLUMINANTS["FL1"]),
             75.852827992149358,
-            delta=1e-4,
+            places=7,
         )
 
         self.assertAlmostEqual(
             colour_rendering_index(SDS_ILLUMINANTS["FL2"]),
             64.233724121664778,
-            delta=1e-4,
+            places=7,
         )
 
         self.assertAlmostEqual(
             colour_rendering_index(SDS_ILLUMINANTS["A"]),
             99.996230290506887,
-            delta=1e-4,
+            places=7,
         )
 
         self.assertAlmostEqual(
             colour_rendering_index(SpectralDistribution(DATA_SAMPLE)),
             70.815265381660197,
-            delta=1e-4,
+            places=7,
         )
 
         specification_r = ColourRendering_Specification_CRI(
