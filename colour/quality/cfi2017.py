@@ -93,9 +93,9 @@ class DataColorimetry_TCS_CIE2017:
 
     name: str | list[str]
     XYZ: NDArrayFloat
+    CAM: CAM_Specification_CIECAM02
     JMh: NDArrayFloat
     Jpapbp: NDArrayFloat
-    CAM: CAM_Specification_CIECAM02
 
 
 @dataclass
@@ -507,9 +507,9 @@ def tcs_colorimetry_data(
             DataColorimetry_TCS_CIE2017(
                 sds_tcs.display_labels,
                 XYZ[sd_idx],
+                specification[sd_idx],
                 JMh[sd_idx],
                 Jpapbp[sd_idx],
-                specification[sd_idx],
             )
         )
 
