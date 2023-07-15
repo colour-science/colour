@@ -14,7 +14,7 @@ from __future__ import annotations
 import numpy as np
 import unittest
 
-from colour.algebra import LinearInterpolator
+from colour.algebra import LinearInterpolator, SpragueInterpolator
 from colour.colorimetry import (
     MSDS_CMFS,
     SDS_ILLUMINANTS,
@@ -43,8 +43,6 @@ from colour.colorimetry import (
 )
 from colour.hints import NDArrayFloat
 from colour.utilities import domain_range_scale
-
-from colour.algebra.interpolation import SpragueInterpolator
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

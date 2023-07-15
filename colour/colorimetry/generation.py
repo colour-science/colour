@@ -33,10 +33,10 @@ usp=sharing
 """
 
 from __future__ import annotations
-from colour.algebra.interpolation import LinearInterpolator
 
 import numpy as np
 
+from colour.algebra.interpolation import LinearInterpolator
 from colour.colorimetry import (
     SPECTRAL_SHAPE_DEFAULT,
     MultiSpectralDistributions,
@@ -114,6 +114,7 @@ def sd_constant(
     -----
     -   By default, the spectral distribution will use the shape given by
         :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
+    -   The interpolator is set to :class:`colour.LinearInterpolator` class.
 
     Examples
     --------
@@ -158,6 +159,7 @@ def sd_zeros(
     -----
     -   By default, the spectral distribution will use the shape given by
         :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
+    -   The interpolator is set to :class:`colour.LinearInterpolator` class.
 
     Examples
     --------
@@ -197,6 +199,7 @@ def sd_ones(
     -----
     -   By default, the spectral distribution will use the shape given by
         :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
+    -   The interpolator is set to :class:`colour.LinearInterpolator` class.
 
     Examples
     --------
@@ -245,6 +248,7 @@ def msds_constant(
     -----
     -   By default, the multi-spectral distributions will use the shape given
         by :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
+    -   The interpolator is set to :class:`colour.LinearInterpolator` class.
 
     Examples
     --------
@@ -300,6 +304,7 @@ def msds_zeros(
     -----
     -   By default, the multi-spectral distributions will use the shape given
         by :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
+    -   The interpolator is set to :class:`colour.LinearInterpolator` class.
 
     Examples
     --------
@@ -347,6 +352,7 @@ def msds_ones(
     -----
     -   By default, the multi-spectral distributions will use the shape given
         by :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
+    -   The interpolator is set to :class:`colour.LinearInterpolator` class.
 
     Examples
     --------
