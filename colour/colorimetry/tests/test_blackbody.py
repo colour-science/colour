@@ -1247,17 +1247,26 @@ class TestPlanckLaw(unittest.TestCase):
             planck_law(wl, [5000, 5500, 6000]), p
         )
 
-    @ignore_numpy_errors
-    def test_raise_exception_nan(self):
+    def test_raise_exception_planck_law(self):
         """
         Test :func:`colour.colorimetry.blackbody.planck_law` definition
-        nan support.
+        raised exception.
         """
 
-        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        for wavelength in [-1.0, 0.0, -np.inf, np.nan]:
+            self.assertRaises(AssertionError, planck_law, wavelength, 5500)
+
+    @ignore_numpy_errors
+    def test_nan_planck_law(self):
+        """
+        Test :func:`colour.colorimetry.blackbody.planck_law` definition nan
+        support.
+        """
+
+        # NOTE: Only testing infinity support as
+        cases = [1.0, np.inf]
         cases = np.array(list(set(product(cases, repeat=3))))
-        with self.assertRaises(AssertionError):
-            planck_law(cases, cases)
+        planck_law(cases, cases)
 
 
 class TestSdBlackbody(unittest.TestCase):

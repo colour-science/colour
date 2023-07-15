@@ -124,10 +124,10 @@ def planck_law(
     l = as_float_array(wavelength)  # noqa: E741
     t = as_float_array(temperature)
 
+    attest(np.all(l > 0), "Wavelengths must be positive real numbers!")
+
     l = np.ravel(l)[..., None]  # noqa: E741
     t = np.ravel(t)[None, ...]
-
-    attest(np.all(l > 0), "Wavelengths must be positive real values")
 
     d = 1 / np.expm1(c2 / (n * l * t))
     p = ((c1 * n**-2 * l**-5) / np.pi) * d
