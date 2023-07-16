@@ -2065,15 +2065,16 @@ def interval(distribution: ArrayLike, unique: bool = True) -> NDArray:
 
     differences = np.abs(distribution[1:] - distribution[:-1])
 
-    if unique and (differences == differences[0]).all():
-        out = np.array([differences[0]])
+    if unique and np.all(differences == differences[0]):
+        interval_ = np.array([differences[0]])
     elif unique:
-        out = np.unique(differences)
+        interval_ = np.unique(differences)
     else:
-        out = differences
+        interval_ = differences
 
-    _CACHE_DISTRIBUTION_INTERVAL[hash_key] = np.copy(out)
-    return out
+    _CACHE_DISTRIBUTION_INTERVAL[hash_key] = np.copy(interval_)
+
+    return interval_
 
 
 def is_uniform(distribution: ArrayLike) -> bool:
@@ -2211,6 +2212,7 @@ def tstack(
     dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
 
     a = as_array(a, dtype)
+
     if a.ndim <= 2:
         return np.transpose(a)
 

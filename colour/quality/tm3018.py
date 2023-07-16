@@ -13,6 +13,8 @@ References
 -   :cite:`ANSI2018` : ANSI, & IES Color Committee. (2018). ANSI/IES TM-30-18 -
     IES Method for Evaluating Light Source Color Rendition.
     ISBN:978-0-87995-379-9
+-   :cite:`VincentJ2017` : Vincent J. (2017). Is there any numpy group by
+    function? Retrieved June 30, 2023, from https://stackoverflow.com/a/43094244
 """
 
 from __future__ import annotations
@@ -21,7 +23,7 @@ import numpy as np
 from dataclasses import dataclass
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import ArrayLike, List, NDArrayFloat, Tuple, cast
+from colour.hints import ArrayLike, NDArrayFloat, NDArrayInt, Tuple, cast
 from colour.quality import colour_fidelity_index_CIE2017
 from colour.quality.cfi2017 import (
     ColourRendering_Specification_CIE2017,
@@ -86,7 +88,7 @@ class ColourQuality_Specification_ANSIIESTM3018:
         DataColorimetry_TCS_CIE2017, DataColorimetry_TCS_CIE2017
     ]
     R_g: float
-    bins: List[List[int]]
+    bins: NDArrayInt
     averages_test: NDArrayFloat
     averages_reference: NDArrayFloat
     average_norms: NDArrayFloat
@@ -121,7 +123,7 @@ def colour_fidelity_index_ANSIIESTM3018(
 
     References
     ----------
-    :cite:`ANSI2018`
+    :cite:`ANSI2018`, :cite:`VincentJ2017`
 
     Examples
     --------
@@ -146,25 +148,21 @@ def colour_fidelity_index_ANSIIESTM3018(
 
     bin_mask = bins == np.arange(16).reshape(-1, 1)
 
-    # We will use the bin mask laster with numpy shape broadcasting and argmean
-    # to skip a list comprehension and keep all the mean calculation in numpy's
-    # core.
-    #
-    # To skip the list comprehension for getting the bins list we can use this
-    # convenient snippet.
-    #
-    # https://stackoverflow.com/a/43094244
+    # "bin_mask" is used later with Numpy broadcasting and "np.nanmean"
+    # to skip a list comprehension and keep all the mean calculation vectorised
+    # as per :cite:`VincentJ2017`.
     bin_mask = np.choose(bin_mask, [np.nan, 1])
 
     # Per-bin a'b' averages.
     test_apbp = as_float_array(specification.colorimetry_data[0].Jpapbp[:, 1:])
     ref_apbp = as_float_array(specification.colorimetry_data[1].Jpapbp[:, 1:])
 
-    # Tile the apbp data in the 3rd dimension and use broadcasting to place
-    # each bin mask along third dimension. By multiplying these matrices
-    # together, numpy automatically expands the apbp data in the third
-    # dimension and multiplies by the nan-filled bin mask. Finally nanmean can
-    # compute the bin mean apbp positions with the appropriate axis argument.
+    # Tile the "apbp" data in the third dimension and use broadcasting to place
+    # each bin mask along the third dimension. By multiplying these matrices
+    # together, Numpy automatically expands the apbp data in the third
+    # dimension and multiplies by the nan-filled bin mask. Finally,
+    # "np.nanmean" can compute the bin mean apbp positions with the appropriate
+    # axis argument.
     averages_test = np.transpose(
         np.nanmean(
             np.transpose(bin_mask).reshape((99, 1, 16))
@@ -216,7 +214,7 @@ def colour_fidelity_index_ANSIIESTM3018(
         specification.D_uv,
         specification.colorimetry_data,
         R_g,
-        bins.tolist(),
+        bins,
         averages_test,
         averages_reference,
         average_norms,

@@ -89,7 +89,7 @@ def planckian_table(
         Temperature range end in kelvin degrees.
     spacing
         The spacing between values expressed as a multiplier. Must be greater
-        than 1.0
+        than 1.
 
     Returns
     -------
@@ -118,7 +118,7 @@ def planckian_table(
     if cache_key in _CACHE_PLANCKIAN_TABLE:
         table = _CACHE_PLANCKIAN_TABLE[cache_key].copy()
     else:
-        attest(spacing > 1.0, "spacing value must be > 1")
+        attest(spacing > 1, "Spacing value must be greater than 1!")
 
         Ti = [start, start + 1]
         next_ti = start + 1
@@ -126,8 +126,10 @@ def planckian_table(
         while (next_ti := next_ti * next_spacing) < end:
             Ti.append(next_ti)
 
-            # Slightly decrease stepsize for higher CCT
-            D = (next_ti - 1000) / (100_000 - 1000)
+            # Slightly decrease step-size for higher CCT.
+            D = (next_ti - CCT_MINIMAL_OHNO2013) / (
+                CCT_MAXIMAL_OHNO2013 - CCT_MINIMAL_OHNO2013
+            )
             D = min(max(D, 0), 1)
             next_spacing = spacing * (1 - D) + (1 + (spacing - 1) / 10) * D
         Ti = np.concatenate([Ti, [end - 1, end]])
@@ -137,55 +139,6 @@ def planckian_table(
         )
         _CACHE_PLANCKIAN_TABLE[cache_key] = table.copy()
     return table
-
-
-def XYZ_to_CCT_Ohno2013(
-    XYZ: ArrayLike, cmfs: MultiSpectralDistributions | None = None
-):
-    """Calculate the CCT of a given XYZ value using the Ohno (2014) CCT
-    approximation method. Frequently used in lighting quality calculations
-
-    Parameters
-    ----------
-    XYZ
-        *XYZ* colourspace *uv* chromaticity coordinates.
-    cmfs
-        Standard observer colour matching functions, default to the
-        *CIE 1931 2 Degree Standard Observer*.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
-
-    References
-    ----------
-    :cite:`Ohno2014a`
-    """
-    return uv_to_CCT_Ohno2013(UCS_to_uv(XYZ_to_UCS(XYZ)), cmfs)
-
-
-def CCT_to_XYZ_Ohno2013(
-    CCT_D_uv: ArrayLike, cmfs: MultiSpectralDistributions | None = None
-):
-    """Calculate an XYZ for a given CCT_duv. Provided as a convienience function
-    for frequent lighting calculations.
-
-    Parameters
-    ----------
-    CCT_D_uv : ArrayLike
-        Target CCT and d_uv values to convert to XYZ
-    cmfs
-        Standard observer colour matching functions, default to the
-        *CIE 1931 2 Degree Standard Observer*.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        *CIE UCS* colourspace *uv* chromaticity coordinates.
-
-    """
-    return UCS_to_XYZ(uv_to_UCS(CCT_to_uv_Ohno2013(CCT_D_uv, cmfs)))
 
 
 def uv_to_CCT_Ohno2013(
@@ -201,10 +154,6 @@ def uv_to_CCT_Ohno2013(
     coordinates, colour matching functions and temperature range using
     *Ohno (2013)* method.
 
-    The ``spacing`` parameter defines the calculations' precision: The
-    closer to 1.0, the higher the precission of the calculation. The spacing
-    value must be greater than 1.0
-
     Parameters
     ----------
     uv
@@ -217,8 +166,11 @@ def uv_to_CCT_Ohno2013(
     end
         Temperature range end in kelvin degrees, default to 100000.
     spacing
-        Spacing used for CCT initial LUT. Default = 1.005. 1.01 gives a good
-        balance of performance and accuracy.
+        Spacing between values of the underlying planckian table expressed as a
+        multiplier. Default to 1.001. The closer to 1.0, the higher the
+        precision of the returned colour temperature :math:`T_{cp}` and
+        :math:`\\Delta_{uv}`. 1.01 provides a good balance between performance
+        and accuracy. ``spacing`` value must be greater than 1.
 
     Returns
     -------
@@ -231,7 +183,6 @@ def uv_to_CCT_Ohno2013(
 
     Examples
     --------
-    >>> from pprint import pprint
     >>> from colour import MSDS_CMFS, SPECTRAL_SHAPE_DEFAULT
     >>> cmfs = (
     ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
@@ -354,7 +305,6 @@ def CCT_to_uv_Ohno2013(
 
     Examples
     --------
-    >>> from pprint import pprint
     >>> from colour import MSDS_CMFS, SPECTRAL_SHAPE_DEFAULT
     >>> cmfs = (
     ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
@@ -388,3 +338,97 @@ def CCT_to_uv_Ohno2013(
     uv[D_uv == 0] = uv_0[D_uv == 0]
 
     return uv
+
+
+def XYZ_to_CCT_Ohno2013(
+    XYZ: ArrayLike,
+    cmfs: MultiSpectralDistributions | None = None,
+    start: float | None = None,
+    end: float | None = None,
+    spacing: float | None = None,
+):
+    """
+    Return the correlated colour temperature :math:`T_{cp}` and
+    :math:`\\Delta_{uv}` from given *CIE XYZ* tristimulus values, colour
+    matching functions and temperature range using *Ohno (2013)* method.
+
+    Parameters
+    ----------
+    XYZ
+        *XYZ* colourspace *uv* chromaticity coordinates.
+    cmfs
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
+    start
+        Temperature range start in kelvin degrees, default to 1000.
+    end
+        Temperature range end in kelvin degrees, default to 100000.
+    spacing
+        Spacing between values of the underlying planckian table expressed as a
+        multiplier. Default to 1.001. The closer to 1.0, the higher the
+        precision of the returned colour temperature :math:`T_{cp}` and
+        :math:`\\Delta_{uv}`. 1.01 provides a good balance between performance
+        and accuracy. ``spacing`` value must be greater than 1.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
+
+    References
+    ----------
+    :cite:`Ohno2014a`
+
+    Examples
+    --------
+    >>> from colour import MSDS_CMFS, SPECTRAL_SHAPE_DEFAULT
+    >>> cmfs = (
+    ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    ...     .copy()
+    ...     .align(SPECTRAL_SHAPE_DEFAULT)
+    ... )
+    >>> XYZ = np.array([0.95035049, 1.0, 1.08935705])
+    >>> XYZ_to_CCT_Ohno2013(XYZ, cmfs)  # doctest: +ELLIPSIS
+    array([  6.5074399...e+03,   3.2236914...e-03])
+    """
+
+    return uv_to_CCT_Ohno2013(
+        UCS_to_uv(XYZ_to_UCS(XYZ)), cmfs, start, end, spacing
+    )
+
+
+def CCT_to_XYZ_Ohno2013(
+    CCT_D_uv: ArrayLike, cmfs: MultiSpectralDistributions | None = None
+):
+    """
+    Return the *CIE XYZ* tristimulus values from given correlated colour
+    temperature :math:`T_{cp}`, :math:`\\Delta_{uv}` and colour matching
+    functions using *Ohno (2013)* method.
+
+    Parameters
+    ----------
+    CCT_D_uv
+        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
+    cmfs
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        *CIE UCS* colourspace *uv* chromaticity coordinates.
+
+    Examples
+    --------
+    >>> from colour import MSDS_CMFS, SPECTRAL_SHAPE_DEFAULT
+    >>> cmfs = (
+    ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    ...     .copy()
+    ...     .align(SPECTRAL_SHAPE_DEFAULT)
+    ... )
+    >>> CCT_D_uv = np.array([6507.4342201047066, 0.003223690901513])
+    >>> CCT_to_XYZ_Ohno2013(CCT_D_uv, cmfs)  # doctest: +ELLIPSIS
+    array([ 0.9503504...,  1.        ,  1.0893570...])
+    """
+
+    return UCS_to_XYZ(uv_to_UCS(CCT_to_uv_Ohno2013(CCT_D_uv, cmfs)))

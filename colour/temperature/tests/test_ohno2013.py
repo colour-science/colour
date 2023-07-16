@@ -6,13 +6,16 @@ import unittest
 from itertools import product
 
 from colour.colorimetry import MSDS_CMFS
-from colour.temperature import CCT_to_uv_Ohno2013, uv_to_CCT_Ohno2013
-from colour.temperature.ohno2013 import (
+from colour.temperature import (
+    CCT_to_uv_Ohno2013,
+    uv_to_CCT_Ohno2013,
     CCT_to_XYZ_Ohno2013,
     XYZ_to_CCT_Ohno2013,
+)
+from colour.temperature.ohno2013 import (
     planckian_table,
 )
-from colour.utilities import as_float_array, ignore_numpy_errors
+from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -25,6 +28,8 @@ __all__ = [
     "TestPlanckianTable",
     "TestUv_to_CCT_Ohno2013",
     "TestCCT_to_uv_Ohno2013",
+    "Test_XYZ_to_CCT_Ohno2013",
+    "Test_CCT_to_XYZ_Ohno2013",
 ]
 
 
@@ -76,35 +81,6 @@ class TestPlanckianTable(unittest.TestCase):
         )
 
 
-class Test_XYZ_to_CCT_Ohno2013(unittest.TestCase):
-    """Define :func:`colour.temperature.ohno2013.XYZ_to_CCT_Ohno2013` definition
-    unit tests methods.
-    """
-
-    def test_XYZ_to_CCT_Ohno2013(self):
-        """Test the XYZ to CCT Ohno method conversion"""
-        XYZ = [95, 100, 108]
-        np.testing.assert_allclose(
-            XYZ_to_CCT_Ohno2013(XYZ),
-            np.array([6.45195987e03, 3.31808028e-03]),
-            rtol=1e-6,
-        )
-
-
-class Test_CCT_to_XYZ_Ohno2013(unittest.TestCase):
-    """Define :func:`colour.temperature.ohno2013.XYZ_to_CCT_Ohno2013` definition
-    unit tests methods.
-    """
-
-    def test_CCT_to_XYZ_Ohno2013(self):
-        """Test the CCT to Duv Ohno method conversion"""
-        CCT_duv = [5000, 0.002]
-        np.testing.assert_allclose(
-            CCT_to_XYZ_Ohno2013(CCT_duv),
-            np.array([0.9707001144701166, 1.0, 0.8389509590168589]),
-        )
-
-
 class TestUv_to_CCT_Ohno2013(unittest.TestCase):
     """
     Define :func:`colour.temperature.ohno2013.uv_to_CCT_Ohno2013` definition
@@ -121,28 +97,27 @@ class TestUv_to_CCT_Ohno2013(unittest.TestCase):
         D_uv = np.linspace(-0.01, 0.01, 10)
 
         CCT, D_uv = np.meshgrid(CCT, D_uv)
-        exact_table = as_float_array((CCT.flatten(), D_uv.flatten())).T
-        uv_table = CCT_to_uv_Ohno2013(exact_table)
-        calc_cct = uv_to_CCT_Ohno2013(uv_table)
+        table_r = np.transpose((np.ravel(CCT), np.ravel(D_uv)))
+        table_t = uv_to_CCT_Ohno2013(CCT_to_uv_Ohno2013(table_r))
 
-        np.testing.assert_allclose(calc_cct[1, :], exact_table[1, :], atol=1)
+        np.testing.assert_allclose(table_t[1, :], table_r[1, :], atol=1)
 
         np.testing.assert_array_almost_equal(
             uv_to_CCT_Ohno2013(np.array([0.1978, 0.3122])),
-            np.array([6.5074748e03, 3.2233463e-03]),
-            decimal=4,
+            np.array([6507.474788799616363, 0.003223346337596]),
+            decimal=7,
         )
 
         np.testing.assert_array_almost_equal(
             uv_to_CCT_Ohno2013(np.array([0.4328, 0.2883])),
-            np.array([1.04167832e03, -6.73780535e-02]),
-            decimal=4,
+            np.array([1041.678320000468375, -0.067378053475797]),
+            decimal=7,
         )
 
         np.testing.assert_array_almost_equal(
             uv_to_CCT_Ohno2013(np.array([0.2927, 0.2722])),
-            np.array([2.44497182e03, -8.43706412e-02]),
-            decimal=4,
+            np.array([2444.971818951082696, -0.084370641205118]),
+            decimal=7,
         )
 
     def test_n_dimensional_uv_to_CCT_Ohno2013(self):
@@ -227,6 +202,107 @@ class TestCCT_to_uv_Ohno2013(unittest.TestCase):
         uv = np.reshape(uv, (2, 3, 2))
         np.testing.assert_array_almost_equal(
             CCT_to_uv_Ohno2013(CCT_D_uv), uv, decimal=7
+        )
+
+    @ignore_numpy_errors
+    def test_nan_CCT_to_uv_Ohno2013(self):
+        """
+        Test :func:`colour.temperature.ohno2013.CCT_to_uv_Ohno2013` definition
+        nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = np.array(list(set(product(cases, repeat=2))))
+        CCT_to_uv_Ohno2013(cases)
+
+
+class Test_XYZ_to_CCT_Ohno2013(unittest.TestCase):
+    """
+    Define :func:`colour.temperature.ohno2013.XYZ_to_CCT_Ohno2013` definition
+    unit tests methods.
+    """
+
+    def test_XYZ_to_CCT_Ohno2013(self):
+        """
+        Test :func:`colour.temperature.ohno2013.XYZ_to_CCT_Ohno2013` definition.
+        """
+
+        np.testing.assert_array_almost_equal(
+            XYZ_to_CCT_Ohno2013(np.array([95.04, 100.00, 108.88])),
+            np.array([6503.30711709, 0.00321729]),
+            decimal=7,
+        )
+
+    def test_n_dimensional_XYZ_to_CCT_Ohno2013(self):
+        """
+        Test :func:`colour.temperature.ohno2013.XYZ_to_CCT_Ohno2013` definition
+        n-dimensional arrays support.
+        """
+
+        XYZ = np.array([95.04, 100.00, 108.88])
+        CCT_D_uv = XYZ_to_CCT_Ohno2013(XYZ)
+
+        XYZ = np.tile(XYZ, (6, 1))
+        CCT_D_uv = np.tile(CCT_D_uv, (6, 1))
+        np.testing.assert_array_almost_equal(
+            XYZ_to_CCT_Ohno2013(XYZ), CCT_D_uv, decimal=7
+        )
+
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        CCT_D_uv = np.reshape(CCT_D_uv, (2, 3, 2))
+        np.testing.assert_array_almost_equal(
+            XYZ_to_CCT_Ohno2013(XYZ), CCT_D_uv, decimal=7
+        )
+
+    @ignore_numpy_errors
+    def test_nan_XYZ_to_CCT_Ohno2013(self):
+        """
+        Test :func:`colour.temperature.ohno2013.XYZ_to_CCT_Ohno2013` definition
+        nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_CCT_Ohno2013(cases)
+
+
+class Test_CCT_to_XYZ_Ohno2013(unittest.TestCase):
+    """
+    Define :func:`colour.temperature.ohno2013.CCT_to_XYZ_Ohno2013` definition
+    unit tests methods.
+    """
+
+    def test_CCT_to_XYZ_Ohno2013(self):
+        """
+        Test :func:`colour.temperature.ohno2013.CCT_to_XYZ_Ohno2013` definition.
+        """
+
+        np.testing.assert_allclose(
+            CCT_to_XYZ_Ohno2013(np.array([6503.30711709, 0.00321729])),
+            np.array([95.04, 100.00, 108.88]) / 100,
+            rtol=0.000001,
+            atol=0.000001,
+        )
+
+    def test_n_dimensional_CCT_to_XYZ_Ohno2013(self):
+        """
+        Test :func:`colour.temperature.ohno2013.CCT_to_XYZ_Ohno2013` definition
+        n-dimensional arrays support.
+        """
+
+        CCT_D_uv = np.array([6503.30711709, 0.00321729])
+        XYZ = CCT_to_XYZ_Ohno2013(CCT_D_uv)
+
+        CCT_D_uv = np.tile(CCT_D_uv, (6, 1))
+        XYZ = np.tile(XYZ, (6, 1))
+        np.testing.assert_array_almost_equal(
+            CCT_to_XYZ_Ohno2013(CCT_D_uv), XYZ, decimal=7
+        )
+
+        CCT_D_uv = np.reshape(CCT_D_uv, (2, 3, 2))
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        np.testing.assert_array_almost_equal(
+            CCT_to_XYZ_Ohno2013(CCT_D_uv), XYZ, decimal=7
         )
 
     @ignore_numpy_errors

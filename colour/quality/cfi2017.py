@@ -36,7 +36,7 @@ from colour.colorimetry import (
     reshape_msds,
     sd_CIE_illuminant_D_series,
 )
-from colour.hints import ArrayLike, NDArrayFloat, Tuple, cast
+from colour.hints import ArrayLike, List, NDArrayFloat, Tuple, cast
 from colour.models import XYZ_to_UCS, UCS_to_uv, JMh_CIECAM02_to_CAM02UCS
 from colour.temperature import uv_to_CCT_Ohno2013, CCT_to_xy_CIE_D
 from colour.utilities import (
@@ -198,8 +198,9 @@ def colour_fidelity_index_CIE2017(
             "right": 0,
         }
         sd_test.align(shape=shape)
-    if sd_test.shape.start != shape.start or sd_test.shape.end != shape.end:
-        sd_test.align(shape)
+
+    if sd_test.shape.boundaries != shape.boundaries:
+        sd_test.trim(shape)
 
     CCT, D_uv = tsplit(CCT_reference_illuminant(sd_test))
     sd_reference = sd_reference_illuminant(CCT, shape)
@@ -319,7 +320,8 @@ def CCT_reference_illuminant(sd: SpectralDistribution) -> NDArrayFloat:
 
     XYZ = sd_to_XYZ(sd.values, shape=sd.shape, method="Integration")
 
-    # Use CFI2017 and TM30 range of 1,000K to 25,000K for performance.
+    # NOTE: Use "CFI2017" and "TM30" recommended temperature range of 1,000K to
+    # 25,000K for performance.
     return uv_to_CCT_Ohno2013(
         UCS_to_uv(XYZ_to_UCS(XYZ)), start=1000, end=25000
     )
@@ -418,10 +420,10 @@ def sd_reference_illuminant(
 
 
 def tcs_colorimetry_data(
-    sd_irradiance: SpectralDistribution | list[SpectralDistribution],
+    sd_irradiance: SpectralDistribution | List[SpectralDistribution],
     sds_tcs: MultiSpectralDistributions,
     cmfs: MultiSpectralDistributions,
-) -> list[DataColorimetry_TCS_CIE2017]:
+) -> Tuple[DataColorimetry_TCS_CIE2017, ...]:
     """
     Return the *test colour samples* colorimetry data under given test light
     source or reference illuminant spectral distribution for the
@@ -448,6 +450,7 @@ def tcs_colorimetry_data(
     >>> delta_E_to_R_f(4.4410383190)  # doctest: +ELLIPSIS
     70.1208254...
     """
+
     if isinstance(sd_irradiance, SpectralDistribution):
         sd_irradiance = [sd_irradiance]
 
@@ -468,7 +471,9 @@ def tcs_colorimetry_data(
     L_A = 100
     surround = VIEWING_CONDITIONS_CIECAM02["Average"]
 
-    sds_tcs_t = np.tile(sds_tcs.values.transpose(), (len(sd_irradiance), 1, 1))
+    sds_tcs_t = np.tile(
+        np.transpose(sds_tcs.values), (len(sd_irradiance), 1, 1)
+    )
     sds_tcs_t = sds_tcs_t * as_float_array(
         [sd.values for sd in sd_irradiance]
     ).reshape(len(sd_irradiance), 1, len(sd_irradiance[0]))
@@ -513,7 +518,7 @@ def tcs_colorimetry_data(
             )
         )
 
-    return tcs_data
+    return tuple(tcs_data)
 
 
 def delta_E_to_R_f(delta_E: ArrayLike) -> NDArrayFloat:
