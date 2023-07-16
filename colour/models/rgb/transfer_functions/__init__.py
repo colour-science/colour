@@ -37,11 +37,17 @@ from .blackmagic_design import (
     oetf_inverse_BlackmagicFilmGeneration5,
 )
 from .canon import (
+    CANON_LOG_ENCODING_METHODS,
     log_encoding_CanonLog,
+    CANON_LOG_DECODING_METHODS,
     log_decoding_CanonLog,
+    CANON_LOG_2_ENCODING_METHODS,
     log_encoding_CanonLog2,
+    CANON_LOG_2_DECODING_METHODS,
     log_decoding_CanonLog2,
+    CANON_LOG_3_ENCODING_METHODS,
     log_encoding_CanonLog3,
+    CANON_LOG_3_DECODING_METHODS,
     log_decoding_CanonLog3,
 )
 from .cineon import log_encoding_Cineon, log_decoding_Cineon
@@ -177,11 +183,17 @@ __all__ += [
     "oetf_inverse_BlackmagicFilmGeneration5",
 ]
 __all__ += [
+    "CANON_LOG_ENCODING_METHODS",
     "log_encoding_CanonLog",
+    "CANON_LOG_DECODING_METHODS",
     "log_decoding_CanonLog",
+    "CANON_LOG_2_ENCODING_METHODS",
     "log_encoding_CanonLog2",
+    "CANON_LOG_2_DECODING_METHODS",
     "log_decoding_CanonLog2",
+    "CANON_LOG_3_ENCODING_METHODS",
     "log_encoding_CanonLog3",
+    "CANON_LOG_3_DECODING_METHODS",
     "log_decoding_CanonLog3",
 ]
 __all__ += [
