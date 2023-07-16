@@ -3,7 +3,6 @@
 Generate Plots
 ==============
 """
-
 from __future__ import annotations
 
 import matplotlib as mpl
@@ -185,7 +184,7 @@ def generate_documentation_plots(output_directory: str):
         output_directory, "Examples_Plotting_Blackbodies.png"
     )
     blackbody_sds = [
-        sd_blackbody(i, SpectralShape(0, 10000, 10))
+        sd_blackbody(i, SpectralShape(1, 10001, 10))
         for i in range(1000, 15000, 1000)
     ]
     plt.close(
@@ -1260,4 +1259,6 @@ def generate_documentation_plots(output_directory: str):
 
 
 if __name__ == "__main__":
+    os.chdir(os.path.dirname(__file__))
+
     generate_documentation_plots(os.path.join("..", "docs", "_static"))

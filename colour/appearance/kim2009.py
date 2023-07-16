@@ -219,8 +219,9 @@ def XYZ_to_Kim2009(
     L_A: ArrayLike,
     media: MediaParameters_Kim2009 = MEDIA_PARAMETERS_KIM2009["CRT Displays"],
     surround: InductionFactors_Kim2009 = VIEWING_CONDITIONS_KIM2009["Average"],
-    discount_illuminant: bool = False,
     n_c: float = 0.57,
+    discount_illuminant: bool = False,
+    compute_H: bool = True,
 ) -> CAM_Specification_Kim2009:
     """
     Compute the *Kim, Weyrich and Kautz (2009)* colour appearance model
@@ -241,6 +242,9 @@ def XYZ_to_Kim2009(
         Surround viewing conditions induction factors.
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
+    compute_H
+        Whether to compute *Hue* :math:`h` quadrature :math:`H`. :math:`H` is
+        rarely used, and expensive to compute.
     n_c
         Cone response sigmoidal curve modulating factor :math:`n_c`.
 
@@ -365,7 +369,7 @@ H=278.0602824..., HC=None)
     h = np.degrees(np.arctan2(b, a)) % 360
 
     # Computing hue :math:`h` quadrature :math:`H`.
-    H = hue_quadrature(h)
+    H = hue_quadrature(h) if compute_H else np.full(h.shape, np.nan)
 
     return CAM_Specification_Kim2009(
         as_float(from_range_100(J)),
@@ -385,8 +389,8 @@ def Kim2009_to_XYZ(
     L_A: ArrayLike,
     media: MediaParameters_Kim2009 = MEDIA_PARAMETERS_KIM2009["CRT Displays"],
     surround: InductionFactors_Kim2009 = VIEWING_CONDITIONS_KIM2009["Average"],
-    discount_illuminant: bool = False,
     n_c: float = 0.57,
+    discount_illuminant: bool = False,
 ) -> NDArrayFloat:
     """
     Convert from *Kim, Weyrich and Kautz (2009)* specification to *CIE XYZ*

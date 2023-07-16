@@ -338,7 +338,7 @@ class SpectralShape:
             Object hash.
         """
 
-        return hash(repr(self))
+        return hash((self.start, self.end, self.interval))
 
     def __iter__(self) -> Generator:
         """
@@ -520,7 +520,7 @@ class SpectralShape:
 
         dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
 
-        hash_key = tuple(hash(arg) for arg in (self, dtype))
+        hash_key = hash((self, dtype))
         if hash_key in _CACHE_SHAPE_RANGE:
             return _CACHE_SHAPE_RANGE[hash_key].copy()
 
@@ -693,16 +693,15 @@ class SpectralDistribution(Signal):
         domain = (
             domain.wavelengths if isinstance(domain, SpectralShape) else domain
         )
-        domain_unpacked, range_unpacked = self.signal_unpack_data(
-            data, domain  # pyright: ignore
-        )
+
+        domain_unpacked, range_unpacked = self.signal_unpack_data(data, domain)
 
         # Initialising with *CIE 15:2004* and *CIE 167:2005* recommendations
         # defaults.
         kwargs["interpolator"] = kwargs.get(
             "interpolator",
             SpragueInterpolator
-            if is_uniform(domain_unpacked)
+            if domain_unpacked.size != 0 and is_uniform(domain_unpacked)
             else CubicSplineInterpolator,
         )
         kwargs["interpolator_kwargs"] = kwargs.get("interpolator_kwargs", {})
@@ -712,7 +711,6 @@ class SpectralDistribution(Signal):
             "extrapolator_kwargs",
             {"method": "Constant", "left": None, "right": None},
         )
-
         super().__init__(range_unpacked, domain_unpacked, **kwargs)
 
         self._display_name: str = self.name
@@ -1862,7 +1860,11 @@ class MultiSpectralDistributions(MultiSignals):
         signals = self.multi_signals_unpack_data(data, domain, labels)
 
         domain = signals[list(signals.keys())[0]].domain if signals else None
-        uniform = is_uniform(domain) if domain is not None else True
+        uniform = (
+            is_uniform(domain)
+            if domain is not None and len(domain) > 0
+            else True
+        )
 
         # Initialising with *CIE 15:2004* and *CIE 167:2005* recommendations
         # defaults.
@@ -2836,12 +2838,10 @@ def reshape_sd(
         if isinstance(value, Mapping):
             kwargs_items[i] = (keyword, tuple(value.items()))
 
-    hash_key = tuple(
-        hash(arg) for arg in (sd, shape, method, tuple(kwargs_items))
-    )
+    hash_key = hash((sd, shape, method, tuple(kwargs_items)))
+
     if hash_key in _CACHE_RESHAPED_SDS_AND_MSDS:
         reshaped_sd = _CACHE_RESHAPED_SDS_AND_MSDS[hash_key]
-
         return reshaped_sd.copy() if copy else reshaped_sd
 
     function = getattr(sd, method)

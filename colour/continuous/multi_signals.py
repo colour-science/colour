@@ -36,6 +36,7 @@ from colour.utilities import (
     as_float_array,
     attest,
     first_item,
+    int_digest,
     is_iterable,
     is_pandas_installed,
     multiline_repr,
@@ -731,8 +732,8 @@ class MultiSignals(AbstractContinuousFunction):
 
         return hash(
             (
-                self.domain.tobytes(),
-                self.range.tobytes(),
+                int_digest(self.domain.tobytes()),
+                *[hash(signal) for signal in self._signals.values()],
                 self.interpolator.__name__,
                 repr(self.interpolator_kwargs),
                 self.extrapolator.__name__,

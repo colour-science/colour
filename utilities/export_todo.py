@@ -120,6 +120,8 @@ def export_todo_items(todo_items: dict, file_path: str):
 
 
 if __name__ == "__main__":
+    os.chdir(os.path.dirname(__file__))
+
     export_todo_items(
         extract_todo_items(os.path.join("..", "colour")),
         os.path.join("..", "TODO.rst"),

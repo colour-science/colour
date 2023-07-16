@@ -30,13 +30,13 @@ from colour.colorimetry import (
     MultiSpectralDistributions,
     SpectralShape,
     SpectralDistribution,
+    msds_to_XYZ,
     sd_to_XYZ,
     sd_blackbody,
     reshape_msds,
-    sd_ones,
     sd_CIE_illuminant_D_series,
 )
-from colour.hints import ArrayLike, NDArrayFloat, Tuple, cast
+from colour.hints import ArrayLike, List, NDArrayFloat, Tuple, cast
 from colour.models import XYZ_to_UCS, UCS_to_uv, JMh_CIECAM02_to_CAM02UCS
 from colour.temperature import uv_to_CCT_Ohno2013, CCT_to_xy_CIE_D
 from colour.utilities import (
@@ -91,7 +91,7 @@ _CACHE_TCS_CIE2017: dict = CACHE_REGISTRY.register_cache(
 class DataColorimetry_TCS_CIE2017:
     """Define the class storing *test colour samples* colorimetry data."""
 
-    name: str
+    name: str | list[str]
     XYZ: NDArrayFloat
     CAM: CAM_Specification_CIECAM02
     JMh: NDArrayFloat
@@ -131,8 +131,7 @@ class ColourRendering_Specification_CIE2017:
     CCT: float
     D_uv: float
     colorimetry_data: Tuple[
-        Tuple[DataColorimetry_TCS_CIE2017, ...],
-        Tuple[DataColorimetry_TCS_CIE2017, ...],
+        DataColorimetry_TCS_CIE2017, DataColorimetry_TCS_CIE2017
     ]
     delta_E_s: NDArrayFloat
 
@@ -166,8 +165,21 @@ def colour_fidelity_index_CIE2017(
     >>> from colour.colorimetry import SDS_ILLUMINANTS
     >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> colour_fidelity_index_CIE2017(sd)  # doctest: +ELLIPSIS
-    70.1208254...
+    70.1208244...
     """
+
+    if sd_test.shape.interval > 5:
+        raise ValueError(
+            "Test spectral distribution interval is greater than"
+            "5nm which is the maximum recommended value "
+            'for computing the "CIE 2017 Colour Fidelity Index"!'
+        )
+
+    shape = SpectralShape(
+        SPECTRAL_SHAPE_CIE2017.start,
+        SPECTRAL_SHAPE_CIE2017.end,
+        sd_test.shape.interval,
+    )
 
     if sd_test.shape.start > 380 or sd_test.shape.end < 780:
         usage_warning(
@@ -185,19 +197,10 @@ def colour_fidelity_index_CIE2017(
             "left": 0,
             "right": 0,
         }
+        sd_test.align(shape=shape)
 
-    if sd_test.shape.interval > 5:
-        raise ValueError(
-            "Test spectral distribution interval is greater than"
-            "5nm which is the maximum recommended value "
-            'for computing the "CIE 2017 Colour Fidelity Index"!'
-        )
-
-    shape = SpectralShape(
-        SPECTRAL_SHAPE_CIE2017.start,
-        SPECTRAL_SHAPE_CIE2017.end,
-        sd_test.shape.interval,
-    )
+    if sd_test.shape.boundaries != shape.boundaries:
+        sd_test.trim(shape)
 
     CCT, D_uv = tsplit(CCT_reference_illuminant(sd_test))
     sd_reference = sd_reference_illuminant(CCT, shape)
@@ -210,19 +213,17 @@ def colour_fidelity_index_CIE2017(
     )
 
     # pylint: disable=E1102
-    sds_tcs = reshape_msds(load_TCS_CIE2017(shape), shape, copy=False)
+    sds_tcs = load_TCS_CIE2017(shape)
 
-    test_tcs_colorimetry_data = tcs_colorimetry_data(sd_test, sds_tcs, cmfs_10)
-    reference_tcs_colorimetry_data = tcs_colorimetry_data(
-        sd_reference, sds_tcs, cmfs_10
+    (
+        test_tcs_colorimetry_data,
+        reference_tcs_colorimetry_data,
+    ) = tcs_colorimetry_data([sd_test, sd_reference], sds_tcs, cmfs_10)
+
+    delta_E_s = euclidean_distance(
+        test_tcs_colorimetry_data.Jpapbp,
+        reference_tcs_colorimetry_data.Jpapbp,
     )
-
-    delta_E_s = np.empty(len(sds_tcs.labels))
-    for i, _delta_E in enumerate(delta_E_s):
-        delta_E_s[i] = euclidean_distance(
-            test_tcs_colorimetry_data[i].Jpapbp,
-            reference_tcs_colorimetry_data[i].Jpapbp,
-        )
 
     R_s = delta_E_to_R_f(delta_E_s)
     R_f = cast(float, delta_E_to_R_f(np.average(delta_E_s)))
@@ -314,12 +315,16 @@ def CCT_reference_illuminant(sd: SpectralDistribution) -> NDArrayFloat:
     >>> from colour import SDS_ILLUMINANTS
     >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> CCT_reference_illuminant(sd)  # doctest: +ELLIPSIS
-    array([  4.2244697...e+03,   1.7871111...e-03])
+    array([  4.2244776...e+03,   1.7885608...e-03])
     """
 
-    XYZ = sd_to_XYZ(sd)
+    XYZ = sd_to_XYZ(sd.values, shape=sd.shape, method="Integration")
 
-    return uv_to_CCT_Ohno2013(UCS_to_uv(XYZ_to_UCS(XYZ)))
+    # NOTE: Use "CFI2017" and "TM30" recommended temperature range of 1,000K to
+    # 25,000K for performance.
+    return uv_to_CCT_Ohno2013(
+        UCS_to_uv(XYZ_to_UCS(XYZ)), start=1000, end=25000
+    )
 
 
 def sd_reference_illuminant(
@@ -383,15 +388,19 @@ def sd_reference_illuminant(
 
     if CCT >= 4000:
         xy = CCT_to_xy_CIE_D(CCT)
-        sd_daylight = sd_CIE_illuminant_D_series(xy).align(shape)
+        sd_daylight = sd_CIE_illuminant_D_series(xy, shape=shape)
 
     if CCT < 4000:
         sd_reference = sd_planckian
     elif 4000 <= CCT <= 5000:
         # Planckian and daylight illuminant must be normalised so that the
         # mixture isn't biased.
-        sd_planckian /= sd_to_XYZ(sd_planckian)[1]
-        sd_daylight /= sd_to_XYZ(sd_daylight)[1]
+        sd_planckian /= sd_to_XYZ(
+            sd_planckian.values, shape=shape, method="Integration"
+        )[1]
+        sd_daylight /= sd_to_XYZ(
+            sd_daylight.values, shape=shape, method="Integration"
+        )[1]
 
         # Mixture: 4200K should be 80% Planckian, 20% CIE Illuminant D Series.
         m = (CCT - 4000) / 1000
@@ -411,7 +420,7 @@ def sd_reference_illuminant(
 
 
 def tcs_colorimetry_data(
-    sd_irradiance: SpectralDistribution,
+    sd_irradiance: SpectralDistribution | List[SpectralDistribution],
     sds_tcs: MultiSpectralDistributions,
     cmfs: MultiSpectralDistributions,
 ) -> Tuple[DataColorimetry_TCS_CIE2017, ...]:
@@ -442,27 +451,70 @@ def tcs_colorimetry_data(
     70.1208254...
     """
 
-    XYZ_w = sd_to_XYZ(sd_ones(), cmfs, sd_irradiance)
+    if isinstance(sd_irradiance, SpectralDistribution):
+        sd_irradiance = [sd_irradiance]
+
+    XYZ_w = np.full((len(sd_irradiance), 3), np.nan)
+    for idx, sd in enumerate(sd_irradiance):
+        XYZ_t = sd_to_XYZ(
+            sd.values,
+            cmfs,
+            shape=sd.shape,
+            method="Integration",
+        )
+        k = 100 / XYZ_t[1]
+        XYZ_w[idx] = k * XYZ_t
+        sd_irradiance[idx] = sd_irradiance[idx].copy() * k
+    XYZ_w = as_float_array(XYZ_w)
+
     Y_b = 20
     L_A = 100
     surround = VIEWING_CONDITIONS_CIECAM02["Average"]
 
-    tcs_data = []
-    for sd_tcs in sds_tcs.to_sds():
-        XYZ = sd_to_XYZ(sd_tcs, cmfs, sd_irradiance)
-        specification = XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround, True)
-        JMh = tstack(
-            [
-                cast(NDArrayFloat, specification.J),
-                cast(NDArrayFloat, specification.M),
-                cast(NDArrayFloat, specification.h),
-            ]
-        )
-        Jpapbp = JMh_CIECAM02_to_CAM02UCS(JMh)
+    sds_tcs_t = np.tile(
+        np.transpose(sds_tcs.values), (len(sd_irradiance), 1, 1)
+    )
+    sds_tcs_t = sds_tcs_t * as_float_array(
+        [sd.values for sd in sd_irradiance]
+    ).reshape(len(sd_irradiance), 1, len(sd_irradiance[0]))
 
+    XYZ = msds_to_XYZ(
+        sds_tcs_t,
+        cmfs,
+        method="Integration",
+        shape=sds_tcs.shape,
+    )
+    specification = XYZ_to_CIECAM02(
+        XYZ,
+        XYZ_w.reshape((len(sd_irradiance), 1, 3)),
+        L_A,
+        Y_b,
+        surround,
+        discount_illuminant=True,
+        compute_H=False,
+    )
+
+    JMh = tstack(
+        [
+            cast(NDArrayFloat, specification.J),
+            cast(NDArrayFloat, specification.M),
+            cast(NDArrayFloat, specification.h),
+        ]
+    )
+    Jpapbp = JMh_CIECAM02_to_CAM02UCS(JMh)
+    tcs_data = []
+
+    specification = as_float_array(specification).transpose((0, 2, 1))
+    specification = [CAM_Specification_CIECAM02(*t) for t in specification]
+
+    for sd_idx in range(len(sd_irradiance)):
         tcs_data.append(
             DataColorimetry_TCS_CIE2017(
-                sd_tcs.name, XYZ, specification, JMh, Jpapbp
+                sds_tcs.display_labels,
+                XYZ[sd_idx],
+                specification[sd_idx],
+                JMh[sd_idx],
+                Jpapbp[sd_idx],
             )
         )
 

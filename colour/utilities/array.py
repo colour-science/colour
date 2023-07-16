@@ -48,7 +48,9 @@ from colour.hints import (
     cast,
 )
 from colour.utilities import (
+    CACHE_REGISTRY,
     attest,
+    int_digest,
     optional,
     suppress_warnings,
     validate_method,
@@ -2009,6 +2011,11 @@ def closest(a: ArrayLike, b: ArrayLike) -> NDArray:
     return a[closest_indexes(a, b)]
 
 
+_CACHE_DISTRIBUTION_INTERVAL: dict = CACHE_REGISTRY.register_cache(
+    f"{__name__}._CACHE_DISTRIBUTION_INTERVAL"
+)
+
+
 def interval(distribution: ArrayLike, unique: bool = True) -> NDArray:
     """
     Return the interval size of given distribution.
@@ -2046,13 +2053,28 @@ def interval(distribution: ArrayLike, unique: bool = True) -> NDArray:
     """
 
     distribution = as_float_array(distribution)
+    hash_key = hash(
+        (
+            int_digest(distribution.tobytes()),
+            distribution.shape,
+            unique,
+        )
+    )
+    if hash_key in _CACHE_DISTRIBUTION_INTERVAL:
+        return np.copy(_CACHE_DISTRIBUTION_INTERVAL[hash_key])
 
     differences = np.abs(distribution[1:] - distribution[:-1])
 
-    if unique:
-        return np.unique(differences)
+    if unique and np.all(differences == differences[0]):
+        interval_ = np.array([differences[0]])
+    elif unique:
+        interval_ = np.unique(differences)
     else:
-        return differences
+        interval_ = differences
+
+    _CACHE_DISTRIBUTION_INTERVAL[hash_key] = np.copy(interval_)
+
+    return interval_
 
 
 def is_uniform(distribution: ArrayLike) -> bool:

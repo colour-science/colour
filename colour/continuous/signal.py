@@ -23,6 +23,7 @@ from operator import (
     itruediv,
 )
 from collections.abc import Iterator, Mapping, Sequence, ValuesView
+
 from colour.algebra import Extrapolator, KernelInterpolator
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction
@@ -59,6 +60,7 @@ from colour.utilities import (
     tstack,
     validate_method,
 )
+from colour.utilities.common import int_digest
 from colour.utilities.documentation import is_documentation_building
 
 if TYPE_CHECKING:
@@ -263,9 +265,7 @@ class Signal(AbstractContinuousFunction):
             "right": np.nan,
         }
 
-        self.domain, self.range = self.signal_unpack_data(
-            data, domain  # pyright: ignore
-        )
+        self.range, self.domain = self.signal_unpack_data(data, domain)[::-1]
 
         self.dtype = kwargs.get("dtype", self._dtype)
 
@@ -312,8 +312,9 @@ class Signal(AbstractContinuousFunction):
 
         # The following self-assignments are written as intended and
         # triggers the rebuild of the underlying function.
-        self.domain = self.domain
-        self.range = self.range
+        if self.domain.dtype != value or self.range.dtype != value:
+            self.domain = self.domain
+            self.range = self.range
 
     @property
     def domain(self) -> NDArrayFloat:
@@ -390,8 +391,9 @@ class Signal(AbstractContinuousFunction):
                 f"unpredictable results may occur!"
             )
 
+        # Empty domain occurs during __init__ because range is set before domain
         attest(
-            value.size == self._domain.size,
+            self._domain.size == 0 or value.size == self._domain.size,
             '"domain" and "range" variables must have same size!',
         )
 
@@ -519,6 +521,7 @@ class Signal(AbstractContinuousFunction):
         self._function = None  # Invalidate the underlying continuous function.
 
     @property
+    @ndarray_copy_enable(False)
     def function(self) -> Callable:
         """
         Getter property for the continuous signal callable.
@@ -569,6 +572,7 @@ class Signal(AbstractContinuousFunction):
 
         return cast(Callable, self._function)
 
+    @ndarray_copy_enable(False)
     def __str__(self) -> str:
         """
         Return a formatted string representation of the continuous signal.
@@ -596,6 +600,7 @@ class Signal(AbstractContinuousFunction):
 
         return str(tstack([self._domain, self._range]))
 
+    @ndarray_copy_enable(False)
     def __repr__(self) -> str:
         """
         Return an evaluable string representation of the continuous signal.
@@ -649,6 +654,7 @@ class Signal(AbstractContinuousFunction):
             ],
         )
 
+    @ndarray_copy_enable(False)
     def __hash__(self) -> int:
         """
         Return the abstract continuous function hash.
@@ -661,12 +667,12 @@ class Signal(AbstractContinuousFunction):
 
         return hash(
             (
-                self._domain.tobytes(),
-                self._range.tobytes(),
-                self._interpolator.__name__,
-                repr(self._interpolator_kwargs),
-                self._extrapolator.__name__,
-                repr(self._extrapolator_kwargs),
+                int_digest(self._domain.tobytes()),
+                int_digest(self._range.tobytes()),
+                self.interpolator.__name__,
+                repr(self.interpolator_kwargs),
+                self.extrapolator.__name__,
+                repr(self.extrapolator_kwargs),
             )
         )
 
@@ -930,6 +936,7 @@ class Signal(AbstractContinuousFunction):
 
         return not (self == other)
 
+    @ndarray_copy_enable(False)
     def _fill_domain_nan(
         self,
         method: Literal["Constant", "Interpolation"] | str = "Interpolation",
@@ -955,6 +962,7 @@ class Signal(AbstractContinuousFunction):
 
         self.domain = fill_nan(self._domain, method, default)
 
+    @ndarray_copy_enable(False)
     def _fill_range_nan(
         self,
         method: Literal["Constant", "Interpolation"] | str = "Interpolation",
@@ -1088,6 +1096,7 @@ class Signal(AbstractContinuousFunction):
             return copy
 
     @staticmethod
+    @ndarray_copy_enable(True)
     def signal_unpack_data(
         data=Optional[Union[ArrayLike, dict, Series, "Signal"]],
         domain: ArrayLike | None = None,
@@ -1179,7 +1188,11 @@ class Signal(AbstractContinuousFunction):
         elif issubclass(type(data), Sequence) or isinstance(
             data, (tuple, list, np.ndarray, Iterator, ValuesView)
         ):
-            data_array = tsplit(list(cast(Sequence, data)))
+            data_array = (
+                tsplit(list(cast(Sequence, data)))
+                if not isinstance(data, np.ndarray)
+                else data
+            )
 
             attest(data_array.ndim == 1, 'User "data" must be 1-dimensional!')
 
@@ -1208,7 +1221,7 @@ class Signal(AbstractContinuousFunction):
         if range_unpacked is not None:
             range_unpacked = as_float_array(range_unpacked, dtype)
 
-        return domain_unpacked, range_unpacked
+        return ndarray_copy(domain_unpacked), ndarray_copy(range_unpacked)
 
     def fill_nan(
         self,

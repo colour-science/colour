@@ -60,6 +60,8 @@ Ohno (2013)
 
     uv_to_CCT_Ohno2013
     CCT_to_uv_Ohno2013
+    XYZ_to_CCT_Ohno2013
+    CCT_to_XYZ_Ohno2013
 
 Planck (1900)
 ~~~~~~~~~~~~~

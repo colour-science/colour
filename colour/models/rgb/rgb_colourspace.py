@@ -338,7 +338,8 @@ class RGB_Colourspace:
 
         self._primaries = value
 
-        self._derive_transformation_matrices()
+        self._derived_matrix_XYZ_to_RGB = np.array([])
+        self._derived_matrix_RGB_to_XYZ = np.array([])
 
     @property
     def whitepoint(self) -> NDArrayFloat:
@@ -371,8 +372,8 @@ class RGB_Colourspace:
         value = as_float_array(value)
 
         self._whitepoint = value
-
-        self._derive_transformation_matrices()
+        self._derived_matrix_XYZ_to_RGB = np.array([])
+        self._derived_matrix_RGB_to_XYZ = np.array([])
 
     @property
     def whitepoint_name(self) -> str | None:
@@ -427,6 +428,8 @@ class RGB_Colourspace:
             self._matrix_RGB_to_XYZ is None
             or self._use_derived_matrix_RGB_to_XYZ
         ):
+            if self._derived_matrix_RGB_to_XYZ.size == 0:
+                self._derive_transformation_matrices()
             return self._derived_matrix_RGB_to_XYZ
         else:
             return self._matrix_RGB_to_XYZ
@@ -469,6 +472,8 @@ class RGB_Colourspace:
             self._matrix_XYZ_to_RGB is None
             or self._use_derived_matrix_XYZ_to_RGB
         ):
+            if self._derived_matrix_XYZ_to_RGB.size == 0:
+                self._derive_transformation_matrices()
             return self._derived_matrix_XYZ_to_RGB
         else:
             return self._matrix_XYZ_to_RGB
@@ -689,7 +694,8 @@ class RGB_Colourspace:
         Use Derived NPM    : False
         Use Derived NPM -1 : False
         """
-
+        if self._derived_matrix_XYZ_to_RGB.size == 0:
+            self._derive_transformation_matrices()
         return multiline_str(
             self,
             [

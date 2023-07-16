@@ -54,7 +54,12 @@ from .kang2002 import xy_to_CCT_Kang2002, CCT_to_xy_Kang2002
 from .krystek1985 import uv_to_CCT_Krystek1985, CCT_to_uv_Krystek1985
 from .mccamy1992 import xy_to_CCT_McCamy1992, CCT_to_xy_McCamy1992
 from .planck1900 import uv_to_CCT_Planck1900, CCT_to_uv_Planck1900
-from .ohno2013 import uv_to_CCT_Ohno2013, CCT_to_uv_Ohno2013
+from .ohno2013 import (
+    uv_to_CCT_Ohno2013,
+    CCT_to_uv_Ohno2013,
+    CCT_to_XYZ_Ohno2013,
+    XYZ_to_CCT_Ohno2013,
+)
 from .robertson1968 import (
     CCT_to_mired,
     mired_to_CCT,
@@ -89,6 +94,8 @@ __all__ += [
 __all__ += [
     "uv_to_CCT_Ohno2013",
     "CCT_to_uv_Ohno2013",
+    "CCT_to_XYZ_Ohno2013",
+    "XYZ_to_CCT_Ohno2013",
 ]
 __all__ += [
     "CCT_to_mired",
@@ -181,7 +188,7 @@ def uv_to_CCT(
     >>> import numpy as np
     >>> uv = np.array([0.1978, 0.3122])
     >>> uv_to_CCT(uv)  # doctest: +ELLIPSIS
-    array([  6.507473...e+03,   3.223346...e-03])
+    array([  6.5074747...e+03,   3.2233463...e-03])
     """
 
     method = validate_method(method, tuple(UV_TO_CCT_METHODS))

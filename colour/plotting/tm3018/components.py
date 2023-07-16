@@ -22,7 +22,7 @@ import matplotlib.pyplot as plt
 
 from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import sd_to_XYZ
-from colour.hints import Any, ArrayLike, Dict, Literal, Tuple, cast
+from colour.hints import Any, ArrayLike, Dict, Literal, Tuple
 from colour.io import read_image
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
@@ -389,10 +389,9 @@ def plot_colour_vector_graphic(
     average_hues = np.radians(
         [
             np.mean(
-                [
-                    cast(float, specification.colorimetry_data[1][i].CAM.h)
-                    for i in specification.bins[j]
-                ]
+                specification.colorimetry_data[1].JMh[
+                    specification.bins == j, 2
+                ],
             )
             for j in range(16)
         ]

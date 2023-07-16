@@ -216,7 +216,7 @@ def colour_quality_scale(
     >>> from colour import SDS_ILLUMINANTS
     >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> colour_quality_scale(sd)  # doctest: +ELLIPSIS
-    64.1117031...
+    64.1118220...
     """
 
     method = validate_method(method, tuple(COLOUR_QUALITY_SCALE_METHODS))

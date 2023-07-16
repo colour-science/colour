@@ -36,6 +36,7 @@ from __future__ import annotations
 
 import numpy as np
 
+from colour.algebra.interpolation import LinearInterpolator
 from colour.colorimetry import (
     SPECTRAL_SHAPE_DEFAULT,
     MultiSpectralDistributions,
@@ -113,6 +114,7 @@ def sd_constant(
     -----
     -   By default, the spectral distribution will use the shape given by
         :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
+    -   The interpolator is set to :class:`colour.LinearInterpolator` class.
 
     Examples
     --------
@@ -123,7 +125,7 @@ def sd_constant(
     100.0
     """
 
-    settings = {"name": f"{k} Constant"}
+    settings = {"name": f"{k} Constant", "interpolator": LinearInterpolator}
     settings.update(kwargs)
 
     values = full(len(shape.wavelengths), k)
@@ -157,6 +159,7 @@ def sd_zeros(
     -----
     -   By default, the spectral distribution will use the shape given by
         :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
+    -   The interpolator is set to :class:`colour.LinearInterpolator` class.
 
     Examples
     --------
@@ -196,6 +199,7 @@ def sd_ones(
     -----
     -   By default, the spectral distribution will use the shape given by
         :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
+    -   The interpolator is set to :class:`colour.LinearInterpolator` class.
 
     Examples
     --------
@@ -244,6 +248,7 @@ def msds_constant(
     -----
     -   By default, the multi-spectral distributions will use the shape given
         by :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
+    -   The interpolator is set to :class:`colour.LinearInterpolator` class.
 
     Examples
     --------
@@ -256,7 +261,7 @@ def msds_constant(
     ['a', 'b', 'c']
     """
 
-    settings = {"name": f"{k} Constant"}
+    settings = {"name": f"{k} Constant", "interpolator": LinearInterpolator}
     settings.update(kwargs)
 
     wavelengths = shape.wavelengths
@@ -299,6 +304,7 @@ def msds_zeros(
     -----
     -   By default, the multi-spectral distributions will use the shape given
         by :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
+    -   The interpolator is set to :class:`colour.LinearInterpolator` class.
 
     Examples
     --------
@@ -346,6 +352,7 @@ def msds_ones(
     -----
     -   By default, the multi-spectral distributions will use the shape given
         by :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
+    -   The interpolator is set to :class:`colour.LinearInterpolator` class.
 
     Examples
     --------
@@ -755,7 +762,7 @@ def sd_multi_leds_Ohno2005(
 
     sd = sd_zeros(shape)
 
-    for (peak_wavelength, fwhm_s, peak_power_ratio) in zip(
+    for peak_wavelength, fwhm_s, peak_power_ratio in zip(
         peak_wavelengths, fwhm, peak_power_ratios
     ):
         sd += (

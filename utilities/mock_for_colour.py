@@ -90,7 +90,7 @@ class MockObject:
         Parameters
         ----------
         key
-            Key to check whether is is contained in the :class:`MockObject`
+            Key to check whether is contained in the :class:`MockObject`
             class instance.
         """
 

@@ -14,7 +14,7 @@ from __future__ import annotations
 import numpy as np
 import unittest
 
-from colour.algebra import LinearInterpolator
+from colour.algebra import LinearInterpolator, SpragueInterpolator
 from colour.colorimetry import (
     MSDS_CMFS,
     SDS_ILLUMINANTS,
@@ -1552,7 +1552,9 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
         accounts for the :math:`\\delta w` term.
         """
 
-        sd = sd_zeros(SpectralShape(380, 780, 5))
+        sd = sd_zeros(
+            SpectralShape(380, 780, 5), interpolator=SpragueInterpolator
+        )
 
         # 1 watt at 555nm, 0 watt everywhere else.
         # For 5nm average sampling, this corresponds to 0.2 watt at 555nm.
