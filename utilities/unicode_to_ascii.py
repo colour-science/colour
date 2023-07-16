@@ -69,4 +69,6 @@ def unicode_to_ascii(root_directory: str):
 
 
 if __name__ == "__main__":
+    os.chdir(os.path.dirname(__file__))
+
     unicode_to_ascii(os.path.join("..", "colour"))
