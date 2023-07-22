@@ -187,17 +187,18 @@ class TestSdGaussianFwhm(unittest.TestCase):
 
     def test_sd_gaussian_fwhm(self):
         """
-        Test :func:`colour.colorimetry.generation.sd_gaussian_fwhm`
-        definition.
+        Test :func:`colour.colorimetry.generation.sd_gaussian_fwhm` definition.
         """
 
         sd = sd_gaussian_fwhm(555, 25)
 
-        self.assertAlmostEqual(sd[530], 0.367879441171443, places=7)
+        self.assertAlmostEqual(sd[530], 0.0625, places=7)
 
         self.assertAlmostEqual(sd[555], 1, places=7)
 
-        self.assertAlmostEqual(sd[580], 0.367879441171443, places=7)
+        self.assertAlmostEqual(sd[580], 0.062499999999999, places=7)
+
+        self.assertAlmostEqual(sd[555 - 25 / 2], 0.5, places=7)
 
 
 class TestSdSingleLedOhno2005(unittest.TestCase):
