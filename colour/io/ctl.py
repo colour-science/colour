@@ -341,14 +341,14 @@ def template_ctl_transform_float(
     <BLANKLINE>
     void main
     (
-        input varying float rIn,
-        input varying float gIn,
-        input varying float bIn,
-        input varying float aIn,
         output varying float rOut,
         output varying float gOut,
         output varying float bOut,
         output varying float aOut,
+        input varying float rIn,
+        input varying float gIn,
+        input varying float bIn,
+        input varying float aIn = 1.0,
         input float exposure = 0.0
     )
     {
@@ -380,14 +380,14 @@ def template_ctl_transform_float(
     <BLANKLINE>
     void main
     (
-        input varying float rIn,
-        input varying float gIn,
-        input varying float bIn,
-        input varying float aIn,
         output varying float rOut,
         output varying float gOut,
         output varying float bOut,
-        output varying float aOut)
+        output varying float aOut,
+        input varying float rIn,
+        input varying float gIn,
+        input varying float bIn,
+        input varying float aIn = 1.0)
     {
         rOut = Y_2_linCV(rIn, CINEMA_WHITE, CINEMA_BLACK);
         gOut = Y_2_linCV(gIn, CINEMA_WHITE, CINEMA_BLACK);
@@ -421,14 +421,14 @@ def template_ctl_transform_float(
     ctl_file_content += """
 void main
 (
-    input varying float rIn,
-    input varying float gIn,
-    input varying float bIn,
-    input varying float aIn,
     output varying float rOut,
     output varying float gOut,
     output varying float bOut,
-    output varying float aOut
+    output varying float aOut,
+    input varying float rIn,
+    input varying float gIn,
+    input varying float bIn,
+    input varying float aIn = 1.0
 """.strip()
 
     if parameters:
@@ -503,14 +503,14 @@ def template_ctl_transform_float3(
     <BLANKLINE>
     void main
     (
-        input varying float rIn,
-        input varying float gIn,
-        input varying float bIn,
-        input varying float aIn,
         output varying float rOut,
         output varying float gOut,
         output varying float bOut,
-        output varying float aOut)
+        output varying float aOut,
+        input varying float rIn,
+        input varying float gIn,
+        input varying float bIn,
+        input varying float aIn = 1.0)
     {
         float rgbIn[3] = {rIn, gIn, bIn};
     <BLANKLINE>
@@ -546,14 +546,14 @@ def template_ctl_transform_float3(
     ctl_file_content += """
 void main
 (
-    input varying float rIn,
-    input varying float gIn,
-    input varying float bIn,
-    input varying float aIn,
     output varying float rOut,
     output varying float gOut,
     output varying float bOut,
-    output varying float aOut
+    output varying float aOut,
+    input varying float rIn,
+    input varying float gIn,
+    input varying float bIn,
+    input varying float aIn = 1.0
 """.strip()
 
     if parameters:
