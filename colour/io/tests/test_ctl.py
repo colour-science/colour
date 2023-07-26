@@ -219,43 +219,40 @@ class TestTemplateCtlTransformFloat(unittest.TestCase):
                 "input float foo[3] = {1.0, 1.0, 1.0}",
                 "input float bar = 1.0",
             ],
-            header="// Custom Header\n",
+            header="// Custom Header",
         )
 
-        self.assertEqual(
-            ctl_foo_bar_float,
-            textwrap.dedent(
-                """
-                // Foo & Bar
+        target = textwrap.dedent(
+            """
+            // Foo & Bar
 
-                import "Foo.ctl";
-                import "Bar.ctl";
-
-                // Custom Header
-
-                void main
-                (
-                    input varying float rIn,
-                    input varying float gIn,
-                    input varying float bIn,
-                    input varying float aIn,
-                    output varying float rOut,
-                    output varying float gOut,
-                    output varying float bOut,
-                    output varying float aOut,
-                    input float foo[3] = {1.0, 1.0, 1.0},
-                    input float bar = 1.0
-                )
-                {
-                    rOut = rIn + foo[0];
-                    gOut = gIn + foo[1];
-                    bOut = bIn + foo[2];
-                    aOut = aIn;
-                }"""[
-                    1:
-                ]
-            ),
+            import "Foo.ctl";
+            import "Bar.ctl";
+            
+            // Custom Header
+            void main
+            (
+                output varying float rOut,
+                output varying float gOut,
+                output varying float bOut,
+                output varying float aOut,
+                input varying float rIn,
+                input varying float gIn,
+                input varying float bIn,
+                input varying float aIn = 1.0,
+                input float foo[3] = {1.0, 1.0, 1.0},
+                input float bar = 1.0
+            )
+            {
+                rOut = rIn + foo[0];
+                gOut = gIn + foo[1];
+                bOut = bIn + foo[2];
+                aOut = aIn;
+            }"""[
+                1:
+            ]
         )
+        self.assertEqual(ctl_foo_bar_float, target)
 
 
 class TestTemplateCtlTransformFloat3(unittest.TestCase):
@@ -290,60 +287,59 @@ class TestTemplateCtlTransformFloat3(unittest.TestCase):
                     rgbOut[2] = rgbIn[2] * foo[2]* qux;
 
                     return rgbOut;
-                }\n"""[
-                    1:
-                ]
-            ),
-        )
-
-        self.assertEqual(
-            ctl_foo_bar_float3,
-            textwrap.dedent(
-                """
-                // Foo, Bar & Baz
-
-                // import "Foo.ctl";
-                // import "Bar.ctl";
-                // import "Baz.ctl";
-
-                float[3] baz(float rgbIn[3], float foo[3], float qux)
-                {
-                    float rgbOut[3];
-
-                    rgbOut[0] = rgbIn[0] * foo[0]* qux;
-                    rgbOut[1] = rgbIn[1] * foo[1]* qux;
-                    rgbOut[2] = rgbIn[2] * foo[2]* qux;
-
-                    return rgbOut;
                 }
-
-                void main
-                (
-                    input varying float rIn,
-                    input varying float gIn,
-                    input varying float bIn,
-                    input varying float aIn,
-                    output varying float rOut,
-                    output varying float gOut,
-                    output varying float bOut,
-                    output varying float aOut,
-                    input float foo[3] = {1.0, 1.0, 1.0},
-                    input float bar = 1.0
-                )
-                {
-                    float rgbIn[3] = {rIn, gIn, bIn};
-
-                    float rgbOut[3] = baz(rgbIn, foo, bar);
-
-                    rOut = rgbOut[0];
-                    gOut = rgbOut[1];
-                    bOut = rgbOut[2];
-                    aOut = aIn;
-                }"""[
+"""[
                     1:
                 ]
             ),
         )
+        # fmt: off
+        target = textwrap.dedent(
+            """
+            // Foo, Bar & Baz
+            
+            // import "Foo.ctl";
+            // import "Bar.ctl";
+            // import "Baz.ctl";
+
+            float[3] baz(float rgbIn[3], float foo[3], float qux)
+            {
+                float rgbOut[3];
+                
+                rgbOut[0] = rgbIn[0] * foo[0]* qux;
+                rgbOut[1] = rgbIn[1] * foo[1]* qux;
+                rgbOut[2] = rgbIn[2] * foo[2]* qux;
+
+                return rgbOut;
+            }
+            
+            void main
+            (
+                output varying float rOut,
+                output varying float gOut,
+                output varying float bOut,
+                output varying float aOut,
+                input varying float rIn,
+                input varying float gIn,
+                input varying float bIn,
+                input varying float aIn = 1.0,
+                input float foo[3] = {1.0, 1.0, 1.0},
+                input float bar = 1.0
+            )
+            {
+                float rgbIn[3] = {rIn, gIn, bIn};
+                
+                float rgbOut[3] = baz(rgbIn, foo, bar);
+
+                rOut = rgbOut[0];
+                gOut = rgbOut[1];
+                bOut = rgbOut[2];
+                aOut = aIn;
+            }"""[
+                1:
+            ]
+        )
+        self.assertEqual(ctl_foo_bar_float3, target)
 
 
 if __name__ == "__main__":
