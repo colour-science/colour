@@ -232,7 +232,7 @@ def show_warning(
 
         file.write(formatwarning(message, category, filename, lineno, line))
     except (OSError, UnicodeError):
-        pass  # noqa: S110
+        pass
 
 
 if os.environ.get(  # pragma: no cover
@@ -259,7 +259,7 @@ def warning(*args: Any, **kwargs: Any):
 
     kwargs["category"] = kwargs.get("category", ColourWarning)
 
-    warn(*args, **kwargs)
+    warn(*args, **kwargs)  # noqa: B028
 
 
 def runtime_warning(*args: Any, **kwargs: Any):
@@ -381,9 +381,9 @@ def filter_warnings(
             continue
 
         if is_string(action):
-            action = cast(LiteralWarning, str(action))
+            action = cast(LiteralWarning, str(action))  # noqa: PLW2901
         else:
-            action = "ignore" if action else "default"
+            action = "ignore" if action else "default"  # noqa: PLW2901
 
         filterwarnings(action, category=category)
 
@@ -630,8 +630,8 @@ def describe_environment(
     # NOTE: A few clauses are not reached and a few packages are not available
     # during continuous integration and are thus ignored for coverage.
     try:  # pragma: no cover
-        output = subprocess.check_output(  # nosec
-            ["git", "describe"],
+        output = subprocess.check_output(
+            ["git", "describe"],  # noqa: S603, S607
             cwd=colour.__path__[0],  # pyright: ignore
             stderr=subprocess.STDOUT,
         ).strip()
@@ -715,11 +715,10 @@ def describe_environment(
         ]:
             try:
                 version = _get_package_version(package, mapping)
-                package = mapping.get(package, package)
+                package = mapping.get(package, package)  # noqa: PLW2901
 
                 environment["Development"][package] = version
-            except Exception:  # pragma: no cover
-                # pylint: disable=B112
+            except Exception:  # pragma: no cover  # noqa: S112
                 continue
 
         environment["Development"].update(ANCILLARY_DEVELOPMENT_PACKAGES)
@@ -729,11 +728,10 @@ def describe_environment(
         for package in ["ipywidgets", "notebook"]:
             try:
                 version = _get_package_version(package, mapping)
-                package = mapping.get(package, package)
+                package = mapping.get(package, package)  # noqa: PLW2901
 
                 environment["Extras"][package] = version
-            except Exception:  # pragma: no cover
-                # pylint: disable=B112
+            except Exception:  # pragma: no cover  # noqa: S112
                 continue
 
         environment["Extras"].update(ANCILLARY_EXTRAS_PACKAGES)
@@ -874,7 +872,7 @@ def multiline_str(
 
     representation = []
     for attribute in attributes:
-        attribute = dict(attribute_defaults, **attribute)
+        attribute = dict(attribute_defaults, **attribute)  # noqa: PLW2901
 
         if not attribute["line_break"]:
             if attribute["name"] is not None:
@@ -1004,7 +1002,7 @@ def multiline_repr(
     representation = [f"{object_.__class__.__name__}({_format(attribute)}"]
 
     for attribute in attributes:
-        attribute = dict(attribute_defaults, **attribute)
+        attribute = dict(attribute_defaults, **attribute)  # noqa: PLW2901
 
         representation.append(f"{'':{justify}}{_format(attribute)}")
 

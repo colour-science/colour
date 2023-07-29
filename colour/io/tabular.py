@@ -146,7 +146,7 @@ def read_spectral_data_from_csv_file(
     if transpose:
         os.unlink(transposed_csv_file.name)
 
-    return {name: data[name] for name in data.dtype.names}  # pyright: ignore
+    return {name: data[name] for name in data.dtype.names}
 
 
 def read_sds_from_csv_file(
@@ -322,7 +322,7 @@ def write_sds_to_csv_file(
                 'with different shapes to "CSV" file!'
             )
 
-    wavelengths = tuple(sds.values())[0].wavelengths
+    wavelengths = next(iter(sds.values())).wavelengths
     with open(path, "w") as csv_file:
         fields = sorted(sds.keys())
         writer = csv.DictWriter(

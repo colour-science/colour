@@ -157,12 +157,11 @@ class AbstractLUT(ABC):
         self.name = optional(name, self._name)
         self._dimensions = optional(dimensions, 0)
         self._table: NDArrayFloat = self.linear_table(
-            cast(ArrayLike, optional(size, 0)),
-            cast(ArrayLike, optional(domain, np.array([]))),
+            optional(size, 0), optional(domain, np.array([]))
         )
-        self.table = cast(ArrayLike, optional(table, self._table))
+        self.table = optional(table, self._table)
         self._domain: NDArrayFloat = np.array([])
-        self.domain = cast(ArrayLike, optional(domain, self._domain))
+        self.domain = optional(domain, self._domain)
         self._comments: list = []
         self.comments = cast(list, optional(comments, self._comments))
 
@@ -241,7 +240,6 @@ class AbstractLUT(ABC):
     def domain(self, value: ArrayLike):
         """Setter for the **self.domain** property."""
 
-        # pylint: disable=E1121
         self._domain = self._validate_domain(value)
 
     @property
@@ -892,7 +890,6 @@ class LUT1D(AbstractLUT):
         size: ArrayLike | None = None,
         comments: Sequence | None = None,
     ) -> None:
-
         domain = as_float_array(optional(domain, np.array([0, 1])))
         size = optional(size, 10)
 

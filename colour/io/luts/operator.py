@@ -20,7 +20,6 @@ from colour.hints import (
     List,
     NDArrayFloat,
     Sequence,
-    cast,
 )
 from colour.utilities import (
     as_float_array,
@@ -249,9 +248,9 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         super().__init__(*args, **kwargs)
 
         self._matrix: NDArrayFloat = np.diag(ones(4))
-        self.matrix = cast(ArrayLike, optional(matrix, self._matrix))
+        self.matrix = optional(matrix, self._matrix)
         self._offset: NDArrayFloat = zeros(4)
-        self.offset = cast(ArrayLike, optional(offset, self._offset))
+        self.offset = optional(offset, self._offset)
 
     @property
     def matrix(self) -> NDArrayFloat:
@@ -404,7 +403,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         indentation = " " * (len(self.__class__.__name__) + 1)
 
         comments = (
-            f",\n{indentation}comments={repr(self._comments)}"
+            f",\n{indentation}comments={self._comments!r}"
             if self._comments
             else ""
         )

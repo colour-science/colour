@@ -165,7 +165,7 @@ def read_LUT_ResolveCube(path: str) -> LUT3x1D | LUT3D | LUTSequence:
     with open(path) as cube_file:
         lines = cube_file.readlines()
         for line in lines:
-            line = line.strip()
+            line = line.strip()  # noqa: PLW2901
 
             if len(line) == 0:
                 continue

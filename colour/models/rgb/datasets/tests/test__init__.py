@@ -71,7 +71,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
             )
 
             # Derived transformation matrices.
-            colourspace = deepcopy(colourspace)
+            colourspace = deepcopy(colourspace)  # noqa: PLW2901
             colourspace.use_derived_transformation_matrices(True)
             RGB = np.dot(colourspace.matrix_XYZ_to_RGB, XYZ_r)
             XYZ = np.dot(colourspace.matrix_RGB_to_XYZ, RGB)

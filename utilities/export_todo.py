@@ -66,7 +66,7 @@ def extract_todo_items(root_directory: str) -> dict:
             if not filename.endswith(".py"):
                 continue
 
-            filename = os.path.join(root, filename)
+            filename = os.path.join(root, filename)  # noqa: PLW2901
             with codecs.open(filename, encoding="utf8") as file_handle:
                 content = file_handle.readlines()
 
@@ -74,7 +74,7 @@ def extract_todo_items(root_directory: str) -> dict:
             line_number = -1
             todo_item = []
             for i, line in enumerate(content):
-                line = line.strip()
+                line = line.strip()  # noqa: PLW2901
                 if line.startswith("# TODO:"):
                     in_todo = True
                     line_number = i + 1

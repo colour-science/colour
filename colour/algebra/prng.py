@@ -5,6 +5,7 @@ Random Numbers Utilities
 Defines the random number generator objects:
 
 -   :func:`colour.algebra.random_triplet_generator`
+
 References
 ----------
 -   :cite:`Laurent2012a` : Laurent. (2012). Reproducibility of python

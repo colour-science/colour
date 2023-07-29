@@ -36,7 +36,6 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
     def setUp(self):
         """Initialise the common tests attributes."""
 
-        # pylint: disable=E1102
         self._cmfs = reshape_msds(
             MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
             SpectralShape(360, 780, 10),
@@ -91,7 +90,6 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
         )
 
         shape = SpectralShape(400, 700, 5)
-        # pylint: disable=E1102
         cmfs = reshape_msds(self._cmfs, shape)
         np.testing.assert_array_almost_equal(
             sd_to_XYZ_integration(

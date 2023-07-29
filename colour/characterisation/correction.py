@@ -168,7 +168,7 @@ def matrix_augmented_Cheung2004(
             f"{closest_terms} terms!"
         )
 
-    if terms == 3:
+    if terms == 3:  # noqa: RET503
         return RGB
     elif terms == 4:
         return tstack([R, G, B, tail])
@@ -376,7 +376,7 @@ def matrix_augmented_Cheung2004(
                 R * G * B**2,
             ]
         )
-    elif terms == 35:  # noqa: RET503
+    elif terms == 35:
         return tstack(
             [
                 R,
@@ -468,7 +468,7 @@ def polynomial_expansion_Finlayson2015(
             f"{closest_degree} degree!"
         )
 
-    if degree == 1:
+    if degree == 1:  # noqa: RET503
         return RGB
     elif degree == 2:
         if root_polynomial_expansion:
@@ -540,7 +540,7 @@ def polynomial_expansion_Finlayson2015(
                     R * G * B,
                 ]
             )
-    elif degree == 4:  # noqa: RET503
+    elif degree == 4:
         if root_polynomial_expansion:
             return tstack(
                 [

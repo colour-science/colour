@@ -1124,7 +1124,6 @@ class TestMatrixIdt(unittest.TestCase):
             SDS_COLOURCHECKERS["BabelColor Average"].values()
         )
 
-        # pylint: disable=E1102
         np.testing.assert_allclose(
             matrix_idt(
                 reshape_msds(

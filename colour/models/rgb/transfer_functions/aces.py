@@ -113,7 +113,6 @@ CONSTANTS_ACES_CCT: Structure = Structure(
 """*ACEScct* constants."""
 
 
-# pylint: disable=W0102
 def log_encoding_ACESproxy(
     lin_AP1: ArrayLike,
     bit_depth: Literal[10, 12] = 10,
@@ -201,7 +200,6 @@ def log_encoding_ACESproxy(
         return as_float(from_range_1(ACESproxy / (2**bit_depth - 1)))
 
 
-# pylint: disable=W0102
 def log_decoding_ACESproxy(
     ACESproxy: ArrayLike,
     bit_depth: Literal[10, 12] = 10,
@@ -393,7 +391,6 @@ def log_decoding_ACEScc(ACEScc: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_1(lin_AP1))
 
 
-# pylint: disable=W0102
 def log_encoding_ACEScct(
     lin_AP1: ArrayLike, constants: Structure = CONSTANTS_ACES_CCT
 ) -> NDArrayFloat:
@@ -451,7 +448,6 @@ def log_encoding_ACEScct(
     return as_float(from_range_1(ACEScct))
 
 
-# pylint: disable=W0102
 def log_decoding_ACEScct(
     ACEScct: ArrayLike, constants: Structure = CONSTANTS_ACES_CCT
 ) -> NDArrayFloat:

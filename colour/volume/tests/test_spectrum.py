@@ -147,7 +147,6 @@ class TestXYZOuterSurface(unittest.TestCase):
         )
         cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
 
-        # pylint: disable=E1102
         np.testing.assert_array_almost_equal(
             XYZ_outer_surface(reshape_msds(cmfs, shape)),
             np.array(

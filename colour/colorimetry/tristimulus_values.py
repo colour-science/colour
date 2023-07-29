@@ -707,7 +707,6 @@ def sd_to_XYZ_integration(
 
         if cmfs.shape != shape:
             runtime_warning(f'Aligning "{cmfs.name}" cmfs shape to "{shape}".')
-            # pylint: disable=E1102
             cmfs = reshape_msds(cmfs, shape, copy=False)
 
     if illuminant.shape != shape:
@@ -840,7 +839,6 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
 
     if cmfs.shape.interval != 1:
         runtime_warning(f'Interpolating "{cmfs.name}" cmfs to 1nm interval.')
-        # pylint: disable=E1102
         cmfs = reshape_msds(
             cmfs,
             SpectralShape(cmfs.shape.start, cmfs.shape.end, 1),
@@ -1022,7 +1020,6 @@ def sd_to_XYZ_ASTME308(
         sd = reshape_sd(sd, cmfs.shape, copy=False)
 
     if use_practice_range:
-        # pylint: disable=E1102
         cmfs = reshape_msds(cmfs, SPECTRAL_SHAPE_ASTME308, "Trim", copy=False)
 
     method = sd_to_XYZ_tristimulus_weighting_factors_ASTME308
@@ -1030,7 +1027,6 @@ def sd_to_XYZ_ASTME308(
         method = sd_to_XYZ_integration
     elif sd.shape.interval == 5 and mi_5nm_omission_method:
         if cmfs.shape.interval != 5:
-            # pylint: disable=E1102
             cmfs = reshape_msds(
                 cmfs,
                 SpectralShape(cmfs.shape.start, cmfs.shape.end, 5),

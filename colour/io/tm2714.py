@@ -176,7 +176,6 @@ class Header_IESTM2714:
         document_creation_date: str | None = None,
         comments: str | None = None,
     ) -> None:
-
         self._mapping: Structure = Structure(
             **{
                 "element": "Header",
@@ -923,7 +922,6 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         bandwidth_corrected: bool | None = None,
         **kwargs,
     ) -> None:
-
         super().__init__(**kwargs)
 
         self._mapping: Structure = Structure(
@@ -1081,20 +1079,23 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     @property
     def spectral_quantity(
         self,
-    ) -> Literal[
-        "absorptance",
-        "exitance",
-        "flux",
-        "intensity",
-        "irradiance",
-        "radiance",
-        "reflectance",
-        "relative",
-        "transmittance",
-        "R-Factor",
-        "T-Factor",
-        "other",
-    ] | None:
+    ) -> (
+        Literal[
+            "absorptance",
+            "exitance",
+            "flux",
+            "intensity",
+            "irradiance",
+            "radiance",
+            "reflectance",
+            "relative",
+            "transmittance",
+            "R-Factor",
+            "T-Factor",
+            "other",
+        ]
+        | None
+    ):
         """
         Getter and setter property for the spectral quantity.
 
@@ -1143,20 +1144,23 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     @property
     def reflection_geometry(
         self,
-    ) -> Literal[
-        "di:8",
-        "de:8",
-        "8:di",
-        "8:de",
-        "d:d",
-        "d:0",
-        "45a:0",
-        "45c:0",
-        "0:45a",
-        "45x:0",
-        "0:45x",
-        "other",
-    ] | None:
+    ) -> (
+        Literal[
+            "di:8",
+            "de:8",
+            "8:di",
+            "8:de",
+            "d:d",
+            "d:0",
+            "45a:0",
+            "45c:0",
+            "0:45a",
+            "45x:0",
+            "0:45x",
+            "other",
+        ]
+        | None
+    ):
         """
         Getter and setter property for the reflection geometry.
 
@@ -1671,7 +1675,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         if self._path is not None:
             formatter = "./{{{0}}}{1}/{{{0}}}{2}"
 
-            tree = ElementTree.parse(self._path)  # nosec
+            tree = ElementTree.parse(self._path)  # noqa: S314
             root = tree.getroot()
 
             match = re.match("{(.*)}", root.tag)
@@ -1782,7 +1786,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                     spectral_distribution = element
 
             # Writing spectral data.
-            for (wavelength, value) in tstack([self.wavelengths, self.values]):
+            for wavelength, value in tstack([self.wavelengths, self.values]):
                 element_child = ElementTree.SubElement(
                     spectral_distribution, mapping.data.element
                 )
@@ -1793,7 +1797,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                     )
                 }
 
-            xml = minidom.parseString(
+            xml = minidom.parseString(  # noqa: S318
                 ElementTree.tostring(root)
             ).toprettyxml()  # nosec
 

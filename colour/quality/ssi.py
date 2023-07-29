@@ -81,7 +81,7 @@ def spectral_similarity_index(
     94.0
     """
 
-    global _MATRIX_INTEGRATION
+    global _MATRIX_INTEGRATION  # noqa: PLW0603
 
     if _MATRIX_INTEGRATION is None:
         _MATRIX_INTEGRATION = zeros(

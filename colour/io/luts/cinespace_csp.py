@@ -158,7 +158,7 @@ def read_LUT_Cinespace(path: str) -> LUT3x1D | LUT3D | LUTSequence:
         metadata = []
         is_metadata = False
         for i, line in enumerate(lines[2:]):
-            line = line.strip()
+            line = line.strip()  # noqa: PLW2901
             if line == "BEGIN METADATA":
                 is_metadata = True
                 continue

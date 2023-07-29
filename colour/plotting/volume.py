@@ -275,7 +275,9 @@ def nadir_grid(
                     else limits[0, 1 if y_s == 1 else 0] + (y_s * extent / 25)
                 )
 
-                tick = as_int_scalar(tick) if is_integer(tick) else tick
+                tick = (  # noqa: PLW2901
+                    as_int_scalar(tick) if is_integer(tick) else tick
+                )
                 c = settings[f"{axis}_ticks_colour"]
 
                 axes.text(
@@ -604,7 +606,7 @@ def plot_RGB_colourspaces_gamuts(
         if chromatically_adapt and not np.array_equal(
             colourspace.whitepoint, plotting_colourspace.whitepoint
         ):
-            colourspace = colourspace.chromatically_adapt(
+            colourspace = colourspace.chromatically_adapt(  # noqa: PLW2901
                 plotting_colourspace.whitepoint,
                 plotting_colourspace.whitepoint_name,
             )

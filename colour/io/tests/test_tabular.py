@@ -233,7 +233,7 @@ class TestWriteSdsToCsvFile(unittest.TestCase):
             ROOT_RESOURCES, "colorchecker_n_ohta.csv"
         )
         sds = read_sds_from_csv_file(colour_checker_n_ohta)
-        key = list(sds.keys())[0]
+        key = next(iter(sds.keys()))
         sds[key] = sds[key].align(SpectralShape(400, 700, 10))
 
         self.assertRaises(ValueError, write_sds_to_csv_file, sds, "")

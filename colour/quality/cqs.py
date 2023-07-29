@@ -221,7 +221,6 @@ def colour_quality_scale(
 
     method = validate_method(method, tuple(COLOUR_QUALITY_SCALE_METHODS))
 
-    # pylint: disable=E1102
     cmfs = reshape_msds(
         MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
         SPECTRAL_SHAPE_DEFAULT,

@@ -438,11 +438,8 @@ def plot_chromaticity_diagram_colours(
 
     _figure, axes = artist(**settings)
 
-    diagram_colours = cast(
-        ArrayLike,
-        optional(
-            diagram_colours, HEX_to_RGB(CONSTANTS_COLOUR_STYLE.colour.average)
-        ),
+    diagram_colours = optional(
+        diagram_colours, HEX_to_RGB(CONSTANTS_COLOUR_STYLE.colour.average)
     )
 
     cmfs = cast(

@@ -198,7 +198,7 @@ class TestMixinDataclassIterable(unittest.TestCase):
         """
 
         self.assertDictEqual(
-            {key: value for key, value in self._data},
+            {key: value for key, value in self._data},  # noqa: C416
             {"a": "Foo", "b": "Bar", "c": "Baz"},
         )
 
@@ -724,7 +724,7 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
                 a = 555
 
             if (
-                source.startswith("CCT")
+                source.startswith("CCT")  # noqa: PIE810
                 or source.endswith(" xy")
                 or source.endswith(" uv")
             ):

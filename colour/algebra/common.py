@@ -143,7 +143,7 @@ def set_sdiv_mode(
     raise
     """
 
-    global _SDIV_MODE
+    global _SDIV_MODE  # noqa: PLW0603
 
     _SDIV_MODE = cast(
         Literal[
@@ -397,7 +397,7 @@ def set_spow_enable(enable: bool):
     False
     """
 
-    global _SPOW_ENABLED
+    global _SPOW_ENABLED  # noqa: PLW0603
 
     _SPOW_ENABLED = enable
 

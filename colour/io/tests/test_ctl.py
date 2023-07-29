@@ -228,7 +228,7 @@ class TestTemplateCtlTransformFloat(unittest.TestCase):
 
             import "Foo.ctl";
             import "Bar.ctl";
-            
+
             // Custom Header
             void main
             (
@@ -297,7 +297,7 @@ class TestTemplateCtlTransformFloat3(unittest.TestCase):
         target = textwrap.dedent(
             """
             // Foo, Bar & Baz
-            
+
             // import "Foo.ctl";
             // import "Bar.ctl";
             // import "Baz.ctl";
@@ -305,14 +305,14 @@ class TestTemplateCtlTransformFloat3(unittest.TestCase):
             float[3] baz(float rgbIn[3], float foo[3], float qux)
             {
                 float rgbOut[3];
-                
+
                 rgbOut[0] = rgbIn[0] * foo[0]* qux;
                 rgbOut[1] = rgbIn[1] * foo[1]* qux;
                 rgbOut[2] = rgbIn[2] * foo[2]* qux;
 
                 return rgbOut;
             }
-            
+
             void main
             (
                 output varying float rOut,
@@ -328,7 +328,7 @@ class TestTemplateCtlTransformFloat3(unittest.TestCase):
             )
             {
                 float rgbIn[3] = {rIn, gIn, bIn};
-                
+
                 float rgbOut[3] = baz(rgbIn, foo, bar);
 
                 rOut = rgbOut[0];

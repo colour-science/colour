@@ -19,7 +19,6 @@ from colour.hints import (
     Dict,
     Literal,
     Tuple,
-    cast,
 )
 from colour.plotting import CONSTANTS_COLOUR_STYLE, plot_image, override_style
 from colour.utilities import optional
@@ -89,9 +88,7 @@ def plot_cvd_simulation_Machado2009(
         :alt: plot_cvd_simulation_Machado2009
     """
 
-    M_a = cast(
-        ArrayLike, optional(M_a, matrix_cvd_Machado2009(deficiency, severity))
-    )
+    M_a = optional(M_a, matrix_cvd_Machado2009(deficiency, severity))
 
     settings: Dict[str, Any] = {
         "text_kwargs": {

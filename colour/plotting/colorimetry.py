@@ -547,7 +547,9 @@ def plot_multi_cmfs(
         for j, RGB in enumerate(
             as_float_array([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
         ):
-            RGB = [reduce(lambda y, _: y * 0.5, range(i), x) for x in RGB]
+            RGB = [  # noqa: PLW2901
+                reduce(lambda y, _: y * 0.5, range(i), x) for x in RGB
+            ]
             values = cmfs_i.values[:, j]
 
             shape = cmfs_i.shape

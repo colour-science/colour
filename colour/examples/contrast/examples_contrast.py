@@ -121,7 +121,7 @@ plot_single_function(
     ),
     samples=L,
     log_x=10,
-    **{
+    **{  # pyright: ignore
         "title": "Examples of HVS Minimum Detectable Contrast Characteristics",
         "x_label": "Luminance ($cd/m^2$)",
         "y_label": "Minimum Detectable Contrast",

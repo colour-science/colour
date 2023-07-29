@@ -49,7 +49,6 @@ __all__ = [
     "template_ctl_transform_float3",
 ]
 
-
 EXECUTABLE_CTL_RENDER: str = "ctlrender"
 """
 *ctlrender* executable name.
@@ -59,6 +58,7 @@ ARGUMENTS_CTL_RENDER_DEFAULTS: tuple = ("-verbose", "-force")
 """
 *ctlrender* invocation default arguments.
 """
+
 
 # TODO: Reinstate coverage when "ctlrender" is trivially available
 # cross-platform.
@@ -167,7 +167,7 @@ def ctl_render(
             _descriptor, temp_filename = tempfile.mkstemp(suffix=".ctl")
             with open(temp_filename, "w") as temp_file:
                 temp_file.write(ctl_transform)
-                ctl_transform = temp_filename
+                ctl_transform = temp_filename  # noqa: PLW2901
                 temp_filenames.append(temp_filename)
         elif not os.path.exists(ctl_transform):
             raise FileNotFoundError(
@@ -183,7 +183,7 @@ def ctl_render(
     for arg in args:
         command += arg.split()
 
-    completed_process = subprocess.run(command, **kwargs)  # nosec
+    completed_process = subprocess.run(command, **kwargs)  # noqa: S603
 
     for temp_filename in temp_filenames:
         os.remove(temp_filename)

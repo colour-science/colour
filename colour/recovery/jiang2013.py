@@ -59,10 +59,13 @@ def PCA_Jiang2013(
     msds_camera_sensitivities: Mapping[str, MultiSpectralDistributions],
     eigen_w_v_count: int | None = None,
     additional_data: bool = False,
-) -> Tuple[
-    Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat],
-    Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat],
-] | Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]:
+) -> (
+    Tuple[
+        Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat],
+        Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat],
+    ]
+    | Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]
+):
     """
     Perform the *Principal Component Analysis* (PCA) on given camera *RGB*
     sensitivities.
@@ -247,14 +250,12 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
         runtime_warning(
             f'Aligning "{illuminant.name}" illuminant shape to "{shape}".'
         )
-        # pylint: disable=E1102
         illuminant = reshape_sd(illuminant, shape, copy=False)
 
     if reflectances.shape != shape:
         runtime_warning(
             f'Aligning "{reflectances.name}" reflectances shape to "{shape}".'
         )
-        # pylint: disable=E1102
         reflectances = reshape_msds(reflectances, shape, copy=False)
 
     S = np.diag(illuminant.values)
@@ -379,14 +380,12 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
         runtime_warning(
             f'Aligning "{illuminant.name}" illuminant shape to "{shape}".'
         )
-        # pylint: disable=E1102
         illuminant = reshape_sd(illuminant, shape, copy=False)
 
     if reflectances.shape != shape:
         runtime_warning(
             f'Aligning "{reflectances.name}" reflectances shape to "{shape}".'
         )
-        # pylint: disable=E1102
         reflectances = reshape_msds(reflectances, shape, copy=False)
 
     S_R = RGB_to_sd_camera_sensitivity_Jiang2013(

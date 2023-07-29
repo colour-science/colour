@@ -48,16 +48,13 @@ from colour.utilities import (
 )
 from colour.utilities.documentation import is_documentation_building
 
-if TYPE_CHECKING:
+if TYPE_CHECKING or is_pandas_installed():
     from pandas import DataFrame, Series  # pragma: no cover
-else:
-    if is_pandas_installed():
-        from pandas import DataFrame, Series
-    else:  # pragma: no cover
-        from unittest import mock
+else:  # pragma: no cover
+    from unittest import mock
 
-        DataFrame = mock.MagicMock()
-        Series = mock.MagicMock()
+    DataFrame = mock.MagicMock()
+    Series = mock.MagicMock()
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -709,12 +706,16 @@ class MultiSignals(AbstractContinuousFunction):
                 {"name": "labels"},
                 {
                     "name": "interpolator",
-                    "formatter": lambda x: self.interpolator.__name__,  # noqa: ARG005
+                    "formatter": lambda x: (  # noqa: ARG005
+                        self.interpolator.__name__
+                    ),
                 },
                 {"name": "interpolator_kwargs"},
                 {
                     "name": "extrapolator",
-                    "formatter": lambda x: self.extrapolator.__name__,  # noqa: ARG005
+                    "formatter": lambda x: (  # noqa: ARG005
+                        self.extrapolator.__name__
+                    ),
                 },
                 {"name": "extrapolator_kwargs"},
             ],
@@ -1478,7 +1479,7 @@ class MultiSignals(AbstractContinuousFunction):
             data_mapping = dict(cast(Mapping, data))
 
             is_signal = all(
-                [bool(isinstance(i, Signal)) for i in data_mapping.values()]
+                isinstance(i, Signal) for i in data_mapping.values()
             )
 
             if is_signal:

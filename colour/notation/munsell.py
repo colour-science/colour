@@ -2091,7 +2091,7 @@ def interpolation_method_from_renotation_ovoid(
                 # valid "Munsell Specification" in practice: 1M iterations with
                 # random numbers never reached this code path while producing a
                 # valid "Munsell Specification".
-                if 72.5 < ASTM_hue < 77.5:  # pragma: no cover
+                if 72.5 < ASTM_hue < 77.5:  # pragma: no cover # noqa: SIM108
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
