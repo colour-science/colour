@@ -186,7 +186,6 @@ class TestMixinJiang2013:
     def __init__(self) -> None:
         """Initialise common tests attributes for the mixin."""
 
-        # pylint: disable=E1102
         self._sensitivities = reshape_msds(
             MSDS_CAMERA_SENSITIVITIES["Nikon 5100 (NPL)"],
             SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,

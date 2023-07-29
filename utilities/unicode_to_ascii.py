@@ -55,7 +55,7 @@ def unicode_to_ascii(root_directory: str):
             if filename == "unicode_to_ascii.py":
                 continue
 
-            filename = os.path.join(root, filename)
+            filename = os.path.join(root, filename)  # noqa: PLW2901
             with codecs.open(filename, encoding="utf8") as file_handle:
                 content = file_handle.read()
 

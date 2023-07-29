@@ -13,7 +13,7 @@ import numpy as np
 import re
 from numpy.typing import ArrayLike, NDArray
 from types import ModuleType
-from typing import (
+from typing import (  # noqa: UP035
     Any,
     Callable,
     Dict,
@@ -176,11 +176,11 @@ LiteralWarning = Literal[
 ]
 
 
-def arraylike(a: ArrayLike) -> NDArray:  # noqa: ARG001, D103
+def arraylike(a: ArrayLike) -> NDArray:  # noqa: ARG001
     ...
 
 
-def number_or_arraylike(a: ArrayLike) -> NDArray:  # noqa: ARG001, D103
+def number_or_arraylike(a: ArrayLike) -> NDArray:  # noqa: ARG001
     ...
 
 
@@ -227,7 +227,6 @@ np.atleast_1d(s_b)
 np.atleast_1d(s_c)
 
 del a, b, c, d, e, s_a, s_b, s_c
-
 
 # ----------------------------------------------------------------------------#
 # ---                API Changes and Deprecation Management                ---#

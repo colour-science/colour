@@ -322,7 +322,7 @@ def write_sds_to_csv_file(
                 'with different shapes to "CSV" file!'
             )
 
-    wavelengths = tuple(sds.values())[0].wavelengths
+    wavelengths = next(iter(sds.values())).wavelengths
     with open(path, "w") as csv_file:
         fields = sorted(sds.keys())
         writer = csv.DictWriter(

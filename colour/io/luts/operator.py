@@ -403,7 +403,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         indentation = " " * (len(self.__class__.__name__) + 1)
 
         comments = (
-            f",\n{indentation}comments={repr(self._comments)}"
+            f",\n{indentation}comments={self._comments!r}"
             if self._comments
             else ""
         )

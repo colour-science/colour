@@ -105,7 +105,7 @@ def _log_decoding_FilmicPro6_interpolator() -> Extrapolator:
         function interpolator.
     """
 
-    global _CACHE_LOG_DECODING_FILMICPRO_INTERPOLATOR
+    global _CACHE_LOG_DECODING_FILMICPRO_INTERPOLATOR  # noqa: PLW0603
 
     t = np.arange(0, 1, 0.0001)
     if _CACHE_LOG_DECODING_FILMICPRO_INTERPOLATOR is None:

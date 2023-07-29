@@ -571,7 +571,6 @@ def plot_visible_spectrum_section(
 
     _figure, axes = artist(**settings)
 
-    # pylint: disable=E1102
     cmfs = cast(
         MultiSpectralDistributions,
         reshape_msds(

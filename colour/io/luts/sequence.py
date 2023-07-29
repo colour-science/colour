@@ -282,7 +282,6 @@ class LUTSequence(MutableSequence):
         if len(self) != len(other):
             return False
 
-        # pylint: disable=C0200
         return all(self[i] == other[i] for i in range(len(self)))
 
     def __ne__(self, other) -> bool:

@@ -1055,7 +1055,7 @@ def _conversion_path(source: str, target: str) -> List[Callable]:
 
     import networkx as nx
 
-    global CONVERSION_GRAPH
+    global CONVERSION_GRAPH  # noqa: PLW0603
 
     if CONVERSION_GRAPH is None:
         # Updating the :attr:`CONVERSION_GRAPH` attributes.

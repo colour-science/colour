@@ -337,7 +337,7 @@ def read_training_data_rawtoaces_v1() -> MultiSpectralDistributions:
     190
     """
 
-    global _TRAINING_DATA_RAWTOACES_V1
+    global _TRAINING_DATA_RAWTOACES_V1  # noqa: PLW0603
 
     if _TRAINING_DATA_RAWTOACES_V1 is not None:
         training_data = _TRAINING_DATA_RAWTOACES_V1
@@ -391,7 +391,7 @@ def generate_illuminants_rawtoaces_v1() -> CanonicalMapping:
 'D80', 'D85', 'D90', 'D95', 'iso7589']
     """
 
-    global _ILLUMINANTS_RAWTOACES_V1
+    global _ILLUMINANTS_RAWTOACES_V1  # noqa: PLW0603
 
     if _ILLUMINANTS_RAWTOACES_V1 is not None:
         illuminants = _ILLUMINANTS_RAWTOACES_V1
@@ -647,7 +647,6 @@ def training_data_sds_to_RGB(
         runtime_warning(
             f'Aligning "{training_data.name}" training data shape to "{shape}".'
         )
-        # pylint: disable=E1102
         training_data = reshape_msds(training_data, shape, copy=False)
 
     RGB_w = white_balance_multipliers(sensitivities, illuminant)
@@ -739,7 +738,6 @@ def training_data_sds_to_XYZ(
         runtime_warning(
             f'Aligning "{training_data.name}" training data shape to "{shape}".'
         )
-        # pylint: disable=E1102
         training_data = reshape_msds(training_data, shape, copy=False)
 
     XYZ = np.dot(
@@ -1154,14 +1152,12 @@ def matrix_idt(
         runtime_warning(
             f'Aligning "{sensitivities.name}" sensitivities shape to "{shape}".'
         )
-        # pylint: disable=E1102
         sensitivities = reshape_msds(sensitivities, shape, copy=False)
 
     if training_data.shape != shape:
         runtime_warning(
             f'Aligning "{training_data.name}" training data shape to "{shape}".'
         )
-        # pylint: disable=E1102
         training_data = reshape_msds(training_data, shape, copy=False)
 
     illuminant = normalise_illuminant(illuminant, sensitivities)

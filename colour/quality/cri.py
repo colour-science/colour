@@ -136,7 +136,6 @@ def colour_rendering_index(
     64.2337241...
     """
 
-    # pylint: disable=E1102
     cmfs = reshape_msds(
         MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
         SPECTRAL_SHAPE_DEFAULT,

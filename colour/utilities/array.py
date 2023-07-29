@@ -982,7 +982,7 @@ def set_domain_range_scale(
         usage only!
     """
 
-    global _DOMAIN_RANGE_SCALE
+    global _DOMAIN_RANGE_SCALE  # noqa: PLW0603
 
     _DOMAIN_RANGE_SCALE = validate_method(
         str(scale),
@@ -1848,7 +1848,7 @@ def set_ndarray_copy_enable(enable: bool):
     False
     """
 
-    global _NDARRAY_COPY_ENABLED
+    global _NDARRAY_COPY_ENABLED  # noqa: PLW0603
 
     _NDARRAY_COPY_ENABLED = enable
 
@@ -2443,11 +2443,11 @@ def centroid(a: ArrayLike) -> NDArray:
 
     a_ci = []
     for axis in coordinates:
-        axis = np.transpose(axis)
+        axis = np.transpose(axis)  # noqa: PLW2901
         # Aligning axis for N-D arrays where N is normalised to
         # range [3, :math:`\\\infty`]
         for i in range(axis.ndim - 2, 0, -1):
-            axis = np.rollaxis(axis, i - 1, axis.ndim)
+            axis = np.rollaxis(axis, i - 1, axis.ndim)  # noqa: PLW2901
 
         a_ci.append(np.sum(axis * a) // a_s)
 

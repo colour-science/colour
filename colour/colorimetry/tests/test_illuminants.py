@@ -169,7 +169,7 @@ sd_CIE_illuminant_D_series` definition.
             ("D65", 6500, 0.00001),
             ("D75", 7500, 0.0001),
         ):
-            CCT = CCT * 1.4388 / 1.4380
+            CCT *= 1.4388 / 1.4380  # noqa: PLW2901
             xy = CCT_to_xy_CIE_D(CCT)
             sd_r = SDS_ILLUMINANTS[name]
             sd_t = sd_CIE_illuminant_D_series(xy)

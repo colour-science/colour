@@ -51,7 +51,6 @@ class TestXYZ_to_LLAB(unittest.TestCase):
             "colour.appearance.llab.MATRIX_RGB_TO_XYZ_LLAB",
             np.around(np.linalg.inv(llab.MATRIX_XYZ_TO_RGB_LLAB), decimals=4),
         ):
-
             XYZ = np.array([19.01, 20.00, 21.78])
             XYZ_0 = np.array([95.05, 100.00, 108.88])
             Y_b = 20

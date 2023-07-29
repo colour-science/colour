@@ -47,7 +47,6 @@ class TestMixinMallett2019:
     def __init__(self) -> None:
         """Initialise common tests attributes for the mixin."""
 
-        # pylint: disable=E1102
         self._cmfs = reshape_msds(
             MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
             SpectralShape(360, 780, 10),

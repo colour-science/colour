@@ -613,7 +613,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
         if chromatically_adapt and not np.array_equal(
             colourspace.whitepoint, plotting_colourspace.whitepoint
         ):
-            colourspace = colourspace.chromatically_adapt(
+            colourspace = colourspace.chromatically_adapt(  # noqa: PLW2901
                 plotting_colourspace.whitepoint,
                 plotting_colourspace.whitepoint_name,
             )
@@ -1382,7 +1382,6 @@ def ellipses_MacAdam1942(
     x, y, _a, _b, _theta, a, b, theta = tsplit(DATA_MACADAM_1942_ELLIPSES)
 
     ellipses_coefficients = []
-    # pylint: disable=C0200
     for i in range(len(theta)):
         xy = point_at_angle_on_ellipse(
             np.linspace(0, 360, 36),
@@ -1462,7 +1461,7 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram.png
         diagram_clipping_path_x = []
         diagram_clipping_path_y = []
         for coefficients in ellipses_coefficients:
-            coefficients = np.copy(coefficients)
+            coefficients = np.copy(coefficients)  # noqa: PLW2901
 
             coefficients[2:4] /= 2
 

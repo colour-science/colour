@@ -179,7 +179,6 @@ class AbstractLUTTest(unittest.TestCase):
         if self._LUT_factory is None:
             return
 
-        # pylint: disable=E1102
         LUT = self._LUT_factory(self._table_1)
 
         np.testing.assert_array_almost_equal(
@@ -207,7 +206,6 @@ class AbstractLUTTest(unittest.TestCase):
         if self._LUT_factory is None:
             return
 
-        # pylint: disable=E1102
         LUT = self._LUT_factory()
 
         np.testing.assert_array_equal(LUT.table, LUT.linear_table(self._size))
@@ -226,12 +224,10 @@ class AbstractLUTTest(unittest.TestCase):
         if self._LUT_factory is None:
             return
 
-        # pylint: disable=E1102
         LUT = self._LUT_factory(self._table_1)
 
         self.assertEqual(LUT.name, str(id(LUT)))
 
-        # pylint: disable=E1102
         LUT = self._LUT_factory()
 
         self.assertEqual(LUT.name, f"Unity {self._table_1.shape[0]}")
@@ -246,7 +242,6 @@ class AbstractLUTTest(unittest.TestCase):
         if self._LUT_factory is None:
             return
 
-        # pylint: disable=E1102
         LUT = self._LUT_factory()
 
         np.testing.assert_array_equal(LUT.domain, self._domain_1)
@@ -265,7 +260,6 @@ class AbstractLUTTest(unittest.TestCase):
         if self._LUT_factory is None:
             return
 
-        # pylint: disable=E1102
         LUT = self._LUT_factory()
 
         self.assertEqual(LUT.size, LUT.table.shape[0])
@@ -280,7 +274,6 @@ class AbstractLUTTest(unittest.TestCase):
         if self._LUT_factory is None:
             return
 
-        # pylint: disable=E1102
         LUT = self._LUT_factory()
 
         self.assertEqual(LUT.dimensions, self._dimensions)
@@ -295,12 +288,10 @@ class AbstractLUTTest(unittest.TestCase):
         if self._LUT_factory is None:
             return
 
-        # pylint: disable=E1102
         LUT = self._LUT_factory()
         self.assertListEqual(LUT.comments, [])
 
         comments = ["A first comment.", "A second comment."]
-        # pylint: disable=E1102
         LUT = self._LUT_factory(comments=comments)
 
         self.assertListEqual(LUT.comments, comments)
@@ -315,7 +306,6 @@ class AbstractLUTTest(unittest.TestCase):
         if self._LUT_factory is None:
             return
 
-        # pylint: disable=E1102
         LUT = self._LUT_factory(name="Nemo")
 
         self.assertEqual(str(LUT), self._str)
@@ -330,7 +320,6 @@ class AbstractLUTTest(unittest.TestCase):
         if self._LUT_factory is None:
             return
 
-        # pylint: disable=E1102
         LUT = self._LUT_factory(
             name="Nemo", comments=["A first comment.", "A second comment."]
         )
@@ -354,9 +343,7 @@ class AbstractLUTTest(unittest.TestCase):
         if self._LUT_factory is None:
             return
 
-        # pylint: disable=E1102
         LUT_1 = self._LUT_factory()
-        # pylint: disable=E1102
         LUT_2 = self._LUT_factory()
 
         self.assertEqual(LUT_1, LUT_2)
@@ -371,15 +358,12 @@ class AbstractLUTTest(unittest.TestCase):
         if self._LUT_factory is None:
             return
 
-        # pylint: disable=E1102
         LUT_1 = self._LUT_factory()
-        # pylint: disable=E1102
         LUT_2 = self._LUT_factory()
 
         LUT_2 += 0.1
         self.assertNotEqual(LUT_1, LUT_2)
 
-        # pylint: disable=E1102
         LUT_2 = self._LUT_factory()
         LUT_2.domain = self._domain_1 * 0.8 + 0.1
         self.assertNotEqual(LUT_1, LUT_2)
@@ -394,10 +378,8 @@ class AbstractLUTTest(unittest.TestCase):
         if self._LUT_factory is None:
             return
 
-        # pylint: disable=E1102
         self.assertFalse(self._LUT_factory().is_domain_explicit())
 
-        # pylint: disable=E1102
         self.assertTrue(
             self._LUT_factory(
                 self._table_3, domain=self._domain_3
@@ -414,9 +396,7 @@ class AbstractLUTTest(unittest.TestCase):
         if self._LUT_factory is None:
             return
 
-        # pylint: disable=E1102
         LUT_1 = self._LUT_factory()
-        # pylint: disable=E1102
         LUT_2 = self._LUT_factory()
 
         np.testing.assert_array_almost_equal(
@@ -499,7 +479,6 @@ class AbstractLUTTest(unittest.TestCase):
             decimal=7,
         )
 
-        # pylint: disable=E1102
         LUT_2 = self._LUT_factory()
 
         np.testing.assert_array_almost_equal(
@@ -524,7 +503,6 @@ class AbstractLUTTest(unittest.TestCase):
         if self._LUT_factory is None:
             return
 
-        # pylint: disable=E1102
         LUT_1 = self._LUT_factory()
 
         np.testing.assert_array_almost_equal(
@@ -549,7 +527,6 @@ class AbstractLUTTest(unittest.TestCase):
         if self._LUT_factory is None:
             return
 
-        # pylint: disable=E1102
         LUT_1 = self._LUT_factory()
 
         self.assertIsNot(LUT_1, LUT_1.copy())
@@ -565,7 +542,6 @@ class AbstractLUTTest(unittest.TestCase):
         if self._LUT_factory is None:
             return
 
-        # pylint: disable=E1102
         LUT_i = self._LUT_factory(self._table_2).invert(
             interpolator=self._interpolator_1, **self._invert_kwargs_1
         )
@@ -574,7 +550,6 @@ class AbstractLUTTest(unittest.TestCase):
             LUT_i.apply(RANDOM_TRIPLETS), self._inverted_apply_1, decimal=7
         )
 
-        # pylint: disable=E1102
         LUT_i = self._LUT_factory(self._table_2).invert(
             interpolator=self._interpolator_2, **self._invert_kwargs_2
         )
@@ -583,7 +558,6 @@ class AbstractLUTTest(unittest.TestCase):
             LUT_i.apply(RANDOM_TRIPLETS), self._inverted_apply_2, decimal=7
         )
 
-        # pylint: disable=E1102
         LUT_i = self._LUT_factory(self._table_2, domain=self._domain_4)
 
         try:
@@ -607,14 +581,12 @@ class AbstractLUTTest(unittest.TestCase):
         if self._LUT_factory is None:
             return
 
-        # pylint: disable=E1102
         LUT_1 = self._LUT_factory(self._table_2)
 
         np.testing.assert_array_almost_equal(
             LUT_1.apply(RANDOM_TRIPLETS), self._applied_1, decimal=7
         )
 
-        # pylint: disable=E1102
         LUT_2 = self._LUT_factory(domain=self._domain_2)
         LUT_2.table = spow(LUT_2.table, 1 / 2.2)
 
@@ -622,14 +594,12 @@ class AbstractLUTTest(unittest.TestCase):
             LUT_2.apply(RANDOM_TRIPLETS), self._applied_2, decimal=7
         )
 
-        # pylint: disable=E1102
         LUT_3 = self._LUT_factory(self._table_3, domain=self._domain_3)
 
         np.testing.assert_array_almost_equal(
             LUT_3.apply(RANDOM_TRIPLETS), self._applied_3, decimal=7
         )
 
-        # pylint: disable=E1102
         LUT_4 = self._LUT_factory(self._table_2)
 
         np.testing.assert_array_almost_equal(

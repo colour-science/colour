@@ -60,7 +60,7 @@ MATRIX_LMS_TO_XYZ_KIRK2019: NDArrayFloat = np.linalg.inv(
 )
 """
 *Kirk (2019)* matrix converting from *LMS* colourspace to *CIE XYZ* tristimulus
-values. 
+values.
 """
 
 

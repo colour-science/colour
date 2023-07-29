@@ -67,7 +67,9 @@ message_box(
     "argument."
 )
 
-warnings.warn("This is a fourth warning and it has not been filtered!")
+warnings.warn(  # noqa: B028
+    "This is a fourth warning and it has not been filtered!"
+)
 
 filter_warnings(python_warnings=False)
 

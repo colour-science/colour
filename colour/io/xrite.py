@@ -71,7 +71,7 @@ def read_sds_from_xrite_file(path: str) -> Dict[str, SpectralDistribution]:
         xrite_sds = {}
         is_spectral_data_format, is_spectral_data = False, False
         for line in lines:
-            line = line.strip()
+            line = line.strip()  # noqa: PLW2901
 
             if line == "END_DATA_FORMAT":
                 is_spectral_data_format = False

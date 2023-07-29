@@ -63,15 +63,12 @@ from colour.utilities import (
 from colour.utilities.common import int_digest
 from colour.utilities.documentation import is_documentation_building
 
-if TYPE_CHECKING:
+if TYPE_CHECKING or is_pandas_installed():
     from pandas import Series  # pragma: no cover
-else:
-    if is_pandas_installed():
-        from pandas import Series
-    else:  # pragma: no cover
-        from unittest import mock
+else:  # pragma: no cover
+    from unittest import mock
 
-        Series = mock.MagicMock()
+    Series = mock.MagicMock()
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

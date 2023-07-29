@@ -1776,7 +1776,6 @@ MultiSpectralDistributions.__init__` method.
 MultiSpectralDistributions.interpolate` method.
         """
 
-        # pylint: disable=E1102
         shape = SpectralShape(
             self._sample_msds.shape.start, self._sample_msds.shape.end, 1
         )
@@ -1787,7 +1786,6 @@ MultiSpectralDistributions.interpolate` method.
             )
         self.assertEqual(msds.shape, shape)
 
-        # pylint: disable=E1102
         shape = SpectralShape(
             self._non_uniform_sample_msds.shape.start,
             self._non_uniform_sample_msds.shape.end,

@@ -875,9 +875,7 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
         used for matching.
     """
 
-    if is_string(filterers):
-        filterers = [filterers]
-    elif not isinstance(filterers, (list, tuple)):
+    if is_string(filterers) or not isinstance(filterers, (list, tuple)):
         filterers = [filterers]
 
     string_filterers: List[str] = [

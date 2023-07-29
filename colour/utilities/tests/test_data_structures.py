@@ -79,11 +79,11 @@ class TestStructure(unittest.TestCase):
         structure = Structure(John="Doe", Jane="Doe")
 
         data = pickle.dumps(structure)
-        data = pickle.loads(data)
+        data = pickle.loads(data)  # noqa: S301
         self.assertEqual(structure, data)
 
         data = pickle.dumps(structure, pickle.HIGHEST_PROTOCOL)
-        data = pickle.loads(data)
+        data = pickle.loads(data)  # noqa: S301
         self.assertEqual(structure, data)
 
         self.assertEqual(sorted(dir(data)), ["Jane", "John"])

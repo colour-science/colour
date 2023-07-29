@@ -78,16 +78,13 @@ from colour.utilities import (
 )
 from colour.utilities.deprecation import ObjectRenamed
 
-if TYPE_CHECKING:
+if TYPE_CHECKING or is_pandas_installed():
     from pandas import DataFrame, Series  # pragma: no cover
-else:
-    if is_pandas_installed():
-        from pandas import DataFrame, Series
-    else:  # pragma: no cover
-        from unittest import mock
+else:  # pragma: no cover
+    from unittest import mock
 
-        DataFrame = mock.MagicMock()
-        Series = mock.MagicMock()
+    DataFrame = mock.MagicMock()
+    Series = mock.MagicMock()
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -686,7 +683,7 @@ class SpectralDistribution(Signal):
 
     def __init__(
         self,
-        data: ArrayLike | dict | Series | "Signal" | None = None,
+        data: ArrayLike | dict | Series | Signal | None = None,
         domain: ArrayLike | SpectralShape | None = None,
         **kwargs: Any,
     ) -> None:
@@ -1859,7 +1856,9 @@ class MultiSpectralDistributions(MultiSignals):
         )
         signals = self.multi_signals_unpack_data(data, domain, labels)
 
-        domain = signals[list(signals.keys())[0]].domain if signals else None
+        domain = (
+            signals[next(iter(signals.keys()))].domain if signals else None
+        )
         uniform = (
             is_uniform(domain)
             if domain is not None and len(domain) > 0
@@ -3074,7 +3073,7 @@ def sds_and_msds_to_msds(
         display_labels = []
         for sd in sds_converted:
             if sd.shape != shape:
-                sd = sd.align(shape)
+                sd = sd.align(shape)  # noqa: PLW2901
 
             values.append(sd.values)
             labels.append(

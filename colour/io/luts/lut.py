@@ -240,7 +240,6 @@ class AbstractLUT(ABC):
     def domain(self, value: ArrayLike):
         """Setter for the **self.domain** property."""
 
-        # pylint: disable=E1121
         self._domain = self._validate_domain(value)
 
     @property
@@ -891,7 +890,6 @@ class LUT1D(AbstractLUT):
         size: ArrayLike | None = None,
         comments: Sequence | None = None,
     ) -> None:
-
         domain = as_float_array(optional(domain, np.array([0, 1])))
         size = optional(size, 10)
 

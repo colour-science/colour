@@ -423,7 +423,7 @@ class disable_multiprocessing:
         manager.
         """
 
-        global _MULTIPROCESSING_ENABLED
+        global _MULTIPROCESSING_ENABLED  # noqa: PLW0603
 
         _MULTIPROCESSING_ENABLED = False
 
@@ -435,7 +435,7 @@ class disable_multiprocessing:
         manager.
         """
 
-        global _MULTIPROCESSING_ENABLED
+        global _MULTIPROCESSING_ENABLED  # noqa: PLW0603
 
         _MULTIPROCESSING_ENABLED = True
 
@@ -587,7 +587,7 @@ def is_ctlrender_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         stdout = subprocess.run(
-            ["ctlrender", "-help"], capture_output=True
+            ["ctlrender", "-help"], capture_output=True  # noqa: S603, S607
         ).stdout.decode(
             "utf-8"
         )  # nosec
@@ -628,7 +628,6 @@ def is_graphviz_installed(raise_exception: bool = False) -> bool:
     """
 
     try:  # pragma: no cover
-        # pylint: disable=W0611
         import pygraphviz  # noqa: F401
 
         return True
@@ -664,7 +663,6 @@ def is_matplotlib_installed(raise_exception: bool = False) -> bool:
     """
 
     try:  # pragma: no cover
-        # pylint: disable=W0611
         import matplotlib as mpl  # noqa: F401
 
         return True
@@ -700,7 +698,6 @@ def is_networkx_installed(raise_exception: bool = False) -> bool:
     """
 
     try:  # pragma: no cover
-        # pylint: disable=W0611
         import networkx  # noqa: F401
 
         return True
@@ -737,7 +734,6 @@ def is_opencolorio_installed(raise_exception: bool = False) -> bool:
     """
 
     try:  # pragma: no cover
-        # pylint: disable=W0611
         import PyOpenColorIO  # noqa: F401
 
         return True
@@ -773,7 +769,6 @@ def is_openimageio_installed(raise_exception: bool = False) -> bool:
     """
 
     try:  # pragma: no cover
-        # pylint: disable=W0611
         import OpenImageIO  # noqa: F401
 
         return True
@@ -809,7 +804,6 @@ def is_pandas_installed(raise_exception: bool = False) -> bool:
     """
 
     try:  # pragma: no cover
-        # pylint: disable=W0611
         import pandas  # noqa: F401, ICN001
 
         return True
@@ -845,7 +839,6 @@ def is_tqdm_installed(raise_exception: bool = False) -> bool:
     """
 
     try:  # pragma: no cover
-        # pylint: disable=W0611
         import tqdm  # noqa: F401
 
         return True
@@ -881,7 +874,6 @@ def is_trimesh_installed(raise_exception: bool = False) -> bool:
     """
 
     try:  # pragma: no cover
-        # pylint: disable=W0611
         import trimesh  # noqa: F401
 
         return True
@@ -917,7 +909,6 @@ def is_xxhash_installed(raise_exception: bool = False) -> bool:
     """
 
     try:  # pragma: no cover
-        # pylint: disable=W0611
         import xxhash  # noqa: F401
 
         return True
