@@ -583,6 +583,11 @@ def f_e_forward(RGB_c: ArrayLike, F_L: ArrayLike) -> NDArrayFloat:
     F_L = as_float_array(F_L)
     q_L, q_U = 0.26, 150
 
+    f_q_F_L_q_U = f_q(F_L, q_U)[..., None]
+    f_q_F_L_q_L = f_q(F_L, q_L)[..., None]
+    f_q_F_L_RGB_c = f_q(F_L[..., None], RGB_c)
+    d_f_q_F_L_q_U = d_f_q(F_L, q_U)[..., None]
+
     return np.select(
         [
             RGB_c > q_U,
@@ -590,9 +595,9 @@ def f_e_forward(RGB_c: ArrayLike, F_L: ArrayLike) -> NDArrayFloat:
             RGB_c < q_L,
         ],
         [
-            f_q(F_L, q_U) + d_f_q(F_L, q_U) * (RGB_c - q_U),
-            f_q(F_L, RGB_c),
-            f_q(F_L, q_L) * RGB_c / q_L,
+            f_q_F_L_q_U + d_f_q_F_L_q_U * (RGB_c - q_U),
+            f_q_F_L_RGB_c,
+            f_q_F_L_q_L * RGB_c / q_L,
         ],
     )
 
@@ -632,18 +637,22 @@ def f_e_inverse(RGB_a: ArrayLike, F_L: ArrayLike) -> NDArrayFloat:
     F_L = as_float_array(F_L)
     q_L, q_U = 0.26, 150
 
+    f_q_F_L_q_U = f_q(F_L, q_U)[..., None]
+    f_q_F_L_q_L = f_q(F_L, q_L)[..., None]
+    d_f_q_F_L_q_U = d_f_q(F_L, q_U)[..., None]
+
     return np.select(
         [
-            RGB_a > f_q(F_L, q_U),
-            np.logical_and(f_q(F_L, q_L) <= RGB_a, RGB_a <= f_q(F_L, q_U)),
-            RGB_a < f_q(F_L, q_L),
+            RGB_a > f_q_F_L_q_U,
+            np.logical_and(f_q_F_L_q_L <= RGB_a, RGB_a <= f_q_F_L_q_U),
+            RGB_a < f_q_F_L_q_L,
         ],
         [
-            q_U + (RGB_a - f_q(F_L, q_U)) / d_f_q(F_L, q_U),
+            q_U + (RGB_a - f_q_F_L_q_U) / d_f_q_F_L_q_U,
             100
             / F_L[..., None]
             * spow((27.13 * RGB_a) / (400 - RGB_a), 1 / 0.42),
-            q_L * RGB_a / f_q(F_L, q_L),
+            q_L * RGB_a / f_q_F_L_q_L,
         ],
     )
 
@@ -673,8 +682,6 @@ def f_q(F_L: ArrayLike, q: ArrayLike) -> NDArrayFloat:
     F_L = as_float_array(F_L)
     q = as_float_array(q)
 
-    F_L = F_L[..., None]
-
     F_L_q_100 = spow((F_L * q) / 100, 0.42)
 
     return (400 * F_L_q_100) / (27.13 + F_L_q_100)
@@ -699,13 +706,11 @@ def d_f_q(F_L: ArrayLike, q: ArrayLike) -> NDArrayFloat:
     Examples
     --------
     >>> d_f_q(1.17, 0.26)  # doctest: +ELLIPSIS
-    array([ 2.0749623...])
+    2.0749623...
     """
 
     F_L = as_float_array(F_L)
     q = as_float_array(q)
-
-    F_L = F_L[..., None]
 
     F_L_q_100 = (F_L * q) / 100
 

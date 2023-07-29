@@ -502,7 +502,9 @@ class TestAsInt(unittest.TestCase):
 
         self.assertEqual(as_int(1), 1)
 
-        self.assertEqual(as_int(np.array([1])), 1)
+        self.assertEqual(as_int(np.array([1])).ndim, 1)
+
+        self.assertEqual(as_int(np.array([[1]])).ndim, 2)
 
         np.testing.assert_array_almost_equal(
             as_int(np.array([1.0, 2.0, 3.0])), np.array([1, 2, 3])
@@ -526,7 +528,9 @@ class TestAsFloat(unittest.TestCase):
 
         self.assertEqual(as_float(1), 1.0)
 
-        self.assertEqual(as_float(np.array([1])), 1.0)
+        self.assertEqual(as_float(np.array([1])).ndim, 1)
+
+        self.assertEqual(as_float(np.array([[1]])).ndim, 2)
 
         np.testing.assert_array_almost_equal(
             as_float(np.array([1, 2, 3])), np.array([1.0, 2.0, 3.0])

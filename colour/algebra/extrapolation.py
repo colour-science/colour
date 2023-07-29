@@ -31,9 +31,9 @@ from colour.hints import (
     ProtocolInterpolator,
     Real,
     Type,
-    cast,
 )
 from colour.utilities import (
+    as_float_array,
     as_float,
     attest,
     is_numeric,
@@ -301,7 +301,7 @@ class Extrapolator:
             Extrapolated points value(s).
         """
 
-        x = cast(NDArrayFloat, np.atleast_1d(x).astype(self._dtype))
+        x = as_float_array(x)
 
         xe = self._evaluate(x)
 

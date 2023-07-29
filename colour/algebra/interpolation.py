@@ -658,7 +658,7 @@ class KernelInterpolator:
             Interpolated value(s).
         """
 
-        x = cast(NDArrayFloat, np.atleast_1d(x).astype(self._dtype))
+        x = as_float_array(x)
 
         xi = self._evaluate(x)
 
@@ -685,7 +685,9 @@ class KernelInterpolator:
         x_interval = interval(self._x)[0]
         x_f = np.floor(x / x_interval)
 
-        windows = x_f[:, None] + np.arange(-self._window + 1, self._window + 1)
+        windows = x_f[..., None] + np.arange(
+            -self._window + 1, self._window + 1
+        )
         clip_l = min(self._x_p) / x_interval
         clip_h = max(self._x_p) / x_interval
         windows = np.clip(windows, clip_l, clip_h) - clip_l
@@ -694,7 +696,7 @@ class KernelInterpolator:
         return np.sum(
             self._y_p[windows]
             * self._kernel(
-                x[:, None] / x_interval
+                x[..., None] / x_interval
                 - windows
                 - min(self._x_p) / x_interval,
                 **self._kernel_kwargs,
@@ -903,7 +905,7 @@ class LinearInterpolator:
             Interpolated value(s).
         """
 
-        x = cast(NDArrayFloat, np.atleast_1d(x).astype(self._dtype))
+        x = as_float_array(x)
 
         xi = self._evaluate(x)
 
@@ -1193,7 +1195,7 @@ class SpragueInterpolator:
             Interpolated value(s).
         """
 
-        x = cast(NDArrayFloat, np.atleast_1d(x).astype(self._dtype))
+        x = as_float_array(x)
 
         xi = self._evaluate(x)
 
@@ -1604,7 +1606,7 @@ class NullInterpolator:
             Interpolated value(s).
         """
 
-        x = cast(NDArrayFloat, np.atleast_1d(x).astype(self._dtype))
+        x = as_float_array(x)
 
         xi = self._evaluate(x)
 
@@ -1639,7 +1641,7 @@ class NullInterpolator:
             )
         ] = self._default
 
-        return values
+        return np.squeeze(values)
 
     def _validate_dimensions(self):
         """Validate that the variables dimensions are the same."""

@@ -1126,9 +1126,11 @@ def ootf_BT2100_HLG_1(
     63.1051034...
     """
 
-    E = as_float_array(np.atleast_1d(to_domain_1(E)))
+    E = to_domain_1(E)
 
-    if E.shape[-1] != 3:
+    is_single_channel = np.atleast_1d(E).shape[-1] != 3
+
+    if is_single_channel:
         usage_warning(
             '"Recommendation ITU-R BT.2100" "Reference HLG OOTF" uses '
             "RGB Luminance in computations and expects a vector input, thus "
@@ -1150,7 +1152,7 @@ def ootf_BT2100_HLG_1(
     G_D = alpha * G_S * np.abs(Y_S) ** (gamma - 1) + beta
     B_D = alpha * B_S * np.abs(Y_S) ** (gamma - 1) + beta
 
-    if E.shape[-1] != 3:
+    if is_single_channel:
         return as_float(from_range_1(R_D))
     else:
         RGB_D = tstack([R_D, G_D, B_D])
@@ -1212,9 +1214,11 @@ def ootf_BT2100_HLG_2(
     63.0957344...
     """
 
-    E = as_float_array(np.atleast_1d(to_domain_1(E)))
+    E = to_domain_1(E)
 
-    if E.shape[-1] != 3:
+    is_single_channel = np.atleast_1d(E).shape[-1] != 3
+
+    if is_single_channel:
         usage_warning(
             '"Recommendation ITU-R BT.2100" "Reference HLG OOTF" uses '
             "RGB Luminance in computations and expects a vector input, thus "
@@ -1235,7 +1239,7 @@ def ootf_BT2100_HLG_2(
     G_D = alpha * G_S * np.abs(Y_S) ** (gamma - 1)
     B_D = alpha * B_S * np.abs(Y_S) ** (gamma - 1)
 
-    if E.shape[-1] != 3:
+    if is_single_channel:
         return as_float(from_range_1(R_D))
     else:
         RGB_D = tstack([R_D, G_D, B_D])
@@ -1392,9 +1396,11 @@ def ootf_inverse_BT2100_HLG_1(
     0.0999999...
     """
 
-    F_D = as_float_array(np.atleast_1d(to_domain_1(F_D)))
+    F_D = to_domain_1(F_D)
 
-    if F_D.shape[-1] != 3:
+    is_single_channel = np.atleast_1d(F_D).shape[-1] != 3
+
+    if is_single_channel:
         usage_warning(
             '"Recommendation ITU-R BT.2100" "Reference HLG OOTF" uses '
             "RGB Luminance in computations and expects a vector input, thus "
@@ -1430,7 +1436,7 @@ def ootf_inverse_BT2100_HLG_1(
         Y_D_beta * (B_D - beta) / alpha,
     )
 
-    if F_D.shape[-1] != 3:
+    if is_single_channel:
         return as_float(from_range_1(R_S))
     else:
         RGB_S = tstack([R_S, G_S, B_S])
@@ -1490,9 +1496,11 @@ def ootf_inverse_BT2100_HLG_2(
     0.1000000...
     """
 
-    F_D = as_float_array(np.atleast_1d(to_domain_1(F_D)))
+    F_D = to_domain_1(F_D)
 
-    if F_D.shape[-1] != 3:
+    is_single_channel = np.atleast_1d(F_D).shape[-1] != 3
+
+    if is_single_channel:
         usage_warning(
             '"Recommendation ITU-R BT.2100" "Reference HLG OOTF" uses '
             "RGB Luminance in computations and expects a vector input, thus "
@@ -1527,7 +1535,7 @@ def ootf_inverse_BT2100_HLG_2(
         Y_D_alpha * B_D / alpha,
     )
 
-    if F_D.shape[-1] != 3:
+    if is_single_channel:
         return as_float(from_range_1(R_S))
     else:
         RGB_S = tstack([R_S, G_S, B_S])
