@@ -157,12 +157,11 @@ class AbstractLUT(ABC):
         self.name = optional(name, self._name)
         self._dimensions = optional(dimensions, 0)
         self._table: NDArrayFloat = self.linear_table(
-            cast(ArrayLike, optional(size, 0)),
-            cast(ArrayLike, optional(domain, np.array([]))),
+            optional(size, 0), optional(domain, np.array([]))
         )
-        self.table = cast(ArrayLike, optional(table, self._table))
+        self.table = optional(table, self._table)
         self._domain: NDArrayFloat = np.array([])
-        self.domain = cast(ArrayLike, optional(domain, self._domain))
+        self.domain = optional(domain, self._domain)
         self._comments: list = []
         self.comments = cast(list, optional(comments, self._comments))
 

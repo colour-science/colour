@@ -146,7 +146,7 @@ def read_spectral_data_from_csv_file(
     if transpose:
         os.unlink(transposed_csv_file.name)
 
-    return {name: data[name] for name in data.dtype.names}  # pyright: ignore
+    return {name: data[name] for name in data.dtype.names}
 
 
 def read_sds_from_csv_file(

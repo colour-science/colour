@@ -1527,7 +1527,7 @@ def plot_multi_functions(
     else:
         plotting_function = axes.plot
 
-    samples = cast(ArrayLike, optional(samples, np.linspace(0, 1, 1000)))
+    samples = optional(samples, np.linspace(0, 1, 1000))
 
     for i, (_name, function) in enumerate(functions.items()):
         plotting_function(

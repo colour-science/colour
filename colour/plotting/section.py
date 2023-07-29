@@ -33,7 +33,6 @@ from colour.hints import (
     Real,
     Sequence,
     Tuple,
-    Union,
     cast,
 )
 from colour.models import (
@@ -203,11 +202,8 @@ def plot_hull_section_colours(
 
     _figure, axes = artist(**settings)
 
-    section_colours = cast(
-        ArrayLike,
-        optional(
-            section_colours, HEX_to_RGB(CONSTANTS_COLOUR_STYLE.colour.average)
-        ),
+    section_colours = optional(
+        section_colours, HEX_to_RGB(CONSTANTS_COLOUR_STYLE.colour.average)
     )
 
     convert_kwargs = optional(convert_kwargs, {})
@@ -397,9 +393,8 @@ def plot_hull_section_contour(
 
     hull = hull.copy()
 
-    contour_colours = cast(
-        Union[ArrayLike, str],
-        optional(contour_colours, CONSTANTS_COLOUR_STYLE.colour.dark),
+    contour_colours = optional(
+        contour_colours, CONSTANTS_COLOUR_STYLE.colour.dark
     )
 
     settings: Dict[str, Any] = {"uniform": True}
