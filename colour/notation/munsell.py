@@ -1557,7 +1557,7 @@ def is_grey_munsell_colour(specification: ArrayLike) -> bool:
 
     specification = as_float_array(specification)
 
-    specification = specification[~np.isnan(specification)]
+    specification = np.squeeze(specification[~np.isnan(specification)])
 
     return is_numeric(as_float(specification))
 

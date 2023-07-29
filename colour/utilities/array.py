@@ -601,9 +601,11 @@ def as_int(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> NDArrayInt:
 
     Examples
     --------
-    >>> as_int(np.array([1]))
+    >>> as_int(np.array(1))
     1
-    >>> as_int(np.arange(10))  # doctest: +ELLIPSIS
+    >>> as_int(np.array([1]))  # doctest: +SKIP
+    array([1])
+    >>> as_int(np.arange(10))  # doctest: +SKIP
     array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]...)
     """
 
@@ -613,12 +615,6 @@ def as_int(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> NDArrayInt:
         dtype in DTypeInt.__args__,  # pyright: ignore
         _ASSERTION_MESSAGE_DTYPE_INT,
     )
-
-    try:
-        if len(a) == 1:  # pyright: ignore
-            a = np.squeeze(a)
-    except TypeError:
-        pass
 
     return dtype(a)  # pyright: ignore
 
@@ -647,8 +643,10 @@ def as_float(
 
     Examples
     --------
-    >>> as_float(np.array([1]))
+    >>> as_float(np.array(1))
     1.0
+    >>> as_float(np.array([1]))
+    array([ 1.])
     >>> as_float(np.arange(10))
     array([ 0.,  1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.])
     """
@@ -660,11 +658,14 @@ def as_float(
         _ASSERTION_MESSAGE_DTYPE_FLOAT,
     )
 
-    try:
-        if len(a) == 1:  # pyright: ignore
-            a = np.squeeze(a)
-    except TypeError:
-        pass
+    # NOTE: "np.float64" reduces dimensionality:
+    # >>> np.int64(np.array([[1]]))
+    # array([[1]])
+    # >>> np.float64(np.array([[1]]))
+    # 1.0
+    # See for more information https://github.com/numpy/numpy/issues/24283
+    if isinstance(a, np.ndarray) and a.size == 1 and a.ndim != 0:
+        return as_float_array(a, dtype)
 
     return dtype(a)  # pyright: ignore
 
