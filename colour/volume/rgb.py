@@ -310,9 +310,7 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
             [arguments for _ in range(processes)],
         )
 
-    Lab_volume = np.product(
-        [np.sum(np.abs(x)) for x in as_float_array(limits)]
-    )
+    Lab_volume = np.prod([np.sum(np.abs(x)) for x in as_float_array(limits)])
 
     return Lab_volume * np.sum(results) / (process_samples * processes)
 

@@ -64,6 +64,7 @@ from colour.utilities import (
     CanonicalMapping,
     Structure,
     as_float_array,
+    as_int_scalar,
     attest,
     first_item,
     is_sibling,
@@ -1330,7 +1331,7 @@ def plot_multi_colour_swatches(
 
         offset_X += width + spacing
 
-    x_max = min(len(colour_swatches), int(columns))
+    x_max = min(len(colour_swatches), as_int_scalar(columns))
     x_max = x_max * width + x_max * spacing - spacing
     y_max = offset_Y
 
