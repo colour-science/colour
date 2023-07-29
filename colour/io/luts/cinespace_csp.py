@@ -177,7 +177,7 @@ def read_LUT_Cinespace(path: str) -> LUT3x1D | LUT3D | LUTSequence:
         seek += 9
         size, table = _parse_table_section(lines[seek:])
 
-        attest(np.product(size) == len(table), '"LUT" table size is invalid!')
+        attest(np.prod(size) == len(table), '"LUT" table size is invalid!')
 
     LUT: LUT3x1D | LUT3D | LUTSequence
     if (

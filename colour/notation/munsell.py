@@ -1756,7 +1756,7 @@ def xyY_from_renotation(specification: ArrayLike) -> NDArrayFloat:
             (_munsell_specifications() == specification).all(axis=-1)
         )
 
-        return MUNSELL_COLOURS_ALL[int(index[0])][1]
+        return MUNSELL_COLOURS_ALL[as_int_scalar(index[0])][1]
     except Exception as error:
         raise ValueError(
             f'"{specification}" specification does not exists in '
