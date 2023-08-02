@@ -404,63 +404,6 @@ def build(ctx: Context):
     ctx.run("poetry build")
     ctx.run("git checkout -- pyproject.toml")
     ctx.run("git checkout -- README.rst")
-
-    with ctx.cd("dist"):
-        ctx.run(f"tar -xvf {PYPI_ARCHIVE_NAME}-{APPLICATION_VERSION}.tar.gz")
-        ctx.run(f"cp {PYPI_ARCHIVE_NAME}-{APPLICATION_VERSION}/setup.py ../")
-
-        ctx.run(f"rm -rf {PYPI_ARCHIVE_NAME}-{APPLICATION_VERSION}")
-
-    with open("setup.py") as setup_file:
-        source = setup_file.read()
-
-    setup_kwargs = []
-
-    def sub_callable(match):
-        setup_kwargs.append(match)
-
-        return ""
-
-    template = """
-setup({0}
-)
-"""
-
-    source = re.sub(
-        "from setuptools import setup",
-        (
-            '"""\n'
-            "Colour - Setup\n"
-            "==============\n"
-            '"""\n\n'
-            "import codecs\n"
-            "from setuptools import setup"
-        ),
-        source,
-    )
-    source = re.sub(
-        "setup_kwargs = {(.*)}.*setup\\(\\*\\*setup_kwargs\\)",
-        sub_callable,
-        source,
-        flags=re.DOTALL,
-    )[:-2]
-    setup_kwargs = setup_kwargs[0].group(1).splitlines()
-    for i, line in enumerate(setup_kwargs):
-        setup_kwargs[i] = re.sub("^\\s*('(\\w+)':\\s?)", "    \\2=", line)
-        if setup_kwargs[i].strip().startswith("long_description"):
-            setup_kwargs[i] = (
-                "    long_description="
-                "codecs.open('README.rst', encoding='utf8')"
-                ".read(),"
-            )
-
-    source += template.format("\n".join(setup_kwargs))
-
-    with open("setup.py", "w") as setup_file:
-        setup_file.write(source)
-
-    ctx.run("poetry run pre-commit run --files setup.py || true")
-
     ctx.run("twine check dist/*")
 
 
