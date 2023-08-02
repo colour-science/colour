@@ -620,7 +620,7 @@ def describe_environment(
 
     environment["Interpreter"]["python"] = sys.version
 
-    import subprocess  # nosec
+    import subprocess
 
     import colour
 
