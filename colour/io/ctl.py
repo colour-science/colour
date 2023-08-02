@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import os
 import numpy as np
-import subprocess  # nosec
+import subprocess
 import textwrap
 import tempfile
 
@@ -280,7 +280,7 @@ def process_image_ctl(
         **kwargs,
     )
 
-    if output.returncode != 0:
+    if output.returncode != 0:  # pragma: no cover
         raise RuntimeError(output.stderr.decode("utf-8"))
 
     b = read_image(temp_output_filename).astype(dtype)[..., 0:3]

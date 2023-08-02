@@ -22,7 +22,7 @@ import inspect
 import functools
 import numpy as np
 import re
-import subprocess  # nosec
+import subprocess
 import unicodedata
 import types
 import warnings
@@ -588,9 +588,7 @@ def is_ctlrender_installed(raise_exception: bool = False) -> bool:
     try:  # pragma: no cover
         stdout = subprocess.run(
             ["ctlrender", "-help"], capture_output=True  # noqa: S603, S607
-        ).stdout.decode(
-            "utf-8"
-        )  # nosec
+        ).stdout.decode("utf-8")
 
         if "transforms an image using one or more CTL scripts" not in stdout:
             raise FileNotFoundError  # noqa: TRY301
