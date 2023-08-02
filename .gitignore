@@ -2,7 +2,7 @@
 *.pyc
 *.pyo
 .DS_Store
-.coverage
+.coverage*
 .fleet
 .idea
 .ipynb_checkpoints
