@@ -1,5 +1,6 @@
 [tool.poetry]
-name = "colour"
+name = "colour-science"
+packages = [{ include = "colour" }]
 version = "0.4.2"
 description = "Colour Science for Python"
 license = "BSD-3-Clause"

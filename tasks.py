@@ -10,7 +10,6 @@ import contextlib
 import fnmatch
 import os
 import re
-import toml
 import uuid
 
 import colour
@@ -362,22 +361,6 @@ def build(ctx: Context):
 
     message_box("Building...")
     if (
-        "modified:   pyproject.toml"
-        in ctx.run("git status").stdout  # pyright: ignore
-    ):
-        raise RuntimeError(
-            'Please commit your changes to the "pyproject.toml" file!'
-        )
-
-    pyproject_content = toml.load("pyproject.toml")
-    pyproject_content["tool"]["poetry"]["name"] = PYPI_PACKAGE_NAME
-    pyproject_content["tool"]["poetry"]["packages"] = [
-        {"include": PYTHON_PACKAGE_NAME, "from": "."}
-    ]
-    with open("pyproject.toml", "w") as pyproject_file:
-        toml.dump(pyproject_content, pyproject_file)
-
-    if (
         "modified:   README.rst"
         in ctx.run("git status").stdout  # pyright: ignore
     ):
@@ -402,7 +385,6 @@ def build(ctx: Context):
         )
 
     ctx.run("poetry build")
-    ctx.run("git checkout -- pyproject.toml")
     ctx.run("git checkout -- README.rst")
     ctx.run("twine check dist/*")
 
