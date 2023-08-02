@@ -8,8 +8,12 @@ import re
 import setuptools.archive_util
 import urllib.parse
 import urllib.request
+import sys
+from pathlib import Path
 
-import colour as package
+sys.path.append(str(Path(__file__).parent.parent))
+
+import colour as package  # noqa: E402
 
 basename = re.sub(
     "_(\\w)", lambda x: x.group(1).upper(), package.__name__.title()

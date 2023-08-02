@@ -39,7 +39,7 @@ jobs:
     - name: Install Package Dependencies
       run: |
         poetry run python -m pip install --upgrade pip
-        poetry install --extras "read-the-docs"
+        poetry install
         poetry run python -c "import imageio;imageio.plugins.freeimage.download()"
       shell: bash
     - name: Build Documentation
