@@ -6,6 +6,8 @@ Defines the common plotting objects:
 
 -   :func:`colour.plotting.colour_style`
 -   :func:`colour.plotting.override_style`
+-   :func:`colour.plotting.XYZ_to_plotting_colourspace`
+-   :class:`colour.plotting.ColourSwatch`
 -   :func:`colour.plotting.colour_cycle`
 -   :func:`colour.plotting.artist`
 -   :func:`colour.plotting.camera`
