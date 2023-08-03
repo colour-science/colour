@@ -78,7 +78,7 @@ RGB_COLOURSPACE_SMPTE_C: RGB_Colourspace = RGB_Colourspace(
     partial(gamma_function, exponent=1 / 2.2),
     partial(gamma_function, exponent=2.2),
 )
-"""
+RGB_COLOURSPACE_SMPTE_C.__doc__ = """
 *SMPTE C* colourspace.
 
 References

@@ -183,9 +183,8 @@ def delta_E(
     ----------
     :cite:`ASTMInternational2007`,
     :cite:`InternationalTelecommunicationUnion2019`, :cite:`Li2017`,
-    :cite:`Lindbloom2003c`, :cite:`Lindbloom2011a`, :cite:`Lindbloom2009e`,
-    :cite:`Lindbloom2009f`, :cite:`Luo2006b`, :cite:`Melgosa2013b`,
-    :cite:`Wikipedia2008b`
+    :cite:`Lindbloom2003c`, :cite:`Lindbloom2011a`, :cite:`Lindbloom2009f`,
+    :cite:`Luo2006b`, :cite:`Melgosa2013b`, :cite:`Wikipedia2008b`
 
     Examples
     --------

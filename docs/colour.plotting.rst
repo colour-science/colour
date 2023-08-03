@@ -10,7 +10,15 @@ Common
 
 .. autosummary::
     :toctree: generated/
+    :template: class.rst
 
+    ColourSwatch
+
+.. currentmodule:: colour.plotting
+
+.. autosummary::
+    :toctree: generated/
+z
     colour_style
     colour_cycle
     artist
