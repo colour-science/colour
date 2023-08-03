@@ -20,9 +20,11 @@ Annotation Type Hints
     List
     Literal
     Mapping
+    NewType
     Optional
     Protocol
     Sequence
+    SupportsIndex
     TYPE_CHECKING
     TextIO
     Tuple
@@ -31,20 +33,21 @@ Annotation Type Hints
     TypedDict
     Union
     cast
+    overload
     runtime_checkable
     Self
     RegexFlag
     DTypeInt
     DTypeFloat
-    DTypeNumber
+    DTypeReal
     DTypeComplex
     DTypeBoolean
     DType
-    Number
+    Real
     Dataclass
     NDArrayInt
     NDArrayFloat
-    NDArrayNumber
+    NDArrayReal
     NDArrayComplex
     NDArrayBoolean
     NDArrayStr
