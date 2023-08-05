@@ -308,7 +308,7 @@ def plot_colour_vector_graphic(
     """
 
     settings: Dict[str, Any] = dict(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
 
     # Background
     background_image = read_image(
@@ -470,7 +470,7 @@ def plot_colour_vector_graphic(
         "$D_{uv}$", f"{specification.D_uv:.4f}", "right", "bottom"
     )
 
-    settings = {"standalone": True}
+    settings = {"show": True}
     settings.update(kwargs)
 
     return render(**settings)
@@ -616,7 +616,7 @@ def plot_local_chroma_shifts(
     """
 
     settings: Dict[str, Any] = dict(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
 
     _figure, axes = plot_16_bin_bars(
         specification.R_cs, "{0:.0f}%", x_ticker, **settings
@@ -629,7 +629,7 @@ def plot_local_chroma_shifts(
     axes.set_yticks(ticks)  # pyright: ignore
     axes.set_yticklabels([f"{value}%" for value in ticks])  # pyright: ignore
 
-    settings = {"standalone": True}
+    settings = {"show": True}
     settings.update(kwargs)
 
     return render(**settings)
@@ -674,7 +674,7 @@ def plot_local_hue_shifts(
     """
 
     settings: Dict[str, Any] = dict(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
 
     _figure, axes = plot_16_bin_bars(
         specification.R_hs, "{0:.2f}", x_ticker, **settings
@@ -683,7 +683,7 @@ def plot_local_hue_shifts(
     axes.set_yticks(np.arange(-0.5, 0.51, 0.1))  # pyright: ignore
     axes.set_ylabel("Local Hue Shift ($R_{hs,hj}$)")
 
-    settings = {"standalone": True}
+    settings = {"show": True}
     settings.update(kwargs)
 
     return render(**settings)
@@ -728,7 +728,7 @@ def plot_local_colour_fidelities(
     """
 
     settings: Dict[str, Any] = dict(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
 
     _figure, axes = plot_16_bin_bars(
         specification.R_fs, "{0:.0f}", x_ticker, "Horizontal", **settings
@@ -737,7 +737,7 @@ def plot_local_colour_fidelities(
     axes.set_yticks(np.arange(0, 101, 10))  # pyright: ignore
     axes.set_ylabel("Local Color Fidelity ($R_{f,hj}$)")
 
-    settings = {"standalone": True}
+    settings = {"show": True}
     settings.update(kwargs)
 
     return render(**settings)

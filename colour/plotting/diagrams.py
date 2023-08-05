@@ -577,7 +577,7 @@ def plot_chromaticity_diagram(
     if show_diagram_colours:
         settings = {"axes": axes, "method": method, "diagram_colours": "RGB"}
         settings.update(kwargs)
-        settings["standalone"] = False
+        settings["show"] = False
         settings["cmfs"] = cmfs
 
         plot_chromaticity_diagram_colours(**settings)
@@ -585,7 +585,7 @@ def plot_chromaticity_diagram(
     if show_spectral_locus:
         settings = {"axes": axes, "method": method}
         settings.update(kwargs)
-        settings["standalone"] = False
+        settings["show"] = False
         settings["cmfs"] = cmfs
 
         plot_spectral_locus(**settings)
@@ -605,7 +605,7 @@ def plot_chromaticity_diagram(
     settings.update(
         {
             "axes": axes,
-            "standalone": True,
+            "show": True,
             "bounding_box": (0, 1, 0, 1),
             "title": title,
             "x_label": x_label,
@@ -913,7 +913,7 @@ def plot_sds_in_chromaticity_diagram(
     settings.update(
         {
             "axes": axes,
-            "standalone": False,
+            "show": False,
             "method": method,
             "cmfs": cmfs,
         }
@@ -1034,7 +1034,7 @@ def plot_sds_in_chromaticity_diagram(
 
             axes.annotate(sd.name, xy=ij, **annotate_settings)
 
-    settings.update({"standalone": True, "bounding_box": bounding_box})
+    settings.update({"show": True, "bounding_box": bounding_box})
     settings.update(kwargs)
 
     return render(**settings)

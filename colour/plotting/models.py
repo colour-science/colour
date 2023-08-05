@@ -535,14 +535,14 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
 
     settings = {"axes": axes, "title": title, "method": method}
     settings.update(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
 
     chromaticity_diagram_callable(**settings)
 
     if show_pointer_gamut:
         settings = {"axes": axes, "method": method}
         settings.update(kwargs)
-        settings["standalone"] = False
+        settings["show"] = False
 
         plot_pointer_gamut(**settings)
 
@@ -653,7 +653,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
 
     settings.update(
         {
-            "standalone": True,
+            "show": True,
             "legend": True,
             "bounding_box": bounding_box,
         }
@@ -1032,7 +1032,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
         scatter_settings.update(scatter_kwargs)
 
     settings = dict(kwargs)
-    settings.update({"axes": axes, "standalone": False})
+    settings.update({"axes": axes, "show": False})
 
     colourspace = cast(
         RGB_Colourspace,
@@ -1076,7 +1076,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
 
     axes.scatter(ij[..., 0], ij[..., 1], **scatter_settings)
 
-    settings.update({"standalone": True})
+    settings.update({"show": True})
     settings.update(kwargs)
 
     return render(**settings)
@@ -1453,7 +1453,7 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram.png
     _figure, axes = artist(**settings)
 
     settings = dict(kwargs)
-    settings.update({"axes": axes, "standalone": False})
+    settings.update({"axes": axes, "show": False})
 
     ellipses_coefficients = ellipses_MacAdam1942(method=method)
 
@@ -1512,7 +1512,7 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram.png
         )
         axes.add_artist(ellipse)
 
-    settings.update({"standalone": True})
+    settings.update({"show": True})
     settings.update(kwargs)
 
     return render(**settings)

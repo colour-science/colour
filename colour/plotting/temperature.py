@@ -509,7 +509,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
 
     settings = {"axes": axes, "method": method}
     settings.update(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
 
     chromaticity_diagram_callable(**settings)
 
@@ -618,7 +618,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
     settings.update(
         {
             "axes": axes,
-            "standalone": True,
+            "show": True,
             "bounding_box": bounding_box,
             "title": title,
         }

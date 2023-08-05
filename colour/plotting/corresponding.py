@@ -108,7 +108,7 @@ Plot_Corresponding_Chromaticities_Prediction.png
 
     settings = {"axes": axes, "title": title}
     settings.update(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
 
     plot_chromaticity_diagram_CIE1976UCS(**settings)
 
@@ -164,7 +164,7 @@ Plot_Corresponding_Chromaticities_Prediction.png
 
     settings.update(
         {
-            "standalone": True,
+            "show": True,
             "bounding_box": (-0.1, 0.7, -0.1, 0.7),
         }
     )

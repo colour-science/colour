@@ -596,7 +596,7 @@ def plot_visible_spectrum_section(
     if show_section_colours:
         settings = {"axes": axes}
         settings.update(kwargs)
-        settings["standalone"] = False
+        settings["show"] = False
 
         plot_hull_section_colours(
             hull, model, axis, origin, normalise, **settings
@@ -605,7 +605,7 @@ def plot_visible_spectrum_section(
     if show_section_contour:
         settings = {"axes": axes}
         settings.update(kwargs)
-        settings["standalone"] = False
+        settings["show"] = False
 
         plot_hull_section_contour(
             hull, model, axis, origin, normalise, **settings
@@ -628,7 +628,7 @@ def plot_visible_spectrum_section(
     settings.update(
         {
             "axes": axes,
-            "standalone": True,
+            "show": True,
             "title": title,
             "x_label": x_label,
             "y_label": y_label,
@@ -749,7 +749,7 @@ def plot_RGB_colourspace_section(
     if show_section_colours:
         settings = {"axes": axes}
         settings.update(kwargs)
-        settings["standalone"] = False
+        settings["show"] = False
 
         plot_hull_section_colours(
             hull, model, axis, origin, normalise, **settings
@@ -758,7 +758,7 @@ def plot_RGB_colourspace_section(
     if show_section_contour:
         settings = {"axes": axes}
         settings.update(kwargs)
-        settings["standalone"] = False
+        settings["show"] = False
 
         plot_hull_section_contour(
             hull, model, axis, origin, normalise, **settings
@@ -780,7 +780,7 @@ def plot_RGB_colourspace_section(
     settings.update(
         {
             "axes": axes,
-            "standalone": True,
+            "show": True,
             "title": title,
             "x_label": x_label,
             "y_label": y_label,

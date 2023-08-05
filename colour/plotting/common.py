@@ -76,6 +76,7 @@ from colour.utilities import (
     runtime_warning,
     validate_method,
 )
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -564,7 +565,7 @@ class KwargsRender(TypedDict):
         Axes to apply the render elements onto.
     filename
         Figure will be saved using given ``filename`` argument.
-    standalone
+    show
         Whether to show the figure and call :func:`matplotlib.pyplot.show`
         definition.
     aspect
@@ -600,7 +601,7 @@ class KwargsRender(TypedDict):
     figure: plt.Figure
     axes: plt.Axes
     filename: str
-    standalone: bool
+    show: bool
     aspect: Literal["auto", "equal"] | float
     axes_visible: bool
     bounding_box: ArrayLike
@@ -636,10 +637,17 @@ def render(**kwargs: KwargsRender | Any) -> Tuple[plt.Figure, plt.Axes]:
     figure = cast(plt.Figure, kwargs.get("figure", plt.gcf()))
     axes = cast(plt.Axes, kwargs.get("axes", plt.gca()))
 
+    handle_arguments_deprecation(
+        {
+            "ArgumentRenamed": [["standalone", "show"]],
+        },
+        **kwargs,
+    )
+
     settings = Structure(
         **{
             "filename": None,
-            "standalone": True,
+            "show": True,
             "aspect": None,
             "axes_visible": True,
             "bounding_box": None,
@@ -683,11 +691,12 @@ def render(**kwargs: KwargsRender | Any) -> Tuple[plt.Figure, plt.Axes]:
 
     if settings.transparent_background:
         figure.patch.set_alpha(0)
-    if settings.standalone:
-        if settings.filename is not None:
-            figure.savefig(settings.filename)
-        else:
-            plt.show()
+
+    if settings.filename is not None:
+        figure.savefig(settings.filename)
+
+    if settings.show:
+        plt.show()
 
     return figure, axes
 

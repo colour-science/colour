@@ -321,7 +321,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
     figure = plt.figure(figsize=report_size, constrained_layout=True)
 
     settings: Dict[str, Any] = dict(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
     settings["tight_layout"] = False
 
     gridspec_report = figure.add_gridspec(
@@ -612,7 +612,7 @@ Plot_Single_SD_Colour_Rendition_Report_Intermediate.png
     figure = plt.figure(figsize=report_size, constrained_layout=True)
 
     settings: Dict[str, Any] = dict(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
     settings["tight_layout"] = False
 
     gridspec_report = figure.add_gridspec(
@@ -715,7 +715,7 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
     figure = plt.figure(figsize=report_size, constrained_layout=True)
 
     settings: Dict[str, Any] = dict(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
     settings["tight_layout"] = False
 
     gridspec_report = figure.add_gridspec(
