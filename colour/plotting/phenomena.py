@@ -195,7 +195,7 @@ def plot_the_blue_sky(
         "y_label": "W / m-2 / nm-1",
     }
     settings.update(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
 
     plot_single_sd(sd, cmfs, **settings)
 
@@ -219,7 +219,7 @@ def plot_the_blue_sky(
         "y_ticker": False,
     }
     settings.update(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
 
     blue_sky_color = XYZ_to_plotting_colourspace(sd_to_XYZ(sd))
 
@@ -227,7 +227,7 @@ def plot_the_blue_sky(
         ColourSwatch(normalise_maximum(blue_sky_color)), **settings
     )
 
-    settings = {"axes": axes, "standalone": True}
+    settings = {"axes": axes, "show": True}
     settings.update(kwargs)
 
     return render(**settings)

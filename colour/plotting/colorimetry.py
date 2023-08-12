@@ -786,7 +786,7 @@ def plot_visible_spectrum(
 
     settings: Dict[str, Any] = {"bounding_box": bounding_box, "y_label": None}
     settings.update(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
 
     _figure, axes = plot_single_sd(
         sd_ones(cmfs.shape),
@@ -800,7 +800,7 @@ def plot_visible_spectrum(
 
     settings = {
         "axes": axes,
-        "standalone": True,
+        "show": True,
         "title": f"The Visible Spectrum - {cmfs.display_name}",
         "x_label": "Wavelength $\\lambda$ (nm)",
     }
@@ -1066,7 +1066,7 @@ def plot_blackbody_spectral_radiance(
         "y_label": "W / (sr m$^2$) / m",
     }
     settings.update(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
 
     plot_single_sd(sd, cmfs.name, **settings)
 
@@ -1087,11 +1087,11 @@ def plot_blackbody_spectral_radiance(
         "y_ticker": False,
     }
     settings.update(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
 
     figure, axes = plot_single_colour_swatch(RGB, **settings)
 
-    settings = {"axes": axes, "standalone": True}
+    settings = {"axes": axes, "show": True}
     settings.update(kwargs)
 
     return render(**settings)

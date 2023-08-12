@@ -818,7 +818,7 @@ def plot_RGB_scatter(
         }
     )
     settings.update(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
 
     plot_RGB_colourspaces_gamuts(
         colourspaces=colourspaces,
@@ -853,7 +853,7 @@ def plot_RGB_scatter(
         zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_scatter,
     )
 
-    settings.update({"axes": axes, "standalone": True})
+    settings.update({"axes": axes, "show": True})
     settings.update(kwargs)
 
     return render(**settings)

@@ -193,7 +193,7 @@ def plot_multi_colour_checkers(
         "compare_swatches": "Stacked" if compare_swatches else None,
     }
     settings.update(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
 
     plot_multi_colour_swatches(colour_swatches, **settings)
 
@@ -215,7 +215,7 @@ def plot_multi_colour_checkers(
     settings.update(
         {
             "axes": axes,
-            "standalone": True,
+            "show": True,
             "title": ", ".join(colour_checker_names),
         }
     )

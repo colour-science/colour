@@ -335,7 +335,7 @@ Plot_Multi_SDS_Colour_Rendering_Indexes_Bars.png
     sds_converted = sds_and_msds_to_sds(sds)
 
     settings: Dict[str, Any] = dict(kwargs)
-    settings.update({"standalone": False})
+    settings.update({"show": False})
 
     specifications = cast(
         List[ColourRendering_Specification_CRI],
@@ -474,7 +474,7 @@ Plot_Multi_SDS_Colour_Quality_Scales_Bars.png
     sds_converted = sds_and_msds_to_sds(sds)
 
     settings: Dict[str, Any] = dict(kwargs)
-    settings.update({"standalone": False})
+    settings.update({"show": False})
 
     specifications = cast(
         List[ColourRendering_Specification_CQS],
