@@ -38,6 +38,7 @@ The following other illuminants are available for the
 -   Blackmagic Wide Gamut
 -   DCI-P3
 -   ICC D50
+-   PLASA ANSI E1.54
 
 Illuminants whose chromaticity coordinates are defined at 15 decimal places
 have been computed according to practise *ASTM E308-15* method.
@@ -65,6 +66,9 @@ DCI_DCinema_System_Spec_v1_1.pdf
 -   :cite:`InternationalColorConsortium2010` : International Color Consortium.
     (2010). Specification ICC.1:2010 (Profile version 4.3.0.0) (pp. 1-130).
     http://www.color.org/specification/ICC1v43_2010-12.pdf
+-   :cite:`PLASANorthAmerica2015` : PLASA North America. (2015). ANSI E1.54 -
+    2015 - PLASA Standard for Color Communication in Entertainment Lighting.
+    https://webstore.ansi.org/preview-pages/ESTA/preview_ANSI+E1.54-2015.pdf
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project Subcommittee. (2014). Technical
@@ -97,6 +101,7 @@ __all__ = [
     "CCS_ILLUMINANTS_DCI_STANDARD_OBSERVER_2_DEGREE_CIE1931",
     "CCS_ILLUMINANTS_ICC_STANDARD_OBSERVER_2_DEGREE_CIE1931",
     "CCS_ILLUMINANTS_ISO_STANDARD_OBSERVER_2_DEGREE_CIE1931",
+    "CCS_ILLUMINANTS_PLASA_STANDARD_OBSERVER_2_DEGREE_CIE1931",
     "CCS_ILLUMINANTS_CIE_STANDARD_OBSERVER_10_DEGREE_CIE1964",
     "CCS_ILLUMINANTS_ISO_STANDARD_OBSERVER_10_DEGREE_CIE1964",
     "CCS_ILLUMINANTS",
@@ -267,6 +272,18 @@ References
 :cite:`InternationalOrganizationforStandardization2002`
 """
 
+CCS_ILLUMINANTS_PLASA_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
+    CanonicalMapping
+) = CanonicalMapping({"PLASA ANSI E1.54": np.array([0.4254, 0.4044])})
+"""
+Chromaticity coordinates of the *PLASA* illuminants for the
+*CIE 1931 2 Degree Standard Observer*.
+
+References
+----------
+:cite:`PLASANorthAmerica2015`
+"""
+
 CCS_ILLUMINANTS_CIE_STANDARD_OBSERVER_10_DEGREE_CIE1964: (
     CanonicalMapping
 ) = CanonicalMapping(
@@ -424,7 +441,7 @@ References
 ----------
 :cite:`CIETC1-482004h`, :cite:`DigitalCinemaInitiatives2007b`,
 :cite:`InternationalOrganizationforStandardization2002`,
-:cite:`InternationalColorConsortium2010`,
+:cite:`InternationalColorConsortium2010`, :cite:`PLASANorthAmerica2015`
 :cite:`TheAcademyofMotionPictureArtsandSciences2014q`, :cite:`Wikipedia2006a`
 
 Aliases:
@@ -461,4 +478,8 @@ CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"].update(
 
 CCS_ILLUMINANTS["CIE 1964 10 Degree Standard Observer"].update(
     CCS_ILLUMINANTS_ISO_STANDARD_OBSERVER_10_DEGREE_CIE1964
+)
+
+CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"].update(
+    CCS_ILLUMINANTS_PLASA_STANDARD_OBSERVER_2_DEGREE_CIE1931
 )

@@ -836,6 +836,7 @@ RGB Colourspaces
      'NTSC (1953)',
      'NTSC (1987)',
      'P3-D65',
+     'PLASA ANSI E1.54',
      'Pal/Secam',
      'ProPhoto RGB',
      'Protune Native',
