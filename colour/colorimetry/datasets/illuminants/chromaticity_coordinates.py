@@ -34,10 +34,10 @@ The following *ISO* illuminants are available:
 The following other illuminants are available for the
 *CIE 1931 2 Degree Standard Observer* only:
 
-- ACES
-- Blackmagic Wide Gamut
-- DCI-P3
-- ICC D50
+-   ACES
+-   Blackmagic Wide Gamut
+-   DCI-P3
+-   ICC D50
 
 Illuminants whose chromaticity coordinates are defined at 15 decimal places
 have been computed according to practise *ASTM E308-15* method.
@@ -401,8 +401,9 @@ computed as follows::
     sd = colour.sd_CIE_illuminant_D_series(xy)
     colour.XYZ_to_xy(
         colour.sd_to_XYZ(
-            sd, colour.MSDS_CMFS[\
-'CIE 1964 10 Degree Standard Observer']) / 100.0)
+            sd, colour.MSDS_CMFS["CIE 1964 10 Degree Standard Observer"]
+        )
+    )
 
 -   *CIE Illuminant D Series D50* illuminant and
     *CIE Standard Illuminant D Series D65* chromaticity coordinates are rounded

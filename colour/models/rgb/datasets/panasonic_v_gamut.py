@@ -8,8 +8,7 @@ Defines the *Panasonic V-Gamut* colourspace:
 
 References
 ----------
--   :cite:`Panasonic2014a` : Panasonic. (2014). VARICAM V-Log/V-Gamut (pp.
-    1-7).
+-   :cite:`Panasonic2014a` : Panasonic. (2014). VARICAM V-Log/V-Gamut (pp. 1-7).
     http://pro-av.panasonic.net/en/varicam/common/pdf/VARICAM_V-Log_V-Gamut.pdf
 """
 
