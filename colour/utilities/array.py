@@ -1974,7 +1974,7 @@ def closest_indexes(a: ArrayLike, b: ArrayLike) -> NDArray:
 
 def closest(a: ArrayLike, b: ArrayLike) -> NDArray:
     """
-    Return the array :math:`a` closest elements to the reference array
+    Return the closest array :math:`a` elements to the reference array
     :math:`b` elements.
 
     Parameters
