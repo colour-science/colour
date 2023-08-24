@@ -420,7 +420,7 @@ def plot_multi_sds(
         min(x_limit_min),
         max(x_limit_max),
         min(y_limit_min),
-        max(y_limit_max) + np.max(y_limit_max) * 0.05,
+        max(y_limit_max) * 1.05,  # pyright: ignore
     )
     settings: Dict[str, Any] = {
         "axes": axes,
@@ -1169,7 +1169,7 @@ def plot_blackbody_colours(
 
     padding = 0.1
     axes.bar(
-        x=np.array(temperatures) - padding,
+        x=as_float_array(temperatures) - padding,
         height=1,
         width=shape.interval + (padding * shape.interval),
         color=RGB,

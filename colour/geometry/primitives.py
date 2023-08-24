@@ -28,8 +28,10 @@ from colour.hints import (
     DTypeInt,
     Literal,
     NDArray,
+    NDArrayFloat,
     Tuple,
     Type,
+    cast,
 )
 from colour.utilities import (
     CanonicalMapping,
@@ -190,13 +192,13 @@ def primitive_grid(
     sign = -1 if "-" in axis else 1
 
     positions = np.roll(positions, shift, -1)
-    normals = np.roll(normals, shift, -1) * sign
+    normals = cast(NDArrayFloat, np.roll(normals, shift, -1)) * sign
     vertex_colours = np.ravel(positions)
     vertex_colours = np.hstack(
         [
             np.reshape(
                 np.interp(
-                    vertex_colours,
+                    cast(NDArrayFloat, vertex_colours),
                     (np.min(vertex_colours), np.max(vertex_colours)),
                     (0, 1),
                 ),
@@ -411,7 +413,7 @@ def primitive_cube(
         [
             np.reshape(
                 np.interp(
-                    vertex_colours,
+                    cast(NDArrayFloat, vertex_colours),
                     (np.min(vertex_colours), np.max(vertex_colours)),
                     (0, 1),
                 ),
