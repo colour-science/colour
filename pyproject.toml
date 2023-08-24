@@ -53,6 +53,7 @@ typing-extensions = ">= 4, < 5"
 [tool.poetry.group.optional.dependencies]
 matplotlib = ">= 3.5, != 3.5.0, != 3.5.1"
 networkx = ">= 2.6, < 3"
+opencolorio = ">= 2, < 3"
 pandas = ">= 1.3, < 2"
 tqdm = ">= 4, < 5"
 xxhash = ">= 3.2, < 4"
