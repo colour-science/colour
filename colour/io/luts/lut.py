@@ -2205,7 +2205,7 @@ class LUT3D(AbstractLUT):
             LUT.table = np.pad(
                 LUT.table,
                 [(1, 1), (1, 1), (1, 1), (0, 0)],
-                "reflect",  # pyright: ignore
+                "reflect",
                 reflect_type="odd",
             )
 

@@ -21,7 +21,13 @@ import numpy as np
 
 from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence
 from colour.io.luts.common import path_to_title
-from colour.utilities import as_float_array, as_int_scalar, attest, tstack
+from colour.utilities import (
+    as_float_array,
+    as_int_scalar,
+    attest,
+    format_array_as_row,
+    tstack,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -363,19 +369,6 @@ def write_LUT_ResolveCube(
             2 <= LUT[1].size <= 256, "Cube size must be in domain [2, 256]!"
         )
 
-    def _format_array(array: list | tuple) -> str:
-        """Format given array as a *Resolve* *.cube* data row."""
-
-        return "{1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)
-
-    def _format_tuple(array: list | tuple) -> str:
-        """
-        Format given array as 2 space separated values to *decimals*
-        precision.
-        """
-
-        return "{1:0.{0}f} {2:0.{0}f}".format(decimals, *array)
-
     with open(path, "w") as cube_file:
         cube_file.write(f'TITLE "{name}"\n')
 
@@ -392,28 +385,28 @@ def write_LUT_ResolveCube(
         if has_3x1D:
             cube_file.write(f"LUT_1D_SIZE {LUT[0].table.shape[0]}\n")
             if not np.array_equal(LUT[0].domain, default_domain):
-                input_range = _format_tuple(
-                    [LUT[0].domain[0][0], LUT[0].domain[1][0]]
+                input_range = format_array_as_row(
+                    [LUT[0].domain[0][0], LUT[0].domain[1][0]], decimals
                 )
                 cube_file.write(f"LUT_1D_INPUT_RANGE {input_range}\n")
 
         if has_3D:
             cube_file.write(f"LUT_3D_SIZE {LUT[1].table.shape[0]}\n")
             if not np.array_equal(LUT[1].domain, default_domain):
-                input_range = _format_tuple(
-                    [LUT[1].domain[0][0], LUT[1].domain[1][0]]
+                input_range = format_array_as_row(
+                    [LUT[1].domain[0][0], LUT[1].domain[1][0]], decimals
                 )
                 cube_file.write(f"LUT_3D_INPUT_RANGE {input_range}\n")
 
         if has_3x1D:
             table = LUT[0].table
-            for row in table:
-                cube_file.write(f"{_format_array(row)}\n")
+            for vector in table:
+                cube_file.write(f"{format_array_as_row(vector, decimals)}\n")
             cube_file.write("\n")
 
         if has_3D:
             table = LUT[1].table.reshape([-1, 3], order="F")
-            for row in table:
-                cube_file.write(f"{_format_array(row)}\n")
+            for vector in table:
+                cube_file.write(f"{format_array_as_row(vector, decimals)}\n")
 
     return True

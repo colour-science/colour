@@ -143,6 +143,7 @@ Array
     ones
     full
     index_along_last_axis
+    format_array_as_row
 
 Metrics
 -------

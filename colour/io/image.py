@@ -265,8 +265,8 @@ def read_image_OpenImageIO(
 
     bit_depth_specification = MAPPING_BIT_DEPTH[bit_depth]
 
-    image = ImageInput.open(path)
-    specification = image.spec()
+    image_input = ImageInput.open(path)
+    specification = image_input.spec()
 
     shape = (
         specification.height,
@@ -274,13 +274,11 @@ def read_image_OpenImageIO(
         specification.nchannels,
     )
 
-    image_data = image.read_image(bit_depth_specification.openimageio)
-    image.close()
-    image = np.squeeze(
-        np.array(image_data, dtype=bit_depth_specification.numpy).reshape(
-            shape
-        )
-    )
+    image = image_input.read_image(bit_depth_specification.openimageio)
+    image_input.close()
+
+    image = np.array(image, dtype=bit_depth_specification.numpy).reshape(shape)
+    image = cast(NDArrayReal, np.squeeze(image))
 
     if attributes:
         extra_attributes = []

@@ -1313,7 +1313,7 @@ SELECTOR_ARRAY_OTSU2018: NDArrayFloat = np.array(
         [0.464102042665547, 0, 2, 6],
         [0.288243127874986, 0, 0, -6],
         [0.247072787814766, 1, 3, 4],
-    ]  # pyright: ignore
+    ]
 )
 """
 Array describing how to select the appropriate cluster for given *CIE xy*

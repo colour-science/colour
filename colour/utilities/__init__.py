@@ -121,6 +121,7 @@ from .array import (
     ones,
     full,
     index_along_last_axis,
+    format_array_as_row,
 )
 from .metrics import metric_mse, metric_psnr
 
@@ -249,6 +250,7 @@ __all__ += [
     "ones",
     "full",
     "index_along_last_axis",
+    "format_array_as_row",
 ]
 __all__ += [
     "metric_mse",

@@ -25,6 +25,7 @@ from colour.utilities import (
     as_float_array,
     as_int_array,
     attest,
+    format_array_as_row,
     tsplit,
     tstack,
 )
@@ -118,18 +119,18 @@ def read_LUT_Cinespace(path: str) -> LUT3x1D | LUT3D | LUTSequence:
         ]
 
         pre_LUT_padded = []
-        for row in pre_LUT:
-            if len(row) != pre_LUT_size:
+        for array in pre_LUT:
+            if len(array) != pre_LUT_size:
                 pre_LUT_padded.append(
                     np.pad(
-                        row,
-                        (0, pre_LUT_size - row.shape[0]),
+                        array,
+                        (0, pre_LUT_size - array.shape[0]),
                         mode="constant",
                         constant_values=np.nan,
                     )
                 )
             else:
-                pre_LUT_padded.append(row)
+                pre_LUT_padded.append(array)
 
         return np.asarray(pre_LUT_padded)
 
@@ -350,19 +351,6 @@ def write_LUT_Cinespace(
 
         return [R_len, G_len, B_len]
 
-    def _format_array(array: list | tuple) -> str:
-        """Format given array as a *Cinespace* *.cube* data row."""
-
-        return "{1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)
-
-    def _format_tuple(array: list | tuple) -> str:
-        """
-        Format given array as 2 space separated values to *decimals*
-        precision.
-        """
-
-        return "{1:0.{0}f} {2:0.{0}f}".format(decimals, *array)
-
     with open(path, "w") as csp_file:
         csp_file.write("CSPLUTV100\n")
 
@@ -407,24 +395,28 @@ def write_LUT_Cinespace(
                             )
                         )
 
-                        csp_file.write("{0:.{1}f} ".format(entry, decimals))
+                        csp_file.write(
+                            f"{format_array_as_row(entry, decimals)} "
+                        )
 
                     csp_file.write("\n")
 
                     for j in range(size):
                         entry = LUT[0].table[j][i]
-                        csp_file.write("{0:.{1}f} ".format(entry, decimals))
+                        csp_file.write(
+                            f"{format_array_as_row(entry, decimals)} "
+                        )
 
                     csp_file.write("\n")
             else:
                 for i in range(3):
                     csp_file.write("2\n")
-                    domain = _format_tuple(
-                        [LUT[1].domain[0][i], LUT[1].domain[1][i]]
+                    domain = format_array_as_row(
+                        [LUT[1].domain[0][i], LUT[1].domain[1][i]], decimals
                     )
                     csp_file.write(f"{domain}\n")
                     csp_file.write(
-                        "{0:.{2}f} {1:.{2}f}\n".format(0, 1, decimals)
+                        f"{format_array_as_row([0, 1], decimals)}\n"
                     )
 
             csp_file.write(
@@ -434,20 +426,20 @@ def write_LUT_Cinespace(
             )
             table = LUT[1].table.reshape([-1, 3], order="F")
 
-            for row in table:
-                csp_file.write(f"{_format_array(row)}\n")
+            for array in table:
+                csp_file.write(f"{format_array_as_row(array, decimals)}\n")
         else:
             for i in range(3):
                 csp_file.write("2\n")
-                domain = _format_tuple(
-                    [LUT[0].domain[0][i], LUT[0].domain[1][i]]
+                domain = format_array_as_row(
+                    [LUT[0].domain[0][i], LUT[0].domain[1][i]], decimals
                 )
                 csp_file.write(f"{domain}\n")
                 csp_file.write("0.0 1.0\n")
             csp_file.write(f"\n{LUT[0].size}\n")
             table = LUT[0].table
 
-            for row in table:
-                csp_file.write(f"{_format_array(row)}\n")
+            for array in table:
+                csp_file.write(f"{format_array_as_row(array, decimals)}\n")
 
     return True

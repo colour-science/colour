@@ -1080,13 +1080,13 @@ def XYZ_to_RGB(
     if chromatic_adaptation_transform is not None:
         M_CAT = matrix_chromatic_adaptation_VonKries(
             xyY_to_XYZ(xy_to_xyY(illuminant_XYZ)),
-            xyY_to_XYZ(xy_to_xyY(illuminant_RGB)),  # pyright: ignore
+            xyY_to_XYZ(xy_to_xyY(illuminant_RGB)),
             transform=chromatic_adaptation_transform,
         )
 
         XYZ = vector_dot(M_CAT, XYZ)
 
-    RGB = vector_dot(matrix_XYZ_to_RGB, XYZ)  # pyright: ignore
+    RGB = vector_dot(matrix_XYZ_to_RGB, XYZ)
 
     if apply_cctf_encoding and cctf_encoding is not None:
         with domain_range_scale("ignore"):
@@ -1229,12 +1229,12 @@ def RGB_to_XYZ(
         with domain_range_scale("ignore"):
             RGB = cctf_decoding(RGB)
 
-    XYZ = vector_dot(matrix_RGB_to_XYZ, RGB)  # pyright: ignore
+    XYZ = vector_dot(matrix_RGB_to_XYZ, RGB)
 
     if chromatic_adaptation_transform is not None:
         M_CAT = matrix_chromatic_adaptation_VonKries(
             xyY_to_XYZ(xy_to_xyY(illuminant_RGB)),
-            xyY_to_XYZ(xy_to_xyY(illuminant_XYZ)),  # pyright: ignore
+            xyY_to_XYZ(xy_to_xyY(illuminant_XYZ)),
             transform=chromatic_adaptation_transform,
         )
 

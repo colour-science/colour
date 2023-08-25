@@ -852,7 +852,7 @@ MUNSELL_HUE_TO_ANGLE: NDArrayFloat = np.array(
         [10.0, 8, 337.500],
         [10.0, 9, 285.000],
         [10.0, 10, 247.500],
-    ]  # pyright: ignore
+    ]
 )
 
 MUNSELL_HUE_TO_ASTM_HUE: NDArrayFloat = np.array(
@@ -901,7 +901,7 @@ MUNSELL_HUE_TO_ASTM_HUE: NDArrayFloat = np.array(
         [10.0, 8, 100.0],
         [10.0, 9, 90.0],
         [10.0, 10, 80.0],
-    ]  # pyright: ignore
+    ]
 )
 
 MUNSELL_INTERPOLATION_METHODS: list = [

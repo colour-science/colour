@@ -268,7 +268,7 @@ OPTIMAL_COLOUR_STIMULI_A: NDArrayFloat = np.array(
         [0.4392, 0.4080, 95],
         [0.4294, 0.4151, 95],
         [0.4254, 0.4180, 95],
-    ]  # pyright: ignore
+    ]
 )
 """
 *CIE Standard Illuminant A* *Optimal Colour Stimuli*.
@@ -477,7 +477,7 @@ OPTIMAL_COLOUR_STIMULI_C: NDArrayFloat = np.array(
         [0.3270, 0.3172, 95],
         [0.3160, 0.3069, 95],
         [0.3053, 0.3096, 95],
-    ]  # pyright: ignore
+    ]
 )
 """
 *CIE Illuminant C* *Optimal Colour Stimuli*.
@@ -729,7 +729,7 @@ OPTIMAL_COLOUR_STIMULI_D65: NDArrayFloat = np.array(
         [0.3103, 0.3214, 95],
         [0.3006, 0.3259, 95],
         [0.2900, 0.3308, 95],
-    ]  # pyright: ignore
+    ]
 )
 """
 *CIE Standard Illuminant D Series D65* *Optimal Colour Stimuli*.
