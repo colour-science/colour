@@ -587,7 +587,9 @@ def is_ctlrender_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         stdout = subprocess.run(
-            ["ctlrender", "-help"], capture_output=True  # noqa: S603, S607
+            ["ctlrender", "-help"],  # noqa: S603, S607
+            capture_output=True,
+            check=False,
         ).stdout.decode("utf-8")
 
         if "transforms an image using one or more CTL scripts" not in stdout:

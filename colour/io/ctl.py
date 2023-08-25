@@ -183,7 +183,9 @@ def ctl_render(
     for arg in args:
         command += arg.split()
 
-    completed_process = subprocess.run(command, **kwargs)  # noqa: S603
+    completed_process = subprocess.run(
+        command, check=False, **kwargs  # noqa: S603
+    )
 
     for temp_filename in temp_filenames:
         os.remove(temp_filename)
