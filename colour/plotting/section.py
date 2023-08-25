@@ -272,6 +272,7 @@ def plot_hull_section_colours(
         zorder=CONSTANTS_COLOUR_STYLE.zorder.background_polygon,
     )
     axes.add_patch(polygon)
+
     if use_RGB_section_colours:
         image = axes.imshow(
             np.clip(RGB_section, 0, 1),

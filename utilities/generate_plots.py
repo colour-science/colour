@@ -3,6 +3,7 @@
 Generate Plots
 ==============
 """
+
 from __future__ import annotations
 
 import matplotlib as mpl
