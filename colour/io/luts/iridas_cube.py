@@ -24,6 +24,7 @@ from colour.utilities import (
     as_float_array,
     as_int_scalar,
     attest,
+    format_array_as_row,
     usage_warning,
 )
 
@@ -260,11 +261,6 @@ def write_LUT_IridasCube(
     else:
         attest(2 <= size <= 256, '"LUT" size must be in domain [2, 256]!')
 
-    def _format_array(array: list | tuple) -> str:
-        """Format given array as an *Iridas* *.cube* data row."""
-
-        return "{1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)
-
     with open(path, "w") as cube_file:
         cube_file.write(f'TITLE "{LUTxD.name}"\n')
 
@@ -278,8 +274,12 @@ def write_LUT_IridasCube(
 
         default_domain = np.array([[0, 0, 0], [1, 1, 1]])
         if not np.array_equal(LUTxD.domain, default_domain):
-            cube_file.write(f"DOMAIN_MIN {_format_array(LUTxD.domain[0])}\n")
-            cube_file.write(f"DOMAIN_MAX {_format_array(LUTxD.domain[1])}\n")
+            cube_file.write(
+                f"DOMAIN_MIN {format_array_as_row(LUTxD.domain[0], decimals)}\n"
+            )
+            cube_file.write(
+                f"DOMAIN_MAX {format_array_as_row(LUTxD.domain[1], decimals)}\n"
+            )
 
         table = (
             LUTxD.table.reshape([-1, 3], order="F")
@@ -287,7 +287,7 @@ def write_LUT_IridasCube(
             else LUTxD.table
         )
 
-        for row in table:
-            cube_file.write(f"{_format_array(row)}\n")
+        for array in table:
+            cube_file.write(f"{format_array_as_row(array, decimals)}\n")
 
     return True

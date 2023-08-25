@@ -111,6 +111,7 @@ __all__ = [
     "ones",
     "full",
     "index_along_last_axis",
+    "format_array_as_row",
 ]
 
 
@@ -2781,3 +2782,40 @@ def index_along_last_axis(a: ArrayLike, indexes: ArrayLike) -> NDArray:
         )
 
     return np.take_along_axis(a, indexes[..., None], axis=-1).squeeze(axis=-1)
+
+
+def format_array_as_row(
+    a: ArrayLike, decimals: int = 7, separator: str = " "
+) -> str:
+    """
+    Format given array :math:`a` as a row.
+
+    Parameters
+    ----------
+    a
+        Array to format.
+    decimals
+        Decimal count to use when formatting as a row.
+    separator
+        Separator used to join the array :math:`a` items.
+
+    Returns
+    -------
+    :class:`str`
+        Array formatted as a row.
+
+    Examples
+    --------
+    >>> format_array_as_row([1.25, 2.5, 3.75])
+    '1.2500000 2.5000000 3.7500000'
+    >>> format_array_as_row([1.25, 2.5, 3.75], 3)
+    '1.250 2.500 3.750'
+    >>> format_array_as_row([1.25, 2.5, 3.75], 3, ", ")
+    '1.250, 2.500, 3.750'
+    """
+
+    a = np.ravel(a)
+
+    return separator.join(
+        "{1:0.{0}f}".format(decimals, x) for x in a  # noqa: PLE1300
+    )

@@ -20,6 +20,7 @@ from colour.utilities import (
     as_int_array,
     as_int_scalar,
     attest,
+    format_array_as_row,
     usage_warning,
 )
 
@@ -202,27 +203,21 @@ def write_LUT_SonySPI3D(
         '"LUT" domain must be [[0, 0, 0], [1, 1, 1]]!',
     )
 
-    def _format_array(array: list | tuple) -> str:
-        """Format given array as a *Sony* *.spi3d* data row."""
-
-        return "{1:d} {2:d} {3:d} {4:0.{0}f} {5:0.{0}f} {6:0.{0}f}".format(
-            decimals, *array
-        )
-
     with open(path, "w") as spi3d_file:
         spi3d_file.write("SPILUT 1.0\n")
 
         spi3d_file.write("3 3\n")
 
-        spi3d_file.write("{0} {0} {0}\n".format(LUTxD.size))
+        spi3d_file.write(f"{LUTxD.size} {LUTxD.size} {LUTxD.size}\n")
 
         indexes = as_int_array(
             np.around(LUTxD.linear_table(LUTxD.size) * (LUTxD.size - 1))
         ).reshape([-1, 3])
         table = LUTxD.table.reshape([-1, 3])
 
-        for i, row in enumerate(indexes):
-            spi3d_file.write(f"{_format_array(list(row) + list(table[i]))}\n")
+        for i, array in enumerate(indexes):
+            spi3d_file.write("{:d} {:d} {:d}".format(*array))
+            spi3d_file.write(f" {format_array_as_row(table[i], decimals)}\n")
 
         if LUTxD.comments:
             for comment in LUTxD.comments:

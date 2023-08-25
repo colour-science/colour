@@ -19,6 +19,7 @@ from colour.utilities import (
     as_float_array,
     as_int_scalar,
     attest,
+    format_array_as_row,
     usage_warning,
 )
 
@@ -229,17 +230,10 @@ def write_LUT_SonySPI1D(
 
         attest(len(domain) == 2, 'Non-uniform "LUT" domain is unsupported!')
 
-    def _format_array(array: list | tuple) -> str:
-        """Format given array as a *Sony* *.spi1d* data row."""
-
-        return " {1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)
-
     with open(path, "w") as spi1d_file:
         spi1d_file.write("Version 1\n")
 
-        spi1d_file.write(
-            "From {1:0.{0}f} {2:0.{0}f}\n".format(decimals, *domain)
-        )
+        spi1d_file.write(f"From {format_array_as_row(domain, decimals)}\n")
 
         spi1d_file.write(
             f"Length {LUTxD.table.size if is_1D else LUTxD.table.shape[0]}\n"
@@ -248,11 +242,8 @@ def write_LUT_SonySPI1D(
         spi1d_file.write(f"Components {1 if is_1D else 3}\n")
 
         spi1d_file.write("{\n")
-        for row in LUTxD.table:
-            if is_1D:
-                spi1d_file.write(" {1:0.{0}f}\n".format(decimals, row))
-            else:
-                spi1d_file.write(f"{_format_array(row)}\n")
+        for array in LUTxD.table:
+            spi1d_file.write(f" {format_array_as_row(array, decimals)}\n")
         spi1d_file.write("}\n")
 
         if LUTxD.comments:

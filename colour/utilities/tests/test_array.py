@@ -56,6 +56,7 @@ from colour.utilities import (
     ones,
     full,
     index_along_last_axis,
+    format_array_as_row,
 )
 from colour.utilities import is_networkx_installed
 
@@ -1861,6 +1862,31 @@ class TestIndexAlongLastAxis(unittest.TestCase):
         with self.assertRaises(IndexError):
             indexes = np.array([0.0, 0.0])
             index_along_last_axis(a, indexes)
+
+
+class TestFormatArrayAsRow(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.array.format_array_as_row` definition unit
+    tests methods.
+    """
+
+    def test_format_array_as_row(self):
+        """Test :func:`colour.utilities.array.format_array_as_row` definition."""
+
+        self.assertEqual(
+            format_array_as_row([1.25, 2.5, 3.75]),
+            "1.2500000 2.5000000 3.7500000",
+        )
+
+        self.assertEqual(
+            format_array_as_row([1.25, 2.5, 3.75], 3),
+            "1.250 2.500 3.750",
+        )
+
+        self.assertEqual(
+            format_array_as_row([1.25, 2.5, 3.75], 3, ", "),
+            "1.250, 2.500, 3.750",
+        )
 
 
 if __name__ == "__main__":
