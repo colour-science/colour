@@ -8,7 +8,7 @@ The Colour Developers
 
     Maintainer, project coordination, overall development.
 
--   **Michael Mauderer**, *HCI Researcher @ University of Dundee*
+-   **Michael Mauderer**, *Researcher & Senior Developer @ Enso*
 
     Maintainer, colour appearance models, overall development.
 
@@ -20,7 +20,7 @@ The Colour Developers
 
     Maintainer, CLF, technical support.
 
--   **Michael Parsons**, *Colour Scientist @ The Moving Picture Company*
+-   **Michael Parsons**, *Colour Scientist @ DNEG*
 
     Maintainer, technical support.
 
@@ -28,13 +28,17 @@ The Colour Developers
 
     Technical support.
 
--   **Sean Cooper**, *Colour Scientist*
+-   **Sean Cooper**, *Colour Scientist @ ARRI*
 
     Technical support.
 
--   **Jean D. Vandenberg**, *Colour Scientist @ The Walt Disney Studios*
+-   **Jean D. Vandenberg**, *Director of Engineering @ Picture Shop*
 
     Technical support.
+
+-   **Tucker Downs**, *R&D Manager & Color Scientist @ ROE Visual*
+
+    Maintainer, overall development.
 
 Google Summer of Code
 ---------------------
@@ -188,9 +192,17 @@ Development & Technical Support
 
     Support for Recommendation ITU-R BT.2124-0.
 
--   **Tucker Downs**, *R&D Manager & Color Scientist @ ROE Visual*
+-   **Kiliansas (@Rusching)**
 
-    Technical support.
+    TE226 v2 colour checker reference values.
+
+-   **Xiaohan Chen (@chnmasta05)**
+
+    Cheung et al. (2004) polynomial correction improvements.
+
+-   **Benjamin Herb**, *Author @ benjaminherb.de*
+
+    Spectral Similarity Index computation improvements.
 
 Acknowledgements
 ----------------
@@ -250,9 +262,12 @@ Issues & Discussions
 -   @Ampersandme
 -   @AndersAtEndian
 -   @Apoorva-13
+-   @Artoria2e5
+-   @CHRIBUR0309
 -   @Chandler
 -   @ChunHsinWang
 -   @Edwardlin-zlt
+-   @EricFlyMeToTheMoon
 -   @Floschoe
 -   @JarrettR
 -   @JayPalm
@@ -267,6 +282,7 @@ Issues & Discussions
 -   @LeCyberDucky
 -   @Legendin
 -   @MMehdiMousavi
+-   @MadhuSN
 -   @MarcusCalhoun-Lopez
 -   @MrColourBlind
 -   @Myndex
@@ -291,26 +307,34 @@ Issues & Discussions
 -   @ahemberger
 -   @alban-sol
 -   @alianoroozi
+-   @altert
+-   @am-ac
 -   @andurilhuang
 -   @anshulxyz
 -   @aurelienbl
 -   @awehring
 -   @baileyji
+-   @barisduzenli
 -   @beckstev
 -   @bersbersbers
+-   @bhive01
 -   @blue-j
 -   @brandondube
 -   @briend
 -   @bsdis
+-   @camilo1704
 -   @cclauss
 -   @chesschi
 -   @codycuellar
 -   @cuixiaofei
+-   @da5nsy
 -   @daviesj
 -   @dfoxfranke
 -   @digital-prepress
 -   @diuming
+-   @dofuuz
 -   @dtbulmerJRs
+-   @eitanlees
 -   @ema2159
 -   @ems1111
 -   @eyeforcolor
@@ -322,20 +346,25 @@ Issues & Discussions
 -   @habemus-papadum
 -   @hajimen
 -   @hakanai
+-   @harshjain30
 -   @heinemannj
 -   @henczati
 -   @hminle
 -   @iCagarro
 -   @iinnovations
 -   @jaguarondi
+-   @jamesmyatt
 -   @kaihagseth
+-   @kamikaze
 -   @kljumat
 -   @kunal9922
 -   @lavrovd
 -   @leklbk
 -   @lensz
 -   @lishichengyan
+-   @lulunac27a
 -   @luoww1992
+-   @materialjan
 -   @matt-roberts
 -   @matthiasbirkich
 -   @meshing
@@ -344,10 +373,14 @@ Issues & Discussions
 -   @monkeywithacupcake
 -   @naavis
 -   @nadersadoughi
+-   @nico
+-   @nitishn23
 -   @nschloe
+-   @opanyaki
 -   @parthxtripathi
 -   @peteroupc
 -   @pfk-beta
+-   @physici
 -   @pjaesung2
 -   @priikone
 -   @qiuboujun
@@ -371,13 +404,16 @@ Issues & Discussions
 -   @starkfan007
 -   @stereomatchingkiss
 -   @tashdor
+-   @teja275
 -   @thunders82
 -   @tingeman
 -   @tospe
 -   @totyped
 -   @ujjayants
+-   @vibhoothi
 -   @vidakDK
 -   @volkerjaenisch
+-   @vsohler
 -   @vvclin-git
 -   @whornsby
 -   @willSmallHD
@@ -386,6 +422,7 @@ Issues & Discussions
 -   @xjossy
 -   @yuhao
 -   @yulincoder
+-   @zanyc-smm
 
 About
 -----
