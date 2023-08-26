@@ -15,6 +15,7 @@ import numpy as np
 from mpl_toolkits.mplot3d.axes3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
+from colour.constants import EPSILON
 from colour.colorimetry import MultiSpectralDistributions
 from colour.geometry import (
     primitive_vertices_cube_mpl,
@@ -618,6 +619,9 @@ def plot_RGB_colourspaces_gamuts(
         )
 
         XYZ = RGB_to_XYZ(quads_cb, colourspace)
+
+        # Preventing singularities for colour models such as "CIE xyY",
+        XYZ[XYZ == 0] = EPSILON
 
         convert_settings = {"illuminant": colourspace.whitepoint}
         convert_settings.update(convert_kwargs)

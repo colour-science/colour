@@ -1118,7 +1118,6 @@ class TestMatrixIdt(unittest.TestCase):
             rtol=0.0001,
             atol=0.0001,
         )
-        return
 
         training_data = sds_and_msds_to_msds(
             SDS_COLOURCHECKERS["BabelColor Average"].values()

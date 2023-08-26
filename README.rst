@@ -1742,8 +1742,10 @@ format.
 API Reference
 -------------
 
-The main technical reference for **Colour** is the
-`API Reference <https://colour.readthedocs.io/en/latest/reference.html>`__.
+The main technical reference for **Colour** is the *API Reference*:
+
+- `Release <https://colour.readthedocs.io/en/master/reference.html>`__.
+- `Develop <https://colour.readthedocs.io/en/latest/reference.html>`__.
 
 See Also
 --------

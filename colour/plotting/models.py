@@ -2059,11 +2059,14 @@ def plot_constant_hue_loci(
             RGB_ct = XYZ_to_RGB(
                 XYZ_ct, colourspace, xy_r, apply_cctf_encoding=True
             )
+            scatter_settings["c"] = np.clip(RGB_ct, 0, 1)
             RGB_cr = XYZ_to_RGB(
                 XYZ_cr, colourspace, xy_r, apply_cctf_encoding=True
             )
-
-            scatter_settings["c"] = np.clip(RGB_ct, 0, 1)
+            RGB_cr = np.clip(np.ravel(RGB_cr), 0, 1)
+        else:
+            scatter_settings["c"] = CONSTANTS_COLOUR_STYLE.colour.dark
+            RGB_cr = CONSTANTS_COLOUR_STYLE.colour.dark
 
         axes.scatter(ijk_ct[..., 0], ijk_ct[..., 1], **scatter_settings)
 
@@ -2071,7 +2074,7 @@ def plot_constant_hue_loci(
             ijk_cr[..., 0],
             ijk_cr[..., 1],
             "s",
-            c=np.clip(np.ravel(RGB_cr), 0, 1),
+            c=RGB_cr,
             markersize=CONSTANTS_COLOUR_STYLE.geometry.short * 8,
             zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
         )

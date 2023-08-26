@@ -119,9 +119,9 @@ TODO
 
 -   colour/utilities/array.py
 
-    -   Line 574 : # TODO: Remove when https://github.com/numpy/numpy/issues/5718 is addressed.
-    -   Line 862 : # TODO: Investigate behaviour on Windows.
-    -   Line 919 : # TODO: Annotate with "Union[Literal['ignore', 'reference', '1', '100'], str]" when Python 3.7 is dropped.
+    -   Line 575 : # TODO: Remove when https://github.com/numpy/numpy/issues/5718 is addressed.
+    -   Line 863 : # TODO: Investigate behaviour on Windows.
+    -   Line 920 : # TODO: Annotate with "Union[Literal['ignore', 'reference', '1', '100'], str]" when Python 3.7 is dropped.
 
 
 -   colour/plotting/models.py
@@ -136,8 +136,8 @@ TODO
 
 -   colour/plotting/common.py
 
-    -   Line 788 : # TODO: Reassess according to https://github.com/matplotlib/matplotlib/issues/1077
-    -   Line 907 : # TODO: Consider using "MutableMapping" here.
+    -   Line 799 : # TODO: Reassess according to https://github.com/matplotlib/matplotlib/issues/1077
+    -   Line 918 : # TODO: Consider using "MutableMapping" here.
 
 
 -   colour/characterisation/aces_it.py

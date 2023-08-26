@@ -679,7 +679,7 @@ def ZCAM_to_XYZ(
     # redness-greenness (:math:`a_{z,w}`), and yellowness-blueness
     # (:math:`b_{z,w}`).
     with domain_range_scale("ignore"):
-        I_z_w, _A_z_w, B_z_w = tsplit(
+        I_z_w, _A_z_w, _B_z_w = tsplit(
             XYZ_to_Izazbz(XYZ_w, method="Safdar 2021")
         )
 

@@ -637,7 +637,7 @@ def render(**kwargs: KwargsRender | Any) -> Tuple[plt.Figure, plt.Axes]:
     figure = cast(plt.Figure, kwargs.get("figure", plt.gcf()))
     axes = cast(plt.Axes, kwargs.get("axes", plt.gca()))
 
-    handle_arguments_deprecation(
+    kwargs = handle_arguments_deprecation(
         {
             "ArgumentRenamed": [["standalone", "show"]],
         },

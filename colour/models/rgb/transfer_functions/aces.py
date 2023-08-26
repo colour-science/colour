@@ -204,7 +204,7 @@ def log_decoding_ACESproxy(
     ACESproxy: ArrayLike,
     bit_depth: Literal[10, 12] = 10,
     in_int: bool = False,
-    constants: dict = CONSTANTS_ACES_PROXY,
+    constants: dict | None = None,
 ) -> NDArrayFloat:
     """
     Define the *ACESproxy* colourspace log decoding curve / electro-optical
@@ -258,6 +258,9 @@ def log_decoding_ACESproxy(
     >>> log_decoding_ACESproxy(426, in_int=True)  # doctest: +ELLIPSIS
     0.1...
     """
+
+    if constants is None:
+        constants = CONSTANTS_ACES_PROXY
 
     ACESproxy = to_domain_1(ACESproxy)
 
