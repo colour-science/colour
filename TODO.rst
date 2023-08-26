@@ -91,11 +91,6 @@ TODO
     -   Line 307 : # TODO: Investigate "OIIO" behaviour here: 1.0 != 15360.0 image = read_image_OpenImageIO( os.path.join(ROOT_RESOURCES, 'Colour_Logo.png'), 'float16') self.assertIs(image.dtype, np.dtype('float16')) self.assertEqual(np.min(image), 0.0) self.assertEqual(np.max(image), 1.0)
 
 
--   colour/graph/conversion.py
-
-    -   Line 1416 : # TODO: Remove the following warning whenever the automatic colour conversion graph implementation is considered stable.
-
-
 -   colour/models/rgb/derivation.py
 
     -   Line 239 : # TODO: Investigate if we return an ndarray here with primaries and whitepoint stacked together.
