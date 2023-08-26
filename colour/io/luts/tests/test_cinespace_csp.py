@@ -15,7 +15,7 @@ from colour.utilities import tstack
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -211,7 +211,7 @@ class TestWriteLUTCinespace(unittest.TestCase):
         LUT_5_r = read_LUT_Cinespace(
             os.path.join(ROOT_LUTS, "Three_Dimensional_Table_With_Shaper.csp")
         )
-        LUT_5_r.sequence[0] = LUT_5_r.sequence[0].as_LUT(
+        LUT_5_r.sequence[0] = LUT_5_r.sequence[0].convert(
             LUT1D, force_conversion=True
         )
         write_LUT_Cinespace(
@@ -235,7 +235,7 @@ class TestWriteLUTCinespace(unittest.TestCase):
         LUT_6_r = read_LUT_Cinespace(
             os.path.join(ROOT_LUTS, "Three_Dimensional_Table_With_Shaper.csp")
         )
-        LUT_6_r.sequence[0] = LUT_6_r.sequence[0].as_LUT(
+        LUT_6_r.sequence[0] = LUT_6_r.sequence[0].convert(
             LUT3x1D, force_conversion=True
         )
         write_LUT_Cinespace(
@@ -260,7 +260,7 @@ class TestWriteLUTCinespace(unittest.TestCase):
             os.path.join(ROOT_LUTS, "ACES_Proxy_10_to_ACES.csp")
         )
         write_LUT_Cinespace(
-            LUT_7_r.as_LUT(LUT1D, force_conversion=True),
+            LUT_7_r.convert(LUT1D, force_conversion=True),
             os.path.join(
                 self._temporary_directory, "ACES_Proxy_10_to_ACES.csp"
             ),
@@ -278,7 +278,7 @@ class TestWriteLUTCinespace(unittest.TestCase):
         definition raised exception.
         """
 
-        self.assertRaises(ValueError, write_LUT_Cinespace, object(), "")
+        self.assertRaises(TypeError, write_LUT_Cinespace, object(), "")
 
 
 if __name__ == "__main__":

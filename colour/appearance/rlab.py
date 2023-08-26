@@ -25,13 +25,7 @@ from dataclasses import dataclass, field
 
 from colour.algebra import matrix_dot, sdiv, sdiv_mode, spow, vector_dot
 from colour.appearance.hunt import MATRIX_XYZ_TO_HPE, XYZ_to_rgb
-from colour.hints import (
-    ArrayLike,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    NDArray,
-    Optional,
-)
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArray,
@@ -45,7 +39,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -59,7 +53,7 @@ __all__ = [
     "XYZ_to_RLAB",
 ]
 
-MATRIX_R: NDArray = np.array(
+MATRIX_R: NDArrayFloat = np.array(
     [
         [1.9569, -1.1882, 0.2313],
         [0.3612, 0.6388, 0.0000],
@@ -136,13 +130,13 @@ class CAM_ReferenceSpecification_RLAB(MixinDataclassArray):
     :cite:`Fairchild1996a`, :cite:`Fairchild2013w`
     """
 
-    LR: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    CR: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    hR: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    sR: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    HR: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    aR: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    bR: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    LR: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    CR: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    hR: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    sR: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    HR: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    aR: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    bR: float | NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 @dataclass
@@ -180,21 +174,21 @@ class CAM_Specification_RLAB(MixinDataclassArray):
     :cite:`Fairchild1996a`, :cite:`Fairchild2013w`
     """
 
-    J: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    C: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    h: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    s: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    HC: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    a: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    b: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    J: NDArrayFloat | None = field(default_factory=lambda: None)
+    C: NDArrayFloat | None = field(default_factory=lambda: None)
+    h: NDArrayFloat | None = field(default_factory=lambda: None)
+    s: NDArrayFloat | None = field(default_factory=lambda: None)
+    HC: NDArrayFloat | None = field(default_factory=lambda: None)
+    a: NDArrayFloat | None = field(default_factory=lambda: None)
+    b: NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 def XYZ_to_RLAB(
     XYZ: ArrayLike,
     XYZ_n: ArrayLike,
-    Y_n: FloatingOrArrayLike,
-    sigma: FloatingOrArrayLike = VIEWING_CONDITIONS_RLAB["Average"],
-    D: FloatingOrArrayLike = D_FACTOR_RLAB["Hard Copy Images"],
+    Y_n: ArrayLike,
+    sigma: ArrayLike = VIEWING_CONDITIONS_RLAB["Average"],
+    D: ArrayLike = D_FACTOR_RLAB["Hard Copy Images"],
 ) -> CAM_Specification_RLAB:
     """
     Compute the *RLAB* model color appearance correlates.
@@ -284,8 +278,8 @@ b=-52.6142956...)
     LR = 100 * spow(Y_ref, sigma)
 
     # Computing opponent colour dimensions :math:`a^R` and :math:`b^R`.
-    aR = as_float(430 * (spow(X_ref, sigma) - spow(Y_ref, sigma)))
-    bR = as_float(170 * (spow(Y_ref, sigma) - spow(Z_ref, sigma)))
+    aR = 430 * (spow(X_ref, sigma) - spow(Y_ref, sigma))
+    bR = 170 * (spow(Y_ref, sigma) - spow(Z_ref, sigma))
 
     # Computing the *hue* angle :math:`h^R`.
     hR = np.degrees(np.arctan2(bR, aR)) % 360
@@ -304,6 +298,6 @@ b=-52.6142956...)
         as_float(from_range_degrees(hR)),
         sR,
         None,
-        aR,
-        bR,
+        as_float(aR),
+        as_float(bR),
     )

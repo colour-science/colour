@@ -17,7 +17,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
     log_encoding_FilmLightTLog,
@@ -27,7 +27,7 @@ from colour.models.rgb import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -41,7 +41,7 @@ __all__ = [
     "RGB_COLOURSPACE_FILMLIGHT_E_GAMUT",
 ]
 
-PRIMARIES_FILMLIGHT_E_GAMUT: NDArray = np.array(
+PRIMARIES_FILMLIGHT_E_GAMUT: NDArrayFloat = np.array(
     [
         [0.8000, 0.3177],
         [0.1800, 0.9000],
@@ -53,17 +53,17 @@ PRIMARIES_FILMLIGHT_E_GAMUT: NDArray = np.array(
 WHITEPOINT_NAME_FILMLIGHT_E_GAMUT: str = "D65"
 """*FilmLight E-Gamut* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_FILMLIGHT_E_GAMUT: NDArray = CCS_ILLUMINANTS[
+CCS_WHITEPOINT_FILMLIGHT_E_GAMUT: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_FILMLIGHT_E_GAMUT]
 """*FilmLight E-Gamut* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_FILMLIGHT_E_GAMUT_TO_XYZ: NDArray = normalised_primary_matrix(
+MATRIX_FILMLIGHT_E_GAMUT_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
     PRIMARIES_FILMLIGHT_E_GAMUT, CCS_WHITEPOINT_FILMLIGHT_E_GAMUT
 )
 """*FilmLight E-Gamut* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_FILMLIGHT_E_GAMUT: NDArray = np.linalg.inv(
+MATRIX_XYZ_TO_FILMLIGHT_E_GAMUT: NDArrayFloat = np.linalg.inv(
     MATRIX_FILMLIGHT_E_GAMUT_TO_XYZ
 )
 """*CIE XYZ* tristimulus values to *FilmLight E-Gamut* colourspace matrix."""

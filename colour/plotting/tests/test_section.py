@@ -18,7 +18,7 @@ from colour.utilities import is_trimesh_installed
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -50,10 +50,7 @@ class TestPlotHullSectionColours(unittest.TestCase):
 
         vertices, faces, _outline = primitive_cube(1, 1, 1, 64, 64, 64)
         XYZ_vertices = RGB_to_XYZ(
-            vertices["position"] + 0.5,
-            RGB_COLOURSPACE_sRGB.whitepoint,
-            RGB_COLOURSPACE_sRGB.whitepoint,
-            RGB_COLOURSPACE_sRGB.matrix_RGB_to_XYZ,
+            vertices["position"] + 0.5, RGB_COLOURSPACE_sRGB
         )
         hull = trimesh.Trimesh(XYZ_vertices, faces, process=False)
 
@@ -92,10 +89,7 @@ class TestPlotHullSectionContour(unittest.TestCase):
 
         vertices, faces, _outline = primitive_cube(1, 1, 1, 64, 64, 64)
         XYZ_vertices = RGB_to_XYZ(
-            vertices["position"] + 0.5,
-            RGB_COLOURSPACE_sRGB.whitepoint,
-            RGB_COLOURSPACE_sRGB.whitepoint,
-            RGB_COLOURSPACE_sRGB.matrix_RGB_to_XYZ,
+            vertices["position"] + 0.5, RGB_COLOURSPACE_sRGB
         )
         hull = trimesh.Trimesh(XYZ_vertices, faces, process=False)
 

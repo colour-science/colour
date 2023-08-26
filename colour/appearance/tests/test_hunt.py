@@ -1,6 +1,7 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.appearance.hunt` module."""
 
+import contextlib
 import numpy as np
 import unittest
 from itertools import product
@@ -18,7 +19,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -186,20 +187,14 @@ class TestXYZ_to_Hunt(unittest.TestCase):
         CCT_w = 6504.0
         S = S_w = 0.5
 
-        try:
+        with contextlib.suppress(ValueError):
             XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround)
-        except ValueError:
-            pass
 
-        try:
+        with contextlib.suppress(ValueError):
             XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w, S=S)
-        except ValueError:
-            pass
 
-        try:
+        with contextlib.suppress(ValueError):
             XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w, S_w=S_w)
-        except ValueError:
-            pass
 
     @ignore_numpy_errors
     def test_XYZ_p_XYZ_to_Hunt(self):

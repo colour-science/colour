@@ -21,7 +21,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
     normalised_primary_matrix,
@@ -31,7 +31,7 @@ from colour.models.rgb import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -45,7 +45,7 @@ __all__ = [
     "RGB_COLOURSPACE_BT2020",
 ]
 
-PRIMARIES_BT2020: NDArray = np.array(
+PRIMARIES_BT2020: NDArrayFloat = np.array(
     [
         [0.7080, 0.2920],
         [0.1700, 0.7970],
@@ -57,14 +57,14 @@ PRIMARIES_BT2020: NDArray = np.array(
 WHITEPOINT_NAME_BT2020: str = "D65"
 """*RecommendationITU-R BT.2020* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_BT2020: NDArray = CCS_ILLUMINANTS[
+CCS_WHITEPOINT_BT2020: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_BT2020]
 """
 *RecommendationITU-R BT.2020* colourspace whitepoint chromaticity coordinates.
 """
 
-MATRIX_BT2020_TO_XYZ: NDArray = normalised_primary_matrix(
+MATRIX_BT2020_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
     PRIMARIES_BT2020, CCS_WHITEPOINT_BT2020
 )
 """
@@ -72,7 +72,7 @@ MATRIX_BT2020_TO_XYZ: NDArray = normalised_primary_matrix(
 matrix.
 """
 
-MATRIX_XYZ_TO_BT2020: NDArray = np.linalg.inv(MATRIX_BT2020_TO_XYZ)
+MATRIX_XYZ_TO_BT2020: NDArrayFloat = np.linalg.inv(MATRIX_BT2020_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *RecommendationITU-R BT.2020* colourspace
 matrix.

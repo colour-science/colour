@@ -17,7 +17,7 @@ R-REC-BT.470-6-199811-S!!PDF-E.pdf
 
 from __future__ import annotations
 
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.models.rgb import RGB_Colourspace
 from colour.models.rgb.datasets.itur_bt_470 import (
     PRIMARIES_BT470_625,
@@ -30,7 +30,7 @@ from colour.models.rgb.datasets.itur_bt_470 import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -44,19 +44,19 @@ __all__ = [
     "RGB_COLOURSPACE_PAL_SECAM",
 ]
 
-PRIMARIES_PAL_SECAM: NDArray = PRIMARIES_BT470_625
+PRIMARIES_PAL_SECAM: NDArrayFloat = PRIMARIES_BT470_625
 """*Pal/Secam* colourspace primaries."""
 
 WHITEPOINT_NAME_PAL_SECAM: str = WHITEPOINT_NAME_BT470_625
 """*Pal/Secam* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_PAL_SECAM: NDArray = CCS_WHITEPOINT_BT470_625
+CCS_WHITEPOINT_PAL_SECAM: NDArrayFloat = CCS_WHITEPOINT_BT470_625
 """*Pal/Secam* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_PAL_SECAM_TO_XYZ: NDArray = MATRIX_BT470_625_TO_XYZ
+MATRIX_PAL_SECAM_TO_XYZ: NDArrayFloat = MATRIX_BT470_625_TO_XYZ
 """*Pal/Secam* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_PAL_SECAM: NDArray = MATRIX_XYZ_TO_BT470_625
+MATRIX_XYZ_TO_PAL_SECAM: NDArrayFloat = MATRIX_XYZ_TO_BT470_625
 """*CIE XYZ* tristimulus values to *Pal/Secam* colourspace matrix."""
 
 RGB_COLOURSPACE_PAL_SECAM: RGB_Colourspace = RGB_Colourspace(

@@ -36,6 +36,7 @@ from __future__ import annotations
 
 import numpy as np
 
+from colour.algebra.interpolation import LinearInterpolator
 from colour.colorimetry import (
     SPECTRAL_SHAPE_DEFAULT,
     MultiSpectralDistributions,
@@ -45,12 +46,9 @@ from colour.colorimetry import (
 from colour.hints import (
     Any,
     ArrayLike,
-    Floating,
     Literal,
-    NDArray,
-    Optional,
+    NDArrayFloat,
     Sequence,
-    Union,
 )
 from colour.utilities import (
     CanonicalMapping,
@@ -62,7 +60,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -88,7 +86,7 @@ __all__ = [
 
 
 def sd_constant(
-    k: Floating, shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT, **kwargs: Any
+    k: float, shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT, **kwargs: Any
 ) -> SpectralDistribution:
     """
     Return a spectral distribution of given spectral shape filled with
@@ -116,6 +114,7 @@ def sd_constant(
     -----
     -   By default, the spectral distribution will use the shape given by
         :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
+    -   The interpolator is set to :class:`colour.LinearInterpolator` class.
 
     Examples
     --------
@@ -126,7 +125,7 @@ def sd_constant(
     100.0
     """
 
-    settings = {"name": f"{k} Constant"}
+    settings = {"name": f"{k} Constant", "interpolator": LinearInterpolator}
     settings.update(kwargs)
 
     values = full(len(shape.wavelengths), k)
@@ -160,6 +159,7 @@ def sd_zeros(
     -----
     -   By default, the spectral distribution will use the shape given by
         :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
+    -   The interpolator is set to :class:`colour.LinearInterpolator` class.
 
     Examples
     --------
@@ -199,6 +199,7 @@ def sd_ones(
     -----
     -   By default, the spectral distribution will use the shape given by
         :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
+    -   The interpolator is set to :class:`colour.LinearInterpolator` class.
 
     Examples
     --------
@@ -213,7 +214,7 @@ def sd_ones(
 
 
 def msds_constant(
-    k: Floating,
+    k: float,
     labels: Sequence,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     **kwargs: Any,
@@ -247,6 +248,7 @@ def msds_constant(
     -----
     -   By default, the multi-spectral distributions will use the shape given
         by :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
+    -   The interpolator is set to :class:`colour.LinearInterpolator` class.
 
     Examples
     --------
@@ -259,7 +261,7 @@ def msds_constant(
     ['a', 'b', 'c']
     """
 
-    settings = {"name": f"{k} Constant"}
+    settings = {"name": f"{k} Constant", "interpolator": LinearInterpolator}
     settings.update(kwargs)
 
     wavelengths = shape.wavelengths
@@ -302,6 +304,7 @@ def msds_zeros(
     -----
     -   By default, the multi-spectral distributions will use the shape given
         by :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
+    -   The interpolator is set to :class:`colour.LinearInterpolator` class.
 
     Examples
     --------
@@ -349,6 +352,7 @@ def msds_ones(
     -----
     -   By default, the multi-spectral distributions will use the shape given
         by :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
+    -   The interpolator is set to :class:`colour.LinearInterpolator` class.
 
     Examples
     --------
@@ -365,8 +369,8 @@ def msds_ones(
 
 
 def sd_gaussian_normal(
-    mu: Floating,
-    sigma: Floating,
+    mu: float,
+    sigma: float,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     **kwargs: Any,
 ) -> SpectralDistribution:
@@ -405,8 +409,8 @@ def sd_gaussian_normal(
     >>> sd = sd_gaussian_normal(555, 25)
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
-    >>> sd[555]  # doctest: +ELLIPSIS
-    1...
+    >>> sd[555]  # doctest: +SKIP
+    1.0
     >>> sd[530]  # doctest: +ELLIPSIS
     0.6065306...
     """
@@ -420,8 +424,8 @@ def sd_gaussian_normal(
 
 
 def sd_gaussian_fwhm(
-    peak_wavelength: Floating,
-    fwhm: Floating,
+    peak_wavelength: float,
+    fwhm: float,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     **kwargs: Any,
 ) -> SpectralDistribution:
@@ -461,16 +465,17 @@ def sd_gaussian_fwhm(
     >>> sd = sd_gaussian_fwhm(555, 25)
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
-    >>> sd[555]  # doctest: +ELLIPSIS
-    1...
-    >>> sd[530]  # doctest: +ELLIPSIS
-    0.3678794...
+    >>> sd[555]  # doctest: +SKIP
+    1.0
+    >>> sd[530]
+    0.0625
     """
 
     settings = {"name": f"{peak_wavelength}nm - {fwhm} FWHM - Gaussian"}
     settings.update(kwargs)
 
-    values = np.exp(-(((shape.wavelengths - peak_wavelength) / fwhm) ** 2))
+    mu, sigma = peak_wavelength, fwhm / (2 * np.sqrt(2 * np.log(2)))
+    values = np.exp(-((shape.wavelengths - mu) ** 2) / (2 * sigma**2))
 
     return SpectralDistribution(values, shape.wavelengths, **settings)
 
@@ -484,10 +489,10 @@ Supported gaussian spectral distribution computation methods.
 
 
 def sd_gaussian(
-    mu_peak_wavelength: Floating,
-    sigma_fwhm: Floating,
+    mu_peak_wavelength: float,
+    sigma_fwhm: float,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
-    method: Union[Literal["Normal", "FWHM"], str] = "Normal",
+    method: Literal["Normal", "FWHM"] | str = "Normal",
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
@@ -501,7 +506,7 @@ def sd_gaussian(
         peak at.
     sigma_fwhm
         Standard deviation :math:`sigma` of the gaussian spectral distribution
-        or Full width at half maximum, i.e. width of the gaussian spectral
+        or full width at half maximum, i.e. width of the gaussian spectral
         distribution measured between those points on the *y* axis which are
         half the maximum amplitude.
     shape
@@ -531,20 +536,20 @@ def sd_gaussian(
     >>> sd = sd_gaussian(555, 25)
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
-    >>> sd[555]  # doctest: +ELLIPSIS
-    1...
+    >>> sd[555]  # doctest: +SKIP
+    1.0
     >>> sd[530]  # doctest: +ELLIPSIS
     0.6065306...
     >>> sd = sd_gaussian(555, 25, method="FWHM")
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
-    >>> sd[555]  # doctest: +ELLIPSIS
-    1...
-    >>> sd[530]  # doctest: +ELLIPSIS
-    0.3678794...
+    >>> sd[555]  # doctest: +SKIP
+    1.0
+    >>> sd[530]
+    0.0625
     """
 
-    method = validate_method(method, SD_GAUSSIAN_METHODS)
+    method = validate_method(method, tuple(SD_GAUSSIAN_METHODS))
 
     return SD_GAUSSIAN_METHODS[method](
         mu_peak_wavelength, sigma_fwhm, shape, **kwargs
@@ -552,32 +557,30 @@ def sd_gaussian(
 
 
 def sd_single_led_Ohno2005(
-    peak_wavelength: Floating,
-    fwhm: Floating,
+    peak_wavelength: float,
+    half_spectral_width: float,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
     Return a single *LED* spectral distribution of given spectral shape at
-    given peak wavelength and full width at half maximum according to
-    *Ohno (2005)* method.
+    given peak wavelength and half spectral width :math:`\\Delta\\lambda_{0.5}`
+    according to *Ohno (2005)* method.
 
     Parameters
     ----------
     peak_wavelength
         Wavelength the single *LED* spectral distribution will peak at.
-    fwhm
-        Full width at half maximum, i.e. width of the underlying gaussian
-        spectral distribution measured between those points on the *y* axis
-        which are half the maximum amplitude.
+    half_spectral_width
+        Half spectral width :math:`\\Delta\\lambda_{0.5}`.
     shape
         Spectral shape used to create the spectral distribution.
 
     Other Parameters
     ----------------
     kwargs
-        {:func:`colour.colorimetry.sd_gaussian_fwhm`},
-        See the documentation of the previously listed definition.
+        {:class:`colour.SpectralDistribution`},
+        See the documentation of the previously listed class.
 
     Returns
     -------
@@ -602,14 +605,18 @@ def sd_single_led_Ohno2005(
     1...
     """
 
-    settings = {"name": f"{peak_wavelength}nm - {fwhm} FWHM LED - Ohno (2005)"}
+    settings = {
+        "name": f"{peak_wavelength}nm - {half_spectral_width} "
+        f"Half Spectral Width LED - Ohno (2005)"
+    }
     settings.update(kwargs)
 
-    sd = sd_gaussian_fwhm(peak_wavelength, fwhm, shape, **kwargs)
+    values = np.exp(
+        -(((shape.wavelengths - peak_wavelength) / half_spectral_width) ** 2)
+    )
+    values = (values + 2 * values**5) / 3
 
-    sd.values = (sd.values + 2 * sd.values**5) / 3
-
-    return sd
+    return SpectralDistribution(values, shape.wavelengths, **settings)
 
 
 SD_SINGLE_LED_METHODS: CanonicalMapping = CanonicalMapping(
@@ -623,25 +630,19 @@ Supported single *LED* spectral distribution computation methods.
 
 
 def sd_single_led(
-    peak_wavelength: Floating,
-    fwhm: Floating,
+    peak_wavelength: float,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
-    method: Union[Literal["Ohno 2005"], str] = "Ohno 2005",
+    method: Literal["Ohno 2005"] | str = "Ohno 2005",
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
     Return a single *LED* spectral distribution of given spectral shape at
-    given peak wavelength and full width at half maximum according to given
-    method.
+    given peak wavelength according to given method.
 
     Parameters
     ----------
     peak_wavelength
         Wavelength the single *LED* spectral distribution will peak at.
-    fwhm
-        Full width at half maximum, i.e. width of the underlying gaussian
-        spectral distribution measured between those points on the *y*
-        axis which are half the maximum amplitude.
     shape
         Spectral shape used to create the spectral distribution.
     method
@@ -669,31 +670,30 @@ def sd_single_led(
 
     Examples
     --------
-    >>> sd = sd_single_led(555, 25)
+    >>> sd = sd_single_led(555, half_spectral_width=25)
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> sd[555]  # doctest: +ELLIPSIS
     1...
     """
 
-    method = validate_method(method, SD_SINGLE_LED_METHODS)
+    method = validate_method(method, tuple(SD_SINGLE_LED_METHODS))
+    kwargs["shape"] = shape
 
-    return SD_SINGLE_LED_METHODS[method](
-        peak_wavelength, fwhm, shape, **kwargs
-    )
+    return SD_SINGLE_LED_METHODS[method](peak_wavelength, **kwargs)
 
 
 def sd_multi_leds_Ohno2005(
     peak_wavelengths: ArrayLike,
-    fwhm: ArrayLike,
-    peak_power_ratios: Optional[ArrayLike] = None,
+    half_spectral_widths: ArrayLike,
+    peak_power_ratios: ArrayLike | None = None,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
     Return a multi *LED* spectral distribution of given spectral shape at
-    given peak wavelengths and full widths at half maximum according to
-    *Ohno (2005)* method.
+    given peak wavelengths, half spectral widths :math:`\\Delta\\lambda_{0.5}`
+    and peak power ratios according to *Ohno (2005)* method.
 
     The multi *LED* spectral distribution is generated using many single *LED*
     spectral distributions generated with :func:`colour.sd_single_led_Ohno2005`
@@ -704,10 +704,8 @@ def sd_multi_leds_Ohno2005(
     peak_wavelengths
         Wavelengths the multi *LED* spectral distribution will peak at, i.e.
         the peaks for each generated single *LED* spectral distributions.
-    fwhm
-        Full widths at half maximum, i.e. widths of the underlying gaussian
-        spectral distributions measured between those points on the *y* axis
-        which are half the maximum amplitude.
+    half_spectral_widths
+        Half spectral widths :math:`\\Delta\\lambda_{0.5}`.
     peak_power_ratios
         Peak power ratios for each generated single *LED* spectral
         distributions.
@@ -748,7 +746,9 @@ def sd_multi_leds_Ohno2005(
     """
 
     peak_wavelengths = as_float_array(peak_wavelengths)
-    fwhm = np.resize(fwhm, peak_wavelengths.shape)
+    half_spectral_widths = np.resize(
+        half_spectral_widths, peak_wavelengths.shape
+    )
     if peak_power_ratios is None:
         peak_power_ratios = ones(peak_wavelengths.shape)
     else:
@@ -758,22 +758,24 @@ def sd_multi_leds_Ohno2005(
 
     sd = sd_zeros(shape)
 
-    for (peak_wavelength, fwhm_s, peak_power_ratio) in zip(
-        peak_wavelengths, fwhm, peak_power_ratios
+    for peak_wavelength, half_spectral_width, peak_power_ratio in zip(
+        peak_wavelengths, half_spectral_widths, peak_power_ratios
     ):
-        sd += (  # type: ignore[misc]
-            sd_single_led_Ohno2005(peak_wavelength, fwhm_s, **kwargs)
+        sd += (
+            sd_single_led_Ohno2005(
+                peak_wavelength, half_spectral_width, **kwargs
+            )
             * peak_power_ratio
         )
 
-    def _format_array(a: NDArray) -> str:
+    def _format_array(a: NDArrayFloat) -> str:
         """Format given array :math:`a`."""
 
         return ", ".join([str(e) for e in a])
 
     sd.name = (
         f"{_format_array(peak_wavelengths)}nm - "
-        f"{_format_array(fwhm)}FWHM - "
+        f"{_format_array(half_spectral_widths)} FWHM - "
         f"{_format_array(peak_power_ratios)} Peak Power Ratios - "
         f"LED - Ohno (2005)"
     )
@@ -793,29 +795,19 @@ Supported multi *LED* spectral distribution computation methods.
 
 def sd_multi_leds(
     peak_wavelengths: ArrayLike,
-    fwhm: ArrayLike,
-    peak_power_ratios: Optional[ArrayLike] = None,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
-    method: Union[Literal["Ohno 2005"], str] = "Ohno 2005",
+    method: Literal["Ohno 2005"] | str = "Ohno 2005",
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
     Return a multi *LED* spectral distribution of given spectral shape at
-    given peak wavelengths and full widths at half maximum according to given
-    method.
+    given peak wavelengths.
 
     Parameters
     ----------
     peak_wavelengths
         Wavelengths the multi *LED* spectral distribution will peak at, i.e.
         the peaks for each generated single *LED* spectral distributions.
-    fwhm
-        Full widths at half maximum, i.e. widths of the underlying gaussian
-        spectral distributions measured between those points on the *y* axis
-        which are half the maximum amplitude.
-    peak_power_ratios
-        Peak power ratios for each generated single *LED* spectral
-        distributions.
     shape
         Spectral shape used to create the spectral distribution.
     method
@@ -845,8 +837,8 @@ def sd_multi_leds(
     --------
     >>> sd = sd_multi_leds(
     ...     np.array([457, 530, 615]),
-    ...     np.array([20, 30, 20]),
-    ...     np.array([0.731, 1.000, 1.660]),
+    ...     half_spectral_widths=np.array([20, 30, 20]),
+    ...     peak_power_ratios=np.array([0.731, 1.000, 1.660]),
     ... )
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
@@ -854,8 +846,7 @@ def sd_multi_leds(
     0.1295132...
     """
 
-    method = validate_method(method, SD_MULTI_LEDS_METHODS)
+    method = validate_method(method, tuple(SD_MULTI_LEDS_METHODS))
+    kwargs["shape"] = shape
 
-    return SD_MULTI_LEDS_METHODS[method](
-        peak_wavelengths, fwhm, peak_power_ratios, shape, **kwargs
-    )
+    return SD_MULTI_LEDS_METHODS[method](peak_wavelengths, **kwargs)

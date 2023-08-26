@@ -22,7 +22,7 @@ message_box("Colour Models Plots")
 colour_style()
 
 message_box(
-    'Plotting "RGB" colourspaces in the ' '"CIE 1931 Chromaticity Diagram".'
+    'Plotting "RGB" colourspaces in the "CIE 1931 Chromaticity Diagram".'
 )
 pprint(sorted(colour.RGB_COLOURSPACES.keys()))
 plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(

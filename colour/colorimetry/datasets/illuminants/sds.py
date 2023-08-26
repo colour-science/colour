@@ -62,12 +62,11 @@ from functools import partial
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry.spectrum import SpectralDistribution
-from colour.hints import Dict
 from colour.utilities import LazyCanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -80,7 +79,7 @@ __all__ = [
     "SDS_ILLUMINANTS",
 ]
 
-DATA_ILLUMINANTS_CIE: Dict = {
+DATA_ILLUMINANTS_CIE: dict = {
     "A": {
         300: 0.930483,
         305: 1.128210,
@@ -4610,7 +4609,7 @@ References
 :cite:`Carter2018`, :cite:`CIEce`, :cite:`CIEcf`
 """
 
-DATA_ILLUMINANTS_ISO: Dict = {
+DATA_ILLUMINANTS_ISO: dict = {
     "ISO 7589 Photographic Daylight": {
         350: 28,
         360: 31,

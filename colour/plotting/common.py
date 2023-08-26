@@ -6,6 +6,8 @@ Defines the common plotting objects:
 
 -   :func:`colour.plotting.colour_style`
 -   :func:`colour.plotting.override_style`
+-   :func:`colour.plotting.XYZ_to_plotting_colourspace`
+-   :class:`colour.plotting.ColourSwatch`
 -   :func:`colour.plotting.colour_cycle`
 -   :func:`colour.plotting.artist`
 -   :func:`colour.plotting.camera`
@@ -24,17 +26,18 @@ Defines the common plotting objects:
 
 from __future__ import annotations
 
+import contextlib
 import functools
 import itertools
-import matplotlib
 import matplotlib.cm
-import matplotlib.patches as Patch
 import matplotlib.pyplot as plt
 import matplotlib.ticker
+from mpl_toolkits.mplot3d.axes3d import Axes3D
 import numpy as np
 from dataclasses import dataclass, field
 from functools import partial
 from matplotlib.colors import LinearSegmentedColormap
+from matplotlib.patches import Patch
 
 from colour.characterisation import CCS_COLOURCHECKERS, ColourChecker
 from colour.colorimetry import (
@@ -47,20 +50,15 @@ from colour.colorimetry import (
 from colour.hints import (
     Any,
     ArrayLike,
-    Boolean,
     Callable,
     Dict,
-    Floating,
-    Integer,
     List,
     Literal,
     Mapping,
-    NDArray,
-    Optional,
+    NDArrayFloat,
     Sequence,
     Tuple,
     TypedDict,
-    Union,
     cast,
 )
 from colour.models import RGB_COLOURSPACES, RGB_Colourspace, XYZ_to_RGB
@@ -68,6 +66,7 @@ from colour.utilities import (
     CanonicalMapping,
     Structure,
     as_float_array,
+    as_int_scalar,
     attest,
     first_item,
     is_sibling,
@@ -77,10 +76,11 @@ from colour.utilities import (
     runtime_warning,
     validate_method,
 )
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -207,7 +207,7 @@ CONSTANTS_ARROW_STYLE: Structure = Structure(
 """Annotation arrow settings used across the plotting sub-package."""
 
 
-def colour_style(use_style: Boolean = True) -> Dict:
+def colour_style(use_style: bool = True) -> dict:
     """
     Return *Colour* plotting style.
 
@@ -306,7 +306,7 @@ def override_style(**kwargs: Any) -> Callable:
     Examples
     --------
     >>> @override_style(**{"text.color": "red"})
-    ... def f():
+    ... def f(*args, **kwargs):
     ...     plt.text(0.5, 0.5, "This is a text!")
     ...     plt.show()
     ...
@@ -327,7 +327,7 @@ def override_style(**kwargs: Any) -> Callable:
             style_overrides = {
                 key: value
                 for key, value in keywords.items()
-                if key in plt.rcParams.keys()
+                if key in plt.rcParams
             }
 
             with plt.style.context(style_overrides):
@@ -341,27 +341,24 @@ def override_style(**kwargs: Any) -> Callable:
 def XYZ_to_plotting_colourspace(
     XYZ: ArrayLike,
     illuminant: ArrayLike = RGB_COLOURSPACES["sRGB"].whitepoint,
-    chromatic_adaptation_transform: Optional[
-        Union[
-            Literal[
-                "Bianco 2010",
-                "Bianco PC 2010",
-                "Bradford",
-                "CAT02 Brill 2008",
-                "CAT02",
-                "CAT16",
-                "CMCCAT2000",
-                "CMCCAT97",
-                "Fairchild",
-                "Sharp",
-                "Von Kries",
-                "XYZ Scaling",
-            ],
-            str,
-        ]
-    ] = "CAT02",
-    apply_cctf_encoding: Boolean = True,
-) -> NDArray:
+    chromatic_adaptation_transform: Literal[
+        "Bianco 2010",
+        "Bianco PC 2010",
+        "Bradford",
+        "CAT02 Brill 2008",
+        "CAT02",
+        "CAT16",
+        "CMCCAT2000",
+        "CMCCAT97",
+        "Fairchild",
+        "Sharp",
+        "Von Kries",
+        "XYZ Scaling",
+    ]
+    | str
+    | None = "CAT02",
+    apply_cctf_encoding: bool = True,
+) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to the default plotting
     colourspace.
@@ -393,13 +390,10 @@ def XYZ_to_plotting_colourspace(
 
     return XYZ_to_RGB(
         XYZ,
+        CONSTANTS_COLOUR_STYLE.colour.colourspace,
         illuminant,
-        CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint,
-        CONSTANTS_COLOUR_STYLE.colour.colourspace.matrix_XYZ_to_RGB,
         chromatic_adaptation_transform,
-        CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding
-        if apply_cctf_encoding
-        else None,
+        apply_cctf_encoding,
     )
 
 
@@ -417,7 +411,7 @@ class ColourSwatch:
     """
 
     RGB: ArrayLike
-    name: Optional[str] = field(default_factory=lambda: None)
+    name: str | None = field(default_factory=lambda: None)
 
 
 def colour_cycle(**kwargs: Any) -> itertools.cycle:
@@ -468,10 +462,10 @@ class KwargsArtist(TypedDict):
     """
 
     axes: plt.Axes
-    uniform: Boolean
+    uniform: bool
 
 
-def artist(**kwargs: Union[KwargsArtist, Any]) -> Tuple[plt.Figure, plt.Axes]:
+def artist(**kwargs: KwargsArtist | Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Return the current figure and its axes or creates a new one.
 
@@ -497,7 +491,7 @@ def artist(**kwargs: Union[KwargsArtist, Any]) -> Tuple[plt.Figure, plt.Axes]:
 
         return figure, figure.gca()
     else:
-        return plt.gcf(), axes
+        return cast(plt.Figure, plt.gcf()), cast(plt.Axes, axes)
 
 
 class KwargsCamera(TypedDict):
@@ -521,12 +515,12 @@ class KwargsCamera(TypedDict):
 
     figure: plt.Figure
     axes: plt.Axes
-    azimuth: Optional[Floating]
-    elevation: Optional[Floating]
-    camera_aspect: Union[Literal["equal"], str]
+    azimuth: float | None
+    elevation: float | None
+    camera_aspect: Literal["equal"] | str
 
 
-def camera(**kwargs: Union[KwargsCamera, Any]) -> Tuple[plt.Figure, plt.Axes]:
+def camera(**kwargs: KwargsCamera | Any) -> Tuple[plt.Figure, Axes3D]:
     """
     Set the camera settings.
 
@@ -543,7 +537,7 @@ def camera(**kwargs: Union[KwargsCamera, Any]) -> Tuple[plt.Figure, plt.Axes]:
     """
 
     figure = cast(plt.Figure, kwargs.get("figure", plt.gcf()))
-    axes = cast(plt.Axes, kwargs.get("axes", plt.gca()))
+    axes = cast(Axes3D, kwargs.get("axes", plt.gca()))
 
     settings = Structure(
         **{"camera_aspect": "equal", "elevation": None, "azimuth": None}
@@ -571,7 +565,7 @@ class KwargsRender(TypedDict):
         Axes to apply the render elements onto.
     filename
         Figure will be saved using given ``filename`` argument.
-    standalone
+    show
         Whether to show the figure and call :func:`matplotlib.pyplot.show`
         definition.
     aspect
@@ -607,23 +601,23 @@ class KwargsRender(TypedDict):
     figure: plt.Figure
     axes: plt.Axes
     filename: str
-    standalone: Boolean
-    aspect: Union[Literal["auto", "equal"], Floating]
-    axes_visible: Boolean
+    show: bool
+    aspect: Literal["auto", "equal"] | float
+    axes_visible: bool
     bounding_box: ArrayLike
-    tight_layout: Boolean
-    legend: Boolean
-    legend_columns: Integer
-    transparent_background: Boolean
+    tight_layout: bool
+    legend: bool
+    legend_columns: int
+    transparent_background: bool
     title: str
-    wrap_title: Boolean
+    wrap_title: bool
     x_label: str
     y_label: str
-    x_ticker: Boolean
-    y_ticker: Boolean
+    x_ticker: bool
+    y_ticker: bool
 
 
-def render(**kwargs: Union[KwargsRender, Any]) -> Tuple[plt.Figure, plt.Axes]:
+def render(**kwargs: KwargsRender | Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Render the current figure while adjusting various settings such as the
     bounding box, the title or background transparency.
@@ -643,10 +637,17 @@ def render(**kwargs: Union[KwargsRender, Any]) -> Tuple[plt.Figure, plt.Axes]:
     figure = cast(plt.Figure, kwargs.get("figure", plt.gcf()))
     axes = cast(plt.Axes, kwargs.get("axes", plt.gca()))
 
+    kwargs = handle_arguments_deprecation(
+        {
+            "ArgumentRenamed": [["standalone", "show"]],
+        },
+        **kwargs,
+    )
+
     settings = Structure(
         **{
             "filename": None,
-            "standalone": True,
+            "show": True,
             "aspect": None,
             "axes_visible": True,
             "bounding_box": None,
@@ -679,9 +680,9 @@ def render(**kwargs: Union[KwargsRender, Any]) -> Tuple[plt.Figure, plt.Axes]:
     if settings.y_label:
         axes.set_ylabel(settings.y_label)
     if not settings.x_ticker:
-        axes.set_xticks([])
+        axes.set_xticks([])  # pyright: ignore
     if not settings.y_ticker:
-        axes.set_yticks([])
+        axes.set_yticks([])  # pyright: ignore
     if settings.legend:
         axes.legend(ncol=settings.legend_columns)
 
@@ -690,11 +691,12 @@ def render(**kwargs: Union[KwargsRender, Any]) -> Tuple[plt.Figure, plt.Axes]:
 
     if settings.transparent_background:
         figure.patch.set_alpha(0)
-    if settings.standalone:
-        if settings.filename is not None:
-            figure.savefig(settings.filename)
-        else:
-            plt.show()
+
+    if settings.filename is not None:
+        figure.savefig(settings.filename)
+
+    if settings.show:
+        plt.show()
 
     return figure, axes
 
@@ -702,9 +704,9 @@ def render(**kwargs: Union[KwargsRender, Any]) -> Tuple[plt.Figure, plt.Axes]:
 def label_rectangles(
     labels: Sequence[str],
     rectangles: Sequence[Patch],
-    rotation: Union[Literal["horizontal", "vertical"], str] = "vertical",
-    text_size: Floating = 10,
-    offset: Optional[ArrayLike] = None,
+    rotation: Literal["horizontal", "vertical"] | str = "vertical",
+    text_size: float = 10,
+    offset: ArrayLike | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -738,14 +740,14 @@ def label_rectangles(
 
     rotation = validate_method(
         rotation,
-        ["horizontal", "vertical"],
+        ("horizontal", "vertical"),
         '"{0}" rotation is invalid, it must be one of {1}!',
     )
 
     figure = kwargs.get("figure", plt.gcf())
     axes = kwargs.get("axes", plt.gca())
 
-    offset = as_float_array(cast(ArrayLike, optional(offset, (0.0, 0.025))))
+    offset = as_float_array(optional(offset, (0.0, 0.025)))
 
     x_m, y_m = 0, 0
     for rectangle in rectangles:
@@ -793,12 +795,10 @@ def uniform_axes3d(**kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     figure = kwargs.get("figure", plt.gcf())
     axes = kwargs.get("axes", plt.gca())
 
-    try:  # pragma: no cover
+    with contextlib.suppress(NotImplementedError):  # pragma: no cover
         # TODO: Reassess according to
         # https://github.com/matplotlib/matplotlib/issues/1077
         axes.set_aspect("equal")
-    except NotImplementedError:  # pragma: no cover
-        pass
 
     extents = np.array([getattr(axes, f"get_{axis}lim")() for axis in "xyz"])
 
@@ -815,9 +815,9 @@ def uniform_axes3d(**kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
 
 def filter_passthrough(
     mapping: Mapping,
-    filterers: Union[Any, str, Sequence[Union[Any, str]]],
-    allow_non_siblings: Boolean = True,
-) -> Dict:
+    filterers: Any | str | Sequence[Any | str],
+    allow_non_siblings: bool = True,
+) -> dict:
     """
     Return mapping objects matching given filterers while passing through
     class instances whose type is one of the mapping element types.
@@ -886,9 +886,7 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
         used for matching.
     """
 
-    if is_string(filterers):
-        filterers = [filterers]
-    elif not isinstance(filterers, (list, tuple)):
+    if is_string(filterers) or not isinstance(filterers, (list, tuple)):
         filterers = [filterers]
 
     string_filterers: List[str] = [
@@ -936,10 +934,8 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
 
 
 def filter_RGB_colourspaces(
-    filterers: Union[
-        RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]
-    ],
-    allow_non_siblings: Boolean = True,
+    filterers: RGB_Colourspace | str | Sequence[RGB_Colourspace | str],
+    allow_non_siblings: bool = True,
 ) -> Dict[str, RGB_Colourspace]:
     """
     Return the *RGB* colourspaces matching given filterers.
@@ -965,12 +961,10 @@ def filter_RGB_colourspaces(
 
 
 def filter_cmfs(
-    filterers: Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
-    ],
-    allow_non_siblings: Boolean = True,
+    filterers: MultiSpectralDistributions
+    | str
+    | Sequence[MultiSpectralDistributions | str],
+    allow_non_siblings: bool = True,
 ) -> Dict[str, MultiSpectralDistributions]:
     """
     Return the colour matching functions matching given filterers.
@@ -998,10 +992,10 @@ def filter_cmfs(
 
 
 def filter_illuminants(
-    filterers: Union[
-        SpectralDistribution, str, Sequence[Union[SpectralDistribution, str]]
-    ],
-    allow_non_siblings: Boolean = True,
+    filterers: SpectralDistribution
+    | str
+    | Sequence[SpectralDistribution | str],
+    allow_non_siblings: bool = True,
 ) -> Dict[str, SpectralDistribution]:
     """
     Return the illuminants matching given filterers.
@@ -1037,8 +1031,8 @@ def filter_illuminants(
 
 
 def filter_colour_checkers(
-    filterers: Union[ColourChecker, str, Sequence[Union[ColourChecker, str]]],
-    allow_non_siblings: Boolean = True,
+    filterers: ColourChecker | str | Sequence[ColourChecker | str],
+    allow_non_siblings: bool = True,
 ) -> Dict[str, ColourChecker]:
     """
     Return the colour checkers matching given filterers.
@@ -1066,9 +1060,9 @@ def filter_colour_checkers(
 
 
 def update_settings_collection(
-    settings_collection: Union[Dict, List[Dict]],
-    keyword_arguments: Union[Dict, List[Dict]],
-    expected_count: Integer,
+    settings_collection: dict | List[dict],
+    keyword_arguments: dict | List[dict],
+    expected_count: int,
 ):
     """
     Update given settings collection, *in-place*, with given keyword arguments
@@ -1121,7 +1115,7 @@ def update_settings_collection(
     }
 )
 def plot_single_colour_swatch(
-    colour_swatch: Union[ArrayLike, ColourSwatch], **kwargs: Any
+    colour_swatch: ArrayLike | ColourSwatch, **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plot given colour swatch.
@@ -1149,7 +1143,7 @@ def plot_single_colour_swatch(
     --------
     >>> RGB = ColourSwatch((0.45620519, 0.03081071, 0.04091952))
     >>> plot_single_colour_swatch(RGB)  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Colour_Swatch.png
         :align: center
@@ -1169,17 +1163,15 @@ def plot_single_colour_swatch(
     }
 )
 def plot_multi_colour_swatches(
-    colour_swatches: Sequence[Union[ArrayLike, ColourSwatch]],
-    width: Floating = 1,
-    height: Floating = 1,
-    spacing: Floating = 0,
-    columns: Optional[Integer] = None,
-    direction: Union[Literal["+y", "-y"], str] = "+y",
-    text_kwargs: Optional[Dict] = None,
+    colour_swatches: Sequence[ArrayLike | ColourSwatch],
+    width: float = 1,
+    height: float = 1,
+    spacing: float = 0,
+    columns: int | None = None,
+    direction: Literal["+y", "-y"] | str = "+y",
+    text_kwargs: dict | None = None,
     background_colour: ArrayLike = (1.0, 1.0, 1.0),
-    compare_swatches: Optional[
-        Union[Literal["Diagonal", "Stacked"], str]
-    ] = None,
+    compare_swatches: Literal["Diagonal", "Stacked"] | str | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -1233,7 +1225,7 @@ def plot_multi_colour_swatches(
     >>> RGB_1 = ColourSwatch((0.45293517, 0.31732158, 0.26414773))
     >>> RGB_2 = ColourSwatch((0.77875824, 0.57726450, 0.50453169))
     >>> plot_multi_colour_swatches([RGB_1, RGB_2])  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Colour_Swatches.png
         :align: center
@@ -1242,14 +1234,14 @@ def plot_multi_colour_swatches(
 
     direction = validate_method(
         direction,
-        ["+y", "-y"],
+        ("+y", "-y"),
         '"{0}" direction is invalid, it must be one of {1}!',
     )
 
     if compare_swatches is not None:
         compare_swatches = validate_method(
             compare_swatches,
-            ["Diagonal", "Stacked"],
+            ("Diagonal", "Stacked"),
             '"{0}" compare swatches method is invalid, it must be one of {1}!',
         )
 
@@ -1259,7 +1251,7 @@ def plot_multi_colour_swatches(
     colour_swatches = list(colour_swatches)
     colour_swatches_converted = []
     if not isinstance(first_item(colour_swatches), ColourSwatch):
-        for i, colour_swatch in enumerate(
+        for _i, colour_swatch in enumerate(
             as_float_array(cast(ArrayLike, colour_swatches)).reshape([-1, 3])
         ):
             colour_swatches_converted.append(ColourSwatch(colour_swatch))
@@ -1290,8 +1282,8 @@ def plot_multi_colour_swatches(
         text_settings.update(text_kwargs)
     text_offset = text_settings.pop("offset")
 
-    offset_X: Floating = 0
-    offset_Y: Floating = 0
+    offset_X: float = 0
+    offset_Y: float = 0
     x_min, x_max, y_min, y_max = 0, width, 0, height
     y = 1 if direction == "+y" else -1
     for i, colour_swatch in enumerate(colour_swatches_reference):
@@ -1348,7 +1340,7 @@ def plot_multi_colour_swatches(
 
         offset_X += width + spacing
 
-    x_max = min(len(colour_swatches), int(columns))
+    x_max = min(len(colour_swatches), as_int_scalar(columns))
     x_max = x_max * width + x_max * spacing - spacing
     y_max = offset_Y
 
@@ -1382,10 +1374,10 @@ def plot_multi_colour_swatches(
 @override_style()
 def plot_single_function(
     function: Callable,
-    samples: Optional[ArrayLike] = None,
-    log_x: Optional[Integer] = None,
-    log_y: Optional[Integer] = None,
-    plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+    samples: ArrayLike | None = None,
+    log_x: int | None = None,
+    log_y: int | None = None,
+    plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -1425,7 +1417,7 @@ def plot_single_function(
     >>> from colour.models import gamma_function
     >>> plot_single_function(partial(gamma_function, exponent=1 / 2.2))
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Function.png
         :align: center
@@ -1451,10 +1443,10 @@ def plot_single_function(
 @override_style()
 def plot_multi_functions(
     functions: Dict[str, Callable],
-    samples: Optional[ArrayLike] = None,
-    log_x: Optional[Integer] = None,
-    log_y: Optional[Integer] = None,
-    plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+    samples: ArrayLike | None = None,
+    log_x: int | None = None,
+    log_y: int | None = None,
+    plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -1499,7 +1491,7 @@ def plot_multi_functions(
     ... }
     >>> plot_multi_functions(functions)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Functions.png
         :align: center
@@ -1515,18 +1507,13 @@ def plot_multi_functions(
             "label": f"{name}",
             "zorder": CONSTANTS_COLOUR_STYLE.zorder.midground_label,
         }
-        for name in functions.keys()
+        for name in functions
     ]
 
     if plot_kwargs is not None:
         update_settings_collection(
             plot_settings_collection, plot_kwargs, len(functions)
         )
-
-    # TODO: Remove when "Matplotlib" minimum version can be set to 3.5.0.
-    matplotlib_3_5 = tuple(
-        int(token) for token in matplotlib.__version__.split(".")[:2]
-    ) >= (3, 5)
 
     if log_x is not None and log_y is not None:
         attest(
@@ -1536,26 +1523,20 @@ def plot_multi_functions(
 
         plotting_function = axes.loglog
 
-        axes.set_xscale("log", base=log_x)
-        axes.set_yscale("log", base=log_y)
+        axes.set_xscale("log", base=log_x)  # pyright: ignore
+        axes.set_yscale("log", base=log_y)  # pyright: ignore
     elif log_x is not None:
         attest(log_x >= 2, "Log base must be equal or greater than 2.")
 
-        if matplotlib_3_5:  # pragma: no cover
-            plotting_function = partial(axes.semilogx, base=log_x)
-        else:  # pragma: no cover
-            plotting_function = partial(axes.semilogx, basex=log_x)
+        plotting_function = partial(axes.semilogx, base=log_x)
     elif log_y is not None:
         attest(log_y >= 2, "Log base must be equal or greater than 2.")
 
-        if matplotlib_3_5:  # pragma: no cover
-            plotting_function = partial(axes.semilogy, base=log_y)
-        else:  # pragma: no cover
-            plotting_function = partial(axes.semilogy, basey=log_y)
+        plotting_function = partial(axes.semilogy, base=log_y)
     else:
         plotting_function = axes.plot
 
-    samples = cast(ArrayLike, optional(samples, np.linspace(0, 1, 1000)))
+    samples = optional(samples, np.linspace(0, 1, 1000))
 
     for i, (_name, function) in enumerate(functions.items()):
         plotting_function(
@@ -1587,8 +1568,8 @@ def plot_multi_functions(
 @override_style()
 def plot_image(
     image: ArrayLike,
-    imshow_kwargs: Optional[Dict] = None,
-    text_kwargs: Optional[Dict] = None,
+    imshow_kwargs: dict | None = None,
+    text_kwargs: dict | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -1630,7 +1611,7 @@ def plot_image(
     ...     "Ishihara_Colour_Blindness_Test_Plate_3.png",
     ... )
     >>> plot_image(read_image(path))  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Image.png
         :align: center
@@ -1641,7 +1622,7 @@ def plot_image(
 
     imshow_settings = {
         "interpolation": "nearest",
-        "cmap": matplotlib.cm.Greys_r,
+        "cmap": matplotlib.colormaps["Greys_r"],
         "zorder": CONSTANTS_COLOUR_STYLE.zorder.background_polygon,
     }
     if imshow_kwargs is not None:

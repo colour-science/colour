@@ -20,7 +20,7 @@ __author__ = "Sphinx Team, Colour Developers"
 __copyright__ = "Copyright 2007-2019 - Sphinx Team"
 __copyright__ += ", "
 __copyright__ += "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -50,7 +50,7 @@ class MockObject:
 
     __display_name__ = "MockObject"
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args, **kwargs):  # noqa: ARG003
         """
         Return a new instance of the :class:`MockObject` class.
 
@@ -90,7 +90,7 @@ class MockObject:
         Parameters
         ----------
         key
-            Key to check whether is is contained in the :class:`MockObject`
+            Key to check whether is contained in the :class:`MockObject`
             class instance.
         """
 
@@ -135,7 +135,7 @@ class MockObject:
 
         return _make_subclass(key, self.__display_name__, self.__class__)()
 
-    def __call__(self, *args, **kwargs):
+    def __call__(self, *args, **kwargs):  # noqa: ARG002
         """
         Call the :class:`MockObject` class instance.
 
@@ -161,9 +161,7 @@ class MockObject:
         return self.__display_name__
 
 
-def _make_subclass(
-    name, module, superclass=MockObject, attributes=None
-):  # noqa: D405,D407,D410,D411
+def _make_subclass(name, module, superclass=MockObject, attributes=None):
     """
     Produce sub-classes of given super-class type.
 
@@ -177,7 +175,7 @@ def _make_subclass(
         Super-class type.
     attributes
         Attributes to set the sub-class with.
-    """
+    """  # noqa: D405, D407, D410, D411
 
     attrs = {"__module__": module, "__display_name__": module + "." + name}
     attrs.update(attributes or {})
@@ -262,4 +260,4 @@ if __name__ == "__main__":
     import colour
 
     xyY = (0.4316, 0.3777, 0.1008)
-    print(colour.xyY_to_XYZ(xyY))
+    print(colour.xyY_to_XYZ(xyY))  # noqa: T201

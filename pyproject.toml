@@ -1,10 +1,11 @@
 [tool.poetry]
-name = "colour"
-version = "0.4.2"
+name = "colour-science"
+packages = [{ include = "colour" }]
+version = "0.4.3"
 description = "Colour Science for Python"
 license = "BSD-3-Clause"
-authors = [ "Colour Developers <colour-developers@colour-science.org>" ]
-maintainers = [ "Colour Developers <colour-developers@colour-science.org>" ]
+authors = ["Colour Developers <colour-developers@colour-science.org>"]
+maintainers = ["Colour Developers <colour-developers@colour-science.org>"]
 readme = 'README.rst'
 repository = "https://github.com/colour-science/colour"
 homepage = "https://www.colour-science.org/"
@@ -45,127 +46,183 @@ classifiers = [
 [tool.poetry.dependencies]
 python = ">= 3.9, < 3.12"
 imageio = ">= 2, < 3"
-numpy = ">= 1.20, < 2"
-scipy = ">= 1.7, < 2"
-typing-extensions = ">= 4, < 5"  # Convenience for Google Colab.
+numpy = ">= 1.22, < 2"
+scipy = ">= 1.8, < 2"
+typing-extensions = ">= 4, < 5"
 
-matplotlib = { version = ">= 3.4, != 3.5.0, != 3.5.1", optional = true }
-networkx = { version = ">= 2.6, < 3", optional = true }
-pandas = { version = ">= 1.3, < 2", optional = true }
-pygraphviz = { version = ">= 1, < 2", optional = true }
-tqdm = { version = ">= 4, < 5", optional = true }
-trimesh = { version = ">= 3, < 4", optional = true }
+[tool.poetry.group.optional.dependencies]
+matplotlib = ">= 3.5, != 3.5.0, != 3.5.1"
+networkx = ">= 2.7, < 3"
+opencolorio = ">= 2, < 3"
+pandas = ">= 1.4, < 2"
+tqdm = ">= 4, < 5"
+xxhash = ">= 3.2, < 4"
 
-biblib-simple = { version = "*", optional = true }  # Development dependency.
-black = { version = "*", optional = true }  # Development dependency.
-blackdoc = { version = "*", optional = true }  # Development dependency.
-coverage = { version = "!= 6.3", optional = true }  # Development dependency.
-coveralls = { version = "*", optional = true }  # Development dependency.
-flake8 = { version = "*", optional = true }  # Development dependency.
-flynt = { version = "*", optional = true }  # Development dependency.
-invoke = { version = "*", optional = true }  # Development dependency.
-jupyter = { version = "*", optional = true }  # Development dependency.
-mypy = { version = "*", optional = true }  # Development dependency.
-pre-commit = { version = "*", optional = true }  # Development dependency.
-pydata-sphinx-theme = { version = "*", optional = true }  # Development dependency.
-pydocstyle = { version = "*", optional = true }  # Development dependency.
-pytest = { version = "*", optional = true }  # Development dependency.
-pytest-cov = { version = "*", optional = true }  # Development dependency.
-pytest-xdist = { version = "*", optional = true} #Development dependency
-pyupgrade = { version = "*", optional = true }  # Development dependency.
-restructuredtext-lint = { version = "*", optional = true }  # Development dependency.
-sphinx = { version = ">= 4, < 5", optional = true }  # Development dependency.
-sphinxcontrib-bibtex = { version = "*", optional = true }  # Development dependency.
-toml = { version = "*", optional = true }  # Development dependency.
-twine = { version = "*", optional = true }  # Development dependency.
+[tool.poetry.group.graphviz.dependencies]
+pygraphviz = ">= 1, < 2"
 
-[tool.poetry.dev-dependencies]
-biblib-simple = "*"
+[tool.poetry.group.meshing.dependencies]
+trimesh = ">= 3, < 4"
+
+[tool.poetry.group.dev.dependencies]
 black = "*"
 blackdoc = "*"
 coverage = "!= 6.3"
 coveralls = "*"
-flake8 = "*"
 flynt = "*"
 invoke = "*"
 jupyter = "*"
-mypy = "*"
 pre-commit = "*"
-pydata-sphinx-theme = "*"
-pydocstyle = "*"
+pyright = "*"
 pytest = "*"
 pytest-cov = "*"
 pytest-xdist = "*"
-pyupgrade = "*"
-restructuredtext-lint = "*"
-sphinx = ">= 4, < 5"
-sphinxcontrib-bibtex = "*"
+ruff = "*"
 toml = "*"
 twine = "*"
 
-[tool.poetry.extras]
-development = [
-    "biblib-simple",
-    "black",
-    "blackdoc",
-    "coverage",
-    "coveralls",
-    "flake8",
-    "flynt",
-    "invoke",
-    "jupyter",
-    "mypy",
-    "pre-commit",
-    "pydata-sphinx-theme",
-    "pydocstyle",
-    "pytest",
-    "pytest-cov",
-    "pytest-xdist",
-    "pyupgrade",
-    "restructuredtext-lint",
-    "sphinx",
-    "sphinxcontrib-bibtex",
-    "toml",
-    "twine",
-]
-graphviz = [ "pygraphviz" ]
-meshing = [ "trimesh" ]
-optional = [ "networkx", "pandas", "scikit-learn", "tqdm" ]
-plotting = [ "matplotlib" ]
-read-the-docs = [
-    "matplotlib",
-    "networkx",
-    "pydata-sphinx-theme",
-    "pygraphviz",
-    "sphinxcontrib-bibtex",
-    "trimesh"
-]
+[tool.poetry.group.docs.dependencies]
+biblib-simple = "*"
+pydata-sphinx-theme = "*"
+restructuredtext-lint = "*"
+sphinx = ">= 4, < 5"
+sphinxcontrib-bibtex = "*"
 
 [tool.black]
 line-length = 79
 exclude = '''
 /(
     \.git
-  | \.mypy_cache
   | build
   | dist
 )/
 '''
 
 [tool.flynt]
-line_length=999
+line_length = 999
 
-[tool.mypy]
-plugins = "numpy.typing.mypy_plugin"
-ignore_missing_imports = true
-
-[tool.pydocstyle]
-convention = "numpy"
-add-ignore = "D104,D200,D202,D205,D301,D400"
+[tool.pyright]
+reportMissingImports = false
+reportMissingModuleSource = false
+reportUnboundVariable = false
+reportUnnecessaryCast = true
+reportUnnecessaryTypeIgnoreComment = true
+reportUnsupportedDunderAll = false
+reportUnusedExpression = false
 
 [tool.pytest.ini_options]
 addopts = "-n auto --dist=loadscope --durations=5"
+filterwarnings = [
+    "ignore::RuntimeWarning",
+    "ignore::pytest.PytestCollectionWarning",
+    "ignore::colour.utilities.ColourWarning",
+    "ignore::colour.utilities.ColourRuntimeWarning",
+    "ignore::colour.utilities.ColourUsageWarning",
+    "ignore:Implicit None on return values is deprecated:DeprecationWarning",
+    "ignore:Jupyter is migrating its paths:DeprecationWarning",
+    "ignore:the imp module is deprecated:DeprecationWarning",
+    "ignore:Method Nelder-Mead does not use gradient information:RuntimeWarning",
+    "ignore:More than 20 figures have been opened:RuntimeWarning",
+    "ignore:divide by zero encountered:RuntimeWarning",
+    "ignore:invalid value encountered in:RuntimeWarning",
+    "ignore:overflow encountered in:RuntimeWarning",
+    "ignore:Matplotlib is currently using agg:UserWarning",
+    "ignore:override the edgecolor or facecolor properties:UserWarning",
+]
+
+[tool.ruff]
+target-version = "py39"
+line-length = 88
+select = [
+    "A", # flake8-builtins
+    "ARG", # flake8-unused-arguments
+    # "ANN", # flake8-annotations
+    "B", # flake8-bugbear
+    # "BLE", # flake8-blind-except
+    "C4", # flake8-comprehensions
+    # "C90", # mccabe
+    # "COM", # flake8-commas
+    "DTZ", # flake8-datetimez
+    "D", # pydocstyle
+    "E", # pydocstyle
+    # "ERA", # eradicate
+    # "EM", # flake8-errmsg
+    "EXE", # flake8-executable
+    "F", # flake8
+    # "FBT", # flake8-boolean-trap
+    "G", # flake8-logging-format
+    "I", # isort
+    "ICN", # flake8-import-conventions
+    "INP", # flake8-no-pep420
+    "ISC", # flake8-implicit-str-concat
+    "N", # pep8-naming
+    # "PD", # pandas-vet
+    "PIE", # flake8-pie
+    "PGH", # pygrep-hooks
+    "PL", # pylint
+    # "PT", # flake8-pytest-style
+    # "PTH", # flake8-use-pathlib [Enable]
+    "Q", # flake8-quotes
+    "RET", # flake8-return
+    "RUF", # Ruff
+    "S", # flake8-bandit
+    "SIM", # flake8-simplify
+    "T10", # flake8-debugger
+    "T20", # flake8-print
+    # "TCH", # flake8-type-checking
+    "TID", # flake8-tidy-imports
+    "TRY", # tryceratops
+    "UP", # pyupgrade
+    "W", # pydocstyle
+    "YTT" # flake8-2020
+]
+ignore = [
+    "B008",
+    "B905",
+    "D104",
+    "D200",
+    "D202",
+    "D205",
+    "D301",
+    "D400",
+    "I001",
+    "N801",
+    "N802",
+    "N803",
+    "N806",
+    "N813",
+    "N815",
+    "N816",
+    "PGH003",
+    "PIE804",
+    "PLE0605",
+    "PLR0911",
+    "PLR0912",
+    "PLR0913",
+    "PLR0915",
+    "PLR2004",
+    "RET504",
+    "RET505",
+    "RET506",
+    "RET507",
+    "RET508",
+    "TRY003",
+    "TRY300",
+]
+typing-modules = ["colour.hints"]
+fixable = ["B", "C", "E", "F", "PIE", "RUF", "SIM", "UP", "W"]
+
+[tool.ruff.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.per-file-ignores]
+"colour/examples/*" = ["INP", "T201", "T203"]
+"docs/*" = ["INP"]
+"setup.py" = ["INP"]
+"tasks.py" = ["INP"]
+"utilities/*" = ["EXE001", "INP"]
+"utilities/unicode_to_ascii.py" = ["RUF001"]
 
 [build-system]
-requires = [ "poetry_core>=1.0.0" ]
+requires = ["poetry_core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"

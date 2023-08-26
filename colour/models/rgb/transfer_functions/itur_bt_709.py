@@ -20,12 +20,12 @@ R-REC-BT.709-6-201506-I!!PDF-E.pdf
 
 from __future__ import annotations
 
-from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.models.rgb.transfer_functions import oetf_BT601, oetf_inverse_BT601
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -36,7 +36,7 @@ __all__ = [
 ]
 
 
-def oetf_BT709(L: FloatingOrArrayLike) -> FloatingOrNDArray:
+def oetf_BT709(L: ArrayLike) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.709-6* opto-electronic transfer function
     (OETF).
@@ -48,7 +48,7 @@ def oetf_BT709(L: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding electrical signal :math:`V`.
 
     Notes
@@ -78,7 +78,7 @@ def oetf_BT709(L: FloatingOrArrayLike) -> FloatingOrNDArray:
     return oetf_BT601(L)
 
 
-def oetf_inverse_BT709(V: FloatingOrArrayLike) -> FloatingOrNDArray:
+def oetf_inverse_BT709(V: ArrayLike) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.709-6* inverse opto-electronic transfer
     function (OETF).
@@ -90,7 +90,7 @@ def oetf_inverse_BT709(V: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding *luminance* :math:`L` of the image.
 
     Notes

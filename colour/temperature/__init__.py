@@ -41,15 +41,7 @@ Set_xy_coord. https://www.adobe.com/support/downloads/dng/dng_sdk.html
 
 from __future__ import annotations
 
-from colour.hints import (
-    Any,
-    ArrayLike,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    NDArray,
-    Literal,
-    Union,
-)
+from colour.hints import Any, ArrayLike, NDArrayFloat, Literal
 from colour.utilities import (
     CanonicalMapping,
     filter_kwargs,
@@ -62,8 +54,18 @@ from .kang2002 import xy_to_CCT_Kang2002, CCT_to_xy_Kang2002
 from .krystek1985 import uv_to_CCT_Krystek1985, CCT_to_uv_Krystek1985
 from .mccamy1992 import xy_to_CCT_McCamy1992, CCT_to_xy_McCamy1992
 from .planck1900 import uv_to_CCT_Planck1900, CCT_to_uv_Planck1900
-from .ohno2013 import uv_to_CCT_Ohno2013, CCT_to_uv_Ohno2013
-from .robertson1968 import uv_to_CCT_Robertson1968, CCT_to_uv_Robertson1968
+from .ohno2013 import (
+    uv_to_CCT_Ohno2013,
+    CCT_to_uv_Ohno2013,
+    CCT_to_XYZ_Ohno2013,
+    XYZ_to_CCT_Ohno2013,
+)
+from .robertson1968 import (
+    CCT_to_mired,
+    mired_to_CCT,
+    uv_to_CCT_Robertson1968,
+    CCT_to_uv_Robertson1968,
+)
 
 __all__ = [
     "xy_to_CCT_CIE_D",
@@ -92,8 +94,12 @@ __all__ += [
 __all__ += [
     "uv_to_CCT_Ohno2013",
     "CCT_to_uv_Ohno2013",
+    "CCT_to_XYZ_Ohno2013",
+    "XYZ_to_CCT_Ohno2013",
 ]
 __all__ += [
+    "CCT_to_mired",
+    "mired_to_CCT",
     "uv_to_CCT_Robertson1968",
     "CCT_to_uv_Robertson1968",
 ]
@@ -126,12 +132,12 @@ UV_TO_CCT_METHODS["robertson1968"] = UV_TO_CCT_METHODS["Robertson 1968"]
 
 def uv_to_CCT(
     uv: ArrayLike,
-    method: Union[
-        Literal["Krystek 1985", "Ohno 2013", "Planck 1900", "Robertson 1968"],
-        str,
-    ] = "Ohno 2013",
+    method: Literal[
+        "Krystek 1985", "Ohno 2013", "Planck 1900", "Robertson 1968"
+    ]
+    | str = "Ohno 2013",
     **kwargs: Any,
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Return the correlated colour temperature :math:`T_{cp}` and
     :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
@@ -182,10 +188,10 @@ def uv_to_CCT(
     >>> import numpy as np
     >>> uv = np.array([0.1978, 0.3122])
     >>> uv_to_CCT(uv)  # doctest: +ELLIPSIS
-    array([  6.507473...e+03,   3.223346...e-03])
+    array([  6.5074747...e+03,   3.2233463...e-03])
     """
 
-    method = validate_method(method, UV_TO_CCT_METHODS)
+    method = validate_method(method, tuple(UV_TO_CCT_METHODS))
 
     function = UV_TO_CCT_METHODS[method]
 
@@ -220,12 +226,12 @@ CCT_TO_UV_METHODS["robertson1968"] = CCT_TO_UV_METHODS["Robertson 1968"]
 
 def CCT_to_uv(
     CCT_D_uv: ArrayLike,
-    method: Union[
-        Literal["Krystek 1985", "Ohno 2013", "Planck 1900", "Robertson 1968"],
-        str,
-    ] = "Ohno 2013",
+    method: Literal[
+        "Krystek 1985", "Ohno 2013", "Planck 1900", "Robertson 1968"
+    ]
+    | str = "Ohno 2013",
     **kwargs: Any,
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Return the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}` using given method.
@@ -263,7 +269,7 @@ def CCT_to_uv(
     array([ 0.1977999...,  0.3121999...])
     """
 
-    method = validate_method(method, CCT_TO_UV_METHODS)
+    method = validate_method(method, tuple(CCT_TO_UV_METHODS))
 
     function = CCT_TO_UV_METHODS[method]
 
@@ -311,16 +317,11 @@ XY_TO_CCT_METHODS["hernandez1999"] = XY_TO_CCT_METHODS["Hernandez 1999"]
 
 def xy_to_CCT(
     xy: ArrayLike,
-    method: Union[
-        Literal[
-            "CIE Illuminant D Series",
-            "Kang 2002",
-            "Hernandez 1999",
-            "McCamy 1992",
-        ],
-        str,
-    ] = "CIE Illuminant D Series",
-) -> FloatingOrNDArray:
+    method: Literal[
+        "CIE Illuminant D Series", "Kang 2002", "Hernandez 1999", "McCamy 1992"
+    ]
+    | str = "CIE Illuminant D Series",
+) -> NDArrayFloat:
     """
     Return the correlated colour temperature :math:`T_{cp}` from given
     *CIE xy* chromaticity coordinates using given method.
@@ -341,7 +342,7 @@ def xy_to_CCT(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Correlated colour temperature :math:`T_{cp}`.
 
     References
@@ -359,7 +360,7 @@ def xy_to_CCT(
     6500.7420431...
     """
 
-    method = validate_method(method, XY_TO_CCT_METHODS)
+    method = validate_method(method, tuple(XY_TO_CCT_METHODS))
 
     return XY_TO_CCT_METHODS[method](xy)
 
@@ -395,17 +396,12 @@ CCT_TO_XY_METHODS["hernandez1999"] = CCT_TO_XY_METHODS["Hernandez 1999"]
 
 
 def CCT_to_xy(
-    CCT: FloatingOrArrayLike,
-    method: Union[
-        Literal[
-            "CIE Illuminant D Series",
-            "Kang 2002",
-            "Hernandez 1999",
-            "McCamy 1992",
-        ],
-        str,
-    ] = "CIE Illuminant D Series",
-) -> NDArray:
+    CCT: ArrayLike,
+    method: Literal[
+        "CIE Illuminant D Series", "Kang 2002", "Hernandez 1999", "McCamy 1992"
+    ]
+    | str = "CIE Illuminant D Series",
+) -> NDArrayFloat:
     """
     Return the *CIE xy* chromaticity coordinates from given correlated colour
     temperature :math:`T_{cp}` using given method.
@@ -443,7 +439,7 @@ def CCT_to_xy(
     array([ 0.313426 ...,  0.3235959...])
     """
 
-    method = validate_method(method, CCT_TO_XY_METHODS)
+    method = validate_method(method, tuple(CCT_TO_XY_METHODS))
 
     return CCT_TO_XY_METHODS[method](CCT)
 

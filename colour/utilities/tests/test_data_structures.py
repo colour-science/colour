@@ -17,7 +17,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -44,7 +44,7 @@ class TestStructure(unittest.TestCase):
         self.assertIn("John", structure)
         self.assertTrue(hasattr(structure, "John"))
 
-        setattr(structure, "John", "Nemo")
+        structure.John = "Nemo"
         self.assertEqual(structure["John"], "Nemo")
 
         structure["John"] = "Vador"
@@ -79,11 +79,11 @@ class TestStructure(unittest.TestCase):
         structure = Structure(John="Doe", Jane="Doe")
 
         data = pickle.dumps(structure)
-        data = pickle.loads(data)
+        data = pickle.loads(data)  # noqa: S301
         self.assertEqual(structure, data)
 
         data = pickle.dumps(structure, pickle.HIGHEST_PROTOCOL)
-        data = pickle.loads(data)
+        data = pickle.loads(data)  # noqa: S301
         self.assertEqual(structure, data)
 
         self.assertEqual(sorted(dir(data)), ["Jane", "John"])
@@ -351,7 +351,7 @@ __contains__` method.
         """
 
         self.assertRaises(
-            ValueError,
+            TypeError,
             operator.eq,
             CanonicalMapping(John="Doe", Jane="Doe"),
             ["John", "Doe", "Jane", "Doe"],
@@ -375,7 +375,7 @@ __contains__` method.
         """
 
         self.assertRaises(
-            ValueError,
+            TypeError,
             operator.ne,
             CanonicalMapping(John="Doe", Jane="Doe"),
             ["John", "Doe", "Jane", "Doe"],

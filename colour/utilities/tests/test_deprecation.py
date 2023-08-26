@@ -24,7 +24,7 @@ from colour.utilities.deprecation import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -336,7 +336,7 @@ class TestModuleAPI(unittest.TestCase):
         def assert_warns():
             """Help to test the runtime warning."""
 
-            getattr(colour.utilities.tests.test_deprecated, "OLD_NAME")
+            colour.utilities.tests.test_deprecated.OLD_NAME  # noqa: B018
 
         self.assertWarns(ColourUsageWarning, assert_warns)
 

@@ -18,11 +18,16 @@ from colour.colorimetry import (
     SpectralShape,
 )
 from colour.continuous import MultiSignals, Signal
-from colour.hints import ArrayLike, Any, Optional, Sequence, Union
+from colour.hints import (
+    ArrayLike,
+    Any,
+    Sequence,
+    TYPE_CHECKING,
+)
 from colour.utilities import is_pandas_installed
 
-if is_pandas_installed():
-    from pandas import DataFrame, Series
+if TYPE_CHECKING or is_pandas_installed():
+    from pandas import DataFrame, Series  # pragma: no cover
 else:  # pragma: no cover
     from unittest import mock
 
@@ -31,7 +36,7 @@ else:  # pragma: no cover
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -84,21 +89,18 @@ class RGB_DisplayPrimaries(MultiSpectralDistributions):
 
     def __init__(
         self,
-        data: Optional[
-            Union[
-                ArrayLike,
-                DataFrame,
-                dict,
-                MultiSignals,
-                MultiSpectralDistributions,
-                Sequence,
-                Series,
-                Signal,
-                SpectralDistribution,
-            ]
-        ] = None,
-        domain: Optional[Union[ArrayLike, SpectralShape]] = None,
-        labels: Optional[Sequence] = None,
+        data: ArrayLike
+        | DataFrame
+        | dict
+        | MultiSignals
+        | MultiSpectralDistributions
+        | Sequence
+        | Series
+        | Signal
+        | SpectralDistribution
+        | None = None,
+        domain: ArrayLike | SpectralShape | None = None,
+        labels: Sequence | None = None,  # noqa: ARG002
         **kwargs: Any,
     ) -> None:
         super().__init__(

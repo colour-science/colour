@@ -21,11 +21,11 @@ from functools import partial
 
 from colour.algebra import spow
 from colour.models import Iab_to_XYZ, XYZ_to_Iab
-from colour.hints import ArrayLike, NDArray
+from colour.hints import ArrayLike, NDArrayFloat
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -39,7 +39,7 @@ __all__ = [
     "Oklab_to_XYZ",
 ]
 
-MATRIX_1_XYZ_TO_LMS: NDArray = np.array(
+MATRIX_1_XYZ_TO_LMS: NDArrayFloat = np.array(
     [
         [0.8189330101, 0.3618667424, -0.1288597137],
         [0.0329845436, 0.9293118715, 0.0361456387],
@@ -48,10 +48,10 @@ MATRIX_1_XYZ_TO_LMS: NDArray = np.array(
 )
 """*CIE XYZ* tristimulus values to normalised cone responses matrix."""
 
-MATRIX_1_LMS_TO_XYZ: NDArray = np.linalg.inv(MATRIX_1_XYZ_TO_LMS)
+MATRIX_1_LMS_TO_XYZ: NDArrayFloat = np.linalg.inv(MATRIX_1_XYZ_TO_LMS)
 """Normalised cone responses to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_2_LMS_TO_LAB: NDArray = np.array(
+MATRIX_2_LMS_TO_LAB: NDArrayFloat = np.array(
     [
         [0.2104542553, 0.7936177850, -0.0040720468],
         [1.9779984951, -2.4285922050, 0.4505937099],
@@ -60,11 +60,11 @@ MATRIX_2_LMS_TO_LAB: NDArray = np.array(
 )
 """Normalised cone responses to *Oklab* colourspace matrix."""
 
-MATRIX_2_LAB_TO_LMS: NDArray = np.linalg.inv(MATRIX_2_LMS_TO_LAB)
+MATRIX_2_LAB_TO_LMS: NDArrayFloat = np.linalg.inv(MATRIX_2_LMS_TO_LAB)
 """*Oklab* colourspace to normalised cone responses matrix."""
 
 
-def XYZ_to_Oklab(XYZ: ArrayLike) -> NDArray:
+def XYZ_to_Oklab(XYZ: ArrayLike) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *Oklab* colourspace.
 
@@ -118,7 +118,7 @@ def XYZ_to_Oklab(XYZ: ArrayLike) -> NDArray:
     )
 
 
-def Oklab_to_XYZ(Lab: ArrayLike) -> NDArray:
+def Oklab_to_XYZ(Lab: ArrayLike) -> NDArrayFloat:
     """
     Convert from *Oklab* colourspace to *CIE XYZ* tristimulus values.
 

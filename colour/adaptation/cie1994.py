@@ -20,12 +20,7 @@ import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode, spow, vector_dot
 from colour.adaptation import CAT_VON_KRIES
-from colour.hints import (
-    ArrayLike,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    NDArray,
-)
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     as_float_array,
     from_range_100,
@@ -37,7 +32,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -57,13 +52,15 @@ __all__ = [
     "corresponding_colour",
 ]
 
-MATRIX_XYZ_TO_RGB_CIE1994: NDArray = CAT_VON_KRIES
+MATRIX_XYZ_TO_RGB_CIE1994: NDArrayFloat = CAT_VON_KRIES
 """
 *CIE 1994* colour appearance model *CIE XYZ* tristimulus values to cone
 responses matrix.
 """
 
-MATRIX_RGB_TO_XYZ_CIE1994: NDArray = np.linalg.inv(MATRIX_XYZ_TO_RGB_CIE1994)
+MATRIX_RGB_TO_XYZ_CIE1994: NDArrayFloat = np.linalg.inv(
+    MATRIX_XYZ_TO_RGB_CIE1994
+)
 """
 *CIE 1994* colour appearance model cone responses to *CIE XYZ* tristimulus
 values matrix.
@@ -74,11 +71,11 @@ def chromatic_adaptation_CIE1994(
     XYZ_1: ArrayLike,
     xy_o1: ArrayLike,
     xy_o2: ArrayLike,
-    Y_o: FloatingOrArrayLike,
-    E_o1: FloatingOrArrayLike,
-    E_o2: FloatingOrArrayLike,
-    n: FloatingOrArrayLike = 1,
-) -> NDArray:
+    Y_o: ArrayLike,
+    E_o1: ArrayLike,
+    E_o2: ArrayLike,
+    n: ArrayLike = 1,
+) -> NDArrayFloat:
     """
     Adapt given stimulus *CIE XYZ_1* tristimulus values from test viewing
     conditions to reference viewing conditions using *CIE 1994* chromatic
@@ -174,7 +171,7 @@ def chromatic_adaptation_CIE1994(
     return from_range_100(XYZ_2)
 
 
-def XYZ_to_RGB_CIE1994(XYZ: ArrayLike) -> NDArray:
+def XYZ_to_RGB_CIE1994(XYZ: ArrayLike) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to cone responses.
 
@@ -198,7 +195,7 @@ def XYZ_to_RGB_CIE1994(XYZ: ArrayLike) -> NDArray:
     return vector_dot(MATRIX_XYZ_TO_RGB_CIE1994, XYZ)
 
 
-def RGB_to_XYZ_CIE1994(RGB: ArrayLike) -> NDArray:
+def RGB_to_XYZ_CIE1994(RGB: ArrayLike) -> NDArrayFloat:
     """
     Convert from cone responses to *CIE XYZ* tristimulus values.
 
@@ -222,7 +219,7 @@ def RGB_to_XYZ_CIE1994(RGB: ArrayLike) -> NDArray:
     return vector_dot(MATRIX_RGB_TO_XYZ_CIE1994, RGB)
 
 
-def intermediate_values(xy_o: ArrayLike) -> NDArray:
+def intermediate_values(xy_o: ArrayLike) -> NDArrayFloat:
     """
     Return the intermediate values :math:`\\xi`, :math:`\\eta`,
     :math:`\\zeta`.
@@ -257,8 +254,8 @@ def intermediate_values(xy_o: ArrayLike) -> NDArray:
 
 
 def effective_adapting_responses(
-    xez: ArrayLike, Y_o: FloatingOrArrayLike, E_o: FloatingOrArrayLike
-) -> NDArray:
+    xez: ArrayLike, Y_o: ArrayLike, E_o: ArrayLike
+) -> NDArrayFloat:
     """
     Derive the effective adapting responses in the fundamental primary system
     of the test or reference field.
@@ -296,7 +293,7 @@ def effective_adapting_responses(
     return RGB_o
 
 
-def beta_1(x: FloatingOrArrayLike) -> FloatingOrNDArray:
+def beta_1(x: ArrayLike) -> NDArrayFloat:
     """
     Compute the exponent :math:`\\beta_1` for the middle and long-wavelength
     sensitive cones.
@@ -308,7 +305,7 @@ def beta_1(x: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Exponent :math:`\\beta_1`.
 
     Examples
@@ -322,7 +319,7 @@ def beta_1(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     return (6.469 + 6.362 * x_p) / (6.469 + x_p)
 
 
-def beta_2(x: FloatingOrArrayLike) -> FloatingOrNDArray:
+def beta_2(x: ArrayLike) -> NDArrayFloat:
     """
     Compute the exponent :math:`\\beta_2` for the short-wavelength sensitive
     cones.
@@ -334,7 +331,7 @@ def beta_2(x: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Exponent :math:`\\beta_2`.
 
     Examples
@@ -348,7 +345,7 @@ def beta_2(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     return 0.7844 * (8.414 + 8.091 * x_p) / (8.414 + x_p)
 
 
-def exponential_factors(RGB_o: ArrayLike) -> NDArray:
+def exponential_factors(RGB_o: ArrayLike) -> NDArrayFloat:
     """
     Return the chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
     :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)` of given cone responses.
@@ -387,9 +384,9 @@ def K_coefficient(
     xez_2: ArrayLike,
     bRGB_o1: ArrayLike,
     bRGB_o2: ArrayLike,
-    Y_o: FloatingOrArrayLike,
-    n: FloatingOrArrayLike = 1,
-) -> FloatingOrNDArray:
+    Y_o: ArrayLike,
+    n: ArrayLike = 1,
+) -> NDArrayFloat:
     """
     Compute the coefficient :math:`K` for correcting the difference between
     the test and references illuminances.
@@ -417,7 +414,7 @@ def K_coefficient(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Coefficient :math:`K`.
 
     Examples
@@ -455,10 +452,10 @@ def corresponding_colour(
     xez_2: ArrayLike,
     bRGB_o1: ArrayLike,
     bRGB_o2: ArrayLike,
-    Y_o: FloatingOrArrayLike,
-    K: FloatingOrArrayLike,
-    n: FloatingOrArrayLike = 1,
-) -> NDArray:
+    Y_o: ArrayLike,
+    K: ArrayLike,
+    n: ArrayLike = 1,
+) -> NDArrayFloat:
     """
     Compute the corresponding colour cone responses of given test sample cone
     responses :math:`RGB_1`.
@@ -518,13 +515,13 @@ def corresponding_colour(
     n = as_float_array(n)
 
     def RGB_c(
-        x_1: NDArray,
-        x_2: NDArray,
-        y_1: NDArray,
-        y_2: NDArray,
-        z: NDArray,
-        n: NDArray,
-    ) -> NDArray:
+        x_1: NDArrayFloat,
+        x_2: NDArrayFloat,
+        y_1: NDArrayFloat,
+        y_2: NDArrayFloat,
+        z: NDArrayFloat,
+        n: NDArrayFloat,
+    ) -> NDArrayFloat:
         """Compute the corresponding colour cone responses component."""
 
         with sdiv_mode():

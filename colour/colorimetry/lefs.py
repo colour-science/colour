@@ -20,20 +20,12 @@ from colour.colorimetry import (
     SpectralShape,
 )
 from colour.colorimetry.datasets.lefs import DATA_MESOPIC_X
-from colour.hints import (
-    Floating,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    Literal,
-    Optional,
-    Union,
-    cast,
-)
+from colour.hints import ArrayLike, NDArrayFloat, Literal
 from colour.utilities import closest, optional, validate_method
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -45,13 +37,13 @@ __all__ = [
 
 
 def mesopic_weighting_function(
-    wavelength: FloatingOrArrayLike,
-    L_p: Floating,
-    source: Union[Literal["Blue Heavy", "Red Heavy"], str] = "Blue Heavy",
-    method: Union[Literal["MOVE", "LRC"], str] = "MOVE",
-    photopic_lef: Optional[SpectralDistribution] = None,
-    scotopic_lef: Optional[SpectralDistribution] = None,
-) -> FloatingOrNDArray:
+    wavelength: ArrayLike,
+    L_p: float,
+    source: Literal["Blue Heavy", "Red Heavy"] | str = "Blue Heavy",
+    method: Literal["MOVE", "LRC"] | str = "MOVE",
+    photopic_lef: SpectralDistribution | None = None,
+    scotopic_lef: SpectralDistribution | None = None,
+) -> NDArrayFloat:
     """
     Calculate the mesopic weighting function factor :math:`V_m` at given
     wavelength :math:`\\lambda` using the photopic luminance :math:`L_p`.
@@ -76,7 +68,7 @@ def mesopic_weighting_function(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Mesopic weighting function factor :math:`V_m`.
 
     References
@@ -89,33 +81,27 @@ def mesopic_weighting_function(
     0.7052200...
     """
 
-    photopic_lef = cast(
-        SpectralDistribution,
-        optional(
-            photopic_lef,
-            SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"],
-        ),
+    photopic_lef = optional(
+        photopic_lef,
+        SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"],
     )
 
-    scotopic_lef = cast(
-        SpectralDistribution,
-        optional(
-            scotopic_lef,
-            SDS_LEFS_SCOTOPIC["CIE 1951 Scotopic Standard Observer"],
-        ),
+    scotopic_lef = optional(
+        scotopic_lef,
+        SDS_LEFS_SCOTOPIC["CIE 1951 Scotopic Standard Observer"],
     )
 
     source = validate_method(
         source,
-        ["Blue Heavy", "Red Heavy"],
+        ("Blue Heavy", "Red Heavy"),
         '"{0}" light source colour temperature is invalid, '
         "it must be one of {1}!",
     )
-    method = validate_method(method, ["MOVE", "LRC"])
+    method = validate_method(method, ("MOVE", "LRC"))
 
     mesopic_x_luminance_values = sorted(DATA_MESOPIC_X.keys())
     index = mesopic_x_luminance_values.index(
-        closest(mesopic_x_luminance_values, L_p)
+        closest(mesopic_x_luminance_values, L_p)  # pyright: ignore
     )
     x = DATA_MESOPIC_X[mesopic_x_luminance_values[index]][source][method]
 
@@ -125,11 +111,11 @@ def mesopic_weighting_function(
 
 
 def sd_mesopic_luminous_efficiency_function(
-    L_p: Floating,
-    source: Union[Literal["Blue Heavy", "Red Heavy"], str] = "Blue Heavy",
-    method: Union[Literal["MOVE", "LRC"], str] = "MOVE",
-    photopic_lef: Optional[SpectralDistribution] = None,
-    scotopic_lef: Optional[SpectralDistribution] = None,
+    L_p: float,
+    source: Literal["Blue Heavy", "Red Heavy"] | str = "Blue Heavy",
+    method: Literal["MOVE", "LRC"] | str = "MOVE",
+    photopic_lef: SpectralDistribution | None = None,
+    scotopic_lef: SpectralDistribution | None = None,
 ) -> SpectralDistribution:
     """
     Return the mesopic luminous efficiency function :math:`V_m(\\lambda)` for
@@ -572,20 +558,14 @@ def sd_mesopic_luminous_efficiency_function(
                          {'method': 'Constant', 'left': None, 'right': None})
     """
 
-    photopic_lef = cast(
-        SpectralDistribution,
-        optional(
-            photopic_lef,
-            SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"],
-        ),
+    photopic_lef = optional(
+        photopic_lef,
+        SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"],
     )
 
-    scotopic_lef = cast(
-        SpectralDistribution,
-        optional(
-            scotopic_lef,
-            SDS_LEFS_SCOTOPIC["CIE 1951 Scotopic Standard Observer"],
-        ),
+    scotopic_lef = optional(
+        scotopic_lef,
+        SDS_LEFS_SCOTOPIC["CIE 1951 Scotopic Standard Observer"],
     )
 
     shape = SpectralShape(

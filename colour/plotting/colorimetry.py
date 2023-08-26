@@ -53,16 +53,11 @@ from colour.colorimetry import (
 )
 from colour.hints import (
     Any,
-    Boolean,
     Callable,
     Dict,
-    Floating,
     List,
-    NDArray,
-    Optional,
     Sequence,
     Tuple,
-    Union,
     cast,
 )
 from colour.plotting import (
@@ -88,7 +83,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -113,14 +108,14 @@ __all__ = [
 @override_style()
 def plot_single_sd(
     sd: SpectralDistribution,
-    cmfs: Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
+    cmfs: MultiSpectralDistributions
+    | str
+    | Sequence[
+        MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
-    out_of_gamut_clipping: Boolean = True,
-    modulate_colours_with_sd_amplitude: Boolean = False,
-    equalize_sd_amplitude: Boolean = False,
+    out_of_gamut_clipping: bool = True,
+    modulate_colours_with_sd_amplitude: bool = False,
+    equalize_sd_amplitude: bool = False,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -176,7 +171,7 @@ def plot_single_sd(
     ... }
     >>> sd = SpectralDistribution(data, name="Custom")
     >>> plot_single_sd(sd)  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Single_SD.png
         :align: center
@@ -189,7 +184,7 @@ def plot_single_sd(
         MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
     )
 
-    sd = cast(SpectralDistribution, sd.copy())
+    sd = sd.copy()
     sd.interpolator = LinearInterpolator
     wavelengths = cmfs.wavelengths[
         np.logical_and(
@@ -199,7 +194,7 @@ def plot_single_sd(
             <= min(max(cmfs.wavelengths), max(sd.wavelengths)),
         )
     ]
-    values = as_float_array(sd[wavelengths])
+    values = sd[wavelengths]
 
     RGB = XYZ_to_plotting_colourspace(
         wavelength_to_XYZ(wavelengths, cmfs),
@@ -214,7 +209,7 @@ def plot_single_sd(
 
     if modulate_colours_with_sd_amplitude:
         with sdiv_mode():
-            RGB *= cast(NDArray, sdiv(values, np.max(values)))[..., None]
+            RGB *= sdiv(values, np.max(values))[..., None]
 
     RGB = CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding(RGB)
 
@@ -272,11 +267,10 @@ def plot_single_sd(
 
 @override_style()
 def plot_multi_sds(
-    sds: Union[
-        Sequence[Union[SpectralDistribution, MultiSpectralDistributions]],
-        MultiSpectralDistributions,
-    ],
-    plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+    sds: Sequence[SpectralDistribution | MultiSpectralDistributions]
+    | SpectralDistribution
+    | MultiSpectralDistributions,
+    plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -289,7 +283,7 @@ def plot_multi_sds(
         plot. `sds` can be a single
         :class:`colour.MultiSpectralDistributions` class instance, a list
         of :class:`colour.MultiSpectralDistributions` class instances or a
-        list of :class:`colour.SpectralDistribution` class instances.
+        List of :class:`colour.SpectralDistribution` class instances.
     plot_kwargs
         Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
         used to control the style of the plotted spectral distributions.
@@ -356,7 +350,7 @@ def plot_multi_sds(
     ... ]
     >>> plot_multi_sds([sd_1, sd_2], plot_kwargs=plot_kwargs)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_SDS.png
         :align: center
@@ -372,9 +366,7 @@ def plot_multi_sds(
             "label": f"{sd.display_name}",
             "zorder": CONSTANTS_COLOUR_STYLE.zorder.midground_line,
             "cmfs": "CIE 1931 2 Degree Standard Observer",
-            "illuminant": SDS_ILLUMINANTS[
-                CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint_name
-            ],
+            "illuminant": SDS_ILLUMINANTS["E"],
             "use_sd_colours": False,
             "normalise_sd_colours": False,
         }
@@ -428,7 +420,7 @@ def plot_multi_sds(
         min(x_limit_min),
         max(x_limit_max),
         min(y_limit_min),
-        max(y_limit_max) + np.max(y_limit_max) * 0.05,
+        max(y_limit_max) * 1.05,  # pyright: ignore
     )
     settings: Dict[str, Any] = {
         "axes": axes,
@@ -444,10 +436,10 @@ def plot_multi_sds(
 
 @override_style()
 def plot_single_cmfs(
-    cmfs: Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
+    cmfs: MultiSpectralDistributions
+    | str
+    | Sequence[
+        MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
@@ -477,7 +469,7 @@ def plot_single_cmfs(
     --------
     >>> plot_single_cmfs("CIE 1931 2 Degree Standard Observer")
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Single_CMFS.png
         :align: center
@@ -498,11 +490,9 @@ def plot_single_cmfs(
 
 @override_style()
 def plot_multi_cmfs(
-    cmfs: Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
-    ],
+    cmfs: MultiSpectralDistributions
+    | str
+    | Sequence[MultiSpectralDistributions | str],
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -533,7 +523,7 @@ def plot_multi_cmfs(
     ...     "CIE 1964 10 Degree Standard Observer",
     ... ]
     >>> plot_multi_cmfs(cmfs)  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_CMFS.png
         :align: center
@@ -542,7 +532,7 @@ def plot_multi_cmfs(
 
     cmfs = cast(
         List[MultiSpectralDistributions], list(filter_cmfs(cmfs).values())
-    )
+    )  # pyright: ignore
 
     _figure, axes = artist(**kwargs)
 
@@ -557,7 +547,9 @@ def plot_multi_cmfs(
         for j, RGB in enumerate(
             as_float_array([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
         ):
-            RGB = [reduce(lambda y, _: y * 0.5, range(i), x) for x in RGB]
+            RGB = [  # noqa: PLW2901
+                reduce(lambda y, _: y * 0.5, range(i), x) for x in RGB
+            ]
             values = cmfs_i.values[:, j]
 
             shape = cmfs_i.shape
@@ -598,11 +590,11 @@ def plot_multi_cmfs(
 
 @override_style()
 def plot_single_illuminant_sd(
-    illuminant: Union[SpectralDistribution, str],
-    cmfs: Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
+    illuminant: SpectralDistribution | str,
+    cmfs: MultiSpectralDistributions
+    | str
+    | Sequence[
+        MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
@@ -639,7 +631,7 @@ def plot_single_illuminant_sd(
     Examples
     --------
     >>> plot_single_illuminant_sd("A")  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Illuminant_SD.png
         :align: center
@@ -652,7 +644,10 @@ def plot_single_illuminant_sd(
 
     title = f"Illuminant {illuminant} - {cmfs.display_name}"
 
-    illuminant = first_item(filter_illuminants(illuminant).values())
+    illuminant = cast(
+        SpectralDistribution,
+        first_item(filter_illuminants(illuminant).values()),
+    )
 
     settings: Dict[str, Any] = {"title": title, "y_label": "Relative Power"}
     settings.update(kwargs)
@@ -662,9 +657,9 @@ def plot_single_illuminant_sd(
 
 @override_style()
 def plot_multi_illuminant_sds(
-    illuminants: Union[
-        SpectralDistribution, str, Sequence[Union[SpectralDistribution, str]]
-    ],
+    illuminants: SpectralDistribution
+    | str
+    | Sequence[SpectralDistribution | str],
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -693,7 +688,7 @@ def plot_multi_illuminant_sds(
     Examples
     --------
     >>> plot_multi_illuminant_sds(["A", "B", "C"])  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Illuminant_SDS.png
         :align: center
@@ -713,7 +708,7 @@ def plot_multi_illuminant_sds(
     illuminants = cast(
         List[SpectralDistribution],
         list(filter_illuminants(illuminants).values()),
-    )
+    )  # pyright: ignore
 
     illuminant_display_names = ", ".join(
         [illuminant.display_name for illuminant in illuminants]
@@ -733,12 +728,12 @@ def plot_multi_illuminant_sds(
     }
 )
 def plot_visible_spectrum(
-    cmfs: Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
+    cmfs: MultiSpectralDistributions
+    | str
+    | Sequence[
+        MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
-    out_of_gamut_clipping: Boolean = True,
+    out_of_gamut_clipping: bool = True,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -776,7 +771,7 @@ def plot_visible_spectrum(
     Examples
     --------
     >>> plot_visible_spectrum()  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Visible_Spectrum.png
         :align: center
@@ -791,7 +786,7 @@ def plot_visible_spectrum(
 
     settings: Dict[str, Any] = {"bounding_box": bounding_box, "y_label": None}
     settings.update(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
 
     _figure, axes = plot_single_sd(
         sd_ones(cmfs.shape),
@@ -801,11 +796,11 @@ def plot_visible_spectrum(
     )
 
     # Removing wavelength line as it doubles with the axes spine.
-    axes.lines.pop(0)
+    axes.lines[0].remove()
 
     settings = {
         "axes": axes,
-        "standalone": True,
+        "show": True,
         "title": f"The Visible Spectrum - {cmfs.display_name}",
         "x_label": "Wavelength $\\lambda$ (nm)",
     }
@@ -816,7 +811,7 @@ def plot_visible_spectrum(
 
 @override_style()
 def plot_single_lightness_function(
-    function: Union[Callable, str], **kwargs: Any
+    function: Callable | str, **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plot given *Lightness* function.
@@ -843,7 +838,7 @@ def plot_single_lightness_function(
     Examples
     --------
     >>> plot_single_lightness_function("CIE 1976")  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Lightness_Function.png
         :align: center
@@ -858,7 +853,7 @@ def plot_single_lightness_function(
 
 @override_style()
 def plot_multi_lightness_functions(
-    functions: Union[Callable, str, Sequence[Union[Callable, str]]],
+    functions: Callable | str | Sequence[Callable | str],
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -888,7 +883,7 @@ def plot_multi_lightness_functions(
     --------
     >>> plot_multi_lightness_functions(["CIE 1976", "Wyszecki 1963"])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Lightness_Functions.png
         :align: center
@@ -912,7 +907,7 @@ def plot_multi_lightness_functions(
 
 @override_style()
 def plot_single_luminance_function(
-    function: Union[Callable, str], **kwargs: Any
+    function: Callable | str, **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plot given *Luminance* function.
@@ -938,7 +933,7 @@ def plot_single_luminance_function(
     Examples
     --------
     >>> plot_single_luminance_function("CIE 1976")  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Luminance_Function.png
         :align: center
@@ -953,7 +948,7 @@ def plot_single_luminance_function(
 
 @override_style()
 def plot_multi_luminance_functions(
-    functions: Union[Callable, str, Sequence[Union[Callable, str]]],
+    functions: Callable | str | Sequence[Callable | str],
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -983,7 +978,7 @@ def plot_multi_luminance_functions(
     --------
     >>> plot_multi_luminance_functions(["CIE 1976", "Newhall 1943"])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Luminance_Functions.png
         :align: center
@@ -1007,11 +1002,11 @@ def plot_multi_luminance_functions(
 
 @override_style()
 def plot_blackbody_spectral_radiance(
-    temperature: Floating = 3500,
-    cmfs: Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
+    temperature: float = 3500,
+    cmfs: MultiSpectralDistributions
+    | str
+    | Sequence[
+        MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
     blackbody: str = "VY Canis Major",
     **kwargs: Any,
@@ -1047,7 +1042,7 @@ def plot_blackbody_spectral_radiance(
     --------
     >>> plot_blackbody_spectral_radiance(3500, blackbody="VY Canis Major")
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 2 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 2 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Blackbody_Spectral_Radiance.png
         :align: center
@@ -1071,7 +1066,7 @@ def plot_blackbody_spectral_radiance(
         "y_label": "W / (sr m$^2$) / m",
     }
     settings.update(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
 
     plot_single_sd(sd, cmfs.name, **settings)
 
@@ -1092,11 +1087,11 @@ def plot_blackbody_spectral_radiance(
         "y_ticker": False,
     }
     settings.update(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
 
     figure, axes = plot_single_colour_swatch(RGB, **settings)
 
-    settings = {"axes": axes, "standalone": True}
+    settings = {"axes": axes, "show": True}
     settings.update(kwargs)
 
     return render(**settings)
@@ -1110,10 +1105,10 @@ def plot_blackbody_spectral_radiance(
 )
 def plot_blackbody_colours(
     shape: SpectralShape = SpectralShape(150, 12500, 50),
-    cmfs: Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
+    cmfs: MultiSpectralDistributions
+    | str
+    | Sequence[
+        MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
@@ -1144,7 +1139,7 @@ def plot_blackbody_colours(
     --------
     >>> plot_blackbody_colours(SpectralShape(150, 12500, 50))
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Blackbody_Colours.png
         :align: center
@@ -1174,7 +1169,7 @@ def plot_blackbody_colours(
 
     padding = 0.1
     axes.bar(
-        x=np.array(temperatures) - padding,
+        x=as_float_array(temperatures) - padding,
         height=1,
         width=shape.interval + (padding * shape.interval),
         color=RGB,

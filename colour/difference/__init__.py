@@ -17,9 +17,6 @@ rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
 -   :cite:`Lindbloom2003c` : Lindbloom, B. (2003). Delta E (CIE 1976).
     Retrieved February 24, 2014, from
     http://brucelindbloom.com/Eqn_DeltaE_CIE76.html
--   :cite:`Lindbloom2009e` : Lindbloom, B. (2009). Delta E (CIE 2000).
-    Retrieved February 24, 2014, from
-    http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html
 -   :cite:`Lindbloom2009f` : Lindbloom, B. (2009). Delta E (CMC). Retrieved
     February 24, 2014, from http://brucelindbloom.com/Eqn_DeltaE_CMC.html
 -   :cite:`Lindbloom2011a` : Lindbloom, B. (2011). Delta E (CIE 1994).
@@ -37,7 +34,7 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
 
 from __future__ import annotations
 
-from colour.hints import Any, ArrayLike, FloatingOrNDArray, Literal, Union
+from colour.hints import Any, ArrayLike, NDArrayFloat, Literal
 from colour.utilities import (
     CanonicalMapping,
     filter_kwargs,
@@ -110,8 +107,8 @@ Supported :math:`\\Delta E_{ab}` computation methods.
 References
 ----------
 :cite:`ASTMInternational2007`, :cite:`Li2017`, :cite:`Lindbloom2003c`,
-:cite:`Lindbloom2011a`, :cite:`Lindbloom2009e`, :cite:`Lindbloom2009f`,
-:cite:`Luo2006b`, :cite:`Melgosa2013b`, :cite:`Wikipedia2008b`
+:cite:`Lindbloom2011a`, :cite:`Lindbloom2009f`, :cite:`Luo2006b`,
+:cite:`Melgosa2013b`, :cite:`Wikipedia2008b`
 
 Aliases:
 
@@ -127,25 +124,23 @@ DELTA_E_METHODS["cie2000"] = DELTA_E_METHODS["CIE 2000"]
 def delta_E(
     a: ArrayLike,
     b: ArrayLike,
-    method: Union[
-        Literal[
-            "CIE 1976",
-            "CIE 1994",
-            "CIE 2000",
-            "CMC",
-            "ITP",
-            "CAM02-LCD",
-            "CAM02-SCD",
-            "CAM02-UCS",
-            "CAM16-LCD",
-            "CAM16-SCD",
-            "CAM16-UCS",
-            "DIN99",
-        ],
-        str,
-    ] = "CIE 2000",
+    method: Literal[
+        "CIE 1976",
+        "CIE 1994",
+        "CIE 2000",
+        "CMC",
+        "ITP",
+        "CAM02-LCD",
+        "CAM02-SCD",
+        "CAM02-UCS",
+        "CAM16-LCD",
+        "CAM16-SCD",
+        "CAM16-UCS",
+        "DIN99",
+    ]
+    | str = "CIE 2000",
     **kwargs: Any,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Return the difference :math:`\\Delta E_{ab}` between two given
     *CIE L\\*a\\*b\\**, :math:`IC_TC_P`, or :math:`J'a'b'` colourspace arrays
@@ -181,16 +176,15 @@ def delta_E(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Colour difference :math:`\\Delta E_{ab}`.
 
     References
     ----------
     :cite:`ASTMInternational2007`,
     :cite:`InternationalTelecommunicationUnion2019`, :cite:`Li2017`,
-    :cite:`Lindbloom2003c`, :cite:`Lindbloom2011a`, :cite:`Lindbloom2009e`,
-    :cite:`Lindbloom2009f`, :cite:`Luo2006b`, :cite:`Melgosa2013b`,
-    :cite:`Wikipedia2008b`
+    :cite:`Lindbloom2003c`, :cite:`Lindbloom2011a`, :cite:`Lindbloom2009f`,
+    :cite:`Luo2006b`, :cite:`Melgosa2013b`, :cite:`Wikipedia2008b`
 
     Examples
     --------
@@ -222,7 +216,7 @@ def delta_E(
     0.0001034...
     """
 
-    method = validate_method(method, DELTA_E_METHODS)
+    method = validate_method(method, tuple(DELTA_E_METHODS))
 
     function = DELTA_E_METHODS[method]
 

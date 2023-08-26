@@ -14,12 +14,12 @@ from colour.graph import (
     CONVERSION_GRAPH_NODE_LABELS,
     describe_conversion_path,
 )
-from colour.hints import Literal, Union
+from colour.hints import Literal
 from colour.utilities import required, validate_method
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -33,11 +33,10 @@ __all__ = [
 @required("NetworkX")
 def plot_automatic_colour_conversion_graph(
     filename: str,
-    prog: Union[
-        Literal["circo", "dot", "fdp", "neato", "nop", "twopi"], str
-    ] = "fdp",
+    prog: Literal["circo", "dot", "fdp", "neato", "nop", "twopi"]
+    | str = "fdp",
     args: str = "",
-) -> AGraph:  # type: ignore[name-defined]  # noqa
+) -> AGraph:  # pyright: ignore  # noqa: F821
     """
     Plot *Colour* automatic colour conversion graph using
     `Graphviz <https://www.graphviz.org/>`__ and
@@ -82,7 +81,7 @@ def plot_automatic_colour_conversion_graph(
 
     prog = validate_method(
         prog,
-        ["circo", "dot", "fdp", "neato", "nop", "twopi"],
+        ("circo", "dot", "fdp", "neato", "nop", "twopi"),
         '"{0}" program is invalid, it must be one of {1}!',
     )
 

@@ -28,15 +28,11 @@ from colour.graph import convert
 from colour.hints import (
     Any,
     ArrayLike,
-    Boolean,
     Dict,
-    Floating,
-    Integer,
     Literal,
-    Optional,
+    Real,
     Sequence,
     Tuple,
-    Union,
     cast,
 )
 from colour.models import (
@@ -72,7 +68,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -94,43 +90,41 @@ MAPPING_AXIS_TO_PLANE.__doc__ = """Axis to plane mapping."""
 @required("trimesh")
 @override_style()
 def plot_hull_section_colours(
-    hull: trimesh.Trimesh,  # type: ignore[name-defined]  # noqa
-    model: Union[
-        Literal[
-            "CAM02LCD",
-            "CAM02SCD",
-            "CAM02UCS",
-            "CAM16LCD",
-            "CAM16SCD",
-            "CAM16UCS",
-            "CIE XYZ",
-            "CIE xyY",
-            "CIE Lab",
-            "CIE Luv",
-            "CIE UCS",
-            "CIE UVW",
-            "DIN99",
-            "Hunter Lab",
-            "Hunter Rdab",
-            "ICaCb",
-            "ICtCp",
-            "IPT",
-            "IgPgTg",
-            "Jzazbz",
-            "OSA UCS",
-            "Oklab",
-            "hdr-CIELAB",
-            "hdr-IPT",
-        ],
-        str,
-    ] = "CIE xyY",
-    axis: Union[Literal["+z", "+x", "+y"], str] = "+z",
-    origin: Floating = 0.5,
-    normalise: Boolean = True,
-    section_colours: Optional[Union[ArrayLike, str]] = None,
-    section_opacity: Floating = 1,
-    convert_kwargs: Optional[Dict] = None,
-    samples: Integer = 256,
+    hull: trimesh.Trimesh,  # pyright: ignore  # noqa: F821
+    model: Literal[
+        "CAM02LCD",
+        "CAM02SCD",
+        "CAM02UCS",
+        "CAM16LCD",
+        "CAM16SCD",
+        "CAM16UCS",
+        "CIE XYZ",
+        "CIE xyY",
+        "CIE Lab",
+        "CIE Luv",
+        "CIE UCS",
+        "CIE UVW",
+        "DIN99",
+        "Hunter Lab",
+        "Hunter Rdab",
+        "ICaCb",
+        "ICtCp",
+        "IPT",
+        "IgPgTg",
+        "Jzazbz",
+        "OSA UCS",
+        "Oklab",
+        "hdr-CIELAB",
+        "hdr-IPT",
+    ]
+    | str = "CIE xyY",
+    axis: Literal["+z", "+x", "+y"] | str = "+z",
+    origin: float = 0.5,
+    normalise: bool = True,
+    section_colours: ArrayLike | str | None = None,
+    section_opacity: float = 1,
+    convert_kwargs: dict | None = None,
+    samples: int = 256,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -179,19 +173,16 @@ def plot_hull_section_colours(
     >>> from colour.utilities import is_trimesh_installed
     >>> vertices, faces, _outline = primitive_cube(1, 1, 1, 64, 64, 64)
     >>> XYZ_vertices = RGB_to_XYZ(
-    ...     vertices["position"] + 0.5,
-    ...     RGB_COLOURSPACE_sRGB.whitepoint,
-    ...     RGB_COLOURSPACE_sRGB.whitepoint,
-    ...     RGB_COLOURSPACE_sRGB.matrix_RGB_to_XYZ,
+    ...     vertices["position"] + 0.5, RGB_COLOURSPACE_sRGB
     ... )
     >>> if is_trimesh_installed:
-    ...     import trimesh
+    ...     from trimesh import Trimesh
     ...
-    ...     hull = trimesh.Trimesh(XYZ_vertices, faces, process=False)
+    ...     hull = Trimesh(XYZ_vertices, faces, process=False)
     ...     plot_hull_section_colours(hull, section_colours="RGB")
     ...     # doctest: +ELLIPSIS
     ...
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Hull_Section_Colours.png
         :align: center
@@ -200,7 +191,7 @@ def plot_hull_section_colours(
 
     axis = validate_method(
         axis,
-        ["+z", "+x", "+y"],
+        ("+z", "+x", "+y"),
         '"{0}" axis is invalid, it must be one of {1}!',
     )
 
@@ -211,11 +202,8 @@ def plot_hull_section_colours(
 
     _figure, axes = artist(**settings)
 
-    section_colours = cast(
-        ArrayLike,
-        optional(
-            section_colours, HEX_to_RGB(CONSTANTS_COLOUR_STYLE.colour.average)
-        ),
+    section_colours = optional(
+        section_colours, HEX_to_RGB(CONSTANTS_COLOUR_STYLE.colour.average)
     )
 
     convert_kwargs = optional(convert_kwargs, {})
@@ -259,7 +247,8 @@ def plot_hull_section_colours(
         )
         ij = tstack([ii, jj])
         ijk_section = full(
-            (samples, samples, 3), np.median(section[..., index_origin])
+            (samples, samples, 3),
+            cast(Real, np.median(section[..., index_origin])),
         )
         ijk_section[..., plane] = ij
         ijk_section /= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[
@@ -283,6 +272,7 @@ def plot_hull_section_colours(
         zorder=CONSTANTS_COLOUR_STYLE.zorder.background_polygon,
     )
     axes.add_patch(polygon)
+
     if use_RGB_section_colours:
         image = axes.imshow(
             np.clip(RGB_section, 0, 1),
@@ -306,42 +296,40 @@ def plot_hull_section_colours(
 @required("trimesh")
 @override_style()
 def plot_hull_section_contour(
-    hull: trimesh.Trimesh,  # type: ignore[name-defined]  # noqa
-    model: Union[
-        Literal[
-            "CAM02LCD",
-            "CAM02SCD",
-            "CAM02UCS",
-            "CAM16LCD",
-            "CAM16SCD",
-            "CAM16UCS",
-            "CIE XYZ",
-            "CIE xyY",
-            "CIE Lab",
-            "CIE Luv",
-            "CIE UCS",
-            "CIE UVW",
-            "DIN99",
-            "Hunter Lab",
-            "Hunter Rdab",
-            "ICaCb",
-            "ICtCp",
-            "IPT",
-            "IgPgTg",
-            "Jzazbz",
-            "OSA UCS",
-            "Oklab",
-            "hdr-CIELAB",
-            "hdr-IPT",
-        ],
-        str,
-    ] = "CIE xyY",
-    axis: Union[Literal["+z", "+x", "+y"], str] = "+z",
-    origin: Floating = 0.5,
-    normalise: Boolean = True,
-    contour_colours: Optional[Union[ArrayLike, str]] = None,
-    contour_opacity: Floating = 1,
-    convert_kwargs: Optional[Dict] = None,
+    hull: trimesh.Trimesh,  # pyright: ignore  # noqa: F821
+    model: Literal[
+        "CAM02LCD",
+        "CAM02SCD",
+        "CAM02UCS",
+        "CAM16LCD",
+        "CAM16SCD",
+        "CAM16UCS",
+        "CIE XYZ",
+        "CIE xyY",
+        "CIE Lab",
+        "CIE Luv",
+        "CIE UCS",
+        "CIE UVW",
+        "DIN99",
+        "Hunter Lab",
+        "Hunter Rdab",
+        "ICaCb",
+        "ICtCp",
+        "IPT",
+        "IgPgTg",
+        "Jzazbz",
+        "OSA UCS",
+        "Oklab",
+        "hdr-CIELAB",
+        "hdr-IPT",
+    ]
+    | str = "CIE xyY",
+    axis: Literal["+z", "+x", "+y"] | str = "+z",
+    origin: float = 0.5,
+    normalise: bool = True,
+    contour_colours: ArrayLike | str | None = None,
+    contour_opacity: float = 1,
+    convert_kwargs: dict | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -388,19 +376,16 @@ def plot_hull_section_contour(
     >>> from colour.utilities import is_trimesh_installed
     >>> vertices, faces, _outline = primitive_cube(1, 1, 1, 64, 64, 64)
     >>> XYZ_vertices = RGB_to_XYZ(
-    ...     vertices["position"] + 0.5,
-    ...     RGB_COLOURSPACE_sRGB.whitepoint,
-    ...     RGB_COLOURSPACE_sRGB.whitepoint,
-    ...     RGB_COLOURSPACE_sRGB.matrix_RGB_to_XYZ,
+    ...     vertices["position"] + 0.5, RGB_COLOURSPACE_sRGB
     ... )
     >>> if is_trimesh_installed:
-    ...     import trimesh
+    ...     from trimesh import Trimesh
     ...
-    ...     hull = trimesh.Trimesh(XYZ_vertices, faces, process=False)
+    ...     hull = Trimesh(XYZ_vertices, faces, process=False)
     ...     plot_hull_section_contour(hull, contour_colours="RGB")
     ...     # doctest: +ELLIPSIS
     ...
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Hull_Section_Contour.png
         :align: center
@@ -409,9 +394,8 @@ def plot_hull_section_contour(
 
     hull = hull.copy()
 
-    contour_colours = cast(
-        Union[ArrayLike, str],
-        optional(contour_colours, CONSTANTS_COLOUR_STYLE.colour.dark),
+    contour_colours = optional(
+        contour_colours, CONSTANTS_COLOUR_STYLE.colour.dark
     )
 
     settings: Dict[str, Any] = {"uniform": True}
@@ -481,46 +465,44 @@ def plot_hull_section_contour(
 @required("trimesh")
 @override_style()
 def plot_visible_spectrum_section(
-    cmfs: Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
+    cmfs: MultiSpectralDistributions
+    | str
+    | Sequence[
+        MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
-    illuminant: Union[SpectralDistribution, str] = "D65",
-    model: Union[
-        Literal[
-            "CAM02LCD",
-            "CAM02SCD",
-            "CAM02UCS",
-            "CAM16LCD",
-            "CAM16SCD",
-            "CAM16UCS",
-            "CIE XYZ",
-            "CIE xyY",
-            "CIE Lab",
-            "CIE Luv",
-            "CIE UCS",
-            "CIE UVW",
-            "DIN99",
-            "Hunter Lab",
-            "Hunter Rdab",
-            "ICaCb",
-            "ICtCp",
-            "IPT",
-            "IgPgTg",
-            "Jzazbz",
-            "OSA UCS",
-            "Oklab",
-            "hdr-CIELAB",
-            "hdr-IPT",
-        ],
-        str,
-    ] = "CIE xyY",
-    axis: Union[Literal["+z", "+x", "+y"], str] = "+z",
-    origin: Floating = 0.5,
-    normalise: Boolean = True,
-    show_section_colours: Boolean = True,
-    show_section_contour: Boolean = True,
+    illuminant: SpectralDistribution | str = "D65",
+    model: Literal[
+        "CAM02LCD",
+        "CAM02SCD",
+        "CAM02UCS",
+        "CAM16LCD",
+        "CAM16SCD",
+        "CAM16UCS",
+        "CIE XYZ",
+        "CIE xyY",
+        "CIE Lab",
+        "CIE Luv",
+        "CIE UCS",
+        "CIE UVW",
+        "DIN99",
+        "Hunter Lab",
+        "Hunter Rdab",
+        "ICaCb",
+        "ICtCp",
+        "IPT",
+        "IgPgTg",
+        "Jzazbz",
+        "OSA UCS",
+        "Oklab",
+        "hdr-CIELAB",
+        "hdr-IPT",
+    ]
+    | str = "CIE xyY",
+    axis: Literal["+z", "+x", "+y"] | str = "+z",
+    origin: float = 0.5,
+    normalise: bool = True,
+    show_section_colours: bool = True,
+    show_section_contour: bool = True,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -575,23 +557,28 @@ def plot_visible_spectrum_section(
     ...     )
     ...     # doctest: +ELLIPSIS
     ...
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Visible_Spectrum_Section.png
         :align: center
         :alt: plot_visible_spectrum_section
     """
 
-    import trimesh
+    import trimesh.convex
+    from trimesh import Trimesh
 
     settings: Dict[str, Any] = {"uniform": True}
     settings.update(kwargs)
 
     _figure, axes = artist(**settings)
 
-    # pylint: disable=E1102
-    cmfs = reshape_msds(
-        first_item(filter_cmfs(cmfs).values()), SpectralShape(360, 780, 1)
+    cmfs = cast(
+        MultiSpectralDistributions,
+        reshape_msds(
+            first_item(filter_cmfs(cmfs).values()),
+            SpectralShape(360, 780, 1),
+            copy=False,
+        ),
     )
     illuminant = cast(
         SpectralDistribution,
@@ -604,13 +591,13 @@ def plot_visible_spectrum_section(
         point_order="Pulse Wave Width",
         filter_jagged_points=True,
     )
-    mesh = trimesh.Trimesh(vertices)
+    mesh = Trimesh(vertices)
     hull = trimesh.convex.convex_hull(mesh)
 
     if show_section_colours:
         settings = {"axes": axes}
         settings.update(kwargs)
-        settings["standalone"] = False
+        settings["show"] = False
 
         plot_hull_section_colours(
             hull, model, axis, origin, normalise, **settings
@@ -619,7 +606,7 @@ def plot_visible_spectrum_section(
     if show_section_contour:
         settings = {"axes": axes}
         settings.update(kwargs)
-        settings["standalone"] = False
+        settings["show"] = False
 
         plot_hull_section_contour(
             hull, model, axis, origin, normalise, **settings
@@ -642,7 +629,7 @@ def plot_visible_spectrum_section(
     settings.update(
         {
             "axes": axes,
-            "standalone": True,
+            "show": True,
             "title": title,
             "x_label": x_label,
             "y_label": y_label,
@@ -656,43 +643,39 @@ def plot_visible_spectrum_section(
 @required("trimesh")
 @override_style()
 def plot_RGB_colourspace_section(
-    colourspace: Union[
-        RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]
-    ],
-    model: Union[
-        Literal[
-            "CAM02LCD",
-            "CAM02SCD",
-            "CAM02UCS",
-            "CAM16LCD",
-            "CAM16SCD",
-            "CAM16UCS",
-            "CIE XYZ",
-            "CIE xyY",
-            "CIE Lab",
-            "CIE Luv",
-            "CIE UCS",
-            "CIE UVW",
-            "DIN99",
-            "Hunter Lab",
-            "Hunter Rdab",
-            "ICaCb",
-            "ICtCp",
-            "IPT",
-            "IgPgTg",
-            "Jzazbz",
-            "OSA UCS",
-            "Oklab",
-            "hdr-CIELAB",
-            "hdr-IPT",
-        ],
-        str,
-    ] = "CIE xyY",
-    axis: Union[Literal["+z", "+x", "+y"], str] = "+z",
-    origin: Floating = 0.5,
-    normalise: Boolean = True,
-    show_section_colours: Boolean = True,
-    show_section_contour: Boolean = True,
+    colourspace: RGB_Colourspace | str | Sequence[RGB_Colourspace | str],
+    model: Literal[
+        "CAM02LCD",
+        "CAM02SCD",
+        "CAM02UCS",
+        "CAM16LCD",
+        "CAM16SCD",
+        "CAM16UCS",
+        "CIE XYZ",
+        "CIE xyY",
+        "CIE Lab",
+        "CIE Luv",
+        "CIE UCS",
+        "CIE UVW",
+        "DIN99",
+        "Hunter Lab",
+        "Hunter Rdab",
+        "ICaCb",
+        "ICtCp",
+        "IPT",
+        "IgPgTg",
+        "Jzazbz",
+        "OSA UCS",
+        "Oklab",
+        "hdr-CIELAB",
+        "hdr-IPT",
+    ]
+    | str = "CIE xyY",
+    axis: Literal["+z", "+x", "+y"] | str = "+z",
+    origin: float = 0.5,
+    normalise: bool = True,
+    show_section_colours: bool = True,
+    show_section_contour: bool = True,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -741,14 +724,14 @@ def plot_RGB_colourspace_section(
     ...     )
     ...     # doctest: +ELLIPSIS
     ...
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_RGB_Colourspace_Section.png
         :align: center
         :alt: plot_RGB_colourspace_section
     """
 
-    import trimesh
+    from trimesh import Trimesh
 
     settings: Dict[str, Any] = {"uniform": True}
     settings.update(kwargs)
@@ -761,18 +744,13 @@ def plot_RGB_colourspace_section(
     )
 
     vertices, faces, _outline = primitive_cube(1, 1, 1, 64, 64, 64)
-    XYZ_vertices = RGB_to_XYZ(
-        vertices["position"] + 0.5,
-        colourspace.whitepoint,
-        colourspace.whitepoint,
-        colourspace.matrix_RGB_to_XYZ,
-    )
-    hull = trimesh.Trimesh(XYZ_vertices, faces, process=False)
+    XYZ_vertices = RGB_to_XYZ(vertices["position"] + 0.5, colourspace)
+    hull = Trimesh(XYZ_vertices, faces, process=False)
 
     if show_section_colours:
         settings = {"axes": axes}
         settings.update(kwargs)
-        settings["standalone"] = False
+        settings["show"] = False
 
         plot_hull_section_colours(
             hull, model, axis, origin, normalise, **settings
@@ -781,7 +759,7 @@ def plot_RGB_colourspace_section(
     if show_section_contour:
         settings = {"axes": axes}
         settings.update(kwargs)
-        settings["standalone"] = False
+        settings["show"] = False
 
         plot_hull_section_contour(
             hull, model, axis, origin, normalise, **settings
@@ -803,7 +781,7 @@ def plot_RGB_colourspace_section(
     settings.update(
         {
             "axes": axes,
-            "standalone": True,
+            "show": True,
             "title": title,
             "x_label": x_label,
             "y_label": y_label,

@@ -1,6 +1,23 @@
 Utilities
 =========
 
+Callback Management
+-------------------
+
+``colour``
+
+
+``colour.utilities``
+
+.. currentmodule:: colour.utilities
+
+.. autosummary::
+    :toctree: generated/
+    :template: class.rst
+
+    Callback
+    MixinCallback
+
 Common
 ------
 
@@ -51,6 +68,7 @@ Common
     is_pandas_installed
     is_tqdm_installed
     is_trimesh_installed
+    is_xxhash_installed
     required
     is_iterable
     is_string
@@ -64,6 +82,7 @@ Common
     validate_method
     optional
     slugify
+    int_digest
 
 Array
 -----
@@ -103,6 +122,10 @@ Array
     from_range_100
     from_range_degrees
     from_range_int
+    is_ndarray_copy_enabled
+    set_ndarray_copy_enable
+    ndarray_copy_enable
+    ndarray_copy
     closest_indexes
     closest
     interval
@@ -120,6 +143,7 @@ Array
     ones
     full
     index_along_last_axis
+    format_array_as_row
 
 Metrics
 -------

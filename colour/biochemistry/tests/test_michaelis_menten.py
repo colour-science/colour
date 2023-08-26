@@ -17,7 +17,7 @@ from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -148,7 +148,7 @@ substrate_concentration_MichaelisMenten_Michaelis1913` definition.
             places=7,
         )
 
-    def test_n_dimensional_substrate_concentration_MichaelisMenten_Michaelis1913(  # noqa
+    def test_n_dimensional_substrate_concentration_MichaelisMenten_Michaelis1913(  # noqa: E501
         self,
     ):
         """
@@ -329,7 +329,7 @@ substrate_concentration_MichaelisMenten_Abebe2017` definition.
             places=7,
         )
 
-    def test_n_dimensional_substrate_concentration_MichaelisMenten_Abebe2017(  # noqa
+    def test_n_dimensional_substrate_concentration_MichaelisMenten_Abebe2017(
         self,
     ):
         """

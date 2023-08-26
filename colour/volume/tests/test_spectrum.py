@@ -20,7 +20,7 @@ from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -147,7 +147,6 @@ class TestXYZOuterSurface(unittest.TestCase):
         )
         cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
 
-        # pylint: disable=E1102
         np.testing.assert_array_almost_equal(
             XYZ_outer_surface(reshape_msds(cmfs, shape)),
             np.array(

@@ -24,19 +24,12 @@ from __future__ import annotations
 import numpy as np
 from scipy.optimize import minimize
 
-from colour.hints import (
-    ArrayLike,
-    Dict,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    NDArray,
-    Optional,
-)
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import as_float_array, as_float, tstack, usage_warning
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -48,8 +41,8 @@ __all__ = [
 
 
 def xy_to_CCT_Kang2002(
-    xy: ArrayLike, optimisation_kwargs: Optional[Dict] = None
-) -> FloatingOrNDArray:
+    xy: ArrayLike, optimisation_kwargs: dict | None = None
+) -> NDArrayFloat:
     """
     Return the correlated colour temperature :math:`T_{cp}` from given
     *CIE xy* chromaticity coordinates using *Kang et al. (2002)* method.
@@ -63,7 +56,7 @@ def xy_to_CCT_Kang2002(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Correlated colour temperature :math:`T_{cp}`.
 
     Warnings
@@ -71,7 +64,7 @@ def xy_to_CCT_Kang2002(
     *Kang et al. (2002)* does not give an analytical inverse transformation to
     compute the correlated colour temperature :math:`T_{cp}` from given
     *CIE xy* chromaticity coordinates, the current implementation relies on
-    optimization using :func:`scipy.optimize.minimize` definition and thus has
+    optimisation using :func:`scipy.optimize.minimize` definition and thus has
     reduced precision and poor performance.
 
     References
@@ -90,8 +83,8 @@ def xy_to_CCT_Kang2002(
     xy = np.atleast_1d(xy.reshape([-1, 2]))
 
     def objective_function(
-        CCT: FloatingOrArrayLike, xy: ArrayLike
-    ) -> FloatingOrNDArray:
+        CCT: NDArrayFloat, xy: NDArrayFloat
+    ) -> NDArrayFloat:
         """Objective function."""
 
         objective = np.linalg.norm(CCT_to_xy_Kang2002(CCT) - xy)
@@ -115,14 +108,14 @@ def xy_to_CCT_Kang2002(
                 args=(xy_i,),
                 **optimisation_settings,
             ).x
-            for xy_i in as_float_array(xy)
+            for xy_i in xy
         ]
     )
 
     return as_float(np.reshape(CCT, shape[:-1]))
 
 
-def CCT_to_xy_Kang2002(CCT: FloatingOrArrayLike) -> NDArray:
+def CCT_to_xy_Kang2002(CCT: ArrayLike) -> NDArrayFloat:
     """
     Return the *CIE xy* chromaticity coordinates from given correlated colour
     temperature :math:`T_{cp}` using *Kang et al. (2002)* method.

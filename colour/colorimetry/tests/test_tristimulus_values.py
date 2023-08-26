@@ -14,7 +14,7 @@ from __future__ import annotations
 import numpy as np
 import unittest
 
-from colour.algebra import LinearInterpolator
+from colour.algebra import LinearInterpolator, SpragueInterpolator
 from colour.colorimetry import (
     MSDS_CMFS,
     SDS_ILLUMINANTS,
@@ -41,12 +41,12 @@ from colour.colorimetry import (
     msds_to_XYZ_ASTME308,
     wavelength_to_XYZ,
 )
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.utilities import domain_range_scale
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -184,7 +184,7 @@ SD_SAMPLE: SpectralDistribution = SpectralDistribution(
     }
 )
 
-LAGRANGE_COEFFICIENTS_A: NDArray = np.array(
+LAGRANGE_COEFFICIENTS_A: NDArrayFloat = np.array(
     [
         [-0.0285, 0.9405, 0.1045, -0.0165],
         [-0.0480, 0.8640, 0.2160, -0.0320],
@@ -198,7 +198,7 @@ LAGRANGE_COEFFICIENTS_A: NDArray = np.array(
     ]
 )
 
-LAGRANGE_COEFFICIENTS_B: NDArray = np.array(
+LAGRANGE_COEFFICIENTS_B: NDArrayFloat = np.array(
     [
         [0.8550, 0.1900, -0.0450],
         [0.7200, 0.3600, -0.0800],
@@ -212,7 +212,7 @@ LAGRANGE_COEFFICIENTS_B: NDArray = np.array(
     ]
 )
 
-TWF_A_CIE_1964_10_10: NDArray = np.array(
+TWF_A_CIE_1964_10_10: NDArrayFloat = np.array(
     [
         [-0.000, -0.000, -0.000],
         [-0.000, -0.000, -0.000],
@@ -265,7 +265,7 @@ TWF_A_CIE_1964_10_10: NDArray = np.array(
     ]
 )
 
-TWF_A_CIE_1964_10_20: NDArray = np.array(
+TWF_A_CIE_1964_10_20: NDArrayFloat = np.array(
     [
         [-0.000, -0.000, -0.001],
         [-0.009, -0.001, -0.041],
@@ -294,7 +294,7 @@ TWF_A_CIE_1964_10_20: NDArray = np.array(
     ]
 )
 
-TWF_D65_CIE_1931_2_20: NDArray = np.array(
+TWF_D65_CIE_1931_2_20: NDArrayFloat = np.array(
     [
         [-0.001, -0.000, -0.005],
         [-0.008, -0.000, -0.039],
@@ -323,7 +323,7 @@ TWF_D65_CIE_1931_2_20: NDArray = np.array(
     ]
 )
 
-TWF_D65_CIE_1931_2_20_K1: NDArray = np.array(
+TWF_D65_CIE_1931_2_20_K1: NDArrayFloat = np.array(
     [
         [-0.10095678, -0.00265636, -0.48295051],
         [-0.83484763, -0.02190274, -4.11563004],
@@ -352,7 +352,7 @@ TWF_D65_CIE_1931_2_20_K1: NDArray = np.array(
     ]
 )
 
-TWF_D65_CIE_1931_2_20_A: NDArray = np.array(
+TWF_D65_CIE_1931_2_20_A: NDArrayFloat = np.array(
     [
         [0.170, 0.002, 0.785],
         [2.542, 0.071, 12.203],
@@ -373,7 +373,7 @@ TWF_D65_CIE_1931_2_20_A: NDArray = np.array(
     ]
 )
 
-DATA_TWO: NDArray = np.array(
+DATA_TWO: NDArrayFloat = np.array(
     [
         [
             [
@@ -483,7 +483,7 @@ MSDS_TWO: MultiSpectralDistributions = MultiSpectralDistributions(
     SpectralShape(400, 700, 60).wavelengths,
 )
 
-TVS_D65_INTEGRATION_MSDS: NDArray = np.array(
+TVS_D65_INTEGRATION_MSDS: NDArrayFloat = np.array(
     [
         [7.50219602, 3.95048275, 8.40152163],
         [26.92629005, 15.07170066, 28.71020457],
@@ -500,7 +500,7 @@ TVS_D65_INTEGRATION_MSDS: NDArray = np.array(
     ]
 )
 
-TVS_D65_ARRAY_INTEGRATION: NDArray = np.array(
+TVS_D65_ARRAY_INTEGRATION: NDArrayFloat = np.array(
     [
         [
             [7.19510558, 3.86227393, 10.09950719],
@@ -521,7 +521,7 @@ TVS_D65_ARRAY_INTEGRATION: NDArray = np.array(
     ]
 )
 
-TVS_D65_ARRAY_K1_INTEGRATION: NDArray = np.array(
+TVS_D65_ARRAY_K1_INTEGRATION: NDArrayFloat = np.array(
     [
         [
             [7.7611755347, 4.1661356647, 10.8940789347],
@@ -542,7 +542,7 @@ TVS_D65_ARRAY_K1_INTEGRATION: NDArray = np.array(
     ]
 )
 
-TVS_D65_ASTME308_MSDS: NDArray = np.array(
+TVS_D65_ASTME308_MSDS: NDArrayFloat = np.array(
     [
         [7.50450425, 3.95744742, 8.38735462],
         [26.94116124, 15.09801442, 28.66753115],
@@ -559,7 +559,7 @@ TVS_D65_ASTME308_MSDS: NDArray = np.array(
     ]
 )
 
-TVS_D65_ASTME308_K1_MSDS: NDArray = np.array(
+TVS_D65_ASTME308_K1_MSDS: NDArrayFloat = np.array(
     [
         [7.9300584037, 4.1818604067, 8.8629721234],
         [28.4689001419, 15.9541699464, 30.2931664392],
@@ -590,7 +590,6 @@ handle_spectral_arguments` definition.
         """
 
         cmfs, illuminant = handle_spectral_arguments()
-        # pylint: disable=E1102
         self.assertEqual(
             cmfs,
             reshape_msds(MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]),
@@ -743,7 +742,6 @@ tristimulus_weighting_factors_ASTME2022` definition raised exception.
 
         shape = SpectralShape(360, 830, 10)
         cmfs_1 = MSDS_CMFS["CIE 1964 10 Degree Standard Observer"]
-        # pylint: disable=E1102
         cmfs_2 = reshape_msds(cmfs_1, shape)
         A_1 = sd_CIE_standard_illuminant_A(cmfs_1.shape)
         A_2 = sd_CIE_standard_illuminant_A(cmfs_2.shape)
@@ -1205,6 +1203,17 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
             decimal=7,
         )
 
+        np.testing.assert_array_almost_equal(
+            sd_to_XYZ_ASTME308(
+                reshape_sd(self._sd, SpectralShape(401, 701, 10)),
+                self._cmfs,
+                self._A,
+                k=1,
+            ),
+            np.array([15.6713226093, 11.7392254489, 2.2117708792]),
+            decimal=7,
+        )
+
     def test_sd_to_XYZ_ASTME308_mi_20nm(self):
         """
         Test :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ_ASTME308`
@@ -1307,6 +1316,16 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
                 k=1,
             ),
             np.array([15.6891747040, 11.7458332427, 2.2109475945]),
+            decimal=7,
+        )
+
+        np.testing.assert_array_almost_equal(
+            sd_to_XYZ_ASTME308(
+                reshape_sd(self._sd, SpectralShape(401, 701, 20)),
+                self._cmfs,
+                self._A,
+            ),
+            np.array([14.5220164311, 10.8790959535, 2.0490905325]),
             decimal=7,
         )
 
@@ -1435,7 +1454,6 @@ msds_to_XYZ_ASTME308` definition.
         """
 
         cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
-        # pylint: disable=E1102
         msds = reshape_msds(MSDS_TWO, SpectralShape(400, 700, 20))
         np.testing.assert_array_almost_equal(
             msds_to_XYZ_ASTME308(msds, cmfs, SDS_ILLUMINANTS["D65"]),
@@ -1459,7 +1477,6 @@ msds_to_XYZ_ASTME308` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                # pylint: disable=E1102
                 np.testing.assert_array_almost_equal(
                     msds_to_XYZ_ASTME308(
                         reshape_msds(MSDS_TWO, SpectralShape(400, 700, 20)),
@@ -1476,7 +1493,7 @@ msds_to_XYZ_ASTME308` definition domain and range scale support.
 msds_to_XYZ_ASTME308` definition raise exception.
         """
 
-        self.assertRaises(ValueError, msds_to_XYZ_ASTME308, DATA_TWO)
+        self.assertRaises(TypeError, msds_to_XYZ_ASTME308, DATA_TWO)
 
 
 class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
@@ -1531,7 +1548,9 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
         accounts for the :math:`\\delta w` term.
         """
 
-        sd = sd_zeros(SpectralShape(380, 780, 5))
+        sd = sd_zeros(
+            SpectralShape(380, 780, 5), interpolator=SpragueInterpolator
+        )
 
         # 1 watt at 555nm, 0 watt everywhere else.
         # For 5nm average sampling, this corresponds to 0.2 watt at 555nm.

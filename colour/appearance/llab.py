@@ -36,13 +36,7 @@ from colour.algebra import (
     spow,
     vector_dot,
 )
-from colour.hints import (
-    ArrayLike,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    NDArray,
-    Optional,
-)
+from colour.hints import ArrayLike, NDArrayFloat, Optional, Union
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
@@ -56,7 +50,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -141,10 +135,10 @@ Aliases:
 -   'projected_dark': '35mm Projection Transparency, Dark Surround'
 """
 VIEWING_CONDITIONS_LLAB["ref_average_4_plus"] = VIEWING_CONDITIONS_LLAB[
-    "Reference Samples & Images, " "Average Surround, Subtending > 4"
+    "Reference Samples & Images, Average Surround, Subtending > 4"
 ]
 VIEWING_CONDITIONS_LLAB["ref_average_4_minus"] = VIEWING_CONDITIONS_LLAB[
-    "Reference Samples & Images, " "Average Surround, Subtending < 4"
+    "Reference Samples & Images, Average Surround, Subtending < 4"
 ]
 VIEWING_CONDITIONS_LLAB["tv_dim"] = VIEWING_CONDITIONS_LLAB[
     "Television & VDU Displays, Dim Surround"
@@ -156,7 +150,7 @@ VIEWING_CONDITIONS_LLAB["projected_dark"] = VIEWING_CONDITIONS_LLAB[
     "35mm Projection Transparency, Dark Surround"
 ]
 
-MATRIX_XYZ_TO_RGB_LLAB: NDArray = np.array(
+MATRIX_XYZ_TO_RGB_LLAB: NDArrayFloat = np.array(
     [
         [0.8951, 0.2664, -0.1614],
         [-0.7502, 1.7135, 0.0367],
@@ -168,7 +162,7 @@ LLAB(l:c) colour appearance model *CIE XYZ* tristimulus values to normalised
 cone responses matrix.
 """
 
-MATRIX_RGB_TO_XYZ_LLAB: NDArray = np.linalg.inv(MATRIX_XYZ_TO_RGB_LLAB)
+MATRIX_RGB_TO_XYZ_LLAB: NDArrayFloat = np.linalg.inv(MATRIX_XYZ_TO_RGB_LLAB)
 """
 LLAB(l:c) colour appearance model normalised cone responses to *CIE XYZ*
 tristimulus values matrix.
@@ -208,14 +202,30 @@ class CAM_ReferenceSpecification_LLAB(MixinDataclassArithmetic):
     :cite:`Fairchild2013x`, :cite:`Luo1996b`, :cite:`Luo1996c`
     """
 
-    L_L: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    Ch_L: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    h_L: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    s_L: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    C_L: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    HC: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    A_L: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    B_L: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    L_L: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    Ch_L: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    h_L: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    s_L: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    C_L: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    HC: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    A_L: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    B_L: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
 
 
 @dataclass
@@ -255,21 +265,37 @@ class CAM_Specification_LLAB(MixinDataclassArithmetic):
     :cite:`Fairchild2013x`, :cite:`Luo1996b`, :cite:`Luo1996c`
     """
 
-    J: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    C: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    h: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    s: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    M: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    HC: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    a: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    b: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    J: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    C: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    h: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    s: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    M: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    HC: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    a: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
+    b: Optional[Union[float, NDArrayFloat]] = field(
+        default_factory=lambda: None
+    )
 
 
 def XYZ_to_LLAB(
     XYZ: ArrayLike,
     XYZ_0: ArrayLike,
-    Y_b: FloatingOrArrayLike,
-    L: FloatingOrArrayLike,
+    Y_b: ArrayLike,
+    L: ArrayLike,
     surround: InductionFactors_LLAB = VIEWING_CONDITIONS_LLAB[
         "Reference Samples & Images, Average Surround, Subtending < 4"
     ],
@@ -385,7 +411,7 @@ s=0.0002395..., M=0.0190185..., HC=None, a=..., b=-0.0190185...)
     )
 
 
-def XYZ_to_RGB_LLAB(XYZ: ArrayLike) -> NDArray:
+def XYZ_to_RGB_LLAB(XYZ: ArrayLike) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to normalised cone responses.
 
@@ -416,9 +442,9 @@ def chromatic_adaptation(
     RGB: ArrayLike,
     RGB_0: ArrayLike,
     RGB_0r: ArrayLike,
-    Y: FloatingOrArrayLike,
-    D: FloatingOrArrayLike = 1,
-) -> NDArray:
+    Y: ArrayLike,
+    D: ArrayLike = 1,
+) -> NDArrayFloat:
     """
     Apply chromatic adaptation to given *RGB* normalised cone responses
     array.
@@ -473,7 +499,7 @@ def chromatic_adaptation(
     return XYZ_r
 
 
-def f(x: FloatingOrArrayLike, F_S: FloatingOrArrayLike) -> FloatingOrNDArray:
+def f(x: ArrayLike, F_S: ArrayLike) -> NDArrayFloat:
     """
     Define the nonlinear response function of the *:math:`LLAB(l:c)`* colour
     appearance model used to model the nonlinear behaviour of various visual
@@ -488,7 +514,7 @@ def f(x: FloatingOrArrayLike, F_S: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Modeled visual response variable :math:`x`.
 
     Examples
@@ -514,10 +540,10 @@ def f(x: FloatingOrArrayLike, F_S: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def opponent_colour_dimensions(
     XYZ: ArrayLike,
-    Y_b: FloatingOrArrayLike,
-    F_S: FloatingOrArrayLike,
-    F_L: FloatingOrArrayLike,
-) -> NDArray:
+    Y_b: ArrayLike,
+    F_S: ArrayLike,
+    F_L: ArrayLike,
+) -> NDArrayFloat:
     """
     Return opponent colour dimensions from given adapted *CIE XYZ* tristimulus
     values.
@@ -569,9 +595,7 @@ def opponent_colour_dimensions(
     return Lab
 
 
-def hue_angle(
-    a: FloatingOrArrayLike, b: FloatingOrArrayLike
-) -> FloatingOrNDArray:
+def hue_angle(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     """
     Return the *hue* angle :math:`h_L` in degrees.
 
@@ -584,7 +608,7 @@ def hue_angle(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Hue* angle :math:`h_L` in degrees.
 
     Examples
@@ -601,9 +625,7 @@ def hue_angle(
     return as_float(h_L)
 
 
-def chroma_correlate(
-    a: FloatingOrArrayLike, b: FloatingOrArrayLike
-) -> FloatingOrNDArray:
+def chroma_correlate(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     """
     Return the correlate of *chroma* :math:`Ch_L`.
 
@@ -616,7 +638,7 @@ def chroma_correlate(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Correlate of *chroma* :math:`Ch_L`.
 
     Examples
@@ -637,11 +659,11 @@ def chroma_correlate(
 
 
 def colourfulness_correlate(
-    L: FloatingOrArrayLike,
-    L_L: FloatingOrArrayLike,
-    Ch_L: FloatingOrArrayLike,
-    F_C: FloatingOrArrayLike,
-) -> FloatingOrNDArray:
+    L: ArrayLike,
+    L_L: ArrayLike,
+    Ch_L: ArrayLike,
+    F_C: ArrayLike,
+) -> NDArrayFloat:
     """
     Return the correlate of *colourfulness* :math:`C_L`.
 
@@ -658,7 +680,7 @@ def colourfulness_correlate(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Correlate of *colourfulness* :math:`C_L`.
 
     Examples
@@ -683,9 +705,7 @@ def colourfulness_correlate(
     return as_float(C_L)
 
 
-def saturation_correlate(
-    Ch_L: FloatingOrArrayLike, L_L: FloatingOrArrayLike
-) -> FloatingOrNDArray:
+def saturation_correlate(Ch_L: ArrayLike, L_L: ArrayLike) -> NDArrayFloat:
     """
     Return the correlate of *saturation* :math:`S_L`.
 
@@ -698,7 +718,7 @@ def saturation_correlate(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Correlate of *saturation* :math:`S_L`.
 
     Examples
@@ -717,9 +737,7 @@ def saturation_correlate(
     return S_L
 
 
-def final_opponent_signals(
-    C_L: FloatingOrArrayLike, h_L: FloatingOrArrayLike
-) -> NDArray:
+def final_opponent_signals(C_L: ArrayLike, h_L: ArrayLike) -> NDArrayFloat:
     """
     Return the final opponent signals :math:`A_L` and :math:`B_L`.
 

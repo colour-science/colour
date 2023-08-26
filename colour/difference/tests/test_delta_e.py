@@ -26,7 +26,7 @@ from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -72,8 +72,6 @@ class TestDelta_E_CIE1976(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        pass
-
     def test_domain_range_scale_delta_E_CIE1976(self):
         """
         Test :func:`colour.difference.delta_e.delta_E_CIE1976` definition
@@ -98,8 +96,6 @@ class TestDelta_E_CIE1976(unittest.TestCase):
         Test :func:`colour.difference.delta_e.delta_E_CIE1976` definition nan
         support.
         """
-
-        pass
 
 
 class TestDelta_E_CIE1994(unittest.TestCase):
@@ -255,7 +251,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 8.32281957, -73.58297716]),
             ),
-            68.23094879,
+            68.23111251,
             places=7,
         )
 
@@ -285,7 +281,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
                 np.array([50.00000000, 8.32281957, -73.58297716]),
                 textiles=True,
             ),
-            70.63198003,
+            70.63213819,
             places=7,
         )
 
@@ -353,6 +349,44 @@ class TestDelta_E_CIE2000(unittest.TestCase):
         :cite:`Sharma2005b`
         """
 
+        # NOTE: The 14th test case is excluded as "Numpy" 1.24.0 introduced
+        # numerical differences between "Linux" and "macOS / Windows" with the
+        # "np.arctan2" definition :
+        #
+        #             |               Ubuntu |      macOS / Windows |
+        # C_1_ab      |    2.490000200803205 |    2.490000200803205 |
+        # C_2_ab      |    2.490000200803205 |    2.490000200803205 |
+        # C_bar_ab    |    2.490000200803205 |    2.490000200803205 |
+        # C_bar_ab_7  |  593.465770158617033 |  593.465770158617033 |
+        # G           |    0.499844088629080 |    0.499844088629080 |
+        # a_p_1       |   -0.001499844088629 |   -0.001499844088629 |
+        # a_p_2       |    0.001499844088629 |    0.001499844088629 |
+        # C_p_1       |    2.490000451713271 |    2.490000451713271 |
+        # C_p_2       |    2.490000451713271 |    2.490000451713271 |
+        # h_p_1       |   90.034511938077543 |   90.034511938077557 | <--
+        # h_p_2       |  270.034511938077571 |  270.034511938077571 |
+        # delta_L_p   |    0.000000000000000 |    0.000000000000000 |
+        # delta_C_p   |    0.000000000000000 |    0.000000000000000 |
+        # h_p_2_s_1   |  180.000000000000028 |  180.000000000000000 | <--
+        # C_p_1_m_2   |    6.200102249532291 |    6.200102249532291 |
+        # delta_h_p   | -179.999999999999972 |  180.000000000000000 | <--
+        # delta_H_p   |   -4.980000903426540 |    4.980000903426541 | <--
+        # L_bar_p     |   50.000000000000000 |   50.000000000000000 |
+        # C_bar_p     |    2.490000451713271 |    2.490000451713271 |
+        # a_h_p_1_s_2 |  180.000000000000028 |  180.000000000000000 | <--
+        # h_p_1_a_2   |  360.069023876155143 |  360.069023876155143 |
+        # h_bar_p     |    0.034511938077571 |  180.034511938077571 |
+        # T           |    1.319683185432364 |    0.977862082189372 | <--
+        # delta_theta |    0.000000000000000 |    0.000016235458767 | <--
+        # C_bar_p_7   |  593.466188771459770 |  593.466188771459770 |
+        # R_C         |    0.000623645703630 |    0.000623645703630 |
+        # L_bar_p_2   |    0.000000000000000 |    0.000000000000000 |
+        # S_L         |    1.000000000000000 |    1.000000000000000 |
+        # S_C         |    1.112050020327097 |    1.112050020327097 |
+        # S_H         |    1.049290175917675 |    1.036523155395472 | <--
+        # R_T         |   -0.000000000000000 |   -0.000000000353435 | <--
+        # d_E         |    4.746066453039259 |    4.804524508211768 | <--
+
         Lab_1 = np.array(
             [
                 [50.0000, 2.6772, -79.7751],
@@ -368,7 +402,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
                 [50.0000, 2.4900, -0.0010],
                 [50.0000, 2.4900, -0.0010],
                 [50.0000, -0.0010, 2.4900],
-                [50.0000, -0.0010, 2.4900],
+                # [50.0000, -0.0010, 2.4900],
                 [50.0000, -0.0010, 2.4900],
                 [50.0000, 2.5000, 0.0000],
                 [50.0000, 2.5000, 0.0000],
@@ -407,7 +441,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
                 [50.0000, -2.4900, 0.0011],
                 [50.0000, -2.4900, 0.0012],
                 [50.0000, 0.0009, -2.4900],
-                [50.0000, 0.0010, -2.4900],
+                # [50.0000, 0.0010, -2.4900],
                 [50.0000, 0.0011, -2.4900],
                 [50.0000, 0.0000, -2.5000],
                 [73.0000, 25.0000, -18.0000],
@@ -446,7 +480,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
                 7.2195,
                 7.2195,
                 4.8045,
-                4.8045,
+                # 4.8045,
                 4.7461,
                 4.3065,
                 27.1492,
@@ -516,7 +550,7 @@ class TestDelta_E_CMC(unittest.TestCase):
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 426.67945353, 72.39590835]),
                 l=1,
-            ),  # noqa
+            ),
             172.70477129,
             places=7,
         )
@@ -526,7 +560,7 @@ class TestDelta_E_CMC(unittest.TestCase):
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 74.05216981, 276.45318193]),
                 l=1,
-            ),  # noqa
+            ),
             20.59732717,
             places=7,
         )
@@ -536,7 +570,7 @@ class TestDelta_E_CMC(unittest.TestCase):
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 8.32281957, -73.58297716]),
                 l=1,
-            ),  # noqa
+            ),
             121.71841479,
             places=7,
         )

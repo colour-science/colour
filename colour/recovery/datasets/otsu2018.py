@@ -17,11 +17,11 @@ from __future__ import annotations
 import numpy as np
 
 from colour.colorimetry import SpectralShape
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -42,7 +42,7 @@ References
 :cite:`Otsu2018`
 """
 
-BASIS_FUNCTIONS_OTSU2018: NDArray = np.array(
+BASIS_FUNCTIONS_OTSU2018: NDArrayFloat = np.array(
     [
         [
             [
@@ -985,7 +985,7 @@ References
 :cite:`Otsu2018`
 """
 
-CLUSTER_MEANS_OTSU2018: NDArray = np.array(
+CLUSTER_MEANS_OTSU2018: NDArrayFloat = np.array(
     [
         [
             0.10085069182389943000,
@@ -1304,7 +1304,7 @@ References
 :cite:`Otsu2018`
 """
 
-SELECTOR_ARRAY_OTSU2018: NDArray = np.array(
+SELECTOR_ARRAY_OTSU2018: NDArrayFloat = np.array(
     [
         [0.333444973048471, 1, -3, -1],
         [0.428556829741043, 0, 1, -2],

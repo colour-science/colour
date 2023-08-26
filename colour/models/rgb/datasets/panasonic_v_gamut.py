@@ -8,8 +8,7 @@ Defines the *Panasonic V-Gamut* colourspace:
 
 References
 ----------
--   :cite:`Panasonic2014a` : Panasonic. (2014). VARICAM V-Log/V-Gamut (pp.
-    1-7).
+-   :cite:`Panasonic2014a` : Panasonic. (2014). VARICAM V-Log/V-Gamut (pp. 1-7).
     http://pro-av.panasonic.net/en/varicam/common/pdf/VARICAM_V-Log_V-Gamut.pdf
 """
 
@@ -18,7 +17,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
     log_encoding_VLog,
@@ -27,7 +26,7 @@ from colour.models.rgb import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -41,7 +40,7 @@ __all__ = [
     "RGB_COLOURSPACE_V_GAMUT",
 ]
 
-PRIMARIES_V_GAMUT: NDArray = np.array(
+PRIMARIES_V_GAMUT: NDArrayFloat = np.array(
     [
         [0.7300, 0.2800],
         [0.1650, 0.8400],
@@ -53,12 +52,12 @@ PRIMARIES_V_GAMUT: NDArray = np.array(
 WHITEPOINT_NAME_V_GAMUT: str = "D65"
 """*Panasonic V-Gamut* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_V_GAMUT: NDArray = CCS_ILLUMINANTS[
+CCS_WHITEPOINT_V_GAMUT: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_V_GAMUT]
 """*Panasonic V-Gamut* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_V_GAMUT_TO_XYZ: NDArray = np.array(
+MATRIX_V_GAMUT_TO_XYZ: NDArrayFloat = np.array(
     [
         [0.679644, 0.152211, 0.118600],
         [0.260686, 0.774894, -0.035580],
@@ -67,7 +66,7 @@ MATRIX_V_GAMUT_TO_XYZ: NDArray = np.array(
 )
 """*Panasonic V-Gamut* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_V_GAMUT: NDArray = np.array(
+MATRIX_XYZ_TO_V_GAMUT: NDArrayFloat = np.array(
     [
         [1.589012, -0.313204, -0.180965],
         [-0.534053, 1.396011, 0.102458],

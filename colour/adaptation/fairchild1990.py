@@ -21,14 +21,7 @@ import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode, spow, vector_dot
 from colour.adaptation import CAT_VON_KRIES
-from colour.hints import (
-    ArrayLike,
-    Boolean,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    NDArray,
-    cast,
-)
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     as_float_array,
     from_range_100,
@@ -40,7 +33,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -54,13 +47,13 @@ __all__ = [
     "degrees_of_adaptation",
 ]
 
-MATRIX_XYZ_TO_RGB_FAIRCHILD1990: NDArray = CAT_VON_KRIES
+MATRIX_XYZ_TO_RGB_FAIRCHILD1990: NDArrayFloat = CAT_VON_KRIES
 """
 *Fairchild (1990)* colour appearance model *CIE XYZ* tristimulus values to cone
 responses matrix.
 """
 
-MATRIX_RGB_TO_XYZ_FAIRCHILD1990: NDArray = np.linalg.inv(CAT_VON_KRIES)
+MATRIX_RGB_TO_XYZ_FAIRCHILD1990: NDArrayFloat = np.linalg.inv(CAT_VON_KRIES)
 """
 *Fairchild (1990)* colour appearance model cone responses to *CIE XYZ*
 tristimulus values matrix.
@@ -71,9 +64,9 @@ def chromatic_adaptation_Fairchild1990(
     XYZ_1: ArrayLike,
     XYZ_n: ArrayLike,
     XYZ_r: ArrayLike,
-    Y_n: FloatingOrArrayLike,
-    discount_illuminant: Boolean = False,
-) -> NDArray:
+    Y_n: ArrayLike,
+    discount_illuminant: bool = False,
+) -> NDArrayFloat:
     """
     Adapt given stimulus *CIE XYZ_1* tristimulus values from test viewing
     conditions to reference viewing conditions using *Fairchild (1990)*
@@ -164,7 +157,7 @@ def chromatic_adaptation_Fairchild1990(
     return from_range_100(XYZ_c)
 
 
-def XYZ_to_RGB_Fairchild1990(XYZ: ArrayLike) -> NDArray:
+def XYZ_to_RGB_Fairchild1990(XYZ: ArrayLike) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to cone responses.
 
@@ -188,7 +181,7 @@ def XYZ_to_RGB_Fairchild1990(XYZ: ArrayLike) -> NDArray:
     return vector_dot(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ)
 
 
-def RGB_to_XYZ_Fairchild1990(RGB: ArrayLike) -> NDArray:
+def RGB_to_XYZ_Fairchild1990(RGB: ArrayLike) -> NDArrayFloat:
     """
     Convert from cone responses to *CIE XYZ* tristimulus values.
 
@@ -214,10 +207,10 @@ def RGB_to_XYZ_Fairchild1990(RGB: ArrayLike) -> NDArray:
 
 def degrees_of_adaptation(
     LMS: ArrayLike,
-    Y_n: FloatingOrArrayLike,
-    v: FloatingOrArrayLike = 1 / 3,
-    discount_illuminant: Boolean = False,
-) -> NDArray:
+    Y_n: ArrayLike,
+    v: ArrayLike = 1 / 3,
+    discount_illuminant: bool = False,
+) -> NDArrayFloat:
     """
     Compute the degrees of adaptation :math:`p_L`, :math:`p_M` and
     :math:`p_S`.
@@ -258,14 +251,14 @@ def degrees_of_adaptation(
     # E illuminant.
     LMS_E = vector_dot(CAT_VON_KRIES, ones(LMS.shape))
 
-    Ye_n = cast(NDArray, spow(Y_n, v))
+    Ye_n = spow(Y_n, v)
 
-    def m_E(x: FloatingOrNDArray, y: FloatingOrNDArray) -> FloatingOrNDArray:
+    def m_E(x: NDArrayFloat, y: NDArrayFloat) -> NDArrayFloat:
         """Compute the :math:`m_E` term."""
 
         return (3 * x / y) / np.sum(x / y, axis=-1)[..., None]
 
-    def P_c(x: FloatingOrNDArray) -> FloatingOrNDArray:
+    def P_c(x: NDArrayFloat) -> NDArrayFloat:
         """Compute the :math:`P_L`, :math:`P_M` or :math:`P_S` terms."""
 
         return sdiv(
@@ -274,6 +267,6 @@ def degrees_of_adaptation(
         )
 
     with sdiv_mode():
-        p_LMS = cast(NDArray, P_c(m_E(LMS, LMS_E)))
+        p_LMS = P_c(m_E(LMS, LMS_E))
 
     return p_LMS

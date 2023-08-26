@@ -16,7 +16,7 @@ from colour.utilities import ColourRuntimeWarning, attest, is_pandas_installed
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -65,6 +65,7 @@ class TestSignal(unittest.TestCase):
             "__getitem__",
             "__setitem__",
             "__contains__",
+            "__iter__",
             "__eq__",
             "__ne__",
             "arithmetical_operation",
@@ -238,7 +239,7 @@ class TestSignal(unittest.TestCase):
     def test_function(self):
         """Test :func:`colour.continuous.signal.Signal.function` property."""
 
-        attest(hasattr(self._signal.function, "__call__"))
+        attest(callable(self._signal.function))
 
     def test_raise_exception_function(self):
         """
@@ -477,6 +478,14 @@ class TestSignal(unittest.TestCase):
         self.assertIn(0.5, self._signal)
         self.assertNotIn(1000, self._signal)
 
+    def test__iter__(self):
+        """Test :func:`colour.continuous.signal.Signal.__iter__` method."""
+
+        domain = np.arange(0, 10)
+        for i, (domain_value, range_value) in enumerate(self._signal):
+            np.testing.assert_array_equal(domain_value, domain[i])
+            np.testing.assert_array_equal(range_value, self._range[i])
+
     def test__len__(self):
         """Test :func:`colour.continuous.signal.Signal.__len__` method."""
 
@@ -516,8 +525,6 @@ class TestSignal(unittest.TestCase):
 
         class NotExtrapolator(Extrapolator):
             """Not :class:`Extrapolator` class."""
-
-            pass
 
         signal_2.extrapolator = NotExtrapolator
         self.assertNotEqual(signal_1, signal_2)

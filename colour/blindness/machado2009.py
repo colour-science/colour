@@ -38,7 +38,7 @@ from colour.colorimetry import (
     SpectralShape,
     reshape_msds,
 )
-from colour.hints import ArrayLike, Floating, Literal, NDArray, Union, cast
+from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.utilities import (
     as_float_array,
     as_int_scalar,
@@ -49,7 +49,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -62,7 +62,7 @@ __all__ = [
     "matrix_cvd_Machado2009",
 ]
 
-MATRIX_LMS_TO_WSYBRG: NDArray = np.array(
+MATRIX_LMS_TO_WSYBRG: NDArrayFloat = np.array(
     [
         [0.600, 0.400, 0.000],
         [0.240, 0.105, -0.700],
@@ -77,7 +77,7 @@ opponent-colour space.
 
 def matrix_RGB_to_WSYBRG(
     cmfs: LMS_ConeFundamentals, primaries: RGB_DisplayPrimaries
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Compute the matrix transforming from *RGB* colourspace to opponent-colour
     space using *Machado et al. (2009)* method.
@@ -111,10 +111,10 @@ def matrix_RGB_to_WSYBRG(
     WSYBRG = vector_dot(MATRIX_LMS_TO_WSYBRG, cmfs.values)
     WS, YB, RG = tsplit(WSYBRG)
 
-    # pylint: disable=E1102
     primaries = reshape_msds(
-        primaries,  # type: ignore[assignment]
+        primaries,
         cmfs.shape,
+        copy=False,
         extrapolator_kwargs={"method": "Constant", "left": 0, "right": 0},
     )
 
@@ -132,7 +132,7 @@ def matrix_RGB_to_WSYBRG(
     RG_G = np.trapz(G * RG, wavelengths)
     RG_B = np.trapz(B * RG, wavelengths)
 
-    M_G = np.array(
+    M_G = as_float_array(
         [
             [WS_R, WS_G, WS_B],
             [YB_R, YB_G, YB_B],
@@ -205,7 +205,8 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(
     array([ 0.0891288...,  0.0870524 ,  0.955393  ])
     """
 
-    cmfs = cast(LMS_ConeFundamentals, cmfs.copy())
+    cmfs = cmfs.copy()
+
     if cmfs.shape.interval != 1:
         cmfs.interpolate(SpectralShape(cmfs.shape.start, cmfs.shape.end, 1))
 
@@ -227,7 +228,7 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(
     area_L = np.trapz(L, cmfs.wavelengths)
     area_M = np.trapz(M, cmfs.wavelengths)
 
-    def alpha(x: NDArray) -> NDArray:
+    def alpha(x: NDArrayFloat) -> NDArrayFloat:
         """Compute :math:`alpha` factor."""
 
         return (20 - x) / 20
@@ -237,7 +238,7 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(
     # CVD_Simulation/CVD_Simulation.html#Errata
     L_a = alpha(d_L) * L + 0.96 * area_L / area_M * (1 - alpha(d_L)) * M
     M_a = alpha(d_M) * M + 1 / 0.96 * area_M / area_L * (1 - alpha(d_M)) * L
-    S_a = as_float_array(cmfs[cmfs.wavelengths - d_S])[:, 2]
+    S_a = cmfs[cmfs.wavelengths - d_S][:, 2]
 
     LMS_a = tstack([L_a, M_a, S_a])
     cmfs[cmfs.wavelengths] = LMS_a
@@ -254,7 +255,7 @@ def matrix_anomalous_trichromacy_Machado2009(
     cmfs: LMS_ConeFundamentals,
     primaries: RGB_DisplayPrimaries,
     d_LMS: ArrayLike,
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Compute the *Machado et al. (2009)* *CVD* matrix for given *LMS* cone
     fundamentals colour matching functions and display primaries tri-spectral
@@ -302,11 +303,11 @@ def matrix_anomalous_trichromacy_Machado2009(
     """
 
     if cmfs.shape.interval != 1:
-        # pylint: disable=E1102
         cmfs = reshape_msds(
-            cmfs,  # type: ignore[assignment]
+            cmfs,
             SpectralShape(cmfs.shape.start, cmfs.shape.end, 1),
             "Interpolate",
+            copy=False,
         )
 
     M_n = matrix_RGB_to_WSYBRG(cmfs, primaries)
@@ -317,11 +318,9 @@ def matrix_anomalous_trichromacy_Machado2009(
 
 
 def matrix_cvd_Machado2009(
-    deficiency: Union[
-        Literal["Deuteranomaly", "Protanomaly", "Tritanomaly"], str
-    ],
-    severity: Floating,
-) -> NDArray:
+    deficiency: Literal["Deuteranomaly", "Protanomaly", "Tritanomaly"] | str,
+    severity: float,
+) -> NDArrayFloat:
     """
     Compute *Machado et al. (2009)* *CVD* matrix for given deficiency and
     severity using the pre-computed matrices dataset.

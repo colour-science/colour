@@ -92,11 +92,12 @@ from .jzazbz import (
     Izazbz_to_XYZ,
     Jzazbz_to_XYZ,
 )
-from .munish2021 import XYZ_to_IPT_Munish2021, IPT_Munish2021_to_XYZ
 from .hdr_ipt import HDR_IPT_METHODS, XYZ_to_hdr_IPT, hdr_IPT_to_XYZ
 from .oklab import XYZ_to_Oklab, Oklab_to_XYZ
 from .osa_ucs import XYZ_to_OSA_UCS, OSA_UCS_to_XYZ
 from .prolab import XYZ_to_ProLab, ProLab_to_XYZ
+from .ragoo2021 import XYZ_to_IPT_Ragoo2021, IPT_Ragoo2021_to_XYZ
+from .yrg import LMS_to_Yrg, Yrg_to_LMS, XYZ_to_Yrg, Yrg_to_XYZ
 from .datasets import (
     DATA_MACADAM_1942_ELLIPSES,
     CCS_ILLUMINANT_POINTER_GAMUT,
@@ -204,6 +205,8 @@ from .rgb import (
     log_decoding_VLog,
     log_encoding_FLog,
     log_decoding_FLog,
+    log_encoding_FLog2,
+    log_decoding_FLog2,
     log_encoding_LLog,
     log_decoding_LLog,
     log_encoding_NLog,
@@ -314,6 +317,7 @@ from .rgb import (
     RGB_COLOURSPACE_RIMM_RGB,
     RGB_COLOURSPACE_ERIMM_RGB,
     RGB_COLOURSPACE_PROPHOTO_RGB,
+    RGB_COLOURSPACE_PLASA_ANSI_E154,
     RGB_COLOURSPACE_RUSSELL_RGB,
     RGB_COLOURSPACE_SHARP_RGB,
     RGB_COLOURSPACE_SMPTE_240M,
@@ -478,8 +482,14 @@ __all__ += [
     "Jzazbz_to_XYZ",
 ]
 __all__ += [
-    "XYZ_to_IPT_Munish2021",
-    "IPT_Munish2021_to_XYZ",
+    "XYZ_to_IPT_Ragoo2021",
+    "IPT_Ragoo2021_to_XYZ",
+]
+__all__ += [
+    "LMS_to_Yrg",
+    "Yrg_to_LMS",
+    "XYZ_to_Yrg",
+    "Yrg_to_XYZ",
 ]
 __all__ += [
     "HDR_IPT_METHODS",
@@ -605,6 +615,8 @@ __all__ += [
     "log_decoding_VLog",
     "log_encoding_FLog",
     "log_decoding_FLog",
+    "log_encoding_FLog2",
+    "log_decoding_FLog2",
     "log_encoding_LLog",
     "log_decoding_LLog",
     "log_encoding_NLog",
@@ -715,6 +727,7 @@ __all__ += [
     "RGB_COLOURSPACE_RIMM_RGB",
     "RGB_COLOURSPACE_ERIMM_RGB",
     "RGB_COLOURSPACE_PROPHOTO_RGB",
+    "RGB_COLOURSPACE_PLASA_ANSI_E154",
     "RGB_COLOURSPACE_RUSSELL_RGB",
     "RGB_COLOURSPACE_SHARP_RGB",
     "RGB_COLOURSPACE_SMPTE_240M",
@@ -880,10 +893,25 @@ API_CHANGES["ObjectRenamed"].extend(
         ],
     ]
 )
+
+
+# v0.4.3
+API_CHANGES["ObjectRenamed"].extend(
+    [
+        [
+            "colour.models.XYZ_to_IPT_Munish2021",
+            "colour.models.XYZ_to_IPT_Ragoo2021",
+        ],
+        [
+            "colour.models.IPT_Munish2021_to_XYZ",
+            "colour.models.IPT_Ragoo2021_to_XYZ",
+        ],
+    ]
+)
 """Defines the *colour.models* sub-package API changes."""
 
 if not is_documentation_building():
-    sys.modules["colour.models"] = models(  # type: ignore[assignment]
+    sys.modules["colour.models"] = models(  # pyright: ignore
         sys.modules["colour.models"], build_API_changes(API_CHANGES)
     )
 

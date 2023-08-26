@@ -5,6 +5,7 @@ Random Numbers Utilities
 Defines the random number generator objects:
 
 -   :func:`colour.algebra.random_triplet_generator`
+
 References
 ----------
 -   :cite:`Laurent2012a` : Laurent. (2012). Reproducibility of python
@@ -18,12 +19,12 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import ArrayLike, Integer, NDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import as_float_array, tstack
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -37,10 +38,10 @@ RANDOM_STATE = np.random.RandomState()
 
 
 def random_triplet_generator(
-    size: Integer,
+    size: int,
     limits: ArrayLike = np.array([[0, 1], [0, 1], [0, 1]]),
     random_state: np.random.RandomState = RANDOM_STATE,
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Return a generator yielding random triplets.
 

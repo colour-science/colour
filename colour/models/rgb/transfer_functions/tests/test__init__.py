@@ -20,11 +20,11 @@ from colour.models.rgb.transfer_functions import (
     cctf_encoding,
     cctf_decoding,
 )
-from colour.utilities import ColourUsageWarning, as_int
+from colour.utilities import ColourUsageWarning
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Development"
@@ -111,7 +111,7 @@ class TestTransferFunctions(unittest.TestCase):
         ]
 
         samples = np.hstack(
-            [np.linspace(0, 1, as_int(1e5)), np.linspace(0, 65504, 65504 * 10)]
+            [np.linspace(0, 1, int(1e5)), np.linspace(0, 65504, 65504 * 10)]
         )
 
         for encoding_mapping, _decoding_mapping in reciprocal_mappings:

@@ -17,11 +17,11 @@ from __future__ import annotations
 import numpy as np
 
 from colour.colorimetry import MultiSpectralDistributions, SpectralShape
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -42,7 +42,7 @@ References
 :cite:`Mallett2019`
 """
 
-DATA_BASIS_FUNCTIONS_sRGB_MALLETT2019: NDArray = np.array(
+DATA_BASIS_FUNCTIONS_sRGB_MALLETT2019: NDArrayFloat = np.array(
     [
         [0.32745741382705500, 0.33186171308587400, 0.34068079154805200],
         [0.32375057827054100, 0.32968818775939900, 0.34656118662485200],

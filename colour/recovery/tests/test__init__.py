@@ -17,7 +17,7 @@ from colour.utilities import domain_range_scale
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -36,7 +36,6 @@ class TestXYZ_to_sd(unittest.TestCase):
     def setUp(self):
         """Initialise the common tests attributes."""
 
-        # pylint: disable=E1102
         self._cmfs = reshape_msds(
             MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
             SpectralShape(360, 780, 10),

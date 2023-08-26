@@ -128,11 +128,11 @@ The various sub-packages also expose their public API:
 
 
     Algebra
-    ['cartesian_to_spherical',
-     'spherical_to_cartesian',
-     'cartesian_to_polar',
-     'polar_to_cartesian',
-     'cartesian_to_cylindrical',
+    ['get_sdiv_mode',
+     'set_sdiv_mode',
+     'sdiv_mode',
+     'sdiv',
+     'is_spow_enabled',
      '...']
 
 
@@ -221,11 +221,11 @@ The various sub-packages also expose their public API:
 
 
     Geometry
-    ['PLANE_TO_AXIS_MAPPING',
-     'primitive_grid',
-     'primitive_cube',
-     'hull_section',
-     'PRIMITIVE_METHODS',
+    ['ellipse_coefficients_general_form',
+     'ellipse_coefficients_canonical_form',
+     'point_at_angle_on_ellipse',
+     'ellipse_fitting_Halir1998',
+     'ELLIPSE_FITTING_METHODS',
      '...']
 
 
@@ -238,7 +238,7 @@ The various sub-packages also expose their public API:
 
 
     Hints
-    ['Any', 'Callable', 'Dict', 'Generator', 'Iterable', '...']
+    ['ArrayLike', 'NDArray', 'ModuleType', 'Any', 'Callable', '...']
 
 
     Io
@@ -251,20 +251,20 @@ The various sub-packages also expose their public API:
 
 
     Models
-    ['Jab_to_JCh',
-     'JCh_to_Jab',
-     'COLOURSPACE_MODELS',
+    ['COLOURSPACE_MODELS',
      'COLOURSPACE_MODELS_AXIS_LABELS',
      'COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE',
+     'Jab_to_JCh',
+     'JCh_to_Jab',
      '...']
 
 
     Notation
-    ['MUNSELL_COLOURS_ALL',
+    ['CSS_COLOR_3_BASIC',
+     'CSS_COLOR_3_EXTENDED',
+     'CSS_COLOR_3',
+     'MUNSELL_COLOURS_ALL',
      'MUNSELL_COLOURS_1929',
-     'MUNSELL_COLOURS_REAL',
-     'MUNSELL_COLOURS',
-     'munsell_value',
      '...']
 
 
@@ -295,11 +295,11 @@ The various sub-packages also expose their public API:
 
 
     Recovery
-    ['SPECTRAL_SHAPE_sRGB_MALLETT2019',
+    ['SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017',
+     'BASIS_FUNCTIONS_DYER2017',
+     'SPECTRAL_SHAPE_sRGB_MALLETT2019',
      'MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019',
      'SPECTRAL_SHAPE_OTSU2018',
-     'BASIS_FUNCTIONS_OTSU2018',
-     'CLUSTER_MEANS_OTSU2018',
      '...']
 
 
@@ -360,7 +360,6 @@ The codebase is documented and most docstrings have usage examples:
 
     Examples
     --------
-    >>> from pprint import pprint
     >>> from colour import MSDS_CMFS, SPECTRAL_SHAPE_DEFAULT
     >>> cmfs = (
     ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
@@ -388,9 +387,11 @@ the objects needed for spectral computations and many others:
      'reshape_msds',
      'sds_and_msds_to_sds',
      'sds_and_msds_to_msds',
-     'sd_blackbody',
-     'blackbody_spectral_radiance',
      'planck_law',
+     'blackbody_spectral_radiance',
+     'sd_blackbody',
+     'rayleigh_jeans_law',
+     'sd_rayleigh_jeans',
      'LMS_ConeFundamentals',
      'RGB_ColourMatchingFunctions',
      'XYZ_ColourMatchingFunctions',
@@ -1066,7 +1067,7 @@ operations like *addition*, *subtraction*, *multiplication*, *division* or
     [ 1.25  1.5   1.75  2.    1.75  1.5   1.25]
     [ 0.5  1.   1.5  2.   1.5  1.   0.5]
     [ 0.0875  0.775   0.5625  2.55    0.7125  0.325   0.0375]
-    [ 1.5  3.   4.5  6.   4.5  3.   nan  1.5]
+    [ 1.5  3.   4.5  6.   4.5  3.   1.5]
 
 The spectral distribution can be normalised with an arbitrary factor:
 
@@ -1129,9 +1130,9 @@ this tutorial but the core capability can be described.
 
 .. code-block:: text
 
-    array([ 55.91309735,  65.4172615 ,  65.54495059,  88.17819416,
-            61.88860248,  10.53878826,  55.25130534,  46.14659783,
-            86.41406136,  84.59897703])
+    array([ 94.74700025,  50.62829102,  72.93120155,  81.86179968,
+            70.14736394,  83.11336665,  51.17649751,  71.00638621,
+            86.94761009,  78.01845818])
 
 Convert to Tristimulus Values
 -----------------------------
@@ -1175,25 +1176,23 @@ computations are available, expanding to even more computations:
      'CIE XYZ',
      'CIE xyY',
      'CIE Lab',
-     'CIE LCHab',
      'CIE Luv',
-     'CIE Luv uv',
-     'CIE LCHuv',
      'CIE UCS',
-     'CIE UCS uv',
      'CIE UVW',
      'DIN99',
      'Hunter Lab',
      'Hunter Rdab',
+     'ICaCb',
      'ICtCp',
      'IPT',
+     'IPT Ragoo 2021',
      'IgPgTg',
      'Jzazbz',
      'OSA UCS',
      'Oklab',
      'hdr-CIELAB',
-     'hdr-IPT')
-
+     'hdr-IPT',
+     'Yrg')
 
 Convert to Display Colours
 --------------------------
@@ -1246,8 +1245,8 @@ various colour rendition charts:
 
 .. code-block:: text
 
-    ['BabelColor Average', 'ColorChecker 1976', 'ColorChecker 2005', 'ColorChecker24 - After November 2014', 'ColorChecker24 - Before November 2014', 'babel_average', 'cc2005', 'cca2014', 'ccb2014']
-    ['BabelColor Average', 'ColorChecker N Ohta', 'babel_average', 'cc_ohta']
+    ['BabelColor Average', 'ColorChecker 1976', 'ColorChecker 2005', 'ColorChecker24 - After November 2014', 'ColorChecker24 - Before November 2014', 'TE226 V2', 'babel_average', 'cc2005', 'cca2014', 'ccb2014']
+    ['BabelColor Average', 'ColorChecker N Ohta', 'ISO 17321-1', 'babel_average', 'cc_ohta']
 
 .. note::
 
@@ -1303,9 +1302,9 @@ Chromaticity coordinates *CIE xy* can be plotted into the *CIE 1931 Chromaticity
     import matplotlib.pyplot as plt
 
     # Plotting the *CIE 1931 Chromaticity Diagram*.
-    # The argument *standalone=False* is passed so that the plot doesn't get
+    # The argument *show=False* is passed so that the plot doesn't get
     # displayed and can be used as a basis for other plots.
-    plot_chromaticity_diagram_CIE1931(standalone=False)
+    plot_chromaticity_diagram_CIE1931(show=False)
 
     # Plotting the *CIE xy* chromaticity coordinates.
     x, y = xy
@@ -1322,7 +1321,7 @@ Chromaticity coordinates *CIE xy* can be plotted into the *CIE 1931 Chromaticity
 
     # Displaying the plot.
     render(
-        standalone=True,
+        show=True,
         limits=(-0.1, 0.9, -0.1, 0.9),
         x_tighten=True,
         y_tighten=True,

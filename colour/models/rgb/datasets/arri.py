@@ -22,7 +22,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
     log_encoding_ARRILogC3,
@@ -33,7 +33,7 @@ from colour.models.rgb import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -53,7 +53,7 @@ __all__ = [
     "RGB_COLOURSPACE_ARRI_WIDE_GAMUT_4",
 ]
 
-PRIMARIES_ARRI_WIDE_GAMUT_3: NDArray = np.array(
+PRIMARIES_ARRI_WIDE_GAMUT_3: NDArrayFloat = np.array(
     [
         [0.6840, 0.3130],
         [0.2210, 0.8480],
@@ -65,12 +65,12 @@ PRIMARIES_ARRI_WIDE_GAMUT_3: NDArray = np.array(
 WHITEPOINT_NAME_ARRI_WIDE_GAMUT_3: str = "D65"
 """*ARRI Wide Gamut 3* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_ARRI_WIDE_GAMUT_3: NDArray = CCS_ILLUMINANTS[
+CCS_WHITEPOINT_ARRI_WIDE_GAMUT_3: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_ARRI_WIDE_GAMUT_3]
 """*ARRI Wide Gamut 3* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_ARRI_WIDE_GAMUT_3_TO_XYZ: NDArray = np.array(
+MATRIX_ARRI_WIDE_GAMUT_3_TO_XYZ: NDArrayFloat = np.array(
     [
         [0.638008, 0.214704, 0.097744],
         [0.291954, 0.823841, -0.115795],
@@ -79,7 +79,7 @@ MATRIX_ARRI_WIDE_GAMUT_3_TO_XYZ: NDArray = np.array(
 )
 """*ARRI Wide Gamut 3* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_ARRI_WIDE_GAMUT_3: NDArray = np.array(
+MATRIX_XYZ_TO_ARRI_WIDE_GAMUT_3: NDArrayFloat = np.array(
     [
         [1.789066, -0.482534, -0.200076],
         [-0.639849, 1.396400, 0.194432],
@@ -106,7 +106,7 @@ References
 :cite:`ARRI2012a`
 """
 
-PRIMARIES_ARRI_WIDE_GAMUT_4: NDArray = np.array(
+PRIMARIES_ARRI_WIDE_GAMUT_4: NDArrayFloat = np.array(
     [
         [0.7347, 0.2653],
         [0.1424, 0.8576],
@@ -118,12 +118,12 @@ PRIMARIES_ARRI_WIDE_GAMUT_4: NDArray = np.array(
 WHITEPOINT_NAME_ARRI_WIDE_GAMUT_4: str = "D65"
 """*ARRI Wide Gamut 4* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_ARRI_WIDE_GAMUT_4: NDArray = CCS_ILLUMINANTS[
+CCS_WHITEPOINT_ARRI_WIDE_GAMUT_4: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_ARRI_WIDE_GAMUT_4]
 """*ARRI Wide Gamut 4* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_ARRI_WIDE_GAMUT_4_TO_XYZ: NDArray = np.array(
+MATRIX_ARRI_WIDE_GAMUT_4_TO_XYZ: NDArrayFloat = np.array(
     [
         [0.7048583204, 0.1297602952, 0.1158373115],
         [0.2545241764, 0.7814777327, -0.0360019091],
@@ -132,7 +132,7 @@ MATRIX_ARRI_WIDE_GAMUT_4_TO_XYZ: NDArray = np.array(
 )
 """*ARRI Wide Gamut 4* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_ARRI_WIDE_GAMUT_4: NDArray = np.linalg.inv(
+MATRIX_XYZ_TO_ARRI_WIDE_GAMUT_4: NDArrayFloat = np.linalg.inv(
     MATRIX_ARRI_WIDE_GAMUT_4_TO_XYZ
 )
 """*CIE XYZ* tristimulus values to *ARRI Wide Gamut 4* colourspace matrix."""

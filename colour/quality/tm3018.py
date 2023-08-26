@@ -13,6 +13,8 @@ References
 -   :cite:`ANSI2018` : ANSI, & IES Color Committee. (2018). ANSI/IES TM-30-18 -
     IES Method for Evaluating Light Source Color Rendition.
     ISBN:978-0-87995-379-9
+-   :cite:`VincentJ2017` : Vincent J. (2017). Is there any numpy group by
+    function? Retrieved June 30, 2023, from https://stackoverflow.com/a/43094244
 """
 
 from __future__ import annotations
@@ -21,23 +23,14 @@ import numpy as np
 from dataclasses import dataclass
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import (
-    ArrayLike,
-    Boolean,
-    Floating,
-    List,
-    NDArray,
-    Tuple,
-    Union,
-    cast,
-)
+from colour.hints import ArrayLike, NDArrayFloat, NDArrayInt, Tuple, cast
 from colour.quality import colour_fidelity_index_CIE2017
 from colour.quality.cfi2017 import (
     ColourRendering_Specification_CIE2017,
     DataColorimetry_TCS_CIE2017,
     delta_E_to_R_f,
 )
-from colour.utilities import as_float_array, as_float_scalar, as_int_scalar
+from colour.utilities import as_float_array, as_float_scalar, as_int_array
 
 
 @dataclass
@@ -87,31 +80,30 @@ class ColourQuality_Specification_ANSIIESTM3018:
     name: str
     sd_test: SpectralDistribution
     sd_reference: SpectralDistribution
-    R_f: Floating
-    R_s: NDArray
-    CCT: Floating
-    D_uv: Floating
+    R_f: float
+    R_s: NDArrayFloat
+    CCT: float
+    D_uv: float
     colorimetry_data: Tuple[
-        Tuple[DataColorimetry_TCS_CIE2017, ...],
-        Tuple[DataColorimetry_TCS_CIE2017, ...],
+        DataColorimetry_TCS_CIE2017, DataColorimetry_TCS_CIE2017
     ]
-    R_g: Floating
-    bins: List[List[int]]
-    averages_test: NDArray
-    averages_reference: NDArray
-    average_norms: NDArray
-    R_fs: NDArray
-    R_cs: NDArray
-    R_hs: NDArray
+    R_g: float
+    bins: NDArrayInt
+    averages_test: NDArrayFloat
+    averages_reference: NDArrayFloat
+    average_norms: NDArrayFloat
+    R_fs: NDArrayFloat
+    R_cs: NDArrayFloat
+    R_hs: NDArrayFloat
 
 
 def colour_fidelity_index_ANSIIESTM3018(
-    sd_test: SpectralDistribution, additional_data: Boolean = False
-) -> Union[
-    Floating,
-    ColourQuality_Specification_ANSIIESTM3018,
-    ColourRendering_Specification_CIE2017,
-]:
+    sd_test: SpectralDistribution, additional_data: bool = False
+) -> (
+    float
+    | ColourQuality_Specification_ANSIIESTM3018
+    | ColourRendering_Specification_CIE2017
+):
     """
     Return the *ANSI/IES TM-30-18 Colour Fidelity Index* (CFI) :math:`R_f`
     of given spectral distribution.
@@ -125,53 +117,66 @@ def colour_fidelity_index_ANSIIESTM3018(
 
     Returns
     -------
-    :class:`numpy.floating` or \
+    :class:`float` or \
 :class:`colour.quality.ColourQuality_Specification_ANSIIESTM3018`
         *ANSI/IES TM-30-18 Colour Fidelity Index* (CFI).
 
     References
     ----------
-    :cite:`ANSI2018`
+    :cite:`ANSI2018`, :cite:`VincentJ2017`
 
     Examples
     --------
     >>> from colour import SDS_ILLUMINANTS
     >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> colour_fidelity_index_ANSIIESTM3018(sd)  # doctest: +ELLIPSIS
-    70.1208254...
+    70.1208244...
     """
 
     if not additional_data:
         return colour_fidelity_index_CIE2017(sd_test, False)
 
-    specification: (
-        ColourRendering_Specification_CIE2017
-    ) = colour_fidelity_index_CIE2017(
-        sd_test, True
-    )  # type: ignore[assignment]
+    specification = cast(
+        ColourRendering_Specification_CIE2017,
+        colour_fidelity_index_CIE2017(sd_test, True),
+    )
 
     # Setup bins based on where the reference a'b' points are located.
-    bins: List[List[int]] = [[] for _i in range(16)]
-    for i, sample in enumerate(specification.colorimetry_data[1]):
-        bin_index = as_int_scalar(
-            np.floor(cast(Floating, sample.CAM.h) / 22.5)
-        )
-        bins[bin_index].append(i)
+    bins = as_int_array(
+        np.floor(specification.colorimetry_data[1].JMh[:, 2] / 22.5)
+    )
+
+    bin_mask = bins == np.arange(16).reshape(-1, 1)
+
+    # "bin_mask" is used later with Numpy broadcasting and "np.nanmean"
+    # to skip a list comprehension and keep all the mean calculation vectorised
+    # as per :cite:`VincentJ2017`.
+    bin_mask = np.choose(bin_mask, [np.nan, 1])
 
     # Per-bin a'b' averages.
-    averages_test = np.empty([16, 2])
-    averages_reference = np.empty([16, 2])
-    for i in range(16):
-        apbp_s = [
-            specification.colorimetry_data[0][j].Jpapbp[[1, 2]]
-            for j in bins[i]
-        ]
-        averages_test[i, :] = np.mean(apbp_s, axis=0)
-        apbp_s = [
-            specification.colorimetry_data[1][j].Jpapbp[[1, 2]]
-            for j in bins[i]
-        ]
-        averages_reference[i, :] = np.mean(apbp_s, axis=0)
+    test_apbp = as_float_array(specification.colorimetry_data[0].Jpapbp[:, 1:])
+    ref_apbp = as_float_array(specification.colorimetry_data[1].Jpapbp[:, 1:])
+
+    # Tile the "apbp" data in the third dimension and use broadcasting to place
+    # each bin mask along the third dimension. By multiplying these matrices
+    # together, Numpy automatically expands the apbp data in the third
+    # dimension and multiplies by the nan-filled bin mask. Finally,
+    # "np.nanmean" can compute the bin mean apbp positions with the appropriate
+    # axis argument.
+    averages_test = np.transpose(
+        np.nanmean(
+            np.transpose(bin_mask).reshape((99, 1, 16))
+            * test_apbp.reshape((*ref_apbp.shape, 1)),
+            axis=0,
+        )
+    )
+    averages_reference = np.transpose(
+        np.nanmean(
+            np.transpose(bin_mask).reshape((99, 1, 16))
+            * ref_apbp.reshape((*ref_apbp.shape, 1)),
+            axis=0,
+        )
+    )
 
     # Gamut Index.
     R_g = 100 * (
@@ -179,9 +184,9 @@ def colour_fidelity_index_ANSIIESTM3018(
     )
 
     # Local colour fidelity indexes, i.e. 16 CFIs for each bin.
-    bin_delta_E_s = [
-        np.mean([specification.delta_E_s[bins[i]]]) for i in range(16)
-    ]
+    bin_delta_E_s = np.nanmean(
+        specification.delta_E_s.reshape(1, -1) * bin_mask, axis=1
+    )
     R_fs = as_float_array(delta_E_to_R_f(bin_delta_E_s))
 
     # Angles bisecting the hue bins.
@@ -219,7 +224,7 @@ def colour_fidelity_index_ANSIIESTM3018(
     )
 
 
-def averages_area(averages: ArrayLike) -> Floating:
+def averages_area(averages: ArrayLike) -> float:
     """
     Compute the area of the polygon formed by the hue bin averages.
 
@@ -230,7 +235,7 @@ def averages_area(averages: ArrayLike) -> Floating:
 
     Returns
     -------
-    :class:`numpy.floating`
+    :class:`float`
         Area of the polygon.
     """
 

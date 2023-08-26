@@ -10,7 +10,15 @@ Common
 
 .. autosummary::
     :toctree: generated/
+    :template: class.rst
 
+    ColourSwatch
+
+.. currentmodule:: colour.plotting
+
+.. autosummary::
+    :toctree: generated/
+z
     colour_style
     colour_cycle
     artist
@@ -262,6 +270,7 @@ Colour Temperature & Correlated Colour Temperature
 
     plot_planckian_locus_in_chromaticity_diagram_CIE1931
     plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS
+    plot_planckian_locus_in_chromaticity_diagram_CIE1976UCS
 
 **Ancillary Objects**
 
@@ -272,6 +281,7 @@ Colour Temperature & Correlated Colour Temperature
 .. autosummary::
     :toctree: generated/
 
+    plot_daylight_locus
     plot_planckian_locus
     plot_planckian_locus_in_chromaticity_diagram
 

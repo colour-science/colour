@@ -20,11 +20,11 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -33,7 +33,7 @@ __all__ = [
     "DATA_MACADAM_1942_ELLIPSES",
 ]
 
-DATA_MACADAM_1942_ELLIPSES: NDArray = np.array(
+DATA_MACADAM_1942_ELLIPSES: NDArrayFloat = np.array(
     [
         [0.160, 0.057, 0.85, 0.35, 62.5, 0.94, 0.30, 62.3],
         [0.187, 0.118, 2.20, 0.55, 77.0, 2.31, 0.44, 74.8],

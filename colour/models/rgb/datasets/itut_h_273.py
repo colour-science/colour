@@ -20,7 +20,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
     linear_function,
@@ -29,7 +29,7 @@ from colour.models.rgb import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -49,7 +49,7 @@ __all__ = [
     "RGB_COLOURSPACE_H273_22_UNSPECIFIED",
 ]
 
-PRIMARIES_H273_GENERIC_FILM: NDArray = np.array(
+PRIMARIES_H273_GENERIC_FILM: NDArrayFloat = np.array(
     [
         [0.681, 0.319],  # Wratten 25
         [0.243, 0.692],  # Wratten 58
@@ -73,7 +73,7 @@ References
 - :cite:`InternationalTelecommunicationUnion2021`
 """
 
-CCS_WHITEPOINT_H273_GENERIC_FILM: NDArray = np.array([0.310, 0.316])
+CCS_WHITEPOINT_H273_GENERIC_FILM: NDArrayFloat = np.array([0.310, 0.316])
 """
 Whitepoint chromaticity coordinates for *Generic Film* (colour filters using
 Illuminant C).
@@ -89,7 +89,7 @@ References
 - :cite:`InternationalTelecommunicationUnion2021`
 """
 
-MATRIX_H273_GENERIC_FILM_RGB_TO_XYZ: NDArray = normalised_primary_matrix(
+MATRIX_H273_GENERIC_FILM_RGB_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
     PRIMARIES_H273_GENERIC_FILM, CCS_WHITEPOINT_H273_GENERIC_FILM
 )
 """
@@ -101,7 +101,7 @@ References
 - :cite:`InternationalTelecommunicationUnion2021`
 """
 
-MATRIX_XYZ_TO_H273_GENERIC_FILM_RGB: NDArray = np.linalg.inv(
+MATRIX_XYZ_TO_H273_GENERIC_FILM_RGB: NDArrayFloat = np.linalg.inv(
     MATRIX_H273_GENERIC_FILM_RGB_TO_XYZ
 )
 """
@@ -133,7 +133,7 @@ References
 """
 
 
-PRIMARIES_H273_22_UNSPECIFIED: NDArray = np.array(
+PRIMARIES_H273_22_UNSPECIFIED: NDArrayFloat = np.array(
     [
         [0.630, 0.340],
         [0.295, 0.605],
@@ -159,7 +159,7 @@ References
 - :cite:`InternationalTelecommunicationUnion2021`
 """
 
-CCS_WHITEPOINT_H273_22_UNSPECIFIED: NDArray = np.array([0.3127, 0.3290])
+CCS_WHITEPOINT_H273_22_UNSPECIFIED: NDArrayFloat = np.array([0.3127, 0.3290])
 """
 Whitepoint chromaticity coordinates for row *22* as given in
 *Table 2 - Interpretation of colour primaries (ColourPrimaries) value*.
@@ -169,8 +169,10 @@ References
 - :cite:`InternationalTelecommunicationUnion2021`
 """
 
-MATRIX_H273_22_UNSPECIFIED_RGB_TO_XYZ: NDArray = normalised_primary_matrix(
-    PRIMARIES_H273_22_UNSPECIFIED, CCS_WHITEPOINT_H273_22_UNSPECIFIED
+MATRIX_H273_22_UNSPECIFIED_RGB_TO_XYZ: NDArrayFloat = (
+    normalised_primary_matrix(
+        PRIMARIES_H273_22_UNSPECIFIED, CCS_WHITEPOINT_H273_22_UNSPECIFIED
+    )
 )
 """
 Row *22* colourspace as given in
@@ -182,7 +184,7 @@ References
 - :cite:`InternationalTelecommunicationUnion2021`
 """
 
-MATRIX_XYZ_TO_H273_22_UNSPECIFIED_RGB: NDArray = np.linalg.inv(
+MATRIX_XYZ_TO_H273_22_UNSPECIFIED_RGB: NDArrayFloat = np.linalg.inv(
     MATRIX_H273_22_UNSPECIFIED_RGB_TO_XYZ
 )
 """

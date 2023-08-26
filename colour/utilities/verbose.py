@@ -13,7 +13,7 @@ import sys
 import traceback
 import warnings
 from collections import defaultdict
-from contextlib import contextmanager
+from contextlib import contextmanager, suppress
 from itertools import chain
 from textwrap import TextWrapper
 from warnings import filterwarnings, formatwarning, warn
@@ -21,24 +21,20 @@ from warnings import filterwarnings, formatwarning, warn
 from colour.utilities import is_string, optional
 from colour.hints import (
     Any,
-    Boolean,
     Callable,
     Dict,
-    Integer,
     List,
     LiteralWarning,
     Mapping,
     Generator,
-    Optional,
     TextIO,
     Type,
-    Union,
     cast,
 )
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -91,8 +87,8 @@ class ColourRuntimeWarning(Warning):
 
 def message_box(
     message: str,
-    width: Integer = 79,
-    padding: Integer = 3,
+    width: int = 79,
+    padding: int = 3,
     print_callable: Callable = print,
 ):
     """
@@ -169,12 +165,12 @@ def message_box(
 
 
 def show_warning(
-    message: Union[Warning, str],
+    message: Warning | str,
     category: Type[Warning],
     filename: str,
-    lineno: Integer,
-    file: Optional[TextIO] = None,
-    line: Optional[str] = None,
+    lineno: int,
+    file: TextIO | None = None,
+    line: str | None = None,
 ) -> None:
     """
     Alternative :func:`warnings.showwarning` definition that allows traceback
@@ -220,7 +216,7 @@ def show_warning(
         frame_in, frame_out = frame_range
 
         try:
-            raise ZeroDivisionError
+            raise ZeroDivisionError  # noqa: TRY301
         except ZeroDivisionError:
             exception_traceback = sys.exc_info()[2]
             frame = (
@@ -263,7 +259,7 @@ def warning(*args: Any, **kwargs: Any):
 
     kwargs["category"] = kwargs.get("category", ColourWarning)
 
-    warn(*args, **kwargs)
+    warn(*args, **kwargs)  # noqa: B028
 
 
 def runtime_warning(*args: Any, **kwargs: Any):
@@ -309,10 +305,10 @@ def usage_warning(*args: Any, **kwargs: Any):
 
 
 def filter_warnings(
-    colour_runtime_warnings: Optional[Union[bool, LiteralWarning]] = None,
-    colour_usage_warnings: Optional[Union[bool, LiteralWarning]] = None,
-    colour_warnings: Optional[Union[bool, LiteralWarning]] = None,
-    python_warnings: Optional[Union[bool, LiteralWarning]] = None,
+    colour_runtime_warnings: bool | LiteralWarning | None = None,
+    colour_usage_warnings: bool | LiteralWarning | None = None,
+    colour_warnings: bool | LiteralWarning | None = None,
+    python_warnings: bool | LiteralWarning | None = None,
 ):
     """
     Filter *Colour* and also optionally overall Python warnings.
@@ -385,9 +381,9 @@ def filter_warnings(
             continue
 
         if is_string(action):
-            action = cast(LiteralWarning, str(action))
+            action = cast(LiteralWarning, str(action))  # noqa: PLW2901
         else:
-            action = "ignore" if action else "default"
+            action = "ignore" if action else "default"  # noqa: PLW2901
 
         filterwarnings(action, category=category)
 
@@ -398,10 +394,10 @@ filter_warnings(colour_runtime_warnings=True)
 
 @contextmanager
 def suppress_warnings(
-    colour_runtime_warnings: Optional[Union[bool, LiteralWarning]] = None,
-    colour_usage_warnings: Optional[Union[bool, LiteralWarning]] = None,
-    colour_warnings: Optional[Union[bool, LiteralWarning]] = None,
-    python_warnings: Optional[Union[bool, LiteralWarning]] = None,
+    colour_runtime_warnings: bool | LiteralWarning | None = None,
+    colour_usage_warnings: bool | LiteralWarning | None = None,
+    colour_warnings: bool | LiteralWarning | None = None,
+    python_warnings: bool | LiteralWarning | None = None,
 ) -> Generator:
     """
     Define a context manager filtering *Colour* and also optionally overall
@@ -512,10 +508,10 @@ ANCILLARY_EXTRAS_PACKAGES
 
 
 def describe_environment(
-    runtime_packages: Boolean = True,
-    development_packages: Boolean = False,
-    extras_packages: Boolean = False,
-    print_environment: Boolean = True,
+    runtime_packages: bool = True,
+    development_packages: bool = False,
+    extras_packages: bool = False,
+    print_environment: bool = True,
     **kwargs: Any,
 ) -> defaultdict:
     """
@@ -624,7 +620,7 @@ def describe_environment(
 
     environment["Interpreter"]["python"] = sys.version
 
-    import subprocess  # nosec
+    import subprocess
 
     import colour
 
@@ -634,9 +630,9 @@ def describe_environment(
     # NOTE: A few clauses are not reached and a few packages are not available
     # during continuous integration and are thus ignored for coverage.
     try:  # pragma: no cover
-        output = subprocess.check_output(  # nosec
-            ["git", "describe"],
-            cwd=colour.__path__[0],
+        output = subprocess.check_output(
+            ["git", "describe"],  # noqa: S603, S607
+            cwd=colour.__path__[0],  # pyright: ignore
             stderr=subprocess.STDOUT,
         ).strip()
         version = output.decode("utf-8")
@@ -659,18 +655,19 @@ def describe_environment(
             "tqdm",
             "trimesh",
         ]:
-            try:
+            with suppress(ImportError):
                 namespace = __import__(package)
                 environment["Runtime"][package] = namespace.__version__
-            except ImportError:
-                continue
 
         # OpenImageIO
-        try:  # pragma: no cover
+        with suppress(ImportError):  # pragma: no cover
             namespace = __import__("OpenImageIO")
             environment["Runtime"]["OpenImageIO"] = namespace.VERSION_STRING
-        except ImportError:  # pragma: no cover
-            pass
+
+        # xxhash
+        with suppress(ImportError):  # pragma: no cover
+            namespace = __import__("xxhash")
+            environment["Runtime"]["xxhash"] = namespace.version.VERSION
 
         environment["Runtime"].update(ANCILLARY_RUNTIME_PACKAGES)
 
@@ -682,9 +679,7 @@ def describe_environment(
         if package in mapping:
             import pkg_resources
 
-            distributions = [
-                distribution for distribution in pkg_resources.working_set
-            ]
+            distributions = list(pkg_resources.working_set)
 
             for distribution in distributions:
                 if distribution.project_name == mapping[package]:
@@ -720,11 +715,10 @@ def describe_environment(
         ]:
             try:
                 version = _get_package_version(package, mapping)
-                package = mapping.get(package, package)
+                package = mapping.get(package, package)  # noqa: PLW2901
 
                 environment["Development"][package] = version
-            except Exception:  # pragma: no cover
-                # pylint: disable=B112
+            except Exception:  # pragma: no cover  # noqa: S112
                 continue
 
         environment["Development"].update(ANCILLARY_DEVELOPMENT_PACKAGES)
@@ -734,11 +728,10 @@ def describe_environment(
         for package in ["ipywidgets", "notebook"]:
             try:
                 version = _get_package_version(package, mapping)
-                package = mapping.get(package, package)
+                package = mapping.get(package, package)  # noqa: PLW2901
 
                 environment["Extras"][package] = version
-            except Exception:  # pragma: no cover
-                # pylint: disable=B112
+            except Exception:  # pragma: no cover  # noqa: S112
                 continue
 
         environment["Extras"].update(ANCILLARY_EXTRAS_PACKAGES)
@@ -773,11 +766,11 @@ def describe_environment(
 
 def multiline_str(
     object_: Any,
-    attributes: List[Dict],
+    attributes: List[dict],
     header_underline: str = "=",
     section_underline: str = "-",
     separator: str = " : ",
-) -> str:  # noqa: D405,D410,D407,D411
+) -> str:
     """
     Return a formatted string representation of the given object.
 
@@ -853,7 +846,7 @@ def multiline_str(
     List
     ----
     List "c"    : John; Doe
-    """
+    """  # noqa: D405, D407, D410, D411
 
     attribute_defaults = {
         "name": None,
@@ -879,7 +872,7 @@ def multiline_str(
 
     representation = []
     for attribute in attributes:
-        attribute = dict(attribute_defaults, **attribute)
+        attribute = dict(attribute_defaults, **attribute)  # noqa: PLW2901
 
         if not attribute["line_break"]:
             if attribute["name"] is not None:
@@ -929,9 +922,9 @@ def multiline_str(
 
 def multiline_repr(
     object_: Any,
-    attributes: List[Dict],
-    reduce_array_representation: Boolean = True,
-) -> str:  # noqa: D405,D410,D407,D411
+    attributes: List[dict],
+    reduce_array_representation: bool = True,
+) -> str:
     """
     Return an (almost) evaluable string representation of the given object.
 
@@ -976,13 +969,13 @@ def multiline_repr(
     Data('Foo',
          1,
          ('John', 'Doe'))
-    """
+    """  # noqa: D405, D407, D410, D411
 
     attribute_defaults = {"name": None, "formatter": repr}
 
     justify = len(f"{object_.__class__.__name__}") + 1
 
-    def _format(attribute: Dict) -> str:
+    def _format(attribute: dict) -> str:
         """Format given attribute and its value."""
 
         if attribute["name"] is not None:
@@ -990,12 +983,11 @@ def multiline_repr(
         else:
             value = attribute["formatter"](None)
 
-        if reduce_array_representation:
-            if value.startswith("array("):
-                lines = value.splitlines()
-                for i, line in enumerate(lines):
-                    lines[i] = line[6:]
-                value = "\n".join(lines)[:-1]
+        if reduce_array_representation and value.startswith("array("):
+            lines = value.splitlines()
+            for i, line in enumerate(lines):
+                lines[i] = line[6:]
+            value = "\n".join(lines)[:-1]
 
         lines = value.splitlines()
 
@@ -1010,7 +1002,7 @@ def multiline_repr(
     representation = [f"{object_.__class__.__name__}({_format(attribute)}"]
 
     for attribute in attributes:
-        attribute = dict(attribute_defaults, **attribute)
+        attribute = dict(attribute_defaults, **attribute)  # noqa: PLW2901
 
         representation.append(f"{'':{justify}}{_format(attribute)}")
 

@@ -23,7 +23,7 @@ from colour.colorimetry import (
     intermediate_lightness_function_CIE1976,
     intermediate_luminance_function_CIE1976,
 )
-from colour.hints import ArrayLike, NDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.models import xy_to_xyY, xyY_to_XYZ, Jab_to_JCh, JCh_to_Jab
 from colour.utilities import (
     from_range_1,
@@ -36,7 +36,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -54,7 +54,7 @@ def XYZ_to_Lab(
     illuminant: ArrayLike = CCS_ILLUMINANTS[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *CIE L\\*a\\*b\\**
     colourspace.
@@ -125,7 +125,7 @@ def Lab_to_XYZ(
     illuminant: ArrayLike = CCS_ILLUMINANTS[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert from *CIE L\\*a\\*b\\** colourspace to *CIE XYZ* tristimulus
     values.
@@ -192,7 +192,7 @@ def Lab_to_XYZ(
     return from_range_1(XYZ)
 
 
-def Lab_to_LCHab(Lab: ArrayLike) -> NDArray:
+def Lab_to_LCHab(Lab: ArrayLike) -> NDArrayFloat:
     """
     Convert from *CIE L\\*a\\*b\\** colourspace to *CIE L\\*C\\*Hab*
     colourspace.
@@ -244,7 +244,7 @@ def Lab_to_LCHab(Lab: ArrayLike) -> NDArray:
     return Jab_to_JCh(Lab)
 
 
-def LCHab_to_Lab(LCHab: ArrayLike) -> NDArray:
+def LCHab_to_Lab(LCHab: ArrayLike) -> NDArrayFloat:
     """
     Convert from *CIE L\\*C\\*Hab* colourspace to *CIE L\\*a\\*b\\**
     colourspace.

@@ -9,7 +9,7 @@
 .. |NumFOCUS| image:: https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat-square&colorA=E1523D&colorB=007D8A
     :target: http://numfocus.org
     :alt: Powered by NumFOCUS
-.. |actions| image:: https://img.shields.io/github/workflow/status/colour-science/colour/Continuous%20Integration%20-%20Quality%20&%20Unit%20Tests?label=actions&logo=github&style=flat-square
+.. |actions| image:: https://img.shields.io/github/actions/workflow/status/colour-science/colour/.github/workflows/continuous-integration-quality-unit-tests.yml?branch=develop&style=flat-square
     :target: https://github.com/colour-science/colour/actions
     :alt: Develop Build Status
 .. |coveralls| image:: http://img.shields.io/coveralls/colour-science/colour/develop.svg?style=flat-square
@@ -21,8 +21,8 @@
 .. |version| image:: https://img.shields.io/pypi/v/colour-science.svg?style=flat-square
     :target: https://pypi.org/project/colour-science
     :alt: Package Version
-.. |zenodo| image:: https://img.shields.io/badge/DOI-10.5281/zenodo.7367239-blue.svg?style=flat-square
-    :target: https://dx.doi.org/10.5281/zenodo.7367239
+.. |zenodo| image:: https://img.shields.io/badge/DOI-10.5281/zenodo.8284953-blue.svg?style=flat-square
+    :target: https://dx.doi.org/10.5281/zenodo.8284953
     :alt: DOI
 
 .. end-badges
@@ -32,7 +32,7 @@
 of algorithms and datasets for colour science.
 
 It is freely available under the
-`New BSD License <https://opensource.org/licenses/BSD-3-Clause>`__ terms.
+`BSD-3-Clause <https://opensource.org/licenses/BSD-3-Clause>`__ terms.
 
 **Colour** is an affiliated project of `NumFOCUS <https://numfocus.org/>`__, a
 501(c)(3) nonprofit in the United States.
@@ -113,9 +113,10 @@ If you'd like to join them, please consider
                     <p><a href="https://caveacademy.com" target="_blank">CAVE Academy</a></p>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="126px" src="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://www.zhannaalekseeva.nyc" target="_blank">
+                        <img width="126px" src="https://images.opencollective.com/studio-zhanna-alekseeva-nyc/a60e20f/avatar/256.png">
                     </a>
+                    <p><a href="https://www.zhannaalekseeva.nyc" target="_blank">Studio Zhanna Alekseeva.NYC</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
@@ -397,9 +398,9 @@ ACES Input Transform - ``colour characterisation``
     >>> sensitivities = colour.MSDS_CAMERA_SENSITIVITIES["Nikon 5100 (NPL)"]
     >>> illuminant = colour.SDS_ILLUMINANTS["D55"]
     >>> colour.matrix_idt(sensitivities, illuminant)
-    (array([[ 0.46579986,  0.13409221,  0.01935163],
-           [ 0.01786092,  0.77557268, -0.16775531],
-           [ 0.03458647, -0.16152923,  0.74270363]]), array([ 1.58214188,  1.        ,  1.28910346]))
+    (array([[ 0.59368175,  0.30418371,  0.10213454],
+           [ 0.00457979,  1.14946003, -0.15403982],
+           [ 0.03552213, -0.16312291,  1.12760077]]), array([ 1.58214188,  1.        ,  1.28910346]))
 
 Colorimetry - ``colour.colorimetry``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -770,24 +771,6 @@ CIE 1964 U*V*W* Colourspace
     >>> colour.XYZ_to_UVW(XYZ)
     array([ 94.55035725,  11.55536523,  40.54757405])
 
-Hunter L,a,b Colour Scale
-*************************
-
-.. code-block:: python
-
-    >>> XYZ = [0.20654008 * 100, 0.12197225 * 100, 0.05136952 * 100]
-    >>> colour.XYZ_to_Hunter_Lab(XYZ)
-    array([ 34.92452577,  47.06189858,  14.38615107])
-
-Hunter Rd,a,b Colour Scale
-**************************
-
-.. code-block:: python
-
-    >>> XYZ = [0.20654008 * 100, 0.12197225 * 100, 0.05136952 * 100]
-    >>> colour.XYZ_to_Hunter_Rdab(XYZ)
-    array([ 12.197225  ,  57.12537874,  17.46241341])
-
 CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
 *************************************************************************
 
@@ -826,6 +809,15 @@ CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
     >>> colour.XYZ_to_CAM16UCS(XYZ, XYZ_w=XYZ_w, L_A=L_A, Y_b=Y_b)
     array([ 46.55542238,  40.22460974,  14.25288392])
 
+DIN99 Colourspace and DIN99b, DIN99c, DIN99d Refined Formulas
+*************************************************************
+
+.. code-block:: python
+
+    >>> Lab = [41.52787529, 52.63858304, 26.92317922]
+    >>> colour.Lab_to_DIN99(Lab)
+    array([ 53.22821988,  28.41634656,   3.89839552])
+
 ICaCb Colourspace
 ******************
 
@@ -850,22 +842,13 @@ IPT Colourspace
     >>> colour.XYZ_to_IPT([0.20654008, 0.12197225, 0.05136952])
     array([ 0.38426191,  0.38487306,  0.18886838])
 
-Munish Ragoo and Farup (2021) Optimised IPT Colourspace
-*******************************************************
+Jzazbz Colourspace
+******************
 
 .. code-block:: python
 
-    >>> colour.XYZ_to_IPT_Munish2021([0.20654008, 0.12197225, 0.05136952])
-    array([ 0.42248243,  0.2910514 ,  0.20410663])
-
-DIN99 Colourspace and DIN99b, DIN99c, DIN99d Refined Formulas
-*************************************************************
-
-.. code-block:: python
-
-    >>> Lab = [41.52787529, 52.63858304, 26.92317922]
-    >>> colour.Lab_to_DIN99(Lab)
-    array([ 53.22821988,  28.41634656,   3.89839552])
+    >>> colour.XYZ_to_Jzazbz([0.20654008, 0.12197225, 0.05136952])
+    array([ 0.00535048,  0.00924302,  0.00526007])
 
 hdr-CIELAB Colourspace
 **********************
@@ -882,6 +865,24 @@ hdr-IPT Colourspace
 
     >>> colour.XYZ_to_hdr_IPT([0.20654008, 0.12197225, 0.05136952])
     array([ 25.18261761, -22.62111297,   3.18511729])
+
+Hunter L,a,b Colour Scale
+*************************
+
+.. code-block:: python
+
+    >>> XYZ = [0.20654008 * 100, 0.12197225 * 100, 0.05136952 * 100]
+    >>> colour.XYZ_to_Hunter_Lab(XYZ)
+    array([ 34.92452577,  47.06189858,  14.38615107])
+
+Hunter Rd,a,b Colour Scale
+**************************
+
+.. code-block:: python
+
+    >>> XYZ = [0.20654008 * 100, 0.12197225 * 100, 0.05136952 * 100]
+    >>> colour.XYZ_to_Hunter_Rdab(XYZ)
+    array([ 12.197225  ,  57.12537874,  17.46241341])
 
 Oklab Colourspace
 *****************
@@ -908,13 +909,21 @@ ProLab Colourspace
     >>> colour.XYZ_to_ProLab([0.51634019, 0.15469500, 0.06289579])
     array([1.24610688, 2.39525236, 0.41902126])
 
-Jzazbz Colourspace
-******************
+Ragoo and Farup (2021) Optimised IPT Colourspace
+************************************************
 
 .. code-block:: python
 
-    >>> colour.XYZ_to_Jzazbz([0.20654008, 0.12197225, 0.05136952])
-    array([ 0.00535048,  0.00924302,  0.00526007])
+    >>> colour.XYZ_to_IPT_Ragoo2021([0.20654008, 0.12197225, 0.05136952])
+    array([ 0.42248243,  0.2910514 ,  0.20410663])
+
+Yrg Colourspace - Kirk (2019)
+*****************************
+
+.. code-block:: python
+
+    >>> colour.XYZ_to_Yrg([0.20654008, 0.12197225, 0.05136952])
+    array([ 0.13137801,  0.49037645,  0.37777388])
 
 Y'CbCr Colour Encoding
 **********************
@@ -1047,6 +1056,7 @@ RGB Colourspaces
      'NTSC (1953)',
      'NTSC (1987)',
      'P3-D65',
+     'PLASA ANSI E1.54',
      'Pal/Secam',
      'ProPhoto RGB',
      'Protune Native',
@@ -1136,6 +1146,7 @@ Log Encoding / Decoding
      'D-Log',
      'ERIMM RGB',
      'F-Log',
+     'F-Log2',
      'Filmic Pro 6',
      'L-Log',
      'Log2',
@@ -1175,6 +1186,7 @@ CCTFs Encoding / Decoding
      'DICOM GSDF',
      'ERIMM RGB',
      'F-Log',
+     'F-Log2',
      'Filmic Pro 6',
      'Gamma 2.2',
      'Gamma 2.4',
@@ -1324,8 +1336,8 @@ Colour Fidelity Index
     >>> sorted(colour.COLOUR_FIDELITY_INDEX_METHODS)
     ['ANSI/IES TM-30-18', 'CIE 2017']
 
-Colour Rendering Index
-**********************
+Colour Quality Scale
+********************
 
 .. code-block:: python
 
@@ -1334,8 +1346,8 @@ Colour Rendering Index
     >>> sorted(colour.COLOUR_QUALITY_SCALE_METHODS)
     ['NIST CQS 7.4', 'NIST CQS 9.0']
 
-Colour Quality Scale
-********************
+Colour Rendering Index
+**********************
 
 .. code-block:: python
 
@@ -1730,8 +1742,10 @@ format.
 API Reference
 -------------
 
-The main technical reference for **Colour** is the
-`API Reference <https://colour.readthedocs.io/en/latest/reference.html>`__.
+The main technical reference for **Colour** is the *API Reference*:
+
+- `Release <https://colour.readthedocs.io/en/master/reference.html>`__.
+- `Develop <https://colour.readthedocs.io/en/latest/reference.html>`__.
 
 See Also
 --------
@@ -1741,7 +1755,6 @@ Software
 
 **Python**
 
-- `Colorio <https://github.com/nschloe/colorio/>`__ by Schlömer, N.
 - `ColorPy <http://markkness.net/colorpy/ColorPy.html>`__ by Kness, M.
 - `Colorspacious <https://colorspacious.readthedocs.io/>`__ by Smith, N. J., et al.
 - `python-colormath <https://python-colormath.readthedocs.io/>`__ by Taylor, G., et al.
@@ -1853,5 +1866,5 @@ About
 
 | **Colour** by Colour Developers
 | Copyright 2013 Colour Developers – `colour-developers@colour-science.org <colour-developers@colour-science.org>`__
-| This software is released under terms of New BSD License: https://opensource.org/licenses/BSD-3-Clause
+| This software is released under terms of BSD-3-Clause: https://opensource.org/licenses/BSD-3-Clause
 | `https://github.com/colour-science/colour <https://github.com/colour-science/colour>`__

@@ -22,12 +22,12 @@ The following light sources are available:
     60 A/W (Soft White), C100S54 (HPS), C100S54C (HPS),
     F32T8/TL830 (Triphosphor), F32T8/TL835 (Triphosphor),
     F32T8/TL841 (Triphosphor), F32T8/TL850 (Triphosphor),
-    F32T8/TL865 /PLUS (Triphosphor), F34/CW/RS/EW (Cool White FL),
-    F34T12/LW/RS /EW, F34T12WW/RS /EW (Warm White FL),
+    F32T8/TL865/PLUS (Triphosphor), F34/CW/RS/EW (Cool White FL),
+    F34T12/LW/RS/EW, F34T12WW/RS/EW (Warm White FL),
     F40/C50 (Broadband FL), F40/C75 (Broadband FL),
     F40/CWX (Broadband FL), F40/DX (Broadband FL), F40/DXTP (Delux FL),
     F40/N (Natural FL), H38HT-100 (Mercury), H38JA-100/DX (Mercury DX),
-    MHC100/U/MP /3K, MHC100/U/MP /4K, SDW-T 100W/LV (Super HPS)
+    MHC100/U/MP/3K, MHC100/U/MP/4K, SDW-T 100W/LV (Super HPS)
 -   Common light sources: Kinoton 75P
 
 References
@@ -50,7 +50,7 @@ from colour.utilities import CanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -272,14 +272,14 @@ CCS_LIGHT_SOURCES_NIST_PHILIPS_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
         "F32T8/TL850 (Triphosphor)": np.array(
             [0.343768910392287, 0.358447436104108]
         ),
-        "F32T8/TL865 /PLUS (Triphosphor)": np.array(
+        "F32T8/TL865/PLUS (Triphosphor)": np.array(
             [0.316368879615201, 0.345320790143017]
         ),
         "F34/CW/RS/EW (Cool White FL)": np.array(
             [0.377250931364378, 0.393087658636060]
         ),
-        "F34T12/LW/RS /EW": np.array([0.378863642993776, 0.394960629979820]),
-        "F34T12WW/RS /EW (Warm White FL)": np.array(
+        "F34T12/LW/RS/EW": np.array([0.378863642993776, 0.394960629979820]),
+        "F34T12WW/RS/EW (Warm White FL)": np.array(
             [0.438466967656789, 0.408635441565706]
         ),
         "F40/C50 (Broadband FL)": np.array(
@@ -304,8 +304,8 @@ CCS_LIGHT_SOURCES_NIST_PHILIPS_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
         "H38JA-100/DX (Mercury DX)": np.array(
             [0.389791630360359, 0.373394688931767]
         ),
-        "MHC100/U/MP /3K": np.array([0.428581768670222, 0.388168915678330]),
-        "MHC100/U/MP /4K": np.array([0.373145253482762, 0.371366990216717]),
+        "MHC100/U/MP/3K": np.array([0.428581768670222, 0.388168915678330]),
+        "MHC100/U/MP/4K": np.array([0.373145253482762, 0.371366990216717]),
         "SDW-T 100W/LV (Super HPS)": np.array(
             [0.472339157938672, 0.407106330880316]
         ),
@@ -338,14 +338,14 @@ CCS_LIGHT_SOURCES_NIST_PHILIPS_STANDARD_OBSERVER_10_DEGREE_CIE1964: (
         "F32T8/TL850 (Triphosphor)": np.array(
             [0.347882431257452, 0.355845742210551]
         ),
-        "F32T8/TL865 /PLUS (Triphosphor)": np.array(
+        "F32T8/TL865/PLUS (Triphosphor)": np.array(
             [0.320698199593768, 0.343871441043854]
         ),
         "F34/CW/RS/EW (Cool White FL)": np.array(
             [0.386514853545337, 0.382843326097814]
         ),
-        "F34T12/LW/RS /EW": np.array([0.389628909159399, 0.382074721889904]),
-        "F34T12WW/RS /EW (Warm White FL)": np.array(
+        "F34T12/LW/RS/EW": np.array([0.389628909159399, 0.382074721889904]),
+        "F34T12WW/RS/EW (Warm White FL)": np.array(
             [0.448395377616960, 0.395666643335296]
         ),
         "F40/C50 (Broadband FL)": np.array(
@@ -370,8 +370,8 @@ CCS_LIGHT_SOURCES_NIST_PHILIPS_STANDARD_OBSERVER_10_DEGREE_CIE1964: (
         "H38JA-100/DX (Mercury DX)": np.array(
             [0.397058597517533, 0.356532431806974]
         ),
-        "MHC100/U/MP /3K": np.array([0.431422986591898, 0.380642213887539]),
-        "MHC100/U/MP /4K": np.array([0.375707105948115, 0.366156465779779]),
+        "MHC100/U/MP/3K": np.array([0.431422986591898, 0.380642213887539]),
+        "MHC100/U/MP/4K": np.array([0.375707105948115, 0.366156465779779]),
         "SDW-T 100W/LV (Super HPS)": np.array(
             [0.476461908192661, 0.402288012403575]
         ),

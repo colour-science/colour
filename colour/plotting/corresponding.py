@@ -15,7 +15,7 @@ from colour.corresponding import (
     CorrespondingColourDataset,
     corresponding_chromaticities_prediction,
 )
-from colour.hints import Any, Dict, Literal, Optional, Tuple, Union
+from colour.hints import Any, Dict, Literal, Tuple, cast
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
     artist,
@@ -27,7 +27,7 @@ from colour.utilities import is_numeric
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -39,20 +39,13 @@ __all__ = [
 
 @override_style()
 def plot_corresponding_chromaticities_prediction(
-    experiment: Union[
-        Literal[1, 2, 3, 4, 6, 8, 9, 11, 12], CorrespondingColourDataset
-    ] = 1,
-    model: Union[
-        Literal[
-            "CIE 1994",
-            "CMCCAT2000",
-            "Fairchild 1990",
-            "Von Kries",
-            "Zhai 2018",
-        ],
-        str,
-    ] = "Von Kries",
-    corresponding_chromaticities_prediction_kwargs: Optional[Dict] = None,
+    experiment: Literal[1, 2, 3, 4, 6, 8, 9, 11, 12]
+    | CorrespondingColourDataset = 1,
+    model: Literal[
+        "CIE 1994", "CMCCAT2000", "Fairchild 1990", "Von Kries", "Zhai 2018"
+    ]
+    | str = "Von Kries",
+    corresponding_chromaticities_prediction_kwargs: dict | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -87,7 +80,7 @@ corresponding_chromaticities_prediction` definition.
     --------
     >>> plot_corresponding_chromaticities_prediction(1, "Von Kries")
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Corresponding_Chromaticities_Prediction.png
@@ -106,7 +99,7 @@ Plot_Corresponding_Chromaticities_Prediction.png
     name = (
         f"Experiment {experiment}"
         if is_numeric(experiment)
-        else experiment.name  # type: ignore[union-attr]
+        else cast(CorrespondingColourDataset, experiment).name
     )
     title = (
         f"Corresponding Chromaticities Prediction - {model} - {name} - "
@@ -115,7 +108,7 @@ Plot_Corresponding_Chromaticities_Prediction.png
 
     settings = {"axes": axes, "title": title}
     settings.update(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
 
     plot_chromaticity_diagram_CIE1976UCS(**settings)
 
@@ -171,7 +164,7 @@ Plot_Corresponding_Chromaticities_Prediction.png
 
     settings.update(
         {
-            "standalone": True,
+            "show": True,
             "bounding_box": (-0.1, 0.7, -0.1, 0.7),
         }
     )

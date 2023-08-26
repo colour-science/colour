@@ -34,18 +34,14 @@ from colour.colorimetry import (
     SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES,
     SpectralDistribution,
     SpectralShape,
+    reshape_sd,
 )
-from colour.hints import (
-    ArrayLike,
-    Boolean,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-)
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import as_float_array, as_float, tsplit
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -141,7 +137,9 @@ def sd_CIE_standard_illuminant_A(
 
 
 def sd_CIE_illuminant_D_series(
-    xy: ArrayLike, M1_M2_rounding: Boolean = True
+    xy: ArrayLike,
+    M1_M2_rounding: bool = True,
+    shape: SpectralShape | None = None,
 ) -> SpectralDistribution:
     """
     Return the spectral distribution of given *CIE Illuminant D Series* using
@@ -154,6 +152,9 @@ def sd_CIE_illuminant_D_series(
     M1_M2_rounding
         Whether to round :math:`M1` and :math:`M2` variables to 3 decimal
         places in order to yield the internationally agreed values.
+    shape
+        Specifies the shape of the returned SpectralDistribution. Optional,
+        default None.
 
     Returns
     -------
@@ -311,6 +312,11 @@ def sd_CIE_illuminant_D_series(
     S1 = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S1"]
     S2 = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S2"]
 
+    if shape is not None:
+        S0 = reshape_sd(S0, shape=shape, copy=False)
+        S1 = reshape_sd(S1, shape=shape, copy=False)
+        S2 = reshape_sd(S2, shape=shape, copy=False)
+
     distribution = S0.values + M1 * S1.values + M2 * S2.values
 
     return SpectralDistribution(
@@ -321,7 +327,7 @@ def sd_CIE_illuminant_D_series(
     )
 
 
-def daylight_locus_function(x_D: FloatingOrArrayLike) -> FloatingOrNDArray:
+def daylight_locus_function(x_D: ArrayLike) -> NDArrayFloat:
     """
     Return the daylight locus as *CIE xy* chromaticity coordinates.
 
@@ -332,7 +338,7 @@ def daylight_locus_function(x_D: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Daylight locus as *CIE xy* chromaticity coordinates.
 
     References

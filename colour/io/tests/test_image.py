@@ -20,7 +20,7 @@ from colour.utilities import attest, full, is_openimageio_installed
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -342,6 +342,18 @@ class TestWriteImageOpenImageIO(unittest.TestCase):
             return
 
         from OpenImageIO import TypeDesc
+
+        image_path = os.path.join(self._temporary_directory, "8-bit.png")
+        RGB = full((1, 1, 3), 255, np.uint8)
+        write_image_OpenImageIO(RGB, image_path, bit_depth="uint8")
+        image = read_image_OpenImageIO(image_path, bit_depth="uint8")
+        np.testing.assert_equal(np.squeeze(RGB), image)
+
+        image_path = os.path.join(self._temporary_directory, "16-bit.png")
+        RGB = full((1, 1, 3), 65535, np.uint16)
+        write_image_OpenImageIO(RGB, image_path, bit_depth="uint16")
+        image = read_image_OpenImageIO(image_path, bit_depth="uint16")
+        np.testing.assert_equal(np.squeeze(RGB), image)
 
         source_image_path = os.path.join(
             ROOT_RESOURCES, "Overflowing_Gradient.png"

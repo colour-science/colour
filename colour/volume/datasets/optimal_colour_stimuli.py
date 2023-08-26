@@ -29,12 +29,12 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.utilities import CanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -46,7 +46,7 @@ __all__ = [
     "OPTIMAL_COLOUR_STIMULI_ILLUMINANTS",
 ]
 
-OPTIMAL_COLOUR_STIMULI_A: NDArray = np.array(
+OPTIMAL_COLOUR_STIMULI_A: NDArrayFloat = np.array(
     [
         [0.1120, 0.1985, 10],
         [0.0859, 0.2957, 10],
@@ -278,7 +278,7 @@ References
 :cite:`Wyszecki2000bb`
 """
 
-OPTIMAL_COLOUR_STIMULI_C: NDArray = np.array(
+OPTIMAL_COLOUR_STIMULI_C: NDArrayFloat = np.array(
     [
         [0.1363, 0.0692, 10],
         [0.1308, 0.0792, 10],
@@ -487,7 +487,7 @@ References
 :cite:`MacAdam1935a`
 """
 
-OPTIMAL_COLOUR_STIMULI_D65: NDArray = np.array(
+OPTIMAL_COLOUR_STIMULI_D65: NDArrayFloat = np.array(
     [
         [0.1346, 0.0747, 10],
         [0.0990, 0.1607, 10],

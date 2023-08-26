@@ -21,7 +21,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.models.rgb.transfer_functions import gamma_function
 from colour.utilities import (
     Structure,
@@ -34,7 +34,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -52,10 +52,10 @@ CONSTANTS_ARIBSTDB67: Structure = Structure(
 
 
 def oetf_ARIBSTDB67(
-    E: FloatingOrArrayLike,
-    r: FloatingOrArrayLike = 0.5,
+    E: ArrayLike,
+    r: ArrayLike = 0.5,
     constants: Structure = CONSTANTS_ARIBSTDB67,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Define *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electrical transfer
     function (OETF).
@@ -73,7 +73,7 @@ def oetf_ARIBSTDB67(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Resulting non-linear signal :math:`E'`.
 
     Notes
@@ -119,10 +119,10 @@ def oetf_ARIBSTDB67(
 
 
 def oetf_inverse_ARIBSTDB67(
-    E_p: FloatingOrArrayLike,
-    r: FloatingOrArrayLike = 0.5,
+    E_p: ArrayLike,
+    r: ArrayLike = 0.5,
     constants: Structure = CONSTANTS_ARIBSTDB67,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Define *ARIB STD-B67 (Hybrid Log-Gamma)* inverse opto-electrical transfer
     function (OETF).
@@ -138,7 +138,7 @@ def oetf_inverse_ARIBSTDB67(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Voltage :math:`E` normalised by the reference white level and
         proportional to the implicit light intensity that would be detected
         with a reference camera color channel R, G, B.

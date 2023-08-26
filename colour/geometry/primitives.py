@@ -24,16 +24,13 @@ import numpy as np
 from colour.constants import DEFAULT_INT_DTYPE, DEFAULT_FLOAT_DTYPE
 from colour.hints import (
     Any,
-    DTypeFloating,
-    DTypeInteger,
-    Floating,
-    Integer,
+    DTypeFloat,
+    DTypeInt,
     Literal,
     NDArray,
-    Optional,
+    NDArrayFloat,
     Tuple,
     Type,
-    Union,
     cast,
 )
 from colour.utilities import (
@@ -48,7 +45,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -75,15 +72,15 @@ MAPPING_PLANE_TO_AXIS.__doc__ = """Plane to axis mapping."""
 
 
 def primitive_grid(
-    width: Floating = 1,
-    height: Floating = 1,
-    width_segments: Integer = 1,
-    height_segments: Integer = 1,
+    width: float = 1,
+    height: float = 1,
+    width_segments: int = 1,
+    height_segments: int = 1,
     axis: Literal[
         "-x", "+x", "-y", "+y", "-z", "+z", "xy", "xz", "yz", "yx", "zx", "zy"
     ] = "+z",
-    dtype_vertices: Optional[Type[DTypeFloating]] = None,
-    dtype_indexes: Optional[Type[DTypeInteger]] = None,
+    dtype_vertices: Type[DTypeFloat] | None = None,
+    dtype_indexes: Type[DTypeInt] | None = None,
 ) -> Tuple[NDArray, NDArray, NDArray]:
     """
     Generate vertices and indexes for a filled and outlined grid primitive.
@@ -138,14 +135,10 @@ def primitive_grid(
      [1 0]]
     """
 
-    axis = MAPPING_PLANE_TO_AXIS.get(axis, axis).lower()
+    axis = MAPPING_PLANE_TO_AXIS.get(axis, axis).lower()  # pyright: ignore
 
-    dtype_vertices = cast(
-        Type[DTypeFloating], optional(dtype_vertices, DEFAULT_FLOAT_DTYPE)
-    )
-    dtype_indexes = cast(
-        Type[DTypeInteger], optional(dtype_indexes, DEFAULT_INT_DTYPE)
-    )
+    dtype_vertices = optional(dtype_vertices, DEFAULT_FLOAT_DTYPE)
+    dtype_indexes = optional(dtype_indexes, DEFAULT_INT_DTYPE)
 
     x_grid = width_segments
     y_grid = height_segments
@@ -199,13 +192,13 @@ def primitive_grid(
     sign = -1 if "-" in axis else 1
 
     positions = np.roll(positions, shift, -1)
-    normals = np.roll(normals, shift, -1) * sign
+    normals = cast(NDArrayFloat, np.roll(normals, shift, -1)) * sign
     vertex_colours = np.ravel(positions)
     vertex_colours = np.hstack(
         [
             np.reshape(
                 np.interp(
-                    vertex_colours,
+                    cast(NDArrayFloat, vertex_colours),
                     (np.min(vertex_colours), np.max(vertex_colours)),
                     (0, 1),
                 ),
@@ -223,7 +216,7 @@ def primitive_grid(
             ("uv", dtype_vertices, 2),
             ("normal", dtype_vertices, 3),
             ("colour", dtype_vertices, 4),
-        ],  # type: ignore[arg-type]
+        ],  # pyright: ignore
     )
 
     vertices["position"] = positions
@@ -235,30 +228,18 @@ def primitive_grid(
 
 
 def primitive_cube(
-    width: Floating = 1,
-    height: Floating = 1,
-    depth: Floating = 1,
-    width_segments: Integer = 1,
-    height_segments: Integer = 1,
-    depth_segments: Integer = 1,
-    planes: Optional[
-        Literal[
-            "-x",
-            "+x",
-            "-y",
-            "+y",
-            "-z",
-            "+z",
-            "xy",
-            "xz",
-            "yz",
-            "yx",
-            "zx",
-            "zy",
-        ]
-    ] = None,
-    dtype_vertices: Optional[Type[DTypeFloating]] = None,
-    dtype_indexes: Optional[Type[DTypeInteger]] = None,
+    width: float = 1,
+    height: float = 1,
+    depth: float = 1,
+    width_segments: int = 1,
+    height_segments: int = 1,
+    depth_segments: int = 1,
+    planes: Literal[
+        "-x", "+x", "-y", "+y", "-z", "+z", "xy", "xz", "yz", "yx", "zx", "zy"
+    ]
+    | None = None,
+    dtype_vertices: Type[DTypeFloat] | None = None,
+    dtype_indexes: Type[DTypeInt] | None = None,
 ) -> Tuple[NDArray, NDArray, NDArray]:
     """
     Generate vertices and indexes for a filled and outlined cube primitive.
@@ -363,19 +344,15 @@ def primitive_cube(
     """
 
     axis = (
-        sorted(list(MAPPING_PLANE_TO_AXIS.values()))
+        sorted(MAPPING_PLANE_TO_AXIS.values())
         if planes is None
         else [
             MAPPING_PLANE_TO_AXIS.get(plane, plane).lower() for plane in planes
         ]
     )
 
-    dtype_vertices = cast(
-        Type[DTypeFloating], optional(dtype_vertices, DEFAULT_FLOAT_DTYPE)
-    )
-    dtype_indexes = cast(
-        Type[DTypeInteger], optional(dtype_indexes, DEFAULT_INT_DTYPE)
-    )
+    dtype_vertices = optional(dtype_vertices, DEFAULT_FLOAT_DTYPE)
+    dtype_indexes = optional(dtype_indexes, DEFAULT_INT_DTYPE)
 
     w_s, h_s, d_s = width_segments, height_segments, depth_segments
 
@@ -428,7 +405,7 @@ def primitive_cube(
             ("uv", dtype_vertices, 2),
             ("normal", dtype_vertices, 3),
             ("colour", dtype_vertices, 4),
-        ],  # type: ignore[arg-type]
+        ],  # pyright: ignore
     )
 
     vertex_colours = np.ravel(positions)
@@ -436,7 +413,7 @@ def primitive_cube(
         [
             np.reshape(
                 np.interp(
-                    vertex_colours,
+                    cast(NDArrayFloat, vertex_colours),
                     (np.min(vertex_colours), np.max(vertex_colours)),
                     (0, 1),
                 ),
@@ -466,7 +443,7 @@ Supported geometry primitive generation methods.
 
 
 def primitive(
-    method: Union[Literal["Cube", "Grid"], str] = "Cube", **kwargs: Any
+    method: Literal["Cube", "Grid"] | str = "Cube", **kwargs: Any
 ) -> Tuple[NDArray, NDArray, NDArray]:
     """
     Return a geometry primitive using given method.
@@ -615,7 +592,7 @@ def primitive(
      [1 0]]
     """
 
-    method = validate_method(method, PRIMITIVE_METHODS)
+    method = validate_method(method, tuple(PRIMITIVE_METHODS))
 
     function = PRIMITIVE_METHODS[method]
 

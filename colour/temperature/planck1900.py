@@ -26,20 +26,13 @@ from colour.colorimetry import (
     msds_to_XYZ_integration,
     planck_law,
 )
-from colour.hints import (
-    ArrayLike,
-    Dict,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    NDArray,
-    Optional,
-)
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.models import UCS_to_uv, XYZ_to_UCS
 from colour.utilities import as_float, as_float_array
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -52,9 +45,9 @@ __all__ = [
 
 def uv_to_CCT_Planck1900(
     uv: ArrayLike,
-    cmfs: Optional[MultiSpectralDistributions] = None,
-    optimisation_kwargs: Optional[Dict] = None,
-) -> FloatingOrNDArray:
+    cmfs: MultiSpectralDistributions | None = None,
+    optimisation_kwargs: dict | None = None,
+) -> NDArrayFloat:
     """
     Return the correlated colour temperature :math:`T_{cp}` of a blackbody from
     given *CIE UCS* colourspace *uv* chromaticity coordinates and colour
@@ -72,12 +65,12 @@ def uv_to_CCT_Planck1900(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Correlated colour temperature :math:`T_{cp}`.
 
     Warnings
     --------
-    The current implementation relies on optimization using
+    The current implementation relies on optimisation using
     :func:`scipy.optimize.minimize` definition and thus has reduced precision
     and poor performance.
 
@@ -99,8 +92,8 @@ def uv_to_CCT_Planck1900(
     uv = np.atleast_1d(uv.reshape([-1, 2]))
 
     def objective_function(
-        CCT: FloatingOrArrayLike, uv: ArrayLike
-    ) -> FloatingOrNDArray:
+        CCT: NDArrayFloat, uv: NDArrayFloat
+    ) -> NDArrayFloat:
         """Objective function."""
 
         objective = np.linalg.norm(CCT_to_uv_Planck1900(CCT, cmfs) - uv)
@@ -124,7 +117,7 @@ def uv_to_CCT_Planck1900(
                 args=(uv_i,),
                 **optimisation_settings,
             ).x
-            for uv_i in as_float_array(uv)
+            for uv_i in uv
         ]
     )
 
@@ -132,8 +125,8 @@ def uv_to_CCT_Planck1900(
 
 
 def CCT_to_uv_Planck1900(
-    CCT: FloatingOrArrayLike, cmfs: Optional[MultiSpectralDistributions] = None
-) -> NDArray:
+    CCT: ArrayLike, cmfs: MultiSpectralDistributions | None = None
+) -> NDArrayFloat:
     """
     Return the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}` and colour matching functions
@@ -177,4 +170,4 @@ def CCT_to_uv_Planck1900(
     UVW = XYZ_to_UCS(XYZ)
     uv = UCS_to_uv(UVW)
 
-    return np.reshape(uv, list(CCT.shape) + [2])
+    return np.reshape(uv, [*list(CCT.shape), 2])

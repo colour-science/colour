@@ -28,7 +28,7 @@ from colour.utilities import domain_range_scale, full, ones, zeros
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -204,7 +204,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
     """
 
     @classmethod
-    def generate_LUT(self):
+    def generate_LUT(cls):
         """
         Generate the *LUT* used for the unit tests.
 
@@ -215,22 +215,20 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
             is invoked once per-test.
         """
 
-        if not hasattr(self, "_LUT"):
-            self._shape = SPECTRAL_SHAPE_JAKOB2019
-            self._cmfs, self._sd_D65 = handle_spectral_arguments(
-                shape_default=self._shape
+        if not hasattr(cls, "_LUT"):
+            cls._shape = SPECTRAL_SHAPE_JAKOB2019
+            cls._cmfs, cls._sd_D65 = handle_spectral_arguments(
+                shape_default=cls._shape
             )
-            self._XYZ_D65 = sd_to_XYZ(self._sd_D65)
-            self._xy_D65 = XYZ_to_xy(self._XYZ_D65)
+            cls._XYZ_D65 = sd_to_XYZ(cls._sd_D65)
+            cls._xy_D65 = XYZ_to_xy(cls._XYZ_D65)
 
-            self._RGB_colourspace = RGB_COLOURSPACE_sRGB
+            cls._RGB_colourspace = RGB_COLOURSPACE_sRGB
 
-            self._LUT = LUT3D_Jakob2019()
-            self._LUT.generate(
-                self._RGB_colourspace, self._cmfs, self._sd_D65, 5
-            )
+            cls._LUT = LUT3D_Jakob2019()
+            cls._LUT.generate(cls._RGB_colourspace, cls._cmfs, cls._sd_D65, 5)
 
-        return self._LUT
+        return cls._LUT
 
     def test_required_attributes(self):
         """Test the presence of required attributes."""
@@ -325,12 +323,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
             full(3, 0.5),
             ones(3),
         ]:
-            XYZ = RGB_to_XYZ(
-                RGB,
-                self._RGB_colourspace.whitepoint,
-                self._xy_D65,
-                self._RGB_colourspace.matrix_RGB_to_XYZ,
-            )
+            XYZ = RGB_to_XYZ(RGB, self._RGB_colourspace, self._xy_D65)
             Lab = XYZ_to_Lab(XYZ, self._xy_D65)
 
             recovered_sd = LUT.RGB_to_sd(RGB)
@@ -355,7 +348,7 @@ RGB_to_coefficients` method raised exception.
 
         LUT = LUT3D_Jakob2019()
 
-        self.assertRaises(RuntimeError, LUT.RGB_to_coefficients, np.array([]))
+        self.assertRaises(ValueError, LUT.RGB_to_coefficients, np.array([]))
 
     def test_raise_exception_read(self):
         """

@@ -32,13 +32,9 @@ from colour.colorimetry import (
 )
 from colour.hints import (
     ArrayLike,
-    Boolean,
-    Integer,
     Mapping,
-    NDArray,
-    Optional,
+    NDArrayFloat,
     Tuple,
-    Union,
     cast,
 )
 from colour.recovery import BASIS_FUNCTIONS_DYER2017
@@ -47,7 +43,7 @@ from colour.utilities import as_float_array, optional, tsplit, runtime_warning
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -61,12 +57,15 @@ __all__ = [
 
 def PCA_Jiang2013(
     msds_camera_sensitivities: Mapping[str, MultiSpectralDistributions],
-    eigen_w_v_count: Optional[Integer] = None,
-    additional_data: Boolean = False,
-) -> Union[
-    Tuple[Tuple[NDArray, NDArray, NDArray], Tuple[NDArray, NDArray, NDArray]],
-    Tuple[NDArray, NDArray, NDArray],
-]:
+    eigen_w_v_count: int | None = None,
+    additional_data: bool = False,
+) -> (
+    Tuple[
+        Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat],
+        Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat],
+    ]
+    | Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]
+):
     """
     Perform the *Principal Component Analysis* (PCA) on given camera *RGB*
     sensitivities.
@@ -105,7 +104,7 @@ def PCA_Jiang2013(
 
     def normalised_sensitivity(
         msds: MultiSpectralDistributions, channel: str
-    ) -> NDArray:
+    ) -> NDArrayFloat:
         """Return a normalised camera *RGB* sensitivity."""
 
         sensitivity = cast(SpectralDistribution, msds.signals[channel].copy())
@@ -141,7 +140,7 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
     illuminant: SpectralDistribution,
     reflectances: MultiSpectralDistributions,
     eigen_w: ArrayLike,
-    shape: Optional[SpectralShape] = None,
+    shape: SpectralShape | None = None,
 ) -> SpectralDistribution:
     """
     Recover a single camera *RGB* sensitivity for given camera *RGB* values
@@ -251,15 +250,13 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
         runtime_warning(
             f'Aligning "{illuminant.name}" illuminant shape to "{shape}".'
         )
-        # pylint: disable=E1102
-        illuminant = reshape_sd(illuminant, shape)
+        illuminant = reshape_sd(illuminant, shape, copy=False)
 
     if reflectances.shape != shape:
         runtime_warning(
             f'Aligning "{reflectances.name}" reflectances shape to "{shape}".'
         )
-        # pylint: disable=E1102
-        reflectances = reshape_msds(reflectances, shape)
+        reflectances = reshape_msds(reflectances, shape, copy=False)
 
     S = np.diag(illuminant.values)
     R = np.transpose(reflectances.values)
@@ -277,7 +274,7 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
     illuminant: SpectralDistribution,
     reflectances: MultiSpectralDistributions,
     basis_functions=BASIS_FUNCTIONS_DYER2017,
-    shape: Optional[SpectralShape] = None,
+    shape: SpectralShape | None = None,
 ) -> MultiSpectralDistributions:
     """
     Recover the camera *RGB* sensitivities for given camera *RGB* values using
@@ -383,15 +380,13 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
         runtime_warning(
             f'Aligning "{illuminant.name}" illuminant shape to "{shape}".'
         )
-        # pylint: disable=E1102
-        illuminant = reshape_sd(illuminant, shape)
+        illuminant = reshape_sd(illuminant, shape, copy=False)
 
     if reflectances.shape != shape:
         runtime_warning(
             f'Aligning "{reflectances.name}" reflectances shape to "{shape}".'
         )
-        # pylint: disable=E1102
-        reflectances = reshape_msds(reflectances, shape)
+        reflectances = reshape_msds(reflectances, shape, copy=False)
 
     S_R = RGB_to_sd_camera_sensitivity_Jiang2013(
         R, illuminant, reflectances, R_w, shape
@@ -405,8 +400,6 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
 
     msds_camera_sensitivities = RGB_CameraSensitivities([S_R, S_G, S_B])
 
-    msds_camera_sensitivities /= np.max(  # type: ignore[misc]
-        msds_camera_sensitivities.values
-    )
+    msds_camera_sensitivities /= np.max(msds_camera_sensitivities.values)
 
     return msds_camera_sensitivities

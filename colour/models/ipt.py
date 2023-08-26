@@ -24,12 +24,12 @@ from functools import partial
 
 from colour.algebra import spow
 from colour.models import Iab_to_XYZ, XYZ_to_Iab
-from colour.hints import ArrayLike, FloatingOrNDArray, NDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import as_float, from_range_degrees, to_domain_1, tsplit
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -44,7 +44,7 @@ __all__ = [
     "IPT_hue_angle",
 ]
 
-MATRIX_IPT_XYZ_TO_LMS: NDArray = np.array(
+MATRIX_IPT_XYZ_TO_LMS: NDArrayFloat = np.array(
     [
         [0.4002, 0.7075, -0.0807],
         [-0.2280, 1.1500, 0.0612],
@@ -53,10 +53,10 @@ MATRIX_IPT_XYZ_TO_LMS: NDArray = np.array(
 )
 """*CIE XYZ* tristimulus values to normalised cone responses matrix."""
 
-MATRIX_IPT_LMS_TO_XYZ: NDArray = np.linalg.inv(MATRIX_IPT_XYZ_TO_LMS)
+MATRIX_IPT_LMS_TO_XYZ: NDArrayFloat = np.linalg.inv(MATRIX_IPT_XYZ_TO_LMS)
 """Normalised cone responses to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_IPT_LMS_P_TO_IPT: NDArray = np.array(
+MATRIX_IPT_LMS_P_TO_IPT: NDArrayFloat = np.array(
     [
         [0.4000, 0.4000, 0.2000],
         [4.4550, -4.8510, 0.3960],
@@ -65,11 +65,11 @@ MATRIX_IPT_LMS_P_TO_IPT: NDArray = np.array(
 )
 """Normalised non-linear cone responses to *IPT* colourspace matrix."""
 
-MATRIX_IPT_IPT_TO_LMS_P: NDArray = np.linalg.inv(MATRIX_IPT_LMS_P_TO_IPT)
+MATRIX_IPT_IPT_TO_LMS_P: NDArrayFloat = np.linalg.inv(MATRIX_IPT_LMS_P_TO_IPT)
 """*IPT* colourspace to normalised non-linear cone responses matrix."""
 
 
-def XYZ_to_IPT(XYZ: ArrayLike) -> NDArray:
+def XYZ_to_IPT(XYZ: ArrayLike) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *IPT* colourspace.
 
@@ -123,7 +123,7 @@ def XYZ_to_IPT(XYZ: ArrayLike) -> NDArray:
     )
 
 
-def IPT_to_XYZ(IPT: ArrayLike) -> NDArray:
+def IPT_to_XYZ(IPT: ArrayLike) -> NDArrayFloat:
     """
     Convert from *IPT* colourspace to *CIE XYZ* tristimulus values.
 
@@ -174,7 +174,7 @@ def IPT_to_XYZ(IPT: ArrayLike) -> NDArray:
     )
 
 
-def IPT_hue_angle(IPT: ArrayLike) -> FloatingOrNDArray:
+def IPT_hue_angle(IPT: ArrayLike) -> NDArrayFloat:
     """
     Compute the hue angle in degrees from *IPT* colourspace.
 
@@ -185,7 +185,7 @@ def IPT_hue_angle(IPT: ArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Hue angle in degrees.
 
     Notes

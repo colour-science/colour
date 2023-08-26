@@ -34,13 +34,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode
-from colour.hints import (
-    Any,
-    ArrayLike,
-    FloatingOrNDArray,
-    Literal,
-    Union,
-)
+from colour.hints import Any, ArrayLike, NDArrayFloat, Literal
 from colour.utilities import (
     CanonicalMapping,
     as_float,
@@ -53,7 +47,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -68,7 +62,7 @@ __all__ = [
 ]
 
 
-def yellowness_ASTMD1925(XYZ: ArrayLike) -> FloatingOrNDArray:
+def yellowness_ASTMD1925(XYZ: ArrayLike) -> NDArrayFloat:
     """
     Return the *yellowness* index :math:`YI` of given sample *CIE XYZ*
     tristimulus values using *ASTM D1925* method.
@@ -86,7 +80,7 @@ def yellowness_ASTMD1925(XYZ: ArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.ndarray`
         *Yellowness* :math:`YI`.
 
     Notes
@@ -125,14 +119,14 @@ def yellowness_ASTMD1925(XYZ: ArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_100(YI))
 
 
-def yellowness_ASTME313_alternative(XYZ: ArrayLike) -> FloatingOrNDArray:
+def yellowness_ASTME313_alternative(XYZ: ArrayLike) -> NDArrayFloat:
     """
     Return the *yellowness* index :math:`YI` of given sample *CIE XYZ*
     tristimulus values using the alternative *ASTM E313* method.
 
     In the original form of *Test Method E313*, an alternative equation was
     recommended for a *yellowness* index. In terms of colorimeter readings,
-    it was :math:`YI = 100(1 − B/G)` where :math:`B` and :math:`G` are,
+    it was :math:`YI = 100(1 - B/G)` where :math:`B` and :math:`G` are,
     respectively, blue and green colorimeter readings. Its derivation assumed
     that, because of the limitation of the concept to yellow (or blue) colors,
     it was not necessary to take account of variations in the amber or red
@@ -145,7 +139,7 @@ def yellowness_ASTME313_alternative(XYZ: ArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.ndarray`
         *Yellowness* :math:`YI`.
 
     Notes
@@ -226,7 +220,7 @@ def yellowness_ASTME313(
     C_XZ: ArrayLike = YELLOWNESS_COEFFICIENTS_ASTME313[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Return the *yellowness* index :math:`YI` of given sample *CIE XYZ*
     tristimulus values using *ASTM E313* method.
@@ -246,7 +240,7 @@ def yellowness_ASTME313(
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.ndarray`
         *Yellowness* :math:`YI`.
 
     Notes
@@ -301,11 +295,10 @@ References
 
 def yellowness(
     XYZ: ArrayLike,
-    method: Union[
-        Literal["ASTM D1925", "ASTM E313", "ASTM E313 Alternative"], str
-    ] = "ASTM E313",
+    method: Literal["ASTM D1925", "ASTM E313", "ASTM E313 Alternative"]
+    | str = "ASTM E313",
     **kwargs: Any,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Return the *yellowness* :math:`W` using given method.
 
@@ -327,7 +320,7 @@ def yellowness(
 
     Returns
     -------
-    :class:`np.floating` or :class:`numpy.ndarray`
+    :class:`np.float` or :class:`numpy.ndarray`
         *Yellowness* :math:`Y`.
 
     Notes
@@ -359,7 +352,7 @@ def yellowness(
     10.2999999...
     """
 
-    method = validate_method(method, YELLOWNESS_METHODS)
+    method = validate_method(method, tuple(YELLOWNESS_METHODS))
 
     function = YELLOWNESS_METHODS[method]
 

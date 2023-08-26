@@ -28,13 +28,17 @@ from colour.utilities import (
     to_domain_1,
     to_domain_10,
     to_domain_100,
-    to_domain_int,
     to_domain_degrees,
+    to_domain_int,
     from_range_1,
     from_range_10,
     from_range_100,
-    from_range_int,
     from_range_degrees,
+    from_range_int,
+    is_ndarray_copy_enabled,
+    set_ndarray_copy_enable,
+    ndarray_copy_enable,
+    ndarray_copy,
     closest_indexes,
     closest,
     interval,
@@ -52,12 +56,13 @@ from colour.utilities import (
     ones,
     full,
     index_along_last_axis,
+    format_array_as_row,
 )
 from colour.utilities import is_networkx_installed
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -89,6 +94,10 @@ __all__ = [
     "TestFromRange100",
     "TestFromRangeDegrees",
     "TestFromRangeInt",
+    "TestIsNdarrayCopyEnabled",
+    "TestSetNdarrayCopyEnabled",
+    "TestNdarrayCopyEnable",
+    "TestNdarrayCopy",
     "TestClosestIndexes",
     "TestClosest",
     "TestInterval",
@@ -190,7 +199,7 @@ class TestMixinDataclassIterable(unittest.TestCase):
         """
 
         self.assertDictEqual(
-            {key: value for key, value in self._data},
+            {key: value for key, value in self._data},  # noqa: C416
             {"a": "Foo", "b": "Bar", "c": "Baz"},
         )
 
@@ -494,7 +503,9 @@ class TestAsInt(unittest.TestCase):
 
         self.assertEqual(as_int(1), 1)
 
-        self.assertEqual(as_int(np.array([1])), 1)
+        self.assertEqual(as_int(np.array([1])).ndim, 1)
+
+        self.assertEqual(as_int(np.array([[1]])).ndim, 2)
 
         np.testing.assert_array_almost_equal(
             as_int(np.array([1.0, 2.0, 3.0])), np.array([1, 2, 3])
@@ -518,7 +529,9 @@ class TestAsFloat(unittest.TestCase):
 
         self.assertEqual(as_float(1), 1.0)
 
-        self.assertEqual(as_float(np.array([1])), 1.0)
+        self.assertEqual(as_float(np.array([1])).ndim, 1)
+
+        self.assertEqual(as_float(np.array([[1]])).ndim, 2)
 
         np.testing.assert_array_almost_equal(
             as_float(np.array([1, 2, 3])), np.array([1.0, 2.0, 3.0])
@@ -702,6 +715,9 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
             if source == "Hexadecimal":
                 a = np.array(["#FFFFFF", "#FFFFFF"])
 
+            if source == "CSS Color 3":
+                a = "aliceblue"
+
             if source == "Munsell Colour":
                 a = ["4.2YR 8.1/5.3", "4.2YR 8.1/5.3"]
 
@@ -709,7 +725,7 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
                 a = 555
 
             if (
-                source.startswith("CCT")
+                source.startswith("CCT")  # noqa: PIE810
                 or source.endswith(" xy")
                 or source.endswith(" uv")
             ):
@@ -730,7 +746,7 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
                     "RLAB",
                     "ZCAM",
                 ):
-                    if target.endswith(specification):
+                    if target.endswith(specification):  # noqa: B023
                         return getattr(x, fields(x)[0].name).dtype
 
                 return x.dtype
@@ -1111,6 +1127,95 @@ class TestFromRangeInt(unittest.TestCase):
             self.assertEqual(
                 from_range_int(1, dtype=np.float16).dtype, np.float16
             )
+
+
+class TestIsNdarrayCopyEnabled(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.array.is_ndarray_copy_enabled` definition
+    unit tests methods.
+    """
+
+    def test_is_ndarray_copy_enabled(self):
+        """
+        Test :func:`colour.utilities.array.is_ndarray_copy_enabled` definition.
+        """
+
+        with ndarray_copy_enable(True):
+            self.assertTrue(is_ndarray_copy_enabled())
+
+        with ndarray_copy_enable(False):
+            self.assertFalse(is_ndarray_copy_enabled())
+
+
+class TestSetNdarrayCopyEnabled(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.array.set_ndarray_copy_enable` definition
+    unit tests methods.
+    """
+
+    def test_set_ndarray_copy_enable(self):
+        """
+        Test :func:`colour.utilities.array.set_ndarray_copy_enable` definition.
+        """
+
+        with ndarray_copy_enable(is_ndarray_copy_enabled()):
+            set_ndarray_copy_enable(True)
+            self.assertTrue(is_ndarray_copy_enabled())
+
+        with ndarray_copy_enable(is_ndarray_copy_enabled()):
+            set_ndarray_copy_enable(False)
+            self.assertFalse(is_ndarray_copy_enabled())
+
+
+class TestNdarrayCopyEnable(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.array.ndarray_copy_enable` definition unit
+    tests methods.
+    """
+
+    def test_ndarray_copy_enable(self):
+        """
+        Test :func:`colour.utilities.array.ndarray_copy_enable` definition.
+        """
+
+        with ndarray_copy_enable(True):
+            self.assertTrue(is_ndarray_copy_enabled())
+
+        with ndarray_copy_enable(False):
+            self.assertFalse(is_ndarray_copy_enabled())
+
+        @ndarray_copy_enable(True)
+        def fn_a():
+            """:func:`ndarray_copy_enable` unit tests :func:`fn_a` definition."""
+
+            self.assertTrue(is_ndarray_copy_enabled())
+
+        fn_a()
+
+        @ndarray_copy_enable(False)
+        def fn_b():
+            """:func:`ndarray_copy_enable` unit tests :func:`fn_b` definition."""
+
+            self.assertFalse(is_ndarray_copy_enabled())
+
+        fn_b()
+
+
+class TestNdarrayCopy(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.array.ndarray_copy` definition unit
+    tests methods.
+    """
+
+    def test_ndarray_copy(self):
+        """Test :func:`colour.utilities.array.ndarray_copy` definition."""
+
+        a = np.linspace(0, 1, 10)
+        with ndarray_copy_enable(True):
+            self.assertNotEqual(id(ndarray_copy(a)), id(a))
+
+        with ndarray_copy_enable(False):
+            self.assertEqual(id(ndarray_copy(a)), id(a))
 
 
 class TestClosestIndexes(unittest.TestCase):
@@ -1753,10 +1858,35 @@ class TestIndexAlongLastAxis(unittest.TestCase):
             indexes = np.array([123, 456])
             index_along_last_axis(a, indexes)
 
-        # Non-integer indexes
+        # Non-int indexes
         with self.assertRaises(IndexError):
             indexes = np.array([0.0, 0.0])
             index_along_last_axis(a, indexes)
+
+
+class TestFormatArrayAsRow(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.array.format_array_as_row` definition unit
+    tests methods.
+    """
+
+    def test_format_array_as_row(self):
+        """Test :func:`colour.utilities.array.format_array_as_row` definition."""
+
+        self.assertEqual(
+            format_array_as_row([1.25, 2.5, 3.75]),
+            "1.2500000 2.5000000 3.7500000",
+        )
+
+        self.assertEqual(
+            format_array_as_row([1.25, 2.5, 3.75], 3),
+            "1.250 2.500 3.750",
+        )
+
+        self.assertEqual(
+            format_array_as_row([1.25, 2.5, 3.75], 3, ", "),
+            "1.250, 2.500, 3.750",
+        )
 
 
 if __name__ == "__main__":

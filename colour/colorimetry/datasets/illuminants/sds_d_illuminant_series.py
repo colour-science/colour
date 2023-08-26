@@ -22,12 +22,11 @@ from __future__ import annotations
 from functools import partial
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import Dict
 from colour.utilities import LazyCanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -37,7 +36,7 @@ __all__ = [
     "SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES",
 ]
 
-DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES: Dict = {
+DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES: dict = {
     "S0": {
         300: 0.04,
         305: 3.02,

@@ -22,7 +22,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import cartesian_to_polar, polar_to_cartesian, vector_dot
-from colour.hints import ArrayLike, Callable, NDArray, Tuple
+from colour.hints import ArrayLike, Callable, NDArrayFloat
 from colour.utilities import (
     CanonicalMapping,
     attest,
@@ -40,7 +40,7 @@ from colour.utilities.documentation import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -56,7 +56,7 @@ __all__ = [
 ]
 
 
-COLOURSPACE_MODELS: Tuple = (
+COLOURSPACE_MODELS: tuple = (
     "CAM02LCD",
     "CAM02SCD",
     "CAM02UCS",
@@ -75,13 +75,14 @@ COLOURSPACE_MODELS: Tuple = (
     "ICaCb",
     "ICtCp",
     "IPT",
-    "IPT Munish 2021",
+    "IPT Ragoo 2021",
     "IgPgTg",
     "Jzazbz",
     "OSA UCS",
     "Oklab",
     "hdr-CIELAB",
     "hdr-IPT",
+    "Yrg",
 )
 if is_documentation_building():  # pragma: no cover
     COLOURSPACE_MODELS = DocstringTuple(COLOURSPACE_MODELS)
@@ -110,18 +111,19 @@ COLOURSPACE_MODELS_AXIS_LABELS: CanonicalMapping = CanonicalMapping(
         "ICaCb": ("$I$", "$C_a$", "$C_b$"),
         "ICtCp": ("$I$", "$C_T$", "$C_P$"),
         "IPT": ("I", "P", "T"),
-        "IPT Munish 2021": ("I", "P", "T"),
+        "IPT Ragoo 2021": ("I", "P", "T"),
         "IgPgTg": ("$I_G$", "$P_G$", "$T_G$"),
         "Jzazbz": ("$J_z$", "$a_z$", "$b_z$"),
         "OSA UCS": ("L", "j", "g"),
         "Oklab": ("$L$", "$a$", "$b$"),
         "hdr-CIELAB": ("L hdr", "a hdr", "b hdr"),
         "hdr-IPT": ("I hdr", "P hdr", "T hdr"),
+        "Yrg": ("Y", "r", "g"),
     }
 )
 """Colourspace models labels mapping."""
 
-attest(COLOURSPACE_MODELS == tuple(COLOURSPACE_MODELS_AXIS_LABELS.keys()))
+attest(tuple(COLOURSPACE_MODELS_AXIS_LABELS.keys()) == COLOURSPACE_MODELS)
 
 COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE: (
     CanonicalMapping
@@ -145,19 +147,20 @@ COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE: (
         "ICaCb": np.array([1, 1, 1]),
         "ICtCp": np.array([1, 1, 1]),
         "IPT": np.array([1, 1, 1]),
-        "IPT Munish 2021": np.array([1, 1, 1]),
+        "IPT Ragoo 2021": np.array([1, 1, 1]),
         "IgPgTg": np.array([1, 1, 1]),
         "Jzazbz": np.array([1, 1, 1]),
         "OSA UCS": np.array([100, 100, 100]),
         "Oklab": np.array([1, 1, 1]),
         "hdr-CIELAB": np.array([100, 100, 100]),
         "hdr-IPT": np.array([100, 100, 100]),
+        "Yrg": np.array([1, 1, 1]),
     }
 )
 """Colourspace models domain-range scale **'1'** to **'Reference'** mapping."""
 
 
-def Jab_to_JCh(Jab: ArrayLike) -> NDArray:
+def Jab_to_JCh(Jab: ArrayLike) -> NDArrayFloat:
     """
     Convert from *Jab* colour representation to *JCh* colour representation.
 
@@ -220,7 +223,7 @@ def Jab_to_JCh(Jab: ArrayLike) -> NDArray:
     return JCh
 
 
-def JCh_to_Jab(JCh: ArrayLike) -> NDArray:
+def JCh_to_Jab(JCh: ArrayLike) -> NDArrayFloat:
     """
     Convert from *JCh* colour representation to *Jab* colour representation.
 
@@ -289,7 +292,7 @@ def XYZ_to_Iab(
     LMS_to_LMS_p_callable: Callable,
     matrix_XYZ_to_LMS: ArrayLike,
     matrix_LMS_p_to_Iab: ArrayLike,
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *IPT*-like :math:`Iab` colour
     representation.
@@ -376,7 +379,7 @@ def Iab_to_XYZ(
     LMS_p_to_LMS_callable: Callable,
     matrix_Iab_to_LMS_p: ArrayLike,
     matrix_LMS_to_XYZ: ArrayLike,
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert from *IPT*-like :math:`Iab` colour representation to *CIE XYZ*
     tristimulus values.

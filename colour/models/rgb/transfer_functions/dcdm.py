@@ -24,19 +24,12 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import (
-    Boolean,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    IntegerOrArrayLike,
-    IntegerOrNDArray,
-    Union,
-)
+from colour.hints import ArrayLike, NDArrayFloat, NDArrayReal
 from colour.utilities import as_float_array, as_float, as_int
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -47,9 +40,7 @@ __all__ = [
 ]
 
 
-def eotf_inverse_DCDM(
-    XYZ: FloatingOrArrayLike, out_int: Boolean = False
-) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
+def eotf_inverse_DCDM(XYZ: ArrayLike, out_int: bool = False) -> NDArrayReal:
     """
     Define the *DCDM* inverse electro-optical transfer function (EOTF).
 
@@ -58,12 +49,12 @@ def eotf_inverse_DCDM(
     XYZ
         *CIE XYZ* tristimulus values.
     out_int
-        Whether to return value as integer code value or float equivalent of a
-        code value at a given bit depth.
+        Whether to return value as int code value or float equivalent of a
+        code value at a given bit-depth.
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.integer` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Non-linear *CIE XYZ'* tristimulus values.
 
     Warnings
@@ -88,7 +79,7 @@ def eotf_inverse_DCDM(
     | ``XYZ_p``      | ``UN``                | ``UN``        |
     +----------------+-----------------------+---------------+
 
-    \\* This definition has an output integer switch, thus the domain-range
+    \\* This definition has an output int switch, thus the domain-range
     scale information is only given for the floating point mode.
 
     References
@@ -114,9 +105,9 @@ def eotf_inverse_DCDM(
 
 
 def eotf_DCDM(
-    XYZ_p: Union[FloatingOrArrayLike, IntegerOrArrayLike],
-    in_int: Boolean = False,
-) -> FloatingOrNDArray:
+    XYZ_p: ArrayLike,
+    in_int: bool = False,
+) -> NDArrayFloat:
     """
     Define the *DCDM* electro-optical transfer function (EOTF).
 
@@ -125,12 +116,12 @@ def eotf_DCDM(
     XYZ_p
         Non-linear *CIE XYZ'* tristimulus values.
     in_int
-        Whether to treat the input value as integer code value or float
-        equivalent of a code value at a given bit depth.
+        Whether to treat the input value as int code value or float
+        equivalent of a code value at a given bit-depth.
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *CIE XYZ* tristimulus values.
 
     Warnings
@@ -155,7 +146,7 @@ def eotf_DCDM(
     | ``XYZ``        | ``UN``                | ``UN``        |
     +----------------+-----------------------+---------------+
 
-    \\* This definition has an input integer switch, thus the domain-range
+    \\* This definition has an input int switch, thus the domain-range
     scale information is only given for the floating point mode.
 
     References

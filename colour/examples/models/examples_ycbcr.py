@@ -18,7 +18,7 @@ print("\n")
 
 message_box(
     f'Converting to the "Y\'CbCr" colour encoding from given"ITU-R BT.601" '
-    f"colourspace values using legal range and integer output:\n\n\t{RGB}"
+    f"colourspace values using legal range and int output:\n\n\t{RGB}"
 )
 print(
     colour.RGB_to_YCbCr(
@@ -31,7 +31,7 @@ print("\n")
 YCbCr = np.array([101, 111, 124])
 message_box(
     f'Converting to the "ITU-R BT.601" colourspace from given "Y\'CbCr" '
-    f"values using legal range and integer input:\n\n\t{RGB}"
+    f"values using legal range and int input:\n\n\t{RGB}"
 )
 print(colour.YCbCr_to_RGB(YCbCr, in_legal=True, in_int=True))
 
@@ -40,7 +40,7 @@ print("\n")
 RGB = np.array([0.18, 0.18, 0.18])
 message_box(
     f"Converting to the \"Yc'Cbc'Crc'\" colour encoding from given "
-    f'"ITU-R BT.2020" values using legal range, integer output on a 10-bit '
+    f'"ITU-R BT.2020" values using legal range, int output on a 10-bit '
     f"system:\n\n\t{RGB}"
 )
 print(
@@ -54,7 +54,7 @@ print("\n")
 YcCbcCrc = np.array([422, 512, 512])
 message_box(
     f'Converting to the "ITU-R BT.2020" colourspace from given "RGB" values '
-    f"using legal range, integer input on a 10-bit system:\n\n\t{RGB}"
+    f"using legal range, int input on a 10-bit system:\n\n\t{RGB}"
 )
 print(
     colour.YcCbcCrc_to_RGB(

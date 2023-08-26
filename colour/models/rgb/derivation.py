@@ -28,21 +28,13 @@ from __future__ import annotations
 import numpy as np
 
 from colour.adaptation import chromatic_adaptation_VonKries
-from colour.hints import (
-    Floating,
-    FloatingOrNDArray,
-    ArrayLike,
-    Literal,
-    NDArray,
-    Tuple,
-    Union,
-)
+from colour.hints import ArrayLike, Literal, NDArrayFloat, Tuple
 from colour.models import XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ
 from colour.utilities import as_float, as_float_array, ones, tsplit
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -57,7 +49,7 @@ __all__ = [
 ]
 
 
-def xy_to_z(xy: ArrayLike) -> Floating:
+def xy_to_z(xy: ArrayLike) -> float:
     """
     Return the *z* coordinate using given :math:`xy` chromaticity coordinates.
 
@@ -68,7 +60,7 @@ def xy_to_z(xy: ArrayLike) -> Floating:
 
     Returns
     -------
-    :class:`numpy.floating`
+    :class:`float`
         *z* coordinate.
 
     Examples
@@ -86,7 +78,7 @@ def xy_to_z(xy: ArrayLike) -> Floating:
 
 def normalised_primary_matrix(
     primaries: ArrayLike, whitepoint: ArrayLike
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Compute the *Normalised Primary Matrix* (NPM) converting a *RGB*
     colourspace array to *CIE XYZ* tristimulus values using given *primaries*
@@ -137,24 +129,22 @@ def chromatically_adapted_primaries(
     primaries: ArrayLike,
     whitepoint_t: ArrayLike,
     whitepoint_r: ArrayLike,
-    chromatic_adaptation_transform: Union[
-        Literal[
-            "Bianco 2010",
-            "Bianco PC 2010",
-            "Bradford",
-            "CAT02 Brill 2008",
-            "CAT02",
-            "CAT16",
-            "CMCCAT2000",
-            "CMCCAT97",
-            "Fairchild",
-            "Sharp",
-            "Von Kries",
-            "XYZ Scaling",
-        ],
-        str,
-    ] = "CAT02",
-) -> NDArray:
+    chromatic_adaptation_transform: Literal[
+        "Bianco 2010",
+        "Bianco PC 2010",
+        "Bradford",
+        "CAT02 Brill 2008",
+        "CAT02",
+        "CAT16",
+        "CMCCAT2000",
+        "CMCCAT97",
+        "Fairchild",
+        "Sharp",
+        "Von Kries",
+        "XYZ Scaling",
+    ]
+    | str = "CAT02",
+) -> NDArrayFloat:
     """
     Chromatically adapt given *primaries* :math:`xy` chromaticity coordinates
     from test ``whitepoint_t`` to reference ``whitepoint_r``.
@@ -204,7 +194,7 @@ def chromatically_adapted_primaries(
     return P_a
 
 
-def primaries_whitepoint(npm: ArrayLike) -> Tuple[NDArray, NDArray]:
+def primaries_whitepoint(npm: ArrayLike) -> Tuple[NDArrayFloat, NDArrayFloat]:
     """
     Compute the *primaries* and *whitepoint* :math:`xy` chromaticity
     coordinates using given *Normalised Primary Matrix* (NPM).
@@ -282,7 +272,7 @@ def RGB_luminance_equation(primaries: ArrayLike, whitepoint: ArrayLike) -> str:
 
 def RGB_luminance(
     RGB: ArrayLike, primaries: ArrayLike, whitepoint: ArrayLike
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Return the *luminance* :math:`Y` of given *RGB* components from given
     *primaries* and *whitepoint*.
@@ -298,7 +288,7 @@ def RGB_luminance(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Luminance* :math:`Y`.
 
     Examples

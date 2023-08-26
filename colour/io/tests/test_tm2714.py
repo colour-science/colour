@@ -13,13 +13,13 @@ import textwrap
 from copy import deepcopy
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import Dict, List, Optional, Tuple, Union, cast
+from colour.hints import List, Tuple, cast
 from colour.io.tm2714 import Header_IESTM2714, SpectralDistribution_IESTM2714
 from colour.utilities import optional
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -35,7 +35,7 @@ __all__ = [
 
 ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 
-FLUORESCENT_FILE_HEADER: Dict = {
+FLUORESCENT_FILE_HEADER: dict = {
     "Manufacturer": "Unknown",
     "CatalogNumber": "N/A",
     "Description": "Rare earth fluorescent lamp",
@@ -48,13 +48,13 @@ FLUORESCENT_FILE_HEADER: Dict = {
     "Comments": "Ambient temperature 25 degrees C.",
 }
 
-FLUORESCENT_FILE_SPECTRAL_DESCRIPTION: Dict = {
+FLUORESCENT_FILE_SPECTRAL_DESCRIPTION: dict = {
     "SpectralQuantity": "relative",
     "BandwidthFWHM": 2.0,
     "BandwidthCorrected": True,
 }
 
-FLUORESCENT_FILE_SPECTRAL_DATA: Dict = {
+FLUORESCENT_FILE_SPECTRAL_DATA: dict = {
     400.0: 0.034,
     403.1: 0.037,
     405.5: 0.069,
@@ -459,7 +459,7 @@ class TestIES_TM2714_Sd(unittest.TestCase):
                 "SpectralDistribution_IESTM2714(...,",
                 repr(self._sd),
             ),
-            textwrap.dedent(  # noqa
+            textwrap.dedent(
                 """
 SpectralDistribution_IESTM2714(...,
                                Header_IESTM2714('Unknown',
@@ -571,7 +571,7 @@ SpectralDistribution_IESTM2714(...,
             ).strip(),
         )
 
-    def test_read(self, sd: Optional[SpectralDistribution] = None):
+    def test_read(self, sd: SpectralDistribution | None = None):
         """
         Test :meth:`colour.io.tm2714.SpectralDistribution_IESTM2714.read`
         method.
@@ -598,9 +598,7 @@ SpectralDistribution_IESTM2714(...,
         np.testing.assert_array_almost_equal(sd_r.values, sd.values, decimal=7)
 
         test_read: List[
-            Tuple[
-                Dict, Union[Header_IESTM2714, SpectralDistribution_IESTM2714]
-            ]
+            Tuple[dict, Header_IESTM2714 | SpectralDistribution_IESTM2714]
         ] = [
             (FLUORESCENT_FILE_HEADER, sd.header),
             (FLUORESCENT_FILE_SPECTRAL_DESCRIPTION, sd),

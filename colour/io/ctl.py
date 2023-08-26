@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import os
 import numpy as np
-import subprocess  # nosec
+import subprocess
 import textwrap
 import tempfile
 
@@ -22,23 +22,20 @@ from colour.hints import (
     Any,
     ArrayLike,
     Dict,
-    FloatingOrNDArray,
-    Optional,
+    NDArrayFloat,
     Sequence,
-    Tuple,
-    Union,
 )
 from colour.io import as_3_channels_image, read_image, write_image
 from colour.utilities import (
     as_float_array,
-    as_float_scalar,
+    as_float,
     optional,
     required,
 )
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -52,16 +49,16 @@ __all__ = [
     "template_ctl_transform_float3",
 ]
 
-
 EXECUTABLE_CTL_RENDER: str = "ctlrender"
 """
 *ctlrender* executable name.
 """
 
-ARGUMENTS_CTL_RENDER_DEFAULTS: Tuple = ("-verbose", "-force")
+ARGUMENTS_CTL_RENDER_DEFAULTS: tuple = ("-verbose", "-force")
 """
 *ctlrender* invocation default arguments.
 """
+
 
 # TODO: Reinstate coverage when "ctlrender" is trivially available
 # cross-platform.
@@ -71,7 +68,7 @@ ARGUMENTS_CTL_RENDER_DEFAULTS: Tuple = ("-verbose", "-force")
 def ctl_render(
     path_input: str,
     path_output: str,
-    ctl_transforms: Union[Sequence[str], Dict[str, Sequence[str]]],
+    ctl_transforms: Sequence[str] | Dict[str, Sequence[str]],
     *args: Any,
     **kwargs: Any,
 ) -> subprocess.CompletedProcess:  # pragma: no cover
@@ -170,7 +167,7 @@ def ctl_render(
             _descriptor, temp_filename = tempfile.mkstemp(suffix=".ctl")
             with open(temp_filename, "w") as temp_file:
                 temp_file.write(ctl_transform)
-                ctl_transform = temp_filename
+                ctl_transform = temp_filename  # noqa: PLW2901
                 temp_filenames.append(temp_filename)
         elif not os.path.exists(ctl_transform):
             raise FileNotFoundError(
@@ -186,7 +183,9 @@ def ctl_render(
     for arg in args:
         command += arg.split()
 
-    completed_process = subprocess.run(command, **kwargs)  # nosec
+    completed_process = subprocess.run(
+        command, check=False, **kwargs  # noqa: S603
+    )
 
     for temp_filename in temp_filenames:
         os.remove(temp_filename)
@@ -197,10 +196,10 @@ def ctl_render(
 @required("ctlrender")
 def process_image_ctl(
     a: ArrayLike,
-    ctl_transforms: Union[Sequence[str], Dict[str, Sequence[str]]],
+    ctl_transforms: Sequence[str] | Dict[str, Sequence[str]],
     *args: Any,
     **kwargs: Any,
-) -> FloatingOrNDArray:  # pragma: no cover
+) -> NDArrayFloat:  # pragma: no cover
     """
     Process given image data with *ctlrender* using given *CTL* transforms.
 
@@ -275,7 +274,7 @@ def process_image_ctl(
 
     write_image(a, temp_input_filename)
 
-    ctl_render(
+    output = ctl_render(
         temp_input_filename,
         temp_output_filename,
         ctl_transforms,
@@ -283,13 +282,16 @@ def process_image_ctl(
         **kwargs,
     )
 
+    if output.returncode != 0:  # pragma: no cover
+        raise RuntimeError(output.stderr.decode("utf-8"))
+
     b = read_image(temp_output_filename).astype(dtype)[..., 0:3]
 
     os.remove(temp_input_filename)
     os.remove(temp_output_filename)
 
     if len(shape) == 0:
-        return as_float_scalar(np.squeeze(b)[0])
+        return as_float(np.squeeze(b)[0])
     elif shape[-1] == 1:
         return np.reshape(b[..., 0], shape)
     else:
@@ -298,13 +300,13 @@ def process_image_ctl(
 
 def template_ctl_transform_float(
     R_function: str,
-    G_function: Optional[str] = None,
-    B_function: Optional[str] = None,
-    description: Optional[str] = None,
-    parameters: Optional[Sequence[str]] = None,
-    imports: Optional[Sequence[str]] = None,
-    header: Optional[str] = None,
-) -> str:  # noqa: D405,D407,D410,D411
+    G_function: str | None = None,
+    B_function: str | None = None,
+    description: str | None = None,
+    parameters: Sequence[str] | None = None,
+    imports: Sequence[str] | None = None,
+    header: str | None = None,
+) -> str:
     """
     Generate the code for a *CTL* transform to test a function processing
     per-float channel.
@@ -344,14 +346,14 @@ def template_ctl_transform_float(
     <BLANKLINE>
     void main
     (
-        input varying float rIn,
-        input varying float gIn,
-        input varying float bIn,
-        input varying float aIn,
         output varying float rOut,
         output varying float gOut,
         output varying float bOut,
         output varying float aOut,
+        input varying float rIn,
+        input varying float gIn,
+        input varying float bIn,
+        input varying float aIn = 1.0,
         input float exposure = 0.0
     )
     {
@@ -383,21 +385,21 @@ def template_ctl_transform_float(
     <BLANKLINE>
     void main
     (
-        input varying float rIn,
-        input varying float gIn,
-        input varying float bIn,
-        input varying float aIn,
         output varying float rOut,
         output varying float gOut,
         output varying float bOut,
-        output varying float aOut)
+        output varying float aOut,
+        input varying float rIn,
+        input varying float gIn,
+        input varying float bIn,
+        input varying float aIn = 1.0)
     {
         rOut = Y_2_linCV(rIn, CINEMA_WHITE, CINEMA_BLACK);
         gOut = Y_2_linCV(gIn, CINEMA_WHITE, CINEMA_BLACK);
         bOut = Y_2_linCV(bIn, CINEMA_WHITE, CINEMA_BLACK);
         aOut = aIn;
     }
-    """
+    """  # noqa: D405, D407, D410, D411
 
     G_function = optional(G_function, R_function)
     B_function = optional(B_function, R_function)
@@ -424,14 +426,14 @@ def template_ctl_transform_float(
     ctl_file_content += """
 void main
 (
-    input varying float rIn,
-    input varying float gIn,
-    input varying float bIn,
-    input varying float aIn,
     output varying float rOut,
     output varying float gOut,
     output varying float bOut,
-    output varying float aOut
+    output varying float aOut,
+    input varying float rIn,
+    input varying float gIn,
+    input varying float bIn,
+    input varying float aIn = 1.0
 """.strip()
 
     if parameters:
@@ -454,11 +456,11 @@ void main
 
 def template_ctl_transform_float3(
     RGB_function: str,
-    description: Optional[str] = None,
-    parameters: Optional[Sequence[str]] = None,
-    imports: Optional[Sequence[str]] = None,
-    header: Optional[str] = None,
-) -> str:  # noqa: D405,D407,D410,D411
+    description: str | None = None,
+    parameters: Sequence[str] | None = None,
+    imports: Sequence[str] | None = None,
+    header: str | None = None,
+) -> str:
     """
     Generate the code for a *CTL* transform to test a function processing
     RGB channels.
@@ -506,14 +508,14 @@ def template_ctl_transform_float3(
     <BLANKLINE>
     void main
     (
-        input varying float rIn,
-        input varying float gIn,
-        input varying float bIn,
-        input varying float aIn,
         output varying float rOut,
         output varying float gOut,
         output varying float bOut,
-        output varying float aOut)
+        output varying float aOut,
+        input varying float rIn,
+        input varying float gIn,
+        input varying float bIn,
+        input varying float aIn = 1.0)
     {
         float rgbIn[3] = {rIn, gIn, bIn};
     <BLANKLINE>
@@ -524,7 +526,7 @@ def template_ctl_transform_float3(
         bOut = rgbOut[2];
         aOut = aIn;
     }
-    """
+    """  # noqa: D405, D407, D410, D411
 
     parameters = optional(parameters, "")
     imports = optional(imports, [])
@@ -549,14 +551,14 @@ def template_ctl_transform_float3(
     ctl_file_content += """
 void main
 (
-    input varying float rIn,
-    input varying float gIn,
-    input varying float bIn,
-    input varying float aIn,
     output varying float rOut,
     output varying float gOut,
     output varying float bOut,
-    output varying float aOut
+    output varying float aOut,
+    input varying float rIn,
+    input varying float gIn,
+    input varying float bIn,
+    input varying float aIn = 1.0
 """.strip()
 
     if parameters:

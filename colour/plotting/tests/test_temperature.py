@@ -9,23 +9,57 @@ from colour.plotting import (
     plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS,
 )
 from colour.plotting.temperature import (
+    plot_daylight_locus,
     plot_planckian_locus,
     plot_planckian_locus_in_chromaticity_diagram,
 )
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "TestPlotDaylightLocus",
     "TestPlotPlanckianLocus",
     "TestPlotPlanckianLocusInChromaticityDiagram",
     "TestPlotPlanckianLocusInChromaticityDiagramCIE1931",
     "TestPlotPlanckianLocusInChromaticityDiagramCIE1960UCS",
 ]
+
+
+class TestPlotDaylightLocus(unittest.TestCase):
+    """
+    Define :func:`colour.plotting.temperature.plot_daylight_locus` definition
+    unit tests methods.
+    """
+
+    def test_plot_daylight_locus(self):
+        """
+        Test :func:`colour.plotting.temperature.plot_daylight_locus`
+        definition.
+        """
+
+        figure, axes = plot_daylight_locus()
+
+        self.assertIsInstance(figure, Figure)
+        self.assertIsInstance(axes, Axes)
+
+        self.assertRaises(
+            ValueError, lambda: plot_daylight_locus(method="Undefined")
+        )
+
+        figure, axes = plot_daylight_locus(method="CIE 1976 UCS")
+
+        self.assertIsInstance(figure, Figure)
+        self.assertIsInstance(axes, Axes)
+
+        figure, axes = plot_daylight_locus(planckian_locus_colours="RGB")
+
+        self.assertIsInstance(figure, Figure)
+        self.assertIsInstance(axes, Axes)
 
 
 class TestPlotPlanckianLocus(unittest.TestCase):

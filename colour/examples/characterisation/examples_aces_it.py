@@ -67,3 +67,16 @@ print(
         illuminant,
     )
 )
+
+message_box(
+    'Optimising in "Oklab" colourspace using "Finlayson et al. (2015)" '
+    "root-polynomials colour correction:"
+)
+
+M, RGB_w = colour.matrix_idt(  # pyright: ignore
+    cast(colour.characterisation.RGB_CameraSensitivities, sensitivities),
+    illuminant,
+    optimisation_factory=colour.characterisation.optimisation_factory_Oklab_15,
+)
+
+print((M, RGB_w))

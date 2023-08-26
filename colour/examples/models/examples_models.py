@@ -24,14 +24,6 @@ print(colour.XYZ_to_xyY(np.array([0.00000000, 0.00000000, 0.00000000])))
 
 print("\n")
 
-message_box("Using an alternative illuminant.")
-print(
-    colour.XYZ_to_xyY(
-        np.array([0.00000000, 0.00000000, 0.00000000]),
-        colour.CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["ACES"],
-    )
-)
-
 print("\n")
 
 xyY = np.array([0.26414772, 0.37770001, 0.10080000])
@@ -67,12 +59,7 @@ message_box(
 D65 = colour.CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
 print(
     colour.XYZ_to_RGB(
-        XYZ,
-        D65,
-        colour.RGB_COLOURSPACES["sRGB"].whitepoint,
-        colour.RGB_COLOURSPACES["sRGB"].matrix_XYZ_to_RGB,
-        "Bradford",
-        colour.RGB_COLOURSPACES["sRGB"].cctf_encoding,
+        XYZ, colour.RGB_COLOURSPACES["sRGB"], D65, "Bradford", True
     )
 )
 
@@ -85,12 +72,7 @@ message_box(
 )
 print(
     colour.RGB_to_XYZ(
-        RGB,
-        colour.RGB_COLOURSPACES["sRGB"].whitepoint,
-        D65,
-        colour.RGB_COLOURSPACES["sRGB"].matrix_RGB_to_XYZ,
-        "Bradford",
-        colour.RGB_COLOURSPACES["sRGB"].cctf_decoding,
+        RGB, colour.RGB_COLOURSPACES["sRGB"], D65, "Bradford", True
     )
 )
 
@@ -342,20 +324,20 @@ print(colour.IPT_to_XYZ(IPT))
 print("\n")
 
 message_box(
-    f'Converting to "Munish Ragoo and Farup (2021)" "Optimised IPT" '
+    f'Converting to "Ragoo and Farup (2021)" "Optimised IPT" '
     f'colourspace from given "CIE XYZ" tristimulus values:\n\n\t{XYZ}'
 )
-print(colour.XYZ_to_IPT_Munish2021(XYZ))
+print(colour.XYZ_to_IPT_Ragoo2021(XYZ))
 
 print("\n")
 
 IPT = np.array([0.42248243, 4.05710276, 0.20410663])
 message_box(
     f'Converting to "CIE XYZ" tristimulus values from given'
-    f'"Munish Ragoo and Farup (2021)" "Optimised IPT" colourspace '
+    f'"Ragoo and Farup (2021)" "Optimised IPT" colourspace '
     f"values:\n\n\t{IPT}"
 )
-print(colour.IPT_Munish2021_to_XYZ(IPT))
+print(colour.IPT_Ragoo2021_to_XYZ(IPT))
 
 print("\n")
 

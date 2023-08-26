@@ -13,7 +13,7 @@ from __future__ import annotations
 import numpy as np
 import matplotlib.pyplot as plt
 
-from colour.hints import Any, Dict, Sequence, Tuple, Union
+from colour.hints import Any, Dict, Sequence, Tuple
 from colour.characterisation import ColourChecker
 from colour.models import xyY_to_XYZ
 from colour.plotting import (
@@ -30,7 +30,7 @@ from colour.utilities import attest
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -51,9 +51,8 @@ __all__ = [
     }
 )
 def plot_single_colour_checker(
-    colour_checker: Union[
-        ColourChecker, str
-    ] = "ColorChecker24 - After November 2014",
+    colour_checker: ColourChecker
+    | str = "ColorChecker24 - After November 2014",
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -82,7 +81,7 @@ def plot_single_colour_checker(
     Examples
     --------
     >>> plot_single_colour_checker("ColorChecker 2005")  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Colour_Checker.png
         :align: center
@@ -102,9 +101,7 @@ def plot_single_colour_checker(
     }
 )
 def plot_multi_colour_checkers(
-    colour_checkers: Union[
-        ColourChecker, str, Sequence[Union[ColourChecker, str]]
-    ],
+    colour_checkers: ColourChecker | str | Sequence[ColourChecker | str],
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -134,7 +131,7 @@ def plot_multi_colour_checkers(
     --------
     >>> plot_multi_colour_checkers(["ColorChecker 1976", "ColorChecker 2005"])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Colour_Checkers.png
         :align: center
@@ -154,16 +151,21 @@ def plot_multi_colour_checkers(
 
     compare_swatches = len(filtered_colour_checkers) == 2
 
+    column_counts = []
     colour_swatches = []
     colour_checker_names = []
     for colour_checker in filtered_colour_checkers:
         colour_checker_names.append(colour_checker.name)
+        column_counts.append(colour_checker.columns)
         for label, xyY in colour_checker.data.items():
             XYZ = xyY_to_XYZ(xyY)
             RGB = XYZ_to_plotting_colourspace(XYZ, colour_checker.illuminant)
             colour_swatches.append(
                 ColourSwatch(np.clip(np.ravel(RGB), 0, 1), label.title())
             )
+
+    columns = np.unique(column_counts)
+    attest(len(columns) == 1)
 
     if compare_swatches:
         colour_swatches = [
@@ -178,7 +180,6 @@ def plot_multi_colour_checkers(
     background_colour = "0.1"
     width = height = 1.0
     spacing = 0.25
-    columns = 6
 
     settings: Dict[str, Any] = {
         "axes": axes,
@@ -192,7 +193,7 @@ def plot_multi_colour_checkers(
         "compare_swatches": "Stacked" if compare_swatches else None,
     }
     settings.update(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
 
     plot_multi_colour_swatches(colour_swatches, **settings)
 
@@ -214,7 +215,7 @@ def plot_multi_colour_checkers(
     settings.update(
         {
             "axes": axes,
-            "standalone": True,
+            "show": True,
             "title": ", ".join(colour_checker_names),
         }
     )

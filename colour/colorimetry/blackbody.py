@@ -18,25 +18,19 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import (
     SPECTRAL_SHAPE_DEFAULT,
     SpectralDistribution,
     SpectralShape,
 )
 from colour.constants import CONSTANT_BOLTZMANN, CONSTANT_LIGHT_SPEED
-from colour.hints import (
-    Floating,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    NDArray,
-    cast,
-)
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import as_float, as_float_array
+from colour.utilities.common import attest
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -62,12 +56,12 @@ CONSTANT_N: float = 1
 
 
 def planck_law(
-    wavelength: FloatingOrArrayLike,
-    temperature: FloatingOrArrayLike,
-    c1: Floating = CONSTANT_C1,
-    c2: Floating = CONSTANT_C2,
-    n: Floating = CONSTANT_N,
-) -> FloatingOrNDArray:
+    wavelength: ArrayLike,
+    temperature: ArrayLike,
+    c1: float = CONSTANT_C1,
+    c2: float = CONSTANT_C2,
+    n: float = CONSTANT_N,
+) -> NDArrayFloat:
     """
     Return the spectral radiance of a blackbody as a function of wavelength at
     thermodynamic temperature :math:`T[K]` in a medium having index of
@@ -97,7 +91,7 @@ def planck_law(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Radiance in *watts per steradian per square metre* (:math:`W/sr/m^2`).
 
     Warnings
@@ -127,16 +121,15 @@ def planck_law(
     array([  1.2106064...e+13,   2.0472701...e+13,   3.1754431...e+13])
     """
 
-    l = as_float_array(wavelength)  # noqa
+    l = as_float_array(wavelength)  # noqa: E741
     t = as_float_array(temperature)
 
-    l = np.ravel(l)[..., None]  # noqa
+    attest(np.all(l > 0), "Wavelengths must be positive real numbers!")
+
+    l = np.ravel(l)[..., None]  # noqa: E741
     t = np.ravel(t)[None, ...]
 
-    with sdiv_mode():
-        d = cast(NDArray, sdiv(c2, (n * l * t)))
-
-    d[d != 0] = np.expm1(d[d != 0]) ** -1
+    d = 1 / np.expm1(c2 / (n * l * t))
     p = ((c1 * n**-2 * l**-5) / np.pi) * d
 
     return as_float(np.squeeze(p))
@@ -146,11 +139,11 @@ blackbody_spectral_radiance = planck_law
 
 
 def sd_blackbody(
-    temperature: Floating,
+    temperature: float,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
-    c1: Floating = CONSTANT_C1,
-    c2: Floating = CONSTANT_C2,
-    n: Floating = CONSTANT_N,
+    c1: float = CONSTANT_C1,
+    c2: float = CONSTANT_C2,
+    n: float = CONSTANT_N,
 ) -> SpectralDistribution:
     """
     Return the spectral distribution of the planckian radiator for given
@@ -224,8 +217,8 @@ def sd_blackbody(
 
 
 def rayleigh_jeans_law(
-    wavelength: FloatingOrArrayLike, temperature: FloatingOrArrayLike
-) -> FloatingOrNDArray:
+    wavelength: ArrayLike, temperature: ArrayLike
+) -> NDArrayFloat:
     """
     Return the approximation of the spectral radiance of a blackbody as a
     function of wavelength at thermodynamic temperature :math:`T[K]` according
@@ -240,7 +233,7 @@ def rayleigh_jeans_law(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Radiance in *watts per steradian per square metre* (:math:`W/sr/m^2`).
 
     Warnings
@@ -276,10 +269,10 @@ def rayleigh_jeans_law(
     array([  6.6225353...e+14,   7.2847888...e+14,   7.9470423...e+14])
     """
 
-    l = as_float_array(wavelength)  # noqa
+    l = as_float_array(wavelength)  # noqa: E741
     t = as_float_array(temperature)
 
-    l = np.ravel(l)[..., None]  # noqa
+    l = np.ravel(l)[..., None]  # noqa: E741
     t = np.ravel(t)[None, ...]
 
     c = CONSTANT_LIGHT_SPEED
@@ -291,7 +284,7 @@ def rayleigh_jeans_law(
 
 
 def sd_rayleigh_jeans(
-    temperature: Floating,
+    temperature: float,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
 ) -> SpectralDistribution:
     """

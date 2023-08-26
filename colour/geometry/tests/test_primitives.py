@@ -12,7 +12,7 @@ from colour.geometry import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -176,7 +176,7 @@ class TestPrimitiveGrid(unittest.TestCase):
             ),
         )
 
-        for plane in MAPPING_PLANE_TO_AXIS.keys():
+        for plane in MAPPING_PLANE_TO_AXIS:
             np.testing.assert_array_almost_equal(
                 primitive_grid(axis=plane)[0]["position"],
                 primitive_grid(axis=MAPPING_PLANE_TO_AXIS[plane])[0][
@@ -784,7 +784,7 @@ class TestPrimitiveCube(unittest.TestCase):
             ),
         )
 
-        for plane in MAPPING_PLANE_TO_AXIS.keys():
+        for plane in MAPPING_PLANE_TO_AXIS:
             np.testing.assert_array_almost_equal(
                 primitive_cube(planes=[plane])[0]["position"],
                 primitive_cube(planes=[MAPPING_PLANE_TO_AXIS[plane]])[0][

@@ -20,12 +20,11 @@ usp=sharing
 from __future__ import annotations
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import Dict
 from colour.utilities import CanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -37,7 +36,7 @@ __all__ = [
     "SDS_TCS",
 ]
 
-INDEXES_TO_NAMES_TCS: Dict = {
+INDEXES_TO_NAMES_TCS: dict = {
     1: "TCS01",
     2: "TCS02",
     3: "TCS03",
@@ -75,7 +74,7 @@ APPROXIMATE_MUNSELL_NOTATIONS_TCS: CanonicalMapping = CanonicalMapping(
 )
 """Test colour samples *Munsell* colour approximations."""
 
-DATA_TCS: Dict = {
+DATA_TCS: dict = {
     "TCS01": {
         360: 0.116,
         365: 0.136,

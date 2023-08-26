@@ -26,19 +26,12 @@ import numpy as np
 from scipy.optimize import minimize
 
 from colour.colorimetry import daylight_locus_function
-from colour.hints import (
-    ArrayLike,
-    Dict,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    NDArray,
-    Optional,
-)
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import as_float_array, as_float, tstack, usage_warning
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -50,8 +43,8 @@ __all__ = [
 
 
 def xy_to_CCT_CIE_D(
-    xy: ArrayLike, optimisation_kwargs: Optional[Dict] = None
-) -> FloatingOrNDArray:
+    xy: ArrayLike, optimisation_kwargs: dict | None = None
+) -> NDArrayFloat:
     """
     Return the correlated colour temperature :math:`T_{cp}` of a
     *CIE Illuminant D Series* from its *CIE xy* chromaticity coordinates.
@@ -65,7 +58,7 @@ def xy_to_CCT_CIE_D(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Correlated colour temperature :math:`T_{cp}`.
 
     Warnings
@@ -73,7 +66,7 @@ def xy_to_CCT_CIE_D(
     The *CIE Illuminant D Series* method does not give an analytical inverse
     transformation to compute the correlated colour temperature :math:`T_{cp}`
     from given *CIE xy* chromaticity coordinates, the current implementation
-    relies on optimization using :func:`scipy.optimize.minimize` definition and
+    relies on optimisation using :func:`scipy.optimize.minimize` definition and
     thus has reduced precision and poor performance.
 
     References
@@ -92,8 +85,8 @@ def xy_to_CCT_CIE_D(
     xy = np.atleast_1d(xy.reshape([-1, 2]))
 
     def objective_function(
-        CCT: FloatingOrArrayLike, xy: ArrayLike
-    ) -> FloatingOrNDArray:
+        CCT: NDArrayFloat, xy: NDArrayFloat
+    ) -> NDArrayFloat:
         """Objective function."""
 
         objective = np.linalg.norm(CCT_to_xy_CIE_D(CCT) - xy)
@@ -117,14 +110,14 @@ def xy_to_CCT_CIE_D(
                 args=(xy_i,),
                 **optimisation_settings,
             ).x
-            for xy_i in as_float_array(xy)
+            for xy_i in xy
         ]
     )
 
     return as_float(np.reshape(CCT, shape[:-1]))
 
 
-def CCT_to_xy_CIE_D(CCT: FloatingOrArrayLike) -> NDArray:
+def CCT_to_xy_CIE_D(CCT: ArrayLike) -> NDArrayFloat:
     """
     Return the *CIE xy* chromaticity coordinates of a
     *CIE Illuminant D Series* from its correlated colour temperature
@@ -166,16 +159,18 @@ def CCT_to_xy_CIE_D(CCT: FloatingOrArrayLike) -> NDArray:
     CCT_3 = CCT**3
     CCT_2 = CCT**2
 
-    x = np.where(
-        CCT <= 7000,
-        -4.607 * 10**9 / CCT_3
-        + 2.9678 * 10**6 / CCT_2
-        + 0.09911 * 10**3 / CCT
-        + 0.244063,
-        -2.0064 * 10**9 / CCT_3
-        + 1.9018 * 10**6 / CCT_2
-        + 0.24748 * 10**3 / CCT
-        + 0.23704,
+    x = as_float(
+        np.where(
+            CCT <= 7000,
+            -4.607 * 10**9 / CCT_3
+            + 2.9678 * 10**6 / CCT_2
+            + 0.09911 * 10**3 / CCT
+            + 0.244063,
+            -2.0064 * 10**9 / CCT_3
+            + 1.9018 * 10**6 / CCT_2
+            + 0.24748 * 10**3 / CCT
+            + 0.23704,
+        )
     )
 
     y = daylight_locus_function(x)

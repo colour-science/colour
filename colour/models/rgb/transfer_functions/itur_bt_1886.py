@@ -22,12 +22,12 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import Floating, FloatingOrArrayLike, FloatingOrNDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -39,8 +39,8 @@ __all__ = [
 
 
 def eotf_inverse_BT1886(
-    L: FloatingOrArrayLike, L_B: Floating = 0, L_W: Floating = 1
-) -> FloatingOrNDArray:
+    L: ArrayLike, L_B: float = 0, L_W: float = 1
+) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.1886* inverse electro-optical transfer
     function (EOTF).
@@ -56,7 +56,7 @@ def eotf_inverse_BT1886(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Input video signal level (normalised, black at :math:`V = 0`, to white
         at :math:`V = 1`.
 
@@ -98,9 +98,7 @@ def eotf_inverse_BT1886(
     return as_float(from_range_1(V))
 
 
-def eotf_BT1886(
-    V: FloatingOrArrayLike, L_B: Floating = 0, L_W: Floating = 1
-) -> FloatingOrNDArray:
+def eotf_BT1886(V: ArrayLike, L_B: float = 0, L_W: float = 1) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.1886* electro-optical transfer function
     (EOTF).
@@ -120,7 +118,7 @@ def eotf_BT1886(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Screen luminance in :math:`cd/m^2`.
 
     Notes

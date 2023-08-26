@@ -28,16 +28,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import (
-    Boolean,
-    Floating,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    Integer,
-    IntegerOrArrayLike,
-    IntegerOrNDArray,
-    Union,
-)
+from colour.hints import ArrayLike, NDArrayFloat, NDArrayReal
 from colour.utilities import (
     as_float,
     as_float_scalar,
@@ -50,7 +41,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -68,8 +59,8 @@ __all__ = [
 
 
 def cctf_encoding_ROMMRGB(
-    X: FloatingOrArrayLike, bit_depth: Integer = 8, out_int: Boolean = False
-) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
+    X: ArrayLike, bit_depth: int = 8, out_int: bool = False
+) -> NDArrayReal:
     """
     Define the *ROMM RGB* encoding colour component transfer function
     (Encoding CCTF).
@@ -79,14 +70,14 @@ def cctf_encoding_ROMMRGB(
     X
         Linear data :math:`X_{ROMM}`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     out_int
-        Whether to return value as integer code value or float equivalent of a
-        code value at a given bit depth.
+        Whether to return value as int code value or float equivalent of a
+        code value at a given bit-depth.
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.integer` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Non-linear data :math:`X'_{ROMM}`.
 
     Notes
@@ -103,7 +94,7 @@ def cctf_encoding_ROMMRGB(
     | ``X_p``        | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    \\* This definition has an output integer switch, thus the domain-range
+    \\* This definition has an output int switch, thus the domain-range
     scale information is only given for the floating point mode.
 
     References
@@ -124,7 +115,7 @@ def cctf_encoding_ROMMRGB(
 
     E_t = 16 ** (1.8 / (1 - 1.8))
 
-    X_p = np.where(X < E_t, X * 16 * I_max, spow(X, 1 / 1.8) * I_max)
+    X_p = np.where(E_t > X, X * 16 * I_max, spow(X, 1 / 1.8) * I_max)
 
     if out_int:
         return as_int(np.round(X_p))
@@ -133,10 +124,10 @@ def cctf_encoding_ROMMRGB(
 
 
 def cctf_decoding_ROMMRGB(
-    X_p: Union[FloatingOrArrayLike, IntegerOrArrayLike],
-    bit_depth: Integer = 8,
-    in_int: Boolean = False,
-) -> FloatingOrNDArray:
+    X_p: ArrayLike,
+    bit_depth: int = 8,
+    in_int: bool = False,
+) -> NDArrayFloat:
     """
     Define the *ROMM RGB* decoding colour component transfer function
     (Encoding CCTF).
@@ -146,14 +137,14 @@ def cctf_decoding_ROMMRGB(
     X_p
         Non-linear data :math:`X'_{ROMM}`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     in_int
-        Whether to treat the input value as integer code value or float
-        equivalent of a code value at a given bit depth.
+        Whether to treat the input value as int code value or float
+        equivalent of a code value at a given bit-depth.
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear data :math:`X_{ROMM}`.
 
     Notes
@@ -170,7 +161,7 @@ def cctf_decoding_ROMMRGB(
     | ``X``          | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    \\* This definition has an input integer switch, thus the domain-range
+    \\* This definition has an input int switch, thus the domain-range
     scale information is only given for the floating point mode.
 
     References
@@ -226,11 +217,11 @@ if cctf_decoding_ProPhotoRGB.__doc__ is not None:
 
 
 def cctf_encoding_RIMMRGB(
-    X: FloatingOrArrayLike,
-    bit_depth: Integer = 8,
-    out_int: Boolean = False,
-    E_clip: Floating = 2.0,
-) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
+    X: ArrayLike,
+    bit_depth: int = 8,
+    out_int: bool = False,
+    E_clip: float = 2.0,
+) -> NDArrayReal:
     """
     Define the *RIMM RGB* encoding colour component transfer function
     (Encoding CCTF).
@@ -243,16 +234,16 @@ def cctf_encoding_RIMMRGB(
     X
         Linear data :math:`X_{RIMM}`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     out_int
-        Whether to return value as integer code value or float equivalent of a
-        code value at a given bit depth.
+        Whether to return value as int code value or float equivalent of a
+        code value at a given bit-depth.
     E_clip
         Maximum exposure level.
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.integer` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Non-linear data :math:`X'_{RIMM}`.
 
     Notes
@@ -269,7 +260,7 @@ def cctf_encoding_RIMMRGB(
     | ``X_p``        | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    \\* This definition has an output integer switch, thus the domain-range
+    \\* This definition has an output int switch, thus the domain-range
     scale information is only given for the floating point mode.
 
     References
@@ -292,7 +283,7 @@ def cctf_encoding_RIMMRGB(
     q = I_max / V_clip
 
     X_p = q * np.select(
-        [X < 0.0, X < 0.018, X >= 0.018, X > E_clip],
+        [X < 0.0, X < 0.018, X >= 0.018, E_clip < X],
         [0, 4.5 * X, 1.099 * spow(X, 0.45) - 0.099, I_max],
     )
 
@@ -303,11 +294,11 @@ def cctf_encoding_RIMMRGB(
 
 
 def cctf_decoding_RIMMRGB(
-    X_p: Union[FloatingOrArrayLike, IntegerOrArrayLike],
-    bit_depth: Integer = 8,
-    in_int: Boolean = False,
-    E_clip: Floating = 2.0,
-) -> FloatingOrNDArray:
+    X_p: ArrayLike,
+    bit_depth: int = 8,
+    in_int: bool = False,
+    E_clip: float = 2.0,
+) -> NDArrayFloat:
     """
     Define the *RIMM RGB* decoding colour component transfer function
     (Encoding CCTF).
@@ -317,16 +308,16 @@ def cctf_decoding_RIMMRGB(
     X_p
         Non-linear data :math:`X'_{RIMM}`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     in_int
-        Whether to treat the input value as integer code value or float
-        equivalent of a code value at a given bit depth.
+        Whether to treat the input value as int code value or float
+        equivalent of a code value at a given bit-depth.
     E_clip
         Maximum exposure level.
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear data :math:`X_{RIMM}`.
 
     Notes
@@ -343,7 +334,7 @@ def cctf_decoding_RIMMRGB(
     | ``X``          | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    \\* This definition has an input integer switch, thus the domain-range
+    \\* This definition has an input int switch, thus the domain-range
     scale information is only given for the floating point mode.
 
     References
@@ -381,12 +372,12 @@ def cctf_decoding_RIMMRGB(
 
 
 def log_encoding_ERIMMRGB(
-    X: FloatingOrArrayLike,
-    bit_depth: Integer = 8,
-    out_int: Boolean = False,
-    E_min: Floating = 0.001,
-    E_clip: Floating = 316.2,
-) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
+    X: ArrayLike,
+    bit_depth: int = 8,
+    out_int: bool = False,
+    E_min: float = 0.001,
+    E_clip: float = 316.2,
+) -> NDArrayReal:
     """
     Define the *ERIMM RGB* log encoding curve / opto-electronic transfer
     function (OETF).
@@ -396,10 +387,10 @@ def log_encoding_ERIMMRGB(
     X
         Linear data :math:`X_{ERIMM}`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     out_int
-        Whether to return value as integer code value or float equivalent of a
-        code value at a given bit depth.
+        Whether to return value as int code value or float equivalent of a
+        code value at a given bit-depth.
     E_min
         Minimum exposure limit.
     E_clip
@@ -407,7 +398,7 @@ def log_encoding_ERIMMRGB(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.integer` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Non-linear data :math:`X'_{ERIMM}`.
 
     Notes
@@ -424,7 +415,7 @@ def log_encoding_ERIMMRGB(
     | ``X_p``        | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    \\* This definition has an output integer switch, thus the domain-range
+    \\* This definition has an output int switch, thus the domain-range
     scale information is only given for the floating point mode.
 
     References
@@ -451,9 +442,9 @@ def log_encoding_ERIMMRGB(
     X_p = np.select(
         [
             X < 0.0,
-            X <= E_t,
-            X > E_t,
-            X > E_clip,
+            E_t >= X,
+            E_t < X,
+            E_clip < X,
         ],
         [
             0,
@@ -470,12 +461,12 @@ def log_encoding_ERIMMRGB(
 
 
 def log_decoding_ERIMMRGB(
-    X_p: Union[FloatingOrArrayLike, IntegerOrArrayLike],
-    bit_depth: Integer = 8,
-    in_int: Boolean = False,
-    E_min: Floating = 0.001,
-    E_clip: Floating = 316.2,
-) -> FloatingOrNDArray:
+    X_p: ArrayLike,
+    bit_depth: int = 8,
+    in_int: bool = False,
+    E_min: float = 0.001,
+    E_clip: float = 316.2,
+) -> NDArrayFloat:
     """
     Define the *ERIMM RGB* log decoding curve / electro-optical transfer
     function (EOTF).
@@ -485,10 +476,10 @@ def log_decoding_ERIMMRGB(
     X_p
         Non-linear data :math:`X'_{ERIMM}`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     in_int
-        Whether to treat the input value as integer code value or float
-        equivalent of a code value at a given bit depth.
+        Whether to treat the input value as int code value or float
+        equivalent of a code value at a given bit-depth.
     E_min
         Minimum exposure limit.
     E_clip
@@ -496,7 +487,7 @@ def log_decoding_ERIMMRGB(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear data :math:`X_{ERIMM}`.
 
     Notes
@@ -513,7 +504,7 @@ def log_decoding_ERIMMRGB(
     | ``X``          | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    \\* This definition has an input integer switch, thus the domain-range
+    \\* This definition has an input int switch, thus the domain-range
     scale information is only given for the floating point mode.
 
     References

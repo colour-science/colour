@@ -27,13 +27,7 @@ References
 
 from __future__ import annotations
 
-from colour.hints import (
-    Any,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    Literal,
-    Union,
-)
+from colour.hints import Any, ArrayLike, NDArrayFloat, Literal
 from colour.utilities import (
     CanonicalMapping,
     as_float,
@@ -44,7 +38,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -62,10 +56,10 @@ __all__ = [
 
 
 def reaction_rate_MichaelisMenten_Michaelis1913(
-    S: FloatingOrArrayLike,
-    V_max: FloatingOrArrayLike,
-    K_m: FloatingOrArrayLike,
-) -> FloatingOrNDArray:
+    S: ArrayLike,
+    V_max: ArrayLike,
+    K_m: ArrayLike,
+) -> NDArrayFloat:
     """
     Describe the rate of enzymatic reactions, by relating reaction rate
     :math:`v` to concentration of a substrate :math:`S`.
@@ -83,7 +77,7 @@ def reaction_rate_MichaelisMenten_Michaelis1913(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Reaction rate :math:`v`.
 
     References
@@ -106,11 +100,11 @@ def reaction_rate_MichaelisMenten_Michaelis1913(
 
 
 def reaction_rate_MichaelisMenten_Abebe2017(
-    S: FloatingOrArrayLike,
-    V_max: FloatingOrArrayLike,
-    K_m: FloatingOrArrayLike,
-    b_m: FloatingOrArrayLike,
-) -> FloatingOrNDArray:
+    S: ArrayLike,
+    V_max: ArrayLike,
+    K_m: ArrayLike,
+    b_m: ArrayLike,
+) -> NDArrayFloat:
     """
     Describe the rate of enzymatic reactions, by relating reaction rate
     :math:`v` to concentration of a substrate :math:`S` according to the
@@ -133,7 +127,7 @@ def reaction_rate_MichaelisMenten_Abebe2017(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Reaction rate :math:`v`.
 
     References
@@ -174,14 +168,12 @@ References
 
 
 def reaction_rate_MichaelisMenten(
-    S: FloatingOrArrayLike,
-    V_max: FloatingOrArrayLike,
-    K_m: FloatingOrArrayLike,
-    method: Union[
-        Literal["Michaelis 1913", "Abebe 2017"], str
-    ] = "Michaelis 1913",
+    S: ArrayLike,
+    V_max: ArrayLike,
+    K_m: ArrayLike,
+    method: Literal["Michaelis 1913", "Abebe 2017"] | str = "Michaelis 1913",
     **kwargs: Any,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Describe the rate of enzymatic reactions, by relating reaction rate
     :math:`v` to concentration of a substrate :math:`S` according to given
@@ -208,7 +200,7 @@ def reaction_rate_MichaelisMenten(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Reaction rate :math:`v`.
 
     References
@@ -225,7 +217,9 @@ def reaction_rate_MichaelisMenten(
     1.0360547...
     """
 
-    method = validate_method(method, REACTION_RATE_MICHAELISMENTEN_METHODS)
+    method = validate_method(
+        method, tuple(REACTION_RATE_MICHAELISMENTEN_METHODS)
+    )
 
     function = REACTION_RATE_MICHAELISMENTEN_METHODS[method]
 
@@ -233,10 +227,10 @@ def reaction_rate_MichaelisMenten(
 
 
 def substrate_concentration_MichaelisMenten_Michaelis1913(
-    v: FloatingOrArrayLike,
-    V_max: FloatingOrArrayLike,
-    K_m: FloatingOrArrayLike,
-) -> FloatingOrNDArray:
+    v: ArrayLike,
+    V_max: ArrayLike,
+    K_m: ArrayLike,
+) -> NDArrayFloat:
     """
     Describe the rate of enzymatic reactions, by relating concentration of a
     substrate :math:`S` to reaction rate :math:`v`.
@@ -254,7 +248,7 @@ def substrate_concentration_MichaelisMenten_Michaelis1913(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Concentration of a substrate :math:`S`.
 
     References
@@ -278,11 +272,11 @@ def substrate_concentration_MichaelisMenten_Michaelis1913(
 
 
 def substrate_concentration_MichaelisMenten_Abebe2017(
-    v: FloatingOrArrayLike,
-    V_max: FloatingOrArrayLike,
-    K_m: FloatingOrArrayLike,
-    b_m: FloatingOrArrayLike,
-) -> FloatingOrNDArray:
+    v: ArrayLike,
+    V_max: ArrayLike,
+    K_m: ArrayLike,
+    b_m: ArrayLike,
+) -> NDArrayFloat:
     """
     Describe the rate of enzymatic reactions, by relating concentration of a
     substrate :math:`S` to reaction rate :math:`v` according to the modified
@@ -304,7 +298,7 @@ def substrate_concentration_MichaelisMenten_Abebe2017(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Concentration of a substrate :math:`S`.
 
     References
@@ -348,14 +342,12 @@ References
 
 
 def substrate_concentration_MichaelisMenten(
-    v: FloatingOrArrayLike,
-    V_max: FloatingOrArrayLike,
-    K_m: FloatingOrArrayLike,
-    method: Union[
-        Literal["Michaelis 1913", "Abebe 2017"], str
-    ] = "Michaelis 1913",
+    v: ArrayLike,
+    V_max: ArrayLike,
+    K_m: ArrayLike,
+    method: Literal["Michaelis 1913", "Abebe 2017"] | str = "Michaelis 1913",
     **kwargs: Any,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Describe the rate of enzymatic reactions, by relating concentration of a
     substrate :math:`S` to reaction rate :math:`v` according to given method.
@@ -382,7 +374,7 @@ substrate_concentration_MichaelisMenten_Abebe2017`},
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Concentration of a substrate :math:`S`.
 
     References
@@ -402,7 +394,7 @@ substrate_concentration_MichaelisMenten_Abebe2017`},
     """
 
     method = validate_method(
-        method, SUBSTRATE_CONCENTRATION_MICHAELISMENTEN_METHODS
+        method, tuple(SUBSTRATE_CONCENTRATION_MICHAELISMENTEN_METHODS)
     )
 
     function = SUBSTRATE_CONCENTRATION_MICHAELISMENTEN_METHODS[method]

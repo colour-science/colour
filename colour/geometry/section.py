@@ -13,15 +13,7 @@ import numpy as np
 
 from colour.algebra import linear_conversion
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.hints import (
-    ArrayLike,
-    Boolean,
-    Floating,
-    Integer,
-    Literal,
-    NDArray,
-    Union,
-)
+from colour.hints import Any, ArrayLike, Literal, NDArrayFloat, cast
 from colour.utilities import (
     as_float_array,
     as_float_scalar,
@@ -31,7 +23,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -44,7 +36,7 @@ __all__ = [
 ]
 
 
-def edges_to_chord(edges: ArrayLike, index: Integer = 0) -> NDArray:
+def edges_to_chord(edges: ArrayLike, index: int = 0) -> NDArrayFloat:
     """
     Convert given edges to a chord, starting at given index.
 
@@ -114,7 +106,7 @@ def edges_to_chord(edges: ArrayLike, index: Integer = 0) -> NDArray:
     return as_float_array(edges_ordered).reshape([-1, segment.shape[-1]])
 
 
-def close_chord(vertices: ArrayLike) -> NDArray:
+def close_chord(vertices: ArrayLike) -> NDArrayFloat:
     """
     Close the chord.
 
@@ -143,8 +135,8 @@ def close_chord(vertices: ArrayLike) -> NDArray:
 
 def unique_vertices(
     vertices: ArrayLike,
-    decimals: Integer = np.finfo(DEFAULT_FLOAT_DTYPE).precision - 1,
-) -> NDArray:
+    decimals: int = np.finfo(cast(Any, DEFAULT_FLOAT_DTYPE)).precision - 1,
+) -> NDArrayFloat:
     """
     Return the unique vertices from given vertices.
 
@@ -184,11 +176,11 @@ def unique_vertices(
 
 @required("trimesh")
 def hull_section(
-    hull: trimesh.Trimesh,  # type: ignore[name-defined]  # noqa
-    axis: Union[Literal["+z", "+x", "+y"], str] = "+z",
-    origin: Floating = 0.5,
-    normalise: Boolean = False,
-) -> NDArray:
+    hull: trimesh.Trimesh,  # pyright: ignore  # noqa: F821
+    axis: Literal["+z", "+x", "+y"] | str = "+z",
+    origin: float = 0.5,
+    normalise: bool = False,
+) -> NDArrayFloat:
     """
     Compute the hull section for given axis at given origin.
 
@@ -230,11 +222,11 @@ def hull_section(
            [-0. , -0.5,  0. ]])
     """
 
-    import trimesh
+    import trimesh.intersections
 
     axis = validate_method(
         axis,
-        ["+z", "+x", "+y"],
+        ("+z", "+x", "+y"),
         '"{0}" axis is invalid, it must be one of {1}!',
     )
 

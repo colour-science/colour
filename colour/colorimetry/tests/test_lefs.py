@@ -8,12 +8,11 @@ from colour.colorimetry import (
     mesopic_weighting_function,
     sd_mesopic_luminous_efficiency_function,
 )
-from colour.hints import Tuple
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -24,7 +23,7 @@ __all__ = [
     "TestSdMesopicLuminousEfficiencyFunction",
 ]
 
-DATA_MESOPIC_LEF: Tuple = (
+DATA_MESOPIC_LEF: tuple = (
     0.000423996221042,
     0.000478105586021,
     0.000539901310829,

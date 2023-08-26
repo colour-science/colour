@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import Floating, Literal, Union
+from colour.hints import Literal
 
-from .datasets import *  # noqa
+from .datasets import *  # noqa: F403
 from . import datasets
 from .cfi2017 import (
     ColourRendering_Specification_CIE2017,
@@ -63,12 +63,12 @@ References
 def colour_fidelity_index(
     sd_test: SpectralDistribution,
     additional_data=False,
-    method: Union[Literal["CIE 2017", "ANSI/IES TM-30-18"], str] = "CIE 2017",
-) -> Union[
-    Floating,
-    ColourRendering_Specification_CIE2017,
-    ColourQuality_Specification_ANSIIESTM3018,
-]:
+    method: Literal["CIE 2017", "ANSI/IES TM-30-18"] | str = "CIE 2017",
+) -> (
+    float
+    | ColourRendering_Specification_CIE2017
+    | ColourQuality_Specification_ANSIIESTM3018
+):
     """
     Return the *Colour Fidelity Index* (CFI) :math:`R_f` of given spectral
     distribution using given method.
@@ -84,7 +84,7 @@ def colour_fidelity_index(
 
     Returns
     -------
-    :class:`numpy.floating` or \
+    :class:`float` or \
 :class:`colour.quality.ColourRendering_Specification_CIE2017` or \
 :class:`colour.quality.ColourQuality_Specification_ANSIIESTM3018`
         *Colour Fidelity Index* (CFI) :math:`R_f`.
@@ -98,10 +98,10 @@ def colour_fidelity_index(
     >>> from colour.colorimetry import SDS_ILLUMINANTS
     >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> colour_fidelity_index(sd)  # doctest: +ELLIPSIS
-    70.1208254...
+    70.1208244...
     """
 
-    method = validate_method(method, COLOUR_FIDELITY_INDEX_METHODS)
+    method = validate_method(method, tuple(COLOUR_FIDELITY_INDEX_METHODS))
 
     function = COLOUR_FIDELITY_INDEX_METHODS[method]
 

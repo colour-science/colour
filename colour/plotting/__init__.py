@@ -2,9 +2,9 @@ from colour.utilities import is_matplotlib_installed
 
 is_matplotlib_installed(raise_exception=True)
 
-from .datasets import *  # noqa
-from . import datasets  # noqa
-from .common import (  # noqa
+from .datasets import *  # noqa: E402, F403
+from . import datasets  # noqa: E402
+from .common import (  # noqa: E402
     CONSTANTS_COLOUR_STYLE,
     CONSTANTS_ARROW_STYLE,
     colour_style,
@@ -29,8 +29,8 @@ from .common import (  # noqa
     plot_multi_functions,
     plot_image,
 )
-from .blindness import plot_cvd_simulation_Machado2009  # noqa
-from .colorimetry import (  # noqa
+from .blindness import plot_cvd_simulation_Machado2009  # noqa: E402
+from .colorimetry import (  # noqa: E402
     plot_single_sd,
     plot_multi_sds,
     plot_single_cmfs,
@@ -45,11 +45,11 @@ from .colorimetry import (  # noqa
     plot_blackbody_spectral_radiance,
     plot_blackbody_colours,
 )
-from .characterisation import (  # noqa
+from .characterisation import (  # noqa: E402
     plot_single_colour_checker,
     plot_multi_colour_checkers,
 )
-from .diagrams import (  # noqa
+from .diagrams import (  # noqa: E402
     plot_chromaticity_diagram_CIE1931,
     plot_chromaticity_diagram_CIE1960UCS,
     plot_chromaticity_diagram_CIE1976UCS,
@@ -57,9 +57,11 @@ from .diagrams import (  # noqa
     plot_sds_in_chromaticity_diagram_CIE1960UCS,
     plot_sds_in_chromaticity_diagram_CIE1976UCS,
 )
-from .corresponding import plot_corresponding_chromaticities_prediction  # noqa
-from .graph import plot_automatic_colour_conversion_graph  # noqa
-from .models import (  # noqa
+from .corresponding import (  # noqa: E402
+    plot_corresponding_chromaticities_prediction,
+)  # noqa: RUF100
+from .graph import plot_automatic_colour_conversion_graph  # noqa: E402
+from .models import (  # noqa: E402
     colourspace_model_axis_reorder,
     plot_pointer_gamut,
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931,
@@ -75,30 +77,34 @@ from .models import (  # noqa
     plot_multi_cctfs,
     plot_constant_hue_loci,
 )
-from .notation import (  # noqa
+from .notation import (  # noqa: E402
     plot_single_munsell_value_function,
     plot_multi_munsell_value_functions,
 )
-from .phenomena import (  # noqa
+from .phenomena import (  # noqa: E402
     plot_single_sd_rayleigh_scattering,
     plot_the_blue_sky,
 )
-from .quality import (  # noqa
+from .quality import (  # noqa: E402
     plot_single_sd_colour_rendering_index_bars,
     plot_multi_sds_colour_rendering_indexes_bars,
     plot_single_sd_colour_quality_scale_bars,
     plot_multi_sds_colour_quality_scales_bars,
 )
-from .section import (  # noqa
+from .section import (  # noqa: E402
     plot_visible_spectrum_section,
     plot_RGB_colourspace_section,
 )
-from .temperature import (  # noqa
+from .temperature import (  # noqa: E402
     plot_planckian_locus_in_chromaticity_diagram_CIE1931,
     plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS,
+    plot_planckian_locus_in_chromaticity_diagram_CIE1976UCS,
 )
-from .tm3018 import plot_single_sd_colour_rendition_report  # noqa
-from .volume import plot_RGB_colourspaces_gamuts, plot_RGB_scatter  # noqa
+from .tm3018 import plot_single_sd_colour_rendition_report  # noqa: E402
+from .volume import (  # noqa: E402
+    plot_RGB_colourspaces_gamuts,
+    plot_RGB_scatter,
+)  # noqa: RUF100
 
 __all__ = []
 __all__ += datasets.__all__
@@ -200,6 +206,7 @@ __all__ += [
 __all__ += [
     "plot_planckian_locus_in_chromaticity_diagram_CIE1931",
     "plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS",
+    "plot_planckian_locus_in_chromaticity_diagram_CIE1976UCS",
 ]
 __all__ += [
     "plot_single_sd_colour_rendition_report",

@@ -2,10 +2,9 @@ from functools import partial
 
 from colour.hints import (
     Any,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    IntegerOrArrayLike,
-    IntegerOrNDArray,
+    ArrayLike,
+    NDArrayFloat,
+    NDArrayInt,
     Literal,
     Union,
 )
@@ -38,11 +37,17 @@ from .blackmagic_design import (
     oetf_inverse_BlackmagicFilmGeneration5,
 )
 from .canon import (
+    CANON_LOG_ENCODING_METHODS,
     log_encoding_CanonLog,
+    CANON_LOG_DECODING_METHODS,
     log_decoding_CanonLog,
+    CANON_LOG_2_ENCODING_METHODS,
     log_encoding_CanonLog2,
+    CANON_LOG_2_DECODING_METHODS,
     log_decoding_CanonLog2,
+    CANON_LOG_3_ENCODING_METHODS,
     log_encoding_CanonLog3,
+    CANON_LOG_3_DECODING_METHODS,
     log_decoding_CanonLog3,
 )
 from .cineon import log_encoding_Cineon, log_decoding_Cineon
@@ -95,7 +100,12 @@ from .log import (
 )
 from .panalog import log_encoding_Panalog, log_decoding_Panalog
 from .panasonic_v_log import log_encoding_VLog, log_decoding_VLog
-from .fujifilm_f_log import log_encoding_FLog, log_decoding_FLog
+from .fujifilm_f_log import (
+    log_encoding_FLog,
+    log_decoding_FLog,
+    log_decoding_FLog2,
+    log_encoding_FLog2,
+)
 from .nikon_n_log import log_encoding_NLog, log_decoding_NLog
 from .pivoted_log import log_encoding_PivotedLog, log_decoding_PivotedLog
 from .red import (
@@ -173,11 +183,17 @@ __all__ += [
     "oetf_inverse_BlackmagicFilmGeneration5",
 ]
 __all__ += [
+    "CANON_LOG_ENCODING_METHODS",
     "log_encoding_CanonLog",
+    "CANON_LOG_DECODING_METHODS",
     "log_decoding_CanonLog",
+    "CANON_LOG_2_ENCODING_METHODS",
     "log_encoding_CanonLog2",
+    "CANON_LOG_2_DECODING_METHODS",
     "log_decoding_CanonLog2",
+    "CANON_LOG_3_ENCODING_METHODS",
     "log_encoding_CanonLog3",
+    "CANON_LOG_3_DECODING_METHODS",
     "log_decoding_CanonLog3",
 ]
 __all__ += [
@@ -283,6 +299,8 @@ __all__ += [
 __all__ += [
     "log_encoding_FLog",
     "log_decoding_FLog",
+    "log_encoding_FLog2",
+    "log_decoding_FLog2",
 ]
 __all__ += [
     "log_encoding_NLog",
@@ -359,6 +377,7 @@ LOG_ENCODINGS: CanonicalMapping = CanonicalMapping(
         "D-Log": log_encoding_DJIDLog,
         "ERIMM RGB": log_encoding_ERIMMRGB,
         "F-Log": log_encoding_FLog,
+        "F-Log2": log_encoding_FLog2,
         "Filmic Pro 6": log_encoding_FilmicPro6,
         "L-Log": log_encoding_LLog,
         "Log2": log_encoding_Log2,
@@ -384,7 +403,7 @@ Supported *log* encoding functions.
 
 
 def log_encoding(
-    value: FloatingOrArrayLike,
+    value: ArrayLike,
     function: Union[
         Literal[
             "ACEScc",
@@ -399,6 +418,7 @@ def log_encoding(
             "D-Log",
             "ERIMM RGB",
             "F-Log",
+            "F-Log2",
             "Filmic Pro 6",
             "L-Log",
             "Log2",
@@ -420,7 +440,7 @@ def log_encoding(
         str,
     ] = "Cineon",
     **kwargs: Any
-) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
+) -> Union[NDArrayFloat, NDArrayInt]:
     """
     Encode *scene-referred* exposure values to :math:`R'G'B'` video component
     signal value using given *log* encoding function.
@@ -447,6 +467,7 @@ def log_encoding(
         :func:`colour.models.log_encoding_DJIDLog`,
         :func:`colour.models.log_encoding_ERIMMRGB`,
         :func:`colour.models.log_encoding_FLog`,
+        :func:`colour.models.log_encoding_FLog2`,
         :func:`colour.models.log_encoding_FilmicPro6`,
         :func:`colour.models.log_encoding_LLog`,
         :func:`colour.models.log_encoding_Log2`,
@@ -468,7 +489,7 @@ def log_encoding(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.integer` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Log* values.
 
     Examples
@@ -486,7 +507,7 @@ def log_encoding(
 
     function = validate_method(
         function,
-        LOG_ENCODINGS,
+        tuple(LOG_ENCODINGS),
         '"{0}" "log" encoding function is invalid, it must be one of {1}!',
     )
 
@@ -509,6 +530,7 @@ LOG_DECODINGS: CanonicalMapping = CanonicalMapping(
         "D-Log": log_decoding_DJIDLog,
         "ERIMM RGB": log_decoding_ERIMMRGB,
         "F-Log": log_decoding_FLog,
+        "F-Log2": log_decoding_FLog2,
         "Filmic Pro 6": log_decoding_FilmicPro6,
         "L-Log": log_decoding_LLog,
         "Log2": log_decoding_Log2,
@@ -534,7 +556,7 @@ Supported *log* decoding functions.
 
 
 def log_decoding(
-    value: Union[FloatingOrArrayLike, IntegerOrArrayLike],
+    value: Union[ArrayLike, ArrayLike],
     function: Union[
         Literal[
             "ACEScc",
@@ -549,6 +571,7 @@ def log_decoding(
             "D-Log",
             "ERIMM RGB",
             "F-Log",
+            "F-Log2",
             "Filmic Pro 6",
             "L-Log",
             "Log2",
@@ -570,7 +593,7 @@ def log_decoding(
         str,
     ] = "Cineon",
     **kwargs: Any
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Decode :math:`R'G'B'` video component signal value to *scene-referred*
     exposure values using given *log* decoding function.
@@ -597,6 +620,7 @@ def log_decoding(
         :func:`colour.models.log_decoding_DJIDLog`,
         :func:`colour.models.log_decoding_ERIMMRGB`,
         :func:`colour.models.log_decoding_FLog`,
+        :func:`colour.models.log_decoding_FLog2`,
         :func:`colour.models.log_decoding_FilmicPro6`,
         :func:`colour.models.log_decoding_LLog`,
         :func:`colour.models.log_decoding_Log2`,
@@ -618,7 +642,7 @@ def log_decoding(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Scene-referred* exposure values.
 
     Examples
@@ -638,7 +662,7 @@ def log_decoding(
 
     function = validate_method(
         function,
-        LOG_DECODINGS,
+        tuple(LOG_DECODINGS),
         '"{0}" "log" decoding function is invalid, it must be one of {1}!',
     )
 
@@ -678,7 +702,7 @@ Supported opto-electrical transfer functions (OETFs / OECFs).
 
 
 def oetf(
-    value: FloatingOrArrayLike,
+    value: ArrayLike,
     function: Union[
         Literal[
             "ARIB STD-B67",
@@ -697,7 +721,7 @@ def oetf(
         str,
     ] = "ITU-R BT.709",
     **kwargs: Any
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Encode estimated tristimulus values in a scene to :math:`R'G'B'` video
     component signal value using given opto-electronic transfer function
@@ -726,7 +750,7 @@ def oetf(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         :math:`R'G'B'` video component signal value.
 
     Examples
@@ -738,7 +762,9 @@ def oetf(
     """
 
     function = validate_method(
-        function, OETFS, '"{0}" "OETF" is invalid, it must be one of {1}!'
+        function,
+        tuple(OETFS),
+        '"{0}" "OETF" is invalid, it must be one of {1}!',
     )
 
     callable_ = OETFS[function]
@@ -767,7 +793,7 @@ Supported inverse opto-electrical transfer functions (OETFs / OECFs).
 
 
 def oetf_inverse(
-    value: FloatingOrArrayLike,
+    value: ArrayLike,
     function: Union[
         Literal[
             "ARIB STD-B67",
@@ -785,7 +811,7 @@ def oetf_inverse(
         str,
     ] = "ITU-R BT.709",
     **kwargs: Any
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Decode :math:`R'G'B'` video component signal value to tristimulus values
     at the display using given inverse opto-electronic transfer function
@@ -814,7 +840,7 @@ def oetf_inverse(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Tristimulus values at the display.
 
     Examples
@@ -829,7 +855,7 @@ def oetf_inverse(
 
     function = validate_method(
         function,
-        OETF_INVERSES,
+        tuple(OETF_INVERSES),
         '"{0}" inverse "OETF" is invalid, it must be one of {1}!',
     )
 
@@ -857,7 +883,7 @@ Supported electro-optical transfer functions (EOTFs / EOCFs).
 
 
 def eotf(
-    value: Union[FloatingOrArrayLike, IntegerOrArrayLike],
+    value: Union[ArrayLike, ArrayLike],
     function: Union[
         Literal[
             "DCDM",
@@ -873,7 +899,7 @@ def eotf(
         str,
     ] = "ITU-R BT.1886",
     **kwargs: Any
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Decode :math:`R'G'B'` video component signal value to tristimulus values
     at the display using given electro-optical transfer function (EOTF).
@@ -900,7 +926,7 @@ def eotf(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Tristimulus values at the display.
 
     Examples
@@ -913,7 +939,9 @@ def eotf(
     """
 
     function = validate_method(
-        function, EOTFS, '"{0}" "EOTF" is invalid, it must be one of {1}!'
+        function,
+        tuple(EOTFS),
+        '"{0}" "EOTF" is invalid, it must be one of {1}!',
     )
 
     callable_ = EOTFS[function]
@@ -939,7 +967,7 @@ Supported inverse electro-optical transfer functions (EOTFs / EOCFs).
 
 
 def eotf_inverse(
-    value: FloatingOrArrayLike,
+    value: ArrayLike,
     function: Union[
         Literal[
             "DCDM",
@@ -954,7 +982,7 @@ def eotf_inverse(
         str,
     ] = "ITU-R BT.1886",
     **kwargs
-) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
+) -> Union[NDArrayFloat, NDArrayInt]:
     """
     Encode estimated tristimulus values in a scene to :math:`R'G'B'` video
     component signal value using given inverse electro-optical transfer
@@ -981,7 +1009,7 @@ def eotf_inverse(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.integer` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         :math:`R'G'B'` video component signal value.
 
     Examples
@@ -996,7 +1024,7 @@ def eotf_inverse(
 
     function = validate_method(
         function,
-        EOTF_INVERSES,
+        tuple(EOTF_INVERSES),
         '"{0}" inverse "EOTF" is invalid, it must be one of {1}!',
     )
 
@@ -1050,7 +1078,7 @@ For *ITU-R BT.2100*, only the inverse electro-optical transfer functions
 
 
 def cctf_encoding(
-    value: FloatingOrArrayLike,
+    value: ArrayLike,
     function: Union[
         Literal[
             "ACEScc",
@@ -1070,6 +1098,7 @@ def cctf_encoding(
             "DaVinci Intermediate",
             "ERIMM RGB",
             "F-Log",
+            "F-Log2",
             "Filmic Pro 6",
             "Gamma 2.2",
             "Gamma 2.4",
@@ -1105,7 +1134,7 @@ def cctf_encoding(
         str,
     ] = "sRGB",
     **kwargs: Any
-) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
+) -> Union[NDArrayFloat, NDArrayInt]:
     """
     Encode linear :math:`RGB` values to non-linear :math:`R'G'B'` values using
     given encoding colour component transfer function (Encoding CCTF).
@@ -1133,7 +1162,7 @@ def cctf_encoding(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Non-linear :math:`R'G'B'` values.
 
     Examples
@@ -1152,7 +1181,7 @@ def cctf_encoding(
 
     function = validate_method(
         function,
-        CCTF_ENCODINGS,
+        tuple(CCTF_ENCODINGS),
         '"{0}" encoding "CCTF" is invalid, it must be one of {1}!',
     )
 
@@ -1206,7 +1235,7 @@ Notes
 
 
 def cctf_decoding(
-    value: Union[FloatingOrArrayLike, IntegerOrArrayLike],
+    value: Union[ArrayLike, ArrayLike],
     function: Union[
         Literal[
             "ACEScc",
@@ -1226,6 +1255,7 @@ def cctf_decoding(
             "DaVinci Intermediate",
             "ERIMM RGB",
             "F-Log",
+            "F-Log2",
             "Filmic Pro 6",
             "Gamma 2.2",
             "Gamma 2.4",
@@ -1261,7 +1291,7 @@ def cctf_decoding(
         str,
     ] = "sRGB",
     **kwargs: Any
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Decode non-linear :math:`R'G'B'` values to linear :math:`RGB` values using
     given decoding colour component transfer function (Decoding CCTF).
@@ -1289,7 +1319,7 @@ def cctf_decoding(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear :math:`RGB` values.
 
     Examples
@@ -1308,7 +1338,7 @@ def cctf_decoding(
 
     function = validate_method(
         function,
-        CCTF_DECODINGS,
+        tuple(CCTF_DECODINGS),
         '"{0}" decoding "CCTF" is invalid, it must be one of {1}!',
     )
 
@@ -1346,12 +1376,12 @@ Supported opto-optical transfer functions (OOTFs / OOCFs).
 
 
 def ootf(
-    value: FloatingOrArrayLike,
+    value: ArrayLike,
     function: Union[
         Literal["ITU-R BT.2100 HLG", "ITU-R BT.2100 PQ"], str
     ] = "ITU-R BT.2100 PQ",
     **kwargs: Any
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Map relative scene linear light to display linear light using given
     opto-optical transfer function (OOTF / OOCF).
@@ -1372,7 +1402,7 @@ def ootf(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Luminance of a displayed linear component.
 
     Examples
@@ -1384,7 +1414,9 @@ def ootf(
     """
 
     function = validate_method(
-        function, OOTFS, '"{0}" "OOTF" is invalid, it must be one of {1}!'
+        function,
+        tuple(OOTFS),
+        '"{0}" "OOTF" is invalid, it must be one of {1}!',
     )
 
     callable_ = OOTFS[function]
@@ -1404,12 +1436,12 @@ Supported inverse opto-optical transfer functions (OOTFs / OOCFs).
 
 
 def ootf_inverse(
-    value: FloatingOrArrayLike,
+    value: ArrayLike,
     function: Union[
         Literal["ITU-R BT.2100 HLG", "ITU-R BT.2100 PQ"], str
     ] = "ITU-R BT.2100 PQ",
     **kwargs: Any
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Map relative display linear light to scene linear light using given
     inverse opto-optical transfer function (OOTF / OOCF).
@@ -1430,7 +1462,7 @@ def ootf_inverse(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Luminance of scene linear light.
 
     Examples
@@ -1445,7 +1477,7 @@ def ootf_inverse(
 
     function = validate_method(
         function,
-        OOTF_INVERSES,
+        tuple(OOTF_INVERSES),
         '"{0}" inverse "OOTF" is invalid, it must be one of {1}!',
     )
 

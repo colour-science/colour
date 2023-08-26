@@ -18,7 +18,7 @@ References
 
 from __future__ import annotations
 
-from colour.hints import FloatingOrNDArray, Literal, Union
+from colour.hints import NDArrayFloat, Literal
 from colour.utilities import (
     CanonicalMapping,
     filter_kwargs,
@@ -59,8 +59,8 @@ References
 
 
 def contrast_sensitivity_function(
-    method: Union[Literal["Barten 1999"], str] = "Barten 1999", **kwargs
-) -> FloatingOrNDArray:
+    method: Literal["Barten 1999"] | str = "Barten 1999", **kwargs
+) -> NDArrayFloat:
     """
     Return the contrast sensitivity :math:`S` of the human eye according to
     the contrast sensitivity function (CSF) described by given method.
@@ -126,7 +126,7 @@ def contrast_sensitivity_function(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Contrast sensitivity :math:`S`.
 
     References
@@ -142,7 +142,7 @@ def contrast_sensitivity_function(
     360.8691122...
     """
 
-    method = validate_method(method, CONTRAST_SENSITIVITY_METHODS)
+    method = validate_method(method, tuple(CONTRAST_SENSITIVITY_METHODS))
 
     function = CONTRAST_SENSITIVITY_METHODS[method]
 

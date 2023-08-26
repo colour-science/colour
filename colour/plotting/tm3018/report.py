@@ -17,7 +17,7 @@ from __future__ import annotations
 import matplotlib.pyplot as plt
 
 from colour.colorimetry import SpectralDistribution, sd_to_XYZ
-from colour.hints import Any, Dict, Literal, Optional, Tuple, Union, cast
+from colour.hints import Any, Dict, Literal, Tuple, cast
 from colour.io import SpectralDistribution_IESTM2714
 from colour.models import XYZ_to_xy, XYZ_to_Luv, Luv_to_uv
 from colour.plotting.tm3018.components import (
@@ -35,11 +35,16 @@ from colour.quality import (
     colour_rendering_index,
 )
 from colour.plotting import CONSTANTS_COLOUR_STYLE, override_style, render
-from colour.utilities import describe_environment, optional, validate_method
+from colour.utilities import (
+    as_float_scalar,
+    describe_environment,
+    optional,
+    validate_method,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -64,13 +69,13 @@ __all__ = [
 ]
 
 # Full Report Size Constants
-CONSTANT_REPORT_SIZE_FULL: Tuple = (8.27, 11.69)
+CONSTANT_REPORT_SIZE_FULL: tuple = (8.27, 11.69)
 """Full report size, default to A4 paper size in inches."""
 
-CONSTANT_REPORT_ROW_HEIGHT_RATIOS_FULL: Tuple = (1, 2, 24, 3, 1)
+CONSTANT_REPORT_ROW_HEIGHT_RATIOS_FULL: tuple = (1, 2, 24, 3, 1)
 """Full report size row height ratios."""
 
-CONSTANT_REPORT_PADDING_FULL: Dict = {
+CONSTANT_REPORT_PADDING_FULL: dict = {
     "w_pad": 20 / 100,
     "h_pad": 10 / 100,
     "hspace": 0,
@@ -82,13 +87,13 @@ in-between the axes.
 """
 
 # Intermediate Report Size Constants
-CONSTANT_REPORT_SIZE_INTERMEDIATE: Tuple = (8.27, 11.69 / 2.35)
+CONSTANT_REPORT_SIZE_INTERMEDIATE: tuple = (8.27, 11.69 / 2.35)
 """Intermediate report size, a window into A4 paper size in inches."""
 
-CONSTANT_REPORT_ROW_HEIGHT_RATIOS_INTERMEDIATE: Tuple = (1, 8, 1)
+CONSTANT_REPORT_ROW_HEIGHT_RATIOS_INTERMEDIATE: tuple = (1, 8, 1)
 """Intermediate report size row height ratios."""
 
-CONSTANT_REPORT_PADDING_INTERMEDIATE: Dict = {
+CONSTANT_REPORT_PADDING_INTERMEDIATE: dict = {
     "w_pad": 20 / 100,
     "h_pad": 10 / 100,
     "hspace": 0,
@@ -100,13 +105,13 @@ and in-between the axes.
 """
 
 # Simple Report Size Constants
-CONSTANT_REPORT_SIZE_SIMPLE: Tuple = (8.27, 8.27)
+CONSTANT_REPORT_SIZE_SIMPLE: tuple = (8.27, 8.27)
 """Simple report size, a window into A4 paper size in inches."""
 
-CONSTANT_REPORT_ROW_HEIGHT_RATIOS_SIMPLE: Tuple = (1, 8, 1)
+CONSTANT_REPORT_ROW_HEIGHT_RATIOS_SIMPLE: tuple = (1, 8, 1)
 """Simple report size row height ratios."""
 
-CONSTANT_REPORT_PADDING_SIMPLE: Dict = {
+CONSTANT_REPORT_PADDING_SIMPLE: dict = {
     "w_pad": 20 / 100,
     "h_pad": 10 / 100,
     "hspace": 0,
@@ -117,7 +122,7 @@ Simple report box padding, tries to define the padding around the figure
 and in-between the axes.
 """
 
-CONSTANTS_REPORT_STYLE: Dict = {
+CONSTANTS_REPORT_STYLE: dict = {
     "axes.grid": False,
     "axes.labelpad": CONSTANTS_COLOUR_STYLE.geometry.short * 3,
     "axes.labelsize": "x-small",
@@ -212,20 +217,22 @@ def _plot_report_footer(axes: plt.Axes) -> plt.Axes:
         zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_label,
     )
 
+    return axes
+
 
 @override_style(**CONSTANTS_REPORT_STYLE)
 def plot_single_sd_colour_rendition_report_full(
     sd: SpectralDistribution,
-    source: Optional[str] = None,
-    date: Optional[str] = None,
-    manufacturer: Optional[str] = None,
-    model: Optional[str] = None,
-    notes: Optional[str] = None,
-    report_size: Tuple = CONSTANT_REPORT_SIZE_FULL,
-    report_row_height_ratios: Tuple = CONSTANT_REPORT_ROW_HEIGHT_RATIOS_FULL,
-    report_box_padding: Optional[Dict] = None,
+    source: str | None = None,
+    date: str | None = None,
+    manufacturer: str | None = None,
+    model: str | None = None,
+    notes: str | None = None,
+    report_size: tuple = CONSTANT_REPORT_SIZE_FULL,
+    report_row_height_ratios: tuple = CONSTANT_REPORT_ROW_HEIGHT_RATIOS_FULL,
+    report_box_padding: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:  # noqa: D405,D407,D410,D411
+) -> Tuple[plt.Figure, plt.Axes]:
     """
     Generate the full *ANSI/IES TM-30-18 Colour Rendition Report* for given
     spectral distribution.
@@ -280,13 +287,13 @@ def plot_single_sd_colour_rendition_report_full(
     >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> plot_single_sd_colour_rendition_report_full(sd)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with ... Axes>, <...AxesSubplot...>)
+    (<Figure size ... with ... Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Single_SD_Colour_Rendition_Report_Full.png
         :align: center
         :alt: plot_single_sd_colour_rendition_report_full
-    """
+    """  # noqa: D405, D407, D410, D411
 
     report_box_padding = optional(
         report_box_padding, CONSTANT_REPORT_PADDING_FULL
@@ -314,7 +321,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
     figure = plt.figure(figsize=report_size, constrained_layout=True)
 
     settings: Dict[str, Any] = dict(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
     settings["tight_layout"] = False
 
     gridspec_report = figure.add_gridspec(
@@ -512,7 +519,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
     axes_CRI.text(
         0.5,
         2 / 5,
-        f"$R_a$ {float(CRI_spec.Q_a):.0f}",
+        f"$R_a$ {as_float_scalar(CRI_spec.Q_a):.0f}",
         ha="center",
         va="center",
         size="medium",
@@ -522,7 +529,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
     axes_CRI.text(
         0.5,
         1 / 5,
-        f"$R_9$ {float(CRI_spec.Q_as[9].Q_a):.0f}",
+        f"$R_9$ {as_float_scalar(CRI_spec.Q_as[9].Q_a):.0f}",
         ha="center",
         va="center",
         size="medium",
@@ -533,7 +540,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
     axes_footer = figure.add_subplot(gridspec_footer[0])
     _plot_report_footer(axes_footer)
 
-    figure.set_constrained_layout_pads(**report_box_padding)
+    figure.get_layout_engine().set(**report_box_padding)
 
     settings = dict(kwargs)
     settings["tight_layout"] = False
@@ -544,11 +551,11 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
 @override_style(**CONSTANTS_REPORT_STYLE)
 def plot_single_sd_colour_rendition_report_intermediate(
     sd: SpectralDistribution,
-    report_size: Tuple = CONSTANT_REPORT_SIZE_INTERMEDIATE,
-    report_row_height_ratios: Tuple = (
+    report_size: tuple = CONSTANT_REPORT_SIZE_INTERMEDIATE,
+    report_row_height_ratios: tuple = (
         CONSTANT_REPORT_ROW_HEIGHT_RATIOS_INTERMEDIATE
     ),
-    report_box_padding: Optional[Dict] = None,
+    report_box_padding: dict | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -585,7 +592,7 @@ def plot_single_sd_colour_rendition_report_intermediate(
     >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> plot_single_sd_colour_rendition_report_intermediate(sd)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with ... Axes>, <...AxesSubplot...>)
+    (<Figure size ... with ... Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Single_SD_Colour_Rendition_Report_Intermediate.png
@@ -605,7 +612,7 @@ Plot_Single_SD_Colour_Rendition_Report_Intermediate.png
     figure = plt.figure(figsize=report_size, constrained_layout=True)
 
     settings: Dict[str, Any] = dict(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
     settings["tight_layout"] = False
 
     gridspec_report = figure.add_gridspec(
@@ -639,7 +646,7 @@ Plot_Single_SD_Colour_Rendition_Report_Intermediate.png
     axes_footer = figure.add_subplot(gridspec_footer[0])
     _plot_report_footer(axes_footer)
 
-    figure.set_constrained_layout_pads(**report_box_padding)
+    figure.get_layout_engine().set(**report_box_padding)
 
     settings = dict(kwargs)
     settings["tight_layout"] = False
@@ -649,9 +656,9 @@ Plot_Single_SD_Colour_Rendition_Report_Intermediate.png
 
 def plot_single_sd_colour_rendition_report_simple(
     sd: SpectralDistribution,
-    report_size: Tuple = CONSTANT_REPORT_SIZE_SIMPLE,
-    report_row_height_ratios: Tuple = CONSTANT_REPORT_ROW_HEIGHT_RATIOS_SIMPLE,
-    report_box_padding: Optional[Dict] = None,
+    report_size: tuple = CONSTANT_REPORT_SIZE_SIMPLE,
+    report_row_height_ratios: tuple = CONSTANT_REPORT_ROW_HEIGHT_RATIOS_SIMPLE,
+    report_box_padding: dict | None = None,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -688,7 +695,7 @@ def plot_single_sd_colour_rendition_report_simple(
     >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> plot_single_sd_colour_rendition_report_simple(sd)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with ... Axes>, <...AxesSubplot...>)
+    (<Figure size ... with ... Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Single_SD_Colour_Rendition_Report_Simple.png
@@ -708,7 +715,7 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
     figure = plt.figure(figsize=report_size, constrained_layout=True)
 
     settings: Dict[str, Any] = dict(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
     settings["tight_layout"] = False
 
     gridspec_report = figure.add_gridspec(
@@ -732,7 +739,7 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
     axes_footer = figure.add_subplot(gridspec_footer[0])
     _plot_report_footer(axes_footer)
 
-    figure.set_constrained_layout_pads(**report_box_padding)
+    figure.get_layout_engine().set(**report_box_padding)
 
     settings = dict(kwargs)
     settings["tight_layout"] = False
@@ -742,7 +749,7 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
 
 def plot_single_sd_colour_rendition_report(
     sd: SpectralDistribution,
-    method: Union[Literal["Full", "Intermediate", "Simple"], str] = "Full",
+    method: Literal["Full", "Intermediate", "Simple"] | str = "Full",
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -778,7 +785,7 @@ plot_single_sd_colour_rendition_report_intermediate`, \
     >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> plot_single_sd_colour_rendition_report(sd)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with ... Axes>, <...AxesSubplot...>)
+    (<Figure size ... with ... Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Single_SD_Colour_Rendition_Report_Full.png
@@ -787,7 +794,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
 
     >>> plot_single_sd_colour_rendition_report(sd, "Intermediate")
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with ... Axes>, <...AxesSubplot...>)
+    (<Figure size ... with ... Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Single_SD_Colour_Rendition_Report_Intermediate.png
@@ -796,7 +803,7 @@ Plot_Single_SD_Colour_Rendition_Report_Intermediate.png
 
     >>> plot_single_sd_colour_rendition_report(sd, "Simple")
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with ... Axes>, <...AxesSubplot...>)
+    (<Figure size ... with ... Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Single_SD_Colour_Rendition_Report_Simple.png
@@ -804,7 +811,7 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
         :alt: plot_single_sd_colour_rendition_report_simple
     """
 
-    method = validate_method(method, ["Full", "Intermediate", "Simple"])
+    method = validate_method(method, ("Full", "Intermediate", "Simple"))
 
     if method == "full":
         return plot_single_sd_colour_rendition_report_full(sd, **kwargs)

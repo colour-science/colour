@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import os
 
-from colour.hints import Any, Boolean, Integer, Literal, Optional, Union, cast
+from colour.hints import Any, Literal
 from colour.utilities import (
     CanonicalMapping,
     filter_kwargs,
@@ -103,21 +103,18 @@ References
 
 def read_LUT(
     path: str,
-    method: Optional[
-        Union[
-            Literal[
-                "Cinespace",
-                "Iridas Cube",
-                "Resolve Cube",
-                "Sony SPI1D",
-                "Sony SPI3D",
-                "Sony SPImtx",
-            ],
-            str,
-        ]
-    ] = None,
+    method: Literal[
+        "Cinespace",
+        "Iridas Cube",
+        "Resolve Cube",
+        "Sony SPI1D",
+        "Sony SPI3D",
+        "Sony SPImtx",
+    ]
+    | str
+    | None = None,
     **kwargs: Any,
-) -> Union[LUT1D, LUT3x1D, LUT3D, LUTSequence, LUTOperatorMatrix]:
+) -> LUT1D | LUT3x1D | LUT3D | LUTSequence | LUTOperatorMatrix:
     """
     Read given *LUT* file using given method.
 
@@ -220,14 +217,11 @@ or :class:`colour.LUTSequence` or :class:`colour.LUTOperatorMatrix`
     Offset     : [ 0.  0.  0.  0.]
     """
 
-    method = cast(
-        str,
-        optional(
-            method, MAPPING_EXTENSION_TO_LUT_FORMAT[os.path.splitext(path)[-1]]
-        ),
+    method = optional(
+        method, MAPPING_EXTENSION_TO_LUT_FORMAT[os.path.splitext(path)[-1]]
     )
 
-    method = validate_method(method, LUT_READ_METHODS)
+    method = validate_method(method, tuple(LUT_READ_METHODS))
 
     function = LUT_READ_METHODS[method]
 
@@ -240,7 +234,7 @@ or :class:`colour.LUTSequence` or :class:`colour.LUTOperatorMatrix`
             function = LUT_READ_METHODS["Resolve Cube"]
             return function(path, **filter_kwargs(function, **kwargs))
         else:
-            raise error
+            raise ValueError from error
 
 
 LUT_WRITE_METHODS = CanonicalMapping(
@@ -263,24 +257,21 @@ References
 
 
 def write_LUT(
-    LUT: Union[LUT1D, LUT3x1D, LUT3D, LUTSequence, LUTOperatorMatrix],
+    LUT: LUT1D | LUT3x1D | LUT3D | LUTSequence | LUTOperatorMatrix,
     path: str,
-    decimals: Integer = 7,
-    method: Optional[
-        Union[
-            Literal[
-                "Cinespace",
-                "Iridas Cube",
-                "Resolve Cube",
-                "Sony SPI1D",
-                "Sony SPI3D",
-                "Sony SPImtx",
-            ],
-            str,
-        ]
-    ] = None,
+    decimals: int = 7,
+    method: Literal[
+        "Cinespace",
+        "Iridas Cube",
+        "Resolve Cube",
+        "Sony SPI1D",
+        "Sony SPI3D",
+        "Sony SPImtx",
+    ]
+    | str
+    | None = None,
     **kwargs: Any,
-) -> Boolean:
+) -> bool:
     """
     Write given *LUT* to given file using given method.
 
@@ -346,14 +337,11 @@ def write_LUT(
     >>> write_LUT(LUT, "My_LUT.cube")  # doctest: +SKIP
     """
 
-    method = cast(
-        str,
-        optional(
-            method, MAPPING_EXTENSION_TO_LUT_FORMAT[os.path.splitext(path)[-1]]
-        ),
+    method = optional(
+        method, MAPPING_EXTENSION_TO_LUT_FORMAT[os.path.splitext(path)[-1]]
     )
 
-    method = validate_method(method, LUT_WRITE_METHODS)
+    method = validate_method(method, tuple(LUT_WRITE_METHODS))
 
     if method == "iridas cube" and isinstance(LUT, LUTSequence):
         method = "resolve cube"

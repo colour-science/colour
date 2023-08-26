@@ -13,13 +13,11 @@ References
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.colorimetry import CCS_ILLUMINANTS, SpectralDistribution
-from colour.hints import ArrayLike, NDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.models import (
     XYZ_to_RGB,
-    normalised_primary_matrix,
+    RGB_Colourspace,
     RGB_COLOURSPACE_sRGB,
 )
 from colour.recovery import SDS_SMITS1999
@@ -27,37 +25,47 @@ from colour.utilities import to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
     "PRIMARIES_SMITS1999",
+    "WHITEPOINT_NAME_SMITS1999",
     "CCS_WHITEPOINT_SMITS1999",
-    "MATRIX_XYZ_TO_RGB_SMITS1999",
+    "RGB_COLOURSPACE_SMITS1999",
     "XYZ_to_RGB_Smits1999",
     "RGB_to_sd_Smits1999",
 ]
 
-PRIMARIES_SMITS1999: NDArray = RGB_COLOURSPACE_sRGB.primaries
-"""Current *Smits (1999)* method implementation colourspace primaries."""
+PRIMARIES_SMITS1999: NDArrayFloat = RGB_COLOURSPACE_sRGB.primaries
+"""*Smits (1999)* method implementation colourspace primaries."""
 
-CCS_WHITEPOINT_SMITS1999: NDArray = CCS_ILLUMINANTS[
+WHITEPOINT_NAME_SMITS1999 = "E"
+"""*Smits (1999)* method implementation colourspace whitepoint name."""
+
+CCS_WHITEPOINT_SMITS1999: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
-]["E"]
-"""Current *Smits (1999)* method implementation colourspace whitepoint."""
+][WHITEPOINT_NAME_SMITS1999]
+"""*Smits (1999)* method implementation colourspace whitepoint."""
 
-MATRIX_XYZ_TO_RGB_SMITS1999: NDArray = np.linalg.inv(
-    normalised_primary_matrix(PRIMARIES_SMITS1999, CCS_WHITEPOINT_SMITS1999)
+RGB_COLOURSPACE_SMITS1999 = RGB_Colourspace(
+    "Smits 1999",
+    PRIMARIES_SMITS1999,
+    CCS_WHITEPOINT_SMITS1999,
+    WHITEPOINT_NAME_SMITS1999,
 )
-"""
-Current *Smits (1999)* method implementation *RGB* colourspace to
-*CIE XYZ* tristimulus values matrix.
+RGB_COLOURSPACE_sRGB.__doc__ = """
+*Smits (1999)* colourspace.
+
+References
+----------
+:cite:`Smits1999a`,
 """
 
 
-def XYZ_to_RGB_Smits1999(XYZ: ArrayLike) -> NDArray:
+def XYZ_to_RGB_Smits1999(XYZ: ArrayLike) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *RGB* colourspace with
     conditions required by the current *Smits (1999)* method implementation.
@@ -74,17 +82,13 @@ def XYZ_to_RGB_Smits1999(XYZ: ArrayLike) -> NDArray:
 
     Examples
     --------
+    >>> import numpy as np
     >>> XYZ = np.array([0.21781186, 0.12541048, 0.04697113])
     >>> XYZ_to_RGB_Smits1999(XYZ)  # doctest: +ELLIPSIS
     array([ 0.4063959...,  0.0275289...,  0.0398219...])
     """
 
-    return XYZ_to_RGB(
-        XYZ,
-        CCS_WHITEPOINT_SMITS1999,
-        CCS_WHITEPOINT_SMITS1999,
-        MATRIX_XYZ_TO_RGB_SMITS1999,
-    )
+    return XYZ_to_RGB(XYZ, RGB_COLOURSPACE_SMITS1999)
 
 
 def RGB_to_sd_Smits1999(RGB: ArrayLike) -> SpectralDistribution:
@@ -116,6 +120,7 @@ def RGB_to_sd_Smits1999(RGB: ArrayLike) -> SpectralDistribution:
 
     Examples
     --------
+    >>> import numpy as np
     >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape
     >>> from colour.colorimetry import sd_to_XYZ_integration
     >>> from colour.utilities import numpy_print_options

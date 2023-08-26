@@ -19,27 +19,20 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import (
-    ArrayLike,
-    Boolean,
-    Integer,
-    List,
-    NDArray,
-    Tuple,
-    Union,
-)
+from colour.hints import ArrayLike, List, NDArrayFloat
 from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence
 from colour.utilities import (
-    attest,
-    tsplit,
-    tstack,
     as_float_array,
     as_int_array,
+    attest,
+    format_array_as_row,
+    tsplit,
+    tstack,
 )
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -50,7 +43,7 @@ __all__ = [
 ]
 
 
-def read_LUT_Cinespace(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
+def read_LUT_Cinespace(path: str) -> LUT3x1D | LUT3D | LUTSequence:
     """
     Read given *Cinespace* *.csp* *LUT* file.
 
@@ -112,12 +105,12 @@ def read_LUT_Cinespace(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
 
     unity_range = np.array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]])
 
-    def _parse_metadata_section(metadata: List) -> Tuple:
+    def _parse_metadata_section(metadata: list) -> tuple:
         """Parse the metadata at given lines."""
 
         return (metadata[0], metadata[1:]) if len(metadata) > 0 else ("", [])
 
-    def _parse_domain_section(lines: List[str]) -> NDArray:
+    def _parse_domain_section(lines: List[str]) -> NDArrayFloat:
         """Parse the domain at given lines."""
 
         pre_LUT_size = max(int(lines[i]) for i in [0, 3, 6])
@@ -126,18 +119,18 @@ def read_LUT_Cinespace(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
         ]
 
         pre_LUT_padded = []
-        for row in pre_LUT:
-            if len(row) != pre_LUT_size:
+        for array in pre_LUT:
+            if len(array) != pre_LUT_size:
                 pre_LUT_padded.append(
                     np.pad(
-                        row,
-                        (0, pre_LUT_size - row.shape[0]),
+                        array,
+                        (0, pre_LUT_size - array.shape[0]),
                         mode="constant",
                         constant_values=np.nan,
                     )
                 )
             else:
-                pre_LUT_padded.append(row)
+                pre_LUT_padded.append(array)
 
         return np.asarray(pre_LUT_padded)
 
@@ -166,7 +159,7 @@ def read_LUT_Cinespace(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
         metadata = []
         is_metadata = False
         for i, line in enumerate(lines[2:]):
-            line = line.strip()
+            line = line.strip()  # noqa: PLW2901
             if line == "BEGIN METADATA":
                 is_metadata = True
                 continue
@@ -185,9 +178,9 @@ def read_LUT_Cinespace(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
         seek += 9
         size, table = _parse_table_section(lines[seek:])
 
-        attest(np.product(size) == len(table), '"LUT" table size is invalid!')
+        attest(np.prod(size) == len(table), '"LUT" table size is invalid!')
 
-    LUT: Union[LUT3x1D, LUT3D, LUTSequence]
+    LUT: LUT3x1D | LUT3D | LUTSequence
     if (
         is_3D
         and pre_LUT.shape == (6, 2)
@@ -253,8 +246,8 @@ def read_LUT_Cinespace(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
 
 
 def write_LUT_Cinespace(
-    LUT: Union[LUT3x1D, LUT3D, LUTSequence], path: str, decimals: Integer = 7
-) -> Boolean:
+    LUT: LUT3x1D | LUT3D | LUTSequence, path: str, decimals: int = 7
+) -> bool:
     """
     Write given *LUT* to given  *Cinespace* *.csp* *LUT* file.
 
@@ -313,7 +306,7 @@ def write_LUT_Cinespace(
             '"LUTSequence" must be "1D + 3D" or "3x1D + 3D"!',
         )
         LUT[0] = (
-            LUT[0].as_LUT(LUT3x1D) if isinstance(LUT[0], LUT1D) else LUT[0]
+            LUT[0].convert(LUT3x1D) if isinstance(LUT[0], LUT1D) else LUT[0]
         )
         name = f"{LUT[0].name} - {LUT[1].name}"
         has_3x1D = True
@@ -322,7 +315,7 @@ def write_LUT_Cinespace(
     elif isinstance(LUT, LUT1D):
         name = LUT.name
         has_3x1D = True
-        LUT = LUTSequence(LUT.as_LUT(LUT3x1D), LUT3D())
+        LUT = LUTSequence(LUT.convert(LUT3x1D), LUT3D())
 
     elif isinstance(LUT, LUT3x1D):
         name = LUT.name
@@ -335,7 +328,7 @@ def write_LUT_Cinespace(
         LUT = LUTSequence(LUT3x1D(), LUT)
 
     else:
-        raise ValueError("LUT must be 1D, 3x1D, 3D, 1D + 3D or 3x1D + 3D!")
+        raise TypeError("LUT must be 1D, 3x1D, 3D, 1D + 3D or 3x1D + 3D!")
 
     if has_3x1D:
         attest(
@@ -347,7 +340,7 @@ def write_LUT_Cinespace(
             2 <= LUT[1].size <= 256, "Cube size must be in domain [2, 256]!"
         )
 
-    def _ragged_size(table: ArrayLike) -> List:
+    def _ragged_size(table: ArrayLike) -> list:
         """Return the ragged size of given table."""
 
         R, G, B = tsplit(table)
@@ -357,19 +350,6 @@ def write_LUT_Cinespace(
         B_len = B.shape[-1] - np.sum(np.isnan(B))
 
         return [R_len, G_len, B_len]
-
-    def _format_array(array: Union[List, Tuple]) -> str:
-        """Format given array as a *Cinespace* *.cube* data row."""
-
-        return "{1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)
-
-    def _format_tuple(array: Union[List, Tuple]) -> str:
-        """
-        Format given array as 2 space separated values to *decimals*
-        precision.
-        """
-
-        return "{1:0.{0}f} {2:0.{0}f}".format(decimals, *array)
 
     with open(path, "w") as csp_file:
         csp_file.write("CSPLUTV100\n")
@@ -415,24 +395,28 @@ def write_LUT_Cinespace(
                             )
                         )
 
-                        csp_file.write("{0:.{1}f} ".format(entry, decimals))
+                        csp_file.write(
+                            f"{format_array_as_row(entry, decimals)} "
+                        )
 
                     csp_file.write("\n")
 
                     for j in range(size):
                         entry = LUT[0].table[j][i]
-                        csp_file.write("{0:.{1}f} ".format(entry, decimals))
+                        csp_file.write(
+                            f"{format_array_as_row(entry, decimals)} "
+                        )
 
                     csp_file.write("\n")
             else:
                 for i in range(3):
                     csp_file.write("2\n")
-                    domain = _format_tuple(
-                        [LUT[1].domain[0][i], LUT[1].domain[1][i]]
+                    domain = format_array_as_row(
+                        [LUT[1].domain[0][i], LUT[1].domain[1][i]], decimals
                     )
                     csp_file.write(f"{domain}\n")
                     csp_file.write(
-                        "{0:.{2}f} {1:.{2}f}\n".format(0, 1, decimals)
+                        f"{format_array_as_row([0, 1], decimals)}\n"
                     )
 
             csp_file.write(
@@ -442,20 +426,20 @@ def write_LUT_Cinespace(
             )
             table = LUT[1].table.reshape([-1, 3], order="F")
 
-            for row in table:
-                csp_file.write(f"{_format_array(row)}\n")
+            for array in table:
+                csp_file.write(f"{format_array_as_row(array, decimals)}\n")
         else:
             for i in range(3):
                 csp_file.write("2\n")
-                domain = _format_tuple(
-                    [LUT[0].domain[0][i], LUT[0].domain[1][i]]
+                domain = format_array_as_row(
+                    [LUT[0].domain[0][i], LUT[0].domain[1][i]], decimals
                 )
                 csp_file.write(f"{domain}\n")
                 csp_file.write("0.0 1.0\n")
             csp_file.write(f"\n{LUT[0].size}\n")
             table = LUT[0].table
 
-            for row in table:
-                csp_file.write(f"{_format_array(row)}\n")
+            for array in table:
+                csp_file.write(f"{format_array_as_row(array, decimals)}\n")
 
     return True

@@ -17,7 +17,7 @@ from colour.hints import Dict
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -43,7 +43,7 @@ def read_sds_from_xrite_file(path: str) -> Dict[str, SpectralDistribution]:
     Returns
     -------
     :class:`dict`
-        *Dict* of :class:`colour.SpectralDistribution` class instances.
+        *dict* of :class:`colour.SpectralDistribution` class instances.
 
     Notes
     -----
@@ -67,10 +67,11 @@ def read_sds_from_xrite_file(path: str) -> Dict[str, SpectralDistribution]:
     with codecs.open(path, encoding=XRITE_FILE_ENCODING) as xrite_file:
         lines = xrite_file.read().strip().split("\n")
 
+        index = 0
         xrite_sds = {}
         is_spectral_data_format, is_spectral_data = False, False
         for line in lines:
-            line = line.strip()
+            line = line.strip()  # noqa: PLW2901
 
             if line == "END_DATA_FORMAT":
                 is_spectral_data_format = False
@@ -79,7 +80,7 @@ def read_sds_from_xrite_file(path: str) -> Dict[str, SpectralDistribution]:
                 is_spectral_data = False
 
             if is_spectral_data_format:
-                wavelengths = [x for x in re.findall("nm(\\d+)", line)]
+                wavelengths = list(re.findall("nm(\\d+)", line))
                 index = len(wavelengths)
 
             if is_spectral_data:

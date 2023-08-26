@@ -21,7 +21,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
     oetf_DaVinciIntermediate,
@@ -30,7 +30,7 @@ from colour.models.rgb import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -44,7 +44,7 @@ __all__ = [
     "RGB_COLOURSPACE_DAVINCI_WIDE_GAMUT",
 ]
 
-PRIMARIES_DAVINCI_WIDE_GAMUT: NDArray = np.array(
+PRIMARIES_DAVINCI_WIDE_GAMUT: NDArrayFloat = np.array(
     [
         [0.8000, 0.3130],
         [0.1682, 0.9877],
@@ -56,12 +56,12 @@ PRIMARIES_DAVINCI_WIDE_GAMUT: NDArray = np.array(
 WHITEPOINT_NAME_DAVINCI_WIDE_GAMUT: str = "D65"
 """*DaVinci Wide Gamut* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_DAVINCI_WIDE_GAMUT: NDArray = CCS_ILLUMINANTS[
+CCS_WHITEPOINT_DAVINCI_WIDE_GAMUT: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_DAVINCI_WIDE_GAMUT]
 """*DaVinci Wide Gamut* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_DAVINCI_WIDE_GAMUT_TO_XYZ: NDArray = np.array(
+MATRIX_DAVINCI_WIDE_GAMUT_TO_XYZ: NDArrayFloat = np.array(
     [
         [0.70062239, 0.14877482, 0.10105872],
         [0.27411851, 0.87363190, -0.14775041],
@@ -70,7 +70,7 @@ MATRIX_DAVINCI_WIDE_GAMUT_TO_XYZ: NDArray = np.array(
 )
 """*DaVinci Wide Gamut* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_DAVINCI_WIDE_GAMUT: NDArray = np.array(
+MATRIX_XYZ_TO_DAVINCI_WIDE_GAMUT: NDArrayFloat = np.array(
     [
         [1.51667204, -0.28147805, -0.14696363],
         [-0.46491710, 1.25142378, 0.17488461],

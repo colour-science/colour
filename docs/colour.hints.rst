@@ -8,6 +8,9 @@ Annotation Type Hints
 .. autosummary::
     :toctree: generated/
 
+    ArrayLike
+    NDArray
+    ModuleType
     Any
     Callable
     Dict
@@ -15,53 +18,43 @@ Annotation Type Hints
     Iterable
     Iterator
     List
+    Literal
     Mapping
-    ModuleType
+    NewType
     Optional
-    Union
+    Protocol
     Sequence
     SupportsIndex
+    TYPE_CHECKING
     TextIO
     Tuple
     Type
-    TypedDict
     TypeVar
-    RegexFlag
-    DTypeBoolean
-    DTypeInteger
-    DTypeFloating
-    DTypeNumber
-    DTypeComplex
-    DType
-    Integer
-    Floating
-    Number
-    Complex
-    Boolean
-    Literal
-    Dataclass
-    NestedSequence
-    ArrayLike
-    IntegerOrArrayLike
-    FloatingOrArrayLike
-    NumberOrArrayLike
-    ComplexOrArrayLike
-    BooleanOrArrayLike
-    ScalarType
-    StrOrArrayLike
-    NDArray
-    IntegerOrNDArray
-    FloatingOrNDArray
-    NumberOrNDArray
-    ComplexOrNDArray
-    BooleanOrNDArray
-    StrOrNDArray
-    TypeInterpolator
-    TypeExtrapolator
-    TypeLUTSequenceItem
-    LiteralWarning
+    TypedDict
+    Union
     cast
-
+    overload
+    runtime_checkable
+    Self
+    RegexFlag
+    DTypeInt
+    DTypeFloat
+    DTypeReal
+    DTypeComplex
+    DTypeBoolean
+    DType
+    Real
+    Dataclass
+    NDArrayInt
+    NDArrayFloat
+    NDArrayReal
+    NDArrayComplex
+    NDArrayBoolean
+    NDArrayStr
+    ProtocolInterpolator
+    ProtocolExtrapolator
+    ProtocolLUTSequenceItem
+    LiteralWarning
 
 
 

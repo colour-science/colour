@@ -35,21 +35,17 @@ from collections.abc import MutableMapping
 
 from colour.hints import (
     Any,
-    Boolean,
-    Dict,
     Generator,
-    Integer,
     Iterable,
     List,
     Mapping,
-    Optional,
-    Union,
+    Self,
 )
 from colour.utilities.documentation import is_documentation_building
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -161,15 +157,13 @@ class Structure(dict):
 
         try:
             return self[name]
-        except KeyError:
-            raise AttributeError(name)
+        except KeyError as error:
+            raise AttributeError(name) from error
 
     def __setstate__(self, state):
         """Set the object state when unpickling."""
         # See https://github.com/scikit-learn/scikit-learn/issues/6196 for more
         # information.
-
-        pass
 
 
 class Lookup(dict):
@@ -195,7 +189,7 @@ class Lookup(dict):
     ['Jane', 'John']
     """
 
-    def keys_from_value(self, value: Any) -> List:
+    def keys_from_value(self, value: Any) -> list:
         """
         Get the keys associated with given value.
 
@@ -314,14 +308,14 @@ class CanonicalMapping(MutableMapping):
     """
 
     def __init__(
-        self, data: Optional[Union[Generator, Mapping]] = None, **kwargs: Any
+        self, data: Generator | Mapping | None = None, **kwargs: Any
     ) -> None:
-        self._data: Dict = dict()
+        self._data: dict = {}
 
         self.update({} if data is None else data, **kwargs)
 
     @property
-    def data(self) -> Dict:
+    def data(self) -> dict:
         """
         Getter property for the delimiter and case-insensitive
         :class:`dict`-like object data.
@@ -353,7 +347,7 @@ class CanonicalMapping(MutableMapping):
         else:
             return f"{self.__class__.__name__}({dict(self.items())})"
 
-    def __setitem__(self, item: Union[str, Any], value: Any):
+    def __setitem__(self, item: str | Any, value: Any):
         """
         Set given item with given value in the delimiter and case-insensitive
         :class:`dict`-like object.
@@ -370,7 +364,7 @@ class CanonicalMapping(MutableMapping):
 
         self._data[item] = value
 
-    def __getitem__(self, item: Union[str, Any]) -> Any:
+    def __getitem__(self, item: str | Any) -> Any:
         """
         Return the value of given item from the delimiter and case-insensitive
         :class:`dict`-like object.
@@ -411,7 +405,7 @@ class CanonicalMapping(MutableMapping):
 
         return self[dict(zip(self.canonical_keys(), self.keys()))[item]]
 
-    def __delitem__(self, item: Union[str, Any]):
+    def __delitem__(self, item: str | Any):
         """
         Delete given item from the delimiter and case-insensitive
         :class:`dict`-like object.
@@ -450,7 +444,7 @@ class CanonicalMapping(MutableMapping):
 
         del self[dict(zip(self.canonical_keys(), self.keys()))[item]]
 
-    def __contains__(self, item: Union[str, Any]) -> bool:
+    def __contains__(self, item: str | Any) -> bool:
         """
         Return whether the delimiter and case-insensitive :class:`dict`-like
         object contains given item.
@@ -473,17 +467,16 @@ class CanonicalMapping(MutableMapping):
             slugified or canonical variant.
         """
 
-        if any(
-            [
-                item in self._data,
-                str(item).lower() in self.lower_keys(),
-                item in self.slugified_keys(),
-                item in self.canonical_keys(),
-            ]
-        ):
-            return True
-        else:
-            return False
+        return bool(
+            any(
+                [
+                    item in self._data,
+                    str(item).lower() in self.lower_keys(),
+                    item in self.slugified_keys(),
+                    item in self.canonical_keys(),
+                ]
+            )
+        )
 
     def __iter__(self) -> Generator:
         """
@@ -502,13 +495,13 @@ class CanonicalMapping(MutableMapping):
 
         yield from self._data.keys()
 
-    def __len__(self) -> Integer:
+    def __len__(self) -> int:
         """
         Return the items count.
 
         Returns
         -------
-        :class:`numpy.integer`
+        :class:`int`
             Items count.
         """
 
@@ -535,7 +528,7 @@ class CanonicalMapping(MutableMapping):
         if isinstance(other, Mapping):
             other_mapping = CanonicalMapping(other)
         else:
-            raise ValueError(
+            raise TypeError(
                 f"Impossible to test equality with "
                 f'"{other.__class__.__name__}" class type!'
             )
@@ -563,7 +556,7 @@ class CanonicalMapping(MutableMapping):
         return not (self == other)
 
     @staticmethod
-    def _collision_warning(keys: List):
+    def _collision_warning(keys: list):
         """
         Issue a runtime warning when given keys are colliding.
 
@@ -734,7 +727,7 @@ class LazyCanonicalMapping(CanonicalMapping):
     2
     """
 
-    def __getitem__(self, item: Union[str, Any]) -> Any:
+    def __getitem__(self, item: str | Any) -> Any:
         """
         Return the value of given item from the lazy delimiter and
         case-insensitive :class:`dict`-like object.
@@ -818,14 +811,14 @@ class Node:
     7
     """
 
-    _INSTANCE_ID: Integer = 1
+    _INSTANCE_ID: int = 1
     """
     Node id counter.
 
     _INSTANCE_ID
     """
 
-    def __new__(cls, *args: Any, **kwargs: Any) -> Node:
+    def __new__(cls, *args: Any, **kwargs: Any) -> Self:  # noqa: ARG003
         """
         Return a new instance of the :class:`colour.utilities.Node` class.
 
@@ -839,25 +832,27 @@ class Node:
 
         instance = super().__new__(cls)
 
-        instance._id = Node._INSTANCE_ID  # type: ignore[attr-defined]
+        instance._id = Node._INSTANCE_ID  # pyright: ignore
         Node._INSTANCE_ID += 1
 
         return instance
 
     def __init__(
         self,
-        name: Optional[str] = None,
-        parent: Optional[Node] = None,
-        children: Optional[List[Node]] = None,
-        data: Optional[Any] = None,
+        name: str | None = None,
+        parent: Self | None = None,
+        children: List[Self] | None = None,
+        data: Any | None = None,
     ) -> None:
         self._name: str = f"{self.__class__.__name__}#{self.id}"
         self.name = self._name if name is None else name
-        self._parent: Optional[Node] = None
+        self._parent: Self | None = None
         self.parent = parent
-        self._children: List[Node] = []
-        self.children = self._children if children is None else children
-        self._data: Optional[Any] = data
+        self._children: List[Self] = []
+        self.children = (  # pyright: ignore
+            self._children if children is None else children
+        )
+        self._data: Any | None = data
 
     @property
     def name(self) -> str:
@@ -891,7 +886,7 @@ class Node:
         self._name = value
 
     @property
-    def parent(self) -> Optional[Node]:
+    def parent(self) -> Self | None:
         """
         Getter and setter property for the node parent.
 
@@ -909,7 +904,7 @@ class Node:
         return self._parent
 
     @parent.setter
-    def parent(self, value: Optional[Node]):
+    def parent(self, value: Self | None):
         """Setter for the **self.parent** property."""
 
         from colour.utilities import attest
@@ -918,7 +913,7 @@ class Node:
             attest(
                 issubclass(value.__class__, Node),
                 f'"parent" property: "{value}" is not a '
-                f'"{Node.__class__.__name__}" subclass!',
+                f'"{self.__class__.__name__}" subclass!',
             )
 
             value.children.append(self)
@@ -926,7 +921,7 @@ class Node:
         self._parent = value
 
     @property
-    def children(self) -> List[Node]:
+    def children(self) -> List[Self]:
         """
         Getter and setter property for the node children.
 
@@ -944,7 +939,7 @@ class Node:
         return self._children
 
     @children.setter
-    def children(self, value: List[Node]):
+    def children(self, value: List[Self]):
         """Setter for the **self.children** property."""
 
         from colour.utilities import attest
@@ -958,7 +953,7 @@ class Node:
             attest(
                 issubclass(element.__class__, Node),
                 f'"children" property: A "{element}" element is not a '
-                f'"{Node.__class__.__name__}" subclass!',
+                f'"{self.__class__.__name__}" subclass!',
             )
 
         for node in value:
@@ -967,20 +962,20 @@ class Node:
         self._children = value
 
     @property
-    def id(self) -> Integer:
+    def id(self) -> int:  # noqa: A003
         """
         Getter property for the node id.
 
         Returns
         -------
-        :class:`numpy.integer`
+        :class:`int`
             Node id.
         """
 
-        return self._id  # type: ignore[attr-defined]
+        return self._id  # pyright: ignore
 
     @property
-    def root(self) -> Node:
+    def root(self) -> Self:
         """
         Getter property for the node tree.
 
@@ -1023,7 +1018,7 @@ class Node:
         """
 
         if self.parent is None:
-            return (sibling for sibling in ())  # type: ignore[var-annotated]
+            return (sibling for sibling in ())
         else:
             return (
                 sibling
@@ -1062,19 +1057,19 @@ class Node:
 
         return f"{self.__class__.__name__}#{self.id}({self._data})"
 
-    def __len__(self) -> Integer:
+    def __len__(self) -> int:
         """
         Return the number of children of the node.
 
         Returns
         -------
-        :class:`numpy.integer`
+        :class:`int`
             Number of children of the node.
         """
 
         return len(list(self.walk()))
 
-    def is_root(self) -> Boolean:
+    def is_root(self) -> bool:
         """
         Return whether the node is a root node.
 
@@ -1096,7 +1091,7 @@ class Node:
 
         return self.parent is None
 
-    def is_inner(self) -> Boolean:
+    def is_inner(self) -> bool:
         """
         Return whether the node is an inner node.
 
@@ -1118,7 +1113,7 @@ class Node:
 
         return all([not self.is_root(), not self.is_leaf()])
 
-    def is_leaf(self) -> Boolean:
+    def is_leaf(self) -> bool:
         """
         Return whether the node is a leaf node.
 
@@ -1140,7 +1135,7 @@ class Node:
 
         return len(self._children) == 0
 
-    def walk(self, ascendants: Boolean = False) -> Generator:
+    def walk(self, ascendants: bool = False) -> Generator:
         """
         Return a generator used to walk into :class:`colour.utilities.Node`
         trees.
@@ -1190,7 +1185,7 @@ class Node:
 
             yield from node.walk(ascendants=ascendants)
 
-    def render(self, tab_level: Integer = 0):
+    def render(self, tab_level: int = 0):
         """
         Render the current node and its children as a string.
 

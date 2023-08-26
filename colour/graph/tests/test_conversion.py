@@ -11,7 +11,7 @@ from colour.graph import describe_conversion_path, convert
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -138,9 +138,9 @@ class TestConvert(unittest.TestCase):
         ]
         np.testing.assert_array_almost_equal(
             convert(
-                a, "CIE XYZ", "CIE xyY", XYZ_to_xyY={"illuminant": illuminant}
+                a, "CIE XYZ", "CIE UVW", XYZ_to_UVW={"illuminant": illuminant}
             ),
-            convert(a, "CIE XYZ", "CIE xyY", illuminant=illuminant),
+            convert(a, "CIE XYZ", "CIE UVW", illuminant=illuminant),
             decimal=7,
         )
 

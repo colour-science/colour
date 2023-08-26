@@ -42,15 +42,10 @@ from colour.hints import (
     Any,
     ArrayLike,
     Callable,
-    Dict,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    Integer,
     List,
     Literal,
-    NDArray,
+    NDArrayFloat,
     Optional,
-    Union,
     cast,
 )
 from colour.recovery import XYZ_to_sd
@@ -76,7 +71,7 @@ from colour.models import (
     IHLS_to_RGB,
     IgPgTg_to_XYZ,
     IPT_to_XYZ,
-    IPT_Munish2021_to_XYZ,
+    IPT_Ragoo2021_to_XYZ,
     JMh_CAM16_to_CAM16LCD,
     JMh_CAM16_to_CAM16SCD,
     JMh_CAM16_to_CAM16UCS,
@@ -120,7 +115,7 @@ from colour.models import (
     XYZ_to_ICtCp,
     XYZ_to_IgPgTg,
     XYZ_to_IPT,
-    XYZ_to_IPT_Munish2021,
+    XYZ_to_IPT_Ragoo2021,
     XYZ_to_Jzazbz,
     XYZ_to_Lab,
     XYZ_to_Luv,
@@ -135,9 +130,11 @@ from colour.models import (
     XYZ_to_sRGB,
     XYZ_to_xy,
     XYZ_to_xyY,
+    XYZ_to_Yrg,
     YCbCr_to_RGB,
     YCoCg_to_RGB,
     YcCbcCrc_to_RGB,
+    Yrg_to_XYZ,
     cctf_decoding,
     cctf_encoding,
     hdr_CIELab_to_XYZ,
@@ -155,6 +152,7 @@ from colour.models import (
 from colour.notation import (
     HEX_to_RGB,
     RGB_to_HEX,
+    keyword_to_RGB_CSSColor3,
     munsell_value,
     munsell_colour_to_xyY,
     xyY_to_munsell_colour,
@@ -184,7 +182,7 @@ from colour.appearance import (
     ZCAM_to_XYZ,
 )
 from colour.appearance.ciecam02 import CAM_KWARGS_CIECAM02_sRGB
-from colour.temperature import CCT_to_uv, uv_to_CCT
+from colour.temperature import CCT_to_mired, CCT_to_uv, mired_to_CCT, uv_to_CCT
 from colour.utilities import (
     as_float_array,
     domain_range_scale,
@@ -193,13 +191,13 @@ from colour.utilities import (
     required,
     tsplit,
     tstack,
-    usage_warning,
     validate_method,
+    zeros,
 )
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -214,6 +212,8 @@ __all__ = [
     "JMh_Hellwig2022_to_Hellwig2022",
     "XYZ_to_luminance",
     "RGB_luminance_to_RGB",
+    "CCT_D_uv_to_mired",
+    "mired_to_CCT_D_uv",
     "CONVERSION_SPECIFICATIONS_DATA",
     "CONVERSION_GRAPH_NODE_LABELS",
     "CONVERSION_SPECIFICATIONS",
@@ -255,7 +255,7 @@ class Conversion_Specification(
 
 def CIECAM02_to_JMh_CIECAM02(
     specification: CAM_Specification_CIECAM02,
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert from *CIECAM02* specification to *CIECAM02* :math:`JMh`
     correlates.
@@ -281,9 +281,9 @@ def CIECAM02_to_JMh_CIECAM02(
 
     return tstack(
         [
-            cast(FloatingOrNDArray, specification.J),
-            cast(FloatingOrNDArray, specification.M),
-            cast(FloatingOrNDArray, specification.h),
+            cast(NDArrayFloat, specification.J),
+            cast(NDArrayFloat, specification.M),
+            cast(NDArrayFloat, specification.h),
         ]
     )
 
@@ -317,7 +317,7 @@ s=None, Q=None, M=0.1088421..., H=None, HC=None)
     return CAM_Specification_CIECAM02(J=J, M=M, h=h)
 
 
-def CAM16_to_JMh_CAM16(specification) -> NDArray:
+def CAM16_to_JMh_CAM16(specification) -> NDArrayFloat:
     """
     Convert from *CAM16* specification to *CAM16* :math:`JMh` correlates.
 
@@ -371,7 +371,7 @@ Q=None, M=0.1074367..., H=None, HC=None)
     return CAM_Specification_CAM16(J=J, M=M, h=h)
 
 
-def CIECAM16_to_JMh_CIECAM16(specification) -> NDArray:
+def CIECAM16_to_JMh_CIECAM16(specification) -> NDArrayFloat:
     """
     Convert from *CIECAM16* specification to *CIECAM16* :math:`JMh` correlates.
 
@@ -425,7 +425,7 @@ s=None, Q=None, M=0.1074367..., H=None, HC=None)
     return CAM_Specification_CIECAM16(J=J, M=M, h=h)
 
 
-def Hellwig2022_to_JMh_Hellwig2022(specification) -> NDArray:
+def Hellwig2022_to_JMh_Hellwig2022(specification) -> NDArrayFloat:
     """
     Convert from *Hellwig and Fairchild (2022)* specification to
     *Hellwig and Fairchild (2022)* :math:`JMh` correlates.
@@ -483,7 +483,7 @@ s=None, Q=None, M=0.0293828..., H=None, HC=None, J_HK=None, Q_HK=None)
     return CAM_Specification_Hellwig2022(J=J, M=M, h=h)
 
 
-def XYZ_to_luminance(XYZ: ArrayLike) -> FloatingOrNDArray:
+def XYZ_to_luminance(XYZ: ArrayLike) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *luminance* :math:`Y`.
 
@@ -494,7 +494,7 @@ def XYZ_to_luminance(XYZ: ArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Luminance* :math:`Y`.
 
     Examples
@@ -510,7 +510,7 @@ def XYZ_to_luminance(XYZ: ArrayLike) -> FloatingOrNDArray:
     return Y
 
 
-def RGB_luminance_to_RGB(Y: FloatingOrArrayLike) -> NDArray:
+def RGB_luminance_to_RGB(Y: ArrayLike) -> NDArrayFloat:
     """
     Convert from *luminance* :math:`Y` to *RGB*.
 
@@ -535,10 +535,64 @@ def RGB_luminance_to_RGB(Y: FloatingOrArrayLike) -> NDArray:
     return tstack([Y, Y, Y])
 
 
+def CCT_D_uv_to_mired(CCT_D_uv: ArrayLike) -> NDArrayFloat:
+    """
+    Convert given correlated colour temperature :math:`T_{cp}` and
+    :math:`\\Delta_{uv}` to micro reciprocal degree (mired).
+
+    Parameters
+    ----------
+    CCT_D_uv
+        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Micro reciprocal degree (mired).
+
+    Examples
+    --------
+    >>> CCT_D_uv = np.array([6500.0081378199056, 0.008333331244225])
+    >>> CCT_D_uv_to_mired(CCT_D_uv)  # doctest: +ELLIPSIS
+    153.8459612...
+    """
+
+    CCT, _D_uv = tsplit(CCT_D_uv)
+
+    return CCT_to_mired(CCT)
+
+
+def mired_to_CCT_D_uv(mired: ArrayLike) -> NDArrayFloat:
+    """
+    Convert given micro reciprocal degree (mired) to correlated colour
+    temperature :math:`T_{cp}` and :math:`\\Delta_{uv}`.
+
+    Parameters
+    ----------
+    Micro reciprocal degree (mired).
+
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
+
+    Examples
+    --------
+    >>> mired = 153.84596123527297
+    >>> mired_to_CCT_D_uv(mired)  # doctest: +ELLIPSIS
+    array([ 6500.0081378...,     0.        ])
+    """
+
+    mired = as_float_array(mired)
+
+    return tstack([mired_to_CCT(mired), zeros(mired.shape)])
+
+
 _ILLUMINANT_DEFAULT: str = "D65"
 """Default automatic colour conversion graph illuminant name."""
 
-_CCS_ILLUMINANT_DEFAULT: NDArray = CCS_ILLUMINANTS[
+_CCS_ILLUMINANT_DEFAULT: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][_ILLUMINANT_DEFAULT]
 """
@@ -546,7 +600,7 @@ Default automatic colour conversion graph illuminant *CIE xy* chromaticity
 coordinates.
 """
 
-_TVS_ILLUMINANT_DEFAULT: NDArray = xy_to_XYZ(_CCS_ILLUMINANT_DEFAULT)
+_TVS_ILLUMINANT_DEFAULT: NDArrayFloat = xy_to_XYZ(_CCS_ILLUMINANT_DEFAULT)
 """
 Default automatic colour conversion graph illuminant *CIE XYZ* tristimulus
 values.
@@ -555,7 +609,7 @@ values.
 _RGB_COLOURSPACE_DEFAULT: RGB_Colourspace = RGB_COLOURSPACE_sRGB
 """Default automatic colour conversion graph *RGB* colourspace."""
 
-_CAM_KWARGS_CIECAM02_sRGB: Dict = CAM_KWARGS_CIECAM02_sRGB.copy()
+_CAM_KWARGS_CIECAM02_sRGB: dict = CAM_KWARGS_CIECAM02_sRGB.copy()
 """
 Default parameter values for the *CIECAM02* colour appearance model usage in
 the context of *sRGB*.
@@ -568,7 +622,7 @@ for the domain-range scale **'1'**.
 
 _CAM_KWARGS_CIECAM02_sRGB["XYZ_w"] = _CAM_KWARGS_CIECAM02_sRGB["XYZ_w"] / 100
 
-CONVERSION_SPECIFICATIONS_DATA: List = [
+CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
     # Colorimetry
     ("Spectral Distribution", "CIE XYZ", sd_to_XYZ),
     ("CIE XYZ", "Spectral Distribution", XYZ_to_sd),
@@ -688,8 +742,8 @@ CONVERSION_SPECIFICATIONS_DATA: List = [
     ("IgPgTg", "CIE XYZ", IgPgTg_to_XYZ),
     ("CIE XYZ", "IPT", XYZ_to_IPT),
     ("IPT", "CIE XYZ", IPT_to_XYZ),
-    ("CIE XYZ", "IPT Munish 2021", XYZ_to_IPT_Munish2021),
-    ("IPT Munish 2021", "CIE XYZ", IPT_Munish2021_to_XYZ),
+    ("CIE XYZ", "IPT Ragoo 2021", XYZ_to_IPT_Ragoo2021),
+    ("IPT Ragoo 2021", "CIE XYZ", IPT_Ragoo2021_to_XYZ),
     ("CIE XYZ", "Jzazbz", XYZ_to_Jzazbz),
     ("Jzazbz", "CIE XYZ", Jzazbz_to_XYZ),
     ("CIE XYZ", "hdr-IPT", XYZ_to_hdr_IPT),
@@ -700,26 +754,18 @@ CONVERSION_SPECIFICATIONS_DATA: List = [
     ("Oklab", "CIE XYZ", Oklab_to_XYZ),
     ("CIE XYZ", "ProLab", XYZ_to_ProLab),
     ("ProLab", "CIE XYZ", ProLab_to_XYZ),
+    ("CIE XYZ", "Yrg", XYZ_to_Yrg),
+    ("Yrg", "CIE XYZ", Yrg_to_XYZ),
     # RGB Colour Models
     (
         "CIE XYZ",
         "RGB",
-        partial(
-            XYZ_to_RGB,
-            illuminant_XYZ=_RGB_COLOURSPACE_DEFAULT.whitepoint,
-            illuminant_RGB=_RGB_COLOURSPACE_DEFAULT.whitepoint,
-            matrix_XYZ_to_RGB=_RGB_COLOURSPACE_DEFAULT.matrix_XYZ_to_RGB,
-        ),
+        partial(XYZ_to_RGB, colourspace=_RGB_COLOURSPACE_DEFAULT),
     ),
     (
         "RGB",
         "CIE XYZ",
-        partial(
-            RGB_to_XYZ,
-            illuminant_RGB=_RGB_COLOURSPACE_DEFAULT.whitepoint,
-            illuminant_XYZ=_RGB_COLOURSPACE_DEFAULT.whitepoint,
-            matrix_RGB_to_XYZ=_RGB_COLOURSPACE_DEFAULT.matrix_RGB_to_XYZ,
-        ),
+        partial(RGB_to_XYZ, colourspace=_RGB_COLOURSPACE_DEFAULT),
     ),
     (
         "RGB",
@@ -778,6 +824,7 @@ CONVERSION_SPECIFICATIONS_DATA: List = [
     # Colour Notation Systems
     ("Output-Referred RGB", "Hexadecimal", RGB_to_HEX),
     ("Hexadecimal", "Output-Referred RGB", HEX_to_RGB),
+    ("CSS Color 3", "Output-Referred RGB", keyword_to_RGB_CSSColor3),
     ("CIE xyY", "Munsell Colour", xyY_to_munsell_colour),
     ("Munsell Colour", "CIE xyY", munsell_colour_to_xyY),
     ("Luminance", "Munsell Value", munsell_value),
@@ -788,6 +835,8 @@ CONVERSION_SPECIFICATIONS_DATA: List = [
     # Colour Temperature
     ("CCT", "CIE UCS uv", CCT_to_uv),
     ("CIE UCS uv", "CCT", uv_to_CCT),
+    ("CCT", "Mired", CCT_D_uv_to_mired),
+    ("Mired", "CCT", mired_to_CCT_D_uv),
     # Advanced Colorimetry
     (
         "CIE XYZ",
@@ -922,7 +971,7 @@ Automatic colour conversion graph specifications data describing two nodes and
 the edge in the graph.
 """
 
-CONVERSION_SPECIFICATIONS: List = [
+CONVERSION_SPECIFICATIONS: list = [
     Conversion_Specification(*specification)
     for specification in CONVERSION_SPECIFICATIONS_DATA
 ]
@@ -931,7 +980,7 @@ Automatic colour conversion graph specifications describing two nodes and
 the edge in the graph.
 """
 
-CONVERSION_GRAPH_NODE_LABELS: Dict = {
+CONVERSION_GRAPH_NODE_LABELS: dict = {
     specification[0].lower(): specification[0]
     for specification in CONVERSION_SPECIFICATIONS_DATA
 }
@@ -946,7 +995,7 @@ CONVERSION_GRAPH_NODE_LABELS.update(
 
 
 @required("NetworkX")
-def _build_graph() -> networkx.DiGraph:  # type: ignore[name-defined]  # noqa
+def _build_graph() -> networkx.DiGraph:  # pyright: ignore  # noqa: F821
     """
     Build the automatic colour conversion graph.
 
@@ -970,8 +1019,8 @@ def _build_graph() -> networkx.DiGraph:  # type: ignore[name-defined]  # noqa
     return graph
 
 
-CONVERSION_GRAPH: (  # type: ignore[name-defined]
-    Optional[networkx.DiGraph]  # noqa
+CONVERSION_GRAPH: (
+    Optional[networkx.DiGraph]  # pyright: ignore  # noqa: F821, UP007
 ) = None
 """Automatic colour conversion graph."""
 
@@ -999,13 +1048,13 @@ def _conversion_path(source: str, target: str) -> List[Callable]:
     --------
     >>> _conversion_path("cie lab", "cct")
     ... # doctest: +ELLIPSIS
-    [<function Lab_to_XYZ at 0x...>, <function XYZ_to_xy at 0x...>, \
-<function xy_to_UCS_uv at 0x...>, <function uv_to_CCT at 0x...>]
+    [<function Lab_to_XYZ at 0x...>, <function XYZ_to_UCS at 0x...>, \
+<function UCS_to_uv at 0x...>, <function uv_to_CCT at 0x...>]
     """
 
     import networkx as nx
 
-    global CONVERSION_GRAPH
+    global CONVERSION_GRAPH  # noqa: PLW0603
 
     if CONVERSION_GRAPH is None:
         # Updating the :attr:`CONVERSION_GRAPH` attributes.
@@ -1014,7 +1063,9 @@ def _conversion_path(source: str, target: str) -> List[Callable]:
     path = nx.shortest_path(CONVERSION_GRAPH, source, target)
 
     return [
-        CONVERSION_GRAPH.get_edge_data(a, b)["conversion_function"]
+        CONVERSION_GRAPH.get_edge_data(a, b)[  # pyright: ignore
+            "conversion_function"
+        ]
         for a, b in zip(path[:-1], path[1:])
     ]
 
@@ -1042,9 +1093,9 @@ def _lower_order_function(callable_: Callable) -> Callable:
 def describe_conversion_path(
     source: str,
     target: str,
-    mode: Union[Literal["Short", "Long", "Extended"], str] = "Short",
-    width: Integer = 79,
-    padding: Integer = 3,
+    mode: Literal["Short", "Long", "Extended"] | str = "Short",
+    width: int = 79,
+    padding: int = 3,
     print_callable: Callable = print,
     **kwargs: Any,
 ):
@@ -1092,12 +1143,12 @@ def describe_conversion_path(
     try:  # pragma: no cover
         signature_inspection = inspect.signature
     except AttributeError:  # pragma: no cover
-        signature_inspection = inspect.getfullargspec  # type: ignore[assignment]
+        signature_inspection = inspect.getfullargspec
 
     source, target = source.lower(), target.lower()
     mode = validate_method(
         mode,
-        ["Short", "Long", "Extended"],
+        ("Short", "Long", "Extended"),
         '"{0}" mode is invalid, it must be one of {1}!',
     )
 
@@ -1214,20 +1265,20 @@ def convert(a: Any, source: str, target: str, **kwargs: Any) -> Any:
         distribution to *sRGB* colourspace, passing arguments to the
         :func:`colour.sd_to_XYZ` definition is done as follows::
 
-            convert(sd, 'Spectral Distribution', 'sRGB', sd_to_XYZ={\
-'illuminant': SDS_ILLUMINANTS['FL2']})
+            convert(sd, "Spectral Distribution", "sRGB", sd_to_XYZ={\
+"illuminant": SDS_ILLUMINANTS["FL2"]})
 
         It is also possible to pass keyword arguments directly to the various
         conversion definitions irrespective of their name. This is
         ``dangerous`` and could cause unexpected behaviour, consider the
         following conversion::
 
-             convert(sd, 'Spectral Distribution', 'sRGB', 'illuminant': \
-SDS_ILLUMINANTS['FL2'])
+             convert(sd, "Spectral Distribution", "sRGB", "illuminant": \
+SDS_ILLUMINANTS["FL2"])
 
         Because both the :func:`colour.sd_to_XYZ` and
         :func:`colour.XYZ_to_sRGB` definitions have an *illuminant* argument,
-        `SDS_ILLUMINANTS['FL2']` will be passed to both of them and will raise
+        `SDS_ILLUMINANTS["FL2"]` will be passed to both of them and will raise
         an exception in the :func:`colour.XYZ_to_sRGB` definition. This will
         be addressed in the future by either catching the exception and trying
         a new time without the keyword argument or more elegantly via type
@@ -1241,15 +1292,15 @@ SDS_ILLUMINANTS['FL2'])
 
             a = np.array([0.20654008, 0.12197225, 0.05136952])
             illuminant = CCS_ILLUMINANTS[\
-'CIE 1931 2 Degree Standard Observer']['D65']
-            for model in ('CIE xyY', 'CIE Lab'):
-                convert(a, 'CIE XYZ', model, illuminant=illuminant)
+"CIE 1931 2 Degree Standard Observer"]["D65"]
+            for model in ("CIE xyY", "CIE Lab"):
+                convert(a, "CIE XYZ", model, illuminant=illuminant)
 
         Instead of::
 
-            for model in ('CIE xyY', 'CIE Lab'):
-                convert(a, 'CIE XYZ', model, XYZ_to_xyY={'illuminant': \
-illuminant}, XYZ_to_Lab={'illuminant': illuminant})
+            for model in ("CIE xyY", "CIE Lab"):
+                convert(a, "CIE XYZ", model, XYZ_to_xyY={"illuminant": \
+illuminant}, XYZ_to_Lab={"illuminant": illuminant})
 
         Mixing both approaches is possible for the brevity benefits. It is made
         possible because the keyword arguments directly passed are filtered
@@ -1257,16 +1308,16 @@ illuminant}, XYZ_to_Lab={'illuminant': illuminant})
         conversion definition arguments::
 
             illuminant = CCS_ILLUMINANTS[\
-'CIE 1931 2 Degree Standard Observer']['D65']
-             convert(sd, 'Spectral Distribution', 'sRGB', 'illuminant': \
-SDS_ILLUMINANTS['FL2'], XYZ_to_sRGB={'illuminant': illuminant})
+"CIE 1931 2 Degree Standard Observer"]["D65"]
+             convert(sd, "Spectral Distribution", "sRGB", "illuminant": \
+SDS_ILLUMINANTS["FL2"], XYZ_to_sRGB={"illuminant": illuminant})
 
         For inspection purposes, verbose is enabled by passing arguments to the
         :func:`colour.describe_conversion_path` definition via the ``verbose``
         keyword argument as follows::
 
-            convert(sd, 'Spectral Distribution', 'sRGB', \
-verbose={'mode': 'Long'})
+            convert(sd, "Spectral Distribution", "sRGB", \
+verbose={"mode": "Long"})
 
     Returns
     -------
@@ -1287,12 +1338,12 @@ verbose={'mode': 'Long'})
         opto-electronic transfer function (OETF), the
         **Output-Referred RGB** representation must be used::
 
-             convert(RGB, 'Scene-Referred RGB', 'Output-Referred RGB')
+             convert(RGB, "Scene-Referred RGB", "Output-Referred RGB")
 
         Likewise, encoded *output-referred* *RGB* values can be decoded with
         the **Scene-Referred RGB** representation::
 
-            convert(RGB, 'Output-Referred RGB', 'Scene-Referred RGB')
+            convert(RGB, "Output-Referred RGB", "Scene-Referred RGB")
 
     -   The following defaults have been adopted:
 
@@ -1360,18 +1411,6 @@ verbose={'mode': 'Long'})
     ===========================================================================
     array([ 0.4567576...,  0.3098826...,  0.2486222...])
     """
-
-    # TODO: Remove the following warning whenever the automatic colour
-    # conversion graph implementation is considered stable.
-    usage_warning(
-        'The "Automatic Colour Conversion Graph" is a beta feature, be '
-        "mindful of this when using it. Please report any unexpected "
-        "behaviour and do not hesitate to ask any questions should they arise."
-        "\nThis warning can be disabled with the "
-        '"colour.utilities.suppress_warnings" context manager as follows:\n'
-        "with colour.utilities.suppress_warnings(colour_usage_warnings=True): "
-        "\n    convert(*args, **kwargs)"
-    )
 
     source, target = source.lower(), target.lower()
 

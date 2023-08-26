@@ -13,7 +13,7 @@ from colour.io import LUT1D, read_LUT_ResolveCube, write_LUT_ResolveCube
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -210,7 +210,7 @@ class TestWriteLUTResolveCube(unittest.TestCase):
             os.path.join(ROOT_LUTS, "Three_Dimensional_Table_With_Shaper.cube")
         )
 
-        LUT_4_r.sequence[0] = LUT_4_r.sequence[0].as_LUT(
+        LUT_4_r.sequence[0] = LUT_4_r.sequence[0].convert(
             LUT1D, force_conversion=True
         )
 
@@ -240,7 +240,7 @@ class TestWriteLUTResolveCube(unittest.TestCase):
         )
 
         write_LUT_ResolveCube(
-            LUT_5_r.as_LUT(LUT1D, force_conversion=True),
+            LUT_5_r.convert(LUT1D, force_conversion=True),
             os.path.join(
                 self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"
             ),
@@ -260,7 +260,7 @@ class TestWriteLUTResolveCube(unittest.TestCase):
         definition raised exception.
         """
 
-        self.assertRaises(ValueError, write_LUT_ResolveCube, object(), "")
+        self.assertRaises(TypeError, write_LUT_ResolveCube, object(), "")
 
 
 if __name__ == "__main__":

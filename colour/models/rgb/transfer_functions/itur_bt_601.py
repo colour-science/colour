@@ -23,7 +23,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     as_float,
     domain_range_scale,
@@ -33,7 +33,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -44,7 +44,7 @@ __all__ = [
 ]
 
 
-def oetf_BT601(L: FloatingOrArrayLike) -> FloatingOrNDArray:
+def oetf_BT601(L: ArrayLike) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.601-7* opto-electronic transfer function
     (OETF).
@@ -56,7 +56,7 @@ def oetf_BT601(L: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding electrical signal :math:`E`.
 
     Notes
@@ -90,7 +90,7 @@ def oetf_BT601(L: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_1(E))
 
 
-def oetf_inverse_BT601(E: FloatingOrArrayLike) -> FloatingOrNDArray:
+def oetf_inverse_BT601(E: ArrayLike) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.601-7* inverse opto-electronic transfer
     function (OETF).
@@ -102,7 +102,7 @@ def oetf_inverse_BT601(E: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding *luminance* :math:`L` of the image.
 
     Notes
@@ -133,7 +133,7 @@ def oetf_inverse_BT601(E: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     with domain_range_scale("ignore"):
         L = np.where(
-            E < oetf_BT601(0.018),
+            oetf_BT601(0.018) > E,
             E / 4.5,
             spow((E + 0.099) / 1.099, 1 / 0.45),
         )

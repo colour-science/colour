@@ -22,7 +22,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -79,6 +79,7 @@ class TestMultiSignals(unittest.TestCase):
             "__getitem__",
             "__setitem__",
             "__contains__",
+            "__iter__",
             "__eq__",
             "__ne__",
             "arithmetical_operation",
@@ -302,7 +303,7 @@ extrapolator_kwargs` property.
         property.
         """
 
-        attest(hasattr(self._multi_signals.function, "__call__"))
+        attest(callable(self._multi_signals.function))
 
     def test_raise_exception_function(self):
         """
@@ -382,8 +383,6 @@ function` property raised exception.
 
         class NotSignal(Signal):
             """Not :class:`Signal` class."""
-
-            pass
 
         multi_signals = MultiSignals(self._range_1, signal_type=NotSignal)
         self.assertIsInstance(multi_signals.signals["0"], NotSignal)
@@ -745,6 +744,16 @@ function` property raised exception.
         self.assertIn(0.5, self._multi_signals)
         self.assertNotIn(1000, self._multi_signals)
 
+    def test__iter__(self):
+        """Test :func:`colour.continuous.signal.Signal.__iter__` method."""
+
+        domain = np.arange(0, 10)
+        for i, domain_range_value in enumerate(self._multi_signals):
+            np.testing.assert_array_equal(domain_range_value[0], domain[i])
+            np.testing.assert_array_equal(
+                domain_range_value[1:], self._range_2[i]
+            )
+
     def test__len__(self):
         """
         Test :meth:`colour.continuous.multi_signals.MultiSignals.__len__`
@@ -795,8 +804,6 @@ function` property raised exception.
 
         class NotExtrapolator(Extrapolator):
             """Not :class:`Extrapolator` class."""
-
-            pass
 
         multi_signals_2.extrapolator = NotExtrapolator
         self.assertNotEqual(multi_signals_1, multi_signals_2)
@@ -969,11 +976,13 @@ multi_signals_unpack_data` method.
         np.testing.assert_array_equal(signals["2"].range, self._range_1 + 20)
 
         signals = MultiSignals.multi_signals_unpack_data(
-            list(
-                MultiSignals.multi_signals_unpack_data(
-                    dict(zip(self._domain_2, self._range_2))
-                ).values()
-            )[0]
+            next(
+                iter(
+                    MultiSignals.multi_signals_unpack_data(
+                        dict(zip(self._domain_2, self._range_2))
+                    ).values()
+                )
+            )
         )
         np.testing.assert_array_equal(signals["0"].range, self._range_1)
 

@@ -10,7 +10,7 @@ import codecs
 import os
 
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -34,9 +34,9 @@ About
 -----
 
 | **Colour** by Colour Developers
-| Copyright 2013 Colour Developers – \
+| Copyright 2013 Colour Developers - \
 `colour-developers@colour-science.org <colour-developers@colour-science.org>`__
-| This software is released under terms of New BSD License: \
+| This software is released under terms of BSD-3-Clause: \
 https://opensource.org/licenses/BSD-3-Clause
 | `https://github.com/colour-science/colour \
 <https://github.com/colour-science/colour>`__
@@ -66,7 +66,7 @@ def extract_todo_items(root_directory: str) -> dict:
             if not filename.endswith(".py"):
                 continue
 
-            filename = os.path.join(root, filename)
+            filename = os.path.join(root, filename)  # noqa: PLW2901
             with codecs.open(filename, encoding="utf8") as file_handle:
                 content = file_handle.readlines()
 
@@ -74,7 +74,7 @@ def extract_todo_items(root_directory: str) -> dict:
             line_number = -1
             todo_item = []
             for i, line in enumerate(content):
-                line = line.strip()
+                line = line.strip()  # noqa: PLW2901
                 if line.startswith("# TODO:"):
                     in_todo = True
                     line_number = i + 1
@@ -108,9 +108,9 @@ def export_todo_items(todo_items: dict, file_path: str):
     """
 
     todo_rst = []
-    for module, todo_items in todo_items.items():
+    for module, module_todo_items in todo_items.items():
         todo_rst.append(f"-   {module}\n")
-        for line_numer, todo_item in todo_items:
+        for line_numer, todo_item in module_todo_items:
             todo_rst.append(f"    -   Line {line_numer} : {todo_item}")
 
         todo_rst.append("\n")
@@ -120,6 +120,8 @@ def export_todo_items(todo_items: dict, file_path: str):
 
 
 if __name__ == "__main__":
+    os.chdir(os.path.dirname(__file__))
+
     export_todo_items(
         extract_todo_items(os.path.join("..", "colour")),
         os.path.join("..", "TODO.rst"),

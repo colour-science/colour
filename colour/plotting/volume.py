@@ -12,8 +12,10 @@ from __future__ import annotations
 
 import matplotlib.pyplot as plt
 import numpy as np
+from mpl_toolkits.mplot3d.axes3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
+from colour.constants import EPSILON
 from colour.colorimetry import MultiSpectralDistributions
 from colour.geometry import (
     primitive_vertices_cube_mpl,
@@ -23,17 +25,11 @@ from colour.graph import convert
 from colour.hints import (
     Any,
     ArrayLike,
-    Boolean,
-    Dict,
-    Floating,
-    Integer,
     List,
     Literal,
-    NDArray,
-    Optional,
+    NDArrayFloat,
     Sequence,
     Tuple,
-    Union,
     cast,
 )
 from colour.models import RGB_Colourspace, RGB_to_XYZ
@@ -62,7 +58,7 @@ from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -76,12 +72,12 @@ __all__ = [
 
 
 def nadir_grid(
-    limits: Optional[ArrayLike] = None,
-    segments: Integer = 10,
-    labels: Optional[Sequence[str]] = None,
-    axes: Optional[plt.Axes] = None,
+    limits: ArrayLike | None = None,
+    segments: int = 10,
+    labels: ArrayLike | Sequence[str] | None = None,
+    axes: Axes3D | None = None,
     **kwargs: Any,
-) -> Tuple[NDArray, NDArray, NDArray]:
+) -> Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]:
     """
     Return a grid on *CIE xy* plane made of quad geometric elements and its
     associated faces and edges colours. Ticks and labels are added to the
@@ -186,9 +182,7 @@ def nadir_grid(
            [ 0.  ,  0.  ,  0.  ,  1.  ]]))
     """
 
-    limits = as_float_array(
-        cast(ArrayLike, optional(limits, np.array([[-1, 1], [-1, 1]])))
-    )
+    limits = as_float_array(optional(limits, np.array([[-1, 1], [-1, 1]])))
     labels = cast(Sequence, optional(labels, ("x", "y")))
 
     extent = np.max(np.abs(limits[..., 1] - limits[..., 0]))
@@ -268,7 +262,7 @@ def nadir_grid(
             h_a = "center" if axis == "x" else "left" if x_s == 1 else "right"
             v_a = "center"
 
-            ticks = list(sorted(set(quads_g[..., 0, i])))
+            ticks = sorted(set(quads_g[..., 0, i]))
             ticks += [ticks[-1] + ticks[-1] - ticks[-2]]
             for tick in ticks:
                 x = (
@@ -282,7 +276,9 @@ def nadir_grid(
                     else limits[0, 1 if y_s == 1 else 0] + (y_s * extent / 25)
                 )
 
-                tick = as_int_scalar(tick) if is_integer(tick) else tick
+                tick = (  # noqa: PLW2901
+                    as_int_scalar(tick) if is_integer(tick) else tick
+                )
                 c = settings[f"{axis}_ticks_colour"]
 
                 axes.text(
@@ -328,34 +324,22 @@ def nadir_grid(
                 clip_on=True,
             )
 
-    quads = np.vstack([quads_g, quads_gs, quad_x, quad_y])
-    RGB_f = np.vstack([RGB_gf, RGB_gsf, RGB_x, RGB_y])
-    RGB_e = np.vstack([RGB_ge, RGB_gse, RGB_x, RGB_y])
+    quads = as_float_array(np.vstack([quads_g, quads_gs, quad_x, quad_y]))
+    RGB_f = as_float_array(np.vstack([RGB_gf, RGB_gsf, RGB_x, RGB_y]))
+    RGB_e = as_float_array(np.vstack([RGB_ge, RGB_gse, RGB_x, RGB_y]))
 
     return quads, RGB_f, RGB_e
 
 
 def RGB_identity_cube(
-    width_segments: Integer = 16,
-    height_segments: Integer = 16,
-    depth_segments: Integer = 16,
-    planes: Optional[
-        Literal[
-            "-x",
-            "+x",
-            "-y",
-            "+y",
-            "-z",
-            "+z",
-            "xy",
-            "xz",
-            "yz",
-            "yx",
-            "zx",
-            "zy",
-        ]
-    ] = None,
-) -> Tuple[NDArray, NDArray]:
+    width_segments: int = 16,
+    height_segments: int = 16,
+    depth_segments: int = 16,
+    planes: Literal[
+        "-x", "+x", "-y", "+y", "-z", "+z", "xy", "xz", "yz", "yx", "zx", "zy"
+    ]
+    | None = None,
+) -> Tuple[NDArrayFloat, NDArrayFloat]:
     """
     Return an *RGB* identity cube made of quad geometric elements and its
     associated *RGB* colours.
@@ -434,52 +418,48 @@ def RGB_identity_cube(
 
 @override_style()
 def plot_RGB_colourspaces_gamuts(
-    colourspaces: Union[
-        RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]
-    ],
-    model: Union[
-        Literal[
-            "CAM02LCD",
-            "CAM02SCD",
-            "CAM02UCS",
-            "CAM16LCD",
-            "CAM16SCD",
-            "CAM16UCS",
-            "CIE XYZ",
-            "CIE xyY",
-            "CIE Lab",
-            "CIE Luv",
-            "CIE UCS",
-            "CIE UVW",
-            "DIN99",
-            "Hunter Lab",
-            "Hunter Rdab",
-            "ICaCb",
-            "ICtCp",
-            "IPT",
-            "IgPgTg",
-            "Jzazbz",
-            "OSA UCS",
-            "Oklab",
-            "hdr-CIELAB",
-            "hdr-IPT",
-        ],
-        str,
-    ] = "CIE xyY",
-    segments: Integer = 8,
-    show_grid: Boolean = True,
-    grid_segments: Integer = 10,
-    show_spectral_locus: Boolean = False,
-    spectral_locus_colour: Optional[Union[ArrayLike, str]] = None,
-    cmfs: Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
+    colourspaces: RGB_Colourspace | str | Sequence[RGB_Colourspace | str],
+    model: Literal[
+        "CAM02LCD",
+        "CAM02SCD",
+        "CAM02UCS",
+        "CAM16LCD",
+        "CAM16SCD",
+        "CAM16UCS",
+        "CIE XYZ",
+        "CIE xyY",
+        "CIE Lab",
+        "CIE Luv",
+        "CIE UCS",
+        "CIE UVW",
+        "DIN99",
+        "Hunter Lab",
+        "Hunter Rdab",
+        "ICaCb",
+        "ICtCp",
+        "IPT",
+        "IgPgTg",
+        "Jzazbz",
+        "OSA UCS",
+        "Oklab",
+        "hdr-CIELAB",
+        "hdr-IPT",
+    ]
+    | str = "CIE xyY",
+    segments: int = 8,
+    show_grid: bool = True,
+    grid_segments: int = 10,
+    show_spectral_locus: bool = False,
+    spectral_locus_colour: ArrayLike | str | None = None,
+    cmfs: MultiSpectralDistributions
+    | str
+    | Sequence[
+        MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
-    chromatically_adapt: Boolean = False,
-    convert_kwargs: Optional[Dict] = None,
+    chromatically_adapt: bool = False,
+    convert_kwargs: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[plt.Figure, Axes3D]:
     """
     Plot given *RGB* colourspaces gamuts in given reference colourspace.
 
@@ -536,7 +516,7 @@ def plot_RGB_colourspaces_gamuts(
     --------
     >>> plot_RGB_colourspaces_gamuts(["ITU-R BT.709", "ACEScg", "S-Gamut"])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...Axes3DSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes3D...>)
 
     .. image:: ../_static/Plotting_Plot_RGB_Colourspaces_Gamuts.png
         :align: center
@@ -553,7 +533,7 @@ def plot_RGB_colourspaces_gamuts(
     colourspaces = cast(
         List[RGB_Colourspace],
         list(filter_RGB_colourspaces(colourspaces).values()),
-    )
+    )  # pyright: ignore
 
     convert_kwargs = optional(convert_kwargs, {})
 
@@ -620,15 +600,14 @@ def plot_RGB_colourspaces_gamuts(
 
     plotting_colourspace = CONSTANTS_COLOUR_STYLE.colour.colourspace
 
-    quads_c: List = []
-    RGB_cf: List = []
-    RGB_ce: List = []
+    quads_c: list = []
+    RGB_cf: list = []
+    RGB_ce: list = []
     for i, colourspace in enumerate(colourspaces):
-
         if chromatically_adapt and not np.array_equal(
             colourspace.whitepoint, plotting_colourspace.whitepoint
         ):
-            colourspace = colourspace.chromatically_adapt(
+            colourspace = colourspace.chromatically_adapt(  # noqa: PLW2901
                 plotting_colourspace.whitepoint,
                 plotting_colourspace.whitepoint_name,
             )
@@ -639,12 +618,10 @@ def plot_RGB_colourspaces_gamuts(
             depth_segments=segments,
         )
 
-        XYZ = RGB_to_XYZ(
-            quads_cb,
-            colourspace.whitepoint,
-            colourspace.whitepoint,
-            colourspace.matrix_RGB_to_XYZ,
-        )
+        XYZ = RGB_to_XYZ(quads_cb, colourspace)
+
+        # Preventing singularities for colour models such as "CIE xyY",
+        XYZ[XYZ == 0] = EPSILON
 
         convert_settings = {"illuminant": colourspace.whitepoint}
         convert_settings.update(convert_kwargs)
@@ -715,56 +692,55 @@ def plot_RGB_colourspaces_gamuts(
 @override_style()
 def plot_RGB_scatter(
     RGB: ArrayLike,
-    colourspace: Union[
-        RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]
-    ] = "sRGB",
-    model: Union[
-        Literal[
-            "CAM02LCD",
-            "CAM02SCD",
-            "CAM02UCS",
-            "CAM16LCD",
-            "CAM16SCD",
-            "CAM16UCS",
-            "CIE XYZ",
-            "CIE xyY",
-            "CIE Lab",
-            "CIE Luv",
-            "CIE UCS",
-            "CIE UVW",
-            "DIN99",
-            "Hunter Lab",
-            "Hunter Rdab",
-            "ICaCb",
-            "ICtCp",
-            "IPT",
-            "IgPgTg",
-            "Jzazbz",
-            "OSA UCS",
-            "Oklab",
-            "hdr-CIELAB",
-            "hdr-IPT",
-        ],
-        str,
-    ] = "CIE xyY",
-    colourspaces: Optional[
-        Union[RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]]
-    ] = None,
-    segments: Integer = 8,
-    show_grid: Boolean = True,
-    grid_segments: Integer = 10,
-    show_spectral_locus: Boolean = False,
-    spectral_locus_colour: Optional[Union[ArrayLike, str]] = None,
-    points_size: Floating = 12,
-    cmfs: Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
+    colourspace: RGB_Colourspace
+    | str
+    | Sequence[RGB_Colourspace | str] = "sRGB",
+    model: Literal[
+        "CAM02LCD",
+        "CAM02SCD",
+        "CAM02UCS",
+        "CAM16LCD",
+        "CAM16SCD",
+        "CAM16UCS",
+        "CIE XYZ",
+        "CIE xyY",
+        "CIE Lab",
+        "CIE Luv",
+        "CIE UCS",
+        "CIE UVW",
+        "DIN99",
+        "Hunter Lab",
+        "Hunter Rdab",
+        "ICaCb",
+        "ICtCp",
+        "IPT",
+        "IgPgTg",
+        "Jzazbz",
+        "OSA UCS",
+        "Oklab",
+        "hdr-CIELAB",
+        "hdr-IPT",
+    ]
+    | str = "CIE xyY",
+    colourspaces: RGB_Colourspace
+    | str
+    | Sequence[RGB_Colourspace | str]
+    | None = None,
+    segments: int = 8,
+    show_grid: bool = True,
+    grid_segments: int = 10,
+    show_spectral_locus: bool = False,
+    spectral_locus_colour: ArrayLike | str | None = None,
+    points_size: float = 12,
+    cmfs: MultiSpectralDistributions
+    | str
+    | Sequence[
+        MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
-    chromatically_adapt: Boolean = False,
-    convert_kwargs: Optional[Dict] = None,
+    chromatically_adapt: bool = False,
+    convert_kwargs: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[plt.Figure, Axes3D]:
     """
     Plot given *RGB* colourspace array in a scatter plot.
 
@@ -821,7 +797,7 @@ def plot_RGB_scatter(
     --------
     >>> RGB = np.random.random((128, 128, 3))
     >>> plot_RGB_scatter(RGB, "ITU-R BT.709")  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...Axes3DSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes3D...>)
 
     .. image:: ../_static/Plotting_Plot_RGB_Scatter.png
         :align: center
@@ -846,7 +822,7 @@ def plot_RGB_scatter(
         }
     )
     settings.update(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
 
     plot_RGB_colourspaces_gamuts(
         colourspaces=colourspaces,
@@ -861,12 +837,7 @@ def plot_RGB_scatter(
         **settings,
     )
 
-    XYZ = RGB_to_XYZ(
-        RGB,
-        colourspace.whitepoint,
-        colourspace.whitepoint,
-        colourspace.matrix_RGB_to_XYZ,
-    )
+    XYZ = RGB_to_XYZ(RGB, colourspace)
 
     convert_settings = {"illuminant": colourspace.whitepoint}
     convert_settings.update(convert_kwargs)
@@ -886,7 +857,7 @@ def plot_RGB_scatter(
         zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_scatter,
     )
 
-    settings.update({"axes": axes, "standalone": True})
+    settings.update({"axes": axes, "show": True})
     settings.update(kwargs)
 
     return render(**settings)

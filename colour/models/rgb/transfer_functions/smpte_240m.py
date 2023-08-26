@@ -22,7 +22,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     as_float,
     domain_range_scale,
@@ -32,7 +32,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -43,7 +43,7 @@ __all__ = [
 ]
 
 
-def oetf_SMPTE240M(L_c: FloatingOrArrayLike) -> FloatingOrNDArray:
+def oetf_SMPTE240M(L_c: ArrayLike) -> NDArrayFloat:
     """
     Define *SMPTE 240M* opto-electrical transfer function (OETF).
 
@@ -55,7 +55,7 @@ def oetf_SMPTE240M(L_c: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Video signal output :math:`V_c` of the reference camera normalised to
         the system reference white.
 
@@ -90,7 +90,7 @@ def oetf_SMPTE240M(L_c: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_1(V_c))
 
 
-def eotf_SMPTE240M(V_r: FloatingOrArrayLike) -> FloatingOrNDArray:
+def eotf_SMPTE240M(V_r: ArrayLike) -> NDArrayFloat:
     """
     Define *SMPTE 240M* electro-optical transfer function (EOTF).
 
@@ -102,7 +102,7 @@ def eotf_SMPTE240M(V_r: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
          Light output :math:`L_r` from the reference reproducer normalised to
          the system reference white.
 

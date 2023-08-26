@@ -13,13 +13,13 @@ from colour.colorimetry import (
     sd_CIE_illuminant_D_series,
     daylight_locus_function,
 )
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.temperature import CCT_to_xy_CIE_D
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -31,7 +31,7 @@ __all__ = [
     "TestDaylightLocusFunction",
 ]
 
-DATA_A: NDArray = np.array(
+DATA_A: NDArrayFloat = np.array(
     [
         6.14461778,
         6.94719899,
@@ -169,7 +169,7 @@ sd_CIE_illuminant_D_series` definition.
             ("D65", 6500, 0.00001),
             ("D75", 7500, 0.0001),
         ):
-            CCT = CCT * 1.4388 / 1.4380
+            CCT *= 1.4388 / 1.4380  # noqa: PLW2901
             xy = CCT_to_xy_CIE_D(CCT)
             sd_r = SDS_ILLUMINANTS[name]
             sd_t = sd_CIE_illuminant_D_series(xy)

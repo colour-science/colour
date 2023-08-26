@@ -20,11 +20,11 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import vector_dot
-from colour.hints import ArrayLike, NDArray
+from colour.hints import ArrayLike, NDArrayFloat
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Development"
@@ -36,7 +36,7 @@ __all__ = [
     "YCoCg_to_RGB",
 ]
 
-MATRIX_RGB_TO_YCOCG: NDArray = np.array(
+MATRIX_RGB_TO_YCOCG: NDArrayFloat = np.array(
     [
         [1 / 4, 1 / 2, 1 / 4],
         [1 / 2, 0, -1 / 2],
@@ -45,7 +45,7 @@ MATRIX_RGB_TO_YCOCG: NDArray = np.array(
 )
 """*R'G'B'* colourspace to *YCoCg* colour encoding matrix."""
 
-MATRIX_YCOCG_TO_RGB: NDArray = np.array(
+MATRIX_YCOCG_TO_RGB: NDArrayFloat = np.array(
     [
         [1, 1, -1],
         [1, 0, 1],
@@ -55,7 +55,7 @@ MATRIX_YCOCG_TO_RGB: NDArray = np.array(
 """*YCoCg* colour encoding to *R'G'B'* colourspace matrix."""
 
 
-def RGB_to_YCoCg(RGB: ArrayLike) -> NDArray:
+def RGB_to_YCoCg(RGB: ArrayLike) -> NDArrayFloat:
     """
     Convert an array of *R'G'B'* values to the corresponding *YCoCg* colour
     encoding values array.
@@ -85,7 +85,7 @@ def RGB_to_YCoCg(RGB: ArrayLike) -> NDArray:
     return vector_dot(MATRIX_RGB_TO_YCOCG, RGB)
 
 
-def YCoCg_to_RGB(YCoCg: ArrayLike) -> NDArray:
+def YCoCg_to_RGB(YCoCg: ArrayLike) -> NDArrayFloat:
     """
     Convert an array of *YCoCg* colour encoding values to the corresponding
     *R'G'B'* values array.

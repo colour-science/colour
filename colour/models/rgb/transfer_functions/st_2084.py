@@ -25,12 +25,12 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import Floating, FloatingOrArrayLike, FloatingOrNDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import Structure, as_float_array, as_float
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -55,10 +55,10 @@ Constants for *SMPTE ST 2084:2014* inverse electro-optical transfer function
 
 
 def eotf_inverse_ST2084(
-    C: FloatingOrArrayLike,
-    L_p: Floating = 10000,
+    C: ArrayLike,
+    L_p: float = 10000,
     constants: Structure = CONSTANTS_ST2084,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Define *SMPTE ST 2084:2014* optimised perceptual inverse electro-optical
     transfer function (EOTF).
@@ -77,7 +77,7 @@ def eotf_inverse_ST2084(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Color value abbreviated as :math:`N`, that is directly proportional to
         the encoded signal representation, and which is not directly
         proportional to the optical output of a display device.
@@ -133,10 +133,10 @@ def eotf_inverse_ST2084(
 
 
 def eotf_ST2084(
-    N: FloatingOrArrayLike,
-    L_p: Floating = 10000,
+    N: ArrayLike,
+    L_p: float = 10000,
     constants: Structure = CONSTANTS_ST2084,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Define *SMPTE ST 2084:2014* optimised perceptual electro-optical transfer
     function (EOTF).
@@ -159,7 +159,7 @@ def eotf_ST2084(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
           Target optical output :math:`C` in :math:`cd/m^2` of the ideal
           reference display.
 

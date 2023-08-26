@@ -13,7 +13,7 @@ from __future__ import annotations
 import matplotlib.pyplot as plt
 import numpy as np
 
-from colour.hints import Any, Callable, Dict, Sequence, Tuple, Union
+from colour.hints import Any, Callable, Dict, Sequence, Tuple
 from colour.notation import MUNSELL_VALUE_METHODS
 from colour.plotting import (
     filter_passthrough,
@@ -23,7 +23,7 @@ from colour.plotting import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -36,7 +36,7 @@ __all__ = [
 
 @override_style()
 def plot_single_munsell_value_function(
-    function: Union[Callable, str], **kwargs: Any
+    function: Callable | str, **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plot given *Lightness* function.
@@ -64,7 +64,7 @@ def plot_single_munsell_value_function(
     Examples
     --------
     >>> plot_single_munsell_value_function("ASTM D1535")  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Munsell_Value_Function.png
         :align: center
@@ -81,7 +81,7 @@ def plot_single_munsell_value_function(
 
 @override_style()
 def plot_multi_munsell_value_functions(
-    functions: Union[Callable, str, Sequence[Union[Callable, str]]],
+    functions: Callable | str | Sequence[Callable | str],
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -111,7 +111,7 @@ def plot_multi_munsell_value_functions(
     --------
     >>> plot_multi_munsell_value_functions(["ASTM D1535", "McCamy 1987"])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Munsell_Value_Functions.png
         :align: center

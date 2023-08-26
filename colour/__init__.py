@@ -7,7 +7,7 @@ Colour
 of algorithms and datasets for colour science.
 
 It is freely available under the
-`New BSD License <https://opensource.org/licenses/BSD-3-Clause>`__ terms.
+`BSD-3-Clause <https://opensource.org/licenses/BSD-3-Clause>`__ terms.
 
 `Colour <https://github.com/colour-science/colour>`__ is an affiliated project
 of `NumFOCUS <https://numfocus.org/>`__, a 501(c)(3) nonprofit in the United
@@ -44,6 +44,7 @@ Sub-packages
 -   volume: Colourspace volumes computation and optimal colour stimuli.
 """
 
+import contextlib
 import numpy as np
 import sys
 
@@ -259,7 +260,7 @@ from .models import (
     IgPgTg_to_XYZ,
     IPT_hue_angle,
     IPT_to_XYZ,
-    IPT_Munish2021_to_XYZ,
+    IPT_Ragoo2021_to_XYZ,
     JMh_CAM16_to_CAM16LCD,
     JMh_CAM16_to_CAM16SCD,
     JMh_CAM16_to_CAM16UCS,
@@ -322,7 +323,7 @@ from .models import (
     XYZ_to_ICtCp,
     XYZ_to_IgPgTg,
     XYZ_to_IPT,
-    XYZ_to_IPT_Munish2021,
+    XYZ_to_IPT_Ragoo2021,
     XYZ_to_Jzazbz,
     XYZ_to_K_ab_HunterLab1966,
     XYZ_to_Lab,
@@ -338,9 +339,11 @@ from .models import (
     XYZ_to_sRGB,
     XYZ_to_xy,
     XYZ_to_xyY,
+    XYZ_to_Yrg,
     YCbCr_to_RGB,
     YCoCg_to_RGB,
     YcCbcCrc_to_RGB,
+    Yrg_to_XYZ,
     cctf_decoding,
     cctf_encoding,
     chromatically_adapted_primaries,
@@ -417,6 +420,7 @@ from .temperature import (
     xy_to_CCT,
 )
 from .characterisation import (
+    APPLY_MATRIX_COLOUR_CORRECTION_METHODS,
     CCS_COLOURCHECKERS,
     MATRIX_COLOUR_CORRECTION_METHODS,
     COLOUR_CORRECTION_METHODS,
@@ -426,6 +430,7 @@ from .characterisation import (
     SDS_COLOURCHECKERS,
     SDS_FILTERS,
     SDS_LENSES,
+    apply_matrix_colour_correction,
     camera_RGB_to_ACES2065_1,
     colour_correction,
     matrix_colour_correction,
@@ -452,7 +457,7 @@ from colour.utilities import is_matplotlib_installed
 
 # Exposing "colour.plotting" sub-package if "Matplotlib" is available.
 if is_matplotlib_installed():
-    import colour.plotting as plotting  # noqa
+    import colour.plotting as plotting  # noqa: F401, PLR0402
 else:
 
     class MockPlotting:  # pragma: no cover
@@ -470,7 +475,7 @@ else:
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -681,7 +686,7 @@ __all__ += [
     "IgPgTg_to_XYZ",
     "IPT_hue_angle",
     "IPT_to_XYZ",
-    "IPT_Munish2021_to_XYZ",
+    "IPT_Ragoo2021_to_XYZ",
     "JMh_CAM16_to_CAM16LCD",
     "JMh_CAM16_to_CAM16SCD",
     "JMh_CAM16_to_CAM16UCS",
@@ -744,7 +749,7 @@ __all__ += [
     "XYZ_to_ICtCp",
     "XYZ_to_IgPgTg",
     "XYZ_to_IPT",
-    "XYZ_to_IPT_Munish2021",
+    "XYZ_to_IPT_Ragoo2021",
     "XYZ_to_Jzazbz",
     "XYZ_to_K_ab_HunterLab1966",
     "XYZ_to_Lab",
@@ -760,9 +765,11 @@ __all__ += [
     "XYZ_to_sRGB",
     "XYZ_to_xy",
     "XYZ_to_xyY",
+    "XYZ_to_Yrg",
     "YCbCr_to_RGB",
     "YCoCg_to_RGB",
     "YcCbcCrc_to_RGB",
+    "Yrg_to_XYZ",
     "cctf_decoding",
     "cctf_encoding",
     "chromatically_adapted_primaries",
@@ -842,6 +849,7 @@ __all__ += [
     "xy_to_CCT",
 ]
 __all__ += [
+    "APPLY_MATRIX_COLOUR_CORRECTION_METHODS",
     "CCS_COLOURCHECKERS",
     "MATRIX_COLOUR_CORRECTION_METHODS",
     "COLOUR_CORRECTION_METHODS",
@@ -851,6 +859,7 @@ __all__ += [
     "SDS_COLOURCHECKERS",
     "SDS_FILTERS",
     "SDS_LENSES",
+    "apply_matrix_colour_correction",
     "camera_RGB_to_ACES2065_1",
     "colour_correction",
     "matrix_colour_correction",
@@ -880,16 +889,14 @@ __application_name__ = "Colour"
 
 __major_version__ = "0"
 __minor_version__ = "4"
-__change_version__ = "2"
+__change_version__ = "3"
 __version__ = ".".join(
     (__major_version__, __minor_version__, __change_version__)
 )
 
 # TODO: Remove legacy printing support when deemed appropriate.
-try:
+with contextlib.suppress(TypeError):
     np.set_printoptions(legacy="1.13")
-except TypeError:  # pragma: no cover
-    pass
 
 
 # ----------------------------------------------------------------------------#
@@ -904,12 +911,12 @@ class colour(ModuleAPI):
         return super().__getattr__(attribute)
 
 
-colour.__application_name__ = __application_name__  # type: ignore[attr-defined]
+colour.__application_name__ = __application_name__  # pyright: ignore
 
-colour.__major_version__ = __major_version__  # type: ignore[attr-defined]
-colour.__minor_version__ = __minor_version__  # type: ignore[attr-defined]
-colour.__change_version__ = __change_version__  # type: ignore[attr-defined]
-colour.__version__ = __version__  # type: ignore[attr-defined]
+colour.__major_version__ = __major_version__  # pyright: ignore
+colour.__minor_version__ = __minor_version__  # pyright: ignore
+colour.__change_version__ = __change_version__  # pyright: ignore
+colour.__version__ = __version__  # pyright: ignore
 
 # v0.4.0
 API_CHANGES = {
@@ -940,17 +947,31 @@ API_CHANGES = {
         ],
     ]
 }
+
+# v0.4.3
+API_CHANGES["ObjectRenamed"].extend(
+    [
+        [
+            "colour.XYZ_to_IPT_Munish2021",
+            "colour.XYZ_to_IPT_Ragoo2021",
+        ],
+        [
+            "colour.IPT_Munish2021_to_XYZ",
+            "colour.IPT_Ragoo2021_to_XYZ",
+        ],
+    ]
+)
 """Defines the *colour.models* sub-package API changes."""
 
 if not is_documentation_building():
-    sys.modules["colour"] = colour(  # type: ignore[assignment]
+    sys.modules["colour"] = colour(  # pyright: ignore
         sys.modules["colour"], build_API_changes(API_CHANGES)
     )
 
     del ModuleAPI, is_documentation_building, build_API_changes, sys
 
-colour.__disable_lazy_load__ = True  # type: ignore[attr-defined]
-__disable_lazy_load__ = colour.__disable_lazy_load__  # type: ignore[attr-defined]
+colour.__disable_lazy_load__ = True  # pyright: ignore
+__disable_lazy_load__ = colour.__disable_lazy_load__  # pyright: ignore
 """
 Ensures that the lazy loaded datasets are not transformed during import.
 See :class:`colour.utilities.LazyCanonicalMapping` for more information.

@@ -2,12 +2,10 @@
 *.pyc
 *.pyo
 .DS_Store
-.coverage
-.dmypy.json
+.coverage*
 .fleet
 .idea
 .ipynb_checkpoints
-.mypy_cache
 .vs
 .vscode
 .sandbox

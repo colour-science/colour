@@ -7,12 +7,11 @@ import os
 import unittest
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import Dict
 from colour.io import read_sds_from_xrite_file
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -25,7 +24,7 @@ __all__ = [
 
 ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 
-COLOURCHECKER_XRITE_1: Dict = {
+COLOURCHECKER_XRITE_1: dict = {
     380.0: 0.0069,
     390.0: 0.0069,
     400.0: 0.0068,

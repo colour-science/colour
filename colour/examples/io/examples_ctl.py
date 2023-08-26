@@ -62,7 +62,7 @@ message_box(
 )
 
 print(os.path.join(ROOT_RESOURCES, "Adjust_Exposure_Float.ctl"))
-a = colour.utilities.full((4, 2, 3), 0.18)
+a = colour.utilities.full((4, 2, 3), 0.18)  # pyright: ignore
 print(
     colour.io.process_image_ctl(
         a,
@@ -156,17 +156,19 @@ print(
 
 print("\n")
 
-ROOT_ACES_DEV_TRANSFORMS = os.path.join(
-    os.path.dirname(__file__),
-    "..",
-    "..",
-    "..",
-    "..",
-    "..",
-    "ampas",
-    "aces-dev",
-    "transforms",
-    "ctl",
+ROOT_ACES_DEV_TRANSFORMS = os.path.abspath(
+    os.path.join(
+        os.path.dirname(__file__),
+        "..",
+        "..",
+        "..",
+        "..",
+        "..",
+        "ampas",
+        "aces-dev",
+        "transforms",
+        "ctl",
+    )
 )
 
 if os.path.exists(ROOT_ACES_DEV_TRANSFORMS):
@@ -179,11 +181,10 @@ if os.path.exists(ROOT_ACES_DEV_TRANSFORMS):
         f"{ROOT_ACES_DEV_TRANSFORMS}/lib:"
         f"{ROOT_ACES_DEV_TRANSFORMS}/utilities"
     )
-
     print(
         colour.io.process_image_ctl(
             a,
-            [f"{ROOT_ACES_DEV_TRANSFORMS}/rrt/RRT.ctl"],
+            {f"{ROOT_ACES_DEV_TRANSFORMS}/rrt/RRT.ctl": ["-param1 aIn 1.0"]},
             env=dict(
                 os.environ,
                 CTL_MODULE_PATH=CTL_MODULE_PATH,

@@ -30,6 +30,8 @@ Robertson (1968)
 .. autosummary::
     :toctree: generated/
 
+    mired_to_CCT
+    CCT_to_mired
     uv_to_CCT_Robertson1968
     CCT_to_uv_Robertson1968
 
@@ -58,6 +60,8 @@ Ohno (2013)
 
     uv_to_CCT_Ohno2013
     CCT_to_uv_Ohno2013
+    XYZ_to_CCT_Ohno2013
+    CCT_to_XYZ_Ohno2013
 
 Planck (1900)
 ~~~~~~~~~~~~~

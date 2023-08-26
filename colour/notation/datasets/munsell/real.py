@@ -14,9 +14,8 @@ Notes
     you are performing conversions using *Munsell* *Colorlab* specification,
     e.g. *2.5R 9/2*, according to *ASTM D1535-08e1* method, you should not
     scale the output :math:`Y` Luminance. However, if you use directly the
-    *CIE xyY* colourspace values from the Munsell Renotation data data, you
-    should scale the :math:`Y` Luminance before conversions by a :math:`0.975`
-    factor.
+    *CIE xyY* colourspace values from the Munsell Renotation data, you should
+    scale the :math:`Y` Luminance before conversions by a :math:`0.975` factor.
 
     *ASTM D1535-08e1* states that::
 
@@ -39,11 +38,9 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import Tuple
-
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -53,7 +50,7 @@ __all__ = [
 ]
 
 
-MUNSELL_COLOURS_REAL: Tuple = (
+MUNSELL_COLOURS_REAL: tuple = (
     (("10RP", 1.0, 2.0), np.array([0.3629, 0.2710, 1.2100])),
     (("10RP", 1.0, 4.0), np.array([0.3920, 0.2423, 1.2100])),
     (("10RP", 1.0, 6.0), np.array([0.4151, 0.2169, 1.2100])),

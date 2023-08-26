@@ -22,11 +22,11 @@ from colour.colorimetry import (
     SpectralDistribution,
     sds_and_msds_to_msds,
 )
-from colour.hints import Boolean, List, NDArray, Union
+from colour.hints import NDArrayFloat, Sequence
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -37,12 +37,11 @@ __all__ = [
 
 
 def spectral_uniformity(
-    sds: Union[
-        List[Union[SpectralDistribution, MultiSpectralDistributions]],
-        MultiSpectralDistributions,
-    ],
-    use_second_order_derivatives: Boolean = False,
-) -> NDArray:
+    sds: Sequence[SpectralDistribution | MultiSpectralDistributions]
+    | SpectralDistribution
+    | MultiSpectralDistributions,
+    use_second_order_derivatives: bool = False,
+) -> NDArrayFloat:
     """
     Compute the *spectral uniformity* (or *spectral flatness*) of given
     spectral distributions.
@@ -61,7 +60,7 @@ def spectral_uniformity(
         compute the spectral uniformity of. `sds` can be a single
         :class:`colour.MultiSpectralDistributions` class instance, a list
         of :class:`colour.MultiSpectralDistributions` class instances or a
-        list of :class:`colour.SpectralDistribution` class instances.
+        List of :class:`colour.SpectralDistribution` class instances.
     use_second_order_derivatives
         Whether to use the second-order derivatives in the computations.
 

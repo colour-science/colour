@@ -26,12 +26,11 @@ from __future__ import annotations
 from functools import partial
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import Dict
 from colour.utilities import LazyCanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -42,7 +41,7 @@ __all__ = [
     "SDS_FILTERS",
 ]
 
-DATA_FILTERS_ISO: Dict = {
+DATA_FILTERS_ISO: dict = {
     "ISO 7589 Diffuser": {
         350: 0.00,
         360: 0.00,

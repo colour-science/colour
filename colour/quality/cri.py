@@ -32,24 +32,15 @@ from colour.colorimetry import (
     sd_blackbody,
     sd_to_XYZ,
 )
-from colour.hints import (
-    Boolean,
-    Dict,
-    Floating,
-    FloatingOrNDArray,
-    Integer,
-    NDArray,
-    Tuple,
-    Union,
-)
+from colour.hints import Dict, NDArrayFloat, Tuple, cast
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
 from colour.quality.datasets.tcs import INDEXES_TO_NAMES_TCS, SDS_TCS
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Robertson1968
-from colour.utilities import domain_range_scale, as_float_scalar
+from colour.utilities import domain_range_scale
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -69,9 +60,9 @@ class DataColorimetry_TCS:
     """Define the class storing *test colour samples* colorimetry data."""
 
     name: str
-    XYZ: NDArray
-    uv: NDArray
-    UVW: NDArray
+    XYZ: NDArrayFloat
+    uv: NDArrayFloat
+    UVW: NDArrayFloat
 
 
 @dataclass
@@ -81,7 +72,7 @@ class DataColourQualityScale_TCS:
     """
 
     name: str
-    Q_a: Floating
+    Q_a: float
 
 
 @dataclass()
@@ -106,16 +97,16 @@ class ColourRendering_Specification_CRI:
     """
 
     name: str
-    Q_a: Floating
-    Q_as: Dict[Integer, DataColourQualityScale_TCS]
+    Q_a: float
+    Q_as: Dict[int, DataColourQualityScale_TCS]
     colorimetry_data: Tuple[
         Tuple[DataColorimetry_TCS, ...], Tuple[DataColorimetry_TCS, ...]
     ]
 
 
 def colour_rendering_index(
-    sd_test: SpectralDistribution, additional_data: Boolean = False
-) -> Union[Floating, ColourRendering_Specification_CRI]:
+    sd_test: SpectralDistribution, additional_data: bool = False
+) -> float | ColourRendering_Specification_CRI:
     """
     Return the *Colour Rendering Index* (CRI) :math:`Q_a` of given spectral
     distribution.
@@ -129,7 +120,7 @@ def colour_rendering_index(
 
     Returns
     -------
-    :class:`numpy.floating` or \
+    :class:`float` or \
 :class:`colour.quality.ColourRendering_Specification_CRI`
         *Colour Rendering Index* (CRI).
 
@@ -145,15 +136,17 @@ def colour_rendering_index(
     64.2337241...
     """
 
-    # pylint: disable=E1102
     cmfs = reshape_msds(
         MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
         SPECTRAL_SHAPE_DEFAULT,
+        copy=False,
     )
 
     shape = cmfs.shape
-    sd_test = reshape_sd(sd_test, shape)
-    tcs_sds = {sd.name: reshape_sd(sd, shape) for sd in SDS_TCS.values()}
+    sd_test = reshape_sd(sd_test, shape, copy=False)
+    tcs_sds = {
+        sd.name: reshape_sd(sd, shape, copy=False) for sd in SDS_TCS.values()
+    }
 
     with domain_range_scale("1"):
         XYZ = sd_to_XYZ(sd_test, cmfs)
@@ -180,10 +173,11 @@ def colour_rendering_index(
         test_tcs_colorimetry_data, reference_tcs_colorimetry_data
     )
 
-    Q_a = as_float_scalar(
+    Q_a = cast(
+        float,
         np.average(
             [v.Q_a for k, v in Q_as.items() if k in (1, 2, 3, 4, 5, 6, 7, 8)]
-        )
+        ),
     )
 
     if additional_data:
@@ -202,7 +196,7 @@ def tcs_colorimetry_data(
     sd_r: SpectralDistribution,
     sds_tcs: Dict[str, SpectralDistribution],
     cmfs: MultiSpectralDistributions,
-    chromatic_adaptation: Boolean = False,
+    chromatic_adaptation: bool = False,
 ) -> Tuple[DataColorimetry_TCS, ...]:
     """
     Return the *test colour samples* colorimetry data.
@@ -244,17 +238,13 @@ def tcs_colorimetry_data(
 
         if chromatic_adaptation:
 
-            def c(
-                x: FloatingOrNDArray, y: FloatingOrNDArray
-            ) -> FloatingOrNDArray:
+            def c(x: NDArrayFloat, y: NDArrayFloat) -> NDArrayFloat:
                 """Compute the :math:`c` term."""
 
                 with sdiv_mode():
                     return sdiv(4 - x - 10 * y, y)
 
-            def d(
-                x: FloatingOrNDArray, y: FloatingOrNDArray
-            ) -> FloatingOrNDArray:
+            def d(x: NDArrayFloat, y: NDArrayFloat) -> NDArrayFloat:
                 """Compute the :math:`d` term."""
 
                 with sdiv_mode():
@@ -289,7 +279,7 @@ def tcs_colorimetry_data(
 def colour_rendering_indexes(
     test_data: Tuple[DataColorimetry_TCS, ...],
     reference_data: Tuple[DataColorimetry_TCS, ...],
-) -> Dict[Integer, DataColourQualityScale_TCS]:
+) -> Dict[int, DataColourQualityScale_TCS]:
     """
     Return the *test colour samples* rendering indexes :math:`Q_a`.
 
@@ -312,8 +302,9 @@ def colour_rendering_indexes(
             test_data[i].name,
             100
             - 4.6
-            * as_float_scalar(
-                euclidean_distance(reference_data[i].UVW, test_data[i].UVW)
+            * cast(
+                float,
+                euclidean_distance(reference_data[i].UVW, test_data[i].UVW),
             ),
         )
 

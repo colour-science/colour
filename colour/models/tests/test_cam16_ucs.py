@@ -12,7 +12,7 @@ from colour.models.tests.test_cam02_ucs import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -57,16 +57,12 @@ class TestXYZ_to_UCS_Li2017(TestXYZ_to_UCS_Luo2006):
     definition unit tests methods.
     """
 
-    pass
-
 
 class TestUCS_Li2017_to_XYZ(TestUCS_Luo2006_to_XYZ):
     """
     Define :func:`colour.models.cam16_ucs.UCS_Li2017_to_XYZ`
     definition unit tests methods.
     """
-
-    pass
 
 
 if __name__ == "__main__":

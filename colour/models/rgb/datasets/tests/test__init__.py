@@ -10,11 +10,11 @@ from colour.models import (
     RGB_COLOURSPACES,
     normalised_primary_matrix,
 )
-from colour.utilities import as_int, ignore_numpy_errors
+from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -71,7 +71,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
             )
 
             # Derived transformation matrices.
-            colourspace = deepcopy(colourspace)
+            colourspace = deepcopy(colourspace)  # noqa: PLW2901
             colourspace.use_derived_transformation_matrices(True)
             RGB = np.dot(colourspace.matrix_XYZ_to_RGB, XYZ_r)
             XYZ = np.dot(colourspace.matrix_RGB_to_XYZ, RGB)
@@ -89,7 +89,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
         decimals = {"DJI D-Gamut": 1, "F-Gamut": 4, "N-Gamut": 3}
 
         samples = np.hstack(
-            [np.linspace(0, 1, as_int(1e5)), np.linspace(0, 65504, 65504 * 10)]
+            [np.linspace(0, 1, int(1e5)), np.linspace(0, 65504, 65504 * 10)]
         )
 
         for colourspace in RGB_COLOURSPACES.values():

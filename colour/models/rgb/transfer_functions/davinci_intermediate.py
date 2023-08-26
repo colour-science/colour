@@ -20,12 +20,12 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import Structure, as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -48,9 +48,9 @@ CONSTANTS_DAVINCI_INTERMEDIATE: Structure = Structure(
 
 
 def oetf_DaVinciIntermediate(
-    L: FloatingOrArrayLike,
+    L: ArrayLike,
     constants: Structure = CONSTANTS_DAVINCI_INTERMEDIATE,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Define the *DaVinci Intermediate* opto-electronic transfer function.
 
@@ -63,7 +63,7 @@ def oetf_DaVinciIntermediate(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Encoded value :math:`V`.
 
     Notes
@@ -108,9 +108,9 @@ def oetf_DaVinciIntermediate(
 
 
 def oetf_inverse_DaVinciIntermediate(
-    V: FloatingOrArrayLike,
+    V: ArrayLike,
     constants: Structure = CONSTANTS_DAVINCI_INTERMEDIATE,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Define the *DaVinci Intermediate* inverse opto-electronic transfer
     function (OETF).
@@ -124,7 +124,7 @@ def oetf_inverse_DaVinciIntermediate(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear light value :math`L`.
 
     Notes

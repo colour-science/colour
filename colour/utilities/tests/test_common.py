@@ -4,11 +4,12 @@
 from __future__ import annotations
 
 import numpy as np
+import platform
 import unittest
 import unicodedata
 from functools import partial
 
-from colour.hints import Any, Floating, Number, Tuple
+from colour.hints import Any, Real, Tuple
 from colour.utilities import (
     CacheRegistry,
     CanonicalMapping,
@@ -26,11 +27,12 @@ from colour.utilities import (
     validate_method,
     optional,
     slugify,
+    int_digest,
 )
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -195,7 +197,7 @@ class TestBatch(unittest.TestCase):
         )
 
 
-def _add(a: Number, b: Number):
+def _add(a: Real, b: Real):
     """
     Add two numbers.
 
@@ -251,7 +253,7 @@ class TestIsIterable(unittest.TestCase):
 
         self.assertTrue(is_iterable([]))
 
-        self.assertTrue(is_iterable(dict()))
+        self.assertTrue(is_iterable({}))
 
         self.assertTrue(is_iterable(set()))
 
@@ -370,14 +372,14 @@ class TestFilterKwargs(unittest.TestCase):
 
             return a
 
-        def fn_b(a: Any, b: Floating = 0) -> Tuple[Any, Floating]:
+        def fn_b(a: Any, b: float = 0) -> Tuple[Any, float]:
             """:func:`filter_kwargs` unit tests :func:`fn_b` definition."""
 
             return a, b
 
         def fn_c(
-            a: Any, b: Floating = 0, c: Floating = 0
-        ) -> Tuple[Any, Floating, Floating]:
+            a: Any, b: float = 0, c: float = 0
+        ) -> Tuple[float, float, float]:
             """:func:`filter_kwargs` unit tests :func:`fn_c` definition."""
 
             return a, b, c
@@ -470,7 +472,7 @@ class TestValidateMethod(unittest.TestCase):
         """Test :func:`colour.utilities.common.validate_method` definition."""
 
         self.assertEqual(
-            validate_method("Valid", ["Valid", "Yes", "Ok"]), "valid"
+            validate_method("Valid", ("Valid", "Yes", "Ok")), "valid"
         )
 
     def test_raise_exception_validate_method(self):
@@ -480,7 +482,7 @@ class TestValidateMethod(unittest.TestCase):
         """
 
         self.assertRaises(
-            ValueError, validate_method, "Invalid", ["Valid", "Yes", "Ok"]
+            ValueError, validate_method, "Invalid", ("Valid", "Yes", "Ok")
         )
 
 
@@ -505,7 +507,7 @@ class TestSlugify(unittest.TestCase):
     """
 
     def test_slugify(self):
-        """Test :func:`colour.utilities.common.optional` definition."""
+        """Test :func:`colour.utilities.common.slugify` definition."""
 
         self.assertEqual(
             slugify(
@@ -534,6 +536,29 @@ class TestSlugify(unittest.TestCase):
         )
 
         self.assertEqual(slugify(123), "123")
+
+
+class TestIntDigest(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.common.int_digest` definition unit tests
+    methods.
+    """
+
+    def test_int_digest(self):
+        """Test :func:`colour.utilities.common.int_digest` definition."""
+
+        self.assertEqual(int_digest("Foo"), 7467386374397815550)
+
+        if platform.system() in ("Windows", "Microsoft"):  # pragma: no cover
+            self.assertEqual(
+                int_digest(np.array([1, 2, 3]).tobytes()), 7764052002911021640
+            )
+        else:
+            self.assertEqual(
+                int_digest(np.array([1, 2, 3]).tobytes()), 8964613590703056768
+            )
+
+        self.assertEqual(int_digest(repr((1, 2, 3))), 5069958125469218295)
 
 
 if __name__ == "__main__":

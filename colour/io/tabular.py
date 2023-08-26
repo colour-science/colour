@@ -18,12 +18,12 @@ import tempfile
 
 from colour.colorimetry import SpectralDistribution
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.hints import Any, Boolean, Dict, NDArray, cast
+from colour.hints import Any, Dict, NDArrayFloat, cast
 from colour.utilities import filter_kwargs
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -37,7 +37,7 @@ __all__ = [
 
 def read_spectral_data_from_csv_file(
     path: str, **kwargs: Any
-) -> Dict[str, NDArray]:
+) -> Dict[str, NDArrayFloat]:
     """
     Read the spectral data from given *CSV* file in the following form::
 
@@ -169,7 +169,7 @@ def read_sds_from_csv_file(
     Returns
     -------
     :class:`dict`
-        *Dict* of :class:`colour.SpectralDistribution` class instances.
+        *dict* of :class:`colour.SpectralDistribution` class instances.
 
     Examples
     --------
@@ -292,7 +292,7 @@ def read_sds_from_csv_file(
 
 def write_sds_to_csv_file(
     sds: Dict[str, SpectralDistribution], path: str
-) -> Boolean:
+) -> bool:
     """
     Write the given spectral distributions to given *CSV* file.
 
@@ -322,13 +322,13 @@ def write_sds_to_csv_file(
                 'with different shapes to "CSV" file!'
             )
 
-    wavelengths = tuple(sds.values())[0].wavelengths
+    wavelengths = next(iter(sds.values())).wavelengths
     with open(path, "w") as csv_file:
         fields = sorted(sds.keys())
         writer = csv.DictWriter(
             csv_file,
             delimiter=",",
-            fieldnames=["wavelength"] + fields,
+            fieldnames=["wavelength", *fields],
             lineterminator="\n",
         )
 

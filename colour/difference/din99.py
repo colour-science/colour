@@ -17,13 +17,13 @@ References
 from __future__ import annotations
 
 from colour.algebra import euclidean_distance
-from colour.hints import ArrayLike, Boolean, FloatingOrNDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.models import Lab_to_DIN99
 from colour.utilities import get_domain_range_scale
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -34,8 +34,8 @@ __all__ = [
 
 
 def delta_E_DIN99(
-    Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: Boolean = False
-) -> FloatingOrNDArray:
+    Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: bool = False
+) -> NDArrayFloat:
     """
     Return the difference :math:`\\Delta E_{DIN99}` between two given
     *CIE L\\*a\\*b\\** colourspace arrays using *DIN99* formula.
@@ -53,7 +53,7 @@ def delta_E_DIN99(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Colour difference :math:`\\Delta E_{DIN99}`.
 
     Notes

@@ -18,10 +18,8 @@ from colour.hints import (
     Any,
     ArrayLike,
     List,
-    NDArray,
-    Optional,
+    NDArrayFloat,
     Sequence,
-    cast,
 )
 from colour.utilities import (
     as_float_array,
@@ -35,7 +33,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -72,15 +70,13 @@ class AbstractLUTSequenceOperator(ABC):
 
     def __init__(
         self,
-        name: Optional[str] = None,
-        comments: Optional[Sequence[str]] = None,
+        name: str | None = None,
+        comments: Sequence[str] | None = None,
     ) -> None:
         self._name = f"LUT Sequence Operator {id(self)}"
         self.name = optional(name, self._name)
-        # TODO: Remove pragma when https://github.com/python/mypy/issues/3004
-        # is resolved.
         self._comments: List[str] = []
-        self.comments = optional(comments, self._comments)  # type: ignore[arg-type]
+        self.comments = optional(comments, self._comments)
 
     @property
     def name(self) -> str:
@@ -141,7 +137,7 @@ class AbstractLUTSequenceOperator(ABC):
         self._comments = list(value)
 
     @abstractmethod
-    def apply(self, RGB: ArrayLike, *args: Any, **kwargs: Any) -> NDArray:
+    def apply(self, RGB: ArrayLike, *args: Any, **kwargs: Any) -> NDArrayFloat:
         """
         Apply the *LUT* sequence operator to given *RGB* colourspace array.
 
@@ -162,8 +158,6 @@ class AbstractLUTSequenceOperator(ABC):
         :class:`numpy.ndarray`
             Processed *RGB* colourspace array.
         """
-
-        pass
 
 
 class LUTOperatorMatrix(AbstractLUTSequenceOperator):
@@ -246,26 +240,20 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
     def __init__(
         self,
-        matrix: Optional[ArrayLike] = None,
-        offset: Optional[ArrayLike] = None,
+        matrix: ArrayLike | None = None,
+        offset: ArrayLike | None = None,
         *args: Any,
         **kwargs: Any,
     ) -> None:
         super().__init__(*args, **kwargs)
 
-        # TODO: Remove pragma when https://github.com/python/mypy/issues/3004
-        # is resolved.
-        self._matrix: NDArray = np.diag(ones(4))
-        self.matrix = cast(
-            ArrayLike, optional(matrix, self._matrix)
-        )  # type: ignore[assignment]
-        self._offset: NDArray = zeros(4)
-        self.offset = cast(
-            ArrayLike, optional(offset, self._offset)
-        )  # type: ignore[assignment]
+        self._matrix: NDArrayFloat = np.diag(ones(4))
+        self.matrix = optional(matrix, self._matrix)
+        self._offset: NDArrayFloat = zeros(4)
+        self.offset = optional(offset, self._offset)
 
     @property
-    def matrix(self) -> NDArray:
+    def matrix(self) -> NDArrayFloat:
         """
         Getter and setter property for the *LUT* operator matrix.
 
@@ -303,7 +291,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         self._matrix = M
 
     @property
-    def offset(self) -> NDArray:
+    def offset(self) -> NDArrayFloat:
         """
         Getter and setter property for the *LUT* operator offset.
 
@@ -415,7 +403,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         indentation = " " * (len(self.__class__.__name__) + 1)
 
         comments = (
-            f",\n{indentation}comments={repr(self._comments)}"
+            f",\n{indentation}comments={self._comments!r}"
             if self._comments
             else ""
         )
@@ -449,14 +437,13 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         True
         """
 
-        if isinstance(other, LUTOperatorMatrix):
-            if all(
-                [
-                    np.array_equal(self._matrix, other._matrix),
-                    np.array_equal(self._offset, other._offset),
-                ]
-            ):
-                return True
+        if isinstance(other, LUTOperatorMatrix) and all(
+            [
+                np.array_equal(self._matrix, other._matrix),
+                np.array_equal(self._offset, other._offset),
+            ]
+        ):
+            return True
 
         return False
 
@@ -484,7 +471,9 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
         return not (self == other)
 
-    def apply(self, RGB: ArrayLike, *args: Any, **kwargs: Any) -> NDArray:
+    def apply(
+        self, RGB: ArrayLike, *args: Any, **kwargs: Any  # noqa: ARG002
+    ) -> NDArrayFloat:
         """
         Apply the *LUT* operator to given *RGB* array.
 

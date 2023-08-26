@@ -48,16 +48,7 @@ from colour.appearance.ciecam02 import (
     matrix_post_adaptation_non_linear_response_compression,
 )
 from colour.appearance.hunt import luminance_level_adaptation_factor
-from colour.hints import (
-    ArrayLike,
-    Boolean,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    NDArray,
-    Optional,
-    Tuple,
-    Union,
-)
+from colour.hints import ArrayLike, NDArrayFloat, Tuple
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
@@ -75,7 +66,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -177,27 +168,27 @@ class CAM_Specification_Hellwig2022(MixinDataclassArithmetic):
     :cite:`Fairchild2022`, :cite:`Hellwig2022`, :cite:`Hellwig2022a`
     """
 
-    J: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    C: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    h: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    s: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    Q: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    M: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    H: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    HC: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    J_HK: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    Q_HK: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    J: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    C: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    h: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    s: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    Q: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    M: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    H: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    HC: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    J_HK: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    Q_HK: float | NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 def XYZ_to_Hellwig2022(
     XYZ: ArrayLike,
     XYZ_w: ArrayLike,
-    L_A: FloatingOrArrayLike,
-    Y_b: FloatingOrArrayLike,
-    surround: Union[
-        InductionFactors_CIECAM02, InductionFactors_Hellwig2022
-    ] = VIEWING_CONDITIONS_HELLWIG2022["Average"],
-    discount_illuminant: Boolean = False,
+    L_A: ArrayLike,
+    Y_b: ArrayLike,
+    surround: InductionFactors_CIECAM02
+    | InductionFactors_Hellwig2022 = VIEWING_CONDITIONS_HELLWIG2022["Average"],
+    discount_illuminant: bool = False,
+    compute_H: bool = True,
 ) -> CAM_Specification_Hellwig2022:
     """
     Compute the *Hellwig and Fairchild (2022)* colour appearance model
@@ -226,6 +217,9 @@ def XYZ_to_Hellwig2022(
         Surround viewing conditions induction factors.
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
+    compute_H
+        Whether to compute *Hue* :math:`h` quadrature :math:`H`. :math:`H` is
+        rarely used, and expensive to compute.
 
     Returns
     -------
@@ -356,7 +350,7 @@ H=275.5949861..., HC=None, J_HK=41.8802782..., Q_HK=56.0518358...)
     e_t = eccentricity_factor(h)
 
     # Computing hue :math:`h` quadrature :math:`H`.
-    H = hue_quadrature(h)
+    H = hue_quadrature(h) if compute_H else np.full(h.shape, np.nan)
     # TODO: Compute hue composition.
 
     # Step 6
@@ -402,13 +396,12 @@ H=275.5949861..., HC=None, J_HK=41.8802782..., Q_HK=56.0518358...)
 def Hellwig2022_to_XYZ(
     specification: CAM_Specification_Hellwig2022,
     XYZ_w: ArrayLike,
-    L_A: FloatingOrArrayLike,
-    Y_b: FloatingOrArrayLike,
-    surround: Union[
-        InductionFactors_CIECAM02, InductionFactors_Hellwig2022
-    ] = VIEWING_CONDITIONS_HELLWIG2022["Average"],
-    discount_illuminant: Boolean = False,
-) -> NDArray:
+    L_A: ArrayLike,
+    Y_b: ArrayLike,
+    surround: InductionFactors_CIECAM02
+    | InductionFactors_Hellwig2022 = VIEWING_CONDITIONS_HELLWIG2022["Average"],
+    discount_illuminant: bool = False,
+) -> NDArrayFloat:
     """
     Convert from *Hellwig and Fairchild (2022)* specification to *CIE XYZ*
     tristimulus values.
@@ -622,10 +615,10 @@ def Hellwig2022_to_XYZ(
 
 
 def viewing_conditions_dependent_parameters(
-    Y_b: FloatingOrArrayLike,
-    Y_w: FloatingOrArrayLike,
-    L_A: FloatingOrArrayLike,
-) -> Tuple[FloatingOrNDArray, FloatingOrNDArray]:
+    Y_b: ArrayLike,
+    Y_w: ArrayLike,
+    L_A: ArrayLike,
+) -> Tuple[NDArrayFloat, NDArrayFloat]:
     """
     Return the viewing condition dependent parameters.
 
@@ -662,7 +655,7 @@ def viewing_conditions_dependent_parameters(
     return F_L, z
 
 
-def achromatic_response_forward(RGB: ArrayLike) -> FloatingOrNDArray:
+def achromatic_response_forward(RGB: ArrayLike) -> NDArrayFloat:
     """
     Return the achromatic response :math:`A` from given compressed
     *CAM16* transform sharpened *RGB* array and :math:`N_{bb}` chromatic
@@ -675,7 +668,7 @@ def achromatic_response_forward(RGB: ArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Achromatic response :math:`A`.
 
     Examples
@@ -693,8 +686,8 @@ def achromatic_response_forward(RGB: ArrayLike) -> FloatingOrNDArray:
 
 
 def opponent_colour_dimensions_inverse(
-    P_p_1: FloatingOrArrayLike, h: FloatingOrArrayLike, M: FloatingOrArrayLike
-) -> NDArray:
+    P_p_1: ArrayLike, h: ArrayLike, M: ArrayLike
+) -> NDArrayFloat:
     """
     Return opponent colour dimensions from given point :math:`P'_1`, hue
     :math:`h` in degrees and correlate of *colourfulness* :math:`M` for
@@ -739,7 +732,7 @@ def opponent_colour_dimensions_inverse(
     return ab
 
 
-def eccentricity_factor(h: FloatingOrArrayLike) -> FloatingOrNDArray:
+def eccentricity_factor(h: ArrayLike) -> NDArrayFloat:
     """
     Return the eccentricity factor :math:`e_t` from given hue :math:`h` angle
     in degrees for forward *CIECAM02* implementation.
@@ -751,7 +744,7 @@ def eccentricity_factor(h: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Eccentricity factor :math:`e_t`.
 
     Examples
@@ -785,10 +778,10 @@ def eccentricity_factor(h: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 
 def brightness_correlate(
-    c: FloatingOrArrayLike,
-    J: FloatingOrArrayLike,
-    A_w: FloatingOrArrayLike,
-) -> FloatingOrNDArray:
+    c: ArrayLike,
+    J: ArrayLike,
+    A_w: ArrayLike,
+) -> NDArrayFloat:
     """
     Return the *brightness* correlate :math:`Q`.
 
@@ -803,7 +796,7 @@ def brightness_correlate(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Brightness* correlate :math:`Q`.
 
     Examples
@@ -826,11 +819,11 @@ def brightness_correlate(
 
 
 def colourfulness_correlate(
-    N_c: FloatingOrArrayLike,
-    e_t: FloatingOrArrayLike,
-    a: FloatingOrArrayLike,
-    b: FloatingOrArrayLike,
-) -> FloatingOrNDArray:
+    N_c: ArrayLike,
+    e_t: ArrayLike,
+    a: ArrayLike,
+    b: ArrayLike,
+) -> NDArrayFloat:
     """
     Return the *colourfulness* correlate :math:`M`.
 
@@ -847,7 +840,7 @@ def colourfulness_correlate(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Colourfulness* correlate :math:`M`.
 
     Examples
@@ -865,15 +858,15 @@ def colourfulness_correlate(
     a = as_float_array(a)
     b = as_float_array(b)
 
-    M = 43 * N_c * e_t * np.sqrt(a**2 + b**2)
+    M = 43.0 * N_c * e_t * np.hypot(a, b)
 
     return M
 
 
 def chroma_correlate(
-    M: FloatingOrArrayLike,
-    A_w: FloatingOrArrayLike,
-) -> FloatingOrNDArray:
+    M: ArrayLike,
+    A_w: ArrayLike,
+) -> NDArrayFloat:
     """
     Return the *chroma* correlate :math:`C`.
 
@@ -886,7 +879,7 @@ def chroma_correlate(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Chroma* correlate :math:`C`.
 
     Examples
@@ -906,9 +899,7 @@ def chroma_correlate(
     return C
 
 
-def saturation_correlate(
-    M: FloatingOrArrayLike, Q: FloatingOrArrayLike
-) -> FloatingOrNDArray:
+def saturation_correlate(M: ArrayLike, Q: ArrayLike) -> NDArrayFloat:
     """
     Return the *saturation* correlate :math:`s`.
 
@@ -921,7 +912,7 @@ def saturation_correlate(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Saturation* correlate :math:`s`.
 
     Examples
@@ -942,10 +933,10 @@ def saturation_correlate(
 
 
 def P_p(
-    N_c: FloatingOrArrayLike,
-    e_t: FloatingOrArrayLike,
-    A: FloatingOrArrayLike,
-) -> NDArray:
+    N_c: ArrayLike,
+    e_t: ArrayLike,
+    A: ArrayLike,
+) -> NDArrayFloat:
     """
     Return the points :math:`P'_1` and :math:`P'_2`.
 
@@ -985,8 +976,8 @@ def P_p(
 
 
 def hue_angle_dependency_Hellwig2022(
-    h: FloatingOrArrayLike,
-) -> FloatingOrNDArray:
+    h: ArrayLike,
+) -> NDArrayFloat:
     """
     Compute the hue angle dependency of the *Helmholtz-Kohlrausch* effect.
 
@@ -997,7 +988,7 @@ def hue_angle_dependency_Hellwig2022(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Hue angle dependency.
 
     References

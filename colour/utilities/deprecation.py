@@ -13,11 +13,11 @@ from collections import namedtuple
 from operator import attrgetter
 
 from colour.utilities import attest, optional, usage_warning
-from colour.hints import Any, Dict, List, ModuleType, Optional
+from colour.hints import Any, ModuleType
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -332,7 +332,9 @@ class ModuleAPI:
     ... # doctest: +SKIP
     """
 
-    def __init__(self, module: ModuleType, changes: Optional[Dict] = None):
+    def __init__(
+        self, module: ModuleType, changes: dict | None = None
+    ) -> None:
         self._module = module
         self._changes = optional(changes, {})
 
@@ -360,7 +362,6 @@ class ModuleAPI:
 
         if change is not None:
             if not isinstance(change, ObjectRemoved):
-
                 usage_warning(str(change))
 
                 return (
@@ -373,7 +374,7 @@ class ModuleAPI:
 
         return getattr(self._module, attribute)
 
-    def __dir__(self) -> List:
+    def __dir__(self) -> list:
         """
         Return the list of names in the module local scope filtered according
         to the changes.
@@ -430,7 +431,7 @@ def get_attribute(attribute: str) -> Any:
     return attrgetter(attribute)(module)
 
 
-def build_API_changes(changes: dict) -> Dict:
+def build_API_changes(changes: dict) -> dict:
     """
     Build the effective API changes for a desired API changes mapping.
 
@@ -492,7 +493,7 @@ name='module.object_6_access')}
         ArgumentFutureRename,
     ):
         for change in changes.pop(rename_type.__name__, []):
-            changes[change[0].split(".")[-1]] = rename_type(*change)  # noqa
+            changes[change[0].split(".")[-1]] = rename_type(*change)
 
     for remove_type in (
         ObjectRemoved,
@@ -502,12 +503,12 @@ name='module.object_6_access')}
         ArgumentFutureRemove,
     ):
         for change in changes.pop(remove_type.__name__, []):
-            changes[change.split(".")[-1]] = remove_type(change)  # noqa
+            changes[change.split(".")[-1]] = remove_type(change)
 
     return changes
 
 
-def handle_arguments_deprecation(changes: dict, **kwargs: Any) -> Dict:
+def handle_arguments_deprecation(changes: dict, **kwargs: Any) -> dict:
     """
     Handle arguments deprecation according to desired API changes mapping.
 
@@ -564,7 +565,6 @@ def handle_arguments_deprecation(changes: dict, **kwargs: Any) -> Dict:
             continue
 
         if not isinstance(change, ArgumentRemoved):
-
             usage_warning(str(change))
 
             if isinstance(change, ArgumentFutureRemove):

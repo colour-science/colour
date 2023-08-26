@@ -7,14 +7,14 @@ the plotting unittests to run without creating windows in IDEs such as
 *VSCode*.
 """
 
-import matplotlib
+import matplotlib as mpl
 import pytest
 
 from colour.hints import Generator
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -38,7 +38,7 @@ def mpl_headless_backend() -> Generator[None, None, None]:
         *Matplotlib* unit tests.
     """
 
-    current_backend = matplotlib.get_backend()
-    matplotlib.use("AGG")
+    current_backend = mpl.get_backend()
+    mpl.use("AGG")
     yield
-    matplotlib.use(current_backend)
+    mpl.use(current_backend)

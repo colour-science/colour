@@ -9,7 +9,6 @@ import unittest
 import tempfile
 
 from colour.colorimetry import SpectralDistribution, SpectralShape
-from colour.hints import Dict
 from colour.io import (
     read_spectral_data_from_csv_file,
     read_sds_from_csv_file,
@@ -18,7 +17,7 @@ from colour.io import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -33,7 +32,7 @@ __all__ = [
 
 ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 
-COLOURCHECKER_N_OHTA_1: Dict = {
+COLOURCHECKER_N_OHTA_1: dict = {
     380.0: 0.048,
     385.0: 0.051,
     390.0: 0.055,
@@ -234,7 +233,7 @@ class TestWriteSdsToCsvFile(unittest.TestCase):
             ROOT_RESOURCES, "colorchecker_n_ohta.csv"
         )
         sds = read_sds_from_csv_file(colour_checker_n_ohta)
-        key = list(sds.keys())[0]
+        key = next(iter(sds.keys()))
         sds[key] = sds[key].align(SpectralShape(400, 700, 10))
 
         self.assertRaises(ValueError, write_sds_to_csv_file, sds, "")

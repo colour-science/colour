@@ -8,12 +8,12 @@ Defines various RGB colour models common utilities.
 from __future__ import annotations
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import ArrayLike, Boolean, Literal, NDArray, Optional, Union
+from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -29,27 +29,24 @@ def XYZ_to_sRGB(
     illuminant: ArrayLike = CCS_ILLUMINANTS[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-    chromatic_adaptation_transform: Optional[
-        Union[
-            Literal[
-                "Bianco 2010",
-                "Bianco PC 2010",
-                "Bradford",
-                "CAT02 Brill 2008",
-                "CAT02",
-                "CAT16",
-                "CMCCAT2000",
-                "CMCCAT97",
-                "Fairchild",
-                "Sharp",
-                "Von Kries",
-                "XYZ Scaling",
-            ],
-            str,
-        ]
-    ] = "CAT02",
-    apply_cctf_encoding: Boolean = True,
-) -> NDArray:
+    chromatic_adaptation_transform: Literal[
+        "Bianco 2010",
+        "Bianco PC 2010",
+        "Bradford",
+        "CAT02 Brill 2008",
+        "CAT02",
+        "CAT16",
+        "CMCCAT2000",
+        "CMCCAT97",
+        "Fairchild",
+        "Sharp",
+        "Von Kries",
+        "XYZ Scaling",
+    ]
+    | str
+    | None = "CAT02",
+    apply_cctf_encoding: bool = True,
+) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *sRGB* colourspace.
 
@@ -92,15 +89,12 @@ def XYZ_to_sRGB(
     array([ 0.7057393...,  0.1924826...,  0.2235416...])
     """
 
-    sRGB = RGB_COLOURSPACES["sRGB"]
-
     return XYZ_to_RGB(
         XYZ,
+        RGB_COLOURSPACES["sRGB"],
         illuminant,
-        sRGB.whitepoint,
-        sRGB.matrix_XYZ_to_RGB,
         chromatic_adaptation_transform,
-        sRGB.cctf_encoding if apply_cctf_encoding else None,
+        apply_cctf_encoding,
     )
 
 
@@ -109,27 +103,24 @@ def sRGB_to_XYZ(
     illuminant: ArrayLike = CCS_ILLUMINANTS[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-    chromatic_adaptation_transform: Optional[
-        Union[
-            Literal[
-                "Bianco 2010",
-                "Bianco PC 2010",
-                "Bradford",
-                "CAT02 Brill 2008",
-                "CAT02",
-                "CAT16",
-                "CMCCAT2000",
-                "CMCCAT97",
-                "Fairchild",
-                "Sharp",
-                "Von Kries",
-                "XYZ Scaling",
-            ],
-            str,
-        ]
-    ] = "CAT02",
-    apply_cctf_decoding: Boolean = True,
-) -> NDArray:
+    chromatic_adaptation_transform: Literal[
+        "Bianco 2010",
+        "Bianco PC 2010",
+        "Bradford",
+        "CAT02 Brill 2008",
+        "CAT02",
+        "CAT16",
+        "CMCCAT2000",
+        "CMCCAT97",
+        "Fairchild",
+        "Sharp",
+        "Von Kries",
+        "XYZ Scaling",
+    ]
+    | str
+    | None = "CAT02",
+    apply_cctf_decoding: bool = True,
+) -> NDArrayFloat:
     """
     Convert from *sRGB* colourspace to *CIE XYZ* tristimulus values.
 
@@ -172,13 +163,10 @@ def sRGB_to_XYZ(
     array([ 0.2065429...,  0.1219794...,  0.0513714...])
     """
 
-    sRGB = RGB_COLOURSPACES["sRGB"]
-
     return RGB_to_XYZ(
         RGB,
-        sRGB.whitepoint,
+        RGB_COLOURSPACES["sRGB"],
         illuminant,
-        sRGB.matrix_RGB_to_XYZ,
         chromatic_adaptation_transform,
-        sRGB.cctf_decoding if apply_cctf_decoding else None,
+        apply_cctf_decoding,
     )

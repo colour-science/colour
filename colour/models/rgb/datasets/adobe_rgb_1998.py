@@ -18,12 +18,12 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.models.rgb import RGB_Colourspace, gamma_function
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -37,7 +37,7 @@ __all__ = [
     "RGB_COLOURSPACE_ADOBE_RGB1998",
 ]
 
-PRIMARIES_ADOBE_RGB1998: NDArray = np.array(
+PRIMARIES_ADOBE_RGB1998: NDArrayFloat = np.array(
     [
         [0.6400, 0.3300],
         [0.2100, 0.7100],
@@ -49,12 +49,12 @@ PRIMARIES_ADOBE_RGB1998: NDArray = np.array(
 WHITEPOINT_NAME_ADOBE_RGB1998: str = "D65"
 """*Adobe RGB (1998)* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_ADOBE_RGB1998: NDArray = CCS_ILLUMINANTS[
+CCS_WHITEPOINT_ADOBE_RGB1998: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_ADOBE_RGB1998]
 """*Adobe RGB (1998)* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_ADOBE_RGB1998_TO_XYZ: NDArray = np.array(
+MATRIX_ADOBE_RGB1998_TO_XYZ: NDArrayFloat = np.array(
     [
         [0.57667, 0.18556, 0.18823],
         [0.29734, 0.62736, 0.07529],
@@ -63,7 +63,7 @@ MATRIX_ADOBE_RGB1998_TO_XYZ: NDArray = np.array(
 )
 """*Adobe RGB (1998)* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_ADOBE_RGB1998: NDArray = np.array(
+MATRIX_XYZ_TO_ADOBE_RGB1998: NDArrayFloat = np.array(
     [
         [2.04159, -0.56501, -0.34473],
         [-0.96924, 1.87597, 0.04156],

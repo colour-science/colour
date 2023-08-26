@@ -23,12 +23,12 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import FloatingOrArrayLike, FloatingOrNDArray, Literal, Union
+from colour.hints import ArrayLike, NDArrayFloat, Literal
 from colour.utilities import CanonicalMapping, tsplit, validate_method
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -78,24 +78,22 @@ COEFFICIENTS_HUANG2015["cie2000"] = COEFFICIENTS_HUANG2015["CIE 2000"]
 
 
 def power_function_Huang2015(
-    d_E: FloatingOrArrayLike,
-    coefficients: Union[
-        Literal[
-            "CIE 1976",
-            "CIE 1994",
-            "CIE 2000",
-            "CMC",
-            "CAM02-LCD",
-            "CAM02-SCD",
-            "CAM16-UCS",
-            "DIN99d",
-            "OSA",
-            "OSA-GP-Euclidean",
-            "ULAB",
-        ],
-        str,
-    ] = "CIE 2000",
-) -> FloatingOrNDArray:
+    d_E: ArrayLike,
+    coefficients: Literal[
+        "CIE 1976",
+        "CIE 1994",
+        "CIE 2000",
+        "CMC",
+        "CAM02-LCD",
+        "CAM02-SCD",
+        "CAM16-UCS",
+        "DIN99d",
+        "OSA",
+        "OSA-GP-Euclidean",
+        "ULAB",
+    ]
+    | str = "CIE 2000",
+) -> NDArrayFloat:
     """
     Improve the performance of the :math:`\\Delta E` value for given
     coefficients using
@@ -111,7 +109,7 @@ def power_function_Huang2015(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Improved math:`\\Delta E` value.
 
     References
@@ -127,8 +125,8 @@ def power_function_Huang2015(
 
     coefficients = validate_method(
         coefficients,
-        COEFFICIENTS_HUANG2015,
-        '"{0}" coefficients are invalid, ' "they must be one of {1}!",
+        tuple(COEFFICIENTS_HUANG2015),
+        '"{0}" coefficients are invalid, they must be one of {1}!',
     )
 
     a, b = tsplit(COEFFICIENTS_HUANG2015[coefficients])

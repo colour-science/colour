@@ -19,18 +19,13 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import (
-    Boolean,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    Integer,
-)
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import Structure, as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -55,12 +50,12 @@ CONSTANTS_LLOG: Structure = Structure(
 
 
 def log_encoding_LLog(
-    LSR: FloatingOrArrayLike,
-    bit_depth: Integer = 10,
-    out_normalised_code_value: Boolean = True,
-    in_reflection: Boolean = True,
+    LSR: ArrayLike,
+    bit_depth: int = 10,
+    out_normalised_code_value: bool = True,
+    in_reflection: bool = True,
     constants: Structure = CONSTANTS_LLOG,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Define the *Leica L-Log* log encoding curve / opto-electronic transfer
     function.
@@ -70,7 +65,7 @@ def log_encoding_LLog(
     LSR
         Linear scene reflection :math:`LSR` values.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     out_normalised_code_value
         Whether the non-linear *Leica L-Log* data :math:`L-Log` is encoded as
         normalised code values.
@@ -81,7 +76,7 @@ def log_encoding_LLog(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *L-Log* 10-bit equivalent code value :math:`L-Log`.
 
     Notes
@@ -122,7 +117,7 @@ def log_encoding_LLog(
     f = constants.f
 
     LLog = np.where(
-        LSR <= cut1,
+        cut1 >= LSR,
         a * LSR + b,
         c * np.log10(d * LSR + e) + f,
     )
@@ -135,12 +130,12 @@ def log_encoding_LLog(
 
 
 def log_decoding_LLog(
-    LLog: FloatingOrArrayLike,
-    bit_depth: Integer = 10,
-    in_normalised_code_value: Boolean = True,
-    out_reflection: Boolean = True,
+    LLog: ArrayLike,
+    bit_depth: int = 10,
+    in_normalised_code_value: bool = True,
+    out_reflection: bool = True,
     constants: Structure = CONSTANTS_LLOG,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Define the *Leica L-Log* log decoding curve / electro-optical transfer
     function.
@@ -150,7 +145,7 @@ def log_decoding_LLog(
     LLog
         *L-Log* 10-bit equivalent code value :math:`L-Log`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     in_normalised_code_value
         Whether the non-linear *Leica L-Log* data :math:`L-Log` is encoded as
         normalised code values.
@@ -161,7 +156,7 @@ def log_decoding_LLog(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear scene reflection :math:`LSR` values.
 
     Notes

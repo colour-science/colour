@@ -5,6 +5,7 @@ module.
 
 from __future__ import annotations
 
+import contextlib
 import numpy as np
 import platform
 import unittest
@@ -18,16 +19,19 @@ from colour.characterisation.correction import (
     matrix_colour_correction_Cheung2004,
     matrix_colour_correction_Finlayson2015,
     matrix_colour_correction_Vandermonde,
+    apply_matrix_colour_correction_Cheung2004,
+    apply_matrix_colour_correction_Finlayson2015,
+    apply_matrix_colour_correction_Vandermonde,
     colour_correction_Cheung2004,
     colour_correction_Finlayson2015,
     colour_correction_Vandermonde,
 )
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -41,12 +45,15 @@ __all__ = [
     "TestMatrixColourCorrectionCheung2004",
     "TestMatrixColourCorrectionFinlayson2015",
     "TestMatrixColourCorrectionVandermonde",
+    "TestApplyMatrixColourCorrectionCheung2004",
+    "TestApplyMatrixColourCorrectionFinlayson2015",
+    "TestApplyMatrixColourCorrectionVandermonde",
     "TestColourCorrectionCheung2004",
     "TestColourCorrectionFinlayson2015",
     "TestColourCorrectionVandermonde",
 ]
 
-MATRIX_TEST: NDArray = np.array(
+MATRIX_TEST: NDArrayFloat = np.array(
     [
         [0.17224810, 0.09170660, 0.06416938],
         [0.49189645, 0.27802050, 0.21923399],
@@ -75,7 +82,7 @@ MATRIX_TEST: NDArray = np.array(
     ]
 )
 
-MATRIX_REFERENCE: NDArray = np.array(
+MATRIX_REFERENCE: NDArrayFloat = np.array(
     [
         [0.15579559, 0.09715755, 0.07514556],
         [0.39113140, 0.25943419, 0.21266708],
@@ -121,6 +128,7 @@ matrix_augmented_Cheung2004` definition.
 
         polynomials = [
             np.array([0.17224810, 0.09170660, 0.06416938]),
+            np.array([0.17224810, 0.09170660, 0.06416938, 1.00000000]),
             np.array(
                 [0.17224810, 0.09170660, 0.06416938, 0.00101364, 1.00000000]
             ),
@@ -308,10 +316,49 @@ matrix_augmented_Cheung2004` definition.
                     0.00006504,
                 ]
             ),
+            np.array(
+                [
+                    0.17224810,
+                    0.09170660,
+                    0.06416938,
+                    0.01579629,
+                    0.01105305,
+                    0.00588476,
+                    0.02966941,
+                    0.00841010,
+                    0.00411771,
+                    0.00101364,
+                    0.00272088,
+                    0.00053967,
+                    0.00070927,
+                    0.00190387,
+                    0.00144862,
+                    0.00037762,
+                    0.00511050,
+                    0.00077126,
+                    0.00026423,
+                    0.00046867,
+                    0.00032794,
+                    0.00013285,
+                    0.00004949,
+                    0.00004551,
+                    0.00002423,
+                    0.00017460,
+                    0.00009296,
+                    0.00006504,
+                    0.00024952,
+                    0.00012217,
+                    0.00003463,
+                    0.00088027,
+                    0.00007073,
+                    0.00001696,
+                    1.00000000,
+                ]
+            ),
         ]
 
         for i, terms in enumerate(
-            [3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22]
+            [3, 4, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22, 35]
         ):
             np.testing.assert_array_almost_equal(
                 matrix_augmented_Cheung2004(RGB, terms),
@@ -329,7 +376,7 @@ matrix_augmented_Cheung2004` definition raised exception.
             ValueError,
             matrix_augmented_Cheung2004,
             np.array([0.17224810, 0.09170660, 0.06416938]),
-            4,
+            6,
         )
 
     @ignore_numpy_errors
@@ -683,20 +730,18 @@ matrix_colour_correction_Cheung2004` definition.
         matrix_colour_correction_Cheung2004` definition nan support.
         """
 
-        # NOTE: Hangs on "Linux".
-        if platform.system() == "Linux":
+        # NOTE: Hangs on "macOS" and "Linux".
+        if platform.system() in ("Darwin", "Linux"):
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
-            try:
+            with contextlib.suppress(LinAlgError):
                 matrix_colour_correction_Cheung2004(
                     np.vstack([case, case, case]),
                     np.transpose(np.vstack([case, case, case])),
                 )
-            except LinAlgError:
-                pass
 
 
 class TestMatrixColourCorrectionFinlayson2015(unittest.TestCase):
@@ -790,20 +835,18 @@ matrix_colour_correction_Finlayson2015` definition.
         matrix_colour_correction_Finlayson2015` definition nan support.
         """
 
-        # NOTE: Hangs on "Linux".
-        if platform.system() == "Linux":
+        # NOTE: Hangs on "macOS" and "Linux".
+        if platform.system() in ("Darwin", "Linux"):
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
-            try:
+            with contextlib.suppress(LinAlgError):
                 matrix_colour_correction_Finlayson2015(
                     np.vstack([case, case, case]),
                     np.transpose(np.vstack([case, case, case])),
                 )
-            except LinAlgError:
-                pass
 
 
 class TestMatrixColourCorrectionVandermonde(unittest.TestCase):
@@ -888,20 +931,270 @@ matrix_colour_correction_Vandermonde` definition.
         matrix_colour_correction_Vandermonde` definition nan support.
         """
 
-        # NOTE: Hangs on "Linux".
-        if platform.system() == "Linux":
+        # NOTE: Hangs on "macOS" and "Linux".
+        if platform.system() in ("Darwin", "Linux"):
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
-            try:
+            with contextlib.suppress(LinAlgError):
                 matrix_colour_correction_Vandermonde(
                     np.vstack([case, case, case]),
                     np.transpose(np.vstack([case, case, case])),
                 )
-            except LinAlgError:
-                pass
+
+
+class TestApplyMatrixColourCorrectionCheung2004(unittest.TestCase):
+    """
+    Define :func:`colour.characterisation.correction.\
+apply_matrix_colour_correction_Cheung2004` definition unit tests methods.
+    """
+
+    def test_apply_matrix_colour_correction_Cheung2004(self):
+        """
+        Test :func:`colour.characterisation.correction.\
+apply_matrix_colour_correction_Cheung2004` definition.
+        """
+
+        RGB = np.array([0.17224810, 0.09170660, 0.06416938])
+
+        np.testing.assert_array_almost_equal(
+            apply_matrix_colour_correction_Cheung2004(
+                RGB,
+                np.array(
+                    [
+                        [0.69822661, 0.03071629, 0.16210422],
+                        [0.06893498, 0.67579611, 0.16430385],
+                        [-0.06314956, 0.09212471, 0.97134152],
+                    ]
+                ),
+            ),
+            np.array([0.13348722, 0.08439216, 0.05990144]),
+            decimal=7,
+        )
+
+    def test_n_dimensional_apply_matrix_colour_correction_Cheung2004(self):
+        """
+        Test :func:`colour.characterisation.correction.\
+apply_matrix_colour_correction_Cheung2004` definition n-dimensional support.
+        """
+
+        RGB = np.array([0.17224810, 0.09170660, 0.06416938])
+        CCM = np.array(
+            [
+                [0.69822661, 0.03071629, 0.16210422],
+                [0.06893498, 0.67579611, 0.16430385],
+                [-0.06314956, 0.09212471, 0.97134152],
+            ]
+        )
+        RGB_c = apply_matrix_colour_correction_Cheung2004(RGB, CCM)
+
+        RGB = np.tile(RGB, (6, 1))
+        RGB_c = np.tile(RGB_c, (6, 1))
+        np.testing.assert_array_almost_equal(
+            apply_matrix_colour_correction_Cheung2004(RGB, CCM),
+            RGB_c,
+            decimal=7,
+        )
+
+        RGB = np.reshape(RGB, (2, 3, 3))
+        RGB_c = np.reshape(RGB_c, (2, 3, 3))
+        np.testing.assert_array_almost_equal(
+            apply_matrix_colour_correction_Cheung2004(RGB, CCM),
+            RGB_c,
+            decimal=7,
+        )
+
+    @ignore_numpy_errors
+    def test_nan_apply_matrix_colour_correction_Cheung2004(
+        self,
+    ):  # pragma: no cover
+        """
+        Test :func:`colour.characterisation.correction.\
+apply_matrix_colour_correction_Cheung2004` definition nan support.
+        """
+
+        # NOTE: Hangs on "macOS" and "Linux".
+        if platform.system() in ("Darwin", "Linux"):
+            return
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = np.array(list(set(product(cases, repeat=3))))
+        for case in cases:
+            with contextlib.suppress(LinAlgError):
+                apply_matrix_colour_correction_Cheung2004(
+                    case,
+                    np.vstack([case, case, case]),
+                )
+
+
+class TestApplyMatrixColourCorrectionFinlayson2015(unittest.TestCase):
+    """
+    Define :func:`colour.characterisation.correction.\
+apply_matrix_colour_correction_Finlayson2015` definition unit tests methods.
+    """
+
+    def test_apply_matrix_colour_correction_Finlayson2015(self):
+        """
+        Test :func:`colour.characterisation.correction.\
+apply_matrix_colour_correction_Finlayson2015` definition.
+        """
+
+        RGB = np.array([0.17224810, 0.09170660, 0.06416938])
+
+        np.testing.assert_array_almost_equal(
+            apply_matrix_colour_correction_Finlayson2015(
+                RGB,
+                np.array(
+                    [
+                        [0.69822661, 0.03071629, 0.16210422],
+                        [0.06893498, 0.67579611, 0.16430385],
+                        [-0.06314956, 0.09212471, 0.97134152],
+                    ]
+                ),
+            ),
+            np.array([0.13348722, 0.08439216, 0.05990144]),
+            decimal=7,
+        )
+
+    def test_n_dimensional_apply_matrix_colour_correction_Finlayson2015(self):
+        """
+        Test :func:`colour.characterisation.correction.\
+apply_matrix_colour_correction_Finlayson2015` definition n-dimensional support.
+        """
+
+        RGB = np.array([0.17224810, 0.09170660, 0.06416938])
+        CCM = np.array(
+            [
+                [0.69822661, 0.03071629, 0.16210422],
+                [0.06893498, 0.67579611, 0.16430385],
+                [-0.06314956, 0.09212471, 0.97134152],
+            ]
+        )
+        RGB_c = apply_matrix_colour_correction_Finlayson2015(RGB, CCM)
+
+        RGB = np.tile(RGB, (6, 1))
+        RGB_c = np.tile(RGB_c, (6, 1))
+        np.testing.assert_array_almost_equal(
+            apply_matrix_colour_correction_Finlayson2015(RGB, CCM),
+            RGB_c,
+            decimal=7,
+        )
+
+        RGB = np.reshape(RGB, (2, 3, 3))
+        RGB_c = np.reshape(RGB_c, (2, 3, 3))
+        np.testing.assert_array_almost_equal(
+            apply_matrix_colour_correction_Finlayson2015(RGB, CCM),
+            RGB_c,
+            decimal=7,
+        )
+
+    @ignore_numpy_errors
+    def test_nan_apply_matrix_colour_correction_Finlayson2015(
+        self,
+    ):  # pragma: no cover
+        """
+                Test :func:`colour.characterisation.correction.
+        apply_matrix_colour_correction_Finlayson2015` definition nan support.
+        """
+
+        # NOTE: Hangs on "macOS" and "Linux".
+        if platform.system() in ("Darwin", "Linux"):
+            return
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = np.array(list(set(product(cases, repeat=3))))
+        for case in cases:
+            with contextlib.suppress(LinAlgError):
+                apply_matrix_colour_correction_Finlayson2015(
+                    case,
+                    np.vstack([case, case, case]),
+                )
+
+
+class TestApplyMatrixColourCorrectionVandermonde(unittest.TestCase):
+    """
+    Define :func:`colour.characterisation.correction.\
+apply_matrix_colour_correction_Vandermonde` definition unit tests methods.
+    """
+
+    def test_apply_matrix_colour_correction_Vandermonde(self):
+        """
+        Test :func:`colour.characterisation.correction.\
+apply_matrix_colour_correction_Vandermonde` definition.
+        """
+
+        RGB = np.array([0.17224810, 0.09170660, 0.06416938])
+
+        np.testing.assert_array_almost_equal(
+            apply_matrix_colour_correction_Vandermonde(
+                RGB,
+                np.array(
+                    [
+                        [0.66770040, 0.02514036, 0.12745797, 0.02485425],
+                        [0.03155494, 0.66896825, 0.12187874, 0.03043460],
+                        [-0.14502258, 0.07716975, 0.87841836, 0.06666049],
+                    ]
+                ),
+            ),
+            np.array([0.15034881, 0.10503956, 0.10512517]),
+            decimal=7,
+        )
+
+    def test_n_dimensional_apply_matrix_colour_correction_Vandermonde(self):
+        """
+        Test :func:`colour.characterisation.correction.\
+apply_matrix_colour_correction_Vandermonde` definition n-dimensional support.
+        """
+
+        RGB = np.array([0.17224810, 0.09170660, 0.06416938])
+        CCM = np.array(
+            [
+                [0.66770040, 0.02514036, 0.12745797, 0.02485425],
+                [0.03155494, 0.66896825, 0.12187874, 0.03043460],
+                [-0.14502258, 0.07716975, 0.87841836, 0.06666049],
+            ]
+        )
+        RGB_c = apply_matrix_colour_correction_Vandermonde(RGB, CCM)
+
+        RGB = np.tile(RGB, (6, 1))
+        RGB_c = np.tile(RGB_c, (6, 1))
+        np.testing.assert_array_almost_equal(
+            apply_matrix_colour_correction_Vandermonde(RGB, CCM),
+            RGB_c,
+            decimal=7,
+        )
+
+        RGB = np.reshape(RGB, (2, 3, 3))
+        RGB_c = np.reshape(RGB_c, (2, 3, 3))
+        np.testing.assert_array_almost_equal(
+            apply_matrix_colour_correction_Vandermonde(RGB, CCM),
+            RGB_c,
+            decimal=7,
+        )
+
+    @ignore_numpy_errors
+    def test_nan_apply_matrix_colour_correction_Vandermonde(
+        self,
+    ):  # pragma: no cover
+        """
+        Test :func:`colour.characterisation.correction.\
+apply_matrix_colour_correction_Vandermonde` definition nan support.
+        """
+
+        # NOTE: Hangs on "macOS" and "Linux".
+        if platform.system() in ("Darwin", "Linux"):
+            return
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = np.array(list(set(product(cases, repeat=3))))
+        for case in cases:
+            with contextlib.suppress(LinAlgError):
+                apply_matrix_colour_correction_Vandermonde(
+                    case,
+                    np.dstack([case, case, case, case]),
+                )
 
 
 class TestColourCorrectionCheung2004(unittest.TestCase):
@@ -966,21 +1259,19 @@ colour_correction_Cheung2004` definition n-dimensional support.
 colour_correction_Cheung2004` definition nan support.
         """
 
-        # NOTE: Hangs on "Linux".
-        if platform.system() == "Linux":
+        # NOTE: Hangs on "macOS" and "Linux".
+        if platform.system() in ("Darwin", "Linux"):
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
-            try:
+            with contextlib.suppress(LinAlgError):
                 colour_correction_Cheung2004(
                     case,
                     np.vstack([case, case, case]),
                     np.transpose(np.vstack([case, case, case])),
                 )
-            except LinAlgError:
-                pass
 
 
 class TestColourCorrectionFinlayson2015(unittest.TestCase):
@@ -1051,21 +1342,19 @@ colour_correction_Finlayson2015` definition n-dimensional support.
         colour_correction_Finlayson2015` definition nan support.
         """
 
-        # NOTE: Hangs on "Linux".
-        if platform.system() == "Linux":
+        # NOTE: Hangs on "macOS" and "Linux".
+        if platform.system() in ("Darwin", "Linux"):
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
-            try:
+            with contextlib.suppress(LinAlgError):
                 colour_correction_Finlayson2015(
                     case,
                     np.vstack([case, case, case]),
                     np.transpose(np.vstack([case, case, case])),
                 )
-            except LinAlgError:
-                pass
 
 
 class TestColourCorrectionVandermonde(unittest.TestCase):
@@ -1130,21 +1419,19 @@ colour_correction_Vandermonde` definition n-dimensional support.
 colour_correction_Vandermonde` definition nan support.
         """
 
-        # NOTE: Hangs on "Linux".
-        if platform.system() == "Linux":
+        # NOTE: Hangs on "macOS" and "Linux".
+        if platform.system() in ("Darwin", "Linux"):
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
-            try:
+            with contextlib.suppress(LinAlgError):
                 colour_correction_Vandermonde(
                     case,
                     np.vstack([case, case, case]),
                     np.transpose(np.vstack([case, case, case])),
                 )
-            except LinAlgError:
-                pass
 
 
 if __name__ == "__main__":

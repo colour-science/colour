@@ -23,7 +23,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode
-from colour.hints import FloatingOrArrayLike, FloatingOrNDArray, Literal, Union
+from colour.hints import ArrayLike, NDArrayFloat, Literal
 from colour.utilities import (
     CanonicalMapping,
     as_float,
@@ -33,7 +33,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -45,9 +45,7 @@ __all__ = [
 ]
 
 
-def index_stress_Garcia2007(
-    d_E: FloatingOrArrayLike, d_V: FloatingOrArrayLike
-) -> FloatingOrNDArray:
+def index_stress_Garcia2007(d_E: ArrayLike, d_V: ArrayLike) -> NDArrayFloat:
     """
     Compute the
     *Kruskal's Standardized Residual Sum of Squares (:math:`STRESS`)*
@@ -62,7 +60,7 @@ def index_stress_Garcia2007(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         :math:`STRESS` index.
 
     References
@@ -105,10 +103,10 @@ References
 
 
 def index_stress(
-    d_E: FloatingOrArrayLike,
-    d_V: FloatingOrArrayLike,
-    method: Union[Literal["Garcia 2007"], str] = "Garcia 2007",
-) -> FloatingOrNDArray:
+    d_E: ArrayLike,
+    d_V: ArrayLike,
+    method: Literal["Garcia 2007"] | str = "Garcia 2007",
+) -> NDArrayFloat:
     """
     Compute the
     *Kruskal's Standardized Residual Sum of Squares (:math:`STRESS`)*
@@ -125,7 +123,7 @@ def index_stress(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         :math:`STRESS` index.
 
     References
@@ -140,7 +138,7 @@ def index_stress(
     0.1211709...
     """
 
-    method = validate_method(method, INDEX_STRESS_METHODS)
+    method = validate_method(method, tuple(INDEX_STRESS_METHODS))
 
     function = INDEX_STRESS_METHODS[method]
 

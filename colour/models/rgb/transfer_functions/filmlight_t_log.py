@@ -17,12 +17,12 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import Floating, FloatingOrArrayLike, FloatingOrNDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -34,11 +34,11 @@ __all__ = [
 
 
 def log_encoding_FilmLightTLog(
-    x: FloatingOrArrayLike,
-    w: Floating = 128.0,
-    g: Floating = 16.0,
-    o: Floating = 0.075,
-) -> FloatingOrNDArray:
+    x: ArrayLike,
+    w: float = 128.0,
+    g: float = 16.0,
+    o: float = 0.075,
+) -> NDArrayFloat:
     """
     Define the *FilmLight T-Log* log encoding curve.
 
@@ -55,7 +55,7 @@ def log_encoding_FilmLightTLog(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *FilmLight T-Log* encoded data :math:`t`.
 
     References
@@ -128,11 +128,11 @@ def log_encoding_FilmLightTLog(
 
 
 def log_decoding_FilmLightTLog(
-    t: FloatingOrArrayLike,
-    w: Floating = 128.0,
-    g: Floating = 16.0,
-    o: Floating = 0.075,
-) -> FloatingOrNDArray:
+    t: ArrayLike,
+    w: float = 128.0,
+    g: float = 16.0,
+    o: float = 0.075,
+) -> NDArrayFloat:
     """
     Define the *FilmLight T-Log* log decoding curve.
 
@@ -149,7 +149,7 @@ def log_decoding_FilmLightTLog(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Linear reflection data :math`x`.
 
     References

@@ -16,18 +16,16 @@ from copy import deepcopy
 from colour.hints import (
     Any,
     ArrayLike,
-    Integer,
     List,
-    NDArray,
+    NDArrayFloat,
+    ProtocolLUTSequenceItem,
     Sequence,
-    TypeLUTSequenceItem,
-    Union,
 )
 from colour.utilities import as_float_array, attest, is_iterable
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -41,7 +39,7 @@ class LUTSequence(MutableSequence):
     """
     Define the base class for a *LUT* sequence, i.e. a series of *LUTs*,
     *LUT* operators or objects implementing the
-    :class:`colour.hints.TypeLUTSequenceItem` protocol.
+    :class:`colour.hints.ProtocolLUTSequenceItem` protocol.
 
     The `colour.LUTSequence` class can be used to model series of *LUTs* such
     as when a shaper *LUT* is combined with a 3D *LUT*.
@@ -50,7 +48,7 @@ class LUTSequence(MutableSequence):
     ----------------
     args
         Sequence of objects implementing the
-        :class:`colour.hints.TypeLUTSequenceItem` protocol.
+        :class:`colour.hints.ProtocolLUTSequenceItem` protocol.
 
     Attributes
     ----------
@@ -111,14 +109,12 @@ class LUTSequence(MutableSequence):
         Size       : (10, 3)
     """
 
-    def __init__(self, *args: TypeLUTSequenceItem) -> None:
-        # TODO: Remove pragma when https://github.com/python/mypy/issues/3004
-        # is resolved.
-        self._sequence: List[TypeLUTSequenceItem] = []
-        self.sequence = args  # type: ignore[assignment]
+    def __init__(self, *args: ProtocolLUTSequenceItem) -> None:
+        self._sequence: List[ProtocolLUTSequenceItem] = []
+        self.sequence = args
 
     @property
-    def sequence(self) -> List[TypeLUTSequenceItem]:
+    def sequence(self) -> List[ProtocolLUTSequenceItem]:
         """
         Getter and setter property for the underlying *LUT* sequence.
 
@@ -136,19 +132,19 @@ class LUTSequence(MutableSequence):
         return self._sequence
 
     @sequence.setter
-    def sequence(self, value: Sequence[TypeLUTSequenceItem]):
+    def sequence(self, value: Sequence[ProtocolLUTSequenceItem]):
         """Setter for the **self.sequence** property."""
 
         for item in value:
             attest(
-                isinstance(item, TypeLUTSequenceItem),
-                '"value" items must implement the "TypeLUTSequenceItem" '
+                isinstance(item, ProtocolLUTSequenceItem),
+                '"value" items must implement the "ProtocolLUTSequenceItem" '
                 "protocol!",
             )
 
         self._sequence = list(value)
 
-    def __getitem__(self, index: Union[Integer, slice]) -> Any:
+    def __getitem__(self, index: int | slice) -> Any:
         """
         Return the *LUT* sequence item(s) at given index (or slice).
 
@@ -159,13 +155,13 @@ class LUTSequence(MutableSequence):
 
         Returns
         -------
-        TypeLUTSequenceItem
+        ProtocolLUTSequenceItem
             *LUT* sequence item(s) at given index (or slice).
         """
 
         return self._sequence[index]
 
-    def __setitem__(self, index: Union[Integer, slice], value: Any):
+    def __setitem__(self, index: int | slice, value: Any):
         """
         Set the *LUT* sequence at given index (or slice) with given value.
 
@@ -179,14 +175,14 @@ class LUTSequence(MutableSequence):
 
         for item in value if is_iterable(value) else [value]:
             attest(
-                isinstance(item, TypeLUTSequenceItem),
-                '"value" items must implement the "TypeLUTSequenceItem" '
+                isinstance(item, ProtocolLUTSequenceItem),
+                '"value" items must implement the "ProtocolLUTSequenceItem" '
                 "protocol!",
             )
 
         self._sequence[index] = value
 
-    def __delitem__(self, index: Union[Integer, slice]):
+    def __delitem__(self, index: int | slice):
         """
         Delete the *LUT* sequence item(s) at given index (or slice).
 
@@ -198,13 +194,13 @@ class LUTSequence(MutableSequence):
 
         del self._sequence[index]
 
-    def __len__(self) -> Integer:
+    def __len__(self) -> int:
         """
         Return the *LUT* sequence items count.
 
         Returns
         -------
-        :class:`numpy.integer`
+        :class:`int`
             *LUT* sequence items count.
         """
 
@@ -286,12 +282,7 @@ class LUTSequence(MutableSequence):
         if len(self) != len(other):
             return False
 
-        # pylint: disable=C0200
-        for i in range(len(self)):
-            if self[i] != other[i]:
-                return False
-
-        return True
+        return all(self[i] == other[i] for i in range(len(self)))
 
     def __ne__(self, other) -> bool:
         """
@@ -310,7 +301,7 @@ class LUTSequence(MutableSequence):
 
         return not (self == other)
 
-    def insert(self, index: Integer, item: TypeLUTSequenceItem):
+    def insert(self, index: int, item: ProtocolLUTSequenceItem):
         """
         Insert given *LUT* at given index into the *LUT* sequence.
 
@@ -323,14 +314,14 @@ class LUTSequence(MutableSequence):
         """
 
         attest(
-            isinstance(item, TypeLUTSequenceItem),
-            '"value" items must implement the "TypeLUTSequenceItem" '
+            isinstance(item, ProtocolLUTSequenceItem),
+            '"value" items must implement the "ProtocolLUTSequenceItem" '
             "protocol!",
         )
 
         self._sequence.insert(index, item)
 
-    def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:
+    def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArrayFloat:
         """
         Apply the *LUT* sequence sequentially to given *RGB* colourspace
         array.

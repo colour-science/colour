@@ -46,12 +46,11 @@ from __future__ import annotations
 from functools import partial
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import Dict
 from colour.utilities import CanonicalMapping, LazyCanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -65,7 +64,7 @@ __all__ = [
     "DATA_MESOPIC_X",
 ]
 
-DATA_LEFS_PHOTOPIC: Dict = {
+DATA_LEFS_PHOTOPIC: dict = {
     "CIE 1924 Photopic Standard Observer": {
         360: 0.0000039170000,
         361: 0.0000043935810,
@@ -2412,7 +2411,7 @@ SDS_LEFS_PHOTOPIC["cie_10_1964"] = SDS_LEFS_PHOTOPIC[
     "CIE 1964 Photopic 10 Degree Standard Observer"
 ]
 
-DATA_LEFS_SCOTOPIC: Dict = {
+DATA_LEFS_SCOTOPIC: dict = {
     "CIE 1951 Scotopic Standard Observer": {
         380: 0.0005890000,
         381: 0.0006650000,
@@ -2852,7 +2851,7 @@ References
 """
 SDS_LEFS.update(SDS_LEFS_SCOTOPIC)
 
-DATA_MESOPIC_X: Dict = {
+DATA_MESOPIC_X: dict = {
     0.01: CanonicalMapping(
         {
             "Blue Heavy": CanonicalMapping({"MOVE": 0.13, "LRC": 0.04}),

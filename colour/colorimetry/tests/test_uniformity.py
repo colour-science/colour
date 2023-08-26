@@ -7,11 +7,11 @@ import numpy as np
 import unittest
 
 from colour.colorimetry import spectral_uniformity
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -21,7 +21,7 @@ __all__ = [
     "TestSpectralUniformity",
 ]
 
-DATA_UNIFORMITY_FIRST_ORDER_DERIVATIVES: NDArray = np.array(
+DATA_UNIFORMITY_FIRST_ORDER_DERIVATIVES: NDArrayFloat = np.array(
     [
         9.55142857e-06,
         1.14821429e-05,
@@ -121,7 +121,7 @@ DATA_UNIFORMITY_FIRST_ORDER_DERIVATIVES: NDArray = np.array(
     ]
 )
 
-DATA_UNIFORMITY_SECOND_ORDER_DERIVATIVES: NDArray = np.array(
+DATA_UNIFORMITY_SECOND_ORDER_DERIVATIVES: NDArrayFloat = np.array(
     [
         7.97142857e-09,
         3.69285714e-08,

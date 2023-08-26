@@ -10,11 +10,12 @@ from __future__ import annotations
 import numpy as np
 from scipy.spatial import Delaunay
 
-from colour.hints import ArrayLike, Floating, NDArray, Optional
+from colour.constants import EPSILON
+from colour.hints import ArrayLike, NDArrayFloat
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -25,8 +26,8 @@ __all__ = [
 
 
 def is_within_mesh_volume(
-    points: ArrayLike, mesh: ArrayLike, tolerance: Optional[Floating] = None
-) -> NDArray:
+    points: ArrayLike, mesh: ArrayLike, tolerance: float = 100 * EPSILON
+) -> NDArrayFloat:
     """
     Return whether given points are within given mesh volume using Delaunay
     triangulation.

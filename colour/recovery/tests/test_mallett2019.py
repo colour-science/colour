@@ -29,7 +29,7 @@ from colour.recovery import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -47,7 +47,6 @@ class TestMixinMallett2019:
     def __init__(self) -> None:
         """Initialise common tests attributes for the mixin."""
 
-        # pylint: disable=E1102
         self._cmfs = reshape_msds(
             MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
             SpectralShape(360, 780, 10),
@@ -82,12 +81,7 @@ class TestMixinMallett2019:
         for name, sd in SDS_COLOURCHECKERS["ColorChecker N Ohta"].items():
             XYZ = sd_to_XYZ(sd, self._cmfs, self._sd_D65) / 100
             Lab = XYZ_to_Lab(XYZ, self._xy_D65)
-            RGB = XYZ_to_RGB(
-                XYZ,
-                self._RGB_colourspace.whitepoint,
-                self._xy_D65,
-                self._RGB_colourspace.matrix_XYZ_to_RGB,
-            )
+            RGB = XYZ_to_RGB(XYZ, self._RGB_colourspace, self._xy_D65)
 
             recovered_sd = RGB_to_sd_Mallett2019(RGB, self._basis)
             recovered_XYZ = (

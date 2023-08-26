@@ -22,18 +22,7 @@ import matplotlib.pyplot as plt
 
 from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import sd_to_XYZ
-from colour.hints import (
-    Any,
-    ArrayLike,
-    Boolean,
-    Dict,
-    Floating,
-    List,
-    Literal,
-    Tuple,
-    Union,
-    cast,
-)
+from colour.hints import Any, ArrayLike, Dict, Literal, Tuple
 from colour.io import read_image
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
@@ -47,7 +36,7 @@ from colour.utilities import as_float_array, validate_method
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -68,7 +57,7 @@ ROOT_RESOURCES_ANSIIESTM3018: str = os.path.join(
 )
 """Resources directory."""
 
-_COLOURS_BIN_BAR: List = [
+_COLOURS_BIN_BAR: list = [
     "#A35C60",
     "#CC765E",
     "#CC8145",
@@ -87,7 +76,7 @@ _COLOURS_BIN_BAR: List = [
     "#BA7A8E",
 ]
 
-_COLOURS_BIN_ARROW: List = [
+_COLOURS_BIN_ARROW: list = [
     "#E62828",
     "#E74B4B",
     "#FB812E",
@@ -106,7 +95,7 @@ _COLOURS_BIN_ARROW: List = [
     "#A74F81",
 ]
 
-_COLOURS_TCS_BAR: List = [
+_COLOURS_TCS_BAR: list = [
     "#F1BDCD",
     "#CA6183",
     "#573A40",
@@ -241,7 +230,7 @@ def plot_spectra_ANSIIESTM3018(
     >>> specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
     >>> plot_spectra_ANSIIESTM3018(specification)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
     """
 
     settings: Dict[str, Any] = dict(kwargs)
@@ -270,7 +259,7 @@ def plot_spectra_ANSIIESTM3018(
         zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
     )
     axes.tick_params(axis="y", which="both", length=0)
-    axes.set_yticklabels([])
+    axes.set_yticklabels([])  # pyright: ignore
 
     settings = {
         "axes": axes,
@@ -315,11 +304,11 @@ def plot_colour_vector_graphic(
     >>> specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
     >>> plot_colour_vector_graphic(specification)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
     """
 
     settings: Dict[str, Any] = dict(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
 
     # Background
     background_image = read_image(
@@ -371,7 +360,7 @@ def plot_colour_vector_graphic(
     for radius in [0.8, 0.9, 1.1, 1.2]:
         circle = plt.Circle(
             (0, 0),
-            radius,
+            radius,  # pyright: ignore
             color="white",
             lw=0.75,
             fill=False,
@@ -380,7 +369,7 @@ def plot_colour_vector_graphic(
         axes.add_artist(circle)
 
     # -/+20% marks near the white circles.
-    props = dict(ha="right", color="white", size=7)
+    props = {"ha": "right", "color": "white", "size": 7}
     axes.annotate(
         "-20%",
         xy=(0, -0.8),
@@ -400,15 +389,9 @@ def plot_colour_vector_graphic(
     average_hues = np.radians(
         [
             np.mean(
-                as_float_array(
-                    [
-                        cast(
-                            Floating,
-                            specification.colorimetry_data[1][i].CAM.h,
-                        )
-                        for i in specification.bins[j]
-                    ]
-                )
+                specification.colorimetry_data[1].JMh[
+                    specification.bins == j, 2
+                ],
             )
             for j in range(16)
         ]
@@ -487,7 +470,7 @@ def plot_colour_vector_graphic(
         "$D_{uv}$", f"{specification.D_uv:.4f}", "right", "bottom"
     )
 
-    settings = {"standalone": True}
+    settings = {"show": True}
     settings.update(kwargs)
 
     return render(**settings)
@@ -496,10 +479,8 @@ def plot_colour_vector_graphic(
 def plot_16_bin_bars(
     values: ArrayLike,
     label_template: str,
-    x_ticker: Boolean = False,
-    label_orientation: Union[
-        Literal["Horizontal", "Vertical"], str
-    ] = "Vertical",
+    x_ticker: bool = False,
+    label_orientation: Literal["Horizontal", "Vertical"] | str = "Vertical",
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -532,13 +513,13 @@ def plot_16_bin_bars(
     --------
     >>> plot_16_bin_bars(np.arange(16), "{0}")
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
     """
 
     values = as_float_array(values)
 
     label_orientation = validate_method(
-        label_orientation, ["Horizontal", "Vertical"]
+        label_orientation, ("Horizontal", "Vertical")
     )
 
     _figure, axes = artist(**kwargs)
@@ -555,10 +536,10 @@ def plot_16_bin_bars(
     )
     axes.set_xlim(0.5, bar_count + 0.5)
     if x_ticker:
-        axes.set_xticks(np.arange(1, bar_count + 1))
+        axes.set_xticks(np.arange(1, bar_count + 1))  # pyright: ignore
         axes.set_xlabel("Hue-Angle Bin (j)")
     else:
-        axes.set_xticks([])
+        axes.set_xticks([])  # pyright: ignore
 
     label_orientation = label_orientation.lower()
     value_max = np.max(values)
@@ -598,7 +579,7 @@ def plot_16_bin_bars(
 
 def plot_local_chroma_shifts(
     specification: ColourQuality_Specification_ANSIIESTM3018,
-    x_ticker: Boolean = False,
+    x_ticker: bool = False,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -631,11 +612,11 @@ def plot_local_chroma_shifts(
     >>> specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
     >>> plot_local_chroma_shifts(specification)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
     """
 
     settings: Dict[str, Any] = dict(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
 
     _figure, axes = plot_16_bin_bars(
         specification.R_cs, "{0:.0f}%", x_ticker, **settings
@@ -645,10 +626,10 @@ def plot_local_chroma_shifts(
     axes.set_ylabel("Local Chroma Shift ($R_{cs,hj}$)")
 
     ticks = np.arange(-40, 41, 10)
-    axes.set_yticks(ticks)
-    axes.set_yticklabels([f"{value}%" for value in ticks])
+    axes.set_yticks(ticks)  # pyright: ignore
+    axes.set_yticklabels([f"{value}%" for value in ticks])  # pyright: ignore
 
-    settings = {"standalone": True}
+    settings = {"show": True}
     settings.update(kwargs)
 
     return render(**settings)
@@ -656,7 +637,7 @@ def plot_local_chroma_shifts(
 
 def plot_local_hue_shifts(
     specification: ColourQuality_Specification_ANSIIESTM3018,
-    x_ticker: Boolean = False,
+    x_ticker: bool = False,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -689,20 +670,20 @@ def plot_local_hue_shifts(
     >>> specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
     >>> plot_local_hue_shifts(specification)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
     """
 
     settings: Dict[str, Any] = dict(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
 
     _figure, axes = plot_16_bin_bars(
         specification.R_hs, "{0:.2f}", x_ticker, **settings
     )
     axes.set_ylim(-0.5, 0.5)
-    axes.set_yticks(np.arange(-0.5, 0.51, 0.1))
+    axes.set_yticks(np.arange(-0.5, 0.51, 0.1))  # pyright: ignore
     axes.set_ylabel("Local Hue Shift ($R_{hs,hj}$)")
 
-    settings = {"standalone": True}
+    settings = {"show": True}
     settings.update(kwargs)
 
     return render(**settings)
@@ -710,7 +691,7 @@ def plot_local_hue_shifts(
 
 def plot_local_colour_fidelities(
     specification: ColourQuality_Specification_ANSIIESTM3018,
-    x_ticker: Boolean = False,
+    x_ticker: bool = False,
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -743,20 +724,20 @@ def plot_local_colour_fidelities(
     >>> specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
     >>> plot_local_colour_fidelities(specification)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
     """
 
     settings: Dict[str, Any] = dict(kwargs)
-    settings["standalone"] = False
+    settings["show"] = False
 
     _figure, axes = plot_16_bin_bars(
         specification.R_fs, "{0:.0f}", x_ticker, "Horizontal", **settings
     )
     axes.set_ylim(0, 100)
-    axes.set_yticks(np.arange(0, 101, 10))
+    axes.set_yticks(np.arange(0, 101, 10))  # pyright: ignore
     axes.set_ylabel("Local Color Fidelity ($R_{f,hj}$)")
 
-    settings = {"standalone": True}
+    settings = {"show": True}
     settings.update(kwargs)
 
     return render(**settings)
@@ -793,7 +774,7 @@ def plot_colour_fidelity_indexes(
     >>> specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
     >>> plot_colour_fidelity_indexes(specification)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
+    (<Figure size ... with 1 Axes>, <...Axes...>)
     """
 
     _figure, axes = artist(**kwargs)
@@ -810,15 +791,15 @@ def plot_colour_fidelity_indexes(
     )
     axes.set_xlim(0.5, bar_count + 0.5)
     axes.set_ylim(0, 100)
-    axes.set_yticks(np.arange(0, 110, 10))
+    axes.set_yticks(np.arange(0, 110, 10))  # pyright: ignore
     axes.set_ylabel("Color Sample Fidelity ($R_{f,CESi}$)")
 
     ticks = list(range(1, bar_count + 1, 1))
-    axes.set_xticks(ticks)
+    axes.set_xticks(ticks)  # pyright: ignore
 
     labels = [
         f"CES{i:02d}" if i % 3 == 1 else "" for i in range(1, bar_count + 1)
     ]
-    axes.set_xticklabels(labels, rotation=90)
+    axes.set_xticklabels(labels, rotation=90)  # pyright: ignore
 
     return render(**kwargs)

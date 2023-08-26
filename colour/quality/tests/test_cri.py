@@ -7,7 +7,6 @@ import numpy as np
 import unittest
 
 from colour.colorimetry import SDS_ILLUMINANTS, SpectralDistribution
-from colour.hints import Dict
 from colour.quality import (
     ColourRendering_Specification_CRI,
     colour_rendering_index,
@@ -16,7 +15,7 @@ from colour.quality.cri import DataColorimetry_TCS, DataColourQualityScale_TCS
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -25,7 +24,7 @@ __all__ = [
     "TestColourRenderingIndex",
 ]
 
-DATA_SAMPLE: Dict = {
+DATA_SAMPLE: dict = {
     380: 0.00588346,
     385: 0.00315377,
     390: 0.00242868,

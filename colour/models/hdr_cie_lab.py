@@ -32,15 +32,7 @@ from colour.colorimetry import (
     luminance_Fairchild2010,
     luminance_Fairchild2011,
 )
-from colour.hints import (
-    ArrayLike,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    Literal,
-    NDArray,
-    Tuple,
-    Union,
-)
+from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import (
     as_float_array,
@@ -60,7 +52,7 @@ from colour.utilities.documentation import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -72,7 +64,7 @@ __all__ = [
     "hdr_CIELab_to_XYZ",
 ]
 
-HDR_CIELAB_METHODS: Tuple = ("Fairchild 2010", "Fairchild 2011")
+HDR_CIELAB_METHODS: tuple = ("Fairchild 2010", "Fairchild 2011")
 if is_documentation_building():  # pragma: no cover
     HDR_CIELAB_METHODS = DocstringTuple(HDR_CIELAB_METHODS)
     HDR_CIELAB_METHODS.__doc__ = """
@@ -85,12 +77,11 @@ References
 
 
 def exponent_hdr_CIELab(
-    Y_s: FloatingOrArrayLike,
-    Y_abs: FloatingOrArrayLike,
-    method: Union[
-        Literal["Fairchild 2011", "Fairchild 2010"], str
-    ] = "Fairchild 2011",
-) -> FloatingOrNDArray:
+    Y_s: ArrayLike,
+    Y_abs: ArrayLike,
+    method: Literal["Fairchild 2011", "Fairchild 2010"]
+    | str = "Fairchild 2011",
+) -> NDArrayFloat:
     """
     Compute *hdr-CIELAB* colourspace *Lightness* :math:`\\epsilon` exponent
     using *Fairchild and Wyble (2010)* or *Fairchild and Chen (2011)* method.
@@ -107,7 +98,7 @@ def exponent_hdr_CIELab(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *hdr-CIELAB* colourspace *Lightness* :math:`\\epsilon` exponent.
 
     Notes
@@ -131,10 +122,7 @@ def exponent_hdr_CIELab(
     Y_abs = as_float_array(Y_abs)
     method = validate_method(method, HDR_CIELAB_METHODS)
 
-    if method == "fairchild 2010":
-        epsilon = 1.50
-    else:
-        epsilon = 0.58
+    epsilon = 1.5 if method == "fairchild 2010" else 0.58
 
     sf = 1.25 - 0.25 * (Y_s / 0.184)
     lf = np.log(318) / np.log(Y_abs)
@@ -151,12 +139,11 @@ def XYZ_to_hdr_CIELab(
     illuminant: ArrayLike = CCS_ILLUMINANTS[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-    Y_s: FloatingOrArrayLike = 0.2,
-    Y_abs: FloatingOrArrayLike = 100,
-    method: Union[
-        Literal["Fairchild 2011", "Fairchild 2010"], str
-    ] = "Fairchild 2011",
-) -> NDArray:
+    Y_s: ArrayLike = 0.2,
+    Y_abs: ArrayLike = 100,
+    method: Literal["Fairchild 2011", "Fairchild 2010"]
+    | str = "Fairchild 2011",
+) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *hdr-CIELAB* colourspace.
 
@@ -235,7 +222,7 @@ def XYZ_to_hdr_CIELab(
 
     e = exponent_hdr_CIELab(Y_s, Y_abs, method)
 
-    # Domain and range scaling has already be handled.
+    # Domain and range scaling has already been handled.
     with domain_range_scale("ignore"):
         L_hdr = lightness_callable(Y / Y_n, e)
         a_hdr = 5 * (lightness_callable(X / X_n, e) - L_hdr)
@@ -251,12 +238,11 @@ def hdr_CIELab_to_XYZ(
     illuminant: ArrayLike = CCS_ILLUMINANTS[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-    Y_s: FloatingOrArrayLike = 0.2,
-    Y_abs: FloatingOrArrayLike = 100,
-    method: Union[
-        Literal["Fairchild 2011", "Fairchild 2010"], str
-    ] = "Fairchild 2011",
-) -> NDArray:
+    Y_s: ArrayLike = 0.2,
+    Y_abs: ArrayLike = 100,
+    method: Literal["Fairchild 2011", "Fairchild 2010"]
+    | str = "Fairchild 2011",
+) -> NDArrayFloat:
     """
     Convert from *hdr-CIELAB* colourspace to *CIE XYZ* tristimulus values.
 

@@ -15,17 +15,17 @@ import numpy as np
 
 from colour.io.luts import LUT1D, LUT3x1D, LUTSequence
 from colour.io.luts.common import path_to_title
-from colour.hints import Boolean, Integer, List, Tuple, Union
 from colour.utilities import (
     as_float_array,
     as_int_scalar,
     attest,
+    format_array_as_row,
     usage_warning,
 )
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -36,7 +36,7 @@ __all__ = [
 ]
 
 
-def read_LUT_SonySPI1D(path: str) -> Union[LUT1D, LUT3x1D]:
+def read_LUT_SonySPI1D(path: str) -> LUT1D | LUT3x1D:
     """
     Read given *Sony* *.spi1d* *LUT* file.
 
@@ -129,7 +129,7 @@ def read_LUT_SonySPI1D(path: str) -> Union[LUT1D, LUT3x1D]:
 
     table = as_float_array(data)
 
-    LUT: Union[LUT1D, LUT3x1D]
+    LUT: LUT1D | LUT3x1D
     if dimensions == 1:
         LUT = LUT1D(
             np.squeeze(table),
@@ -154,8 +154,8 @@ def read_LUT_SonySPI1D(path: str) -> Union[LUT1D, LUT3x1D]:
 
 
 def write_LUT_SonySPI1D(
-    LUT: Union[LUT1D, LUT3x1D, LUTSequence], path: str, decimals: Integer = 7
-) -> Boolean:
+    LUT: LUT1D | LUT3x1D | LUTSequence, path: str, decimals: int = 7
+) -> bool:
     """
     Write given *LUT* to given *Sony* *.spi1d* *LUT* file.
 
@@ -217,7 +217,7 @@ def write_LUT_SonySPI1D(
     attest(not LUTxD.is_domain_explicit(), '"LUT" domain must be implicit!')
 
     attest(
-        isinstance(LUTxD, LUT1D) or isinstance(LUTxD, LUT3x1D),
+        isinstance(LUTxD, (LUT1D, LUT3x1D)),
         '"LUT" must be either a 1D or 3x1D "LUT"!',
     )
 
@@ -230,17 +230,10 @@ def write_LUT_SonySPI1D(
 
         attest(len(domain) == 2, 'Non-uniform "LUT" domain is unsupported!')
 
-    def _format_array(array: Union[List, Tuple]) -> str:
-        """Format given array as a *Sony* *.spi1d* data row."""
-
-        return " {1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)
-
     with open(path, "w") as spi1d_file:
         spi1d_file.write("Version 1\n")
 
-        spi1d_file.write(
-            "From {1:0.{0}f} {2:0.{0}f}\n".format(decimals, *domain)
-        )
+        spi1d_file.write(f"From {format_array_as_row(domain, decimals)}\n")
 
         spi1d_file.write(
             f"Length {LUTxD.table.size if is_1D else LUTxD.table.shape[0]}\n"
@@ -249,11 +242,8 @@ def write_LUT_SonySPI1D(
         spi1d_file.write(f"Components {1 if is_1D else 3}\n")
 
         spi1d_file.write("{\n")
-        for row in LUTxD.table:
-            if is_1D:
-                spi1d_file.write(" {1:0.{0}f}\n".format(decimals, row))
-            else:
-                spi1d_file.write(f"{_format_array(row)}\n")
+        for array in LUTxD.table:
+            spi1d_file.write(f" {format_array_as_row(array, decimals)}\n")
         spi1d_file.write("}\n")
 
         if LUTxD.comments:

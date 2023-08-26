@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import sys
 
-from colour.hints import Any, Dict
+from colour.hints import Any
 
 from .data_structures import (
     Lookup,
@@ -10,6 +10,10 @@ from .data_structures import (
     CanonicalMapping,
     LazyCanonicalMapping,
     Node,
+)
+from .callback import (
+    Callback,
+    MixinCallback,
 )
 from .common import (
     CacheRegistry,
@@ -33,6 +37,7 @@ from .common import (
     is_pandas_installed,
     is_tqdm_installed,
     is_trimesh_installed,
+    is_xxhash_installed,
     required,
     is_iterable,
     is_string,
@@ -46,6 +51,7 @@ from .common import (
     validate_method,
     optional,
     slugify,
+    int_digest,
 )
 from .verbose import (
     ColourWarning,
@@ -94,6 +100,10 @@ from .array import (
     from_range_100,
     from_range_degrees,
     from_range_int,
+    is_ndarray_copy_enabled,
+    set_ndarray_copy_enable,
+    ndarray_copy_enable,
+    ndarray_copy,
     closest_indexes,
     closest,
     interval,
@@ -111,6 +121,7 @@ from .array import (
     ones,
     full,
     index_along_last_axis,
+    format_array_as_row,
 )
 from .metrics import metric_mse, metric_psnr
 
@@ -123,6 +134,10 @@ __all__ = [
     "CanonicalMapping",
     "LazyCanonicalMapping",
     "Node",
+]
+__all__ += [
+    "Callback",
+    "MixinCallback",
 ]
 __all__ += [
     "CacheRegistry",
@@ -146,6 +161,7 @@ __all__ += [
     "is_pandas_installed",
     "is_tqdm_installed",
     "is_trimesh_installed",
+    "is_xxhash_installed",
     "required",
     "is_iterable",
     "is_string",
@@ -159,6 +175,7 @@ __all__ += [
     "validate_method",
     "optional",
     "slugify",
+    "int_digest",
 ]
 __all__ += [
     "ColourWarning",
@@ -207,6 +224,10 @@ __all__ += [
     "from_range_100",
     "from_range_degrees",
     "from_range_int",
+    "is_ndarray_copy_enabled",
+    "set_ndarray_copy_enable",
+    "ndarray_copy_enable",
+    "ndarray_copy",
     "closest_indexes",
     "closest",
     "normalise_maximum",
@@ -229,6 +250,7 @@ __all__ += [
     "ones",
     "full",
     "index_along_last_axis",
+    "format_array_as_row",
 ]
 __all__ += [
     "metric_mse",
@@ -249,7 +271,7 @@ class utilities(ModuleAPI):
 
 
 # v0.4.0
-API_CHANGES: Dict = {
+API_CHANGES: dict = {
     "ObjectRenamed": [
         [
             "colour.utilities.set_int_precision",
@@ -304,7 +326,7 @@ API_CHANGES
 """
 
 if not is_documentation_building():
-    sys.modules["colour.utilities"] = utilities(  # type: ignore[assignment]
+    sys.modules["colour.utilities"] = utilities(  # pyright: ignore
         sys.modules["colour.utilities"], build_API_changes(API_CHANGES)
     )
 

@@ -6,12 +6,11 @@ from __future__ import annotations
 import unittest
 
 from colour.colorimetry import SDS_ILLUMINANTS, SpectralDistribution
-from colour.hints import Dict
 from colour.quality import spectral_similarity_index
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -20,7 +19,7 @@ __all__ = [
     "TestSpectralSimilarityIndex",
 ]
 
-DATA_HMI: Dict = {
+DATA_HMI: dict = {
     300: 0.000000000000000,
     301: 0.000000000000000,
     302: 0.000000000000000,
@@ -575,6 +574,32 @@ class TestSpectralSimilarityIndex(unittest.TestCase):
                 SpectralDistribution(DATA_HMI), SDS_ILLUMINANTS["D50"]
             ),
             72.0,
+        )
+
+    def test_spectral_similarity_rounding(self):
+        """
+        Test :func:`colour.quality.ssi.spectral_similarity_index` for
+        producing continuous values.
+        """
+
+        # Test values were computed at ed2e90
+        self.assertAlmostEqual(
+            spectral_similarity_index(
+                SDS_ILLUMINANTS["C"],
+                SDS_ILLUMINANTS["D65"],
+                round_result=False,
+            ),
+            94.182,
+            places=2,
+        )
+        self.assertAlmostEqual(
+            spectral_similarity_index(
+                SpectralDistribution(DATA_HMI),
+                SDS_ILLUMINANTS["D50"],
+                round_result=False,
+            ),
+            71.775,
+            places=2,
         )
 
 

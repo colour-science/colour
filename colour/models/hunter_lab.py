@@ -23,12 +23,12 @@ from __future__ import annotations
 import numpy as np
 
 from colour.colorimetry import TVS_ILLUMINANTS_HUNTERLAB
-from colour.hints import ArrayLike, NDArray
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import from_range_100, to_domain_100, tsplit, tstack
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -40,7 +40,7 @@ __all__ = [
 ]
 
 
-def XYZ_to_K_ab_HunterLab1966(XYZ: ArrayLike) -> NDArray:
+def XYZ_to_K_ab_HunterLab1966(XYZ: ArrayLike) -> NDArrayFloat:
     """
     Convert from *whitepoint* *CIE XYZ* tristimulus values to
     *Hunter L,a,b* :math:`K_{a}` and :math:`K_{b}` chromaticity
@@ -86,7 +86,7 @@ def XYZ_to_Hunter_Lab(
     K_ab: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"].K_ab,
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *Hunter L,a,b* colour scale.
 
@@ -168,7 +168,7 @@ def Hunter_Lab_to_XYZ(
     K_ab: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"].K_ab,
-) -> NDArray:
+) -> NDArrayFloat:
     """
     Convert from *Hunter L,a,b* colour scale to *CIE XYZ* tristimulus values.
 

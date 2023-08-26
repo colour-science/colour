@@ -7,7 +7,7 @@ jobs:
     name: ${{ matrix.os }} - Python ${{ matrix.python-version }}
     strategy:
       matrix:
-        os: [ubuntu-20.04]
+        os: [ubuntu-22.04]
         python-version: [3.11]
       fail-fast: false
     runs-on: ${{ matrix.os }}
@@ -30,6 +30,8 @@ jobs:
         sudo apt-get update
         sudo apt-get --yes install graphviz graphviz-dev latexmk texlive-full
     - name: Install Poetry
+      env:
+        POETRY_VERSION: 1.4.0
       run: |
         curl -sSL https://install.python-poetry.org | POETRY_HOME=$HOME/.poetry python3 -
         echo "$HOME/.poetry/bin" >> $GITHUB_PATH
@@ -37,7 +39,7 @@ jobs:
     - name: Install Package Dependencies
       run: |
         poetry run python -m pip install --upgrade pip
-        poetry install --extras "read-the-docs"
+        poetry install
         poetry run python -c "import imageio;imageio.plugins.freeimage.download()"
       shell: bash
     - name: Build Documentation

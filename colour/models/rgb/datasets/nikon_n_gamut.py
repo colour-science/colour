@@ -16,7 +16,7 @@ N-Log_Specification_(En)01.pdf
 
 from __future__ import annotations
 
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
     log_encoding_NLog,
@@ -32,7 +32,7 @@ from colour.models.rgb.datasets.itur_bt_2020 import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -46,7 +46,7 @@ __all__ = [
     "RGB_COLOURSPACE_N_GAMUT",
 ]
 
-PRIMARIES_N_GAMUT: NDArray = PRIMARIES_BT2020
+PRIMARIES_N_GAMUT: NDArrayFloat = PRIMARIES_BT2020
 """
 *Nikon N-Gamut* colourspace primaries.
 
@@ -59,13 +59,13 @@ colour gamut.
 WHITEPOINT_NAME_N_GAMUT: str = WHITEPOINT_NAME_BT2020
 """*Nikon N-Gamut* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_N_GAMUT: NDArray = CCS_WHITEPOINT_BT2020
+CCS_WHITEPOINT_N_GAMUT: NDArrayFloat = CCS_WHITEPOINT_BT2020
 """*Nikon N-Gamut* colourspace whitepoint."""
 
-MATRIX_N_GAMUT_TO_XYZ: NDArray = MATRIX_BT2020_TO_XYZ
+MATRIX_N_GAMUT_TO_XYZ: NDArrayFloat = MATRIX_BT2020_TO_XYZ
 """*Nikon N-Gamut* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_N_GAMUT: NDArray = MATRIX_XYZ_TO_BT2020
+MATRIX_XYZ_TO_N_GAMUT: NDArrayFloat = MATRIX_XYZ_TO_BT2020
 """*CIE XYZ* tristimulus values to *Nikon N-Gamut* colourspace matrix."""
 
 RGB_COLOURSPACE_N_GAMUT: RGB_Colourspace = RGB_Colourspace(

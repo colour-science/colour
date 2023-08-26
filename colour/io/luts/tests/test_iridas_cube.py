@@ -18,7 +18,7 @@ from colour.io import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -186,7 +186,7 @@ class TestWriteLUTIridasCube(unittest.TestCase):
             os.path.join(ROOT_LUTS, "ACES_Proxy_10_to_ACES.cube")
         )
         write_LUT_IridasCube(
-            LUT_4_r.as_LUT(LUT1D, force_conversion=True),
+            LUT_4_r.convert(LUT1D, force_conversion=True),
             os.path.join(
                 self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"
             ),

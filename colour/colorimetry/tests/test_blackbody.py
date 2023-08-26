@@ -14,12 +14,12 @@ from colour.colorimetry import (
     rayleigh_jeans_law,
     sd_rayleigh_jeans,
 )
-from colour.hints import Dict, NDArray
+from colour.hints import NDArrayFloat
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -36,7 +36,7 @@ __all__ = [
 ]
 
 
-DATA_PLANCK_LAW: Dict = {
+DATA_PLANCK_LAW: dict = {
     1667: np.array(
         [
             0.000000000000000e000,
@@ -139,7 +139,7 @@ DATA_PLANCK_LAW: Dict = {
     ),
 }
 
-DATA_BLACKBODY: NDArray = np.array(
+DATA_BLACKBODY: NDArrayFloat = np.array(
     [
         6654.27827064,
         6709.60527925,
@@ -615,7 +615,7 @@ DATA_BLACKBODY: NDArray = np.array(
     ]
 )
 
-DATA_RAYLEIGH_JEANS_LAW: Dict = {
+DATA_RAYLEIGH_JEANS_LAW: dict = {
     1667: np.array(
         [
             1.379970796097092e25,
@@ -718,7 +718,7 @@ DATA_RAYLEIGH_JEANS_LAW: Dict = {
     ),
 }
 
-DATA_RAYLEIGH_JEANS: NDArray = np.array(
+DATA_RAYLEIGH_JEANS: NDArrayFloat = np.array(
     [
         2464304.08580116,
         2437112.02495309,
@@ -1247,14 +1247,24 @@ class TestPlanckLaw(unittest.TestCase):
             planck_law(wl, [5000, 5500, 6000]), p
         )
 
+    def test_raise_exception_planck_law(self):
+        """
+        Test :func:`colour.colorimetry.blackbody.planck_law` definition
+        raised exception.
+        """
+
+        for wavelength in [-1.0, 0.0, -np.inf, np.nan]:
+            self.assertRaises(AssertionError, planck_law, wavelength, 5500)
+
     @ignore_numpy_errors
     def test_nan_planck_law(self):
         """
-        Test :func:`colour.colorimetry.blackbody.planck_law` definition
-        nan support.
+        Test :func:`colour.colorimetry.blackbody.planck_law` definition nan
+        support.
         """
 
-        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        # NOTE: Only testing infinity support as
+        cases = [1.0, np.inf]
         cases = np.array(list(set(product(cases, repeat=3))))
         planck_law(cases, cases)
 

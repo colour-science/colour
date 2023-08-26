@@ -29,12 +29,12 @@ from colour.colorimetry import (
     SpectralShape,
 )
 from colour.constants import CONSTANT_AVOGADRO
-from colour.hints import Callable, FloatingOrArrayLike, FloatingOrNDArray
+from colour.hints import Callable, ArrayLike, NDArrayFloat
 from colour.utilities import as_float, as_float_array, filter_kwargs
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -61,6 +61,7 @@ __all__ = [
     "scattering_cross_section",
     "rayleigh_optical_depth",
     "rayleigh_scattering",
+    "sd_rayleigh_scattering",
 ]
 
 CONSTANT_STANDARD_AIR_TEMPERATURE: float = 288.15
@@ -80,8 +81,8 @@ CONSTANT_DEFAULT_ALTITUDE: float = 0
 
 
 def air_refraction_index_Penndorf1957(
-    wavelength: FloatingOrArrayLike,
-) -> FloatingOrNDArray:
+    wavelength: ArrayLike,
+) -> NDArrayFloat:
     """
     Return the air refraction index :math:`n_s` from given wavelength
     :math:`\\lambda` in  micrometers (:math:`\\mu m`) using *Penndorf (1957)*
@@ -94,7 +95,7 @@ def air_refraction_index_Penndorf1957(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Air refraction index :math:`n_s`.
 
     Examples
@@ -113,8 +114,8 @@ def air_refraction_index_Penndorf1957(
 
 
 def air_refraction_index_Edlen1966(
-    wavelength: FloatingOrArrayLike,
-) -> FloatingOrNDArray:
+    wavelength: ArrayLike,
+) -> NDArrayFloat:
     """
     Return the air refraction index :math:`n_s` from given wavelength
     :math:`\\lambda` in micrometers (:math:`\\mu m`) using *Edlen (1966)*
@@ -127,7 +128,7 @@ def air_refraction_index_Edlen1966(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Air refraction index :math:`n_s`.
 
     Examples
@@ -146,8 +147,8 @@ def air_refraction_index_Edlen1966(
 
 
 def air_refraction_index_Peck1972(
-    wavelength: FloatingOrArrayLike,
-) -> FloatingOrNDArray:
+    wavelength: ArrayLike,
+) -> NDArrayFloat:
     """
     Return the air refraction index :math:`n_s` from given wavelength
     :math:`\\lambda` in micrometers (:math:`\\mu m`) using
@@ -160,7 +161,7 @@ def air_refraction_index_Peck1972(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Air refraction index :math:`n_s`.
 
     Examples
@@ -183,9 +184,9 @@ def air_refraction_index_Peck1972(
 
 
 def air_refraction_index_Bodhaine1999(
-    wavelength: FloatingOrArrayLike,
-    CO2_concentration: FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
-) -> FloatingOrNDArray:
+    wavelength: ArrayLike,
+    CO2_concentration: ArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
+) -> NDArrayFloat:
     """
     Return the air refraction index :math:`n_s` from given wavelength
     :math:`\\lambda` in micrometers (:math:`\\mu m`) using
@@ -200,7 +201,7 @@ def air_refraction_index_Bodhaine1999(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Air refraction index :math:`n_s`.
 
     Examples
@@ -212,14 +213,17 @@ def air_refraction_index_Bodhaine1999(
     wl = as_float_array(wavelength)
     CO2_c = as_float_array(CO2_concentration)
 
-    n = (1 + 0.54 * ((CO2_c * 1e-6) - 300e-6)) * (
+    # Converting from parts per million (ppm) to parts per volume (ppv).
+    CO2_c = CO2_c * 1e-6
+
+    n = (1 + 0.54 * (CO2_c - 300e-6)) * (
         air_refraction_index_Peck1972(wl) - 1
     ) + 1
 
     return as_float(n)
 
 
-def N2_depolarisation(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
+def N2_depolarisation(wavelength: ArrayLike) -> NDArrayFloat:
     """
     Return the depolarisation of nitrogen :math:`N_2` as function of
     wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
@@ -231,7 +235,7 @@ def N2_depolarisation(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Nitrogen :math:`N_2` depolarisation.
 
     Examples
@@ -247,7 +251,7 @@ def N2_depolarisation(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     return N2
 
 
-def O2_depolarisation(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
+def O2_depolarisation(wavelength: ArrayLike) -> NDArrayFloat:
     """
     Return the depolarisation of oxygen :math:`O_2` as function of
     wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
@@ -259,7 +263,7 @@ def O2_depolarisation(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Oxygen :math:`O_2` depolarisation.
 
     Examples
@@ -277,7 +281,7 @@ def O2_depolarisation(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     return O2
 
 
-def F_air_Penndorf1957(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
+def F_air_Penndorf1957(wavelength: ArrayLike) -> NDArrayFloat:
     """
     Return :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* using *Penndorf (1957)* method.
@@ -289,7 +293,7 @@ def F_air_Penndorf1957(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Air depolarisation.
 
     Notes
@@ -309,7 +313,7 @@ def F_air_Penndorf1957(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(np.resize(np.array([1.0608]), wl.shape))
 
 
-def F_air_Young1981(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
+def F_air_Young1981(wavelength: ArrayLike) -> NDArrayFloat:
     """
     Return :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* using *Young (1981)* method.
@@ -321,7 +325,7 @@ def F_air_Young1981(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Air depolarisation.
 
     Notes
@@ -341,7 +345,7 @@ def F_air_Young1981(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(np.resize(np.array([1.0480]), wl.shape))
 
 
-def F_air_Bates1984(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
+def F_air_Bates1984(wavelength: ArrayLike) -> NDArrayFloat:
     """
     Return :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* as function of wavelength :math:`\\lambda` in micrometers
@@ -354,7 +358,7 @@ def F_air_Bates1984(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Air depolarisation.
 
     Examples
@@ -376,9 +380,9 @@ def F_air_Bates1984(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 
 def F_air_Bodhaine1999(
-    wavelength: FloatingOrArrayLike,
-    CO2_concentration: FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
-) -> FloatingOrNDArray:
+    wavelength: ArrayLike,
+    CO2_concentration: ArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
+) -> NDArrayFloat:
     """
     Return :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* as function of wavelength :math:`\\lambda` in micrometers
@@ -394,18 +398,21 @@ def F_air_Bodhaine1999(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Air depolarisation.
 
     Examples
     --------
     >>> F_air_Bodhaine1999(0.555)  # doctest: +ELLIPSIS
-    1.1246916...
+    1.0487697...
     """
 
     O2 = O2_depolarisation(wavelength)
     N2 = N2_depolarisation(wavelength)
     CO2_c = as_float_array(CO2_concentration)
+
+    # Converting from parts per million (ppm) to parts per volume per percent.
+    CO2_c = CO2_c * 1e-4
 
     F_air = (78.084 * N2 + 20.946 * O2 + 0.934 * 1 + CO2_c * 1.15) / (
         78.084 + 20.946 + 0.934 + CO2_c
@@ -415,9 +422,9 @@ def F_air_Bodhaine1999(
 
 
 def molecular_density(
-    temperature: FloatingOrArrayLike = CONSTANT_STANDARD_AIR_TEMPERATURE,
-    avogadro_constant: FloatingOrArrayLike = CONSTANT_AVOGADRO,
-) -> FloatingOrNDArray:
+    temperature: ArrayLike = CONSTANT_STANDARD_AIR_TEMPERATURE,
+    avogadro_constant: ArrayLike = CONSTANT_AVOGADRO,
+) -> NDArrayFloat:
     """
     Return the molecular density :math:`N_s` (molecules :math:`cm^{-3}`)
     as function of air temperature :math:`T[K]` in kelvin degrees.
@@ -431,7 +438,7 @@ def molecular_density(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Molecular density :math:`N_s` (molecules :math:`cm^{-3}`).
 
     Notes
@@ -459,8 +466,8 @@ def molecular_density(
 
 
 def mean_molecular_weights(
-    CO2_concentration: FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
-) -> FloatingOrNDArray:
+    CO2_concentration: ArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
+) -> NDArrayFloat:
     """
     Return the mean molecular weights :math:`m_a` for dry air as function of
     :math:`CO_2` concentration in parts per million (ppm).
@@ -472,7 +479,7 @@ def mean_molecular_weights(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Mean molecular weights :math:`m_a` for dry air.
 
     Examples
@@ -490,13 +497,13 @@ def mean_molecular_weights(
 
 
 def gravity_List1968(
-    latitude: FloatingOrArrayLike = CONSTANT_DEFAULT_LATITUDE,
-    altitude: FloatingOrArrayLike = CONSTANT_DEFAULT_ALTITUDE,
-) -> FloatingOrNDArray:
+    latitude: ArrayLike = CONSTANT_DEFAULT_LATITUDE,
+    altitude: ArrayLike = CONSTANT_DEFAULT_ALTITUDE,
+) -> NDArrayFloat:
     """
     Return the gravity :math:`g` in :math:`cm/s_2` (gal) representative of the
     mass-weighted column of air molecules above the site of given latitude and
-    altitude using *List (1968)* method.
+    altitude using *list (1968)* method.
 
     Parameters
     ----------
@@ -507,7 +514,7 @@ def gravity_List1968(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Gravity :math:`g` in :math:`cm/s_2` (gal).
 
     Examples
@@ -542,15 +549,15 @@ def gravity_List1968(
 
 
 def scattering_cross_section(
-    wavelength: FloatingOrArrayLike,
-    CO2_concentration: FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
-    temperature: FloatingOrArrayLike = CONSTANT_STANDARD_AIR_TEMPERATURE,
-    avogadro_constant: FloatingOrArrayLike = CONSTANT_AVOGADRO,
+    wavelength: ArrayLike,
+    CO2_concentration: ArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
+    temperature: ArrayLike = CONSTANT_STANDARD_AIR_TEMPERATURE,
+    avogadro_constant: ArrayLike = CONSTANT_AVOGADRO,
     n_s_function: Callable = air_refraction_index_Bodhaine1999,
     F_air_function: Callable = F_air_Bodhaine1999,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
-    Return the scattering cross section per molecule :math:`\\sigma` of dry
+    Return the scattering cross-section per molecule :math:`\\sigma` of dry
     air as function of wavelength :math:`\\lambda` in centimeters (cm) using
     given :math:`CO_2` concentration in parts per million (ppm) and temperature
     :math:`T[K]` in kelvin degrees following *Van de Hulst (1957)* method.
@@ -573,8 +580,8 @@ def scattering_cross_section(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
-        Scattering cross section per molecule :math:`\\sigma` of dry air.
+    :class:`numpy.ndarray`
+        Scattering cross-section per molecule :math:`\\sigma` of dry air.
 
     Warnings
     --------
@@ -589,7 +596,7 @@ def scattering_cross_section(
     Examples
     --------
     >>> scattering_cross_section(555 * 10e-8)  # doctest: +ELLIPSIS
-    4.6613309...e-27
+    4.3466692...e-27
     """
 
     wl = as_float_array(wavelength)
@@ -620,16 +627,16 @@ def scattering_cross_section(
 
 
 def rayleigh_optical_depth(
-    wavelength: FloatingOrArrayLike,
-    CO2_concentration: FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
-    temperature: FloatingOrArrayLike = CONSTANT_STANDARD_AIR_TEMPERATURE,
-    pressure: FloatingOrArrayLike = CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
-    latitude: FloatingOrArrayLike = CONSTANT_DEFAULT_LATITUDE,
-    altitude: FloatingOrArrayLike = CONSTANT_DEFAULT_ALTITUDE,
-    avogadro_constant: FloatingOrArrayLike = CONSTANT_AVOGADRO,
+    wavelength: ArrayLike,
+    CO2_concentration: ArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
+    temperature: ArrayLike = CONSTANT_STANDARD_AIR_TEMPERATURE,
+    pressure: ArrayLike = CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
+    latitude: ArrayLike = CONSTANT_DEFAULT_LATITUDE,
+    altitude: ArrayLike = CONSTANT_DEFAULT_ALTITUDE,
+    avogadro_constant: ArrayLike = CONSTANT_AVOGADRO,
     n_s_function: Callable = air_refraction_index_Bodhaine1999,
     F_air_function: Callable = F_air_Bodhaine1999,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Return the *Rayleigh* optical depth :math:`T_r(\\lambda)` as function of
     wavelength :math:`\\lambda` in centimeters (cm).
@@ -658,7 +665,7 @@ def rayleigh_optical_depth(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         *Rayleigh* optical depth :math:`T_r(\\lambda)`.
 
     Warnings
@@ -674,7 +681,7 @@ def rayleigh_optical_depth(
     Examples
     --------
     >>> rayleigh_optical_depth(555 * 10e-8)  # doctest: +ELLIPSIS
-    0.1004070...
+    0.0936290...
     """
 
     wavelength = as_float_array(wavelength)
@@ -682,6 +689,7 @@ def rayleigh_optical_depth(
     pressure = as_float_array(pressure)
     latitude = as_float_array(latitude)
     altitude = as_float_array(altitude)
+    avogadro_constant = as_float_array(avogadro_constant)
     # Conversion from pascal to dyne/cm2.
     P = as_float_array(pressure * 10)
 
@@ -707,12 +715,12 @@ rayleigh_scattering = rayleigh_optical_depth
 
 def sd_rayleigh_scattering(
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
-    CO2_concentration: FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
-    temperature: FloatingOrArrayLike = CONSTANT_STANDARD_AIR_TEMPERATURE,
-    pressure: FloatingOrArrayLike = CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
-    latitude: FloatingOrArrayLike = CONSTANT_DEFAULT_LATITUDE,
-    altitude: FloatingOrArrayLike = CONSTANT_DEFAULT_ALTITUDE,
-    avogadro_constant: FloatingOrArrayLike = CONSTANT_AVOGADRO,
+    CO2_concentration: ArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
+    temperature: ArrayLike = CONSTANT_STANDARD_AIR_TEMPERATURE,
+    pressure: ArrayLike = CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
+    latitude: ArrayLike = CONSTANT_DEFAULT_LATITUDE,
+    altitude: ArrayLike = CONSTANT_DEFAULT_ALTITUDE,
+    avogadro_constant: ArrayLike = CONSTANT_AVOGADRO,
     n_s_function: Callable = air_refraction_index_Bodhaine1999,
     F_air_function: Callable = F_air_Bodhaine1999,
 ) -> SpectralDistribution:
@@ -757,427 +765,427 @@ def sd_rayleigh_scattering(
     >>> with numpy_print_options(suppress=True):
     ...     sd_rayleigh_scattering()  # doctest: +ELLIPSIS
     ...
-    SpectralDistribution([[ 360.        ,    0.5991013...],
-                          [ 361.        ,    0.5921706...],
-                          [ 362.        ,    0.5853410...],
-                          [ 363.        ,    0.5786105...],
-                          [ 364.        ,    0.5719774...],
-                          [ 365.        ,    0.5654401...],
-                          [ 366.        ,    0.5589968...],
-                          [ 367.        ,    0.5526460...],
-                          [ 368.        ,    0.5463860...],
-                          [ 369.        ,    0.5402153...],
-                          [ 370.        ,    0.5341322...],
-                          [ 371.        ,    0.5281354...],
-                          [ 372.        ,    0.5222234...],
-                          [ 373.        ,    0.5163946...],
-                          [ 374.        ,    0.5106476...],
-                          [ 375.        ,    0.5049812...],
-                          [ 376.        ,    0.4993939...],
-                          [ 377.        ,    0.4938844...],
-                          [ 378.        ,    0.4884513...],
-                          [ 379.        ,    0.4830934...],
-                          [ 380.        ,    0.4778095...],
-                          [ 381.        ,    0.4725983...],
-                          [ 382.        ,    0.4674585...],
-                          [ 383.        ,    0.4623891...],
-                          [ 384.        ,    0.4573889...],
-                          [ 385.        ,    0.4524566...],
-                          [ 386.        ,    0.4475912...],
-                          [ 387.        ,    0.4427917...],
-                          [ 388.        ,    0.4380568...],
-                          [ 389.        ,    0.4333856...],
-                          [ 390.        ,    0.4287771...],
-                          [ 391.        ,    0.4242302...],
-                          [ 392.        ,    0.4197439...],
-                          [ 393.        ,    0.4153172...],
-                          [ 394.        ,    0.4109493...],
-                          [ 395.        ,    0.4066391...],
-                          [ 396.        ,    0.4023857...],
-                          [ 397.        ,    0.3981882...],
-                          [ 398.        ,    0.3940458...],
-                          [ 399.        ,    0.3899576...],
-                          [ 400.        ,    0.3859227...],
-                          [ 401.        ,    0.3819402...],
-                          [ 402.        ,    0.3780094...],
-                          [ 403.        ,    0.3741295...],
-                          [ 404.        ,    0.3702996...],
-                          [ 405.        ,    0.366519 ...],
-                          [ 406.        ,    0.3627868...],
-                          [ 407.        ,    0.3591025...],
-                          [ 408.        ,    0.3554651...],
-                          [ 409.        ,    0.3518740...],
-                          [ 410.        ,    0.3483286...],
-                          [ 411.        ,    0.344828 ...],
-                          [ 412.        ,    0.3413716...],
-                          [ 413.        ,    0.3379587...],
-                          [ 414.        ,    0.3345887...],
-                          [ 415.        ,    0.3312609...],
-                          [ 416.        ,    0.3279747...],
-                          [ 417.        ,    0.3247294...],
-                          [ 418.        ,    0.3215245...],
-                          [ 419.        ,    0.3183593...],
-                          [ 420.        ,    0.3152332...],
-                          [ 421.        ,    0.3121457...],
-                          [ 422.        ,    0.3090962...],
-                          [ 423.        ,    0.3060841...],
-                          [ 424.        ,    0.3031088...],
-                          [ 425.        ,    0.3001699...],
-                          [ 426.        ,    0.2972668...],
-                          [ 427.        ,    0.2943989...],
-                          [ 428.        ,    0.2915657...],
-                          [ 429.        ,    0.2887668...],
-                          [ 430.        ,    0.2860017...],
-                          [ 431.        ,    0.2832697...],
-                          [ 432.        ,    0.2805706...],
-                          [ 433.        ,    0.2779037...],
-                          [ 434.        ,    0.2752687...],
-                          [ 435.        ,    0.2726650...],
-                          [ 436.        ,    0.2700922...],
-                          [ 437.        ,    0.2675500...],
-                          [ 438.        ,    0.2650377...],
-                          [ 439.        ,    0.2625551...],
-                          [ 440.        ,    0.2601016...],
-                          [ 441.        ,    0.2576770...],
-                          [ 442.        ,    0.2552807...],
-                          [ 443.        ,    0.2529124...],
-                          [ 444.        ,    0.2505716...],
-                          [ 445.        ,    0.2482581...],
-                          [ 446.        ,    0.2459713...],
-                          [ 447.        ,    0.2437110...],
-                          [ 448.        ,    0.2414768...],
-                          [ 449.        ,    0.2392683...],
-                          [ 450.        ,    0.2370851...],
-                          [ 451.        ,    0.2349269...],
-                          [ 452.        ,    0.2327933...],
-                          [ 453.        ,    0.2306841...],
-                          [ 454.        ,    0.2285989...],
-                          [ 455.        ,    0.2265373...],
-                          [ 456.        ,    0.2244990...],
-                          [ 457.        ,    0.2224838...],
-                          [ 458.        ,    0.2204912...],
-                          [ 459.        ,    0.2185211...],
-                          [ 460.        ,    0.2165730...],
-                          [ 461.        ,    0.2146467...],
-                          [ 462.        ,    0.2127419...],
-                          [ 463.        ,    0.2108583...],
-                          [ 464.        ,    0.2089957...],
-                          [ 465.        ,    0.2071536...],
-                          [ 466.        ,    0.2053320...],
-                          [ 467.        ,    0.2035304...],
-                          [ 468.        ,    0.2017487...],
-                          [ 469.        ,    0.1999865...],
-                          [ 470.        ,    0.1982436...],
-                          [ 471.        ,    0.1965198...],
-                          [ 472.        ,    0.1948148...],
-                          [ 473.        ,    0.1931284...],
-                          [ 474.        ,    0.1914602...],
-                          [ 475.        ,    0.1898101...],
-                          [ 476.        ,    0.1881779...],
-                          [ 477.        ,    0.1865633...],
-                          [ 478.        ,    0.1849660...],
-                          [ 479.        ,    0.1833859...],
-                          [ 480.        ,    0.1818227...],
-                          [ 481.        ,    0.1802762...],
-                          [ 482.        ,    0.1787463...],
-                          [ 483.        ,    0.1772326...],
-                          [ 484.        ,    0.1757349...],
-                          [ 485.        ,    0.1742532...],
-                          [ 486.        ,    0.1727871...],
-                          [ 487.        ,    0.1713365...],
-                          [ 488.        ,    0.1699011...],
-                          [ 489.        ,    0.1684809...],
-                          [ 490.        ,    0.1670755...],
-                          [ 491.        ,    0.1656848...],
-                          [ 492.        ,    0.1643086...],
-                          [ 493.        ,    0.1629468...],
-                          [ 494.        ,    0.1615991...],
-                          [ 495.        ,    0.1602654...],
-                          [ 496.        ,    0.1589455...],
-                          [ 497.        ,    0.1576392...],
-                          [ 498.        ,    0.1563464...],
-                          [ 499.        ,    0.1550668...],
-                          [ 500.        ,    0.1538004...],
-                          [ 501.        ,    0.1525470...],
-                          [ 502.        ,    0.1513063...],
-                          [ 503.        ,    0.1500783...],
-                          [ 504.        ,    0.1488628...],
-                          [ 505.        ,    0.1476597...],
-                          [ 506.        ,    0.1464687...],
-                          [ 507.        ,    0.1452898...],
-                          [ 508.        ,    0.1441228...],
-                          [ 509.        ,    0.1429675...],
-                          [ 510.        ,    0.1418238...],
-                          [ 511.        ,    0.1406916...],
-                          [ 512.        ,    0.1395707...],
-                          [ 513.        ,    0.1384610...],
-                          [ 514.        ,    0.1373624...],
-                          [ 515.        ,    0.1362747...],
-                          [ 516.        ,    0.1351978...],
-                          [ 517.        ,    0.1341316...],
-                          [ 518.        ,    0.1330759...],
-                          [ 519.        ,    0.1320306...],
-                          [ 520.        ,    0.1309956...],
-                          [ 521.        ,    0.1299707...],
-                          [ 522.        ,    0.1289559...],
-                          [ 523.        ,    0.1279511...],
-                          [ 524.        ,    0.1269560...],
-                          [ 525.        ,    0.1259707...],
-                          [ 526.        ,    0.1249949...],
-                          [ 527.        ,    0.1240286...],
-                          [ 528.        ,    0.1230717...],
-                          [ 529.        ,    0.1221240...],
-                          [ 530.        ,    0.1211855...],
-                          [ 531.        ,    0.1202560...],
-                          [ 532.        ,    0.1193354...],
-                          [ 533.        ,    0.1184237...],
-                          [ 534.        ,    0.1175207...],
-                          [ 535.        ,    0.1166263...],
-                          [ 536.        ,    0.1157404...],
-                          [ 537.        ,    0.1148630...],
-                          [ 538.        ,    0.1139939...],
-                          [ 539.        ,    0.1131331...],
-                          [ 540.        ,    0.1122804...],
-                          [ 541.        ,    0.1114357...],
-                          [ 542.        ,    0.1105990...],
-                          [ 543.        ,    0.1097702...],
-                          [ 544.        ,    0.1089492...],
-                          [ 545.        ,    0.1081358...],
-                          [ 546.        ,    0.1073301...],
-                          [ 547.        ,    0.1065319...],
-                          [ 548.        ,    0.1057411...],
-                          [ 549.        ,    0.1049577...],
-                          [ 550.        ,    0.1041815...],
-                          [ 551.        ,    0.1034125...],
-                          [ 552.        ,    0.1026507...],
-                          [ 553.        ,    0.1018958...],
-                          [ 554.        ,    0.1011480...],
-                          [ 555.        ,    0.1004070...],
-                          [ 556.        ,    0.0996728...],
-                          [ 557.        ,    0.0989453...],
-                          [ 558.        ,    0.0982245...],
-                          [ 559.        ,    0.0975102...],
-                          [ 560.        ,    0.0968025...],
-                          [ 561.        ,    0.0961012...],
-                          [ 562.        ,    0.0954062...],
-                          [ 563.        ,    0.0947176...],
-                          [ 564.        ,    0.0940352...],
-                          [ 565.        ,    0.0933589...],
-                          [ 566.        ,    0.0926887...],
-                          [ 567.        ,    0.0920246...],
-                          [ 568.        ,    0.0913664...],
-                          [ 569.        ,    0.0907141...],
-                          [ 570.        ,    0.0900677...],
-                          [ 571.        ,    0.0894270...],
-                          [ 572.        ,    0.0887920...],
-                          [ 573.        ,    0.0881627...],
-                          [ 574.        ,    0.0875389...],
-                          [ 575.        ,    0.0869207...],
-                          [ 576.        ,    0.0863079...],
-                          [ 577.        ,    0.0857006...],
-                          [ 578.        ,    0.0850986...],
-                          [ 579.        ,    0.0845019...],
-                          [ 580.        ,    0.0839104...],
-                          [ 581.        ,    0.0833242...],
-                          [ 582.        ,    0.0827430...],
-                          [ 583.        ,    0.082167 ...],
-                          [ 584.        ,    0.0815959...],
-                          [ 585.        ,    0.0810298...],
-                          [ 586.        ,    0.0804687...],
-                          [ 587.        ,    0.0799124...],
-                          [ 588.        ,    0.0793609...],
-                          [ 589.        ,    0.0788142...],
-                          [ 590.        ,    0.0782722...],
-                          [ 591.        ,    0.0777349...],
-                          [ 592.        ,    0.0772022...],
-                          [ 593.        ,    0.0766740...],
-                          [ 594.        ,    0.0761504...],
-                          [ 595.        ,    0.0756313...],
-                          [ 596.        ,    0.0751166...],
-                          [ 597.        ,    0.0746063...],
-                          [ 598.        ,    0.0741003...],
-                          [ 599.        ,    0.0735986...],
-                          [ 600.        ,    0.0731012...],
-                          [ 601.        ,    0.072608 ...],
-                          [ 602.        ,    0.0721189...],
-                          [ 603.        ,    0.0716340...],
-                          [ 604.        ,    0.0711531...],
-                          [ 605.        ,    0.0706763...],
-                          [ 606.        ,    0.0702035...],
-                          [ 607.        ,    0.0697347...],
-                          [ 608.        ,    0.0692697...],
-                          [ 609.        ,    0.0688087...],
-                          [ 610.        ,    0.0683515...],
-                          [ 611.        ,    0.0678981...],
-                          [ 612.        ,    0.0674485...],
-                          [ 613.        ,    0.0670026...],
-                          [ 614.        ,    0.0665603...],
-                          [ 615.        ,    0.0661218...],
-                          [ 616.        ,    0.0656868...],
-                          [ 617.        ,    0.0652555...],
-                          [ 618.        ,    0.0648277...],
-                          [ 619.        ,    0.0644033...],
-                          [ 620.        ,    0.0639825...],
-                          [ 621.        ,    0.0635651...],
-                          [ 622.        ,    0.0631512...],
-                          [ 623.        ,    0.0627406...],
-                          [ 624.        ,    0.0623333...],
-                          [ 625.        ,    0.0619293...],
-                          [ 626.        ,    0.0615287...],
-                          [ 627.        ,    0.0611312...],
-                          [ 628.        ,    0.0607370...],
-                          [ 629.        ,    0.0603460...],
-                          [ 630.        ,    0.0599581...],
-                          [ 631.        ,    0.0595733...],
-                          [ 632.        ,    0.0591917...],
-                          [ 633.        ,    0.0588131...],
-                          [ 634.        ,    0.0584375...],
-                          [ 635.        ,    0.0580649...],
-                          [ 636.        ,    0.0576953...],
-                          [ 637.        ,    0.0573286...],
-                          [ 638.        ,    0.0569649...],
-                          [ 639.        ,    0.0566040...],
-                          [ 640.        ,    0.0562460...],
-                          [ 641.        ,    0.0558909...],
-                          [ 642.        ,    0.0555385...],
-                          [ 643.        ,    0.0551890...],
-                          [ 644.        ,    0.0548421...],
-                          [ 645.        ,    0.0544981...],
-                          [ 646.        ,    0.0541567...],
-                          [ 647.        ,    0.053818 ...],
-                          [ 648.        ,    0.0534819...],
-                          [ 649.        ,    0.0531485...],
-                          [ 650.        ,    0.0528176...],
-                          [ 651.        ,    0.0524894...],
-                          [ 652.        ,    0.0521637...],
-                          [ 653.        ,    0.0518405...],
-                          [ 654.        ,    0.0515198...],
-                          [ 655.        ,    0.0512017...],
-                          [ 656.        ,    0.0508859...],
-                          [ 657.        ,    0.0505726...],
-                          [ 658.        ,    0.0502618...],
-                          [ 659.        ,    0.0499533...],
-                          [ 660.        ,    0.0496472...],
-                          [ 661.        ,    0.0493434...],
-                          [ 662.        ,    0.0490420...],
-                          [ 663.        ,    0.0487428...],
-                          [ 664.        ,    0.0484460...],
-                          [ 665.        ,    0.0481514...],
-                          [ 666.        ,    0.0478591...],
-                          [ 667.        ,    0.0475689...],
-                          [ 668.        ,    0.0472810...],
-                          [ 669.        ,    0.0469953...],
-                          [ 670.        ,    0.0467117...],
-                          [ 671.        ,    0.0464302...],
-                          [ 672.        ,    0.0461509...],
-                          [ 673.        ,    0.0458737...],
-                          [ 674.        ,    0.0455986...],
-                          [ 675.        ,    0.0453255...],
-                          [ 676.        ,    0.0450545...],
-                          [ 677.        ,    0.0447855...],
-                          [ 678.        ,    0.0445185...],
-                          [ 679.        ,    0.0442535...],
-                          [ 680.        ,    0.0439905...],
-                          [ 681.        ,    0.0437294...],
-                          [ 682.        ,    0.0434703...],
-                          [ 683.        ,    0.0432131...],
-                          [ 684.        ,    0.0429578...],
-                          [ 685.        ,    0.0427044...],
-                          [ 686.        ,    0.0424529...],
-                          [ 687.        ,    0.0422032...],
-                          [ 688.        ,    0.0419553...],
-                          [ 689.        ,    0.0417093...],
-                          [ 690.        ,    0.0414651...],
-                          [ 691.        ,    0.0412226...],
-                          [ 692.        ,    0.0409820...],
-                          [ 693.        ,    0.0407431...],
-                          [ 694.        ,    0.0405059...],
-                          [ 695.        ,    0.0402705...],
-                          [ 696.        ,    0.0400368...],
-                          [ 697.        ,    0.0398047...],
-                          [ 698.        ,    0.0395744...],
-                          [ 699.        ,    0.0393457...],
-                          [ 700.        ,    0.0391187...],
-                          [ 701.        ,    0.0388933...],
-                          [ 702.        ,    0.0386696...],
-                          [ 703.        ,    0.0384474...],
-                          [ 704.        ,    0.0382269...],
-                          [ 705.        ,    0.0380079...],
-                          [ 706.        ,    0.0377905...],
-                          [ 707.        ,    0.0375747...],
-                          [ 708.        ,    0.0373604...],
-                          [ 709.        ,    0.0371476...],
-                          [ 710.        ,    0.0369364...],
-                          [ 711.        ,    0.0367266...],
-                          [ 712.        ,    0.0365184...],
-                          [ 713.        ,    0.0363116...],
-                          [ 714.        ,    0.0361063...],
-                          [ 715.        ,    0.0359024...],
-                          [ 716.        ,    0.0357000...],
-                          [ 717.        ,    0.0354990...],
-                          [ 718.        ,    0.0352994...],
-                          [ 719.        ,    0.0351012...],
-                          [ 720.        ,    0.0349044...],
-                          [ 721.        ,    0.0347090...],
-                          [ 722.        ,    0.0345150...],
-                          [ 723.        ,    0.0343223...],
-                          [ 724.        ,    0.0341310...],
-                          [ 725.        ,    0.0339410...],
-                          [ 726.        ,    0.0337523...],
-                          [ 727.        ,    0.033565 ...],
-                          [ 728.        ,    0.0333789...],
-                          [ 729.        ,    0.0331941...],
-                          [ 730.        ,    0.0330106...],
-                          [ 731.        ,    0.0328284...],
-                          [ 732.        ,    0.0326474...],
-                          [ 733.        ,    0.0324677...],
-                          [ 734.        ,    0.0322893...],
-                          [ 735.        ,    0.0321120...],
-                          [ 736.        ,    0.0319360...],
-                          [ 737.        ,    0.0317611...],
-                          [ 738.        ,    0.0315875...],
-                          [ 739.        ,    0.0314151...],
-                          [ 740.        ,    0.0312438...],
-                          [ 741.        ,    0.0310737...],
-                          [ 742.        ,    0.0309048...],
-                          [ 743.        ,    0.0307370...],
-                          [ 744.        ,    0.0305703...],
-                          [ 745.        ,    0.0304048...],
-                          [ 746.        ,    0.0302404...],
-                          [ 747.        ,    0.0300771...],
-                          [ 748.        ,    0.0299149...],
-                          [ 749.        ,    0.0297538...],
-                          [ 750.        ,    0.0295938...],
-                          [ 751.        ,    0.0294349...],
-                          [ 752.        ,    0.0292771...],
-                          [ 753.        ,    0.0291203...],
-                          [ 754.        ,    0.0289645...],
-                          [ 755.        ,    0.0288098...],
-                          [ 756.        ,    0.0286561...],
-                          [ 757.        ,    0.0285035...],
-                          [ 758.        ,    0.0283518...],
-                          [ 759.        ,    0.0282012...],
-                          [ 760.        ,    0.0280516...],
-                          [ 761.        ,    0.0279030...],
-                          [ 762.        ,    0.0277553...],
-                          [ 763.        ,    0.0276086...],
-                          [ 764.        ,    0.027463 ...],
-                          [ 765.        ,    0.0273182...],
-                          [ 766.        ,    0.0271744...],
-                          [ 767.        ,    0.0270316...],
-                          [ 768.        ,    0.0268897...],
-                          [ 769.        ,    0.0267487...],
-                          [ 770.        ,    0.0266087...],
-                          [ 771.        ,    0.0264696...],
-                          [ 772.        ,    0.0263314...],
-                          [ 773.        ,    0.0261941...],
-                          [ 774.        ,    0.0260576...],
-                          [ 775.        ,    0.0259221...],
-                          [ 776.        ,    0.0257875...],
-                          [ 777.        ,    0.0256537...],
-                          [ 778.        ,    0.0255208...],
-                          [ 779.        ,    0.0253888...],
-                          [ 780.        ,    0.0252576...]],
+    SpectralDistribution([[ 360.        ,    0.5602465...],
+                          [ 361.        ,    0.5537481...],
+                          [ 362.        ,    0.5473446...],
+                          [ 363.        ,    0.5410345...],
+                          [ 364.        ,    0.5348161...],
+                          [ 365.        ,    0.5286877...],
+                          [ 366.        ,    0.5226477...],
+                          [ 367.        ,    0.5166948...],
+                          [ 368.        ,    0.5108272...],
+                          [ 369.        ,    0.5050436...],
+                          [ 370.        ,    0.4993425...],
+                          [ 371.        ,    0.4937224...],
+                          [ 372.        ,    0.4881820...],
+                          [ 373.        ,    0.4827199...],
+                          [ 374.        ,    0.4773348...],
+                          [ 375.        ,    0.4720253...],
+                          [ 376.        ,    0.4667902...],
+                          [ 377.        ,    0.4616282...],
+                          [ 378.        ,    0.4565380...],
+                          [ 379.        ,    0.4515186...],
+                          [ 380.        ,    0.4465686...],
+                          [ 381.        ,    0.4416869...],
+                          [ 382.        ,    0.4368724...],
+                          [ 383.        ,    0.4321240...],
+                          [ 384.        ,    0.4274405...],
+                          [ 385.        ,    0.4228209...],
+                          [ 386.        ,    0.4182641...],
+                          [ 387.        ,    0.4137692...],
+                          [ 388.        ,    0.4093350...],
+                          [ 389.        ,    0.4049607...],
+                          [ 390.        ,    0.4006451...],
+                          [ 391.        ,    0.3963874...],
+                          [ 392.        ,    0.3921867...],
+                          [ 393.        ,    0.3880419...],
+                          [ 394.        ,    0.3839523...],
+                          [ 395.        ,    0.3799169...],
+                          [ 396.        ,    0.3759348...],
+                          [ 397.        ,    0.3720053...],
+                          [ 398.        ,    0.3681274...],
+                          [ 399.        ,    0.3643003...],
+                          [ 400.        ,    0.3605233...],
+                          [ 401.        ,    0.3567956...],
+                          [ 402.        ,    0.3531163...],
+                          [ 403.        ,    0.3494847...],
+                          [ 404.        ,    0.3459001...],
+                          [ 405.        ,    0.3423617...],
+                          [ 406.        ,    0.3388689...],
+                          [ 407.        ,    0.3354208...],
+                          [ 408.        ,    0.3320169...],
+                          [ 409.        ,    0.3286563...],
+                          [ 410.        ,    0.3253386...],
+                          [ 411.        ,    0.3220629...],
+                          [ 412.        ,    0.3188287...],
+                          [ 413.        ,    0.3156354...],
+                          [ 414.        ,    0.3124822...],
+                          [ 415.        ,    0.3093687...],
+                          [ 416.        ,    0.3062941...],
+                          [ 417.        ,    0.3032579...],
+                          [ 418.        ,    0.3002596...],
+                          [ 419.        ,    0.2972985...],
+                          [ 420.        ,    0.2943741...],
+                          [ 421.        ,    0.2914858...],
+                          [ 422.        ,    0.2886332...],
+                          [ 423.        ,    0.2858157...],
+                          [ 424.        ,    0.2830327...],
+                          [ 425.        ,    0.2802837...],
+                          [ 426.        ,    0.2775683...],
+                          [ 427.        ,    0.2748860...],
+                          [ 428.        ,    0.2722362...],
+                          [ 429.        ,    0.2696185...],
+                          [ 430.        ,    0.2670324...],
+                          [ 431.        ,    0.2644775...],
+                          [ 432.        ,    0.2619533...],
+                          [ 433.        ,    0.2594594...],
+                          [ 434.        ,    0.2569952...],
+                          [ 435.        ,    0.2545605...],
+                          [ 436.        ,    0.2521548...],
+                          [ 437.        ,    0.2497776...],
+                          [ 438.        ,    0.2474285...],
+                          [ 439.        ,    0.2451072...],
+                          [ 440.        ,    0.2428133...],
+                          [ 441.        ,    0.2405463...],
+                          [ 442.        ,    0.2383059...],
+                          [ 443.        ,    0.2360916...],
+                          [ 444.        ,    0.2339033...],
+                          [ 445.        ,    0.2317404...],
+                          [ 446.        ,    0.2296026...],
+                          [ 447.        ,    0.2274895...],
+                          [ 448.        ,    0.2254009...],
+                          [ 449.        ,    0.2233364...],
+                          [ 450.        ,    0.2212956...],
+                          [ 451.        ,    0.2192782...],
+                          [ 452.        ,    0.2172839...],
+                          [ 453.        ,    0.2153124...],
+                          [ 454.        ,    0.2133633...],
+                          [ 455.        ,    0.2114364...],
+                          [ 456.        ,    0.2095313...],
+                          [ 457.        ,    0.2076478...],
+                          [ 458.        ,    0.2057855...],
+                          [ 459.        ,    0.2039442...],
+                          [ 460.        ,    0.2021235...],
+                          [ 461.        ,    0.2003233...],
+                          [ 462.        ,    0.1985432...],
+                          [ 463.        ,    0.1967829...],
+                          [ 464.        ,    0.1950423...],
+                          [ 465.        ,    0.1933209...],
+                          [ 466.        ,    0.1916186...],
+                          [ 467.        ,    0.1899351...],
+                          [ 468.        ,    0.1882702...],
+                          [ 469.        ,    0.1866236...],
+                          [ 470.        ,    0.1849951...],
+                          [ 471.        ,    0.1833844...],
+                          [ 472.        ,    0.1817913...],
+                          [ 473.        ,    0.1802156...],
+                          [ 474.        ,    0.1786570...],
+                          [ 475.        ,    0.1771153...],
+                          [ 476.        ,    0.1755903...],
+                          [ 477.        ,    0.1740818...],
+                          [ 478.        ,    0.1725895...],
+                          [ 479.        ,    0.1711133...],
+                          [ 480.        ,    0.1696529...],
+                          [ 481.        ,    0.1682082...],
+                          [ 482.        ,    0.1667789...],
+                          [ 483.        ,    0.1653648...],
+                          [ 484.        ,    0.1639658...],
+                          [ 485.        ,    0.1625816...],
+                          [ 486.        ,    0.1612121...],
+                          [ 487.        ,    0.1598570...],
+                          [ 488.        ,    0.1585163...],
+                          [ 489.        ,    0.1571896...],
+                          [ 490.        ,    0.1558769...],
+                          [ 491.        ,    0.1545779...],
+                          [ 492.        ,    0.1532925...],
+                          [ 493.        ,    0.1520205...],
+                          [ 494.        ,    0.1507617...],
+                          [ 495.        ,    0.1495160...],
+                          [ 496.        ,    0.1482832...],
+                          [ 497.        ,    0.1470632...],
+                          [ 498.        ,    0.1458558...],
+                          [ 499.        ,    0.1446607...],
+                          [ 500.        ,    0.1434780...],
+                          [ 501.        ,    0.1423074...],
+                          [ 502.        ,    0.1411488...],
+                          [ 503.        ,    0.140002 ...],
+                          [ 504.        ,    0.1388668...],
+                          [ 505.        ,    0.1377433...],
+                          [ 506.        ,    0.1366311...],
+                          [ 507.        ,    0.1355301...],
+                          [ 508.        ,    0.1344403...],
+                          [ 509.        ,    0.1333615...],
+                          [ 510.        ,    0.1322936...],
+                          [ 511.        ,    0.1312363...],
+                          [ 512.        ,    0.1301897...],
+                          [ 513.        ,    0.1291535...],
+                          [ 514.        ,    0.1281277...],
+                          [ 515.        ,    0.1271121...],
+                          [ 516.        ,    0.1261065...],
+                          [ 517.        ,    0.1251110...],
+                          [ 518.        ,    0.1241253...],
+                          [ 519.        ,    0.1231493...],
+                          [ 520.        ,    0.1221829...],
+                          [ 521.        ,    0.1212261...],
+                          [ 522.        ,    0.1202786...],
+                          [ 523.        ,    0.1193405...],
+                          [ 524.        ,    0.1184115...],
+                          [ 525.        ,    0.1174915...],
+                          [ 526.        ,    0.1165806...],
+                          [ 527.        ,    0.1156784...],
+                          [ 528.        ,    0.1147851...],
+                          [ 529.        ,    0.1139004...],
+                          [ 530.        ,    0.1130242...],
+                          [ 531.        ,    0.1121564...],
+                          [ 532.        ,    0.1112971...],
+                          [ 533.        ,    0.1104459...],
+                          [ 534.        ,    0.1096030...],
+                          [ 535.        ,    0.1087681...],
+                          [ 536.        ,    0.1079411...],
+                          [ 537.        ,    0.1071221...],
+                          [ 538.        ,    0.1063108...],
+                          [ 539.        ,    0.1055072...],
+                          [ 540.        ,    0.1047113...],
+                          [ 541.        ,    0.1039229...],
+                          [ 542.        ,    0.1031419...],
+                          [ 543.        ,    0.1023682...],
+                          [ 544.        ,    0.1016019...],
+                          [ 545.        ,    0.1008427...],
+                          [ 546.        ,    0.1000906...],
+                          [ 547.        ,    0.0993456...],
+                          [ 548.        ,    0.0986075...],
+                          [ 549.        ,    0.0978763...],
+                          [ 550.        ,    0.0971519...],
+                          [ 551.        ,    0.0964342...],
+                          [ 552.        ,    0.0957231...],
+                          [ 553.        ,    0.0950186...],
+                          [ 554.        ,    0.0943206...],
+                          [ 555.        ,    0.0936290...],
+                          [ 556.        ,    0.0929438...],
+                          [ 557.        ,    0.0922649...],
+                          [ 558.        ,    0.0915922...],
+                          [ 559.        ,    0.0909256...],
+                          [ 560.        ,    0.0902651...],
+                          [ 561.        ,    0.0896106...],
+                          [ 562.        ,    0.0889620...],
+                          [ 563.        ,    0.0883194...],
+                          [ 564.        ,    0.0876825...],
+                          [ 565.        ,    0.0870514...],
+                          [ 566.        ,    0.0864260...],
+                          [ 567.        ,    0.0858063...],
+                          [ 568.        ,    0.0851921...],
+                          [ 569.        ,    0.0845834...],
+                          [ 570.        ,    0.0839801...],
+                          [ 571.        ,    0.0833822...],
+                          [ 572.        ,    0.0827897...],
+                          [ 573.        ,    0.0822025...],
+                          [ 574.        ,    0.0816204...],
+                          [ 575.        ,    0.0810436...],
+                          [ 576.        ,    0.0804718...],
+                          [ 577.        ,    0.0799051...],
+                          [ 578.        ,    0.0793434...],
+                          [ 579.        ,    0.0787866...],
+                          [ 580.        ,    0.0782347...],
+                          [ 581.        ,    0.0776877...],
+                          [ 582.        ,    0.0771454...],
+                          [ 583.        ,    0.0766079...],
+                          [ 584.        ,    0.0760751...],
+                          [ 585.        ,    0.0755469...],
+                          [ 586.        ,    0.0750234...],
+                          [ 587.        ,    0.0745043...],
+                          [ 588.        ,    0.0739898...],
+                          [ 589.        ,    0.0734797...],
+                          [ 590.        ,    0.0729740...],
+                          [ 591.        ,    0.0724727...],
+                          [ 592.        ,    0.0719757...],
+                          [ 593.        ,    0.0714830...],
+                          [ 594.        ,    0.0709944...],
+                          [ 595.        ,    0.0705101...],
+                          [ 596.        ,    0.0700299...],
+                          [ 597.        ,    0.0695538...],
+                          [ 598.        ,    0.0690818...],
+                          [ 599.        ,    0.0686137...],
+                          [ 600.        ,    0.0681497...],
+                          [ 601.        ,    0.0676895...],
+                          [ 602.        ,    0.0672333...],
+                          [ 603.        ,    0.0667809...],
+                          [ 604.        ,    0.0663323...],
+                          [ 605.        ,    0.0658875...],
+                          [ 606.        ,    0.0654464...],
+                          [ 607.        ,    0.0650091...],
+                          [ 608.        ,    0.0645753...],
+                          [ 609.        ,    0.0641453...],
+                          [ 610.        ,    0.0637187...],
+                          [ 611.        ,    0.0632958...],
+                          [ 612.        ,    0.0628764...],
+                          [ 613.        ,    0.0624604...],
+                          [ 614.        ,    0.0620479...],
+                          [ 615.        ,    0.0616388...],
+                          [ 616.        ,    0.0612331...],
+                          [ 617.        ,    0.0608307...],
+                          [ 618.        ,    0.0604316...],
+                          [ 619.        ,    0.0600358...],
+                          [ 620.        ,    0.0596433...],
+                          [ 621.        ,    0.0592539...],
+                          [ 622.        ,    0.0588678...],
+                          [ 623.        ,    0.0584848...],
+                          [ 624.        ,    0.0581049...],
+                          [ 625.        ,    0.0577281...],
+                          [ 626.        ,    0.0573544...],
+                          [ 627.        ,    0.0569837...],
+                          [ 628.        ,    0.0566160...],
+                          [ 629.        ,    0.0562513...],
+                          [ 630.        ,    0.0558895...],
+                          [ 631.        ,    0.0555306...],
+                          [ 632.        ,    0.0551746...],
+                          [ 633.        ,    0.0548215...],
+                          [ 634.        ,    0.0544712...],
+                          [ 635.        ,    0.0541237...],
+                          [ 636.        ,    0.0537789...],
+                          [ 637.        ,    0.0534369...],
+                          [ 638.        ,    0.0530977...],
+                          [ 639.        ,    0.0527611...],
+                          [ 640.        ,    0.0524272...],
+                          [ 641.        ,    0.0520960...],
+                          [ 642.        ,    0.0517674...],
+                          [ 643.        ,    0.0514413...],
+                          [ 644.        ,    0.0511179...],
+                          [ 645.        ,    0.0507970...],
+                          [ 646.        ,    0.0504786...],
+                          [ 647.        ,    0.0501627...],
+                          [ 648.        ,    0.0498493...],
+                          [ 649.        ,    0.0495383...],
+                          [ 650.        ,    0.0492298...],
+                          [ 651.        ,    0.0489236...],
+                          [ 652.        ,    0.0486199...],
+                          [ 653.        ,    0.0483185...],
+                          [ 654.        ,    0.0480194...],
+                          [ 655.        ,    0.0477227...],
+                          [ 656.        ,    0.0474283...],
+                          [ 657.        ,    0.0471361...],
+                          [ 658.        ,    0.0468462...],
+                          [ 659.        ,    0.0465585...],
+                          [ 660.        ,    0.0462730...],
+                          [ 661.        ,    0.0459898...],
+                          [ 662.        ,    0.0457087...],
+                          [ 663.        ,    0.0454297...],
+                          [ 664.        ,    0.0451529...],
+                          [ 665.        ,    0.0448782...],
+                          [ 666.        ,    0.0446055...],
+                          [ 667.        ,    0.0443350...],
+                          [ 668.        ,    0.0440665...],
+                          [ 669.        ,    0.0438000...],
+                          [ 670.        ,    0.0435356...],
+                          [ 671.        ,    0.0432731...],
+                          [ 672.        ,    0.0430127...],
+                          [ 673.        ,    0.0427542...],
+                          [ 674.        ,    0.0424976...],
+                          [ 675.        ,    0.0422430...],
+                          [ 676.        ,    0.0419902...],
+                          [ 677.        ,    0.0417394...],
+                          [ 678.        ,    0.0414905...],
+                          [ 679.        ,    0.0412434...],
+                          [ 680.        ,    0.0409981...],
+                          [ 681.        ,    0.0407547...],
+                          [ 682.        ,    0.0405131...],
+                          [ 683.        ,    0.0402732...],
+                          [ 684.        ,    0.0400352...],
+                          [ 685.        ,    0.0397989...],
+                          [ 686.        ,    0.0395643...],
+                          [ 687.        ,    0.0393315...],
+                          [ 688.        ,    0.0391004...],
+                          [ 689.        ,    0.0388710...],
+                          [ 690.        ,    0.0386433...],
+                          [ 691.        ,    0.0384173...],
+                          [ 692.        ,    0.0381929...],
+                          [ 693.        ,    0.0379701...],
+                          [ 694.        ,    0.0377490...],
+                          [ 695.        ,    0.0375295...],
+                          [ 696.        ,    0.0373115...],
+                          [ 697.        ,    0.0370952...],
+                          [ 698.        ,    0.0368804...],
+                          [ 699.        ,    0.0366672...],
+                          [ 700.        ,    0.0364556...],
+                          [ 701.        ,    0.0362454...],
+                          [ 702.        ,    0.0360368...],
+                          [ 703.        ,    0.0358297...],
+                          [ 704.        ,    0.0356241...],
+                          [ 705.        ,    0.0354199...],
+                          [ 706.        ,    0.0352172...],
+                          [ 707.        ,    0.0350160...],
+                          [ 708.        ,    0.0348162...],
+                          [ 709.        ,    0.0346178...],
+                          [ 710.        ,    0.0344208...],
+                          [ 711.        ,    0.0342253...],
+                          [ 712.        ,    0.0340311...],
+                          [ 713.        ,    0.0338383...],
+                          [ 714.        ,    0.0336469...],
+                          [ 715.        ,    0.0334569...],
+                          [ 716.        ,    0.0332681...],
+                          [ 717.        ,    0.0330807...],
+                          [ 718.        ,    0.0328947...],
+                          [ 719.        ,    0.0327099...],
+                          [ 720.        ,    0.0325264...],
+                          [ 721.        ,    0.0323443...],
+                          [ 722.        ,    0.0321634...],
+                          [ 723.        ,    0.0319837...],
+                          [ 724.        ,    0.0318054...],
+                          [ 725.        ,    0.0316282...],
+                          [ 726.        ,    0.0314523...],
+                          [ 727.        ,    0.0312777...],
+                          [ 728.        ,    0.0311042...],
+                          [ 729.        ,    0.0309319...],
+                          [ 730.        ,    0.0307609...],
+                          [ 731.        ,    0.0305910...],
+                          [ 732.        ,    0.0304223...],
+                          [ 733.        ,    0.0302548...],
+                          [ 734.        ,    0.0300884...],
+                          [ 735.        ,    0.0299231...],
+                          [ 736.        ,    0.0297590...],
+                          [ 737.        ,    0.0295960...],
+                          [ 738.        ,    0.0294342...],
+                          [ 739.        ,    0.0292734...],
+                          [ 740.        ,    0.0291138...],
+                          [ 741.        ,    0.0289552...],
+                          [ 742.        ,    0.0287977...],
+                          [ 743.        ,    0.0286413...],
+                          [ 744.        ,    0.0284859...],
+                          [ 745.        ,    0.0283316...],
+                          [ 746.        ,    0.0281784...],
+                          [ 747.        ,    0.0280262...],
+                          [ 748.        ,    0.0278750...],
+                          [ 749.        ,    0.0277248...],
+                          [ 750.        ,    0.0275757...],
+                          [ 751.        ,    0.0274275...],
+                          [ 752.        ,    0.0272804...],
+                          [ 753.        ,    0.0271342...],
+                          [ 754.        ,    0.0269890...],
+                          [ 755.        ,    0.0268448...],
+                          [ 756.        ,    0.0267015...],
+                          [ 757.        ,    0.0265592...],
+                          [ 758.        ,    0.0264179...],
+                          [ 759.        ,    0.0262775...],
+                          [ 760.        ,    0.0261380...],
+                          [ 761.        ,    0.0259995...],
+                          [ 762.        ,    0.0258618...],
+                          [ 763.        ,    0.0257251...],
+                          [ 764.        ,    0.0255893...],
+                          [ 765.        ,    0.0254544...],
+                          [ 766.        ,    0.0253204...],
+                          [ 767.        ,    0.0251872...],
+                          [ 768.        ,    0.0250550...],
+                          [ 769.        ,    0.0249236...],
+                          [ 770.        ,    0.0247930...],
+                          [ 771.        ,    0.0246633...],
+                          [ 772.        ,    0.0245345...],
+                          [ 773.        ,    0.0244065...],
+                          [ 774.        ,    0.0242794...],
+                          [ 775.        ,    0.0241530...],
+                          [ 776.        ,    0.0240275...],
+                          [ 777.        ,    0.0239029...],
+                          [ 778.        ,    0.0237790...],
+                          [ 779.        ,    0.0236559...],
+                          [ 780.        ,    0.0235336...]],
                          SpragueInterpolator,
                          {},
                          Extrapolator,

@@ -38,15 +38,7 @@ from colour.appearance.ciecam02 import (
 )
 from colour.algebra import sdiv, sdiv_mode, spow
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import (
-    ArrayLike,
-    Boolean,
-    Dict,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    NDArray,
-    Optional,
-)
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.models import Izazbz_to_XYZ, XYZ_to_Izazbz, xy_to_XYZ
 from colour.utilities import (
     CanonicalMapping,
@@ -67,7 +59,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -130,7 +122,7 @@ References
 :cite:`Safdar2021`
 """
 
-HUE_DATA_FOR_HUE_QUADRATURE: Dict = {
+HUE_DATA_FOR_HUE_QUADRATURE: dict = {
     "h_i": np.array([33.44, 89.29, 146.30, 238.36, 393.44]),
     "e_i": np.array([0.68, 0.64, 1.52, 0.77, 0.68]),
     "H_i": np.array([0.0, 100.0, 200.0, 300.0, 400.0]),
@@ -175,17 +167,17 @@ class CAM_ReferenceSpecification_ZCAM(MixinDataclassArithmetic):
     :cite:`Safdar2021`
     """
 
-    J_z: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    C_z: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    h_z: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    S_z: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    Q_z: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    M_z: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    H: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    H_z: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    V_z: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    K_z: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    W_z: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    J_z: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    C_z: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    h_z: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    S_z: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    Q_z: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    M_z: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    H: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    H_z: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    V_z: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    K_z: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    W_z: float | NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 @dataclass
@@ -291,20 +283,20 @@ class CAM_Specification_ZCAM(MixinDataclassArithmetic):
     :cite:`Safdar2021`
     """
 
-    J: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    C: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    h: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    s: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    Q: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    M: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    H: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    HC: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    V: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    K: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    W: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    J: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    C: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    h: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    s: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    Q: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    M: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    H: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    HC: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    V: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    K: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    W: float | NDArrayFloat | None = field(default_factory=lambda: None)
 
 
-TVS_D65: NDArray = xy_to_XYZ(
+TVS_D65: NDArrayFloat = xy_to_XYZ(
     CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
 )
 
@@ -312,10 +304,11 @@ TVS_D65: NDArray = xy_to_XYZ(
 def XYZ_to_ZCAM(
     XYZ: ArrayLike,
     XYZ_w: ArrayLike,
-    L_A: FloatingOrArrayLike,
-    Y_b: FloatingOrArrayLike,
+    L_A: ArrayLike,
+    Y_b: ArrayLike,
     surround: InductionFactors_ZCAM = VIEWING_CONDITIONS_ZCAM["Average"],
-    discount_illuminant: Boolean = False,
+    discount_illuminant: bool = False,
+    compute_H: bool = True,
 ) -> CAM_Specification_ZCAM:
     """
     Compute the *ZCAM* colour appearance model correlates from given *CIE XYZ*
@@ -343,6 +336,9 @@ def XYZ_to_ZCAM(
         Surround viewing conditions induction factors.
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
+    compute_H
+        Whether to compute *Hue* :math:`h` quadrature :math:`H`. :math:`H` is
+        rarely used, and expensive to compute.
 
     Returns
     -------
@@ -468,7 +464,7 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
     h_z = hue_angle(a_z, b_z)
 
     # Step 4 (Forward) - Computing hue quadrature :math:`H`.
-    H = hue_quadrature(h_z)
+    H = hue_quadrature(h_z) if compute_H else np.full(h_z.shape, np.nan)
 
     # Computing eccentricity factor :math:`e_z`.
     e_z = 1.015 + np.cos(np.radians(89.038 + h_z % 360))
@@ -522,11 +518,11 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
 def ZCAM_to_XYZ(
     specification: CAM_Specification_ZCAM,
     XYZ_w: ArrayLike,
-    L_A: FloatingOrArrayLike,
-    Y_b: FloatingOrArrayLike,
+    L_A: ArrayLike,
+    Y_b: ArrayLike,
     surround: InductionFactors_ZCAM = VIEWING_CONDITIONS_ZCAM["Average"],
-    discount_illuminant: Boolean = False,
-) -> NDArray:
+    discount_illuminant: bool = False,
+) -> NDArrayFloat:
     """
     Convert from *ZCAM* specification to *CIE XYZ* tristimulus values.
 
@@ -683,7 +679,7 @@ def ZCAM_to_XYZ(
     # redness-greenness (:math:`a_{z,w}`), and yellowness-blueness
     # (:math:`b_{z,w}`).
     with domain_range_scale("ignore"):
-        I_z_w, _A_z_w, B_z_w = tsplit(
+        I_z_w, _A_z_w, _B_z_w = tsplit(
             XYZ_to_Izazbz(XYZ_w, method="Safdar 2021")
         )
 
@@ -736,7 +732,7 @@ def ZCAM_to_XYZ(
     return from_range_1(XYZ)
 
 
-def hue_quadrature(h: FloatingOrArrayLike) -> FloatingOrNDArray:
+def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
     """
     Return the hue quadrature from given hue :math:`h` angle in degrees.
 
@@ -747,7 +743,7 @@ def hue_quadrature(h: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Hue quadrature.
 
     Examples

@@ -12,12 +12,12 @@ from __future__ import annotations
 import numpy as np
 
 from colour.io import as_3_channels_image
-from colour.hints import Any, ArrayLike, FloatingOrNDArray
-from colour.utilities import as_float_array, as_float_scalar, required
+from colour.hints import Any, ArrayLike, NDArrayFloat
+from colour.utilities import as_float_array, as_float, required
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -34,7 +34,7 @@ __all__ = [
 @required("OpenColorIO")
 def process_image_OpenColorIO(
     a: ArrayLike, *args: Any, **kwargs: Any
-) -> FloatingOrNDArray:  # pragma: no cover
+) -> NDArrayFloat:  # pragma: no cover
     """
     Process given image data with *OpenColorIO*.
 
@@ -155,7 +155,7 @@ def process_image_OpenColorIO(
     b = image_desc.getData().reshape([height, width, channels]).astype(dtype)
 
     if len(shape) == 0:
-        return as_float_scalar(np.squeeze(b)[0])
+        return as_float(np.squeeze(b)[0])
     elif shape[-1] == 1:
         return np.reshape(b[..., 0], shape)
     else:

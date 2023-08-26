@@ -25,12 +25,11 @@ from __future__ import annotations
 import numpy as np
 from collections import namedtuple
 
-from colour.hints import Tuple
 from colour.utilities import CanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -48,7 +47,7 @@ Illuminant_Specification_HunterLab = namedtuple(
     "Illuminant_Specification_HunterLab", ("name", "XYZ_n", "K_ab")
 )
 
-DATA_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931: Tuple = (
+DATA_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931: tuple = (
     ("A", np.array([109.83, 100.00, 35.55]), np.array([185.20, 38.40])),
     ("C", np.array([98.04, 100.00, 118.11]), np.array([175.00, 70.00])),
     ("D50", np.array([96.38, 100.00, 82.45]), np.array([173.51, 58.48])),
@@ -77,7 +76,7 @@ References
 :cite:`HunterLab2008b`, :cite:`HunterLab2008c`
 """
 
-DATA_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964: Tuple = (
+DATA_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964: tuple = (
     ("A", np.array([111.16, 100.00, 35.19]), np.array([186.30, 38.20])),
     ("C", np.array([97.30, 100.00, 116.14]), np.array([174.30, 69.40])),
     ("D50", np.array([96.72, 100.00, 81.45]), np.array([173.82, 58.13])),

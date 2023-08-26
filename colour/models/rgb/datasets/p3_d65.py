@@ -13,7 +13,7 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
     gamma_function,
@@ -22,7 +22,7 @@ from colour.models.rgb import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -36,7 +36,7 @@ __all__ = [
     "RGB_COLOURSPACE_P3_D65",
 ]
 
-PRIMARIES_P3_D65: NDArray = np.array(
+PRIMARIES_P3_D65: NDArrayFloat = np.array(
     [
         [0.6800, 0.3200],
         [0.2650, 0.6900],
@@ -48,17 +48,17 @@ PRIMARIES_P3_D65: NDArray = np.array(
 WHITEPOINT_NAME_P3_D65: str = "D65"
 """*P3-D65* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_P3_D65: NDArray = CCS_ILLUMINANTS[
+CCS_WHITEPOINT_P3_D65: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_P3_D65]
 """*P3-D65* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_P3_D65_TO_XYZ: NDArray = normalised_primary_matrix(
+MATRIX_P3_D65_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
     PRIMARIES_P3_D65, CCS_WHITEPOINT_P3_D65
 )
 """*P3-D65* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_P3_D65: NDArray = np.linalg.inv(MATRIX_P3_D65_TO_XYZ)
+MATRIX_XYZ_TO_P3_D65: NDArrayFloat = np.linalg.inv(MATRIX_P3_D65_TO_XYZ)
 """*CIE XYZ* tristimulus values to *P3-D65* colourspace matrix."""
 
 RGB_COLOURSPACE_P3_D65: RGB_Colourspace = RGB_Colourspace(

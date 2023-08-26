@@ -26,15 +26,13 @@ References
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.colorimetry import SpectralDistribution
-from colour.hints import Floating, Literal, Union
+from colour.hints import Literal
 from colour.utilities import CanonicalMapping, validate_method
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -45,7 +43,7 @@ __all__ = [
     "bandpass_correction",
 ]
 
-CONSTANT_ALPHA_STEARNS: Floating = 0.083
+CONSTANT_ALPHA_STEARNS: float = 0.083
 
 
 def bandpass_correction_Stearns1988(
@@ -97,18 +95,16 @@ def bandpass_correction_Stearns1988(
                          {'method': 'Constant', 'left': None, 'right': None})
     """
 
-    values = np.copy(sd.values)
-    values[0] = (1 + CONSTANT_ALPHA_STEARNS) * values[
-        0
-    ] - CONSTANT_ALPHA_STEARNS * values[1]
-    values[-1] = (1 + CONSTANT_ALPHA_STEARNS) * values[
-        -1
-    ] - CONSTANT_ALPHA_STEARNS * values[-2]
+    A_S = CONSTANT_ALPHA_STEARNS
+    values = sd.values
+
+    values[0] = (1 + A_S) * values[0] - A_S * values[1]
+    values[-1] = (1 + A_S) * values[-1] - A_S * values[-2]
     for i in range(1, len(values) - 1):
         values[i] = (
-            -CONSTANT_ALPHA_STEARNS * values[i - 1]
-            + (1 + 2 * CONSTANT_ALPHA_STEARNS) * values[i]
-            - CONSTANT_ALPHA_STEARNS * values[i + 1]
+            -A_S * values[i - 1]
+            + (1 + 2 * A_S) * values[i]
+            - A_S * values[i + 1]
         )
 
     sd.values = values
@@ -126,7 +122,7 @@ Supported spectral bandpass dependence correction methods.
 
 def bandpass_correction(
     sd: SpectralDistribution,
-    method: Union[Literal["Stearns 1988"], str] = "Stearns 1988",
+    method: Literal["Stearns 1988"] | str = "Stearns 1988",
 ) -> SpectralDistribution:
     """
     Implement spectral bandpass dependence correction on given spectral
@@ -176,6 +172,6 @@ def bandpass_correction(
                          {'method': 'Constant', 'left': None, 'right': None})
     """
 
-    method = validate_method(method, BANDPASS_CORRECTION_METHODS)
+    method = validate_method(method, tuple(BANDPASS_CORRECTION_METHODS))
 
     return BANDPASS_CORRECTION_METHODS[method](sd)

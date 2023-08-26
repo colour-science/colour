@@ -37,15 +37,7 @@ from colour.appearance.ciecam02 import (
     rgb_to_RGB,
 )
 from colour.algebra import vector_dot, spow
-from colour.hints import (
-    ArrayLike,
-    Boolean,
-    Floating,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    NDArray,
-    Optional,
-)
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
@@ -63,7 +55,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -211,24 +203,25 @@ class CAM_Specification_Kim2009(MixinDataclassArithmetic):
     :cite:`Kim2009`
     """
 
-    J: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    C: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    h: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    s: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    Q: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    M: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    H: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    HC: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    J: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    C: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    h: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    s: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    Q: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    M: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    H: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    HC: float | NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 def XYZ_to_Kim2009(
     XYZ: ArrayLike,
     XYZ_w: ArrayLike,
-    L_A: FloatingOrArrayLike,
+    L_A: ArrayLike,
     media: MediaParameters_Kim2009 = MEDIA_PARAMETERS_KIM2009["CRT Displays"],
     surround: InductionFactors_Kim2009 = VIEWING_CONDITIONS_KIM2009["Average"],
-    discount_illuminant: Boolean = False,
-    n_c: Floating = 0.57,
+    n_c: float = 0.57,
+    discount_illuminant: bool = False,
+    compute_H: bool = True,
 ) -> CAM_Specification_Kim2009:
     """
     Compute the *Kim, Weyrich and Kautz (2009)* colour appearance model
@@ -249,6 +242,9 @@ def XYZ_to_Kim2009(
         Surround viewing conditions induction factors.
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
+    compute_H
+        Whether to compute *Hue* :math:`h` quadrature :math:`H`. :math:`H` is
+        rarely used, and expensive to compute.
     n_c
         Cone response sigmoidal curve modulating factor :math:`n_c`.
 
@@ -360,7 +356,7 @@ H=278.0602824..., HC=None)
 
     # Computing the correlate of *chroma* :math:`C`.
     a_k, n_k = 456.5, 0.62
-    C = a_k * spow(np.sqrt(a**2 + b**2), n_k)
+    C = a_k * spow(np.hypot(a, b), n_k)
 
     # Computing the correlate of *colourfulness* :math:`M`.
     a_m, b_m = 0.11, 0.61
@@ -373,7 +369,7 @@ H=278.0602824..., HC=None)
     h = np.degrees(np.arctan2(b, a)) % 360
 
     # Computing hue :math:`h` quadrature :math:`H`.
-    H = hue_quadrature(h)
+    H = hue_quadrature(h) if compute_H else np.full(h.shape, np.nan)
 
     return CAM_Specification_Kim2009(
         as_float(from_range_100(J)),
@@ -390,12 +386,12 @@ H=278.0602824..., HC=None)
 def Kim2009_to_XYZ(
     specification: CAM_Specification_Kim2009,
     XYZ_w: ArrayLike,
-    L_A: FloatingOrArrayLike,
+    L_A: ArrayLike,
     media: MediaParameters_Kim2009 = MEDIA_PARAMETERS_KIM2009["CRT Displays"],
     surround: InductionFactors_Kim2009 = VIEWING_CONDITIONS_KIM2009["Average"],
-    discount_illuminant: Boolean = False,
-    n_c: Floating = 0.57,
-) -> NDArray:
+    n_c: float = 0.57,
+    discount_illuminant: bool = False,
+) -> NDArrayFloat:
     """
     Convert from *Kim, Weyrich and Kautz (2009)* specification to *CIE XYZ*
     tristimulus values.

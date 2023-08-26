@@ -18,9 +18,9 @@ print(colour.temperature.uv_to_CCT_Ohno2013(uv, cmfs=cmfs))
 
 print("\n")
 
-message_box("Faster computation with 3 iterations but a lot less precise.")
+message_box("Faster computation with 1.01 spacing but a lot less precise.")
 print(colour.uv_to_CCT(uv, cmfs=cmfs, iterations=3))
-print(colour.temperature.uv_to_CCT_Ohno2013(uv, cmfs=cmfs, iterations=3))
+print(colour.temperature.uv_to_CCT_Ohno2013(uv, cmfs=cmfs, spacing=1.01))
 
 print("\n")
 

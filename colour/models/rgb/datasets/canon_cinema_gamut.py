@@ -19,7 +19,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import NDArray
+from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
     linear_function,
@@ -28,7 +28,7 @@ from colour.models.rgb import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -42,7 +42,7 @@ __all__ = [
     "RGB_COLOURSPACE_CINEMA_GAMUT",
 ]
 
-PRIMARIES_CINEMA_GAMUT: NDArray = np.array(
+PRIMARIES_CINEMA_GAMUT: NDArrayFloat = np.array(
     [
         [0.7400, 0.2700],
         [0.1700, 1.1400],
@@ -54,17 +54,19 @@ PRIMARIES_CINEMA_GAMUT: NDArray = np.array(
 WHITEPOINT_NAME_CINEMA_GAMUT: str = "D65"
 """*Canon Cinema Gamut* colourspace whitepoint name."""
 
-CCS_WHITEPOINT_CINEMA_GAMUT: NDArray = CCS_ILLUMINANTS[
+CCS_WHITEPOINT_CINEMA_GAMUT: NDArrayFloat = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_CINEMA_GAMUT]
 """*Canon Cinema Gamut* colourspace whitepoint chromaticity coordinates."""
 
-MATRIX_CINEMA_GAMUT_TO_XYZ: NDArray = normalised_primary_matrix(
+MATRIX_CINEMA_GAMUT_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
     PRIMARIES_CINEMA_GAMUT, CCS_WHITEPOINT_CINEMA_GAMUT
 )
 """*Canon Cinema Gamut* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_CINEMA_GAMUT: NDArray = np.linalg.inv(MATRIX_CINEMA_GAMUT_TO_XYZ)
+MATRIX_XYZ_TO_CINEMA_GAMUT: NDArrayFloat = np.linalg.inv(
+    MATRIX_CINEMA_GAMUT_TO_XYZ
+)
 """*CIE XYZ* tristimulus values to *Canon Cinema Gamut* colourspace matrix."""
 
 RGB_COLOURSPACE_CINEMA_GAMUT: RGB_Colourspace = RGB_Colourspace(

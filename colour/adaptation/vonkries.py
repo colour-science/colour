@@ -20,7 +20,7 @@ import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
 from colour.algebra import matrix_dot, vector_dot, sdiv, sdiv_mode
-from colour.hints import ArrayLike, Literal, NDArray, Union
+from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.utilities import (
     from_range_1,
     row_as_diagonal,
@@ -30,7 +30,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -44,24 +44,22 @@ __all__ = [
 def matrix_chromatic_adaptation_VonKries(
     XYZ_w: ArrayLike,
     XYZ_wr: ArrayLike,
-    transform: Union[
-        Literal[
-            "Bianco 2010",
-            "Bianco PC 2010",
-            "Bradford",
-            "CAT02 Brill 2008",
-            "CAT02",
-            "CAT16",
-            "CMCCAT2000",
-            "CMCCAT97",
-            "Fairchild",
-            "Sharp",
-            "Von Kries",
-            "XYZ Scaling",
-        ],
-        str,
-    ] = "CAT02",
-) -> NDArray:
+    transform: Literal[
+        "Bianco 2010",
+        "Bianco PC 2010",
+        "Bradford",
+        "CAT02 Brill 2008",
+        "CAT02",
+        "CAT16",
+        "CMCCAT2000",
+        "CMCCAT97",
+        "Fairchild",
+        "Sharp",
+        "Von Kries",
+        "XYZ Scaling",
+    ]
+    | str = "CAT02",
+) -> NDArrayFloat:
     """
     Compute the *chromatic adaptation* matrix from test viewing conditions
     to reference viewing conditions.
@@ -122,7 +120,7 @@ def matrix_chromatic_adaptation_VonKries(
 
     transform = validate_method(
         transform,
-        CHROMATIC_ADAPTATION_TRANSFORMS,
+        tuple(CHROMATIC_ADAPTATION_TRANSFORMS),
         '"{0}" chromatic adaptation transform is invalid, '
         "it must be one of {1}!",
     )
@@ -147,24 +145,22 @@ def chromatic_adaptation_VonKries(
     XYZ: ArrayLike,
     XYZ_w: ArrayLike,
     XYZ_wr: ArrayLike,
-    transform: Union[
-        Literal[
-            "Bianco 2010",
-            "Bianco PC 2010",
-            "Bradford",
-            "CAT02 Brill 2008",
-            "CAT02",
-            "CAT16",
-            "CMCCAT2000",
-            "CMCCAT97",
-            "Fairchild",
-            "Sharp",
-            "Von Kries",
-            "XYZ Scaling",
-        ],
-        str,
-    ] = "CAT02",
-) -> NDArray:
+    transform: Literal[
+        "Bianco 2010",
+        "Bianco PC 2010",
+        "Bradford",
+        "CAT02 Brill 2008",
+        "CAT02",
+        "CAT16",
+        "CMCCAT2000",
+        "CMCCAT97",
+        "Fairchild",
+        "Sharp",
+        "Von Kries",
+        "XYZ Scaling",
+    ]
+    | str = "CAT02",
+) -> NDArrayFloat:
     """
     Adapt given stimulus from test viewing conditions to reference viewing
     conditions.

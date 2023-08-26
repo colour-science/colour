@@ -27,14 +27,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import (
-    Boolean,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    IntegerOrArrayLike,
-    IntegerOrNDArray,
-    Union,
-)
+from colour.hints import ArrayLike, NDArrayFloat, NDArrayReal
 from colour.utilities import (
     Structure,
     as_float,
@@ -45,7 +38,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -76,15 +69,15 @@ CONSTANTS_DICOMGSDF: Structure = Structure(
     G=-0.18014349,
     H=0.14710899,
     I=-0.017046845,
-)  # noqa
+)
 """*DICOM Grayscale Standard Display Function* constants."""
 
 
 def eotf_inverse_DICOMGSDF(
-    L: FloatingOrArrayLike,
-    out_int: Boolean = False,
+    L: ArrayLike,
+    out_int: bool = False,
     constants: Structure = CONSTANTS_DICOMGSDF,
-) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
+) -> NDArrayReal:
     """
     Define the *DICOM - Grayscale Standard Display Function* inverse
     electro-optical transfer function (EOTF).
@@ -94,14 +87,14 @@ def eotf_inverse_DICOMGSDF(
     L
         *Luminance* :math:`L`.
     out_int
-        Whether to return value as integer code value or float equivalent of a
-        code value at a given bit depth.
+        Whether to return value as int code value or float equivalent of a
+        code value at a given bit-depth.
     constants
         *DICOM - Grayscale Standard Display Function* constants.
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.integer` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Just-Noticeable Difference (JND) Index, :math:`j`.
 
     Notes
@@ -142,7 +135,7 @@ def eotf_inverse_DICOMGSDF(
     F = constants.F
     G = constants.G
     H = constants.H
-    I = constants.I  # noqa
+    I = constants.I  # noqa: E741
 
     J = (
         A
@@ -163,10 +156,10 @@ def eotf_inverse_DICOMGSDF(
 
 
 def eotf_DICOMGSDF(
-    J: Union[FloatingOrArrayLike, IntegerOrArrayLike],
-    in_int: Boolean = False,
+    J: ArrayLike,
+    in_int: bool = False,
     constants: Structure = CONSTANTS_DICOMGSDF,
-) -> FloatingOrNDArray:
+) -> NDArrayFloat:
     """
     Define the *DICOM - Grayscale Standard Display Function* electro-optical
     transfer function (EOTF).
@@ -176,14 +169,14 @@ def eotf_DICOMGSDF(
     J
         Just-Noticeable Difference (JND) Index, :math:`j`.
     in_int
-        Whether to treat the input value as integer code value or float
-        equivalent of a code value at a given bit depth.
+        Whether to treat the input value as int code value or float
+        equivalent of a code value at a given bit-depth.
     constants
         *DICOM - Grayscale Standard Display Function* constants.
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Corresponding *luminance* :math:`L`.
 
     Notes

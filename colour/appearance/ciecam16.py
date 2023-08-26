@@ -48,15 +48,7 @@ from colour.appearance.ciecam02 import (
     temporary_magnitude_quantity_inverse,
     viewing_conditions_dependent_parameters,
 )
-from colour.hints import (
-    ArrayLike,
-    Boolean,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    NDArray,
-    Optional,
-    Union,
-)
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
@@ -73,7 +65,7 @@ from colour.utilities import (
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -158,25 +150,25 @@ class CAM_Specification_CIECAM16(MixinDataclassArithmetic):
     :cite:`CIEDivision12022`
     """
 
-    J: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    C: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    h: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    s: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    Q: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    M: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    H: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    HC: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    J: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    C: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    h: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    s: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    Q: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    M: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    H: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    HC: float | NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 def XYZ_to_CIECAM16(
     XYZ: ArrayLike,
     XYZ_w: ArrayLike,
-    L_A: FloatingOrArrayLike,
-    Y_b: FloatingOrArrayLike,
-    surround: Union[
-        InductionFactors_CIECAM02, InductionFactors_CIECAM16
-    ] = VIEWING_CONDITIONS_CIECAM16["Average"],
-    discount_illuminant: Boolean = False,
+    L_A: ArrayLike,
+    Y_b: ArrayLike,
+    surround: InductionFactors_CIECAM02
+    | InductionFactors_CIECAM16 = VIEWING_CONDITIONS_CIECAM16["Average"],
+    discount_illuminant: bool = False,
+    compute_H: bool = True,
 ) -> CAM_Specification_CIECAM16:
     """
     Compute the *CIECAM16* colour appearance model correlates from given
@@ -202,6 +194,9 @@ def XYZ_to_CIECAM16(
         Surround viewing conditions induction factors.
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
+    compute_H
+        Whether to compute *Hue* :math:`h` quadrature :math:`H`. :math:`H` is
+        rarely used, and expensive to compute.
 
     Returns
     -------
@@ -325,7 +320,7 @@ H=275.5949861..., HC=None)
     e_t = eccentricity_factor(h)
 
     # Computing hue :math:`h` quadrature :math:`H`.
-    H = hue_quadrature(h)
+    H = hue_quadrature(h) if compute_H else np.full(h.shape, np.nan)
     # TODO: Compute hue composition.
 
     # Step 6
@@ -365,13 +360,12 @@ H=275.5949861..., HC=None)
 def CIECAM16_to_XYZ(
     specification: CAM_Specification_CIECAM16,
     XYZ_w: ArrayLike,
-    L_A: FloatingOrArrayLike,
-    Y_b: FloatingOrArrayLike,
-    surround: Union[
-        InductionFactors_CIECAM02, InductionFactors_CIECAM16
-    ] = VIEWING_CONDITIONS_CIECAM16["Average"],
-    discount_illuminant: Boolean = False,
-) -> NDArray:
+    L_A: ArrayLike,
+    Y_b: ArrayLike,
+    surround: InductionFactors_CIECAM02
+    | InductionFactors_CIECAM16 = VIEWING_CONDITIONS_CIECAM16["Average"],
+    discount_illuminant: bool = False,
+) -> NDArrayFloat:
     """
     Convert from *CIECAM16* specification to *CIE XYZ* tristimulus values.
 
@@ -554,7 +548,7 @@ def CIECAM16_to_XYZ(
     return from_range_100(XYZ)
 
 
-def f_e_forward(RGB_c: ArrayLike, F_L: FloatingOrArrayLike) -> NDArray:
+def f_e_forward(RGB_c: ArrayLike, F_L: ArrayLike) -> NDArrayFloat:
     """
     Compute the post-adaptation cone responses.
 
@@ -589,6 +583,11 @@ def f_e_forward(RGB_c: ArrayLike, F_L: FloatingOrArrayLike) -> NDArray:
     F_L = as_float_array(F_L)
     q_L, q_U = 0.26, 150
 
+    f_q_F_L_q_U = f_q(F_L, q_U)[..., None]
+    f_q_F_L_q_L = f_q(F_L, q_L)[..., None]
+    f_q_F_L_RGB_c = f_q(F_L[..., None], RGB_c)
+    d_f_q_F_L_q_U = d_f_q(F_L, q_U)[..., None]
+
     return np.select(
         [
             RGB_c > q_U,
@@ -596,14 +595,14 @@ def f_e_forward(RGB_c: ArrayLike, F_L: FloatingOrArrayLike) -> NDArray:
             RGB_c < q_L,
         ],
         [
-            f_q(F_L, q_U) + d_f_q(F_L, q_U) * (RGB_c - q_U),
-            f_q(F_L, RGB_c),
-            f_q(F_L, q_L) * RGB_c / q_L,
+            f_q_F_L_q_U + d_f_q_F_L_q_U * (RGB_c - q_U),
+            f_q_F_L_RGB_c,
+            f_q_F_L_q_L * RGB_c / q_L,
         ],
     )
 
 
-def f_e_inverse(RGB_a: ArrayLike, F_L: FloatingOrArrayLike) -> NDArray:
+def f_e_inverse(RGB_a: ArrayLike, F_L: ArrayLike) -> NDArrayFloat:
     """
     Compute the modified cone-like responses.
 
@@ -638,23 +637,27 @@ def f_e_inverse(RGB_a: ArrayLike, F_L: FloatingOrArrayLike) -> NDArray:
     F_L = as_float_array(F_L)
     q_L, q_U = 0.26, 150
 
+    f_q_F_L_q_U = f_q(F_L, q_U)[..., None]
+    f_q_F_L_q_L = f_q(F_L, q_L)[..., None]
+    d_f_q_F_L_q_U = d_f_q(F_L, q_U)[..., None]
+
     return np.select(
         [
-            RGB_a > f_q(F_L, q_U),
-            np.logical_and(f_q(F_L, q_L) <= RGB_a, RGB_a <= f_q(F_L, q_U)),
-            RGB_a < f_q(F_L, q_L),
+            RGB_a > f_q_F_L_q_U,
+            np.logical_and(f_q_F_L_q_L <= RGB_a, RGB_a <= f_q_F_L_q_U),
+            RGB_a < f_q_F_L_q_L,
         ],
         [
-            q_U + (RGB_a - f_q(F_L, q_U)) / d_f_q(F_L, q_U),
+            q_U + (RGB_a - f_q_F_L_q_U) / d_f_q_F_L_q_U,
             100
             / F_L[..., None]
             * spow((27.13 * RGB_a) / (400 - RGB_a), 1 / 0.42),
-            q_L * RGB_a / f_q(F_L, q_L),
+            q_L * RGB_a / f_q_F_L_q_L,
         ],
     )
 
 
-def f_q(F_L: FloatingOrArrayLike, q: FloatingOrArrayLike) -> FloatingOrNDArray:
+def f_q(F_L: ArrayLike, q: ArrayLike) -> NDArrayFloat:
     """
     Define the :math:`f(q)` function.
 
@@ -679,16 +682,12 @@ def f_q(F_L: FloatingOrArrayLike, q: FloatingOrArrayLike) -> FloatingOrNDArray:
     F_L = as_float_array(F_L)
     q = as_float_array(q)
 
-    F_L = F_L[..., None]
-
     F_L_q_100 = spow((F_L * q) / 100, 0.42)
 
     return (400 * F_L_q_100) / (27.13 + F_L_q_100)
 
 
-def d_f_q(
-    F_L: FloatingOrArrayLike, q: FloatingOrArrayLike
-) -> FloatingOrNDArray:
+def d_f_q(F_L: ArrayLike, q: ArrayLike) -> NDArrayFloat:
     """
     Define the :math:`f'(q)` function derivative.
 
@@ -707,13 +706,11 @@ def d_f_q(
     Examples
     --------
     >>> d_f_q(1.17, 0.26)  # doctest: +ELLIPSIS
-    array([ 2.0749623...])
+    2.0749623...
     """
 
     F_L = as_float_array(F_L)
     q = as_float_array(q)
-
-    F_L = F_L[..., None]
 
     F_L_q_100 = (F_L * q) / 100
 

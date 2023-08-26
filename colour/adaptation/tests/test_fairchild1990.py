@@ -1,6 +1,7 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.adaptation.fairchild1990` module."""
 
+import contextlib
 import numpy as np
 import unittest
 from itertools import product
@@ -11,7 +12,7 @@ from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -143,10 +144,8 @@ chromatic_adaptation_Fairchild1990` definition nan support.
             XYZ_n = case
             XYZ_r = case
             Y_n = case[0]
-            try:
+            with contextlib.suppress(LinAlgError):
                 chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n)
-            except LinAlgError:
-                pass
 
 
 if __name__ == "__main__":

@@ -234,8 +234,8 @@ IPT Colourspace
     IPT_to_XYZ
     IPT_hue_angle
 
-Munish Ragoo and Farup (2021) Optimised IPT Colourspace
--------------------------------------------------------
+Ragoo and Farup (2021) Optimised IPT Colourspace
+------------------------------------------------
 
 ``colour``
 
@@ -244,8 +244,8 @@ Munish Ragoo and Farup (2021) Optimised IPT Colourspace
 .. autosummary::
     :toctree: generated/
 
-    XYZ_to_IPT_Munish2021
-    IPT_Munish2021_to_XYZ
+    XYZ_to_IPT_Ragoo2021
+    IPT_Ragoo2021_to_XYZ
 
 hdr-CIELAB Colourspace
 ----------------------
@@ -313,6 +313,29 @@ ProLab Colourspace
 
     XYZ_to_ProLab
     ProLab_to_XYZ
+
+Yrg Colourspace - Kirk (2019)
+-----------------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_Yrg
+    Yrg_to_XYZ
+
+``colour.models``
+
+.. currentmodule:: colour.models
+
+.. autosummary::
+    :toctree: generated/
+
+    LMS_to_Yrg
+    Yrg_to_LMS
 
 :math:`Jzazbz` Colourspace
 --------------------------
@@ -456,6 +479,7 @@ RGB Colourspaces
     RGB_COLOURSPACE_RIMM_RGB
     RGB_COLOURSPACE_ERIMM_RGB
     RGB_COLOURSPACE_PROPHOTO_RGB
+    RGB_COLOURSPACE_PLASA_ANSI_E154
     RGB_COLOURSPACE_RUSSELL_RGB
     RGB_COLOURSPACE_SMPTE_240M
     RGB_COLOURSPACE_SMPTE_C
@@ -684,6 +708,8 @@ Log Encoding and Decoding
     log_decoding_ERIMMRGB
     log_encoding_FLog
     log_decoding_FLog
+    log_encoding_FLog2
+    log_decoding_FLog2
     log_encoding_LLog
     log_decoding_LLog
     log_encoding_Log2

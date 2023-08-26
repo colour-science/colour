@@ -28,13 +28,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import (
-    ArrayLike,
-    FloatingOrArrayLike,
-    FloatingOrNDArray,
-    Literal,
-    Union,
-)
+from colour.hints import ArrayLike, NDArrayFloat, Literal
 from colour.utilities import (
     CanonicalMapping,
     as_float_array,
@@ -44,7 +38,7 @@ from colour.utilities import (
 
 __author__ = "Ilia Sibiryakov"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -76,9 +70,9 @@ References
 def HelmholtzKohlrausch_effect_object_Nayatani1997(
     uv: ArrayLike,
     uv_c: ArrayLike,
-    L_a: FloatingOrArrayLike,
-    method: Union[Literal["VAC", "VCC"], str] = "VCC",
-) -> FloatingOrNDArray:
+    L_a: ArrayLike,
+    method: Literal["VAC", "VCC"] | str = "VCC",
+) -> NDArrayFloat:
     """
     Return the *HKE* value for object colours using *Nayatani (1997)* method.
 
@@ -95,7 +89,7 @@ def HelmholtzKohlrausch_effect_object_Nayatani1997(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Luminance factor (:math:`\\Gamma`) value(s) computed with Nayatani
         object colour estimation method.
 
@@ -121,7 +115,7 @@ def HelmholtzKohlrausch_effect_object_Nayatani1997(
     u, v = tsplit(uv)
     u_c, v_c = tsplit(uv_c)
 
-    method = validate_method(method, HKE_NAYATANI1997_METHODS)
+    method = validate_method(method, tuple(HKE_NAYATANI1997_METHODS))
 
     K_Br = coefficient_K_Br_Nayatani1997(L_a)
     q = coefficient_q_Nayatani1997(np.arctan2(v - v_c, u - u_c))
@@ -133,9 +127,9 @@ def HelmholtzKohlrausch_effect_object_Nayatani1997(
 def HelmholtzKohlrausch_effect_luminous_Nayatani1997(
     uv: ArrayLike,
     uv_c: ArrayLike,
-    L_a: FloatingOrArrayLike,
-    method: Union[Literal["VAC", "VCC"], str] = "VCC",
-) -> FloatingOrNDArray:
+    L_a: ArrayLike,
+    method: Literal["VAC", "VCC"] | str = "VCC",
+) -> NDArrayFloat:
     """
     Return the *HKE* factor for luminous colours using *Nayatani (1997)* method.
 
@@ -152,7 +146,7 @@ def HelmholtzKohlrausch_effect_luminous_Nayatani1997(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         Luminance factor (:math:`\\Gamma`) value(s) computed with Nayatani
         luminous colour estimation method.
 
@@ -188,8 +182,8 @@ def HelmholtzKohlrausch_effect_luminous_Nayatani1997(
 
 
 def coefficient_q_Nayatani1997(
-    theta: FloatingOrArrayLike,
-) -> FloatingOrNDArray:
+    theta: ArrayLike,
+) -> NDArrayFloat:
     """
     Return the :math:`q(\\theta)` coefficient for *Nayatani (1997)* *HKE*
     computations.
@@ -209,7 +203,7 @@ def coefficient_q_Nayatani1997(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         :math:`q` coefficient for *Nayatani (1997)* *HKE* methods.
 
     References
@@ -247,8 +241,8 @@ def coefficient_q_Nayatani1997(
 
 
 def coefficient_K_Br_Nayatani1997(
-    L_a: FloatingOrArrayLike,
-) -> FloatingOrNDArray:
+    L_a: ArrayLike,
+) -> NDArrayFloat:
     """
     Return the :math:`K_{Br}` coefficient for *Nayatani (1997)* *HKE*
     computations.
@@ -260,7 +254,7 @@ def coefficient_K_Br_Nayatani1997(
 
     Returns
     -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
+    :class:`numpy.ndarray`
         :math:`K_{Br}` coefficient for *Nayatani (1997)* *HKE* methods.
 
     Notes
