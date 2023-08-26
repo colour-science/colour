@@ -1220,7 +1220,7 @@ def convert(a: Any, source: str, target: str, **kwargs: Any) -> Any:
     colour representation using the automatic colour conversion graph.
 
     The conversion is performed by finding the shortest path in a
-    `NetworkX <https://networkx.github.io/>`__ :class:`DiGraph` class instance.
+    `NetworkX <https://networkx.github.io>`__ :class:`DiGraph` class instance.
 
     The conversion path adopts the **'1'** domain-range scale and the object
     :math:`a` is expected to be *soft* normalised accordingly. For example,

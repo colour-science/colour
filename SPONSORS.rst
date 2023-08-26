@@ -4,7 +4,7 @@
 
 `Colour <https://github.com/colour-science/colour>`__ is an independent
 `BSD-3-Clause <https://opensource.org/licenses/BSD-3-Clause>`__ Open Source
-affiliated project of `NumFOCUS <https://numfocus.org/>`__, a 501(c)(3)
+affiliated project of `NumFOCUS <https://numfocus.org>`__, a 501(c)(3)
 nonprofit in the United States.
 
 We are grateful 💖 for the support of our

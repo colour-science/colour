@@ -39,7 +39,7 @@ def plot_automatic_colour_conversion_graph(
 ) -> AGraph:  # pyright: ignore  # noqa: F821
     """
     Plot *Colour* automatic colour conversion graph using
-    `Graphviz <https://www.graphviz.org/>`__ and
+    `Graphviz <https://www.graphviz.org>`__ and
     `pyraphviz <https://pygraphviz.github.io>`__.
 
     Parameters

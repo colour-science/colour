@@ -10,7 +10,7 @@ Object Name Categorisation
 The API tries to bundle the objects by categories by naming them with common
 prefixes which makes introspection and auto-completion easier.
 
-For example, in `IPython <https://ipython.org/>`__ or `Jupyter Notebook <https://jupyter.org/>`__,
+For example, in `IPython <https://ipython.org>`__ or `Jupyter Notebook <https://jupyter.org>`__,
 most of the definitions pertaining to the spectral distribution handling can
 be found as follows:
 
@@ -47,7 +47,7 @@ Similarly, all the RGB colourspaces can be individually accessed from the
 Abbreviations
 -------------
 
-The following abbreviations are in use in `Colour <https://github.com/colour-science/Colour/>`__:
+The following abbreviations are in use in `Colour <https://github.com/colour-science/Colour>`__:
 
 - **CAM** : Colour Appearance Model
 - **CCS** : Chromaticity Coordinates
@@ -69,7 +69,7 @@ N-Dimensional Array Support
 ---------------------------
 
 Most of **Colour** definitions are fully vectorised and support n-dimensional
-array by leveraging `Numpy <http://www.numpy.org/>`__.
+array by leveraging `Numpy <http://www.numpy.org>`__.
 
 While it is recommended to use
 `ndarray <https://docs.scipy.org/doc/numpy-1.13.0/reference/arrays.ndarray.html>`__
@@ -171,7 +171,7 @@ to support floating point wavelengths. Wavelengths should not have to be
 defined as integer values and it is effectively common to get data from
 instruments whose domain is returned as floating point values.
 
-For example, the data from an `Ocean Insight (Optics) STS-VIS <https://www.oceaninsight.com/products/spectrometers/microspectrometer/sts-series/sts-vis/>`__
+For example, the data from an `Ocean Insight (Optics) STS-VIS <https://www.oceaninsight.com/products/spectrometers/microspectrometer/sts-series/sts-vis>`__
 spectrometer is typically saved with 3 digits decimal precision:
 
 .. code-block:: text

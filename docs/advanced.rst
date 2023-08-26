@@ -60,13 +60,13 @@ Using Colour without Scipy
 --------------------------
 
 With the release of `Colour 0.3.8 <https://github.com/colour-science/colour/releases/tag/v0.3.8>`__,
-`SciPy <http://www.scipy.org/>`__ became a requirement.
+`SciPy <http://www.scipy.org>`__ became a requirement.
 
 **Scipy** is notoriously hard to compile, especially
-`on Windows <https://colour-science.slack.com/messages/C02KH93GT/>`__.
+`on Windows <https://colour-science.slack.com/messages/C02KH93GT>`__.
 Some Digital Content Creation (DCC) applications are shipping Python interpreters
 compiled with versions of
-`Visual Studio <https://visualstudio.microsoft.com/>`__ such as 2011 or 2015.
+`Visual Studio <https://visualstudio.microsoft.com>`__ such as 2011 or 2015.
 Those are incompatible with the Python Wheels commonly built with
 `Visual Studio 2008 (Python 2.7) or Visual Studio 2017 (Python 3.6) <https://devguide.python.org/setup/?highlight=windows#windows>`__.
 
