@@ -805,7 +805,7 @@ def optimisation_factory_rawtoaces_v1() -> (
     Produce the objective function and *CIE XYZ* colourspace to optimisation
     colourspace/colour model function according to *RAW to ACES* v1.
 
-    The objective function returns the euclidean distance between the training
+    The objective function returns the Euclidean distance between the training
     data *RGB* tristimulus values and the training data *CIE XYZ* tristimulus
     values** in *CIE L\\*a\\*b\\** colourspace.
 
@@ -836,14 +836,12 @@ def optimisation_factory_rawtoaces_v1() -> (
     ) -> NDArrayFloat:
         """Objective function according to *RAW to ACES* v1."""
 
-        M = whitepoint_preserving_matrix(
-            np.hstack([np.reshape(M, (3, 2)), zeros((3, 1))])
-        )
+        M = finaliser_function(M)
 
         XYZ_t = vector_dot(
             RGB_COLOURSPACE_ACES2065_1.matrix_RGB_to_XYZ, vector_dot(M, RGB)
         )
-        Lab_t = XYZ_to_Lab(XYZ_t, RGB_COLOURSPACE_ACES2065_1.whitepoint)
+        Lab_t = XYZ_to_optimization_colour_model(XYZ_t)
 
         return as_float(np.linalg.norm(Lab_t - Lab))
 
@@ -852,7 +850,7 @@ def optimisation_factory_rawtoaces_v1() -> (
 
         return XYZ_to_Lab(XYZ, RGB_COLOURSPACE_ACES2065_1.whitepoint)
 
-    def finaliser_function(M: NDArrayFloat) -> NDArrayFloat:
+    def finaliser_function(M: ArrayLike) -> NDArrayFloat:
         """Finaliser function."""
 
         return whitepoint_preserving_matrix(
@@ -875,7 +873,7 @@ def optimisation_factory_Jzazbz() -> (
     colourspace/colour model function based on the :math:`J_za_zb_z`
     colourspace.
 
-    The objective function returns the euclidean distance between the training
+    The objective function returns the Euclidean distance between the training
     data *RGB* tristimulus values and the training data *CIE XYZ* tristimulus
     values** in the :math:`J_za_zb_z` colourspace.
 
@@ -906,14 +904,12 @@ finaliser_function at 0x...>)
     ) -> NDArrayFloat:
         """:math:`J_za_zb_z` colourspace based objective function."""
 
-        M = whitepoint_preserving_matrix(
-            np.hstack([np.reshape(M, (3, 2)), zeros((3, 1))])
-        )
+        M = finaliser_function(M)
 
         XYZ_t = vector_dot(
             RGB_COLOURSPACE_ACES2065_1.matrix_RGB_to_XYZ, vector_dot(M, RGB)
         )
-        Jab_t = XYZ_to_Jzazbz(XYZ_t)
+        Jab_t = XYZ_to_optimization_colour_model(XYZ_t)
 
         return as_float(np.sum(euclidean_distance(Jab, Jab_t)))
 
@@ -922,7 +918,7 @@ finaliser_function at 0x...>)
 
         return XYZ_to_Jzazbz(XYZ)
 
-    def finaliser_function(M: NDArrayFloat) -> NDArrayFloat:
+    def finaliser_function(M: ArrayLike) -> NDArrayFloat:
         """Finaliser function."""
 
         return whitepoint_preserving_matrix(
@@ -944,7 +940,7 @@ def optimisation_factory_Oklab_15() -> (
     Produce the objective function and *CIE XYZ* colourspace to optimisation
     colourspace/colour model function based on the *Oklab* colourspace.
 
-    The objective function returns the euclidean distance between the training
+    The objective function returns the Euclidean distance between the training
     data *RGB* tristimulus values and the training data *CIE XYZ* tristimulus
     values** in the *Oklab* colourspace.
 
@@ -981,9 +977,7 @@ finaliser_function at 0x...>)
     ) -> NDArrayFloat:
         """*Oklab* colourspace based objective function."""
 
-        M = whitepoint_preserving_matrix(
-            np.hstack([np.reshape(M, (3, 5)), zeros((3, 1))])
-        )
+        M = finaliser_function(M)
 
         XYZ_t = np.transpose(
             np.dot(
@@ -997,7 +991,7 @@ finaliser_function at 0x...>)
             )
         )
 
-        Jab_t = XYZ_to_Oklab(XYZ_t)
+        Jab_t = XYZ_to_optimization_colour_model(XYZ_t)
 
         return as_float(np.sum(euclidean_distance(Jab, Jab_t)))
 
@@ -1006,7 +1000,7 @@ finaliser_function at 0x...>)
 
         return XYZ_to_Oklab(XYZ)
 
-    def finaliser_function(M: NDArrayFloat) -> NDArrayFloat:
+    def finaliser_function(M: ArrayLike) -> NDArrayFloat:
         """Finaliser function."""
 
         return whitepoint_preserving_matrix(
