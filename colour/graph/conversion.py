@@ -191,7 +191,6 @@ from colour.utilities import (
     required,
     tsplit,
     tstack,
-    usage_warning,
     validate_method,
     zeros,
 )
@@ -1412,18 +1411,6 @@ verbose={"mode": "Long"})
     ===========================================================================
     array([ 0.4567576...,  0.3098826...,  0.2486222...])
     """
-
-    # TODO: Remove the following warning whenever the automatic colour
-    # conversion graph implementation is considered stable.
-    usage_warning(
-        'The "Automatic Colour Conversion Graph" is a beta feature, be '
-        "mindful of this when using it. Please report any unexpected "
-        "behaviour and do not hesitate to ask any questions should they arise."
-        "\nThis warning can be disabled with the "
-        '"colour.utilities.suppress_warnings" context manager as follows:\n'
-        "with colour.utilities.suppress_warnings(colour_usage_warnings=True): "
-        "\n    convert(*args, **kwargs)"
-    )
 
     source, target = source.lower(), target.lower()
 
