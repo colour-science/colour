@@ -218,7 +218,6 @@ convention = "numpy"
 [tool.ruff.per-file-ignores]
 "colour/examples/*" = ["INP", "T201", "T203"]
 "docs/*" = ["INP"]
-"setup.py" = ["INP"]
 "tasks.py" = ["INP"]
 "utilities/*" = ["EXE001", "INP"]
 "utilities/unicode_to_ascii.py" = ["RUF001"]
