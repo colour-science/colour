@@ -468,7 +468,7 @@ def tag(ctx: Context):
                 remote_tag.split("refs/tags/")[1].replace("refs/tags/", "^{}")
             )
         version_tags = sorted(tags)
-        if f"v{version}" not in version_tags:
+        if f"v{version}" in version_tags:
             raise RuntimeError(
                 f'A "{PYTHON_PACKAGE_NAME}" "v{version}" tag already exists in '
                 f"remote repository!"
