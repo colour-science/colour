@@ -86,7 +86,7 @@ from colour.hints import (
     ArrayLike,
     Callable,
     DTypeFloat,
-    Literal,
+    LiteralChromaticAdaptationTransform,
     Mapping,
     NDArrayFloat,
     Tuple,
@@ -160,20 +160,7 @@ S_FLARE_FACTOR: float = 0.18000 / (0.18000 + FLARE_PERCENTAGE)
 def sd_to_aces_relative_exposure_values(
     sd: SpectralDistribution,
     illuminant: SpectralDistribution | None = None,
-    chromatic_adaptation_transform: Literal[
-        "Bianco 2010",
-        "Bianco PC 2010",
-        "Bradford",
-        "CAT02 Brill 2008",
-        "CAT02",
-        "CAT16",
-        "CMCCAT2000",
-        "CMCCAT97",
-        "Fairchild",
-        "Sharp",
-        "Von Kries",
-        "XYZ Scaling",
-    ]
+    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
     | str
     | None = "CAT02",
     **kwargs,
@@ -665,20 +652,7 @@ def training_data_sds_to_XYZ(
     training_data: MultiSpectralDistributions,
     cmfs: MultiSpectralDistributions,
     illuminant: SpectralDistribution,
-    chromatic_adaptation_transform: Literal[
-        "Bianco 2010",
-        "Bianco PC 2010",
-        "Bradford",
-        "CAT02 Brill 2008",
-        "CAT02",
-        "CAT16",
-        "CMCCAT2000",
-        "CMCCAT97",
-        "Fairchild",
-        "Sharp",
-        "Von Kries",
-        "XYZ Scaling",
-    ]
+    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
     | str
     | None = "CAT02",
 ) -> NDArrayFloat:
@@ -1022,20 +996,7 @@ def matrix_idt(
     cmfs: MultiSpectralDistributions | None = None,
     optimisation_factory: Callable = optimisation_factory_rawtoaces_v1,
     optimisation_kwargs: dict | None = None,
-    chromatic_adaptation_transform: Literal[
-        "Bianco 2010",
-        "Bianco PC 2010",
-        "Bradford",
-        "CAT02 Brill 2008",
-        "CAT02",
-        "CAT16",
-        "CMCCAT2000",
-        "CMCCAT97",
-        "Fairchild",
-        "Sharp",
-        "Von Kries",
-        "XYZ Scaling",
-    ]
+    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
     | str
     | None = "CAT02",
     additional_data: bool = False,

@@ -63,6 +63,8 @@ from colour.hints import (
     Dict,
     List,
     Literal,
+    LiteralColourspaceModel,
+    LiteralRGBColourspace,
     NDArrayFloat,
     Sequence,
     Tuple,
@@ -186,37 +188,7 @@ COLOURSPACE_MODELS_AXIS_ORDER: CanonicalMapping = CanonicalMapping(
 
 def colourspace_model_axis_reorder(
     a: ArrayLike,
-    model: Literal[
-        "CAM02LCD",
-        "CAM02SCD",
-        "CAM02UCS",
-        "CAM16LCD",
-        "CAM16SCD",
-        "CAM16UCS",
-        "CIE XYZ",
-        "CIE xyY",
-        "CIE Lab",
-        "CIE LCHab",
-        "CIE Luv",
-        "CIE LCHuv",
-        "CIE UCS",
-        "CIE UVW",
-        "DIN99",
-        "Hunter Lab",
-        "Hunter Rdab",
-        "ICaCb",
-        "ICtCp",
-        "IPT",
-        "IPT Ragoo 2021",
-        "IgPgTg",
-        "Jzazbz",
-        "OSA UCS",
-        "Oklab",
-        "hdr-CIELAB",
-        "hdr-IPT",
-        "Yrg",
-    ]
-    | str,
+    model: LiteralColourspaceModel | str,
     direction: Literal["Forward", "Inverse"] | str = "Forward",
 ) -> NDArrayFloat:
     """
@@ -429,7 +401,10 @@ def plot_pointer_gamut(
 
 @override_style()
 def plot_RGB_colourspaces_in_chromaticity_diagram(
-    colourspaces: RGB_Colourspace | str | Sequence[RGB_Colourspace | str],
+    colourspaces: RGB_Colourspace
+    | LiteralRGBColourspace
+    | str
+    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str],
     cmfs: MultiSpectralDistributions
     | str
     | Sequence[
@@ -665,7 +640,10 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
 
 @override_style()
 def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
-    colourspaces: RGB_Colourspace | str | Sequence[RGB_Colourspace | str],
+    colourspaces: RGB_Colourspace
+    | LiteralRGBColourspace
+    | str
+    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str],
     cmfs: MultiSpectralDistributions
     | str
     | Sequence[
@@ -757,7 +735,10 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1931.png
 
 @override_style()
 def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
-    colourspaces: RGB_Colourspace | str | Sequence[RGB_Colourspace | str],
+    colourspaces: RGB_Colourspace
+    | LiteralRGBColourspace
+    | str
+    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str],
     cmfs: MultiSpectralDistributions
     | str
     | Sequence[
@@ -850,7 +831,10 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1960UCS.png
 
 @override_style()
 def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
-    colourspaces: RGB_Colourspace | str | Sequence[RGB_Colourspace | str],
+    colourspaces: RGB_Colourspace
+    | LiteralRGBColourspace
+    | str
+    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str],
     cmfs: MultiSpectralDistributions
     | str
     | Sequence[
@@ -946,7 +930,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram(
     RGB: ArrayLike,
     colourspace: RGB_Colourspace
     | str
-    | Sequence[RGB_Colourspace | str] = "sRGB",
+    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str] = "sRGB",
     chromaticity_diagram_callable: Callable = (
         plot_RGB_colourspaces_in_chromaticity_diagram
     ),
@@ -1087,7 +1071,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
     RGB: ArrayLike,
     colourspace: RGB_Colourspace
     | str
-    | Sequence[RGB_Colourspace | str] = "sRGB",
+    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str] = "sRGB",
     chromaticity_diagram_callable_CIE1931: Callable = (
         plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931
     ),
@@ -1165,7 +1149,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
     RGB: ArrayLike,
     colourspace: RGB_Colourspace
     | str
-    | Sequence[RGB_Colourspace | str] = "sRGB",
+    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str] = "sRGB",
     chromaticity_diagram_callable_CIE1960UCS: Callable = (
         plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS
     ),
@@ -1245,7 +1229,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
     RGB: ArrayLike,
     colourspace: RGB_Colourspace
     | str
-    | Sequence[RGB_Colourspace | str] = "sRGB",
+    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str] = "sRGB",
     chromaticity_diagram_callable_CIE1976UCS: Callable = (
         plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS
     ),
@@ -1823,34 +1807,7 @@ def plot_multi_cctfs(
 @override_style()
 def plot_constant_hue_loci(
     data: ArrayLike,
-    model: Literal[
-        "CAM02LCD",
-        "CAM02SCD",
-        "CAM02UCS",
-        "CAM16LCD",
-        "CAM16SCD",
-        "CAM16UCS",
-        "CIE XYZ",
-        "CIE xyY",
-        "CIE Lab",
-        "CIE Luv",
-        "CIE UCS",
-        "CIE UVW",
-        "DIN99",
-        "Hunter Lab",
-        "Hunter Rdab",
-        "ICaCb",
-        "ICtCp",
-        "IPT",
-        "IPT Ragoo 2021",
-        "IgPgTg",
-        "Jzazbz",
-        "OSA UCS",
-        "Oklab",
-        "hdr-CIELAB",
-        "hdr-IPT",
-    ]
-    | str = "CIE Lab",
+    model: LiteralColourspaceModel | str = "CIE Lab",
     scatter_kwargs: dict | None = None,
     convert_kwargs: dict | None = None,
     **kwargs: Any,

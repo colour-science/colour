@@ -56,46 +56,16 @@ Annotation Type Hints
     ProtocolExtrapolator
     ProtocolLUTSequenceItem
     LiteralWarning
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    LiteralChromaticAdaptationTransform
+    LiteralColourspaceModel
+    LiteralRGBColourspace
+    LiteralLogEncoding
+    LiteralLogDecoding
+    LiteralOETF
+    LiteralOETFInverse
+    LiteralEOTF
+    LiteralEOTFInverse
+    LiteralCCTFEncoding
+    LiteralCCTFDecoding
+    LiteralOOTF
+    LiteralOOTFInverse

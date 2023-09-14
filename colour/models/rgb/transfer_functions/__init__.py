@@ -5,7 +5,16 @@ from colour.hints import (
     ArrayLike,
     NDArrayFloat,
     NDArrayInt,
-    Literal,
+    LiteralLogEncoding,
+    LiteralLogDecoding,
+    LiteralOETF,
+    LiteralOETFInverse,
+    LiteralEOTF,
+    LiteralEOTFInverse,
+    LiteralCCTFEncoding,
+    LiteralCCTFDecoding,
+    LiteralOOTF,
+    LiteralOOTFInverse,
     Union,
 )
 from colour.utilities import (
@@ -404,41 +413,7 @@ Supported *log* encoding functions.
 
 def log_encoding(
     value: ArrayLike,
-    function: Union[
-        Literal[
-            "ACEScc",
-            "ACEScct",
-            "ACESproxy",
-            "ARRI LogC3",
-            "ARRI LogC4",
-            "Canon Log 2",
-            "Canon Log 3",
-            "Canon Log",
-            "Cineon",
-            "D-Log",
-            "ERIMM RGB",
-            "F-Log",
-            "F-Log2",
-            "Filmic Pro 6",
-            "L-Log",
-            "Log2",
-            "Log3G10",
-            "Log3G12",
-            "N-Log",
-            "PLog",
-            "Panalog",
-            "Protune",
-            "REDLog",
-            "REDLogFilm",
-            "S-Log",
-            "S-Log2",
-            "S-Log3",
-            "T-Log",
-            "V-Log",
-            "ViperLog",
-        ],
-        str,
-    ] = "Cineon",
+    function: Union[LiteralLogEncoding, str] = "Cineon",
     **kwargs: Any
 ) -> Union[NDArrayFloat, NDArrayInt]:
     """
@@ -557,41 +532,7 @@ Supported *log* decoding functions.
 
 def log_decoding(
     value: Union[ArrayLike, ArrayLike],
-    function: Union[
-        Literal[
-            "ACEScc",
-            "ACEScct",
-            "ACESproxy",
-            "ARRI LogC3",
-            "ARRI LogC4",
-            "Canon Log 2",
-            "Canon Log 3",
-            "Canon Log",
-            "Cineon",
-            "D-Log",
-            "ERIMM RGB",
-            "F-Log",
-            "F-Log2",
-            "Filmic Pro 6",
-            "L-Log",
-            "Log2",
-            "Log3G10",
-            "Log3G12",
-            "N-Log",
-            "PLog",
-            "Panalog",
-            "Protune",
-            "REDLog",
-            "REDLogFilm",
-            "S-Log",
-            "S-Log2",
-            "S-Log3",
-            "T-Log",
-            "V-Log",
-            "ViperLog",
-        ],
-        str,
-    ] = "Cineon",
+    function: Union[LiteralLogDecoding, str] = "Cineon",
     **kwargs: Any
 ) -> NDArrayFloat:
     """
@@ -703,23 +644,7 @@ Supported opto-electrical transfer functions (OETFs / OECFs).
 
 def oetf(
     value: ArrayLike,
-    function: Union[
-        Literal[
-            "ARIB STD-B67",
-            "Blackmagic Film Generation 5",
-            "DaVinci Intermediate",
-            "ITU-R BT.2020",
-            "ITU-R BT.2100 HLG",
-            "ITU-R BT.2100 PQ",
-            "ITU-R BT.601",
-            "ITU-R BT.709",
-            "ITU-T H.273 Log",
-            "ITU-T H.273 Log Sqrt",
-            "ITU-T H.273 IEC 61966-2",
-            "SMPTE 240M",
-        ],
-        str,
-    ] = "ITU-R BT.709",
+    function: Union[LiteralOETF, str] = "ITU-R BT.709",
     **kwargs: Any
 ) -> NDArrayFloat:
     """
@@ -794,22 +719,7 @@ Supported inverse opto-electrical transfer functions (OETFs / OECFs).
 
 def oetf_inverse(
     value: ArrayLike,
-    function: Union[
-        Literal[
-            "ARIB STD-B67",
-            "Blackmagic Film Generation 5",
-            "DaVinci Intermediate",
-            "ITU-R BT.2020",
-            "ITU-R BT.2100 HLG",
-            "ITU-R BT.2100 PQ",
-            "ITU-R BT.601",
-            "ITU-R BT.709",
-            "ITU-T H.273 Log",
-            "ITU-T H.273 Log Sqrt",
-            "ITU-T H.273 IEC 61966-2",
-        ],
-        str,
-    ] = "ITU-R BT.709",
+    function: Union[LiteralOETFInverse, str] = "ITU-R BT.709",
     **kwargs: Any
 ) -> NDArrayFloat:
     """
@@ -884,20 +794,7 @@ Supported electro-optical transfer functions (EOTFs / EOCFs).
 
 def eotf(
     value: Union[ArrayLike, ArrayLike],
-    function: Union[
-        Literal[
-            "DCDM",
-            "DICOM GSDF",
-            "ITU-R BT.1886",
-            "ITU-R BT.2100 HLG",
-            "ITU-R BT.2100 PQ",
-            "ITU-T H.273 ST.428-1",
-            "SMPTE 240M",
-            "ST 2084",
-            "sRGB",
-        ],
-        str,
-    ] = "ITU-R BT.1886",
+    function: Union[LiteralEOTF, str] = "ITU-R BT.1886",
     **kwargs: Any
 ) -> NDArrayFloat:
     """
@@ -968,19 +865,7 @@ Supported inverse electro-optical transfer functions (EOTFs / EOCFs).
 
 def eotf_inverse(
     value: ArrayLike,
-    function: Union[
-        Literal[
-            "DCDM",
-            "DICOM GSDF",
-            "ITU-R BT.1886",
-            "ITU-R BT.2100 HLG",
-            "ITU-R BT.2100 PQ",
-            "ITU-T H.273 ST.428-1",
-            "ST 2084",
-            "sRGB",
-        ],
-        str,
-    ] = "ITU-R BT.1886",
+    function: Union[LiteralEOTFInverse, str] = "ITU-R BT.1886",
     **kwargs
 ) -> Union[NDArrayFloat, NDArrayInt]:
     """
@@ -1079,60 +964,7 @@ For *ITU-R BT.2100*, only the inverse electro-optical transfer functions
 
 def cctf_encoding(
     value: ArrayLike,
-    function: Union[
-        Literal[
-            "ACEScc",
-            "ACEScct",
-            "ACESproxy",
-            "ARRI LogC3",
-            "ARRI LogC4",
-            "ARIB STD-B67",
-            "Blackmagic Film Generation 5",
-            "Canon Log 2",
-            "Canon Log 3",
-            "Canon Log",
-            "Cineon",
-            "D-Log",
-            "DCDM",
-            "DICOM GSDF",
-            "DaVinci Intermediate",
-            "ERIMM RGB",
-            "F-Log",
-            "F-Log2",
-            "Filmic Pro 6",
-            "Gamma 2.2",
-            "Gamma 2.4",
-            "Gamma 2.6",
-            "ITU-R BT.1886",
-            "ITU-R BT.2020",
-            "ITU-R BT.2100 HLG",
-            "ITU-R BT.2100 PQ",
-            "ITU-R BT.601",
-            "ITU-R BT.709",
-            "Log2",
-            "Log3G10",
-            "Log3G12",
-            "N-Log",
-            "PLog",
-            "Panalog",
-            "ProPhoto RGB",
-            "Protune",
-            "REDLog",
-            "REDLogFilm",
-            "RIMM RGB",
-            "ROMM RGB",
-            "S-Log",
-            "S-Log2",
-            "S-Log3",
-            "SMPTE 240M",
-            "ST 2084",
-            "T-Log",
-            "V-Log",
-            "ViperLog",
-            "sRGB",
-        ],
-        str,
-    ] = "sRGB",
+    function: Union[LiteralCCTFEncoding, str] = "sRGB",
     **kwargs: Any
 ) -> Union[NDArrayFloat, NDArrayInt]:
     """
@@ -1236,60 +1068,7 @@ Notes
 
 def cctf_decoding(
     value: Union[ArrayLike, ArrayLike],
-    function: Union[
-        Literal[
-            "ACEScc",
-            "ACEScct",
-            "ACESproxy",
-            "ARRI LogC3",
-            "ARRI LogC4",
-            "ARIB STD-B67",
-            "Blackmagic Film Generation 5",
-            "Canon Log 2",
-            "Canon Log 3",
-            "Canon Log",
-            "Cineon",
-            "D-Log",
-            "DCDM",
-            "DICOM GSDF",
-            "DaVinci Intermediate",
-            "ERIMM RGB",
-            "F-Log",
-            "F-Log2",
-            "Filmic Pro 6",
-            "Gamma 2.2",
-            "Gamma 2.4",
-            "Gamma 2.6",
-            "ITU-R BT.1886",
-            "ITU-R BT.2020",
-            "ITU-R BT.2100 HLG",
-            "ITU-R BT.2100 PQ",
-            "ITU-R BT.601",
-            "ITU-R BT.709",
-            "Log2",
-            "Log3G10",
-            "Log3G12",
-            "N-Log",
-            "PLog",
-            "Panalog",
-            "ProPhoto RGB",
-            "Protune",
-            "REDLog",
-            "REDLogFilm",
-            "RIMM RGB",
-            "ROMM RGB",
-            "S-Log",
-            "S-Log2",
-            "S-Log3",
-            "SMPTE 240M",
-            "ST 2084",
-            "T-Log",
-            "V-Log",
-            "ViperLog",
-            "sRGB",
-        ],
-        str,
-    ] = "sRGB",
+    function: Union[LiteralCCTFDecoding, str] = "sRGB",
     **kwargs: Any
 ) -> NDArrayFloat:
     """
@@ -1377,9 +1156,7 @@ Supported opto-optical transfer functions (OOTFs / OOCFs).
 
 def ootf(
     value: ArrayLike,
-    function: Union[
-        Literal["ITU-R BT.2100 HLG", "ITU-R BT.2100 PQ"], str
-    ] = "ITU-R BT.2100 PQ",
+    function: Union[LiteralOOTF, str] = "ITU-R BT.2100 PQ",
     **kwargs: Any
 ) -> NDArrayFloat:
     """
@@ -1437,9 +1214,7 @@ Supported inverse opto-optical transfer functions (OOTFs / OOCFs).
 
 def ootf_inverse(
     value: ArrayLike,
-    function: Union[
-        Literal["ITU-R BT.2100 HLG", "ITU-R BT.2100 PQ"], str
-    ] = "ITU-R BT.2100 PQ",
+    function: Union[LiteralOOTFInverse, str] = "ITU-R BT.2100 PQ",
     **kwargs: Any
 ) -> NDArrayFloat:
     """

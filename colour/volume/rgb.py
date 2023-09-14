@@ -22,7 +22,7 @@ from colour.constants import DEFAULT_INT_DTYPE
 from colour.hints import (
     ArrayLike,
     Callable,
-    Literal,
+    LiteralChromaticAdaptationTransform,
     NDArrayFloat,
 )
 from colour.models import (
@@ -78,20 +78,7 @@ def sample_RGB_colourspace_volume_MonteCarlo(
     illuminant_Lab: ArrayLike = CCS_ILLUMINANTS[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-    chromatic_adaptation_transform: Literal[
-        "Bianco 2010",
-        "Bianco PC 2010",
-        "Bradford",
-        "CAT02 Brill 2008",
-        "CAT02",
-        "CAT16",
-        "CMCCAT2000",
-        "CMCCAT97",
-        "Fairchild",
-        "Sharp",
-        "Von Kries",
-        "XYZ Scaling",
-    ]
+    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
     | str
     | None = "CAT02",
     random_generator: Callable = random_triplet_generator,
@@ -219,20 +206,7 @@ def RGB_colourspace_volume_MonteCarlo(
     illuminant_Lab: ArrayLike = CCS_ILLUMINANTS[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-    chromatic_adaptation_transform: Literal[
-        "Bianco 2010",
-        "Bianco PC 2010",
-        "Bradford",
-        "CAT02 Brill 2008",
-        "CAT02",
-        "CAT16",
-        "CMCCAT2000",
-        "CMCCAT97",
-        "Fairchild",
-        "Sharp",
-        "Von Kries",
-        "XYZ Scaling",
-    ]
+    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
     | str
     | None = "CAT02",
     random_generator: Callable = random_triplet_generator,
