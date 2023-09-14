@@ -54,6 +54,8 @@ from colour.hints import (
     Dict,
     List,
     Literal,
+    LiteralChromaticAdaptationTransform,
+    LiteralRGBColourspace,
     Mapping,
     NDArrayFloat,
     Sequence,
@@ -341,20 +343,7 @@ def override_style(**kwargs: Any) -> Callable:
 def XYZ_to_plotting_colourspace(
     XYZ: ArrayLike,
     illuminant: ArrayLike = RGB_COLOURSPACES["sRGB"].whitepoint,
-    chromatic_adaptation_transform: Literal[
-        "Bianco 2010",
-        "Bianco PC 2010",
-        "Bradford",
-        "CAT02 Brill 2008",
-        "CAT02",
-        "CAT16",
-        "CMCCAT2000",
-        "CMCCAT97",
-        "Fairchild",
-        "Sharp",
-        "Von Kries",
-        "XYZ Scaling",
-    ]
+    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
     | str
     | None = "CAT02",
     apply_cctf_encoding: bool = True,
@@ -934,7 +923,10 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
 
 
 def filter_RGB_colourspaces(
-    filterers: RGB_Colourspace | str | Sequence[RGB_Colourspace | str],
+    filterers: RGB_Colourspace
+    | LiteralRGBColourspace
+    | str
+    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str],
     allow_non_siblings: bool = True,
 ) -> Dict[str, RGB_Colourspace]:
     """

@@ -28,7 +28,12 @@ from __future__ import annotations
 import numpy as np
 
 from colour.adaptation import chromatic_adaptation_VonKries
-from colour.hints import ArrayLike, Literal, NDArrayFloat, Tuple
+from colour.hints import (
+    ArrayLike,
+    LiteralChromaticAdaptationTransform,
+    NDArrayFloat,
+    Tuple,
+)
 from colour.models import XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ
 from colour.utilities import as_float, as_float_array, ones, tsplit
 
@@ -129,20 +134,7 @@ def chromatically_adapted_primaries(
     primaries: ArrayLike,
     whitepoint_t: ArrayLike,
     whitepoint_r: ArrayLike,
-    chromatic_adaptation_transform: Literal[
-        "Bianco 2010",
-        "Bianco PC 2010",
-        "Bradford",
-        "CAT02 Brill 2008",
-        "CAT02",
-        "CAT16",
-        "CMCCAT2000",
-        "CMCCAT97",
-        "Fairchild",
-        "Sharp",
-        "Von Kries",
-        "XYZ Scaling",
-    ]
+    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
     | str = "CAT02",
 ) -> NDArrayFloat:
     """

@@ -27,6 +27,8 @@ from colour.hints import (
     ArrayLike,
     List,
     Literal,
+    LiteralColourspaceModel,
+    LiteralRGBColourspace,
     NDArrayFloat,
     Sequence,
     Tuple,
@@ -418,34 +420,11 @@ def RGB_identity_cube(
 
 @override_style()
 def plot_RGB_colourspaces_gamuts(
-    colourspaces: RGB_Colourspace | str | Sequence[RGB_Colourspace | str],
-    model: Literal[
-        "CAM02LCD",
-        "CAM02SCD",
-        "CAM02UCS",
-        "CAM16LCD",
-        "CAM16SCD",
-        "CAM16UCS",
-        "CIE XYZ",
-        "CIE xyY",
-        "CIE Lab",
-        "CIE Luv",
-        "CIE UCS",
-        "CIE UVW",
-        "DIN99",
-        "Hunter Lab",
-        "Hunter Rdab",
-        "ICaCb",
-        "ICtCp",
-        "IPT",
-        "IgPgTg",
-        "Jzazbz",
-        "OSA UCS",
-        "Oklab",
-        "hdr-CIELAB",
-        "hdr-IPT",
-    ]
-    | str = "CIE xyY",
+    colourspaces: RGB_Colourspace
+    | LiteralRGBColourspace
+    | str
+    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str],
+    model: LiteralColourspaceModel | str = "CIE xyY",
     segments: int = 8,
     show_grid: bool = True,
     grid_segments: int = 10,
@@ -694,37 +673,11 @@ def plot_RGB_scatter(
     RGB: ArrayLike,
     colourspace: RGB_Colourspace
     | str
-    | Sequence[RGB_Colourspace | str] = "sRGB",
-    model: Literal[
-        "CAM02LCD",
-        "CAM02SCD",
-        "CAM02UCS",
-        "CAM16LCD",
-        "CAM16SCD",
-        "CAM16UCS",
-        "CIE XYZ",
-        "CIE xyY",
-        "CIE Lab",
-        "CIE Luv",
-        "CIE UCS",
-        "CIE UVW",
-        "DIN99",
-        "Hunter Lab",
-        "Hunter Rdab",
-        "ICaCb",
-        "ICtCp",
-        "IPT",
-        "IgPgTg",
-        "Jzazbz",
-        "OSA UCS",
-        "Oklab",
-        "hdr-CIELAB",
-        "hdr-IPT",
-    ]
-    | str = "CIE xyY",
+    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str] = "sRGB",
+    model: LiteralColourspaceModel | str = "CIE xyY",
     colourspaces: RGB_Colourspace
     | str
-    | Sequence[RGB_Colourspace | str]
+    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str]
     | None = None,
     segments: int = 8,
     show_grid: bool = True,
