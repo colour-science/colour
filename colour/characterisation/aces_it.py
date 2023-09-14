@@ -1104,7 +1104,7 @@ def matrix_idt(
     array([ 2.3414154...,  1.        ,  1.5163375...])
 
     The *RAW to ACES* v1 matrix for the same camera and optimized by
-    `Ceres Solver <http://ceres-solver.org/>`__ is as follows::
+    `Ceres Solver <http://ceres-solver.org>`__ is as follows::
 
         0.864994 -0.026302 0.161308
         0.056527 1.122997 -0.179524

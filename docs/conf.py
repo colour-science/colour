@@ -6,9 +6,9 @@ Colour - Documentation Configuration
 import os
 import re
 import setuptools.archive_util
+import sys
 import urllib.parse
 import urllib.request
-import sys
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).parent.parent))

@@ -6,7 +6,7 @@ Tutorial
     An interactive version of the tutorial is available via
     `Google Colab <https://colab.research.google.com/notebook#fileId=1Im9J7or9qyClQCv5sPHmKdyiQbG4898K&offline=true&sandboxMode=true>`__.
 
-`Colour <https://github.com/colour-science/Colour/>`__ spreads over
+`Colour <https://github.com/colour-science/Colour>`__ spreads over
 various domains of Colour Science, from colour models to optical
 phenomena, this tutorial does not give a complete overview of the
 API but is a good introduction to the main concepts.

@@ -13,6 +13,7 @@ Annotation Type Hints
     ModuleType
     Any
     Callable
+    ClassVar
     Dict
     Generator
     Iterable

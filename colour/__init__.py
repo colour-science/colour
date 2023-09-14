@@ -3,14 +3,14 @@ Colour
 ======
 
 `Colour <https://github.com/colour-science/colour>`__ is an open-source
-`Python <https://www.python.org/>`__ package providing a comprehensive number
+`Python <https://www.python.org>`__ package providing a comprehensive number
 of algorithms and datasets for colour science.
 
 It is freely available under the
 `BSD-3-Clause <https://opensource.org/licenses/BSD-3-Clause>`__ terms.
 
 `Colour <https://github.com/colour-science/colour>`__ is an affiliated project
-of `NumFOCUS <https://numfocus.org/>`__, a 501(c)(3) nonprofit in the United
+of `NumFOCUS <https://numfocus.org>`__, a 501(c)(3) nonprofit in the United
 States.
 
 Sub-packages

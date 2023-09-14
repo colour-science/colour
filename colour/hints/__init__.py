@@ -16,6 +16,7 @@ from types import ModuleType
 from typing import (  # noqa: UP035
     Any,
     Callable,
+    ClassVar,
     Dict,
     List,
     Literal,
@@ -50,6 +51,7 @@ __all__ = [
     "ModuleType",
     "Any",
     "Callable",
+    "ClassVar",
     "Dict",
     "Generator",
     "Iterable",

@@ -28,13 +28,13 @@
 .. end-badges
 
 `Colour <https://github.com/colour-science/colour>`__ is an open-source
-`Python <https://www.python.org/>`__ package providing a comprehensive number
+`Python <https://www.python.org>`__ package providing a comprehensive number
 of algorithms and datasets for colour science.
 
 It is freely available under the
 `BSD-3-Clause <https://opensource.org/licenses/BSD-3-Clause>`__ terms.
 
-**Colour** is an affiliated project of `NumFOCUS <https://numfocus.org/>`__, a
+**Colour** is an affiliated project of `NumFOCUS <https://numfocus.org>`__, a
 501(c)(3) nonprofit in the United States.
 
 .. contents:: **Table of Contents**
@@ -1688,7 +1688,7 @@ Installation
 ~~~~~~~~~~~~
 
 **Colour** and its primary dependencies can be easily installed from the
-`Python Package Index <https://pypi.org/project/colour-science/>`__
+`Python Package Index <https://pypi.org/project/colour-science>`__
 by issuing this command in a shell:
 
 .. code-block:: bash
@@ -1696,10 +1696,10 @@ by issuing this command in a shell:
     $ pip install --user colour-science
 
 The detailed installation procedure for the secondary dependencies is
-described in the `Installation Guide <https://www.colour-science.org/installation-guide/>`__.
+described in the `Installation Guide <https://www.colour-science.org/installation-guide>`__.
 
 **Colour** is also available for `Anaconda <https://www.continuum.io/downloads>`__
-from *Continuum Analytics* via `conda-forge <https://conda-forge.org/>`__:
+from *Continuum Analytics* via `conda-forge <https://conda-forge.org>`__:
 
 .. code-block:: bash
 
@@ -1723,7 +1723,7 @@ Contributing
 ~~~~~~~~~~~~
 
 If you would like to contribute to **Colour**, please refer to the following
-`Contributing <https://www.colour-science.org/contributing/>`__ guide.
+`Contributing <https://www.colour-science.org/contributing>`__ guide.
 
 Changes
 ~~~~~~~
@@ -1733,7 +1733,7 @@ The changes are viewable on the `Releases <https://github.com/colour-science/col
 Bibliography
 ~~~~~~~~~~~~
 
-The bibliography is available on the `Bibliography <https://www.colour-science.org/bibliography/>`__ page.
+The bibliography is available on the `Bibliography <https://www.colour-science.org/bibliography>`__ page.
 
 It is also viewable directly from the repository in
 `BibTeX <https://github.com/colour-science/colour/blob/develop/BIBLIOGRAPHY.bib>`__
@@ -1756,12 +1756,12 @@ Software
 **Python**
 
 - `ColorPy <http://markkness.net/colorpy/ColorPy.html>`__ by Kness, M.
-- `Colorspacious <https://colorspacious.readthedocs.io/>`__ by Smith, N. J., et al.
-- `python-colormath <https://python-colormath.readthedocs.io/>`__ by Taylor, G., et al.
+- `Colorspacious <https://colorspacious.readthedocs.io>`__ by Smith, N. J., et al.
+- `python-colormath <https://python-colormath.readthedocs.io>`__ by Taylor, G., et al.
 
 **Go**
 
-- `go-colorful <https://github.com/lucasb-eyer/go-colorful/>`__  by Beyer, L., et al.
+- `go-colorful <https://github.com/lucasb-eyer/go-colorful>`__  by Beyer, L., et al.
 
 **.NET**
 
@@ -1774,14 +1774,14 @@ Software
 **Matlab & Octave**
 
 - `COLORLAB <https://www.uv.es/vista/vistavalencia/software/colorlab.html>`__ by Malo, J., et al.
-- `Psychtoolbox <http://psychtoolbox.org/>`__ by Brainard, D., et al.
+- `Psychtoolbox <http://psychtoolbox.org>`__ by Brainard, D., et al.
 - `The Munsell and Kubelka-Munk Toolbox <http://www.munsellcolourscienceforpainters.com/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html>`__ by Centore, P.
 
 Code of Conduct
 ---------------
 
 The *Code of Conduct*, adapted from the `Contributor Covenant 1.4 <https://www.contributor-covenant.org/version/1/4/code-of-conduct.html>`__,
-is available on the `Code of Conduct <https://www.colour-science.org/code-of-conduct/>`__ page.
+is available on the `Code of Conduct <https://www.colour-science.org/code-of-conduct>`__ page.
 
 .. begin-trim-long-description
 

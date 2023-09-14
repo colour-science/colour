@@ -3,13 +3,13 @@
 |
 
 `Colour <https://github.com/colour-science/colour>`__ is an open-source
-`Python <https://www.python.org/>`__ package providing a comprehensive number
+`Python <https://www.python.org>`__ package providing a comprehensive number
 of algorithms and datasets for colour science.
 
 It is freely available under the
 `BSD-3-Clause <https://opensource.org/licenses/BSD-3-Clause>`__ terms.
 
-**Colour** is an affiliated project of `NumFOCUS <https://numfocus.org/>`__, a
+**Colour** is an affiliated project of `NumFOCUS <https://numfocus.org>`__, a
 501(c)(3) nonprofit in the United States.
 
 .. sectnum::
@@ -1487,12 +1487,12 @@ Software
 **Python**
 
 - `ColorPy <http://markkness.net/colorpy/ColorPy.html>`__ by Kness, M.
-- `Colorspacious <https://colorspacious.readthedocs.io/>`__ by Smith, N. J., et al.
-- `python-colormath <https://python-colormath.readthedocs.io/>`__ by Taylor, G., et al.
+- `Colorspacious <https://colorspacious.readthedocs.io>`__ by Smith, N. J., et al.
+- `python-colormath <https://python-colormath.readthedocs.io>`__ by Taylor, G., et al.
 
 **Go**
 
-- `go-colorful <https://github.com/lucasb-eyer/go-colorful/>`__  by Beyer, L., et al.
+- `go-colorful <https://github.com/lucasb-eyer/go-colorful>`__  by Beyer, L., et al.
 
 **.NET**
 
@@ -1505,14 +1505,14 @@ Software
 **Matlab & Octave**
 
 - `COLORLAB <https://www.uv.es/vista/vistavalencia/software/colorlab.html>`__ by Malo, J., et al.
-- `Psychtoolbox <http://psychtoolbox.org/>`__ by Brainard, D., et al.
+- `Psychtoolbox <http://psychtoolbox.org>`__ by Brainard, D., et al.
 - `The Munsell and Kubelka-Munk Toolbox <http://www.munsellcolourscienceforpainters.com/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html>`__ by Centore, P.
 
 Code of Conduct
 ---------------
 
 The *Code of Conduct*, adapted from the `Contributor Covenant 1.4 <https://www.contributor-covenant.org/version/1/4/code-of-conduct.html>`__,
-is available on the `Code of Conduct <https://www.colour-science.org/code-of-conduct/>`__ page.
+is available on the `Code of Conduct <https://www.colour-science.org/code-of-conduct>`__ page.
 
 Contact & Social
 ----------------
