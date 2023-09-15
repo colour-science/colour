@@ -1,12 +1,4 @@
 repos:
-- repo: local
-  hooks:
-      - id: literalise
-        name: literalise
-        entry: poetry run python utilities/literalise.py
-        always_run: true
-        language: system
-        types: [ python ]
 -   repo: https://github.com/ikamensh/flynt/
     rev: '1.0.1'
     hooks:
