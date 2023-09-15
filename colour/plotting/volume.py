@@ -805,7 +805,7 @@ def plot_RGB_scatter(
         points[..., 0],
         points[..., 1],
         points[..., 2],
-        color=np.reshape(RGB, (-1, 3)),
+        c=np.reshape(RGB, (-1, 3)),
         s=points_size,
         zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_scatter,
     )
