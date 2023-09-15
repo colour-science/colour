@@ -37,6 +37,7 @@ __all__ = [
     "PYPI_PACKAGE_NAME",
     "PYPI_ARCHIVE_NAME",
     "BIBLIOGRAPHY_NAME",
+    "literalise",
     "clean",
     "formatting",
     "quality",
@@ -64,6 +65,24 @@ PYPI_PACKAGE_NAME: str = "colour-science"
 PYPI_ARCHIVE_NAME: str = PYPI_PACKAGE_NAME.replace("-", "_")
 
 BIBLIOGRAPHY_NAME: str = "BIBLIOGRAPHY.bib"
+
+
+@task
+def literalise(ctx: Context):
+    """
+    Write various literals in the `colour.hints` module.
+
+    Parameters
+    ----------
+    ctx
+        Context.
+    """
+
+    message_box("Literalising...")
+    with ctx.cd("utilities"):
+        ctx.run("./literalise.py")
+
+    ctx.run("pre-commit run --files colour/hints/__init__.py", warn=True)
 
 
 @task
@@ -347,7 +366,7 @@ def requirements(ctx: Context):
     )
 
 
-@task(clean, preflight, docs, todo, requirements)
+@task(literalise, clean, preflight, docs, todo, requirements)
 def build(ctx: Context):
     """
     Build the project and runs dependency tasks, i.e. *docs*, *todo*, and

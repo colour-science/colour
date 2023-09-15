@@ -11,7 +11,6 @@ import re
 from textwrap import dedent
 
 import sys
-import subprocess
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -74,8 +73,6 @@ def literalise(path_module_hints: str = PATH_MODULE_HINTS):
 
     with open(path_module_hints, "w") as file_module_hints:
         file_module_hints.write(content)
-
-    subprocess.run(["black", PATH_MODULE_HINTS])  # noqa: PLW1510, S603, S607
 
 
 if __name__ == "__main__":
