@@ -11,7 +11,6 @@ import fnmatch
 import os
 import re
 import uuid
-from textwrap import dedent
 
 import colour
 from colour.utilities import message_box
@@ -38,7 +37,6 @@ __all__ = [
     "PYPI_PACKAGE_NAME",
     "PYPI_ARCHIVE_NAME",
     "BIBLIOGRAPHY_NAME",
-    "literalise",
     "clean",
     "formatting",
     "quality",
@@ -66,56 +64,6 @@ PYPI_PACKAGE_NAME: str = "colour-science"
 PYPI_ARCHIVE_NAME: str = PYPI_PACKAGE_NAME.replace("-", "_")
 
 BIBLIOGRAPHY_NAME: str = "BIBLIOGRAPHY.bib"
-
-
-@task
-def literalise(ctx: Context):
-    """
-    Write various literals in the `colour.hints` module.
-
-    Parameters
-    ----------
-    ctx
-        Context.
-    """
-
-    path_hints = os.path.join(
-        os.path.dirname(__file__), "colour", "hints", "__init__.py"
-    )
-
-    with open(path_hints) as file_hints:
-        content = file_hints.read()
-
-    content = re.sub(
-        "# LITERALISE::BEGIN.*?# LITERALISE::END",
-        dedent(
-            f"""
-            # LITERALISE::BEGIN
-            LiteralChromaticAdaptationTransform = \
-                Literal{sorted(colour.CHROMATIC_ADAPTATION_TRANSFORMS)}
-            LiteralColourspaceModel = Literal{sorted(colour.COLOURSPACE_MODELS)}
-            LiteralRGBColourspace = Literal{sorted(colour.RGB_COLOURSPACES.keys())}
-            LiteralLogEncoding = Literal{sorted(colour.LOG_ENCODINGS)}
-            LiteralLogDecoding = Literal{sorted(colour.LOG_DECODINGS)}
-            LiteralOETF = Literal{sorted(colour.OETFS)}
-            LiteralOETFInverse = Literal{sorted(colour.OETF_INVERSES)}
-            LiteralEOTF = Literal{sorted(colour.EOTFS)}
-            LiteralEOTFInverse = Literal{sorted(colour.EOTF_INVERSES)}
-            LiteralCCTFEncoding = Literal{sorted(colour.CCTF_ENCODINGS)}
-            LiteralCCTFDecoding = Literal{sorted(colour.CCTF_DECODINGS)}
-            LiteralOOTF = Literal{sorted(colour.OOTFS)}
-            LiteralOOTFInverse = Literal{sorted(colour.OOTF_INVERSES)}
-            # LITERALISE::END
-            """
-        ).strip(),
-        content,
-        flags=re.DOTALL,
-    )
-
-    with open(path_hints, "w") as file_hints:
-        file_hints.write(content)
-
-    ctx.run(f"pre-commit run --files {path_hints}")
 
 
 @task
@@ -399,7 +347,7 @@ def requirements(ctx: Context):
     )
 
 
-@task(literalise, clean, preflight, docs, todo, requirements)
+@task(clean, preflight, docs, todo, requirements)
 def build(ctx: Context):
     """
     Build the project and runs dependency tasks, i.e. *docs*, *todo*, and

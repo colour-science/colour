@@ -63,6 +63,8 @@ jobs:
         ln -s /usr/local/Cellar/openimageio/*/lib/python*/site-packages/OpenImageIO/OpenImageIO*.so /Library/Frameworks/Python.framework/Versions/${{ matrix.python-version }}/lib/python${{ matrix.python-version }}/site-packages/OpenImageIO.so
       shell: bash
     - name: Pre-Commit (All Files)
+      # "poetry" is not available on Windows from within "pre-commit".
+      if: matrix.os == 'macOS-latest' || matrix.os == 'ubuntu-22.04'
       run: |
         poetry run pre-commit run --all-files
       shell: bash
