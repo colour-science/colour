@@ -85,7 +85,7 @@ twine = "*"
 biblib-simple = "*"
 pydata-sphinx-theme = "*"
 restructuredtext-lint = "*"
-sphinx = ">= 4, < 5"
+sphinx = "*"
 sphinxcontrib-bibtex = "*"
 
 [tool.black]
