@@ -1,4 +1,10 @@
-..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_001.png
+.. raw:: html
+
+    <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_Dark_001.svg">
+        <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_001.svg">
+        <img style="background:rgb(0, 0, 0, 0) !important;" src="https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_001.svg">
+    </picture>
 
 |
 
