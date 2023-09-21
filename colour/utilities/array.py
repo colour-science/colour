@@ -2346,7 +2346,7 @@ def row_as_diagonal(a: ArrayLike) -> NDArray:
 
     d = np.expand_dims(d, -2)
 
-    return np.eye(d.shape[-1]) * d  # pyright: ignore
+    return np.eye(d.shape[-1]) * d
 
 
 def orient(

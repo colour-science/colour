@@ -29,6 +29,8 @@ from __future__ import annotations
 import matplotlib.pyplot as plt
 import numpy as np
 from functools import reduce
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 from matplotlib.patches import Polygon
 
 from colour.algebra import (
@@ -117,7 +119,7 @@ def plot_single_sd(
     modulate_colours_with_sd_amplitude: bool = False,
     equalize_sd_amplitude: bool = False,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given spectral distribution.
 
@@ -272,7 +274,7 @@ def plot_multi_sds(
     | MultiSpectralDistributions,
     plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given spectral distributions.
 
@@ -420,7 +422,7 @@ def plot_multi_sds(
         min(x_limit_min),
         max(x_limit_max),
         min(y_limit_min),
-        max(y_limit_max) * 1.05,  # pyright: ignore
+        max(y_limit_max) * 1.05,
     )
     settings: Dict[str, Any] = {
         "axes": axes,
@@ -442,7 +444,7 @@ def plot_single_cmfs(
         MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given colour matching functions.
 
@@ -494,7 +496,7 @@ def plot_multi_cmfs(
     | str
     | Sequence[MultiSpectralDistributions | str],
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given colour matching functions.
 
@@ -597,7 +599,7 @@ def plot_single_illuminant_sd(
         MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given single illuminant spectral distribution.
 
@@ -661,7 +663,7 @@ def plot_multi_illuminant_sds(
     | str
     | Sequence[SpectralDistribution | str],
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given illuminants spectral distributions.
 
@@ -735,7 +737,7 @@ def plot_visible_spectrum(
     ] = "CIE 1931 2 Degree Standard Observer",
     out_of_gamut_clipping: bool = True,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the visible colours spectrum using given standard observer *CIE XYZ*
     colour matching functions.
@@ -812,7 +814,7 @@ def plot_visible_spectrum(
 @override_style()
 def plot_single_lightness_function(
     function: Callable | str, **kwargs: Any
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given *Lightness* function.
 
@@ -855,7 +857,7 @@ def plot_single_lightness_function(
 def plot_multi_lightness_functions(
     functions: Callable | str | Sequence[Callable | str],
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given *Lightness* functions.
 
@@ -908,7 +910,7 @@ def plot_multi_lightness_functions(
 @override_style()
 def plot_single_luminance_function(
     function: Callable | str, **kwargs: Any
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given *Luminance* function.
 
@@ -950,7 +952,7 @@ def plot_single_luminance_function(
 def plot_multi_luminance_functions(
     functions: Callable | str | Sequence[Callable | str],
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given *Luminance* functions.
 
@@ -1010,7 +1012,7 @@ def plot_blackbody_spectral_radiance(
     ] = "CIE 1931 2 Degree Standard Observer",
     blackbody: str = "VY Canis Major",
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given blackbody spectral radiance.
 
@@ -1111,7 +1113,7 @@ def plot_blackbody_colours(
         MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot blackbody colours.
 

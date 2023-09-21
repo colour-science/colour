@@ -2,7 +2,8 @@
 """Define the unit tests for the :mod:`colour.plotting.colorimetry` module."""
 
 import unittest
-from matplotlib.pyplot import Axes, Figure
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 
 from colour.colorimetry import SpectralDistribution
 from colour.plotting import (

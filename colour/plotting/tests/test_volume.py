@@ -3,7 +3,8 @@
 
 import numpy as np
 import unittest
-from matplotlib.pyplot import Axes, Figure
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 
 from colour.plotting import plot_RGB_colourspaces_gamuts, plot_RGB_scatter
 from colour.plotting.volume import nadir_grid, RGB_identity_cube

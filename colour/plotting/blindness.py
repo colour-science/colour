@@ -9,7 +9,8 @@ Defines the colour blindness plotting objects:
 
 from __future__ import annotations
 
-import matplotlib.pyplot as plt
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 
 from colour.algebra import vector_dot
 from colour.blindness import matrix_cvd_Machado2009
@@ -43,7 +44,7 @@ def plot_cvd_simulation_Machado2009(
     severity: float = 0.5,
     M_a: ArrayLike | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Perform colour vision deficiency simulation on given *RGB* colourspace
     array using *Machado et al. (2009)* model.

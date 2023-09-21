@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.figure import Figure
 from mpl_toolkits.mplot3d.axes3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
@@ -438,7 +439,7 @@ def plot_RGB_colourspaces_gamuts(
     chromatically_adapt: bool = False,
     convert_kwargs: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, Axes3D]:
+) -> Tuple[Figure, Axes3D]:
     """
     Plot given *RGB* colourspaces gamuts in given reference colourspace.
 
@@ -540,7 +541,7 @@ def plot_RGB_colourspaces_gamuts(
     settings.update(kwargs)
 
     figure = plt.figure()
-    axes = figure.add_subplot(111, projection="3d")
+    axes = cast(Axes3D, figure.add_subplot(111, projection="3d"))
 
     points = zeros((4, 3))
     if show_spectral_locus:
@@ -655,8 +656,8 @@ def plot_RGB_colourspaces_gamuts(
         RGB_e = np.vstack([RGB_ge, RGB_e])
 
     collection = Poly3DCollection(quads)
-    collection.set_facecolors(RGB_f)
-    collection.set_edgecolors(RGB_e)
+    collection.set_facecolors(RGB_f)  # pyright: ignore
+    collection.set_edgecolors(RGB_e)  # pyright: ignore
 
     axes.add_collection3d(collection)
 
@@ -665,7 +666,7 @@ def plot_RGB_colourspaces_gamuts(
     )
     settings.update(kwargs)
 
-    return render(**settings)
+    return cast(Tuple[Figure, Axes3D], render(**settings))
 
 
 @override_style()
@@ -693,7 +694,7 @@ def plot_RGB_scatter(
     chromatically_adapt: bool = False,
     convert_kwargs: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, Axes3D]:
+) -> Tuple[Figure, Axes3D]:
     """
     Plot given *RGB* colourspace array in a scatter plot.
 
@@ -806,11 +807,11 @@ def plot_RGB_scatter(
         points[..., 1],
         points[..., 2],
         c=np.reshape(RGB, (-1, 3)),
-        s=points_size,
+        s=points_size,  # pyright: ignore
         zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_scatter,
     )
 
     settings.update({"axes": axes, "show": True})
     settings.update(kwargs)
 
-    return render(**settings)
+    return cast(Tuple[Figure, Axes3D], render(**settings))

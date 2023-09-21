@@ -2,7 +2,8 @@
 """Define the unit tests for the :mod:`colour.plotting.tm3018.report` module."""
 
 import unittest
-from matplotlib.pyplot import Axes, Figure
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 
 from colour.colorimetry import SDS_ILLUMINANTS
 from colour.plotting.tm3018.report import (

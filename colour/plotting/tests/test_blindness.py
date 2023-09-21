@@ -3,7 +3,8 @@
 
 import numpy as np
 import unittest
-from matplotlib.pyplot import Axes, Figure
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 
 from colour.plotting import plot_cvd_simulation_Machado2009
 

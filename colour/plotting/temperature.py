@@ -15,9 +15,10 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1976UCS`
 
 from __future__ import annotations
 
-import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.axes import Axes
 from matplotlib.collections import LineCollection
+from matplotlib.figure import Figure
 
 from colour.algebra import normalise_maximum
 from colour.colorimetry import MSDS_CMFS, CCS_ILLUMINANTS
@@ -91,7 +92,7 @@ def plot_daylight_locus(
     method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
     | str = "CIE 1931",
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the *Daylight Locus* according to given method.
 
@@ -201,7 +202,7 @@ def plot_daylight_locus(
         pl_colours = daylight_locus_colours
 
     line_collection = LineCollection(
-        np.concatenate([ij[:-1], ij[1:]], axis=1),
+        np.concatenate([ij[:-1], ij[1:]], axis=1),  # pyright: ignore
         colors=pl_colours,
         alpha=daylight_locus_opacity,
         zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
@@ -224,7 +225,7 @@ def plot_planckian_locus(
     method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
     | str = "CIE 1931",
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the *Planckian Locus* according to given method.
 
@@ -356,7 +357,7 @@ def plot_planckian_locus(
         pl_colours = planckian_locus_colours
 
     line_collection = LineCollection(
-        np.concatenate([ij[:-1], ij[1:]], axis=1),
+        np.concatenate([ij[:-1], ij[1:]], axis=1),  # pyright: ignore
         colors=pl_colours,
         alpha=planckian_locus_opacity,
         zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
@@ -387,15 +388,17 @@ def plot_planckian_locus(
         ij = uv_to_ij(CCT_to_uv(CCT_D_uv, "Robertson 1968"))
 
         line_collection = LineCollection(
-            np.concatenate([ij[:-1], ij[1:]], axis=1),
+            np.concatenate([ij[:-1], ij[1:]], axis=1),  # pyright: ignore
             colors=itl_colours,
             alpha=planckian_locus_opacity,
             zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
         )
         axes.add_collection(line_collection)
+
+        xy = cast(tuple[float, float], (ij[-1, :, 0], ij[-1, :, 1]))
         axes.annotate(
             f'{as_int_scalar(label)}{"M" if planckian_locus_use_mireds else "K"}',
-            xy=(ij[-1, :, 0], ij[-1, :, 1]),
+            xy=xy,
             xytext=(0, CONSTANTS_COLOUR_STYLE.geometry.long / 2),
             textcoords="offset points",
             size="x-small",
@@ -417,7 +420,7 @@ def plot_planckian_locus_in_chromaticity_diagram(
     annotate_kwargs: dict | List[dict] | None = None,
     plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the *Planckian Locus* and given illuminants in the
     *Chromaticity Diagram* according to given method.
@@ -592,7 +595,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
     for i, (illuminant, xy) in enumerate(illuminants_filtered.items()):
         plot_settings = plot_settings_collection[i]
 
-        ij = xy_to_ij(xy)
+        ij = cast(tuple[float, float], xy_to_ij(xy))
 
         axes.plot(ij[0], ij[1], **plot_settings)
 
@@ -637,7 +640,7 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
     annotate_kwargs: dict | List[dict] | None = None,
     plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the *Planckian Locus* and given illuminants in
     *CIE 1931 Chromaticity Diagram*.
@@ -716,7 +719,7 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
     annotate_kwargs: dict | List[dict] | None = None,
     plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the *Planckian Locus* and given illuminants in
     *CIE 1960 UCS Chromaticity Diagram*.
@@ -797,7 +800,7 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1976UCS(
     annotate_kwargs: dict | List[dict] | None = None,
     plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the *Planckian Locus* and given illuminants in
     *CIE 1976 UCS Chromaticity Diagram*.

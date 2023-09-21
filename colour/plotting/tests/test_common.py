@@ -8,7 +8,8 @@ import shutil
 import tempfile
 import unittest
 from functools import partial
-from matplotlib.pyplot import Axes, Figure
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 
 import colour
 from colour.colorimetry import SDS_ILLUMINANTS

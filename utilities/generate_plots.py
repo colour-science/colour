@@ -14,7 +14,6 @@ import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 import os  # noqa: E402
 import trimesh  # noqa: E402
-
 import colour  # noqa: E402
 from colour.characterisation import SDS_COLOURCHECKERS  # noqa: E402
 from colour.colorimetry import (  # noqa: E402
@@ -30,6 +29,7 @@ from colour.colorimetry import (  # noqa: E402
     sd_to_XYZ,
 )
 from colour.geometry import primitive_cube  # noqa: E402
+from colour.hints import cast  # noqa: E402
 from colour.io import read_image  # noqa: E402
 from colour.models import (  # noqa: E402
     RGB_COLOURSPACE_sRGB,
@@ -1222,10 +1222,9 @@ def generate_documentation_plots(output_directory: str):
     arguments["filename"] = os.path.join(
         output_directory, "Tutorial_CIE_1931_Chromaticity_Diagram.png"
     )
-    xy = XYZ_to_xy(XYZ)
+    xy = cast(tuple[float, float], XYZ_to_xy(XYZ))
     plot_chromaticity_diagram_CIE1931(standalone=False)
-    x, y = xy
-    plt.plot(x, y, "o-", color="white")
+    plt.plot(xy[0], xy[1], "o-", color="white")
     # Annotating the plot.
     plt.annotate(
         patch_sd.name.title(),

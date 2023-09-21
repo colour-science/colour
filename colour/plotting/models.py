@@ -42,9 +42,10 @@ References
 
 from __future__ import annotations
 
-import matplotlib.pyplot as plt
 import numpy as np
 import scipy.optimize
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 from matplotlib.patches import Ellipse
 from matplotlib.path import Path
 
@@ -255,7 +256,7 @@ def plot_pointer_gamut(
     method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
     | str = "CIE 1931",
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot *Pointer's Gamut* according to given method.
 
@@ -418,7 +419,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram(
     chromatically_adapt: bool = False,
     plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given *RGB* colourspaces in the *Chromaticity Diagram* according
     to given method.
@@ -657,7 +658,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
     chromatically_adapt: bool = False,
     plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given *RGB* colourspaces in the *CIE 1931 Chromaticity Diagram*.
 
@@ -752,7 +753,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
     chromatically_adapt: bool = False,
     plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given *RGB* colourspaces in the *CIE 1960 UCS Chromaticity Diagram*.
 
@@ -848,7 +849,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
     chromatically_adapt: bool = False,
     plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given *RGB* colourspaces in the *CIE 1976 UCS Chromaticity Diagram*.
 
@@ -938,7 +939,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram(
     | str = "CIE 1931",
     scatter_kwargs: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given *RGB* colourspace array in the *Chromaticity Diagram* according
     to given method.
@@ -1077,7 +1078,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
     ),
     scatter_kwargs: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given *RGB* colourspace array in the *CIE 1931 Chromaticity Diagram*.
 
@@ -1155,7 +1156,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
     ),
     scatter_kwargs: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given *RGB* colourspace array in the
     *CIE 1960 UCS Chromaticity Diagram*.
@@ -1235,7 +1236,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
     ),
     scatter_kwargs: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given *RGB* colourspace array in the
     *CIE 1976 UCS Chromaticity Diagram*.
@@ -1387,7 +1388,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram(
     chromaticity_diagram_clipping: bool = False,
     ellipse_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot *MacAdam (1942) Ellipses (Observer PGN)* in the
     *Chromaticity Diagram* according to given method.
@@ -1510,7 +1511,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931(
     chromaticity_diagram_clipping: bool = False,
     ellipse_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot *MacAdam (1942) Ellipses (Observer PGN)* in the
     *CIE 1931 Chromaticity Diagram*.
@@ -1574,7 +1575,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS(
     chromaticity_diagram_clipping: bool = False,
     ellipse_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot *MacAdam (1942) Ellipses (Observer PGN)* in the
     *CIE 1960 UCS Chromaticity Diagram*.
@@ -1639,7 +1640,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS(
     chromaticity_diagram_clipping: bool = False,
     ellipse_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot *MacAdam (1942) Ellipses (Observer PGN)* in the
     *CIE 1976 UCS Chromaticity Diagram*.
@@ -1699,7 +1700,7 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1976UCS.png
 @override_style()
 def plot_single_cctf(
     cctf: Callable | str, cctf_decoding: bool = False, **kwargs: Any
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given colourspace colour component transfer function.
 
@@ -1748,7 +1749,7 @@ def plot_multi_cctfs(
     cctfs: Callable | str | Sequence[Callable | str],
     cctf_decoding: bool = False,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given colour component transfer functions.
 
@@ -1811,7 +1812,7 @@ def plot_constant_hue_loci(
     scatter_kwargs: dict | None = None,
     convert_kwargs: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given constant hue loci colour matches data such as that from
     :cite:`Hung1995` or :cite:`Ebner1998` that are easily loaded with
