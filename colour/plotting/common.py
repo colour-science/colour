@@ -31,6 +31,8 @@ import functools
 import itertools
 import matplotlib.cm
 import matplotlib.pyplot as plt
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 import matplotlib.ticker
 from mpl_toolkits.mplot3d.axes3d import Axes3D
 import numpy as np
@@ -450,11 +452,11 @@ class KwargsArtist(TypedDict):
         Whether to create the figure with an equal aspect ratio.
     """
 
-    axes: plt.Axes
+    axes: Axes
     uniform: bool
 
 
-def artist(**kwargs: KwargsArtist | Any) -> Tuple[plt.Figure, plt.Axes]:
+def artist(**kwargs: KwargsArtist | Any) -> Tuple[Figure, Axes]:
     """
     Return the current figure and its axes or creates a new one.
 
@@ -480,7 +482,7 @@ def artist(**kwargs: KwargsArtist | Any) -> Tuple[plt.Figure, plt.Axes]:
 
         return figure, figure.gca()
     else:
-        return cast(plt.Figure, plt.gcf()), cast(plt.Axes, axes)
+        return cast(Figure, plt.gcf()), cast(Axes, axes)
 
 
 class KwargsCamera(TypedDict):
@@ -502,14 +504,14 @@ class KwargsCamera(TypedDict):
         Matplotlib axes aspect. Default is *equal*.
     """
 
-    figure: plt.Figure
-    axes: plt.Axes
+    figure: Figure
+    axes: Axes
     azimuth: float | None
     elevation: float | None
     camera_aspect: Literal["equal"] | str
 
 
-def camera(**kwargs: KwargsCamera | Any) -> Tuple[plt.Figure, Axes3D]:
+def camera(**kwargs: KwargsCamera | Any) -> Tuple[Figure, Axes3D]:
     """
     Set the camera settings.
 
@@ -525,7 +527,7 @@ def camera(**kwargs: KwargsCamera | Any) -> Tuple[plt.Figure, Axes3D]:
         Current figure and axes.
     """
 
-    figure = cast(plt.Figure, kwargs.get("figure", plt.gcf()))
+    figure = cast(Figure, kwargs.get("figure", plt.gcf()))
     axes = cast(Axes3D, kwargs.get("axes", plt.gca()))
 
     settings = Structure(
@@ -587,8 +589,8 @@ class KwargsRender(TypedDict):
         Whether to display the *Y* axis ticker. Default is *True*.
     """
 
-    figure: plt.Figure
-    axes: plt.Axes
+    figure: Figure
+    axes: Axes
     filename: str
     show: bool
     aspect: Literal["auto", "equal"] | float
@@ -606,7 +608,7 @@ class KwargsRender(TypedDict):
     y_ticker: bool
 
 
-def render(**kwargs: KwargsRender | Any) -> Tuple[plt.Figure, plt.Axes]:
+def render(**kwargs: KwargsRender | Any) -> Tuple[Figure, Axes]:
     """
     Render the current figure while adjusting various settings such as the
     bounding box, the title or background transparency.
@@ -623,8 +625,8 @@ def render(**kwargs: KwargsRender | Any) -> Tuple[plt.Figure, plt.Axes]:
         Current figure and axes.
     """
 
-    figure = cast(plt.Figure, kwargs.get("figure", plt.gcf()))
-    axes = cast(plt.Axes, kwargs.get("axes", plt.gca()))
+    figure = cast(Figure, kwargs.get("figure", plt.gcf()))
+    axes = cast(Axes, kwargs.get("axes", plt.gca()))
 
     kwargs = handle_arguments_deprecation(
         {
@@ -697,7 +699,7 @@ def label_rectangles(
     text_size: float = 10,
     offset: ArrayLike | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Add labels above given rectangles.
 
@@ -764,7 +766,7 @@ def label_rectangles(
     return figure, axes
 
 
-def uniform_axes3d(**kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
+def uniform_axes3d(**kwargs: Any) -> Tuple[Figure, Axes]:
     """
     Set equal aspect ratio to given 3d axes.
 
@@ -1108,7 +1110,7 @@ def update_settings_collection(
 )
 def plot_single_colour_swatch(
     colour_swatch: ArrayLike | ColourSwatch, **kwargs: Any
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given colour swatch.
 
@@ -1165,7 +1167,7 @@ def plot_multi_colour_swatches(
     background_colour: ArrayLike = (1.0, 1.0, 1.0),
     compare_swatches: Literal["Diagonal", "Stacked"] | str | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given colours swatches.
 
@@ -1371,7 +1373,7 @@ def plot_single_function(
     log_y: int | None = None,
     plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given function.
 
@@ -1440,7 +1442,7 @@ def plot_multi_functions(
     log_y: int | None = None,
     plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given functions.
 
@@ -1563,7 +1565,7 @@ def plot_image(
     imshow_kwargs: dict | None = None,
     text_kwargs: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given image.
 

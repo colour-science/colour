@@ -12,7 +12,9 @@ Defines the colour quality plotting objects:
 
 from __future__ import annotations
 
-import matplotlib.pyplot as plt
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
+
 import numpy as np
 from itertools import cycle
 
@@ -73,7 +75,7 @@ def plot_colour_quality_bars(
     hatching: bool | None = None,
     hatching_repeat: int = 2,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the colour quality data of given illuminants or light sources colour
     quality specifications.
@@ -242,7 +244,7 @@ def plot_colour_quality_bars(
 @override_style()
 def plot_single_sd_colour_rendering_index_bars(
     sd: SpectralDistribution, **kwargs: Any
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the *Colour Rendering Index* (CRI) of given illuminant or light
     source spectral distribution.
@@ -289,7 +291,7 @@ def plot_multi_sds_colour_rendering_indexes_bars(
     | SpectralDistribution
     | MultiSpectralDistributions,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the *Colour Rendering Index* (CRI) of given illuminants or light
     sources spectral distributions.
@@ -373,7 +375,7 @@ def plot_single_sd_colour_quality_scale_bars(
     sd: SpectralDistribution,
     method: Literal["NIST CQS 7.4", "NIST CQS 9.0"] | str = "NIST CQS 9.0",
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the *Colour Quality Scale* (CQS) of given illuminant or light source
     spectral distribution.
@@ -425,7 +427,7 @@ def plot_multi_sds_colour_quality_scales_bars(
     | MultiSpectralDistributions,
     method: Literal["NIST CQS 7.4", "NIST CQS 9.0"] | str = "NIST CQS 9.0",
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the *Colour Quality Scale* (CQS) of given illuminants or light
     sources spectral distributions.

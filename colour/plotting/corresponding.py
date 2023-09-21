@@ -9,7 +9,9 @@ Defines the corresponding chromaticities prediction plotting objects:
 
 from __future__ import annotations
 
-import matplotlib.pyplot as plt
+
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 
 from colour.corresponding import (
     CorrespondingColourDataset,
@@ -47,7 +49,7 @@ def plot_corresponding_chromaticities_prediction(
     | str = "Von Kries",
     corresponding_chromaticities_prediction_kwargs: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given chromatic adaptation model corresponding chromaticities
     prediction.

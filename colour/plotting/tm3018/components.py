@@ -19,6 +19,8 @@ from __future__ import annotations
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 
 from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import sd_to_XYZ
@@ -201,7 +203,7 @@ _COLOURS_TCS_BAR: list = [
 @override_style()
 def plot_spectra_ANSIIESTM3018(
     specification: ColourQuality_Specification_ANSIIESTM3018, **kwargs: Any
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot a comparison of the spectral distributions of a test emission source
     and a reference illuminant for *ANSI/IES TM-30-18 Colour Rendition Report*.
@@ -275,7 +277,7 @@ def plot_spectra_ANSIIESTM3018(
 
 def plot_colour_vector_graphic(
     specification: ColourQuality_Specification_ANSIIESTM3018, **kwargs: Any
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot *Color Vector Graphic* according to
     *ANSI/IES TM-30-18 Colour Rendition Report*.
@@ -482,7 +484,7 @@ def plot_16_bin_bars(
     x_ticker: bool = False,
     label_orientation: Literal["Horizontal", "Vertical"] | str = "Vertical",
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the 16 bin bars for given values according to
     *ANSI/IES TM-30-18 Colour Rendition Report*.
@@ -581,7 +583,7 @@ def plot_local_chroma_shifts(
     specification: ColourQuality_Specification_ANSIIESTM3018,
     x_ticker: bool = False,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the local chroma shifts according to
     *ANSI/IES TM-30-18 Colour Rendition Report*.
@@ -639,7 +641,7 @@ def plot_local_hue_shifts(
     specification: ColourQuality_Specification_ANSIIESTM3018,
     x_ticker: bool = False,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the local hue shifts according to
     *ANSI/IES TM-30-18 Colour Rendition Report*.
@@ -693,7 +695,7 @@ def plot_local_colour_fidelities(
     specification: ColourQuality_Specification_ANSIIESTM3018,
     x_ticker: bool = False,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the local colour fidelities according to
     *ANSI/IES TM-30-18 Colour Rendition Report*.
@@ -745,7 +747,7 @@ def plot_local_colour_fidelities(
 
 def plot_colour_fidelity_indexes(
     specification: ColourQuality_Specification_ANSIIESTM3018, **kwargs: Any
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the local chroma shifts according to
     *ANSI/IES TM-30-18 Colour Rendition Report*.

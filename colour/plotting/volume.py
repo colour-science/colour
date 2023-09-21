@@ -11,6 +11,7 @@ Defines the colour models volume and gamut plotting objects:
 from __future__ import annotations
 
 import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
 import numpy as np
 from mpl_toolkits.mplot3d.axes3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
@@ -438,7 +439,7 @@ def plot_RGB_colourspaces_gamuts(
     chromatically_adapt: bool = False,
     convert_kwargs: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, Axes3D]:
+) -> Tuple[Figure, Axes3D]:
     """
     Plot given *RGB* colourspaces gamuts in given reference colourspace.
 
@@ -693,7 +694,7 @@ def plot_RGB_scatter(
     chromatically_adapt: bool = False,
     convert_kwargs: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, Axes3D]:
+) -> Tuple[Figure, Axes3D]:
     """
     Plot given *RGB* colourspace array in a scatter plot.
 

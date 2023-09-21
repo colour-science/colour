@@ -12,7 +12,9 @@ Defines the gamut section plotting objects:
 
 from __future__ import annotations
 
-import matplotlib.pyplot as plt
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
+
 import numpy as np
 from matplotlib.collections import LineCollection
 from matplotlib.patches import Polygon
@@ -102,7 +104,7 @@ def plot_hull_section_colours(
     convert_kwargs: dict | None = None,
     samples: int = 256,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the section colours of given *trimesh* hull along given axis and
     origin.
@@ -281,7 +283,7 @@ def plot_hull_section_contour(
     contour_opacity: float = 1,
     convert_kwargs: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the section contour of given *trimesh* hull along given axis and
     origin.
@@ -428,7 +430,7 @@ def plot_visible_spectrum_section(
     show_section_colours: bool = True,
     show_section_contour: bool = True,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the visible spectrum volume, i.e. *Rösch-MacAdam* colour solid,
     section colours along given axis and origin.
@@ -578,7 +580,7 @@ def plot_RGB_colourspace_section(
     show_section_colours: bool = True,
     show_section_contour: bool = True,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given *RGB* colourspace section colours along given axis and origin.
 

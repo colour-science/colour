@@ -15,6 +15,8 @@ tm3018.plot_single_sd_colour_rendition_report_simple`
 from __future__ import annotations
 
 import matplotlib.pyplot as plt
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 
 from colour.colorimetry import SpectralDistribution, sd_to_XYZ
 from colour.hints import Any, Dict, Literal, Tuple, cast
@@ -153,7 +155,7 @@ CONTENT_REPORT_FOOTER: str = (
 _VALUE_NOT_APPLICABLE: str = "N/A"
 
 
-def _plot_report_header(axes: plt.Axes) -> plt.Axes:
+def _plot_report_header(axes: Axes) -> plt.Axes:
     """
     Plot the report header, i.e. the title, on given axes.
 
@@ -183,7 +185,7 @@ def _plot_report_header(axes: plt.Axes) -> plt.Axes:
     return axes
 
 
-def _plot_report_footer(axes: plt.Axes) -> plt.Axes:
+def _plot_report_footer(axes: Axes) -> plt.Axes:
     """
     Plot the report footer on given axes.
 
@@ -232,7 +234,7 @@ def plot_single_sd_colour_rendition_report_full(
     report_row_height_ratios: tuple = CONSTANT_REPORT_ROW_HEIGHT_RATIOS_FULL,
     report_box_padding: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Generate the full *ANSI/IES TM-30-18 Colour Rendition Report* for given
     spectral distribution.
@@ -557,7 +559,7 @@ def plot_single_sd_colour_rendition_report_intermediate(
     ),
     report_box_padding: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Generate the intermediate *ANSI/IES TM-30-18 Colour Rendition Report* for
     given spectral distribution.
@@ -660,7 +662,7 @@ def plot_single_sd_colour_rendition_report_simple(
     report_row_height_ratios: tuple = CONSTANT_REPORT_ROW_HEIGHT_RATIOS_SIMPLE,
     report_box_padding: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Generate the simple *ANSI/IES TM-30-18 Colour Rendition Report* for given
     spectral distribution.
@@ -751,7 +753,7 @@ def plot_single_sd_colour_rendition_report(
     sd: SpectralDistribution,
     method: Literal["Full", "Intermediate", "Simple"] | str = "Full",
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Generate the *ANSI/IES TM-30-18 Colour Rendition Report* for given
     spectral distribution according to given method.
