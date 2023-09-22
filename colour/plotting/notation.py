@@ -10,8 +10,9 @@ Defines the colour notation systems plotting objects:
 
 from __future__ import annotations
 
-import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 
 from colour.hints import Any, Callable, Dict, Sequence, Tuple
 from colour.notation import MUNSELL_VALUE_METHODS
@@ -37,7 +38,7 @@ __all__ = [
 @override_style()
 def plot_single_munsell_value_function(
     function: Callable | str, **kwargs: Any
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given *Lightness* function.
 
@@ -83,7 +84,7 @@ def plot_single_munsell_value_function(
 def plot_multi_munsell_value_functions(
     functions: Callable | str | Sequence[Callable | str],
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given *Munsell* value functions.
 

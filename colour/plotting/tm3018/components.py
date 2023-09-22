@@ -18,7 +18,9 @@ from __future__ import annotations
 
 import os
 import numpy as np
-import matplotlib.pyplot as plt
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
+from matplotlib.patches import Circle
 
 from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import sd_to_XYZ
@@ -201,7 +203,7 @@ _COLOURS_TCS_BAR: list = [
 @override_style()
 def plot_spectra_ANSIIESTM3018(
     specification: ColourQuality_Specification_ANSIIESTM3018, **kwargs: Any
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot a comparison of the spectral distributions of a test emission source
     and a reference illuminant for *ANSI/IES TM-30-18 Colour Rendition Report*.
@@ -259,7 +261,7 @@ def plot_spectra_ANSIIESTM3018(
         zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
     )
     axes.tick_params(axis="y", which="both", length=0)
-    axes.set_yticklabels([])  # pyright: ignore
+    axes.set_yticklabels([])
 
     settings = {
         "axes": axes,
@@ -275,7 +277,7 @@ def plot_spectra_ANSIIESTM3018(
 
 def plot_colour_vector_graphic(
     specification: ColourQuality_Specification_ANSIIESTM3018, **kwargs: Any
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot *Color Vector Graphic* according to
     *ANSI/IES TM-30-18 Colour Rendition Report*.
@@ -348,7 +350,7 @@ def plot_colour_vector_graphic(
         )
 
     # Circles.
-    circle = plt.Circle(
+    circle = Circle(
         (0, 0),
         1,
         color="black",
@@ -358,9 +360,9 @@ def plot_colour_vector_graphic(
     )
     axes.add_artist(circle)
     for radius in [0.8, 0.9, 1.1, 1.2]:
-        circle = plt.Circle(
+        circle = Circle(
             (0, 0),
-            radius,  # pyright: ignore
+            radius,
             color="white",
             lw=0.75,
             fill=False,
@@ -482,7 +484,7 @@ def plot_16_bin_bars(
     x_ticker: bool = False,
     label_orientation: Literal["Horizontal", "Vertical"] | str = "Vertical",
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the 16 bin bars for given values according to
     *ANSI/IES TM-30-18 Colour Rendition Report*.
@@ -536,10 +538,10 @@ def plot_16_bin_bars(
     )
     axes.set_xlim(0.5, bar_count + 0.5)
     if x_ticker:
-        axes.set_xticks(np.arange(1, bar_count + 1))  # pyright: ignore
+        axes.set_xticks(np.arange(1, bar_count + 1))
         axes.set_xlabel("Hue-Angle Bin (j)")
     else:
-        axes.set_xticks([])  # pyright: ignore
+        axes.set_xticks([])
 
     label_orientation = label_orientation.lower()
     value_max = np.max(values)
@@ -581,7 +583,7 @@ def plot_local_chroma_shifts(
     specification: ColourQuality_Specification_ANSIIESTM3018,
     x_ticker: bool = False,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the local chroma shifts according to
     *ANSI/IES TM-30-18 Colour Rendition Report*.
@@ -626,8 +628,8 @@ def plot_local_chroma_shifts(
     axes.set_ylabel("Local Chroma Shift ($R_{cs,hj}$)")
 
     ticks = np.arange(-40, 41, 10)
-    axes.set_yticks(ticks)  # pyright: ignore
-    axes.set_yticklabels([f"{value}%" for value in ticks])  # pyright: ignore
+    axes.set_yticks(ticks)
+    axes.set_yticklabels([f"{value}%" for value in ticks])
 
     settings = {"show": True}
     settings.update(kwargs)
@@ -639,7 +641,7 @@ def plot_local_hue_shifts(
     specification: ColourQuality_Specification_ANSIIESTM3018,
     x_ticker: bool = False,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the local hue shifts according to
     *ANSI/IES TM-30-18 Colour Rendition Report*.
@@ -680,7 +682,7 @@ def plot_local_hue_shifts(
         specification.R_hs, "{0:.2f}", x_ticker, **settings
     )
     axes.set_ylim(-0.5, 0.5)
-    axes.set_yticks(np.arange(-0.5, 0.51, 0.1))  # pyright: ignore
+    axes.set_yticks(np.arange(-0.5, 0.51, 0.1))
     axes.set_ylabel("Local Hue Shift ($R_{hs,hj}$)")
 
     settings = {"show": True}
@@ -693,7 +695,7 @@ def plot_local_colour_fidelities(
     specification: ColourQuality_Specification_ANSIIESTM3018,
     x_ticker: bool = False,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the local colour fidelities according to
     *ANSI/IES TM-30-18 Colour Rendition Report*.
@@ -734,7 +736,7 @@ def plot_local_colour_fidelities(
         specification.R_fs, "{0:.0f}", x_ticker, "Horizontal", **settings
     )
     axes.set_ylim(0, 100)
-    axes.set_yticks(np.arange(0, 101, 10))  # pyright: ignore
+    axes.set_yticks(np.arange(0, 101, 10))
     axes.set_ylabel("Local Color Fidelity ($R_{f,hj}$)")
 
     settings = {"show": True}
@@ -745,7 +747,7 @@ def plot_local_colour_fidelities(
 
 def plot_colour_fidelity_indexes(
     specification: ColourQuality_Specification_ANSIIESTM3018, **kwargs: Any
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the local chroma shifts according to
     *ANSI/IES TM-30-18 Colour Rendition Report*.
@@ -791,15 +793,15 @@ def plot_colour_fidelity_indexes(
     )
     axes.set_xlim(0.5, bar_count + 0.5)
     axes.set_ylim(0, 100)
-    axes.set_yticks(np.arange(0, 110, 10))  # pyright: ignore
+    axes.set_yticks(np.arange(0, 110, 10))
     axes.set_ylabel("Color Sample Fidelity ($R_{f,CESi}$)")
 
     ticks = list(range(1, bar_count + 1, 1))
-    axes.set_xticks(ticks)  # pyright: ignore
+    axes.set_xticks(ticks)
 
     labels = [
         f"CES{i:02d}" if i % 3 == 1 else "" for i in range(1, bar_count + 1)
     ]
-    axes.set_xticklabels(labels, rotation=90)  # pyright: ignore
+    axes.set_xticklabels(labels, rotation=90)
 
     return render(**kwargs)

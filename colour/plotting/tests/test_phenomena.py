@@ -2,7 +2,8 @@
 """Define the unit tests for the :mod:`colour.plotting.phenomena` module."""
 
 import unittest
-from matplotlib.pyplot import Axes, Figure
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 
 from colour.plotting import (
     plot_single_sd_rayleigh_scattering,

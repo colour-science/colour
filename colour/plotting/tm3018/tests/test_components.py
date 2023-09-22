@@ -4,7 +4,8 @@
 from __future__ import annotations
 
 import unittest
-from matplotlib.pyplot import Axes, Figure
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 
 from colour.colorimetry import SDS_ILLUMINANTS
 from colour.hints import cast

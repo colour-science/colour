@@ -101,7 +101,7 @@ def mesopic_weighting_function(
 
     mesopic_x_luminance_values = sorted(DATA_MESOPIC_X.keys())
     index = mesopic_x_luminance_values.index(
-        closest(mesopic_x_luminance_values, L_p)  # pyright: ignore
+        closest(mesopic_x_luminance_values, L_p)
     )
     x = DATA_MESOPIC_X[mesopic_x_luminance_values[index]][source][method]
 

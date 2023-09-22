@@ -1493,7 +1493,7 @@ class LUT3x1D(AbstractLUT):
                 samples = [
                     np.pad(
                         axis,
-                        (0, np.max(size_array) - len(axis)),
+                        (0, np.max(size_array) - len(axis)),  # pyright: ignore
                         mode="constant",
                         constant_values=np.nan,
                     )

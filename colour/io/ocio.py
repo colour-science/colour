@@ -135,9 +135,9 @@ def process_image_OpenColorIO(
 
     config = kwargs.get("config")
     config = (
-        ocio.Config.CreateFromEnv()
+        ocio.Config.CreateFromEnv()  # pyright: ignore
         if config is None
-        else ocio.Config.CreateFromFile(config)
+        else ocio.Config.CreateFromFile(config)  # pyright: ignore
     )
 
     a = as_float_array(a)
@@ -148,7 +148,9 @@ def process_image_OpenColorIO(
 
     processor = config.getProcessor(*args).getDefaultCPUProcessor()
 
-    image_desc = ocio.PackedImageDesc(a, width, height, channels)
+    image_desc = ocio.PackedImageDesc(  # pyright: ignore
+        a, width, height, channels
+    )
 
     processor.apply(image_desc)
 
