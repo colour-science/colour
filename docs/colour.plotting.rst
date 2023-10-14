@@ -122,6 +122,9 @@ CIE Chromaticity Diagrams
 .. autosummary::
     :toctree: generated/
 
+    METHODS_CHROMATICITY_DIAGRAM
+    LABELS_CHROMATICITY_DIAGRAM_DEFAULT
+    lines_spectral_locus
     plot_chromaticity_diagram_CIE1931
     plot_chromaticity_diagram_CIE1960UCS
     plot_chromaticity_diagram_CIE1976UCS

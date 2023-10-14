@@ -50,6 +50,9 @@ from .characterisation import (  # noqa: E402
     plot_multi_colour_checkers,
 )
 from .diagrams import (  # noqa: E402
+    METHODS_CHROMATICITY_DIAGRAM,
+    LABELS_CHROMATICITY_DIAGRAM_DEFAULT,
+    lines_spectral_locus,
     plot_chromaticity_diagram_CIE1931,
     plot_chromaticity_diagram_CIE1960UCS,
     plot_chromaticity_diagram_CIE1976UCS,
@@ -156,6 +159,9 @@ __all__ += [
     "plot_multi_colour_checkers",
 ]
 __all__ += [
+    "METHODS_CHROMATICITY_DIAGRAM",
+    "LABELS_CHROMATICITY_DIAGRAM_DEFAULT",
+    "lines_spectral_locus",
     "plot_chromaticity_diagram_CIE1931",
     "plot_chromaticity_diagram_CIE1960UCS",
     "plot_chromaticity_diagram_CIE1976UCS",
