@@ -29,23 +29,19 @@ from colour.hints import (
     Dict,
     List,
     Literal,
-    NDArrayFloat,
     Sequence,
     Tuple,
     cast,
 )
 from colour.models import (
-    UCS_to_uv,
     UCS_uv_to_xy,
-    XYZ_to_UCS,
-    xy_to_Luv_uv,
-    xy_to_UCS_uv,
     xy_to_XYZ,
 )
 from colour.temperature import mired_to_CCT, CCT_to_uv, CCT_to_xy_CIE_D
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
     CONSTANTS_ARROW_STYLE,
+    METHODS_CHROMATICITY_DIAGRAM,
     XYZ_to_plotting_colourspace,
     artist,
     plot_chromaticity_diagram_CIE1931,
@@ -144,35 +140,7 @@ def plot_daylight_locus(
 
     _figure, axes = artist(**settings)
 
-    if method == "cie 1931":
-
-        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
-            """
-
-            return xy
-
-    elif method == "cie 1960 ucs":
-
-        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
-            """
-
-            return xy_to_UCS_uv(xy)
-
-    elif method == "cie 1976 ucs":
-
-        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
-            """
-
-            return xy_to_Luv_uv(xy)
+    xy_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["xy_to_ij"]
 
     def CCT_to_plotting_colourspace(CCT):
         """
@@ -296,35 +264,7 @@ def plot_planckian_locus(
 
     _figure, axes = artist(**settings)
 
-    if method == "cie 1931":
-
-        def uv_to_ij(uv: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *uv* chromaticity coordinates to *ij* chromaticity
-            coordinates.
-            """
-
-            return UCS_uv_to_xy(uv)
-
-    elif method == "cie 1960 ucs":
-
-        def uv_to_ij(uv: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *uv* chromaticity coordinates to *ij* chromaticity
-            coordinates.
-            """
-
-            return uv
-
-    elif method == "cie 1976 ucs":
-
-        def uv_to_ij(uv: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *uv* chromaticity coordinates to *ij* chromaticity
-            coordinates.
-            """
-
-            return xy_to_Luv_uv(UCS_uv_to_xy(uv))
+    uv_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["uv_to_ij"]
 
     def CCT_D_uv_to_plotting_colourspace(CCT_D_uv):
         """
@@ -518,39 +458,15 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
 
     plot_planckian_locus(**settings)
 
+    xy_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["xy_to_ij"]
+
     if method == "CIE 1931":
-
-        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
-            """
-
-            return xy
-
         bounding_box = (-0.1, 0.9, -0.1, 0.9)
+
     elif method == "CIE 1960 UCS":
-
-        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
-            """
-
-            return UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(xy)))
-
         bounding_box = (-0.1, 0.7, -0.2, 0.6)
 
     elif method == "CIE 1976 UCS":
-
-        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
-            """
-
-            return xy_to_Luv_uv(xy)
-
         bounding_box = (-0.1, 0.7, -0.1, 0.7)
 
     annotate_settings_collection = [
