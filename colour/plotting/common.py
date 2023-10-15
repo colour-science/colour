@@ -162,6 +162,17 @@ CONSTANTS_COLOUR_STYLE: Structure = Structure(
                 "colourspace": RGB_COLOURSPACES["sRGB"],
             }
         ),
+        "font_size": Structure(
+            **{
+                "xx-small": 10 * 0.55,
+                "x-small": 10 * 0.60,
+                "small": 10 * 0.85,
+                "medium": 10,
+                "large": 10 * (1 / 0.55),
+                "x-large": 10 * (1 / 0.60),
+                "xx-large": 10 * (1 / 0.85),
+            }
+        ),
         "opacity": Structure(**{"high": 0.75, "medium": 0.5, "low": 0.25}),
         "geometry": Structure(**{"long": 5, "medium": 2.5, "short": 1}),
         "hatch": Structure(
