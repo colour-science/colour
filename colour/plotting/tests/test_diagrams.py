@@ -12,6 +12,7 @@ from colour.colorimetry import (
     reshape_msds,
 )
 from colour.plotting import (
+    lines_spectral_locus,
     plot_chromaticity_diagram_CIE1931,
     plot_chromaticity_diagram_CIE1960UCS,
     plot_chromaticity_diagram_CIE1976UCS,
@@ -45,6 +46,21 @@ __all__ = [
     "TestPlotSdsInChromaticityDiagramCIE1960UCS",
     "TestPlotSdsInChromaticityDiagramCIE1976UCS",
 ]
+
+
+class TestLinesSpectralLocus(unittest.TestCase):
+    """
+    Define :func:`colour.plotting.diagrams.lines_spectral_locus` definition
+    unit tests methods.
+    """
+
+    def test_lines_spectral_locus(self):
+        """
+        Test :func:`colour.plotting.diagrams.lines_spectral_locus`
+        definition.
+        """
+
+        self.assertEqual(len(lines_spectral_locus()), 2)
 
 
 class TestPlotSpectralLocus(unittest.TestCase):
