@@ -35,6 +35,7 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "TestLinesSpectralLocus",
     "TestPlotSpectralLocus",
     "TestPlotChromaticityDiagramColours",
     "TestPlotChromaticityDiagram",
@@ -70,7 +71,9 @@ class TestPlotSpectralLocus(unittest.TestCase):
     """
 
     def test_plot_spectral_locus(self):
-        """Test :func:`colour.plotting.diagrams.plot_spectral_locus` definition."""
+        """
+        Test :func:`colour.plotting.diagrams.plot_spectral_locus` definition.
+        """
 
         figure, axes = plot_spectral_locus()
 
