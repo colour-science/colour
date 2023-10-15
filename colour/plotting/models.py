@@ -49,6 +49,7 @@ from matplotlib.figure import Figure
 from matplotlib.patches import Ellipse
 from matplotlib.path import Path
 
+from colour.adaptation import chromatic_adaptation_VonKries
 from colour.colorimetry import MultiSpectralDistributions
 from colour.constants import EPSILON
 from colour.geometry import (
@@ -87,6 +88,7 @@ from colour.models import (
     RGB_to_XYZ,
     XYZ_to_RGB,
     XYZ_to_xy,
+    xy_to_XYZ,
 )
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
@@ -302,9 +304,15 @@ def plot_pointer_gamut(
     _figure, axes = artist(**settings)
 
     XYZ_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["XYZ_to_ij"]
-    xy_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["xy_to_ij"]
 
-    ij = xy_to_ij(CCS_POINTER_GAMUT_BOUNDARY)
+    XYZ = xy_to_XYZ(CCS_POINTER_GAMUT_BOUNDARY)
+    XYZ = chromatic_adaptation_VonKries(
+        XYZ,
+        xy_to_XYZ(CCS_ILLUMINANT_POINTER_GAMUT),
+        xy_to_XYZ(CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint),
+    )
+    ij = XYZ_to_ij(XYZ)
+
     axes.plot(
         ij[..., 0],
         ij[..., 1],
@@ -324,7 +332,12 @@ def plot_pointer_gamut(
     XYZ = Lab_to_XYZ(
         LCHab_to_Lab(DATA_POINTER_GAMUT_VOLUME), CCS_ILLUMINANT_POINTER_GAMUT
     )
-    ij = XYZ_to_ij(XYZ, CCS_ILLUMINANT_POINTER_GAMUT)
+    XYZ = chromatic_adaptation_VonKries(
+        XYZ,
+        xy_to_XYZ(CCS_ILLUMINANT_POINTER_GAMUT),
+        xy_to_XYZ(CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint),
+    )
+    ij = XYZ_to_ij(XYZ)
 
     scatter_settings = {
         "alpha": pointer_gamut_opacity / 2,
