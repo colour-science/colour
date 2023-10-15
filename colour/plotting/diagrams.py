@@ -215,7 +215,7 @@ def lines_spectral_locus(
     | Sequence[
         MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
-    spectral_locus_labels: Sequence | None = None,
+    labels: Sequence | None = None,
     method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
     | str = "CIE 1931",
 ) -> Tuple[NDArray, NDArray]:
@@ -229,7 +229,7 @@ def lines_spectral_locus(
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.common.filter_cmfs` definition.
-    spectral_locus_labels
+    labels
         Array of wavelength labels used to customise which labels will be drawn
         around the spectral locus. Passing an empty array will result in no
         wavelength labels being drawn.
@@ -240,15 +240,25 @@ def lines_spectral_locus(
     -------
     :class:`tuple`
         Tuple of *Spectral Locus* vertices and wavelength labels vertices.
+
+    Examples
+    --------
+    >>> lines = lines_spectral_locus()
+    >>> len(lines)
+    2
+    >>> lines[0].dtype
+    dtype([('position', '<f8', (2,)), ('normal', '<f8', (2,)), \
+('colour', '<f8', (3,))])
+    >>> lines[1].dtype
+    dtype([('position', '<f8', (2,)), ('normal', '<f8', (2,)), \
+('colour', '<f8', (3,))])
     """
 
     cmfs = cast(
         MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
     )
 
-    labels = optional(
-        spectral_locus_labels, LABELS_CHROMATICITY_DIAGRAM_DEFAULT[method]
-    )
+    labels = optional(labels, LABELS_CHROMATICITY_DIAGRAM_DEFAULT[method])
 
     method = validate_method(method, tuple(METHODS_CHROMATICITY_DIAGRAM))
 
@@ -296,7 +306,7 @@ def lines_spectral_locus(
     # Labels Normals
     ij_n, colours_l, normal_l = [], [], []
     wl_ij_cmfs = dict(zip(wavelengths, ij_cmfs))
-    for label in labels:
+    for label in cast(Tuple, labels):
         ij_l = wl_ij_cmfs.get(label)
 
         if ij_l is None:
@@ -424,7 +434,7 @@ def plot_spectral_locus(
         spectral_locus_colours, CONSTANTS_COLOUR_STYLE.colour.dark
     )
 
-    is_RGB_colours = str(spectral_locus_colours).upper() == "RGB"
+    use_RGB_colours = str(spectral_locus_colours).upper() == "RGB"
 
     settings: Dict[str, Any] = {"uniform": True}
     settings.update(kwargs)
@@ -446,7 +456,7 @@ def plot_spectral_locus(
                 axis=1,  # pyright: ignore
             ).reshape([-1, 2, 2]),
             colors=lines_sl["colour"]
-            if is_RGB_colours
+            if use_RGB_colours
             else spectral_locus_colours,
             alpha=spectral_locus_opacity,
             zorder=CONSTANTS_COLOUR_STYLE.zorder.background_line,
@@ -456,7 +466,7 @@ def plot_spectral_locus(
         LineCollection(
             lines_w["position"].reshape([-1, 2, 2]),  # pyright: ignore
             colors=lines_w["colour"][::2]
-            if is_RGB_colours
+            if use_RGB_colours
             else spectral_locus_colours,
             alpha=spectral_locus_opacity,
             zorder=CONSTANTS_COLOUR_STYLE.zorder.background_line,
@@ -474,7 +484,7 @@ def plot_spectral_locus(
             positions[i, 0],
             positions[i, 1],
             "o",
-            color=colours[i] if is_RGB_colours else spectral_locus_colours,
+            color=colours[i] if use_RGB_colours else spectral_locus_colours,
             alpha=spectral_locus_opacity,
             zorder=CONSTANTS_COLOUR_STYLE.zorder.background_line,
         )

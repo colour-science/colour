@@ -8,6 +8,7 @@ from matplotlib.figure import Figure
 
 from colour.plotting import (
     colourspace_model_axis_reorder,
+    lines_pointer_gamut,
     plot_pointer_gamut,
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931,
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS,
@@ -38,6 +39,7 @@ __status__ = "Production"
 
 __all__ = [
     "TestCommonColourspaceModelAxisReorder",
+    "TestLinesPointerGamut",
     "TestPlotPointerGamut",
     "TestPlotRGBColourspacesInChromaticityDiagram",
     "TestPlotRGBColourspacesInChromaticityDiagramCIE1931",
@@ -98,6 +100,20 @@ class TestCommonColourspaceModelAxisReorder(unittest.TestCase):
             np.array([0, 1, 2]),
             decimal=7,
         )
+
+
+class TestLinesPointerGamut(unittest.TestCase):
+    """
+    Define :func:`colour.plotting.models.lines_pointer_gamut` definition unit
+    tests methods.
+    """
+
+    def test_lines_pointer_gamut(self):
+        """
+        Test :func:`colour.plotting.models.lines_pointer_gamut` definition.
+        """
+
+        self.assertEqual(len(lines_pointer_gamut()), 2)
 
 
 class TestPlotPointerGamut(unittest.TestCase):

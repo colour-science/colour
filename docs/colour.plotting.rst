@@ -179,6 +179,7 @@ Colour Models
     :toctree: generated/
 
     colourspace_model_axis_reorder
+    lines_pointer_gamut
     plot_pointer_gamut
     plot_RGB_colourspaces_in_chromaticity_diagram
     plot_RGB_chromaticities_in_chromaticity_diagram
