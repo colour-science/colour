@@ -39,7 +39,6 @@ from colour.hints import (
     List,
     Literal,
     NDArray,
-    NDArrayFloat,
     Sequence,
     Tuple,
     cast,
@@ -52,6 +51,8 @@ from colour.models import (
     XYZ_to_Luv,
     XYZ_to_UCS,
     XYZ_to_xy,
+    xy_to_Luv_uv,
+    xy_to_UCS_uv,
     xy_to_XYZ,
 )
 from colour.notation import HEX_to_RGB
@@ -104,19 +105,31 @@ __all__ = [
 METHODS_CHROMATICITY_DIAGRAM: CanonicalMapping = CanonicalMapping(
     {
         "CIE 1931": {
-            "XYZ_to_ij": lambda a, i: XYZ_to_xy(a),  # noqa: ARG005
-            "ij_to_XYZ": lambda a, i: xy_to_XYZ(a),  # noqa: ARG005
+            "XYZ_to_ij": lambda a, *args: XYZ_to_xy(a),  # noqa: ARG005
+            "ij_to_XYZ": lambda a, *args: xy_to_XYZ(a),  # noqa: ARG005
+            "xy_to_ij": lambda a, *args: a,  # noqa: ARG005
+            "uv_to_ij": lambda a, *args: UCS_uv_to_xy(a),  # noqa: ARG005
         },
         "CIE 1960 UCS": {
-            "XYZ_to_ij": lambda a, i: UCS_to_uv(XYZ_to_UCS(a)),  # noqa: ARG005
-            "ij_to_XYZ": lambda a, i: xy_to_XYZ(  # noqa: ARG005
+            "XYZ_to_ij": lambda a, *args: UCS_to_uv(  # noqa: ARG005
+                XYZ_to_UCS(a)
+            ),
+            "ij_to_XYZ": lambda a, *args: xy_to_XYZ(  # noqa: ARG005
                 UCS_uv_to_xy(a)
             ),
+            "xy_to_ij": lambda a, *args: xy_to_UCS_uv(a),  # noqa: ARG005
+            "uv_to_ij": lambda a, *args: a,  # noqa: ARG005
         },
         "CIE 1976 UCS": {
-            "XYZ_to_ij": lambda a, i: Luv_to_uv(XYZ_to_Luv(a, i), i),
-            "ij_to_XYZ": lambda a, i: xy_to_XYZ(  # noqa: ARG005
+            "XYZ_to_ij": lambda a, *args: Luv_to_uv(
+                XYZ_to_Luv(a, *args), *args
+            ),
+            "ij_to_XYZ": lambda a, *args: xy_to_XYZ(  # noqa: ARG005
                 Luv_uv_to_xy(a)
+            ),
+            "xy_to_ij": lambda a, *args: xy_to_Luv_uv(a),  # noqa: ARG005
+            "uv_to_ij": lambda a, *args: xy_to_Luv_uv(  # noqa: ARG005
+                UCS_uv_to_xy(a)
             ),
         },
     }
@@ -562,14 +575,9 @@ def plot_chromaticity_diagram_colours(
 
     illuminant = CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint
 
-    if method == "cie 1931":
-        spectral_locus = XYZ_to_xy(cmfs.values)
-    elif method == "cie 1960 ucs":
-        spectral_locus = UCS_to_uv(XYZ_to_UCS(cmfs.values))
-    elif method == "cie 1976 ucs":
-        spectral_locus = Luv_to_uv(
-            XYZ_to_Luv(cmfs.values, illuminant), illuminant
-        )
+    XYZ_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["XYZ_to_ij"]
+
+    spectral_locus = XYZ_to_ij(cmfs.values, illuminant)
 
     use_RGB_diagram_colours = str(diagram_colours).upper() == "RGB"
     if use_RGB_diagram_colours:
@@ -578,15 +586,10 @@ def plot_chromaticity_diagram_colours(
         )
         ij = tstack([ii, jj])
 
-        if method == "cie 1931":
-            XYZ = xy_to_XYZ(ij)
-        elif method == "cie 1960 ucs":
-            XYZ = xy_to_XYZ(UCS_uv_to_xy(ij))
-        elif method == "cie 1976 ucs":
-            XYZ = xy_to_XYZ(Luv_uv_to_xy(ij))
+        ij_to_XYZ = METHODS_CHROMATICITY_DIAGRAM[method]["ij_to_XYZ"]
 
         diagram_colours = normalise_maximum(
-            XYZ_to_plotting_colourspace(XYZ, illuminant), axis=-1
+            XYZ_to_plotting_colourspace(ij_to_XYZ(ij), illuminant), axis=-1
         )
 
     polygon = Polygon(
@@ -706,8 +709,10 @@ def plot_chromaticity_diagram(
 
     if method == "cie 1931":
         x_label, y_label = "CIE x", "CIE y"
+
     elif method == "cie 1960 ucs":
         x_label, y_label = "CIE u", "CIE v"
+
     elif method == "cie 1976 ucs":
         x_label, y_label = (
             "CIE u'",
@@ -1035,39 +1040,15 @@ def plot_sds_in_chromaticity_diagram(
 
     chromaticity_diagram_callable(**settings)
 
+    XYZ_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["XYZ_to_ij"]
+
     if method == "cie 1931":
-
-        def XYZ_to_ij(XYZ: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE XYZ* tristimulus values to *ij* chromaticity
-            coordinates.
-            """
-
-            return XYZ_to_xy(XYZ)
-
         bounding_box = (-0.1, 0.9, -0.1, 0.9)
+
     elif method == "cie 1960 ucs":
-
-        def XYZ_to_ij(XYZ: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE XYZ* tristimulus values to *ij* chromaticity
-            coordinates.
-            """
-
-            return UCS_to_uv(XYZ_to_UCS(XYZ))
-
         bounding_box = (-0.1, 0.7, -0.2, 0.6)
 
     elif method == "cie 1976 ucs":
-
-        def XYZ_to_ij(XYZ: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE XYZ* tristimulus values to *ij* chromaticity
-            coordinates.
-            """
-
-            return Luv_to_uv(XYZ_to_Luv(XYZ))
-
         bounding_box = (-0.1, 0.7, -0.1, 0.7)
 
     annotate_settings_collection = [

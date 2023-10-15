@@ -49,6 +49,7 @@ from matplotlib.figure import Figure
 from matplotlib.patches import Ellipse
 from matplotlib.path import Path
 
+from colour.adaptation import chromatic_adaptation_VonKries
 from colour.colorimetry import MultiSpectralDistributions
 from colour.constants import EPSILON
 from colour.geometry import (
@@ -78,7 +79,6 @@ from colour.models import (
     CCTF_DECODINGS,
     LCHab_to_Lab,
     Lab_to_XYZ,
-    Luv_to_uv,
     DATA_MACADAM_1942_ELLIPSES,
     CCS_POINTER_GAMUT_BOUNDARY,
     DATA_POINTER_GAMUT_VOLUME,
@@ -86,16 +86,13 @@ from colour.models import (
     RGB_Colourspace,
     RGB_to_RGB,
     RGB_to_XYZ,
-    UCS_to_uv,
-    XYZ_to_Luv,
     XYZ_to_RGB,
-    XYZ_to_UCS,
     XYZ_to_xy,
-    xy_to_Luv_uv,
-    xy_to_UCS_uv,
+    xy_to_XYZ,
 )
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
+    METHODS_CHROMATICITY_DIAGRAM,
     plot_chromaticity_diagram_CIE1931,
     artist,
     plot_chromaticity_diagram_CIE1960UCS,
@@ -306,65 +303,16 @@ def plot_pointer_gamut(
 
     _figure, axes = artist(**settings)
 
-    if method == "cie 1931":
+    XYZ_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["XYZ_to_ij"]
 
-        def XYZ_to_ij(
-            XYZ: NDArrayFloat, *args: Any  # noqa: ARG001
-        ) -> NDArrayFloat:
-            """
-            Convert given *CIE XYZ* tristimulus values to *ij* chromaticity
-            coordinates.
-            """
+    XYZ = xy_to_XYZ(CCS_POINTER_GAMUT_BOUNDARY)
+    XYZ = chromatic_adaptation_VonKries(
+        XYZ,
+        xy_to_XYZ(CCS_ILLUMINANT_POINTER_GAMUT),
+        xy_to_XYZ(CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint),
+    )
+    ij = XYZ_to_ij(XYZ)
 
-            return XYZ_to_xy(XYZ)
-
-        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
-            """
-
-            return xy
-
-    elif method == "cie 1960 ucs":
-
-        def XYZ_to_ij(
-            XYZ: NDArrayFloat, *args: Any  # noqa: ARG001
-        ) -> NDArrayFloat:
-            """
-            Convert given *CIE XYZ* tristimulus values to *ij* chromaticity
-            coordinates.
-            """
-
-            return UCS_to_uv(XYZ_to_UCS(XYZ))
-
-        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
-            """
-
-            return xy_to_UCS_uv(xy)
-
-    elif method == "cie 1976 ucs":
-
-        def XYZ_to_ij(XYZ: NDArrayFloat, *args: Any) -> NDArrayFloat:
-            """
-            Convert given *CIE XYZ* tristimulus values to *ij* chromaticity
-            coordinates.
-            """
-
-            return Luv_to_uv(XYZ_to_Luv(XYZ, *args), *args)
-
-        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
-            """
-
-            return xy_to_Luv_uv(xy)
-
-    ij = xy_to_ij(CCS_POINTER_GAMUT_BOUNDARY)
     axes.plot(
         ij[..., 0],
         ij[..., 1],
@@ -384,7 +332,12 @@ def plot_pointer_gamut(
     XYZ = Lab_to_XYZ(
         LCHab_to_Lab(DATA_POINTER_GAMUT_VOLUME), CCS_ILLUMINANT_POINTER_GAMUT
     )
-    ij = XYZ_to_ij(XYZ, CCS_ILLUMINANT_POINTER_GAMUT)
+    XYZ = chromatic_adaptation_VonKries(
+        XYZ,
+        xy_to_XYZ(CCS_ILLUMINANT_POINTER_GAMUT),
+        xy_to_XYZ(CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint),
+    )
+    ij = XYZ_to_ij(XYZ)
 
     scatter_settings = {
         "alpha": pointer_gamut_opacity / 2,
@@ -522,42 +475,17 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
 
         plot_pointer_gamut(**settings)
 
+    xy_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["xy_to_ij"]
+
     if method == "cie 1931":
-
-        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
-            """
-
-            return xy
-
         x_limit_min, x_limit_max = [-0.1], [0.9]
         y_limit_min, y_limit_max = [-0.1], [0.9]
 
     elif method == "cie 1960 ucs":
-
-        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
-            """
-
-            return xy_to_UCS_uv(xy)
-
         x_limit_min, x_limit_max = [-0.1], [0.7]
         y_limit_min, y_limit_max = [-0.2], [0.6]
 
     elif method == "cie 1976 ucs":
-
-        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
-            """
-
-            return xy_to_Luv_uv(xy)
-
         x_limit_min, x_limit_max = [-0.1], [0.7]
         y_limit_min, y_limit_max = [-0.1], [0.7]
 
@@ -1048,16 +976,9 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
 
     XYZ = RGB_to_XYZ(RGB, colourspace)
 
-    if method == "cie 1931":
-        ij = XYZ_to_xy(XYZ)
+    XYZ_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["XYZ_to_ij"]
 
-    elif method == "cie 1960 ucs":
-        ij = UCS_to_uv(XYZ_to_UCS(XYZ))
-
-    elif method == "cie 1976 ucs":
-        ij = Luv_to_uv(
-            XYZ_to_Luv(XYZ, colourspace.whitepoint), colourspace.whitepoint
-        )
+    ij = XYZ_to_ij(XYZ, colourspace.whitepoint)
 
     axes.scatter(ij[..., 0], ij[..., 1], **scatter_settings)
 
@@ -1334,35 +1255,7 @@ def ellipses_MacAdam1942(
         method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS")
     )
 
-    if method == "cie 1931":
-
-        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
-            """
-
-            return xy
-
-    elif method == "cie 1960 ucs":
-
-        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
-            """
-
-            return xy_to_UCS_uv(xy)
-
-    elif method == "cie 1976 ucs":
-
-        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
-            """
-
-            return xy_to_Luv_uv(xy)
+    xy_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["xy_to_ij"]
 
     x, y, _a, _b, _theta, a, b, theta = tsplit(DATA_MACADAM_1942_ELLIPSES)
 
