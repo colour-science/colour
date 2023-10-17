@@ -62,7 +62,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
     >>> sd = SpectralDistribution_UPRTek(
     ...     join(directory, "ESPD2021_0104_231446.xls")
     ... )
-    >>> print(sd.read().align(SpectralShape(380, 780, 10)))
+    >>> print(sd.align(SpectralShape(380, 780, 10)))
     ... # doctest: +ELLIPSIS
     UPRTek
     ======
@@ -156,14 +156,14 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
     ... # doctest: +SKIP
     """
 
+    _DELIMITER: str = "\t"
+    _SPECTRAL_SECTION: str = "380"
+    _SPECTRAL_DATA_PATTERN: str = "(\\d{3})nm"
+
     def __init__(self, path: str, **kwargs: Any) -> None:
-        super().__init__(path, **kwargs)
-
-        self._delimiter: str = "\t"
-        self._spectral_section: str = "380"
-        self._spectral_data_pattern: str = "(\\d{3})nm"
-
         self._metadata: dict = {}
+
+        super().__init__(path, **kwargs)
 
     @property
     def metadata(self) -> dict:
@@ -379,7 +379,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
 
         spectral_sections = defaultdict(list)
         with open(path, encoding="utf-8") as csv_file:
-            content = csv.reader(csv_file, delimiter=self._delimiter)
+            content = csv.reader(csv_file, delimiter=self._DELIMITER)
 
             spectral_section = 0
             for row in content:
@@ -389,11 +389,11 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
                 attribute, tokens = row[0], row[1:]
                 value = tokens[0] if len(tokens) == 1 else tokens
 
-                match = re.match(self._spectral_data_pattern, attribute)
+                match = re.match(self._SPECTRAL_DATA_PATTERN, attribute)
                 if match:
                     wavelength = match.group(1)
 
-                    if wavelength == self._spectral_section:
+                    if wavelength == self._SPECTRAL_SECTION:
                         spectral_section += 1
 
                     spectral_sections[spectral_section].append(
@@ -532,12 +532,12 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
     ... # doctest: +SKIP
     """
 
+    _DELIMITER: str = ","
+    _SPECTRAL_SECTION: str = "380"
+    _SPECTRAL_DATA_PATTERN: str = "Spectral Data (\\d{3})\\[nm\\]"
+
     def __init__(self, path: str, **kwargs: Any) -> None:
         super().__init__(path, **kwargs)
-
-        self._delimiter: str = ","
-        self._spectral_section: str = "380"
-        self._spectral_data_pattern: str = "Spectral Data (\\d{3})\\[nm\\]"
 
     def __str__(self) -> str:
         """

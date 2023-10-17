@@ -871,7 +871,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     >>> directory = join(dirname(__file__), "tests", "resources")
     >>> sd = SpectralDistribution_IESTM2714(
     ...     join(directory, "Fluorescent.spdx")
-    ... ).read()
+    ... )
     >>> sd.name  # doctest: +SKIP
     'Unknown - N/A - Rare earth fluorescent lamp'
     >>> sd.header.comments
@@ -1003,6 +1003,9 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         self.bandwidth_FWHM = bandwidth_FWHM
         self._bandwidth_corrected: bool | None = None
         self.bandwidth_corrected = bandwidth_corrected
+
+        if self.path is not None and os.path.exists(self.path):
+            self.read()
 
     @property
     def mapping(self) -> Structure:
@@ -1322,7 +1325,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         >>> print(
         ...     SpectralDistribution_IESTM2714(
         ...         join(directory, "Fluorescent.spdx")
-        ...     ).read()
+        ...     )
         ... )
         ... # doctest: +ELLIPSIS
         IES TM-27-14 Spectral Distribution
@@ -1496,9 +1499,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         --------
         >>> from os.path import dirname, join
         >>> directory = join(dirname(__file__), "tests", "resources")
-        >>> SpectralDistribution_IESTM2714(
-        ...     join(directory, "Fluorescent.spdx")
-        ... ).read()
+        >>> SpectralDistribution_IESTM2714(join(directory, "Fluorescent.spdx"))
         ... # doctest: +ELLIPSIS
         SpectralDistribution_IESTM2714('...',
                                        Header_IESTM2714('Unknown',
@@ -1663,7 +1664,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         >>> directory = join(dirname(__file__), "tests", "resources")
         >>> sd = SpectralDistribution_IESTM2714(
         ...     join(directory, "Fluorescent.spdx")
-        ... ).read()
+        ... )
         >>> sd.name  # doctest: +SKIP
         'Unknown - N/A - Rare earth fluorescent lamp'
         >>> sd.header.comments
@@ -1756,7 +1757,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         >>> directory = join(dirname(__file__), "tests", "resources")
         >>> sd = SpectralDistribution_IESTM2714(
         ...     join(directory, "Fluorescent.spdx")
-        ... ).read()
+        ... )
         >>> temporary_directory = mkdtemp()
         >>> sd.path = join(temporary_directory, "Fluorescent.spdx")
         >>> sd.write()

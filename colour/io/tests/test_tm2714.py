@@ -621,10 +621,10 @@ SpectralDistribution_IESTM2714(...,
         sd = SpectralDistribution_IESTM2714()
         self.assertRaises(ValueError, sd.read)
 
-        sd = SpectralDistribution_IESTM2714(
-            os.path.join(ROOT_RESOURCES, "Invalid.spdx")
-        )
-        self.assertRaises(ValueError, sd.read)
+        with self.assertRaises(ValueError):
+            sd = SpectralDistribution_IESTM2714(
+                os.path.join(ROOT_RESOURCES, "Invalid.spdx")
+            )
 
     def test_write(self):
         """
