@@ -66,4 +66,4 @@ DEFAULT_FLOAT_DTYPE: Type[DTypeFloat] = cast(
         np.float64,
     ),
 )
-"""Default float point number dtype."""
+"""Default floating point number dtype."""
