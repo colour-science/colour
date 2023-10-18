@@ -18,7 +18,7 @@ Common
 
 .. autosummary::
     :toctree: generated/
-z
+
     colour_style
     colour_cycle
     artist
