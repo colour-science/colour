@@ -3,22 +3,23 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.common` module.
 """
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.models.rgb.transfer_functions import (
     CCTF_DECODINGS,
     CCTF_ENCODINGS,
-    EOTFS,
     EOTF_INVERSES,
+    EOTFS,
     LOG_DECODINGS,
     LOG_ENCODINGS,
-    OETFS,
     OETF_INVERSES,
-    OOTFS,
+    OETFS,
     OOTF_INVERSES,
-    cctf_encoding,
+    OOTFS,
     cctf_decoding,
+    cctf_encoding,
 )
 from colour.utilities import ColourUsageWarning
 

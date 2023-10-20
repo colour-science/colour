@@ -1,15 +1,16 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.yrg` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.models import (
-    XYZ_to_Yrg,
-    Yrg_to_XYZ,
     LMS_to_Yrg,
+    XYZ_to_Yrg,
     Yrg_to_LMS,
+    Yrg_to_XYZ,
 )
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 

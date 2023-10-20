@@ -1,8 +1,9 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.colorimetry.lefs` module."""
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.colorimetry import (
     mesopic_weighting_function,

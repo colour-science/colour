@@ -1,11 +1,12 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.osa_ucs` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
-from colour.models import XYZ_to_OSA_UCS, OSA_UCS_to_XYZ
+import numpy as np
+
+from colour.models import OSA_UCS_to_XYZ, XYZ_to_OSA_UCS
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"

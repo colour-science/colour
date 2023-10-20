@@ -56,9 +56,9 @@ from colour.algebra import normalise_maximum
 from colour.colorimetry import MultiSpectralDistributions
 from colour.constants import DEFAULT_FLOAT_DTYPE, EPSILON
 from colour.geometry import (
-    point_at_angle_on_ellipse,
     ellipse_coefficients_canonical_form,
     ellipse_fitting,
+    point_at_angle_on_ellipse,
 )
 from colour.graph import convert
 from colour.hints import (
@@ -76,16 +76,16 @@ from colour.hints import (
     cast,
 )
 from colour.models import (
+    CCS_ILLUMINANT_POINTER_GAMUT,
+    CCS_POINTER_GAMUT_BOUNDARY,
+    CCTF_DECODINGS,
+    CCTF_ENCODINGS,
     COLOURSPACE_MODELS_AXIS_LABELS,
     COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE,
-    CCTF_ENCODINGS,
-    CCTF_DECODINGS,
-    LCHab_to_Lab,
-    Lab_to_XYZ,
     DATA_MACADAM_1942_ELLIPSES,
-    CCS_POINTER_GAMUT_BOUNDARY,
     DATA_POINTER_GAMUT_VOLUME,
-    CCS_ILLUMINANT_POINTER_GAMUT,
+    Lab_to_XYZ,
+    LCHab_to_Lab,
     RGB_Colourspace,
     RGB_to_RGB,
     RGB_to_XYZ,
@@ -96,20 +96,20 @@ from colour.models import (
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
     METHODS_CHROMATICITY_DIAGRAM,
-    plot_chromaticity_diagram_CIE1931,
+    XYZ_to_plotting_colourspace,
     artist,
-    plot_chromaticity_diagram_CIE1960UCS,
-    plot_chromaticity_diagram_CIE1976UCS,
     colour_cycle,
     colour_style,
+    filter_cmfs,
     filter_passthrough,
     filter_RGB_colourspaces,
-    filter_cmfs,
-    plot_multi_functions,
     override_style,
+    plot_chromaticity_diagram_CIE1931,
+    plot_chromaticity_diagram_CIE1960UCS,
+    plot_chromaticity_diagram_CIE1976UCS,
+    plot_multi_functions,
     render,
     update_settings_collection,
-    XYZ_to_plotting_colourspace,
 )
 from colour.plotting.diagrams import plot_chromaticity_diagram
 from colour.utilities import (

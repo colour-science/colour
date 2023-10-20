@@ -1,7 +1,6 @@
 """Showcases *Luminance* computations."""
 
 import colour
-
 from colour.utilities import message_box
 
 message_box('"Luminance" Computations')

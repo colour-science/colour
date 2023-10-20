@@ -60,13 +60,13 @@ from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
     linear_function,
-    normalised_primary_matrix,
-    log_encoding_ACEScc,
     log_decoding_ACEScc,
-    log_encoding_ACEScct,
     log_decoding_ACEScct,
-    log_encoding_ACESproxy,
     log_decoding_ACESproxy,
+    log_encoding_ACEScc,
+    log_encoding_ACEScct,
+    log_encoding_ACESproxy,
+    normalised_primary_matrix,
 )
 
 __author__ = "Colour Developers"

@@ -1,15 +1,16 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.geometry.section` module."""
 
-import numpy as np
 import unittest
 
+import numpy as np
+
+from colour.geometry import hull_section, primitive_cube
 from colour.geometry.section import (
-    edges_to_chord,
     close_chord,
+    edges_to_chord,
     unique_vertices,
 )
-from colour.geometry import primitive_cube, hull_section
 from colour.utilities import is_trimesh_installed
 
 __author__ = "Colour Developers"

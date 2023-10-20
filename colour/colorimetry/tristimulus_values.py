@@ -65,10 +65,10 @@ from colour.utilities import (
     filter_kwargs,
     from_range_100,
     get_domain_range_scale,
+    int_digest,
     optional,
     runtime_warning,
     validate_method,
-    int_digest,
 )
 
 __author__ = "Colour Developers"

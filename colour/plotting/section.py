@@ -51,12 +51,11 @@ from colour.plotting import (
     artist,
     colourspace_model_axis_reorder,
     filter_cmfs,
-    filter_RGB_colourspaces,
     filter_illuminants,
+    filter_RGB_colourspaces,
     override_style,
     render,
 )
-from colour.volume import solid_RoschMacAdam
 from colour.utilities import (
     CanonicalMapping,
     as_int_array,
@@ -68,6 +67,7 @@ from colour.utilities import (
     tstack,
     validate_method,
 )
+from colour.volume import solid_RoschMacAdam
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

@@ -1,35 +1,36 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.cam02_ucs` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.appearance import (
-    CAM_KWARGS_CIECAM02_sRGB,
     VIEWING_CONDITIONS_CIECAM02,
+    CAM_KWARGS_CIECAM02_sRGB,
     XYZ_to_CIECAM02,
+)
+from colour.models import (
+    CAM02LCD_to_JMh_CIECAM02,
+    CAM02LCD_to_XYZ,
+    CAM02SCD_to_JMh_CIECAM02,
+    CAM02SCD_to_XYZ,
+    CAM02UCS_to_JMh_CIECAM02,
+    CAM02UCS_to_XYZ,
+    JMh_CIECAM02_to_CAM02LCD,
+    JMh_CIECAM02_to_CAM02SCD,
+    JMh_CIECAM02_to_CAM02UCS,
+    XYZ_to_CAM02LCD,
+    XYZ_to_CAM02SCD,
+    XYZ_to_CAM02UCS,
 )
 from colour.models.cam02_ucs import (
     COEFFICIENTS_UCS_LUO2006,
     JMh_CIECAM02_to_UCS_Luo2006,
     UCS_Luo2006_to_JMh_CIECAM02,
-    XYZ_to_UCS_Luo2006,
     UCS_Luo2006_to_XYZ,
-)
-from colour.models import (
-    JMh_CIECAM02_to_CAM02LCD,
-    CAM02LCD_to_JMh_CIECAM02,
-    JMh_CIECAM02_to_CAM02SCD,
-    CAM02SCD_to_JMh_CIECAM02,
-    JMh_CIECAM02_to_CAM02UCS,
-    CAM02UCS_to_JMh_CIECAM02,
-    XYZ_to_CAM02LCD,
-    CAM02LCD_to_XYZ,
-    XYZ_to_CAM02SCD,
-    CAM02SCD_to_XYZ,
-    XYZ_to_CAM02UCS,
-    CAM02UCS_to_XYZ,
+    XYZ_to_UCS_Luo2006,
 )
 from colour.utilities import attest, domain_range_scale, ignore_numpy_errors
 

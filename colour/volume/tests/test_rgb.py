@@ -18,23 +18,24 @@ References
 reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 """
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.models import (
     RGB_COLOURSPACE_ACES2065_1,
-    RGB_COLOURSPACE_BT2020,
     RGB_COLOURSPACE_BT709,
-)
-from colour.volume import (
-    RGB_colourspace_limits,
-    RGB_colourspace_volume_MonteCarlo,
-    RGB_colourspace_volume_coverage_MonteCarlo,
-    RGB_colourspace_pointer_gamut_coverage_MonteCarlo,
-    RGB_colourspace_visible_spectrum_coverage_MonteCarlo,
-    is_within_pointer_gamut,
+    RGB_COLOURSPACE_BT2020,
 )
 from colour.utilities import disable_multiprocessing
+from colour.volume import (
+    RGB_colourspace_limits,
+    RGB_colourspace_pointer_gamut_coverage_MonteCarlo,
+    RGB_colourspace_visible_spectrum_coverage_MonteCarlo,
+    RGB_colourspace_volume_coverage_MonteCarlo,
+    RGB_colourspace_volume_MonteCarlo,
+    is_within_pointer_gamut,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

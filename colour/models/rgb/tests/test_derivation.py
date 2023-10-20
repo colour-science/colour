@@ -2,18 +2,19 @@
 """Define the unit tests for the :mod:`colour.models.rgb.derivation` module."""
 
 import contextlib
-import numpy as np
 import re
 import unittest
 from itertools import product
+
+import numpy as np
 from numpy.linalg import LinAlgError
 
 from colour.models import (
-    normalised_primary_matrix,
-    chromatically_adapted_primaries,
-    primaries_whitepoint,
-    RGB_luminance_equation,
     RGB_luminance,
+    RGB_luminance_equation,
+    chromatically_adapted_primaries,
+    normalised_primary_matrix,
+    primaries_whitepoint,
 )
 from colour.models.rgb.derivation import xy_to_z
 from colour.utilities import ignore_numpy_errors

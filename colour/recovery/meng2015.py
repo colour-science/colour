@@ -28,7 +28,7 @@ from colour.colorimetry import (
     sd_to_XYZ_integration,
 )
 from colour.hints import ArrayLike, NDArrayFloat, cast
-from colour.utilities import to_domain_1, from_range_100
+from colour.utilities import from_range_100, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

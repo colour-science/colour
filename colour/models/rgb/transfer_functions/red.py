@@ -38,10 +38,10 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import ArrayLike, NDArrayFloat, Literal
+from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.models.rgb.transfer_functions import (
-    log_encoding_Cineon,
     log_decoding_Cineon,
+    log_encoding_Cineon,
 )
 from colour.utilities import (
     CanonicalMapping,

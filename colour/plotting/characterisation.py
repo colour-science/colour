@@ -14,8 +14,8 @@ import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
-from colour.hints import Any, Dict, Sequence, Tuple
 from colour.characterisation import ColourChecker
+from colour.hints import Any, Dict, Sequence, Tuple
 from colour.models import xyY_to_XYZ
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
@@ -23,8 +23,8 @@ from colour.plotting import (
     XYZ_to_plotting_colourspace,
     artist,
     filter_colour_checkers,
-    plot_multi_colour_swatches,
     override_style,
+    plot_multi_colour_swatches,
     render,
 )
 from colour.utilities import attest

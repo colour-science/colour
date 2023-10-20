@@ -6,25 +6,26 @@ module.
 from __future__ import annotations
 
 import contextlib
-import numpy as np
 import platform
 import unittest
 from itertools import product
+
+import numpy as np
 from numpy.linalg import LinAlgError
 
 from colour.characterisation.correction import (
-    matrix_augmented_Cheung2004,
-    polynomial_expansion_Finlayson2015,
-    polynomial_expansion_Vandermonde,
-    matrix_colour_correction_Cheung2004,
-    matrix_colour_correction_Finlayson2015,
-    matrix_colour_correction_Vandermonde,
     apply_matrix_colour_correction_Cheung2004,
     apply_matrix_colour_correction_Finlayson2015,
     apply_matrix_colour_correction_Vandermonde,
     colour_correction_Cheung2004,
     colour_correction_Finlayson2015,
     colour_correction_Vandermonde,
+    matrix_augmented_Cheung2004,
+    matrix_colour_correction_Cheung2004,
+    matrix_colour_correction_Finlayson2015,
+    matrix_colour_correction_Vandermonde,
+    polynomial_expansion_Finlayson2015,
+    polynomial_expansion_Vandermonde,
 )
 from colour.hints import NDArrayFloat
 from colour.utilities import ignore_numpy_errors

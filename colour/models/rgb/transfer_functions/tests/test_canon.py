@@ -3,24 +3,24 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.canon` module.
 """
 
-import numpy as np
 import unittest
 
+import numpy as np
+
 from colour.models.rgb.transfer_functions.canon import (
-    log_encoding_CanonLog_v1,
+    log_decoding_CanonLog2_v1,
+    log_decoding_CanonLog2_v1_2,
+    log_decoding_CanonLog3_v1,
+    log_decoding_CanonLog3_v1_2,
     log_decoding_CanonLog_v1,
-    log_encoding_CanonLog_v1_2,
     log_decoding_CanonLog_v1_2,
     log_encoding_CanonLog2_v1,
-    log_decoding_CanonLog2_v1,
     log_encoding_CanonLog2_v1_2,
-    log_decoding_CanonLog2_v1_2,
     log_encoding_CanonLog3_v1,
-    log_decoding_CanonLog3_v1,
     log_encoding_CanonLog3_v1_2,
-    log_decoding_CanonLog3_v1_2,
+    log_encoding_CanonLog_v1,
+    log_encoding_CanonLog_v1_2,
 )
-
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"

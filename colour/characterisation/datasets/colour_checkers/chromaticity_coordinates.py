@@ -50,8 +50,9 @@ SupportID=5884#
 
 from __future__ import annotations
 
-import numpy as np
 from collections import namedtuple
+
+import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import NDArrayFloat

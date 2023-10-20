@@ -1,17 +1,18 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.contrast.barten1999` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.contrast import (
+    contrast_sensitivity_function_Barten1999,
+    maximum_angular_size_Barten1999,
     optical_MTF_Barten1999,
     pupil_diameter_Barten1999,
-    sigma_Barten1999,
     retinal_illuminance_Barten1999,
-    maximum_angular_size_Barten1999,
-    contrast_sensitivity_function_Barten1999,
+    sigma_Barten1999,
 )
 from colour.utilities import ignore_numpy_errors
 

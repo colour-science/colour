@@ -1,33 +1,34 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.plotting.models` module."""
 
-import numpy as np
 import unittest
+
+import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
 from colour.plotting import (
     colourspace_model_axis_reorder,
     lines_pointer_gamut,
-    plot_pointer_gamut,
-    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931,
-    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS,
-    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS,
-    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931,
-    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS,
-    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS,
+    plot_constant_hue_loci,
     plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931,
     plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS,
     plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS,
-    plot_single_cctf,
     plot_multi_cctfs,
-    plot_constant_hue_loci,
+    plot_pointer_gamut,
+    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931,
+    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS,
+    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS,
+    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931,
+    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS,
+    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS,
+    plot_single_cctf,
 )
 from colour.plotting.models import (
-    plot_RGB_colourspaces_in_chromaticity_diagram,
-    plot_RGB_chromaticities_in_chromaticity_diagram,
     ellipses_MacAdam1942,
     plot_ellipses_MacAdam1942_in_chromaticity_diagram,
+    plot_RGB_chromaticities_in_chromaticity_diagram,
+    plot_RGB_colourspaces_in_chromaticity_diagram,
 )
 
 __author__ = "Colour Developers"

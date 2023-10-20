@@ -1,11 +1,11 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.difference` module."""
 
-import numpy as np
 import unittest
 
-from colour.difference import delta_E
+import numpy as np
 
+from colour.difference import delta_E
 from colour.utilities import domain_range_scale
 
 __author__ = "Colour Developers"

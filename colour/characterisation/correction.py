@@ -71,7 +71,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import least_square_mapping_MoorePenrose, spow
-from colour.hints import ArrayLike, Any, Literal, NDArrayFloat
+from colour.hints import Any, ArrayLike, Literal, NDArrayFloat
 from colour.utilities import (
     CanonicalMapping,
     as_float,

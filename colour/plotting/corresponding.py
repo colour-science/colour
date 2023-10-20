@@ -20,8 +20,8 @@ from colour.hints import Any, Dict, Literal, Tuple, cast
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
     artist,
-    plot_chromaticity_diagram_CIE1976UCS,
     override_style,
+    plot_chromaticity_diagram_CIE1976UCS,
     render,
 )
 from colour.utilities import is_numeric

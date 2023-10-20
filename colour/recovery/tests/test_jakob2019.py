@@ -1,11 +1,12 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.recovery.jakob2019` module."""
 
-import numpy as np
 import os
 import shutil
 import tempfile
 import unittest
+
+import numpy as np
 
 from colour.characterisation import SDS_COLOURCHECKERS
 from colour.colorimetry import handle_spectral_arguments, sd_to_XYZ
@@ -17,12 +18,12 @@ from colour.models import (
     XYZ_to_xy,
 )
 from colour.recovery.jakob2019 import (
-    XYZ_to_sd_Jakob2019,
-    sd_Jakob2019,
-    error_function,
-    dimensionalise_coefficients,
     SPECTRAL_SHAPE_JAKOB2019,
     LUT3D_Jakob2019,
+    XYZ_to_sd_Jakob2019,
+    dimensionalise_coefficients,
+    error_function,
+    sd_Jakob2019,
 )
 from colour.utilities import domain_range_scale, full, ones, zeros
 

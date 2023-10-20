@@ -3,12 +3,13 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.cineon` module.
 """
 
-import numpy as np
 import unittest
 
+import numpy as np
+
 from colour.models.rgb.transfer_functions import (
-    log_encoding_Cineon,
     log_decoding_Cineon,
+    log_encoding_Cineon,
 )
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 

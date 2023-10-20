@@ -19,8 +19,9 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 from dataclasses import dataclass
+
+import numpy as np
 
 from colour.colorimetry import SpectralDistribution
 from colour.hints import ArrayLike, NDArrayFloat, NDArrayInt, Tuple, cast

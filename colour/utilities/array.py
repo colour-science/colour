@@ -19,12 +19,13 @@ numpy-fastest-way-of-computing-diagonal-for-each-row-of-a-2d-array/\
 from __future__ import annotations
 
 import functools
-import numpy as np
 import sys
 from collections.abc import KeysView, ValuesView
 from contextlib import contextmanager
 from dataclasses import fields, is_dataclass, replace
 from operator import add, mul, pow, sub, truediv
+
+import numpy as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE, EPSILON
 from colour.hints import (
@@ -37,11 +38,11 @@ from colour.hints import (
     DTypeFloat,
     DTypeInt,
     DTypeReal,
-    NDArrayFloat,
     Generator,
-    NDArrayInt,
     Literal,
     NDArray,
+    NDArrayFloat,
+    NDArrayInt,
     Real,
     Tuple,
     Type,

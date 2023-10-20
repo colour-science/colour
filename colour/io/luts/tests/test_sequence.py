@@ -3,18 +3,19 @@
 
 from __future__ import annotations
 
-import numpy as np
 import textwrap
 import unittest
 
+import numpy as np
+
+from colour.hints import Any, ArrayLike, NDArrayFloat
 from colour.io.luts import (
-    AbstractLUTSequenceOperator,
     LUT1D,
-    LUT3x1D,
     LUT3D,
+    AbstractLUTSequenceOperator,
+    LUT3x1D,
     LUTSequence,
 )
-from colour.hints import Any, ArrayLike, NDArrayFloat
 from colour.models import gamma_function
 from colour.utilities import as_float_array, tstack
 

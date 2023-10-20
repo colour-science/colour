@@ -16,9 +16,9 @@ from __future__ import annotations
 from colour.colorimetry import CCS_ILLUMINANTS, SpectralDistribution
 from colour.hints import ArrayLike, NDArrayFloat
 from colour.models import (
-    XYZ_to_RGB,
     RGB_Colourspace,
     RGB_COLOURSPACE_sRGB,
+    XYZ_to_RGB,
 )
 from colour.recovery import SDS_SMITS1999
 from colour.utilities import to_domain_1

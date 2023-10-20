@@ -3,21 +3,20 @@
 
 from __future__ import annotations
 
-import numpy as np
 import os
 import textwrap
 import unittest
+
+import numpy as np
 
 from colour.algebra import (
     CubicSplineInterpolator,
     LinearInterpolator,
     random_triplet_generator,
     spow,
-    table_interpolation_trilinear,
     table_interpolation_tetrahedral,
+    table_interpolation_trilinear,
 )
-from colour.io.luts.lut import AbstractLUT
-from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUT_to_LUT
 from colour.hints import (
     Any,
     Callable,
@@ -25,6 +24,8 @@ from colour.hints import (
     ProtocolInterpolator,
     Type,
 )
+from colour.io.luts import LUT1D, LUT3D, LUT3x1D, LUT_to_LUT
+from colour.io.luts.lut import AbstractLUT
 from colour.utilities import as_float_array, tsplit, tstack
 
 __author__ = "Colour Developers"

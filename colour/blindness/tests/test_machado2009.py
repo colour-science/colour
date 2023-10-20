@@ -1,14 +1,15 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.blindness.machado2009` module."""
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.blindness import (
     CVD_MATRICES_MACHADO2010,
+    matrix_anomalous_trichromacy_Machado2009,
     matrix_cvd_Machado2009,
     msds_cmfs_anomalous_trichromacy_Machado2009,
-    matrix_anomalous_trichromacy_Machado2009,
 )
 from colour.characterisation import MSDS_DISPLAY_PRIMARIES
 from colour.colorimetry import MSDS_CMFS_LMS

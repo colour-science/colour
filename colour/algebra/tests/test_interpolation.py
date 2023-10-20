@@ -10,31 +10,32 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 import os
 import unittest
 from itertools import product
 
+import numpy as np
+
+from colour.algebra import (
+    CubicSplineInterpolator,
+    KernelInterpolator,
+    LinearInterpolator,
+    NearestNeighbourInterpolator,
+    NullInterpolator,
+    PchipInterpolator,
+    SpragueInterpolator,
+    kernel_cardinal_spline,
+    kernel_lanczos,
+    kernel_linear,
+    kernel_nearest_neighbour,
+    kernel_sinc,
+    lagrange_coefficients,
+    random_triplet_generator,
+    table_interpolation_tetrahedral,
+    table_interpolation_trilinear,
+)
 from colour.algebra.interpolation import vertices_and_relative_coordinates
 from colour.hints import NDArrayFloat, cast
-from colour.algebra import (
-    kernel_nearest_neighbour,
-    kernel_linear,
-    kernel_sinc,
-    kernel_lanczos,
-    kernel_cardinal_spline,
-    KernelInterpolator,
-    NearestNeighbourInterpolator,
-    LinearInterpolator,
-    SpragueInterpolator,
-    CubicSplineInterpolator,
-    PchipInterpolator,
-    NullInterpolator,
-    lagrange_coefficients,
-    table_interpolation_trilinear,
-    table_interpolation_tetrahedral,
-)
-from colour.algebra import random_triplet_generator
 from colour.io import LUT3D, read_LUT
 from colour.utilities import ignore_numpy_errors
 

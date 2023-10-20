@@ -1,12 +1,13 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.volume.pointer_gamut` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
-from colour.volume import is_within_pointer_gamut
+import numpy as np
+
 from colour.utilities import ignore_numpy_errors
+from colour.volume import is_within_pointer_gamut
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

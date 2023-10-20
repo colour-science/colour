@@ -1,15 +1,15 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.adaptation.cmccat2000."""
 
-import numpy as np
 import unittest
 from itertools import product
+
+import numpy as np
 
 from colour.adaptation.cmccat2000 import (
     chromatic_adaptation_forward_CMCCAT2000,
     chromatic_adaptation_inverse_CMCCAT2000,
 )
-
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"

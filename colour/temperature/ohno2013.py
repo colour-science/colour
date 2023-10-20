@@ -29,7 +29,7 @@ from colour.colorimetry import (
     handle_spectral_arguments,
 )
 from colour.hints import ArrayLike, NDArrayFloat
-from colour.models import UCS_to_XYZ, UCS_to_uv, XYZ_to_UCS, uv_to_UCS
+from colour.models import UCS_to_uv, UCS_to_XYZ, XYZ_to_UCS, uv_to_UCS
 from colour.temperature import CCT_to_uv_Planck1900
 from colour.utilities import (
     CACHE_REGISTRY,

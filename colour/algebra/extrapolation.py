@@ -33,8 +33,8 @@ from colour.hints import (
     Type,
 )
 from colour.utilities import (
-    as_float_array,
     as_float,
+    as_float_array,
     attest,
     is_numeric,
     is_string,

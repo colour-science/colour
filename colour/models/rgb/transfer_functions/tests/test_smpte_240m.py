@@ -3,10 +3,11 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.smpte_240m` module.
 """
 
-import numpy as np
 import unittest
 
-from colour.models.rgb.transfer_functions import oetf_SMPTE240M, eotf_SMPTE240M
+import numpy as np
+
+from colour.models.rgb.transfer_functions import eotf_SMPTE240M, oetf_SMPTE240M
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"

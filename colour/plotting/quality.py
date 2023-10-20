@@ -12,17 +12,18 @@ Defines the colour quality plotting objects:
 
 from __future__ import annotations
 
-import numpy as np
 from itertools import cycle
+
+import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
-from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.colorimetry import (
     MultiSpectralDistributions,
     SpectralDistribution,
     sds_and_msds_to_sds,
 )
+from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.hints import (
     Any,
     Dict,

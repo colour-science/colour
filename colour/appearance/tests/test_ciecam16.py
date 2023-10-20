@@ -1,16 +1,17 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.appearance.ciecam16` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.appearance import (
     VIEWING_CONDITIONS_CIECAM16,
-    InductionFactors_CIECAM16,
     CAM_Specification_CIECAM16,
-    XYZ_to_CIECAM16,
     CIECAM16_to_XYZ,
+    InductionFactors_CIECAM16,
+    XYZ_to_CIECAM16,
 )
 from colour.utilities import (
     as_float_array,

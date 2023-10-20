@@ -1,14 +1,15 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.geometry.ellipse` module."""
 
-import numpy as np
 import unittest
 
+import numpy as np
+
 from colour.geometry import (
-    ellipse_coefficients_general_form,
     ellipse_coefficients_canonical_form,
-    point_at_angle_on_ellipse,
+    ellipse_coefficients_general_form,
     ellipse_fitting_Halir1998,
+    point_at_angle_on_ellipse,
 )
 
 __author__ = "Colour Developers"

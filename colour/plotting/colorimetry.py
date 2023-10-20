@@ -26,9 +26,10 @@ References
 
 from __future__ import annotations
 
+from functools import reduce
+
 import matplotlib.pyplot as plt
 import numpy as np
-from functools import reduce
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from matplotlib.patches import Polygon
@@ -41,9 +42,9 @@ from colour.algebra import (
 )
 from colour.colorimetry import (
     CCS_ILLUMINANTS,
-    SDS_ILLUMINANTS,
     LIGHTNESS_METHODS,
     LUMINANCE_METHODS,
+    SDS_ILLUMINANTS,
     MultiSpectralDistributions,
     SpectralDistribution,
     SpectralShape,
@@ -66,13 +67,13 @@ from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
     XYZ_to_plotting_colourspace,
     artist,
-    filter_passthrough,
     filter_cmfs,
     filter_illuminants,
+    filter_passthrough,
     override_style,
-    render,
-    plot_single_colour_swatch,
     plot_multi_functions,
+    plot_single_colour_swatch,
+    render,
     update_settings_collection,
 )
 from colour.utilities import (

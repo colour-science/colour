@@ -31,23 +31,23 @@ from __future__ import annotations
 import re
 from functools import partial
 
-from colour.hints import Callable, Any, ArrayLike, NDArrayFloat, cast
+from colour.hints import Any, ArrayLike, Callable, NDArrayFloat, cast
 from colour.models.cam02_ucs import (
     COEFFICIENTS_UCS_LUO2006,
+    CAM02LCD_to_JMh_CIECAM02,
+    CAM02LCD_to_XYZ,
+    CAM02SCD_to_JMh_CIECAM02,
+    CAM02SCD_to_XYZ,
+    CAM02UCS_to_JMh_CIECAM02,
+    CAM02UCS_to_XYZ,
+    JMh_CIECAM02_to_CAM02LCD,
+    JMh_CIECAM02_to_CAM02SCD,
+    JMh_CIECAM02_to_CAM02UCS,
     JMh_CIECAM02_to_UCS_Luo2006,
     UCS_Luo2006_to_JMh_CIECAM02,
-    JMh_CIECAM02_to_CAM02LCD,
-    CAM02LCD_to_JMh_CIECAM02,
-    JMh_CIECAM02_to_CAM02SCD,
-    CAM02SCD_to_JMh_CIECAM02,
-    JMh_CIECAM02_to_CAM02UCS,
-    CAM02UCS_to_JMh_CIECAM02,
     XYZ_to_CAM02LCD,
-    CAM02LCD_to_XYZ,
     XYZ_to_CAM02SCD,
-    CAM02SCD_to_XYZ,
     XYZ_to_CAM02UCS,
-    CAM02UCS_to_XYZ,
 )
 from colour.utilities import (
     as_float_array,
@@ -341,9 +341,9 @@ def UCS_Li2017_to_XYZ(
     """
 
     from colour.appearance import (
+        CAM16_to_XYZ,
         CAM_KWARGS_CIECAM02_sRGB,
         CAM_Specification_CAM16,
-        CAM16_to_XYZ,
     )
 
     domain_range_reference = get_domain_range_scale() == "reference"

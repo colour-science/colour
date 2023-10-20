@@ -25,7 +25,7 @@ import numpy as np
 from scipy.optimize import minimize
 
 from colour.hints import ArrayLike, NDArrayFloat
-from colour.utilities import as_float_array, as_float, tstack, usage_warning
+from colour.utilities import as_float, as_float_array, tstack, usage_warning
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

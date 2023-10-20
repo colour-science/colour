@@ -1,17 +1,18 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.colorimetry.dominant` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.colorimetry import (
-    MSDS_CMFS,
     CCS_ILLUMINANTS,
-    dominant_wavelength,
-    complementary_wavelength,
-    excitation_purity,
+    MSDS_CMFS,
     colorimetric_purity,
+    complementary_wavelength,
+    dominant_wavelength,
+    excitation_purity,
 )
 from colour.colorimetry.dominant import (
     closest_spectral_locus_wavelength,

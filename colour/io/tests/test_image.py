@@ -3,19 +3,25 @@
 
 from __future__ import annotations
 
-import numpy as np
 import os
 import platform
 import shutil
-import unittest
 import tempfile
+import unittest
 
-from colour.io import convert_bit_depth
-from colour.io import read_image_OpenImageIO, write_image_OpenImageIO
-from colour.io import read_image_Imageio, write_image_Imageio
-from colour.io import read_image, write_image
-from colour.io import as_3_channels_image
-from colour.io import ImageAttribute_Specification
+import numpy as np
+
+from colour.io import (
+    ImageAttribute_Specification,
+    as_3_channels_image,
+    convert_bit_depth,
+    read_image,
+    read_image_Imageio,
+    read_image_OpenImageIO,
+    write_image,
+    write_image_Imageio,
+    write_image_OpenImageIO,
+)
 from colour.utilities import attest, full, is_openimageio_installed
 
 __author__ = "Colour Developers"

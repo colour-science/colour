@@ -3,11 +3,12 @@
 
 from __future__ import annotations
 
-import numpy as np
 import os
 import shutil
 import tempfile
 import unittest
+
+import numpy as np
 
 from colour.io import read_LUT_SonySPI1D, write_LUT_SonySPI1D
 

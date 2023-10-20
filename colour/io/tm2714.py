@@ -18,8 +18,8 @@ from __future__ import annotations
 import os
 import re
 from dataclasses import dataclass, field
-from xml.etree import ElementTree
 from xml.dom import minidom
+from xml.etree import ElementTree
 
 from colour.colorimetry import SpectralDistribution
 from colour.hints import Any, Callable, Literal
@@ -28,11 +28,11 @@ from colour.utilities import (
     as_float_array,
     as_float_scalar,
     attest,
-    optional,
-    multiline_str,
-    multiline_repr,
     is_numeric,
     is_string,
+    multiline_repr,
+    multiline_str,
+    optional,
     tstack,
 )
 

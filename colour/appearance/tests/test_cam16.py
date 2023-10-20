@@ -1,16 +1,17 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.appearance.cam16` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.appearance import (
     VIEWING_CONDITIONS_CAM16,
-    InductionFactors_CAM16,
-    CAM_Specification_CAM16,
-    XYZ_to_CAM16,
     CAM16_to_XYZ,
+    CAM_Specification_CAM16,
+    InductionFactors_CAM16,
+    XYZ_to_CAM16,
 )
 from colour.utilities import (
     as_float_array,

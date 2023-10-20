@@ -8,12 +8,12 @@ Defines various deprecation management related objects.
 from __future__ import annotations
 
 import sys
-from importlib import import_module
 from collections import namedtuple
+from importlib import import_module
 from operator import attrgetter
 
-from colour.utilities import attest, optional, usage_warning
 from colour.hints import Any, ModuleType
+from colour.utilities import attest, optional, usage_warning
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

@@ -27,8 +27,8 @@ from colour.utilities import (
     ones,
     tsplit,
     tstack,
-    zeros,
     validate_method,
+    zeros,
 )
 
 __author__ = "Colour Developers"

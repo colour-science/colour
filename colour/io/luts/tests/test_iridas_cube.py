@@ -3,11 +3,12 @@
 
 from __future__ import annotations
 
-import numpy as np
 import os
-import unittest
 import shutil
 import tempfile
+import unittest
+
+import numpy as np
 
 from colour.io import (
     LUT1D,

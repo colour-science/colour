@@ -3,12 +3,13 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
 nikon_n_log` module.
 """
 
-import numpy as np
 import unittest
 
+import numpy as np
+
 from colour.models.rgb.transfer_functions import (
-    log_encoding_NLog,
     log_decoding_NLog,
+    log_encoding_NLog,
 )
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 

@@ -12,8 +12,9 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 
 from __future__ import annotations
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.algebra import random_triplet_generator
 from colour.hints import NDArrayFloat

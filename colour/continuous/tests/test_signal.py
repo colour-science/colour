@@ -1,9 +1,10 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.continuous.signal` module."""
 
-import numpy as np
-import unittest
 import textwrap
+import unittest
+
+import numpy as np
 
 from colour.algebra import (
     CubicSplineInterpolator,

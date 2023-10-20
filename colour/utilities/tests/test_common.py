@@ -3,11 +3,12 @@
 
 from __future__ import annotations
 
-import numpy as np
 import platform
-import unittest
 import unicodedata
+import unittest
 from functools import partial
+
+import numpy as np
 
 from colour.hints import Any, Real, Tuple
 from colour.utilities import (
@@ -15,19 +16,19 @@ from colour.utilities import (
     CanonicalMapping,
     attest,
     batch,
-    multiprocessing_pool,
-    is_iterable,
-    is_string,
-    is_numeric,
-    is_integer,
-    is_sibling,
     filter_kwargs,
     filter_mapping,
     first_item,
-    validate_method,
+    int_digest,
+    is_integer,
+    is_iterable,
+    is_numeric,
+    is_sibling,
+    is_string,
+    multiprocessing_pool,
     optional,
     slugify,
-    int_digest,
+    validate_method,
 )
 
 __author__ = "Colour Developers"

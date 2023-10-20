@@ -20,8 +20,8 @@ from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
-    log_encoding_VLog,
     log_decoding_VLog,
+    log_encoding_VLog,
 )
 
 __author__ = "Colour Developers"

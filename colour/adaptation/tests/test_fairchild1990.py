@@ -2,9 +2,10 @@
 """Define the unit tests for the :mod:`colour.adaptation.fairchild1990` module."""
 
 import contextlib
-import numpy as np
 import unittest
 from itertools import product
+
+import numpy as np
 from numpy.linalg import LinAlgError
 
 from colour.adaptation import chromatic_adaptation_Fairchild1990

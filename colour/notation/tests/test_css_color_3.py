@@ -3,8 +3,9 @@
 
 from __future__ import annotations
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.notation import keyword_to_RGB_CSSColor3
 

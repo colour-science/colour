@@ -25,10 +25,10 @@ from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
-    log_encoding_ARRILogC3,
     log_decoding_ARRILogC3,
-    log_encoding_ARRILogC4,
     log_decoding_ARRILogC4,
+    log_encoding_ARRILogC3,
+    log_encoding_ARRILogC4,
 )
 
 __author__ = "Colour Developers"

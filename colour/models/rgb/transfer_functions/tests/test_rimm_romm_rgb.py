@@ -3,16 +3,17 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.rimm_romm_rgb` module.
 """
 
-import numpy as np
 import unittest
 
+import numpy as np
+
 from colour.models.rgb.transfer_functions import (
-    cctf_encoding_ROMMRGB,
+    cctf_decoding_RIMMRGB,
     cctf_decoding_ROMMRGB,
     cctf_encoding_RIMMRGB,
-    cctf_decoding_RIMMRGB,
-    log_encoding_ERIMMRGB,
+    cctf_encoding_ROMMRGB,
     log_decoding_ERIMMRGB,
+    log_encoding_ERIMMRGB,
 )
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 

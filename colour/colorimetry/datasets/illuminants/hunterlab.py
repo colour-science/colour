@@ -22,8 +22,9 @@ an02_02.pdf
 
 from __future__ import annotations
 
-import numpy as np
 from collections import namedtuple
+
+import numpy as np
 
 from colour.utilities import CanonicalMapping
 

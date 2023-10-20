@@ -5,13 +5,13 @@ from __future__ import annotations
 
 import os
 import shutil
-import unittest
 import tempfile
+import unittest
 
 from colour.colorimetry import SpectralDistribution, SpectralShape
 from colour.io import (
-    read_spectral_data_from_csv_file,
     read_sds_from_csv_file,
+    read_spectral_data_from_csv_file,
     write_sds_to_csv_file,
 )
 

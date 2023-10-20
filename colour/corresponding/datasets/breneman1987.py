@@ -13,9 +13,9 @@ References
     doi:10.1364/JOSAA.4.001115
 """
 
-import numpy as np
-
 from collections import namedtuple
+
+import numpy as np
 
 from colour.utilities.documentation import (
     DocstringDict,

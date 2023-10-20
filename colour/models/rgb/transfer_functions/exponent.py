@@ -18,7 +18,6 @@ References
 
 from __future__ import annotations
 
-
 from colour.algebra import sdiv, sdiv_mode
 from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.utilities import (

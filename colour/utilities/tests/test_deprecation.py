@@ -6,19 +6,19 @@ import unittest
 
 from colour.utilities import ColourUsageWarning
 from colour.utilities.deprecation import (
-    ObjectRenamed,
-    ObjectRemoved,
-    ObjectFutureRename,
-    ObjectFutureRemove,
+    ArgumentFutureRemove,
+    ArgumentFutureRename,
+    ArgumentRemoved,
+    ArgumentRenamed,
+    ModuleAPI,
     ObjectFutureAccessChange,
     ObjectFutureAccessRemove,
-    ArgumentRenamed,
-    ArgumentRemoved,
-    ArgumentFutureRename,
-    ArgumentFutureRemove,
-    ModuleAPI,
-    get_attribute,
+    ObjectFutureRemove,
+    ObjectFutureRename,
+    ObjectRemoved,
+    ObjectRenamed,
     build_API_changes,
+    get_attribute,
     handle_arguments_deprecation,
 )
 

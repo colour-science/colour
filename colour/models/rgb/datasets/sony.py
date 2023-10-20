@@ -51,10 +51,10 @@ from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
-    log_encoding_SLog2,
     log_decoding_SLog2,
-    log_encoding_SLog3,
     log_decoding_SLog3,
+    log_encoding_SLog2,
+    log_encoding_SLog3,
     normalised_primary_matrix,
 )
 

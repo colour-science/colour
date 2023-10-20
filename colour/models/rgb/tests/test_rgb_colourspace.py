@@ -3,27 +3,28 @@
 Define the unit tests for the :mod:`colour.models.rgb.rgb_colourspace` module.
 """
 
-import numpy as np
 import re
 import textwrap
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.models import (
     RGB_COLOURSPACE_ACES2065_1,
-    RGB_COLOURSPACE_sRGB,
     RGB_COLOURSPACES,
     RGB_Colourspace,
-    XYZ_to_RGB,
-    RGB_to_XYZ,
+    RGB_COLOURSPACE_sRGB,
     RGB_to_RGB,
-    matrix_RGB_to_RGB,
+    RGB_to_XYZ,
+    XYZ_to_RGB,
     chromatically_adapted_primaries,
-    normalised_primary_matrix,
     eotf_inverse_sRGB,
     eotf_sRGB,
+    linear_function,
+    matrix_RGB_to_RGB,
+    normalised_primary_matrix,
 )
-from colour.models import linear_function
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"

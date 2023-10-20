@@ -1,7 +1,8 @@
 """Showcases corresponding colour blindness plotting examples."""
 
-import numpy as np
 import os
+
+import numpy as np
 
 import colour
 from colour.plotting import (

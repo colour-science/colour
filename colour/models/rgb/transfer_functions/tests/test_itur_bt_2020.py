@@ -3,8 +3,9 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.itur_bt_2020` module.
 """
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.models.rgb.transfer_functions import (
     oetf_BT2020,

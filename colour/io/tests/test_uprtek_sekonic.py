@@ -3,15 +3,16 @@
 from __future__ import annotations
 
 import json
-import numpy as np
 import os
 import unittest
+
+import numpy as np
 
 from colour.colorimetry import SpectralDistribution
 from colour.hints import Any
 from colour.io import (
-    SpectralDistribution_UPRTek,
     SpectralDistribution_Sekonic,
+    SpectralDistribution_UPRTek,
 )
 
 __author__ = "Colour Developers"

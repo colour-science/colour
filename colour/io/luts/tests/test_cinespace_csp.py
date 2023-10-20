@@ -3,14 +3,14 @@
 
 from __future__ import annotations
 
-import numpy as np
 import os
-import unittest
 import shutil
 import tempfile
+import unittest
 
-from colour.io import LUT1D, LUT3x1D
-from colour.io import read_LUT_Cinespace, write_LUT_Cinespace
+import numpy as np
+
+from colour.io import LUT1D, LUT3x1D, read_LUT_Cinespace, write_LUT_Cinespace
 from colour.utilities import tstack
 
 __author__ = "Colour Developers"

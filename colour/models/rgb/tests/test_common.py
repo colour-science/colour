@@ -1,8 +1,9 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.rgb.common` module."""
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.models import XYZ_to_sRGB, sRGB_to_XYZ
 
