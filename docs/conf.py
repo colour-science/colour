@@ -5,11 +5,12 @@ Colour - Documentation Configuration
 
 import os
 import re
-import setuptools.archive_util
 import sys
 import urllib.parse
 import urllib.request
 from pathlib import Path
+
+import setuptools.archive_util
 
 sys.path.append(str(Path(__file__).parent.parent))
 

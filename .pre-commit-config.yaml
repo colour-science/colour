@@ -3,6 +3,10 @@ repos:
     rev: '1.0.1'
     hooks:
     -   id: flynt
+-   repo: https://github.com/PyCQA/isort
+    rev: '5.12.0'
+    hooks: 
+    - id: isort
 -   repo: https://github.com/charliermarsh/ruff-pre-commit
     rev: 'v0.0.285'
     hooks:
