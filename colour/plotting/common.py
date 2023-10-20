@@ -571,6 +571,8 @@ class KwargsRender(TypedDict):
     show
         Whether to show the figure and call :func:`matplotlib.pyplot.show`
         definition.
+    block
+        Whether to block on `show`ing the plot.
     aspect
         Matplotlib axes aspect.
     axes_visible
@@ -605,6 +607,7 @@ class KwargsRender(TypedDict):
     axes: Axes
     filename: str
     show: bool
+    block: bool
     aspect: Literal["auto", "equal"] | float
     axes_visible: bool
     bounding_box: ArrayLike
@@ -653,6 +656,7 @@ def render(
         **{
             "filename": None,
             "show": True,
+            "block": True,
             "aspect": None,
             "axes_visible": True,
             "bounding_box": None,
@@ -701,7 +705,7 @@ def render(
         figure.savefig(settings.filename)
 
     if settings.show:
-        plt.show()
+        plt.show(block=settings.block)
 
     return figure, axes
 
