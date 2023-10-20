@@ -38,7 +38,7 @@ from dataclasses import dataclass, field
 from functools import partial
 from matplotlib.axes import Axes
 from matplotlib.colors import LinearSegmentedColormap
-from matplotlib.figure import Figure
+from matplotlib.figure import Figure, SubFigure
 from matplotlib.patches import Patch
 from mpl_toolkits.mplot3d.axes3d import Axes3D
 
@@ -494,7 +494,13 @@ def artist(**kwargs: KwargsArtist | Any) -> Tuple[Figure, Axes]:
 
         return figure, figure.gca()
     else:
-        return plt.gcf(), cast(Axes, axes)
+        axes = cast(Axes, axes)
+        figure = axes.figure
+
+        if isinstance(figure, SubFigure):
+            figure = figure.get_figure()
+
+        return cast(Figure, figure), axes
 
 
 class KwargsCamera(TypedDict):

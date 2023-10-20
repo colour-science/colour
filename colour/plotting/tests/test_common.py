@@ -168,6 +168,25 @@ class TestArtist(unittest.TestCase):
     methods.
     """
 
+    def test_axes_args(self):
+        """
+        Test `colour.plotting.common.artist` figure / axis association
+        """
+        fig1 = plt.figure()
+        ax1 = fig1.gca()
+
+        fig2, ax2 = artist(axes=ax1)
+
+        self.assertEqual(fig1, fig2)
+        plt.close(fig1)
+
+        fig1 = plt.figure()
+        ax1 = fig1.gca()
+        fig2 = plt.figure()
+
+        fig3, ax3 = artist(axes=ax1)
+        self.assertEqual(fig1, fig3)
+
     def test_artist(self):
         """Test :func:`colour.plotting.common.artist` definition."""
 
