@@ -25,8 +25,9 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 from copy import deepcopy
+
+import numpy as np
 
 from colour.adaptation import matrix_chromatic_adaptation_VonKries
 from colour.algebra import matrix_dot, vector_dot
@@ -39,7 +40,7 @@ from colour.hints import (
     NDArrayFloat,
     cast,
 )
-from colour.models import xy_to_XYZ, xy_to_xyY, xyY_to_XYZ
+from colour.models import xy_to_xyY, xy_to_XYZ, xyY_to_XYZ
 from colour.models.rgb import (
     chromatically_adapted_primaries,
     normalised_primary_matrix,
@@ -50,11 +51,11 @@ from colour.utilities import (
     domain_range_scale,
     filter_kwargs,
     from_range_1,
-    multiline_str,
+    is_string,
     multiline_repr,
+    multiline_str,
     optional,
     to_domain_1,
-    is_string,
     usage_warning,
     validate_method,
 )

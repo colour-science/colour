@@ -18,8 +18,9 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 from dataclasses import dataclass
+
+import numpy as np
 
 from colour.algebra import eigen_decomposition
 from colour.colorimetry import (
@@ -44,10 +45,10 @@ from colour.hints import (
 )
 from colour.models import XYZ_to_xy
 from colour.recovery import (
-    SPECTRAL_SHAPE_OTSU2018,
     BASIS_FUNCTIONS_OTSU2018,
     CLUSTER_MEANS_OTSU2018,
     SELECTOR_ARRAY_OTSU2018,
+    SPECTRAL_SHAPE_OTSU2018,
 )
 from colour.utilities import (
     Node,

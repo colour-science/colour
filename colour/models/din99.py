@@ -32,9 +32,9 @@ from colour.models import Lab_to_XYZ, XYZ_to_Lab
 from colour.utilities import (
     CanonicalMapping,
     from_range_100,
+    to_domain_100,
     tsplit,
     tstack,
-    to_domain_100,
     validate_method,
 )
 

@@ -1,9 +1,10 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.rgb.ycocg` module."""
 
-import numpy as np
 import unittest
 from itertools import product
+
+import numpy as np
 
 from colour.models.rgb import RGB_to_YCoCg, YCoCg_to_RGB
 from colour.utilities import ignore_numpy_errors

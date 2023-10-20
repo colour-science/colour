@@ -4,53 +4,43 @@
 from __future__ import annotations
 
 import contextlib
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.hints import NDArrayFloat
-from colour.notation.munsell import (
-    CCS_ILLUMINANT_MUNSELL,
-)
-from colour.notation.munsell import (
-    parse_munsell_colour,
-    is_grey_munsell_colour,
-    normalise_munsell_specification,
-)
-from colour.notation.munsell import (
-    munsell_colour_to_munsell_specification,
-    munsell_specification_to_munsell_colour,
-)
-from colour.notation.munsell import (
-    xyY_from_renotation,
-    is_specification_in_renotation,
-)
-from colour.notation.munsell import bounding_hues_from_renotation
-from colour.notation.munsell import hue_to_hue_angle, hue_angle_to_hue
-from colour.notation.munsell import hue_to_ASTM_hue
-from colour.notation.munsell import (
-    interpolation_method_from_renotation_ovoid,
-    xy_from_renotation_ovoid,
-)
-from colour.notation.munsell import LCHab_to_munsell_specification
-from colour.notation.munsell import maximum_chroma_from_renotation
-from colour.notation.munsell import munsell_specification_to_xy
-from colour.notation.munsell import (
-    munsell_colour_to_xyY,
-    xyY_to_munsell_colour,
-)
-from colour.notation.munsell import (
-    munsell_specification_to_xyY,
-    xyY_to_munsell_specification,
-)
 from colour.notation import (
-    munsell_value_Priest1920,
-    munsell_value_Munsell1933,
-    munsell_value_Moon1943,
-    munsell_value_Saunderson1944,
+    munsell_value_ASTMD1535,
     munsell_value_Ladd1955,
     munsell_value_McCamy1987,
-    munsell_value_ASTMD1535,
+    munsell_value_Moon1943,
+    munsell_value_Munsell1933,
+    munsell_value_Priest1920,
+    munsell_value_Saunderson1944,
+)
+from colour.notation.munsell import (
+    CCS_ILLUMINANT_MUNSELL,
+    LCHab_to_munsell_specification,
+    bounding_hues_from_renotation,
+    hue_angle_to_hue,
+    hue_to_ASTM_hue,
+    hue_to_hue_angle,
+    interpolation_method_from_renotation_ovoid,
+    is_grey_munsell_colour,
+    is_specification_in_renotation,
+    maximum_chroma_from_renotation,
+    munsell_colour_to_munsell_specification,
+    munsell_colour_to_xyY,
+    munsell_specification_to_munsell_colour,
+    munsell_specification_to_xy,
+    munsell_specification_to_xyY,
+    normalise_munsell_specification,
+    parse_munsell_colour,
+    xy_from_renotation_ovoid,
+    xyY_from_renotation,
+    xyY_to_munsell_colour,
+    xyY_to_munsell_specification,
 )
 from colour.utilities import (
     as_array,

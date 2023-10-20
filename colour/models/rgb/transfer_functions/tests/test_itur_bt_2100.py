@@ -3,31 +3,30 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.itur_bt_2100` module.
 """
 
-import numpy as np
 import unittest
 
+import numpy as np
+
 from colour.models.rgb.transfer_functions import (
-    oetf_BT2100_PQ,
-    oetf_inverse_BT2100_PQ,
     eotf_BT2100_PQ,
     eotf_inverse_BT2100_PQ,
+    oetf_BT2100_HLG,
+    oetf_BT2100_PQ,
+    oetf_inverse_BT2100_HLG,
+    oetf_inverse_BT2100_PQ,
     ootf_BT2100_PQ,
     ootf_inverse_BT2100_PQ,
-    oetf_BT2100_HLG,
-    oetf_inverse_BT2100_HLG,
 )
 from colour.models.rgb.transfer_functions.itur_bt_2100 import (
     eotf_BT2100_HLG_1,
     eotf_BT2100_HLG_2,
     eotf_inverse_BT2100_HLG_1,
     eotf_inverse_BT2100_HLG_2,
+    gamma_function_BT2100_HLG,
     ootf_BT2100_HLG_1,
     ootf_BT2100_HLG_2,
     ootf_inverse_BT2100_HLG_1,
     ootf_inverse_BT2100_HLG_2,
-)
-from colour.models.rgb.transfer_functions.itur_bt_2100 import (
-    gamma_function_BT2100_HLG,
 )
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 

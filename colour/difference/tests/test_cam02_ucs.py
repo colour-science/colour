@@ -1,9 +1,10 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.difference.cam02_ucs` module."""
 
-import numpy as np
 import unittest
 from itertools import product
+
+import numpy as np
 
 from colour.difference import (
     delta_E_CAM02LCD,

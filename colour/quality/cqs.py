@@ -23,20 +23,22 @@ usp=sharing
 
 from __future__ import annotations
 
-import numpy as np
 from dataclasses import dataclass
 
+import numpy as np
+
+from colour.adaptation import chromatic_adaptation_VonKries
 from colour.algebra import euclidean_distance, sdiv, sdiv_mode
 from colour.colorimetry import (
     CCS_ILLUMINANTS,
     MSDS_CMFS,
-    MultiSpectralDistributions,
     SPECTRAL_SHAPE_DEFAULT,
+    MultiSpectralDistributions,
     SpectralDistribution,
     reshape_msds,
     reshape_sd,
-    sd_CIE_illuminant_D_series,
     sd_blackbody,
+    sd_CIE_illuminant_D_series,
     sd_to_XYZ,
 )
 from colour.hints import (
@@ -57,7 +59,6 @@ from colour.models import (
 )
 from colour.quality.datasets.vs import INDEXES_TO_NAMES_VS, SDS_VS
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
-from colour.adaptation import chromatic_adaptation_VonKries
 from colour.utilities import (
     as_float_array,
     domain_range_scale,

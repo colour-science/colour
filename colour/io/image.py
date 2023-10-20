@@ -7,10 +7,12 @@ Defines the image related input / output utilities objects.
 
 from __future__ import annotations
 
-import numpy as np
 from dataclasses import dataclass, field
 
+import numpy as np
+
 from colour.hints import (
+    TYPE_CHECKING,
     Any,
     ArrayLike,
     DTypeReal,
@@ -19,7 +21,6 @@ from colour.hints import (
     NDArrayReal,
     Optional,
     Sequence,
-    TYPE_CHECKING,
     Tuple,
     Type,
     cast,
@@ -29,8 +30,8 @@ from colour.utilities import (
     as_float_array,
     as_int_array,
     attest,
-    is_openimageio_installed,
     filter_kwargs,
+    is_openimageio_installed,
     optional,
     required,
     tstack,
@@ -106,7 +107,7 @@ class ImageAttribute_Specification:
 
 
 if is_openimageio_installed():  # pragma: no cover
-    from OpenImageIO import UINT8, UINT16, HALF, FLOAT, DOUBLE
+    from OpenImageIO import DOUBLE, FLOAT, HALF, UINT8, UINT16
 
     MAPPING_BIT_DEPTH: CanonicalMapping = CanonicalMapping(
         {

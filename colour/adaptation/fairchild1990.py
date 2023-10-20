@@ -19,8 +19,8 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.algebra import sdiv, sdiv_mode, spow, vector_dot
 from colour.adaptation import CAT_VON_KRIES
+from colour.algebra import sdiv, sdiv_mode, spow, vector_dot
 from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     as_float_array,

@@ -1,20 +1,21 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.colorimetry.generation` module."""
 
-import numpy as np
 import unittest
 
+import numpy as np
+
 from colour.colorimetry.generation import (
-    sd_constant,
-    sd_zeros,
-    sd_ones,
     msds_constant,
-    msds_zeros,
     msds_ones,
-    sd_gaussian_normal,
+    msds_zeros,
+    sd_constant,
     sd_gaussian_fwhm,
-    sd_single_led_Ohno2005,
+    sd_gaussian_normal,
     sd_multi_leds_Ohno2005,
+    sd_ones,
+    sd_single_led_Ohno2005,
+    sd_zeros,
 )
 
 __author__ = "Colour Developers"

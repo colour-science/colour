@@ -1,8 +1,9 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.adaptation` module."""
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.adaptation import chromatic_adaptation
 from colour.utilities import domain_range_scale

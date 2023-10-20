@@ -1,13 +1,14 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.plotting.volume` module."""
 
-import numpy as np
 import unittest
+
+import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
 from colour.plotting import plot_RGB_colourspaces_gamuts, plot_RGB_scatter
-from colour.plotting.volume import nadir_grid, RGB_identity_cube
+from colour.plotting.volume import RGB_identity_cube, nadir_grid
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

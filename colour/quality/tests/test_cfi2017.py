@@ -9,20 +9,21 @@ Notes
 
 from __future__ import annotations
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.colorimetry import (
     SDS_ILLUMINANTS,
-    SpectralShape,
     SpectralDistribution,
+    SpectralShape,
     reshape_sd,
     sd_blackbody,
 )
 from colour.quality.cfi2017 import (
     CCT_reference_illuminant,
-    sd_reference_illuminant,
     colour_fidelity_index_CIE2017,
+    sd_reference_illuminant,
 )
 from colour.utilities import ColourUsageWarning
 

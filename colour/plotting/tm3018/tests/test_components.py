@@ -4,23 +4,24 @@
 from __future__ import annotations
 
 import unittest
+
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
 from colour.colorimetry import SDS_ILLUMINANTS
 from colour.hints import cast
+from colour.plotting.tm3018.components import (
+    plot_16_bin_bars,
+    plot_colour_fidelity_indexes,
+    plot_colour_vector_graphic,
+    plot_local_chroma_shifts,
+    plot_local_colour_fidelities,
+    plot_local_hue_shifts,
+    plot_spectra_ANSIIESTM3018,
+)
 from colour.quality import (
     ColourQuality_Specification_ANSIIESTM3018,
     colour_fidelity_index_ANSIIESTM3018,
-)
-from colour.plotting.tm3018.components import (
-    plot_spectra_ANSIIESTM3018,
-    plot_colour_vector_graphic,
-    plot_16_bin_bars,
-    plot_local_chroma_shifts,
-    plot_local_hue_shifts,
-    plot_local_colour_fidelities,
-    plot_colour_fidelity_indexes,
 )
 
 __author__ = "Colour Developers"

@@ -1,13 +1,14 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.plotting.common` module."""
 
-import matplotlib.pyplot as plt
-import numpy as np
 import os
 import shutil
 import tempfile
 import unittest
 from functools import partial
+
+import matplotlib.pyplot as plt
+import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
@@ -15,28 +16,28 @@ import colour
 from colour.colorimetry import SDS_ILLUMINANTS
 from colour.io import read_image
 from colour.models import RGB_COLOURSPACES, XYZ_to_sRGB, gamma_function
-from colour.plotting import ColourSwatch
 from colour.plotting import (
-    colour_style,
-    override_style,
+    ColourSwatch,
     XYZ_to_plotting_colourspace,
-    colour_cycle,
     artist,
     camera,
-    render,
-    label_rectangles,
-    uniform_axes3d,
+    colour_cycle,
+    colour_style,
+    filter_cmfs,
+    filter_colour_checkers,
+    filter_illuminants,
     filter_passthrough,
     filter_RGB_colourspaces,
-    filter_cmfs,
-    filter_illuminants,
-    filter_colour_checkers,
-    update_settings_collection,
-    plot_single_colour_swatch,
-    plot_multi_colour_swatches,
-    plot_single_function,
-    plot_multi_functions,
+    label_rectangles,
+    override_style,
     plot_image,
+    plot_multi_colour_swatches,
+    plot_multi_functions,
+    plot_single_colour_swatch,
+    plot_single_function,
+    render,
+    uniform_axes3d,
+    update_settings_collection,
 )
 from colour.utilities import attest
 

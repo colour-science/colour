@@ -26,14 +26,13 @@ from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
-    cctf_encoding_ROMMRGB,
+    cctf_decoding_RIMMRGB,
     cctf_decoding_ROMMRGB,
     cctf_encoding_RIMMRGB,
-    cctf_decoding_RIMMRGB,
-    log_encoding_ERIMMRGB,
+    cctf_encoding_ROMMRGB,
     log_decoding_ERIMMRGB,
+    log_encoding_ERIMMRGB,
 )
-
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

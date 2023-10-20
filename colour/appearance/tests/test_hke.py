@@ -1,13 +1,14 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.appearance.hke` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.appearance.hke import (
-    HelmholtzKohlrausch_effect_object_Nayatani1997,
     HelmholtzKohlrausch_effect_luminous_Nayatani1997,
+    HelmholtzKohlrausch_effect_object_Nayatani1997,
     coefficient_K_Br_Nayatani1997,
     coefficient_q_Nayatani1997,
 )

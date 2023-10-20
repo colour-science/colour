@@ -2,8 +2,8 @@
 
 import colour
 from colour.plotting import (
-    plot_single_sd_colour_rendition_report,
     colour_style,
+    plot_single_sd_colour_rendition_report,
 )
 from colour.utilities import message_box
 

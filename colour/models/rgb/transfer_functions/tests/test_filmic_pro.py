@@ -3,12 +3,13 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.filmic_pro` module.
 """
 
-import numpy as np
 import unittest
 
+import numpy as np
+
 from colour.models.rgb.transfer_functions import (
-    log_encoding_FilmicPro6,
     log_decoding_FilmicPro6,
+    log_encoding_FilmicPro6,
 )
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 

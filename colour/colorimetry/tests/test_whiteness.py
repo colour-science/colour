@@ -1,17 +1,18 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.colorimetry.whiteness` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.colorimetry import (
-    whiteness_Berger1959,
-    whiteness_Taube1960,
-    whiteness_Stensby1968,
     whiteness_ASTME313,
-    whiteness_Ganz1979,
+    whiteness_Berger1959,
     whiteness_CIE2004,
+    whiteness_Ganz1979,
+    whiteness_Stensby1968,
+    whiteness_Taube1960,
 )
 from colour.colorimetry.whiteness import whiteness
 from colour.utilities import domain_range_scale, ignore_numpy_errors

@@ -20,9 +20,10 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.models.cam02_ucs import COEFFICIENTS_UCS_LUO2006
 from colour.hints import ArrayLike, NDArrayFloat
+from colour.models.cam02_ucs import COEFFICIENTS_UCS_LUO2006
 from colour.utilities import as_float, tsplit
+
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

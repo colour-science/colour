@@ -3,15 +3,16 @@
 
 from __future__ import annotations
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.colorimetry import (
     SDS_ILLUMINANTS,
     SpectralShape,
-    sd_CIE_standard_illuminant_A,
-    sd_CIE_illuminant_D_series,
     daylight_locus_function,
+    sd_CIE_illuminant_D_series,
+    sd_CIE_standard_illuminant_A,
 )
 from colour.hints import NDArrayFloat
 from colour.temperature import CCT_to_xy_CIE_D

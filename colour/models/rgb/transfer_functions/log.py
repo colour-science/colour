@@ -42,8 +42,8 @@ import numpy as np
 from colour.algebra import sdiv, sdiv_mode
 from colour.hints import (
     ArrayLike,
-    NDArrayFloat,
     Literal,
+    NDArrayFloat,
     cast,
 )
 from colour.utilities import (

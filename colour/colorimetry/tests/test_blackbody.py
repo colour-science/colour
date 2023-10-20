@@ -3,15 +3,16 @@
 
 from __future__ import annotations
 
-import numpy as np
 import unittest
 from itertools import product
+
+import numpy as np
 
 from colour.colorimetry import (
     SpectralShape,
     planck_law,
-    sd_blackbody,
     rayleigh_jeans_law,
+    sd_blackbody,
     sd_rayleigh_jeans,
 )
 from colour.hints import NDArrayFloat

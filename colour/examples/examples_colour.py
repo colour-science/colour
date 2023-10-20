@@ -1,16 +1,17 @@
 """Showcases overall *Colour* examples."""
 
-import numpy as np
 import warnings
+
+import numpy as np
 
 import colour
 from colour.hints import ArrayLike
 from colour.utilities import (
     filter_warnings,
     message_box,
-    warning,
     runtime_warning,
     usage_warning,
+    warning,
 )
 
 message_box("Automatic Colour Conversion Graph")

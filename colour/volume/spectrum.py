@@ -38,8 +38,8 @@ from colour.hints import (
     Literal,
     NDArrayFloat,
 )
+from colour.utilities import CACHE_REGISTRY, validate_method, zeros
 from colour.volume import is_within_mesh_volume
-from colour.utilities import CACHE_REGISTRY, zeros, validate_method
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

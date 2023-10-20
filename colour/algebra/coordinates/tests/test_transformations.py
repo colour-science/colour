@@ -3,17 +3,18 @@ Define the unit tests for the
 :mod:`colour.algebra.coordinates.transformations` module.
 """
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.algebra import (
-    cartesian_to_spherical,
-    spherical_to_cartesian,
-    cartesian_to_polar,
-    polar_to_cartesian,
     cartesian_to_cylindrical,
+    cartesian_to_polar,
+    cartesian_to_spherical,
     cylindrical_to_cartesian,
+    polar_to_cartesian,
+    spherical_to_cartesian,
 )
 from colour.utilities import ignore_numpy_errors
 

@@ -34,7 +34,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode
-from colour.hints import Any, ArrayLike, NDArrayFloat, Literal
+from colour.hints import Any, ArrayLike, Literal, NDArrayFloat
 from colour.utilities import (
     CanonicalMapping,
     as_float,

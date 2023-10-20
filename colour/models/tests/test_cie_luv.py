@@ -1,19 +1,20 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.cie_luv` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.models import (
-    XYZ_to_Luv,
-    Luv_to_XYZ,
-    Luv_to_uv,
-    uv_to_Luv,
-    Luv_uv_to_xy,
-    xy_to_Luv_uv,
-    Luv_to_LCHuv,
     LCHuv_to_Luv,
+    Luv_to_LCHuv,
+    Luv_to_uv,
+    Luv_to_XYZ,
+    Luv_uv_to_xy,
+    XYZ_to_Luv,
+    uv_to_Luv,
+    xy_to_Luv_uv,
 )
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 

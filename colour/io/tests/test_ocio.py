@@ -3,9 +3,10 @@
 
 from __future__ import annotations
 
-import numpy as np
 import os
 import unittest
+
+import numpy as np
 
 from colour.io import process_image_OpenColorIO
 from colour.utilities import full, is_opencolorio_installed

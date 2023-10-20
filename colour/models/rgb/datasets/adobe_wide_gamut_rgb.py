@@ -15,8 +15,9 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 from functools import partial
+
+import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import NDArrayFloat

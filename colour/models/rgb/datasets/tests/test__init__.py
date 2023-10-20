@@ -1,10 +1,11 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.rgb.datasets` module."""
 
-import numpy as np
 import pickle
 import unittest
 from copy import deepcopy
+
+import numpy as np
 
 from colour.models import (
     RGB_COLOURSPACES,

@@ -24,9 +24,9 @@ from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
+    normalised_primary_matrix,
     oetf_BT709,
     oetf_inverse_BT709,
-    normalised_primary_matrix,
 )
 
 __author__ = "Colour Developers"

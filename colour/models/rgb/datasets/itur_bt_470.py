@@ -18,8 +18,9 @@ R-REC-BT.470-6-199811-S!!PDF-E.pdf
 
 from __future__ import annotations
 
-import numpy as np
 from functools import partial
+
+import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import NDArrayFloat

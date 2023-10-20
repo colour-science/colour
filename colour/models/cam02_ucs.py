@@ -27,8 +27,9 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 from collections import namedtuple
+
+import numpy as np
 
 from colour.algebra import cartesian_to_polar, polar_to_cartesian
 from colour.hints import Any, ArrayLike, NDArrayFloat, cast

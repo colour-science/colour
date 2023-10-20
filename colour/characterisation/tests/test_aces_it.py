@@ -5,40 +5,41 @@ Define the unit tests for the :mod:`colour.characterisation.aces_it` module.
 
 from __future__ import annotations
 
-import numpy as np
 import os
 import unittest
+
+import numpy as np
 
 from colour.characterisation import (
     MSDS_ACES_RICD,
     MSDS_CAMERA_SENSITIVITIES,
     SDS_COLOURCHECKERS,
-    sd_to_aces_relative_exposure_values,
-    read_training_data_rawtoaces_v1,
-    generate_illuminants_rawtoaces_v1,
-    white_balance_multipliers,
     best_illuminant,
+    camera_RGB_to_ACES2065_1,
+    generate_illuminants_rawtoaces_v1,
+    matrix_idt,
     normalise_illuminant,
-    training_data_sds_to_RGB,
-    training_data_sds_to_XYZ,
-    whitepoint_preserving_matrix,
-    optimisation_factory_rawtoaces_v1,
     optimisation_factory_Jzazbz,
     optimisation_factory_Oklab_15,
-    matrix_idt,
-    camera_RGB_to_ACES2065_1,
+    optimisation_factory_rawtoaces_v1,
+    read_training_data_rawtoaces_v1,
+    sd_to_aces_relative_exposure_values,
+    training_data_sds_to_RGB,
+    training_data_sds_to_XYZ,
+    white_balance_multipliers,
+    whitepoint_preserving_matrix,
 )
 from colour.characterisation.aces_it import ROOT_RESOURCES_RAWTOACES
 from colour.colorimetry import (
     MSDS_CMFS,
-    MultiSpectralDistributions,
     SDS_ILLUMINANTS,
+    MultiSpectralDistributions,
     SpectralDistribution,
     SpectralShape,
     reshape_msds,
-    sds_and_msds_to_msds,
     sd_constant,
     sd_ones,
+    sds_and_msds_to_msds,
 )
 from colour.io import read_sds_from_csv_file
 from colour.utilities import domain_range_scale

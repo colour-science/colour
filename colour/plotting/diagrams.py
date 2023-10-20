@@ -16,6 +16,7 @@ Defines the *CIE* chromaticity diagrams plotting objects:
 from __future__ import annotations
 
 import bisect
+
 import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.collections import LineCollection
@@ -23,19 +24,19 @@ from matplotlib.figure import Figure
 from matplotlib.patches import Polygon
 
 from colour.algebra import normalise_maximum, normalise_vector
-from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.colorimetry import (
-    MultiSpectralDistributions,
     SDS_ILLUMINANTS,
+    MultiSpectralDistributions,
     SpectralDistribution,
     sd_to_XYZ,
     sds_and_msds_to_sds,
 )
+from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.hints import (
     Any,
     ArrayLike,
-    Dict,
     Callable,
+    Dict,
     List,
     Literal,
     NDArray,
@@ -57,8 +58,8 @@ from colour.models import (
 )
 from colour.notation import HEX_to_RGB
 from colour.plotting import (
-    CONSTANTS_COLOUR_STYLE,
     CONSTANTS_ARROW_STYLE,
+    CONSTANTS_COLOUR_STYLE,
     XYZ_to_plotting_colourspace,
     artist,
     filter_cmfs,

@@ -7,7 +7,6 @@ Defines the verbose related objects.
 
 from __future__ import annotations
 
-import numpy as np
 import os
 import sys
 import traceback
@@ -18,19 +17,21 @@ from itertools import chain
 from textwrap import TextWrapper
 from warnings import filterwarnings, formatwarning, warn
 
-from colour.utilities import is_string, optional
+import numpy as np
+
 from colour.hints import (
     Any,
     Callable,
     Dict,
+    Generator,
     List,
     LiteralWarning,
     Mapping,
-    Generator,
     TextIO,
     Type,
     cast,
 )
+from colour.utilities import is_string, optional
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -626,7 +627,6 @@ def describe_environment(
 
     # TODO: Implement support for "pyproject.toml" file whenever "TOML" is
     # supported in the standard library.
-
     # NOTE: A few clauses are not reached and a few packages are not available
     # during continuous integration and are thus ignored for coverage.
     try:  # pragma: no cover

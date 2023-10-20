@@ -11,9 +11,9 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.io import as_3_channels_image
 from colour.hints import Any, ArrayLike, NDArrayFloat
-from colour.utilities import as_float_array, as_float, required
+from colour.io import as_3_channels_image
+from colour.utilities import as_float, as_float_array, required
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

@@ -5,8 +5,8 @@ import unittest
 
 from colour.models import (
     describe_video_signal_colour_primaries,
-    describe_video_signal_transfer_characteristics,
     describe_video_signal_matrix_coefficients,
+    describe_video_signal_transfer_characteristics,
 )
 
 __author__ = "Colour Developers"

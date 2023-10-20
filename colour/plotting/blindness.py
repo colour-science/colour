@@ -21,7 +21,7 @@ from colour.hints import (
     Literal,
     Tuple,
 )
-from colour.plotting import CONSTANTS_COLOUR_STYLE, plot_image, override_style
+from colour.plotting import CONSTANTS_COLOUR_STYLE, override_style, plot_image
 from colour.utilities import optional
 
 __author__ = "Colour Developers"

@@ -1,12 +1,13 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.volume.macadam_limits` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
-from colour.volume import is_within_macadam_limits
+import numpy as np
+
 from colour.utilities import ignore_numpy_errors
+from colour.volume import is_within_macadam_limits
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

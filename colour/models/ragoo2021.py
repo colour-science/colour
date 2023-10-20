@@ -18,12 +18,13 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 from functools import partial
 
+import numpy as np
+
 from colour.algebra import spow
-from colour.models import Iab_to_XYZ, XYZ_to_Iab
 from colour.hints import ArrayLike, NDArrayFloat
+from colour.models import Iab_to_XYZ, XYZ_to_Iab
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

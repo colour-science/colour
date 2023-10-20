@@ -2,9 +2,10 @@
 """Define the unit tests for the :mod:`colour.appearance.hunt` module."""
 
 import contextlib
-import numpy as np
 import unittest
 from itertools import product
+
+import numpy as np
 
 from colour.appearance import (
     VIEWING_CONDITIONS_HUNT,

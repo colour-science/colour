@@ -3,18 +3,19 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.itut_h_273` module.
 """
 
-import numpy as np
 import unittest
 
+import numpy as np
+
 from colour.models.rgb.transfer_functions import (
-    oetf_H273_Log,
-    oetf_inverse_H273_Log,
-    oetf_H273_LogSqrt,
-    oetf_inverse_H273_LogSqrt,
-    oetf_H273_IEC61966_2,
-    oetf_inverse_H273_IEC61966_2,
-    eotf_inverse_H273_ST428_1,
     eotf_H273_ST428_1,
+    eotf_inverse_H273_ST428_1,
+    oetf_H273_IEC61966_2,
+    oetf_H273_Log,
+    oetf_H273_LogSqrt,
+    oetf_inverse_H273_IEC61966_2,
+    oetf_inverse_H273_Log,
+    oetf_inverse_H273_LogSqrt,
 )
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 

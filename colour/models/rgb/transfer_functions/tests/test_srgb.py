@@ -3,8 +3,9 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.sRGB`
 module.
 """
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.models.rgb.transfer_functions import eotf_inverse_sRGB, eotf_sRGB
 from colour.utilities import domain_range_scale, ignore_numpy_errors

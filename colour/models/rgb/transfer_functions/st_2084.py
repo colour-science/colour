@@ -26,7 +26,7 @@ import numpy as np
 
 from colour.algebra import spow
 from colour.hints import ArrayLike, NDArrayFloat
-from colour.utilities import Structure, as_float_array, as_float
+from colour.utilities import Structure, as_float, as_float_array
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

@@ -1,15 +1,16 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.rgb.ictcp` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.models.rgb import (
-    RGB_to_ICtCp,
     ICtCp_to_RGB,
-    XYZ_to_ICtCp,
     ICtCp_to_XYZ,
+    RGB_to_ICtCp,
+    XYZ_to_ICtCp,
 )
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 

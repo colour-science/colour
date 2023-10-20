@@ -1,11 +1,12 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.temperature.planck1900` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
-from colour.temperature import uv_to_CCT_Planck1900, CCT_to_uv_Planck1900
+import numpy as np
+
+from colour.temperature import CCT_to_uv_Planck1900, uv_to_CCT_Planck1900
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"

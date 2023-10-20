@@ -3,15 +3,16 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.log` module.
 """
 
-import numpy as np
 import unittest
 
+import numpy as np
+
 from colour.models.rgb.transfer_functions import (
-    logarithmic_function_basic,
-    logarithmic_function_quasilog,
-    logarithmic_function_camera,
-    log_encoding_Log2,
     log_decoding_Log2,
+    log_encoding_Log2,
+    logarithmic_function_basic,
+    logarithmic_function_camera,
+    logarithmic_function_quasilog,
 )
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 

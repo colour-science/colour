@@ -17,8 +17,8 @@ import os
 import re
 from collections import defaultdict
 
-from colour.io import SpectralDistribution_IESTM2714
 from colour.hints import Any, cast
+from colour.io import SpectralDistribution_IESTM2714
 from colour.utilities import as_float_array, as_float_scalar
 
 __author__ = "Colour Developers"

@@ -2,12 +2,13 @@
 """Define the unit tests for the :mod:`colour.plotting.notation` module."""
 
 import unittest
+
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
 from colour.plotting import (
-    plot_single_munsell_value_function,
     plot_multi_munsell_value_functions,
+    plot_single_munsell_value_function,
 )
 
 __author__ = "Colour Developers"

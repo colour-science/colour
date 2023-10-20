@@ -1,8 +1,9 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.geometry.intersection` module."""
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.geometry import (
     extend_line_segment,

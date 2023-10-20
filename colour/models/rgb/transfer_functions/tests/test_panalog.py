@@ -3,12 +3,13 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.panalog` module.
 """
 
-import numpy as np
 import unittest
 
+import numpy as np
+
 from colour.models.rgb.transfer_functions import (
-    log_encoding_Panalog,
     log_decoding_Panalog,
+    log_encoding_Panalog,
 )
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 

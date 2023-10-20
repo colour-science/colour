@@ -1,11 +1,12 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.temperature.cie_d` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
-from colour.temperature import xy_to_CCT_CIE_D, CCT_to_xy_CIE_D
+import numpy as np
+
+from colour.temperature import CCT_to_xy_CIE_D, xy_to_CCT_CIE_D
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"

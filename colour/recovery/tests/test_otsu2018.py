@@ -1,11 +1,12 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.recovery.jakob2019` module."""
 
-import numpy as np
 import os
 import shutil
 import tempfile
 import unittest
+
+import numpy as np
 
 from colour.characterisation import SDS_COLOURCHECKERS
 from colour.colorimetry import (
@@ -18,10 +19,10 @@ from colour.colorimetry import (
 from colour.difference import delta_E_CIE1976
 from colour.models import XYZ_to_Lab, XYZ_to_xy
 from colour.recovery import (
-    XYZ_to_sd_Otsu2018,
     SPECTRAL_SHAPE_OTSU2018,
     Dataset_Otsu2018,
     Tree_Otsu2018,
+    XYZ_to_sd_Otsu2018,
 )
 from colour.recovery.otsu2018 import (
     DATASET_REFERENCE_OTSU2018,

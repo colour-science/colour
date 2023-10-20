@@ -13,8 +13,8 @@ from scipy.spatial import Delaunay
 from colour.constants import EPSILON
 from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.models import xyY_to_XYZ
-from colour.volume import OPTIMAL_COLOUR_STIMULI_ILLUMINANTS
 from colour.utilities import CACHE_REGISTRY, validate_method
+from colour.volume import OPTIMAL_COLOUR_STIMULI_ILLUMINANTS
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

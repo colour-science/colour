@@ -3,16 +3,17 @@ Define the unit tests for the :mod:`colour.colorimetry.transformations`
 module.
 """
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.colorimetry import (
     MSDS_CMFS,
-    RGB_10_degree_cmfs_to_LMS_10_degree_cmfs,
-    RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs,
-    RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs,
     LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs,
     LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs,
+    RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs,
+    RGB_10_degree_cmfs_to_LMS_10_degree_cmfs,
+    RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs,
 )
 from colour.utilities import ignore_numpy_errors
 

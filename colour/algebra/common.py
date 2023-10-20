@@ -9,6 +9,7 @@ category.
 from __future__ import annotations
 
 import functools
+
 import numpy as np
 
 from colour.hints import (
@@ -21,8 +22,8 @@ from colour.hints import (
     cast,
 )
 from colour.utilities import (
-    as_float_array,
     as_float,
+    as_float_array,
     optional,
     tsplit,
     validate_method,

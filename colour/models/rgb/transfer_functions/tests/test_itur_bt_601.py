@@ -3,8 +3,9 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.itur_bt_601` module.
 """
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.models.rgb.transfer_functions import oetf_BT601, oetf_inverse_BT601
 from colour.utilities import domain_range_scale, ignore_numpy_errors

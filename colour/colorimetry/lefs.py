@@ -20,7 +20,7 @@ from colour.colorimetry import (
     SpectralShape,
 )
 from colour.colorimetry.datasets.lefs import DATA_MESOPIC_X
-from colour.hints import ArrayLike, NDArrayFloat, Literal
+from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.utilities import closest, optional, validate_method
 
 __author__ = "Colour Developers"

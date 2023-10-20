@@ -1,9 +1,10 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.volume.spectrum` module."""
 
-import numpy as np
 import unittest
 from itertools import product
+
+import numpy as np
 
 from colour.colorimetry import (
     MSDS_CMFS,
@@ -11,12 +12,12 @@ from colour.colorimetry import (
     SpectralShape,
     reshape_msds,
 )
+from colour.utilities import ignore_numpy_errors
 from colour.volume import (
-    generate_pulse_waves,
     XYZ_outer_surface,
+    generate_pulse_waves,
     is_within_visible_spectrum,
 )
-from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

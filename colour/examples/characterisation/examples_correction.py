@@ -1,6 +1,7 @@
 """Showcases colour correction computations."""
 
 import numpy as np
+
 import colour
 from colour.utilities import message_box
 

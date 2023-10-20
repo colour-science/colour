@@ -9,12 +9,14 @@ Defines the class implementing support for multi-continuous signals:
 
 from __future__ import annotations
 
-import numpy as np
 from collections.abc import Iterator, Mapping, ValuesView
+
+import numpy as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction, Signal
 from colour.hints import (
+    TYPE_CHECKING,
     Any,
     ArrayLike,
     Callable,
@@ -26,9 +28,8 @@ from colour.hints import (
     ProtocolExtrapolator,
     ProtocolInterpolator,
     Real,
-    Sequence,
     Self,
-    TYPE_CHECKING,
+    Sequence,
     Type,
     cast,
 )

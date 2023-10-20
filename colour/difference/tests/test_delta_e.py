@@ -9,10 +9,12 @@ References
     30(1), 21-30. doi:10.1002/col.20070
 """
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
+from colour.algebra import euclidean_distance
 from colour.difference import (
     delta_E_CIE1976,
     delta_E_CIE1994,
@@ -20,8 +22,6 @@ from colour.difference import (
     delta_E_CMC,
     delta_E_ITP,
 )
-
-from colour.algebra import euclidean_distance
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"

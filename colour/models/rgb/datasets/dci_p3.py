@@ -26,8 +26,9 @@ lp2480zx-dci--p3-emulation.pdf
 
 from __future__ import annotations
 
-import numpy as np
 from functools import partial
+
+import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import NDArrayFloat

@@ -3,17 +3,17 @@
 
 import os
 import sys
-import unittest
 import textwrap
+import unittest
 
 from colour.utilities import (
+    describe_environment,
+    multiline_repr,
+    multiline_str,
     show_warning,
     suppress_warnings,
-    describe_environment,
-    multiline_str,
-    multiline_repr,
+    warning,
 )
-from colour.utilities import warning
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

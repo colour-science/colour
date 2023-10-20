@@ -3,14 +3,15 @@
 
 from __future__ import annotations
 
-import numpy as np
 import os
 import re
 import shutil
-import unittest
 import tempfile
 import textwrap
+import unittest
 from copy import deepcopy
+
+import numpy as np
 
 from colour.colorimetry import SpectralDistribution
 from colour.hints import List, Tuple, cast

@@ -1,7 +1,8 @@
 """Showcases *RGB* *colourspaces* computations."""
 
-import numpy as np
 from pprint import pprint
+
+import numpy as np
 
 import colour
 from colour.utilities import message_box

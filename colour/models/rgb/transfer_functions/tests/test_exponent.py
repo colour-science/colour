@@ -3,8 +3,9 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.exponent` module.
 """
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.models.rgb.transfer_functions import (
     exponent_function_basic,

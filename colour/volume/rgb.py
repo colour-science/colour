@@ -14,6 +14,7 @@ Defines various RGB colourspace volume computation objects:
 from __future__ import annotations
 
 import itertools
+
 import numpy as np
 
 from colour.algebra import random_triplet_generator
@@ -32,8 +33,8 @@ from colour.models import (
     XYZ_to_Lab,
     XYZ_to_RGB,
 )
-from colour.volume import is_within_pointer_gamut, is_within_visible_spectrum
 from colour.utilities import as_float_array, multiprocessing_pool
+from colour.volume import is_within_pointer_gamut, is_within_visible_spectrum
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

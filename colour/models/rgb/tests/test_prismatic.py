@@ -1,11 +1,12 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.rgb.prismatic` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
-from colour.models.rgb import RGB_to_Prismatic, Prismatic_to_RGB
+import numpy as np
+
+from colour.models.rgb import Prismatic_to_RGB, RGB_to_Prismatic
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"

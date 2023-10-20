@@ -21,14 +21,16 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 from collections import namedtuple
 from dataclasses import astuple, dataclass, field
 
+import numpy as np
+
 from colour.adaptation import CAT_CAT02
+from colour.algebra import spow, vector_dot
 from colour.appearance.ciecam02 import (
-    VIEWING_CONDITIONS_CIECAM02,
     CAT_INVERSE_CAT02,
+    VIEWING_CONDITIONS_CIECAM02,
     RGB_to_rgb,
     degree_of_adaptation,
     full_chromatic_adaptation_forward,
@@ -36,7 +38,6 @@ from colour.appearance.ciecam02 import (
     hue_quadrature,
     rgb_to_RGB,
 )
-from colour.algebra import vector_dot, spow
 from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     CanonicalMapping,

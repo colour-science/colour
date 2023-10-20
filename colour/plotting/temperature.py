@@ -21,7 +21,7 @@ from matplotlib.collections import LineCollection
 from matplotlib.figure import Figure
 
 from colour.algebra import normalise_maximum
-from colour.colorimetry import MSDS_CMFS, CCS_ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS, MSDS_CMFS
 from colour.hints import (
     Any,
     ArrayLike,
@@ -37,25 +37,25 @@ from colour.models import (
     UCS_uv_to_xy,
     xy_to_XYZ,
 )
-from colour.temperature import mired_to_CCT, CCT_to_uv, CCT_to_xy_CIE_D
 from colour.plotting import (
-    CONSTANTS_COLOUR_STYLE,
     CONSTANTS_ARROW_STYLE,
+    CONSTANTS_COLOUR_STYLE,
     METHODS_CHROMATICITY_DIAGRAM,
     XYZ_to_plotting_colourspace,
     artist,
+    filter_passthrough,
+    override_style,
     plot_chromaticity_diagram_CIE1931,
     plot_chromaticity_diagram_CIE1960UCS,
     plot_chromaticity_diagram_CIE1976UCS,
-    filter_passthrough,
-    override_style,
     render,
     update_settings_collection,
 )
 from colour.plotting.diagrams import plot_chromaticity_diagram
+from colour.temperature import CCT_to_uv, CCT_to_xy_CIE_D, mired_to_CCT
 from colour.utilities import (
-    as_int_scalar,
     as_float_scalar,
+    as_int_scalar,
     full,
     optional,
     tstack,

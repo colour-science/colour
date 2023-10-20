@@ -3,28 +3,29 @@
 
 from __future__ import annotations
 
-import numpy as np
 import unittest
 
+import numpy as np
+
+from colour.phenomena import (
+    rayleigh_optical_depth,
+    scattering_cross_section,
+    sd_rayleigh_scattering,
+)
 from colour.phenomena.rayleigh import (
-    air_refraction_index_Penndorf1957,
-    air_refraction_index_Edlen1966,
-    air_refraction_index_Peck1972,
-    air_refraction_index_Bodhaine1999,
-    N2_depolarisation,
-    O2_depolarisation,
-    F_air_Penndorf1957,
-    F_air_Young1981,
     F_air_Bates1984,
     F_air_Bodhaine1999,
-    molecular_density,
-    mean_molecular_weights,
+    F_air_Penndorf1957,
+    F_air_Young1981,
+    N2_depolarisation,
+    O2_depolarisation,
+    air_refraction_index_Bodhaine1999,
+    air_refraction_index_Edlen1966,
+    air_refraction_index_Peck1972,
+    air_refraction_index_Penndorf1957,
     gravity_List1968,
-)
-from colour.phenomena import (
-    scattering_cross_section,
-    rayleigh_optical_depth,
-    sd_rayleigh_scattering,
+    mean_molecular_weights,
+    molecular_density,
 )
 from colour.utilities import ignore_numpy_errors
 

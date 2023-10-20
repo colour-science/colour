@@ -1,18 +1,19 @@
 """Showcases colour models plotting examples."""
 
-import numpy as np
 from pprint import pprint
+
+import numpy as np
 
 import colour
 from colour.plotting import (
-    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931,
-    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS,
-    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS,
+    colour_style,
+    plot_multi_cctfs,
     plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931,
     plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS,
     plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS,
-    colour_style,
-    plot_multi_cctfs,
+    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931,
+    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS,
+    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS,
     plot_single_cctf,
 )
 from colour.utilities import message_box

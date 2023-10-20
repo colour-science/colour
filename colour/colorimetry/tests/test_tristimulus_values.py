@@ -11,8 +11,9 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.algebra import LinearInterpolator, SpragueInterpolator
 from colour.colorimetry import (
@@ -21,24 +22,22 @@ from colour.colorimetry import (
     MultiSpectralDistributions,
     SpectralDistribution,
     SpectralShape,
+    adjust_tristimulus_weighting_factors_ASTME308,
+    handle_spectral_arguments,
+    lagrange_coefficients_ASTME2022,
+    msds_to_XYZ,
+    msds_to_XYZ_ASTME308,
+    msds_to_XYZ_integration,
     reshape_msds,
     reshape_sd,
     sd_CIE_standard_illuminant_A,
     sd_ones,
-    msds_to_XYZ,
-    sd_zeros,
-)
-from colour.colorimetry import (
-    handle_spectral_arguments,
-    lagrange_coefficients_ASTME2022,
-    tristimulus_weighting_factors_ASTME2022,
-    adjust_tristimulus_weighting_factors_ASTME308,
+    sd_to_XYZ,
+    sd_to_XYZ_ASTME308,
     sd_to_XYZ_integration,
     sd_to_XYZ_tristimulus_weighting_factors_ASTME308,
-    sd_to_XYZ_ASTME308,
-    sd_to_XYZ,
-    msds_to_XYZ_integration,
-    msds_to_XYZ_ASTME308,
+    sd_zeros,
+    tristimulus_weighting_factors_ASTME2022,
     wavelength_to_XYZ,
 )
 from colour.hints import NDArrayFloat
