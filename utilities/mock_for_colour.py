@@ -13,7 +13,6 @@ master/sphinx/ext/autodoc/mock.py
 """
 
 import os
-
 from types import FunctionType, MethodType, ModuleType
 
 __author__ = "Sphinx Team, Colour Developers"
