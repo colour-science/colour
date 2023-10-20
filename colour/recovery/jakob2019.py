@@ -952,7 +952,7 @@ class LUT3D_Jakob2019:
 
                 # Down the lightness scale.
                 coefficients_0 = coefficients_middle
-                for L in reversed(range(0, L_middle)):
+                for L in reversed(range(L_middle)):
                     coefficients_0 = optimize(
                         np.hstack([ijk, L]), coefficients_0, chroma
                     )
