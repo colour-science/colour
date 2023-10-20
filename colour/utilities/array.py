@@ -2818,5 +2818,5 @@ def format_array_as_row(
     a = np.ravel(a)
 
     return separator.join(
-        "{1:0.{0}f}".format(decimals, x) for x in a  # noqa: PLE1300
+        "{1:0.{0}f}".format(decimals, x) for x in a  # noqa: PLE1300, RUF100
     )
