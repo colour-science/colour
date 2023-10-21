@@ -6,9 +6,9 @@ import unittest
 from colour.colorimetry import (
     SDS_ILLUMINANTS,
     SDS_LIGHT_SOURCES,
-    luminous_flux,
-    luminous_efficiency,
     luminous_efficacy,
+    luminous_efficiency,
+    luminous_flux,
     sd_zeros,
 )
 

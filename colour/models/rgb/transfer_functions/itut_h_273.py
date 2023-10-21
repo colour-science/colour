@@ -29,8 +29,8 @@ import numpy as np
 
 from colour.algebra import spow
 from colour.models.rgb.transfer_functions import (
-    eotf_inverse_DCDM,
     eotf_DCDM,
+    eotf_inverse_DCDM,
     eotf_inverse_sRGB,
     eotf_sRGB,
 )

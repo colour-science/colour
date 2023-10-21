@@ -1,30 +1,31 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.algebra.common` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.algebra import (
-    get_sdiv_mode,
-    set_sdiv_mode,
-    sdiv_mode,
-    sdiv,
-    is_spow_enabled,
-    set_spow_enable,
-    spow_enable,
-    spow,
-    smoothstep_function,
-    normalise_vector,
-    normalise_maximum,
-    vector_dot,
-    matrix_dot,
+    eigen_decomposition,
     euclidean_distance,
-    manhattan_distance,
+    get_sdiv_mode,
+    is_identity,
+    is_spow_enabled,
     linear_conversion,
     linstep_function,
-    is_identity,
-    eigen_decomposition,
+    manhattan_distance,
+    matrix_dot,
+    normalise_maximum,
+    normalise_vector,
+    sdiv,
+    sdiv_mode,
+    set_sdiv_mode,
+    set_spow_enable,
+    smoothstep_function,
+    spow,
+    spow_enable,
+    vector_dot,
 )
 from colour.utilities import ignore_numpy_errors
 

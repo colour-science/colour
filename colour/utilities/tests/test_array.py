@@ -1,64 +1,65 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.utilities.array` module."""
 
-import numpy as np
 import unittest
-from dataclasses import dataclass, field, fields
 from copy import deepcopy
+from dataclasses import dataclass, field, fields
+
+import numpy as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.hints import NDArray, Optional, Type, Union
 from colour.utilities import (
+    MixinDataclassArithmetic,
+    MixinDataclassArray,
     MixinDataclassFields,
     MixinDataclassIterable,
-    MixinDataclassArray,
-    MixinDataclassArithmetic,
     as_array,
-    as_int,
     as_float,
-    as_int_array,
     as_float_array,
-    as_int_scalar,
     as_float_scalar,
-    set_default_int_dtype,
-    set_default_float_dtype,
-    get_domain_range_scale,
-    set_domain_range_scale,
+    as_int,
+    as_int_array,
+    as_int_scalar,
+    centroid,
+    closest,
+    closest_indexes,
     domain_range_scale,
-    to_domain_1,
-    to_domain_10,
-    to_domain_100,
-    to_domain_degrees,
-    to_domain_int,
+    fill_nan,
+    format_array_as_row,
     from_range_1,
     from_range_10,
     from_range_100,
     from_range_degrees,
     from_range_int,
-    is_ndarray_copy_enabled,
-    set_ndarray_copy_enable,
-    ndarray_copy_enable,
-    ndarray_copy,
-    closest_indexes,
-    closest,
-    interval,
-    is_uniform,
-    in_array,
-    tstack,
-    tsplit,
-    row_as_diagonal,
-    orient,
-    centroid,
-    fill_nan,
-    has_only_nan,
-    ndarray_write,
-    zeros,
-    ones,
     full,
+    get_domain_range_scale,
+    has_only_nan,
+    in_array,
     index_along_last_axis,
-    format_array_as_row,
+    interval,
+    is_ndarray_copy_enabled,
+    is_networkx_installed,
+    is_uniform,
+    ndarray_copy,
+    ndarray_copy_enable,
+    ndarray_write,
+    ones,
+    orient,
+    row_as_diagonal,
+    set_default_float_dtype,
+    set_default_int_dtype,
+    set_domain_range_scale,
+    set_ndarray_copy_enable,
+    to_domain_1,
+    to_domain_10,
+    to_domain_100,
+    to_domain_degrees,
+    to_domain_int,
+    tsplit,
+    tstack,
+    zeros,
 )
-from colour.utilities import is_networkx_installed
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

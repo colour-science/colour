@@ -3,10 +3,11 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.dcdm`
 module.
 """
 
-import numpy as np
 import unittest
 
-from colour.models.rgb.transfer_functions import eotf_inverse_DCDM, eotf_DCDM
+import numpy as np
+
+from colour.models.rgb.transfer_functions import eotf_DCDM, eotf_inverse_DCDM
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"

@@ -13,10 +13,11 @@ Defines the object for the *Color Transformation Language* (CTL) processing:
 from __future__ import annotations
 
 import os
-import numpy as np
 import subprocess
-import textwrap
 import tempfile
+import textwrap
+
+import numpy as np
 
 from colour.hints import (
     Any,
@@ -27,8 +28,8 @@ from colour.hints import (
 )
 from colour.io import as_3_channels_image, read_image, write_image
 from colour.utilities import (
-    as_float_array,
     as_float,
+    as_float_array,
     optional,
     required,
 )

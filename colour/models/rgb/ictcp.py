@@ -39,8 +39,8 @@ from colour.hints import (
 )
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 from colour.models.rgb.transfer_functions import (
-    eotf_ST2084,
     eotf_inverse_ST2084,
+    eotf_ST2084,
     oetf_BT2100_HLG,
     oetf_inverse_BT2100_HLG,
 )

@@ -1,9 +1,10 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.adaptation.cie1994` module."""
 
-import numpy as np
 import unittest
 from itertools import product
+
+import numpy as np
 
 from colour.adaptation import chromatic_adaptation_CIE1994
 from colour.utilities import domain_range_scale, ignore_numpy_errors

@@ -3,20 +3,21 @@
 
 from __future__ import annotations
 
-import numpy as np
 import os
 import shutil
 import tempfile
 import textwrap
 import unittest
 
+import numpy as np
+
 from colour.io import (
     ctl_render,
     process_image_ctl,
+    read_image,
     template_ctl_transform_float,
     template_ctl_transform_float3,
 )
-from colour.io import read_image
 from colour.utilities import full, is_ctlrender_installed
 
 __author__ = "Colour Developers"

@@ -1,11 +1,12 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.temperature.krystek1985` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
-from colour.temperature import uv_to_CCT_Krystek1985, CCT_to_uv_Krystek1985
+import numpy as np
+
+from colour.temperature import CCT_to_uv_Krystek1985, uv_to_CCT_Krystek1985
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"

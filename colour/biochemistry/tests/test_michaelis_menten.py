@@ -3,15 +3,16 @@ Define the unit tests for the :mod:`colour.biochemistry.michaelis_menten`
 module.
 """
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.biochemistry import (
-    reaction_rate_MichaelisMenten_Michaelis1913,
-    substrate_concentration_MichaelisMenten_Michaelis1913,
     reaction_rate_MichaelisMenten_Abebe2017,
+    reaction_rate_MichaelisMenten_Michaelis1913,
     substrate_concentration_MichaelisMenten_Abebe2017,
+    substrate_concentration_MichaelisMenten_Michaelis1913,
 )
 from colour.utilities import ignore_numpy_errors
 
@@ -148,7 +149,7 @@ substrate_concentration_MichaelisMenten_Michaelis1913` definition.
             places=7,
         )
 
-    def test_n_dimensional_substrate_concentration_MichaelisMenten_Michaelis1913(  # noqa: E501
+    def test_n_dimensional_substrate_concentration_MichaelisMenten_Michaelis1913(
         self,
     ):
         """

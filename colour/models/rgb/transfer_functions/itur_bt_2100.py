@@ -59,11 +59,11 @@ from colour.algebra import spow
 from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.models.rgb.transfer_functions import (
     eotf_BT1886,
-    eotf_ST2084,
     eotf_inverse_BT1886,
+    eotf_inverse_ST2084,
+    eotf_ST2084,
     oetf_ARIBSTDB67,
     oetf_BT709,
-    eotf_inverse_ST2084,
     oetf_inverse_ARIBSTDB67,
     oetf_inverse_BT709,
 )

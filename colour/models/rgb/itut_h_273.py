@@ -55,92 +55,93 @@ blob/c469c3c3b18fbacd6ee0165573034d2a0408b83f/libavutil/pixfmt.h#L532
 """
 
 import functools
-import numpy as np
 from dataclasses import dataclass
 from enum import IntEnum, auto
 
+import numpy as np
+
+from colour.hints import Any, Callable, Dict, NDArrayFloat, Union
 from colour.models.rgb.datasets.dcdm_xyz import (
-    PRIMARIES_DCDM_XYZ,
-    WHITEPOINT_NAME_DCDM_XYZ,
     CCS_WHITEPOINT_DCDM_XYZ,
     MATRIX_DCDM_XYZ_TO_XYZ,
     MATRIX_XYZ_TO_DCDM_XYZ,
+    PRIMARIES_DCDM_XYZ,
+    WHITEPOINT_NAME_DCDM_XYZ,
 )
 from colour.models.rgb.datasets.dci_p3 import (
-    PRIMARIES_DCI_P3,
-    WHITEPOINT_NAME_DCI_P3,
     CCS_WHITEPOINT_DCI_P3,
     MATRIX_DCI_P3_TO_XYZ,
     MATRIX_XYZ_TO_DCI_P3,
+    PRIMARIES_DCI_P3,
+    WHITEPOINT_NAME_DCI_P3,
+)
+from colour.models.rgb.datasets.itur_bt_470 import (
+    CCS_WHITEPOINT_BT470_525,
+    CCS_WHITEPOINT_BT470_625,
+    MATRIX_BT470_525_TO_XYZ,
+    MATRIX_BT470_625_TO_XYZ,
+    MATRIX_XYZ_TO_BT470_525,
+    MATRIX_XYZ_TO_BT470_625,
+    PRIMARIES_BT470_525,
+    PRIMARIES_BT470_625,
+    WHITEPOINT_NAME_BT470_525,
+    WHITEPOINT_NAME_BT470_625,
+)
+from colour.models.rgb.datasets.itur_bt_709 import (
+    CCS_WHITEPOINT_BT709,
+    MATRIX_BT709_TO_XYZ,
+    MATRIX_XYZ_TO_BT709,
+    PRIMARIES_BT709,
+    WHITEPOINT_NAME_BT709,
 )
 from colour.models.rgb.datasets.itur_bt_2020 import (
-    PRIMARIES_BT2020,
-    WHITEPOINT_NAME_BT2020,
     CCS_WHITEPOINT_BT2020,
     MATRIX_BT2020_TO_XYZ,
     MATRIX_XYZ_TO_BT2020,
-)
-from colour.models.rgb.datasets.itur_bt_470 import (
-    PRIMARIES_BT470_525,
-    CCS_WHITEPOINT_BT470_525,
-    WHITEPOINT_NAME_BT470_525,
-    MATRIX_BT470_525_TO_XYZ,
-    MATRIX_XYZ_TO_BT470_525,
-    PRIMARIES_BT470_625,
-    CCS_WHITEPOINT_BT470_625,
-    WHITEPOINT_NAME_BT470_625,
-    MATRIX_BT470_625_TO_XYZ,
-    MATRIX_XYZ_TO_BT470_625,
-)
-from colour.models.rgb.datasets.itur_bt_709 import (
-    PRIMARIES_BT709,
-    CCS_WHITEPOINT_BT709,
-    WHITEPOINT_NAME_BT709,
-    MATRIX_BT709_TO_XYZ,
-    MATRIX_XYZ_TO_BT709,
+    PRIMARIES_BT2020,
+    WHITEPOINT_NAME_BT2020,
 )
 from colour.models.rgb.datasets.itut_h_273 import (
-    PRIMARIES_H273_GENERIC_FILM,
-    WHITEPOINT_NAME_H273_GENERIC_FILM,
+    CCS_WHITEPOINT_H273_22_UNSPECIFIED,
     CCS_WHITEPOINT_H273_GENERIC_FILM,
+    MATRIX_H273_22_UNSPECIFIED_RGB_TO_XYZ,
     MATRIX_H273_GENERIC_FILM_RGB_TO_XYZ,
+    MATRIX_XYZ_TO_H273_22_UNSPECIFIED_RGB,
     MATRIX_XYZ_TO_H273_GENERIC_FILM_RGB,
     PRIMARIES_H273_22_UNSPECIFIED,
+    PRIMARIES_H273_GENERIC_FILM,
     WHITEPOINT_NAME_H273_22_UNSPECIFIED,
-    CCS_WHITEPOINT_H273_22_UNSPECIFIED,
-    MATRIX_H273_22_UNSPECIFIED_RGB_TO_XYZ,
-    MATRIX_XYZ_TO_H273_22_UNSPECIFIED_RGB,
+    WHITEPOINT_NAME_H273_GENERIC_FILM,
 )
 from colour.models.rgb.datasets.p3_d65 import (
-    PRIMARIES_P3_D65,
-    WHITEPOINT_NAME_P3_D65,
     CCS_WHITEPOINT_P3_D65,
     MATRIX_P3_D65_TO_XYZ,
     MATRIX_XYZ_TO_P3_D65,
+    PRIMARIES_P3_D65,
+    WHITEPOINT_NAME_P3_D65,
 )
 from colour.models.rgb.datasets.smpte_240m import (
-    PRIMARIES_SMPTE_240M,
-    WHITEPOINT_NAME_SMPTE_240M,
     CCS_WHITEPOINT_SMPTE_240M,
     MATRIX_SMPTE_240M_TO_XYZ,
     MATRIX_XYZ_TO_SMPTE_240M,
+    PRIMARIES_SMPTE_240M,
+    WHITEPOINT_NAME_SMPTE_240M,
 )
 from colour.models.rgb.transfer_functions import (
     eotf_inverse_H273_ST428_1,
     eotf_inverse_ST2084,
     gamma_function,
     linear_function,
+    oetf_BT601,
+    oetf_BT709,
     oetf_BT1361,
     oetf_BT2020,
     oetf_BT2100_HLG,
-    oetf_BT601,
-    oetf_BT709,
     oetf_H273_IEC61966_2,
     oetf_H273_Log,
     oetf_H273_LogSqrt,
     oetf_SMPTE240M,
 )
-from colour.hints import Any, Callable, Dict, NDArrayFloat, Union
 from colour.utilities import message_box, multiline_str
 from colour.utilities.documentation import (
     DocstringDict,

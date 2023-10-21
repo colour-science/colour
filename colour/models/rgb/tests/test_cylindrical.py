@@ -1,17 +1,18 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.rgb.cylindrical` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.models.rgb.cylindrical import (
-    RGB_to_HSV,
-    HSV_to_RGB,
-    RGB_to_HSL,
-    HSL_to_RGB,
-    RGB_to_HCL,
     HCL_to_RGB,
+    HSL_to_RGB,
+    HSV_to_RGB,
+    RGB_to_HCL,
+    RGB_to_HSL,
+    RGB_to_HSV,
 )
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 

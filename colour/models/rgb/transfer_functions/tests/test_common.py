@@ -3,13 +3,14 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.common` module.
 """
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.models.rgb.transfer_functions import (
     CV_range,
-    legal_to_full,
     full_to_legal,
+    legal_to_full,
 )
 from colour.utilities import ignore_numpy_errors
 

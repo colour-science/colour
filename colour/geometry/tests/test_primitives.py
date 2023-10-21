@@ -1,13 +1,14 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.geometry.primitives` module."""
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.geometry import (
     MAPPING_PLANE_TO_AXIS,
-    primitive_grid,
     primitive_cube,
+    primitive_grid,
 )
 
 __author__ = "Colour Developers"

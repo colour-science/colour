@@ -9,13 +9,14 @@ category.
 from __future__ import annotations
 
 import os
+
 import numpy as np
 
+from colour.hints import DTypeFloat, Type, Union, cast
 from colour.utilities.documentation import (
     DocstringFloat,
     is_documentation_building,
 )
-from colour.hints import DTypeFloat, Type, Union, cast
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

@@ -8,16 +8,17 @@ References
     Discussion with Mansencal, T.
 """
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.appearance import (
     VIEWING_CONDITIONS_HELLWIG2022,
-    InductionFactors_Hellwig2022,
     CAM_Specification_Hellwig2022,
-    XYZ_to_Hellwig2022,
     Hellwig2022_to_XYZ,
+    InductionFactors_Hellwig2022,
+    XYZ_to_Hellwig2022,
 )
 from colour.utilities import (
     as_float_array,

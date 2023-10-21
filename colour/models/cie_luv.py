@@ -37,10 +37,10 @@ from colour.colorimetry import (
     luminance_CIE1976,
 )
 from colour.hints import ArrayLike, NDArrayFloat
-from colour.models import xy_to_xyY, xyY_to_XYZ, Jab_to_JCh, JCh_to_Jab
+from colour.models import Jab_to_JCh, JCh_to_Jab, xy_to_xyY, xyY_to_XYZ
 from colour.utilities import (
-    domain_range_scale,
     as_float_scalar,
+    domain_range_scale,
     from_range_1,
     from_range_100,
     full,

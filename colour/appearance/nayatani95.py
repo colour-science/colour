@@ -20,16 +20,17 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 from dataclasses import dataclass, field
 
-from colour.algebra import spow, vector_dot
+import numpy as np
+
 from colour.adaptation.cie1994 import (
     MATRIX_XYZ_TO_RGB_CIE1994,
     beta_1,
     exponential_factors,
     intermediate_values,
 )
+from colour.algebra import spow, vector_dot
 from colour.hints import ArrayLike, NDArrayFloat, cast
 from colour.models import XYZ_to_xy
 from colour.utilities import (

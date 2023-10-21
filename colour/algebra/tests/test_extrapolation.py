@@ -1,14 +1,15 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.algebra.extrapolation` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.algebra import (
+    CubicSplineInterpolator,
     Extrapolator,
     LinearInterpolator,
-    CubicSplineInterpolator,
     PchipInterpolator,
 )
 from colour.utilities import ignore_numpy_errors

@@ -1,9 +1,10 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.io.luts.operator` module."""
 
-import numpy as np
 import textwrap
 import unittest
+
+import numpy as np
 
 from colour.io.luts import AbstractLUTSequenceOperator, LUTOperatorMatrix
 from colour.utilities import tstack, zeros

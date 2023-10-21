@@ -1,10 +1,11 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.appearance.llab` module."""
 
-import numpy as np
 import unittest
-from unittest import mock
 from itertools import product
+from unittest import mock
+
+import numpy as np
 
 from colour.appearance import (
     VIEWING_CONDITIONS_LLAB,

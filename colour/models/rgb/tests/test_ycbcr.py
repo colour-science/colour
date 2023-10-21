@@ -1,20 +1,21 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.rgb.ycbcr` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.models.rgb.ycbcr import (
-    round_BT2100,
-    ranges_YCbCr,
+    WEIGHTS_YCBCR,
+    RGB_to_YCbCr,
+    RGB_to_YcCbcCrc,
+    YCbCr_to_RGB,
+    YcCbcCrc_to_RGB,
     matrix_YCbCr,
     offset_YCbCr,
-    RGB_to_YCbCr,
-    YCbCr_to_RGB,
-    RGB_to_YcCbcCrc,
-    YcCbcCrc_to_RGB,
-    WEIGHTS_YCBCR,
+    ranges_YCbCr,
+    round_BT2100,
 )
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 

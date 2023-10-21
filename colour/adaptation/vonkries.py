@@ -19,7 +19,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
-from colour.algebra import matrix_dot, vector_dot, sdiv, sdiv_mode
+from colour.algebra import matrix_dot, sdiv, sdiv_mode, vector_dot
 from colour.hints import (
     ArrayLike,
     LiteralChromaticAdaptationTransform,

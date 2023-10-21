@@ -1,8 +1,9 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.difference.stress` module."""
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.difference import index_stress
 

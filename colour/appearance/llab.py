@@ -25,9 +25,10 @@ References
 Colour_Appearance_and_Gamut_Mapping
 """
 
-import numpy as np
 from collections import namedtuple
 from dataclasses import dataclass, field
+
+import numpy as np
 
 from colour.algebra import (
     polar_to_cartesian,

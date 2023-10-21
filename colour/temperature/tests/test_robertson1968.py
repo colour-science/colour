@@ -3,14 +3,15 @@
 
 from __future__ import annotations
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.temperature import (
-    mired_to_CCT,
     CCT_to_mired,
     CCT_to_uv_Robertson1968,
+    mired_to_CCT,
     uv_to_CCT_Robertson1968,
 )
 from colour.utilities import ignore_numpy_errors

@@ -1,15 +1,16 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.jzazbz` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.models import (
-    XYZ_to_Izazbz,
     Izazbz_to_XYZ,
-    XYZ_to_Jzazbz,
     Jzazbz_to_XYZ,
+    XYZ_to_Izazbz,
+    XYZ_to_Jzazbz,
 )
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 

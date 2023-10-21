@@ -1,11 +1,12 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.cie_lab` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
-from colour.models import XYZ_to_Lab, Lab_to_XYZ, Lab_to_LCHab, LCHab_to_Lab
+import numpy as np
+
+from colour.models import Lab_to_LCHab, Lab_to_XYZ, LCHab_to_Lab, XYZ_to_Lab
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"

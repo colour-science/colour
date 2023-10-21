@@ -8,9 +8,8 @@ from __future__ import annotations
 
 import os
 import re
-from textwrap import dedent
-
 import sys
+from textwrap import dedent
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 

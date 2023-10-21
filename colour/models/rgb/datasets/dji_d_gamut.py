@@ -22,8 +22,8 @@ from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
-    log_encoding_DJIDLog,
     log_decoding_DJIDLog,
+    log_encoding_DJIDLog,
 )
 
 __author__ = "Colour Developers"

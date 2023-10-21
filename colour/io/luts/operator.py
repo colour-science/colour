@@ -10,8 +10,9 @@ Defines the *LUT* operator classes:
 
 from __future__ import annotations
 
-import numpy as np
 from abc import ABC, abstractmethod
+
+import numpy as np
 
 from colour.algebra import vector_dot
 from colour.hints import (

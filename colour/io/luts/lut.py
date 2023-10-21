@@ -12,21 +12,22 @@ Defines the classes and definitions handling *LUT* processing:
 
 from __future__ import annotations
 
-import numpy as np
 from abc import ABC, abstractmethod
 from copy import deepcopy
 from operator import (
     add,
-    mul,
-    pow,
-    sub,
-    truediv,
     iadd,
     imul,
     ipow,
     isub,
     itruediv,
+    mul,
+    pow,
+    sub,
+    truediv,
 )
+
+import numpy as np
 from scipy.spatial import KDTree
 
 from colour.algebra import (
@@ -41,8 +42,8 @@ from colour.hints import (
     List,
     Literal,
     NDArrayFloat,
-    Sequence,
     Self,
+    Sequence,
     Type,
     cast,
 )
@@ -53,12 +54,12 @@ from colour.utilities import (
     as_int_array,
     as_int_scalar,
     attest,
-    is_numeric,
-    is_iterable,
-    is_string,
     full,
-    multiline_str,
+    is_iterable,
+    is_numeric,
+    is_string,
     multiline_repr,
+    multiline_str,
     optional,
     runtime_warning,
     tsplit,

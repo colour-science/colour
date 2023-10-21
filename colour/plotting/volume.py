@@ -13,11 +13,11 @@ from __future__ import annotations
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.figure import Figure
-from mpl_toolkits.mplot3d.axes3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+from mpl_toolkits.mplot3d.axes3d import Axes3D
 
-from colour.constants import EPSILON
 from colour.colorimetry import MultiSpectralDistributions
+from colour.constants import EPSILON
 from colour.geometry import (
     primitive_vertices_cube_mpl,
     primitive_vertices_grid_mpl,
@@ -40,16 +40,16 @@ from colour.models.common import COLOURSPACE_MODELS_AXIS_LABELS
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
     colourspace_model_axis_reorder,
-    filter_RGB_colourspaces,
     filter_cmfs,
+    filter_RGB_colourspaces,
     override_style,
     render,
 )
 from colour.utilities import (
     Structure,
     as_float_array,
-    as_int_scalar,
     as_int_array,
+    as_int_scalar,
     first_item,
     full,
     is_integer,

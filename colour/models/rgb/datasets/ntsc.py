@@ -25,20 +25,20 @@ from __future__ import annotations
 from colour.hints import NDArrayFloat
 from colour.models.rgb import RGB_Colourspace
 from colour.models.rgb.datasets.itur_bt_470 import (
-    PRIMARIES_BT470_525,
     CCS_WHITEPOINT_BT470_525,
-    WHITEPOINT_NAME_BT470_525,
     MATRIX_BT470_525_TO_XYZ,
     MATRIX_XYZ_TO_BT470_525,
+    PRIMARIES_BT470_525,
     RGB_COLOURSPACE_BT470_525,
+    WHITEPOINT_NAME_BT470_525,
 )
 from colour.models.rgb.datasets.smpte_c import (
-    PRIMARIES_SMPTE_C,
-    WHITEPOINT_NAME_SMPTE_C,
     CCS_WHITEPOINT_SMPTE_C,
     MATRIX_SMPTE_C_TO_XYZ,
     MATRIX_XYZ_TO_SMPTE_C,
+    PRIMARIES_SMPTE_C,
     RGB_COLOURSPACE_SMPTE_C,
+    WHITEPOINT_NAME_SMPTE_C,
 )
 
 __author__ = "Colour Developers"

@@ -1,9 +1,14 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.recovery.jiang2013` module."""
 
-import numpy as np
 import unittest
 
+import numpy as np
+
+from colour.characterisation import (
+    MSDS_CAMERA_SENSITIVITIES,
+    SDS_COLOURCHECKERS,
+)
 from colour.colorimetry import (
     SDS_ILLUMINANTS,
     SpectralDistribution,
@@ -14,16 +19,12 @@ from colour.colorimetry import (
     sds_and_msds_to_msds,
 )
 from colour.hints import cast
-from colour.characterisation import (
-    MSDS_CAMERA_SENSITIVITIES,
-    SDS_COLOURCHECKERS,
-)
 from colour.recovery import (
     BASIS_FUNCTIONS_DYER2017,
-    PCA_Jiang2013,
-    RGB_to_sd_camera_sensitivity_Jiang2013,
-    RGB_to_msds_camera_sensitivities_Jiang2013,
     SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
+    PCA_Jiang2013,
+    RGB_to_msds_camera_sensitivities_Jiang2013,
+    RGB_to_sd_camera_sensitivity_Jiang2013,
 )
 from colour.utilities import tsplit
 

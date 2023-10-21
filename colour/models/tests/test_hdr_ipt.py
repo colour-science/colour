@@ -1,9 +1,10 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.hdr_ipt` module."""
 
-import numpy as np
 import unittest
 from itertools import product
+
+import numpy as np
 
 from colour.models import XYZ_to_hdr_IPT, hdr_IPT_to_XYZ
 from colour.models.hdr_ipt import exponent_hdr_IPT

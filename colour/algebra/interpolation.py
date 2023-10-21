@@ -60,10 +60,11 @@ References
 from __future__ import annotations
 
 import itertools
-import numpy as np
-import scipy.interpolate
 from collections.abc import Mapping
 from functools import reduce
+
+import numpy as np
+import scipy.interpolate
 
 from colour.algebra import sdiv, sdiv_mode
 from colour.constants import DEFAULT_FLOAT_DTYPE
@@ -81,9 +82,9 @@ from colour.hints import (
 from colour.utilities import (
     CanonicalMapping,
     as_array,
+    as_float,
     as_float_array,
     as_float_scalar,
-    as_float,
     as_int_array,
     attest,
     closest_indexes,

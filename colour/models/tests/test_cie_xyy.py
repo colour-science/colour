@@ -1,17 +1,18 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.cie_xyy` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.models import (
-    XYZ_to_xyY,
-    xyY_to_XYZ,
-    xy_to_xyY,
-    xyY_to_xy,
-    xy_to_XYZ,
     XYZ_to_xy,
+    XYZ_to_xyY,
+    xy_to_xyY,
+    xy_to_XYZ,
+    xyY_to_xy,
+    xyY_to_XYZ,
 )
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 

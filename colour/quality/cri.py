@@ -17,19 +17,20 @@ usp=sharing
 
 from __future__ import annotations
 
-import numpy as np
 from dataclasses import dataclass
+
+import numpy as np
 
 from colour.algebra import euclidean_distance, sdiv, sdiv_mode, spow
 from colour.colorimetry import (
     MSDS_CMFS,
-    MultiSpectralDistributions,
     SPECTRAL_SHAPE_DEFAULT,
+    MultiSpectralDistributions,
     SpectralDistribution,
     reshape_msds,
     reshape_sd,
-    sd_CIE_illuminant_D_series,
     sd_blackbody,
+    sd_CIE_illuminant_D_series,
     sd_to_XYZ,
 )
 from colour.hints import Dict, NDArrayFloat, Tuple, cast

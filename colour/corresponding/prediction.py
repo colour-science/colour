@@ -38,8 +38,9 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 from collections import namedtuple
+
+import numpy as np
 
 from colour.adaptation import (
     chromatic_adaptation_CIE1994,
@@ -49,8 +50,8 @@ from colour.adaptation import (
     chromatic_adaptation_Zhai2018,
 )
 from colour.corresponding import (
-    BRENEMAN_EXPERIMENTS,
     BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES,
+    BRENEMAN_EXPERIMENTS,
 )
 from colour.hints import (
     Any,
@@ -69,8 +70,8 @@ from colour.models import (
 )
 from colour.utilities import (
     CanonicalMapping,
-    attest,
     as_float_scalar,
+    attest,
     domain_range_scale,
     filter_kwargs,
     full,

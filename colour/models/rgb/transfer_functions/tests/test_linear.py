@@ -3,8 +3,9 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.linear` module.
 """
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.models.rgb.transfer_functions import linear_function
 from colour.utilities import ignore_numpy_errors

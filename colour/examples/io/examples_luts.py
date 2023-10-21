@@ -1,7 +1,8 @@
 """Showcases Look Up Table (LUT) data related examples."""
 
-import numpy as np
 import os
+
+import numpy as np
 
 import colour
 from colour.utilities import message_box

@@ -20,12 +20,12 @@ from __future__ import annotations
 from colour.hints import NDArrayFloat
 from colour.models.rgb import RGB_Colourspace
 from colour.models.rgb.datasets.itur_bt_470 import (
-    PRIMARIES_BT470_625,
     CCS_WHITEPOINT_BT470_625,
-    WHITEPOINT_NAME_BT470_625,
     MATRIX_BT470_625_TO_XYZ,
     MATRIX_XYZ_TO_BT470_625,
+    PRIMARIES_BT470_625,
     RGB_COLOURSPACE_BT470_625,
+    WHITEPOINT_NAME_BT470_625,
 )
 
 __author__ = "Colour Developers"

@@ -1,13 +1,13 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.hunter_rdab` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
-from colour.colorimetry import TVS_ILLUMINANTS_HUNTERLAB
-from colour.models import XYZ_to_Hunter_Rdab, Hunter_Rdab_to_XYZ
+import numpy as np
 
+from colour.colorimetry import TVS_ILLUMINANTS_HUNTERLAB
+from colour.models import Hunter_Rdab_to_XYZ, XYZ_to_Hunter_Rdab
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"

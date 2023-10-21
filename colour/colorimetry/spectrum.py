@@ -27,21 +27,23 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 from collections.abc import Mapping
 
+import numpy as np
+
 from colour.algebra import (
-    Extrapolator,
     CubicSplineInterpolator,
+    Extrapolator,
     SpragueInterpolator,
     sdiv,
     sdiv_mode,
 )
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.continuous import Signal, MultiSignals
+from colour.continuous import MultiSignals, Signal
 from colour.hints import (
-    ArrayLike,
+    TYPE_CHECKING,
     Any,
+    ArrayLike,
     DTypeFloat,
     Generator,
     List,
@@ -50,9 +52,8 @@ from colour.hints import (
     ProtocolExtrapolator,
     ProtocolInterpolator,
     Real,
-    Sequence,
     Self,
-    TYPE_CHECKING,
+    Sequence,
     Type,
     TypeVar,
     cast,
@@ -64,12 +65,12 @@ from colour.utilities import (
     attest,
     filter_kwargs,
     first_item,
+    interval,
     is_iterable,
     is_numeric,
     is_pandas_installed,
     is_string,
     is_uniform,
-    interval,
     optional,
     runtime_warning,
     tstack,

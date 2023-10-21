@@ -1,14 +1,15 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.quality.cqs` module."""
 
-import numpy as np
 import unittest
 
+import numpy as np
+
+from colour.colorimetry import SDS_ILLUMINANTS, SDS_LIGHT_SOURCES
 from colour.quality import (
     ColourRendering_Specification_CQS,
     colour_quality_scale,
 )
-from colour.colorimetry import SDS_ILLUMINANTS, SDS_LIGHT_SOURCES
 from colour.quality.cqs import DataColorimetry_VS, DataColourQualityScale_VS
 
 __author__ = "Colour Developers"

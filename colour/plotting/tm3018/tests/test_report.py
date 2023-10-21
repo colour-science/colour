@@ -2,15 +2,16 @@
 """Define the unit tests for the :mod:`colour.plotting.tm3018.report` module."""
 
 import unittest
+
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
 from colour.colorimetry import SDS_ILLUMINANTS
 from colour.plotting.tm3018.report import (
+    plot_single_sd_colour_rendition_report,
     plot_single_sd_colour_rendition_report_full,
     plot_single_sd_colour_rendition_report_intermediate,
     plot_single_sd_colour_rendition_report_simple,
-    plot_single_sd_colour_rendition_report,
 )
 
 __author__ = "Colour Developers"

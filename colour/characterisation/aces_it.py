@@ -55,8 +55,9 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 import os
+
+import numpy as np
 from scipy.optimize import minimize
 
 from colour.adaptation import matrix_chromatic_adaptation_VonKries
@@ -64,23 +65,23 @@ from colour.algebra import (
     euclidean_distance,
     vector_dot,
 )
+from colour.characterisation import (
+    MSDS_ACES_RICD,
+    RGB_CameraSensitivities,
+    polynomial_expansion_Finlayson2015,
+)
 from colour.colorimetry import (
-    MultiSpectralDistributions,
     SDS_ILLUMINANTS,
+    MultiSpectralDistributions,
     SpectralDistribution,
     SpectralShape,
     handle_spectral_arguments,
     reshape_msds,
     reshape_sd,
-    sds_and_msds_to_msds,
-    sd_CIE_illuminant_D_series,
     sd_blackbody,
+    sd_CIE_illuminant_D_series,
     sd_to_XYZ,
-)
-from colour.characterisation import (
-    MSDS_ACES_RICD,
-    RGB_CameraSensitivities,
-    polynomial_expansion_Finlayson2015,
+    sds_and_msds_to_msds,
 )
 from colour.hints import (
     ArrayLike,
@@ -101,8 +102,8 @@ from colour.models import (
     xy_to_XYZ,
 )
 from colour.models.rgb import (
-    RGB_Colourspace,
     RGB_COLOURSPACE_ACES2065_1,
+    RGB_Colourspace,
     RGB_to_XYZ,
     XYZ_to_RGB,
 )

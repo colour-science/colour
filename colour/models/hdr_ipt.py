@@ -34,10 +34,10 @@ from colour.colorimetry import (
 )
 from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.models.ipt import (
-    MATRIX_IPT_XYZ_TO_LMS,
-    MATRIX_IPT_LMS_TO_XYZ,
-    MATRIX_IPT_LMS_P_TO_IPT,
     MATRIX_IPT_IPT_TO_LMS_P,
+    MATRIX_IPT_LMS_P_TO_IPT,
+    MATRIX_IPT_LMS_TO_XYZ,
+    MATRIX_IPT_XYZ_TO_LMS,
 )
 from colour.utilities import (
     as_float_array,

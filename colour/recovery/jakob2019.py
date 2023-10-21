@@ -19,13 +19,13 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 import struct
-from scipy.optimize import minimize
+
+import numpy as np
 from scipy.interpolate import RegularGridInterpolator
+from scipy.optimize import minimize
 
 from colour.algebra import smoothstep_function, spow
-from colour.constants import DEFAULT_INT_DTYPE
 from colour.colorimetry import (
     MultiSpectralDistributions,
     SpectralDistribution,
@@ -34,6 +34,7 @@ from colour.colorimetry import (
     intermediate_lightness_function_CIE1976,
     sd_to_XYZ_integration,
 )
+from colour.constants import DEFAULT_INT_DTYPE
 from colour.difference import JND_CIE1976
 from colour.hints import (
     ArrayLike,
@@ -41,7 +42,7 @@ from colour.hints import (
     NDArrayFloat,
     Tuple,
 )
-from colour.models import RGB_Colourspace, XYZ_to_xy, XYZ_to_Lab, RGB_to_XYZ
+from colour.models import RGB_Colourspace, RGB_to_XYZ, XYZ_to_Lab, XYZ_to_xy
 from colour.utilities import (
     as_float_array,
     as_float_scalar,
@@ -951,7 +952,7 @@ class LUT3D_Jakob2019:
 
                 # Down the lightness scale.
                 coefficients_0 = coefficients_middle
-                for L in reversed(range(0, L_middle)):
+                for L in reversed(range(L_middle)):
                     coefficients_0 = optimize(
                         np.hstack([ijk, L]), coefficients_0, chroma
                     )

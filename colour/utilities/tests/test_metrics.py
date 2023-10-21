@@ -1,8 +1,9 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.utilities.metrics` module."""
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.utilities import metric_mse, metric_psnr
 

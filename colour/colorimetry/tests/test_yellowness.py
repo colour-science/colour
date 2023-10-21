@@ -1,17 +1,20 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.colorimetry.yellowness` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.colorimetry import (
     yellowness_ASTMD1925,
-    yellowness_ASTME313_alternative,
     yellowness_ASTME313,
+    yellowness_ASTME313_alternative,
 )
-from colour.colorimetry.yellowness import YELLOWNESS_COEFFICIENTS_ASTME313
-from colour.colorimetry.yellowness import yellowness
+from colour.colorimetry.yellowness import (
+    YELLOWNESS_COEFFICIENTS_ASTME313,
+    yellowness,
+)
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"

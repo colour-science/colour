@@ -114,8 +114,9 @@ MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html
 
 from __future__ import annotations
 
-import numpy as np
 import re
+
+import numpy as np
 
 from colour.algebra import (
     Extrapolator,
@@ -129,8 +130,8 @@ from colour.algebra import (
 )
 from colour.colorimetry import CCS_ILLUMINANTS, luminance_ASTMD1535
 from colour.constants import (
-    INTEGER_THRESHOLD,
     FLOATING_POINT_NUMBER_PATTERN,
+    INTEGER_THRESHOLD,
 )
 from colour.hints import (
     ArrayLike,
@@ -142,7 +143,6 @@ from colour.hints import (
     cast,
 )
 from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
-from colour.volume import is_within_macadam_limits
 from colour.notation import MUNSELL_COLOURS_ALL
 from colour.utilities import (
     CACHE_REGISTRY,
@@ -157,16 +157,17 @@ from colour.utilities import (
     from_range_1,
     from_range_10,
     get_domain_range_scale,
+    is_integer,
+    is_numeric,
     to_domain_1,
     to_domain_10,
     to_domain_100,
-    is_integer,
-    is_numeric,
     tsplit,
     tstack,
     usage_warning,
     validate_method,
 )
+from colour.volume import is_within_macadam_limits
 
 __author__ = "Colour Developers, Paul Centore"
 __copyright__ = "Copyright 2013 Colour Developers"

@@ -1,13 +1,14 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.notation.hexadecimal` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.notation.hexadecimal import (
-    RGB_to_HEX,
     HEX_to_RGB,
+    RGB_to_HEX,
 )
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 

@@ -9,25 +9,27 @@ Defines the class implementing support for continuous signal:
 
 from __future__ import annotations
 
-import numpy as np
+from collections.abc import Iterator, Mapping, Sequence, ValuesView
 from operator import (
     add,
-    mul,
-    pow,
-    sub,
-    truediv,
     iadd,
     imul,
     ipow,
     isub,
     itruediv,
+    mul,
+    pow,
+    sub,
+    truediv,
 )
-from collections.abc import Iterator, Mapping, Sequence, ValuesView
+
+import numpy as np
 
 from colour.algebra import Extrapolator, KernelInterpolator
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction
 from colour.hints import (
+    TYPE_CHECKING,
     Any,
     ArrayLike,
     Callable,
@@ -39,7 +41,6 @@ from colour.hints import (
     ProtocolInterpolator,
     Real,
     Self,
-    TYPE_CHECKING,
     Type,
     Union,
     cast,
@@ -390,7 +391,7 @@ class Signal(AbstractContinuousFunction):
 
         # Empty domain occurs during __init__ because range is set before domain
         attest(
-            self._domain.size == 0 or value.size == self._domain.size,
+            self._domain.size in (0, self._domain.size),
             '"domain" and "range" variables must have same size!',
         )
 

@@ -15,8 +15,8 @@ References
 
 import numpy as np
 
-from colour.algebra import vector_dot
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
+from colour.algebra import vector_dot
 from colour.hints import ArrayLike, Literal, NDArrayFloat, Union
 from colour.utilities import (
     as_float_array,

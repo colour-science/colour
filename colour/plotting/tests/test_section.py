@@ -2,14 +2,15 @@
 """Define the unit tests for the :mod:`colour.plotting.section` module."""
 
 import unittest
+
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
 from colour.geometry import primitive_cube
 from colour.models import RGB_COLOURSPACE_sRGB, RGB_to_XYZ
 from colour.plotting import (
-    plot_visible_spectrum_section,
     plot_RGB_colourspace_section,
+    plot_visible_spectrum_section,
 )
 from colour.plotting.section import (
     plot_hull_section_colours,

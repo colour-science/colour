@@ -1,14 +1,15 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.appearance.zcam` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.appearance import (
     VIEWING_CONDITIONS_ZCAM,
-    InductionFactors_ZCAM,
     CAM_Specification_ZCAM,
+    InductionFactors_ZCAM,
     XYZ_to_ZCAM,
     ZCAM_to_XYZ,
 )

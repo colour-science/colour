@@ -3,13 +3,10 @@
 
 from __future__ import annotations
 
-import numpy as np
 import unittest
 
-from colour.corresponding.prediction import (
-    CorrespondingColourDataset,
-    convert_experiment_results_Breneman1987,
-)
+import numpy as np
+
 from colour.corresponding import (
     corresponding_chromaticities_prediction_CIE1994,
     corresponding_chromaticities_prediction_CMCCAT2000,
@@ -17,8 +14,11 @@ from colour.corresponding import (
     corresponding_chromaticities_prediction_VonKries,
     corresponding_chromaticities_prediction_Zhai2018,
 )
+from colour.corresponding.prediction import (
+    CorrespondingColourDataset,
+    convert_experiment_results_Breneman1987,
+)
 from colour.hints import NDArrayFloat
-
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

@@ -1,9 +1,10 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.cie_uvw` module."""
 
-import numpy as np
 import unittest
 from itertools import product
+
+import numpy as np
 
 from colour.models import UVW_to_XYZ, XYZ_to_UVW
 from colour.utilities import domain_range_scale, ignore_numpy_errors

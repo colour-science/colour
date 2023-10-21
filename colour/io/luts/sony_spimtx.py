@@ -13,8 +13,8 @@ from __future__ import annotations
 import numpy as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.io.luts.common import path_to_title
 from colour.io.luts import LUTOperatorMatrix
+from colour.io.luts.common import path_to_title
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

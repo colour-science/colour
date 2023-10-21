@@ -21,7 +21,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.constants import DEFAULT_INT_DTYPE, DEFAULT_FLOAT_DTYPE
+from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.hints import (
     Any,
     DTypeFloat,
@@ -39,8 +39,8 @@ from colour.utilities import (
     filter_kwargs,
     ones,
     optional,
-    zeros,
     validate_method,
+    zeros,
 )
 
 __author__ = "Colour Developers"

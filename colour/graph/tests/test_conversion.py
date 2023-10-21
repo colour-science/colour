@@ -1,13 +1,14 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.graph.conversion` module."""
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.characterisation import SDS_COLOURCHECKERS
 from colour.colorimetry import CCS_ILLUMINANTS, SDS_ILLUMINANTS
+from colour.graph import convert, describe_conversion_path
 from colour.models import COLOURSPACE_MODELS, RGB_COLOURSPACE_ACES2065_1
-from colour.graph import describe_conversion_path, convert
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

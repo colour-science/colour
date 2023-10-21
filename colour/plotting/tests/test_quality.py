@@ -2,6 +2,7 @@
 """Define the unit tests for the :mod:`colour.plotting.quality` module."""
 
 import unittest
+
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
@@ -12,10 +13,10 @@ from colour.colorimetry import (
     reshape_sd,
 )
 from colour.plotting import (
-    plot_single_sd_colour_rendering_index_bars,
+    plot_multi_sds_colour_quality_scales_bars,
     plot_multi_sds_colour_rendering_indexes_bars,
     plot_single_sd_colour_quality_scale_bars,
-    plot_multi_sds_colour_quality_scales_bars,
+    plot_single_sd_colour_rendering_index_bars,
 )
 from colour.plotting.quality import plot_colour_quality_bars
 from colour.quality import colour_quality_scale

@@ -17,6 +17,7 @@ objects:
 from __future__ import annotations
 
 import os
+
 import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure

@@ -3,14 +3,15 @@
 
 from __future__ import annotations
 
-import numpy as np
 import os
 import re
 import shutil
-import unittest
 import tempfile
 import textwrap
+import unittest
 from copy import deepcopy
+
+import numpy as np
 
 from colour.colorimetry import SpectralDistribution
 from colour.hints import List, Tuple, cast
@@ -620,10 +621,10 @@ SpectralDistribution_IESTM2714(...,
         sd = SpectralDistribution_IESTM2714()
         self.assertRaises(ValueError, sd.read)
 
-        sd = SpectralDistribution_IESTM2714(
-            os.path.join(ROOT_RESOURCES, "Invalid.spdx")
-        )
-        self.assertRaises(ValueError, sd.read)
+        with self.assertRaises(ValueError):
+            sd = SpectralDistribution_IESTM2714(
+                os.path.join(ROOT_RESOURCES, "Invalid.spdx")
+            )
 
     def test_write(self):
         """

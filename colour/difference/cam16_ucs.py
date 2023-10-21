@@ -19,10 +19,10 @@ References
 """
 
 from colour.difference.cam02_ucs import (
-    delta_E_Luo2006,
     delta_E_CAM02LCD,
     delta_E_CAM02SCD,
     delta_E_CAM02UCS,
+    delta_E_Luo2006,
 )
 from colour.models.cam16_ucs import (
     _UCS_Luo2006_callable_to_UCS_Li2017_docstring,

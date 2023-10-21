@@ -2,6 +2,7 @@
 """Define the unit tests for the :mod:`colour.plotting.diagrams` module."""
 
 import unittest
+
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
@@ -21,10 +22,10 @@ from colour.plotting import (
     plot_sds_in_chromaticity_diagram_CIE1976UCS,
 )
 from colour.plotting.diagrams import (
-    plot_spectral_locus,
-    plot_chromaticity_diagram_colours,
     plot_chromaticity_diagram,
+    plot_chromaticity_diagram_colours,
     plot_sds_in_chromaticity_diagram,
+    plot_spectral_locus,
 )
 
 __author__ = "Colour Developers"

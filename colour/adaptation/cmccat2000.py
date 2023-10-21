@@ -22,8 +22,9 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 from typing import NamedTuple
+
+import numpy as np
 
 from colour.adaptation import CAT_CMCCAT2000
 from colour.algebra import vector_dot

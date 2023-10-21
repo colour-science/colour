@@ -29,25 +29,26 @@ from __future__ import annotations
 import contextlib
 import functools
 import itertools
+from dataclasses import dataclass, field
+from functools import partial
+
 import matplotlib.cm
 import matplotlib.pyplot as plt
 import matplotlib.ticker
 import numpy as np
 from cycler import cycler
-from dataclasses import dataclass, field
-from functools import partial
 from matplotlib.axes import Axes
 from matplotlib.colors import LinearSegmentedColormap
-from matplotlib.figure import Figure
+from matplotlib.figure import Figure, SubFigure
 from matplotlib.patches import Patch
 from mpl_toolkits.mplot3d.axes3d import Axes3D
 
 from colour.characterisation import CCS_COLOURCHECKERS, ColourChecker
 from colour.colorimetry import (
-    MultiSpectralDistributions,
     MSDS_CMFS,
     SDS_ILLUMINANTS,
     SDS_LIGHT_SOURCES,
+    MultiSpectralDistributions,
     SpectralDistribution,
 )
 from colour.hints import (
@@ -73,10 +74,10 @@ from colour.utilities import (
     as_float_array,
     as_int_scalar,
     attest,
+    filter_mapping,
     first_item,
     is_sibling,
     is_string,
-    filter_mapping,
     optional,
     runtime_warning,
     validate_method,
@@ -494,7 +495,13 @@ def artist(**kwargs: KwargsArtist | Any) -> Tuple[Figure, Axes]:
 
         return figure, figure.gca()
     else:
-        return plt.gcf(), cast(Axes, axes)
+        axes = cast(Axes, axes)
+        figure = axes.figure
+
+        if isinstance(figure, SubFigure):
+            figure = figure.get_figure()
+
+        return cast(Figure, figure), axes
 
 
 class KwargsCamera(TypedDict):
@@ -571,6 +578,8 @@ class KwargsRender(TypedDict):
     show
         Whether to show the figure and call :func:`matplotlib.pyplot.show`
         definition.
+    block
+        Whether to block on `show`ing the plot.
     aspect
         Matplotlib axes aspect.
     axes_visible
@@ -605,6 +614,7 @@ class KwargsRender(TypedDict):
     axes: Axes
     filename: str
     show: bool
+    block: bool
     aspect: Literal["auto", "equal"] | float
     axes_visible: bool
     bounding_box: ArrayLike
@@ -653,6 +663,7 @@ def render(
         **{
             "filename": None,
             "show": True,
+            "block": True,
             "aspect": None,
             "axes_visible": True,
             "bounding_box": None,
@@ -701,7 +712,7 @@ def render(
         figure.savefig(settings.filename)
 
     if settings.show:
-        plt.show()
+        plt.show(block=settings.block)
 
     return figure, axes
 

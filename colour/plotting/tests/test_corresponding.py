@@ -2,6 +2,7 @@
 """Define the unit tests for the :mod:`colour.plotting.corresponding` module."""
 
 import unittest
+
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 

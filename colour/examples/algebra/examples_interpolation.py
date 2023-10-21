@@ -1,8 +1,9 @@
 """Showcases interpolation computations."""
 
+import os
+
 import matplotlib.pyplot as plt
 import numpy as np
-import os
 
 import colour
 from colour.hints import cast

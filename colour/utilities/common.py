@@ -18,17 +18,18 @@ numpyerrors.html
 
 from __future__ import annotations
 
-import inspect
 import functools
-import numpy as np
+import inspect
 import re
 import subprocess
-import unicodedata
 import types
+import unicodedata
 import warnings
 from contextlib import contextmanager
 from copy import copy
 from pprint import pformat
+
+import numpy as np
 
 from colour.constants import INTEGER_THRESHOLD
 from colour.hints import (
@@ -1462,6 +1463,7 @@ def slugify(object_: Any, allow_unicode: bool = False) -> str:
 
 if is_xxhash_installed():
     import xxhash
+
     from colour.utilities.documentation import is_documentation_building
 
     int_digest = xxhash.xxh3_64_intdigest

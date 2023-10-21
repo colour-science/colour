@@ -1,17 +1,18 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.colorimetry.lightness` module."""
 
-import numpy as np
 import unittest
 
+import numpy as np
+
 from colour.colorimetry import (
-    lightness_Glasser1958,
-    lightness_Wyszecki1963,
     intermediate_lightness_function_CIE1976,
+    lightness_Abebe2017,
     lightness_CIE1976,
     lightness_Fairchild2010,
     lightness_Fairchild2011,
-    lightness_Abebe2017,
+    lightness_Glasser1958,
+    lightness_Wyszecki1963,
 )
 from colour.colorimetry.lightness import lightness
 from colour.utilities import domain_range_scale, ignore_numpy_errors

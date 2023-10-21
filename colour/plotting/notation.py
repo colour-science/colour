@@ -18,8 +18,8 @@ from colour.hints import Any, Callable, Dict, Sequence, Tuple
 from colour.notation import MUNSELL_VALUE_METHODS
 from colour.plotting import (
     filter_passthrough,
-    plot_multi_functions,
     override_style,
+    plot_multi_functions,
 )
 
 __author__ = "Colour Developers"

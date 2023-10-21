@@ -20,8 +20,8 @@ from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
-    log_encoding_FilmLightTLog,
     log_decoding_FilmLightTLog,
+    log_encoding_FilmLightTLog,
     normalised_primary_matrix,
 )
 

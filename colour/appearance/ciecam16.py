@@ -20,15 +20,16 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 from collections import namedtuple
 from dataclasses import astuple, dataclass, field
+
+import numpy as np
 
 from colour.algebra import spow, vector_dot
 from colour.appearance.cam16 import MATRIX_16, MATRIX_INVERSE_16
 from colour.appearance.ciecam02 import (
-    InductionFactors_CIECAM02,
     VIEWING_CONDITIONS_CIECAM02,
+    InductionFactors_CIECAM02,
     P,
     achromatic_response_forward,
     achromatic_response_inverse,
@@ -40,10 +41,10 @@ from colour.appearance.ciecam02 import (
     hue_angle,
     hue_quadrature,
     lightness_correlate,
+    matrix_post_adaptation_non_linear_response_compression,
     opponent_colour_dimensions_forward,
     opponent_colour_dimensions_inverse,
     post_adaptation_non_linear_response_compression_forward,
-    matrix_post_adaptation_non_linear_response_compression,
     saturation_correlate,
     temporary_magnitude_quantity_inverse,
     viewing_conditions_dependent_parameters,

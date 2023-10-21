@@ -12,9 +12,10 @@ Defines various input / output objects for *CSV* tabular data files:
 from __future__ import annotations
 
 import csv
-import numpy as np
 import os
 import tempfile
+
+import numpy as np
 
 from colour.colorimetry import SpectralDistribution
 from colour.constants import DEFAULT_FLOAT_DTYPE

@@ -28,7 +28,7 @@ keywords = [
     "python",
     "spectral-data",
     "spectral-dataset",
-    "spectral-datasets"
+    "spectral-datasets",
 ]
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -40,7 +40,7 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Topic :: Scientific/Engineering",
-    "Topic :: Software Development"
+    "Topic :: Software Development",
 ]
 
 [tool.poetry.dependencies]
@@ -80,6 +80,7 @@ pytest-xdist = "*"
 ruff = "*"
 toml = "*"
 twine = "*"
+isort = "*"
 
 [tool.poetry.group.docs.dependencies]
 biblib-simple = "*"
@@ -90,13 +91,17 @@ sphinxcontrib-bibtex = "*"
 
 [tool.black]
 line-length = 79
-exclude = '''
-/(
-    \.git
-  | build
-  | dist
-)/
-'''
+exclude = '''/(\.git|build|dist)/'''
+
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+line_length = 88
+split_on_trailing_comma = true
+skip_glob = ["colour/**/__init__.py"]
 
 [tool.flynt]
 line_length = 999
@@ -106,7 +111,7 @@ reportMissingImports = false
 reportMissingModuleSource = false
 reportUnboundVariable = false
 reportUnnecessaryCast = true
-reportUnnecessaryTypeIgnoreComment = true
+reportUnnecessaryTypeIgnorComment = true
 reportUnsupportedDunderAll = false
 reportUnusedExpression = false
 
@@ -134,7 +139,7 @@ filterwarnings = [
 target-version = "py39"
 line-length = 88
 select = [
-    "A", # flake8-builtins
+    "A",   # flake8-builtins
     "ARG", # flake8-unused-arguments
     # "ANN", # flake8-annotations
     "B", # flake8-bugbear
@@ -143,38 +148,37 @@ select = [
     # "C90", # mccabe
     # "COM", # flake8-commas
     "DTZ", # flake8-datetimez
-    "D", # pydocstyle
-    "E", # pydocstyle
+    "D",   # pydocstyle
+    "E",   # pydocstyle
     # "ERA", # eradicate
     # "EM", # flake8-errmsg
     "EXE", # flake8-executable
-    "F", # flake8
+    "F",   # flake8
     # "FBT", # flake8-boolean-trap
-    "G", # flake8-logging-format
-    "I", # isort
+    "G",   # flake8-logging-format
+    "I",   # isort
     "ICN", # flake8-import-conventions
     "INP", # flake8-no-pep420
     "ISC", # flake8-implicit-str-concat
-    "N", # pep8-naming
+    "N",   # pep8-naming
     # "PD", # pandas-vet
     "PIE", # flake8-pie
     "PGH", # pygrep-hooks
-    "PL", # pylint
+    "PL",  # pylint
     # "PT", # flake8-pytest-style
-    # "PTH", # flake8-use-pathlib [Enable]
-    "Q", # flake8-quotes
+    # "PTH", # flake8-use-pathlib [Enable]    "Q",   # flake8-quotes
     "RET", # flake8-return
     "RUF", # Ruff
-    "S", # flake8-bandit
+    "S",   # flake8-bandit
     "SIM", # flake8-simplify
     "T10", # flake8-debugger
     "T20", # flake8-print
     # "TCH", # flake8-type-checking
     "TID", # flake8-tidy-imports
     "TRY", # tryceratops
-    "UP", # pyupgrade
-    "W", # pydocstyle
-    "YTT" # flake8-2020
+    "UP",  # pyupgrade
+    "W",   # pydocstyle
+    "YTT", # flake8-2020
 ]
 ignore = [
     "B008",

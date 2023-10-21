@@ -21,14 +21,15 @@ from matplotlib.figure import Figure
 from colour.colorimetry import SpectralDistribution, sd_to_XYZ
 from colour.hints import Any, Dict, Literal, Tuple, cast
 from colour.io import SpectralDistribution_IESTM2714
-from colour.models import XYZ_to_xy, XYZ_to_Luv, Luv_to_uv
+from colour.models import Luv_to_uv, XYZ_to_Luv, XYZ_to_xy
+from colour.plotting import CONSTANTS_COLOUR_STYLE, override_style, render
 from colour.plotting.tm3018.components import (
-    plot_spectra_ANSIIESTM3018,
+    plot_colour_fidelity_indexes,
     plot_colour_vector_graphic,
     plot_local_chroma_shifts,
-    plot_local_hue_shifts,
     plot_local_colour_fidelities,
-    plot_colour_fidelity_indexes,
+    plot_local_hue_shifts,
+    plot_spectra_ANSIIESTM3018,
 )
 from colour.quality import (
     ColourQuality_Specification_ANSIIESTM3018,
@@ -36,7 +37,6 @@ from colour.quality import (
     colour_fidelity_index_ANSIIESTM3018,
     colour_rendering_index,
 )
-from colour.plotting import CONSTANTS_COLOUR_STYLE, override_style, render
 from colour.utilities import (
     as_float_scalar,
     describe_environment,

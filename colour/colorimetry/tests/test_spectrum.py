@@ -1,20 +1,21 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.colorimetry.spectrum` module."""
 
-import colour
-import numpy as np
 import unittest
 
+import numpy as np
+
+import colour
 from colour.algebra import CubicSplineInterpolator
-from colour.colorimetry.spectrum import SPECTRAL_SHAPE_DEFAULT
 from colour.colorimetry.spectrum import (
-    SpectralShape,
-    SpectralDistribution,
+    SPECTRAL_SHAPE_DEFAULT,
     MultiSpectralDistributions,
-    reshape_sd,
+    SpectralDistribution,
+    SpectralShape,
     reshape_msds,
-    sds_and_msds_to_sds,
+    reshape_sd,
     sds_and_msds_to_msds,
+    sds_and_msds_to_sds,
 )
 from colour.utilities import tstack
 

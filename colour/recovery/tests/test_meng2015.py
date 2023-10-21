@@ -1,8 +1,9 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.recovery.meng2015` module."""
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.colorimetry import (
     MSDS_CMFS,

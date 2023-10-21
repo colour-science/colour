@@ -23,8 +23,8 @@ from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
     eotf_DCDM,
-    normalised_primary_matrix,
     eotf_inverse_DCDM,
+    normalised_primary_matrix,
 )
 
 __author__ = "Colour Developers"

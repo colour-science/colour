@@ -1,9 +1,10 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.hdr_cie_lab` module."""
 
-import numpy as np
 import unittest
 from itertools import product
+
+import numpy as np
 
 from colour.models import XYZ_to_hdr_CIELab, hdr_CIELab_to_XYZ
 from colour.models.hdr_cie_lab import exponent_hdr_CIELab
