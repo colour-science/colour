@@ -19,7 +19,6 @@ from colour.hints import Any, LiteralLUTReadMethods, LiteralLUTWriteMethods
 from colour.utilities import (
     CanonicalMapping,
     filter_kwargs,
-    optional,
     validate_method,
 )
 
@@ -208,11 +207,11 @@ or :class:`colour.LUTSequence` or :class:`colour.LUTOperatorMatrix`
     Offset     : [ 0.  0.  0.  0.]
     """
 
-    method = optional(
-        method, MAPPING_EXTENSION_TO_LUT_FORMAT[os.path.splitext(path)[-1]]
+    method = (
+        MAPPING_EXTENSION_TO_LUT_FORMAT[os.path.splitext(path)[-1]].lower()
+        if method is None
+        else validate_method(method, tuple(LUT_WRITE_METHODS))
     )
-
-    method = validate_method(method, tuple(LUT_READ_METHODS))
 
     function = LUT_READ_METHODS[method]
 
@@ -319,11 +318,11 @@ def write_LUT(
     >>> write_LUT(LUT, "My_LUT.cube")  # doctest: +SKIP
     """
 
-    method = optional(
-        method, MAPPING_EXTENSION_TO_LUT_FORMAT[os.path.splitext(path)[-1]]
+    method = (
+        MAPPING_EXTENSION_TO_LUT_FORMAT[os.path.splitext(path)[-1]].lower()
+        if method is None
+        else validate_method(method, tuple(LUT_WRITE_METHODS))
     )
-
-    method = validate_method(method, tuple(LUT_WRITE_METHODS))
 
     if method == "iridas cube" and isinstance(LUT, LUTSequence):
         method = "resolve cube"
