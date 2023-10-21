@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import os
 
-from colour.hints import Any, Literal
+from colour.hints import Any, LiteralLUTReadMethods, LiteralLUTWriteMethods
 from colour.utilities import (
     CanonicalMapping,
     filter_kwargs,
@@ -103,16 +103,7 @@ References
 
 def read_LUT(
     path: str,
-    method: Literal[
-        "Cinespace",
-        "Iridas Cube",
-        "Resolve Cube",
-        "Sony SPI1D",
-        "Sony SPI3D",
-        "Sony SPImtx",
-    ]
-    | str
-    | None = None,
+    method: LiteralLUTReadMethods | str | None = None,
     **kwargs: Any,
 ) -> LUT1D | LUT3x1D | LUT3D | LUTSequence | LUTOperatorMatrix:
     """
@@ -260,16 +251,7 @@ def write_LUT(
     LUT: LUT1D | LUT3x1D | LUT3D | LUTSequence | LUTOperatorMatrix,
     path: str,
     decimals: int = 7,
-    method: Literal[
-        "Cinespace",
-        "Iridas Cube",
-        "Resolve Cube",
-        "Sony SPI1D",
-        "Sony SPI3D",
-        "Sony SPImtx",
-    ]
-    | str
-    | None = None,
+    method: LiteralLUTWriteMethods | str | None = None,
     **kwargs: Any,
 ) -> bool:
     """
