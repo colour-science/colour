@@ -190,6 +190,7 @@ Verbose
     warning
     filter_warnings
     suppress_warnings
+    suppress_stdout
     numpy_print_options
     describe_environment
     multiline_str
