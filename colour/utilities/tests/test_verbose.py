@@ -11,6 +11,7 @@ from colour.utilities import (
     multiline_repr,
     multiline_str,
     show_warning,
+    suppress_stdout,
     suppress_warnings,
     warning,
 )
@@ -25,6 +26,7 @@ __status__ = "Production"
 __all__ = [
     "TestShowWarning",
     "TestSuppressWarnings",
+    "TestSuppressStdout",
     "TestDescribeEnvironment",
     "TestMultilineStr",
     "TestMultilineRepr",
@@ -66,6 +68,19 @@ class TestSuppressWarnings(unittest.TestCase):
 
         with suppress_warnings():
             warning("This is a suppressed unit test warning!")
+
+
+class TestSuppressStdout(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.verbose.suppress_stdout` definition unit
+    tests methods.
+    """
+
+    def test_suppress_stdout(self):
+        """Test :func:`colour.utilities.verbose.suppress_stdout` definition."""
+
+        with suppress_stdout():
+            print("This is a suppressed message!")  # noqa: T201
 
 
 class TestDescribeEnvironment(unittest.TestCase):

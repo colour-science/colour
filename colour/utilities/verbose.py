@@ -7,6 +7,7 @@ Defines the verbose related objects.
 
 from __future__ import annotations
 
+import functools
 import os
 import sys
 import traceback
@@ -51,6 +52,7 @@ __all__ = [
     "usage_warning",
     "filter_warnings",
     "suppress_warnings",
+    "suppress_stdout",
     "numpy_print_options",
     "ANCILLARY_COLOUR_SCIENCE_PACKAGES",
     "ANCILLARY_RUNTIME_PACKAGES",
@@ -447,6 +449,45 @@ def suppress_warnings(
     finally:
         warnings.filters = filters
         warnings.showwarning = show_warnings
+
+
+class suppress_stdout:
+    """
+    Define a context manager and decorator temporarily suppressing standard
+    output.
+
+    Examples
+    --------
+    >>> with suppress_stdout():
+    ...     print("Hello World!")
+    ...
+    >>> print("Hello World!")
+    Hello World!
+    """
+
+    def __enter__(self) -> suppress_stdout:
+        """Redirect the standard output upon entering the context manager."""
+
+        self._stdout = sys.stdout
+        sys.stdout = open(os.devnull, "w")  # noqa: SIM115
+
+        return self
+
+    def __exit__(self, *args: Any):
+        """Restore the standard output upon exiting the context manager."""
+
+        sys.stdout.close()
+        sys.stdout = self._stdout
+
+    def __call__(self, function: Callable) -> Callable:
+        """Call the wrapped definition."""
+
+        @functools.wraps(function)
+        def wrapper(*args: Any, **kwargs: Any) -> Callable:
+            with self:
+                return function(*args, **kwargs)
+
+        return wrapper
 
 
 @contextmanager
