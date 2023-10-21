@@ -93,6 +93,9 @@ sphinxcontrib-bibtex = "*"
 line-length = 79
 exclude = '''/(\.git|build|dist)/'''
 
+[tool.flynt]
+line_length = 999
+
 [tool.isort]
 multi_line_output = 3
 include_trailing_comma = true
@@ -102,9 +105,6 @@ ensure_newline_before_comments = true
 line_length = 88
 split_on_trailing_comma = true
 skip_glob = ["colour/**/__init__.py"]
-
-[tool.flynt]
-line_length = 999
 
 [tool.pyright]
 reportMissingImports = false
