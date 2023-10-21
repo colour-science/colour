@@ -101,6 +101,16 @@ class TestReadLUT(unittest.TestCase):
         )
         self.assertEqual(LUT_2[1].size, 4)
 
+        self.assertEqual(
+            read_LUT(
+                os.path.join(ROOT_LUTS, "sony_spi1d", "eotf_sRGB_1D.spi1d")
+            ),
+            read_LUT(
+                os.path.join(ROOT_LUTS, "sony_spi1d", "eotf_sRGB_1D.spi1d"),
+                method="Sony SPI1D",
+            ),
+        )
+
     def test_raise_exception_read_LUT(self):
         """
         Test :func:`colour.io.luts.__init__.read_LUT` definition raised
@@ -179,6 +189,22 @@ class TestWriteLUT(unittest.TestCase):
         )
 
         self.assertEqual(LUT_2_r, LUT_2_t)
+
+        write_LUT(
+            LUT_1_r,
+            os.path.join(self._temporary_directory, "eotf_sRGB_1D"),
+            method="Sony SPI1D",
+        )
+
+        self.assertEqual(
+            read_LUT(
+                os.path.join(self._temporary_directory, "eotf_sRGB_1D.spi1d")
+            ),
+            read_LUT(
+                os.path.join(self._temporary_directory, "eotf_sRGB_1D"),
+                method="Sony SPI1D",
+            ),
+        )
 
 
 if __name__ == "__main__":
