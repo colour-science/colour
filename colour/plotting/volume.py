@@ -446,7 +446,7 @@ def plot_RGB_colourspaces_gamuts(
     Parameters
     ----------
     colourspaces
-        *RGB* colourspaces to plot the gamuts. ``colourspaces`` elements
+        *RGB* colourspaces to plot the gamuts of. ``colourspaces`` elements
         can be of any type or form supported by the
         :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     model
@@ -710,7 +710,7 @@ def plot_RGB_scatter(
         Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
         the list of supported colourspace models.
     colourspaces
-        *RGB* colourspaces to plot the gamuts. ``colourspaces`` elements
+        *RGB* colourspaces to plot the gamuts of. ``colourspaces`` elements
         can be of any type or form supported by the
         :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     segments

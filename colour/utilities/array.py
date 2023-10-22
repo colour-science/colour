@@ -554,7 +554,7 @@ def as_array(
     Parameters
     ----------
     a
-        Variable to convert.
+        Variable :math:`a` to convert.
     dtype
         :class:`numpy.dtype` to use for conversion, default to the
         :class:`numpy.dtype` defined by the
@@ -590,7 +590,7 @@ def as_int(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> NDArrayInt:
     Parameters
     ----------
     a
-        Variable to convert.
+        Variable :math:`a` to convert.
     dtype
         :class:`numpy.dtype` to use for conversion, default to the
         :class:`numpy.dtype` defined by the
@@ -632,7 +632,7 @@ def as_float(
     Parameters
     ----------
     a
-        Variable to convert.
+        Variable :math:`a` to convert.
     dtype
         :class:`numpy.dtype` to use for conversion, default to the
         :class:`numpy.dtype` defined by the
@@ -682,7 +682,7 @@ def as_int_array(
     Parameters
     ----------
     a
-        Variable to convert.
+        Variable :math:`a` to convert.
     dtype
         :class:`numpy.dtype` to use for conversion, default to the
         :class:`numpy.dtype` defined by the
@@ -719,7 +719,7 @@ def as_float_array(
     Parameters
     ----------
     a
-        Variable to convert.
+        Variable :math:`a` to convert.
     dtype
         :class:`numpy.dtype` to use for conversion, default to the
         :class:`numpy.dtype` defined by the
@@ -754,7 +754,7 @@ def as_int_scalar(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> int:
     Parameters
     ----------
     a
-        Variable to convert.
+        Variable :math:`a` to convert.
     dtype
         :class:`numpy.dtype` to use for conversion, default to the
         :class:`numpy.dtype` defined by the
@@ -793,7 +793,7 @@ def as_float_scalar(
     Parameters
     ----------
     a
-        Variable to convert.
+        Variable :math:`a` to convert.
     dtype
         :class:`numpy.dtype` to use for conversion, default to the
         :class:`numpy.dtype` defined by the
