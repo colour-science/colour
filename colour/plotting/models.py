@@ -172,10 +172,14 @@ COLOURSPACE_MODELS_AXIS_ORDER: CanonicalMapping = CanonicalMapping(
         "CIE UCS": (0, 1, 2),
         "CIE UVW": (1, 2, 0),
         "DIN99": (1, 2, 0),
+        "HCL": (0, 1, 2),
+        "HSL": (0, 1, 2),
+        "HSV": (0, 1, 2),
         "Hunter Lab": (1, 2, 0),
         "Hunter Rdab": (1, 2, 0),
         "ICaCb": (1, 2, 0),
         "ICtCp": (1, 2, 0),
+        "IHLS": (0, 2, 1),
         "IPT": (1, 2, 0),
         "IPT Ragoo 2021": (1, 2, 0),
         "IgPgTg": (1, 2, 0),
@@ -184,6 +188,8 @@ COLOURSPACE_MODELS_AXIS_ORDER: CanonicalMapping = CanonicalMapping(
         "Oklab": (1, 2, 0),
         "hdr-CIELAB": (1, 2, 0),
         "hdr-IPT": (1, 2, 0),
+        "YCbCr": (1, 2, 0),
+        "YCoCg": (1, 2, 0),
         "Yrg": (1, 2, 0),
     }
 )
