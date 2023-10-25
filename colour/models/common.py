@@ -99,16 +99,16 @@ values.
 
 COLOURSPACE_MODELS_AXIS_LABELS: CanonicalMapping = CanonicalMapping(
     {
-        "CAM02LCD": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
-        "CAM02SCD": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
-        "CAM02UCS": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
-        "CAM16LCD": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
-        "CAM16SCD": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
-        "CAM16UCS": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
+        "CAM02LCD": ("$J^'$", "$a^'$", "$b^'$"),
+        "CAM02SCD": ("$J^'$", "$a^'$", "$b^'$"),
+        "CAM02UCS": ("$J^'$", "$a^'$", "$b^'$"),
+        "CAM16LCD": ("$J^'$", "$a^'$", "$b^'$"),
+        "CAM16SCD": ("$J^'$", "$a^'$", "$b^'$"),
+        "CAM16UCS": ("$J^'$", "$a^'$", "$b^'$"),
         "CIE XYZ": ("X", "Y", "Z"),
         "CIE xyY": ("x", "y", "Y"),
         "CIE Lab": ("$L^*$", "$a^*$", "$b^*$"),
-        "CIE Luv": ("$L^*$", "$u^\\prime$", "$v^\\prime$"),
+        "CIE Luv": ("$L^*$", "$u^'$", "$v^'$"),
         "CIE UCS": ("U", "V", "W"),
         "CIE UVW": ("U", "V", "W"),
         "DIN99": ("$L_{99}$", "$a_{99}$", "$b_{99}$"),
