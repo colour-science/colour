@@ -238,6 +238,7 @@ LiteralColourspaceModel = Literal[
     "Jzazbz",
     "OSA UCS",
     "Oklab",
+    "RGB",
     "YCbCr",
     "YCoCg",
     "Yrg",
