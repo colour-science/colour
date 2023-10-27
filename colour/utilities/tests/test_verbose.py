@@ -6,6 +6,7 @@ import sys
 import textwrap
 import unittest
 
+from colour.hints import Optional
 from colour.utilities import (
     describe_environment,
     multiline_repr,
@@ -199,10 +200,13 @@ class TestMultilineRepr(unittest.TestCase):
         """Test :func:`colour.utilities.verbose.multiline_repr` definition."""
 
         class Data:
-            def __init__(self, a: str, b: int, c: list) -> None:
+            def __init__(
+                self, a: str, b: int, c: list, d: Optional[str] = None
+            ) -> None:
                 self._a = a
                 self._b = b
                 self._c = c
+                self._d = d
 
             def __repr__(self) -> str:
                 return multiline_repr(
@@ -216,6 +220,10 @@ class TestMultilineRepr(unittest.TestCase):
                             .replace("[", "(")
                             .replace("]", ")"),
                         },
+                        {
+                            "name": "_d",
+                            "formatter": lambda x: None,  # noqa: ARG005
+                        },
                     ],
                 )
 
@@ -225,7 +233,8 @@ class TestMultilineRepr(unittest.TestCase):
                 """
                 Data('Foo',
                      1,
-                     ('John', 'Doe'))
+                     ('John', 'Doe'),
+                     None)
                 """
             ).strip(),
         )

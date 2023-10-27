@@ -1024,6 +1024,9 @@ def multiline_repr(
         else:
             value = attribute["formatter"](None)
 
+        if value is None:
+            return str(None)
+
         if reduce_array_representation and value.startswith("array("):
             lines = value.splitlines()
             for i, line in enumerate(lines):
