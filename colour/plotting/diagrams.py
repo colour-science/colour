@@ -278,8 +278,8 @@ def lines_spectral_locus(
     # Line of Purples
     ij_pl = tstack(
         [
-            np.linspace(ij_cmfs[0][0], ij_cmfs[-1][0], 20),
-            np.linspace(ij_cmfs[0][1], ij_cmfs[-1][1], 20),
+            np.linspace(ij_cmfs[-1][0], ij_cmfs[0][0], 20),
+            np.linspace(ij_cmfs[-1][1], ij_cmfs[0][1], 20),
         ]
     )
 
