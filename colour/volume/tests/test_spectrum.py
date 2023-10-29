@@ -5,7 +5,6 @@ import unittest
 from itertools import product
 
 import numpy as np
-
 from colour.colorimetry import (
     MSDS_CMFS,
     SPECTRAL_SHAPE_DEFAULT,
@@ -196,6 +195,16 @@ class TestIsWithinVisibleSpectrum(unittest.TestCase):
     Define :func:`colour.volume.spectrum.is_within_visible_spectrum`
     definition unit tests methods.
     """
+
+    def test_is_within_visible_spectrum_xy(self):
+        """Test :func:`colour.volume.spectrum.is_within_visible_spectrum`
+        detection and use of xy chromaticity.
+        """
+
+        samples = [[0.1, 0.1], [0.3, 0.3]]
+        results = is_within_visible_spectrum(samples)
+
+        np.testing.assert_array_equal(results, (False, True))
 
     def test_is_within_visible_spectrum(self):
         """
