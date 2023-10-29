@@ -49,7 +49,7 @@ import sys
 
 import numpy as np
 
-from colour.utilities import is_matplotlib_installed
+from colour import plotting  # noqa: F401
 
 from .adaptation import (
     CHROMATIC_ADAPTATION_METHODS,
@@ -452,24 +452,6 @@ from .volume import (
     is_within_pointer_gamut,
     is_within_visible_spectrum,
 )
-
-# Exposing "colour.plotting" sub-package if "Matplotlib" is available.
-if is_matplotlib_installed():
-    import colour.plotting as plotting  # noqa: F401, PLR0402
-else:
-
-    class MockPlotting:  # pragma: no cover
-        """
-        Mock object for :mod:`colour.plotting` sub-package raising an exception
-        if the sub-package is accessed but *Matplotlib* is not installed.
-        """
-
-        def __getattr__(self, attribute) -> Any:
-            """Return the value from the attribute with given name."""
-
-            is_matplotlib_installed(raise_exception=True)
-
-    globals()["plotting"] = MockPlotting()  # pragma: no cover
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
