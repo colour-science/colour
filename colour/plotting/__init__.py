@@ -11,6 +11,7 @@ if not is_matplotlib_installed():
         usage_warning(str(error))
 
     for module in (
+        "cycler",
         "matplotlib",
         "matplotlib.axes",
         "matplotlib.cm",
