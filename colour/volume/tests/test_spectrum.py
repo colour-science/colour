@@ -5,6 +5,7 @@ import unittest
 from itertools import product
 
 import numpy as np
+
 from colour.colorimetry import (
     MSDS_CMFS,
     SPECTRAL_SHAPE_DEFAULT,

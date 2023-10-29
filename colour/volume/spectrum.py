@@ -23,6 +23,7 @@ References
 from __future__ import annotations
 
 import numpy as np
+
 from colour.colorimetry import (
     MultiSpectralDistributions,
     SpectralDistribution,
@@ -521,9 +522,9 @@ def _is_within_visible_xy(
     Examples
     --------
     >>> import numpy as np
-    >>> is_within_visible_spectrum(np.array([0.33,0.33]))
+    >>> is_within_visible_spectrum(np.array([0.33, 0.33]))
     array(True, dtype=bool)
-    >>> a = np.array([[.33,.33], [.1,.1]])
+    >>> a = np.array([[0.33, 0.33], [0.1, 0.1]])
     >>> is_within_visible_spectrum(a)
     array([ True, False], dtype=bool)
     """
