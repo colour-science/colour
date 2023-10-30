@@ -1,6 +1,7 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.colorimetry.spectrum` module."""
 
+import pickle
 import unittest
 
 import numpy as np
@@ -1285,6 +1286,17 @@ class TestSpectralShape(unittest.TestCase):
         for method in required_methods:
             self.assertIn(method, dir(SpectralShape))
 
+    def test_pickling(self):
+        """
+        Test whether the :class:`colour.colorimetry.spectrum.SpectralShape`
+        class can be pickled.
+        """
+
+        shape = SpectralShape(360, 830, 1)
+        data = pickle.dumps(shape)
+        data = pickle.loads(data)  # noqa: S301
+        self.assertEqual(shape, data)
+
     def test_start(self):
         """
         Test :attr:`colour.colorimetry.spectrum.SpectralShape.start`
@@ -1452,6 +1464,16 @@ class TestSpectralDistribution(unittest.TestCase):
 
         for method in required_methods:
             self.assertIn(method, dir(SpectralDistribution))
+
+    def test_pickling(self):
+        """
+        Test whether the :class:`colour.colorimetry.spectrum.\
+SpectralDistribution` class can be pickled.
+        """
+
+        data = pickle.dumps(self._sd)
+        data = pickle.loads(data)  # noqa: S301
+        self.assertEqual(self._sd, data)
 
     def test_display_name(self):
         """
@@ -1696,6 +1718,16 @@ class TestMultiSpectralDistributions(unittest.TestCase):
 
         for method in required_methods:
             self.assertIn(method, dir(MultiSpectralDistributions))
+
+    def test_pickling(self):
+        """
+        Test whether the :class:`colour.colorimetry.spectrum.\
+MultiSpectralDistributions` class can be pickled.
+        """
+
+        data = pickle.dumps(self._msds)
+        data = pickle.loads(data)  # noqa: S301
+        self.assertEqual(self._msds, data)
 
     def test_display_name(self):
         """

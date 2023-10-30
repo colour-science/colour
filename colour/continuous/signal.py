@@ -884,15 +884,19 @@ class Signal(AbstractContinuousFunction):
         False
         """
 
+        # NOTE: Comparing "interpolator_kwargs" and "extrapolator_kwargs" using
+        # their string representation because of presence of NaNs.
         if isinstance(other, Signal):
             return all(
                 [
                     np.array_equal(self._domain, other.domain),
                     np.array_equal(self._range, other.range),
                     self._interpolator is other.interpolator,
-                    self._interpolator_kwargs == other.interpolator_kwargs,
+                    repr(self._interpolator_kwargs)
+                    == repr(other.interpolator_kwargs),
                     self._extrapolator is other.extrapolator,
-                    self._extrapolator_kwargs == other.extrapolator_kwargs,
+                    repr(self._extrapolator_kwargs)
+                    == repr(other.extrapolator_kwargs),
                 ]
             )
         else:

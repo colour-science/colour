@@ -1,6 +1,7 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.continuous.multi_signals` module."""
 
+import pickle
 import textwrap
 import unittest
 
@@ -92,6 +93,16 @@ class TestMultiSignals(unittest.TestCase):
 
         for method in required_methods:
             self.assertIn(method, dir(MultiSignals))
+
+    def test_pickling(self):
+        """
+        Test whether the :class:``colour.continuous.signal.MultiSignals` class
+        can be pickled.
+        """
+
+        data = pickle.dumps(self._multi_signals)
+        data = pickle.loads(data)  # noqa: S301
+        self.assertEqual(self._multi_signals, data)
 
     def test_dtype(self):
         """

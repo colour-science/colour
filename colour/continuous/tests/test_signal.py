@@ -1,6 +1,7 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.continuous.signal` module."""
 
+import pickle
 import textwrap
 import unittest
 
@@ -78,6 +79,16 @@ class TestSignal(unittest.TestCase):
 
         for method in required_methods:
             self.assertIn(method, dir(Signal))
+
+    def test_pickling(self):
+        """
+        Test whether the :class:``colour.continuous.signal.Signal` class can be
+        pickled.
+        """
+
+        data = pickle.dumps(self._signal)
+        data = pickle.loads(data)  # noqa: S301
+        self.assertEqual(self._signal, data)
 
     def test_dtype(self):
         """Test :func:`colour.continuous.signal.Signal.dtype` property."""

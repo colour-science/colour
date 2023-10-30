@@ -71,10 +71,10 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(structure.John, "Doe")
         self.assertEqual(structure["John"], "Doe")
 
-    def test_Structure_pickle(self):
+    def test_pickling(self):
         """
-        Test :class:`colour.utilities.data_structures.Structure` class
-        pickling.
+        Test whether :class:`colour.utilities.data_structures.Structure` class
+        can be pickled.
         """
 
         structure = Structure(John="Doe", Jane="Doe")
