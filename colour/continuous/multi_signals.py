@@ -1003,15 +1003,19 @@ class MultiSignals(AbstractContinuousFunction):
         False
         """
 
+        # NOTE: Comparing "interpolator_kwargs" and "extrapolator_kwargs" using
+        # their string representation because of presence of NaNs.
         if isinstance(other, MultiSignals):
             return all(
                 [
                     np.array_equal(self.domain, other.domain),
                     np.array_equal(self.range, other.range),
                     self.interpolator is other.interpolator,
-                    self.interpolator_kwargs == other.interpolator_kwargs,
+                    str(self.interpolator_kwargs)
+                    == str(other.interpolator_kwargs),
                     self.extrapolator is other.extrapolator,
-                    self.extrapolator_kwargs == other.extrapolator_kwargs,
+                    str(self.extrapolator_kwargs)
+                    == str(other.extrapolator_kwargs),
                     self.labels == other.labels,
                 ]
             )

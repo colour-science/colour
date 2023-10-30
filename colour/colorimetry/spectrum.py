@@ -716,18 +716,19 @@ class SpectralDistribution(Signal):
 
         self._shape: SpectralShape | None = None
 
-        def _on_domain_changed(
-            self, name: str, value: NDArrayFloat
-        ) -> NDArrayFloat:
-            """Invalidate *self._shape* when *self._domain* is changed."""
-            if name == "_domain":
-                self._shape = None
-
-            return value
-
         self.register_callback(
-            "_domain", "on_domain_changed", _on_domain_changed
+            "_domain", "on_domain_changed", self._on_domain_changed
         )
+
+    @staticmethod
+    def _on_domain_changed(
+        cls, name: str, value: NDArrayFloat
+    ) -> NDArrayFloat:
+        """Invalidate *cls._shape* when *cls._domain* is changed."""
+        if name == "_domain":
+            cls._shape = None
+
+        return value
 
     @property
     def display_name(self) -> str:
