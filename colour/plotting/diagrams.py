@@ -207,7 +207,7 @@ LABELS_CHROMATICITY_DIAGRAM_DEFAULT: CanonicalMapping = CanonicalMapping(
         ),
     }
 )
-"""Chromaticity diagram default labels."""
+"""*Chromaticity Diagram* default labels."""
 
 
 def lines_spectral_locus(
