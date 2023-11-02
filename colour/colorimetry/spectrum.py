@@ -721,12 +721,10 @@ class SpectralDistribution(Signal):
         )
 
     @staticmethod
-    def _on_domain_changed(
-        cls, name: str, value: NDArrayFloat
-    ) -> NDArrayFloat:
-        """Invalidate *cls._shape* when *cls._domain* is changed."""
+    def _on_domain_changed(sd, name: str, value: NDArrayFloat) -> NDArrayFloat:
+        """Invalidate *sd._shape* when *sd._domain* is changed."""
         if name == "_domain":
-            cls._shape = None
+            sd._shape = None
 
         return value
 
