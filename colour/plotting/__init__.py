@@ -127,6 +127,8 @@ from .section import (
     plot_RGB_colourspace_section,
 )
 from .temperature import (
+    LABELS_PLANCKIAN_LOCUS_DEFAULT,
+    lines_planckian_locus,
     plot_planckian_locus_in_chromaticity_diagram_CIE1931,
     plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS,
     plot_planckian_locus_in_chromaticity_diagram_CIE1976UCS,
@@ -239,6 +241,8 @@ __all__ += [
     "plot_RGB_colourspace_section",
 ]
 __all__ += [
+    "LABELS_PLANCKIAN_LOCUS_DEFAULT",
+    "lines_planckian_locus",
     "plot_planckian_locus_in_chromaticity_diagram_CIE1931",
     "plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS",
     "plot_planckian_locus_in_chromaticity_diagram_CIE1976UCS",

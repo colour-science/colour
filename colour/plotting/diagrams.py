@@ -271,7 +271,6 @@ def lines_spectral_locus(
     XYZ_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["XYZ_to_ij"]
     ij_to_XYZ = METHODS_CHROMATICITY_DIAGRAM[method]["ij_to_XYZ"]
 
-    # [ Spectral Locus ]
     # CMFS
     ij_cmfs = XYZ_to_ij(cmfs.values, illuminant)
 
@@ -305,7 +304,7 @@ def lines_spectral_locus(
     lines_sl["colour"] = colour_sl
 
     # Labels Normals
-    ij_n, colours_l, normal_l = [], [], []
+    ij_n, colour_l, normal_l = [], [], []
     wl_ij_cmfs = dict(zip(wavelengths, ij_cmfs))
     for label in cast(Tuple, labels):
         ij_l = wl_ij_cmfs.get(label)
@@ -335,15 +334,15 @@ def lines_spectral_locus(
             > 0
             else np.array([dy, -dx])
         )
-        normal = normalise_vector(normal) / 40
+        normal = normalise_vector(normal)
 
-        ij_n.append([[i, j], [i + normal[0], j + normal[1]]])
+        ij_n.append([[i, j], [i + normal[0] / 50, j + normal[1] / 50]])
         normal_l.append([normal, normal])
-        colours_l.append([ij_l, ij_l])
+        colour_l.append([ij_l, ij_l])
 
     ij_w = as_float_array(ij_n).reshape(-1, 2)
     normal_w = as_float_array(normal_l).reshape(-1, 2)
-    colours_w = as_float_array(colours_l).reshape(-1, 2)
+    colours_w = as_float_array(colour_l).reshape(-1, 2)
 
     colour_w = normalise_maximum(
         XYZ_to_plotting_colourspace(
@@ -427,12 +426,12 @@ def plot_spectral_locus(
 
     method = validate_method(method, tuple(METHODS_CHROMATICITY_DIAGRAM))
 
-    labels = optional(
-        spectral_locus_labels, LABELS_CHROMATICITY_DIAGRAM_DEFAULT[method]
-    )
-
     spectral_locus_colours = optional(
         spectral_locus_colours, CONSTANTS_COLOUR_STYLE.colour.dark
+    )
+
+    labels = optional(
+        spectral_locus_labels, LABELS_CHROMATICITY_DIAGRAM_DEFAULT[method]
     )
 
     use_RGB_colours = str(spectral_locus_colours).upper() == "RGB"
@@ -491,8 +490,8 @@ def plot_spectral_locus(
         )
 
         axes.text(
-            positions[i, 0] + normals[i, 0] * 1.25,
-            positions[i, 1] + normals[i, 1] * 1.25,
+            positions[i, 0] + normals[i, 0] / 50 * 1.25,
+            positions[i, 1] + normals[i, 1] / 50 * 1.25,
             label,
             clip_on=True,
             ha="left" if lines_w["normal"][::2][i, 0] >= 0 else "right",

@@ -11,6 +11,7 @@ from colour.plotting import (
     plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS,
 )
 from colour.plotting.temperature import (
+    lines_planckian_locus,
     plot_daylight_locus,
     plot_planckian_locus,
     plot_planckian_locus_in_chromaticity_diagram,
@@ -25,6 +26,7 @@ __status__ = "Production"
 
 __all__ = [
     "TestPlotDaylightLocus",
+    "TestLinesPlanckianLocus",
     "TestPlotPlanckianLocus",
     "TestPlotPlanckianLocusInChromaticityDiagram",
     "TestPlotPlanckianLocusInChromaticityDiagramCIE1931",
@@ -62,6 +64,20 @@ class TestPlotDaylightLocus(unittest.TestCase):
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
+
+
+class TestLinesPlanckianLocus(unittest.TestCase):
+    """
+    Define :func:`colour.plotting.diagrams.lines_planckian_locus` definition
+    unit tests methods.
+    """
+
+    def test_lines_planckian_locus(self):
+        """
+        Test :func:`colour.plotting.diagrams.lines_planckian_locus` definition.
+        """
+
+        self.assertEqual(len(lines_planckian_locus()), 2)
 
 
 class TestPlotPlanckianLocus(unittest.TestCase):
