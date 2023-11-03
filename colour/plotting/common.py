@@ -163,15 +163,20 @@ CONSTANTS_COLOUR_STYLE: Structure = Structure(
                 "colourspace": RGB_COLOURSPACES["sRGB"],
             }
         ),
-        "font_size": Structure(
-            **{
-                "xx_small": 10 * 0.55,
-                "x_small": 10 * 0.60,
-                "small": 10 * 0.85,
-                "medium": 10,
-                "large": 10 * (1 / 0.55),
-                "x_large": 10 * (1 / 0.60),
-                "xx_large": 10 * (1 / 0.85),
+        "font": Structure(
+            {
+                "size": 10,
+                "scaling": Structure(
+                    **{
+                        "xx_small": 0.579,
+                        "x_small": 0.694,
+                        "small": 0.833,
+                        "medium": 1,
+                        "large": 1 / 0.579,
+                        "x_large": 1 / 0.694,
+                        "xx_large": 1 / 0.833,
+                    }
+                ),
             }
         ),
         "opacity": Structure(**{"high": 0.75, "medium": 0.5, "low": 0.25}),
@@ -774,14 +779,12 @@ def label_rectangles(
         x = rectangle.get_x()  # pyright: ignore
         height = rectangle.get_height()  # pyright: ignore
         width = rectangle.get_width()  # pyright: ignore
-        ha = "center"
-        va = "bottom"
         axes.text(
             x + width / 2 + offset[0] * width,
             height + offset[1] * y_m,
             labels[i],
-            ha=ha,
-            va=va,
+            ha="center",
+            va="bottom",
             rotation=rotation,
             fontsize=text_size,
             clip_on=True,
