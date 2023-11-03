@@ -5,6 +5,8 @@ Colour Temperature & Correlated Colour Temperature Plotting
 Defines the colour temperature and correlated colour temperature plotting
 objects:
 
+-   :func:`colour.plotting.lines_daylight_locus`
+-   :func:`colour.plotting.lines_planckian_locus`
 -   :func:`colour.plotting.\
 plot_planckian_locus_in_chromaticity_diagram_CIE1931`
 -   :func:`colour.plotting.\
@@ -20,8 +22,9 @@ from matplotlib.axes import Axes
 from matplotlib.collections import LineCollection
 from matplotlib.figure import Figure
 
-from colour.algebra import normalise_maximum
+from colour.algebra import normalise_maximum, normalise_vector
 from colour.colorimetry import CCS_ILLUMINANTS, MSDS_CMFS
+from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.hints import (
     Any,
     ArrayLike,
@@ -29,6 +32,7 @@ from colour.hints import (
     Dict,
     List,
     Literal,
+    NDArray,
     Sequence,
     Tuple,
     cast,
@@ -54,6 +58,8 @@ from colour.plotting import (
 from colour.plotting.diagrams import plot_chromaticity_diagram
 from colour.temperature import CCT_to_uv, CCT_to_xy_CIE_D, mired_to_CCT
 from colour.utilities import (
+    CanonicalMapping,
+    as_float_array,
     as_float_scalar,
     as_int_scalar,
     full,
@@ -71,7 +77,10 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "lines_daylight_locus",
     "plot_daylight_locus",
+    "LABELS_PLANCKIAN_LOCUS_DEFAULT",
+    "lines_planckian_locus",
     "plot_planckian_locus",
     "plot_planckian_locus_in_chromaticity_diagram",
     "plot_planckian_locus_in_chromaticity_diagram_CIE1931",
@@ -80,11 +89,82 @@ __all__ = [
 ]
 
 
+def lines_daylight_locus(
+    mireds: bool = False,
+    method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+    | str = "CIE 1931",
+) -> Tuple[NDArray]:
+    """
+    Return the *Daylight Locus* line vertices, i.e. positions, normals and
+    colours, according to given method.
+
+    Parameters
+    ----------
+    mireds
+        Whether to use micro reciprocal degrees for the iso-temperature lines.
+    method
+        *Daylight Locus* method.
+
+    Returns
+    -------
+    :class:`tuple`
+        Tuple of *Spectral Locus* vertices.
+
+    Examples
+    --------
+    >>> lines = lines_daylight_locus()
+    >>> len(lines)
+    1
+    >>> lines[0].dtype
+    dtype([('position', '<f8', (2,)), ('normal', '<f8', (2,)), \
+('colour', '<f8', (3,))])
+    """
+
+    method = validate_method(
+        method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS")
+    )
+
+    xy_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["xy_to_ij"]
+
+    def CCT_to_plotting_colourspace(CCT):
+        """
+        Convert given correlated colour temperature :math:`T_{cp}` to the
+        default plotting colourspace.
+        """
+
+        return normalise_maximum(
+            XYZ_to_plotting_colourspace(xy_to_XYZ(CCT_to_xy_CIE_D(CCT))),
+            axis=-1,
+        )
+
+    start, end = (0, 1000) if mireds else (1e6 / 600, 1e6 / 10)
+
+    CCT = np.arange(start, end + 100, 10) * 1.4388 / 1.4380
+    CCT = mired_to_CCT(CCT) if mireds else CCT
+
+    ij_sl = xy_to_ij(CCT_to_xy_CIE_D(CCT)).reshape([-1, 2])
+    colour_sl = CCT_to_plotting_colourspace(CCT).reshape([-1, 3])
+
+    lines_sl = zeros(
+        ij_sl.shape[0],
+        [
+            ("position", DEFAULT_FLOAT_DTYPE, 2),
+            ("normal", DEFAULT_FLOAT_DTYPE, 2),
+            ("colour", DEFAULT_FLOAT_DTYPE, 3),
+        ],  # pyright: ignore
+    )
+
+    lines_sl["position"] = ij_sl
+    lines_sl["colour"] = colour_sl
+
+    return (lines_sl,)
+
+
 @override_style()
 def plot_daylight_locus(
     daylight_locus_colours: ArrayLike | str | None = None,
     daylight_locus_opacity: float = 1,
-    daylight_locus_use_mireds: bool = False,
+    daylight_locus_mireds: bool = False,
     method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
     | str = "CIE 1931",
     **kwargs: Any,
@@ -100,7 +180,7 @@ def plot_daylight_locus(
         chromaticity coordinates.
     daylight_locus_opacity
        Opacity of the *Daylight Locus*.
-    daylight_locus_use_mireds
+    daylight_locus_mireds
         Whether to use micro reciprocal degrees for the iso-temperature lines.
     method
         *Chromaticity Diagram* method.
@@ -131,6 +211,10 @@ def plot_daylight_locus(
         method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS")
     )
 
+    use_RGB_daylight_locus_colours = (
+        str(daylight_locus_colours).upper() == "RGB"
+    )
+
     daylight_locus_colours = optional(
         daylight_locus_colours, CONSTANTS_COLOUR_STYLE.colour.dark
     )
@@ -140,38 +224,17 @@ def plot_daylight_locus(
 
     _figure, axes = artist(**settings)
 
-    xy_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["xy_to_ij"]
-
-    def CCT_to_plotting_colourspace(CCT):
-        """
-        Convert given correlated colour temperature :math:`T_{cp}` to the
-        default plotting colourspace.
-        """
-
-        return normalise_maximum(
-            XYZ_to_plotting_colourspace(xy_to_XYZ(CCT_to_xy_CIE_D(CCT))),
-            axis=-1,
-        )
-
-    start, end = (
-        (0, 1000) if daylight_locus_use_mireds else (1e6 / 600, 1e6 / 10)
-    )
-
-    CCT = np.arange(start, end + 100, 10) * 1.4388 / 1.4380
-    CCT = mired_to_CCT(CCT) if daylight_locus_use_mireds else CCT
-    ij = xy_to_ij(CCT_to_xy_CIE_D(CCT)).reshape(-1, 1, 2)
-
-    use_RGB_daylight_locus_colours = (
-        str(daylight_locus_colours).upper() == "RGB"
-    )
-    if use_RGB_daylight_locus_colours:
-        pl_colours = CCT_to_plotting_colourspace(CCT)
-    else:
-        pl_colours = daylight_locus_colours
+    lines_sl, *_ = lines_daylight_locus(daylight_locus_mireds, method)
 
     line_collection = LineCollection(
-        np.concatenate([ij[:-1], ij[1:]], axis=1),  # pyright: ignore
-        colors=pl_colours,
+        np.concatenate(
+            [lines_sl["position"][:-1], lines_sl["position"][1:]], axis=1
+        ).reshape(
+            [-1, 2, 2]
+        ),  # pyright: ignore
+        colors=lines_sl["colour"]
+        if use_RGB_daylight_locus_colours
+        else daylight_locus_colours,
         alpha=daylight_locus_opacity,
         zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
     )
@@ -183,12 +246,154 @@ def plot_daylight_locus(
     return render(**settings)
 
 
+LABELS_PLANCKIAN_LOCUS_DEFAULT: CanonicalMapping = CanonicalMapping(
+    {
+        "Default": (1e6 / 600, 2000, 2500, 3000, 4000, 6000, 1e6 / 100),
+        "Mireds": (0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000),
+    }
+)
+"""*Planckian Locus* default labels."""
+
+
+def lines_planckian_locus(
+    labels: Sequence | None = None,
+    mireds: bool = False,
+    iso_temperature_lines_D_uv: float = 0.05,
+    method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+    | str = "CIE 1931",
+) -> Tuple[NDArray, NDArray]:
+    """
+    Return the *Planckian Locus* line vertices, i.e. positions, normals and
+    colours, according to given method.
+
+    Parameters
+    ----------
+    labels
+        Array of labels used to customise which iso-temperature lines will be
+        drawn along the *Planckian Locus*. Passing an empty array will result
+        in no iso-temperature lines being drawn.
+    mireds
+        Whether to use micro reciprocal degrees for the iso-temperature lines.
+    iso_temperature_lines_D_uv
+        Iso-temperature lines :math:`\\Delta_{uv}` length on each side of the
+        *Planckian Locus*.
+    method
+        *Planckian Locus* method.
+
+    Returns
+    -------
+    :class:`tuple`
+        Tuple of *Planckian Locus* vertices and wavelength labels vertices.
+
+    Examples
+    --------
+    >>> lines = lines_planckian_locus()
+    >>> len(lines)
+    2
+    >>> lines[0].dtype
+    dtype([('position', '<f8', (2,)), ('normal', '<f8', (2,)), \
+('colour', '<f8', (3,))])
+    >>> lines[1].dtype
+    dtype([('position', '<f8', (2,)), ('normal', '<f8', (2,)), \
+('colour', '<f8', (3,))])
+    """
+
+    method = validate_method(
+        method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS")
+    )
+
+    labels = cast(
+        tuple,
+        optional(
+            labels,
+            LABELS_PLANCKIAN_LOCUS_DEFAULT["Mireds" if mireds else "Default"],
+        ),
+    )
+    D_uv = iso_temperature_lines_D_uv
+
+    uv_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["uv_to_ij"]
+
+    def CCT_D_uv_to_plotting_colourspace(CCT_D_uv):
+        """
+        Convert given correlated colour temperature :math:`T_{cp}` and
+        :math:`\\Delta_{uv}` to the default plotting colourspace.
+        """
+
+        return normalise_maximum(
+            XYZ_to_plotting_colourspace(
+                xy_to_XYZ(UCS_uv_to_xy(CCT_to_uv(CCT_D_uv, "Robertson 1968")))
+            ),
+            axis=-1,
+        )
+
+    # Planckian Locus
+    start, end = (0, 1000) if mireds else (1e6 / 600, 1e6 / 10)
+
+    CCT = np.arange(start, end + 100, 100)
+    CCT = mired_to_CCT(CCT) if mireds else CCT
+    CCT_D_uv = tstack([CCT, zeros(CCT.shape)])
+
+    ij_pl = uv_to_ij(CCT_to_uv(CCT_D_uv, "Robertson 1968"))
+    colour_pl = CCT_D_uv_to_plotting_colourspace(CCT_D_uv)
+
+    lines_pl = zeros(
+        ij_pl.shape[0],
+        [
+            ("position", DEFAULT_FLOAT_DTYPE, 2),
+            ("normal", DEFAULT_FLOAT_DTYPE, 2),
+            ("colour", DEFAULT_FLOAT_DTYPE, 3),
+        ],  # pyright: ignore
+    )
+
+    lines_pl["position"] = ij_pl
+    lines_pl["colour"] = colour_pl
+
+    # Labels
+    ij_itl, normal_itl, colour_itl = [], [], []
+    for label in labels:
+        CCT_D_uv = tstack(
+            [
+                full(
+                    20,
+                    as_float_scalar(mired_to_CCT(label)) if mireds else label,
+                ),
+                np.linspace(-D_uv, D_uv, 20),
+            ]
+        )
+
+        ij = uv_to_ij(CCT_to_uv(CCT_D_uv, "Robertson 1968"))
+        ij_itl.append(ij)
+        normal_itl.append(
+            np.tile(normalise_vector(ij[-1, ...] - ij[0, ...]), (20, 1))
+        )
+        colour_itl.append(CCT_D_uv_to_plotting_colourspace(CCT_D_uv))
+
+    ij_l = as_float_array(ij_itl).reshape([-1, 2])
+    normal_l = as_float_array(normal_itl).reshape([-1, 2])
+    colour_l = as_float_array(colour_itl).reshape([-1, 3])
+
+    lines_l = zeros(
+        ij_l.shape[0],
+        [
+            ("position", DEFAULT_FLOAT_DTYPE, 2),
+            ("normal", DEFAULT_FLOAT_DTYPE, 2),
+            ("colour", DEFAULT_FLOAT_DTYPE, 3),
+        ],  # pyright: ignore
+    )
+
+    lines_l["position"] = ij_l
+    lines_l["normal"] = normal_l
+    lines_l["colour"] = colour_l
+
+    return lines_pl, lines_l
+
+
 @override_style()
 def plot_planckian_locus(
     planckian_locus_colours: ArrayLike | str | None = None,
     planckian_locus_opacity: float = 1,
     planckian_locus_labels: Sequence | None = None,
-    planckian_locus_use_mireds: bool = False,
+    planckian_locus_mireds: bool = False,
     planckian_locus_iso_temperature_lines_D_uv: float = 0.05,
     method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
     | str = "CIE 1931",
@@ -209,12 +414,11 @@ def plot_planckian_locus(
         Array of labels used to customise which iso-temperature lines will be
         drawn along the *Planckian Locus*. Passing an empty array will result
         in no iso-temperature lines being drawn.
-    planckian_locus_use_mireds
+    planckian_locus_mireds
         Whether to use micro reciprocal degrees for the iso-temperature lines.
     planckian_locus_iso_temperature_lines_D_uv
         Iso-temperature lines :math:`\\Delta_{uv}` length on each side of the
         *Planckian Locus*.
-
     method
         *Chromaticity Diagram* method.
 
@@ -240,108 +444,76 @@ def plot_planckian_locus(
         :alt: plot_planckian_locus
     """
 
-    method = validate_method(
-        method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS")
-    )
-
     planckian_locus_colours = optional(
         planckian_locus_colours, CONSTANTS_COLOUR_STYLE.colour.dark
+    )
+
+    use_RGB_planckian_locus_colours = (
+        str(planckian_locus_colours).upper() == "RGB"
     )
 
     labels = cast(
         tuple,
         optional(
             planckian_locus_labels,
-            (0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000)
-            if planckian_locus_use_mireds
-            else (1e6 / 600, 2000, 2500, 3000, 4000, 6000, 1e6 / 100),
+            LABELS_PLANCKIAN_LOCUS_DEFAULT[
+                "Mireds" if planckian_locus_mireds else "Default"
+            ],
         ),
     )
-    D_uv = planckian_locus_iso_temperature_lines_D_uv
 
     settings: Dict[str, Any] = {"uniform": True}
     settings.update(kwargs)
 
     _figure, axes = artist(**settings)
 
-    uv_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["uv_to_ij"]
-
-    def CCT_D_uv_to_plotting_colourspace(CCT_D_uv):
-        """
-        Convert given correlated colour temperature :math:`T_{cp}` and
-        :math:`\\Delta_{uv}` to the default plotting colourspace.
-        """
-
-        return normalise_maximum(
-            XYZ_to_plotting_colourspace(
-                xy_to_XYZ(UCS_uv_to_xy(CCT_to_uv(CCT_D_uv, "Robertson 1968")))
-            ),
-            axis=-1,
-        )
-
-    start, end = (
-        (0, 1000) if planckian_locus_use_mireds else (1e6 / 600, 1e6 / 10)
+    lines_pl, lines_l = lines_planckian_locus(
+        labels,
+        planckian_locus_mireds,
+        planckian_locus_iso_temperature_lines_D_uv,
+        method,
     )
 
-    CCT = np.arange(start, end + 100, 10)
-    CCT = mired_to_CCT(CCT) if planckian_locus_use_mireds else CCT
-    CCT_D_uv = np.reshape(tstack([CCT, zeros(CCT.shape)]), (-1, 1, 2))
-    ij = uv_to_ij(CCT_to_uv(CCT_D_uv, "Robertson 1968"))
-
-    use_RGB_planckian_locus_colours = (
-        str(planckian_locus_colours).upper() == "RGB"
-    )
-    if use_RGB_planckian_locus_colours:
-        pl_colours = CCT_D_uv_to_plotting_colourspace(CCT_D_uv)
-    else:
-        pl_colours = planckian_locus_colours
-
-    line_collection = LineCollection(
-        np.concatenate([ij[:-1], ij[1:]], axis=1),  # pyright: ignore
-        colors=pl_colours,
-        alpha=planckian_locus_opacity,
-        zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
-    )
-    axes.add_collection(line_collection)
-
-    for label in labels:
-        CCT_D_uv = np.reshape(
-            tstack(
-                [
-                    full(
-                        10,
-                        as_float_scalar(mired_to_CCT(label))
-                        if planckian_locus_use_mireds
-                        else label,
-                    ),
-                    np.linspace(-D_uv, D_uv, 10),
-                ]
-            ),
-            (-1, 1, 2),
-        )
-
-        if use_RGB_planckian_locus_colours:
-            itl_colours = CCT_D_uv_to_plotting_colourspace(CCT_D_uv)
-        else:
-            itl_colours = planckian_locus_colours
-
-        ij = uv_to_ij(CCT_to_uv(CCT_D_uv, "Robertson 1968"))
-
-        line_collection = LineCollection(
-            np.concatenate([ij[:-1], ij[1:]], axis=1),  # pyright: ignore
-            colors=itl_colours,
+    axes.add_collection(
+        LineCollection(
+            np.concatenate(
+                [lines_pl["position"][:-1], lines_pl["position"][1:]], axis=1
+            ).reshape(
+                [-1, 2, 2]
+            ),  # pyright: ignore
+            colors=lines_pl["colour"]
+            if use_RGB_planckian_locus_colours
+            else planckian_locus_colours,
             alpha=planckian_locus_opacity,
             zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
         )
-        axes.add_collection(line_collection)
+    )
 
-        xy = cast(tuple[float, float], (ij[-1, :, 0], ij[-1, :, 1]))
-        axes.annotate(
-            f'{as_int_scalar(label)}{"M" if planckian_locus_use_mireds else "K"}',
-            xy=xy,
-            xytext=(0, CONSTANTS_COLOUR_STYLE.geometry.long / 2),
-            textcoords="offset points",
-            size="x-small",
+    lines_itl = lines_l["position"].reshape([len(labels), 20, 2])
+    colours_itl = lines_l["colour"].reshape([len(labels), 20, 3])
+    for i, label in enumerate(labels):
+        axes.add_collection(
+            LineCollection(
+                np.concatenate(
+                    [lines_itl[i][:-1], lines_itl[i][1:]],  # pyright: ignore
+                    axis=1,
+                ).reshape([-1, 2, 2]),
+                colors=colours_itl[i]
+                if use_RGB_planckian_locus_colours
+                else planckian_locus_colours,
+                alpha=planckian_locus_opacity,
+                zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
+            )
+        )
+
+        axes.text(
+            lines_itl[i][-1, 0],
+            lines_itl[i][-1, 1],
+            f'{as_int_scalar(label)}{"M" if planckian_locus_mireds else "K"}',
+            clip_on=True,
+            ha="left",
+            va="bottom",
+            fontsize="x-small",
             zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_label,
         )
 
