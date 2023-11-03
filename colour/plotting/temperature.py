@@ -368,9 +368,9 @@ def lines_planckian_locus(
         )
         colour_itl.append(CCT_D_uv_to_plotting_colourspace(CCT_D_uv))
 
-    ij_l = as_float_array(ij_itl).reshape(-1, 2)
-    normal_l = as_float_array(normal_itl).reshape(-1, 2)
-    colour_l = as_float_array(colour_itl).reshape(-1, 3)
+    ij_l = as_float_array(ij_itl).reshape([-1, 2])
+    normal_l = as_float_array(normal_itl).reshape([-1, 2])
+    colour_l = as_float_array(colour_itl).reshape([-1, 3])
 
     lines_l = zeros(
         ij_l.shape[0],

@@ -340,9 +340,9 @@ def lines_spectral_locus(
         normal_l.append([normal, normal])
         colour_l.append([ij_l, ij_l])
 
-    ij_w = as_float_array(ij_n).reshape(-1, 2)
-    normal_w = as_float_array(normal_l).reshape(-1, 2)
-    colours_w = as_float_array(colour_l).reshape(-1, 2)
+    ij_w = as_float_array(ij_n).reshape([-1, 2])
+    normal_w = as_float_array(normal_l).reshape([-1, 2])
+    colours_w = as_float_array(colour_l).reshape([-1, 2])
 
     colour_w = normalise_maximum(
         XYZ_to_plotting_colourspace(

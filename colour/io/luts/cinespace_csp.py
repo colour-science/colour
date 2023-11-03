@@ -204,7 +204,7 @@ def read_LUT_Cinespace(path: str) -> LUT3x1D | LUT3D | LUTSequence:
         )
     ):
         LUT = LUT3x1D(
-            domain=pre_LUT.reshape(3, 4).transpose()[0:2],
+            domain=pre_LUT.reshape([3, 4]).transpose()[0:2],
             name=title,
             comments=comments,
             table=table,
