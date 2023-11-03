@@ -5,6 +5,7 @@ Colour Temperature & Correlated Colour Temperature Plotting
 Defines the colour temperature and correlated colour temperature plotting
 objects:
 
+-   :func:`colour.plotting.lines_daylight_locus`
 -   :func:`colour.plotting.lines_planckian_locus`
 -   :func:`colour.plotting.\
 plot_planckian_locus_in_chromaticity_diagram_CIE1931`
@@ -76,6 +77,7 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "lines_daylight_locus",
     "plot_daylight_locus",
     "LABELS_PLANCKIAN_LOCUS_DEFAULT",
     "lines_planckian_locus",
@@ -85,6 +87,77 @@ __all__ = [
     "plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS",
     "plot_planckian_locus_in_chromaticity_diagram_CIE1976UCS",
 ]
+
+
+def lines_daylight_locus(
+    mireds: bool = False,
+    method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+    | str = "CIE 1931",
+) -> Tuple[NDArray]:
+    """
+    Return the *Daylight Locus* line vertices, i.e. positions, normals and
+    colours, according to given method.
+
+    Parameters
+    ----------
+    mireds
+        Whether to use micro reciprocal degrees for the iso-temperature lines.
+    method
+        *Daylight Locus* method.
+
+    Returns
+    -------
+    :class:`tuple`
+        Tuple of *Spectral Locus* vertices.
+
+    Examples
+    --------
+    >>> lines = lines_daylight_locus()
+    >>> len(lines)
+    1
+    >>> lines[0].dtype
+    dtype([('position', '<f8', (2,)), ('normal', '<f8', (2,)), \
+('colour', '<f8', (3,))])
+    """
+
+    method = validate_method(
+        method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS")
+    )
+
+    xy_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["xy_to_ij"]
+
+    def CCT_to_plotting_colourspace(CCT):
+        """
+        Convert given correlated colour temperature :math:`T_{cp}` to the
+        default plotting colourspace.
+        """
+
+        return normalise_maximum(
+            XYZ_to_plotting_colourspace(xy_to_XYZ(CCT_to_xy_CIE_D(CCT))),
+            axis=-1,
+        )
+
+    start, end = (0, 1000) if mireds else (1e6 / 600, 1e6 / 10)
+
+    CCT = np.arange(start, end + 100, 10) * 1.4388 / 1.4380
+    CCT = mired_to_CCT(CCT) if mireds else CCT
+
+    ij_sl = xy_to_ij(CCT_to_xy_CIE_D(CCT)).reshape([-1, 2])
+    colour_sl = CCT_to_plotting_colourspace(CCT).reshape([-1, 3])
+
+    lines_sl = zeros(
+        ij_sl.shape[0],
+        [
+            ("position", DEFAULT_FLOAT_DTYPE, 2),
+            ("normal", DEFAULT_FLOAT_DTYPE, 2),
+            ("colour", DEFAULT_FLOAT_DTYPE, 3),
+        ],  # pyright: ignore
+    )
+
+    lines_sl["position"] = ij_sl
+    lines_sl["colour"] = colour_sl
+
+    return (lines_sl,)
 
 
 @override_style()
@@ -138,6 +211,10 @@ def plot_daylight_locus(
         method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS")
     )
 
+    use_RGB_daylight_locus_colours = (
+        str(daylight_locus_colours).upper() == "RGB"
+    )
+
     daylight_locus_colours = optional(
         daylight_locus_colours, CONSTANTS_COLOUR_STYLE.colour.dark
     )
@@ -147,36 +224,17 @@ def plot_daylight_locus(
 
     _figure, axes = artist(**settings)
 
-    xy_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["xy_to_ij"]
-
-    def CCT_to_plotting_colourspace(CCT):
-        """
-        Convert given correlated colour temperature :math:`T_{cp}` to the
-        default plotting colourspace.
-        """
-
-        return normalise_maximum(
-            XYZ_to_plotting_colourspace(xy_to_XYZ(CCT_to_xy_CIE_D(CCT))),
-            axis=-1,
-        )
-
-    start, end = (0, 1000) if daylight_locus_mireds else (1e6 / 600, 1e6 / 10)
-
-    CCT = np.arange(start, end + 100, 10) * 1.4388 / 1.4380
-    CCT = mired_to_CCT(CCT) if daylight_locus_mireds else CCT
-    ij = xy_to_ij(CCT_to_xy_CIE_D(CCT)).reshape(-1, 1, 2)
-
-    use_RGB_daylight_locus_colours = (
-        str(daylight_locus_colours).upper() == "RGB"
-    )
-    if use_RGB_daylight_locus_colours:
-        pl_colours = CCT_to_plotting_colourspace(CCT)
-    else:
-        pl_colours = daylight_locus_colours
+    lines_sl, *_ = lines_daylight_locus(daylight_locus_mireds, method)
 
     line_collection = LineCollection(
-        np.concatenate([ij[:-1], ij[1:]], axis=1),  # pyright: ignore
-        colors=pl_colours,
+        np.concatenate(
+            [lines_sl["position"][:-1], lines_sl["position"][1:]], axis=1
+        ).reshape(
+            [-1, 2, 2]
+        ),  # pyright: ignore
+        colors=lines_sl["colour"]
+        if use_RGB_daylight_locus_colours
+        else daylight_locus_colours,
         alpha=daylight_locus_opacity,
         zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
     )

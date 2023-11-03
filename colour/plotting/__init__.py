@@ -127,6 +127,7 @@ from .section import (
     plot_RGB_colourspace_section,
 )
 from .temperature import (
+    lines_daylight_locus,
     LABELS_PLANCKIAN_LOCUS_DEFAULT,
     lines_planckian_locus,
     plot_planckian_locus_in_chromaticity_diagram_CIE1931,
@@ -241,6 +242,7 @@ __all__ += [
     "plot_RGB_colourspace_section",
 ]
 __all__ += [
+    "lines_daylight_locus",
     "LABELS_PLANCKIAN_LOCUS_DEFAULT",
     "lines_planckian_locus",
     "plot_planckian_locus_in_chromaticity_diagram_CIE1931",
