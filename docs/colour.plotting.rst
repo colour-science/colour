@@ -20,6 +20,7 @@ Common
     :toctree: generated/
 
     colour_style
+    override_style
     colour_cycle
     artist
     camera
