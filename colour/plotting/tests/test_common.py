@@ -7,6 +7,7 @@ import tempfile
 import unittest
 from functools import partial
 
+import matplotlib.font_manager
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.axes import Axes
@@ -28,6 +29,7 @@ from colour.plotting import (
     filter_illuminants,
     filter_passthrough,
     filter_RGB_colourspaces,
+    font_scaling,
     label_rectangles,
     override_style,
     plot_image,
@@ -51,7 +53,8 @@ __status__ = "Production"
 __all__ = [
     "TestColourStyle",
     "TestOverrideStyle",
-    "TestXyzToPlottingColourspace",
+    "TestFontScaling",
+    "TestXYZToPlottingColourspace",
     "TestColourCycle",
     "TestArtist",
     "TestCamera",
@@ -107,7 +110,27 @@ class TestOverrideStyle(unittest.TestCase):
             plt.rcParams["text.color"] = text_color
 
 
-class TestXyzToPlottingColourspace(unittest.TestCase):
+class TestFontScaling(unittest.TestCase):
+    """
+    Define :func:`colour.plotting.common.font_scaling` definition unit tests
+    methods.
+    """
+
+    def test_font_scaling(self):
+        """Test :func:`colour.plotting.common.font_scaling` definition."""
+
+        with font_scaling("medium-colour-science", 2):
+            self.assertEqual(
+                matplotlib.font_manager.font_scalings["medium-colour-science"],
+                2,
+            )
+
+        self.assertEqual(
+            matplotlib.font_manager.font_scalings["medium-colour-science"], 1
+        )
+
+
+class TestXYZToPlottingColourspace(unittest.TestCase):
     """
     Define :func:`colour.plotting.common.XYZ_to_plotting_colourspace`
     definition unit tests methods.

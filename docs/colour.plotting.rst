@@ -45,6 +45,7 @@ Common
     KwargsArtist
     KwargsCamera
     KwargsRender
+    font_scaling
     filter_passthrough
     filter_RGB_colourspaces
     filter_cmfs

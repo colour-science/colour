@@ -496,7 +496,7 @@ def plot_spectral_locus(
             clip_on=True,
             ha="left" if lines_w["normal"][::2][i, 0] >= 0 else "right",
             va="center",
-            fontsize="x-small",
+            fontsize="x-small-colour-science",
             zorder=CONSTANTS_COLOUR_STYLE.zorder.background_label,
         )
 
