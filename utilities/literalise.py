@@ -63,8 +63,8 @@ def literalise(path_module_hints: str = PATH_MODULE_HINTS):
             LiteralCCTFDecoding = Literal{sorted(colour.CCTF_DECODINGS)}
             LiteralOOTF = Literal{sorted(colour.OOTFS)}
             LiteralOOTFInverse = Literal{sorted(colour.OOTF_INVERSES)}
-            LiteralLUTReadMethods = Literal{sorted(colour.io.LUT_READ_METHODS)}
-            LiteralLUTWriteMethods = Literal{sorted(colour.io.LUT_WRITE_METHODS)}
+            LiteralLUTReadMethod = Literal{sorted(colour.io.LUT_READ_METHODS)}
+            LiteralLUTWriteMethod = Literal{sorted(colour.io.LUT_WRITE_METHODS)}
             # LITERALISE::END
             """
         ).strip(),

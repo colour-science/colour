@@ -107,8 +107,8 @@ __all__ = [
     "LiteralCCTFDecoding",
     "LiteralOOTF",
     "LiteralOOTFInverse",
-    "LiteralLUTReadMethods",
-    "LiteralLUTWriteMethods",
+    "LiteralLUTReadMethod",
+    "LiteralLUTWriteMethod",
 ]
 
 RegexFlag = NewType("RegexFlag", re.RegexFlag)
@@ -542,7 +542,7 @@ LiteralCCTFDecoding = Literal[
 ]
 LiteralOOTF = Literal["ITU-R BT.2100 HLG", "ITU-R BT.2100 PQ"]
 LiteralOOTFInverse = Literal["ITU-R BT.2100 HLG", "ITU-R BT.2100 PQ"]
-LiteralLUTReadMethods = Literal[
+LiteralLUTReadMethod = Literal[
     "Cinespace",
     "Iridas Cube",
     "Resolve Cube",
@@ -550,7 +550,7 @@ LiteralLUTReadMethods = Literal[
     "Sony SPI3D",
     "Sony SPImtx",
 ]
-LiteralLUTWriteMethods = Literal[
+LiteralLUTWriteMethod = Literal[
     "Cinespace",
     "Iridas Cube",
     "Resolve Cube",
