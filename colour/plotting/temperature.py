@@ -513,7 +513,7 @@ def plot_planckian_locus(
             clip_on=True,
             ha="left",
             va="bottom",
-            fontsize="x-small",
+            fontsize="x-small-colour-science",
             zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_label,
         )
 

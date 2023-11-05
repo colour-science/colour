@@ -11,6 +11,8 @@ import re
 import sys
 from textwrap import dedent
 
+import matplotlib.font_manager
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 import colour  # noqa: E402
@@ -44,6 +46,12 @@ def literalise(path_module_hints: str = PATH_MODULE_HINTS):
     with open(path_module_hints) as file_module_hints:
         content = file_module_hints.read()
 
+    font_scalings = [
+        scaling
+        for scaling in matplotlib.font_manager.font_scalings
+        if scaling is not None
+    ]
+
     content = re.sub(
         "# LITERALISE::BEGIN.*?# LITERALISE::END",
         dedent(
@@ -63,8 +71,9 @@ def literalise(path_module_hints: str = PATH_MODULE_HINTS):
             LiteralCCTFDecoding = Literal{sorted(colour.CCTF_DECODINGS)}
             LiteralOOTF = Literal{sorted(colour.OOTFS)}
             LiteralOOTFInverse = Literal{sorted(colour.OOTF_INVERSES)}
-            LiteralLUTReadMethods = Literal{sorted(colour.io.LUT_READ_METHODS)}
-            LiteralLUTWriteMethods = Literal{sorted(colour.io.LUT_WRITE_METHODS)}
+            LiteralLUTReadMethod = Literal{sorted(colour.io.LUT_READ_METHODS)}
+            LiteralLUTWriteMethod = Literal{sorted(colour.io.LUT_WRITE_METHODS)}
+            LiteralFontScaling = Literal{font_scalings}
             # LITERALISE::END
             """
         ).strip(),

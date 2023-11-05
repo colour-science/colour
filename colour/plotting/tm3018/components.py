@@ -557,7 +557,7 @@ def plot_16_bin_bars(
                 label_template.format(value),
                 xy=(i + 1, value + vo),
                 rotation=90,
-                fontsize="xx-small",
+                fontsize="xx-small-colour-science",
                 ha="center",
                 va=va,
                 zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_label,
@@ -571,7 +571,7 @@ def plot_16_bin_bars(
             axes.annotate(
                 label_template.format(value),
                 xy=(i + 1, value + vo),
-                fontsize="xx-small",
+                fontsize="xx-small-colour-science",
                 ha="center",
                 va=va,
                 zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_label,

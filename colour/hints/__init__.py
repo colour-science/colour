@@ -107,8 +107,9 @@ __all__ = [
     "LiteralCCTFDecoding",
     "LiteralOOTF",
     "LiteralOOTFInverse",
-    "LiteralLUTReadMethods",
-    "LiteralLUTWriteMethods",
+    "LiteralLUTReadMethod",
+    "LiteralLUTWriteMethod",
+    "LiteralFontScaling",
 ]
 
 RegexFlag = NewType("RegexFlag", re.RegexFlag)
@@ -542,7 +543,7 @@ LiteralCCTFDecoding = Literal[
 ]
 LiteralOOTF = Literal["ITU-R BT.2100 HLG", "ITU-R BT.2100 PQ"]
 LiteralOOTFInverse = Literal["ITU-R BT.2100 HLG", "ITU-R BT.2100 PQ"]
-LiteralLUTReadMethods = Literal[
+LiteralLUTReadMethod = Literal[
     "Cinespace",
     "Iridas Cube",
     "Resolve Cube",
@@ -550,13 +551,31 @@ LiteralLUTReadMethods = Literal[
     "Sony SPI3D",
     "Sony SPImtx",
 ]
-LiteralLUTWriteMethods = Literal[
+LiteralLUTWriteMethod = Literal[
     "Cinespace",
     "Iridas Cube",
     "Resolve Cube",
     "Sony SPI1D",
     "Sony SPI3D",
     "Sony SPImtx",
+]
+LiteralFontScaling = Literal[
+    "xx-small",
+    "x-small",
+    "small",
+    "medium",
+    "large",
+    "x-large",
+    "xx-large",
+    "larger",
+    "smaller",
+    "xx-small-colour-science",
+    "x-small-colour-science",
+    "small-colour-science",
+    "medium-colour-science",
+    "large-colour-science",
+    "x-large-colour-science",
+    "xx-large-colour-science",
 ]
 # LITERALISE::END
 

@@ -20,6 +20,7 @@ Common
     :toctree: generated/
 
     colour_style
+    override_style
     colour_cycle
     artist
     camera
@@ -44,6 +45,7 @@ Common
     KwargsArtist
     KwargsCamera
     KwargsRender
+    font_scaling
     filter_passthrough
     filter_RGB_colourspaces
     filter_cmfs
