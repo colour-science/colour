@@ -22,10 +22,11 @@ runtime:
     :func:`warnings.showwarning` definition to be replaced with the
     :func:`colour.utilities.show_warning` definition and thus providing
     complete traceback from the point where the warning occurred.
--   `COLOUR_SCIENCE__COLOUR__SKIP_VAAB_COLOUR_INJECTION`: Skip
-    `vaab/colour <https://github.com/vaab/colour>`__ objects injection into
-    **Colour** namespace. See the bottom of the core `__init__.py` module for
-    more information.
+-   `COLOUR_SCIENCE__COLOUR__IMPORT_VAAB_COLOUR`: Import
+    `vaab/colour <https://github.com/vaab/colour>`__ injection into
+    **Colour** namespace. This solves the clash with
+    `vaab/colour <https://github.com/vaab/colour>`__ by loading a known subset
+    of the objects given by vaab/colour-0.1.5 into our namespace.
 
 Caching
 -------
