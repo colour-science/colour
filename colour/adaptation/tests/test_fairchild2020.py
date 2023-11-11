@@ -1,5 +1,7 @@
 # !/usr/bin/env python
-"""Define the unit tests for the :mod:`colour.adaptation.vonkries` module."""
+"""
+Define the unit tests for the :mod:`colour.adaptation.fairchild2020` module.
+"""
 
 import unittest
 from itertools import product
@@ -7,14 +9,17 @@ from itertools import product
 import numpy as np
 
 from colour.adaptation import (
-    chromatic_adaptation_VonKries,
-    matrix_chromatic_adaptation_VonKries,
+    chromatic_adaptation_vK20,
+    matrix_chromatic_adaptation_vk20,
+)
+from colour.adaptation.fairchild2020 import (
+    CONDITIONS_DEGREE_OF_ADAPTATION_VK20,
 )
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
-__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -27,300 +32,305 @@ __all__ = [
 
 class TestMatrixChromaticAdaptationVonKries(unittest.TestCase):
     """
-    Define :func:`colour.adaptation.vonkries.\
-matrix_chromatic_adaptation_VonKries` definition unit tests methods.
+    Define :func:`colour.adaptation.fairchild2020.\
+matrix_chromatic_adaptation_vk20` definition unit tests methods.
     """
 
-    def test_matrix_chromatic_adaptation_VonKries(self):
+    def test_matrix_chromatic_adaptation_vk20(self):
         """
-        Test :func:`colour.adaptation.vonkries.\
-matrix_chromatic_adaptation_VonKries` definition.
+        Test :func:`colour.adaptation.fairchild2020.\
+matrix_chromatic_adaptation_vk20` definition.
         """
 
         np.testing.assert_array_almost_equal(
-            matrix_chromatic_adaptation_VonKries(
+            matrix_chromatic_adaptation_vk20(
                 np.array([0.95045593, 1.00000000, 1.08905775]),
                 np.array([0.96429568, 1.00000000, 0.82510460]),
             ),
             np.array(
                 [
-                    [1.04257389, 0.03089108, -0.05281257],
-                    [0.02219345, 1.00185663, -0.02107375],
-                    [-0.00116488, -0.00342053, 0.76178907],
+                    [1.02791390, 0.02913712, -0.02279407],
+                    [0.02070284, 0.99005317, -0.00921435],
+                    [-0.00063759, -0.00115773, 0.91296320],
                 ]
             ),
             decimal=7,
         )
 
         np.testing.assert_array_almost_equal(
-            matrix_chromatic_adaptation_VonKries(
+            matrix_chromatic_adaptation_vk20(
                 np.array([0.95045593, 1.00000000, 1.08905775]),
                 np.array([1.09846607, 1.00000000, 0.35582280]),
             ),
             np.array(
                 [
-                    [1.17159793, 0.16088780, -0.16158366],
-                    [0.11462057, 0.96182051, -0.06497572],
-                    [-0.00413024, -0.00912739, 0.33871096],
+                    [0.94760338, -0.05816939, 0.06647414],
+                    [-0.04151006, 1.02361127, 0.02667016],
+                    [0.00163074, 0.00391656, 1.29341031],
                 ]
             ),
             decimal=7,
         )
 
         np.testing.assert_array_almost_equal(
-            matrix_chromatic_adaptation_VonKries(
-                np.array([0.95045593, 1.00000000, 1.08905775]),
-                np.array([0.99144661, 1.00000000, 0.67315942]),
-            ),
-            np.linalg.inv(
-                matrix_chromatic_adaptation_VonKries(
-                    np.array([0.99144661, 1.00000000, 0.67315942]),
-                    np.array([0.95045593, 1.00000000, 1.08905775]),
-                )
-            ),
-            decimal=7,
-        )
-
-        np.testing.assert_array_almost_equal(
-            matrix_chromatic_adaptation_VonKries(
+            matrix_chromatic_adaptation_vk20(
                 np.array([0.95045593, 1.00000000, 1.08905775]),
                 np.array([0.96429568, 1.00000000, 0.82510460]),
                 transform="XYZ Scaling",
             ),
             np.array(
                 [
-                    [1.01456117, 0.00000000, 0.00000000],
+                    [1.03217229, 0.00000000, 0.00000000],
                     [0.00000000, 1.00000000, 0.00000000],
-                    [0.00000000, 0.00000000, 0.75763163],
+                    [0.00000000, 0.00000000, 0.91134516],
                 ]
             ),
             decimal=7,
         )
 
         np.testing.assert_array_almost_equal(
-            matrix_chromatic_adaptation_VonKries(
+            matrix_chromatic_adaptation_vk20(
                 np.array([0.95045593, 1.00000000, 1.08905775]),
                 np.array([0.96429568, 1.00000000, 0.82510460]),
                 transform="Bradford",
             ),
             np.array(
                 [
-                    [1.04792979, 0.02294687, -0.05019227],
-                    [0.02962781, 0.99043443, -0.01707380],
-                    [-0.00924304, 0.01505519, 0.75187428],
+                    [1.03672305, 0.01955802, -0.02193210],
+                    [0.02763218, 0.98222961, -0.00824197],
+                    [-0.00295083, 0.00406903, 0.91024305],
                 ]
             ),
             decimal=7,
         )
 
         np.testing.assert_array_almost_equal(
-            matrix_chromatic_adaptation_VonKries(
+            matrix_chromatic_adaptation_vk20(
                 np.array([0.95045593, 1.00000000, 1.08905775]),
                 np.array([0.96429568, 1.00000000, 0.82510460]),
                 transform="Von Kries",
+                coefficients=CONDITIONS_DEGREE_OF_ADAPTATION_VK20[
+                    "Simple Von Kries"
+                ],
             ),
             np.array(
                 [
-                    [1.01611856, 0.05535971, -0.05219186],
-                    [0.00608087, 0.99555604, -0.00122642],
-                    [0.00000000, 0.00000000, 0.75763163],
+                    [0.98446157, -0.05474538, 0.06773143],
+                    [-0.00601339, 1.00479590, 0.00121235],
+                    [0.00000000, 0.00000000, 1.31990977],
                 ]
             ),
             decimal=7,
         )
 
-    def test_n_dimensional_matrix_chromatic_adaptation_VonKries(self):
+    def test_n_dimensional_matrix_chromatic_adaptation_vk20(self):
         """
-        Test :func:`colour.adaptation.vonkries.\
-matrix_chromatic_adaptation_VonKries` definition n-dimensional arrays support.
+        Test :func:`colour.adaptation.fairchild2020.\
+matrix_chromatic_adaptation_vk20` definition n-dimensional arrays support.
         """
 
-        XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
-        XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
-        M = matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr)
+        XYZ_p = np.array([0.95045593, 1.00000000, 1.08905775])
+        XYZ_n = np.array([0.96429568, 1.00000000, 0.82510460])
+        M = matrix_chromatic_adaptation_vk20(XYZ_p, XYZ_n)
 
-        XYZ_w = np.tile(XYZ_w, (6, 1))
-        XYZ_wr = np.tile(XYZ_wr, (6, 1))
+        XYZ_p = np.tile(XYZ_p, (6, 1))
+        XYZ_n = np.tile(XYZ_n, (6, 1))
         M = np.reshape(np.tile(M, (6, 1)), (6, 3, 3))
         np.testing.assert_array_almost_equal(
-            matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr), M, decimal=7
+            matrix_chromatic_adaptation_vk20(XYZ_p, XYZ_n),
+            M,
+            decimal=7,
         )
 
-        XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
-        XYZ_wr = np.reshape(XYZ_wr, (2, 3, 3))
+        XYZ_p = np.reshape(XYZ_p, (2, 3, 3))
+        XYZ_n = np.reshape(XYZ_n, (2, 3, 3))
         M = np.reshape(M, (2, 3, 3, 3))
         np.testing.assert_array_almost_equal(
-            matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr), M, decimal=7
+            matrix_chromatic_adaptation_vk20(XYZ_p, XYZ_n),
+            M,
+            decimal=7,
         )
 
-    def test_domain_range_scale_matrix_chromatic_adaptation_VonKries(self):
+    def test_domain_range_scale_matrix_chromatic_adaptation_vk20(self):
         """
-        Test :func:`colour.adaptation.vonkries.\
-matrix_chromatic_adaptation_VonKries` definition domain and range scale
+        Test :func:`colour.adaptation.fairchild2020.\
+matrix_chromatic_adaptation_vk20` definition domain and range scale
         support.
         """
 
-        XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
-        XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
-        M = matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr)
+        XYZ_p = np.array([0.95045593, 1.00000000, 1.08905775])
+        XYZ_n = np.array([0.96429568, 1.00000000, 0.82510460])
+        XYZ_r = np.array([0.97941176, 1.00000000, 1.73235294])
+        M = matrix_chromatic_adaptation_vk20(XYZ_p, XYZ_n)
 
-        d_r = (("reference", 1), ("1", 1), ("100", 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_array_almost_equal(
-                    matrix_chromatic_adaptation_VonKries(
-                        XYZ_w * factor, XYZ_wr * factor
+                    matrix_chromatic_adaptation_vk20(
+                        XYZ_p * factor, XYZ_n * factor, XYZ_r * factor
                     ),
                     M,
                     decimal=7,
                 )
 
     @ignore_numpy_errors
-    def test_nan_matrix_chromatic_adaptation_VonKries(self):
+    def test_nan_matrix_chromatic_adaptation_vk20(self):
         """
-        Test :func:`colour.adaptation.vonkries.\
-matrix_chromatic_adaptation_VonKries` definition nan support.
+        Test :func:`colour.adaptation.fairchild2020.\
+matrix_chromatic_adaptation_vk20` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
-        matrix_chromatic_adaptation_VonKries(cases, cases)
+        matrix_chromatic_adaptation_vk20(cases, cases)
 
 
 class TestChromaticAdaptationVonKries(unittest.TestCase):
     """
-    Define :func:`colour.adaptation.vonkries.chromatic_adaptation_VonKries`
+    Define :func:`colour.adaptation.fairchild2020.chromatic_adaptation_vK20`
     definition unit tests methods.
     """
 
-    def test_chromatic_adaptation_VonKries(self):
+    def test_chromatic_adaptation_vK20(self):
         """
-        Test :func:`colour.adaptation.vonkries.chromatic_adaptation_VonKries`
+        Test :func:`colour.adaptation.fairchild2020.chromatic_adaptation_vK20`
         definition.
         """
 
         np.testing.assert_array_almost_equal(
-            chromatic_adaptation_VonKries(
+            chromatic_adaptation_vK20(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 np.array([0.95045593, 1.00000000, 1.08905775]),
                 np.array([0.96429568, 1.00000000, 0.82510460]),
             ),
-            np.array([0.21638819, 0.12570000, 0.03847494]),
+            np.array([0.21468842, 0.12456164, 0.04662558]),
             decimal=7,
         )
 
         np.testing.assert_array_almost_equal(
-            chromatic_adaptation_VonKries(
+            chromatic_adaptation_vK20(
                 np.array([0.14222010, 0.23042768, 0.10495772]),
                 np.array([0.95045593, 1.00000000, 1.08905775]),
                 np.array([1.09846607, 1.00000000, 0.35582280]),
             ),
-            np.array([0.18673833, 0.23111171, 0.03285972]),
+            np.array([0.12834138, 0.23276404, 0.13688781]),
             decimal=7,
         )
 
         np.testing.assert_array_almost_equal(
-            chromatic_adaptation_VonKries(
+            chromatic_adaptation_vK20(
                 np.array([0.07818780, 0.06157201, 0.28099326]),
                 np.array([0.95045593, 1.00000000, 1.08905775]),
                 np.array([0.99144661, 1.00000000, 0.67315942]),
             ),
-            np.array([0.06385467, 0.05509729, 0.17506386]),
+            np.array([0.07908008, 0.06167829, 0.28354175]),
             decimal=7,
         )
 
         np.testing.assert_array_almost_equal(
-            chromatic_adaptation_VonKries(
+            chromatic_adaptation_vK20(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 np.array([0.95045593, 1.00000000, 1.08905775]),
                 np.array([0.96429568, 1.00000000, 0.82510460]),
                 transform="XYZ Scaling",
             ),
-            np.array([0.20954755, 0.12197225, 0.03891917]),
+            np.array([0.21318495, 0.12197225, 0.04681536]),
             decimal=7,
         )
 
         np.testing.assert_array_almost_equal(
-            chromatic_adaptation_VonKries(
+            chromatic_adaptation_vK20(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 np.array([0.95045593, 1.00000000, 1.08905775]),
                 np.array([0.96429568, 1.00000000, 0.82510460]),
                 transform="Bradford",
             ),
-            np.array([0.21666003, 0.12604777, 0.03855068]),
+            np.array([0.21538376, 0.12508852, 0.04664559]),
             decimal=7,
         )
 
         np.testing.assert_array_almost_equal(
-            chromatic_adaptation_VonKries(
+            chromatic_adaptation_vK20(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 np.array([0.95045593, 1.00000000, 1.08905775]),
                 np.array([0.96429568, 1.00000000, 0.82510460]),
                 transform="Von Kries",
+                coefficients=CONDITIONS_DEGREE_OF_ADAPTATION_VK20[
+                    "Simple Von Kries"
+                ],
             ),
-            np.array([0.21394049, 0.12262315, 0.03891917]),
+            np.array([0.20013269, 0.12137749, 0.06780313]),
             decimal=7,
         )
 
-    def test_n_dimensional_chromatic_adaptation_VonKries(self):
+    def test_n_dimensional_chromatic_adaptation_vK20(self):
         """
-        Test :func:`colour.adaptation.vonkries.chromatic_adaptation_VonKries`
+        Test :func:`colour.adaptation.fairchild2020.chromatic_adaptation_vK20`
         definition n-dimensional arrays support.
         """
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-        XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
-        XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
-        XYZ_a = chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr)
+        XYZ_p = np.array([0.95045593, 1.00000000, 1.08905775])
+        XYZ_n = np.array([0.96429568, 1.00000000, 0.82510460])
+        XYZ_a = chromatic_adaptation_vK20(XYZ, XYZ_p, XYZ_n)
 
         XYZ = np.tile(XYZ, (6, 1))
-        XYZ_w = np.tile(XYZ_w, (6, 1))
-        XYZ_wr = np.tile(XYZ_wr, (6, 1))
+        XYZ_p = np.tile(XYZ_p, (6, 1))
+        XYZ_n = np.tile(XYZ_n, (6, 1))
         XYZ_a = np.tile(XYZ_a, (6, 1))
         np.testing.assert_array_almost_equal(
-            chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr), XYZ_a, decimal=7
+            chromatic_adaptation_vK20(XYZ, XYZ_p, XYZ_n),
+            XYZ_a,
+            decimal=7,
         )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
-        XYZ_wr = np.reshape(XYZ_wr, (2, 3, 3))
+        XYZ_p = np.reshape(XYZ_p, (2, 3, 3))
+        XYZ_n = np.reshape(XYZ_n, (2, 3, 3))
         XYZ_a = np.reshape(XYZ_a, (2, 3, 3))
         np.testing.assert_array_almost_equal(
-            chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr), XYZ_a, decimal=7
+            chromatic_adaptation_vK20(XYZ, XYZ_p, XYZ_n),
+            XYZ_a,
+            decimal=7,
         )
 
-    def test_domain_range_scale_chromatic_adaptation_VonKries(self):
+    def test_domain_range_scale_chromatic_adaptation_vK20(self):
         """
-        Test :func:`colour.adaptation.vonkries.chromatic_adaptation_VonKries`
+        Test :func:`colour.adaptation.fairchild2020.chromatic_adaptation_vK20`
         definition domain and range scale support.
         """
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-        XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
-        XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
-        XYZ_a = chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr)
+        XYZ_p = np.array([0.95045593, 1.00000000, 1.08905775])
+        XYZ_n = np.array([0.96429568, 1.00000000, 0.82510460])
+        XYZ_r = np.array([0.97941176, 1.00000000, 1.73235294])
+        XYZ_a = chromatic_adaptation_vK20(XYZ, XYZ_p, XYZ_n)
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_array_almost_equal(
-                    chromatic_adaptation_VonKries(
-                        XYZ * factor, XYZ_w * factor, XYZ_wr * factor
+                    chromatic_adaptation_vK20(
+                        XYZ * factor,
+                        XYZ_p * factor,
+                        XYZ_n * factor,
+                        XYZ_r * factor,
                     ),
                     XYZ_a * factor,
                     decimal=7,
                 )
 
     @ignore_numpy_errors
-    def test_nan_chromatic_adaptation_VonKries(self):
+    def test_nan_chromatic_adaptation_vK20(self):
         """
-        Test :func:`colour.adaptation.vonkries.chromatic_adaptation_VonKries`
+        Test :func:`colour.adaptation.fairchild2020.chromatic_adaptation_vK20`
         definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
-        chromatic_adaptation_VonKries(cases, cases, cases)
+        chromatic_adaptation_vK20(cases, cases, cases)
 
 
 if __name__ == "__main__":
