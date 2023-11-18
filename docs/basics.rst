@@ -14,7 +14,7 @@ For example, in `IPython <https://ipython.org>`__ or `Jupyter Notebook <https://
 most of the definitions pertaining to the spectral distribution handling can
 be found as follows:
 
-.. code:: python
+.. code:: text
 
     In [1]: import colour
 
@@ -26,7 +26,7 @@ be found as follows:
 
 Likewise, for the spectral distribution handling related attributes:
 
-.. code:: python
+.. code:: text
 
     In [2]: colour.SD
                       SD_GAUSSIAN_METHODS   SD_TO_XYZ_METHODS     SDS_ILLUMINANTS       SDS_LIGHT_SOURCES
@@ -36,7 +36,7 @@ Likewise, for the spectral distribution handling related attributes:
 Similarly, all the RGB colourspaces can be individually accessed from the
 ``colour.models`` namespace:
 
-.. code:: python
+.. code:: text
 
     In [2]: colour.models.RGB_COLOURSPACE
                              RGB_COLOURSPACE_ACES2065_1           RGB_COLOURSPACE_ACESPROXY            RGB_COLOURSPACE_APPLE_RGB            RGB_COLOURSPACE_BT470_525
@@ -529,9 +529,7 @@ with the :func:`colour.set_domain_range_scale` definition:
     Y_o = 20
     E_o1 = 1000
     E_o2 = 1000
-    colour.adaptation.chromatic_adaptation_CIE1994(
-        XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2
-    )
+    colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
 
 .. code-block:: text
 
@@ -543,9 +541,7 @@ with the :func:`colour.set_domain_range_scale` definition:
 
     XYZ_1 = [0.2800, 0.2126, 0.0527]
     Y_o = 0.2
-    colour.adaptation.chromatic_adaptation_CIE1994(
-        XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2
-    )
+    colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
 
 .. code-block:: text
 
@@ -562,9 +558,7 @@ would result in unexpected values and a warning in that case:
 
     colour.set_domain_range_scale("Reference")
 
-    colour.adaptation.chromatic_adaptation_CIE1994(
-        XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2
-    )
+    colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
 
 .. code-block:: text
 
@@ -594,9 +588,7 @@ scale value:
 .. code:: python
 
     with colour.domain_range_scale("1"):
-        colour.adaptation.chromatic_adaptation_CIE1994(
-            XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2
-        )
+        colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
 
 .. code-block:: text
 
