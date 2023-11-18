@@ -360,14 +360,14 @@ The codebase is documented and most docstrings have usage examples:
 
     Examples
     --------
-    >>> from colour import MSDS_CMFS, SPECTRAL_SHAPE_DEFAULT
-    >>> cmfs = (
-    ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
-    ...     .copy()
-    ...     .align(SPECTRAL_SHAPE_DEFAULT)
-    ... )
-    >>> CCT_D_uv = np.array([6507.4342201047066, 0.003223690901513])
-    >>> CCT_to_uv_Ohno2013(CCT_D_uv, cmfs)  # doctest: +ELLIPSIS
+    from colour import MSDS_CMFS, SPECTRAL_SHAPE_DEFAULT
+    cmfs = (
+        MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+        .copy()
+        .align(SPECTRAL_SHAPE_DEFAULT)
+    )
+    CCT_D_uv = np.array([6507.4342201047066, 0.003223690901513])
+    CCT_to_uv_Ohno2013(CCT_D_uv, cmfs)  # doctest: +ELLIPSIS
     array([ 0.1977999...,  0.3122004...])
 
 At the core of **Colour** is the ``colour.colorimetry`` sub-package, it defines
@@ -1054,13 +1054,7 @@ operations like *addition*, *subtraction*, *multiplication*, *division* or
     print((sd.copy() + 1).values)
     print((sd.copy() * 2).values)
     print((sd * [0.35, 1.55, 0.75, 2.55, 0.95, 0.65, 0.15]).values)
-    print(
-        (
-            sd
-            * colour.sd_constant(2, sd.shape)
-            * colour.sd_constant(3, sd.shape)
-        ).values
-    )
+    print((sd * colour.sd_constant(2, sd.shape) * colour.sd_constant(3, sd.shape)).values)
 
 .. code-block:: text
 
@@ -1215,9 +1209,7 @@ values in order to display them on screen:
 .. code:: python
 
     # Plotting the *sRGB* colourspace colour of the *Sample* spectral distribution.
-    plot_single_colour_swatch(
-        ColourSwatch(RGB, "Sample"), text_kwargs={"size": "x-large"}
-    )
+    plot_single_colour_swatch(ColourSwatch(RGB, "Sample"), text_kwargs={"size": "x-large"})
 
 .. image:: _static/Tutorial_Sample_Swatch.png
 
