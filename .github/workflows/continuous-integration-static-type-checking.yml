@@ -18,7 +18,7 @@ jobs:
         echo "CI_PACKAGE=colour" >> $GITHUB_ENV
       shell: bash
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install Dependencies (macOS)
