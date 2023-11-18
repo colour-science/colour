@@ -1155,15 +1155,15 @@ def describe_conversion_path(
 
     conversion_path = _conversion_path(source, target)
 
+    joined_conversion_path = " --> ".join(
+        [
+            f'"{_lower_order_function(conversion_function).__name__}"'
+            for conversion_function in conversion_path
+        ]
+    )
+
     message_box(
-        "[ Conversion Path ]\n\n{}".format(
-            " --> ".join(
-                [
-                    f'"{_lower_order_function(conversion_function).__name__}"'
-                    for conversion_function in conversion_path
-                ]
-            )
-        ),
+        f"[ Conversion Path ]\n\n{joined_conversion_path}",
         width,
         padding,
         print_callable,
