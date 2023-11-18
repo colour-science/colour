@@ -1,7 +1,7 @@
 Model Name	CV600
 Serial Number	19J00789
 Time	2021/01/04_23:14:46
-Memo	
+Memo
 LUX	695.154907
 fc	64.605476
 CCT	5198.000000
