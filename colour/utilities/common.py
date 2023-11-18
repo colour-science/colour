@@ -699,7 +699,7 @@ def is_networkx_installed(raise_exception: bool = False) -> bool:
     """
 
     try:  # pragma: no cover
-        import networkx  # noqa: F401
+        import networkx as nx  # noqa: F401
 
         return True
     except ImportError as error:  # pragma: no cover

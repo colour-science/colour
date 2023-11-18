@@ -1,23 +1,40 @@
 repos:
--   repo: https://github.com/ikamensh/flynt/
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: 'v4.5.0'
+    hooks:
+    -   id: check-added-large-files
+    -   id: check-case-conflict
+    -   id: check-merge-conflict
+    -   id: check-symlinks
+    -   id: check-yaml
+        exclude: config-aces-reference.ocio.yaml
+    -   id: debug-statements
+    -   id: end-of-file-fixer
+    -   id: mixed-line-ending
+    -   id: name-tests-test
+        args: ["--pytest-test-first"]
+    -   id: requirements-txt-fixer
+    -   id: trailing-whitespace
+-   repo: https://github.com/ikamensh/flynt
     rev: '1.0.1'
     hooks:
     -   id: flynt
+        args: [--verbose]
 -   repo: https://github.com/PyCQA/isort
     rev: '5.12.0'
-    hooks: 
+    hooks:
     - id: isort
--   repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: 'v0.0.285'
+-   repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: 'v0.1.6'
     hooks:
     - id: ruff
--   repo: https://github.com/psf/black
-    rev: 23.7.0
+-   repo: https://github.com/psf/black-pre-commit-mirror
+    rev: 23.11.0
     hooks:
     - id: black
       language_version: python3.9
 -   repo: https://github.com/keewis/blackdoc
-    rev: v0.3.8
+    rev: v0.3.9
     hooks:
     - id: blackdoc
       language_version: python3.9
