@@ -12,24 +12,24 @@ jobs:
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v1
-    - name: Environment Variables
-      run: |
-        echo "CI_PACKAGE=colour" >> $GITHUB_ENV
-      shell: bash
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install Dependencies (macOS)
-      if: matrix.os == 'macOS-latest'
-      run: |
-        brew install graphviz
-        export GRAPHVIZ_DIR="/usr/local/Cellar/graphviz/<VERSION>"
-        pip install pygraphviz --global-option=build_ext --global-option="-I$GRAPHVIZ_DIR/include" --global-option="-L$GRAPHVIZ_DIR/lib"
-    - name: Install Package Dependencies
-      run: |
-        pip install -r requirements.txt
-    - name: Static Type Checking
-      run: |
-        pyright --skipunannotated
+      - uses: actions/checkout@v1
+      - name: Environment Variables
+        run: |
+          echo "CI_PACKAGE=colour" >> $GITHUB_ENV
+        shell: bash
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Dependencies (macOS)
+        if: matrix.os == 'macOS-latest'
+        run: |
+          brew install graphviz
+          export GRAPHVIZ_DIR="/usr/local/Cellar/graphviz/<VERSION>"
+          pip install pygraphviz --global-option=build_ext --global-option="-I$GRAPHVIZ_DIR/include" --global-option="-L$GRAPHVIZ_DIR/lib"
+      - name: Install Package Dependencies
+        run: |
+          pip install -r requirements.txt
+      - name: Static Type Checking
+        run: |
+          pyright --skipunannotated
