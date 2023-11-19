@@ -1050,4 +1050,4 @@ def multiline_repr(
 
         representation.append(f"{'':{justify}}{_format(attribute)}")
 
-    return "{})".format(",\n".join(representation))
+    return "{})".format(",\n".join(representation))  # noqa: flynt
