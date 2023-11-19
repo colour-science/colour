@@ -574,7 +574,7 @@ def ZCAM_to_XYZ(
     -   *Safdar, Hardeberg and Luo (2021)* does not specify how the chromatic
         adaptation to *CIE Standard Illuminant D65* in *Step 0* should be
         performed. A one-step *Von Kries* chromatic adaptation transform is not
-        symetrical or transitive when a degree of adptation is involved.
+        symmetrical or transitive when a degree of adptation is involved.
         *Safdar, Hardeberg and Luo (2018)* uses *Zhai and Luo (2018)* two-steps
         chromatic adaptation transform, thus it seems sensible to adopt this
         transform for the *ZCAM* colour appearance model until more information

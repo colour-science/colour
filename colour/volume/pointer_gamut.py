@@ -46,7 +46,7 @@ def is_within_pointer_gamut(
     Returns
     -------
     :class:`numpy.ndarray`
-        Wether given *CIE XYZ* tristimulus values are within Pointer's Gamut
+        Whether given *CIE XYZ* tristimulus values are within Pointer's Gamut
         volume.
 
     Notes

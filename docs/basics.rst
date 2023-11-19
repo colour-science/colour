@@ -615,7 +615,7 @@ Safe Power and Division
 -----------------------
 
 **Colour** default handling of fractional power and zero-division occurring
-during practical applications is managed via varous definitions and context
+during practical applications is managed via various definitions and context
 managers.
 
 Safe Power

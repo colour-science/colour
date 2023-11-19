@@ -79,6 +79,7 @@ pytest-cov = "*"
 pytest-xdist = "*"
 ruff = "*"
 toml = "*"
+tomli = { version =  "*", python = "< 3.11" }
 twine = "*"
 isort = "*"
 
@@ -92,6 +93,10 @@ sphinxcontrib-bibtex = "*"
 [tool.black]
 line-length = 79
 exclude = '''/(\.git|build|dist)/'''
+
+[tool.codespell]
+ignore-words-list = 'co-ordinates,exitance,fro,hart,ist'
+skip = 'BIBLIOGRAPHY.bib,CONTRIBUTORS.rst'
 
 [tool.flynt]
 line_length = 999
