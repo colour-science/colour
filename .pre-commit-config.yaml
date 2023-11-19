@@ -19,6 +19,8 @@ repos:
     rev: v2.2.6
     hooks:
       - id: codespell
+        args: ["--ignore-words-list=co-ordinates,exitance,fro,hart,ist"]
+        exclude: "BIBLIOGRAPHY.bib|CONTRIBUTORS.rst"
   - repo: https://github.com/ikamensh/flynt
     rev: "1.0.1"
     hooks:
