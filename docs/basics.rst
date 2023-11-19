@@ -415,24 +415,24 @@ Domain-Range Scales
 
 **Colour** adopts 4 main input domains and output ranges:
 
--   *Scalars* usually in domain-range `[0, 1]` (or `[0, 10]` for
+-   *Scalars* usually in domain-range ``[0, 1]`` (or ``[0, 10]`` for
     *Munsell Value*).
--   *Percentages* usually in domain-range `[0, 100]`.
--   *Degrees* usually in domain-range `[0, 360]`.
--   *Integers* usually in domain-range `[0, 2**n -1]` where `n` is the bit
+-   *Percentages* usually in domain-range ``[0, 100]``.
+-   *Degrees* usually in domain-range ``[0, 360]``.
+-   *Integers* usually in domain-range ``[0, 2**n -1]`` where ``n`` is the bit
     depth.
 
 It is error prone but it is also a direct consequence of the inconsistency of
 the colour science field itself. We have discussed at length about this and we
-were leaning toward normalisation of the whole API to domain-range `[0, 1]`, we
-never committed for reasons highlighted by the following points:
+were leaning toward normalisation of the whole API to domain-range ``[0, 1]``,
+we never committed for reasons highlighted by the following points:
 
 -   Colour Scientist performing computations related to Munsell Renotation
     System would be very surprised if the output *Munsell Value* was in range
-    `[0, 1]` or `[0, 100]`.
+    ``[0, 1]`` or ``[0, 100]``.
 -   A Visual Effect Industry artist would be astonished to find out that
     conversion from *CIE XYZ* to *sRGB* was yielding values in range
-    `[0, 100]`.
+    ``[0, 100]``.
 
 However benefits of having a consistent and predictable domain-range scale are
 numerous thus with `Colour 0.3.12 <https://github.com/colour-science/colour/releases/tag/v0.3.12>`__
@@ -446,25 +446,25 @@ Scale - Reference
 the implemented reference, i.e. paper, publication, etc.., domain-range scale.
 
 The **'Reference'** domain-range scale is inconsistent, e.g. colour appearance
-models, spectral conversions are typically in domain-range `[0, 100]` while RGB
-models will operate in domain-range `[0, 1]`. Some objects, e.g.
-:func:`colour.colorimetry.lightness_Fairchild2011` definition have mismatched
-domain-range: input domain `[0, 1]` and output range `[0, 100]`.
+models, spectral conversions are typically in domain-range ``[0, 100]`` while RGB
+models will operate in domain-range ``[0, 1]``. Some objects, e.g.
+:func:``colour.colorimetry.lightness_Fairchild2011`` definition have mismatched
+domain-range: input domain ``[0, 1]`` and output range ``[0, 100]``.
 
 Scale - 1
 ~~~~~~~~~
 
 **'1'** is a domain-range scale converting all the relevant objects from
-**Colour** public API to domain-range `[0, 1]`:
+**Colour** public API to domain-range ``[0, 1]``:
 
--   *Scalars* in domain-range `[0, 10]`, e.g *Munsell Value* are
+-   *Scalars* in domain-range ``[0, 10]``, e.g *Munsell Value* are
     scaled by *10*.
--   *Percentages* in domain-range `[0, 100]` are scaled by *100*.
--   *Degrees* in domain-range `[0, 360]` are scaled by *360*.
--   *Integers* in domain-range `[0, 2**n -1]` where `n` is the bit
+-   *Percentages* in domain-range ``[0, 100]`` are scaled by *100*.
+-   *Degrees* in domain-range ``[0, 360]`` are scaled by *360*.
+-   *Integers* in domain-range ``[0, 2**n -1]`` where ``n`` is the bit
     depth are scaled by *2**n -1*.
--   *Dimensionless* values are unaffected and are indicated with `DN`.
--   *Unaffected* values are unaffected and are indicated with `UN`.
+-   *Dimensionless* values are unaffected and are indicated with ``DN``.
+-   *Unaffected* values are unaffected and are indicated with ``UN``.
 
 .. warning::
 
@@ -573,12 +573,12 @@ would result in unexpected values and a warning in that case:
 Setting the **'1'** domain-range scale has the following effect on the
 :func:`colour.adaptation.chromatic_adaptation_CIE1994` definition:
 
-As it expects values in domain `[0, 100]`, scaling occurs and the
+As it expects values in domain ``[0, 100]``, scaling occurs and the
 relevant input values, i.e. the values listed in the domain table, ``XYZ_1``
-and ``Y_o`` are converted from domain `[0, 1]` to domain `[0, 100]` by
+and ``Y_o`` are converted from domain ``[0, 1]`` to domain ``[0, 100]`` by
 :func:`colour.utilities.to_domain_100` definition and conversely
-return value ``XYZ_2`` is converted from range `[0, 100]` to range `[0, 1]` by
-:func:`colour.utilities.from_range_100` definition.
+return value ``XYZ_2`` is converted from range ``[0, 100]`` to range ``[0, 1]``
+by :func:`colour.utilities.from_range_100` definition.
 
 A convenient alternative to the :func:`colour.set_domain_range_scale`
 definition is the :class:`colour.domain_range_scale` context manager and
