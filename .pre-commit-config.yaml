@@ -15,6 +15,10 @@ repos:
         args: ["--pytest-test-first"]
     -   id: requirements-txt-fixer
     -   id: trailing-whitespace
+-   repo: https://github.com/codespell-project/codespell
+    rev: v2.2.6
+    hooks:
+    - id: codespell
 -   repo: https://github.com/ikamensh/flynt
     rev: '1.0.1'
     hooks:
