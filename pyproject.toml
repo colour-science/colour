@@ -79,7 +79,6 @@ pytest-cov = "*"
 pytest-xdist = "*"
 ruff = "*"
 toml = "*"
-tomli = { version =  "*", python = "< 3.11" }
 twine = "*"
 isort = "*"
 
