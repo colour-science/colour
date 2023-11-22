@@ -9,7 +9,7 @@ Defines the :math:`IC_AC_B` colourspace transformations:
 
 References
 ----------
--   :cite:`Frohlich2017` : Fröhlich, J. (2017). Encoding high dynamic range
+-   :cite:`Frohlich2017` : Fröhlich, J. (2017). Encoding high dynamic range
     and wide color gamut imagery. doi:10.18419/OPUS-9664
 """
 

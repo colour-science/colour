@@ -94,7 +94,7 @@ line-length = 79
 exclude = '''/(\.git|build|dist)/'''
 
 [tool.codespell]
-ignore-words-list = 'co-ordinates,exitance,fro,hart,ist'
+ignore-words-list = 'co-ordinates,exitance,hart,ist'
 skip = 'BIBLIOGRAPHY.bib,CONTRIBUTORS.rst'
 
 [tool.flynt]
