@@ -1,7 +1,7 @@
 name: Documentation Improvement
 description: Report a documentation improvement.
 title: "[DOCUMENTATION]: << Please use a comprehensive title... >>"
-labels: [ Documentation ]
+labels: [Documentation]
 
 body:
   - type: markdown

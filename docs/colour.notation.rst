@@ -149,4 +149,3 @@ Web Colours
     CSS_COLOR_3_EXTENDED
     CSS_COLOR_3
     keyword_to_RGB_CSSColor3
-

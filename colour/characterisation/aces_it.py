@@ -529,7 +529,7 @@ def normalise_illuminant(
     Normalise given illuminant with given camera *RGB* spectral sensitivities.
 
     The multiplicative inverse scaling factor :math:`k` is computed by
-    multiplying the illuminant by the sensitivies channel with the maximum
+    multiplying the illuminant by the sensitivities channel with the maximum
     value.
 
     Parameters
