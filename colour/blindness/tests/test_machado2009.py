@@ -153,6 +153,15 @@ matrix_anomalous_trichromacy_Machado2009` definition.
 
         np.testing.assert_allclose(
             matrix_anomalous_trichromacy_Machado2009(
+                cmfs, primaries, np.array([10, 0, 0])
+            ),
+            CVD_MATRICES_MACHADO2010.get("Protanomaly").get(0.5),
+            rtol=0.0001,
+            atol=0.0001,
+        )
+
+        np.testing.assert_allclose(
+            matrix_anomalous_trichromacy_Machado2009(
                 cmfs, primaries, np.array([20, 0, 0])
             ),
             CVD_MATRICES_MACHADO2010.get("Protanomaly").get(1.0),
@@ -171,6 +180,15 @@ matrix_anomalous_trichromacy_Machado2009` definition.
 
         np.testing.assert_allclose(
             matrix_anomalous_trichromacy_Machado2009(
+                cmfs, primaries, np.array([0, 10, 0])
+            ),
+            CVD_MATRICES_MACHADO2010.get("Deuteranomaly").get(0.5),
+            rtol=0.0001,
+            atol=0.0001,
+        )
+
+        np.testing.assert_allclose(
+            matrix_anomalous_trichromacy_Machado2009(
                 cmfs, primaries, np.array([0, 20, 0])
             ),
             CVD_MATRICES_MACHADO2010.get("Deuteranomaly").get(1.0),
@@ -183,6 +201,15 @@ matrix_anomalous_trichromacy_Machado2009` definition.
                 cmfs, primaries, np.array([0, 0, 5.00056688094503])
             ),
             CVD_MATRICES_MACHADO2010.get("Tritanomaly").get(0.1),
+            rtol=0.0001,
+            atol=0.0001,
+        )
+
+        np.testing.assert_allclose(
+            matrix_anomalous_trichromacy_Machado2009(
+                cmfs, primaries, np.array([0, 0, 29.002939088780934])
+            ),
+            CVD_MATRICES_MACHADO2010.get("Tritanomaly").get(0.5),
             rtol=0.0001,
             atol=0.0001,
         )
