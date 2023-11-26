@@ -66,6 +66,7 @@ from colour.utilities import (
     from_range_100,
     get_domain_range_scale,
     int_digest,
+    is_caching_enabled,
     optional,
     runtime_warning,
     validate_method,
@@ -261,7 +262,10 @@ def lagrange_coefficients_ASTME2022(
     )
 
     hash_key = hash((interval, interval_type))
-    if hash_key in _CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS:
+    if (
+        is_caching_enabled()
+        and hash_key in _CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS
+    ):
         return np.copy(_CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS[hash_key])
 
     r_n = np.linspace(1 / interval, 1 - (1 / interval), interval - 1)
@@ -391,7 +395,10 @@ def tristimulus_weighting_factors_ASTME2022(
     global _CACHE_TRISTIMULUS_WEIGHTING_FACTORS  # noqa: PLW0602
 
     hash_key = hash((cmfs, illuminant, shape, k, get_domain_range_scale()))
-    if hash_key in _CACHE_TRISTIMULUS_WEIGHTING_FACTORS:
+    if (
+        is_caching_enabled()
+        and hash_key in _CACHE_TRISTIMULUS_WEIGHTING_FACTORS
+    ):
         return np.copy(_CACHE_TRISTIMULUS_WEIGHTING_FACTORS[hash_key])
 
     Y = cmfs.values
@@ -1279,7 +1286,7 @@ def sd_to_XYZ(
         )
     )
 
-    if hash_key in _CACHE_SD_TO_XYZ:
+    if is_caching_enabled() and hash_key in _CACHE_SD_TO_XYZ:
         return np.copy(_CACHE_SD_TO_XYZ[hash_key])
 
     function = SD_TO_XYZ_METHODS[method]

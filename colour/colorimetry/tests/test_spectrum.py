@@ -18,7 +18,7 @@ from colour.colorimetry.spectrum import (
     sds_and_msds_to_msds,
     sds_and_msds_to_sds,
 )
-from colour.utilities import tstack
+from colour.utilities import is_caching_enabled, tstack
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -1999,9 +1999,10 @@ class TestReshapeSd(unittest.TestCase):
         sd_reshaped = reshape_sd(sd, shape, method="Trim")
         self.assertEqual(sd_reshaped, sd.copy().trim(shape))
 
-        self.assertIs(
-            reshape_sd(sd, shape, method="Trim", copy=False), sd_reshaped
-        )
+        if is_caching_enabled():
+            self.assertIs(
+                reshape_sd(sd, shape, method="Trim", copy=False), sd_reshaped
+            )
 
 
 class TestSdsAndMdsToSds(unittest.TestCase):

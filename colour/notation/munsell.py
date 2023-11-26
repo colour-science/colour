@@ -157,6 +157,7 @@ from colour.utilities import (
     from_range_1,
     from_range_10,
     get_domain_range_scale,
+    is_caching_enabled,
     is_integer,
     is_numeric,
     to_domain_1,
@@ -299,7 +300,7 @@ def _munsell_specifications() -> NDArrayFloat:
 
     global _CACHE_MUNSELL_SPECIFICATIONS  # noqa: PLW0602
 
-    if "All" in _CACHE_MUNSELL_SPECIFICATIONS:
+    if is_caching_enabled() and "All" in _CACHE_MUNSELL_SPECIFICATIONS:
         return _CACHE_MUNSELL_SPECIFICATIONS["All"]
 
     munsell_specifications = np.array(

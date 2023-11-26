@@ -16,6 +16,9 @@ from .callback import (
     MixinCallback,
 )
 from .common import (
+    is_caching_enabled,
+    set_caching_enable,
+    caching_enable,
     CacheRegistry,
     CACHE_REGISTRY,
     handle_numpy_errors,
@@ -141,6 +144,9 @@ __all__ += [
     "MixinCallback",
 ]
 __all__ += [
+    "is_caching_enabled",
+    "set_caching_enable",
+    "caching_enable",
     "CacheRegistry",
     "CACHE_REGISTRY",
     "handle_numpy_errors",
