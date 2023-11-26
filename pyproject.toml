@@ -65,11 +65,8 @@ pygraphviz = { version =  ">= 1, < 2", python = "< 3.12" }
 trimesh = ">= 3, < 4"
 
 [tool.poetry.group.dev.dependencies]
-black = "*"
-blackdoc = "*"
 coverage = "!= 6.3"
 coveralls = "*"
-flynt = "*"
 invoke = "*"
 jupyter = "*"
 pre-commit = ">= 3.5"
@@ -77,10 +74,8 @@ pyright = "*"
 pytest = "*"
 pytest-cov = "*"
 pytest-xdist = "*"
-ruff = "*"
 toml = "*"
 twine = "*"
-isort = "*"
 
 [tool.poetry.group.docs.dependencies]
 biblib-simple = "*"
