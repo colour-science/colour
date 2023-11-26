@@ -66,6 +66,7 @@ from colour.utilities import (
     filter_kwargs,
     first_item,
     interval,
+    is_caching_enabled,
     is_iterable,
     is_numeric,
     is_pandas_installed,
@@ -519,7 +520,7 @@ class SpectralShape:
         dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
 
         hash_key = hash((self, dtype))
-        if hash_key in _CACHE_SHAPE_RANGE:
+        if is_caching_enabled() and hash_key in _CACHE_SHAPE_RANGE:
             return _CACHE_SHAPE_RANGE[hash_key].copy()
 
         start, end, interval = (
@@ -2839,7 +2840,7 @@ def reshape_sd(
 
     hash_key = hash((sd, shape, method, tuple(kwargs_items)))
 
-    if hash_key in _CACHE_RESHAPED_SDS_AND_MSDS:
+    if is_caching_enabled() and hash_key in _CACHE_RESHAPED_SDS_AND_MSDS:
         reshaped_sd = _CACHE_RESHAPED_SDS_AND_MSDS[hash_key]
         return reshaped_sd.copy() if copy else reshaped_sd
 

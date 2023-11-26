@@ -52,6 +52,7 @@ from colour.utilities import (
     CACHE_REGISTRY,
     attest,
     int_digest,
+    is_caching_enabled,
     optional,
     suppress_warnings,
     validate_method,
@@ -2063,7 +2064,7 @@ def interval(distribution: ArrayLike, unique: bool = True) -> NDArray:
             unique,
         )
     )
-    if hash_key in _CACHE_DISTRIBUTION_INTERVAL:
+    if is_caching_enabled() and hash_key in _CACHE_DISTRIBUTION_INTERVAL:
         return np.copy(_CACHE_DISTRIBUTION_INTERVAL[hash_key])
 
     differences = np.abs(distribution[1:] - distribution[:-1])

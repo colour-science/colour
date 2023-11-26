@@ -47,6 +47,7 @@ from colour.utilities import (
     as_float_scalar,
     as_int_scalar,
     attest,
+    is_caching_enabled,
     tsplit,
     tstack,
     usage_warning,
@@ -278,7 +279,7 @@ def load_TCS_CIE2017(shape: SpectralShape) -> MultiSpectralDistributions:
 
     filename = f"tcs_cfi2017_{as_int_scalar(interval)}_nm.csv.gz"
 
-    if filename in _CACHE_TCS_CIE2017:
+    if is_caching_enabled() and filename in _CACHE_TCS_CIE2017:
         return _CACHE_TCS_CIE2017[filename]
 
     data = np.genfromtxt(

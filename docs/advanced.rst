@@ -18,15 +18,17 @@ runtime:
     `float64` (default). Changing the float dtype might result in various
     **Colour** `functionality breaking entirely <https://github.com/numpy/numpy/issues/6860>`__.
     *With great power comes great responsibility*.
--   ``COLOUR_SCIENCE__COLOUR__SHOW_WARNINGS_WITH_TRACEBACK``: Result in the
-    :func:`warnings.showwarning` definition to be replaced with the
-    :func:`colour.utilities.show_warning` definition and thus providing
-    complete traceback from the point where the warning occurred.
+-   ``COLOUR_SCIENCE__COLOUR__DISABLE_CACHING``: Disable the caches that can
+    be disabled, useful for debugging purposes.
 -   ``COLOUR_SCIENCE__COLOUR__IMPORT_VAAB_COLOUR``: Import
     `vaab/colour <https://github.com/vaab/colour>`__ injection into
     **Colour** namespace. This solves the clash with
     `vaab/colour <https://github.com/vaab/colour>`__ by loading a known subset
     of the objects given by vaab/colour-0.1.5 into our namespace.
+-   ``COLOUR_SCIENCE__COLOUR__SHOW_WARNINGS_WITH_TRACEBACK``: Result in the
+    :func:`warnings.showwarning` definition to be replaced with the
+    :func:`colour.utilities.show_warning` definition and thus providing
+    complete traceback from the point where the warning occurred.
 
 Caching
 -------

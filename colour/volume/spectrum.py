@@ -38,7 +38,12 @@ from colour.hints import (
     Literal,
     NDArrayFloat,
 )
-from colour.utilities import CACHE_REGISTRY, validate_method, zeros
+from colour.utilities import (
+    CACHE_REGISTRY,
+    is_caching_enabled,
+    validate_method,
+    zeros,
+)
 from colour.volume import is_within_mesh_volume
 
 __author__ = "Colour Developers"
@@ -359,18 +364,20 @@ def XYZ_outer_surface(
     )
     XYZ = _CACHE_OUTER_SURFACE_XYZ.get(key)
 
-    if XYZ is None:
-        pulse_waves = generate_pulse_waves(
-            len(cmfs.wavelengths), point_order, filter_jagged_points
-        )
-        XYZ = (
-            msds_to_XYZ(
-                pulse_waves, cmfs, illuminant, method="Integration", **settings
-            )
-            / 100
-        )
+    if is_caching_enabled() and XYZ is not None:
+        return XYZ
 
-        _CACHE_OUTER_SURFACE_XYZ[key] = XYZ
+    pulse_waves = generate_pulse_waves(
+        len(cmfs.wavelengths), point_order, filter_jagged_points
+    )
+    XYZ = (
+        msds_to_XYZ(
+            pulse_waves, cmfs, illuminant, method="Integration", **settings
+        )
+        / 100
+    )
+
+    _CACHE_OUTER_SURFACE_XYZ[key] = XYZ
 
     return XYZ
 
