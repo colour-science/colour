@@ -130,6 +130,8 @@ from colour.algebra import (
 )
 from colour.colorimetry import CCS_ILLUMINANTS, luminance_ASTMD1535
 from colour.constants import (
+    DEFAULT_ABSOLUTE_TOLERANCE,
+    DEFAULT_RELATIVE_TOLERANCE,
     FLOATING_POINT_NUMBER_PATTERN,
     INTEGER_THRESHOLD,
 )
@@ -1724,7 +1726,11 @@ def munsell_specification_to_munsell_colour(
             )
 
 
-def xyY_from_renotation(specification: ArrayLike) -> NDArrayFloat:
+def xyY_from_renotation(
+    specification: ArrayLike,
+    absolute_tolerance: float = DEFAULT_ABSOLUTE_TOLERANCE,
+    relative_tolerance: float = DEFAULT_RELATIVE_TOLERANCE,
+) -> NDArrayFloat:
     """
     Return given existing *Munsell* *Colorlab* specification *CIE xyY*
     colourspace vector from *Munsell Renotation System* data.
@@ -1733,6 +1739,12 @@ def xyY_from_renotation(specification: ArrayLike) -> NDArrayFloat:
     ----------
     specification
         *Munsell* *Colorlab* specification.
+    absolute_tolerance
+        Absolute tolerance to find the existing *Munsell Renotation System*
+        data.
+    relative_tolerance
+        Relative tolerance to find the existing *Munsell Renotation System*
+        data.
 
     Returns
     -------
@@ -1754,8 +1766,16 @@ def xyY_from_renotation(specification: ArrayLike) -> NDArrayFloat:
     specification = normalise_munsell_specification(specification)
 
     try:
-        index = np.where(
-            (_munsell_specifications() == specification).all(axis=-1)
+        index = np.argwhere(
+            np.all(
+                np.isclose(
+                    specification,
+                    _munsell_specifications(),
+                    atol=absolute_tolerance,
+                    rtol=relative_tolerance,
+                ),
+                axis=-1,
+            )
         )
 
         return MUNSELL_COLOURS_ALL[as_int_scalar(index[0])][1]
