@@ -130,10 +130,10 @@ from colour.algebra import (
 )
 from colour.colorimetry import CCS_ILLUMINANTS, luminance_ASTMD1535
 from colour.constants import (
-    DEFAULT_ABSOLUTE_TOLERANCE,
-    DEFAULT_RELATIVE_TOLERANCE,
     FLOATING_POINT_NUMBER_PATTERN,
     INTEGER_THRESHOLD,
+    TOLERANCE_ABSOLUTE_DEFAULT,
+    TOLERANCE_RELATIVE_DEFAULT,
 )
 from colour.hints import (
     ArrayLike,
@@ -1728,8 +1728,8 @@ def munsell_specification_to_munsell_colour(
 
 def xyY_from_renotation(
     specification: ArrayLike,
-    absolute_tolerance: float = DEFAULT_ABSOLUTE_TOLERANCE,
-    relative_tolerance: float = DEFAULT_RELATIVE_TOLERANCE,
+    absolute_tolerance: float = TOLERANCE_ABSOLUTE_DEFAULT,
+    relative_tolerance: float = TOLERANCE_RELATIVE_DEFAULT,
 ) -> NDArrayFloat:
     """
     Return given existing *Munsell* *Colorlab* specification *CIE xyY*

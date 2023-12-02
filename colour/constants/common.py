@@ -31,8 +31,8 @@ __all__ = [
     "EPSILON",
     "DEFAULT_INT_DTYPE",
     "DEFAULT_FLOAT_DTYPE",
-    "DEFAULT_ABSOLUTE_TOLERANCE",
-    "DEFAULT_RELATIVE_TOLERANCE",
+    "TOLERANCE_ABSOLUTE_DEFAULT",
+    "TOLERANCE_RELATIVE_DEFAULT",
 ]
 
 FLOATING_POINT_NUMBER_PATTERN: str = "[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"
@@ -70,8 +70,8 @@ DEFAULT_FLOAT_DTYPE: Type[DTypeFloat] = cast(
 )
 """Default floating point number dtype."""
 
-DEFAULT_ABSOLUTE_TOLERANCE: float = 1e-8
+TOLERANCE_ABSOLUTE_DEFAULT: float = 1e-8
 """Default absolute tolerance for computations."""
 
-DEFAULT_RELATIVE_TOLERANCE: float = 1e-8
+TOLERANCE_RELATIVE_DEFAULT: float = 1e-8
 """Default relative tolerance for computations."""

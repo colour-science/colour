@@ -68,9 +68,9 @@ import scipy.interpolate
 
 from colour.algebra import sdiv, sdiv_mode
 from colour.constants import (
-    DEFAULT_ABSOLUTE_TOLERANCE,
     DEFAULT_FLOAT_DTYPE,
-    DEFAULT_RELATIVE_TOLERANCE,
+    TOLERANCE_ABSOLUTE_DEFAULT,
+    TOLERANCE_RELATIVE_DEFAULT,
 )
 from colour.hints import (
     Any,
@@ -1422,8 +1422,8 @@ class NullInterpolator:
         self,
         x: ArrayLike,
         y: ArrayLike,
-        absolute_tolerance: float = DEFAULT_ABSOLUTE_TOLERANCE,
-        relative_tolerance: float = DEFAULT_RELATIVE_TOLERANCE,
+        absolute_tolerance: float = TOLERANCE_ABSOLUTE_DEFAULT,
+        relative_tolerance: float = TOLERANCE_RELATIVE_DEFAULT,
         default: float = np.nan,
         dtype: Type[DTypeReal] | None = None,
         *args: Any,  # noqa: ARG002
@@ -1433,8 +1433,8 @@ class NullInterpolator:
 
         self._x: NDArrayFloat = np.array([])
         self._y: NDArrayFloat = np.array([])
-        self._absolute_tolerance: float = DEFAULT_ABSOLUTE_TOLERANCE
-        self._relative_tolerance: float = DEFAULT_RELATIVE_TOLERANCE
+        self._absolute_tolerance: float = TOLERANCE_ABSOLUTE_DEFAULT
+        self._relative_tolerance: float = TOLERANCE_RELATIVE_DEFAULT
         self._default: float = np.nan
         self._dtype: Type[DTypeReal] = dtype
 
