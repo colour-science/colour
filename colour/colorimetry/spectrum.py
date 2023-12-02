@@ -38,7 +38,7 @@ from colour.algebra import (
     sdiv,
     sdiv_mode,
 )
-from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.continuous import MultiSignals, Signal
 from colour.hints import (
     TYPE_CHECKING,
@@ -399,7 +399,7 @@ class SpectralShape:
         False
         """
 
-        decimals = np.finfo(cast(Any, DEFAULT_FLOAT_DTYPE)).precision
+        decimals = np.finfo(cast(Any, DTYPE_FLOAT_DEFAULT)).precision
 
         return bool(
             np.all(
@@ -517,7 +517,7 @@ class SpectralShape:
                  9.9,  10. ])
         """
 
-        dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+        dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
         hash_key = hash((self, dtype))
         if is_caching_enabled() and hash_key in _CACHE_SHAPE_RANGE:

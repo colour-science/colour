@@ -12,7 +12,7 @@ from colour.algebra import (
     Extrapolator,
     KernelInterpolator,
 )
-from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.continuous import MultiSignals, Signal
 from colour.utilities import (
     ColourRuntimeWarning,
@@ -110,7 +110,7 @@ class TestMultiSignals(unittest.TestCase):
         property.
         """
 
-        self.assertEqual(self._multi_signals.dtype, DEFAULT_FLOAT_DTYPE)
+        self.assertEqual(self._multi_signals.dtype, DTYPE_FLOAT_DEFAULT)
 
         multi_signals = self._multi_signals.copy()
         multi_signals.dtype = np.float32

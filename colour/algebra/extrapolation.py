@@ -21,7 +21,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import NullInterpolator, sdiv, sdiv_mode
-from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.hints import (
     Any,
     ArrayLike,
@@ -144,7 +144,7 @@ class Extrapolator:
         *args: Any,  # noqa: ARG002
         **kwargs: Any,  # noqa: ARG002
     ) -> None:
-        dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+        dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
         self._interpolator: ProtocolInterpolator = NullInterpolator(
             np.array([-np.inf, np.inf]), np.array([-np.inf, np.inf])

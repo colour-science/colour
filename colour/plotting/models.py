@@ -54,7 +54,7 @@ from matplotlib.path import Path
 from colour.adaptation import chromatic_adaptation_VonKries
 from colour.algebra import normalise_maximum
 from colour.colorimetry import MultiSpectralDistributions
-from colour.constants import DEFAULT_FLOAT_DTYPE, EPSILON
+from colour.constants import DTYPE_FLOAT_DEFAULT, EPSILON
 from colour.geometry import (
     ellipse_coefficients_canonical_form,
     ellipse_fitting,
@@ -313,9 +313,9 @@ def lines_pointer_gamut(
     lines_b = zeros(
         ij_b.shape[0],
         [
-            ("position", DEFAULT_FLOAT_DTYPE, 2),
-            ("normal", DEFAULT_FLOAT_DTYPE, 2),
-            ("colour", DEFAULT_FLOAT_DTYPE, 3),
+            ("position", DTYPE_FLOAT_DEFAULT, 2),
+            ("normal", DTYPE_FLOAT_DEFAULT, 2),
+            ("colour", DTYPE_FLOAT_DEFAULT, 3),
         ],  # pyright: ignore
     )
 
@@ -338,9 +338,9 @@ def lines_pointer_gamut(
     lines_v = zeros(
         ij_v.shape[0],
         [
-            ("position", DEFAULT_FLOAT_DTYPE, 2),
-            ("normal", DEFAULT_FLOAT_DTYPE, 2),
-            ("colour", DEFAULT_FLOAT_DTYPE, 3),
+            ("position", DTYPE_FLOAT_DEFAULT, 2),
+            ("normal", DTYPE_FLOAT_DEFAULT, 2),
+            ("colour", DTYPE_FLOAT_DEFAULT, 3),
         ],  # pyright: ignore
     )
 

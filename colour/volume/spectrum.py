@@ -31,7 +31,7 @@ from colour.colorimetry import (
     handle_spectral_arguments,
     msds_to_XYZ,
 )
-from colour.constants import DEFAULT_FLOAT_DTYPE, EPSILON
+from colour.constants import DTYPE_FLOAT_DEFAULT, EPSILON
 from colour.hints import (
     Any,
     ArrayLike,
@@ -219,7 +219,7 @@ def generate_pulse_waves(
 
     square_waves = []
     square_waves_basis = np.tril(
-        np.ones((bins, bins), dtype=DEFAULT_FLOAT_DTYPE)
+        np.ones((bins, bins), dtype=DTYPE_FLOAT_DEFAULT)
     )[0:-1, :]
 
     if pulse_order.lower() == "bins":
@@ -238,7 +238,7 @@ def generate_pulse_waves(
         [
             zeros(bins),
             np.vstack(square_waves),
-            np.ones(bins, dtype=DEFAULT_FLOAT_DTYPE),
+            np.ones(bins, dtype=DTYPE_FLOAT_DEFAULT),
         ]
     )
 

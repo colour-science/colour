@@ -68,7 +68,7 @@ import scipy.interpolate
 
 from colour.algebra import sdiv, sdiv_mode
 from colour.constants import (
-    DEFAULT_FLOAT_DTYPE,
+    DTYPE_FLOAT_DEFAULT,
     TOLERANCE_ABSOLUTE_DEFAULT,
     TOLERANCE_RELATIVE_DEFAULT,
 )
@@ -411,7 +411,7 @@ class KernelInterpolator:
         *args: Any,  # noqa: ARG002
         **kwargs: Any,  # noqa: ARG002
     ) -> None:
-        dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+        dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
         self._x_p: NDArrayFloat = np.array([])
         self._y_p: NDArrayFloat = np.array([])
@@ -819,7 +819,7 @@ class LinearInterpolator:
         *args: Any,  # noqa: ARG002
         **kwargs: Any,  # noqa: ARG002
     ) -> None:
-        dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+        dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
         self._x: NDArrayFloat = np.array([])
         self._y: NDArrayFloat = np.array([])
@@ -1041,7 +1041,7 @@ class SpragueInterpolator:
         *args: Any,  # noqa: ARG002
         **kwargs: Any,  # noqa: ARG002
     ) -> None:
-        dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+        dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
         self._xp: NDArrayFloat = np.array([])
         self._yp: NDArrayFloat = np.array([])
@@ -1429,7 +1429,7 @@ class NullInterpolator:
         *args: Any,  # noqa: ARG002
         **kwargs: Any,  # noqa: ARG002
     ) -> None:
-        dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+        dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
         self._x: NDArrayFloat = np.array([])
         self._y: NDArrayFloat = np.array([])

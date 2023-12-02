@@ -31,7 +31,7 @@ from colour.colorimetry import (
     sd_to_XYZ,
     sds_and_msds_to_sds,
 )
-from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.hints import (
     Any,
     ArrayLike,
@@ -294,9 +294,9 @@ def lines_spectral_locus(
     lines_sl = zeros(
         ij_sl.shape[0],
         [
-            ("position", DEFAULT_FLOAT_DTYPE, 2),
-            ("normal", DEFAULT_FLOAT_DTYPE, 2),
-            ("colour", DEFAULT_FLOAT_DTYPE, 3),
+            ("position", DTYPE_FLOAT_DEFAULT, 2),
+            ("normal", DTYPE_FLOAT_DEFAULT, 2),
+            ("colour", DTYPE_FLOAT_DEFAULT, 3),
         ],  # pyright: ignore
     )
 
@@ -354,9 +354,9 @@ def lines_spectral_locus(
     lines_w = zeros(
         ij_w.shape[0],
         [
-            ("position", DEFAULT_FLOAT_DTYPE, 2),
-            ("normal", DEFAULT_FLOAT_DTYPE, 2),
-            ("colour", DEFAULT_FLOAT_DTYPE, 3),
+            ("position", DTYPE_FLOAT_DEFAULT, 2),
+            ("normal", DTYPE_FLOAT_DEFAULT, 2),
+            ("colour", DTYPE_FLOAT_DEFAULT, 3),
         ],  # pyright: ignore
     )
 

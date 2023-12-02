@@ -24,7 +24,7 @@ from matplotlib.figure import Figure
 
 from colour.algebra import normalise_maximum, normalise_vector
 from colour.colorimetry import CCS_ILLUMINANTS, MSDS_CMFS
-from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.hints import (
     Any,
     ArrayLike,
@@ -148,9 +148,9 @@ def lines_daylight_locus(
     lines_sl = zeros(
         ij_sl.shape[0],
         [
-            ("position", DEFAULT_FLOAT_DTYPE, 2),
-            ("normal", DEFAULT_FLOAT_DTYPE, 2),
-            ("colour", DEFAULT_FLOAT_DTYPE, 3),
+            ("position", DTYPE_FLOAT_DEFAULT, 2),
+            ("normal", DTYPE_FLOAT_DEFAULT, 2),
+            ("colour", DTYPE_FLOAT_DEFAULT, 3),
         ],  # pyright: ignore
     )
 
@@ -339,9 +339,9 @@ def lines_planckian_locus(
     lines_pl = zeros(
         ij_pl.shape[0],
         [
-            ("position", DEFAULT_FLOAT_DTYPE, 2),
-            ("normal", DEFAULT_FLOAT_DTYPE, 2),
-            ("colour", DEFAULT_FLOAT_DTYPE, 3),
+            ("position", DTYPE_FLOAT_DEFAULT, 2),
+            ("normal", DTYPE_FLOAT_DEFAULT, 2),
+            ("colour", DTYPE_FLOAT_DEFAULT, 3),
         ],  # pyright: ignore
     )
 
@@ -375,9 +375,9 @@ def lines_planckian_locus(
     lines_l = zeros(
         ij_l.shape[0],
         [
-            ("position", DEFAULT_FLOAT_DTYPE, 2),
-            ("normal", DEFAULT_FLOAT_DTYPE, 2),
-            ("colour", DEFAULT_FLOAT_DTYPE, 3),
+            ("position", DTYPE_FLOAT_DEFAULT, 2),
+            ("normal", DTYPE_FLOAT_DEFAULT, 2),
+            ("colour", DTYPE_FLOAT_DEFAULT, 3),
         ],  # pyright: ignore
     )
 

@@ -29,8 +29,8 @@ __all__ = [
     "FLOATING_POINT_NUMBER_PATTERN",
     "INTEGER_THRESHOLD",
     "EPSILON",
-    "DEFAULT_INT_DTYPE",
-    "DEFAULT_FLOAT_DTYPE",
+    "DTYPE_INT_DEFAULT",
+    "DTYPE_FLOAT_DEFAULT",
     "TOLERANCE_ABSOLUTE_DEFAULT",
     "TOLERANCE_RELATIVE_DEFAULT",
 ]
@@ -52,7 +52,7 @@ Default epsilon value for tolerance and singularities avoidance in various
 computations.
 """
 
-DEFAULT_INT_DTYPE: Type[np.int32 | np.int64] = cast(
+DTYPE_INT_DEFAULT: Type[np.int32 | np.int64] = cast(
     Type[Union[np.int32, np.int64]],
     np.sctypeDict.get(
         os.environ.get("COLOUR_SCIENCE__DEFAULT_INT_DTYPE", "int64"), np.int64
@@ -61,7 +61,7 @@ DEFAULT_INT_DTYPE: Type[np.int32 | np.int64] = cast(
 """Default int number dtype."""
 
 
-DEFAULT_FLOAT_DTYPE: Type[DTypeFloat] = cast(
+DTYPE_FLOAT_DEFAULT: Type[DTypeFloat] = cast(
     Type[DTypeFloat],
     np.sctypeDict.get(
         os.environ.get("COLOUR_SCIENCE__DEFAULT_FLOAT_DTYPE", "float64"),

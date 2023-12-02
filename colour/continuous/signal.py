@@ -26,7 +26,7 @@ from operator import (
 import numpy as np
 
 from colour.algebra import Extrapolator, KernelInterpolator
-from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.continuous import AbstractContinuousFunction
 from colour.hints import (
     TYPE_CHECKING,
@@ -251,7 +251,7 @@ class Signal(AbstractContinuousFunction):
     ) -> None:
         super().__init__(kwargs.get("name"))
 
-        self._dtype: Type[DTypeFloat] = DEFAULT_FLOAT_DTYPE
+        self._dtype: Type[DTypeFloat] = DTYPE_FLOAT_DEFAULT
         self._domain: NDArrayFloat = np.array([])
         self._range: NDArrayFloat = np.array([])
         self._interpolator: Type[ProtocolInterpolator] = KernelInterpolator
@@ -1179,7 +1179,7 @@ class Signal(AbstractContinuousFunction):
         [  10.   20.   30.   40.   50.   60.   70.   80.   90.  100.]
         """
 
-        dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+        dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
         domain_unpacked: NDArrayFloat = np.array([])
         range_unpacked: NDArrayFloat = np.array([])

@@ -13,7 +13,7 @@ from collections.abc import Iterator, Mapping, ValuesView
 
 import numpy as np
 
-from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.continuous import AbstractContinuousFunction, Signal
 from colour.hints import (
     TYPE_CHECKING,
@@ -1435,7 +1435,7 @@ class MultiSignals(AbstractContinuousFunction):
          [ 1000.   120.]]
         """
 
-        dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+        dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
         settings = {}
         settings.update(kwargs)

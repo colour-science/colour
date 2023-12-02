@@ -19,7 +19,7 @@ import numpy as np
 
 from colour.algebra import random_triplet_generator
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.constants import DEFAULT_INT_DTYPE
+from colour.constants import DTYPE_INT_DEFAULT
 from colour.hints import (
     ArrayLike,
     Callable,
@@ -137,7 +137,7 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
         random_state if random_state is not None else np.random.RandomState()
     )
 
-    Lab = random_generator(DEFAULT_INT_DTYPE(samples), limits, random_state)
+    Lab = random_generator(DTYPE_INT_DEFAULT(samples), limits, random_state)
     RGB = XYZ_to_RGB(
         Lab_to_XYZ(Lab, illuminant_Lab),
         colourspace,
@@ -267,7 +267,7 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
     import multiprocessing
 
     processes = multiprocessing.cpu_count()
-    process_samples = DEFAULT_INT_DTYPE(np.round(samples / processes))
+    process_samples = DTYPE_INT_DEFAULT(np.round(samples / processes))
 
     arguments = (
         colourspace,
@@ -335,7 +335,7 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
     )
 
     XYZ = random_generator(
-        DEFAULT_INT_DTYPE(samples), random_state=random_state
+        DTYPE_INT_DEFAULT(samples), random_state=random_state
     )
     XYZ_vs = XYZ[coverage_sampler(XYZ)]
 
