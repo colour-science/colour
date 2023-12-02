@@ -7,7 +7,7 @@ from dataclasses import dataclass, field, fields
 
 import numpy as np
 
-from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
+from colour.constants import DTYPE_FLOAT_DEFAULT, DTYPE_INT_DEFAULT
 from colour.hints import NDArray, Optional, Type, Union
 from colour.utilities import (
     MixinDataclassArithmetic,
@@ -289,8 +289,8 @@ class TestMixinDataclassArray(unittest.TestCase):
         np.testing.assert_array_equal(np.array(self._data), self._array)
 
         self.assertEqual(
-            np.array(self._data, dtype=DEFAULT_INT_DTYPE).dtype,
-            DEFAULT_INT_DTYPE,
+            np.array(self._data, dtype=DTYPE_INT_DEFAULT).dtype,
+            DTYPE_INT_DEFAULT,
         )
 
 
@@ -481,11 +481,11 @@ class TestAsArray(unittest.TestCase):
         np.testing.assert_equal(as_array([1, 2, 3]), np.array([1, 2, 3]))
 
         self.assertEqual(
-            as_array([1, 2, 3], DEFAULT_FLOAT_DTYPE).dtype, DEFAULT_FLOAT_DTYPE
+            as_array([1, 2, 3], DTYPE_FLOAT_DEFAULT).dtype, DTYPE_FLOAT_DEFAULT
         )
 
         self.assertEqual(
-            as_array([1, 2, 3], DEFAULT_INT_DTYPE).dtype, DEFAULT_INT_DTYPE
+            as_array([1, 2, 3], DTYPE_INT_DEFAULT).dtype, DTYPE_INT_DEFAULT
         )
 
         np.testing.assert_equal(
@@ -513,10 +513,10 @@ class TestAsInt(unittest.TestCase):
         )
 
         self.assertEqual(
-            as_int(np.array([1.0, 2.0, 3.0])).dtype, DEFAULT_INT_DTYPE
+            as_int(np.array([1.0, 2.0, 3.0])).dtype, DTYPE_INT_DEFAULT
         )
 
-        self.assertIsInstance(as_int(1), DEFAULT_INT_DTYPE)
+        self.assertIsInstance(as_int(1), DTYPE_INT_DEFAULT)
 
 
 class TestAsFloat(unittest.TestCase):
@@ -539,10 +539,10 @@ class TestAsFloat(unittest.TestCase):
         )
 
         self.assertEqual(
-            as_float(np.array([1, 2, 3])).dtype, DEFAULT_FLOAT_DTYPE
+            as_float(np.array([1, 2, 3])).dtype, DTYPE_FLOAT_DEFAULT
         )
 
-        self.assertIsInstance(as_float(1), DEFAULT_FLOAT_DTYPE)
+        self.assertIsInstance(as_float(1), DTYPE_FLOAT_DEFAULT)
 
 
 class TestAsIntArray(unittest.TestCase):
@@ -558,7 +558,7 @@ class TestAsIntArray(unittest.TestCase):
             as_int_array([1.0, 2.0, 3.0]), np.array([1, 2, 3])
         )
 
-        self.assertEqual(as_int_array([1, 2, 3]).dtype, DEFAULT_INT_DTYPE)
+        self.assertEqual(as_int_array([1, 2, 3]).dtype, DTYPE_INT_DEFAULT)
 
 
 class TestAsFloatArray(unittest.TestCase):
@@ -572,7 +572,7 @@ class TestAsFloatArray(unittest.TestCase):
 
         np.testing.assert_equal(as_float_array([1, 2, 3]), np.array([1, 2, 3]))
 
-        self.assertEqual(as_float_array([1, 2, 3]).dtype, DEFAULT_FLOAT_DTYPE)
+        self.assertEqual(as_float_array([1, 2, 3]).dtype, DTYPE_FLOAT_DEFAULT)
 
 
 class TestAsIntScalar(unittest.TestCase):
@@ -586,7 +586,7 @@ class TestAsIntScalar(unittest.TestCase):
 
         self.assertEqual(as_int_scalar(1.0), 1)
 
-        self.assertEqual(as_int_scalar(1.0).dtype, DEFAULT_INT_DTYPE)
+        self.assertEqual(as_int_scalar(1.0).dtype, DTYPE_INT_DEFAULT)
 
 
 class TestAsFloatScalar(unittest.TestCase):
@@ -600,7 +600,7 @@ class TestAsFloatScalar(unittest.TestCase):
 
         self.assertEqual(as_float_scalar(1), 1.0)
 
-        self.assertEqual(as_float_scalar(1).dtype, DEFAULT_FLOAT_DTYPE)
+        self.assertEqual(as_float_scalar(1).dtype, DTYPE_FLOAT_DEFAULT)
 
 
 class TestSetDefaultIntegerDtype(unittest.TestCase):

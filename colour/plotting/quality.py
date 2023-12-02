@@ -23,7 +23,7 @@ from colour.colorimetry import (
     SpectralDistribution,
     sds_and_msds_to_sds,
 )
-from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.hints import (
     Any,
     Dict,
@@ -152,7 +152,7 @@ def plot_colour_quality_bars(
                     0,
                     (count_Q_as + 1) * (count_s + 1),
                     (count_s + 1),
-                    dtype=DEFAULT_FLOAT_DTYPE,
+                    dtype=DTYPE_FLOAT_DEFAULT,
                 )
             )
             * bar_width
@@ -207,7 +207,7 @@ def plot_colour_quality_bars(
                 0,
                 (count_Q_as + 1) * (count_s + 1),
                 (count_s + 1),
-                dtype=DEFAULT_FLOAT_DTYPE,
+                dtype=DTYPE_FLOAT_DEFAULT,
             )
             - bar_width
         )

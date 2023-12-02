@@ -12,7 +12,7 @@ from colour.algebra import (
     Extrapolator,
     KernelInterpolator,
 )
-from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.continuous import Signal
 from colour.utilities import ColourRuntimeWarning, attest, is_pandas_installed
 
@@ -93,7 +93,7 @@ class TestSignal(unittest.TestCase):
     def test_dtype(self):
         """Test :func:`colour.continuous.signal.Signal.dtype` property."""
 
-        self.assertEqual(self._signal.dtype, DEFAULT_FLOAT_DTYPE)
+        self.assertEqual(self._signal.dtype, DTYPE_FLOAT_DEFAULT)
 
         signal = self._signal.copy()
         signal.dtype = np.float32

@@ -34,7 +34,7 @@ from colour.colorimetry import (
     intermediate_lightness_function_CIE1976,
     sd_to_XYZ_integration,
 )
-from colour.constants import DEFAULT_INT_DTYPE
+from colour.constants import DTYPE_INT_DEFAULT
 from colour.difference import JND_CIE1976
 from colour.hints import (
     ArrayLike,
@@ -922,7 +922,7 @@ class LUT3D_Jakob2019:
             appropriate cell.
             """
 
-            i, j, k, L = tsplit(ijkL, dtype=DEFAULT_INT_DTYPE)
+            i, j, k, L = tsplit(ijkL, dtype=DTYPE_INT_DEFAULT)
 
             RGB = self._lightness_scale[L] * chroma
 

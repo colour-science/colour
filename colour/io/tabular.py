@@ -18,7 +18,7 @@ import tempfile
 import numpy as np
 
 from colour.colorimetry import SpectralDistribution
-from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.hints import Any, Dict, NDArrayFloat, cast
 from colour.utilities import filter_kwargs
 
@@ -122,7 +122,7 @@ def read_spectral_data_from_csv_file(
         "case_sensitive": True,
         "deletechars": "",
         "replace_space": " ",
-        "dtype": DEFAULT_FLOAT_DTYPE,
+        "dtype": DTYPE_FLOAT_DEFAULT,
     }
     settings.update(**kwargs)
 
