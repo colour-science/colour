@@ -11,6 +11,7 @@ import unittest
 
 import numpy as np
 
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.io import (
     ctl_render,
     process_image_ctl,
@@ -92,10 +93,10 @@ class TestCtlRender(unittest.TestCase):
             "-force",
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             read_image(path_output)[..., 0:3],
             read_image(path_input) * [1, 2, 4],
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         ctl_render(
@@ -111,10 +112,10 @@ class TestCtlRender(unittest.TestCase):
             env=dict(os.environ, CTL_MODULE_PATH=ROOT_RESOURCES),
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             read_image(path_output)[..., 0:3],
             read_image(path_input) * 2,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -148,7 +149,6 @@ class TestProcessImageCtl(unittest.TestCase):
                 "-force",
             ),
             0.18 / 2,
-            rtol=0.0001,
             atol=0.0001,
         )
 
@@ -160,7 +160,6 @@ class TestProcessImageCtl(unittest.TestCase):
                 },
             ),
             np.array([0.18 / 2, 0.18, 0.18 * 2]),
-            rtol=0.0001,
             atol=0.0001,
         )
 
@@ -172,7 +171,6 @@ class TestProcessImageCtl(unittest.TestCase):
                 },
             ),
             np.array([[0.18 / 2, 0.18, 0.18 * 2]]),
-            rtol=0.0001,
             atol=0.0001,
         )
 
@@ -184,7 +182,6 @@ class TestProcessImageCtl(unittest.TestCase):
                 },
             ),
             np.array([[[0.18 / 2, 0.18, 0.18 * 2]]]),
-            rtol=0.0001,
             atol=0.0001,
         )
 
@@ -196,7 +193,6 @@ class TestProcessImageCtl(unittest.TestCase):
                 },
             ),
             full([4, 2, 3], 0.18) * [0.5, 1.0, 2.0],
-            rtol=0.0001,
             atol=0.0001,
         )
 

@@ -9,6 +9,7 @@ import unittest
 import numpy as np
 
 from colour.colorimetry import SpectralDistribution
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.hints import Any
 from colour.io import (
     SpectralDistribution_Sekonic,
@@ -112,7 +113,9 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
         sd_r = SpectralDistribution(self._spectral_data)
 
         np.testing.assert_array_equal(sd_r.domain, sd.domain)
-        np.testing.assert_array_almost_equal(sd_r.values, sd.values, decimal=6)
+        np.testing.assert_allclose(
+            sd_r.values, sd.values, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
         for key, value in self._header.items():
             for specification in sd.header.mapping.elements:

@@ -7,6 +7,7 @@ import unittest
 
 import numpy as np
 
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models.rgb.transfer_functions import (
     log_decoding_PivotedLog,
     log_encoding_PivotedLog,
@@ -59,20 +60,20 @@ log_encoding_PivotedLog` definition n-dimensional arrays support.
 
         x = np.tile(x, 6)
         y = np.tile(y, 6)
-        np.testing.assert_array_almost_equal(
-            log_encoding_PivotedLog(x), y, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_PivotedLog(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         x = np.reshape(x, (2, 3))
         y = np.reshape(y, (2, 3))
-        np.testing.assert_array_almost_equal(
-            log_encoding_PivotedLog(x), y, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_PivotedLog(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         x = np.reshape(x, (2, 3, 1))
         y = np.reshape(y, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            log_encoding_PivotedLog(x), y, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_PivotedLog(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_encoding_PivotedLog(self):
@@ -87,8 +88,10 @@ log_encoding_PivotedLog` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    log_encoding_PivotedLog(x * factor), y * factor, decimal=7
+                np.testing.assert_allclose(
+                    log_encoding_PivotedLog(x * factor),
+                    y * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -136,20 +139,20 @@ log_decoding_PivotedLog` definition n-dimensional arrays support.
 
         y = np.tile(y, 6)
         x = np.tile(x, 6)
-        np.testing.assert_array_almost_equal(
-            log_decoding_PivotedLog(y), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_PivotedLog(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         y = np.reshape(y, (2, 3))
         x = np.reshape(x, (2, 3))
-        np.testing.assert_array_almost_equal(
-            log_decoding_PivotedLog(y), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_PivotedLog(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         y = np.reshape(y, (2, 3, 1))
         x = np.reshape(x, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            log_decoding_PivotedLog(y), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_PivotedLog(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_decoding_PivotedLog(self):
@@ -164,8 +167,10 @@ log_decoding_PivotedLog` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    log_decoding_PivotedLog(y * factor), x * factor, decimal=7
+                np.testing.assert_allclose(
+                    log_decoding_PivotedLog(y * factor),
+                    x * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors

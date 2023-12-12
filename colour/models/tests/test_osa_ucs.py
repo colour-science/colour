@@ -6,6 +6,7 @@ from itertools import product
 
 import numpy as np
 
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models import OSA_UCS_to_XYZ, XYZ_to_OSA_UCS
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
@@ -31,28 +32,28 @@ class TestXYZ_to_OSA_UCS(unittest.TestCase):
     def test_XYZ_to_OSA_UCS(self):
         """Test :func:`colour.models.osa_ucs.XYZ_to_OSA_UCS` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_OSA_UCS(
                 np.array([0.20654008, 0.12197225, 0.05136952]) * 100
             ),
             np.array([-3.00499790, 2.99713697, -9.66784231]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_OSA_UCS(
                 np.array([0.14222010, 0.23042768, 0.10495772]) * 100
             ),
             np.array([-1.64657491, 4.59201565, 5.31738757]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_OSA_UCS(
                 np.array([0.07818780, 0.06157201, 0.28099326]) * 100
             ),
             np.array([-5.08589672, -7.91062749, 0.98107575]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_XYZ_to_OSA_UCS(self):
@@ -66,14 +67,14 @@ class TestXYZ_to_OSA_UCS(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         Ljg = np.tile(Ljg, (6, 1))
-        np.testing.assert_array_almost_equal(
-            XYZ_to_OSA_UCS(XYZ), Ljg, decimal=7
+        np.testing.assert_allclose(
+            XYZ_to_OSA_UCS(XYZ), Ljg, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         Ljg = np.reshape(Ljg, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
-            XYZ_to_OSA_UCS(XYZ), Ljg, decimal=7
+        np.testing.assert_allclose(
+            XYZ_to_OSA_UCS(XYZ), Ljg, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_XYZ_to_OSA_UCS(self):
@@ -88,8 +89,10 @@ class TestXYZ_to_OSA_UCS(unittest.TestCase):
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    XYZ_to_OSA_UCS(XYZ * factor), Ljg * factor, decimal=7
+                np.testing.assert_allclose(
+                    XYZ_to_OSA_UCS(XYZ * factor),
+                    Ljg * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -119,8 +122,7 @@ class TestOSA_UCS_to_XYZ(unittest.TestCase):
                 {"disp": False},
             ),
             np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
-            rtol=0.00001,
-            atol=0.00001,
+            atol=5e-5,
         )
 
         np.testing.assert_allclose(
@@ -129,8 +131,7 @@ class TestOSA_UCS_to_XYZ(unittest.TestCase):
                 {"disp": False},
             ),
             np.array([0.14222010, 0.23042768, 0.10495772]) * 100,
-            rtol=0.00001,
-            atol=0.00001,
+            atol=5e-5,
         )
 
         np.testing.assert_allclose(
@@ -139,8 +140,7 @@ class TestOSA_UCS_to_XYZ(unittest.TestCase):
                 {"disp": False},
             ),
             np.array([0.07818780, 0.06157201, 0.28099326]) * 100,
-            rtol=0.00001,
-            atol=0.00001,
+            atol=5e-5,
         )
 
     def test_n_dimensional_OSA_UCS_to_XYZ(self):
@@ -155,13 +155,13 @@ class TestOSA_UCS_to_XYZ(unittest.TestCase):
         Ljg = np.tile(Ljg, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
         np.testing.assert_allclose(
-            OSA_UCS_to_XYZ(Ljg), XYZ, rtol=0.00001, atol=0.00001
+            OSA_UCS_to_XYZ(Ljg), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         Ljg = np.reshape(Ljg, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_allclose(
-            OSA_UCS_to_XYZ(Ljg), XYZ, rtol=0.00001, atol=0.00001
+            OSA_UCS_to_XYZ(Ljg), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_OSA_UCS_to_XYZ(self):
@@ -176,8 +176,8 @@ class TestOSA_UCS_to_XYZ(unittest.TestCase):
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    OSA_UCS_to_XYZ(Ljg * factor), XYZ * factor, decimal=7
+                np.testing.assert_array_equal(
+                    OSA_UCS_to_XYZ(Ljg * factor), XYZ * factor
                 )
 
     @ignore_numpy_errors

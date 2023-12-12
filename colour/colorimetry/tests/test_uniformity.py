@@ -8,6 +8,7 @@ import unittest
 import numpy as np
 
 from colour.colorimetry import spectral_uniformity
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.hints import NDArrayFloat
 
 __author__ = "Colour Developers"
@@ -237,18 +238,18 @@ class TestSpectralUniformity(unittest.TestCase):
 
         from colour.quality.datasets import SDS_TCS
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             spectral_uniformity(SDS_TCS.values()),
             DATA_UNIFORMITY_FIRST_ORDER_DERIVATIVES,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             spectral_uniformity(
                 SDS_TCS.values(), use_second_order_derivatives=True
             ),
             DATA_UNIFORMITY_SECOND_ORDER_DERIVATIVES,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 

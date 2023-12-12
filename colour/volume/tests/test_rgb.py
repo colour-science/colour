@@ -22,6 +22,7 @@ import unittest
 
 import numpy as np
 
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models import (
     RGB_COLOURSPACE_ACES2065_1,
     RGB_COLOURSPACE_BT709,
@@ -62,7 +63,7 @@ class TestRGB_colourspaceLimits(unittest.TestCase):
     def test_RGB_colourspace_limits(self):
         """Test :func:`colour.volume.rgb.RGB_colourspace_limits` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             RGB_colourspace_limits(RGB_COLOURSPACE_BT709),
             np.array(
                 [
@@ -71,10 +72,10 @@ class TestRGB_colourspaceLimits(unittest.TestCase):
                     [-107.85546554, 94.48384002],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             RGB_colourspace_limits(RGB_COLOURSPACE_BT2020),
             np.array(
                 [
@@ -83,10 +84,10 @@ class TestRGB_colourspaceLimits(unittest.TestCase):
                     [-120.27412558, 136.88564561],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             RGB_colourspace_limits(RGB_COLOURSPACE_ACES2065_1),
             np.array(
                 [
@@ -95,7 +96,7 @@ class TestRGB_colourspaceLimits(unittest.TestCase):
                     [-284.75355519, 177.11142683],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -144,7 +145,7 @@ RGB_colourspace_volume_coverage_MonteCarlo` definition unit tests methods.
 RGB_colourspace_volume_coverage_MonteCarlo` definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             RGB_colourspace_volume_coverage_MonteCarlo(
                 RGB_COLOURSPACE_BT709,
                 is_within_pointer_gamut,
@@ -152,7 +153,7 @@ RGB_colourspace_volume_coverage_MonteCarlo` definition.
                 random_state=np.random.RandomState(2),
             ),
             81.044349070100140,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -173,14 +174,14 @@ RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition unit tests
 RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
                 RGB_COLOURSPACE_BT709,
                 10e3,
                 random_state=np.random.RandomState(2),
             ),
             81.044349070100140,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -201,14 +202,14 @@ RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition unit tests
 RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
                 RGB_COLOURSPACE_BT709,
                 10e3,
                 random_state=np.random.RandomState(2),
             ),
             46.931407942238266,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 

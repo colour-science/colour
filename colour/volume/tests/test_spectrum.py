@@ -12,6 +12,7 @@ from colour.colorimetry import (
     SpectralShape,
     reshape_msds,
 )
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import ignore_numpy_errors
 from colour.volume import (
     XYZ_outer_surface,
@@ -148,7 +149,7 @@ class TestXYZOuterSurface(unittest.TestCase):
         )
         cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_outer_surface(reshape_msds(cmfs, shape)),
             np.array(
                 [
@@ -186,7 +187,7 @@ class TestXYZOuterSurface(unittest.TestCase):
                     [1.10229434e00, 1.00000000e00, 1.35683013e00],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -229,11 +230,11 @@ class TestIsWithinVisibleSpectrum(unittest.TestCase):
 
         a = np.tile(a, (6, 1))
         b = np.tile(b, 6)
-        np.testing.assert_array_almost_equal(is_within_visible_spectrum(a), b)
+        np.testing.assert_allclose(is_within_visible_spectrum(a), b)
 
         a = np.reshape(a, (2, 3, 3))
         b = np.reshape(b, (2, 3))
-        np.testing.assert_array_almost_equal(is_within_visible_spectrum(a), b)
+        np.testing.assert_allclose(is_within_visible_spectrum(a), b)
 
     @ignore_numpy_errors
     def test_nan_is_within_visible_spectrum(self):

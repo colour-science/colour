@@ -12,6 +12,7 @@ from colour.appearance.hke import (
     coefficient_K_Br_Nayatani1997,
     coefficient_q_Nayatani1997,
 )
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Ilia Sibiryakov"
@@ -88,20 +89,20 @@ HelmholtzKohlrausch_effect_object_Nayatani1997` definition n_dimensional
         result_vcc = np.tile(result_vcc, 6)
         result_vac = np.tile(result_vac, 6)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             HelmholtzKohlrausch_effect_object_Nayatani1997(
                 uv, uv_d65, L_a, method="VCC"
             ),
             result_vcc,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             HelmholtzKohlrausch_effect_object_Nayatani1997(
                 uv, uv_d65, L_a, method="VAC"
             ),
             result_vac,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         uv_d65 = np.reshape(uv_d65, (2, 3, 2))
@@ -109,20 +110,20 @@ HelmholtzKohlrausch_effect_object_Nayatani1997` definition n_dimensional
         result_vcc = np.reshape(result_vcc, (2, 3))
         result_vac = np.reshape(result_vac, (2, 3))
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             HelmholtzKohlrausch_effect_object_Nayatani1997(
                 uv, uv_d65, L_a, method="VCC"
             ),
             result_vcc,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             HelmholtzKohlrausch_effect_object_Nayatani1997(
                 uv, uv_d65, L_a, method="VAC"
             ),
             result_vac,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors
@@ -198,20 +199,20 @@ HelmholtzKohlrausch_effect_luminous_Nayatani1997` definition n_dimensional
         result_vcc = np.tile(result_vcc, 6)
         result_vac = np.tile(result_vac, 6)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             HelmholtzKohlrausch_effect_luminous_Nayatani1997(
                 uv, uv_d65, L_a, method="VCC"
             ),
             result_vcc,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             HelmholtzKohlrausch_effect_luminous_Nayatani1997(
                 uv, uv_d65, L_a, method="VAC"
             ),
             result_vac,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         uv_d65 = np.reshape(uv_d65, (2, 3, 2))
@@ -219,20 +220,20 @@ HelmholtzKohlrausch_effect_luminous_Nayatani1997` definition n_dimensional
         result_vcc = np.reshape(result_vcc, (2, 3))
         result_vac = np.reshape(result_vac, (2, 3))
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             HelmholtzKohlrausch_effect_luminous_Nayatani1997(
                 uv, uv_d65, L_a, method="VCC"
             ),
             result_vcc,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             HelmholtzKohlrausch_effect_luminous_Nayatani1997(
                 uv, uv_d65, L_a, method="VAC"
             ),
             result_vac,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors
@@ -297,20 +298,26 @@ class TestCoefficient_K_Br_Nayatani1997(unittest.TestCase):
 
         L_a = np.tile(L_a, 6)
         K_Br = np.tile(K_Br, 6)
-        np.testing.assert_array_almost_equal(
-            coefficient_K_Br_Nayatani1997(L_a), K_Br, decimal=7
+        np.testing.assert_allclose(
+            coefficient_K_Br_Nayatani1997(L_a),
+            K_Br,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         L_a = np.reshape(L_a, (2, 3))
         K_Br = np.reshape(K_Br, (2, 3))
-        np.testing.assert_array_almost_equal(
-            coefficient_K_Br_Nayatani1997(L_a), K_Br, decimal=7
+        np.testing.assert_allclose(
+            coefficient_K_Br_Nayatani1997(L_a),
+            K_Br,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         L_a = np.reshape(L_a, (2, 3, 1))
         K_Br = np.reshape(K_Br, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            coefficient_K_Br_Nayatani1997(L_a), K_Br, decimal=7
+        np.testing.assert_allclose(
+            coefficient_K_Br_Nayatani1997(L_a),
+            K_Br,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors
@@ -365,20 +372,20 @@ class TestCoefficient_q_Nayatani1997(unittest.TestCase):
 
         L_a = np.tile(L_a, 6)
         q = np.tile(q, 6)
-        np.testing.assert_array_almost_equal(
-            coefficient_q_Nayatani1997(L_a), q, decimal=7
+        np.testing.assert_allclose(
+            coefficient_q_Nayatani1997(L_a), q, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         L_a = np.reshape(L_a, (2, 3))
         q = np.reshape(q, (2, 3))
-        np.testing.assert_array_almost_equal(
-            coefficient_q_Nayatani1997(L_a), q, decimal=7
+        np.testing.assert_allclose(
+            coefficient_q_Nayatani1997(L_a), q, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         L_a = np.reshape(L_a, (2, 3, 1))
         q = np.reshape(q, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            coefficient_q_Nayatani1997(L_a), q, decimal=7
+        np.testing.assert_allclose(
+            coefficient_q_Nayatani1997(L_a), q, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     @ignore_numpy_errors

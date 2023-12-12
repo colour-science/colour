@@ -6,6 +6,7 @@ import unittest
 import numpy as np
 
 from colour.colorimetry import SDS_ILLUMINANTS, SDS_LIGHT_SOURCES
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.quality import (
     ColourRendering_Specification_CQS,
     colour_quality_scale,
@@ -405,7 +406,7 @@ class TestColourQualityScale(unittest.TestCase):
             SDS_ILLUMINANTS["FL1"], additional_data=True, method="NIST CQS 7.4"
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             [
                 data.Q_a
                 for _index, data in sorted(specification_r.Q_as.items())
@@ -414,7 +415,7 @@ class TestColourQualityScale(unittest.TestCase):
                 data.Q_a
                 for _index, data in sorted(specification_t.Q_as.items())
             ],
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         specification_r = ColourRendering_Specification_CQS(
@@ -729,7 +730,7 @@ class TestColourQualityScale(unittest.TestCase):
             SDS_ILLUMINANTS["FL1"], additional_data=True, method="NIST CQS 9.0"
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             [
                 data.Q_a
                 for _index, data in sorted(specification_r.Q_as.items())
@@ -738,7 +739,7 @@ class TestColourQualityScale(unittest.TestCase):
                 data.Q_a
                 for _index, data in sorted(specification_t.Q_as.items())
             ],
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 

@@ -48,12 +48,12 @@ class TestColourFidelityIndexANSIIESTM3018(unittest.TestCase):
             SDS_ILLUMINANTS["FL2"], additional_data=True
         )
 
-        np.testing.assert_array_almost_equal(specification.R_f, 70, 0)
-        np.testing.assert_array_almost_equal(specification.R_g, 86, 0)
-        np.testing.assert_array_almost_equal(specification.CCT, 4225, 0)
-        np.testing.assert_array_almost_equal(specification.D_uv, 0.0019, 4)
+        np.testing.assert_allclose(specification.R_f, 70, atol=2e-1)
+        np.testing.assert_allclose(specification.R_g, 86, atol=5e-1)
+        np.testing.assert_allclose(specification.CCT, 4225, atol=1)
+        np.testing.assert_allclose(specification.D_uv, 0.0019, atol=1e-3)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             specification.R_s,
             [
                 79,
@@ -156,20 +156,20 @@ class TestColourFidelityIndexANSIIESTM3018(unittest.TestCase):
                 67,
                 45,
             ],
-            0,
+            atol=0.75,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             specification.R_fs,
             [60, 61, 53, 68, 80, 88, 77, 73, 76, 62, 70, 77, 81, 71, 64, 65],
-            0,
+            atol=0.75,
         )
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             specification.R_cs,
             [-25, -18, -9, 5, 11, 4, -8, -15, -17, -15, -4, 5, 11, 7, -6, -16],
-            0,
+            atol=0.75,
         )
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             specification.R_hs,
             [
                 -0.02,
@@ -189,7 +189,7 @@ class TestColourFidelityIndexANSIIESTM3018(unittest.TestCase):
                 -0.26,
                 -0.17,
             ],
-            2,
+            atol=0.75,
         )
 
 

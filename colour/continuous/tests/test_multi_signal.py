@@ -12,7 +12,7 @@ from colour.algebra import (
     Extrapolator,
     KernelInterpolator,
 )
-from colour.constants import DTYPE_FLOAT_DEFAULT
+from colour.constants import DTYPE_FLOAT_DEFAULT, TOLERANCE_ABSOLUTE_TESTS
 from colour.continuous import MultiSignals, Signal
 from colour.utilities import (
     ColourRuntimeWarning,
@@ -124,12 +124,12 @@ class TestMultiSignals(unittest.TestCase):
 
         multi_signals = self._multi_signals.copy()
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             multi_signals[np.array([0, 1, 2])],
             np.array(
                 [[10.0, 20.0, 30.0], [20.0, 30.0, 40.0], [30.0, 40.0, 50.0]]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         multi_signals.domain = self._domain_1 * 10
@@ -138,12 +138,12 @@ class TestMultiSignals(unittest.TestCase):
             multi_signals.domain, self._domain_1 * 10
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             multi_signals[np.array([0, 1, 2]) * 10],
             np.array(
                 [[10.0, 20.0, 30.0], [20.0, 30.0, 40.0], [30.0, 40.0, 50.0]]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         domain = np.linspace(0, 1, 10)
@@ -164,12 +164,12 @@ class TestMultiSignals(unittest.TestCase):
 
         multi_signals = self._multi_signals.copy()
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             multi_signals[np.array([0, 1, 2])],
             np.array(
                 [[10.0, 20.0, 30.0], [20.0, 30.0, 40.0], [30.0, 40.0, 50.0]]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         multi_signals.range = self._range_1 * 10
@@ -178,26 +178,26 @@ class TestMultiSignals(unittest.TestCase):
             multi_signals.range, tstack([self._range_1] * 3) * 10
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             multi_signals[np.array([0, 1, 2])],
             np.array(
                 [[10.0, 10.0, 10.0], [20.0, 20.0, 20.0], [30.0, 30.0, 30.0]]
             )
             * 10,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         multi_signals.range = self._range_2 * 10
 
         np.testing.assert_array_equal(multi_signals.range, self._range_2 * 10)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             multi_signals[np.array([0, 1, 2])],
             np.array(
                 [[10.0, 20.0, 30.0], [20.0, 30.0, 40.0], [30.0, 40.0, 50.0]]
             )
             * 10,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_interpolator(self):
@@ -208,7 +208,7 @@ class TestMultiSignals(unittest.TestCase):
 
         multi_signals = self._multi_signals.copy()
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             multi_signals[np.linspace(0, 5, 5)],
             np.array(
                 [
@@ -219,12 +219,12 @@ class TestMultiSignals(unittest.TestCase):
                     [60.00000000, 70.00000000, 80.00000000],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         multi_signals.interpolator = CubicSplineInterpolator
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             multi_signals[np.linspace(0, 5, 5)],
             np.array(
                 [
@@ -235,7 +235,7 @@ class TestMultiSignals(unittest.TestCase):
                     [60.00000000, 70.00000000, 80.00000000],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_interpolator_kwargs(self):
@@ -246,7 +246,7 @@ interpolator_kwargs` property.
 
         multi_signals = self._multi_signals.copy()
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             multi_signals[np.linspace(0, 5, 5)],
             np.array(
                 [
@@ -257,7 +257,7 @@ interpolator_kwargs` property.
                     [60.00000000, 70.00000000, 80.00000000],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         multi_signals.interpolator_kwargs = {
@@ -265,7 +265,7 @@ interpolator_kwargs` property.
             "kernel_kwargs": {"a": 1},
         }
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             multi_signals[np.linspace(0, 5, 5)],
             np.array(
                 [
@@ -276,7 +276,7 @@ interpolator_kwargs` property.
                     [60.00000000, 70.00000000, 80.00000000],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_extrapolator(self):
@@ -301,12 +301,12 @@ extrapolator_kwargs` property.
             "method": "Linear",
         }
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             multi_signals[np.array([-1000, 1000])],
             np.array(
                 [[-9990.0, -9980.0, -9970.0], [10010.0, 10020.0, 10030.0]]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_function(self):
@@ -489,11 +489,13 @@ function` property raised exception.
         method.
         """
 
-        np.testing.assert_array_almost_equal(
-            self._multi_signals[0], np.array([10.0, 20.0, 30.0]), decimal=7
+        np.testing.assert_allclose(
+            self._multi_signals[0],
+            np.array([10.0, 20.0, 30.0]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             self._multi_signals[np.array([0, 1, 2])],
             np.array(
                 [
@@ -502,10 +504,10 @@ function` property raised exception.
                     [30.0, 40.0, 50.0],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             self._multi_signals[np.linspace(0, 5, 5)],
             np.array(
                 [
@@ -516,20 +518,24 @@ function` property raised exception.
                     [60.00000000, 70.00000000, 80.00000000],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         attest(np.all(np.isnan(self._multi_signals[np.array([-1000, 1000])])))
 
-        np.testing.assert_array_almost_equal(
-            self._multi_signals[:], self._multi_signals.range, decimal=7
+        np.testing.assert_allclose(
+            self._multi_signals[:],
+            self._multi_signals.range,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
-            self._multi_signals[:, :], self._multi_signals.range, decimal=7
+        np.testing.assert_allclose(
+            self._multi_signals[:, :],
+            self._multi_signals.range,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             self._multi_signals[0:3],
             np.array(
                 [
@@ -538,10 +544,10 @@ function` property raised exception.
                     [30.0, 40.0, 50.0],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             self._multi_signals[:, 0:2],
             np.array(
                 [
@@ -557,7 +563,7 @@ function` property raised exception.
                     [100.0, 110.0],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         multi_signals = self._multi_signals.copy()
@@ -593,12 +599,14 @@ function` property raised exception.
         multi_signals = self._multi_signals.copy()
 
         multi_signals[0] = 20
-        np.testing.assert_array_almost_equal(
-            multi_signals[0], np.array([20.0, 20.0, 20.0]), decimal=7
+        np.testing.assert_allclose(
+            multi_signals[0],
+            np.array([20.0, 20.0, 20.0]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         multi_signals[np.array([0, 1, 2])] = 30
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             multi_signals[np.array([0, 1, 2])],
             np.array(
                 [
@@ -607,11 +615,11 @@ function` property raised exception.
                     [30.0, 30.0, 30.0],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         multi_signals[np.linspace(0, 5, 5)] = 50
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             multi_signals.domain,
             np.array(
                 [
@@ -630,9 +638,9 @@ function` property raised exception.
                     9.00,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             multi_signals.range,
             np.array(
                 [
@@ -651,11 +659,11 @@ function` property raised exception.
                     [100.0, 110.0, 120.0],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         multi_signals[np.array([0, 1, 2])] = np.array([10, 20, 30])
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             multi_signals.range,
             np.array(
                 [
@@ -674,13 +682,13 @@ function` property raised exception.
                     [100.0, 110.0, 120.0],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         multi_signals[np.array([0, 1, 2])] = np.reshape(
             np.arange(1, 10, 1), (3, 3)
         )
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             multi_signals.range,
             np.array(
                 [
@@ -699,22 +707,22 @@ function` property raised exception.
                     [100.0, 110.0, 120.0],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         multi_signals[:] = 40
-        np.testing.assert_array_almost_equal(
-            multi_signals.range, 40, decimal=7
+        np.testing.assert_allclose(
+            multi_signals.range, 40, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         multi_signals[:, :] = 50
-        np.testing.assert_array_almost_equal(
-            multi_signals.range, 50, decimal=7
+        np.testing.assert_allclose(
+            multi_signals.range, 50, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         multi_signals = self._multi_signals.copy()
         multi_signals[0:3] = 40
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             multi_signals[0:3],
             np.array(
                 [
@@ -723,11 +731,11 @@ function` property raised exception.
                     [40.0, 40.0, 40.0],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         multi_signals[:, 0:2] = 50
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             multi_signals.range,
             np.array(
                 [
@@ -743,7 +751,7 @@ function` property raised exception.
                     [50.0, 50.0, 120.0],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test__contains__(self):
@@ -839,103 +847,113 @@ function` property raised exception.
 arithmetical_operation` method.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             self._multi_signals.arithmetical_operation(10, "+", False).range,
             self._range_2 + 10,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             self._multi_signals.arithmetical_operation(10, "-", False).range,
             self._range_2 - 10,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             self._multi_signals.arithmetical_operation(10, "*", False).range,
             self._range_2 * 10,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             self._multi_signals.arithmetical_operation(10, "/", False).range,
             self._range_2 / 10,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             self._multi_signals.arithmetical_operation(10, "**", False).range,
             self._range_2**10,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
-            (self._multi_signals + 10).range, self._range_2 + 10, decimal=7
+        np.testing.assert_allclose(
+            (self._multi_signals + 10).range,
+            self._range_2 + 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
-            (self._multi_signals - 10).range, self._range_2 - 10, decimal=7
+        np.testing.assert_allclose(
+            (self._multi_signals - 10).range,
+            self._range_2 - 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
-            (self._multi_signals * 10).range, self._range_2 * 10, decimal=7
+        np.testing.assert_allclose(
+            (self._multi_signals * 10).range,
+            self._range_2 * 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
-            (self._multi_signals / 10).range, self._range_2 / 10, decimal=7
+        np.testing.assert_allclose(
+            (self._multi_signals / 10).range,
+            self._range_2 / 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
-            (self._multi_signals**10).range, self._range_2**10, decimal=7
+        np.testing.assert_allclose(
+            (self._multi_signals**10).range,
+            self._range_2**10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         multi_signals = self._multi_signals.copy()
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             multi_signals.arithmetical_operation(10, "+", True).range,
             self._range_2 + 10,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             multi_signals.arithmetical_operation(10, "-", True).range,
             self._range_2,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             multi_signals.arithmetical_operation(10, "*", True).range,
             self._range_2 * 10,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             multi_signals.arithmetical_operation(10, "/", True).range,
             self._range_2,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             multi_signals.arithmetical_operation(10, "**", True).range,
             self._range_2**10,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         multi_signals = self._multi_signals.copy()
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             multi_signals.arithmetical_operation(
                 self._range_2, "+", False
             ).range,
             self._range_2 + self._range_2,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             multi_signals.arithmetical_operation(
                 multi_signals, "+", False
             ).range,
             self._range_2 + self._range_2,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_is_uniform(self):
@@ -1063,7 +1081,7 @@ multi_signals_unpack_data` method.
 
         multi_signals[3:7] = np.nan
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             multi_signals.fill_nan().range,
             np.array(
                 [
@@ -1079,12 +1097,12 @@ multi_signals_unpack_data` method.
                     [100.0, 110.0, 120.0],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         multi_signals[3:7] = np.nan
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             multi_signals.fill_nan(method="Constant").range,
             np.array(
                 [
@@ -1100,7 +1118,7 @@ multi_signals_unpack_data` method.
                     [100.0, 110.0, 120.0],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_domain_distance(self):
@@ -1113,10 +1131,10 @@ domain_distance` method.
             self._multi_signals.domain_distance(0.5), 0.5, places=7
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             self._multi_signals.domain_distance(np.linspace(0, 9, 10) + 0.5),
             np.array([0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_to_dataframe(self):

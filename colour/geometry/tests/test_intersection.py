@@ -5,6 +5,7 @@ import unittest
 
 import numpy as np
 
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.geometry import (
     extend_line_segment,
     intersect_line_segments,
@@ -32,33 +33,33 @@ class TestExtendLineSegment(unittest.TestCase):
     def test_extend_line_segment(self):
         """Test :func:`colour.geometry.intersection.extend_line_segment` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             extend_line_segment(
                 np.array([0.95694934, 0.13720932]),
                 np.array([0.28382835, 0.60608318]),
             ),
             np.array([-0.5367248, 1.17765341]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             extend_line_segment(
                 np.array([0.95694934, 0.13720932]),
                 np.array([0.28382835, 0.60608318]),
                 5,
             ),
             np.array([-3.81893739, 3.46393435]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             extend_line_segment(
                 np.array([0.95694934, 0.13720932]),
                 np.array([0.28382835, 0.60608318]),
                 -1,
             ),
             np.array([1.1043815, 0.03451295]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -91,7 +92,7 @@ class TestIntersectLineSegments(unittest.TestCase):
 
         s = intersect_line_segments(l_1, l_2)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             s.xy,
             np.array(
                 [
@@ -109,7 +110,7 @@ class TestIntersectLineSegments(unittest.TestCase):
                     ],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_array_equal(

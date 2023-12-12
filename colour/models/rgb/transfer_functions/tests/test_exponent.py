@@ -7,6 +7,7 @@ import unittest
 
 import numpy as np
 
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models.rgb.transfer_functions import (
     exponent_function_basic,
     exponent_function_monitor_curve,
@@ -105,38 +106,50 @@ exponent_function_basic` definition n-dimensional arrays support.
 
         a = np.tile(a, 6)
         a_p = np.tile(a_p, 6)
-        np.testing.assert_array_almost_equal(
-            exponent_function_basic(a, 2.2), a_p, decimal=7
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2), a_p, atol=TOLERANCE_ABSOLUTE_TESTS
         )
-        np.testing.assert_array_almost_equal(
-            exponent_function_basic(a, 2.2, "basicMirrorFwd"), a_p, decimal=7
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2, "basicMirrorFwd"),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_array_almost_equal(
-            exponent_function_basic(a, 2.2, "basicPassThruFwd"), a_p, decimal=7
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2, "basicPassThruFwd"),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = np.reshape(a, (2, 3))
         a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_array_almost_equal(
-            exponent_function_basic(a, 2.2), a_p, decimal=7
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2), a_p, atol=TOLERANCE_ABSOLUTE_TESTS
         )
-        np.testing.assert_array_almost_equal(
-            exponent_function_basic(a, 2.2, "basicMirrorFwd"), a_p, decimal=7
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2, "basicMirrorFwd"),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_array_almost_equal(
-            exponent_function_basic(a, 2.2, "basicPassThruFwd"), a_p, decimal=7
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2, "basicPassThruFwd"),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = np.reshape(a, (2, 3, 1))
         a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            exponent_function_basic(a, 2.2), a_p, decimal=7
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2), a_p, atol=TOLERANCE_ABSOLUTE_TESTS
         )
-        np.testing.assert_array_almost_equal(
-            exponent_function_basic(a, 2.2, "basicMirrorFwd"), a_p, decimal=7
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2, "basicMirrorFwd"),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_array_almost_equal(
-            exponent_function_basic(a, 2.2, "basicPassThruFwd"), a_p, decimal=7
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2, "basicPassThruFwd"),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = 0.0229932049927
@@ -144,38 +157,56 @@ exponent_function_basic` definition n-dimensional arrays support.
 
         a = np.tile(a, 6)
         a_p = np.tile(a_p, 6)
-        np.testing.assert_array_almost_equal(
-            exponent_function_basic(a, 2.2, "basicRev"), a_p, decimal=7
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2, "basicRev"),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_array_almost_equal(
-            exponent_function_basic(a, 2.2, "basicMirrorRev"), a_p, decimal=7
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2, "basicMirrorRev"),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_array_almost_equal(
-            exponent_function_basic(a, 2.2, "basicPassThruRev"), a_p, decimal=7
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2, "basicPassThruRev"),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = np.reshape(a, (2, 3))
         a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_array_almost_equal(
-            exponent_function_basic(a, 2.2, "basicRev"), a_p, decimal=7
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2, "basicRev"),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_array_almost_equal(
-            exponent_function_basic(a, 2.2, "basicMirrorRev"), a_p, decimal=7
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2, "basicMirrorRev"),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_array_almost_equal(
-            exponent_function_basic(a, 2.2, "basicPassThruRev"), a_p, decimal=7
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2, "basicPassThruRev"),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = np.reshape(a, (2, 3, 1))
         a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            exponent_function_basic(a, 2.2, "basicRev"), a_p, decimal=7
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2, "basicRev"),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_array_almost_equal(
-            exponent_function_basic(a, 2.2, "basicMirrorRev"), a_p, decimal=7
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2, "basicMirrorRev"),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_array_almost_equal(
-            exponent_function_basic(a, 2.2, "basicPassThruRev"), a_p, decimal=7
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2, "basicPassThruRev"),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors
@@ -273,41 +304,47 @@ exponent_function_monitor_curve` definition n-dimensional arrays support.
 
         a = np.tile(a, 6)
         a_p = np.tile(a_p, 6)
-        np.testing.assert_array_almost_equal(
-            exponent_function_monitor_curve(a, 2.2, 0.001), a_p, decimal=7
+        np.testing.assert_allclose(
+            exponent_function_monitor_curve(a, 2.2, 0.001),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             exponent_function_monitor_curve(
                 a, 2.2, 0.001, "monCurveMirrorFwd"
             ),
             a_p,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = np.reshape(a, (2, 3))
         a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_array_almost_equal(
-            exponent_function_monitor_curve(a, 2.2, 0.001), a_p, decimal=7
+        np.testing.assert_allclose(
+            exponent_function_monitor_curve(a, 2.2, 0.001),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             exponent_function_monitor_curve(
                 a, 2.2, 0.001, "monCurveMirrorFwd"
             ),
             a_p,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = np.reshape(a, (2, 3, 1))
         a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            exponent_function_monitor_curve(a, 2.2, 0.001), a_p, decimal=7
+        np.testing.assert_allclose(
+            exponent_function_monitor_curve(a, 2.2, 0.001),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             exponent_function_monitor_curve(
                 a, 2.2, 0.001, "monCurveMirrorFwd"
             ),
             a_p,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = 0.0232240466001
@@ -315,47 +352,47 @@ exponent_function_monitor_curve` definition n-dimensional arrays support.
 
         a = np.tile(a, 6)
         a_p = np.tile(a_p, 6)
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveRev"),
             a_p,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             exponent_function_monitor_curve(
                 a, 2.2, 0.001, "monCurveMirrorRev"
             ),
             a_p,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = np.reshape(a, (2, 3))
         a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveRev"),
             a_p,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             exponent_function_monitor_curve(
                 a, 2.2, 0.001, "monCurveMirrorRev"
             ),
             a_p,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = np.reshape(a, (2, 3, 1))
         a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveRev"),
             a_p,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             exponent_function_monitor_curve(
                 a, 2.2, 0.001, "monCurveMirrorRev"
             ),
             a_p,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors

@@ -7,6 +7,7 @@ from itertools import product
 import numpy as np
 
 from colour.appearance import XYZ_to_ATD95
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import (
     as_float_array,
     domain_range_scale,
@@ -63,7 +64,6 @@ class TestXYZ_to_ATD95(unittest.TestCase):
                     0.0108,
                 ]
             ),
-            rtol=0.01,
             atol=0.01,
         )
 
@@ -84,7 +84,6 @@ class TestXYZ_to_ATD95(unittest.TestCase):
                     0.0005,
                 ]
             ),
-            rtol=0.01,
             atol=0.01,
         )
 
@@ -106,7 +105,6 @@ class TestXYZ_to_ATD95(unittest.TestCase):
                     0.0044,
                 ]
             ),
-            rtol=0.01,
             atol=0.01,
         )
 
@@ -127,7 +125,6 @@ class TestXYZ_to_ATD95(unittest.TestCase):
                     0.013,
                 ]
             ),
-            rtol=0.01,
             atol=0.01,
         )
 
@@ -147,26 +144,26 @@ class TestXYZ_to_ATD95(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         specification = np.tile(specification, (6, 1))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_ATD95(XYZ, XYZ_0, Y_02, K_1, K_2, sigma),
             specification,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ_0 = np.tile(XYZ_0, (6, 1))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_ATD95(XYZ, XYZ_0, Y_02, K_1, K_2, sigma),
             specification,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         XYZ_0 = np.reshape(XYZ_0, (2, 3, 3))
         specification = np.reshape(specification, (2, 3, 9))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_ATD95(XYZ, XYZ_0, Y_02, K_1, K_2, sigma),
             specification,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors
@@ -190,12 +187,12 @@ class TestXYZ_to_ATD95(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     XYZ_to_ATD95(
                         XYZ * factor_a, XYZ_0 * factor_a, Y_0, k_1, k_2
                     ),
                     as_float_array(specification) * factor_b,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors

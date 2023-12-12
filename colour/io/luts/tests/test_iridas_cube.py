@@ -10,6 +10,7 @@ import unittest
 
 import numpy as np
 
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.io import (
     LUT1D,
     LUTSequence,
@@ -51,7 +52,7 @@ class TestReadLUTIridasCube(unittest.TestCase):
             os.path.join(ROOT_LUTS, "ACES_Proxy_10_to_ACES.cube")
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT_1.table,
             np.array(
                 [
@@ -89,6 +90,7 @@ class TestReadLUTIridasCube(unittest.TestCase):
                     [7.04300000e02, 7.04300000e02, 7.04300000e02],
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
         self.assertEqual(LUT_1.name, "ACES Proxy 10 to ACES")
         self.assertEqual(LUT_1.dimensions, 2)

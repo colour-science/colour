@@ -1,23 +1,17 @@
 # !/usr/bin/env python
-"""Define the unit tests for the :mod:`colour.appearance.zcam` module."""
+"""Define the unit tests for the :mod:`colour.appearance.nayatani95` module."""
 
 import unittest
 from itertools import product
 
 import numpy as np
 
-from colour.appearance import (
-    VIEWING_CONDITIONS_ZCAM,
-    CAM_Specification_ZCAM,
-    InductionFactors_ZCAM,
-    XYZ_to_ZCAM,
-    ZCAM_to_XYZ,
-)
+from colour.appearance import XYZ_to_Nayatani95
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import (
     as_float_array,
     domain_range_scale,
     ignore_numpy_errors,
-    tsplit,
 )
 
 __author__ = "Colour Developers"
@@ -28,506 +22,148 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "TestXYZ_to_ZCAM",
-    "TestZCAM_to_XYZ",
+    "TestXYZ_to_Nayatani95",
 ]
 
 
-class TestXYZ_to_ZCAM(unittest.TestCase):
+class TestXYZ_to_Nayatani95(unittest.TestCase):
     """
-    Define :func:`colour.appearance.zcam.XYZ_to_ZCAM` definition unit tests
-    methods.
+    Define :func:`colour.appearance.nayatani95.XYZ_to_Nayatani95` definition
+    unit tests methods.
     """
 
-    def test_XYZ_to_ZCAM(self):
-        """Test :func:`colour.appearance.zcam.XYZ_to_ZCAM` definition."""
-
-        XYZ = np.array([185, 206, 163])
-        XYZ_w = np.array([256, 264, 202])
-        L_a = 264
-        Y_b = 100
-        surround = VIEWING_CONDITIONS_ZCAM["Average"]
-        np.testing.assert_allclose(
-            XYZ_to_ZCAM(XYZ, XYZ_w, L_a, Y_b, surround),
-            np.array(
-                [
-                    92.2520,
-                    3.0216,
-                    196.3524,
-                    19.1314,
-                    321.3464,
-                    10.5252,
-                    237.6401,
-                    np.nan,
-                    34.7022,
-                    25.2994,
-                    91.6837,
-                ]
-            ),
-            rtol=0.025,
-            atol=0.025,
-        )
-
-        XYZ = np.array([89, 96, 120])
-        np.testing.assert_allclose(
-            XYZ_to_ZCAM(XYZ, XYZ_w, L_a, Y_b, surround),
-            np.array(
-                [
-                    71.2071,
-                    6.8539,
-                    250.6422,
-                    32.7963,
-                    248.0394,
-                    23.8744,
-                    307.0595,
-                    np.nan,
-                    18.2796,
-                    40.4621,
-                    70.4026,
-                ]
-            ),
-            rtol=0.025,
-            atol=0.025,
-        )
-
-        # NOTE: Hue quadrature :math:`H_z` is significantly different for this
-        # test, i.e. 47.748252 vs 43.8258.
-        # NOTE: :math:`F_L` as reported in the supplemental document has the
-        # same value as for :math:`L_a` = 264 instead of 150. The values seem
-        # to be computed for :math:`L_a` = 264 and :math:`Y_b` = 100.
-        XYZ = np.array([79, 81, 62])
-        # L_a = 150
-        # Y_b = 60
-        surround = VIEWING_CONDITIONS_ZCAM["Dim"]
-        np.testing.assert_allclose(
-            XYZ_to_ZCAM(XYZ, XYZ_w, L_a, Y_b, surround),
-            np.array(
-                [
-                    68.8890,
-                    0.9774,
-                    58.7532,
-                    12.5916,
-                    196.7686,
-                    2.7918,
-                    43.8258,
-                    np.nan,
-                    11.0371,
-                    44.4143,
-                    68.8737,
-                ]
-            ),
-            rtol=0.025,
-            atol=4,
-        )
-
-        XYZ = np.array([910, 1114, 500])
-        XYZ_w = np.array([2103, 2259, 1401])
-        L_a = 359
-        Y_b = 16
-        surround = VIEWING_CONDITIONS_ZCAM["Dark"]
-        np.testing.assert_allclose(
-            XYZ_to_ZCAM(XYZ, XYZ_w, L_a, Y_b, surround),
-            np.array(
-                [
-                    82.6445,
-                    13.0838,
-                    123.9464,
-                    44.7277,
-                    114.7431,
-                    18.1655,
-                    178.6422,
-                    np.nan,
-                    34.4874,
-                    26.8778,
-                    78.2653,
-                ]
-            ),
-            rtol=0.025,
-            atol=0.025,
-        )
-
-        XYZ = np.array([96, 67, 28])
-        np.testing.assert_allclose(
-            XYZ_to_ZCAM(XYZ, XYZ_w, L_a, Y_b, surround),
-            np.array(
-                [
-                    33.0139,
-                    19.4070,
-                    389.7720 % 360,
-                    86.1882,
-                    45.8363,
-                    26.9446,
-                    397.3301,
-                    np.nan,
-                    43.6447,
-                    47.9942,
-                    30.2593,
-                ]
-            ),
-            rtol=0.025,
-            atol=0.025,
-        )
-
-    def test_n_dimensional_XYZ_to_ZCAM(self):
+    def test_XYZ_to_Nayatani95(self):
         """
-        Test :func:`colour.appearance.zcam.XYZ_to_ZCAM` definition
+        Test :func:`colour.appearance.nayatani95.XYZ_to_Nayatani95`
+        definition.
+
+        Notes
+        -----
+        -   The test values have been generated from data of the following file
+            by *Fairchild (2013)*:
+            http://rit-mcsl.org/fairchild//files/AppModEx.xls
+        """
+
+        XYZ = np.array([19.01, 20.00, 21.78])
+        XYZ_n = np.array([95.05, 100.00, 108.88])
+        Y_o = 20
+        E_o = 5000
+        E_or = 1000
+        np.testing.assert_allclose(
+            XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
+            np.array([50, 0.01, 257.5, 0.01, 62.6, 0.02, np.nan, np.nan, 50]),
+            atol=0.05,
+        )
+
+        XYZ = np.array([57.06, 43.06, 31.96])
+        E_o = 500
+        np.testing.assert_allclose(
+            XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
+            np.array([73, 48.3, 21.6, 37.1, 67.3, 42.9, np.nan, np.nan, 75.9]),
+            atol=0.05,
+        )
+
+        XYZ = np.array([3.53, 6.56, 2.14])
+        XYZ_n = np.array([109.85, 100.00, 35.58])
+        E_o = 5000
+        np.testing.assert_allclose(
+            XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
+            np.array(
+                [24.5, 49.3, 190.6, 81.3, 37.5, 62.1, np.nan, np.nan, 29.7]
+            ),
+            atol=0.05,
+        )
+
+        XYZ = np.array([19.01, 20.00, 21.78])
+        E_o = 500
+        np.testing.assert_allclose(
+            XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
+            np.array(
+                [49.4, 39.9, 236.3, 40.2, 44.2, 35.8, np.nan, np.nan, 49.4]
+            ),
+            atol=0.05,
+        )
+
+    def test_n_dimensional_XYZ_to_Nayatani95(self):
+        """
+        Test :func:`colour.appearance.nayatani95.XYZ_to_Nayatani95` definition
         n-dimensional support.
         """
 
-        XYZ = np.array([185, 206, 163])
-        XYZ_w = np.array([256, 264, 202])
-        L_a = 264
-        Y_b = 100
-        surround = VIEWING_CONDITIONS_ZCAM["Average"]
-        specification = XYZ_to_ZCAM(XYZ, XYZ_w, L_a, Y_b, surround)
+        XYZ = np.array([19.01, 20.00, 21.78])
+        XYZ_n = np.array([95.05, 100.00, 108.88])
+        Y_o = 20
+        E_o = 5000
+        E_or = 1000
+        specification = XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or)
 
         XYZ = np.tile(XYZ, (6, 1))
         specification = np.tile(specification, (6, 1))
-        np.testing.assert_array_almost_equal(
-            XYZ_to_ZCAM(XYZ, XYZ_w, L_a, Y_b, surround),
+        np.testing.assert_allclose(
+            XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
             specification,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        XYZ_w = np.tile(XYZ_w, (6, 1))
-        np.testing.assert_array_almost_equal(
-            XYZ_to_ZCAM(XYZ, XYZ_w, L_a, Y_b, surround),
+        XYZ_n = np.tile(XYZ_n, (6, 1))
+        np.testing.assert_allclose(
+            XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
             specification,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
-        specification = np.reshape(specification, (2, 3, 11))
-        np.testing.assert_array_almost_equal(
-            XYZ_to_ZCAM(XYZ, XYZ_w, L_a, Y_b, surround),
+        XYZ_n = np.reshape(XYZ_n, (2, 3, 3))
+        specification = np.reshape(specification, (2, 3, 9))
+        np.testing.assert_allclose(
+            XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
             specification,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    @ignore_numpy_errors
-    def test_domain_range_scale_XYZ_to_ZCAM(self):
+    def test_domain_range_scale_XYZ_to_Nayatani95(self):
         """
-        Test :func:`colour.appearance.zcam.XYZ_to_ZCAM` definition
+        Test :func:`colour.appearance.nayatani95.XYZ_to_Nayatani95` definition
         domain and range scale support.
         """
 
-        XYZ = np.array([185, 206, 163])
-        XYZ_w = np.array([256, 264, 202])
-        L_a = 264
-        Y_b = 100
-        surround = VIEWING_CONDITIONS_ZCAM["Average"]
-        specification = XYZ_to_ZCAM(XYZ, XYZ_w, L_a, Y_b, surround)
+        XYZ = np.array([19.01, 20.00, 21.78])
+        XYZ_n = np.array([95.05, 100.00, 108.88])
+        Y_o = 20.0
+        E_o = 5000.0
+        E_or = 1000.0
+        specification = XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or)
 
         d_r = (
             ("reference", 1, 1),
-            (
-                "1",
-                1,
-                np.array([1, 1, 1 / 360, 1, 1, 1, 1 / 400, np.nan, 1, 1, 1]),
-            ),
+            ("1", 0.01, np.array([1, 1, 1 / 360, 1, 1, 1, np.nan, np.nan, 1])),
             (
                 "100",
-                100,
-                np.array(
-                    [
-                        100,
-                        100,
-                        100 / 360,
-                        100,
-                        100,
-                        100,
-                        100 / 400,
-                        np.nan,
-                        100,
-                        100,
-                        100,
-                    ]
-                ),
+                1,
+                np.array([1, 1, 100 / 360, 1, 1, 1, np.nan, np.nan, 1]),
             ),
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    XYZ_to_ZCAM(
-                        XYZ * factor_a, XYZ_w * factor_a, L_a, Y_b, surround
+                np.testing.assert_allclose(
+                    XYZ_to_Nayatani95(
+                        XYZ * factor_a, XYZ_n * factor_a, Y_o, E_o, E_or
                     ),
                     as_float_array(specification) * factor_b,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_ZCAM(self):
+    def test_nan_XYZ_to_Nayatani95(self):
         """
-        Test :func:`colour.appearance.zcam.XYZ_to_ZCAM` definition
+        Test :func:`colour.appearance.nayatani95.XYZ_to_Nayatani95` definition
         nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
-        surround = InductionFactors_ZCAM(
-            cases[0, 0], cases[0, 0], cases[0, 0], cases[0, 0]
-        )
-        XYZ_to_ZCAM(cases, cases, cases[0, 0], cases[0, 0], surround)
-
-
-class TestZCAM_to_XYZ(unittest.TestCase):
-    """
-    Define :func:`colour.appearance.zcam.ZCAM_to_XYZ` definition unit
-    tests methods.
-    """
-
-    def test_ZCAM_to_XYZ(self):
-        """Test :func:`colour.appearance.zcam.ZCAM_to_XYZ` definition."""
-
-        specification = CAM_Specification_ZCAM(
-            92.2520,
-            3.0216,
-            196.3524,
-            19.1314,
-            321.3464,
-            10.5252,
-            237.6401,
-            np.nan,
-            34.7022,
-            25.2994,
-            91.6837,
-        )
-        XYZ_w = np.array([256, 264, 202])
-        L_a = 264
-        Y_b = 100
-        surround = VIEWING_CONDITIONS_ZCAM["Average"]
-        np.testing.assert_allclose(
-            ZCAM_to_XYZ(specification, XYZ_w, L_a, Y_b, surround),
-            np.array([185, 206, 163]),
-            atol=0.01,
-            rtol=0.01,
-        )
-
-        specification = CAM_Specification_ZCAM(
-            71.2071,
-            6.8539,
-            250.6422,
-            32.7963,
-            248.0394,
-            23.8744,
-            307.0595,
-            np.nan,
-            18.2796,
-            40.4621,
-            70.4026,
-        )
-        np.testing.assert_allclose(
-            ZCAM_to_XYZ(specification, XYZ_w, L_a, Y_b, surround),
-            np.array([89, 96, 120]),
-            atol=0.01,
-            rtol=0.01,
-        )
-
-        specification = CAM_Specification_ZCAM(
-            68.8890,
-            0.9774,
-            58.7532,
-            12.5916,
-            196.7686,
-            2.7918,
-            43.8258,
-            np.nan,
-            11.0371,
-            44.4143,
-            68.8737,
-        )
-        surround = VIEWING_CONDITIONS_ZCAM["Dim"]
-        np.testing.assert_allclose(
-            ZCAM_to_XYZ(specification, XYZ_w, L_a, Y_b, surround),
-            np.array([79, 81, 62]),
-            atol=0.01,
-            rtol=0.01,
-        )
-
-        specification = CAM_Specification_ZCAM(
-            82.6445,
-            13.0838,
-            123.9464,
-            44.7277,
-            114.7431,
-            18.1655,
-            178.6422,
-            np.nan,
-            34.4874,
-            26.8778,
-            78.2653,
-        )
-        XYZ_w = np.array([2103, 2259, 1401])
-        L_a = 359
-        Y_b = 16
-        surround = VIEWING_CONDITIONS_ZCAM["Dark"]
-        np.testing.assert_allclose(
-            ZCAM_to_XYZ(specification, XYZ_w, L_a, Y_b, surround),
-            np.array([910, 1114, 500]),
-            atol=0.01,
-            rtol=0.01,
-        )
-
-        specification = CAM_Specification_ZCAM(
-            33.0139,
-            19.4070,
-            389.7720 % 360,
-            86.1882,
-            45.8363,
-            26.9446,
-            397.3301,
-            np.nan,
-            43.6447,
-            47.9942,
-            30.2593,
-        )
-        np.testing.assert_allclose(
-            ZCAM_to_XYZ(specification, XYZ_w, L_a, Y_b, surround),
-            np.array([96, 67, 28]),
-            atol=0.01,
-            rtol=0.01,
-        )
-
-    def test_n_dimensional_ZCAM_to_XYZ(self):
-        """
-        Test :func:`colour.appearance.zcam.ZCAM_to_XYZ` definition
-        n-dimensional support.
-        """
-
-        XYZ = np.array([185, 206, 163])
-        XYZ_w = np.array([256, 264, 202])
-        L_a = 264
-        Y_b = 100
-        surround = VIEWING_CONDITIONS_ZCAM["Average"]
-        specification = XYZ_to_ZCAM(XYZ, XYZ_w, L_a, Y_b, surround)
-        XYZ = ZCAM_to_XYZ(specification, XYZ_w, L_a, Y_b, surround)
-
-        specification = CAM_Specification_ZCAM(
-            *np.transpose(np.tile(tsplit(specification), (6, 1))).tolist()
-        )
-        XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_array_almost_equal(
-            ZCAM_to_XYZ(specification, XYZ_w, L_a, Y_b, surround),
-            XYZ,
-            decimal=7,
-        )
-
-        XYZ_w = np.tile(XYZ_w, (6, 1))
-        np.testing.assert_array_almost_equal(
-            ZCAM_to_XYZ(specification, XYZ_w, L_a, Y_b, surround),
-            XYZ,
-            decimal=7,
-        )
-
-        specification = CAM_Specification_ZCAM(
-            *tsplit(np.reshape(specification, (2, 3, 11))).tolist()
-        )
-        XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
-        XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
-            ZCAM_to_XYZ(specification, XYZ_w, L_a, Y_b, surround),
-            XYZ,
-            decimal=7,
-        )
-
-    @ignore_numpy_errors
-    def test_domain_range_scale_ZCAM_to_XYZ(self):
-        """
-        Test :func:`colour.appearance.zcam.ZCAM_to_XYZ` definition
-        domain and range scale support.
-        """
-
-        XYZ_i = np.array([185, 206, 163])
-        XYZ_w = np.array([256, 264, 202])
-        L_a = 264
-        Y_b = 100
-        surround = VIEWING_CONDITIONS_ZCAM["Average"]
-        specification = XYZ_to_ZCAM(XYZ_i, XYZ_w, L_a, Y_b, surround)
-        XYZ = ZCAM_to_XYZ(specification, XYZ_w, L_a, Y_b, surround)
-
-        d_r = (
-            ("reference", 1, 1),
-            (
-                "1",
-                np.array([1, 1, 1 / 360, 1, 1, 1, 1 / 400, np.nan, 1, 1, 1]),
-                1,
-            ),
-            (
-                "100",
-                np.array(
-                    [
-                        100,
-                        100,
-                        100 / 360,
-                        100,
-                        100,
-                        100,
-                        100 / 400,
-                        np.nan,
-                        100,
-                        100,
-                        100,
-                    ]
-                ),
-                100,
-            ),
-        )
-        for scale, factor_a, factor_b in d_r:
-            with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    ZCAM_to_XYZ(
-                        specification * factor_a,
-                        XYZ_w * factor_b,
-                        L_a,
-                        Y_b,
-                        surround,
-                    ),
-                    XYZ * factor_b,
-                    decimal=7,
-                )
-
-    @ignore_numpy_errors
-    def test_raise_exception_ZCAM_to_XYZ(self):
-        """
-        Test :func:`colour.appearance.zcam.ZCAM_to_XYZ` definition
-        raised exception.
-        """
-
-        self.assertRaises(
-            ValueError,
-            ZCAM_to_XYZ,
-            CAM_Specification_ZCAM(
-                41.731091132513917,
-                None,
-                219.04843265831178,
-            ),
-            np.array([256, 264, 202]),
-            318.31,
-            20.0,
-            VIEWING_CONDITIONS_ZCAM["Average"],
-        )
-
-    @ignore_numpy_errors
-    def test_nan_ZCAM_to_XYZ(self):
-        """
-        Test :func:`colour.appearance.zcam.ZCAM_to_XYZ` definition nan
-        support.
-        """
-
-        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = np.array(list(set(product(cases, repeat=3))))
-        surround = InductionFactors_ZCAM(
-            cases[0, 0], cases[0, 0], cases[0, 0], cases[0, 0]
-        )
-        ZCAM_to_XYZ(
-            CAM_Specification_ZCAM(
-                cases[..., 0], cases[..., 0], cases[..., 0], M=50
-            ),
-            cases,
-            cases[0, 0],
-            cases[0, 0],
-            surround,
+        XYZ_to_Nayatani95(
+            cases, cases, cases[..., 0], cases[..., 0], cases[..., 0]
         )
 
 

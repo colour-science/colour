@@ -11,6 +11,7 @@ import unittest
 
 import numpy as np
 
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.io import (
     ImageAttribute_Specification,
     as_3_channels_image,
@@ -79,7 +80,7 @@ class TestConvertBitDepth(unittest.TestCase):
         self.assertIs(
             convert_bit_depth(a, "float16").dtype, np.dtype("float16")
         )
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             convert_bit_depth(a, "float16"),
             np.array(
                 [
@@ -95,13 +96,13 @@ class TestConvertBitDepth(unittest.TestCase):
                     1.0000,
                 ]
             ),
-            decimal=3,
+            atol=5e-4,
         )
 
         self.assertIs(
             convert_bit_depth(a, "float32").dtype, np.dtype("float32")
         )
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             convert_bit_depth(a, "float32"),
             np.array(
                 [
@@ -117,7 +118,7 @@ class TestConvertBitDepth(unittest.TestCase):
                     1.00000000,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         self.assertIs(
@@ -142,7 +143,7 @@ class TestConvertBitDepth(unittest.TestCase):
         self.assertIs(
             convert_bit_depth(a, "float16").dtype, np.dtype("float16")
         )
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             convert_bit_depth(a, "float16"),
             np.array(
                 [
@@ -158,13 +159,13 @@ class TestConvertBitDepth(unittest.TestCase):
                     1.0000,
                 ]
             ),
-            decimal=3,
+            atol=5e-2,
         )
 
         self.assertIs(
             convert_bit_depth(a, "float32").dtype, np.dtype("float32")
         )
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             convert_bit_depth(a, "float32"),
             np.array(
                 [
@@ -180,7 +181,7 @@ class TestConvertBitDepth(unittest.TestCase):
                     1.00000000,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         self.assertIs(
@@ -221,7 +222,7 @@ class TestConvertBitDepth(unittest.TestCase):
         self.assertIs(
             convert_bit_depth(a, "float16").dtype, np.dtype("float16")
         )
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             convert_bit_depth(a, "float16"),
             np.array(
                 [
@@ -237,14 +238,14 @@ class TestConvertBitDepth(unittest.TestCase):
                     1.0000,
                 ]
             ),
-            decimal=3,
+            atol=5e-4,
         )
 
         self.assertIs(
             convert_bit_depth(a, "float32").dtype, np.dtype("float32")
         )
-        np.testing.assert_array_almost_equal(
-            convert_bit_depth(a, "float32"), a, decimal=7
+        np.testing.assert_allclose(
+            convert_bit_depth(a, "float32"), a, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         self.assertIs(
@@ -413,10 +414,10 @@ class TestWriteImageOpenImageIO(unittest.TestCase):
                 if write_attribute.name == read_attribute.name:
                     attribute_exists = True
                     if isinstance(write_attribute.value, tuple):
-                        np.testing.assert_array_almost_equal(
+                        np.testing.assert_allclose(
                             write_attribute.value,
                             read_attribute.value,
-                            decimal=5,
+                            atol=TOLERANCE_ABSOLUTE_TESTS,
                         )
                     else:
                         self.assertEqual(

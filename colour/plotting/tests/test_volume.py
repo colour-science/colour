@@ -7,6 +7,7 @@ import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.plotting import plot_RGB_colourspaces_gamuts, plot_RGB_scatter
 from colour.plotting.volume import RGB_identity_cube, nadir_grid
 
@@ -36,7 +37,7 @@ class TestNadirGrid(unittest.TestCase):
 
         quads, faces_colours, edges_colours = nadir_grid(segments=1)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             quads,
             np.array(
                 [
@@ -84,10 +85,10 @@ class TestNadirGrid(unittest.TestCase):
                     ],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             faces_colours,
             np.array(
                 [
@@ -100,10 +101,10 @@ class TestNadirGrid(unittest.TestCase):
                     [0.00000000, 0.00000000, 0.00000000, 1.00000000],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             edges_colours,
             np.array(
                 [
@@ -116,7 +117,7 @@ class TestNadirGrid(unittest.TestCase):
                     [0.00000000, 0.00000000, 0.00000000, 1.00000000],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -131,7 +132,7 @@ class TestRGBIdentityCube(unittest.TestCase):
 
         vertices, RGB = RGB_identity_cube(1, 1, 1)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             vertices,
             np.array(
                 [
@@ -173,10 +174,10 @@ class TestRGBIdentityCube(unittest.TestCase):
                     ],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             RGB,
             np.array(
                 [
@@ -188,7 +189,7 @@ class TestRGBIdentityCube(unittest.TestCase):
                     [1.00000000, 0.50000000, 0.50000000],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 

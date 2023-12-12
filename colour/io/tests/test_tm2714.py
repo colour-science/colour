@@ -14,6 +14,7 @@ from copy import deepcopy
 import numpy as np
 
 from colour.colorimetry import SpectralDistribution
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.hints import List, Tuple, cast
 from colour.io.tm2714 import Header_IESTM2714, SpectralDistribution_IESTM2714
 from colour.utilities import optional
@@ -596,7 +597,9 @@ SpectralDistribution_IESTM2714(...,
         sd_r = SpectralDistribution(FLUORESCENT_FILE_SPECTRAL_DATA)
 
         np.testing.assert_array_equal(sd_r.domain, sd.domain)
-        np.testing.assert_array_almost_equal(sd_r.values, sd.values, decimal=7)
+        np.testing.assert_allclose(
+            sd_r.values, sd.values, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
         test_read: List[
             Tuple[dict, Header_IESTM2714 | SpectralDistribution_IESTM2714]
