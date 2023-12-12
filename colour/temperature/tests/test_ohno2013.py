@@ -7,6 +7,7 @@ from itertools import product
 import numpy as np
 
 from colour.colorimetry import MSDS_CMFS
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.temperature import (
     CCT_to_uv_Ohno2013,
     CCT_to_XYZ_Ohno2013,
@@ -77,8 +78,7 @@ class TestPlanckianTable(unittest.TestCase):
                     [6.00000000e03, 2.03307932e-01, 3.14117832e-01],
                 ]
             ),
-            rtol=0.000001,
-            atol=0.000001,
+            atol=1e-6,
         )
 
 
@@ -103,22 +103,22 @@ class TestUv_to_CCT_Ohno2013(unittest.TestCase):
 
         np.testing.assert_allclose(table_t[1, :], table_r[1, :], atol=1)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             uv_to_CCT_Ohno2013(np.array([0.1978, 0.3122])),
             np.array([6507.474788799616363, 0.003223346337596]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             uv_to_CCT_Ohno2013(np.array([0.4328, 0.2883])),
             np.array([1041.678320000468375, -0.067378053475797]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             uv_to_CCT_Ohno2013(np.array([0.2927, 0.2722])),
             np.array([2444.971818951082696, -0.084370641205118]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_uv_to_CCT_Ohno2013(self):
@@ -132,14 +132,14 @@ class TestUv_to_CCT_Ohno2013(unittest.TestCase):
 
         uv = np.tile(uv, (6, 1))
         CCT_D_uv = np.tile(CCT_D_uv, (6, 1))
-        np.testing.assert_array_almost_equal(
-            uv_to_CCT_Ohno2013(uv), CCT_D_uv, decimal=7
+        np.testing.assert_allclose(
+            uv_to_CCT_Ohno2013(uv), CCT_D_uv, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         uv = np.reshape(uv, (2, 3, 2))
         CCT_D_uv = np.reshape(CCT_D_uv, (2, 3, 2))
-        np.testing.assert_array_almost_equal(
-            uv_to_CCT_Ohno2013(uv), CCT_D_uv, decimal=7
+        np.testing.assert_allclose(
+            uv_to_CCT_Ohno2013(uv), CCT_D_uv, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     @ignore_numpy_errors
@@ -166,22 +166,22 @@ class TestCCT_to_uv_Ohno2013(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             CCT_to_uv_Ohno2013(np.array([6507.47380460, 0.00322335])),
             np.array([0.19779997, 0.31219997]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             CCT_to_uv_Ohno2013(np.array([1041.68315360, -0.06737802])),
             np.array([0.43279885, 0.28830013]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             CCT_to_uv_Ohno2013(np.array([2452.15316417, -0.08437064])),
             np.array([0.29247364, 0.27215157]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_CCT_to_uv_Ohno2013(self):
@@ -195,14 +195,14 @@ class TestCCT_to_uv_Ohno2013(unittest.TestCase):
 
         CCT_D_uv = np.tile(CCT_D_uv, (6, 1))
         uv = np.tile(uv, (6, 1))
-        np.testing.assert_array_almost_equal(
-            CCT_to_uv_Ohno2013(CCT_D_uv), uv, decimal=7
+        np.testing.assert_allclose(
+            CCT_to_uv_Ohno2013(CCT_D_uv), uv, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         CCT_D_uv = np.reshape(CCT_D_uv, (2, 3, 2))
         uv = np.reshape(uv, (2, 3, 2))
-        np.testing.assert_array_almost_equal(
-            CCT_to_uv_Ohno2013(CCT_D_uv), uv, decimal=7
+        np.testing.assert_allclose(
+            CCT_to_uv_Ohno2013(CCT_D_uv), uv, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     @ignore_numpy_errors
@@ -228,10 +228,10 @@ class Test_XYZ_to_CCT_Ohno2013(unittest.TestCase):
         Test :func:`colour.temperature.ohno2013.XYZ_to_CCT_Ohno2013` definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_CCT_Ohno2013(np.array([95.04, 100.00, 108.88])),
             np.array([6503.30711709, 0.00321729]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_XYZ_to_CCT_Ohno2013(self):
@@ -245,14 +245,14 @@ class Test_XYZ_to_CCT_Ohno2013(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         CCT_D_uv = np.tile(CCT_D_uv, (6, 1))
-        np.testing.assert_array_almost_equal(
-            XYZ_to_CCT_Ohno2013(XYZ), CCT_D_uv, decimal=7
+        np.testing.assert_allclose(
+            XYZ_to_CCT_Ohno2013(XYZ), CCT_D_uv, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         CCT_D_uv = np.reshape(CCT_D_uv, (2, 3, 2))
-        np.testing.assert_array_almost_equal(
-            XYZ_to_CCT_Ohno2013(XYZ), CCT_D_uv, decimal=7
+        np.testing.assert_allclose(
+            XYZ_to_CCT_Ohno2013(XYZ), CCT_D_uv, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     @ignore_numpy_errors
@@ -281,8 +281,7 @@ class Test_CCT_to_XYZ_Ohno2013(unittest.TestCase):
         np.testing.assert_allclose(
             CCT_to_XYZ_Ohno2013(np.array([6503.30711709, 0.00321729])),
             np.array([95.04, 100.00, 108.88]) / 100,
-            rtol=0.000001,
-            atol=0.000001,
+            atol=1e-6,
         )
 
     def test_n_dimensional_CCT_to_XYZ_Ohno2013(self):
@@ -296,14 +295,14 @@ class Test_CCT_to_XYZ_Ohno2013(unittest.TestCase):
 
         CCT_D_uv = np.tile(CCT_D_uv, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_array_almost_equal(
-            CCT_to_XYZ_Ohno2013(CCT_D_uv), XYZ, decimal=7
+        np.testing.assert_allclose(
+            CCT_to_XYZ_Ohno2013(CCT_D_uv), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         CCT_D_uv = np.reshape(CCT_D_uv, (2, 3, 2))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
-            CCT_to_XYZ_Ohno2013(CCT_D_uv), XYZ, decimal=7
+        np.testing.assert_allclose(
+            CCT_to_XYZ_Ohno2013(CCT_D_uv), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     @ignore_numpy_errors

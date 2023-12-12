@@ -7,6 +7,7 @@ import unittest
 
 import numpy as np
 
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models.rgb.transfer_functions import (
     log_decoding_FLog,
     log_decoding_FLog2,
@@ -79,20 +80,20 @@ log_encoding_FLog` definition n-dimensional arrays support.
 
         L_in = np.tile(L_in, 6)
         V_out = np.tile(V_out, 6)
-        np.testing.assert_array_almost_equal(
-            log_encoding_FLog(L_in), V_out, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_FLog(L_in), V_out, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         L_in = np.reshape(L_in, (2, 3))
         V_out = np.reshape(V_out, (2, 3))
-        np.testing.assert_array_almost_equal(
-            log_encoding_FLog(L_in), V_out, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_FLog(L_in), V_out, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         L_in = np.reshape(L_in, (2, 3, 1))
         V_out = np.reshape(V_out, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            log_encoding_FLog(L_in), V_out, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_FLog(L_in), V_out, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_encoding_FLog(self):
@@ -107,8 +108,10 @@ log_encoding_FLog` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    log_encoding_FLog(L_in * factor), V_out * factor, decimal=7
+                np.testing.assert_allclose(
+                    log_encoding_FLog(L_in * factor),
+                    V_out * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -170,20 +173,20 @@ log_decoding_FLog` definition n-dimensional arrays support.
 
         V_out = np.tile(V_out, 6)
         L_in = np.tile(L_in, 6)
-        np.testing.assert_array_almost_equal(
-            log_decoding_FLog(V_out), L_in, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_FLog(V_out), L_in, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         V_out = np.reshape(V_out, (2, 3))
         L_in = np.reshape(L_in, (2, 3))
-        np.testing.assert_array_almost_equal(
-            log_decoding_FLog(V_out), L_in, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_FLog(V_out), L_in, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         V_out = np.reshape(V_out, (2, 3, 1))
         L_in = np.reshape(L_in, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            log_decoding_FLog(V_out), L_in, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_FLog(V_out), L_in, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_decoding_FLog(self):
@@ -198,8 +201,10 @@ log_decoding_FLog` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    log_decoding_FLog(V_out * factor), L_in * factor, decimal=7
+                np.testing.assert_allclose(
+                    log_decoding_FLog(V_out * factor),
+                    L_in * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -261,20 +266,20 @@ log_encoding_FLog2` definition n-dimensional arrays support.
 
         L_in = np.tile(L_in, 6)
         V_out = np.tile(V_out, 6)
-        np.testing.assert_almost_equal(
-            log_encoding_FLog2(L_in), V_out, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_FLog2(L_in), V_out, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         L_in = np.reshape(L_in, (2, 3))
         V_out = np.reshape(V_out, (2, 3))
-        np.testing.assert_almost_equal(
-            log_encoding_FLog2(L_in), V_out, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_FLog2(L_in), V_out, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         L_in = np.reshape(L_in, (2, 3, 1))
         V_out = np.reshape(V_out, (2, 3, 1))
-        np.testing.assert_almost_equal(
-            log_encoding_FLog2(L_in), V_out, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_FLog2(L_in), V_out, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_encoding_FLog2(self):
@@ -289,10 +294,8 @@ log_encoding_FLog2` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
-                    log_encoding_FLog2(L_in * factor),
-                    V_out * factor,
-                    decimal=7,
+                np.testing.assert_array_equal(
+                    log_encoding_FLog2(L_in * factor), V_out * factor
                 )
 
     @ignore_numpy_errors
@@ -354,20 +357,20 @@ log_decoding_FLog2` definition n-dimensional arrays support.
 
         V_out = np.tile(V_out, 6)
         L_in = np.tile(L_in, 6)
-        np.testing.assert_almost_equal(
-            log_decoding_FLog2(V_out), L_in, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_FLog2(V_out), L_in, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         V_out = np.reshape(V_out, (2, 3))
         L_in = np.reshape(L_in, (2, 3))
-        np.testing.assert_almost_equal(
-            log_decoding_FLog2(V_out), L_in, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_FLog2(V_out), L_in, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         V_out = np.reshape(V_out, (2, 3, 1))
         L_in = np.reshape(L_in, (2, 3, 1))
-        np.testing.assert_almost_equal(
-            log_decoding_FLog2(V_out), L_in, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_FLog2(V_out), L_in, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_decoding_FLog2(self):
@@ -382,10 +385,9 @@ log_decoding_FLog2` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_equal(
                     log_decoding_FLog2(V_out * factor),
                     L_in * factor,
-                    decimal=7,
                 )
 
     @ignore_numpy_errors

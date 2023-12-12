@@ -35,6 +35,7 @@ from colour.algebra import (
     table_interpolation_trilinear,
 )
 from colour.algebra.interpolation import vertices_and_relative_coordinates
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.hints import NDArrayFloat, cast
 from colour.io import LUT3D, read_LUT
 from colour.utilities import ignore_numpy_errors
@@ -511,7 +512,7 @@ class TestKernelNearestNeighbour(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             kernel_nearest_neighbour(np.linspace(-5, 5, 25)),
             np.array(
                 [
@@ -542,7 +543,7 @@ class TestKernelNearestNeighbour(unittest.TestCase):
                     0,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -555,7 +556,7 @@ class TestKernelLinear(unittest.TestCase):
     def test_kernel_linear(self):
         """Test :func:`colour.algebra.interpolation.kernel_linear` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             kernel_linear(np.linspace(-5, 5, 25)),
             np.array(
                 [
@@ -586,7 +587,7 @@ class TestKernelLinear(unittest.TestCase):
                     0.00000000,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -599,7 +600,7 @@ class TestKernelSinc(unittest.TestCase):
     def test_kernel_sinc(self):
         """Test :func:`colour.algebra.interpolation.kernel_sinc` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             kernel_sinc(np.linspace(-5, 5, 25)),
             np.array(
                 [
@@ -630,10 +631,10 @@ class TestKernelSinc(unittest.TestCase):
                     0.00000000,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             kernel_sinc(np.linspace(-5, 5, 25), 1),
             np.array(
                 [
@@ -664,7 +665,7 @@ class TestKernelSinc(unittest.TestCase):
                     0.00000000,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -677,7 +678,7 @@ class TestKernelLanczos(unittest.TestCase):
     def test_kernel_lanczos(self):
         """Test :func:`colour.algebra.interpolation.kernel_lanczos` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             kernel_lanczos(np.linspace(-5, 5, 25)),
             np.array(
                 [
@@ -708,10 +709,10 @@ class TestKernelLanczos(unittest.TestCase):
                     0.00000000e00,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             kernel_lanczos(np.linspace(-5, 5, 25), 1),
             np.array(
                 [
@@ -742,7 +743,7 @@ class TestKernelLanczos(unittest.TestCase):
                     0.00000000,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -758,7 +759,7 @@ class TestKernelCardinalSpline(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             kernel_cardinal_spline(np.linspace(-5, 5, 25)),
             np.array(
                 [
@@ -789,10 +790,10 @@ class TestKernelCardinalSpline(unittest.TestCase):
                     0.00000000,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             kernel_cardinal_spline(np.linspace(-5, 5, 25), 0, 1),
             np.array(
                 [
@@ -823,7 +824,7 @@ class TestKernelCardinalSpline(unittest.TestCase):
                     0.00000000,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -954,7 +955,7 @@ padding_kwargs` property.
         x_i = np.linspace(11, 25, 25)
 
         kernel_interpolator = KernelInterpolator(x, y)
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             kernel_interpolator(x_i),
             np.array(
                 [
@@ -985,11 +986,11 @@ padding_kwargs` property.
                     3.14159265,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         kernel_interpolator = KernelInterpolator(x, y, kernel=kernel_sinc)
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             kernel_interpolator(x_i),
             np.array(
                 [
@@ -1020,11 +1021,11 @@ padding_kwargs` property.
                     3.14159265,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         kernel_interpolator = KernelInterpolator(x, y, window=1)
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             kernel_interpolator(x_i),
             np.array(
                 [
@@ -1055,13 +1056,13 @@ padding_kwargs` property.
                     3.14159265,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         kernel_interpolator = KernelInterpolator(
             x, y, window=1, kernel_kwargs={"a": 1}
         )
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             kernel_interpolator(x_i),
             np.array(
                 [
@@ -1092,13 +1093,13 @@ padding_kwargs` property.
                     3.14159265,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         kernel_interpolator = KernelInterpolator(
             x, y, padding_kwargs={"pad_width": (3, 3), "mode": "mean"}
         )
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             kernel_interpolator(x_i),
             np.array(
                 [
@@ -1129,7 +1130,7 @@ padding_kwargs` property.
                     3.14159265,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         x_1 = np.arange(1, 10, 1)
@@ -1138,16 +1139,16 @@ padding_kwargs` property.
         y = np.sin(x_1 / len(x_1) * np.pi * 6) / (x_1 / len(x_1))
         x_i = np.linspace(1, 9, 25)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             KernelInterpolator(x_1, y)(x_i),
             KernelInterpolator(x_2, y)(x_i * 10),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             KernelInterpolator(x_1, y)(x_i),
             KernelInterpolator(x_3, y)(x_i / 10),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_raise_exception___call__(self):
@@ -1262,11 +1263,12 @@ class TestLinearInterpolator(unittest.TestCase):
                 places=7,
             )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             linear_interpolator(
                 np.arange(0, len(DATA_POINTS_A) - 1 + interval, interval)
             ),
             DATA_POINTS_A_LINEAR_INTERPOLATED_10_SAMPLES,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_raise_exception___call__(self):
@@ -1349,11 +1351,12 @@ class TestSpragueInterpolator(unittest.TestCase):
                 places=7,
             )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sprague_interpolator(
                 np.arange(0, len(DATA_POINTS_A) - 1 + interval, interval)
             ),
             DATA_POINTS_A_SPRAGUE_INTERPOLATED_10_SAMPLES,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_raise_exception___call__(self):
@@ -1403,11 +1406,12 @@ __call__` method.
             and is assumed to be unit tested thoroughly.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             CubicSplineInterpolator(
                 np.linspace(0, 1, len(DATA_POINTS_A)), DATA_POINTS_A
             )(np.linspace(0, 1, len(DATA_POINTS_A) * 2)),
             DATA_POINTS_A_CUBIC_SPLINE_INTERPOLATED_X2_SAMPLES,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -1528,15 +1532,17 @@ default` property.
 
         x = np.arange(len(DATA_POINTS_A))
         null_interpolator = NullInterpolator(x, DATA_POINTS_A)
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             null_interpolator(np.array([0.75, 2.0, 3.0, 4.75])),
             np.array([np.nan, 12.46, 9.51, np.nan]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         null_interpolator = NullInterpolator(x, DATA_POINTS_A, 0.25, 0.25)
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             null_interpolator(np.array([0.75, 2.0, 3.0, 4.75])),
             np.array([12.32, 12.46, 9.51, 4.33]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_raise_exception___call__(self):
@@ -1591,13 +1597,13 @@ class TestLagrangeCoefficients(unittest.TestCase):
         """
 
         lc = [lagrange_coefficients(i, 3) for i in np.linspace(0.05, 0.95, 19)]
-        np.testing.assert_array_almost_equal(
-            lc, LAGRANGE_COEFFICIENTS_A, decimal=7
+        np.testing.assert_allclose(
+            lc, LAGRANGE_COEFFICIENTS_A, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         lc = [lagrange_coefficients(i, 4) for i in np.linspace(1.05, 1.95, 19)]
-        np.testing.assert_array_almost_equal(
-            lc, LAGRANGE_COEFFICIENTS_B, decimal=7
+        np.testing.assert_allclose(
+            lc, LAGRANGE_COEFFICIENTS_B, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
 
@@ -1618,7 +1624,7 @@ vertices_and_relative_coordinates` definition.
         V_xyz = random_triplet_generator(4, random_state=prng)
         vertices, V_xyzr = vertices_and_relative_coordinates(V_xyz, LUT_TABLE)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             vertices,
             np.array(
                 [
@@ -1672,8 +1678,10 @@ vertices_and_relative_coordinates` definition.
                     ],
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_array_almost_equal(
+
+        np.testing.assert_allclose(
             V_xyzr,
             np.array(
                 [
@@ -1683,6 +1691,7 @@ vertices_and_relative_coordinates` definition.
                     [0.14444798, 0.01869077, 0.59305522],
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -1702,7 +1711,7 @@ table_interpolation_trilinear` definition.
 
         V_xyz = random_triplet_generator(16, random_state=prng)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             table_interpolation_trilinear(V_xyz, LUT_TABLE),
             np.array(
                 [
@@ -1724,6 +1733,7 @@ table_interpolation_trilinear` definition.
                     [0.59220355, 0.93136492, 0.30063692],
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -1743,7 +1753,7 @@ table_interpolation_tetrahedral` definition.
 
         V_xyz = random_triplet_generator(16, random_state=prng)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             table_interpolation_tetrahedral(V_xyz, LUT_TABLE),
             np.array(
                 [
@@ -1765,6 +1775,7 @@ table_interpolation_tetrahedral` definition.
                     [0.61272658, 0.92799297, 0.29650424],
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 

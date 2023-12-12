@@ -16,6 +16,7 @@ from colour.colorimetry import (
     sd_to_XYZ,
     sds_and_msds_to_msds,
 )
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.difference import delta_E_CIE1976
 from colour.models import XYZ_to_Lab, XYZ_to_xy
 from colour.recovery import (
@@ -275,7 +276,7 @@ class TestXYZ_to_sd_Otsu2018(unittest.TestCase):
         d_r = (("reference", 1, 1), ("1", 1, 0.01), ("100", 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     sd_to_XYZ(
                         XYZ_to_sd_Otsu2018(
                             XYZ_i * factor_a, self._cmfs, self._sd_D65
@@ -284,7 +285,7 @@ class TestXYZ_to_sd_Otsu2018(unittest.TestCase):
                         self._sd_D65,
                     ),
                     XYZ_o * factor_b,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
 
@@ -448,7 +449,7 @@ class TestData_Otsu2018(unittest.TestCase):
 
         data.PCA()
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             data.basis_functions,
             np.array(
                 [
@@ -568,10 +569,10 @@ class TestData_Otsu2018(unittest.TestCase):
                     ],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             data.mean,
             np.array(
                 [
@@ -613,7 +614,7 @@ class TestData_Otsu2018(unittest.TestCase):
                     0.41287500,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_reconstruct(self):
@@ -626,7 +627,7 @@ class TestData_Otsu2018(unittest.TestCase):
 
         data.PCA()
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             data.reconstruct(
                 np.array(
                     [
@@ -676,7 +677,7 @@ class TestData_Otsu2018(unittest.TestCase):
                     0.63971254,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_raise_exception_reconstruct(self):
@@ -907,14 +908,14 @@ class TestTree_Otsu2018(unittest.TestCase):
         property.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             self._tree.reflectances,
             np.transpose(
                 reshape_msds(
                     sds_and_msds_to_msds(self._reflectances), self._shape
                 ).values
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_cmfs(self):

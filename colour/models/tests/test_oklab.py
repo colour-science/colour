@@ -6,6 +6,7 @@ from itertools import product
 
 import numpy as np
 
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models import Oklab_to_XYZ, XYZ_to_Oklab
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
@@ -31,22 +32,22 @@ class TestXYZ_to_Oklab(unittest.TestCase):
     def test_XYZ_to_Oklab(self):
         """Test :func:`colour.models.oklab.XYZ_to_Oklab` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_Oklab(np.array([0.20654008, 0.12197225, 0.05136952])),
             np.array([0.51634019, 0.15469500, 0.06289579]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_Oklab(np.array([0.14222010, 0.23042768, 0.10495772])),
             np.array([0.59910746, -0.11139207, 0.07508465]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_Oklab(np.array([0.96907232, 1.00000000, 1.12179215])),
             np.array([1.00121561, 0.00899591, -0.00535107]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_XYZ_to_Oklab(self):
@@ -60,14 +61,14 @@ class TestXYZ_to_Oklab(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         Oklab = np.tile(Oklab, (6, 1))
-        np.testing.assert_array_almost_equal(
-            XYZ_to_Oklab(XYZ), Oklab, decimal=7
+        np.testing.assert_allclose(
+            XYZ_to_Oklab(XYZ), Oklab, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         Oklab = np.reshape(Oklab, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
-            XYZ_to_Oklab(XYZ), Oklab, decimal=7
+        np.testing.assert_allclose(
+            XYZ_to_Oklab(XYZ), Oklab, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_XYZ_to_Oklab(self):
@@ -82,8 +83,10 @@ class TestXYZ_to_Oklab(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    XYZ_to_Oklab(XYZ * factor), Oklab * factor, decimal=7
+                np.testing.assert_allclose(
+                    XYZ_to_Oklab(XYZ * factor),
+                    Oklab * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -110,22 +113,19 @@ class TestOklab_to_XYZ(unittest.TestCase):
         np.testing.assert_allclose(
             Oklab_to_XYZ(np.array([0.51634019, 0.15469500, 0.06289579])),
             np.array([0.20654008, 0.12197225, 0.05136952]),
-            rtol=0.000001,
-            atol=0.000001,
+            atol=1e-6,
         )
 
         np.testing.assert_allclose(
             Oklab_to_XYZ(np.array([0.59910746, -0.11139207, 0.07508465])),
             np.array([0.14222010, 0.23042768, 0.10495772]),
-            rtol=0.000001,
-            atol=0.000001,
+            atol=1e-6,
         )
 
         np.testing.assert_allclose(
             Oklab_to_XYZ(np.array([1.00121561, 0.00899591, -0.00535107])),
             np.array([0.96907232, 1.00000000, 1.12179215]),
-            rtol=0.000001,
-            atol=0.000001,
+            atol=1e-6,
         )
 
     def test_n_dimensional_Oklab_to_XYZ(self):
@@ -140,13 +140,13 @@ class TestOklab_to_XYZ(unittest.TestCase):
         Oklab = np.tile(Oklab, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
         np.testing.assert_allclose(
-            Oklab_to_XYZ(Oklab), XYZ, rtol=0.000001, atol=0.000001
+            Oklab_to_XYZ(Oklab), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         Oklab = np.reshape(Oklab, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_allclose(
-            Oklab_to_XYZ(Oklab), XYZ, rtol=0.000001, atol=0.000001
+            Oklab_to_XYZ(Oklab), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_Oklab_to_XYZ(self):
@@ -161,11 +161,9 @@ class TestOklab_to_XYZ(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                np.testing.assert_array_equal(
                     Oklab_to_XYZ(Oklab * factor),
                     XYZ * factor,
-                    rtol=0.000001,
-                    atol=0.000001,
                 )
 
     @ignore_numpy_errors

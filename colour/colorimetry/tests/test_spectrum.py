@@ -18,6 +18,7 @@ from colour.colorimetry.spectrum import (
     sds_and_msds_to_msds,
     sds_and_msds_to_sds,
 )
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import is_caching_enabled, tstack
 
 __author__ = "Colour Developers"
@@ -1344,7 +1345,7 @@ class TestSpectralShape(unittest.TestCase):
         property.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_array_equal(
             SpectralShape(0, 10, 0.1).wavelengths,
             np.arange(0, 10 + 0.1, 0.1),
         )
@@ -1363,7 +1364,7 @@ class TestSpectralShape(unittest.TestCase):
         method.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_array_equal(
             list(SpectralShape(0, 10, 0.1)),
             np.arange(0, 10 + 0.1, 0.1),
         )
@@ -1412,7 +1413,7 @@ class TestSpectralShape(unittest.TestCase):
     def test_range(self):
         """Test :func:`colour.colorimetry.spectrum.SpectralShape.range` method."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_array_equal(
             list(SpectralShape(0, 10, 0.1)),
             np.arange(0, 10 + 0.1, 0.1),
         )
@@ -1524,12 +1525,13 @@ SpectralDistribution` class can be pickled.
         method.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             SpectralDistribution(DATA_SAMPLE).wavelengths,
             SpectralDistribution(
                 DATA_SAMPLE.values(),
                 SpectralShape(340, 820, 20),
             ).wavelengths,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_interpolate(self):
@@ -1540,10 +1542,8 @@ SpectralDistribution.interpolate` method.
 
         shape = SpectralShape(self._sd.shape.start, self._sd.shape.end, 1)
         sd = reshape_sd(self._sd, shape, "Interpolate")
-        np.testing.assert_array_almost_equal(
-            sd.values,
-            DATA_SAMPLE_INTERPOLATED,
-            decimal=7,
+        np.testing.assert_allclose(
+            sd.values, DATA_SAMPLE_INTERPOLATED, atol=TOLERANCE_ABSOLUTE_TESTS
         )
         self.assertEqual(sd.shape, shape)
 
@@ -1556,8 +1556,7 @@ SpectralDistribution.interpolate` method.
         np.testing.assert_allclose(
             sd.values,
             DATA_SAMPLE_INTERPOLATED_NON_UNIFORM,
-            rtol=0.0000001,
-            atol=0.0000001,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
         self.assertEqual(
             sd.shape,
@@ -1627,8 +1626,10 @@ SpectralDistribution.trim` method.
 SpectralDistribution.normalise` method.
         """
 
-        np.testing.assert_array_almost_equal(
-            self._sd.copy().normalise(100).values, DATA_SAMPLE_NORMALISED
+        np.testing.assert_allclose(
+            self._sd.copy().normalise(100).values,
+            DATA_SAMPLE_NORMALISED,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_callback_on_domain_changed(self):
@@ -1795,12 +1796,13 @@ display_labels` property.
 MultiSpectralDistributions.__init__` method.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             MultiSpectralDistributions(DATA_CMFS).wavelengths,
             MultiSpectralDistributions(
                 DATA_CMFS.values(),
                 SpectralShape(380, 780, 5),
             ).wavelengths,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_interpolate(self):
@@ -1814,8 +1816,10 @@ MultiSpectralDistributions.interpolate` method.
         )
         msds = reshape_msds(self._sample_msds, shape, "Interpolate")
         for signal in msds.signals.values():
-            np.testing.assert_array_almost_equal(
-                signal.values, DATA_SAMPLE_INTERPOLATED, decimal=7
+            np.testing.assert_allclose(
+                signal.values,
+                DATA_SAMPLE_INTERPOLATED,
+                atol=TOLERANCE_ABSOLUTE_TESTS,
             )
         self.assertEqual(msds.shape, shape)
 
@@ -1833,8 +1837,7 @@ MultiSpectralDistributions.interpolate` method.
             np.testing.assert_allclose(
                 signal.values,
                 DATA_SAMPLE_INTERPOLATED_NON_UNIFORM,
-                rtol=0.0000001,
-                atol=0.0000001,
+                atol=TOLERANCE_ABSOLUTE_TESTS,
             )
         self.assertEqual(
             msds.shape,
@@ -1855,11 +1858,11 @@ MultiSpectralDistributions.extrapolate` method.
         msds = MultiSpectralDistributions(data)
         msds.extrapolate(SpectralShape(10, 50, 5))
 
-        np.testing.assert_array_almost_equal(
-            msds[10], np.array([0.0, 0.0, 0.0]), decimal=7
+        np.testing.assert_allclose(
+            msds[10], np.array([0.0, 0.0, 0.0]), atol=TOLERANCE_ABSOLUTE_TESTS
         )
-        np.testing.assert_array_almost_equal(
-            msds[50], np.array([1.0, 1.0, 1.0]), decimal=7
+        np.testing.assert_allclose(
+            msds[50], np.array([1.0, 1.0, 1.0]), atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         msds = MultiSpectralDistributions(
@@ -1873,11 +1876,13 @@ MultiSpectralDistributions.extrapolate` method.
                 "right": None,
             },
         )
-        np.testing.assert_array_almost_equal(
-            msds[10], np.array([-1.5, -1.5, -1.5]), decimal=7
+        np.testing.assert_allclose(
+            msds[10],
+            np.array([-1.5, -1.5, -1.5]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_array_almost_equal(
-            msds[50], np.array([2.5, 2.5, 2.5]), decimal=7
+        np.testing.assert_allclose(
+            msds[50], np.array([2.5, 2.5, 2.5]), atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_align(self):
@@ -1912,9 +1917,10 @@ MultiSpectralDistributions.trim` method.
         MultiSpectralDistributions.normalise` method.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             self._sample_msds.copy().normalise(100).values,
             tstack([DATA_SAMPLE_NORMALISED] * 3),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_to_sds(self):
@@ -2071,15 +2077,15 @@ class TestSdsAndMsdsToMsds(unittest.TestCase):
             shape,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sds_and_msds_to_msds(
                 [sd_1, sd_2, multi_sds_1, multi_sds_2]
             ).wavelengths,
             shape.wavelengths,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sds_and_msds_to_msds(
                 [sd_1, sd_2, multi_sds_1, multi_sds_2]
             ).values,
@@ -2094,7 +2100,7 @@ class TestSdsAndMsdsToMsds(unittest.TestCase):
                     for sd in sds_and_msds_to_sds(multi_sds_2.align(shape))
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 

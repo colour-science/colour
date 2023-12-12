@@ -33,6 +33,8 @@ __all__ = [
     "DTYPE_FLOAT_DEFAULT",
     "TOLERANCE_ABSOLUTE_DEFAULT",
     "TOLERANCE_RELATIVE_DEFAULT",
+    "TOLERANCE_ABSOLUTE_TESTS",
+    "TOLERANCE_RELATIVE_TESTS",
 ]
 
 FLOATING_POINT_NUMBER_PATTERN: str = "[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"
@@ -75,3 +77,9 @@ TOLERANCE_ABSOLUTE_DEFAULT: float = 1e-8
 
 TOLERANCE_RELATIVE_DEFAULT: float = 1e-8
 """Default relative tolerance for computations."""
+
+TOLERANCE_ABSOLUTE_TESTS: float = 1e-7
+"""Absolute tolerance for computations during unit tests."""
+
+TOLERANCE_RELATIVE_TESTS: float = 1e-7
+"""Relative tolerance for computations during unit tests."""

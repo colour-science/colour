@@ -17,6 +17,7 @@ from colour.colorimetry.generation import (
     sd_single_led_Ohno2005,
     sd_zeros,
 )
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -107,16 +108,22 @@ class TestMsdsConstant(unittest.TestCase):
 
         msds = msds_constant(np.pi, labels=["a", "b", "c"])
 
-        np.testing.assert_array_almost_equal(
-            msds[360], np.array([np.pi, np.pi, np.pi]), decimal=7
+        np.testing.assert_allclose(
+            msds[360],
+            np.array([np.pi, np.pi, np.pi]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
-            msds[555], np.array([np.pi, np.pi, np.pi]), decimal=7
+        np.testing.assert_allclose(
+            msds[555],
+            np.array([np.pi, np.pi, np.pi]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
-            msds[780], np.array([np.pi, np.pi, np.pi]), decimal=7
+        np.testing.assert_allclose(
+            msds[780],
+            np.array([np.pi, np.pi, np.pi]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 

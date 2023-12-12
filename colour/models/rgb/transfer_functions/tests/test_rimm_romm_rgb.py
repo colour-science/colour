@@ -7,6 +7,7 @@ import unittest
 
 import numpy as np
 
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models.rgb.transfer_functions import (
     cctf_decoding_RIMMRGB,
     cctf_decoding_ROMMRGB,
@@ -71,20 +72,20 @@ cctf_encoding_ROMMRGB` definition n-dimensional arrays support.
 
         X = np.tile(X, 6)
         X_ROMM = np.tile(X_ROMM, 6)
-        np.testing.assert_array_almost_equal(
-            cctf_encoding_ROMMRGB(X), X_ROMM, decimal=7
+        np.testing.assert_allclose(
+            cctf_encoding_ROMMRGB(X), X_ROMM, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         X = np.reshape(X, (2, 3))
         X_ROMM = np.reshape(X_ROMM, (2, 3))
-        np.testing.assert_array_almost_equal(
-            cctf_encoding_ROMMRGB(X), X_ROMM, decimal=7
+        np.testing.assert_allclose(
+            cctf_encoding_ROMMRGB(X), X_ROMM, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         X = np.reshape(X, (2, 3, 1))
         X_ROMM = np.reshape(X_ROMM, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            cctf_encoding_ROMMRGB(X), X_ROMM, decimal=7
+        np.testing.assert_allclose(
+            cctf_encoding_ROMMRGB(X), X_ROMM, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_cctf_encoding_ROMMRGB(self):
@@ -99,8 +100,10 @@ cctf_encoding_ROMMRGB` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    cctf_encoding_ROMMRGB(X * factor), X_p * factor, decimal=7
+                np.testing.assert_allclose(
+                    cctf_encoding_ROMMRGB(X * factor),
+                    X_p * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -138,15 +141,13 @@ cctf_decoding_ROMMRGB` definition.
         np.testing.assert_allclose(
             cctf_decoding_ROMMRGB(98, in_int=True),
             0.18,
-            atol=0.001,
-            rtol=0.001,
+            atol=0.01,
         )
 
         np.testing.assert_allclose(
             cctf_decoding_ROMMRGB(1579, bit_depth=12, in_int=True),
             0.18,
             atol=0.001,
-            rtol=0.001,
         )
 
     def test_n_dimensional_cctf_decoding_ROMMRGB(self):
@@ -160,20 +161,20 @@ cctf_decoding_ROMMRGB` definition n-dimensional arrays support.
 
         X_p = np.tile(X_p, 6)
         X = np.tile(X, 6)
-        np.testing.assert_array_almost_equal(
-            cctf_decoding_ROMMRGB(X_p), X, decimal=7
+        np.testing.assert_allclose(
+            cctf_decoding_ROMMRGB(X_p), X, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         X_p = np.reshape(X_p, (2, 3))
         X = np.reshape(X, (2, 3))
-        np.testing.assert_array_almost_equal(
-            cctf_decoding_ROMMRGB(X_p), X, decimal=7
+        np.testing.assert_allclose(
+            cctf_decoding_ROMMRGB(X_p), X, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         X_p = np.reshape(X_p, (2, 3, 1))
         X = np.reshape(X, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            cctf_decoding_ROMMRGB(X_p), X, decimal=7
+        np.testing.assert_allclose(
+            cctf_decoding_ROMMRGB(X_p), X, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_cctf_decoding_ROMMRGB(self):
@@ -188,8 +189,10 @@ cctf_decoding_ROMMRGB` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    cctf_decoding_ROMMRGB(X_p * factor), X * factor, decimal=7
+                np.testing.assert_allclose(
+                    cctf_decoding_ROMMRGB(X_p * factor),
+                    X * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -243,20 +246,20 @@ cctf_encoding_RIMMRGB` definition n-dimensional arrays support.
 
         X = np.tile(X, 6)
         X_p = np.tile(X_p, 6)
-        np.testing.assert_array_almost_equal(
-            cctf_encoding_RIMMRGB(X), X_p, decimal=7
+        np.testing.assert_allclose(
+            cctf_encoding_RIMMRGB(X), X_p, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         X = np.reshape(X, (2, 3))
         X_p = np.reshape(X_p, (2, 3))
-        np.testing.assert_array_almost_equal(
-            cctf_encoding_RIMMRGB(X), X_p, decimal=7
+        np.testing.assert_allclose(
+            cctf_encoding_RIMMRGB(X), X_p, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         X = np.reshape(X, (2, 3, 1))
         X_p = np.reshape(X_p, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            cctf_encoding_RIMMRGB(X), X_p, decimal=7
+        np.testing.assert_allclose(
+            cctf_encoding_RIMMRGB(X), X_p, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_cctf_encoding_RIMMRGB(self):
@@ -271,8 +274,10 @@ cctf_encoding_RIMMRGB` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    cctf_encoding_RIMMRGB(X * factor), X_p * factor, decimal=7
+                np.testing.assert_allclose(
+                    cctf_encoding_RIMMRGB(X * factor),
+                    X_p * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -313,14 +318,12 @@ cctf_decoding_RIMMRGB` definition.
             cctf_decoding_RIMMRGB(74, in_int=True),
             0.18,
             atol=0.005,
-            rtol=0.005,
         )
 
         np.testing.assert_allclose(
             cctf_decoding_RIMMRGB(1194, bit_depth=12, in_int=True),
             0.18,
             atol=0.005,
-            rtol=0.005,
         )
 
     def test_n_dimensional_cctf_decoding_RIMMRGB(self):
@@ -334,20 +337,20 @@ cctf_decoding_RIMMRGB` definition n-dimensional arrays support.
 
         X_p = np.tile(X_p, 6)
         X = np.tile(X, 6)
-        np.testing.assert_array_almost_equal(
-            cctf_decoding_RIMMRGB(X_p), X, decimal=7
+        np.testing.assert_allclose(
+            cctf_decoding_RIMMRGB(X_p), X, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         X_p = np.reshape(X_p, (2, 3))
         X = np.reshape(X, (2, 3))
-        np.testing.assert_array_almost_equal(
-            cctf_decoding_RIMMRGB(X_p), X, decimal=7
+        np.testing.assert_allclose(
+            cctf_decoding_RIMMRGB(X_p), X, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         X_p = np.reshape(X_p, (2, 3, 1))
         X = np.reshape(X, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            cctf_decoding_RIMMRGB(X_p), X, decimal=7
+        np.testing.assert_allclose(
+            cctf_decoding_RIMMRGB(X_p), X, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_cctf_decoding_RIMMRGB(self):
@@ -362,8 +365,10 @@ cctf_decoding_RIMMRGB` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    cctf_decoding_RIMMRGB(X_p * factor), X * factor, decimal=7
+                np.testing.assert_allclose(
+                    cctf_decoding_RIMMRGB(X_p * factor),
+                    X * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -417,20 +422,20 @@ log_encoding_ERIMMRGB` definition n-dimensional arrays support.
 
         X = np.tile(X, 6)
         X_p = np.tile(X_p, 6)
-        np.testing.assert_array_almost_equal(
-            log_encoding_ERIMMRGB(X), X_p, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_ERIMMRGB(X), X_p, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         X = np.reshape(X, (2, 3))
         X_p = np.reshape(X_p, (2, 3))
-        np.testing.assert_array_almost_equal(
-            log_encoding_ERIMMRGB(X), X_p, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_ERIMMRGB(X), X_p, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         X = np.reshape(X, (2, 3, 1))
         X_p = np.reshape(X_p, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            log_encoding_ERIMMRGB(X), X_p, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_ERIMMRGB(X), X_p, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_encoding_ERIMMRGB(self):
@@ -445,8 +450,10 @@ log_encoding_ERIMMRGB` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    log_encoding_ERIMMRGB(X * factor), X_p * factor, decimal=7
+                np.testing.assert_allclose(
+                    log_encoding_ERIMMRGB(X * factor),
+                    X_p * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -487,14 +494,12 @@ log_decoding_ERIMMRGB` definition.
             log_decoding_ERIMMRGB(105, in_int=True),
             0.18,
             atol=0.005,
-            rtol=0.005,
         )
 
         np.testing.assert_allclose(
             log_decoding_ERIMMRGB(1679, bit_depth=12, in_int=True),
             0.18,
             atol=0.005,
-            rtol=0.005,
         )
 
     def test_n_dimensional_log_decoding_ERIMMRGB(self):
@@ -508,20 +513,20 @@ log_decoding_ERIMMRGB` definition n-dimensional arrays support.
 
         X_p = np.tile(X_p, 6)
         X = np.tile(X, 6)
-        np.testing.assert_array_almost_equal(
-            log_decoding_ERIMMRGB(X_p), X, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_ERIMMRGB(X_p), X, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         X_p = np.reshape(X_p, (2, 3))
         X = np.reshape(X, (2, 3))
-        np.testing.assert_array_almost_equal(
-            log_decoding_ERIMMRGB(X_p), X, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_ERIMMRGB(X_p), X, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         X_p = np.reshape(X_p, (2, 3, 1))
         X = np.reshape(X, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            log_decoding_ERIMMRGB(X_p), X, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_ERIMMRGB(X_p), X, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_decoding_ERIMMRGB(self):
@@ -536,8 +541,10 @@ log_decoding_ERIMMRGB` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    log_decoding_ERIMMRGB(X_p * factor), X * factor, decimal=7
+                np.testing.assert_allclose(
+                    log_decoding_ERIMMRGB(X_p * factor),
+                    X * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors

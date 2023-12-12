@@ -27,6 +27,7 @@ from colour.algebra import (
     spow_enable,
     vector_dot,
 )
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
@@ -283,15 +284,15 @@ class TestSpow(unittest.TestCase):
 
         self.assertEqual(spow(-2, 2), -4.0)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             spow([2, -2, -2, 0], [2, 2, 0.15, 0]),
             np.array([4.00000000, -4.00000000, -1.10956947, 0.00000000]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         with spow_enable(True):
-            np.testing.assert_array_almost_equal(
-                spow(-2, 0.15), -1.10956947, decimal=7
+            np.testing.assert_allclose(
+                spow(-2, 0.15), -1.10956947, atol=TOLERANCE_ABSOLUTE_TESTS
             )
 
         with spow_enable(False):
@@ -307,22 +308,22 @@ class TestNormaliseVector(unittest.TestCase):
     def test_normalise_vector(self):
         """Test :func:`colour.algebra.common.normalise_vector` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             normalise_vector(np.array([0.20654008, 0.12197225, 0.05136952])),
             np.array([0.84197033, 0.49722560, 0.20941026]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             normalise_vector(np.array([0.14222010, 0.23042768, 0.10495772])),
             np.array([0.48971705, 0.79344877, 0.36140872]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             normalise_vector(np.array([0.07818780, 0.06157201, 0.28099326])),
             np.array([0.26229003, 0.20655044, 0.94262445]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -335,13 +336,13 @@ class TestNormaliseMaximum(unittest.TestCase):
     def test_normalise_maximum(self):
         """Test :func:`colour.algebra.common.normalise_maximum` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             normalise_maximum(np.array([0.20654008, 0.12197225, 0.05136952])),
             np.array([1.00000000, 0.59055003, 0.24871454]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             normalise_maximum(
                 np.array(
                     [
@@ -358,10 +359,10 @@ class TestNormaliseMaximum(unittest.TestCase):
                     [0.27825507, 0.21912273, 1.00000000],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             normalise_maximum(
                 np.array(
                     [
@@ -379,31 +380,31 @@ class TestNormaliseMaximum(unittest.TestCase):
                     [0.27825507, 0.21912273, 1.00000000],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             normalise_maximum(
                 np.array([0.20654008, 0.12197225, 0.05136952]), factor=10
             ),
             np.array([10.00000000, 5.90550028, 2.48714535]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             normalise_maximum(
                 np.array([-0.11518475, -0.10080000, 0.05089373])
             ),
             np.array([0.00000000, 0.00000000, 1.00000000]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             normalise_maximum(
                 np.array([-0.20654008, -0.12197225, 0.05136952]), clip=False
             ),
             np.array([-4.02067374, -2.37440899, 1.00000000]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -428,7 +429,7 @@ class TestVectorDot(unittest.TestCase):
         v = np.array([0.20654008, 0.12197225, 0.05136952])
         v = np.tile(v, (6, 1))
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             vector_dot(m, v),
             np.array(
                 [
@@ -440,7 +441,7 @@ class TestVectorDot(unittest.TestCase):
                     [0.19540944, 0.06203965, 0.05279523],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -464,7 +465,7 @@ class TestMatrixDot(unittest.TestCase):
 
         b = a
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             matrix_dot(a, b),
             np.array(
                 [
@@ -500,7 +501,7 @@ class TestMatrixDot(unittest.TestCase):
                     ],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -553,15 +554,15 @@ class TestEuclideanDistance(unittest.TestCase):
         a = np.tile(a, (6, 1))
         b = np.tile(b, (6, 1))
         distance = np.tile(distance, 6)
-        np.testing.assert_array_almost_equal(
-            euclidean_distance(a, b), distance, decimal=7
+        np.testing.assert_allclose(
+            euclidean_distance(a, b), distance, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         a = np.reshape(a, (2, 3, 3))
         b = np.reshape(b, (2, 3, 3))
         distance = np.reshape(distance, (2, 3))
-        np.testing.assert_array_almost_equal(
-            euclidean_distance(a, b), distance, decimal=7
+        np.testing.assert_allclose(
+            euclidean_distance(a, b), distance, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     @ignore_numpy_errors
@@ -625,15 +626,15 @@ class TestManhattanDistance(unittest.TestCase):
         a = np.tile(a, (6, 1))
         b = np.tile(b, (6, 1))
         distance = np.tile(distance, 6)
-        np.testing.assert_array_almost_equal(
-            manhattan_distance(a, b), distance, decimal=7
+        np.testing.assert_allclose(
+            manhattan_distance(a, b), distance, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         a = np.reshape(a, (2, 3, 3))
         b = np.reshape(b, (2, 3, 3))
         distance = np.reshape(distance, (2, 3))
-        np.testing.assert_array_almost_equal(
-            manhattan_distance(a, b), distance, decimal=7
+        np.testing.assert_allclose(
+            manhattan_distance(a, b), distance, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     @ignore_numpy_errors
@@ -657,7 +658,7 @@ class TestLinearConversion(unittest.TestCase):
     def test_linear_conversion(self):
         """Test :func:`colour.algebra.common.linear_conversion` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             linear_conversion(
                 np.linspace(0, 1, 10), np.array([0, 1]), np.array([1, np.pi])
             ),
@@ -675,7 +676,7 @@ class TestLinearConversion(unittest.TestCase):
                     3.14159265,
                 ]
             ),
-            decimal=8,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -688,7 +689,7 @@ class TestLinstepFunction(unittest.TestCase):
     def test_linstep_function(self):
         """Test :func:`colour.algebra.common.linstep_function` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             linstep_function(
                 np.linspace(0, 1, 10),
                 np.linspace(0, 1, 10),
@@ -708,10 +709,10 @@ class TestLinstepFunction(unittest.TestCase):
                     2.00000000,
                 ]
             ),
-            decimal=8,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             linstep_function(
                 np.linspace(0, 2, 10),
                 np.linspace(0.25, 0.5, 10),
@@ -732,7 +733,7 @@ class TestLinstepFunction(unittest.TestCase):
                     0.75000000,
                 ]
             ),
-            decimal=8,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -750,13 +751,15 @@ class TestSmoothstepFunction(unittest.TestCase):
         self.assertEqual(smoothstep_function(0.75), 0.84375)
 
         x = np.linspace(-2, 2, 5)
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             smoothstep_function(x),
             np.array([28.00000, 5.00000, 0.00000, 1.00000, -4.00000]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             smoothstep_function(x, -2, 2, clip=True),
             np.array([0.00000, 0.15625, 0.50000, 0.84375, 1.00000]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 

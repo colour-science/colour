@@ -8,6 +8,7 @@ import unittest
 
 import numpy as np
 
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.hints import Any, ArrayLike, NDArrayFloat
 from colour.io.luts import (
     LUT1D,
@@ -453,7 +454,7 @@ LUTSequence(
         samples = np.linspace(0, 1, 5)
         RGB = tstack([samples, samples, samples])
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT_sequence.apply(RGB, GammaOperator={"direction": "Inverse"}),
             np.array(
                 [
@@ -464,6 +465,7 @@ LUTSequence(
                     [0.75000000, 0.75000000, 0.75000000],
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 

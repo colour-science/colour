@@ -9,6 +9,7 @@ from colour.colorimetry import (
     mesopic_weighting_function,
     sd_mesopic_luminous_efficiency_function,
 )
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
@@ -472,20 +473,26 @@ class TestMesopicWeightingFunction(unittest.TestCase):
 
         wl = np.tile(wl, 6)
         Vm = np.tile(Vm, 6)
-        np.testing.assert_array_almost_equal(
-            mesopic_weighting_function(wl, 0.2), Vm
+        np.testing.assert_allclose(
+            mesopic_weighting_function(wl, 0.2),
+            Vm,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         wl = np.reshape(wl, (2, 3))
         Vm = np.reshape(Vm, (2, 3))
-        np.testing.assert_array_almost_equal(
-            mesopic_weighting_function(wl, 0.2), Vm
+        np.testing.assert_allclose(
+            mesopic_weighting_function(wl, 0.2),
+            Vm,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         wl = np.reshape(wl, (2, 3, 1))
         Vm = np.reshape(Vm, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            mesopic_weighting_function(wl, 0.2), Vm
+        np.testing.assert_allclose(
+            mesopic_weighting_function(wl, 0.2),
+            Vm,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors
@@ -512,10 +519,10 @@ sd_mesopic_luminous_efficiency_function` definition unit tests methods.
 sd_mesopic_luminous_efficiency_function` definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_mesopic_luminous_efficiency_function(0.2).values,
             DATA_MESOPIC_LEF,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 

@@ -9,6 +9,7 @@ from colour.colorimetry import (
     SpectralDistribution,
     bandpass_correction_Stearns1988,
 )
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -83,8 +84,10 @@ bandpass_correction_Stearns1988` definition.
             )
         )
 
-        np.testing.assert_array_almost_equal(
-            bandpass_correction_Stearns1988(sd).values, DATA_BANDPASS_CORRECTED
+        np.testing.assert_allclose(
+            bandpass_correction_Stearns1988(sd).values,
+            DATA_BANDPASS_CORRECTED,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 

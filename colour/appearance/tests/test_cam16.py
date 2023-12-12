@@ -13,6 +13,7 @@ from colour.appearance import (
     InductionFactors_CAM16,
     XYZ_to_CAM16,
 )
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import (
     as_float_array,
     domain_range_scale,
@@ -47,7 +48,7 @@ class TestXYZ_to_CAM16(unittest.TestCase):
         L_A = 318.31
         Y_b = 20
         surround = VIEWING_CONDITIONS_CAM16["Average"]
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround),
             np.array(
                 [
@@ -61,12 +62,12 @@ class TestXYZ_to_CAM16(unittest.TestCase):
                     np.nan,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ = np.array([57.06, 43.06, 31.96])
         L_A = 31.83
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround),
             np.array(
                 [
@@ -80,13 +81,13 @@ class TestXYZ_to_CAM16(unittest.TestCase):
                     np.nan,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ = np.array([3.53, 6.56, 2.14])
         XYZ_w = np.array([109.85, 100, 35.58])
         L_A = 318.31
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround),
             np.array(
                 [
@@ -100,12 +101,12 @@ class TestXYZ_to_CAM16(unittest.TestCase):
                     np.nan,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ = np.array([19.01, 20.00, 21.78])
         L_A = 318.31
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround),
             np.array(
                 [
@@ -119,13 +120,13 @@ class TestXYZ_to_CAM16(unittest.TestCase):
                     np.nan,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ = np.array([61.45276998, 7.00421901, 82.2406738])
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 4.074366543152521
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround),
             np.array(
                 [
@@ -139,7 +140,7 @@ class TestXYZ_to_CAM16(unittest.TestCase):
                     np.nan,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_XYZ_to_CAM16(self):
@@ -157,26 +158,26 @@ class TestXYZ_to_CAM16(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         specification = np.tile(specification, (6, 1))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround),
             specification,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ_w = np.tile(XYZ_w, (6, 1))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround),
             specification,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
         specification = np.reshape(specification, (2, 3, 8))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround),
             specification,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors
@@ -219,12 +220,12 @@ class TestXYZ_to_CAM16(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     XYZ_to_CAM16(
                         XYZ * factor_a, XYZ_w * factor_a, L_A, Y_b, surround
                     ),
                     as_float_array(specification) * factor_b,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -258,20 +259,20 @@ class TestCAM16_to_XYZ(unittest.TestCase):
         L_A = 318.31
         Y_b = 20
         surround = VIEWING_CONDITIONS_CAM16["Average"]
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
             np.array([19.01, 20.00, 21.78]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         specification = CAM_Specification_CAM16(
             65.42828069, 49.67956420, 17.48659243
         )
         L_A = 31.83
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
             np.array([57.06, 43.06, 31.96]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         specification = CAM_Specification_CAM16(
@@ -279,20 +280,20 @@ class TestCAM16_to_XYZ(unittest.TestCase):
         )
         XYZ_w = np.array([109.85, 100, 35.58])
         L_A = 318.31
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
             np.array([3.53, 6.56, 2.14]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         specification = CAM_Specification_CAM16(
             41.36326063, 52.81154022, 258.88676291
         )
         L_A = 318.31
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
             np.array([19.01, 20.00, 21.78]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         specification = CAM_Specification_CAM16(
@@ -300,10 +301,10 @@ class TestCAM16_to_XYZ(unittest.TestCase):
         )
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 4.074366543152521
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
             np.array([61.45276998, 7.00421901, 82.2406738]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_CAM16_to_XYZ(self):
@@ -324,17 +325,17 @@ class TestCAM16_to_XYZ(unittest.TestCase):
             *np.transpose(np.tile(tsplit(specification), (6, 1))).tolist()
         )
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
             XYZ,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ_w = np.tile(XYZ_w, (6, 1))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
             XYZ,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         specification = CAM_Specification_CAM16(
@@ -342,10 +343,10 @@ class TestCAM16_to_XYZ(unittest.TestCase):
         )
         XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
             XYZ,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors
@@ -389,7 +390,7 @@ class TestCAM16_to_XYZ(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     CAM16_to_XYZ(
                         specification * factor_a,
                         XYZ_w * factor_b,
@@ -398,7 +399,7 @@ class TestCAM16_to_XYZ(unittest.TestCase):
                         surround,
                     ),
                     XYZ * factor_b,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors

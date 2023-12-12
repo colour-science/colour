@@ -9,6 +9,7 @@ from itertools import product
 
 import numpy as np
 
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.hints import NDArrayFloat
 from colour.notation import (
     munsell_value_ASTMD1535,
@@ -1137,20 +1138,20 @@ class TestMunsellValuePriest1920(unittest.TestCase):
 
         V = np.tile(V, 6)
         Y = np.tile(Y, 6)
-        np.testing.assert_array_almost_equal(
-            munsell_value_Priest1920(Y), V, decimal=7
+        np.testing.assert_allclose(
+            munsell_value_Priest1920(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         V = np.reshape(V, (2, 3))
         Y = np.reshape(Y, (2, 3))
-        np.testing.assert_array_almost_equal(
-            munsell_value_Priest1920(Y), V, decimal=7
+        np.testing.assert_allclose(
+            munsell_value_Priest1920(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         V = np.reshape(V, (2, 3, 1))
         Y = np.reshape(Y, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            munsell_value_Priest1920(Y), V, decimal=7
+        np.testing.assert_allclose(
+            munsell_value_Priest1920(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_munsell_value_Priest1920(self):
@@ -1165,10 +1166,10 @@ class TestMunsellValuePriest1920(unittest.TestCase):
         d_r = (("reference", 1, 1), ("1", 0.01, 0.1), ("100", 1, 10))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     munsell_value_Priest1920(Y * factor_a),
                     V * factor_b,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -1222,20 +1223,20 @@ class TestMunsellValueMunsell1933(unittest.TestCase):
 
         V = np.tile(V, 6)
         Y = np.tile(Y, 6)
-        np.testing.assert_array_almost_equal(
-            munsell_value_Munsell1933(Y), V, decimal=7
+        np.testing.assert_allclose(
+            munsell_value_Munsell1933(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         V = np.reshape(V, (2, 3))
         Y = np.reshape(Y, (2, 3))
-        np.testing.assert_array_almost_equal(
-            munsell_value_Munsell1933(Y), V, decimal=7
+        np.testing.assert_allclose(
+            munsell_value_Munsell1933(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         V = np.reshape(V, (2, 3, 1))
         Y = np.reshape(Y, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            munsell_value_Munsell1933(Y), V, decimal=7
+        np.testing.assert_allclose(
+            munsell_value_Munsell1933(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_munsell_value_Munsell1933(self):
@@ -1250,10 +1251,10 @@ class TestMunsellValueMunsell1933(unittest.TestCase):
         d_r = (("reference", 1, 1), ("1", 0.01, 0.1), ("100", 1, 10))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     munsell_value_Munsell1933(Y * factor_a),
                     V * factor_b,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -1303,20 +1304,20 @@ class TestMunsellValueMoon1943(unittest.TestCase):
 
         V = np.tile(V, 6)
         Y = np.tile(Y, 6)
-        np.testing.assert_array_almost_equal(
-            munsell_value_Moon1943(Y), V, decimal=7
+        np.testing.assert_allclose(
+            munsell_value_Moon1943(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         V = np.reshape(V, (2, 3))
         Y = np.reshape(Y, (2, 3))
-        np.testing.assert_array_almost_equal(
-            munsell_value_Moon1943(Y), V, decimal=7
+        np.testing.assert_allclose(
+            munsell_value_Moon1943(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         V = np.reshape(V, (2, 3, 1))
         Y = np.reshape(Y, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            munsell_value_Moon1943(Y), V, decimal=7
+        np.testing.assert_allclose(
+            munsell_value_Moon1943(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_munsell_value_Moon1943(self):
@@ -1331,10 +1332,10 @@ class TestMunsellValueMoon1943(unittest.TestCase):
         d_r = (("reference", 1, 1), ("1", 0.01, 0.1), ("100", 1, 10))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     munsell_value_Moon1943(Y * factor_a),
                     V * factor_b,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -1390,20 +1391,20 @@ class TestMunsellValueSaunderson1944(unittest.TestCase):
 
         V = np.tile(V, 6)
         Y = np.tile(Y, 6)
-        np.testing.assert_array_almost_equal(
-            munsell_value_Saunderson1944(Y), V, decimal=7
+        np.testing.assert_allclose(
+            munsell_value_Saunderson1944(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         V = np.reshape(V, (2, 3))
         Y = np.reshape(Y, (2, 3))
-        np.testing.assert_array_almost_equal(
-            munsell_value_Saunderson1944(Y), V, decimal=7
+        np.testing.assert_allclose(
+            munsell_value_Saunderson1944(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         V = np.reshape(V, (2, 3, 1))
         Y = np.reshape(Y, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            munsell_value_Saunderson1944(Y), V, decimal=7
+        np.testing.assert_allclose(
+            munsell_value_Saunderson1944(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_munsell_value_Saunderson1944(self):
@@ -1418,10 +1419,10 @@ class TestMunsellValueSaunderson1944(unittest.TestCase):
         d_r = (("reference", 1, 1), ("1", 0.01, 0.1), ("100", 1, 10))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     munsell_value_Saunderson1944(Y * factor_a),
                     V * factor_b,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -1471,20 +1472,20 @@ class TestMunsellValueLadd1955(unittest.TestCase):
 
         V = np.tile(V, 6)
         Y = np.tile(Y, 6)
-        np.testing.assert_array_almost_equal(
-            munsell_value_Ladd1955(Y), V, decimal=7
+        np.testing.assert_allclose(
+            munsell_value_Ladd1955(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         V = np.reshape(V, (2, 3))
         Y = np.reshape(Y, (2, 3))
-        np.testing.assert_array_almost_equal(
-            munsell_value_Ladd1955(Y), V, decimal=7
+        np.testing.assert_allclose(
+            munsell_value_Ladd1955(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         V = np.reshape(V, (2, 3, 1))
         Y = np.reshape(Y, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            munsell_value_Ladd1955(Y), V, decimal=7
+        np.testing.assert_allclose(
+            munsell_value_Ladd1955(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_munsell_value_Ladd1955(self):
@@ -1499,10 +1500,10 @@ class TestMunsellValueLadd1955(unittest.TestCase):
         d_r = (("reference", 1, 1), ("1", 0.01, 0.1), ("100", 1, 10))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     munsell_value_Ladd1955(Y * factor_a),
                     V * factor_b,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -1552,20 +1553,20 @@ class TestMunsellValueMcCamy1992(unittest.TestCase):
 
         V = np.tile(V, 6)
         Y = np.tile(Y, 6)
-        np.testing.assert_array_almost_equal(
-            munsell_value_McCamy1987(Y), V, decimal=7
+        np.testing.assert_allclose(
+            munsell_value_McCamy1987(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         V = np.reshape(V, (2, 3))
         Y = np.reshape(Y, (2, 3))
-        np.testing.assert_array_almost_equal(
-            munsell_value_McCamy1987(Y), V, decimal=7
+        np.testing.assert_allclose(
+            munsell_value_McCamy1987(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         V = np.reshape(V, (2, 3, 1))
         Y = np.reshape(Y, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            munsell_value_McCamy1987(Y), V, decimal=7
+        np.testing.assert_allclose(
+            munsell_value_McCamy1987(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_munsell_value_McCamy1987(self):
@@ -1580,10 +1581,10 @@ class TestMunsellValueMcCamy1992(unittest.TestCase):
         d_r = (("reference", 1, 1), ("1", 0.01, 0.1), ("100", 1, 10))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     munsell_value_McCamy1987(Y * factor_a),
                     V * factor_b,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -1633,20 +1634,20 @@ class TestMunsellValueASTMD1535(unittest.TestCase):
 
         V = np.tile(V, 6)
         Y = np.tile(Y, 6)
-        np.testing.assert_array_almost_equal(
-            munsell_value_ASTMD1535(Y), V, decimal=7
+        np.testing.assert_allclose(
+            munsell_value_ASTMD1535(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         V = np.reshape(V, (2, 3))
         Y = np.reshape(Y, (2, 3))
-        np.testing.assert_array_almost_equal(
-            munsell_value_ASTMD1535(Y), V, decimal=7
+        np.testing.assert_allclose(
+            munsell_value_ASTMD1535(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         V = np.reshape(V, (2, 3, 1))
         Y = np.reshape(Y, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            munsell_value_ASTMD1535(Y), V, decimal=7
+        np.testing.assert_allclose(
+            munsell_value_ASTMD1535(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_munsell_value_ASTMD1535(self):
@@ -1661,10 +1662,10 @@ class TestMunsellValueASTMD1535(unittest.TestCase):
         d_r = (("reference", 1, 1), ("1", 0.01, 0.1), ("100", 1, 10))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     munsell_value_ASTMD1535(Y * factor_a),
                     V * factor_b,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -1695,8 +1696,10 @@ class TestMunsellSpecification_to_xyY(unittest.TestCase):
             as_float_array(list(MUNSELL_SPECIFICATIONS[..., 0])),
             as_float_array(list(MUNSELL_SPECIFICATIONS[..., 1])),
         )
-        np.testing.assert_array_almost_equal(
-            munsell_specification_to_xyY(specification), xyY, decimal=7
+        np.testing.assert_allclose(
+            munsell_specification_to_xyY(specification),
+            xyY,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         specification, xyY = (
@@ -1709,8 +1712,10 @@ class TestMunsellSpecification_to_xyY(unittest.TestCase):
             [nan_array, specification, nan_array, nan_array]
         )
 
-        np.testing.assert_array_almost_equal(
-            munsell_specification_to_xyY(specification), xyY, decimal=7
+        np.testing.assert_allclose(
+            munsell_specification_to_xyY(specification),
+            xyY,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_munsell_specification_to_xyY(self):
@@ -1726,14 +1731,18 @@ class TestMunsellSpecification_to_xyY(unittest.TestCase):
 
         specification = np.tile(specification, (6, 1))
         xyY = np.tile(xyY, (6, 1))
-        np.testing.assert_array_almost_equal(
-            munsell_specification_to_xyY(specification), xyY, decimal=7
+        np.testing.assert_allclose(
+            munsell_specification_to_xyY(specification),
+            xyY,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         specification = np.reshape(specification, (2, 3, 4))
         xyY = np.reshape(xyY, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
-            munsell_specification_to_xyY(specification), xyY, decimal=7
+        np.testing.assert_allclose(
+            munsell_specification_to_xyY(specification),
+            xyY,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         specification = np.array([np.nan, 8.9, np.nan, np.nan])
@@ -1741,14 +1750,18 @@ class TestMunsellSpecification_to_xyY(unittest.TestCase):
 
         specification = np.tile(specification, (6, 1))
         xyY = np.tile(xyY, (6, 1))
-        np.testing.assert_array_almost_equal(
-            munsell_specification_to_xyY(specification), xyY, decimal=7
+        np.testing.assert_allclose(
+            munsell_specification_to_xyY(specification),
+            xyY,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         specification = np.reshape(specification, (2, 3, 4))
         xyY = np.reshape(xyY, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
-            munsell_specification_to_xyY(specification), xyY, decimal=7
+        np.testing.assert_allclose(
+            munsell_specification_to_xyY(specification),
+            xyY,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_domain_range_scale_munsell_specification_to_xyY(self):
@@ -1769,10 +1782,10 @@ class TestMunsellSpecification_to_xyY(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     munsell_specification_to_xyY(specification * factor_a),
                     xyY * factor_b,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -1811,10 +1824,10 @@ class TestMunsellColour_to_xyY(unittest.TestCase):
         )
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     munsell_colour_to_xyY(munsell_colour),
                     xyY * factor,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     def test_n_dimensional_munsell_colour_to_xyY(self):
@@ -1828,14 +1841,18 @@ class TestMunsellColour_to_xyY(unittest.TestCase):
 
         munsell_colour = np.tile(munsell_colour, 6)
         xyY = np.tile(xyY, (6, 1))
-        np.testing.assert_array_almost_equal(
-            munsell_colour_to_xyY(munsell_colour), xyY, decimal=7
+        np.testing.assert_allclose(
+            munsell_colour_to_xyY(munsell_colour),
+            xyY,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         munsell_colour = np.reshape(munsell_colour, (2, 3))
         xyY = np.reshape(xyY, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
-            munsell_colour_to_xyY(munsell_colour), xyY, decimal=7
+        np.testing.assert_allclose(
+            munsell_colour_to_xyY(munsell_colour),
+            xyY,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         munsell_colour = "N8.9"
@@ -1843,14 +1860,18 @@ class TestMunsellColour_to_xyY(unittest.TestCase):
 
         munsell_colour = np.tile(munsell_colour, 6)
         xyY = np.tile(xyY, (6, 1))
-        np.testing.assert_array_almost_equal(
-            munsell_colour_to_xyY(munsell_colour), xyY, decimal=7
+        np.testing.assert_allclose(
+            munsell_colour_to_xyY(munsell_colour),
+            xyY,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         munsell_colour = np.reshape(munsell_colour, (2, 3))
         xyY = np.reshape(xyY, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
-            munsell_colour_to_xyY(munsell_colour), xyY, decimal=7
+        np.testing.assert_allclose(
+            munsell_colour_to_xyY(munsell_colour),
+            xyY,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -1874,8 +1895,7 @@ class TestxyY_to_munsell_specification(unittest.TestCase):
         np.testing.assert_allclose(
             xyY_to_munsell_specification(xyY),
             specification,
-            rtol=0.00001,
-            atol=0.00001,
+            atol=5e-5,
         )
 
         specification, xyY = (
@@ -1891,7 +1911,6 @@ class TestxyY_to_munsell_specification(unittest.TestCase):
         np.testing.assert_allclose(
             xyY_to_munsell_specification(xyY),
             specification,
-            rtol=0.00001,
             atol=0.00001,
         )
 
@@ -1906,14 +1925,18 @@ class TestxyY_to_munsell_specification(unittest.TestCase):
 
         xyY = np.tile(xyY, (6, 1))
         specification = np.tile(specification, (6, 1))
-        np.testing.assert_array_almost_equal(
-            xyY_to_munsell_specification(xyY), specification, decimal=7
+        np.testing.assert_allclose(
+            xyY_to_munsell_specification(xyY),
+            specification,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         xyY = np.reshape(xyY, (2, 3, 3))
         specification = np.reshape(specification, (2, 3, 4))
-        np.testing.assert_array_almost_equal(
-            xyY_to_munsell_specification(xyY), specification, decimal=7
+        np.testing.assert_allclose(
+            xyY_to_munsell_specification(xyY),
+            specification,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_raise_exception_xyY_to_munsell_specification(self):
@@ -1947,8 +1970,7 @@ class TestxyY_to_munsell_specification(unittest.TestCase):
                 np.testing.assert_allclose(
                     xyY_to_munsell_specification(xyY * factor_a),
                     specification * factor_b,
-                    rtol=0.00001,
-                    atol=0.00001,
+                    atol=2e-5,
                 )
 
     @ignore_numpy_errors
@@ -2032,22 +2054,22 @@ class TestParseMunsellColour(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             parse_munsell_colour("N5.2"),
             np.array([np.nan, 5.2, np.nan, np.nan]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             parse_munsell_colour("0YR 2.0/4.0"),
             np.array([0.0, 2.0, 4.0, 6]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             parse_munsell_colour("4.2YR 8.1/5.3"),
             np.array([4.2, 8.1, 5.3, 6]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_raise_exception_parse_munsell_colour(self):
@@ -2094,28 +2116,28 @@ class TestNormaliseMunsellSpecification(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             normalise_munsell_specification((0.0, 2.0, 4.0, 6)),
             np.array([10.0, 2.0, 4.0, 7]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             normalise_munsell_specification((0.0, 2.0, 4.0, 8)),
             np.array([10.0, 2.0, 4.0, 9]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             normalise_munsell_specification((0, 2.0, 4.0, 10)),
             np.array([10.0, 2.0, 4.0, 1]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             normalise_munsell_specification(0.5),
             np.array([np.nan, 0.5, np.nan, np.nan]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -2131,34 +2153,34 @@ munsell_colour_to_munsell_specification` definition unit tests methods.
 munsell_colour_to_munsell_specification` definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             munsell_colour_to_munsell_specification("0.0YR 2.0/4.0"),
             np.array([10.0, 2.0, 4.0, 7]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             munsell_colour_to_munsell_specification("0.0RP 2.0/4.0"),
             np.array([10.0, 2.0, 4.0, 9]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             munsell_colour_to_munsell_specification("10.0B 2.0/4.0"),
             np.array([10.0, 2.0, 4.0, 1]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             munsell_colour_to_munsell_specification("N5.2"),
             np.array([np.nan, 5.2, np.nan, np.nan]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             munsell_colour_to_munsell_specification("0.0YR 2.0/0.0"),
             np.array([np.nan, 2.0, np.nan, np.nan]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -2230,17 +2252,17 @@ class Test_xyY_fromRenotation(unittest.TestCase):
         """
 
         np.testing.assert_array_equal(
-            xyY_from_renotation((2.5, 0.2, 2.0, 4)),
+            xyY_from_renotation([2.5, 0.2, 2.0, 4]),
             np.array([0.713, 1.414, 0.237]),
         )
 
         np.testing.assert_array_equal(
-            xyY_from_renotation((5.0, 0.2, 2.0, 4)),
+            xyY_from_renotation([5.0, 0.2, 2.0, 4]),
             np.array([0.449, 1.145, 0.237]),
         )
 
         np.testing.assert_array_equal(
-            xyY_from_renotation((7.5, 0.2, 2.0, 4)),
+            xyY_from_renotation([7.5, 0.2, 2.0, 4]),
             np.array([0.262, 0.837, 0.237]),
         )
 
@@ -2374,10 +2396,10 @@ class Test_xy_fromRenotationOvoid(unittest.TestCase):
 
         for i, (specification, _xyY) in enumerate(MUNSELL_EVEN_SPECIFICATIONS):
             if is_specification_in_renotation(specification):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     xy_from_renotation_ovoid(specification),
                     MUNSELL_XY_FROM_RENOTATION_OVOID[i],
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
 
@@ -2393,44 +2415,44 @@ class TestLCHabToMunsellSpecification(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LCHab_to_munsell_specification(
                 np.array([100.00000000, 21.57210357, 272.22819350])
             ),
             np.array([5.618942638888882, 10.0, 4.314420714000000, 10]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LCHab_to_munsell_specification(
                 np.array([100.00000000, 426.67945353, 72.39590835])
             ),
             np.array([0.109974541666666, 10.0, 85.335890706000001, 5]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LCHab_to_munsell_specification(
                 np.array([100.00000000, 74.05216981, 276.45318193])
             ),
             np.array([6.792550536111119, 10.0, 14.810433961999999, 10]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LCHab_to_munsell_specification(
                 np.array([100.00000000, 21.57210357, 0.00000000])
             ),
             np.array([10.000000000000000, 10.0, 4.314420714000000, 8]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LCHab_to_munsell_specification(
                 np.array([100.00000000, 21.57210357, 36.00000000])
             ),
             np.array([10.000000000000000, 10.0, 4.314420714000000, 7]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -2470,15 +2492,17 @@ class TestMunsellSpecification_to_xy(unittest.TestCase):
         """
 
         for specification, xyY in MUNSELL_EVEN_SPECIFICATIONS:
-            np.testing.assert_array_almost_equal(
-                munsell_specification_to_xy(specification), xyY[0:2], decimal=7
+            np.testing.assert_allclose(
+                munsell_specification_to_xy(specification),
+                xyY[0:2],
+                atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
         for specification, xyY in MUNSELL_GREYS_SPECIFICATIONS:
-            np.testing.assert_array_almost_equal(
+            np.testing.assert_allclose(
                 munsell_specification_to_xy(specification[0]),
                 xyY[0:2],
-                decimal=7,
+                atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
 

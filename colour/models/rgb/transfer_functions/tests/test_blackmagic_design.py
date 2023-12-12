@@ -7,6 +7,7 @@ import unittest
 
 import numpy as np
 
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models.rgb.transfer_functions import (
     oetf_BlackmagicFilmGeneration5,
     oetf_inverse_BlackmagicFilmGeneration5,
@@ -70,20 +71,20 @@ blackmagic_design.oetf_BlackmagicFilmGeneration5` definition n-dimensional
 
         L = np.tile(L, 6)
         V = np.tile(V, 6)
-        np.testing.assert_array_almost_equal(
-            oetf_BlackmagicFilmGeneration5(L), V, decimal=7
+        np.testing.assert_allclose(
+            oetf_BlackmagicFilmGeneration5(L), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         L = np.reshape(L, (2, 3))
         V = np.reshape(V, (2, 3))
-        np.testing.assert_array_almost_equal(
-            oetf_BlackmagicFilmGeneration5(L), V, decimal=7
+        np.testing.assert_allclose(
+            oetf_BlackmagicFilmGeneration5(L), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         L = np.reshape(L, (2, 3, 1))
         V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            oetf_BlackmagicFilmGeneration5(L), V, decimal=7
+        np.testing.assert_allclose(
+            oetf_BlackmagicFilmGeneration5(L), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_oetf_BlackmagicFilmGeneration5(self):
@@ -99,10 +100,10 @@ blackmagic_design.oetf_BlackmagicFilmGeneration5` definition domain and range
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     oetf_BlackmagicFilmGeneration5(L * factor),
                     V * factor,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -172,20 +173,26 @@ blackmagic_design.oetf_inverse_BlackmagicFilmGeneration5` definition
 
         V = np.tile(V, 6)
         L = np.tile(L, 6)
-        np.testing.assert_array_almost_equal(
-            oetf_inverse_BlackmagicFilmGeneration5(V), L, decimal=7
+        np.testing.assert_allclose(
+            oetf_inverse_BlackmagicFilmGeneration5(V),
+            L,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         V = np.reshape(V, (2, 3))
         L = np.reshape(L, (2, 3))
-        np.testing.assert_array_almost_equal(
-            oetf_inverse_BlackmagicFilmGeneration5(V), L, decimal=7
+        np.testing.assert_allclose(
+            oetf_inverse_BlackmagicFilmGeneration5(V),
+            L,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         V = np.reshape(V, (2, 3, 1))
         L = np.reshape(L, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            oetf_inverse_BlackmagicFilmGeneration5(V), L, decimal=7
+        np.testing.assert_allclose(
+            oetf_inverse_BlackmagicFilmGeneration5(V),
+            L,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_domain_range_scale_oetf_inverse_BlackmagicFilmGeneration5(self):
@@ -201,10 +208,10 @@ blackmagic_design.oetf_inverse_BlackmagicFilmGeneration5` definition domain and
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     oetf_inverse_BlackmagicFilmGeneration5(V * factor),
                     L * factor,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors

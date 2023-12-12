@@ -7,6 +7,7 @@ import unittest
 
 import numpy as np
 
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models.rgb.transfer_functions import (
     log_decoding_Log3G12,
     log_decoding_REDLog,
@@ -79,20 +80,20 @@ log_encoding_REDLog` definition n-dimensional arrays support.
 
         x = np.tile(x, 6)
         y = np.tile(y, 6)
-        np.testing.assert_array_almost_equal(
-            log_encoding_REDLog(x), y, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_REDLog(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         x = np.reshape(x, (2, 3))
         y = np.reshape(y, (2, 3))
-        np.testing.assert_array_almost_equal(
-            log_encoding_REDLog(x), y, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_REDLog(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         x = np.reshape(x, (2, 3, 1))
         y = np.reshape(y, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            log_encoding_REDLog(x), y, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_REDLog(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_encoding_REDLog(self):
@@ -107,8 +108,10 @@ log_encoding_REDLog` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    log_encoding_REDLog(x * factor), y * factor, decimal=7
+                np.testing.assert_allclose(
+                    log_encoding_REDLog(x * factor),
+                    y * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -154,20 +157,20 @@ log_decoding_REDLog` definition n-dimensional arrays support.
 
         y = np.tile(y, 6)
         x = np.tile(x, 6)
-        np.testing.assert_array_almost_equal(
-            log_decoding_REDLog(y), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_REDLog(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         y = np.reshape(y, (2, 3))
         x = np.reshape(x, (2, 3))
-        np.testing.assert_array_almost_equal(
-            log_decoding_REDLog(y), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_REDLog(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         y = np.reshape(y, (2, 3, 1))
         x = np.reshape(x, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            log_decoding_REDLog(y), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_REDLog(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_decoding_REDLog(self):
@@ -182,8 +185,10 @@ log_decoding_REDLog` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    log_decoding_REDLog(y * factor), x * factor, decimal=7
+                np.testing.assert_allclose(
+                    log_decoding_REDLog(y * factor),
+                    x * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -233,20 +238,20 @@ log_encoding_REDLogFilm` definition n-dimensional arrays support.
 
         x = np.tile(x, 6)
         y = np.tile(y, 6)
-        np.testing.assert_array_almost_equal(
-            log_encoding_REDLogFilm(x), y, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_REDLogFilm(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         x = np.reshape(x, (2, 3))
         y = np.reshape(y, (2, 3))
-        np.testing.assert_array_almost_equal(
-            log_encoding_REDLogFilm(x), y, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_REDLogFilm(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         x = np.reshape(x, (2, 3, 1))
         y = np.reshape(y, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            log_encoding_REDLogFilm(x), y, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_REDLogFilm(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_encoding_REDLogFilm(self):
@@ -261,8 +266,10 @@ log_encoding_REDLogFilm` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    log_encoding_REDLogFilm(x * factor), y * factor, decimal=7
+                np.testing.assert_allclose(
+                    log_encoding_REDLogFilm(x * factor),
+                    y * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -312,20 +319,20 @@ log_decoding_REDLogFilm` definition n-dimensional arrays support.
 
         y = np.tile(y, 6)
         x = np.tile(x, 6)
-        np.testing.assert_array_almost_equal(
-            log_decoding_REDLogFilm(y), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_REDLogFilm(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         y = np.reshape(y, (2, 3))
         x = np.reshape(x, (2, 3))
-        np.testing.assert_array_almost_equal(
-            log_decoding_REDLogFilm(y), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_REDLogFilm(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         y = np.reshape(y, (2, 3, 1))
         x = np.reshape(x, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            log_decoding_REDLogFilm(y), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_REDLogFilm(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_decoding_REDLogFilm(self):
@@ -340,8 +347,10 @@ log_decoding_REDLogFilm` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    log_decoding_REDLogFilm(y * factor), x * factor, decimal=7
+                np.testing.assert_allclose(
+                    log_decoding_REDLogFilm(y * factor),
+                    x * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -389,20 +398,20 @@ log_encoding_Log3G10_v1` definition n-dimensional arrays support.
 
         x = np.tile(x, 6)
         y = np.tile(y, 6)
-        np.testing.assert_array_almost_equal(
-            log_encoding_Log3G10_v1(x), y, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_Log3G10_v1(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         x = np.reshape(x, (2, 3))
         y = np.reshape(y, (2, 3))
-        np.testing.assert_array_almost_equal(
-            log_encoding_Log3G10_v1(x), y, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_Log3G10_v1(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         x = np.reshape(x, (2, 3, 1))
         y = np.reshape(y, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            log_encoding_Log3G10_v1(x), y, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_Log3G10_v1(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_encoding_Log3G10_v1(self):
@@ -417,8 +426,10 @@ log_encoding_Log3G10_v1` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    log_encoding_Log3G10_v1(x * factor), y * factor, decimal=7
+                np.testing.assert_allclose(
+                    log_encoding_Log3G10_v1(x * factor),
+                    y * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -466,20 +477,20 @@ log_decoding_Log3G10_v1` definition n-dimensional arrays support.
 
         y = np.tile(y, 6)
         x = np.tile(x, 6)
-        np.testing.assert_array_almost_equal(
-            log_decoding_Log3G10_v1(y), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_Log3G10_v1(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         y = np.reshape(y, (2, 3))
         x = np.reshape(x, (2, 3))
-        np.testing.assert_array_almost_equal(
-            log_decoding_Log3G10_v1(y), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_Log3G10_v1(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         y = np.reshape(y, (2, 3, 1))
         x = np.reshape(x, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            log_decoding_Log3G10_v1(y), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_Log3G10_v1(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_decoding_Log3G10_v1(self):
@@ -494,8 +505,10 @@ log_decoding_Log3G10_v1` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    log_decoding_Log3G10_v1(y * factor), x * factor, decimal=7
+                np.testing.assert_allclose(
+                    log_decoding_Log3G10_v1(y * factor),
+                    x * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -545,20 +558,20 @@ log_encoding_Log3G10_v2` definition n-dimensional arrays support.
 
         x = np.tile(x, 6)
         y = np.tile(y, 6)
-        np.testing.assert_array_almost_equal(
-            log_encoding_Log3G10_v2(x), y, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_Log3G10_v2(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         x = np.reshape(x, (2, 3))
         y = np.reshape(y, (2, 3))
-        np.testing.assert_array_almost_equal(
-            log_encoding_Log3G10_v2(x), y, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_Log3G10_v2(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         x = np.reshape(x, (2, 3, 1))
         y = np.reshape(y, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            log_encoding_Log3G10_v2(x), y, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_Log3G10_v2(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_encoding_Log3G10_v2(self):
@@ -573,8 +586,10 @@ log_encoding_Log3G10_v2` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    log_encoding_Log3G10_v2(x * factor), y * factor, decimal=7
+                np.testing.assert_allclose(
+                    log_encoding_Log3G10_v2(x * factor),
+                    y * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -624,20 +639,20 @@ log_decoding_Log3G10_v2` definition n-dimensional arrays support.
 
         y = np.tile(y, 6)
         x = np.tile(x, 6)
-        np.testing.assert_array_almost_equal(
-            log_decoding_Log3G10_v2(y), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_Log3G10_v2(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         y = np.reshape(y, (2, 3))
         x = np.reshape(x, (2, 3))
-        np.testing.assert_array_almost_equal(
-            log_decoding_Log3G10_v2(y), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_Log3G10_v2(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         y = np.reshape(y, (2, 3, 1))
         x = np.reshape(x, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            log_decoding_Log3G10_v2(y), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_Log3G10_v2(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_decoding_Log3G10_v2(self):
@@ -652,8 +667,10 @@ log_decoding_Log3G10_v2` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    log_decoding_Log3G10_v2(y * factor), x * factor, decimal=7
+                np.testing.assert_allclose(
+                    log_decoding_Log3G10_v2(y * factor),
+                    x * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -703,20 +720,20 @@ log_encoding_Log3G10_v3` definition n-dimensional arrays support.
 
         x = np.tile(x, 6)
         y = np.tile(y, 6)
-        np.testing.assert_array_almost_equal(
-            log_encoding_Log3G10_v3(x), y, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_Log3G10_v3(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         x = np.reshape(x, (2, 3))
         y = np.reshape(y, (2, 3))
-        np.testing.assert_array_almost_equal(
-            log_encoding_Log3G10_v3(x), y, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_Log3G10_v3(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         x = np.reshape(x, (2, 3, 1))
         y = np.reshape(y, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            log_encoding_Log3G10_v3(x), y, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_Log3G10_v3(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_encoding_Log3G10_v3(self):
@@ -731,8 +748,10 @@ log_encoding_Log3G10_v3` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    log_encoding_Log3G10_v3(x * factor), y * factor, decimal=7
+                np.testing.assert_allclose(
+                    log_encoding_Log3G10_v3(x * factor),
+                    y * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -782,20 +801,20 @@ log_decoding_Log3G10_v3` definition n-dimensional arrays support.
 
         y = np.tile(y, 6)
         x = np.tile(x, 6)
-        np.testing.assert_array_almost_equal(
-            log_decoding_Log3G10_v3(y), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_Log3G10_v3(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         y = np.reshape(y, (2, 3))
         x = np.reshape(x, (2, 3))
-        np.testing.assert_array_almost_equal(
-            log_decoding_Log3G10_v3(y), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_Log3G10_v3(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         y = np.reshape(y, (2, 3, 1))
         x = np.reshape(x, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            log_decoding_Log3G10_v3(y), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_Log3G10_v3(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_decoding_Log3G10_v3(self):
@@ -810,8 +829,10 @@ log_decoding_Log3G10_v3` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    log_decoding_Log3G10_v3(y * factor), x * factor, decimal=7
+                np.testing.assert_allclose(
+                    log_decoding_Log3G10_v3(y * factor),
+                    x * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -863,20 +884,20 @@ log_encoding_Log3G12` definition n-dimensional arrays support.
 
         x = np.tile(x, 6)
         y = np.tile(y, 6)
-        np.testing.assert_array_almost_equal(
-            log_encoding_Log3G12(x), y, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_Log3G12(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         x = np.reshape(x, (2, 3))
         y = np.reshape(y, (2, 3))
-        np.testing.assert_array_almost_equal(
-            log_encoding_Log3G12(x), y, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_Log3G12(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         x = np.reshape(x, (2, 3, 1))
         y = np.reshape(y, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            log_encoding_Log3G12(x), y, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_Log3G12(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_encoding_Log3G12(self):
@@ -891,8 +912,10 @@ log_encoding_Log3G12` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    log_encoding_Log3G12(x * factor), y * factor, decimal=7
+                np.testing.assert_allclose(
+                    log_encoding_Log3G12(x * factor),
+                    y * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -944,20 +967,20 @@ log_decoding_Log3G12` definition n-dimensional arrays support.
 
         y = np.tile(y, 6)
         x = np.tile(x, 6)
-        np.testing.assert_array_almost_equal(
-            log_decoding_Log3G12(y), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_Log3G12(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         y = np.reshape(y, (2, 3))
         x = np.reshape(x, (2, 3))
-        np.testing.assert_array_almost_equal(
-            log_decoding_Log3G12(y), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_Log3G12(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         y = np.reshape(y, (2, 3, 1))
         x = np.reshape(x, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            log_decoding_Log3G12(y), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_Log3G12(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_decoding_Log3G12(self):
@@ -972,8 +995,10 @@ log_decoding_Log3G12` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    log_decoding_Log3G12(y * factor), x * factor, decimal=7
+                np.testing.assert_allclose(
+                    log_decoding_Log3G12(y * factor),
+                    x * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors

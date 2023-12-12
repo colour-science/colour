@@ -6,6 +6,7 @@ from itertools import product
 
 import numpy as np
 
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models import (
     UCS_to_uv,
     UCS_to_XYZ,
@@ -42,22 +43,22 @@ class TestXYZ_to_UCS(unittest.TestCase):
     def test_XYZ_to_UCS(self):
         """Test :func:`colour.models.cie_ucs.XYZ_to_UCS` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_UCS(np.array([0.20654008, 0.12197225, 0.05136952])),
             np.array([0.13769339, 0.12197225, 0.10537310]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_UCS(np.array([0.14222010, 0.23042768, 0.10495772])),
             np.array([0.09481340, 0.23042768, 0.32701033]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_UCS(np.array([0.07818780, 0.06157201, 0.28099326])),
             np.array([0.05212520, 0.06157201, 0.19376075]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_XYZ_to_UCS(self):
@@ -71,11 +72,15 @@ class TestXYZ_to_UCS(unittest.TestCase):
 
         UCS = np.tile(UCS, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_array_almost_equal(XYZ_to_UCS(XYZ), UCS, decimal=7)
+        np.testing.assert_allclose(
+            XYZ_to_UCS(XYZ), UCS, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
         UCS = np.reshape(UCS, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_array_almost_equal(XYZ_to_UCS(XYZ), UCS, decimal=7)
+        np.testing.assert_allclose(
+            XYZ_to_UCS(XYZ), UCS, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_domain_range_scale_XYZ_to_UCS(self):
         """
@@ -89,8 +94,10 @@ class TestXYZ_to_UCS(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    XYZ_to_UCS(XYZ * factor), UCS * factor, decimal=7
+                np.testing.assert_allclose(
+                    XYZ_to_UCS(XYZ * factor),
+                    UCS * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -111,22 +118,22 @@ class TestUCS_to_XYZ(unittest.TestCase):
     def test_UCS_to_XYZ(self):
         """Test :func:`colour.models.cie_ucs.UCS_to_XYZ` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             UCS_to_XYZ(np.array([0.13769339, 0.12197225, 0.10537310])),
             np.array([0.20654008, 0.12197225, 0.05136952]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             UCS_to_XYZ(np.array([0.09481340, 0.23042768, 0.32701033])),
             np.array([0.14222010, 0.23042768, 0.10495772]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             UCS_to_XYZ(np.array([0.05212520, 0.06157201, 0.19376075])),
             np.array([0.07818780, 0.06157201, 0.28099326]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_UCS_to_XYZ(self):
@@ -140,11 +147,15 @@ class TestUCS_to_XYZ(unittest.TestCase):
 
         UCS = np.tile(UCS, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_array_almost_equal(UCS_to_XYZ(UCS), XYZ, decimal=7)
+        np.testing.assert_allclose(
+            UCS_to_XYZ(UCS), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
         UCS = np.reshape(UCS, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_array_almost_equal(UCS_to_XYZ(UCS), XYZ, decimal=7)
+        np.testing.assert_allclose(
+            UCS_to_XYZ(UCS), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_domain_range_scale_UCS_to_XYZ(self):
         """
@@ -158,8 +169,10 @@ class TestUCS_to_XYZ(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    UCS_to_XYZ(UCS * factor), XYZ * factor, decimal=7
+                np.testing.assert_allclose(
+                    UCS_to_XYZ(UCS * factor),
+                    XYZ * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -180,22 +193,22 @@ class TestUCS_to_uv(unittest.TestCase):
     def test_UCS_to_uv(self):
         """Test :func:`colour.models.cie_ucs.UCS_to_uv` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             UCS_to_uv(np.array([0.13769339, 0.12197225, 0.10537310])),
             np.array([0.37720213, 0.33413508]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             UCS_to_uv(np.array([0.09481340, 0.23042768, 0.32701033])),
             np.array([0.14536327, 0.35328046]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             UCS_to_uv(np.array([0.05212520, 0.06157201, 0.19376075])),
             np.array([0.16953602, 0.20026156]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_UCS_to_uv(self):
@@ -209,11 +222,15 @@ class TestUCS_to_uv(unittest.TestCase):
 
         UCS = np.tile(UCS, (6, 1))
         uv = np.tile(uv, (6, 1))
-        np.testing.assert_array_almost_equal(UCS_to_uv(UCS), uv, decimal=7)
+        np.testing.assert_allclose(
+            UCS_to_uv(UCS), uv, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
         UCS = np.reshape(UCS, (2, 3, 3))
         uv = np.reshape(uv, (2, 3, 2))
-        np.testing.assert_array_almost_equal(UCS_to_uv(UCS), uv, decimal=7)
+        np.testing.assert_allclose(
+            UCS_to_uv(UCS), uv, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_domain_range_scale_UCS_to_uv(self):
         """
@@ -227,8 +244,8 @@ class TestUCS_to_uv(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    UCS_to_uv(UCS * factor), uv, decimal=7
+                np.testing.assert_allclose(
+                    UCS_to_uv(UCS * factor), uv, atol=TOLERANCE_ABSOLUTE_TESTS
                 )
 
     @ignore_numpy_errors
@@ -249,28 +266,28 @@ class Testuv_to_UCS(unittest.TestCase):
     def test_uv_to_UCS(self):
         """Test :func:`colour.models.cie_ucs.uv_to_UCS` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             uv_to_UCS(np.array([0.37720213, 0.33413508])),
             np.array([1.12889114, 1.00000000, 0.86391046]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             uv_to_UCS(np.array([0.14536327, 0.35328046])),
             np.array([0.41146705, 1.00000000, 1.41914520]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             uv_to_UCS(np.array([0.16953602, 0.20026156])),
             np.array([0.84657295, 1.00000000, 3.14689659]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             uv_to_UCS(np.array([0.37720213, 0.33413508]), V=0.18),
             np.array([0.20320040, 0.18000000, 0.15550388]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_uv_to_UCS(self):
@@ -284,11 +301,15 @@ class Testuv_to_UCS(unittest.TestCase):
 
         uv = np.tile(uv, (6, 1))
         UCS = np.tile(UCS, (6, 1))
-        np.testing.assert_array_almost_equal(uv_to_UCS(uv), UCS, decimal=7)
+        np.testing.assert_allclose(
+            uv_to_UCS(uv), UCS, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
         uv = np.reshape(uv, (2, 3, 2))
         UCS = np.reshape(UCS, (2, 3, 3))
-        np.testing.assert_array_almost_equal(uv_to_UCS(uv), UCS, decimal=7)
+        np.testing.assert_allclose(
+            uv_to_UCS(uv), UCS, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_domain_range_scale_uv_to_UCS(self):
         """
@@ -303,8 +324,10 @@ class Testuv_to_UCS(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    uv_to_UCS(uv, V * factor), UCS * factor, decimal=7
+                np.testing.assert_allclose(
+                    uv_to_UCS(uv, V * factor),
+                    UCS * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -325,22 +348,22 @@ class TestUCS_uv_to_xy(unittest.TestCase):
     def test_UCS_uv_to_xy(self):
         """Test :func:`colour.models.cie_ucs.UCS_uv_to_xy` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             UCS_uv_to_xy(np.array([0.37720213, 0.33413508])),
             np.array([0.54369555, 0.32107941]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             UCS_uv_to_xy(np.array([0.14536327, 0.35328046])),
             np.array([0.29777734, 0.48246445]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             UCS_uv_to_xy(np.array([0.16953602, 0.20026156])),
             np.array([0.18582823, 0.14633764]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_UCS_uv_to_xy(self):
@@ -354,11 +377,15 @@ class TestUCS_uv_to_xy(unittest.TestCase):
 
         uv = np.tile(uv, (6, 1))
         xy = np.tile(xy, (6, 1))
-        np.testing.assert_array_almost_equal(UCS_uv_to_xy(uv), xy, decimal=7)
+        np.testing.assert_allclose(
+            UCS_uv_to_xy(uv), xy, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
         uv = np.reshape(uv, (2, 3, 2))
         xy = np.reshape(xy, (2, 3, 2))
-        np.testing.assert_array_almost_equal(UCS_uv_to_xy(uv), xy, decimal=7)
+        np.testing.assert_allclose(
+            UCS_uv_to_xy(uv), xy, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     @ignore_numpy_errors
     def test_nan_UCS_uv_to_xy(self):
@@ -381,22 +408,22 @@ class TestXy_to_UCS_uv(unittest.TestCase):
     def test_xy_to_UCS_uv(self):
         """Test :func:`colour.models.cie_ucs.xy_to_UCS_uv` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             xy_to_UCS_uv(np.array([0.54369555, 0.32107941])),
             np.array([0.37720213, 0.33413508]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             xy_to_UCS_uv(np.array([0.29777734, 0.48246445])),
             np.array([0.14536327, 0.35328046]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             xy_to_UCS_uv(np.array([0.18582823, 0.14633764])),
             np.array([0.16953602, 0.20026156]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_xy_to_UCS_uv(self):
@@ -410,11 +437,15 @@ class TestXy_to_UCS_uv(unittest.TestCase):
 
         xy = np.tile(xy, (6, 1))
         uv = np.tile(uv, (6, 1))
-        np.testing.assert_array_almost_equal(xy_to_UCS_uv(xy), uv, decimal=7)
+        np.testing.assert_allclose(
+            xy_to_UCS_uv(xy), uv, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
         xy = np.reshape(xy, (2, 3, 2))
         uv = np.reshape(uv, (2, 3, 2))
-        np.testing.assert_array_almost_equal(xy_to_UCS_uv(xy), uv, decimal=7)
+        np.testing.assert_allclose(
+            xy_to_UCS_uv(xy), uv, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     @ignore_numpy_errors
     def test_nan_xy_to_UCS_uv(self):
