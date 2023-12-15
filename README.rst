@@ -1421,6 +1421,7 @@ Log Encoding / Decoding
     ['ACEScc',
      'ACEScct',
      'ACESproxy',
+     'Apple Log Profile',
      'ARRI LogC3',
      'ARRI LogC4',
      'Canon Log',

@@ -34,6 +34,10 @@ from .aces import (
     log_encoding_ACEScct,
     log_decoding_ACEScct,
 )
+from .apple_log_profile import (
+    log_encoding_AppleLogProfile,
+    log_decoding_AppleLogProfile,
+)
 from .arib_std_b67 import oetf_ARIBSTDB67, oetf_inverse_ARIBSTDB67
 from .arri import (
     log_encoding_ARRILogC3,
@@ -177,6 +181,7 @@ __all__ += [
     "log_encoding_ACEScct",
     "log_decoding_ACEScct",
 ]
+__all__ += ["log_encoding_AppleLogProfile", "log_decoding_AppleLogProfile"]
 __all__ += [
     "oetf_ARIBSTDB67",
     "oetf_inverse_ARIBSTDB67",
@@ -377,6 +382,7 @@ LOG_ENCODINGS: CanonicalMapping = CanonicalMapping(
         "ACEScc": log_encoding_ACEScc,
         "ACEScct": log_encoding_ACEScct,
         "ACESproxy": log_encoding_ACESproxy,
+        "Apple Log Profile": log_encoding_AppleLogProfile,
         "ARRI LogC3": log_encoding_ARRILogC3,
         "ARRI LogC4": log_encoding_ARRILogC4,
         "Canon Log 2": log_encoding_CanonLog2,
@@ -433,6 +439,7 @@ def log_encoding(
         {:func:`colour.models.log_encoding_ACEScc`,
         :func:`colour.models.log_encoding_ACEScct`,
         :func:`colour.models.log_encoding_ACESproxy`,
+        :func:`colour.models.log_encoding_AppleLogProfile`,
         :func:`colour.models.log_encoding_ARRILogC3`,
         :func:`colour.models.log_encoding_ARRILogC4`,
         :func:`colour.models.log_encoding_CanonLog2`,
@@ -496,6 +503,7 @@ LOG_DECODINGS: CanonicalMapping = CanonicalMapping(
         "ACEScc": log_decoding_ACEScc,
         "ACEScct": log_decoding_ACEScct,
         "ACESproxy": log_decoding_ACESproxy,
+        "Apple Log Profile": log_decoding_AppleLogProfile,
         "ARRI LogC3": log_decoding_ARRILogC3,
         "ARRI LogC4": log_decoding_ARRILogC4,
         "Canon Log 2": log_decoding_CanonLog2,
@@ -552,6 +560,7 @@ def log_decoding(
         {:func:`colour.models.log_decoding_ACEScc`,
         :func:`colour.models.log_decoding_ACEScct`,
         :func:`colour.models.log_decoding_ACESproxy`,
+        :func:`colour.models.log_decoding_AppleLogProfile`,
         :func:`colour.models.log_decoding_ARRILogC3`,
         :func:`colour.models.log_decoding_ARRILogC4`,
         :func:`colour.models.log_decoding_CanonLog2`,
