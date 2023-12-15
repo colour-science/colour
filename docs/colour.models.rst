@@ -698,6 +698,8 @@ Log Encoding and Decoding
     log_decoding_ACEScct
     log_encoding_ACESproxy
     log_decoding_ACESproxy
+    log_encoding_AppleLogProfile
+    log_decoding_AppleLogProfile
     log_encoding_ARRILogC3
     log_decoding_ARRILogC3
     log_encoding_CanonLog2
