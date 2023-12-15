@@ -31,61 +31,61 @@ class TestDelta_E_DIN99(unittest.TestCase):
     def test_delta_E_DIN99(self):
         """Test :func:`colour.difference.din99.delta_E_DIN99` definition."""
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_DIN99(
                 np.array([60.25740000, -34.00990000, 36.26770000]),
                 np.array([60.46260000, -34.17510000, 39.43870000]),
             ),
             1.177216620111552,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_DIN99(
                 np.array([63.01090000, -31.09610000, -5.86630000]),
                 np.array([62.81870000, -29.79460000, -4.08640000]),
             ),
             0.987529977993114,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_DIN99(
                 np.array([35.08310000, -44.11640000, 3.79330000]),
                 np.array([35.02320000, -40.07160000, 1.59010000]),
             ),
             1.535894757971742,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_DIN99(
                 np.array([60.25740000, -34.00990000, 36.26770000]),
                 np.array([60.46260000, -34.17510000, 39.43870000]),
                 textiles=True,
             ),
             1.215652775586509,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_DIN99(
                 np.array([63.01090000, -31.09610000, -5.86630000]),
                 np.array([62.81870000, -29.79460000, -4.08640000]),
                 textiles=True,
             ),
             1.025997138865984,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_DIN99(
                 np.array([35.08310000, -44.11640000, 3.79330000]),
                 np.array([35.02320000, -40.07160000, 1.59010000]),
                 textiles=True,
             ),
             1.539922810033725,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_delta_E_DIN99(self):

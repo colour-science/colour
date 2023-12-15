@@ -514,31 +514,31 @@ class TestEuclideanDistance(unittest.TestCase):
     def test_euclidean_distance(self):
         """Test :func:`colour.algebra.common.euclidean_distance` definition."""
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             euclidean_distance(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 426.67945353, 72.39590835]),
             ),
             451.71330197,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             euclidean_distance(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 74.05216981, 276.45318193]),
             ),
             52.64986116,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             euclidean_distance(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 8.32281957, -73.58297716]),
             ),
             346.06489172,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_euclidean_distance(self):
@@ -586,31 +586,31 @@ class TestManhattanDistance(unittest.TestCase):
     def test_manhattan_distance(self):
         """Test :func:`colour.algebra.common.manhattan_distance` definition."""
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             manhattan_distance(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 426.67945353, 72.39590835]),
             ),
             604.93963510999993,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             manhattan_distance(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 74.05216981, 276.45318193]),
             ),
             56.705054670000052,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             manhattan_distance(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 8.32281957, -73.58297716]),
             ),
             359.06045465999995,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_manhattan_distance(self):

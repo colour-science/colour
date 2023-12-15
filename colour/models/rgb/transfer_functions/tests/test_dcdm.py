@@ -36,11 +36,17 @@ class TestEotf_inverse_DCDM(unittest.TestCase):
 dcdm.eotf_inverse_DCDM` definition.
         """
 
-        self.assertAlmostEqual(eotf_inverse_DCDM(0.0), 0.0, places=7)
+        np.testing.assert_allclose(
+            eotf_inverse_DCDM(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(eotf_inverse_DCDM(0.18), 0.11281861, places=7)
+        np.testing.assert_allclose(
+            eotf_inverse_DCDM(0.18), 0.11281861, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(eotf_inverse_DCDM(1.0), 0.21817973, places=7)
+        np.testing.assert_allclose(
+            eotf_inverse_DCDM(1.0), 0.21817973, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
         self.assertEqual(eotf_inverse_DCDM(0.18, out_int=True), 462)
 
@@ -111,11 +117,17 @@ class TestEotf_DCDM(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(eotf_DCDM(0.0), 0.0, places=7)
+        np.testing.assert_allclose(
+            eotf_DCDM(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(eotf_DCDM(0.11281861), 0.18, places=7)
+        np.testing.assert_allclose(
+            eotf_DCDM(0.11281861), 0.18, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(eotf_DCDM(0.21817973), 1.0, places=7)
+        np.testing.assert_allclose(
+            eotf_DCDM(0.21817973), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
         np.testing.assert_allclose(
             eotf_DCDM(462, in_int=True), 0.18, atol=1e-5

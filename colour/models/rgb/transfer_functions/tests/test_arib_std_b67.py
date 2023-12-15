@@ -39,18 +39,28 @@ oetf_ARIBSTDB67` definition unit tests methods.
 oetf_ARIBSTDB67` definition.
         """
 
-        self.assertAlmostEqual(oetf_ARIBSTDB67(-0.25), -0.25, places=7)
-
-        self.assertAlmostEqual(oetf_ARIBSTDB67(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            oetf_ARIBSTDB67(0.18), 0.212132034355964, places=7
+        np.testing.assert_allclose(
+            oetf_ARIBSTDB67(-0.25), -0.25, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(oetf_ARIBSTDB67(1.0), 0.5, places=7)
+        np.testing.assert_allclose(
+            oetf_ARIBSTDB67(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(
-            oetf_ARIBSTDB67(64.0), 1.302858098046995, places=7
+        np.testing.assert_allclose(
+            oetf_ARIBSTDB67(0.18),
+            0.212132034355964,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            oetf_ARIBSTDB67(1.0), 0.5, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+        np.testing.assert_allclose(
+            oetf_ARIBSTDB67(64.0),
+            1.302858098046995,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_oetf_ARIBSTDB67(self):
@@ -120,18 +130,30 @@ oetf_inverse_ARIBSTDB67` definition unit tests methods.
 oetf_inverse_ARIBSTDB67` definition.
         """
 
-        self.assertAlmostEqual(oetf_inverse_ARIBSTDB67(-0.25), -0.25, places=7)
-
-        self.assertAlmostEqual(oetf_inverse_ARIBSTDB67(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            oetf_inverse_ARIBSTDB67(0.212132034355964), 0.18, places=7
+        np.testing.assert_allclose(
+            oetf_inverse_ARIBSTDB67(-0.25),
+            -0.25,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(oetf_inverse_ARIBSTDB67(0.5), 1.0, places=7)
+        np.testing.assert_allclose(
+            oetf_inverse_ARIBSTDB67(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(
-            oetf_inverse_ARIBSTDB67(1.302858098046995), 64.0, places=7
+        np.testing.assert_allclose(
+            oetf_inverse_ARIBSTDB67(0.212132034355964),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            oetf_inverse_ARIBSTDB67(0.5), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+        np.testing.assert_allclose(
+            oetf_inverse_ARIBSTDB67(1.302858098046995),
+            64.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_oetf_inverse_ARIBSTDB67(self):

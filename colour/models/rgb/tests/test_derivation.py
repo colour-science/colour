@@ -364,7 +364,7 @@ class TestRGBLuminance(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             RGB_luminance(
                 np.array([0.18, 0.18, 0.18]),
                 np.array(
@@ -373,10 +373,10 @@ class TestRGBLuminance(unittest.TestCase):
                 np.array([0.32168, 0.33767]),
             ),
             0.18000000,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             RGB_luminance(
                 np.array([0.21959402, 0.06986677, 0.04703877]),
                 np.array(
@@ -385,17 +385,17 @@ class TestRGBLuminance(unittest.TestCase):
                 np.array([0.32168, 0.33767]),
             ),
             0.123014562384318,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             RGB_luminance(
                 np.array([0.45620519, 0.03081071, 0.04091952]),
                 np.array([0.6400, 0.3300, 0.3000, 0.6000, 0.1500, 0.0600]),
                 np.array([0.31270, 0.32900]),
             ),
             0.121995947729870,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_RGB_luminance(self):

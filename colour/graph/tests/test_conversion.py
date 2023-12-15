@@ -94,10 +94,10 @@ class TestConvert(unittest.TestCase):
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             convert("#808080", "Hexadecimal", "RGB Luminance"),
             0.21586050,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(

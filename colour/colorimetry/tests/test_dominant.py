@@ -374,13 +374,17 @@ class TestExcitationPurity(unittest.TestCase):
         xy = np.array([0.54369557, 0.32107944])
         xy_n = self._xy_D65
 
-        self.assertAlmostEqual(
-            excitation_purity(xy, xy_n), 0.622885671878446, places=7
+        np.testing.assert_allclose(
+            excitation_purity(xy, xy_n),
+            0.622885671878446,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         xy = np.array([0.37605506, 0.24452225])
-        self.assertAlmostEqual(
-            excitation_purity(xy, xy_n), 0.438347859215887, places=7
+        np.testing.assert_allclose(
+            excitation_purity(xy, xy_n),
+            0.438347859215887,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_excitation_purity(self):
@@ -442,13 +446,17 @@ class TestColorimetricPurity(unittest.TestCase):
         xy = np.array([0.54369557, 0.32107944])
         xy_n = self._xy_D65
 
-        self.assertAlmostEqual(
-            colorimetric_purity(xy, xy_n), 0.613582813175483, places=7
+        np.testing.assert_allclose(
+            colorimetric_purity(xy, xy_n),
+            0.613582813175483,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         xy = np.array([0.37605506, 0.24452225])
-        self.assertAlmostEqual(
-            colorimetric_purity(xy, xy_n), 0.244307811178847, places=7
+        np.testing.assert_allclose(
+            colorimetric_purity(xy, xy_n),
+            0.244307811178847,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_colorimetric_purity(self):

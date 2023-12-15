@@ -90,21 +90,25 @@ class TestLegalToFull(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(legal_to_full(64 / 1023), 0.0)
+        np.testing.assert_allclose(legal_to_full(64 / 1023), 0.0)
 
-        self.assertAlmostEqual(legal_to_full(940 / 1023), 1.0)
+        np.testing.assert_allclose(legal_to_full(940 / 1023), 1.0)
 
-        self.assertAlmostEqual(legal_to_full(64 / 1023, out_int=True), 0)
+        np.testing.assert_allclose(legal_to_full(64 / 1023, out_int=True), 0)
 
-        self.assertAlmostEqual(legal_to_full(940 / 1023, out_int=True), 1023)
+        np.testing.assert_allclose(
+            legal_to_full(940 / 1023, out_int=True), 1023
+        )
 
-        self.assertAlmostEqual(legal_to_full(64, in_int=True), 0.0)
+        np.testing.assert_allclose(legal_to_full(64, in_int=True), 0.0)
 
-        self.assertAlmostEqual(legal_to_full(940, in_int=True), 1.0)
+        np.testing.assert_allclose(legal_to_full(940, in_int=True), 1.0)
 
-        self.assertAlmostEqual(legal_to_full(64, in_int=True, out_int=True), 0)
+        np.testing.assert_allclose(
+            legal_to_full(64, in_int=True, out_int=True), 0
+        )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             legal_to_full(940, in_int=True, out_int=True), 1023
         )
 
@@ -157,25 +161,27 @@ class TestFullToLegal(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(full_to_legal(0.0), 0.062561094819159)
+        np.testing.assert_allclose(full_to_legal(0.0), 0.062561094819159)
 
-        self.assertAlmostEqual(full_to_legal(1.0), 0.918866080156403)
+        np.testing.assert_allclose(full_to_legal(1.0), 0.918866080156403)
 
-        self.assertAlmostEqual(full_to_legal(0.0, out_int=True), 64)
+        np.testing.assert_allclose(full_to_legal(0.0, out_int=True), 64)
 
-        self.assertAlmostEqual(full_to_legal(1.0, out_int=True), 940)
+        np.testing.assert_allclose(full_to_legal(1.0, out_int=True), 940)
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             full_to_legal(0, in_int=True), 0.062561094819159
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             full_to_legal(1023, in_int=True), 0.918866080156403
         )
 
-        self.assertAlmostEqual(full_to_legal(0, in_int=True, out_int=True), 64)
+        np.testing.assert_allclose(
+            full_to_legal(0, in_int=True, out_int=True), 64
+        )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             full_to_legal(1023, in_int=True, out_int=True), 940
         )
 

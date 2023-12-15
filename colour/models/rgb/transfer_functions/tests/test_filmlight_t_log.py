@@ -39,16 +39,22 @@ log_encoding_FilmLightTLog` definition unit tests methods.
 log_encoding_FilmLightTLog` definition.
         """
 
-        self.assertAlmostEqual(
-            log_encoding_FilmLightTLog(0.0), 0.075, places=7
+        np.testing.assert_allclose(
+            log_encoding_FilmLightTLog(0.0),
+            0.075,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_FilmLightTLog(0.18), 0.396567801298332, places=7
+        np.testing.assert_allclose(
+            log_encoding_FilmLightTLog(0.18),
+            0.396567801298332,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_FilmLightTLog(1.0), 0.552537881005859, places=7
+        np.testing.assert_allclose(
+            log_encoding_FilmLightTLog(1.0),
+            0.552537881005859,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_encoding_TLog(self):
@@ -120,16 +126,22 @@ log_decoding_FilmLightTLog` definition unit tests methods.
 log_decoding_FilmLightTLog` definition.
         """
 
-        self.assertAlmostEqual(
-            log_decoding_FilmLightTLog(0.075), 0.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_FilmLightTLog(0.075),
+            0.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_FilmLightTLog(0.396567801298332), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_FilmLightTLog(0.396567801298332),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_FilmLightTLog(0.552537881005859), 1.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_FilmLightTLog(0.552537881005859),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_decoding_TLog(self):

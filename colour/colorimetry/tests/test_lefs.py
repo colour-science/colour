@@ -442,24 +442,26 @@ class TestMesopicWeightingFunction(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
-            mesopic_weighting_function(500, 0.2), 0.70522000, places=7
+        np.testing.assert_allclose(
+            mesopic_weighting_function(500, 0.2),
+            0.70522000,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             mesopic_weighting_function(
                 500, 0.2, source="Red Heavy", method="LRC"
             ),
             0.90951000,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             mesopic_weighting_function(
                 700, 10, source="Red Heavy", method="LRC"
             ),
             0.00410200,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_mesopic_weighting_function(self):

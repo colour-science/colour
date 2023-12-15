@@ -406,8 +406,10 @@ class TestData_Otsu2018(unittest.TestCase):
     def test_origin(self):
         """Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.origin` method."""
 
-        self.assertAlmostEqual(
-            self._data.origin(4, 1), 0.255284008578559, places=7
+        np.testing.assert_allclose(
+            self._data.origin(4, 1),
+            0.255284008578559,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_raise_exception_origin(self):
@@ -700,8 +702,10 @@ reconstruction_error` method.
 
         data = Data_Otsu2018(self._reflectances, self._cmfs, self._sd_D65)
 
-        self.assertAlmostEqual(
-            data.reconstruction_error(), 2.753352549148681, places=7
+        np.testing.assert_allclose(
+            data.reconstruction_error(),
+            2.753352549148681,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_raise_exception_reconstruction_error(self):
@@ -821,8 +825,12 @@ class TestNode_Otsu2018(unittest.TestCase):
         self.assertTupleEqual(
             (len(partition[0].data), len(partition[1].data)), (10, 14)
         )
-        self.assertAlmostEqual(axis.origin, 0.324111380117147, places=7)
-        self.assertAlmostEqual(partition_error, 2.0402980027, places=7)
+        np.testing.assert_allclose(
+            axis.origin, 0.324111380117147, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+        np.testing.assert_allclose(
+            partition_error, 2.0402980027, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_leaf_reconstruction_error(self):
         """
@@ -830,10 +838,10 @@ class TestNode_Otsu2018(unittest.TestCase):
 leaf_reconstruction_error` method.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             self._node_b.leaf_reconstruction_error(),
             1.145340908277367e-29,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_branch_reconstruction_error(self):
@@ -842,10 +850,10 @@ leaf_reconstruction_error` method.
 branch_reconstruction_error` method.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             self._node_a.branch_reconstruction_error(),
             3.900015991807948e-25,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 

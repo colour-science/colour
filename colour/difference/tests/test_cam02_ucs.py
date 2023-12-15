@@ -37,17 +37,17 @@ class TestDelta_E_Luo2006(unittest.TestCase):
     def test_delta_E_Luo2006(self):
         """Test :func:`colour.difference.cam02_ucs.delta_E_Luo2006` definition."""
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_Luo2006(
                 np.array([54.90433134, -0.08450395, -0.06854831]),
                 np.array([54.80352754, -3.96940084, -13.57591013]),
                 COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
             ),
             14.055546437777583,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_Luo2006(
                 np.array([54.90433134, -0.08450395, -0.06854831]),
                 np.array([54.80352754, -3.96940084, -13.57591013]),
@@ -57,10 +57,10 @@ class TestDelta_E_Luo2006(unittest.TestCase):
                 np.array([54.90433134, -0.08450395, -0.06854831]),
                 np.array([54.80352754, -3.96940084, -13.57591013]),
             ),
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_Luo2006(
                 np.array([54.90433134, -0.08450395, -0.06854831]),
                 np.array([54.80352754, -3.96940084, -13.57591013]),
@@ -70,10 +70,10 @@ class TestDelta_E_Luo2006(unittest.TestCase):
                 np.array([54.90433134, -0.08450395, -0.06854831]),
                 np.array([54.80352754, -3.96940084, -13.57591013]),
             ),
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_Luo2006(
                 np.array([54.90433134, -0.08450395, -0.06854831]),
                 np.array([54.80352754, -3.96940084, -13.57591013]),
@@ -83,7 +83,7 @@ class TestDelta_E_Luo2006(unittest.TestCase):
                 np.array([54.90433134, -0.08450395, -0.06854831]),
                 np.array([54.80352754, -3.96940084, -13.57591013]),
             ),
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_delta_E_Luo2006(self):

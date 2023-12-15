@@ -1533,7 +1533,7 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
         for method in methods[0:3]:
             XYZ = method(sd, k=k)
             XYZ = XYZ.reshape(3) if len(XYZ.shape) > 1 else XYZ
-            self.assertAlmostEqual(XYZ[1], k, delta=5e-5), (
+            np.testing.assert_allclose(XYZ[1], k, atol=5e-5), (
                 "1 watt @ 555nm should be approximately 683 candela."
                 f" Failed method: {method}"
             )
@@ -1544,7 +1544,7 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
             XYZ: np.ndarray = method(msds, k=k)
             if len(XYZ.shape) > 1:
                 XYZ = XYZ.reshape(3)
-            self.assertAlmostEqual(XYZ[1], k, delta=5e-5), (
+            np.testing.assert_allclose(XYZ[1], k, atol=5e-5), (
                 "1 watt @ 555nm should be approximately 683 candela."
                 f" Failed method: {method}"
             )
@@ -1578,7 +1578,7 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
         for method in methods[0:3]:
             XYZ: np.ndarray = method(sd, k=k)
             XYZ = XYZ.reshape(3) if len(XYZ.shape) > 1 else XYZ
-            self.assertAlmostEqual(XYZ[1], k, delta=5e-2), (
+            np.testing.assert_allclose(XYZ[1], k, atol=5e-2), (
                 "1 watt @ 555nm should be approximately 683 candela. "
                 f"Failed method: {method}"
             )
@@ -1589,7 +1589,7 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
             XYZ: np.ndarray = method(msds, k=k)
             if len(XYZ.shape) > 1:
                 XYZ = XYZ.reshape(3)
-            self.assertAlmostEqual(XYZ[1], k, delta=5e-2), (
+            np.testing.assert_allclose(XYZ[1], k, atol=5e-2), (
                 "1 watt @ 555nm should be approximately 683 candela."
                 f"Failed method: {method}"
             )

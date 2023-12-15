@@ -42,7 +42,7 @@ HelmholtzKohlrausch_effect_object_Nayatani1997` definition unit tests methods.
 HelmholtzKohlrausch_effect_object_Nayatani1997` definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             HelmholtzKohlrausch_effect_object_Nayatani1997(
                 np.array([0.40351010, 0.53933673]),
                 np.array([0.19783001, 0.46831999]),
@@ -50,10 +50,10 @@ HelmholtzKohlrausch_effect_object_Nayatani1997` definition.
                 method="VCC",
             ),
             1.344152435497761,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             HelmholtzKohlrausch_effect_object_Nayatani1997(
                 np.array([0.40351010, 0.53933673]),
                 np.array([0.19783001, 0.46831999]),
@@ -61,7 +61,7 @@ HelmholtzKohlrausch_effect_object_Nayatani1997` definition.
                 method="VAC",
             ),
             1.261777232837009,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_HelmholtzKohlrausch_effect_object_Nayatani1997(
@@ -152,7 +152,7 @@ HelmholtzKohlrausch_effect_luminous_Nayatani1997` definition unit tests
 HelmholtzKohlrausch_effect_luminous_Nayatani1997` definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             HelmholtzKohlrausch_effect_luminous_Nayatani1997(
                 np.array([0.40351010, 0.53933673]),
                 np.array([0.19783001, 0.46831999]),
@@ -160,10 +160,10 @@ HelmholtzKohlrausch_effect_luminous_Nayatani1997` definition.
                 method="VCC",
             ),
             2.014433723774654,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             HelmholtzKohlrausch_effect_luminous_Nayatani1997(
                 np.array([0.40351010, 0.53933673]),
                 np.array([0.19783001, 0.46831999]),
@@ -171,7 +171,7 @@ HelmholtzKohlrausch_effect_luminous_Nayatani1997` definition.
                 method="VAC",
             ),
             1.727991241148628,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_HelmholtzKohlrausch_effect_luminous_Nayatani1997(
@@ -263,28 +263,28 @@ class TestCoefficient_K_Br_Nayatani1997(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             coefficient_K_Br_Nayatani1997(10.00000000),
             0.71344817765758839,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             coefficient_K_Br_Nayatani1997(63.66000000),
             1.000128455584031,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             coefficient_K_Br_Nayatani1997(1000.00000000),
             1.401080840298197,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             coefficient_K_Br_Nayatani1997(10000.00000000),
             1.592511806930447,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_coefficient_K_Br_Nayatani1997(self):
@@ -343,22 +343,28 @@ class TestCoefficient_q_Nayatani1997(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             coefficient_q_Nayatani1997(0.00000000),
             -0.121200000000000,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            coefficient_q_Nayatani1997(0.78539816), 0.125211117768464, places=7
+        np.testing.assert_allclose(
+            coefficient_q_Nayatani1997(0.78539816),
+            0.125211117768464,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            coefficient_q_Nayatani1997(1.57079633), 0.191679999416415, places=7
+        np.testing.assert_allclose(
+            coefficient_q_Nayatani1997(1.57079633),
+            0.191679999416415,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            coefficient_q_Nayatani1997(2.35619449), 0.028480866426611, places=7
+        np.testing.assert_allclose(
+            coefficient_q_Nayatani1997(2.35619449),
+            0.028480866426611,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_coefficient_q_Nayatani1997(self):

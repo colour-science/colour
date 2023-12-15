@@ -39,19 +39,27 @@ eotf_inverse_ST2084` definition unit tests methods.
 eotf_inverse_ST2084` definition.
         """
 
-        self.assertAlmostEqual(
-            eotf_inverse_ST2084(0.0), 0.000000730955903, places=7
+        np.testing.assert_allclose(
+            eotf_inverse_ST2084(0.0),
+            0.000000730955903,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            eotf_inverse_ST2084(100), 0.508078421517399, places=7
+        np.testing.assert_allclose(
+            eotf_inverse_ST2084(100),
+            0.508078421517399,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            eotf_inverse_ST2084(400), 0.652578597563067, places=7
+        np.testing.assert_allclose(
+            eotf_inverse_ST2084(400),
+            0.652578597563067,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(eotf_inverse_ST2084(5000, 5000), 1.0, places=7)
+        np.testing.assert_allclose(
+            eotf_inverse_ST2084(5000, 5000), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_n_dimensional_eotf_inverse_ST2084(self):
         """
@@ -122,13 +130,21 @@ class TestEotf_ST2084(unittest.TestCase):
 eotf_ST2084` definition.
         """
 
-        self.assertAlmostEqual(eotf_ST2084(0.0), 0.0, places=7)
+        np.testing.assert_allclose(
+            eotf_ST2084(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(eotf_ST2084(0.508078421517399), 100, places=7)
+        np.testing.assert_allclose(
+            eotf_ST2084(0.508078421517399), 100, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(eotf_ST2084(0.652578597563067), 400, places=7)
+        np.testing.assert_allclose(
+            eotf_ST2084(0.652578597563067), 400, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(eotf_ST2084(1.0, 5000), 5000.0, places=7)
+        np.testing.assert_allclose(
+            eotf_ST2084(1.0, 5000), 5000.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_n_dimensional_eotf_ST2084(self):
         """

@@ -39,13 +39,19 @@ log_encoding_ViperLog` definition unit tests methods.
 log_encoding_ViperLog` definition.
         """
 
-        self.assertAlmostEqual(log_encoding_ViperLog(0.0), -np.inf, places=7)
-
-        self.assertAlmostEqual(
-            log_encoding_ViperLog(0.18), 0.636008067010413, places=7
+        np.testing.assert_allclose(
+            log_encoding_ViperLog(0.0), -np.inf, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(log_encoding_ViperLog(1.0), 1.0, places=7)
+        np.testing.assert_allclose(
+            log_encoding_ViperLog(0.18),
+            0.636008067010413,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            log_encoding_ViperLog(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_n_dimensional_log_encoding_ViperLog(self):
         """
@@ -116,13 +122,19 @@ log_decoding_ViperLog` definition unit tests methods.
 log_decoding_ViperLog` definition.
         """
 
-        self.assertAlmostEqual(log_decoding_ViperLog(-np.inf), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            log_decoding_ViperLog(0.636008067010413), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_ViperLog(-np.inf), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(log_decoding_ViperLog(1.0), 1.0, places=7)
+        np.testing.assert_allclose(
+            log_decoding_ViperLog(0.636008067010413),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            log_decoding_ViperLog(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_n_dimensional_log_decoding_ViperLog(self):
         """

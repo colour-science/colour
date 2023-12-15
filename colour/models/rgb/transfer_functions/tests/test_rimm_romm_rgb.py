@@ -47,13 +47,19 @@ cctf_encoding_ROMMRGB` definition unit tests methods.
 cctf_encoding_ROMMRGB` definition.
         """
 
-        self.assertAlmostEqual(cctf_encoding_ROMMRGB(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            cctf_encoding_ROMMRGB(0.18), 0.385711424751138, places=7
+        np.testing.assert_allclose(
+            cctf_encoding_ROMMRGB(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(cctf_encoding_ROMMRGB(1.0), 1.0, places=7)
+        np.testing.assert_allclose(
+            cctf_encoding_ROMMRGB(0.18),
+            0.385711424751138,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            cctf_encoding_ROMMRGB(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
         self.assertEqual(cctf_encoding_ROMMRGB(0.18, out_int=True), 98)
 
@@ -130,13 +136,19 @@ class TestCctfDecoding_ROMMRGB(unittest.TestCase):
 cctf_decoding_ROMMRGB` definition.
         """
 
-        self.assertAlmostEqual(cctf_decoding_ROMMRGB(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            cctf_decoding_ROMMRGB(0.385711424751138), 0.18, places=7
+        np.testing.assert_allclose(
+            cctf_decoding_ROMMRGB(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(cctf_decoding_ROMMRGB(1.0), 1.0, places=7)
+        np.testing.assert_allclose(
+            cctf_decoding_ROMMRGB(0.385711424751138),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            cctf_decoding_ROMMRGB(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
         np.testing.assert_allclose(
             cctf_decoding_ROMMRGB(98, in_int=True),
@@ -219,14 +231,20 @@ cctf_encoding_RIMMRGB` definition unit tests methods.
 cctf_encoding_RIMMRGB` definition.
         """
 
-        self.assertAlmostEqual(cctf_encoding_RIMMRGB(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            cctf_encoding_RIMMRGB(0.18), 0.291673732475746, places=7
+        np.testing.assert_allclose(
+            cctf_encoding_RIMMRGB(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(
-            cctf_encoding_RIMMRGB(1.0), 0.713125234297525, places=7
+        np.testing.assert_allclose(
+            cctf_encoding_RIMMRGB(0.18),
+            0.291673732475746,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            cctf_encoding_RIMMRGB(1.0),
+            0.713125234297525,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         self.assertEqual(cctf_encoding_RIMMRGB(0.18, out_int=True), 74)
@@ -304,14 +322,20 @@ class TestCctfDecoding_RIMMRGB(unittest.TestCase):
 cctf_decoding_RIMMRGB` definition.
         """
 
-        self.assertAlmostEqual(cctf_decoding_RIMMRGB(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            cctf_decoding_RIMMRGB(0.291673732475746), 0.18, places=7
+        np.testing.assert_allclose(
+            cctf_decoding_RIMMRGB(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(
-            cctf_decoding_RIMMRGB(0.713125234297525), 1.0, places=7
+        np.testing.assert_allclose(
+            cctf_decoding_RIMMRGB(0.291673732475746),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            cctf_decoding_RIMMRGB(0.713125234297525),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
@@ -395,14 +419,20 @@ log_encoding_ERIMMRGB` definition unit tests methods.
 log_encoding_ERIMMRGB` definition.
         """
 
-        self.assertAlmostEqual(log_encoding_ERIMMRGB(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            log_encoding_ERIMMRGB(0.18), 0.410052389492129, places=7
+        np.testing.assert_allclose(
+            log_encoding_ERIMMRGB(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(
-            log_encoding_ERIMMRGB(1.0), 0.545458327405113, places=7
+        np.testing.assert_allclose(
+            log_encoding_ERIMMRGB(0.18),
+            0.410052389492129,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            log_encoding_ERIMMRGB(1.0),
+            0.545458327405113,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         self.assertEqual(log_encoding_ERIMMRGB(0.18, out_int=True), 105)
@@ -480,14 +510,20 @@ class TestLog_decoding_ERIMMRGB(unittest.TestCase):
 log_decoding_ERIMMRGB` definition.
         """
 
-        self.assertAlmostEqual(log_decoding_ERIMMRGB(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            log_decoding_ERIMMRGB(0.410052389492129), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_ERIMMRGB(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(
-            log_decoding_ERIMMRGB(0.545458327405113), 1.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_ERIMMRGB(0.410052389492129),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            log_decoding_ERIMMRGB(0.545458327405113),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(

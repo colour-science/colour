@@ -39,14 +39,22 @@ log_encoding_PivotedLog` definition unit tests methods.
 log_encoding_PivotedLog` definition.
         """
 
-        self.assertAlmostEqual(log_encoding_PivotedLog(0.0), -np.inf, places=7)
-
-        self.assertAlmostEqual(
-            log_encoding_PivotedLog(0.18), 0.434995112414467, places=7
+        np.testing.assert_allclose(
+            log_encoding_PivotedLog(0.0),
+            -np.inf,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_PivotedLog(1.0), 0.653390272208219, places=7
+        np.testing.assert_allclose(
+            log_encoding_PivotedLog(0.18),
+            0.434995112414467,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            log_encoding_PivotedLog(1.0),
+            0.653390272208219,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_encoding_PivotedLog(self):
@@ -118,14 +126,22 @@ log_decoding_PivotedLog` definition unit tests methods.
 log_decoding_PivotedLog` definition.
         """
 
-        self.assertAlmostEqual(log_decoding_PivotedLog(-np.inf), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            log_decoding_PivotedLog(0.434995112414467), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_PivotedLog(-np.inf),
+            0.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_PivotedLog(0.653390272208219), 1.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_PivotedLog(0.434995112414467),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            log_decoding_PivotedLog(0.653390272208219),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_decoding_PivotedLog(self):

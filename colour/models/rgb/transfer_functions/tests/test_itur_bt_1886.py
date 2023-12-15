@@ -39,13 +39,19 @@ eotf_inverse_BT1886` definition unit tests methods.
 eotf_inverse_BT1886` definition.
         """
 
-        self.assertAlmostEqual(eotf_inverse_BT1886(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            eotf_inverse_BT1886(0.016317514686316), 0.18, places=7
+        np.testing.assert_allclose(
+            eotf_inverse_BT1886(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(eotf_inverse_BT1886(1.0), 1.0, places=7)
+        np.testing.assert_allclose(
+            eotf_inverse_BT1886(0.016317514686316),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            eotf_inverse_BT1886(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_n_dimensional_eotf_inverse_BT1886(self):
         """
@@ -116,11 +122,17 @@ eotf_BT1886` definition unit tests methods.
 eotf_BT1886` definition.
         """
 
-        self.assertAlmostEqual(eotf_BT1886(0.0), 0.0, places=7)
+        np.testing.assert_allclose(
+            eotf_BT1886(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(eotf_BT1886(0.18), 0.016317514686316, places=7)
+        np.testing.assert_allclose(
+            eotf_BT1886(0.18), 0.016317514686316, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(eotf_BT1886(1.0), 1.0, places=7)
+        np.testing.assert_allclose(
+            eotf_BT1886(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_n_dimensional_eotf_BT1886(self):
         """

@@ -39,14 +39,22 @@ log_encoding_FilmicPro6` definition unit tests methods.
 log_encoding_FilmicPro6` definition.
         """
 
-        self.assertAlmostEqual(log_encoding_FilmicPro6(0.0), -np.inf, places=7)
-
-        self.assertAlmostEqual(
-            log_encoding_FilmicPro6(0.18), 0.606634519924703, places=7
+        np.testing.assert_allclose(
+            log_encoding_FilmicPro6(0.0),
+            -np.inf,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_FilmicPro6(1.0), 1.000000819999999, places=7
+        np.testing.assert_allclose(
+            log_encoding_FilmicPro6(0.18),
+            0.606634519924703,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            log_encoding_FilmicPro6(1.0),
+            1.000000819999999,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_encoding_FilmicPro6(self):
@@ -120,12 +128,16 @@ log_decoding_FilmicPro6` definition.
 
         np.testing.assert_array_equal(log_decoding_FilmicPro6(-np.inf), 0.0)
 
-        self.assertAlmostEqual(
-            log_decoding_FilmicPro6(0.606634519924703), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_FilmicPro6(0.606634519924703),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_FilmicPro6(1.000000819999999), 1.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_FilmicPro6(1.000000819999999),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_decoding_FilmicPro6(self):

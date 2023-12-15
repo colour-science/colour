@@ -35,24 +35,24 @@ class Testxy_to_CCT_McCamy1992(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             xy_to_CCT_McCamy1992(np.array([0.31270, 0.32900])),
             6505.08059131,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             xy_to_CCT_McCamy1992(np.array([0.44757, 0.40745])),
             2857.28961266,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             xy_to_CCT_McCamy1992(
                 np.array([0.252520939374083, 0.252220883926284])
             ),
             19501.61953130,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_xy_to_CCT_McCamy1992(self):

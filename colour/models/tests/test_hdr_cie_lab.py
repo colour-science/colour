@@ -37,22 +37,28 @@ class TestExponent_hdr_CIELab(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
-            exponent_hdr_CIELab(0.2, 100), 0.473851073746817, places=7
+        np.testing.assert_allclose(
+            exponent_hdr_CIELab(0.2, 100),
+            0.473851073746817,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            exponent_hdr_CIELab(0.4, 100), 0.656101486726362, places=7
+        np.testing.assert_allclose(
+            exponent_hdr_CIELab(0.4, 100),
+            0.656101486726362,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             exponent_hdr_CIELab(0.4, 100, method="Fairchild 2010"),
             1.326014370643925,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            exponent_hdr_CIELab(0.2, 1000), 0.710776610620225, places=7
+        np.testing.assert_allclose(
+            exponent_hdr_CIELab(0.2, 1000),
+            0.710776610620225,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_exponent_hdr_CIELab(self):

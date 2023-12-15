@@ -51,13 +51,19 @@ class TestOetf_H273_Log(unittest.TestCase):
 oetf_H273_Log` definition.
         """
 
-        self.assertAlmostEqual(oetf_H273_Log(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            oetf_H273_Log(0.18), 0.627636252551653, places=7
+        np.testing.assert_allclose(
+            oetf_H273_Log(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(oetf_H273_Log(1.0), 1.0, places=7)
+        np.testing.assert_allclose(
+            oetf_H273_Log(0.18),
+            0.627636252551653,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            oetf_H273_Log(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_n_dimensional_oetf_H273_Log(self):
         """
@@ -128,13 +134,19 @@ oetf_inverse_H273_Log` definition.
 
         # NOTE: The function is unfortunately clamped and cannot roundtrip
         # properly.
-        self.assertAlmostEqual(oetf_inverse_H273_Log(0.0), 0.01, places=7)
-
-        self.assertAlmostEqual(
-            oetf_inverse_H273_Log(0.627636252551653), 0.18, places=7
+        np.testing.assert_allclose(
+            oetf_inverse_H273_Log(0.0), 0.01, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(oetf_inverse_H273_Log(1.0), 1.0, places=7)
+        np.testing.assert_allclose(
+            oetf_inverse_H273_Log(0.627636252551653),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            oetf_inverse_H273_Log(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_n_dimensional_oetf_inverse_H273_Log(self):
         """
@@ -205,13 +217,19 @@ class TestOetf_H273_LogSqrt(unittest.TestCase):
 oetf_H273_LogSqrt` definition.
         """
 
-        self.assertAlmostEqual(oetf_H273_LogSqrt(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            oetf_H273_LogSqrt(0.18), 0.702109002041322, places=7
+        np.testing.assert_allclose(
+            oetf_H273_LogSqrt(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(oetf_H273_LogSqrt(1.0), 1.0, places=7)
+        np.testing.assert_allclose(
+            oetf_H273_LogSqrt(0.18),
+            0.702109002041322,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            oetf_H273_LogSqrt(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_n_dimensional_oetf_H273_LogSqrt(self):
         """
@@ -282,15 +300,21 @@ oetf_inverse_H273_LogSqrt` definition.
 
         # NOTE: The function is unfortunately clamped and cannot roundtrip
         # properly.
-        self.assertAlmostEqual(
-            oetf_inverse_H273_LogSqrt(0.0), 0.003162277660168, places=7
+        np.testing.assert_allclose(
+            oetf_inverse_H273_LogSqrt(0.0),
+            0.003162277660168,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            oetf_inverse_H273_LogSqrt(0.702109002041322), 0.18, places=7
+        np.testing.assert_allclose(
+            oetf_inverse_H273_LogSqrt(0.702109002041322),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(oetf_inverse_H273_LogSqrt(1.0), 1.0, places=7)
+        np.testing.assert_allclose(
+            oetf_inverse_H273_LogSqrt(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_n_dimensional_oetf_inverse_H273_LogSqrt(self):
         """
@@ -361,17 +385,25 @@ class TestOetf_H273_IEC61966_2(unittest.TestCase):
 oetf_H273_IEC61966_2` definition.
         """
 
-        self.assertAlmostEqual(
-            oetf_H273_IEC61966_2(-0.18), -0.461356129500442, places=7
+        np.testing.assert_allclose(
+            oetf_H273_IEC61966_2(-0.18),
+            -0.461356129500442,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(oetf_H273_IEC61966_2(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            oetf_H273_IEC61966_2(0.18), 0.461356129500442, places=7
+        np.testing.assert_allclose(
+            oetf_H273_IEC61966_2(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(oetf_H273_IEC61966_2(1.0), 1.0, places=7)
+        np.testing.assert_allclose(
+            oetf_H273_IEC61966_2(0.18),
+            0.461356129500442,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            oetf_H273_IEC61966_2(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_n_dimensional_oetf_H273_IEC61966_2(self):
         """
@@ -442,20 +474,28 @@ oetf_inverse_H273_IEC61966_2` definition unit tests methods.
 oetf_inverse_H273_IEC61966_2` definition.
         """
 
-        self.assertAlmostEqual(
-            oetf_inverse_H273_IEC61966_2(-0.461356129500442), -0.18, places=7
+        np.testing.assert_allclose(
+            oetf_inverse_H273_IEC61966_2(-0.461356129500442),
+            -0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            oetf_inverse_H273_IEC61966_2(0.0), 0.0, places=7
+        np.testing.assert_allclose(
+            oetf_inverse_H273_IEC61966_2(0.0),
+            0.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            oetf_inverse_H273_IEC61966_2(0.461356129500442), 0.18, places=7
+        np.testing.assert_allclose(
+            oetf_inverse_H273_IEC61966_2(0.461356129500442),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            oetf_inverse_H273_IEC61966_2(1.0), 1.0, places=7
+        np.testing.assert_allclose(
+            oetf_inverse_H273_IEC61966_2(1.0),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_oetf_inverse_H273_IEC61966_2(self):
@@ -527,14 +567,20 @@ class TestEotf_inverse_H273_ST428_1(unittest.TestCase):
 eotf_inverse_H273_ST428_1` definition.
         """
 
-        self.assertAlmostEqual(eotf_inverse_H273_ST428_1(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            eotf_inverse_H273_ST428_1(0.18), 0.500048337717236, places=7
+        np.testing.assert_allclose(
+            eotf_inverse_H273_ST428_1(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(
-            eotf_inverse_H273_ST428_1(1.0), 0.967042675317934, places=7
+        np.testing.assert_allclose(
+            eotf_inverse_H273_ST428_1(0.18),
+            0.500048337717236,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            eotf_inverse_H273_ST428_1(1.0),
+            0.967042675317934,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_eotf_inverse_H273_ST428_1(self):
@@ -606,14 +652,20 @@ eotf_H273_ST428_1` definition unit tests methods.
 eotf_H273_ST428_1` definition.
         """
 
-        self.assertAlmostEqual(eotf_H273_ST428_1(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            eotf_H273_ST428_1(0.500048337717236), 0.18, places=7
+        np.testing.assert_allclose(
+            eotf_H273_ST428_1(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(
-            eotf_H273_ST428_1(0.967042675317934), 1.0, places=7
+        np.testing.assert_allclose(
+            eotf_H273_ST428_1(0.500048337717236),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            eotf_H273_ST428_1(0.967042675317934),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_eotf_H273_ST428_1(self):

@@ -39,20 +39,28 @@ eotf_inverse_DICOMGSDF` definition unit tests methods.
 eotf_inverse_DICOMGSDF` definition.
         """
 
-        self.assertAlmostEqual(
-            eotf_inverse_DICOMGSDF(0.05), 0.001007281350787, places=7
+        np.testing.assert_allclose(
+            eotf_inverse_DICOMGSDF(0.05),
+            0.001007281350787,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            eotf_inverse_DICOMGSDF(130.0662), 0.500486263438448, places=7
+        np.testing.assert_allclose(
+            eotf_inverse_DICOMGSDF(130.0662),
+            0.500486263438448,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            eotf_inverse_DICOMGSDF(4000), 1.000160314715578, places=7
+        np.testing.assert_allclose(
+            eotf_inverse_DICOMGSDF(4000),
+            1.000160314715578,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            eotf_inverse_DICOMGSDF(130.0662, out_int=True), 512, places=7
+        np.testing.assert_allclose(
+            eotf_inverse_DICOMGSDF(130.0662, out_int=True),
+            512,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_eotf_inverse_DICOMGSDF(self):
@@ -124,20 +132,28 @@ class TestEotf_DICOMGSDF(unittest.TestCase):
 eotf_DICOMGSDF` definition.
         """
 
-        self.assertAlmostEqual(
-            eotf_DICOMGSDF(0.001007281350787), 0.050143440671692, places=7
+        np.testing.assert_allclose(
+            eotf_DICOMGSDF(0.001007281350787),
+            0.050143440671692,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            eotf_DICOMGSDF(0.500486263438448), 130.062864706476550, places=7
+        np.testing.assert_allclose(
+            eotf_DICOMGSDF(0.500486263438448),
+            130.062864706476550,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            eotf_DICOMGSDF(1.000160314715578), 3997.586161113322300, places=7
+        np.testing.assert_allclose(
+            eotf_DICOMGSDF(1.000160314715578),
+            3997.586161113322300,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            eotf_DICOMGSDF(512, in_int=True), 130.065284012159790, places=7
+        np.testing.assert_allclose(
+            eotf_DICOMGSDF(512, in_int=True),
+            130.065284012159790,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_eotf_DICOMGSDF(self):

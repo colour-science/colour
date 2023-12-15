@@ -1115,16 +1115,22 @@ class TestMunsellValuePriest1920(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
-            munsell_value_Priest1920(12.23634268), 3.498048410185314, places=7
+        np.testing.assert_allclose(
+            munsell_value_Priest1920(12.23634268),
+            3.498048410185314,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            munsell_value_Priest1920(22.89399987), 4.7847674833788947, places=7
+        np.testing.assert_allclose(
+            munsell_value_Priest1920(22.89399987),
+            4.7847674833788947,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            munsell_value_Priest1920(6.29022535), 2.5080321668591092, places=7
+        np.testing.assert_allclose(
+            munsell_value_Priest1920(6.29022535),
+            2.5080321668591092,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_munsell_value_Priest1920(self):
@@ -1196,20 +1202,22 @@ class TestMunsellValueMunsell1933(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             munsell_value_Munsell1933(12.23634268),
             4.1627702416858083,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             munsell_value_Munsell1933(22.89399987),
             5.5914543020790592,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            munsell_value_Munsell1933(6.29022535), 3.0141971134091761, places=7
+        np.testing.assert_allclose(
+            munsell_value_Munsell1933(6.29022535),
+            3.0141971134091761,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_munsell_value_Munsell1933(self):
@@ -1281,16 +1289,22 @@ class TestMunsellValueMoon1943(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
-            munsell_value_Moon1943(12.23634268), 4.0688120634976421, places=7
+        np.testing.assert_allclose(
+            munsell_value_Moon1943(12.23634268),
+            4.0688120634976421,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            munsell_value_Moon1943(22.89399987), 5.3133627855494412, places=7
+        np.testing.assert_allclose(
+            munsell_value_Moon1943(22.89399987),
+            5.3133627855494412,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            munsell_value_Moon1943(6.29022535), 3.0645015037679695, places=7
+        np.testing.assert_allclose(
+            munsell_value_Moon1943(6.29022535),
+            3.0645015037679695,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_munsell_value_Moon1943(self):
@@ -1362,22 +1376,22 @@ class TestMunsellValueSaunderson1944(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             munsell_value_Saunderson1944(12.23634268),
             4.0444736723175119,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             munsell_value_Saunderson1944(22.89399987),
             5.3783324022305923,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             munsell_value_Saunderson1944(6.29022535),
             2.9089633927316823,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_munsell_value_Saunderson1944(self):
@@ -1449,16 +1463,22 @@ class TestMunsellValueLadd1955(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
-            munsell_value_Ladd1955(12.23634268), 4.0511633044287088, places=7
+        np.testing.assert_allclose(
+            munsell_value_Ladd1955(12.23634268),
+            4.0511633044287088,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            munsell_value_Ladd1955(22.89399987), 5.3718647913936772, places=7
+        np.testing.assert_allclose(
+            munsell_value_Ladd1955(22.89399987),
+            5.3718647913936772,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            munsell_value_Ladd1955(6.29022535), 2.9198269939751613, places=7
+        np.testing.assert_allclose(
+            munsell_value_Ladd1955(6.29022535),
+            2.9198269939751613,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_munsell_value_Ladd1955(self):
@@ -1530,16 +1550,22 @@ class TestMunsellValueMcCamy1992(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
-            munsell_value_McCamy1987(12.23634268), 4.081434853194113, places=7
+        np.testing.assert_allclose(
+            munsell_value_McCamy1987(12.23634268),
+            4.081434853194113,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            munsell_value_McCamy1987(22.89399987), 5.394083970919982, places=7
+        np.testing.assert_allclose(
+            munsell_value_McCamy1987(22.89399987),
+            5.394083970919982,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            munsell_value_McCamy1987(6.29022535), 2.9750160800320096, places=7
+        np.testing.assert_allclose(
+            munsell_value_McCamy1987(6.29022535),
+            2.9750160800320096,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_munsell_value_McCamy1987(self):
@@ -1611,16 +1637,22 @@ class TestMunsellValueASTMD1535(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
-            munsell_value_ASTMD1535(12.23634268), 4.0824437076525664, places=7
+        np.testing.assert_allclose(
+            munsell_value_ASTMD1535(12.23634268),
+            4.0824437076525664,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            munsell_value_ASTMD1535(22.89399987), 5.3913268228155395, places=7
+        np.testing.assert_allclose(
+            munsell_value_ASTMD1535(22.89399987),
+            5.3913268228155395,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            munsell_value_ASTMD1535(6.29022535), 2.9761930839606454, places=7
+        np.testing.assert_allclose(
+            munsell_value_ASTMD1535(6.29022535),
+            2.9761930839606454,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_munsell_value_ASTMD1535(self):

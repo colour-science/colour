@@ -5,6 +5,7 @@ import unittest
 
 import numpy as np
 
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import metric_mse, metric_psnr
 
 __author__ = "Colour Developers"
@@ -33,13 +34,17 @@ class TestMetricMse(unittest.TestCase):
         self.assertEqual(metric_mse(a, a), 0)
 
         b = a * 0.9
-        self.assertAlmostEqual(
-            metric_mse(a, b), 0.0012714955474297446, places=7
+        np.testing.assert_allclose(
+            metric_mse(a, b),
+            0.0012714955474297446,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         b = a * 1.1
-        self.assertAlmostEqual(
-            metric_mse(a, b), 0.0012714955474297446, places=7
+        np.testing.assert_allclose(
+            metric_mse(a, b),
+            0.0012714955474297446,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -56,10 +61,18 @@ class TestMetricPsnr(unittest.TestCase):
         self.assertEqual(metric_psnr(a, a), 0)
 
         b = a * 0.9
-        self.assertAlmostEqual(metric_psnr(a, b), 28.956851563141299, places=7)
+        np.testing.assert_allclose(
+            metric_psnr(a, b),
+            28.956851563141299,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
 
         b = a * 1.1
-        self.assertAlmostEqual(metric_psnr(a, b), 28.956851563141296, places=7)
+        np.testing.assert_allclose(
+            metric_psnr(a, b),
+            28.956851563141296,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
 
 
 if __name__ == "__main__":

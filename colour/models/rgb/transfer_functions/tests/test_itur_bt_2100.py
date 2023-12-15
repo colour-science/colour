@@ -71,16 +71,22 @@ oetf_BT2100_PQ` definition unit tests methods.
 oetf_BT2100_PQ` definition.
         """
 
-        self.assertAlmostEqual(
-            oetf_BT2100_PQ(0.0), 0.000000730955903, places=7
+        np.testing.assert_allclose(
+            oetf_BT2100_PQ(0.0),
+            0.000000730955903,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            oetf_BT2100_PQ(0.1), 0.724769816665726, places=7
+        np.testing.assert_allclose(
+            oetf_BT2100_PQ(0.1),
+            0.724769816665726,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            oetf_BT2100_PQ(1.0), 0.999999934308041, places=7
+        np.testing.assert_allclose(
+            oetf_BT2100_PQ(1.0),
+            0.999999934308041,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_oetf_BT2100_PQ(self):
@@ -150,16 +156,22 @@ oetf_inverse_BT2100_PQ` definition unit tests methods.
 oetf_inverse_BT2100_PQ` definition.
         """
 
-        self.assertAlmostEqual(
-            oetf_inverse_BT2100_PQ(0.000000730955903), 0.0, places=7
+        np.testing.assert_allclose(
+            oetf_inverse_BT2100_PQ(0.000000730955903),
+            0.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            oetf_inverse_BT2100_PQ(0.724769816665726), 0.1, places=7
+        np.testing.assert_allclose(
+            oetf_inverse_BT2100_PQ(0.724769816665726),
+            0.1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            oetf_inverse_BT2100_PQ(0.999999934308041), 1.0, places=7
+        np.testing.assert_allclose(
+            oetf_inverse_BT2100_PQ(0.999999934308041),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_oetf_inverse_BT2100_PQ(self):
@@ -231,13 +243,19 @@ eotf_BT2100_PQ` definition unit tests methods.
 eotf_BT2100_PQ` definition.
         """
 
-        self.assertAlmostEqual(eotf_BT2100_PQ(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            eotf_BT2100_PQ(0.724769816665726), 779.98836083408537, places=7
+        np.testing.assert_allclose(
+            eotf_BT2100_PQ(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(eotf_BT2100_PQ(1.0), 10000.0, places=7)
+        np.testing.assert_allclose(
+            eotf_BT2100_PQ(0.724769816665726),
+            779.98836083408537,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            eotf_BT2100_PQ(1.0), 10000.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_n_dimensional_eotf_BT2100_PQ(self):
         """
@@ -306,17 +324,21 @@ eotf_inverse_BT2100_PQ` definition unit tests methods.
 eotf_inverse_BT2100_PQ` definition.
         """
 
-        self.assertAlmostEqual(
-            eotf_inverse_BT2100_PQ(0.0), 0.000000730955903, places=7
+        np.testing.assert_allclose(
+            eotf_inverse_BT2100_PQ(0.0),
+            0.000000730955903,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             eotf_inverse_BT2100_PQ(779.98836083408537),
             0.724769816665726,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(eotf_inverse_BT2100_PQ(10000.0), 1.0, places=7)
+        np.testing.assert_allclose(
+            eotf_inverse_BT2100_PQ(10000.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_n_dimensional_eotf_inverse_BT2100_PQ(self):
         """
@@ -387,14 +409,20 @@ ootf_BT2100_PQ` definition unit tests methods.
 ootf_BT2100_PQ` definition.
         """
 
-        self.assertAlmostEqual(ootf_BT2100_PQ(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            ootf_BT2100_PQ(0.1), 779.98836083411584, places=7
+        np.testing.assert_allclose(
+            ootf_BT2100_PQ(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(
-            ootf_BT2100_PQ(1.0), 9999.993723673924300, places=7
+        np.testing.assert_allclose(
+            ootf_BT2100_PQ(0.1),
+            779.98836083411584,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            ootf_BT2100_PQ(1.0),
+            9999.993723673924300,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_ootf_BT2100_PQ(self):
@@ -464,14 +492,20 @@ ootf_inverse_BT2100_PQ` definition unit tests methods.
 ootf_inverse_BT2100_PQ` definition.
         """
 
-        self.assertAlmostEqual(ootf_inverse_BT2100_PQ(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            ootf_inverse_BT2100_PQ(779.98836083411584), 0.1, places=7
+        np.testing.assert_allclose(
+            ootf_inverse_BT2100_PQ(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(
-            ootf_inverse_BT2100_PQ(9999.993723673924300), 1.0, places=7
+        np.testing.assert_allclose(
+            ootf_inverse_BT2100_PQ(779.98836083411584),
+            0.1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            ootf_inverse_BT2100_PQ(9999.993723673924300),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_ootf_inverse_BT2100_PQ(self):
@@ -543,20 +577,28 @@ gamma_function_BT2100_HLG` definition unit tests methods.
 gamma_function_BT2100_HLG` definition.
         """
 
-        self.assertAlmostEqual(
-            gamma_function_BT2100_HLG(1000.0), 1.2, places=7
+        np.testing.assert_allclose(
+            gamma_function_BT2100_HLG(1000.0),
+            1.2,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            gamma_function_BT2100_HLG(2000.0), 1.326432598178872, places=7
+        np.testing.assert_allclose(
+            gamma_function_BT2100_HLG(2000.0),
+            1.326432598178872,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            gamma_function_BT2100_HLG(4000.0), 1.452865196357744, places=7
+        np.testing.assert_allclose(
+            gamma_function_BT2100_HLG(4000.0),
+            1.452865196357744,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            gamma_function_BT2100_HLG(10000.0), 1.619999999999999, places=7
+        np.testing.assert_allclose(
+            gamma_function_BT2100_HLG(10000.0),
+            1.619999999999999,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -572,14 +614,20 @@ oetf_BT2100_HLG` definition unit tests methods.
 oetf_BT2100_HLG` definition.
         """
 
-        self.assertAlmostEqual(oetf_BT2100_HLG(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            oetf_BT2100_HLG(0.18 / 12), 0.212132034355964, places=7
+        np.testing.assert_allclose(
+            oetf_BT2100_HLG(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(
-            oetf_BT2100_HLG(1.0), 0.999999995536569, places=7
+        np.testing.assert_allclose(
+            oetf_BT2100_HLG(0.18 / 12),
+            0.212132034355964,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            oetf_BT2100_HLG(1.0),
+            0.999999995536569,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_oetf_BT2100_HLG(self):
@@ -649,14 +697,20 @@ oetf_inverse_BT2100_HLG` definition unit tests methods.
 oetf_inverse_BT2100_HLG` definition.
         """
 
-        self.assertAlmostEqual(oetf_inverse_BT2100_HLG(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            oetf_inverse_BT2100_HLG(0.212132034355964), 0.18 / 12, places=7
+        np.testing.assert_allclose(
+            oetf_inverse_BT2100_HLG(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(
-            oetf_inverse_BT2100_HLG(0.999999995536569), 1.0, places=7
+        np.testing.assert_allclose(
+            oetf_inverse_BT2100_HLG(0.212132034355964),
+            0.18 / 12,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            oetf_inverse_BT2100_HLG(0.999999995536569),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_oetf_inverse_BT2100_HLG(self):
@@ -728,20 +782,26 @@ eotf_BT2100_HLG_1` definition unit tests methods.
 eotf_BT2100_HLG_1` definition.
         """
 
-        self.assertAlmostEqual(eotf_BT2100_HLG_1(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            eotf_BT2100_HLG_1(0.212132034355964), 6.476039825649814, places=7
+        np.testing.assert_allclose(
+            eotf_BT2100_HLG_1(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(
-            eotf_BT2100_HLG_1(1.0), 1000.000032321769100, places=7
+        np.testing.assert_allclose(
+            eotf_BT2100_HLG_1(0.212132034355964),
+            6.476039825649814,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
+            eotf_BT2100_HLG_1(1.0),
+            1000.000032321769100,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
             eotf_BT2100_HLG_1(0.212132034355964, 0.001, 10000, 1.4),
             27.96039175299561,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_eotf_BT2100_HLG_1(self):
@@ -835,20 +895,26 @@ eotf_BT2100_HLG_2` definition unit tests methods.
 eotf_BT2100_HLG_2` definition.
         """
 
-        self.assertAlmostEqual(eotf_BT2100_HLG_2(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            eotf_BT2100_HLG_2(0.212132034355964), 6.476039825649814, places=7
+        np.testing.assert_allclose(
+            eotf_BT2100_HLG_2(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(
-            eotf_BT2100_HLG_2(1.0), 1000.000032321769100, places=7
+        np.testing.assert_allclose(
+            eotf_BT2100_HLG_2(0.212132034355964),
+            6.476039825649814,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
+            eotf_BT2100_HLG_2(1.0),
+            1000.000032321769100,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
             eotf_BT2100_HLG_2(0.212132034355964, 0.001, 10000, 1.4),
             29.581261576946076,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_eotf_BT2100_HLG_2(self):
@@ -942,22 +1008,26 @@ eotf_inverse_BT2100_HLG_1` definition unit tests methods.
 eotf_inverse_BT2100_HLG_1` definition.
         """
 
-        self.assertAlmostEqual(eotf_inverse_BT2100_HLG_1(0.0), 0.0, places=7)
+        np.testing.assert_allclose(
+            eotf_inverse_BT2100_HLG_1(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             eotf_inverse_BT2100_HLG_1(6.476039825649814),
             0.212132034355964,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            eotf_inverse_BT2100_HLG_1(1000.000032321769100), 1.0, places=7
+        np.testing.assert_allclose(
+            eotf_inverse_BT2100_HLG_1(1000.000032321769100),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             eotf_inverse_BT2100_HLG_1(27.96039175299561, 0.001, 10000, 1.4),
             0.212132034355964,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_eotf_inverse_BT2100_HLG_1(self):
@@ -1053,22 +1123,26 @@ eotf_inverse_BT2100_HLG_2` definition unit tests methods.
 eotf_inverse_BT2100_HLG_2` definition.
         """
 
-        self.assertAlmostEqual(eotf_inverse_BT2100_HLG_2(0.0), 0.0, places=7)
+        np.testing.assert_allclose(
+            eotf_inverse_BT2100_HLG_2(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             eotf_inverse_BT2100_HLG_2(6.476039825649814),
             0.212132034355964,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            eotf_inverse_BT2100_HLG_2(1000.000032321769100), 1.0, places=7
+        np.testing.assert_allclose(
+            eotf_inverse_BT2100_HLG_2(1000.000032321769100),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             eotf_inverse_BT2100_HLG_2(29.581261576946076, 0.001, 10000, 1.4),
             0.212132034355964,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_eotf_inverse_BT2100_HLG_2(self):
@@ -1164,18 +1238,24 @@ ootf_BT2100_HLG_1` definition unit tests methods.
 ootf_BT2100_HLG_1` definition.
         """
 
-        self.assertAlmostEqual(ootf_BT2100_HLG_1(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            ootf_BT2100_HLG_1(0.1), 63.095734448019336, places=7
+        np.testing.assert_allclose(
+            ootf_BT2100_HLG_1(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(ootf_BT2100_HLG_1(1.0), 1000.0, places=7)
+        np.testing.assert_allclose(
+            ootf_BT2100_HLG_1(0.1),
+            63.095734448019336,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
+            ootf_BT2100_HLG_1(1.0), 1000.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+        np.testing.assert_allclose(
             ootf_BT2100_HLG_1(0.1, 0.001, 10000, 1.4),
             398.108130742780300,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = np.array(
@@ -1296,16 +1376,24 @@ ootf_BT2100_HLG_2` definition unit tests methods.
 ootf_BT2100_HLG_2` definition.
         """
 
-        self.assertAlmostEqual(ootf_BT2100_HLG_2(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            ootf_BT2100_HLG_2(0.1), 63.095734448019336, places=7
+        np.testing.assert_allclose(
+            ootf_BT2100_HLG_2(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(ootf_BT2100_HLG_2(1.0), 1000.0, places=7)
+        np.testing.assert_allclose(
+            ootf_BT2100_HLG_2(0.1),
+            63.095734448019336,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
 
-        self.assertAlmostEqual(
-            ootf_BT2100_HLG_2(0.1, 10000, 1.4), 398.107170553497380, places=7
+        np.testing.assert_allclose(
+            ootf_BT2100_HLG_2(1.0), 1000.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+        np.testing.assert_allclose(
+            ootf_BT2100_HLG_2(0.1, 10000, 1.4),
+            398.107170553497380,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = np.array(
@@ -1426,20 +1514,26 @@ ootf_inverse_BT2100_HLG_1` definition unit tests methods.
 ootf_inverse_BT2100_HLG_1` definition.
         """
 
-        self.assertAlmostEqual(ootf_inverse_BT2100_HLG_1(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            ootf_inverse_BT2100_HLG_1(63.095734448019336), 0.1, places=7
+        np.testing.assert_allclose(
+            ootf_inverse_BT2100_HLG_1(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(
-            ootf_inverse_BT2100_HLG_1(1000.0), 1.0, places=7
+        np.testing.assert_allclose(
+            ootf_inverse_BT2100_HLG_1(63.095734448019336),
+            0.1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
+            ootf_inverse_BT2100_HLG_1(1000.0),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
             ootf_inverse_BT2100_HLG_1(398.108130742780300, 0.001, 10000, 1.4),
             0.1,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = np.array(
@@ -1560,20 +1654,26 @@ ootf_inverse_BT2100_HLG_2` definition unit tests methods.
 ootf_inverse_BT2100_HLG_2` definition.
         """
 
-        self.assertAlmostEqual(ootf_inverse_BT2100_HLG_2(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            ootf_inverse_BT2100_HLG_2(63.095734448019336), 0.1, places=7
+        np.testing.assert_allclose(
+            ootf_inverse_BT2100_HLG_2(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(
-            ootf_inverse_BT2100_HLG_2(1000.0), 1.0, places=7
+        np.testing.assert_allclose(
+            ootf_inverse_BT2100_HLG_2(63.095734448019336),
+            0.1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
+            ootf_inverse_BT2100_HLG_2(1000.0),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
             ootf_inverse_BT2100_HLG_2(398.107170553497380, 10000, 1.4),
             0.1,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = np.array(

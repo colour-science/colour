@@ -1127,8 +1127,10 @@ multi_signals_unpack_data` method.
 domain_distance` method.
         """
 
-        self.assertAlmostEqual(
-            self._multi_signals.domain_distance(0.5), 0.5, places=7
+        np.testing.assert_allclose(
+            self._multi_signals.domain_distance(0.5),
+            0.5,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(

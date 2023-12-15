@@ -41,58 +41,76 @@ exponent_function_basic` definition.
 
         a = 0.18
         a_p = 0.0229932049927
-        self.assertAlmostEqual(exponent_function_basic(a, 2.2), a_p, places=7)
-
-        self.assertAlmostEqual(
-            exponent_function_basic(a, 2.2, "basicMirrorFwd"), a_p, places=7
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2), a_p, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(
-            exponent_function_basic(a, 2.2, "basicPassThruFwd"), a_p, places=7
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2, "basicMirrorFwd"),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2, "basicPassThruFwd"),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = 0.0229932049927
         a_p = 0.18
-        self.assertAlmostEqual(
-            exponent_function_basic(a, 2.2, "basicRev"), a_p, places=7
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2, "basicRev"),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            exponent_function_basic(a, 2.2, "basicMirrorRev"), a_p, places=7
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2, "basicMirrorRev"),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            exponent_function_basic(a, 2.2, "basicPassThruRev"), a_p, places=7
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2, "basicPassThruRev"),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = -0.18
-        self.assertAlmostEqual(exponent_function_basic(a, 2.2), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            exponent_function_basic(a, 2.2, "basicMirrorFwd"),
-            -0.0229932049927,
-            places=7,
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2, "basicMirrorFwd"),
+            -0.0229932049927,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
             exponent_function_basic(a, 2.2, "basicPassThruFwd"),
             -0.18,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = -0.0229932049927
-        self.assertAlmostEqual(
-            exponent_function_basic(a, 2.2, "basicRev"), 0.0, places=7
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2, "basicRev"),
+            0.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            exponent_function_basic(a, 2.2, "basicMirrorRev"), -0.18, places=7
+        np.testing.assert_allclose(
+            exponent_function_basic(a, 2.2, "basicMirrorRev"),
+            -0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             exponent_function_basic(a, 2.2, "basicPassThruRev"),
             -0.0229932049927,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_exponent_function_basic(self):
@@ -235,62 +253,64 @@ exponent_function_monitor_curve` definition.
 
         a = 0.18
         a_p = 0.0232240466001
-        self.assertAlmostEqual(
-            exponent_function_monitor_curve(a, 2.2, 0.001), a_p, places=7
+        np.testing.assert_allclose(
+            exponent_function_monitor_curve(a, 2.2, 0.001),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             exponent_function_monitor_curve(
                 a, 2.2, 0.001, "monCurveMirrorFwd"
             ),
             a_p,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = 0.0232240466001
         a_p = 0.18
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveRev"),
             a_p,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             exponent_function_monitor_curve(
                 a, 2.2, 0.001, "monCurveMirrorRev"
             ),
             a_p,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = -0.18
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             exponent_function_monitor_curve(a, 2.2, 0.001),
             -0.000205413951,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             exponent_function_monitor_curve(
                 a, 2.2, 0.001, "monCurveMirrorFwd"
             ),
             -0.0232240466001,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = -0.000205413951
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveRev"),
             -0.18,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             exponent_function_monitor_curve(
                 a, 2.2, 0.001, "monCurveMirrorRev"
             ),
             -0.0201036111565,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_exponent_function_monitor_curve(self):

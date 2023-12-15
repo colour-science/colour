@@ -47,20 +47,28 @@ log_encoding_ACESproxy`
 log_encoding_ACESproxy` definition.
         """
 
-        self.assertAlmostEqual(
-            log_encoding_ACESproxy(0.0), 0.062561094819159, places=7
+        np.testing.assert_allclose(
+            log_encoding_ACESproxy(0.0),
+            0.062561094819159,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_ACESproxy(0.18), 0.416422287390029, places=7
+        np.testing.assert_allclose(
+            log_encoding_ACESproxy(0.18),
+            0.416422287390029,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_ACESproxy(0.18, 12), 0.416361416361416, places=7
+        np.testing.assert_allclose(
+            log_encoding_ACESproxy(0.18, 12),
+            0.416361416361416,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_ACESproxy(1.0), 0.537634408602151, places=7
+        np.testing.assert_allclose(
+            log_encoding_ACESproxy(1.0),
+            0.537634408602151,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         self.assertEqual(log_encoding_ACESproxy(0.18, out_int=True), 426)
@@ -246,16 +254,22 @@ log_encoding_ACEScc` definition unit tests methods.
 log_encoding_ACEScc` definition.
         """
 
-        self.assertAlmostEqual(
-            log_encoding_ACEScc(0.0), -0.358447488584475, places=7
+        np.testing.assert_allclose(
+            log_encoding_ACEScc(0.0),
+            -0.358447488584475,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_ACEScc(0.18), 0.413588402492442, places=7
+        np.testing.assert_allclose(
+            log_encoding_ACEScc(0.18),
+            0.413588402492442,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_ACEScc(1.0), 0.554794520547945, places=7
+        np.testing.assert_allclose(
+            log_encoding_ACEScc(1.0),
+            0.554794520547945,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_encoding_ACEScc(self):
@@ -327,16 +341,22 @@ log_decoding_ACEScc` definition unit tests methods.
 log_decoding_ACEScc` definition.
         """
 
-        self.assertAlmostEqual(
-            log_decoding_ACEScc(-0.358447488584475), 0.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_ACEScc(-0.358447488584475),
+            0.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_ACEScc(0.413588402492442), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_ACEScc(0.413588402492442),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_ACEScc(0.554794520547945), 1.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_ACEScc(0.554794520547945),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_decoding_ACEScc(self):
@@ -408,16 +428,22 @@ log_encoding_ACEScct` definition unit tests methods.
 log_encoding_ACEScct` definition.
         """
 
-        self.assertAlmostEqual(
-            log_encoding_ACEScct(0.0), 0.072905534195835495, places=7
+        np.testing.assert_allclose(
+            log_encoding_ACEScct(0.0),
+            0.072905534195835495,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_ACEScct(0.18), 0.413588402492442, places=7
+        np.testing.assert_allclose(
+            log_encoding_ACEScct(0.18),
+            0.413588402492442,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_ACEScct(1.0), 0.554794520547945, places=7
+        np.testing.assert_allclose(
+            log_encoding_ACEScct(1.0),
+            0.554794520547945,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_encoding_ACEScct(self):
@@ -511,16 +537,22 @@ log_decoding_ACEScct` definition unit tests methods.
 log_decoding_ACEScct` definition.
         """
 
-        self.assertAlmostEqual(
-            log_decoding_ACEScct(0.072905534195835495), 0.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_ACEScct(0.072905534195835495),
+            0.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_ACEScct(0.41358840249244228), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_ACEScct(0.41358840249244228),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_ACEScct(0.554794520547945), 1.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_ACEScct(0.554794520547945),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_decoding_ACEScct(self):
