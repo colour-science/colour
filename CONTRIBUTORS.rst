@@ -204,6 +204,14 @@ Development & Technical Support
 
     Spectral Similarity Index computation improvements.
 
+-   **Thomas A Caswell**, *Computational Scientist @ Brookhaven National Laboratory*
+
+    Typing annotations improvements.
+
+-   **Liam Collod**, *VFX Software Developer @ Mikros Animation*
+
+    Documentation improvements.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
@@ -263,12 +271,14 @@ Issues & Discussions
 -   @AndersAtEndian
 -   @Apoorva-13
 -   @Artoria2e5
+-   @BQ-Octantis
 -   @CHRIBUR0309
 -   @Chandler
 -   @ChunHsinWang
 -   @Edwardlin-zlt
 -   @EricFlyMeToTheMoon
 -   @Floschoe
+-   @GuillemRamisa
 -   @JarrettR
 -   @JayPalm
 -   @Jerry2001
@@ -298,6 +308,7 @@ Issues & Discussions
 -   @TFiFiE
 -   @TomFryers
 -   @ValZapod
+-   @Voultapher
 -   @Wagyx
 -   @Wangld5
 -   @Willingo
@@ -308,6 +319,7 @@ Issues & Discussions
 -   @alban-sol
 -   @alianoroozi
 -   @altert
+-   @alyfreym
 -   @am-ac
 -   @andurilhuang
 -   @anshulxyz
@@ -333,6 +345,7 @@ Issues & Discussions
 -   @digital-prepress
 -   @diuming
 -   @dofuuz
+-   @domisjustanumber
 -   @dtbulmerJRs
 -   @eitanlees
 -   @ema2159
@@ -354,6 +367,8 @@ Issues & Discussions
 -   @iinnovations
 -   @jaguarondi
 -   @jamesmyatt
+-   @jamesmyatt
+-   @juneleung
 -   @kaihagseth
 -   @kamikaze
 -   @kljumat
@@ -368,6 +383,7 @@ Issues & Discussions
 -   @matt-roberts
 -   @matthiasbirkich
 -   @meshing
+-   @mesvam
 -   @mforbes
 -   @mokincha
 -   @monkeywithacupcake
@@ -413,6 +429,7 @@ Issues & Discussions
 -   @vibhoothi
 -   @vidakDK
 -   @volkerjaenisch
+-   @volrak
 -   @vsohler
 -   @vvclin-git
 -   @whornsby
