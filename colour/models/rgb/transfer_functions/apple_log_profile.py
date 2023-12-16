@@ -11,6 +11,13 @@ References
 ----------
 -   :cite:`AppleInc.2023` : Apple Inc. (2023). Apple Log Profile White Paper.
     https://developer.apple.com/download/all/?q=Apple%20log%20profile
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2023` : The Academy of
+    Motion Picture Arts and Sciences. (2023). IDT.Apple.AppleLog_BT2020.ctl.
+    Retrieved December 17, 2023, from
+    https://github.com/ampas/aces-dev/blob/\
+528c78fe2c0f4e7eb322581e98aba05de79466cb/transforms/ctl/idt/vendorSupplied/\
+apple/IDT.Apple.AppleLog_BT2020.ctl
+
 """
 
 from __future__ import annotations
@@ -65,7 +72,7 @@ def log_encoding_AppleLogProfile(
 
     References
     ----------
-    :cite:`AppleInc.2023`
+    :cite:`AppleInc.2023`, :cite:`TheAcademyofMotionPictureArtsandSciences2023`
 
     Notes
     -----
@@ -139,7 +146,7 @@ def log_decoding_AppleLogProfile(
 
     References
     ----------
-    :cite:`AppleInc.2023`
+    :cite:`AppleInc.2023`, :cite:`TheAcademyofMotionPictureArtsandSciences2023`
 
     Notes
     -----
