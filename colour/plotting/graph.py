@@ -14,7 +14,7 @@ from colour.graph import (
     CONVERSION_GRAPH_NODE_LABELS,
     describe_conversion_path,
 )
-from colour.hints import Literal
+from colour.hints import Literal, cast
 from colour.utilities import required, validate_method
 
 __author__ = "Colour Developers"
@@ -88,7 +88,9 @@ def plot_automatic_colour_conversion_graph(
     # TODO: Investigate API to trigger the conversion graph build.
     describe_conversion_path("RGB", "RGB", print_callable=lambda x: x)
 
-    agraph = nx.nx_agraph.to_agraph(colour.graph.CONVERSION_GRAPH)
+    agraph = nx.nx_agraph.to_agraph(
+        cast(nx.DiGraph, colour.graph.CONVERSION_GRAPH)
+    )
 
     for node in agraph.nodes():
         node.attr.update(label=CONVERSION_GRAPH_NODE_LABELS[node.name])

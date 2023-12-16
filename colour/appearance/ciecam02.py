@@ -792,7 +792,7 @@ def full_chromatic_adaptation_forward(
             Y_w[..., None] * sdiv(D[..., None], RGB_w) + 1 - D[..., None]
         ) * RGB
 
-    return RGB_c
+    return cast(NDArrayFloat, RGB_c)
 
 
 def full_chromatic_adaptation_inverse(

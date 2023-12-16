@@ -1019,7 +1019,7 @@ def _build_graph() -> networkx.DiGraph:  # pyright: ignore  # noqa: F821
 
 
 CONVERSION_GRAPH: (
-    Optional[networkx.DiGraph]  # pyright: ignore  # noqa: F821, UP007
+    Optional[nx.DiGraph]  # pyright: ignore  # noqa: F821, UP007
 ) = None
 """Automatic colour conversion graph."""
 
@@ -1059,7 +1059,7 @@ def _conversion_path(source: str, target: str) -> List[Callable]:
         # Updating the :attr:`CONVERSION_GRAPH` attributes.
         colour.graph.CONVERSION_GRAPH = CONVERSION_GRAPH = _build_graph()
 
-    path = nx.shortest_path(CONVERSION_GRAPH, source, target)
+    path = nx.shortest_path(cast(nx.DiGraph, CONVERSION_GRAPH), source, target)
 
     return [
         CONVERSION_GRAPH.get_edge_data(a, b)[  # pyright: ignore

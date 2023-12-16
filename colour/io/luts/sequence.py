@@ -301,7 +301,7 @@ class LUTSequence(MutableSequence):
 
         return not (self == other)
 
-    def insert(self, index: int, item: ProtocolLUTSequenceItem):
+    def insert(self, index: int, value: ProtocolLUTSequenceItem):
         """
         Insert given *LUT* at given index into the *LUT* sequence.
 
@@ -309,17 +309,17 @@ class LUTSequence(MutableSequence):
         ----------
         index
             Index to insert the item at into the *LUT* sequence.
-        item
+        value
             *LUT* to insert into the *LUT* sequence.
         """
 
         attest(
-            isinstance(item, ProtocolLUTSequenceItem),
+            isinstance(value, ProtocolLUTSequenceItem),
             '"value" items must implement the "ProtocolLUTSequenceItem" '
             "protocol!",
         )
 
-        self._sequence.insert(index, item)
+        self._sequence.insert(index, value)
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArrayFloat:
         """

@@ -39,7 +39,7 @@ from colour.geometry import (
     extend_line_segment,
     intersect_line_segments,
 )
-from colour.hints import ArrayLike, NDArrayFloat, Tuple
+from colour.hints import ArrayLike, NDArrayFloat, NDArrayInt, Tuple
 from colour.models import XYZ_to_xy
 from colour.utilities import as_float_array
 
@@ -61,7 +61,7 @@ __all__ = [
 
 def closest_spectral_locus_wavelength(
     xy: ArrayLike, xy_n: ArrayLike, xy_s: ArrayLike, inverse: bool = False
-) -> Tuple[NDArrayFloat, NDArrayFloat]:
+) -> Tuple[NDArrayInt, NDArrayFloat]:
     """
     Return the coordinates and closest spectral locus wavelength index to the
     point where the line defined by the given achromatic stimulus :math:`xy_n`

@@ -37,9 +37,9 @@ from colour.hints import (
     ArrayLike,
     Callable,
     Dict,
-    List,
     NDArrayFloat,
     Self,
+    Sequence,
     Tuple,
     cast,
 )
@@ -815,7 +815,9 @@ class Data_Otsu2018:
         else:
             raise ValueError('The "chromaticity coordinates" are undefined!')
 
-    def partition(self, axis: PartitionAxis) -> Tuple[Self, Self]:
+    def partition(
+        self, axis: PartitionAxis
+    ) -> Tuple[Data_Otsu2018, Data_Otsu2018]:
         """
         Partition the data using given partition axis.
 
@@ -1017,7 +1019,7 @@ class Node_Otsu2018(Node):
 
         self._partition_axis: PartitionAxis | None = None
         self._best_partition: Tuple[
-            List[Node_Otsu2018], PartitionAxis, float
+            Sequence[Node_Otsu2018], PartitionAxis, float
         ] | None = None
 
     @property
@@ -1059,7 +1061,7 @@ class Node_Otsu2018(Node):
         else:
             raise ValueError('The "partition axis" is undefined!')
 
-    def split(self, children: List[Self], axis: PartitionAxis):
+    def split(self, children: Sequence[Self], axis: PartitionAxis):
         """
         Convert the leaf node into an inner node using given children and
         partition axis.
@@ -1081,7 +1083,7 @@ class Node_Otsu2018(Node):
 
     def minimise(
         self, minimum_cluster_size: int
-    ) -> Tuple[List[Self], PartitionAxis, float]:
+    ) -> Tuple[Sequence[Node_Otsu2018], PartitionAxis, float]:
         """
         Find the best partition for the node that minimises the leaf
         reconstruction error.
