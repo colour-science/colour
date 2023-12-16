@@ -1090,7 +1090,7 @@ class Node_Otsu2018(Node):
         ----------
         minimum_cluster_size
             Smallest acceptable cluster size. It must be at least 3 or the
-            *Principal Component Analysis* (PCA) is not be possible.
+            *Principal Component Analysis* (PCA) is not possible.
 
         Returns
         -------
