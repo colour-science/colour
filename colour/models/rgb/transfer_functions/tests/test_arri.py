@@ -43,16 +43,22 @@ log_encoding_ARRILogC3` definition unit tests methods.
 log_encoding_ARRILogC3` definition.
         """
 
-        self.assertAlmostEqual(
-            log_encoding_ARRILogC3(0.0), 0.092809000000000, places=7
+        np.testing.assert_allclose(
+            log_encoding_ARRILogC3(0.0),
+            0.092809000000000,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_ARRILogC3(0.18), 0.391006832034084, places=7
+        np.testing.assert_allclose(
+            log_encoding_ARRILogC3(0.18),
+            0.391006832034084,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_ARRILogC3(1.0), 0.570631558120417, places=7
+        np.testing.assert_allclose(
+            log_encoding_ARRILogC3(1.0),
+            0.570631558120417,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_encoding_ARRILogC3(self):
@@ -124,14 +130,22 @@ log_decoding_ARRILogC3` definition unit tests methods.
 log_decoding_ARRILogC3` definition.
         """
 
-        self.assertAlmostEqual(log_decoding_ARRILogC3(0.092809), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            log_decoding_ARRILogC3(0.391006832034084), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_ARRILogC3(0.092809),
+            0.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_ARRILogC3(0.570631558120417), 1.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_ARRILogC3(0.391006832034084),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            log_decoding_ARRILogC3(0.570631558120417),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_decoding_ARRILogC3(self):
@@ -203,16 +217,22 @@ log_encoding_ARRILogC4` definition unit tests methods.
 log_encoding_ARRILogC4` definition.
         """
 
-        self.assertAlmostEqual(
-            log_encoding_ARRILogC4(0.0), 0.092864125122190, places=7
+        np.testing.assert_allclose(
+            log_encoding_ARRILogC4(0.0),
+            0.092864125122190,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_ARRILogC4(0.18), 0.278395836548265, places=7
+        np.testing.assert_allclose(
+            log_encoding_ARRILogC4(0.18),
+            0.278395836548265,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_ARRILogC4(1.0), 0.427519364835306, places=7
+        np.testing.assert_allclose(
+            log_encoding_ARRILogC4(1.0),
+            0.427519364835306,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_encoding_ARRILogC4(self):
@@ -284,16 +304,22 @@ log_decoding_ARRILogC4` definition unit tests methods.
 log_decoding_ARRILogC4` definition.
         """
 
-        self.assertAlmostEqual(
-            log_decoding_ARRILogC4(0.092864125122190), 0.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_ARRILogC4(0.092864125122190),
+            0.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_ARRILogC4(0.278395836548265), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_ARRILogC4(0.278395836548265),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_ARRILogC4(0.427519364835306), 1.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_ARRILogC4(0.427519364835306),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_decoding_ARRILogC4(self):

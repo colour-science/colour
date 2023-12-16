@@ -48,31 +48,31 @@ class TestWhitenessBerger1959(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             whiteness_Berger1959(
                 np.array([95.00000000, 100.00000000, 105.00000000]),
                 np.array([94.80966767, 100.00000000, 107.30513595]),
             ),
             30.36380179,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             whiteness_Berger1959(
                 np.array([105.00000000, 100.00000000, 95.00000000]),
                 np.array([94.80966767, 100.00000000, 107.30513595]),
             ),
             5.530469280673941,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             whiteness_Berger1959(
                 np.array([100.00000000, 100.00000000, 100.00000000]),
                 np.array([100.00000000, 100.00000000, 100.00000000]),
             ),
             33.300000000000011,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_whiteness_Berger1959(self):
@@ -142,31 +142,31 @@ class TestWhitenessTaube1960(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             whiteness_Taube1960(
                 np.array([95.00000000, 100.00000000, 105.00000000]),
                 np.array([94.80966767, 100.00000000, 107.30513595]),
             ),
             91.407173833416152,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             whiteness_Taube1960(
                 np.array([105.00000000, 100.00000000, 95.00000000]),
                 np.array([94.80966767, 100.00000000, 107.30513595]),
             ),
             54.130300134995593,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             whiteness_Taube1960(
                 np.array([100.00000000, 100.00000000, 100.00000000]),
                 np.array([100.00000000, 100.00000000, 100.00000000]),
             ),
             100.0,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_whiteness_Taube1960(self):
@@ -236,24 +236,26 @@ class TestWhitenessStensby1968(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             whiteness_Stensby1968(
                 np.array([100.00000000, -2.46875131, -16.72486654])
             ),
             142.76834569,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             whiteness_Stensby1968(
                 np.array([100.00000000, 14.40943727, -9.61394885])
             ),
             172.07015836,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            whiteness_Stensby1968(np.array([1, 1, 1])), 1.00000000, places=7
+        np.testing.assert_allclose(
+            whiteness_Stensby1968(np.array([1, 1, 1])),
+            1.00000000,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_whiteness_Stensby1968(self):
@@ -319,28 +321,28 @@ class TestWhitenessASTM313(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             whiteness_ASTME313(
                 np.array([95.00000000, 100.00000000, 105.00000000])
             ),
             55.740000000000009,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             whiteness_ASTME313(
                 np.array([105.00000000, 100.00000000, 95.00000000])
             ),
             21.860000000000014,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             whiteness_ASTME313(
                 np.array([100.00000000, 100.00000000, 100.00000000])
             ),
             38.800000000000011,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_whiteness_ASTME313(self):

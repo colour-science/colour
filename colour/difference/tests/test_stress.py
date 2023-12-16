@@ -5,6 +5,7 @@ import unittest
 
 import numpy as np
 
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.difference import index_stress
 
 __author__ = "Colour Developers"
@@ -34,8 +35,10 @@ class TestIndexStress(unittest.TestCase):
         d_E = np.array([2.0425, 2.8615, 3.4412])
         d_V = np.array([1.2644, 1.2630, 1.8731])
 
-        self.assertAlmostEqual(
-            index_stress(d_E, d_V), 0.121170939369957, places=7
+        np.testing.assert_allclose(
+            index_stress(d_E, d_V),
+            0.121170939369957,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 

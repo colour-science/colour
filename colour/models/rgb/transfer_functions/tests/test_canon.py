@@ -59,36 +59,46 @@ log_encoding_CanonLog_v1` definition unit tests methods.
 log_encoding_CanonLog_v1` definition.
         """
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog_v1(-0.1), -0.023560122781997, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog_v1(-0.1),
+            -0.023560122781997,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog_v1(0.0), 0.125122480156403, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog_v1(0.0),
+            0.125122480156403,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog_v1(0.18), 0.343389651726069, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog_v1(0.18),
+            0.343389651726069,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog_v1(0.18, 12), 0.343138084215647, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog_v1(0.18, 12),
+            0.343138084215647,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             log_encoding_CanonLog_v1(0.18, 10, False),
             0.327953896935809,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             log_encoding_CanonLog_v1(0.18, 10, False, False),
             0.312012855550395,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog_v1(1.0), 0.618775485598649, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog_v1(1.0),
+            0.618775485598649,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_encoding_CanonLog_v1(self):
@@ -160,36 +170,46 @@ log_decoding_CanonLog_v1` definition unit tests methods.
 log_decoding_CanonLog_v1` definition.
         """
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog_v1(-0.023560122781997), -0.1, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog_v1(-0.023560122781997),
+            -0.1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog_v1(0.125122480156403), 0.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog_v1(0.125122480156403),
+            0.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog_v1(0.343389651726069), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog_v1(0.343389651726069),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog_v1(0.343138084215647, 12), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog_v1(0.343138084215647, 12),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             log_decoding_CanonLog_v1(0.327953896935809, 10, False),
             0.18,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             log_decoding_CanonLog_v1(0.312012855550395, 10, False, False),
             0.18,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog_v1(0.618775485598649), 1.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog_v1(0.618775485598649),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_decoding_CanonLog_v1(self):
@@ -261,36 +281,46 @@ log_encoding_CanonLog_v1_2` definition unit tests methods.
 log_encoding_CanonLog_v1_2` definition.
         """
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog_v1_2(-0.1), -0.023560121389098, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog_v1_2(-0.1),
+            -0.023560121389098,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog_v1_2(0.0), 0.125122480000000, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog_v1_2(0.0),
+            0.125122480000000,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog_v1_2(0.18), 0.343389649295280, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog_v1_2(0.18),
+            0.343389649295280,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog_v1_2(0.18, 12), 0.343389649295281, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog_v1_2(0.18, 12),
+            0.343389649295281,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             log_encoding_CanonLog_v1_2(0.18, 10, False),
             0.327953894097114,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             log_encoding_CanonLog_v1_2(0.18, 10, False, False),
             0.312012852877809,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog_v1_2(1.0), 0.618775480298287, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog_v1_2(1.0),
+            0.618775480298287,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         samples = np.linspace(0, 1, 10000)
@@ -389,36 +419,46 @@ log_decoding_CanonLog_v1_2` definition unit tests methods.
 log_decoding_CanonLog_v1_2` definition.
         """
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog_v1_2(-0.023560121389098), -0.1, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog_v1_2(-0.023560121389098),
+            -0.1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog_v1_2(0.125122480000000), 0.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog_v1_2(0.125122480000000),
+            0.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog_v1_2(0.343389649295280), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog_v1_2(0.343389649295280),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog_v1_2(0.343389649295281, 12), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog_v1_2(0.343389649295281, 12),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             log_decoding_CanonLog_v1_2(0.327953894097114, 10, False),
             0.18,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             log_decoding_CanonLog_v1_2(0.312012852877809, 10, False, False),
             0.18,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog_v1_2(0.618775480298287), 1.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog_v1_2(0.618775480298287),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         samples = np.linspace(0, 1, 10000)
@@ -517,36 +557,46 @@ log_encoding_CanonLog2_v1` definition unit tests methods.
 log_encoding_CanonLog2_v1` definition.
         """
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog2_v1(-0.1), -0.155370131996824, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog2_v1(-0.1),
+            -0.155370131996824,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog2_v1(0.0), 0.092864125247312, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog2_v1(0.0),
+            0.092864125247312,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog2_v1(0.18), 0.398254694983167, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog2_v1(0.18),
+            0.398254694983167,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog2_v1(0.18, 12), 0.397962933301861, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog2_v1(0.18, 12),
+            0.397962933301861,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             log_encoding_CanonLog2_v1(0.18, 10, False),
             0.392025745397009,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             log_encoding_CanonLog2_v1(0.18, 10, False, False),
             0.379864582222983,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog2_v1(1.0), 0.573229282897641, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog2_v1(1.0),
+            0.573229282897641,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_encoding_CanonLog2_v1(self):
@@ -618,36 +668,46 @@ log_decoding_CanonLog2_v1` definition unit tests methods.
 log_decoding_CanonLog2_v1` definition.
         """
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog2_v1(-0.155370131996824), -0.1, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog2_v1(-0.155370131996824),
+            -0.1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog2_v1(0.092864125247312), 0.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog2_v1(0.092864125247312),
+            0.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog2_v1(0.398254694983167), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog2_v1(0.398254694983167),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog2_v1(0.397962933301861, 12), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog2_v1(0.397962933301861, 12),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             log_decoding_CanonLog2_v1(0.392025745397009, 10, False),
             0.18,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             log_decoding_CanonLog2_v1(0.379864582222983, 10, False, False),
             0.18,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog2_v1(0.573229282897641), 1.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog2_v1(0.573229282897641),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_decoding_CanonLog2_v1(self):
@@ -719,36 +779,46 @@ log_encoding_CanonLog2_v1_2` definition unit tests methods.
 log_encoding_CanonLog2_v1_2` definition.
         """
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog2_v1_2(-0.1), -0.155370130476722, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog2_v1_2(-0.1),
+            -0.155370130476722,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog2_v1_2(0.0), 0.092864125000000, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog2_v1_2(0.0),
+            0.092864125000000,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog2_v1_2(0.18), 0.398254692561492, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog2_v1_2(0.18),
+            0.398254692561492,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog2_v1_2(0.18, 12), 0.398254692561492, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog2_v1_2(0.18, 12),
+            0.398254692561492,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             log_encoding_CanonLog2_v1_2(0.18, 10, False),
             0.392025742568957,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             log_encoding_CanonLog2_v1_2(0.18, 10, False, False),
             0.379864579481518,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog2_v1_2(1.0), 0.573229279230156, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog2_v1_2(1.0),
+            0.573229279230156,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         samples = np.linspace(0, 1, 10000)
@@ -855,36 +925,46 @@ log_decoding_CanonLog2_v1_2` definition unit tests methods.
 log_decoding_CanonLog2_v1_2` definition.
         """
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog2_v1_2(-0.155370130476722), -0.1, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog2_v1_2(-0.155370130476722),
+            -0.1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog2_v1_2(0.092864125000000), 0.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog2_v1_2(0.092864125000000),
+            0.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog2_v1_2(0.398254692561492), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog2_v1_2(0.398254692561492),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog2_v1_2(0.398254692561492, 12), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog2_v1_2(0.398254692561492, 12),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             log_decoding_CanonLog2_v1_2(0.392025742568957, 10, False),
             0.18,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             log_decoding_CanonLog2_v1_2(0.379864579481518, 10, False, False),
             0.18,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog2_v1_2(0.573229279230156), 1.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog2_v1_2(0.573229279230156),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         samples = np.linspace(0, 1, 10000)
@@ -989,36 +1069,46 @@ log_encoding_CanonLog3_v1` definition unit tests methods.
 log_encoding_CanonLog3_v1` definition.
         """
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog3_v1(-0.1), -0.028494506076432, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog3_v1(-0.1),
+            -0.028494506076432,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog3_v1(0.0), 0.125122189869013, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog3_v1(0.0),
+            0.125122189869013,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog3_v1(0.18), 0.343389369388687, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog3_v1(0.18),
+            0.343389369388687,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog3_v1(0.18, 12), 0.343137802085105, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog3_v1(0.18, 12),
+            0.343137802085105,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             log_encoding_CanonLog3_v1(0.18, 10, False),
             0.327953567219893,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             log_encoding_CanonLog3_v1(0.18, 10, False, False),
             0.313436005886328,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog3_v1(1.0), 0.580277796238604, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog3_v1(1.0),
+            0.580277796238604,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_encoding_CanonLog3_v1(self):
@@ -1090,36 +1180,46 @@ log_decoding_CanonLog3_v1` definition unit tests methods.
 log_decoding_CanonLog3_v1` definition.
         """
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog3_v1(-0.028494506076432), -0.1, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog3_v1(-0.028494506076432),
+            -0.1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog3_v1(0.125122189869013), 0.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog3_v1(0.125122189869013),
+            0.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog3_v1(0.343389369388687), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog3_v1(0.343389369388687),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog3_v1(0.343137802085105, 12), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog3_v1(0.343137802085105, 12),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             log_decoding_CanonLog3_v1(0.327953567219893, 10, False),
             0.18,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             log_decoding_CanonLog3_v1(0.313436005886328, 10, False, False),
             0.18,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog3_v1(0.580277796238604), 1.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog3_v1(0.580277796238604),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_decoding_CanonLog3_v1(self):
@@ -1191,36 +1291,46 @@ log_encoding_CanonLog3_v1_2` definition unit tests methods.
 log_encoding_CanonLog3_v1_2` definition.
         """
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog3_v1_2(-0.1), -0.028494507620494, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog3_v1_2(-0.1),
+            -0.028494507620494,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog3_v1_2(0.0), 0.125122189999999, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog3_v1_2(0.0),
+            0.125122189999999,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog3_v1_2(0.18), 0.343389370373936, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog3_v1_2(0.18),
+            0.343389370373936,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog3_v1_2(0.18, 12), 0.343389370373936, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog3_v1_2(0.18, 12),
+            0.343389370373936,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             log_encoding_CanonLog3_v1_2(0.18, 10, False),
             0.327953568370475,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             log_encoding_CanonLog3_v1_2(0.18, 10, False, False),
             0.313436007221221,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_CanonLog3_v1_2(1.0), 0.580277794216371, places=7
+        np.testing.assert_allclose(
+            log_encoding_CanonLog3_v1_2(1.0),
+            0.580277794216371,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         samples = np.linspace(0, 1, 10000)
@@ -1327,36 +1437,46 @@ log_decoding_CanonLog3_v1_2` definition unit tests methods.
 log_decoding_CanonLog3_v1_2` definition.
         """
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog3_v1_2(-0.028494507620494), -0.1, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog3_v1_2(-0.028494507620494),
+            -0.1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog3_v1_2(0.125122189999999), 0.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog3_v1_2(0.125122189999999),
+            0.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog3_v1_2(0.343389370373936), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog3_v1_2(0.343389370373936),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog3_v1_2(0.343389370373936, 12), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog3_v1_2(0.343389370373936, 12),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             log_decoding_CanonLog3_v1_2(0.327953568370475, 10, False),
             0.18,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             log_decoding_CanonLog3_v1_2(0.313436007221221, 10, False, False),
             0.18,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_CanonLog3_v1_2(0.580277794216371), 1.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_CanonLog3_v1_2(0.580277794216371),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         samples = np.linspace(0, 1, 10000)

@@ -49,16 +49,22 @@ class TestLuminanceNewhall1943(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
-            luminance_Newhall1943(4.08244375), 12.550078816731881, places=7
+        np.testing.assert_allclose(
+            luminance_Newhall1943(4.08244375),
+            12.550078816731881,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            luminance_Newhall1943(5.39132685), 23.481252371310738, places=7
+        np.testing.assert_allclose(
+            luminance_Newhall1943(5.39132685),
+            23.481252371310738,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            luminance_Newhall1943(2.97619312), 6.4514266875601924, places=7
+        np.testing.assert_allclose(
+            luminance_Newhall1943(2.97619312),
+            6.4514266875601924,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_luminance_Newhall1943(self):
@@ -129,16 +135,22 @@ class TestLuminanceASTMD1535(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
-            luminance_ASTMD1535(4.08244375), 12.236342675366036, places=7
+        np.testing.assert_allclose(
+            luminance_ASTMD1535(4.08244375),
+            12.236342675366036,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            luminance_ASTMD1535(5.39132685), 22.893999867280378, places=7
+        np.testing.assert_allclose(
+            luminance_ASTMD1535(5.39132685),
+            22.893999867280378,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            luminance_ASTMD1535(2.97619312), 6.2902253509053132, places=7
+        np.testing.assert_allclose(
+            luminance_ASTMD1535(2.97619312),
+            6.2902253509053132,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_luminance_ASTMD1535(self):
@@ -209,22 +221,22 @@ intermediate_luminance_function_CIE1976` definition unit tests methods.
 intermediate_luminance_function_CIE1976` definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             intermediate_luminance_function_CIE1976(0.495929964178047),
             12.197225350000002,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             intermediate_luminance_function_CIE1976(0.613072093530391),
             23.042767810000004,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             intermediate_luminance_function_CIE1976(0.394876333449113),
             6.157200790000001,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_intermediate_luminance_function_CIE1976(self):
@@ -304,34 +316,40 @@ class TestLuminanceCIE1976(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
-            luminance_CIE1976(41.527875844653451), 12.197225350000002, places=7
+        np.testing.assert_allclose(
+            luminance_CIE1976(41.527875844653451),
+            12.197225350000002,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            luminance_CIE1976(55.116362849525402), 23.042767810000004, places=7
+        np.testing.assert_allclose(
+            luminance_CIE1976(55.116362849525402),
+            23.042767810000004,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            luminance_CIE1976(29.805654680097106), 6.157200790000001, places=7
+        np.testing.assert_allclose(
+            luminance_CIE1976(29.805654680097106),
+            6.157200790000001,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             luminance_CIE1976(56.480581732417676, 50),
             12.197225349999998,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             luminance_CIE1976(47.317620274162735, 75),
             12.197225350000002,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             luminance_CIE1976(42.519930728120940, 95),
             12.197225350000005,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_luminance_CIE1976(self):
@@ -400,40 +418,40 @@ class TestLuminanceFairchild2010(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             luminance_Fairchild2010(31.996390226262736),
             0.12197225350000002,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             luminance_Fairchild2010(60.203153682783302),
             0.23042767809999998,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             luminance_Fairchild2010(11.836517240976489),
             0.06157200790000001,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             luminance_Fairchild2010(24.424283249379986, 2.75),
             0.12197225350000002,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             luminance_Fairchild2010(100.019986327374240),
             1008.00000024,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             luminance_Fairchild2010(100.019999997090270),
             100799.92312466,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_luminance_Fairchild2010(self):
@@ -504,40 +522,40 @@ class TestLuminanceFairchild2011(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             luminance_Fairchild2011(51.852958445912506),
             0.12197225350000007,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             luminance_Fairchild2011(65.275207956353853),
             0.23042767809999998,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             luminance_Fairchild2011(39.818935510715917),
             0.061572007900000038,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             luminance_Fairchild2011(0.13268968410139345, 2.75),
             0.12197225350000002,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             luminance_Fairchild2011(234.72925681957565),
             1008.00000000,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             luminance_Fairchild2011(245.57059778237573),
             100800.00000000,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_luminance_Fairchild2011(self):
@@ -608,34 +626,34 @@ class TestLuminanceAbebe2017(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             luminance_Abebe2017(0.486955571109229),
             12.197225350000004,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             luminance_Abebe2017(0.474544792145434, method="Stevens"),
             12.197225350000025,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             luminance_Abebe2017(0.286847428534793, 1000),
             12.197225350000046,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             luminance_Abebe2017(0.192145492588158, 4000),
             12.197225350000121,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             luminance_Abebe2017(0.170365211220992, 4000, method="Stevens"),
             12.197225349999933,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_luminance_Abebe2017(self):

@@ -51,11 +51,17 @@ class TestSdConstant(unittest.TestCase):
 
         sd = sd_constant(np.pi)
 
-        self.assertAlmostEqual(sd[360], np.pi, places=7)
+        np.testing.assert_allclose(
+            sd[360], np.pi, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(sd[555], np.pi, places=7)
+        np.testing.assert_allclose(
+            sd[555], np.pi, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(sd[780], np.pi, places=7)
+        np.testing.assert_allclose(
+            sd[780], np.pi, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
 
 class TestSdZeros(unittest.TestCase):
@@ -180,11 +186,15 @@ class TestSdGaussianNormal(unittest.TestCase):
 
         sd = sd_gaussian_normal(555, 25)
 
-        self.assertAlmostEqual(sd[530], 0.606530659712633, places=7)
+        np.testing.assert_allclose(
+            sd[530], 0.606530659712633, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(sd[555], 1, places=7)
+        np.testing.assert_allclose(sd[555], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        self.assertAlmostEqual(sd[580], 0.606530659712633, places=7)
+        np.testing.assert_allclose(
+            sd[580], 0.606530659712633, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
 
 class TestSdGaussianFwhm(unittest.TestCase):
@@ -200,13 +210,19 @@ class TestSdGaussianFwhm(unittest.TestCase):
 
         sd = sd_gaussian_fwhm(555, 25)
 
-        self.assertAlmostEqual(sd[530], 0.0625, places=7)
+        np.testing.assert_allclose(
+            sd[530], 0.0625, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(sd[555], 1, places=7)
+        np.testing.assert_allclose(sd[555], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        self.assertAlmostEqual(sd[580], 0.062499999999999, places=7)
+        np.testing.assert_allclose(
+            sd[580], 0.062499999999999, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(sd[555 - 25 / 2], 0.5, places=7)
+        np.testing.assert_allclose(
+            sd[555 - 25 / 2], 0.5, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
 
 class TestSdSingleLedOhno2005(unittest.TestCase):
@@ -223,11 +239,15 @@ class TestSdSingleLedOhno2005(unittest.TestCase):
 
         sd = sd_single_led_Ohno2005(555, 25)
 
-        self.assertAlmostEqual(sd[530], 0.127118445056538, places=7)
+        np.testing.assert_allclose(
+            sd[530], 0.127118445056538, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(sd[555], 1, places=7)
+        np.testing.assert_allclose(sd[555], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        self.assertAlmostEqual(sd[580], 0.127118445056538, places=7)
+        np.testing.assert_allclose(
+            sd[580], 0.127118445056538, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
 
 class TestSdMultiLedsOhno2005(unittest.TestCase):
@@ -248,22 +268,34 @@ class TestSdMultiLedsOhno2005(unittest.TestCase):
             np.array([0.731, 1.000, 1.660]),
         )
 
-        self.assertAlmostEqual(sd[500], 0.129513248576116, places=7)
+        np.testing.assert_allclose(
+            sd[500], 0.129513248576116, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(sd[570], 0.059932156222703, places=7)
+        np.testing.assert_allclose(
+            sd[570], 0.059932156222703, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(sd[640], 0.116433257970624, places=7)
+        np.testing.assert_allclose(
+            sd[640], 0.116433257970624, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
         sd = sd_multi_leds_Ohno2005(
             np.array([457, 530, 615]),
             np.array([20, 30, 20]),
         )
 
-        self.assertAlmostEqual(sd[500], 0.130394510062799, places=7)
+        np.testing.assert_allclose(
+            sd[500], 0.130394510062799, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(sd[570], 0.058539618824187, places=7)
+        np.testing.assert_allclose(
+            sd[570], 0.058539618824187, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(sd[640], 0.070140708922879, places=7)
+        np.testing.assert_allclose(
+            sd[640], 0.070140708922879, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
 
 if __name__ == "__main__":

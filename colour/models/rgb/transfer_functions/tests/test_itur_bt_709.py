@@ -36,13 +36,21 @@ class TestOetf_BT709(unittest.TestCase):
 oetf_BT709` definition.
         """
 
-        self.assertAlmostEqual(oetf_BT709(0.0), 0.0, places=7)
+        np.testing.assert_allclose(
+            oetf_BT709(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(oetf_BT709(0.015), 0.067500000000000, places=7)
+        np.testing.assert_allclose(
+            oetf_BT709(0.015), 0.067500000000000, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(oetf_BT709(0.18), 0.409007728864150, places=7)
+        np.testing.assert_allclose(
+            oetf_BT709(0.18), 0.409007728864150, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(oetf_BT709(1.0), 1.0, places=7)
+        np.testing.assert_allclose(
+            oetf_BT709(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_n_dimensional_oetf_BT709(self):
         """
@@ -111,17 +119,25 @@ oetf_inverse_BT709` definition unit tests methods.
 oetf_inverse_BT709` definition.
         """
 
-        self.assertAlmostEqual(oetf_inverse_BT709(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            oetf_inverse_BT709(0.067500000000000), 0.015, places=7
+        np.testing.assert_allclose(
+            oetf_inverse_BT709(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(
-            oetf_inverse_BT709(0.409007728864150), 0.18, places=7
+        np.testing.assert_allclose(
+            oetf_inverse_BT709(0.067500000000000),
+            0.015,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(oetf_inverse_BT709(1.0), 1.0, places=7)
+        np.testing.assert_allclose(
+            oetf_inverse_BT709(0.409007728864150),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            oetf_inverse_BT709(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_n_dimensional_oetf_inverse_BT709(self):
         """

@@ -39,11 +39,17 @@ oetf_BT2020` definition unit tests methods.
 oetf_BT2020` definition.
         """
 
-        self.assertAlmostEqual(oetf_BT2020(0.0), 0.0, places=7)
+        np.testing.assert_allclose(
+            oetf_BT2020(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(oetf_BT2020(0.18), 0.409007728864150, places=7)
+        np.testing.assert_allclose(
+            oetf_BT2020(0.18), 0.409007728864150, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(oetf_BT2020(1.0), 1.0, places=7)
+        np.testing.assert_allclose(
+            oetf_BT2020(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_n_dimensional_oetf_BT2020(self):
         """
@@ -112,13 +118,19 @@ oetf_inverse_BT2020` definition unit tests methods.
 oetf_inverse_BT2020` definition.
         """
 
-        self.assertAlmostEqual(oetf_inverse_BT2020(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            oetf_inverse_BT2020(0.409007728864150), 0.18, places=7
+        np.testing.assert_allclose(
+            oetf_inverse_BT2020(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(oetf_inverse_BT2020(1.0), 1.0, places=7)
+        np.testing.assert_allclose(
+            oetf_inverse_BT2020(0.409007728864150),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            oetf_inverse_BT2020(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_n_dimensional_oetf_inverse_BT2020(self):
         """

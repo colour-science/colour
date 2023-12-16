@@ -39,13 +39,19 @@ log_encoding_DJIDLog` definition unit tests methods.
 log_encoding_DJIDLog` definition.
         """
 
-        self.assertAlmostEqual(log_encoding_DJIDLog(0.0), 0.0929, places=7)
-
-        self.assertAlmostEqual(
-            log_encoding_DJIDLog(0.18), 0.398764556189331, places=7
+        np.testing.assert_allclose(
+            log_encoding_DJIDLog(0.0), 0.0929, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(log_encoding_DJIDLog(1.0), 0.584555, places=7)
+        np.testing.assert_allclose(
+            log_encoding_DJIDLog(0.18),
+            0.398764556189331,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            log_encoding_DJIDLog(1.0), 0.584555, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_n_dimensional_log_encoding_DLog(self):
         """
@@ -116,13 +122,17 @@ log_decoding_DJIDLog` definition unit tests methods.
 log_decoding_DJIDLog` definition.
         """
 
-        self.assertAlmostEqual(log_decoding_DJIDLog(0.0929), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            log_decoding_DJIDLog(0.398764556189331), 0.18, places=6
+        np.testing.assert_allclose(
+            log_decoding_DJIDLog(0.0929), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(log_decoding_DJIDLog(0.584555), 1.0, places=6)
+        np.testing.assert_allclose(
+            log_decoding_DJIDLog(0.398764556189331), 0.18, atol=1e-6
+        )
+
+        np.testing.assert_allclose(
+            log_decoding_DJIDLog(0.584555), 1.0, atol=1e-6
+        )
 
     def test_n_dimensional_log_decoding_DLog(self):
         """

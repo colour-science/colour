@@ -749,8 +749,10 @@ class TestSignal(unittest.TestCase):
     def test_domain_distance(self):
         """Test :func:`colour.continuous.signal.Signal.domain_distance` method."""
 
-        self.assertAlmostEqual(
-            self._signal.domain_distance(0.5), 0.5, places=7
+        np.testing.assert_allclose(
+            self._signal.domain_distance(0.5),
+            0.5,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(

@@ -147,12 +147,18 @@ class TestMired_to_CCT(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(CCT_to_mired(312.5), 3200, places=7)
+        np.testing.assert_allclose(
+            CCT_to_mired(312.5), 3200, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(CCT_to_mired(153.846153846154), 6500, places=7)
+        np.testing.assert_allclose(
+            CCT_to_mired(153.846153846154), 6500, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(
-            CCT_to_mired(66.666666666666667), 15000, places=7
+        np.testing.assert_allclose(
+            CCT_to_mired(66.666666666666667),
+            15000,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_mired_to_CCT(self):
@@ -200,12 +206,18 @@ class TestCCT_to_mired(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(CCT_to_mired(3200), 312.5, places=7)
+        np.testing.assert_allclose(
+            CCT_to_mired(3200), 312.5, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(CCT_to_mired(6500), 153.846153846154, places=7)
+        np.testing.assert_allclose(
+            CCT_to_mired(6500), 153.846153846154, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(
-            CCT_to_mired(15000), 66.666666666666667, places=7
+        np.testing.assert_allclose(
+            CCT_to_mired(15000),
+            66.666666666666667,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_CCT_to_mired(self):

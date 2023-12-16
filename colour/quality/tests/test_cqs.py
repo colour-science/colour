@@ -34,64 +34,64 @@ class TestColourQualityScale(unittest.TestCase):
     def test_colour_quality_scale(self):
         """Test :func:`colour.quality.cqs.colour_quality_scale` definition."""
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             colour_quality_scale(SDS_ILLUMINANTS["FL1"]),
             74.982585798279914,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             colour_quality_scale(
                 SDS_ILLUMINANTS["FL1"], method="NIST CQS 7.4"
             ),
             75.377089740493361,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             colour_quality_scale(SDS_ILLUMINANTS["FL2"]),
             64.111822015662852,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             colour_quality_scale(
                 SDS_ILLUMINANTS["FL2"], method="NIST CQS 7.4"
             ),
             64.774586908581369,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             colour_quality_scale(SDS_LIGHT_SOURCES["Neodimium Incandescent"]),
             89.737456186836681,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             colour_quality_scale(
                 SDS_LIGHT_SOURCES["Neodimium Incandescent"],
                 method="NIST CQS 7.4",
             ),
             87.700300087538821,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             colour_quality_scale(
                 SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"]
             ),
             84.934928463428903,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             colour_quality_scale(
                 SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"],
                 method="NIST CQS 7.4",
             ),
             83.255457439460713,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         specification_r = ColourRendering_Specification_CQS(

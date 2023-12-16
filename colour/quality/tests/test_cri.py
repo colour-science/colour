@@ -120,28 +120,28 @@ class TestColourRenderingIndex(unittest.TestCase):
     def test_colour_rendering_index(self):
         """Test :func:`colour.quality.cri.colour_rendering_index` definition."""
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             colour_rendering_index(SDS_ILLUMINANTS["FL1"]),
             75.852827992149358,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             colour_rendering_index(SDS_ILLUMINANTS["FL2"]),
             64.233724121664778,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             colour_rendering_index(SDS_ILLUMINANTS["A"]),
             99.996230290506887,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             colour_rendering_index(SpectralDistribution(DATA_SAMPLE)),
             70.815265381660197,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         specification_r = ColourRendering_Specification_CRI(

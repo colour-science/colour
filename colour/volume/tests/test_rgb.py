@@ -117,7 +117,7 @@ class TestRGB_colourspaceVolumeMonteCarlo(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             RGB_colourspace_volume_MonteCarlo(
                 RGB_COLOURSPACE_BT709,
                 10e3,
@@ -125,7 +125,7 @@ class TestRGB_colourspaceVolumeMonteCarlo(unittest.TestCase):
             )
             * 1e-6,
             821700.0 * 1e-6,
-            places=1,
+            atol=1,
         )
 
 

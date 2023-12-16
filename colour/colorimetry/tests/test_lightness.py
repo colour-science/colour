@@ -49,16 +49,22 @@ class TestLightnessGlasser1958(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
-            lightness_Glasser1958(12.19722535), 39.83512646492521, places=7
+        np.testing.assert_allclose(
+            lightness_Glasser1958(12.19722535),
+            39.83512646492521,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            lightness_Glasser1958(23.04276781), 53.585946877480623, places=7
+        np.testing.assert_allclose(
+            lightness_Glasser1958(23.04276781),
+            53.585946877480623,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            lightness_Glasser1958(6.15720079), 27.972867038082629, places=7
+        np.testing.assert_allclose(
+            lightness_Glasser1958(6.15720079),
+            27.972867038082629,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_lightness_Glasser1958(self):
@@ -129,16 +135,22 @@ class TestLightnessWyszecki1963(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
-            lightness_Wyszecki1963(12.19722535), 40.547574599570197, places=7
+        np.testing.assert_allclose(
+            lightness_Wyszecki1963(12.19722535),
+            40.547574599570197,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            lightness_Wyszecki1963(23.04276781), 54.140714588256841, places=7
+        np.testing.assert_allclose(
+            lightness_Wyszecki1963(23.04276781),
+            54.140714588256841,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            lightness_Wyszecki1963(6.15720079), 28.821339499883976, places=7
+        np.testing.assert_allclose(
+            lightness_Wyszecki1963(6.15720079),
+            28.821339499883976,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_lightness_Wyszecki1963(self):
@@ -209,22 +221,22 @@ intermediate_lightness_function_CIE1976` definition unit tests methods.
 intermediate_lightness_function_CIE1976` definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             intermediate_lightness_function_CIE1976(12.19722535),
             0.495929964178047,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             intermediate_lightness_function_CIE1976(23.04276781),
             0.613072093530391,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             intermediate_lightness_function_CIE1976(6.15720079),
             0.394876333449113,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_intermediate_lightness_function_CIE1976(self):
@@ -302,28 +314,40 @@ class TestLightnessCIE1976(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
-            lightness_CIE1976(12.19722535), 41.527875844653451, places=7
+        np.testing.assert_allclose(
+            lightness_CIE1976(12.19722535),
+            41.527875844653451,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            lightness_CIE1976(23.04276781), 55.116362849525402, places=7
+        np.testing.assert_allclose(
+            lightness_CIE1976(23.04276781),
+            55.116362849525402,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            lightness_CIE1976(6.15720079), 29.805654680097106, places=7
+        np.testing.assert_allclose(
+            lightness_CIE1976(6.15720079),
+            29.805654680097106,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            lightness_CIE1976(12.19722535, 50), 56.480581732417676, places=7
+        np.testing.assert_allclose(
+            lightness_CIE1976(12.19722535, 50),
+            56.480581732417676,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            lightness_CIE1976(12.19722535, 75), 47.317620274162735, places=7
+        np.testing.assert_allclose(
+            lightness_CIE1976(12.19722535, 75),
+            47.317620274162735,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            lightness_CIE1976(12.19722535, 95), 42.519930728120940, places=7
+        np.testing.assert_allclose(
+            lightness_CIE1976(12.19722535, 95),
+            42.519930728120940,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_lightness_CIE1976(self):
@@ -392,36 +416,40 @@ class TestLightnessFairchild2010(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             lightness_Fairchild2010(12.19722535 / 100),
             31.996390226262736,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             lightness_Fairchild2010(23.04276781 / 100),
             60.203153682783302,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             lightness_Fairchild2010(6.15720079 / 100),
             11.836517240976489,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             lightness_Fairchild2010(12.19722535 / 100, 2.75),
             24.424283249379986,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            lightness_Fairchild2010(1008), 100.019986327374240, places=7
+        np.testing.assert_allclose(
+            lightness_Fairchild2010(1008),
+            100.019986327374240,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            lightness_Fairchild2010(100800), 100.019999997090270, places=7
+        np.testing.assert_allclose(
+            lightness_Fairchild2010(100800),
+            100.019999997090270,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_lightness_Fairchild2010(self):
@@ -492,36 +520,40 @@ class TestLightnessFairchild2011(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             lightness_Fairchild2011(12.19722535 / 100),
             51.852958445912506,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             lightness_Fairchild2011(23.04276781 / 100),
             65.275207956353853,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             lightness_Fairchild2011(6.15720079 / 100),
             39.818935510715917,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             lightness_Fairchild2011(12.19722535 / 100, 2.75),
             0.13268968410139345,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            lightness_Fairchild2011(1008), 234.72925682, places=7
+        np.testing.assert_allclose(
+            lightness_Fairchild2011(1008),
+            234.72925682,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            lightness_Fairchild2011(100800), 245.5705978, places=7
+        np.testing.assert_allclose(
+            lightness_Fairchild2011(100800),
+            245.5705978,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_lightness_Fairchild2011(self):
@@ -592,28 +624,34 @@ class TestLightnessAbebe2017(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
-            lightness_Abebe2017(12.19722535), 0.486955571109229, places=7
+        np.testing.assert_allclose(
+            lightness_Abebe2017(12.19722535),
+            0.486955571109229,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             lightness_Abebe2017(12.19722535, method="Stevens"),
             0.474544792145434,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            lightness_Abebe2017(12.19722535, 1000), 0.286847428534793, places=7
+        np.testing.assert_allclose(
+            lightness_Abebe2017(12.19722535, 1000),
+            0.286847428534793,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            lightness_Abebe2017(12.19722535, 4000), 0.192145492588158, places=7
+        np.testing.assert_allclose(
+            lightness_Abebe2017(12.19722535, 4000),
+            0.192145492588158,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             lightness_Abebe2017(12.19722535, 4000, method="Stevens"),
             0.170365211220992,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_lightness_Abebe2017(self):

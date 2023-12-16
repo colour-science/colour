@@ -39,28 +39,38 @@ log_encoding_VLog` definition unit tests methods.
 log_encoding_VLog` definition.
         """
 
-        self.assertAlmostEqual(log_encoding_VLog(0.0), 0.125, places=7)
-
-        self.assertAlmostEqual(
-            log_encoding_VLog(0.18), 0.423311448760136, places=7
+        np.testing.assert_allclose(
+            log_encoding_VLog(0.0), 0.125, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(
-            log_encoding_VLog(0.18, 12), 0.423311448760136, places=7
+        np.testing.assert_allclose(
+            log_encoding_VLog(0.18),
+            0.423311448760136,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_VLog(0.18, 10, False), 0.421287228403675, places=7
+        np.testing.assert_allclose(
+            log_encoding_VLog(0.18, 12),
+            0.423311448760136,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
+            log_encoding_VLog(0.18, 10, False),
+            0.421287228403675,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
             log_encoding_VLog(0.18, 10, False, False),
             0.409009628526078,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_VLog(1.0), 0.599117700158146, places=7
+        np.testing.assert_allclose(
+            log_encoding_VLog(1.0),
+            0.599117700158146,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_encoding_VLog(self):
@@ -130,28 +140,38 @@ log_decoding_VLog` definition unit tests methods.
 log_decoding_VLog` definition.
         """
 
-        self.assertAlmostEqual(log_decoding_VLog(0.125), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            log_decoding_VLog(0.423311448760136), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_VLog(0.125), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(
-            log_decoding_VLog(0.423311448760136, 12), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_VLog(0.423311448760136),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_VLog(0.421287228403675, 10, False), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_VLog(0.423311448760136, 12),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
+            log_decoding_VLog(0.421287228403675, 10, False),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
             log_decoding_VLog(0.409009628526078, 10, False, False),
             0.18,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_VLog(0.599117700158146), 1.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_VLog(0.599117700158146),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_decoding_VLog(self):

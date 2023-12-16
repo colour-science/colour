@@ -335,14 +335,14 @@ class TestNormaliseIlluminant(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             np.sum(
                 normalise_illuminant(
                     SDS_ILLUMINANTS["D55"], MSDS_CANON_EOS_5DMARK_II
                 ).values
             ),
             3.439037388220850,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 

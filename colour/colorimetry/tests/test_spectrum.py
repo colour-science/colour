@@ -1577,8 +1577,8 @@ SpectralDistribution.extrapolate` method.
         sd = SpectralDistribution(data)
         sd.extrapolate(SpectralShape(10, 50, 5))
 
-        self.assertAlmostEqual(sd[10], 0, places=7)
-        self.assertAlmostEqual(sd[50], 1, places=7)
+        np.testing.assert_allclose(sd[10], 0, atol=TOLERANCE_ABSOLUTE_TESTS)
+        np.testing.assert_allclose(sd[50], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         sd = SpectralDistribution(
             np.linspace(0, 1, 10), np.linspace(25, 35, 10)
@@ -1593,8 +1593,12 @@ SpectralDistribution.extrapolate` method.
             },
         )
 
-        self.assertAlmostEqual(sd[10], -1.5000000000000004, places=7)
-        self.assertAlmostEqual(sd[50], 2.4999999999999964, places=7)
+        np.testing.assert_allclose(
+            sd[10], -1.5000000000000004, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+        np.testing.assert_allclose(
+            sd[50], 2.4999999999999964, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_align(self):
         """

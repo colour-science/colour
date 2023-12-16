@@ -34,22 +34,28 @@ class TestExponent_hdr_IPT(unittest.TestCase):
     def test_exponent_hdr_IPT(self):
         """Test :func:`colour.models.hdr_ipt.exponent_hdr_IPT` definition."""
 
-        self.assertAlmostEqual(
-            exponent_hdr_IPT(0.2, 100), 0.482020919845900, places=7
+        np.testing.assert_allclose(
+            exponent_hdr_IPT(0.2, 100),
+            0.482020919845900,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            exponent_hdr_IPT(0.4, 100), 0.667413581325092, places=7
+        np.testing.assert_allclose(
+            exponent_hdr_IPT(0.4, 100),
+            0.667413581325092,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             exponent_hdr_IPT(0.4, 100, method="Fairchild 2010"),
             1.219933220992410,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            exponent_hdr_IPT(0.2, 1000), 0.723031379768850, places=7
+        np.testing.assert_allclose(
+            exponent_hdr_IPT(0.2, 1000),
+            0.723031379768850,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_exponent_hdr_IPT(self):

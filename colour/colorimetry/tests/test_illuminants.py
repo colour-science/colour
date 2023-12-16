@@ -195,16 +195,22 @@ class TestDaylightLocusFunction(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
-            daylight_locus_function(0.31270), 0.329105129999999, places=7
+        np.testing.assert_allclose(
+            daylight_locus_function(0.31270),
+            0.329105129999999,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            daylight_locus_function(0.34570), 0.358633529999999, places=7
+        np.testing.assert_allclose(
+            daylight_locus_function(0.34570),
+            0.358633529999999,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            daylight_locus_function(0.44758), 0.408571030799999, places=7
+        np.testing.assert_allclose(
+            daylight_locus_function(0.44758),
+            0.408571030799999,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_daylight_locus_function(self):

@@ -36,17 +36,25 @@ oetf_SMPTE240M` definition unit tests methods.
 oetf_SMPTE240M` definition.
         """
 
-        self.assertAlmostEqual(oetf_SMPTE240M(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            oetf_SMPTE240M(0.02), 0.080000000000000, places=7
+        np.testing.assert_allclose(
+            oetf_SMPTE240M(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(
-            oetf_SMPTE240M(0.18), 0.402285796753870, places=7
+        np.testing.assert_allclose(
+            oetf_SMPTE240M(0.02),
+            0.080000000000000,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(oetf_SMPTE240M(1.0), 1.0, places=7)
+        np.testing.assert_allclose(
+            oetf_SMPTE240M(0.18),
+            0.402285796753870,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            oetf_SMPTE240M(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_n_dimensional_oetf_SMPTE240M(self):
         """
@@ -115,17 +123,25 @@ eotf_SMPTE240M` definition unit tests methods.
 eotf_SMPTE240M` definition.
         """
 
-        self.assertAlmostEqual(eotf_SMPTE240M(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            eotf_SMPTE240M(0.080000000000000), 0.02, places=7
+        np.testing.assert_allclose(
+            eotf_SMPTE240M(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(
-            eotf_SMPTE240M(0.402285796753870), 0.18, places=7
+        np.testing.assert_allclose(
+            eotf_SMPTE240M(0.080000000000000),
+            0.02,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(eotf_SMPTE240M(1.0), 1.0, places=7)
+        np.testing.assert_allclose(
+            eotf_SMPTE240M(0.402285796753870),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            eotf_SMPTE240M(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_n_dimensional_eotf_SMPTE240M(self):
         """

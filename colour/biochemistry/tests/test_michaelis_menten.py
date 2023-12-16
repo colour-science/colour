@@ -44,22 +44,22 @@ reaction_rate_MichaelisMenten_Michaelis1913` definition unit tests methods.
 reaction_rate_MichaelisMenten_Michaelis1913` definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             reaction_rate_MichaelisMenten_Michaelis1913(0.25, 0.5, 0.25),
             0.250000000000000,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             reaction_rate_MichaelisMenten_Michaelis1913(0.5, 0.5, 0.25),
             0.333333333333333,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             reaction_rate_MichaelisMenten_Michaelis1913(0.65, 0.75, 0.35),
             0.487500000000000,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_reaction_rate_MichaelisMenten_Michaelis1913(self):
@@ -126,28 +126,28 @@ reaction_rate_MichaelisMenten_Michaelis1913` definition unit tests methods.
 substrate_concentration_MichaelisMenten_Michaelis1913` definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             substrate_concentration_MichaelisMenten_Michaelis1913(
                 0.25, 0.5, 0.25
             ),
             0.250000000000000,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             substrate_concentration_MichaelisMenten_Michaelis1913(
                 1 / 3, 0.5, 0.25
             ),
             0.500000000000000,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             substrate_concentration_MichaelisMenten_Michaelis1913(
                 0.4875, 0.75, 0.35
             ),
             0.650000000000000,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_substrate_concentration_MichaelisMenten_Michaelis1913(
@@ -224,22 +224,22 @@ reaction_rate_MichaelisMenten_Abebe2017` definition unit tests methods.
 reaction_rate_MichaelisMenten_Abebe2017` definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             reaction_rate_MichaelisMenten_Abebe2017(0.25, 0.5, 0.25, 0.25),
             0.400000000000000,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             reaction_rate_MichaelisMenten_Abebe2017(0.5, 0.5, 0.25, 0.25),
             0.666666666666666,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             reaction_rate_MichaelisMenten_Abebe2017(0.65, 0.75, 0.35, 0.25),
             0.951219512195122,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_reaction_rate_MichaelisMenten_Abebe2017(self):
@@ -307,28 +307,28 @@ reaction_rate_MichaelisMenten_Abebe2017` definition unit tests methods.
 substrate_concentration_MichaelisMenten_Abebe2017` definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             substrate_concentration_MichaelisMenten_Abebe2017(
                 0.400000000000000, 0.5, 0.25, 0.25
             ),
             0.250000000000000,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             substrate_concentration_MichaelisMenten_Abebe2017(
                 0.666666666666666, 0.5, 0.25, 0.25
             ),
             0.500000000000000,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             substrate_concentration_MichaelisMenten_Abebe2017(
                 0.951219512195122, 0.75, 0.35, 0.25
             ),
             0.650000000000000,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_substrate_concentration_MichaelisMenten_Abebe2017(

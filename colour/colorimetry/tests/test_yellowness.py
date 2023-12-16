@@ -45,28 +45,28 @@ class TestYellownessASTMD1925(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             yellowness_ASTMD1925(
                 np.array([95.00000000, 100.00000000, 105.00000000])
             ),
             10.299999999999997,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             yellowness_ASTMD1925(
                 np.array([105.00000000, 100.00000000, 95.00000000])
             ),
             33.700000000000003,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             yellowness_ASTMD1925(
                 np.array([100.00000000, 100.00000000, 100.00000000])
             ),
             22.0,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_yellowness_ASTMD1925(self):
@@ -132,28 +132,28 @@ yellowness_ASTME313_alternative` definition unit tests methods.
 yellowness_ASTME313_alternative` definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             yellowness_ASTME313_alternative(
                 np.array([95.00000000, 100.00000000, 105.00000000])
             ),
             11.065000000000003,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             yellowness_ASTME313_alternative(
                 np.array([105.00000000, 100.00000000, 95.00000000])
             ),
             19.534999999999989,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             yellowness_ASTME313_alternative(
                 np.array([100.00000000, 100.00000000, 100.00000000])
             ),
             15.300000000000002,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_yellowness_ASTME313_alternative(self):
@@ -223,31 +223,31 @@ class TestYellownessASTM313(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             yellowness_ASTME313(
                 np.array([95.00000000, 100.00000000, 105.00000000])
             ),
             4.340000000000003,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             yellowness_ASTME313(
                 np.array([105.00000000, 100.00000000, 95.00000000])
             ),
             28.660000000000011,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             yellowness_ASTME313(
                 np.array([100.00000000, 100.00000000, 100.00000000])
             ),
             16.500000000000000,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             yellowness_ASTME313(
                 np.array([95.00000000, 100.00000000, 105.00000000]),
                 YELLOWNESS_COEFFICIENTS_ASTME313[
@@ -255,7 +255,7 @@ class TestYellownessASTM313(unittest.TestCase):
                 ]["C"],
             ),
             10.089500000000001,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_yellowness_ASTME313(self):

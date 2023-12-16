@@ -39,16 +39,22 @@ log_encoding_Cineon` definition unit tests methods.
 log_encoding_Cineon` definition.
         """
 
-        self.assertAlmostEqual(
-            log_encoding_Cineon(0.0), 0.092864125122190, places=7
+        np.testing.assert_allclose(
+            log_encoding_Cineon(0.0),
+            0.092864125122190,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_Cineon(0.18), 0.457319613085418, places=7
+        np.testing.assert_allclose(
+            log_encoding_Cineon(0.18),
+            0.457319613085418,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_Cineon(1.0), 0.669599217986315, places=7
+        np.testing.assert_allclose(
+            log_encoding_Cineon(1.0),
+            0.669599217986315,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_encoding_Cineon(self):
@@ -120,16 +126,22 @@ log_decoding_Cineon` definition unit tests methods.
 log_decoding_Cineon` definition.
         """
 
-        self.assertAlmostEqual(
-            log_decoding_Cineon(0.092864125122190), 0.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_Cineon(0.092864125122190),
+            0.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_Cineon(0.457319613085418), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_Cineon(0.457319613085418),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_Cineon(0.669599217986315), 1.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_Cineon(0.669599217986315),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_decoding_Cineon(self):

@@ -36,13 +36,19 @@ class TestEotf_inverse_sRGB(unittest.TestCase):
 eotf_inverse_sRGB` definition.
         """
 
-        self.assertAlmostEqual(eotf_inverse_sRGB(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            eotf_inverse_sRGB(0.18), 0.461356129500442, places=7
+        np.testing.assert_allclose(
+            eotf_inverse_sRGB(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(eotf_inverse_sRGB(1.0), 1.0, places=7)
+        np.testing.assert_allclose(
+            eotf_inverse_sRGB(0.18),
+            0.461356129500442,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            eotf_inverse_sRGB(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_n_dimensional_eotf_inverse_sRGB(self):
         """
@@ -111,11 +117,17 @@ class TestEotf_sRGB(unittest.TestCase):
 eotf_sRGB` definition.
         """
 
-        self.assertAlmostEqual(eotf_sRGB(0.0), 0.0, places=7)
+        np.testing.assert_allclose(
+            eotf_sRGB(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(eotf_sRGB(0.461356129500442), 0.18, places=7)
+        np.testing.assert_allclose(
+            eotf_sRGB(0.461356129500442), 0.18, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(eotf_sRGB(1.0), 1.0, places=7)
+        np.testing.assert_allclose(
+            eotf_sRGB(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_n_dimensional_eotf_sRGB(self):
         """

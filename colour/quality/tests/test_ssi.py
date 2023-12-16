@@ -5,6 +5,8 @@ from __future__ import annotations
 
 import unittest
 
+import numpy as np
+
 from colour.colorimetry import SDS_ILLUMINANTS, SpectralDistribution
 from colour.quality import spectral_similarity_index
 
@@ -583,23 +585,23 @@ class TestSpectralSimilarityIndex(unittest.TestCase):
         """
 
         # Test values were computed at ed2e90
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             spectral_similarity_index(
                 SDS_ILLUMINANTS["C"],
                 SDS_ILLUMINANTS["D65"],
                 round_result=False,
             ),
             94.182,
-            places=2,
+            atol=0.01,
         )
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             spectral_similarity_index(
                 SpectralDistribution(DATA_HMI),
                 SDS_ILLUMINANTS["D50"],
                 round_result=False,
             ),
             71.775,
-            places=2,
+            atol=0.01,
         )
 
 

@@ -1257,10 +1257,10 @@ class TestLinearInterpolator(unittest.TestCase):
         for i, value in enumerate(
             np.arange(0, len(DATA_POINTS_A) - 1 + interval, interval)
         ):
-            self.assertAlmostEqual(
+            np.testing.assert_allclose(
                 DATA_POINTS_A_LINEAR_INTERPOLATED_10_SAMPLES[i],
                 linear_interpolator(value),
-                places=7,
+                atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
         np.testing.assert_allclose(
@@ -1345,10 +1345,10 @@ class TestSpragueInterpolator(unittest.TestCase):
         for i, value in enumerate(
             np.arange(0, len(DATA_POINTS_A) - 1 + interval, interval)
         ):
-            self.assertAlmostEqual(
+            np.testing.assert_allclose(
                 DATA_POINTS_A_SPRAGUE_INTERPOLATED_10_SAMPLES[i],
                 sprague_interpolator(value),
-                places=7,
+                atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
         np.testing.assert_allclose(
