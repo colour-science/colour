@@ -69,6 +69,9 @@ Annotation Type Hints
     LiteralCCTFDecoding
     LiteralOOTF
     LiteralOOTFInverse
-    LiteralLUTReadMethods
-    LiteralLUTWriteMethods
+    LiteralLUTReadMethod
+    LiteralLUTWriteMethod
+
+
+
     LiteralFontScaling

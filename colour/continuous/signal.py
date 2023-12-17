@@ -810,7 +810,7 @@ class Signal(AbstractContinuousFunction):
 
         self._function = None  # Invalidate the underlying continuous function.
 
-    def __contains__(self, x: ArrayLike) -> bool:
+    def __contains__(self, x: ArrayLike | slice) -> bool:
         """
         Return whether the continuous signal contains given independent domain
         variable :math:`x`.
@@ -1229,7 +1229,7 @@ class Signal(AbstractContinuousFunction):
         self,
         method: Literal["Constant", "Interpolation"] | str = "Interpolation",
         default: Real = 0,
-    ) -> AbstractContinuousFunction:
+    ) -> Signal:
         """
         Fill NaNs in independent domain variable :math:`x` and corresponding
         range variable :math:`y` using given method.

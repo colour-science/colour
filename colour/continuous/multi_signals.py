@@ -1064,7 +1064,7 @@ class MultiSignals(AbstractContinuousFunction):
         a: ArrayLike | AbstractContinuousFunction,
         operation: Literal["+", "-", "*", "/", "**"],
         in_place: bool = False,
-    ) -> AbstractContinuousFunction:
+    ) -> MultiSignals:
         """
         Perform given arithmetical operation with operand :math:`a`, the
         operation can be either performed on a copy or in-place.
@@ -1175,7 +1175,7 @@ class MultiSignals(AbstractContinuousFunction):
          [   9.  347.  378.  409.]]
         """
 
-        multi_signals = cast(MultiSignals, self if in_place else self.copy())
+        multi_signals = self if in_place else self.copy()
 
         if isinstance(a, MultiSignals):
             attest(
@@ -1555,7 +1555,7 @@ class MultiSignals(AbstractContinuousFunction):
         self,
         method: Literal["Constant", "Interpolation"] | str = "Interpolation",
         default: Real = 0,
-    ) -> AbstractContinuousFunction:
+    ) -> MultiSignals:
         """
         Fill NaNs in independent domain variable :math:`x` and corresponding
         range variable :math:`y` using given method.
