@@ -541,6 +541,7 @@ Yellowness Computation
     colour.yellowness(XYZ)
 
 .. code-block:: text
+
     4.3400000000000034
 
 .. code-block:: python
@@ -1241,6 +1242,7 @@ CCTFs Encoding / Decoding
     ['ACEScc',
      'ACEScct',
      'ACESproxy',
+     'Apple Log Profile',
      'ARRI LogC3',
      'ARRI LogC4',
      'ARIB STD-B67',
@@ -1539,17 +1541,13 @@ Reflectance Recovery
 Camera RGB Sensitivities Recovery
 *********************************
 
+.. code-block:: python
+
     illuminant = colour.colorimetry.SDS_ILLUMINANTS["D65"]
-    sensitivities = colour.characterisation.MSDS_CAMERA_SENSITIVITIES[
-        "Nikon 5100 (NPL)"
-    ]
+    sensitivities = colour.characterisation.MSDS_CAMERA_SENSITIVITIES["Nikon 5100 (NPL)"]
     reflectances = [
-        sd.copy().align(
-            colour.recovery.SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017
-        )
-        for sd in colour.characterisation.SDS_COLOURCHECKERS[
-            "BabelColor Average"
-        ].values()
+        sd.copy().align(colour.recovery.SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017)
+        for sd in colour.characterisation.SDS_COLOURCHECKERS["BabelColor Average"].values()
     ]
     reflectances = colour.colorimetry.sds_and_msds_to_msds(reflectances)
     RGB = colour.colorimetry.msds_to_XYZ(
@@ -1810,8 +1808,8 @@ Chromaticities
 
 ..  image:: _static/Examples_Plotting_Chromaticities_CIE_1931_Chromaticity_Diagram.png
 
-Colour Rendering Index
-**********************
+Colour Rendering Index Bars
+***************************
 
 .. code-block:: python
 

@@ -1,3 +1,5 @@
+.. begin-trim-long-description
+
 .. raw:: html
 
     <picture>
@@ -5,6 +7,8 @@
         <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_001.svg">
         <img style="background:rgb(0, 0, 0, 0) !important;" src="https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_001.svg">
     </picture>
+
+.. end-trim-long-description
 
 |
 
@@ -761,6 +765,7 @@ Yellowness Computation
     colour.yellowness(XYZ)
 
 .. code-block:: text
+
     4.3400000000000034
 
 .. code-block:: python
@@ -1462,6 +1467,7 @@ CCTFs Encoding / Decoding
     ['ACEScc',
      'ACEScct',
      'ACESproxy',
+     'Apple Log Profile',
      'ARRI LogC3',
      'ARRI LogC4',
      'ARIB STD-B67',
@@ -1760,17 +1766,13 @@ Reflectance Recovery
 Camera RGB Sensitivities Recovery
 *********************************
 
+.. code-block:: python
+
     illuminant = colour.colorimetry.SDS_ILLUMINANTS["D65"]
-    sensitivities = colour.characterisation.MSDS_CAMERA_SENSITIVITIES[
-        "Nikon 5100 (NPL)"
-    ]
+    sensitivities = colour.characterisation.MSDS_CAMERA_SENSITIVITIES["Nikon 5100 (NPL)"]
     reflectances = [
-        sd.copy().align(
-            colour.recovery.SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017
-        )
-        for sd in colour.characterisation.SDS_COLOURCHECKERS[
-            "BabelColor Average"
-        ].values()
+        sd.copy().align(colour.recovery.SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017)
+        for sd in colour.characterisation.SDS_COLOURCHECKERS["BabelColor Average"].values()
     ]
     reflectances = colour.colorimetry.sds_and_msds_to_msds(reflectances)
     RGB = colour.colorimetry.msds_to_XYZ(
@@ -2031,8 +2033,8 @@ Chromaticities
 
 ..  image:: https://colour.readthedocs.io/en/develop/_static/Examples_Plotting_Chromaticities_CIE_1931_Chromaticity_Diagram.png
 
-Colour Rendering Index
-**********************
+Colour Rendering Index Bars
+***************************
 
 .. code-block:: python
 
@@ -2175,8 +2177,6 @@ Code of Conduct
 The *Code of Conduct*, adapted from the `Contributor Covenant 1.4 <https://www.contributor-covenant.org/version/1/4/code-of-conduct.html>`__,
 is available on the `Code of Conduct <https://www.colour-science.org/code-of-conduct>`__ page.
 
-.. begin-trim-long-description
-
 Contact & Social
 ----------------
 
@@ -2187,6 +2187,8 @@ The *Colour Developers* can be reached via different means:
 - `Github Discussions <https://github.com/colour-science/colour/discussions>`__
 - `Gitter <https://gitter.im/colour-science/colour>`__
 - `Twitter <https://twitter.com/colour_science>`__
+
+.. begin-trim-long-description
 
 Thank You!
 ----------
