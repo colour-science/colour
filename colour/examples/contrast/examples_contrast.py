@@ -7,8 +7,8 @@ from scipy.optimize import fmin
 
 import colour
 from colour.hints import ArrayLike, NDArrayFloat
-from colour.utilities import as_float, as_float_array, message_box
 from colour.plotting import colour_style, plot_single_function
+from colour.utilities import as_float, as_float_array, message_box
 
 message_box("Contrast Sensitivity Computations")
 

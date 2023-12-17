@@ -2,18 +2,20 @@
 """Define the unit tests for the :mod:`colour.models.rgb.derivation` module."""
 
 import contextlib
-import numpy as np
 import re
 import unittest
 from itertools import product
+
+import numpy as np
 from numpy.linalg import LinAlgError
 
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models import (
-    normalised_primary_matrix,
-    chromatically_adapted_primaries,
-    primaries_whitepoint,
-    RGB_luminance_equation,
     RGB_luminance,
+    RGB_luminance_equation,
+    chromatically_adapted_primaries,
+    normalised_primary_matrix,
+    primaries_whitepoint,
 )
 from colour.models.rgb.derivation import xy_to_z
 from colour.utilities import ignore_numpy_errors
@@ -44,16 +46,22 @@ class Testxy_to_z(unittest.TestCase):
     def test_xy_to_z(self):
         """Test :func:`colour.models.rgb.derivation.xy_to_z` definition."""
 
-        np.testing.assert_array_almost_equal(
-            xy_to_z(np.array([0.2500, 0.2500])), 0.50000000, decimal=7
+        np.testing.assert_allclose(
+            xy_to_z(np.array([0.2500, 0.2500])),
+            0.50000000,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
-            xy_to_z(np.array([0.0001, -0.0770])), 1.07690000, decimal=7
+        np.testing.assert_allclose(
+            xy_to_z(np.array([0.0001, -0.0770])),
+            1.07690000,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
-            xy_to_z(np.array([0.0000, 1.0000])), 0.00000000, decimal=7
+        np.testing.assert_allclose(
+            xy_to_z(np.array([0.0000, 1.0000])),
+            0.00000000,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_xy_to_z(self):
@@ -70,11 +78,15 @@ class Testxy_to_z(unittest.TestCase):
             z,
             6,
         )
-        np.testing.assert_array_almost_equal(xy_to_z(xy), z, decimal=7)
+        np.testing.assert_allclose(
+            xy_to_z(xy), z, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
         xy = np.reshape(xy, (2, 3, 2))
         z = np.reshape(z, (2, 3))
-        np.testing.assert_array_almost_equal(xy_to_z(xy), z, decimal=7)
+        np.testing.assert_allclose(
+            xy_to_z(xy), z, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     @ignore_numpy_errors
     def test_nan_xy_to_z(self):
@@ -100,7 +112,7 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             normalised_primary_matrix(
                 np.array(
                     [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]
@@ -114,10 +126,10 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
                     [0.00000000, 0.00000000, 1.00882518],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             normalised_primary_matrix(
                 np.array([0.640, 0.330, 0.300, 0.600, 0.150, 0.060]),
                 np.array([0.3127, 0.3290]),
@@ -129,7 +141,7 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
                     [0.01933082, 0.11919478, 0.95053215],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors
@@ -160,7 +172,7 @@ chromatically_adapted_primaries` definition unit tests methods.
 chromatically_adapted_primaries` definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatically_adapted_primaries(
                 np.array(
                     [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]
@@ -175,10 +187,10 @@ chromatically_adapted_primaries` definition.
                     [-0.05880375, -0.12573056],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatically_adapted_primaries(
                 np.array([0.640, 0.330, 0.300, 0.600, 0.150, 0.060]),
                 np.array([0.31270, 0.32900]),
@@ -191,10 +203,10 @@ chromatically_adapted_primaries` definition.
                     [0.15236177, 0.06118676],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatically_adapted_primaries(
                 np.array([0.640, 0.330, 0.300, 0.600, 0.150, 0.060]),
                 np.array([0.31270, 0.32900]),
@@ -208,7 +220,7 @@ chromatically_adapted_primaries` definition.
                     [0.15589322, 0.06604921],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors
@@ -247,7 +259,7 @@ class TestPrimariesWhitepoint(unittest.TestCase):
                 ]
             )
         )
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             P,
             np.array(
                 [
@@ -256,10 +268,10 @@ class TestPrimariesWhitepoint(unittest.TestCase):
                     [0.00010, -0.07700],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_array_almost_equal(
-            W, np.array([0.32168, 0.33767]), decimal=7
+        np.testing.assert_allclose(
+            W, np.array([0.32168, 0.33767]), atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         P, W = primaries_whitepoint(
@@ -271,7 +283,7 @@ class TestPrimariesWhitepoint(unittest.TestCase):
                 ]
             )
         )
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             P,
             np.array(
                 [
@@ -280,10 +292,12 @@ class TestPrimariesWhitepoint(unittest.TestCase):
                     [0.15001662, 0.06000665],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_array_almost_equal(
-            W, np.array([0.31271591, 0.32900148]), decimal=7
+        np.testing.assert_allclose(
+            W,
+            np.array([0.31271591, 0.32900148]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors
@@ -350,7 +364,7 @@ class TestRGBLuminance(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             RGB_luminance(
                 np.array([0.18, 0.18, 0.18]),
                 np.array(
@@ -359,10 +373,10 @@ class TestRGBLuminance(unittest.TestCase):
                 np.array([0.32168, 0.33767]),
             ),
             0.18000000,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             RGB_luminance(
                 np.array([0.21959402, 0.06986677, 0.04703877]),
                 np.array(
@@ -371,17 +385,17 @@ class TestRGBLuminance(unittest.TestCase):
                 np.array([0.32168, 0.33767]),
             ),
             0.123014562384318,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             RGB_luminance(
                 np.array([0.45620519, 0.03081071, 0.04091952]),
                 np.array([0.6400, 0.3300, 0.3000, 0.6000, 0.1500, 0.0600]),
                 np.array([0.31270, 0.32900]),
             ),
             0.121995947729870,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_RGB_luminance(self):
@@ -399,11 +413,15 @@ class TestRGBLuminance(unittest.TestCase):
 
         RGB = np.tile(RGB, (6, 1))
         Y = np.tile(Y, 6)
-        np.testing.assert_array_almost_equal(RGB_luminance(RGB, P, W), Y)
+        np.testing.assert_allclose(
+            RGB_luminance(RGB, P, W), Y, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
         RGB = np.reshape(RGB, (2, 3, 3))
         Y = np.reshape(Y, (2, 3))
-        np.testing.assert_array_almost_equal(RGB_luminance(RGB, P, W), Y)
+        np.testing.assert_allclose(
+            RGB_luminance(RGB, P, W), Y, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     @ignore_numpy_errors
     def test_nan_RGB_luminance(self):

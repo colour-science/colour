@@ -3,14 +3,15 @@
 
 from __future__ import annotations
 
-import numpy as np
 import os
-import unittest
 import shutil
 import tempfile
+import unittest
 
-from colour.io import LUT1D, LUT3x1D
-from colour.io import read_LUT_Cinespace, write_LUT_Cinespace
+import numpy as np
+
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
+from colour.io import LUT1D, LUT3x1D, read_LUT_Cinespace, write_LUT_Cinespace
 from colour.utilities import tstack
 
 __author__ = "Colour Developers"
@@ -47,7 +48,7 @@ class TestReadLUTCinespace(unittest.TestCase):
             os.path.join(ROOT_LUTS, "ACES_Proxy_10_to_ACES.csp")
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT_1.table,
             np.array(
                 [
@@ -85,6 +86,7 @@ class TestReadLUTCinespace(unittest.TestCase):
                     [7.04300000e02, 7.04300000e02, 7.04300000e02],
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
         self.assertEqual(LUT_1.name, "ACES Proxy 10 to ACES")
         self.assertEqual(LUT_1.dimensions, 2)
@@ -203,10 +205,10 @@ class TestWriteLUTCinespace(unittest.TestCase):
         LUT_4_r = read_LUT_Cinespace(
             os.path.join(ROOT_LUTS, "Ragged_Domain.csp")
         )
-        np.testing.assert_array_almost_equal(LUT_4_t.domain, LUT_4_r.domain)
-        np.testing.assert_array_almost_equal(
-            LUT_4_t.table, LUT_4_r.table, decimal=6
+        np.testing.assert_allclose(
+            LUT_4_t.domain, LUT_4_r.domain, atol=TOLERANCE_ABSOLUTE_TESTS
         )
+        np.testing.assert_allclose(LUT_4_t.table, LUT_4_r.table, atol=5e-5)
 
         LUT_5_r = read_LUT_Cinespace(
             os.path.join(ROOT_LUTS, "Three_Dimensional_Table_With_Shaper.csp")

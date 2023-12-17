@@ -15,18 +15,21 @@ tm3018.plot_single_sd_colour_rendition_report_simple`
 from __future__ import annotations
 
 import matplotlib.pyplot as plt
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 
 from colour.colorimetry import SpectralDistribution, sd_to_XYZ
 from colour.hints import Any, Dict, Literal, Tuple, cast
 from colour.io import SpectralDistribution_IESTM2714
-from colour.models import XYZ_to_xy, XYZ_to_Luv, Luv_to_uv
+from colour.models import Luv_to_uv, XYZ_to_Luv, XYZ_to_xy
+from colour.plotting import CONSTANTS_COLOUR_STYLE, override_style, render
 from colour.plotting.tm3018.components import (
-    plot_spectra_ANSIIESTM3018,
+    plot_colour_fidelity_indexes,
     plot_colour_vector_graphic,
     plot_local_chroma_shifts,
-    plot_local_hue_shifts,
     plot_local_colour_fidelities,
-    plot_colour_fidelity_indexes,
+    plot_local_hue_shifts,
+    plot_spectra_ANSIIESTM3018,
 )
 from colour.quality import (
     ColourQuality_Specification_ANSIIESTM3018,
@@ -34,7 +37,6 @@ from colour.quality import (
     colour_fidelity_index_ANSIIESTM3018,
     colour_rendering_index,
 )
-from colour.plotting import CONSTANTS_COLOUR_STYLE, override_style, render
 from colour.utilities import (
     as_float_scalar,
     describe_environment,
@@ -153,7 +155,7 @@ CONTENT_REPORT_FOOTER: str = (
 _VALUE_NOT_APPLICABLE: str = "N/A"
 
 
-def _plot_report_header(axes: plt.Axes) -> plt.Axes:
+def _plot_report_header(axes: Axes) -> Axes:
     """
     Plot the report header, i.e. the title, on given axes.
 
@@ -183,7 +185,7 @@ def _plot_report_header(axes: plt.Axes) -> plt.Axes:
     return axes
 
 
-def _plot_report_footer(axes: plt.Axes) -> plt.Axes:
+def _plot_report_footer(axes: Axes) -> Axes:
     """
     Plot the report footer on given axes.
 
@@ -228,11 +230,11 @@ def plot_single_sd_colour_rendition_report_full(
     manufacturer: str | None = None,
     model: str | None = None,
     notes: str | None = None,
-    report_size: tuple = CONSTANT_REPORT_SIZE_FULL,
+    report_size: tuple[float, float] = CONSTANT_REPORT_SIZE_FULL,
     report_row_height_ratios: tuple = CONSTANT_REPORT_ROW_HEIGHT_RATIOS_FULL,
     report_box_padding: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Generate the full *ANSI/IES TM-30-18 Colour Rendition Report* for given
     spectral distribution.
@@ -540,7 +542,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
     axes_footer = figure.add_subplot(gridspec_footer[0])
     _plot_report_footer(axes_footer)
 
-    figure.get_layout_engine().set(**report_box_padding)
+    figure.get_layout_engine().set(**report_box_padding)  # pyright: ignore
 
     settings = dict(kwargs)
     settings["tight_layout"] = False
@@ -551,13 +553,13 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
 @override_style(**CONSTANTS_REPORT_STYLE)
 def plot_single_sd_colour_rendition_report_intermediate(
     sd: SpectralDistribution,
-    report_size: tuple = CONSTANT_REPORT_SIZE_INTERMEDIATE,
+    report_size: tuple[float, float] = CONSTANT_REPORT_SIZE_INTERMEDIATE,
     report_row_height_ratios: tuple = (
         CONSTANT_REPORT_ROW_HEIGHT_RATIOS_INTERMEDIATE
     ),
     report_box_padding: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Generate the intermediate *ANSI/IES TM-30-18 Colour Rendition Report* for
     given spectral distribution.
@@ -646,7 +648,7 @@ Plot_Single_SD_Colour_Rendition_Report_Intermediate.png
     axes_footer = figure.add_subplot(gridspec_footer[0])
     _plot_report_footer(axes_footer)
 
-    figure.get_layout_engine().set(**report_box_padding)
+    figure.get_layout_engine().set(**report_box_padding)  # pyright: ignore
 
     settings = dict(kwargs)
     settings["tight_layout"] = False
@@ -656,11 +658,11 @@ Plot_Single_SD_Colour_Rendition_Report_Intermediate.png
 
 def plot_single_sd_colour_rendition_report_simple(
     sd: SpectralDistribution,
-    report_size: tuple = CONSTANT_REPORT_SIZE_SIMPLE,
+    report_size: tuple[float, float] = CONSTANT_REPORT_SIZE_SIMPLE,
     report_row_height_ratios: tuple = CONSTANT_REPORT_ROW_HEIGHT_RATIOS_SIMPLE,
     report_box_padding: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Generate the simple *ANSI/IES TM-30-18 Colour Rendition Report* for given
     spectral distribution.
@@ -739,7 +741,7 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
     axes_footer = figure.add_subplot(gridspec_footer[0])
     _plot_report_footer(axes_footer)
 
-    figure.get_layout_engine().set(**report_box_padding)
+    figure.get_layout_engine().set(**report_box_padding)  # pyright: ignore
 
     settings = dict(kwargs)
     settings["tight_layout"] = False
@@ -751,7 +753,7 @@ def plot_single_sd_colour_rendition_report(
     sd: SpectralDistribution,
     method: Literal["Full", "Intermediate", "Simple"] | str = "Full",
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Generate the *ANSI/IES TM-30-18 Colour Rendition Report* for given
     spectral distribution according to given method.

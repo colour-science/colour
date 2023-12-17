@@ -11,10 +11,11 @@ Defines the characterisation plotting objects:
 from __future__ import annotations
 
 import numpy as np
-import matplotlib.pyplot as plt
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 
-from colour.hints import Any, Dict, Sequence, Tuple
 from colour.characterisation import ColourChecker
+from colour.hints import Any, Dict, Sequence, Tuple
 from colour.models import xyY_to_XYZ
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
@@ -22,8 +23,8 @@ from colour.plotting import (
     XYZ_to_plotting_colourspace,
     artist,
     filter_colour_checkers,
-    plot_multi_colour_swatches,
     override_style,
+    plot_multi_colour_swatches,
     render,
 )
 from colour.utilities import attest
@@ -54,7 +55,7 @@ def plot_single_colour_checker(
     colour_checker: ColourChecker
     | str = "ColorChecker24 - After November 2014",
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given colour checker.
 
@@ -103,7 +104,7 @@ def plot_single_colour_checker(
 def plot_multi_colour_checkers(
     colour_checkers: ColourChecker | str | Sequence[ColourChecker | str],
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot and compares given colour checkers.
 

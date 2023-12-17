@@ -14,15 +14,16 @@ Defines various RGB colourspace volume computation objects:
 from __future__ import annotations
 
 import itertools
+
 import numpy as np
 
 from colour.algebra import random_triplet_generator
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.constants import DEFAULT_INT_DTYPE
+from colour.constants import DTYPE_INT_DEFAULT
 from colour.hints import (
     ArrayLike,
     Callable,
-    Literal,
+    LiteralChromaticAdaptationTransform,
     NDArrayFloat,
 )
 from colour.models import (
@@ -32,8 +33,8 @@ from colour.models import (
     XYZ_to_Lab,
     XYZ_to_RGB,
 )
-from colour.volume import is_within_pointer_gamut, is_within_visible_spectrum
 from colour.utilities import as_float_array, multiprocessing_pool
+from colour.volume import is_within_pointer_gamut, is_within_visible_spectrum
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -78,20 +79,7 @@ def sample_RGB_colourspace_volume_MonteCarlo(
     illuminant_Lab: ArrayLike = CCS_ILLUMINANTS[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-    chromatic_adaptation_transform: Literal[
-        "Bianco 2010",
-        "Bianco PC 2010",
-        "Bradford",
-        "CAT02 Brill 2008",
-        "CAT02",
-        "CAT16",
-        "CMCCAT2000",
-        "CMCCAT97",
-        "Fairchild",
-        "Sharp",
-        "Von Kries",
-        "XYZ Scaling",
-    ]
+    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
     | str
     | None = "CAT02",
     random_generator: Callable = random_triplet_generator,
@@ -149,7 +137,7 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
         random_state if random_state is not None else np.random.RandomState()
     )
 
-    Lab = random_generator(DEFAULT_INT_DTYPE(samples), limits, random_state)
+    Lab = random_generator(DTYPE_INT_DEFAULT(samples), limits, random_state)
     RGB = XYZ_to_RGB(
         Lab_to_XYZ(Lab, illuminant_Lab),
         colourspace,
@@ -219,20 +207,7 @@ def RGB_colourspace_volume_MonteCarlo(
     illuminant_Lab: ArrayLike = CCS_ILLUMINANTS[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-    chromatic_adaptation_transform: Literal[
-        "Bianco 2010",
-        "Bianco PC 2010",
-        "Bradford",
-        "CAT02 Brill 2008",
-        "CAT02",
-        "CAT16",
-        "CMCCAT2000",
-        "CMCCAT97",
-        "Fairchild",
-        "Sharp",
-        "Von Kries",
-        "XYZ Scaling",
-    ]
+    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
     | str
     | None = "CAT02",
     random_generator: Callable = random_triplet_generator,
@@ -292,7 +267,7 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
     import multiprocessing
 
     processes = multiprocessing.cpu_count()
-    process_samples = DEFAULT_INT_DTYPE(np.round(samples / processes))
+    process_samples = DTYPE_INT_DEFAULT(np.round(samples / processes))
 
     arguments = (
         colourspace,
@@ -360,7 +335,7 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
     )
 
     XYZ = random_generator(
-        DEFAULT_INT_DTYPE(samples), random_state=random_state
+        DTYPE_INT_DEFAULT(samples), random_state=random_state
     )
     XYZ_vs = XYZ[coverage_sampler(XYZ)]
 

@@ -1,19 +1,21 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.appearance.kim2009` module."""
 
-import numpy as np
 import unittest
 from itertools import product
+
+import numpy as np
 
 from colour.appearance import (
     MEDIA_PARAMETERS_KIM2009,
     VIEWING_CONDITIONS_KIM2009,
-    InductionFactors_Kim2009,
     CAM_Specification_Kim2009,
+    InductionFactors_Kim2009,
+    Kim2009_to_XYZ,
     MediaParameters_Kim2009,
     XYZ_to_Kim2009,
-    Kim2009_to_XYZ,
 )
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import (
     as_float_array,
     domain_range_scale,
@@ -48,7 +50,7 @@ class TestXYZ_to_Kim2009(unittest.TestCase):
         L_a = 318.31
         media = MEDIA_PARAMETERS_KIM2009["CRT Displays"]
         surround = VIEWING_CONDITIONS_KIM2009["Average"]
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_Kim2009(XYZ, XYZ_w, L_a, media, surround),
             np.array(
                 [
@@ -62,12 +64,12 @@ class TestXYZ_to_Kim2009(unittest.TestCase):
                     np.nan,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ = np.array([57.06, 43.06, 31.96])
         L_a = 31.83
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_Kim2009(XYZ, XYZ_w, L_a, media, surround),
             np.array(
                 [
@@ -81,13 +83,13 @@ class TestXYZ_to_Kim2009(unittest.TestCase):
                     np.nan,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ = np.array([3.53, 6.56, 2.14])
         XYZ_w = np.array([109.85, 100.00, 35.58])
         L_a = 318.31
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_Kim2009(XYZ, XYZ_w, L_a, media, surround),
             np.array(
                 [
@@ -101,12 +103,12 @@ class TestXYZ_to_Kim2009(unittest.TestCase):
                     np.nan,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ = np.array([19.01, 20.00, 21.78])
         L_a = 31.83
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_Kim2009(XYZ, XYZ_w, L_a, media, surround),
             np.array(
                 [
@@ -120,7 +122,7 @@ class TestXYZ_to_Kim2009(unittest.TestCase):
                     np.nan,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_XYZ_to_Kim2009(self):
@@ -138,26 +140,26 @@ class TestXYZ_to_Kim2009(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         specification = np.tile(specification, (6, 1))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_Kim2009(XYZ, XYZ_w, L_a, media, surround),
             specification,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ_w = np.tile(XYZ_w, (6, 1))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_Kim2009(XYZ, XYZ_w, L_a, media, surround),
             specification,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
         specification = np.reshape(specification, (2, 3, 8))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_Kim2009(XYZ, XYZ_w, L_a, media, surround),
             specification,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors
@@ -200,12 +202,12 @@ class TestXYZ_to_Kim2009(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     XYZ_to_Kim2009(
                         XYZ * factor_a, XYZ_w * factor_a, L_a, media, surround
                     ),
                     as_float_array(specification) * factor_b,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -251,7 +253,6 @@ class TestKim2009_to_XYZ(unittest.TestCase):
             Kim2009_to_XYZ(specification, XYZ_w, L_a, media, surround),
             np.array([19.01, 20.00, 21.78]),
             atol=0.01,
-            rtol=0.01,
         )
 
         specification = CAM_Specification_Kim2009(
@@ -269,7 +270,6 @@ class TestKim2009_to_XYZ(unittest.TestCase):
             Kim2009_to_XYZ(specification, XYZ_w, L_a, media, surround),
             np.array([57.06, 43.06, 31.96]),
             atol=0.01,
-            rtol=0.01,
         )
 
         specification = CAM_Specification_Kim2009(
@@ -288,7 +288,6 @@ class TestKim2009_to_XYZ(unittest.TestCase):
             Kim2009_to_XYZ(specification, XYZ_w, L_a, media, surround),
             np.array([3.53, 6.56, 2.14]),
             atol=0.01,
-            rtol=0.01,
         )
 
         specification = CAM_Specification_Kim2009(
@@ -306,7 +305,6 @@ class TestKim2009_to_XYZ(unittest.TestCase):
             Kim2009_to_XYZ(specification, XYZ_w, L_a, media, surround),
             np.array([19.01, 20.00, 21.78]),
             atol=0.01,
-            rtol=0.01,
         )
 
     def test_n_dimensional_Kim2009_to_XYZ(self):
@@ -327,17 +325,17 @@ class TestKim2009_to_XYZ(unittest.TestCase):
             *np.transpose(np.tile(tsplit(specification), (6, 1))).tolist()
         )
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             Kim2009_to_XYZ(specification, XYZ_w, L_a, media, surround),
             XYZ,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ_w = np.tile(XYZ_w, (6, 1))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             Kim2009_to_XYZ(specification, XYZ_w, L_a, media, surround),
             XYZ,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         specification = CAM_Specification_Kim2009(
@@ -345,10 +343,10 @@ class TestKim2009_to_XYZ(unittest.TestCase):
         )
         XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             Kim2009_to_XYZ(specification, XYZ_w, L_a, media, surround),
             XYZ,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors
@@ -392,7 +390,7 @@ class TestKim2009_to_XYZ(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     Kim2009_to_XYZ(
                         specification * factor_a,
                         XYZ_w * factor_b,
@@ -401,7 +399,7 @@ class TestKim2009_to_XYZ(unittest.TestCase):
                         surround,
                     ),
                     XYZ * factor_b,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors

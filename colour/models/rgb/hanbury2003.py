@@ -24,8 +24,8 @@ from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     from_range_1,
     to_domain_1,
-    tstack,
     tsplit,
+    tstack,
     zeros,
 )
 

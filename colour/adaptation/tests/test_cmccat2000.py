@@ -1,15 +1,16 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.adaptation.cmccat2000."""
 
-import numpy as np
 import unittest
 from itertools import product
+
+import numpy as np
 
 from colour.adaptation.cmccat2000 import (
     chromatic_adaptation_forward_CMCCAT2000,
     chromatic_adaptation_inverse_CMCCAT2000,
 )
-
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
@@ -37,7 +38,7 @@ chromatic_adaptation_forward_CMCCAT2000` definition unit tests methods.
 chromatic_adaptation_forward_CMCCAT2000` definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatic_adaptation_forward_CMCCAT2000(
                 np.array([22.48, 22.74, 8.54]),
                 np.array([111.15, 100.00, 35.20]),
@@ -46,10 +47,10 @@ chromatic_adaptation_forward_CMCCAT2000` definition.
                 200,
             ),
             np.array([19.52698326, 23.06833960, 24.97175229]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatic_adaptation_forward_CMCCAT2000(
                 np.array([0.14222010, 0.23042768, 0.10495772]) * 100,
                 np.array([0.95045593, 1.00000000, 1.08905775]) * 100,
@@ -58,10 +59,10 @@ chromatic_adaptation_forward_CMCCAT2000` definition.
                 100,
             ),
             np.array([17.90511171, 22.75299363, 3.79837384]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatic_adaptation_forward_CMCCAT2000(
                 np.array([0.07818780, 0.06157201, 0.28099326]) * 100,
                 np.array([0.95045593, 1.00000000, 1.08905775]) * 100,
@@ -70,7 +71,7 @@ chromatic_adaptation_forward_CMCCAT2000` definition.
                 100,
             ),
             np.array([6.76564344, 5.86585763, 18.40577315]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_chromatic_adaptation_forward_CMCCAT2000(self):
@@ -91,24 +92,24 @@ chromatic_adaptation_forward_CMCCAT2000` definition n-dimensional arrays
 
         XYZ = np.tile(XYZ, (6, 1))
         XYZ_c = np.tile(XYZ_c, (6, 1))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatic_adaptation_forward_CMCCAT2000(
                 XYZ, XYZ_w, XYZ_wr, L_A1, L_A2
             ),
             XYZ_c,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ_w = np.tile(XYZ_w, (6, 1))
         XYZ_wr = np.tile(XYZ_wr, (6, 1))
         L_A1 = np.tile(L_A1, 6)
         L_A2 = np.tile(L_A2, 6)
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatic_adaptation_forward_CMCCAT2000(
                 XYZ, XYZ_w, XYZ_wr, L_A1, L_A2
             ),
             XYZ_c,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
@@ -117,12 +118,12 @@ chromatic_adaptation_forward_CMCCAT2000` definition n-dimensional arrays
         L_A1 = np.reshape(L_A1, (2, 3))
         L_A2 = np.reshape(L_A2, (2, 3))
         XYZ_c = np.reshape(XYZ_c, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatic_adaptation_forward_CMCCAT2000(
                 XYZ, XYZ_w, XYZ_wr, L_A1, L_A2
             ),
             XYZ_c,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_domain_range_scale_chromatic_adaptation_CMCCAT2000(self):
@@ -144,7 +145,7 @@ chromatic_adaptation_forward_CMCCAT2000` definition domain and range scale
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     chromatic_adaptation_forward_CMCCAT2000(
                         XYZ * factor,
                         XYZ_w * factor,
@@ -153,7 +154,7 @@ chromatic_adaptation_forward_CMCCAT2000` definition domain and range scale
                         L_A2,
                     ),
                     XYZ_c * factor,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -182,7 +183,7 @@ chromatic_adaptation_inverse_CMCCAT2000` definition unit tests methods.
 chromatic_adaptation_inverse_CMCCAT2000` definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatic_adaptation_inverse_CMCCAT2000(
                 np.array([19.52698326, 23.06833960, 24.97175229]),
                 np.array([111.15, 100.00, 35.20]),
@@ -191,10 +192,10 @@ chromatic_adaptation_inverse_CMCCAT2000` definition.
                 200,
             ),
             np.array([22.48, 22.74, 8.54]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatic_adaptation_inverse_CMCCAT2000(
                 np.array([17.90511171, 22.75299363, 3.79837384]),
                 np.array([0.95045593, 1.00000000, 1.08905775]) * 100,
@@ -203,10 +204,10 @@ chromatic_adaptation_inverse_CMCCAT2000` definition.
                 100,
             ),
             np.array([0.14222010, 0.23042768, 0.10495772]) * 100,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatic_adaptation_inverse_CMCCAT2000(
                 np.array([6.76564344, 5.86585763, 18.40577315]),
                 np.array([0.95045593, 1.00000000, 1.08905775]) * 100,
@@ -215,7 +216,7 @@ chromatic_adaptation_inverse_CMCCAT2000` definition.
                 100,
             ),
             np.array([0.07818780, 0.06157201, 0.28099326]) * 100,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_chromatic_adaptation_inverse_CMCCAT2000(self):
@@ -236,24 +237,24 @@ chromatic_adaptation_inverse_CMCCAT2000` definition n-dimensional arrays
 
         XYZ_c = np.tile(XYZ_c, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatic_adaptation_inverse_CMCCAT2000(
                 XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2
             ),
             XYZ,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ_w = np.tile(XYZ_w, (6, 1))
         XYZ_wr = np.tile(XYZ_wr, (6, 1))
         L_A1 = np.tile(L_A1, 6)
         L_A2 = np.tile(L_A2, 6)
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatic_adaptation_inverse_CMCCAT2000(
                 XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2
             ),
             XYZ,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ_c = np.reshape(XYZ_c, (2, 3, 3))
@@ -262,12 +263,12 @@ chromatic_adaptation_inverse_CMCCAT2000` definition n-dimensional arrays
         L_A1 = np.reshape(L_A1, (2, 3))
         L_A2 = np.reshape(L_A2, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatic_adaptation_inverse_CMCCAT2000(
                 XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2
             ),
             XYZ,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_domain_range_scale_chromatic_adaptation_CMCCAT2000(self):
@@ -289,7 +290,7 @@ chromatic_adaptation_inverse_CMCCAT2000` definition domain and range scale
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     chromatic_adaptation_inverse_CMCCAT2000(
                         XYZ_c * factor,
                         XYZ_w * factor,
@@ -298,7 +299,7 @@ chromatic_adaptation_inverse_CMCCAT2000` definition domain and range scale
                         L_A2,
                     ),
                     XYZ * factor,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors

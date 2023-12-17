@@ -140,11 +140,7 @@ def matrix_RGB_to_WSYBRG(
         ]
     )
 
-    PWS = 1 / (WS_R + WS_G + WS_B)
-    PYB = 1 / (YB_R + YB_G + YB_B)
-    PRG = 1 / (RG_R + RG_G + RG_B)
-
-    M_G *= np.array([PWS, PYB, PRG])[:, None]
+    M_G /= np.sum(M_G, axis=-1)[:, None]
 
     return M_G
 

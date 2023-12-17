@@ -1,31 +1,35 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.plotting.models` module."""
 
-import numpy as np
 import unittest
-from matplotlib.pyplot import Axes, Figure
 
+import numpy as np
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
+
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.plotting import (
     colourspace_model_axis_reorder,
-    plot_pointer_gamut,
-    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931,
-    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS,
-    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS,
-    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931,
-    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS,
-    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS,
+    lines_pointer_gamut,
+    plot_constant_hue_loci,
     plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931,
     plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS,
     plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS,
-    plot_single_cctf,
     plot_multi_cctfs,
-    plot_constant_hue_loci,
+    plot_pointer_gamut,
+    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931,
+    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS,
+    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS,
+    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931,
+    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS,
+    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS,
+    plot_single_cctf,
 )
 from colour.plotting.models import (
-    plot_RGB_colourspaces_in_chromaticity_diagram,
-    plot_RGB_chromaticities_in_chromaticity_diagram,
     ellipses_MacAdam1942,
     plot_ellipses_MacAdam1942_in_chromaticity_diagram,
+    plot_RGB_chromaticities_in_chromaticity_diagram,
+    plot_RGB_colourspaces_in_chromaticity_diagram,
 )
 
 __author__ = "Colour Developers"
@@ -37,6 +41,7 @@ __status__ = "Production"
 
 __all__ = [
     "TestCommonColourspaceModelAxisReorder",
+    "TestLinesPointerGamut",
     "TestPlotPointerGamut",
     "TestPlotRGBColourspacesInChromaticityDiagram",
     "TestPlotRGBColourspacesInChromaticityDiagramCIE1931",
@@ -70,33 +75,47 @@ class TestCommonColourspaceModelAxisReorder(unittest.TestCase):
 
         a = np.array([0, 1, 2])
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             colourspace_model_axis_reorder(a, "CIE Lab"),
             np.array([1, 2, 0]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             colourspace_model_axis_reorder(a, "IPT"),
             np.array([1, 2, 0]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             colourspace_model_axis_reorder(a, "OSA UCS"),
             np.array([1, 2, 0]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             colourspace_model_axis_reorder(
                 colourspace_model_axis_reorder(a, "OSA UCS"),
                 "OSA UCS",
                 "Inverse",
             ),
             np.array([0, 1, 2]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+
+class TestLinesPointerGamut(unittest.TestCase):
+    """
+    Define :func:`colour.plotting.models.lines_pointer_gamut` definition unit
+    tests methods.
+    """
+
+    def test_lines_pointer_gamut(self):
+        """
+        Test :func:`colour.plotting.models.lines_pointer_gamut` definition.
+        """
+
+        self.assertEqual(len(lines_pointer_gamut()), 2)
 
 
 class TestPlotPointerGamut(unittest.TestCase):

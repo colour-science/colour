@@ -18,8 +18,9 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 from dataclasses import dataclass
+
+import numpy as np
 
 from colour.algebra import eigen_decomposition
 from colour.colorimetry import (
@@ -36,18 +37,18 @@ from colour.hints import (
     ArrayLike,
     Callable,
     Dict,
-    List,
     NDArrayFloat,
     Self,
+    Sequence,
     Tuple,
     cast,
 )
 from colour.models import XYZ_to_xy
 from colour.recovery import (
-    SPECTRAL_SHAPE_OTSU2018,
     BASIS_FUNCTIONS_OTSU2018,
     CLUSTER_MEANS_OTSU2018,
     SELECTOR_ARRAY_OTSU2018,
+    SPECTRAL_SHAPE_OTSU2018,
 )
 from colour.utilities import (
     Node,
@@ -814,7 +815,9 @@ class Data_Otsu2018:
         else:
             raise ValueError('The "chromaticity coordinates" are undefined!')
 
-    def partition(self, axis: PartitionAxis) -> Tuple[Self, Self]:
+    def partition(
+        self, axis: PartitionAxis
+    ) -> Tuple[Data_Otsu2018, Data_Otsu2018]:
         """
         Partition the data using given partition axis.
 
@@ -1016,7 +1019,7 @@ class Node_Otsu2018(Node):
 
         self._partition_axis: PartitionAxis | None = None
         self._best_partition: Tuple[
-            List[Node_Otsu2018], PartitionAxis, float
+            Sequence[Node_Otsu2018], PartitionAxis, float
         ] | None = None
 
     @property
@@ -1058,7 +1061,7 @@ class Node_Otsu2018(Node):
         else:
             raise ValueError('The "partition axis" is undefined!')
 
-    def split(self, children: List[Self], axis: PartitionAxis):
+    def split(self, children: Sequence[Self], axis: PartitionAxis):
         """
         Convert the leaf node into an inner node using given children and
         partition axis.
@@ -1080,7 +1083,7 @@ class Node_Otsu2018(Node):
 
     def minimise(
         self, minimum_cluster_size: int
-    ) -> Tuple[List[Self], PartitionAxis, float]:
+    ) -> Tuple[Sequence[Node_Otsu2018], PartitionAxis, float]:
         """
         Find the best partition for the node that minimises the leaf
         reconstruction error.
@@ -1089,7 +1092,7 @@ class Node_Otsu2018(Node):
         ----------
         minimum_cluster_size
             Smallest acceptable cluster size. It must be at least 3 or the
-            *Principal Component Analysis* (PCA) is not be possible.
+            *Principal Component Analysis* (PCA) is not possible.
 
         Returns
         -------

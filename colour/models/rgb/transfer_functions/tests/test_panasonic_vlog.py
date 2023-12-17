@@ -3,12 +3,14 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
 panasonic_v_log` module.
 """
 
-import numpy as np
 import unittest
 
+import numpy as np
+
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models.rgb.transfer_functions import (
-    log_encoding_VLog,
     log_decoding_VLog,
+    log_encoding_VLog,
 )
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
@@ -37,28 +39,38 @@ log_encoding_VLog` definition unit tests methods.
 log_encoding_VLog` definition.
         """
 
-        self.assertAlmostEqual(log_encoding_VLog(0.0), 0.125, places=7)
-
-        self.assertAlmostEqual(
-            log_encoding_VLog(0.18), 0.423311448760136, places=7
+        np.testing.assert_allclose(
+            log_encoding_VLog(0.0), 0.125, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(
-            log_encoding_VLog(0.18, 12), 0.423311448760136, places=7
+        np.testing.assert_allclose(
+            log_encoding_VLog(0.18),
+            0.423311448760136,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_VLog(0.18, 10, False), 0.421287228403675, places=7
+        np.testing.assert_allclose(
+            log_encoding_VLog(0.18, 12),
+            0.423311448760136,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
+            log_encoding_VLog(0.18, 10, False),
+            0.421287228403675,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
             log_encoding_VLog(0.18, 10, False, False),
             0.409009628526078,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_VLog(1.0), 0.599117700158146, places=7
+        np.testing.assert_allclose(
+            log_encoding_VLog(1.0),
+            0.599117700158146,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_encoding_VLog(self):
@@ -72,20 +84,20 @@ log_encoding_VLog` definition n-dimensional arrays support.
 
         L_in = np.tile(L_in, 6)
         V_out = np.tile(V_out, 6)
-        np.testing.assert_array_almost_equal(
-            log_encoding_VLog(L_in), V_out, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_VLog(L_in), V_out, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         L_in = np.reshape(L_in, (2, 3))
         V_out = np.reshape(V_out, (2, 3))
-        np.testing.assert_array_almost_equal(
-            log_encoding_VLog(L_in), V_out, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_VLog(L_in), V_out, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         L_in = np.reshape(L_in, (2, 3, 1))
         V_out = np.reshape(V_out, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            log_encoding_VLog(L_in), V_out, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_VLog(L_in), V_out, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_encoding_VLog(self):
@@ -100,8 +112,10 @@ log_encoding_VLog` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    log_encoding_VLog(L_in * factor), V_out * factor, decimal=7
+                np.testing.assert_allclose(
+                    log_encoding_VLog(L_in * factor),
+                    V_out * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -126,28 +140,38 @@ log_decoding_VLog` definition unit tests methods.
 log_decoding_VLog` definition.
         """
 
-        self.assertAlmostEqual(log_decoding_VLog(0.125), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            log_decoding_VLog(0.423311448760136), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_VLog(0.125), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(
-            log_decoding_VLog(0.423311448760136, 12), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_VLog(0.423311448760136),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_VLog(0.421287228403675, 10, False), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_VLog(0.423311448760136, 12),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
+            log_decoding_VLog(0.421287228403675, 10, False),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
             log_decoding_VLog(0.409009628526078, 10, False, False),
             0.18,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_VLog(0.599117700158146), 1.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_VLog(0.599117700158146),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_decoding_VLog(self):
@@ -161,20 +185,20 @@ log_decoding_VLog` definition n-dimensional arrays support.
 
         V_out = np.tile(V_out, 6)
         L_in = np.tile(L_in, 6)
-        np.testing.assert_array_almost_equal(
-            log_decoding_VLog(V_out), L_in, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_VLog(V_out), L_in, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         V_out = np.reshape(V_out, (2, 3))
         L_in = np.reshape(L_in, (2, 3))
-        np.testing.assert_array_almost_equal(
-            log_decoding_VLog(V_out), L_in, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_VLog(V_out), L_in, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         V_out = np.reshape(V_out, (2, 3, 1))
         L_in = np.reshape(L_in, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            log_decoding_VLog(V_out), L_in, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_VLog(V_out), L_in, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_decoding_VLog(self):
@@ -189,8 +213,10 @@ log_decoding_VLog` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    log_decoding_VLog(V_out * factor), L_in * factor, decimal=7
+                np.testing.assert_allclose(
+                    log_decoding_VLog(V_out * factor),
+                    L_in * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors

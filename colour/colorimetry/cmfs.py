@@ -23,10 +23,10 @@ from colour.colorimetry import (
 )
 from colour.continuous import MultiSignals, Signal
 from colour.hints import (
-    ArrayLike,
-    Any,
-    Sequence,
     TYPE_CHECKING,
+    Any,
+    ArrayLike,
+    Sequence,
 )
 from colour.utilities import is_pandas_installed
 

@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "colour-science"
 packages = [{ include = "colour" }]
-version = "0.4.3"
+version = "0.4.4"
 description = "Colour Science for Python"
 license = "BSD-3-Clause"
 authors = ["Colour Developers <colour-developers@colour-science.org>"]
@@ -28,7 +28,7 @@ keywords = [
     "python",
     "spectral-data",
     "spectral-dataset",
-    "spectral-datasets"
+    "spectral-datasets",
 ]
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -40,11 +40,11 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Topic :: Scientific/Engineering",
-    "Topic :: Software Development"
+    "Topic :: Software Development",
 ]
 
 [tool.poetry.dependencies]
-python = ">= 3.9, < 3.12"
+python = ">= 3.9, < 3.13"
 imageio = ">= 2, < 3"
 numpy = ">= 1.22, < 2"
 scipy = ">= 1.8, < 2"
@@ -59,25 +59,21 @@ tqdm = ">= 4, < 5"
 xxhash = ">= 3.2, < 4"
 
 [tool.poetry.group.graphviz.dependencies]
-pygraphviz = ">= 1, < 2"
+pygraphviz = { version =  ">= 1, < 2", python = "< 3.12" }
 
 [tool.poetry.group.meshing.dependencies]
 trimesh = ">= 3, < 4"
 
 [tool.poetry.group.dev.dependencies]
-black = "*"
-blackdoc = "*"
 coverage = "!= 6.3"
 coveralls = "*"
-flynt = "*"
 invoke = "*"
 jupyter = "*"
-pre-commit = "*"
+pre-commit = ">= 3.5"
 pyright = "*"
 pytest = "*"
 pytest-cov = "*"
 pytest-xdist = "*"
-ruff = "*"
 toml = "*"
 twine = "*"
 
@@ -85,28 +81,36 @@ twine = "*"
 biblib-simple = "*"
 pydata-sphinx-theme = "*"
 restructuredtext-lint = "*"
-sphinx = ">= 4, < 5"
+sphinx = "*"
 sphinxcontrib-bibtex = "*"
 
 [tool.black]
 line-length = 79
-exclude = '''
-/(
-    \.git
-  | build
-  | dist
-)/
-'''
+exclude = '''/(\.git|build|dist)/'''
+
+[tool.codespell]
+ignore-words-list = 'co-ordinates,exitance,hart,ist'
+skip = 'BIBLIOGRAPHY.bib,CONTRIBUTORS.rst'
 
 [tool.flynt]
 line_length = 999
+
+[tool.isort]
+ensure_newline_before_comments = true
+force_grid_wrap = 0
+include_trailing_comma = true
+line_length = 88
+multi_line_output = 3
+skip_glob = ["colour/**/__init__.py"]
+split_on_trailing_comma = true
+use_parentheses = true
 
 [tool.pyright]
 reportMissingImports = false
 reportMissingModuleSource = false
 reportUnboundVariable = false
 reportUnnecessaryCast = true
-reportUnnecessaryTypeIgnoreComment = true
+reportUnnecessaryTypeIgnorComment = true
 reportUnsupportedDunderAll = false
 reportUnusedExpression = false
 
@@ -134,7 +138,7 @@ filterwarnings = [
 target-version = "py39"
 line-length = 88
 select = [
-    "A", # flake8-builtins
+    "A",   # flake8-builtins
     "ARG", # flake8-unused-arguments
     # "ANN", # flake8-annotations
     "B", # flake8-bugbear
@@ -143,38 +147,37 @@ select = [
     # "C90", # mccabe
     # "COM", # flake8-commas
     "DTZ", # flake8-datetimez
-    "D", # pydocstyle
-    "E", # pydocstyle
+    "D",   # pydocstyle
+    "E",   # pydocstyle
     # "ERA", # eradicate
     # "EM", # flake8-errmsg
     "EXE", # flake8-executable
-    "F", # flake8
+    "F",   # flake8
     # "FBT", # flake8-boolean-trap
-    "G", # flake8-logging-format
-    "I", # isort
+    "G",   # flake8-logging-format
+    "I",   # isort
     "ICN", # flake8-import-conventions
     "INP", # flake8-no-pep420
     "ISC", # flake8-implicit-str-concat
-    "N", # pep8-naming
+    "N",   # pep8-naming
     # "PD", # pandas-vet
     "PIE", # flake8-pie
     "PGH", # pygrep-hooks
-    "PL", # pylint
+    "PL",  # pylint
     # "PT", # flake8-pytest-style
-    # "PTH", # flake8-use-pathlib [Enable]
-    "Q", # flake8-quotes
+    # "PTH", # flake8-use-pathlib [Enable]    "Q",   # flake8-quotes
     "RET", # flake8-return
     "RUF", # Ruff
-    "S", # flake8-bandit
+    "S",   # flake8-bandit
     "SIM", # flake8-simplify
     "T10", # flake8-debugger
     "T20", # flake8-print
     # "TCH", # flake8-type-checking
     "TID", # flake8-tidy-imports
     "TRY", # tryceratops
-    "UP", # pyupgrade
-    "W", # pydocstyle
-    "YTT" # flake8-2020
+    "UP",  # pyupgrade
+    "W",   # pydocstyle
+    "YTT", # flake8-2020
 ]
 ignore = [
     "B008",
@@ -218,7 +221,6 @@ convention = "numpy"
 [tool.ruff.per-file-ignores]
 "colour/examples/*" = ["INP", "T201", "T203"]
 "docs/*" = ["INP"]
-"setup.py" = ["INP"]
 "tasks.py" = ["INP"]
 "utilities/*" = ["EXE001", "INP"]
 "utilities/unicode_to_ascii.py" = ["RUF001"]

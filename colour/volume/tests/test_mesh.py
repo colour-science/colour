@@ -1,12 +1,14 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.volume.mesh` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
-from colour.volume import is_within_mesh_volume
+import numpy as np
+
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import ignore_numpy_errors
+from colour.volume import is_within_mesh_volume
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -77,14 +79,18 @@ class TestIsWithinMeshVolume(unittest.TestCase):
 
         a = np.tile(a, (6, 1))
         b = np.tile(b, 6)
-        np.testing.assert_array_almost_equal(
-            is_within_mesh_volume(a, self._mesh), b
+        np.testing.assert_allclose(
+            is_within_mesh_volume(a, self._mesh),
+            b,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = np.reshape(a, (2, 3, 3))
         b = np.reshape(b, (2, 3))
-        np.testing.assert_array_almost_equal(
-            is_within_mesh_volume(a, self._mesh), b
+        np.testing.assert_allclose(
+            is_within_mesh_volume(a, self._mesh),
+            b,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors

@@ -3,12 +3,14 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
 dji_d_log` module.
 """
 
-import numpy as np
 import unittest
 
+import numpy as np
+
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models.rgb.transfer_functions import (
-    log_encoding_DJIDLog,
     log_decoding_DJIDLog,
+    log_encoding_DJIDLog,
 )
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
@@ -37,13 +39,19 @@ log_encoding_DJIDLog` definition unit tests methods.
 log_encoding_DJIDLog` definition.
         """
 
-        self.assertAlmostEqual(log_encoding_DJIDLog(0.0), 0.0929, places=7)
-
-        self.assertAlmostEqual(
-            log_encoding_DJIDLog(0.18), 0.398764556189331, places=7
+        np.testing.assert_allclose(
+            log_encoding_DJIDLog(0.0), 0.0929, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(log_encoding_DJIDLog(1.0), 0.584555, places=7)
+        np.testing.assert_allclose(
+            log_encoding_DJIDLog(0.18),
+            0.398764556189331,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            log_encoding_DJIDLog(1.0), 0.584555, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_n_dimensional_log_encoding_DLog(self):
         """
@@ -56,20 +64,20 @@ log_encoding_DJIDLog` definition n-dimensional arrays support.
 
         x = np.tile(x, 6)
         y = np.tile(y, 6)
-        np.testing.assert_array_almost_equal(
-            log_encoding_DJIDLog(x), y, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_DJIDLog(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         x = np.reshape(x, (2, 3))
         y = np.reshape(y, (2, 3))
-        np.testing.assert_array_almost_equal(
-            log_encoding_DJIDLog(x), y, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_DJIDLog(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         x = np.reshape(x, (2, 3, 1))
         y = np.reshape(y, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            log_encoding_DJIDLog(x), y, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_DJIDLog(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_encoding_DLog(self):
@@ -84,8 +92,10 @@ log_encoding_DJIDLog` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    log_encoding_DJIDLog(x * factor), y * factor, decimal=7
+                np.testing.assert_allclose(
+                    log_encoding_DJIDLog(x * factor),
+                    y * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -112,13 +122,17 @@ log_decoding_DJIDLog` definition unit tests methods.
 log_decoding_DJIDLog` definition.
         """
 
-        self.assertAlmostEqual(log_decoding_DJIDLog(0.0929), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            log_decoding_DJIDLog(0.398764556189331), 0.18, places=6
+        np.testing.assert_allclose(
+            log_decoding_DJIDLog(0.0929), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(log_decoding_DJIDLog(0.584555), 1.0, places=6)
+        np.testing.assert_allclose(
+            log_decoding_DJIDLog(0.398764556189331), 0.18, atol=1e-6
+        )
+
+        np.testing.assert_allclose(
+            log_decoding_DJIDLog(0.584555), 1.0, atol=1e-6
+        )
 
     def test_n_dimensional_log_decoding_DLog(self):
         """
@@ -131,20 +145,20 @@ log_decoding_DJIDLog` definition n-dimensional arrays support.
 
         y = np.tile(y, 6)
         x = np.tile(x, 6)
-        np.testing.assert_array_almost_equal(
-            log_decoding_DJIDLog(y), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_DJIDLog(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         y = np.reshape(y, (2, 3))
         x = np.reshape(x, (2, 3))
-        np.testing.assert_array_almost_equal(
-            log_decoding_DJIDLog(y), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_DJIDLog(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         y = np.reshape(y, (2, 3, 1))
         x = np.reshape(x, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            log_decoding_DJIDLog(y), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_DJIDLog(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_decoding_DLog(self):
@@ -159,8 +173,10 @@ log_decoding_DJIDLog` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    log_decoding_DJIDLog(y * factor), x * factor, decimal=7
+                np.testing.assert_allclose(
+                    log_decoding_DJIDLog(y * factor),
+                    x * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors

@@ -12,7 +12,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import linear_conversion
-from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.hints import Any, ArrayLike, Literal, NDArrayFloat, cast
 from colour.utilities import (
     as_float_array,
@@ -135,7 +135,7 @@ def close_chord(vertices: ArrayLike) -> NDArrayFloat:
 
 def unique_vertices(
     vertices: ArrayLike,
-    decimals: int = np.finfo(cast(Any, DEFAULT_FLOAT_DTYPE)).precision - 1,
+    decimals: int = np.finfo(cast(Any, DTYPE_FLOAT_DEFAULT)).precision - 1,
 ) -> NDArrayFloat:
     """
     Return the unique vertices from given vertices.

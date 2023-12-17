@@ -9,25 +9,27 @@ Defines the class implementing support for continuous signal:
 
 from __future__ import annotations
 
-import numpy as np
+from collections.abc import Iterator, Mapping, Sequence, ValuesView
 from operator import (
     add,
-    mul,
-    pow,
-    sub,
-    truediv,
     iadd,
     imul,
     ipow,
     isub,
     itruediv,
+    mul,
+    pow,
+    sub,
+    truediv,
 )
-from collections.abc import Iterator, Mapping, Sequence, ValuesView
+
+import numpy as np
 
 from colour.algebra import Extrapolator, KernelInterpolator
-from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.continuous import AbstractContinuousFunction
 from colour.hints import (
+    TYPE_CHECKING,
     Any,
     ArrayLike,
     Callable,
@@ -39,7 +41,6 @@ from colour.hints import (
     ProtocolInterpolator,
     Real,
     Self,
-    TYPE_CHECKING,
     Type,
     Union,
     cast,
@@ -250,7 +251,7 @@ class Signal(AbstractContinuousFunction):
     ) -> None:
         super().__init__(kwargs.get("name"))
 
-        self._dtype: Type[DTypeFloat] = DEFAULT_FLOAT_DTYPE
+        self._dtype: Type[DTypeFloat] = DTYPE_FLOAT_DEFAULT
         self._domain: NDArrayFloat = np.array([])
         self._range: NDArrayFloat = np.array([])
         self._interpolator: Type[ProtocolInterpolator] = KernelInterpolator
@@ -390,7 +391,7 @@ class Signal(AbstractContinuousFunction):
 
         # Empty domain occurs during __init__ because range is set before domain
         attest(
-            self._domain.size == 0 or value.size == self._domain.size,
+            self._domain.size in (0, self._domain.size),
             '"domain" and "range" variables must have same size!',
         )
 
@@ -809,7 +810,7 @@ class Signal(AbstractContinuousFunction):
 
         self._function = None  # Invalidate the underlying continuous function.
 
-    def __contains__(self, x: ArrayLike) -> bool:
+    def __contains__(self, x: ArrayLike | slice) -> bool:
         """
         Return whether the continuous signal contains given independent domain
         variable :math:`x`.
@@ -883,15 +884,19 @@ class Signal(AbstractContinuousFunction):
         False
         """
 
+        # NOTE: Comparing "interpolator_kwargs" and "extrapolator_kwargs" using
+        # their string representation because of presence of NaNs.
         if isinstance(other, Signal):
             return all(
                 [
                     np.array_equal(self._domain, other.domain),
                     np.array_equal(self._range, other.range),
                     self._interpolator is other.interpolator,
-                    self._interpolator_kwargs == other.interpolator_kwargs,
+                    repr(self._interpolator_kwargs)
+                    == repr(other.interpolator_kwargs),
                     self._extrapolator is other.extrapolator,
-                    self._extrapolator_kwargs == other.extrapolator_kwargs,
+                    repr(self._extrapolator_kwargs)
+                    == repr(other.extrapolator_kwargs),
                 ]
             )
         else:
@@ -1174,7 +1179,7 @@ class Signal(AbstractContinuousFunction):
         [  10.   20.   30.   40.   50.   60.   70.   80.   90.  100.]
         """
 
-        dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+        dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
         domain_unpacked: NDArrayFloat = np.array([])
         range_unpacked: NDArrayFloat = np.array([])
@@ -1224,7 +1229,7 @@ class Signal(AbstractContinuousFunction):
         self,
         method: Literal["Constant", "Interpolation"] | str = "Interpolation",
         default: Real = 0,
-    ) -> AbstractContinuousFunction:
+    ) -> Signal:
         """
         Fill NaNs in independent domain variable :math:`x` and corresponding
         range variable :math:`y` using given method.

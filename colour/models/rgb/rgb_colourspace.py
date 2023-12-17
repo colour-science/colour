@@ -25,8 +25,9 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 from copy import deepcopy
+
+import numpy as np
 
 from colour.adaptation import matrix_chromatic_adaptation_VonKries
 from colour.algebra import matrix_dot, vector_dot
@@ -34,11 +35,12 @@ from colour.hints import (
     Any,
     ArrayLike,
     Callable,
-    Literal,
+    LiteralChromaticAdaptationTransform,
+    LiteralRGBColourspace,
     NDArrayFloat,
     cast,
 )
-from colour.models import xy_to_XYZ, xy_to_xyY, xyY_to_XYZ
+from colour.models import xy_to_xyY, xy_to_XYZ, xyY_to_XYZ
 from colour.models.rgb import (
     chromatically_adapted_primaries,
     normalised_primary_matrix,
@@ -49,11 +51,11 @@ from colour.utilities import (
     domain_range_scale,
     filter_kwargs,
     from_range_1,
-    multiline_str,
+    is_string,
     multiline_repr,
+    multiline_str,
     optional,
     to_domain_1,
-    is_string,
     usage_warning,
     validate_method,
 )
@@ -843,20 +845,7 @@ class RGB_Colourspace:
         self,
         whitepoint: ArrayLike,
         whitepoint_name: str | None = None,
-        chromatic_adaptation_transform: Literal[
-            "Bianco 2010",
-            "Bianco PC 2010",
-            "Bradford",
-            "CAT02 Brill 2008",
-            "CAT02",
-            "CAT16",
-            "CMCCAT2000",
-            "CMCCAT97",
-            "Fairchild",
-            "Sharp",
-            "Von Kries",
-            "XYZ Scaling",
-        ]
+        chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
         | str = "CAT02",
     ) -> RGB_Colourspace:
         """
@@ -949,22 +938,9 @@ class RGB_Colourspace:
 
 def XYZ_to_RGB(
     XYZ: ArrayLike,
-    colourspace: RGB_Colourspace | str,
+    colourspace: RGB_Colourspace | LiteralRGBColourspace | str,
     illuminant: ArrayLike | None = None,
-    chromatic_adaptation_transform: Literal[
-        "Bianco 2010",
-        "Bianco PC 2010",
-        "Bradford",
-        "CAT02 Brill 2008",
-        "CAT02",
-        "CAT16",
-        "CMCCAT2000",
-        "CMCCAT97",
-        "Fairchild",
-        "Sharp",
-        "Von Kries",
-        "XYZ Scaling",
-    ]
+    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
     | str
     | None = "CAT02",
     apply_cctf_encoding: bool = False,
@@ -1097,22 +1073,9 @@ def XYZ_to_RGB(
 
 def RGB_to_XYZ(
     RGB: ArrayLike,
-    colourspace: RGB_Colourspace | str,
+    colourspace: RGB_Colourspace | LiteralRGBColourspace | str,
     illuminant: ArrayLike | None = None,
-    chromatic_adaptation_transform: Literal[
-        "Bianco 2010",
-        "Bianco PC 2010",
-        "Bradford",
-        "CAT02 Brill 2008",
-        "CAT02",
-        "CAT16",
-        "CMCCAT2000",
-        "CMCCAT97",
-        "Fairchild",
-        "Sharp",
-        "Von Kries",
-        "XYZ Scaling",
-    ]
+    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
     | str
     | None = "CAT02",
     apply_cctf_decoding: bool = False,
@@ -1244,22 +1207,9 @@ def RGB_to_XYZ(
 
 
 def matrix_RGB_to_RGB(
-    input_colourspace: RGB_Colourspace | str,
-    output_colourspace: RGB_Colourspace | str,
-    chromatic_adaptation_transform: Literal[
-        "Bianco 2010",
-        "Bianco PC 2010",
-        "Bradford",
-        "CAT02 Brill 2008",
-        "CAT02",
-        "CAT16",
-        "CMCCAT2000",
-        "CMCCAT97",
-        "Fairchild",
-        "Sharp",
-        "Von Kries",
-        "XYZ Scaling",
-    ]
+    input_colourspace: RGB_Colourspace | LiteralRGBColourspace | str,
+    output_colourspace: RGB_Colourspace | LiteralRGBColourspace | str,
+    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
     | str
     | None = "CAT02",
 ) -> NDArrayFloat:
@@ -1341,22 +1291,9 @@ def matrix_RGB_to_RGB(
 
 def RGB_to_RGB(
     RGB: ArrayLike,
-    input_colourspace: RGB_Colourspace | str,
-    output_colourspace: RGB_Colourspace | str,
-    chromatic_adaptation_transform: Literal[
-        "Bianco 2010",
-        "Bianco PC 2010",
-        "Bradford",
-        "CAT02 Brill 2008",
-        "CAT02",
-        "CAT16",
-        "CMCCAT2000",
-        "CMCCAT97",
-        "Fairchild",
-        "Sharp",
-        "Von Kries",
-        "XYZ Scaling",
-    ]
+    input_colourspace: RGB_Colourspace | LiteralRGBColourspace | str,
+    output_colourspace: RGB_Colourspace | LiteralRGBColourspace | str,
+    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
     | str
     | None = "CAT02",
     apply_cctf_decoding: bool = False,

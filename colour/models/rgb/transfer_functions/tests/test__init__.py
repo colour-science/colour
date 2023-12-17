@@ -3,22 +3,24 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.common` module.
 """
 
-import numpy as np
 import unittest
 
+import numpy as np
+
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models.rgb.transfer_functions import (
     CCTF_DECODINGS,
     CCTF_ENCODINGS,
-    EOTFS,
     EOTF_INVERSES,
+    EOTFS,
     LOG_DECODINGS,
     LOG_ENCODINGS,
-    OETFS,
     OETF_INVERSES,
-    OOTFS,
+    OETFS,
     OOTF_INVERSES,
-    cctf_encoding,
+    OOTFS,
     cctf_decoding,
+    cctf_encoding,
 )
 from colour.utilities import ColourUsageWarning
 
@@ -100,7 +102,7 @@ class TestTransferFunctions(unittest.TestCase):
             "Filmic Pro 6",
         )
 
-        decimals = {"D-Log": 1, "F-Log": 4, "L-Log": 4, "N-Log": 3}
+        tolerance = {"D-Log": 0.1, "F-Log": 5e-4, "L-Log": 5e-4, "N-Log": 5e-3}
 
         reciprocal_mappings = [
             (LOG_ENCODINGS, LOG_DECODINGS),
@@ -130,8 +132,10 @@ class TestTransferFunctions(unittest.TestCase):
                 samples_e = CCTF_ENCODINGS[name](samples_r)
                 samples_d = CCTF_DECODINGS[name](samples_e)
 
-                np.testing.assert_array_almost_equal(
-                    samples_r, samples_d, decimal=decimals.get(name, 7)
+                np.testing.assert_allclose(
+                    samples_r,
+                    samples_d,
+                    atol=tolerance.get(name, TOLERANCE_ABSOLUTE_TESTS),
                 )
 
 

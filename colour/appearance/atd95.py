@@ -26,8 +26,9 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 from dataclasses import dataclass, field
+
+import numpy as np
 
 from colour.algebra import spow, vector_dot
 from colour.hints import ArrayLike, NDArrayFloat

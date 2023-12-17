@@ -3,10 +3,12 @@
 
 from __future__ import annotations
 
-import numpy as np
 import os
 import unittest
 
+import numpy as np
+
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.io import process_image_OpenColorIO
 from colour.utilities import full, is_opencolorio_installed
 
@@ -47,7 +49,7 @@ class TestProcessImageOpenColorIO(unittest.TestCase):
 
         a = full([4, 2, 3], 0.18)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             process_image_OpenColorIO(
                 a, "ACES - ACES2065-1", "ACES - ACEScct", config=config
             ),
@@ -71,10 +73,10 @@ class TestProcessImageOpenColorIO(unittest.TestCase):
                     ],
                 ]
             ),
-            decimal=5,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             process_image_OpenColorIO(
                 a,
                 "ACES - ACES2065-1",
@@ -103,7 +105,7 @@ class TestProcessImageOpenColorIO(unittest.TestCase):
                     ],
                 ]
             ),
-            decimal=5,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 

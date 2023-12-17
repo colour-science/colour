@@ -1,7 +1,7 @@
 name: Feature Request
 description: Suggest a new feature to implement.
 title: "[FEATURE]: << Please use a comprehensive title... >>"
-labels: [ Feature ]
+labels: [Feature]
 
 body:
   - type: markdown

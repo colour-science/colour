@@ -3,11 +3,12 @@
 
 from __future__ import annotations
 
-import numpy as np
 import platform
-import unittest
 import unicodedata
+import unittest
 from functools import partial
+
+import numpy as np
 
 from colour.hints import Any, Real, Tuple
 from colour.utilities import (
@@ -15,19 +16,22 @@ from colour.utilities import (
     CanonicalMapping,
     attest,
     batch,
-    multiprocessing_pool,
-    is_iterable,
-    is_string,
-    is_numeric,
-    is_integer,
-    is_sibling,
+    caching_enable,
     filter_kwargs,
     filter_mapping,
     first_item,
-    validate_method,
-    optional,
-    slugify,
     int_digest,
+    is_caching_enabled,
+    is_integer,
+    is_iterable,
+    is_numeric,
+    is_sibling,
+    is_string,
+    multiprocessing_pool,
+    optional,
+    set_caching_enable,
+    slugify,
+    validate_method,
 )
 
 __author__ = "Colour Developers"
@@ -38,6 +42,9 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "TestIsCachingEnabled",
+    "TestSetCachingEnabled",
+    "TestCachingEnable",
     "TestCacheRegistry",
     "TestAttest",
     "TestBatch",
@@ -54,6 +61,72 @@ __all__ = [
     "TestOptional",
     "TestSlugify",
 ]
+
+
+class TestIsCachingEnabled(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.common.is_caching_enabled` definition unit
+    tests methods.
+    """
+
+    def test_is_caching_enabled(self):
+        """Test :func:`colour.utilities.common.is_caching_enabled` definition."""
+
+        with caching_enable(True):
+            self.assertTrue(is_caching_enabled())
+
+        with caching_enable(False):
+            self.assertFalse(is_caching_enabled())
+
+
+class TestSetCachingEnabled(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.common.set_caching_enable` definition unit
+    tests methods.
+    """
+
+    def test_set_caching_enable(self):
+        """Test :func:`colour.utilities.common.set_caching_enable` definition."""
+
+        with caching_enable(is_caching_enabled()):
+            set_caching_enable(True)
+            self.assertTrue(is_caching_enabled())
+
+        with caching_enable(is_caching_enabled()):
+            set_caching_enable(False)
+            self.assertFalse(is_caching_enabled())
+
+
+class TestCachingEnable(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.common.caching_enable` definition unit
+    tests methods.
+    """
+
+    def test_caching_enable(self):
+        """Test :func:`colour.utilities.common.caching_enable` definition."""
+
+        with caching_enable(True):
+            self.assertTrue(is_caching_enabled())
+
+        with caching_enable(False):
+            self.assertFalse(is_caching_enabled())
+
+        @caching_enable(True)
+        def fn_a():
+            """:func:`caching_enable` unit tests :func:`fn_a` definition."""
+
+            self.assertTrue(is_caching_enabled())
+
+        fn_a()
+
+        @caching_enable(False)
+        def fn_b():
+            """:func:`caching_enable` unit tests :func:`fn_b` definition."""
+
+            self.assertFalse(is_caching_enabled())
+
+        fn_b()
 
 
 class TestCacheRegistry(unittest.TestCase):

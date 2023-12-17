@@ -15,11 +15,10 @@ from __future__ import annotations
 
 import os
 
-from colour.hints import Any, Literal
+from colour.hints import Any, LiteralLUTReadMethod, LiteralLUTWriteMethod
 from colour.utilities import (
     CanonicalMapping,
     filter_kwargs,
-    optional,
     validate_method,
 )
 
@@ -103,16 +102,7 @@ References
 
 def read_LUT(
     path: str,
-    method: Literal[
-        "Cinespace",
-        "Iridas Cube",
-        "Resolve Cube",
-        "Sony SPI1D",
-        "Sony SPI3D",
-        "Sony SPImtx",
-    ]
-    | str
-    | None = None,
+    method: LiteralLUTReadMethod | str | None = None,
     **kwargs: Any,
 ) -> LUT1D | LUT3x1D | LUT3D | LUTSequence | LUTOperatorMatrix:
     """
@@ -217,11 +207,11 @@ or :class:`colour.LUTSequence` or :class:`colour.LUTOperatorMatrix`
     Offset     : [ 0.  0.  0.  0.]
     """
 
-    method = optional(
-        method, MAPPING_EXTENSION_TO_LUT_FORMAT[os.path.splitext(path)[-1]]
+    method = (
+        MAPPING_EXTENSION_TO_LUT_FORMAT[os.path.splitext(path)[-1]].lower()
+        if method is None
+        else validate_method(method, tuple(LUT_WRITE_METHODS))
     )
-
-    method = validate_method(method, tuple(LUT_READ_METHODS))
 
     function = LUT_READ_METHODS[method]
 
@@ -260,16 +250,7 @@ def write_LUT(
     LUT: LUT1D | LUT3x1D | LUT3D | LUTSequence | LUTOperatorMatrix,
     path: str,
     decimals: int = 7,
-    method: Literal[
-        "Cinespace",
-        "Iridas Cube",
-        "Resolve Cube",
-        "Sony SPI1D",
-        "Sony SPI3D",
-        "Sony SPImtx",
-    ]
-    | str
-    | None = None,
+    method: LiteralLUTWriteMethod | str | None = None,
     **kwargs: Any,
 ) -> bool:
     """
@@ -337,11 +318,11 @@ def write_LUT(
     >>> write_LUT(LUT, "My_LUT.cube")  # doctest: +SKIP
     """
 
-    method = optional(
-        method, MAPPING_EXTENSION_TO_LUT_FORMAT[os.path.splitext(path)[-1]]
+    method = (
+        MAPPING_EXTENSION_TO_LUT_FORMAT[os.path.splitext(path)[-1]].lower()
+        if method is None
+        else validate_method(method, tuple(LUT_WRITE_METHODS))
     )
-
-    method = validate_method(method, tuple(LUT_WRITE_METHODS))
 
     if method == "iridas cube" and isinstance(LUT, LUTSequence):
         method = "resolve cube"

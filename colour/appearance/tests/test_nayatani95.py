@@ -1,11 +1,13 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.appearance.nayatani95` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.appearance import XYZ_to_Nayatani95
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import (
     as_float_array,
     domain_range_scale,
@@ -50,8 +52,7 @@ class TestXYZ_to_Nayatani95(unittest.TestCase):
         np.testing.assert_allclose(
             XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
             np.array([50, 0.01, 257.5, 0.01, 62.6, 0.02, np.nan, np.nan, 50]),
-            rtol=0.01,
-            atol=0.01,
+            atol=0.05,
         )
 
         XYZ = np.array([57.06, 43.06, 31.96])
@@ -59,8 +60,7 @@ class TestXYZ_to_Nayatani95(unittest.TestCase):
         np.testing.assert_allclose(
             XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
             np.array([73, 48.3, 21.6, 37.1, 67.3, 42.9, np.nan, np.nan, 75.9]),
-            rtol=0.01,
-            atol=0.01,
+            atol=0.05,
         )
 
         XYZ = np.array([3.53, 6.56, 2.14])
@@ -71,8 +71,7 @@ class TestXYZ_to_Nayatani95(unittest.TestCase):
             np.array(
                 [24.5, 49.3, 190.6, 81.3, 37.5, 62.1, np.nan, np.nan, 29.7]
             ),
-            rtol=0.01,
-            atol=0.01,
+            atol=0.05,
         )
 
         XYZ = np.array([19.01, 20.00, 21.78])
@@ -82,8 +81,7 @@ class TestXYZ_to_Nayatani95(unittest.TestCase):
             np.array(
                 [49.4, 39.9, 236.3, 40.2, 44.2, 35.8, np.nan, np.nan, 49.4]
             ),
-            rtol=0.01,
-            atol=0.01,
+            atol=0.05,
         )
 
     def test_n_dimensional_XYZ_to_Nayatani95(self):
@@ -101,26 +99,26 @@ class TestXYZ_to_Nayatani95(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         specification = np.tile(specification, (6, 1))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
             specification,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ_n = np.tile(XYZ_n, (6, 1))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
             specification,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         XYZ_n = np.reshape(XYZ_n, (2, 3, 3))
         specification = np.reshape(specification, (2, 3, 9))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
             specification,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_domain_range_scale_XYZ_to_Nayatani95(self):
@@ -147,12 +145,12 @@ class TestXYZ_to_Nayatani95(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     XYZ_to_Nayatani95(
                         XYZ * factor_a, XYZ_n * factor_a, Y_o, E_o, E_or
                     ),
                     as_float_array(specification) * factor_b,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors

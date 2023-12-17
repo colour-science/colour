@@ -6,8 +6,8 @@ import unittest
 from colour.models.tests.test_cam02_ucs import (
     TestJMh_CIECAM02_to_UCS_Luo2006,
     TestUCS_Luo2006_to_JMh_CIECAM02,
-    TestXYZ_to_UCS_Luo2006,
     TestUCS_Luo2006_to_XYZ,
+    TestXYZ_to_UCS_Luo2006,
 )
 
 __author__ = "Colour Developers"

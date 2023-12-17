@@ -3,9 +3,11 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.linear` module.
 """
 
-import numpy as np
 import unittest
 
+import numpy as np
+
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models.rgb.transfer_functions import linear_function
 from colour.utilities import ignore_numpy_errors
 
@@ -50,20 +52,20 @@ linear_function` definition n-dimensional arrays support.
 
         a = np.tile(a, 6)
         a_p = np.tile(a_p, 6)
-        np.testing.assert_array_almost_equal(
-            linear_function(a), a_p, decimal=7
+        np.testing.assert_allclose(
+            linear_function(a), a_p, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         a = np.reshape(a, (2, 3))
         a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_array_almost_equal(
-            linear_function(a), a_p, decimal=7
+        np.testing.assert_allclose(
+            linear_function(a), a_p, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         a = np.reshape(a, (2, 3, 1))
         a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            linear_function(a), a_p, decimal=7
+        np.testing.assert_allclose(
+            linear_function(a), a_p, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     @ignore_numpy_errors

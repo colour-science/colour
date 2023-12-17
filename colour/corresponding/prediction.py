@@ -38,8 +38,9 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 from collections import namedtuple
+
+import numpy as np
 
 from colour.adaptation import (
     chromatic_adaptation_CIE1994,
@@ -49,10 +50,16 @@ from colour.adaptation import (
     chromatic_adaptation_Zhai2018,
 )
 from colour.corresponding import (
-    BRENEMAN_EXPERIMENTS,
     BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES,
+    BRENEMAN_EXPERIMENTS,
 )
-from colour.hints import Any, ArrayLike, Literal, Tuple
+from colour.hints import (
+    Any,
+    ArrayLike,
+    Literal,
+    LiteralChromaticAdaptationTransform,
+    Tuple,
+)
 from colour.models import (
     Luv_to_uv,
     Luv_uv_to_xy,
@@ -63,8 +70,8 @@ from colour.models import (
 )
 from colour.utilities import (
     CanonicalMapping,
-    attest,
     as_float_scalar,
+    attest,
     domain_range_scale,
     filter_kwargs,
     full,
@@ -513,21 +520,7 @@ def corresponding_chromaticities_prediction_CMCCAT2000(
 def corresponding_chromaticities_prediction_VonKries(
     experiment: Literal[1, 2, 3, 4, 6, 8, 9, 11, 12]
     | CorrespondingColourDataset = 1,
-    transform: Literal[
-        "Bianco 2010",
-        "Bianco PC 2010",
-        "Bradford",
-        "CAT02 Brill 2008",
-        "CAT02",
-        "CAT16",
-        "CMCCAT2000",
-        "CMCCAT97",
-        "Fairchild",
-        "Sharp",
-        "Von Kries",
-        "XYZ Scaling",
-    ]
-    | str = "CAT02",
+    transform: LiteralChromaticAdaptationTransform | str = "CAT02",
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
     Return the corresponding chromaticities prediction for *Von Kries*

@@ -1,11 +1,12 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.difference` module."""
 
-import numpy as np
 import unittest
 
-from colour.difference import delta_E
+import numpy as np
 
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
+from colour.difference import delta_E
 from colour.utilities import domain_range_scale
 
 __author__ = "Colour Developers"
@@ -39,10 +40,10 @@ class TestDelta_E(unittest.TestCase):
         for method, value in zip(m, v):
             for scale, factor in d_r:
                 with domain_range_scale(scale):
-                    np.testing.assert_array_almost_equal(
+                    np.testing.assert_allclose(
                         delta_E(Lab_1 * factor, Lab_2 * factor, method),
                         value,
-                        decimal=7,
+                        atol=TOLERANCE_ABSOLUTE_TESTS,
                     )
 
 

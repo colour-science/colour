@@ -12,10 +12,12 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 
 from __future__ import annotations
 
-import numpy as np
 import unittest
 
+import numpy as np
+
 from colour.algebra import random_triplet_generator
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.hints import NDArrayFloat
 
 __author__ = "Colour Developers"
@@ -66,10 +68,10 @@ class TestRandomTripletGenerator(unittest.TestCase):
         """
 
         prng = np.random.RandomState(4)
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             RANDOM_TRIPLETS,
             random_triplet_generator(10, random_state=prng),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 

@@ -10,10 +10,10 @@ from __future__ import annotations
 from colour.constants import EPSILON
 from colour.hints import ArrayLike, NDArrayFloat
 from colour.models import (
+    CCS_ILLUMINANT_POINTER_GAMUT,
+    DATA_POINTER_GAMUT_VOLUME,
     Lab_to_XYZ,
     LCHab_to_Lab,
-    DATA_POINTER_GAMUT_VOLUME,
-    CCS_ILLUMINANT_POINTER_GAMUT,
 )
 from colour.volume import is_within_mesh_volume
 
@@ -46,7 +46,7 @@ def is_within_pointer_gamut(
     Returns
     -------
     :class:`numpy.ndarray`
-        Wether given *CIE XYZ* tristimulus values are within Pointer's Gamut
+        Whether given *CIE XYZ* tristimulus values are within Pointer's Gamut
         volume.
 
     Notes

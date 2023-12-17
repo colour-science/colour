@@ -3,12 +3,14 @@
 
 from __future__ import annotations
 
-import numpy as np
 import os
 import shutil
 import tempfile
 import unittest
 
+import numpy as np
+
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.io import (
     LUT3D,
     LUTSequence,
@@ -48,7 +50,7 @@ class TestReadLUTSonySPI3D(unittest.TestCase):
             os.path.join(ROOT_LUTS, "Colour_Correct.spi3d")
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT_1.table,
             np.array(
                 [
@@ -158,6 +160,7 @@ class TestReadLUTSonySPI3D(unittest.TestCase):
                     ],
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
         self.assertEqual(LUT_1.name, "Colour Correct")
         self.assertEqual(LUT_1.dimensions, 3)

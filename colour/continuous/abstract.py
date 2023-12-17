@@ -10,9 +10,10 @@ function:
 
 from __future__ import annotations
 
-import numpy as np
 from abc import ABC, abstractmethod
 from copy import deepcopy
+
+import numpy as np
 
 from colour.hints import (
     Any,
@@ -33,8 +34,8 @@ from colour.utilities import (
     as_float,
     attest,
     closest,
-    is_uniform,
     is_string,
+    is_uniform,
     optional,
 )
 

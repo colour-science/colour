@@ -3,21 +3,21 @@
 
 from __future__ import annotations
 
-import numpy as np
 import os
 import textwrap
 import unittest
+
+import numpy as np
 
 from colour.algebra import (
     CubicSplineInterpolator,
     LinearInterpolator,
     random_triplet_generator,
     spow,
-    table_interpolation_trilinear,
     table_interpolation_tetrahedral,
+    table_interpolation_trilinear,
 )
-from colour.io.luts.lut import AbstractLUT
-from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUT_to_LUT
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.hints import (
     Any,
     Callable,
@@ -25,6 +25,8 @@ from colour.hints import (
     ProtocolInterpolator,
     Type,
 )
+from colour.io.luts import LUT1D, LUT3D, LUT3x1D, LUT_to_LUT
+from colour.io.luts.lut import AbstractLUT
 from colour.utilities import as_float_array, tsplit, tstack
 
 __author__ = "Colour Developers"
@@ -181,8 +183,8 @@ class AbstractLUTTest(unittest.TestCase):
 
         LUT = self._LUT_factory(self._table_1)
 
-        np.testing.assert_array_almost_equal(
-            LUT.table, self._table_1, decimal=7
+        np.testing.assert_allclose(
+            LUT.table, self._table_1, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         self.assertEqual(str(id(LUT)), LUT.name)
@@ -212,7 +214,9 @@ class AbstractLUTTest(unittest.TestCase):
 
         table_1 = self._table_1 * 0.8 + 0.1
         LUT.table = table_1
-        np.testing.assert_array_almost_equal(LUT.table, table_1, decimal=7)
+        np.testing.assert_allclose(
+            LUT.table, table_1, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_name(self):
         """
@@ -399,98 +403,108 @@ class AbstractLUTTest(unittest.TestCase):
         LUT_1 = self._LUT_factory()
         LUT_2 = self._LUT_factory()
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT_1.arithmetical_operation(10, "+", False).table,
             self._table_1 + 10,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT_1.arithmetical_operation(10, "-", False).table,
             self._table_1 - 10,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT_1.arithmetical_operation(10, "*", False).table,
             self._table_1 * 10,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT_1.arithmetical_operation(10, "/", False).table,
             self._table_1 / 10,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT_1.arithmetical_operation(10, "**", False).table,
             self._table_1**10,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
-            (LUT_1 + 10).table, self._table_1 + 10, decimal=7
+        np.testing.assert_allclose(
+            (LUT_1 + 10).table,
+            self._table_1 + 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
-            (LUT_1 - 10).table, self._table_1 - 10, decimal=7
+        np.testing.assert_allclose(
+            (LUT_1 - 10).table,
+            self._table_1 - 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
-            (LUT_1 * 10).table, self._table_1 * 10, decimal=7
+        np.testing.assert_allclose(
+            (LUT_1 * 10).table,
+            self._table_1 * 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
-            (LUT_1 / 10).table, self._table_1 / 10, decimal=7
+        np.testing.assert_allclose(
+            (LUT_1 / 10).table,
+            self._table_1 / 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
-            (LUT_1**10).table, self._table_1**10, decimal=7
+        np.testing.assert_allclose(
+            (LUT_1**10).table,
+            self._table_1**10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT_2.arithmetical_operation(10, "+", True).table,
             self._table_1 + 10,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT_2.arithmetical_operation(10, "-", True).table,
             self._table_1,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT_2.arithmetical_operation(10, "*", True).table,
             self._table_1 * 10,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT_2.arithmetical_operation(10, "/", True).table,
             self._table_1,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT_2.arithmetical_operation(10, "**", True).table,
             self._table_1**10,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         LUT_2 = self._LUT_factory()
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT_2.arithmetical_operation(self._table_1, "+", False).table,
             LUT_2.table + self._table_1,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT_2.arithmetical_operation(LUT_2, "+", False).table,
             LUT_2.table + LUT_2.table,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_linear_table(self):
@@ -505,16 +519,18 @@ class AbstractLUTTest(unittest.TestCase):
 
         LUT_1 = self._LUT_factory()
 
-        np.testing.assert_array_almost_equal(
-            LUT_1.linear_table(self._size), self._table_1, decimal=7
+        np.testing.assert_allclose(
+            LUT_1.linear_table(self._size),
+            self._table_1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             spow(
                 self._LUT_factory.linear_table(**self._table_3_kwargs), 1 / 2.6
             ),
             self._table_3,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_copy(self):
@@ -546,16 +562,20 @@ class AbstractLUTTest(unittest.TestCase):
             interpolator=self._interpolator_1, **self._invert_kwargs_1
         )
 
-        np.testing.assert_array_almost_equal(
-            LUT_i.apply(RANDOM_TRIPLETS), self._inverted_apply_1, decimal=7
+        np.testing.assert_allclose(
+            LUT_i.apply(RANDOM_TRIPLETS),
+            self._inverted_apply_1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         LUT_i = self._LUT_factory(self._table_2).invert(
             interpolator=self._interpolator_2, **self._invert_kwargs_2
         )
 
-        np.testing.assert_array_almost_equal(
-            LUT_i.apply(RANDOM_TRIPLETS), self._inverted_apply_2, decimal=7
+        np.testing.assert_allclose(
+            LUT_i.apply(RANDOM_TRIPLETS),
+            self._inverted_apply_2,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         LUT_i = self._LUT_factory(self._table_2, domain=self._domain_4)
@@ -565,8 +585,10 @@ class AbstractLUTTest(unittest.TestCase):
                 interpolator=self._interpolator_2, **self._invert_kwargs_2
             )
 
-            np.testing.assert_array_almost_equal(
-                LUT_i.apply(RANDOM_TRIPLETS), self._inverted_apply_2, decimal=7
+            np.testing.assert_allclose(
+                LUT_i.apply(RANDOM_TRIPLETS),
+                self._inverted_apply_2,
+                atol=TOLERANCE_ABSOLUTE_TESTS,
             )
         except NotImplementedError:
             pass
@@ -583,26 +605,32 @@ class AbstractLUTTest(unittest.TestCase):
 
         LUT_1 = self._LUT_factory(self._table_2)
 
-        np.testing.assert_array_almost_equal(
-            LUT_1.apply(RANDOM_TRIPLETS), self._applied_1, decimal=7
+        np.testing.assert_allclose(
+            LUT_1.apply(RANDOM_TRIPLETS),
+            self._applied_1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         LUT_2 = self._LUT_factory(domain=self._domain_2)
         LUT_2.table = spow(LUT_2.table, 1 / 2.2)
 
-        np.testing.assert_array_almost_equal(
-            LUT_2.apply(RANDOM_TRIPLETS), self._applied_2, decimal=7
+        np.testing.assert_allclose(
+            LUT_2.apply(RANDOM_TRIPLETS),
+            self._applied_2,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         LUT_3 = self._LUT_factory(self._table_3, domain=self._domain_3)
 
-        np.testing.assert_array_almost_equal(
-            LUT_3.apply(RANDOM_TRIPLETS), self._applied_3, decimal=7
+        np.testing.assert_allclose(
+            LUT_3.apply(RANDOM_TRIPLETS),
+            self._applied_3,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         LUT_4 = self._LUT_factory(self._table_2)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT_4.apply(
                 RANDOM_TRIPLETS,
                 direction="Inverse",
@@ -611,7 +639,7 @@ class AbstractLUTTest(unittest.TestCase):
                 **self._invert_kwargs_1,
             ),
             self._applied_4,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -1160,7 +1188,7 @@ class TestLUT_to_LUT(unittest.TestCase):
 
         LUT = LUT_to_LUT(self._LUT_1, LUT3D, force_conversion=True, size=5)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT.table,
             np.array(
                 [
@@ -1351,7 +1379,7 @@ class TestLUT_to_LUT(unittest.TestCase):
                     ],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         # "LUT" 3x1D to "LUT" 1D.
@@ -1394,7 +1422,7 @@ class TestLUT_to_LUT(unittest.TestCase):
 
         LUT = LUT_to_LUT(self._LUT_2, LUT3D, force_conversion=True, size=5)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT.table,
             np.array(
                 [
@@ -1585,7 +1613,7 @@ class TestLUT_to_LUT(unittest.TestCase):
                     ],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         # "LUT" 3D to "LUT" 1D.
@@ -1600,7 +1628,7 @@ class TestLUT_to_LUT(unittest.TestCase):
             channel_weights=channel_weights,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT.table,
             np.array(
                 [
@@ -1622,6 +1650,7 @@ class TestLUT_to_LUT(unittest.TestCase):
                     1.00000000,
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         channel_weights = np.array([1 / 3, 1 / 3, 1 / 3])
@@ -1633,7 +1662,7 @@ class TestLUT_to_LUT(unittest.TestCase):
             channel_weights=channel_weights,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT.table,
             np.array(
                 [
@@ -1655,6 +1684,7 @@ class TestLUT_to_LUT(unittest.TestCase):
                     0.93781796,
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         # "LUT" 3D to "LUT" 3x1D.
@@ -1662,7 +1692,7 @@ class TestLUT_to_LUT(unittest.TestCase):
 
         LUT = LUT_to_LUT(self._LUT_3, LUT3x1D, force_conversion=True, size=16)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT.table,
             np.array(
                 [
@@ -1684,6 +1714,7 @@ class TestLUT_to_LUT(unittest.TestCase):
                     [1.00000000, 1.00000000, 1.00000000],
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         # "LUT" 3D to "LUT" 3D.

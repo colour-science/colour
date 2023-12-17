@@ -7,7 +7,7 @@ Defines the verbose related objects.
 
 from __future__ import annotations
 
-import numpy as np
+import functools
 import os
 import sys
 import traceback
@@ -18,19 +18,21 @@ from itertools import chain
 from textwrap import TextWrapper
 from warnings import filterwarnings, formatwarning, warn
 
-from colour.utilities import is_string, optional
+import numpy as np
+
 from colour.hints import (
     Any,
     Callable,
     Dict,
+    Generator,
     List,
     LiteralWarning,
     Mapping,
-    Generator,
     TextIO,
     Type,
     cast,
 )
+from colour.utilities import is_string, optional
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -50,6 +52,7 @@ __all__ = [
     "usage_warning",
     "filter_warnings",
     "suppress_warnings",
+    "suppress_stdout",
     "numpy_print_options",
     "ANCILLARY_COLOUR_SCIENCE_PACKAGES",
     "ANCILLARY_RUNTIME_PACKAGES",
@@ -448,6 +451,45 @@ def suppress_warnings(
         warnings.showwarning = show_warnings
 
 
+class suppress_stdout:
+    """
+    Define a context manager and decorator temporarily suppressing standard
+    output.
+
+    Examples
+    --------
+    >>> with suppress_stdout():
+    ...     print("Hello World!")
+    ...
+    >>> print("Hello World!")
+    Hello World!
+    """
+
+    def __enter__(self) -> suppress_stdout:
+        """Redirect the standard output upon entering the context manager."""
+
+        self._stdout = sys.stdout
+        sys.stdout = open(os.devnull, "w")  # noqa: SIM115
+
+        return self
+
+    def __exit__(self, *args: Any):
+        """Restore the standard output upon exiting the context manager."""
+
+        sys.stdout.close()
+        sys.stdout = self._stdout
+
+    def __call__(self, function: Callable) -> Callable:
+        """Call the wrapped definition."""
+
+        @functools.wraps(function)
+        def wrapper(*args: Any, **kwargs: Any) -> Callable:
+            with self:
+                return function(*args, **kwargs)
+
+        return wrapper
+
+
 @contextmanager
 def numpy_print_options(*args: Any, **kwargs: Any) -> Generator:
     """
@@ -626,7 +668,6 @@ def describe_environment(
 
     # TODO: Implement support for "pyproject.toml" file whenever "TOML" is
     # supported in the standard library.
-
     # NOTE: A few clauses are not reached and a few packages are not available
     # during continuous integration and are thus ignored for coverage.
     try:  # pragma: no cover
@@ -983,6 +1024,9 @@ def multiline_repr(
         else:
             value = attribute["formatter"](None)
 
+        if value is None:
+            return str(None)
+
         if reduce_array_representation and value.startswith("array("):
             lines = value.splitlines()
             for i, line in enumerate(lines):
@@ -1006,4 +1050,4 @@ def multiline_repr(
 
         representation.append(f"{'':{justify}}{_format(attribute)}")
 
-    return "{})".format(",\n".join(representation))
+    return "{})".format(",\n".join(representation))  # noqa: flynt

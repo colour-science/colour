@@ -5,9 +5,9 @@ from pprint import pprint
 import colour
 from colour.plotting import (
     SD_ASTMG173_ETR,
+    colour_style,
     plot_blackbody_colours,
     plot_blackbody_spectral_radiance,
-    colour_style,
     plot_multi_cmfs,
     plot_multi_illuminant_sds,
     plot_multi_lightness_functions,

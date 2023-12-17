@@ -2,23 +2,25 @@
 """Define the unit tests for the :mod:`colour.plotting.colorimetry` module."""
 
 import unittest
-from matplotlib.pyplot import Axes, Figure
+
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 
 from colour.colorimetry import SpectralDistribution
 from colour.plotting import (
-    plot_single_sd,
+    plot_blackbody_colours,
+    plot_blackbody_spectral_radiance,
+    plot_multi_cmfs,
+    plot_multi_illuminant_sds,
+    plot_multi_lightness_functions,
+    plot_multi_luminance_functions,
     plot_multi_sds,
     plot_single_cmfs,
-    plot_multi_cmfs,
     plot_single_illuminant_sd,
-    plot_multi_illuminant_sds,
-    plot_visible_spectrum,
     plot_single_lightness_function,
-    plot_multi_lightness_functions,
     plot_single_luminance_function,
-    plot_multi_luminance_functions,
-    plot_blackbody_spectral_radiance,
-    plot_blackbody_colours,
+    plot_single_sd,
+    plot_visible_spectrum,
 )
 
 __author__ = "Colour Developers"

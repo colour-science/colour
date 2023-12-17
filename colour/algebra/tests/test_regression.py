@@ -1,10 +1,12 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.algebra.regression` module."""
 
-import numpy as np
 import unittest
 
+import numpy as np
+
 from colour.algebra import least_square_mapping_MoorePenrose
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -34,7 +36,7 @@ least_square_mapping_MoorePenrose` definition.
         y = prng.random_sample((24, 3))
         x = y + (prng.random_sample((24, 3)) - 0.5) * 0.5
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             least_square_mapping_MoorePenrose(y, x),
             np.array(
                 [
@@ -43,12 +45,12 @@ least_square_mapping_MoorePenrose` definition.
                     [0.05725508, -0.20526336, 1.10151945],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         y = prng.random_sample((4, 3, 2))
         x = y + (prng.random_sample((4, 3, 2)) - 0.5) * 0.5
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             least_square_mapping_MoorePenrose(y, x),
             np.array(
                 [
@@ -82,7 +84,7 @@ least_square_mapping_MoorePenrose` definition.
                     ],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 

@@ -51,7 +51,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import ArrayLike, NDArrayFloat, NDArrayInt, Literal
+from colour.hints import ArrayLike, Literal, NDArrayFloat, NDArrayInt
 from colour.utilities import (
     Structure,
     as_float,

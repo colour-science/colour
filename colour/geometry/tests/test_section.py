@@ -1,15 +1,17 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.geometry.section` module."""
 
-import numpy as np
 import unittest
 
+import numpy as np
+
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
+from colour.geometry import hull_section, primitive_cube
 from colour.geometry.section import (
-    edges_to_chord,
     close_chord,
+    edges_to_chord,
     unique_vertices,
 )
-from colour.geometry import primitive_cube, hull_section
 from colour.utilities import is_trimesh_installed
 
 __author__ = "Colour Developers"
@@ -49,7 +51,7 @@ class TestEdgesToChord(unittest.TestCase):
             ]
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             edges_to_chord(edges),
             np.array(
                 [
@@ -71,9 +73,10 @@ class TestEdgesToChord(unittest.TestCase):
                     [0.0, -0.5, 0.0],
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             edges_to_chord(edges, 5),
             np.array(
                 [
@@ -95,6 +98,7 @@ class TestEdgesToChord(unittest.TestCase):
                     [-0.5, 0.5, 0.0],
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -107,9 +111,10 @@ class TestCloseChord(unittest.TestCase):
     def test_close_chord(self):
         """Test :func:`colour.geometry.section.close_chord` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             close_chord(np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5]])),
             np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5], [0.0, 0.5, 0.0]]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -122,14 +127,15 @@ class TestUniqueVertices(unittest.TestCase):
     def test_unique_vertices(self):
         """Test :func:`colour.geometry.section.unique_vertices` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             unique_vertices(
                 np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5], [0.0, 0.5, 0.0]])
             ),
             np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5]]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             unique_vertices(
                 np.array(
                     [[0.0, 0.51, 0.0], [0.0, 0.0, 0.51], [0.0, 0.52, 0.0]]
@@ -137,6 +143,7 @@ class TestUniqueVertices(unittest.TestCase):
                 1,
             ),
             np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5]]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -157,7 +164,7 @@ class TestHullSection(unittest.TestCase):
         vertices, faces, _outline = primitive_cube(1, 1, 1, 2, 2, 2)
         hull = trimesh.Trimesh(vertices["position"], faces, process=False)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             hull_section(hull, origin=0),
             np.array(
                 [
@@ -172,9 +179,10 @@ class TestHullSection(unittest.TestCase):
                     [0.0, -0.5, 0.0],
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             hull_section(hull, axis="+x", origin=0),
             np.array(
                 [
@@ -189,9 +197,10 @@ class TestHullSection(unittest.TestCase):
                     [0.0, 0.0, -0.5],
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             hull_section(hull, axis="+y", origin=0),
             np.array(
                 [
@@ -206,10 +215,11 @@ class TestHullSection(unittest.TestCase):
                     [0.0, 0.0, -0.5],
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         hull.vertices = (hull.vertices + 0.5) * 2
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             hull_section(hull, origin=0.5, normalise=True),
             np.array(
                 [
@@ -224,6 +234,7 @@ class TestHullSection(unittest.TestCase):
                     [1.0, 0.0, 1.0],
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         self.assertRaises(ValueError, hull_section, hull, origin=-1)

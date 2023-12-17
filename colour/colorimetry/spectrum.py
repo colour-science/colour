@@ -27,21 +27,23 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 from collections.abc import Mapping
 
+import numpy as np
+
 from colour.algebra import (
-    Extrapolator,
     CubicSplineInterpolator,
+    Extrapolator,
     SpragueInterpolator,
     sdiv,
     sdiv_mode,
 )
-from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.continuous import Signal, MultiSignals
+from colour.constants import DTYPE_FLOAT_DEFAULT
+from colour.continuous import MultiSignals, Signal
 from colour.hints import (
-    ArrayLike,
+    TYPE_CHECKING,
     Any,
+    ArrayLike,
     DTypeFloat,
     Generator,
     List,
@@ -50,9 +52,8 @@ from colour.hints import (
     ProtocolExtrapolator,
     ProtocolInterpolator,
     Real,
-    Sequence,
     Self,
-    TYPE_CHECKING,
+    Sequence,
     Type,
     TypeVar,
     cast,
@@ -64,12 +65,13 @@ from colour.utilities import (
     attest,
     filter_kwargs,
     first_item,
+    interval,
+    is_caching_enabled,
     is_iterable,
     is_numeric,
     is_pandas_installed,
     is_string,
     is_uniform,
-    interval,
     optional,
     runtime_warning,
     tstack,
@@ -397,7 +399,7 @@ class SpectralShape:
         False
         """
 
-        decimals = np.finfo(cast(Any, DEFAULT_FLOAT_DTYPE)).precision
+        decimals = np.finfo(cast(Any, DTYPE_FLOAT_DEFAULT)).precision
 
         return bool(
             np.all(
@@ -515,10 +517,10 @@ class SpectralShape:
                  9.9,  10. ])
         """
 
-        dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+        dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
         hash_key = hash((self, dtype))
-        if hash_key in _CACHE_SHAPE_RANGE:
+        if is_caching_enabled() and hash_key in _CACHE_SHAPE_RANGE:
             return _CACHE_SHAPE_RANGE[hash_key].copy()
 
         start, end, interval = (
@@ -715,18 +717,17 @@ class SpectralDistribution(Signal):
 
         self._shape: SpectralShape | None = None
 
-        def _on_domain_changed(
-            self, name: str, value: NDArrayFloat
-        ) -> NDArrayFloat:
-            """Invalidate *self._shape* when *self._domain* is changed."""
-            if name == "_domain":
-                self._shape = None
-
-            return value
-
         self.register_callback(
-            "_domain", "on_domain_changed", _on_domain_changed
+            "_domain", "on_domain_changed", self._on_domain_changed
         )
+
+    @staticmethod
+    def _on_domain_changed(sd, name: str, value: NDArrayFloat) -> NDArrayFloat:
+        """Invalidate *sd._shape* when *sd._domain* is changed."""
+        if name == "_domain":
+            sd._shape = None
+
+        return value
 
     @property
     def display_name(self) -> str:
@@ -2839,7 +2840,7 @@ def reshape_sd(
 
     hash_key = hash((sd, shape, method, tuple(kwargs_items)))
 
-    if hash_key in _CACHE_RESHAPED_SDS_AND_MSDS:
+    if is_caching_enabled() and hash_key in _CACHE_RESHAPED_SDS_AND_MSDS:
         reshaped_sd = _CACHE_RESHAPED_SDS_AND_MSDS[hash_key]
         return reshaped_sd.copy() if copy else reshaped_sd
 

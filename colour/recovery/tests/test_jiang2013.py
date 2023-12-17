@@ -1,9 +1,14 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.recovery.jiang2013` module."""
 
-import numpy as np
 import unittest
 
+import numpy as np
+
+from colour.characterisation import (
+    MSDS_CAMERA_SENSITIVITIES,
+    SDS_COLOURCHECKERS,
+)
 from colour.colorimetry import (
     SDS_ILLUMINANTS,
     SpectralDistribution,
@@ -13,17 +18,14 @@ from colour.colorimetry import (
     reshape_sd,
     sds_and_msds_to_msds,
 )
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.hints import cast
-from colour.characterisation import (
-    MSDS_CAMERA_SENSITIVITIES,
-    SDS_COLOURCHECKERS,
-)
 from colour.recovery import (
     BASIS_FUNCTIONS_DYER2017,
-    PCA_Jiang2013,
-    RGB_to_sd_camera_sensitivity_Jiang2013,
-    RGB_to_msds_camera_sensitivities_Jiang2013,
     SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
+    PCA_Jiang2013,
+    RGB_to_msds_camera_sensitivities_Jiang2013,
+    RGB_to_sd_camera_sensitivity_Jiang2013,
 )
 from colour.utilities import tsplit
 
@@ -60,7 +62,7 @@ class TestPCA_Jiang2013(unittest.TestCase):
 
         # TODO: Last eigen value seems to be very sensitive and produce
         # differences on ARM.
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             np.array(w)[..., 0:2],
             np.array(
                 [
@@ -165,9 +167,9 @@ class TestPCA_Jiang2013(unittest.TestCase):
                     ],
                 ]
             )[..., 0:2],
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             np.array(v)[..., 0:2],
             np.array(
                 [
@@ -176,7 +178,7 @@ class TestPCA_Jiang2013(unittest.TestCase):
                     [1.90414282e01, 2.60426480e00, 5.11235833e-15],
                 ]
             )[..., 0:2],
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -229,7 +231,7 @@ RGB_to_sd_camera_sensitivity_Jiang2013` definition.
 
         R_w, _G_w, _B_w = tsplit(np.moveaxis(BASIS_FUNCTIONS_DYER2017, 0, 1))
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             RGB_to_sd_camera_sensitivity_Jiang2013(
                 self._RGB[..., 0],
                 self._sd_D65,
@@ -272,7 +274,7 @@ RGB_to_sd_camera_sensitivity_Jiang2013` definition.
                     -0.00061428,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -295,7 +297,7 @@ RGB_to_msds_camera_sensitivities_Jiang2013` definition unit tests methods.
 RGB_to_msds_camera_sensitivities_Jiang2013` definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             RGB_to_msds_camera_sensitivities_Jiang2013(
                 self._RGB,
                 self._sd_D65,
@@ -338,7 +340,7 @@ RGB_to_msds_camera_sensitivities_Jiang2013` definition.
                     [-6.00395414e-03, 1.54678227e-03, 5.40394352e-04],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 

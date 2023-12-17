@@ -11,163 +11,25 @@ Defines the automatic colour conversion graph objects:
 from __future__ import annotations
 
 import inspect
-import numpy as np
 import textwrap
 from collections import namedtuple
 from copy import copy
 from functools import partial
 from pprint import pformat
 
+import numpy as np
+
 import colour
-from colour.colorimetry import (
-    CCS_ILLUMINANTS,
-    TVS_ILLUMINANTS_HUNTERLAB,
-)
-from colour.colorimetry import (
-    colorimetric_purity,
-    complementary_wavelength,
-    dominant_wavelength,
-    excitation_purity,
-    lightness,
-    luminance,
-    luminous_efficacy,
-    luminous_efficiency,
-    luminous_flux,
-    sd_to_XYZ,
-    whiteness,
-    yellowness,
-    wavelength_to_XYZ,
-)
-from colour.hints import (
-    Any,
-    ArrayLike,
-    Callable,
-    List,
-    Literal,
-    NDArrayFloat,
-    Optional,
-    cast,
-)
-from colour.recovery import XYZ_to_sd
-from colour.models import RGB_COLOURSPACE_sRGB
-from colour.models import (
-    CAM02LCD_to_JMh_CIECAM02,
-    CAM02SCD_to_JMh_CIECAM02,
-    CAM02UCS_to_JMh_CIECAM02,
-    CAM16LCD_to_JMh_CAM16,
-    CAM16SCD_to_JMh_CAM16,
-    CAM16UCS_to_JMh_CAM16,
-    CMYK_to_CMY,
-    CMY_to_CMYK,
-    CMY_to_RGB,
-    DIN99_to_XYZ,
-    HCL_to_RGB,
-    HSL_to_RGB,
-    HSV_to_RGB,
-    Hunter_Lab_to_XYZ,
-    Hunter_Rdab_to_XYZ,
-    ICaCb_to_XYZ,
-    ICtCp_to_XYZ,
-    IHLS_to_RGB,
-    IgPgTg_to_XYZ,
-    IPT_to_XYZ,
-    IPT_Ragoo2021_to_XYZ,
-    JMh_CAM16_to_CAM16LCD,
-    JMh_CAM16_to_CAM16SCD,
-    JMh_CAM16_to_CAM16UCS,
-    JMh_CIECAM02_to_CAM02LCD,
-    JMh_CIECAM02_to_CAM02SCD,
-    JMh_CIECAM02_to_CAM02UCS,
-    Jzazbz_to_XYZ,
-    LCHab_to_Lab,
-    LCHuv_to_Luv,
-    Lab_to_LCHab,
-    Lab_to_XYZ,
-    Luv_to_LCHuv,
-    Luv_to_XYZ,
-    Luv_to_uv,
-    Luv_uv_to_xy,
-    OSA_UCS_to_XYZ,
-    Oklab_to_XYZ,
-    Prismatic_to_RGB,
-    ProLab_to_XYZ,
-    RGB_Colourspace,
-    RGB_luminance,
-    RGB_to_CMY,
-    RGB_to_HCL,
-    RGB_to_HSL,
-    RGB_to_HSV,
-    RGB_to_IHLS,
-    RGB_to_Prismatic,
-    RGB_to_RGB,
-    RGB_to_XYZ,
-    RGB_to_YCbCr,
-    RGB_to_YCoCg,
-    RGB_to_YcCbcCrc,
-    UCS_to_XYZ,
-    UCS_to_uv,
-    UCS_uv_to_xy,
-    UVW_to_XYZ,
-    XYZ_to_DIN99,
-    XYZ_to_Hunter_Lab,
-    XYZ_to_Hunter_Rdab,
-    XYZ_to_ICaCb,
-    XYZ_to_ICtCp,
-    XYZ_to_IgPgTg,
-    XYZ_to_IPT,
-    XYZ_to_IPT_Ragoo2021,
-    XYZ_to_Jzazbz,
-    XYZ_to_Lab,
-    XYZ_to_Luv,
-    XYZ_to_OSA_UCS,
-    XYZ_to_Oklab,
-    XYZ_to_ProLab,
-    XYZ_to_RGB,
-    XYZ_to_UCS,
-    XYZ_to_UVW,
-    XYZ_to_hdr_CIELab,
-    XYZ_to_hdr_IPT,
-    XYZ_to_sRGB,
-    XYZ_to_xy,
-    XYZ_to_xyY,
-    XYZ_to_Yrg,
-    YCbCr_to_RGB,
-    YCoCg_to_RGB,
-    YcCbcCrc_to_RGB,
-    Yrg_to_XYZ,
-    cctf_decoding,
-    cctf_encoding,
-    hdr_CIELab_to_XYZ,
-    hdr_IPT_to_XYZ,
-    sRGB_to_XYZ,
-    uv_to_Luv,
-    uv_to_UCS,
-    xyY_to_XYZ,
-    xyY_to_xy,
-    xy_to_Luv_uv,
-    xy_to_UCS_uv,
-    xy_to_XYZ,
-    xy_to_xyY,
-)
-from colour.notation import (
-    HEX_to_RGB,
-    RGB_to_HEX,
-    keyword_to_RGB_CSSColor3,
-    munsell_value,
-    munsell_colour_to_xyY,
-    xyY_to_munsell_colour,
-)
-from colour.quality import colour_quality_scale, colour_rendering_index
 from colour.appearance import (
+    CAM16_to_XYZ,
     CAM_Specification_CAM16,
     CAM_Specification_CIECAM02,
     CAM_Specification_CIECAM16,
     CAM_Specification_Hellwig2022,
-    CAM16_to_XYZ,
     CIECAM02_to_XYZ,
     CIECAM16_to_XYZ,
-    Kim2009_to_XYZ,
     Hellwig2022_to_XYZ,
+    Kim2009_to_XYZ,
     XYZ_to_ATD95,
     XYZ_to_CAM16,
     XYZ_to_CIECAM02,
@@ -182,6 +44,143 @@ from colour.appearance import (
     ZCAM_to_XYZ,
 )
 from colour.appearance.ciecam02 import CAM_KWARGS_CIECAM02_sRGB
+from colour.colorimetry import (
+    CCS_ILLUMINANTS,
+    TVS_ILLUMINANTS_HUNTERLAB,
+    colorimetric_purity,
+    complementary_wavelength,
+    dominant_wavelength,
+    excitation_purity,
+    lightness,
+    luminance,
+    luminous_efficacy,
+    luminous_efficiency,
+    luminous_flux,
+    sd_to_XYZ,
+    wavelength_to_XYZ,
+    whiteness,
+    yellowness,
+)
+from colour.hints import (
+    Any,
+    ArrayLike,
+    Callable,
+    List,
+    Literal,
+    NDArrayFloat,
+    Optional,
+    cast,
+)
+from colour.models import (
+    CAM02LCD_to_JMh_CIECAM02,
+    CAM02SCD_to_JMh_CIECAM02,
+    CAM02UCS_to_JMh_CIECAM02,
+    CAM16LCD_to_JMh_CAM16,
+    CAM16SCD_to_JMh_CAM16,
+    CAM16UCS_to_JMh_CAM16,
+    CMY_to_CMYK,
+    CMY_to_RGB,
+    CMYK_to_CMY,
+    DIN99_to_XYZ,
+    HCL_to_RGB,
+    HSL_to_RGB,
+    HSV_to_RGB,
+    Hunter_Lab_to_XYZ,
+    Hunter_Rdab_to_XYZ,
+    ICaCb_to_XYZ,
+    ICtCp_to_XYZ,
+    IgPgTg_to_XYZ,
+    IHLS_to_RGB,
+    IPT_Ragoo2021_to_XYZ,
+    IPT_to_XYZ,
+    JMh_CAM16_to_CAM16LCD,
+    JMh_CAM16_to_CAM16SCD,
+    JMh_CAM16_to_CAM16UCS,
+    JMh_CIECAM02_to_CAM02LCD,
+    JMh_CIECAM02_to_CAM02SCD,
+    JMh_CIECAM02_to_CAM02UCS,
+    Jzazbz_to_XYZ,
+    Lab_to_LCHab,
+    Lab_to_XYZ,
+    LCHab_to_Lab,
+    LCHuv_to_Luv,
+    Luv_to_LCHuv,
+    Luv_to_uv,
+    Luv_to_XYZ,
+    Luv_uv_to_xy,
+    Oklab_to_XYZ,
+    OSA_UCS_to_XYZ,
+    Prismatic_to_RGB,
+    ProLab_to_XYZ,
+    RGB_Colourspace,
+    RGB_COLOURSPACE_sRGB,
+    RGB_luminance,
+    RGB_to_CMY,
+    RGB_to_HCL,
+    RGB_to_HSL,
+    RGB_to_HSV,
+    RGB_to_IHLS,
+    RGB_to_Prismatic,
+    RGB_to_RGB,
+    RGB_to_XYZ,
+    RGB_to_YCbCr,
+    RGB_to_YcCbcCrc,
+    RGB_to_YCoCg,
+    UCS_to_uv,
+    UCS_to_XYZ,
+    UCS_uv_to_xy,
+    UVW_to_XYZ,
+    XYZ_to_DIN99,
+    XYZ_to_hdr_CIELab,
+    XYZ_to_hdr_IPT,
+    XYZ_to_Hunter_Lab,
+    XYZ_to_Hunter_Rdab,
+    XYZ_to_ICaCb,
+    XYZ_to_ICtCp,
+    XYZ_to_IgPgTg,
+    XYZ_to_IPT,
+    XYZ_to_IPT_Ragoo2021,
+    XYZ_to_Jzazbz,
+    XYZ_to_Lab,
+    XYZ_to_Luv,
+    XYZ_to_Oklab,
+    XYZ_to_OSA_UCS,
+    XYZ_to_ProLab,
+    XYZ_to_RGB,
+    XYZ_to_sRGB,
+    XYZ_to_UCS,
+    XYZ_to_UVW,
+    XYZ_to_xy,
+    XYZ_to_xyY,
+    XYZ_to_Yrg,
+    YCbCr_to_RGB,
+    YcCbcCrc_to_RGB,
+    YCoCg_to_RGB,
+    Yrg_to_XYZ,
+    cctf_decoding,
+    cctf_encoding,
+    hdr_CIELab_to_XYZ,
+    hdr_IPT_to_XYZ,
+    sRGB_to_XYZ,
+    uv_to_Luv,
+    uv_to_UCS,
+    xy_to_Luv_uv,
+    xy_to_UCS_uv,
+    xy_to_xyY,
+    xy_to_XYZ,
+    xyY_to_xy,
+    xyY_to_XYZ,
+)
+from colour.notation import (
+    HEX_to_RGB,
+    RGB_to_HEX,
+    keyword_to_RGB_CSSColor3,
+    munsell_colour_to_xyY,
+    munsell_value,
+    xyY_to_munsell_colour,
+)
+from colour.quality import colour_quality_scale, colour_rendering_index
+from colour.recovery import XYZ_to_sd
 from colour.temperature import CCT_to_mired, CCT_to_uv, mired_to_CCT, uv_to_CCT
 from colour.utilities import (
     as_float_array,
@@ -1020,7 +1019,7 @@ def _build_graph() -> networkx.DiGraph:  # pyright: ignore  # noqa: F821
 
 
 CONVERSION_GRAPH: (
-    Optional[networkx.DiGraph]  # pyright: ignore  # noqa: F821, UP007
+    Optional[nx.DiGraph]  # pyright: ignore  # noqa: F821, UP007
 ) = None
 """Automatic colour conversion graph."""
 
@@ -1060,7 +1059,7 @@ def _conversion_path(source: str, target: str) -> List[Callable]:
         # Updating the :attr:`CONVERSION_GRAPH` attributes.
         colour.graph.CONVERSION_GRAPH = CONVERSION_GRAPH = _build_graph()
 
-    path = nx.shortest_path(CONVERSION_GRAPH, source, target)
+    path = nx.shortest_path(cast(nx.DiGraph, CONVERSION_GRAPH), source, target)
 
     return [
         CONVERSION_GRAPH.get_edge_data(a, b)[  # pyright: ignore
@@ -1156,15 +1155,15 @@ def describe_conversion_path(
 
     conversion_path = _conversion_path(source, target)
 
+    joined_conversion_path = " --> ".join(
+        [
+            f'"{_lower_order_function(conversion_function).__name__}"'
+            for conversion_function in conversion_path
+        ]
+    )
+
     message_box(
-        "[ Conversion Path ]\n\n{}".format(
-            " --> ".join(
-                [
-                    f'"{_lower_order_function(conversion_function).__name__}"'
-                    for conversion_function in conversion_path
-                ]
-            )
-        ),
+        f"[ Conversion Path ]\n\n{joined_conversion_path}",
         width,
         padding,
         print_callable,
@@ -1220,7 +1219,7 @@ def convert(a: Any, source: str, target: str, **kwargs: Any) -> Any:
     colour representation using the automatic colour conversion graph.
 
     The conversion is performed by finding the shortest path in a
-    `NetworkX <https://networkx.github.io/>`__ :class:`DiGraph` class instance.
+    `NetworkX <https://networkx.github.io>`__ :class:`DiGraph` class instance.
 
     The conversion path adopts the **'1'** domain-range scale and the object
     :math:`a` is expected to be *soft* normalised accordingly. For example,

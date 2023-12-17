@@ -6,26 +6,28 @@ module.
 from __future__ import annotations
 
 import contextlib
-import numpy as np
 import platform
 import unittest
 from itertools import product
+
+import numpy as np
 from numpy.linalg import LinAlgError
 
 from colour.characterisation.correction import (
-    matrix_augmented_Cheung2004,
-    polynomial_expansion_Finlayson2015,
-    polynomial_expansion_Vandermonde,
-    matrix_colour_correction_Cheung2004,
-    matrix_colour_correction_Finlayson2015,
-    matrix_colour_correction_Vandermonde,
     apply_matrix_colour_correction_Cheung2004,
     apply_matrix_colour_correction_Finlayson2015,
     apply_matrix_colour_correction_Vandermonde,
     colour_correction_Cheung2004,
     colour_correction_Finlayson2015,
     colour_correction_Vandermonde,
+    matrix_augmented_Cheung2004,
+    matrix_colour_correction_Cheung2004,
+    matrix_colour_correction_Finlayson2015,
+    matrix_colour_correction_Vandermonde,
+    polynomial_expansion_Finlayson2015,
+    polynomial_expansion_Vandermonde,
 )
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.hints import NDArrayFloat
 from colour.utilities import ignore_numpy_errors
 
@@ -360,10 +362,10 @@ matrix_augmented_Cheung2004` definition.
         for i, terms in enumerate(
             [3, 4, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22, 35]
         ):
-            np.testing.assert_array_almost_equal(
+            np.testing.assert_allclose(
                 matrix_augmented_Cheung2004(RGB, terms),
                 polynomials[i],
-                decimal=7,
+                atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
     def test_raise_exception_matrix_augmented_Cheung2004(self):
@@ -546,15 +548,15 @@ polynomial_expansion_Finlayson2015` definition.
         ]
 
         for i in range(4):
-            np.testing.assert_array_almost_equal(
+            np.testing.assert_allclose(
                 polynomial_expansion_Finlayson2015(RGB, i + 1, False),
                 polynomials[i][0],
-                decimal=7,
+                atol=TOLERANCE_ABSOLUTE_TESTS,
             )
-            np.testing.assert_array_almost_equal(
+            np.testing.assert_allclose(
                 polynomial_expansion_Finlayson2015(RGB, i + 1, True),
                 polynomials[i][1],
-                decimal=7,
+                atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
     def test_raise_exception_polynomial_expansion_Finlayson2015(self):
@@ -643,10 +645,10 @@ polynomial_expansion_Vandermonde` definition.
         ]
 
         for i in range(4):
-            np.testing.assert_array_almost_equal(
+            np.testing.assert_allclose(
                 polynomial_expansion_Vandermonde(RGB, i + 1),
                 polynomials[i],
-                decimal=7,
+                atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
     @ignore_numpy_errors
@@ -673,7 +675,7 @@ matrix_colour_correction_Cheung2004` definition unit tests methods.
 matrix_colour_correction_Cheung2004` definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             matrix_colour_correction_Cheung2004(MATRIX_TEST, MATRIX_REFERENCE),
             np.array(
                 [
@@ -682,10 +684,10 @@ matrix_colour_correction_Cheung2004` definition.
                     [-0.06314956, 0.09212471, 0.97134152],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             matrix_colour_correction_Cheung2004(
                 MATRIX_TEST, MATRIX_REFERENCE, terms=7
             ),
@@ -720,7 +722,7 @@ matrix_colour_correction_Cheung2004` definition.
                     ],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors
@@ -756,7 +758,7 @@ matrix_colour_correction_Finlayson2015` definition unit tests methods.
 matrix_colour_correction_Finlayson2015` definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             matrix_colour_correction_Finlayson2015(
                 MATRIX_TEST, MATRIX_REFERENCE
             ),
@@ -767,10 +769,10 @@ matrix_colour_correction_Finlayson2015` definition.
                     [-0.06314956, 0.09212471, 0.97134152],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             matrix_colour_correction_Finlayson2015(
                 MATRIX_TEST, MATRIX_REFERENCE, degree=3
             ),
@@ -823,7 +825,7 @@ matrix_colour_correction_Finlayson2015` definition.
                     ],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors
@@ -861,7 +863,7 @@ matrix_colour_correction_Vandermonde` definition unit tests methods.
 matrix_colour_correction_Vandermonde` definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             matrix_colour_correction_Vandermonde(
                 MATRIX_TEST, MATRIX_REFERENCE
             ),
@@ -872,10 +874,10 @@ matrix_colour_correction_Vandermonde` definition.
                     [-0.14502258, 0.07716975, 0.87841836, 0.06666049],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             matrix_colour_correction_Vandermonde(
                 MATRIX_TEST, MATRIX_REFERENCE, degree=3
             ),
@@ -919,7 +921,7 @@ matrix_colour_correction_Vandermonde` definition.
                     ],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors
@@ -959,7 +961,7 @@ apply_matrix_colour_correction_Cheung2004` definition.
 
         RGB = np.array([0.17224810, 0.09170660, 0.06416938])
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             apply_matrix_colour_correction_Cheung2004(
                 RGB,
                 np.array(
@@ -971,7 +973,7 @@ apply_matrix_colour_correction_Cheung2004` definition.
                 ),
             ),
             np.array([0.13348722, 0.08439216, 0.05990144]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_apply_matrix_colour_correction_Cheung2004(self):
@@ -992,18 +994,18 @@ apply_matrix_colour_correction_Cheung2004` definition n-dimensional support.
 
         RGB = np.tile(RGB, (6, 1))
         RGB_c = np.tile(RGB_c, (6, 1))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             apply_matrix_colour_correction_Cheung2004(RGB, CCM),
             RGB_c,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         RGB = np.reshape(RGB, (2, 3, 3))
         RGB_c = np.reshape(RGB_c, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             apply_matrix_colour_correction_Cheung2004(RGB, CCM),
             RGB_c,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors
@@ -1043,7 +1045,7 @@ apply_matrix_colour_correction_Finlayson2015` definition.
 
         RGB = np.array([0.17224810, 0.09170660, 0.06416938])
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             apply_matrix_colour_correction_Finlayson2015(
                 RGB,
                 np.array(
@@ -1055,7 +1057,7 @@ apply_matrix_colour_correction_Finlayson2015` definition.
                 ),
             ),
             np.array([0.13348722, 0.08439216, 0.05990144]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_apply_matrix_colour_correction_Finlayson2015(self):
@@ -1076,18 +1078,18 @@ apply_matrix_colour_correction_Finlayson2015` definition n-dimensional support.
 
         RGB = np.tile(RGB, (6, 1))
         RGB_c = np.tile(RGB_c, (6, 1))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             apply_matrix_colour_correction_Finlayson2015(RGB, CCM),
             RGB_c,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         RGB = np.reshape(RGB, (2, 3, 3))
         RGB_c = np.reshape(RGB_c, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             apply_matrix_colour_correction_Finlayson2015(RGB, CCM),
             RGB_c,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors
@@ -1127,7 +1129,7 @@ apply_matrix_colour_correction_Vandermonde` definition.
 
         RGB = np.array([0.17224810, 0.09170660, 0.06416938])
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             apply_matrix_colour_correction_Vandermonde(
                 RGB,
                 np.array(
@@ -1139,7 +1141,7 @@ apply_matrix_colour_correction_Vandermonde` definition.
                 ),
             ),
             np.array([0.15034881, 0.10503956, 0.10512517]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_apply_matrix_colour_correction_Vandermonde(self):
@@ -1160,18 +1162,18 @@ apply_matrix_colour_correction_Vandermonde` definition n-dimensional support.
 
         RGB = np.tile(RGB, (6, 1))
         RGB_c = np.tile(RGB_c, (6, 1))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             apply_matrix_colour_correction_Vandermonde(RGB, CCM),
             RGB_c,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         RGB = np.reshape(RGB, (2, 3, 3))
         RGB_c = np.reshape(RGB_c, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             apply_matrix_colour_correction_Vandermonde(RGB, CCM),
             RGB_c,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors
@@ -1211,18 +1213,18 @@ colour_correction_Cheung2004` definition.
 
         RGB = np.array([0.17224810, 0.09170660, 0.06416938])
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             colour_correction_Cheung2004(RGB, MATRIX_TEST, MATRIX_REFERENCE),
             np.array([0.13348722, 0.08439216, 0.05990144]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             colour_correction_Cheung2004(
                 RGB, MATRIX_TEST, MATRIX_REFERENCE, terms=7
             ),
             np.array([0.15850295, 0.09871628, 0.08105752]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_colour_correction_Cheung2004(self):
@@ -1238,18 +1240,18 @@ colour_correction_Cheung2004` definition n-dimensional support.
 
         RGB = np.tile(RGB, (6, 1))
         RGB_c = np.tile(RGB_c, (6, 1))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             colour_correction_Cheung2004(RGB, MATRIX_TEST, MATRIX_REFERENCE),
             RGB_c,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         RGB = np.reshape(RGB, (2, 3, 3))
         RGB_c = np.reshape(RGB_c, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             colour_correction_Cheung2004(RGB, MATRIX_TEST, MATRIX_REFERENCE),
             RGB_c,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors
@@ -1288,20 +1290,20 @@ colour_correction_Finlayson2015` definition.
 
         RGB = np.array([0.17224810, 0.09170660, 0.06416938])
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             colour_correction_Finlayson2015(
                 RGB, MATRIX_TEST, MATRIX_REFERENCE
             ),
             np.array([0.13348722, 0.08439216, 0.05990144]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             colour_correction_Finlayson2015(
                 RGB, MATRIX_TEST, MATRIX_REFERENCE, degree=3
             ),
             np.array([0.13914542, 0.08602124, 0.06422973]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_colour_correction_Finlayson2015(self):
@@ -1317,22 +1319,22 @@ colour_correction_Finlayson2015` definition n-dimensional support.
 
         RGB = np.tile(RGB, (6, 1))
         RGB_c = np.tile(RGB_c, (6, 1))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             colour_correction_Finlayson2015(
                 RGB, MATRIX_TEST, MATRIX_REFERENCE
             ),
             RGB_c,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         RGB = np.reshape(RGB, (2, 3, 3))
         RGB_c = np.reshape(RGB_c, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             colour_correction_Finlayson2015(
                 RGB, MATRIX_TEST, MATRIX_REFERENCE
             ),
             RGB_c,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors
@@ -1371,18 +1373,18 @@ colour_correction_Vandermonde` definition.
 
         RGB = np.array([0.17224810, 0.09170660, 0.06416938])
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             colour_correction_Vandermonde(RGB, MATRIX_TEST, MATRIX_REFERENCE),
             np.array([0.15034881, 0.10503956, 0.10512517]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             colour_correction_Vandermonde(
                 RGB, MATRIX_TEST, MATRIX_REFERENCE, degree=3
             ),
             np.array([0.15747814, 0.10035799, 0.06616709]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_colour_correction_Vandermonde(self):
@@ -1398,18 +1400,18 @@ colour_correction_Vandermonde` definition n-dimensional support.
 
         RGB = np.tile(RGB, (6, 1))
         RGB_c = np.tile(RGB_c, (6, 1))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             colour_correction_Vandermonde(RGB, MATRIX_TEST, MATRIX_REFERENCE),
             RGB_c,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         RGB = np.reshape(RGB, (2, 3, 3))
         RGB_c = np.reshape(RGB_c, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             colour_correction_Vandermonde(RGB, MATRIX_TEST, MATRIX_REFERENCE),
             RGB_c,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors

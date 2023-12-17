@@ -26,17 +26,18 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 from collections import namedtuple
 from dataclasses import astuple, dataclass, field
 
+import numpy as np
+
 from colour.adaptation import chromatic_adaptation_Zhai2018
+from colour.algebra import sdiv, sdiv_mode, spow
 from colour.appearance.ciecam02 import (
     VIEWING_CONDITIONS_CIECAM02,
     degree_of_adaptation,
     hue_angle,
 )
-from colour.algebra import sdiv, sdiv_mode, spow
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import ArrayLike, NDArrayFloat
 from colour.models import Izazbz_to_XYZ, XYZ_to_Izazbz, xy_to_XYZ
@@ -573,7 +574,7 @@ def ZCAM_to_XYZ(
     -   *Safdar, Hardeberg and Luo (2021)* does not specify how the chromatic
         adaptation to *CIE Standard Illuminant D65* in *Step 0* should be
         performed. A one-step *Von Kries* chromatic adaptation transform is not
-        symetrical or transitive when a degree of adptation is involved.
+        symmetrical or transitive when a degree of adptation is involved.
         *Safdar, Hardeberg and Luo (2018)* uses *Zhai and Luo (2018)* two-steps
         chromatic adaptation transform, thus it seems sensible to adopt this
         transform for the *ZCAM* colour appearance model until more information

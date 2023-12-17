@@ -11,8 +11,9 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.algebra import LinearInterpolator, SpragueInterpolator
 from colour.colorimetry import (
@@ -21,26 +22,25 @@ from colour.colorimetry import (
     MultiSpectralDistributions,
     SpectralDistribution,
     SpectralShape,
+    adjust_tristimulus_weighting_factors_ASTME308,
+    handle_spectral_arguments,
+    lagrange_coefficients_ASTME2022,
+    msds_to_XYZ,
+    msds_to_XYZ_ASTME308,
+    msds_to_XYZ_integration,
     reshape_msds,
     reshape_sd,
     sd_CIE_standard_illuminant_A,
     sd_ones,
-    msds_to_XYZ,
-    sd_zeros,
-)
-from colour.colorimetry import (
-    handle_spectral_arguments,
-    lagrange_coefficients_ASTME2022,
-    tristimulus_weighting_factors_ASTME2022,
-    adjust_tristimulus_weighting_factors_ASTME308,
+    sd_to_XYZ,
+    sd_to_XYZ_ASTME308,
     sd_to_XYZ_integration,
     sd_to_XYZ_tristimulus_weighting_factors_ASTME308,
-    sd_to_XYZ_ASTME308,
-    sd_to_XYZ,
-    msds_to_XYZ_integration,
-    msds_to_XYZ_ASTME308,
+    sd_zeros,
+    tristimulus_weighting_factors_ASTME2022,
     wavelength_to_XYZ,
 )
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.hints import NDArrayFloat
 from colour.utilities import domain_range_scale
 
@@ -629,31 +629,33 @@ lagrange_coefficients_ASTME2022` definition unit tests methods.
 lagrange_coefficients_ASTME2022` definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             lagrange_coefficients_ASTME2022(10, "inner"),
             LAGRANGE_COEFFICIENTS_A,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             lagrange_coefficients_ASTME2022(10, "boundary"),
             LAGRANGE_COEFFICIENTS_B,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         # Testing that the cache returns a copy of the data.
         lagrange_coefficients = lagrange_coefficients_ASTME2022(10)
 
-        np.testing.assert_array_almost_equal(
-            lagrange_coefficients, LAGRANGE_COEFFICIENTS_A, decimal=7
+        np.testing.assert_allclose(
+            lagrange_coefficients,
+            LAGRANGE_COEFFICIENTS_A,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         lagrange_coefficients *= 10
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             lagrange_coefficients_ASTME2022(10),
             LAGRANGE_COEFFICIENTS_A,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -685,15 +687,15 @@ tristimulus_weighting_factors_ASTME2022` definition.
         twf = tristimulus_weighting_factors_ASTME2022(
             cmfs, A, SpectralShape(360, 830, 10)
         )
-        np.testing.assert_array_almost_equal(
-            np.round(twf, 3), TWF_A_CIE_1964_10_10, decimal=3
+        np.testing.assert_allclose(
+            np.round(twf, 3), TWF_A_CIE_1964_10_10, atol=1e-5
         )
 
         twf = tristimulus_weighting_factors_ASTME2022(
             cmfs, A, SpectralShape(360, 830, 20)
         )
-        np.testing.assert_array_almost_equal(
-            np.round(twf, 3), TWF_A_CIE_1964_10_20, decimal=3
+        np.testing.assert_allclose(
+            np.round(twf, 3), TWF_A_CIE_1964_10_20, atol=1e-5
         )
 
         cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
@@ -703,15 +705,17 @@ tristimulus_weighting_factors_ASTME2022` definition.
         twf = tristimulus_weighting_factors_ASTME2022(
             cmfs, D65, SpectralShape(360, 830, 20)
         )
-        np.testing.assert_array_almost_equal(
-            np.round(twf, 3), TWF_D65_CIE_1931_2_20, decimal=3
+        np.testing.assert_allclose(
+            np.round(twf, 3),
+            TWF_D65_CIE_1931_2_20,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         twf = tristimulus_weighting_factors_ASTME2022(
             cmfs, D65, SpectralShape(360, 830, 20), k=1
         )
-        np.testing.assert_array_almost_equal(
-            twf, TWF_D65_CIE_1931_2_20_K1, decimal=7
+        np.testing.assert_allclose(
+            twf, TWF_D65_CIE_1931_2_20_K1, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         # Testing that the cache returns a copy of the data.
@@ -719,11 +723,13 @@ tristimulus_weighting_factors_ASTME2022` definition.
         twf = tristimulus_weighting_factors_ASTME2022(
             cmfs, A, SpectralShape(360, 830, 10)
         )
-        np.testing.assert_array_almost_equal(
-            np.round(twf, 3), TWF_A_CIE_1964_10_10, decimal=3
+        np.testing.assert_allclose(
+            np.round(twf, 3),
+            TWF_A_CIE_1964_10_10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             np.round(
                 tristimulus_weighting_factors_ASTME2022(
                     cmfs, A, SpectralShape(360, 830, 10)
@@ -731,7 +737,7 @@ tristimulus_weighting_factors_ASTME2022` definition.
                 3,
             ),
             TWF_A_CIE_1964_10_10,
-            decimal=3,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_raise_exception_tristimulus_weighting_factors_ASTME2022(self):
@@ -775,14 +781,14 @@ adjust_tristimulus_weighting_factors_ASTME308` definition unit tests methods.
 adjust_tristimulus_weighting_factors_ASTME308` definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             adjust_tristimulus_weighting_factors_ASTME308(
                 TWF_D65_CIE_1931_2_20,
                 SpectralShape(360, 830, 20),
                 SpectralShape(400, 700, 20),
             ),
             TWF_D65_CIE_1931_2_20_A,
-            decimal=3,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -799,13 +805,13 @@ sd_to_XYZ_integration` definition.
         """
 
         cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_integration(SD_SAMPLE, cmfs, SDS_ILLUMINANTS["A"]),
             np.array([14.46341147, 10.85819624, 2.04695585]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_integration(
                 SD_SAMPLE.values,
                 cmfs,
@@ -813,28 +819,28 @@ sd_to_XYZ_integration` definition.
                 shape=SD_SAMPLE.shape,
             ),
             np.array([14.46365947, 10.85828084, 2.04663993]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         cmfs = MSDS_CMFS["CIE 1964 10 Degree Standard Observer"]
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_integration(SD_SAMPLE, cmfs, SDS_ILLUMINANTS["C"]),
             np.array([10.77002699, 9.44876636, 6.62415290]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_integration(SD_SAMPLE, cmfs, SDS_ILLUMINANTS["FL2"]),
             np.array([11.57540576, 9.98608874, 3.95242590]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_integration(
                 SD_SAMPLE, cmfs, SDS_ILLUMINANTS["FL2"], k=683
             ),
             np.array([1223.7509261493, 1055.7284645912, 417.8501342332]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_domain_range_scale_sd_to_XYZ_integration(self):
@@ -849,12 +855,12 @@ sd_to_XYZ_integration` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     sd_to_XYZ_integration(
                         SD_SAMPLE, cmfs, SDS_ILLUMINANTS["A"]
                     ),
                     XYZ * factor,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
 
@@ -873,42 +879,42 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
         """
 
         cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 SD_SAMPLE, cmfs, SDS_ILLUMINANTS["A"]
             ),
             np.array([14.46341867, 10.85820227, 2.04697034]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         cmfs = MSDS_CMFS["CIE 1964 10 Degree Standard Observer"]
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 SD_SAMPLE, cmfs, SDS_ILLUMINANTS["C"]
             ),
             np.array([10.77005571, 9.44877491, 6.62428210]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 SD_SAMPLE, cmfs, SDS_ILLUMINANTS["FL2"]
             ),
             np.array([11.57542759, 9.98605604, 3.95273304]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 reshape_sd(SD_SAMPLE, SpectralShape(400, 700, 5), "Trim"),
                 cmfs,
                 SDS_ILLUMINANTS["A"],
             ),
             np.array([14.38153638, 10.74503131, 2.01613844]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 reshape_sd(
                     SD_SAMPLE, SpectralShape(400, 700, 10), "Interpolate"
@@ -917,10 +923,10 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
                 SDS_ILLUMINANTS["A"],
             ),
             np.array([14.38257202, 10.74568178, 2.01588427]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 reshape_sd(
                     SD_SAMPLE, SpectralShape(400, 700, 20), "Interpolate"
@@ -929,10 +935,10 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
                 SDS_ILLUMINANTS["A"],
             ),
             np.array([14.38329645, 10.74603515, 2.01561113]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 reshape_sd(
                     SD_SAMPLE, SpectralShape(400, 700, 20), "Interpolate"
@@ -942,7 +948,7 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
                 k=1,
             ),
             np.array([1636.74881983, 1222.84626486, 229.36669308]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_domain_range_scale_sd_to_XYZ_twf_ASTME308(self):
@@ -960,12 +966,12 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308` definition domain and
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                         SD_SAMPLE, cmfs, SDS_ILLUMINANTS["A"]
                     ),
                     XYZ * factor,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
 
@@ -988,15 +994,15 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
         definition for 1 nm measurement intervals.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, self._cmfs.shape), self._cmfs, self._A
             ),
             np.array([14.46372680, 10.85832950, 2.04663200]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, self._cmfs.shape),
                 self._cmfs,
@@ -1004,20 +1010,20 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
                 use_practice_range=False,
             ),
             np.array([14.46366018, 10.85827949, 2.04662258]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 1)),
                 self._cmfs,
                 self._A,
             ),
             np.array([14.54173397, 10.88628632, 2.04965822]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 1)),
                 self._cmfs,
@@ -1025,10 +1031,10 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
                 use_practice_range=False,
             ),
             np.array([14.54203076, 10.88636754, 2.04964877]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 1)),
                 self._cmfs,
@@ -1036,7 +1042,7 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
                 k=1,
             ),
             np.array([15.6898152997, 11.7457671769, 2.2114803420]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_sd_to_XYZ_ASTME308_mi_5nm(self):
@@ -1045,17 +1051,17 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
         definition for 5 nm measurement intervals.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(360, 830, 5)),
                 self._cmfs,
                 self._A,
             ),
             np.array([14.46372173, 10.85832502, 2.04664734]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(360, 830, 5)),
                 self._cmfs,
@@ -1063,10 +1069,10 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
                 use_practice_range=False,
             ),
             np.array([14.46366388, 10.85828159, 2.04663915]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(360, 830, 5)),
                 self._cmfs,
@@ -1074,20 +1080,20 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
                 mi_5nm_omission_method=False,
             ),
             np.array([14.46373399, 10.85833553, 2.0466465]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 5)),
                 self._cmfs,
                 self._A,
             ),
             np.array([14.54025742, 10.88576251, 2.04950226]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 5)),
                 self._cmfs,
@@ -1095,10 +1101,10 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
                 use_practice_range=False,
             ),
             np.array([14.54051517, 10.88583304, 2.04949406]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 5)),
                 self._cmfs,
@@ -1106,10 +1112,10 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
                 mi_5nm_omission_method=False,
             ),
             np.array([14.54022093, 10.88575468, 2.04951057]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(360, 830, 5)),
                 self._cmfs,
@@ -1118,10 +1124,10 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
                 mi_5nm_omission_method=False,
             ),
             np.array([14.46366737, 10.85828552, 2.04663707]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 5)),
                 self._cmfs,
@@ -1130,10 +1136,10 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
                 mi_5nm_omission_method=False,
             ),
             np.array([14.54051772, 10.88583590, 2.04950113]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 5)),
                 self._cmfs,
@@ -1141,7 +1147,7 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
                 k=1,
             ),
             np.array([15.6882479013, 11.7452212708, 2.2113156963]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_sd_to_XYZ_ASTME308_mi_10nm(self):
@@ -1150,17 +1156,17 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
         definition for 10 nm measurement intervals.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(360, 830, 10)),
                 self._cmfs,
                 self._A,
             ),
             np.array([14.47779980, 10.86358645, 2.04751388]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(360, 830, 10)),
                 self._cmfs,
@@ -1168,20 +1174,20 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
                 use_practice_range=False,
             ),
             np.array([14.47773312, 10.86353641, 2.04750445]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 10)),
                 self._cmfs,
                 self._A,
             ),
             np.array([14.54137532, 10.88641727, 2.04931318]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 10)),
                 self._cmfs,
@@ -1189,10 +1195,10 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
                 use_practice_range=False,
             ),
             np.array([14.54167211, 10.88649849, 2.04930374]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 10)),
                 self._cmfs,
@@ -1200,10 +1206,10 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
                 k=1,
             ),
             np.array([15.6894283333, 11.7459084705, 2.2111080639]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(401, 701, 10)),
                 self._cmfs,
@@ -1211,7 +1217,7 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
                 k=1,
             ),
             np.array([15.6713226093, 11.7392254489, 2.2117708792]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_sd_to_XYZ_ASTME308_mi_20nm(self):
@@ -1220,17 +1226,17 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
         definition for 20 nm measurement intervals.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(360, 820, 20)),
                 self._cmfs,
                 self._A,
             ),
             np.array([14.50187464, 10.87217124, 2.04918305]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(360, 820, 20)),
                 self._cmfs,
@@ -1238,10 +1244,10 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
                 use_practice_range=False,
             ),
             np.array([14.50180785, 10.87212116, 2.04917361]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(360, 820, 20)),
                 self._cmfs,
@@ -1249,20 +1255,20 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
                 mi_20nm_interpolation_method=False,
             ),
             np.array([14.50216194, 10.87236873, 2.04977256]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 20)),
                 self._cmfs,
                 self._A,
             ),
             np.array([14.54114025, 10.88634755, 2.04916445]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 20)),
                 self._cmfs,
@@ -1270,10 +1276,10 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
                 use_practice_range=False,
             ),
             np.array([14.54143704, 10.88642877, 2.04915501]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 20)),
                 self._cmfs,
@@ -1281,10 +1287,10 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
                 mi_20nm_interpolation_method=False,
             ),
             np.array([14.54242562, 10.88694088, 2.04919645]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(360, 820, 20)),
                 self._cmfs,
@@ -1293,10 +1299,10 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
                 mi_20nm_interpolation_method=False,
             ),
             np.array([14.50209515, 10.87231865, 2.04976312]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 20)),
                 self._cmfs,
@@ -1305,10 +1311,10 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
                 mi_20nm_interpolation_method=False,
             ),
             np.array([14.54272240, 10.88702210, 2.04918701]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 20)),
                 self._cmfs,
@@ -1316,17 +1322,17 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
                 k=1,
             ),
             np.array([15.6891747040, 11.7458332427, 2.2109475945]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(401, 701, 20)),
                 self._cmfs,
                 self._A,
             ),
             np.array([14.5220164311, 10.8790959535, 2.0490905325]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_raise_exception_sd_to_XYZ_ASTME308(self):
@@ -1364,16 +1370,18 @@ class TestSd_to_XYZ(unittest.TestCase):
         # Testing that the cache returns a copy of the data.
         XYZ = sd_to_XYZ(self._sd, self._cmfs, self._A)
 
-        np.testing.assert_array_almost_equal(
-            XYZ, np.array([14.46372680, 10.85832950, 2.04663200]), decimal=7
+        np.testing.assert_allclose(
+            XYZ,
+            np.array([14.46372680, 10.85832950, 2.04663200]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ *= 10
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_to_XYZ(self._sd, self._cmfs, self._A),
             np.array([14.46372680, 10.85832950, 2.04663200]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -1390,13 +1398,13 @@ msds_to_XYZ_integration` definition.
         """
 
         cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             msds_to_XYZ_integration(MSDS_TWO, cmfs, SDS_ILLUMINANTS["D65"]),
             TVS_D65_INTEGRATION_MSDS,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             msds_to_XYZ_integration(
                 DATA_TWO,
                 cmfs,
@@ -1404,10 +1412,10 @@ msds_to_XYZ_integration` definition.
                 shape=SpectralShape(400, 700, 60),
             ),
             TVS_D65_ARRAY_INTEGRATION,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             msds_to_XYZ_integration(
                 DATA_TWO,
                 cmfs,
@@ -1416,7 +1424,7 @@ msds_to_XYZ_integration` definition.
                 shape=SpectralShape(400, 700, 60),
             ),
             TVS_D65_ARRAY_K1_INTEGRATION,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_domain_range_scale_msds_to_XYZ_integration(self):
@@ -1429,7 +1437,7 @@ msds_to_XYZ_integration` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     msds_to_XYZ_integration(
                         DATA_TWO,
                         cmfs,
@@ -1437,7 +1445,7 @@ msds_to_XYZ_integration` definition domain and range scale support.
                         shape=SpectralShape(400, 700, 60),
                     ),
                     TVS_D65_ARRAY_INTEGRATION * factor,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
 
@@ -1455,16 +1463,16 @@ msds_to_XYZ_ASTME308` definition.
 
         cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
         msds = reshape_msds(MSDS_TWO, SpectralShape(400, 700, 20))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             msds_to_XYZ_ASTME308(msds, cmfs, SDS_ILLUMINANTS["D65"]),
             TVS_D65_ASTME308_MSDS,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             msds_to_XYZ_ASTME308(msds, cmfs, SDS_ILLUMINANTS["D65"], k=1),
             TVS_D65_ASTME308_K1_MSDS,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_domain_range_scale_msds_to_XYZ_ASTME308(self):
@@ -1477,14 +1485,14 @@ msds_to_XYZ_ASTME308` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     msds_to_XYZ_ASTME308(
                         reshape_msds(MSDS_TWO, SpectralShape(400, 700, 20)),
                         cmfs,
                         SDS_ILLUMINANTS["D65"],
                     ),
                     TVS_D65_ASTME308_MSDS * factor,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     def test_raise_exception_msds_to_XYZ_ASTME308(self):
@@ -1525,7 +1533,7 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
         for method in methods[0:3]:
             XYZ = method(sd, k=k)
             XYZ = XYZ.reshape(3) if len(XYZ.shape) > 1 else XYZ
-            self.assertAlmostEqual(XYZ[1], k, delta=5e-5), (
+            np.testing.assert_allclose(XYZ[1], k, atol=5e-5), (
                 "1 watt @ 555nm should be approximately 683 candela."
                 f" Failed method: {method}"
             )
@@ -1536,7 +1544,7 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
             XYZ: np.ndarray = method(msds, k=k)
             if len(XYZ.shape) > 1:
                 XYZ = XYZ.reshape(3)
-            self.assertAlmostEqual(XYZ[1], k, delta=5e-5), (
+            np.testing.assert_allclose(XYZ[1], k, atol=5e-5), (
                 "1 watt @ 555nm should be approximately 683 candela."
                 f" Failed method: {method}"
             )
@@ -1570,7 +1578,7 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
         for method in methods[0:3]:
             XYZ: np.ndarray = method(sd, k=k)
             XYZ = XYZ.reshape(3) if len(XYZ.shape) > 1 else XYZ
-            self.assertAlmostEqual(XYZ[1], k, delta=5e-2), (
+            np.testing.assert_allclose(XYZ[1], k, atol=5e-2), (
                 "1 watt @ 555nm should be approximately 683 candela. "
                 f"Failed method: {method}"
             )
@@ -1581,7 +1589,7 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
             XYZ: np.ndarray = method(msds, k=k)
             if len(XYZ.shape) > 1:
                 XYZ = XYZ.reshape(3)
-            self.assertAlmostEqual(XYZ[1], k, delta=5e-2), (
+            np.testing.assert_allclose(XYZ[1], k, atol=5e-2), (
                 "1 watt @ 555nm should be approximately 683 candela."
                 f"Failed method: {method}"
             )
@@ -1599,28 +1607,28 @@ class TestWavelength_to_XYZ(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             wavelength_to_XYZ(
                 480, MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
             ),
             np.array([0.09564, 0.13902, 0.81295]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             wavelength_to_XYZ(
                 480, MSDS_CMFS["CIE 2015 2 Degree Standard Observer"]
             ),
             np.array([0.08182895, 0.17880480, 0.75523790]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             wavelength_to_XYZ(
                 641.5, MSDS_CMFS["CIE 2015 2 Degree Standard Observer"]
             ),
             np.array([0.44575583, 0.18184213, 0.00000000]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_raise_exception_wavelength_to_XYZ(self):
@@ -1645,20 +1653,20 @@ class TestWavelength_to_XYZ(unittest.TestCase):
 
         wl = np.tile(wl, 6)
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_array_almost_equal(
-            wavelength_to_XYZ(wl, cmfs), XYZ, decimal=7
+        np.testing.assert_allclose(
+            wavelength_to_XYZ(wl, cmfs), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         wl = np.reshape(wl, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
-            wavelength_to_XYZ(wl, cmfs), XYZ, decimal=7
+        np.testing.assert_allclose(
+            wavelength_to_XYZ(wl, cmfs), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         wl = np.reshape(wl, (2, 3, 1))
         XYZ = np.reshape(XYZ, (2, 3, 1, 3))
-        np.testing.assert_array_almost_equal(
-            wavelength_to_XYZ(wl, cmfs), XYZ, decimal=7
+        np.testing.assert_allclose(
+            wavelength_to_XYZ(wl, cmfs), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
 

@@ -1,8 +1,9 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.recovery` module."""
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.colorimetry import (
     MSDS_CMFS,
@@ -12,6 +13,7 @@ from colour.colorimetry import (
     reshape_sd,
     sd_to_XYZ_integration,
 )
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.recovery import XYZ_to_sd
 from colour.utilities import domain_range_scale
 
@@ -72,7 +74,7 @@ class TestXYZ_to_sd(unittest.TestCase):
         for method, value in zip(m, v):
             for scale, factor_a, factor_b in d_r:
                 with domain_range_scale(scale):
-                    np.testing.assert_array_almost_equal(
+                    np.testing.assert_allclose(
                         sd_to_XYZ_integration(
                             XYZ_to_sd(
                                 XYZ * factor_a,
@@ -84,7 +86,7 @@ class TestXYZ_to_sd(unittest.TestCase):
                             self._sd_D65,
                         ),
                         value * factor_b,
-                        decimal=7,
+                        atol=TOLERANCE_ABSOLUTE_TESTS,
                     )
 
 

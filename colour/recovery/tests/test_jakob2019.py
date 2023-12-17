@@ -1,14 +1,16 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.recovery.jakob2019` module."""
 
-import numpy as np
 import os
 import shutil
 import tempfile
 import unittest
 
+import numpy as np
+
 from colour.characterisation import SDS_COLOURCHECKERS
 from colour.colorimetry import handle_spectral_arguments, sd_to_XYZ
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.difference import JND_CIE1976, delta_E_CIE1976
 from colour.models import (
     RGB_COLOURSPACE_sRGB,
@@ -17,12 +19,12 @@ from colour.models import (
     XYZ_to_xy,
 )
 from colour.recovery.jakob2019 import (
-    XYZ_to_sd_Jakob2019,
-    sd_Jakob2019,
-    error_function,
-    dimensionalise_coefficients,
     SPECTRAL_SHAPE_JAKOB2019,
     LUT3D_Jakob2019,
+    XYZ_to_sd_Jakob2019,
+    dimensionalise_coefficients,
+    error_function,
+    sd_Jakob2019,
 )
 from colour.utilities import domain_range_scale, full, ones, zeros
 
@@ -99,8 +101,12 @@ class TestErrorFunction(unittest.TestCase):
             sd_Lab = XYZ_to_Lab(XYZ, self._xy_D65)
             error_reference = delta_E_CIE1976(self._Lab_e, Lab)
 
-            np.testing.assert_allclose(sd.values, R, atol=1e-14)
-            np.testing.assert_allclose(XYZ, sd_XYZ, atol=1e-14)
+            np.testing.assert_allclose(
+                sd.values, R, atol=TOLERANCE_ABSOLUTE_TESTS
+            )
+            np.testing.assert_allclose(
+                XYZ, sd_XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
+            )
 
             self.assertLess(abs(error_reference - error), JND_CIE1976 / 100)
             self.assertLess(delta_E_CIE1976(Lab, sd_Lab), JND_CIE1976 / 100)
@@ -136,7 +142,7 @@ class TestErrorFunction(unittest.TestCase):
             # The approximated derivatives aren't too accurate, so tolerances
             # have to be rather loose.
             np.testing.assert_allclose(
-                staggered_derrors, approximate_derrors, atol=1e-3, rtol=1e-2
+                staggered_derrors, approximate_derrors, atol=5e-3
             )
 
 
@@ -184,7 +190,7 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
         d_r = (("reference", 1, 1), ("1", 1, 0.01), ("100", 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     sd_to_XYZ(
                         XYZ_to_sd_Jakob2019(
                             XYZ_i * factor_a, self._cmfs, self._sd_D65
@@ -193,7 +199,7 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
                         self._sd_D65,
                     ),
                     XYZ_o * factor_b,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
 
@@ -269,12 +275,12 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
         property.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             TestLUT3D_Jakob2019.generate_LUT().lightness_scale,
             np.array(
                 [0.00000000, 0.06561279, 0.50000000, 0.93438721, 1.00000000]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_coefficients(self):
@@ -303,14 +309,15 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
             LUT.write(path)
             LUT_t = LUT3D_Jakob2019().read(path)
 
-            np.testing.assert_array_almost_equal(
-                LUT.lightness_scale, LUT_t.lightness_scale, decimal=7
+            np.testing.assert_allclose(
+                LUT.lightness_scale,
+                LUT_t.lightness_scale,
+                atol=TOLERANCE_ABSOLUTE_TESTS,
             )
             np.testing.assert_allclose(
                 LUT.coefficients,
                 LUT_t.coefficients,
-                atol=0.000001,
-                rtol=0.000001,
+                atol=1e-6,
             )
         finally:
             shutil.rmtree(temporary_directory)

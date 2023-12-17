@@ -9,10 +9,13 @@ References
     30(1), 21-30. doi:10.1002/col.20070
 """
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
+from colour.algebra import euclidean_distance
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.difference import (
     delta_E_CIE1976,
     delta_E_CIE1994,
@@ -20,8 +23,6 @@ from colour.difference import (
     delta_E_CMC,
     delta_E_ITP,
 )
-
-from colour.algebra import euclidean_distance
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
@@ -60,10 +61,10 @@ class TestDelta_E_CIE1976(unittest.TestCase):
         Lab_1 = np.tile(Lab_1, (6, 1)).reshape([2, 3, 3])
         Lab_2 = np.tile(Lab_2, (6, 1)).reshape([2, 3, 3])
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             delta_E_CIE1976(Lab_1, Lab_2),
             euclidean_distance(Lab_1, Lab_2),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_delta_E_CIE1976(self):
@@ -84,10 +85,10 @@ class TestDelta_E_CIE1976(unittest.TestCase):
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     delta_E_CIE1976(Lab_1 * factor, Lab_2 * factor),
                     euclidean_distance(Lab_1, Lab_2),
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -107,61 +108,61 @@ class TestDelta_E_CIE1994(unittest.TestCase):
     def test_delta_E_CIE1994(self):
         """Test :func:`colour.difference.delta_e.delta_E_CIE1994` definition."""
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_CIE1994(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 426.67945353, 72.39590835]),
             ),
             83.779225500887094,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_CIE1994(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 74.05216981, 276.45318193]),
             ),
             10.053931954553839,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_CIE1994(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 8.32281957, -73.58297716]),
             ),
             57.535453706667425,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_CIE1994(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 426.67945353, 72.39590835]),
                 textiles=True,
             ),
             88.335553057506502,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_CIE1994(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 74.05216981, 276.45318193]),
                 textiles=True,
             ),
             10.612657890048272,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_CIE1994(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 8.32281957, -73.58297716]),
                 textiles=True,
             ),
             60.368687261063329,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_delta_E_CIE1994(self):
@@ -177,15 +178,19 @@ class TestDelta_E_CIE1994(unittest.TestCase):
         Lab_1 = np.tile(Lab_1, (6, 1))
         Lab_2 = np.tile(Lab_2, (6, 1))
         delta_E = np.tile(delta_E, 6)
-        np.testing.assert_array_almost_equal(
-            delta_E_CIE1994(Lab_1, Lab_2), delta_E, decimal=7
+        np.testing.assert_allclose(
+            delta_E_CIE1994(Lab_1, Lab_2),
+            delta_E,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         Lab_1 = np.reshape(Lab_1, (2, 3, 3))
         Lab_2 = np.reshape(Lab_2, (2, 3, 3))
         delta_E = np.reshape(delta_E, (2, 3))
-        np.testing.assert_array_almost_equal(
-            delta_E_CIE1994(Lab_1, Lab_2), delta_E, decimal=7
+        np.testing.assert_allclose(
+            delta_E_CIE1994(Lab_1, Lab_2),
+            delta_E,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_domain_range_scale_delta_E_CIE1994(self):
@@ -201,10 +206,10 @@ class TestDelta_E_CIE1994(unittest.TestCase):
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     delta_E_CIE1994(Lab_1 * factor, Lab_2 * factor),
                     delta_E,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -228,61 +233,61 @@ class TestDelta_E_CIE2000(unittest.TestCase):
     def test_delta_E_CIE2000(self):
         """Test :func:`colour.difference.delta_e.delta_E_CIE2000` definition."""
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_CIE2000(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 426.67945353, 72.39590835]),
             ),
             94.03564903,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_CIE2000(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 74.05216981, 276.45318193]),
             ),
             14.87906419,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_CIE2000(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 8.32281957, -73.58297716]),
             ),
             68.23111251,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_CIE2000(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([50.00000000, 426.67945353, 72.39590835]),
                 textiles=True,
             ),
             95.79205352,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_CIE2000(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([50.00000000, 74.05216981, 276.45318193]),
                 textiles=True,
             ),
             23.55420943,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_CIE2000(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([50.00000000, 8.32281957, -73.58297716]),
                 textiles=True,
             ),
             70.63213819,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_delta_E_CIE2000(self):
@@ -298,15 +303,19 @@ class TestDelta_E_CIE2000(unittest.TestCase):
         Lab_1 = np.tile(Lab_1, (6, 1))
         Lab_2 = np.tile(Lab_2, (6, 1))
         delta_E = np.tile(delta_E, 6)
-        np.testing.assert_array_almost_equal(
-            delta_E_CIE2000(Lab_1, Lab_2), delta_E, decimal=7
+        np.testing.assert_allclose(
+            delta_E_CIE2000(Lab_1, Lab_2),
+            delta_E,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         Lab_1 = np.reshape(Lab_1, (2, 3, 3))
         Lab_2 = np.reshape(Lab_2, (2, 3, 3))
         delta_E = np.reshape(delta_E, (2, 3))
-        np.testing.assert_array_almost_equal(
-            delta_E_CIE2000(Lab_1, Lab_2), delta_E, decimal=7
+        np.testing.assert_allclose(
+            delta_E_CIE2000(Lab_1, Lab_2),
+            delta_E,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_domain_range_scale_delta_E_CIE2000(self):
@@ -322,10 +331,10 @@ class TestDelta_E_CIE2000(unittest.TestCase):
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     delta_E_CIE2000(Lab_1 * factor, Lab_2 * factor),
                     delta_E,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -504,8 +513,8 @@ class TestDelta_E_CIE2000(unittest.TestCase):
             ]
         )
 
-        np.testing.assert_array_almost_equal(
-            delta_E_CIE2000(Lab_1, Lab_2), d_E, decimal=4
+        np.testing.assert_allclose(
+            delta_E_CIE2000(Lab_1, Lab_2), d_E, atol=1e-4
         )
 
 
@@ -518,61 +527,61 @@ class TestDelta_E_CMC(unittest.TestCase):
     def test_delta_E_CMC(self):
         """Test :func:`colour.difference.delta_e.delta_E_CMC` definition."""
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_CMC(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 426.67945353, 72.39590835]),
             ),
             172.70477129,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_CMC(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 74.05216981, 276.45318193]),
             ),
             20.59732717,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_CMC(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 8.32281957, -73.58297716]),
             ),
             121.71841479,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_CMC(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 426.67945353, 72.39590835]),
                 l=1,
             ),
             172.70477129,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_CMC(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 74.05216981, 276.45318193]),
                 l=1,
             ),
             20.59732717,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_CMC(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 8.32281957, -73.58297716]),
                 l=1,
             ),
             121.71841479,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_delta_E_CMC(self):
@@ -588,15 +597,15 @@ class TestDelta_E_CMC(unittest.TestCase):
         Lab_1 = np.tile(Lab_1, (6, 1))
         Lab_2 = np.tile(Lab_2, (6, 1))
         delta_E = np.tile(delta_E, 6)
-        np.testing.assert_array_almost_equal(
-            delta_E_CMC(Lab_1, Lab_2), delta_E, decimal=7
+        np.testing.assert_allclose(
+            delta_E_CMC(Lab_1, Lab_2), delta_E, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         Lab_1 = np.reshape(Lab_1, (2, 3, 3))
         Lab_2 = np.reshape(Lab_2, (2, 3, 3))
         delta_E = np.reshape(delta_E, (2, 3))
-        np.testing.assert_array_almost_equal(
-            delta_E_CMC(Lab_1, Lab_2), delta_E, decimal=7
+        np.testing.assert_allclose(
+            delta_E_CMC(Lab_1, Lab_2), delta_E, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_delta_E_CMC(self):
@@ -612,10 +621,10 @@ class TestDelta_E_CMC(unittest.TestCase):
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     delta_E_CMC(Lab_1 * factor, Lab_2 * factor),
                     delta_E,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -639,94 +648,94 @@ class TestDelta_E_ITP(unittest.TestCase):
     def test_delta_E_ITP(self):
         """Test :func:`colour.difference.delta_e.delta_E_ITP` definition."""
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_ITP(
                 # RGB: (110, 82, 69), Dark Skin
                 np.array([0.4885468072, -0.04739350675, 0.07475401302]),
                 np.array([0.4899203231, -0.04567508203, 0.07361341775]),
             ),
             1.426572247,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_ITP(
                 # RGB: (110, 82, 69), 100% White
                 np.array([0.7538438727, 0, -6.25e-16]),
                 np.array([0.7538912244, 0.001930922514, -0.0003599955951]),
             ),
             0.7426668055,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_ITP(
                 # RGB: (0, 0, 0), 100% Black
                 np.array([0.1596179061, 0, -1.21e-16]),
                 np.array([0.1603575152, 0.02881444889, -0.009908665843]),
             ),
             12.60096264,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_ITP(
                 # RGB: (255, 0, 0), 100% Red
                 np.array([0.5965650331, -0.2083210482, 0.3699729716]),
                 np.array([0.596263079, -0.1629742033, 0.3617767026]),
             ),
             17.36012552,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_ITP(
                 # RGB: (0, 255, 0), 100% Green
                 np.array([0.7055787513, -0.4063731514, -0.07278767382]),
                 np.array([0.7046946082, -0.3771037586, -0.07141626753]),
             ),
             10.60227327,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_ITP(
                 # RGB: (255, 0, 0), 100% Blue
                 np.array([0.5180652611, 0.2932420978, -0.1873112695]),
                 np.array([0.5167090868, 0.298191609, -0.1824609953]),
             ),
             4.040270489,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_ITP(
                 # RGB: (0, 255, 255), 100% Cyan
                 np.array([0.7223275939, -0.01290632441, -0.1139004748]),
                 np.array([0.7215329274, -0.007863821961, -0.1106683944]),
             ),
             3.00633812,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_ITP(
                 # RGB: (255, 0, 255), 100% Magenta
                 np.array([0.6401125212, 0.280225698, 0.1665590804]),
                 np.array([0.640473651, 0.2819981563, 0.1654050172]),
             ),
             1.07944277,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             delta_E_ITP(
                 # RGB: (255, 255, 0), 100% Yellow
                 np.array([0.7413041405, -0.3638807621, 0.04959414794]),
                 np.array([0.7412815181, -0.3299076141, 0.04545287368]),
             ),
             12.5885645,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors

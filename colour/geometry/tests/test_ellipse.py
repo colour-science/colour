@@ -1,14 +1,16 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.geometry.ellipse` module."""
 
-import numpy as np
 import unittest
 
+import numpy as np
+
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.geometry import (
-    ellipse_coefficients_general_form,
     ellipse_coefficients_canonical_form,
-    point_at_angle_on_ellipse,
+    ellipse_coefficients_general_form,
     ellipse_fitting_Halir1998,
+    point_at_angle_on_ellipse,
 )
 
 __author__ = "Colour Developers"
@@ -38,20 +40,20 @@ class TestEllipseCoefficientsCanonicalForm(unittest.TestCase):
 ellipse_coefficients_canonical_form` definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             ellipse_coefficients_canonical_form(
                 np.array([2.5, -3.0, 2.5, -1.0, -1.0, -3.5])
             ),
             np.array([0.5, 0.5, 2, 1, 45]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             ellipse_coefficients_canonical_form(
                 np.array([1.0, 0.0, 1.0, 0.0, 0.0, -1.0])
             ),
             np.array([0.0, 0.0, 1, 1, 0]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -67,16 +69,16 @@ class TestEllipseCoefficientsGeneralForm(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             ellipse_coefficients_general_form(np.array([0.5, 0.5, 2, 1, 45])),
             np.array([2.5, -3.0, 2.5, -1.0, -1.0, -3.5]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             ellipse_coefficients_general_form(np.array([0.0, 0.0, 1, 1, 0])),
             np.array([1.0, 0.0, 1.0, 0.0, 0.0, -1.0]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -92,15 +94,15 @@ class TestPointAtAngleOnEllipse(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             point_at_angle_on_ellipse(
                 np.array([0, 90, 180, 270]), np.array([0.0, 0.0, 2, 1, 0])
             ),
             np.array([[2, 0], [0, 1], [-2, 0], [0, -1]]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             point_at_angle_on_ellipse(
                 np.linspace(0, 360, 10), np.array([0.5, 0.5, 2, 1, 45])
             ),
@@ -118,7 +120,7 @@ class TestPointAtAngleOnEllipse(unittest.TestCase):
                     [1.91421356, 1.91421356],
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -134,7 +136,7 @@ class TestEllipseFittingHalir1998(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             ellipse_fitting_Halir1998(
                 np.array([[2, 0], [0, 1], [-2, 0], [0, -1]])
             ),
@@ -148,7 +150,7 @@ class TestEllipseFittingHalir1998(unittest.TestCase):
                     -0.97014250,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 

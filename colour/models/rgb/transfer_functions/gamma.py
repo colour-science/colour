@@ -13,8 +13,8 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import ArrayLike, NDArrayFloat, Literal
-from colour.utilities import as_float_array, as_float, validate_method
+from colour.hints import ArrayLike, Literal, NDArrayFloat
+from colour.utilities import as_float, as_float_array, validate_method
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

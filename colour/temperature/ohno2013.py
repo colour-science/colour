@@ -29,12 +29,13 @@ from colour.colorimetry import (
     handle_spectral_arguments,
 )
 from colour.hints import ArrayLike, NDArrayFloat
-from colour.models import UCS_to_XYZ, UCS_to_uv, XYZ_to_UCS, uv_to_UCS
+from colour.models import UCS_to_uv, UCS_to_XYZ, XYZ_to_UCS, uv_to_UCS
 from colour.temperature import CCT_to_uv_Planck1900
 from colour.utilities import (
     CACHE_REGISTRY,
     as_float_array,
     attest,
+    is_caching_enabled,
     optional,
     runtime_warning,
     tsplit,
@@ -114,9 +115,9 @@ def planckian_table(
            [  1.01000000e+03,   4.4563...e-01,   3.5483...e-01]])
     """
 
-    cache_key = hash((cmfs, start, end, spacing))
-    if cache_key in _CACHE_PLANCKIAN_TABLE:
-        table = _CACHE_PLANCKIAN_TABLE[cache_key].copy()
+    hash_key = hash((cmfs, start, end, spacing))
+    if is_caching_enabled() and hash_key in _CACHE_PLANCKIAN_TABLE:
+        table = _CACHE_PLANCKIAN_TABLE[hash_key].copy()
     else:
         attest(spacing > 1, "Spacing value must be greater than 1!")
 
@@ -137,7 +138,7 @@ def planckian_table(
         table = np.concatenate(
             [Ti.reshape((-1, 1)), CCT_to_uv_Planck1900(Ti, cmfs)], axis=1
         )
-        _CACHE_PLANCKIAN_TABLE[cache_key] = table.copy()
+        _CACHE_PLANCKIAN_TABLE[hash_key] = table.copy()
     return table
 
 

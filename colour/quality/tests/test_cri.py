@@ -3,10 +3,12 @@
 
 from __future__ import annotations
 
-import numpy as np
 import unittest
 
+import numpy as np
+
 from colour.colorimetry import SDS_ILLUMINANTS, SpectralDistribution
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.quality import (
     ColourRendering_Specification_CRI,
     colour_rendering_index,
@@ -118,28 +120,28 @@ class TestColourRenderingIndex(unittest.TestCase):
     def test_colour_rendering_index(self):
         """Test :func:`colour.quality.cri.colour_rendering_index` definition."""
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             colour_rendering_index(SDS_ILLUMINANTS["FL1"]),
             75.852827992149358,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             colour_rendering_index(SDS_ILLUMINANTS["FL2"]),
             64.233724121664778,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             colour_rendering_index(SDS_ILLUMINANTS["A"]),
             99.996230290506887,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             colour_rendering_index(SpectralDistribution(DATA_SAMPLE)),
             70.815265381660197,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         specification_r = ColourRendering_Specification_CRI(
@@ -377,7 +379,7 @@ class TestColourRenderingIndex(unittest.TestCase):
             SDS_ILLUMINANTS["FL1"], additional_data=True
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             [
                 data.Q_a
                 for _index, data in sorted(specification_r.Q_as.items())
@@ -386,7 +388,7 @@ class TestColourRenderingIndex(unittest.TestCase):
                 data.Q_a
                 for _index, data in sorted(specification_t.Q_as.items())
             ],
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 

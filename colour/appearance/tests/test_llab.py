@@ -1,21 +1,26 @@
 # !/usr/bin/env python
-"""Define the unit tests for the :mod:`colour.appearance.llab` module."""
+"""Define the unit tests for the :mod:`colour.appearance.kim2009` module."""
 
-import numpy as np
 import unittest
-from unittest import mock
 from itertools import product
 
+import numpy as np
+
 from colour.appearance import (
-    VIEWING_CONDITIONS_LLAB,
-    InductionFactors_LLAB,
-    XYZ_to_LLAB,
-    llab,
+    MEDIA_PARAMETERS_KIM2009,
+    VIEWING_CONDITIONS_KIM2009,
+    CAM_Specification_Kim2009,
+    InductionFactors_Kim2009,
+    Kim2009_to_XYZ,
+    MediaParameters_Kim2009,
+    XYZ_to_Kim2009,
 )
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import (
     as_float_array,
     domain_range_scale,
     ignore_numpy_errors,
+    tsplit,
 )
 
 __author__ = "Colour Developers"
@@ -26,167 +31,420 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "TestXYZ_to_LLAB",
+    "TestXYZ_to_Kim2009",
+    "TestKim2009_to_XYZ",
 ]
 
 
-class TestXYZ_to_LLAB(unittest.TestCase):
+class TestXYZ_to_Kim2009(unittest.TestCase):
     """
-    Define :func:`colour.appearance.llab.XYZ_to_LLAB` definition unit
+    Define :func:`colour.appearance.kim2009.XYZ_to_Kim2009` definition unit
     tests methods.
     """
 
-    def test_XYZ_to_LLAB(self):
+    def test_XYZ_to_Kim2009(self):
+        """Test :func:`colour.appearance.kim2009.XYZ_to_Kim2009` definition."""
+
+        XYZ = np.array([19.01, 20.00, 21.78])
+        XYZ_w = np.array([95.05, 100.00, 108.88])
+        L_a = 318.31
+        media = MEDIA_PARAMETERS_KIM2009["CRT Displays"]
+        surround = VIEWING_CONDITIONS_KIM2009["Average"]
+        np.testing.assert_allclose(
+            XYZ_to_Kim2009(XYZ, XYZ_w, L_a, media, surround),
+            np.array(
+                [
+                    28.86190898,
+                    0.55924559,
+                    219.04806678,
+                    9.38377973,
+                    52.71388839,
+                    0.46417384,
+                    278.06028246,
+                    np.nan,
+                ]
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        XYZ = np.array([57.06, 43.06, 31.96])
+        L_a = 31.83
+        np.testing.assert_allclose(
+            XYZ_to_Kim2009(XYZ, XYZ_w, L_a, media, surround),
+            np.array(
+                [
+                    70.15940419,
+                    57.89295872,
+                    21.27017200,
+                    61.23630434,
+                    128.14034598,
+                    48.05115573,
+                    1.41841443,
+                    np.nan,
+                ]
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        XYZ = np.array([3.53, 6.56, 2.14])
+        XYZ_w = np.array([109.85, 100.00, 35.58])
+        L_a = 318.31
+        np.testing.assert_allclose(
+            XYZ_to_Kim2009(XYZ, XYZ_w, L_a, media, surround),
+            np.array(
+                [
+                    -4.83430022,
+                    37.42013921,
+                    177.12166057,
+                    np.nan,
+                    -8.82944930,
+                    31.05871555,
+                    220.36270343,
+                    np.nan,
+                ]
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        XYZ = np.array([19.01, 20.00, 21.78])
+        L_a = 31.83
+        np.testing.assert_allclose(
+            XYZ_to_Kim2009(XYZ, XYZ_w, L_a, media, surround),
+            np.array(
+                [
+                    47.20460719,
+                    56.35723637,
+                    241.04877377,
+                    73.65830083,
+                    86.21530880,
+                    46.77650619,
+                    301.77516676,
+                    np.nan,
+                ]
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    def test_n_dimensional_XYZ_to_Kim2009(self):
         """
-        Test :func:`colour.appearance.llab.XYZ_to_LLAB` definition.
-
-        Notes
-        -----
-        -   The test values have been generated from data of the following file
-            by *Fairchild (2013)*:
-            http://rit-mcsl.org/fairchild//files/AppModEx.xls
-        """
-
-        with mock.patch(
-            "colour.appearance.llab.MATRIX_RGB_TO_XYZ_LLAB",
-            np.around(np.linalg.inv(llab.MATRIX_XYZ_TO_RGB_LLAB), decimals=4),
-        ):
-            XYZ = np.array([19.01, 20.00, 21.78])
-            XYZ_0 = np.array([95.05, 100.00, 108.88])
-            Y_b = 20
-            L = 318.31
-            surround = VIEWING_CONDITIONS_LLAB[
-                "Reference Samples & Images, Average Surround, Subtending < 4"
-            ]
-            np.testing.assert_allclose(
-                XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround),
-                np.array([37.37, 0.01, 229.5, 0, 0.02, np.nan, -0.01, -0.01]),
-                rtol=0.01,
-                atol=0.01,
-            )
-
-            XYZ = np.array([57.06, 43.06, 31.96])
-            L = 31.83
-            np.testing.assert_allclose(
-                XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround),
-                np.array(
-                    [61.26, 30.51, 22.3, 0.5, 56.55, np.nan, 52.33, 21.43]
-                ),
-                rtol=0.01,
-                atol=0.01,
-            )
-
-            XYZ = np.array([3.53, 6.56, 2.14])
-            XYZ_0 = np.array([109.85, 100.00, 35.58])
-            L = 318.31
-            np.testing.assert_allclose(
-                XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround),
-                np.array(
-                    [16.25, 30.43, 173.8, 1.87, 53.83, np.nan, -53.51, 5.83]
-                ),
-                rtol=0.01,
-                atol=0.01,
-            )
-
-            XYZ = np.array([19.01, 20.00, 21.78])
-            L = 31.83
-            np.testing.assert_allclose(
-                XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround),
-                np.array(
-                    [39.82, 29.34, 271.9, 0.74, 54.59, np.nan, 1.76, -54.56]
-                ),
-                rtol=0.01,
-                atol=0.01,
-            )
-
-    def test_n_dimensional_XYZ_to_LLAB(self):
-        """
-        Test :func:`colour.appearance.llab.XYZ_to_LLAB` definition
+        Test :func:`colour.appearance.kim2009.XYZ_to_Kim2009` definition
         n-dimensional support.
         """
 
         XYZ = np.array([19.01, 20.00, 21.78])
-        XYZ_0 = np.array([95.05, 100.00, 108.88])
-        Y_b = 20
-        L = 318.31
-        surround = VIEWING_CONDITIONS_LLAB[
-            "Reference Samples & Images, Average Surround, Subtending < 4"
-        ]
-        specification = XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround)
+        XYZ_w = np.array([95.05, 100.00, 108.88])
+        L_a = 318.31
+        media = MEDIA_PARAMETERS_KIM2009["CRT Displays"]
+        surround = VIEWING_CONDITIONS_KIM2009["Average"]
+        specification = XYZ_to_Kim2009(XYZ, XYZ_w, L_a, media, surround)
 
         XYZ = np.tile(XYZ, (6, 1))
         specification = np.tile(specification, (6, 1))
-        np.testing.assert_array_almost_equal(
-            XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround), specification, decimal=7
+        np.testing.assert_allclose(
+            XYZ_to_Kim2009(XYZ, XYZ_w, L_a, media, surround),
+            specification,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        XYZ_0 = np.tile(XYZ_0, (6, 1))
-        np.testing.assert_array_almost_equal(
-            XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround), specification, decimal=7
+        XYZ_w = np.tile(XYZ_w, (6, 1))
+        np.testing.assert_allclose(
+            XYZ_to_Kim2009(XYZ, XYZ_w, L_a, media, surround),
+            specification,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        XYZ_0 = np.reshape(XYZ_0, (2, 3, 3))
+        XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
         specification = np.reshape(specification, (2, 3, 8))
-        np.testing.assert_array_almost_equal(
-            XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround), specification, decimal=7
+        np.testing.assert_allclose(
+            XYZ_to_Kim2009(XYZ, XYZ_w, L_a, media, surround),
+            specification,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_colourspace_conversion_matrices_precision(self):
+    @ignore_numpy_errors
+    def test_domain_range_scale_XYZ_to_Kim2009(self):
         """
-        Test for loss of precision in conversion between
-        *LLAB(l:c)* colour appearance model *CIE XYZ* tristimulus values and
-        normalised cone responses matrix.
-        """
-
-        start = np.array([1, 1, 1])
-        result = np.array(start)
-        for _ in range(100000):
-            result = llab.MATRIX_RGB_TO_XYZ_LLAB.dot(result)
-            result = llab.MATRIX_XYZ_TO_RGB_LLAB.dot(result)
-        np.testing.assert_array_almost_equal(start, result, decimal=7)
-
-    def test_domain_range_scale_XYZ_to_LLAB(self):
-        """
-        Test :func:`colour.appearance.llab.XYZ_to_LLAB` definition domain
-        and range scale support.
+        Test :func:`colour.appearance.kim2009.XYZ_to_Kim2009` definition
+        domain and range scale support.
         """
 
         XYZ = np.array([19.01, 20.00, 21.78])
-        XYZ_0 = np.array([95.05, 100.00, 108.88])
-        Y_b = 20
-        L = 318.31
-        surround = VIEWING_CONDITIONS_LLAB["ref_average_4_minus"]
-        specification = XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround)
+        XYZ_w = np.array([95.05, 100.00, 108.88])
+        L_a = 318.31
+        media = MEDIA_PARAMETERS_KIM2009["CRT Displays"]
+        surround = VIEWING_CONDITIONS_KIM2009["Average"]
+        specification = XYZ_to_Kim2009(XYZ, XYZ_w, L_a, media, surround)
 
         d_r = (
             ("reference", 1, 1),
-            ("1", 0.01, np.array([1, 1, 1 / 360, 1, 1, np.nan, 1, 1])),
-            ("100", 1, np.array([1, 1, 100 / 360, 1, 1, np.nan, 1, 1])),
+            (
+                "1",
+                0.01,
+                np.array(
+                    [
+                        1 / 100,
+                        1 / 100,
+                        1 / 360,
+                        1 / 100,
+                        1 / 100,
+                        1 / 100,
+                        1 / 400,
+                        np.nan,
+                    ]
+                ),
+            ),
+            (
+                "100",
+                1,
+                np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400, np.nan]),
+            ),
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    XYZ_to_LLAB(
-                        XYZ * factor_a, XYZ_0 * factor_a, Y_b, L, surround
+                np.testing.assert_allclose(
+                    XYZ_to_Kim2009(
+                        XYZ * factor_a, XYZ_w * factor_a, L_a, media, surround
                     ),
                     as_float_array(specification) * factor_b,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_LLAB(self):
+    def test_nan_XYZ_to_Kim2009(self):
         """
-        Test :func:`colour.appearance.llab.XYZ_to_LLAB` definition
+        Test :func:`colour.appearance.kim2009.XYZ_to_Kim2009` definition
         nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
-        surround = InductionFactors_LLAB(
-            1, cases[0, 0], cases[0, 0], cases[0, 0]
+        media = MediaParameters_Kim2009(cases[0, 0])
+        surround = InductionFactors_Kim2009(
+            cases[0, 0], cases[0, 0], cases[0, 0]
         )
-        XYZ_to_LLAB(cases, cases, cases[..., 0], cases[..., 0], surround)
+        XYZ_to_Kim2009(cases, cases, cases[0, 0], media, surround)
+
+
+class TestKim2009_to_XYZ(unittest.TestCase):
+    """
+    Define :func:`colour.appearance.kim2009.Kim2009_to_XYZ` definition unit
+    tests methods.
+    """
+
+    def test_Kim2009_to_XYZ(self):
+        """Test :func:`colour.appearance.kim2009.Kim2009_to_XYZ` definition."""
+
+        specification = CAM_Specification_Kim2009(
+            28.86190898,
+            0.55924559,
+            219.04806678,
+            9.38377973,
+            52.71388839,
+            0.46417384,
+            278.06028246,
+            np.nan,
+        )
+        XYZ_w = np.array([95.05, 100.00, 108.88])
+        L_a = 318.31
+        media = MEDIA_PARAMETERS_KIM2009["CRT Displays"]
+        surround = VIEWING_CONDITIONS_KIM2009["Average"]
+        np.testing.assert_allclose(
+            Kim2009_to_XYZ(specification, XYZ_w, L_a, media, surround),
+            np.array([19.01, 20.00, 21.78]),
+            atol=0.01,
+        )
+
+        specification = CAM_Specification_Kim2009(
+            70.15940419,
+            57.89295872,
+            21.27017200,
+            61.23630434,
+            128.14034598,
+            48.05115573,
+            1.41841443,
+            np.nan,
+        )
+        L_a = 31.83
+        np.testing.assert_allclose(
+            Kim2009_to_XYZ(specification, XYZ_w, L_a, media, surround),
+            np.array([57.06, 43.06, 31.96]),
+            atol=0.01,
+        )
+
+        specification = CAM_Specification_Kim2009(
+            -4.83430022,
+            37.42013921,
+            177.12166057,
+            np.nan,
+            -8.82944930,
+            31.05871555,
+            220.36270343,
+            np.nan,
+        )
+        XYZ_w = np.array([109.85, 100.00, 35.58])
+        L_a = 318.31
+        np.testing.assert_allclose(
+            Kim2009_to_XYZ(specification, XYZ_w, L_a, media, surround),
+            np.array([3.53, 6.56, 2.14]),
+            atol=0.01,
+        )
+
+        specification = CAM_Specification_Kim2009(
+            47.20460719,
+            56.35723637,
+            241.04877377,
+            73.65830083,
+            86.21530880,
+            46.77650619,
+            301.77516676,
+            np.nan,
+        )
+        L_a = 31.83
+        np.testing.assert_allclose(
+            Kim2009_to_XYZ(specification, XYZ_w, L_a, media, surround),
+            np.array([19.01, 20.00, 21.78]),
+            atol=0.01,
+        )
+
+    def test_n_dimensional_Kim2009_to_XYZ(self):
+        """
+        Test :func:`colour.appearance.kim2009.Kim2009_to_XYZ` definition
+        n-dimensional support.
+        """
+
+        XYZ = np.array([19.01, 20.00, 21.78])
+        XYZ_w = np.array([95.05, 100.00, 108.88])
+        L_a = 318.31
+        media = MEDIA_PARAMETERS_KIM2009["CRT Displays"]
+        surround = VIEWING_CONDITIONS_KIM2009["Average"]
+        specification = XYZ_to_Kim2009(XYZ, XYZ_w, L_a, media, surround)
+        XYZ = Kim2009_to_XYZ(specification, XYZ_w, L_a, media, surround)
+
+        specification = CAM_Specification_Kim2009(
+            *np.transpose(np.tile(tsplit(specification), (6, 1))).tolist()
+        )
+        XYZ = np.tile(XYZ, (6, 1))
+        np.testing.assert_allclose(
+            Kim2009_to_XYZ(specification, XYZ_w, L_a, media, surround),
+            XYZ,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        XYZ_w = np.tile(XYZ_w, (6, 1))
+        np.testing.assert_allclose(
+            Kim2009_to_XYZ(specification, XYZ_w, L_a, media, surround),
+            XYZ,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        specification = CAM_Specification_Kim2009(
+            *tsplit(np.reshape(specification, (2, 3, 8))).tolist()
+        )
+        XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        np.testing.assert_allclose(
+            Kim2009_to_XYZ(specification, XYZ_w, L_a, media, surround),
+            XYZ,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    @ignore_numpy_errors
+    def test_domain_range_scale_Kim2009_to_XYZ(self):
+        """
+        Test :func:`colour.appearance.kim2009.Kim2009_to_XYZ` definition
+        domain and range scale support.
+        """
+
+        XYZ_i = np.array([19.01, 20.00, 21.78])
+        XYZ_w = np.array([95.05, 100.00, 108.88])
+        L_a = 318.31
+        media = MEDIA_PARAMETERS_KIM2009["CRT Displays"]
+        surround = VIEWING_CONDITIONS_KIM2009["Average"]
+        specification = XYZ_to_Kim2009(XYZ_i, XYZ_w, L_a, media, surround)
+        XYZ = Kim2009_to_XYZ(specification, XYZ_w, L_a, media, surround)
+
+        d_r = (
+            ("reference", 1, 1),
+            (
+                "1",
+                np.array(
+                    [
+                        1 / 100,
+                        1 / 100,
+                        1 / 360,
+                        1 / 100,
+                        1 / 100,
+                        1 / 100,
+                        1 / 400,
+                        np.nan,
+                    ]
+                ),
+                0.01,
+            ),
+            (
+                "100",
+                np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400, np.nan]),
+                1,
+            ),
+        )
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_allclose(
+                    Kim2009_to_XYZ(
+                        specification * factor_a,
+                        XYZ_w * factor_b,
+                        L_a,
+                        media,
+                        surround,
+                    ),
+                    XYZ * factor_b,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+
+    @ignore_numpy_errors
+    def test_raise_exception_Kim2009_to_XYZ(self):
+        """
+        Test :func:`colour.appearance.kim2009.Kim2009_to_XYZ` definition
+        raised exception.
+        """
+
+        self.assertRaises(
+            ValueError,
+            Kim2009_to_XYZ,
+            CAM_Specification_Kim2009(
+                41.731091132513917,
+                None,
+                219.04843265831178,
+            ),
+            np.array([95.05, 100.00, 108.88]),
+            318.31,
+            20.0,
+            VIEWING_CONDITIONS_KIM2009["Average"],
+        )
+
+    @ignore_numpy_errors
+    def test_nan_Kim2009_to_XYZ(self):
+        """
+        Test :func:`colour.appearance.kim2009.Kim2009_to_XYZ` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = np.array(list(set(product(cases, repeat=3))))
+        media = MediaParameters_Kim2009(cases[0, 0])
+        surround = InductionFactors_Kim2009(
+            cases[0, 0], cases[0, 0], cases[0, 0]
+        )
+        Kim2009_to_XYZ(
+            CAM_Specification_Kim2009(
+                cases[..., 0], cases[..., 0], cases[..., 0], M=50
+            ),
+            cases,
+            cases[0, 0],
+            media,
+            surround,
+        )
 
 
 if __name__ == "__main__":

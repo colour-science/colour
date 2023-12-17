@@ -1,12 +1,13 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.volume.macadam_limits` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
-from colour.volume import is_within_macadam_limits
+import numpy as np
+
 from colour.utilities import ignore_numpy_errors
+from colour.volume import is_within_macadam_limits
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -59,15 +60,11 @@ class TestIsWithinMacadamLimits(unittest.TestCase):
 
         a = np.tile(a, (6, 1))
         b = np.tile(b, 6)
-        np.testing.assert_array_almost_equal(
-            is_within_macadam_limits(a, "A"), b
-        )
+        np.testing.assert_allclose(is_within_macadam_limits(a, "A"), b)
 
         a = np.reshape(a, (2, 3, 3))
         b = np.reshape(b, (2, 3))
-        np.testing.assert_array_almost_equal(
-            is_within_macadam_limits(a, "A"), b
-        )
+        np.testing.assert_allclose(is_within_macadam_limits(a, "A"), b)
 
     @ignore_numpy_errors
     def test_nan_is_within_macadam_limits(self):

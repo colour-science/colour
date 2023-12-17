@@ -20,8 +20,9 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 from dataclasses import dataclass, field
+
+import numpy as np
 
 from colour.algebra import matrix_dot, sdiv, sdiv_mode, spow, vector_dot
 from colour.appearance.hunt import MATRIX_XYZ_TO_HPE, XYZ_to_rgb

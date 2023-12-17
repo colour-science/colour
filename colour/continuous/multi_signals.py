@@ -9,12 +9,14 @@ Defines the class implementing support for multi-continuous signals:
 
 from __future__ import annotations
 
-import numpy as np
 from collections.abc import Iterator, Mapping, ValuesView
 
-from colour.constants import DEFAULT_FLOAT_DTYPE
+import numpy as np
+
+from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.continuous import AbstractContinuousFunction, Signal
 from colour.hints import (
+    TYPE_CHECKING,
     Any,
     ArrayLike,
     Callable,
@@ -26,9 +28,8 @@ from colour.hints import (
     ProtocolExtrapolator,
     ProtocolInterpolator,
     Real,
-    Sequence,
     Self,
-    TYPE_CHECKING,
+    Sequence,
     Type,
     cast,
 )
@@ -1002,15 +1003,19 @@ class MultiSignals(AbstractContinuousFunction):
         False
         """
 
+        # NOTE: Comparing "interpolator_kwargs" and "extrapolator_kwargs" using
+        # their string representation because of presence of NaNs.
         if isinstance(other, MultiSignals):
             return all(
                 [
                     np.array_equal(self.domain, other.domain),
                     np.array_equal(self.range, other.range),
                     self.interpolator is other.interpolator,
-                    self.interpolator_kwargs == other.interpolator_kwargs,
+                    str(self.interpolator_kwargs)
+                    == str(other.interpolator_kwargs),
                     self.extrapolator is other.extrapolator,
-                    self.extrapolator_kwargs == other.extrapolator_kwargs,
+                    str(self.extrapolator_kwargs)
+                    == str(other.extrapolator_kwargs),
                     self.labels == other.labels,
                 ]
             )
@@ -1059,7 +1064,7 @@ class MultiSignals(AbstractContinuousFunction):
         a: ArrayLike | AbstractContinuousFunction,
         operation: Literal["+", "-", "*", "/", "**"],
         in_place: bool = False,
-    ) -> AbstractContinuousFunction:
+    ) -> MultiSignals:
         """
         Perform given arithmetical operation with operand :math:`a`, the
         operation can be either performed on a copy or in-place.
@@ -1170,7 +1175,7 @@ class MultiSignals(AbstractContinuousFunction):
          [   9.  347.  378.  409.]]
         """
 
-        multi_signals = cast(MultiSignals, self if in_place else self.copy())
+        multi_signals = self if in_place else self.copy()
 
         if isinstance(a, MultiSignals):
             attest(
@@ -1430,7 +1435,7 @@ class MultiSignals(AbstractContinuousFunction):
          [ 1000.   120.]]
         """
 
-        dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+        dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
         settings = {}
         settings.update(kwargs)
@@ -1550,7 +1555,7 @@ class MultiSignals(AbstractContinuousFunction):
         self,
         method: Literal["Constant", "Interpolation"] | str = "Interpolation",
         default: Real = 0,
-    ) -> AbstractContinuousFunction:
+    ) -> MultiSignals:
         """
         Fill NaNs in independent domain variable :math:`x` and corresponding
         range variable :math:`y` using given method.

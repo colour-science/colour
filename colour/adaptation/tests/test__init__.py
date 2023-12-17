@@ -1,10 +1,12 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.adaptation` module."""
 
-import numpy as np
 import unittest
 
+import numpy as np
+
 from colour.adaptation import chromatic_adaptation
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import domain_range_scale
 
 __author__ = "Colour Developers"
@@ -31,15 +33,15 @@ class TestChromaticAdaptation(unittest.TestCase):
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
         XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatic_adaptation(XYZ, XYZ_w, XYZ_wr),
             np.array([0.21638819, 0.12570000, 0.03847494]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         Y_o = 0.2
         E_o = 1000
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatic_adaptation(
                 XYZ,
                 XYZ_w,
@@ -50,25 +52,25 @@ class TestChromaticAdaptation(unittest.TestCase):
                 E_o2=E_o,
             ),
             np.array([0.21347453, 0.12252986, 0.03347887]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         L_A = 200
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatic_adaptation(
                 XYZ, XYZ_w, XYZ_wr, method="CMCCAT2000", L_A1=L_A, L_A2=L_A
             ),
             np.array([0.21498829, 0.12474711, 0.03910138]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         Y_n = 200
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatic_adaptation(
                 XYZ, XYZ_w, XYZ_wr, method="Fairchild 1990", Y_n=Y_n
             ),
             np.array([0.21394049, 0.12262315, 0.03891917]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_domain_range_scale_chromatic_adaptation(self):
@@ -106,7 +108,7 @@ class TestChromaticAdaptation(unittest.TestCase):
         for method, value in zip(m, v):
             for scale, factor in d_r:
                 with domain_range_scale(scale):
-                    np.testing.assert_array_almost_equal(
+                    np.testing.assert_allclose(
                         chromatic_adaptation(
                             XYZ * factor,
                             XYZ_w * factor,
@@ -120,7 +122,7 @@ class TestChromaticAdaptation(unittest.TestCase):
                             Y_n=Y_n,
                         ),
                         value * factor,
-                        decimal=7,
+                        atol=TOLERANCE_ABSOLUTE_TESTS,
                     )
 
 

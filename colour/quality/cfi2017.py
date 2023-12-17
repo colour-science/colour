@@ -15,30 +15,31 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 import os
 from dataclasses import dataclass
 
+import numpy as np
+
 from colour.algebra import Extrapolator, euclidean_distance, linstep_function
 from colour.appearance import (
+    VIEWING_CONDITIONS_CIECAM02,
     CAM_Specification_CIECAM02,
     XYZ_to_CIECAM02,
-    VIEWING_CONDITIONS_CIECAM02,
 )
 from colour.colorimetry import (
     MSDS_CMFS,
     MultiSpectralDistributions,
-    SpectralShape,
     SpectralDistribution,
+    SpectralShape,
     msds_to_XYZ,
-    sd_to_XYZ,
-    sd_blackbody,
     reshape_msds,
+    sd_blackbody,
     sd_CIE_illuminant_D_series,
+    sd_to_XYZ,
 )
 from colour.hints import ArrayLike, List, NDArrayFloat, Tuple, cast
-from colour.models import XYZ_to_UCS, UCS_to_uv, JMh_CIECAM02_to_CAM02UCS
-from colour.temperature import uv_to_CCT_Ohno2013, CCT_to_xy_CIE_D
+from colour.models import JMh_CIECAM02_to_CAM02UCS, UCS_to_uv, XYZ_to_UCS
+from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
 from colour.utilities import (
     CACHE_REGISTRY,
     as_float,
@@ -46,6 +47,7 @@ from colour.utilities import (
     as_float_scalar,
     as_int_scalar,
     attest,
+    is_caching_enabled,
     tsplit,
     tstack,
     usage_warning,
@@ -277,7 +279,7 @@ def load_TCS_CIE2017(shape: SpectralShape) -> MultiSpectralDistributions:
 
     filename = f"tcs_cfi2017_{as_int_scalar(interval)}_nm.csv.gz"
 
-    if filename in _CACHE_TCS_CIE2017:
+    if is_caching_enabled() and filename in _CACHE_TCS_CIE2017:
         return _CACHE_TCS_CIE2017[filename]
 
     data = np.genfromtxt(

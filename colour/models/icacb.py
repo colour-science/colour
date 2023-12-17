@@ -20,8 +20,8 @@ import numpy as np
 from colour.hints import ArrayLike, NDArrayFloat
 from colour.models import Iab_to_XYZ, XYZ_to_Iab
 from colour.models.rgb.transfer_functions import (
-    eotf_ST2084,
     eotf_inverse_ST2084,
+    eotf_ST2084,
 )
 from colour.utilities import domain_range_scale
 

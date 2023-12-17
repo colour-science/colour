@@ -30,14 +30,14 @@ import numpy as np
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import (
-    SPECTRAL_SHAPE_DEFAULT,
     SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES,
+    SPECTRAL_SHAPE_DEFAULT,
     SpectralDistribution,
     SpectralShape,
     reshape_sd,
 )
 from colour.hints import ArrayLike, NDArrayFloat
-from colour.utilities import as_float_array, as_float, tsplit
+from colour.utilities import as_float, as_float_array, tsplit
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

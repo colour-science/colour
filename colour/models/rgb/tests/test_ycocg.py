@@ -1,10 +1,12 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.rgb.ycocg` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models.rgb import RGB_to_YCoCg, YCoCg_to_RGB
 from colour.utilities import ignore_numpy_errors
 
@@ -58,19 +60,25 @@ class TestRGB_to_YCoCg(unittest.TestCase):
         RGB = np.reshape(RGB, (4, 3))
         YCoCg = np.tile(YCoCg, 4)
         YCoCg = np.reshape(YCoCg, (4, 3))
-        np.testing.assert_array_equal(RGB_to_YCoCg(RGB), YCoCg)
+        np.testing.assert_allclose(
+            RGB_to_YCoCg(RGB), YCoCg, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 3))
         YCoCg = np.tile(YCoCg, 4)
         YCoCg = np.reshape(YCoCg, (4, 4, 3))
-        np.testing.assert_array_equal(RGB_to_YCoCg(RGB), YCoCg)
+        np.testing.assert_allclose(
+            RGB_to_YCoCg(RGB), YCoCg, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 4, 3))
         YCoCg = np.tile(YCoCg, 4)
         YCoCg = np.reshape(YCoCg, (4, 4, 4, 3))
-        np.testing.assert_array_equal(RGB_to_YCoCg(RGB), YCoCg)
+        np.testing.assert_allclose(
+            RGB_to_YCoCg(RGB), YCoCg, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     @ignore_numpy_errors
     def test_nan_RGB_to_YCoCg(self):
@@ -121,19 +129,25 @@ class TestYCoCg_to_RGB(unittest.TestCase):
         RGB = np.reshape(RGB, (4, 3))
         YCoCg = np.tile(YCoCg, 4)
         YCoCg = np.reshape(YCoCg, (4, 3))
-        np.testing.assert_array_equal(YCoCg_to_RGB(YCoCg), RGB)
+        np.testing.assert_allclose(
+            YCoCg_to_RGB(YCoCg), RGB, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 3))
         YCoCg = np.tile(YCoCg, 4)
         YCoCg = np.reshape(YCoCg, (4, 4, 3))
-        np.testing.assert_array_equal(YCoCg_to_RGB(YCoCg), RGB)
+        np.testing.assert_allclose(
+            YCoCg_to_RGB(YCoCg), RGB, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 4, 3))
         YCoCg = np.tile(YCoCg, 4)
         YCoCg = np.reshape(YCoCg, (4, 4, 4, 3))
-        np.testing.assert_array_equal(YCoCg_to_RGB(YCoCg), RGB)
+        np.testing.assert_allclose(
+            YCoCg_to_RGB(YCoCg), RGB, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     @ignore_numpy_errors
     def test_nan_YCoCg_to_RGB(self):

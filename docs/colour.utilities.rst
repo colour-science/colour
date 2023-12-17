@@ -48,6 +48,9 @@ Common
 .. autosummary::
     :toctree: generated/
 
+    is_caching_enabled
+    set_caching_enable
+    caching_enable
     CACHE_REGISTRY
     handle_numpy_errors
     ignore_numpy_errors
@@ -190,6 +193,7 @@ Verbose
     warning
     filter_warnings
     suppress_warnings
+    suppress_stdout
     numpy_print_options
     describe_environment
     multiline_str

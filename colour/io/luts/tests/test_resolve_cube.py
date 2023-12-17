@@ -3,12 +3,14 @@
 
 from __future__ import annotations
 
-import numpy as np
 import os
-import unittest
 import shutil
 import tempfile
+import unittest
 
+import numpy as np
+
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.io import LUT1D, read_LUT_ResolveCube, write_LUT_ResolveCube
 
 __author__ = "Colour Developers"
@@ -45,7 +47,7 @@ class TestReadLUTResolveCube(unittest.TestCase):
             os.path.join(ROOT_LUTS, "ACES_Proxy_10_to_ACES.cube")
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT_1.table,
             np.array(
                 [
@@ -83,6 +85,7 @@ class TestReadLUTResolveCube(unittest.TestCase):
                     [7.04300000e02, 7.04300000e02, 7.04300000e02],
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
         self.assertEqual(LUT_1.name, "ACES Proxy 10 to ACES")
         self.assertEqual(LUT_1.dimensions, 2)
@@ -107,7 +110,7 @@ class TestReadLUTResolveCube(unittest.TestCase):
         LUT_4 = read_LUT_ResolveCube(
             os.path.join(ROOT_LUTS, "LogC_Video.cube")
         )
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT_4[0].table,
             np.array(
                 [
@@ -129,6 +132,7 @@ class TestReadLUTResolveCube(unittest.TestCase):
                     [1.00000000, 1.00000000, 1.00000000],
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
         self.assertEqual(LUT_4[1].size, 4)
 

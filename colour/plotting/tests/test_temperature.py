@@ -2,13 +2,17 @@
 """Define the unit tests for the :mod:`colour.plotting.temperature` module."""
 
 import unittest
-from matplotlib.pyplot import Axes, Figure
+
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 
 from colour.plotting import (
     plot_planckian_locus_in_chromaticity_diagram_CIE1931,
     plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS,
 )
 from colour.plotting.temperature import (
+    lines_daylight_locus,
+    lines_planckian_locus,
     plot_daylight_locus,
     plot_planckian_locus,
     plot_planckian_locus_in_chromaticity_diagram,
@@ -22,12 +26,28 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "TestLinesPlanckianLocus",
     "TestPlotDaylightLocus",
+    "TestLinesPlanckianLocus",
     "TestPlotPlanckianLocus",
     "TestPlotPlanckianLocusInChromaticityDiagram",
     "TestPlotPlanckianLocusInChromaticityDiagramCIE1931",
     "TestPlotPlanckianLocusInChromaticityDiagramCIE1960UCS",
 ]
+
+
+class TestLinesDaylightLocus(unittest.TestCase):
+    """
+    Define :func:`colour.plotting.diagrams.lines_daylight_locus` definition
+    unit tests methods.
+    """
+
+    def test_lines_daylight_locus(self):
+        """
+        Test :func:`colour.plotting.diagrams.lines_daylight_locus` definition.
+        """
+
+        self.assertEqual(len(lines_daylight_locus()), 1)
 
 
 class TestPlotDaylightLocus(unittest.TestCase):
@@ -60,6 +80,20 @@ class TestPlotDaylightLocus(unittest.TestCase):
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
+
+
+class TestLinesPlanckianLocus(unittest.TestCase):
+    """
+    Define :func:`colour.plotting.diagrams.lines_planckian_locus` definition
+    unit tests methods.
+    """
+
+    def test_lines_planckian_locus(self):
+        """
+        Test :func:`colour.plotting.diagrams.lines_planckian_locus` definition.
+        """
+
+        self.assertEqual(len(lines_planckian_locus()), 2)
 
 
 class TestPlotPlanckianLocus(unittest.TestCase):

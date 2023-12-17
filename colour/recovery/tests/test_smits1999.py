@@ -1,10 +1,12 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.recovery.smits1999` module."""
 
-import numpy as np
 import unittest
 
+import numpy as np
+
 from colour.colorimetry import sd_to_XYZ_integration
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.recovery import RGB_to_sd_Smits1999
 from colour.recovery.smits1999 import XYZ_to_RGB_Smits1999
 from colour.utilities import domain_range_scale
@@ -33,7 +35,7 @@ class TestRGB_to_sd_Smits1999(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             RGB_to_sd_Smits1999(
                 XYZ_to_RGB_Smits1999(
                     np.array([0.21781186, 0.12541048, 0.04697113])
@@ -53,10 +55,10 @@ class TestRGB_to_sd_Smits1999(unittest.TestCase):
                     0.41180754,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             RGB_to_sd_Smits1999(
                 XYZ_to_RGB_Smits1999(
                     np.array([0.15434689, 0.22960951, 0.09620221])
@@ -76,10 +78,10 @@ class TestRGB_to_sd_Smits1999(unittest.TestCase):
                     0.08272671,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             RGB_to_sd_Smits1999(
                 XYZ_to_RGB_Smits1999(
                     np.array([0.07683480, 0.06006092, 0.25833845])
@@ -99,10 +101,10 @@ class TestRGB_to_sd_Smits1999(unittest.TestCase):
                     0.03504156,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             RGB_to_sd_Smits1999(
                 XYZ_to_RGB_Smits1999(np.array([0.0, 1.0, 0.0]))
             ).values,
@@ -120,10 +122,10 @@ class TestRGB_to_sd_Smits1999(unittest.TestCase):
                     -1.2703551,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             RGB_to_sd_Smits1999(
                 XYZ_to_RGB_Smits1999(np.array([1.0, 1.0, 0.0]))
             ).values,
@@ -141,10 +143,10 @@ class TestRGB_to_sd_Smits1999(unittest.TestCase):
                     1.4027005,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             RGB_to_sd_Smits1999(
                 XYZ_to_RGB_Smits1999(np.array([0.5, 0.0, 1.0]))
             ).values,
@@ -162,7 +164,7 @@ class TestRGB_to_sd_Smits1999(unittest.TestCase):
                     0.9383386,
                 ]
             ),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_domain_range_scale_RGB_to_sd_Smits1999(self):
@@ -178,12 +180,12 @@ class TestRGB_to_sd_Smits1999(unittest.TestCase):
         d_r = (("reference", 1, 1), ("1", 1, 0.01), ("100", 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     sd_to_XYZ_integration(
                         RGB_to_sd_Smits1999(RGB_i * factor_a)
                     ),
                     XYZ_o * factor_b,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
 

@@ -4,6 +4,7 @@ CIE Chromaticity Diagrams Plotting
 
 Defines the *CIE* chromaticity diagrams plotting objects:
 
+-   :func:`colour.plotting.lines_spectral_locus`
 -   :func:`colour.plotting.plot_chromaticity_diagram_CIE1931`
 -   :func:`colour.plotting.plot_chromaticity_diagram_CIE1960UCS`
 -   :func:`colour.plotting.plot_chromaticity_diagram_CIE1976UCS`
@@ -15,27 +16,30 @@ Defines the *CIE* chromaticity diagrams plotting objects:
 from __future__ import annotations
 
 import bisect
-import matplotlib.pyplot as plt
+
 import numpy as np
+from matplotlib.axes import Axes
 from matplotlib.collections import LineCollection
+from matplotlib.figure import Figure
 from matplotlib.patches import Polygon
 
 from colour.algebra import normalise_maximum, normalise_vector
 from colour.colorimetry import (
-    MultiSpectralDistributions,
     SDS_ILLUMINANTS,
+    MultiSpectralDistributions,
     SpectralDistribution,
     sd_to_XYZ,
     sds_and_msds_to_sds,
 )
+from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.hints import (
     Any,
     ArrayLike,
-    Dict,
     Callable,
+    Dict,
     List,
     Literal,
-    NDArrayFloat,
+    NDArray,
     Sequence,
     Tuple,
     cast,
@@ -48,12 +52,14 @@ from colour.models import (
     XYZ_to_Luv,
     XYZ_to_UCS,
     XYZ_to_xy,
+    xy_to_Luv_uv,
+    xy_to_UCS_uv,
     xy_to_XYZ,
 )
 from colour.notation import HEX_to_RGB
 from colour.plotting import (
-    CONSTANTS_COLOUR_STYLE,
     CONSTANTS_ARROW_STYLE,
+    CONSTANTS_COLOUR_STYLE,
     XYZ_to_plotting_colourspace,
     artist,
     filter_cmfs,
@@ -63,14 +69,15 @@ from colour.plotting import (
     update_settings_collection,
 )
 from colour.utilities import (
+    CanonicalMapping,
     as_float_array,
     domain_range_scale,
     first_item,
-    is_string,
     optional,
     tsplit,
     tstack,
     validate_method,
+    zeros,
 )
 
 __author__ = "Colour Developers"
@@ -81,6 +88,9 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "METHODS_CHROMATICITY_DIAGRAM",
+    "LABELS_CHROMATICITY_DIAGRAM_DEFAULT",
+    "lines_spectral_locus",
     "plot_spectral_locus",
     "plot_chromaticity_diagram_colours",
     "plot_chromaticity_diagram",
@@ -92,6 +102,269 @@ __all__ = [
     "plot_sds_in_chromaticity_diagram_CIE1960UCS",
     "plot_sds_in_chromaticity_diagram_CIE1976UCS",
 ]
+
+METHODS_CHROMATICITY_DIAGRAM: CanonicalMapping = CanonicalMapping(
+    {
+        "CIE 1931": {
+            "XYZ_to_ij": lambda a, *args: XYZ_to_xy(a),  # noqa: ARG005
+            "ij_to_XYZ": lambda a, *args: xy_to_XYZ(a),  # noqa: ARG005
+            "xy_to_ij": lambda a, *args: a,  # noqa: ARG005
+            "uv_to_ij": lambda a, *args: UCS_uv_to_xy(a),  # noqa: ARG005
+        },
+        "CIE 1960 UCS": {
+            "XYZ_to_ij": lambda a, *args: UCS_to_uv(  # noqa: ARG005
+                XYZ_to_UCS(a)
+            ),
+            "ij_to_XYZ": lambda a, *args: xy_to_XYZ(  # noqa: ARG005
+                UCS_uv_to_xy(a)
+            ),
+            "xy_to_ij": lambda a, *args: xy_to_UCS_uv(a),  # noqa: ARG005
+            "uv_to_ij": lambda a, *args: a,  # noqa: ARG005
+        },
+        "CIE 1976 UCS": {
+            "XYZ_to_ij": lambda a, *args: Luv_to_uv(
+                XYZ_to_Luv(a, *args), *args
+            ),
+            "ij_to_XYZ": lambda a, *args: xy_to_XYZ(  # noqa: ARG005
+                Luv_uv_to_xy(a)
+            ),
+            "xy_to_ij": lambda a, *args: xy_to_Luv_uv(a),  # noqa: ARG005
+            "uv_to_ij": lambda a, *args: xy_to_Luv_uv(  # noqa: ARG005
+                UCS_uv_to_xy(a)
+            ),
+        },
+    }
+)
+"""Chromaticity diagram conversion methods."""
+
+LABELS_CHROMATICITY_DIAGRAM_DEFAULT: CanonicalMapping = CanonicalMapping(
+    {
+        "CIE 1931": (
+            390,
+            460,
+            470,
+            480,
+            490,
+            500,
+            510,
+            520,
+            540,
+            560,
+            580,
+            600,
+            620,
+            700,
+        ),
+        "CIE 1960 UCS": (
+            420,
+            440,
+            450,
+            460,
+            470,
+            480,
+            490,
+            500,
+            510,
+            520,
+            530,
+            540,
+            550,
+            560,
+            570,
+            580,
+            590,
+            600,
+            610,
+            620,
+            630,
+            645,
+            680,
+        ),
+        "CIE 1976 UCS": (
+            420,
+            440,
+            450,
+            460,
+            470,
+            480,
+            490,
+            500,
+            510,
+            520,
+            530,
+            540,
+            550,
+            560,
+            570,
+            580,
+            590,
+            600,
+            610,
+            620,
+            630,
+            645,
+            680,
+        ),
+    }
+)
+"""*Chromaticity Diagram* default labels."""
+
+
+def lines_spectral_locus(
+    cmfs: MultiSpectralDistributions
+    | str
+    | Sequence[
+        MultiSpectralDistributions | str
+    ] = "CIE 1931 2 Degree Standard Observer",
+    labels: Sequence | None = None,
+    method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+    | str = "CIE 1931",
+) -> Tuple[NDArray, NDArray]:
+    """
+    Return the *Spectral Locus* line vertices, i.e. positions, normals and
+    colours, according to given method.
+
+    Parameters
+    ----------
+    cmfs
+        Standard observer colour matching functions used for computing the
+        spectral locus boundaries. ``cmfs`` can be of any type or form
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
+    labels
+        Array of wavelength labels used to customise which labels will be drawn
+        around the spectral locus. Passing an empty array will result in no
+        wavelength labels being drawn.
+    method
+        *Chromaticity Diagram* method.
+
+    Returns
+    -------
+    :class:`tuple`
+        Tuple of *Spectral Locus* vertices and wavelength labels vertices.
+
+    Examples
+    --------
+    >>> lines = lines_spectral_locus()
+    >>> len(lines)
+    2
+    >>> lines[0].dtype
+    dtype([('position', '<f8', (2,)), ('normal', '<f8', (2,)), \
+('colour', '<f8', (3,))])
+    >>> lines[1].dtype
+    dtype([('position', '<f8', (2,)), ('normal', '<f8', (2,)), \
+('colour', '<f8', (3,))])
+    """
+
+    cmfs = cast(
+        MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
+    )
+
+    labels = optional(labels, LABELS_CHROMATICITY_DIAGRAM_DEFAULT[method])
+
+    method = validate_method(method, tuple(METHODS_CHROMATICITY_DIAGRAM))
+
+    illuminant = CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint
+
+    wavelengths = list(cmfs.wavelengths)
+    equal_energy = np.array([1 / 3] * 2)
+
+    XYZ_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["XYZ_to_ij"]
+    ij_to_XYZ = METHODS_CHROMATICITY_DIAGRAM[method]["ij_to_XYZ"]
+
+    # CMFS
+    ij_cmfs = XYZ_to_ij(cmfs.values, illuminant)
+
+    # Line of Purples
+    ij_pl = tstack(
+        [
+            np.linspace(ij_cmfs[-1][0], ij_cmfs[0][0], 20),
+            np.linspace(ij_cmfs[-1][1], ij_cmfs[0][1], 20),
+        ]
+    )
+
+    ij_sl = np.vstack([ij_cmfs, ij_pl])
+
+    colour_sl = normalise_maximum(
+        XYZ_to_plotting_colourspace(
+            np.reshape(ij_to_XYZ(ij_sl, illuminant), (-1, 3))
+        ),
+        axis=-1,
+    )
+
+    lines_sl = zeros(
+        ij_sl.shape[0],
+        [
+            ("position", DTYPE_FLOAT_DEFAULT, 2),
+            ("normal", DTYPE_FLOAT_DEFAULT, 2),
+            ("colour", DTYPE_FLOAT_DEFAULT, 3),
+        ],  # pyright: ignore
+    )
+
+    lines_sl["position"] = ij_sl
+    lines_sl["colour"] = colour_sl
+
+    # Labels Normals
+    ij_n, colour_l, normal_l = [], [], []
+    wl_ij_cmfs = dict(zip(wavelengths, ij_cmfs))
+    for label in cast(Tuple, labels):
+        ij_l = wl_ij_cmfs.get(label)
+
+        if ij_l is None:
+            continue
+
+        i, j = tsplit(ij_l)
+
+        index = bisect.bisect(wavelengths, label)
+        left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
+        right = (
+            wavelengths[index] if index < len(wavelengths) else wavelengths[-1]
+        )
+
+        dx = wl_ij_cmfs[right][0] - wl_ij_cmfs[left][0]
+        dy = wl_ij_cmfs[right][1] - wl_ij_cmfs[left][1]
+
+        direction = np.array([-dy, dx])
+
+        normal = (
+            np.array([-dy, dx])
+            if np.dot(
+                normalise_vector(ij_l - equal_energy),
+                normalise_vector(direction),
+            )
+            > 0
+            else np.array([dy, -dx])
+        )
+        normal = normalise_vector(normal)
+
+        ij_n.append([[i, j], [i + normal[0] / 50, j + normal[1] / 50]])
+        normal_l.append([normal, normal])
+        colour_l.append([ij_l, ij_l])
+
+    ij_w = as_float_array(ij_n).reshape([-1, 2])
+    normal_w = as_float_array(normal_l).reshape([-1, 2])
+    colours_w = as_float_array(colour_l).reshape([-1, 2])
+
+    colour_w = normalise_maximum(
+        XYZ_to_plotting_colourspace(
+            np.reshape(ij_to_XYZ(colours_w, illuminant), (-1, 3))
+        ),
+        axis=-1,
+    )
+
+    lines_w = zeros(
+        ij_w.shape[0],
+        [
+            ("position", DTYPE_FLOAT_DEFAULT, 2),
+            ("normal", DTYPE_FLOAT_DEFAULT, 2),
+            ("colour", DTYPE_FLOAT_DEFAULT, 3),
+        ],  # pyright: ignore
+    )
+
+    lines_w["position"] = ij_w
+    lines_w["normal"] = normal_w
+    lines_w["colour"] = colour_w
+
+    return lines_sl, lines_w
 
 
 @override_style()
@@ -107,7 +380,7 @@ def plot_spectral_locus(
     method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
     | str = "CIE 1931",
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the *Spectral Locus* according to given method.
 
@@ -151,13 +424,17 @@ def plot_spectral_locus(
         :alt: plot_spectral_locus
     """
 
-    method = validate_method(
-        method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS")
-    )
+    method = validate_method(method, tuple(METHODS_CHROMATICITY_DIAGRAM))
 
     spectral_locus_colours = optional(
         spectral_locus_colours, CONSTANTS_COLOUR_STYLE.colour.dark
     )
+
+    labels = optional(
+        spectral_locus_labels, LABELS_CHROMATICITY_DIAGRAM_DEFAULT[method]
+    )
+
+    use_RGB_colours = str(spectral_locus_colours).upper() == "RGB"
 
     settings: Dict[str, Any] = {"uniform": True}
     settings.update(kwargs)
@@ -168,198 +445,58 @@ def plot_spectral_locus(
         MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
     )
 
-    illuminant = CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint
-
-    wavelengths = list(cmfs.wavelengths)
-    equal_energy = np.array([1 / 3] * 2)
-
-    labels = ()
-    if method == "cie 1931":
-        ij = XYZ_to_xy(cmfs.values)
-        labels = optional(
-            spectral_locus_labels,
-            (
-                390,
-                460,
-                470,
-                480,
-                490,
-                500,
-                510,
-                520,
-                540,
-                560,
-                580,
-                600,
-                620,
-                700,
-            ),
-        )
-    elif method == "cie 1960 ucs":
-        ij = UCS_to_uv(XYZ_to_UCS(cmfs.values))
-        labels = optional(
-            spectral_locus_labels,
-            (
-                420,
-                440,
-                450,
-                460,
-                470,
-                480,
-                490,
-                500,
-                510,
-                520,
-                530,
-                540,
-                550,
-                560,
-                570,
-                580,
-                590,
-                600,
-                610,
-                620,
-                630,
-                645,
-                680,
-            ),
-        )
-    elif method == "cie 1976 ucs":
-        ij = Luv_to_uv(XYZ_to_Luv(cmfs.values, illuminant), illuminant)
-        labels = optional(
-            spectral_locus_labels,
-            (
-                420,
-                440,
-                450,
-                460,
-                470,
-                480,
-                490,
-                500,
-                510,
-                520,
-                530,
-                540,
-                550,
-                560,
-                570,
-                580,
-                590,
-                600,
-                610,
-                620,
-                630,
-                645,
-                680,
-            ),
-        )
-
-    pl_ij = np.reshape(
-        tstack(
-            [
-                np.linspace(ij[0][0], ij[-1][0], 20),
-                np.linspace(ij[0][1], ij[-1][1], 20),
-            ]
-        ),
-        (-1, 1, 2),
+    lines_sl, lines_w = lines_spectral_locus(
+        cmfs, spectral_locus_labels, method
     )
-    sl_ij = np.copy(ij).reshape(-1, 1, 2)
 
-    purple_line_colours: ArrayLike | str | None
-    if str(spectral_locus_colours).upper() == "RGB":
-        spectral_locus_colours = normalise_maximum(
-            XYZ_to_plotting_colourspace(cmfs.values), axis=-1
-        )
-
-        if method == "cie 1931":
-            XYZ = xy_to_XYZ(pl_ij)
-        elif method == "cie 1960 ucs":
-            XYZ = xy_to_XYZ(UCS_uv_to_xy(pl_ij))
-        elif method == "cie 1976 ucs":
-            XYZ = xy_to_XYZ(Luv_uv_to_xy(pl_ij))
-
-        purple_line_colours = normalise_maximum(
-            XYZ_to_plotting_colourspace(np.reshape(XYZ, (-1, 3))), axis=-1
-        )
-    else:
-        purple_line_colours = spectral_locus_colours
-
-    for slp_ij, slp_colours in (
-        (pl_ij, purple_line_colours),
-        (sl_ij, spectral_locus_colours),
-    ):
-        line_collection = LineCollection(
-            np.concatenate([slp_ij[:-1], slp_ij[1:]], axis=1),
-            colors=slp_colours,
-            alpha=spectral_locus_opacity,
-            zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_scatter,
-        )
-        axes.add_collection(line_collection)
-
-    wl_ij = dict(zip(wavelengths, ij))
-    for label in labels:
-        ij_l = wl_ij.get(label)
-
-        if ij_l is None:
-            continue
-
-        ij_l = as_float_array([ij_l])
-        i, j = tsplit(ij_l)
-
-        index = bisect.bisect(wavelengths, label)
-        left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
-        right = (
-            wavelengths[index] if index < len(wavelengths) else wavelengths[-1]
-        )
-
-        dx = wl_ij[right][0] - wl_ij[left][0]
-        dy = wl_ij[right][1] - wl_ij[left][1]
-
-        direction = np.array([-dy, dx])
-
-        normal = (
-            np.array([-dy, dx])
-            if np.dot(
-                normalise_vector(ij_l - equal_energy),
-                normalise_vector(direction),
-            )
-            > 0
-            else np.array([dy, -dx])
-        )
-        normal = normalise_vector(normal) / 30
-
-        label_colour = (
-            spectral_locus_colours
-            if is_string(spectral_locus_colours)
-            else cast(NDArrayFloat, spectral_locus_colours)[index]
-        )
-        axes.plot(
-            (i, i + normal[0] * 0.75),
-            (j, j + normal[1] * 0.75),
-            color=label_colour,
+    axes.add_collection(
+        LineCollection(
+            np.concatenate(
+                [lines_sl["position"][:-1], lines_sl["position"][1:]],
+                axis=1,  # pyright: ignore
+            ).reshape([-1, 2, 2]),
+            colors=lines_sl["colour"]
+            if use_RGB_colours
+            else spectral_locus_colours,
             alpha=spectral_locus_opacity,
             zorder=CONSTANTS_COLOUR_STYLE.zorder.background_line,
         )
+    )
+    axes.add_collection(
+        LineCollection(
+            lines_w["position"].reshape([-1, 2, 2]),  # pyright: ignore
+            colors=lines_w["colour"][::2]
+            if use_RGB_colours
+            else spectral_locus_colours,
+            alpha=spectral_locus_opacity,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.background_line,
+        )
+    )
+
+    for i, label in enumerate(
+        [label for label in labels if label in cmfs.wavelengths]
+    ):
+        positions = lines_w["position"][::2]
+        normals = lines_w["normal"][::2]
+        colours = lines_w["colour"][::2]
 
         axes.plot(
-            i,
-            j,
+            positions[i, 0],
+            positions[i, 1],
             "o",
-            color=label_colour,
+            color=colours[i] if use_RGB_colours else spectral_locus_colours,
             alpha=spectral_locus_opacity,
             zorder=CONSTANTS_COLOUR_STYLE.zorder.background_line,
         )
 
         axes.text(
-            i + normal[0],
-            j + normal[1],
+            positions[i, 0] + normals[i, 0] / 50 * 1.25,
+            positions[i, 1] + normals[i, 1] / 50 * 1.25,
             label,
             clip_on=True,
-            ha="left" if normal[0] >= 0 else "right",
+            ha="left" if lines_w["normal"][::2][i, 0] >= 0 else "right",
             va="center",
-            fontdict={"size": "small"},
+            fontsize="x-small-colour-science",
             zorder=CONSTANTS_COLOUR_STYLE.zorder.background_label,
         )
 
@@ -383,7 +520,7 @@ def plot_chromaticity_diagram_colours(
     method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
     | str = "CIE 1931",
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the *Chromaticity Diagram* colours according to given method.
 
@@ -448,14 +585,9 @@ def plot_chromaticity_diagram_colours(
 
     illuminant = CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint
 
-    if method == "cie 1931":
-        spectral_locus = XYZ_to_xy(cmfs.values)
-    elif method == "cie 1960 ucs":
-        spectral_locus = UCS_to_uv(XYZ_to_UCS(cmfs.values))
-    elif method == "cie 1976 ucs":
-        spectral_locus = Luv_to_uv(
-            XYZ_to_Luv(cmfs.values, illuminant), illuminant
-        )
+    XYZ_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["XYZ_to_ij"]
+
+    spectral_locus = XYZ_to_ij(cmfs.values, illuminant)
 
     use_RGB_diagram_colours = str(diagram_colours).upper() == "RGB"
     if use_RGB_diagram_colours:
@@ -464,15 +596,10 @@ def plot_chromaticity_diagram_colours(
         )
         ij = tstack([ii, jj])
 
-        if method == "cie 1931":
-            XYZ = xy_to_XYZ(ij)
-        elif method == "cie 1960 ucs":
-            XYZ = xy_to_XYZ(UCS_uv_to_xy(ij))
-        elif method == "cie 1976 ucs":
-            XYZ = xy_to_XYZ(Luv_uv_to_xy(ij))
+        ij_to_XYZ = METHODS_CHROMATICITY_DIAGRAM[method]["ij_to_XYZ"]
 
         diagram_colours = normalise_maximum(
-            XYZ_to_plotting_colourspace(XYZ, illuminant), axis=-1
+            XYZ_to_plotting_colourspace(ij_to_XYZ(ij), illuminant), axis=-1
         )
 
     polygon = Polygon(
@@ -520,7 +647,7 @@ def plot_chromaticity_diagram(
     method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
     | str = "CIE 1931",
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the *Chromaticity Diagram* according to given method.
 
@@ -592,8 +719,10 @@ def plot_chromaticity_diagram(
 
     if method == "cie 1931":
         x_label, y_label = "CIE x", "CIE y"
+
     elif method == "cie 1960 ucs":
         x_label, y_label = "CIE u", "CIE v"
+
     elif method == "cie 1976 ucs":
         x_label, y_label = (
             "CIE u'",
@@ -627,7 +756,7 @@ def plot_chromaticity_diagram_CIE1931(
     show_diagram_colours: bool = True,
     show_spectral_locus: bool = True,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the *CIE 1931 Chromaticity Diagram*.
 
@@ -683,7 +812,7 @@ def plot_chromaticity_diagram_CIE1960UCS(
     show_diagram_colours: bool = True,
     show_spectral_locus: bool = True,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the *CIE 1960 UCS Chromaticity Diagram*.
 
@@ -739,7 +868,7 @@ def plot_chromaticity_diagram_CIE1976UCS(
     show_diagram_colours: bool = True,
     show_spectral_locus: bool = True,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the *CIE 1976 UCS Chromaticity Diagram*.
 
@@ -801,7 +930,7 @@ def plot_sds_in_chromaticity_diagram(
     annotate_kwargs: dict | List[dict] | None = None,
     plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given spectral distribution chromaticity coordinates into the
     *Chromaticity Diagram* using given method.
@@ -921,39 +1050,15 @@ def plot_sds_in_chromaticity_diagram(
 
     chromaticity_diagram_callable(**settings)
 
+    XYZ_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["XYZ_to_ij"]
+
     if method == "cie 1931":
-
-        def XYZ_to_ij(XYZ: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE XYZ* tristimulus values to *ij* chromaticity
-            coordinates.
-            """
-
-            return XYZ_to_xy(XYZ)
-
         bounding_box = (-0.1, 0.9, -0.1, 0.9)
+
     elif method == "cie 1960 ucs":
-
-        def XYZ_to_ij(XYZ: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE XYZ* tristimulus values to *ij* chromaticity
-            coordinates.
-            """
-
-            return UCS_to_uv(XYZ_to_UCS(XYZ))
-
         bounding_box = (-0.1, 0.7, -0.2, 0.6)
 
     elif method == "cie 1976 ucs":
-
-        def XYZ_to_ij(XYZ: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE XYZ* tristimulus values to *ij* chromaticity
-            coordinates.
-            """
-
-            return Luv_to_uv(XYZ_to_Luv(XYZ))
-
         bounding_box = (-0.1, 0.7, -0.1, 0.7)
 
     annotate_settings_collection = [
@@ -1024,7 +1129,7 @@ def plot_sds_in_chromaticity_diagram(
                 XYZ_to_plotting_colourspace(XYZ), 0, 1
             )
 
-        ij = XYZ_to_ij(XYZ)
+        ij = cast(tuple[float, float], XYZ_to_ij(XYZ))
 
         axes.plot(ij[0], ij[1], **plot_settings)
 
@@ -1055,7 +1160,7 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
     annotate_kwargs: dict | List[dict] | None = None,
     plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given spectral distribution chromaticity coordinates into the
     *CIE 1931 Chromaticity Diagram*.
@@ -1165,7 +1270,7 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
     annotate_kwargs: dict | List[dict] | None = None,
     plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given spectral distribution chromaticity coordinates into the
     *CIE 1960 UCS Chromaticity Diagram*.
@@ -1276,7 +1381,7 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
     annotate_kwargs: dict | List[dict] | None = None,
     plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given spectral distribution chromaticity coordinates into the
     *CIE 1976 UCS Chromaticity Diagram*.

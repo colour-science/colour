@@ -9,16 +9,23 @@ Environment
 Various environment variables can be used to modify **Colour** behaviour at
 runtime:
 
--   `COLOUR_SCIENCE__DEFAULT_INT_DTYPE`: Set the default integer dtype for
+-   ``COLOUR_SCIENCE__DEFAULT_INT_DTYPE``: Set the default integer dtype for
     most of **Colour** computations. Possible values are `int32` and `int64`
     (default). Changing the integer dtype *will almost certainly break*
     **Colour**! *With great power comes great responsibility*.
--   `COLOUR_SCIENCE__DEFAULT_FLOAT_DTYPE`: Set the float dtype for most of
+-   ``COLOUR_SCIENCE__DEFAULT_FLOAT_DTYPE``: Set the float dtype for most of
     **Colour** computations. Possible values are `float16`, `float32` and
     `float64` (default). Changing the float dtype might result in various
     **Colour** `functionality breaking entirely <https://github.com/numpy/numpy/issues/6860>`__.
     *With great power comes great responsibility*.
--   `COLOUR_SCIENCE__COLOUR__SHOW_WARNINGS_WITH_TRACEBACK`: Result in the
+-   ``COLOUR_SCIENCE__COLOUR__DISABLE_CACHING``: Disable the caches that can
+    be disabled, useful for debugging purposes.
+-   ``COLOUR_SCIENCE__COLOUR__IMPORT_VAAB_COLOUR``: Import
+    `vaab/colour <https://github.com/vaab/colour>`__ injection into
+    **Colour** namespace. This solves the clash with
+    `vaab/colour <https://github.com/vaab/colour>`__ by loading a known subset
+    of the objects given by vaab/colour-0.1.5 into our namespace.
+-   ``COLOUR_SCIENCE__COLOUR__SHOW_WARNINGS_WITH_TRACEBACK``: Result in the
     :func:`warnings.showwarning` definition to be replaced with the
     :func:`colour.utilities.show_warning` definition and thus providing
     complete traceback from the point where the warning occurred.
@@ -29,7 +36,7 @@ Caching
 **Colour** uses various internal caches to improve speed and prevent redundant
 processes, notably for spectral related computations.
 
-The internal caches are managed with the `colour.utilities.CACHE_REGISTRY`
+The internal caches are managed with the :attr:`colour.utilities.CACHE_REGISTRY`
 cache registry object:
 
 .. code-block:: python
@@ -53,20 +60,20 @@ cache registry object:
      'colour.volume.spectrum._CACHE_OUTER_SURFACE_XYZ': '0 item(s)',
      'colour.volume.spectrum._CACHE_OUTER_SURFACE_XYZ_POINTS': '0 item(s)'}
 
-See `colour.utilities.CacheRegistry` class documentation for more information
+See :class:`colour.utilities.CacheRegistry` class documentation for more information
 on how to manage the cache registry.
 
 Using Colour without Scipy
 --------------------------
 
 With the release of `Colour 0.3.8 <https://github.com/colour-science/colour/releases/tag/v0.3.8>`__,
-`SciPy <http://www.scipy.org/>`__ became a requirement.
+`SciPy <http://www.scipy.org>`__ became a requirement.
 
 **Scipy** is notoriously hard to compile, especially
-`on Windows <https://colour-science.slack.com/messages/C02KH93GT/>`__.
+`on Windows <https://colour-science.slack.com/messages/C02KH93GT>`__.
 Some Digital Content Creation (DCC) applications are shipping Python interpreters
 compiled with versions of
-`Visual Studio <https://visualstudio.microsoft.com/>`__ such as 2011 or 2015.
+`Visual Studio <https://visualstudio.microsoft.com>`__ such as 2011 or 2015.
 Those are incompatible with the Python Wheels commonly built with
 `Visual Studio 2008 (Python 2.7) or Visual Studio 2017 (Python 3.6) <https://devguide.python.org/setup/?highlight=windows#windows>`__.
 

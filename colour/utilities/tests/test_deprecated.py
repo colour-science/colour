@@ -6,8 +6,8 @@ import sys
 from colour.hints import Any
 from colour.utilities.deprecation import (
     ModuleAPI,
-    ObjectRenamed,
     ObjectRemoved,
+    ObjectRenamed,
 )
 
 

@@ -39,8 +39,9 @@ Set_xy_coord. https://www.adobe.com/support/downloads/dng/dng_sdk.html
 
 from __future__ import annotations
 
-import numpy as np
 from dataclasses import dataclass
+
+import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode
 from colour.hints import ArrayLike, NDArrayFloat

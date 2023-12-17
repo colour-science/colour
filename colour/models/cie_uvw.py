@@ -23,8 +23,8 @@ from colour.models import (
     UCS_uv_to_xy,
     XYZ_to_xy,
     xy_to_UCS_uv,
-    xyY_to_XYZ,
     xyY_to_xy,
+    xyY_to_XYZ,
 )
 from colour.utilities import from_range_100, to_domain_100, tsplit, tstack
 

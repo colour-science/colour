@@ -16,8 +16,6 @@ SDS_BABELCOLOR_AVERAGE`: Average data derived from measurements
     of 30 *ColorChecker Classic* charts.
 -   :attr:`colour.characterisation.datasets.colour_checkers.sds.\
 SDS_COLORCHECKER_N_OHTA`: Measured by Ohta (1997).
--   :attr:`colour.characterisation.datasets.colour_checkers.sds.\
-SDS_ISO17321_1`: Reflectance values for spectral curves of a set of 24 patches.
 
 Notes
 -----

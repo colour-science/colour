@@ -38,8 +38,7 @@ from colour.hints import (
     cast,
 )
 from colour.recovery import BASIS_FUNCTIONS_DYER2017
-from colour.utilities import as_float_array, optional, tsplit, runtime_warning
-
+from colour.utilities import as_float_array, optional, runtime_warning, tsplit
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

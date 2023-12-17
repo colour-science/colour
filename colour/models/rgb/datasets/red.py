@@ -33,11 +33,11 @@ from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
-    normalised_primary_matrix,
-    log_encoding_REDLogFilm,
+    log_decoding_Log3G10,
     log_decoding_REDLogFilm,
     log_encoding_Log3G10,
-    log_decoding_Log3G10,
+    log_encoding_REDLogFilm,
+    normalised_primary_matrix,
 )
 
 __author__ = "Colour Developers"

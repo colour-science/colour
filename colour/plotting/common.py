@@ -6,6 +6,7 @@ Defines the common plotting objects:
 
 -   :func:`colour.plotting.colour_style`
 -   :func:`colour.plotting.override_style`
+-   :func:`colour.plotting.font_scaling`
 -   :func:`colour.plotting.XYZ_to_plotting_colourspace`
 -   :class:`colour.plotting.ColourSwatch`
 -   :func:`colour.plotting.colour_cycle`
@@ -29,22 +30,28 @@ from __future__ import annotations
 import contextlib
 import functools
 import itertools
-import matplotlib.cm
-import matplotlib.pyplot as plt
-import matplotlib.ticker
-from mpl_toolkits.mplot3d.axes3d import Axes3D
-import numpy as np
+from contextlib import contextmanager
 from dataclasses import dataclass, field
 from functools import partial
+
+import matplotlib.cm
+import matplotlib.font_manager
+import matplotlib.pyplot as plt
+import matplotlib.ticker
+import numpy as np
+from cycler import cycler
+from matplotlib.axes import Axes
 from matplotlib.colors import LinearSegmentedColormap
+from matplotlib.figure import Figure, SubFigure
 from matplotlib.patches import Patch
+from mpl_toolkits.mplot3d.axes3d import Axes3D
 
 from colour.characterisation import CCS_COLOURCHECKERS, ColourChecker
 from colour.colorimetry import (
-    MultiSpectralDistributions,
     MSDS_CMFS,
     SDS_ILLUMINANTS,
     SDS_LIGHT_SOURCES,
+    MultiSpectralDistributions,
     SpectralDistribution,
 )
 from colour.hints import (
@@ -52,8 +59,12 @@ from colour.hints import (
     ArrayLike,
     Callable,
     Dict,
+    Generator,
     List,
     Literal,
+    LiteralChromaticAdaptationTransform,
+    LiteralFontScaling,
+    LiteralRGBColourspace,
     Mapping,
     NDArrayFloat,
     Sequence,
@@ -68,10 +79,10 @@ from colour.utilities import (
     as_float_array,
     as_int_scalar,
     attest,
+    filter_mapping,
     first_item,
     is_sibling,
     is_string,
-    filter_mapping,
     optional,
     runtime_warning,
     validate_method,
@@ -90,6 +101,7 @@ __all__ = [
     "CONSTANTS_ARROW_STYLE",
     "colour_style",
     "override_style",
+    "font_scaling",
     "XYZ_to_plotting_colourspace",
     "ColourSwatch",
     "colour_cycle",
@@ -157,6 +169,22 @@ CONSTANTS_COLOUR_STYLE: Structure = Structure(
                 "colourspace": RGB_COLOURSPACES["sRGB"],
             }
         ),
+        "font": Structure(
+            {
+                "size": 10,
+                "scaling": Structure(
+                    **{
+                        "xx_small": 0.579,
+                        "x_small": 0.694,
+                        "small": 0.833,
+                        "medium": 1,
+                        "large": 1 / 0.579,
+                        "x_large": 1 / 0.694,
+                        "xx_large": 1 / 0.833,
+                    }
+                ),
+            }
+        ),
         "opacity": Structure(**{"high": 0.75, "medium": 0.5, "low": 0.25}),
         "geometry": Structure(**{"long": 5, "medium": 2.5, "short": 1}),
         "hatch": Structure(
@@ -193,6 +221,15 @@ CONSTANTS_COLOUR_STYLE: Structure = Structure(
     }
 )
 """Various defaults settings used across the plotting sub-package."""
+
+# NOTE: Adding our font scaling items so that they can be tweaked without
+# affecting *Matplotplib* ones.
+for _scaling, _value in CONSTANTS_COLOUR_STYLE.font.scaling.items():
+    matplotlib.font_manager.font_scalings[
+        f'{_scaling.replace("_", "-")}-colour-science'
+    ] = _value
+
+del _scaling, _value
 
 CONSTANTS_ARROW_STYLE: Structure = Structure(
     **{
@@ -281,7 +318,7 @@ def colour_style(use_style: bool = True) -> dict:
         "lines.markersize": constants.geometry.short * 3,
         "lines.markeredgewidth": constants.geometry.short * 0.75,
         # Cycle
-        "axes.prop_cycle": matplotlib.cycler(color=constants.colour.cycle),
+        "axes.prop_cycle": cycler(color=constants.colour.cycle),
     }
 
     if use_style:
@@ -338,23 +375,47 @@ def override_style(**kwargs: Any) -> Callable:
     return wrapper
 
 
+@contextmanager
+def font_scaling(scaling: LiteralFontScaling, value: float) -> Generator:
+    """
+    Define a context manager setting temporarily a *Matplotlib* font scaling.
+
+    Parameters
+    ----------
+    scaling
+        Font scaling to temporarily set.
+    value
+        Value to temporarily set the font scaling with.
+
+    Yields
+    ------
+    Generator.
+
+    Examples
+    --------
+    >>> with font_scaling("medium-colour-science", 2):
+    ...     print(
+    ...         matplotlib.font_manager.font_scalings["medium-colour-science"]
+    ...     )
+    ...
+    2
+    >>> print(matplotlib.font_manager.font_scalings["medium-colour-science"])
+    1
+    """
+
+    current_value = matplotlib.font_manager.font_scalings[scaling]
+
+    matplotlib.font_manager.font_scalings[scaling] = value
+
+    yield
+
+    matplotlib.font_manager.font_scalings[scaling] = current_value
+
+
 def XYZ_to_plotting_colourspace(
     XYZ: ArrayLike,
     illuminant: ArrayLike = RGB_COLOURSPACES["sRGB"].whitepoint,
-    chromatic_adaptation_transform: Literal[
-        "Bianco 2010",
-        "Bianco PC 2010",
-        "Bradford",
-        "CAT02 Brill 2008",
-        "CAT02",
-        "CAT16",
-        "CMCCAT2000",
-        "CMCCAT97",
-        "Fairchild",
-        "Sharp",
-        "Von Kries",
-        "XYZ Scaling",
-    ]
+    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
     | str
     | None = "CAT02",
     apply_cctf_encoding: bool = True,
@@ -461,11 +522,11 @@ class KwargsArtist(TypedDict):
         Whether to create the figure with an equal aspect ratio.
     """
 
-    axes: plt.Axes
+    axes: Axes
     uniform: bool
 
 
-def artist(**kwargs: KwargsArtist | Any) -> Tuple[plt.Figure, plt.Axes]:
+def artist(**kwargs: KwargsArtist | Any) -> Tuple[Figure, Axes]:
     """
     Return the current figure and its axes or creates a new one.
 
@@ -491,7 +552,13 @@ def artist(**kwargs: KwargsArtist | Any) -> Tuple[plt.Figure, plt.Axes]:
 
         return figure, figure.gca()
     else:
-        return cast(plt.Figure, plt.gcf()), cast(plt.Axes, axes)
+        axes = cast(Axes, axes)
+        figure = axes.figure
+
+        if isinstance(figure, SubFigure):
+            figure = figure.get_figure()
+
+        return cast(Figure, figure), axes
 
 
 class KwargsCamera(TypedDict):
@@ -513,14 +580,14 @@ class KwargsCamera(TypedDict):
         Matplotlib axes aspect. Default is *equal*.
     """
 
-    figure: plt.Figure
-    axes: plt.Axes
+    figure: Figure
+    axes: Axes
     azimuth: float | None
     elevation: float | None
     camera_aspect: Literal["equal"] | str
 
 
-def camera(**kwargs: KwargsCamera | Any) -> Tuple[plt.Figure, Axes3D]:
+def camera(**kwargs: KwargsCamera | Any) -> Tuple[Figure, Axes3D]:
     """
     Set the camera settings.
 
@@ -536,7 +603,7 @@ def camera(**kwargs: KwargsCamera | Any) -> Tuple[plt.Figure, Axes3D]:
         Current figure and axes.
     """
 
-    figure = cast(plt.Figure, kwargs.get("figure", plt.gcf()))
+    figure = cast(Figure, kwargs.get("figure", plt.gcf()))
     axes = cast(Axes3D, kwargs.get("axes", plt.gca()))
 
     settings = Structure(
@@ -568,6 +635,8 @@ class KwargsRender(TypedDict):
     show
         Whether to show the figure and call :func:`matplotlib.pyplot.show`
         definition.
+    block
+        Whether to block on `show`ing the plot.
     aspect
         Matplotlib axes aspect.
     axes_visible
@@ -598,10 +667,11 @@ class KwargsRender(TypedDict):
         Whether to display the *Y* axis ticker. Default is *True*.
     """
 
-    figure: plt.Figure
-    axes: plt.Axes
+    figure: Figure
+    axes: Axes
     filename: str
     show: bool
+    block: bool
     aspect: Literal["auto", "equal"] | float
     axes_visible: bool
     bounding_box: ArrayLike
@@ -617,7 +687,9 @@ class KwargsRender(TypedDict):
     y_ticker: bool
 
 
-def render(**kwargs: KwargsRender | Any) -> Tuple[plt.Figure, plt.Axes]:
+def render(
+    **kwargs: KwargsRender | Any,
+) -> Tuple[Figure, Axes] | Tuple[Figure, Axes3D]:
     """
     Render the current figure while adjusting various settings such as the
     bounding box, the title or background transparency.
@@ -634,8 +706,8 @@ def render(**kwargs: KwargsRender | Any) -> Tuple[plt.Figure, plt.Axes]:
         Current figure and axes.
     """
 
-    figure = cast(plt.Figure, kwargs.get("figure", plt.gcf()))
-    axes = cast(plt.Axes, kwargs.get("axes", plt.gca()))
+    figure = cast(Figure, kwargs.get("figure", plt.gcf()))
+    axes = cast(Axes, kwargs.get("axes", plt.gca()))
 
     kwargs = handle_arguments_deprecation(
         {
@@ -648,6 +720,7 @@ def render(**kwargs: KwargsRender | Any) -> Tuple[plt.Figure, plt.Axes]:
         **{
             "filename": None,
             "show": True,
+            "block": True,
             "aspect": None,
             "axes_visible": True,
             "bounding_box": None,
@@ -680,9 +753,9 @@ def render(**kwargs: KwargsRender | Any) -> Tuple[plt.Figure, plt.Axes]:
     if settings.y_label:
         axes.set_ylabel(settings.y_label)
     if not settings.x_ticker:
-        axes.set_xticks([])  # pyright: ignore
+        axes.set_xticks([])
     if not settings.y_ticker:
-        axes.set_yticks([])  # pyright: ignore
+        axes.set_yticks([])
     if settings.legend:
         axes.legend(ncol=settings.legend_columns)
 
@@ -696,7 +769,7 @@ def render(**kwargs: KwargsRender | Any) -> Tuple[plt.Figure, plt.Axes]:
         figure.savefig(settings.filename)
 
     if settings.show:
-        plt.show()
+        plt.show(block=settings.block)
 
     return figure, axes
 
@@ -705,10 +778,10 @@ def label_rectangles(
     labels: Sequence[str],
     rectangles: Sequence[Patch],
     rotation: Literal["horizontal", "vertical"] | str = "vertical",
-    text_size: float = 10,
+    text_size: float = CONSTANTS_COLOUR_STYLE.font.scaling.medium,
     offset: ArrayLike | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Add labels above given rectangles.
 
@@ -751,21 +824,19 @@ def label_rectangles(
 
     x_m, y_m = 0, 0
     for rectangle in rectangles:
-        x_m = max(x_m, rectangle.get_width())
-        y_m = max(y_m, rectangle.get_height())
+        x_m = max(x_m, rectangle.get_width())  # pyright: ignore
+        y_m = max(y_m, rectangle.get_height())  # pyright: ignore
 
     for i, rectangle in enumerate(rectangles):
-        x = rectangle.get_x()
-        height = rectangle.get_height()
-        width = rectangle.get_width()
-        ha = "center"
-        va = "bottom"
+        x = rectangle.get_x()  # pyright: ignore
+        height = rectangle.get_height()  # pyright: ignore
+        width = rectangle.get_width()  # pyright: ignore
         axes.text(
             x + width / 2 + offset[0] * width,
             height + offset[1] * y_m,
             labels[i],
-            ha=ha,
-            va=va,
+            ha="center",
+            va="bottom",
             rotation=rotation,
             fontsize=text_size,
             clip_on=True,
@@ -775,7 +846,7 @@ def label_rectangles(
     return figure, axes
 
 
-def uniform_axes3d(**kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
+def uniform_axes3d(**kwargs: Any) -> Tuple[Figure, Axes]:
     """
     Set equal aspect ratio to given 3d axes.
 
@@ -934,7 +1005,10 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
 
 
 def filter_RGB_colourspaces(
-    filterers: RGB_Colourspace | str | Sequence[RGB_Colourspace | str],
+    filterers: RGB_Colourspace
+    | LiteralRGBColourspace
+    | str
+    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str],
     allow_non_siblings: bool = True,
 ) -> Dict[str, RGB_Colourspace]:
     """
@@ -1116,7 +1190,7 @@ def update_settings_collection(
 )
 def plot_single_colour_swatch(
     colour_swatch: ArrayLike | ColourSwatch, **kwargs: Any
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given colour swatch.
 
@@ -1173,7 +1247,7 @@ def plot_multi_colour_swatches(
     background_colour: ArrayLike = (1.0, 1.0, 1.0),
     compare_swatches: Literal["Diagonal", "Stacked"] | str | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given colours swatches.
 
@@ -1344,7 +1418,7 @@ def plot_multi_colour_swatches(
     x_max = x_max * width + x_max * spacing - spacing
     y_max = offset_Y
 
-    axes.patch.set_facecolor(background_colour)
+    axes.patch.set_facecolor(background_colour)  # pyright: ignore
 
     if y == 1:
         bounding_box = [
@@ -1379,7 +1453,7 @@ def plot_single_function(
     log_y: int | None = None,
     plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given function.
 
@@ -1448,7 +1522,7 @@ def plot_multi_functions(
     log_y: int | None = None,
     plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given functions.
 
@@ -1523,8 +1597,8 @@ def plot_multi_functions(
 
         plotting_function = axes.loglog
 
-        axes.set_xscale("log", base=log_x)  # pyright: ignore
-        axes.set_yscale("log", base=log_y)  # pyright: ignore
+        axes.set_xscale("log", base=log_x)
+        axes.set_yscale("log", base=log_y)
     elif log_x is not None:
         attest(log_x >= 2, "Log base must be equal or greater than 2.")
 
@@ -1571,7 +1645,7 @@ def plot_image(
     imshow_kwargs: dict | None = None,
     text_kwargs: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given image.
 

@@ -3,9 +3,11 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.itur_bt_2020` module.
 """
 
-import numpy as np
 import unittest
 
+import numpy as np
+
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models.rgb.transfer_functions import (
     oetf_BT2020,
     oetf_inverse_BT2020,
@@ -37,11 +39,17 @@ oetf_BT2020` definition unit tests methods.
 oetf_BT2020` definition.
         """
 
-        self.assertAlmostEqual(oetf_BT2020(0.0), 0.0, places=7)
+        np.testing.assert_allclose(
+            oetf_BT2020(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(oetf_BT2020(0.18), 0.409007728864150, places=7)
+        np.testing.assert_allclose(
+            oetf_BT2020(0.18), 0.409007728864150, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-        self.assertAlmostEqual(oetf_BT2020(1.0), 1.0, places=7)
+        np.testing.assert_allclose(
+            oetf_BT2020(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_n_dimensional_oetf_BT2020(self):
         """
@@ -54,15 +62,21 @@ oetf_BT2020` definition n-dimensional arrays support.
 
         E = np.tile(E, 6)
         E_p = np.tile(E_p, 6)
-        np.testing.assert_array_almost_equal(oetf_BT2020(E), E_p, decimal=7)
+        np.testing.assert_allclose(
+            oetf_BT2020(E), E_p, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
         E = np.reshape(E, (2, 3))
         E_p = np.reshape(E_p, (2, 3))
-        np.testing.assert_array_almost_equal(oetf_BT2020(E), E_p, decimal=7)
+        np.testing.assert_allclose(
+            oetf_BT2020(E), E_p, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
         E = np.reshape(E, (2, 3, 1))
         E_p = np.reshape(E_p, (2, 3, 1))
-        np.testing.assert_array_almost_equal(oetf_BT2020(E), E_p, decimal=7)
+        np.testing.assert_allclose(
+            oetf_BT2020(E), E_p, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_domain_range_scale_oetf_BT2020(self):
         """
@@ -76,8 +90,10 @@ oetf_BT2020` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    oetf_BT2020(E * factor), E_p * factor, decimal=7
+                np.testing.assert_allclose(
+                    oetf_BT2020(E * factor),
+                    E_p * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -102,13 +118,19 @@ oetf_inverse_BT2020` definition unit tests methods.
 oetf_inverse_BT2020` definition.
         """
 
-        self.assertAlmostEqual(oetf_inverse_BT2020(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            oetf_inverse_BT2020(0.409007728864150), 0.18, places=7
+        np.testing.assert_allclose(
+            oetf_inverse_BT2020(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(oetf_inverse_BT2020(1.0), 1.0, places=7)
+        np.testing.assert_allclose(
+            oetf_inverse_BT2020(0.409007728864150),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            oetf_inverse_BT2020(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_n_dimensional_oetf_inverse_BT2020(self):
         """
@@ -121,20 +143,20 @@ oetf_inverse_BT2020` definition n-dimensional arrays support.
 
         E_p = np.tile(E_p, 6)
         E = np.tile(E, 6)
-        np.testing.assert_array_almost_equal(
-            oetf_inverse_BT2020(E_p), E, decimal=7
+        np.testing.assert_allclose(
+            oetf_inverse_BT2020(E_p), E, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         E_p = np.reshape(E_p, (2, 3))
         E = np.reshape(E, (2, 3))
-        np.testing.assert_array_almost_equal(
-            oetf_inverse_BT2020(E_p), E, decimal=7
+        np.testing.assert_allclose(
+            oetf_inverse_BT2020(E_p), E, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         E_p = np.reshape(E_p, (2, 3, 1))
         E = np.reshape(E, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            oetf_inverse_BT2020(E_p), E, decimal=7
+        np.testing.assert_allclose(
+            oetf_inverse_BT2020(E_p), E, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_oetf_inverse_BT2020(self):
@@ -149,8 +171,10 @@ oetf_inverse_BT2020` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    oetf_inverse_BT2020(E_p * factor), E * factor, decimal=7
+                np.testing.assert_allclose(
+                    oetf_inverse_BT2020(E_p * factor),
+                    E * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors

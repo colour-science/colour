@@ -60,13 +60,18 @@ References
 from __future__ import annotations
 
 import itertools
-import numpy as np
-import scipy.interpolate
 from collections.abc import Mapping
 from functools import reduce
 
+import numpy as np
+import scipy.interpolate
+
 from colour.algebra import sdiv, sdiv_mode
-from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.constants import (
+    DTYPE_FLOAT_DEFAULT,
+    TOLERANCE_ABSOLUTE_DEFAULT,
+    TOLERANCE_RELATIVE_DEFAULT,
+)
 from colour.hints import (
     Any,
     ArrayLike,
@@ -81,9 +86,9 @@ from colour.hints import (
 from colour.utilities import (
     CanonicalMapping,
     as_array,
+    as_float,
     as_float_array,
     as_float_scalar,
-    as_float,
     as_int_array,
     attest,
     closest_indexes,
@@ -406,7 +411,7 @@ class KernelInterpolator:
         *args: Any,  # noqa: ARG002
         **kwargs: Any,  # noqa: ARG002
     ) -> None:
-        dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+        dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
         self._x_p: NDArrayFloat = np.array([])
         self._y_p: NDArrayFloat = np.array([])
@@ -814,7 +819,7 @@ class LinearInterpolator:
         *args: Any,  # noqa: ARG002
         **kwargs: Any,  # noqa: ARG002
     ) -> None:
-        dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+        dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
         self._x: NDArrayFloat = np.array([])
         self._y: NDArrayFloat = np.array([])
@@ -1036,7 +1041,7 @@ class SpragueInterpolator:
         *args: Any,  # noqa: ARG002
         **kwargs: Any,  # noqa: ARG002
     ) -> None:
-        dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+        dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
         self._xp: NDArrayFloat = np.array([])
         self._yp: NDArrayFloat = np.array([])
@@ -1417,19 +1422,19 @@ class NullInterpolator:
         self,
         x: ArrayLike,
         y: ArrayLike,
-        absolute_tolerance: float = 10e-7,
-        relative_tolerance: float = 10e-7,
+        absolute_tolerance: float = TOLERANCE_ABSOLUTE_DEFAULT,
+        relative_tolerance: float = TOLERANCE_RELATIVE_DEFAULT,
         default: float = np.nan,
         dtype: Type[DTypeReal] | None = None,
         *args: Any,  # noqa: ARG002
         **kwargs: Any,  # noqa: ARG002
     ) -> None:
-        dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+        dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
         self._x: NDArrayFloat = np.array([])
         self._y: NDArrayFloat = np.array([])
-        self._absolute_tolerance: float = 10e-7
-        self._relative_tolerance: float = 10e-7
+        self._absolute_tolerance: float = TOLERANCE_ABSOLUTE_DEFAULT
+        self._relative_tolerance: float = TOLERANCE_RELATIVE_DEFAULT
         self._default: float = np.nan
         self._dtype: Type[DTypeReal] = dtype
 

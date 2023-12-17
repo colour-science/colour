@@ -3,18 +3,20 @@
 
 from __future__ import annotations
 
-import numpy as np
 import textwrap
 import unittest
 
+import numpy as np
+
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
+from colour.hints import Any, ArrayLike, NDArrayFloat
 from colour.io.luts import (
-    AbstractLUTSequenceOperator,
     LUT1D,
-    LUT3x1D,
     LUT3D,
+    AbstractLUTSequenceOperator,
+    LUT3x1D,
     LUTSequence,
 )
-from colour.hints import Any, ArrayLike, NDArrayFloat
 from colour.models import gamma_function
 from colour.utilities import as_float_array, tstack
 
@@ -452,7 +454,7 @@ LUTSequence(
         samples = np.linspace(0, 1, 5)
         RGB = tstack([samples, samples, samples])
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT_sequence.apply(RGB, GammaOperator={"direction": "Inverse"}),
             np.array(
                 [
@@ -463,6 +465,7 @@ LUTSequence(
                     [0.75000000, 0.75000000, 0.75000000],
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 

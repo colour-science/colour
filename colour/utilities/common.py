@@ -18,17 +18,19 @@ numpyerrors.html
 
 from __future__ import annotations
 
-import inspect
 import functools
-import numpy as np
+import inspect
+import os
 import re
 import subprocess
-import unicodedata
 import types
+import unicodedata
 import warnings
 from contextlib import contextmanager
 from copy import copy
 from pprint import pformat
+
+import numpy as np
 
 from colour.constants import INTEGER_THRESHOLD
 from colour.hints import (
@@ -52,6 +54,9 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "is_caching_enabled",
+    "set_caching_enable",
+    "caching_enable",
     "CacheRegistry",
     "CACHE_REGISTRY",
     "handle_numpy_errors",
@@ -89,6 +94,106 @@ __all__ = [
     "slugify",
     "int_digest",
 ]
+
+_CACHING_ENABLED: bool = not os.environ.get(
+    "COLOUR_SCIENCE__COLOUR__DISABLE_CACHING", False
+)
+"""
+Global variable storing the current *Colour* caching enabled state.
+"""
+
+
+def is_caching_enabled() -> bool:
+    """
+    Return whether *Colour* caching is enabled.
+
+    Returns
+    -------
+    :class:`bool`
+        Whether *Colour* caching is enabled.
+
+    Examples
+    --------
+    >>> with caching_enable(False):
+    ...     is_caching_enabled()
+    ...
+    False
+    >>> with caching_enable(True):
+    ...     is_caching_enabled()
+    ...
+    True
+    """
+
+    return _CACHING_ENABLED
+
+
+def set_caching_enable(enable: bool):
+    """
+    Set *Colour* caching enabled state.
+
+    Parameters
+    ----------
+    enable
+        Whether to enable *Colour* caching.
+
+    Examples
+    --------
+    >>> with caching_enable(True):
+    ...     print(is_caching_enabled())
+    ...     set_caching_enable(False)
+    ...     print(is_caching_enabled())
+    ...
+    True
+    False
+    """
+
+    global _CACHING_ENABLED  # noqa: PLW0603
+
+    _CACHING_ENABLED = enable
+
+
+class caching_enable:
+    """
+    Define a context manager and decorator temporarily setting *Colour* caching
+    enabled state.
+
+    Parameters
+    ----------
+    enable
+        Whether to enable or disable *Colour* caching.
+    """
+
+    def __init__(self, enable: bool) -> None:
+        self._enable = enable
+        self._previous_state = is_caching_enabled()
+
+    def __enter__(self) -> caching_enable:
+        """
+        Set the *Colour* caching enabled state upon entering the context
+        manager.
+        """
+
+        set_caching_enable(self._enable)
+
+        return self
+
+    def __exit__(self, *args: Any):
+        """
+        Set the *Colour* caching enabled state upon exiting the context
+        manager.
+        """
+
+        set_caching_enable(self._previous_state)
+
+    def __call__(self, function: Callable) -> Callable:
+        """Call the wrapped definition."""
+
+        @functools.wraps(function)
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
+            with self:
+                return function(*args, **kwargs)
+
+        return wrapper
 
 
 class CacheRegistry:
@@ -275,8 +380,6 @@ CACHE_REGISTRY: CacheRegistry = CacheRegistry()
 """
 *Colour* cache registry referencing all the caches used for repetitive or long
 processes.
-
-CACHE_REGISTRY
 """
 
 
@@ -698,7 +801,7 @@ def is_networkx_installed(raise_exception: bool = False) -> bool:
     """
 
     try:  # pragma: no cover
-        import networkx  # noqa: F401
+        import networkx as nx  # noqa: F401
 
         return True
     except ImportError as error:  # pragma: no cover
@@ -1462,6 +1565,7 @@ def slugify(object_: Any, allow_unicode: bool = False) -> str:
 
 if is_xxhash_installed():
     import xxhash
+
     from colour.utilities.documentation import is_documentation_building
 
     int_digest = xxhash.xxh3_64_intdigest

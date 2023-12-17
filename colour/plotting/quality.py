@@ -12,16 +12,18 @@ Defines the colour quality plotting objects:
 
 from __future__ import annotations
 
-import matplotlib.pyplot as plt
-import numpy as np
 from itertools import cycle
 
-from colour.constants import DEFAULT_FLOAT_DTYPE
+import numpy as np
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
+
 from colour.colorimetry import (
     MultiSpectralDistributions,
     SpectralDistribution,
     sds_and_msds_to_sds,
 )
+from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.hints import (
     Any,
     Dict,
@@ -73,7 +75,7 @@ def plot_colour_quality_bars(
     hatching: bool | None = None,
     hatching_repeat: int = 2,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the colour quality data of given illuminants or light sources colour
     quality specifications.
@@ -150,7 +152,7 @@ def plot_colour_quality_bars(
                     0,
                     (count_Q_as + 1) * (count_s + 1),
                     (count_s + 1),
-                    dtype=DEFAULT_FLOAT_DTYPE,
+                    dtype=DTYPE_FLOAT_DEFAULT,
                 )
             )
             * bar_width
@@ -205,19 +207,17 @@ def plot_colour_quality_bars(
                 0,
                 (count_Q_as + 1) * (count_s + 1),
                 (count_s + 1),
-                dtype=DEFAULT_FLOAT_DTYPE,
+                dtype=DTYPE_FLOAT_DEFAULT,
             )
             - bar_width
         )
         * bar_width
         + (count_s * bar_width / 2)
-    )  # pyright: ignore
+    )
     axes.set_xticklabels(
         ["Qa"] + [f"Q{index + 1}" for index in range(0, count_Q_as, 1)]
-    )  # pyright: ignore
-    axes.set_yticks(
-        range(0, 100 + y_ticks_interval, y_ticks_interval)
-    )  # pyright: ignore
+    )
+    axes.set_yticks(range(0, 100 + y_ticks_interval, y_ticks_interval))
 
     aspect = 1 / (120 / (bar_width + len(Q_as) + bar_width * 2))
     bounding_box = (
@@ -242,7 +242,7 @@ def plot_colour_quality_bars(
 @override_style()
 def plot_single_sd_colour_rendering_index_bars(
     sd: SpectralDistribution, **kwargs: Any
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the *Colour Rendering Index* (CRI) of given illuminant or light
     source spectral distribution.
@@ -289,7 +289,7 @@ def plot_multi_sds_colour_rendering_indexes_bars(
     | SpectralDistribution
     | MultiSpectralDistributions,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the *Colour Rendering Index* (CRI) of given illuminants or light
     sources spectral distributions.
@@ -373,7 +373,7 @@ def plot_single_sd_colour_quality_scale_bars(
     sd: SpectralDistribution,
     method: Literal["NIST CQS 7.4", "NIST CQS 9.0"] | str = "NIST CQS 9.0",
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the *Colour Quality Scale* (CQS) of given illuminant or light source
     spectral distribution.
@@ -425,7 +425,7 @@ def plot_multi_sds_colour_quality_scales_bars(
     | MultiSpectralDistributions,
     method: Literal["NIST CQS 7.4", "NIST CQS 9.0"] | str = "NIST CQS 9.0",
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the *Colour Quality Scale* (CQS) of given illuminants or light
     sources spectral distributions.

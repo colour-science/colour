@@ -12,9 +12,9 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.io.luts.common import path_to_title
+from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.io.luts import LUTOperatorMatrix
+from colour.io.luts.common import path_to_title
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -64,7 +64,7 @@ def read_LUT_SonySPImtx(path: str) -> LUTOperatorMatrix:
     Offset     : [ 0.  0.  0.  0.]
     """
 
-    matrix = np.loadtxt(path, dtype=DEFAULT_FLOAT_DTYPE)
+    matrix = np.loadtxt(path, dtype=DTYPE_FLOAT_DEFAULT)
     matrix = np.reshape(matrix, (3, 4))
     offset = matrix[:, 3] / 65535
     matrix = matrix[:3, :3]

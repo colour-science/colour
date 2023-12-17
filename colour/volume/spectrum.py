@@ -31,15 +31,20 @@ from colour.colorimetry import (
     handle_spectral_arguments,
     msds_to_XYZ,
 )
-from colour.constants import DEFAULT_FLOAT_DTYPE, EPSILON
+from colour.constants import DTYPE_FLOAT_DEFAULT, EPSILON
 from colour.hints import (
     Any,
     ArrayLike,
     Literal,
     NDArrayFloat,
 )
+from colour.utilities import (
+    CACHE_REGISTRY,
+    is_caching_enabled,
+    validate_method,
+    zeros,
+)
 from colour.volume import is_within_mesh_volume
-from colour.utilities import CACHE_REGISTRY, zeros, validate_method
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -214,7 +219,7 @@ def generate_pulse_waves(
 
     square_waves = []
     square_waves_basis = np.tril(
-        np.ones((bins, bins), dtype=DEFAULT_FLOAT_DTYPE)
+        np.ones((bins, bins), dtype=DTYPE_FLOAT_DEFAULT)
     )[0:-1, :]
 
     if pulse_order.lower() == "bins":
@@ -233,7 +238,7 @@ def generate_pulse_waves(
         [
             zeros(bins),
             np.vstack(square_waves),
-            np.ones(bins, dtype=DEFAULT_FLOAT_DTYPE),
+            np.ones(bins, dtype=DTYPE_FLOAT_DEFAULT),
         ]
     )
 
@@ -359,18 +364,20 @@ def XYZ_outer_surface(
     )
     XYZ = _CACHE_OUTER_SURFACE_XYZ.get(key)
 
-    if XYZ is None:
-        pulse_waves = generate_pulse_waves(
-            len(cmfs.wavelengths), point_order, filter_jagged_points
-        )
-        XYZ = (
-            msds_to_XYZ(
-                pulse_waves, cmfs, illuminant, method="Integration", **settings
-            )
-            / 100
-        )
+    if is_caching_enabled() and XYZ is not None:
+        return XYZ
 
-        _CACHE_OUTER_SURFACE_XYZ[key] = XYZ
+    pulse_waves = generate_pulse_waves(
+        len(cmfs.wavelengths), point_order, filter_jagged_points
+    )
+    XYZ = (
+        msds_to_XYZ(
+            pulse_waves, cmfs, illuminant, method="Integration", **settings
+        )
+        / 100
+    )
+
+    _CACHE_OUTER_SURFACE_XYZ[key] = XYZ
 
     return XYZ
 

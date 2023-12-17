@@ -3,9 +3,11 @@
 
 from __future__ import annotations
 
-import numpy as np
 import unittest
 
+import numpy as np
+
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.notation import keyword_to_RGB_CSSColor3
 
 __author__ = "Colour Developers"
@@ -40,9 +42,10 @@ class TestKeywordToRGBCSSColor3(unittest.TestCase):
             keyword_to_RGB_CSSColor3("white"), np.array([1, 1, 1])
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             keyword_to_RGB_CSSColor3("aliceblue"),
             np.array([0.94117647, 0.97254902, 1.00000000]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 

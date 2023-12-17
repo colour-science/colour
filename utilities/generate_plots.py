@@ -10,19 +10,20 @@ import matplotlib as mpl
 
 mpl.use("AGG")
 
+import os  # noqa: E402
+
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
-import os  # noqa: E402
 import trimesh  # noqa: E402
 
 import colour  # noqa: E402
 from colour.characterisation import SDS_COLOURCHECKERS  # noqa: E402
 from colour.colorimetry import (  # noqa: E402
+    MSDS_CMFS_STANDARD_OBSERVER,
     SDS_ILLUMINANTS,
-    SDS_LIGHT_SOURCES,
     SDS_LEFS_PHOTOPIC,
     SDS_LEFS_SCOTOPIC,
-    MSDS_CMFS_STANDARD_OBSERVER,
+    SDS_LIGHT_SOURCES,
     SpectralDistribution,
     SpectralShape,
     sd_blackbody,
@@ -30,17 +31,18 @@ from colour.colorimetry import (  # noqa: E402
     sd_to_XYZ,
 )
 from colour.geometry import primitive_cube  # noqa: E402
+from colour.hints import cast  # noqa: E402
 from colour.io import read_image  # noqa: E402
 from colour.models import (  # noqa: E402
     RGB_COLOURSPACE_sRGB,
     RGB_to_XYZ,
-    sRGB_to_XYZ,
     XYZ_to_sRGB,
     XYZ_to_xy,
+    sRGB_to_XYZ,
 )
 from colour.plotting import (  # noqa: E402
-    colour_style,
     ColourSwatch,
+    colour_style,
     plot_automatic_colour_conversion_graph,
     plot_blackbody_colours,
     plot_blackbody_spectral_radiance,
@@ -63,9 +65,9 @@ from colour.plotting import (  # noqa: E402
     plot_multi_lightness_functions,
     plot_multi_luminance_functions,
     plot_multi_munsell_value_functions,
+    plot_multi_sds,
     plot_multi_sds_colour_quality_scales_bars,
     plot_multi_sds_colour_rendering_indexes_bars,
-    plot_multi_sds,
     plot_planckian_locus_in_chromaticity_diagram_CIE1931,
     plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS,
     plot_planckian_locus_in_chromaticity_diagram_CIE1976UCS,
@@ -91,26 +93,26 @@ from colour.plotting import (  # noqa: E402
     plot_single_lightness_function,
     plot_single_luminance_function,
     plot_single_munsell_value_function,
+    plot_single_sd,
     plot_single_sd_colour_quality_scale_bars,
     plot_single_sd_colour_rendering_index_bars,
     plot_single_sd_colour_rendition_report,
     plot_single_sd_rayleigh_scattering,
-    plot_single_sd,
     plot_the_blue_sky,
     plot_visible_spectrum,
     plot_visible_spectrum_section,
     render,
 )
 from colour.plotting.diagrams import (  # noqa: E402
-    plot_spectral_locus,
-    plot_chromaticity_diagram_colours,
     plot_chromaticity_diagram,
+    plot_chromaticity_diagram_colours,
     plot_sds_in_chromaticity_diagram,
+    plot_spectral_locus,
 )
 from colour.plotting.models import (  # noqa: E402
-    plot_RGB_colourspaces_in_chromaticity_diagram,
-    plot_RGB_chromaticities_in_chromaticity_diagram,
     plot_ellipses_MacAdam1942_in_chromaticity_diagram,
+    plot_RGB_chromaticities_in_chromaticity_diagram,
+    plot_RGB_colourspaces_in_chromaticity_diagram,
 )
 from colour.plotting.quality import plot_colour_quality_bars  # noqa: E402
 from colour.plotting.section import (  # noqa: E402
@@ -123,10 +125,10 @@ from colour.plotting.temperature import (  # noqa: E402
     plot_planckian_locus_in_chromaticity_diagram,
 )
 from colour.quality import colour_quality_scale  # noqa: E402
-from colour.utilities import (  # noqa: E402
+from colour.utilities import (  # noqa: E402; noqa: RUF100
     domain_range_scale,
     filter_warnings,
-)  # noqa: RUF100
+)
 
 __copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
@@ -1222,10 +1224,9 @@ def generate_documentation_plots(output_directory: str):
     arguments["filename"] = os.path.join(
         output_directory, "Tutorial_CIE_1931_Chromaticity_Diagram.png"
     )
-    xy = XYZ_to_xy(XYZ)
+    xy = cast(tuple[float, float], XYZ_to_xy(XYZ))
     plot_chromaticity_diagram_CIE1931(standalone=False)
-    x, y = xy
-    plt.plot(x, y, "o-", color="white")
+    plt.plot(xy[0], xy[1], "o-", color="white")
     # Annotating the plot.
     plt.annotate(
         patch_sd.name.title(),

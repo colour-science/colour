@@ -1,10 +1,12 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.hdr_cie_lab` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models import XYZ_to_hdr_CIELab, hdr_CIELab_to_XYZ
 from colour.models.hdr_cie_lab import exponent_hdr_CIELab
 from colour.utilities import domain_range_scale, ignore_numpy_errors
@@ -35,22 +37,28 @@ class TestExponent_hdr_CIELab(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
-            exponent_hdr_CIELab(0.2, 100), 0.473851073746817, places=7
+        np.testing.assert_allclose(
+            exponent_hdr_CIELab(0.2, 100),
+            0.473851073746817,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            exponent_hdr_CIELab(0.4, 100), 0.656101486726362, places=7
+        np.testing.assert_allclose(
+            exponent_hdr_CIELab(0.4, 100),
+            0.656101486726362,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             exponent_hdr_CIELab(0.4, 100, method="Fairchild 2010"),
             1.326014370643925,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            exponent_hdr_CIELab(0.2, 1000), 0.710776610620225, places=7
+        np.testing.assert_allclose(
+            exponent_hdr_CIELab(0.2, 1000),
+            0.710776610620225,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_exponent_hdr_CIELab(self):
@@ -66,22 +74,28 @@ class TestExponent_hdr_CIELab(unittest.TestCase):
         Y_s = np.tile(Y_s, 6)
         Y_abs = np.tile(Y_abs, 6)
         epsilon = np.tile(epsilon, 6)
-        np.testing.assert_array_almost_equal(
-            exponent_hdr_CIELab(Y_s, Y_abs), epsilon, decimal=7
+        np.testing.assert_allclose(
+            exponent_hdr_CIELab(Y_s, Y_abs),
+            epsilon,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         Y_s = np.reshape(Y_s, (2, 3))
         Y_abs = np.reshape(Y_abs, (2, 3))
         epsilon = np.reshape(epsilon, (2, 3))
-        np.testing.assert_array_almost_equal(
-            exponent_hdr_CIELab(Y_s, Y_abs), epsilon, decimal=7
+        np.testing.assert_allclose(
+            exponent_hdr_CIELab(Y_s, Y_abs),
+            epsilon,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         Y_s = np.reshape(Y_s, (2, 3, 1))
         Y_abs = np.reshape(Y_abs, (2, 3, 1))
         epsilon = np.reshape(epsilon, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            exponent_hdr_CIELab(Y_s, Y_abs), epsilon, decimal=7
+        np.testing.assert_allclose(
+            exponent_hdr_CIELab(Y_s, Y_abs),
+            epsilon,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_domain_range_scale_exponent_hdr_CIELab(self):
@@ -97,10 +111,10 @@ class TestExponent_hdr_CIELab(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     exponent_hdr_CIELab(Y_s * factor, Y_abs),
                     epsilon,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -123,45 +137,45 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
     def test_XYZ_to_hdr_CIELab(self):
         """Test :func:`colour.models.hdr_cie_lab.XYZ_to_hdr_CIELab` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_hdr_CIELab(np.array([0.20654008, 0.12197225, 0.05136952])),
             np.array([51.87002062, 60.47633850, 32.14551912]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_hdr_CIELab(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 np.array([0.44757, 0.40745]),
             ),
             np.array([51.87002062, 44.49667330, -6.69619196]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_hdr_CIELab(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 np.array([0.44757, 0.40745]),
                 method="Fairchild 2010",
             ),
             np.array([31.99621114, 95.08564341, -14.14047055]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_hdr_CIELab(
                 np.array([0.20654008, 0.12197225, 0.05136952]), Y_s=0.5
             ),
             np.array([23.10388654, 59.31425004, 23.69960142]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_hdr_CIELab(
                 np.array([0.20654008, 0.12197225, 0.05136952]), Y_abs=1000
             ),
             np.array([29.77261805, 62.58315675, 27.31232673]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_XYZ_to_hdr_CIELab(self):
@@ -178,15 +192,19 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         Lab_hdr = np.tile(Lab_hdr, (6, 1))
-        np.testing.assert_array_almost_equal(
-            XYZ_to_hdr_CIELab(XYZ, illuminant, Y_s, Y_abs), Lab_hdr, decimal=7
+        np.testing.assert_allclose(
+            XYZ_to_hdr_CIELab(XYZ, illuminant, Y_s, Y_abs),
+            Lab_hdr,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         illuminant = np.tile(illuminant, (6, 1))
         Y_s = np.tile(Y_s, 6)
         Y_abs = np.tile(Y_abs, 6)
-        np.testing.assert_array_almost_equal(
-            XYZ_to_hdr_CIELab(XYZ, illuminant, Y_s, Y_abs), Lab_hdr, decimal=7
+        np.testing.assert_allclose(
+            XYZ_to_hdr_CIELab(XYZ, illuminant, Y_s, Y_abs),
+            Lab_hdr,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
@@ -194,8 +212,10 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
         Y_s = np.reshape(Y_s, (2, 3))
         Y_abs = np.reshape(Y_abs, (2, 3))
         Lab_hdr = np.reshape(Lab_hdr, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
-            XYZ_to_hdr_CIELab(XYZ, illuminant, Y_s, Y_abs), Lab_hdr, decimal=7
+        np.testing.assert_allclose(
+            XYZ_to_hdr_CIELab(XYZ, illuminant, Y_s, Y_abs),
+            Lab_hdr,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_domain_range_scale_XYZ_to_hdr_CIELab(self):
@@ -213,12 +233,12 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
         d_r = (("reference", 1, 1), ("1", 1, 0.01), ("100", 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     XYZ_to_hdr_CIELab(
                         XYZ * factor_a, illuminant, Y_s * factor_a, Y_abs
                     ),
                     Lab_hdr * factor_b,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -242,47 +262,47 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
     def test_hdr_CIELab_to_XYZ(self):
         """Test :func:`colour.models.hdr_cie_lab.hdr_CIELab_to_XYZ` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             hdr_CIELab_to_XYZ(
                 np.array([51.87002062, 60.47633850, 32.14551912])
             ),
             np.array([0.20654008, 0.12197225, 0.05136952]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             hdr_CIELab_to_XYZ(
                 np.array([51.87002062, 44.49667330, -6.69619196]),
                 np.array([0.44757, 0.40745]),
             ),
             np.array([0.20654008, 0.12197225, 0.05136952]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             hdr_CIELab_to_XYZ(
                 np.array([31.99621114, 95.08564341, -14.14047055]),
                 np.array([0.44757, 0.40745]),
                 method="Fairchild 2010",
             ),
             np.array([0.20654008, 0.12197225, 0.05136952]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             hdr_CIELab_to_XYZ(
                 np.array([23.10388654, 59.31425004, 23.69960142]), Y_s=0.5
             ),
             np.array([0.20654008, 0.12197225, 0.05136952]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             hdr_CIELab_to_XYZ(
                 np.array([29.77261805, 62.58315675, 27.31232673]), Y_abs=1000
             ),
             np.array([0.20654008, 0.12197225, 0.05136952]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_hdr_CIELab_to_XYZ(self):
@@ -299,15 +319,19 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
 
         Lab_hdr = np.tile(Lab_hdr, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_array_almost_equal(
-            hdr_CIELab_to_XYZ(Lab_hdr, illuminant, Y_s, Y_abs), XYZ, decimal=7
+        np.testing.assert_allclose(
+            hdr_CIELab_to_XYZ(Lab_hdr, illuminant, Y_s, Y_abs),
+            XYZ,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         illuminant = np.tile(illuminant, (6, 1))
         Y_s = np.tile(Y_s, 6)
         Y_abs = np.tile(Y_abs, 6)
-        np.testing.assert_array_almost_equal(
-            hdr_CIELab_to_XYZ(Lab_hdr, illuminant, Y_s, Y_abs), XYZ, decimal=7
+        np.testing.assert_allclose(
+            hdr_CIELab_to_XYZ(Lab_hdr, illuminant, Y_s, Y_abs),
+            XYZ,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         Lab_hdr = np.reshape(Lab_hdr, (2, 3, 3))
@@ -315,8 +339,10 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
         Y_s = np.reshape(Y_s, (2, 3))
         Y_abs = np.reshape(Y_abs, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
-            hdr_CIELab_to_XYZ(Lab_hdr, illuminant, Y_s, Y_abs), XYZ, decimal=7
+        np.testing.assert_allclose(
+            hdr_CIELab_to_XYZ(Lab_hdr, illuminant, Y_s, Y_abs),
+            XYZ,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_domain_range_scale_hdr_CIELab_to_XYZ(self):
@@ -334,12 +360,12 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
         d_r = (("reference", 1, 1, 1), ("1", 0.01, 1, 1), ("100", 1, 100, 100))
         for scale, factor_a, factor_b, factor_c in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     hdr_CIELab_to_XYZ(
                         Lab_hdr * factor_a, illuminant, Y_s * factor_b, Y_abs
                     ),
                     XYZ * factor_c,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors

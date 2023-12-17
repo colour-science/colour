@@ -16,6 +16,9 @@ from .callback import (
     MixinCallback,
 )
 from .common import (
+    is_caching_enabled,
+    set_caching_enable,
+    caching_enable,
     CacheRegistry,
     CACHE_REGISTRY,
     handle_numpy_errors,
@@ -64,6 +67,7 @@ from .verbose import (
     usage_warning,
     filter_warnings,
     suppress_warnings,
+    suppress_stdout,
     numpy_print_options,
     ANCILLARY_COLOUR_SCIENCE_PACKAGES,
     ANCILLARY_RUNTIME_PACKAGES,
@@ -140,6 +144,9 @@ __all__ += [
     "MixinCallback",
 ]
 __all__ += [
+    "is_caching_enabled",
+    "set_caching_enable",
+    "caching_enable",
     "CacheRegistry",
     "CACHE_REGISTRY",
     "handle_numpy_errors",
@@ -188,6 +195,7 @@ __all__ += [
     "usage_warning",
     "filter_warnings",
     "suppress_warnings",
+    "suppress_stdout",
     "numpy_print_options",
     "ANCILLARY_COLOUR_SCIENCE_PACKAGES",
     "ANCILLARY_RUNTIME_PACKAGES",

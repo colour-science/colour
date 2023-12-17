@@ -1,10 +1,12 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.io.luts.operator` module."""
 
-import numpy as np
 import textwrap
 import unittest
 
+import numpy as np
+
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.io.luts import AbstractLUTSequenceOperator, LUTOperatorMatrix
 from colour.utilities import tstack, zeros
 
@@ -176,7 +178,7 @@ LUTOperatorMatrix([[ 0.        ,  0.06666667,  0.13333333,  0.2       ],
 
         np.testing.assert_array_equal(LUTOperatorMatrix().apply(RGB), RGB)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             self._lut_operator_matrix.apply(RGB),
             np.array(
                 [
@@ -187,9 +189,10 @@ LUTOperatorMatrix([[ 0.        ,  0.06666667,  0.13333333,  0.2       ],
                     [0.45000000, 1.50000000, 2.55000000],
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             self._lut_operator_matrix.apply(RGB, apply_offset_first=True),
             np.array(
                 [
@@ -200,13 +203,14 @@ LUTOperatorMatrix([[ 0.        ,  0.06666667,  0.13333333,  0.2       ],
                     [0.33333333, 1.53333333, 2.73333333],
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         RGBA = tstack([samples, samples, samples, samples])
 
         np.testing.assert_array_equal(LUTOperatorMatrix().apply(RGBA), RGBA)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             self._lut_operator_matrix.apply(RGBA),
             np.array(
                 [
@@ -217,9 +221,10 @@ LUTOperatorMatrix([[ 0.        ,  0.06666667,  0.13333333,  0.2       ],
                     [0.65000000, 1.96666667, 3.28333333, 4.60000000],
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             self._lut_operator_matrix.apply(RGBA, apply_offset_first=True),
             np.array(
                 [
@@ -230,6 +235,7 @@ LUTOperatorMatrix([[ 0.        ,  0.06666667,  0.13333333,  0.2       ],
                     [0.73333333, 2.46666667, 4.20000000, 5.93333333],
                 ],
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 

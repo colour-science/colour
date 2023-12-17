@@ -11,6 +11,8 @@ Defines the optical phenomena plotting objects:
 from __future__ import annotations
 
 import matplotlib.pyplot as plt
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 
 from colour.algebra import normalise_maximum
 from colour.colorimetry import (
@@ -27,15 +29,15 @@ from colour.phenomena.rayleigh import (
     CONSTANT_STANDARD_CO2_CONCENTRATION,
 )
 from colour.plotting import (
-    SD_ASTMG173_ETR,
     CONSTANTS_COLOUR_STYLE,
+    SD_ASTMG173_ETR,
     ColourSwatch,
     XYZ_to_plotting_colourspace,
     filter_cmfs,
     override_style,
-    render,
     plot_single_colour_swatch,
     plot_single_sd,
+    render,
 )
 from colour.utilities import first_item
 
@@ -65,7 +67,7 @@ def plot_single_sd_rayleigh_scattering(
         MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot a single *Rayleigh* scattering spectral distribution.
 
@@ -138,7 +140,7 @@ def plot_the_blue_sky(
         MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the blue sky.
 

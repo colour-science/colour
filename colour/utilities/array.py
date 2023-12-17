@@ -19,14 +19,15 @@ numpy-fastest-way-of-computing-diagonal-for-each-row-of-a-2d-array/\
 from __future__ import annotations
 
 import functools
-import numpy as np
 import sys
 from collections.abc import KeysView, ValuesView
 from contextlib import contextmanager
 from dataclasses import fields, is_dataclass, replace
 from operator import add, mul, pow, sub, truediv
 
-from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE, EPSILON
+import numpy as np
+
+from colour.constants import DTYPE_FLOAT_DEFAULT, DTYPE_INT_DEFAULT, EPSILON
 from colour.hints import (
     Any,
     ArrayLike,
@@ -37,11 +38,11 @@ from colour.hints import (
     DTypeFloat,
     DTypeInt,
     DTypeReal,
-    NDArrayFloat,
     Generator,
-    NDArrayInt,
     Literal,
     NDArray,
+    NDArrayFloat,
+    NDArrayInt,
     Real,
     Tuple,
     Type,
@@ -51,6 +52,7 @@ from colour.utilities import (
     CACHE_REGISTRY,
     attest,
     int_digest,
+    is_caching_enabled,
     optional,
     suppress_warnings,
     validate_method,
@@ -250,7 +252,7 @@ class MixinDataclassArray(MixinDataclassIterable):
         dtype
             :class:`numpy.dtype` to use for conversion to `np.ndarray`, default
             to the :class:`numpy.dtype` defined by
-            :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
+            :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
 
         Returns
         -------
@@ -258,7 +260,7 @@ class MixinDataclassArray(MixinDataclassIterable):
             :class:`dataclass`-like class converted to :class:`numpy.ndarray`.
         """
 
-        dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+        dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
         default = None
         for _field, value in self:
@@ -553,11 +555,11 @@ def as_array(
     Parameters
     ----------
     a
-        Variable to convert.
+        Variable :math:`a` to convert.
     dtype
         :class:`numpy.dtype` to use for conversion, default to the
         :class:`numpy.dtype` defined by the
-        :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
+        :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
 
     Returns
     -------
@@ -568,7 +570,7 @@ def as_array(
     --------
     >>> as_array([1, 2, 3])  # doctest: +ELLIPSIS
     array([1, 2, 3]...)
-    >>> as_array([1, 2, 3], dtype=DEFAULT_FLOAT_DTYPE)
+    >>> as_array([1, 2, 3], dtype=DTYPE_FLOAT_DEFAULT)
     array([ 1.,  2.,  3.])
     """
 
@@ -589,11 +591,11 @@ def as_int(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> NDArrayInt:
     Parameters
     ----------
     a
-        Variable to convert.
+        Variable :math:`a` to convert.
     dtype
         :class:`numpy.dtype` to use for conversion, default to the
         :class:`numpy.dtype` defined by the
-        :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute.
+        :attr:`colour.constant.DTYPE_INT_DEFAULT` attribute.
 
     Returns
     -------
@@ -610,7 +612,7 @@ def as_int(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> NDArrayInt:
     array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]...)
     """
 
-    dtype = optional(dtype, DEFAULT_INT_DTYPE)
+    dtype = optional(dtype, DTYPE_INT_DEFAULT)
 
     attest(
         dtype in DTypeInt.__args__,  # pyright: ignore
@@ -631,11 +633,11 @@ def as_float(
     Parameters
     ----------
     a
-        Variable to convert.
+        Variable :math:`a` to convert.
     dtype
         :class:`numpy.dtype` to use for conversion, default to the
         :class:`numpy.dtype` defined by the
-        :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
+        :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
 
     Returns
     -------
@@ -652,7 +654,7 @@ def as_float(
     array([ 0.,  1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.])
     """
 
-    dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+    dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
     attest(
         dtype in DTypeFloat.__args__,  # pyright: ignore
@@ -681,11 +683,11 @@ def as_int_array(
     Parameters
     ----------
     a
-        Variable to convert.
+        Variable :math:`a` to convert.
     dtype
         :class:`numpy.dtype` to use for conversion, default to the
         :class:`numpy.dtype` defined by the
-        :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute.
+        :attr:`colour.constant.DTYPE_INT_DEFAULT` attribute.
 
     Returns
     -------
@@ -698,7 +700,7 @@ def as_int_array(
     array([1, 2, 3]...)
     """
 
-    dtype = optional(dtype, DEFAULT_INT_DTYPE)
+    dtype = optional(dtype, DTYPE_INT_DEFAULT)
 
     attest(
         dtype in DTypeInt.__args__,  # pyright: ignore
@@ -718,11 +720,11 @@ def as_float_array(
     Parameters
     ----------
     a
-        Variable to convert.
+        Variable :math:`a` to convert.
     dtype
         :class:`numpy.dtype` to use for conversion, default to the
         :class:`numpy.dtype` defined by the
-        :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
+        :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
 
     Returns
     -------
@@ -735,7 +737,7 @@ def as_float_array(
     array([ 1.,  2.,  3.])
     """
 
-    dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+    dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
     attest(
         dtype in DTypeFloat.__args__,  # pyright: ignore
@@ -753,11 +755,11 @@ def as_int_scalar(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> int:
     Parameters
     ----------
     a
-        Variable to convert.
+        Variable :math:`a` to convert.
     dtype
         :class:`numpy.dtype` to use for conversion, default to the
         :class:`numpy.dtype` defined by the
-        :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute.
+        :attr:`colour.constant.DTYPE_INT_DEFAULT` attribute.
 
     Returns
     -------
@@ -792,11 +794,11 @@ def as_float_scalar(
     Parameters
     ----------
     a
-        Variable to convert.
+        Variable :math:`a` to convert.
     dtype
         :class:`numpy.dtype` to use for conversion, default to the
         :class:`numpy.dtype` defined by the
-        :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
+        :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
 
     Returns
     -------
@@ -822,17 +824,17 @@ def as_float_scalar(
 
 
 def set_default_int_dtype(
-    dtype: Type[DTypeInt] = DEFAULT_INT_DTYPE,
+    dtype: Type[DTypeInt] = DTYPE_INT_DEFAULT,
 ) -> None:
     """
     Set *Colour* default :class:`numpy.integer` precision by setting
-    :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute with given
+    :attr:`colour.constant.DTYPE_INT_DEFAULT` attribute with given
     :class:`numpy.dtype` wherever the attribute is imported.
 
     Parameters
     ----------
     dtype
-        :class:`numpy.dtype` to set :attr:`colour.constant.DEFAULT_INT_DTYPE`
+        :class:`numpy.dtype` to set :attr:`colour.constant.DTYPE_INT_DEFAULT`
         with.
 
     Notes
@@ -863,24 +865,24 @@ def set_default_int_dtype(
     # TODO: Investigate behaviour on Windows.
     with suppress_warnings(colour_usage_warnings=True):
         for module in sys.modules.values():
-            if not hasattr(module, "DEFAULT_INT_DTYPE"):
+            if not hasattr(module, "DTYPE_INT_DEFAULT"):
                 continue
 
-            module.DEFAULT_INT_DTYPE = dtype  # pyright: ignore
+            module.DTYPE_INT_DEFAULT = dtype  # pyright: ignore
 
 
 def set_default_float_dtype(
-    dtype: Type[DTypeFloat] = DEFAULT_FLOAT_DTYPE,
+    dtype: Type[DTypeFloat] = DTYPE_FLOAT_DEFAULT,
 ) -> None:
     """
     Set *Colour* default :class:`numpy.floating` precision by setting
-    :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute with given
+    :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute with given
     :class:`numpy.dtype` wherever the attribute is imported.
 
     Parameters
     ----------
     dtype
-        :class:`numpy.dtype` to set :attr:`colour.constant.DEFAULT_FLOAT_DTYPE`
+        :class:`numpy.dtype` to set :attr:`colour.constant.DTYPE_FLOAT_DEFAULT`
         with.
 
     Warnings
@@ -911,10 +913,10 @@ def set_default_float_dtype(
 
     with suppress_warnings(colour_usage_warnings=True):
         for module in sys.modules.values():
-            if not hasattr(module, "DEFAULT_FLOAT_DTYPE"):
+            if not hasattr(module, "DTYPE_FLOAT_DEFAULT"):
                 continue
 
-            module.DEFAULT_FLOAT_DTYPE = dtype  # pyright: ignore
+            module.DTYPE_FLOAT_DEFAULT = dtype  # pyright: ignore
 
 
 # TODO: Annotate with "Union[Literal['ignore', 'reference', '1', '100'], str]"
@@ -1141,7 +1143,7 @@ def to_domain_1(
     array(0.01)
     """
 
-    dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+    dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
     a = as_float_array(a, dtype).copy()
 
@@ -1208,7 +1210,7 @@ def to_domain_10(
     array(0.1)
     """
 
-    dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+    dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
     a = as_float_array(a, dtype).copy()
 
@@ -1276,7 +1278,7 @@ def to_domain_100(
     array(1.0)
     """
 
-    dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+    dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
     a = as_float_array(a, dtype).copy()
 
@@ -1343,7 +1345,7 @@ def to_domain_degrees(
     array(3.6)
     """
 
-    dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+    dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
     a = as_float_array(a, dtype).copy()
 
@@ -1417,7 +1419,7 @@ def to_domain_int(
     array(2.55)
     """
 
-    dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+    dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
     a = as_float_array(a, dtype).copy()
 
@@ -1490,7 +1492,7 @@ def from_range_1(
     array(100.0)
     """
 
-    dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+    dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
     a = as_float_array(a, dtype)
 
@@ -1561,7 +1563,7 @@ def from_range_10(
     array(10.0)
     """
 
-    dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+    dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
     a = as_float_array(a, dtype)
 
@@ -1633,7 +1635,7 @@ def from_range_100(
     array(1.0)
     """
 
-    dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+    dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
     a = as_float_array(a, dtype)
 
@@ -1704,7 +1706,7 @@ def from_range_degrees(
     array(0.2777777...)
     """
 
-    dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+    dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
     a = as_float_array(a, dtype)
 
@@ -1782,7 +1784,7 @@ def from_range_int(
     array(0.3921568...)
     """
 
-    dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+    dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
     a = as_float_array(a, dtype)
 
@@ -2062,7 +2064,7 @@ def interval(distribution: ArrayLike, unique: bool = True) -> NDArray:
             unique,
         )
     )
-    if hash_key in _CACHE_DISTRIBUTION_INTERVAL:
+    if is_caching_enabled() and hash_key in _CACHE_DISTRIBUTION_INTERVAL:
         return np.copy(_CACHE_DISTRIBUTION_INTERVAL[hash_key])
 
     differences = np.abs(distribution[1:] - distribution[:-1])
@@ -2173,7 +2175,7 @@ def tstack(
     dtype
         :class:`numpy.dtype` to use for initial conversion to
         :class:`numpy.ndarray`, default to the :class:`numpy.dtype` defined by
-        :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
+        :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
 
     Returns
     -------
@@ -2211,7 +2213,7 @@ def tstack(
              [ 5.,  5.,  5.]]]])
     """
 
-    dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+    dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
     a = as_array(a, dtype)
 
@@ -2239,7 +2241,7 @@ def tsplit(
     dtype
         :class:`numpy.dtype` to use for initial conversion to
         :class:`numpy.ndarray`, default to the :class:`numpy.dtype` defined by
-        :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
+        :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
 
     Returns
     -------
@@ -2278,7 +2280,7 @@ def tsplit(
            [[ 0.,  1.,  2.,  3.,  4.,  5.]]])
     """
 
-    dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+    dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
     a = as_array(a, dtype)
 
@@ -2346,7 +2348,7 @@ def row_as_diagonal(a: ArrayLike) -> NDArray:
 
     d = np.expand_dims(d, -2)
 
-    return np.eye(d.shape[-1]) * d  # pyright: ignore
+    return np.eye(d.shape[-1]) * d
 
 
 def orient(
@@ -2452,7 +2454,7 @@ def centroid(a: ArrayLike) -> NDArray:
 
         a_ci.append(np.sum(axis * a) // a_s)
 
-    return np.array(a_ci).astype(DEFAULT_INT_DTYPE)
+    return np.array(a_ci).astype(DTYPE_INT_DEFAULT)
 
 
 def fill_nan(
@@ -2581,7 +2583,7 @@ def zeros(
     """
     Wrap :func:`np.zeros` definition to create an array with the active
     :class:`numpy.dtype` defined by the
-    :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
+    :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
 
     Parameters
     ----------
@@ -2590,7 +2592,7 @@ def zeros(
     dtype
         :class:`numpy.dtype` to use for conversion, default to the
         :class:`numpy.dtype` defined by the
-        :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
+        :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
     order
         Whether to store multi-dimensional data in row-major (C-style) or
         column-major (Fortran-style) order in memory.
@@ -2606,7 +2608,7 @@ def zeros(
     array([ 0.,  0.,  0.])
     """
 
-    dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+    dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
     return np.zeros(shape, dtype, order)
 
@@ -2619,7 +2621,7 @@ def ones(
     """
     Wrap :func:`np.ones` definition to create an array with the active
     :class:`numpy.dtype` defined by the
-    :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
+    :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
 
     Parameters
     ----------
@@ -2628,7 +2630,7 @@ def ones(
     dtype
         :class:`numpy.dtype` to use for conversion, default to the
         :class:`numpy.dtype` defined by the
-        :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
+        :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
     order
         Whether to store multi-dimensional data in row-major (C-style) or
         column-major (Fortran-style) order in memory.
@@ -2644,7 +2646,7 @@ def ones(
     array([ 1.,  1.,  1.])
     """
 
-    dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+    dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
     return np.ones(shape, dtype, order)
 
@@ -2657,7 +2659,7 @@ def full(
 ) -> NDArray:
     """
     Wrap :func:`np.full` definition to create an array with the active type
-    defined by the:attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
+    defined by the:attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
 
     Parameters
     ----------
@@ -2668,7 +2670,7 @@ def full(
     dtype
         :class:`numpy.dtype` to use for conversion, default to the
         :class:`numpy.dtype` defined by the
-        :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
+        :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
     order
         Whether to store multi-dimensional data in row-major (C-style) or
         column-major (Fortran-style) order in memory.
@@ -2684,7 +2686,7 @@ def full(
     array([ 1.,  1.,  1.])
     """
 
-    dtype = optional(dtype, DEFAULT_FLOAT_DTYPE)
+    dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
     return np.full(shape, fill_value, dtype, order)
 
@@ -2817,5 +2819,5 @@ def format_array_as_row(
     a = np.ravel(a)
 
     return separator.join(
-        "{1:0.{0}f}".format(decimals, x) for x in a  # noqa: PLE1300
+        "{1:0.{0}f}".format(decimals, x) for x in a  # noqa: PLE1300, RUF100
     )

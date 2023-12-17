@@ -4,6 +4,7 @@ Colour Models Plotting
 
 Defines the colour models plotting objects:
 
+-   :func:`colour.plotting.lines_pointer_gamut`
 -   :func:`colour.plotting.\
 plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931`
 -   :func:`colour.plotting.\
@@ -42,18 +43,22 @@ References
 
 from __future__ import annotations
 
-import matplotlib.pyplot as plt
 import numpy as np
 import scipy.optimize
+from matplotlib.axes import Axes
+from matplotlib.collections import LineCollection
+from matplotlib.figure import Figure
 from matplotlib.patches import Ellipse
 from matplotlib.path import Path
 
+from colour.adaptation import chromatic_adaptation_VonKries
+from colour.algebra import normalise_maximum
 from colour.colorimetry import MultiSpectralDistributions
-from colour.constants import EPSILON
+from colour.constants import DTYPE_FLOAT_DEFAULT, EPSILON
 from colour.geometry import (
-    point_at_angle_on_ellipse,
     ellipse_coefficients_canonical_form,
     ellipse_fitting,
+    point_at_angle_on_ellipse,
 )
 from colour.graph import convert
 from colour.hints import (
@@ -63,47 +68,46 @@ from colour.hints import (
     Dict,
     List,
     Literal,
+    LiteralColourspaceModel,
+    LiteralRGBColourspace,
     NDArrayFloat,
     Sequence,
     Tuple,
     cast,
 )
 from colour.models import (
+    CCS_ILLUMINANT_POINTER_GAMUT,
+    CCS_POINTER_GAMUT_BOUNDARY,
+    CCTF_DECODINGS,
+    CCTF_ENCODINGS,
     COLOURSPACE_MODELS_AXIS_LABELS,
     COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE,
-    CCTF_ENCODINGS,
-    CCTF_DECODINGS,
-    LCHab_to_Lab,
-    Lab_to_XYZ,
-    Luv_to_uv,
     DATA_MACADAM_1942_ELLIPSES,
-    CCS_POINTER_GAMUT_BOUNDARY,
     DATA_POINTER_GAMUT_VOLUME,
-    CCS_ILLUMINANT_POINTER_GAMUT,
+    Lab_to_XYZ,
+    LCHab_to_Lab,
     RGB_Colourspace,
     RGB_to_RGB,
     RGB_to_XYZ,
-    UCS_to_uv,
-    XYZ_to_Luv,
     XYZ_to_RGB,
-    XYZ_to_UCS,
     XYZ_to_xy,
-    xy_to_Luv_uv,
-    xy_to_UCS_uv,
+    xy_to_XYZ,
 )
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
-    plot_chromaticity_diagram_CIE1931,
+    METHODS_CHROMATICITY_DIAGRAM,
+    XYZ_to_plotting_colourspace,
     artist,
-    plot_chromaticity_diagram_CIE1960UCS,
-    plot_chromaticity_diagram_CIE1976UCS,
     colour_cycle,
     colour_style,
+    filter_cmfs,
     filter_passthrough,
     filter_RGB_colourspaces,
-    filter_cmfs,
-    plot_multi_functions,
     override_style,
+    plot_chromaticity_diagram_CIE1931,
+    plot_chromaticity_diagram_CIE1960UCS,
+    plot_chromaticity_diagram_CIE1976UCS,
+    plot_multi_functions,
     render,
     update_settings_collection,
 )
@@ -118,6 +122,7 @@ from colour.utilities import (
     optional,
     tsplit,
     validate_method,
+    zeros,
 )
 
 __author__ = "Colour Developers"
@@ -130,6 +135,7 @@ __status__ = "Production"
 __all__ = [
     "COLOURSPACE_MODELS_AXIS_ORDER",
     "colourspace_model_axis_reorder",
+    "lines_pointer_gamut",
     "plot_pointer_gamut",
     "plot_RGB_colourspaces_in_chromaticity_diagram",
     "plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931",
@@ -157,28 +163,35 @@ COLOURSPACE_MODELS_AXIS_ORDER: CanonicalMapping = CanonicalMapping(
         "CAM16LCD": (1, 2, 0),
         "CAM16SCD": (1, 2, 0),
         "CAM16UCS": (1, 2, 0),
-        "CIE XYZ": (0, 1, 2),
-        "CIE xyY": (0, 1, 2),
-        "CIE Lab": (1, 2, 0),
         "CIE LCHab": (1, 2, 0),
-        "CIE Luv": (1, 2, 0),
         "CIE LCHuv": (1, 2, 0),
+        "CIE Lab": (1, 2, 0),
+        "CIE Luv": (1, 2, 0),
         "CIE UCS": (0, 1, 2),
         "CIE UVW": (1, 2, 0),
+        "CIE XYZ": (0, 1, 2),
+        "CIE xyY": (0, 1, 2),
         "DIN99": (1, 2, 0),
+        "HCL": (0, 1, 2),
+        "HSL": (0, 1, 2),
+        "HSV": (0, 1, 2),
         "Hunter Lab": (1, 2, 0),
         "Hunter Rdab": (1, 2, 0),
         "ICaCb": (1, 2, 0),
         "ICtCp": (1, 2, 0),
-        "IPT": (1, 2, 0),
+        "IHLS": (0, 2, 1),
         "IPT Ragoo 2021": (1, 2, 0),
+        "IPT": (1, 2, 0),
         "IgPgTg": (1, 2, 0),
         "Jzazbz": (1, 2, 0),
         "OSA UCS": (1, 2, 0),
         "Oklab": (1, 2, 0),
+        "RGB": (0, 1, 2),
+        "YCbCr": (1, 2, 0),
+        "YCoCg": (1, 2, 0),
+        "Yrg": (1, 2, 0),
         "hdr-CIELAB": (1, 2, 0),
         "hdr-IPT": (1, 2, 0),
-        "Yrg": (1, 2, 0),
     }
 )
 """Colourspace models axis order."""
@@ -186,37 +199,7 @@ COLOURSPACE_MODELS_AXIS_ORDER: CanonicalMapping = CanonicalMapping(
 
 def colourspace_model_axis_reorder(
     a: ArrayLike,
-    model: Literal[
-        "CAM02LCD",
-        "CAM02SCD",
-        "CAM02UCS",
-        "CAM16LCD",
-        "CAM16SCD",
-        "CAM16UCS",
-        "CIE XYZ",
-        "CIE xyY",
-        "CIE Lab",
-        "CIE LCHab",
-        "CIE Luv",
-        "CIE LCHuv",
-        "CIE UCS",
-        "CIE UVW",
-        "DIN99",
-        "Hunter Lab",
-        "Hunter Rdab",
-        "ICaCb",
-        "ICtCp",
-        "IPT",
-        "IPT Ragoo 2021",
-        "IgPgTg",
-        "Jzazbz",
-        "OSA UCS",
-        "Oklab",
-        "hdr-CIELAB",
-        "hdr-IPT",
-        "Yrg",
-    ]
-    | str,
+    model: LiteralColourspaceModel | str,
     direction: Literal["Forward", "Inverse"] | str = "Forward",
 ) -> NDArrayFloat:
     """
@@ -276,6 +259,97 @@ def colourspace_model_axis_reorder(
     return a[..., indexes]
 
 
+def lines_pointer_gamut(
+    method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+    | str = "CIE 1931"
+):
+    """
+    Return the *Pointer's Gamut* line vertices, i.e. positions, normals and
+    colours, according to given method.
+
+    Parameters
+    ----------
+    method
+        *Chromaticity Diagram* method.
+
+    Returns
+    -------
+    :class:`tuple`
+        Tuple of *Pointer's Gamut* boundary and volume vertices.
+
+    Examples
+    --------
+    >>> lines = lines_pointer_gamut()
+    >>> len(lines)
+    2
+    >>> lines[0].dtype
+    dtype([('position', '<f8', (2,)), ('normal', '<f8', (2,)), \
+('colour', '<f8', (3,))])
+    >>> lines[1].dtype
+    dtype([('position', '<f8', (2,)), ('normal', '<f8', (2,)), \
+('colour', '<f8', (3,))])
+    """
+
+    method = validate_method(
+        method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS")
+    )
+
+    illuminant = CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint
+
+    XYZ_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["XYZ_to_ij"]
+    ij_to_XYZ = METHODS_CHROMATICITY_DIAGRAM[method]["ij_to_XYZ"]
+
+    XYZ = xy_to_XYZ(CCS_POINTER_GAMUT_BOUNDARY)
+    XYZ = chromatic_adaptation_VonKries(
+        XYZ, xy_to_XYZ(CCS_ILLUMINANT_POINTER_GAMUT), xy_to_XYZ(illuminant)
+    )
+    ij_b = XYZ_to_ij(XYZ)
+    ij_b = np.vstack([ij_b, ij_b[0]])
+    colours_b = normalise_maximum(
+        XYZ_to_plotting_colourspace(ij_to_XYZ(ij_b, illuminant), illuminant),
+        axis=-1,
+    )
+
+    lines_b = zeros(
+        ij_b.shape[0],
+        [
+            ("position", DTYPE_FLOAT_DEFAULT, 2),
+            ("normal", DTYPE_FLOAT_DEFAULT, 2),
+            ("colour", DTYPE_FLOAT_DEFAULT, 3),
+        ],  # pyright: ignore
+    )
+
+    lines_b["position"] = ij_b
+    lines_b["colour"] = colours_b
+
+    XYZ = Lab_to_XYZ(
+        LCHab_to_Lab(DATA_POINTER_GAMUT_VOLUME), CCS_ILLUMINANT_POINTER_GAMUT
+    )
+    XYZ = chromatic_adaptation_VonKries(
+        XYZ, xy_to_XYZ(CCS_ILLUMINANT_POINTER_GAMUT), xy_to_XYZ(illuminant)
+    )
+    ij_v = XYZ_to_ij(XYZ)
+
+    colours_v = normalise_maximum(
+        XYZ_to_plotting_colourspace(ij_to_XYZ(ij_v, illuminant), illuminant),
+        axis=-1,
+    )
+
+    lines_v = zeros(
+        ij_v.shape[0],
+        [
+            ("position", DTYPE_FLOAT_DEFAULT, 2),
+            ("normal", DTYPE_FLOAT_DEFAULT, 2),
+            ("colour", DTYPE_FLOAT_DEFAULT, 3),
+        ],  # pyright: ignore
+    )
+
+    lines_v["position"] = ij_v
+    lines_v["colour"] = colours_v
+
+    return lines_b, lines_v
+
+
 @override_style()
 def plot_pointer_gamut(
     pointer_gamut_colours: ArrayLike | str | None = None,
@@ -283,7 +357,7 @@ def plot_pointer_gamut(
     method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
     | str = "CIE 1931",
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot *Pointer's Gamut* according to given method.
 
@@ -309,7 +383,7 @@ def plot_pointer_gamut(
 
     Examples
     --------
-    >>> plot_pointer_gamut()  # doctest: +ELLIPSIS
+    >>> plot_pointer_gamut(pointer_gamut_colours="RGB")  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Pointer_Gamut.png
@@ -324,6 +398,9 @@ def plot_pointer_gamut(
     pointer_gamut_colours = optional(
         pointer_gamut_colours, CONSTANTS_COLOUR_STYLE.colour.dark
     )
+
+    use_RGB_colours = str(pointer_gamut_colours).upper() == "RGB"
+
     pointer_gamut_opacity = optional(
         pointer_gamut_opacity, CONSTANTS_COLOUR_STYLE.opacity.high
     )
@@ -333,93 +410,33 @@ def plot_pointer_gamut(
 
     _figure, axes = artist(**settings)
 
-    if method == "cie 1931":
+    lines_b, lines_v = lines_pointer_gamut(method)
 
-        def XYZ_to_ij(
-            XYZ: NDArrayFloat, *args: Any  # noqa: ARG001
-        ) -> NDArrayFloat:
-            """
-            Convert given *CIE XYZ* tristimulus values to *ij* chromaticity
-            coordinates.
-            """
-
-            return XYZ_to_xy(XYZ)
-
-        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
-            """
-
-            return xy
-
-    elif method == "cie 1960 ucs":
-
-        def XYZ_to_ij(
-            XYZ: NDArrayFloat, *args: Any  # noqa: ARG001
-        ) -> NDArrayFloat:
-            """
-            Convert given *CIE XYZ* tristimulus values to *ij* chromaticity
-            coordinates.
-            """
-
-            return UCS_to_uv(XYZ_to_UCS(XYZ))
-
-        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
-            """
-
-            return xy_to_UCS_uv(xy)
-
-    elif method == "cie 1976 ucs":
-
-        def XYZ_to_ij(XYZ: NDArrayFloat, *args: Any) -> NDArrayFloat:
-            """
-            Convert given *CIE XYZ* tristimulus values to *ij* chromaticity
-            coordinates.
-            """
-
-            return Luv_to_uv(XYZ_to_Luv(XYZ, *args), *args)
-
-        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
-            """
-
-            return xy_to_Luv_uv(xy)
-
-    ij = xy_to_ij(CCS_POINTER_GAMUT_BOUNDARY)
-    axes.plot(
-        ij[..., 0],
-        ij[..., 1],
-        label="Pointer's Gamut",
-        color=pointer_gamut_colours,
-        alpha=pointer_gamut_opacity,
-        zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
+    axes.add_collection(
+        LineCollection(
+            np.concatenate(
+                [lines_b["position"][:-1], lines_b["position"][1:]],
+                axis=1,  # pyright: ignore
+            ).reshape([-1, 2, 2]),
+            colors=lines_b["colour"]
+            if use_RGB_colours
+            else pointer_gamut_colours,
+            alpha=pointer_gamut_opacity,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
+        )
     )
-    axes.plot(
-        (ij[-1][0], ij[0][0]),
-        (ij[-1][1], ij[0][1]),
-        color=pointer_gamut_colours,
-        alpha=pointer_gamut_opacity,
-        zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
-    )
-
-    XYZ = Lab_to_XYZ(
-        LCHab_to_Lab(DATA_POINTER_GAMUT_VOLUME), CCS_ILLUMINANT_POINTER_GAMUT
-    )
-    ij = XYZ_to_ij(XYZ, CCS_ILLUMINANT_POINTER_GAMUT)
 
     scatter_settings = {
         "alpha": pointer_gamut_opacity / 2,
-        "color": pointer_gamut_colours,
+        "c": lines_v["colour"] if use_RGB_colours else pointer_gamut_colours,
         "marker": "+",
         "zorder": CONSTANTS_COLOUR_STYLE.zorder.foreground_scatter,
     }
-    axes.scatter(ij[..., 0], ij[..., 1], **scatter_settings)
+    axes.scatter(
+        lines_v["position"][..., 0],
+        lines_v["position"][..., 1],
+        **scatter_settings,
+    )
 
     settings.update({"axes": axes})
     settings.update(kwargs)
@@ -429,7 +446,10 @@ def plot_pointer_gamut(
 
 @override_style()
 def plot_RGB_colourspaces_in_chromaticity_diagram(
-    colourspaces: RGB_Colourspace | str | Sequence[RGB_Colourspace | str],
+    colourspaces: RGB_Colourspace
+    | LiteralRGBColourspace
+    | str
+    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str],
     cmfs: MultiSpectralDistributions
     | str
     | Sequence[
@@ -443,7 +463,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram(
     chromatically_adapt: bool = False,
     plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given *RGB* colourspaces in the *Chromaticity Diagram* according
     to given method.
@@ -546,42 +566,17 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
 
         plot_pointer_gamut(**settings)
 
+    xy_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["xy_to_ij"]
+
     if method == "cie 1931":
-
-        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
-            """
-
-            return xy
-
         x_limit_min, x_limit_max = [-0.1], [0.9]
         y_limit_min, y_limit_max = [-0.1], [0.9]
 
     elif method == "cie 1960 ucs":
-
-        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
-            """
-
-            return xy_to_UCS_uv(xy)
-
         x_limit_min, x_limit_max = [-0.1], [0.7]
         y_limit_min, y_limit_max = [-0.2], [0.6]
 
     elif method == "cie 1976 ucs":
-
-        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
-            """
-
-            return xy_to_Luv_uv(xy)
-
         x_limit_min, x_limit_max = [-0.1], [0.7]
         y_limit_min, y_limit_max = [-0.1], [0.7]
 
@@ -665,7 +660,10 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
 
 @override_style()
 def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
-    colourspaces: RGB_Colourspace | str | Sequence[RGB_Colourspace | str],
+    colourspaces: RGB_Colourspace
+    | LiteralRGBColourspace
+    | str
+    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str],
     cmfs: MultiSpectralDistributions
     | str
     | Sequence[
@@ -679,7 +677,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
     chromatically_adapt: bool = False,
     plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given *RGB* colourspaces in the *CIE 1931 Chromaticity Diagram*.
 
@@ -757,7 +755,10 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1931.png
 
 @override_style()
 def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
-    colourspaces: RGB_Colourspace | str | Sequence[RGB_Colourspace | str],
+    colourspaces: RGB_Colourspace
+    | LiteralRGBColourspace
+    | str
+    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str],
     cmfs: MultiSpectralDistributions
     | str
     | Sequence[
@@ -771,7 +772,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
     chromatically_adapt: bool = False,
     plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given *RGB* colourspaces in the *CIE 1960 UCS Chromaticity Diagram*.
 
@@ -850,7 +851,10 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1960UCS.png
 
 @override_style()
 def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
-    colourspaces: RGB_Colourspace | str | Sequence[RGB_Colourspace | str],
+    colourspaces: RGB_Colourspace
+    | LiteralRGBColourspace
+    | str
+    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str],
     cmfs: MultiSpectralDistributions
     | str
     | Sequence[
@@ -864,7 +868,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
     chromatically_adapt: bool = False,
     plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given *RGB* colourspaces in the *CIE 1976 UCS Chromaticity Diagram*.
 
@@ -946,7 +950,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram(
     RGB: ArrayLike,
     colourspace: RGB_Colourspace
     | str
-    | Sequence[RGB_Colourspace | str] = "sRGB",
+    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str] = "sRGB",
     chromaticity_diagram_callable: Callable = (
         plot_RGB_colourspaces_in_chromaticity_diagram
     ),
@@ -954,7 +958,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram(
     | str = "CIE 1931",
     scatter_kwargs: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given *RGB* colourspace array in the *Chromaticity Diagram* according
     to given method.
@@ -1063,16 +1067,9 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
 
     XYZ = RGB_to_XYZ(RGB, colourspace)
 
-    if method == "cie 1931":
-        ij = XYZ_to_xy(XYZ)
+    XYZ_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["XYZ_to_ij"]
 
-    elif method == "cie 1960 ucs":
-        ij = UCS_to_uv(XYZ_to_UCS(XYZ))
-
-    elif method == "cie 1976 ucs":
-        ij = Luv_to_uv(
-            XYZ_to_Luv(XYZ, colourspace.whitepoint), colourspace.whitepoint
-        )
+    ij = XYZ_to_ij(XYZ, colourspace.whitepoint)
 
     axes.scatter(ij[..., 0], ij[..., 1], **scatter_settings)
 
@@ -1087,13 +1084,13 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
     RGB: ArrayLike,
     colourspace: RGB_Colourspace
     | str
-    | Sequence[RGB_Colourspace | str] = "sRGB",
+    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str] = "sRGB",
     chromaticity_diagram_callable_CIE1931: Callable = (
         plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931
     ),
     scatter_kwargs: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given *RGB* colourspace array in the *CIE 1931 Chromaticity Diagram*.
 
@@ -1165,13 +1162,13 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
     RGB: ArrayLike,
     colourspace: RGB_Colourspace
     | str
-    | Sequence[RGB_Colourspace | str] = "sRGB",
+    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str] = "sRGB",
     chromaticity_diagram_callable_CIE1960UCS: Callable = (
         plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS
     ),
     scatter_kwargs: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given *RGB* colourspace array in the
     *CIE 1960 UCS Chromaticity Diagram*.
@@ -1245,13 +1242,13 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
     RGB: ArrayLike,
     colourspace: RGB_Colourspace
     | str
-    | Sequence[RGB_Colourspace | str] = "sRGB",
+    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str] = "sRGB",
     chromaticity_diagram_callable_CIE1976UCS: Callable = (
         plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS
     ),
     scatter_kwargs: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given *RGB* colourspace array in the
     *CIE 1976 UCS Chromaticity Diagram*.
@@ -1349,35 +1346,7 @@ def ellipses_MacAdam1942(
         method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS")
     )
 
-    if method == "cie 1931":
-
-        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
-            """
-
-            return xy
-
-    elif method == "cie 1960 ucs":
-
-        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
-            """
-
-            return xy_to_UCS_uv(xy)
-
-    elif method == "cie 1976 ucs":
-
-        def xy_to_ij(xy: NDArrayFloat) -> NDArrayFloat:
-            """
-            Convert given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
-            """
-
-            return xy_to_Luv_uv(xy)
+    xy_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["xy_to_ij"]
 
     x, y, _a, _b, _theta, a, b, theta = tsplit(DATA_MACADAM_1942_ELLIPSES)
 
@@ -1403,7 +1372,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram(
     chromaticity_diagram_clipping: bool = False,
     ellipse_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot *MacAdam (1942) Ellipses (Observer PGN)* in the
     *Chromaticity Diagram* according to given method.
@@ -1526,7 +1495,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931(
     chromaticity_diagram_clipping: bool = False,
     ellipse_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot *MacAdam (1942) Ellipses (Observer PGN)* in the
     *CIE 1931 Chromaticity Diagram*.
@@ -1590,7 +1559,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS(
     chromaticity_diagram_clipping: bool = False,
     ellipse_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot *MacAdam (1942) Ellipses (Observer PGN)* in the
     *CIE 1960 UCS Chromaticity Diagram*.
@@ -1655,7 +1624,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS(
     chromaticity_diagram_clipping: bool = False,
     ellipse_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot *MacAdam (1942) Ellipses (Observer PGN)* in the
     *CIE 1976 UCS Chromaticity Diagram*.
@@ -1715,7 +1684,7 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1976UCS.png
 @override_style()
 def plot_single_cctf(
     cctf: Callable | str, cctf_decoding: bool = False, **kwargs: Any
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given colourspace colour component transfer function.
 
@@ -1764,7 +1733,7 @@ def plot_multi_cctfs(
     cctfs: Callable | str | Sequence[Callable | str],
     cctf_decoding: bool = False,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given colour component transfer functions.
 
@@ -1823,38 +1792,11 @@ def plot_multi_cctfs(
 @override_style()
 def plot_constant_hue_loci(
     data: ArrayLike,
-    model: Literal[
-        "CAM02LCD",
-        "CAM02SCD",
-        "CAM02UCS",
-        "CAM16LCD",
-        "CAM16SCD",
-        "CAM16UCS",
-        "CIE XYZ",
-        "CIE xyY",
-        "CIE Lab",
-        "CIE Luv",
-        "CIE UCS",
-        "CIE UVW",
-        "DIN99",
-        "Hunter Lab",
-        "Hunter Rdab",
-        "ICaCb",
-        "ICtCp",
-        "IPT",
-        "IPT Ragoo 2021",
-        "IgPgTg",
-        "Jzazbz",
-        "OSA UCS",
-        "Oklab",
-        "hdr-CIELAB",
-        "hdr-IPT",
-    ]
-    | str = "CIE Lab",
+    model: LiteralColourspaceModel | str = "CIE Lab",
     scatter_kwargs: dict | None = None,
     convert_kwargs: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given constant hue loci colour matches data such as that from
     :cite:`Hung1995` or :cite:`Ebner1998` that are easily loaded with

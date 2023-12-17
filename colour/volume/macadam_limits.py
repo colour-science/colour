@@ -13,8 +13,12 @@ from scipy.spatial import Delaunay
 from colour.constants import EPSILON
 from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.models import xyY_to_XYZ
+from colour.utilities import (
+    CACHE_REGISTRY,
+    is_caching_enabled,
+    validate_method,
+)
 from colour.volume import OPTIMAL_COLOUR_STIMULI_ILLUMINANTS
-from colour.utilities import CACHE_REGISTRY, validate_method
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -66,10 +70,12 @@ def _XYZ_optimal_colour_stimuli(
 
     vertices = _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ.get(illuminant)
 
-    if vertices is None:
-        _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ[illuminant] = vertices = (
-            xyY_to_XYZ(optimal_colour_stimuli) / 100
-        )
+    if is_caching_enabled() and vertices is not None:
+        return vertices
+
+    _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ[illuminant] = vertices = (
+        xyY_to_XYZ(optimal_colour_stimuli) / 100
+    )
 
     return vertices
 

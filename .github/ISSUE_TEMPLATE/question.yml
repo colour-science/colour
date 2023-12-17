@@ -1,7 +1,7 @@
 name: Question
 description: Ask a question.
 title: "[DISCUSSION]: << Please use a comprehensive title... >>"
-labels: [ Discussion ]
+labels: [Discussion]
 
 body:
   - type: markdown

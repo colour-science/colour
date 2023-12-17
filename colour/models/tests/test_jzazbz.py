@@ -1,15 +1,17 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.jzazbz` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models import (
-    XYZ_to_Izazbz,
     Izazbz_to_XYZ,
-    XYZ_to_Jzazbz,
     Jzazbz_to_XYZ,
+    XYZ_to_Izazbz,
+    XYZ_to_Jzazbz,
 )
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
@@ -37,31 +39,31 @@ class TestXYZ_to_Izazbz(unittest.TestCase):
     def test_XYZ_to_Izazbz(self):
         """Test :func:`colour.models.jzazbz.XYZ_to_Izazbz` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_Izazbz(np.array([0.20654008, 0.12197225, 0.05136952])),
             np.array([0.01207793, 0.00924302, 0.00526007]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_Izazbz(np.array([0.14222010, 0.23042768, 0.10495772])),
             np.array([0.01397346, -0.00608426, 0.00534077]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_Izazbz(np.array([0.96907232, 1.00000000, 1.12179215])),
             np.array([0.03927203, 0.00064174, -0.00052906]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_Izazbz(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 method="Safdar 2021",
             ),
             np.array([0.01049146, 0.00924302, 0.00526007]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_array_equal(
@@ -85,14 +87,14 @@ class TestXYZ_to_Izazbz(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         Izazbz = np.tile(Izazbz, (6, 1))
-        np.testing.assert_array_almost_equal(
-            XYZ_to_Izazbz(XYZ), Izazbz, decimal=7
+        np.testing.assert_allclose(
+            XYZ_to_Izazbz(XYZ), Izazbz, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         Izazbz = np.reshape(Izazbz, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
-            XYZ_to_Izazbz(XYZ), Izazbz, decimal=7
+        np.testing.assert_allclose(
+            XYZ_to_Izazbz(XYZ), Izazbz, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_XYZ_to_Izazbz(self):
@@ -107,8 +109,10 @@ class TestXYZ_to_Izazbz(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    XYZ_to_Izazbz(XYZ * factor), Izazbz * factor, decimal=7
+                np.testing.assert_allclose(
+                    XYZ_to_Izazbz(XYZ * factor),
+                    Izazbz * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -135,38 +139,34 @@ class TestIzazbz_to_XYZ(unittest.TestCase):
         np.testing.assert_allclose(
             Izazbz_to_XYZ(np.array([0.01207793, 0.00924302, 0.00526007])),
             np.array([0.20654008, 0.12197225, 0.05136952]),
-            rtol=0.000001,
-            atol=0.000001,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
             Izazbz_to_XYZ(np.array([0.01397346, -0.00608426, 0.00534077])),
             np.array([0.14222010, 0.23042768, 0.10495772]),
-            rtol=0.000001,
-            atol=0.000001,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
             Izazbz_to_XYZ(np.array([0.03927203, 0.00064174, -0.00052906])),
             np.array([0.96907232, 1.00000000, 1.12179215]),
-            rtol=0.000001,
-            atol=0.000001,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
             Izazbz_to_XYZ(np.array([0.03927203, 0.00064174, -0.00052906])),
             np.array([0.96907232, 1.00000000, 1.12179215]),
-            rtol=0.000001,
-            atol=0.000001,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             Izazbz_to_XYZ(
                 np.array([0.01049146, 0.00924302, 0.00526007]),
                 method="Safdar 2021",
             ),
             np.array([0.20654008, 0.12197225, 0.05136952]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_array_equal(
@@ -191,13 +191,13 @@ class TestIzazbz_to_XYZ(unittest.TestCase):
         Izazbz = np.tile(Izazbz, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
         np.testing.assert_allclose(
-            Izazbz_to_XYZ(Izazbz), XYZ, rtol=0.000001, atol=0.000001
+            Izazbz_to_XYZ(Izazbz), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         Izazbz = np.reshape(Izazbz, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_allclose(
-            Izazbz_to_XYZ(Izazbz), XYZ, rtol=0.000001, atol=0.000001
+            Izazbz_to_XYZ(Izazbz), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_Izazbz_to_XYZ(self):
@@ -215,8 +215,7 @@ class TestIzazbz_to_XYZ(unittest.TestCase):
                 np.testing.assert_allclose(
                     Izazbz_to_XYZ(Izazbz * factor),
                     XYZ * factor,
-                    rtol=0.000001,
-                    atol=0.000001,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -240,22 +239,22 @@ class TestXYZ_to_Jzazbz(unittest.TestCase):
     def test_XYZ_to_Jzazbz(self):
         """Test :func:`colour.models.jzazbz.XYZ_to_Jzazbz` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_Jzazbz(np.array([0.20654008, 0.12197225, 0.05136952])),
             np.array([0.00535048, 0.00924302, 0.00526007]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_Jzazbz(np.array([0.14222010, 0.23042768, 0.10495772])),
             np.array([0.00619681, -0.00608426, 0.00534077]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_Jzazbz(np.array([0.96907232, 1.00000000, 1.12179215])),
             np.array([0.01766826, 0.00064174, -0.00052906]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_XYZ_to_Jzazbz(self):
@@ -269,14 +268,14 @@ class TestXYZ_to_Jzazbz(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         Jzazbz = np.tile(Jzazbz, (6, 1))
-        np.testing.assert_array_almost_equal(
-            XYZ_to_Jzazbz(XYZ), Jzazbz, decimal=7
+        np.testing.assert_allclose(
+            XYZ_to_Jzazbz(XYZ), Jzazbz, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         Jzazbz = np.reshape(Jzazbz, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
-            XYZ_to_Jzazbz(XYZ), Jzazbz, decimal=7
+        np.testing.assert_allclose(
+            XYZ_to_Jzazbz(XYZ), Jzazbz, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_XYZ_to_Jzazbz(self):
@@ -291,8 +290,8 @@ class TestXYZ_to_Jzazbz(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    XYZ_to_Jzazbz(XYZ * factor), Jzazbz * factor, decimal=7
+                np.testing.assert_array_equal(
+                    XYZ_to_Jzazbz(XYZ * factor), Jzazbz * factor
                 )
 
     @ignore_numpy_errors
@@ -319,22 +318,19 @@ class TestJzazbz_to_XYZ(unittest.TestCase):
         np.testing.assert_allclose(
             Jzazbz_to_XYZ(np.array([0.00535048, 0.00924302, 0.00526007])),
             np.array([0.20654008, 0.12197225, 0.05136952]),
-            rtol=0.000001,
-            atol=0.000001,
+            atol=1e-6,
         )
 
         np.testing.assert_allclose(
             Jzazbz_to_XYZ(np.array([0.00619681, -0.00608426, 0.00534077])),
             np.array([0.14222010, 0.23042768, 0.10495772]),
-            rtol=0.000001,
-            atol=0.000001,
+            atol=1e-6,
         )
 
         np.testing.assert_allclose(
             Jzazbz_to_XYZ(np.array([0.01766826, 0.00064174, -0.00052906])),
             np.array([0.96907232, 1.00000000, 1.12179215]),
-            rtol=0.000001,
-            atol=0.000001,
+            atol=1e-6,
         )
 
     def test_n_dimensional_Jzazbz_to_XYZ(self):
@@ -349,13 +345,13 @@ class TestJzazbz_to_XYZ(unittest.TestCase):
         Jzazbz = np.tile(Jzazbz, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
         np.testing.assert_allclose(
-            Jzazbz_to_XYZ(Jzazbz), XYZ, rtol=0.000001, atol=0.000001
+            Jzazbz_to_XYZ(Jzazbz), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         Jzazbz = np.reshape(Jzazbz, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_allclose(
-            Jzazbz_to_XYZ(Jzazbz), XYZ, rtol=0.000001, atol=0.000001
+            Jzazbz_to_XYZ(Jzazbz), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_Jzazbz_to_XYZ(self):
@@ -373,8 +369,7 @@ class TestJzazbz_to_XYZ(unittest.TestCase):
                 np.testing.assert_allclose(
                     Jzazbz_to_XYZ(Jzazbz * factor),
                     XYZ * factor,
-                    rtol=0.000001,
-                    atol=0.000001,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors

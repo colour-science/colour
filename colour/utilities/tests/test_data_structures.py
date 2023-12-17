@@ -1,18 +1,19 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.utilities.data_structures` module."""
 
-import numpy as np
 import operator
 import pickle
 import unittest
 
+import numpy as np
+
 from colour.utilities import (
-    ColourUsageWarning,
-    Structure,
-    Lookup,
     CanonicalMapping,
+    ColourUsageWarning,
     LazyCanonicalMapping,
+    Lookup,
     Node,
+    Structure,
 )
 
 __author__ = "Colour Developers"
@@ -70,10 +71,10 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(structure.John, "Doe")
         self.assertEqual(structure["John"], "Doe")
 
-    def test_Structure_pickle(self):
+    def test_pickling(self):
         """
-        Test :class:`colour.utilities.data_structures.Structure` class
-        pickling.
+        Test whether :class:`colour.utilities.data_structures.Structure` class
+        can be pickled.
         """
 
         structure = Structure(John="Doe", Jane="Doe")

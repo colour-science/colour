@@ -18,8 +18,9 @@ Common
 
 .. autosummary::
     :toctree: generated/
-z
+
     colour_style
+    override_style
     colour_cycle
     artist
     camera
@@ -44,6 +45,7 @@ z
     KwargsArtist
     KwargsCamera
     KwargsRender
+    font_scaling
     filter_passthrough
     filter_RGB_colourspaces
     filter_cmfs
@@ -122,6 +124,9 @@ CIE Chromaticity Diagrams
 .. autosummary::
     :toctree: generated/
 
+    METHODS_CHROMATICITY_DIAGRAM
+    LABELS_CHROMATICITY_DIAGRAM_DEFAULT
+    lines_spectral_locus
     plot_chromaticity_diagram_CIE1931
     plot_chromaticity_diagram_CIE1960UCS
     plot_chromaticity_diagram_CIE1976UCS
@@ -176,6 +181,7 @@ Colour Models
     :toctree: generated/
 
     colourspace_model_axis_reorder
+    lines_pointer_gamut
     plot_pointer_gamut
     plot_RGB_colourspaces_in_chromaticity_diagram
     plot_RGB_chromaticities_in_chromaticity_diagram
@@ -268,6 +274,9 @@ Colour Temperature & Correlated Colour Temperature
 .. autosummary::
     :toctree: generated/
 
+    lines_daylight_locus
+    LABELS_PLANCKIAN_LOCUS_DEFAULT
+    lines_planckian_locus
     plot_planckian_locus_in_chromaticity_diagram_CIE1931
     plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS
     plot_planckian_locus_in_chromaticity_diagram_CIE1976UCS

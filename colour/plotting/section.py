@@ -12,9 +12,10 @@ Defines the gamut section plotting objects:
 
 from __future__ import annotations
 
-import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.axes import Axes
 from matplotlib.collections import LineCollection
+from matplotlib.figure import Figure
 from matplotlib.patches import Polygon
 
 from colour.colorimetry import (
@@ -30,6 +31,8 @@ from colour.hints import (
     ArrayLike,
     Dict,
     Literal,
+    LiteralColourspaceModel,
+    LiteralRGBColourspace,
     Real,
     Sequence,
     Tuple,
@@ -48,12 +51,11 @@ from colour.plotting import (
     artist,
     colourspace_model_axis_reorder,
     filter_cmfs,
-    filter_RGB_colourspaces,
     filter_illuminants,
+    filter_RGB_colourspaces,
     override_style,
     render,
 )
-from colour.volume import solid_RoschMacAdam
 from colour.utilities import (
     CanonicalMapping,
     as_int_array,
@@ -65,6 +67,7 @@ from colour.utilities import (
     tstack,
     validate_method,
 )
+from colour.volume import solid_RoschMacAdam
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -91,33 +94,7 @@ MAPPING_AXIS_TO_PLANE.__doc__ = """Axis to plane mapping."""
 @override_style()
 def plot_hull_section_colours(
     hull: trimesh.Trimesh,  # pyright: ignore  # noqa: F821
-    model: Literal[
-        "CAM02LCD",
-        "CAM02SCD",
-        "CAM02UCS",
-        "CAM16LCD",
-        "CAM16SCD",
-        "CAM16UCS",
-        "CIE XYZ",
-        "CIE xyY",
-        "CIE Lab",
-        "CIE Luv",
-        "CIE UCS",
-        "CIE UVW",
-        "DIN99",
-        "Hunter Lab",
-        "Hunter Rdab",
-        "ICaCb",
-        "ICtCp",
-        "IPT",
-        "IgPgTg",
-        "Jzazbz",
-        "OSA UCS",
-        "Oklab",
-        "hdr-CIELAB",
-        "hdr-IPT",
-    ]
-    | str = "CIE xyY",
+    model: LiteralColourspaceModel | str = "CIE xyY",
     axis: Literal["+z", "+x", "+y"] | str = "+z",
     origin: float = 0.5,
     normalise: bool = True,
@@ -126,7 +103,7 @@ def plot_hull_section_colours(
     convert_kwargs: dict | None = None,
     samples: int = 256,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the section colours of given *trimesh* hull along given axis and
     origin.
@@ -297,33 +274,7 @@ def plot_hull_section_colours(
 @override_style()
 def plot_hull_section_contour(
     hull: trimesh.Trimesh,  # pyright: ignore  # noqa: F821
-    model: Literal[
-        "CAM02LCD",
-        "CAM02SCD",
-        "CAM02UCS",
-        "CAM16LCD",
-        "CAM16SCD",
-        "CAM16UCS",
-        "CIE XYZ",
-        "CIE xyY",
-        "CIE Lab",
-        "CIE Luv",
-        "CIE UCS",
-        "CIE UVW",
-        "DIN99",
-        "Hunter Lab",
-        "Hunter Rdab",
-        "ICaCb",
-        "ICtCp",
-        "IPT",
-        "IgPgTg",
-        "Jzazbz",
-        "OSA UCS",
-        "Oklab",
-        "hdr-CIELAB",
-        "hdr-IPT",
-    ]
-    | str = "CIE xyY",
+    model: LiteralColourspaceModel | str = "CIE xyY",
     axis: Literal["+z", "+x", "+y"] | str = "+z",
     origin: float = 0.5,
     normalise: bool = True,
@@ -331,7 +282,7 @@ def plot_hull_section_contour(
     contour_opacity: float = 1,
     convert_kwargs: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the section contour of given *trimesh* hull along given axis and
     origin.
@@ -446,7 +397,7 @@ def plot_hull_section_contour(
 
     section = np.reshape(section[..., plane], (-1, 1, 2))
     line_collection = LineCollection(
-        np.concatenate([section[:-1], section[1:]], axis=1),
+        np.concatenate([section[:-1], section[1:]], axis=1),  # pyright: ignore
         colors=contour_colours,
         alpha=contour_opacity,
         zorder=CONSTANTS_COLOUR_STYLE.zorder.background_line,
@@ -471,40 +422,14 @@ def plot_visible_spectrum_section(
         MultiSpectralDistributions | str
     ] = "CIE 1931 2 Degree Standard Observer",
     illuminant: SpectralDistribution | str = "D65",
-    model: Literal[
-        "CAM02LCD",
-        "CAM02SCD",
-        "CAM02UCS",
-        "CAM16LCD",
-        "CAM16SCD",
-        "CAM16UCS",
-        "CIE XYZ",
-        "CIE xyY",
-        "CIE Lab",
-        "CIE Luv",
-        "CIE UCS",
-        "CIE UVW",
-        "DIN99",
-        "Hunter Lab",
-        "Hunter Rdab",
-        "ICaCb",
-        "ICtCp",
-        "IPT",
-        "IgPgTg",
-        "Jzazbz",
-        "OSA UCS",
-        "Oklab",
-        "hdr-CIELAB",
-        "hdr-IPT",
-    ]
-    | str = "CIE xyY",
+    model: LiteralColourspaceModel | str = "CIE xyY",
     axis: Literal["+z", "+x", "+y"] | str = "+z",
     origin: float = 0.5,
     normalise: bool = True,
     show_section_colours: bool = True,
     show_section_contour: bool = True,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot the visible spectrum volume, i.e. *Rösch-MacAdam* colour solid,
     section colours along given axis and origin.
@@ -643,41 +568,18 @@ def plot_visible_spectrum_section(
 @required("trimesh")
 @override_style()
 def plot_RGB_colourspace_section(
-    colourspace: RGB_Colourspace | str | Sequence[RGB_Colourspace | str],
-    model: Literal[
-        "CAM02LCD",
-        "CAM02SCD",
-        "CAM02UCS",
-        "CAM16LCD",
-        "CAM16SCD",
-        "CAM16UCS",
-        "CIE XYZ",
-        "CIE xyY",
-        "CIE Lab",
-        "CIE Luv",
-        "CIE UCS",
-        "CIE UVW",
-        "DIN99",
-        "Hunter Lab",
-        "Hunter Rdab",
-        "ICaCb",
-        "ICtCp",
-        "IPT",
-        "IgPgTg",
-        "Jzazbz",
-        "OSA UCS",
-        "Oklab",
-        "hdr-CIELAB",
-        "hdr-IPT",
-    ]
-    | str = "CIE xyY",
+    colourspace: RGB_Colourspace
+    | LiteralRGBColourspace
+    | str
+    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str],
+    model: LiteralColourspaceModel | str = "CIE xyY",
     axis: Literal["+z", "+x", "+y"] | str = "+z",
     origin: float = 0.5,
     normalise: bool = True,
     show_section_colours: bool = True,
     show_section_contour: bool = True,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[Figure, Axes]:
     """
     Plot given *RGB* colourspace section colours along given axis and origin.
 

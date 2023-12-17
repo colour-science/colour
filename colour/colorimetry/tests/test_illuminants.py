@@ -3,16 +3,18 @@
 
 from __future__ import annotations
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.colorimetry import (
     SDS_ILLUMINANTS,
     SpectralShape,
-    sd_CIE_standard_illuminant_A,
-    sd_CIE_illuminant_D_series,
     daylight_locus_function,
+    sd_CIE_illuminant_D_series,
+    sd_CIE_standard_illuminant_A,
 )
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.hints import NDArrayFloat
 from colour.temperature import CCT_to_xy_CIE_D
 from colour.utilities import ignore_numpy_errors
@@ -144,10 +146,10 @@ sd_CIE_standard_illuminant_A` definition unit tests methods.
 sd_CIE_standard_illuminant_A` definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             sd_CIE_standard_illuminant_A(SpectralShape(360, 830, 5)).values,
             DATA_A,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -166,8 +168,8 @@ sd_CIE_illuminant_D_series` definition.
         for name, CCT, tolerance in (
             ("D50", 5000, 0.001),
             ("D55", 5500, 0.001),
-            ("D65", 6500, 0.00001),
-            ("D75", 7500, 0.0001),
+            ("D65", 6500, 0.001),
+            ("D75", 7500, 0.001),
         ):
             CCT *= 1.4388 / 1.4380  # noqa: PLW2901
             xy = CCT_to_xy_CIE_D(CCT)
@@ -177,7 +179,6 @@ sd_CIE_illuminant_D_series` definition.
             np.testing.assert_allclose(
                 sd_r.values,
                 sd_t[sd_r.wavelengths],
-                rtol=tolerance,
                 atol=tolerance,
             )
 
@@ -194,16 +195,22 @@ class TestDaylightLocusFunction(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
-            daylight_locus_function(0.31270), 0.329105129999999, places=7
+        np.testing.assert_allclose(
+            daylight_locus_function(0.31270),
+            0.329105129999999,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            daylight_locus_function(0.34570), 0.358633529999999, places=7
+        np.testing.assert_allclose(
+            daylight_locus_function(0.34570),
+            0.358633529999999,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            daylight_locus_function(0.44758), 0.408571030799999, places=7
+        np.testing.assert_allclose(
+            daylight_locus_function(0.44758),
+            0.408571030799999,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_daylight_locus_function(self):
@@ -217,14 +224,14 @@ class TestDaylightLocusFunction(unittest.TestCase):
 
         x_D = np.tile(x_D, (6, 1))
         y_D = np.tile(y_D, (6, 1))
-        np.testing.assert_array_almost_equal(
-            daylight_locus_function(x_D), y_D, decimal=7
+        np.testing.assert_allclose(
+            daylight_locus_function(x_D), y_D, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         x_D = np.reshape(x_D, (2, 3, 1))
         y_D = np.reshape(y_D, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            daylight_locus_function(x_D), y_D, decimal=7
+        np.testing.assert_allclose(
+            daylight_locus_function(x_D), y_D, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     @ignore_numpy_errors

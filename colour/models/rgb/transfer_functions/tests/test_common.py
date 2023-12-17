@@ -3,13 +3,15 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.common` module.
 """
 
-import numpy as np
 import unittest
 
+import numpy as np
+
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models.rgb.transfer_functions import (
     CV_range,
-    legal_to_full,
     full_to_legal,
+    legal_to_full,
 )
 from colour.utilities import ignore_numpy_errors
 
@@ -47,10 +49,10 @@ class TestCV_range(unittest.TestCase):
             CV_range(8, False, True), np.array([0, 255])
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             CV_range(8, True, False),
             np.array([0.06274510, 0.92156863]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_array_equal(
@@ -65,10 +67,10 @@ class TestCV_range(unittest.TestCase):
             CV_range(10, False, True), np.array([0, 1023])
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             CV_range(10, True, False),
             np.array([0.06256109, 0.91886608]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_array_equal(
@@ -88,21 +90,25 @@ class TestLegalToFull(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(legal_to_full(64 / 1023), 0.0)
+        np.testing.assert_allclose(legal_to_full(64 / 1023), 0.0)
 
-        self.assertAlmostEqual(legal_to_full(940 / 1023), 1.0)
+        np.testing.assert_allclose(legal_to_full(940 / 1023), 1.0)
 
-        self.assertAlmostEqual(legal_to_full(64 / 1023, out_int=True), 0)
+        np.testing.assert_allclose(legal_to_full(64 / 1023, out_int=True), 0)
 
-        self.assertAlmostEqual(legal_to_full(940 / 1023, out_int=True), 1023)
+        np.testing.assert_allclose(
+            legal_to_full(940 / 1023, out_int=True), 1023
+        )
 
-        self.assertAlmostEqual(legal_to_full(64, in_int=True), 0.0)
+        np.testing.assert_allclose(legal_to_full(64, in_int=True), 0.0)
 
-        self.assertAlmostEqual(legal_to_full(940, in_int=True), 1.0)
+        np.testing.assert_allclose(legal_to_full(940, in_int=True), 1.0)
 
-        self.assertAlmostEqual(legal_to_full(64, in_int=True, out_int=True), 0)
+        np.testing.assert_allclose(
+            legal_to_full(64, in_int=True, out_int=True), 0
+        )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             legal_to_full(940, in_int=True, out_int=True), 1023
         )
 
@@ -117,20 +123,20 @@ class TestLegalToFull(unittest.TestCase):
 
         CV_l = np.tile(CV_l, 6)
         CV_f = np.tile(CV_f, 6)
-        np.testing.assert_array_almost_equal(
-            legal_to_full(CV_l, 10), CV_f, decimal=7
+        np.testing.assert_allclose(
+            legal_to_full(CV_l, 10), CV_f, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         CV_l = np.reshape(CV_l, (2, 3))
         CV_f = np.reshape(CV_f, (2, 3))
-        np.testing.assert_array_almost_equal(
-            legal_to_full(CV_l, 10), CV_f, decimal=7
+        np.testing.assert_allclose(
+            legal_to_full(CV_l, 10), CV_f, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         CV_l = np.reshape(CV_l, (2, 3, 1))
         CV_f = np.reshape(CV_f, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            legal_to_full(CV_l, 10), CV_f, decimal=7
+        np.testing.assert_allclose(
+            legal_to_full(CV_l, 10), CV_f, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     @ignore_numpy_errors
@@ -155,25 +161,27 @@ class TestFullToLegal(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(full_to_legal(0.0), 0.062561094819159)
+        np.testing.assert_allclose(full_to_legal(0.0), 0.062561094819159)
 
-        self.assertAlmostEqual(full_to_legal(1.0), 0.918866080156403)
+        np.testing.assert_allclose(full_to_legal(1.0), 0.918866080156403)
 
-        self.assertAlmostEqual(full_to_legal(0.0, out_int=True), 64)
+        np.testing.assert_allclose(full_to_legal(0.0, out_int=True), 64)
 
-        self.assertAlmostEqual(full_to_legal(1.0, out_int=True), 940)
+        np.testing.assert_allclose(full_to_legal(1.0, out_int=True), 940)
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             full_to_legal(0, in_int=True), 0.062561094819159
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             full_to_legal(1023, in_int=True), 0.918866080156403
         )
 
-        self.assertAlmostEqual(full_to_legal(0, in_int=True, out_int=True), 64)
+        np.testing.assert_allclose(
+            full_to_legal(0, in_int=True, out_int=True), 64
+        )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             full_to_legal(1023, in_int=True, out_int=True), 940
         )
 
@@ -188,20 +196,20 @@ class TestFullToLegal(unittest.TestCase):
 
         CF_f = np.tile(CF_f, 6)
         CV_l = np.tile(CV_l, 6)
-        np.testing.assert_array_almost_equal(
-            full_to_legal(CF_f, 10), CV_l, decimal=7
+        np.testing.assert_allclose(
+            full_to_legal(CF_f, 10), CV_l, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         CF_f = np.reshape(CF_f, (2, 3))
         CV_l = np.reshape(CV_l, (2, 3))
-        np.testing.assert_array_almost_equal(
-            full_to_legal(CF_f, 10), CV_l, decimal=7
+        np.testing.assert_allclose(
+            full_to_legal(CF_f, 10), CV_l, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         CF_f = np.reshape(CF_f, (2, 3, 1))
         CV_l = np.reshape(CV_l, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            full_to_legal(CF_f, 10), CV_l, decimal=7
+        np.testing.assert_allclose(
+            full_to_legal(CF_f, 10), CV_l, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     @ignore_numpy_errors

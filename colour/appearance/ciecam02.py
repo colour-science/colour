@@ -32,12 +32,13 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 from collections import namedtuple
 from dataclasses import astuple, dataclass, field
 
-from colour.algebra import matrix_dot, sdiv, sdiv_mode, spow, vector_dot
+import numpy as np
+
 from colour.adaptation import CAT_CAT02
+from colour.algebra import matrix_dot, sdiv, sdiv_mode, spow, vector_dot
 from colour.appearance.hunt import (
     MATRIX_HPE_TO_XYZ,
     MATRIX_XYZ_TO_HPE,
@@ -53,8 +54,8 @@ from colour.utilities import (
     as_float,
     as_float_array,
     as_int_array,
-    from_range_degrees,
     from_range_100,
+    from_range_degrees,
     has_only_nan,
     ones,
     to_domain_100,
@@ -791,7 +792,7 @@ def full_chromatic_adaptation_forward(
             Y_w[..., None] * sdiv(D[..., None], RGB_w) + 1 - D[..., None]
         ) * RGB
 
-    return RGB_c
+    return cast(NDArrayFloat, RGB_c)
 
 
 def full_chromatic_adaptation_inverse(

@@ -3,17 +3,19 @@
 
 import os
 import sys
-import unittest
 import textwrap
+import unittest
 
+from colour.hints import Optional
 from colour.utilities import (
-    show_warning,
-    suppress_warnings,
     describe_environment,
-    multiline_str,
     multiline_repr,
+    multiline_str,
+    show_warning,
+    suppress_stdout,
+    suppress_warnings,
+    warning,
 )
-from colour.utilities import warning
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -25,6 +27,7 @@ __status__ = "Production"
 __all__ = [
     "TestShowWarning",
     "TestSuppressWarnings",
+    "TestSuppressStdout",
     "TestDescribeEnvironment",
     "TestMultilineStr",
     "TestMultilineRepr",
@@ -66,6 +69,19 @@ class TestSuppressWarnings(unittest.TestCase):
 
         with suppress_warnings():
             warning("This is a suppressed unit test warning!")
+
+
+class TestSuppressStdout(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.verbose.suppress_stdout` definition unit
+    tests methods.
+    """
+
+    def test_suppress_stdout(self):
+        """Test :func:`colour.utilities.verbose.suppress_stdout` definition."""
+
+        with suppress_stdout():
+            print("This is a suppressed message!")  # noqa: T201
 
 
 class TestDescribeEnvironment(unittest.TestCase):
@@ -184,10 +200,13 @@ class TestMultilineRepr(unittest.TestCase):
         """Test :func:`colour.utilities.verbose.multiline_repr` definition."""
 
         class Data:
-            def __init__(self, a: str, b: int, c: list) -> None:
+            def __init__(
+                self, a: str, b: int, c: list, d: Optional[str] = None
+            ) -> None:
                 self._a = a
                 self._b = b
                 self._c = c
+                self._d = d
 
             def __repr__(self) -> str:
                 return multiline_repr(
@@ -201,6 +220,10 @@ class TestMultilineRepr(unittest.TestCase):
                             .replace("[", "(")
                             .replace("]", ")"),
                         },
+                        {
+                            "name": "_d",
+                            "formatter": lambda x: None,  # noqa: ARG005
+                        },
                     ],
                 )
 
@@ -210,7 +233,8 @@ class TestMultilineRepr(unittest.TestCase):
                 """
                 Data('Foo',
                      1,
-                     ('John', 'Doe'))
+                     ('John', 'Doe'),
+                     None)
                 """
             ).strip(),
         )

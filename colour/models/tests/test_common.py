@@ -1,10 +1,12 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.common` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models import Iab_to_XYZ, Jab_to_JCh, JCh_to_Jab, XYZ_to_Iab
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
@@ -32,22 +34,22 @@ class TestJab_to_JCh(unittest.TestCase):
     def test_Jab_to_JCh(self):
         """Test :func:`colour.models.common.Jab_to_JCh` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             Jab_to_JCh(np.array([41.52787529, 52.63858304, 26.92317922])),
             np.array([41.52787529, 59.12425901, 27.08848784]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             Jab_to_JCh(np.array([55.11636304, -41.08791787, 30.91825778])),
             np.array([55.11636304, 51.42135412, 143.03889556]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             Jab_to_JCh(np.array([29.80565520, 20.01830466, -48.34913874])),
             np.array([29.80565520, 52.32945383, 292.49133666]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_Jab_to_JCh(self):
@@ -61,11 +63,15 @@ class TestJab_to_JCh(unittest.TestCase):
 
         Lab = np.tile(Lab, (6, 1))
         LCHab = np.tile(LCHab, (6, 1))
-        np.testing.assert_array_almost_equal(Jab_to_JCh(Lab), LCHab, decimal=7)
+        np.testing.assert_allclose(
+            Jab_to_JCh(Lab), LCHab, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
         Lab = np.reshape(Lab, (2, 3, 3))
         LCHab = np.reshape(LCHab, (2, 3, 3))
-        np.testing.assert_array_almost_equal(Jab_to_JCh(Lab), LCHab, decimal=7)
+        np.testing.assert_allclose(
+            Jab_to_JCh(Lab), LCHab, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_domain_range_scale_Jab_to_JCh(self):
         """
@@ -83,8 +89,10 @@ class TestJab_to_JCh(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    Jab_to_JCh(Lab * factor_a), LCHab * factor_b, decimal=7
+                np.testing.assert_allclose(
+                    Jab_to_JCh(Lab * factor_a),
+                    LCHab * factor_b,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -105,22 +113,22 @@ class TestJCh_to_Jab(unittest.TestCase):
     def test_JCh_to_Jab(self):
         """Test :func:`colour.models.common.JCh_to_Jab` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             JCh_to_Jab(np.array([41.52787529, 59.12425901, 27.08848784])),
             np.array([41.52787529, 52.63858304, 26.92317922]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             JCh_to_Jab(np.array([55.11636304, 51.42135412, 143.03889556])),
             np.array([55.11636304, -41.08791787, 30.91825778]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             JCh_to_Jab(np.array([29.80565520, 52.32945383, 292.49133666])),
             np.array([29.80565520, 20.01830466, -48.34913874]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_JCh_to_Jab(self):
@@ -134,11 +142,15 @@ class TestJCh_to_Jab(unittest.TestCase):
 
         LCHab = np.tile(LCHab, (6, 1))
         Lab = np.tile(Lab, (6, 1))
-        np.testing.assert_array_almost_equal(JCh_to_Jab(LCHab), Lab, decimal=7)
+        np.testing.assert_allclose(
+            JCh_to_Jab(LCHab), Lab, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
         LCHab = np.reshape(LCHab, (2, 3, 3))
         Lab = np.reshape(Lab, (2, 3, 3))
-        np.testing.assert_array_almost_equal(JCh_to_Jab(LCHab), Lab, decimal=7)
+        np.testing.assert_allclose(
+            JCh_to_Jab(LCHab), Lab, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_domain_range_scale_JCh_to_Jab(self):
         """
@@ -156,8 +168,10 @@ class TestJCh_to_Jab(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    JCh_to_Jab(LCHab * factor_a), Lab * factor_b, decimal=7
+                np.testing.assert_allclose(
+                    JCh_to_Jab(LCHab * factor_a),
+                    Lab * factor_b,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -194,7 +208,7 @@ class TestXYZ_to_Iab(unittest.TestCase):
     def test_XYZ_to_Iab(self):
         """Test :func:`colour.models.common.XYZ_to_Iab` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_Iab(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 self.LMS_to_LMS_p,
@@ -202,10 +216,10 @@ class TestXYZ_to_Iab(unittest.TestCase):
                 self.M_LMS_p_to_Iab,
             ),
             np.array([0.38426191, 0.38487306, 0.18886838]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_Iab(
                 np.array([0.14222010, 0.23042768, 0.10495772]),
                 self.LMS_to_LMS_p,
@@ -213,10 +227,10 @@ class TestXYZ_to_Iab(unittest.TestCase):
                 self.M_LMS_p_to_Iab,
             ),
             np.array([0.49437481, -0.19251742, 0.18080304]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_Iab(
                 np.array([0.07818780, 0.06157201, 0.28099326]),
                 self.LMS_to_LMS_p,
@@ -224,7 +238,7 @@ class TestXYZ_to_Iab(unittest.TestCase):
                 self.M_LMS_p_to_Iab,
             ),
             np.array([0.35167774, -0.07525627, -0.30921279]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_XYZ_to_Iab(self):
@@ -240,22 +254,22 @@ class TestXYZ_to_Iab(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         Iab = np.tile(Iab, (6, 1))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_Iab(
                 XYZ, self.LMS_to_LMS_p, self.M_XYZ_to_LMS, self.M_LMS_p_to_Iab
             ),
             Iab,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         Iab = np.reshape(Iab, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             XYZ_to_Iab(
                 XYZ, self.LMS_to_LMS_p, self.M_XYZ_to_LMS, self.M_LMS_p_to_Iab
             ),
             Iab,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_domain_range_scale_XYZ_to_Iab(self):
@@ -272,7 +286,7 @@ class TestXYZ_to_Iab(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     XYZ_to_Iab(
                         XYZ * factor,
                         self.LMS_to_LMS_p,
@@ -280,7 +294,7 @@ class TestXYZ_to_Iab(unittest.TestCase):
                         self.M_LMS_p_to_Iab,
                     ),
                     Iab * factor,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -326,7 +340,7 @@ class TestIab_to_XYZ(unittest.TestCase):
     def test_Iab_to_XYZ(self):
         """Test :func:`colour.models.common.Iab_to_XYZ` definition."""
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             Iab_to_XYZ(
                 np.array([0.38426191, 0.38487306, 0.18886838]),
                 self.LMS_p_to_LMS,
@@ -334,10 +348,10 @@ class TestIab_to_XYZ(unittest.TestCase):
                 self.M_LMS_to_XYZ,
             ),
             np.array([0.20654008, 0.12197225, 0.05136952]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             Iab_to_XYZ(
                 np.array([0.49437481, -0.19251742, 0.18080304]),
                 self.LMS_p_to_LMS,
@@ -345,10 +359,10 @@ class TestIab_to_XYZ(unittest.TestCase):
                 self.M_LMS_to_XYZ,
             ),
             np.array([0.14222010, 0.23042768, 0.10495772]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             Iab_to_XYZ(
                 np.array([0.35167774, -0.07525627, -0.30921279]),
                 self.LMS_p_to_LMS,
@@ -356,7 +370,7 @@ class TestIab_to_XYZ(unittest.TestCase):
                 self.M_LMS_to_XYZ,
             ),
             np.array([0.07818780, 0.06157201, 0.28099326]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_Iab_to_XYZ(self):
@@ -372,22 +386,22 @@ class TestIab_to_XYZ(unittest.TestCase):
 
         Iab = np.tile(Iab, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             Iab_to_XYZ(
                 Iab, self.LMS_p_to_LMS, self.M_Iab_to_LMS_p, self.M_LMS_to_XYZ
             ),
             XYZ,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         Iab = np.reshape(Iab, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             Iab_to_XYZ(
                 Iab, self.LMS_p_to_LMS, self.M_Iab_to_LMS_p, self.M_LMS_to_XYZ
             ),
             XYZ,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_domain_range_scale_Iab_to_XYZ(self):
@@ -404,7 +418,7 @@ class TestIab_to_XYZ(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     Iab_to_XYZ(
                         Iab * factor,
                         self.LMS_p_to_LMS,
@@ -412,7 +426,7 @@ class TestIab_to_XYZ(unittest.TestCase):
                         self.M_LMS_to_XYZ,
                     ),
                     XYZ * factor,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors

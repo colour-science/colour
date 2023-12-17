@@ -1,9 +1,11 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.plotting.blindness` module."""
 
-import numpy as np
 import unittest
-from matplotlib.pyplot import Axes, Figure
+
+import numpy as np
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 
 from colour.plotting import plot_cvd_simulation_Machado2009
 

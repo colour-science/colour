@@ -9,20 +9,21 @@ Notes
 
 from __future__ import annotations
 
-import numpy as np
 import unittest
+
+import numpy as np
 
 from colour.colorimetry import (
     SDS_ILLUMINANTS,
-    SpectralShape,
     SpectralDistribution,
+    SpectralShape,
     reshape_sd,
     sd_blackbody,
 )
 from colour.quality.cfi2017 import (
     CCT_reference_illuminant,
-    sd_reference_illuminant,
     colour_fidelity_index_CIE2017,
+    sd_reference_illuminant,
 )
 from colour.utilities import ColourUsageWarning
 
@@ -552,8 +553,8 @@ class TestColourFidelityIndexCIE2017(unittest.TestCase):
             specification = colour_fidelity_index_CIE2017(
                 sd, additional_data=True
             )
-            np.testing.assert_array_almost_equal(specification.R_f, 81.6, 1)
-            np.testing.assert_array_almost_equal(
+            np.testing.assert_allclose(specification.R_f, 81.6, atol=0.1)
+            np.testing.assert_allclose(
                 specification.R_s,
                 [
                     89.5,
@@ -656,14 +657,14 @@ class TestColourFidelityIndexCIE2017(unittest.TestCase):
                     84.2,
                     77.4,
                 ],
-                1,
+                atol=0.1,
             )
 
         specification = colour_fidelity_index_CIE2017(
             SDS_ILLUMINANTS["FL1"], additional_data=True
         )
-        np.testing.assert_array_almost_equal(specification.R_f, 80.6, 1)
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(specification.R_f, 80.6, atol=0.1)
+        np.testing.assert_allclose(
             specification.R_s,
             [
                 85.1,
@@ -766,14 +767,14 @@ class TestColourFidelityIndexCIE2017(unittest.TestCase):
                 75.2,
                 55.5,
             ],
-            1,
+            atol=0.1,
         )
 
         specification = colour_fidelity_index_CIE2017(
             SDS_ILLUMINANTS["FL2"], additional_data=True
         )
-        np.testing.assert_array_almost_equal(specification.R_f, 70.1, 1)
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(specification.R_f, 70.1, atol=0.1)
+        np.testing.assert_allclose(
             specification.R_s,
             [
                 78.9,
@@ -876,7 +877,7 @@ class TestColourFidelityIndexCIE2017(unittest.TestCase):
                 67.0,
                 45.0,
             ],
-            1,
+            atol=0.1,
         )
 
     def test_raise_exception_colour_fidelity_index_CFI2017(self):
@@ -906,7 +907,7 @@ class TestCctReferenceIlluminant(unittest.TestCase):
 
         for sd in [SD_SAMPLE_5NM, SD_SAMPLE_1NM]:
             CCT, D_uv = CCT_reference_illuminant(sd)
-            np.testing.assert_allclose(CCT, 3287.5, rtol=0.25)
+            np.testing.assert_allclose(CCT, 3287.5, atol=0.5)
             np.testing.assert_allclose(D_uv, -0.000300000000000, atol=0.0005)
 
 
@@ -932,7 +933,7 @@ class TestSdReferenceIlluminant(unittest.TestCase):
             np.testing.assert_allclose(
                 sd_reference.values,
                 sd_blackbody(3288, shape).values,
-                rtol=0.005,
+                atol=1.75,
             )
 
 

@@ -12,11 +12,12 @@ from __future__ import annotations
 
 import matplotlib.pyplot as plt
 import numpy as np
-from mpl_toolkits.mplot3d.axes3d import Axes3D
+from matplotlib.figure import Figure
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+from mpl_toolkits.mplot3d.axes3d import Axes3D
 
-from colour.constants import EPSILON
 from colour.colorimetry import MultiSpectralDistributions
+from colour.constants import EPSILON
 from colour.geometry import (
     primitive_vertices_cube_mpl,
     primitive_vertices_grid_mpl,
@@ -27,6 +28,8 @@ from colour.hints import (
     ArrayLike,
     List,
     Literal,
+    LiteralColourspaceModel,
+    LiteralRGBColourspace,
     NDArrayFloat,
     Sequence,
     Tuple,
@@ -37,16 +40,16 @@ from colour.models.common import COLOURSPACE_MODELS_AXIS_LABELS
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
     colourspace_model_axis_reorder,
-    filter_RGB_colourspaces,
     filter_cmfs,
+    filter_RGB_colourspaces,
     override_style,
     render,
 )
 from colour.utilities import (
     Structure,
     as_float_array,
-    as_int_scalar,
     as_int_array,
+    as_int_scalar,
     first_item,
     full,
     is_integer,
@@ -418,34 +421,11 @@ def RGB_identity_cube(
 
 @override_style()
 def plot_RGB_colourspaces_gamuts(
-    colourspaces: RGB_Colourspace | str | Sequence[RGB_Colourspace | str],
-    model: Literal[
-        "CAM02LCD",
-        "CAM02SCD",
-        "CAM02UCS",
-        "CAM16LCD",
-        "CAM16SCD",
-        "CAM16UCS",
-        "CIE XYZ",
-        "CIE xyY",
-        "CIE Lab",
-        "CIE Luv",
-        "CIE UCS",
-        "CIE UVW",
-        "DIN99",
-        "Hunter Lab",
-        "Hunter Rdab",
-        "ICaCb",
-        "ICtCp",
-        "IPT",
-        "IgPgTg",
-        "Jzazbz",
-        "OSA UCS",
-        "Oklab",
-        "hdr-CIELAB",
-        "hdr-IPT",
-    ]
-    | str = "CIE xyY",
+    colourspaces: RGB_Colourspace
+    | LiteralRGBColourspace
+    | str
+    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str],
+    model: LiteralColourspaceModel | str = "CIE xyY",
     segments: int = 8,
     show_grid: bool = True,
     grid_segments: int = 10,
@@ -459,14 +439,14 @@ def plot_RGB_colourspaces_gamuts(
     chromatically_adapt: bool = False,
     convert_kwargs: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, Axes3D]:
+) -> Tuple[Figure, Axes3D]:
     """
     Plot given *RGB* colourspaces gamuts in given reference colourspace.
 
     Parameters
     ----------
     colourspaces
-        *RGB* colourspaces to plot the gamuts. ``colourspaces`` elements
+        *RGB* colourspaces to plot the gamuts of. ``colourspaces`` elements
         can be of any type or form supported by the
         :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     model
@@ -561,7 +541,7 @@ def plot_RGB_colourspaces_gamuts(
     settings.update(kwargs)
 
     figure = plt.figure()
-    axes = figure.add_subplot(111, projection="3d")
+    axes = cast(Axes3D, figure.add_subplot(111, projection="3d"))
 
     points = zeros((4, 3))
     if show_spectral_locus:
@@ -676,8 +656,8 @@ def plot_RGB_colourspaces_gamuts(
         RGB_e = np.vstack([RGB_ge, RGB_e])
 
     collection = Poly3DCollection(quads)
-    collection.set_facecolors(RGB_f)
-    collection.set_edgecolors(RGB_e)
+    collection.set_facecolors(RGB_f)  # pyright: ignore
+    collection.set_edgecolors(RGB_e)  # pyright: ignore
 
     axes.add_collection3d(collection)
 
@@ -686,7 +666,7 @@ def plot_RGB_colourspaces_gamuts(
     )
     settings.update(kwargs)
 
-    return render(**settings)
+    return cast(Tuple[Figure, Axes3D], render(**settings))
 
 
 @override_style()
@@ -694,37 +674,11 @@ def plot_RGB_scatter(
     RGB: ArrayLike,
     colourspace: RGB_Colourspace
     | str
-    | Sequence[RGB_Colourspace | str] = "sRGB",
-    model: Literal[
-        "CAM02LCD",
-        "CAM02SCD",
-        "CAM02UCS",
-        "CAM16LCD",
-        "CAM16SCD",
-        "CAM16UCS",
-        "CIE XYZ",
-        "CIE xyY",
-        "CIE Lab",
-        "CIE Luv",
-        "CIE UCS",
-        "CIE UVW",
-        "DIN99",
-        "Hunter Lab",
-        "Hunter Rdab",
-        "ICaCb",
-        "ICtCp",
-        "IPT",
-        "IgPgTg",
-        "Jzazbz",
-        "OSA UCS",
-        "Oklab",
-        "hdr-CIELAB",
-        "hdr-IPT",
-    ]
-    | str = "CIE xyY",
+    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str] = "sRGB",
+    model: LiteralColourspaceModel | str = "CIE xyY",
     colourspaces: RGB_Colourspace
     | str
-    | Sequence[RGB_Colourspace | str]
+    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str]
     | None = None,
     segments: int = 8,
     show_grid: bool = True,
@@ -740,7 +694,7 @@ def plot_RGB_scatter(
     chromatically_adapt: bool = False,
     convert_kwargs: dict | None = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, Axes3D]:
+) -> Tuple[Figure, Axes3D]:
     """
     Plot given *RGB* colourspace array in a scatter plot.
 
@@ -756,7 +710,7 @@ def plot_RGB_scatter(
         Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
         the list of supported colourspace models.
     colourspaces
-        *RGB* colourspaces to plot the gamuts. ``colourspaces`` elements
+        *RGB* colourspaces to plot the gamuts of. ``colourspaces`` elements
         can be of any type or form supported by the
         :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     segments
@@ -852,12 +806,12 @@ def plot_RGB_scatter(
         points[..., 0],
         points[..., 1],
         points[..., 2],
-        color=np.reshape(RGB, (-1, 3)),
-        s=points_size,
+        c=np.reshape(RGB, (-1, 3)),
+        s=points_size,  # pyright: ignore
         zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_scatter,
     )
 
     settings.update({"axes": axes, "show": True})
     settings.update(kwargs)
 
-    return render(**settings)
+    return cast(Tuple[Figure, Axes3D], render(**settings))

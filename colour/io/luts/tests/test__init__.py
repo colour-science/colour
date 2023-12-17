@@ -3,12 +3,14 @@
 
 from __future__ import annotations
 
-import numpy as np
 import os
 import shutil
 import tempfile
 import unittest
 
+import numpy as np
+
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.io import LUTSequence, read_LUT, write_LUT
 
 __author__ = "Colour Developers"
@@ -40,7 +42,7 @@ class TestReadLUT(unittest.TestCase):
             os.path.join(ROOT_LUTS, "sony_spi1d", "eotf_sRGB_1D.spi1d")
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT_1.table,
             np.array(
                 [
@@ -62,6 +64,7 @@ class TestReadLUT(unittest.TestCase):
                     2.53715520e00,
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
         self.assertEqual(LUT_1.name, "eotf sRGB 1D")
         self.assertEqual(LUT_1.dimensions, 1)
@@ -75,7 +78,7 @@ class TestReadLUT(unittest.TestCase):
         LUT_2 = read_LUT(
             os.path.join(ROOT_LUTS, "resolve_cube", "LogC_Video.cube")
         )
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             LUT_2[0].table,
             np.array(
                 [
@@ -97,8 +100,19 @@ class TestReadLUT(unittest.TestCase):
                     [1.00000000, 1.00000000, 1.00000000],
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
         self.assertEqual(LUT_2[1].size, 4)
+
+        self.assertEqual(
+            read_LUT(
+                os.path.join(ROOT_LUTS, "sony_spi1d", "eotf_sRGB_1D.spi1d")
+            ),
+            read_LUT(
+                os.path.join(ROOT_LUTS, "sony_spi1d", "eotf_sRGB_1D.spi1d"),
+                method="Sony SPI1D",
+            ),
+        )
 
     def test_raise_exception_read_LUT(self):
         """
@@ -178,6 +192,22 @@ class TestWriteLUT(unittest.TestCase):
         )
 
         self.assertEqual(LUT_2_r, LUT_2_t)
+
+        write_LUT(
+            LUT_1_r,
+            os.path.join(self._temporary_directory, "eotf_sRGB_1D"),
+            method="Sony SPI1D",
+        )
+
+        self.assertEqual(
+            read_LUT(
+                os.path.join(self._temporary_directory, "eotf_sRGB_1D.spi1d")
+            ),
+            read_LUT(
+                os.path.join(self._temporary_directory, "eotf_sRGB_1D"),
+                method="Sony SPI1D",
+            ),
+        )
 
 
 if __name__ == "__main__":

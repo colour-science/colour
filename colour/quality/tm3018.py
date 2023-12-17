@@ -19,8 +19,9 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 from dataclasses import dataclass
+
+import numpy as np
 
 from colour.colorimetry import SpectralDistribution
 from colour.hints import ArrayLike, NDArrayFloat, NDArrayInt, Tuple, cast
@@ -146,7 +147,7 @@ def colour_fidelity_index_ANSIIESTM3018(
         np.floor(specification.colorimetry_data[1].JMh[:, 2] / 22.5)
     )
 
-    bin_mask = bins == np.arange(16).reshape(-1, 1)
+    bin_mask = bins == np.arange(16).reshape([-1, 1])
 
     # "bin_mask" is used later with Numpy broadcasting and "np.nanmean"
     # to skip a list comprehension and keep all the mean calculation vectorised
@@ -185,7 +186,7 @@ def colour_fidelity_index_ANSIIESTM3018(
 
     # Local colour fidelity indexes, i.e. 16 CFIs for each bin.
     bin_delta_E_s = np.nanmean(
-        specification.delta_E_s.reshape(1, -1) * bin_mask, axis=1
+        specification.delta_E_s.reshape([1, -1]) * bin_mask, axis=1
     )
     R_fs = as_float_array(delta_E_to_R_f(bin_delta_E_s))
 

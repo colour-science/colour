@@ -13,6 +13,7 @@ Annotation Type Hints
     ModuleType
     Any
     Callable
+    ClassVar
     Dict
     Generator
     Iterable
@@ -55,46 +56,22 @@ Annotation Type Hints
     ProtocolExtrapolator
     ProtocolLUTSequenceItem
     LiteralWarning
+    LiteralChromaticAdaptationTransform
+    LiteralColourspaceModel
+    LiteralRGBColourspace
+    LiteralLogEncoding
+    LiteralLogDecoding
+    LiteralOETF
+    LiteralOETFInverse
+    LiteralEOTF
+    LiteralEOTFInverse
+    LiteralCCTFEncoding
+    LiteralCCTFDecoding
+    LiteralOOTF
+    LiteralOOTFInverse
+    LiteralLUTReadMethod
+    LiteralLUTWriteMethod
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    LiteralFontScaling

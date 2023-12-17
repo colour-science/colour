@@ -55,8 +55,9 @@ References
 
 from __future__ import annotations
 
-import numpy as np
 import os
+
+import numpy as np
 from scipy.optimize import minimize
 
 from colour.adaptation import matrix_chromatic_adaptation_VonKries
@@ -64,29 +65,29 @@ from colour.algebra import (
     euclidean_distance,
     vector_dot,
 )
-from colour.colorimetry import (
-    MultiSpectralDistributions,
-    SDS_ILLUMINANTS,
-    SpectralDistribution,
-    SpectralShape,
-    handle_spectral_arguments,
-    reshape_msds,
-    reshape_sd,
-    sds_and_msds_to_msds,
-    sd_CIE_illuminant_D_series,
-    sd_blackbody,
-    sd_to_XYZ,
-)
 from colour.characterisation import (
     MSDS_ACES_RICD,
     RGB_CameraSensitivities,
     polynomial_expansion_Finlayson2015,
 )
+from colour.colorimetry import (
+    SDS_ILLUMINANTS,
+    MultiSpectralDistributions,
+    SpectralDistribution,
+    SpectralShape,
+    handle_spectral_arguments,
+    reshape_msds,
+    reshape_sd,
+    sd_blackbody,
+    sd_CIE_illuminant_D_series,
+    sd_to_XYZ,
+    sds_and_msds_to_msds,
+)
 from colour.hints import (
     ArrayLike,
     Callable,
     DTypeFloat,
-    Literal,
+    LiteralChromaticAdaptationTransform,
     Mapping,
     NDArrayFloat,
     Tuple,
@@ -101,8 +102,8 @@ from colour.models import (
     xy_to_XYZ,
 )
 from colour.models.rgb import (
-    RGB_Colourspace,
     RGB_COLOURSPACE_ACES2065_1,
+    RGB_Colourspace,
     RGB_to_XYZ,
     XYZ_to_RGB,
 )
@@ -160,20 +161,7 @@ S_FLARE_FACTOR: float = 0.18000 / (0.18000 + FLARE_PERCENTAGE)
 def sd_to_aces_relative_exposure_values(
     sd: SpectralDistribution,
     illuminant: SpectralDistribution | None = None,
-    chromatic_adaptation_transform: Literal[
-        "Bianco 2010",
-        "Bianco PC 2010",
-        "Bradford",
-        "CAT02 Brill 2008",
-        "CAT02",
-        "CAT16",
-        "CMCCAT2000",
-        "CMCCAT97",
-        "Fairchild",
-        "Sharp",
-        "Von Kries",
-        "XYZ Scaling",
-    ]
+    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
     | str
     | None = "CAT02",
     **kwargs,
@@ -541,7 +529,7 @@ def normalise_illuminant(
     Normalise given illuminant with given camera *RGB* spectral sensitivities.
 
     The multiplicative inverse scaling factor :math:`k` is computed by
-    multiplying the illuminant by the sensitivies channel with the maximum
+    multiplying the illuminant by the sensitivities channel with the maximum
     value.
 
     Parameters
@@ -665,20 +653,7 @@ def training_data_sds_to_XYZ(
     training_data: MultiSpectralDistributions,
     cmfs: MultiSpectralDistributions,
     illuminant: SpectralDistribution,
-    chromatic_adaptation_transform: Literal[
-        "Bianco 2010",
-        "Bianco PC 2010",
-        "Bradford",
-        "CAT02 Brill 2008",
-        "CAT02",
-        "CAT16",
-        "CMCCAT2000",
-        "CMCCAT97",
-        "Fairchild",
-        "Sharp",
-        "Von Kries",
-        "XYZ Scaling",
-    ]
+    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
     | str
     | None = "CAT02",
 ) -> NDArrayFloat:
@@ -1022,20 +997,7 @@ def matrix_idt(
     cmfs: MultiSpectralDistributions | None = None,
     optimisation_factory: Callable = optimisation_factory_rawtoaces_v1,
     optimisation_kwargs: dict | None = None,
-    chromatic_adaptation_transform: Literal[
-        "Bianco 2010",
-        "Bianco PC 2010",
-        "Bradford",
-        "CAT02 Brill 2008",
-        "CAT02",
-        "CAT16",
-        "CMCCAT2000",
-        "CMCCAT97",
-        "Fairchild",
-        "Sharp",
-        "Von Kries",
-        "XYZ Scaling",
-    ]
+    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
     | str
     | None = "CAT02",
     additional_data: bool = False,
@@ -1104,7 +1066,7 @@ def matrix_idt(
     array([ 2.3414154...,  1.        ,  1.5163375...])
 
     The *RAW to ACES* v1 matrix for the same camera and optimized by
-    `Ceres Solver <http://ceres-solver.org/>`__ is as follows::
+    `Ceres Solver <http://ceres-solver.org>`__ is as follows::
 
         0.864994 -0.026302 0.161308
         0.056527 1.122997 -0.179524

@@ -3,14 +3,16 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.arri` module.
 """
 
-import numpy as np
 import unittest
 
+import numpy as np
+
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models.rgb.transfer_functions import (
-    log_encoding_ARRILogC3,
     log_decoding_ARRILogC3,
-    log_encoding_ARRILogC4,
     log_decoding_ARRILogC4,
+    log_encoding_ARRILogC3,
+    log_encoding_ARRILogC4,
 )
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
@@ -41,16 +43,22 @@ log_encoding_ARRILogC3` definition unit tests methods.
 log_encoding_ARRILogC3` definition.
         """
 
-        self.assertAlmostEqual(
-            log_encoding_ARRILogC3(0.0), 0.092809000000000, places=7
+        np.testing.assert_allclose(
+            log_encoding_ARRILogC3(0.0),
+            0.092809000000000,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_ARRILogC3(0.18), 0.391006832034084, places=7
+        np.testing.assert_allclose(
+            log_encoding_ARRILogC3(0.18),
+            0.391006832034084,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_ARRILogC3(1.0), 0.570631558120417, places=7
+        np.testing.assert_allclose(
+            log_encoding_ARRILogC3(1.0),
+            0.570631558120417,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_encoding_ARRILogC3(self):
@@ -64,20 +72,20 @@ log_encoding_ARRILogC3` definition n-dimensional arrays support.
 
         x = np.tile(x, 6)
         t = np.tile(t, 6)
-        np.testing.assert_array_almost_equal(
-            log_encoding_ARRILogC3(x), t, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_ARRILogC3(x), t, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         x = np.reshape(x, (2, 3))
         t = np.reshape(t, (2, 3))
-        np.testing.assert_array_almost_equal(
-            log_encoding_ARRILogC3(x), t, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_ARRILogC3(x), t, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         x = np.reshape(x, (2, 3, 1))
         t = np.reshape(t, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            log_encoding_ARRILogC3(x), t, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_ARRILogC3(x), t, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_encoding_ARRILogC3(self):
@@ -92,8 +100,10 @@ log_encoding_ARRILogC3` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    log_encoding_ARRILogC3(x * factor), t * factor, decimal=7
+                np.testing.assert_allclose(
+                    log_encoding_ARRILogC3(x * factor),
+                    t * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -120,14 +130,22 @@ log_decoding_ARRILogC3` definition unit tests methods.
 log_decoding_ARRILogC3` definition.
         """
 
-        self.assertAlmostEqual(log_decoding_ARRILogC3(0.092809), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            log_decoding_ARRILogC3(0.391006832034084), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_ARRILogC3(0.092809),
+            0.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_ARRILogC3(0.570631558120417), 1.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_ARRILogC3(0.391006832034084),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            log_decoding_ARRILogC3(0.570631558120417),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_decoding_ARRILogC3(self):
@@ -141,20 +159,20 @@ log_decoding_ARRILogC3` definition n-dimensional arrays support.
 
         t = np.tile(t, 6)
         x = np.tile(x, 6)
-        np.testing.assert_array_almost_equal(
-            log_decoding_ARRILogC3(t), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_ARRILogC3(t), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         t = np.reshape(t, (2, 3))
         x = np.reshape(x, (2, 3))
-        np.testing.assert_array_almost_equal(
-            log_decoding_ARRILogC3(t), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_ARRILogC3(t), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         t = np.reshape(t, (2, 3, 1))
         x = np.reshape(x, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            log_decoding_ARRILogC3(t), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_ARRILogC3(t), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_decoding_ARRILogC3(self):
@@ -169,8 +187,10 @@ log_decoding_ARRILogC3` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    log_decoding_ARRILogC3(t * factor), x * factor, decimal=7
+                np.testing.assert_allclose(
+                    log_decoding_ARRILogC3(t * factor),
+                    x * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -197,16 +217,22 @@ log_encoding_ARRILogC4` definition unit tests methods.
 log_encoding_ARRILogC4` definition.
         """
 
-        self.assertAlmostEqual(
-            log_encoding_ARRILogC4(0.0), 0.092864125122190, places=7
+        np.testing.assert_allclose(
+            log_encoding_ARRILogC4(0.0),
+            0.092864125122190,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_ARRILogC4(0.18), 0.278395836548265, places=7
+        np.testing.assert_allclose(
+            log_encoding_ARRILogC4(0.18),
+            0.278395836548265,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_encoding_ARRILogC4(1.0), 0.427519364835306, places=7
+        np.testing.assert_allclose(
+            log_encoding_ARRILogC4(1.0),
+            0.427519364835306,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_encoding_ARRILogC4(self):
@@ -220,20 +246,20 @@ log_encoding_ARRILogC4` definition n-dimensional arrays support.
 
         x = np.tile(x, 6)
         t = np.tile(t, 6)
-        np.testing.assert_array_almost_equal(
-            log_encoding_ARRILogC4(x), t, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_ARRILogC4(x), t, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         x = np.reshape(x, (2, 3))
         t = np.reshape(t, (2, 3))
-        np.testing.assert_array_almost_equal(
-            log_encoding_ARRILogC4(x), t, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_ARRILogC4(x), t, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         x = np.reshape(x, (2, 3, 1))
         t = np.reshape(t, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            log_encoding_ARRILogC4(x), t, decimal=7
+        np.testing.assert_allclose(
+            log_encoding_ARRILogC4(x), t, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_encoding_ARRILogC4(self):
@@ -248,8 +274,10 @@ log_encoding_ARRILogC4` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    log_encoding_ARRILogC4(x * factor), t * factor, decimal=7
+                np.testing.assert_allclose(
+                    log_encoding_ARRILogC4(x * factor),
+                    t * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -276,16 +304,22 @@ log_decoding_ARRILogC4` definition unit tests methods.
 log_decoding_ARRILogC4` definition.
         """
 
-        self.assertAlmostEqual(
-            log_decoding_ARRILogC4(0.092864125122190), 0.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_ARRILogC4(0.092864125122190),
+            0.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_ARRILogC4(0.278395836548265), 0.18, places=7
+        np.testing.assert_allclose(
+            log_decoding_ARRILogC4(0.278395836548265),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            log_decoding_ARRILogC4(0.427519364835306), 1.0, places=7
+        np.testing.assert_allclose(
+            log_decoding_ARRILogC4(0.427519364835306),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_log_decoding_ARRILogC4(self):
@@ -299,20 +333,20 @@ log_decoding_ARRILogC4` definition n-dimensional arrays support.
 
         t = np.tile(t, 6)
         x = np.tile(x, 6)
-        np.testing.assert_array_almost_equal(
-            log_decoding_ARRILogC4(t), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_ARRILogC4(t), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         t = np.reshape(t, (2, 3))
         x = np.reshape(x, (2, 3))
-        np.testing.assert_array_almost_equal(
-            log_decoding_ARRILogC4(t), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_ARRILogC4(t), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         t = np.reshape(t, (2, 3, 1))
         x = np.reshape(x, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            log_decoding_ARRILogC4(t), x, decimal=7
+        np.testing.assert_allclose(
+            log_decoding_ARRILogC4(t), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_log_decoding_ARRILogC4(self):
@@ -327,8 +361,10 @@ log_decoding_ARRILogC4` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    log_decoding_ARRILogC4(t * factor), x * factor, decimal=7
+                np.testing.assert_allclose(
+                    log_decoding_ARRILogC4(t * factor),
+                    x * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors

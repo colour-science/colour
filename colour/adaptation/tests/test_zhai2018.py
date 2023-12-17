@@ -1,11 +1,13 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.adaptation.zhai2018` module."""
 
-import numpy as np
 import unittest
 from itertools import product
 
+import numpy as np
+
 from colour.adaptation import chromatic_adaptation_Zhai2018
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
@@ -32,7 +34,7 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatic_adaptation_Zhai2018(
                 XYZ_b=np.array([48.900, 43.620, 6.250]),
                 XYZ_wb=np.array([109.850, 100, 35.585]),
@@ -42,10 +44,10 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
                 XYZ_wo=np.array([100, 100, 100]),
             ),
             np.array([39.18561644, 42.15461798, 19.23672036]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatic_adaptation_Zhai2018(
                 XYZ_b=np.array([48.900, 43.620, 6.250]),
                 XYZ_wb=np.array([109.850, 100, 35.585]),
@@ -56,10 +58,10 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
                 transform="CAT16",
             ),
             np.array([40.37398343, 43.69426311, 20.51733764]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatic_adaptation_Zhai2018(
                 XYZ_b=np.array([52.034, 58.824, 23.703]),
                 XYZ_wb=np.array([92.288, 100, 38.775]),
@@ -69,10 +71,10 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
                 XYZ_wo=np.array([97.079, 100, 141.798]),
             ),
             np.array([57.03242915, 58.93434364, 64.76261333]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatic_adaptation_Zhai2018(
                 XYZ_b=np.array([52.034, 58.824, 23.703]),
                 XYZ_wb=np.array([92.288, 100, 38.775]),
@@ -83,17 +85,17 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
                 transform="CAT16",
             ),
             np.array([56.77130011, 58.81317888, 64.66922808]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatic_adaptation_Zhai2018(
                 XYZ_b=np.array([48.900, 43.620, 6.250]),
                 XYZ_wb=np.array([109.850, 100, 35.585]),
                 XYZ_wd=np.array([95.047, 100, 108.883]),
             ),
             np.array([38.72444735, 42.09232891, 20.05297620]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_chromatic_adaptation_Zhai2018(self):
@@ -111,20 +113,20 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
 
         XYZ_b = np.tile(XYZ_b, (6, 1))
         XYZ_d = np.tile(XYZ_d, (6, 1))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatic_adaptation_Zhai2018(XYZ_b, XYZ_wb, XYZ_wd, D_b, D_d),
             XYZ_d,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ_wb = np.tile(XYZ_wb, (6, 1))
         XYZ_wd = np.tile(XYZ_wd, (6, 1))
         D_b = np.tile(D_b, (6, 1))
         D_d = np.tile(D_d, (6, 1))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatic_adaptation_Zhai2018(XYZ_b, XYZ_wb, XYZ_wd, D_b, D_d),
             XYZ_d,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ_b = np.reshape(XYZ_b, (2, 3, 3))
@@ -133,10 +135,10 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
         D_b = np.reshape(D_b, (2, 3, 1))
         D_d = np.reshape(D_d, (2, 3, 1))
         XYZ_d = np.reshape(XYZ_d, (2, 3, 3))
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             chromatic_adaptation_Zhai2018(XYZ_b, XYZ_wb, XYZ_wd, D_b, D_d),
             XYZ_d,
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_domain_range_scale_chromatic_adaptation_Zhai2018(self):
@@ -153,12 +155,12 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     chromatic_adaptation_Zhai2018(
                         XYZ_b * factor, XYZ_wb * factor, XYZ_wd * factor
                     ),
                     XYZ_d * factor,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors

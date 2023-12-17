@@ -3,9 +3,11 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
 davinci_intermediate` module.
 """
 
-import numpy as np
 import unittest
 
+import numpy as np
+
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models.rgb.transfer_functions import (
     oetf_DaVinciIntermediate,
     oetf_inverse_DaVinciIntermediate,
@@ -37,22 +39,32 @@ oetf_DaVinciIntermediate` definition unit tests methods.
 davinci_intermediate.oetf_DaVinciIntermediate` definition.
         """
 
-        self.assertAlmostEqual(
-            oetf_DaVinciIntermediate(-0.01), -0.104442685500000, places=7
+        np.testing.assert_allclose(
+            oetf_DaVinciIntermediate(-0.01),
+            -0.104442685500000,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(oetf_DaVinciIntermediate(0.0), 0.0, places=7)
-
-        self.assertAlmostEqual(
-            oetf_DaVinciIntermediate(0.18), 0.336043272384855, places=7
+        np.testing.assert_allclose(
+            oetf_DaVinciIntermediate(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertAlmostEqual(
-            oetf_DaVinciIntermediate(1.0), 0.513837441116225, places=7
+        np.testing.assert_allclose(
+            oetf_DaVinciIntermediate(0.18),
+            0.336043272384855,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            oetf_DaVinciIntermediate(100.0), 0.999999987016872, places=7
+        np.testing.assert_allclose(
+            oetf_DaVinciIntermediate(1.0),
+            0.513837441116225,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            oetf_DaVinciIntermediate(100.0),
+            0.999999987016872,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_oetf_DaVinciIntermediate(self):
@@ -67,20 +79,20 @@ davinci_intermediate.oetf_DaVinciIntermediate` definition n-dimensional arrays
 
         L = np.tile(L, 6)
         V = np.tile(V, 6)
-        np.testing.assert_array_almost_equal(
-            oetf_DaVinciIntermediate(L), V, decimal=7
+        np.testing.assert_allclose(
+            oetf_DaVinciIntermediate(L), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         L = np.reshape(L, (2, 3))
         V = np.reshape(V, (2, 3))
-        np.testing.assert_array_almost_equal(
-            oetf_DaVinciIntermediate(L), V, decimal=7
+        np.testing.assert_allclose(
+            oetf_DaVinciIntermediate(L), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         L = np.reshape(L, (2, 3, 1))
         V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            oetf_DaVinciIntermediate(L), V, decimal=7
+        np.testing.assert_allclose(
+            oetf_DaVinciIntermediate(L), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
     def test_domain_range_scale_oetf_DaVinciIntermediate(self):
@@ -96,8 +108,10 @@ davinci_intermediate.oetf_DaVinciIntermediate` definition domain and range
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    oetf_DaVinciIntermediate(L * factor), V * factor, decimal=7
+                np.testing.assert_allclose(
+                    oetf_DaVinciIntermediate(L * factor),
+                    V * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -125,28 +139,34 @@ davinci_intermediate.oetf_inverse_DaVinciIntermediate` definition unit tests
 davinci_intermediate.oetf_inverse_DaVinciIntermediate` definition.
         """
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             oetf_inverse_DaVinciIntermediate(-0.104442685500000),
             -0.01,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            oetf_inverse_DaVinciIntermediate(0.0), 0.0, places=7
+        np.testing.assert_allclose(
+            oetf_inverse_DaVinciIntermediate(0.0),
+            0.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            oetf_inverse_DaVinciIntermediate(0.336043272384855), 0.18, places=7
+        np.testing.assert_allclose(
+            oetf_inverse_DaVinciIntermediate(0.336043272384855),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
-            oetf_inverse_DaVinciIntermediate(0.513837441116225), 1.0, places=7
+        np.testing.assert_allclose(
+            oetf_inverse_DaVinciIntermediate(0.513837441116225),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertAlmostEqual(
+        np.testing.assert_allclose(
             oetf_inverse_DaVinciIntermediate(0.999999987016872),
             100.0,
-            places=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_oetf_inverse_DaVinciIntermediate(self):
@@ -161,20 +181,26 @@ davinci_intermediate.oetf_inverse_DaVinciIntermediate` definition n-dimensional
 
         V = np.tile(V, 6)
         L = np.tile(L, 6)
-        np.testing.assert_array_almost_equal(
-            oetf_inverse_DaVinciIntermediate(V), L, decimal=7
+        np.testing.assert_allclose(
+            oetf_inverse_DaVinciIntermediate(V),
+            L,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         V = np.reshape(V, (2, 3))
         L = np.reshape(L, (2, 3))
-        np.testing.assert_array_almost_equal(
-            oetf_inverse_DaVinciIntermediate(V), L, decimal=7
+        np.testing.assert_allclose(
+            oetf_inverse_DaVinciIntermediate(V),
+            L,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         V = np.reshape(V, (2, 3, 1))
         L = np.reshape(L, (2, 3, 1))
-        np.testing.assert_array_almost_equal(
-            oetf_inverse_DaVinciIntermediate(V), L, decimal=7
+        np.testing.assert_allclose(
+            oetf_inverse_DaVinciIntermediate(V),
+            L,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_domain_range_scale_oetf_inverse_DaVinciIntermediate(self):
@@ -190,10 +216,10 @@ davinci_intermediate.oetf_inverse_DaVinciIntermediate` definition domain and
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_allclose(
                     oetf_inverse_DaVinciIntermediate(V * factor),
                     L * factor,
-                    decimal=7,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors

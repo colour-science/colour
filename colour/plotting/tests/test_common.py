@@ -1,41 +1,46 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.plotting.common` module."""
 
-import matplotlib.pyplot as plt
-import numpy as np
 import os
 import shutil
 import tempfile
 import unittest
 from functools import partial
-from matplotlib.pyplot import Axes, Figure
+
+import matplotlib.font_manager
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 
 import colour
 from colour.colorimetry import SDS_ILLUMINANTS
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.io import read_image
 from colour.models import RGB_COLOURSPACES, XYZ_to_sRGB, gamma_function
-from colour.plotting import ColourSwatch
 from colour.plotting import (
-    colour_style,
-    override_style,
+    ColourSwatch,
     XYZ_to_plotting_colourspace,
-    colour_cycle,
     artist,
     camera,
-    render,
-    label_rectangles,
-    uniform_axes3d,
+    colour_cycle,
+    colour_style,
+    filter_cmfs,
+    filter_colour_checkers,
+    filter_illuminants,
     filter_passthrough,
     filter_RGB_colourspaces,
-    filter_cmfs,
-    filter_illuminants,
-    filter_colour_checkers,
-    update_settings_collection,
-    plot_single_colour_swatch,
-    plot_multi_colour_swatches,
-    plot_single_function,
-    plot_multi_functions,
+    font_scaling,
+    label_rectangles,
+    override_style,
     plot_image,
+    plot_multi_colour_swatches,
+    plot_multi_functions,
+    plot_single_colour_swatch,
+    plot_single_function,
+    render,
+    uniform_axes3d,
+    update_settings_collection,
 )
 from colour.utilities import attest
 
@@ -49,7 +54,8 @@ __status__ = "Production"
 __all__ = [
     "TestColourStyle",
     "TestOverrideStyle",
-    "TestXyzToPlottingColourspace",
+    "TestFontScaling",
+    "TestXYZToPlottingColourspace",
     "TestColourCycle",
     "TestArtist",
     "TestCamera",
@@ -105,7 +111,27 @@ class TestOverrideStyle(unittest.TestCase):
             plt.rcParams["text.color"] = text_color
 
 
-class TestXyzToPlottingColourspace(unittest.TestCase):
+class TestFontScaling(unittest.TestCase):
+    """
+    Define :func:`colour.plotting.common.font_scaling` definition unit tests
+    methods.
+    """
+
+    def test_font_scaling(self):
+        """Test :func:`colour.plotting.common.font_scaling` definition."""
+
+        with font_scaling("medium-colour-science", 2):
+            self.assertEqual(
+                matplotlib.font_manager.font_scalings["medium-colour-science"],
+                2,
+            )
+
+        self.assertEqual(
+            matplotlib.font_manager.font_scalings["medium-colour-science"], 1
+        )
+
+
+class TestXYZToPlottingColourspace(unittest.TestCase):
     """
     Define :func:`colour.plotting.common.XYZ_to_plotting_colourspace`
     definition unit tests methods.
@@ -118,8 +144,10 @@ class TestXyzToPlottingColourspace(unittest.TestCase):
         """
 
         XYZ = np.random.random(3)
-        np.testing.assert_array_almost_equal(
-            XYZ_to_sRGB(XYZ), XYZ_to_plotting_colourspace(XYZ), decimal=7
+        np.testing.assert_allclose(
+            XYZ_to_sRGB(XYZ),
+            XYZ_to_plotting_colourspace(XYZ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -134,30 +162,30 @@ class TestColourCycle(unittest.TestCase):
 
         cycler = colour_cycle()
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             next(cycler),
             np.array([0.95686275, 0.26274510, 0.21176471, 1.00000000]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             next(cycler),
             np.array([0.61582468, 0.15423299, 0.68456747, 1.00000000]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             next(cycler),
             np.array([0.25564014, 0.31377163, 0.70934256, 1.00000000]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         cycler = colour_cycle(colour_cycle_map="viridis")
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_allclose(
             next(cycler),
             np.array([0.26700400, 0.00487400, 0.32941500, 1.00000000]),
-            decimal=7,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
@@ -166,6 +194,24 @@ class TestArtist(unittest.TestCase):
     Define :func:`colour.plotting.common.artist` definition unit tests
     methods.
     """
+
+    def test_axes_args(self):
+        """
+        Test `colour.plotting.common.artist` figure / axis association
+        """
+        fig1 = plt.figure()
+        fig_sub1 = fig1.subfigures()
+        fig_sub2 = fig_sub1.subfigures()
+        ax1 = fig_sub2.gca()
+
+        fig_result1, _ = artist(axes=ax1)
+
+        self.assertIs(fig1, fig_result1)
+
+        _ = plt.figure()
+
+        fig_result2, _ = artist(axes=ax1)
+        self.assertIs(fig1, fig_result2)
 
     def test_artist(self):
         """Test :func:`colour.plotting.common.artist` definition."""
