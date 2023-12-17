@@ -391,6 +391,13 @@ def build(ctx: Context):
         readme_content = readme_file.read()
 
     with open("README.rst", "w") as readme_file:
+        # Adding the *Colour* logo as the first content line because the *raw*
+        # directive to support light and dark theme is later trimmed.
+        readme_content = (
+            "..  image:: https://raw.githubusercontent.com/colour-science/"
+            "colour-branding/master/images/Colour_Logo_001.png\n"
+            + readme_content
+        )
         readme_file.write(
             re.sub(
                 (
