@@ -973,7 +973,7 @@ for _path in sys.path:
         import colour  # pyright: ignore
 
         if not os.environ.get("COLOUR_SCIENCE__COLOUR__IMPORT_VAAB_COLOUR"):
-            colour.utilities.warning(  # pyright: ignore
+            colour.utilities.runtime_warning(  # pyright: ignore
                 '"vaab/colour" was detected in "sys.path", please define a '
                 '"COLOUR_SCIENCE__COLOUR__IMPORT_VAAB_COLOUR=True" environment '
                 'variable to import its objects into "colour" namespace!'
@@ -1018,7 +1018,7 @@ for _path in sys.path:
             "web2rgb",
         ]:
             if name in dir(_module):
-                colour.utilities.warning(  # pyright: ignore
+                colour.utilities.runtime_warning(  # pyright: ignore
                     f'Importing "vaab/colour" "{name}" object into '
                     f'"Colour"\'s namespace!'
                 )
