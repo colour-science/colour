@@ -189,7 +189,7 @@ def XYZ_to_sd(
 
     Examples
     --------
-    *Jakob and Hanika (2009)* reflectance recovery:
+    *Jakob and Hanika (2019)* reflectance recovery:
 
     >>> import numpy as np
     >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape
