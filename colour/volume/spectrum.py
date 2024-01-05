@@ -23,7 +23,6 @@ References
 from __future__ import annotations
 
 import numpy as np
-
 from colour.colorimetry import (
     MultiSpectralDistributions,
     SpectralDistribution,
@@ -38,13 +37,13 @@ from colour.hints import (
     Literal,
     NDArrayFloat,
 )
+from colour.models.cie_xyy import XYZ_to_xy
 from colour.utilities import (
     CACHE_REGISTRY,
     is_caching_enabled,
     validate_method,
     zeros,
 )
-from colour.models.cie_xyy import XYZ_to_xy
 from colour.volume import is_within_mesh_volume
 
 __author__ = "Colour Developers"
