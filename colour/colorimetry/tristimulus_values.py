@@ -619,7 +619,7 @@ def sd_to_XYZ_integration(
 
     Examples
     --------
-    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralDistribution
+    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS
     >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     >>> illuminant = SDS_ILLUMINANTS["D65"]
     >>> shape = SpectralShape(400, 700, 20)
@@ -798,7 +798,7 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
 
     Examples
     --------
-    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralDistribution
+    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS
     >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     >>> illuminant = SDS_ILLUMINANTS["D65"]
     >>> shape = SpectralShape(400, 700, 20)
@@ -960,7 +960,7 @@ def sd_to_XYZ_ASTME308(
 
     Examples
     --------
-    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralDistribution
+    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS
     >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     >>> illuminant = SDS_ILLUMINANTS["D65"]
     >>> shape = SpectralShape(400, 700, 20)
@@ -1210,13 +1210,7 @@ def sd_to_XYZ(
 
     Examples
     --------
-    >>> import numpy as np
-    >>> from colour import (
-    ...     MSDS_CMFS,
-    ...     SDS_ILLUMINANTS,
-    ...     SpectralDistribution,
-    ...     SpectralShape,
-    ... )
+    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS
     >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     >>> illuminant = SDS_ILLUMINANTS["D65"]
     >>> shape = SpectralShape(400, 700, 20)
@@ -1899,7 +1893,7 @@ def msds_to_XYZ(
 
     Examples
     --------
-    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralDistribution
+    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS
     >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     >>> illuminant = SDS_ILLUMINANTS["D65"]
     >>> shape = SpectralShape(400, 700, 60)
