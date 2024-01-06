@@ -59,7 +59,7 @@ tqdm = ">= 4, < 5"
 xxhash = ">= 3.2, < 4"
 
 [tool.poetry.group.graphviz.dependencies]
-pygraphviz = { version =  ">= 1, < 2", python = "< 3.12" }
+pygraphviz = { version = ">= 1, < 2", python = "< 3.12" }
 
 [tool.poetry.group.meshing.dependencies]
 trimesh = ">= 3, < 4"
