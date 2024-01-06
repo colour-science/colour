@@ -22,11 +22,11 @@ chromaticity_coordinates.CCS_BABELCOLOR_AVERAGE`: Average data derived from
     measurements of 30 *ColorChecker Classic* charts.
 -   :attr:`colour.characterisation.datasets.colour_checkers.\
 chromaticity_coordinates.CCS_COLORCHECKER24_BEFORE_NOV2014`:
-    *ColorChecker Classic* reference data from *X-Rite* published in 2015 and
+    *ColorChecker Classic* reference data from *X-Rite* published in 2016 and
     matching the data from *GretagMacbeth* published in 2005.
 -   :attr:`colour.characterisation.datasets.colour_checkers.\
 chromaticity_coordinates.CCS_COLORCHECKER24_AFTER_NOV2014`:
-    *ColorChecker Classic* reference data from *X-Rite* published in 2015 and
+    *ColorChecker Classic* reference data from *X-Rite* published in 2016 and
     matching the *ColorChecker Classic* edition after November 2014.
 -   :attr:`colour.characterisation.datasets.colour_checkers.\
 chromaticity_coordinates. CCS_TE226_V2`: Reference data from *TE226 V2*.
@@ -347,7 +347,7 @@ CCS_COLORCHECKER24_BEFORE_NOV2014: ColourChecker = ColourChecker(
     6,
 )
 """
-Reference *ColorChecker Classic* data from *X-Rite (2015)*.
+Reference *ColorChecker Classic* data from *X-Rite (2016)*.
 
 Notes
 -----
@@ -415,7 +415,7 @@ CCS_COLORCHECKER24_AFTER_NOV2014: ColourChecker = ColourChecker(
     6,
 )
 """
-Reference *ColorChecker Classic* data from *X-Rite (2015)* and matching the
+Reference *ColorChecker Classic* data from *X-Rite (2016)* and matching the
 *ColorChecker Classic* edition after November 2014.
 """
 
