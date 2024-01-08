@@ -746,7 +746,7 @@ class LUT3D_Jakob2019:
     def size(self) -> int:
         """
         Getter property for the *Jakob and Hanika (2019)* interpolator
-        size, i.e. the samples count on one side of the 3D table.
+        size, i.e. the sample count on one side of the 3D table.
 
         Returns
         -------
