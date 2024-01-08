@@ -527,7 +527,7 @@ def plot_chromaticity_diagram_colours(
     Parameters
     ----------
     samples
-        Samples count on one axis when computing the *Chromaticity Diagram*
+        Sample count on one axis when computing the *Chromaticity Diagram*
         colours.
     diagram_colours
         Colours of the *Chromaticity Diagram*, if ``diagram_colours`` is set

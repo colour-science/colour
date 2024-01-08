@@ -66,7 +66,7 @@ def _wrapper_RGB_colourspace_volume_MonteCarlo(arguments: tuple) -> int:
     Returns
     -------
     :class:`int`
-        Inside *RGB* colourspace volume samples count.
+        Inside *RGB* colourspace volume sample count.
     """
 
     return sample_RGB_colourspace_volume_MonteCarlo(*arguments)
@@ -94,7 +94,7 @@ def sample_RGB_colourspace_volume_MonteCarlo(
     colourspace
         *RGB* colourspace to compute the volume of.
     samples
-        Samples count.
+        Sample count.
     limits
         *CIE L\\*a\\*b\\** colourspace volume.
     illuminant_Lab
@@ -111,7 +111,7 @@ def sample_RGB_colourspace_volume_MonteCarlo(
     Returns
     -------
     :class:`int`
-        Within *RGB* colourspace volume samples count.
+        Within *RGB* colourspace volume sample count.
 
     Notes
     -----
@@ -222,7 +222,7 @@ def RGB_colourspace_volume_MonteCarlo(
     colourspace\
         *RGB* colourspace to compute the volume of.
     samples\
-        Samples count.
+        Sample count.
     limits\
         *CIE L\\*a\\*b\\** colourspace volume.
     illuminant_Lab\
@@ -307,7 +307,7 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
     coverage_sampler
         Python object responsible for checking the volume coverage.
     samples
-        Samples count.
+        Sample count.
     random_generator
         Random triplet generator providing the random samples.
     random_state
@@ -363,7 +363,7 @@ def RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
     colourspace
         *RGB* colourspace to compute the *Pointer's Gamut* coverage percentage.
     samples
-        Samples count.
+        Sample count.
     random_generator
         Random triplet generator providing the random samples.
     random_state
@@ -409,7 +409,7 @@ def RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
     colourspace
         *RGB* colourspace to compute the visible spectrum coverage percentage.
     samples
-        Samples count.
+        Sample count.
     random_generator
         Random triplet generator providing the random samples.
     random_state
