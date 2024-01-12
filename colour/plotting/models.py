@@ -1014,7 +1014,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
         :alt: plot_RGB_chromaticities_in_chromaticity_diagram
     """
 
-    RGB = np.reshape(as_float_array(RGB), (-1, 3))
+    RGB = np.reshape(as_float_array(RGB)[..., :3], (-1, 3))
     method = validate_method(
         method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS")
     )
