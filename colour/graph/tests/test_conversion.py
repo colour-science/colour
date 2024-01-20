@@ -69,7 +69,7 @@ class TestConvert(unittest.TestCase):
         np.testing.assert_allclose(
             RGB_a,
             np.array([0.49034776, 0.30185875, 0.23587685]),
-            atol=5e-5,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         # NOTE: Reduced precision for random unit tests failure.
@@ -77,7 +77,7 @@ class TestConvert(unittest.TestCase):
         np.testing.assert_allclose(
             Jpapbp,
             np.array([0.40738741, 0.12046560, 0.09284385]),
-            atol=5e-4,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         RGB_b = convert(
@@ -123,7 +123,7 @@ class TestConvert(unittest.TestCase):
                 RGB_to_RGB={"output_colourspace": RGB_COLOURSPACE_ACES2065_1},
             ),
             np.array([0.37308227, 0.31241444, 0.24746366]),
-            atol=5e-5,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         # Consistency check to verify that all the colour models are properly
