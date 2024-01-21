@@ -14,7 +14,6 @@ from colour.constants import (
 )
 from colour.hints import NDArray, Optional, Type, Union
 from colour.utilities import (
-    CACHE_REGISTRY,
     MixinDataclassArithmetic,
     MixinDataclassArray,
     MixinDataclassFields,
@@ -780,8 +779,6 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
                 )
         finally:
             set_default_float_dtype(np.float64)
-
-            CACHE_REGISTRY.clear_all_caches()
 
 
 class TestGetDomainRangeScale(unittest.TestCase):

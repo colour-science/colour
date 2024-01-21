@@ -870,6 +870,8 @@ def set_default_int_dtype(
 
             module.DTYPE_INT_DEFAULT = dtype  # pyright: ignore
 
+    CACHE_REGISTRY.clear_all_caches()
+
 
 def set_default_float_dtype(
     dtype: Type[DTypeFloat] = DTYPE_FLOAT_DEFAULT,
@@ -917,6 +919,8 @@ def set_default_float_dtype(
                 continue
 
             module.DTYPE_FLOAT_DEFAULT = dtype  # pyright: ignore
+
+    CACHE_REGISTRY.clear_all_caches()
 
 
 # TODO: Annotate with "Union[Literal['ignore', 'reference', '1', '100'], str]"
