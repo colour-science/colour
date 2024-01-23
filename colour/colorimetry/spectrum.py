@@ -3074,7 +3074,7 @@ def sds_and_msds_to_msds(
         display_labels = []
         for sd in sds_converted:
             if sd.shape != shape:
-                sd = sd.align(shape)  # noqa: PLW2901
+                sd = sd.copy().align(shape)  # noqa: PLW2901
 
             values.append(sd.values)
             labels.append(
