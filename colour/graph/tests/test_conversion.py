@@ -60,7 +60,6 @@ class TestConvert(unittest.TestCase):
     def test_convert(self):
         """Test :func:`colour.graph.conversion.convert` definition."""
 
-        # NOTE: Reduced precision for random unit tests failure.
         RGB_a = convert(
             SDS_COLOURCHECKERS["ColorChecker N Ohta"]["dark skin"],
             "Spectral Distribution",
@@ -72,7 +71,6 @@ class TestConvert(unittest.TestCase):
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        # NOTE: Reduced precision for random unit tests failure.
         Jpapbp = convert(RGB_a, "Output-Referred RGB", "CAM16UCS")
         np.testing.assert_allclose(
             Jpapbp,
@@ -114,7 +112,6 @@ class TestConvert(unittest.TestCase):
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        # NOTE: Reduced precision for random unit tests failure.
         np.testing.assert_allclose(
             convert(
                 RGB_a,

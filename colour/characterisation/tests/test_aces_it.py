@@ -116,7 +116,6 @@ sd_to_aces_relative_exposure_values` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        # NOTE: Reduced precision for random unit tests failure.
         dark_skin = SDS_COLOURCHECKERS["ColorChecker N Ohta"]["dark skin"]
         np.testing.assert_allclose(
             sd_to_aces_relative_exposure_values(dark_skin),
@@ -124,8 +123,6 @@ sd_to_aces_relative_exposure_values` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        # NOTE: Reduced precision for random unit tests failure.
-        dark_skin = SDS_COLOURCHECKERS["ColorChecker N Ohta"]["dark skin"]
         np.testing.assert_allclose(
             sd_to_aces_relative_exposure_values(
                 dark_skin, SDS_ILLUMINANTS["A"]
@@ -134,14 +131,12 @@ sd_to_aces_relative_exposure_values` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        dark_skin = SDS_COLOURCHECKERS["ColorChecker N Ohta"]["dark skin"]
         np.testing.assert_allclose(
             sd_to_aces_relative_exposure_values(dark_skin),
             np.array([0.11807796, 0.08690312, 0.05891252]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        dark_skin = SDS_COLOURCHECKERS["ColorChecker N Ohta"]["dark skin"]
         np.testing.assert_allclose(
             sd_to_aces_relative_exposure_values(
                 dark_skin,
@@ -833,7 +828,6 @@ class TestTrainingDataSdsToXYZ(unittest.TestCase):
             SDS_COLOURCHECKERS["BabelColor Average"].values()
         )
 
-        # NOTE: Reduced precision for random unit tests failure.
         np.testing.assert_allclose(
             training_data_sds_to_XYZ(
                 training_data,
@@ -868,10 +862,9 @@ class TestTrainingDataSdsToXYZ(unittest.TestCase):
                     [0.03058273, 0.03200953, 0.03277947],
                 ]
             ),
-            atol=1e-6,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        # NOTE: Reduced precision for random unit tests failure.
         np.testing.assert_allclose(
             training_data_sds_to_XYZ(
                 training_data,
@@ -907,7 +900,7 @@ class TestTrainingDataSdsToXYZ(unittest.TestCase):
                     [0.03058222, 0.03200864, 0.03278183],
                 ]
             ),
-            atol=1e-6,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
