@@ -658,15 +658,18 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
         definition.
         """
 
-        self.assertEqual(as_float_array(np.ones(3)).dtype, np.float64)
+        try:
+            self.assertEqual(as_float_array(np.ones(3)).dtype, np.float64)
 
-        set_default_float_dtype(np.float16)
+            set_default_float_dtype(np.float16)
 
-        self.assertEqual(as_float_array(np.ones(3)).dtype, np.float16)
+            self.assertEqual(as_float_array(np.ones(3)).dtype, np.float16)
 
-        set_default_float_dtype(np.float64)
+            set_default_float_dtype(np.float64)
 
-        self.assertEqual(as_float_array(np.ones(3)).dtype, np.float64)
+            self.assertEqual(as_float_array(np.ones(3)).dtype, np.float64)
+        finally:
+            set_default_float_dtype(np.float64)
 
     def test_set_default_float_dtype_enforcement(self):
         """
@@ -690,90 +693,92 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
             convert,
         )
 
-        dtype = np.float32
-        set_default_float_dtype(dtype)
+        try:
+            dtype = np.float32
+            set_default_float_dtype(dtype)
 
-        for source, target, _callable in CONVERSION_SPECIFICATIONS_DATA:
-            if target in ("Hexadecimal", "Munsell Colour"):
-                continue
+            for source, target, _callable in CONVERSION_SPECIFICATIONS_DATA:
+                if target in ("Hexadecimal", "Munsell Colour"):
+                    continue
 
-            # Spectral distributions are instantiated with float64 data and
-            # spectral up-sampling optimization fails.
-            if (
-                "Spectral Distribution" in (source, target)
-                or target == "Complementary Wavelength"
-                or target == "Dominant Wavelength"
-            ):
-                continue
-
-            a = np.array([(0.25, 0.5, 0.25), (0.25, 0.5, 0.25)])
-
-            if source == "CAM16":
-                a = CAM_Specification_CAM16(J=0.25, M=0.5, h=0.25)
-
-            if source == "CIECAM02":
-                a = CAM_Specification_CIECAM02(J=0.25, M=0.5, h=0.25)
-
-            if source == "CIECAM16":
-                a = CAM_Specification_CIECAM16(J=0.25, M=0.5, h=0.25)
-
-            if source == "Hellwig 2022":
-                a = CAM_Specification_Hellwig2022(J=0.25, M=0.5, h=0.25)
-
-            if source == "Kim 2009":
-                a = CAM_Specification_Kim2009(J=0.25, M=0.5, h=0.25)
-
-            if source == "ZCAM":
-                a = CAM_Specification_ZCAM(J=0.25, M=0.5, h=0.25)
-
-            if source == "CMYK":
-                a = np.array([(0.25, 0.5, 0.25, 0.5), (0.25, 0.5, 0.25, 0.5)])
-
-            if source == "Hexadecimal":
-                a = np.array(["#FFFFFF", "#FFFFFF"])
-
-            if source == "CSS Color 3":
-                a = "aliceblue"
-
-            if source == "Munsell Colour":
-                a = ["4.2YR 8.1/5.3", "4.2YR 8.1/5.3"]
-
-            if source == "Wavelength":
-                a = 555
-
-            if (
-                source.startswith("CCT")  # noqa: PIE810
-                or source.endswith(" xy")
-                or source.endswith(" uv")
-            ):
-                a = np.array([(0.25, 0.5), (0.25, 0.5)])
-
-            def dtype_getter(x):
-                """Dtype getter callable."""
-
-                for specification in (
-                    "ATD95",
-                    "CIECAM02",
-                    "CAM16",
-                    "Hellwig 2022",
-                    "Hunt",
-                    "Kim 2009",
-                    "LLAB",
-                    "Nayatani95",
-                    "RLAB",
-                    "ZCAM",
+                # Spectral distributions are instantiated with float64 data and
+                # spectral up-sampling optimization fails.
+                if (
+                    "Spectral Distribution" in (source, target)
+                    or target == "Complementary Wavelength"
+                    or target == "Dominant Wavelength"
                 ):
-                    if target.endswith(specification):  # noqa: B023
-                        return getattr(x, fields(x)[0].name).dtype
+                    continue
 
-                return x.dtype
+                a = np.array([(0.25, 0.5, 0.25), (0.25, 0.5, 0.25)])
 
-            self.assertEqual(dtype_getter(convert(a, source, target)), dtype)
+                if source == "CAM16":
+                    a = CAM_Specification_CAM16(J=0.25, M=0.5, h=0.25)
 
-    def tearDown(self):
-        """After tests actions."""
+                if source == "CIECAM02":
+                    a = CAM_Specification_CIECAM02(J=0.25, M=0.5, h=0.25)
 
-        set_default_float_dtype(np.float64)
+                if source == "CIECAM16":
+                    a = CAM_Specification_CIECAM16(J=0.25, M=0.5, h=0.25)
+
+                if source == "Hellwig 2022":
+                    a = CAM_Specification_Hellwig2022(J=0.25, M=0.5, h=0.25)
+
+                if source == "Kim 2009":
+                    a = CAM_Specification_Kim2009(J=0.25, M=0.5, h=0.25)
+
+                if source == "ZCAM":
+                    a = CAM_Specification_ZCAM(J=0.25, M=0.5, h=0.25)
+
+                if source == "CMYK":
+                    a = np.array(
+                        [(0.25, 0.5, 0.25, 0.5), (0.25, 0.5, 0.25, 0.5)]
+                    )
+
+                if source == "Hexadecimal":
+                    a = np.array(["#FFFFFF", "#FFFFFF"])
+
+                if source == "CSS Color 3":
+                    a = "aliceblue"
+
+                if source == "Munsell Colour":
+                    a = ["4.2YR 8.1/5.3", "4.2YR 8.1/5.3"]
+
+                if source == "Wavelength":
+                    a = 555
+
+                if (
+                    source.startswith("CCT")  # noqa: PIE810
+                    or source.endswith(" xy")
+                    or source.endswith(" uv")
+                ):
+                    a = np.array([(0.25, 0.5), (0.25, 0.5)])
+
+                def dtype_getter(x):
+                    """Dtype getter callable."""
+
+                    for specification in (
+                        "ATD95",
+                        "CIECAM02",
+                        "CAM16",
+                        "Hellwig 2022",
+                        "Hunt",
+                        "Kim 2009",
+                        "LLAB",
+                        "Nayatani95",
+                        "RLAB",
+                        "ZCAM",
+                    ):
+                        if target.endswith(specification):  # noqa: B023
+                            return getattr(x, fields(x)[0].name).dtype
+
+                    return x.dtype
+
+                self.assertEqual(
+                    dtype_getter(convert(a, source, target)), dtype
+                )
+        finally:
+            set_default_float_dtype(np.float64)
 
 
 class TestGetDomainRangeScale(unittest.TestCase):

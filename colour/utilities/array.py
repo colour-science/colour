@@ -854,7 +854,7 @@ def set_default_int_dtype(
     --------
     >>> as_int_array(np.ones(3)).dtype  # doctest: +SKIP
     dtype('int64')
-    >>> set_default_int_dtype(np.int32)
+    >>> set_default_int_dtype(np.int32) # doctest: +SKIP
     >>> as_int_array(np.ones(3)).dtype  # doctest: +SKIP
     dtype('int32')
     >>> set_default_int_dtype(np.int64)
@@ -869,6 +869,8 @@ def set_default_int_dtype(
                 continue
 
             module.DTYPE_INT_DEFAULT = dtype  # pyright: ignore
+
+    CACHE_REGISTRY.clear_all_caches()
 
 
 def set_default_float_dtype(
@@ -903,8 +905,8 @@ def set_default_float_dtype(
     --------
     >>> as_float_array(np.ones(3)).dtype
     dtype('float64')
-    >>> set_default_float_dtype(np.float16)
-    >>> as_float_array(np.ones(3)).dtype
+    >>> set_default_float_dtype(np.float16)  # doctest: +SKIP
+    >>> as_float_array(np.ones(3)).dtype  # doctest: +SKIP
     dtype('float16')
     >>> set_default_float_dtype(np.float64)
     >>> as_float_array(np.ones(3)).dtype
@@ -917,6 +919,8 @@ def set_default_float_dtype(
                 continue
 
             module.DTYPE_FLOAT_DEFAULT = dtype  # pyright: ignore
+
+    CACHE_REGISTRY.clear_all_caches()
 
 
 # TODO: Annotate with "Union[Literal['ignore', 'reference', '1', '100'], str]"

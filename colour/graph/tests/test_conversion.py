@@ -60,7 +60,6 @@ class TestConvert(unittest.TestCase):
     def test_convert(self):
         """Test :func:`colour.graph.conversion.convert` definition."""
 
-        # NOTE: Reduced precision for random unit tests failure.
         RGB_a = convert(
             SDS_COLOURCHECKERS["ColorChecker N Ohta"]["dark skin"],
             "Spectral Distribution",
@@ -69,15 +68,14 @@ class TestConvert(unittest.TestCase):
         np.testing.assert_allclose(
             RGB_a,
             np.array([0.49034776, 0.30185875, 0.23587685]),
-            atol=5e-5,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        # NOTE: Reduced precision for random unit tests failure.
         Jpapbp = convert(RGB_a, "Output-Referred RGB", "CAM16UCS")
         np.testing.assert_allclose(
             Jpapbp,
             np.array([0.40738741, 0.12046560, 0.09284385]),
-            atol=5e-4,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         RGB_b = convert(
@@ -114,7 +112,6 @@ class TestConvert(unittest.TestCase):
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        # NOTE: Reduced precision for random unit tests failure.
         np.testing.assert_allclose(
             convert(
                 RGB_a,
@@ -123,7 +120,7 @@ class TestConvert(unittest.TestCase):
                 RGB_to_RGB={"output_colourspace": RGB_COLOURSPACE_ACES2065_1},
             ),
             np.array([0.37308227, 0.31241444, 0.24746366]),
-            atol=5e-5,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         # Consistency check to verify that all the colour models are properly

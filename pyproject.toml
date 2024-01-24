@@ -65,7 +65,7 @@ pygraphviz = { version = ">= 1, < 2", python = "< 3.12" }
 trimesh = ">= 3, < 4"
 
 [tool.poetry.group.dev.dependencies]
-coverage = "!= 6.3"
+coverage = ">= 6, < 7"
 coveralls = "*"
 invoke = "*"
 jupyter = "*"

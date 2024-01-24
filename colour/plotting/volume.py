@@ -758,6 +758,8 @@ def plot_RGB_scatter(
         :alt: plot_RGB_scatter
     """
 
+    RGB = np.reshape(as_float_array(RGB)[..., :3], (-1, 3))
+
     colourspace = cast(
         RGB_Colourspace,
         first_item(filter_RGB_colourspaces(colourspace).values()),
