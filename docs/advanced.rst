@@ -18,8 +18,8 @@ runtime:
     `float64` (default). Changing the float dtype might result in various
     **Colour** `functionality breaking entirely <https://github.com/numpy/numpy/issues/6860>`__.
     *With great power comes great responsibility*.
--   ``COLOUR_SCIENCE__COLOUR__DISABLE_CACHING``: Disable the caches that can
-    be disabled, useful for debugging purposes.
+-   ``COLOUR_SCIENCE__DISABLE_CACHING``: Disable the caches that can be
+    disabled, useful for debugging purposes.
 -   ``COLOUR_SCIENCE__COLOUR__IMPORT_VAAB_COLOUR``: Import
     `vaab/colour <https://github.com/vaab/colour>`__ injection into
     **Colour** namespace. This solves the clash with

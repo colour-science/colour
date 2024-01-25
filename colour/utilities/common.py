@@ -97,7 +97,7 @@ __all__ = [
 ]
 
 _CACHING_ENABLED: bool = not os.environ.get(
-    "COLOUR_SCIENCE__COLOUR__DISABLE_CACHING", False
+    "COLOUR_SCIENCE__DISABLE_CACHING", False
 )
 """
 Global variable storing the current *Colour* caching enabled state.
