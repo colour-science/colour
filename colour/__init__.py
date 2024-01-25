@@ -45,10 +45,29 @@ Sub-packages
 """
 
 import contextlib
+import json
 import os
 import sys
 
 import numpy as np
+
+# Loading the "colour-science" JEnv file.
+_JENV_FILE_PATH = os.path.join(
+    os.path.expanduser("~"),
+    ".colour-science",
+    "colour-science.jenv",
+)
+
+if os.path.exists(_JENV_FILE_PATH):
+    with open(_JENV_FILE_PATH) as _JENV_FILE:
+        for _KEY, _VALUE in json.loads(_JENV_FILE.read()).items():
+            os.environ[_KEY] = str(_VALUE)
+
+    del _JENV_FILE, _KEY, _VALUE
+
+del _JENV_FILE_PATH
+
+# ruff: noqa: E402
 
 from colour import plotting  # noqa: F401
 
