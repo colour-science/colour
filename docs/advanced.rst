@@ -30,6 +30,19 @@ runtime:
     :func:`colour.utilities.show_warning` definition and thus providing
     complete traceback from the point where the warning occurred.
 
+JEnv File
+---------
+
+**Colour** will also read the ``~/.colour-science/colour-science.jenv`` JSON
+file if it exists. The syntax is that of a mapping of environment variable and
+values as follows:
+
+.. code-block:: json
+
+    {
+      "COLOUR_SCIENCE__COLOUR__SHOW_WARNINGS_WITH_TRACEBACK": "True"
+    }
+
 Caching
 -------
 
