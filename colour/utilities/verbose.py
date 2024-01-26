@@ -32,7 +32,7 @@ from colour.hints import (
     Type,
     cast,
 )
-from colour.utilities import is_string, optional
+from colour.utilities import as_bool, is_string, optional
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -392,7 +392,38 @@ def filter_warnings(
 
 
 # Defaulting to filter *Colour* runtime warnings.
-filter_warnings(colour_runtime_warnings=True)
+filter_warnings(
+    colour_runtime_warnings=as_bool(
+        os.environ.get("COLOUR_SCIENCE__FILTER_RUNTIME_WARNINGS", "True")
+    )
+)
+
+if (
+    os.environ.get("COLOUR_SCIENCE__FILTER_USAGE_WARNINGS") is not None
+):  # pragma: no cover
+    filter_warnings(
+        colour_usage_warnings=as_bool(
+            os.environ["COLOUR_SCIENCE__FILTER_USAGE_WARNINGS"]
+        )
+    )
+
+if (
+    os.environ.get("COLOUR_SCIENCE__FILTER_COLOUR_WARNINGS") is not None
+):  # pragma: no cover
+    filter_warnings(
+        colour_usage_warnings=as_bool(
+            os.environ["COLOUR_SCIENCE__FILTER_WARNINGS"],
+        )
+    )
+
+if (
+    os.environ.get("COLOUR_SCIENCE__FILTER_PYTHON_WARNINGS") is not None
+):  # pragma: no cover
+    filter_warnings(
+        colour_usage_warnings=as_bool(
+            os.environ["COLOUR_SCIENCE__FILTER_PYTHON_WARNINGS"]
+        )
+    )
 
 
 @contextmanager
