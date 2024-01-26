@@ -1,5 +1,5 @@
-Advanced Concepts
-=================
+Advanced Usage
+==============
 
 This page describes some advanced usage scenarios of **Colour**.
 
@@ -29,6 +29,12 @@ runtime:
     :func:`warnings.showwarning` definition to be replaced with the
     :func:`colour.utilities.show_warning` definition and thus providing
     complete traceback from the point where the warning occurred.
+-   ``COLOUR_SCIENCE__FILTER_RUNTIME_WARNINGS``: Filter *Colour* runtime
+    warnings.
+-   ``COLOUR_SCIENCE__FILTER_USAGE_WARNINGS``: Filter *Colour* usage warnings.
+-   ``COLOUR_SCIENCE__FILTER_COLOUR_WARNINGS``: Filter *Colour* warnings, this
+    also filters *Colour* usage and runtime warnings.
+-   ``COLOUR_SCIENCE__FILTER_PYTHON_WARNINGS``: Filter *Python* warnings.
 
 JEnv File
 ---------
