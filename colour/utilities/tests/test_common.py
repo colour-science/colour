@@ -14,6 +14,7 @@ from colour.hints import Any, Real, Tuple
 from colour.utilities import (
     CacheRegistry,
     CanonicalMapping,
+    as_bool,
     attest,
     batch,
     caching_enable,
@@ -49,6 +50,7 @@ __all__ = [
     "TestAttest",
     "TestBatch",
     "TestMultiprocessingPool",
+    "TestAsBool",
     "TestIsIterable",
     "TestIsString",
     "TestIsNumeric",
@@ -309,6 +311,30 @@ class TestMultiprocessingPool(unittest.TestCase):
                 pool.map(partial(_add, b=2), range(10)),
                 [2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
             )
+
+
+class TestAsBool(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.common.as_bool` definition unit tests
+    methods.
+    """
+
+    def test_as_bool(self):
+        """Test :func:`colour.utilities.common.as_bool` definition."""
+
+        self.assertTrue(as_bool("1"))
+
+        self.assertTrue(as_bool("On"))
+
+        self.assertTrue(as_bool("True"))
+
+        self.assertFalse(as_bool("0"))
+
+        self.assertFalse(as_bool("Off"))
+
+        self.assertFalse(as_bool("False"))
+
+        self.assertFalse(as_bool(""))
 
 
 class TestIsIterable(unittest.TestCase):

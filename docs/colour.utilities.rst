@@ -73,6 +73,7 @@ Common
     is_trimesh_installed
     is_xxhash_installed
     required
+    as_bool
     is_iterable
     is_string
     is_numeric
