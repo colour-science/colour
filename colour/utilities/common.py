@@ -80,6 +80,7 @@ __all__ = [
     "is_trimesh_installed",
     "is_xxhash_installed",
     "required",
+    "as_bool",
     "is_iterable",
     "is_string",
     "is_numeric",
@@ -1088,6 +1089,41 @@ def required(
         return wrapped
 
     return wrapper
+
+
+def as_bool(a: str) -> bool:
+    """
+    Convert given string to bool.
+
+    The following string values evaluate to *True*: "1", "On", and "True".
+
+    Parameters
+    ----------
+    a
+        String to convert to bool.
+
+    Returns
+    -------
+    :class:`bool`
+        Whether the given string is *True*.
+
+    Examples
+    --------
+    >>> as_bool("1")
+    True
+    >>> as_bool("On")
+    True
+    >>> as_bool("True")
+    True
+    >>> as_bool("0")
+    False
+    >>> as_bool("Off")
+    False
+    >>> as_bool("False")
+    False
+    """
+
+    return a.lower() in ["1", "on", "true"]
 
 
 def is_iterable(a: Any) -> bool:
