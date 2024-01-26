@@ -341,7 +341,7 @@ def filter_warnings(
         Whether to filter *Colour* warnings, this also filters *Colour* usage
         and runtime warnings according to the action value.
     python_warnings
-        Whether to filter *Python* warnings  according to the action value.
+        Whether to filter *Python* warnings according to the action value.
 
     Examples
     --------
