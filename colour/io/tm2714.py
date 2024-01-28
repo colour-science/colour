@@ -18,6 +18,7 @@ from __future__ import annotations
 import os
 import re
 from dataclasses import dataclass, field
+from pathlib import Path
 from xml.dom import minidom
 from xml.etree import ElementTree
 
@@ -882,7 +883,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
     def __init__(
         self,
-        path: str | None = None,
+        path: str | Path | None = None,
         header: Header_IESTM2714 | None = None,
         spectral_quantity: Literal[
             "absorptance",
@@ -1004,7 +1005,9 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         self._bandwidth_corrected: bool | None = None
         self.bandwidth_corrected = bandwidth_corrected
 
-        if self.path is not None and os.path.exists(self.path):
+        if self.path is not None and os.path.exists(
+            self.path  # pyright: ignore
+        ):
             self.read()
 
     @property
@@ -1039,14 +1042,16 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         return self._path
 
     @path.setter
-    def path(self, value: str | None):
+    def path(self, value: str | Path | None):
         """Setter for the **self.path** property."""
 
         if value is not None:
             attest(
-                is_string(value),
-                f'"path" property: "{value}" type is not "str"!',
+                is_string(value) or isinstance(value, Path),
+                f'"path" property: "{value}" type is not "str" or "Path"!',
             )
+
+            value = str(value)
 
         self._path = value
 

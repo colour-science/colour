@@ -17,6 +17,8 @@ References
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import numpy as np
 
 from colour.io.luts import LUT1D, LUT3D, LUT3x1D, LUTSequence
@@ -42,7 +44,7 @@ __all__ = [
 ]
 
 
-def read_LUT_ResolveCube(path: str) -> LUT3x1D | LUT3D | LUTSequence:
+def read_LUT_ResolveCube(path: str | Path) -> LUT3x1D | LUT3D | LUTSequence:
     """
     Read given *Resolve* *.cube* *LUT* file.
 
@@ -160,6 +162,8 @@ def read_LUT_ResolveCube(path: str) -> LUT3x1D | LUT3D | LUTSequence:
         Comment 04 : A second "LUT3D" comment.
     """
 
+    path = str(path)
+
     title = path_to_title(path)
     domain_3x1D, domain_3D = None, None
     size_3x1D: int = 2
@@ -234,7 +238,7 @@ def read_LUT_ResolveCube(path: str) -> LUT3x1D | LUT3D | LUTSequence:
 
 def write_LUT_ResolveCube(
     LUT: LUT1D | LUT3x1D | LUT3D | LUTSequence,
-    path: str,
+    path: str | Path,
     decimals: int = 7,
 ) -> bool:
     """
@@ -314,6 +318,8 @@ def write_LUT_ResolveCube(
     >>> LUT_sequence = LUTSequence(shaper, LUT)
     >>> write_LUT_ResolveCube(LUT_sequence, "My_LUT.cube")  # doctest: +SKIP
     """
+
+    path = str(path)
 
     has_3D, has_3x1D = False, False
 

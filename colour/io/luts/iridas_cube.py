@@ -16,6 +16,8 @@ References
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import numpy as np
 
 from colour.io.luts import LUT1D, LUT3D, LUT3x1D, LUTSequence
@@ -41,7 +43,7 @@ __all__ = [
 ]
 
 
-def read_LUT_IridasCube(path: str) -> LUT3x1D | LUT3D:
+def read_LUT_IridasCube(path: str | Path) -> LUT3x1D | LUT3D:
     """
     Read given *Iridas* *.cube* *LUT* file.
 
@@ -118,6 +120,8 @@ def read_LUT_IridasCube(path: str) -> LUT3x1D | LUT3D:
     Comment 01 : Comments can go anywhere
     """
 
+    path = str(path)
+
     title = path_to_title(path)
     domain_min, domain_max = np.array([0, 0, 0]), np.array([1, 1, 1])
     dimensions: int = 3
@@ -180,7 +184,7 @@ def read_LUT_IridasCube(path: str) -> LUT3x1D | LUT3D:
 
 
 def write_LUT_IridasCube(
-    LUT: LUT3x1D | LUT3D | LUTSequence, path: str, decimals: int = 7
+    LUT: LUT3x1D | LUT3D | LUTSequence, path: str | Path, decimals: int = 7
 ) -> bool:
     """
     Write given *LUT* to given  *Iridas* *.cube* *LUT* file.
@@ -234,6 +238,8 @@ def write_LUT_IridasCube(
     ... )
     >>> write_LUT_IridasCube(LUTxD, "My_LUT.cube")  # doctest: +SKIP
     """
+
+    path = str(path)
 
     if isinstance(LUT, LUTSequence):
         usage_warning(

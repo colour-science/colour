@@ -33,6 +33,7 @@ import itertools
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from functools import partial
+from pathlib import Path
 
 import matplotlib.cm
 import matplotlib.font_manager
@@ -669,7 +670,7 @@ class KwargsRender(TypedDict):
 
     figure: Figure
     axes: Axes
-    filename: str
+    filename: str | Path
     show: bool
     block: bool
     aspect: Literal["auto", "equal"] | float
@@ -766,7 +767,7 @@ def render(
         figure.patch.set_alpha(0)
 
     if settings.filename is not None:
-        figure.savefig(settings.filename)
+        figure.savefig(str(settings.filename))
 
     if settings.show:
         plt.show(block=settings.block)

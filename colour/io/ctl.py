@@ -16,6 +16,7 @@ import os
 import subprocess
 import tempfile
 import textwrap
+from pathlib import Path
 
 import numpy as np
 
@@ -67,8 +68,8 @@ ARGUMENTS_CTL_RENDER_DEFAULTS: tuple = ("-verbose", "-force")
 
 @required("ctlrender")
 def ctl_render(
-    path_input: str,
-    path_output: str,
+    path_input: str | Path,
+    path_output: str | Path,
     ctl_transforms: Sequence[str] | Dict[str, Sequence[str]],
     *args: Any,
     **kwargs: Any,
@@ -148,6 +149,9 @@ def ctl_render(
     <BLANKLINE>
     <BLANKLINE>
     """
+
+    path_input = str(path_input)
+    path_output = str(path_output)
 
     if len(args) == 0:
         args = ARGUMENTS_CTL_RENDER_DEFAULTS

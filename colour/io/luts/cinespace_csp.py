@@ -17,6 +17,8 @@ References
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import numpy as np
 
 from colour.hints import ArrayLike, List, NDArrayFloat
@@ -43,7 +45,7 @@ __all__ = [
 ]
 
 
-def read_LUT_Cinespace(path: str) -> LUT3x1D | LUT3D | LUTSequence:
+def read_LUT_Cinespace(path: str | Path) -> LUT3x1D | LUT3D | LUTSequence:
     """
     Read given *Cinespace* *.csp* *LUT* file.
 
@@ -246,7 +248,7 @@ def read_LUT_Cinespace(path: str) -> LUT3x1D | LUT3D | LUTSequence:
 
 
 def write_LUT_Cinespace(
-    LUT: LUT3x1D | LUT3D | LUTSequence, path: str, decimals: int = 7
+    LUT: LUT3x1D | LUT3D | LUTSequence, path: str | Path, decimals: int = 7
 ) -> bool:
     """
     Write given *LUT* to given  *Cinespace* *.csp* *LUT* file.
@@ -295,6 +297,8 @@ def write_LUT_Cinespace(
     ... )
     >>> write_LUT_Cinespace(LUT, "My_LUT.cube")  # doctest: +SKIP
     """
+
+    path = str(path)
 
     has_3D, has_3x1D = False, False
 

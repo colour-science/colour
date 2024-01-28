@@ -19,6 +19,7 @@ References
 from __future__ import annotations
 
 from dataclasses import dataclass
+from pathlib import Path
 
 import numpy as np
 
@@ -316,7 +317,7 @@ class Dataset_Otsu2018:
         else:
             raise ValueError('The "basis functions" or "means" are undefined!')
 
-    def read(self, path: str):
+    def read(self, path: str | Path) -> None:
         """
         Read and loads a dataset from an *.npz* file.
 
@@ -349,6 +350,8 @@ class Dataset_Otsu2018:
         >>> dataset.read(path)  # doctest: +SKIP
         """
 
+        path = str(path)
+
         data = np.load(path)
 
         start, end, interval = data["shape"]
@@ -357,7 +360,7 @@ class Dataset_Otsu2018:
         self._means = data["means"]
         self._selector_array = data["selector_array"]
 
-    def write(self, path: str):
+    def write(self, path: str | Path) -> None:
         """
         Write the dataset to an *.npz* file at given path.
 
@@ -392,6 +395,8 @@ class Dataset_Otsu2018:
         ... )
         >>> dataset.write(path)  # doctest: +SKIP
         """
+
+        path = str(path)
 
         if self._shape is not None:
             np.savez(
