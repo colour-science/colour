@@ -26,7 +26,7 @@
     :target: https://coveralls.io/r/colour-science/colour
     :alt: Coverage Status
 .. |codacy| image:: https://img.shields.io/codacy/grade/1f3b8d3bba7440ba9ebc1170589628b1/develop.svg?style=flat-square
-    :target: https://www.codacy.com/app/colour-science/colour
+    :target: https://app.codacy.com/gh/colour-science/colour
     :alt: Code Grade
 .. |version| image:: https://img.shields.io/pypi/v/colour-science.svg?style=flat-square
     :target: https://pypi.org/project/colour-science
@@ -2092,7 +2092,7 @@ by issuing this command in a shell:
 The detailed installation procedure for the secondary dependencies is
 described in the `Installation Guide <https://www.colour-science.org/installation-guide>`__.
 
-**Colour** is also available for `Anaconda <https://www.continuum.io/downloads>`__
+**Colour** is also available for `Anaconda <https://www.anaconda.com/download>`__
 from *Continuum Analytics* via `conda-forge <https://conda-forge.org>`__:
 
 .. code-block:: bash
