@@ -11,6 +11,8 @@ objects:
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import numpy as np
 
 from colour.io.luts import LUT1D, LUT3x1D, LUTSequence
@@ -36,7 +38,7 @@ __all__ = [
 ]
 
 
-def read_LUT_SonySPI1D(path: str) -> LUT1D | LUT3x1D:
+def read_LUT_SonySPI1D(path: str | Path) -> LUT1D | LUT3x1D:
     """
     Read given *Sony* *.spi1d* *LUT* file.
 
@@ -154,7 +156,7 @@ def read_LUT_SonySPI1D(path: str) -> LUT1D | LUT3x1D:
 
 
 def write_LUT_SonySPI1D(
-    LUT: LUT1D | LUT3x1D | LUTSequence, path: str, decimals: int = 7
+    LUT: LUT1D | LUT3x1D | LUTSequence, path: str | Path, decimals: int = 7
 ) -> bool:
     """
     Write given *LUT* to given *Sony* *.spi1d* *LUT* file.
@@ -204,6 +206,8 @@ def write_LUT_SonySPI1D(
     ... )
     >>> write_LUT_SonySPI1D(LUT, "My_LUT.cube")  # doctest: +SKIP
     """
+
+    path = str(path)
 
     if isinstance(LUT, LUTSequence):
         usage_warning(

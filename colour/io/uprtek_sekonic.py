@@ -16,6 +16,7 @@ import json
 import os
 import re
 from collections import defaultdict
+from pathlib import Path
 
 from colour.hints import Any, cast
 from colour.io import SpectralDistribution_IESTM2714
@@ -160,7 +161,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
     _SPECTRAL_SECTION: str = "380"
     _SPECTRAL_DATA_PATTERN: str = "(\\d{3})nm"
 
-    def __init__(self, path: str, **kwargs: Any) -> None:
+    def __init__(self, path: str | Path, **kwargs: Any) -> None:
         self._metadata: dict = {}
 
         super().__init__(path, **kwargs)
@@ -536,7 +537,7 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
     _SPECTRAL_SECTION: str = "380"
     _SPECTRAL_DATA_PATTERN: str = "Spectral Data (\\d{3})\\[nm\\]"
 
-    def __init__(self, path: str, **kwargs: Any) -> None:
+    def __init__(self, path: str | Path, **kwargs: Any) -> None:
         super().__init__(path, **kwargs)
 
     def __str__(self) -> str:

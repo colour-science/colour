@@ -14,6 +14,7 @@ from __future__ import annotations
 import csv
 import os
 import tempfile
+from pathlib import Path
 
 import numpy as np
 
@@ -37,7 +38,7 @@ __all__ = [
 
 
 def read_spectral_data_from_csv_file(
-    path: str, **kwargs: Any
+    path: str | Path, **kwargs: Any
 ) -> Dict[str, NDArrayFloat]:
     """
     Read the spectral data from given *CSV* file in the following form::
@@ -118,6 +119,8 @@ def read_spectral_data_from_csv_file(
      '24']
     """
 
+    path = str(path)
+
     settings = {
         "case_sensitive": True,
         "deletechars": "",
@@ -151,7 +154,7 @@ def read_spectral_data_from_csv_file(
 
 
 def read_sds_from_csv_file(
-    path: str, **kwargs: Any
+    path: str | Path, **kwargs: Any
 ) -> Dict[str, SpectralDistribution]:
     """
     Read the spectral data from given *CSV* file and returns its content as a
@@ -276,6 +279,8 @@ def read_sds_from_csv_file(
                          {'method': 'Constant', 'left': None, 'right': None})
     """
 
+    path = str(path)
+
     data = read_spectral_data_from_csv_file(path, **kwargs)
 
     fields = list(data.keys())
@@ -292,7 +297,7 @@ def read_sds_from_csv_file(
 
 
 def write_sds_to_csv_file(
-    sds: Dict[str, SpectralDistribution], path: str
+    sds: Dict[str, SpectralDistribution], path: str | Path
 ) -> bool:
     """
     Write the given spectral distributions to given *CSV* file.
@@ -314,6 +319,8 @@ def write_sds_to_csv_file(
     ValueError
         If the given spectral distributions have different shapes.
     """
+
+    path = str(path)
 
     if len(sds) != 1:
         shapes = [sd.shape for sd in sds.values()]

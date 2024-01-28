@@ -20,6 +20,7 @@ References
 from __future__ import annotations
 
 import struct
+from pathlib import Path
 
 import numpy as np
 from scipy.interpolate import RegularGridInterpolator
@@ -1120,7 +1121,7 @@ class LUT3D_Jakob2019:
 
         return sd
 
-    def read(self, path: str) -> LUT3D_Jakob2019:
+    def read(self, path: str | Path) -> LUT3D_Jakob2019:
         """
         Load a lookup table from a *\\*.coeff* file.
 
@@ -1162,6 +1163,8 @@ class LUT3D_Jakob2019:
         >>> LUT.read(path)  # doctest: +SKIP
         """
 
+        path = str(path)
+
         with open(path, "rb") as coeff_file:
             if coeff_file.read(4).decode("ISO-8859-1") != "SPEC":
                 raise ValueError(
@@ -1183,7 +1186,7 @@ class LUT3D_Jakob2019:
 
         return self
 
-    def write(self, path: str) -> bool:
+    def write(self, path: str | Path) -> bool:
         """
         Write the lookup table to a *\\*.coeff* file.
 
@@ -1224,6 +1227,8 @@ class LUT3D_Jakob2019:
         >>> LUT.write(path)  # doctest: +SKIP
         >>> LUT.read(path)  # doctest: +SKIP
         """
+
+        path = str(path)
 
         with open(path, "wb") as coeff_file:
             coeff_file.write(b"SPEC")

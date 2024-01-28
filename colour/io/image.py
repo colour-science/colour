@@ -8,6 +8,7 @@ Defines the image related input / output utilities objects.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from pathlib import Path
 
 import numpy as np
 
@@ -216,7 +217,7 @@ def convert_bit_depth(
 
 @required("OpenImageIO")
 def read_image_OpenImageIO(
-    path: str,
+    path: str | Path,
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
@@ -296,7 +297,7 @@ def read_image_OpenImageIO(
 
 
 def read_image_Imageio(
-    path: str,
+    path: str | Path,
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
@@ -348,6 +349,8 @@ def read_image_Imageio(
 
     from imageio import imread
 
+    path = str(path)
+
     image = np.squeeze(imread(path, **kwargs))
 
     return convert_bit_depth(image, bit_depth)
@@ -365,7 +368,7 @@ Supported image read methods.
 
 
 def read_image(
-    path: str,
+    path: str | Path,
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
@@ -447,7 +450,7 @@ def read_image(
 @required("OpenImageIO")
 def write_image_OpenImageIO(
     image: ArrayLike,
-    path: str,
+    path: str | Path,
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
@@ -585,7 +588,7 @@ def write_image_OpenImageIO(
 
 def write_image_Imageio(
     image: ArrayLike,
-    path: str,
+    path: str | Path,
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
@@ -648,6 +651,8 @@ Source/FreeImage.h
 
     from imageio import imwrite
 
+    path = str(path)
+
     if all(
         [
             path.lower().endswith(".exr"),
@@ -676,7 +681,7 @@ Supported image write methods.
 
 def write_image(
     image: ArrayLike,
-    path: str,
+    path: str | Path,
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
