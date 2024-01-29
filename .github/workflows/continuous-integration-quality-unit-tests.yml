@@ -12,7 +12,7 @@ jobs:
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
       - name: Environment Variables
         run: |
           echo "CI_PYTHON_VERSION=${{ matrix.python-version }}" >> $GITHUB_ENV
