@@ -1244,7 +1244,7 @@ def sd_to_XYZ(
             (
                 sd
                 if isinstance(sd, (SpectralDistribution, MultiSpectralDistributions))
-                else int_digest(sd.tobytes())
+                else int_digest(sd.tobytes())  # pyright: ignore
             ),  # pyright: ignore
             cmfs,
             illuminant,

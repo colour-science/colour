@@ -2187,7 +2187,7 @@ class LUT3D(AbstractLUT):
 
 def LUT_to_LUT(
     LUT,
-    cls: AbstractLUT,
+    cls: Type[AbstractLUT],
     force_conversion: bool = False,
     **kwargs: Any,
 ) -> AbstractLUT:

@@ -809,7 +809,7 @@ def generate_documentation_plots(output_directory: str):
     cqs_l = colour_quality_scale(light_source, additional_data=True)
     plt.close(
         plot_colour_quality_bars(
-            [cqs_i, cqs_l],
+            [cqs_i, cqs_l],  # pyright: ignore
             **arguments,  # pyright: ignore
         )[0]
     )
