@@ -84,10 +84,6 @@ restructuredtext-lint = "*"
 sphinx = "*"
 sphinxcontrib-bibtex = "*"
 
-[tool.black]
-line-length = 79
-exclude = '''/(\.git|build|dist)/'''
-
 [tool.codespell]
 ignore-words-list = 'co-ordinates,exitance,hart,ist'
 skip = 'BIBLIOGRAPHY.bib,CONTRIBUTORS.rst'
