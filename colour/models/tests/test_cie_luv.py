@@ -523,15 +523,11 @@ class TestLuv_uv_to_xy(unittest.TestCase):
 
         uv = np.tile(uv, (6, 1))
         xy = np.tile(xy, (6, 1))
-        np.testing.assert_allclose(
-            Luv_uv_to_xy(uv), xy, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(Luv_uv_to_xy(uv), xy, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         uv = np.reshape(uv, (2, 3, 2))
         xy = np.reshape(xy, (2, 3, 2))
-        np.testing.assert_allclose(
-            Luv_uv_to_xy(uv), xy, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(Luv_uv_to_xy(uv), xy, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_Luv_uv_to_xy(self):
@@ -583,15 +579,11 @@ class TestXy_to_Luv_uv(unittest.TestCase):
 
         xy = np.tile(xy, (6, 1))
         uv = np.tile(uv, (6, 1))
-        np.testing.assert_allclose(
-            xy_to_Luv_uv(xy), uv, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(xy_to_Luv_uv(xy), uv, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         xy = np.reshape(xy, (2, 3, 2))
         uv = np.reshape(uv, (2, 3, 2))
-        np.testing.assert_allclose(
-            xy_to_Luv_uv(xy), uv, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(xy_to_Luv_uv(xy), uv, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_xy_to_Luv_uv(self):

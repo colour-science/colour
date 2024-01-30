@@ -102,9 +102,7 @@ class TestMixinCallback(unittest.TestCase):
             )
 
         self.assertEqual(len(self._with_callback.callbacks), 1)
-        self._with_callback.unregister_callback(
-            "attribute_a", "on_attribute_a_changed"
-        )
+        self._with_callback.unregister_callback("attribute_a", "on_attribute_a_changed")
         self.assertEqual(len(self._with_callback.callbacks), 0)
         self._with_callback.attribute_a = "a"
         self.assertEqual(self._with_callback.attribute_a, "a")

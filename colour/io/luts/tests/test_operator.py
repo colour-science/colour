@@ -87,9 +87,7 @@ class TestLUTOperatorMatrix(unittest.TestCase):
         M = np.identity(3)
 
         lut_operator_matrix = LUTOperatorMatrix(M)
-        np.testing.assert_array_equal(
-            lut_operator_matrix.matrix, np.identity(4)
-        )
+        np.testing.assert_array_equal(lut_operator_matrix.matrix, np.identity(4))
 
     def test_offset(self):
         """
@@ -142,9 +140,7 @@ LUTOperatorMatrix([[ 0.        ,  0.06666667,  0.13333333,  0.2       ],
                    [ 0.8       ,  0.86666667,  0.93333333,  1.        ]],
                   [ 0.25,  0.5 ,  0.75,  1.  ],
                   name='Nemo Matrix',
-                  comments=['A first comment.', 'A second comment.'])"""[
-                    1:
-                ]
+                  comments=['A first comment.', 'A second comment.'])"""[1:]
             ),
         )
 
@@ -164,9 +160,7 @@ LUTOperatorMatrix([[ 0.        ,  0.06666667,  0.13333333,  0.2       ],
         method.
         """
 
-        matrix = LUTOperatorMatrix(
-            np.linspace(0, 1, 16).reshape([4, 4]) * 0.75
-        )
+        matrix = LUTOperatorMatrix(np.linspace(0, 1, 16).reshape([4, 4]) * 0.75)
 
         self.assertNotEqual(self._lut_operator_matrix, matrix)
 

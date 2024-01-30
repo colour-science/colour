@@ -31,9 +31,7 @@ print("\n")
 
 message_box("Plotting multiple illuminants spectral distributions.")
 pprint(sorted(colour.SDS_ILLUMINANTS.keys()))
-plot_multi_illuminant_sds(
-    ["A", "B", "C", "D50", "D55", "D60", "D65", "D75", "FL1"]
-)
+plot_multi_illuminant_sds(["A", "B", "C", "D50", "D55", "D60", "D65", "D75", "FL1"])
 
 print("\n")
 
@@ -48,10 +46,7 @@ plot_multi_illuminant_sds(
 
 print("\n")
 
-message_box(
-    'Plotting "CIE Standard Illuminant D Series" "S" spectral '
-    "distributions."
-)
+message_box('Plotting "CIE Standard Illuminant D Series" "S" spectral distributions.')
 plot_multi_sds(
     [
         value
@@ -829,9 +824,7 @@ data_street_light = {
     780: 8.8190000e-002,
 }
 
-sd_street_light = colour.SpectralDistribution(
-    data_street_light, name="Street Light"
-)
+sd_street_light = colour.SpectralDistribution(data_street_light, name="Street Light")
 
 sd_bandpass_corrected_street_light = sd_street_light.copy()
 sd_bandpass_corrected_street_light.name = "Street Light (Bandpass Corrected)"
@@ -944,12 +937,8 @@ sd_mesopic_luminous_efficiency_function = (
 plot_multi_sds(
     (
         sd_mesopic_luminous_efficiency_function,
-        colour.colorimetry.SDS_LEFS_PHOTOPIC[
-            "CIE 1924 Photopic Standard Observer"
-        ],
-        colour.colorimetry.SDS_LEFS_SCOTOPIC[
-            "CIE 1951 Scotopic Standard Observer"
-        ],
+        colour.colorimetry.SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"],
+        colour.colorimetry.SDS_LEFS_SCOTOPIC["CIE 1951 Scotopic Standard Observer"],
     ),
     y_label="Luminous Efficiency",
 )
@@ -967,9 +956,7 @@ plot_multi_lightness_functions(["CIE 1976", "Glasser 1958"])
 print("\n")
 
 message_box("Plotting various blackbody spectral radiance.")
-plot_blackbody_spectral_radiance(
-    temperature=3500, blackbody="VY Canis Majoris"
-)
+plot_blackbody_spectral_radiance(temperature=3500, blackbody="VY Canis Majoris")
 plot_blackbody_spectral_radiance(temperature=5778, blackbody="The Sun")
 plot_blackbody_spectral_radiance(temperature=12130, blackbody="Rigel")
 

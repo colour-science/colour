@@ -245,9 +245,7 @@ class TestSpectralUniformity(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            spectral_uniformity(
-                SDS_TCS.values(), use_second_order_derivatives=True
-            ),
+            spectral_uniformity(SDS_TCS.values(), use_second_order_derivatives=True),
             DATA_UNIFORMITY_SECOND_ORDER_DERIVATIVES,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

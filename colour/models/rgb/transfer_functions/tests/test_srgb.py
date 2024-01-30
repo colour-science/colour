@@ -117,17 +117,13 @@ class TestEotf_sRGB(unittest.TestCase):
 eotf_sRGB` definition.
         """
 
-        np.testing.assert_allclose(
-            eotf_sRGB(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(eotf_sRGB(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         np.testing.assert_allclose(
             eotf_sRGB(0.461356129500442), 0.18, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        np.testing.assert_allclose(
-            eotf_sRGB(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(eotf_sRGB(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_n_dimensional_eotf_sRGB(self):
         """
@@ -140,21 +136,15 @@ eotf_sRGB` definition n-dimensional arrays support.
 
         V = np.tile(V, 6)
         L = np.tile(L, 6)
-        np.testing.assert_allclose(
-            eotf_sRGB(V), L, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(eotf_sRGB(V), L, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         V = np.reshape(V, (2, 3))
         L = np.reshape(L, (2, 3))
-        np.testing.assert_allclose(
-            eotf_sRGB(V), L, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(eotf_sRGB(V), L, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         V = np.reshape(V, (2, 3, 1))
         L = np.reshape(L, (2, 3, 1))
-        np.testing.assert_allclose(
-            eotf_sRGB(V), L, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(eotf_sRGB(V), L, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_eotf_sRGB(self):
         """

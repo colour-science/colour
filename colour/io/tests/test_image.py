@@ -77,9 +77,7 @@ class TestConvertBitDepth(unittest.TestCase):
             ),
         )
 
-        self.assertIs(
-            convert_bit_depth(a, "float16").dtype, np.dtype("float16")
-        )
+        self.assertIs(convert_bit_depth(a, "float16").dtype, np.dtype("float16"))
         np.testing.assert_allclose(
             convert_bit_depth(a, "float16"),
             np.array(
@@ -99,9 +97,7 @@ class TestConvertBitDepth(unittest.TestCase):
             atol=5e-4,
         )
 
-        self.assertIs(
-            convert_bit_depth(a, "float32").dtype, np.dtype("float32")
-        )
+        self.assertIs(convert_bit_depth(a, "float32").dtype, np.dtype("float32"))
         np.testing.assert_allclose(
             convert_bit_depth(a, "float32"),
             np.array(
@@ -121,14 +117,10 @@ class TestConvertBitDepth(unittest.TestCase):
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertIs(
-            convert_bit_depth(a, "float64").dtype, np.dtype("float64")
-        )
+        self.assertIs(convert_bit_depth(a, "float64").dtype, np.dtype("float64"))
 
         if hasattr(np, "float128"):  # pragma: no cover
-            self.assertIs(
-                convert_bit_depth(a, "float128").dtype, np.dtype("float128")
-            )
+            self.assertIs(convert_bit_depth(a, "float128").dtype, np.dtype("float128"))
 
         a = np.around(np.linspace(0, 1, 10) * 65535).astype("uint16")
         self.assertIs(convert_bit_depth(a, "uint8").dtype, np.dtype("uint8"))
@@ -140,9 +132,7 @@ class TestConvertBitDepth(unittest.TestCase):
         self.assertIs(convert_bit_depth(a, "uint16").dtype, np.dtype("uint16"))
         np.testing.assert_equal(convert_bit_depth(a, "uint16"), a)
 
-        self.assertIs(
-            convert_bit_depth(a, "float16").dtype, np.dtype("float16")
-        )
+        self.assertIs(convert_bit_depth(a, "float16").dtype, np.dtype("float16"))
         np.testing.assert_allclose(
             convert_bit_depth(a, "float16"),
             np.array(
@@ -162,9 +152,7 @@ class TestConvertBitDepth(unittest.TestCase):
             atol=5e-2,
         )
 
-        self.assertIs(
-            convert_bit_depth(a, "float32").dtype, np.dtype("float32")
-        )
+        self.assertIs(convert_bit_depth(a, "float32").dtype, np.dtype("float32"))
         np.testing.assert_allclose(
             convert_bit_depth(a, "float32"),
             np.array(
@@ -184,14 +172,10 @@ class TestConvertBitDepth(unittest.TestCase):
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertIs(
-            convert_bit_depth(a, "float64").dtype, np.dtype("float64")
-        )
+        self.assertIs(convert_bit_depth(a, "float64").dtype, np.dtype("float64"))
 
         if hasattr(np, "float128"):  # pragma: no cover
-            self.assertIs(
-                convert_bit_depth(a, "float128").dtype, np.dtype("float128")
-            )
+            self.assertIs(convert_bit_depth(a, "float128").dtype, np.dtype("float128"))
 
         a = np.linspace(0, 1, 10, dtype=np.float64)
         self.assertIs(convert_bit_depth(a, "uint8").dtype, np.dtype("uint8"))
@@ -219,9 +203,7 @@ class TestConvertBitDepth(unittest.TestCase):
             ),
         )
 
-        self.assertIs(
-            convert_bit_depth(a, "float16").dtype, np.dtype("float16")
-        )
+        self.assertIs(convert_bit_depth(a, "float16").dtype, np.dtype("float16"))
         np.testing.assert_allclose(
             convert_bit_depth(a, "float16"),
             np.array(
@@ -241,21 +223,15 @@ class TestConvertBitDepth(unittest.TestCase):
             atol=5e-4,
         )
 
-        self.assertIs(
-            convert_bit_depth(a, "float32").dtype, np.dtype("float32")
-        )
+        self.assertIs(convert_bit_depth(a, "float32").dtype, np.dtype("float32"))
         np.testing.assert_allclose(
             convert_bit_depth(a, "float32"), a, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertIs(
-            convert_bit_depth(a, "float64").dtype, np.dtype("float64")
-        )
+        self.assertIs(convert_bit_depth(a, "float64").dtype, np.dtype("float64"))
 
         if hasattr(np, "float128"):  # pragma: no cover
-            self.assertIs(
-                convert_bit_depth(a, "float128").dtype, np.dtype("float128")
-            )
+            self.assertIs(convert_bit_depth(a, "float128").dtype, np.dtype("float128"))
 
 
 class TestReadImageOpenImageIO(unittest.TestCase):
@@ -362,9 +338,7 @@ class TestWriteImageOpenImageIO(unittest.TestCase):
         image = read_image_OpenImageIO(image_path, bit_depth="uint16")
         np.testing.assert_equal(np.squeeze(RGB), image)
 
-        source_image_path = os.path.join(
-            ROOT_RESOURCES, "Overflowing_Gradient.png"
-        )
+        source_image_path = os.path.join(ROOT_RESOURCES, "Overflowing_Gradient.png")
         target_image_path = os.path.join(
             self._temporary_directory, "Overflowing_Gradient.png"
         )
@@ -373,9 +347,7 @@ class TestWriteImageOpenImageIO(unittest.TestCase):
         image = read_image_OpenImageIO(source_image_path, bit_depth="uint8")
         np.testing.assert_equal(np.squeeze(RGB), image)
 
-        source_image_path = os.path.join(
-            ROOT_RESOURCES, "CMS_Test_Pattern.exr"
-        )
+        source_image_path = os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
         target_image_path = os.path.join(
             self._temporary_directory, "CMS_Test_Pattern.exr"
         )
@@ -402,9 +374,7 @@ class TestWriteImageOpenImageIO(unittest.TestCase):
             ),
             ImageAttribute_Specification("compression", "none"),
         ]
-        write_image_OpenImageIO(
-            image, target_image_path, attributes=write_attributes
-        )
+        write_image_OpenImageIO(image, target_image_path, attributes=write_attributes)
         image, read_attributes = read_image_OpenImageIO(
             target_image_path, attributes=True
         )
@@ -420,9 +390,7 @@ class TestWriteImageOpenImageIO(unittest.TestCase):
                             atol=TOLERANCE_ABSOLUTE_TESTS,
                         )
                     else:
-                        self.assertEqual(
-                            write_attribute.value, read_attribute.value
-                        )
+                        self.assertEqual(write_attribute.value, read_attribute.value)
 
             attest(
                 attribute_exists,
@@ -439,9 +407,7 @@ class TestReadImageImageio(unittest.TestCase):
     def test_read_image_Imageio(self):
         """Test :func:`colour.io.image.read_image_Imageio` definition."""
 
-        image = read_image_Imageio(
-            os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
-        )
+        image = read_image_Imageio(os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr"))
         self.assertTupleEqual(image.shape, (1267, 1274, 3))
         self.assertIs(image.dtype, np.dtype("float32"))
 
@@ -452,9 +418,7 @@ class TestReadImageImageio(unittest.TestCase):
         self.assertTupleEqual(image.shape, (1267, 1274, 3))
         self.assertIs(image.dtype, np.dtype("float16"))
 
-        image = read_image_Imageio(
-            os.path.join(ROOT_RESOURCES, "Single_Channel.exr")
-        )
+        image = read_image_Imageio(os.path.join(ROOT_RESOURCES, "Single_Channel.exr"))
         self.assertTupleEqual(image.shape, (256, 256))
 
         image = read_image_Imageio(
@@ -507,9 +471,7 @@ class TestWriteImageImageio(unittest.TestCase):
     def test_write_image_Imageio(self):
         """Test :func:`colour.io.image.write_image_Imageio` definition."""
 
-        source_image_path = os.path.join(
-            ROOT_RESOURCES, "Overflowing_Gradient.png"
-        )
+        source_image_path = os.path.join(ROOT_RESOURCES, "Overflowing_Gradient.png")
         target_image_path = os.path.join(
             self._temporary_directory, "Overflowing_Gradient.png"
         )
@@ -518,9 +480,7 @@ class TestWriteImageImageio(unittest.TestCase):
         image = read_image_Imageio(source_image_path, bit_depth="uint8")
         np.testing.assert_equal(np.squeeze(RGB), image)
 
-        source_image_path = os.path.join(
-            ROOT_RESOURCES, "CMS_Test_Pattern.exr"
-        )
+        source_image_path = os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
         target_image_path = os.path.join(
             self._temporary_directory, "CMS_Test_Pattern.exr"
         )
@@ -556,9 +516,7 @@ class TestReadImage(unittest.TestCase):
     def test_read_image(self):
         """Test :func:`colour.io.image.read_image` definition."""
 
-        image = read_image(
-            os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
-        )
+        image = read_image(os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr"))
         self.assertTupleEqual(image.shape, (1267, 1274, 3))
         self.assertIs(image.dtype, np.dtype("float32"))
 
@@ -582,9 +540,7 @@ class TestWriteImage(unittest.TestCase):
     def test_write_image(self):
         """Test :func:`colour.io.image.write_image` definition."""
 
-        source_image_path = os.path.join(
-            ROOT_RESOURCES, "CMS_Test_Pattern.exr"
-        )
+        source_image_path = os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
         target_image_path = os.path.join(
             self._temporary_directory, "CMS_Test_Pattern.exr"
         )

@@ -51,9 +51,7 @@ class TestPlotHullSectionColours(unittest.TestCase):
         import trimesh
 
         vertices, faces, _outline = primitive_cube(1, 1, 1, 64, 64, 64)
-        XYZ_vertices = RGB_to_XYZ(
-            vertices["position"] + 0.5, RGB_COLOURSPACE_sRGB
-        )
+        XYZ_vertices = RGB_to_XYZ(vertices["position"] + 0.5, RGB_COLOURSPACE_sRGB)
         hull = trimesh.Trimesh(XYZ_vertices, faces, process=False)
 
         figure, axes = plot_hull_section_colours(hull)
@@ -90,9 +88,7 @@ class TestPlotHullSectionContour(unittest.TestCase):
         import trimesh
 
         vertices, faces, _outline = primitive_cube(1, 1, 1, 64, 64, 64)
-        XYZ_vertices = RGB_to_XYZ(
-            vertices["position"] + 0.5, RGB_COLOURSPACE_sRGB
-        )
+        XYZ_vertices = RGB_to_XYZ(vertices["position"] + 0.5, RGB_COLOURSPACE_sRGB)
         hull = trimesh.Trimesh(XYZ_vertices, faces, process=False)
 
         figure, axes = plot_hull_section_contour(hull)

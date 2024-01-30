@@ -66,7 +66,6 @@ class MixinCallback:
     ...     def __init__(self):
     ...         super().__init__()
     ...         self.attribute_a = "a"
-    ...
     >>> with_callback = WithCallback()
     >>> def _on_attribute_a_changed(self, name: str, value: str) -> str:
     ...     return value.upper()
@@ -114,9 +113,7 @@ class MixinCallback:
 
         super().__setattr__(name, value)
 
-    def register_callback(
-        self, attribute: str, name: str, function: Callable
-    ) -> None:
+    def register_callback(self, attribute: str, name: str, function: Callable) -> None:
         """
         Register the callback with given name for given attribute.
 

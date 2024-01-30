@@ -71,9 +71,9 @@ __all__ = [
 
 def XYZ_to_Luv(
     XYZ: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS[
-        "CIE 1931 2 Degree Standard Observer"
-    ]["D65"],
+    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
 ) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *CIE L\\*u\\*v\\**
@@ -145,9 +145,9 @@ def XYZ_to_Luv(
 
 def Luv_to_XYZ(
     Luv: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS[
-        "CIE 1931 2 Degree Standard Observer"
-    ]["D65"],
+    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
 ) -> NDArrayFloat:
     """
     Convert from *CIE L\\*u\\*v\\** colourspace to *CIE XYZ* tristimulus
@@ -227,9 +227,9 @@ def Luv_to_XYZ(
 
 def Luv_to_uv(
     Luv: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS[
-        "CIE 1931 2 Degree Standard Observer"
-    ]["D65"],
+    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
 ) -> NDArrayFloat:
     """
     Return the :math:`uv^p` chromaticity coordinates from given
@@ -288,9 +288,9 @@ def Luv_to_uv(
 
 def uv_to_Luv(
     uv: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS[
-        "CIE 1931 2 Degree Standard Observer"
-    ]["D65"],
+    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
     Y: float = 1,
 ) -> NDArrayFloat:
     """

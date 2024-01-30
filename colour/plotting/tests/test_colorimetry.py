@@ -124,10 +124,7 @@ class TestPlotMultiSds(unittest.TestCase):
 
         figure, axes = plot_multi_sds(
             [sd_1, sd_2],
-            plot_kwargs=[
-                {"use_sd_colours": True, "normalise_sd_colours": True}
-            ]
-            * 2,
+            plot_kwargs=[{"use_sd_colours": True, "normalise_sd_colours": True}] * 2,
         )
 
         self.assertIsInstance(figure, Figure)
@@ -206,10 +203,7 @@ class TestPlotMultiIlluminantSds(unittest.TestCase):
 
         figure, axes = plot_multi_illuminant_sds(
             ["A", "B", "C"],
-            plot_kwargs=[
-                {"use_sd_colours": True, "normalise_sd_colours": True}
-            ]
-            * 3,
+            plot_kwargs=[{"use_sd_colours": True, "normalise_sd_colours": True}] * 3,
         )
 
         self.assertIsInstance(figure, Figure)
@@ -264,9 +258,7 @@ class TestPlotMultiLightnessFunctions(unittest.TestCase):
 plot_multi_lightness_functions` definition.
         """
 
-        figure, axes = plot_multi_lightness_functions(
-            ["CIE 1976", "Wyszecki 1963"]
-        )
+        figure, axes = plot_multi_lightness_functions(["CIE 1976", "Wyszecki 1963"])
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -302,9 +294,7 @@ class TestPlotMultiLuminanceFunctions(unittest.TestCase):
 plot_multi_luminance_functions` definition.
         """
 
-        figure, axes = plot_multi_luminance_functions(
-            ["CIE 1976", "Newhall 1943"]
-        )
+        figure, axes = plot_multi_luminance_functions(["CIE 1976", "Newhall 1943"])
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

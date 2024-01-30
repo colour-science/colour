@@ -101,9 +101,7 @@ def spectral_similarity_index(
         "extrapolator_kwargs": {"left": 0, "right": 0},
     }
 
-    sd_test = reshape_sd(
-        sd_test, SPECTRAL_SHAPE_SSI, "Align", copy=False, **settings
-    )
+    sd_test = reshape_sd(sd_test, SPECTRAL_SHAPE_SSI, "Align", copy=False, **settings)
     sd_reference = reshape_sd(
         sd_reference, SPECTRAL_SHAPE_SSI, "Align", copy=False, **settings
     )

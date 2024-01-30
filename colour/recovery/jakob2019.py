@@ -163,7 +163,6 @@ def sd_Jakob2019(
     >>> with numpy_print_options(suppress=True):
     ...     sd_Jakob2019([-9e-05, 8.5e-02, -20], SpectralShape(400, 700, 20))
     ...     # doctest: +ELLIPSIS
-    ...
     SpectralDistribution([[ 400.        ,    0.3143046...],
                           [ 420.        ,    0.4133320...],
                           [ 440.        ,    0.4880034...],
@@ -269,9 +268,7 @@ def error_function(
     XYZ_f = intermediate_lightness_function_CIE1976(XYZ, XYZ_n)
     dXYZ_f = np.where(
         XYZ_XYZ_n[..., None] > (24 / 116) ** 3,
-        1
-        / (3 * spow(XYZ_n[..., None], 1 / 3) * spow(XYZ[..., None], 2 / 3))
-        * dXYZ,
+        1 / (3 * spow(XYZ_n[..., None], 1 / 3) * spow(XYZ[..., None], 2 / 3)) * dXYZ,
         (841 / 108) * dXYZ / XYZ_n[..., None],
     )
 
@@ -298,9 +295,7 @@ def error_function(
     if max_error is not None and error <= max_error:
         raise StopMinimizationEarlyError(coefficients, error)
 
-    derror = (
-        np.sum(dLab_i * (Lab_i[..., None] - target[..., None]), axis=0) / error
-    )
+    derror = np.sum(dLab_i * (Lab_i[..., None] - target[..., None]), axis=0) / error
 
     if additional_data:
         return error, derror, R, XYZ, Lab_i
@@ -340,9 +335,7 @@ def dimensionalise_coefficients(
 
     c_0 = cp_0 / span**2
     c_1 = cp_1 / span - 2 * cp_0 * shape.start / span**2
-    c_2 = (
-        cp_0 * shape.start**2 / span**2 - cp_1 * shape.start / span + cp_2
-    )
+    c_2 = cp_0 * shape.start**2 / span**2 - cp_1 * shape.start / span + cp_2
 
     return np.array([c_0, c_1, c_2])
 
@@ -550,7 +543,6 @@ def XYZ_to_sd_Jakob2019(
     >>> sd = XYZ_to_sd_Jakob2019(XYZ, cmfs, illuminant)
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
-    ...
     SpectralDistribution([[ 360.        ,    0.4893773...],
                           [ 370.        ,    0.3258214...],
                           [ 380.        ,    0.2147792...],
@@ -685,7 +677,6 @@ class LUT3D_Jakob2019:
     >>> RGB = np.array([0.70573936, 0.19248266, 0.22354169])
     >>> with numpy_print_options(suppress=True):
     ...     LUT.RGB_to_sd(RGB, cmfs.shape)  # doctest: +ELLIPSIS
-    ...
     SpectralDistribution([[ 360.        ,    0.7666803...],
                           [ 370.        ,    0.6251547...],
                           [ 380.        ,    0.4584310...],
@@ -1001,9 +992,7 @@ class LUT3D_Jakob2019:
         ... )
         >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
         >>> LUT = LUT3D_Jakob2019()
-        >>> LUT.generate(
-        ...     RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x
-        ... )
+        >>> LUT.generate(RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x)
         >>> RGB = np.array([0.70573936, 0.19248266, 0.22354169])
         >>> LUT.RGB_to_coefficients(RGB)  # doctest: +ELLIPSIS
         array([  1.5013448...e-04,  -1.4679754...e-01,   3.4020219...e+01])
@@ -1060,13 +1049,10 @@ class LUT3D_Jakob2019:
         ... )
         >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
         >>> LUT = LUT3D_Jakob2019()
-        >>> LUT.generate(
-        ...     RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x
-        ... )
+        >>> LUT.generate(RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x)
         >>> RGB = np.array([0.70573936, 0.19248266, 0.22354169])
         >>> with numpy_print_options(suppress=True):
         ...     LUT.RGB_to_sd(RGB, cmfs.shape)  # doctest: +ELLIPSIS
-        ...
         SpectralDistribution([[ 360.        ,    0.7666803...],
                               [ 370.        ,    0.6251547...],
                               [ 380.        ,    0.4584310...],
@@ -1149,9 +1135,7 @@ class LUT3D_Jakob2019:
         ... )
         >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
         >>> LUT = LUT3D_Jakob2019()
-        >>> LUT.generate(
-        ...     RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x
-        ... )
+        >>> LUT.generate(RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x)
         >>> path = os.path.join(
         ...     colour.__path__[0],
         ...     "recovery",
@@ -1214,9 +1198,7 @@ class LUT3D_Jakob2019:
         ... )
         >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
         >>> LUT = LUT3D_Jakob2019()
-        >>> LUT.generate(
-        ...     RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x
-        ... )
+        >>> LUT.generate(RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x)
         >>> path = os.path.join(
         ...     colour.__path__[0],
         ...     "recovery",

@@ -104,10 +104,16 @@ References
 
 def XYZ_to_sd(
     XYZ: ArrayLike,
-    method: Literal[
-        "Jakob 2019", "Mallett 2019", "Meng 2015", "Otsu 2018", "Smits 1999"
-    ]
-    | str = "Meng 2015",
+    method: (
+        Literal[
+            "Jakob 2019",
+            "Mallett 2019",
+            "Meng 2015",
+            "Otsu 2018",
+            "Smits 1999",
+        ]
+        | str
+    ) = "Meng 2015",
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
@@ -202,12 +208,9 @@ def XYZ_to_sd(
     ...     .align(SpectralShape(360, 780, 10))
     ... )
     >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
-    >>> sd = XYZ_to_sd(
-    ...     XYZ, method="Jakob 2019", cmfs=cmfs, illuminant=illuminant
-    ... )
+    >>> sd = XYZ_to_sd(XYZ, method="Jakob 2019", cmfs=cmfs, illuminant=illuminant)
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
-    ...
     SpectralDistribution([[ 360.        ,    0.4893773...],
                           [ 370.        ,    0.3258214...],
                           [ 380.        ,    0.2147792...],
@@ -269,7 +272,6 @@ def XYZ_to_sd(
     >>> sd = XYZ_to_sd(XYZ, method="Mallett 2019")
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
-    ...
     SpectralDistribution([[ 380.        ,    0.1735531...],
                           [ 385.        ,    0.1720357...],
                           [ 390.        ,    0.1677721...],
@@ -367,12 +369,9 @@ def XYZ_to_sd(
     ...     .align(SpectralShape(360, 780, 10))
     ... )
     >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
-    >>> sd = XYZ_to_sd(
-    ...     XYZ, method="Meng 2015", cmfs=cmfs, illuminant=illuminant
-    ... )
+    >>> sd = XYZ_to_sd(XYZ, method="Meng 2015", cmfs=cmfs, illuminant=illuminant)
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +SKIP
-    ...
     SpectralDistribution([[ 360.        ,    0.0762005...],
                           [ 370.        ,    0.0761792...],
                           [ 380.        ,    0.0761363...],
@@ -431,12 +430,9 @@ def XYZ_to_sd(
     ...     .align(SPECTRAL_SHAPE_OTSU2018)
     ... )
     >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
-    >>> sd = XYZ_to_sd(
-    ...     XYZ, method="Otsu 2018", cmfs=cmfs, illuminant=illuminant
-    ... )
+    >>> sd = XYZ_to_sd(XYZ, method="Otsu 2018", cmfs=cmfs, illuminant=illuminant)
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
-    ...
     SpectralDistribution([[ 380.        ,    0.0601939...],
                           [ 390.        ,    0.0568063...],
                           [ 400.        ,    0.0517429...],
@@ -491,7 +487,6 @@ def XYZ_to_sd(
     >>> sd = XYZ_to_sd(XYZ, method="Smits 1999")
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
-    ...
     SpectralDistribution([[ 380.        ,    0.0787830...],
                           [ 417.7778    ,    0.0622018...],
                           [ 455.5556    ,    0.0446206...],

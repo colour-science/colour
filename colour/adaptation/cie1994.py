@@ -58,9 +58,7 @@ MATRIX_XYZ_TO_RGB_CIE1994: NDArrayFloat = CAT_VON_KRIES
 responses matrix.
 """
 
-MATRIX_RGB_TO_XYZ_CIE1994: NDArrayFloat = np.linalg.inv(
-    MATRIX_XYZ_TO_RGB_CIE1994
-)
+MATRIX_RGB_TO_XYZ_CIE1994: NDArrayFloat = np.linalg.inv(MATRIX_XYZ_TO_RGB_CIE1994)
 """
 *CIE 1994* colour appearance model cone responses to *CIE XYZ* tristimulus
 values matrix.
@@ -163,9 +161,7 @@ def chromatic_adaptation_CIE1994(
 
     K = K_coefficient(xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, n)
 
-    RGB_2 = corresponding_colour(
-        RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n
-    )
+    RGB_2 = corresponding_colour(RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n)
     XYZ_2 = RGB_to_XYZ_CIE1994(RGB_2)
 
     return from_range_100(XYZ_2)

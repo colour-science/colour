@@ -37,9 +37,11 @@ __all__ = [
 
 
 def spectral_uniformity(
-    sds: Sequence[SpectralDistribution | MultiSpectralDistributions]
-    | SpectralDistribution
-    | MultiSpectralDistributions,
+    sds: (
+        Sequence[SpectralDistribution | MultiSpectralDistributions]
+        | SpectralDistribution
+        | MultiSpectralDistributions
+    ),
     use_second_order_derivatives: bool = False,
 ) -> NDArrayFloat:
     """

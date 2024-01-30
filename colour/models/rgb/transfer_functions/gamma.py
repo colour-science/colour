@@ -31,10 +31,9 @@ __all__ = [
 def gamma_function(
     a: ArrayLike,
     exponent: ArrayLike = 1,
-    negative_number_handling: Literal[
-        "Clamp", "Indeterminate", "Mirror", "Preserve"
-    ]
-    | str = "Indeterminate",
+    negative_number_handling: (
+        Literal["Clamp", "Indeterminate", "Mirror", "Preserve"] | str
+    ) = "Indeterminate",
 ) -> NDArrayFloat:
     """
     Define a typical gamma encoding / decoding function.

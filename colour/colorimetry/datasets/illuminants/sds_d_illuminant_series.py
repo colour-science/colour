@@ -366,26 +366,26 @@ DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES: dict = {
     },
 }
 
-SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES: (
-    LazyCanonicalMapping
-) = LazyCanonicalMapping(
-    {
-        "S0": partial(
-            SpectralDistribution,
-            DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S0"],
-            name="S0",
-        ),
-        "S1": partial(
-            SpectralDistribution,
-            DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S1"],
-            name="S1",
-        ),
-        "S2": partial(
-            SpectralDistribution,
-            DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S2"],
-            name="S2",
-        ),
-    }
+SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES: LazyCanonicalMapping = (
+    LazyCanonicalMapping(
+        {
+            "S0": partial(
+                SpectralDistribution,
+                DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S0"],
+                name="S0",
+            ),
+            "S1": partial(
+                SpectralDistribution,
+                DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S1"],
+                name="S1",
+            ),
+            "S2": partial(
+                SpectralDistribution,
+                DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S2"],
+                name="S2",
+            ),
+        }
+    )
 )
 SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES.__doc__ = """
 *CIE Illuminant D Series* :math:`S_n(\\lambda)` spectral distributions.

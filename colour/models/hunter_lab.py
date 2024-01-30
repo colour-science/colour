@@ -80,12 +80,12 @@ def XYZ_to_K_ab_HunterLab1966(XYZ: ArrayLike) -> NDArrayFloat:
 
 def XYZ_to_Hunter_Lab(
     XYZ: ArrayLike,
-    XYZ_n: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB[
-        "CIE 1931 2 Degree Standard Observer"
-    ]["D65"].XYZ_n,
-    K_ab: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB[
-        "CIE 1931 2 Degree Standard Observer"
-    ]["D65"].K_ab,
+    XYZ_n: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ].XYZ_n,
+    K_ab: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ].K_ab,
 ) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *Hunter L,a,b* colour scale.
@@ -133,9 +133,7 @@ def XYZ_to_Hunter_Lab(
     Examples
     --------
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
-    >>> D65 = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
-    ...     "D65"
-    ... ]
+    >>> D65 = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"]["D65"]
     >>> XYZ_to_Hunter_Lab(XYZ, D65.XYZ_n, D65.K_ab)  # doctest: +ELLIPSIS
     array([ 34.9245257...,  47.0618985...,  14.3861510...])
     """
@@ -143,9 +141,7 @@ def XYZ_to_Hunter_Lab(
     X, Y, Z = tsplit(to_domain_100(XYZ))
     X_n, Y_n, Z_n = tsplit(to_domain_100(XYZ_n))
     K_a, K_b = (
-        tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n))
-        if K_ab is None
-        else tsplit(K_ab)
+        tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n)) if K_ab is None else tsplit(K_ab)
     )
 
     Y_Y_n = Y / Y_n
@@ -162,12 +158,12 @@ def XYZ_to_Hunter_Lab(
 
 def Hunter_Lab_to_XYZ(
     Lab: ArrayLike,
-    XYZ_n: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB[
-        "CIE 1931 2 Degree Standard Observer"
-    ]["D65"].XYZ_n,
-    K_ab: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB[
-        "CIE 1931 2 Degree Standard Observer"
-    ]["D65"].K_ab,
+    XYZ_n: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ].XYZ_n,
+    K_ab: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ].K_ab,
 ) -> NDArrayFloat:
     """
     Convert from *Hunter L,a,b* colour scale to *CIE XYZ* tristimulus values.
@@ -215,9 +211,7 @@ def Hunter_Lab_to_XYZ(
     Examples
     --------
     >>> Lab = np.array([34.92452577, 47.06189858, 14.38615107])
-    >>> D65 = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
-    ...     "D65"
-    ... ]
+    >>> D65 = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"]["D65"]
     >>> Hunter_Lab_to_XYZ(Lab, D65.XYZ_n, D65.K_ab)
     array([ 20.654008,  12.197225,   5.136952])
     """
@@ -225,9 +219,7 @@ def Hunter_Lab_to_XYZ(
     L, a, b = tsplit(to_domain_100(Lab))
     X_n, Y_n, Z_n = tsplit(to_domain_100(XYZ_n))
     K_a, K_b = (
-        tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n))
-        if K_ab is None
-        else tsplit(K_ab)
+        tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n)) if K_ab is None else tsplit(K_ab)
     )
 
     L_100 = L / 100

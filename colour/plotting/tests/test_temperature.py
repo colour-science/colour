@@ -67,9 +67,7 @@ class TestPlotDaylightLocus(unittest.TestCase):
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
-        self.assertRaises(
-            ValueError, lambda: plot_daylight_locus(method="Undefined")
-        )
+        self.assertRaises(ValueError, lambda: plot_daylight_locus(method="Undefined"))
 
         figure, axes = plot_daylight_locus(method="CIE 1976 UCS")
 
@@ -113,9 +111,7 @@ class TestPlotPlanckianLocus(unittest.TestCase):
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
-        self.assertRaises(
-            ValueError, lambda: plot_planckian_locus(method="Undefined")
-        )
+        self.assertRaises(ValueError, lambda: plot_planckian_locus(method="Undefined"))
 
         figure, axes = plot_planckian_locus(method="CIE 1976 UCS")
 
@@ -127,9 +123,7 @@ class TestPlotPlanckianLocus(unittest.TestCase):
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
-        figure, axes = plot_planckian_locus(
-            planckian_locus_labels=[5500, 6500]
-        )
+        figure, axes = plot_planckian_locus(planckian_locus_labels=[5500, 6500])
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

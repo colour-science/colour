@@ -287,11 +287,7 @@ def write_LUT_IridasCube(
                 f"DOMAIN_MAX {format_array_as_row(LUTxD.domain[1], decimals)}\n"
             )
 
-        table = (
-            LUTxD.table.reshape([-1, 3], order="F")
-            if not is_3x1D
-            else LUTxD.table
-        )
+        table = LUTxD.table.reshape([-1, 3], order="F") if not is_3x1D else LUTxD.table
 
         for array in table:
             cube_file.write(f"{format_array_as_row(array, decimals)}\n")

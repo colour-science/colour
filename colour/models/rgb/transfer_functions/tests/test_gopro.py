@@ -105,9 +105,7 @@ log_encoding_Protune` definition domain and range scale support.
 log_encoding_Protune` definition nan support.
         """
 
-        log_encoding_Protune(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_Protune(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLogDecoding_Protune(unittest.TestCase):
@@ -188,9 +186,7 @@ log_decoding_Protune` definition domain and range scale support.
 log_decoding_Protune` definition nan support.
         """
 
-        log_decoding_Protune(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_decoding_Protune(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 if __name__ == "__main__":

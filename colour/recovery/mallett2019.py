@@ -117,7 +117,6 @@ def spectral_primary_decomposition_Mallett2019(
     ... )
     >>> with numpy_print_options(suppress=True):
     ...     print(msds)  # doctest: +SKIP
-    ...
     [[ 360.            0.3395134...    0.3400214...    0.3204650...]
      [ 370.            0.3355246...    0.3338028...    0.3306724...]
      [ 380.            0.3376707...    0.3185578...    0.3437715...]
@@ -267,7 +266,6 @@ def RGB_to_sd_Mallett2019(
     >>> sd = RGB_to_sd_Mallett2019(RGB)
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
-    ...
     SpectralDistribution([[ 380.        ,    0.1735531...],
                           [ 385.        ,    0.1720357...],
                           [ 390.        ,    0.1677721...],

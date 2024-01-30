@@ -154,9 +154,7 @@ def formatting(
         message_box('Cleaning up "BibTeX" file...')
         bibtex_path = BIBLIOGRAPHY_NAME
         with open(bibtex_path) as bibtex_file:
-            entries = (
-                biblib.bib.Parser().parse(bibtex_file.read()).get_entries()
-            )
+            entries = biblib.bib.Parser().parse(bibtex_file.read()).get_entries()
 
         for entry in sorted(entries.values(), key=lambda x: x.key):
             with contextlib.suppress(KeyError):
@@ -309,9 +307,7 @@ def docs(
             message_box("Generating plots...")
             ctx.run("./generate_plots.py")
 
-    with ctx.prefix("export COLOUR_SCIENCE__DOCUMENTATION_BUILD=True"), ctx.cd(
-        "docs"
-    ):
+    with ctx.prefix("export COLOUR_SCIENCE__DOCUMENTATION_BUILD=True"), ctx.cd("docs"):
         if html:
             message_box('Building "HTML" documentation...')
             ctx.run("make html")
@@ -380,12 +376,9 @@ def build(ctx: Context):
 
     message_box("Building...")
     if (
-        "modified:   README.rst"
-        in ctx.run("git status").stdout  # pyright: ignore
+        "modified:   README.rst" in ctx.run("git status").stdout  # pyright: ignore
     ):
-        raise RuntimeError(
-            'Please commit your changes to the "README.rst" file!'
-        )
+        raise RuntimeError('Please commit your changes to the "README.rst" file!')
 
     with open("README.rst") as readme_file:
         readme_content = readme_file.read()
@@ -395,8 +388,7 @@ def build(ctx: Context):
         # directive to support light and dark theme is later trimmed.
         readme_content = (
             "..  image:: https://raw.githubusercontent.com/colour-science/"
-            "colour-branding/master/images/Colour_Logo_001.png\n"
-            + readme_content
+            "colour-branding/master/images/Colour_Logo_001.png\n" + readme_content
         )
         readme_file.write(
             re.sub(
@@ -435,10 +427,7 @@ def virtualise(ctx: Context, tests: bool = True):
         with ctx.cd(unique_name):
             ctx.run("poetry install")
             ctx.run("source $(poetry env info -p)/bin/activate")
-            ctx.run(
-                'python -c "import imageio;'
-                'imageio.plugins.freeimage.download()"'
-            )
+            ctx.run('python -c "import imageio;imageio.plugins.freeimage.download()"')
             if tests:
                 ctx.run(
                     "poetry run pytest "
@@ -490,9 +479,7 @@ def tag(ctx: Context):
         remote_tags = result.stdout.strip().split("\n")  # pyright: ignore
         tags = set()
         for remote_tag in remote_tags:
-            tags.add(
-                remote_tag.split("refs/tags/")[1].replace("refs/tags/", "^{}")
-            )
+            tags.add(remote_tag.split("refs/tags/")[1].replace("refs/tags/", "^{}"))
         version_tags = sorted(tags)
         if f"v{version}" in version_tags:
             raise RuntimeError(

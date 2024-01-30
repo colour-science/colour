@@ -61,9 +61,7 @@ class TestXYZ_to_sd(unittest.TestCase):
         )
         v = [
             sd_to_XYZ_integration(
-                XYZ_to_sd(
-                    XYZ, method, cmfs=self._cmfs, illuminant=self._sd_D65
-                ),
+                XYZ_to_sd(XYZ, method, cmfs=self._cmfs, illuminant=self._sd_D65),
                 self._cmfs,
                 self._sd_D65,
             )

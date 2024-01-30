@@ -137,9 +137,7 @@ class TestEllipseFittingHalir1998(unittest.TestCase):
         """
 
         np.testing.assert_allclose(
-            ellipse_fitting_Halir1998(
-                np.array([[2, 0], [0, 1], [-2, 0], [0, -1]])
-            ),
+            ellipse_fitting_Halir1998(np.array([[2, 0], [0, 1], [-2, 0], [0, -1]])),
             np.array(
                 [
                     0.24253563,

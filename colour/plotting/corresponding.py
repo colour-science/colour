@@ -40,12 +40,17 @@ __all__ = [
 
 @override_style()
 def plot_corresponding_chromaticities_prediction(
-    experiment: Literal[1, 2, 3, 4, 6, 8, 9, 11, 12]
-    | CorrespondingColourDataset = 1,
-    model: Literal[
-        "CIE 1994", "CMCCAT2000", "Fairchild 1990", "Von Kries", "Zhai 2018"
-    ]
-    | str = "Von Kries",
+    experiment: (Literal[1, 2, 3, 4, 6, 8, 9, 11, 12] | CorrespondingColourDataset) = 1,
+    model: (
+        Literal[
+            "CIE 1994",
+            "CMCCAT2000",
+            "Fairchild 1990",
+            "Von Kries",
+            "Zhai 2018",
+        ]
+        | str
+    ) = "Von Kries",
     corresponding_chromaticities_prediction_kwargs: dict | None = None,
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:

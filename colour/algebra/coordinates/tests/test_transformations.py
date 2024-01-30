@@ -112,25 +112,19 @@ spherical_to_cartesian` definition.
         """
 
         np.testing.assert_allclose(
-            spherical_to_cartesian(
-                np.array([6.78232998, 0.48504979, 0.32175055])
-            ),
+            spherical_to_cartesian(np.array([6.78232998, 0.48504979, 0.32175055])),
             np.array([3.00000000, 0.99999999, 6.00000000]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            spherical_to_cartesian(
-                np.array([18.38477631, 0.51501513, 1.68145355])
-            ),
+            spherical_to_cartesian(np.array([18.38477631, 0.51501513, 1.68145355])),
             np.array([-1.00000003, 9.00000007, 15.99999996]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            spherical_to_cartesian(
-                np.array([19.64342307, 0.33250603, -0.14626640])
-            ),
+            spherical_to_cartesian(np.array([19.64342307, 0.33250603, -0.14626640])),
             np.array([6.34339996, -0.93449999, 18.56750001]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -370,25 +364,19 @@ cylindrical_to_cartesian` definition.
         """
 
         np.testing.assert_allclose(
-            cylindrical_to_cartesian(
-                np.array([0.32175055, 1.08574654, 6.78232998])
-            ),
+            cylindrical_to_cartesian(np.array([0.32175055, 1.08574654, 6.78232998])),
             np.array([0.15001697, 0.28463718, 6.78232998]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            cylindrical_to_cartesian(
-                np.array([1.68145355, 1.05578119, 18.38477631])
-            ),
+            cylindrical_to_cartesian(np.array([1.68145355, 1.05578119, 18.38477631])),
             np.array([0.82819662, 1.46334425, 18.38477631]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            cylindrical_to_cartesian(
-                np.array([-0.14626640, 1.23829030, 19.64342307])
-            ),
+            cylindrical_to_cartesian(np.array([-0.14626640, 1.23829030, 19.64342307])),
             np.array([-0.04774323, -0.13825500, 19.64342307]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

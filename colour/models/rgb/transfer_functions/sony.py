@@ -324,9 +324,7 @@ def log_decoding_SLog2(
 
     return (
         219
-        * log_decoding_SLog(
-            y, bit_depth, in_normalised_code_value, out_reflection
-        )
+        * log_decoding_SLog(y, bit_depth, in_normalised_code_value, out_reflection)
         / 155
     )
 

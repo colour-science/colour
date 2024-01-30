@@ -40,9 +40,7 @@ def path_to_title(path: str | Path) -> str:
 
     Examples
     --------
-    >>> path_to_title(
-    ...     "colour/io/luts/tests/resources/sony_spi3d/Colour_Correct.spi3d"
-    ... )
+    >>> path_to_title("colour/io/luts/tests/resources/sony_spi3d/Colour_Correct.spi3d")
     'Colour Correct'
     """
 

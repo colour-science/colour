@@ -96,9 +96,7 @@ __all__ = [
     "int_digest",
 ]
 
-_CACHING_ENABLED: bool = not os.environ.get(
-    "COLOUR_SCIENCE__DISABLE_CACHING", False
-)
+_CACHING_ENABLED: bool = not os.environ.get("COLOUR_SCIENCE__DISABLE_CACHING", False)
 """
 Global variable storing the current *Colour* caching enabled state.
 """
@@ -117,11 +115,9 @@ def is_caching_enabled() -> bool:
     --------
     >>> with caching_enable(False):
     ...     is_caching_enabled()
-    ...
     False
     >>> with caching_enable(True):
     ...     is_caching_enabled()
-    ...
     True
     """
 
@@ -143,7 +139,6 @@ def set_caching_enable(enable: bool):
     ...     print(is_caching_enabled())
     ...     set_caching_enable(False)
     ...     print(is_caching_enabled())
-    ...
     True
     False
     """
@@ -407,7 +402,6 @@ def handle_numpy_errors(**kwargs: Any) -> Callable:
     >>> @handle_numpy_errors(all="ignore")
     ... def f():
     ...     1 / numpy.zeros(3)
-    ...
     >>> f()
     """
 
@@ -452,7 +446,6 @@ def ignore_python_warnings(function: Callable) -> Callable:
     >>> @ignore_python_warnings
     ... def f():
     ...     warnings.warn("This is an ignored warning!")
-    ...
     >>> f()
     """
 
@@ -610,11 +603,9 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
     >>> from functools import partial
     >>> def _add(a, b):
     ...     return a + b
-    ...
     >>> with multiprocessing_pool() as pool:
     ...     pool.map(partial(_add, b=2), range(10))
     ... # doctest: +SKIP
-    ...
     [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
     """
 
@@ -636,7 +627,7 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
         def __init__(self, *args: Any, **kwargs: Any) -> None:
             pass
 
-        def map(self, func, iterable, chunksize=None):  # noqa: A003, ARG002
+        def map(self, func, iterable, chunksize=None):  # noqa: ARG002
             """Apply given function to each element of given iterable."""
 
             return [func(a) for a in iterable]
@@ -1058,7 +1049,7 @@ def required(
         "tqdm",
         "trimesh",
         "xxhash",
-    ]
+    ],
 ) -> Callable:
     """
     Decorate a function to check whether various ancillary package requirements
@@ -1273,9 +1264,7 @@ def is_sibling(element: Any, mapping: Mapping) -> bool:
         Whether given element type is present in given mapping types.
     """
 
-    return isinstance(
-        element, tuple({type(element) for element in mapping.values()})
-    )
+    return isinstance(element, tuple({type(element) for element in mapping.values()}))
 
 
 def filter_kwargs(function: Callable, **kwargs: Any) -> dict:
@@ -1301,13 +1290,10 @@ def filter_kwargs(function: Callable, **kwargs: Any) -> dict:
     --------
     >>> def fn_a(a):
     ...     return a
-    ...
     >>> def fn_b(a, b=0):
     ...     return a, b
-    ...
     >>> def fn_c(a, b=0, c=0):
     ...     return a, b, c
-    ...
     >>> fn_a(1, **filter_kwargs(fn_a, b=2, c=3))
     1
     >>> fn_b(1, **filter_kwargs(fn_b, b=2, c=3))
@@ -1357,7 +1343,6 @@ def filter_mapping(mapping: Mapping, names: str | Sequence[str]) -> dict:
     --------
     >>> class Element:
     ...     pass
-    ...
     >>> mapping = {
     ...     "Element A": Element(),
     ...     "Element B": Element(),
@@ -1396,10 +1381,7 @@ def filter_mapping(mapping: Mapping, names: str | Sequence[str]) -> dict:
 
         lookup = Lookup(mapping)
 
-        return {
-            lookup.first_key_from_value(element): element
-            for element in elements
-        }
+        return {lookup.first_key_from_value(element): element for element in elements}
 
     names = [str(names)] if is_string(names) else names
 
@@ -1504,14 +1486,10 @@ def validate_method(
     'valid'
     """
 
-    valid_methods = tuple(
-        [str(valid_method) for valid_method in valid_methods]
-    )
+    valid_methods = tuple([str(valid_method) for valid_method in valid_methods])
 
     method_lower = method.lower()
-    if method_lower not in [
-        valid_method.lower() for valid_method in valid_methods
-    ]:
+    if method_lower not in [valid_method.lower() for valid_method in valid_methods]:
         raise ValueError(message.format(method, valid_methods))
 
     return method_lower
@@ -1577,9 +1555,7 @@ def slugify(object_: Any, allow_unicode: bool = False) -> str:
 
     Examples
     --------
-    >>> slugify(
-    ...     " Jack & Jill like numbers 1,2,3 and 4 and silly characters ?%.$!/"
-    ... )
+    >>> slugify(" Jack & Jill like numbers 1,2,3 and 4 and silly characters ?%.$!/")
     'jack-jill-like-numbers-123-and-4-and-silly-characters'
     """
 
@@ -1610,11 +1586,9 @@ if is_xxhash_installed():
         import array
 
         def int_digest(
-            args: str  # noqa: ARG001
-            | bytes
-            | bytearray
-            | memoryview
-            | array.ArrayType[int],
+            args: (  # noqa: ARG001
+                str | bytes | bytearray | memoryview | array.ArrayType[int]
+            ),
             seed: int = 0,  # noqa: ARG001
         ) -> int:
             """

@@ -63,9 +63,7 @@ cctf_encoding_ROMMRGB` definition.
 
         self.assertEqual(cctf_encoding_ROMMRGB(0.18, out_int=True), 98)
 
-        self.assertEqual(
-            cctf_encoding_ROMMRGB(0.18, bit_depth=12, out_int=True), 1579
-        )
+        self.assertEqual(cctf_encoding_ROMMRGB(0.18, bit_depth=12, out_int=True), 1579)
 
     def test_n_dimensional_cctf_encoding_ROMMRGB(self):
         """
@@ -119,9 +117,7 @@ cctf_encoding_ROMMRGB` definition domain and range scale support.
 cctf_encoding_ROMMRGB` definition nan support.
         """
 
-        cctf_encoding_ROMMRGB(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        cctf_encoding_ROMMRGB(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestCctfDecoding_ROMMRGB(unittest.TestCase):
@@ -214,9 +210,7 @@ cctf_decoding_ROMMRGB` definition domain and range scale support.
 cctf_decoding_ROMMRGB` definition nan support.
         """
 
-        cctf_decoding_ROMMRGB(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        cctf_decoding_ROMMRGB(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestCctfEncoding_RIMMRGB(unittest.TestCase):
@@ -249,9 +243,7 @@ cctf_encoding_RIMMRGB` definition.
 
         self.assertEqual(cctf_encoding_RIMMRGB(0.18, out_int=True), 74)
 
-        self.assertEqual(
-            cctf_encoding_RIMMRGB(0.18, bit_depth=12, out_int=True), 1194
-        )
+        self.assertEqual(cctf_encoding_RIMMRGB(0.18, bit_depth=12, out_int=True), 1194)
 
     def test_n_dimensional_cctf_encoding_RIMMRGB(self):
         """
@@ -305,9 +297,7 @@ cctf_encoding_RIMMRGB` definition domain and range scale support.
 cctf_encoding_RIMMRGB` definition nan support.
         """
 
-        cctf_encoding_RIMMRGB(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        cctf_encoding_RIMMRGB(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestCctfDecoding_RIMMRGB(unittest.TestCase):
@@ -402,9 +392,7 @@ cctf_decoding_RIMMRGB` definition domain and range scale support.
 cctf_decoding_RIMMRGB` definition nan support.
         """
 
-        cctf_decoding_RIMMRGB(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        cctf_decoding_RIMMRGB(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLog_encoding_ERIMMRGB(unittest.TestCase):
@@ -437,9 +425,7 @@ log_encoding_ERIMMRGB` definition.
 
         self.assertEqual(log_encoding_ERIMMRGB(0.18, out_int=True), 105)
 
-        self.assertEqual(
-            log_encoding_ERIMMRGB(0.18, bit_depth=12, out_int=True), 1679
-        )
+        self.assertEqual(log_encoding_ERIMMRGB(0.18, bit_depth=12, out_int=True), 1679)
 
     def test_n_dimensional_log_encoding_ERIMMRGB(self):
         """
@@ -493,9 +479,7 @@ log_encoding_ERIMMRGB` definition domain and range scale support.
 log_encoding_ERIMMRGB` definition nan support.
         """
 
-        log_encoding_ERIMMRGB(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_ERIMMRGB(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLog_decoding_ERIMMRGB(unittest.TestCase):
@@ -590,9 +574,7 @@ log_decoding_ERIMMRGB` definition domain and range scale support.
 log_decoding_ERIMMRGB` definition nan support.
         """
 
-        log_decoding_ERIMMRGB(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_decoding_ERIMMRGB(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 if __name__ == "__main__":

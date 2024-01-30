@@ -117,12 +117,7 @@ def XYZ_to_OSA_UCS(XYZ: ArrayLike) -> NDArrayFloat:
     x, y, Y = tsplit(XYZ_to_xyY(XYZ))
 
     Y_0 = Y * (
-        4.4934 * x**2
-        + 4.3034 * y**2
-        - 4.276 * x * y
-        - 1.3744 * x
-        - 2.5643 * y
-        + 1.8103
+        4.4934 * x**2 + 4.3034 * y**2 - 4.276 * x * y - 1.3744 * x - 2.5643 * y + 1.8103
     )
 
     o_3 = 1 / 3
@@ -225,10 +220,7 @@ def OSA_UCS_to_XYZ(
 
     x_0 = np.array([30, 30, 30])
     XYZ = as_float_array(
-        [
-            fmin(error_function, x_0, (Ljg_i,), **optimisation_settings)
-            for Ljg_i in Ljg
-        ]
+        [fmin(error_function, x_0, (Ljg_i,), **optimisation_settings) for Ljg_i in Ljg]
     )
 
     return from_range_100(np.reshape(XYZ, shape))

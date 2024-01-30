@@ -119,9 +119,7 @@ class PrimariesChromaticityCoordinates(
         Chromaticity coordinates :math:`uv^p` of primary :math:`T`.
     """
 
-    def __new__(
-        cls, experiment, illuminants, Y, P_uvp=None, D_uvp=None, T_uvp=None
-    ):
+    def __new__(cls, experiment, illuminants, Y, P_uvp=None, D_uvp=None, T_uvp=None):
         """
         Return a new instance of the
         :class:`colour.corresponding.datasets.corresponding_chromaticities.\
@@ -356,18 +354,12 @@ BRENEMAN_EXPERIMENT_5_RESULTS = (
     BrenemanExperimentResult("Orange", (0.331, 0.548), (0.303, 0.545), (4, 3)),
     BrenemanExperimentResult("Brown", (0.322, 0.541), (0.303, 0.538), (4, 4)),
     BrenemanExperimentResult("Yellow", (0.268, 0.555), (0.264, 0.550), (3, 2)),
-    BrenemanExperimentResult(
-        "Foliage", (0.224, 0.538), (0.227, 0.535), (3, 3)
-    ),
+    BrenemanExperimentResult("Foliage", (0.224, 0.538), (0.227, 0.535), (3, 3)),
     BrenemanExperimentResult("Green", (0.134, 0.531), (0.159, 0.530), (9, 3)),
-    BrenemanExperimentResult(
-        "Blue-green", (0.145, 0.474), (0.165, 0.490), (8, 3)
-    ),
+    BrenemanExperimentResult("Blue-green", (0.145, 0.474), (0.165, 0.490), (8, 3)),
     BrenemanExperimentResult("Blue", (0.163, 0.329), (0.173, 0.378), (7, 12)),
     BrenemanExperimentResult("Sky", (0.179, 0.438), (0.189, 0.462), (5, 4)),
-    BrenemanExperimentResult(
-        "Purple", (0.245, 0.364), (0.239, 0.401), (4, 16)
-    ),
+    BrenemanExperimentResult("Purple", (0.245, 0.364), (0.239, 0.401), (4, 16)),
 )
 """
 *Breneman (1987)* experiment 5 results.
@@ -436,18 +428,12 @@ BRENEMAN_EXPERIMENT_7_RESULTS = (
     BrenemanExperimentResult("Orange", (0.331, 0.549), (0.305, 0.547), (5, 4)),
     BrenemanExperimentResult("Brown", (0.322, 0.541), (0.301, 0.539), (5, 2)),
     BrenemanExperimentResult("Yellow", (0.268, 0.555), (0.257, 0.552), (3, 4)),
-    BrenemanExperimentResult(
-        "Foliage", (0.225, 0.538), (0.222, 0.536), (3, 2)
-    ),
+    BrenemanExperimentResult("Foliage", (0.225, 0.538), (0.222, 0.536), (3, 2)),
     BrenemanExperimentResult("Green", (0.135, 0.531), (0.153, 0.529), (8, 2)),
-    BrenemanExperimentResult(
-        "Blue-green", (0.145, 0.475), (0.160, 0.484), (3, 5)
-    ),
+    BrenemanExperimentResult("Blue-green", (0.145, 0.475), (0.160, 0.484), (3, 5)),
     BrenemanExperimentResult("Blue", (0.163, 0.331), (0.171, 0.379), (4, 11)),
     BrenemanExperimentResult("Sky", (0.179, 0.438), (0.187, 0.452), (4, 7)),
-    BrenemanExperimentResult(
-        "Purple", (0.245, 0.365), (0.240, 0.398), (4, 10)
-    ),
+    BrenemanExperimentResult("Purple", (0.245, 0.365), (0.240, 0.398), (4, 10)),
 )
 """
 *Breneman (1987)* experiment 7 results.
@@ -587,18 +573,12 @@ BRENEMAN_EXPERIMENT_10_RESULTS = (
     BrenemanExperimentResult("Orange", (0.331, 0.549), (0.315, 0.536), (7, 8)),
     BrenemanExperimentResult("Brown", (0.323, 0.542), (0.310, 0.526), (6, 8)),
     BrenemanExperimentResult("Yellow", (0.268, 0.556), (0.268, 0.541), (3, 6)),
-    BrenemanExperimentResult(
-        "Foliage", (0.226, 0.538), (0.230, 0.525), (4, 8)
-    ),
+    BrenemanExperimentResult("Foliage", (0.226, 0.538), (0.230, 0.525), (4, 8)),
     BrenemanExperimentResult("Green", (0.135, 0.531), (0.158, 0.524), (6, 3)),
-    BrenemanExperimentResult(
-        "Blue-green", (0.145, 0.476), (0.161, 0.491), (4, 4)
-    ),
+    BrenemanExperimentResult("Blue-green", (0.145, 0.476), (0.161, 0.491), (4, 4)),
     BrenemanExperimentResult("Blue", (0.163, 0.330), (0.171, 0.377), (6, 19)),
     BrenemanExperimentResult("Sky", (0.179, 0.439), (0.187, 0.465), (5, 5)),
-    BrenemanExperimentResult(
-        "Purple", (0.245, 0.366), (0.240, 0.402), (3, 12)
-    ),
+    BrenemanExperimentResult("Purple", (0.245, 0.366), (0.240, 0.402), (3, 12)),
 )
 """
 *Breneman (1987)* experiment 10 results.

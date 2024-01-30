@@ -34,25 +34,19 @@ class TestXYZ_to_Hunter_Rdab(unittest.TestCase):
         """Test :func:`colour.models.hunter_rdab.XYZ_to_Hunter_Rdab` definition."""
 
         np.testing.assert_allclose(
-            XYZ_to_Hunter_Rdab(
-                np.array([0.20654008, 0.12197225, 0.05136952]) * 100
-            ),
+            XYZ_to_Hunter_Rdab(np.array([0.20654008, 0.12197225, 0.05136952]) * 100),
             np.array([12.19722500, 57.12537874, 17.46241341]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            XYZ_to_Hunter_Rdab(
-                np.array([0.14222010, 0.23042768, 0.10495772]) * 100
-            ),
+            XYZ_to_Hunter_Rdab(np.array([0.14222010, 0.23042768, 0.10495772]) * 100),
             np.array([23.04276800, -32.40057474, 20.96542183]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            XYZ_to_Hunter_Rdab(
-                np.array([0.07818780, 0.06157201, 0.28099326]) * 100
-            ),
+            XYZ_to_Hunter_Rdab(np.array([0.07818780, 0.06157201, 0.28099326]) * 100),
             np.array([6.15720100, 18.13400284, -67.14408607]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -175,25 +169,19 @@ class TestHunter_Rdab_to_XYZ(unittest.TestCase):
         """Test :func:`colour.models.hunter_rdab.Hunter_Rdab_to_XYZ` definition."""
 
         np.testing.assert_allclose(
-            Hunter_Rdab_to_XYZ(
-                np.array([12.19722500, 57.12537874, 17.46241341])
-            ),
+            Hunter_Rdab_to_XYZ(np.array([12.19722500, 57.12537874, 17.46241341])),
             np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            Hunter_Rdab_to_XYZ(
-                np.array([23.04276800, -32.40057474, 20.96542183])
-            ),
+            Hunter_Rdab_to_XYZ(np.array([23.04276800, -32.40057474, 20.96542183])),
             np.array([0.14222010, 0.23042768, 0.10495772]) * 100,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            Hunter_Rdab_to_XYZ(
-                np.array([6.15720100, 18.13400284, -67.14408607])
-            ),
+            Hunter_Rdab_to_XYZ(np.array([6.15720100, 18.13400284, -67.14408607])),
             np.array([0.07818780, 0.06157201, 0.28099326]) * 100,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

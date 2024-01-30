@@ -122,9 +122,7 @@ def _generate_unit_tests_specifications() -> tuple:  # pragma: no cover
         munsell_colour = "{} {}/{}".format(*MUNSELL_COLOURS["real"][i][0])
 
         try:
-            specification = munsell_colour_to_munsell_specification(
-                munsell_colour
-            )
+            specification = munsell_colour_to_munsell_specification(munsell_colour)
             specification_r = specification + np.hstack(
                 [np.random.uniform(-1, 1, 3), [0]]
             )
@@ -1185,9 +1183,7 @@ class TestMunsellValuePriest1920(unittest.TestCase):
         definition nan support.
         """
 
-        munsell_value_Priest1920(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        munsell_value_Priest1920(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestMunsellValueMunsell1933(unittest.TestCase):
@@ -1272,9 +1268,7 @@ class TestMunsellValueMunsell1933(unittest.TestCase):
         definition nan support.
         """
 
-        munsell_value_Munsell1933(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        munsell_value_Munsell1933(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestMunsellValueMoon1943(unittest.TestCase):
@@ -1359,9 +1353,7 @@ class TestMunsellValueMoon1943(unittest.TestCase):
         definition nan support.
         """
 
-        munsell_value_Moon1943(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        munsell_value_Moon1943(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestMunsellValueSaunderson1944(unittest.TestCase):
@@ -1533,9 +1525,7 @@ class TestMunsellValueLadd1955(unittest.TestCase):
         definition nan support.
         """
 
-        munsell_value_Ladd1955(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        munsell_value_Ladd1955(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestMunsellValueMcCamy1992(unittest.TestCase):
@@ -1620,9 +1610,7 @@ class TestMunsellValueMcCamy1992(unittest.TestCase):
         definition nan support.
         """
 
-        munsell_value_McCamy1987(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        munsell_value_McCamy1987(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestMunsellValueASTMD1535(unittest.TestCase):
@@ -1707,9 +1695,7 @@ class TestMunsellValueASTMD1535(unittest.TestCase):
         definition nan support.
         """
 
-        munsell_value_ASTMD1535(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        munsell_value_ASTMD1535(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestMunsellSpecification_to_xyY(unittest.TestCase):
@@ -1740,9 +1726,7 @@ class TestMunsellSpecification_to_xyY(unittest.TestCase):
         )
         specification = np.squeeze(specification)
         nan_array = np.full(specification.shape, np.nan)
-        specification = tstack(
-            [nan_array, specification, nan_array, nan_array]
-        )
+        specification = tstack([nan_array, specification, nan_array, nan_array])
 
         np.testing.assert_allclose(
             munsell_specification_to_xyY(specification),
@@ -1756,9 +1740,7 @@ class TestMunsellSpecification_to_xyY(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        specification = np.array(
-            [7.18927191, 5.34025196, 16.05861170, 3.00000000]
-        )
+        specification = np.array([7.18927191, 5.34025196, 16.05861170, 3.00000000])
         xyY = munsell_specification_to_xyY(specification)
 
         specification = np.tile(specification, (6, 1))
@@ -1802,9 +1784,7 @@ class TestMunsellSpecification_to_xyY(unittest.TestCase):
         definition domain and range scale support.
         """
 
-        specification = np.array(
-            [7.18927191, 5.34025196, 16.05861170, 3.00000000]
-        )
+        specification = np.array([7.18927191, 5.34025196, 16.05861170, 3.00000000])
         xyY = munsell_specification_to_xyY(specification)
 
         d_r = (
@@ -1936,9 +1916,7 @@ class TestxyY_to_munsell_specification(unittest.TestCase):
         )
         specification = np.squeeze(specification)
         nan_array = np.full(specification.shape, np.nan)
-        specification = tstack(
-            [nan_array, specification, nan_array, nan_array]
-        )
+        specification = tstack([nan_array, specification, nan_array, nan_array])
 
         np.testing.assert_allclose(
             xyY_to_munsell_specification(xyY),
@@ -2041,9 +2019,7 @@ class TestxyY_to_munsell_colour(unittest.TestCase):
         )
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                self.assertEqual(
-                    xyY_to_munsell_colour(xyY * factor), munsell_colour
-                )
+                self.assertEqual(xyY_to_munsell_colour(xyY * factor), munsell_colour)
 
     def test_n_dimensional_xyY_to_munsell_colour(self):
         """
@@ -2131,9 +2107,7 @@ class TestIsGreyMunsellColour(unittest.TestCase):
 
         self.assertFalse(is_grey_munsell_colour(np.array([4.2, 8.1, 5.3, 6])))
 
-        self.assertTrue(
-            is_grey_munsell_colour(np.array([np.nan, 0.5, np.nan, np.nan]))
-        )
+        self.assertTrue(is_grey_munsell_colour(np.array([np.nan, 0.5, np.nan, np.nan])))
 
 
 class TestNormaliseMunsellSpecification(unittest.TestCase):
@@ -2229,23 +2203,17 @@ munsell_specification_to_munsell_colour` definition.
         """
 
         self.assertEqual(
-            munsell_specification_to_munsell_colour(
-                np.array([10.0, 2.0, 4.0, 7])
-            ),
+            munsell_specification_to_munsell_colour(np.array([10.0, 2.0, 4.0, 7])),
             "10.0R 2.0/4.0",
         )
 
         self.assertEqual(
-            munsell_specification_to_munsell_colour(
-                np.array([10.0, 2.0, 4.0, 9])
-            ),
+            munsell_specification_to_munsell_colour(np.array([10.0, 2.0, 4.0, 9])),
             "10.0P 2.0/4.0",
         )
 
         self.assertEqual(
-            munsell_specification_to_munsell_colour(
-                np.array([10.0, 2.0, 4.0, 1])
-            ),
+            munsell_specification_to_munsell_colour(np.array([10.0, 2.0, 4.0, 1])),
             "10.0B 2.0/4.0",
         )
 
@@ -2257,16 +2225,12 @@ munsell_specification_to_munsell_colour` definition.
         )
 
         self.assertEqual(
-            munsell_specification_to_munsell_colour(
-                np.array([0.0, 2.0, 4.0, 7])
-            ),
+            munsell_specification_to_munsell_colour(np.array([0.0, 2.0, 4.0, 7])),
             "10.0RP 2.0/4.0",
         )
 
         self.assertEqual(
-            munsell_specification_to_munsell_colour(
-                np.array([10.0, 0.0, 4.0, 7])
-            ),
+            munsell_specification_to_munsell_colour(np.array([10.0, 0.0, 4.0, 7])),
             "N0.0",
         )
 
@@ -2311,17 +2275,11 @@ class TestIsSpecificationInRenotation(unittest.TestCase):
         definition.
         """
 
-        self.assertTrue(
-            is_specification_in_renotation(np.array([2.5, 0.2, 2.0, 4]))
-        )
+        self.assertTrue(is_specification_in_renotation(np.array([2.5, 0.2, 2.0, 4])))
 
-        self.assertTrue(
-            is_specification_in_renotation(np.array([5.0, 0.2, 2.0, 4]))
-        )
+        self.assertTrue(is_specification_in_renotation(np.array([5.0, 0.2, 2.0, 4])))
 
-        self.assertFalse(
-            is_specification_in_renotation(np.array([25.0, 0.2, 2.0, 4]))
-        )
+        self.assertFalse(is_specification_in_renotation(np.array([25.0, 0.2, 2.0, 4])))
 
 
 class TestBoundingHuesFromRenotation(unittest.TestCase):
@@ -2408,9 +2366,7 @@ interpolation_method_from_renotation_ovoid` definition.
         )
 
         self.assertIsNone(
-            interpolation_method_from_renotation_ovoid(
-                np.array([2.5, 10.0, 2.0, 4])
-            )
+            interpolation_method_from_renotation_ovoid(np.array([2.5, 10.0, 2.0, 4]))
         )
 
 
@@ -2502,13 +2458,9 @@ class TestMaximumChromaFromRenotation(unittest.TestCase):
 
         self.assertEqual(maximum_chroma_from_renotation([2.5, 5, 5]), 14.0)
 
-        self.assertEqual(
-            maximum_chroma_from_renotation([8.675, 1.225, 10]), 48.0
-        )
+        self.assertEqual(maximum_chroma_from_renotation([8.675, 1.225, 10]), 48.0)
 
-        self.assertEqual(
-            maximum_chroma_from_renotation([6.875, 3.425, 1]), 16.0
-        )
+        self.assertEqual(maximum_chroma_from_renotation([6.875, 3.425, 1]), 16.0)
 
 
 class TestMunsellSpecification_to_xy(unittest.TestCase):

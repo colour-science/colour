@@ -66,9 +66,7 @@ class TestChromaticAdaptation(unittest.TestCase):
 
         Y_n = 200
         np.testing.assert_allclose(
-            chromatic_adaptation(
-                XYZ, XYZ_w, XYZ_wr, method="Fairchild 1990", Y_n=Y_n
-            ),
+            chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method="Fairchild 1990", Y_n=Y_n),
             np.array([0.21394049, 0.12262315, 0.03891917]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

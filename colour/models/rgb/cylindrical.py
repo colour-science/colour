@@ -323,9 +323,7 @@ def HSL_to_RGB(HSL: ArrayLike) -> NDArrayFloat:
 
     H, S, L = tsplit(to_domain_1(HSL))
 
-    def H_to_RGB(
-        vi: NDArrayFloat, vj: NDArrayFloat, vH: NDArrayFloat
-    ) -> NDArrayFloat:
+    def H_to_RGB(vi: NDArrayFloat, vj: NDArrayFloat, vH: NDArrayFloat) -> NDArrayFloat:
         """Convert *hue* value to *RGB* colourspace."""
 
         vH = as_float_array(vH)
@@ -364,9 +362,7 @@ def HSL_to_RGB(HSL: ArrayLike) -> NDArrayFloat:
     return from_range_1(RGB)
 
 
-def RGB_to_HCL(
-    RGB: ArrayLike, gamma: float = 3, Y_0: float = 100
-) -> NDArrayFloat:
+def RGB_to_HCL(RGB: ArrayLike, gamma: float = 3, Y_0: float = 100) -> NDArrayFloat:
     """
     Convert from *RGB* colourspace to *HCL* colourspace according to
     *Sarifuddin and Missaoui (2005)* method.
@@ -458,9 +454,7 @@ def RGB_to_HCL(
     return from_range_1(HCL)
 
 
-def HCL_to_RGB(
-    HCL: ArrayLike, gamma: float = 3, Y_0: float = 100
-) -> NDArrayFloat:
+def HCL_to_RGB(HCL: ArrayLike, gamma: float = 3, Y_0: float = 100) -> NDArrayFloat:
     """
     Convert from *HCL* colourspace to *RGB* colourspace according to
     *Sarifuddin and Missaoui (2005)* method.
@@ -534,7 +528,7 @@ def HCL_to_RGB(
     with sdiv_mode():
         RGB = np.select(
             [
-                _1_2_3(np.logical_and(0 <= H, r_p60 >= H)),
+                _1_2_3(np.logical_and(H >= 0, r_p60 >= H)),
                 _1_2_3(np.logical_and(r_p60 < H, r_p120 >= H)),
                 _1_2_3(np.logical_and(r_p120 < H, np.pi >= H)),
                 _1_2_3(np.logical_and(r_n60 <= H, H < 0)),

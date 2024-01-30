@@ -245,9 +245,7 @@ class TestTemplateCtlTransformFloat(unittest.TestCase):
                 gOut = gIn + foo[1];
                 bOut = bIn + foo[2];
                 aOut = aIn;
-            }"""[
-                1:
-            ]
+            }"""[1:]
         )
         self.assertEqual(ctl_foo_bar_float, target)
 
@@ -285,9 +283,7 @@ class TestTemplateCtlTransformFloat3(unittest.TestCase):
 
                     return rgbOut;
                 }
-"""[
-                    1:
-                ]
+"""[1:]
             ),
         )
         # fmt: off

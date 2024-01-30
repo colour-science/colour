@@ -33,8 +33,7 @@ __all__ = [
 @required("NetworkX")
 def plot_automatic_colour_conversion_graph(
     filename: str,
-    prog: Literal["circo", "dot", "fdp", "neato", "nop", "twopi"]
-    | str = "fdp",
+    prog: (Literal["circo", "dot", "fdp", "neato", "nop", "twopi"] | str) = "fdp",
     args: str = "",
 ) -> AGraph:  # pyright: ignore  # noqa: F821
     """
@@ -88,9 +87,7 @@ def plot_automatic_colour_conversion_graph(
     # TODO: Investigate API to trigger the conversion graph build.
     describe_conversion_path("RGB", "RGB", print_callable=lambda x: x)
 
-    agraph = nx.nx_agraph.to_agraph(
-        cast(nx.DiGraph, colour.graph.CONVERSION_GRAPH)
-    )
+    agraph = nx.nx_agraph.to_agraph(cast(nx.DiGraph, colour.graph.CONVERSION_GRAPH))
 
     for node in agraph.nodes():
         node.attr.update(label=CONVERSION_GRAPH_NODE_LABELS[node.name])

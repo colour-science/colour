@@ -53,9 +53,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
         }
         XYZ_r = np.array([0.5, 0.5, 0.5]).reshape([3, 1])
         for colourspace in RGB_COLOURSPACES.values():
-            M = normalised_primary_matrix(
-                colourspace.primaries, colourspace.whitepoint
-            )
+            M = normalised_primary_matrix(colourspace.primaries, colourspace.whitepoint)
 
             tolerance = tolerances.get(colourspace.name, 1e-7)
             np.testing.assert_allclose(

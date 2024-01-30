@@ -36,9 +36,7 @@ class TestOetf_BT601(unittest.TestCase):
 oetf_BT601` definition.
         """
 
-        np.testing.assert_allclose(
-            oetf_BT601(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(oetf_BT601(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         np.testing.assert_allclose(
             oetf_BT601(0.015), 0.067500000000000, atol=TOLERANCE_ABSOLUTE_TESTS
@@ -48,9 +46,7 @@ oetf_BT601` definition.
             oetf_BT601(0.18), 0.409007728864150, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        np.testing.assert_allclose(
-            oetf_BT601(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(oetf_BT601(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_n_dimensional_oetf_BT601(self):
         """
@@ -63,21 +59,15 @@ oetf_BT601` definition n-dimensional arrays support.
 
         L = np.tile(L, 6)
         E = np.tile(E, 6)
-        np.testing.assert_allclose(
-            oetf_BT601(L), E, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(oetf_BT601(L), E, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         L = np.reshape(L, (2, 3))
         E = np.reshape(E, (2, 3))
-        np.testing.assert_allclose(
-            oetf_BT601(L), E, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(oetf_BT601(L), E, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         L = np.reshape(L, (2, 3, 1))
         E = np.reshape(E, (2, 3, 1))
-        np.testing.assert_allclose(
-            oetf_BT601(L), E, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(oetf_BT601(L), E, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_oetf_BT601(self):
         """

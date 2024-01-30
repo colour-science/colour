@@ -98,8 +98,4 @@ data_sample = {
 
 sd_sample = colour.SpectralDistribution(data_sample, name="Sample")
 uncorrected_values = sd_sample.values
-print(
-    np.dstack(
-        [uncorrected_values, colour.bandpass_correction(sd_sample).values]
-    )
-)
+print(np.dstack([uncorrected_values, colour.bandpass_correction(sd_sample).values]))

@@ -27,9 +27,7 @@ __all__ = [
     "TestWriteLUTCinespace",
 ]
 
-ROOT_LUTS: str = os.path.join(
-    os.path.dirname(__file__), "resources", "cinespace"
-)
+ROOT_LUTS: str = os.path.join(os.path.dirname(__file__), "resources", "cinespace")
 
 
 class TestReadLUTCinespace(unittest.TestCase):
@@ -44,9 +42,7 @@ class TestReadLUTCinespace(unittest.TestCase):
         definition.
         """
 
-        LUT_1 = read_LUT_Cinespace(
-            os.path.join(ROOT_LUTS, "ACES_Proxy_10_to_ACES.csp")
-        )
+        LUT_1 = read_LUT_Cinespace(os.path.join(ROOT_LUTS, "ACES_Proxy_10_to_ACES.csp"))
 
         np.testing.assert_allclose(
             LUT_1.table,
@@ -90,19 +86,13 @@ class TestReadLUTCinespace(unittest.TestCase):
         )
         self.assertEqual(LUT_1.name, "ACES Proxy 10 to ACES")
         self.assertEqual(LUT_1.dimensions, 2)
-        np.testing.assert_array_equal(
-            LUT_1.domain, np.array([[0, 0, 0], [1, 1, 1]])
-        )
+        np.testing.assert_array_equal(LUT_1.domain, np.array([[0, 0, 0], [1, 1, 1]]))
         self.assertEqual(LUT_1.size, 32)
         self.assertListEqual(LUT_1.comments, [])
 
         LUT_2 = read_LUT_Cinespace(os.path.join(ROOT_LUTS, "Demo.csp"))
-        self.assertListEqual(
-            LUT_2.comments, ["Comments are ignored by most parsers"]
-        )
-        np.testing.assert_array_equal(
-            LUT_2.domain, np.array([[0, 0, 0], [1, 2, 3]])
-        )
+        self.assertListEqual(LUT_2.comments, ["Comments are ignored by most parsers"])
+        np.testing.assert_array_equal(LUT_2.domain, np.array([[0, 0, 0], [1, 2, 3]]))
 
         LUT_3 = read_LUT_Cinespace(
             os.path.join(ROOT_LUTS, "Three_Dimensional_Table.csp")
@@ -110,9 +100,7 @@ class TestReadLUTCinespace(unittest.TestCase):
         self.assertEqual(LUT_3.dimensions, 3)
         self.assertEqual(LUT_3.size, 2)
 
-        LUT_4 = read_LUT_Cinespace(
-            os.path.join(ROOT_LUTS, "Explicit_Domain.csp")
-        )
+        LUT_4 = read_LUT_Cinespace(os.path.join(ROOT_LUTS, "Explicit_Domain.csp"))
         self.assertEqual(LUT_4[0].is_domain_explicit(), True)
         self.assertEqual(LUT_4[1].table.shape, (2, 3, 4, 3))
 
@@ -150,14 +138,10 @@ class TestWriteLUTCinespace(unittest.TestCase):
         )
         write_LUT_Cinespace(
             LUT_1_r,
-            os.path.join(
-                self._temporary_directory, "ACES_Proxy_10_to_ACES.csp"
-            ),
+            os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.csp"),
         )
         LUT_1_t = read_LUT_Cinespace(
-            os.path.join(
-                self._temporary_directory, "ACES_Proxy_10_to_ACES.csp"
-            )
+            os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.csp")
         )
         self.assertEqual(LUT_1_r, LUT_1_t)
         self.assertEqual(LUT_1_r, LUT_1_t)
@@ -177,14 +161,10 @@ class TestWriteLUTCinespace(unittest.TestCase):
         )
         write_LUT_Cinespace(
             LUT_3_r,
-            os.path.join(
-                self._temporary_directory, "Three_Dimensional_Table.csp"
-            ),
+            os.path.join(self._temporary_directory, "Three_Dimensional_Table.csp"),
         )
         LUT_3_t = read_LUT_Cinespace(
-            os.path.join(
-                self._temporary_directory, "Three_Dimensional_Table.csp"
-            )
+            os.path.join(self._temporary_directory, "Three_Dimensional_Table.csp")
         )
         self.assertEqual(LUT_3_r, LUT_3_t)
 
@@ -195,16 +175,12 @@ class TestWriteLUTCinespace(unittest.TestCase):
                 np.array([-1.0, -0.5, 0.0, 0.5, 1.0, np.nan]),
             )
         )
-        LUT_4_t = LUT3x1D(
-            domain=domain, table=domain * 2, name="Ragged Domain"
-        )
+        LUT_4_t = LUT3x1D(domain=domain, table=domain * 2, name="Ragged Domain")
         write_LUT_Cinespace(
             LUT_4_t,
             os.path.join(self._temporary_directory, "Ragged_Domain.csp"),
         )
-        LUT_4_r = read_LUT_Cinespace(
-            os.path.join(ROOT_LUTS, "Ragged_Domain.csp")
-        )
+        LUT_4_r = read_LUT_Cinespace(os.path.join(ROOT_LUTS, "Ragged_Domain.csp"))
         np.testing.assert_allclose(
             LUT_4_t.domain, LUT_4_r.domain, atol=TOLERANCE_ABSOLUTE_TESTS
         )
@@ -213,9 +189,7 @@ class TestWriteLUTCinespace(unittest.TestCase):
         LUT_5_r = read_LUT_Cinespace(
             os.path.join(ROOT_LUTS, "Three_Dimensional_Table_With_Shaper.csp")
         )
-        LUT_5_r.sequence[0] = LUT_5_r.sequence[0].convert(
-            LUT1D, force_conversion=True
-        )
+        LUT_5_r.sequence[0] = LUT_5_r.sequence[0].convert(LUT1D, force_conversion=True)
         write_LUT_Cinespace(
             LUT_5_r,
             os.path.join(
@@ -263,14 +237,10 @@ class TestWriteLUTCinespace(unittest.TestCase):
         )
         write_LUT_Cinespace(
             LUT_7_r.convert(LUT1D, force_conversion=True),
-            os.path.join(
-                self._temporary_directory, "ACES_Proxy_10_to_ACES.csp"
-            ),
+            os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.csp"),
         )
         LUT_7_t = read_LUT_Cinespace(
-            os.path.join(
-                self._temporary_directory, "ACES_Proxy_10_to_ACES.csp"
-            )
+            os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.csp")
         )
         self.assertEqual(LUT_7_r, LUT_7_t)
 

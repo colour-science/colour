@@ -72,15 +72,11 @@ class TestXYZ_to_UCS(unittest.TestCase):
 
         UCS = np.tile(UCS, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_allclose(
-            XYZ_to_UCS(XYZ), UCS, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(XYZ_to_UCS(XYZ), UCS, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         UCS = np.reshape(UCS, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_allclose(
-            XYZ_to_UCS(XYZ), UCS, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(XYZ_to_UCS(XYZ), UCS, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_XYZ_to_UCS(self):
         """
@@ -147,15 +143,11 @@ class TestUCS_to_XYZ(unittest.TestCase):
 
         UCS = np.tile(UCS, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_allclose(
-            UCS_to_XYZ(UCS), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(UCS_to_XYZ(UCS), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         UCS = np.reshape(UCS, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_allclose(
-            UCS_to_XYZ(UCS), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(UCS_to_XYZ(UCS), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_UCS_to_XYZ(self):
         """
@@ -222,15 +214,11 @@ class TestUCS_to_uv(unittest.TestCase):
 
         UCS = np.tile(UCS, (6, 1))
         uv = np.tile(uv, (6, 1))
-        np.testing.assert_allclose(
-            UCS_to_uv(UCS), uv, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(UCS_to_uv(UCS), uv, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         UCS = np.reshape(UCS, (2, 3, 3))
         uv = np.reshape(uv, (2, 3, 2))
-        np.testing.assert_allclose(
-            UCS_to_uv(UCS), uv, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(UCS_to_uv(UCS), uv, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_UCS_to_uv(self):
         """
@@ -301,15 +289,11 @@ class Testuv_to_UCS(unittest.TestCase):
 
         uv = np.tile(uv, (6, 1))
         UCS = np.tile(UCS, (6, 1))
-        np.testing.assert_allclose(
-            uv_to_UCS(uv), UCS, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(uv_to_UCS(uv), UCS, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         uv = np.reshape(uv, (2, 3, 2))
         UCS = np.reshape(UCS, (2, 3, 3))
-        np.testing.assert_allclose(
-            uv_to_UCS(uv), UCS, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(uv_to_UCS(uv), UCS, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_uv_to_UCS(self):
         """
@@ -377,15 +361,11 @@ class TestUCS_uv_to_xy(unittest.TestCase):
 
         uv = np.tile(uv, (6, 1))
         xy = np.tile(xy, (6, 1))
-        np.testing.assert_allclose(
-            UCS_uv_to_xy(uv), xy, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(UCS_uv_to_xy(uv), xy, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         uv = np.reshape(uv, (2, 3, 2))
         xy = np.reshape(xy, (2, 3, 2))
-        np.testing.assert_allclose(
-            UCS_uv_to_xy(uv), xy, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(UCS_uv_to_xy(uv), xy, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_UCS_uv_to_xy(self):
@@ -437,15 +417,11 @@ class TestXy_to_UCS_uv(unittest.TestCase):
 
         xy = np.tile(xy, (6, 1))
         uv = np.tile(uv, (6, 1))
-        np.testing.assert_allclose(
-            xy_to_UCS_uv(xy), uv, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(xy_to_UCS_uv(xy), uv, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         xy = np.reshape(xy, (2, 3, 2))
         uv = np.reshape(uv, (2, 3, 2))
-        np.testing.assert_allclose(
-            xy_to_UCS_uv(xy), uv, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(xy_to_UCS_uv(xy), uv, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_xy_to_UCS_uv(self):

@@ -43,9 +43,7 @@ class TestProcessImageOpenColorIO(unittest.TestCase):
 
         import PyOpenColorIO as ocio
 
-        config = os.path.join(
-            ROOT_RESOURCES, "config-aces-reference.ocio.yaml"
-        )
+        config = os.path.join(ROOT_RESOURCES, "config-aces-reference.ocio.yaml")
 
         a = full([4, 2, 3], 0.18)
 

@@ -64,9 +64,7 @@ class TestXYZ_to_Hunt(unittest.TestCase):
         L_A = 31.83
         np.testing.assert_allclose(
             XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w),
-            np.array(
-                [66.76, 63.89, 18.6, 153.36, 31.22, 58.28, np.nan, np.nan]
-            ),
+            np.array([66.76, 63.89, 18.6, 153.36, 31.22, 58.28, np.nan, np.nan]),
             atol=0.05,
         )
 
@@ -76,9 +74,7 @@ class TestXYZ_to_Hunt(unittest.TestCase):
         CCT_w = 2856
         np.testing.assert_allclose(
             XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w),
-            np.array(
-                [19.56, 74.58, 178.3, 245.4, 18.9, 76.33, np.nan, np.nan]
-            ),
+            np.array([19.56, 74.58, 178.3, 245.4, 18.9, 76.33, np.nan, np.nan]),
             atol=0.05,
         )
 
@@ -86,9 +82,7 @@ class TestXYZ_to_Hunt(unittest.TestCase):
         L_A = 31.83
         np.testing.assert_allclose(
             XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w),
-            np.array(
-                [40.27, 73.84, 262.8, 209.29, 22.15, 67.35, np.nan, np.nan]
-            ),
+            np.array([40.27, 73.84, 262.8, 209.29, 22.15, 67.35, np.nan, np.nan]),
             atol=0.05,
         )
 
@@ -104,9 +98,7 @@ class TestXYZ_to_Hunt(unittest.TestCase):
         L_A = 318.31
         surround = VIEWING_CONDITIONS_HUNT["Normal Scenes"]
         CCT_w = 6504.0
-        specification = XYZ_to_Hunt(
-            XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w
-        )
+        specification = XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)
 
         XYZ = np.tile(XYZ, (6, 1))
         specification = np.tile(specification, (6, 1))
@@ -146,9 +138,7 @@ class TestXYZ_to_Hunt(unittest.TestCase):
         L_A = 318.31
         surround = VIEWING_CONDITIONS_HUNT["Normal Scenes"]
         CCT_w = 6504.0
-        specification = XYZ_to_Hunt(
-            XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w
-        )
+        specification = XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)
 
         d_r = (
             ("reference", 1, 1),

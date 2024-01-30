@@ -125,10 +125,16 @@ def chromatic_adaptation(
     XYZ: ArrayLike,
     XYZ_w: ArrayLike,
     XYZ_wr: ArrayLike,
-    method: Literal[
-        "CIE 1994", "CMCCAT2000", "Fairchild 1990", "Zhai 2018", "Von Kries"
-    ]
-    | str = "Von Kries",
+    method: (
+        Literal[
+            "CIE 1994",
+            "CMCCAT2000",
+            "Fairchild 1990",
+            "Zhai 2018",
+            "Von Kries",
+        ]
+        | str
+    ) = "Von Kries",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
@@ -269,9 +275,7 @@ def chromatic_adaptation(
 
     >>> XYZ = np.array([0.1953, 0.2307, 0.2497])
     >>> Y_n = 200
-    >>> chromatic_adaptation(
-    ...     XYZ, XYZ_w, XYZ_wr, method="Fairchild 1990", Y_n=Y_n
-    ... )
+    >>> chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method="Fairchild 1990", Y_n=Y_n)
     ... # doctest: +ELLIPSIS
     array([ 0.2332526...,  0.2332455...,  0.7611593...])
 

@@ -64,9 +64,7 @@ MATRIX_XTREME_RGB_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
 )
 """*Xtreme RGB* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_XTREME_RGB: NDArrayFloat = np.linalg.inv(
-    MATRIX_XTREME_RGB_TO_XYZ
-)
+MATRIX_XYZ_TO_XTREME_RGB: NDArrayFloat = np.linalg.inv(MATRIX_XTREME_RGB_TO_XYZ)
 """*CIE XYZ* tristimulus values to *Xtreme RGB* colourspace matrix."""
 
 RGB_COLOURSPACE_XTREME_RGB: RGB_Colourspace = RGB_Colourspace(

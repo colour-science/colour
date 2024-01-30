@@ -267,9 +267,7 @@ def msds_constant(
     wavelengths = shape.wavelengths
     values = full((len(wavelengths), len(labels)), k)
 
-    return MultiSpectralDistributions(
-        values, wavelengths, labels=labels, **settings
-    )
+    return MultiSpectralDistributions(values, wavelengths, labels=labels, **settings)
 
 
 def msds_zeros(
@@ -551,9 +549,7 @@ def sd_gaussian(
 
     method = validate_method(method, tuple(SD_GAUSSIAN_METHODS))
 
-    return SD_GAUSSIAN_METHODS[method](
-        mu_peak_wavelength, sigma_fwhm, shape, **kwargs
-    )
+    return SD_GAUSSIAN_METHODS[method](mu_peak_wavelength, sigma_fwhm, shape, **kwargs)
 
 
 def sd_single_led_Ohno2005(
@@ -746,15 +742,11 @@ def sd_multi_leds_Ohno2005(
     """
 
     peak_wavelengths = as_float_array(peak_wavelengths)
-    half_spectral_widths = np.resize(
-        half_spectral_widths, peak_wavelengths.shape
-    )
+    half_spectral_widths = np.resize(half_spectral_widths, peak_wavelengths.shape)
     if peak_power_ratios is None:
         peak_power_ratios = ones(peak_wavelengths.shape)
     else:
-        peak_power_ratios = np.resize(
-            peak_power_ratios, peak_wavelengths.shape
-        )
+        peak_power_ratios = np.resize(peak_power_ratios, peak_wavelengths.shape)
 
     sd = sd_zeros(shape)
 
@@ -762,9 +754,7 @@ def sd_multi_leds_Ohno2005(
         peak_wavelengths, half_spectral_widths, peak_power_ratios
     ):
         sd += (
-            sd_single_led_Ohno2005(
-                peak_wavelength, half_spectral_width, **kwargs
-            )
+            sd_single_led_Ohno2005(peak_wavelength, half_spectral_width, **kwargs)
             * peak_power_ratio
         )
 

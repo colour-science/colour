@@ -54,9 +54,7 @@ class TestPlotMultiMunsellValueFunctions(unittest.TestCase):
 plot_multi_munsell_value_functions` definition.
         """
 
-        figure, axes = plot_multi_munsell_value_functions(
-            ["ASTM D1535", "McCamy 1987"]
-        )
+        figure, axes = plot_multi_munsell_value_functions(["ASTM D1535", "McCamy 1987"])
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

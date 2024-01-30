@@ -207,12 +207,12 @@ Aliases:
 -   'cie_2_1931': 'CIE 1931 2 Degree Standard Observer'
 -   'cie_10_1964': 'CIE 1964 10 Degree Standard Observer'
 """
-YELLOWNESS_COEFFICIENTS_ASTME313[
-    "cie_2_1931"
-] = YELLOWNESS_COEFFICIENTS_ASTME313["CIE 1931 2 Degree Standard Observer"]
-YELLOWNESS_COEFFICIENTS_ASTME313[
-    "cie_10_1964"
-] = YELLOWNESS_COEFFICIENTS_ASTME313["CIE 1964 10 Degree Standard Observer"]
+YELLOWNESS_COEFFICIENTS_ASTME313["cie_2_1931"] = YELLOWNESS_COEFFICIENTS_ASTME313[
+    "CIE 1931 2 Degree Standard Observer"
+]
+YELLOWNESS_COEFFICIENTS_ASTME313["cie_10_1964"] = YELLOWNESS_COEFFICIENTS_ASTME313[
+    "CIE 1964 10 Degree Standard Observer"
+]
 
 
 def yellowness_ASTME313(
@@ -295,8 +295,9 @@ References
 
 def yellowness(
     XYZ: ArrayLike,
-    method: Literal["ASTM D1925", "ASTM E313", "ASTM E313 Alternative"]
-    | str = "ASTM E313",
+    method: (
+        Literal["ASTM D1925", "ASTM E313", "ASTM E313 Alternative"] | str
+    ) = "ASTM E313",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """

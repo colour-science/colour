@@ -59,9 +59,7 @@ MATRIX_DISPLAY_P3_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
 )
 """*Display P3* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_DISPLAY_P3: NDArrayFloat = np.linalg.inv(
-    MATRIX_DISPLAY_P3_TO_XYZ
-)
+MATRIX_XYZ_TO_DISPLAY_P3: NDArrayFloat = np.linalg.inv(MATRIX_DISPLAY_P3_TO_XYZ)
 """*CIE XYZ* tristimulus values to *Display P3* colourspace matrix."""
 
 RGB_COLOURSPACE_DISPLAY_P3: RGB_Colourspace = RGB_Colourspace(

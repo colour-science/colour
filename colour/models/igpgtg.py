@@ -47,9 +47,7 @@ MATRIX_IGPGTG_XYZ_TO_LMS: NDArrayFloat = np.array(
 )
 """*CIE XYZ* tristimulus values to normalised cone responses matrix."""
 
-MATRIX_IGPGTG_LMS_TO_XYZ: NDArrayFloat = np.linalg.inv(
-    MATRIX_IGPGTG_XYZ_TO_LMS
-)
+MATRIX_IGPGTG_LMS_TO_XYZ: NDArrayFloat = np.linalg.inv(MATRIX_IGPGTG_XYZ_TO_LMS)
 """Normalised cone responses to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_IGPGTG_LMS_P_TO_IGPGTG: NDArrayFloat = np.array(

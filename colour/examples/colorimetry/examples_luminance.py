@@ -17,8 +17,7 @@ print("\n")
 
 L = 41.527875844653451
 message_box(
-    f'Computing "luminance" using "CIE 1976" method for given '
-    f'"Lightness":\n\n\t{L}'
+    f'Computing "luminance" using "CIE 1976" method for given "Lightness":\n\n\t{L}'
 )
 print(colour.luminance(L))
 print(colour.colorimetry.luminance_CIE1976(L))

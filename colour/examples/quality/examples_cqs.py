@@ -28,9 +28,7 @@ message_box(
     'Computing the "SDW-T 100W/LV Super HPS" lamp "Colour Quality Scale (CQS)".'
 )
 print(
-    colour.colour_quality_scale(
-        colour.SDS_LIGHT_SOURCES["SDW-T 100W/LV (Super HPS)"]
-    )
+    colour.colour_quality_scale(colour.SDS_LIGHT_SOURCES["SDW-T 100W/LV (Super HPS)"])
 )
 
 print("\n")
@@ -121,7 +119,5 @@ data_sample = {
 }
 
 print(
-    colour.colour_quality_scale(
-        colour.SpectralDistribution(data_sample, name="Sample")
-    )
+    colour.colour_quality_scale(colour.SpectralDistribution(data_sample, name="Sample"))
 )

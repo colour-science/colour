@@ -78,9 +78,7 @@ class TestConvert(unittest.TestCase):
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        RGB_b = convert(
-            Jpapbp, "CAM16UCS", "sRGB", verbose={"mode": "Extended"}
-        )
+        RGB_b = convert(Jpapbp, "CAM16UCS", "sRGB", verbose={"mode": "Extended"})
         # NOTE: The "CIE XYZ" tristimulus values to "sRGB" matrix is given
         # rounded at 4 decimals as per "IEC 61966-2-1:1999" and thus preventing
         # exact roundtrip.
@@ -139,13 +137,9 @@ class TestConvert(unittest.TestCase):
         """
 
         a = np.array([0.20654008, 0.12197225, 0.05136952])
-        illuminant = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-            "D50"
-        ]
+        illuminant = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D50"]
         np.testing.assert_allclose(
-            convert(
-                a, "CIE XYZ", "CIE UVW", XYZ_to_UVW={"illuminant": illuminant}
-            ),
+            convert(a, "CIE XYZ", "CIE UVW", XYZ_to_UVW={"illuminant": illuminant}),
             convert(a, "CIE XYZ", "CIE UVW", illuminant=illuminant),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

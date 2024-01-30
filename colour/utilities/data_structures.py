@@ -307,9 +307,7 @@ class CanonicalMapping(MutableMapping):
     1
     """
 
-    def __init__(
-        self, data: Generator | Mapping | None = None, **kwargs: Any
-    ) -> None:
+    def __init__(self, data: Generator | Mapping | None = None, **kwargs: Any) -> None:
         self._data: dict = {}
 
         self.update({} if data is None else data, **kwargs)
@@ -340,9 +338,9 @@ class CanonicalMapping(MutableMapping):
         """
 
         if is_documentation_building():  # pragma: no cover
-            representation = repr(
-                dict(zip(self.keys(), ["..."] * len(self)))
-            ).replace("'...'", "...")
+            representation = repr(dict(zip(self.keys(), ["..."] * len(self)))).replace(
+                "'...'", "..."
+            )
             return f"{self.__class__.__name__}({representation})"
         else:
             return f"{self.__class__.__name__}({dict(self.items())})"
@@ -392,9 +390,7 @@ class CanonicalMapping(MutableMapping):
             pass
 
         try:
-            return self[
-                dict(zip(self.lower_keys(), self.keys()))[str(item).lower()]
-            ]
+            return self[dict(zip(self.lower_keys(), self.keys()))[str(item).lower()]]
         except KeyError:
             pass
 
@@ -429,9 +425,7 @@ class CanonicalMapping(MutableMapping):
             pass
 
         try:
-            del self._data[
-                dict(zip(self.lower_keys(), self.keys()))[str(item).lower()]
-            ]
+            del self._data[dict(zip(self.lower_keys(), self.keys()))[str(item).lower()]]
             return
         except KeyError:
             pass
@@ -567,9 +561,7 @@ class CanonicalMapping(MutableMapping):
 
         from colour.utilities import usage_warning
 
-        collisions = [
-            key for (key, value) in Counter(keys).items() if value > 1
-        ]
+        collisions = [key for (key, value) in Counter(keys).items() if value > 1]
 
         if collisions:
             usage_warning(f"{list(set(keys))} key(s) collide(s)!")
@@ -620,9 +612,7 @@ class CanonicalMapping(MutableMapping):
             Item generator.
         """
 
-        yield from (
-            (str(key).lower(), value) for (key, value) in self._data.items()
-        )
+        yield from ((str(key).lower(), value) for (key, value) in self._data.items())
 
     def slugified_keys(self) -> Generator:
         """
@@ -667,9 +657,7 @@ class CanonicalMapping(MutableMapping):
             Item generator.
         """
 
-        canonical_keys = [
-            re.sub("-|_", "", key) for key in self.slugified_keys()
-        ]
+        canonical_keys = [re.sub("-|_", "", key) for key in self.slugified_keys()]
 
         self._collision_warning(canonical_keys)
 
@@ -718,7 +706,6 @@ class LazyCanonicalMapping(CanonicalMapping):
     >>> def callable_a():
     ...     print(2)
     ...     return 2
-    ...
     >>> methods = LazyCanonicalMapping({"McCamy": 1, "Hernandez": callable_a})
     >>> methods["mccamy"]
     1
@@ -962,7 +949,7 @@ class Node:
         self._children = value
 
     @property
-    def id(self) -> int:  # noqa: A003
+    def id(self) -> int:
         """
         Getter property for the node id.
 
@@ -1020,11 +1007,7 @@ class Node:
         if self.parent is None:
             return (sibling for sibling in ())
         else:
-            return (
-                sibling
-                for sibling in self.parent.children
-                if sibling is not self
-            )
+            return (sibling for sibling in self.parent.children if sibling is not self)
 
     @property
     def data(self) -> Any:
@@ -1162,7 +1145,6 @@ class Node:
         >>> node_h = Node("Node H", node_g)
         >>> for node in node_a.walk():
         ...     print(node.name)
-        ...
         Node B
         Node D
         Node F

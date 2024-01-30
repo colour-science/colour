@@ -113,9 +113,7 @@ eotf_inverse_ST2084` definition domain and range scale support.
 eotf_inverse_ST2084` definition nan support.
         """
 
-        eotf_inverse_ST2084(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        eotf_inverse_ST2084(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestEotf_ST2084(unittest.TestCase):
@@ -130,9 +128,7 @@ class TestEotf_ST2084(unittest.TestCase):
 eotf_ST2084` definition.
         """
 
-        np.testing.assert_allclose(
-            eotf_ST2084(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(eotf_ST2084(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         np.testing.assert_allclose(
             eotf_ST2084(0.508078421517399), 100, atol=TOLERANCE_ABSOLUTE_TESTS
@@ -157,21 +153,15 @@ eotf_ST2084` definition n-dimensional arrays support.
 
         N = np.tile(N, 6)
         C = np.tile(C, 6)
-        np.testing.assert_allclose(
-            eotf_ST2084(N), C, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(eotf_ST2084(N), C, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         N = np.reshape(N, (2, 3))
         C = np.reshape(C, (2, 3))
-        np.testing.assert_allclose(
-            eotf_ST2084(N), C, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(eotf_ST2084(N), C, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         N = np.reshape(N, (2, 3, 1))
         C = np.reshape(C, (2, 3, 1))
-        np.testing.assert_allclose(
-            eotf_ST2084(N), C, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(eotf_ST2084(N), C, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_eotf_ST2084(self):
         """

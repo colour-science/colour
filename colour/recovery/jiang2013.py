@@ -246,9 +246,7 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
     shape = optional(shape, illuminant.shape)
 
     if illuminant.shape != shape:
-        runtime_warning(
-            f'Aligning "{illuminant.name}" illuminant shape to "{shape}".'
-        )
+        runtime_warning(f'Aligning "{illuminant.name}" illuminant shape to "{shape}".')
         illuminant = reshape_sd(illuminant, shape, copy=False)
 
     if reflectances.shape != shape:
@@ -376,9 +374,7 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
     R_w, G_w, B_w = tsplit(np.moveaxis(basis_functions, 0, 1))
 
     if illuminant.shape != shape:
-        runtime_warning(
-            f'Aligning "{illuminant.name}" illuminant shape to "{shape}".'
-        )
+        runtime_warning(f'Aligning "{illuminant.name}" illuminant shape to "{shape}".')
         illuminant = reshape_sd(illuminant, shape, copy=False)
 
     if reflectances.shape != shape:

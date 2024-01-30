@@ -909,9 +909,7 @@ kernel_kwargs` property.
 
         x = y = np.linspace(0, 1, 10)
         kernel_kwargs = {"a": 1}
-        kernel_interpolator = KernelInterpolator(
-            x, y, kernel_kwargs=kernel_kwargs
-        )
+        kernel_interpolator = KernelInterpolator(x, y, kernel_kwargs=kernel_kwargs)
 
         self.assertDictEqual(kernel_interpolator.kernel_kwargs, kernel_kwargs)
 
@@ -923,13 +921,9 @@ padding_kwargs` property.
 
         x = y = np.linspace(0, 1, 10)
         padding_kwargs = {"pad_width": (3, 3), "mode": "mean"}
-        kernel_interpolator = KernelInterpolator(
-            x, y, padding_kwargs=padding_kwargs
-        )
+        kernel_interpolator = KernelInterpolator(x, y, padding_kwargs=padding_kwargs)
 
-        self.assertDictEqual(
-            kernel_interpolator.padding_kwargs, padding_kwargs
-        )
+        self.assertDictEqual(kernel_interpolator.padding_kwargs, padding_kwargs)
 
     def test_raise_exception___init__(self):
         """
@@ -1059,9 +1053,7 @@ padding_kwargs` property.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        kernel_interpolator = KernelInterpolator(
-            x, y, window=1, kernel_kwargs={"a": 1}
-        )
+        kernel_interpolator = KernelInterpolator(x, y, window=1, kernel_kwargs={"a": 1})
         np.testing.assert_allclose(
             kernel_interpolator(x_i),
             np.array(

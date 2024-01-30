@@ -139,44 +139,44 @@ COLOURSPACE_MODELS_AXIS_LABELS: CanonicalMapping = CanonicalMapping(
 
 attest(tuple(COLOURSPACE_MODELS_AXIS_LABELS.keys()) == COLOURSPACE_MODELS)
 
-COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE: (
-    CanonicalMapping
-) = CanonicalMapping(
-    {
-        "CAM02LCD": np.array([100, 100, 100]),
-        "CAM02SCD": np.array([100, 100, 100]),
-        "CAM02UCS": np.array([100, 100, 100]),
-        "CAM16LCD": np.array([100, 100, 100]),
-        "CAM16SCD": np.array([100, 100, 100]),
-        "CAM16UCS": np.array([100, 100, 100]),
-        "CIE Lab": np.array([100, 100, 100]),
-        "CIE Luv": np.array([100, 100, 100]),
-        "CIE UCS": np.array([1, 1, 1]),
-        "CIE UVW": np.array([100, 100, 100]),
-        "CIE XYZ": np.array([1, 1, 1]),
-        "CIE xyY": np.array([1, 1, 1]),
-        "DIN99": np.array([100, 100, 100]),
-        "HCL": np.array([1, 1, 1]),
-        "HSL": np.array([1, 1, 1]),
-        "HSV": np.array([1, 1, 1]),
-        "Hunter Lab": np.array([100, 100, 100]),
-        "Hunter Rdab": np.array([100, 100, 100]),
-        "ICaCb": np.array([1, 1, 1]),
-        "ICtCp": np.array([1, 1, 1]),
-        "IHLS": np.array([1, 1, 1]),
-        "IPT Ragoo 2021": np.array([1, 1, 1]),
-        "IPT": np.array([1, 1, 1]),
-        "IgPgTg": np.array([1, 1, 1]),
-        "Jzazbz": np.array([1, 1, 1]),
-        "OSA UCS": np.array([100, 100, 100]),
-        "Oklab": np.array([1, 1, 1]),
-        "RGB": np.array([1, 1, 1]),
-        "YCbCr": np.array([1, 1, 1]),
-        "YCoCg": np.array([1, 1, 1]),
-        "Yrg": np.array([1, 1, 1]),
-        "hdr-CIELAB": np.array([100, 100, 100]),
-        "hdr-IPT": np.array([100, 100, 100]),
-    }
+COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE: CanonicalMapping = (
+    CanonicalMapping(
+        {
+            "CAM02LCD": np.array([100, 100, 100]),
+            "CAM02SCD": np.array([100, 100, 100]),
+            "CAM02UCS": np.array([100, 100, 100]),
+            "CAM16LCD": np.array([100, 100, 100]),
+            "CAM16SCD": np.array([100, 100, 100]),
+            "CAM16UCS": np.array([100, 100, 100]),
+            "CIE Lab": np.array([100, 100, 100]),
+            "CIE Luv": np.array([100, 100, 100]),
+            "CIE UCS": np.array([1, 1, 1]),
+            "CIE UVW": np.array([100, 100, 100]),
+            "CIE XYZ": np.array([1, 1, 1]),
+            "CIE xyY": np.array([1, 1, 1]),
+            "DIN99": np.array([100, 100, 100]),
+            "HCL": np.array([1, 1, 1]),
+            "HSL": np.array([1, 1, 1]),
+            "HSV": np.array([1, 1, 1]),
+            "Hunter Lab": np.array([100, 100, 100]),
+            "Hunter Rdab": np.array([100, 100, 100]),
+            "ICaCb": np.array([1, 1, 1]),
+            "ICtCp": np.array([1, 1, 1]),
+            "IHLS": np.array([1, 1, 1]),
+            "IPT Ragoo 2021": np.array([1, 1, 1]),
+            "IPT": np.array([1, 1, 1]),
+            "IgPgTg": np.array([1, 1, 1]),
+            "Jzazbz": np.array([1, 1, 1]),
+            "OSA UCS": np.array([100, 100, 100]),
+            "Oklab": np.array([1, 1, 1]),
+            "RGB": np.array([1, 1, 1]),
+            "YCbCr": np.array([1, 1, 1]),
+            "YCoCg": np.array([1, 1, 1]),
+            "Yrg": np.array([1, 1, 1]),
+            "hdr-CIELAB": np.array([100, 100, 100]),
+            "hdr-IPT": np.array([100, 100, 100]),
+        }
+    )
 )
 """Colourspace models domain-range scale **'1'** to **'Reference'** mapping."""
 
@@ -299,9 +299,7 @@ def JCh_to_Jab(JCh: ArrayLike) -> NDArrayFloat:
 
     L, C, H = tsplit(JCh)
 
-    a, b = tsplit(
-        polar_to_cartesian(tstack([C, np.radians(to_domain_degrees(H))]))
-    )
+    a, b = tsplit(polar_to_cartesian(tstack([C, np.radians(to_domain_degrees(H))])))
 
     Jab = tstack([L, a, b])
 

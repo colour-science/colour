@@ -218,7 +218,7 @@ arithmetical_operation`
 
     @property
     @abstractmethod
-    def range(self) -> NDArrayFloat:  # noqa: A003
+    def range(self) -> NDArrayFloat:
         """
         Getter and setter property for the abstract continuous function
         corresponding range variable :math:`y`, must be reimplemented by
@@ -241,7 +241,7 @@ arithmetical_operation`
 
     @range.setter
     @abstractmethod
-    def range(self, value: ArrayLike):  # noqa: A003
+    def range(self, value: ArrayLike):
         """
         Setter for the **self.range** property, must be reimplemented by
         sub-classes.

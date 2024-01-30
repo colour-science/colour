@@ -59,15 +59,11 @@ class TestXYZ_to_IPT(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         IPT = np.tile(IPT, (6, 1))
-        np.testing.assert_allclose(
-            XYZ_to_IPT(XYZ), IPT, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(XYZ_to_IPT(XYZ), IPT, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         IPT = np.reshape(IPT, (2, 3, 3))
-        np.testing.assert_allclose(
-            XYZ_to_IPT(XYZ), IPT, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(XYZ_to_IPT(XYZ), IPT, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_XYZ_to_IPT(self):
         """
@@ -134,15 +130,11 @@ class TestIPT_to_XYZ(unittest.TestCase):
 
         IPT = np.tile(IPT, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_allclose(
-            IPT_to_XYZ(IPT), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(IPT_to_XYZ(IPT), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         IPT = np.reshape(IPT, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_allclose(
-            IPT_to_XYZ(IPT), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(IPT_to_XYZ(IPT), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_IPT_to_XYZ(self):
         """

@@ -273,8 +273,10 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
         representation = super().__str__()
 
         return representation.replace(
-            "IES TM-27-14 Spectral Distribution\n"
-            "==================================",
+            (
+                "IES TM-27-14 Spectral Distribution\n"
+                "=================================="
+            ),
             "UPRTek\n======",
         )
 
@@ -397,9 +399,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
                     if wavelength == self._SPECTRAL_SECTION:
                         spectral_section += 1
 
-                    spectral_sections[spectral_section].append(
-                        [wavelength, value]
-                    )
+                    spectral_sections[spectral_section].append([wavelength, value])
                 else:
                     for method in (int, float, as_array):
                         try:
@@ -453,9 +453,7 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
     >>> from os.path import dirname, join
     >>> from colour import SpectralShape
     >>> directory = join(dirname(__file__), "tests", "resources")
-    >>> sd = SpectralDistribution_Sekonic(
-    ...     join(directory, "RANDOM_001_02._3262K.csv")
-    ... )
+    >>> sd = SpectralDistribution_Sekonic(join(directory, "RANDOM_001_02._3262K.csv"))
     >>> print(sd.read().align(SpectralShape(380, 780, 10)))
     ... # doctest: +ELLIPSIS
     Sekonic

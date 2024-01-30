@@ -127,9 +127,7 @@ log_encoding_REDLog` definition domain and range scale support.
 log_encoding_REDLog` definition nan support.
         """
 
-        log_encoding_REDLog(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_REDLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLogDecoding_REDLog(unittest.TestCase):
@@ -210,9 +208,7 @@ log_decoding_REDLog` definition domain and range scale support.
 log_decoding_REDLog` definition nan support.
         """
 
-        log_decoding_REDLog(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_decoding_REDLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLogEncoding_REDLogFilm(unittest.TestCase):
@@ -297,9 +293,7 @@ log_encoding_REDLogFilm` definition domain and range scale support.
 log_encoding_REDLogFilm` definition nan support.
         """
 
-        log_encoding_REDLogFilm(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_REDLogFilm(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLogDecoding_REDLogFilm(unittest.TestCase):
@@ -384,9 +378,7 @@ log_decoding_REDLogFilm` definition domain and range scale support.
 log_decoding_REDLogFilm` definition nan support.
         """
 
-        log_decoding_REDLogFilm(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_decoding_REDLogFilm(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLogEncoding_Log3G10_v1(unittest.TestCase):
@@ -469,9 +461,7 @@ log_encoding_Log3G10_v1` definition domain and range scale support.
 log_encoding_Log3G10_v1` definition nan support.
         """
 
-        log_encoding_Log3G10_v1(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_Log3G10_v1(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLogDecoding_Log3G10_v1(unittest.TestCase):
@@ -554,9 +544,7 @@ log_decoding_Log3G10_v1` definition domain and range scale support.
 log_decoding_Log3G10_v1` definition nan support.
         """
 
-        log_decoding_Log3G10_v1(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_decoding_Log3G10_v1(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLogEncoding_Log3G10_v2(unittest.TestCase):
@@ -641,9 +629,7 @@ log_encoding_Log3G10_v2` definition domain and range scale support.
 log_encoding_Log3G10_v2` definition nan support.
         """
 
-        log_encoding_Log3G10_v2(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_Log3G10_v2(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLogDecoding_Log3G10_v2(unittest.TestCase):
@@ -728,9 +714,7 @@ log_decoding_Log3G10_v2` definition domain and range scale support.
 log_decoding_Log3G10_v2` definition nan support.
         """
 
-        log_decoding_Log3G10_v2(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_decoding_Log3G10_v2(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLogEncoding_Log3G10_v3(unittest.TestCase):
@@ -815,9 +799,7 @@ log_encoding_Log3G10_v3` definition domain and range scale support.
 log_encoding_Log3G10_v3` definition nan support.
         """
 
-        log_encoding_Log3G10_v3(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_Log3G10_v3(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLogDecoding_Log3G10_v3(unittest.TestCase):
@@ -902,9 +884,7 @@ log_decoding_Log3G10_v3` definition domain and range scale support.
 log_decoding_Log3G10_v3` definition nan support.
         """
 
-        log_decoding_Log3G10_v3(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_decoding_Log3G10_v3(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLogEncoding_Log3G12(unittest.TestCase):
@@ -993,9 +973,7 @@ log_encoding_Log3G12` definition domain and range scale support.
 log_encoding_Log3G12` definition nan support.
         """
 
-        log_encoding_Log3G12(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_Log3G12(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLogDecoding_Log3G12(unittest.TestCase):
@@ -1084,9 +1062,7 @@ log_decoding_Log3G12` definition domain and range scale support.
 log_decoding_Log3G12` definition nan support.
         """
 
-        log_decoding_Log3G12(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_decoding_Log3G12(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 if __name__ == "__main__":

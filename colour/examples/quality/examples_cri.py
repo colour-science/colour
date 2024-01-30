@@ -17,16 +17,12 @@ message_box(
     "detailed output data."
 )
 pprint(
-    colour.colour_rendering_index(
-        colour.SDS_ILLUMINANTS["FL2"], additional_data=True
-    )
+    colour.colour_rendering_index(colour.SDS_ILLUMINANTS["FL2"], additional_data=True)
 )
 
 print("\n")
 
-message_box(
-    'Computing the "CIE Standard Illuminant A" "Colour Rendering Index (CRI)".'
-)
+message_box('Computing the "CIE Standard Illuminant A" "Colour Rendering Index (CRI)".')
 print(colour.colour_rendering_index(colour.SDS_ILLUMINANTS["A"]))
 
 print("\n")

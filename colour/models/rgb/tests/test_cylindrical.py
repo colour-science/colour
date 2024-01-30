@@ -78,15 +78,11 @@ class TestRGB_to_HSV(unittest.TestCase):
 
         RGB = np.tile(RGB, (6, 1))
         HSV = np.tile(HSV, (6, 1))
-        np.testing.assert_allclose(
-            RGB_to_HSV(RGB), HSV, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(RGB_to_HSV(RGB), HSV, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         RGB = np.reshape(RGB, (2, 3, 3))
         HSV = np.reshape(HSV, (2, 3, 3))
-        np.testing.assert_allclose(
-            RGB_to_HSV(RGB), HSV, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(RGB_to_HSV(RGB), HSV, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_RGB_to_HSV(self):
         """
@@ -162,15 +158,11 @@ class TestHSV_to_RGB(unittest.TestCase):
 
         HSV = np.tile(HSV, (6, 1))
         RGB = np.tile(RGB, (6, 1))
-        np.testing.assert_allclose(
-            HSV_to_RGB(HSV), RGB, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(HSV_to_RGB(HSV), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         HSV = np.reshape(HSV, (2, 3, 3))
         RGB = np.reshape(RGB, (2, 3, 3))
-        np.testing.assert_allclose(
-            HSV_to_RGB(HSV), RGB, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(HSV_to_RGB(HSV), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_HSV_to_RGB(self):
         """
@@ -246,15 +238,11 @@ class TestRGB_to_HSL(unittest.TestCase):
 
         RGB = np.tile(RGB, (6, 1))
         HSL = np.tile(HSL, (6, 1))
-        np.testing.assert_allclose(
-            RGB_to_HSL(RGB), HSL, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(RGB_to_HSL(RGB), HSL, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         RGB = np.reshape(RGB, (2, 3, 3))
         HSL = np.reshape(HSL, (2, 3, 3))
-        np.testing.assert_allclose(
-            RGB_to_HSL(RGB), HSL, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(RGB_to_HSL(RGB), HSL, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_RGB_to_HSL(self):
         """
@@ -330,15 +318,11 @@ class TestHSL_to_RGB(unittest.TestCase):
 
         HSL = np.tile(HSL, (6, 1))
         RGB = np.tile(RGB, (6, 1))
-        np.testing.assert_allclose(
-            HSL_to_RGB(HSL), RGB, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(HSL_to_RGB(HSL), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         HSL = np.reshape(HSL, (2, 3, 3))
         RGB = np.reshape(RGB, (2, 3, 3))
-        np.testing.assert_allclose(
-            HSL_to_RGB(HSL), RGB, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(HSL_to_RGB(HSL), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_HSL_to_RGB(self):
         """
@@ -414,15 +398,11 @@ class TestRGB_to_HCL(unittest.TestCase):
 
         RGB = np.tile(RGB, (6, 1))
         HCL = np.tile(HCL, (6, 1))
-        np.testing.assert_allclose(
-            RGB_to_HCL(RGB), HCL, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(RGB_to_HCL(RGB), HCL, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         RGB = np.reshape(RGB, (2, 3, 3))
         HCL = np.reshape(HCL, (2, 3, 3))
-        np.testing.assert_allclose(
-            RGB_to_HCL(RGB), HCL, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(RGB_to_HCL(RGB), HCL, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_RGB_to_HCL(self):
         """
@@ -498,15 +478,11 @@ class TestHCL_to_RGB(unittest.TestCase):
 
         HCL = np.tile(HCL, (6, 1))
         RGB = np.tile(RGB, (6, 1))
-        np.testing.assert_allclose(
-            HCL_to_RGB(HCL), RGB, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(HCL_to_RGB(HCL), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         HCL = np.reshape(HCL, (2, 3, 3))
         RGB = np.reshape(RGB, (2, 3, 3))
-        np.testing.assert_allclose(
-            HCL_to_RGB(HCL), RGB, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(HCL_to_RGB(HCL), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_HCL_to_RGB(self):
         """

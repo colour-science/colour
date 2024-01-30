@@ -41,13 +41,9 @@ class TestCV_range(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_array_equal(
-            CV_range(8, True, True), np.array([16, 235])
-        )
+        np.testing.assert_array_equal(CV_range(8, True, True), np.array([16, 235]))
 
-        np.testing.assert_array_equal(
-            CV_range(8, False, True), np.array([0, 255])
-        )
+        np.testing.assert_array_equal(CV_range(8, False, True), np.array([0, 255]))
 
         np.testing.assert_allclose(
             CV_range(8, True, False),
@@ -55,17 +51,11 @@ class TestCV_range(unittest.TestCase):
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_equal(
-            CV_range(8, False, False), np.array([0, 1])
-        )
+        np.testing.assert_array_equal(CV_range(8, False, False), np.array([0, 1]))
 
-        np.testing.assert_array_equal(
-            CV_range(10, True, True), np.array([64, 940])
-        )
+        np.testing.assert_array_equal(CV_range(10, True, True), np.array([64, 940]))
 
-        np.testing.assert_array_equal(
-            CV_range(10, False, True), np.array([0, 1023])
-        )
+        np.testing.assert_array_equal(CV_range(10, False, True), np.array([0, 1023]))
 
         np.testing.assert_allclose(
             CV_range(10, True, False),
@@ -73,9 +63,7 @@ class TestCV_range(unittest.TestCase):
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_equal(
-            CV_range(10, False, False), np.array([0, 1])
-        )
+        np.testing.assert_array_equal(CV_range(10, False, False), np.array([0, 1]))
 
 
 class TestLegalToFull(unittest.TestCase):
@@ -96,21 +84,15 @@ class TestLegalToFull(unittest.TestCase):
 
         np.testing.assert_allclose(legal_to_full(64 / 1023, out_int=True), 0)
 
-        np.testing.assert_allclose(
-            legal_to_full(940 / 1023, out_int=True), 1023
-        )
+        np.testing.assert_allclose(legal_to_full(940 / 1023, out_int=True), 1023)
 
         np.testing.assert_allclose(legal_to_full(64, in_int=True), 0.0)
 
         np.testing.assert_allclose(legal_to_full(940, in_int=True), 1.0)
 
-        np.testing.assert_allclose(
-            legal_to_full(64, in_int=True, out_int=True), 0
-        )
+        np.testing.assert_allclose(legal_to_full(64, in_int=True, out_int=True), 0)
 
-        np.testing.assert_allclose(
-            legal_to_full(940, in_int=True, out_int=True), 1023
-        )
+        np.testing.assert_allclose(legal_to_full(940, in_int=True, out_int=True), 1023)
 
     def test_n_dimensional_legal_to_full(self):
         """
@@ -169,21 +151,13 @@ class TestFullToLegal(unittest.TestCase):
 
         np.testing.assert_allclose(full_to_legal(1.0, out_int=True), 940)
 
-        np.testing.assert_allclose(
-            full_to_legal(0, in_int=True), 0.062561094819159
-        )
+        np.testing.assert_allclose(full_to_legal(0, in_int=True), 0.062561094819159)
 
-        np.testing.assert_allclose(
-            full_to_legal(1023, in_int=True), 0.918866080156403
-        )
+        np.testing.assert_allclose(full_to_legal(1023, in_int=True), 0.918866080156403)
 
-        np.testing.assert_allclose(
-            full_to_legal(0, in_int=True, out_int=True), 64
-        )
+        np.testing.assert_allclose(full_to_legal(0, in_int=True, out_int=True), 64)
 
-        np.testing.assert_allclose(
-            full_to_legal(1023, in_int=True, out_int=True), 940
-        )
+        np.testing.assert_allclose(full_to_legal(1023, in_int=True, out_int=True), 940)
 
     def test_n_dimensional_full_to_legal(self):
         """

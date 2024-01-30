@@ -120,16 +120,12 @@ class TestIntersectLineSegments(unittest.TestCase):
 
         np.testing.assert_array_equal(
             s.parallel,
-            np.array(
-                [[False, False, False, False], [False, False, False, True]]
-            ),
+            np.array([[False, False, False, False], [False, False, False, True]]),
         )
 
         np.testing.assert_array_equal(
             s.coincident,
-            np.array(
-                [[False, False, False, False], [False, False, False, True]]
-            ),
+            np.array([[False, False, False, False], [False, False, False, True]]),
         )
 
 

@@ -226,7 +226,6 @@ def _reserved(*args: Any):  # noqa: ARG001
     ...     _reserved()
     ... except RuntimeError:
     ...     pass
-    ...
     """
 
     raise RuntimeError("Reserved; For future use by ITU-T | ISO/IEC.")
@@ -242,7 +241,6 @@ def _unspecified(*args: Any):  # noqa: ARG001
     ...     _unspecified()
     ... except RuntimeError:
     ...     pass
-    ...
     """
 
     raise RuntimeError(
@@ -411,18 +409,14 @@ TRANSFER_CHARACTERISTICS_ITUTH273: Dict[int, Callable] = {
     3: _reserved,
     # For future use by ITU-T | ISO/IEC.
     #
-    4: _clipped_domain_function(
-        functools.partial(gamma_function, exponent=1 / 2.2)
-    ),
+    4: _clipped_domain_function(functools.partial(gamma_function, exponent=1 / 2.2)),
     # Assumed display gamma 2.2 Rec. ITU-R BT.470-6 System M (historical)
     # United States National Television System Committee 1953 Recommendation
     # for transmission standards for color television United States Federal
     # Communications Commission (2003) Title 47 Code of Federal Regulations
     # 73.682 (a) (20) Rec. ITU-R BT.1700-0 625 PAL and 625 SECAM.
     #
-    5: _clipped_domain_function(
-        functools.partial(gamma_function, exponent=1 / 2.8)
-    ),
+    5: _clipped_domain_function(functools.partial(gamma_function, exponent=1 / 2.8)),
     # 5: Assumed display gamma 2.8 Rec. ITU-R BT.470-6 System B, G (historical).
     #
     6: _clipped_domain_function(oetf_BT601),
@@ -480,9 +474,7 @@ TRANSFER_CHARACTERISTICS_ITUTH273: Dict[int, Callable] = {
     #
 }
 if is_documentation_building():  # pragma: no cover
-    TRANSFER_CHARACTERISTICS_ITUTH273 = DocstringDict(
-        TRANSFER_CHARACTERISTICS_ITUTH273
-    )
+    TRANSFER_CHARACTERISTICS_ITUTH273 = DocstringDict(TRANSFER_CHARACTERISTICS_ITUTH273)
     TRANSFER_CHARACTERISTICS_ITUTH273.__doc__ = """
 *TransferCharacteristics*, as specified in Table 3 of
 :cite:`InternationalOrganizationforStandardization2021` and
@@ -1091,9 +1083,7 @@ def describe_video_signal_transfer_characteristics(
 
     Examples
     --------
-    >>> description = describe_video_signal_transfer_characteristics(
-    ...     1, width=75
-    ... )
+    >>> description = describe_video_signal_transfer_characteristics(1, width=75)
     ... # doctest: +ELLIPSIS
     ===========================================================================
     *                                                                         *
@@ -1104,9 +1094,7 @@ def describe_video_signal_transfer_characteristics(
     *   FFmpeg Constants : ['AVCOL_TRC_BT709', 'BT709']                       *
     *                                                                         *
     ===========================================================================
-    >>> description = describe_video_signal_transfer_characteristics(
-    ...     2, width=75
-    ... )
+    >>> description = describe_video_signal_transfer_characteristics(2, width=75)
     ... # doctest: +ELLIPSIS
     ===========================================================================
     *                                                                         *
@@ -1142,9 +1130,7 @@ def describe_video_signal_transfer_characteristics(
         function: Callable
         ffmpeg_constants: list
 
-    members = (
-        FFmpegConstantsTransferCharacteristics_ITUTH273.__members__.items()
-    )
+    members = FFmpegConstantsTransferCharacteristics_ITUTH273.__members__.items()
     ffmpeg_constants = [
         name
         for name, member in members

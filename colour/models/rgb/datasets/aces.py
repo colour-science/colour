@@ -139,9 +139,7 @@ MATRIX_XYZ_TO_AP0: NDArrayFloat = np.array(
 )
 """*CIE XYZ* tristimulus values to *ACES Primaries 0* matrix."""
 
-MATRIX_AP1_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
-    AP1, CCS_WHITEPOINT_ACES
-)
+MATRIX_AP1_TO_XYZ: NDArrayFloat = normalised_primary_matrix(AP1, CCS_WHITEPOINT_ACES)
 """*ACES Primaries 1* to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_AP1: NDArrayFloat = np.linalg.inv(MATRIX_AP1_TO_XYZ)

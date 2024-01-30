@@ -188,8 +188,7 @@ def log_encoding_ACESproxy(
     ACESproxy = np.where(
         lin_AP1 > 2**-9.72,
         float_2_cv(
-            (np.log2(lin_AP1) + mid_log_offset) * steps_per_stop
-            + mid_CV_offset
+            (np.log2(lin_AP1) + mid_log_offset) * steps_per_stop + mid_CV_offset
         ),
         np.resize(CV_min, lin_AP1.shape),
     )
@@ -271,9 +270,7 @@ def log_decoding_ACESproxy(
     if not in_int:
         ACESproxy = ACESproxy * (2**bit_depth - 1)
 
-    lin_AP1 = 2 ** (
-        (ACESproxy - mid_CV_offset) / steps_per_stop - mid_log_offset
-    )
+    lin_AP1 = 2 ** ((ACESproxy - mid_CV_offset) / steps_per_stop - mid_log_offset)
 
     return as_float(from_range_1(lin_AP1))
 

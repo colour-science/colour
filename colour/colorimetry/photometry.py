@@ -75,9 +75,7 @@ def luminous_flux(
     23807.6555273...
     """
 
-    lef = optional(
-        lef, SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"]
-    )
+    lef = optional(lef, SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"])
 
     lef = reshape_sd(
         lef,
@@ -123,9 +121,7 @@ def luminous_efficiency(
     0.1994393...
     """
 
-    lef = optional(
-        lef, SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"]
-    )
+    lef = optional(lef, SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"])
 
     lef = reshape_sd(
         lef,

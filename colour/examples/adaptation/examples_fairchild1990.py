@@ -20,13 +20,9 @@ message_box(
     f'\t"Y_n": {Y_n}'
 )
 print(
-    colour.chromatic_adaptation(
-        XYZ_1, XYZ_n, XYZ_r, method="Fairchild 1990", Y_n=Y_n
-    )
+    colour.chromatic_adaptation(XYZ_1, XYZ_n, XYZ_r, method="Fairchild 1990", Y_n=Y_n)
 )
 print(
-    colour.adaptation.chromatic_adaptation_Fairchild1990(
-        XYZ_1 * 100, XYZ_n, XYZ_r, Y_n
-    )
+    colour.adaptation.chromatic_adaptation_Fairchild1990(XYZ_1 * 100, XYZ_n, XYZ_r, Y_n)
     / 100
 )

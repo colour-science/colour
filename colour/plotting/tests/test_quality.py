@@ -113,9 +113,7 @@ plot_single_sd_colour_quality_scale_bars` definition unit tests methods.
 plot_single_sd_colour_quality_scale_bars` definition.
         """
 
-        figure, axes = plot_single_sd_colour_quality_scale_bars(
-            SDS_ILLUMINANTS["FL2"]
-        )
+        figure, axes = plot_single_sd_colour_quality_scale_bars(SDS_ILLUMINANTS["FL2"])
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

@@ -410,11 +410,7 @@ def log_encoding_Log3G10_v2(x: ArrayLike) -> NDArrayFloat:
 
     x = to_domain_1(x)
 
-    y = (
-        np.sign(x + 0.01)
-        * 0.224282
-        * np.log10((np.abs(x + 0.01) * 155.975327) + 1)
-    )
+    y = np.sign(x + 0.01) * 0.224282 * np.log10((np.abs(x + 0.01) * 155.975327) + 1)
 
     return as_float(from_range_1(y))
 
@@ -513,9 +509,7 @@ def log_encoding_Log3G10_v3(x: ArrayLike) -> NDArrayFloat:
 
     x = x + c
 
-    y = np.where(
-        x < 0.0, x * g, np.sign(x) * a * np.log10((np.abs(x) * b) + 1.0)
-    )
+    y = np.where(x < 0.0, x * g, np.sign(x) * a * np.log10((np.abs(x) * b) + 1.0))
 
     return as_float(from_range_1(y))
 

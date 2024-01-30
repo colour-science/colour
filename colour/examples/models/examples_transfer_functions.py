@@ -33,9 +33,7 @@ print(colour.models.log_encoding_Cineon(C))
 print("\n")
 
 N = 0.45731961
-message_box(
-    f'Decoding to linear-light using given "Cineon" code value:\n\n\t{N}'
-)
+message_box(f'Decoding to linear-light using given "Cineon" code value:\n\n\t{N}')
 print(colour.log_decoding(N, function="Cineon"))
 print(colour.models.log_decoding_Cineon(N))
 
@@ -48,9 +46,7 @@ print(colour.models.log_encoding_PivotedLog(C))
 print("\n")
 
 N = 0.43499511
-message_box(
-    f'Decoding to linear-light value using given "PLog" code value:\n\n\t{N}'
-)
+message_box(f'Decoding to linear-light value using given "PLog" code value:\n\n\t{N}')
 print(colour.log_decoding(N, function="PLog"))
 print(colour.models.log_decoding_PivotedLog(N))
 

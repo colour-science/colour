@@ -39,17 +39,13 @@ oetf_BT2020` definition unit tests methods.
 oetf_BT2020` definition.
         """
 
-        np.testing.assert_allclose(
-            oetf_BT2020(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(oetf_BT2020(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         np.testing.assert_allclose(
             oetf_BT2020(0.18), 0.409007728864150, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        np.testing.assert_allclose(
-            oetf_BT2020(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(oetf_BT2020(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_n_dimensional_oetf_BT2020(self):
         """
@@ -62,21 +58,15 @@ oetf_BT2020` definition n-dimensional arrays support.
 
         E = np.tile(E, 6)
         E_p = np.tile(E_p, 6)
-        np.testing.assert_allclose(
-            oetf_BT2020(E), E_p, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(oetf_BT2020(E), E_p, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         E = np.reshape(E, (2, 3))
         E_p = np.reshape(E_p, (2, 3))
-        np.testing.assert_allclose(
-            oetf_BT2020(E), E_p, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(oetf_BT2020(E), E_p, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         E = np.reshape(E, (2, 3, 1))
         E_p = np.reshape(E_p, (2, 3, 1))
-        np.testing.assert_allclose(
-            oetf_BT2020(E), E_p, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(oetf_BT2020(E), E_p, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_oetf_BT2020(self):
         """
@@ -184,9 +174,7 @@ oetf_inverse_BT2020` definition domain and range scale support.
 oetf_inverse_BT2020` definition nan support.
         """
 
-        oetf_inverse_BT2020(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        oetf_inverse_BT2020(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 if __name__ == "__main__":

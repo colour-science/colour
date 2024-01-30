@@ -98,15 +98,11 @@ class TestXYZ_to_xyY(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         xyY = np.tile(xyY, (6, 1))
-        np.testing.assert_allclose(
-            XYZ_to_xyY(XYZ), xyY, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(XYZ_to_xyY(XYZ), xyY, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         xyY = np.reshape(xyY, (2, 3, 3))
-        np.testing.assert_allclose(
-            XYZ_to_xyY(XYZ), xyY, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(XYZ_to_xyY(XYZ), xyY, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_XYZ_to_xyY(self):
         """
@@ -205,15 +201,11 @@ class TestxyY_to_XYZ(unittest.TestCase):
 
         xyY = np.tile(xyY, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_allclose(
-            xyY_to_XYZ(xyY), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(xyY_to_XYZ(xyY), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         xyY = np.reshape(xyY, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_allclose(
-            xyY_to_XYZ(xyY), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(xyY_to_XYZ(xyY), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_xyY_to_XYZ(self):
         """
@@ -292,15 +284,11 @@ class TestxyY_to_xy(unittest.TestCase):
 
         xyY = np.tile(xyY, (6, 1))
         xy = np.tile(xy, (6, 1))
-        np.testing.assert_allclose(
-            xyY_to_xy(xyY), xy, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(xyY_to_xy(xyY), xy, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         xyY = np.reshape(xyY, (2, 3, 3))
         xy = np.reshape(xy, (2, 3, 2))
-        np.testing.assert_allclose(
-            xyY_to_xy(xyY), xy, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(xyY_to_xy(xyY), xy, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_xyY_to_xy(self):
         """
@@ -385,15 +373,11 @@ class Testxy_to_xyY(unittest.TestCase):
 
         xy = np.tile(xy, (6, 1))
         xyY = np.tile(xyY, (6, 1))
-        np.testing.assert_allclose(
-            xy_to_xyY(xy), xyY, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(xy_to_xyY(xy), xyY, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         xy = np.reshape(xy, (2, 3, 2))
         xyY = np.reshape(xyY, (2, 3, 3))
-        np.testing.assert_allclose(
-            xy_to_xyY(xy), xyY, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(xy_to_xyY(xy), xyY, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_xy_to_xyY(self):
         """
@@ -476,15 +460,11 @@ class TestXYZ_to_xy(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         xy = np.tile(xy, (6, 1))
-        np.testing.assert_allclose(
-            XYZ_to_xy(XYZ), xy, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(XYZ_to_xy(XYZ), xy, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         xy = np.reshape(xy, (2, 3, 2))
-        np.testing.assert_allclose(
-            XYZ_to_xy(XYZ), xy, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(XYZ_to_xy(XYZ), xy, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_XYZ_to_xy(self):
         """
@@ -557,15 +537,11 @@ class Testxy_to_XYZ(unittest.TestCase):
 
         xy = np.tile(xy, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_allclose(
-            xy_to_XYZ(xy), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(xy_to_XYZ(xy), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         xy = np.reshape(xy, (2, 3, 2))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_allclose(
-            xy_to_XYZ(xy), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(xy_to_XYZ(xy), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_xy_to_XYZ(self):
         """

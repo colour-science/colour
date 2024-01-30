@@ -99,9 +99,7 @@ print(
 
 print("\n")
 
-message_box(
-    f'Computing the "RGB" luminance equation of given "RGB" values:\n\n\t{RGB}'
-)
+message_box(f'Computing the "RGB" luminance equation of given "RGB" values:\n\n\t{RGB}')
 print(
     colour.RGB_luminance(
         RGB,

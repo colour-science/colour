@@ -94,15 +94,12 @@ def mesopic_weighting_function(
     source = validate_method(
         source,
         ("Blue Heavy", "Red Heavy"),
-        '"{0}" light source colour temperature is invalid, '
-        "it must be one of {1}!",
+        '"{0}" light source colour temperature is invalid, it must be one of {1}!',
     )
     method = validate_method(method, ("MOVE", "LRC"))
 
     mesopic_x_luminance_values = sorted(DATA_MESOPIC_X.keys())
-    index = mesopic_x_luminance_values.index(
-        closest(mesopic_x_luminance_values, L_p)
-    )
+    index = mesopic_x_luminance_values.index(closest(mesopic_x_luminance_values, L_p))
     x = DATA_MESOPIC_X[mesopic_x_luminance_values[index]][source][method]
 
     V_m = (1 - x) * scotopic_lef[wavelength] + x * photopic_lef[wavelength]
@@ -150,7 +147,6 @@ def sd_mesopic_luminous_efficiency_function(
     >>> from colour.utilities import numpy_print_options
     >>> with numpy_print_options(suppress=True):
     ...     sd_mesopic_luminous_efficiency_function(0.2)  # doctest: +ELLIPSIS
-    ...
     SpectralDistribution([[ 380.        ,    0.000424 ...],
                           [ 381.        ,    0.0004781...],
                           [ 382.        ,    0.0005399...],

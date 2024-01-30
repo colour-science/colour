@@ -39,9 +39,7 @@ message_box(
     'chromatic adaptation model for "Breneman (1987)" experiment number "1".'
 )
 pprint(colour.corresponding_chromaticities_prediction(3, model="CMCCAT2000"))
-pprint(
-    colour.corresponding.corresponding_chromaticities_prediction_CMCCAT2000(1)
-)
+pprint(colour.corresponding.corresponding_chromaticities_prediction_CMCCAT2000(1))
 
 print("\n")
 
@@ -49,11 +47,5 @@ message_box(
     'Computing corresponding chromaticities prediction with Fairchild (1990)" '
     'chromatic adaptation model for "Breneman (1987)" experiment number "1".'
 )
-pprint(
-    colour.corresponding_chromaticities_prediction(3, model="Fairchild 1990")
-)
-pprint(
-    colour.corresponding.corresponding_chromaticities_prediction_Fairchild1990(
-        1
-    )
-)
+pprint(colour.corresponding_chromaticities_prediction(3, model="Fairchild 1990"))
+pprint(colour.corresponding.corresponding_chromaticities_prediction_Fairchild1990(1))

@@ -1290,9 +1290,7 @@ class TestMeanMolecularWeights(unittest.TestCase):
         definition nan support.
         """
 
-        mean_molecular_weights(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        mean_molecular_weights(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestGravityList1968(unittest.TestCase):
@@ -1329,24 +1327,16 @@ class TestGravityList1968(unittest.TestCase):
         """
 
         g = 978.03560706
-        np.testing.assert_allclose(
-            gravity_List1968(), g, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(gravity_List1968(), g, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         g = np.tile(g, 6)
-        np.testing.assert_allclose(
-            gravity_List1968(), g, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(gravity_List1968(), g, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         g = np.reshape(g, (2, 3))
-        np.testing.assert_allclose(
-            gravity_List1968(), g, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(gravity_List1968(), g, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         g = np.reshape(g, (2, 3, 1))
-        np.testing.assert_allclose(
-            gravity_List1968(), g, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(gravity_List1968(), g, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_gravity_List1968(self):

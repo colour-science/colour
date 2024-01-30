@@ -271,10 +271,7 @@ class MixinDataclassArray(MixinDataclassIterable):
         return tstack(
             cast(
                 ArrayLike,
-                [
-                    value if value is not None else default
-                    for value in self.values
-                ],
+                [value if value is not None else default for value in self.values],
             ),
             dtype=dtype,
         )
@@ -518,9 +515,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
         values = tsplit(callable_operation(as_float_array(self), a))
         field_values = {field: values[i] for i, field in enumerate(self.keys)}
-        field_values.update(
-            {field: None for field, value in self if value is None}
-        )
+        field_values.update({field: None for field, value in self if value is None})
 
         dataclass = replace(self, **field_values)  # pyright: ignore
 
@@ -534,13 +529,11 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
 # NOTE : The following messages are pre-generated for performance reasons.
 _ASSERTION_MESSAGE_DTYPE_INT = (
-    f'"dtype" must be one of the following types: '
-    f"{DTypeInt.__args__}"  # pyright: ignore
+    f'"dtype" must be one of the following types: "{DTypeInt.__args__}"'  # pyright: ignore
 )
 
 _ASSERTION_MESSAGE_DTYPE_FLOAT = (
-    f'"dtype" must be one of the following types: '
-    f"{DTypeFloat.__args__}"  # pyright: ignore
+    f'"dtype" must be one of the following types: "{DTypeFloat.__args__}"'  # pyright: ignore
 )
 
 
@@ -622,9 +615,7 @@ def as_int(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> NDArrayInt:
     return dtype(a)  # pyright: ignore
 
 
-def as_float(
-    a: ArrayLike, dtype: Type[DTypeFloat] | None = None
-) -> NDArrayFloat:
+def as_float(a: ArrayLike, dtype: Type[DTypeFloat] | None = None) -> NDArrayFloat:
     """
     Attempt to convert given variable :math:`a` to :class:`numpy.floating`
     using given :class:`numpy.dtype`. If variable :math:`a` is not a scalar or
@@ -673,9 +664,7 @@ def as_float(
     return dtype(a)  # pyright: ignore
 
 
-def as_int_array(
-    a: ArrayLike, dtype: Type[DTypeInt] | None = None
-) -> NDArrayInt:
+def as_int_array(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> NDArrayInt:
     """
     Convert given variable :math:`a` to :class:`numpy.ndarray` using given
     :class:`numpy.dtype`.
@@ -710,9 +699,7 @@ def as_int_array(
     return as_array(a, dtype)
 
 
-def as_float_array(
-    a: ArrayLike, dtype: Type[DTypeFloat] | None = None
-) -> NDArrayFloat:
+def as_float_array(a: ArrayLike, dtype: Type[DTypeFloat] | None = None) -> NDArrayFloat:
     """
     Convert given variable :math:`a` to :class:`numpy.ndarray` using given
     :class:`numpy.dtype`.
@@ -784,9 +771,7 @@ def as_int_scalar(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> int:
     return cast(int, as_int(a, dtype))
 
 
-def as_float_scalar(
-    a: ArrayLike, dtype: Type[DTypeFloat] | None = None
-) -> float:
+def as_float_scalar(a: ArrayLike, dtype: Type[DTypeFloat] | None = None) -> float:
     """
     Convert given :math:`a` variable to :class:`numpy.floating` using given
     :class:`numpy.dtype`.
@@ -854,7 +839,7 @@ def set_default_int_dtype(
     --------
     >>> as_int_array(np.ones(3)).dtype  # doctest: +SKIP
     dtype('int64')
-    >>> set_default_int_dtype(np.int32) # doctest: +SKIP
+    >>> set_default_int_dtype(np.int32)  # doctest: +SKIP
     >>> as_int_array(np.ones(3)).dtype  # doctest: +SKIP
     dtype('int32')
     >>> set_default_int_dtype(np.int64)
@@ -933,9 +918,7 @@ _DOMAIN_RANGE_SCALE
 """
 
 
-def get_domain_range_scale() -> (
-    Literal["ignore", "reference", "1", "100"] | str
-):
+def get_domain_range_scale() -> Literal["ignore", "reference", "1", "100"] | str:
     """
     Return the current *Colour* domain-range scale. The following scales are
     available:
@@ -963,8 +946,9 @@ def get_domain_range_scale() -> (
 
 
 def set_domain_range_scale(
-    scale: Literal["ignore", "reference", "Ignore", "Reference", "1", "100"]
-    | str = "reference"
+    scale: (
+        Literal["ignore", "reference", "Ignore", "Reference", "1", "100"] | str
+    ) = "reference",
 ):
     """
     Set the current *Colour* domain-range scale. The following scales are
@@ -1029,42 +1013,35 @@ class domain_range_scale:
 
     >>> with domain_range_scale("1"):
     ...     to_domain_1(1)
-    ...
     array(1.0)
     >>> with domain_range_scale("Reference"):
     ...     from_range_1(1)
-    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'1'**:
 
     >>> with domain_range_scale("1"):
     ...     to_domain_1(1)
-    ...
     array(1.0)
     >>> with domain_range_scale("1"):
     ...     from_range_1(1)
-    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
     >>> with domain_range_scale("100"):
     ...     to_domain_1(1)
-    ...
     array(0.01)
     >>> with domain_range_scale("100"):
     ...     from_range_1(1)
-    ...
     array(100.0)
     """
 
     def __init__(
         self,
-        scale: Literal[
-            "ignore", "reference", "Ignore", "Reference", "1", "100"
-        ]
-        | str,
+        scale: (
+            Literal["ignore", "reference", "Ignore", "Reference", "1", "100"] | str
+        ),
     ) -> None:
         self._scale = scale
         self._previous_scale = get_domain_range_scale()
@@ -1129,21 +1106,18 @@ def to_domain_1(
 
     >>> with domain_range_scale("Reference"):
     ...     to_domain_1(1)
-    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'1'**:
 
     >>> with domain_range_scale("1"):
     ...     to_domain_1(1)
-    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
     >>> with domain_range_scale("100"):
     ...     to_domain_1(1)
-    ...
     array(0.01)
     """
 
@@ -1196,21 +1170,18 @@ def to_domain_10(
 
     >>> with domain_range_scale("Reference"):
     ...     to_domain_10(1)
-    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'1'**:
 
     >>> with domain_range_scale("1"):
     ...     to_domain_10(1)
-    ...
     array(10.0)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
     >>> with domain_range_scale("100"):
     ...     to_domain_10(1)
-    ...
     array(0.1)
     """
 
@@ -1264,21 +1235,18 @@ def to_domain_100(
 
     >>> with domain_range_scale("Reference"):
     ...     to_domain_100(1)
-    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'1'**:
 
     >>> with domain_range_scale("1"):
     ...     to_domain_100(1)
-    ...
     array(100.0)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
     >>> with domain_range_scale("100"):
     ...     to_domain_100(1)
-    ...
     array(1.0)
     """
 
@@ -1331,21 +1299,18 @@ def to_domain_degrees(
 
     >>> with domain_range_scale("Reference"):
     ...     to_domain_degrees(1)
-    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'1'**:
 
     >>> with domain_range_scale("1"):
     ...     to_domain_degrees(1)
-    ...
     array(360.0)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
     >>> with domain_range_scale("100"):
     ...     to_domain_degrees(1)
-    ...
     array(3.6)
     """
 
@@ -1405,21 +1370,18 @@ def to_domain_int(
 
     >>> with domain_range_scale("Reference"):
     ...     to_domain_int(1)
-    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'1'**:
 
     >>> with domain_range_scale("1"):
     ...     to_domain_int(1)
-    ...
     array(255.0)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
     >>> with domain_range_scale("100"):
     ...     to_domain_int(1)
-    ...
     array(2.55)
     """
 
@@ -1478,21 +1440,18 @@ def from_range_1(
 
     >>> with domain_range_scale("Reference"):
     ...     from_range_1(1)
-    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'1'**:
 
     >>> with domain_range_scale("1"):
     ...     from_range_1(1)
-    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
     >>> with domain_range_scale("100"):
     ...     from_range_1(1)
-    ...
     array(100.0)
     """
 
@@ -1549,21 +1508,18 @@ def from_range_10(
 
     >>> with domain_range_scale("Reference"):
     ...     from_range_10(1)
-    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'1'**:
 
     >>> with domain_range_scale("1"):
     ...     from_range_10(1)
-    ...
     array(0.1)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
     >>> with domain_range_scale("100"):
     ...     from_range_10(1)
-    ...
     array(10.0)
     """
 
@@ -1621,21 +1577,18 @@ def from_range_100(
 
     >>> with domain_range_scale("Reference"):
     ...     from_range_100(1)
-    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'1'**:
 
     >>> with domain_range_scale("1"):
     ...     from_range_100(1)
-    ...
     array(0.01)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
     >>> with domain_range_scale("100"):
     ...     from_range_100(1)
-    ...
     array(1.0)
     """
 
@@ -1692,21 +1645,18 @@ def from_range_degrees(
 
     >>> with domain_range_scale("Reference"):
     ...     from_range_degrees(1)
-    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'1'**:
 
     >>> with domain_range_scale("1"):
     ...     from_range_degrees(1)  # doctest: +ELLIPSIS
-    ...
     array(0.0027777...)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
     >>> with domain_range_scale("100"):
     ...     from_range_degrees(1)  # doctest: +ELLIPSIS
-    ...
     array(0.2777777...)
     """
 
@@ -1770,21 +1720,18 @@ def from_range_int(
 
     >>> with domain_range_scale("Reference"):
     ...     from_range_int(1)
-    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'1'**:
 
     >>> with domain_range_scale("1"):
     ...     from_range_int(1)  # doctest: +ELLIPSIS
-    ...
     array(0.0039215...)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
     >>> with domain_range_scale("100"):
     ...     from_range_int(1)  # doctest: +ELLIPSIS
-    ...
     array(0.3921568...)
     """
 
@@ -1824,11 +1771,9 @@ def is_ndarray_copy_enabled() -> bool:
     --------
     >>> with ndarray_copy_enable(False):
     ...     is_ndarray_copy_enabled()
-    ...
     False
     >>> with ndarray_copy_enable(True):
     ...     is_ndarray_copy_enabled()
-    ...
     True
     """
 
@@ -1850,7 +1795,6 @@ def set_ndarray_copy_enable(enable: bool):
     ...     print(is_ndarray_copy_enabled())
     ...     set_ndarray_copy_enable(False)
     ...     print(is_ndarray_copy_enabled())
-    ...
     True
     False
     """
@@ -1928,7 +1872,6 @@ def ndarray_copy(a: NDArray) -> NDArray:
     False
     >>> with ndarray_copy_enable(False):
     ...     id(a) == id(ndarray_copy(a))
-    ...
     True
     """
 
@@ -2257,9 +2200,7 @@ def tsplit(
     >>> a = np.array([0, 0, 0])
     >>> tsplit(a)
     array([ 0.,  0.,  0.])
-    >>> a = np.array(
-    ...     [[0, 0, 0], [1, 1, 1], [2, 2, 2], [3, 3, 3], [4, 4, 4], [5, 5, 5]]
-    ... )
+    >>> a = np.array([[0, 0, 0], [1, 1, 1], [2, 2, 2], [3, 3, 3], [4, 4, 4], [5, 5, 5]])
     >>> tsplit(a)
     array([[ 0.,  1.,  2.,  3.,  4.,  5.],
            [ 0.,  1.,  2.,  3.,  4.,  5.],
@@ -2357,8 +2298,9 @@ def row_as_diagonal(a: ArrayLike) -> NDArray:
 
 def orient(
     a: ArrayLike,
-    orientation: Literal["Ignore", "Flip", "Flop", "90 CW", "90 CCW", "180"]
-    | str = "Ignore",
+    orientation: (
+        Literal["Ignore", "Flip", "Flop", "90 CW", "90 CCW", "180"] | str
+    ) = "Ignore",
 ) -> NDArray:
     """
     Orient given array :math:`a` according to given orientation.
@@ -2499,9 +2441,7 @@ def fill_nan(
     mask = np.isnan(a)
 
     if method == "interpolation":
-        a[mask] = np.interp(
-            np.flatnonzero(mask), np.flatnonzero(~mask), a[~mask]
-        )
+        a[mask] = np.interp(np.flatnonzero(mask), np.flatnonzero(~mask), a[~mask])
     elif method == "constant":
         a[mask] = default
 
@@ -2563,10 +2503,8 @@ def ndarray_write(a: ArrayLike) -> Generator:
     ...     a += 1
     ... except ValueError:
     ...     pass
-    ...
     >>> with ndarray_write(a):
     ...     a += 1
-    ...
     """
 
     a = as_float_array(a)
@@ -2752,9 +2690,7 @@ def index_along_last_axis(a: ArrayLike, indexes: ArrayLike) -> NDArray:
     ...         ],
     ...     ]
     ... )
-    >>> indexes = np.array(
-    ...     [[2, 0, 1, 1], [2, 1, 1, 0], [0, 0, 1, 2], [0, 0, 1, 2]]
-    ... )
+    >>> indexes = np.array([[2, 0, 1, 1], [2, 1, 1, 0], [0, 0, 1, 2], [0, 0, 1, 2]])
     >>> index_along_last_axis(a, indexes)
     array([[ 6.9,  3.3,  7.5,  1.6],
            [ 2.8,  4.9,  9.7,  6.3],
@@ -2790,9 +2726,7 @@ def index_along_last_axis(a: ArrayLike, indexes: ArrayLike) -> NDArray:
     return np.take_along_axis(a, indexes[..., None], axis=-1).squeeze(axis=-1)
 
 
-def format_array_as_row(
-    a: ArrayLike, decimals: int = 7, separator: str = " "
-) -> str:
+def format_array_as_row(a: ArrayLike, decimals: int = 7, separator: str = " ") -> str:
     """
     Format given array :math:`a` as a row.
 
@@ -2823,5 +2757,6 @@ def format_array_as_row(
     a = np.ravel(a)
 
     return separator.join(
-        "{1:0.{0}f}".format(decimals, x) for x in a  # noqa: PLE1300, RUF100
+        "{1:0.{0}f}".format(decimals, x)
+        for x in a  # noqa: PLE1300, RUF100
     )

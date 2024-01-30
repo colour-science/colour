@@ -16,9 +16,7 @@ sys.path.append(str(Path(__file__).parent.parent))
 
 import colour as package  # noqa: E402
 
-basename = re.sub(
-    "_(\\w)", lambda x: x.group(1).upper(), package.__name__.title()
-)
+basename = re.sub("_(\\w)", lambda x: x.group(1).upper(), package.__name__.title())
 
 if os.environ.get("READTHEDOCS") == "True":
     archive = "colour-plots.zip"

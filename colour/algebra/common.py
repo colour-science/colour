@@ -100,11 +100,9 @@ def get_sdiv_mode() -> (
     --------
     >>> with sdiv_mode("Numpy"):
     ...     get_sdiv_mode()
-    ...
     'numpy'
     >>> with sdiv_mode("Ignore Zero Conversion"):
     ...     get_sdiv_mode()
-    ...
     'ignore zero conversion'
     """
 
@@ -112,17 +110,19 @@ def get_sdiv_mode() -> (
 
 
 def set_sdiv_mode(
-    mode: Literal[
-        "Numpy",
-        "Ignore",
-        "Warning",
-        "Raise",
-        "Ignore Zero Conversion",
-        "Warning Zero Conversion",
-        "Ignore Limit Conversion",
-        "Warning Limit Conversion",
-    ]
-    | str
+    mode: (
+        Literal[
+            "Numpy",
+            "Ignore",
+            "Warning",
+            "Raise",
+            "Ignore Zero Conversion",
+            "Warning Zero Conversion",
+            "Ignore Limit Conversion",
+            "Warning Limit Conversion",
+        ]
+        | str
+    ),
 ):
     """
     Set *Colour* safe division function mode.
@@ -139,7 +139,6 @@ def set_sdiv_mode(
     ...     print(get_sdiv_mode())
     ...     set_sdiv_mode("Raise")
     ...     print(get_sdiv_mode())
-    ...
     ignore zero conversion
     raise
     """
@@ -187,17 +186,19 @@ class sdiv_mode:
 
     def __init__(
         self,
-        mode: Literal[
-            "Numpy",
-            "Ignore",
-            "Warning",
-            "Raise",
-            "Ignore Zero Conversion",
-            "Warning Zero Conversion",
-            "Ignore Limit Conversion",
-            "Warning Limit Conversion",
-        ]
-        | None = None,
+        mode: (
+            Literal[
+                "Numpy",
+                "Ignore",
+                "Warning",
+                "Raise",
+                "Ignore Zero Conversion",
+                "Warning Zero Conversion",
+                "Ignore Limit Conversion",
+                "Warning Limit Conversion",
+            ]
+            | None
+        ) = None,
     ) -> None:
         self._mode = optional(mode, get_sdiv_mode())
         self._previous_mode = get_sdiv_mode()
@@ -283,23 +284,18 @@ def sdiv(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     ...         sdiv(a, b)
     ... except Exception as error:
     ...     error  # doctest: +ELLIPSIS
-    ...
     FloatingPointError('divide by zero encountered in...divide')
     >>> with sdiv_mode("Ignore Zero Conversion"):
     ...     sdiv(a, b)
-    ...
     array([ 0.,  1.,  0.])
     >>> with sdiv_mode("Warning Zero Conversion"):
     ...     sdiv(a, b)
-    ...
     array([ 0.,  1.,  0.])
     >>> with sdiv_mode("Ignore Limit Conversion"):
     ...     sdiv(a, b)  # doctest: +SKIP
-    ...
     array([  0.00000000e+000,   1.00000000e+000,   1.79769313e+308])
     >>> with sdiv_mode("Warning Limit Conversion"):
     ...     sdiv(a, b)  # doctest: +SKIP
-    ...
     array([  0.00000000e+000,   1.00000000e+000,   1.79769313e+308])
     """
 
@@ -367,11 +363,9 @@ def is_spow_enabled() -> bool:
     --------
     >>> with spow_enable(False):
     ...     is_spow_enabled()
-    ...
     False
     >>> with spow_enable(True):
     ...     is_spow_enabled()
-    ...
     True
     """
 
@@ -393,7 +387,6 @@ def set_spow_enable(enable: bool):
     ...     print(is_spow_enabled())
     ...     set_spow_enable(False)
     ...     print(is_spow_enabled())
-    ...
     True
     False
     """
@@ -661,9 +654,7 @@ def matrix_dot(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
             [-0.0044203...,  0.0377490...,  0.9666713...]]])
     """
 
-    return np.einsum(
-        "...ij,...jk->...ik", as_float_array(a), as_float_array(b)
-    )
+    return np.einsum("...ij,...jk->...ik", as_float_array(a), as_float_array(b))
 
 
 def euclidean_distance(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
@@ -695,9 +686,7 @@ def euclidean_distance(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     451.7133019...
     """
 
-    return as_float(
-        np.linalg.norm(as_float_array(a) - as_float_array(b), axis=-1)
-    )
+    return as_float(np.linalg.norm(as_float_array(a) - as_float_array(b), axis=-1))
 
 
 def manhattan_distance(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
@@ -729,9 +718,7 @@ def manhattan_distance(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     604.9396351...
     """
 
-    return as_float(
-        np.sum(np.abs(as_float_array(a) - as_float_array(b)), axis=-1)
-    )
+    return as_float(np.sum(np.abs(as_float_array(a) - as_float_array(b)), axis=-1))
 
 
 def linear_conversion(

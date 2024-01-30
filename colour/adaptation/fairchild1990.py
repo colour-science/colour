@@ -133,9 +133,7 @@ def chromatic_adaptation_Fairchild1990(
     LMS_n = vector_dot(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ_n)
     LMS_r = vector_dot(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ_r)
 
-    p_LMS = degrees_of_adaptation(
-        LMS_1, Y_n, discount_illuminant=discount_illuminant
-    )
+    p_LMS = degrees_of_adaptation(LMS_1, Y_n, discount_illuminant=discount_illuminant)
 
     a_LMS_1 = p_LMS / LMS_n
     a_LMS_2 = p_LMS / LMS_r

@@ -220,9 +220,7 @@ class TestXYZ_to_Kim2009(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         media = MediaParameters_Kim2009(cases[0, 0])
-        surround = InductionFactors_Kim2009(
-            cases[0, 0], cases[0, 0], cases[0, 0]
-        )
+        surround = InductionFactors_Kim2009(cases[0, 0], cases[0, 0], cases[0, 0])
         XYZ_to_Kim2009(cases, cases, cases[0, 0], media, surround)
 
 
@@ -433,9 +431,7 @@ class TestKim2009_to_XYZ(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         media = MediaParameters_Kim2009(cases[0, 0])
-        surround = InductionFactors_Kim2009(
-            cases[0, 0], cases[0, 0], cases[0, 0]
-        )
+        surround = InductionFactors_Kim2009(cases[0, 0], cases[0, 0], cases[0, 0])
         Kim2009_to_XYZ(
             CAM_Specification_Kim2009(
                 cases[..., 0], cases[..., 0], cases[..., 0], M=50

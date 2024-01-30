@@ -173,9 +173,7 @@ logarithmic_function_quasilog` definition.
         )
 
         np.testing.assert_allclose(
-            logarithmic_function_quasilog(
-                -0.558545621172520, "logToLin", 10, 0.75
-            ),
+            logarithmic_function_quasilog(-0.558545621172520, "logToLin", 10, 0.75),
             0.18,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -195,9 +193,7 @@ logarithmic_function_quasilog` definition.
         )
 
         np.testing.assert_allclose(
-            logarithmic_function_quasilog(
-                0.18, "linToLog", 10, 0.75, 0.75, 0.001
-            ),
+            logarithmic_function_quasilog(0.18, "linToLog", 10, 0.75, 0.75, 0.001),
             -0.651249673628745,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -330,9 +326,7 @@ logarithmic_function_camera` definition.
         )
 
         np.testing.assert_allclose(
-            logarithmic_function_camera(
-                -0.744727494896693, "cameraLogToLin", 10
-            ),
+            logarithmic_function_camera(-0.744727494896693, "cameraLogToLin", 10),
             0.180000000000000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -344,17 +338,13 @@ logarithmic_function_camera` definition.
         )
 
         np.testing.assert_allclose(
-            logarithmic_function_camera(
-                -0.186181873724173, "cameraLogToLin", 10, 0.25
-            ),
+            logarithmic_function_camera(-0.186181873724173, "cameraLogToLin", 10, 0.25),
             0.180000000000000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            logarithmic_function_camera(
-                0.18, "cameraLinToLog", 10, 0.25, 0.95
-            ),
+            logarithmic_function_camera(0.18, "cameraLinToLog", 10, 0.25, 0.95),
             -0.191750972401961,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -368,9 +358,7 @@ logarithmic_function_camera` definition.
         )
 
         np.testing.assert_allclose(
-            logarithmic_function_camera(
-                0.18, "cameraLinToLog", 10, 0.25, 0.95, 0.6
-            ),
+            logarithmic_function_camera(0.18, "cameraLinToLog", 10, 0.25, 0.95, 0.6),
             0.408249027598038,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

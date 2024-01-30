@@ -426,10 +426,7 @@ class RGB_Colourspace:
             values.
         """
 
-        if (
-            self._matrix_RGB_to_XYZ is None
-            or self._use_derived_matrix_RGB_to_XYZ
-        ):
+        if self._matrix_RGB_to_XYZ is None or self._use_derived_matrix_RGB_to_XYZ:
             if self._derived_matrix_RGB_to_XYZ.size == 0:
                 self._derive_transformation_matrices()
             return self._derived_matrix_RGB_to_XYZ
@@ -470,10 +467,7 @@ class RGB_Colourspace:
             colourspace.
         """
 
-        if (
-            self._matrix_XYZ_to_RGB is None
-            or self._use_derived_matrix_XYZ_to_RGB
-        ):
+        if self._matrix_XYZ_to_RGB is None or self._use_derived_matrix_XYZ_to_RGB:
             if self._derived_matrix_XYZ_to_RGB.size == 0:
                 self._derive_transformation_matrices()
             return self._derived_matrix_XYZ_to_RGB
@@ -591,8 +585,7 @@ class RGB_Colourspace:
 
         attest(
             isinstance(value, (bool, np.bool_)),
-            f'"use_derived_matrix_RGB_to_XYZ" property: "{value}" is not a '
-            f'"bool"!',
+            f'"use_derived_matrix_RGB_to_XYZ" property: "{value}" is not a "bool"!',
         )
 
         self._use_derived_matrix_RGB_to_XYZ = value
@@ -627,8 +620,7 @@ class RGB_Colourspace:
 
         attest(
             isinstance(value, (bool, np.bool_)),
-            f'"use_derived_matrix_XYZ_to_RGB" property: "{value}" is not a '
-            f'"bool"!',
+            f'"use_derived_matrix_XYZ_to_RGB" property: "{value}" is not a "bool"!',
         )
 
         self._use_derived_matrix_XYZ_to_RGB = value
@@ -742,9 +734,7 @@ class RGB_Colourspace:
         Examples
         --------
         >>> from colour.models import linear_function
-        >>> p = np.array(
-        ...     [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]
-        ... )
+        >>> p = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
         >>> whitepoint = np.array([0.32168, 0.33767])
         >>> matrix_RGB_to_XYZ = np.identity(3)
         >>> matrix_XYZ_to_RGB = np.identity(3)
@@ -791,9 +781,11 @@ class RGB_Colourspace:
                     "formatter": lambda x: (  # noqa: ARG005
                         None
                         if self.cctf_encoding is None
-                        else self.cctf_encoding.__name__
-                        if hasattr(self.cctf_encoding, "__name__")
-                        else str(self.cctf_encoding)
+                        else (
+                            self.cctf_encoding.__name__
+                            if hasattr(self.cctf_encoding, "__name__")
+                            else str(self.cctf_encoding)
+                        )
                     ),
                 },
                 {
@@ -801,9 +793,11 @@ class RGB_Colourspace:
                     "formatter": lambda x: (  # noqa: ARG005
                         None
                         if self.cctf_decoding is None
-                        else self.cctf_decoding.__name__
-                        if hasattr(self.cctf_decoding, "__name__")
-                        else str(self.cctf_decoding)
+                        else (
+                            self.cctf_decoding.__name__
+                            if hasattr(self.cctf_decoding, "__name__")
+                            else str(self.cctf_decoding)
+                        )
                     ),
                 },
                 {"name": "use_derived_matrix_RGB_to_XYZ"},
@@ -845,8 +839,9 @@ class RGB_Colourspace:
         self,
         whitepoint: ArrayLike,
         whitepoint_name: str | None = None,
-        chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
-        | str = "CAT02",
+        chromatic_adaptation_transform: (
+            LiteralChromaticAdaptationTransform | str
+        ) = "CAT02",
     ) -> RGB_Colourspace:
         """
         Chromatically adapt the *RGB* colourspace *primaries* :math:`xy`
@@ -870,9 +865,7 @@ class RGB_Colourspace:
 
         Examples
         --------
-        >>> p = np.array(
-        ...     [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]
-        ... )
+        >>> p = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
         >>> w_t = np.array([0.32168, 0.33767])
         >>> w_r = np.array([0.31270, 0.32900])
         >>> colourspace = RGB_Colourspace("RGB Colourspace", p, w_t, "D65")
@@ -940,9 +933,9 @@ def XYZ_to_RGB(
     XYZ: ArrayLike,
     colourspace: RGB_Colourspace | LiteralRGBColourspace | str,
     illuminant: ArrayLike | None = None,
-    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
-    | str
-    | None = "CAT02",
+    chromatic_adaptation_transform: (
+        LiteralChromaticAdaptationTransform | str | None
+    ) = "CAT02",
     apply_cctf_encoding: bool = False,
     *args: Any,
     **kwargs: Any,
@@ -1033,9 +1026,7 @@ def XYZ_to_RGB(
                 else "CAT02"
             ),
         )
-        cctf_encoding = kwargs.pop(
-            "cctf_encoding", args[0] if len(args) == 1 else None
-        )
+        cctf_encoding = kwargs.pop("cctf_encoding", args[0] if len(args) == 1 else None)
         apply_cctf_encoding = True
     else:
         if isinstance(colourspace, str):
@@ -1047,7 +1038,8 @@ def XYZ_to_RGB(
             colourspace = RGB_COLOURSPACES[colourspace]
 
         illuminant_XYZ = optional(
-            illuminant, colourspace.whitepoint  # pyright: ignore
+            illuminant,
+            colourspace.whitepoint,  # pyright: ignore
         )
         illuminant_RGB = colourspace.whitepoint  # pyright: ignore
         matrix_XYZ_to_RGB = colourspace.matrix_XYZ_to_RGB  # pyright: ignore
@@ -1075,9 +1067,9 @@ def RGB_to_XYZ(
     RGB: ArrayLike,
     colourspace: RGB_Colourspace | LiteralRGBColourspace | str,
     illuminant: ArrayLike | None = None,
-    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
-    | str
-    | None = "CAT02",
+    chromatic_adaptation_transform: (
+        LiteralChromaticAdaptationTransform | str | None
+    ) = "CAT02",
     apply_cctf_decoding: bool = False,
     *args,
     **kwargs,
@@ -1168,9 +1160,7 @@ def RGB_to_XYZ(
                 else "CAT02"
             ),
         )
-        cctf_decoding = kwargs.pop(
-            "cctf_decoding", args[0] if len(args) == 1 else None
-        )
+        cctf_decoding = kwargs.pop("cctf_decoding", args[0] if len(args) == 1 else None)
         apply_cctf_decoding = True
     else:
         if isinstance(colourspace, str):
@@ -1182,7 +1172,8 @@ def RGB_to_XYZ(
             colourspace = RGB_COLOURSPACES[colourspace]
 
         illuminant_XYZ = optional(
-            illuminant, colourspace.whitepoint  # pyright: ignore
+            illuminant,
+            colourspace.whitepoint,  # pyright: ignore
         )
         illuminant_RGB = colourspace.whitepoint  # pyright: ignore
         matrix_RGB_to_XYZ = colourspace.matrix_RGB_to_XYZ  # pyright: ignore
@@ -1209,9 +1200,9 @@ def RGB_to_XYZ(
 def matrix_RGB_to_RGB(
     input_colourspace: RGB_Colourspace | LiteralRGBColourspace | str,
     output_colourspace: RGB_Colourspace | LiteralRGBColourspace | str,
-    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
-    | str
-    | None = "CAT02",
+    chromatic_adaptation_transform: (
+        LiteralChromaticAdaptationTransform | str | None
+    ) = "CAT02",
 ) -> NDArrayFloat:
     """
     Compute the matrix :math:`M` converting from given input *RGB*
@@ -1259,9 +1250,7 @@ def matrix_RGB_to_RGB(
             tuple(RGB_COLOURSPACES),
             '"{0}" "RGB" colourspace is invalid, it must be one of {1}!',
         )
-        input_colourspace = cast(
-            RGB_Colourspace, RGB_COLOURSPACES[input_colourspace]
-        )
+        input_colourspace = cast(RGB_Colourspace, RGB_COLOURSPACES[input_colourspace])
 
     if isinstance(output_colourspace, str):
         output_colourspace = validate_method(
@@ -1269,9 +1258,7 @@ def matrix_RGB_to_RGB(
             tuple(RGB_COLOURSPACES),
             '"{0}" "RGB" colourspace is invalid, it must be one of {1}!',
         )
-        output_colourspace = cast(
-            RGB_Colourspace, RGB_COLOURSPACES[output_colourspace]
-        )
+        output_colourspace = cast(RGB_Colourspace, RGB_COLOURSPACES[output_colourspace])
 
     M = input_colourspace.matrix_RGB_to_XYZ
 
@@ -1293,9 +1280,9 @@ def RGB_to_RGB(
     RGB: ArrayLike,
     input_colourspace: RGB_Colourspace | LiteralRGBColourspace | str,
     output_colourspace: RGB_Colourspace | LiteralRGBColourspace | str,
-    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
-    | str
-    | None = "CAT02",
+    chromatic_adaptation_transform: (
+        LiteralChromaticAdaptationTransform | str | None
+    ) = "CAT02",
     apply_cctf_decoding: bool = False,
     apply_cctf_encoding: bool = False,
     **kwargs: Any,
@@ -1369,9 +1356,7 @@ def RGB_to_RGB(
             tuple(RGB_COLOURSPACES),
             '"{0}" "RGB" colourspace is invalid, it must be one of {1}!',
         )
-        input_colourspace = cast(
-            RGB_Colourspace, RGB_COLOURSPACES[input_colourspace]
-        )
+        input_colourspace = cast(RGB_Colourspace, RGB_COLOURSPACES[input_colourspace])
 
     if isinstance(output_colourspace, str):
         output_colourspace = validate_method(
@@ -1379,9 +1364,7 @@ def RGB_to_RGB(
             tuple(RGB_COLOURSPACES),
             '"{0}" "RGB" colourspace is invalid, it must be one of {1}!',
         )
-        output_colourspace = cast(
-            RGB_Colourspace, RGB_COLOURSPACES[output_colourspace]
-        )
+        output_colourspace = cast(RGB_Colourspace, RGB_COLOURSPACES[output_colourspace])
 
     RGB = to_domain_1(RGB)
 

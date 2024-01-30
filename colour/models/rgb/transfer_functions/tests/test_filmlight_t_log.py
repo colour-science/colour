@@ -109,9 +109,7 @@ log_encoding_FilmLightTLog` definition domain and range scale support.
 log_encoding_FilmLightTLog` definition nan support.
         """
 
-        log_encoding_FilmLightTLog(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_FilmLightTLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLogDecoding_FilmLightTLog(unittest.TestCase):
@@ -196,9 +194,7 @@ log_decoding_FilmLightTLog` definition domain and range scale support.
 log_decoding_FilmLightTLog` definition nan support.
         """
 
-        log_decoding_FilmLightTLog(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_decoding_FilmLightTLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 if __name__ == "__main__":

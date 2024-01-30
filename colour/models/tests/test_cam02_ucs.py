@@ -66,9 +66,7 @@ class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
         surround = VIEWING_CONDITIONS_CIECAM02["Average"]
         specification = XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)
 
-        self._JMh = np.array(
-            [specification.J, specification.M, specification.h]
-        )
+        self._JMh = np.array([specification.J, specification.M, specification.h])
 
     def test_JMh_CIECAM02_to_UCS_Luo2006(self):
         """
@@ -131,16 +129,12 @@ class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
         """
 
         JMh = self._JMh
-        Jpapbp = JMh_CIECAM02_to_UCS_Luo2006(
-            JMh, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
-        )
+        Jpapbp = JMh_CIECAM02_to_UCS_Luo2006(JMh, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
 
         JMh = np.tile(JMh, (6, 1))
         Jpapbp = np.tile(Jpapbp, (6, 1))
         np.testing.assert_allclose(
-            JMh_CIECAM02_to_UCS_Luo2006(
-                JMh, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
-            ),
+            JMh_CIECAM02_to_UCS_Luo2006(JMh, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]),
             Jpapbp,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -148,9 +142,7 @@ class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
         JMh = np.reshape(JMh, (2, 3, 3))
         Jpapbp = np.reshape(Jpapbp, (2, 3, 3))
         np.testing.assert_allclose(
-            JMh_CIECAM02_to_UCS_Luo2006(
-                JMh, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
-            ),
+            JMh_CIECAM02_to_UCS_Luo2006(JMh, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]),
             Jpapbp,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -162,9 +154,7 @@ class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
         """
 
         JMh = self._JMh
-        Jpapbp = JMh_CIECAM02_to_UCS_Luo2006(
-            JMh, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
-        )
+        Jpapbp = JMh_CIECAM02_to_UCS_Luo2006(JMh, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
 
         d_r = (
             ("reference", 1, 1),
@@ -190,9 +180,7 @@ class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
-        JMh_CIECAM02_to_UCS_Luo2006(
-            cases, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
-        )
+        JMh_CIECAM02_to_UCS_Luo2006(cases, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
 
 
 class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
@@ -221,9 +209,7 @@ class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
                 np.array([54.90433134, -0.08442362, -0.06848314]),
                 COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
             ),
-            CAM02LCD_to_JMh_CIECAM02(
-                np.array([54.90433134, -0.08442362, -0.06848314])
-            ),
+            CAM02LCD_to_JMh_CIECAM02(np.array([54.90433134, -0.08442362, -0.06848314])),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -241,9 +227,7 @@ class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
                 np.array([54.90433134, -0.08442362, -0.06848314]),
                 COEFFICIENTS_UCS_LUO2006["CAM02-SCD"],
             ),
-            CAM02SCD_to_JMh_CIECAM02(
-                np.array([54.90433134, -0.08442362, -0.06848314])
-            ),
+            CAM02SCD_to_JMh_CIECAM02(np.array([54.90433134, -0.08442362, -0.06848314])),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -261,9 +245,7 @@ class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
                 np.array([54.90433134, -0.08442362, -0.06848314]),
                 COEFFICIENTS_UCS_LUO2006["CAM02-UCS"],
             ),
-            CAM02UCS_to_JMh_CIECAM02(
-                np.array([54.90433134, -0.08442362, -0.06848314])
-            ),
+            CAM02UCS_to_JMh_CIECAM02(np.array([54.90433134, -0.08442362, -0.06848314])),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -274,16 +256,12 @@ class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
         """
 
         Jpapbp = np.array([54.90433134, -0.08442362, -0.06848314])
-        JMh = UCS_Luo2006_to_JMh_CIECAM02(
-            Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
-        )
+        JMh = UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
 
         Jpapbp = np.tile(Jpapbp, (6, 1))
         JMh = np.tile(JMh, (6, 1))
         np.testing.assert_allclose(
-            UCS_Luo2006_to_JMh_CIECAM02(
-                Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
-            ),
+            UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]),
             JMh,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -291,9 +269,7 @@ class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
         Jpapbp = np.reshape(Jpapbp, (2, 3, 3))
         JMh = np.reshape(JMh, (2, 3, 3))
         np.testing.assert_allclose(
-            UCS_Luo2006_to_JMh_CIECAM02(
-                Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
-            ),
+            UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]),
             JMh,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -305,9 +281,7 @@ class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
         """
 
         Jpapbp = np.array([54.90433134, -0.08442362, -0.06848314])
-        JMh = UCS_Luo2006_to_JMh_CIECAM02(
-            Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
-        )
+        JMh = UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
 
         d_r = (
             ("reference", 1, 1),
@@ -334,9 +308,7 @@ class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
-        UCS_Luo2006_to_JMh_CIECAM02(
-            cases, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
-        )
+        UCS_Luo2006_to_JMh_CIECAM02(cases, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
 
 
 class TestXYZ_to_UCS_Luo2006(unittest.TestCase):

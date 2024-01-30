@@ -115,9 +115,7 @@ __all__ = [
 
 
 class ColourChecker(
-    namedtuple(
-        "ColourChecker", ("name", "data", "illuminant", "rows", "columns")
-    )
+    namedtuple("ColourChecker", ("name", "data", "illuminant", "rows", "columns"))
 ):
     """
     *Colour Checker* data.
@@ -343,9 +341,7 @@ DATA_COLORCHECKER24_BEFORE_NOV2014: dict = dict(
         XYZ_to_xyY(
             Lab_to_XYZ(
                 list(DATA_COLORCHECKER24_BEFORE_NOV2014_CIE_LAB.values()),
-                CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-                    "ICC D50"
-                ],
+                CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["ICC D50"],
             )
         ),
     )
@@ -411,9 +407,7 @@ DATA_COLORCHECKER24_AFTER_NOV2014: dict = dict(
         XYZ_to_xyY(
             Lab_to_XYZ(
                 list(DATA_COLORCHECKER24_AFTER_NOV2014_CIE_LAB.values()),
-                CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-                    "ICC D50"
-                ],
+                CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["ICC D50"],
             )
         ),
     )
@@ -747,9 +741,7 @@ DATA_COLORCHECKERSG_BEFORE_NOV2014: dict = dict(
         XYZ_to_xyY(
             Lab_to_XYZ(
                 list(_DATA_COLORCHECKERSG_BEFORE_NOV2014[..., 1]),
-                CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-                    "ICC D50"
-                ],
+                CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["ICC D50"],
             )
         ),
     )
@@ -940,9 +932,7 @@ DATA_COLORCHECKERSG_AFTER_NOV2014: dict = dict(
         XYZ_to_xyY(
             Lab_to_XYZ(
                 list(_DATA_COLORCHECKERSG_AFTER_NOV2014[..., 1]),
-                CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-                    "ICC D50"
-                ],
+                CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["ICC D50"],
             )
         ),
     )

@@ -120,15 +120,15 @@ def _UCS_Luo2006_callable_to_UCS_Li2017_docstring(callable_: Callable) -> str:
 JMh_CAM16_to_UCS_Li2017 = copy_definition(
     JMh_CIECAM02_to_UCS_Luo2006, "JMh_CAM16_to_UCS_Li2017"
 )
-JMh_CAM16_to_UCS_Li2017.__doc__ = (
-    _UCS_Luo2006_callable_to_UCS_Li2017_docstring(JMh_CIECAM02_to_UCS_Luo2006)
+JMh_CAM16_to_UCS_Li2017.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(
+    JMh_CIECAM02_to_UCS_Luo2006
 )
 
 UCS_Li2017_to_JMh_CAM16 = copy_definition(
     UCS_Luo2006_to_JMh_CIECAM02, "UCS_Li2017_to_JMh_CAM16"
 )
-UCS_Li2017_to_JMh_CAM16.__doc__ = (
-    _UCS_Luo2006_callable_to_UCS_Li2017_docstring(UCS_Luo2006_to_JMh_CIECAM02)
+UCS_Li2017_to_JMh_CAM16.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(
+    UCS_Luo2006_to_JMh_CIECAM02
 )
 
 JMh_CAM16_to_CAM16LCD = partial(
@@ -237,9 +237,7 @@ def XYZ_to_UCS_Li2017(
 
     >>> from colour.appearance import CAM_KWARGS_CIECAM02_sRGB
     >>> XYZ_w = CAM_KWARGS_CIECAM02_sRGB["XYZ_w"]
-    >>> XYZ_to_UCS_Li2017(
-    ...     XYZ, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"], XYZ_w=XYZ_w / 100
-    ... )
+    >>> XYZ_to_UCS_Li2017(XYZ, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"], XYZ_w=XYZ_w / 100)
     ... # doctest: +ELLIPSIS
     array([ 46.0658603...,  41.0758649...,  14.5102582...])
     """
@@ -370,41 +368,29 @@ def UCS_Li2017_to_XYZ(
 XYZ_to_CAM16LCD = partial(
     XYZ_to_UCS_Li2017, coefficients=COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
 )
-XYZ_to_CAM16LCD.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(
-    XYZ_to_CAM02LCD
-)
+XYZ_to_CAM16LCD.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(XYZ_to_CAM02LCD)
 
 CAM16LCD_to_XYZ = partial(
     UCS_Li2017_to_XYZ, coefficients=COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
 )
-CAM16LCD_to_XYZ.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(
-    CAM02LCD_to_XYZ
-)
+CAM16LCD_to_XYZ.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(CAM02LCD_to_XYZ)
 
 XYZ_to_CAM16SCD = partial(
     XYZ_to_UCS_Li2017, coefficients=COEFFICIENTS_UCS_LUO2006["CAM02-SCD"]
 )
-XYZ_to_CAM16SCD.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(
-    XYZ_to_CAM02SCD
-)
+XYZ_to_CAM16SCD.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(XYZ_to_CAM02SCD)
 
 CAM16SCD_to_XYZ = partial(
     UCS_Li2017_to_XYZ, coefficients=COEFFICIENTS_UCS_LUO2006["CAM02-SCD"]
 )
-CAM16SCD_to_XYZ.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(
-    CAM02SCD_to_XYZ
-)
+CAM16SCD_to_XYZ.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(CAM02SCD_to_XYZ)
 
 XYZ_to_CAM16UCS = partial(
     XYZ_to_UCS_Li2017, coefficients=COEFFICIENTS_UCS_LUO2006["CAM02-UCS"]
 )
-XYZ_to_CAM16UCS.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(
-    XYZ_to_CAM02UCS
-)
+XYZ_to_CAM16UCS.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(XYZ_to_CAM02UCS)
 
 CAM16UCS_to_XYZ = partial(
     UCS_Li2017_to_XYZ, coefficients=COEFFICIENTS_UCS_LUO2006["CAM02-UCS"]
 )
-CAM16UCS_to_XYZ.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(
-    CAM02UCS_to_XYZ
-)
+CAM16UCS_to_XYZ.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(CAM02UCS_to_XYZ)

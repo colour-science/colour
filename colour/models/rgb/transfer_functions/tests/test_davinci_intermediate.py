@@ -121,9 +121,7 @@ davinci_intermediate.oetf_DaVinciIntermediate` definition domain and range
 davinci_intermediate.oetf_DaVinciIntermediate` definition nan support.
         """
 
-        oetf_DaVinciIntermediate(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        oetf_DaVinciIntermediate(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestOetf_inverse_DaVinciIntermediate(unittest.TestCase):

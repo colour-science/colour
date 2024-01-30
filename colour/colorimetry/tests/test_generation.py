@@ -51,17 +51,11 @@ class TestSdConstant(unittest.TestCase):
 
         sd = sd_constant(np.pi)
 
-        np.testing.assert_allclose(
-            sd[360], np.pi, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(sd[360], np.pi, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        np.testing.assert_allclose(
-            sd[555], np.pi, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(sd[555], np.pi, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        np.testing.assert_allclose(
-            sd[780], np.pi, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(sd[780], np.pi, atol=TOLERANCE_ABSOLUTE_TESTS)
 
 
 class TestSdZeros(unittest.TestCase):
@@ -210,9 +204,7 @@ class TestSdGaussianFwhm(unittest.TestCase):
 
         sd = sd_gaussian_fwhm(555, 25)
 
-        np.testing.assert_allclose(
-            sd[530], 0.0625, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(sd[530], 0.0625, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         np.testing.assert_allclose(sd[555], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
 
@@ -220,9 +212,7 @@ class TestSdGaussianFwhm(unittest.TestCase):
             sd[580], 0.062499999999999, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        np.testing.assert_allclose(
-            sd[555 - 25 / 2], 0.5, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(sd[555 - 25 / 2], 0.5, atol=TOLERANCE_ABSOLUTE_TESTS)
 
 
 class TestSdSingleLedOhno2005(unittest.TestCase):

@@ -81,9 +81,7 @@ def index_stress_Garcia2007(d_E: ArrayLike, d_V: ArrayLike) -> NDArrayFloat:
     with sdiv_mode():
         F_1 = sdiv(np.sum(d_E**2), np.sum(d_E * d_V))
 
-        stress = np.sqrt(
-            sdiv(np.sum((d_E - F_1 * d_V) ** 2), np.sum(F_1**2 * d_V**2))
-        )
+        stress = np.sqrt(sdiv(np.sum((d_E - F_1 * d_V) ** 2), np.sum(F_1**2 * d_V**2)))
 
     return as_float(stress)
 

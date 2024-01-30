@@ -57,11 +57,7 @@ message_box(
     f"values:\n\n\t{XYZ}"
 )
 D65 = colour.CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
-print(
-    colour.XYZ_to_RGB(
-        XYZ, colour.RGB_COLOURSPACES["sRGB"], D65, "Bradford", True
-    )
-)
+print(colour.XYZ_to_RGB(XYZ, colour.RGB_COLOURSPACES["sRGB"], D65, "Bradford", True))
 
 print("\n")
 
@@ -70,11 +66,7 @@ message_box(
     f'Converting to "CIE XYZ" tristimulus values from given "RGB" colourspace '
     f"values:\n\n\t{RGB}"
 )
-print(
-    colour.RGB_to_XYZ(
-        RGB, colour.RGB_COLOURSPACES["sRGB"], D65, "Bradford", True
-    )
-)
+print(colour.RGB_to_XYZ(RGB, colour.RGB_COLOURSPACES["sRGB"], D65, "Bradford", True))
 
 print("\n")
 
@@ -481,9 +473,7 @@ print("\n")
 specification_CAM16 = colour.XYZ_to_CAM16(
     XYZ, XYZ_w, L_A, Y_b, colour.VIEWING_CONDITIONS_CAM16["Average"]
 )
-JMh = np.array(
-    [specification_CAM16.J, specification_CAM16.M, specification_CAM16.h]
-)
+JMh = np.array([specification_CAM16.J, specification_CAM16.M, specification_CAM16.h])
 message_box(
     f'Converting to "CAM16-UCS" colourspace from given "CAM16" colour '
     f'appearance model "JMh" correlates:\n\n\t{JMh}'

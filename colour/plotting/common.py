@@ -347,7 +347,6 @@ def override_style(**kwargs: Any) -> Callable:
     ... def f(*args, **kwargs):
     ...     plt.text(0.5, 0.5, "This is a text!")
     ...     plt.show()
-    ...
     >>> f()  # doctest: +SKIP
     """
 
@@ -363,9 +362,7 @@ def override_style(**kwargs: Any) -> Callable:
             keywords.update(kwargs)
 
             style_overrides = {
-                key: value
-                for key, value in keywords.items()
-                if key in plt.rcParams
+                key: value for key, value in keywords.items() if key in plt.rcParams
             }
 
             with plt.style.context(style_overrides):
@@ -395,10 +392,7 @@ def font_scaling(scaling: LiteralFontScaling, value: float) -> Generator:
     Examples
     --------
     >>> with font_scaling("medium-colour-science", 2):
-    ...     print(
-    ...         matplotlib.font_manager.font_scalings["medium-colour-science"]
-    ...     )
-    ...
+    ...     print(matplotlib.font_manager.font_scalings["medium-colour-science"])
     2
     >>> print(matplotlib.font_manager.font_scalings["medium-colour-science"])
     1
@@ -416,9 +410,9 @@ def font_scaling(scaling: LiteralFontScaling, value: float) -> Generator:
 def XYZ_to_plotting_colourspace(
     XYZ: ArrayLike,
     illuminant: ArrayLike = RGB_COLOURSPACES["sRGB"].whitepoint,
-    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
-    | str
-    | None = "CAT02",
+    chromatic_adaptation_transform: (
+        LiteralChromaticAdaptationTransform | str | None
+    ) = "CAT02",
     apply_cctf_encoding: bool = True,
 ) -> NDArrayFloat:
     """
@@ -878,9 +872,7 @@ def uniform_axes3d(**kwargs: Any) -> Tuple[Figure, Axes]:
     extent = np.max(np.abs(extents[..., 1] - extents[..., 0]))
 
     for center, axis in zip(centers, "xyz"):
-        getattr(axes, f"set_{axis}lim")(
-            center - extent / 2, center + extent / 2
-        )
+        getattr(axes, f"set_{axis}lim")(center - extent / 2, center + extent / 2)
 
     return figure, axes
 
@@ -973,8 +965,7 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
         non_siblings = [
             filterer
             for filterer in filterers
-            if filterer not in string_filterers
-            and filterer not in object_filterers
+            if filterer not in string_filterers and filterer not in object_filterers
         ]
 
         if non_siblings:
@@ -1006,10 +997,12 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
 
 
 def filter_RGB_colourspaces(
-    filterers: RGB_Colourspace
-    | LiteralRGBColourspace
-    | str
-    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str],
+    filterers: (
+        RGB_Colourspace
+        | LiteralRGBColourspace
+        | str
+        | Sequence[RGB_Colourspace | LiteralRGBColourspace | str]
+    ),
     allow_non_siblings: bool = True,
 ) -> Dict[str, RGB_Colourspace]:
     """
@@ -1036,9 +1029,9 @@ def filter_RGB_colourspaces(
 
 
 def filter_cmfs(
-    filterers: MultiSpectralDistributions
-    | str
-    | Sequence[MultiSpectralDistributions | str],
+    filterers: (
+        MultiSpectralDistributions | str | Sequence[MultiSpectralDistributions | str]
+    ),
     allow_non_siblings: bool = True,
 ) -> Dict[str, MultiSpectralDistributions]:
     """
@@ -1067,9 +1060,7 @@ def filter_cmfs(
 
 
 def filter_illuminants(
-    filterers: SpectralDistribution
-    | str
-    | Sequence[SpectralDistribution | str],
+    filterers: (SpectralDistribution | str | Sequence[SpectralDistribution | str]),
     allow_non_siblings: bool = True,
 ) -> Dict[str, SpectralDistribution]:
     """
@@ -1129,9 +1120,7 @@ def filter_colour_checkers(
         Filtered colour checkers.
     """
 
-    return filter_passthrough(
-        CCS_COLOURCHECKERS, filterers, allow_non_siblings
-    )
+    return filter_passthrough(CCS_COLOURCHECKERS, filterers, allow_non_siblings)
 
 
 def update_settings_collection(
@@ -1327,9 +1316,7 @@ def plot_multi_colour_swatches(
     colour_swatches_converted = []
     if not isinstance(first_item(colour_swatches), ColourSwatch):
         for _i, colour_swatch in enumerate(
-            as_float_array(cast(ArrayLike, colour_swatches))[..., :3].reshape(
-                [-1, 3]
-            )
+            as_float_array(cast(ArrayLike, colour_swatches))[..., :3].reshape([-1, 3])
         ):
             colour_swatches_converted.append(ColourSwatch(colour_swatch))
     else:
@@ -1616,20 +1603,10 @@ def plot_multi_functions(
     samples = optional(samples, np.linspace(0, 1, 1000))
 
     for i, (_name, function) in enumerate(functions.items()):
-        plotting_function(
-            samples, function(samples), **plot_settings_collection[i]
-        )
+        plotting_function(samples, function(samples), **plot_settings_collection[i])
 
-    x_label = (
-        f"x - Log Base {log_x} Scale"
-        if log_x is not None
-        else "x - Linear Scale"
-    )
-    y_label = (
-        f"y - Log Base {log_y} Scale"
-        if log_y is not None
-        else "y - Linear Scale"
-    )
+    x_label = f"x - Log Base {log_x} Scale" if log_x is not None else "x - Linear Scale"
+    y_label = f"y - Log Base {log_y} Scale" if log_y is not None else "y - Linear Scale"
     settings = {
         "axes": axes,
         "legend": True,

@@ -68,7 +68,6 @@ from colour.hints import (
     List,
     Literal,
     NDArrayFloat,
-    Optional,
     cast,
 )
 from colour.models import (
@@ -223,9 +222,7 @@ __all__ = [
 
 
 class Conversion_Specification(
-    namedtuple(
-        "Conversion_Specification", ("source", "target", "conversion_function")
-    )
+    namedtuple("Conversion_Specification", ("source", "target", "conversion_function"))
 ):
     """
     Conversion specification for *Colour* graph for automatic colour
@@ -247,9 +244,7 @@ class Conversion_Specification(
         :class:`colour.graph.conversion.Conversion_Specification` class.
         """
 
-        return super().__new__(
-            cls, source.lower(), target.lower(), conversion_function
-        )
+        return super().__new__(cls, source.lower(), target.lower(), conversion_function)
 
 
 def CIECAM02_to_JMh_CIECAM02(
@@ -694,9 +689,9 @@ CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
         "Hunter Lab",
         partial(
             XYZ_to_Hunter_Lab,
-            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB[
-                "CIE 1931 2 Degree Standard Observer"
-            ]["D65"].XYZ_n
+            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
+                "D65"
+            ].XYZ_n
             / 100,
         ),
     ),
@@ -705,9 +700,9 @@ CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
         "CIE XYZ",
         partial(
             Hunter_Lab_to_XYZ,
-            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB[
-                "CIE 1931 2 Degree Standard Observer"
-            ]["D65"].XYZ_n
+            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
+                "D65"
+            ].XYZ_n
             / 100,
         ),
     ),
@@ -716,9 +711,9 @@ CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
         "Hunter Rdab",
         partial(
             XYZ_to_Hunter_Rdab,
-            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB[
-                "CIE 1931 2 Degree Standard Observer"
-            ]["D65"].XYZ_n
+            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
+                "D65"
+            ].XYZ_n
             / 100,
         ),
     ),
@@ -727,9 +722,9 @@ CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
         "CIE XYZ",
         partial(
             Hunter_Rdab_to_XYZ,
-            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB[
-                "CIE 1931 2 Degree Standard Observer"
-            ]["D65"].XYZ_n
+            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
+                "D65"
+            ].XYZ_n
             / 100,
         ),
     ),
@@ -912,9 +907,7 @@ CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
     (
         "CIE XYZ",
         "LLAB",
-        partial(
-            XYZ_to_LLAB, XYZ_0=_TVS_ILLUMINANT_DEFAULT, Y_b=80 * 0.2, L=80
-        ),
+        partial(XYZ_to_LLAB, XYZ_0=_TVS_ILLUMINANT_DEFAULT, Y_b=80 * 0.2, L=80),
     ),
     (
         "CIE XYZ",
@@ -1018,9 +1011,7 @@ def _build_graph() -> networkx.DiGraph:  # pyright: ignore  # noqa: F821
     return graph
 
 
-CONVERSION_GRAPH: (
-    Optional[nx.DiGraph]  # pyright: ignore  # noqa: F821, UP007
-) = None
+CONVERSION_GRAPH: nx.DiGraph | None = None  # pyright: ignore # noqa: F821
 """Automatic colour conversion graph."""
 
 
@@ -1062,9 +1053,7 @@ def _conversion_path(source: str, target: str) -> List[Callable]:
     path = nx.shortest_path(cast(nx.DiGraph, CONVERSION_GRAPH), source, target)
 
     return [
-        CONVERSION_GRAPH.get_edge_data(a, b)[  # pyright: ignore
-            "conversion_function"
-        ]
+        CONVERSION_GRAPH.get_edge_data(a, b)["conversion_function"]  # pyright: ignore
         for a, b in zip(path[:-1], path[1:])
     ]
 
@@ -1170,9 +1159,7 @@ def describe_conversion_path(
     )
 
     for conversion_function in conversion_path:
-        conversion_function_name = _lower_order_function(
-            conversion_function
-        ).__name__
+        conversion_function_name = _lower_order_function(conversion_function).__name__
 
         # Filtering compatible keyword arguments passed directly and
         # irrespective of any conversion function name.
@@ -1186,9 +1173,7 @@ def describe_conversion_path(
 
         if mode in ("long", "extended"):
             signature = pformat(
-                signature_inspection(
-                    _lower_order_function(conversion_function)
-                )
+                signature_inspection(_lower_order_function(conversion_function))
             )
             message = (
                 f'[ "{_lower_order_function(conversion_function).__name__}" ]\n\n'
@@ -1197,9 +1182,7 @@ def describe_conversion_path(
             )
 
             if filtered_kwargs:
-                message += (
-                    f"\n\n[ Filtered Arguments ]\n\n{pformat(filtered_kwargs)}"
-                )
+                message += f"\n\n[ Filtered Arguments ]\n\n{pformat(filtered_kwargs)}"
 
             if mode in ("extended",):
                 docstring = textwrap.dedent(
@@ -1417,9 +1400,7 @@ verbose={"mode": "Long"})
 
     verbose_kwargs = copy(kwargs)
     for conversion_function in conversion_path:
-        conversion_function_name = _lower_order_function(
-            conversion_function
-        ).__name__
+        conversion_function_name = _lower_order_function(conversion_function).__name__
 
         # Filtering compatible keyword arguments passed directly and
         # irrespective of any conversion function name.

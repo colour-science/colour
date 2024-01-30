@@ -1406,9 +1406,7 @@ class TestSpectralShape(unittest.TestCase):
         method.
         """
 
-        self.assertNotEqual(
-            SpectralShape(0, 10, 0.1), SpectralShape(1, 10, 0.1)
-        )
+        self.assertNotEqual(SpectralShape(0, 10, 0.1), SpectralShape(1, 10, 0.1))
 
     def test_range(self):
         """Test :func:`colour.colorimetry.spectrum.SpectralShape.range` method."""
@@ -1580,9 +1578,7 @@ SpectralDistribution.extrapolate` method.
         np.testing.assert_allclose(sd[10], 0, atol=TOLERANCE_ABSOLUTE_TESTS)
         np.testing.assert_allclose(sd[50], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        sd = SpectralDistribution(
-            np.linspace(0, 1, 10), np.linspace(25, 35, 10)
-        )
+        sd = SpectralDistribution(np.linspace(0, 1, 10), np.linspace(25, 35, 10))
         shape = SpectralShape(10, 50, 10)
         sd.extrapolate(
             shape,
@@ -1752,9 +1748,7 @@ MultiSpectralDistributions` class can be pickled.
         property.
         """
 
-        np.testing.assert_array_equal(
-            self._msds.wavelengths, self._msds.domain
-        )
+        np.testing.assert_array_equal(self._msds.wavelengths, self._msds.domain)
 
         msds = self._msds.copy()
         msds.wavelengths = msds.wavelengths + 10
@@ -1778,9 +1772,7 @@ MultiSpectralDistributions` class can be pickled.
 display_labels` property.
         """
 
-        self.assertTupleEqual(
-            tuple(self._sample_msds.display_labels), self._labels
-        )
+        self.assertTupleEqual(tuple(self._sample_msds.display_labels), self._labels)
         self.assertEqual(
             tuple(self._non_uniform_sample_msds.display_labels),
             ("Display x_bar", "Display y_bar", "Display z_bar"),
@@ -1981,9 +1973,7 @@ class TestReshapeSd(unittest.TestCase):
         )
         self.assertEqual(
             sd_reshaped,
-            sd.copy().extrapolate(
-                shape, extrapolator_kwargs=extrapolator_kwargs
-            ),
+            sd.copy().extrapolate(shape, extrapolator_kwargs=extrapolator_kwargs),
         )
 
         shape = colour.SpectralShape(400, 700, 1)
@@ -2010,9 +2000,7 @@ class TestReshapeSd(unittest.TestCase):
         self.assertEqual(sd_reshaped, sd.copy().trim(shape))
 
         if is_caching_enabled():
-            self.assertIs(
-                reshape_sd(sd, shape, method="Trim", copy=False), sd_reshaped
-            )
+            self.assertIs(reshape_sd(sd, shape, method="Trim", copy=False), sd_reshaped)
 
 
 class TestSdsAndMdsToSds(unittest.TestCase):
@@ -2082,27 +2070,17 @@ class TestSdsAndMsdsToMsds(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            sds_and_msds_to_msds(
-                [sd_1, sd_2, multi_sds_1, multi_sds_2]
-            ).wavelengths,
+            sds_and_msds_to_msds([sd_1, sd_2, multi_sds_1, multi_sds_2]).wavelengths,
             shape.wavelengths,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            sds_and_msds_to_msds(
-                [sd_1, sd_2, multi_sds_1, multi_sds_2]
-            ).values,
+            sds_and_msds_to_msds([sd_1, sd_2, multi_sds_1, multi_sds_2]).values,
             tstack(
                 [sd_1.align(shape).values, sd_2.align(shape).values]
-                + [
-                    sd.values
-                    for sd in sds_and_msds_to_sds(multi_sds_1.align(shape))
-                ]
-                + [
-                    sd.values
-                    for sd in sds_and_msds_to_sds(multi_sds_2.align(shape))
-                ]
+                + [sd.values for sd in sds_and_msds_to_sds(multi_sds_1.align(shape))]
+                + [sd.values for sd in sds_and_msds_to_sds(multi_sds_2.align(shape))]
             ),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

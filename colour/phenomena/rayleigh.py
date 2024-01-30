@@ -172,11 +172,7 @@ def air_refraction_index_Peck1972(
 
     wl = as_float_array(wavelength)
 
-    n = (
-        8060.51
-        + 2480990 / (132.274 - wl ** (-2))
-        + 17455.7 / (39.32957 - wl ** (-2))
-    )
+    n = 8060.51 + 2480990 / (132.274 - wl ** (-2)) + 17455.7 / (39.32957 - wl ** (-2))
     n /= 1.0e8
     n += +1
 
@@ -216,9 +212,7 @@ def air_refraction_index_Bodhaine1999(
     # Converting from parts per million (ppm) to parts per volume (ppv).
     CO2_c = CO2_c * 1e-6
 
-    n = (1 + 0.54 * (CO2_c - 300e-6)) * (
-        air_refraction_index_Peck1972(wl) - 1
-    ) + 1
+    n = (1 + 0.54 * (CO2_c - 300e-6)) * (air_refraction_index_Peck1972(wl) - 1) + 1
 
     return as_float(n)
 
@@ -274,9 +268,7 @@ def O2_depolarisation(wavelength: ArrayLike) -> NDArrayFloat:
 
     wl = as_float_array(wavelength)
 
-    O2 = (
-        1.096 + 1.385 * 1.0e-3 * (1 / wl**2) + 1.448 * 1.0e-4 * (1 / wl**4)
-    )
+    O2 = 1.096 + 1.385 * 1.0e-3 * (1 / wl**2) + 1.448 * 1.0e-4 * (1 / wl**4)
 
     return O2
 
@@ -372,9 +364,7 @@ def F_air_Bates1984(wavelength: ArrayLike) -> NDArrayFloat:
     Ar = 1.00
     CO2 = 1.15
 
-    F_air = (78.084 * N2 + 20.946 * O2 + CO2 + Ar) / (
-        78.084 + 20.946 + Ar + CO2
-    )
+    F_air = (78.084 * N2 + 20.946 * O2 + CO2 + Ar) / (78.084 + 20.946 + Ar + CO2)
 
     return F_air
 
@@ -615,12 +605,7 @@ def scattering_cross_section(
         )
     )
 
-    sigma = (
-        24
-        * np.pi**3
-        * (n_s**2 - 1) ** 2
-        / (wl**4 * N_s**2 * (n_s**2 + 2) ** 2)
-    )
+    sigma = 24 * np.pi**3 * (n_s**2 - 1) ** 2 / (wl**4 * N_s**2 * (n_s**2 + 2) ** 2)
     sigma *= F_air
 
     return sigma
@@ -764,7 +749,6 @@ def sd_rayleigh_scattering(
     >>> from colour.utilities import numpy_print_options
     >>> with numpy_print_options(suppress=True):
     ...     sd_rayleigh_scattering()  # doctest: +ELLIPSIS
-    ...
     SpectralDistribution([[ 360.        ,    0.5602465...],
                           [ 361.        ,    0.5537481...],
                           [ 362.        ,    0.5473446...],

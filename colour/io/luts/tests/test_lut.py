@@ -136,13 +136,9 @@ class AbstractLUTTest(unittest.TestCase):
         self._table_1_kwargs: dict | None = None
         self._table_2_kwargs: dict | None = None
         self._table_3_kwargs: dict | None = None
-        self._interpolator_1: Callable | Type[
-            ProtocolInterpolator
-        ] | None = None
+        self._interpolator_1: Callable | Type[ProtocolInterpolator] | None = None
         self._interpolator_kwargs_1: dict = {}
-        self._interpolator_2: Callable | Type[
-            ProtocolInterpolator
-        ] | None = None
+        self._interpolator_2: Callable | Type[ProtocolInterpolator] | None = None
         self._interpolator_kwargs_2: dict = {}
         self._invert_kwargs_1: dict = {}
         self._invert_kwargs_2: dict = {}
@@ -214,9 +210,7 @@ class AbstractLUTTest(unittest.TestCase):
 
         table_1 = self._table_1 * 0.8 + 0.1
         LUT.table = table_1
-        np.testing.assert_allclose(
-            LUT.table, table_1, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(LUT.table, table_1, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_name(self):
         """
@@ -385,9 +379,7 @@ class AbstractLUTTest(unittest.TestCase):
         self.assertFalse(self._LUT_factory().is_domain_explicit())
 
         self.assertTrue(
-            self._LUT_factory(
-                self._table_3, domain=self._domain_3
-            ).is_domain_explicit()
+            self._LUT_factory(self._table_3, domain=self._domain_3).is_domain_explicit()
         )
 
     def test_arithmetical_operation(self):
@@ -526,9 +518,7 @@ class AbstractLUTTest(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            spow(
-                self._LUT_factory.linear_table(**self._table_3_kwargs), 1 / 2.6
-            ),
+            spow(self._LUT_factory.linear_table(**self._table_3_kwargs), 1 / 2.6),
             self._table_3,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -1165,9 +1155,7 @@ class TestLUT_to_LUT(unittest.TestCase):
             LUT3x1D.linear_table(16) ** (1 / 2.2) * (1.0, 0.75, 0.5),
             domain=self._domain,
         )
-        self._LUT_3 = LUT3D(
-            LUT3D.linear_table(16) ** (1 / 2.2), domain=self._domain
-        )
+        self._LUT_3 = LUT3D(LUT3D.linear_table(16) ** (1 / 2.2), domain=self._domain)
 
     def test_LUT_to_LUT(self):
         """Test :func:`colour.io.luts.lut.LUT_to_LUT` definition."""

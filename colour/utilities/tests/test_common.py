@@ -228,9 +228,7 @@ class TestCacheRegistry(unittest.TestCase):
 
         cache_registry = self._default_test_cache_registry()
         cache_registry.clear_all_caches()
-        self.assertDictEqual(
-            cache_registry.registry, {"Cache A": {}, "Cache B": {}}
-        )
+        self.assertDictEqual(cache_registry.registry, {"Cache A": {}, "Cache B": {}})
 
 
 class TestAttest(unittest.TestCase):
@@ -476,9 +474,7 @@ class TestFilterKwargs(unittest.TestCase):
 
             return a, b
 
-        def fn_c(
-            a: Any, b: float = 0, c: float = 0
-        ) -> Tuple[float, float, float]:
+        def fn_c(a: Any, b: float = 0, c: float = 0) -> Tuple[float, float, float]:
             """:func:`filter_kwargs` unit tests :func:`fn_c` definition."""
 
             return a, b, c
@@ -487,9 +483,7 @@ class TestFilterKwargs(unittest.TestCase):
 
         self.assertTupleEqual((1, 2), fn_b(1, **filter_kwargs(fn_b, b=2, c=3)))
 
-        self.assertTupleEqual(
-            (1, 2, 3), fn_c(1, **filter_kwargs(fn_c, b=2, c=3))
-        )
+        self.assertTupleEqual((1, 2, 3), fn_c(1, **filter_kwargs(fn_c, b=2, c=3)))
 
         self.assertDictEqual(filter_kwargs(partial(fn_c, b=1), b=1), {"b": 1})
 
@@ -539,9 +533,7 @@ class TestFilterMapping(unittest.TestCase):
             sorted(filter_mapping(mapping, "element-a")), ["Element A"]
         )
 
-        self.assertListEqual(
-            sorted(filter_mapping(mapping, "elementa")), ["Element A"]
-        )
+        self.assertListEqual(sorted(filter_mapping(mapping, "elementa")), ["Element A"])
 
 
 class TestFirstItem(unittest.TestCase):
@@ -570,9 +562,7 @@ class TestValidateMethod(unittest.TestCase):
     def test_validate_method(self):
         """Test :func:`colour.utilities.common.validate_method` definition."""
 
-        self.assertEqual(
-            validate_method("Valid", ("Valid", "Yes", "Ok")), "valid"
-        )
+        self.assertEqual(validate_method("Valid", ("Valid", "Yes", "Ok")), "valid")
 
     def test_raise_exception_validate_method(self):
         """
@@ -610,8 +600,7 @@ class TestSlugify(unittest.TestCase):
 
         self.assertEqual(
             slugify(
-                " Jack & Jill like numbers 1,2,3 and 4 and "
-                "silly characters ?%.$!/"
+                " Jack & Jill like numbers 1,2,3 and 4 and silly characters ?%.$!/"
             ),
             "jack-jill-like-numbers-123-and-4-and-silly-characters",
         )

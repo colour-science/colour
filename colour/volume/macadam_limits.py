@@ -35,15 +35,13 @@ _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ: dict = CACHE_REGISTRY.register_cache(
     f"{__name__}._CACHE_OPTIMAL_COLOUR_STIMULI_XYZ"
 )
 
-_CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS: dict = (
-    CACHE_REGISTRY.register_cache(
-        f"{__name__}._CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS"
-    )
+_CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS: dict = CACHE_REGISTRY.register_cache(
+    f"{__name__}._CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS"
 )
 
 
 def _XYZ_optimal_colour_stimuli(
-    illuminant: Literal["A", "C", "D65"] | str = "D65"
+    illuminant: Literal["A", "C", "D65"] | str = "D65",
 ) -> NDArrayFloat:
     """
     Return given illuminant *Optimal Colour Stimuli* in *CIE XYZ* tristimulus
@@ -121,14 +119,12 @@ def is_within_macadam_limits(
     """
 
     optimal_colour_stimuli = _XYZ_optimal_colour_stimuli(illuminant)
-    triangulation = _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS.get(
-        illuminant
-    )
+    triangulation = _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS.get(illuminant)
 
     if triangulation is None:
-        _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS[
-            illuminant
-        ] = triangulation = Delaunay(optimal_colour_stimuli)
+        _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS[illuminant] = (
+            triangulation
+        ) = Delaunay(optimal_colour_stimuli)
 
     simplex = triangulation.find_simplex(xyY_to_XYZ(xyY), tol=tolerance)
     simplex = np.where(simplex >= 0, True, False)

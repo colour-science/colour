@@ -35,25 +35,19 @@ class TestXYZ_to_IPT_Ragoo2021(unittest.TestCase):
         """
 
         np.testing.assert_allclose(
-            XYZ_to_IPT_Ragoo2021(
-                np.array([0.20654008, 0.12197225, 0.05136952])
-            ),
+            XYZ_to_IPT_Ragoo2021(np.array([0.20654008, 0.12197225, 0.05136952])),
             np.array([0.42248243, 0.29105140, 0.20410663]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            XYZ_to_IPT_Ragoo2021(
-                np.array([0.14222010, 0.23042768, 0.10495772])
-            ),
+            XYZ_to_IPT_Ragoo2021(np.array([0.14222010, 0.23042768, 0.10495772])),
             np.array([0.54745257, -0.22795249, 0.10109646]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            XYZ_to_IPT_Ragoo2021(
-                np.array([0.07818780, 0.06157201, 0.28099326])
-            ),
+            XYZ_to_IPT_Ragoo2021(np.array([0.07818780, 0.06157201, 0.28099326])),
             np.array([0.32151337, 0.06071424, -0.27388774]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -121,25 +115,19 @@ class TestIPT_Ragoo2021_to_XYZ(unittest.TestCase):
         """
 
         np.testing.assert_allclose(
-            IPT_Ragoo2021_to_XYZ(
-                np.array([0.42248243, 0.29105140, 0.20410663])
-            ),
+            IPT_Ragoo2021_to_XYZ(np.array([0.42248243, 0.29105140, 0.20410663])),
             np.array([0.20654008, 0.12197225, 0.05136952]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            IPT_Ragoo2021_to_XYZ(
-                np.array([0.54745257, -0.22795249, 0.10109646])
-            ),
+            IPT_Ragoo2021_to_XYZ(np.array([0.54745257, -0.22795249, 0.10109646])),
             np.array([0.14222010, 0.23042768, 0.10495772]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            IPT_Ragoo2021_to_XYZ(
-                np.array([0.32151337, 0.06071424, -0.27388774])
-            ),
+            IPT_Ragoo2021_to_XYZ(np.array([0.32151337, 0.06071424, -0.27388774])),
             np.array([0.07818780, 0.06157201, 0.28099326]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

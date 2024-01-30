@@ -82,9 +82,7 @@ def xy_to_CCT_Kang2002(
     shape = xy.shape
     xy = np.atleast_1d(xy.reshape([-1, 2]))
 
-    def objective_function(
-        CCT: NDArrayFloat, xy: NDArrayFloat
-    ) -> NDArrayFloat:
+    def objective_function(CCT: NDArrayFloat, xy: NDArrayFloat) -> NDArrayFloat:
         """Objective function."""
 
         objective = np.linalg.norm(CCT_to_xy_Kang2002(CCT) - xy)

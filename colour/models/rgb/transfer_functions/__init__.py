@@ -418,9 +418,7 @@ Supported *log* encoding functions.
 
 
 def log_encoding(
-    value: ArrayLike,
-    function: Union[LiteralLogEncoding, str] = "Cineon",
-    **kwargs: Any
+    value: ArrayLike, function: Union[LiteralLogEncoding, str] = "Cineon", **kwargs: Any
 ) -> Union[NDArrayFloat, NDArrayInt]:
     """
     Encode *scene-referred* exposure values to :math:`R'G'B'` video component
@@ -541,7 +539,7 @@ Supported *log* decoding functions.
 def log_decoding(
     value: Union[ArrayLike, ArrayLike],
     function: Union[LiteralLogDecoding, str] = "Cineon",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArrayFloat:
     """
     Decode :math:`R'G'B'` video component signal value to *scene-referred*
@@ -652,9 +650,7 @@ Supported opto-electrical transfer functions (OETFs / OECFs).
 
 
 def oetf(
-    value: ArrayLike,
-    function: Union[LiteralOETF, str] = "ITU-R BT.709",
-    **kwargs: Any
+    value: ArrayLike, function: Union[LiteralOETF, str] = "ITU-R BT.709", **kwargs: Any
 ) -> NDArrayFloat:
     """
     Encode estimated tristimulus values in a scene to :math:`R'G'B'` video
@@ -729,7 +725,7 @@ Supported inverse opto-electrical transfer functions (OETFs / OECFs).
 def oetf_inverse(
     value: ArrayLike,
     function: Union[LiteralOETFInverse, str] = "ITU-R BT.709",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArrayFloat:
     """
     Decode :math:`R'G'B'` video component signal value to tristimulus values
@@ -804,7 +800,7 @@ Supported electro-optical transfer functions (EOTFs / EOCFs).
 def eotf(
     value: Union[ArrayLike, ArrayLike],
     function: Union[LiteralEOTF, str] = "ITU-R BT.1886",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArrayFloat:
     """
     Decode :math:`R'G'B'` video component signal value to tristimulus values
@@ -875,7 +871,7 @@ Supported inverse electro-optical transfer functions (EOTFs / EOCFs).
 def eotf_inverse(
     value: ArrayLike,
     function: Union[LiteralEOTFInverse, str] = "ITU-R BT.1886",
-    **kwargs
+    **kwargs,
 ) -> Union[NDArrayFloat, NDArrayInt]:
     """
     Encode estimated tristimulus values in a scene to :math:`R'G'B'` video
@@ -972,9 +968,7 @@ For *ITU-R BT.2100*, only the inverse electro-optical transfer functions
 
 
 def cctf_encoding(
-    value: ArrayLike,
-    function: Union[LiteralCCTFEncoding, str] = "sRGB",
-    **kwargs: Any
+    value: ArrayLike, function: Union[LiteralCCTFEncoding, str] = "sRGB", **kwargs: Any
 ) -> Union[NDArrayFloat, NDArrayInt]:
     """
     Encode linear :math:`RGB` values to non-linear :math:`R'G'B'` values using
@@ -1078,7 +1072,7 @@ Notes
 def cctf_decoding(
     value: Union[ArrayLike, ArrayLike],
     function: Union[LiteralCCTFDecoding, str] = "sRGB",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArrayFloat:
     """
     Decode non-linear :math:`R'G'B'` values to linear :math:`RGB` values using
@@ -1166,7 +1160,7 @@ Supported opto-optical transfer functions (OOTFs / OOCFs).
 def ootf(
     value: ArrayLike,
     function: Union[LiteralOOTF, str] = "ITU-R BT.2100 PQ",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArrayFloat:
     """
     Map relative scene linear light to display linear light using given
@@ -1224,7 +1218,7 @@ Supported inverse opto-optical transfer functions (OOTFs / OOCFs).
 def ootf_inverse(
     value: ArrayLike,
     function: Union[LiteralOOTFInverse, str] = "ITU-R BT.2100 PQ",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArrayFloat:
     """
     Map relative display linear light to scene linear light using given

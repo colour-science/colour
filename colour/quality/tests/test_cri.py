@@ -148,48 +148,20 @@ class TestColourRenderingIndex(unittest.TestCase):
             name="FL1",
             Q_a=75.852827992149358,
             Q_as={
-                1: DataColourQualityScale_TCS(
-                    name="TCS01", Q_a=69.196992839933557
-                ),
-                2: DataColourQualityScale_TCS(
-                    name="TCS02", Q_a=83.650754065677816
-                ),
-                3: DataColourQualityScale_TCS(
-                    name="TCS03", Q_a=92.136090764490675
-                ),
-                4: DataColourQualityScale_TCS(
-                    name="TCS04", Q_a=72.665649420972784
-                ),
-                5: DataColourQualityScale_TCS(
-                    name="TCS05", Q_a=73.890734513517486
-                ),
-                6: DataColourQualityScale_TCS(
-                    name="TCS06", Q_a=79.619188860052745
-                ),
-                7: DataColourQualityScale_TCS(
-                    name="TCS07", Q_a=82.272569853644669
-                ),
-                8: DataColourQualityScale_TCS(
-                    name="TCS08", Q_a=53.390643618905109
-                ),
-                9: DataColourQualityScale_TCS(
-                    name="TCS09", Q_a=-47.284477750225903
-                ),
-                10: DataColourQualityScale_TCS(
-                    name="TCS10", Q_a=61.568336431199967
-                ),
-                11: DataColourQualityScale_TCS(
-                    name="TCS11", Q_a=67.522241168172485
-                ),
-                12: DataColourQualityScale_TCS(
-                    name="TCS12", Q_a=74.890093866757994
-                ),
-                13: DataColourQualityScale_TCS(
-                    name="TCS13", Q_a=72.771930354944615
-                ),
-                14: DataColourQualityScale_TCS(
-                    name="TCS14", Q_a=94.884867470552663
-                ),
+                1: DataColourQualityScale_TCS(name="TCS01", Q_a=69.196992839933557),
+                2: DataColourQualityScale_TCS(name="TCS02", Q_a=83.650754065677816),
+                3: DataColourQualityScale_TCS(name="TCS03", Q_a=92.136090764490675),
+                4: DataColourQualityScale_TCS(name="TCS04", Q_a=72.665649420972784),
+                5: DataColourQualityScale_TCS(name="TCS05", Q_a=73.890734513517486),
+                6: DataColourQualityScale_TCS(name="TCS06", Q_a=79.619188860052745),
+                7: DataColourQualityScale_TCS(name="TCS07", Q_a=82.272569853644669),
+                8: DataColourQualityScale_TCS(name="TCS08", Q_a=53.390643618905109),
+                9: DataColourQualityScale_TCS(name="TCS09", Q_a=-47.284477750225903),
+                10: DataColourQualityScale_TCS(name="TCS10", Q_a=61.568336431199967),
+                11: DataColourQualityScale_TCS(name="TCS11", Q_a=67.522241168172485),
+                12: DataColourQualityScale_TCS(name="TCS12", Q_a=74.890093866757994),
+                13: DataColourQualityScale_TCS(name="TCS13", Q_a=72.771930354944615),
+                14: DataColourQualityScale_TCS(name="TCS14", Q_a=94.884867470552663),
             },
             colorimetry_data=(
                 [
@@ -227,9 +199,7 @@ class TestColourRenderingIndex(unittest.TestCase):
                         name="TCS06",
                         XYZ=np.array([27.43598853, 28.84467787, 55.15209308]),
                         uv=np.array([0.17543246, 0.27665994]),
-                        UVW=np.array(
-                            [-14.91500194, -30.51166823, 59.67054901]
-                        ),
+                        UVW=np.array([-14.91500194, -30.51166823, 59.67054901]),
                     ),
                     DataColorimetry_TCS(
                         name="TCS07",
@@ -265,9 +235,7 @@ class TestColourRenderingIndex(unittest.TestCase):
                         name="TCS12",
                         XYZ=np.array([5.77964943, 5.69096075, 24.73530409]),
                         uv=np.array([0.13981616, 0.20650602]),
-                        UVW=np.array(
-                            [-19.30689974, -39.58762581, 27.63428055]
-                        ),
+                        UVW=np.array([-19.30689974, -39.58762581, 27.63428055]),
                     ),
                     DataColorimetry_TCS(
                         name="TCS13",
@@ -317,9 +285,7 @@ class TestColourRenderingIndex(unittest.TestCase):
                         name="TCS06",
                         XYZ=np.array([28.14601546, 29.75632189, 57.16886797]),
                         uv=np.array([0.17427942, 0.27637560]),
-                        UVW=np.array(
-                            [-18.85053083, -28.64005452, 60.46991712]
-                        ),
+                        UVW=np.array([-18.85053083, -28.64005452, 60.46991712]),
                     ),
                     DataColorimetry_TCS(
                         name="TCS07",
@@ -355,9 +321,7 @@ class TestColourRenderingIndex(unittest.TestCase):
                         name="TCS12",
                         XYZ=np.array([6.18799870, 6.41132549, 27.28158667]),
                         uv=np.array([0.13437372, 0.20883497]),
-                        UVW=np.array(
-                            [-24.45285903, -39.79705961, 29.44325151]
-                        ),
+                        UVW=np.array([-24.45285903, -39.79705961, 29.44325151]),
                     ),
                     DataColorimetry_TCS(
                         name="TCS13",
@@ -380,14 +344,8 @@ class TestColourRenderingIndex(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            [
-                data.Q_a
-                for _index, data in sorted(specification_r.Q_as.items())
-            ],
-            [
-                data.Q_a
-                for _index, data in sorted(specification_t.Q_as.items())
-            ],
+            [data.Q_a for _index, data in sorted(specification_r.Q_as.items())],
+            [data.Q_a for _index, data in sorted(specification_t.Q_as.items())],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 

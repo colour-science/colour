@@ -224,9 +224,7 @@ def uv_to_UCS(uv: ArrayLike, V: float = 1) -> NDArrayFloat:
     V = as_float_scalar(to_domain_1(V))
 
     with sdiv_mode():
-        UVW = tstack(
-            [V * sdiv(u, v), full(u.shape, V), -V * sdiv(u + v - 1, v)]
-        )
+        UVW = tstack([V * sdiv(u, v), full(u.shape, V), -V * sdiv(u + v - 1, v)])
 
     return from_range_1(UVW)
 

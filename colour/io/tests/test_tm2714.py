@@ -611,9 +611,7 @@ SpectralDistribution_IESTM2714(...,
             for key, value in test.items():
                 for specification in read.mapping.elements:
                     if key == specification.element:
-                        self.assertEqual(
-                            getattr(read, specification.attribute), value
-                        )
+                        self.assertEqual(getattr(read, specification.attribute), value)
 
     def test_raise_exception_read(self):
         """
@@ -669,9 +667,7 @@ SpectralDistribution_IESTM2714(...,
             "bandwidth_FWHM",
             "bandwidth_corrected",
         ):
-            self.assertEqual(
-                getattr(sd_r, attribute), getattr(sd_t, attribute)
-            )
+            self.assertEqual(getattr(sd_r, attribute), getattr(sd_t, attribute))
 
     def test_raise_exception_write(self):
         """

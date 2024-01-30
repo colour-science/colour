@@ -164,9 +164,7 @@ def xyY_to_XYZ(xyY: ArrayLike) -> NDArrayFloat:
 
     Y_y = Y[m_XYZ] / y[m_XYZ]
 
-    XYZ[m_XYZ] = tstack(
-        [x[m_XYZ] * Y_y, Y[m_XYZ], (1 - x[m_XYZ] - y[m_XYZ]) * Y_y]
-    )
+    XYZ[m_XYZ] = tstack([x[m_XYZ] * Y_y, Y[m_XYZ], (1 - x[m_XYZ] - y[m_XYZ]) * Y_y])
 
     return from_range_1(XYZ)
 

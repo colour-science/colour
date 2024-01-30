@@ -52,8 +52,7 @@ __all__ = [
     }
 )
 def plot_single_colour_checker(
-    colour_checker: ColourChecker
-    | str = "ColorChecker24 - After November 2014",
+    colour_checker: (ColourChecker | str) = "ColorChecker24 - After November 2014",
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
@@ -139,9 +138,7 @@ def plot_multi_colour_checkers(
         :alt: plot_multi_colour_checkers
     """
 
-    filtered_colour_checkers = list(
-        filter_colour_checkers(colour_checkers).values()
-    )
+    filtered_colour_checkers = list(filter_colour_checkers(colour_checkers).values())
 
     attest(
         len(filtered_colour_checkers) <= 2,

@@ -110,9 +110,7 @@ non_uniform_interpolated_sd.interpolate(
 shape = sd_base.shape
 x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
 
-plt.plot(
-    sd_base.wavelengths, sd_base.values, "ro-", label=sd_base.name, linewidth=1
-)
+plt.plot(sd_base.wavelengths, sd_base.values, "ro-", label=sd_base.name, linewidth=1)
 plt.plot(
     uniform_interpolated_sd.wavelengths,
     uniform_interpolated_sd.values,

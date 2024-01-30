@@ -120,12 +120,8 @@ SDS_SMITS1999: CanonicalMapping = CanonicalMapping(
     {
         "white": SpectralDistribution(DATA_SMITS1999["white"], name="white"),
         "cyan": SpectralDistribution(DATA_SMITS1999["cyan"], name="cyan"),
-        "magenta": SpectralDistribution(
-            DATA_SMITS1999["magenta"], name="magenta"
-        ),
-        "yellow": SpectralDistribution(
-            DATA_SMITS1999["yellow"], name="yellow"
-        ),
+        "magenta": SpectralDistribution(DATA_SMITS1999["magenta"], name="magenta"),
+        "yellow": SpectralDistribution(DATA_SMITS1999["yellow"], name="yellow"),
         "red": SpectralDistribution(DATA_SMITS1999["red"], name="red"),
         "green": SpectralDistribution(DATA_SMITS1999["green"], name="green"),
         "blue": SpectralDistribution(DATA_SMITS1999["blue"], name="blue"),

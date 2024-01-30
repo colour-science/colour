@@ -436,9 +436,7 @@ def RGB_to_YCbCr(
     Matching the float output of *The Foundry Nuke*'s *Colorspace* node set to
     *YCbCr*:
 
-    >>> RGB_to_YCbCr(
-    ...     RGB, out_range=(16 / 255, 235 / 255, 15.5 / 255, 239.5 / 255)
-    ... )
+    >>> RGB_to_YCbCr(RGB, out_range=(16 / 255, 235 / 255, 15.5 / 255, 239.5 / 255))
     ... # doctest: +ELLIPSIS
     array([ 0.9215686...,  0.5       ,  0.5       ])
 
@@ -493,9 +491,7 @@ def RGB_to_YCbCr(
     RGB = as_float_array(RGB) if in_int else to_domain_1(RGB)
 
     Kr, Kb = K
-    RGB_min, RGB_max = kwargs.get(
-        "in_range", CV_range(in_bits, in_legal, in_int)
-    )
+    RGB_min, RGB_max = kwargs.get("in_range", CV_range(in_bits, in_legal, in_int))
     Y_min, Y_max, C_min, C_max = kwargs.get(
         "out_range", ranges_YCbCr(out_bits, out_legal, out_int)
     )
@@ -518,9 +514,7 @@ def RGB_to_YCbCr(
 
     if out_int:
         return as_int_array(
-            round_BT2100(
-                np.clip(YCbCr, 0, 2**out_bits - 1) if clamp_int else YCbCr
-            )
+            round_BT2100(np.clip(YCbCr, 0, 2**out_bits - 1) if clamp_int else YCbCr)
         )
     else:
         return from_range_1(YCbCr)
@@ -636,9 +630,7 @@ def YCbCr_to_RGB(
     Y_min, Y_max, C_min, C_max = kwargs.get(
         "in_range", ranges_YCbCr(in_bits, in_legal, in_int)
     )
-    RGB_min, RGB_max = kwargs.get(
-        "out_range", CV_range(out_bits, out_legal, out_int)
-    )
+    RGB_min, RGB_max = kwargs.get("out_range", CV_range(out_bits, out_legal, out_int))
 
     Y -= Y_min
     Cb -= (C_max + C_min) / 2
@@ -656,9 +648,7 @@ def YCbCr_to_RGB(
 
     RGB = (
         as_int_array(
-            round_BT2100(
-                np.clip(RGB, 0, 2**out_bits - 1) if clamp_int else RGB
-            )
+            round_BT2100(np.clip(RGB, 0, 2**out_bits - 1) if clamp_int else RGB)
         )
         if out_int
         else from_range_1(RGB)

@@ -165,9 +165,7 @@ def ellipse_coefficients_canonical_form(
     return np.array([x_c, y_c, a_a, a_b, theta])
 
 
-def point_at_angle_on_ellipse(
-    phi: ArrayLike, coefficients: ArrayLike
-) -> NDArrayFloat:
+def point_at_angle_on_ellipse(phi: ArrayLike, coefficients: ArrayLike) -> NDArrayFloat:
     """
     Return the coordinates of the point at angle :math:`\\phi` in degrees on
     the ellipse with given canonical form coefficients.

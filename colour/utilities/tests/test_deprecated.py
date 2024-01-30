@@ -27,9 +27,7 @@ NEW_NAME: Any = None
 """A module attribute with a new name."""
 
 with contextlib.suppress(KeyError):
-    sys.modules[
-        "colour.utilities.tests.test_deprecated"
-    ] = deprecated(  # pyright: ignore
+    sys.modules["colour.utilities.tests.test_deprecated"] = deprecated(  # pyright: ignore
         sys.modules["colour.utilities.tests.test_deprecated"],
         {
             "OLD_NAME": ObjectRenamed(

@@ -48,9 +48,7 @@ class Testxy_to_CCT_McCamy1992(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            xy_to_CCT_McCamy1992(
-                np.array([0.252520939374083, 0.252220883926284])
-            ),
+            xy_to_CCT_McCamy1992(np.array([0.252520939374083, 0.252220883926284])),
             19501.61953130,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

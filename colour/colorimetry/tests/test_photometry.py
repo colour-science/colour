@@ -82,9 +82,7 @@ class TestLuminousEfficiency(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            luminous_efficiency(
-                SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"]
-            ),
+            luminous_efficiency(SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"]),
             0.51080919,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

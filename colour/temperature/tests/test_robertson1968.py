@@ -266,9 +266,7 @@ class TestUv_to_CCT_Robertson1968(unittest.TestCase):
         """
 
         for key, value in TEMPERATURE_DUV_TO_UV.items():
-            np.testing.assert_allclose(
-                uv_to_CCT_Robertson1968(value), key, atol=0.25
-            )
+            np.testing.assert_allclose(uv_to_CCT_Robertson1968(value), key, atol=0.25)
 
     def test_n_dimensional_uv_to_CCT_Robertson1968(self):
         """

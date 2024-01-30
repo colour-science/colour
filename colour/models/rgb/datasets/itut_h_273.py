@@ -169,10 +169,8 @@ References
 - :cite:`InternationalTelecommunicationUnion2021`
 """
 
-MATRIX_H273_22_UNSPECIFIED_RGB_TO_XYZ: NDArrayFloat = (
-    normalised_primary_matrix(
-        PRIMARIES_H273_22_UNSPECIFIED, CCS_WHITEPOINT_H273_22_UNSPECIFIED
-    )
+MATRIX_H273_22_UNSPECIFIED_RGB_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
+    PRIMARIES_H273_22_UNSPECIFIED, CCS_WHITEPOINT_H273_22_UNSPECIFIED
 )
 """
 Row *22* colourspace as given in

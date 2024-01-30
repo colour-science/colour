@@ -86,9 +86,9 @@ def projective_transformation(a: ArrayLike, Q: ArrayLike) -> NDArrayFloat:
 
 def XYZ_to_ProLab(
     XYZ: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS[
-        "CIE 1931 2 Degree Standard Observer"
-    ]["D65"],
+    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
 ) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *ProLab* colourspace.
@@ -145,9 +145,9 @@ def XYZ_to_ProLab(
 
 def ProLab_to_XYZ(
     ProLab: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS[
-        "CIE 1931 2 Degree Standard Observer"
-    ]["D65"],
+    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
 ) -> NDArrayFloat:
     """
     Convert from *ProLab* colourspace to *CIE XYZ* tristimulus values.

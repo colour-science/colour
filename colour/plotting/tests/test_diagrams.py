@@ -110,9 +110,7 @@ class TestPlotSpectralLocus(unittest.TestCase):
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
-        self.assertRaises(
-            ValueError, lambda: plot_spectral_locus(method="Undefined")
-        )
+        self.assertRaises(ValueError, lambda: plot_spectral_locus(method="Undefined"))
 
 
 class TestPlotChromaticityDiagramColours(unittest.TestCase):
@@ -258,10 +256,7 @@ plot_sds_in_chromaticity_diagram` definition unit tests methods.
         figure, axes = plot_sds_in_chromaticity_diagram(
             [SDS_ILLUMINANTS["A"], SDS_ILLUMINANTS["D65"]],
             annotate_kwargs=[{"arrowprops": {"width": 10}}] * 2,
-            plot_kwargs=[
-                {"normalise_sd_colours": True, "use_sd_colours": True}
-            ]
-            * 2,
+            plot_kwargs=[{"normalise_sd_colours": True, "use_sd_colours": True}] * 2,
         )
 
         self.assertIsInstance(figure, Figure)

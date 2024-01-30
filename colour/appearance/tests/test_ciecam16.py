@@ -260,9 +260,7 @@ class TestXYZ_to_CIECAM16(unittest.TestCase):
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
-        surround = InductionFactors_CIECAM16(
-            cases[0, 0], cases[0, 0], cases[0, 0]
-        )
+        surround = InductionFactors_CIECAM16(cases[0, 0], cases[0, 0], cases[0, 0])
         XYZ_to_CIECAM16(cases, cases, cases[..., 0], cases[..., 0], surround)
 
 
@@ -447,9 +445,7 @@ class TestCIECAM16_to_XYZ(unittest.TestCase):
         self.assertRaises(
             ValueError,
             CIECAM16_to_XYZ,
-            CAM_Specification_CIECAM16(
-                41.731207905126638, None, 217.06795976739301
-            ),
+            CAM_Specification_CIECAM16(41.731207905126638, None, 217.06795976739301),
             np.array([95.05, 100.00, 108.88]),
             318.31,
             20.0,
@@ -465,9 +461,7 @@ class TestCIECAM16_to_XYZ(unittest.TestCase):
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
-        surround = InductionFactors_CIECAM16(
-            cases[0, 0], cases[0, 0], cases[0, 0]
-        )
+        surround = InductionFactors_CIECAM16(cases[0, 0], cases[0, 0], cases[0, 0])
         CIECAM16_to_XYZ(
             CAM_Specification_CIECAM16(
                 cases[..., 0], cases[..., 0], cases[..., 0], M=50

@@ -82,11 +82,9 @@ MSDS_CANON_EOS_5DMARK_II: MultiSpectralDistributions = sds_and_msds_to_msds(
     )
 )
 
-SD_AMPAS_ISO7589_STUDIO_TUNGSTEN: SpectralDistribution = (
-    read_sds_from_csv_file(
-        os.path.join(ROOT_RESOURCES_RAWTOACES, "AMPAS_ISO_7589_Tungsten.csv")
-    )["iso7589"]
-)
+SD_AMPAS_ISO7589_STUDIO_TUNGSTEN: SpectralDistribution = read_sds_from_csv_file(
+    os.path.join(ROOT_RESOURCES_RAWTOACES, "AMPAS_ISO_7589_Tungsten.csv")
+)["iso7589"]
 
 
 class TestSdToAcesRelativeExposureValues(unittest.TestCase):
@@ -124,9 +122,7 @@ sd_to_aces_relative_exposure_values` definition.
         )
 
         np.testing.assert_allclose(
-            sd_to_aces_relative_exposure_values(
-                dark_skin, SDS_ILLUMINANTS["A"]
-            ),
+            sd_to_aces_relative_exposure_values(dark_skin, SDS_ILLUMINANTS["A"]),
             np.array([0.12937082, 0.09120875, 0.06110636]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -266,9 +262,7 @@ class TestWhiteBalanceMultipliers(unittest.TestCase):
         """
 
         np.testing.assert_allclose(
-            white_balance_multipliers(
-                MSDS_CANON_EOS_5DMARK_II, SDS_ILLUMINANTS["D55"]
-            ),
+            white_balance_multipliers(MSDS_CANON_EOS_5DMARK_II, SDS_ILLUMINANTS["D55"]),
             np.array([2.34141541, 1.00000000, 1.51633759]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -1015,9 +1009,7 @@ class TestMatrixIdt(unittest.TestCase):
         # 0.021805 1.066614 -0.088418
         # -0.019718 -0.206664 1.226381
         np.testing.assert_allclose(
-            matrix_idt(
-                MSDS_CANON_EOS_5DMARK_II, SD_AMPAS_ISO7589_STUDIO_TUNGSTEN
-            )[0],
+            matrix_idt(MSDS_CANON_EOS_5DMARK_II, SD_AMPAS_ISO7589_STUDIO_TUNGSTEN)[0],
             np.array(
                 [
                     [0.88849143, -0.07750529, 0.18901385],

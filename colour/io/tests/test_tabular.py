@@ -129,9 +129,7 @@ class TestReadSpectralDataFromCsvFile(unittest.TestCase):
         definition.
         """
 
-        colour_checker_n_ohta = os.path.join(
-            ROOT_RESOURCES, "colorchecker_n_ohta.csv"
-        )
+        colour_checker_n_ohta = os.path.join(ROOT_RESOURCES, "colorchecker_n_ohta.csv")
         data = read_spectral_data_from_csv_file(colour_checker_n_ohta)
         self.assertListEqual(
             list(data.keys()), ["wavelength"] + [str(x) for x in range(1, 25)]
@@ -180,9 +178,7 @@ class TestReadSdsFromCsvFile(unittest.TestCase):
     def test_read_sds_from_csv_file(self):
         """Test :func:`colour.io.tabular.read_sds_from_csv_file` definition."""
 
-        colour_checker_n_ohta = os.path.join(
-            ROOT_RESOURCES, "colorchecker_n_ohta.csv"
-        )
+        colour_checker_n_ohta = os.path.join(ROOT_RESOURCES, "colorchecker_n_ohta.csv")
         sds = read_sds_from_csv_file(colour_checker_n_ohta)
         for sd in sds.values():
             self.assertIsInstance(sd, SpectralDistribution)
@@ -211,9 +207,7 @@ class TestWriteSdsToCsvFile(unittest.TestCase):
     def test_write_sds_to_csv_file(self):
         """Test :func:`colour.io.tabular.write_sds_to_csv_file` definition."""
 
-        colour_checker_n_ohta = os.path.join(
-            ROOT_RESOURCES, "colorchecker_n_ohta.csv"
-        )
+        colour_checker_n_ohta = os.path.join(ROOT_RESOURCES, "colorchecker_n_ohta.csv")
         sds = read_sds_from_csv_file(colour_checker_n_ohta)
         colour_checker_n_ohta_test = os.path.join(
             self._temporary_directory, "colorchecker_n_ohta.csv"
@@ -229,9 +223,7 @@ class TestWriteSdsToCsvFile(unittest.TestCase):
         raised exception.
         """
 
-        colour_checker_n_ohta = os.path.join(
-            ROOT_RESOURCES, "colorchecker_n_ohta.csv"
-        )
+        colour_checker_n_ohta = os.path.join(ROOT_RESOURCES, "colorchecker_n_ohta.csv")
         sds = read_sds_from_csv_file(colour_checker_n_ohta)
         key = next(iter(sds.keys()))
         sds[key] = sds[key].align(SpectralShape(400, 700, 10))
