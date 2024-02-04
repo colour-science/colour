@@ -193,9 +193,7 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(
     >>> cmfs = MSDS_CMFS_LMS["Stockman & Sharpe 2 Degree Cone Fundamentals"]
     >>> cmfs[450]
     array([ 0.0498639,  0.0870524,  0.955393 ])
-    >>> msds_cmfs_anomalous_trichromacy_Machado2009(
-    ...     cmfs, np.array([15, 0, 0])
-    ... )[
+    >>> msds_cmfs_anomalous_trichromacy_Machado2009(cmfs, np.array([15, 0, 0]))[
     ...     450
     ... ]  # doctest: +ELLIPSIS
     array([ 0.0891288...,  0.0870524 ,  0.955393  ])

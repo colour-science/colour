@@ -82,7 +82,6 @@ def bandpass_correction_Stearns1988(
     >>> with numpy_print_options(suppress=True):
     ...     bandpass_correction_Stearns1988(SpectralDistribution(data))
     ... # doctest: +ELLIPSIS
-    ...
     SpectralDistribution([[ 500.        ,    0.0646518...],
                           [ 520.        ,    0.0704293...],
                           [ 540.        ,    0.0769485...],
@@ -102,9 +101,7 @@ def bandpass_correction_Stearns1988(
     values[-1] = (1 + A_S) * values[-1] - A_S * values[-2]
     for i in range(1, len(values) - 1):
         values[i] = (
-            -A_S * values[i - 1]
-            + (1 + 2 * A_S) * values[i]
-            - A_S * values[i + 1]
+            -A_S * values[i - 1] + (1 + 2 * A_S) * values[i] - A_S * values[i + 1]
         )
 
     sd.values = values
@@ -159,7 +156,6 @@ def bandpass_correction(
     >>> with numpy_print_options(suppress=True):
     ...     bandpass_correction(SpectralDistribution(data))
     ... # doctest: +ELLIPSIS
-    ...
     SpectralDistribution([[ 500.        ,    0.0646518...],
                           [ 520.        ,    0.0704293...],
                           [ 540.        ,    0.0769485...],

@@ -112,9 +112,7 @@ reaction_rate_MichaelisMenten_Michaelis1913` definition nan support.
         reaction_rate_MichaelisMenten_Michaelis1913(cases, cases, cases)
 
 
-class TestSubstrateConcentrationMichaelisMentenMichaelis1913(
-    unittest.TestCase
-):
+class TestSubstrateConcentrationMichaelisMentenMichaelis1913(unittest.TestCase):
     """
     Define :func:`colour.biochemistry.michaelis_menten.\
 reaction_rate_MichaelisMenten_Michaelis1913` definition unit tests methods.
@@ -127,25 +125,19 @@ substrate_concentration_MichaelisMenten_Michaelis1913` definition.
         """
 
         np.testing.assert_allclose(
-            substrate_concentration_MichaelisMenten_Michaelis1913(
-                0.25, 0.5, 0.25
-            ),
+            substrate_concentration_MichaelisMenten_Michaelis1913(0.25, 0.5, 0.25),
             0.250000000000000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            substrate_concentration_MichaelisMenten_Michaelis1913(
-                1 / 3, 0.5, 0.25
-            ),
+            substrate_concentration_MichaelisMenten_Michaelis1913(1 / 3, 0.5, 0.25),
             0.500000000000000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            substrate_concentration_MichaelisMenten_Michaelis1913(
-                0.4875, 0.75, 0.35
-            ),
+            substrate_concentration_MichaelisMenten_Michaelis1913(0.4875, 0.75, 0.35),
             0.650000000000000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -162,16 +154,12 @@ substrate_concentration_MichaelisMenten_Michaelis1913` definition n-dimensional
         S = 1 / 3
         V_max = 0.5
         K_m = 0.25
-        v = substrate_concentration_MichaelisMenten_Michaelis1913(
-            S, V_max, K_m
-        )
+        v = substrate_concentration_MichaelisMenten_Michaelis1913(S, V_max, K_m)
 
         S = np.tile(S, (6, 1))
         v = np.tile(v, (6, 1))
         np.testing.assert_allclose(
-            substrate_concentration_MichaelisMenten_Michaelis1913(
-                S, V_max, K_m
-            ),
+            substrate_concentration_MichaelisMenten_Michaelis1913(S, V_max, K_m),
             v,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -179,9 +167,7 @@ substrate_concentration_MichaelisMenten_Michaelis1913` definition n-dimensional
         V_max = np.tile(V_max, (6, 1))
         K_m = np.tile(K_m, (6, 1))
         np.testing.assert_allclose(
-            substrate_concentration_MichaelisMenten_Michaelis1913(
-                S, V_max, K_m
-            ),
+            substrate_concentration_MichaelisMenten_Michaelis1913(S, V_max, K_m),
             v,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -191,9 +177,7 @@ substrate_concentration_MichaelisMenten_Michaelis1913` definition n-dimensional
         K_m = np.reshape(K_m, (2, 3, 1))
         v = np.reshape(v, (2, 3, 1))
         np.testing.assert_allclose(
-            substrate_concentration_MichaelisMenten_Michaelis1913(
-                S, V_max, K_m
-            ),
+            substrate_concentration_MichaelisMenten_Michaelis1913(S, V_max, K_m),
             v,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -207,9 +191,7 @@ substrate_concentration_MichaelisMenten_Michaelis1913` definition nan support.
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
-        substrate_concentration_MichaelisMenten_Michaelis1913(
-            cases, cases, cases
-        )
+        substrate_concentration_MichaelisMenten_Michaelis1913(cases, cases, cases)
 
 
 class TestReactionRateMichaelisMentenAbebe2017(unittest.TestCase):
@@ -344,16 +326,12 @@ substrate_concentration_MichaelisMenten_Abebe2017` definition n-dimensional
         V_max = 0.5
         K_m = 0.25
         b_m = 0.25
-        v = substrate_concentration_MichaelisMenten_Abebe2017(
-            S, V_max, K_m, b_m
-        )
+        v = substrate_concentration_MichaelisMenten_Abebe2017(S, V_max, K_m, b_m)
 
         S = np.tile(S, (6, 1))
         v = np.tile(v, (6, 1))
         np.testing.assert_allclose(
-            substrate_concentration_MichaelisMenten_Abebe2017(
-                S, V_max, K_m, b_m
-            ),
+            substrate_concentration_MichaelisMenten_Abebe2017(S, V_max, K_m, b_m),
             v,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -362,9 +340,7 @@ substrate_concentration_MichaelisMenten_Abebe2017` definition n-dimensional
         K_m = np.tile(K_m, (6, 1))
         b_m = np.tile(b_m, (6, 1))
         np.testing.assert_allclose(
-            substrate_concentration_MichaelisMenten_Abebe2017(
-                S, V_max, K_m, b_m
-            ),
+            substrate_concentration_MichaelisMenten_Abebe2017(S, V_max, K_m, b_m),
             v,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -375,9 +351,7 @@ substrate_concentration_MichaelisMenten_Abebe2017` definition n-dimensional
         b_m = np.reshape(b_m, (2, 3, 1))
         v = np.reshape(v, (2, 3, 1))
         np.testing.assert_allclose(
-            substrate_concentration_MichaelisMenten_Abebe2017(
-                S, V_max, K_m, b_m
-            ),
+            substrate_concentration_MichaelisMenten_Abebe2017(S, V_max, K_m, b_m),
             v,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -391,9 +365,7 @@ substrate_concentration_MichaelisMenten_Abebe2017` definition nan support.
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
-        substrate_concentration_MichaelisMenten_Abebe2017(
-            cases, cases, cases, cases
-        )
+        substrate_concentration_MichaelisMenten_Abebe2017(cases, cases, cases, cases)
 
 
 if __name__ == "__main__":

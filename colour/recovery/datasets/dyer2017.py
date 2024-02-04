@@ -31,9 +31,7 @@ __all__ = [
 ]
 
 
-SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017: SpectralShape = SpectralShape(
-    400, 700, 10
-)
+SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017: SpectralShape = SpectralShape(400, 700, 10)
 """
 Spectral shape of the *Dyer et al. (2017)* basis functions.
 """

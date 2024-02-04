@@ -26,9 +26,7 @@ __all__ = [
     "TestWriteLUTSonySPImtx",
 ]
 
-ROOT_LUTS: str = os.path.join(
-    os.path.dirname(__file__), "resources", "sony_spimtx"
-)
+ROOT_LUTS: str = os.path.join(os.path.dirname(__file__), "resources", "sony_spimtx")
 
 
 class TestReadLUTSonySPImtx(unittest.TestCase):
@@ -64,9 +62,7 @@ class TestReadLUTSonySPImtx(unittest.TestCase):
         )
         self.assertEqual(LUT_1.name, "dt")
 
-        LUT_2 = read_LUT_SonySPImtx(
-            os.path.join(ROOT_LUTS, "p3_to_xyz16.spimtx")
-        )
+        LUT_2 = read_LUT_SonySPImtx(os.path.join(ROOT_LUTS, "p3_to_xyz16.spimtx"))
         np.testing.assert_allclose(
             LUT_2.matrix,
             np.array(
@@ -86,9 +82,7 @@ class TestReadLUTSonySPImtx(unittest.TestCase):
         )
         self.assertEqual(LUT_2.name, "p3 to xyz16")
 
-        LUT_3 = read_LUT_SonySPImtx(
-            os.path.join(ROOT_LUTS, "Matrix_Offset.spimtx")
-        )
+        LUT_3 = read_LUT_SonySPImtx(os.path.join(ROOT_LUTS, "Matrix_Offset.spimtx"))
         np.testing.assert_allclose(
             LUT_3.matrix,
             np.array(
@@ -140,9 +134,7 @@ class TestWriteLUTSonySPImtx(unittest.TestCase):
         )
         self.assertEqual(LUT_1_r, LUT_1_t)
 
-        LUT_2_r = read_LUT_SonySPImtx(
-            os.path.join(ROOT_LUTS, "p3_to_xyz16.spimtx")
-        )
+        LUT_2_r = read_LUT_SonySPImtx(os.path.join(ROOT_LUTS, "p3_to_xyz16.spimtx"))
         write_LUT_SonySPImtx(
             LUT_2_r,
             os.path.join(self._temporary_directory, "p3_to_xyz16.spimtx"),

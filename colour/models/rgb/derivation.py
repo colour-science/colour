@@ -134,8 +134,9 @@ def chromatically_adapted_primaries(
     primaries: ArrayLike,
     whitepoint_t: ArrayLike,
     whitepoint_r: ArrayLike,
-    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
-    | str = "CAT02",
+    chromatic_adaptation_transform: (
+        LiteralChromaticAdaptationTransform | str
+    ) = "CAT02",
 ) -> NDArrayFloat:
     """
     Chromatically adapt given *primaries* :math:`xy` chromaticity coordinates
@@ -163,9 +164,7 @@ def chromatically_adapted_primaries(
     >>> w_t = np.array([0.31270, 0.32900])
     >>> w_r = np.array([0.34570, 0.35850])
     >>> chromatic_adaptation_transform = "Bradford"
-    >>> chromatically_adapted_primaries(
-    ...     p, w_t, w_r, chromatic_adaptation_transform
-    ... )
+    >>> chromatically_adapted_primaries(p, w_t, w_r, chromatic_adaptation_transform)
     ... # doctest: +ELLIPSIS
     array([[ 0.6484414...,  0.3308533...],
            [ 0.3211951...,  0.5978443...],
@@ -292,8 +291,6 @@ def RGB_luminance(
     0.1230145...
     """
 
-    Y = np.sum(
-        normalised_primary_matrix(primaries, whitepoint)[1] * RGB, axis=-1
-    )
+    Y = np.sum(normalised_primary_matrix(primaries, whitepoint)[1] * RGB, axis=-1)
 
     return as_float(Y)

@@ -55,9 +55,7 @@ __all__ = [
     "plot_colour_fidelity_indexes",
 ]
 
-ROOT_RESOURCES_ANSIIESTM3018: str = os.path.join(
-    os.path.dirname(__file__), "resources"
-)
+ROOT_RESOURCES_ANSIIESTM3018: str = os.path.join(os.path.dirname(__file__), "resources")
 """Resources directory."""
 
 _COLOURS_BIN_BAR: list = [
@@ -392,16 +390,12 @@ def plot_colour_vector_graphic(
     average_hues = np.radians(
         [
             np.mean(
-                specification.colorimetry_data[1].JMh[
-                    specification.bins == j, 2
-                ],
+                specification.colorimetry_data[1].JMh[specification.bins == j, 2],
             )
             for j in range(16)
         ]
     )
-    xy_reference = np.transpose(
-        np.vstack([np.cos(average_hues), np.sin(average_hues)])
-    )
+    xy_reference = np.transpose(np.vstack([np.cos(average_hues), np.sin(average_hues)]))
 
     # Arrow offsets as defined by the standard.
     offsets = (
@@ -466,12 +460,8 @@ def plot_colour_vector_graphic(
 
     corner_label_and_text("$R_f$", f"{specification.R_f:.0f}", "left", "top")
     corner_label_and_text("$R_g$", f"{specification.R_g:.0f}", "right", "top")
-    corner_label_and_text(
-        "CCT", f"{specification.CCT:.0f} K", "left", "bottom"
-    )
-    corner_label_and_text(
-        "$D_{uv}$", f"{specification.D_uv:.4f}", "right", "bottom"
-    )
+    corner_label_and_text("CCT", f"{specification.CCT:.0f} K", "left", "bottom")
+    corner_label_and_text("$D_{uv}$", f"{specification.D_uv:.4f}", "right", "bottom")
 
     settings = {"show": True}
     settings.update(kwargs)
@@ -521,9 +511,7 @@ def plot_16_bin_bars(
 
     values = as_float_array(values)
 
-    label_orientation = validate_method(
-        label_orientation, ("Horizontal", "Vertical")
-    )
+    label_orientation = validate_method(label_orientation, ("Horizontal", "Vertical"))
 
     _figure, axes = artist(**kwargs)
 
@@ -800,9 +788,7 @@ def plot_colour_fidelity_indexes(
     ticks = list(range(1, bar_count + 1, 1))
     axes.set_xticks(ticks)
 
-    labels = [
-        f"CES{i:02d}" if i % 3 == 1 else "" for i in range(1, bar_count + 1)
-    ]
+    labels = [f"CES{i:02d}" if i % 3 == 1 else "" for i in range(1, bar_count + 1)]
     axes.set_xticklabels(labels, rotation=90)
 
     return render(**kwargs)

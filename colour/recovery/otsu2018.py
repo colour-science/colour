@@ -171,9 +171,7 @@ class Dataset_Otsu2018:
             means if means is None else as_float_array(means)
         )
         self._selector_array: NDArrayFloat | None = (
-            selector_array
-            if selector_array is None
-            else as_float_array(selector_array)
+            selector_array if selector_array is None else as_float_array(selector_array)
         )
 
     @property
@@ -494,7 +492,6 @@ def XYZ_to_sd_Otsu2018(
     >>> sd = XYZ_to_sd_Otsu2018(XYZ, cmfs, illuminant)
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
-    ...
     SpectralDistribution([[ 380.        ,    0.0601939...],
                           [ 390.        ,    0.0568063...],
                           [ 400.        ,    0.0517429...],
@@ -786,11 +783,7 @@ class Data_Otsu2018:
             Number of colours in the data.
         """
 
-        return (
-            self._reflectances.shape[0]
-            if self._reflectances is not None
-            else 0
-        )
+        return self._reflectances.shape[0] if self._reflectances is not None else 0
 
     def origin(self, i: int, direction: int) -> float:
         """
@@ -820,9 +813,7 @@ class Data_Otsu2018:
         else:
             raise ValueError('The "chromaticity coordinates" are undefined!')
 
-    def partition(
-        self, axis: PartitionAxis
-    ) -> Tuple[Data_Otsu2018, Data_Otsu2018]:
+    def partition(self, axis: PartitionAxis) -> Tuple[Data_Otsu2018, Data_Otsu2018]:
         """
         Partition the data using given partition axis.
 
@@ -884,9 +875,7 @@ class Data_Otsu2018:
 
             self._mean = np.mean(self._reflectances, axis=0)
             self._XYZ_mu = (
-                msds_to_XYZ_integration(
-                    cast(NDArrayFloat, self._mean), **settings
-                )
+                msds_to_XYZ_integration(cast(NDArrayFloat, self._mean), **settings)
                 / 100
             )
 
@@ -898,8 +887,7 @@ class Data_Otsu2018:
             self._basis_functions = np.transpose(w[:, -3:])
 
             self._M = np.transpose(
-                msds_to_XYZ_integration(self._basis_functions, **settings)
-                / 100
+                msds_to_XYZ_integration(self._basis_functions, **settings) / 100
             )
 
     def reconstruct(self, XYZ: ArrayLike) -> SpectralDistribution:
@@ -1023,9 +1011,9 @@ class Node_Otsu2018(Node):
         super().__init__(parent=parent, children=children, data=data)
 
         self._partition_axis: PartitionAxis | None = None
-        self._best_partition: Tuple[
-            Sequence[Node_Otsu2018], PartitionAxis, float
-        ] | None = None
+        self._best_partition: (
+            Tuple[Sequence[Node_Otsu2018], PartitionAxis, float] | None
+        ) = None
 
     @property
     def partition_axis(self) -> PartitionAxis | None:
@@ -1118,9 +1106,7 @@ class Node_Otsu2018(Node):
                 for i in range(len(self.data)):
                     progress.update()
 
-                    axis = PartitionAxis(
-                        self.data.origin(i, direction), direction
-                    )
+                    axis = PartitionAxis(self.data.origin(i, direction), direction)
                     data_lesser, data_greater = self.data.partition(axis)
 
                     if np.any(
@@ -1194,12 +1180,7 @@ class Node_Otsu2018(Node):
             return self.leaf_reconstruction_error()
         else:
             return as_float_scalar(
-                np.sum(
-                    [
-                        child.branch_reconstruction_error()
-                        for child in self.children
-                    ]
-                )
+                np.sum([child.branch_reconstruction_error() for child in self.children])
             )
 
 
@@ -1275,7 +1256,6 @@ class Tree_Otsu2018(Node_Otsu2018):
     >>> sd = XYZ_to_sd_Otsu2018(XYZ, cmfs, illuminant, dataset)
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
-    ...
     SpectralDistribution([[ 360.        ,    0.0651341...],
                           [ 370.        ,    0.0651341...],
                           [ 380.        ,    0.0651341...],
@@ -1507,9 +1487,7 @@ the initial error.
                     continue
 
                 new_total_error = (
-                    total_error
-                    - leaf.leaf_reconstruction_error()
-                    + partition_error
+                    total_error - leaf.leaf_reconstruction_error() + partition_error
                 )
 
                 if (
@@ -1583,14 +1561,10 @@ the initial error.
             selector_array = zeros(4)
         else:
 
-            def add_rows(
-                node: Node_Otsu2018, data: dict | None = None
-            ) -> dict | None:
+            def add_rows(node: Node_Otsu2018, data: dict | None = None) -> dict | None:
                 """Add rows for given node and its children."""
 
-                data = optional(
-                    data, {"rows": [], "node_to_leaf_id": {}, "leaf_id": 0}
-                )
+                data = optional(data, {"rows": [], "node_to_leaf_id": {}, "leaf_id": 0})
 
                 if node.is_leaf():
                     data["node_to_leaf_id"][node] = data["leaf_id"]

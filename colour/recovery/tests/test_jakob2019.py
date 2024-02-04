@@ -52,9 +52,7 @@ class TestErrorFunction(unittest.TestCase):
         """Initialise the common tests attributes."""
 
         self._shape = SPECTRAL_SHAPE_JAKOB2019
-        self._cmfs, self._sd_D65 = handle_spectral_arguments(
-            shape_default=self._shape
-        )
+        self._cmfs, self._sd_D65 = handle_spectral_arguments(shape_default=self._shape)
         self._XYZ_D65 = sd_to_XYZ(self._sd_D65)
         self._xy_D65 = XYZ_to_xy(self._XYZ_D65)
 
@@ -101,12 +99,8 @@ class TestErrorFunction(unittest.TestCase):
             sd_Lab = XYZ_to_Lab(XYZ, self._xy_D65)
             error_reference = delta_E_CIE1976(self._Lab_e, Lab)
 
-            np.testing.assert_allclose(
-                sd.values, R, atol=TOLERANCE_ABSOLUTE_TESTS
-            )
-            np.testing.assert_allclose(
-                XYZ, sd_XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-            )
+            np.testing.assert_allclose(sd.values, R, atol=TOLERANCE_ABSOLUTE_TESTS)
+            np.testing.assert_allclose(XYZ, sd_XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
             self.assertLess(abs(error_reference - error), JND_CIE1976 / 100)
             self.assertLess(delta_E_CIE1976(Lab, sd_Lab), JND_CIE1976 / 100)
@@ -156,9 +150,7 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
         """Initialise the common tests attributes."""
 
         self._shape = SPECTRAL_SHAPE_JAKOB2019
-        self._cmfs, self._sd_D65 = handle_spectral_arguments(
-            shape_default=self._shape
-        )
+        self._cmfs, self._sd_D65 = handle_spectral_arguments(shape_default=self._shape)
 
     def test_XYZ_to_sd_Jakob2019(self):
         """Test :func:`colour.recovery.jakob2019.XYZ_to_sd_Jakob2019` definition."""
@@ -192,9 +184,7 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
             with domain_range_scale(scale):
                 np.testing.assert_allclose(
                     sd_to_XYZ(
-                        XYZ_to_sd_Jakob2019(
-                            XYZ_i * factor_a, self._cmfs, self._sd_D65
-                        ),
+                        XYZ_to_sd_Jakob2019(XYZ_i * factor_a, self._cmfs, self._sd_D65),
                         self._cmfs,
                         self._sd_D65,
                     ),
@@ -223,9 +213,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
 
         if not hasattr(cls, "_LUT"):
             cls._shape = SPECTRAL_SHAPE_JAKOB2019
-            cls._cmfs, cls._sd_D65 = handle_spectral_arguments(
-                shape_default=cls._shape
-            )
+            cls._cmfs, cls._sd_D65 = handle_spectral_arguments(shape_default=cls._shape)
             cls._XYZ_D65 = sd_to_XYZ(cls._sd_D65)
             cls._xy_D65 = XYZ_to_xy(cls._XYZ_D65)
 
@@ -277,9 +265,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
 
         np.testing.assert_allclose(
             TestLUT3D_Jakob2019.generate_LUT().lightness_scale,
-            np.array(
-                [0.00000000, 0.06561279, 0.50000000, 0.93438721, 1.00000000]
-            ),
+            np.array([0.00000000, 0.06561279, 0.50000000, 0.93438721, 1.00000000]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -334,9 +320,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
             Lab = XYZ_to_Lab(XYZ, self._xy_D65)
 
             recovered_sd = LUT.RGB_to_sd(RGB)
-            recovered_XYZ = (
-                sd_to_XYZ(recovered_sd, self._cmfs, self._sd_D65) / 100
-            )
+            recovered_XYZ = sd_to_XYZ(recovered_sd, self._cmfs, self._sd_D65) / 100
             recovered_Lab = XYZ_to_Lab(recovered_XYZ, self._xy_D65)
 
             error = delta_E_CIE1976(Lab, recovered_Lab)

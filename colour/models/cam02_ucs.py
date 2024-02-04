@@ -227,9 +227,7 @@ def UCS_Luo2006_to_JMh_CIECAM02(
     Examples
     --------
     >>> Jpapbp = np.array([54.90433134, -0.08450395, -0.06854831])
-    >>> UCS_Luo2006_to_JMh_CIECAM02(
-    ...     Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
-    ... )
+    >>> UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
     ... # doctest: +ELLIPSIS
     array([  4.1731091...e+01,   1.0884217...e-01,   2.1904843...e+02])
     """

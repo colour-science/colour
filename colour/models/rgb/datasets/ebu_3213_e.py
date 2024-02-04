@@ -60,9 +60,7 @@ MATRIX_EBU_3213_E_RGB_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
 )
 """*EBU Tech. 3213-E* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_EBU_3213_E_RGB: NDArrayFloat = np.linalg.inv(
-    MATRIX_EBU_3213_E_RGB_TO_XYZ
-)
+MATRIX_XYZ_TO_EBU_3213_E_RGB: NDArrayFloat = np.linalg.inv(MATRIX_EBU_3213_E_RGB_TO_XYZ)
 """*CIE XYZ* tristimulus values to *EBU Tech. 3213-E* colourspace matrix."""
 
 RGB_COLOURSPACE_EBU_3213_E: RGB_Colourspace = RGB_Colourspace(

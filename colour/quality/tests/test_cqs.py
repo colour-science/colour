@@ -41,9 +41,7 @@ class TestColourQualityScale(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            colour_quality_scale(
-                SDS_ILLUMINANTS["FL1"], method="NIST CQS 7.4"
-            ),
+            colour_quality_scale(SDS_ILLUMINANTS["FL1"], method="NIST CQS 7.4"),
             75.377089740493361,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -55,9 +53,7 @@ class TestColourQualityScale(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            colour_quality_scale(
-                SDS_ILLUMINANTS["FL2"], method="NIST CQS 7.4"
-            ),
+            colour_quality_scale(SDS_ILLUMINANTS["FL2"], method="NIST CQS 7.4"),
             64.774586908581369,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -78,9 +74,7 @@ class TestColourQualityScale(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            colour_quality_scale(
-                SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"]
-            ),
+            colour_quality_scale(SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"]),
             84.934928463428903,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -237,9 +231,7 @@ class TestColourQualityScale(unittest.TestCase):
                     DataColorimetry_VS(
                         name="VS5",
                         XYZ=np.array([0.18662999, 0.24708620, 0.40043676]),
-                        Lab=np.array(
-                            [56.79040832, -23.15964295, -18.30798276]
-                        ),
+                        Lab=np.array([56.79040832, -23.15964295, -18.30798276]),
                         C=29.522047597875542,
                     ),
                     DataColorimetry_VS(
@@ -325,17 +317,13 @@ class TestColourQualityScale(unittest.TestCase):
                     DataColorimetry_VS(
                         name="VS4",
                         XYZ=np.array([0.13144454, 0.16803553, 0.39315864]),
-                        Lab=np.array(
-                            [48.01155296, -17.36604069, -32.56734417]
-                        ),
+                        Lab=np.array([48.01155296, -17.36604069, -32.56734417]),
                         C=36.908146466038922,
                     ),
                     DataColorimetry_VS(
                         name="VS5",
                         XYZ=np.array([0.18145723, 0.25845953, 0.41319313]),
-                        Lab=np.array(
-                            [57.89053983, -30.61152779, -17.92233237]
-                        ),
+                        Lab=np.array([57.89053983, -30.61152779, -17.92233237]),
                         C=35.472181086008781,
                     ),
                     DataColorimetry_VS(
@@ -407,14 +395,8 @@ class TestColourQualityScale(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            [
-                data.Q_a
-                for _index, data in sorted(specification_r.Q_as.items())
-            ],
-            [
-                data.Q_a
-                for _index, data in sorted(specification_t.Q_as.items())
-            ],
+            [data.Q_a for _index, data in sorted(specification_r.Q_as.items())],
+            [data.Q_a for _index, data in sorted(specification_t.Q_as.items())],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -585,9 +567,7 @@ class TestColourQualityScale(unittest.TestCase):
                     DataColorimetry_VS(
                         name="VS9",
                         XYZ=np.array([0.18662998, 0.24708620, 0.40043672]),
-                        Lab=np.array(
-                            [56.79040828, -23.15964795, -18.30797717]
-                        ),
+                        Lab=np.array([56.79040828, -23.15964795, -18.30797717]),
                         C=29.522048055967336,
                     ),
                     DataColorimetry_VS(
@@ -679,17 +659,13 @@ class TestColourQualityScale(unittest.TestCase):
                     DataColorimetry_VS(
                         name="VS9",
                         XYZ=np.array([0.18145720, 0.25845953, 0.41319296]),
-                        Lab=np.array(
-                            [57.89053974, -30.61154597, -17.92231311]
-                        ),
+                        Lab=np.array([57.89053974, -30.61154597, -17.92231311]),
                         C=35.472187042106164,
                     ),
                     DataColorimetry_VS(
                         name="VS10",
                         XYZ=np.array([0.13144449, 0.16803553, 0.39315843]),
-                        Lab=np.array(
-                            [48.01155280, -17.36606803, -32.56732004]
-                        ),
+                        Lab=np.array([48.01155280, -17.36606803, -32.56732004]),
                         C=36.908138035180549,
                     ),
                     DataColorimetry_VS(
@@ -731,14 +707,8 @@ class TestColourQualityScale(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            [
-                data.Q_a
-                for _index, data in sorted(specification_r.Q_as.items())
-            ],
-            [
-                data.Q_a
-                for _index, data in sorted(specification_t.Q_as.items())
-            ],
+            [data.Q_a for _index, data in sorted(specification_r.Q_as.items())],
+            [data.Q_a for _index, data in sorted(specification_t.Q_as.items())],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 

@@ -194,15 +194,11 @@ class TestSdiv(unittest.TestCase):
             np.testing.assert_equal(sdiv(a, b), np.array([0, 1, 0]))
 
         with sdiv_mode("Ignore Limit Conversion"):
-            np.testing.assert_equal(
-                sdiv(a, b), np.nan_to_num(np.array([0, 1, np.inf]))
-            )
+            np.testing.assert_equal(sdiv(a, b), np.nan_to_num(np.array([0, 1, np.inf])))
 
         with sdiv_mode("Warning Limit Conversion"):
             self.assertWarns(RuntimeWarning, sdiv, a, b)
-            np.testing.assert_equal(
-                sdiv(a, b), np.nan_to_num(np.array([0, 1, np.inf]))
-            )
+            np.testing.assert_equal(sdiv(a, b), np.nan_to_num(np.array([0, 1, np.inf])))
 
 
 class TestIsSpowEnabled(unittest.TestCase):
@@ -392,9 +388,7 @@ class TestNormaliseMaximum(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            normalise_maximum(
-                np.array([-0.11518475, -0.10080000, 0.05089373])
-            ),
+            normalise_maximum(np.array([-0.11518475, -0.10080000, 0.05089373])),
             np.array([0.00000000, 0.00000000, 1.00000000]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -818,9 +812,7 @@ class TestEigenDecomposition(unittest.TestCase):
             v, np.array([[0.0, 0.0, 1.0], [0.0, 1.0, 0.0], [1.0, 0.0, 0.0]])
         )
 
-        w, v = eigen_decomposition(
-            a, descending_order=False, covariance_matrix=True
-        )
+        w, v = eigen_decomposition(a, descending_order=False, covariance_matrix=True)
         np.testing.assert_equal(w, np.array([1.0, 4.0, 9.0]))
         np.testing.assert_equal(
             v, np.array([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]])

@@ -116,15 +116,11 @@ class InductionFactors_Hunt(
 
 VIEWING_CONDITIONS_HUNT: CanonicalMapping = CanonicalMapping(
     {
-        "Small Areas, Uniform Background & Surrounds": InductionFactors_Hunt(
-            1, 300
-        ),
+        "Small Areas, Uniform Background & Surrounds": InductionFactors_Hunt(1, 300),
         "Normal Scenes": InductionFactors_Hunt(1, 75),
         "Television & CRT, Dim Surrounds": InductionFactors_Hunt(1, 25),
         "Large Transparencies On Light Boxes": InductionFactors_Hunt(0.7, 25),
-        "Projected Transparencies, Dark Surrounds": InductionFactors_Hunt(
-            0.7, 10
-        ),
+        "Projected Transparencies, Dark Surrounds": InductionFactors_Hunt(0.7, 10),
     }
 )
 VIEWING_CONDITIONS_HUNT.__doc__ = """
@@ -395,14 +391,10 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
 
     if surround.N_cb is None:
         N_cb = 0.725 * spow(Y_w / Y_b, 0.2)
-        usage_warning(
-            f'Unspecified "N_cb" argument, using approximation: "{N_cb}"'
-        )
+        usage_warning(f'Unspecified "N_cb" argument, using approximation: "{N_cb}"')
     if surround.N_bb is None:
         N_bb = 0.725 * spow(Y_w / Y_b, 0.2)
-        usage_warning(
-            f'Unspecified "N_bb" argument, using approximation: "{N_bb}"'
-        )
+        usage_warning(f'Unspecified "N_bb" argument, using approximation: "{N_bb}"')
 
     if L_AS is None and CCT_w is None:
         raise ValueError(
@@ -413,8 +405,7 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     elif L_AS is None and CCT_w is not None:
         L_AS = illuminant_scotopic_luminance(L_A, CCT_w)
         usage_warning(
-            f'Unspecified "L_AS" argument, using approximation from "CCT": '
-            f'"{L_AS}"'
+            f'Unspecified "L_AS" argument, using approximation from "CCT": "{L_AS}"'
         )
 
     if (S is None and S_w is not None) or (S is not None and S_w is None):
@@ -575,9 +566,7 @@ def luminance_level_adaptation_factor(
     return as_float(F_L)
 
 
-def illuminant_scotopic_luminance(
-    L_A: ArrayLike, CCT: ArrayLike
-) -> NDArrayFloat:
+def illuminant_scotopic_luminance(L_A: ArrayLike, CCT: ArrayLike) -> NDArrayFloat:
     """
     Return the approximate scotopic luminance :math:`L_{AS}` of the
     illuminant.
@@ -748,9 +737,7 @@ def chromatic_adaptation(
     # Computing chromatic adaptation factors.
     if not discount_illuminant:
         L_A_p = spow(L_A, 1 / 3)
-        F_rgb = cast(
-            NDArrayFloat, (1 + L_A_p + h_rgb) / (1 + L_A_p + (1 / h_rgb))
-        )
+        F_rgb = cast(NDArrayFloat, (1 + L_A_p + h_rgb) / (1 + L_A_p + (1 / h_rgb)))
     else:
         F_rgb = ones(cast(NDArrayFloat, h_rgb).shape)
 
@@ -912,18 +899,14 @@ def hue_angle(C: ArrayLike) -> NDArrayFloat:
 
     Examples
     --------
-    >>> C = np.array(
-    ...     [-5.365865581996587e-05, -0.000571699383647, 0.000625358039467]
-    ... )
+    >>> C = np.array([-5.365865581996587e-05, -0.000571699383647, 0.000625358039467])
     >>> hue_angle(C)  # doctest: +ELLIPSIS
     269.2737594...
     """
 
     C_1, C_2, C_3 = tsplit(C)
 
-    hue = (
-        180 * np.arctan2(0.5 * (C_2 - C_3) / 4.5, C_1 - (C_2 / 11)) / np.pi
-    ) % 360
+    hue = (180 * np.arctan2(0.5 * (C_2 - C_3) / 4.5, C_1 - (C_2 / 11)) / np.pi) % 360
     return as_float(hue)
 
 
@@ -1020,9 +1003,7 @@ def yellowness_blueness_response(
 
     Examples
     --------
-    >>> C = np.array(
-    ...     [-5.365865581996587e-05, -0.000571699383647, 0.000625358039467]
-    ... )
+    >>> C = np.array([-5.365865581996587e-05, -0.000571699383647, 0.000625358039467])
     >>> e_s = 1.110836504862630
     >>> N_c = 1.0
     >>> N_cb = 0.725000000000000
@@ -1038,9 +1019,7 @@ def yellowness_blueness_response(
     N_cb = as_float_array(N_cb)
     F_t = as_float_array(F_t)
 
-    M_yb = (
-        100 * (0.5 * (C_2 - C_3) / 4.5) * (e_s * (10 / 13) * N_c * N_cb * F_t)
-    )
+    M_yb = 100 * (0.5 * (C_2 - C_3) / 4.5) * (e_s * (10 / 13) * N_c * N_cb * F_t)
 
     return as_float(M_yb)
 
@@ -1072,9 +1051,7 @@ def redness_greenness_response(
 
     Examples
     --------
-    >>> C = np.array(
-    ...     [-5.365865581996587e-05, -0.000571699383647, 0.000625358039467]
-    ... )
+    >>> C = np.array([-5.365865581996587e-05, -0.000571699383647, 0.000625358039467])
     >>> e_s = 1.110836504862630
     >>> N_c = 1.0
     >>> N_cb = 0.725000000000000
@@ -1092,9 +1069,7 @@ def redness_greenness_response(
     return as_float(M_rg)
 
 
-def overall_chromatic_response(
-    M_yb: ArrayLike, M_rg: ArrayLike
-) -> NDArrayFloat:
+def overall_chromatic_response(M_yb: ArrayLike, M_rg: ArrayLike) -> NDArrayFloat:
     """
     Return the overall chromatic response :math:`M`.
 
@@ -1369,10 +1344,7 @@ def chroma_correlate(
     Y_b_Y_w = Y_b / Y_w
 
     C_94 = (
-        2.44
-        * spow(s, 0.69)
-        * (spow(Q / Q_w, Y_b_Y_w))
-        * (1.64 - spow(0.29, Y_b_Y_w))
+        2.44 * spow(s, 0.69) * (spow(Q / Q_w, Y_b_Y_w)) * (1.64 - spow(0.29, Y_b_Y_w))
     )
 
     return C_94

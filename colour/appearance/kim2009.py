@@ -165,13 +165,11 @@ Aliases:
 MEDIA_PARAMETERS_KIM2009["bright_lcd_display"] = MEDIA_PARAMETERS_KIM2009[
     "High-luminance LCD Display"
 ]
-MEDIA_PARAMETERS_KIM2009[
-    "advertising_transparencies"
-] = MEDIA_PARAMETERS_KIM2009["Transparent Advertising Media"]
-MEDIA_PARAMETERS_KIM2009["crt"] = MEDIA_PARAMETERS_KIM2009["CRT Displays"]
-MEDIA_PARAMETERS_KIM2009["paper"] = MEDIA_PARAMETERS_KIM2009[
-    "Reflective Paper"
+MEDIA_PARAMETERS_KIM2009["advertising_transparencies"] = MEDIA_PARAMETERS_KIM2009[
+    "Transparent Advertising Media"
 ]
+MEDIA_PARAMETERS_KIM2009["crt"] = MEDIA_PARAMETERS_KIM2009["CRT Displays"]
+MEDIA_PARAMETERS_KIM2009["paper"] = MEDIA_PARAMETERS_KIM2009["Reflective Paper"]
 
 
 @dataclass
@@ -340,9 +338,7 @@ H=278.0602824..., HC=None)
     # Perceived *Lightness* :math:`J_p`.
     a_j, b_j, o_j, n_j = 0.89, 0.24, 0.65, 3.65
     A_A_w = A / A_w
-    J_p = spow(
-        (-(A_A_w - b_j) * spow(o_j, n_j)) / (A_A_w - b_j - a_j), 1 / n_j
-    )
+    J_p = spow((-(A_A_w - b_j) * spow(o_j, n_j)) / (A_A_w - b_j - a_j), 1 / n_j)
 
     # Computing the media dependent *Lightness* :math:`J`.
     J = 100 * (media.E * (J_p - 1) + 1)

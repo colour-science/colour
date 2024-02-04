@@ -118,9 +118,7 @@ class TestLightnessGlasser1958(unittest.TestCase):
         definition nan support.
         """
 
-        lightness_Glasser1958(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        lightness_Glasser1958(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLightnessWyszecki1963(unittest.TestCase):
@@ -204,9 +202,7 @@ class TestLightnessWyszecki1963(unittest.TestCase):
         definition nan support.
         """
 
-        lightness_Wyszecki1963(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        lightness_Wyszecki1963(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestIntermediateLightnessFunctionCIE1976(unittest.TestCase):
@@ -503,9 +499,7 @@ class TestLightnessFairchild2010(unittest.TestCase):
         definition nan support.
         """
 
-        lightness_Fairchild2010(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        lightness_Fairchild2010(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLightnessFairchild2011(unittest.TestCase):
@@ -607,9 +601,7 @@ class TestLightnessFairchild2011(unittest.TestCase):
         definition nan support.
         """
 
-        lightness_Fairchild2011(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        lightness_Fairchild2011(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLightnessAbebe2017(unittest.TestCase):
@@ -705,9 +697,7 @@ class TestLightnessAbebe2017(unittest.TestCase):
         definition nan support.
         """
 
-        lightness_Abebe2017(
-            *[np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])] * 2
-        )
+        lightness_Abebe2017(*[np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])] * 2)
 
 
 class TestLightness(unittest.TestCase):

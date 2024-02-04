@@ -491,7 +491,6 @@ class suppress_stdout:
     --------
     >>> with suppress_stdout():
     ...     print("Hello World!")
-    ...
     >>> print("Hello World!")
     Hello World!
     """
@@ -899,7 +898,6 @@ def multiline_str(
     ...                 },
     ...             ],
     ...         )
-    ...
     >>> print(Data("Foo", 1, ["John", "Doe"]))
     Object - Data
     =============
@@ -948,9 +946,7 @@ def multiline_str(
 
         if not attribute["line_break"]:
             if attribute["name"] is not None:
-                formatted = attribute["formatter"](
-                    getattr(object_, attribute["name"])
-                )
+                formatted = attribute["formatter"](getattr(object_, attribute["name"]))
             else:
                 formatted = attribute["formatter"](None)
 
@@ -962,9 +958,7 @@ def multiline_str(
                 lines = formatted.splitlines()
                 if len(lines) > 1:
                     for i, line in enumerate(lines[1:]):
-                        lines[
-                            i + 1
-                        ] = f"{'':{justify}}{' ' * len(separator)}{line}"
+                        lines[i + 1] = f"{'':{justify}}{' ' * len(separator)}{line}"
                 formatted = "\n".join(lines)
 
                 representation.append(
@@ -978,14 +972,10 @@ def multiline_str(
                 representation.append(f"{formatted}")
 
             if attribute["header"]:
-                representation.append(
-                    header_underline * len(representation[-1])
-                )
+                representation.append(header_underline * len(representation[-1]))
 
             if attribute["section"]:
-                representation.append(
-                    section_underline * len(representation[-1])
-                )
+                representation.append(section_underline * len(representation[-1]))
         else:
             representation.append("")
 
@@ -1036,7 +1026,6 @@ def multiline_repr(
     ...                 },
     ...             ],
     ...         )
-    ...
     >>> Data("Foo", 1, ["John", "Doe"])
     Data('Foo',
          1,

@@ -45,27 +45,19 @@ class TestIsWithinMeshVolume(unittest.TestCase):
         """Test :func:`colour.volume.mesh.is_within_mesh_volume` definition."""
 
         self.assertTrue(
-            is_within_mesh_volume(
-                np.array([0.0005, 0.0031, 0.0010]), self._mesh
-            )
+            is_within_mesh_volume(np.array([0.0005, 0.0031, 0.0010]), self._mesh)
         )
 
         self.assertFalse(
-            is_within_mesh_volume(
-                np.array([0.3205, 0.4131, 0.5100]), self._mesh
-            )
+            is_within_mesh_volume(np.array([0.3205, 0.4131, 0.5100]), self._mesh)
         )
 
         self.assertTrue(
-            is_within_mesh_volume(
-                np.array([0.0025, 0.0088, 0.0340]), self._mesh
-            )
+            is_within_mesh_volume(np.array([0.0025, 0.0088, 0.0340]), self._mesh)
         )
 
         self.assertFalse(
-            is_within_mesh_volume(
-                np.array([0.4325, 0.3788, 0.1034]), self._mesh
-            )
+            is_within_mesh_volume(np.array([0.4325, 0.3788, 0.1034]), self._mesh)
         )
 
     def test_n_dimensional_is_within_mesh_volume(self):

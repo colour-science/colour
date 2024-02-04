@@ -43,11 +43,11 @@ def read_spectral_data_from_csv_file(
     """
     Read the spectral data from given *CSV* file in the following form::
 
-        390,  4.15003E-04,  3.68349E-04,  9.54729E-03
-        395,  1.05192E-03,  9.58658E-04,  2.38250E-02
-        400,  2.40836E-03,  2.26991E-03,  5.66498E-02
+        390, 4.15003e-04, 3.68349e-04, 9.54729e-03
+        395, 1.05192e-03, 9.58658e-04, 2.38250e-02
+        400, 2.40836e-03, 2.26991e-03, 5.66498e-02
         ...
-        830,  9.74306E-07,  9.53411E-08,  0.00000
+        830, 9.74306e-07, 9.53411e-08, 0.00000
 
     and returns it as an *dict* as follows::
 
@@ -138,9 +138,7 @@ def read_spectral_data_from_csv_file(
         with open(path) as csv_file:
             content = zip(*csv.reader(csv_file, delimiter=delimiter))
 
-        transposed_csv_file = tempfile.NamedTemporaryFile(
-            mode="w", delete=False
-        )
+        transposed_csv_file = tempfile.NamedTemporaryFile(mode="w", delete=False)
         path = transposed_csv_file.name
         csv.writer(transposed_csv_file).writerows(content)
         transposed_csv_file.close()

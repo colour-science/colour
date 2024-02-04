@@ -7,18 +7,12 @@ from colour.utilities import message_box
 
 message_box("Spectral Uniformity (or Flatness) Computations")
 
-message_box(
-    'Computing the spectral uniformity of the "CRI" test colour samples.'
-)
+message_box('Computing the spectral uniformity of the "CRI" test colour samples.')
 
 print(colour.spectral_uniformity(list(SDS_TCS.values())))
 
 print("\n")
 
-message_box(
-    'Computing the spectral uniformity of the "CFI" test colour samples.'
-)
+message_box('Computing the spectral uniformity of the "CFI" test colour samples.')
 
-print(
-    colour.spectral_uniformity(load_TCS_CIE2017(colour.SPECTRAL_SHAPE_DEFAULT))
-)
+print(colour.spectral_uniformity(load_TCS_CIE2017(colour.SPECTRAL_SHAPE_DEFAULT)))

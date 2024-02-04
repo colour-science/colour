@@ -566,9 +566,7 @@ class TestSpectralSimilarityIndex(unittest.TestCase):
         """Test :func:`colour.quality.ssi.spectral_similarity_index` definition."""
 
         self.assertEqual(
-            spectral_similarity_index(
-                SDS_ILLUMINANTS["C"], SDS_ILLUMINANTS["D65"]
-            ),
+            spectral_similarity_index(SDS_ILLUMINANTS["C"], SDS_ILLUMINANTS["D65"]),
             94.0,
         )
         self.assertEqual(

@@ -250,14 +250,7 @@ def uv_to_CCT_Ohno2013(
     # Parabolic solution.
     X = (Tin - Ti) * (Tip - Tin) * (Ti - Tip)
     a = (Tip * (din - di) + Ti * (dip - din) + Tin * (di - dip)) * X**-1
-    b = (
-        -(
-            Tip**2 * (din - di)
-            + Ti**2 * (dip - din)
-            + Tin**2 * (di - dip)
-        )
-        * X**-1
-    )
+    b = -(Tip**2 * (din - di) + Ti**2 * (dip - din) + Tin**2 * (di - dip)) * X**-1
     c = (
         -(
             dip * (Tin - Ti) * Ti * Tin
@@ -393,9 +386,7 @@ def XYZ_to_CCT_Ohno2013(
     array([  6.5074399...e+03,   3.2236914...e-03])
     """
 
-    return uv_to_CCT_Ohno2013(
-        UCS_to_uv(XYZ_to_UCS(XYZ)), cmfs, start, end, spacing
-    )
+    return uv_to_CCT_Ohno2013(UCS_to_uv(XYZ_to_UCS(XYZ)), cmfs, start, end, spacing)
 
 
 def CCT_to_XYZ_Ohno2013(

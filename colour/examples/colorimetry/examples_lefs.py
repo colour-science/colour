@@ -12,7 +12,5 @@ pprint(sorted(colour.SDS_LEFS))
 
 print("\n")
 
-message_box(
-    "Computing the mesopic luminous efficiency function for factor:\n\n\t0.2"
-)
+message_box("Computing the mesopic luminous efficiency function for factor:\n\n\t0.2")
 print(colour.sd_mesopic_luminous_efficiency_function(0.2).values)

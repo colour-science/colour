@@ -85,9 +85,7 @@ class ColourQuality_Specification_ANSIIESTM3018:
     R_s: NDArrayFloat
     CCT: float
     D_uv: float
-    colorimetry_data: Tuple[
-        DataColorimetry_TCS_CIE2017, DataColorimetry_TCS_CIE2017
-    ]
+    colorimetry_data: Tuple[DataColorimetry_TCS_CIE2017, DataColorimetry_TCS_CIE2017]
     R_g: float
     bins: NDArrayInt
     averages_test: NDArrayFloat
@@ -143,9 +141,7 @@ def colour_fidelity_index_ANSIIESTM3018(
     )
 
     # Setup bins based on where the reference a'b' points are located.
-    bins = as_int_array(
-        np.floor(specification.colorimetry_data[1].JMh[:, 2] / 22.5)
-    )
+    bins = as_int_array(np.floor(specification.colorimetry_data[1].JMh[:, 2] / 22.5))
 
     bin_mask = bins == np.arange(16).reshape([-1, 1])
 
@@ -180,9 +176,7 @@ def colour_fidelity_index_ANSIIESTM3018(
     )
 
     # Gamut Index.
-    R_g = 100 * (
-        averages_area(averages_test) / averages_area(averages_reference)
-    )
+    R_g = 100 * (averages_area(averages_test) / averages_area(averages_reference))
 
     # Local colour fidelity indexes, i.e. 16 CFIs for each bin.
     bin_delta_E_s = np.nanmean(

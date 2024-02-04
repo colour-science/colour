@@ -181,12 +181,8 @@ class Header_IESTM2714:
             **{
                 "element": "Header",
                 "elements": (
-                    Element_Specification_IESTM2714(
-                        "Manufacturer", "manufacturer"
-                    ),
-                    Element_Specification_IESTM2714(
-                        "CatalogNumber", "catalog_number"
-                    ),
+                    Element_Specification_IESTM2714("Manufacturer", "manufacturer"),
+                    Element_Specification_IESTM2714("CatalogNumber", "catalog_number"),
                     Element_Specification_IESTM2714(
                         "Description", "description", required=True
                     ),
@@ -199,23 +195,15 @@ class Header_IESTM2714:
                     Element_Specification_IESTM2714(
                         "MeasurementEquipment", "measurement_equipment"
                     ),
-                    Element_Specification_IESTM2714(
-                        "Laboratory", "laboratory"
-                    ),
-                    Element_Specification_IESTM2714(
-                        "ReportNumber", "report_number"
-                    ),
-                    Element_Specification_IESTM2714(
-                        "ReportDate", "report_date"
-                    ),
+                    Element_Specification_IESTM2714("Laboratory", "laboratory"),
+                    Element_Specification_IESTM2714("ReportNumber", "report_number"),
+                    Element_Specification_IESTM2714("ReportDate", "report_date"),
                     Element_Specification_IESTM2714(
                         "DocumentCreationDate",
                         "document_creation_date",
                         required=True,
                     ),
-                    Element_Specification_IESTM2714(
-                        "Comments", "comments", False
-                    ),
+                    Element_Specification_IESTM2714("Comments", "comments", False),
                 ),
             }
         )
@@ -736,8 +724,7 @@ class Header_IESTM2714:
                     self._laboratory == other.laboratory,
                     self._report_number == other.report_number,
                     self._report_date == other.report_date,
-                    self._document_creation_date
-                    == other.document_creation_date,
+                    self._document_creation_date == other.document_creation_date,
                     self._comments == other.comments,
                 ]
             )
@@ -870,9 +857,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     --------
     >>> from os.path import dirname, join
     >>> directory = join(dirname(__file__), "tests", "resources")
-    >>> sd = SpectralDistribution_IESTM2714(
-    ...     join(directory, "Fluorescent.spdx")
-    ... )
+    >>> sd = SpectralDistribution_IESTM2714(join(directory, "Fluorescent.spdx"))
     >>> sd.name  # doctest: +SKIP
     'Unknown - N/A - Rare earth fluorescent lamp'
     >>> sd.header.comments
@@ -885,40 +870,43 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         self,
         path: str | Path | None = None,
         header: Header_IESTM2714 | None = None,
-        spectral_quantity: Literal[
-            "absorptance",
-            "exitance",
-            "flux",
-            "intensity",
-            "irradiance",
-            "radiance",
-            "reflectance",
-            "relative",
-            "transmittance",
-            "R-Factor",
-            "T-Factor",
-            "other",
-        ]
-        | None = None,
-        reflection_geometry: Literal[
-            "di:8",
-            "de:8",
-            "8:di",
-            "8:de",
-            "d:d",
-            "d:0",
-            "45a:0",
-            "45c:0",
-            "0:45a",
-            "45x:0",
-            "0:45x",
-            "other",
-        ]
-        | None = None,
-        transmission_geometry: Literal[
-            "0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"
-        ]
-        | None = None,
+        spectral_quantity: (
+            Literal[
+                "absorptance",
+                "exitance",
+                "flux",
+                "intensity",
+                "irradiance",
+                "radiance",
+                "reflectance",
+                "relative",
+                "transmittance",
+                "R-Factor",
+                "T-Factor",
+                "other",
+            ]
+            | None
+        ) = None,
+        reflection_geometry: (
+            Literal[
+                "di:8",
+                "de:8",
+                "8:di",
+                "8:de",
+                "d:d",
+                "d:0",
+                "45a:0",
+                "45c:0",
+                "0:45a",
+                "45x:0",
+                "0:45x",
+                "other",
+            ]
+            | None
+        ) = None,
+        transmission_geometry: (
+            Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"] | None
+        ) = None,
         bandwidth_FWHM: float | None = None,
         bandwidth_corrected: bool | None = None,
         **kwargs,
@@ -942,18 +930,14 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                         "BandwidthFWHM",
                         "bandwidth_FWHM",
                         read_conversion=(
-                            lambda x: None
-                            if x == "None"
-                            else as_float_scalar(x)
+                            lambda x: (None if x == "None" else as_float_scalar(x))
                         ),
                     ),
                     Element_Specification_IESTM2714(
                         "BandwidthCorrected",
                         "bandwidth_corrected",
                         read_conversion=(lambda x: bool(x == "true")),
-                        write_conversion=(
-                            lambda x: "true" if x is True else "false"
-                        ),
+                        write_conversion=(lambda x: "true" if x is True else "false"),
                     ),
                 ),
                 "data": Element_Specification_IESTM2714(
@@ -966,39 +950,45 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         self.path = path
         self._header: Header_IESTM2714 = Header_IESTM2714()
         self.header = optional(header, self._header)
-        self._spectral_quantity: Literal[
-            "absorptance",
-            "exitance",
-            "flux",
-            "intensity",
-            "irradiance",
-            "radiance",
-            "reflectance",
-            "relative",
-            "transmittance",
-            "R-Factor",
-            "T-Factor",
-            "other",
-        ] | None = None
+        self._spectral_quantity: (
+            Literal[
+                "absorptance",
+                "exitance",
+                "flux",
+                "intensity",
+                "irradiance",
+                "radiance",
+                "reflectance",
+                "relative",
+                "transmittance",
+                "R-Factor",
+                "T-Factor",
+                "other",
+            ]
+            | None
+        ) = None
         self.spectral_quantity = spectral_quantity
-        self._reflection_geometry: Literal[
-            "di:8",
-            "de:8",
-            "8:di",
-            "8:de",
-            "d:d",
-            "d:0",
-            "45a:0",
-            "45c:0",
-            "0:45a",
-            "45x:0",
-            "0:45x",
-            "other",
-        ] | None = None
+        self._reflection_geometry: (
+            Literal[
+                "di:8",
+                "de:8",
+                "8:di",
+                "8:de",
+                "d:d",
+                "d:0",
+                "45a:0",
+                "45c:0",
+                "0:45a",
+                "45x:0",
+                "0:45x",
+                "other",
+            ]
+            | None
+        ) = None
         self.reflection_geometry = reflection_geometry
-        self._transmission_geometry: Literal[
-            "0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"
-        ] | None = None
+        self._transmission_geometry: (
+            Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"] | None
+        ) = None
         self.transmission_geometry = transmission_geometry
         self._bandwidth_FWHM: float | None = None
         self.bandwidth_FWHM = bandwidth_FWHM
@@ -1123,21 +1113,23 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     @spectral_quantity.setter
     def spectral_quantity(
         self,
-        value: Literal[
-            "absorptance",
-            "exitance",
-            "flux",
-            "intensity",
-            "irradiance",
-            "radiance",
-            "reflectance",
-            "relative",
-            "transmittance",
-            "R-Factor",
-            "T-Factor",
-            "other",
-        ]
-        | None,
+        value: (
+            Literal[
+                "absorptance",
+                "exitance",
+                "flux",
+                "intensity",
+                "irradiance",
+                "radiance",
+                "reflectance",
+                "relative",
+                "transmittance",
+                "R-Factor",
+                "T-Factor",
+                "other",
+            ]
+            | None
+        ),
     ):
         """Setter for the **self.spectral_quantity** property."""
 
@@ -1188,21 +1180,23 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     @reflection_geometry.setter
     def reflection_geometry(
         self,
-        value: Literal[
-            "di:8",
-            "de:8",
-            "8:di",
-            "8:de",
-            "d:d",
-            "d:0",
-            "45a:0",
-            "45c:0",
-            "0:45a",
-            "45x:0",
-            "0:45x",
-            "other",
-        ]
-        | None,
+        value: (
+            Literal[
+                "di:8",
+                "de:8",
+                "8:di",
+                "8:de",
+                "d:d",
+                "d:0",
+                "45a:0",
+                "45c:0",
+                "0:45a",
+                "45x:0",
+                "0:45x",
+                "other",
+            ]
+            | None
+        ),
     ):
         """Setter for the **self.reflection_geometry** property."""
 
@@ -1237,8 +1231,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     @transmission_geometry.setter
     def transmission_geometry(
         self,
-        value: Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"]
-        | None,
+        value: (Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"] | None),
     ):
         """Setter for the **self.transmission_geometry** property."""
 
@@ -1327,11 +1320,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         --------
         >>> from os.path import dirname, join
         >>> directory = join(dirname(__file__), "tests", "resources")
-        >>> print(
-        ...     SpectralDistribution_IESTM2714(
-        ...         join(directory, "Fluorescent.spdx")
-        ...     )
-        ... )
+        >>> print(SpectralDistribution_IESTM2714(join(directory, "Fluorescent.spdx")))
         ... # doctest: +ELLIPSIS
         IES TM-27-14 Spectral Distribution
         ==================================
@@ -1667,9 +1656,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         --------
         >>> from os.path import dirname, join
         >>> directory = join(dirname(__file__), "tests", "resources")
-        >>> sd = SpectralDistribution_IESTM2714(
-        ...     join(directory, "Fluorescent.spdx")
-        ... )
+        >>> sd = SpectralDistribution_IESTM2714(join(directory, "Fluorescent.spdx"))
         >>> sd.name  # doctest: +SKIP
         'Unknown - N/A - Rare earth fluorescent lamp'
         >>> sd.header.comments
@@ -1718,9 +1705,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
             for spectral_data in iterator(
                 f"{{{namespace}}}{self.mapping.data.element}"
             ):
-                wavelengths.append(
-                    spectral_data.attrib[self.mapping.data.attribute]
-                )
+                wavelengths.append(spectral_data.attrib[self.mapping.data.attribute])
                 values.append(spectral_data.text)
 
             components = [
@@ -1732,9 +1717,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                 )
                 if component is not None
             ]
-            self.name = (
-                "Undefined" if len(components) == 0 else " - ".join(components)
-            )
+            self.name = "Undefined" if len(components) == 0 else " - ".join(components)
 
             self.wavelengths = as_float_array(wavelengths)
             self.values = as_float_array(values)
@@ -1760,9 +1743,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         >>> from shutil import rmtree
         >>> from tempfile import mkdtemp
         >>> directory = join(dirname(__file__), "tests", "resources")
-        >>> sd = SpectralDistribution_IESTM2714(
-        ...     join(directory, "Fluorescent.spdx")
-        ... )
+        >>> sd = SpectralDistribution_IESTM2714(join(directory, "Fluorescent.spdx"))
         >>> temporary_directory = mkdtemp()
         >>> sd.path = join(temporary_directory, "Fluorescent.spdx")
         >>> sd.write()
@@ -1798,9 +1779,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                 )
                 element_child.text = mapping.data.write_conversion(value)
                 element_child.attrib = {
-                    mapping.data.attribute: mapping.data.write_conversion(
-                        wavelength
-                    )
+                    mapping.data.attribute: mapping.data.write_conversion(wavelength)
                 }
 
             xml = minidom.parseString(  # noqa: S318

@@ -186,8 +186,9 @@ def XYZ_to_Hellwig2022(
     XYZ_w: ArrayLike,
     L_A: ArrayLike,
     Y_b: ArrayLike,
-    surround: InductionFactors_CIECAM02
-    | InductionFactors_Hellwig2022 = VIEWING_CONDITIONS_HELLWIG2022["Average"],
+    surround: (
+        InductionFactors_CIECAM02 | InductionFactors_Hellwig2022
+    ) = VIEWING_CONDITIONS_HELLWIG2022["Average"],
     discount_illuminant: bool = False,
     compute_H: bool = True,
 ) -> CAM_Specification_Hellwig2022:
@@ -321,9 +322,7 @@ H=275.5949861..., HC=None, J_HK=41.8802782..., Q_HK=56.0518358...)
     RGB_wc = D_RGB * RGB_w
 
     # Applying forward post-adaptation non-linear response compression.
-    RGB_aw = post_adaptation_non_linear_response_compression_forward(
-        RGB_wc, F_L
-    )
+    RGB_aw = post_adaptation_non_linear_response_compression_forward(RGB_wc, F_L)
 
     # Computing achromatic responses for the whitepoint.
     A_w = achromatic_response_forward(RGB_aw)
@@ -399,8 +398,9 @@ def Hellwig2022_to_XYZ(
     XYZ_w: ArrayLike,
     L_A: ArrayLike,
     Y_b: ArrayLike,
-    surround: InductionFactors_CIECAM02
-    | InductionFactors_Hellwig2022 = VIEWING_CONDITIONS_HELLWIG2022["Average"],
+    surround: (
+        InductionFactors_CIECAM02 | InductionFactors_Hellwig2022
+    ) = VIEWING_CONDITIONS_HELLWIG2022["Average"],
     discount_illuminant: bool = False,
 ) -> NDArrayFloat:
     """
@@ -564,9 +564,7 @@ def Hellwig2022_to_XYZ(
     RGB_wc = D_RGB * RGB_w
 
     # Applying forward post-adaptation non-linear response compression.
-    RGB_aw = post_adaptation_non_linear_response_compression_forward(
-        RGB_wc, F_L
-    )
+    RGB_aw = post_adaptation_non_linear_response_compression_forward(RGB_wc, F_L)
 
     # Computing achromatic responses for the whitepoint.
     A_w = achromatic_response_forward(RGB_aw)
@@ -602,9 +600,7 @@ def Hellwig2022_to_XYZ(
 
     # Step 5
     # Applying inverse post-adaptation non-linear response compression.
-    RGB_c = post_adaptation_non_linear_response_compression_inverse(
-        RGB_a + 0.1, F_L
-    )
+    RGB_c = post_adaptation_non_linear_response_compression_inverse(RGB_a + 0.1, F_L)
 
     # Step 6
     RGB = RGB_c / D_RGB

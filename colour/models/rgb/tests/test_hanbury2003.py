@@ -60,15 +60,11 @@ class TestRGB_to_IHLS(unittest.TestCase):
 
         RGB = np.tile(RGB, (6, 1))
         HYS = np.tile(HYS, (6, 1))
-        np.testing.assert_allclose(
-            RGB_to_IHLS(RGB), HYS, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(RGB_to_IHLS(RGB), HYS, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         RGB = np.reshape(RGB, (2, 3, 3))
         HYS = np.reshape(HYS, (2, 3, 3))
-        np.testing.assert_allclose(
-            RGB_to_IHLS(RGB), HYS, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(RGB_to_IHLS(RGB), HYS, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_RGB_to_IHLS(self):
         """
@@ -138,15 +134,11 @@ class TestIHLS_to_RGB(unittest.TestCase):
 
         HYS = np.tile(HYS, (6, 1))
         RGB = np.tile(RGB, (6, 1))
-        np.testing.assert_allclose(
-            IHLS_to_RGB(HYS), RGB, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(IHLS_to_RGB(HYS), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         HYS = np.reshape(HYS, (2, 3, 3))
         RGB = np.reshape(RGB, (2, 3, 3))
-        np.testing.assert_allclose(
-            IHLS_to_RGB(HYS), RGB, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(IHLS_to_RGB(HYS), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_IHLS_to_RGB(self):
         """

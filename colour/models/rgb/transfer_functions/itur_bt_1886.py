@@ -38,9 +38,7 @@ __all__ = [
 ]
 
 
-def eotf_inverse_BT1886(
-    L: ArrayLike, L_B: float = 0, L_W: float = 1
-) -> NDArrayFloat:
+def eotf_inverse_BT1886(L: ArrayLike, L_B: float = 0, L_W: float = 1) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.1886* inverse electro-optical transfer
     function (EOTF).

@@ -449,17 +449,13 @@ class TestMesopicWeightingFunction(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            mesopic_weighting_function(
-                500, 0.2, source="Red Heavy", method="LRC"
-            ),
+            mesopic_weighting_function(500, 0.2, source="Red Heavy", method="LRC"),
             0.90951000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            mesopic_weighting_function(
-                700, 10, source="Red Heavy", method="LRC"
-            ),
+            mesopic_weighting_function(700, 10, source="Red Heavy", method="LRC"),
             0.00410200,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -504,9 +500,11 @@ class TestMesopicWeightingFunction(unittest.TestCase):
         definition nan support.
         """
 
-        mesopic_weighting_function(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]), 0.2
-        ),
+        (
+            mesopic_weighting_function(
+                np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]), 0.2
+            ),
+        )
 
 
 class TestSdMesopicLuminousEfficiencyFunction(unittest.TestCase):

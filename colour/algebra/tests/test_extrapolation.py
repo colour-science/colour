@@ -117,9 +117,7 @@ class TestExtrapolator(unittest.TestCase):
             LinearInterpolator(np.array([3, 4, 5]), np.array([1, 2, 3])),
             method="Constant",
         )
-        np.testing.assert_array_equal(
-            extrapolator((0.1, 0.2, 8, 9)), (1, 1, 3, 3)
-        )
+        np.testing.assert_array_equal(extrapolator((0.1, 0.2, 8, 9)), (1, 1, 3, 3))
         self.assertEqual(extrapolator(0.1), 1.0)
 
         extrapolator = Extrapolator(
@@ -127,9 +125,7 @@ class TestExtrapolator(unittest.TestCase):
             method="Constant",
             left=0,
         )
-        np.testing.assert_array_equal(
-            extrapolator((0.1, 0.2, 8, 9)), (0, 0, 3, 3)
-        )
+        np.testing.assert_array_equal(extrapolator((0.1, 0.2, 8, 9)), (0, 0, 3, 3))
         self.assertEqual(extrapolator(0.1), 0)
 
         extrapolator = Extrapolator(
@@ -137,15 +133,11 @@ class TestExtrapolator(unittest.TestCase):
             method="Constant",
             right=0,
         )
-        np.testing.assert_array_equal(
-            extrapolator((0.1, 0.2, 8, 9)), (1, 1, 0, 0)
-        )
+        np.testing.assert_array_equal(extrapolator((0.1, 0.2, 8, 9)), (1, 1, 0, 0))
         self.assertEqual(extrapolator(9), 0)
 
         extrapolator = Extrapolator(
-            CubicSplineInterpolator(
-                np.array([3, 4, 5, 6]), np.array([1, 2, 3, 4])
-            )
+            CubicSplineInterpolator(np.array([3, 4, 5, 6]), np.array([1, 2, 3, 4]))
         )
         np.testing.assert_allclose(
             extrapolator((0.1, 0.2, 8.0, 9.0)),

@@ -1436,10 +1436,7 @@ DATA_TCS: dict = {
 }
 
 SDS_TCS: CanonicalMapping = CanonicalMapping(
-    {
-        key: SpectralDistribution(value, name=key)
-        for key, value in DATA_TCS.items()
-    }
+    {key: SpectralDistribution(value, name=key) for key, value in DATA_TCS.items()}
 )
 """
 Test colour samples spectral distributions.

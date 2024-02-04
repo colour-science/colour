@@ -208,9 +208,7 @@ oetf_inverse_ARIBSTDB67` definition domain and range scale support.
 oetf_inverse_ARIBSTDB67` definition nan support.
         """
 
-        oetf_inverse_ARIBSTDB67(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        oetf_inverse_ARIBSTDB67(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 if __name__ == "__main__":

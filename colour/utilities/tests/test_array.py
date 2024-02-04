@@ -526,9 +526,7 @@ class TestAsInt(unittest.TestCase):
             as_int(np.array([1.0, 2.0, 3.0])), np.array([1, 2, 3])
         )
 
-        self.assertEqual(
-            as_int(np.array([1.0, 2.0, 3.0])).dtype, DTYPE_INT_DEFAULT
-        )
+        self.assertEqual(as_int(np.array([1.0, 2.0, 3.0])).dtype, DTYPE_INT_DEFAULT)
 
         self.assertIsInstance(as_int(1), DTYPE_INT_DEFAULT)
 
@@ -554,9 +552,7 @@ class TestAsFloat(unittest.TestCase):
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertEqual(
-            as_float(np.array([1, 2, 3])).dtype, DTYPE_FLOAT_DEFAULT
-        )
+        self.assertEqual(as_float(np.array([1, 2, 3])).dtype, DTYPE_FLOAT_DEFAULT)
 
         self.assertIsInstance(as_float(1), DTYPE_FLOAT_DEFAULT)
 
@@ -570,9 +566,7 @@ class TestAsIntArray(unittest.TestCase):
     def test_as_int_array(self):
         """Test :func:`colour.utilities.array.as_int_array` definition."""
 
-        np.testing.assert_equal(
-            as_int_array([1.0, 2.0, 3.0]), np.array([1, 2, 3])
-        )
+        np.testing.assert_equal(as_int_array([1.0, 2.0, 3.0]), np.array([1, 2, 3]))
 
         self.assertEqual(as_int_array([1, 2, 3]).dtype, DTYPE_INT_DEFAULT)
 
@@ -731,9 +725,7 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
                     a = CAM_Specification_ZCAM(J=0.25, M=0.5, h=0.25)
 
                 if source == "CMYK":
-                    a = np.array(
-                        [(0.25, 0.5, 0.25, 0.5), (0.25, 0.5, 0.25, 0.5)]
-                    )
+                    a = np.array([(0.25, 0.5, 0.25, 0.5), (0.25, 0.5, 0.25, 0.5)])
 
                 if source == "Hexadecimal":
                     a = np.array(["#FFFFFF", "#FFFFFF"])
@@ -774,9 +766,7 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
 
                     return x.dtype
 
-                self.assertEqual(
-                    dtype_getter(convert(a, source, target)), dtype
-                )
+                self.assertEqual(dtype_getter(convert(a, source, target)), dtype)
         finally:
             set_default_float_dtype(np.float64)
 
@@ -827,9 +817,7 @@ class TestSetDomainRangeScale(unittest.TestCase):
             set_domain_range_scale("Reference")
             self.assertEqual(get_domain_range_scale(), "reference")
 
-        self.assertRaises(
-            ValueError, lambda: set_domain_range_scale("Invalid")
-        )
+        self.assertRaises(ValueError, lambda: set_domain_range_scale("Invalid"))
 
 
 class TestDomainRangeScale(unittest.TestCase):
@@ -923,9 +911,7 @@ class TestToDomain1(unittest.TestCase):
             self.assertEqual(to_domain_1(1, np.pi), 1 / np.pi)
 
         with domain_range_scale("100"):
-            self.assertEqual(
-                to_domain_1(1, dtype=np.float16).dtype, np.float16
-            )
+            self.assertEqual(to_domain_1(1, dtype=np.float16).dtype, np.float16)
 
 
 class TestToDomain10(unittest.TestCase):
@@ -950,9 +936,7 @@ class TestToDomain10(unittest.TestCase):
             self.assertEqual(to_domain_10(1, np.pi), 1 / np.pi)
 
         with domain_range_scale("100"):
-            self.assertEqual(
-                to_domain_10(1, dtype=np.float16).dtype, np.float16
-            )
+            self.assertEqual(to_domain_10(1, dtype=np.float16).dtype, np.float16)
 
 
 class TestToDomain100(unittest.TestCase):
@@ -977,9 +961,7 @@ class TestToDomain100(unittest.TestCase):
             self.assertEqual(to_domain_100(1, np.pi), np.pi)
 
         with domain_range_scale("100"):
-            self.assertEqual(
-                to_domain_100(1, dtype=np.float16).dtype, np.float16
-            )
+            self.assertEqual(to_domain_100(1, dtype=np.float16).dtype, np.float16)
 
 
 class TestToDomainDegrees(unittest.TestCase):
@@ -1004,9 +986,7 @@ class TestToDomainDegrees(unittest.TestCase):
             self.assertEqual(to_domain_degrees(1, np.pi), np.pi / 100)
 
         with domain_range_scale("100"):
-            self.assertEqual(
-                to_domain_degrees(1, dtype=np.float16).dtype, np.float16
-            )
+            self.assertEqual(to_domain_degrees(1, dtype=np.float16).dtype, np.float16)
 
 
 class TestToDomainInt(unittest.TestCase):
@@ -1031,9 +1011,7 @@ class TestToDomainInt(unittest.TestCase):
             self.assertEqual(to_domain_int(1, 10), 10.23)
 
         with domain_range_scale("100"):
-            self.assertEqual(
-                to_domain_int(1, dtype=np.float16).dtype, np.float16
-            )
+            self.assertEqual(to_domain_int(1, dtype=np.float16).dtype, np.float16)
 
 
 class TestFromRange1(unittest.TestCase):
@@ -1146,9 +1124,7 @@ class TestFromRangeInt(unittest.TestCase):
             self.assertEqual(from_range_int(1, 10), 1 / (1023 / 100))
 
         with domain_range_scale("100"):
-            self.assertEqual(
-                from_range_int(1, dtype=np.float16).dtype, np.float16
-            )
+            self.assertEqual(from_range_int(1, dtype=np.float16).dtype, np.float16)
 
 
 class TestIsNdarrayCopyEnabled(unittest.TestCase):
@@ -1394,9 +1370,7 @@ class TestInArray(unittest.TestCase):
         )
 
         np.testing.assert_array_equal(
-            in_array(
-                np.array([[0.50], [0.60]]), np.linspace(0, 10, 101)
-            ).shape,
+            in_array(np.array([[0.50], [0.60]]), np.linspace(0, 10, 101)).shape,
             np.array([2, 1]),
         )
 
@@ -1828,9 +1802,7 @@ class TestIndexAlongLastAxis(unittest.TestCase):
             ]
         )
 
-        indexes = np.array(
-            [[[0, 1], [0, 1]], [[2, 1], [2, 1]], [[2, 1], [2, 0]]]
-        )
+        indexes = np.array([[[0, 1], [0, 1]], [[2, 1], [2, 1]], [[2, 1], [2, 0]]])
 
         np.testing.assert_equal(
             index_along_last_axis(a, indexes),

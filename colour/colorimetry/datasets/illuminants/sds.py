@@ -4895,9 +4895,7 @@ References
 :cite:`InternationalOrganizationforStandardization2002`
 """
 
-SDS_ILLUMINANTS: LazyCanonicalMapping = LazyCanonicalMapping(
-    SDS_ILLUMINANTS_CIE
-)
+SDS_ILLUMINANTS: LazyCanonicalMapping = LazyCanonicalMapping(SDS_ILLUMINANTS_CIE)
 SDS_ILLUMINANTS.__doc__ = """
 Spectral distributions of the illuminants.
 

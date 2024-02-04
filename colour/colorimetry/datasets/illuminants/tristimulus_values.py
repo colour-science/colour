@@ -49,17 +49,17 @@ __all__ = [
     "TVS_ILLUMINANTS",
 ]
 
-TVS_ILLUMINANTS_CIE_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
-    CanonicalMapping
-) = CanonicalMapping(
-    {
-        "A": np.array([109.85, 100.00, 35.58]),
-        "C": np.array([98.07, 100.00, 118.22]),
-        "D50": np.array([96.42, 100.00, 82.51]),
-        "D55": np.array([95.68, 100.00, 92.14]),
-        "D65": np.array([95.04, 100.00, 108.88]),
-        "D75": np.array([94.97, 100.00, 122.61]),
-    }
+TVS_ILLUMINANTS_CIE_STANDARD_OBSERVER_2_DEGREE_CIE1931: CanonicalMapping = (
+    CanonicalMapping(
+        {
+            "A": np.array([109.85, 100.00, 35.58]),
+            "C": np.array([98.07, 100.00, 118.22]),
+            "D50": np.array([96.42, 100.00, 82.51]),
+            "D55": np.array([95.68, 100.00, 92.14]),
+            "D65": np.array([95.04, 100.00, 108.88]),
+            "D75": np.array([94.97, 100.00, 122.61]),
+        }
+    )
 )
 """
 *CIE XYZ* tristimulus values of the *CIE* illuminants for the
@@ -70,17 +70,17 @@ References
 :cite:`Carter2018`
 """
 
-TVS_ILLUMINANTS_CIE_STANDARD_OBSERVER_10_DEGREE_CIE1964: (
-    CanonicalMapping
-) = CanonicalMapping(
-    {
-        "A": np.array([111.14, 100.00, 35.20]),
-        "C": np.array([97.29, 100.00, 116.14]),
-        "D50": np.array([96.72, 100.00, 81.43]),
-        "D55": np.array([95.80, 100.00, 90.93]),
-        "D65": np.array([94.81, 100.00, 107.32]),
-        "D75": np.array([94.42, 100.00, 120.64]),
-    }
+TVS_ILLUMINANTS_CIE_STANDARD_OBSERVER_10_DEGREE_CIE1964: CanonicalMapping = (
+    CanonicalMapping(
+        {
+            "A": np.array([111.14, 100.00, 35.20]),
+            "C": np.array([97.29, 100.00, 116.14]),
+            "D50": np.array([96.72, 100.00, 81.43]),
+            "D55": np.array([95.80, 100.00, 90.93]),
+            "D65": np.array([94.81, 100.00, 107.32]),
+            "D75": np.array([94.42, 100.00, 120.64]),
+        }
+    )
 )
 """
 *CIE XYZ* tristimulus values of the *CIE* illuminants for the
@@ -116,9 +116,5 @@ Aliases:
 -   'cie_2_1931': 'CIE 1931 2 Degree Standard Observer'
 -   'cie_10_1964': 'CIE 1964 10 Degree Standard Observer'
 """
-TVS_ILLUMINANTS["cie_2_1931"] = TVS_ILLUMINANTS[
-    "CIE 1931 2 Degree Standard Observer"
-]
-TVS_ILLUMINANTS["cie_10_1964"] = TVS_ILLUMINANTS[
-    "CIE 1964 10 Degree Standard Observer"
-]
+TVS_ILLUMINANTS["cie_2_1931"] = TVS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]
+TVS_ILLUMINANTS["cie_10_1964"] = TVS_ILLUMINANTS["CIE 1964 10 Degree Standard Observer"]

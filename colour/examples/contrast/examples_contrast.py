@@ -20,9 +20,7 @@ message_box(
     '"Barten (1999)" method.'
 )
 pprint(colour.contrast_sensitivity_function(u=4, X_0=60, E=65))
-pprint(
-    colour.contrast.contrast_sensitivity_function_Barten1999(u=4, X_0=60, E=65)
-)
+pprint(colour.contrast.contrast_sensitivity_function_Barten1999(u=4, X_0=60, E=65))
 
 print("\n")
 
@@ -75,7 +73,7 @@ def maximise_spatial_frequency(L: ArrayLike) -> NDArrayFloat:
                         sigma=sigma,  # noqa: B023
                         X_0=X_0,
                         E=E,  # noqa: B023
-                        **settings_BT2246
+                        **settings_BT2246,
                     )
                 ),
                 0,
@@ -126,5 +124,5 @@ plot_single_function(
         "x_label": "Luminance ($cd/m^2$)",
         "y_label": "Minimum Detectable Contrast",
         "axes.grid.which": "both",
-    }
+    },
 )

@@ -46,17 +46,13 @@ class TestRGB_to_ICtCp(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            RGB_to_ICtCp(
-                np.array([0.45620519, 0.03081071, 0.04091952]), L_p=4000
-            ),
+            RGB_to_ICtCp(np.array([0.45620519, 0.03081071, 0.04091952]), L_p=4000),
             np.array([0.10516931, 0.00514031, 0.12318730]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            RGB_to_ICtCp(
-                np.array([0.45620519, 0.03081071, 0.04091952]), L_p=1000
-            ),
+            RGB_to_ICtCp(np.array([0.45620519, 0.03081071, 0.04091952]), L_p=1000),
             np.array([0.17079612, 0.00485580, 0.17431356]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -164,17 +160,13 @@ class TestICtCp_to_RGB(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            ICtCp_to_RGB(
-                np.array([0.10516931, 0.00514031, 0.12318730]), L_p=4000
-            ),
+            ICtCp_to_RGB(np.array([0.10516931, 0.00514031, 0.12318730]), L_p=4000),
             np.array([0.45620519, 0.03081071, 0.04091952]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            ICtCp_to_RGB(
-                np.array([0.17079612, 0.00485580, 0.17431356]), L_p=1000
-            ),
+            ICtCp_to_RGB(np.array([0.17079612, 0.00485580, 0.17431356]), L_p=1000),
             np.array([0.45620519, 0.03081071, 0.04091952]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -301,17 +293,13 @@ class TestXYZ_to_ICtCp(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            XYZ_to_ICtCp(
-                np.array([0.20654008, 0.12197225, 0.05136952]), L_p=4000
-            ),
+            XYZ_to_ICtCp(np.array([0.20654008, 0.12197225, 0.05136952]), L_p=4000),
             np.array([0.09871102, -0.00447247, 0.07984812]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            XYZ_to_ICtCp(
-                np.array([0.20654008, 0.12197225, 0.05136952]), L_p=1000
-            ),
+            XYZ_to_ICtCp(np.array([0.20654008, 0.12197225, 0.05136952]), L_p=1000),
             np.array([0.16173872, -0.00792543, 0.11409458]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -438,17 +426,13 @@ class TestICtCp_to_XYZ(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            ICtCp_to_XYZ(
-                np.array([0.09871102, -0.00447247, 0.07984812]), L_p=4000
-            ),
+            ICtCp_to_XYZ(np.array([0.09871102, -0.00447247, 0.07984812]), L_p=4000),
             np.array([0.20654008, 0.12197225, 0.05136952]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            ICtCp_to_XYZ(
-                np.array([0.16173872, -0.00792543, 0.11409458]), L_p=1000
-            ),
+            ICtCp_to_XYZ(np.array([0.16173872, -0.00792543, 0.11409458]), L_p=1000),
             np.array([0.20654008, 0.12197225, 0.05136952]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

@@ -22,10 +22,7 @@ print(
     f'\nNormalised primary matrix to "CIE XYZ" tristimulus values:\n'
     f"{colourspace.matrix_RGB_to_XYZ}"
 )
-print(
-    f'\nNormalised primary matrix to "ACES2065-1":\n'
-    f"{colourspace.matrix_XYZ_to_RGB}"
-)
+print(f'\nNormalised primary matrix to "ACES2065-1":\n {colourspace.matrix_XYZ_to_RGB}')
 print(
     f"\nOpto-electronic transfer function from linear to colourspace:\n"
     f"{colourspace.cctf_encoding}"
@@ -38,8 +35,7 @@ print(
 print("\n")
 
 message_box(
-    'Computing the "ACES2065-1" colourspace to "ITU-R BT.709" colourspace '
-    "matrix."
+    'Computing the "ACES2065-1" colourspace to "ITU-R BT.709" colourspace matrix.'
 )
 cat = colour.adaptation.matrix_chromatic_adaptation_VonKries(
     colour.xy_to_XYZ(colourspace.whitepoint),
@@ -70,13 +66,10 @@ print(
 print("\n")
 
 message_box(
-    '"Recommendation ITU-T H.273" '
-    "Code points for Video Signal Type Identification"
+    '"Recommendation ITU-T H.273" Code points for Video Signal Type Identification'
 )
 
-message_box(
-    f"Colour Primaries: {list(colour.COLOUR_PRIMARIES_ITUTH273.keys())}"
-)
+message_box(f"Colour Primaries: {list(colour.COLOUR_PRIMARIES_ITUTH273.keys())}")
 colour.models.describe_video_signal_colour_primaries(1)
 
 print("\n")
@@ -89,9 +82,6 @@ colour.models.describe_video_signal_transfer_characteristics(1)
 
 print("\n")
 
-message_box(
-    f"Matrix Coefficients: "
-    f"{list(colour.MATRIX_COEFFICIENTS_ITUTH273.keys())}"
-)
+message_box(f"Matrix Coefficients: {list(colour.MATRIX_COEFFICIENTS_ITUTH273.keys())}")
 
 colour.models.describe_video_signal_matrix_coefficients(1)

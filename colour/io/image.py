@@ -430,9 +430,7 @@ def read_image(
 
     method = validate_method(method, tuple(READ_IMAGE_METHODS))
 
-    if (
-        method == "openimageio" and not is_openimageio_installed()
-    ):  # pragma: no cover
+    if method == "openimageio" and not is_openimageio_installed():  # pragma: no cover
         usage_warning(
             '"OpenImageIO" related API features are not available, '
             'switching to "Imageio"!'
@@ -531,7 +529,6 @@ def write_image_OpenImageIO(
     ...         ImageAttribute_Specification("compression", "none"),
     ...     ]
     ...     write_image_OpenImageIO(image, path, attributes=attributes)
-    ...
     """  # noqa: D405, D407, D410, D411
 
     from OpenImageIO import ImageOutput, ImageSpec
@@ -762,9 +759,7 @@ Source/FreeImage.h
 
     method = validate_method(method, tuple(WRITE_IMAGE_METHODS))
 
-    if (
-        method == "openimageio" and not is_openimageio_installed()
-    ):  # pragma: no cover
+    if method == "openimageio" and not is_openimageio_installed():  # pragma: no cover
         usage_warning(
             '"OpenImageIO" related API features are not available, '
             'switching to "Imageio"!'

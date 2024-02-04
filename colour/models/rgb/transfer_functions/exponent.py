@@ -43,15 +43,17 @@ __all__ = [
 def exponent_function_basic(
     x: ArrayLike,
     exponent: ArrayLike = 1,
-    style: Literal[
-        "basicFwd",
-        "basicRev",
-        "basicMirrorFwd",
-        "basicMirrorRev",
-        "basicPassThruFwd",
-        "basicPassThruRev",
-    ]
-    | str = "basicFwd",
+    style: (
+        Literal[
+            "basicFwd",
+            "basicRev",
+            "basicMirrorFwd",
+            "basicMirrorRev",
+            "basicPassThruFwd",
+            "basicPassThruRev",
+        ]
+        | str
+    ) = "basicFwd",
 ) -> NDArrayFloat:
     """
     Define the *basic* exponent transfer function.
@@ -190,10 +192,15 @@ def exponent_function_monitor_curve(
     x: ArrayLike,
     exponent: ArrayLike = 1,
     offset: ArrayLike = 0,
-    style: Literal[
-        "monCurveFwd", "monCurveRev", "monCurveMirrorFwd", "monCurveMirrorRev"
-    ]
-    | str = "monCurveFwd",
+    style: (
+        Literal[
+            "monCurveFwd",
+            "monCurveRev",
+            "monCurveMirrorFwd",
+            "monCurveMirrorRev",
+        ]
+        | str
+    ) = "monCurveFwd",
 ) -> NDArrayFloat:
     """
     Define the *Monitor Curve* exponent transfer function.
@@ -280,8 +287,7 @@ def exponent_function_monitor_curve(
     with sdiv_mode():
         s = as_float_array(
             sdiv(exponent - 1, offset)
-            * sdiv(exponent * offset, (exponent - 1) * (offset + 1))
-            ** exponent
+            * sdiv(exponent * offset, (exponent - 1) * (offset + 1)) ** exponent
         )
 
     def monitor_curve_forward(
@@ -294,9 +300,7 @@ def exponent_function_monitor_curve(
 
         y = as_float_array(x * s)
 
-        y[x >= x_break] = (
-            (x[x >= x_break] + offset) / (1 + offset)
-        ) ** exponent
+        y[x >= x_break] = ((x[x >= x_break] + offset) / (1 + offset)) ** exponent
 
         return y
 
@@ -312,9 +316,7 @@ def exponent_function_monitor_curve(
 
             x = as_float_array(y / s)
 
-        x[y >= y_break] = (
-            (1 + offset) * (y[y >= y_break] ** (1 / exponent))
-        ) - offset
+        x[y >= y_break] = ((1 + offset) * (y[y >= y_break] ** (1 / exponent))) - offset
 
         return x
 

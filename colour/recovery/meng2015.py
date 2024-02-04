@@ -112,7 +112,6 @@ def XYZ_to_sd_Meng2015(
     >>> sd = XYZ_to_sd_Meng2015(XYZ, cmfs, illuminant)
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +SKIP
-    ...
     SpectralDistribution([[ 360.        ,    0.0762005...],
                           [ 370.        ,    0.0761792...],
                           [ 380.        ,    0.0761363...],
@@ -181,9 +180,7 @@ def XYZ_to_sd_Meng2015(
         """Define the constraint function."""
 
         sd[:] = a
-        return (
-            sd_to_XYZ_integration(sd, cmfs=cmfs, illuminant=illuminant) - XYZ
-        )
+        return sd_to_XYZ_integration(sd, cmfs=cmfs, illuminant=illuminant) - XYZ
 
     wavelengths = sd.wavelengths
     bins = wavelengths.size

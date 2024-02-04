@@ -87,20 +87,20 @@ class RGB_CameraSensitivities(MultiSpectralDistributions):
 
     def __init__(
         self,
-        data: ArrayLike
-        | DataFrame
-        | dict
-        | MultiSignals
-        | MultiSpectralDistributions
-        | Sequence
-        | Series
-        | Signal
-        | SpectralDistribution
-        | None = None,
+        data: (
+            ArrayLike
+            | DataFrame
+            | dict
+            | MultiSignals
+            | MultiSpectralDistributions
+            | Sequence
+            | Series
+            | Signal
+            | SpectralDistribution
+            | None
+        ) = None,
         domain: ArrayLike | SpectralShape | None = None,
         labels: Sequence | None = None,  # noqa: ARG002
         **kwargs: Any,
     ) -> None:
-        super().__init__(
-            data, domain, labels=("red", "green", "blue"), **kwargs
-        )
+        super().__init__(data, domain, labels=("red", "green", "blue"), **kwargs)

@@ -58,9 +58,7 @@ DIN99_METHODS: CanonicalMapping = CanonicalMapping(
         "ASTMD2244-07": np.array(
             [105.509, 0.0158, 16.0, 0.7, 1, 9 / 200, 0.0, 9 / 200]
         ),
-        "DIN99": np.array(
-            [105.509, 0.0158, 16.0, 0.7, 1, 9 / 200, 0.0, 9 / 200]
-        ),
+        "DIN99": np.array([105.509, 0.0158, 16.0, 0.7, 1, 9 / 200, 0.0, 9 / 200]),
         "DIN99b": np.array([303.67, 0.0039, 26.0, 0.83, 23.0, 0.075, 26.0, 1]),
         "DIN99c": np.array([317.65, 0.0037, 0.0, 0.94, 23.0, 0.066, 0.0, 1]),
         "DIN99d": np.array([325.22, 0.0036, 50.0, 1.14, 22.5, 0.06, 50.0, 1]),
@@ -80,8 +78,9 @@ def Lab_to_DIN99(
     Lab: ArrayLike,
     k_E: float = 1,
     k_CH: float = 1,
-    method: Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"]
-    | str = "DIN99",
+    method: (
+        Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"] | str
+    ) = "DIN99",
 ) -> NDArrayFloat:
     """
     Convert from *CIE L\\*a\\*b\\** colourspace to *DIN99* colourspace or
@@ -171,8 +170,9 @@ def DIN99_to_Lab(
     Lab_99: ArrayLike,
     k_E: float = 1,
     k_CH: float = 1,
-    method: Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"]
-    | str = "DIN99",
+    method: (
+        Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"] | str
+    ) = "DIN99",
 ) -> NDArrayFloat:
     """
     Convert from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*,
@@ -260,13 +260,14 @@ def DIN99_to_Lab(
 
 def XYZ_to_DIN99(
     XYZ: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS[
-        "CIE 1931 2 Degree Standard Observer"
-    ]["D65"],
+    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
     k_E: float = 1,
     k_CH: float = 1,
-    method: Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"]
-    | str = "DIN99",
+    method: (
+        Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"] | str
+    ) = "DIN99",
 ) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *DIN99* colourspace or
@@ -334,13 +335,14 @@ def XYZ_to_DIN99(
 
 def DIN99_to_XYZ(
     Lab_99: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS[
-        "CIE 1931 2 Degree Standard Observer"
-    ]["D65"],
+    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
     k_E: float = 1,
     k_CH: float = 1,
-    method: Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"]
-    | str = "DIN99",
+    method: (
+        Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"] | str
+    ) = "DIN99",
 ) -> NDArrayFloat:
     """
     Convert from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*,

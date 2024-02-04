@@ -237,17 +237,13 @@ class TestWhitenessStensby1968(unittest.TestCase):
         """
 
         np.testing.assert_allclose(
-            whiteness_Stensby1968(
-                np.array([100.00000000, -2.46875131, -16.72486654])
-            ),
+            whiteness_Stensby1968(np.array([100.00000000, -2.46875131, -16.72486654])),
             142.76834569,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            whiteness_Stensby1968(
-                np.array([100.00000000, 14.40943727, -9.61394885])
-            ),
+            whiteness_Stensby1968(np.array([100.00000000, 14.40943727, -9.61394885])),
             172.07015836,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -322,25 +318,19 @@ class TestWhitenessASTM313(unittest.TestCase):
         """
 
         np.testing.assert_allclose(
-            whiteness_ASTME313(
-                np.array([95.00000000, 100.00000000, 105.00000000])
-            ),
+            whiteness_ASTME313(np.array([95.00000000, 100.00000000, 105.00000000])),
             55.740000000000009,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            whiteness_ASTME313(
-                np.array([105.00000000, 100.00000000, 95.00000000])
-            ),
+            whiteness_ASTME313(np.array([105.00000000, 100.00000000, 95.00000000])),
             21.860000000000014,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            whiteness_ASTME313(
-                np.array([100.00000000, 100.00000000, 100.00000000])
-            ),
+            whiteness_ASTME313(np.array([100.00000000, 100.00000000, 100.00000000])),
             38.800000000000011,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

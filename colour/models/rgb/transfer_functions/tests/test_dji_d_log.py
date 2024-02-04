@@ -105,9 +105,7 @@ log_encoding_DJIDLog` definition domain and range scale support.
 log_encoding_DJIDLog` definition nan support.
         """
 
-        log_encoding_DJIDLog(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_DJIDLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLogDecoding_DJIDLog(unittest.TestCase):
@@ -130,9 +128,7 @@ log_decoding_DJIDLog` definition.
             log_decoding_DJIDLog(0.398764556189331), 0.18, atol=1e-6
         )
 
-        np.testing.assert_allclose(
-            log_decoding_DJIDLog(0.584555), 1.0, atol=1e-6
-        )
+        np.testing.assert_allclose(log_decoding_DJIDLog(0.584555), 1.0, atol=1e-6)
 
     def test_n_dimensional_log_decoding_DLog(self):
         """
@@ -186,9 +182,7 @@ log_decoding_DJIDLog` definition domain and range scale support.
 log_decoding_DJIDLog` definition nan support.
         """
 
-        log_decoding_DJIDLog(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_decoding_DJIDLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 if __name__ == "__main__":

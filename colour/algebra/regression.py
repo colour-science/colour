@@ -33,9 +33,7 @@ __all__ = [
 ]
 
 
-def least_square_mapping_MoorePenrose(
-    y: ArrayLike, x: ArrayLike
-) -> NDArrayFloat:
+def least_square_mapping_MoorePenrose(y: ArrayLike, x: ArrayLike) -> NDArrayFloat:
     """
     Compute the *least-squares* mapping from dependent variable :math:`y` to
     independent variable :math:`x` using *Moore-Penrose* inverse.

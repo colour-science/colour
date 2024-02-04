@@ -108,25 +108,19 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
         """Test :func:`colour.models.hunter_lab.XYZ_to_Hunter_Lab` definition."""
 
         np.testing.assert_allclose(
-            XYZ_to_Hunter_Lab(
-                np.array([0.20654008, 0.12197225, 0.05136952]) * 100
-            ),
+            XYZ_to_Hunter_Lab(np.array([0.20654008, 0.12197225, 0.05136952]) * 100),
             np.array([34.92452577, 47.06189858, 14.38615107]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            XYZ_to_Hunter_Lab(
-                np.array([0.14222010, 0.23042768, 0.10495772]) * 100
-            ),
+            XYZ_to_Hunter_Lab(np.array([0.14222010, 0.23042768, 0.10495772]) * 100),
             np.array([48.00288325, -28.98551622, 18.75564181]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            XYZ_to_Hunter_Lab(
-                np.array([0.07818780, 0.06157201, 0.28099326]) * 100
-            ),
+            XYZ_to_Hunter_Lab(np.array([0.07818780, 0.06157201, 0.28099326]) * 100),
             np.array([24.81370791, 14.38300039, -53.25539126]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -249,25 +243,19 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
         """Test :func:`colour.models.hunter_lab.Hunter_Lab_to_XYZ` definition."""
 
         np.testing.assert_allclose(
-            Hunter_Lab_to_XYZ(
-                np.array([34.92452577, 47.06189858, 14.38615107])
-            ),
+            Hunter_Lab_to_XYZ(np.array([34.92452577, 47.06189858, 14.38615107])),
             np.array([20.65400800, 12.19722500, 5.13695200]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            Hunter_Lab_to_XYZ(
-                np.array([48.00288325, -28.98551622, 18.75564181])
-            ),
+            Hunter_Lab_to_XYZ(np.array([48.00288325, -28.98551622, 18.75564181])),
             np.array([14.22201000, 23.04276800, 10.49577200]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            Hunter_Lab_to_XYZ(
-                np.array([24.81370791, 14.38300039, -53.25539126])
-            ),
+            Hunter_Lab_to_XYZ(np.array([24.81370791, 14.38300039, -53.25539126])),
             np.array([7.81878000, 6.15720100, 28.09932601]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

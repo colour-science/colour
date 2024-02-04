@@ -33,9 +33,7 @@ class TestPlotCvdSimulationMachado2009(unittest.TestCase):
         definition.
         """
 
-        figure, axes = plot_cvd_simulation_Machado2009(
-            np.random.rand(32, 32, 3)
-        )
+        figure, axes = plot_cvd_simulation_Machado2009(np.random.rand(32, 32, 3))
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

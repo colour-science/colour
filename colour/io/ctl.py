@@ -175,9 +175,7 @@ def ctl_render(
                 ctl_transform = temp_filename  # noqa: PLW2901
                 temp_filenames.append(temp_filename)
         elif not os.path.exists(ctl_transform):
-            raise FileNotFoundError(
-                f'{ctl_transform} "CTL" transform does not exist!'
-            )
+            raise FileNotFoundError(f'{ctl_transform} "CTL" transform does not exist!')
 
         command.extend(["-ctl", ctl_transform])
         for parameter in parameters:
@@ -189,7 +187,9 @@ def ctl_render(
         command += arg.split()
 
     completed_process = subprocess.run(
-        command, check=False, **kwargs  # noqa: S603
+        command,  # noqa: S603
+        check=False,
+        **kwargs,
     )
 
     for temp_filename in temp_filenames:
@@ -369,7 +369,6 @@ def template_ctl_transform_float(
     }
     >>> def format_imports(imports):
     ...     return [f'import "{i}";' for i in imports]
-    ...
     >>> print(
     ...     template_ctl_transform_float(
     ...         "Y_2_linCV(rIn, CINEMA_WHITE, CINEMA_BLACK)",
@@ -492,7 +491,6 @@ def template_ctl_transform_float3(
     --------
     >>> def format_imports(imports):
     ...     return [f'import "{i}";' for i in imports]
-    ...
     >>> print(
     ...     template_ctl_transform_float3(
     ...         "darkSurround_to_dimSurround(rgbIn)",
@@ -583,8 +581,6 @@ void main
     bOut = rgbOut[2];
     aOut = aIn;
 }}
-""".strip().format(
-        RGB_function=RGB_function
-    )
+""".strip().format(RGB_function=RGB_function)
 
     return ctl_file_content

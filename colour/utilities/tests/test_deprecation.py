@@ -168,12 +168,8 @@ class TestObjectFutureAccessChange(unittest.TestCase):
 ObjectFutureAccessChange.__str__` method.
         """
 
-        self.assertIn(
-            "name", str(ObjectFutureAccessChange("name", "new_access"))
-        )
-        self.assertIn(
-            "new_access", str(ObjectFutureAccessChange("name", "new_access"))
-        )
+        self.assertIn("name", str(ObjectFutureAccessChange("name", "new_access")))
+        self.assertIn("new_access", str(ObjectFutureAccessChange("name", "new_access")))
 
 
 class TestObjectFutureAccessRemove(unittest.TestCase):
@@ -274,9 +270,7 @@ ArgumentFutureRename.__str__` method.
         """
 
         self.assertIn("name", str(ArgumentFutureRename("name", "new_name")))
-        self.assertIn(
-            "new_name", str(ArgumentFutureRename("name", "new_name"))
-        )
+        self.assertIn("new_name", str(ArgumentFutureRename("name", "new_name")))
 
 
 class TestArgumentFutureRemove(unittest.TestCase):
@@ -381,24 +375,16 @@ class TestGetAttribute(unittest.TestCase):
 
         from colour.utilities.array import as_float
 
-        self.assertIs(
-            get_attribute("colour.utilities.array.as_float"), as_float
-        )
+        self.assertIs(get_attribute("colour.utilities.array.as_float"), as_float)
 
-        if (
-            "colour.utilities.tests.test_deprecated" in sys.modules
-        ):  # pragma: no cover
+        if "colour.utilities.tests.test_deprecated" in sys.modules:  # pragma: no cover
             del sys.modules["colour.utilities.tests.test_deprecated"]
 
-        attribute = get_attribute(
-            "colour.utilities.tests.test_deprecated.NEW_NAME"
-        )
+        attribute = get_attribute("colour.utilities.tests.test_deprecated.NEW_NAME")
 
         import colour.utilities.tests.test_deprecated
 
-        self.assertIs(
-            attribute, colour.utilities.tests.test_deprecated.NEW_NAME
-        )
+        self.assertIs(attribute, colour.utilities.tests.test_deprecated.NEW_NAME)
         del sys.modules["colour.utilities.tests.test_deprecated"]
 
 

@@ -258,18 +258,14 @@ chromatically_adapt` method.
 
         np.testing.assert_allclose(
             colourspace.matrix_RGB_to_XYZ,
-            normalised_primary_matrix(
-                colourspace.primaries, colourspace.whitepoint
-            ),
+            normalised_primary_matrix(colourspace.primaries, colourspace.whitepoint),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
             colourspace.matrix_XYZ_to_RGB,
             np.linalg.inv(
-                normalised_primary_matrix(
-                    colourspace.primaries, colourspace.whitepoint
-                )
+                normalised_primary_matrix(colourspace.primaries, colourspace.whitepoint)
             ),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -480,9 +476,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
-        M = np.vstack([cases[0, ...], cases[0, ...], cases[0, ...]]).reshape(
-            [3, 3]
-        )
+        M = np.vstack([cases[0, ...], cases[0, ...], cases[0, ...]]).reshape([3, 3])
         XYZ_to_RGB(cases, cases[..., 0:2], cases[..., 0:2], M)
 
 
@@ -683,9 +677,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
-        M = np.vstack([cases[0, ...], cases[0, ...], cases[0, ...]]).reshape(
-            [3, 3]
-        )
+        M = np.vstack([cases[0, ...], cases[0, ...], cases[0, ...]]).reshape([3, 3])
         RGB_to_XYZ(cases, cases[..., 0:2], cases[..., 0:2], M)
 
 
@@ -730,9 +722,7 @@ class TestMatrix_RGB_to_RGB(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            matrix_RGB_to_RGB(
-                aces_2065_1_colourspace, aces_cg_colourspace, "Bradford"
-            ),
+            matrix_RGB_to_RGB(aces_2065_1_colourspace, aces_cg_colourspace, "Bradford"),
             np.array(
                 [
                     [1.45143932, -0.23651075, -0.21492857],
@@ -744,9 +734,7 @@ class TestMatrix_RGB_to_RGB(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            matrix_RGB_to_RGB(
-                aces_2065_1_colourspace, sRGB_colourspace, "Bradford"
-            ),
+            matrix_RGB_to_RGB(aces_2065_1_colourspace, sRGB_colourspace, "Bradford"),
             np.array(
                 [
                     [2.52140089, -1.13399575, -0.38756186],

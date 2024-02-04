@@ -513,9 +513,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
             ]
         )
 
-        np.testing.assert_allclose(
-            delta_E_CIE2000(Lab_1, Lab_2), d_E, atol=1e-4
-        )
+        np.testing.assert_allclose(delta_E_CIE2000(Lab_1, Lab_2), d_E, atol=1e-4)
 
 
 class TestDelta_E_CMC(unittest.TestCase):

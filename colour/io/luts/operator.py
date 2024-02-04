@@ -380,9 +380,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
         Examples
         --------
-        >>> LUTOperatorMatrix(
-        ...     comments=["A first comment.", "A second comment."]
-        ... )
+        >>> LUTOperatorMatrix(comments=["A first comment.", "A second comment."])
         ... # doctest: +ELLIPSIS
         LUTOperatorMatrix([[ 1.,  0.,  0.,  0.],
                            [ 0.,  1.,  0.,  0.],
@@ -394,9 +392,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         """
 
         representation = repr(self._matrix)
-        representation = representation.replace(
-            "array", self.__class__.__name__
-        )
+        representation = representation.replace("array", self.__class__.__name__)
         representation = representation.replace(
             "       [", f"{' ' * (len(self.__class__.__name__) + 2)}["
         )
@@ -404,9 +400,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         indentation = " " * (len(self.__class__.__name__) + 1)
 
         comments = (
-            f",\n{indentation}comments={self._comments!r}"
-            if self._comments
-            else ""
+            f",\n{indentation}comments={self._comments!r}" if self._comments else ""
         )
 
         return "\n".join(
@@ -473,7 +467,10 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         return not (self == other)
 
     def apply(
-        self, RGB: ArrayLike, *args: Any, **kwargs: Any  # noqa: ARG002
+        self,
+        RGB: ArrayLike,
+        *args: Any,  # noqa: ARG002
+        **kwargs: Any,
     ) -> NDArrayFloat:
         """
         Apply the *LUT* operator to given *RGB* array.

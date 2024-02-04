@@ -62,9 +62,7 @@ MATRIX_ICACB_XYZ_TO_LMS_2: NDArrayFloat = np.array(
 )
 """Normalised non-linear cone responses to :math:`IC_AC_B` colourspace matrix."""
 
-MATRIX_ICACB_LMS_TO_XYZ_2: NDArrayFloat = np.linalg.inv(
-    MATRIX_ICACB_XYZ_TO_LMS_2
-)
+MATRIX_ICACB_LMS_TO_XYZ_2: NDArrayFloat = np.linalg.inv(MATRIX_ICACB_XYZ_TO_LMS_2)
 """:math:`IC_AC_B` to normalised non-linear cone responses colourspace matrix."""
 
 

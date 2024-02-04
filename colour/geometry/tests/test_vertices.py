@@ -592,9 +592,7 @@ class TestPrimitiveVerticesCubeMpl(unittest.TestCase):
         for plane in MAPPING_PLANE_TO_AXIS:
             np.testing.assert_allclose(
                 primitive_vertices_cube_mpl(planes=[plane]),
-                primitive_vertices_cube_mpl(
-                    planes=[MAPPING_PLANE_TO_AXIS[plane]]
-                ),
+                primitive_vertices_cube_mpl(planes=[MAPPING_PLANE_TO_AXIS[plane]]),
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 

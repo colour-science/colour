@@ -45,9 +45,7 @@ oetf_BT1361` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            oetf_BT1361(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(oetf_BT1361(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         np.testing.assert_allclose(
             oetf_BT1361(0.015),
@@ -59,9 +57,7 @@ oetf_BT1361` definition.
             oetf_BT1361(0.18), 0.409007728864150, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        np.testing.assert_allclose(
-            oetf_BT1361(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(oetf_BT1361(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_n_dimensional_oetf_BT1361(self):
         """
@@ -74,21 +70,15 @@ oetf_BT1361` definition n-dimensional arrays support.
 
         L = np.tile(L, 6)
         V = np.tile(V, 6)
-        np.testing.assert_allclose(
-            oetf_BT1361(L), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(oetf_BT1361(L), V, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         L = np.reshape(L, (2, 3))
         V = np.reshape(V, (2, 3))
-        np.testing.assert_allclose(
-            oetf_BT1361(L), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(oetf_BT1361(L), V, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         L = np.reshape(L, (2, 3, 1))
         V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_allclose(
-            oetf_BT1361(L), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(oetf_BT1361(L), V, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_oetf_BT1361(self):
         """
@@ -208,9 +198,7 @@ oetf_inverse_BT1361` definition domain and range scale support.
 oetf_inverse_BT1361` definition nan support.
         """
 
-        oetf_inverse_BT1361(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        oetf_inverse_BT1361(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 if __name__ == "__main__":

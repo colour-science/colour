@@ -113,8 +113,7 @@ print(colour.XYZ_to_xy(colour.sd_to_XYZ(illuminant, cmfs) / 100))
 print("\n")
 
 message_box(
-    "Computing *CIE XYZ* tristimulus values for a single given wavelength in "
-    "nm."
+    "Computing *CIE XYZ* tristimulus values for a single given wavelength in nm."
 )
 print(
     colour.wavelength_to_XYZ(

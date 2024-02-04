@@ -145,9 +145,7 @@ def colour_rendering_index(
 
     shape = cmfs.shape
     sd_test = reshape_sd(sd_test, shape, copy=False)
-    tcs_sds = {
-        sd.name: reshape_sd(sd, shape, copy=False) for sd in SDS_TCS.values()
-    }
+    tcs_sds = {sd.name: reshape_sd(sd, shape, copy=False) for sd in SDS_TCS.values()}
 
     with domain_range_scale("1"):
         XYZ = sd_to_XYZ(sd_test, cmfs)
@@ -176,9 +174,7 @@ def colour_rendering_index(
 
     Q_a = cast(
         float,
-        np.average(
-            [v.Q_a for k, v in Q_as.items() if k in (1, 2, 3, 4, 5, 6, 7, 8)]
-        ),
+        np.average([v.Q_a for k, v in Q_as.items() if k in (1, 2, 3, 4, 5, 6, 7, 8)]),
     )
 
     if additional_data:
@@ -259,9 +255,9 @@ def tcs_colorimetry_data(
                 c_r_c_t = sdiv(c_r, c_t)
                 d_r_d_t = sdiv(d_r, d_t)
 
-            u_tcs = (
-                10.872 + 0.404 * c_r_c_t * tcs_c - 4 * d_r_d_t * tcs_d
-            ) / (16.518 + 1.481 * c_r_c_t * tcs_c - d_r_d_t * tcs_d)
+            u_tcs = (10.872 + 0.404 * c_r_c_t * tcs_c - 4 * d_r_d_t * tcs_d) / (
+                16.518 + 1.481 * c_r_c_t * tcs_c - d_r_d_t * tcs_d
+            )
             v_tcs = 5.52 / (16.518 + 1.481 * c_r_c_t * tcs_c - d_r_d_t * tcs_d)
 
         W_tcs = 25 * spow(xyY_tcs[-1], 1 / 3) - 17

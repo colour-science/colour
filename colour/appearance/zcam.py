@@ -104,15 +104,9 @@ class InductionFactors_ZCAM(
 
 VIEWING_CONDITIONS_ZCAM: CanonicalMapping = CanonicalMapping(
     {
-        "Average": InductionFactors_ZCAM(
-            0.69, *VIEWING_CONDITIONS_CIECAM02["Average"]
-        ),
-        "Dim": InductionFactors_ZCAM(
-            0.59, *VIEWING_CONDITIONS_CIECAM02["Dim"]
-        ),
-        "Dark": InductionFactors_ZCAM(
-            0.525, *VIEWING_CONDITIONS_CIECAM02["Dark"]
-        ),
+        "Average": InductionFactors_ZCAM(0.69, *VIEWING_CONDITIONS_CIECAM02["Average"]),
+        "Dim": InductionFactors_ZCAM(0.59, *VIEWING_CONDITIONS_CIECAM02["Dim"]),
+        "Dark": InductionFactors_ZCAM(0.525, *VIEWING_CONDITIONS_CIECAM02["Dark"]),
     }
 )
 VIEWING_CONDITIONS_ZCAM.__doc__ = """
@@ -435,11 +429,7 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
     # Step 0 (Forward) - Chromatic adaptation from reference illuminant to
     # "CIE Standard Illuminant D65" illuminant using "CAT02".
     # Computing degree of adaptation :math:`D`.
-    D = (
-        degree_of_adaptation(F, L_A)
-        if not discount_illuminant
-        else ones(L_A.shape)
-    )
+    D = degree_of_adaptation(F, L_A) if not discount_illuminant else ones(L_A.shape)
 
     XYZ_D65 = chromatic_adaptation_Zhai2018(
         XYZ, XYZ_w, TVS_D65, D, D, transform="CAT02"
@@ -457,9 +447,7 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
     # and yellowness-blueness (:math:`b_z`, :math:`b_{z,w}`).
     with domain_range_scale("ignore"):
         I_z, a_z, b_z = tsplit(XYZ_to_Izazbz(XYZ_D65, method="Safdar 2021"))
-        I_z_w, _a_z_w, _b_z_w = tsplit(
-            XYZ_to_Izazbz(XYZ_w, method="Safdar 2021")
-        )
+        I_z_w, _a_z_w, _b_z_w = tsplit(XYZ_to_Izazbz(XYZ_w, method="Safdar 2021"))
 
     # Step 3 (Forward) - Computing hue angle :math:`h_z`
     h_z = hue_angle(a_z, b_z)
@@ -482,10 +470,7 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
     M_z = (
         100
         * (a_z**2 + b_z**2) ** 0.37
-        * (
-            (spow(e_z, 0.068) * spow(F_L, 0.2))
-            / (F_b**0.1 * spow(I_z_w, 0.78))
-        )
+        * ((spow(e_z, 0.068) * spow(F_L, 0.2)) / (F_b**0.1 * spow(I_z_w, 0.78)))
     )
 
     C_z = 100 * M_z / Q_z_w
@@ -644,9 +629,7 @@ def ZCAM_to_XYZ(
     array([ 185.,  206.,  163.])
     """
 
-    J_z, C_z, h_z, _S_z, _Q_z, M_z, _H, _H_Z, _V_z, _K_z, _W_z = astuple(
-        specification
-    )
+    J_z, C_z, h_z, _S_z, _Q_z, M_z, _H, _H_Z, _V_z, _K_z, _W_z = astuple(specification)
 
     J_z = to_domain_1(J_z)
     C_z = to_domain_1(C_z)
@@ -663,11 +646,7 @@ def ZCAM_to_XYZ(
     # Step 0 (Forward) - Chromatic adaptation from reference illuminant to
     # "CIE Standard Illuminant D65" illuminant using "CAT02".
     # Computing degree of adaptation :math:`D`.
-    D = (
-        degree_of_adaptation(F, L_A)
-        if not discount_illuminant
-        else ones(L_A.shape)
-    )
+    D = degree_of_adaptation(F, L_A) if not discount_illuminant else ones(L_A.shape)
 
     # Step 1 (Forward) - Computing factors related with viewing conditions and
     # independent of the test stimulus.
@@ -680,9 +659,7 @@ def ZCAM_to_XYZ(
     # redness-greenness (:math:`a_{z,w}`), and yellowness-blueness
     # (:math:`b_{z,w}`).
     with domain_range_scale("ignore"):
-        I_z_w, _A_z_w, _B_z_w = tsplit(
-            XYZ_to_Izazbz(XYZ_w, method="Safdar 2021")
-        )
+        I_z_w, _A_z_w, _B_z_w = tsplit(XYZ_to_Izazbz(XYZ_w, method="Safdar 2021"))
 
     # Step 1 (Inverse) - Computing achromatic response (:math:`I_z`).
     Q_z_p = (1.6 * F_s) / spow(F_b, 0.12)

@@ -550,9 +550,7 @@ class TestColourFidelityIndexCIE2017(unittest.TestCase):
         """
 
         for sd in [SD_SAMPLE_5NM, SD_SAMPLE_1NM]:
-            specification = colour_fidelity_index_CIE2017(
-                sd, additional_data=True
-            )
+            specification = colour_fidelity_index_CIE2017(sd, additional_data=True)
             np.testing.assert_allclose(specification.R_f, 81.6, atol=0.1)
             np.testing.assert_allclose(
                 specification.R_s,

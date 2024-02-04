@@ -37,9 +37,7 @@ class TestRGB_to_sd_Smits1999(unittest.TestCase):
 
         np.testing.assert_allclose(
             RGB_to_sd_Smits1999(
-                XYZ_to_RGB_Smits1999(
-                    np.array([0.21781186, 0.12541048, 0.04697113])
-                )
+                XYZ_to_RGB_Smits1999(np.array([0.21781186, 0.12541048, 0.04697113]))
             ).values,
             np.array(
                 [
@@ -60,9 +58,7 @@ class TestRGB_to_sd_Smits1999(unittest.TestCase):
 
         np.testing.assert_allclose(
             RGB_to_sd_Smits1999(
-                XYZ_to_RGB_Smits1999(
-                    np.array([0.15434689, 0.22960951, 0.09620221])
-                )
+                XYZ_to_RGB_Smits1999(np.array([0.15434689, 0.22960951, 0.09620221]))
             ).values,
             np.array(
                 [
@@ -83,9 +79,7 @@ class TestRGB_to_sd_Smits1999(unittest.TestCase):
 
         np.testing.assert_allclose(
             RGB_to_sd_Smits1999(
-                XYZ_to_RGB_Smits1999(
-                    np.array([0.07683480, 0.06006092, 0.25833845])
-                )
+                XYZ_to_RGB_Smits1999(np.array([0.07683480, 0.06006092, 0.25833845]))
             ).values,
             np.array(
                 [
@@ -105,9 +99,7 @@ class TestRGB_to_sd_Smits1999(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            RGB_to_sd_Smits1999(
-                XYZ_to_RGB_Smits1999(np.array([0.0, 1.0, 0.0]))
-            ).values,
+            RGB_to_sd_Smits1999(XYZ_to_RGB_Smits1999(np.array([0.0, 1.0, 0.0]))).values,
             np.array(
                 [
                     -0.2549796,
@@ -126,9 +118,7 @@ class TestRGB_to_sd_Smits1999(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            RGB_to_sd_Smits1999(
-                XYZ_to_RGB_Smits1999(np.array([1.0, 1.0, 0.0]))
-            ).values,
+            RGB_to_sd_Smits1999(XYZ_to_RGB_Smits1999(np.array([1.0, 1.0, 0.0]))).values,
             np.array(
                 [
                     -0.1168428,
@@ -147,9 +137,7 @@ class TestRGB_to_sd_Smits1999(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            RGB_to_sd_Smits1999(
-                XYZ_to_RGB_Smits1999(np.array([0.5, 0.0, 1.0]))
-            ).values,
+            RGB_to_sd_Smits1999(XYZ_to_RGB_Smits1999(np.array([0.5, 0.0, 1.0]))).values,
             np.array(
                 [
                     1.1938776,
@@ -181,9 +169,7 @@ class TestRGB_to_sd_Smits1999(unittest.TestCase):
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_allclose(
-                    sd_to_XYZ_integration(
-                        RGB_to_sd_Smits1999(RGB_i * factor_a)
-                    ),
+                    sd_to_XYZ_integration(RGB_to_sd_Smits1999(RGB_i * factor_a)),
                     XYZ_o * factor_b,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )

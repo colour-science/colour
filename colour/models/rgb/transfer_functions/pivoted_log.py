@@ -92,8 +92,7 @@ def log_encoding_PivotedLog(
 
     y = (
         log_reference
-        + np.log10(x / linear_reference)
-        / (density_per_code_value / negative_gamma)
+        + np.log10(x / linear_reference) / (density_per_code_value / negative_gamma)
     ) / 1023
 
     return as_float(from_range_1(y))
@@ -155,11 +154,7 @@ def log_decoding_PivotedLog(
     y = to_domain_1(y)
 
     x = (
-        10
-        ** (
-            (y * 1023 - log_reference)
-            * (density_per_code_value / negative_gamma)
-        )
+        10 ** ((y * 1023 - log_reference) * (density_per_code_value / negative_gamma))
         * linear_reference
     )
 

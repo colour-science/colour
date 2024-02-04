@@ -72,9 +72,7 @@ def plot_single_munsell_value_function(
         :alt: plot_single_munsell_value_function
     """
 
-    settings: Dict[str, Any] = {
-        "title": f"{function} - Munsell Value Function"
-    }
+    settings: Dict[str, Any] = {"title": f"{function} - Munsell Value Function"}
     settings.update(kwargs)
 
     return plot_multi_munsell_value_functions((function,), **settings)

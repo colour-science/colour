@@ -111,9 +111,7 @@ class TestLookup(unittest.TestCase):
         """
 
         lookup = Lookup(John="Doe", Jane="Doe", Luke="Skywalker")
-        self.assertListEqual(
-            ["Jane", "John"], sorted(lookup.keys_from_value("Doe"))
-        )
+        self.assertListEqual(["Jane", "John"], sorted(lookup.keys_from_value("Doe")))
 
         lookup = Lookup(
             A=np.array([0, 1, 2]), B=np.array([0, 1, 2]), C=np.array([1, 2, 3])
@@ -317,9 +315,7 @@ __contains__` method.
         """
 
         mapping = CanonicalMapping(John="Doe", Jane="Doe")
-        self.assertListEqual(
-            sorted(item for item in mapping), ["Jane", "John"]
-        )
+        self.assertListEqual(sorted(item for item in mapping), ["Jane", "John"])
 
     def test__len__(self):
         """
@@ -410,9 +406,7 @@ lower_keys` method.
 
         mapping = CanonicalMapping(John="Doe", john="Doe")
 
-        self.assertWarns(
-            ColourUsageWarning, lambda: list(mapping.lower_keys())
-        )
+        self.assertWarns(ColourUsageWarning, lambda: list(mapping.lower_keys()))
 
     def test_lower_items(self):
         """
@@ -442,9 +436,7 @@ slugified_keys` method.
 
         mapping = CanonicalMapping({"McCamy 1992": 1, "McCamy-1992": 2})
 
-        self.assertWarns(
-            ColourUsageWarning, lambda: list(mapping.slugified_keys())
-        )
+        self.assertWarns(ColourUsageWarning, lambda: list(mapping.slugified_keys()))
 
     def test_slugified_items(self):
         """
@@ -473,9 +465,7 @@ canonical_keys` method.
 
         mapping = CanonicalMapping({"McCamy_1992": 1, "McCamy-1992": 2})
 
-        self.assertWarns(
-            ColourUsageWarning, lambda: list(mapping.canonical_keys())
-        )
+        self.assertWarns(ColourUsageWarning, lambda: list(mapping.canonical_keys()))
 
     def test_canonical_items(self):
         """
@@ -598,9 +588,7 @@ class TestNode(unittest.TestCase):
     def test_children(self):
         """Test :attr:`colour.utilities.data_structures.Node.children` property."""
 
-        self.assertListEqual(
-            self._node_a.children, [self._node_b, self._node_c]
-        )
+        self.assertListEqual(self._node_a.children, [self._node_b, self._node_c])
 
     def test_id(self):
         """Test :attr:`colour.utilities.data_structures.Node.id` property."""

@@ -157,9 +157,7 @@ def matrix_augmented_Cheung2004(
     R, G, B = tsplit(RGB)
     tail = ones(R.shape)
 
-    existing_terms = np.array(
-        [3, 4, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22, 35]
-    )
+    existing_terms = np.array([3, 4, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22, 35])
     closest_terms = as_int(closest(existing_terms, terms))
     if closest_terms != terms:
         raise ValueError(
@@ -609,9 +607,7 @@ def polynomial_expansion_Finlayson2015(
             )
 
 
-def polynomial_expansion_Vandermonde(
-    a: ArrayLike, degree: int = 1
-) -> NDArrayFloat:
+def polynomial_expansion_Vandermonde(a: ArrayLike, degree: int = 1) -> NDArrayFloat:
     """
     Perform polynomial expansion of given :math:`a` array using *Vandermonde*
     method.
@@ -666,8 +662,9 @@ References
 
 def polynomial_expansion(
     a: ArrayLike,
-    method: Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"]
-    | str = "Cheung 2004",
+    method: (
+        Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"] | str
+    ) = "Cheung 2004",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
@@ -806,9 +803,7 @@ def matrix_colour_correction_Finlayson2015(
     """
 
     return least_square_mapping_MoorePenrose(
-        polynomial_expansion_Finlayson2015(
-            M_T, degree, root_polynomial_expansion
-        ),
+        polynomial_expansion_Finlayson2015(M_T, degree, root_polynomial_expansion),
         M_R,
     )
 
@@ -874,8 +869,9 @@ References
 def matrix_colour_correction(
     M_T: ArrayLike,
     M_R: ArrayLike,
-    method: Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"]
-    | str = "Cheung 2004",
+    method: (
+        Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"] | str
+    ) = "Cheung 2004",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
@@ -1030,9 +1026,7 @@ def apply_matrix_colour_correction_Cheung2004(
     ...         [0.05725508, -0.20526336, 1.10151945],
     ...     ]
     ... )
-    >>> apply_matrix_colour_correction_Cheung2004(
-    ...     RGB, CCM
-    ... )  # doctest: +ELLIPSIS
+    >>> apply_matrix_colour_correction_Cheung2004(RGB, CCM)  # doctest: +ELLIPSIS
     array([ 0.1793456...,  0.1003392...,  0.0617218...])
     """
 
@@ -1087,9 +1081,7 @@ def apply_matrix_colour_correction_Finlayson2015(
     ...         [0.05725508, -0.20526336, 1.10151945],
     ...     ]
     ... )
-    >>> apply_matrix_colour_correction_Finlayson2015(
-    ...     RGB, CCM
-    ... )  # doctest: +ELLIPSIS
+    >>> apply_matrix_colour_correction_Finlayson2015(RGB, CCM)  # doctest: +ELLIPSIS
     array([ 0.1793456...,  0.1003392...,  0.0617218...])
     """
 
@@ -1098,9 +1090,7 @@ def apply_matrix_colour_correction_Finlayson2015(
 
     RGB = np.reshape(RGB, (-1, 3))
 
-    RGB_e = polynomial_expansion_Finlayson2015(
-        RGB, degree, root_polynomial_expansion
-    )
+    RGB_e = polynomial_expansion_Finlayson2015(RGB, degree, root_polynomial_expansion)
 
     return np.reshape(np.transpose(np.dot(CCM, np.transpose(RGB_e))), shape)
 
@@ -1141,9 +1131,7 @@ def apply_matrix_colour_correction_Vandermonde(
     ...         [0.07446128, -0.18728192, 1.12780782, -0.03180856],
     ...     ]
     ... )
-    >>> apply_matrix_colour_correction_Vandermonde(
-    ...     RGB, CCM
-    ... )  # doctest: +ELLIPSIS
+    >>> apply_matrix_colour_correction_Vandermonde(RGB, CCM)  # doctest: +ELLIPSIS
     array([ 0.2128689...,  0.1106242...,  0.0362129...])
     """
 
@@ -1177,8 +1165,9 @@ References
 def apply_matrix_colour_correction(
     RGB: ArrayLike,
     CCM: ArrayLike,
-    method: Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"]
-    | str = "Cheung 2004",
+    method: (
+        Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"] | str
+    ) = "Cheung 2004",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
@@ -1234,9 +1223,7 @@ def apply_matrix_colour_correction(
     array([ 0.1793456...,  0.1003392...,  0.0617218...])
     """
 
-    method = validate_method(
-        method, tuple(APPLY_MATRIX_COLOUR_CORRECTION_METHODS)
-    )
+    method = validate_method(method, tuple(APPLY_MATRIX_COLOUR_CORRECTION_METHODS))
 
     function = APPLY_MATRIX_COLOUR_CORRECTION_METHODS[method]
 
@@ -1407,8 +1394,9 @@ def colour_correction(
     RGB: ArrayLike,
     M_T: ArrayLike,
     M_R: ArrayLike,
-    method: Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"]
-    | str = "Cheung 2004",
+    method: (
+        Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"] | str
+    ) = "Cheung 2004",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """

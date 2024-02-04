@@ -122,9 +122,7 @@ def log_encoding_LLog(
         c * np.log10(d * LSR + e) + f,
     )
 
-    LLog_cv = (
-        LLog if out_normalised_code_value else legal_to_full(LLog, bit_depth)
-    )
+    LLog_cv = LLog if out_normalised_code_value else legal_to_full(LLog, bit_depth)
 
     return as_float(from_range_1(LLog_cv))
 

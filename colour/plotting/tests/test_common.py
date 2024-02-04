@@ -352,9 +352,7 @@ class TestFilterPassthrough(unittest.TestCase):
         )
 
         self.assertListEqual(
-            sorted(
-                filter_passthrough(RGB_COLOURSPACES, ["aces2065-1"]).keys()
-            ),
+            sorted(filter_passthrough(RGB_COLOURSPACES, ["aces2065-1"]).keys()),
             ["ACES2065-1"],
         )
 
@@ -407,9 +405,7 @@ class TestFilterRgbColourspaces(unittest.TestCase):
         self.assertListEqual(
             sorted(
                 colourspace.name
-                for colourspace in filter_RGB_colourspaces(
-                    ["ACES2065-1"]
-                ).values()
+                for colourspace in filter_RGB_colourspaces(["ACES2065-1"]).values()
             ),
             ["ACES2065-1"],
         )
@@ -569,9 +565,7 @@ class TestPlotSingleFunction(unittest.TestCase):
     def test_plot_single_function(self):
         """Test :func:`colour.plotting.common.plot_single_function` definition."""
 
-        figure, axes = plot_single_function(
-            partial(gamma_function, exponent=1 / 2.2)
-        )
+        figure, axes = plot_single_function(partial(gamma_function, exponent=1 / 2.2))
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

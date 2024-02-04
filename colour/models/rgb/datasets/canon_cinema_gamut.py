@@ -64,9 +64,7 @@ MATRIX_CINEMA_GAMUT_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
 )
 """*Canon Cinema Gamut* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_CINEMA_GAMUT: NDArrayFloat = np.linalg.inv(
-    MATRIX_CINEMA_GAMUT_TO_XYZ
-)
+MATRIX_XYZ_TO_CINEMA_GAMUT: NDArrayFloat = np.linalg.inv(MATRIX_CINEMA_GAMUT_TO_XYZ)
 """*CIE XYZ* tristimulus values to *Canon Cinema Gamut* colourspace matrix."""
 
 RGB_COLOURSPACE_CINEMA_GAMUT: RGB_Colourspace = RGB_Colourspace(

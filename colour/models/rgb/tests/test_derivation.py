@@ -78,15 +78,11 @@ class Testxy_to_z(unittest.TestCase):
             z,
             6,
         )
-        np.testing.assert_allclose(
-            xy_to_z(xy), z, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(xy_to_z(xy), z, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         xy = np.reshape(xy, (2, 3, 2))
         z = np.reshape(z, (2, 3))
-        np.testing.assert_allclose(
-            xy_to_z(xy), z, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(xy_to_z(xy), z, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_xy_to_z(self):
@@ -114,9 +110,7 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
 
         np.testing.assert_allclose(
             normalised_primary_matrix(
-                np.array(
-                    [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]
-                ),
+                np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
                 np.array([0.32168, 0.33767]),
             ),
             np.array(
@@ -174,9 +168,7 @@ chromatically_adapted_primaries` definition.
 
         np.testing.assert_allclose(
             chromatically_adapted_primaries(
-                np.array(
-                    [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]
-                ),
+                np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
                 np.array([0.32168, 0.33767]),
                 np.array([0.34570, 0.35850]),
             ),
@@ -328,9 +320,7 @@ class TestRGBLuminanceEquation(unittest.TestCase):
 
         self.assertIsInstance(
             RGB_luminance_equation(
-                np.array(
-                    [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]
-                ),
+                np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
                 np.array([0.32168, 0.33767]),
             ),
             str,
@@ -367,9 +357,7 @@ class TestRGBLuminance(unittest.TestCase):
         np.testing.assert_allclose(
             RGB_luminance(
                 np.array([0.18, 0.18, 0.18]),
-                np.array(
-                    [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]
-                ),
+                np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
                 np.array([0.32168, 0.33767]),
             ),
             0.18000000,
@@ -379,9 +367,7 @@ class TestRGBLuminance(unittest.TestCase):
         np.testing.assert_allclose(
             RGB_luminance(
                 np.array([0.21959402, 0.06986677, 0.04703877]),
-                np.array(
-                    [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]
-                ),
+                np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
                 np.array([0.32168, 0.33767]),
             ),
             0.123014562384318,
@@ -405,9 +391,7 @@ class TestRGBLuminance(unittest.TestCase):
         """
 
         RGB = (np.array([0.18, 0.18, 0.18]),)
-        P = (
-            np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
-        )
+        P = (np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),)
         W = np.array([0.32168, 0.33767])
         Y = RGB_luminance(RGB, P, W)
 

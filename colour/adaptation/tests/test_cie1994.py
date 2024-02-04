@@ -85,9 +85,7 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
         Y_o = 20
         E_o1 = 1000
         E_o2 = 1000
-        XYZ_2 = chromatic_adaptation_CIE1994(
-            XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2
-        )
+        XYZ_2 = chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
 
         XYZ_1 = np.tile(XYZ_1, (6, 1))
         XYZ_2 = np.tile(XYZ_2, (6, 1))
@@ -133,9 +131,7 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
         Y_o = 20
         E_o1 = 1000
         E_o2 = 1000
-        XYZ_2 = chromatic_adaptation_CIE1994(
-            XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2
-        )
+        XYZ_2 = chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
 
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:

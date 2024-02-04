@@ -95,16 +95,18 @@ class LMS_ConeFundamentals(MultiSpectralDistributions):
 
     def __init__(
         self,
-        data: ArrayLike
-        | DataFrame
-        | dict
-        | MultiSignals
-        | MultiSpectralDistributions
-        | Sequence
-        | Series
-        | Signal
-        | SpectralDistribution
-        | None = None,
+        data: (
+            ArrayLike
+            | DataFrame
+            | dict
+            | MultiSignals
+            | MultiSpectralDistributions
+            | Sequence
+            | Series
+            | Signal
+            | SpectralDistribution
+            | None
+        ) = None,
         domain: ArrayLike | SpectralShape | None = None,
         labels: Sequence | None = None,  # noqa: ARG002
         **kwargs: Any,
@@ -160,16 +162,18 @@ class RGB_ColourMatchingFunctions(MultiSpectralDistributions):
 
     def __init__(
         self,
-        data: ArrayLike
-        | DataFrame
-        | dict
-        | MultiSignals
-        | MultiSpectralDistributions
-        | Sequence
-        | Series
-        | Signal
-        | SpectralDistribution
-        | None = None,
+        data: (
+            ArrayLike
+            | DataFrame
+            | dict
+            | MultiSignals
+            | MultiSpectralDistributions
+            | Sequence
+            | Series
+            | Signal
+            | SpectralDistribution
+            | None
+        ) = None,
         domain: ArrayLike | SpectralShape | None = None,
         labels: Sequence | None = None,  # noqa: ARG002
         **kwargs: Any,
@@ -226,16 +230,18 @@ class XYZ_ColourMatchingFunctions(MultiSpectralDistributions):
 
     def __init__(
         self,
-        data: ArrayLike
-        | DataFrame
-        | dict
-        | MultiSignals
-        | MultiSpectralDistributions
-        | Sequence
-        | Series
-        | Signal
-        | SpectralDistribution
-        | None = None,
+        data: (
+            ArrayLike
+            | DataFrame
+            | dict
+            | MultiSignals
+            | MultiSpectralDistributions
+            | Sequence
+            | Series
+            | Signal
+            | SpectralDistribution
+            | None
+        ) = None,
         domain: ArrayLike | SpectralShape | None = None,
         labels: Sequence | None = None,  # noqa: ARG002
         **kwargs: Any,

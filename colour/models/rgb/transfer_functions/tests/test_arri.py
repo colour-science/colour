@@ -113,9 +113,7 @@ log_encoding_ARRILogC3` definition domain and range scale support.
 log_encoding_ARRILogC3` definition nan support.
         """
 
-        log_encoding_ARRILogC3(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_ARRILogC3(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLogDecoding_ARRILogC3(unittest.TestCase):
@@ -200,9 +198,7 @@ log_decoding_ARRILogC3` definition domain and range scale support.
 log_decoding_ARRILogC3` definition nan support.
         """
 
-        log_decoding_ARRILogC3(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_decoding_ARRILogC3(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLogEncoding_ARRILogC4(unittest.TestCase):
@@ -287,9 +283,7 @@ log_encoding_ARRILogC4` definition domain and range scale support.
 log_encoding_ARRILogC4` definition nan support.
         """
 
-        log_encoding_ARRILogC4(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_ARRILogC4(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLogDecoding_ARRILogC4(unittest.TestCase):
@@ -374,9 +368,7 @@ log_decoding_ARRILogC4` definition domain and range scale support.
 log_decoding_ARRILogC4` definition nan support.
         """
 
-        log_decoding_ARRILogC4(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_decoding_ARRILogC4(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 if __name__ == "__main__":

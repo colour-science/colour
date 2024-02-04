@@ -108,14 +108,8 @@ message_box(
     "with polynomial of degree 3."
 )
 
-print(
-    colour.characterisation.matrix_colour_correction_Finlayson2015(M_T, M_R, 3)
-)
-print(
-    colour.matrix_colour_correction(
-        M_T, M_R, method="Finlayson 2015", degree=3
-    )
-)
+print(colour.characterisation.matrix_colour_correction_Finlayson2015(M_T, M_R, 3))
+print(colour.matrix_colour_correction(M_T, M_R, method="Finlayson 2015", degree=3))
 
 print("\n")
 
@@ -136,12 +130,8 @@ message_box(
     '"Vandermonde" method with polynomial of degree 3.'
 )
 
-print(
-    colour.characterisation.matrix_colour_correction_Vandermonde(M_T, M_R, 3)
-)
-print(
-    colour.matrix_colour_correction(M_T, M_R, method="Vandermonde", degree=3)
-)
+print(colour.characterisation.matrix_colour_correction_Vandermonde(M_T, M_R, 3))
+print(colour.matrix_colour_correction(M_T, M_R, method="Vandermonde", degree=3))
 
 print("\n")
 
@@ -190,12 +180,8 @@ message_box(
     "degree 3."
 )
 
-print(
-    colour.characterisation.colour_correction_Finlayson2015(RGB, M_T, M_R, 3)
-)
-print(
-    colour.colour_correction(RGB, M_T, M_R, method="Finlayson 2015", degree=3)
-)
+print(colour.characterisation.colour_correction_Finlayson2015(RGB, M_T, M_R, 3))
+print(colour.colour_correction(RGB, M_T, M_R, method="Finlayson 2015", degree=3))
 
 print("\n")
 

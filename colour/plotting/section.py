@@ -149,16 +149,13 @@ def plot_hull_section_colours(
     >>> from colour.models import RGB_COLOURSPACE_sRGB
     >>> from colour.utilities import is_trimesh_installed
     >>> vertices, faces, _outline = primitive_cube(1, 1, 1, 64, 64, 64)
-    >>> XYZ_vertices = RGB_to_XYZ(
-    ...     vertices["position"] + 0.5, RGB_COLOURSPACE_sRGB
-    ... )
+    >>> XYZ_vertices = RGB_to_XYZ(vertices["position"] + 0.5, RGB_COLOURSPACE_sRGB)
     >>> if is_trimesh_installed:
     ...     from trimesh import Trimesh
     ...
     ...     hull = Trimesh(XYZ_vertices, faces, process=False)
     ...     plot_hull_section_colours(hull, section_colours="RGB")
     ...     # doctest: +ELLIPSIS
-    ...
     (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Hull_Section_Colours.png
@@ -191,9 +188,7 @@ def plot_hull_section_colours(
             convert(hull.vertices, "CIE XYZ", model, **convert_kwargs), model
         )
         ijk_vertices = np.nan_to_num(ijk_vertices)
-        ijk_vertices *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[
-            model
-        ]
+        ijk_vertices *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
 
     hull.vertices = ijk_vertices
 
@@ -207,9 +202,7 @@ def plot_hull_section_colours(
 
     section = hull_section(hull, axis, origin, normalise)
 
-    padding = 0.1 * np.mean(
-        COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
-    )
+    padding = 0.1 * np.mean(COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model])
     min_x = np.min(ijk_vertices[..., plane[0]]) - padding
     max_x = np.max(ijk_vertices[..., plane[0]]) + padding
     min_y = np.min(ijk_vertices[..., plane[1]]) - padding
@@ -228,9 +221,7 @@ def plot_hull_section_colours(
             cast(Real, np.median(section[..., index_origin])),
         )
         ijk_section[..., plane] = ij
-        ijk_section /= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[
-            model
-        ]
+        ijk_section /= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
         XYZ_section = convert(
             colourspace_model_axis_reorder(ijk_section, model, "Inverse"),
             model,
@@ -326,16 +317,13 @@ def plot_hull_section_contour(
     >>> from colour.models import RGB_COLOURSPACE_sRGB
     >>> from colour.utilities import is_trimesh_installed
     >>> vertices, faces, _outline = primitive_cube(1, 1, 1, 64, 64, 64)
-    >>> XYZ_vertices = RGB_to_XYZ(
-    ...     vertices["position"] + 0.5, RGB_COLOURSPACE_sRGB
-    ... )
+    >>> XYZ_vertices = RGB_to_XYZ(vertices["position"] + 0.5, RGB_COLOURSPACE_sRGB)
     >>> if is_trimesh_installed:
     ...     from trimesh import Trimesh
     ...
     ...     hull = Trimesh(XYZ_vertices, faces, process=False)
     ...     plot_hull_section_contour(hull, contour_colours="RGB")
     ...     # doctest: +ELLIPSIS
-    ...
     (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Hull_Section_Contour.png
@@ -345,9 +333,7 @@ def plot_hull_section_contour(
 
     hull = hull.copy()
 
-    contour_colours = optional(
-        contour_colours, CONSTANTS_COLOUR_STYLE.colour.dark
-    )
+    contour_colours = optional(contour_colours, CONSTANTS_COLOUR_STYLE.colour.dark)
 
     settings: Dict[str, Any] = {"uniform": True}
     settings.update(kwargs)
@@ -362,17 +348,13 @@ def plot_hull_section_contour(
             convert(hull.vertices, "CIE XYZ", model, **convert_kwargs), model
         )
         ijk_vertices = np.nan_to_num(ijk_vertices)
-        ijk_vertices *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[
-            model
-        ]
+        ijk_vertices *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
 
     hull.vertices = ijk_vertices
 
     plane = MAPPING_AXIS_TO_PLANE[axis]
 
-    padding = 0.1 * np.mean(
-        COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
-    )
+    padding = 0.1 * np.mean(COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model])
     min_x = np.min(ijk_vertices[..., plane[0]]) - padding
     max_x = np.max(ijk_vertices[..., plane[0]]) + padding
     min_y = np.min(ijk_vertices[..., plane[1]]) - padding
@@ -382,8 +364,8 @@ def plot_hull_section_contour(
     use_RGB_contour_colours = str(contour_colours).upper() == "RGB"
     section = hull_section(hull, axis, origin, normalise)
     if use_RGB_contour_colours:
-        ijk_section = section / (
-            COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
+        ijk_section = (
+            section / (COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model])
         )
         XYZ_section = convert(
             colourspace_model_axis_reorder(ijk_section, model, "Inverse"),
@@ -391,9 +373,7 @@ def plot_hull_section_contour(
             "CIE XYZ",
             **convert_kwargs,
         )
-        contour_colours = np.clip(
-            XYZ_to_plotting_colourspace(XYZ_section), 0, 1
-        )
+        contour_colours = np.clip(XYZ_to_plotting_colourspace(XYZ_section), 0, 1)
 
     section = np.reshape(section[..., plane], (-1, 1, 2))
     line_collection = LineCollection(
@@ -416,11 +396,9 @@ def plot_hull_section_contour(
 @required("trimesh")
 @override_style()
 def plot_visible_spectrum_section(
-    cmfs: MultiSpectralDistributions
-    | str
-    | Sequence[
-        MultiSpectralDistributions | str
-    ] = "CIE 1931 2 Degree Standard Observer",
+    cmfs: (
+        MultiSpectralDistributions | str | Sequence[MultiSpectralDistributions | str]
+    ) = "CIE 1931 2 Degree Standard Observer",
     illuminant: SpectralDistribution | str = "D65",
     model: LiteralColourspaceModel | str = "CIE xyY",
     axis: Literal["+z", "+x", "+y"] | str = "+z",
@@ -477,11 +455,8 @@ def plot_visible_spectrum_section(
     --------
     >>> from colour.utilities import is_trimesh_installed
     >>> if is_trimesh_installed:
-    ...     plot_visible_spectrum_section(
-    ...         section_colours="RGB", section_opacity=0.15
-    ...     )
+    ...     plot_visible_spectrum_section(section_colours="RGB", section_opacity=0.15)
     ...     # doctest: +ELLIPSIS
-    ...
     (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_Visible_Spectrum_Section.png
@@ -524,18 +499,14 @@ def plot_visible_spectrum_section(
         settings.update(kwargs)
         settings["show"] = False
 
-        plot_hull_section_colours(
-            hull, model, axis, origin, normalise, **settings
-        )
+        plot_hull_section_colours(hull, model, axis, origin, normalise, **settings)
 
     if show_section_contour:
         settings = {"axes": axes}
         settings.update(kwargs)
         settings["show"] = False
 
-        plot_hull_section_contour(
-            hull, model, axis, origin, normalise, **settings
-        )
+        plot_hull_section_contour(hull, model, axis, origin, normalise, **settings)
 
     title = (
         f"Visible Spectrum Section - "
@@ -568,10 +539,12 @@ def plot_visible_spectrum_section(
 @required("trimesh")
 @override_style()
 def plot_RGB_colourspace_section(
-    colourspace: RGB_Colourspace
-    | LiteralRGBColourspace
-    | str
-    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str],
+    colourspace: (
+        RGB_Colourspace
+        | LiteralRGBColourspace
+        | str
+        | Sequence[RGB_Colourspace | LiteralRGBColourspace | str]
+    ),
     model: LiteralColourspaceModel | str = "CIE xyY",
     axis: Literal["+z", "+x", "+y"] | str = "+z",
     origin: float = 0.5,
@@ -625,7 +598,6 @@ def plot_RGB_colourspace_section(
     ...         "sRGB", section_colours="RGB", section_opacity=0.15
     ...     )
     ...     # doctest: +ELLIPSIS
-    ...
     (<Figure size ... with 1 Axes>, <...Axes...>)
 
     .. image:: ../_static/Plotting_Plot_RGB_Colourspace_Section.png
@@ -654,18 +626,14 @@ def plot_RGB_colourspace_section(
         settings.update(kwargs)
         settings["show"] = False
 
-        plot_hull_section_colours(
-            hull, model, axis, origin, normalise, **settings
-        )
+        plot_hull_section_colours(hull, model, axis, origin, normalise, **settings)
 
     if show_section_contour:
         settings = {"axes": axes}
         settings.update(kwargs)
         settings["show"] = False
 
-        plot_hull_section_contour(
-            hull, model, axis, origin, normalise, **settings
-        )
+        plot_hull_section_contour(hull, model, axis, origin, normalise, **settings)
 
     title = (
         f"{colourspace.name} Section - "

@@ -188,9 +188,7 @@ class TestXYZ_to_ATD95(unittest.TestCase):
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_allclose(
-                    XYZ_to_ATD95(
-                        XYZ * factor_a, XYZ_0 * factor_a, Y_0, k_1, k_2
-                    ),
+                    XYZ_to_ATD95(XYZ * factor_a, XYZ_0 * factor_a, Y_0, k_1, k_2),
                     as_float_array(specification) * factor_b,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )

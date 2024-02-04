@@ -100,9 +100,7 @@ def chromatic_adaptation_forward_CMCCAT2000(
     XYZ_wr: ArrayLike,
     L_A1: ArrayLike,
     L_A2: ArrayLike,
-    surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000[
-        "Average"
-    ],
+    surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000["Average"],
 ) -> NDArrayFloat:
     """
     Adapt given stimulus *CIE XYZ* tristimulus values from test viewing
@@ -195,9 +193,7 @@ def chromatic_adaptation_inverse_CMCCAT2000(
     XYZ_wr: ArrayLike,
     L_A1: ArrayLike,
     L_A2: ArrayLike,
-    surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000[
-        "Average"
-    ],
+    surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000["Average"],
 ) -> NDArrayFloat:
     """
     Adapt given stimulus corresponding colour *CIE XYZ* tristimulus values
@@ -254,9 +250,7 @@ def chromatic_adaptation_inverse_CMCCAT2000(
     >>> XYZ_wr = np.array([94.81, 100.00, 107.30])
     >>> L_A1 = 200
     >>> L_A2 = 200
-    >>> chromatic_adaptation_inverse_CMCCAT2000(
-    ...     XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2
-    ... )
+    >>> chromatic_adaptation_inverse_CMCCAT2000(XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2)
     ... # doctest: +ELLIPSIS
     array([ 22.4839876...,  22.7419485...,   8.5393392...])
     """
@@ -292,9 +286,7 @@ def chromatic_adaptation_CMCCAT2000(
     XYZ_wr: ArrayLike,
     L_A1: ArrayLike,
     L_A2: ArrayLike,
-    surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000[
-        "Average"
-    ],
+    surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000["Average"],
     direction: Literal["Forward", "Inverse"] | str = "Forward",
 ) -> NDArrayFloat:
     """

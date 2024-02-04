@@ -82,8 +82,7 @@ References
 def exponent_hdr_IPT(
     Y_s: ArrayLike,
     Y_abs: ArrayLike,
-    method: Literal["Fairchild 2011", "Fairchild 2010"]
-    | str = "Fairchild 2011",
+    method: (Literal["Fairchild 2011", "Fairchild 2010"] | str) = "Fairchild 2011",
 ) -> NDArrayFloat:
     """
     Compute *hdr-IPT* colourspace *Lightness* :math:`\\epsilon` exponent using
@@ -141,8 +140,7 @@ def XYZ_to_hdr_IPT(
     XYZ: ArrayLike,
     Y_s: ArrayLike = 0.2,
     Y_abs: ArrayLike = 100,
-    method: Literal["Fairchild 2011", "Fairchild 2010"]
-    | str = "Fairchild 2011",
+    method: (Literal["Fairchild 2011", "Fairchild 2010"] | str) = "Fairchild 2011",
 ) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *hdr-IPT* colourspace.
@@ -225,8 +223,7 @@ def hdr_IPT_to_XYZ(
     IPT_hdr: ArrayLike,
     Y_s: ArrayLike = 0.2,
     Y_abs: ArrayLike = 100,
-    method: Literal["Fairchild 2011", "Fairchild 2010"]
-    | str = "Fairchild 2011",
+    method: (Literal["Fairchild 2011", "Fairchild 2010"] | str) = "Fairchild 2011",
 ) -> NDArrayFloat:
     """
     Convert from *hdr-IPT* colourspace to *CIE XYZ* tristimulus values.

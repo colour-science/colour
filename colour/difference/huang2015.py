@@ -79,20 +79,22 @@ COEFFICIENTS_HUANG2015["cie2000"] = COEFFICIENTS_HUANG2015["CIE 2000"]
 
 def power_function_Huang2015(
     d_E: ArrayLike,
-    coefficients: Literal[
-        "CIE 1976",
-        "CIE 1994",
-        "CIE 2000",
-        "CMC",
-        "CAM02-LCD",
-        "CAM02-SCD",
-        "CAM16-UCS",
-        "DIN99d",
-        "OSA",
-        "OSA-GP-Euclidean",
-        "ULAB",
-    ]
-    | str = "CIE 2000",
+    coefficients: (
+        Literal[
+            "CIE 1976",
+            "CIE 1994",
+            "CIE 2000",
+            "CMC",
+            "CAM02-LCD",
+            "CAM02-SCD",
+            "CAM16-UCS",
+            "DIN99d",
+            "OSA",
+            "OSA-GP-Euclidean",
+            "ULAB",
+        ]
+        | str
+    ) = "CIE 2000",
 ) -> NDArrayFloat:
     """
     Improve the performance of the :math:`\\Delta E` value for given

@@ -566,15 +566,17 @@ LUMINANCE_METHODS["cie1976"] = LUMINANCE_METHODS["CIE 1976"]
 
 def luminance(
     LV: ArrayLike,
-    method: Literal[
-        "Abebe 2017",
-        "CIE 1976",
-        "Glasser 1958",
-        "Fairchild 2010",
-        "Fairchild 2011",
-        "Wyszecki 1963",
-    ]
-    | str = "CIE 1976",
+    method: (
+        Literal[
+            "Abebe 2017",
+            "CIE 1976",
+            "Glasser 1958",
+            "Fairchild 2010",
+            "Fairchild 2011",
+            "Wyszecki 1963",
+        ]
+        | str
+    ) = "CIE 1976",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """

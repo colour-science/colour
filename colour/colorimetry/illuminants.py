@@ -182,7 +182,6 @@ def sd_CIE_illuminant_D_series(
     >>> xy = CCT_to_xy_CIE_D(CCT_D65)
     >>> with numpy_print_options(suppress=True):
     ...     sd_CIE_illuminant_D_series(xy)  # doctest: +ELLIPSIS
-    ...
     SpectralDistribution([[ 300.     ,    0.0341...],
                           [ 305.     ,    1.6643...],
                           [ 310.     ,    3.2945...],

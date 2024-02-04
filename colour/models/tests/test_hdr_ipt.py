@@ -150,17 +150,13 @@ class TestXYZ_to_hdr_IPT(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            XYZ_to_hdr_IPT(
-                np.array([0.20654008, 0.12197225, 0.05136952]), Y_s=0.5
-            ),
+            XYZ_to_hdr_IPT(np.array([0.20654008, 0.12197225, 0.05136952]), Y_s=0.5),
             np.array([20.75088680, 37.98300971, 16.66974299]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            XYZ_to_hdr_IPT(
-                np.array([0.07818780, 0.06157201, 0.28099326]), Y_abs=1000
-            ),
+            XYZ_to_hdr_IPT(np.array([0.07818780, 0.06157201, 0.28099326]), Y_abs=1000),
             np.array([23.83205010, -5.98739209, -32.74311745]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -259,9 +255,7 @@ class TestHdr_IPT_to_XYZ(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            hdr_IPT_to_XYZ(
-                np.array([20.75088680, 37.98300971, 16.66974299]), Y_s=0.5
-            ),
+            hdr_IPT_to_XYZ(np.array([20.75088680, 37.98300971, 16.66974299]), Y_s=0.5),
             np.array([0.20654008, 0.12197225, 0.05136952]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

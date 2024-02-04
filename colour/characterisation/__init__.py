@@ -122,10 +122,9 @@ API_CHANGES = {
 """Defines the *colour.characterisation* sub-package API changes."""
 
 if not is_documentation_building():
-    sys.modules[
-        "colour.characterisation"
-    ] = characterisation(  # pyright: ignore
-        sys.modules["colour.characterisation"], build_API_changes(API_CHANGES)
+    sys.modules["colour.characterisation"] = characterisation(  # pyright: ignore
+        sys.modules["colour.characterisation"],
+        build_API_changes(API_CHANGES),
     )
 
     del ModuleAPI, is_documentation_building, build_API_changes, sys

@@ -103,9 +103,7 @@ MATRIX_ICTCP_LMS_P_TO_ICTCP: NDArrayFloat = (
 :math:`IC_TC_P` colour encoding matrix.
 """
 
-MATRIX_ICTCP_ICTCP_TO_LMS_P: NDArrayFloat = np.linalg.inv(
-    MATRIX_ICTCP_LMS_P_TO_ICTCP
-)
+MATRIX_ICTCP_ICTCP_TO_LMS_P: NDArrayFloat = np.linalg.inv(MATRIX_ICTCP_LMS_P_TO_ICTCP)
 """
 :math:`IC_TC_P` colour encoding to :math:`LMS_p` *SMPTE ST 2084:2014* encoded
 normalised cone responses matrix.
@@ -137,14 +135,16 @@ normalised cone responses matrix as given in *ITU-R BT.2100-2*.
 
 def RGB_to_ICtCp(
     RGB: ArrayLike,
-    method: Literal[
-        "Dolby 2016",
-        "ITU-R BT.2100-1 HLG",
-        "ITU-R BT.2100-1 PQ",
-        "ITU-R BT.2100-2 HLG",
-        "ITU-R BT.2100-2 PQ",
-    ]
-    | str = "Dolby 2016",
+    method: (
+        Literal[
+            "Dolby 2016",
+            "ITU-R BT.2100-1 HLG",
+            "ITU-R BT.2100-1 PQ",
+            "ITU-R BT.2100-2 HLG",
+            "ITU-R BT.2100-2 PQ",
+        ]
+        | str
+    ) = "Dolby 2016",
     L_p: float = 10000,
 ) -> NDArrayFloat:
     """
@@ -254,11 +254,7 @@ def RGB_to_ICtCp(
     LMS = vector_dot(MATRIX_ICTCP_RGB_TO_LMS, RGB)
 
     with domain_range_scale("ignore"):
-        LMS_p = (
-            oetf_BT2100_HLG(LMS)
-            if is_hlg_method
-            else eotf_inverse_ST2084(LMS, L_p)
-        )
+        LMS_p = oetf_BT2100_HLG(LMS) if is_hlg_method else eotf_inverse_ST2084(LMS, L_p)
 
     ICtCp = (
         vector_dot(MATRIX_ICTCP_LMS_P_TO_ICTCP_BT2100_HLG_2, LMS_p)
@@ -271,14 +267,16 @@ def RGB_to_ICtCp(
 
 def ICtCp_to_RGB(
     ICtCp: ArrayLike,
-    method: Literal[
-        "Dolby 2016",
-        "ITU-R BT.2100-1 HLG",
-        "ITU-R BT.2100-1 PQ",
-        "ITU-R BT.2100-2 HLG",
-        "ITU-R BT.2100-2 PQ",
-    ]
-    | str = "Dolby 2016",
+    method: (
+        Literal[
+            "Dolby 2016",
+            "ITU-R BT.2100-1 HLG",
+            "ITU-R BT.2100-1 PQ",
+            "ITU-R BT.2100-2 HLG",
+            "ITU-R BT.2100-2 PQ",
+        ]
+        | str
+    ) = "Dolby 2016",
     L_p: float = 10000,
 ) -> NDArrayFloat:
     """
@@ -392,9 +390,7 @@ def ICtCp_to_RGB(
 
     with domain_range_scale("ignore"):
         LMS = (
-            oetf_inverse_BT2100_HLG(LMS_p)
-            if is_hlg_method
-            else eotf_ST2084(LMS_p, L_p)
+            oetf_inverse_BT2100_HLG(LMS_p) if is_hlg_method else eotf_ST2084(LMS_p, L_p)
         )
 
     RGB = vector_dot(MATRIX_ICTCP_LMS_TO_RGB, LMS)
@@ -405,17 +401,19 @@ def ICtCp_to_RGB(
 def XYZ_to_ICtCp(
     XYZ: ArrayLike,
     illuminant=CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"],
-    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
-    | str
-    | None = "CAT02",
-    method: Literal[
-        "Dolby 2016",
-        "ITU-R BT.2100-1 HLG",
-        "ITU-R BT.2100-1 PQ",
-        "ITU-R BT.2100-2 HLG",
-        "ITU-R BT.2100-2 PQ",
-    ]
-    | str = "Dolby 2016",
+    chromatic_adaptation_transform: (
+        LiteralChromaticAdaptationTransform | str | None
+    ) = "CAT02",
+    method: (
+        Literal[
+            "Dolby 2016",
+            "ITU-R BT.2100-1 HLG",
+            "ITU-R BT.2100-1 PQ",
+            "ITU-R BT.2100-2 HLG",
+            "ITU-R BT.2100-2 PQ",
+        ]
+        | str
+    ) = "Dolby 2016",
     L_p: float = 10000,
 ) -> NDArrayFloat:
     """
@@ -524,17 +522,19 @@ def XYZ_to_ICtCp(
 def ICtCp_to_XYZ(
     ICtCp: ArrayLike,
     illuminant=CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"],
-    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
-    | str
-    | None = "CAT02",
-    method: Literal[
-        "Dolby 2016",
-        "ITU-R BT.2100-1 HLG",
-        "ITU-R BT.2100-1 PQ",
-        "ITU-R BT.2100-2 HLG",
-        "ITU-R BT.2100-2 PQ",
-    ]
-    | str = "Dolby 2016",
+    chromatic_adaptation_transform: (
+        LiteralChromaticAdaptationTransform | str | None
+    ) = "CAT02",
+    method: (
+        Literal[
+            "Dolby 2016",
+            "ITU-R BT.2100-1 HLG",
+            "ITU-R BT.2100-1 PQ",
+            "ITU-R BT.2100-2 HLG",
+            "ITU-R BT.2100-2 PQ",
+        ]
+        | str
+    ) = "Dolby 2016",
     L_p: float = 10000,
 ) -> NDArrayFloat:
     """

@@ -226,9 +226,7 @@ oetf_inverse_BT2100_PQ` definition domain and range scale support.
 oetf_inverse_BT2100_PQ` definition nan support.
         """
 
-        oetf_inverse_BT2100_PQ(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        oetf_inverse_BT2100_PQ(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestEotf_BT2100_PQ(unittest.TestCase):
@@ -392,9 +390,7 @@ eotf_inverse_BT2100_PQ` definition domain and range scale support.
 eotf_inverse_BT2100_PQ` definition nan support.
         """
 
-        eotf_inverse_BT2100_PQ(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        eotf_inverse_BT2100_PQ(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestOotf_BT2100_PQ(unittest.TestCase):
@@ -560,9 +556,7 @@ ootf_inverse_BT2100_PQ` definition domain and range scale support.
 ootf_inverse_BT2100_PQ` definition nan support.
         """
 
-        ootf_inverse_BT2100_PQ(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        ootf_inverse_BT2100_PQ(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestGamma_function_BT2100_HLG(unittest.TestCase):
@@ -765,9 +759,7 @@ oetf_inverse_BT2100_HLG` definition domain and range scale support.
 oetf_inverse_BT2100_HLG` definition nan support.
         """
 
-        oetf_inverse_BT2100_HLG(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        oetf_inverse_BT2100_HLG(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestEotf_BT2100_HLG_1(unittest.TestCase):
@@ -1106,9 +1098,7 @@ eotf_inverse_BT2100_HLG_1` definition domain and range scale support.
 eotf_inverse_BT2100_HLG_1` definition nan support.
         """
 
-        eotf_inverse_BT2100_HLG_1(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        eotf_inverse_BT2100_HLG_1(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestEotf_inverse_BT2100_HLG_2(unittest.TestCase):
@@ -1221,9 +1211,7 @@ eotf_inverse_BT2100_HLG_2` definition domain and range scale support.
 eotf_inverse_BT2100_HLG_2` definition nan support.
         """
 
-        eotf_inverse_BT2100_HLG_2(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        eotf_inverse_BT2100_HLG_2(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestOotf_BT2100_HLG_1(unittest.TestCase):
@@ -1637,9 +1625,7 @@ ootf_inverse_BT2100_HLG_1` definition domain and range scale support.
 ootf_inverse_BT2100_HLG_1` definition nan support.
         """
 
-        ootf_inverse_BT2100_HLG_1(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        ootf_inverse_BT2100_HLG_1(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestOotf_inverse_BT2100_HLG_2(unittest.TestCase):
@@ -1777,9 +1763,7 @@ ootf_inverse_BT2100_HLG_2` definition domain and range scale support.
 ootf_inverse_BT2100_HLG_2` definition nan support.
         """
 
-        ootf_inverse_BT2100_HLG_2(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        ootf_inverse_BT2100_HLG_2(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 if __name__ == "__main__":

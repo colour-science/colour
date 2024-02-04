@@ -46,9 +46,7 @@ class TestShowWarning(unittest.TestCase):
         show_warning("This is a unit test warning!", Warning, None, None)
 
         with open(os.devnull) as dev_null:
-            show_warning(
-                "This is a unit test warning!", Warning, None, None, dev_null
-            )
+            show_warning("This is a unit test warning!", Warning, None, None, dev_null)
 
         stderr = sys.stderr
         try:

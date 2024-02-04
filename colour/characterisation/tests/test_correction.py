@@ -131,9 +131,7 @@ matrix_augmented_Cheung2004` definition.
         polynomials = [
             np.array([0.17224810, 0.09170660, 0.06416938]),
             np.array([0.17224810, 0.09170660, 0.06416938, 1.00000000]),
-            np.array(
-                [0.17224810, 0.09170660, 0.06416938, 0.00101364, 1.00000000]
-            ),
+            np.array([0.17224810, 0.09170660, 0.06416938, 0.00101364, 1.00000000]),
             np.array(
                 [
                     0.17224810,
@@ -359,9 +357,7 @@ matrix_augmented_Cheung2004` definition.
             ),
         ]
 
-        for i, terms in enumerate(
-            [3, 4, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22, 35]
-        ):
+        for i, terms in enumerate([3, 4, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22, 35]):
             np.testing.assert_allclose(
                 matrix_augmented_Cheung2004(RGB, terms),
                 polynomials[i],
@@ -688,9 +684,7 @@ matrix_colour_correction_Cheung2004` definition.
         )
 
         np.testing.assert_allclose(
-            matrix_colour_correction_Cheung2004(
-                MATRIX_TEST, MATRIX_REFERENCE, terms=7
-            ),
+            matrix_colour_correction_Cheung2004(MATRIX_TEST, MATRIX_REFERENCE, terms=7),
             np.array(
                 [
                     [
@@ -759,9 +753,7 @@ matrix_colour_correction_Finlayson2015` definition.
         """
 
         np.testing.assert_allclose(
-            matrix_colour_correction_Finlayson2015(
-                MATRIX_TEST, MATRIX_REFERENCE
-            ),
+            matrix_colour_correction_Finlayson2015(MATRIX_TEST, MATRIX_REFERENCE),
             np.array(
                 [
                     [0.69822661, 0.03071629, 0.16210422],
@@ -864,9 +856,7 @@ matrix_colour_correction_Vandermonde` definition.
         """
 
         np.testing.assert_allclose(
-            matrix_colour_correction_Vandermonde(
-                MATRIX_TEST, MATRIX_REFERENCE
-            ),
+            matrix_colour_correction_Vandermonde(MATRIX_TEST, MATRIX_REFERENCE),
             np.array(
                 [
                     [0.66770040, 0.02514036, 0.12745797, 0.02485425],
@@ -1220,9 +1210,7 @@ colour_correction_Cheung2004` definition.
         )
 
         np.testing.assert_allclose(
-            colour_correction_Cheung2004(
-                RGB, MATRIX_TEST, MATRIX_REFERENCE, terms=7
-            ),
+            colour_correction_Cheung2004(RGB, MATRIX_TEST, MATRIX_REFERENCE, terms=7),
             np.array([0.15850295, 0.09871628, 0.08105752]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -1234,9 +1222,7 @@ colour_correction_Cheung2004` definition n-dimensional support.
         """
 
         RGB = np.array([0.17224810, 0.09170660, 0.06416938])
-        RGB_c = colour_correction_Cheung2004(
-            RGB, MATRIX_TEST, MATRIX_REFERENCE
-        )
+        RGB_c = colour_correction_Cheung2004(RGB, MATRIX_TEST, MATRIX_REFERENCE)
 
         RGB = np.tile(RGB, (6, 1))
         RGB_c = np.tile(RGB_c, (6, 1))
@@ -1291,9 +1277,7 @@ colour_correction_Finlayson2015` definition.
         RGB = np.array([0.17224810, 0.09170660, 0.06416938])
 
         np.testing.assert_allclose(
-            colour_correction_Finlayson2015(
-                RGB, MATRIX_TEST, MATRIX_REFERENCE
-            ),
+            colour_correction_Finlayson2015(RGB, MATRIX_TEST, MATRIX_REFERENCE),
             np.array([0.13348722, 0.08439216, 0.05990144]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -1313,16 +1297,12 @@ colour_correction_Finlayson2015` definition n-dimensional support.
         """
 
         RGB = np.array([0.17224810, 0.09170660, 0.06416938])
-        RGB_c = colour_correction_Finlayson2015(
-            RGB, MATRIX_TEST, MATRIX_REFERENCE
-        )
+        RGB_c = colour_correction_Finlayson2015(RGB, MATRIX_TEST, MATRIX_REFERENCE)
 
         RGB = np.tile(RGB, (6, 1))
         RGB_c = np.tile(RGB_c, (6, 1))
         np.testing.assert_allclose(
-            colour_correction_Finlayson2015(
-                RGB, MATRIX_TEST, MATRIX_REFERENCE
-            ),
+            colour_correction_Finlayson2015(RGB, MATRIX_TEST, MATRIX_REFERENCE),
             RGB_c,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -1330,9 +1310,7 @@ colour_correction_Finlayson2015` definition n-dimensional support.
         RGB = np.reshape(RGB, (2, 3, 3))
         RGB_c = np.reshape(RGB_c, (2, 3, 3))
         np.testing.assert_allclose(
-            colour_correction_Finlayson2015(
-                RGB, MATRIX_TEST, MATRIX_REFERENCE
-            ),
+            colour_correction_Finlayson2015(RGB, MATRIX_TEST, MATRIX_REFERENCE),
             RGB_c,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -1380,9 +1358,7 @@ colour_correction_Vandermonde` definition.
         )
 
         np.testing.assert_allclose(
-            colour_correction_Vandermonde(
-                RGB, MATRIX_TEST, MATRIX_REFERENCE, degree=3
-            ),
+            colour_correction_Vandermonde(RGB, MATRIX_TEST, MATRIX_REFERENCE, degree=3),
             np.array([0.15747814, 0.10035799, 0.06616709]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -1394,9 +1370,7 @@ colour_correction_Vandermonde` definition n-dimensional support.
         """
 
         RGB = np.array([0.17224810, 0.09170660, 0.06416938])
-        RGB_c = colour_correction_Vandermonde(
-            RGB, MATRIX_TEST, MATRIX_REFERENCE
-        )
+        RGB_c = colour_correction_Vandermonde(RGB, MATRIX_TEST, MATRIX_REFERENCE)
 
         RGB = np.tile(RGB, (6, 1))
         RGB_c = np.tile(RGB_c, (6, 1))

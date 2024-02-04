@@ -48,9 +48,7 @@ class Testxy_to_CCT_Hernandez1999(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            xy_to_CCT_Hernandez1999(
-                np.array([0.244162248213914, 0.240333674758318])
-            ),
+            xy_to_CCT_Hernandez1999(np.array([0.244162248213914, 0.240333674758318])),
             64448.11092565,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

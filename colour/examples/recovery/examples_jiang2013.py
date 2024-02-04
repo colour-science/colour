@@ -26,14 +26,12 @@ RGB = colour.msds_to_XYZ(
     k=1,
     shape=colour.recovery.SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
 )
-msds_camera_sensitivities = (
-    colour.recovery.RGB_to_msds_camera_sensitivities_Jiang2013(
-        RGB,
-        illuminant,
-        reflectances,
-        colour.recovery.BASIS_FUNCTIONS_DYER2017,
-        colour.recovery.SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
-    )
+msds_camera_sensitivities = colour.recovery.RGB_to_msds_camera_sensitivities_Jiang2013(
+    RGB,
+    illuminant,
+    reflectances,
+    colour.recovery.BASIS_FUNCTIONS_DYER2017,
+    colour.recovery.SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
 )
 
 message_box(

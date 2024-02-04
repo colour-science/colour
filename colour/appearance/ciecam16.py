@@ -166,8 +166,9 @@ def XYZ_to_CIECAM16(
     XYZ_w: ArrayLike,
     L_A: ArrayLike,
     Y_b: ArrayLike,
-    surround: InductionFactors_CIECAM02
-    | InductionFactors_CIECAM16 = VIEWING_CONDITIONS_CIECAM16["Average"],
+    surround: (
+        InductionFactors_CIECAM02 | InductionFactors_CIECAM16
+    ) = VIEWING_CONDITIONS_CIECAM16["Average"],
     discount_illuminant: bool = False,
     compute_H: bool = True,
 ) -> CAM_Specification_CIECAM16:
@@ -283,17 +284,13 @@ H=275.5949861..., HC=None)
         else ones(L_A.shape)
     )
 
-    n, F_L, N_bb, N_cb, z = viewing_conditions_dependent_parameters(
-        Y_b, Y_w, L_A
-    )
+    n, F_L, N_bb, N_cb, z = viewing_conditions_dependent_parameters(Y_b, Y_w, L_A)
 
     D_RGB = D[..., None] * 100 / RGB_w + 1 - D[..., None]
     RGB_wc = D_RGB * RGB_w
 
     # Applying forward post-adaptation non-linear response compression.
-    RGB_aw = post_adaptation_non_linear_response_compression_forward(
-        RGB_wc, F_L
-    )
+    RGB_aw = post_adaptation_non_linear_response_compression_forward(RGB_wc, F_L)
 
     # Computing achromatic responses for the whitepoint.
     A_w = achromatic_response_forward(RGB_aw, N_bb)
@@ -363,8 +360,9 @@ def CIECAM16_to_XYZ(
     XYZ_w: ArrayLike,
     L_A: ArrayLike,
     Y_b: ArrayLike,
-    surround: InductionFactors_CIECAM02
-    | InductionFactors_CIECAM16 = VIEWING_CONDITIONS_CIECAM16["Average"],
+    surround: (
+        InductionFactors_CIECAM02 | InductionFactors_CIECAM16
+    ) = VIEWING_CONDITIONS_CIECAM16["Average"],
     discount_illuminant: bool = False,
 ) -> NDArrayFloat:
     """
@@ -489,17 +487,13 @@ def CIECAM16_to_XYZ(
         else ones(L_A.shape)
     )
 
-    n, F_L, N_bb, N_cb, z = viewing_conditions_dependent_parameters(
-        Y_b, Y_w, L_A
-    )
+    n, F_L, N_bb, N_cb, z = viewing_conditions_dependent_parameters(Y_b, Y_w, L_A)
 
     D_RGB = D[..., None] * 100 / RGB_w + 1 - D[..., None]
     RGB_wc = D_RGB * RGB_w
 
     # Applying forward post-adaptation non-linear response compression.
-    RGB_aw = post_adaptation_non_linear_response_compression_forward(
-        RGB_wc, F_L
-    )
+    RGB_aw = post_adaptation_non_linear_response_compression_forward(RGB_wc, F_L)
 
     # Computing achromatic responses for the whitepoint.
     A_w = achromatic_response_forward(RGB_aw, N_bb)
@@ -650,9 +644,7 @@ def f_e_inverse(RGB_a: ArrayLike, F_L: ArrayLike) -> NDArrayFloat:
         ],
         [
             q_U + (RGB_a - f_q_F_L_q_U) / d_f_q_F_L_q_U,
-            100
-            / F_L[..., None]
-            * spow((27.13 * RGB_a) / (400 - RGB_a), 1 / 0.42),
+            100 / F_L[..., None] * spow((27.13 * RGB_a) / (400 - RGB_a), 1 / 0.42),
             q_L * RGB_a / f_q_F_L_q_L,
         ],
     )

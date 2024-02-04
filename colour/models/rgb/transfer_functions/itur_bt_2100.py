@@ -733,8 +733,7 @@ def eotf_BT2100_HLG_2(
     beta = black_level_lift_BT2100_HLG(L_B, L_W, gamma)
 
     return ootf_BT2100_HLG_2(
-        oetf_inverse_ARIBSTDB67((1 - beta) * E_p + beta, constants=constants)
-        / 12,
+        oetf_inverse_ARIBSTDB67((1 - beta) * E_p + beta, constants=constants) / 12,
         L_W,
         gamma,
     )
@@ -763,8 +762,7 @@ def eotf_BT2100_HLG(
     L_W: float = 1000,
     gamma: float | None = None,
     constants: Structure = CONSTANTS_BT2100_HLG,
-    method: Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"]
-    | str = "ITU-R BT.2100-2",
+    method: (Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"] | str) = "ITU-R BT.2100-2",
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
@@ -997,8 +995,7 @@ def eotf_inverse_BT2100_HLG(
     L_W: float = 1000,
     gamma: float | None = None,
     constants: Structure = CONSTANTS_BT2100_HLG,
-    method: Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"]
-    | str = "ITU-R BT.2100-2",
+    method: (Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"] | str) = "ITU-R BT.2100-2",
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse
@@ -1061,9 +1058,7 @@ def eotf_inverse_BT2100_HLG(
 
     method = validate_method(method, tuple(BT2100_HLG_EOTF_INVERSE_METHODS))
 
-    return BT2100_HLG_EOTF_INVERSE_METHODS[method](
-        F_D, L_B, L_W, gamma, constants
-    )
+    return BT2100_HLG_EOTF_INVERSE_METHODS[method](F_D, L_B, L_W, gamma, constants)
 
 
 def ootf_BT2100_HLG_1(
@@ -1269,8 +1264,7 @@ def ootf_BT2100_HLG(
     L_B: float = 0,
     L_W: float = 1000,
     gamma: float | None = None,
-    method: Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"]
-    | str = "ITU-R BT.2100-2",
+    method: (Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"] | str) = "ITU-R BT.2100-2",
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
@@ -1565,8 +1559,7 @@ def ootf_inverse_BT2100_HLG(
     L_B: float = 0,
     L_W: float = 1000,
     gamma: float | None = None,
-    method: Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"]
-    | str = "ITU-R BT.2100-2",
+    method: (Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"] | str) = "ITU-R BT.2100-2",
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse opto-optical
@@ -1618,9 +1611,7 @@ def ootf_inverse_BT2100_HLG(
     --------
     >>> ootf_inverse_BT2100_HLG(63.095734448019336)  # doctest: +ELLIPSIS
     0.1000000...
-    >>> ootf_inverse_BT2100_HLG(
-    ...     63.105103490674857, 0.01, method="ITU-R BT.2100-1"
-    ... )
+    >>> ootf_inverse_BT2100_HLG(63.105103490674857, 0.01, method="ITU-R BT.2100-1")
     ... # doctest: +ELLIPSIS
     0.0999999...
     """

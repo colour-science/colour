@@ -12,9 +12,7 @@ ROOT_RESOURCES = os.path.join(
 
 message_box("Color Transformation Language (CTL)")
 
-message_box(
-    'Using a "CTL" string and the "float" template to transform an image.'
-)
+message_box('Using a "CTL" string and the "float" template to transform an image.')
 
 ctl_adjust_exposure_float = colour.io.template_ctl_transform_float(
     "rIn * pow(2, exposure)",
@@ -78,9 +76,7 @@ print(
 
 print("\n")
 
-message_box(
-    'Using a "CTL" string and the "float3" template to transform an image.'
-)
+message_box('Using a "CTL" string and the "float3" template to transform an image.')
 
 ctl_adjust_exposure_float3 = colour.io.template_ctl_transform_float3(
     "adjust_exposure(rgbIn, exposure)",
@@ -97,9 +93,7 @@ float[3] adjust_exposure(float rgbIn[3], float exposureIn)
     rgbOut[2] = rgbIn[2] * exposure;
 
     return rgbOut;
-}\n"""[
-        1:
-    ],
+}\n"""[1:],
     parameters=["input float exposure = 0.0"],
 )
 print(ctl_adjust_exposure_float3)
@@ -172,9 +166,7 @@ ROOT_ACES_DEV_TRANSFORMS = os.path.abspath(
 )
 
 if os.path.exists(ROOT_ACES_DEV_TRANSFORMS):
-    message_box(
-        'Running the "aces-dev" "RRT" "CTL" function to transform an array.'
-    )
+    message_box('Running the "aces-dev" "RRT" "CTL" function to transform an array.')
 
     CTL_MODULE_PATH = (
         f"{ROOT_ACES_DEV_TRANSFORMS}:"
@@ -232,17 +224,15 @@ if os.path.exists(ROOT_ACES_DEV_TRANSFORMS):
         'Running the "aces-dev" "darkSurround_to_dimSurround" "CTL" function '
         "to transform an array."
     )
-    ctl_darkSurround_to_dimSurround_float3 = (
-        colour.io.template_ctl_transform_float3(
-            "darkSurround_to_dimSurround(rgbIn)",
-            imports=format_imports(
-                [
-                    "ACESlib.Utilities",
-                    "ACESlib.Transform_Common",
-                    "ACESlib.ODT_Common",
-                ]
-            ),
-        )
+    ctl_darkSurround_to_dimSurround_float3 = colour.io.template_ctl_transform_float3(
+        "darkSurround_to_dimSurround(rgbIn)",
+        imports=format_imports(
+            [
+                "ACESlib.Utilities",
+                "ACESlib.Transform_Common",
+                "ACESlib.ODT_Common",
+            ]
+        ),
     )
     print(ctl_darkSurround_to_dimSurround_float3)
     print(

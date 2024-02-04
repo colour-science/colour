@@ -275,9 +275,7 @@ T_2=0.0205377..., D_2=0.0107584...)
     )
 
 
-def luminance_to_retinal_illuminance(
-    XYZ: ArrayLike, Y_c: ArrayLike
-) -> NDArrayFloat:
+def luminance_to_retinal_illuminance(XYZ: ArrayLike, Y_c: ArrayLike) -> NDArrayFloat:
     """
     Convert from luminance in :math:`cd/m^2` to retinal illuminance in
     trolands.

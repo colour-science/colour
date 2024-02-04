@@ -68,15 +68,11 @@ class TestRGB_to_CMY(unittest.TestCase):
 
         RGB = np.tile(RGB, (6, 1))
         CMY = np.tile(CMY, (6, 1))
-        np.testing.assert_allclose(
-            RGB_to_CMY(RGB), CMY, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(RGB_to_CMY(RGB), CMY, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         RGB = np.reshape(RGB, (2, 3, 3))
         CMY = np.reshape(CMY, (2, 3, 3))
-        np.testing.assert_allclose(
-            RGB_to_CMY(RGB), CMY, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(RGB_to_CMY(RGB), CMY, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_RGB_to_CMY(self):
         """
@@ -146,15 +142,11 @@ class TestCMY_to_RGB(unittest.TestCase):
 
         CMY = np.tile(CMY, (6, 1))
         RGB = np.tile(RGB, (6, 1))
-        np.testing.assert_allclose(
-            CMY_to_RGB(CMY), RGB, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(CMY_to_RGB(CMY), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         CMY = np.reshape(CMY, (2, 3, 3))
         RGB = np.reshape(RGB, (2, 3, 3))
-        np.testing.assert_allclose(
-            CMY_to_RGB(CMY), RGB, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(CMY_to_RGB(CMY), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_CMY_to_RGB(self):
         """
@@ -271,25 +263,19 @@ class TestCMYK_to_CMY(unittest.TestCase):
         """Test :func:`colour.models.rgb.cmyk.CMYK_to_CMY` definition."""
 
         np.testing.assert_allclose(
-            CMYK_to_CMY(
-                np.array([0.00000000, 0.93246304, 0.91030457, 0.54379481])
-            ),
+            CMYK_to_CMY(np.array([0.00000000, 0.93246304, 0.91030457, 0.54379481])),
             np.array([0.54379481, 0.96918929, 0.95908048]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            CMYK_to_CMY(
-                np.array([0.00000000, 1.00000000, 1.00000000, 0.15000000])
-            ),
+            CMYK_to_CMY(np.array([0.00000000, 1.00000000, 1.00000000, 0.15000000])),
             np.array([0.15000000, 1.00000000, 1.00000000]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            CMYK_to_CMY(
-                np.array([0.15000000, 0.00000000, 0.00000000, 0.00000000])
-            ),
+            CMYK_to_CMY(np.array([0.15000000, 0.00000000, 0.00000000, 0.00000000])),
             np.array([0.15000000, 0.00000000, 0.00000000]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

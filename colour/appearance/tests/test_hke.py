@@ -246,9 +246,7 @@ HelmholtzKohlrausch_effect_luminous_Nayatani1997` definition nan support.
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=2))))
         for case in cases:
-            HelmholtzKohlrausch_effect_luminous_Nayatani1997(
-                case, case, case[0]
-            )
+            HelmholtzKohlrausch_effect_luminous_Nayatani1997(case, case, case[0])
 
 
 class TestCoefficient_K_Br_Nayatani1997(unittest.TestCase):

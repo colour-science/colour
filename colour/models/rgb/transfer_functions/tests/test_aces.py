@@ -131,9 +131,7 @@ log_encoding_ACESproxy` definition domain and range scale support.
 log_encoding_ACESproxy` definition nan support.
         """
 
-        log_encoding_ACESproxy(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_ACESproxy(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLogDecoding_ACESproxy(unittest.TestCase):
@@ -237,9 +235,7 @@ log_decoding_ACESproxy` definition domain and range scale support.
 log_decoding_ACESproxy` definition nan support.
         """
 
-        log_decoding_ACESproxy(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_decoding_ACESproxy(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLogEncoding_ACEScc(unittest.TestCase):
@@ -324,9 +320,7 @@ log_encoding_ACEScc` definition domain and range scale support.
 log_encoding_ACEScc` definition nan support.
         """
 
-        log_encoding_ACEScc(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_ACEScc(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLogDecoding_ACEScc(unittest.TestCase):
@@ -411,9 +405,7 @@ log_decoding_ACEScc` definition domain and range scale support.
 log_decoding_ACEScc` definition nan support.
         """
 
-        log_decoding_ACEScc(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_decoding_ACEScc(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLogEncoding_ACEScct(unittest.TestCase):
@@ -520,9 +512,7 @@ S-2016-001/introduction.tex#L14)
 log_encoding_ACEScct` definition nan support.
         """
 
-        log_encoding_ACEScct(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_ACEScct(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLogDecoding_ACEScct(unittest.TestCase):
@@ -629,9 +619,7 @@ S-2016-001/introduction.tex#L14)
 log_decoding_ACEScct` definition nan support.
         """
 
-        log_decoding_ACEScct(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_decoding_ACEScct(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 if __name__ == "__main__":

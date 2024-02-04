@@ -608,9 +608,7 @@ handle_spectral_arguments` definition.
         )
         self.assertEqual(
             cmfs,
-            reshape_msds(
-                MSDS_CMFS["CIE 2015 2 Degree Standard Observer"], shape=shape
-            ),
+            reshape_msds(MSDS_CMFS["CIE 2015 2 Degree Standard Observer"], shape=shape),
         )
         self.assertEqual(
             illuminant, sd_ones(shape, interpolator=LinearInterpolator) * 100
@@ -687,16 +685,12 @@ tristimulus_weighting_factors_ASTME2022` definition.
         twf = tristimulus_weighting_factors_ASTME2022(
             cmfs, A, SpectralShape(360, 830, 10)
         )
-        np.testing.assert_allclose(
-            np.round(twf, 3), TWF_A_CIE_1964_10_10, atol=1e-5
-        )
+        np.testing.assert_allclose(np.round(twf, 3), TWF_A_CIE_1964_10_10, atol=1e-5)
 
         twf = tristimulus_weighting_factors_ASTME2022(
             cmfs, A, SpectralShape(360, 830, 20)
         )
-        np.testing.assert_allclose(
-            np.round(twf, 3), TWF_A_CIE_1964_10_20, atol=1e-5
-        )
+        np.testing.assert_allclose(np.round(twf, 3), TWF_A_CIE_1964_10_20, atol=1e-5)
 
         cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
         D65 = reshape_sd(
@@ -836,9 +830,7 @@ sd_to_XYZ_integration` definition.
         )
 
         np.testing.assert_allclose(
-            sd_to_XYZ_integration(
-                SD_SAMPLE, cmfs, SDS_ILLUMINANTS["FL2"], k=683
-            ),
+            sd_to_XYZ_integration(SD_SAMPLE, cmfs, SDS_ILLUMINANTS["FL2"], k=683),
             np.array([1223.7509261493, 1055.7284645912, 417.8501342332]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -856,9 +848,7 @@ sd_to_XYZ_integration` definition domain and range scale support.
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_allclose(
-                    sd_to_XYZ_integration(
-                        SD_SAMPLE, cmfs, SDS_ILLUMINANTS["A"]
-                    ),
+                    sd_to_XYZ_integration(SD_SAMPLE, cmfs, SDS_ILLUMINANTS["A"]),
                     XYZ * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
@@ -916,9 +906,7 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
 
         np.testing.assert_allclose(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
-                reshape_sd(
-                    SD_SAMPLE, SpectralShape(400, 700, 10), "Interpolate"
-                ),
+                reshape_sd(SD_SAMPLE, SpectralShape(400, 700, 10), "Interpolate"),
                 cmfs,
                 SDS_ILLUMINANTS["A"],
             ),
@@ -928,9 +916,7 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
 
         np.testing.assert_allclose(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
-                reshape_sd(
-                    SD_SAMPLE, SpectralShape(400, 700, 20), "Interpolate"
-                ),
+                reshape_sd(SD_SAMPLE, SpectralShape(400, 700, 20), "Interpolate"),
                 cmfs,
                 SDS_ILLUMINANTS["A"],
             ),
@@ -940,9 +926,7 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
 
         np.testing.assert_allclose(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
-                reshape_sd(
-                    SD_SAMPLE, SpectralShape(400, 700, 20), "Interpolate"
-                ),
+                reshape_sd(SD_SAMPLE, SpectralShape(400, 700, 20), "Interpolate"),
                 cmfs,
                 SDS_ILLUMINANTS["A"],
                 k=1,
@@ -1533,9 +1517,12 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
         for method in methods[0:3]:
             XYZ = method(sd, k=k)
             XYZ = XYZ.reshape(3) if len(XYZ.shape) > 1 else XYZ
-            np.testing.assert_allclose(XYZ[1], k, atol=5e-5), (
-                "1 watt @ 555nm should be approximately 683 candela."
-                f" Failed method: {method}"
+            (
+                np.testing.assert_allclose(XYZ[1], k, atol=5e-5),
+                (
+                    "1 watt @ 555nm should be approximately 683 candela."
+                    f" Failed method: {method}"
+                ),
             )
 
         # Test multi-spectral distributions integration methods.
@@ -1544,9 +1531,12 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
             XYZ: np.ndarray = method(msds, k=k)
             if len(XYZ.shape) > 1:
                 XYZ = XYZ.reshape(3)
-            np.testing.assert_allclose(XYZ[1], k, atol=5e-5), (
-                "1 watt @ 555nm should be approximately 683 candela."
-                f" Failed method: {method}"
+            (
+                np.testing.assert_allclose(XYZ[1], k, atol=5e-5),
+                (
+                    "1 watt @ 555nm should be approximately 683 candela."
+                    f" Failed method: {method}"
+                ),
             )
 
     def test_absolute_integration_to_TVS_5nm(self):
@@ -1556,9 +1546,7 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
         accounts for the :math:`\\delta w` term.
         """
 
-        sd = sd_zeros(
-            SpectralShape(380, 780, 5), interpolator=SpragueInterpolator
-        )
+        sd = sd_zeros(SpectralShape(380, 780, 5), interpolator=SpragueInterpolator)
 
         # 1 watt at 555nm, 0 watt everywhere else.
         # For 5nm average sampling, this corresponds to 0.2 watt at 555nm.
@@ -1578,9 +1566,12 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
         for method in methods[0:3]:
             XYZ: np.ndarray = method(sd, k=k)
             XYZ = XYZ.reshape(3) if len(XYZ.shape) > 1 else XYZ
-            np.testing.assert_allclose(XYZ[1], k, atol=5e-2), (
-                "1 watt @ 555nm should be approximately 683 candela. "
-                f"Failed method: {method}"
+            (
+                np.testing.assert_allclose(XYZ[1], k, atol=5e-2),
+                (
+                    "1 watt @ 555nm should be approximately 683 candela. "
+                    f"Failed method: {method}"
+                ),
             )
 
         # Test multi-spectral distributions integration methods.
@@ -1589,9 +1580,12 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
             XYZ: np.ndarray = method(msds, k=k)
             if len(XYZ.shape) > 1:
                 XYZ = XYZ.reshape(3)
-            np.testing.assert_allclose(XYZ[1], k, atol=5e-2), (
-                "1 watt @ 555nm should be approximately 683 candela."
-                f"Failed method: {method}"
+            (
+                np.testing.assert_allclose(XYZ[1], k, atol=5e-2),
+                (
+                    "1 watt @ 555nm should be approximately 683 candela."
+                    f"Failed method: {method}"
+                ),
             )
 
 
@@ -1608,25 +1602,19 @@ class TestWavelength_to_XYZ(unittest.TestCase):
         """
 
         np.testing.assert_allclose(
-            wavelength_to_XYZ(
-                480, MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
-            ),
+            wavelength_to_XYZ(480, MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]),
             np.array([0.09564, 0.13902, 0.81295]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            wavelength_to_XYZ(
-                480, MSDS_CMFS["CIE 2015 2 Degree Standard Observer"]
-            ),
+            wavelength_to_XYZ(480, MSDS_CMFS["CIE 2015 2 Degree Standard Observer"]),
             np.array([0.08182895, 0.17880480, 0.75523790]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            wavelength_to_XYZ(
-                641.5, MSDS_CMFS["CIE 2015 2 Degree Standard Observer"]
-            ),
+            wavelength_to_XYZ(641.5, MSDS_CMFS["CIE 2015 2 Degree Standard Observer"]),
             np.array([0.44575583, 0.18184213, 0.00000000]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

@@ -210,9 +210,7 @@ class TestMixinJiang2013:
         )
 
 
-class TestRGB_to_sd_camera_sensitivity_Jiang2013(
-    unittest.TestCase, TestMixinJiang2013
-):
+class TestRGB_to_sd_camera_sensitivity_Jiang2013(unittest.TestCase, TestMixinJiang2013):
     """
     Define :func:`colour.recovery.jiang2013.RGB_to_sd_camera_sensitivity_Jiang2013`
     definition unit tests methods.

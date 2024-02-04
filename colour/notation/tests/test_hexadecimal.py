@@ -144,15 +144,11 @@ class TestHEX_to_RGB(unittest.TestCase):
 
         HEX = np.tile(HEX, 6)
         RGB = np.tile(RGB, (6, 1))
-        np.testing.assert_allclose(
-            HEX_to_RGB(HEX), RGB, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(HEX_to_RGB(HEX), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         HEX = np.reshape(HEX, (2, 3))
         RGB = np.reshape(RGB, (2, 3, 3))
-        np.testing.assert_allclose(
-            HEX_to_RGB(HEX), RGB, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(HEX_to_RGB(HEX), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_HEX_to_RGB(self):
         """

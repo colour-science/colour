@@ -51,9 +51,9 @@ __all__ = [
 
 def XYZ_to_Lab(
     XYZ: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS[
-        "CIE 1931 2 Degree Standard Observer"
-    ]["D65"],
+    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
 ) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *CIE L\\*a\\*b\\**
@@ -122,9 +122,9 @@ def XYZ_to_Lab(
 
 def Lab_to_XYZ(
     Lab: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS[
-        "CIE 1931 2 Degree Standard Observer"
-    ]["D65"],
+    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
 ) -> NDArrayFloat:
     """
     Convert from *CIE L\\*a\\*b\\** colourspace to *CIE XYZ* tristimulus

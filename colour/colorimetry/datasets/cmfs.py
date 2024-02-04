@@ -3216,9 +3216,7 @@ MSDS_CMFS_STANDARD_OBSERVER: LazyCanonicalMapping = LazyCanonicalMapping(
         ),
         "CIE 1964 10 Degree Standard Observer": partial(
             XYZ_ColourMatchingFunctions,
-            DATA_CMFS_STANDARD_OBSERVER[
-                "CIE 1964 10 Degree Standard Observer"
-            ],
+            DATA_CMFS_STANDARD_OBSERVER["CIE 1964 10 Degree Standard Observer"],
             name="CIE 1964 10 Degree Standard Observer",
             display_name="CIE 1964 10$^\\circ$ Standard Observer",
         ),
@@ -3230,9 +3228,7 @@ MSDS_CMFS_STANDARD_OBSERVER: LazyCanonicalMapping = LazyCanonicalMapping(
         ),
         "CIE 2015 10 Degree Standard Observer": partial(
             XYZ_ColourMatchingFunctions,
-            DATA_CMFS_STANDARD_OBSERVER[
-                "CIE 2015 10 Degree Standard Observer"
-            ],
+            DATA_CMFS_STANDARD_OBSERVER["CIE 2015 10 Degree Standard Observer"],
             name="CIE 2015 10 Degree Standard Observer",
             display_name="CIE 2015 10$^\\circ$ Standard Observer",
         ),

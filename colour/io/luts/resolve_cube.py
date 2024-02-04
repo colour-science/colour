@@ -298,7 +298,6 @@ def write_LUT_ResolveCube(
     ...     H[H > 1] -= 1
     ...     H[H < 0] += 1
     ...     return HSV_to_RGB([H, S, V])
-    ...
     >>> domain = np.array([[-0.1, -0.1, -0.1], [3.0, 3.0, 3.0]])
     >>> shaper = LUT3x1D(
     ...     spow(LUT3x1D.linear_table(10, domain), 1 / 2.2),
@@ -353,15 +352,10 @@ def write_LUT_ResolveCube(
         raise TypeError("LUT must be 1D, 3x1D, 3D, 1D + 3D or 3x1D + 3D!")
 
     for i in range(2):
-        attest(
-            not LUT[i].is_domain_explicit(), '"LUT" domain must be implicit!'
-        )
+        attest(not LUT[i].is_domain_explicit(), '"LUT" domain must be implicit!')
 
     attest(
-        (
-            len(np.unique(LUT[0].domain)) == 2
-            and len(np.unique(LUT[1].domain)) == 2
-        ),
+        (len(np.unique(LUT[0].domain)) == 2 and len(np.unique(LUT[1].domain)) == 2),
         '"LUT" domain must be 1D!',
     )
 
@@ -371,9 +365,7 @@ def write_LUT_ResolveCube(
             "Shaper size must be in domain [2, 65536]!",
         )
     if has_3D:
-        attest(
-            2 <= LUT[1].size <= 256, "Cube size must be in domain [2, 256]!"
-        )
+        attest(2 <= LUT[1].size <= 256, "Cube size must be in domain [2, 256]!")
 
     with open(path, "w") as cube_file:
         cube_file.write(f'TITLE "{name}"\n')
