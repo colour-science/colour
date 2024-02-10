@@ -86,7 +86,7 @@ def uv_to_CCT_Krystek1985(
 
     uv = as_float_array(uv)
     shape = uv.shape
-    uv = np.atleast_1d(uv.reshape([-1, 2]))
+    uv = np.atleast_1d(np.reshape(uv, (-1, 2)))
 
     def objective_function(CCT: NDArrayFloat, uv: NDArrayFloat) -> NDArrayFloat:
         """Objective function."""

@@ -722,18 +722,24 @@ DATA_COLORCHECKERSG_BEFORE_NOV2014_CIE_LAB: dict = dict(
     )
 )
 
-_DATA_COLORCHECKERSG_BEFORE_NOV2014 = np.transpose(
-    np.array(
-        list(
-            zip(
-                SAMPLE_LABELS_COLORCHECKER_SG,
-                DATA_COLORCHECKERSG_BEFORE_NOV2014_CIE_LAB.values(),
-            )
+_DATA_COLORCHECKERSG_BEFORE_NOV2014 = np.reshape(
+    np.transpose(
+        np.reshape(
+            np.array(
+                list(
+                    zip(
+                        SAMPLE_LABELS_COLORCHECKER_SG,
+                        DATA_COLORCHECKERSG_BEFORE_NOV2014_CIE_LAB.values(),
+                    )
+                ),
+                dtype=object,
+            ),
+            (14, 10, 2),
         ),
-        dtype=object,
-    ).reshape([14, 10, 2]),
-    [1, 0, 2],
-).reshape([-1, 2])
+        [1, 0, 2],
+    ),
+    (-1, 2),
+)
 
 DATA_COLORCHECKERSG_BEFORE_NOV2014: dict = dict(
     zip(
@@ -913,18 +919,24 @@ DATA_COLORCHECKERSG_AFTER_NOV2014_CIE_LAB: dict = dict(
     )
 )
 
-_DATA_COLORCHECKERSG_AFTER_NOV2014 = np.transpose(
-    np.array(
-        list(
-            zip(
-                SAMPLE_LABELS_COLORCHECKER_SG,
-                DATA_COLORCHECKERSG_AFTER_NOV2014_CIE_LAB.values(),
-            )
+_DATA_COLORCHECKERSG_AFTER_NOV2014 = np.reshape(
+    np.transpose(
+        np.reshape(
+            np.array(
+                list(
+                    zip(
+                        SAMPLE_LABELS_COLORCHECKER_SG,
+                        DATA_COLORCHECKERSG_AFTER_NOV2014_CIE_LAB.values(),
+                    )
+                ),
+                dtype=object,
+            ),
+            (14, 10, 2),
         ),
-        dtype=object,
-    ).reshape([14, 10, 2]),
-    [1, 0, 2],
-).reshape([-1, 2])
+        [1, 0, 2],
+    ),
+    (-1, 2),
+)
 
 DATA_COLORCHECKERSG_AFTER_NOV2014: dict = dict(
     zip(

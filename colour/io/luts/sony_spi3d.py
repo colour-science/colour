@@ -126,14 +126,16 @@ def read_LUT_SonySPI3D(path: str | Path) -> LUT3D:
     attest(
         np.array_equal(
             indexes[sorting_indexes],
-            as_int_array(np.around(LUT3D.linear_table(size) * (size - 1))).reshape(
-                (-1, 3)
+            np.reshape(
+                as_int_array(np.around(LUT3D.linear_table(size) * (size - 1))), (-1, 3)
             ),
         ),
         'Indexes do not match expected "LUT3D" indexes!',
     )
 
-    table = as_float_array(data_table)[sorting_indexes].reshape([size, size, size, 3])
+    table = np.reshape(
+        as_float_array(data_table)[sorting_indexes], (size, size, size, 3)
+    )
 
     return LUT3D(table, title, np.vstack([domain_min, domain_max]), comments=comments)
 
@@ -212,10 +214,11 @@ def write_LUT_SonySPI3D(
 
         spi3d_file.write(f"{LUTxD.size} {LUTxD.size} {LUTxD.size}\n")
 
-        indexes = as_int_array(
-            np.around(LUTxD.linear_table(LUTxD.size) * (LUTxD.size - 1))
-        ).reshape([-1, 3])
-        table = LUTxD.table.reshape([-1, 3])
+        indexes = np.reshape(
+            as_int_array(np.around(LUTxD.linear_table(LUTxD.size) * (LUTxD.size - 1))),
+            (-1, 3),
+        )
+        table = np.reshape(LUTxD.table, (-1, 3))
 
         for i, array in enumerate(indexes):
             spi3d_file.write("{:d} {:d} {:d}".format(*array))

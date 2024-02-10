@@ -867,7 +867,7 @@ class MultiSignals(AbstractContinuousFunction):
          [   7.     80.     90.    100.  ]
          [   8.     90.    100.    110.  ]
          [   9.    100.    110.    120.  ]]
-        >>> y = np.arange(1, 10, 1).reshape(3, 3)
+        >>> y = np.reshape(np.arange(1, 10, 1), (3, 3))
         >>> multi_signals[np.array([0, 1, 2])] = y
         >>> print(multi_signals)
         [[   0.      1.      2.      3.  ]
@@ -1131,7 +1131,7 @@ class MultiSignals(AbstractContinuousFunction):
          [   8.  200.  220.  240.]
          [   9.  220.  240.  260.]]
 
-        >>> a = np.arange(0, 30, 1).reshape([10, 3])
+        >>> a = np.reshape(np.arange(0, 30, 1), (10, 3))
         >>> print(multi_signals_1.arithmetical_operation(a, "+", True))
         [[   0.   40.   61.   82.]
          [   1.   63.   84.  105.]

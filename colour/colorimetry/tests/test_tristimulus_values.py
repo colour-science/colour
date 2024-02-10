@@ -1516,7 +1516,7 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
         # Test single spectral distribution integration methods.
         for method in methods[0:3]:
             XYZ = method(sd, k=k)
-            XYZ = XYZ.reshape(3) if len(XYZ.shape) > 1 else XYZ
+            XYZ = np.reshape(XYZ, 3) if len(XYZ.shape) > 1 else XYZ
             (
                 np.testing.assert_allclose(XYZ[1], k, atol=5e-5),
                 (
@@ -1530,7 +1530,7 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
         for method in methods[3:6]:
             XYZ: np.ndarray = method(msds, k=k)
             if len(XYZ.shape) > 1:
-                XYZ = XYZ.reshape(3)
+                XYZ = np.reshape(XYZ, 3)
             (
                 np.testing.assert_allclose(XYZ[1], k, atol=5e-5),
                 (
@@ -1565,7 +1565,7 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
         # Test single spectral distribution integration methods.
         for method in methods[0:3]:
             XYZ: np.ndarray = method(sd, k=k)
-            XYZ = XYZ.reshape(3) if len(XYZ.shape) > 1 else XYZ
+            XYZ = np.reshape(XYZ, 3) if len(XYZ.shape) > 1 else XYZ
             (
                 np.testing.assert_allclose(XYZ[1], k, atol=5e-2),
                 (
@@ -1579,7 +1579,7 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
         for method in methods[3:6]:
             XYZ: np.ndarray = method(msds, k=k)
             if len(XYZ.shape) > 1:
-                XYZ = XYZ.reshape(3)
+                XYZ = np.reshape(XYZ, 3)
             (
                 np.testing.assert_allclose(XYZ[1], k, atol=5e-2),
                 (

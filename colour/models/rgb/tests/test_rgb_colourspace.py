@@ -476,7 +476,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
-        M = np.vstack([cases[0, ...], cases[0, ...], cases[0, ...]]).reshape([3, 3])
+        M = np.reshape(np.vstack([cases[0, ...], cases[0, ...], cases[0, ...]]), (3, 3))
         XYZ_to_RGB(cases, cases[..., 0:2], cases[..., 0:2], M)
 
 
@@ -677,7 +677,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
-        M = np.vstack([cases[0, ...], cases[0, ...], cases[0, ...]]).reshape([3, 3])
+        M = np.reshape(np.vstack([cases[0, ...], cases[0, ...], cases[0, ...]]), (3, 3))
         RGB_to_XYZ(cases, cases[..., 0:2], cases[..., 0:2], M)
 
 

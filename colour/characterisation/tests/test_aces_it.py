@@ -911,18 +911,18 @@ whitepoint_preserving_matrix` definition.
         """
 
         np.testing.assert_array_equal(
-            whitepoint_preserving_matrix(np.arange(9).reshape([3, 3])),
+            whitepoint_preserving_matrix(np.reshape(np.arange(9), (3, 3))),
             np.array([[0, 1, 0], [3, 4, -6], [6, 7, -12]]),
         )
 
         np.testing.assert_array_equal(
-            whitepoint_preserving_matrix(np.arange(12).reshape([3, 4])),
+            whitepoint_preserving_matrix(np.reshape(np.arange(12), (3, 4))),
             np.array([[0, 1, 2, -2], [4, 5, 6, -14], [8, 9, 10, -26]]),
         )
 
         np.testing.assert_array_equal(
             whitepoint_preserving_matrix(
-                np.arange(9).reshape([3, 3]), np.array([1, 2, 3])
+                np.reshape(np.arange(9), (3, 3)), np.array([1, 2, 3])
             ),
             np.array([[0, 1, 0], [3, 4, -5], [6, 7, -10]]),
         )

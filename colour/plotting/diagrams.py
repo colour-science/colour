@@ -329,9 +329,9 @@ def lines_spectral_locus(
         normal_l.append([normal, normal])
         colour_l.append([ij_l, ij_l])
 
-    ij_w = as_float_array(ij_n).reshape([-1, 2])
-    normal_w = as_float_array(normal_l).reshape([-1, 2])
-    colours_w = as_float_array(colour_l).reshape([-1, 2])
+    ij_w = np.reshape(as_float_array(ij_n), (-1, 2))
+    normal_w = np.reshape(as_float_array(normal_l), (-1, 2))
+    colours_w = np.reshape(as_float_array(colour_l), (-1, 2))
 
     colour_w = normalise_maximum(
         XYZ_to_plotting_colourspace(
@@ -433,10 +433,13 @@ def plot_spectral_locus(
 
     axes.add_collection(
         LineCollection(
-            np.concatenate(
-                [lines_sl["position"][:-1], lines_sl["position"][1:]],
-                axis=1,  # pyright: ignore
-            ).reshape([-1, 2, 2]),
+            np.reshape(
+                np.concatenate(
+                    [lines_sl["position"][:-1], lines_sl["position"][1:]],
+                    axis=1,  # pyright: ignore
+                ),
+                (-1, 2, 2),
+            ),
             colors=(lines_sl["colour"] if use_RGB_colours else spectral_locus_colours),
             alpha=spectral_locus_opacity,
             zorder=CONSTANTS_COLOUR_STYLE.zorder.background_line,
@@ -444,7 +447,7 @@ def plot_spectral_locus(
     )
     axes.add_collection(
         LineCollection(
-            lines_w["position"].reshape([-1, 2, 2]),  # pyright: ignore
+            np.reshape(lines_w["position"], (-1, 2, 2)),  # pyright: ignore
             colors=(
                 lines_w["colour"][::2] if use_RGB_colours else spectral_locus_colours
             ),

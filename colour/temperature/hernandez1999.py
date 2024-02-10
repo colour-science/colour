@@ -144,7 +144,7 @@ def CCT_to_xy_Hernandez1999(
 
     CCT = as_float_array(CCT)
     shape = list(CCT.shape)
-    CCT = np.atleast_1d(CCT.reshape([-1, 1]))
+    CCT = np.atleast_1d(np.reshape(CCT, (-1, 1)))
 
     def objective_function(xy: NDArrayFloat, CCT: NDArrayFloat) -> NDArrayFloat:
         """Objective function."""

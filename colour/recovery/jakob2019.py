@@ -1162,8 +1162,8 @@ class LUT3D_Jakob2019:
             self._coefficients = np.fromfile(
                 coeff_file, count=3 * (self._size**3) * 3, dtype=np.float32
             )
-            self._coefficients = self._coefficients.reshape(
-                3, self._size, self._size, self._size, 3
+            self._coefficients = np.reshape(
+                self._coefficients, (3, self._size, self._size, self._size, 3)
             )
 
         self._create_interpolator()

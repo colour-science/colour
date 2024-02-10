@@ -1316,7 +1316,9 @@ def plot_multi_colour_swatches(
     colour_swatches_converted = []
     if not isinstance(first_item(colour_swatches), ColourSwatch):
         for _i, colour_swatch in enumerate(
-            as_float_array(cast(ArrayLike, colour_swatches))[..., :3].reshape([-1, 3])
+            np.reshape(
+                as_float_array(cast(ArrayLike, colour_swatches))[..., :3], (-1, 3)
+            )
         ):
             colour_swatches_converted.append(ColourSwatch(colour_swatch))
     else:

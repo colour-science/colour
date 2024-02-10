@@ -139,8 +139,8 @@ def lines_daylight_locus(
     CCT = np.arange(start, end + 100, 10) * 1.4388 / 1.4380
     CCT = mired_to_CCT(CCT) if mireds else CCT
 
-    ij_sl = xy_to_ij(CCT_to_xy_CIE_D(CCT)).reshape([-1, 2])
-    colour_sl = CCT_to_plotting_colourspace(CCT).reshape([-1, 3])
+    ij_sl = np.reshape(xy_to_ij(CCT_to_xy_CIE_D(CCT)), (-1, 2))
+    colour_sl = np.reshape(CCT_to_plotting_colourspace(CCT), (-1, 3))
 
     lines_sl = zeros(
         ij_sl.shape[0],
@@ -219,9 +219,12 @@ def plot_daylight_locus(
     lines_sl, *_ = lines_daylight_locus(daylight_locus_mireds, method)
 
     line_collection = LineCollection(
-        np.concatenate(
-            [lines_sl["position"][:-1], lines_sl["position"][1:]], axis=1
-        ).reshape([-1, 2, 2]),  # pyright: ignore
+        np.reshape(
+            np.concatenate(
+                [lines_sl["position"][:-1], lines_sl["position"][1:]], axis=1
+            ),
+            (-1, 2, 2),
+        ),  # pyright: ignore
         colors=(
             lines_sl["colour"]
             if use_RGB_daylight_locus_colours
@@ -355,9 +358,9 @@ def lines_planckian_locus(
         normal_itl.append(np.tile(normalise_vector(ij[-1, ...] - ij[0, ...]), (20, 1)))
         colour_itl.append(CCT_D_uv_to_plotting_colourspace(CCT_D_uv))
 
-    ij_l = as_float_array(ij_itl).reshape([-1, 2])
-    normal_l = as_float_array(normal_itl).reshape([-1, 2])
-    colour_l = as_float_array(colour_itl).reshape([-1, 3])
+    ij_l = np.reshape(as_float_array(ij_itl), (-1, 2))
+    normal_l = np.reshape(as_float_array(normal_itl), (-1, 2))
+    colour_l = np.reshape(as_float_array(colour_itl), (-1, 3))
 
     lines_l = zeros(
         ij_l.shape[0],
@@ -460,9 +463,12 @@ def plot_planckian_locus(
 
     axes.add_collection(
         LineCollection(
-            np.concatenate(
-                [lines_pl["position"][:-1], lines_pl["position"][1:]], axis=1
-            ).reshape([-1, 2, 2]),  # pyright: ignore
+            np.reshape(
+                np.concatenate(
+                    [lines_pl["position"][:-1], lines_pl["position"][1:]], axis=1
+                ),
+                (-1, 2, 2),
+            ),  # pyright: ignore
             colors=(
                 lines_pl["colour"]
                 if use_RGB_planckian_locus_colours
@@ -473,15 +479,18 @@ def plot_planckian_locus(
         )
     )
 
-    lines_itl = lines_l["position"].reshape([len(labels), 20, 2])
-    colours_itl = lines_l["colour"].reshape([len(labels), 20, 3])
+    lines_itl = np.reshape(lines_l["position"], (len(labels), 20, 2))
+    colours_itl = np.reshape(lines_l["colour"], (len(labels), 20, 3))
     for i, label in enumerate(labels):
         axes.add_collection(
             LineCollection(
-                np.concatenate(
-                    [lines_itl[i][:-1], lines_itl[i][1:]],  # pyright: ignore
-                    axis=1,
-                ).reshape([-1, 2, 2]),
+                np.reshape(
+                    np.concatenate(
+                        [lines_itl[i][:-1], lines_itl[i][1:]],  # pyright: ignore
+                        axis=1,
+                    ),
+                    (-1, 2, 2),
+                ),
                 colors=(
                     colours_itl[i]
                     if use_RGB_planckian_locus_colours

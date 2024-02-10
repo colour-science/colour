@@ -56,7 +56,7 @@ class TestLUTOperatorMatrix(unittest.TestCase):
         """Initialise the common tests attributes."""
 
         self._lut_operator_matrix = LUTOperatorMatrix(
-            np.linspace(0, 1, 16).reshape([4, 4]),
+            np.reshape(np.linspace(0, 1, 16), (4, 4)),
             offset=np.array([0.25, 0.5, 0.75, 1.0]),
             name="Nemo Matrix",
             comments=["A first comment.", "A second comment."],
@@ -148,7 +148,7 @@ LUTOperatorMatrix([[ 0.        ,  0.06666667,  0.13333333,  0.2       ],
         """Test :class:`colour.io.luts.operator.LUTOperatorMatrix.__eq__` method."""
 
         matrix = LUTOperatorMatrix(
-            np.linspace(0, 1, 16).reshape([4, 4]),
+            np.reshape(np.linspace(0, 1, 16), (4, 4)),
             np.array([0.25, 0.5, 0.75, 1.0]),
         )
 
@@ -160,7 +160,7 @@ LUTOperatorMatrix([[ 0.        ,  0.06666667,  0.13333333,  0.2       ],
         method.
         """
 
-        matrix = LUTOperatorMatrix(np.linspace(0, 1, 16).reshape([4, 4]) * 0.75)
+        matrix = LUTOperatorMatrix(np.reshape(np.linspace(0, 1, 16), (4, 4)) * 0.75)
 
         self.assertNotEqual(self._lut_operator_matrix, matrix)
 

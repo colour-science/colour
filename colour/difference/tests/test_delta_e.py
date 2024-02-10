@@ -58,8 +58,8 @@ class TestDelta_E_CIE1976(unittest.TestCase):
 
         Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
         Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
-        Lab_1 = np.tile(Lab_1, (6, 1)).reshape([2, 3, 3])
-        Lab_2 = np.tile(Lab_2, (6, 1)).reshape([2, 3, 3])
+        Lab_1 = np.reshape(np.tile(Lab_1, (6, 1)), (2, 3, 3))
+        Lab_2 = np.reshape(np.tile(Lab_2, (6, 1)), (2, 3, 3))
 
         np.testing.assert_allclose(
             delta_E_CIE1976(Lab_1, Lab_2),
