@@ -143,7 +143,7 @@ def colour_fidelity_index_ANSIIESTM3018(
     # Setup bins based on where the reference a'b' points are located.
     bins = as_int_array(np.floor(specification.colorimetry_data[1].JMh[:, 2] / 22.5))
 
-    bin_mask = bins == np.arange(16).reshape([-1, 1])
+    bin_mask = bins == np.reshape(np.arange(16), (-1, 1))
 
     # "bin_mask" is used later with Numpy broadcasting and "np.nanmean"
     # to skip a list comprehension and keep all the mean calculation vectorised
@@ -162,15 +162,15 @@ def colour_fidelity_index_ANSIIESTM3018(
     # axis argument.
     averages_test = np.transpose(
         np.nanmean(
-            np.transpose(bin_mask).reshape((99, 1, 16))
-            * test_apbp.reshape((*ref_apbp.shape, 1)),
+            np.reshape(np.transpose(bin_mask), (99, 1, 16))
+            * np.reshape(test_apbp, (*ref_apbp.shape, 1)),
             axis=0,
         )
     )
     averages_reference = np.transpose(
         np.nanmean(
-            np.transpose(bin_mask).reshape((99, 1, 16))
-            * ref_apbp.reshape((*ref_apbp.shape, 1)),
+            np.reshape(np.transpose(bin_mask), (99, 1, 16))
+            * np.reshape(ref_apbp, (*ref_apbp.shape, 1)),
             axis=0,
         )
     )
@@ -180,7 +180,7 @@ def colour_fidelity_index_ANSIIESTM3018(
 
     # Local colour fidelity indexes, i.e. 16 CFIs for each bin.
     bin_delta_E_s = np.nanmean(
-        specification.delta_E_s.reshape([1, -1]) * bin_mask, axis=1
+        np.reshape(specification.delta_E_s, (1, -1)) * bin_mask, axis=1
     )
     R_fs = as_float_array(delta_E_to_R_f(bin_delta_E_s))
 

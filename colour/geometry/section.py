@@ -103,7 +103,7 @@ def edges_to_chord(edges: ArrayLike, index: int = 0) -> NDArrayFloat:
             edges_ordered.append(edge_list.pop(d_1_argmin))
             segment = np.array(edges_ordered[-1][0])
 
-    return as_float_array(edges_ordered).reshape([-1, segment.shape[-1]])
+    return np.reshape(as_float_array(edges_ordered), (-1, segment.shape[-1]))
 
 
 def close_chord(vertices: ArrayLike) -> NDArrayFloat:

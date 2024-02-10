@@ -461,8 +461,9 @@ def tcs_colorimetry_data(
     surround = VIEWING_CONDITIONS_CIECAM02["Average"]
 
     sds_tcs_t = np.tile(np.transpose(sds_tcs.values), (len(sd_irradiance), 1, 1))
-    sds_tcs_t = sds_tcs_t * as_float_array([sd.values for sd in sd_irradiance]).reshape(
-        len(sd_irradiance), 1, len(sd_irradiance[0])
+    sds_tcs_t = sds_tcs_t * np.reshape(
+        as_float_array([sd.values for sd in sd_irradiance]),
+        (len(sd_irradiance), 1, len(sd_irradiance[0])),
     )
 
     XYZ = msds_to_XYZ(
@@ -473,7 +474,7 @@ def tcs_colorimetry_data(
     )
     specification = XYZ_to_CIECAM02(
         XYZ,
-        XYZ_w.reshape((len(sd_irradiance), 1, 3)),
+        np.reshape(XYZ_w, (len(sd_irradiance), 1, 3)),
         L_A,
         Y_b,
         surround,

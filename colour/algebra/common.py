@@ -864,9 +864,9 @@ def is_identity(a: ArrayLike) -> bool:
 
     Examples
     --------
-    >>> is_identity(np.array([1, 0, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3))
+    >>> is_identity(np.reshape(np.array([1, 0, 0, 0, 1, 0, 0, 0, 1]), (3, 3)))
     True
-    >>> is_identity(np.array([1, 2, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3))
+    >>> is_identity(np.reshape(np.array([1, 2, 0, 0, 1, 0, 0, 0, 1]), (3, 3)))
     False
     """
 

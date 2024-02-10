@@ -203,7 +203,7 @@ def OSA_UCS_to_XYZ(
 
     Ljg = to_domain_100(Ljg)
     shape = Ljg.shape
-    Ljg = np.atleast_1d(Ljg.reshape([-1, 3]))
+    Ljg = np.atleast_1d(np.reshape(Ljg, (-1, 3)))
 
     optimisation_settings = {"disp": False}
     if optimisation_kwargs is not None:

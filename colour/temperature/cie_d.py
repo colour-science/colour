@@ -82,7 +82,7 @@ def xy_to_CCT_CIE_D(
 
     xy = as_float_array(xy)
     shape = xy.shape
-    xy = np.atleast_1d(xy.reshape([-1, 2]))
+    xy = np.atleast_1d(np.reshape(xy, (-1, 2)))
 
     def objective_function(CCT: NDArrayFloat, xy: NDArrayFloat) -> NDArrayFloat:
         """Objective function."""

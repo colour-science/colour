@@ -408,10 +408,13 @@ def plot_pointer_gamut(
 
     axes.add_collection(
         LineCollection(
-            np.concatenate(
-                [lines_b["position"][:-1], lines_b["position"][1:]],
-                axis=1,  # pyright: ignore
-            ).reshape([-1, 2, 2]),
+            np.reshape(
+                np.concatenate(
+                    [lines_b["position"][:-1], lines_b["position"][1:]],
+                    axis=1,  # pyright: ignore
+                ),
+                (-1, 2, 2),
+            ),
             colors=(lines_b["colour"] if use_RGB_colours else pointer_gamut_colours),
             alpha=pointer_gamut_opacity,
             zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,

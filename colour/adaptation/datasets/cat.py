@@ -101,7 +101,7 @@ __all__ = [
     "CHROMATIC_ADAPTATION_TRANSFORMS",
 ]
 
-CAT_XYZ_SCALING: NDArrayFloat = np.array(np.identity(3)).reshape([3, 3])
+CAT_XYZ_SCALING: NDArrayFloat = np.reshape(np.array(np.identity(3)), (3, 3))
 """
 *XYZ Scaling* chromatic adaptation transform.
 

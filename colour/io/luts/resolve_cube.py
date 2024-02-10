@@ -208,8 +208,8 @@ def read_LUT_ResolveCube(path: str | Path) -> LUT3x1D | LUT3D | LUTSequence:
         # The lines of table data shall be in ascending index order,
         # with the first component index (Red) changing most rapidly,
         # and the last component index (Blue) changing least rapidly.
-        table_3D = table[int(size_3x1D) :].reshape(
-            (size_3D, size_3D, size_3D, 3), order="F"
+        table_3D = np.reshape(
+            table[int(size_3x1D) :], (size_3D, size_3D, size_3D, 3), order="F"
         )
         LUT = LUTSequence(
             LUT3x1D(
@@ -230,7 +230,7 @@ def read_LUT_ResolveCube(path: str | Path) -> LUT3x1D | LUT3D | LUTSequence:
         # The lines of table data shall be in ascending index order,
         # with the first component index (Red) changing most rapidly,
         # and the last component index (Blue) changing least rapidly.
-        table = table.reshape([size_3D, size_3D, size_3D, 3], order="F")
+        table = np.reshape(table, (size_3D, size_3D, size_3D, 3), order="F")
         LUT = LUT3D(table, title, domain_3D, comments=comments)
 
     return LUT
@@ -403,7 +403,7 @@ def write_LUT_ResolveCube(
             cube_file.write("\n")
 
         if has_3D:
-            table = LUT[1].table.reshape([-1, 3], order="F")
+            table = np.reshape(LUT[1].table, (-1, 3), order="F")
             for vector in table:
                 cube_file.write(f"{format_array_as_row(vector, decimals)}\n")
 

@@ -1955,8 +1955,9 @@ class LUT3D(AbstractLUT):
             ]
 
         table = np.flip(
-            np.transpose(np.meshgrid(*samples, indexing="ij")).reshape(
-                np.hstack([np.flip(size_array, -1), 3])
+            np.reshape(
+                np.transpose(np.meshgrid(*samples, indexing="ij")),
+                np.hstack([np.flip(size_array, -1), 3]),
             ),
             -1,
         )
@@ -2053,12 +2054,13 @@ class LUT3D(AbstractLUT):
         LUT_q = LUT3D(size=target_size, domain=LUT.domain)
         query = tree.query(table, query_size)[-1]
         if query_size == 1:
-            LUT_q.table = table[query].reshape(
-                [target_size, target_size, target_size, 3]
+            LUT_q.table = np.reshape(
+                table[query], (target_size, target_size, target_size, 3)
             )
         else:
-            LUT_q.table = np.mean(table[query], axis=-2).reshape(
-                [target_size, target_size, target_size, 3]
+            LUT_q.table = np.reshape(
+                np.mean(table[query], axis=-2),
+                (target_size, target_size, target_size, 3),
             )
 
         LUT_q.name = f"{self.name} - Inverse"

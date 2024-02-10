@@ -1131,7 +1131,7 @@ class SpragueInterpolator:
             (
                 np.dot(
                     self.SPRAGUE_C_COEFFICIENTS[0],
-                    np.array(value[0:6]).reshape([6, 1]),
+                    np.reshape(np.array(value[0:6]), (6, 1)),
                 )
             )
             / 209
@@ -1140,7 +1140,7 @@ class SpragueInterpolator:
             (
                 np.dot(
                     self.SPRAGUE_C_COEFFICIENTS[1],
-                    np.array(value[0:6]).reshape([6, 1]),
+                    np.reshape(np.array(value[0:6]), (6, 1)),
                 )
             )
             / 209
@@ -1149,7 +1149,7 @@ class SpragueInterpolator:
             (
                 np.dot(
                     self.SPRAGUE_C_COEFFICIENTS[2],
-                    np.array(value[-6:]).reshape([6, 1]),
+                    np.reshape(np.array(value[-6:]), (6, 1)),
                 )
             )
             / 209
@@ -1158,7 +1158,7 @@ class SpragueInterpolator:
             (
                 np.dot(
                     self.SPRAGUE_C_COEFFICIENTS[3],
-                    np.array(value[-6:]).reshape([6, 1]),
+                    np.reshape(np.array(value[-6:]), (6, 1)),
                 )
             )
             / 209

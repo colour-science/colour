@@ -980,15 +980,18 @@ class TestLUT3D(AbstractLUTTest):
         self._domain_4 = self._domain_3
         self._table_1 = as_float_array(
             np.flip(
-                np.transpose(
-                    np.meshgrid(
-                        *[
-                            np.linspace(axes[0], axes[1], 33)
-                            for axes in reversed(tsplit(self._domain_1))
-                        ],
-                        indexing="ij",
-                    )
-                ).reshape([33, 33, 33, 3]),
+                np.reshape(
+                    np.transpose(
+                        np.meshgrid(
+                            *[
+                                np.linspace(axes[0], axes[1], 33)
+                                for axes in reversed(tsplit(self._domain_1))
+                            ],
+                            indexing="ij",
+                        )
+                    ),
+                    (33, 33, 33, 3),
+                ),
                 -1,
             )
         )
@@ -996,15 +999,18 @@ class TestLUT3D(AbstractLUTTest):
         self._table_3 = as_float_array(
             spow(
                 np.flip(
-                    np.transpose(
-                        np.meshgrid(
-                            *[
-                                axes[: (~np.isnan(axes)).cumsum().argmax() + 1]
-                                for axes in reversed(tsplit(self._domain_3))
-                            ],
-                            indexing="ij",
-                        )
-                    ).reshape([10, 15, 20, 3]),
+                    np.reshape(
+                        np.transpose(
+                            np.meshgrid(
+                                *[
+                                    axes[: (~np.isnan(axes)).cumsum().argmax() + 1]
+                                    for axes in reversed(tsplit(self._domain_3))
+                                ],
+                                indexing="ij",
+                            )
+                        ),
+                        (10, 15, 20, 3),
+                    ),
                     -1,
                 ),
                 1 / 2.6,

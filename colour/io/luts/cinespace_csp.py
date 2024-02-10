@@ -186,7 +186,7 @@ def read_LUT_Cinespace(path: str | Path) -> LUT3x1D | LUT3D | LUTSequence:
         and pre_LUT.shape == (6, 2)
         and np.array_equal(np.transpose(np.reshape(pre_LUT, (3, 4)))[2:4], unity_range)
     ):
-        table = table.reshape([size[0], size[1], size[2], 3], order="F")
+        table = np.reshape(table, (size[0], size[1], size[2], 3), order="F")
         LUT = LUT3D(
             domain=np.transpose(np.reshape(pre_LUT, (3, 4)))[0:2],
             name=title,
@@ -200,7 +200,7 @@ def read_LUT_Cinespace(path: str | Path) -> LUT3x1D | LUT3D | LUTSequence:
         and np.array_equal(np.transpose(np.reshape(pre_LUT, (3, 4)))[2:4], unity_range)
     ):
         LUT = LUT3x1D(
-            domain=pre_LUT.reshape([3, 4]).transpose()[0:2],
+            domain=np.reshape(pre_LUT, (3, 4)).transpose()[0:2],
             name=title,
             comments=comments,
             table=table,
@@ -211,7 +211,7 @@ def read_LUT_Cinespace(path: str | Path) -> LUT3x1D | LUT3D | LUTSequence:
         pre_table = tstack((pre_LUT[1], pre_LUT[3], pre_LUT[5]))
         shaper_name = f"{title} - Shaper"
         cube_name = f"{title} - Cube"
-        table = table.reshape([size[0], size[1], size[2], 3], order="F")
+        table = np.reshape(table, (size[0], size[1], size[2], 3), order="F")
 
         LUT = LUTSequence(
             LUT3x1D(pre_table, shaper_name, pre_domain),
@@ -412,7 +412,7 @@ def write_LUT_Cinespace(
                 f"{LUT[1].table.shape[1]} "
                 f"{LUT[1].table.shape[2]}\n"
             )
-            table = LUT[1].table.reshape([-1, 3], order="F")
+            table = np.reshape(LUT[1].table, (-1, 3), order="F")
 
             for array in table:
                 csp_file.write(f"{format_array_as_row(array, decimals)}\n")

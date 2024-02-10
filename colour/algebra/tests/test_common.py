@@ -767,16 +767,16 @@ class TestIsIdentity(unittest.TestCase):
         """Test :func:`colour.algebra.common.is_identity` definition."""
 
         self.assertTrue(
-            is_identity(np.array([1, 0, 0, 0, 1, 0, 0, 0, 1]).reshape([3, 3]))
+            is_identity(np.reshape(np.array([1, 0, 0, 0, 1, 0, 0, 0, 1]), (3, 3)))
         )
 
         self.assertFalse(
-            is_identity(np.array([1, 2, 0, 0, 1, 0, 0, 0, 1]).reshape([3, 3]))
+            is_identity(np.reshape(np.array([1, 2, 0, 0, 1, 0, 0, 0, 1]), (3, 3)))
         )
 
-        self.assertTrue(is_identity(np.array([1, 0, 0, 1]).reshape([2, 2])))
+        self.assertTrue(is_identity(np.reshape(np.array([1, 0, 0, 1]), (2, 2))))
 
-        self.assertFalse(is_identity(np.array([1, 2, 0, 1]).reshape([2, 2])))
+        self.assertFalse(is_identity(np.reshape(np.array([1, 2, 0, 1]), (2, 2))))
 
 
 class TestEigenDecomposition(unittest.TestCase):

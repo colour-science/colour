@@ -51,7 +51,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
             "sRGB": 1e-4,
             "V-Gamut": 1e-6,
         }
-        XYZ_r = np.array([0.5, 0.5, 0.5]).reshape([3, 1])
+        XYZ_r = np.reshape(np.array([0.5, 0.5, 0.5]), (3, 1))
         for colourspace in RGB_COLOURSPACES.values():
             M = normalised_primary_matrix(colourspace.primaries, colourspace.whitepoint)
 

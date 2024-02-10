@@ -279,7 +279,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
         shape_t = value.shape[-1]
 
-        value = value.reshape([shape_t, shape_t])
+        value = np.reshape(value, (shape_t, shape_t))
 
         attest(
             value.shape in [(3, 3), (4, 4)],
@@ -459,7 +459,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         Examples
         --------
         >>> LUTOperatorMatrix() != LUTOperatorMatrix(
-        ...     np.linspace(0, 1, 16).reshape([4, 4])
+        ...     np.reshape(np.linspace(0, 1, 16), (4, 4))
         ... )
         True
         """

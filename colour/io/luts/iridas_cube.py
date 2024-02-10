@@ -171,7 +171,7 @@ def read_LUT_IridasCube(path: str | Path) -> LUT3x1D | LUT3D:
         # The lines of table data shall be in ascending index order,
         # with the first component index (Red) changing most rapidly,
         # and the last component index (Blue) changing least rapidly.
-        table = table.reshape([size, size, size, 3], order="F")
+        table = np.reshape(table, (size, size, size, 3), order="F")
 
         LUT = LUT3D(
             table,
@@ -287,7 +287,9 @@ def write_LUT_IridasCube(
                 f"DOMAIN_MAX {format_array_as_row(LUTxD.domain[1], decimals)}\n"
             )
 
-        table = LUTxD.table.reshape([-1, 3], order="F") if not is_3x1D else LUTxD.table
+        table = (
+            np.reshape(LUTxD.table, (-1, 3), order="F") if not is_3x1D else LUTxD.table
+        )
 
         for array in table:
             cube_file.write(f"{format_array_as_row(array, decimals)}\n")

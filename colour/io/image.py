@@ -279,7 +279,7 @@ def read_image_OpenImageIO(
     image = image_input.read_image(bit_depth_specification.openimageio)
     image_input.close()
 
-    image = np.array(image, dtype=bit_depth_specification.numpy).reshape(shape)
+    image = np.reshape(np.array(image, dtype=bit_depth_specification.numpy), shape)
     image = cast(NDArrayReal, np.squeeze(image))
 
     if attributes:

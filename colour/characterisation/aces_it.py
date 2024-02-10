@@ -726,7 +726,7 @@ def whitepoint_preserving_matrix(
 
     Examples
     --------
-    >>> M = np.arange(9).reshape([3, 3])
+    >>> M = np.reshape(np.arange(9), (3, 3))
     >>> whitepoint_preserving_matrix(M)
     array([[  0.,   1.,   0.],
            [  3.,   4.,  -6.],
