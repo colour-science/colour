@@ -33,7 +33,7 @@ jobs:
         if: matrix.os == 'ubuntu-22.04'
         run: |
           sudo apt-get update
-          sudo apt-get --yes install graphviz graphviz-dev libboost-all-dev libilmbase-dev libopenexr-dev libpng-dev libtiff5-dev
+          sudo apt-get --yes install graphviz graphviz-dev
       - name: Install Poetry
         run: |
           curl -sSL https://install.python-poetry.org | POETRY_HOME=$HOME/.poetry python3 -
