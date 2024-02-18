@@ -549,8 +549,10 @@ def plot_RGB_colourspace_section(
     axis: Literal["+z", "+x", "+y"] | str = "+z",
     origin: float = 0.5,
     normalise: bool = True,
+    size: float = 1.0,
     show_section_colours: bool = True,
     show_section_contour: bool = True,
+    segments: int = 64,
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
@@ -571,10 +573,15 @@ def plot_RGB_colourspace_section(
         Coordinate along ``axis`` at which to plot the hull section.
     normalise
         Whether to normalise ``axis`` to the extent of the hull along it.
+    size:
+        Size of the underlying *RGB* colourspace cube; used for plotting HDR
+        related sections.
     show_section_colours
         Whether to show the hull section colours.
     show_section_contour
         Whether to show the hull section contour.
+    segments
+        Edge segments count for the *RGB* colourspace cube.
 
     Other Parameters
     ----------------
@@ -617,8 +624,8 @@ def plot_RGB_colourspace_section(
         first_item(filter_RGB_colourspaces(colourspace).values()),
     )
 
-    vertices, faces, _outline = primitive_cube(1, 1, 1, 64, 64, 64)
-    XYZ_vertices = RGB_to_XYZ(vertices["position"] + 0.5, colourspace)
+    vertices, faces, _outline = primitive_cube(1, 1, 1, segments, segments, segments)
+    XYZ_vertices = RGB_to_XYZ((vertices["position"] + 0.5) * size, colourspace)
     hull = Trimesh(XYZ_vertices, faces, process=False)
 
     if show_section_colours:
