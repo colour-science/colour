@@ -1,7 +1,6 @@
 #!zsh
-git config --global --add safe.directory /workspaces/DevContainer
 
-poetry install
+cat /workspaces/colour/.devcontainer/scripts/welcome.txt        
 
 git fetch
 git status -sb -uno

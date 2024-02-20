@@ -12,4 +12,7 @@ RUN apt-get autoremove -y && \
     DEBIAN_FRONTEND=
 
 USER vscode
-RUN pipx install poetry
+RUN pipx install poetry && \
+    poetry config virtualenvs.in-project true && \
+    pip install imageio && \
+    python -c "import imageio;imageio.plugins.freeimage.download()"

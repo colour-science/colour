@@ -1,0 +1,17 @@
+Welcome to the colour-science dev-container!
+
+If this is your first time opening the container you will want to set up the
+poetry managed virtual environment by running
+
+poetry install
+
+from the project directory. Other useful commands to remember:
+
+poetry shell
+
+invoke tests        # Run tests in parallel
+
+invoke quality      # Run type checking
+
+invoke pre-commit   # Check a bunch-of stuff required by colour development 
+                    # standards

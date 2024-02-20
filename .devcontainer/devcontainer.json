@@ -2,12 +2,13 @@
   "build": {
     "dockerfile": "dockerfile"
   },
-  "postCreateCommand": "zsh /workspaces/DevContainer/.devcontainer/scripts/post-create.zsh",
-  "postStartCommand": "zsh /workspaces/DevContainer/.devcontainer/scripts/post-start.zsh",
+  "postCreateCommand": "zsh /workspaces/colour/.devcontainer/scripts/post-create.zsh",
+  "postStartCommand": "zsh /workspaces/colour/.devcontainer/scripts/post-start.zsh",
   "customizations": {
     "vscode": {
       "extensions": [
         "ms-python.python",
+        "ms-python.vscode-pylance",
         "streetsidesoftware.code-spell-checker",
         "charliermarsh.ruff",
         "njpwerner.autodocstring",
