@@ -5,9 +5,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     git git-lfs austin graphviz graphviz-dev libboost-all-dev libilmbase-dev \
-    libopenexr-dev libpng-dev libtiff5-dev
-
-RUN apt-get autoremove -y && \
+    libopenexr-dev libpng-dev libtiff5-dev && \
+    apt-get autoremove -y && \
     apt-get clean -y && \
     DEBIAN_FRONTEND=
 
