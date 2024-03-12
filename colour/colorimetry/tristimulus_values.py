@@ -570,8 +570,8 @@ def sd_to_XYZ_integration(
         be the spectral concentration of the radiometric quantity corresponding
         to the photometric quantity required.
     shape
-        Spectral shape of the spectral distribution, ``cmfs`` and
-        ``illuminant`` will be aligned to it if ``sd`` is an `ArrayLike`.
+        Spectral shape that ``sd``, ``cmfs`` and ``illuminant`` will be
+        aligned to it if passed.
 
     Returns
     -------
@@ -647,9 +647,9 @@ def sd_to_XYZ_integration(
 
     # NOTE: The "illuminant" argument is reshaped by the
     # `handle_spectral_arguments` definition, but, in this case, it is not
-    # desirable as we want to reshape it according to the final "shape" which
-    # is only available after the subsequent if/else block thus we are careful
-    # not unpacking over it.
+    # desirable as we want to reshape it according to the final "shape" which,
+    # if not directly passed, is only available after the subsequent if/else
+    # block thus we are carefully avoiding to unpack over it.
     if illuminant is None:
         cmfs, illuminant = handle_spectral_arguments(
             cmfs, illuminant, illuminant_default="E"
@@ -660,6 +660,10 @@ def sd_to_XYZ_integration(
         )
 
     if isinstance(sd, (SpectralDistribution, MultiSpectralDistributions)):
+        if shape is not None:
+            cmfs = reshape_msds(cmfs, shape, copy=False)
+            illuminant = reshape_sd(illuminant, shape, copy=False)
+
         shape = cmfs.shape
 
         if sd.shape != shape:
@@ -1146,8 +1150,9 @@ def sd_to_XYZ(
         tristimulus values will use a dedicated interpolation method instead
         of a table of tristimulus weighting factors.
     shape
-        Spectral shape of the spectral distribution, ``cmfs`` and
-        ``illuminant`` will be aligned to it if ``sd`` is an `ArrayLike`.
+        {:func:`colour.colorimetry.sd_to_XYZ_integration`},
+        Spectral shape that ``sd``, ``cmfs`` and ``illuminant`` will be
+        aligned to it if passed.
     use_practice_range
         {:func:`colour.colorimetry.sd_to_XYZ_ASTME308`},
         Practise *ASTM E308-15* working wavelengths range is [360, 780],
@@ -1309,8 +1314,8 @@ def msds_to_XYZ_integration(
         be the spectral concentration of the radiometric quantity corresponding
         to the photometric quantity required.
     shape
-        Spectral shape of the multi-spectral distributions, ``cmfs`` and
-        ``illuminant`` will be aligned to it if ``msds`` is an `ArrayLike`.
+        Spectral shape that ``sd``, ``cmfs`` and ``illuminant`` will be
+        aligned to it if passed.
 
     Returns
     -------
@@ -1812,8 +1817,8 @@ def msds_to_XYZ(
         of a table of tristimulus weighting factors.
     shape
         {:func:`colour.colorimetry.msds_to_XYZ_integration`},
-        Spectral shape of the multi-spectral distributions array :math:`msds`,
-        ``cmfs`` and ``illuminant`` will be aligned to it.
+        Spectral shape that ``sd``, ``cmfs`` and ``illuminant`` will be
+        aligned to it if passed.
     use_practice_range
         {:func:`colour.colorimetry.msds_to_XYZ_ASTME308`},
         Practise *ASTM E308-15* working wavelengths range is [360, 780],
