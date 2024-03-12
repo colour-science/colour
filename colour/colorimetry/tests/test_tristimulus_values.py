@@ -835,6 +835,17 @@ sd_to_XYZ_integration` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        np.testing.assert_allclose(
+            sd_to_XYZ_integration(
+                SD_SAMPLE,
+                cmfs,
+                SDS_ILLUMINANTS["FL2"],
+                shape=SpectralShape(400, 700, 20),
+            ),
+            np.array([11.98232967, 10.13543929, 3.66442524]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
     def test_domain_range_scale_sd_to_XYZ_integration(self):
         """
         Test :func:`colour.colorimetry.tristimulus_values.\
@@ -1365,6 +1376,18 @@ class TestSd_to_XYZ(unittest.TestCase):
         np.testing.assert_allclose(
             sd_to_XYZ(self._sd, self._cmfs, self._A),
             np.array([14.46372680, 10.85832950, 2.04663200]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            sd_to_XYZ(
+                self._sd,
+                self._cmfs,
+                self._A,
+                method="Integration",
+                shape=SpectralShape(400, 700, 20),
+            ),
+            np.array([14.52005467, 10.88000966, 2.03888717]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
