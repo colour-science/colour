@@ -685,9 +685,9 @@ Aliases:
 
 -   'vonkries': 'Von Kries'
 """
-CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS[
-    "vonkries"
-] = CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS["Von Kries"]
+CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS["vonkries"] = (
+    CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS["Von Kries"]
+)
 
 
 def corresponding_chromaticities_prediction(
