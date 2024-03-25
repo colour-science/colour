@@ -1586,9 +1586,8 @@ if is_xxhash_installed():
         import array
 
         def int_digest(
-            args: (  # noqa: ARG001
-                str | bytes | bytearray | memoryview | array.ArrayType[int]
-            ),
+            # noqa: ARG001
+            args: (str | bytes | bytearray | memoryview | array.ArrayType[int]),
             seed: int = 0,  # noqa: ARG001
         ) -> int:
             """
