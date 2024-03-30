@@ -130,8 +130,8 @@ from colour.algebra import (
 )
 from colour.colorimetry import CCS_ILLUMINANTS, luminance_ASTMD1535
 from colour.constants import (
-    FLOATING_POINT_NUMBER_PATTERN,
     INTEGER_THRESHOLD,
+    PATTERN_FLOATING_POINT_NUMBER,
     TOLERANCE_ABSOLUTE_DEFAULT,
     TOLERANCE_RELATIVE_DEFAULT,
 )
@@ -225,12 +225,12 @@ __all__ = [
     "munsell_specification_to_xy",
 ]
 
-MUNSELL_GRAY_PATTERN: str = f"N(?P<value>{FLOATING_POINT_NUMBER_PATTERN})"
+MUNSELL_GRAY_PATTERN: str = f"N(?P<value>{PATTERN_FLOATING_POINT_NUMBER})"
 MUNSELL_COLOUR_PATTERN: str = (
-    f"(?P<hue>{FLOATING_POINT_NUMBER_PATTERN})\\s*"
+    f"(?P<hue>{PATTERN_FLOATING_POINT_NUMBER})\\s*"
     f"(?P<letter>BG|GY|YR|RP|PB|B|G|Y|R|P)\\s*"
-    f"(?P<value>{FLOATING_POINT_NUMBER_PATTERN})\\s*\\/\\s*"
-    f"(?P<chroma>[-+]?{FLOATING_POINT_NUMBER_PATTERN})"
+    f"(?P<value>{PATTERN_FLOATING_POINT_NUMBER})\\s*\\/\\s*"
+    f"(?P<chroma>[-+]?{PATTERN_FLOATING_POINT_NUMBER})"
 )
 
 MUNSELL_GRAY_FORMAT: str = "N{0}"

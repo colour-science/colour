@@ -6,7 +6,7 @@ from .codata import (
     CONSTANT_PLANCK,
 )
 from .common import (
-    FLOATING_POINT_NUMBER_PATTERN,
+    PATTERN_FLOATING_POINT_NUMBER,
     INTEGER_THRESHOLD,
     EPSILON,
     DTYPE_INT_DEFAULT,
@@ -28,7 +28,7 @@ __all__ += [
     "CONSTANT_PLANCK",
 ]
 __all__ += [
-    "FLOATING_POINT_NUMBER_PATTERN",
+    "PATTERN_FLOATING_POINT_NUMBER",
     "INTEGER_THRESHOLD",
     "EPSILON",
     "DTYPE_INT_DEFAULT",
