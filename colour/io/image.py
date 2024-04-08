@@ -268,12 +268,12 @@ def read_image_OpenImageIO(
     bit_depth_specification = MAPPING_BIT_DEPTH[bit_depth]
 
     image_input = ImageInput.open(path)
-    specification = image_input.spec()
+    image_specification = image_input.spec()
 
     shape = (
-        specification.height,
-        specification.width,
-        specification.nchannels,
+        image_specification.height,
+        image_specification.width,
+        image_specification.nchannels,
     )
 
     image = image_input.read_image(bit_depth_specification.openimageio)
@@ -284,7 +284,7 @@ def read_image_OpenImageIO(
 
     if attributes:
         extra_attributes = []
-        for attribute in specification.extra_attribs:
+        for attribute in image_specification.extra_attribs:
             extra_attributes.append(
                 ImageAttribute_Specification(
                     attribute.name, attribute.value, attribute.type
@@ -557,7 +557,7 @@ def write_image_OpenImageIO(
     else:
         height, width, channels = image.shape
 
-    specification = ImageSpec(
+    image_specification = ImageSpec(
         width, height, channels, bit_depth_specification.openimageio
     )
     for attribute in attributes:
@@ -569,13 +569,13 @@ def write_image_OpenImageIO(
         )
         type_ = attribute.type_
         if attribute.type_ is None:
-            specification.attribute(name, value)
+            image_specification.attribute(name, value)
         else:
-            specification.attribute(name, type_, value)
+            image_specification.attribute(name, type_, value)
 
     image_output = ImageOutput.create(path)
 
-    image_output.open(path, specification)
+    image_output.open(path, image_specification)
     image_output.write_image(image)
 
     image_output.close()

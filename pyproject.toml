@@ -161,7 +161,8 @@ select = [
     "PGH", # pygrep-hooks
     "PL", # pylint
     # "PT", # flake8-pytest-style
-    # "PTH", # flake8-use-pathlib [Enable]    "Q",   # flake8-quotes
+    # "PTH", # flake8-use-pathlib [Enable]
+    "Q",   # flake8-quotes
     "RET", # flake8-return
     "RUF", # Ruff
     "S", # flake8-bandit

@@ -26,7 +26,7 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "FLOATING_POINT_NUMBER_PATTERN",
+    "PATTERN_FLOATING_POINT_NUMBER",
     "INTEGER_THRESHOLD",
     "EPSILON",
     "DTYPE_INT_DEFAULT",
@@ -37,8 +37,8 @@ __all__ = [
     "TOLERANCE_RELATIVE_TESTS",
 ]
 
-FLOATING_POINT_NUMBER_PATTERN: str = "[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"
-"""float point number regex matching pattern."""
+PATTERN_FLOATING_POINT_NUMBER: str = "[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"
+"""Floating point number regex matching pattern."""
 
 INTEGER_THRESHOLD: float = 1e-3
 if is_documentation_building():  # pragma: no cover
