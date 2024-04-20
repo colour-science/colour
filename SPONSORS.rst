@@ -34,9 +34,10 @@ If you'd like to join them, please consider
                     <p><a href="https://twitter.com/JRGoldstone" target="_blank">Joseph Goldstone</a></p>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/288x288/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="288px" src="https://dummyimage.com/288x288/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://colorhythm.com" target="_blank">
+                        <img width="288px" src="https://images.opencollective.com/colorhythm/9b4667d/logo/256.png">
                     </a>
+                    <p><a href="https://colorhythm.com" target="_blank">Colorhythm</a></p>
                 </td>
             </tr>
         </tbody>
