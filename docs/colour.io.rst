@@ -25,7 +25,7 @@ Image Data
 .. autosummary::
     :toctree: generated/
 
-    ImageAttribute_Specification
+    Image_Specification_Attribute
     convert_bit_depth
     read_image_OpenImageIO
     write_image_OpenImageIO
