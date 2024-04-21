@@ -12,9 +12,10 @@ import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.io import (
-    ImageAttribute_Specification,
+    Image_Specification_Attribute,
     as_3_channels_image,
     convert_bit_depth,
+    image_specification_OpenImageIO,
     read_image,
     read_image_Imageio,
     read_image_OpenImageIO,
@@ -33,15 +34,47 @@ __status__ = "Production"
 
 __all__ = [
     "ROOT_RESOURCES",
+    "TestImageSpecificationOpenImageIO",
+    "TestConvertBitDepth",
     "TestReadImageOpenImageIO",
     "TestWriteImageOpenImageIO",
     "TestReadImageImageio",
     "TestWriteImageImageio",
     "TestReadImage",
     "TestWriteImage",
+    "TestAs3ChannelsImage",
 ]
 
 ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
+
+
+class TestImageSpecificationOpenImageIO:
+    """
+    Define :func:`colour.io.image.image_specification_OpenImageIO` definition
+    unit tests methods.
+    """
+
+    def test_image_specification_OpenImageIO(self):  # pragma: no cover
+        """
+        Test :func:`colour.io.image.image_specification_OpenImageIO`
+        definition.
+        """
+
+        if not is_openimageio_installed():
+            return
+
+        from OpenImageIO import HALF
+
+        compression = Image_Specification_Attribute("Compression", "none")
+        specification = image_specification_OpenImageIO(
+            1920, 1080, 3, "float16", [compression]
+        )
+
+        assert specification.width == 1920
+        assert specification.height == 1080
+        assert specification.nchannels == 3
+        assert specification.format == HALF
+        assert specification.extra_attribs[0].name == "Compression"
 
 
 class TestConvertBitDepth:
@@ -367,11 +400,11 @@ class TestWriteImageOpenImageIO:
             0.33767,
         )
         write_attributes = [
-            ImageAttribute_Specification("acesImageContainerFlag", True),
-            ImageAttribute_Specification(
+            Image_Specification_Attribute("acesImageContainerFlag", True),
+            Image_Specification_Attribute(
                 "chromaticities", chromaticities, TypeDesc("float[8]")
             ),
-            ImageAttribute_Specification("compression", "none"),
+            Image_Specification_Attribute("compression", "none"),
         ]
         write_image_OpenImageIO(image, target_image_path, attributes=write_attributes)
         image, read_attributes = read_image_OpenImageIO(
