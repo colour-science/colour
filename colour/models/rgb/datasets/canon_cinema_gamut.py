@@ -51,7 +51,7 @@ PRIMARIES_CINEMA_GAMUT: NDArrayFloat = np.array(
 )
 """*Canon Cinema Gamut* colourspace primaries."""
 
-WHITEPOINT_NAME_CINEMA_GAMUT: str = "D65"
+WHITEPOINT_NAME_CINEMA_GAMUT: str = "D55"
 """*Canon Cinema Gamut* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_CINEMA_GAMUT: NDArrayFloat = CCS_ILLUMINANTS[
