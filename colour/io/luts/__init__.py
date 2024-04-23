@@ -22,8 +22,7 @@ from colour.utilities import (
     filter_kwargs,
     validate_method,
 )
-
-from .lut import LUT1D, LUT3x1D, LUT3D, LUT_to_LUT
+from .lut import LUT1D, LUT3x1D, LUT3D, LUT_to_LUT, Range, Matrix, Exponent, Log
 from .operator import AbstractLUTSequenceOperator, LUTOperatorMatrix
 from .sequence import LUTSequence
 from .iridas_cube import read_LUT_IridasCube, write_LUT_IridasCube
@@ -32,12 +31,17 @@ from .sony_spi1d import read_LUT_SonySPI1D, write_LUT_SonySPI1D
 from .sony_spi3d import read_LUT_SonySPI3D, write_LUT_SonySPI3D
 from .sony_spimtx import read_LUT_SonySPImtx, write_LUT_SonySPImtx
 from .cinespace_csp import read_LUT_Cinespace, write_LUT_Cinespace
+from .asc_cdl import ASC_CDL, read_LUT_cdl_xml, read_LUT_cdl_edl, read_LUT_cdl_ale
 
 __all__ = [
     "LUT1D",
     "LUT3x1D",
     "LUT3D",
     "LUT_to_LUT",
+    "Range",
+    "Matrix",
+    "Exponent",
+    "Log",
 ]
 __all__ += [
     "AbstractLUTSequenceOperator",

@@ -8,10 +8,17 @@ Defines the classes and definitions handling *LUT* processing:
 -   :class:`colour.LUT3x1D`
 -   :class:`colour.LUT3D`
 -   :class:`colour.io.LUT_to_LUT`
+-   :class:`colour.io.Range`
+-   :class:`colour.io.Matrix`
+-   :class:`colour.io.ASC_CDL`
+-   :class:`colour.io.Exponent`
+-   :class:`colour.io.Log`
 """
 
 from __future__ import annotations
 
+import abc
+import re
 from abc import ABC, abstractmethod
 from copy import deepcopy
 from operator import (
@@ -27,8 +34,25 @@ from operator import (
     truediv,
 )
 
+from algebra import vector_dot
+from models import (
+    exponent_function_basic,
+    exponent_function_monitor_curve,
+    logarithmic_function_basic,
+    logarithmic_function_camera,
+    logarithmic_function_quasilog,
+)
+
+try:
+    from collections import MutableSequence
+except ImportError:
+    from collections.abc import MutableSequence
+
+from functools import partial
+
 import numpy as np
 from scipy.spatial import KDTree
+from six import add_metaclass
 
 from colour.algebra import (
     Extrapolator,
@@ -66,7 +90,7 @@ from colour.utilities import (
     usage_warning,
     validate_method,
 )
-from colour.utilities.deprecation import ObjectRenamed
+from colour.utilities.deprecation import ObjectRenamed, handle_arguments_deprecation
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -81,6 +105,12 @@ __all__ = [
     "LUT3x1D",
     "LUT3D",
     "LUT_to_LUT",
+    "AbstractLUTSequenceOperator",
+    "LUTSequence",
+    "Range",
+    "Matrix",
+    "Exponent",
+    "Log",
 ]
 
 
@@ -306,7 +336,6 @@ class AbstractLUT(ABC):
         :class:`str`
             Formatted string representation.
         """
-
         attributes = [
             {
                 "formatter": lambda x: (  # noqa: ARG005
@@ -719,17 +748,18 @@ class AbstractLUT(ABC):
     @abstractmethod
     def invert(self, **kwargs: Any) -> AbstractLUT:
         """
-        Compute and returns an inverse copy of the *LUT*.
+            Compute and returns an inverse copy of the *LUT*.
 
-        Other Parameters
-        ----------------
-        kwargs
-            Keywords arguments.
+            Other Parameters
+            ----------------
+            kwargs
+                Keywords arguments.
 
-        Returns
-        -------
-        :class:`colour.io.luts.lut.AbstractLUT`
-            Inverse *LUT* class instance.
+            Returns
+            -------
+            :class:`colour.io.luts.lut.AbstractLUT`
+                Inverse *LUT* class instance.
+        def apply(self, RGB, interpolator, interpolator_kwargs):
         """
 
     @abstractmethod
@@ -754,7 +784,7 @@ class AbstractLUT(ABC):
             function.
         interpolator
             Interpolator class type or object to use as interpolating function.
-        interpolator_kwargs
+        interpolator_args : dict_like, optional
             Arguments to use when instantiating or calling the interpolating
             function.
 
@@ -1021,6 +1051,11 @@ class LUT1D(AbstractLUT):
         kwargs
             Keywords arguments, only given for signature compatibility with
             the :meth:`AbstractLUT.invert` method.
+
+        Other Parameters
+        ----------------
+        \\**kwargs : dict, optional
+            Keywords arguments for deprecation management.
 
         Returns
         -------
@@ -1522,6 +1557,11 @@ class LUT3x1D(AbstractLUT):
             Interpolator class type to use as interpolating function.
         interpolator_kwargs
             Arguments to use when instantiating the interpolating function.
+
+        Other Parameters
+        ----------------
+        \\**kwargs : dict, optional
+            Keywords arguments for deprecation management.
 
         Returns
         -------
@@ -2098,6 +2138,11 @@ class LUT3D(AbstractLUT):
             smoother result. If ``size`` is not given,
             :math:`2^{\\sqrt{size_{LUT}} + 1} + 1` will be used instead.
 
+        Other Parameters
+        ----------------
+        \\**kwargs : dict, optional
+            Keywords arguments for deprecation management.
+
         Returns
         -------
         :class:`numpy.ndarray`
@@ -2319,3 +2364,1000 @@ def LUT_to_LUT(
         )  # pyright: ignore
 
     return LUT
+
+
+@add_metaclass(abc.ABCMeta)
+class AbstractLUTSequenceOperator:
+    """
+    Defines the base class for *LUT* sequence operators.
+
+    This is an :class:`ABCMeta` abstract class that must be inherited by
+    sub-classes.
+
+    Methods
+    -------
+    apply
+    """
+
+    @abstractmethod
+    def apply(self, RGB, *args):
+        """
+        Applies the *LUT* sequence operator to given *RGB* colourspace array.
+
+        Parameters
+        ----------
+        RGB : array_like
+            *RGB* colourspace array to apply the *LUT* sequence operator onto.
+
+        Returns
+        -------
+        ndarray
+            Processed *RGB* colourspace array.
+        """
+
+        pass
+
+
+class LUTSequence(MutableSequence):
+    """
+    Defines the base class for a *LUT* sequence, i.e. a series of *LUTs*.
+
+    The `colour.LUTSequence` class can be used to model series of *LUTs* such
+    as when a shaper *LUT* is combined with a 3D *LUT*.
+
+    Other Parameters
+    ----------------
+    \\*args : list, optional
+        Sequence of `colour.LUT1D`, `colour.LUT3x1D`, `colour.LUT3D` or
+        `colour.io.lut.l.AbstractLUTSequenceOperator` class instances.
+
+    Attributes
+    ----------
+    sequence
+
+    Methods
+    -------
+    __getitem__
+    __setitem__
+    __delitem__
+    __len__
+    __str__
+    __repr__
+    __eq__
+    __ne__
+    insert
+    apply
+    copy
+
+    Examples
+    --------
+    >>> LUT_1 = LUT1D()
+    >>> LUT_2 = LUT3D(size=3)
+    >>> LUT_3 = LUT3x1D()
+    >>> print(LUTSequence(LUT_1, LUT_2, LUT_3))
+    LUT Sequence
+    ------------
+    <BLANKLINE>
+    Overview
+    <BLANKLINE>
+        LUT1D ---> LUT3D ---> LUT3x1D
+    <BLANKLINE>
+    Operations
+    <BLANKLINE>
+        LUT1D - Unity 10
+        ----------------
+    <BLANKLINE>
+        Dimensions : 1
+        Domain     : [ 0.  1.]
+        Size       : (10,)
+    <BLANKLINE>
+        LUT3D - Unity 3
+        ---------------
+    <BLANKLINE>
+        Dimensions : 3
+        Domain     : [[ 0.  0.  0.]
+                      [ 1.  1.  1.]]
+        Size       : (3, 3, 3, 3)
+    <BLANKLINE>
+        LUT3x1D - Unity 10
+        ------------------
+    <BLANKLINE>
+        Dimensions : 2
+        Domain     : [[ 0.  0.  0.]
+                      [ 1.  1.  1.]]
+        Size       : (10, 3)
+    """
+
+    def __init__(self, *args):
+        for arg in args:
+            assert isinstance(
+                arg, (LUT1D, LUT3x1D, LUT3D, AbstractLUTSequenceOperator)
+            ), (
+                '"args" elements must be instances of "LUT1D", '
+                '"LUT3x1D", "LUT3D" or "AbstractLUTSequenceOperator"!'
+            )
+
+        self._sequence = list(args)
+
+    @property
+    def sequence(self):
+        """
+        Getter and setter property for the underlying *LUT* sequence.
+
+        Parameters
+        ----------
+        value : list
+            Value to set the the underlying *LUT* sequence with.
+
+        Returns
+        -------
+        list
+            Underlying *LUT* sequence.
+        """
+
+        return self._sequence
+
+    @sequence.setter
+    def sequence(self, value):
+        """
+        Setter for **self.sequence** property.
+        """
+
+        if value is not None:
+            self._sequence = list(value)
+
+    def __getitem__(self, index):
+        """
+        Returns the *LUT* sequence item at given index.
+
+        Parameters
+        ----------
+        index : int
+            *LUT* sequence item index.
+
+        Returns
+        -------
+        LUT1D or LUT3x1D or LUT3D or AbstractLUTSequenceOperator
+            *LUT* sequence item at given index.
+        """
+
+        return self._sequence[index]
+
+    def __setitem__(self, index, value):
+        """
+        Sets given the *LUT* sequence item at given index with given value.
+
+        Parameters
+        ----------
+        index : int
+            *LUT* sequence item index.
+        value : LUT1D or LUT3x1D or LUT3D or AbstractLUTSequenceOperator
+            Value.
+        """
+
+        self._sequence[index] = value
+
+    def __delitem__(self, index):
+        """
+        Deletes the *LUT* sequence item at given index.
+
+        Parameters
+        ----------
+        index : int
+            *LUT* sequence item index.
+        """
+
+        del self._sequence[index]
+
+    def __len__(self):
+        """
+        Returns the *LUT* sequence items count.
+
+        Returns
+        -------
+        int
+            *LUT* sequence items count.
+        """
+
+        return len(self._sequence)
+
+    def __str__(self):
+        """
+        Returns a formatted string representation of the *LUT* sequence.
+
+        Returns
+        -------
+        unicode
+            Formatted string representation.
+        """
+
+        operations = re.sub(
+            " " * 4, "\n\n".join([str(a) for a in self._sequence]), flags=re.MULTILINE
+        )
+        operations = re.sub("^\\s+$", "", operations, flags=re.MULTILINE)
+
+        return f"LUT Sequence\n------------\n\nOverview\n\n    {' ---> '.join([a.__class__.__name__ for a in self._sequence])}\n\nOperations\n\n{operations}"
+
+    def __repr__(self):
+        """
+        Returns an evaluable string representation of the *LUT* sequence.
+
+        Returns
+        -------
+        unicode
+            Evaluable string representation.
+        """
+
+        operations = re.sub(
+            "^",
+            " " * 4,
+            ",\n".join([repr(a) for a in self._sequence]),
+            flags=re.MULTILINE,
+        )
+        operations = re.sub("^\\s+$", "", operations, flags=re.MULTILINE)
+
+        return f"{self.__class__.__name__}(\n{operations}\n)"
+
+    def __eq__(self, other):
+        """
+        Returns whether the *LUT* sequence is equal to given other object.
+
+        Parameters
+        ----------
+        other : object
+            Object to test whether it is equal to the *LUT* sequence.
+
+        Returns
+        -------
+        bool
+            Is given object equal to the *LUT* sequence.
+        """
+
+        if not isinstance(other, LUTSequence):
+            return False
+
+        if len(self) != len(other):
+            return False
+
+        # pylint: disable=C0200
+        for i in range(len(self)):
+            if self[i] != other[i]:
+                return False
+
+        return True
+
+    def __ne__(self, other):
+        """
+        Returns whether the *LUT* sequence is not equal to given other object.
+
+        Parameters
+        ----------
+        other : object
+            Object to test whether it is not equal to the *LUT* sequence.
+
+        Returns
+        -------
+        bool
+            Is given object not equal to the *LUT* sequence.
+        """
+
+        return not (self == other)
+
+    # pylint: disable=W0221
+    def insert(self, index, LUT):
+        """
+        Inserts given *LUT* at given index into the *LUT* sequence.
+
+        Parameters
+        ----------
+        index : index
+            Index to insert the *LUT* at into the *LUT* sequence.
+        LUT : LUT1D or LUT3x1D or LUT3D or AbstractLUTSequenceOperator
+            *LUT* to insert into the *LUT* sequence.
+        """
+
+        assert isinstance(LUT, (LUT1D, LUT3x1D, LUT3D, AbstractLUTSequenceOperator)), (
+            '"LUT" must be an instance of "LUT1D", "LUT3x1D", "LUT3D" or '
+            '"AbstractLUTSequenceOperator"!'
+        )
+
+        self._sequence.insert(index, LUT)
+
+    def apply(
+        self,
+        RGB,
+        interpolator_1D=LinearInterpolator,
+        interpolator_1D_kwargs=None,
+        interpolator_3D=table_interpolation_trilinear,
+        clip_input_to_domain=False,
+        interpolator_3D_kwargs=None,
+        **kwargs,
+    ):
+        """
+        Applies the *LUT* sequence sequentially to given *RGB* colourspace
+        array.
+
+        Parameters
+        ----------
+        RGB : array_like
+            *RGB* colourspace array to apply the *LUT* sequence sequentially
+            onto.
+        interpolator_1D : object, optional
+            Interpolator object to use as interpolating function for
+            :class:`colour.LUT1D` (and :class:`colour.LUT3x1D`) class
+            instances.
+        interpolator_1D_kwargs : dict_like, optional
+            Arguments to use when calling the interpolating function for
+            :class:`colour.LUT1D` (and :class:`colour.LUT3x1D`) class
+            instances.
+        interpolator_3D : object, optional
+            Interpolator object to use as interpolating function for
+            :class:`colour.LUT3D` class instances.
+        interpolator_3D_kwargs : dict_like, optional
+            Arguments to use when calling the interpolating function for
+            :class:`colour.LUT3D` class instances.
+
+        Other Parameters
+        ----------------
+        \\**kwargs : dict, optional
+            Keywords arguments for deprecation management.
+
+        Returns
+        -------
+        ndarray
+            Processed *RGB* colourspace array.
+
+        Examples
+        --------
+        >>> LUT_1 = LUT1D(LUT1D.linear_table(16) + 0.125)
+        >>> LUT_2 = LUT3D(LUT3D.linear_table(16) ** (1 / 2.2))
+        >>> LUT_3 = LUT3x1D(LUT3x1D.linear_table(16) * 0.750)
+        >>> LUT_sequence = LUTSequence(LUT_1, LUT_2, LUT_3)
+        >>> samples = np.linspace(0, 1, 5)
+        >>> RGB = tstack([samples, samples, samples])
+        >>> LUT_sequence.apply(RGB)  # doctest: +ELLIPSIS
+        array([[ 0.2899886...,  0.2899886...,  0.2899886...],
+               [ 0.4797662...,  0.4797662...,  0.4797662...],
+               [ 0.6055328...,  0.6055328...,  0.6055328...],
+               [ 0.7057779...,  0.7057779...,  0.7057779...],
+               [ 0.75     ...,  0.75     ...,  0.75     ...]])
+        """
+
+        interpolator_1D_kwargs = handle_arguments_deprecation(
+            {
+                "ArgumentRenamed": [["interpolator_1D_args", "interpolator_1D_kwargs"]],
+            },
+            **kwargs,
+        ).get("interpolator_1D_kwargs", interpolator_1D_kwargs)
+
+        interpolator_3D_kwargs = handle_arguments_deprecation(
+            {
+                "ArgumentRenamed": [["interpolator_3D_args", "interpolator_3D_kwargs"]],
+            },
+            **kwargs,
+        ).get("interpolator_3D_kwargs", interpolator_3D_kwargs)
+
+        for operation in self:
+            if clip_input_to_domain:
+                if isinstance(operation, LUT1D):
+                    RGB = np.clip(
+                        RGB, np.nanmin(operation.domain), np.nanmax(operation.domain)
+                    )
+                elif isinstance(operation, (LUT3x1D, LUT3D)):
+                    r, g, b = tsplit(RGB)
+                    domain_r, domain_g, domain_b = tsplit(operation.domain)
+                    r = np.clip(r, np.nanmin(domain_r), np.nanmax(domain_r))
+                    g = np.clip(g, np.nanmin(domain_g), np.nanmax(domain_g))
+                    b = np.clip(b, np.nanmin(domain_b), np.nanmax(domain_b))
+                    RGB = tstack((r, g, b))
+            if isinstance(operation, (LUT1D, LUT3x1D)):
+                RGB = operation.apply(RGB, interpolator_1D, interpolator_1D_kwargs)
+            elif isinstance(operation, LUT3D):
+                RGB = operation.apply(RGB, interpolator_3D, interpolator_3D_kwargs)
+            else:
+                RGB = operation.apply(RGB)
+
+        return RGB
+
+    def copy(self):
+        """
+        Returns a copy of the *LUT* sequence.
+
+        Returns
+        -------
+        LUTSequence
+            *LUT* sequence copy.
+        """
+
+        return deepcopy(self)
+
+
+class Range(AbstractLUTSequenceOperator):
+    """
+    Defines the class for a *Range* scale.
+
+    Parameters
+    ----------
+    min_in_value : numeric, optional
+        Input value which will be mapped to min_out_value.
+    max_in_value : numeric, optional
+        Input value which will be mapped to max_out_value.
+    min_out_value : numeric, optional
+        Output value to which min_in_value will be mapped.
+    max_out_value : numeric, optional
+        Output value to which max_in_value will be mapped.
+    no_clamp : boolean, optional
+        Whether to not clamp the output values.
+    name : unicode, optional
+        *Range* name.
+    comments : array_like, optional
+        Comments to add to the *Range*.
+
+    Methods
+    -------
+    apply
+
+    Examples
+    --------
+    A full to legal scale:
+
+    >>> print(Range(name='Full to Legal',
+                    min_out_value=64./1023,
+                    max_out_value=940./1023))
+    Range - Full to Legal
+    ---------------------
+    <BLANKLINE>
+    Input      : 0.0 - 1.0
+    Output     : 0.0625610948192 - 0.918866080156
+    <BLANKLINE>
+    Clamping   : No
+    """
+
+    def __init__(
+        self,
+        min_in_value=0.0,
+        max_in_value=1.0,
+        min_out_value=0.0,
+        max_out_value=1.0,
+        no_clamp=True,
+        name="",
+        comments=None,
+    ):
+        self.min_in_value = min_in_value
+        self.max_in_value = max_in_value
+        self.min_out_value = min_out_value
+        self.max_out_value = max_out_value
+        self.no_clamp = no_clamp
+        self.name = name
+        self.comments = comments
+
+    def apply(self, RGB):
+        """
+        Applies the *Range* scale to given *RGB* array.
+
+        Parameters
+        ----------
+        RGB : array_like
+            *RGB* array to apply the *Range* scale to.
+
+        Returns
+        -------
+        ndarray
+            Scaled *RGB* array.
+
+        Examples
+        --------
+        >>> R = Range(
+        ...     name="Legal to Full",
+        ...     min_in_value=64.0 / 1023,
+        ...     max_in_value=940.0 / 1023,
+        ...     no_clamp=False,
+        ... )
+        >>> RGB = np.array([0.8, 0.9, 1.0])
+        >>> R.apply(RGB)
+        array([ 0.86118721,  0.97796804,  1.        ])
+        """
+        RGB = np.asarray(RGB)
+
+        scale = (self.max_out_value - self.min_out_value) / (
+            self.max_in_value - self.min_in_value
+        )
+        RGB_out = RGB * scale + self.min_out_value - self.min_in_value * scale
+
+        if not self.no_clamp:
+            RGB_out = np.clip(RGB_out, self.min_out_value, self.max_out_value)
+
+        return RGB_out
+
+    def __str__(self):
+        """
+        Returns a formatted string representation of the *Range* operation.
+
+        Returns
+        -------
+        unicode
+            Formatted string representation.
+        """
+
+        return (
+            "{0} - {1}\n"
+            "{2}\n\n"
+            "Input      : {3} - {4}\n"
+            "Output     : {5} - {6}\n\n"
+            "Clamping   : {7}"
+            "{8}".format(
+                self.__class__.__name__,
+                self.name,
+                "-" * (len(self.__class__.__name__) + 3 + len(self.name)),
+                self.min_in_value,
+                self.max_in_value,
+                self.min_out_value,
+                self.max_out_value,
+                "No" if self.no_clamp else "Yes",
+                "\n\n{0}".format("\n".join(self.comments)) if self.comments else "",
+            )
+        )
+
+
+class Matrix(AbstractLUTSequenceOperator):
+    """
+    Defines the base class for a *Matrix* transform.
+
+    Parameters
+    ----------
+    array : array_like, optional
+        3x3 or 3x4 matrix for the transform.
+    name : unicode, optional
+        *Matrix* name.
+    comments : array_like, optional
+        Comments to add to the *Matrix*.
+
+    Methods
+    -------
+    apply
+
+    Examples
+    --------
+    Instantiating an identity matrix:
+
+    >>> print(Matrix(name="Identity"))
+    Matrix - Identity
+    -----------------
+    <BLANKLINE>
+    Dimensions : (3, 3)
+    Matrix     : [[ 1.  0.  0.]
+                  [ 0.  1.  0.]
+                  [ 0.  0.  1.]]
+
+    Instantiating a matrix with comments:
+
+    >>> array = np.array([[ 1.45143932, -0.23651075, -0.21492857],
+        ...                   [-0.07655377,  1.1762297 , -0.09967593],
+        ...                   [ 0.00831615, -0.00603245,  0.9977163 ]])
+    >>> print(
+    ...     Matrix(
+    ...         array=array,
+    ...         name="AP0 to AP1",
+    ...         comments=["A first comment.", "A second comment."],
+    ...     )
+    ... )
+    Matrix - AP0 to AP1
+    -------------------
+    <BLANKLINE>
+    Dimensions : (3, 3)
+    Matrix     : [[ 1.45143932 -0.23651075 -0.21492857]
+                  [-0.07655377  1.1762297  -0.09967593]
+                  [ 0.00831615 -0.00603245  0.9977163 ]]
+    <BLANKLINE>
+    A first comment.
+    A second comment.
+    """
+
+    def __init__(self, array=np.identity(3), name="", comments=None):
+        self.array = array
+        self.name = name
+        self.comments = comments
+
+    @staticmethod
+    def _validate_array(array):
+        assert array.shape in [(3, 4), (3, 3)], "Matrix shape error!"
+
+        return array
+
+    def apply(self, RGB):
+        """
+        Applies the *Matrix* transform to given *RGB* array.
+
+        Parameters
+        ----------
+        RGB : array_like
+            *RGB* array to apply the *Matrix* transform to.
+
+        Returns
+        -------
+        ndarray
+            Transformed *RGB* array.
+
+        Examples
+        --------
+        >>> array = np.array(
+        ...     [
+        ...         [1.45143932, -0.23651075, -0.21492857],
+        ...         [-0.07655377, 1.1762297, -0.09967593],
+        ...         [0.00831615, -0.00603245, 0.9977163],
+        ...     ]
+        ... )
+        >>> M = Matrix(array=array)
+        >>> RGB = [0.3, 0.4, 0.5]
+        >>> M.apply(RGB)
+        array([ 0.23336321,  0.39768778,  0.49894002])
+        """
+        RGB = np.asarray(RGB)
+
+        if self.array.shape == (3, 4):
+            R, G, B = tsplit(RGB)
+            RGB = tstack([R, G, B, np.ones(R.shape)])
+
+        return vector_dot(self.array, RGB)
+
+    def __str__(self):
+        """
+        Returns a formatted string representation of the *Matrix*.
+
+        Returns
+        -------
+        unicode
+            Formatted string representation.
+        """
+
+        def _indent_array(a):
+            """
+            Indents given array string representation.
+            """
+
+            return str(a).replace(" [", " " * 14 + "[")
+
+        return (
+            "{0} - {1}\n"
+            "{2}\n\n"
+            "Dimensions : {3}\n"
+            "Matrix     : {4}"
+            "{5}".format(
+                self.__class__.__name__,
+                self.name,
+                "-" * (len(self.__class__.__name__) + 3 + len(self.name)),
+                self.array.shape,
+                _indent_array(self.array),
+                "\n\n{0}".format("\n".join(self.comments)) if self.comments else "",
+            )
+        )
+
+
+class Exponent(AbstractLUTSequenceOperator):
+    def __init__(
+        self,
+        exponent=[1, 1, 1],
+        offset=[0, 0, 0],  # ignored for basic
+        style="basicFwd",
+        name="",
+        comments=None,
+    ):
+        self.exponent = exponent
+        self.offset = offset
+        self.style = style
+        self.name = name
+        self.comments = comments
+
+    def apply(self, RGB):
+        if as_float_array(RGB).size == 3 or (
+            isinstance(RGB, np.ndarray) and RGB.shape[-1] == 3
+        ):
+            r, g, b = tsplit(np.asarray(RGB))
+
+        else:
+            r = g = b = np.asarray(RGB)
+
+        if self.style.lower()[:5] == "basic":
+            r = exponent_function_basic(r, self.exponent[0], self.style)
+            g = exponent_function_basic(g, self.exponent[1], self.style)
+            b = exponent_function_basic(b, self.exponent[2], self.style)
+
+            return tstack((r, g, b))
+
+        if self.style.lower()[:8] == "moncurve":
+            r = exponent_function_monitor_curve(
+                r, self.exponent[0], self.offset[0], self.style
+            )
+            g = exponent_function_monitor_curve(
+                g, self.exponent[1], self.offset[1], self.style
+            )
+            b = exponent_function_monitor_curve(
+                b, self.exponent[2], self.offset[2], self.style
+            )
+
+            return tstack((r, g, b))
+
+    def __str__(self):
+        return (
+            "{0} - {1}\n"
+            "{2}\n\n"
+            "Exponent.r : {3}\n"
+            "Exponent.g : {4}\n"
+            "Exponent.b : {5}\n"
+            "{6}"
+            "Style : {7}\n"
+            "{8}".format(
+                self.__class__.__name__,
+                self.name,
+                "-" * (len(self.__class__.__name__) + 3 + len(self.name)),
+                self.exponent[0],
+                self.exponent[1],
+                self.exponent[2],
+                "Offset.r : {}\nOffset.g : {}\nOffset.b : {}\n".format(
+                    self.offset[0], self.offset[1], self.offset[2]
+                )
+                if self.style.lower()[:8] == "moncurve"
+                else "",
+                self.style,
+                "\n\n{0}".format("\n".join(self.comments)) if self.comments else "",
+            )
+        )
+
+
+class Log(AbstractLUTSequenceOperator):
+    def __init__(
+        self,
+        base=2,
+        logSideSlope=1,
+        logSideOffset=0,
+        linSideSlope=1,
+        linSideOffset=0,
+        linSideBreak=0,
+        linearSlope=1,
+        style="cameraLinToLog",
+        name="",
+        comments=None,
+    ):
+        self.name = name
+        self.style = style
+        self.comments = comments or []
+        self.base = base
+        self.linSideOffset = linSideOffset
+        self.linSideSlope = linSideSlope
+        self.logSideSlope = logSideSlope
+        self.logSideOffset = logSideOffset
+        self.linSideBreak = linSideBreak
+        self.linearSlope = linearSlope
+
+    @property
+    def lin_to_log_styles(self):
+        return ["log2", "log10", "linToLog", "cameraLinToLog"]
+
+    @property
+    def log_to_lin_styles(self):
+        return ["antiLog2", "antiLog10", "logToLin", "cameraLogToLin"]
+
+    @property
+    def style(self):
+        style = self._style
+        if style.startswith("camera") and self.lin_side_break is None:
+            style = style.replace("cameraL", "l")
+        return style
+
+    @style.setter
+    def style(self, value):
+        if not value in self.log_styles:
+            raise ValueError(f"Invalid Log style: {value}")
+
+        if value.endswith("2"):
+            self.base = 2
+        elif value.endswith("10"):
+            self.base = 10
+        else:
+            self._style = value
+
+    @property
+    def log_styles(self):
+        return self.log_to_lin_styles + self.lin_to_log_styles
+
+    @property
+    def log_side_slope(self):
+        return self.logSideSlope
+
+    @log_side_slope.setter
+    def log_side_slope(self, *value):
+        self.logSideSlope = value
+
+    @property
+    def log_side_offset(self):
+        return self.logSideOffset
+
+    @log_side_offset.setter
+    def log_side_offset(self, *value):
+        self.logSideOffset = value
+
+    @property
+    def lin_side_slope(self):
+        return self.linSideSlope
+
+    @lin_side_slope.setter
+    def lin_side_slope(self, *value):
+        self.linSideSlope = value
+
+    @property
+    def lin_side_offset(self):
+        return self.linSideOffset
+
+    @lin_side_offset.setter
+    def lin_side_offset(self, *value):
+        self.linSideOffset = value
+
+    @property
+    def lin_side_break(self):
+        return self.linSideBreak
+
+    @lin_side_break.setter
+    def lin_side_break(self, *value):
+        if value is None:
+            self.linSideBreak = None
+        self.linSideBreak = value
+
+    @property
+    def linear_slope(self):
+        return self.linearSlope
+
+    @linear_slope.setter
+    def linear_slope(self, *value):
+        if value is None:
+            self.linearSlope = None
+        self.linearSlope = value
+
+    def is_encoding_style(self, style=None):
+        style = style or self.style
+        return style.lower() in [s.lower() for s in self.lin_to_log_styles]
+
+    def is_decoding_style(self, style=None):
+        style = style or self.style
+        return style.lower() in [s.lower() for s in self.log_to_lin_styles]
+
+    def _logarithmic_function_factory(
+        self,
+        lin_side_slope=None,
+        lin_side_offset=None,
+        log_side_slope=None,
+        log_side_offset=None,
+        lin_side_break=None,
+        linear_slope=None,
+        base=None,
+        style="log10",
+    ):
+        # TODO: promote to module level? Make static?
+        def _is_decoding_style(s):
+            s = style.lower()
+            return s.startswith("anti") or s.endswith("lin")
+
+        function_kwargs = {}
+        if style[-1] in ["2", "0"]:
+            __function = partial(
+                logarithmic_function_basic, base=int(style[-1]), style=style
+            )
+
+        elif style.startswith("anti") or any(
+            [
+                x is None
+                for x in [
+                    lin_side_slope,
+                    lin_side_offset,
+                    log_side_slope,
+                    log_side_offset,
+                ]
+            ]
+        ):
+            style = "logB"
+            if style.lower().startswith("anti"):
+                style = "antiLogB"
+
+            __function = partial(logarithmic_function_basic, base=base, style=style)
+
+        else:
+            function_kwargs = dict(
+                log_side_slope=log_side_slope,
+                log_side_offset=log_side_offset,
+                lin_side_slope=lin_side_slope,
+                lin_side_offset=lin_side_offset,
+            )
+
+            if lin_side_break is not None:
+                function_kwargs.update(lin_side_break=lin_side_break)
+                style = (
+                    "cameraLogToLin" if _is_decoding_style(style) else "cameraLinToLog"
+                )
+                __function = partial(
+                    logarithmic_function_camera, base=base, style=style
+                )
+
+            else:
+                style = "logToLin" if _is_decoding_style(style) else "linToLog"
+                __function = partial(
+                    logarithmic_function_quasilog, base=base, style=style
+                )
+
+            if any([as_float_array(v).size > 1 for v in function_kwargs.values()]):
+                function_kwargs = {
+                    k: v * np.ones(3) for k, v in function_kwargs.items()
+                }
+
+        return partial(__function, **function_kwargs)
+
+    def _apply_directed(self, RGB, inverse=False):
+        RGB_out = as_float_array(RGB)
+
+        inverse_styles = {
+            fwd: inv
+            for fwd, inv in zip(
+                self.lin_to_log_styles + self.log_to_lin_styles,
+                self.log_to_lin_styles + self.lin_to_log_styles,
+            )
+        }
+        style = inverse_styles[self.style] if inverse else self.style
+        logarithmic_function = self._logarithmic_function_factory(
+            style=style,
+            base=self.base,
+            lin_side_slope=self.lin_side_slope,
+            lin_side_offset=self.lin_side_offset,
+            log_side_slope=self.log_side_slope,
+            log_side_offset=self.log_side_offset,
+            lin_side_break=self.lin_side_break,
+            linear_slope=self.linear_slope,
+        )
+
+        return logarithmic_function(RGB_out)
+
+    def apply(self, RGB):
+        return self._apply_directed(RGB, inverse=False)
+
+    def reverse(self, RGB):
+        return self._apply_directed(RGB, inverse=True)
+
+    def __str__(self):
+        direction = (
+            "Log to Linear" if self.style in self.log_to_lin_styles else "Linear to Log"
+        )
+        title = f"{f'{self.name} - ' if self.name else ''}{direction}"
+        basic_style = self.style[-1] in "20"
+        return (
+            "{0} - {1}\n"
+            "{2}\n\n"
+            "style          : {3}\n"
+            "base           : {4}"
+            "{5}{6}{7}{8}{9}{10}{11}"
+        ).format(
+            self.__class__.__name__,
+            title,
+            "-" * (len(self.__class__.__name__) + 3 + len(title)),
+            self.style,
+            self.base,
+            "\nlogSideSlope   : {0}".format(self.log_side_slope)
+            if not basic_style
+            else "",
+            "\nlogSideOffset  : {0}".format(self.log_side_offset)
+            if not basic_style
+            else "",
+            "\nlinSideSlope   : {0}".format(self.lin_side_slope)
+            if not basic_style
+            else "",
+            "\nlinSideOffset  : {0}".format(self.lin_side_offset)
+            if not basic_style
+            else "",
+            "\nlinearSlope    : {0}".format(self.linear_slope)
+            if not basic_style and self.linear_slope is not None
+            else "",
+            "\nlinSideBreak   : {0}".format(self.lin_side_break)
+            if not basic_style and self.lin_side_break is not None
+            else "",
+            "\n\n{0}".format("\n".join(self.comments)) if self.comments else "",
+        )
+
+    def __repr__(self):
+        # TODO: show only the used parameters (see __str__ method)
+        return f"{self.__class__.__name__}(base={self.base}, logSideSlope={self.log_side_slope}, logSideOffset={self.log_side_offset}, linSideSlope={self.lin_side_slope}, linSideOffset={self.lin_side_offset}, linearSlope={self.linear_slope}, linSideBreak={self.lin_side_break}, style=\"{self.style}\"{f' name={self.name}' if self.name else ''})"
