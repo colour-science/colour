@@ -26,6 +26,8 @@ Image Data
     :toctree: generated/
 
     Image_Specification_Attribute
+    MAPPING_BIT_DEPTH
+    image_specification_OpenImageIO
     convert_bit_depth
     read_image_OpenImageIO
     write_image_OpenImageIO

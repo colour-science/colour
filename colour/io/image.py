@@ -50,6 +50,8 @@ __status__ = "Production"
 __all__ = [
     "Image_Specification_BitDepth",
     "Image_Specification_Attribute",
+    "MAPPING_BIT_DEPTH",
+    "add_attributes_to_image_specification_OpenImageIO",
     "image_specification_OpenImageIO",
     "convert_bit_depth",
     "read_image_OpenImageIO",
@@ -109,7 +111,7 @@ class Image_Specification_Attribute:
 
 
 if is_openimageio_installed():  # pragma: no cover
-    from OpenImageIO import DOUBLE, FLOAT, HALF, UINT8, UINT16
+    from OpenImageIO import DOUBLE, FLOAT, HALF, UINT8, UINT16, ImageSpec
 
     MAPPING_BIT_DEPTH: CanonicalMapping = CanonicalMapping(
         {
@@ -125,6 +127,7 @@ if is_openimageio_installed():  # pragma: no cover
             "float128", np.float128, DOUBLE
         )
 else:  # pragma: no cover
+    ImageSpec = None
     MAPPING_BIT_DEPTH: CanonicalMapping = CanonicalMapping(
         {
             "uint8": Image_Specification_BitDepth("uint8", np.uint8, None),
@@ -140,6 +143,53 @@ else:  # pragma: no cover
         )
 
 
+def add_attributes_to_image_specification_OpenImageIO(
+    image_specification: ImageSpec, attributes: Sequence | None = None
+):
+    """
+    Add given attributes to given *OpenImageIO* image specification.
+
+    Parameters
+    ----------
+    image_specification
+        *OpenImageIO* image specification.
+    attributes
+        An array of :class:`colour.io.Image_Specification_Attribute` class
+        instances used to set attributes of the image.
+
+    Returns
+    -------
+    :class:`ImageSpec`
+        *OpenImageIO*. image specification.
+
+    Examples
+    --------
+    >>> image_specification = image_specification_OpenImageIO(
+    ...     1920, 1080, 3, "float16"
+    ... )  # doctest: +SKIP
+    >>> compression = Image_Specification_Attribute("Compression", "none")
+    >>> image_specification = add_attributes_to_image_specification_OpenImageIO(
+    ...     image_specification, [compression]
+    ... )  # doctest: +SKIP
+    >>> image_specification.extra_attribs[0].value  # doctest: +SKIP
+    'none'
+    """  # noqa: D405, D407, D410, D411
+    for attribute in attributes:
+        name = str(attribute.name)
+        value = (
+            str(attribute.value)
+            if isinstance(attribute.value, str)
+            else attribute.value
+        )
+        type_ = attribute.type_
+        if attribute.type_ is None:
+            image_specification.attribute(name, value)
+        else:
+            image_specification.attribute(name, type_, value)
+
+    return image_specification
+
+
 @required("OpenImageIO")
 def image_specification_OpenImageIO(
     width: int,
@@ -149,9 +199,9 @@ def image_specification_OpenImageIO(
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
     attributes: Sequence | None = None,
-):
+) -> ImageSpec:
     """
-    Create an *OpenImageIO*. image specification.
+    Create an *OpenImageIO* image specification.
 
     Parameters
     ----------
@@ -192,18 +242,7 @@ def image_specification_OpenImageIO(
         width, height, channels, bit_depth_specification.openimageio
     )
 
-    for attribute in attributes:
-        name = str(attribute.name)
-        value = (
-            str(attribute.value)
-            if isinstance(attribute.value, str)
-            else attribute.value
-        )
-        type_ = attribute.type_
-        if attribute.type_ is None:
-            image_specification.attribute(name, value)
-        else:
-            image_specification.attribute(name, type_, value)
+    add_attributes_to_image_specification_OpenImageIO(image_specification, attributes)
 
     return image_specification
 
@@ -627,7 +666,7 @@ def write_image_OpenImageIO(
         height, width, channels = image.shape
 
     image_specification = image_specification_OpenImageIO(
-        width, height, channels, bit_depth_specification.openimageio, attributes
+        width, height, channels, bit_depth, attributes
     )
 
     image_output = ImageOutput.create(path)
