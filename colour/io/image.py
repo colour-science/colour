@@ -39,6 +39,7 @@ from colour.utilities import (
     usage_warning,
     validate_method,
 )
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -329,7 +330,8 @@ def read_image_OpenImageIO(
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
-    attributes: bool = False,
+    additional_data: bool = False,
+    **kwargs: Any,
 ) -> NDArrayReal | Tuple[NDArrayReal, list]:
     """
     Read the image data at given path using *OpenImageIO*.
@@ -342,8 +344,8 @@ def read_image_OpenImageIO(
         Returned image bit-depth, the bit-depth conversion behaviour is driven
         directly by *OpenImageIO*, this definition only converts to the
         relevant data type after reading.
-    attributes
-        Whether to return the image attributes.
+    additional_data
+        Whether to return additional data.
 
     Returns
     -------
@@ -367,11 +369,20 @@ def read_image_OpenImageIO(
     ...     "CMS_Test_Pattern.exr",
     ... )
     >>> image = read_image_OpenImageIO(path)  # doctest: +SKIP
-    """  # noqa: D405, D407, D410, D411
+    """
 
     from OpenImageIO import ImageInput
 
     path = str(path)
+
+    kwargs = handle_arguments_deprecation(
+        {
+            "ArgumentRenamed": [["attributes", "additional_data"]],
+        },
+        **kwargs,
+    )
+
+    additional_data = kwargs.get("additional_data", additional_data)
 
     bit_depth_specification = MAPPING_BIT_DEPTH[bit_depth]
 
@@ -390,7 +401,7 @@ def read_image_OpenImageIO(
     image = np.reshape(np.array(image, dtype=bit_depth_specification.numpy), shape)
     image = cast(NDArrayReal, np.squeeze(image))
 
-    if attributes:
+    if additional_data:
         extra_attributes = []
         for attribute in image_specification.extra_attribs:
             extra_attributes.append(
@@ -501,9 +512,9 @@ def read_image(
 
     Other Parameters
     ----------------
-    attributes
+    additional_data
         {:func:`colour.io.read_image_OpenImageIO`},
-        Whether to return the image attributes.
+        Whether to return additional data.
 
     Returns
     -------
@@ -534,7 +545,7 @@ def read_image(
     (1267, 1274, 3)
     >>> image.dtype
     dtype('float32')
-    """  # noqa: D405, D407, D410, D411, D414
+    """
 
     method = validate_method(method, tuple(READ_IMAGE_METHODS))
 

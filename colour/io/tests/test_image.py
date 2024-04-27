@@ -292,7 +292,7 @@ class TestReadImageOpenImageIO:
 
         image, attributes = read_image_OpenImageIO(
             os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr"),
-            attributes=True,
+            additional_data=True,
         )
         assert image.shape == (1267, 1274, 3)
         assert attributes[0].name == "oiio:ColorSpace"
@@ -408,7 +408,7 @@ class TestWriteImageOpenImageIO:
         ]
         write_image_OpenImageIO(image, target_image_path, attributes=write_attributes)
         image, read_attributes = read_image_OpenImageIO(
-            target_image_path, attributes=True
+            target_image_path, additional_data=True
         )
         for write_attribute in write_attributes:
             attribute_exists = False
