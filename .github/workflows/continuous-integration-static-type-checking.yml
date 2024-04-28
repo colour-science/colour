@@ -25,8 +25,7 @@ jobs:
         if: matrix.os == 'macOS-latest'
         run: |
           brew install graphviz
-          export GRAPHVIZ_DIR="/usr/local/Cellar/graphviz/<VERSION>"
-          pip install pygraphviz --global-option=build_ext --global-option="-I$GRAPHVIZ_DIR/include" --global-option="-L$GRAPHVIZ_DIR/lib"
+          pip install --no-cache-dir --config-settings="--global-option=build_ext" --config-settings="--global-option=-I$(brew --prefix graphviz)/include/" --config-settings="--global-option=-L$(brew --prefix graphviz)/lib/" pygraphviz
       - name: Install Package Dependencies
         run: |
           pip install -r requirements.txt
