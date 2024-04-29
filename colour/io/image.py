@@ -347,7 +347,7 @@ def read_image_Imageio(
     dtype('float32')
     """
 
-    from imageio import imread
+    from imageio.v2 import imread
 
     path = str(path)
 
@@ -646,7 +646,7 @@ Source/FreeImage.h
     True
     """
 
-    from imageio import imwrite
+    from imageio.v2 import imwrite
 
     path = str(path)
 
