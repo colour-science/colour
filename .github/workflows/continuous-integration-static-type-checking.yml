@@ -24,8 +24,10 @@ jobs:
       - name: Install Dependencies (macOS)
         if: matrix.os == 'macOS-latest'
         run: |
-          brew install graphviz
+          brew install freeimage graphviz
           pip install --no-cache-dir --config-settings="--global-option=build_ext" --config-settings="--global-option=-I$(brew --prefix graphviz)/include/" --config-settings="--global-option=-L$(brew --prefix graphviz)/lib/" pygraphviz
+          # TODO: Drop when https://github.com/imageio/imageio/issues/628 is addressed
+          echo "IMAGEIO_FREEIMAGE_LIB=/opt/homebrew/Cellar/freeimage/3.18.0/lib/libfreeimage.3.18.0.dylib" >> $GITHUB_ENV
       - name: Install Package Dependencies
         run: |
           pip install -r requirements.txt
