@@ -651,6 +651,18 @@ Images
 
     (276, 281, 3)
 
+Spectral Images - Fichet et al. (2021)
+**************************************
+
+.. code-block:: python
+
+    components = colour.read_spectral_image_Fichet2021("Polarised.exr")
+    list(components.keys())
+
+.. code-block:: text
+
+    ['S0', 'S1', 'S2', 'S3']
+
 Look Up Table (LUT) Data
 ************************
 
