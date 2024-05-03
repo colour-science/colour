@@ -65,11 +65,11 @@ jobs:
           poetry run python -c "import imageio;imageio.plugins.freeimage.download()"
         shell: bash
       - name: Install OpenImageIO (macOs)
-        if: matrix.os == 'macOS-latest' && matrix.python-version == '3.11'
+        if: matrix.os == 'macOS-latest' && matrix.python-version == '3.12'
         run: |
           brew install openimageio
-          ls /opt/homebrew/Cellar/openimageio/*/lib/python*/site-packages/OpenImageIO/
-          ln -s /opt/homebrew/Cellar/openimageio/*/lib/python*/site-packages/OpenImageIO/OpenImageIO*.so /Library/Frameworks/Python.framework/Versions/${{ matrix.python-version }}/lib/python${{ matrix.python-version }}/site-packages/OpenImageIO.so
+          find /Users/runner/Library/Caches/pypoetry/virtualenvs/ -path "/Users/runner/Library/Caches/pypoetry/virtualenvs/*/lib/python3.12/site-packages" -type d -exec ln -s /opt/homebrew/Cellar/openimageio/*/lib/python*/site-packages/OpenImageIO/OpenImageIO*.so {}/OpenImageIO.so \;
+          poetry run python -c "import OpenImageIO;print(OpenImageIO.__version__)"
         shell: bash
       - name: Pre-Commit (All Files)
         run: |
@@ -77,6 +77,7 @@ jobs:
         shell: bash
       - name: Test Optimised Python Execution
         run: |
+          poetry run python -OO -c "import $CI_PACKAGE"
           poetry run python -OO -c "import $CI_PACKAGE"
         shell: bash
       - name: Test with Pytest
