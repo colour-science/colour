@@ -94,7 +94,7 @@ If you'd like to join them, please consider
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://colorhythm.com" target="_blank">
-                        <img width="288px" src="https://images.opencollective.com/colorhythm/9b4667d/logo/256.png">
+                        <img width="288px" src="https://www.colour-science.org/images/Colorhythm_Logo.png">
                     </a>
                     <p><a href="https://colorhythm.com" target="_blank">Colorhythm</a></p>
                 </td>
