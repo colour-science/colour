@@ -1073,7 +1073,7 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArrayFloat:
     )
     phi_input = np.degrees(phi_input)
 
-    grey_threshold = 1e-7
+    grey_threshold = THRESHOLD_INTEGER
     if rho_input < grey_threshold:
         return from_range_10(normalise_munsell_specification(value))
 
@@ -1098,7 +1098,7 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArrayFloat:
         code_initial,
     ]
 
-    convergence_threshold = 1e-7
+    convergence_threshold = THRESHOLD_INTEGER / 1e4
     iterations_maximum = 64
     iterations = 0
 
@@ -2331,13 +2331,12 @@ def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArrayFloat:
 
         # Checking if renotation data is available without interpolation using
         # given threshold.
-        threshold = 1e-7
         if (
-            abs(hue) < threshold
-            or abs(hue - 2.5) < threshold
-            or abs(hue - 5) < threshold
-            or abs(hue - 7.5) < threshold
-            or abs(hue - 10) < threshold
+            abs(hue) < THRESHOLD_INTEGER
+            or abs(hue - 2.5) < THRESHOLD_INTEGER
+            or abs(hue - 5) < THRESHOLD_INTEGER
+            or abs(hue - 7.5) < THRESHOLD_INTEGER
+            or abs(hue - 10) < THRESHOLD_INTEGER
         ):
             hue = 2.5 * round(hue / 2.5)
 
