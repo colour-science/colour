@@ -7,7 +7,7 @@ from .codata import (
 )
 from .common import (
     PATTERN_FLOATING_POINT_NUMBER,
-    INTEGER_THRESHOLD,
+    THRESHOLD_INTEGER,
     EPSILON,
     DTYPE_INT_DEFAULT,
     DTYPE_FLOAT_DEFAULT,
@@ -29,7 +29,7 @@ __all__ += [
 ]
 __all__ += [
     "PATTERN_FLOATING_POINT_NUMBER",
-    "INTEGER_THRESHOLD",
+    "THRESHOLD_INTEGER",
     "EPSILON",
     "DTYPE_INT_DEFAULT",
     "DTYPE_FLOAT_DEFAULT",

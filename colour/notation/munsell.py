@@ -130,8 +130,8 @@ from colour.algebra import (
 )
 from colour.colorimetry import CCS_ILLUMINANTS, luminance_ASTMD1535
 from colour.constants import (
-    INTEGER_THRESHOLD,
     PATTERN_FLOATING_POINT_NUMBER,
+    THRESHOLD_INTEGER,
     TOLERANCE_ABSOLUTE_DEFAULT,
     TOLERANCE_RELATIVE_DEFAULT,
 )
@@ -2040,7 +2040,7 @@ def interpolation_method_from_renotation_ovoid(
         )
 
         attest(
-            abs(2 * (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD,
+            abs(2 * (chroma / 2 - round(chroma / 2))) <= THRESHOLD_INTEGER,
             f'"{specification}" specification chroma must be an int and '
             f"multiple of 2!",
         )
@@ -2322,7 +2322,7 @@ def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArrayFloat:
         )
 
         attest(
-            abs(2 * (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD,
+            abs(2 * (chroma / 2 - round(chroma / 2))) <= THRESHOLD_INTEGER,
             f'"{specification}" specification chroma must be an int and '
             f"multiple of 2!",
         )
