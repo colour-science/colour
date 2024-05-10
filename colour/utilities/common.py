@@ -32,7 +32,7 @@ from pprint import pformat
 
 import numpy as np
 
-from colour.constants import INTEGER_THRESHOLD
+from colour.constants import THRESHOLD_INTEGER
 from colour.hints import (
     Any,
     Callable,
@@ -1234,7 +1234,7 @@ def is_integer(a: Any) -> bool:
     Notes
     -----
     -   The determination threshold is defined by the
-        :attr:`colour.algebra.common.INTEGER_THRESHOLD` attribute.
+        :attr:`colour.algebra.common.THRESHOLD_INTEGER` attribute.
 
     Examples
     --------
@@ -1244,7 +1244,7 @@ def is_integer(a: Any) -> bool:
     False
     """
 
-    return abs(a - np.around(a)) <= INTEGER_THRESHOLD
+    return abs(a - np.around(a)) <= THRESHOLD_INTEGER
 
 
 def is_sibling(element: Any, mapping: Mapping) -> bool:

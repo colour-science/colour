@@ -27,7 +27,7 @@ __status__ = "Production"
 
 __all__ = [
     "PATTERN_FLOATING_POINT_NUMBER",
-    "INTEGER_THRESHOLD",
+    "THRESHOLD_INTEGER",
     "EPSILON",
     "DTYPE_INT_DEFAULT",
     "DTYPE_FLOAT_DEFAULT",
@@ -40,11 +40,11 @@ __all__ = [
 PATTERN_FLOATING_POINT_NUMBER: str = "[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"
 """Floating point number regex matching pattern."""
 
-INTEGER_THRESHOLD: float = 1e-3
+THRESHOLD_INTEGER: float = 1e-3
 if is_documentation_building():  # pragma: no cover
-    INTEGER_THRESHOLD = DocstringFloat(INTEGER_THRESHOLD)
-    INTEGER_THRESHOLD.__doc__ = """
-int threshold value when checking if a float point number is almost an
+    THRESHOLD_INTEGER = DocstringFloat(THRESHOLD_INTEGER)
+    THRESHOLD_INTEGER.__doc__ = """
+Integer threshold value when checking if a float point number is almost an
 int.
 """
 
