@@ -8,11 +8,13 @@ import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models import (
+    CIE1976UCS_to_XYZ,
     LCHuv_to_Luv,
     Luv_to_LCHuv,
     Luv_to_uv,
     Luv_to_XYZ,
     Luv_uv_to_xy,
+    XYZ_to_CIE1976UCS,
     XYZ_to_Luv,
     uv_to_Luv,
     xy_to_Luv_uv,
@@ -35,6 +37,8 @@ __all__ = [
     "TestXy_to_Luv_uv",
     "TestLuv_to_LCHuv",
     "TestLCHuv_to_Luv",
+    "TestXYZ_to_CIE1976UCS",
+    "TestCIE1976UCS_to_XYZ",
 ]
 
 
@@ -759,6 +763,232 @@ class TestLCHuv_to_Luv(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         LCHuv_to_Luv(cases)
+
+
+class TestXYZ_to_CIE1976UCS(unittest.TestCase):
+    """
+    Define :func:`colour.models.cie_luv.XYZ_to_CIE1976UCS` definition unit tests
+    methods.
+    """
+
+    def test_XYZ_to_CIE1976UCS(self):
+        """Test :func:`colour.models.cie_luv.XYZ_to_CIE1976UCS` definition."""
+
+        np.testing.assert_allclose(
+            XYZ_to_CIE1976UCS(np.array([0.20654008, 0.12197225, 0.05136952])),
+            np.array([0.37720213, 0.50120264, 41.52787529]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            XYZ_to_CIE1976UCS(np.array([0.14222010, 0.23042768, 0.10495772])),
+            np.array([0.14536327, 0.52992069, 55.11636304]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            XYZ_to_CIE1976UCS(np.array([0.07818780, 0.06157201, 0.28099326])),
+            np.array([0.16953603, 0.30039234, 29.80565520]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            XYZ_to_CIE1976UCS(
+                np.array([0.20654008, 0.12197225, 0.05136952]),
+                np.array([0.44757, 0.40745]),
+            ),
+            np.array([0.37720213, 0.50120264, 41.52787529]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            XYZ_to_CIE1976UCS(
+                np.array([0.20654008, 0.12197225, 0.05136952]),
+                np.array([0.34570, 0.35850]),
+            ),
+            np.array([0.37720213, 0.50120264, 41.52787529]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            XYZ_to_CIE1976UCS(
+                np.array([0.20654008, 0.12197225, 0.05136952]),
+                np.array([0.34570, 0.35850, 1.00000]),
+            ),
+            np.array([0.37720213, 0.50120264, 41.52787529]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    def test_n_dimensional_XYZ_to_CIE1976UCS(self):
+        """
+        Test :func:`colour.models.cie_luv.XYZ_to_CIE1976UCS` definition n-dimensional
+        support.
+        """
+
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+        illuminant = np.array([0.31270, 0.32900])
+        Luv = XYZ_to_CIE1976UCS(XYZ, illuminant)
+
+        XYZ = np.tile(XYZ, (6, 1))
+        Luv = np.tile(Luv, (6, 1))
+        np.testing.assert_allclose(
+            XYZ_to_CIE1976UCS(XYZ, illuminant), Luv, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+        illuminant = np.tile(illuminant, (6, 1))
+        np.testing.assert_allclose(
+            XYZ_to_CIE1976UCS(XYZ, illuminant), Luv, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        illuminant = np.reshape(illuminant, (2, 3, 2))
+        Luv = np.reshape(Luv, (2, 3, 3))
+        np.testing.assert_allclose(
+            XYZ_to_CIE1976UCS(XYZ, illuminant), Luv, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+    def test_domain_range_scale_XYZ_to_CIE1976UCS(self):
+        """
+        Test :func:`colour.models.cie_luv.XYZ_to_CIE1976UCS` definition
+        domain and range scale support.
+        """
+
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+        illuminant = np.array([0.31270, 0.32900])
+        uvL = XYZ_to_CIE1976UCS(XYZ, illuminant)
+
+        d_r = (("reference", 1, 1), ("1", 1, np.array([1, 1, 0.01])), ("100", 100, 1))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_allclose(
+                    XYZ_to_CIE1976UCS(XYZ * factor_a, illuminant),
+                    uvL * factor_b,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+
+    @ignore_numpy_errors
+    def test_nan_XYZ_to_CIE1976UCS(self):
+        """
+        Test :func:`colour.models.cie_luv.XYZ_to_CIE1976UCS` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_CIE1976UCS(cases, cases[..., 0:2])
+
+
+class TestCIE1976UCS_to_XYZ(unittest.TestCase):
+    """
+    Define :func:`colour.models.cie_luv.CIE1976UCS_to_XYZ` definition unit tests
+    methods.
+    """
+
+    def test_CIE1976UCS_to_XYZ(self):
+        """Test :func:`colour.models.cie_luv.CIE1976UCS_to_XYZ` definition."""
+
+        np.testing.assert_allclose(
+            CIE1976UCS_to_XYZ(np.array([0.37720213, 0.50120264, 41.52787529])),
+            np.array([0.20654008, 0.12197225, 0.05136952]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            CIE1976UCS_to_XYZ(np.array([0.14536327, 0.52992069, 55.11636304])),
+            np.array([0.14222010, 0.23042768, 0.10495772]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            CIE1976UCS_to_XYZ(np.array([0.16953603, 0.30039234, 29.80565520])),
+            np.array([0.07818780, 0.06157201, 0.28099326]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            CIE1976UCS_to_XYZ(
+                np.array([0.37720213, 0.50120264, 41.52787529]),
+                np.array([0.44757, 0.40745]),
+            ),
+            np.array([0.20654008, 0.12197225, 0.05136952]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            CIE1976UCS_to_XYZ(
+                np.array([0.37720213, 0.50120264, 41.52787529]),
+                np.array([0.34570, 0.35850]),
+            ),
+            np.array([0.20654008, 0.12197225, 0.05136952]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            CIE1976UCS_to_XYZ(
+                np.array([0.37720213, 0.50120264, 41.52787529]),
+                np.array([0.34570, 0.35850, 1.00000]),
+            ),
+            np.array([0.20654008, 0.12197225, 0.05136952]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    def test_n_dimensional_CIE1976UCS_to_XYZ(self):
+        """
+        Test :func:`colour.models.cie_luv.CIE1976UCS_to_XYZ` definition n-dimensional
+        support.
+        """
+
+        Luv = np.array([0.37720213, 0.50120264, 41.52787529])
+        illuminant = np.array([0.31270, 0.32900])
+        XYZ = CIE1976UCS_to_XYZ(Luv, illuminant)
+
+        Luv = np.tile(Luv, (6, 1))
+        XYZ = np.tile(XYZ, (6, 1))
+        np.testing.assert_allclose(
+            CIE1976UCS_to_XYZ(Luv, illuminant), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+        illuminant = np.tile(illuminant, (6, 1))
+        np.testing.assert_allclose(
+            CIE1976UCS_to_XYZ(Luv, illuminant), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+        Luv = np.reshape(Luv, (2, 3, 3))
+        illuminant = np.reshape(illuminant, (2, 3, 2))
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        np.testing.assert_allclose(
+            CIE1976UCS_to_XYZ(Luv, illuminant), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+    def test_domain_range_scale_CIE1976UCS_to_XYZ(self):
+        """
+        Test :func:`colour.models.cie_luv.CIE1976UCS_to_XYZ` definition
+        domain and range scale support.
+        """
+
+        uvL = np.array([0.37720213, 0.50120264, 41.52787529])
+        illuminant = np.array([0.31270, 0.32900])
+        XYZ = CIE1976UCS_to_XYZ(uvL, illuminant)
+
+        d_r = (("reference", 1, 1), ("1", np.array([1, 1, 0.01]), 1), ("100", 1, 100))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_allclose(
+                    CIE1976UCS_to_XYZ(uvL * factor_a, illuminant),
+                    XYZ * factor_b,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+
+    @ignore_numpy_errors
+    def test_nan_CIE1976UCS_to_XYZ(self):
+        """
+        Test :func:`colour.models.cie_luv.CIE1976UCS_to_XYZ` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = np.array(list(set(product(cases, repeat=3))))
+        CIE1976UCS_to_XYZ(cases, cases[..., 0:2])
 
 
 if __name__ == "__main__":
