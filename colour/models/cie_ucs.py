@@ -22,12 +22,13 @@ References
 
 from __future__ import annotations
 
+import numpy as np
+
 from colour.algebra import sdiv, sdiv_mode
 from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
-    as_float_scalar,
+    as_float_array,
     from_range_1,
-    full,
     to_domain_1,
     tsplit,
     tstack,
@@ -189,7 +190,7 @@ def UCS_to_uv(UVW: ArrayLike) -> NDArrayFloat:
     return uv
 
 
-def uv_to_UCS(uv: ArrayLike, V: float = 1) -> NDArrayFloat:
+def uv_to_UCS(uv: ArrayLike, V: NDArrayFloat = np.array(1)) -> NDArrayFloat:
     """
     Return the *CIE 1960 UCS* colourspace array from given *uv* chromaticity
     coordinates.
@@ -221,10 +222,10 @@ def uv_to_UCS(uv: ArrayLike, V: float = 1) -> NDArrayFloat:
     """
 
     u, v = tsplit(uv)
-    V = as_float_scalar(to_domain_1(V))
+    V = as_float_array(to_domain_1(V))
 
     with sdiv_mode():
-        UVW = tstack([V * sdiv(u, v), full(u.shape, V), -V * sdiv(u + v - 1, v)])
+        UVW = tstack([V * sdiv(u, v), np.resize(V, u.shape), -V * sdiv(u + v - 1, v)])
 
     return from_range_1(UVW)
 

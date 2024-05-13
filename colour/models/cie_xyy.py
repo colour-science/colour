@@ -27,9 +27,7 @@ import numpy as np
 from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     as_float_array,
-    as_float_scalar,
     from_range_1,
-    full,
     to_domain_1,
     tsplit,
     tstack,
@@ -221,7 +219,7 @@ def xyY_to_xy(xyY: ArrayLike) -> NDArrayFloat:
     return xy
 
 
-def xy_to_xyY(xy: ArrayLike, Y: float = 1) -> NDArrayFloat:
+def xy_to_xyY(xy: ArrayLike, Y: NDArrayFloat = np.array(1)) -> NDArrayFloat:
     """
     Convert from *CIE xy* chromaticity coordinates to *CIE xyY* colourspace by
     extending the array last dimension with given :math:`Y` *luminance*.
@@ -280,7 +278,7 @@ def xy_to_xyY(xy: ArrayLike, Y: float = 1) -> NDArrayFloat:
     """
 
     xy = as_float_array(xy)
-    Y = as_float_scalar(to_domain_1(Y))
+    Y = as_float_array(to_domain_1(Y))
 
     # Assuming ``xy`` is actually a *CIE xyY* colourspace array argument and
     # returning it directly.
@@ -289,7 +287,7 @@ def xy_to_xyY(xy: ArrayLike, Y: float = 1) -> NDArrayFloat:
 
     x, y = tsplit(xy)
 
-    xyY = tstack([x, y, full(x.shape, Y)])
+    xyY = tstack([x, y, np.resize(Y, x.shape)])
 
     return from_range_1(xyY, np.array([1, 1, 100]))
 

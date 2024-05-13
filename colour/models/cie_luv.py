@@ -30,6 +30,8 @@ References
 
 from __future__ import annotations
 
+import numpy as np
+
 from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import (
     CCS_ILLUMINANTS,
@@ -42,7 +44,6 @@ from colour.utilities import (
     domain_range_scale,
     from_range_1,
     from_range_100,
-    full,
     to_domain_1,
     to_domain_100,
     tsplit,
@@ -290,7 +291,7 @@ def uv_to_Luv(
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-    L: float = 100,
+    L: NDArrayFloat = np.array(100),
 ) -> NDArrayFloat:
     """
     Return the *CIE L\\*u\\*v\\** colourspace array from given :math:`uv^p`
@@ -351,7 +352,7 @@ def uv_to_Luv(
         X = sdiv(9 * Y * u, 4 * v)
         Z = sdiv(Y * (-3 * u - 20 * v + 12), 4 * v)
 
-    XYZ = tstack([X, full(u.shape, Y), Z])
+    XYZ = tstack([X, np.resize(Y, u.shape), Z])
 
     return XYZ_to_Luv(from_range_1(XYZ), illuminant)
 
