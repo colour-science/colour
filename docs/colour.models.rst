@@ -94,6 +94,8 @@ CIE 1960 UCS Colourspace
     uv_to_UCS
     UCS_uv_to_xy
     xy_to_UCS_uv
+    XYZ_to_CIE1960UCS
+    CIE1960UCS_to_XYZ
 
 CIE 1964 U*V*W* Colourspace
 ---------------------------

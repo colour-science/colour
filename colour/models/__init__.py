@@ -70,6 +70,8 @@ from .cie_ucs import (
     uv_to_UCS,
     UCS_uv_to_xy,
     xy_to_UCS_uv,
+    XYZ_to_CIE1960UCS,
+    CIE1960UCS_to_XYZ,
 )
 from .cie_uvw import XYZ_to_UVW, UVW_to_XYZ
 from .din99 import Lab_to_DIN99, DIN99_to_Lab, XYZ_to_DIN99, DIN99_to_XYZ
@@ -441,6 +443,8 @@ __all__ += [
     "uv_to_UCS",
     "UCS_uv_to_xy",
     "xy_to_UCS_uv",
+    "XYZ_to_CIE1960UCS",
+    "CIE1960UCS_to_XYZ",
 ]
 __all__ += [
     "XYZ_to_UVW",
