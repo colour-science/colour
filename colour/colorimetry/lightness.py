@@ -307,7 +307,7 @@ def lightness_CIE1976(Y: ArrayLike, Y_n: ArrayLike = 100) -> NDArrayFloat:
     """
 
     Y = to_domain_100(Y)
-    Y_n = as_float_array(Y_n)
+    Y_n = to_domain_100(Y_n)
 
     L_star = 116 * intermediate_lightness_function_CIE1976(Y, Y_n) - 16
 
@@ -649,6 +649,7 @@ def lightness(
 
     if function in domain_undefined and domain_range_1:
         Y = Y * 100
+        kwargs["Y_n"] = kwargs.get("Y_n", 100) * 100
 
     L = function(Y, **filter_kwargs(function, **kwargs))
 

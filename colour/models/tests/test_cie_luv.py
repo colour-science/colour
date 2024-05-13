@@ -467,12 +467,12 @@ class Testuv_to_Luv(unittest.TestCase):
         L = 100
         Luv = uv_to_Luv(uv, illuminant, L)
 
-        d_r = (("reference", 1, 1), ("1", 1, 0.01), ("100", 1, 1))
-        for scale, factor_a, factor_b in d_r:
+        d_r = (("reference", 1), ("1", 0.01), ("100", 1))
+        for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_allclose(
-                    uv_to_Luv(uv, illuminant, L * factor_a),
-                    Luv * factor_b,
+                    uv_to_Luv(uv, illuminant, L * factor),
+                    Luv * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
