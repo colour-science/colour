@@ -674,8 +674,6 @@ CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
     ("CIE xy", "CIE Luv uv", xy_to_Luv_uv),
     ("CIE Luv", "CIE LCHuv", Luv_to_LCHuv),
     ("CIE LCHuv", "CIE Luv", LCHuv_to_Luv),
-    ("CIE 1976 UCS", "CIE XYZ", CIE1976UCS_to_XYZ),
-    ("CIE XYZ", "CIE 1976 UCS", XYZ_to_CIE1976UCS),
     ("CIE XYZ", "CIE UCS", XYZ_to_UCS),
     ("CIE UCS", "CIE XYZ", UCS_to_XYZ),
     ("CIE UCS", "CIE UCS uv", UCS_to_uv),
@@ -754,6 +752,10 @@ CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
     ("ProLab", "CIE XYZ", ProLab_to_XYZ),
     ("CIE XYZ", "Yrg", XYZ_to_Yrg),
     ("Yrg", "CIE XYZ", Yrg_to_XYZ),
+    ("CIE 1931", "CIE XYZ", xyY_to_XYZ),
+    ("CIE XYZ", "CIE 1931", XYZ_to_xyY),
+    ("CIE 1976 UCS", "CIE XYZ", CIE1976UCS_to_XYZ),
+    ("CIE XYZ", "CIE 1976 UCS", XYZ_to_CIE1976UCS),
     # RGB Colour Models
     (
         "CIE XYZ",
