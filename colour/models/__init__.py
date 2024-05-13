@@ -60,6 +60,8 @@ from .cie_luv import (
     xy_to_Luv_uv,
     Luv_to_LCHuv,
     LCHuv_to_Luv,
+    XYZ_to_CIE1976UCS,
+    CIE1976UCS_to_XYZ,
 )
 from .cie_ucs import (
     XYZ_to_UCS,
@@ -429,6 +431,8 @@ __all__ += [
     "xy_to_Luv_uv",
     "Luv_to_LCHuv",
     "LCHuv_to_Luv",
+    "XYZ_to_CIE1976UCS",
+    "CIE1976UCS_to_XYZ",
 ]
 __all__ += [
     "XYZ_to_UCS",

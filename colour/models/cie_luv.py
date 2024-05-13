@@ -12,6 +12,8 @@ Defines the *CIE L\\*u\\*v\\** colourspace transformations:
 -   :func:`colour.xy_to_Luv_uv`
 -   :func:`colour.Luv_to_LCHuv`
 -   :func:`colour.LCHuv_to_Luv`
+-   :func:`colour.XYZ_to_CIE1976UCS`
+-   :func:`colour.CIE1976UCS_to_XYZ`
 
 References
 ----------
@@ -66,6 +68,8 @@ __all__ = [
     "xy_to_Luv_uv",
     "Luv_to_LCHuv",
     "LCHuv_to_Luv",
+    "XYZ_to_CIE1976UCS",
+    "CIE1976UCS_to_XYZ",
 ]
 
 
@@ -534,3 +538,131 @@ def LCHuv_to_Luv(LCHuv: ArrayLike) -> NDArrayFloat:
     """
 
     return JCh_to_Jab(LCHuv)
+
+
+def XYZ_to_CIE1976UCS(
+    XYZ: ArrayLike,
+    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
+) -> NDArrayFloat:
+    """
+    Convert from *CIE XYZ* tristimulus values to :math:`uv^pL\\*` colourspace.
+
+    This colourspace combines the :math:`uv^p` chromaticity coordinates with
+    the *Lightness* :math:`L\\*` from the *CIE L\\*u\\*v\\** colourspace.
+
+    It is a convenient definition for use with the
+    *CIE 1976 UCS Chromaticity Diagram*.
+
+    Parameters
+    ----------
+    XYZ
+        *CIE XYZ* tristimulus values.
+    illuminant
+        Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
+        colourspace array.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        :math:`uv^pL\\*` colourspace array.
+
+    Notes
+    -----
+    +----------------+-----------------------+-----------------+
+    | **Domain**     | **Scale - Reference** | **Scale - 1**   |
+    +================+=======================+=================+
+    | ``XYZ``        | [0, 1]                | [0, 1]          |
+    +----------------+-----------------------+-----------------+
+    | ``illuminant`` | [0, 1]                | [0, 1]          |
+    +----------------+-----------------------+-----------------+
+
+    +----------------+-----------------------+-----------------+
+    | **Range**      | **Scale - Reference** | **Scale - 1**   |
+    +================+=======================+=================+
+    | ``uvL``        | ``u`` : [-1, 1]       | ``u`` : [-1, 1] |
+    |                |                       |                 |
+    |                | ``v`` : [-1, 1]       | ``v`` : [-1, 1] |
+    |                |                       |                 |
+    |                | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
+    +----------------+-----------------------+-----------------+
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> XYZ_to_CIE1976UCS(XYZ)  # doctest: +ELLIPSIS
+    array([  0.3772021...,   0.5012026...,  41.5278752...])
+    """
+
+    Luv = XYZ_to_Luv(XYZ, illuminant)
+
+    L, _u, _v = tsplit(Luv)
+
+    u, v = tsplit(Luv_to_uv(Luv, illuminant))
+
+    return tstack([u, v, L])
+
+
+def CIE1976UCS_to_XYZ(
+    uvL: ArrayLike,
+    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
+) -> NDArrayFloat:
+    """
+    Convert from *CIE XYZ* tristimulus values to :math:`uv^pL\\*` colourspace.
+
+    This colourspace combines the :math:`uv^p` chromaticity coordinates with
+    the *Lightness* :math:`L\\*` from the *CIE L\\*u\\*v\\** colourspace.
+
+    It is a convenient definition for use with the
+    *CIE 1976 UCS Chromaticity Diagram*.
+
+    Parameters
+    ----------
+    uvL
+        :math:`uv^pL\\*` colourspace array.
+    illuminant
+        Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
+        colourspace array.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        :math:`uv^pL\\*` colourspace array.
+
+    Notes
+    -----
+    +----------------+-----------------------+-----------------+
+    | **Domain**     | **Scale - Reference** | **Scale - 1**   |
+    +================+=======================+=================+
+    | ``uvL``        | ``u`` : [-1, 1]       | ``u`` : [-1, 1] |
+    |                |                       |                 |
+    |                | ``v`` : [-1, 1]       | ``v`` : [-1, 1] |
+    |                |                       |                 |
+    |                | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
+    +----------------+-----------------------+-----------------+
+    | ``illuminant`` | [0, 1]                | [0, 1]          |
+    +----------------+-----------------------+-----------------+
+
+    +----------------+-----------------------+-----------------+
+    | **Range**      | **Scale - Reference** | **Scale - 1**   |
+    +================+=======================+=================+
+    | ``XYZ``        | [0, 1]                | [0, 1]          |
+    +----------------+-----------------------+-----------------+
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> uvL = np.array([0.37720213, 0.50120264, 41.52787529])
+    >>> CIE1976UCS_to_XYZ(uvL)  # doctest: +ELLIPSIS
+    array([ 0.2065400...,  0.1219722...,  0.0513695...])
+    """
+
+    u, v, L = tsplit(uvL)
+
+    _L, u, v = tsplit(uv_to_Luv(tstack([u, v]), illuminant, L))
+
+    return Luv_to_XYZ(tstack([L, u, v]), illuminant)
