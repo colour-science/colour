@@ -128,7 +128,7 @@ def XYZ_to_Luv(
 
     X_r, Y_r, Z_r = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
 
-    with domain_range_scale("100"):
+    with domain_range_scale("ignore"):
         L = lightness_CIE1976(Y, Y_r)
 
     X_Y_Z = X + 15 * Y + 3 * Z
@@ -202,7 +202,7 @@ def Luv_to_XYZ(
 
     X_r, Y_r, Z_r = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
 
-    with domain_range_scale("100"):
+    with domain_range_scale("ignore"):
         Y = luminance_CIE1976(L, Y_r)
 
     X_r_Y_r_Z_r = X_r + 15 * Y_r + 3 * Z_r
@@ -342,10 +342,11 @@ def uv_to_Luv(
     """
 
     u, v = tsplit(uv)
+    L = to_domain_100(L)
 
-    X_r, Y_r, Z_r = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
+    _X_r, Y_r, _Z_r = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
 
-    with domain_range_scale("100"):
+    with domain_range_scale("ignore"):
         Y = luminance_CIE1976(L, Y_r)
 
     with sdiv_mode():

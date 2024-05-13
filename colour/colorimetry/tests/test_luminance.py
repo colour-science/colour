@@ -385,7 +385,7 @@ class TestLuminanceCIE1976(unittest.TestCase):
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_allclose(
-                    luminance_CIE1976(41.527875844653451 * factor, 100),
+                    luminance_CIE1976(41.527875844653451 * factor, 100 * factor),
                     Y * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
@@ -727,7 +727,9 @@ class TestLuminance(unittest.TestCase):
             for scale, factor in d_r:
                 with domain_range_scale(scale):
                     np.testing.assert_allclose(
-                        luminance(41.527875844653451 * factor, method, Y_n=100),
+                        luminance(
+                            41.527875844653451 * factor, method, Y_n=100 * factor
+                        ),
                         value * factor,
                         atol=TOLERANCE_ABSOLUTE_TESTS,
                     )

@@ -385,7 +385,7 @@ class TestLightnessCIE1976(unittest.TestCase):
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_allclose(
-                    lightness_CIE1976(12.19722535 * factor, 100),
+                    lightness_CIE1976(12.19722535 * factor, 100 * factor),
                     L_star * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
@@ -727,7 +727,7 @@ class TestLightness(unittest.TestCase):
             for scale, factor in d_r:
                 with domain_range_scale(scale):
                     np.testing.assert_allclose(
-                        lightness(12.19722535 * factor, method, Y_n=100),
+                        lightness(12.19722535 * factor, method, Y_n=100 * factor),
                         value * factor,
                         atol=TOLERANCE_ABSOLUTE_TESTS,
                     )
