@@ -39,7 +39,6 @@ from colour.colorimetry import (
 from colour.hints import ArrayLike, NDArrayFloat
 from colour.models import Jab_to_JCh, JCh_to_Jab, xy_to_xyY, xyY_to_XYZ
 from colour.utilities import (
-    as_float_scalar,
     domain_range_scale,
     from_range_1,
     from_range_100,
@@ -291,7 +290,7 @@ def uv_to_Luv(
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-    Y: float = 1,
+    L: float = 100,
 ) -> NDArrayFloat:
     """
     Return the *CIE L\\*u\\*v\\** colourspace array from given :math:`uv^p`
@@ -305,10 +304,10 @@ def uv_to_Luv(
     illuminant
         Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
-    Y
-        Optional :math:`Y` *luminance* value used to construct the intermediate
-        *CIE XYZ* colourspace array, the default :math:`Y` *luminance* value is
-        1.
+    L
+        Optional :math:`L^*` *Lightness* value used to construct the intermediate
+        *CIE XYZ* colourspace array, the default :math:`L^*` *Lightness* value is
+        100.
 
     Returns
     -------
@@ -337,16 +336,20 @@ def uv_to_Luv(
     --------
     >>> import numpy as np
     >>> uv = np.array([0.37720213, 0.50120264])
-    >>> uv_to_Luv(uv)  # doctest: +ELLIPSIS
-    array([ 100.        ,  233.1837603...,   42.7474385...])
+    >>> uv_to_Luv(uv, L=41.5278752)  # doctest: +ELLIPSIS
+    array([ 41.5278752...,  96.8362609...,  17.7521029...])
     """
 
     u, v = tsplit(uv)
-    Y = as_float_scalar(to_domain_1(Y))
+
+    X_r, Y_r, Z_r = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
+
+    with domain_range_scale("100"):
+        Y = luminance_CIE1976(L, Y_r)
 
     with sdiv_mode():
-        X = 9 * sdiv(u, 4 * v)
-        Z = sdiv(-5 * Y * v - 3 * u / 4 + 3, v)
+        X = sdiv(9 * Y * u, 4 * v)
+        Z = sdiv(Y * (-3 * u - 20 * v + 12), 4 * v)
 
     XYZ = tstack([X, full(u.shape, Y), Z])
 

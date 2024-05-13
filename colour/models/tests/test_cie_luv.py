@@ -423,8 +423,8 @@ class Testuv_to_Luv(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            uv_to_Luv(np.array([0.37720213, 0.50120264]), Y=0.18),
-            np.array([49.49610761, 115.41688496, -243.29048251]),
+            uv_to_Luv(np.array([0.37720213, 0.50120264]), L=41.5278752),
+            np.array([41.52787529, 96.83626054, 17.75210149]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -464,14 +464,14 @@ class Testuv_to_Luv(unittest.TestCase):
 
         uv = np.array([0.37720213, 0.50120264])
         illuminant = np.array([0.31270, 0.32900])
-        Y = 1
-        Luv = uv_to_Luv(uv, illuminant, Y)
+        L = 100
+        Luv = uv_to_Luv(uv, illuminant, L)
 
-        d_r = (("reference", 1, 1), ("1", 1, 0.01), ("100", 100, 1))
+        d_r = (("reference", 1, 1), ("1", 1, 0.01), ("100", 1, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_allclose(
-                    uv_to_Luv(uv, illuminant, Y * factor_a),
+                    uv_to_Luv(uv, illuminant, L * factor_a),
                     Luv * factor_b,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
