@@ -24,15 +24,9 @@ from __future__ import annotations
 
 import numpy as np
 
+from colour.algebra import sdiv, sdiv_mode
 from colour.hints import ArrayLike, NDArrayFloat
-from colour.utilities import (
-    as_float_array,
-    from_range_1,
-    to_domain_1,
-    tsplit,
-    tstack,
-    zeros,
-)
+from colour.utilities import as_float_array, from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -94,21 +88,13 @@ def XYZ_to_xyY(XYZ: ArrayLike) -> NDArrayFloat:
 
     X, Y, Z = tsplit(XYZ)
 
-    xyY = zeros(XYZ.shape)
-    xyY[..., 0:2] = 0
+    X_Y_Z = X + Y + Z
 
-    m_xyY = ~np.all(XYZ == 0, axis=-1)
-    X_Y_Z = (X + Y + Z)[m_xyY]
+    with sdiv_mode():
+        x = sdiv(X, X_Y_Z)
+        y = sdiv(Y, X_Y_Z)
 
-    xyY[m_xyY] = (
-        tstack(
-            [
-                X[m_xyY] / X_Y_Z,
-                Y[m_xyY] / X_Y_Z,
-                from_range_1(Y[m_xyY]),
-            ]
-        ),
-    )
+    xyY = tstack([x, y, from_range_1(Y)])
 
     return xyY
 
@@ -157,12 +143,10 @@ def xyY_to_XYZ(xyY: ArrayLike) -> NDArrayFloat:
     x, y, Y = tsplit(xyY)
     Y = to_domain_1(Y)
 
-    XYZ = zeros(xyY.shape)
-    m_XYZ = ~(y == 0)
+    with sdiv_mode():
+        Y_y = sdiv(Y, y)
 
-    Y_y = Y[m_XYZ] / y[m_XYZ]
-
-    XYZ[m_XYZ] = tstack([x[m_XYZ] * Y_y, Y[m_XYZ], (1 - x[m_XYZ] - y[m_XYZ]) * Y_y])
+    XYZ = tstack([x * Y_y, Y, (1 - x - y) * Y_y])
 
     return from_range_1(XYZ)
 
