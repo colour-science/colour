@@ -128,7 +128,10 @@ if is_openimageio_installed():  # pragma: no cover
             "float128", np.float128, DOUBLE
         )
 else:  # pragma: no cover
-    ImageSpec = None
+    #
+    class ImageSpec:
+        attribute: Any
+
     MAPPING_BIT_DEPTH: CanonicalMapping = CanonicalMapping(
         {
             "uint8": Image_Specification_BitDepth("uint8", np.uint8, None),
@@ -145,7 +148,7 @@ else:  # pragma: no cover
 
 
 def add_attributes_to_image_specification_OpenImageIO(
-    image_specification: ImageSpec, attributes: Sequence | None = None
+    image_specification: ImageSpec, attributes: Sequence
 ):
     """
     Add given attributes to given *OpenImageIO* image specification.
@@ -175,6 +178,7 @@ def add_attributes_to_image_specification_OpenImageIO(
     >>> image_specification.extra_attribs[0].value  # doctest: +SKIP
     'none'
     """  # noqa: D405, D407, D410, D411
+
     for attribute in attributes:
         name = str(attribute.name)
         value = (
@@ -243,7 +247,9 @@ def image_specification_OpenImageIO(
         width, height, channels, bit_depth_specification.openimageio
     )
 
-    add_attributes_to_image_specification_OpenImageIO(image_specification, attributes)
+    add_attributes_to_image_specification_OpenImageIO(
+        image_specification, attributes or []
+    )
 
     return image_specification
 
