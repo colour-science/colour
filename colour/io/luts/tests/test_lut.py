@@ -5,9 +5,9 @@ from __future__ import annotations
 
 import os
 import textwrap
-import unittest
 
 import numpy as np
+import pytest
 
 from colour.algebra import (
     CubicSplineInterpolator,
@@ -40,7 +40,7 @@ __all__ = [
     "ROOT_RESOURCES",
     "RANDOM_TRIPLETS",
     "TestAbstractLUT",
-    "AbstractLUTTest",
+    "FixtureAbstractLUT",
     "TestLUT1D",
     "TestLUT3x1D",
     "TestLUT3D",
@@ -54,7 +54,7 @@ RANDOM_TRIPLETS: NDArrayFloat = np.reshape(
 )
 
 
-class TestAbstractLUT(unittest.TestCase):
+class TestAbstractLUT:
     """Define :class:`colour.io.luts.lut.AbstractLUT` class unit tests methods."""
 
     def test_required_attributes(self):
@@ -70,7 +70,7 @@ class TestAbstractLUT(unittest.TestCase):
         )
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(AbstractLUT))
+            assert attribute in dir(AbstractLUT)
 
     def test_required_methods(self):
         """Test the presence of required methods."""
@@ -101,27 +101,19 @@ class TestAbstractLUT(unittest.TestCase):
         )
 
         for method in required_methods:
-            self.assertIn(method, dir(AbstractLUT))
+            assert method in dir(AbstractLUT)
 
 
-class AbstractLUTTest(unittest.TestCase):
+class FixtureAbstractLUT:
     """
-    Define :class:`colour.io.luts.lut.LUT1D`,
+    Define the :class:`colour.io.luts.lut.LUT1D`,
     :class:`colour.io.luts.lut.LUT3x1D` and
-    :class:`colour.io.luts.lut.LUT3D` classes common unit tests methods.
+    :class:`colour.io.luts.lut.LUT3D` classes fixture.
     """
 
-    def __init__(self, *args: Any) -> None:
-        """
-        Create an instance of the class.
-
-        Other Parameters
-        ----------------
-        args
-            Arguments.
-        """
-
-        super().__init__(*args)
+    @pytest.fixture(autouse=True)
+    def setup_fixture_abstract_lut(self) -> None:
+        """Configure the class instance."""
 
         self._LUT_factory: Any = None
 
@@ -165,7 +157,7 @@ class AbstractLUTTest(unittest.TestCase):
 
         for class_ in (LUT1D, LUT3x1D, LUT3D):
             for method in required_methods:
-                self.assertIn(method, dir(class_))
+                assert method in dir(class_)
 
     def test__init__(self):
         """
@@ -174,24 +166,20 @@ class AbstractLUTTest(unittest.TestCase):
         :class:`colour.io.luts.lut.LUT3D.__init__` methods.
         """
 
-        if self._LUT_factory is None:
-            return
-
         LUT = self._LUT_factory(self._table_1)
 
         np.testing.assert_allclose(
             LUT.table, self._table_1, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertEqual(str(id(LUT)), LUT.name)
+        assert str(id(LUT)) == LUT.name
 
         np.testing.assert_array_equal(LUT.domain, self._domain_1)
 
-        self.assertEqual(LUT.dimensions, self._dimensions)
+        assert LUT.dimensions == self._dimensions
 
-        self.assertIsInstance(
-            self._LUT_factory(self._table_3, domain=self._domain_3),
-            self._LUT_factory,
+        assert isinstance(
+            self._LUT_factory(self._table_3, domain=self._domain_3), self._LUT_factory
         )
 
     def test_table(self):
@@ -200,9 +188,6 @@ class AbstractLUTTest(unittest.TestCase):
         :class:`colour.io.luts.lut.LUT3x1D.table` and
         :class:`colour.io.luts.lut.LUT3D.table` properties.
         """
-
-        if self._LUT_factory is None:
-            return
 
         LUT = self._LUT_factory()
 
@@ -219,16 +204,13 @@ class AbstractLUTTest(unittest.TestCase):
         :class:`colour.io.luts.lut.LUT3D.name` properties.
         """
 
-        if self._LUT_factory is None:
-            return
-
         LUT = self._LUT_factory(self._table_1)
 
-        self.assertEqual(LUT.name, str(id(LUT)))
+        assert LUT.name == str(id(LUT))
 
         LUT = self._LUT_factory()
 
-        self.assertEqual(LUT.name, f"Unity {self._table_1.shape[0]}")
+        assert LUT.name == f"Unity {self._table_1.shape[0]}"
 
     def test_domain(self):
         """
@@ -236,9 +218,6 @@ class AbstractLUTTest(unittest.TestCase):
         :class:`colour.io.luts.lut.LUT3x1D.domain` and
         :class:`colour.io.luts.lut.LUT3D.domain` properties.
         """
-
-        if self._LUT_factory is None:
-            return
 
         LUT = self._LUT_factory()
 
@@ -255,12 +234,9 @@ class AbstractLUTTest(unittest.TestCase):
         :class:`colour.io.luts.lut.LUT3D.size` properties.
         """
 
-        if self._LUT_factory is None:
-            return
-
         LUT = self._LUT_factory()
 
-        self.assertEqual(LUT.size, LUT.table.shape[0])
+        assert LUT.size == LUT.table.shape[0]
 
     def test_dimensions(self):
         """
@@ -269,12 +245,9 @@ class AbstractLUTTest(unittest.TestCase):
         :class:`colour.io.luts.lut.LUT3D.dimensions` properties.
         """
 
-        if self._LUT_factory is None:
-            return
-
         LUT = self._LUT_factory()
 
-        self.assertEqual(LUT.dimensions, self._dimensions)
+        assert LUT.dimensions == self._dimensions
 
     def test_comments(self):
         """
@@ -283,16 +256,13 @@ class AbstractLUTTest(unittest.TestCase):
         :class:`colour.io.luts.lut.LUT3D.comments` properties.
         """
 
-        if self._LUT_factory is None:
-            return
-
         LUT = self._LUT_factory()
-        self.assertListEqual(LUT.comments, [])
+        assert LUT.comments == []
 
         comments = ["A first comment.", "A second comment."]
         LUT = self._LUT_factory(comments=comments)
 
-        self.assertListEqual(LUT.comments, comments)
+        assert LUT.comments == comments
 
     def test__str__(self):
         """
@@ -301,12 +271,9 @@ class AbstractLUTTest(unittest.TestCase):
         :class:`colour.io.luts.lut.LUT3D.__str__` methods.
         """
 
-        if self._LUT_factory is None:
-            return
-
         LUT = self._LUT_factory(name="Nemo")
 
-        self.assertEqual(str(LUT), self._str)
+        assert str(LUT) == self._str
 
     def test__repr__(self):
         """
@@ -314,9 +281,6 @@ class AbstractLUTTest(unittest.TestCase):
         :class:`colour.io.luts.lut.LUT3x1D.__repr__` and
         :class:`colour.io.luts.lut.LUT3D.__repr__` methods.
         """
-
-        if self._LUT_factory is None:
-            return
 
         LUT = self._LUT_factory(
             name="Nemo", comments=["A first comment.", "A second comment."]
@@ -329,7 +293,7 @@ class AbstractLUTTest(unittest.TestCase):
         if self._dimensions == 3:
             return
 
-        self.assertEqual(repr(LUT), self._repr)
+        assert repr(LUT) == self._repr
 
     def test__eq__(self):
         """
@@ -338,13 +302,10 @@ class AbstractLUTTest(unittest.TestCase):
         :class:`colour.io.luts.lut.LUT3D.__eq__` methods.
         """
 
-        if self._LUT_factory is None:
-            return
-
         LUT_1 = self._LUT_factory()
         LUT_2 = self._LUT_factory()
 
-        self.assertEqual(LUT_1, LUT_2)
+        assert LUT_1 == LUT_2
 
     def test__ne__(self):
         """
@@ -353,18 +314,15 @@ class AbstractLUTTest(unittest.TestCase):
         :class:`colour.io.luts.lut.LUT3D.__ne__` methods.
         """
 
-        if self._LUT_factory is None:
-            return
-
         LUT_1 = self._LUT_factory()
         LUT_2 = self._LUT_factory()
 
         LUT_2 += 0.1
-        self.assertNotEqual(LUT_1, LUT_2)
+        assert LUT_1 != LUT_2
 
         LUT_2 = self._LUT_factory()
         LUT_2.domain = self._domain_1 * 0.8 + 0.1
-        self.assertNotEqual(LUT_1, LUT_2)
+        assert LUT_1 != LUT_2
 
     def test_is_domain_explicit(self):
         """
@@ -373,14 +331,11 @@ class AbstractLUTTest(unittest.TestCase):
         :class:`colour.io.luts.lut.LUT3D.is_domain_explicit` methods.
         """
 
-        if self._LUT_factory is None:
-            return
+        assert not self._LUT_factory().is_domain_explicit()
 
-        self.assertFalse(self._LUT_factory().is_domain_explicit())
-
-        self.assertTrue(
-            self._LUT_factory(self._table_3, domain=self._domain_3).is_domain_explicit()
-        )
+        assert self._LUT_factory(
+            self._table_3, domain=self._domain_3
+        ).is_domain_explicit()
 
     def test_arithmetical_operation(self):
         """
@@ -388,9 +343,6 @@ class AbstractLUTTest(unittest.TestCase):
         :class:`colour.io.luts.lut.LUT3x1D.arithmetical_operation` and
         :class:`colour.io.luts.lut.LUT3D.arithmetical_operation` methods.
         """
-
-        if self._LUT_factory is None:
-            return
 
         LUT_1 = self._LUT_factory()
         LUT_2 = self._LUT_factory()
@@ -506,9 +458,6 @@ class AbstractLUTTest(unittest.TestCase):
         :class:`colour.io.luts.lut.LUT3D.linear_table` methods.
         """
 
-        if self._LUT_factory is None:
-            return
-
         LUT_1 = self._LUT_factory()
 
         np.testing.assert_allclose(
@@ -530,13 +479,10 @@ class AbstractLUTTest(unittest.TestCase):
         :class:`colour.io.luts.lut.LUT3D.copy` methods.
         """
 
-        if self._LUT_factory is None:
-            return
-
         LUT_1 = self._LUT_factory()
 
-        self.assertIsNot(LUT_1, LUT_1.copy())
-        self.assertEqual(LUT_1, LUT_1.copy())
+        assert LUT_1 is not LUT_1.copy()
+        assert LUT_1.copy() == LUT_1
 
     def test_invert(self):
         """
@@ -544,9 +490,6 @@ class AbstractLUTTest(unittest.TestCase):
         :class:`colour.io.luts.lut.LUT3x1D.invert` and
         :class:`colour.io.luts.lut.LUT3D.invert` methods.
         """
-
-        if self._LUT_factory is None:
-            return
 
         LUT_i = self._LUT_factory(self._table_2).invert(
             interpolator=self._interpolator_1, **self._invert_kwargs_1
@@ -590,9 +533,6 @@ class AbstractLUTTest(unittest.TestCase):
         :class:`colour.io.luts.lut.LUT3D.apply` methods.
         """
 
-        if self._LUT_factory is None:
-            return
-
         LUT_1 = self._LUT_factory(self._table_2)
 
         np.testing.assert_allclose(
@@ -633,20 +573,12 @@ class AbstractLUTTest(unittest.TestCase):
         )
 
 
-class TestLUT1D(AbstractLUTTest):
+class TestLUT1D(FixtureAbstractLUT):
     """Define :class:`colour.io.luts.lut.LUT1D` class unit tests methods."""
 
-    def __init__(self, *args: Any) -> None:
-        """
-        Create an instance of the class.
-
-        Other Parameters
-        ----------------
-        args
-            Arguments.
-        """
-
-        super().__init__(*args)
+    @pytest.fixture(autouse=True)
+    def setup_test_lut_1_d(self) -> None:
+        """Configure the class instance."""
 
         self._LUT_factory = LUT1D
 
@@ -774,20 +706,12 @@ class TestLUT1D(AbstractLUTTest):
         self._applied_4 = self._inverted_apply_1
 
 
-class TestLUT3x1D(AbstractLUTTest):
+class TestLUT3x1D(FixtureAbstractLUT):
     """Define :class:`colour.io.luts.lut.LUT3x1D` class unit tests methods."""
 
-    def __init__(self, *args: Any) -> None:
-        """
-        Create an instance of the class.
-
-        Other Parameters
-        ----------------
-        args
-            Arguments.
-        """
-
-        super().__init__(*args)
+    @pytest.fixture(autouse=True)
+    def setup_test_lut_3_x_1_d(self) -> None:
+        """Configure the class instance."""
 
         self._LUT_factory = LUT3x1D
 
@@ -946,20 +870,12 @@ class TestLUT3x1D(AbstractLUTTest):
         self._applied_4 = self._inverted_apply_1
 
 
-class TestLUT3D(AbstractLUTTest):
+class TestLUT3D(FixtureAbstractLUT):
     """Define :class:`colour.io.luts.lut.LUT3D` class unit tests methods."""
 
-    def __init__(self, *args: Any) -> None:
-        """
-        Create an instance of the class.
-
-        Other Parameters
-        ----------------
-        args
-            Arguments.
-        """
-
-        super().__init__(*args)
+    @pytest.fixture(autouse=True)
+    def setup_test_lut_3_d(self) -> None:
+        """Configure the class instance."""
 
         self._LUT_factory = LUT3D
 
@@ -1145,13 +1061,13 @@ class TestLUT3D(AbstractLUTTest):
         self._applied_4 = self._inverted_apply_1
 
 
-class TestLUT_to_LUT(unittest.TestCase):
+class TestLUT_to_LUT:
     """
     Define :func:`colour.io.luts.lut.LUT_to_LUT` definition unit tests
     methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         self._domain = np.array([[0.0, -0.1, -0.2], [1.0, 1.5, 3.0]])
@@ -1169,16 +1085,16 @@ class TestLUT_to_LUT(unittest.TestCase):
         # "LUT" 1D to "LUT" 1D.
         LUT = LUT_to_LUT(self._LUT_1, LUT1D)
 
-        self.assertEqual(LUT, self._LUT_1)
+        assert LUT == self._LUT_1
 
         # "LUT" 1D to "LUT" 3x1D.
         LUT = LUT_to_LUT(self._LUT_1, LUT3x1D)
         table = LUT1D.linear_table(16) ** (1 / 2.2)
 
-        self.assertEqual(LUT, LUT3x1D(tstack([table, table, table])))
+        assert LUT3x1D(tstack([table, table, table])) == LUT
 
         # "LUT" 1D to "LUT" 3D.
-        self.assertRaises(ValueError, lambda: LUT_to_LUT(self._LUT_1, LUT3D))
+        pytest.raises(ValueError, lambda: LUT_to_LUT(self._LUT_1, LUT3D))
 
         LUT = LUT_to_LUT(self._LUT_1, LUT3D, force_conversion=True, size=5)
 
@@ -1377,7 +1293,7 @@ class TestLUT_to_LUT(unittest.TestCase):
         )
 
         # "LUT" 3x1D to "LUT" 1D.
-        self.assertRaises(ValueError, lambda: LUT_to_LUT(self._LUT_2, LUT1D))
+        pytest.raises(ValueError, lambda: LUT_to_LUT(self._LUT_2, LUT1D))
 
         channel_weights = np.array([1.0, 0.0, 0.0])
         LUT = LUT_to_LUT(
@@ -1398,21 +1314,21 @@ class TestLUT_to_LUT(unittest.TestCase):
             channel_weights=channel_weights,
         )
 
-        self.assertEqual(
-            LUT,
+        assert (
             LUT1D(
                 np.sum(self._LUT_2.table * channel_weights, axis=-1),
                 domain=domain,
-            ),
+            )
+            == LUT
         )
 
         # "LUT" 3x1D to "LUT" 3x1D.
         LUT = LUT_to_LUT(self._LUT_2, LUT3x1D)
 
-        self.assertEqual(LUT, self._LUT_2)
+        assert LUT == self._LUT_2
 
         # "LUT" 3x1D to "LUT" 3D.
-        self.assertRaises(ValueError, lambda: LUT_to_LUT(self._LUT_2, LUT3D))
+        pytest.raises(ValueError, lambda: LUT_to_LUT(self._LUT_2, LUT3D))
 
         LUT = LUT_to_LUT(self._LUT_2, LUT3D, force_conversion=True, size=5)
 
@@ -1611,7 +1527,7 @@ class TestLUT_to_LUT(unittest.TestCase):
         )
 
         # "LUT" 3D to "LUT" 1D.
-        self.assertRaises(ValueError, lambda: LUT_to_LUT(self._LUT_3, LUT1D))
+        pytest.raises(ValueError, lambda: LUT_to_LUT(self._LUT_3, LUT1D))
 
         channel_weights = np.array([1.0, 0.0, 0.0])
         LUT = LUT_to_LUT(
@@ -1682,7 +1598,7 @@ class TestLUT_to_LUT(unittest.TestCase):
         )
 
         # "LUT" 3D to "LUT" 3x1D.
-        self.assertRaises(ValueError, lambda: LUT_to_LUT(self._LUT_3, LUT3x1D))
+        pytest.raises(ValueError, lambda: LUT_to_LUT(self._LUT_3, LUT3x1D))
 
         LUT = LUT_to_LUT(self._LUT_3, LUT3x1D, force_conversion=True, size=16)
 
@@ -1714,8 +1630,4 @@ class TestLUT_to_LUT(unittest.TestCase):
         # "LUT" 3D to "LUT" 3D.
         LUT = LUT_to_LUT(self._LUT_3, LUT3D)
 
-        self.assertEqual(LUT, self._LUT_3)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert LUT == self._LUT_3

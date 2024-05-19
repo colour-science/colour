@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.itur_bt_2020` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -27,7 +26,7 @@ __all__ = [
 ]
 
 
-class TestOetf_BT2020(unittest.TestCase):
+class TestOetf_BT2020:
     """
     Define :func:`colour.models.rgb.transfer_functions.itur_bt_2020.\
 oetf_BT2020` definition unit tests methods.
@@ -96,7 +95,7 @@ oetf_BT2020` definition nan support.
         oetf_BT2020(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestOetf_inverse_BT2020(unittest.TestCase):
+class TestOetf_inverse_BT2020:
     """
     Define :func:`colour.models.rgb.transfer_functions.itur_bt_2020.\
 oetf_inverse_BT2020` definition unit tests methods.
@@ -175,7 +174,3 @@ oetf_inverse_BT2020` definition nan support.
         """
 
         oetf_inverse_BT2020(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
-
-
-if __name__ == "__main__":
-    unittest.main()

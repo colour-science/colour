@@ -2,7 +2,6 @@
 """Define the unit tests for the :mod:`colour.appearance.hunt` module."""
 
 import contextlib
-import unittest
 from itertools import product
 
 import numpy as np
@@ -31,7 +30,7 @@ __all__ = [
 ]
 
 
-class TestXYZ_to_Hunt(unittest.TestCase):
+class TestXYZ_to_Hunt:
     """
     Define :func:`colour.appearance.hunt.XYZ_to_Hunt` definition unit tests
     methods.
@@ -242,7 +241,3 @@ class TestXYZ_to_Hunt(unittest.TestCase):
             cases[0, 0],
             CCT_w=cases,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

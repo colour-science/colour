@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.notation.hexadecimal` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -26,7 +25,7 @@ __all__ = [
 ]
 
 
-class TestRGB_to_HEX(unittest.TestCase):
+class TestRGB_to_HEX:
     """
     Define :func:`colour.notation.hexadecimal.RGB_to_HEX` definition unit
     tests methods.
@@ -35,20 +34,11 @@ class TestRGB_to_HEX(unittest.TestCase):
     def test_RGB_to_HEX(self):
         """Test :func:`colour.notation.hexadecimal.RGB_to_HEX` definition."""
 
-        self.assertEqual(
-            RGB_to_HEX(np.array([0.45620519, 0.03081071, 0.04091952])),
-            "#74070a",
-        )
+        assert RGB_to_HEX(np.array([0.45620519, 0.03081071, 0.04091952])) == "#74070a"
 
-        self.assertEqual(
-            RGB_to_HEX(np.array([0.00000000, 0.00000000, 0.00000000])),
-            "#000000",
-        )
+        assert RGB_to_HEX(np.array([0.00000000, 0.00000000, 0.00000000])) == "#000000"
 
-        self.assertEqual(
-            RGB_to_HEX(np.array([1.00000000, 1.00000000, 1.00000000])),
-            "#ffffff",
-        )
+        assert RGB_to_HEX(np.array([1.00000000, 1.00000000, 1.00000000])) == "#ffffff"
 
         np.testing.assert_equal(
             RGB_to_HEX(
@@ -74,11 +64,11 @@ class TestRGB_to_HEX(unittest.TestCase):
 
         RGB = np.tile(RGB, (6, 1))
         HEX = np.tile(HEX, 6)
-        self.assertListEqual(RGB_to_HEX(RGB).tolist(), HEX.tolist())
+        assert RGB_to_HEX(RGB).tolist() == HEX.tolist()
 
         RGB = np.reshape(RGB, (2, 3, 3))
         HEX = np.reshape(HEX, (2, 3))
-        self.assertListEqual(RGB_to_HEX(RGB).tolist(), HEX.tolist())
+        assert RGB_to_HEX(RGB).tolist() == HEX.tolist()
 
     def test_domain_range_scale_RGB_to_HEX(self):
         """
@@ -92,7 +82,7 @@ class TestRGB_to_HEX(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                self.assertEqual(RGB_to_HEX(RGB * factor), HEX)
+                assert RGB_to_HEX(RGB * factor) == HEX
 
     @ignore_numpy_errors
     def test_nan_RGB_to_HEX(self):
@@ -106,7 +96,7 @@ class TestRGB_to_HEX(unittest.TestCase):
         RGB_to_HEX(cases)
 
 
-class TestHEX_to_RGB(unittest.TestCase):
+class TestHEX_to_RGB:
     """
     Define :func:`colour.notation.hexadecimal.HEX_to_RGB` definition unit
     tests methods.
@@ -163,7 +153,3 @@ class TestHEX_to_RGB(unittest.TestCase):
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_array_equal(HEX_to_RGB(HEX), RGB * factor)
-
-
-if __name__ == "__main__":
-    unittest.main()

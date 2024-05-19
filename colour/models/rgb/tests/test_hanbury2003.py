@@ -1,6 +1,5 @@
 """Defines unit tests for :mod:`colour.models.rgb.hanbury2003` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -22,7 +21,7 @@ __all__ = [
 ]
 
 
-class TestRGB_to_IHLS(unittest.TestCase):
+class TestRGB_to_IHLS:
     """
     Define :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition unit
     tests methods.
@@ -96,7 +95,7 @@ class TestRGB_to_IHLS(unittest.TestCase):
         RGB_to_IHLS(cases)
 
 
-class TestIHLS_to_RGB(unittest.TestCase):
+class TestIHLS_to_RGB:
     """
     Define :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition unit
     tests methods.
@@ -168,7 +167,3 @@ class TestIHLS_to_RGB(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         IHLS_to_RGB(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

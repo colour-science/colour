@@ -1,10 +1,10 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.algebra.common` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
+import pytest
 
 from colour.algebra import (
     eigen_decomposition,
@@ -60,7 +60,7 @@ __all__ = [
 ]
 
 
-class TestGetSdivMode(unittest.TestCase):
+class TestGetSdivMode:
     """
     Define :func:`colour.algebra.common.get_sdiv_mode` definition unit tests
     methods.
@@ -70,31 +70,31 @@ class TestGetSdivMode(unittest.TestCase):
         """Test :func:`colour.algebra.common.get_sdiv_mode` definition."""
 
         with sdiv_mode("Numpy"):
-            self.assertEqual(get_sdiv_mode(), "numpy")
+            assert get_sdiv_mode() == "numpy"
 
         with sdiv_mode("Ignore"):
-            self.assertEqual(get_sdiv_mode(), "ignore")
+            assert get_sdiv_mode() == "ignore"
 
         with sdiv_mode("Warning"):
-            self.assertEqual(get_sdiv_mode(), "warning")
+            assert get_sdiv_mode() == "warning"
 
         with sdiv_mode("Raise"):
-            self.assertEqual(get_sdiv_mode(), "raise")
+            assert get_sdiv_mode() == "raise"
 
         with sdiv_mode("Ignore Zero Conversion"):
-            self.assertEqual(get_sdiv_mode(), "ignore zero conversion")
+            assert get_sdiv_mode() == "ignore zero conversion"
 
         with sdiv_mode("Warning Zero Conversion"):
-            self.assertEqual(get_sdiv_mode(), "warning zero conversion")
+            assert get_sdiv_mode() == "warning zero conversion"
 
         with sdiv_mode("Ignore Limit Conversion"):
-            self.assertEqual(get_sdiv_mode(), "ignore limit conversion")
+            assert get_sdiv_mode() == "ignore limit conversion"
 
         with sdiv_mode("Warning Limit Conversion"):
-            self.assertEqual(get_sdiv_mode(), "warning limit conversion")
+            assert get_sdiv_mode() == "warning limit conversion"
 
 
-class TestSetSdivMode(unittest.TestCase):
+class TestSetSdivMode:
     """
     Define :func:`colour.algebra.common.set_sdiv_mode` definition unit tests
     methods.
@@ -105,31 +105,31 @@ class TestSetSdivMode(unittest.TestCase):
 
         with sdiv_mode(get_sdiv_mode()):
             set_sdiv_mode("Numpy")
-            self.assertEqual(get_sdiv_mode(), "numpy")
+            assert get_sdiv_mode() == "numpy"
 
             set_sdiv_mode("Ignore")
-            self.assertEqual(get_sdiv_mode(), "ignore")
+            assert get_sdiv_mode() == "ignore"
 
             set_sdiv_mode("Warning")
-            self.assertEqual(get_sdiv_mode(), "warning")
+            assert get_sdiv_mode() == "warning"
 
             set_sdiv_mode("Raise")
-            self.assertEqual(get_sdiv_mode(), "raise")
+            assert get_sdiv_mode() == "raise"
 
             set_sdiv_mode("Ignore Zero Conversion")
-            self.assertEqual(get_sdiv_mode(), "ignore zero conversion")
+            assert get_sdiv_mode() == "ignore zero conversion"
 
             set_sdiv_mode("Warning Zero Conversion")
-            self.assertEqual(get_sdiv_mode(), "warning zero conversion")
+            assert get_sdiv_mode() == "warning zero conversion"
 
             set_sdiv_mode("Ignore Limit Conversion")
-            self.assertEqual(get_sdiv_mode(), "ignore limit conversion")
+            assert get_sdiv_mode() == "ignore limit conversion"
 
             set_sdiv_mode("Warning Limit Conversion")
-            self.assertEqual(get_sdiv_mode(), "warning limit conversion")
+            assert get_sdiv_mode() == "warning limit conversion"
 
 
-class TestSdivMode(unittest.TestCase):
+class TestSdivMode:
     """
     Define :func:`colour.algebra.common.sdiv_mode` definition unit
     tests methods.
@@ -139,16 +139,16 @@ class TestSdivMode(unittest.TestCase):
         """Test :func:`colour.algebra.common.sdiv_mode` definition."""
 
         with sdiv_mode("Raise"):
-            self.assertEqual(get_sdiv_mode(), "raise")
+            assert get_sdiv_mode() == "raise"
 
         with sdiv_mode("Ignore Zero Conversion"):
-            self.assertEqual(get_sdiv_mode(), "ignore zero conversion")
+            assert get_sdiv_mode() == "ignore zero conversion"
 
         @sdiv_mode("Raise")
         def fn_a():
             """:func:`sdiv_mode` unit tests :func:`fn_a` definition."""
 
-            self.assertEqual(get_sdiv_mode(), "raise")
+            assert get_sdiv_mode() == "raise"
 
         fn_a()
 
@@ -156,12 +156,12 @@ class TestSdivMode(unittest.TestCase):
         def fn_b():
             """:func:`sdiv_mode` unit tests :func:`fn_b` definition."""
 
-            self.assertEqual(get_sdiv_mode(), "ignore zero conversion")
+            assert get_sdiv_mode() == "ignore zero conversion"
 
         fn_b()
 
 
-class TestSdiv(unittest.TestCase):
+class TestSdiv:
     """
     Define :func:`colour.algebra.common.sdiv` definition unit
     tests methods.
@@ -174,34 +174,34 @@ class TestSdiv(unittest.TestCase):
         b = np.array([2, 1, 0])
 
         with sdiv_mode("Numpy"):
-            self.assertWarns(RuntimeWarning, sdiv, a, b)
+            pytest.warns(RuntimeWarning, sdiv, a, b)
 
         with sdiv_mode("Ignore"):
             np.testing.assert_equal(sdiv(a, b), np.array([0, 1, np.inf]))
 
         with sdiv_mode("Warning"):
-            self.assertWarns(RuntimeWarning, sdiv, a, b)
+            pytest.warns(RuntimeWarning, sdiv, a, b)
             np.testing.assert_equal(sdiv(a, b), np.array([0, 1, np.inf]))
 
         with sdiv_mode("Raise"):
-            self.assertRaises(FloatingPointError, sdiv, a, b)
+            pytest.raises(FloatingPointError, sdiv, a, b)
 
         with sdiv_mode("Ignore Zero Conversion"):
             np.testing.assert_equal(sdiv(a, b), np.array([0, 1, 0]))
 
         with sdiv_mode("Warning Zero Conversion"):
-            self.assertWarns(RuntimeWarning, sdiv, a, b)
+            pytest.warns(RuntimeWarning, sdiv, a, b)
             np.testing.assert_equal(sdiv(a, b), np.array([0, 1, 0]))
 
         with sdiv_mode("Ignore Limit Conversion"):
             np.testing.assert_equal(sdiv(a, b), np.nan_to_num(np.array([0, 1, np.inf])))
 
         with sdiv_mode("Warning Limit Conversion"):
-            self.assertWarns(RuntimeWarning, sdiv, a, b)
+            pytest.warns(RuntimeWarning, sdiv, a, b)
             np.testing.assert_equal(sdiv(a, b), np.nan_to_num(np.array([0, 1, np.inf])))
 
 
-class TestIsSpowEnabled(unittest.TestCase):
+class TestIsSpowEnabled:
     """
     Define :func:`colour.algebra.common.is_spow_enabled` definition unit
     tests methods.
@@ -211,13 +211,13 @@ class TestIsSpowEnabled(unittest.TestCase):
         """Test :func:`colour.algebra.common.is_spow_enabled` definition."""
 
         with spow_enable(True):
-            self.assertTrue(is_spow_enabled())
+            assert is_spow_enabled()
 
         with spow_enable(False):
-            self.assertFalse(is_spow_enabled())
+            assert not is_spow_enabled()
 
 
-class TestSetSpowEnabled(unittest.TestCase):
+class TestSetSpowEnabled:
     """
     Define :func:`colour.algebra.common.set_spow_enable` definition unit
     tests methods.
@@ -228,14 +228,14 @@ class TestSetSpowEnabled(unittest.TestCase):
 
         with spow_enable(is_spow_enabled()):
             set_spow_enable(True)
-            self.assertTrue(is_spow_enabled())
+            assert is_spow_enabled()
 
         with spow_enable(is_spow_enabled()):
             set_spow_enable(False)
-            self.assertFalse(is_spow_enabled())
+            assert not is_spow_enabled()
 
 
-class TestSpowEnable(unittest.TestCase):
+class TestSpowEnable:
     """
     Define :func:`colour.algebra.common.spow_enable` definition unit
     tests methods.
@@ -245,16 +245,16 @@ class TestSpowEnable(unittest.TestCase):
         """Test :func:`colour.algebra.common.spow_enable` definition."""
 
         with spow_enable(True):
-            self.assertTrue(is_spow_enabled())
+            assert is_spow_enabled()
 
         with spow_enable(False):
-            self.assertFalse(is_spow_enabled())
+            assert not is_spow_enabled()
 
         @spow_enable(True)
         def fn_a():
             """:func:`spow_enable` unit tests :func:`fn_a` definition."""
 
-            self.assertTrue(is_spow_enabled())
+            assert is_spow_enabled()
 
         fn_a()
 
@@ -262,12 +262,12 @@ class TestSpowEnable(unittest.TestCase):
         def fn_b():
             """:func:`spow_enable` unit tests :func:`fn_b` definition."""
 
-            self.assertFalse(is_spow_enabled())
+            assert not is_spow_enabled()
 
         fn_b()
 
 
-class TestSpow(unittest.TestCase):
+class TestSpow:
     """
     Define :func:`colour.algebra.common.spow` definition unit
     tests methods.
@@ -276,9 +276,9 @@ class TestSpow(unittest.TestCase):
     def test_spow(self):
         """Test :func:`colour.algebra.common.spow` definition."""
 
-        self.assertEqual(spow(2, 2), 4.0)
+        assert spow(2, 2) == 4.0
 
-        self.assertEqual(spow(-2, 2), -4.0)
+        assert spow(-2, 2) == -4.0
 
         np.testing.assert_allclose(
             spow([2, -2, -2, 0], [2, 2, 0.15, 0]),
@@ -295,7 +295,7 @@ class TestSpow(unittest.TestCase):
             np.testing.assert_equal(spow(-2, 0.15), np.nan)
 
 
-class TestNormaliseVector(unittest.TestCase):
+class TestNormaliseVector:
     """
     Define :func:`colour.algebra.common.normalise_vector` definition unit
     tests methods.
@@ -323,7 +323,7 @@ class TestNormaliseVector(unittest.TestCase):
         )
 
 
-class TestNormaliseMaximum(unittest.TestCase):
+class TestNormaliseMaximum:
     """
     Define :func:`colour.algebra.common.normalise_maximum` definition unit
     tests methods.
@@ -402,7 +402,7 @@ class TestNormaliseMaximum(unittest.TestCase):
         )
 
 
-class TestVectorDot(unittest.TestCase):
+class TestVectorDot:
     """
     Define :func:`colour.algebra.common.vector_dot` definition unit tests
     methods.
@@ -439,7 +439,7 @@ class TestVectorDot(unittest.TestCase):
         )
 
 
-class TestMatrixDot(unittest.TestCase):
+class TestMatrixDot:
     """
     Define :func:`colour.algebra.common.matrix_dot` definition unit tests
     methods.
@@ -499,7 +499,7 @@ class TestMatrixDot(unittest.TestCase):
         )
 
 
-class TestEuclideanDistance(unittest.TestCase):
+class TestEuclideanDistance:
     """
     Define :func:`colour.algebra.common.euclidean_distance` definition unit
     tests methods.
@@ -571,7 +571,7 @@ class TestEuclideanDistance(unittest.TestCase):
         euclidean_distance(cases, cases)
 
 
-class TestManhattanDistance(unittest.TestCase):
+class TestManhattanDistance:
     """
     Define :func:`colour.algebra.common.manhattan_distance` definition unit
     tests methods.
@@ -643,7 +643,7 @@ class TestManhattanDistance(unittest.TestCase):
         manhattan_distance(cases, cases)
 
 
-class TestLinearConversion(unittest.TestCase):
+class TestLinearConversion:
     """
     Define :func:`colour.algebra.common.linear_conversion` definition unit
     tests methods.
@@ -674,7 +674,7 @@ class TestLinearConversion(unittest.TestCase):
         )
 
 
-class TestLinstepFunction(unittest.TestCase):
+class TestLinstepFunction:
     """
     Define :func:`colour.algebra.common.linstep_function` definition unit
     tests methods.
@@ -731,7 +731,7 @@ class TestLinstepFunction(unittest.TestCase):
         )
 
 
-class TestSmoothstepFunction(unittest.TestCase):
+class TestSmoothstepFunction:
     """
     Define :func:`colour.algebra.common.smoothstep_function` definition unit
     tests methods.
@@ -740,9 +740,9 @@ class TestSmoothstepFunction(unittest.TestCase):
     def test_smoothstep_function(self):
         """Test :func:`colour.algebra.common.smoothstep_function` definition."""
 
-        self.assertEqual(smoothstep_function(0.5), 0.5)
-        self.assertEqual(smoothstep_function(0.25), 0.15625)
-        self.assertEqual(smoothstep_function(0.75), 0.84375)
+        assert smoothstep_function(0.5) == 0.5
+        assert smoothstep_function(0.25) == 0.15625
+        assert smoothstep_function(0.75) == 0.84375
 
         x = np.linspace(-2, 2, 5)
         np.testing.assert_allclose(
@@ -757,7 +757,7 @@ class TestSmoothstepFunction(unittest.TestCase):
         )
 
 
-class TestIsIdentity(unittest.TestCase):
+class TestIsIdentity:
     """
     Define :func:`colour.algebra.common.is_identity` definition unit tests
     methods.
@@ -766,20 +766,18 @@ class TestIsIdentity(unittest.TestCase):
     def test_is_identity(self):
         """Test :func:`colour.algebra.common.is_identity` definition."""
 
-        self.assertTrue(
-            is_identity(np.reshape(np.array([1, 0, 0, 0, 1, 0, 0, 0, 1]), (3, 3)))
+        assert is_identity(np.reshape(np.array([1, 0, 0, 0, 1, 0, 0, 0, 1]), (3, 3)))
+
+        assert not is_identity(
+            np.reshape(np.array([1, 2, 0, 0, 1, 0, 0, 0, 1]), (3, 3))
         )
 
-        self.assertFalse(
-            is_identity(np.reshape(np.array([1, 2, 0, 0, 1, 0, 0, 0, 1]), (3, 3)))
-        )
+        assert is_identity(np.reshape(np.array([1, 0, 0, 1]), (2, 2)))
 
-        self.assertTrue(is_identity(np.reshape(np.array([1, 0, 0, 1]), (2, 2))))
-
-        self.assertFalse(is_identity(np.reshape(np.array([1, 2, 0, 1]), (2, 2))))
+        assert not is_identity(np.reshape(np.array([1, 2, 0, 1]), (2, 2)))
 
 
-class TestEigenDecomposition(unittest.TestCase):
+class TestEigenDecomposition:
     """
     Define :func:`colour.algebra.common.eigen_decomposition` definition unit
     tests methods.
@@ -817,7 +815,3 @@ class TestEigenDecomposition(unittest.TestCase):
         np.testing.assert_equal(
             v, np.array([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]])
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

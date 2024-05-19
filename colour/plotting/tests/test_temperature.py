@@ -1,8 +1,8 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.plotting.temperature` module."""
 
-import unittest
 
+import pytest
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
@@ -36,7 +36,7 @@ __all__ = [
 ]
 
 
-class TestLinesDaylightLocus(unittest.TestCase):
+class TestLinesDaylightLocus:
     """
     Define :func:`colour.plotting.diagrams.lines_daylight_locus` definition
     unit tests methods.
@@ -47,10 +47,10 @@ class TestLinesDaylightLocus(unittest.TestCase):
         Test :func:`colour.plotting.diagrams.lines_daylight_locus` definition.
         """
 
-        self.assertEqual(len(lines_daylight_locus()), 1)
+        assert len(lines_daylight_locus()) == 1
 
 
-class TestPlotDaylightLocus(unittest.TestCase):
+class TestPlotDaylightLocus:
     """
     Define :func:`colour.plotting.temperature.plot_daylight_locus` definition
     unit tests methods.
@@ -64,23 +64,23 @@ class TestPlotDaylightLocus(unittest.TestCase):
 
         figure, axes = plot_daylight_locus()
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
-        self.assertRaises(ValueError, lambda: plot_daylight_locus(method="Undefined"))
+        pytest.raises(ValueError, lambda: plot_daylight_locus(method="Undefined"))
 
         figure, axes = plot_daylight_locus(method="CIE 1976 UCS")
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
         figure, axes = plot_daylight_locus(planckian_locus_colours="RGB")
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestLinesPlanckianLocus(unittest.TestCase):
+class TestLinesPlanckianLocus:
     """
     Define :func:`colour.plotting.diagrams.lines_planckian_locus` definition
     unit tests methods.
@@ -91,10 +91,10 @@ class TestLinesPlanckianLocus(unittest.TestCase):
         Test :func:`colour.plotting.diagrams.lines_planckian_locus` definition.
         """
 
-        self.assertEqual(len(lines_planckian_locus()), 2)
+        assert len(lines_planckian_locus()) == 2
 
 
-class TestPlotPlanckianLocus(unittest.TestCase):
+class TestPlotPlanckianLocus:
     """
     Define :func:`colour.plotting.temperature.plot_planckian_locus` definition
     unit tests methods.
@@ -108,28 +108,28 @@ class TestPlotPlanckianLocus(unittest.TestCase):
 
         figure, axes = plot_planckian_locus()
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
-        self.assertRaises(ValueError, lambda: plot_planckian_locus(method="Undefined"))
+        pytest.raises(ValueError, lambda: plot_planckian_locus(method="Undefined"))
 
         figure, axes = plot_planckian_locus(method="CIE 1976 UCS")
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
         figure, axes = plot_planckian_locus(planckian_locus_colours="RGB")
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
         figure, axes = plot_planckian_locus(planckian_locus_labels=[5500, 6500])
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotPlanckianLocusInChromaticityDiagram(unittest.TestCase):
+class TestPlotPlanckianLocusInChromaticityDiagram:
     """
     Define :func:`colour.plotting.temperature.\
 plot_planckian_locus_in_chromaticity_diagram` definition unit tests methods.
@@ -149,8 +149,8 @@ plot_planckian_locus_in_chromaticity_diagram` definition.
             },
         )
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
         figure, axes = plot_planckian_locus_in_chromaticity_diagram(
             ["A", "B", "C"],
@@ -163,10 +163,10 @@ plot_planckian_locus_in_chromaticity_diagram` definition.
             * 3,
         )
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
-        self.assertRaises(
+        pytest.raises(
             ValueError,
             lambda: plot_planckian_locus_in_chromaticity_diagram(
                 ["A", "B", "C"],
@@ -177,7 +177,7 @@ plot_planckian_locus_in_chromaticity_diagram` definition.
         )
 
 
-class TestPlotPlanckianLocusInChromaticityDiagramCIE1931(unittest.TestCase):
+class TestPlotPlanckianLocusInChromaticityDiagramCIE1931:
     """
     Define :func:`colour.plotting.temperature.\
 plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition unit tests
@@ -194,11 +194,11 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition.
             ["A", "B", "C"]
         )
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotPlanckianLocusInChromaticityDiagramCIE1960UCS(unittest.TestCase):
+class TestPlotPlanckianLocusInChromaticityDiagramCIE1960UCS:
     """
     Define :func:`colour.plotting.temperature.\
 plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS` definition unit tests
@@ -215,9 +215,5 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS` definition.
             ["A", "B", "C"]
         )
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)

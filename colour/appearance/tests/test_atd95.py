@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.appearance.atd95` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -26,7 +25,7 @@ __all__ = [
 ]
 
 
-class TestXYZ_to_ATD95(unittest.TestCase):
+class TestXYZ_to_ATD95:
     """
     Define :func:`colour.appearance.atd95.XYZ_to_ATD95` definition unit
     tests methods.
@@ -203,7 +202,3 @@ class TestXYZ_to_ATD95(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         XYZ_to_ATD95(cases, cases, cases[..., 0], cases[..., 0], cases[..., 0])
-
-
-if __name__ == "__main__":
-    unittest.main()

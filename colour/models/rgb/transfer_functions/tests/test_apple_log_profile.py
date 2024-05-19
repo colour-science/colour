@@ -3,7 +3,6 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
 apple_log_profile` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -27,7 +26,7 @@ __all__ = [
 ]
 
 
-class TestLogEncoding_AppleLogProfile(unittest.TestCase):
+class TestLogEncoding_AppleLogProfile:
     """
     Define :func:`colour.models.rgb.transfer_functions.apple_log_profile.\
 log_encoding_AppleLogProfile` definition unit tests methods.
@@ -114,7 +113,7 @@ log_encoding_AppleLogProfile` definition nan support.
         )
 
 
-class TestLogDecoding_AppleLogProfile(unittest.TestCase):
+class TestLogDecoding_AppleLogProfile:
     """
     Define :func:`colour.models.rgb.transfer_functions.apple_log_profile.\
 log_decoding_AppleLogProfile` definition unit tests methods.
@@ -199,7 +198,3 @@ log_decoding_AppleLogProfile` definition nan support.
         log_decoding_AppleLogProfile(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

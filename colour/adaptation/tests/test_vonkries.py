@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.adaptation.vonkries` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -26,7 +25,7 @@ __all__ = [
 ]
 
 
-class TestMatrixChromaticAdaptationVonKries(unittest.TestCase):
+class TestMatrixChromaticAdaptationVonKries:
     """
     Define :func:`colour.adaptation.vonkries.\
 matrix_chromatic_adaptation_VonKries` definition unit tests methods.
@@ -192,7 +191,7 @@ matrix_chromatic_adaptation_VonKries` definition nan support.
         matrix_chromatic_adaptation_VonKries(cases, cases)
 
 
-class TestChromaticAdaptationVonKries(unittest.TestCase):
+class TestChromaticAdaptationVonKries:
     """
     Define :func:`colour.adaptation.vonkries.chromatic_adaptation_VonKries`
     definition unit tests methods.
@@ -330,7 +329,3 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         chromatic_adaptation_VonKries(cases, cases, cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

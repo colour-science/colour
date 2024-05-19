@@ -6,9 +6,9 @@ from __future__ import annotations
 import os
 import shutil
 import tempfile
-import unittest
 
 import numpy as np
+import pytest
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.io import LUT1D, read_LUT_ResolveCube, write_LUT_ResolveCube
@@ -29,7 +29,7 @@ __all__ = [
 ROOT_LUTS: str = os.path.join(os.path.dirname(__file__), "resources", "resolve_cube")
 
 
-class TestReadLUTResolveCube(unittest.TestCase):
+class TestReadLUTResolveCube:
     """
     Define :func:`colour.io.luts.resolve_cube.read_LUT_ResolveCube` definition
     unit tests methods.
@@ -85,21 +85,21 @@ class TestReadLUTResolveCube(unittest.TestCase):
             ),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        self.assertEqual(LUT_1.name, "ACES Proxy 10 to ACES")
-        self.assertEqual(LUT_1.dimensions, 2)
+        assert LUT_1.name == "ACES Proxy 10 to ACES"
+        assert LUT_1.dimensions == 2
         np.testing.assert_array_equal(LUT_1.domain, np.array([[0, 0, 0], [1, 1, 1]]))
-        self.assertEqual(LUT_1.size, 32)
-        self.assertListEqual(LUT_1.comments, [])
+        assert LUT_1.size == 32
+        assert LUT_1.comments == []
 
         LUT_2 = read_LUT_ResolveCube(os.path.join(ROOT_LUTS, "Demo.cube"))
-        self.assertListEqual(LUT_2.comments, ["Comments can't go anywhere"])
+        assert LUT_2.comments == ["Comments can't go anywhere"]
         np.testing.assert_array_equal(LUT_2.domain, np.array([[0, 0, 0], [3, 3, 3]]))
 
         LUT_3 = read_LUT_ResolveCube(
             os.path.join(ROOT_LUTS, "Three_Dimensional_Table.cube")
         )
-        self.assertEqual(LUT_3.dimensions, 3)
-        self.assertEqual(LUT_3.size, 2)
+        assert LUT_3.dimensions == 3
+        assert LUT_3.size == 2
 
         LUT_4 = read_LUT_ResolveCube(os.path.join(ROOT_LUTS, "LogC_Video.cube"))
         np.testing.assert_allclose(
@@ -126,21 +126,21 @@ class TestReadLUTResolveCube(unittest.TestCase):
             ),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        self.assertEqual(LUT_4[1].size, 4)
+        assert LUT_4[1].size == 4
 
 
-class TestWriteLUTResolveCube(unittest.TestCase):
+class TestWriteLUTResolveCube:
     """
     Define :func:`colour.io.luts.resolve_cube.write_LUT_ResolveCube`
     definition unit tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
-    def tearDown(self):
+    def teardown_method(self):
         """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
@@ -164,7 +164,7 @@ class TestWriteLUTResolveCube(unittest.TestCase):
             os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.cube")
         )
 
-        self.assertEqual(LUT_1_r, LUT_1_t)
+        assert LUT_1_r == LUT_1_t
 
         LUT_2_r = read_LUT_ResolveCube(os.path.join(ROOT_LUTS, "Demo.cube"))
 
@@ -176,8 +176,8 @@ class TestWriteLUTResolveCube(unittest.TestCase):
             os.path.join(self._temporary_directory, "Demo.cube")
         )
 
-        self.assertEqual(LUT_2_r, LUT_2_t)
-        self.assertListEqual(LUT_2_r.comments, LUT_2_t.comments)
+        assert LUT_2_r == LUT_2_t
+        assert LUT_2_r.comments == LUT_2_t.comments
 
         LUT_3_r = read_LUT_ResolveCube(
             os.path.join(ROOT_LUTS, "Three_Dimensional_Table.cube")
@@ -192,7 +192,7 @@ class TestWriteLUTResolveCube(unittest.TestCase):
             os.path.join(self._temporary_directory, "Three_Dimensional_Table.cube")
         )
 
-        self.assertEqual(LUT_3_r, LUT_3_t)
+        assert LUT_3_r == LUT_3_t
 
         LUT_4_r = read_LUT_ResolveCube(
             os.path.join(ROOT_LUTS, "Three_Dimensional_Table_With_Shaper.cube")
@@ -219,7 +219,7 @@ class TestWriteLUTResolveCube(unittest.TestCase):
             os.path.join(ROOT_LUTS, "Three_Dimensional_Table_With_Shaper.cube")
         )
 
-        self.assertEqual(LUT_4_r, LUT_4_t)
+        assert LUT_4_r == LUT_4_t
 
         LUT_5_r = read_LUT_ResolveCube(
             os.path.join(ROOT_LUTS, "ACES_Proxy_10_to_ACES.cube")
@@ -234,7 +234,7 @@ class TestWriteLUTResolveCube(unittest.TestCase):
             os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.cube")
         )
 
-        self.assertEqual(LUT_5_r, LUT_5_t)
+        assert LUT_5_r == LUT_5_t
 
     def test_raise_exception_write_LUT_ResolveCube(self):
         """
@@ -242,8 +242,4 @@ class TestWriteLUTResolveCube(unittest.TestCase):
         definition raised exception.
         """
 
-        self.assertRaises(TypeError, write_LUT_ResolveCube, object(), "")
-
-
-if __name__ == "__main__":
-    unittest.main()
+        pytest.raises(TypeError, write_LUT_ResolveCube, object(), "")

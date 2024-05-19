@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import os
-import unittest
 
 import numpy as np
 
@@ -27,7 +26,7 @@ __all__ = [
 ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 
 
-class TestProcessImageOpenColorIO(unittest.TestCase):
+class TestProcessImageOpenColorIO:
     """
     Define :func:`colour.io.ocio.process_image_OpenColorIO` definition unit
     tests methods.
@@ -105,7 +104,3 @@ class TestProcessImageOpenColorIO(unittest.TestCase):
             ),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

@@ -3,8 +3,6 @@
 
 from __future__ import annotations
 
-import unittest
-
 import numpy as np
 
 from colour.colorimetry import spectral_uniformity
@@ -224,7 +222,7 @@ DATA_UNIFORMITY_SECOND_ORDER_DERIVATIVES: NDArrayFloat = np.array(
 )
 
 
-class TestSpectralUniformity(unittest.TestCase):
+class TestSpectralUniformity:
     """
     Define :func:`colour.colorimetry.uniformity.spectral_uniformity`
     definition unit tests methods.
@@ -249,7 +247,3 @@ class TestSpectralUniformity(unittest.TestCase):
             DATA_UNIFORMITY_SECOND_ORDER_DERIVATIVES,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

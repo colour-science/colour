@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.recovery.smits1999` module."""
 
-import unittest
 
 import numpy as np
 
@@ -23,7 +22,7 @@ __all__ = [
 ]
 
 
-class TestRGB_to_sd_Smits1999(unittest.TestCase):
+class TestRGB_to_sd_Smits1999:
     """
     Define :func:`colour.recovery.smits1999.RGB_to_sd_Smits1999`
     definition unit tests methods.
@@ -173,7 +172,3 @@ class TestRGB_to_sd_Smits1999(unittest.TestCase):
                     XYZ_o * factor_b,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
-
-
-if __name__ == "__main__":
-    unittest.main()

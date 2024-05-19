@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.plotting.corresponding` module."""
 
-import unittest
 
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
@@ -20,7 +19,7 @@ __all__ = [
 ]
 
 
-class TestPlotCorrespondingChromaticitiesPrediction(unittest.TestCase):
+class TestPlotCorrespondingChromaticitiesPrediction:
     """
     Define :func:`colour.plotting.corresponding.\
 plot_corresponding_chromaticities_prediction` definition unit tests methods.
@@ -34,9 +33,5 @@ plot_corresponding_chromaticities_prediction` definition.
 
         figure, axes = plot_corresponding_chromaticities_prediction()
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)

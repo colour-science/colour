@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.itut_h_273` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -39,7 +38,7 @@ __all__ = [
 ]
 
 
-class TestOetf_H273_Log(unittest.TestCase):
+class TestOetf_H273_Log:
     """
         Define :func:`colour.models.rgb.transfer_functions.itut_h_273.
     oetf_H273_Log` definition unit tests methods.
@@ -114,7 +113,7 @@ oetf_H273_Log` definition nan support.
         oetf_H273_Log(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestOetf_inverse_H273_Log(unittest.TestCase):
+class TestOetf_inverse_H273_Log:
     """
     Define :func:`colour.models.rgb.transfer_functions.itut_h_273.\
 oetf_inverse_H273_Log` definition unit tests methods.
@@ -197,7 +196,7 @@ oetf_inverse_H273_Log` definition nan support.
         oetf_inverse_H273_Log(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestOetf_H273_LogSqrt(unittest.TestCase):
+class TestOetf_H273_LogSqrt:
     """
         Define :func:`colour.models.rgb.transfer_functions.itut_h_273.
     oetf_H273_LogSqrt` definition unit tests methods.
@@ -278,7 +277,7 @@ oetf_H273_LogSqrt` definition nan support.
         oetf_H273_LogSqrt(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestOetf_inverse_H273_LogSqrt(unittest.TestCase):
+class TestOetf_inverse_H273_LogSqrt:
     """
     Define :func:`colour.models.rgb.transfer_functions.itut_h_273.\
 oetf_inverse_H273_LogSqrt` definition unit tests methods.
@@ -363,7 +362,7 @@ oetf_inverse_H273_LogSqrt` definition nan support.
         oetf_inverse_H273_LogSqrt(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestOetf_H273_IEC61966_2(unittest.TestCase):
+class TestOetf_H273_IEC61966_2:
     """
         Define :func:`colour.models.rgb.transfer_functions.itut_h_273.
     oetf_H273_IEC61966_2` definition unit tests methods.
@@ -450,7 +449,7 @@ oetf_H273_IEC61966_2` definition nan support.
         oetf_H273_IEC61966_2(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestOetf_inverse_H273_IEC61966_2(unittest.TestCase):
+class TestOetf_inverse_H273_IEC61966_2:
     """
     Define :func:`colour.models.rgb.transfer_functions.itut_h_273.\
 oetf_inverse_H273_IEC61966_2` definition unit tests methods.
@@ -543,7 +542,7 @@ oetf_inverse_H273_IEC61966_2` definition nan support.
         )
 
 
-class TestEotf_inverse_H273_ST428_1(unittest.TestCase):
+class TestEotf_inverse_H273_ST428_1:
     """
         Define :func:`colour.models.rgb.transfer_functions.itut_h_273.
     eotf_inverse_H273_ST428_1` definition unit tests methods.
@@ -626,7 +625,7 @@ eotf_inverse_H273_ST428_1` definition nan support.
         eotf_inverse_H273_ST428_1(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestEotf_H273_ST428_1(unittest.TestCase):
+class TestEotf_H273_ST428_1:
     """
     Define :func:`colour.models.rgb.transfer_functions.itut_h_273.\
 eotf_H273_ST428_1` definition unit tests methods.
@@ -707,7 +706,3 @@ eotf_H273_ST428_1` definition nan support.
         """
 
         eotf_H273_ST428_1(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
-
-
-if __name__ == "__main__":
-    unittest.main()

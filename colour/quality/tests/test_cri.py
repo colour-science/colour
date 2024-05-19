@@ -3,8 +3,6 @@
 
 from __future__ import annotations
 
-import unittest
-
 import numpy as np
 
 from colour.colorimetry import SDS_ILLUMINANTS, SpectralDistribution
@@ -111,7 +109,7 @@ DATA_SAMPLE: dict = {
 }
 
 
-class TestColourRenderingIndex(unittest.TestCase):
+class TestColourRenderingIndex:
     """
     Define :func:`colour.quality.cri.colour_rendering_index`
     definition unit tests methods.
@@ -348,7 +346,3 @@ class TestColourRenderingIndex(unittest.TestCase):
             [data.Q_a for _index, data in sorted(specification_t.Q_as.items())],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

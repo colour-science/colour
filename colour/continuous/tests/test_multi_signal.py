@@ -3,9 +3,9 @@
 
 import pickle
 import textwrap
-import unittest
 
 import numpy as np
+import pytest
 
 from colour.algebra import (
     CubicSplineInterpolator,
@@ -34,13 +34,13 @@ __all__ = [
 ]
 
 
-class TestMultiSignals(unittest.TestCase):
+class TestMultiSignals:
     """
     Define :class:`colour.continuous.multi_signals.MultiSignals` class unit
     tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         self._range_1 = np.linspace(10, 100, 10)
@@ -68,7 +68,7 @@ class TestMultiSignals(unittest.TestCase):
         )
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(MultiSignals))
+            assert attribute in dir(MultiSignals)
 
     def test_required_methods(self):
         """Test the presence of required methods."""
@@ -92,7 +92,7 @@ class TestMultiSignals(unittest.TestCase):
         )
 
         for method in required_methods:
-            self.assertIn(method, dir(MultiSignals))
+            assert method in dir(MultiSignals)
 
     def test_pickling(self):
         """
@@ -102,7 +102,7 @@ class TestMultiSignals(unittest.TestCase):
 
         data = pickle.dumps(self._multi_signals)
         data = pickle.loads(data)  # noqa: S301
-        self.assertEqual(self._multi_signals, data)
+        assert self._multi_signals == data
 
     def test_dtype(self):
         """
@@ -110,11 +110,11 @@ class TestMultiSignals(unittest.TestCase):
         property.
         """
 
-        self.assertEqual(self._multi_signals.dtype, DTYPE_FLOAT_DEFAULT)
+        assert self._multi_signals.dtype == DTYPE_FLOAT_DEFAULT
 
         multi_signals = self._multi_signals.copy()
         multi_signals.dtype = np.float32
-        self.assertEqual(multi_signals.dtype, np.float32)
+        assert multi_signals.dtype == np.float32
 
     def test_domain(self):
         """
@@ -148,7 +148,7 @@ class TestMultiSignals(unittest.TestCase):
 
             multi_signals.domain = domain
 
-        self.assertWarns(ColourRuntimeWarning, assert_warns)
+        pytest.warns(ColourRuntimeWarning, assert_warns)
 
     def test_range(self):
         """
@@ -271,7 +271,7 @@ interpolator_kwargs` property.
         property.
         """
 
-        self.assertIsInstance(self._multi_signals.extrapolator(), Extrapolator)
+        assert isinstance(self._multi_signals.extrapolator(), Extrapolator)
 
     def test_extrapolator_kwargs(self):
         """
@@ -307,7 +307,7 @@ extrapolator_kwargs` property.
 function` property raised exception.
         """
 
-        self.assertRaises((ValueError, TypeError), MultiSignals().function, 0)
+        pytest.raises((ValueError, TypeError), MultiSignals().function, 0)
 
     def test_signals(self):
         """
@@ -327,13 +327,13 @@ function` property raised exception.
         property.
         """
 
-        self.assertListEqual(self._multi_signals.labels, ["0", "1", "2"])
+        assert self._multi_signals.labels == ["0", "1", "2"]
 
         multi_signals = self._multi_signals.copy()
 
         multi_signals.labels = ["a", "b", "c"]
 
-        self.assertListEqual(multi_signals.labels, ["a", "b", "c"])
+        assert multi_signals.labels == ["a", "b", "c"]
 
     def test_signal_type(self):
         """
@@ -343,7 +343,7 @@ function` property raised exception.
 
         multi_signals = MultiSignals(signal_type=Signal)
 
-        self.assertEqual(multi_signals.signal_type, Signal)
+        assert multi_signals.signal_type == Signal
 
     def test__init__(self):
         """
@@ -375,7 +375,7 @@ function` property raised exception.
             """Not :class:`Signal` class."""
 
         multi_signals = MultiSignals(self._range_1, signal_type=NotSignal)
-        self.assertIsInstance(multi_signals.signals["0"], NotSignal)
+        assert isinstance(multi_signals.signals["0"], NotSignal)
         np.testing.assert_array_equal(multi_signals.domain, self._domain_1)
         np.testing.assert_array_equal(multi_signals.range, self._range_1[:, None])
 
@@ -399,7 +399,7 @@ function` property raised exception.
         method.
         """
 
-        self.assertIsInstance(hash(self._multi_signals), int)
+        assert isinstance(hash(self._multi_signals), int)
 
     def test__str__(self):
         """
@@ -407,10 +407,11 @@ function` property raised exception.
         method.
         """
 
-        self.assertEqual(
-            str(self._multi_signals),
-            textwrap.dedent(
-                """
+        assert (
+            str(self._multi_signals)
+            == (
+                textwrap.dedent(
+                    """
                 [[   0.   10.   20.   30.]
                  [   1.   20.   30.   40.]
                  [   2.   30.   40.   50.]
@@ -421,10 +422,11 @@ function` property raised exception.
                  [   7.   80.   90.  100.]
                  [   8.   90.  100.  110.]
                  [   9.  100.  110.  120.]]"""
-            )[1:],
+                )[1:]
+            )
         )
 
-        self.assertIsInstance(str(MultiSignals()), str)
+        assert isinstance(str(MultiSignals()), str)
 
     def test__repr__(self):
         """
@@ -432,8 +434,7 @@ function` property raised exception.
         method.
         """
 
-        self.assertEqual(
-            repr(self._multi_signals),
+        assert repr(self._multi_signals) == (
             textwrap.dedent(
                 """
                 MultiSignals([[   0.,   10.,   20.,   30.],
@@ -452,10 +453,10 @@ function` property raised exception.
                              Extrapolator,
                              {'method': 'Constant', 'left': nan, 'right': nan})
                 """
-            ).strip(),
+            ).strip()
         )
 
-        self.assertIsInstance(repr(MultiSignals()), str)
+        assert isinstance(repr(MultiSignals()), str)
 
     def test__getitem__(self):
         """
@@ -732,9 +733,9 @@ function` property raised exception.
         method.
         """
 
-        self.assertIn(0, self._multi_signals)
-        self.assertIn(0.5, self._multi_signals)
-        self.assertNotIn(1000, self._multi_signals)
+        assert 0 in self._multi_signals
+        assert 0.5 in self._multi_signals
+        assert 1000 not in self._multi_signals
 
     def test__iter__(self):
         """Test :func:`colour.continuous.signal.Signal.__iter__` method."""
@@ -750,7 +751,7 @@ function` property raised exception.
         method.
         """
 
-        self.assertEqual(len(self._multi_signals), 10)
+        assert len(self._multi_signals) == 10
 
     def test__eq__(self):
         """
@@ -761,9 +762,9 @@ function` property raised exception.
         signal_1 = self._multi_signals.copy()
         signal_2 = self._multi_signals.copy()
 
-        self.assertEqual(signal_1, signal_2)
+        assert signal_1 == signal_2
 
-        self.assertNotEqual(signal_1, None)
+        assert signal_1 is not None
 
     def test__ne__(self):
         """
@@ -775,41 +776,41 @@ function` property raised exception.
         multi_signals_2 = self._multi_signals.copy()
 
         multi_signals_2[0] = 20
-        self.assertNotEqual(multi_signals_1, multi_signals_2)
+        assert multi_signals_1 != multi_signals_2
 
         multi_signals_2[0] = np.array([10, 20, 30])
-        self.assertEqual(multi_signals_1, multi_signals_2)
+        assert multi_signals_1 == multi_signals_2
 
         multi_signals_2.interpolator = CubicSplineInterpolator
-        self.assertNotEqual(multi_signals_1, multi_signals_2)
+        assert multi_signals_1 != multi_signals_2
 
         multi_signals_2.interpolator = KernelInterpolator
-        self.assertEqual(multi_signals_1, multi_signals_2)
+        assert multi_signals_1 == multi_signals_2
 
         multi_signals_2.interpolator_kwargs = {"window": 1}
-        self.assertNotEqual(multi_signals_1, multi_signals_2)
+        assert multi_signals_1 != multi_signals_2
 
         multi_signals_2.interpolator_kwargs = {}
-        self.assertEqual(multi_signals_1, multi_signals_2)
+        assert multi_signals_1 == multi_signals_2
 
         class NotExtrapolator(Extrapolator):
             """Not :class:`Extrapolator` class."""
 
         multi_signals_2.extrapolator = NotExtrapolator
-        self.assertNotEqual(multi_signals_1, multi_signals_2)
+        assert multi_signals_1 != multi_signals_2
 
         multi_signals_2.extrapolator = Extrapolator
-        self.assertEqual(multi_signals_1, multi_signals_2)
+        assert multi_signals_1 == multi_signals_2
 
         multi_signals_2.extrapolator_kwargs = {}
-        self.assertNotEqual(multi_signals_1, multi_signals_2)
+        assert multi_signals_1 != multi_signals_2
 
         multi_signals_2.extrapolator_kwargs = {
             "method": "Constant",
             "left": np.nan,
             "right": np.nan,
         }
-        self.assertEqual(multi_signals_1, multi_signals_2)
+        assert multi_signals_1 == multi_signals_2
 
     def test_arithmetical_operation(self):
         """
@@ -928,17 +929,17 @@ arithmetical_operation` method.
         method.
         """
 
-        self.assertTrue(self._multi_signals.is_uniform())
+        assert self._multi_signals.is_uniform()
 
         multi_signals = self._multi_signals.copy()
         multi_signals[0.5] = 1.0
-        self.assertFalse(multi_signals.is_uniform())
+        assert not multi_signals.is_uniform()
 
     def test_copy(self):
         """Test :func:`colour.continuous.multi_signals.MultiSignals.copy` method."""
 
-        self.assertIsNot(self._multi_signals, self._multi_signals.copy())
-        self.assertEqual(self._multi_signals, self._multi_signals.copy())
+        assert self._multi_signals is not self._multi_signals.copy()
+        assert self._multi_signals == self._multi_signals.copy()
 
     def test_multi_signals_unpack_data(self):
         """
@@ -947,12 +948,12 @@ multi_signals_unpack_data` method.
         """
 
         signals = MultiSignals.multi_signals_unpack_data(self._range_1)
-        self.assertListEqual(list(signals.keys()), ["0"])
+        assert list(signals.keys()) == ["0"]
         np.testing.assert_array_equal(signals["0"].domain, self._domain_1)
         np.testing.assert_array_equal(signals["0"].range, self._range_1)
 
         signals = MultiSignals.multi_signals_unpack_data(self._range_1, self._domain_2)
-        self.assertListEqual(list(signals.keys()), ["0"])
+        assert list(signals.keys()) == ["0"]
         np.testing.assert_array_equal(signals["0"].domain, self._domain_2)
         np.testing.assert_array_equal(signals["0"].range, self._range_1)
 
@@ -962,7 +963,7 @@ multi_signals_unpack_data` method.
         np.testing.assert_array_equal(signals["0"].domain, self._domain_2)
 
         signals = MultiSignals.multi_signals_unpack_data(self._range_2, self._domain_2)
-        self.assertListEqual(list(signals.keys()), ["0", "1", "2"])
+        assert list(signals.keys()) == ["0", "1", "2"]
         np.testing.assert_array_equal(signals["0"].range, self._range_1)
         np.testing.assert_array_equal(signals["1"].range, self._range_1 + 10)
         np.testing.assert_array_equal(signals["2"].range, self._range_1 + 20)
@@ -990,7 +991,7 @@ multi_signals_unpack_data` method.
         signals = MultiSignals.multi_signals_unpack_data(
             dict(zip(self._domain_2, self._range_2))
         )
-        self.assertListEqual(list(signals.keys()), ["0", "1", "2"])
+        assert list(signals.keys()) == ["0", "1", "2"]
         np.testing.assert_array_equal(signals["0"].range, self._range_1)
         np.testing.assert_array_equal(signals["1"].range, self._range_1 + 10)
         np.testing.assert_array_equal(signals["2"].range, self._range_1 + 20)
@@ -1000,7 +1001,7 @@ multi_signals_unpack_data` method.
                 dict(zip(self._domain_2, self._range_2))
             )
         )
-        self.assertListEqual(list(signals.keys()), ["0", "1", "2"])
+        assert list(signals.keys()) == ["0", "1", "2"]
         np.testing.assert_array_equal(signals["0"].range, self._range_1)
         np.testing.assert_array_equal(signals["1"].range, self._range_1 + 10)
         np.testing.assert_array_equal(signals["2"].range, self._range_1 + 20)
@@ -1008,7 +1009,7 @@ multi_signals_unpack_data` method.
         signals = MultiSignals.multi_signals_unpack_data(
             dict(zip(self._domain_2, self._range_2)), labels=["0", "0", "0"]
         )
-        self.assertListEqual(list(signals.keys()), ["0 - 0", "0 - 1", "0 - 2"])
+        assert list(signals.keys()) == ["0 - 0", "0 - 1", "0 - 2"]
 
         if is_pandas_installed():
             from pandas import DataFrame, Series
@@ -1016,7 +1017,7 @@ multi_signals_unpack_data` method.
             signals = MultiSignals.multi_signals_unpack_data(
                 Series(dict(zip(self._domain_1, self._range_1)))
             )
-            self.assertListEqual(list(signals.keys()), ["0"])
+            assert list(signals.keys()) == ["0"]
             np.testing.assert_array_equal(signals["0"].domain, self._domain_1)
             np.testing.assert_array_equal(signals["0"].range, self._range_1)
 
@@ -1024,7 +1025,7 @@ multi_signals_unpack_data` method.
             signals = MultiSignals.multi_signals_unpack_data(
                 DataFrame(data, self._domain_1)
             )
-            self.assertListEqual(list(signals.keys()), ["a", "b", "c"])
+            assert list(signals.keys()) == ["a", "b", "c"]
             np.testing.assert_array_equal(signals["a"].range, self._range_1)
             np.testing.assert_array_equal(signals["b"].range, self._range_1 + 10)
             np.testing.assert_array_equal(signals["c"].range, self._range_1 + 20)
@@ -1113,7 +1114,3 @@ domain_distance` method.
                 .to_dataframe()
                 .equals(DataFrame(data, self._domain_2))
             )
-
-
-if __name__ == "__main__":
-    unittest.main()

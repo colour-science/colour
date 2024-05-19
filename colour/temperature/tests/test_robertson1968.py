@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -135,7 +134,7 @@ TEMPERATURE_DUV_TO_UV: dict = {
 }
 
 
-class TestMired_to_CCT(unittest.TestCase):
+class TestMired_to_CCT:
     """
     Define :func:`colour.temperature.robertson1968.mired_to_CCT`
     definition unit tests methods.
@@ -194,7 +193,7 @@ class TestMired_to_CCT(unittest.TestCase):
         mired_to_CCT(cases)
 
 
-class TestCCT_to_mired(unittest.TestCase):
+class TestCCT_to_mired:
     """
     Define :func:`colour.temperature.robertson1968.CCT_to_mired`
     definition unit tests methods.
@@ -253,7 +252,7 @@ class TestCCT_to_mired(unittest.TestCase):
         CCT_to_mired(cases)
 
 
-class TestUv_to_CCT_Robertson1968(unittest.TestCase):
+class TestUv_to_CCT_Robertson1968:
     """
     Define :func:`colour.temperature.robertson1968.uv_to_CCT_Robertson1968`
     definition unit tests methods.
@@ -305,7 +304,7 @@ class TestUv_to_CCT_Robertson1968(unittest.TestCase):
         uv_to_CCT_Robertson1968(cases)
 
 
-class TestCCT_to_uv_Robertson1968(unittest.TestCase):
+class TestCCT_to_uv_Robertson1968:
     """
     Define :func:`colour.temperature.robertson1968.CCT_to_uv_Robertson1968`
     definition unit tests methods.
@@ -359,7 +358,3 @@ class TestCCT_to_uv_Robertson1968(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=2))))
         CCT_to_uv_Robertson1968(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

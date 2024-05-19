@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.smpte_240m` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -24,7 +23,7 @@ __all__ = [
 ]
 
 
-class TestOetf_SMPTE240M(unittest.TestCase):
+class TestOetf_SMPTE240M:
     """
     Define :func:`colour.models.rgb.transfer_functions.smpte_240m.\
 oetf_SMPTE240M` definition unit tests methods.
@@ -111,7 +110,7 @@ oetf_SMPTE240M` definition nan support.
         oetf_SMPTE240M(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestEotf_SMPTE240M(unittest.TestCase):
+class TestEotf_SMPTE240M:
     """
     Define :func:`colour.models.rgb.transfer_functions.smpte_240m.\
 eotf_SMPTE240M` definition unit tests methods.
@@ -196,7 +195,3 @@ eotf_SMPTE240M` definition nan support.
         """
 
         eotf_SMPTE240M(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
-
-
-if __name__ == "__main__":
-    unittest.main()

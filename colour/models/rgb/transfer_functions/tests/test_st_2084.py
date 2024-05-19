@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.st_2084` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -27,7 +26,7 @@ __all__ = [
 ]
 
 
-class TestEotf_inverse_ST2084(unittest.TestCase):
+class TestEotf_inverse_ST2084:
     """
     Define :func:`colour.models.rgb.transfer_functions.st_2084.\
 eotf_inverse_ST2084` definition unit tests methods.
@@ -116,7 +115,7 @@ eotf_inverse_ST2084` definition nan support.
         eotf_inverse_ST2084(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestEotf_ST2084(unittest.TestCase):
+class TestEotf_ST2084:
     """
     Define :func:`colour.models.rgb.transfer_functions.st_2084.eotf_ST2084`
     definition unit tests methods.
@@ -189,7 +188,3 @@ eotf_ST2084` definition nan support.
         """
 
         eotf_ST2084(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
-
-
-if __name__ == "__main__":
-    unittest.main()

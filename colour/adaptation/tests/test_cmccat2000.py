@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.adaptation.cmccat2000."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -26,7 +25,7 @@ __all__ = [
 ]
 
 
-class TestChromaticAdaptationForwardCMCCAT2000(unittest.TestCase):
+class TestChromaticAdaptationForwardCMCCAT2000:
     """
     Define :func:`colour.adaptation.cmccat2000.\
 chromatic_adaptation_forward_CMCCAT2000` definition unit tests methods.
@@ -161,7 +160,7 @@ chromatic_adaptation_forward_CMCCAT2000` definition nan support.
         )
 
 
-class TestChromaticAdaptationInverseCMCCAT2000(unittest.TestCase):
+class TestChromaticAdaptationInverseCMCCAT2000:
     """
     Define :func:`colour.adaptation.cmccat2000.\
 chromatic_adaptation_inverse_CMCCAT2000` definition unit tests methods.
@@ -294,7 +293,3 @@ chromatic_adaptation_inverse_CMCCAT2000` definition nan support.
         chromatic_adaptation_inverse_CMCCAT2000(
             cases, cases, cases, cases[..., 0], cases[..., 0]
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

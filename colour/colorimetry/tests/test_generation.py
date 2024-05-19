@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.colorimetry.generation` module."""
 
-import unittest
 
 import numpy as np
 
@@ -40,7 +39,7 @@ __all__ = [
 ]
 
 
-class TestSdConstant(unittest.TestCase):
+class TestSdConstant:
     """
     Define :func:`colour.colorimetry.generation.sd_constant` definition unit
     tests methods.
@@ -58,7 +57,7 @@ class TestSdConstant(unittest.TestCase):
         np.testing.assert_allclose(sd[780], np.pi, atol=TOLERANCE_ABSOLUTE_TESTS)
 
 
-class TestSdZeros(unittest.TestCase):
+class TestSdZeros:
     """
     Define :func:`colour.colorimetry.generation.sd_zeros` definition unit
     tests methods.
@@ -72,14 +71,14 @@ class TestSdZeros(unittest.TestCase):
 
         sd = sd_zeros()
 
-        self.assertEqual(sd[360], 0)
+        assert sd[360] == 0
 
-        self.assertEqual(sd[555], 0)
+        assert sd[555] == 0
 
-        self.assertEqual(sd[780], 0)
+        assert sd[780] == 0
 
 
-class TestSdOnes(unittest.TestCase):
+class TestSdOnes:
     """
     Define :func:`colour.colorimetry.generation.sd_ones` definition unit
     tests methods.
@@ -90,14 +89,14 @@ class TestSdOnes(unittest.TestCase):
 
         sd = sd_ones()
 
-        self.assertEqual(sd[360], 1)
+        assert sd[360] == 1
 
-        self.assertEqual(sd[555], 1)
+        assert sd[555] == 1
 
-        self.assertEqual(sd[780], 1)
+        assert sd[780] == 1
 
 
-class TestMsdsConstant(unittest.TestCase):
+class TestMsdsConstant:
     """
     Define :func:`colour.colorimetry.generation.msds_constant` definition unit
     tests methods.
@@ -127,7 +126,7 @@ class TestMsdsConstant(unittest.TestCase):
         )
 
 
-class TestMsdsZeros(unittest.TestCase):
+class TestMsdsZeros:
     """
     Define :func:`colour.colorimetry.generation.msds_zeros` definition unit
     tests methods.
@@ -148,7 +147,7 @@ class TestMsdsZeros(unittest.TestCase):
         np.testing.assert_equal(msds[780], np.array([0, 0, 0]))
 
 
-class TestMsdsOnes(unittest.TestCase):
+class TestMsdsOnes:
     """
     Define :func:`colour.colorimetry.generation.msds_ones` definition unit
     tests methods.
@@ -166,7 +165,7 @@ class TestMsdsOnes(unittest.TestCase):
         np.testing.assert_equal(msds[780], np.array([1, 1, 1]))
 
 
-class TestSdGaussianNormal(unittest.TestCase):
+class TestSdGaussianNormal:
     """
     Define :func:`colour.colorimetry.generation.sd_gaussian_normal`
     definition unit tests methods.
@@ -191,7 +190,7 @@ class TestSdGaussianNormal(unittest.TestCase):
         )
 
 
-class TestSdGaussianFwhm(unittest.TestCase):
+class TestSdGaussianFwhm:
     """
     Define :func:`colour.colorimetry.generation.sd_gaussian_fwhm` definition
     unit tests methods.
@@ -215,7 +214,7 @@ class TestSdGaussianFwhm(unittest.TestCase):
         np.testing.assert_allclose(sd[555 - 25 / 2], 0.5, atol=TOLERANCE_ABSOLUTE_TESTS)
 
 
-class TestSdSingleLedOhno2005(unittest.TestCase):
+class TestSdSingleLedOhno2005:
     """
     Define :func:`colour.colorimetry.generation.sd_single_led_Ohno2005`
     definition unit tests methods.
@@ -240,7 +239,7 @@ class TestSdSingleLedOhno2005(unittest.TestCase):
         )
 
 
-class TestSdMultiLedsOhno2005(unittest.TestCase):
+class TestSdMultiLedsOhno2005:
     """
     Define :func:`colour.colorimetry.generation.sd_multi_leds_Ohno2005`
     definition unit tests methods.
@@ -286,7 +285,3 @@ class TestSdMultiLedsOhno2005(unittest.TestCase):
         np.testing.assert_allclose(
             sd[640], 0.070140708922879, atol=TOLERANCE_ABSOLUTE_TESTS
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

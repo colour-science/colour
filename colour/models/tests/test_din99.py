@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.din99` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -30,7 +29,7 @@ __all__ = [
 ]
 
 
-class TestLab_to_DIN99(unittest.TestCase):
+class TestLab_to_DIN99:
     """
     Define :func:`colour.models.din99.Lab_to_DIN99` definition unit tests
     methods.
@@ -153,7 +152,7 @@ class TestLab_to_DIN99(unittest.TestCase):
         Lab_to_DIN99(cases, method="DIN99d")
 
 
-class TestDIN99_to_Lab(unittest.TestCase):
+class TestDIN99_to_Lab:
     """
     Define :func:`colour.models.din99.DIN99_to_Lab` definition unit tests
     methods.
@@ -276,7 +275,7 @@ class TestDIN99_to_Lab(unittest.TestCase):
         DIN99_to_Lab(cases, method="DIN99d")
 
 
-class TestXYZ_to_DIN99(unittest.TestCase):
+class TestXYZ_to_DIN99:
     """
     Define :func:`colour.models.din99.XYZ_to_DIN99` definition unit tests
     methods.
@@ -359,7 +358,7 @@ class TestXYZ_to_DIN99(unittest.TestCase):
         XYZ_to_DIN99(cases)
 
 
-class TestDIN99_to_XYZ(unittest.TestCase):
+class TestDIN99_to_XYZ:
     """
     Define :func:`colour.models.din99.DIN99_to_XYZ` definition unit tests
     methods.
@@ -441,7 +440,3 @@ class TestDIN99_to_XYZ(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         DIN99_to_XYZ(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

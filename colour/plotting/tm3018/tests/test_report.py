@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.plotting.tm3018.report` module."""
 
-import unittest
 
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
@@ -29,7 +28,7 @@ __all__ = [
 ]
 
 
-class TestPlotSingleSdColourRenditionReportFull(unittest.TestCase):
+class TestPlotSingleSdColourRenditionReportFull:
     """
     Define :func:`colour.plotting.tm3018.report.\
 plot_single_sd_colour_rendition_report_full` definition unit tests methods.
@@ -45,11 +44,11 @@ plot_single_sd_colour_rendition_report_full` definition.
             SDS_ILLUMINANTS["FL2"]
         )
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotSingleSdColourRenditionReportIntermediate(unittest.TestCase):
+class TestPlotSingleSdColourRenditionReportIntermediate:
     """
     Define :func:`colour.plotting.tm3018.report.\
 plot_single_sd_colour_rendition_report_intermediate` definition unit tests
@@ -66,11 +65,11 @@ plot_single_sd_colour_rendition_report_intermediate` definition.
             SDS_ILLUMINANTS["FL2"]
         )
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotSingleSdColourRenditionReportSimple(unittest.TestCase):
+class TestPlotSingleSdColourRenditionReportSimple:
     """
     Define :func:`colour.plotting.tm3018.report.\
 plot_single_sd_colour_rendition_report_simple` definition unit tests methods.
@@ -86,11 +85,11 @@ plot_single_sd_colour_rendition_report_simple` definition.
             SDS_ILLUMINANTS["FL2"]
         )
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotSingleSdColourRenditionReport(unittest.TestCase):
+class TestPlotSingleSdColourRenditionReport:
     """
     Define :func:`colour.plotting.tm3018.report.\
 plot_single_sd_colour_rendition_report` definition unit tests methods.
@@ -104,9 +103,5 @@ plot_single_sd_colour_rendition_report` definition.
 
         figure, axes = plot_single_sd_colour_rendition_report(SDS_ILLUMINANTS["FL2"])
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)

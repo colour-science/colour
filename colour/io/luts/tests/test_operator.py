@@ -2,7 +2,6 @@
 """Define the unit tests for the :mod:`colour.io.luts.operator` module."""
 
 import textwrap
-import unittest
 
 import numpy as np
 
@@ -23,7 +22,7 @@ __all__ = [
 ]
 
 
-class TestAbstractLUTSequenceOperator(unittest.TestCase):
+class TestAbstractLUTSequenceOperator:
     """
     Define :class:`colour.io.luts.operator.AbstractLUTSequenceOperator` class
     unit tests methods.
@@ -35,7 +34,7 @@ class TestAbstractLUTSequenceOperator(unittest.TestCase):
         required_attributes = ("name", "comments")
 
         for method in required_attributes:
-            self.assertIn(method, dir(AbstractLUTSequenceOperator))
+            assert method in dir(AbstractLUTSequenceOperator)
 
     def test_required_methods(self):
         """Test the presence of required methods."""
@@ -43,16 +42,16 @@ class TestAbstractLUTSequenceOperator(unittest.TestCase):
         required_methods = ("apply",)
 
         for method in required_methods:
-            self.assertIn(method, dir(AbstractLUTSequenceOperator))
+            assert method in dir(AbstractLUTSequenceOperator)
 
 
-class TestLUTOperatorMatrix(unittest.TestCase):
+class TestLUTOperatorMatrix:
     """
     Define :class:`colour.io.luts.operator.LUTOperatorMatrix` class unit tests
     methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         self._lut_operator_matrix = LUTOperatorMatrix(
@@ -68,7 +67,7 @@ class TestLUTOperatorMatrix(unittest.TestCase):
         required_attributes = ("matrix", "offset")
 
         for method in required_attributes:
-            self.assertIn(method, dir(LUTOperatorMatrix))
+            assert method in dir(LUTOperatorMatrix)
 
     def test_required_methods(self):
         """Test the presence of required methods."""
@@ -76,7 +75,7 @@ class TestLUTOperatorMatrix(unittest.TestCase):
         required_methods = ("__str__", "__repr__", "__eq__", "__ne__", "apply")
 
         for method in required_methods:
-            self.assertIn(method, dir(LUTOperatorMatrix))
+            assert method in dir(LUTOperatorMatrix)
 
     def test_matrix(self):
         """
@@ -106,10 +105,11 @@ class TestLUTOperatorMatrix(unittest.TestCase):
         method.
         """
 
-        self.assertEqual(
-            str(self._lut_operator_matrix),
-            textwrap.dedent(
-                """
+        assert (
+            str(self._lut_operator_matrix)
+            == (
+                textwrap.dedent(
+                    """
             LUTOperatorMatrix - Nemo Matrix
             -------------------------------
 
@@ -121,7 +121,8 @@ class TestLUTOperatorMatrix(unittest.TestCase):
 
             A first comment.
             A second comment."""
-            )[1:],
+                )[1:]
+            )
         )
 
     def test__repr__(self):
@@ -130,8 +131,7 @@ class TestLUTOperatorMatrix(unittest.TestCase):
         method.
         """
 
-        self.assertEqual(
-            repr(self._lut_operator_matrix),
+        assert repr(self._lut_operator_matrix) == (
             textwrap.dedent(
                 """
 LUTOperatorMatrix([[ 0.        ,  0.06666667,  0.13333333,  0.2       ],
@@ -141,7 +141,7 @@ LUTOperatorMatrix([[ 0.        ,  0.06666667,  0.13333333,  0.2       ],
                   [ 0.25,  0.5 ,  0.75,  1.  ],
                   name='Nemo Matrix',
                   comments=['A first comment.', 'A second comment.'])"""[1:]
-            ),
+            )
         )
 
     def test__eq__(self):
@@ -152,7 +152,7 @@ LUTOperatorMatrix([[ 0.        ,  0.06666667,  0.13333333,  0.2       ],
             np.array([0.25, 0.5, 0.75, 1.0]),
         )
 
-        self.assertEqual(self._lut_operator_matrix, matrix)
+        assert self._lut_operator_matrix == matrix
 
     def test__neq__(self):
         """
@@ -162,7 +162,7 @@ LUTOperatorMatrix([[ 0.        ,  0.06666667,  0.13333333,  0.2       ],
 
         matrix = LUTOperatorMatrix(np.reshape(np.linspace(0, 1, 16), (4, 4)) * 0.75)
 
-        self.assertNotEqual(self._lut_operator_matrix, matrix)
+        assert self._lut_operator_matrix != matrix
 
     def test_apply(self):
         """Test :class:`colour.io.luts.operator.LUTOperatorMatrix.apply` method."""
@@ -231,7 +231,3 @@ LUTOperatorMatrix([[ 0.        ,  0.06666667,  0.13333333,  0.2       ],
             ),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

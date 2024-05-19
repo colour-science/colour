@@ -3,10 +3,10 @@
 
 from __future__ import annotations
 
-import unittest
 from itertools import product
 
 import numpy as np
+import pytest
 
 from colour.colorimetry import (
     SpectralShape,
@@ -1197,7 +1197,7 @@ DATA_RAYLEIGH_JEANS: NDArrayFloat = np.array(
 )
 
 
-class TestPlanckLaw(unittest.TestCase):
+class TestPlanckLaw:
     """
     Define :func:`colour.colorimetry.blackbody.planck_law` definition unit
     tests methods.
@@ -1268,7 +1268,7 @@ class TestPlanckLaw(unittest.TestCase):
         """
 
         for wavelength in [-1.0, 0.0, -np.inf, np.nan]:
-            self.assertRaises(AssertionError, planck_law, wavelength, 5500)
+            pytest.raises(AssertionError, planck_law, wavelength, 5500)
 
     @ignore_numpy_errors
     def test_nan_planck_law(self):
@@ -1283,7 +1283,7 @@ class TestPlanckLaw(unittest.TestCase):
         planck_law(cases, cases)
 
 
-class TestSdBlackbody(unittest.TestCase):
+class TestSdBlackbody:
     """
     Define :func:`colour.colorimetry.blackbody.sd_blackbody` definition unit
     tests methods.
@@ -1299,7 +1299,7 @@ class TestSdBlackbody(unittest.TestCase):
         )
 
 
-class TestRayleighJeansLaw(unittest.TestCase):
+class TestRayleighJeansLaw:
     """
     Define :func:`colour.colorimetry.blackbody.rayleigh_jeans_law` definition unit
     tests methods.
@@ -1378,7 +1378,7 @@ class TestRayleighJeansLaw(unittest.TestCase):
         rayleigh_jeans_law(cases, cases)
 
 
-class TestSdRayleighJeans(unittest.TestCase):
+class TestSdRayleighJeans:
     """
     Define :func:`colour.colorimetry.blackbody.sd_rayleigh_jeans` definition unit
     tests methods.
@@ -1395,7 +1395,3 @@ class TestSdRayleighJeans(unittest.TestCase):
             DATA_RAYLEIGH_JEANS,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

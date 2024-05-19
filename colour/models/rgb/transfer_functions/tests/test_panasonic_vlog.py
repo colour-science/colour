@@ -3,7 +3,6 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
 panasonic_v_log` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -27,7 +26,7 @@ __all__ = [
 ]
 
 
-class TestLogEncoding_VLog(unittest.TestCase):
+class TestLogEncoding_VLog:
     """
     Define :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_encoding_VLog` definition unit tests methods.
@@ -128,7 +127,7 @@ log_encoding_VLog` definition nan support.
         log_encoding_VLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_VLog(unittest.TestCase):
+class TestLogDecoding_VLog:
     """
     Define :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_decoding_VLog` definition unit tests methods.
@@ -227,7 +226,3 @@ log_decoding_VLog` definition nan support.
         """
 
         log_decoding_VLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
-
-
-if __name__ == "__main__":
-    unittest.main()

@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.arib_std_b67` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -27,7 +26,7 @@ __all__ = [
 ]
 
 
-class TestOetf_ARIBSTDB67(unittest.TestCase):
+class TestOetf_ARIBSTDB67:
     """
     Define :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
 oetf_ARIBSTDB67` definition unit tests methods.
@@ -118,7 +117,7 @@ oetf_ARIBSTDB67` definition nan support.
         oetf_ARIBSTDB67(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestOetf_inverse_ARIBSTDB67(unittest.TestCase):
+class TestOetf_inverse_ARIBSTDB67:
     """
     Define :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
 oetf_inverse_ARIBSTDB67` definition unit tests methods.
@@ -209,7 +208,3 @@ oetf_inverse_ARIBSTDB67` definition nan support.
         """
 
         oetf_inverse_ARIBSTDB67(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
-
-
-if __name__ == "__main__":
-    unittest.main()

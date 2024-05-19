@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.hunter_rdab` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -23,7 +22,7 @@ __all__ = [
 ]
 
 
-class TestXYZ_to_ICaCb(unittest.TestCase):
+class TestXYZ_to_ICaCb:
     """
     Define :func:`colour.models.icacb.XYZ_to_ICaCb` definition unit tests
     methods.
@@ -104,7 +103,7 @@ class TestXYZ_to_ICaCb(unittest.TestCase):
         XYZ_to_ICaCb(cases)
 
 
-class TestICaCb_to_XYZ(unittest.TestCase):
+class TestICaCb_to_XYZ:
     """Test :func:`colour.models.icacb.ICaCb_to_XYZ` definition."""
 
     def test_XYZ_to_ICaCb(self):
@@ -180,7 +179,3 @@ class TestICaCb_to_XYZ(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         ICaCb_to_XYZ(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

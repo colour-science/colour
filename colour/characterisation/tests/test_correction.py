@@ -7,10 +7,10 @@ from __future__ import annotations
 
 import contextlib
 import platform
-import unittest
 from itertools import product
 
 import numpy as np
+import pytest
 from numpy.linalg import LinAlgError
 
 from colour.characterisation.correction import (
@@ -114,7 +114,7 @@ MATRIX_REFERENCE: NDArrayFloat = np.array(
 )
 
 
-class TestMatrixAugmentedCheung2004(unittest.TestCase):
+class TestMatrixAugmentedCheung2004:
     """
     Define :func:`colour.characterisation.correction.\
 matrix_augmented_Cheung2004` definition unit tests methods.
@@ -370,7 +370,7 @@ matrix_augmented_Cheung2004` definition.
 matrix_augmented_Cheung2004` definition raised exception.
         """
 
-        self.assertRaises(
+        pytest.raises(
             ValueError,
             matrix_augmented_Cheung2004,
             np.array([0.17224810, 0.09170660, 0.06416938]),
@@ -389,7 +389,7 @@ matrix_augmented_Cheung2004` definition nan support.
         matrix_augmented_Cheung2004(cases)
 
 
-class TestPolynomialExpansionFinlayson2015(unittest.TestCase):
+class TestPolynomialExpansionFinlayson2015:
     """
     Define :func:`colour.characterisation.correction.\
 polynomial_expansion_Finlayson2015` definition unit tests methods.
@@ -561,7 +561,7 @@ polynomial_expansion_Finlayson2015` definition.
 polynomial_expansion_Finlayson2015` definition raised exception.
         """
 
-        self.assertRaises(
+        pytest.raises(
             ValueError,
             polynomial_expansion_Finlayson2015,
             np.array([0.17224810, 0.09170660, 0.06416938]),
@@ -580,7 +580,7 @@ polynomial_expansion_Finlayson2015` definition nan support.
         polynomial_expansion_Finlayson2015(cases)
 
 
-class TestPolynomialExpansionVandermonde(unittest.TestCase):
+class TestPolynomialExpansionVandermonde:
     """
     Define :func:`colour.characterisation.correction.\
 polynomial_expansion_Vandermonde` definition unit tests methods.
@@ -659,7 +659,7 @@ polynomial_expansion_Vandermonde` definition nan support.
         polynomial_expansion_Vandermonde(cases)
 
 
-class TestMatrixColourCorrectionCheung2004(unittest.TestCase):
+class TestMatrixColourCorrectionCheung2004:
     """
     Define :func:`colour.characterisation.correction.\
 matrix_colour_correction_Cheung2004` definition unit tests methods.
@@ -740,7 +740,7 @@ matrix_colour_correction_Cheung2004` definition.
                 )
 
 
-class TestMatrixColourCorrectionFinlayson2015(unittest.TestCase):
+class TestMatrixColourCorrectionFinlayson2015:
     """
     Define :func:`colour.characterisation.correction.\
 matrix_colour_correction_Finlayson2015` definition unit tests methods.
@@ -843,7 +843,7 @@ matrix_colour_correction_Finlayson2015` definition.
                 )
 
 
-class TestMatrixColourCorrectionVandermonde(unittest.TestCase):
+class TestMatrixColourCorrectionVandermonde:
     """
     Define :func:`colour.characterisation.correction.\
 matrix_colour_correction_Vandermonde` definition unit tests methods.
@@ -937,7 +937,7 @@ matrix_colour_correction_Vandermonde` definition.
                 )
 
 
-class TestApplyMatrixColourCorrectionCheung2004(unittest.TestCase):
+class TestApplyMatrixColourCorrectionCheung2004:
     """
     Define :func:`colour.characterisation.correction.\
 apply_matrix_colour_correction_Cheung2004` definition unit tests methods.
@@ -1021,7 +1021,7 @@ apply_matrix_colour_correction_Cheung2004` definition nan support.
                 )
 
 
-class TestApplyMatrixColourCorrectionFinlayson2015(unittest.TestCase):
+class TestApplyMatrixColourCorrectionFinlayson2015:
     """
     Define :func:`colour.characterisation.correction.\
 apply_matrix_colour_correction_Finlayson2015` definition unit tests methods.
@@ -1105,7 +1105,7 @@ apply_matrix_colour_correction_Finlayson2015` definition n-dimensional support.
                 )
 
 
-class TestApplyMatrixColourCorrectionVandermonde(unittest.TestCase):
+class TestApplyMatrixColourCorrectionVandermonde:
     """
     Define :func:`colour.characterisation.correction.\
 apply_matrix_colour_correction_Vandermonde` definition unit tests methods.
@@ -1189,7 +1189,7 @@ apply_matrix_colour_correction_Vandermonde` definition nan support.
                 )
 
 
-class TestColourCorrectionCheung2004(unittest.TestCase):
+class TestColourCorrectionCheung2004:
     """
     Define :func:`colour.characterisation.correction.\
 colour_correction_Cheung2004` definition unit tests methods.
@@ -1262,7 +1262,7 @@ colour_correction_Cheung2004` definition nan support.
                 )
 
 
-class TestColourCorrectionFinlayson2015(unittest.TestCase):
+class TestColourCorrectionFinlayson2015:
     """
     Define :func:`colour.characterisation.correction.\
 colour_correction_Finlayson2015` definition unit tests methods.
@@ -1337,7 +1337,7 @@ colour_correction_Finlayson2015` definition n-dimensional support.
                 )
 
 
-class TestColourCorrectionVandermonde(unittest.TestCase):
+class TestColourCorrectionVandermonde:
     """
     Define :func:`colour.characterisation.correction.\
 colour_correction_Vandermonde` definition unit tests methods.
@@ -1408,7 +1408,3 @@ colour_correction_Vandermonde` definition nan support.
                     np.vstack([case, case, case]),
                     np.transpose(np.vstack([case, case, case])),
                 )
-
-
-if __name__ == "__main__":
-    unittest.main()

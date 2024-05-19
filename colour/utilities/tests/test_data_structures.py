@@ -3,9 +3,9 @@
 
 import operator
 import pickle
-import unittest
 
 import numpy as np
+import pytest
 
 from colour.utilities import (
     CanonicalMapping,
@@ -32,7 +32,7 @@ __all__ = [
 ]
 
 
-class TestStructure(unittest.TestCase):
+class TestStructure:
     """
     Define :class:`colour.utilities.data_structures.Structure` class unit
     tests methods.
@@ -42,34 +42,34 @@ class TestStructure(unittest.TestCase):
         """Test :class:`colour.utilities.data_structures.Structure` class."""
 
         structure = Structure(John="Doe", Jane="Doe")
-        self.assertIn("John", structure)
-        self.assertTrue(hasattr(structure, "John"))
+        assert "John" in structure
+        assert hasattr(structure, "John")
 
         structure.John = "Nemo"
-        self.assertEqual(structure["John"], "Nemo")
+        assert structure["John"] == "Nemo"
 
         structure["John"] = "Vador"
-        self.assertEqual(structure["John"], "Vador")
+        assert structure["John"] == "Vador"
 
         del structure["John"]
-        self.assertNotIn("John", structure)
-        self.assertFalse(hasattr(structure, "John"))
+        assert "John" not in structure
+        assert not hasattr(structure, "John")
 
         structure.John = "Doe"
-        self.assertIn("John", structure)
-        self.assertTrue(hasattr(structure, "John"))
+        assert "John" in structure
+        assert hasattr(structure, "John")
 
         del structure.John
-        self.assertNotIn("John", structure)
-        self.assertFalse(hasattr(structure, "John"))
+        assert "John" not in structure
+        assert not hasattr(structure, "John")
 
         structure = Structure(John=None, Jane=None)
-        self.assertIsNone(structure.John)
-        self.assertIsNone(structure["John"])
+        assert structure.John is None
+        assert structure["John"] is None
 
         structure.update(**{"John": "Doe", "Jane": "Doe"})
-        self.assertEqual(structure.John, "Doe")
-        self.assertEqual(structure["John"], "Doe")
+        assert structure.John == "Doe"
+        assert structure["John"] == "Doe"
 
     def test_pickling(self):
         """
@@ -81,16 +81,16 @@ class TestStructure(unittest.TestCase):
 
         data = pickle.dumps(structure)
         data = pickle.loads(data)  # noqa: S301
-        self.assertEqual(structure, data)
+        assert structure == data
 
         data = pickle.dumps(structure, pickle.HIGHEST_PROTOCOL)
         data = pickle.loads(data)  # noqa: S301
-        self.assertEqual(structure, data)
+        assert structure == data
 
-        self.assertEqual(sorted(dir(data)), ["Jane", "John"])
+        assert sorted(dir(data)) == ["Jane", "John"]
 
 
-class TestLookup(unittest.TestCase):
+class TestLookup:
     """
     Define :class:`colour.utilities.data_structures.Lookup` class unit tests
     methods.
@@ -102,7 +102,7 @@ class TestLookup(unittest.TestCase):
         required_methods = ("keys_from_value", "first_key_from_value")
 
         for method in required_methods:
-            self.assertIn(method, dir(Lookup))
+            assert method in dir(Lookup)
 
     def test_keys_from_value(self):
         """
@@ -111,14 +111,12 @@ class TestLookup(unittest.TestCase):
         """
 
         lookup = Lookup(John="Doe", Jane="Doe", Luke="Skywalker")
-        self.assertListEqual(["Jane", "John"], sorted(lookup.keys_from_value("Doe")))
+        assert ["Jane", "John"] == sorted(lookup.keys_from_value("Doe"))
 
         lookup = Lookup(
             A=np.array([0, 1, 2]), B=np.array([0, 1, 2]), C=np.array([1, 2, 3])
         )
-        self.assertListEqual(
-            ["A", "B"], sorted(lookup.keys_from_value(np.array([0, 1, 2])))
-        )
+        assert ["A", "B"] == sorted(lookup.keys_from_value(np.array([0, 1, 2])))
 
     def test_first_key_from_value(self):
         """
@@ -127,12 +125,12 @@ Lookup.first_key_from_value` method.
         """
 
         lookup = Lookup(first_name="John", last_name="Doe", gender="male")
-        self.assertEqual("first_name", lookup.first_key_from_value("John"))
+        assert lookup.first_key_from_value("John") == "first_name"
 
         lookup = Lookup(
             A=np.array([0, 1, 2]), B=np.array([1, 2, 3]), C=np.array([2, 3, 4])
         )
-        self.assertEqual("A", lookup.first_key_from_value(np.array([0, 1, 2])))
+        assert lookup.first_key_from_value(np.array([0, 1, 2])) == "A"
 
     def test_raise_exception_first_key_from_value(self):
         """
@@ -140,10 +138,10 @@ Lookup.first_key_from_value` method.
 Lookup.first_key_from_value` method raised exception.
         """
 
-        self.assertRaises(IndexError, Lookup().first_key_from_value, "John")
+        pytest.raises(IndexError, Lookup().first_key_from_value, "John")
 
 
-class TestCanonicalMapping(unittest.TestCase):
+class TestCanonicalMapping:
     """
     Define :class:`colour.utilities.data_structures.CanonicalMapping` class
     unit tests methods.
@@ -155,7 +153,7 @@ class TestCanonicalMapping(unittest.TestCase):
         required_attributes = ("data",)
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(CanonicalMapping))
+            assert attribute in dir(CanonicalMapping)
 
     def test_required_methods(self):
         """Test the presence of required methods."""
@@ -181,7 +179,7 @@ class TestCanonicalMapping(unittest.TestCase):
         )
 
         for method in required_methods:
-            self.assertIn(method, dir(CanonicalMapping))
+            assert method in dir(CanonicalMapping)
 
     def test_data(self):
         """
@@ -189,10 +187,10 @@ class TestCanonicalMapping(unittest.TestCase):
         property.
         """
 
-        self.assertDictEqual(
-            CanonicalMapping({"John": "Doe", "Jane": "Doe"}).data,
-            {"John": "Doe", "Jane": "Doe"},
-        )
+        assert CanonicalMapping({"John": "Doe", "Jane": "Doe"}).data == {
+            "John": "Doe",
+            "Jane": "Doe",
+        }
 
     def test__repr__(self):
         """
@@ -203,7 +201,7 @@ class TestCanonicalMapping(unittest.TestCase):
         mapping = CanonicalMapping()
 
         mapping["John"] = "Doe"
-        self.assertEqual(repr(mapping), "CanonicalMapping({'John': 'Doe'})")
+        assert repr(mapping) == "CanonicalMapping({'John': 'Doe'})"
 
     def test__setitem__(self):
         """
@@ -214,8 +212,8 @@ __setitem__` method.
         mapping = CanonicalMapping()
 
         mapping["John"] = "Doe"
-        self.assertEqual(mapping["John"], "Doe")
-        self.assertEqual(mapping["john"], "Doe")
+        assert mapping["John"] == "Doe"
+        assert mapping["john"] == "Doe"
 
     def test__getitem__(self):
         """
@@ -225,23 +223,23 @@ __getitem__` method.
 
         mapping = CanonicalMapping(John="Doe", Jane="Doe")
 
-        self.assertEqual(mapping["John"], "Doe")
-        self.assertEqual(mapping["john"], "Doe")
-        self.assertEqual(mapping["JOHN"], "Doe")
-        self.assertEqual(mapping["Jane"], "Doe")
-        self.assertEqual(mapping["jane"], "Doe")
-        self.assertEqual(mapping["JANE"], "Doe")
+        assert mapping["John"] == "Doe"
+        assert mapping["john"] == "Doe"
+        assert mapping["JOHN"] == "Doe"
+        assert mapping["Jane"] == "Doe"
+        assert mapping["jane"] == "Doe"
+        assert mapping["JANE"] == "Doe"
 
         mapping = CanonicalMapping({1: "Foo", 2: "Bar"})
 
-        self.assertEqual(mapping[1], "Foo")
+        assert mapping[1] == "Foo"
 
         mapping = CanonicalMapping({"McCamy 1992": 1, "Hernandez 1999": 2})
 
-        self.assertEqual(mapping["mccamy-1992"], 1)
-        self.assertEqual(mapping["hernandez-1999"], 2)
-        self.assertEqual(mapping["mccamy1992"], 1)
-        self.assertEqual(mapping["hernandez1999"], 2)
+        assert mapping["mccamy-1992"] == 1
+        assert mapping["hernandez-1999"] == 2
+        assert mapping["mccamy1992"] == 1
+        assert mapping["hernandez1999"] == 2
 
     def test__delitem__(self):
         """
@@ -252,39 +250,39 @@ __delitem__` method.
         mapping = CanonicalMapping(John="Doe", Jane="Doe")
 
         del mapping["john"]
-        self.assertNotIn("John", mapping)
+        assert "John" not in mapping
 
         del mapping["Jane"]
-        self.assertNotIn("jane", mapping)
-        self.assertEqual(len(mapping), 0)
+        assert "jane" not in mapping
+        assert len(mapping) == 0
 
         mapping = CanonicalMapping(John="Doe", Jane="Doe")
         del mapping["JOHN"]
-        self.assertNotIn("John", mapping)
+        assert "John" not in mapping
 
         del mapping["jane"]
-        self.assertNotIn("jane", mapping)
-        self.assertEqual(len(mapping), 0)
+        assert "jane" not in mapping
+        assert len(mapping) == 0
 
         mapping = CanonicalMapping({"McCamy 1992": 1, "Hernandez 1999": 2})
 
         del mapping["mccamy-1992"]
-        self.assertNotIn("McCamy 1992", mapping)
+        assert "McCamy 1992" not in mapping
 
         del mapping["hernandez-1999"]
-        self.assertNotIn("Hernandez 1999", mapping)
+        assert "Hernandez 1999" not in mapping
 
-        self.assertEqual(len(mapping), 0)
+        assert len(mapping) == 0
 
         mapping = CanonicalMapping({"McCamy 1992": 1, "Hernandez 1999": 2})
 
         del mapping["mccamy1992"]
-        self.assertNotIn("McCamy 1992", mapping)
+        assert "McCamy 1992" not in mapping
 
         del mapping["hernandez1999"]
-        self.assertNotIn("Hernandez 1999", mapping)
+        assert "Hernandez 1999" not in mapping
 
-        self.assertEqual(len(mapping), 0)
+        assert len(mapping) == 0
 
     def test__contains__(self):
         """
@@ -294,19 +292,19 @@ __contains__` method.
 
         mapping = CanonicalMapping(John="Doe", Jane="Doe")
 
-        self.assertIn("John", mapping)
-        self.assertIn("john", mapping)
-        self.assertIn("JOHN", mapping)
-        self.assertIn("Jane", mapping)
-        self.assertIn("jane", mapping)
-        self.assertIn("JANE", mapping)
+        assert "John" in mapping
+        assert "john" in mapping
+        assert "JOHN" in mapping
+        assert "Jane" in mapping
+        assert "jane" in mapping
+        assert "JANE" in mapping
 
         mapping = CanonicalMapping({"McCamy 1992": 1, "Hernandez 1999": 2})
 
-        self.assertIn("mccamy-1992", mapping)
-        self.assertIn("hernandez-1999", mapping)
-        self.assertIn("mccamy1992", mapping)
-        self.assertIn("hernandez1999", mapping)
+        assert "mccamy-1992" in mapping
+        assert "hernandez-1999" in mapping
+        assert "mccamy1992" in mapping
+        assert "hernandez1999" in mapping
 
     def test__iter__(self):
         """
@@ -315,7 +313,7 @@ __contains__` method.
         """
 
         mapping = CanonicalMapping(John="Doe", Jane="Doe")
-        self.assertListEqual(sorted(item for item in mapping), ["Jane", "John"])
+        assert sorted(item for item in mapping) == ["Jane", "John"]
 
     def test__len__(self):
         """
@@ -323,9 +321,9 @@ __contains__` method.
         method.
         """
 
-        self.assertEqual(len(CanonicalMapping()), 0)
+        assert len(CanonicalMapping()) == 0
 
-        self.assertEqual(len(CanonicalMapping(John="Doe", Jane="Doe")), 2)
+        assert len(CanonicalMapping(John="Doe", Jane="Doe")) == 2
 
     def test__eq__(self):
         """
@@ -337,9 +335,9 @@ __contains__` method.
         mapping2 = CanonicalMapping(John="Doe", Jane="Doe")
         mapping3 = CanonicalMapping(john="Doe", jane="Doe")
 
-        self.assertEqual(mapping1, mapping2)
+        assert mapping1 == mapping2
 
-        self.assertNotEqual(mapping2, mapping3)
+        assert mapping2 != mapping3
 
     def test_raise_exception__eq__(self):
         """
@@ -347,7 +345,7 @@ __contains__` method.
         method raised exception.
         """
 
-        self.assertRaises(
+        pytest.raises(
             TypeError,
             operator.eq,
             CanonicalMapping(John="Doe", Jane="Doe"),
@@ -363,7 +361,7 @@ __contains__` method.
         mapping1 = CanonicalMapping(John="Doe", Jane="Doe")
         mapping2 = CanonicalMapping(Gi="Doe", Jane="Doe")
 
-        self.assertNotEqual(mapping1, mapping2)
+        assert mapping1 != mapping2
 
     def test_raise_exception__ne__(self):
         """
@@ -371,7 +369,7 @@ __contains__` method.
         method raised exception.
         """
 
-        self.assertRaises(
+        pytest.raises(
             TypeError,
             operator.ne,
             CanonicalMapping(John="Doe", Jane="Doe"),
@@ -387,9 +385,9 @@ __contains__` method.
         mapping1 = CanonicalMapping(John="Doe", Jane="Doe")
         mapping2 = mapping1.copy()
 
-        self.assertEqual(mapping1, mapping2)
+        assert mapping1 == mapping2
 
-        self.assertNotEqual(id(mapping1), id(mapping2))
+        assert id(mapping1) != id(mapping2)
 
     def test_lower_keys(self):
         """
@@ -399,14 +397,11 @@ lower_keys` method.
 
         mapping = CanonicalMapping(John="Doe", Jane="Doe")
 
-        self.assertListEqual(
-            sorted(item for item in mapping.lower_keys()),
-            ["jane", "john"],
-        )
+        assert sorted(item for item in mapping.lower_keys()) == ["jane", "john"]
 
         mapping = CanonicalMapping(John="Doe", john="Doe")
 
-        self.assertWarns(ColourUsageWarning, lambda: list(mapping.lower_keys()))
+        pytest.warns(ColourUsageWarning, lambda: list(mapping.lower_keys()))
 
     def test_lower_items(self):
         """
@@ -416,10 +411,10 @@ lower_items` method.
 
         mapping = CanonicalMapping(John="Doe", Jane="Doe")
 
-        self.assertListEqual(
-            sorted(item for item in mapping.lower_items()),
-            [("jane", "Doe"), ("john", "Doe")],
-        )
+        assert sorted(item for item in mapping.lower_items()) == [
+            ("jane", "Doe"),
+            ("john", "Doe"),
+        ]
 
     def test_slugified_keys(self):
         """
@@ -429,14 +424,14 @@ slugified_keys` method.
 
         mapping = CanonicalMapping({"McCamy 1992": 1, "Hernandez 1999": 2})
 
-        self.assertListEqual(
-            sorted(item for item in mapping.slugified_keys()),
-            ["hernandez-1999", "mccamy-1992"],
-        )
+        assert sorted(item for item in mapping.slugified_keys()) == [
+            "hernandez-1999",
+            "mccamy-1992",
+        ]
 
         mapping = CanonicalMapping({"McCamy 1992": 1, "McCamy-1992": 2})
 
-        self.assertWarns(ColourUsageWarning, lambda: list(mapping.slugified_keys()))
+        pytest.warns(ColourUsageWarning, lambda: list(mapping.slugified_keys()))
 
     def test_slugified_items(self):
         """
@@ -445,10 +440,10 @@ slugified_items` method.
         """
 
         mapping = CanonicalMapping({"McCamy 1992": 1, "Hernandez 1999": 2})
-        self.assertListEqual(
-            sorted(item for item in mapping.slugified_items()),
-            [("hernandez-1999", 2), ("mccamy-1992", 1)],
-        )
+        assert sorted(item for item in mapping.slugified_items()) == [
+            ("hernandez-1999", 2),
+            ("mccamy-1992", 1),
+        ]
 
     def test_canonical_keys(self):
         """
@@ -458,14 +453,14 @@ canonical_keys` method.
 
         mapping = CanonicalMapping({"McCamy 1992": 1, "Hernandez 1999": 2})
 
-        self.assertListEqual(
-            sorted(item for item in mapping.canonical_keys()),
-            ["hernandez1999", "mccamy1992"],
-        )
+        assert sorted(item for item in mapping.canonical_keys()) == [
+            "hernandez1999",
+            "mccamy1992",
+        ]
 
         mapping = CanonicalMapping({"McCamy_1992": 1, "McCamy-1992": 2})
 
-        self.assertWarns(ColourUsageWarning, lambda: list(mapping.canonical_keys()))
+        pytest.warns(ColourUsageWarning, lambda: list(mapping.canonical_keys()))
 
     def test_canonical_items(self):
         """
@@ -474,13 +469,13 @@ canonical_items` method.
         """
 
         mapping = CanonicalMapping({"McCamy 1992": 1, "Hernandez 1999": 2})
-        self.assertListEqual(
-            sorted(item for item in mapping.canonical_items()),
-            [("hernandez1999", 2), ("mccamy1992", 1)],
-        )
+        assert sorted(item for item in mapping.canonical_items()) == [
+            ("hernandez1999", 2),
+            ("mccamy1992", 1),
+        ]
 
 
-class TestLazyCanonicalMapping(unittest.TestCase):
+class TestLazyCanonicalMapping:
     """
     Define :class:`colour.utilities.data_structures.LazyCanonicalMapping` class
     unit tests methods.
@@ -492,7 +487,7 @@ class TestLazyCanonicalMapping(unittest.TestCase):
         required_attributes = ()
 
         for attribute in required_attributes:  # pragma: no cover
-            self.assertIn(attribute, dir(LazyCanonicalMapping))
+            assert attribute in dir(LazyCanonicalMapping)
 
     def test_required_methods(self):
         """Test the presence of required methods."""
@@ -500,7 +495,7 @@ class TestLazyCanonicalMapping(unittest.TestCase):
         required_methods = ("__getitem__",)
 
         for method in required_methods:
-            self.assertIn(method, dir(LazyCanonicalMapping))
+            assert method in dir(LazyCanonicalMapping)
 
     def test__getitem__(self):
         """
@@ -510,19 +505,19 @@ __getitem__` method.
 
         mapping = LazyCanonicalMapping(John="Doe", Jane=lambda: "Doe")
 
-        self.assertEqual(mapping["John"], "Doe")
-        self.assertEqual(mapping["john"], "Doe")
-        self.assertEqual(mapping["Jane"], "Doe")
-        self.assertEqual(mapping["jane"], "Doe")
+        assert mapping["John"] == "Doe"
+        assert mapping["john"] == "Doe"
+        assert mapping["Jane"] == "Doe"
+        assert mapping["jane"] == "Doe"
 
 
-class TestNode(unittest.TestCase):
+class TestNode:
     """
     Define :class:`colour.utilities.data_structures.Node` class unit tests
     methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         self._data = {"John": "Doe"}
@@ -553,7 +548,7 @@ class TestNode(unittest.TestCase):
         )
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(Node))
+            assert attribute in dir(Node)
 
     def test_required_methods(self):
         """Test the presence of required methods."""
@@ -571,127 +566,114 @@ class TestNode(unittest.TestCase):
         )
 
         for method in required_methods:
-            self.assertIn(method, dir(Node))
+            assert method in dir(Node)
 
     def test_name(self):
         """Test :attr:`colour.utilities.data_structures.Node.name` property."""
 
-        self.assertEqual(self._tree.name, "Node A")
-        self.assertIn("Node#", Node().name)
+        assert self._tree.name == "Node A"
+        assert "Node#" in Node().name
 
     def test_parent(self):
         """Test :attr:`colour.utilities.data_structures.Node.parent` property."""
 
-        self.assertIs(self._node_b.parent, self._node_a)
-        self.assertIs(self._node_h.parent, self._node_g)
+        assert self._node_b.parent is self._node_a
+        assert self._node_h.parent is self._node_g
 
     def test_children(self):
         """Test :attr:`colour.utilities.data_structures.Node.children` property."""
 
-        self.assertListEqual(self._node_a.children, [self._node_b, self._node_c])
+        assert self._node_a.children == [self._node_b, self._node_c]
 
     def test_id(self):
         """Test :attr:`colour.utilities.data_structures.Node.id` property."""
 
-        self.assertIsInstance(self._node_a.id, int)
+        assert isinstance(self._node_a.id, int)
 
     def test_root(self):
         """Test :attr:`colour.utilities.data_structures.Node.root` property."""
 
-        self.assertIs(self._node_a.root, self._node_a)
-        self.assertIs(self._node_f.root, self._node_a)
-        self.assertIs(self._node_g.root, self._node_a)
-        self.assertIs(self._node_h.root, self._node_a)
+        assert self._node_a.root is self._node_a
+        assert self._node_f.root is self._node_a
+        assert self._node_g.root is self._node_a
+        assert self._node_h.root is self._node_a
 
     def test_leaves(self):
         """Test :attr:`colour.utilities.data_structures.Node.leaves` property."""
 
-        self.assertListEqual(list(self._node_h.leaves), [self._node_h])
+        assert list(self._node_h.leaves) == [self._node_h]
 
-        self.assertListEqual(
-            list(self._node_a.leaves),
-            [self._node_h, self._node_e, self._node_c],
-        )
+        assert list(self._node_a.leaves) == [self._node_h, self._node_e, self._node_c]
 
     def test_siblings(self):
         """Test :attr:`colour.utilities.data_structures.Node.siblings` property."""
 
-        self.assertListEqual(list(self._node_a.siblings), [])
+        assert list(self._node_a.siblings) == []
 
-        self.assertListEqual(list(self._node_b.siblings), [self._node_c])
+        assert list(self._node_b.siblings) == [self._node_c]
 
     def test_data(self):
         """Test :attr:`colour.utilities.data_structures.Node.data` property."""
 
-        self.assertIs(self._node_a.data, self._data)
+        assert self._node_a.data is self._data
 
     def test__str__(self):
         """Test :attr:`colour.utilities.data_structures.Node.__str__` method."""
 
-        self.assertIn("Node#", str(self._node_a))
-        self.assertIn("{'John': 'Doe'})", str(self._node_a))
+        assert "Node#" in str(self._node_a)
+        assert "{'John': 'Doe'})" in str(self._node_a)
 
     def test__len__(self):
         """Test :attr:`colour.utilities.data_structures.Node.__len__` method."""
 
-        self.assertEqual(len(self._node_a), 7)
+        assert len(self._node_a) == 7
 
     def test_is_root(self):
         """Test :attr:`colour.utilities.data_structures.Node.is_root` method."""
 
-        self.assertTrue(self._node_a.is_root())
-        self.assertFalse(self._node_b.is_root())
-        self.assertFalse(self._node_c.is_root())
-        self.assertFalse(self._node_h.is_root())
+        assert self._node_a.is_root()
+        assert not self._node_b.is_root()
+        assert not self._node_c.is_root()
+        assert not self._node_h.is_root()
 
     def test_is_inner(self):
         """Test :attr:`colour.utilities.data_structures.Node.is_inner` method."""
 
-        self.assertFalse(self._node_a.is_inner())
-        self.assertTrue(self._node_b.is_inner())
-        self.assertFalse(self._node_c.is_inner())
-        self.assertFalse(self._node_h.is_inner())
+        assert not self._node_a.is_inner()
+        assert self._node_b.is_inner()
+        assert not self._node_c.is_inner()
+        assert not self._node_h.is_inner()
 
     def test_is_leaf(self):
         """Test :attr:`colour.utilities.data_structures.Node.is_leaf` method."""
 
-        self.assertFalse(self._node_a.is_leaf())
-        self.assertFalse(self._node_b.is_leaf())
-        self.assertTrue(self._node_c.is_leaf())
-        self.assertTrue(self._node_h.is_leaf())
+        assert not self._node_a.is_leaf()
+        assert not self._node_b.is_leaf()
+        assert self._node_c.is_leaf()
+        assert self._node_h.is_leaf()
 
     def test_walk(self):
         """Test :attr:`colour.utilities.data_structures.Node.walk` method."""
 
-        self.assertListEqual(
-            list(self._node_a.walk()),
-            [
-                self._node_b,
-                self._node_d,
-                self._node_f,
-                self._node_g,
-                self._node_h,
-                self._node_e,
-                self._node_c,
-            ],
-        )
+        assert list(self._node_a.walk()) == [
+            self._node_b,
+            self._node_d,
+            self._node_f,
+            self._node_g,
+            self._node_h,
+            self._node_e,
+            self._node_c,
+        ]
 
-        self.assertListEqual(
-            list(self._node_h.walk(ascendants=True)),
-            [
-                self._node_g,
-                self._node_f,
-                self._node_d,
-                self._node_b,
-                self._node_a,
-            ],
-        )
+        assert list(self._node_h.walk(ascendants=True)) == [
+            self._node_g,
+            self._node_f,
+            self._node_d,
+            self._node_b,
+            self._node_a,
+        ]
 
     def test_render(self):
         """Test :attr:`colour.utilities.data_structures.Node.render` method."""
 
-        self.assertIsInstance(self._node_a.render(), str)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert isinstance(self._node_a.render(), str)

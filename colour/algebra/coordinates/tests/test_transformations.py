@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.algebra.coordinates.transformations` module.
 """
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -36,7 +35,7 @@ __all__ = [
 ]
 
 
-class TestCartesianToSpherical(unittest.TestCase):
+class TestCartesianToSpherical:
     """
     Define :func:`colour.algebra.coordinates.transformations.\
 cartesian_to_spherical` definition unit tests methods.
@@ -99,7 +98,7 @@ cartesian_to_spherical` definition nan support.
         cartesian_to_spherical(cases)
 
 
-class TestSphericalToCartesian(unittest.TestCase):
+class TestSphericalToCartesian:
     """
     Define :func:`colour.algebra.coordinates.transformations.\
 spherical_to_cartesian` definition unit tests methods.
@@ -162,7 +161,7 @@ spherical_to_cartesian` definition nan support.
         spherical_to_cartesian(cases)
 
 
-class TestCartesianToPolar(unittest.TestCase):
+class TestCartesianToPolar:
     """
     Define :func:`colour.algebra.coordinates.transformations.\
 cartesian_to_polar` definition unit tests methods.
@@ -225,7 +224,7 @@ cartesian_to_polar` definition nan support.
         cartesian_to_polar(cases)
 
 
-class TestPolarToCartesian(unittest.TestCase):
+class TestPolarToCartesian:
     """
     Define :func:`colour.algebra.coordinates.transformations.\
 polar_to_cartesian` definition unit tests methods.
@@ -288,7 +287,7 @@ polar_to_cartesian` definition nan support.
         polar_to_cartesian(cases)
 
 
-class TestCartesianToCylindrical(unittest.TestCase):
+class TestCartesianToCylindrical:
     """
     Define :func:`colour.algebra.coordinates.transformations.\
 cartesian_to_cylindrical` definition unit tests methods.
@@ -351,7 +350,7 @@ cartesian_to_cylindrical` definition nan support.
         cartesian_to_cylindrical(cases)
 
 
-class TestCylindricalToCartesian(unittest.TestCase):
+class TestCylindricalToCartesian:
     """
     Define :func:`colour.algebra.coordinates.transformations.\
 cylindrical_to_cartesian` definition unit tests methods.
@@ -412,7 +411,3 @@ cylindrical_to_cartesian` definition nan support.
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         cylindrical_to_cartesian(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

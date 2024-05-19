@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.log` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -33,7 +32,7 @@ __all__ = [
 ]
 
 
-class TestLogarithmFunction_Basic(unittest.TestCase):
+class TestLogarithmFunction_Basic:
     """
     Define :func:`colour.models.rgb.transfer_functions.log.\
 logarithmic_function_basic` definition unit tests methods.
@@ -130,7 +129,7 @@ logarithmic_function_basic` definition nan support.
             logarithmic_function_basic(cases, style)
 
 
-class TestLogarithmFunction_Quasilog(unittest.TestCase):
+class TestLogarithmFunction_Quasilog:
     """
     Define :func:`colour.models.rgb.transfer_functions.log.\
 logarithmic_function_quasilog` definition unit tests methods.
@@ -271,7 +270,7 @@ logarithmic_function_quasilog` definition nan support.
             logarithmic_function_quasilog(cases, style)
 
 
-class TestLogarithmFunction_Camera(unittest.TestCase):
+class TestLogarithmFunction_Camera:
     """
     Define :func:`colour.models.rgb.transfer_functions.log.\
 logarithmic_function_camera` definition unit tests methods.
@@ -483,7 +482,7 @@ logarithmic_function_camera` definition nan support.
             logarithmic_function_camera(cases, style)
 
 
-class TestLogEncoding_Log2(unittest.TestCase):
+class TestLogEncoding_Log2:
     """
     Define :func:`colour.models.rgb.transfer_functions.log.\
 log_encoding_Log2` definition unit tests methods.
@@ -582,7 +581,7 @@ log_encoding_Log2` definition nan support.
         log_encoding_Log2(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_Log2(unittest.TestCase):
+class TestLogDecoding_Log2:
     """
     Define :func:`colour.models.rgb.transfer_functions.log.\
 log_decoding_Log2` definition unit tests methods.
@@ -681,7 +680,3 @@ log_decoding_Log2` definition nan support.
         """
 
         log_decoding_Log2(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
-
-
-if __name__ == "__main__":
-    unittest.main()

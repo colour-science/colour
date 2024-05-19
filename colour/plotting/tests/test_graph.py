@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.plotting.graph` module."""
 import tempfile
-import unittest
 
 from colour.plotting import plot_automatic_colour_conversion_graph
 from colour.utilities import is_graphviz_installed, is_networkx_installed
@@ -18,7 +17,7 @@ __all__ = [
 ]
 
 
-class TestPlotAutomaticColourConversionGraph(unittest.TestCase):
+class TestPlotAutomaticColourConversionGraph:
     """
     Define :func:`colour.plotting.graph.\
 plot_automatic_colour_conversion_graph` definition unit tests methods.
@@ -38,7 +37,3 @@ plot_automatic_colour_conversion_graph` definition.
         plot_automatic_colour_conversion_graph(  # pragma: no cover
             f"{tempfile.mkstemp()[-1]}.png"
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

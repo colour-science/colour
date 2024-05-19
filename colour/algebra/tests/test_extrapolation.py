@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.algebra.extrapolation` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -27,7 +26,7 @@ __all__ = [
 ]
 
 
-class TestExtrapolator(unittest.TestCase):
+class TestExtrapolator:
     """
     Define :class:`colour.algebra.extrapolation.Extrapolator` class unit
     tests methods.
@@ -39,7 +38,7 @@ class TestExtrapolator(unittest.TestCase):
         required_attributes = ("interpolator",)
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(Extrapolator))
+            assert attribute in dir(Extrapolator)
 
     def test_required_methods(self):
         """Test the presence of required methods."""
@@ -47,7 +46,7 @@ class TestExtrapolator(unittest.TestCase):
         required_methods = ("__init__",)
 
         for method in required_methods:  # pragma: no cover
-            self.assertIn(method, dir(Extrapolator))
+            assert method in dir(Extrapolator)
 
     def test_interpolator(self):
         """
@@ -58,7 +57,7 @@ class TestExtrapolator(unittest.TestCase):
         extrapolator = Extrapolator(
             LinearInterpolator(np.array([5, 6, 7]), np.array([5, 6, 7]))
         )
-        self.assertIsInstance(extrapolator.interpolator, LinearInterpolator)
+        assert isinstance(extrapolator.interpolator, LinearInterpolator)
 
     def test_method(self):
         """
@@ -69,13 +68,13 @@ class TestExtrapolator(unittest.TestCase):
         extrapolator = Extrapolator(
             LinearInterpolator(np.array([5, 6, 7]), np.array([5, 6, 7]))
         )
-        self.assertEqual(extrapolator.method, "linear")
+        assert extrapolator.method == "linear"
 
         extrapolator = Extrapolator(
             LinearInterpolator(np.array([5, 6, 7]), np.array([5, 6, 7])),
             method="Constant",
         )
-        self.assertEqual(extrapolator.method, "constant")
+        assert extrapolator.method == "constant"
 
     def test_left(self):
         """
@@ -87,7 +86,7 @@ class TestExtrapolator(unittest.TestCase):
             LinearInterpolator(np.array([5, 6, 7]), np.array([5, 6, 7])),
             left=0,
         )
-        self.assertEqual(extrapolator.left, 0)
+        assert extrapolator.left == 0
 
     def test_right(self):
         """
@@ -99,7 +98,7 @@ class TestExtrapolator(unittest.TestCase):
             LinearInterpolator(np.array([5, 6, 7]), np.array([5, 6, 7])),
             right=0,
         )
-        self.assertEqual(extrapolator.right, 0)
+        assert extrapolator.right == 0
 
     def test__call__(self):
         """
@@ -111,14 +110,14 @@ class TestExtrapolator(unittest.TestCase):
             LinearInterpolator(np.array([5, 6, 7]), np.array([5, 6, 7]))
         )
         np.testing.assert_array_equal(extrapolator((4, 8)), (4, 8))
-        self.assertEqual(extrapolator(4), 4)
+        assert extrapolator(4) == 4
 
         extrapolator = Extrapolator(
             LinearInterpolator(np.array([3, 4, 5]), np.array([1, 2, 3])),
             method="Constant",
         )
         np.testing.assert_array_equal(extrapolator((0.1, 0.2, 8, 9)), (1, 1, 3, 3))
-        self.assertEqual(extrapolator(0.1), 1.0)
+        assert extrapolator(0.1) == 1.0
 
         extrapolator = Extrapolator(
             LinearInterpolator(np.array([3, 4, 5]), np.array([1, 2, 3])),
@@ -126,7 +125,7 @@ class TestExtrapolator(unittest.TestCase):
             left=0,
         )
         np.testing.assert_array_equal(extrapolator((0.1, 0.2, 8, 9)), (0, 0, 3, 3))
-        self.assertEqual(extrapolator(0.1), 0)
+        assert extrapolator(0.1) == 0
 
         extrapolator = Extrapolator(
             LinearInterpolator(np.array([3, 4, 5]), np.array([1, 2, 3])),
@@ -134,7 +133,7 @@ class TestExtrapolator(unittest.TestCase):
             right=0,
         )
         np.testing.assert_array_equal(extrapolator((0.1, 0.2, 8, 9)), (1, 1, 0, 0))
-        self.assertEqual(extrapolator(9), 0)
+        assert extrapolator(9) == 0
 
         extrapolator = Extrapolator(
             CubicSplineInterpolator(np.array([3, 4, 5, 6]), np.array([1, 2, 3, 4]))
@@ -144,7 +143,7 @@ class TestExtrapolator(unittest.TestCase):
             (-1.9, -1.8, 6.0, 7.0),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        self.assertEqual(extrapolator(9), 7)
+        assert extrapolator(9) == 7
 
         extrapolator = Extrapolator(
             PchipInterpolator(np.array([3, 4, 5]), np.array([1, 2, 3]))
@@ -154,7 +153,7 @@ class TestExtrapolator(unittest.TestCase):
             (-1.9, -1.8, 6.0, 7.0),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        self.assertEqual(extrapolator(9), 7.0)
+        assert extrapolator(9) == 7.0
 
     @ignore_numpy_errors
     def test_nan__call__(self):
@@ -168,7 +167,3 @@ class TestExtrapolator(unittest.TestCase):
         for case in cases:
             extrapolator = Extrapolator(LinearInterpolator(case, case))
             extrapolator(case[0])
-
-
-if __name__ == "__main__":
-    unittest.main()

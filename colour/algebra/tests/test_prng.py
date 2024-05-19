@@ -12,8 +12,6 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 
 from __future__ import annotations
 
-import unittest
-
 import numpy as np
 
 from colour.algebra import random_triplet_generator
@@ -48,7 +46,7 @@ RANDOM_TRIPLETS: NDArrayFloat = np.array(
 )
 
 
-class TestRandomTripletGenerator(unittest.TestCase):
+class TestRandomTripletGenerator:
     """
     Define :func:`colour.algebra.prng.random_triplet_generator` definition
     unit tests methods.
@@ -73,7 +71,3 @@ class TestRandomTripletGenerator(unittest.TestCase):
             random_triplet_generator(10, random_state=prng),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

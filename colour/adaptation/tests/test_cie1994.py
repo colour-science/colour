@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.adaptation.cie1994` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -22,7 +21,7 @@ __all__ = [
 ]
 
 
-class TestChromaticAdaptationCIE1994(unittest.TestCase):
+class TestChromaticAdaptationCIE1994:
     """
     Define :func:`colour.adaptation.cie1994.chromatic_adaptation_CIE1994`
     definition unit tests methods.
@@ -161,7 +160,3 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
             cases[..., 0],
             cases[..., 0],
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

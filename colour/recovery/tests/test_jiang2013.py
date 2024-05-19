@@ -1,9 +1,9 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.recovery.jiang2013` module."""
 
-import unittest
 
 import numpy as np
+import pytest
 
 from colour.characterisation import (
     MSDS_CAMERA_SENSITIVITIES,
@@ -38,13 +38,13 @@ __status__ = "Production"
 
 __all__ = [
     "TestPCA_Jiang2013",
-    "TestMixinJiang2013",
+    "FixtureJiang2013",
     "TestRGB_to_sd_camera_sensitivity_Jiang2013",
     "TestRGB_to_msds_camera_sensitivities_Jiang2013",
 ]
 
 
-class TestPCA_Jiang2013(unittest.TestCase):
+class TestPCA_Jiang2013:
     """
     Define :func:`colour.recovery.jiang2013.PCA_Jiang2013` definition unit
     tests methods.
@@ -182,11 +182,12 @@ class TestPCA_Jiang2013(unittest.TestCase):
         )
 
 
-class TestMixinJiang2013:
-    """A mixin for testing the :mod:`colour.recovery.jiang2013` module."""
+class FixtureJiang2013:
+    """A fixture for testing the :mod:`colour.recovery.jiang2013` module."""
 
-    def __init__(self) -> None:
-        """Initialise common tests attributes for the mixin."""
+    @pytest.fixture(autouse=True)
+    def setup_fixture_jiang_2013(self) -> None:
+        """Configure the class instance."""
 
         self._sensitivities = reshape_msds(
             MSDS_CAMERA_SENSITIVITIES["Nikon 5100 (NPL)"],
@@ -210,16 +211,16 @@ class TestMixinJiang2013:
         )
 
 
-class TestRGB_to_sd_camera_sensitivity_Jiang2013(unittest.TestCase, TestMixinJiang2013):
+class TestRGB_to_sd_camera_sensitivity_Jiang2013(FixtureJiang2013):
     """
     Define :func:`colour.recovery.jiang2013.RGB_to_sd_camera_sensitivity_Jiang2013`
     definition unit tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
-        TestMixinJiang2013.__init__(self)
+        FixtureJiang2013.__init__(self)
 
     def test_RGB_to_sd_camera_sensitivity_Jiang2013(self):
         """
@@ -276,18 +277,16 @@ RGB_to_sd_camera_sensitivity_Jiang2013` definition.
         )
 
 
-class TestRGB_to_msds_camera_sensitivities_Jiang2013(
-    unittest.TestCase, TestMixinJiang2013
-):
+class TestRGB_to_msds_camera_sensitivities_Jiang2013(FixtureJiang2013):
     """
     Define :func:`colour.recovery.jiang2013.\
 RGB_to_msds_camera_sensitivities_Jiang2013` definition unit tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
-        TestMixinJiang2013.__init__(self)
+        FixtureJiang2013.__init__(self)
 
     def test_RGB_to_msds_camera_sensitivities_Jiang2013(self):
         """
@@ -340,7 +339,3 @@ RGB_to_msds_camera_sensitivities_Jiang2013` definition.
             ),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

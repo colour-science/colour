@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.plotting.section` module."""
 
-import unittest
 
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
@@ -33,7 +32,7 @@ __all__ = [
 ]
 
 
-class TestPlotHullSectionColours(unittest.TestCase):
+class TestPlotHullSectionColours:
     """
     Define :func:`colour.plotting.section.plot_hull_section_colours`
     definition unit tests methods.
@@ -56,21 +55,21 @@ class TestPlotHullSectionColours(unittest.TestCase):
 
         figure, axes = plot_hull_section_colours(hull)
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
         figure, axes = plot_hull_section_colours(hull, axis="+x")
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
         figure, axes = plot_hull_section_colours(hull, axis="+y")
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotHullSectionContour(unittest.TestCase):
+class TestPlotHullSectionContour:
     """
     Define :func:`colour.plotting.section.plot_hull_section_contour`
     definition unit tests methods.
@@ -93,11 +92,11 @@ class TestPlotHullSectionContour(unittest.TestCase):
 
         figure, axes = plot_hull_section_contour(hull)
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotVisibleSpectrumSection(unittest.TestCase):
+class TestPlotVisibleSpectrumSection:
     """
     Define :func:`colour.plotting.section.plot_visible_spectrum_section`
     definition unit tests methods.
@@ -114,11 +113,11 @@ class TestPlotVisibleSpectrumSection(unittest.TestCase):
 
         figure, axes = plot_visible_spectrum_section()
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotRGBColourspaceSection(unittest.TestCase):
+class TestPlotRGBColourspaceSection:
     """
     Define :func:`colour.plotting.section.plot_RGB_colourspace_section`
     definition unit tests methods.
@@ -135,9 +134,5 @@ class TestPlotRGBColourspaceSection(unittest.TestCase):
 
         figure, axes = plot_RGB_colourspace_section("sRGB")
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)

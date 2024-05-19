@@ -1,9 +1,9 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.geometry.vertices` module."""
 
-import unittest
 
 import numpy as np
+import pytest
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.geometry import (
@@ -29,7 +29,7 @@ __all__ = [
 ]
 
 
-class TestPrimitiveVerticesQuadMpl(unittest.TestCase):
+class TestPrimitiveVerticesQuadMpl:
     """
     Define :func:`colour.geometry.vertices.primitive_vertices_quad_mpl`
     definition unit tests methods.
@@ -104,12 +104,10 @@ class TestPrimitiveVerticesQuadMpl(unittest.TestCase):
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
-        self.assertRaises(
-            ValueError, lambda: primitive_vertices_quad_mpl(axis="Undefined")
-        )
+        pytest.raises(ValueError, lambda: primitive_vertices_quad_mpl(axis="Undefined"))
 
 
-class TestPrimitiveVerticesGridMpl(unittest.TestCase):
+class TestPrimitiveVerticesGridMpl:
     """
     Define :func:`colour.geometry.vertices.primitive_vertices_grid_mpl`
     definition unit tests methods.
@@ -198,7 +196,7 @@ class TestPrimitiveVerticesGridMpl(unittest.TestCase):
         )
 
 
-class TestPrimitiveVerticesCubeMpl(unittest.TestCase):
+class TestPrimitiveVerticesCubeMpl:
     """
     Define :func:`colour.geometry.vertices.primitive_vertices_cube_mpl`
     definition unit tests methods.
@@ -597,7 +595,7 @@ class TestPrimitiveVerticesCubeMpl(unittest.TestCase):
             )
 
 
-class TestPrimitiveVerticesSphere(unittest.TestCase):
+class TestPrimitiveVerticesSphere:
     """
     Define :func:`colour.geometry.vertices.primitive_vertices_sphere`
     definition unit tests methods.
@@ -996,10 +994,4 @@ class TestPrimitiveVerticesSphere(unittest.TestCase):
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
-        self.assertRaises(
-            ValueError, lambda: primitive_vertices_quad_mpl(axis="Undefined")
-        )
-
-
-if __name__ == "__main__":
-    unittest.main()
+        pytest.raises(ValueError, lambda: primitive_vertices_quad_mpl(axis="Undefined"))

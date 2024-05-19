@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.volume.mesh` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -22,13 +21,13 @@ __all__ = [
 ]
 
 
-class TestIsWithinMeshVolume(unittest.TestCase):
+class TestIsWithinMeshVolume:
     """
     Define :func:`colour.volume.mesh.is_within_mesh_volume` definition unit
     tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         self._mesh = np.array(
@@ -44,21 +43,13 @@ class TestIsWithinMeshVolume(unittest.TestCase):
     def test_is_within_mesh_volume(self):
         """Test :func:`colour.volume.mesh.is_within_mesh_volume` definition."""
 
-        self.assertTrue(
-            is_within_mesh_volume(np.array([0.0005, 0.0031, 0.0010]), self._mesh)
-        )
+        assert is_within_mesh_volume(np.array([0.0005, 0.0031, 0.0010]), self._mesh)
 
-        self.assertFalse(
-            is_within_mesh_volume(np.array([0.3205, 0.4131, 0.5100]), self._mesh)
-        )
+        assert not is_within_mesh_volume(np.array([0.3205, 0.4131, 0.5100]), self._mesh)
 
-        self.assertTrue(
-            is_within_mesh_volume(np.array([0.0025, 0.0088, 0.0340]), self._mesh)
-        )
+        assert is_within_mesh_volume(np.array([0.0025, 0.0088, 0.0340]), self._mesh)
 
-        self.assertFalse(
-            is_within_mesh_volume(np.array([0.4325, 0.3788, 0.1034]), self._mesh)
-        )
+        assert not is_within_mesh_volume(np.array([0.4325, 0.3788, 0.1034]), self._mesh)
 
     def test_n_dimensional_is_within_mesh_volume(self):
         """
@@ -95,7 +86,3 @@ class TestIsWithinMeshVolume(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         is_within_mesh_volume(cases, self._mesh)
-
-
-if __name__ == "__main__":
-    unittest.main()

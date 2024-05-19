@@ -2,7 +2,6 @@
 """Define the unit tests for the :mod:`colour.models.rgb.datasets` module."""
 
 import pickle
-import unittest
 from copy import deepcopy
 
 import numpy as np
@@ -26,7 +25,7 @@ __all__ = [
 ]
 
 
-class TestRGB_COLOURSPACES(unittest.TestCase):
+class TestRGB_COLOURSPACES:
     """
     Define :attr:`colour.models.rgb.datasets.RGB_COLOURSPACES`
     attribute unit tests methods.
@@ -163,7 +162,3 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
         for colourspace in RGB_COLOURSPACES.values():
             pickle.dumps(colourspace)
-
-
-if __name__ == "__main__":
-    unittest.main()

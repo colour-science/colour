@@ -3,7 +3,6 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.dcdm`
 module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -24,7 +23,7 @@ __all__ = [
 ]
 
 
-class TestEotf_inverse_DCDM(unittest.TestCase):
+class TestEotf_inverse_DCDM:
     """
     Define :func:`colour.models.rgb.transfer_functions.dcdm.eotf_inverse_DCDM`
     definition unit tests methods.
@@ -48,7 +47,7 @@ dcdm.eotf_inverse_DCDM` definition.
             eotf_inverse_DCDM(1.0), 0.21817973, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertEqual(eotf_inverse_DCDM(0.18, out_int=True), 462)
+        assert eotf_inverse_DCDM(0.18, out_int=True) == 462
 
     def test_n_dimensional_eotf_inverse_DCDM(self):
         """
@@ -105,7 +104,7 @@ eotf_inverse_DCDM` definition nan support.
         eotf_inverse_DCDM(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestEotf_DCDM(unittest.TestCase):
+class TestEotf_DCDM:
     """
     Define :func:`colour.models.rgb.transfer_functions.dcdm.eotf_DCDM`
     definition unit tests methods.
@@ -176,7 +175,3 @@ class TestEotf_DCDM(unittest.TestCase):
         """
 
         eotf_DCDM(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
-
-
-if __name__ == "__main__":
-    unittest.main()

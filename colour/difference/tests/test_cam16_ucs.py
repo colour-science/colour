@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.difference.cam16_ucs` module."""
 
-import unittest
 
 from colour.difference.tests.test_cam02_ucs import TestDelta_E_Luo2006
 
@@ -28,7 +27,3 @@ class TestDelta_E_Li2017(TestDelta_E_Luo2006):
         of :func:`colour.difference.cam02_ucs.delta_E_Luo2006` and thus
         currently adopts the same unittests.
     """
-
-
-if __name__ == "__main__":
-    unittest.main()

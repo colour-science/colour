@@ -3,7 +3,6 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
 filmlight_t_log` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -27,7 +26,7 @@ __all__ = [
 ]
 
 
-class TestLogEncoding_FilmLightTLog(unittest.TestCase):
+class TestLogEncoding_FilmLightTLog:
     """
     Define :func:`colour.models.rgb.transfer_functions.filmlight_t_log.\
 log_encoding_FilmLightTLog` definition unit tests methods.
@@ -112,7 +111,7 @@ log_encoding_FilmLightTLog` definition nan support.
         log_encoding_FilmLightTLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_FilmLightTLog(unittest.TestCase):
+class TestLogDecoding_FilmLightTLog:
     """
     Define :func:`colour.models.rgb.transfer_functions.filmlight_t_log.\
 log_decoding_FilmLightTLog` definition unit tests methods.
@@ -195,7 +194,3 @@ log_decoding_FilmLightTLog` definition nan support.
         """
 
         log_decoding_FilmLightTLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
-
-
-if __name__ == "__main__":
-    unittest.main()

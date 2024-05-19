@@ -3,7 +3,6 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
 fujifilm_f_log` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -31,7 +30,7 @@ __all__ = [
 ]
 
 
-class TestLogEncoding_FLog(unittest.TestCase):
+class TestLogEncoding_FLog:
     """
     Define :func:`colour.models.rgb.transfer_functions.fujifilm_f_log.\
 log_encoding_FLog` definition unit tests methods.
@@ -134,7 +133,7 @@ log_encoding_FLog` definition nan support.
         log_encoding_FLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_FLog(unittest.TestCase):
+class TestLogDecoding_FLog:
     """
     Define :func:`colour.models.rgb.transfer_functions.fujifilm_f_log.\
 log_decoding_FLog` definition unit tests methods.
@@ -237,7 +236,7 @@ log_decoding_FLog` definition nan support.
         log_decoding_FLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogEncoding_FLog2(unittest.TestCase):
+class TestLogEncoding_FLog2:
     """
     Define :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
 log_encoding_FLog2` definition unit tests methods.
@@ -338,7 +337,7 @@ log_encoding_FLog2` definition nan support.
         log_encoding_FLog2(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_FLog2(unittest.TestCase):
+class TestLogDecoding_FLog2:
     """
     Define :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
 log_decoding_FLog2` definition unit tests methods.
@@ -438,7 +437,3 @@ log_decoding_FLog2` definition nan support.
         """
 
         log_decoding_FLog2(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
-
-
-if __name__ == "__main__":
-    unittest.main()

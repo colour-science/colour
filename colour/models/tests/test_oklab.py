@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.oklab` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -23,7 +22,7 @@ __all__ = [
 ]
 
 
-class TestXYZ_to_Oklab(unittest.TestCase):
+class TestXYZ_to_Oklab:
     """
     Define :func:`colour.models.oklab.TestXYZ_to_Oklab` definition unit
     tests methods.
@@ -101,7 +100,7 @@ class TestXYZ_to_Oklab(unittest.TestCase):
         XYZ_to_Oklab(cases)
 
 
-class TestOklab_to_XYZ(unittest.TestCase):
+class TestOklab_to_XYZ:
     """
     Define :func:`colour.models.oklab.Oklab_to_XYZ` definition unit tests
     methods.
@@ -176,7 +175,3 @@ class TestOklab_to_XYZ(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         Oklab_to_XYZ(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

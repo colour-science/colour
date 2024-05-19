@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.recovery` module."""
 
-import unittest
 
 import numpy as np
 
@@ -29,13 +28,13 @@ __all__ = [
 ]
 
 
-class TestXYZ_to_sd(unittest.TestCase):
+class TestXYZ_to_sd:
     """
     Define :func:`colour.recovery.XYZ_to_sd` definition unit tests
     methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         self._cmfs = reshape_msds(
@@ -86,7 +85,3 @@ class TestXYZ_to_sd(unittest.TestCase):
                         value * factor_b,
                         atol=TOLERANCE_ABSOLUTE_TESTS,
                     )
-
-
-if __name__ == "__main__":
-    unittest.main()

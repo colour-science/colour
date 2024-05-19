@@ -3,8 +3,6 @@
 
 from __future__ import annotations
 
-import unittest
-
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -219,7 +217,7 @@ DATA_PREDICTION_ZHAI2018: NDArrayFloat = np.array(
 )
 
 
-class TestConvertExperimentResultsBreneman1987(unittest.TestCase):
+class TestConvertExperimentResultsBreneman1987:
     """
     Define :func:`colour.corresponding.prediction.\
 convert_experiment_results_Breneman1987` definition unit tests
@@ -271,7 +269,7 @@ convert_experiment_results_Breneman1987` definition.
         )
 
 
-class TestCorrespondingChromaticitiesPredictionFairchild1990(unittest.TestCase):
+class TestCorrespondingChromaticitiesPredictionFairchild1990:
     """
     Define :func:`colour.corresponding.prediction.\
 corresponding_chromaticities_prediction_Fairchild1990` definition unit tests
@@ -296,7 +294,7 @@ corresponding_chromaticities_prediction_Fairchild1990` definition.
         )
 
 
-class TestCorrespondingChromaticitiesPredictionCIE1994(unittest.TestCase):
+class TestCorrespondingChromaticitiesPredictionCIE1994:
     """
     Define :func:`colour.corresponding.prediction.\
 corresponding_chromaticities_prediction_CIE1994` definition unit tests methods.
@@ -320,7 +318,7 @@ corresponding_chromaticities_prediction_CIE1994` definition.
         )
 
 
-class TestCorrespondingChromaticitiesPredictionCMCCAT2000(unittest.TestCase):
+class TestCorrespondingChromaticitiesPredictionCMCCAT2000:
     """
     Define :func:`colour.corresponding.prediction.\
 corresponding_chromaticities_prediction_CMCCAT2000` definition unit tests
@@ -345,7 +343,7 @@ corresponding_chromaticities_prediction_CMCCAT2000` definition.
         )
 
 
-class TestCorrespondingChromaticitiesPredictionVonKries(unittest.TestCase):
+class TestCorrespondingChromaticitiesPredictionVonKries:
     """
     Define :func:`colour.corresponding.prediction.\
 corresponding_chromaticities_prediction_VonKries` definition unit tests
@@ -370,7 +368,7 @@ corresponding_chromaticities_prediction_VonKries` definition.
         )
 
 
-class TestCorrespondingChromaticitiesPredictionZhai2018(unittest.TestCase):
+class TestCorrespondingChromaticitiesPredictionZhai2018:
     """
     Define :func:`colour.corresponding.prediction.\
 corresponding_chromaticities_prediction_Zhai2018` definition unit tests

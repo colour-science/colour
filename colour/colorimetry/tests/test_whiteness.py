@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.colorimetry.whiteness` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -36,7 +35,7 @@ __all__ = [
 ]
 
 
-class TestWhitenessBerger1959(unittest.TestCase):
+class TestWhitenessBerger1959:
     """
     Define :func:`colour.colorimetry.whiteness.whiteness_Berger1959`
     definition unit tests methods.
@@ -130,7 +129,7 @@ class TestWhitenessBerger1959(unittest.TestCase):
         whiteness_Berger1959(cases, cases)
 
 
-class TestWhitenessTaube1960(unittest.TestCase):
+class TestWhitenessTaube1960:
     """
     Define :func:`colour.colorimetry.whiteness.whiteness_Taube1960`
     definition unit tests methods.
@@ -224,7 +223,7 @@ class TestWhitenessTaube1960(unittest.TestCase):
         whiteness_Berger1959(cases, cases)
 
 
-class TestWhitenessStensby1968(unittest.TestCase):
+class TestWhitenessStensby1968:
     """
     Define :func:`colour.colorimetry.whiteness.whiteness_Stensby1968`
     definition unit tests methods.
@@ -305,7 +304,7 @@ class TestWhitenessStensby1968(unittest.TestCase):
         whiteness_Stensby1968(cases)
 
 
-class TestWhitenessASTM313(unittest.TestCase):
+class TestWhitenessASTM313:
     """
     Define :func:`colour.colorimetry.whiteness.whiteness_ASTME313`
     definition unit tests methods.
@@ -386,7 +385,7 @@ class TestWhitenessASTM313(unittest.TestCase):
         whiteness_ASTME313(cases)
 
 
-class TestWhitenessGanz1979(unittest.TestCase):
+class TestWhitenessGanz1979:
     """
     Define :func:`colour.colorimetry.whiteness.whiteness_Ganz1979`
     definition unit tests methods.
@@ -475,7 +474,7 @@ class TestWhitenessGanz1979(unittest.TestCase):
         whiteness_Ganz1979(cases[..., 0:2], cases[..., 0])
 
 
-class TestWhitenessCIE2004(unittest.TestCase):
+class TestWhitenessCIE2004:
     """
     Define :func:`colour.colorimetry.whiteness.whiteness_CIE2004`
     definition unit tests methods.
@@ -574,7 +573,7 @@ class TestWhitenessCIE2004(unittest.TestCase):
         whiteness_CIE2004(cases[..., 0:2], cases[..., 0], cases[..., 0:2])
 
 
-class TestWhiteness(unittest.TestCase):
+class TestWhiteness:
     """
     Define :func:`colour.colorimetry.whiteness.whiteness` definition unit
     tests methods.
@@ -608,7 +607,3 @@ class TestWhiteness(unittest.TestCase):
                         value * factor,
                         atol=TOLERANCE_ABSOLUTE_TESTS,
                     )
-
-
-if __name__ == "__main__":
-    unittest.main()

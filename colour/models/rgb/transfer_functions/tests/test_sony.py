@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.sony` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -35,7 +34,7 @@ __all__ = [
 ]
 
 
-class TestLogEncoding_SLog(unittest.TestCase):
+class TestLogEncoding_SLog:
     """
     Define :func:`colour.models.rgb.transfer_functions.sony.\
 log_encoding_SLog` definition unit tests methods.
@@ -138,7 +137,7 @@ log_encoding_SLog` definition nan support.
         log_encoding_SLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_SLog(unittest.TestCase):
+class TestLogDecoding_SLog:
     """
     Define :func:`colour.models.rgb.transfer_functions.sony.\
 log_decoding_SLog` definition unit tests methods.
@@ -241,7 +240,7 @@ log_decoding_SLog` definition nan support.
         log_decoding_SLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogEncoding_SLog2(unittest.TestCase):
+class TestLogEncoding_SLog2:
     """
     Define :func:`colour.models.rgb.transfer_functions.sony.\
 log_encoding_SLog2` definition unit tests methods.
@@ -344,7 +343,7 @@ log_encoding_SLog2` definition nan support.
         log_encoding_SLog2(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_SLog2(unittest.TestCase):
+class TestLogDecoding_SLog2:
     """
     Define :func:`colour.models.rgb.transfer_functions.sony.\
 log_decoding_SLog2` definition unit tests methods.
@@ -447,7 +446,7 @@ log_decoding_SLog2` definition nan support.
         log_decoding_SLog2(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogEncoding_SLog3(unittest.TestCase):
+class TestLogEncoding_SLog3:
     """
     Define :func:`colour.models.rgb.transfer_functions.sony.\
 log_encoding_SLog3` definition unit tests methods.
@@ -550,7 +549,7 @@ log_encoding_SLog3` definition nan support.
         log_encoding_SLog3(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_SLog3(unittest.TestCase):
+class TestLogDecoding_SLog3:
     """
     Define :func:`colour.models.rgb.transfer_functions.sony.\
 log_decoding_SLog3` definition unit tests methods.
@@ -651,7 +650,3 @@ log_decoding_SLog3` definition nan support.
         """
 
         log_decoding_SLog3(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
-
-
-if __name__ == "__main__":
-    unittest.main()

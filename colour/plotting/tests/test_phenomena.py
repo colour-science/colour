@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.plotting.phenomena` module."""
 
-import unittest
 
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
@@ -24,7 +23,7 @@ __all__ = [
 ]
 
 
-class TestPlotSingleSdRayleighScattering(unittest.TestCase):
+class TestPlotSingleSdRayleighScattering:
     """
     Define :func:`colour.plotting.phenomena.\
 plot_single_sd_rayleigh_scattering` definition unit tests methods.
@@ -38,11 +37,11 @@ plot_single_sd_rayleigh_scattering` definition.
 
         figure, axes = plot_single_sd_rayleigh_scattering()
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotTheBlueSky(unittest.TestCase):
+class TestPlotTheBlueSky:
     """
     Define :func:`colour.plotting.phenomena.plot_the_blue_sky` definition unit
     tests methods.
@@ -53,9 +52,5 @@ class TestPlotTheBlueSky(unittest.TestCase):
 
         figure, axes = plot_the_blue_sky()
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)

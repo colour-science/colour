@@ -3,8 +3,6 @@
 
 from __future__ import annotations
 
-import unittest
-
 import numpy as np
 
 from colour.colorimetry import SDS_ILLUMINANTS, SpectralDistribution
@@ -556,7 +554,7 @@ DATA_HMI: dict = {
 }
 
 
-class TestSpectralSimilarityIndex(unittest.TestCase):
+class TestSpectralSimilarityIndex:
     """
     Define :func:`colour.quality.ssi.spectral_similarity_index`
     definition unit tests methods.
@@ -565,15 +563,15 @@ class TestSpectralSimilarityIndex(unittest.TestCase):
     def test_spectral_similarity_index(self):
         """Test :func:`colour.quality.ssi.spectral_similarity_index` definition."""
 
-        self.assertEqual(
-            spectral_similarity_index(SDS_ILLUMINANTS["C"], SDS_ILLUMINANTS["D65"]),
-            94.0,
+        assert (
+            spectral_similarity_index(SDS_ILLUMINANTS["C"], SDS_ILLUMINANTS["D65"])
+            == 94.0
         )
-        self.assertEqual(
+        assert (
             spectral_similarity_index(
                 SpectralDistribution(DATA_HMI), SDS_ILLUMINANTS["D50"]
-            ),
-            72.0,
+            )
+            == 72.0
         )
 
     def test_spectral_similarity_rounding(self):
@@ -601,7 +599,3 @@ class TestSpectralSimilarityIndex(unittest.TestCase):
             71.775,
             atol=0.01,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

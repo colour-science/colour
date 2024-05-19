@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.yrg` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -30,7 +29,7 @@ __all__ = [
 ]
 
 
-class TestLMS_to_Yrg(unittest.TestCase):
+class TestLMS_to_Yrg:
     """
     Define :func:`colour.models.yrg.TestLMS_to_Yrg` definition unit tests
     methods.
@@ -101,7 +100,7 @@ class TestLMS_to_Yrg(unittest.TestCase):
         LMS_to_Yrg(cases)
 
 
-class TestYrg_to_LMS(unittest.TestCase):
+class TestYrg_to_LMS:
     """
     Define :func:`colour.models.yrg.Yrg_to_LMS` definition unit tests methods.
     """
@@ -171,7 +170,7 @@ class TestYrg_to_LMS(unittest.TestCase):
         Yrg_to_LMS(cases)
 
 
-class TestXYZ_to_Yrg(unittest.TestCase):
+class TestXYZ_to_Yrg:
     """
     Define :func:`colour.models.yrg.TestXYZ_to_Yrg` definition unit tests
     methods.
@@ -238,7 +237,7 @@ class TestXYZ_to_Yrg(unittest.TestCase):
         XYZ_to_Yrg(cases)
 
 
-class TestYrg_to_XYZ(unittest.TestCase):
+class TestYrg_to_XYZ:
     """
     Define :func:`colour.models.yrg.Yrg_to_XYZ` definition unit tests methods.
     """
@@ -306,7 +305,3 @@ class TestYrg_to_XYZ(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         Yrg_to_XYZ(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

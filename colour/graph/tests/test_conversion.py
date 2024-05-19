@@ -1,9 +1,9 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.graph.conversion` module."""
 
-import unittest
 
 import numpy as np
+import pytest
 
 from colour.characterisation import SDS_COLOURCHECKERS
 from colour.colorimetry import CCS_ILLUMINANTS, SDS_ILLUMINANTS
@@ -24,7 +24,7 @@ __all__ = [
 ]
 
 
-class TestDescribeConversionPath(unittest.TestCase):
+class TestDescribeConversionPath:
     """
     Define :func:`colour.graph.conversion.describe_conversion_path` definition
     unit tests methods.
@@ -51,7 +51,7 @@ class TestDescribeConversionPath(unittest.TestCase):
         )
 
 
-class TestConvert(unittest.TestCase):
+class TestConvert:
     """
     Define :func:`colour.graph.conversion.convert` definition unit tests
     methods.
@@ -147,7 +147,7 @@ class TestConvert(unittest.TestCase):
         # Illuminant "ndarray" is converted to tuple here so that it can
         # be hashed by the "sd_to_XYZ" definition, this should never occur
         # in practical application.
-        self.assertRaises(
+        pytest.raises(
             AttributeError,
             lambda: convert(
                 SDS_COLOURCHECKERS["ColorChecker N Ohta"]["dark skin"],
@@ -156,7 +156,3 @@ class TestConvert(unittest.TestCase):
                 illuminant=tuple(illuminant),
             ),
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.osa_ucs` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -23,7 +22,7 @@ __all__ = [
 ]
 
 
-class TestXYZ_to_OSA_UCS(unittest.TestCase):
+class TestXYZ_to_OSA_UCS:
     """
     Define :func:`colour.models.osa_ucs.XYZ_to_OSA_UCS` definition unit tests
     methods.
@@ -101,7 +100,7 @@ class TestXYZ_to_OSA_UCS(unittest.TestCase):
         XYZ_to_OSA_UCS(cases)
 
 
-class TestOSA_UCS_to_XYZ(unittest.TestCase):
+class TestOSA_UCS_to_XYZ:
     """
     Define :func:`colour.models.osa_ucs.OSA_UCS_to_XYZ` definition unit tests
     methods.
@@ -184,7 +183,3 @@ class TestOSA_UCS_to_XYZ(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         OSA_UCS_to_XYZ(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()
