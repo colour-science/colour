@@ -35,7 +35,7 @@ def plot_automatic_colour_conversion_graph(
     filename: str,
     prog: (Literal["circo", "dot", "fdp", "neato", "nop", "twopi"] | str) = "fdp",
     args: str = "",
-) -> AGraph:  # pyright: ignore  # noqa: F821
+) -> AGraph:  # pyright: ignore  # noqa: F821  # pragma: no cover
     """
     Plot *Colour* automatic colour conversion graph using
     `Graphviz <https://www.graphviz.org>`__ and

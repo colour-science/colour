@@ -436,8 +436,15 @@ def tcs_colorimetry_data(
 
     Examples
     --------
-    >>> delta_E_to_R_f(4.4410383190)  # doctest: +ELLIPSIS
-    70.1208254...
+    >>> from colour.colorimetry import SDS_ILLUMINANTS
+    >>> sd = SDS_ILLUMINANTS["FL2"]
+    >>> shape = SpectralShape(380, 780, 5)
+    >>> cmfs = MSDS_CMFS["CIE 1964 10 Degree Standard Observer"].copy().align(shape)
+    >>> test_tcs_colorimetry_data = tcs_colorimetry_data(
+    ...     sd, load_TCS_CIE2017(shape), cmfs
+    ... )
+    >>> len(test_tcs_colorimetry_data)
+    1
     """
 
     if isinstance(sd_irradiance, SpectralDistribution):

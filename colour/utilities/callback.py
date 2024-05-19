@@ -174,7 +174,7 @@ class MixinCallback:
         defaultdict(<class 'list'>, {})
         """
 
-        if self._callbacks.get(attribute) is None:
+        if self._callbacks.get(attribute) is None:  # pragma: no cover
             return
 
         self._callbacks[attribute] = [

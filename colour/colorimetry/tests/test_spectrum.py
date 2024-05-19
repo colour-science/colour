@@ -1398,7 +1398,7 @@ class TestSpectralShape:
         """
 
         assert SpectralShape(0, 10, 0.1) == SpectralShape(0, 10, 0.1)
-        assert SpectralShape(0, 10, 0.1) is not None
+        assert SpectralShape(0, 10, 0.1) != ()
 
     def test__ne__(self):
         """

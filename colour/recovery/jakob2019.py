@@ -730,6 +730,7 @@ class LUT3D_Jakob2019:
         self._interpolator: RegularGridInterpolator = RegularGridInterpolator(
             np.array([]), np.array([])
         )
+
         self._size: int = 0
         self._lightness_scale: NDArrayFloat = np.array([])
         self._coefficients: NDArrayFloat = np.array([])
@@ -998,7 +999,7 @@ class LUT3D_Jakob2019:
         array([  1.5013448...e-04,  -1.4679754...e-01,   3.4020219...e+01])
         """
 
-        if self._interpolator is not None:
+        if len(self._interpolator.grid) != 0:
             RGB = as_float_array(RGB)
 
             value_max = np.max(RGB, axis=-1)

@@ -364,7 +364,7 @@ def XYZ_outer_surface(
     )
     XYZ = _CACHE_OUTER_SURFACE_XYZ.get(key)
 
-    if is_caching_enabled() and XYZ is not None:
+    if is_caching_enabled() and XYZ is not None:  # pragma: no cover
         return XYZ
 
     pulse_waves = generate_pulse_waves(

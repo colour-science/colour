@@ -1476,7 +1476,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                     {"formatter": lambda x: str_parent},  # noqa: ARG005
                 ],
             )
-        except TypeError:
+        except TypeError:  # pragma: no cover
             return super().__str__()
 
     def __repr__(self) -> str:
@@ -1635,7 +1635,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                     {"name": "extrapolator_kwargs"},
                 ],
             )
-        except TypeError:
+        except TypeError:  # pragma: no cover
             return super().__repr__()
 
     def read(self) -> SpectralDistribution_IESTM2714:

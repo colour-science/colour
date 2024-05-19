@@ -1611,4 +1611,4 @@ if is_xxhash_installed():
             return -1
 
 else:
-    int_digest = hash  # pyright: ignore
+    int_digest = hash  # pyright: ignore  # pragma: no cover
