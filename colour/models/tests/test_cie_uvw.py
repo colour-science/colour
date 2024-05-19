@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.cie_uvw` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -23,7 +22,7 @@ __all__ = [
 ]
 
 
-class TestXYZ_to_UVW(unittest.TestCase):
+class TestXYZ_to_UVW:
     """
     Define :func:`colour.models.cie_uvw.XYZ_to_UVW` definition unit tests
     methods.
@@ -133,7 +132,7 @@ class TestXYZ_to_UVW(unittest.TestCase):
         XYZ_to_UVW(cases, cases[..., 0:2])
 
 
-class TestUVW_to_XYZ(unittest.TestCase):
+class TestUVW_to_XYZ:
     """
     Define :func:`colour.models.cie_uvw.UVW_to_XYZ` definition unit tests
     methods.
@@ -241,7 +240,3 @@ class TestUVW_to_XYZ(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         UVW_to_XYZ(cases, cases[..., 0:2])
-
-
-if __name__ == "__main__":
-    unittest.main()

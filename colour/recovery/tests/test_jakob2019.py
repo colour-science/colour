@@ -4,9 +4,9 @@
 import os
 import shutil
 import tempfile
-import unittest
 
 import numpy as np
+import pytest
 
 from colour.characterisation import SDS_COLOURCHECKERS
 from colour.colorimetry import handle_spectral_arguments, sd_to_XYZ
@@ -42,13 +42,13 @@ __all__ = [
 ]
 
 
-class TestErrorFunction(unittest.TestCase):
+class TestErrorFunction:
     """
     Define :func:`colour.recovery.jakob2019.error_function` definition unit
     tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         self._shape = SPECTRAL_SHAPE_JAKOB2019
@@ -102,8 +102,8 @@ class TestErrorFunction(unittest.TestCase):
             np.testing.assert_allclose(sd.values, R, atol=TOLERANCE_ABSOLUTE_TESTS)
             np.testing.assert_allclose(XYZ, sd_XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-            self.assertLess(abs(error_reference - error), JND_CIE1976 / 100)
-            self.assertLess(delta_E_CIE1976(Lab, sd_Lab), JND_CIE1976 / 100)
+            assert abs(error_reference - error) < JND_CIE1976 / 100
+            assert delta_E_CIE1976(Lab, sd_Lab) < JND_CIE1976 / 100
 
     def test_derivatives(self):
         """
@@ -140,13 +140,13 @@ class TestErrorFunction(unittest.TestCase):
             )
 
 
-class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
+class TestXYZ_to_sd_Jakob2019:
     """
     Define :func:`colour.recovery.jakob2019.XYZ_to_sd_Jakob2019` definition
     unit tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         self._shape = SPECTRAL_SHAPE_JAKOB2019
@@ -164,7 +164,7 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
             )
 
             if error > JND_CIE1976 / 100:  # pragma: no cover
-                self.fail(f"Delta E for '{name}' is {error}!")
+                pytest.fail(f"Delta E for '{name}' is {error}!")
 
     def test_domain_range_scale_XYZ_to_sd_Jakob2019(self):
         """
@@ -193,7 +193,7 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
                 )
 
 
-class TestLUT3D_Jakob2019(unittest.TestCase):
+class TestLUT3D_Jakob2019:
     """
     Define :class:`colour.recovery.jakob2019.LUT3D_Jakob2019` definition unit
     tests methods.
@@ -235,7 +235,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
         )
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(LUT3D_Jakob2019))
+            assert attribute in dir(LUT3D_Jakob2019)
 
     def test_required_methods(self):
         """Test the presence of required methods."""
@@ -250,12 +250,12 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
         )
 
         for method in required_methods:
-            self.assertIn(method, dir(LUT3D_Jakob2019))
+            assert method in dir(LUT3D_Jakob2019)
 
     def test_size(self):
         """Test :attr:`colour.recovery.jakob2019.LUT3D_Jakob2019.size` property."""
 
-        self.assertEqual(TestLUT3D_Jakob2019.generate_LUT().size, 5)
+        assert TestLUT3D_Jakob2019.generate_LUT().size == 5
 
     def test_lightness_scale(self):
         """
@@ -275,10 +275,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
         property.
         """
 
-        self.assertTupleEqual(
-            TestLUT3D_Jakob2019.generate_LUT().coefficients.shape,
-            (3, 5, 5, 5, 3),
-        )
+        assert TestLUT3D_Jakob2019.generate_LUT().coefficients.shape == (3, 5, 5, 5, 3)
 
     def test_LUT3D_Jakob2019(self):
         """
@@ -326,7 +323,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
             error = delta_E_CIE1976(Lab, recovered_Lab)
 
             if error > 2 * JND_CIE1976 / 100:  # pragma: no cover
-                self.fail(
+                pytest.fail(
                     f"Delta E for RGB={RGB} in colourspace "
                     f"{self._RGB_colourspace.name} is {error}!"
                 )
@@ -339,7 +336,7 @@ RGB_to_coefficients` method raised exception.
 
         LUT = LUT3D_Jakob2019()
 
-        self.assertRaises(ValueError, LUT.RGB_to_coefficients, np.array([]))
+        pytest.raises(ValueError, LUT.RGB_to_coefficients, np.array([]))
 
     def test_raise_exception_read(self):
         """
@@ -348,8 +345,4 @@ RGB_to_coefficients` method raised exception.
         """
 
         LUT = LUT3D_Jakob2019()
-        self.assertRaises(ValueError, LUT.read, __file__)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        pytest.raises(ValueError, LUT.read, __file__)

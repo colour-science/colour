@@ -5,7 +5,6 @@ Define the unit tests for the :mod:`colour.models.rgb.rgb_colourspace` module.
 
 import re
 import textwrap
-import unittest
 from itertools import product
 
 import numpy as np
@@ -44,13 +43,13 @@ __all__ = [
 ]
 
 
-class TestRGB_Colourspace(unittest.TestCase):
+class TestRGB_Colourspace:
     """
     Define :class:`colour.colour.models.RGB_Colourspace` class unit
     tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         p = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
@@ -85,7 +84,7 @@ class TestRGB_Colourspace(unittest.TestCase):
         )
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(RGB_Colourspace))
+            assert attribute in dir(RGB_Colourspace)
 
     def test_required_methods(self):
         """Test the presence of required methods."""
@@ -100,7 +99,7 @@ class TestRGB_Colourspace(unittest.TestCase):
         )
 
         for method in required_methods:
-            self.assertIn(method, dir(RGB_Colourspace))
+            assert method in dir(RGB_Colourspace)
 
     def test__str__(self):
         """
@@ -108,8 +107,7 @@ class TestRGB_Colourspace(unittest.TestCase):
         method.
         """
 
-        self.assertEqual(
-            re.sub(" at 0x\\w+>", "", str(self._colourspace)),
+        assert re.sub(" at 0x\\w+>", "", str(self._colourspace)) == (
             textwrap.dedent(
                 """
     RGB Colourspace
@@ -137,7 +135,7 @@ class TestRGB_Colourspace(unittest.TestCase):
     Use Derived NPM    : False
     Use Derived NPM -1 : False
                 """
-            ).strip(),
+            ).strip()
         )
 
     def test__repr__(self):
@@ -146,8 +144,7 @@ class TestRGB_Colourspace(unittest.TestCase):
 __repr__` method.
         """
 
-        self.assertEqual(
-            re.sub(" at 0x\\w+>", "", repr(self._colourspace)),
+        assert re.sub(" at 0x\\w+>", "", repr(self._colourspace)) == (
             textwrap.dedent(
                 """
         RGB_Colourspace('RGB Colourspace',
@@ -167,7 +164,7 @@ __repr__` method.
                         False,
                         False)
                 """
-            ).strip(),
+            ).strip()
         )
 
     def test_use_derived_transformation_matrices(self):
@@ -243,7 +240,7 @@ chromatically_adapt` method.
             colourspace.whitepoint, whitepoint_t, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertEqual(colourspace.whitepoint_name, "D50")
+        assert colourspace.whitepoint_name == "D50"
 
         np.testing.assert_allclose(
             colourspace.primaries,
@@ -276,10 +273,10 @@ chromatically_adapt` method.
         method.
         """
 
-        self.assertIsNot(self._colourspace.copy(), self)
+        assert self._colourspace.copy() is not self
 
 
-class TestXYZ_to_RGB(unittest.TestCase):
+class TestXYZ_to_RGB:
     """
     Define :func:`colour.models.rgb.rgb_colourspace.XYZ_to_RGB` definition
     unit tests methods.
@@ -480,7 +477,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
         XYZ_to_RGB(cases, cases[..., 0:2], cases[..., 0:2], M)
 
 
-class TestRGB_to_XYZ(unittest.TestCase):
+class TestRGB_to_XYZ:
     """
     Define :func:`colour.models.rgb.rgb_colourspace.RGB_to_XYZ` definition
     unit tests methods.
@@ -681,7 +678,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
         RGB_to_XYZ(cases, cases[..., 0:2], cases[..., 0:2], M)
 
 
-class TestMatrix_RGB_to_RGB(unittest.TestCase):
+class TestMatrix_RGB_to_RGB:
     """
     Define :func:`colour.models.rgb.rgb_colourspace.matrix_RGB_to_RGB`
     definition unit tests methods.
@@ -764,7 +761,7 @@ class TestMatrix_RGB_to_RGB(unittest.TestCase):
         )
 
 
-class TestRGB_to_RGB(unittest.TestCase):
+class TestRGB_to_RGB:
     """
     Define :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB` definition
     unit tests methods.
@@ -934,7 +931,3 @@ class TestRGB_to_RGB(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         RGB_to_RGB(cases, aces_2065_1_colourspace, sRGB_colourspace)
-
-
-if __name__ == "__main__":
-    unittest.main()

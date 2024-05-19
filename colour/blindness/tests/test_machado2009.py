@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.blindness.machado2009` module."""
 
-import unittest
 
 import numpy as np
 
@@ -30,7 +29,7 @@ __all__ = [
 ]
 
 
-class TestMsdsCmfsAnomalousTrichromacyMachado2009(unittest.TestCase):
+class TestMsdsCmfsAnomalousTrichromacyMachado2009:
     """
     Define :func:`colour.blindness.machado2009.\
 msds_cmfs_anomalous_trichromacy_Machado2009` definition unit tests methods.
@@ -121,7 +120,7 @@ msds_cmfs_anomalous_trichromacy_Machado2009` definition.
         )
 
 
-class TestMatrixAnomalousTrichromacyMachado2009(unittest.TestCase):
+class TestMatrixAnomalousTrichromacyMachado2009:
     """
     Define :func:`colour.blindness.machado2009.\
 matrix_anomalous_trichromacy_Machado2009` definition unit tests methods.
@@ -216,7 +215,7 @@ matrix_anomalous_trichromacy_Machado2009` definition.
         )
 
 
-class TestMatrixCvdMachado2009(unittest.TestCase):
+class TestMatrixCvdMachado2009:
     """
     Define :func:`colour.blindness.machado2009.matrix_cvd_Machado2009`
     definition unit tests methods.
@@ -285,7 +284,3 @@ class TestMatrixCvdMachado2009(unittest.TestCase):
 
         for case in [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]:
             matrix_cvd_Machado2009("Tritanomaly", case)
-
-
-if __name__ == "__main__":
-    unittest.main()

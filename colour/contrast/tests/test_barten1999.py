@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.contrast.barten1999` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -34,7 +33,7 @@ __all__ = [
 ]
 
 
-class TestOpticalMTFBarten1999(unittest.TestCase):
+class TestOpticalMTFBarten1999:
     """
     Define :func:`colour.contrast.barten1999.optical_MTF_Barten1999`
     definition unit tests methods.
@@ -104,7 +103,7 @@ class TestOpticalMTFBarten1999(unittest.TestCase):
         optical_MTF_Barten1999(cases, cases)
 
 
-class TestPupilDiameterBarten1999(unittest.TestCase):
+class TestPupilDiameterBarten1999:
     """
     Define :func:`colour.contrast.barten1999.pupil_diameter_Barten1999`
     definition unit tests methods.
@@ -175,7 +174,7 @@ class TestPupilDiameterBarten1999(unittest.TestCase):
         pupil_diameter_Barten1999(cases, cases, cases)
 
 
-class TestSigmaBarten1999(unittest.TestCase):
+class TestSigmaBarten1999:
     """
     Define :func:`colour.contrast.barten1999.sigma_Barten1999` definition unit
     tests methods.
@@ -249,7 +248,7 @@ class TestSigmaBarten1999(unittest.TestCase):
         sigma_Barten1999(cases, cases, cases)
 
 
-class TestRetinalIlluminanceBarten1999(unittest.TestCase):
+class TestRetinalIlluminanceBarten1999:
     """
     Define :func:`colour.contrast.barten1999.retinal_illuminance_Barten1999`
     definition unit tests methods.
@@ -319,7 +318,7 @@ class TestRetinalIlluminanceBarten1999(unittest.TestCase):
         retinal_illuminance_Barten1999(cases, cases)
 
 
-class TestMaximumAngularSizeBarten1999(unittest.TestCase):
+class TestMaximumAngularSizeBarten1999:
     """
     Define :func:`colour.contrast.barten1999.maximum_angular_size_Barten1999`
     definition unit tests methods.
@@ -403,7 +402,7 @@ maximum_angular_size_Barten1999` definition nan support.
         maximum_angular_size_Barten1999(cases, cases, cases, cases)
 
 
-class TestContrastSensitivityFunctionBarten1999(unittest.TestCase):
+class TestContrastSensitivityFunctionBarten1999:
     """
     Define :func:`colour.contrast.barten1999.\
 contrast_sensitivity_function_Barten1999` definition unit tests methods.
@@ -586,7 +585,3 @@ contrast_sensitivity_function_Barten1999` definition nan support.
         contrast_sensitivity_function_Barten1999(
             u=cases, sigma=cases, E=cases, X_0=cases
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

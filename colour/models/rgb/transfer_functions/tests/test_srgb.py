@@ -3,7 +3,6 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.sRGB`
 module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -24,7 +23,7 @@ __all__ = [
 ]
 
 
-class TestEotf_inverse_sRGB(unittest.TestCase):
+class TestEotf_inverse_sRGB:
     """
     Define :func:`colour.models.rgb.transfer_functions.sRGB.eotf_inverse_sRGB`
     definition unit tests methods.
@@ -105,7 +104,7 @@ eotf_inverse_sRGB` definition nan support.
         eotf_inverse_sRGB(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestEotf_sRGB(unittest.TestCase):
+class TestEotf_sRGB:
     """
     Define :func:`colour.models.rgb.transfer_functions.sRGB.eotf_sRGB`
     definition unit tests methods.
@@ -172,7 +171,3 @@ eotf_sRGB` definition nan support.
         """
 
         eotf_sRGB(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
-
-
-if __name__ == "__main__":
-    unittest.main()

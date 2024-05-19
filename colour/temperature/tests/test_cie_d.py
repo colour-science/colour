@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.temperature.cie_d` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -23,7 +22,7 @@ __all__ = [
 ]
 
 
-class TestXy_to_CCT_CIE_D(unittest.TestCase):
+class TestXy_to_CCT_CIE_D:
     """
     Define :func:`colour.temperature.cie_d.xy_to_CCT_CIE_D` definition unit
     tests methods.
@@ -92,7 +91,7 @@ class TestXy_to_CCT_CIE_D(unittest.TestCase):
         xy_to_CCT_CIE_D(cases)
 
 
-class TestCCT_to_xy_CIE_D(unittest.TestCase):
+class TestCCT_to_xy_CIE_D:
     """
     Define :func:`colour.temperature.cie_d.CCT_to_xy_CIE_D` definition
     unit tests methods.
@@ -150,7 +149,3 @@ class TestCCT_to_xy_CIE_D(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=2))))
         CCT_to_xy_CIE_D(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

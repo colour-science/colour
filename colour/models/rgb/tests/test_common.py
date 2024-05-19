@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.rgb.common` module."""
 
-import unittest
 
 import numpy as np
 
@@ -21,7 +20,7 @@ __all__ = [
 ]
 
 
-class TestXYZ_to_sRGB(unittest.TestCase):
+class TestXYZ_to_sRGB:
     """
     Define :func:`colour.models.rgb.common.XYZ_to_sRGB` definition unit tests
     methods.
@@ -80,7 +79,7 @@ class TestXYZ_to_sRGB(unittest.TestCase):
         )
 
 
-class TestsRGB_to_XYZ(unittest.TestCase):
+class TestsRGB_to_XYZ:
     """
     Define :func:`colour.models.rgb.common.sRGB_to_XYZ` definition unit tests
     methods.
@@ -137,7 +136,3 @@ class TestsRGB_to_XYZ(unittest.TestCase):
             np.array([0.20654291, 0.12197943, 0.05137141]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

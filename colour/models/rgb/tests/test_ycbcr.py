@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.rgb.ycbcr` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -39,7 +38,7 @@ __all__ = [
 ]
 
 
-class TestRoundBT2100(unittest.TestCase):
+class TestRoundBT2100:
     """
     Define :func:`colour.models.rgb.ycbcr.round_BT2100` definition unit tests
     methods.
@@ -54,7 +53,7 @@ class TestRoundBT2100(unittest.TestCase):
         )
 
 
-class TestRangeYCbCr(unittest.TestCase):
+class TestRangeYCbCr:
     """
     Define :func:`colour.models.rgb.ycbcr.ranges_YCbCr` definition unit tests
     methods.
@@ -112,7 +111,7 @@ class TestRangeYCbCr(unittest.TestCase):
         )
 
 
-class TestMatrixYCbCr(unittest.TestCase):
+class TestMatrixYCbCr:
     """
     Define :func:`colour.models.rgb.ycbcr.matrix_YCbCr` definition unit tests
     methods.
@@ -182,7 +181,7 @@ class TestMatrixYCbCr(unittest.TestCase):
         )
 
 
-class TestOffsetYCbCr(unittest.TestCase):
+class TestOffsetYCbCr:
     """
     Define :func:`colour.models.rgb.ycbcr.offset_YCbCr` definition unit tests
     methods.
@@ -216,7 +215,7 @@ class TestOffsetYCbCr(unittest.TestCase):
         )
 
 
-class TestRGB_to_YCbCr(unittest.TestCase):
+class TestRGB_to_YCbCr:
     """
     Define :func:`colour.models.rgb.ycbcr.RGB_to_YCbCr` definition unit tests
     methods.
@@ -321,7 +320,7 @@ class TestRGB_to_YCbCr(unittest.TestCase):
         RGB_to_YCbCr(cases)
 
 
-class TestYCbCr_to_RGB(unittest.TestCase):
+class TestYCbCr_to_RGB:
     """
     Define :func:`colour.models.rgb.ycbcr.YCbCr_to_RGB` definition unit tests
     methods.
@@ -418,7 +417,7 @@ class TestYCbCr_to_RGB(unittest.TestCase):
         YCbCr_to_RGB(cases)
 
 
-class TestRGB_to_YcCbcCrc(unittest.TestCase):
+class TestRGB_to_YcCbcCrc:
     """
     Define :func:`colour.models.rgb.ycbcr.RGB_to_YcCbcCrc` definition unit
     tests methods.
@@ -508,7 +507,7 @@ class TestRGB_to_YcCbcCrc(unittest.TestCase):
         RGB_to_YcCbcCrc(cases)
 
 
-class TestYcCbcCrc_to_RGB(unittest.TestCase):
+class TestYcCbcCrc_to_RGB:
     """
     Define :func:`colour.models.rgb.ycbcr.YCbCr_to_RGB` definition unit tests
     methods.
@@ -596,7 +595,3 @@ class TestYcCbcCrc_to_RGB(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         YcCbcCrc_to_RGB(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

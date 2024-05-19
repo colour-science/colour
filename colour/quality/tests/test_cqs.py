@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.quality.cqs` module."""
 
-import unittest
 
 import numpy as np
 
@@ -25,7 +24,7 @@ __all__ = [
 ]
 
 
-class TestColourQualityScale(unittest.TestCase):
+class TestColourQualityScale:
     """
     Define :func:`colour.quality.cqs.colour_quality_scale` definition unit
     tests methods.
@@ -711,7 +710,3 @@ class TestColourQualityScale(unittest.TestCase):
             [data.Q_a for _index, data in sorted(specification_t.Q_as.items())],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

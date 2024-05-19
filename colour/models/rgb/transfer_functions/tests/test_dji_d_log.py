@@ -3,7 +3,6 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
 dji_d_log` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -27,7 +26,7 @@ __all__ = [
 ]
 
 
-class TestLogEncoding_DJIDLog(unittest.TestCase):
+class TestLogEncoding_DJIDLog:
     """
     Define :func:`colour.models.rgb.transfer_functions.dji_d_log.\
 log_encoding_DJIDLog` definition unit tests methods.
@@ -108,7 +107,7 @@ log_encoding_DJIDLog` definition nan support.
         log_encoding_DJIDLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_DJIDLog(unittest.TestCase):
+class TestLogDecoding_DJIDLog:
     """
     Define :func:`colour.models.rgb.transfer_functions.dji_d_log.\
 log_decoding_DJIDLog` definition unit tests methods.
@@ -183,7 +182,3 @@ log_decoding_DJIDLog` definition nan support.
         """
 
         log_decoding_DJIDLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
-
-
-if __name__ == "__main__":
-    unittest.main()

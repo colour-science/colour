@@ -7,7 +7,6 @@ import os
 import shutil
 import tempfile
 import textwrap
-import unittest
 
 import numpy as np
 
@@ -42,15 +41,15 @@ ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 # cross-platform.
 
 
-class TestCtlRender(unittest.TestCase):
+class TestCtlRender:
     """Define :func:`colour.io.ctl.ctl_render` definition unit tests methods."""
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
-    def tearDown(self):
+    def teardown_method(self):
         """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
@@ -119,7 +118,7 @@ class TestCtlRender(unittest.TestCase):
         )
 
 
-class TestProcessImageCtl(unittest.TestCase):
+class TestProcessImageCtl:
     """
     Define :func:`colour.io.ctl.process_image_ctl` definition unit tests
     methods.
@@ -197,7 +196,7 @@ class TestProcessImageCtl(unittest.TestCase):
         )
 
 
-class TestTemplateCtlTransformFloat(unittest.TestCase):
+class TestTemplateCtlTransformFloat:
     """
     Define :func:`colour.io.ctl.template_ctl_transform_float` definition unit
     tests methods.
@@ -247,10 +246,10 @@ class TestTemplateCtlTransformFloat(unittest.TestCase):
                 aOut = aIn;
             }"""[1:]
         )
-        self.assertEqual(ctl_foo_bar_float, target)
+        assert ctl_foo_bar_float == target
 
 
-class TestTemplateCtlTransformFloat3(unittest.TestCase):
+class TestTemplateCtlTransformFloat3:
     """
     Define :func:`colour.io.ctl.template_ctl_transform_float3` definition unit
     tests methods.
@@ -332,8 +331,4 @@ class TestTemplateCtlTransformFloat3(unittest.TestCase):
                 1:
             ]
         )
-        self.assertEqual(ctl_foo_bar_float3, target)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert ctl_foo_bar_float3 == target

@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.volume.pointer_gamut` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -21,7 +20,7 @@ __all__ = [
 ]
 
 
-class TestIsWithinPointerGamut(unittest.TestCase):
+class TestIsWithinPointerGamut:
     """
     Define :func:`colour.volume.pointer_gamut.is_within_pointer_gamut`
     definition unit tests methods.
@@ -33,13 +32,13 @@ class TestIsWithinPointerGamut(unittest.TestCase):
         definition.
         """
 
-        self.assertTrue(is_within_pointer_gamut(np.array([0.3205, 0.4131, 0.5100])))
+        assert is_within_pointer_gamut(np.array([0.3205, 0.4131, 0.5100]))
 
-        self.assertFalse(is_within_pointer_gamut(np.array([0.0005, 0.0031, 0.0010])))
+        assert not is_within_pointer_gamut(np.array([0.0005, 0.0031, 0.0010]))
 
-        self.assertTrue(is_within_pointer_gamut(np.array([0.4325, 0.3788, 0.1034])))
+        assert is_within_pointer_gamut(np.array([0.4325, 0.3788, 0.1034]))
 
-        self.assertFalse(is_within_pointer_gamut(np.array([0.0025, 0.0088, 0.0340])))
+        assert not is_within_pointer_gamut(np.array([0.0025, 0.0088, 0.0340]))
 
     def test_n_dimensional_is_within_pointer_gamut(self):
         """
@@ -68,7 +67,3 @@ class TestIsWithinPointerGamut(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         is_within_pointer_gamut(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

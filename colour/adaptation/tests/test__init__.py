@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.adaptation` module."""
 
-import unittest
 
 import numpy as np
 
@@ -21,7 +20,7 @@ __all__ = [
 ]
 
 
-class TestChromaticAdaptation(unittest.TestCase):
+class TestChromaticAdaptation:
     """
     Define :func:`colour.adaptation.chromatic_adaptation` definition unit
     tests methods.
@@ -122,7 +121,3 @@ class TestChromaticAdaptation(unittest.TestCase):
                         value * factor,
                         atol=TOLERANCE_ABSOLUTE_TESTS,
                     )
-
-
-if __name__ == "__main__":
-    unittest.main()

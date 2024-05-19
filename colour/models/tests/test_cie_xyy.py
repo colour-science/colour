@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.cie_xyy` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -34,7 +33,7 @@ __all__ = [
 ]
 
 
-class TestXYZ_to_xyY(unittest.TestCase):
+class TestXYZ_to_xyY:
     """
     Define :func:`colour.models.cie_xyy.XYZ_to_xyY` definition unit tests
     methods.
@@ -137,7 +136,7 @@ class TestXYZ_to_xyY(unittest.TestCase):
         XYZ_to_xyY(cases)
 
 
-class TestxyY_to_XYZ(unittest.TestCase):
+class TestxyY_to_XYZ:
     """
     Define :func:`colour.models.cie_xyy.xyY_to_XYZ` definition unit tests
     methods.
@@ -240,7 +239,7 @@ class TestxyY_to_XYZ(unittest.TestCase):
         xyY_to_XYZ(cases)
 
 
-class TestxyY_to_xy(unittest.TestCase):
+class TestxyY_to_xy:
     """
     Define :func:`colour.models.cie_xyy.xyY_to_xy` definition unit tests
     methods.
@@ -323,7 +322,7 @@ class TestxyY_to_xy(unittest.TestCase):
         xyY_to_xy(cases)
 
 
-class Testxy_to_xyY(unittest.TestCase):
+class Testxy_to_xyY:
     """
     Define :func:`colour.models.cie_xyy.xy_to_xyY` definition unit tests
     methods.
@@ -416,7 +415,7 @@ class Testxy_to_xyY(unittest.TestCase):
         xy_to_xyY(cases)
 
 
-class TestXYZ_to_xy(unittest.TestCase):
+class TestXYZ_to_xy:
     """
     Define :func:`colour.models.cie_xyy.XYZ_to_xy` definition unit tests
     methods.
@@ -493,7 +492,7 @@ class TestXYZ_to_xy(unittest.TestCase):
         XYZ_to_xy(cases)
 
 
-class Testxy_to_XYZ(unittest.TestCase):
+class Testxy_to_XYZ:
     """
     Define :func:`colour.models.cie_xyy.xy_to_XYZ` definition unit tests
     methods.
@@ -574,7 +573,3 @@ class Testxy_to_XYZ(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=2))))
         xy_to_XYZ(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

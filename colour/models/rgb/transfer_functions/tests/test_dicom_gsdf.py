@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.dicom_gsdf` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -27,7 +26,7 @@ __all__ = [
 ]
 
 
-class TestEotf_inverse_DICOMGSDF(unittest.TestCase):
+class TestEotf_inverse_DICOMGSDF:
     """
     Define :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
 eotf_inverse_DICOMGSDF` definition unit tests methods.
@@ -118,7 +117,7 @@ eotf_inverse_DICOMGSDF` definition nan support.
         eotf_inverse_DICOMGSDF(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestEotf_DICOMGSDF(unittest.TestCase):
+class TestEotf_DICOMGSDF:
     """
         Define :func:`colour.models.rgb.transfer_functions.dicom_gsdf.
     eotf_DICOMGSDF` definition unit tests methods.
@@ -201,7 +200,3 @@ eotf_DICOMGSDF` definition nan support.
         """
 
         eotf_DICOMGSDF(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
-
-
-if __name__ == "__main__":
-    unittest.main()

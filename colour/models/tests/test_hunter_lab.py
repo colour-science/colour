@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.hunter_lab` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -29,7 +28,7 @@ __all__ = [
 ]
 
 
-class TestXYZ_to_K_ab_HunterLab1966(unittest.TestCase):
+class TestXYZ_to_K_ab_HunterLab1966:
     """
     Define :func:`colour.models.hunter_lab.XYZ_to_K_ab_HunterLab1966`
     definition unit tests methods.
@@ -98,7 +97,7 @@ class TestXYZ_to_K_ab_HunterLab1966(unittest.TestCase):
         XYZ_to_K_ab_HunterLab1966(cases)
 
 
-class TestXYZ_to_Hunter_Lab(unittest.TestCase):
+class TestXYZ_to_Hunter_Lab:
     """
     Define :func:`colour.models.hunter_lab.XYZ_to_Hunter_Lab` definition unit
     tests methods.
@@ -233,7 +232,7 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
         XYZ_to_Hunter_Lab(cases, cases, cases[..., 0:2])
 
 
-class TestHunter_Lab_to_XYZ(unittest.TestCase):
+class TestHunter_Lab_to_XYZ:
     """
     Define :func:`colour.models.hunter_lab.Hunter_Lab_to_XYZ` definition unit
     tests methods.
@@ -366,7 +365,3 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         Hunter_Lab_to_XYZ(cases, cases, cases[..., 0:2])
-
-
-if __name__ == "__main__":
-    unittest.main()

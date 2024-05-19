@@ -3,8 +3,6 @@
 
 from __future__ import annotations
 
-import unittest
-
 from colour.utilities import MixinCallback
 
 __author__ = "Colour Developers"
@@ -19,13 +17,13 @@ __all__ = [
 ]
 
 
-class TestMixinCallback(unittest.TestCase):
+class TestMixinCallback:
     """
     Define :class:`colour.utilities.callback.MixinCallback` class unit
     tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         class WithCallback(MixinCallback):
@@ -58,7 +56,7 @@ class TestMixinCallback(unittest.TestCase):
         required_attributes = ("callbacks",)
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(MixinCallback))
+            assert attribute in dir(MixinCallback)
 
     def test_required_methods(self):
         """Test the presence of required methods."""
@@ -70,7 +68,7 @@ class TestMixinCallback(unittest.TestCase):
         )
 
         for method in required_methods:
-            self.assertIn(method, dir(MixinCallback))
+            assert method in dir(MixinCallback)
 
     def test_register_callback(self):
         """
@@ -85,8 +83,8 @@ class TestMixinCallback(unittest.TestCase):
         )
 
         self._with_callback.attribute_a = "a"
-        self.assertEqual(self._with_callback.attribute_a, "A")
-        self.assertEqual(len(self._with_callback.callbacks), 1)
+        assert self._with_callback.attribute_a == "A"
+        assert len(self._with_callback.callbacks) == 1
 
     def test_unregister_callback(self):
         """
@@ -101,12 +99,8 @@ class TestMixinCallback(unittest.TestCase):
                 self._on_attribute_a_changed,
             )
 
-        self.assertEqual(len(self._with_callback.callbacks), 1)
+        assert len(self._with_callback.callbacks) == 1
         self._with_callback.unregister_callback("attribute_a", "on_attribute_a_changed")
-        self.assertEqual(len(self._with_callback.callbacks), 0)
+        assert len(self._with_callback.callbacks) == 0
         self._with_callback.attribute_a = "a"
-        self.assertEqual(self._with_callback.attribute_a, "a")
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert self._with_callback.attribute_a == "a"

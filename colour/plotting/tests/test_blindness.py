@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.plotting.blindness` module."""
 
-import unittest
 
 import numpy as np
 from matplotlib.axes import Axes
@@ -21,7 +20,7 @@ __all__ = [
 ]
 
 
-class TestPlotCvdSimulationMachado2009(unittest.TestCase):
+class TestPlotCvdSimulationMachado2009:
     """
     Define :func:`colour.plotting.blindness.plot_cvd_simulation_Machado2009`
     definition unit tests methods.
@@ -35,9 +34,5 @@ class TestPlotCvdSimulationMachado2009(unittest.TestCase):
 
         figure, axes = plot_cvd_simulation_Machado2009(np.random.rand(32, 32, 3))
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)

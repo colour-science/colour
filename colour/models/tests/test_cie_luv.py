@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.cie_luv` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -42,7 +41,7 @@ __all__ = [
 ]
 
 
-class TestXYZ_to_Luv(unittest.TestCase):
+class TestXYZ_to_Luv:
     """
     Define :func:`colour.models.cie_luv.XYZ_to_Luv` definition unit tests
     methods.
@@ -152,7 +151,7 @@ class TestXYZ_to_Luv(unittest.TestCase):
         XYZ_to_Luv(cases, cases[..., 0:2])
 
 
-class TestLuv_to_XYZ(unittest.TestCase):
+class TestLuv_to_XYZ:
     """
     Define :func:`colour.models.cie_luv.Luv_to_XYZ` definition unit tests
     methods.
@@ -262,7 +261,7 @@ class TestLuv_to_XYZ(unittest.TestCase):
         Luv_to_XYZ(cases, cases[..., 0:2])
 
 
-class TestLuv_to_uv(unittest.TestCase):
+class TestLuv_to_uv:
     """
     Define :func:`colour.models.cie_luv.Luv_to_uv` definition unit tests
     methods.
@@ -372,7 +371,7 @@ class TestLuv_to_uv(unittest.TestCase):
         Luv_to_uv(cases, cases[..., 0:2])
 
 
-class Testuv_to_Luv(unittest.TestCase):
+class Testuv_to_Luv:
     """
     Define :func:`colour.models.cie_luv.uv_to_Luv` definition unit tests
     methods.
@@ -489,7 +488,7 @@ class Testuv_to_Luv(unittest.TestCase):
         uv_to_Luv(cases, cases[..., 0:2])
 
 
-class TestLuv_uv_to_xy(unittest.TestCase):
+class TestLuv_uv_to_xy:
     """
     Define :func:`colour.models.cie_luv.Luv_uv_to_xy` definition unit tests
     methods.
@@ -545,7 +544,7 @@ class TestLuv_uv_to_xy(unittest.TestCase):
         Luv_uv_to_xy(cases)
 
 
-class TestXy_to_Luv_uv(unittest.TestCase):
+class TestXy_to_Luv_uv:
     """
     Define :func:`colour.models.cie_luv.xy_to_Luv_uv` definition unit tests
     methods.
@@ -601,7 +600,7 @@ class TestXy_to_Luv_uv(unittest.TestCase):
         xy_to_Luv_uv(cases)
 
 
-class TestLuv_to_LCHuv(unittest.TestCase):
+class TestLuv_to_LCHuv:
     """
     Define :func:`colour.models.cie_luv.Luv_to_LCHuv` definition unit tests
     methods.
@@ -683,7 +682,7 @@ class TestLuv_to_LCHuv(unittest.TestCase):
         Luv_to_LCHuv(cases)
 
 
-class TestLCHuv_to_Luv(unittest.TestCase):
+class TestLCHuv_to_Luv:
     """
     Define :func:`colour.models.cie_luv.LCHuv_to_Luv` definition unit tests
     methods.
@@ -765,7 +764,7 @@ class TestLCHuv_to_Luv(unittest.TestCase):
         LCHuv_to_Luv(cases)
 
 
-class TestXYZ_to_CIE1976UCS(unittest.TestCase):
+class TestXYZ_to_CIE1976UCS:
     """
     Define :func:`colour.models.cie_luv.XYZ_to_CIE1976UCS` definition unit tests
     methods.
@@ -878,7 +877,7 @@ class TestXYZ_to_CIE1976UCS(unittest.TestCase):
         XYZ_to_CIE1976UCS(cases, cases[..., 0:2])
 
 
-class TestCIE1976UCS_to_XYZ(unittest.TestCase):
+class TestCIE1976UCS_to_XYZ:
     """
     Define :func:`colour.models.cie_luv.CIE1976UCS_to_XYZ` definition unit tests
     methods.
@@ -989,7 +988,3 @@ class TestCIE1976UCS_to_XYZ(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         CIE1976UCS_to_XYZ(cases, cases[..., 0:2])
-
-
-if __name__ == "__main__":
-    unittest.main()

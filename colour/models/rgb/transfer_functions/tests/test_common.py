@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.common` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -29,7 +28,7 @@ __all__ = [
 ]
 
 
-class TestCV_range(unittest.TestCase):
+class TestCV_range:
     """
     Define :func:`colour.models.rgb.transfer_functions.common.CV_range`
     definition unit tests methods.
@@ -66,7 +65,7 @@ class TestCV_range(unittest.TestCase):
         np.testing.assert_array_equal(CV_range(10, False, False), np.array([0, 1]))
 
 
-class TestLegalToFull(unittest.TestCase):
+class TestLegalToFull:
     """
     Define :func:`colour.models.rgb.transfer_functions.common.legal_to_full`
     definition unit tests methods.
@@ -131,7 +130,7 @@ class TestLegalToFull(unittest.TestCase):
         legal_to_full(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]), 10)
 
 
-class TestFullToLegal(unittest.TestCase):
+class TestFullToLegal:
     """
     Define :func:`colour.models.rgb.transfer_functions.common.full_to_legal`
     definition unit tests methods.
@@ -194,7 +193,3 @@ class TestFullToLegal(unittest.TestCase):
         """
 
         full_to_legal(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]), 10)
-
-
-if __name__ == "__main__":
-    unittest.main()

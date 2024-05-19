@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.geometry.ellipse` module."""
 
-import unittest
 
 import numpy as np
 
@@ -28,7 +27,7 @@ __all__ = [
 ]
 
 
-class TestEllipseCoefficientsCanonicalForm(unittest.TestCase):
+class TestEllipseCoefficientsCanonicalForm:
     """
     Define :func:`colour.geometry.ellipse.ellipse_coefficients_canonical_form`
     definition unit tests methods.
@@ -57,7 +56,7 @@ ellipse_coefficients_canonical_form` definition.
         )
 
 
-class TestEllipseCoefficientsGeneralForm(unittest.TestCase):
+class TestEllipseCoefficientsGeneralForm:
     """
     Define :func:`colour.geometry.ellipse.ellipse_coefficients_general_form`
     definition unit tests methods.
@@ -82,7 +81,7 @@ class TestEllipseCoefficientsGeneralForm(unittest.TestCase):
         )
 
 
-class TestPointAtAngleOnEllipse(unittest.TestCase):
+class TestPointAtAngleOnEllipse:
     """
     Define :func:`colour.geometry.ellipse.point_at_angle_on_ellipse`
     definition unit tests methods.
@@ -124,7 +123,7 @@ class TestPointAtAngleOnEllipse(unittest.TestCase):
         )
 
 
-class TestEllipseFittingHalir1998(unittest.TestCase):
+class TestEllipseFittingHalir1998:
     """
     Define :func:`colour.geometry.ellipse.ellipse_fitting_Halir1998`
     definition unit tests methods.
@@ -150,7 +149,3 @@ class TestEllipseFittingHalir1998(unittest.TestCase):
             ),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

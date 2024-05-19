@@ -11,9 +11,8 @@ References
 
 from __future__ import annotations
 
-import unittest
-
 import numpy as np
+import pytest
 
 from colour.algebra import LinearInterpolator, SpragueInterpolator
 from colour.colorimetry import (
@@ -577,7 +576,7 @@ TVS_D65_ASTME308_K1_MSDS: NDArrayFloat = np.array(
 )
 
 
-class TestHandleSpectralArguments(unittest.TestCase):
+class TestHandleSpectralArguments:
     """
     Define :func:`colour.colorimetry.tristimulus_values.\
 handle_spectral_arguments` definition unit tests methods.
@@ -590,32 +589,26 @@ handle_spectral_arguments` definition.
         """
 
         cmfs, illuminant = handle_spectral_arguments()
-        self.assertEqual(
-            cmfs,
-            reshape_msds(MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]),
-        )
-        self.assertEqual(illuminant, reshape_sd(SDS_ILLUMINANTS["D65"]))
+        assert cmfs == reshape_msds(MSDS_CMFS["CIE 1931 2 Degree Standard Observer"])
+        assert illuminant == reshape_sd(SDS_ILLUMINANTS["D65"])
 
         shape = SpectralShape(400, 700, 20)
         cmfs, illuminant = handle_spectral_arguments(shape_default=shape)
-        self.assertEqual(cmfs.shape, shape)
-        self.assertEqual(illuminant.shape, shape)
+        assert cmfs.shape == shape
+        assert illuminant.shape == shape
 
         cmfs, illuminant = handle_spectral_arguments(
             cmfs_default="CIE 2015 2 Degree Standard Observer",
             illuminant_default="E",
             shape_default=shape,
         )
-        self.assertEqual(
-            cmfs,
-            reshape_msds(MSDS_CMFS["CIE 2015 2 Degree Standard Observer"], shape=shape),
+        assert cmfs == reshape_msds(
+            MSDS_CMFS["CIE 2015 2 Degree Standard Observer"], shape=shape
         )
-        self.assertEqual(
-            illuminant, sd_ones(shape, interpolator=LinearInterpolator) * 100
-        )
+        assert illuminant == sd_ones(shape, interpolator=LinearInterpolator) * 100
 
 
-class TestLagrangeCoefficientsASTME2022(unittest.TestCase):
+class TestLagrangeCoefficientsASTME2022:
     """
     Define :func:`colour.colorimetry.tristimulus_values.\
 lagrange_coefficients_ASTME2022` definition unit tests methods.
@@ -657,7 +650,7 @@ lagrange_coefficients_ASTME2022` definition.
         )
 
 
-class TestTristimulusWeightingFactorsASTME2022(unittest.TestCase):
+class TestTristimulusWeightingFactorsASTME2022:
     """
     Define :func:`colour.colorimetry.tristimulus_values.\
 tristimulus_weighting_factors_ASTME2022` definition unit tests methods.
@@ -746,7 +739,7 @@ tristimulus_weighting_factors_ASTME2022` definition raised exception.
         A_1 = sd_CIE_standard_illuminant_A(cmfs_1.shape)
         A_2 = sd_CIE_standard_illuminant_A(cmfs_2.shape)
 
-        self.assertRaises(
+        pytest.raises(
             ValueError,
             tristimulus_weighting_factors_ASTME2022,
             cmfs_1,
@@ -754,7 +747,7 @@ tristimulus_weighting_factors_ASTME2022` definition raised exception.
             shape,
         )
 
-        self.assertRaises(
+        pytest.raises(
             ValueError,
             tristimulus_weighting_factors_ASTME2022,
             cmfs_2,
@@ -763,7 +756,7 @@ tristimulus_weighting_factors_ASTME2022` definition raised exception.
         )
 
 
-class TestAdjustTristimulusWeightingFactorsASTME308(unittest.TestCase):
+class TestAdjustTristimulusWeightingFactorsASTME308:
     """
     Define :func:`colour.colorimetry.tristimulus_values.\
 adjust_tristimulus_weighting_factors_ASTME308` definition unit tests methods.
@@ -786,7 +779,7 @@ adjust_tristimulus_weighting_factors_ASTME308` definition.
         )
 
 
-class TestSd_to_XYZ_integration(unittest.TestCase):
+class TestSd_to_XYZ_integration:
     """
     Define :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ_integration`
     definition unit tests methods.
@@ -865,7 +858,7 @@ sd_to_XYZ_integration` definition domain and range scale support.
                 )
 
 
-class TestSd_to_XYZ_tristimulus_weighting_factors_ASTME308(unittest.TestCase):
+class TestSd_to_XYZ_tristimulus_weighting_factors_ASTME308:
     """
     Define :func:`colour.colorimetry.tristimulus_values.\
 sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
@@ -970,13 +963,13 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308` definition domain and
                 )
 
 
-class TestSd_to_XYZ_ASTME308(unittest.TestCase):
+class TestSd_to_XYZ_ASTME308:
     """
     Define :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ_ASTME308`
     definition unit tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         self._sd = SD_SAMPLE.copy()
@@ -1336,20 +1329,20 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
         definition raised exception.
         """
 
-        self.assertRaises(
+        pytest.raises(
             ValueError,
             sd_to_XYZ_ASTME308,
             reshape_sd(self._sd, SpectralShape(360, 820, 2)),
         )
 
 
-class TestSd_to_XYZ(unittest.TestCase):
+class TestSd_to_XYZ:
     """
     Define :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ` definition
     unit tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         self._cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
@@ -1392,7 +1385,7 @@ class TestSd_to_XYZ(unittest.TestCase):
         )
 
 
-class TestMsds_to_XYZ_integration(unittest.TestCase):
+class TestMsds_to_XYZ_integration:
     """
     Define :func:`colour.colorimetry.tristimulus_values.\
 msds_to_XYZ_integration` definition unit tests methods.
@@ -1456,7 +1449,7 @@ msds_to_XYZ_integration` definition domain and range scale support.
                 )
 
 
-class TestMsds_to_XYZ_ASTME308(unittest.TestCase):
+class TestMsds_to_XYZ_ASTME308:
     """
     Define :func:`colour.colorimetry.tristimulus_values.msds_to_XYZ_ASTME308`
     definition unit tests methods.
@@ -1508,10 +1501,10 @@ msds_to_XYZ_ASTME308` definition domain and range scale support.
 msds_to_XYZ_ASTME308` definition raise exception.
         """
 
-        self.assertRaises(TypeError, msds_to_XYZ_ASTME308, DATA_TWO)
+        pytest.raises(TypeError, msds_to_XYZ_ASTME308, DATA_TWO)
 
 
-class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
+class TestAbsoluteIntegrationToXYZ:
     """
     Test the absolute integration to tristimulus values for :math:`k = 683`
     """
@@ -1612,7 +1605,7 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
             )
 
 
-class TestWavelength_to_XYZ(unittest.TestCase):
+class TestWavelength_to_XYZ:
     """
     Define :func:`colour.colorimetry.tristimulus_values.wavelength_to_XYZ`
     definition unit tests methods.
@@ -1648,9 +1641,9 @@ class TestWavelength_to_XYZ(unittest.TestCase):
         definition raised exception.
         """
 
-        self.assertRaises(ValueError, wavelength_to_XYZ, 1)
+        pytest.raises(ValueError, wavelength_to_XYZ, 1)
 
-        self.assertRaises(ValueError, wavelength_to_XYZ, 1000)
+        pytest.raises(ValueError, wavelength_to_XYZ, 1000)
 
     def test_n_dimensional_wavelength_to_XYZ(self):
         """
@@ -1679,7 +1672,3 @@ class TestWavelength_to_XYZ(unittest.TestCase):
         np.testing.assert_allclose(
             wavelength_to_XYZ(wl, cmfs), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

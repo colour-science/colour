@@ -3,7 +3,6 @@ Define the unit tests for the :mod:`colour.colorimetry.transformations`
 module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -34,7 +33,7 @@ __all__ = [
 ]
 
 
-class TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
+class TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs:
     """
     Define :func:`colour.colorimetry.transformations.\
 RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition unit tests methods.
@@ -105,7 +104,7 @@ RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition nan support.
         )
 
 
-class TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
+class TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs:
     """
     Define :func:`colour.colorimetry.transformations.\
 RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition unit tests methods.
@@ -182,7 +181,7 @@ RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition nan support.
         )
 
 
-class TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs(unittest.TestCase):
+class TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs:
     """
     Define :func:`colour.colorimetry.transformations.\
 RGB_10_degree_cmfs_to_LMS_10_degree_cmfs` definition unit tests methods.
@@ -259,7 +258,7 @@ RGB_10_degree_cmfs_to_LMS_10_degree_cmfs` definition nan support.
         )
 
 
-class TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
+class TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs:
     """
     Define :func:`colour.colorimetry.transformations.\
 LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition unit tests methods.
@@ -336,7 +335,7 @@ LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition nan support.
         )
 
 
-class TestLMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
+class TestLMS_10_degree_cmfs_to_XYZ_10_degree_cmfs:
     """
     Define :func:`colour.colorimetry.transformations.\
 LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition unit tests methods.
@@ -411,7 +410,3 @@ LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition nan support.
         LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

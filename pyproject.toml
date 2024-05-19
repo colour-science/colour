@@ -219,6 +219,7 @@ convention = "numpy"
 "colour/examples/*" = ["INP", "T201", "T203"]
 "docs/*" = ["INP"]
 "tasks.py" = ["INP"]
+"test_*" = ["S101"]
 "utilities/*" = ["EXE001", "INP"]
 "utilities/unicode_to_ascii.py" = ["RUF001"]
 

@@ -8,7 +8,6 @@ Notes
     http://media.ies.org/docs/errata/TM-30-18_tools_etc.zip.
 """
 
-import unittest
 
 import numpy as np
 
@@ -32,7 +31,7 @@ __all__ = [
 ]
 
 
-class TestColourFidelityIndexANSIIESTM3018(unittest.TestCase):
+class TestColourFidelityIndexANSIIESTM3018:
     """
     Define :func:`colour.quality.tm3018.colour_fidelity_index_ANSIIESTM3018`
     definition unit tests methods.
@@ -193,7 +192,7 @@ class TestColourFidelityIndexANSIIESTM3018(unittest.TestCase):
         )
 
 
-class TestAveragesArea(unittest.TestCase):
+class TestAveragesArea:
     """
     Define :func:`colour.quality.tm3018.averages_area` definition unit tests
     methods.
@@ -209,7 +208,3 @@ class TestAveragesArea(unittest.TestCase):
         # Concave polygon.
         poly = np.array([[1.0, -1], [1, 1], [3, 1], [3, 3], [-1, 3], [-1, -1]])
         np.allclose(averages_area(poly), 12)
-
-
-if __name__ == "__main__":
-    unittest.main()

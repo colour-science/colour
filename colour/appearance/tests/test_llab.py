@@ -1,10 +1,10 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.appearance.kim2009` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
+import pytest
 
 from colour.appearance import (
     MEDIA_PARAMETERS_KIM2009,
@@ -36,7 +36,7 @@ __all__ = [
 ]
 
 
-class TestXYZ_to_Kim2009(unittest.TestCase):
+class TestXYZ_to_Kim2009:
     """
     Define :func:`colour.appearance.kim2009.XYZ_to_Kim2009` definition unit
     tests methods.
@@ -224,7 +224,7 @@ class TestXYZ_to_Kim2009(unittest.TestCase):
         XYZ_to_Kim2009(cases, cases, cases[0, 0], media, surround)
 
 
-class TestKim2009_to_XYZ(unittest.TestCase):
+class TestKim2009_to_XYZ:
     """
     Define :func:`colour.appearance.kim2009.Kim2009_to_XYZ` definition unit
     tests methods.
@@ -407,7 +407,7 @@ class TestKim2009_to_XYZ(unittest.TestCase):
         raised exception.
         """
 
-        self.assertRaises(
+        pytest.raises(
             ValueError,
             Kim2009_to_XYZ,
             CAM_Specification_Kim2009(
@@ -441,7 +441,3 @@ class TestKim2009_to_XYZ(unittest.TestCase):
             media,
             surround,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

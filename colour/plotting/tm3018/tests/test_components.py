@@ -3,8 +3,6 @@
 
 from __future__ import annotations
 
-import unittest
-
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
@@ -47,7 +45,7 @@ SPECIFICATION_ANSIIESTM3018: ColourQuality_Specification_ANSIIESTM3018 = cast(
 )
 
 
-class TestPlotSpectraANSIIESTM3018(unittest.TestCase):
+class TestPlotSpectraANSIIESTM3018:
     """
         Define :func:`colour.plotting.tm3018.components.
     plot_spectra_ANSIIESTM3018` definition unit tests methods.
@@ -61,11 +59,11 @@ plot_spectra_ANSIIESTM3018` definition.
 
         figure, axes = plot_spectra_ANSIIESTM3018(SPECIFICATION_ANSIIESTM3018)
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotColourVectorGraphic(unittest.TestCase):
+class TestPlotColourVectorGraphic:
     """
     Define :func:`colour.plotting.tm3018.components.\
 plot_colour_vector_graphic` definition unit tests methods.
@@ -79,11 +77,11 @@ plot_colour_vector_graphic` definition.
 
         figure, axes = plot_colour_vector_graphic(SPECIFICATION_ANSIIESTM3018)
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlot16BinBars(unittest.TestCase):
+class TestPlot16BinBars:
     """
     Define :func:`colour.plotting.tm3018.components.plot_16_bin_bars`
     definition unit tests methods.
@@ -97,11 +95,11 @@ class TestPlot16BinBars(unittest.TestCase):
 
         figure, axes = plot_16_bin_bars(range(16), "{0}")
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotLocalChromaShifts(unittest.TestCase):
+class TestPlotLocalChromaShifts:
     """
     Define :func:`colour.plotting.tm3018.components.plot_local_chroma_shifts`
     definition unit tests methods.
@@ -115,11 +113,11 @@ plot_local_chroma_shifts` definition.
 
         figure, axes = plot_local_chroma_shifts(SPECIFICATION_ANSIIESTM3018)
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotLocalHueShifts(unittest.TestCase):
+class TestPlotLocalHueShifts:
     """
     Define :func:`colour.plotting.tm3018.components.plot_local_hue_shifts`
     definition unit tests methods.
@@ -133,11 +131,11 @@ plot_local_hue_shifts` definition.
 
         figure, axes = plot_local_hue_shifts(SPECIFICATION_ANSIIESTM3018)
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotLocalColourFidelities(unittest.TestCase):
+class TestPlotLocalColourFidelities:
     """
         Define :func:`colour.plotting.tm3018.components.
     plot_local_colour_fidelities` definition unit tests methods.
@@ -151,11 +149,11 @@ plot_local_colour_fidelities` definition.
 
         figure, axes = plot_local_colour_fidelities(SPECIFICATION_ANSIIESTM3018)
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotColourFidelityIndexes(unittest.TestCase):
+class TestPlotColourFidelityIndexes:
     """
     Define :func:`colour.plotting.tm3018.components.\
 plot_colour_fidelity_indexes` definition unit tests methods.
@@ -169,9 +167,5 @@ plot_colour_fidelity_indexes` definition.
 
         figure, axes = plot_colour_fidelity_indexes(SPECIFICATION_ANSIIESTM3018)
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)

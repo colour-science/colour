@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.cie_lab` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -25,7 +24,7 @@ __all__ = [
 ]
 
 
-class TestXYZ_to_Lab(unittest.TestCase):
+class TestXYZ_to_Lab:
     """
     Define :func:`colour.models.cie_lab.XYZ_to_Lab` definition unit tests
     methods.
@@ -135,7 +134,7 @@ class TestXYZ_to_Lab(unittest.TestCase):
         XYZ_to_Lab(cases, cases[..., 0:2])
 
 
-class TestLab_to_XYZ(unittest.TestCase):
+class TestLab_to_XYZ:
     """
     Define :func:`colour.models.cie_lab.Lab_to_XYZ` definition unit tests
     methods.
@@ -245,7 +244,7 @@ class TestLab_to_XYZ(unittest.TestCase):
         Lab_to_XYZ(cases, cases[..., 0:2])
 
 
-class TestLab_to_LCHab(unittest.TestCase):
+class TestLab_to_LCHab:
     """
     Define :func:`colour.models.cie_lab.Lab_to_LCHab` definition unit tests
     methods.
@@ -327,7 +326,7 @@ class TestLab_to_LCHab(unittest.TestCase):
         Lab_to_LCHab(cases)
 
 
-class TestLCHab_to_Lab(unittest.TestCase):
+class TestLCHab_to_Lab:
     """
     Define :func:`colour.models.cie_lab.LCHab_to_Lab` definition unit tests
     methods.
@@ -407,7 +406,3 @@ class TestLCHab_to_Lab(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         LCHab_to_Lab(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

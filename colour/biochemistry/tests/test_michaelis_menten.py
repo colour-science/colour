@@ -3,7 +3,6 @@ Define the unit tests for the :mod:`colour.biochemistry.michaelis_menten`
 module.
 """
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -32,7 +31,7 @@ __all__ = [
 ]
 
 
-class TestReactionRateMichaelisMentenMichaelis1913(unittest.TestCase):
+class TestReactionRateMichaelisMentenMichaelis1913:
     """
     Define :func:`colour.biochemistry.michaelis_menten.\
 reaction_rate_MichaelisMenten_Michaelis1913` definition unit tests methods.
@@ -112,7 +111,7 @@ reaction_rate_MichaelisMenten_Michaelis1913` definition nan support.
         reaction_rate_MichaelisMenten_Michaelis1913(cases, cases, cases)
 
 
-class TestSubstrateConcentrationMichaelisMentenMichaelis1913(unittest.TestCase):
+class TestSubstrateConcentrationMichaelisMentenMichaelis1913:
     """
     Define :func:`colour.biochemistry.michaelis_menten.\
 reaction_rate_MichaelisMenten_Michaelis1913` definition unit tests methods.
@@ -194,7 +193,7 @@ substrate_concentration_MichaelisMenten_Michaelis1913` definition nan support.
         substrate_concentration_MichaelisMenten_Michaelis1913(cases, cases, cases)
 
 
-class TestReactionRateMichaelisMentenAbebe2017(unittest.TestCase):
+class TestReactionRateMichaelisMentenAbebe2017:
     """
     Define :func:`colour.biochemistry.michaelis_menten.\
 reaction_rate_MichaelisMenten_Abebe2017` definition unit tests methods.
@@ -277,7 +276,7 @@ reaction_rate_MichaelisMenten_Abebe2017` definition nan support.
         reaction_rate_MichaelisMenten_Abebe2017(cases, cases, cases, cases)
 
 
-class TestSubstrateConcentrationMichaelisMentenAbebe2017(unittest.TestCase):
+class TestSubstrateConcentrationMichaelisMentenAbebe2017:
     """
     Define :func:`colour.biochemistry.michaelis_menten.\
 reaction_rate_MichaelisMenten_Abebe2017` definition unit tests methods.
@@ -366,7 +365,3 @@ substrate_concentration_MichaelisMenten_Abebe2017` definition nan support.
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         substrate_concentration_MichaelisMenten_Abebe2017(cases, cases, cases, cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.difference.din99` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -22,7 +21,7 @@ __all__ = [
 ]
 
 
-class TestDelta_E_DIN99(unittest.TestCase):
+class TestDelta_E_DIN99:
     """
     Define :func:`colour.difference.din99.delta_E_DIN99` definition unit
     tests methods.
@@ -141,7 +140,3 @@ class TestDelta_E_DIN99(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         delta_E_DIN99(cases, cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

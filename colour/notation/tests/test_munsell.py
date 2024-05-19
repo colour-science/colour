@@ -4,10 +4,10 @@
 from __future__ import annotations
 
 import contextlib
-import unittest
 from itertools import product
 
 import numpy as np
+import pytest
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.hints import NDArrayFloat
@@ -1101,7 +1101,7 @@ MUNSELL_XY_FROM_RENOTATION_OVOID: list = [
 ]
 
 
-class TestMunsellValuePriest1920(unittest.TestCase):
+class TestMunsellValuePriest1920:
     """
     Define :func:`colour.notation.munsell.munsell_value_Priest1920` definition
     unit tests methods.
@@ -1186,7 +1186,7 @@ class TestMunsellValuePriest1920(unittest.TestCase):
         munsell_value_Priest1920(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestMunsellValueMunsell1933(unittest.TestCase):
+class TestMunsellValueMunsell1933:
     """
     Define :func:`colour.notation.munsell.munsell_value_Munsell1933`
     definition unit tests methods.
@@ -1271,7 +1271,7 @@ class TestMunsellValueMunsell1933(unittest.TestCase):
         munsell_value_Munsell1933(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestMunsellValueMoon1943(unittest.TestCase):
+class TestMunsellValueMoon1943:
     """
     Define :func:`colour.notation.munsell.munsell_value_Moon1943` definition
     unit tests methods.
@@ -1356,7 +1356,7 @@ class TestMunsellValueMoon1943(unittest.TestCase):
         munsell_value_Moon1943(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestMunsellValueSaunderson1944(unittest.TestCase):
+class TestMunsellValueSaunderson1944:
     """
     Define :func:`colour.notation.munsell.munsell_value_Saunderson1944`
     definition unit tests methods.
@@ -1443,7 +1443,7 @@ class TestMunsellValueSaunderson1944(unittest.TestCase):
         )
 
 
-class TestMunsellValueLadd1955(unittest.TestCase):
+class TestMunsellValueLadd1955:
     """
     Define :func:`colour.notation.munsell.munsell_value_Ladd1955` definition
     unit tests methods.
@@ -1528,7 +1528,7 @@ class TestMunsellValueLadd1955(unittest.TestCase):
         munsell_value_Ladd1955(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestMunsellValueMcCamy1992(unittest.TestCase):
+class TestMunsellValueMcCamy1992:
     """
     Define :func:`colour.notation.munsell.munsell_value_McCamy1987` definition
     unit tests methods.
@@ -1613,7 +1613,7 @@ class TestMunsellValueMcCamy1992(unittest.TestCase):
         munsell_value_McCamy1987(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestMunsellValueASTMD1535(unittest.TestCase):
+class TestMunsellValueASTMD1535:
     """
     Define :func:`colour.notation.munsell.munsell_value_ASTMD1535`
     definition unit tests methods.
@@ -1698,7 +1698,7 @@ class TestMunsellValueASTMD1535(unittest.TestCase):
         munsell_value_ASTMD1535(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestMunsellSpecification_to_xyY(unittest.TestCase):
+class TestMunsellSpecification_to_xyY:
     """
     Define :func:`colour.notation.munsell.munsell_specification_to_xyY`
     definition unit tests methods.
@@ -1814,7 +1814,7 @@ class TestMunsellSpecification_to_xyY(unittest.TestCase):
                 munsell_specification_to_xyY(case)
 
 
-class TestMunsellColour_to_xyY(unittest.TestCase):
+class TestMunsellColour_to_xyY:
     """
     Define :func:`colour.notation.munsell.munsell_colour_to_xyY` definition
     unit tests methods.
@@ -1887,7 +1887,7 @@ class TestMunsellColour_to_xyY(unittest.TestCase):
         )
 
 
-class TestxyY_to_munsell_specification(unittest.TestCase):
+class TestxyY_to_munsell_specification:
     """
     Define :func:`colour.notation.munsell.xyY_to_munsell_specification`
     definition unit tests methods.
@@ -1955,7 +1955,7 @@ class TestxyY_to_munsell_specification(unittest.TestCase):
         definition raised exception.
         """
 
-        self.assertRaises(
+        pytest.raises(
             RuntimeError,
             xyY_to_munsell_specification,
             np.array([0.90615118, 0.57945103, 0.91984064]),
@@ -1997,7 +1997,7 @@ class TestxyY_to_munsell_specification(unittest.TestCase):
                 xyY_to_munsell_specification(case)
 
 
-class TestxyY_to_munsell_colour(unittest.TestCase):
+class TestxyY_to_munsell_colour:
     """
     Define :func:`colour.notation.munsell.xyY_to_munsell_colour` definition
     unit tests methods.
@@ -2019,7 +2019,7 @@ class TestxyY_to_munsell_colour(unittest.TestCase):
         )
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                self.assertEqual(xyY_to_munsell_colour(xyY * factor), munsell_colour)
+                assert xyY_to_munsell_colour(xyY * factor) == munsell_colour
 
     def test_n_dimensional_xyY_to_munsell_colour(self):
         """
@@ -2050,7 +2050,7 @@ class TestxyY_to_munsell_colour(unittest.TestCase):
         np.testing.assert_equal(xyY_to_munsell_colour(xyY), munsell_colour)
 
 
-class TestParseMunsellColour(unittest.TestCase):
+class TestParseMunsellColour:
     """
     Define :func:`colour.notation.munsell.parse_munsell_colour` definition
     unit tests methods.
@@ -2086,10 +2086,10 @@ class TestParseMunsellColour(unittest.TestCase):
         definition raised exception.
         """
 
-        self.assertRaises(ValueError, parse_munsell_colour, "4.2YQ 8.1/5.3")
+        pytest.raises(ValueError, parse_munsell_colour, "4.2YQ 8.1/5.3")
 
 
-class TestIsGreyMunsellColour(unittest.TestCase):
+class TestIsGreyMunsellColour:
     """
     Define :func:`colour.notation.munsell.is_grey_munsell_colour` definition
     unit tests methods.
@@ -2101,16 +2101,16 @@ class TestIsGreyMunsellColour(unittest.TestCase):
         definition.
         """
 
-        self.assertTrue(is_grey_munsell_colour(5.2))
+        assert is_grey_munsell_colour(5.2)
 
-        self.assertFalse(is_grey_munsell_colour(np.array([0.0, 2.0, 4.0, 6])))
+        assert not is_grey_munsell_colour(np.array([0.0, 2.0, 4.0, 6]))
 
-        self.assertFalse(is_grey_munsell_colour(np.array([4.2, 8.1, 5.3, 6])))
+        assert not is_grey_munsell_colour(np.array([4.2, 8.1, 5.3, 6]))
 
-        self.assertTrue(is_grey_munsell_colour(np.array([np.nan, 0.5, np.nan, np.nan])))
+        assert is_grey_munsell_colour(np.array([np.nan, 0.5, np.nan, np.nan]))
 
 
-class TestNormaliseMunsellSpecification(unittest.TestCase):
+class TestNormaliseMunsellSpecification:
     """
     Define :func:`colour.notation.munsell.normalise_munsell_specification`
     definition unit tests methods.
@@ -2147,7 +2147,7 @@ class TestNormaliseMunsellSpecification(unittest.TestCase):
         )
 
 
-class TestMunsellColourToMunsellSpecification(unittest.TestCase):
+class TestMunsellColourToMunsellSpecification:
     """
     Define :func:`colour.notation.munsell.\
 munsell_colour_to_munsell_specification` definition unit tests methods.
@@ -2190,7 +2190,7 @@ munsell_colour_to_munsell_specification` definition.
         )
 
 
-class TestMunsellSpecificationToMunsellColour(unittest.TestCase):
+class TestMunsellSpecificationToMunsellColour:
     """
     Define :func:`colour.notation.munsell.\
 munsell_specification_to_munsell_colour` definition unit tests methods.
@@ -2202,40 +2202,40 @@ munsell_specification_to_munsell_colour` definition unit tests methods.
 munsell_specification_to_munsell_colour` definition.
         """
 
-        self.assertEqual(
-            munsell_specification_to_munsell_colour(np.array([10.0, 2.0, 4.0, 7])),
-            "10.0R 2.0/4.0",
+        assert (
+            munsell_specification_to_munsell_colour(np.array([10.0, 2.0, 4.0, 7]))
+            == "10.0R 2.0/4.0"
         )
 
-        self.assertEqual(
-            munsell_specification_to_munsell_colour(np.array([10.0, 2.0, 4.0, 9])),
-            "10.0P 2.0/4.0",
+        assert (
+            munsell_specification_to_munsell_colour(np.array([10.0, 2.0, 4.0, 9]))
+            == "10.0P 2.0/4.0"
         )
 
-        self.assertEqual(
-            munsell_specification_to_munsell_colour(np.array([10.0, 2.0, 4.0, 1])),
-            "10.0B 2.0/4.0",
+        assert (
+            munsell_specification_to_munsell_colour(np.array([10.0, 2.0, 4.0, 1]))
+            == "10.0B 2.0/4.0"
         )
 
-        self.assertEqual(
+        assert (
             munsell_specification_to_munsell_colour(
                 np.array([np.nan, 5.2, np.nan, np.nan])
-            ),
-            "N5.2",
+            )
+            == "N5.2"
         )
 
-        self.assertEqual(
-            munsell_specification_to_munsell_colour(np.array([0.0, 2.0, 4.0, 7])),
-            "10.0RP 2.0/4.0",
+        assert (
+            munsell_specification_to_munsell_colour(np.array([0.0, 2.0, 4.0, 7]))
+            == "10.0RP 2.0/4.0"
         )
 
-        self.assertEqual(
-            munsell_specification_to_munsell_colour(np.array([10.0, 0.0, 4.0, 7])),
-            "N0.0",
+        assert (
+            munsell_specification_to_munsell_colour(np.array([10.0, 0.0, 4.0, 7]))
+            == "N0.0"
         )
 
 
-class Test_xyY_fromRenotation(unittest.TestCase):
+class Test_xyY_fromRenotation:
     """
     Define :func:`colour.notation.munsell.xyY_from_renotation` definition
     unit tests methods.
@@ -2263,7 +2263,7 @@ class Test_xyY_fromRenotation(unittest.TestCase):
         )
 
 
-class TestIsSpecificationInRenotation(unittest.TestCase):
+class TestIsSpecificationInRenotation:
     """
     Define :func:`colour.notation.munsell.is_specification_in_renotation`
     definition unit tests methods.
@@ -2275,14 +2275,14 @@ class TestIsSpecificationInRenotation(unittest.TestCase):
         definition.
         """
 
-        self.assertTrue(is_specification_in_renotation(np.array([2.5, 0.2, 2.0, 4])))
+        assert is_specification_in_renotation(np.array([2.5, 0.2, 2.0, 4]))
 
-        self.assertTrue(is_specification_in_renotation(np.array([5.0, 0.2, 2.0, 4])))
+        assert is_specification_in_renotation(np.array([5.0, 0.2, 2.0, 4]))
 
-        self.assertFalse(is_specification_in_renotation(np.array([25.0, 0.2, 2.0, 4])))
+        assert not is_specification_in_renotation(np.array([25.0, 0.2, 2.0, 4]))
 
 
-class TestBoundingHuesFromRenotation(unittest.TestCase):
+class TestBoundingHuesFromRenotation:
     """
     Define :func:`colour.notation.munsell.bounding_hues_from_renotation`
     definition unit tests methods.
@@ -2302,7 +2302,7 @@ class TestBoundingHuesFromRenotation(unittest.TestCase):
             )
 
 
-class TestHueToHueAngle(unittest.TestCase):
+class TestHueToHueAngle:
     """
     Define :func:`colour.notation.munsell.hue_to_hue_angle` definition unit
     tests methods.
@@ -2312,10 +2312,10 @@ class TestHueToHueAngle(unittest.TestCase):
         """Test :func:`colour.notation.munsell.hue_to_hue_angle` definition."""
 
         for hue, code, angle in MUNSELL_HUE_TO_ANGLE:
-            self.assertEqual(hue_to_hue_angle([hue, code]), angle)
+            assert hue_to_hue_angle([hue, code]) == angle
 
 
-class TestHueAngleToHue(unittest.TestCase):
+class TestHueAngleToHue:
     """
     Define :func:`colour.notation.munsell.hue_angle_to_hue` definition unit
     tests methods.
@@ -2328,7 +2328,7 @@ class TestHueAngleToHue(unittest.TestCase):
             np.testing.assert_array_equal(hue_angle_to_hue(angle), (hue, code))
 
 
-class TestHueTo_ASTM_hue(unittest.TestCase):
+class TestHueTo_ASTM_hue:
     """
     Define :func:`colour.notation.munsell.hue_to_ASTM_hue` definition unit
     tests methods.
@@ -2338,10 +2338,10 @@ class TestHueTo_ASTM_hue(unittest.TestCase):
         """Test :func:`colour.notation.munsell.hue_to_ASTM_hue` definition."""
 
         for hue, code, angle in MUNSELL_HUE_TO_ASTM_HUE:
-            self.assertEqual(hue_to_ASTM_hue([hue, code]), angle)
+            assert hue_to_ASTM_hue([hue, code]) == angle
 
 
-class TestInterpolationMethodFromRenotationOvoid(unittest.TestCase):
+class TestInterpolationMethodFromRenotationOvoid:
     """
     Define :func:`colour.notation.munsell.\
 interpolation_method_from_renotation_ovoid` definition unit tests methods.
@@ -2354,23 +2354,25 @@ interpolation_method_from_renotation_ovoid` definition.
         """
 
         for i, (specification, _xyY) in enumerate(MUNSELL_EVEN_SPECIFICATIONS):
-            self.assertEqual(
-                interpolation_method_from_renotation_ovoid(specification),
-                MUNSELL_INTERPOLATION_METHODS[i],
+            assert (
+                interpolation_method_from_renotation_ovoid(specification)
+                == MUNSELL_INTERPOLATION_METHODS[i]
             )
 
-        self.assertIsNone(
+        assert (
             interpolation_method_from_renotation_ovoid(
                 np.array([np.nan, 5.2, np.nan, np.nan])
             )
+            is None
         )
 
-        self.assertIsNone(
+        assert (
             interpolation_method_from_renotation_ovoid(np.array([2.5, 10.0, 2.0, 4]))
+            is None
         )
 
 
-class Test_xy_fromRenotationOvoid(unittest.TestCase):
+class Test_xy_fromRenotationOvoid:
     """
     Define :func:`colour.notation.munsell.xy_from_renotation_ovoid` definition
     unit tests methods.
@@ -2391,7 +2393,7 @@ class Test_xy_fromRenotationOvoid(unittest.TestCase):
                 )
 
 
-class TestLCHabToMunsellSpecification(unittest.TestCase):
+class TestLCHabToMunsellSpecification:
     """
     Define :func:`colour.notation.munsell.LCHab_to_munsell_specification`
     definition unit tests methods.
@@ -2444,7 +2446,7 @@ class TestLCHabToMunsellSpecification(unittest.TestCase):
         )
 
 
-class TestMaximumChromaFromRenotation(unittest.TestCase):
+class TestMaximumChromaFromRenotation:
     """
     Define :func:`colour.notation.munsell.maximum_chroma_from_renotation`
     definition unit tests methods.
@@ -2456,14 +2458,14 @@ class TestMaximumChromaFromRenotation(unittest.TestCase):
         definition.
         """
 
-        self.assertEqual(maximum_chroma_from_renotation([2.5, 5, 5]), 14.0)
+        assert maximum_chroma_from_renotation([2.5, 5, 5]) == 14.0
 
-        self.assertEqual(maximum_chroma_from_renotation([8.675, 1.225, 10]), 48.0)
+        assert maximum_chroma_from_renotation([8.675, 1.225, 10]) == 48.0
 
-        self.assertEqual(maximum_chroma_from_renotation([6.875, 3.425, 1]), 16.0)
+        assert maximum_chroma_from_renotation([6.875, 3.425, 1]) == 16.0
 
 
-class TestMunsellSpecification_to_xy(unittest.TestCase):
+class TestMunsellSpecification_to_xy:
     """
     Define :func:`colour.notation.munsell.munsell_specification_to_xy`
     definition unit tests methods.
@@ -2488,7 +2490,3 @@ class TestMunsellSpecification_to_xy(unittest.TestCase):
                 xyY[0:2],
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
-
-
-if __name__ == "__main__":
-    unittest.main()

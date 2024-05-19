@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.plotting.notation` module."""
 
-import unittest
 
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
@@ -24,7 +23,7 @@ __all__ = [
 ]
 
 
-class TestPlotSingleMunsellValueFunction(unittest.TestCase):
+class TestPlotSingleMunsellValueFunction:
     """
     Define :func:`colour.plotting.notation.plot_single_munsell_value_function`
     definition unit tests methods.
@@ -38,11 +37,11 @@ plot_single_munsell_value_function` definition.
 
         figure, axes = plot_single_munsell_value_function("ASTM D1535")
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotMultiMunsellValueFunctions(unittest.TestCase):
+class TestPlotMultiMunsellValueFunctions:
     """
     Define :func:`colour.plotting.notation.plot_multi_munsell_value_functions`
     definition unit tests methods.
@@ -56,9 +55,5 @@ plot_multi_munsell_value_functions` definition.
 
         figure, axes = plot_multi_munsell_value_functions(["ASTM D1535", "McCamy 1987"])
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)

@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.rgb.cylindrical` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -34,7 +33,7 @@ __all__ = [
 ]
 
 
-class TestRGB_to_HSV(unittest.TestCase):
+class TestRGB_to_HSV:
     """
     Define :func:`colour.models.rgb.cylindrical.RGB_to_HSV` definition unit
     tests methods.
@@ -114,7 +113,7 @@ class TestRGB_to_HSV(unittest.TestCase):
         RGB_to_HSV(cases)
 
 
-class TestHSV_to_RGB(unittest.TestCase):
+class TestHSV_to_RGB:
     """
     Define :func:`colour.models.rgb.cylindrical.HSV_to_RGB` definition unit
     tests methods.
@@ -194,7 +193,7 @@ class TestHSV_to_RGB(unittest.TestCase):
         HSV_to_RGB(cases)
 
 
-class TestRGB_to_HSL(unittest.TestCase):
+class TestRGB_to_HSL:
     """
     Define :func:`colour.models.rgb.cylindrical.RGB_to_HSL` definition unit
     tests methods.
@@ -274,7 +273,7 @@ class TestRGB_to_HSL(unittest.TestCase):
         RGB_to_HSL(cases)
 
 
-class TestHSL_to_RGB(unittest.TestCase):
+class TestHSL_to_RGB:
     """
     Define :func:`colour.models.rgb.cylindrical.HSL_to_RGB` definition unit
     tests methods.
@@ -354,7 +353,7 @@ class TestHSL_to_RGB(unittest.TestCase):
         HSL_to_RGB(cases)
 
 
-class TestRGB_to_HCL(unittest.TestCase):
+class TestRGB_to_HCL:
     """
     Define :func:`colour.models.rgb.cylindrical.RGB_to_HCL` definition unit
     tests methods.
@@ -434,7 +433,7 @@ class TestRGB_to_HCL(unittest.TestCase):
         RGB_to_HCL(cases)
 
 
-class TestHCL_to_RGB(unittest.TestCase):
+class TestHCL_to_RGB:
     """
     Define :func:`colour.models.rgb.cylindrical.HCL_to_RGB` definition unit
     tests methods.
@@ -512,7 +511,3 @@ class TestHCL_to_RGB(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         HCL_to_RGB(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

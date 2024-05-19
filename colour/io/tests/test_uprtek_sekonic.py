@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import json
 import os
-import unittest
 
 import numpy as np
+import pytest
 
 from colour.colorimetry import SpectralDistribution
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -24,7 +24,7 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 __all__ = [
     "ROOT_RESOURCES",
-    "AbstractSpectralDistributionTest",
+    "FixtureAbstractSpectralDistribution",
     "TestSpectralDistributionUprTek",
     "TestSpectralDistributionSekonic",
 ]
@@ -32,24 +32,16 @@ __all__ = [
 ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 
 
-class AbstractSpectralDistributionTest(unittest.TestCase):
+class FixtureAbstractSpectralDistribution:
     """
     Define :class:`colour.SpectralDistribution_UPRTek`,
     :class:`colour.SpectralDistribution_Sekonic` classes common unit tests
     methods.
     """
 
-    def __init__(self, *args: Any) -> None:
-        """
-        Create an instance of the class.
-
-        Other Parameters
-        ----------------
-        args
-            Arguments.
-        """
-
-        super().__init__(*args)
+    @pytest.fixture(autouse=True)
+    def setup_fixture_abstract_spectral_distribution(self) -> None:
+        """Configure the class instance."""
 
         self._sd_factory: Any = None
         self._path: str | None = None
@@ -72,7 +64,7 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
         )
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(SpectralDistribution_UPRTek))
+            assert attribute in dir(SpectralDistribution_UPRTek)
 
     def test_required_methods(self):
         """Test the presence of required methods."""
@@ -80,7 +72,7 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
         required_methods = ("__init__", "__str__", "read", "write")
 
         for method in required_methods:
-            self.assertIn(method, dir(SpectralDistribution_UPRTek))
+            assert method in dir(SpectralDistribution_UPRTek)
 
     def test__str__(self):
         """
@@ -88,23 +80,15 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
         :meth:`colour.SpectralDistribution_Sekonic.__str__` methods.
         """
 
-        if self._sd_factory is None:
-            return
-
-        self.assertTrue(
-            str(
-                self._sd_factory(os.path.join(ROOT_RESOURCES, self._path)).read()
-            ).startswith(self._prefix)
-        )
+        assert str(
+            self._sd_factory(os.path.join(ROOT_RESOURCES, self._path)).read()
+        ).startswith(self._prefix)
 
     def test_read(self):
         """
         Test :meth:`colour.SpectralDistribution_UPRTek.read` and
         :meth:`colour.SpectralDistribution_Sekonic.read` methods.
         """
-
-        if self._sd_factory is None:
-            return
 
         sd = self._sd_factory(os.path.join(ROOT_RESOURCES, self._path)).read()
 
@@ -119,30 +103,20 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
             for specification in sd.header.mapping.elements:
                 if key == specification.element:
                     if key == "Comments":
-                        self.assertDictEqual(json.loads(sd.header.comments), value)
+                        assert json.loads(sd.header.comments) == value
                     else:
-                        self.assertEqual(
-                            getattr(sd.header, specification.attribute), value
-                        )
+                        assert getattr(sd.header, specification.attribute) == value
 
 
-class TestSpectralDistributionUprTek(AbstractSpectralDistributionTest):
+class TestSpectralDistributionUprTek(FixtureAbstractSpectralDistribution):
     """
     Define :class:`colour.SpectralDistribution_UPRTek` class unit tests
     methods.
     """
 
-    def __init__(self, *args: Any) -> None:
-        """
-        Create an instance of the class.
-
-        Other Parameters
-        ----------------
-        args
-            Arguments.
-        """
-
-        super().__init__(*args)
+    @pytest.fixture(autouse=True)
+    def setup_test_spectral_distribution_upr_tek(self) -> None:
+        """Configure the class instance."""
 
         self._sd_factory = SpectralDistribution_UPRTek
         self._path = "ESPD2021_0104_231446.xls"
@@ -607,23 +581,15 @@ class TestSpectralDistributionUprTek(AbstractSpectralDistributionTest):
         self._prefix = "UPRTek"
 
 
-class TestSpectralDistributionSekonic(AbstractSpectralDistributionTest):
+class TestSpectralDistributionSekonic(FixtureAbstractSpectralDistribution):
     """
     Define :class:`colour.SpectralDistribution_Sekonic` class unit tests
     methods.
     """
 
-    def __init__(self, *args: Any) -> None:
-        """
-        Create an instance of the class.
-
-        Other Parameters
-        ----------------
-        args
-            Arguments.
-        """
-
-        super().__init__(*args)
+    @pytest.fixture(autouse=True)
+    def setup_test_spectral_distribution_sekonic(self) -> None:
+        """Configure the class instance."""
 
         self._sd_factory = SpectralDistribution_Sekonic
         self._path = "RANDOM_001_02._3262K.csv"
@@ -1112,7 +1078,3 @@ class TestSpectralDistributionSekonic(AbstractSpectralDistributionTest):
             "SpectralQuantity": "Irradiance",
         }
         self._prefix = "Sekonic"
-
-
-if __name__ == "__main__":
-    unittest.main()

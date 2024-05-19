@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.cie_ucs` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -38,7 +37,7 @@ __all__ = [
 ]
 
 
-class TestXYZ_to_UCS(unittest.TestCase):
+class TestXYZ_to_UCS:
     """
     Define :func:`colour.models.cie_ucs.XYZ_to_UCS` definition unit tests
     methods.
@@ -109,7 +108,7 @@ class TestXYZ_to_UCS(unittest.TestCase):
         XYZ_to_UCS(cases)
 
 
-class TestUCS_to_XYZ(unittest.TestCase):
+class TestUCS_to_XYZ:
     """
     Define :func:`colour.models.cie_ucs.UCS_to_XYZ` definition unit tests
     methods.
@@ -180,7 +179,7 @@ class TestUCS_to_XYZ(unittest.TestCase):
         UCS_to_XYZ(cases)
 
 
-class TestUCS_to_uv(unittest.TestCase):
+class TestUCS_to_uv:
     """
     Define :func:`colour.models.cie_ucs.UCS_to_uv` definition unit tests
     methods.
@@ -249,7 +248,7 @@ class TestUCS_to_uv(unittest.TestCase):
         UCS_to_uv(cases)
 
 
-class Testuv_to_UCS(unittest.TestCase):
+class Testuv_to_UCS:
     """
     Define :func:`colour.models.cie_ucs.uv_to_UCS` definition unit tests
     methods.
@@ -327,7 +326,7 @@ class Testuv_to_UCS(unittest.TestCase):
         uv_to_UCS(cases)
 
 
-class TestUCS_uv_to_xy(unittest.TestCase):
+class TestUCS_uv_to_xy:
     """
     Define :func:`colour.models.cie_ucs.UCS_uv_to_xy` definition unit tests
     methods.
@@ -383,7 +382,7 @@ class TestUCS_uv_to_xy(unittest.TestCase):
         UCS_uv_to_xy(cases)
 
 
-class TestXy_to_UCS_uv(unittest.TestCase):
+class TestXy_to_UCS_uv:
     """
     Define :func:`colour.models.cie_ucs.xy_to_UCS_uv` definition unit tests
     methods.
@@ -439,7 +438,7 @@ class TestXy_to_UCS_uv(unittest.TestCase):
         xy_to_UCS_uv(cases)
 
 
-class TestXYZ_to_CIE1960UCS(unittest.TestCase):
+class TestXYZ_to_CIE1960UCS:
     """
     Define :func:`colour.models.cie_ucs.XYZ_to_CIE1960UCS` definition unit tests
     methods.
@@ -517,7 +516,7 @@ class TestXYZ_to_CIE1960UCS(unittest.TestCase):
         XYZ_to_CIE1960UCS(cases)
 
 
-class TestCIE1960UCS_to_XYZ(unittest.TestCase):
+class TestCIE1960UCS_to_XYZ:
     """
     Define :func:`colour.models.cie_ucs.CIE1960UCS_to_XYZ` definition unit tests
     methods.
@@ -593,7 +592,3 @@ class TestCIE1960UCS_to_XYZ(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         CIE1960UCS_to_XYZ(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

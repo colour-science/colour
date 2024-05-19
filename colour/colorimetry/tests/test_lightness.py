@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.colorimetry.lightness` module."""
 
-import unittest
 
 import numpy as np
 
@@ -37,7 +36,7 @@ __all__ = [
 ]
 
 
-class TestLightnessGlasser1958(unittest.TestCase):
+class TestLightnessGlasser1958:
     """
     Define :func:`colour.colorimetry.lightness.lightness_Glasser1958`
     definition unit tests methods.
@@ -121,7 +120,7 @@ class TestLightnessGlasser1958(unittest.TestCase):
         lightness_Glasser1958(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLightnessWyszecki1963(unittest.TestCase):
+class TestLightnessWyszecki1963:
     """
     Define :func:`colour.colorimetry.lightness.lightness_Wyszecki1963`
     definition unit tests methods.
@@ -205,7 +204,7 @@ class TestLightnessWyszecki1963(unittest.TestCase):
         lightness_Wyszecki1963(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestIntermediateLightnessFunctionCIE1976(unittest.TestCase):
+class TestIntermediateLightnessFunctionCIE1976:
     """
     Define :func:`colour.colorimetry.lightness.\
 intermediate_lightness_function_CIE1976` definition unit tests methods.
@@ -298,7 +297,7 @@ intermediate_lightness_function_CIE1976` definition nan support.
         )
 
 
-class TestLightnessCIE1976(unittest.TestCase):
+class TestLightnessCIE1976:
     """
     Define :func:`colour.colorimetry.lightness.lightness_CIE1976` definition
     unit tests methods.
@@ -400,7 +399,7 @@ class TestLightnessCIE1976(unittest.TestCase):
         lightness_CIE1976(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLightnessFairchild2010(unittest.TestCase):
+class TestLightnessFairchild2010:
     """
     Define :func:`colour.colorimetry.lightness.lightness_Fairchild2010`
     definition unit tests methods.
@@ -502,7 +501,7 @@ class TestLightnessFairchild2010(unittest.TestCase):
         lightness_Fairchild2010(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLightnessFairchild2011(unittest.TestCase):
+class TestLightnessFairchild2011:
     """
     Define :func:`colour.colorimetry.lightness.lightness_Fairchild2011`
     definition unit tests methods.
@@ -604,7 +603,7 @@ class TestLightnessFairchild2011(unittest.TestCase):
         lightness_Fairchild2011(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLightnessAbebe2017(unittest.TestCase):
+class TestLightnessAbebe2017:
     """
     Define :func:`colour.colorimetry.lightness.lightness_Abebe2017`
     definition unit tests methods.
@@ -700,7 +699,7 @@ class TestLightnessAbebe2017(unittest.TestCase):
         lightness_Abebe2017(*[np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])] * 2)
 
 
-class TestLightness(unittest.TestCase):
+class TestLightness:
     """
     Define :func:`colour.colorimetry.lightness.lightness` definition unit
     tests methods.
@@ -731,7 +730,3 @@ class TestLightness(unittest.TestCase):
                         value * factor,
                         atol=TOLERANCE_ABSOLUTE_TESTS,
                     )
-
-
-if __name__ == "__main__":
-    unittest.main()

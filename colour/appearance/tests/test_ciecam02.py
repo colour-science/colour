@@ -1,10 +1,10 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.appearance.ciecam02` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
+import pytest
 
 from colour.appearance import (
     VIEWING_CONDITIONS_CIECAM02,
@@ -34,7 +34,7 @@ __all__ = [
 ]
 
 
-class TestXYZ_to_CIECAM02(unittest.TestCase):
+class TestXYZ_to_CIECAM02:
     """
     Define :func:`colour.appearance.ciecam02.XYZ_to_CIECAM02` definition unit
     tests methods.
@@ -205,7 +205,7 @@ class TestXYZ_to_CIECAM02(unittest.TestCase):
         XYZ_to_CIECAM02(cases, cases, cases[..., 0], cases[..., 0], surround)
 
 
-class TestCIECAM02_to_XYZ(unittest.TestCase):
+class TestCIECAM02_to_XYZ:
     """
     Define :func:`colour.appearance.ciecam02.CIECAM02_to_XYZ` definition unit
     tests methods.
@@ -378,7 +378,7 @@ class TestCIECAM02_to_XYZ(unittest.TestCase):
         raised exception.
         """
 
-        self.assertRaises(
+        pytest.raises(
             ValueError,
             CIECAM02_to_XYZ,
             CAM_Specification_CIECAM02(41.731091132513917, None, 219.04843265831178),
@@ -407,7 +407,3 @@ class TestCIECAM02_to_XYZ(unittest.TestCase):
             cases[..., 0],
             surround,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.temperature.kang2002` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -23,7 +22,7 @@ __all__ = [
 ]
 
 
-class TestXy_to_CCT_Kang2002(unittest.TestCase):
+class TestXy_to_CCT_Kang2002:
     """
     Define :func:`colour.temperature.kang2002.xy_to_CCT_Kang2002`
     definition unit tests methods.
@@ -95,7 +94,7 @@ class TestXy_to_CCT_Kang2002(unittest.TestCase):
         xy_to_CCT_Kang2002(cases)
 
 
-class TestCCT_to_xy_Kang2002(unittest.TestCase):
+class TestCCT_to_xy_Kang2002:
     """
     Define :func:`colour.temperature.kang2002.CCT_to_xy_Kang2002` definition
     unit tests methods.
@@ -156,7 +155,3 @@ class TestCCT_to_xy_Kang2002(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=2))))
         CCT_to_xy_Kang2002(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

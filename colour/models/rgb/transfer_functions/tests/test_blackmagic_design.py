@@ -3,7 +3,6 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
 blackmagic_design` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -27,7 +26,7 @@ __all__ = [
 ]
 
 
-class TestOetf_BlackmagicFilmGeneration5(unittest.TestCase):
+class TestOetf_BlackmagicFilmGeneration5:
     """
     Define :func:`colour.models.rgb.transfer_functions.blackmagic_design.\
 oetf_BlackmagicFilmGeneration5` definition unit tests methods.
@@ -128,7 +127,7 @@ blackmagic_design.oetf_BlackmagicFilmGeneration5` definition nan support.
         )
 
 
-class TestOetf_inverse_BlackmagicFilmGeneration5(unittest.TestCase):
+class TestOetf_inverse_BlackmagicFilmGeneration5:
     """
     Define :func:`colour.models.rgb.transfer_functions.\
 blackmagic_design.oetf_inverse_BlackmagicFilmGeneration5` definition unit tests
@@ -235,7 +234,3 @@ blackmagic_design.oetf_inverse_BlackmagicFilmGeneration5` definition nan
         oetf_inverse_BlackmagicFilmGeneration5(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

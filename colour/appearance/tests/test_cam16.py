@@ -1,10 +1,10 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.appearance.cam16` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
+import pytest
 
 from colour.appearance import (
     VIEWING_CONDITIONS_CAM16,
@@ -34,7 +34,7 @@ __all__ = [
 ]
 
 
-class TestXYZ_to_CAM16(unittest.TestCase):
+class TestXYZ_to_CAM16:
     """
     Define :func:`colour.appearance.cam16.XYZ_to_CAM16` definition unit
     tests methods.
@@ -239,7 +239,7 @@ class TestXYZ_to_CAM16(unittest.TestCase):
         XYZ_to_CAM16(cases, cases, cases[..., 0], cases[..., 0], surround)
 
 
-class TestCAM16_to_XYZ(unittest.TestCase):
+class TestCAM16_to_XYZ:
     """
     Define :func:`colour.appearance.cam16.CAM16_to_XYZ` definition unit tests
     methods.
@@ -395,7 +395,7 @@ class TestCAM16_to_XYZ(unittest.TestCase):
         exception.
         """
 
-        self.assertRaises(
+        pytest.raises(
             ValueError,
             CAM16_to_XYZ,
             CAM_Specification_CAM16(41.731207905126638, None, 217.06795976739301),
@@ -422,7 +422,3 @@ class TestCAM16_to_XYZ(unittest.TestCase):
             cases[..., 0],
             surround,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

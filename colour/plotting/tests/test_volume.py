@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.plotting.volume` module."""
 
-import unittest
 
 import numpy as np
 from matplotlib.axes import Axes
@@ -26,7 +25,7 @@ __all__ = [
 ]
 
 
-class TestNadirGrid(unittest.TestCase):
+class TestNadirGrid:
     """
     Define :func:`colour.plotting.volume.nadir_grid` definition unit tests
     methods.
@@ -121,7 +120,7 @@ class TestNadirGrid(unittest.TestCase):
         )
 
 
-class TestRGBIdentityCube(unittest.TestCase):
+class TestRGBIdentityCube:
     """
     Define :func:`colour.plotting.volume.RGB_identity_cube` definition unit
     tests methods.
@@ -193,7 +192,7 @@ class TestRGBIdentityCube(unittest.TestCase):
         )
 
 
-class TestPlotRGBColourspacesGamuts(unittest.TestCase):
+class TestPlotRGBColourspacesGamuts:
     """
     Define :func:`colour.plotting.volume.plot_RGB_colourspaces_gamuts`
     definition unit tests methods.
@@ -212,11 +211,11 @@ class TestPlotRGBColourspacesGamuts(unittest.TestCase):
             chromatically_adapt=True,
         )
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotRGBScatter(unittest.TestCase):
+class TestPlotRGBScatter:
     """
     Define :func:`colour.plotting.volume.plot_RGB_scatter` definition unit
     tests methods.
@@ -227,9 +226,5 @@ class TestPlotRGBScatter(unittest.TestCase):
 
         figure, axes = plot_RGB_scatter(np.random.random((128, 128, 3)), "ITU-R BT.709")
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)

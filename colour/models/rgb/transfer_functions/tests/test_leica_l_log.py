@@ -3,7 +3,6 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
 leica_l_log` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -27,7 +26,7 @@ __all__ = [
 ]
 
 
-class TestLogEncoding_LLog(unittest.TestCase):
+class TestLogEncoding_LLog:
     """
     Define :func:`colour.models.rgb.transfer_functions.leica_l_log.\
 log_encoding_LLog` definition unit tests methods.
@@ -130,7 +129,7 @@ log_encoding_LLog` definition nan support.
         log_encoding_LLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_LLog(unittest.TestCase):
+class TestLogDecoding_LLog:
     """
     Define :func:`colour.models.rgb.transfer_functions.leica_l_log.\
 log_decoding_LLog` definition unit tests methods.
@@ -231,7 +230,3 @@ log_decoding_LLog` definition nan support.
         """
 
         log_decoding_LLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
-
-
-if __name__ == "__main__":
-    unittest.main()

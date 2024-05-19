@@ -6,7 +6,6 @@ Define the unit tests for the :mod:`colour.characterisation.aces_it` module.
 from __future__ import annotations
 
 import os
-import unittest
 
 import numpy as np
 
@@ -87,7 +86,7 @@ SD_AMPAS_ISO7589_STUDIO_TUNGSTEN: SpectralDistribution = read_sds_from_csv_file(
 )["iso7589"]
 
 
-class TestSdToAcesRelativeExposureValues(unittest.TestCase):
+class TestSdToAcesRelativeExposureValues:
     """
     Define :func:`colour.characterisation.aces_it.\
 sd_to_aces_relative_exposure_values` definition unit tests methods.
@@ -165,7 +164,7 @@ sd_to_aces_relative_exposure_values` definition.
                 )
 
 
-class TestReadTrainingDataRawtoacesV1(unittest.TestCase):
+class TestReadTrainingDataRawtoacesV1:
     """
     Define :func:`colour.characterisation.aces_it.\
 read_training_data_rawtoaces_v1` definition unit tests methods.
@@ -177,10 +176,10 @@ read_training_data_rawtoaces_v1` definition unit tests methods.
         read_training_data_rawtoaces_v1` definition.
         """
 
-        self.assertEqual(len(read_training_data_rawtoaces_v1().labels), 190)
+        assert len(read_training_data_rawtoaces_v1().labels) == 190
 
 
-class TestGenerateIlluminantsRawtoacesV1(unittest.TestCase):
+class TestGenerateIlluminantsRawtoacesV1:
     """
     Define :func:`colour.characterisation.aces_it.\
 generate_illuminants_rawtoaces_v1` definition unit tests methods.
@@ -192,64 +191,61 @@ generate_illuminants_rawtoaces_v1` definition unit tests methods.
         generate_illuminants_rawtoaces_v1` definition.
         """
 
-        self.assertListEqual(
-            sorted(generate_illuminants_rawtoaces_v1().keys()),
-            [
-                "1000K Blackbody",
-                "1500K Blackbody",
-                "2000K Blackbody",
-                "2500K Blackbody",
-                "3000K Blackbody",
-                "3500K Blackbody",
-                "D100",
-                "D105",
-                "D110",
-                "D115",
-                "D120",
-                "D125",
-                "D130",
-                "D135",
-                "D140",
-                "D145",
-                "D150",
-                "D155",
-                "D160",
-                "D165",
-                "D170",
-                "D175",
-                "D180",
-                "D185",
-                "D190",
-                "D195",
-                "D200",
-                "D205",
-                "D210",
-                "D215",
-                "D220",
-                "D225",
-                "D230",
-                "D235",
-                "D240",
-                "D245",
-                "D250",
-                "D40",
-                "D45",
-                "D50",
-                "D55",
-                "D60",
-                "D65",
-                "D70",
-                "D75",
-                "D80",
-                "D85",
-                "D90",
-                "D95",
-                "iso7589",
-            ],
-        )
+        assert sorted(generate_illuminants_rawtoaces_v1().keys()) == [
+            "1000K Blackbody",
+            "1500K Blackbody",
+            "2000K Blackbody",
+            "2500K Blackbody",
+            "3000K Blackbody",
+            "3500K Blackbody",
+            "D100",
+            "D105",
+            "D110",
+            "D115",
+            "D120",
+            "D125",
+            "D130",
+            "D135",
+            "D140",
+            "D145",
+            "D150",
+            "D155",
+            "D160",
+            "D165",
+            "D170",
+            "D175",
+            "D180",
+            "D185",
+            "D190",
+            "D195",
+            "D200",
+            "D205",
+            "D210",
+            "D215",
+            "D220",
+            "D225",
+            "D230",
+            "D235",
+            "D240",
+            "D245",
+            "D250",
+            "D40",
+            "D45",
+            "D50",
+            "D55",
+            "D60",
+            "D65",
+            "D70",
+            "D75",
+            "D80",
+            "D85",
+            "D90",
+            "D95",
+            "iso7589",
+        ]
 
 
-class TestWhiteBalanceMultipliers(unittest.TestCase):
+class TestWhiteBalanceMultipliers:
     """
     Define :func:`colour.characterisation.aces_it.white_balance_multipliers`
     definition unit tests methods.
@@ -277,7 +273,7 @@ class TestWhiteBalanceMultipliers(unittest.TestCase):
         )
 
 
-class TestBestIlluminant(unittest.TestCase):
+class TestBestIlluminant:
     """
     Define :func:`colour.characterisation.aces_it.best_illuminant` definition
     unit tests methods.
@@ -289,30 +285,30 @@ class TestBestIlluminant(unittest.TestCase):
         definition.
         """
 
-        self.assertEqual(
+        assert (
             best_illuminant(
                 white_balance_multipliers(
                     MSDS_CANON_EOS_5DMARK_II, SDS_ILLUMINANTS["FL2"]
                 ),
                 MSDS_CANON_EOS_5DMARK_II,
                 generate_illuminants_rawtoaces_v1(),
-            ).name,
-            "D40",
+            ).name
+            == "D40"
         )
 
-        self.assertEqual(
+        assert (
             best_illuminant(
                 white_balance_multipliers(
                     MSDS_CANON_EOS_5DMARK_II, SDS_ILLUMINANTS["A"]
                 ),
                 MSDS_CANON_EOS_5DMARK_II,
                 generate_illuminants_rawtoaces_v1(),
-            ).name,
-            "3000K Blackbody",
+            ).name
+            == "3000K Blackbody"
         )
 
 
-class TestNormaliseIlluminant(unittest.TestCase):
+class TestNormaliseIlluminant:
     """
     Define :func:`colour.characterisation.aces_it.normalise_illuminant`
     definition unit tests methods.
@@ -335,7 +331,7 @@ class TestNormaliseIlluminant(unittest.TestCase):
         )
 
 
-class TestTrainingDataSdsToRGB(unittest.TestCase):
+class TestTrainingDataSdsToRGB:
     """
     Define :func:`colour.characterisation.aces_it.training_data_sds_to_RGB`
     definition unit tests methods.
@@ -603,7 +599,7 @@ class TestTrainingDataSdsToRGB(unittest.TestCase):
         )
 
 
-class TestTrainingDataSdsToXYZ(unittest.TestCase):
+class TestTrainingDataSdsToXYZ:
     """
     Define :func:`colour.characterisation.aces_it.training_data_sds_to_XYZ`
     definition unit tests methods.
@@ -898,7 +894,7 @@ class TestTrainingDataSdsToXYZ(unittest.TestCase):
         )
 
 
-class TestWhitepointPreservingMatrix(unittest.TestCase):
+class TestWhitepointPreservingMatrix:
     """
     Define :func:`colour.characterisation.aces_it.whitepoint_preserving_matrix`
     definition unit tests methods.
@@ -928,7 +924,7 @@ whitepoint_preserving_matrix` definition.
         )
 
 
-class TestOptimizationFactoryRawtoacesV1(unittest.TestCase):
+class TestOptimizationFactoryRawtoacesV1:
     """
     Define :func:`colour.characterisation.aces_it.\
 optimisation_factory_rawtoaces_v1` definition unit tests methods.
@@ -940,10 +936,10 @@ optimisation_factory_rawtoaces_v1` definition unit tests methods.
 optimisation_factory_rawtoaces_v1` definition.
         """
 
-        self.assertEqual(len(optimisation_factory_rawtoaces_v1()), 4)
+        assert len(optimisation_factory_rawtoaces_v1()) == 4
 
 
-class TestOptimizationFactoryJzazbz(unittest.TestCase):
+class TestOptimizationFactoryJzazbz:
     """
     Define :func:`colour.characterisation.aces_it.\
 optimisation_factory_Jzazbz` definition unit tests methods.
@@ -955,10 +951,10 @@ optimisation_factory_Jzazbz` definition unit tests methods.
 optimisation_factory_Jzazbz` definition.
         """
 
-        self.assertEqual(len(optimisation_factory_Jzazbz()), 4)
+        assert len(optimisation_factory_Jzazbz()) == 4
 
 
-class TestOptimizationFactoryOklab18(unittest.TestCase):
+class TestOptimizationFactoryOklab18:
     """
     Define :func:`colour.characterisation.aces_it.\
 optimisation_factory_Oklab_15` definition unit tests methods.
@@ -970,10 +966,10 @@ optimisation_factory_Oklab_15` definition unit tests methods.
 optimisation_factory_Oklab_15` definition.
         """
 
-        self.assertEqual(len(optimisation_factory_Oklab_15()), 4)
+        assert len(optimisation_factory_Oklab_15()) == 4
 
 
-class TestMatrixIdt(unittest.TestCase):
+class TestMatrixIdt:
     """
     Define :func:`colour.characterisation.aces_it.matrix_idt` definition unit
     tests methods.
@@ -1184,7 +1180,7 @@ class TestMatrixIdt(unittest.TestCase):
         )
 
 
-class TestCamera_RGB_to_ACES2065_1(unittest.TestCase):
+class TestCamera_RGB_to_ACES2065_1:
     """
     Define :func:`colour.characterisation.aces_it.camera_RGB_to_ACES2065_1`
     definition unit tests methods.
@@ -1214,7 +1210,3 @@ class TestCamera_RGB_to_ACES2065_1(unittest.TestCase):
             np.array([2.24358784, 0.98311459, 1.64045840]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

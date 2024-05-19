@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.plotting.colorimetry` module."""
 
-import unittest
 
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
@@ -47,7 +46,7 @@ __all__ = [
 ]
 
 
-class TestPlotSingleSd(unittest.TestCase):
+class TestPlotSingleSd:
     """
     Define :func:`colour.plotting.colorimetry.plot_single_sd` definition unit
     tests methods.
@@ -76,11 +75,11 @@ class TestPlotSingleSd(unittest.TestCase):
             equalize_sd_amplitude=True,
         )
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotMultiSds(unittest.TestCase):
+class TestPlotMultiSds:
     """
     Define :func:`colour.plotting.colorimetry.plot_multi_sds` definition unit
     tests methods.
@@ -119,19 +118,19 @@ class TestPlotMultiSds(unittest.TestCase):
             plot_kwargs={"use_sd_colours": True, "normalise_sd_colours": True},
         )
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
         figure, axes = plot_multi_sds(
             [sd_1, sd_2],
             plot_kwargs=[{"use_sd_colours": True, "normalise_sd_colours": True}] * 2,
         )
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotSingleCmfs(unittest.TestCase):
+class TestPlotSingleCmfs:
     """
     Define :func:`colour.plotting.colorimetry.plot_single_cmfs` definition
     unit tests methods.
@@ -142,11 +141,11 @@ class TestPlotSingleCmfs(unittest.TestCase):
 
         figure, axes = plot_single_cmfs()
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotMultiCmfs(unittest.TestCase):
+class TestPlotMultiCmfs:
     """
     Define :func:`colour.plotting.colorimetry.plot_multi_cmfs` definition unit
     tests methods.
@@ -162,11 +161,11 @@ class TestPlotMultiCmfs(unittest.TestCase):
             ]
         )
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotSingleIlluminantSd(unittest.TestCase):
+class TestPlotSingleIlluminantSd:
     """
     Define :func:`colour.plotting.colorimetry.plot_single_illuminant_sd`
     definition unit tests methods.
@@ -180,11 +179,11 @@ class TestPlotSingleIlluminantSd(unittest.TestCase):
 
         figure, axes = plot_single_illuminant_sd("A")
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotMultiIlluminantSds(unittest.TestCase):
+class TestPlotMultiIlluminantSds:
     """
     Define :func:`colour.plotting.colorimetry.plot_multi_illuminant_sds`
     definition unit tests methods.
@@ -198,19 +197,19 @@ class TestPlotMultiIlluminantSds(unittest.TestCase):
 
         figure, axes = plot_multi_illuminant_sds(["A", "B", "C"])
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
         figure, axes = plot_multi_illuminant_sds(
             ["A", "B", "C"],
             plot_kwargs=[{"use_sd_colours": True, "normalise_sd_colours": True}] * 3,
         )
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotVisibleSpectrum(unittest.TestCase):
+class TestPlotVisibleSpectrum:
     """
     Define :func:`colour.plotting.colorimetry.plot_visible_spectrum`
     definition unit tests methods.
@@ -224,11 +223,11 @@ class TestPlotVisibleSpectrum(unittest.TestCase):
 
         figure, axes = plot_visible_spectrum()
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotSingleLightnessFunction(unittest.TestCase):
+class TestPlotSingleLightnessFunction:
     """
     Define :func:`colour.plotting.colorimetry.plot_single_lightness_function`
     definition unit tests methods.
@@ -242,11 +241,11 @@ plot_single_lightness_function` definition.
 
         figure, axes = plot_single_lightness_function("CIE 1976")
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotMultiLightnessFunctions(unittest.TestCase):
+class TestPlotMultiLightnessFunctions:
     """
     Define :func:`colour.plotting.colorimetry.plot_multi_lightness_functions`
     definition unit tests methods.
@@ -260,11 +259,11 @@ plot_multi_lightness_functions` definition.
 
         figure, axes = plot_multi_lightness_functions(["CIE 1976", "Wyszecki 1963"])
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotSingleLuminanceFunction(unittest.TestCase):
+class TestPlotSingleLuminanceFunction:
     """
     Define :func:`colour.plotting.colorimetry.plot_single_luminance_function`
     definition unit tests methods.
@@ -278,11 +277,11 @@ plot_single_luminance_function` definition.
 
         figure, axes = plot_single_luminance_function("CIE 1976")
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotMultiLuminanceFunctions(unittest.TestCase):
+class TestPlotMultiLuminanceFunctions:
     """
     Define :func:`colour.plotting.colorimetry.plot_multi_luminance_functions`
     definition unit tests methods.
@@ -296,11 +295,11 @@ plot_multi_luminance_functions` definition.
 
         figure, axes = plot_multi_luminance_functions(["CIE 1976", "Newhall 1943"])
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotBlackbodySpectralRadiance(unittest.TestCase):
+class TestPlotBlackbodySpectralRadiance:
     """
     Define :func:`colour.plotting.colorimetry.\
 plot_blackbody_spectral_radiance` definition unit tests methods.
@@ -314,11 +313,11 @@ plot_blackbody_spectral_radiance` definition.
 
         figure, axes = plot_blackbody_spectral_radiance()
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotBlackbodyColours(unittest.TestCase):
+class TestPlotBlackbodyColours:
     """
     Define :func:`colour.plotting.colorimetry.plot_blackbody_colours`
     definition unit tests methods.
@@ -332,9 +331,5 @@ class TestPlotBlackbodyColours(unittest.TestCase):
 
         figure, axes = plot_blackbody_colours()
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)

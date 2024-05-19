@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.plotting.quality` module."""
 
-import unittest
 
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
@@ -37,7 +36,7 @@ __all__ = [
 ]
 
 
-class TestPlotColourQualityBars(unittest.TestCase):
+class TestPlotColourQualityBars:
     """
     Define :func:`colour.plotting.quality.plot_colour_quality_bars` definition
     unit tests methods.
@@ -57,11 +56,11 @@ class TestPlotColourQualityBars(unittest.TestCase):
 
         figure, axes = plot_colour_quality_bars([cqs_i, cqs_l])
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotSingleSdColourRenderingIndexBars(unittest.TestCase):
+class TestPlotSingleSdColourRenderingIndexBars:
     """
     Define :func:`colour.plotting.quality.\
 plot_single_sd_colour_rendering_index_bars` definition unit tests methods.
@@ -77,11 +76,11 @@ plot_single_sd_colour_rendering_index_bars` definition.
             SDS_ILLUMINANTS["FL2"]
         )
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotMultiSdsColourRenderingIndexesBars(unittest.TestCase):
+class TestPlotMultiSdsColourRenderingIndexesBars:
     """
     Define :func:`colour.plotting.quality.\
 plot_multi_sds_colour_rendering_indexes_bars` definition unit tests methods.
@@ -97,11 +96,11 @@ plot_multi_sds_colour_rendering_indexes_bars` definition.
             [SDS_ILLUMINANTS["FL2"], SDS_LIGHT_SOURCES["Kinoton 75P"]]
         )
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotSingleSdColourQualityScaleBars(unittest.TestCase):
+class TestPlotSingleSdColourQualityScaleBars:
     """
     Define :func:`colour.plotting.quality.\
 plot_single_sd_colour_quality_scale_bars` definition unit tests methods.
@@ -115,11 +114,11 @@ plot_single_sd_colour_quality_scale_bars` definition.
 
         figure, axes = plot_single_sd_colour_quality_scale_bars(SDS_ILLUMINANTS["FL2"])
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotMultiSdsColourQualityScalesBars(unittest.TestCase):
+class TestPlotMultiSdsColourQualityScalesBars:
     """
     Define :func:`colour.plotting.quality.\
 plot_multi_sds_colour_quality_scales_bars` definition unit tests methods.
@@ -135,9 +134,5 @@ plot_multi_sds_colour_quality_scales_bars` definition.
             [SDS_ILLUMINANTS["FL2"], SDS_LIGHT_SOURCES["Kinoton 75P"]]
         )
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)

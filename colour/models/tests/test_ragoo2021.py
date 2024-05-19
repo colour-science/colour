@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.ragoo2021` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -23,7 +22,7 @@ __all__ = [
 ]
 
 
-class TestXYZ_to_IPT_Ragoo2021(unittest.TestCase):
+class TestXYZ_to_IPT_Ragoo2021:
     """
     Define :func:`colour.models.ragoo2021.XYZ_to_IPT_Ragoo2021` definition
     unit tests methods.
@@ -103,7 +102,7 @@ class TestXYZ_to_IPT_Ragoo2021(unittest.TestCase):
         XYZ_to_IPT_Ragoo2021(cases)
 
 
-class TestIPT_Ragoo2021_to_XYZ(unittest.TestCase):
+class TestIPT_Ragoo2021_to_XYZ:
     """
     Define :func:`colour.models.ragoo2021.IPT_Ragoo2021_to_XYZ` definition
     unit tests methods.
@@ -181,7 +180,3 @@ class TestIPT_Ragoo2021_to_XYZ(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         IPT_Ragoo2021_to_XYZ(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

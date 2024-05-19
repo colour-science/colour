@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.geometry.primitives` module."""
 
-import unittest
 
 import numpy as np
 
@@ -25,7 +24,7 @@ __all__ = [
 ]
 
 
-class TestPrimitiveGrid(unittest.TestCase):
+class TestPrimitiveGrid:
     """
     Define :func:`colour.geometry.primitives.primitive_grid`
     definition unit tests methods.
@@ -184,7 +183,7 @@ class TestPrimitiveGrid(unittest.TestCase):
             )
 
 
-class TestPrimitiveCube(unittest.TestCase):
+class TestPrimitiveCube:
     """
     Define :func:`colour.geometry.primitives.primitive_cube`
     definition unit tests methods.
@@ -788,7 +787,3 @@ class TestPrimitiveCube(unittest.TestCase):
                 primitive_cube(planes=[MAPPING_PLANE_TO_AXIS[plane]])[0]["position"],
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
-
-
-if __name__ == "__main__":
-    unittest.main()

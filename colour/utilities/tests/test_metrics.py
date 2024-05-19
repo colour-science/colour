@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.utilities.metrics` module."""
 
-import unittest
 
 import numpy as np
 
@@ -21,7 +20,7 @@ __all__ = [
 ]
 
 
-class TestMetricMse(unittest.TestCase):
+class TestMetricMse:
     """
     Define :func:`colour.utilities.metrics.metric_mse` definition unit tests
     methods.
@@ -31,7 +30,7 @@ class TestMetricMse(unittest.TestCase):
         """Test :func:`colour.utilities.metrics.metric_mse` definition."""
 
         a = np.array([0.48222001, 0.31654775, 0.22070353])
-        self.assertEqual(metric_mse(a, a), 0)
+        assert metric_mse(a, a) == 0
 
         b = a * 0.9
         np.testing.assert_allclose(
@@ -48,7 +47,7 @@ class TestMetricMse(unittest.TestCase):
         )
 
 
-class TestMetricPsnr(unittest.TestCase):
+class TestMetricPsnr:
     """
     Define :func:`colour.utilities.metrics.metric_psnr` definition unit tests
     methods.
@@ -58,7 +57,7 @@ class TestMetricPsnr(unittest.TestCase):
         """Test :func:`colour.utilities.metrics.metric_psnr` definition."""
 
         a = np.array([0.48222001, 0.31654775, 0.22070353])
-        self.assertEqual(metric_psnr(a, a), 0)
+        assert metric_psnr(a, a) == 0
 
         b = a * 0.9
         np.testing.assert_allclose(
@@ -73,7 +72,3 @@ class TestMetricPsnr(unittest.TestCase):
             28.956851563141296,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

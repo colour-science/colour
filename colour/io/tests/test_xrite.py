@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import os
-import unittest
 
 from colour.colorimetry import SpectralDistribution
 from colour.io import read_sds_from_xrite_file
@@ -64,7 +63,7 @@ COLOURCHECKER_XRITE_1: dict = {
 }
 
 
-class TestReadSdsFromXRiteFile(unittest.TestCase):
+class TestReadSdsFromXRiteFile:
     """
     Define :func:`colour.io.xrite.read_sds_from_xrite_file` definition unit
     tests methods.
@@ -78,12 +77,6 @@ class TestReadSdsFromXRiteFile(unittest.TestCase):
         )
         sds = read_sds_from_xrite_file(colour_checker_xrite)
         for sd in sds.values():
-            self.assertIsInstance(sd, SpectralDistribution)
+            assert isinstance(sd, SpectralDistribution)
 
-        self.assertEqual(
-            sds["X1"], SpectralDistribution(COLOURCHECKER_XRITE_1, name="X1")
-        )
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert sds["X1"] == SpectralDistribution(COLOURCHECKER_XRITE_1, name="X1")

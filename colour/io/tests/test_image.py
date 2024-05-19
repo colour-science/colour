@@ -7,7 +7,6 @@ import os
 import platform
 import shutil
 import tempfile
-import unittest
 
 import numpy as np
 
@@ -45,7 +44,7 @@ __all__ = [
 ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 
 
-class TestConvertBitDepth(unittest.TestCase):
+class TestConvertBitDepth:
     """
     Define :func:`colour.io.image.convert_bit_depth` definition unit tests
     methods.
@@ -55,10 +54,10 @@ class TestConvertBitDepth(unittest.TestCase):
         """Test :func:`colour.io.image.convert_bit_depth` definition."""
 
         a = np.around(np.linspace(0, 1, 10) * 255).astype("uint8")
-        self.assertIs(convert_bit_depth(a, "uint8").dtype, np.dtype("uint8"))
+        assert convert_bit_depth(a, "uint8").dtype is np.dtype("uint8")
         np.testing.assert_equal(convert_bit_depth(a, "uint8"), a)
 
-        self.assertIs(convert_bit_depth(a, "uint16").dtype, np.dtype("uint16"))
+        assert convert_bit_depth(a, "uint16").dtype is np.dtype("uint16")
         np.testing.assert_equal(
             convert_bit_depth(a, "uint16"),
             np.array(
@@ -77,7 +76,7 @@ class TestConvertBitDepth(unittest.TestCase):
             ),
         )
 
-        self.assertIs(convert_bit_depth(a, "float16").dtype, np.dtype("float16"))
+        assert convert_bit_depth(a, "float16").dtype is np.dtype("float16")
         np.testing.assert_allclose(
             convert_bit_depth(a, "float16"),
             np.array(
@@ -97,7 +96,7 @@ class TestConvertBitDepth(unittest.TestCase):
             atol=5e-4,
         )
 
-        self.assertIs(convert_bit_depth(a, "float32").dtype, np.dtype("float32"))
+        assert convert_bit_depth(a, "float32").dtype is np.dtype("float32")
         np.testing.assert_allclose(
             convert_bit_depth(a, "float32"),
             np.array(
@@ -117,22 +116,22 @@ class TestConvertBitDepth(unittest.TestCase):
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertIs(convert_bit_depth(a, "float64").dtype, np.dtype("float64"))
+        assert convert_bit_depth(a, "float64").dtype is np.dtype("float64")
 
         if hasattr(np, "float128"):  # pragma: no cover
-            self.assertIs(convert_bit_depth(a, "float128").dtype, np.dtype("float128"))
+            assert convert_bit_depth(a, "float128").dtype is np.dtype("float128")
 
         a = np.around(np.linspace(0, 1, 10) * 65535).astype("uint16")
-        self.assertIs(convert_bit_depth(a, "uint8").dtype, np.dtype("uint8"))
+        assert convert_bit_depth(a, "uint8").dtype is np.dtype("uint8")
         np.testing.assert_equal(
             convert_bit_depth(a, "uint8"),
             np.array([0, 28, 56, 85, 113, 141, 170, 198, 226, 255]),
         )
 
-        self.assertIs(convert_bit_depth(a, "uint16").dtype, np.dtype("uint16"))
+        assert convert_bit_depth(a, "uint16").dtype is np.dtype("uint16")
         np.testing.assert_equal(convert_bit_depth(a, "uint16"), a)
 
-        self.assertIs(convert_bit_depth(a, "float16").dtype, np.dtype("float16"))
+        assert convert_bit_depth(a, "float16").dtype is np.dtype("float16")
         np.testing.assert_allclose(
             convert_bit_depth(a, "float16"),
             np.array(
@@ -152,7 +151,7 @@ class TestConvertBitDepth(unittest.TestCase):
             atol=5e-2,
         )
 
-        self.assertIs(convert_bit_depth(a, "float32").dtype, np.dtype("float32"))
+        assert convert_bit_depth(a, "float32").dtype is np.dtype("float32")
         np.testing.assert_allclose(
             convert_bit_depth(a, "float32"),
             np.array(
@@ -172,19 +171,19 @@ class TestConvertBitDepth(unittest.TestCase):
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertIs(convert_bit_depth(a, "float64").dtype, np.dtype("float64"))
+        assert convert_bit_depth(a, "float64").dtype is np.dtype("float64")
 
         if hasattr(np, "float128"):  # pragma: no cover
-            self.assertIs(convert_bit_depth(a, "float128").dtype, np.dtype("float128"))
+            assert convert_bit_depth(a, "float128").dtype is np.dtype("float128")
 
         a = np.linspace(0, 1, 10, dtype=np.float64)
-        self.assertIs(convert_bit_depth(a, "uint8").dtype, np.dtype("uint8"))
+        assert convert_bit_depth(a, "uint8").dtype is np.dtype("uint8")
         np.testing.assert_equal(
             convert_bit_depth(a, "uint8"),
             np.array([0, 28, 57, 85, 113, 142, 170, 198, 227, 255]),
         )
 
-        self.assertIs(convert_bit_depth(a, "uint16").dtype, np.dtype("uint16"))
+        assert convert_bit_depth(a, "uint16").dtype is np.dtype("uint16")
         np.testing.assert_equal(
             convert_bit_depth(a, "uint16"),
             np.array(
@@ -203,7 +202,7 @@ class TestConvertBitDepth(unittest.TestCase):
             ),
         )
 
-        self.assertIs(convert_bit_depth(a, "float16").dtype, np.dtype("float16"))
+        assert convert_bit_depth(a, "float16").dtype is np.dtype("float16")
         np.testing.assert_allclose(
             convert_bit_depth(a, "float16"),
             np.array(
@@ -223,18 +222,18 @@ class TestConvertBitDepth(unittest.TestCase):
             atol=5e-4,
         )
 
-        self.assertIs(convert_bit_depth(a, "float32").dtype, np.dtype("float32"))
+        assert convert_bit_depth(a, "float32").dtype is np.dtype("float32")
         np.testing.assert_allclose(
             convert_bit_depth(a, "float32"), a, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertIs(convert_bit_depth(a, "float64").dtype, np.dtype("float64"))
+        assert convert_bit_depth(a, "float64").dtype is np.dtype("float64")
 
         if hasattr(np, "float128"):  # pragma: no cover
-            self.assertIs(convert_bit_depth(a, "float128").dtype, np.dtype("float128"))
+            assert convert_bit_depth(a, "float128").dtype is np.dtype("float128")
 
 
-class TestReadImageOpenImageIO(unittest.TestCase):
+class TestReadImageOpenImageIO:
     """
     Define :func:`colour.io.image.read_image_OpenImageIO` definition unit
     tests methods.
@@ -249,43 +248,43 @@ class TestReadImageOpenImageIO(unittest.TestCase):
         image = read_image_OpenImageIO(
             os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
         )
-        self.assertTupleEqual(image.shape, (1267, 1274, 3))
-        self.assertIs(image.dtype, np.dtype("float32"))
+        assert image.shape == (1267, 1274, 3)
+        assert image.dtype is np.dtype("float32")
 
         image = read_image_OpenImageIO(
             os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr"),
             "float16",
         )
-        self.assertIs(image.dtype, np.dtype("float16"))
+        assert image.dtype is np.dtype("float16")
 
         image, attributes = read_image_OpenImageIO(
             os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr"),
             attributes=True,
         )
-        self.assertTupleEqual(image.shape, (1267, 1274, 3))
-        self.assertEqual(attributes[0].name, "oiio:ColorSpace")
-        self.assertEqual(attributes[0].value, "Linear")
+        assert image.shape == (1267, 1274, 3)
+        assert attributes[0].name == "oiio:ColorSpace"
+        assert attributes[0].value == "Linear"
 
         image = read_image_OpenImageIO(
             os.path.join(ROOT_RESOURCES, "Single_Channel.exr")
         )
-        self.assertTupleEqual(image.shape, (256, 256))
+        assert image.shape == (256, 256)
 
         image = read_image_OpenImageIO(
             os.path.join(ROOT_RESOURCES, "Colour_Logo.png"), "uint8"
         )
-        self.assertTupleEqual(image.shape, (128, 256, 4))
-        self.assertIs(image.dtype, np.dtype("uint8"))
-        self.assertEqual(np.min(image), 0)
-        self.assertEqual(np.max(image), 255)
+        assert image.shape == (128, 256, 4)
+        assert image.dtype is np.dtype("uint8")
+        assert np.min(image) == 0
+        assert np.max(image) == 255
 
         image = read_image_OpenImageIO(
             os.path.join(ROOT_RESOURCES, "Colour_Logo.png"), "uint16"
         )
-        self.assertTupleEqual(image.shape, (128, 256, 4))
-        self.assertIs(image.dtype, np.dtype("uint16"))
-        self.assertEqual(np.min(image), 0)
-        self.assertEqual(np.max(image), 65535)
+        assert image.shape == (128, 256, 4)
+        assert image.dtype is np.dtype("uint16")
+        assert np.min(image) == 0
+        assert np.max(image) == 65535
 
         # TODO: Investigate "OIIO" behaviour here: 1.0 != 15360.0
         # image = read_image_OpenImageIO(
@@ -297,23 +296,23 @@ class TestReadImageOpenImageIO(unittest.TestCase):
         image = read_image_OpenImageIO(
             os.path.join(ROOT_RESOURCES, "Colour_Logo.png"), "float32"
         )
-        self.assertIs(image.dtype, np.dtype("float32"))
-        self.assertEqual(np.min(image), 0.0)
-        self.assertEqual(np.max(image), 1.0)
+        assert image.dtype is np.dtype("float32")
+        assert np.min(image) == 0.0
+        assert np.max(image) == 1.0
 
 
-class TestWriteImageOpenImageIO(unittest.TestCase):
+class TestWriteImageOpenImageIO:
     """
     Define :func:`colour.io.image.write_image_OpenImageIO` definition unit
     tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
-    def tearDown(self):
+    def teardown_method(self):
         """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
@@ -354,8 +353,8 @@ class TestWriteImageOpenImageIO(unittest.TestCase):
         image = read_image_OpenImageIO(source_image_path)
         write_image_OpenImageIO(image, target_image_path)
         image = read_image_OpenImageIO(target_image_path)
-        self.assertTupleEqual(image.shape, (1267, 1274, 3))
-        self.assertIs(image.dtype, np.dtype("float32"))
+        assert image.shape == (1267, 1274, 3)
+        assert image.dtype is np.dtype("float32")
 
         chromaticities = (
             0.73470,
@@ -390,7 +389,7 @@ class TestWriteImageOpenImageIO(unittest.TestCase):
                             atol=TOLERANCE_ABSOLUTE_TESTS,
                         )
                     else:
-                        self.assertEqual(write_attribute.value, read_attribute.value)
+                        assert write_attribute.value == read_attribute.value
 
             attest(
                 attribute_exists,
@@ -398,7 +397,7 @@ class TestWriteImageOpenImageIO(unittest.TestCase):
             )
 
 
-class TestReadImageImageio(unittest.TestCase):
+class TestReadImageImageio:
     """
     Define :func:`colour.io.image.read_image_Imageio` definition unit tests
     methods.
@@ -408,62 +407,62 @@ class TestReadImageImageio(unittest.TestCase):
         """Test :func:`colour.io.image.read_image_Imageio` definition."""
 
         image = read_image_Imageio(os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr"))
-        self.assertTupleEqual(image.shape, (1267, 1274, 3))
-        self.assertIs(image.dtype, np.dtype("float32"))
+        assert image.shape == (1267, 1274, 3)
+        assert image.dtype is np.dtype("float32")
 
         image = read_image_Imageio(
             os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr"),
             "float16",
         )
-        self.assertTupleEqual(image.shape, (1267, 1274, 3))
-        self.assertIs(image.dtype, np.dtype("float16"))
+        assert image.shape == (1267, 1274, 3)
+        assert image.dtype is np.dtype("float16")
 
         image = read_image_Imageio(os.path.join(ROOT_RESOURCES, "Single_Channel.exr"))
-        self.assertTupleEqual(image.shape, (256, 256))
+        assert image.shape == (256, 256)
 
         image = read_image_Imageio(
             os.path.join(ROOT_RESOURCES, "Colour_Logo.png"), "uint8"
         )
-        self.assertTupleEqual(image.shape, (128, 256, 4))
-        self.assertIs(image.dtype, np.dtype("uint8"))
-        self.assertEqual(np.min(image), 0)
-        self.assertEqual(np.max(image), 255)
+        assert image.shape == (128, 256, 4)
+        assert image.dtype is np.dtype("uint8")
+        assert np.min(image) == 0
+        assert np.max(image) == 255
 
         image = read_image_Imageio(
             os.path.join(ROOT_RESOURCES, "Colour_Logo.png"), "uint16"
         )
-        self.assertTupleEqual(image.shape, (128, 256, 4))
-        self.assertIs(image.dtype, np.dtype("uint16"))
-        self.assertEqual(np.min(image), 0)
-        self.assertEqual(np.max(image), 65535)
+        assert image.shape == (128, 256, 4)
+        assert image.dtype is np.dtype("uint16")
+        assert np.min(image) == 0
+        assert np.max(image) == 65535
 
         image = read_image_Imageio(
             os.path.join(ROOT_RESOURCES, "Colour_Logo.png"), "float16"
         )
-        self.assertIs(image.dtype, np.dtype("float16"))
-        self.assertEqual(np.min(image), 0.0)
-        self.assertEqual(np.max(image), 1.0)
+        assert image.dtype is np.dtype("float16")
+        assert np.min(image) == 0.0
+        assert np.max(image) == 1.0
 
         image = read_image_Imageio(
             os.path.join(ROOT_RESOURCES, "Colour_Logo.png"), "float32"
         )
-        self.assertIs(image.dtype, np.dtype("float32"))
-        self.assertEqual(np.min(image), 0.0)
-        self.assertEqual(np.max(image), 1.0)
+        assert image.dtype is np.dtype("float32")
+        assert np.min(image) == 0.0
+        assert np.max(image) == 1.0
 
 
-class TestWriteImageImageio(unittest.TestCase):
+class TestWriteImageImageio:
     """
     Define :func:`colour.io.image.write_image_Imageio` definition unit
     tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
-    def tearDown(self):
+    def teardown_method(self):
         """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
@@ -487,8 +486,8 @@ class TestWriteImageImageio(unittest.TestCase):
         image = read_image_Imageio(source_image_path)
         write_image_Imageio(image, target_image_path)
         image = read_image_Imageio(target_image_path)
-        self.assertTupleEqual(image.shape, (1267, 1274, 3))
-        self.assertIs(image.dtype, np.dtype("float32"))
+        assert image.shape == (1267, 1274, 3)
+        assert image.dtype is np.dtype("float32")
 
         # NOTE: Those unit tests are breaking unpredictably on Linux, skipping
         # for now.
@@ -499,15 +498,15 @@ class TestWriteImageImageio(unittest.TestCase):
             image = full((32, 16, 3), 1e6, dtype=np.float16)
             write_image_Imageio(image, target_image_path)
             image = read_image_Imageio(target_image_path)
-            self.assertEqual(np.max(image), np.inf)
+            assert np.max(image) == np.inf
 
             image = full((32, 16, 3), 1e6)
             write_image_Imageio(image, target_image_path)
             image = read_image_Imageio(target_image_path)
-            self.assertEqual(np.max(image), 1e6)
+            assert np.max(image) == 1e6
 
 
-class TestReadImage(unittest.TestCase):
+class TestReadImage:
     """
     Define :func:`colour.io.image.read_image` definition unit tests
     methods.
@@ -517,22 +516,22 @@ class TestReadImage(unittest.TestCase):
         """Test :func:`colour.io.image.read_image` definition."""
 
         image = read_image(os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr"))
-        self.assertTupleEqual(image.shape, (1267, 1274, 3))
-        self.assertIs(image.dtype, np.dtype("float32"))
+        assert image.shape == (1267, 1274, 3)
+        assert image.dtype is np.dtype("float32")
 
         image = read_image(os.path.join(ROOT_RESOURCES, "Single_Channel.exr"))
-        self.assertTupleEqual(image.shape, (256, 256))
+        assert image.shape == (256, 256)
 
 
-class TestWriteImage(unittest.TestCase):
+class TestWriteImage:
     """Define :func:`colour.io.image.write_image` definition unit tests methods."""
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
-    def tearDown(self):
+    def teardown_method(self):
         """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
@@ -547,11 +546,11 @@ class TestWriteImage(unittest.TestCase):
         image = read_image(source_image_path)
         write_image(image, target_image_path)
         image = read_image(target_image_path)
-        self.assertTupleEqual(image.shape, (1267, 1274, 3))
-        self.assertIs(image.dtype, np.dtype("float32"))
+        assert image.shape == (1267, 1274, 3)
+        assert image.dtype is np.dtype("float32")
 
 
-class TestAs3ChannelsImage(unittest.TestCase):
+class TestAs3ChannelsImage:
     """
     Define :func:`colour.io.image.as_3_channels_image` definition unit tests
     methods.
@@ -571,7 +570,3 @@ class TestAs3ChannelsImage(unittest.TestCase):
         np.testing.assert_equal(as_3_channels_image(a), b)
         a = np.array([[[0.18, 0.18, 0.18]]])
         np.testing.assert_equal(as_3_channels_image(a), b)
-
-
-if __name__ == "__main__":
-    unittest.main()

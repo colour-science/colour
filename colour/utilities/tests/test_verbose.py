@@ -4,7 +4,6 @@
 import os
 import sys
 import textwrap
-import unittest
 
 from colour.hints import Optional
 from colour.utilities import (
@@ -34,7 +33,7 @@ __all__ = [
 ]
 
 
-class TestShowWarning(unittest.TestCase):
+class TestShowWarning:
     """
     Define :func:`colour.utilities.verbose.show_warning` definition unit tests
     methods.
@@ -56,7 +55,7 @@ class TestShowWarning(unittest.TestCase):
             sys.stderr = stderr
 
 
-class TestSuppressWarnings(unittest.TestCase):
+class TestSuppressWarnings:
     """
     Define :func:`colour.utilities.verbose.suppress_warnings` definition unit
     tests methods.
@@ -69,7 +68,7 @@ class TestSuppressWarnings(unittest.TestCase):
             warning("This is a suppressed unit test warning!")
 
 
-class TestSuppressStdout(unittest.TestCase):
+class TestSuppressStdout:
     """
     Define :func:`colour.utilities.verbose.suppress_stdout` definition unit
     tests methods.
@@ -82,7 +81,7 @@ class TestSuppressStdout(unittest.TestCase):
             print("This is a suppressed message!")  # noqa: T201
 
 
-class TestDescribeEnvironment(unittest.TestCase):
+class TestDescribeEnvironment:
     """
     Define :func:`colour.utilities.verbose.describe_environment` definition
     unit tests methods.
@@ -92,34 +91,34 @@ class TestDescribeEnvironment(unittest.TestCase):
         """Test :func:`colour.utilities.verbose.describe_environment` definition."""
 
         environment = describe_environment()
-        self.assertIsInstance(environment, dict)
-        self.assertListEqual(
-            sorted(environment.keys()),
-            ["Interpreter", "Runtime", "colour-science.org"],
-        )
+        assert isinstance(environment, dict)
+        assert sorted(environment.keys()) == [
+            "Interpreter",
+            "Runtime",
+            "colour-science.org",
+        ]
 
         environment = describe_environment(development_packages=True)
-        self.assertListEqual(
-            sorted(environment.keys()),
-            ["Development", "Interpreter", "Runtime", "colour-science.org"],
-        )
+        assert sorted(environment.keys()) == [
+            "Development",
+            "Interpreter",
+            "Runtime",
+            "colour-science.org",
+        ]
 
         environment = describe_environment(
             development_packages=True, extras_packages=True
         )
-        self.assertListEqual(
-            sorted(environment.keys()),
-            [
-                "Development",
-                "Extras",
-                "Interpreter",
-                "Runtime",
-                "colour-science.org",
-            ],
-        )
+        assert sorted(environment.keys()) == [
+            "Development",
+            "Extras",
+            "Interpreter",
+            "Runtime",
+            "colour-science.org",
+        ]
 
 
-class TestMultilineStr(unittest.TestCase):
+class TestMultilineStr:
     """
     Define :func:`colour.utilities.verbose.multiline_str` definition unit
     tests methods.
@@ -162,8 +161,7 @@ class TestMultilineStr(unittest.TestCase):
                     ],
                 )
 
-        self.assertEqual(
-            str(Data("Foo", 1, ["John", "Doe"])),
+        assert str(Data("Foo", 1, ["John", "Doe"])) == (
             textwrap.dedent(
                 """
                 Object - Data
@@ -184,11 +182,11 @@ class TestMultilineStr(unittest.TestCase):
                 ----
                 List "c"    : John; Doe
                 """
-            ).strip(),
+            ).strip()
         )
 
 
-class TestMultilineRepr(unittest.TestCase):
+class TestMultilineRepr:
     """
     Define :func:`colour.utilities.verbose.multiline_repr` definition unit
     tests methods.
@@ -225,8 +223,7 @@ class TestMultilineRepr(unittest.TestCase):
                     ],
                 )
 
-        self.assertEqual(
-            repr(Data("Foo", 1, ["John", "Doe"])),
+        assert repr(Data("Foo", 1, ["John", "Doe"])) == (
             textwrap.dedent(
                 """
                 Data('Foo',
@@ -234,9 +231,5 @@ class TestMultilineRepr(unittest.TestCase):
                      ('John', 'Doe'),
                      None)
                 """
-            ).strip(),
+            ).strip()
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

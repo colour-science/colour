@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.colorimetry.lefs` module."""
 
-import unittest
 
 import numpy as np
 
@@ -430,7 +429,7 @@ DATA_MESOPIC_LEF: tuple = (
 )
 
 
-class TestMesopicWeightingFunction(unittest.TestCase):
+class TestMesopicWeightingFunction:
     """
     Define :func:`colour.colorimetry.lefs.mesopic_weighting_function`
     definition unit tests methods.
@@ -507,7 +506,7 @@ class TestMesopicWeightingFunction(unittest.TestCase):
         )
 
 
-class TestSdMesopicLuminousEfficiencyFunction(unittest.TestCase):
+class TestSdMesopicLuminousEfficiencyFunction:
     """
     Define :func:`colour.colorimetry.lefs.\
 sd_mesopic_luminous_efficiency_function` definition unit tests methods.
@@ -524,7 +523,3 @@ sd_mesopic_luminous_efficiency_function` definition.
             DATA_MESOPIC_LEF,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

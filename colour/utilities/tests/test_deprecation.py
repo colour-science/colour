@@ -2,7 +2,8 @@
 """Define the unit tests for the :mod:`colour.utilities.deprecation` module."""
 
 import sys
-import unittest
+
+import pytest
 
 from colour.utilities import ColourUsageWarning
 from colour.utilities.deprecation import (
@@ -47,7 +48,7 @@ __all__ = [
 ]
 
 
-class TestObjectRenamed(unittest.TestCase):
+class TestObjectRenamed:
     """
     Define :class:`colour.utilities.deprecation.ObjectRenamed` class unit
     tests methods.
@@ -59,7 +60,7 @@ class TestObjectRenamed(unittest.TestCase):
         required_methods = ("__str__",)
 
         for method in required_methods:
-            self.assertIn(method, dir(ObjectRenamed))
+            assert method in dir(ObjectRenamed)
 
     def test__str__(self):
         """
@@ -67,11 +68,11 @@ class TestObjectRenamed(unittest.TestCase):
         method.
         """
 
-        self.assertIn("name", str(ObjectRenamed("name", "new_name")))
-        self.assertIn("new_name", str(ObjectRenamed("name", "new_name")))
+        assert "name" in str(ObjectRenamed("name", "new_name"))
+        assert "new_name" in str(ObjectRenamed("name", "new_name"))
 
 
-class TestObjectRemoved(unittest.TestCase):
+class TestObjectRemoved:
     """
     Define :class:`colour.utilities.deprecation.ObjectRemoved` class unit
     tests methods.
@@ -83,7 +84,7 @@ class TestObjectRemoved(unittest.TestCase):
         required_methods = ("__str__",)
 
         for method in required_methods:
-            self.assertIn(method, dir(ObjectRemoved))
+            assert method in dir(ObjectRemoved)
 
     def test__str__(self):
         """
@@ -91,10 +92,10 @@ class TestObjectRemoved(unittest.TestCase):
         method.
         """
 
-        self.assertIn("name", str(ObjectRemoved("name")))
+        assert "name" in str(ObjectRemoved("name"))
 
 
-class TestObjectFutureRename(unittest.TestCase):
+class TestObjectFutureRename:
     """
     Define :class:`colour.utilities.deprecation.ObjectFutureRename` class unit
     tests methods.
@@ -106,7 +107,7 @@ class TestObjectFutureRename(unittest.TestCase):
         required_methods = ("__str__",)
 
         for method in required_methods:
-            self.assertIn(method, dir(ObjectFutureRename))
+            assert method in dir(ObjectFutureRename)
 
     def test__str__(self):
         """
@@ -114,11 +115,11 @@ class TestObjectFutureRename(unittest.TestCase):
         method.
         """
 
-        self.assertIn("name", str(ObjectFutureRename("name", "new_name")))
-        self.assertIn("new_name", str(ObjectFutureRename("name", "new_name")))
+        assert "name" in str(ObjectFutureRename("name", "new_name"))
+        assert "new_name" in str(ObjectFutureRename("name", "new_name"))
 
 
-class TestObjectFutureRemove(unittest.TestCase):
+class TestObjectFutureRemove:
     """
     Define :class:`colour.utilities.deprecation.ObjectFutureRemove` class unit
     tests methods.
@@ -130,7 +131,7 @@ class TestObjectFutureRemove(unittest.TestCase):
         required_methods = ("__str__",)
 
         for method in required_methods:
-            self.assertIn(method, dir(ObjectFutureRemove))
+            assert method in dir(ObjectFutureRemove)
 
     def test__str__(self):
         """
@@ -138,17 +139,14 @@ class TestObjectFutureRemove(unittest.TestCase):
         method.
         """
 
-        self.assertIn(
-            "name",
-            str(
-                ObjectFutureRemove(
-                    "name",
-                )
-            ),
+        assert "name" in str(
+            ObjectFutureRemove(
+                "name",
+            )
         )
 
 
-class TestObjectFutureAccessChange(unittest.TestCase):
+class TestObjectFutureAccessChange:
     """
     Define :class:`colour.utilities.deprecation.ObjectFutureAccessChange`
     class unit tests methods.
@@ -160,7 +158,7 @@ class TestObjectFutureAccessChange(unittest.TestCase):
         required_methods = ("__str__",)
 
         for method in required_methods:
-            self.assertIn(method, dir(ObjectFutureAccessChange))
+            assert method in dir(ObjectFutureAccessChange)
 
     def test__str__(self):
         """
@@ -168,11 +166,11 @@ class TestObjectFutureAccessChange(unittest.TestCase):
 ObjectFutureAccessChange.__str__` method.
         """
 
-        self.assertIn("name", str(ObjectFutureAccessChange("name", "new_access")))
-        self.assertIn("new_access", str(ObjectFutureAccessChange("name", "new_access")))
+        assert "name" in str(ObjectFutureAccessChange("name", "new_access"))
+        assert "new_access" in str(ObjectFutureAccessChange("name", "new_access"))
 
 
-class TestObjectFutureAccessRemove(unittest.TestCase):
+class TestObjectFutureAccessRemove:
     """
     Define :class:`colour.utilities.deprecation.ObjectFutureAccessRemove`
     class unit tests methods.
@@ -184,7 +182,7 @@ class TestObjectFutureAccessRemove(unittest.TestCase):
         required_methods = ("__str__",)
 
         for method in required_methods:
-            self.assertIn(method, dir(ObjectFutureAccessRemove))
+            assert method in dir(ObjectFutureAccessRemove)
 
     def test__str__(self):
         """
@@ -192,17 +190,14 @@ class TestObjectFutureAccessRemove(unittest.TestCase):
 ObjectFutureAccessRemove.__str__` method.
         """
 
-        self.assertIn(
-            "name",
-            str(
-                ObjectFutureAccessRemove(
-                    "name",
-                )
-            ),
+        assert "name" in str(
+            ObjectFutureAccessRemove(
+                "name",
+            )
         )
 
 
-class TestArgumentRenamed(unittest.TestCase):
+class TestArgumentRenamed:
     """
     Define :class:`colour.utilities.deprecation.ArgumentRenamed` class unit
     tests methods.
@@ -214,7 +209,7 @@ class TestArgumentRenamed(unittest.TestCase):
         required_methods = ("__str__",)
 
         for method in required_methods:
-            self.assertIn(method, dir(ArgumentRenamed))
+            assert method in dir(ArgumentRenamed)
 
     def test__str__(self):
         """
@@ -222,11 +217,11 @@ class TestArgumentRenamed(unittest.TestCase):
         method.
         """
 
-        self.assertIn("name", str(ArgumentRenamed("name", "new_name")))
-        self.assertIn("new_name", str(ArgumentRenamed("name", "new_name")))
+        assert "name" in str(ArgumentRenamed("name", "new_name"))
+        assert "new_name" in str(ArgumentRenamed("name", "new_name"))
 
 
-class TestArgumentRemoved(unittest.TestCase):
+class TestArgumentRemoved:
     """
     Define :class:`colour.utilities.deprecation.ArgumentRemoved` class unit
     tests methods.
@@ -238,7 +233,7 @@ class TestArgumentRemoved(unittest.TestCase):
         required_methods = ("__str__",)
 
         for method in required_methods:
-            self.assertIn(method, dir(ArgumentRemoved))
+            assert method in dir(ArgumentRemoved)
 
     def test__str__(self):
         """
@@ -246,10 +241,10 @@ class TestArgumentRemoved(unittest.TestCase):
         method.
         """
 
-        self.assertIn("name", str(ArgumentRemoved("name")))
+        assert "name" in str(ArgumentRemoved("name"))
 
 
-class TestArgumentFutureRename(unittest.TestCase):
+class TestArgumentFutureRename:
     """
     Define :class:`colour.utilities.deprecation.ArgumentFutureRename` class
     unit tests methods.
@@ -261,7 +256,7 @@ class TestArgumentFutureRename(unittest.TestCase):
         required_methods = ("__str__",)
 
         for method in required_methods:
-            self.assertIn(method, dir(ArgumentFutureRename))
+            assert method in dir(ArgumentFutureRename)
 
     def test__str__(self):
         """
@@ -269,11 +264,11 @@ class TestArgumentFutureRename(unittest.TestCase):
 ArgumentFutureRename.__str__` method.
         """
 
-        self.assertIn("name", str(ArgumentFutureRename("name", "new_name")))
-        self.assertIn("new_name", str(ArgumentFutureRename("name", "new_name")))
+        assert "name" in str(ArgumentFutureRename("name", "new_name"))
+        assert "new_name" in str(ArgumentFutureRename("name", "new_name"))
 
 
-class TestArgumentFutureRemove(unittest.TestCase):
+class TestArgumentFutureRemove:
     """
     Define :class:`colour.utilities.deprecation.ArgumentFutureRemove` class
     unit tests methods.
@@ -285,7 +280,7 @@ class TestArgumentFutureRemove(unittest.TestCase):
         required_methods = ("__str__",)
 
         for method in required_methods:
-            self.assertIn(method, dir(ArgumentFutureRemove))
+            assert method in dir(ArgumentFutureRemove)
 
     def test__str__(self):
         """
@@ -293,17 +288,14 @@ class TestArgumentFutureRemove(unittest.TestCase):
 ArgumentFutureRemove.__str__` method.
         """
 
-        self.assertIn(
-            "name",
-            str(
-                ArgumentFutureRemove(
-                    "name",
-                )
-            ),
+        assert "name" in str(
+            ArgumentFutureRemove(
+                "name",
+            )
         )
 
 
-class TestModuleAPI(unittest.TestCase):
+class TestModuleAPI:
     """
     Define :class:`colour.utilities.deprecation.ModuleAPI` class unit tests
     methods.
@@ -315,7 +307,7 @@ class TestModuleAPI(unittest.TestCase):
         required_methods = ("__init__", "__getattr__", "__dir__")
 
         for method in required_methods:
-            self.assertIn(method, dir(ModuleAPI))
+            assert method in dir(ModuleAPI)
 
     def test__getattr__(self):
         """
@@ -325,14 +317,14 @@ class TestModuleAPI(unittest.TestCase):
 
         import colour.utilities.tests.test_deprecated
 
-        self.assertIsNone(colour.utilities.tests.test_deprecated.NAME)
+        assert colour.utilities.tests.test_deprecated.NAME is None
 
         def assert_warns():
             """Help to test the runtime warning."""
 
             colour.utilities.tests.test_deprecated.OLD_NAME  # noqa: B018
 
-        self.assertWarns(ColourUsageWarning, assert_warns)
+        pytest.warns(ColourUsageWarning, assert_warns)
 
         del sys.modules["colour.utilities.tests.test_deprecated"]
 
@@ -344,7 +336,7 @@ class TestModuleAPI(unittest.TestCase):
 
         import colour.utilities.tests.test_deprecated
 
-        self.assertRaises(
+        pytest.raises(
             AttributeError,
             getattr,
             colour.utilities.tests.test_deprecated,
@@ -354,7 +346,7 @@ class TestModuleAPI(unittest.TestCase):
         del sys.modules["colour.utilities.tests.test_deprecated"]
 
 
-class TestGetAttribute(unittest.TestCase):
+class TestGetAttribute:
     """
     Define :func:`colour.utilities.deprecation.get_attribute` definition unit
     tests methods.
@@ -365,17 +357,15 @@ class TestGetAttribute(unittest.TestCase):
 
         from colour import adaptation
 
-        self.assertIs(get_attribute("colour.adaptation"), adaptation)
+        assert get_attribute("colour.adaptation") is adaptation
 
         from colour.models import eotf_inverse_sRGB
 
-        self.assertIs(
-            get_attribute("colour.models.eotf_inverse_sRGB"), eotf_inverse_sRGB
-        )
+        assert get_attribute("colour.models.eotf_inverse_sRGB") is eotf_inverse_sRGB
 
         from colour.utilities.array import as_float
 
-        self.assertIs(get_attribute("colour.utilities.array.as_float"), as_float)
+        assert get_attribute("colour.utilities.array.as_float") is as_float
 
         if "colour.utilities.tests.test_deprecated" in sys.modules:  # pragma: no cover
             del sys.modules["colour.utilities.tests.test_deprecated"]
@@ -384,11 +374,11 @@ class TestGetAttribute(unittest.TestCase):
 
         import colour.utilities.tests.test_deprecated
 
-        self.assertIs(attribute, colour.utilities.tests.test_deprecated.NEW_NAME)
+        assert attribute is colour.utilities.tests.test_deprecated.NEW_NAME
         del sys.modules["colour.utilities.tests.test_deprecated"]
 
 
-class TestBuildAPIChanges(unittest.TestCase):
+class TestBuildAPIChanges:
     """
     Define :func:`colour.utilities.deprecation.build_API_changes` definition
     unit tests methods.
@@ -451,10 +441,10 @@ class TestBuildAPIChanges(unittest.TestCase):
             ("argument_3_name", ArgumentRemoved),
             ("argument_4_name", ArgumentFutureRemove),
         ):
-            self.assertIsInstance(changes[name], change_type)
+            assert isinstance(changes[name], change_type)
 
 
-class TestHandleArgumentsDeprecation(unittest.TestCase):
+class TestHandleArgumentsDeprecation:
     """
     Define :func:`colour.utilities.deprecation.handle_arguments_deprecation`
     definition unit tests methods.
@@ -483,23 +473,16 @@ class TestHandleArgumentsDeprecation(unittest.TestCase):
             "ArgumentFutureRemove": ["argument_4_name"],
         }
 
-        self.assertDictEqual(
-            handle_arguments_deprecation(
-                changes,
-                argument_1_name=True,
-                argument_2_name=True,
-                argument_3_name=True,
-                argument_4_name=True,
-                argument_5_name=True,
-            ),
-            {
-                "argument_1_new_name": True,
-                "argument_2_new_name": True,
-                "argument_4_name": True,
-                "argument_5_name": True,
-            },
-        )
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert handle_arguments_deprecation(
+            changes,
+            argument_1_name=True,
+            argument_2_name=True,
+            argument_3_name=True,
+            argument_4_name=True,
+            argument_5_name=True,
+        ) == {
+            "argument_1_new_name": True,
+            "argument_2_new_name": True,
+            "argument_4_name": True,
+            "argument_5_name": True,
+        }

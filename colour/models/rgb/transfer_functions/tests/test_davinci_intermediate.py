@@ -3,7 +3,6 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
 davinci_intermediate` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -27,7 +26,7 @@ __all__ = [
 ]
 
 
-class TestOetf_DaVinciIntermediate(unittest.TestCase):
+class TestOetf_DaVinciIntermediate:
     """
     Define :func:`colour.models.rgb.transfer_functions.davinci_intermediate.\
 oetf_DaVinciIntermediate` definition unit tests methods.
@@ -124,7 +123,7 @@ davinci_intermediate.oetf_DaVinciIntermediate` definition nan support.
         oetf_DaVinciIntermediate(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestOetf_inverse_DaVinciIntermediate(unittest.TestCase):
+class TestOetf_inverse_DaVinciIntermediate:
     """
     Define :func:`colour.models.rgb.transfer_functions.\
 davinci_intermediate.oetf_inverse_DaVinciIntermediate` definition unit tests
@@ -230,7 +229,3 @@ davinci_intermediate.oetf_inverse_DaVinciIntermediate` definition nan support.
         oetf_inverse_DaVinciIntermediate(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

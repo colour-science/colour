@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.difference.stress` module."""
 
-import unittest
 
 import numpy as np
 
@@ -20,7 +19,7 @@ __all__ = [
 ]
 
 
-class TestIndexStress(unittest.TestCase):
+class TestIndexStress:
     """
     Define :func:`colour.difference.stress.index_stress_Garcia2007` definition
     unit tests methods.
@@ -40,7 +39,3 @@ class TestIndexStress(unittest.TestCase):
             0.121170939369957,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

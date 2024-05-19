@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.cam02_ucs` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -50,13 +49,13 @@ __all__ = [
 ]
 
 
-class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
+class TestJMh_CIECAM02_to_UCS_Luo2006:
     """
     Define :func:`colour.models.cam02_ucs.JMh_CIECAM02_to_UCS_Luo2006`
     definition unit tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         XYZ = np.array([19.01, 20.00, 21.78])
@@ -183,7 +182,7 @@ class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
         JMh_CIECAM02_to_UCS_Luo2006(cases, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
 
 
-class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
+class TestUCS_Luo2006_to_JMh_CIECAM02:
     """
     Define :func:`colour.models.cam02_ucs.UCS_Luo2006_to_JMh_CIECAM02`
     definition unit tests methods.
@@ -311,7 +310,7 @@ class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
         UCS_Luo2006_to_JMh_CIECAM02(cases, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
 
 
-class TestXYZ_to_UCS_Luo2006(unittest.TestCase):
+class TestXYZ_to_UCS_Luo2006:
     """
     Define :func:`colour.models.cam02_ucs.XYZ_to_UCS_Luo2006` definition
     unit tests methods.
@@ -434,7 +433,7 @@ class TestXYZ_to_UCS_Luo2006(unittest.TestCase):
         XYZ_to_UCS_Luo2006(cases, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
 
 
-class TestUCS_Luo2006_to_XYZ(unittest.TestCase):
+class TestUCS_Luo2006_to_XYZ:
     """
     Define :func:`colour.models.cam02_ucs.UCS_Luo2006_to_XYZ` definition
     unit tests methods.
@@ -559,7 +558,3 @@ class TestUCS_Luo2006_to_XYZ(unittest.TestCase):
                 UCS_Luo2006_to_XYZ(case, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
             except ValueError as error:
                 attest("CAM_Specification_CIECAM02" in str(error))
-
-
-if __name__ == "__main__":
-    unittest.main()

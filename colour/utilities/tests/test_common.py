@@ -5,10 +5,10 @@ from __future__ import annotations
 
 import platform
 import unicodedata
-import unittest
 from functools import partial
 
 import numpy as np
+import pytest
 
 from colour.hints import Any, Real, Tuple
 from colour.utilities import (
@@ -65,7 +65,7 @@ __all__ = [
 ]
 
 
-class TestIsCachingEnabled(unittest.TestCase):
+class TestIsCachingEnabled:
     """
     Define :func:`colour.utilities.common.is_caching_enabled` definition unit
     tests methods.
@@ -75,13 +75,13 @@ class TestIsCachingEnabled(unittest.TestCase):
         """Test :func:`colour.utilities.common.is_caching_enabled` definition."""
 
         with caching_enable(True):
-            self.assertTrue(is_caching_enabled())
+            assert is_caching_enabled()
 
         with caching_enable(False):
-            self.assertFalse(is_caching_enabled())
+            assert not is_caching_enabled()
 
 
-class TestSetCachingEnabled(unittest.TestCase):
+class TestSetCachingEnabled:
     """
     Define :func:`colour.utilities.common.set_caching_enable` definition unit
     tests methods.
@@ -92,14 +92,14 @@ class TestSetCachingEnabled(unittest.TestCase):
 
         with caching_enable(is_caching_enabled()):
             set_caching_enable(True)
-            self.assertTrue(is_caching_enabled())
+            assert is_caching_enabled()
 
         with caching_enable(is_caching_enabled()):
             set_caching_enable(False)
-            self.assertFalse(is_caching_enabled())
+            assert not is_caching_enabled()
 
 
-class TestCachingEnable(unittest.TestCase):
+class TestCachingEnable:
     """
     Define :func:`colour.utilities.common.caching_enable` definition unit
     tests methods.
@@ -109,16 +109,16 @@ class TestCachingEnable(unittest.TestCase):
         """Test :func:`colour.utilities.common.caching_enable` definition."""
 
         with caching_enable(True):
-            self.assertTrue(is_caching_enabled())
+            assert is_caching_enabled()
 
         with caching_enable(False):
-            self.assertFalse(is_caching_enabled())
+            assert not is_caching_enabled()
 
         @caching_enable(True)
         def fn_a():
             """:func:`caching_enable` unit tests :func:`fn_a` definition."""
 
-            self.assertTrue(is_caching_enabled())
+            assert is_caching_enabled()
 
         fn_a()
 
@@ -126,12 +126,12 @@ class TestCachingEnable(unittest.TestCase):
         def fn_b():
             """:func:`caching_enable` unit tests :func:`fn_b` definition."""
 
-            self.assertFalse(is_caching_enabled())
+            assert not is_caching_enabled()
 
         fn_b()
 
 
-class TestCacheRegistry(unittest.TestCase):
+class TestCacheRegistry:
     """
     Define :class:`colour.utilities.common.CacheRegistry` class unit
     tests methods.
@@ -156,7 +156,7 @@ class TestCacheRegistry(unittest.TestCase):
         required_attributes = ("registry",)
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(CacheRegistry))
+            assert attribute in dir(CacheRegistry)
 
     def test_required_methods(self):
         """Test the presence of required methods."""
@@ -171,16 +171,13 @@ class TestCacheRegistry(unittest.TestCase):
         )
 
         for method in required_methods:
-            self.assertIn(method, dir(CacheRegistry))
+            assert method in dir(CacheRegistry)
 
     def test__str__(self):
         """Test :class:`colour.utilities.common.CacheRegistry.__str__` method."""
 
         cache_registry = self._default_test_cache_registry()
-        self.assertEqual(
-            str(cache_registry),
-            "{'Cache A': '1 item(s)', 'Cache B': '2 item(s)'}",
-        )
+        assert str(cache_registry) == "{'Cache A': '1 item(s)', 'Cache B': '2 item(s)'}"
 
     def test_register_cache(self):
         """
@@ -190,11 +187,9 @@ class TestCacheRegistry(unittest.TestCase):
 
         cache_registry = CacheRegistry()
         cache_a = cache_registry.register_cache("Cache A")
-        self.assertDictEqual(cache_registry.registry, {"Cache A": cache_a})
+        assert cache_registry.registry == {"Cache A": cache_a}
         cache_b = cache_registry.register_cache("Cache B")
-        self.assertDictEqual(
-            cache_registry.registry, {"Cache A": cache_a, "Cache B": cache_b}
-        )
+        assert cache_registry.registry == {"Cache A": cache_a, "Cache B": cache_b}
 
     def test_unregister_cache(self):
         """
@@ -204,8 +199,8 @@ class TestCacheRegistry(unittest.TestCase):
 
         cache_registry = self._default_test_cache_registry()
         cache_registry.unregister_cache("Cache A")
-        self.assertNotIn("Cache A", cache_registry.registry)
-        self.assertIn("Cache B", cache_registry.registry)
+        assert "Cache A" not in cache_registry.registry
+        assert "Cache B" in cache_registry.registry
 
     def test_clear_cache(self):
         """
@@ -215,10 +210,10 @@ class TestCacheRegistry(unittest.TestCase):
 
         cache_registry = self._default_test_cache_registry()
         cache_registry.clear_cache("Cache A")
-        self.assertDictEqual(
-            cache_registry.registry,
-            {"Cache A": {}, "Cache B": {"John": "Doe", "Luke": "Skywalker"}},
-        )
+        assert cache_registry.registry == {
+            "Cache A": {},
+            "Cache B": {"John": "Doe", "Luke": "Skywalker"},
+        }
 
     def test_clear_all_caches(self):
         """
@@ -228,10 +223,10 @@ class TestCacheRegistry(unittest.TestCase):
 
         cache_registry = self._default_test_cache_registry()
         cache_registry.clear_all_caches()
-        self.assertDictEqual(cache_registry.registry, {"Cache A": {}, "Cache B": {}})
+        assert cache_registry.registry == {"Cache A": {}, "Cache B": {}}
 
 
-class TestAttest(unittest.TestCase):
+class TestAttest:
     """
     Define :func:`colour.utilities.common.attest` definition unit
     tests methods.
@@ -240,12 +235,12 @@ class TestAttest(unittest.TestCase):
     def test_attest(self):
         """Test :func:`colour.utilities.common.attest` definition."""
 
-        self.assertIsNone(attest(True, ""))
+        assert attest(True, "") is None
 
-        self.assertRaises(AssertionError, attest, False)
+        pytest.raises(AssertionError, attest, False)
 
 
-class TestBatch(unittest.TestCase):
+class TestBatch:
     """
     Define :func:`colour.utilities.common.batch` definition unit tests
     methods.
@@ -254,20 +249,27 @@ class TestBatch(unittest.TestCase):
     def test_batch(self):
         """Test :func:`colour.utilities.common.batch` definition."""
 
-        self.assertListEqual(
-            list(batch(tuple(range(10)), 3)),
-            [(0, 1, 2), (3, 4, 5), (6, 7, 8), (9,)],
-        )
+        assert list(batch(tuple(range(10)), 3)) == [
+            (0, 1, 2),
+            (3, 4, 5),
+            (6, 7, 8),
+            (9,),
+        ]
 
-        self.assertListEqual(
-            list(batch(tuple(range(10)), 5)),
-            [(0, 1, 2, 3, 4), (5, 6, 7, 8, 9)],
-        )
+        assert list(batch(tuple(range(10)), 5)) == [(0, 1, 2, 3, 4), (5, 6, 7, 8, 9)]
 
-        self.assertListEqual(
-            list(batch(tuple(range(10)), 1)),
-            [(0,), (1,), (2,), (3,), (4,), (5,), (6,), (7,), (8,), (9,)],
-        )
+        assert list(batch(tuple(range(10)), 1)) == [
+            (0,),
+            (1,),
+            (2,),
+            (3,),
+            (4,),
+            (5,),
+            (6,),
+            (7,),
+            (8,),
+            (9,),
+        ]
 
 
 def _add(a: Real, b: Real):
@@ -295,7 +297,7 @@ def _add(a: Real, b: Real):
     return a + b  # pragma: no cover
 
 
-class TestMultiprocessingPool(unittest.TestCase):
+class TestMultiprocessingPool:
     """
     Define :func:`colour.utilities.common.multiprocessing_pool` definition
     unit tests methods.
@@ -305,13 +307,21 @@ class TestMultiprocessingPool(unittest.TestCase):
         """Test :func:`colour.utilities.common.multiprocessing_pool` definition."""
 
         with multiprocessing_pool() as pool:
-            self.assertListEqual(
-                pool.map(partial(_add, b=2), range(10)),
-                [2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-            )
+            assert pool.map(partial(_add, b=2), range(10)) == [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+            ]
 
 
-class TestAsBool(unittest.TestCase):
+class TestAsBool:
     """
     Define :func:`colour.utilities.common.as_bool` definition unit tests
     methods.
@@ -320,22 +330,22 @@ class TestAsBool(unittest.TestCase):
     def test_as_bool(self):
         """Test :func:`colour.utilities.common.as_bool` definition."""
 
-        self.assertTrue(as_bool("1"))
+        assert as_bool("1")
 
-        self.assertTrue(as_bool("On"))
+        assert as_bool("On")
 
-        self.assertTrue(as_bool("True"))
+        assert as_bool("True")
 
-        self.assertFalse(as_bool("0"))
+        assert not as_bool("0")
 
-        self.assertFalse(as_bool("Off"))
+        assert not as_bool("Off")
 
-        self.assertFalse(as_bool("False"))
+        assert not as_bool("False")
 
-        self.assertFalse(as_bool(""))
+        assert not as_bool("")
 
 
-class TestIsIterable(unittest.TestCase):
+class TestIsIterable:
     """
     Define :func:`colour.utilities.common.is_iterable` definition unit tests
     methods.
@@ -344,28 +354,28 @@ class TestIsIterable(unittest.TestCase):
     def test_is_iterable(self):
         """Test :func:`colour.utilities.common.is_iterable` definition."""
 
-        self.assertTrue(is_iterable(""))
+        assert is_iterable("")
 
-        self.assertTrue(is_iterable(()))
+        assert is_iterable(())
 
-        self.assertTrue(is_iterable([]))
+        assert is_iterable([])
 
-        self.assertTrue(is_iterable({}))
+        assert is_iterable({})
 
-        self.assertTrue(is_iterable(set()))
+        assert is_iterable(set())
 
-        self.assertTrue(is_iterable(np.array([])))
+        assert is_iterable(np.array([]))
 
-        self.assertFalse(is_iterable(1))
+        assert not is_iterable(1)
 
-        self.assertFalse(is_iterable(2))
+        assert not is_iterable(2)
 
         generator = (a for a in range(10))
-        self.assertTrue(is_iterable(generator))
-        self.assertEqual(len(list(generator)), 10)
+        assert is_iterable(generator)
+        assert len(list(generator)) == 10
 
 
-class TestIsString(unittest.TestCase):
+class TestIsString:
     """
     Define :func:`colour.utilities.common.is_string` definition unit tests
     methods.
@@ -374,20 +384,20 @@ class TestIsString(unittest.TestCase):
     def test_is_string(self):
         """Test :func:`colour.utilities.common.is_string` definition."""
 
-        self.assertTrue(is_string("Hello World!"))
+        assert is_string("Hello World!")
 
-        self.assertTrue(is_string("Hello World!"))
+        assert is_string("Hello World!")
 
-        self.assertTrue(is_string(r"Hello World!"))
+        assert is_string(r"Hello World!")
 
-        self.assertFalse(is_string(1))
+        assert not is_string(1)
 
-        self.assertFalse(is_string([1]))
+        assert not is_string([1])
 
-        self.assertFalse(is_string({1: None}))
+        assert not is_string({1: None})
 
 
-class TestIsNumeric(unittest.TestCase):
+class TestIsNumeric:
     """
     Define :func:`colour.utilities.common.is_numeric` definition unit tests
     methods.
@@ -396,18 +406,18 @@ class TestIsNumeric(unittest.TestCase):
     def test_is_numeric(self):
         """Test :func:`colour.utilities.common.is_numeric` definition."""
 
-        self.assertTrue(is_numeric(1))
+        assert is_numeric(1)
 
-        self.assertTrue(is_numeric(1))
+        assert is_numeric(1)
 
-        self.assertFalse(is_numeric((1,)))
+        assert not is_numeric((1,))
 
-        self.assertFalse(is_numeric([1]))
+        assert not is_numeric([1])
 
-        self.assertFalse(is_numeric("1"))
+        assert not is_numeric("1")
 
 
-class TestIsInteger(unittest.TestCase):
+class TestIsInteger:
     """
     Define :func:`colour.utilities.common.is_integer` definition unit
     tests methods.
@@ -416,14 +426,14 @@ class TestIsInteger(unittest.TestCase):
     def test_is_integer(self):
         """Test :func:`colour.utilities.common.is_integer` definition."""
 
-        self.assertTrue(is_integer(1))
+        assert is_integer(1)
 
-        self.assertTrue(is_integer(1.001))
+        assert is_integer(1.001)
 
-        self.assertFalse(is_integer(1.01))
+        assert not is_integer(1.01)
 
 
-class TestIsSibling(unittest.TestCase):
+class TestIsSibling:
     """
     Define :func:`colour.utilities.common.is_sibling` definition unit tests
     methods.
@@ -450,12 +460,12 @@ class TestIsSibling(unittest.TestCase):
             "Element C": Element("C"),
         }
 
-        self.assertTrue(is_sibling(Element("D"), mapping))
+        assert is_sibling(Element("D"), mapping)
 
-        self.assertFalse(is_sibling(NotElement("Not D"), mapping))
+        assert not is_sibling(NotElement("Not D"), mapping)
 
 
-class TestFilterKwargs(unittest.TestCase):
+class TestFilterKwargs:
     """
     Define :func:`colour.utilities.common.filter_kwargs` definition unit
     tests methods.
@@ -479,16 +489,16 @@ class TestFilterKwargs(unittest.TestCase):
 
             return a, b, c
 
-        self.assertEqual(1, fn_a(1, **filter_kwargs(fn_a, b=2, c=3)))
+        assert fn_a(1, **filter_kwargs(fn_a, b=2, c=3)) == 1
 
-        self.assertTupleEqual((1, 2), fn_b(1, **filter_kwargs(fn_b, b=2, c=3)))
+        assert fn_b(1, **filter_kwargs(fn_b, b=2, c=3)) == (1, 2)
 
-        self.assertTupleEqual((1, 2, 3), fn_c(1, **filter_kwargs(fn_c, b=2, c=3)))
+        assert fn_c(1, **filter_kwargs(fn_c, b=2, c=3)) == (1, 2, 3)
 
-        self.assertDictEqual(filter_kwargs(partial(fn_c, b=1), b=1), {"b": 1})
+        assert filter_kwargs(partial(fn_c, b=1), b=1) == {"b": 1}
 
 
-class TestFilterMapping(unittest.TestCase):
+class TestFilterMapping:
     """
     Define :func:`colour.utilities.common.filter_mapping` definition unit
     tests methods.
@@ -510,11 +520,9 @@ class TestFilterMapping(unittest.TestCase):
             "Not Element C": Element("Not C"),
         }
 
-        self.assertListEqual(
-            sorted(filter_mapping(mapping, "Element A")), ["Element A"]
-        )
+        assert sorted(filter_mapping(mapping, "Element A")) == ["Element A"]
 
-        self.assertDictEqual(filter_mapping(mapping, "Element"), {})
+        assert filter_mapping(mapping, "Element") == {}
 
         mapping = CanonicalMapping(
             {
@@ -525,18 +533,14 @@ class TestFilterMapping(unittest.TestCase):
             }
         )
 
-        self.assertListEqual(
-            sorted(filter_mapping(mapping, "element a")), ["Element A"]
-        )
+        assert sorted(filter_mapping(mapping, "element a")) == ["Element A"]
 
-        self.assertListEqual(
-            sorted(filter_mapping(mapping, "element-a")), ["Element A"]
-        )
+        assert sorted(filter_mapping(mapping, "element-a")) == ["Element A"]
 
-        self.assertListEqual(sorted(filter_mapping(mapping, "elementa")), ["Element A"])
+        assert sorted(filter_mapping(mapping, "elementa")) == ["Element A"]
 
 
-class TestFirstItem(unittest.TestCase):
+class TestFirstItem:
     """
     Define :func:`colour.utilities.common.first_item` definition unit
     tests methods.
@@ -545,15 +549,15 @@ class TestFirstItem(unittest.TestCase):
     def test_first_item(self):
         """Test :func:`colour.utilities.common.first_item` definition."""
 
-        self.assertEqual(first_item(range(10)), 0)
+        assert first_item(range(10)) == 0
 
         dictionary = {0: "a", 1: "b", 2: "c"}
-        self.assertEqual(first_item(dictionary.items()), (0, "a"))
+        assert first_item(dictionary.items()) == (0, "a")
 
-        self.assertEqual(first_item(dictionary.values()), "a")
+        assert first_item(dictionary.values()) == "a"
 
 
-class TestValidateMethod(unittest.TestCase):
+class TestValidateMethod:
     """
     Define :func:`colour.utilities.common.validate_method` definition unit
     tests methods.
@@ -562,7 +566,7 @@ class TestValidateMethod(unittest.TestCase):
     def test_validate_method(self):
         """Test :func:`colour.utilities.common.validate_method` definition."""
 
-        self.assertEqual(validate_method("Valid", ("Valid", "Yes", "Ok")), "valid")
+        assert validate_method("Valid", ("Valid", "Yes", "Ok")) == "valid"
 
     def test_raise_exception_validate_method(self):
         """
@@ -570,12 +574,10 @@ class TestValidateMethod(unittest.TestCase):
         exception.
         """
 
-        self.assertRaises(
-            ValueError, validate_method, "Invalid", ("Valid", "Yes", "Ok")
-        )
+        pytest.raises(ValueError, validate_method, "Invalid", ("Valid", "Yes", "Ok"))
 
 
-class TestOptional(unittest.TestCase):
+class TestOptional:
     """
     Define :func:`colour.utilities.common.optional` definition unit
     tests methods.
@@ -584,12 +586,12 @@ class TestOptional(unittest.TestCase):
     def test_optional(self):
         """Test :func:`colour.utilities.common.optional` definition."""
 
-        self.assertEqual(optional("Foo", "Bar"), "Foo")
+        assert optional("Foo", "Bar") == "Foo"
 
-        self.assertEqual(optional(None, "Bar"), "Bar")
+        assert optional(None, "Bar") == "Bar"
 
 
-class TestSlugify(unittest.TestCase):
+class TestSlugify:
     """
     Define :func:`colour.utilities.common.slugify` definition unit tests
     methods.
@@ -598,35 +600,33 @@ class TestSlugify(unittest.TestCase):
     def test_slugify(self):
         """Test :func:`colour.utilities.common.slugify` definition."""
 
-        self.assertEqual(
-            slugify(
-                " Jack & Jill like numbers 1,2,3 and 4 and silly characters ?%.$!/"
-            ),
-            "jack-jill-like-numbers-123-and-4-and-silly-characters",
+        assert (
+            slugify(" Jack & Jill like numbers 1,2,3 and 4 and silly characters ?%.$!/")
+            == "jack-jill-like-numbers-123-and-4-and-silly-characters"
         )
 
-        self.assertEqual(
-            slugify("Un \xe9l\xe9phant \xe0 l'or\xe9e du bois"),
-            "un-elephant-a-loree-du-bois",
+        assert (
+            slugify("Un \xe9l\xe9phant \xe0 l'or\xe9e du bois")
+            == "un-elephant-a-loree-du-bois"
         )
 
         # NOTE: Our "utilities/unicode_to_ascii.py" utility script normalises
         # the reference string.
-        self.assertEqual(
+        assert (
             unicodedata.normalize(
                 "NFD",
                 slugify(
                     "Un \xe9l\xe9phant \xe0 l'or\xe9e du bois",
                     allow_unicode=True,
                 ),
-            ),
-            "un-éléphant-à-lorée-du-bois",
+            )
+            == "un-éléphant-à-lorée-du-bois"
         )
 
-        self.assertEqual(slugify(123), "123")
+        assert slugify(123) == "123"
 
 
-class TestIntDigest(unittest.TestCase):
+class TestIntDigest:
     """
     Define :func:`colour.utilities.common.int_digest` definition unit tests
     methods.
@@ -635,19 +635,11 @@ class TestIntDigest(unittest.TestCase):
     def test_int_digest(self):
         """Test :func:`colour.utilities.common.int_digest` definition."""
 
-        self.assertEqual(int_digest("Foo"), 7467386374397815550)
+        assert int_digest("Foo") == 7467386374397815550
 
         if platform.system() in ("Windows", "Microsoft"):  # pragma: no cover
-            self.assertEqual(
-                int_digest(np.array([1, 2, 3]).tobytes()), 7764052002911021640
-            )
+            assert int_digest(np.array([1, 2, 3]).tobytes()) == 7764052002911021640
         else:
-            self.assertEqual(
-                int_digest(np.array([1, 2, 3]).tobytes()), 8964613590703056768
-            )
+            assert int_digest(np.array([1, 2, 3]).tobytes()) == 8964613590703056768
 
-        self.assertEqual(int_digest(repr((1, 2, 3))), 5069958125469218295)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert int_digest(repr((1, 2, 3))) == 5069958125469218295

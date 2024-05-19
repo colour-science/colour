@@ -1,7 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.hdr_ipt` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -25,7 +24,7 @@ __all__ = [
 ]
 
 
-class TestExponent_hdr_IPT(unittest.TestCase):
+class TestExponent_hdr_IPT:
     """
     Define :func:`colour.models.hdr_ipt.exponent_hdr_IPT`
     definition unit tests methods.
@@ -125,7 +124,7 @@ class TestExponent_hdr_IPT(unittest.TestCase):
         exponent_hdr_IPT(cases, cases)
 
 
-class TestXYZ_to_hdr_IPT(unittest.TestCase):
+class TestXYZ_to_hdr_IPT:
     """
     Define :func:`colour.models.hdr_ipt.XYZ_to_hdr_IPT` definition unit tests
     methods.
@@ -230,7 +229,7 @@ class TestXYZ_to_hdr_IPT(unittest.TestCase):
         XYZ_to_hdr_IPT(cases, cases[..., 0], cases[..., 0])
 
 
-class TestHdr_IPT_to_XYZ(unittest.TestCase):
+class TestHdr_IPT_to_XYZ:
     """
     Define :func:`colour.models.hdr_ipt.hdr_IPT_to_XYZ` definition unit tests
     methods.
@@ -335,7 +334,3 @@ class TestHdr_IPT_to_XYZ(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         hdr_IPT_to_XYZ(cases, cases[..., 0], cases[..., 0])
-
-
-if __name__ == "__main__":
-    unittest.main()

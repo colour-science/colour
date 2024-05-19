@@ -9,9 +9,8 @@ Notes
 
 from __future__ import annotations
 
-import unittest
-
 import numpy as np
+import pytest
 
 from colour.colorimetry import (
     SDS_ILLUMINANTS,
@@ -537,7 +536,7 @@ DATA_SD_SAMPLE_1NM: dict = {
 SD_SAMPLE_1NM: SpectralDistribution = SpectralDistribution(DATA_SD_SAMPLE_1NM)
 
 
-class TestColourFidelityIndexCIE2017(unittest.TestCase):
+class TestColourFidelityIndexCIE2017:
     """
     Define :func:`colour.quality.CIE2017.colour_fidelity_index_CIE2017`
     definition unit tests methods.
@@ -885,13 +884,13 @@ class TestColourFidelityIndexCIE2017(unittest.TestCase):
         """
 
         sd = reshape_sd(SDS_ILLUMINANTS["FL2"], SpectralShape(400, 700, 5))
-        self.assertWarns(ColourUsageWarning, colour_fidelity_index_CIE2017, sd)
+        pytest.warns(ColourUsageWarning, colour_fidelity_index_CIE2017, sd)
 
         sd = reshape_sd(SDS_ILLUMINANTS["FL2"], SpectralShape(380, 780, 10))
-        self.assertRaises(ValueError, colour_fidelity_index_CIE2017, sd)
+        pytest.raises(ValueError, colour_fidelity_index_CIE2017, sd)
 
 
-class TestCctReferenceIlluminant(unittest.TestCase):
+class TestCctReferenceIlluminant:
     """
     Define :func:`colour.quality.CIE2017.CCT_reference_illuminant`
     definition unit tests methods.
@@ -909,7 +908,7 @@ class TestCctReferenceIlluminant(unittest.TestCase):
             np.testing.assert_allclose(D_uv, -0.000300000000000, atol=0.0005)
 
 
-class TestSdReferenceIlluminant(unittest.TestCase):
+class TestSdReferenceIlluminant:
     """
     Define :func:`colour.quality.CIE2017.sd_reference_illuminant`
     definition unit tests methods.
@@ -933,7 +932,3 @@ class TestSdReferenceIlluminant(unittest.TestCase):
                 sd_blackbody(3288, shape).values,
                 atol=1.75,
             )
-
-
-if __name__ == "__main__":
-    unittest.main()
