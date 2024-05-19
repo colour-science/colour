@@ -143,7 +143,7 @@ NDArrayBoolean = NDArray[DTypeBoolean]
 NDArrayStr = NDArray[np.str_]
 
 
-class ProtocolInterpolator(Protocol):  # noqa: D101
+class ProtocolInterpolator(Protocol):  # noqa: D101  # pragma: no cover
     @property
     def x(self) -> NDArray:  # noqa: D102
         ...
@@ -167,7 +167,7 @@ class ProtocolInterpolator(Protocol):  # noqa: D101
         ...  # pragma: no cover
 
 
-class ProtocolExtrapolator(Protocol):  # noqa: D101
+class ProtocolExtrapolator(Protocol):  # noqa: D101  # pragma: no cover
     @property
     def interpolator(self) -> ProtocolInterpolator:  # noqa: D102
         ...
@@ -184,7 +184,7 @@ class ProtocolExtrapolator(Protocol):  # noqa: D101
 
 
 @runtime_checkable
-class ProtocolLUTSequenceItem(Protocol):  # noqa: D101
+class ProtocolLUTSequenceItem(Protocol):  # noqa: D101  # pragma: no cover
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: D102
         ...  # pragma: no cover
 

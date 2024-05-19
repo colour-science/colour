@@ -575,3 +575,8 @@ class TestPlotConstantHueLoci:
 
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)
+
+        figure, axes = plot_constant_hue_loci(data, "IPT", scatter_kwargs={"c": "k"})
+
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)

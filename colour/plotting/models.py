@@ -1989,8 +1989,7 @@ def plot_constant_hue_loci(
             RGB_cr = XYZ_to_RGB(XYZ_cr, colourspace, xy_r, apply_cctf_encoding=True)
             RGB_cr = np.clip(np.ravel(RGB_cr), 0, 1)
         else:
-            scatter_settings["c"] = CONSTANTS_COLOUR_STYLE.colour.dark
-            RGB_cr = CONSTANTS_COLOUR_STYLE.colour.dark
+            RGB_cr = scatter_settings["c"]
 
         axes.scatter(ijk_ct[..., 0], ijk_ct[..., 1], **scatter_settings)
 

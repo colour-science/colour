@@ -509,7 +509,7 @@ class suppress_stdout:
         sys.stdout.close()
         sys.stdout = self._stdout
 
-    def __call__(self, function: Callable) -> Callable:
+    def __call__(self, function: Callable) -> Callable:  # pragma: no cover
         """Call the wrapped definition."""
 
         @functools.wraps(function)
@@ -825,7 +825,7 @@ def describe_environment(
                 lines = value.split("\n")
                 message += f"    {key} : {lines.pop(0)}\n"
                 indentation = len(f"    {key} : ")
-                for line in lines:
+                for line in lines:  # pragma: no cover
                     message += f"{' ' * indentation}{line}\n"
 
             message += "\n"
@@ -937,7 +937,7 @@ def multiline_str(
                 and not attribute.get("section")
             )
         )
-    except ValueError:
+    except ValueError:  # pragma: no cover
         justify = 0
 
     representation = []

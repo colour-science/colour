@@ -764,7 +764,7 @@ function` property raised exception.
 
         assert signal_1 == signal_2
 
-        assert signal_1 is not None
+        assert signal_1 != ()
 
     def test__ne__(self):
         """

@@ -336,7 +336,7 @@ RGB_to_coefficients` method raised exception.
 
         LUT = LUT3D_Jakob2019()
 
-        pytest.raises(ValueError, LUT.RGB_to_coefficients, np.array([]))
+        pytest.raises(RuntimeError, LUT.RGB_to_coefficients, np.array([1, 2, 3, 4]))
 
     def test_raise_exception_read(self):
         """

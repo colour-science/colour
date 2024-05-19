@@ -992,7 +992,7 @@ See :class:`colour.utilities.LazyCanonicalMapping` for more information.
 # - https://github.com/colour-science/colour/issues/958
 # - https://github.com/colour-science/colour/issues/1221
 # - https://github.com/vaab/colour/issues/62
-for _path in sys.path:
+for _path in sys.path:  # pragma: no cover
     _module_path = os.path.join(_path, "colour.py")
     if os.path.exists(_module_path):
         import colour  # pyright: ignore

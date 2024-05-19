@@ -1,6 +1,6 @@
 from colour.utilities import is_matplotlib_installed
 
-if not is_matplotlib_installed():
+if not is_matplotlib_installed():  # pragma: no cover
     import sys
     from unittest.mock import MagicMock
     from colour.utilities import usage_warning

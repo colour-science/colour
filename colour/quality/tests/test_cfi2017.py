@@ -130,6 +130,16 @@ DATA_SD_SAMPLE_5NM: dict = {
 SD_SAMPLE_5NM: SpectralDistribution = SpectralDistribution(DATA_SD_SAMPLE_5NM)
 
 DATA_SD_SAMPLE_1NM: dict = {
+    370: 0.000,
+    371: 0.000,
+    372: 0.000,
+    373: 0.000,
+    374: 0.000,
+    375: 0.000,
+    376: 0.000,
+    377: 0.000,
+    378: 0.000,
+    379: 0.000,
     380: 0.000,
     381: 0.000,
     382: 0.000,

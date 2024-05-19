@@ -250,9 +250,10 @@ class TestIES_TM2714_Header:
         """Test :meth:`colour.io.tm2714.Header_IESTM2714.__eq__` method."""
 
         header = deepcopy(self._header)
+
         assert self._header == header
 
-        assert self._header is not None
+        assert self._header != ()
 
     def test__ne__(self):
         """Test :meth:`colour.io.tm2714.Header_IESTM2714.__ne__` method."""

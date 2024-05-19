@@ -811,9 +811,6 @@ class RGB_Colourspace:
         matrix and its inverse.
         """
 
-        if not hasattr(self, "_primaries") or not hasattr(self, "_whitepoint"):
-            return
-
         if self._primaries is not None and self._whitepoint is not None:
             npm = normalised_primary_matrix(self._primaries, self._whitepoint)
 

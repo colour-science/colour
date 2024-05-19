@@ -1429,6 +1429,17 @@ class TestPchipInterpolator:
         for method in required_methods:  # pragma: no cover
             assert method in dir(PchipInterpolator)
 
+    def test_y(self):
+        """
+        Test :attr:`colour.algebra.interpolation.PchipInterpolator.y` property.
+        """
+
+        interpolator = PchipInterpolator(np.linspace(0, 1, 10), np.linspace(0, 1, 10))
+
+        interpolator.y = np.linspace(0, 1, 10)
+
+        assert interpolator(5) == 5
+
 
 class TestNullInterpolator:
     """
