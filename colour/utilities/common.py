@@ -1456,10 +1456,11 @@ def validate_method(
     method: str,
     valid_methods: tuple,
     message: str = '"{0}" method is invalid, it must be one of {1}!',
+    as_lowercase: bool = True,
 ) -> str:
     """
     Validate whether given method exists in the given valid methods and
-    returns the method lower cased.
+    optionally returns the method lower cased.
 
     Parameters
     ----------
@@ -1469,11 +1470,13 @@ def validate_method(
         Valid methods.
     message
         Message for the exception.
+    as_lowercase
+        Whether to convert the given method to lower case or not.
 
     Returns
     -------
     :class:`str`
-        Method lower cased.
+        Method optionally lower cased.
 
     Raises
     ------
@@ -1484,6 +1487,8 @@ def validate_method(
     --------
     >>> validate_method("Valid", ("Valid", "Yes", "Ok"))
     'valid'
+    >>> validate_method("Valid", ("Valid", "Yes", "Ok"), as_lowercase=False)
+    'Valid'
     """
 
     valid_methods = tuple([str(valid_method) for valid_method in valid_methods])
@@ -1492,7 +1497,7 @@ def validate_method(
     if method_lower not in [valid_method.lower() for valid_method in valid_methods]:
         raise ValueError(message.format(method, valid_methods))
 
-    return method_lower
+    return method_lower if as_lowercase else method
 
 
 T = TypeVar("T")

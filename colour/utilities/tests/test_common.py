@@ -567,6 +567,10 @@ class TestValidateMethod:
         """Test :func:`colour.utilities.common.validate_method` definition."""
 
         assert validate_method("Valid", ("Valid", "Yes", "Ok")) == "valid"
+        assert (
+            validate_method("Valid", ("Valid", "Yes", "Ok"), as_lowercase=False)
+            == "Valid"
+        )
 
     def test_raise_exception_validate_method(self):
         """

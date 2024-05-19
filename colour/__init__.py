@@ -254,6 +254,7 @@ from .io import (
     LUT3x1D,
     LUTOperatorMatrix,
     LUTSequence,
+    Specification_Fichet2021,
     SpectralDistribution_IESTM2714,
     SpectralDistribution_Sekonic,
     SpectralDistribution_UPRTek,
@@ -262,9 +263,11 @@ from .io import (
     read_sds_from_csv_file,
     read_sds_from_xrite_file,
     read_spectral_data_from_csv_file,
+    read_spectral_image_Fichet2021,
     write_image,
     write_LUT,
     write_sds_to_csv_file,
+    write_spectral_image_Fichet2021,
 )
 from .models import (
     CCTF_DECODINGS,
@@ -636,6 +639,7 @@ __all__ += [
     "LUT3D",
     "LUTOperatorMatrix",
     "LUTSequence",
+    "Specification_Fichet2021",
     "READ_IMAGE_METHODS",
     "SpectralDistribution_IESTM2714",
     "WRITE_IMAGE_METHODS",
@@ -644,11 +648,13 @@ __all__ += [
     "read_sds_from_csv_file",
     "read_sds_from_xrite_file",
     "read_spectral_data_from_csv_file",
+    "read_spectral_image_Fichet2021",
     "SpectralDistribution_UPRTek",
     "SpectralDistribution_Sekonic",
     "write_image",
     "write_LUT",
     "write_sds_to_csv_file",
+    "write_spectral_image_Fichet2021",
 ]
 __all__ += [
     "CAM02LCD_to_JMh_CIECAM02",
