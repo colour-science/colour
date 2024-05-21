@@ -1,4 +1,3 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.difference.cam02_ucs` module."""
 
 from itertools import product
