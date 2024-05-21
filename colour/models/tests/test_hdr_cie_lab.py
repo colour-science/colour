@@ -1,4 +1,3 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.hdr_cie_lab` module."""
 
 from itertools import product

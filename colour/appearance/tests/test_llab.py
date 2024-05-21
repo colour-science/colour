@@ -1,4 +1,3 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.appearance.kim2009` module."""
 
 from itertools import product

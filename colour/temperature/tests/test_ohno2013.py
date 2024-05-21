@@ -1,4 +1,3 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.temperature.ohno2013` module."""
 
 from itertools import product

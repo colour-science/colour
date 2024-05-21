@@ -1,4 +1,3 @@
-# !/usr/bin/env python
 """
 Defines the unit tests for the :mod:`colour.appearance.zcam` module.
 """

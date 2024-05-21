@@ -1,4 +1,3 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.volume.macadam_limits` module."""
 
 from itertools import product
