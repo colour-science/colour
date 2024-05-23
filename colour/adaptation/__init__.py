@@ -13,6 +13,9 @@ References
 -   :cite:`Fairchild2013t` : Fairchild, M. D. (2013). Chromatic Adaptation
     Models. In Color Appearance Models (3rd ed., pp. 4179-4252). Wiley.
     ISBN:B00DAYO8E2
+-   :cite:`Fairchild2020` : Fairchild, M. D. (2020). Von Kries 2020: Evolution
+    of degree of chromatic adaptation. Color and Imaging Conference, 28(1),
+    252-257. doi:10.2352/issn.2169-2629.2020.28.40
 -   :cite:`Li2002a` : Li, C., Luo, M. R., Rigg, B., & Hunt, R. W. G. (2002).
     CMC 2000 chromatic adaptation transform: CMCCAT2000. Color Research &
     Application, 27(1), 49-58. doi:10.1002/col.10005
@@ -54,6 +57,11 @@ from .vonkries import (
     chromatic_adaptation_VonKries,
 )
 from .fairchild1990 import chromatic_adaptation_Fairchild1990
+from .fairchild2020 import (
+    CONDITIONS_DEGREE_OF_ADAPTATION_VK20,
+    matrix_chromatic_adaptation_vk20,
+    chromatic_adaptation_vK20,
+)
 from .cmccat2000 import (
     InductionFactors_CMCCAT2000,
     VIEWING_CONDITIONS_CMCCAT2000,
@@ -88,6 +96,11 @@ __all__ += [
     "chromatic_adaptation_Fairchild1990",
 ]
 __all__ += [
+    "CONDITIONS_DEGREE_OF_ADAPTATION_VK20",
+    "matrix_chromatic_adaptation_vk20",
+    "chromatic_adaptation_vK20",
+]
+__all__ += [
     "InductionFactors_CMCCAT2000",
     "VIEWING_CONDITIONS_CMCCAT2000",
     "chromatic_adaptation_forward_CMCCAT2000",
@@ -108,6 +121,7 @@ CHROMATIC_ADAPTATION_METHODS: CanonicalMapping = CanonicalMapping(
         "Fairchild 1990": chromatic_adaptation_Fairchild1990,
         "Von Kries": chromatic_adaptation_VonKries,
         "Zhai 2018": chromatic_adaptation_Zhai2018,
+        "vK20": chromatic_adaptation_vK20,
     }
 )
 CHROMATIC_ADAPTATION_METHODS.__doc__ = """
@@ -116,8 +130,8 @@ Supported chromatic adaptation methods.
 References
 ----------
 :cite:`CIETC1-321994b`, :cite:`Fairchild1991a`, :cite:`Fairchild2013s`,
-:cite:`Fairchild2013t`, :cite:`Li2002a`, :cite:`Westland2012k`,
-:cite:`Zhai2018`
+:cite:`Fairchild2013t`, :cite:`Fairchild2020`, :cite:`Li2002a`,
+:cite:`Westland2012k`, :cite:`Zhai2018`
 """
 
 
@@ -130,8 +144,9 @@ def chromatic_adaptation(
             "CIE 1994",
             "CMCCAT2000",
             "Fairchild 1990",
-            "Zhai 2018",
             "Von Kries",
+            "Zhai 2018",
+            "vK20",
         ]
         | str
     ) = "Von Kries",
@@ -194,8 +209,16 @@ def chromatic_adaptation(
         {:func:`colour.adaptation.chromatic_adaptation_Zhai2018`},
         Degree of adaptation :math:`D_\\Delta` of output illuminant
         :math:`\\Delta`.
+    XYZ_r
+        {:func:`colour.adaptation.chromatic_adaptation_vK20`},
+        Reference viewing conditions *CIE XYZ* tristimulus values of
+        whitepoint.
+    coefficients
+        {:func:`colour.adaptation.chromatic_adaptation_vK20`},
+        *vK20* degree of adaptation coefficients.
     transform
         {:func:`colour.adaptation.chromatic_adaptation_VonKries`,
+        :func:`colour.adaptation.chromatic_adaptation_vK20`,
         :func:`colour.adaptation.chromatic_adaptation_Zhai2018`},
         Chromatic adaptation transform.
     XYZ_wo
@@ -245,6 +268,14 @@ def chromatic_adaptation(
     >>> chromatic_adaptation(XYZ, XYZ_w, XYZ_wr)
     ... # doctest: +ELLIPSIS
     array([ 0.2163881...,  0.1257    ,  0.0384749...])
+
+    *vK2020* chromatic adaptation:
+
+    >>> XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
+    >>> XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
+    >>> chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method="vK20")
+    ... # doctest: +ELLIPSIS
+    array([ 0.2146884...,  0.1245616...,  0.0466255...])
 
     *CIE 1994* chromatic adaptation, requires extra *kwargs*:
 
@@ -332,6 +363,8 @@ def chromatic_adaptation(
         kwargs.update({"XYZ_n": XYZ_w, "XYZ_r": XYZ_wr})
     elif function is chromatic_adaptation_Zhai2018:
         kwargs.update({"XYZ_wb": XYZ_w, "XYZ_wd": XYZ_wr})
+    elif function is chromatic_adaptation_vK20:
+        kwargs.update({"XYZ_p": XYZ_w, "XYZ_n": XYZ_wr})
 
     XYZ_c = function(XYZ, **filter_kwargs(function, **kwargs))
 

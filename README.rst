@@ -322,13 +322,13 @@ Chromatic Adaptation - ``colour.adaptation``
 
     array([ 0.2533053 ,  0.13765138,  0.01543307])
 
+
 .. code-block:: python
 
     sorted(colour.CHROMATIC_ADAPTATION_METHODS)
-
 .. code-block:: text
 
-    ['CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries', 'Zhai 2018']
+    ['CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries', 'Zhai 2018', 'vK20']
 
 Algebra - ``colour.algebra``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
