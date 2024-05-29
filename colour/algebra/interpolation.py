@@ -1127,42 +1127,14 @@ class SpragueInterpolator:
 
         self._y = value
 
-        yp1 = np.ravel(
-            (
-                np.dot(
-                    self.SPRAGUE_C_COEFFICIENTS[0],
-                    np.reshape(np.array(value[0:6]), (6, 1)),
-                )
+        yp1, yp2, yp3, yp4 = (
+            np.sum(
+                self.SPRAGUE_C_COEFFICIENTS
+                * np.asarray((value[0:6], value[0:6], value[-6:], value[-6:])),
+                axis=1,
             )
             / 209
-        )[0]
-        yp2 = np.ravel(
-            (
-                np.dot(
-                    self.SPRAGUE_C_COEFFICIENTS[1],
-                    np.reshape(np.array(value[0:6]), (6, 1)),
-                )
-            )
-            / 209
-        )[0]
-        yp3 = np.ravel(
-            (
-                np.dot(
-                    self.SPRAGUE_C_COEFFICIENTS[2],
-                    np.reshape(np.array(value[-6:]), (6, 1)),
-                )
-            )
-            / 209
-        )[0]
-        yp4 = np.ravel(
-            (
-                np.dot(
-                    self.SPRAGUE_C_COEFFICIENTS[3],
-                    np.reshape(np.array(value[-6:]), (6, 1)),
-                )
-            )
-            / 209
-        )[0]
+        )
 
         self._yp = np.concatenate(
             [
@@ -1217,36 +1189,26 @@ class SpragueInterpolator:
 
         r = self._yp
 
-        a0p = r[i]
-        a1p = (2 * r[i - 2] - 16 * r[i - 1] + 16 * r[i + 1] - 2 * r[i + 2]) / 24
-        a2p = (-r[i - 2] + 16 * r[i - 1] - 30 * r[i] + 16 * r[i + 1] - r[i + 2]) / 24
-        a3p = (
-            -9 * r[i - 2]
-            + 39 * r[i - 1]
-            - 70 * r[i]
-            + 66 * r[i + 1]
-            - 33 * r[i + 2]
-            + 7 * r[i + 3]
-        ) / 24
-        a4p = (
-            13 * r[i - 2]
-            - 64 * r[i - 1]
-            + 126 * r[i]
-            - 124 * r[i + 1]
-            + 61 * r[i + 2]
-            - 12 * r[i + 3]
-        ) / 24
-        a5p = (
-            -5 * r[i - 2]
-            + 25 * r[i - 1]
-            - 50 * r[i]
-            + 50 * r[i + 1]
-            - 25 * r[i + 2]
-            + 5 * r[i + 3]
-        ) / 24
+        r_s = np.asarray((r[i - 2], r[i - 1], r[i], r[i + 1], r[i + 2], r[i + 3]))
+        w_s = np.asarray(
+            (
+                (2, -16, 0, 16, -2, 0),
+                (-1, 16, -30, 16, -1, 0),
+                (-9, 39, -70, 66, -33, 7),
+                (13, -64, 126, -124, 61, -12),
+                (-5, 25, -50, 50, -25, 5),
+            )
+        )
+        a = np.dot(w_s, r_s) / 24
 
-        y = a0p + a1p * X + a2p * X**2 + a3p * X**3 + a4p * X**4 + a5p * X**5
+        # Fancy vector code here... use underlying numpy structures to accelerate
+        # parts of the linear algebra.
 
+        y = r[i] + np.einsum(
+            "ab,ab->b", a.reshape(5, -1), X ** np.arange(1, 6).reshape(-1, 1)
+        )
+        if y.size == 1:
+            return y[0]
         return y
 
     def _validate_dimensions(self):
