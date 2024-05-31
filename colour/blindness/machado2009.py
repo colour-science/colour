@@ -30,7 +30,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.algebra import matrix_dot, vector_dot
+from colour.algebra import vecmul
 from colour.blindness import CVD_MATRICES_MACHADO2010
 from colour.characterisation import RGB_DisplayPrimaries
 from colour.colorimetry import (
@@ -108,7 +108,7 @@ def matrix_RGB_to_WSYBRG(
     """
 
     wavelengths = cmfs.wavelengths
-    WSYBRG = vector_dot(MATRIX_LMS_TO_WSYBRG, cmfs.values)
+    WSYBRG = vecmul(MATRIX_LMS_TO_WSYBRG, cmfs.values)
     WS, YB, RG = tsplit(WSYBRG)
 
     primaries = reshape_msds(
@@ -308,7 +308,7 @@ def matrix_anomalous_trichromacy_Machado2009(
     cmfs_a = msds_cmfs_anomalous_trichromacy_Machado2009(cmfs, d_LMS)
     M_a = matrix_RGB_to_WSYBRG(cmfs_a, primaries)
 
-    return matrix_dot(np.linalg.inv(M_n), M_a)
+    return np.matmul(np.linalg.inv(M_n), M_a)
 
 
 def matrix_cvd_Machado2009(

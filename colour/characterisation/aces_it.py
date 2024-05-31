@@ -63,7 +63,7 @@ from scipy.optimize import minimize
 from colour.adaptation import matrix_chromatic_adaptation_VonKries
 from colour.algebra import (
     euclidean_distance,
-    vector_dot,
+    vecmul,
 )
 from colour.characterisation import (
     MSDS_ACES_RICD,
@@ -700,7 +700,7 @@ def training_data_sds_to_XYZ(
             chromatic_adaptation_transform,
         )
 
-        XYZ = vector_dot(M_CAT, XYZ)
+        XYZ = vecmul(M_CAT, XYZ)
 
     return XYZ
 
@@ -781,9 +781,7 @@ def optimisation_factory_rawtoaces_v1() -> (
 
         M = finaliser_function(M)
 
-        XYZ_t = vector_dot(
-            RGB_COLOURSPACE_ACES2065_1.matrix_RGB_to_XYZ, vector_dot(M, RGB)
-        )
+        XYZ_t = vecmul(RGB_COLOURSPACE_ACES2065_1.matrix_RGB_to_XYZ, vecmul(M, RGB))
         Lab_t = XYZ_to_optimization_colour_model(XYZ_t)
 
         return as_float(np.linalg.norm(Lab_t - Lab))
@@ -847,9 +845,7 @@ finaliser_function at 0x...>)
 
         M = finaliser_function(M)
 
-        XYZ_t = vector_dot(
-            RGB_COLOURSPACE_ACES2065_1.matrix_RGB_to_XYZ, vector_dot(M, RGB)
-        )
+        XYZ_t = vecmul(RGB_COLOURSPACE_ACES2065_1.matrix_RGB_to_XYZ, vecmul(M, RGB))
         Jab_t = XYZ_to_optimization_colour_model(XYZ_t)
 
         return as_float(np.sum(euclidean_distance(Jab, Jab_t)))
@@ -1175,4 +1171,4 @@ def camera_RGB_to_ACES2065_1(
 
     RGB_r = np.clip(RGB_r, -np.inf, 1) if clip else RGB_r
 
-    return k * vector_dot(B, RGB_r)
+    return k * vecmul(B, RGB_r)

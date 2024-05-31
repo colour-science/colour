@@ -24,7 +24,7 @@ from dataclasses import dataclass, field
 
 import numpy as np
 
-from colour.algebra import spow, vector_dot
+from colour.algebra import spow, vecmul
 from colour.hints import ArrayLike, NDArrayFloat, cast
 from colour.utilities import (
     CanonicalMapping,
@@ -619,7 +619,7 @@ def XYZ_to_rgb(XYZ: ArrayLike) -> NDArrayFloat:
     array([ 19.4743367...,  20.3101217...,  21.78     ])
     """
 
-    return vector_dot(MATRIX_XYZ_TO_HPE, XYZ)
+    return vecmul(MATRIX_XYZ_TO_HPE, XYZ)
 
 
 def f_n(x: ArrayLike) -> NDArrayFloat:

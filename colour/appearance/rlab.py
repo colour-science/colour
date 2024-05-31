@@ -24,7 +24,7 @@ from dataclasses import dataclass, field
 
 import numpy as np
 
-from colour.algebra import matrix_dot, sdiv, sdiv_mode, spow, vector_dot
+from colour.algebra import sdiv, sdiv_mode, spow, vecmul
 from colour.appearance.hunt import MATRIX_XYZ_TO_HPE, XYZ_to_rgb
 from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
@@ -266,8 +266,8 @@ b=-52.6142956...)
 
     LMS_a_L = (LMS_p_L + D[..., None] * (1 - LMS_p_L)) / LMS_n
 
-    M = matrix_dot(matrix_dot(MATRIX_R, row_as_diagonal(LMS_a_L)), MATRIX_XYZ_TO_HPE)
-    XYZ_ref = vector_dot(M, XYZ)
+    M = np.matmul(np.matmul(MATRIX_R, row_as_diagonal(LMS_a_L)), MATRIX_XYZ_TO_HPE)
+    XYZ_ref = vecmul(M, XYZ)
 
     X_ref, Y_ref, Z_ref = tsplit(XYZ_ref)
 

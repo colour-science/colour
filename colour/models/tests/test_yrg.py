@@ -225,7 +225,11 @@ class TestXYZ_to_Yrg:
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_equal(XYZ_to_Yrg(XYZ * factor), Yrg * factor)
+                np.testing.assert_allclose(
+                    XYZ_to_Yrg(XYZ * factor),
+                    Yrg * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_Yrg(self):

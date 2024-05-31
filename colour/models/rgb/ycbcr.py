@@ -244,12 +244,12 @@ def matrix_YCbCr(
     Matching the default output of the :func:`colour.RGB_to_YCbCr` is done as
     follows:
 
-    >>> from colour.algebra import vector_dot
+    >>> from colour.algebra import vecmul
     >>> from colour.utilities import as_int_array
     >>> RGB = np.array([1.0, 1.0, 1.0])
     >>> RGB_to_YCbCr(RGB)  # doctest: +ELLIPSIS
     array([ 0.9215686...,  0.5019607...,  0.5019607...])
-    >>> YCbCr = vector_dot(np.linalg.inv(matrix_YCbCr(is_legal=True)), RGB)
+    >>> YCbCr = vecmul(np.linalg.inv(matrix_YCbCr(is_legal=True)), RGB)
     >>> YCbCr += offset_YCbCr(is_legal=True)
     >>> YCbCr  # doctest: +ELLIPSIS
     array([ 0.9215686...,  0.5019607...,  0.5019607...])
@@ -261,7 +261,7 @@ def matrix_YCbCr(
     >>> RGB_to_YCbCr(RGB, in_bits=8, in_int=True, out_bits=8, out_int=True)
     ... # doctest: +SKIP
     array([ 38, 140, 171])
-    >>> YCbCr = vector_dot(np.linalg.inv(matrix_YCbCr(is_legal=True)), RGB)
+    >>> YCbCr = vecmul(np.linalg.inv(matrix_YCbCr(is_legal=True)), RGB)
     >>> YCbCr += offset_YCbCr(is_legal=True, is_int=True)
     >>> as_int_array(np.around(YCbCr))
     ... # doctest: +SKIP

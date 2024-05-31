@@ -47,8 +47,7 @@ __all__ = [
     "spow",
     "normalise_vector",
     "normalise_maximum",
-    "vector_dot",
-    "matrix_dot",
+    "vecmul",
     "euclidean_distance",
     "manhattan_distance",
     "linear_conversion",
@@ -554,13 +553,15 @@ def normalise_maximum(
     return np.clip(a, 0, factor) if clip else a
 
 
-def vector_dot(m: ArrayLike, v: ArrayLike) -> NDArrayFloat:
+def vecmul(m: ArrayLike, v: ArrayLike) -> NDArrayFloat:
     """
-    Perform the dot product of the matrix array :math:`m` with the vector
-    array :math:`v`.
+    Perform the batched multiplication between the matrix array :math:`m` and
+    vector array :math:`v`.
 
-    This definition is a convenient wrapper around :func:`np.einsum` with the
-    following subscripts: *'...ij,...j->...i'*.
+    It is in intent equivalent to :func:`np.matmul` but with the specific intent
+    of vector multiplication by a matrix. With that intent, vector dimensionality
+    will be increased to enable broadcasting. This definition can be expressed
+    with :func:`np.einsum` using the following subscripts: *'...ij,...j->...i'*.
 
     Parameters
     ----------
@@ -572,7 +573,7 @@ def vector_dot(m: ArrayLike, v: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Transformed vector array :math:`v`.
+        Multiplied vector array :math:`v`.
 
     Examples
     --------
@@ -586,7 +587,7 @@ def vector_dot(m: ArrayLike, v: ArrayLike) -> NDArrayFloat:
     >>> m = np.reshape(np.tile(m, (6, 1)), (6, 3, 3))
     >>> v = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> v = np.tile(v, (6, 1))
-    >>> vector_dot(m, v)  # doctest: +ELLIPSIS
+    >>> vecmul(m, v)  # doctest: +ELLIPSIS
     array([[ 0.1954094...,  0.0620396...,  0.0527952...],
            [ 0.1954094...,  0.0620396...,  0.0527952...],
            [ 0.1954094...,  0.0620396...,  0.0527952...],
@@ -595,66 +596,7 @@ def vector_dot(m: ArrayLike, v: ArrayLike) -> NDArrayFloat:
            [ 0.1954094...,  0.0620396...,  0.0527952...]])
     """
 
-    return np.einsum("...ij,...j->...i", as_float_array(m), as_float_array(v))
-
-
-def matrix_dot(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
-    """
-    Perform the dot product of the matrix array :math:`a` with the matrix
-    array :math:`b`.
-
-    This definition is a convenient wrapper around :func:`np.einsum` with the
-    following subscripts: *'...ij,...jk->...ik'*.
-
-    Parameters
-    ----------
-    a
-        Matrix array :math:`a`.
-    b
-        Matrix array :math:`b`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-
-    Examples
-    --------
-    >>> a = np.array(
-    ...     [
-    ...         [0.7328, 0.4296, -0.1624],
-    ...         [-0.7036, 1.6975, 0.0061],
-    ...         [0.0030, 0.0136, 0.9834],
-    ...     ]
-    ... )
-    >>> a = np.reshape(np.tile(a, (6, 1)), (6, 3, 3))
-    >>> b = a
-    >>> matrix_dot(a, b)  # doctest: +ELLIPSIS
-    array([[[ 0.2342420...,  1.0418482..., -0.2760903...],
-            [-1.7099407...,  2.5793226...,  0.1306181...],
-            [-0.0044203...,  0.0377490...,  0.9666713...]],
-    <BLANKLINE>
-           [[ 0.2342420...,  1.0418482..., -0.2760903...],
-            [-1.7099407...,  2.5793226...,  0.1306181...],
-            [-0.0044203...,  0.0377490...,  0.9666713...]],
-    <BLANKLINE>
-           [[ 0.2342420...,  1.0418482..., -0.2760903...],
-            [-1.7099407...,  2.5793226...,  0.1306181...],
-            [-0.0044203...,  0.0377490...,  0.9666713...]],
-    <BLANKLINE>
-           [[ 0.2342420...,  1.0418482..., -0.2760903...],
-            [-1.7099407...,  2.5793226...,  0.1306181...],
-            [-0.0044203...,  0.0377490...,  0.9666713...]],
-    <BLANKLINE>
-           [[ 0.2342420...,  1.0418482..., -0.2760903...],
-            [-1.7099407...,  2.5793226...,  0.1306181...],
-            [-0.0044203...,  0.0377490...,  0.9666713...]],
-    <BLANKLINE>
-           [[ 0.2342420...,  1.0418482..., -0.2760903...],
-            [-1.7099407...,  2.5793226...,  0.1306181...],
-            [-0.0044203...,  0.0377490...,  0.9666713...]]])
-    """
-
-    return np.einsum("...ij,...jk->...ik", as_float_array(a), as_float_array(b))
+    return np.matmul(as_float_array(m), as_float_array(v)[..., None]).squeeze(-1)
 
 
 def euclidean_distance(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:

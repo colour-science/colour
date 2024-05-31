@@ -14,7 +14,6 @@ from colour.algebra import (
     linear_conversion,
     linstep_function,
     manhattan_distance,
-    matrix_dot,
     normalise_maximum,
     normalise_vector,
     sdiv,
@@ -24,7 +23,7 @@ from colour.algebra import (
     smoothstep_function,
     spow,
     spow_enable,
-    vector_dot,
+    vecmul,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import ignore_numpy_errors
@@ -49,7 +48,6 @@ __all__ = [
     "TestNormaliseVector",
     "TestNormaliseMaximum",
     "TestVectorDot",
-    "TestMatrixDot",
     "TestEuclideanDistance",
     "TestManhattanDistance",
     "TestLinearConversion",
@@ -403,12 +401,12 @@ class TestNormaliseMaximum:
 
 class TestVectorDot:
     """
-    Define :func:`colour.algebra.common.vector_dot` definition unit tests
+    Define :func:`colour.algebra.common.vecmul` definition unit tests
     methods.
     """
 
-    def test_vector_dot(self):
-        """Test :func:`colour.algebra.common.vector_dot` definition."""
+    def test_vecmul(self):
+        """Test :func:`colour.algebra.common.vecmul` definition."""
 
         m = np.array(
             [
@@ -423,7 +421,7 @@ class TestVectorDot:
         v = np.tile(v, (6, 1))
 
         np.testing.assert_allclose(
-            vector_dot(m, v),
+            vecmul(m, v),
             np.array(
                 [
                     [0.19540944, 0.06203965, 0.05279523],
@@ -432,66 +430,6 @@ class TestVectorDot:
                     [0.19540944, 0.06203965, 0.05279523],
                     [0.19540944, 0.06203965, 0.05279523],
                     [0.19540944, 0.06203965, 0.05279523],
-                ]
-            ),
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-
-class TestMatrixDot:
-    """
-    Define :func:`colour.algebra.common.matrix_dot` definition unit tests
-    methods.
-    """
-
-    def test_matrix_dot(self):
-        """Test :func:`colour.algebra.common.matrix_dot` definition."""
-
-        a = np.array(
-            [
-                [0.7328, 0.4296, -0.1624],
-                [-0.7036, 1.6975, 0.0061],
-                [0.0030, 0.0136, 0.9834],
-            ]
-        )
-        a = np.reshape(np.tile(a, (6, 1)), (6, 3, 3))
-
-        b = a
-
-        np.testing.assert_allclose(
-            matrix_dot(a, b),
-            np.array(
-                [
-                    [
-                        [0.23424208, 1.04184824, -0.27609032],
-                        [-1.70994078, 2.57932265, 0.13061813],
-                        [-0.00442036, 0.03774904, 0.96667132],
-                    ],
-                    [
-                        [0.23424208, 1.04184824, -0.27609032],
-                        [-1.70994078, 2.57932265, 0.13061813],
-                        [-0.00442036, 0.03774904, 0.96667132],
-                    ],
-                    [
-                        [0.23424208, 1.04184824, -0.27609032],
-                        [-1.70994078, 2.57932265, 0.13061813],
-                        [-0.00442036, 0.03774904, 0.96667132],
-                    ],
-                    [
-                        [0.23424208, 1.04184824, -0.27609032],
-                        [-1.70994078, 2.57932265, 0.13061813],
-                        [-0.00442036, 0.03774904, 0.96667132],
-                    ],
-                    [
-                        [0.23424208, 1.04184824, -0.27609032],
-                        [-1.70994078, 2.57932265, 0.13061813],
-                        [-0.00442036, 0.03774904, 0.96667132],
-                    ],
-                    [
-                        [0.23424208, 1.04184824, -0.27609032],
-                        [-1.70994078, 2.57932265, 0.13061813],
-                        [-0.00442036, 0.03774904, 0.96667132],
-                    ],
                 ]
             ),
             atol=TOLERANCE_ABSOLUTE_TESTS,

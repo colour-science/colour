@@ -34,7 +34,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.algebra import vector_dot
+from colour.algebra import vecmul
 from colour.colorimetry import (
     MSDS_CMFS_LMS,
     MSDS_CMFS_RGB,
@@ -116,7 +116,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(
         ]
     )
 
-    xyz = vector_dot(M1, rgb) / vector_dot(M2, rgb)
+    xyz = vecmul(M1, rgb) / vecmul(M2, rgb)
 
     x, y, z = xyz[..., 0], xyz[..., 1], xyz[..., 2]
 
@@ -183,7 +183,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(
         ]
     )
 
-    xyz_bar = vector_dot(M, rgb_bar)
+    xyz_bar = vecmul(M, rgb_bar)
 
     return xyz_bar
 
@@ -236,7 +236,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(
         ]
     )
 
-    lms_bar = vector_dot(M, rgb_bar)
+    lms_bar = vecmul(M, rgb_bar)
     lms_bar[..., -1][np.asarray(np.asarray(wavelength) > 505)] = 0
 
     return lms_bar
@@ -289,7 +289,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(
         ]
     )
 
-    xyz_bar = vector_dot(M, lms_bar)
+    xyz_bar = vecmul(M, lms_bar)
 
     return xyz_bar
 
@@ -341,6 +341,6 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(
         ]
     )
 
-    xyz_bar = vector_dot(M, lms_bar)
+    xyz_bar = vecmul(M, lms_bar)
 
     return xyz_bar

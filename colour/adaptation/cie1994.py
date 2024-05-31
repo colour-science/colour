@@ -19,7 +19,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.adaptation import CAT_VON_KRIES
-from colour.algebra import sdiv, sdiv_mode, spow, vector_dot
+from colour.algebra import sdiv, sdiv_mode, spow, vecmul
 from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     as_float_array,
@@ -188,7 +188,7 @@ def XYZ_to_RGB_CIE1994(XYZ: ArrayLike) -> NDArrayFloat:
     array([ 25.8244273...,  18.6791422...,   4.8390194...])
     """
 
-    return vector_dot(MATRIX_XYZ_TO_RGB_CIE1994, XYZ)
+    return vecmul(MATRIX_XYZ_TO_RGB_CIE1994, XYZ)
 
 
 def RGB_to_XYZ_CIE1994(RGB: ArrayLike) -> NDArrayFloat:
@@ -212,7 +212,7 @@ def RGB_to_XYZ_CIE1994(RGB: ArrayLike) -> NDArrayFloat:
     array([ 28.  ,  21.26,   5.27])
     """
 
-    return vector_dot(MATRIX_RGB_TO_XYZ_CIE1994, RGB)
+    return vecmul(MATRIX_RGB_TO_XYZ_CIE1994, RGB)
 
 
 def intermediate_values(xy_o: ArrayLike) -> NDArrayFloat:

@@ -20,7 +20,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.algebra import sdiv, sdiv_mode, vector_dot
+from colour.algebra import sdiv, sdiv_mode, vecmul
 from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     from_range_1,
@@ -227,7 +227,7 @@ def XYZ_to_Yrg(XYZ: ArrayLike) -> NDArrayFloat:
     array([ 0.1313780...,  0.4903764...,  0.3777738...])
     """
 
-    return LMS_to_Yrg(vector_dot(MATRIX_XYZ_TO_LMS_KIRK2019, XYZ))
+    return LMS_to_Yrg(vecmul(MATRIX_XYZ_TO_LMS_KIRK2019, XYZ))
 
 
 def Yrg_to_XYZ(Yrg: ArrayLike) -> NDArrayFloat:
@@ -274,4 +274,4 @@ def Yrg_to_XYZ(Yrg: ArrayLike) -> NDArrayFloat:
     array([ 0.2065468...,  0.1219717...,  0.0513819...])
     """
 
-    return vector_dot(MATRIX_LMS_TO_XYZ_KIRK2019, Yrg_to_LMS(Yrg))
+    return vecmul(MATRIX_LMS_TO_XYZ_KIRK2019, Yrg_to_LMS(Yrg))

@@ -14,7 +14,7 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-from colour.algebra import vector_dot
+from colour.algebra import vecmul
 from colour.hints import (
     Any,
     ArrayLike,
@@ -519,7 +519,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         if apply_offset_first:
             RGB += offset
 
-        RGB = vector_dot(M, RGB)
+        RGB = vecmul(M, RGB)
 
         if not apply_offset_first:
             RGB += offset

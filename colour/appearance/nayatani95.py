@@ -30,7 +30,7 @@ from colour.adaptation.cie1994 import (
     exponential_factors,
     intermediate_values,
 )
-from colour.algebra import spow, vector_dot
+from colour.algebra import spow, vecmul
 from colour.hints import ArrayLike, NDArrayFloat, cast
 from colour.models import XYZ_to_xy
 from colour.utilities import (
@@ -383,7 +383,7 @@ def XYZ_to_RGB_Nayatani95(XYZ: ArrayLike) -> NDArrayFloat:
     array([ 20.0005206...,  19.999783 ...,  19.9988316...])
     """
 
-    return vector_dot(MATRIX_XYZ_TO_RGB_NAYATANI95, XYZ)
+    return vecmul(MATRIX_XYZ_TO_RGB_NAYATANI95, XYZ)
 
 
 def scaling_coefficient(x: ArrayLike, y: ArrayLike) -> NDArrayFloat:

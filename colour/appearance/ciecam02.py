@@ -38,7 +38,7 @@ from dataclasses import astuple, dataclass, field
 import numpy as np
 
 from colour.adaptation import CAT_CAT02
-from colour.algebra import matrix_dot, sdiv, sdiv_mode, spow, vector_dot
+from colour.algebra import sdiv, sdiv_mode, spow, vecmul
 from colour.appearance.hunt import (
     MATRIX_HPE_TO_XYZ,
     MATRIX_XYZ_TO_HPE,
@@ -336,8 +336,8 @@ H=278.0607358..., HC=None)
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
     # sharpened *RGB* values.
-    RGB = vector_dot(CAT_CAT02, XYZ)
-    RGB_w = vector_dot(CAT_CAT02, XYZ_w)
+    RGB = vecmul(CAT_CAT02, XYZ)
+    RGB_w = vecmul(CAT_CAT02, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
     D = (
@@ -534,7 +534,7 @@ def CIECAM02_to_XYZ(
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
     # sharpened *RGB* values.
-    RGB_w = vector_dot(CAT_CAT02, XYZ_w)
+    RGB_w = vecmul(CAT_CAT02, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
     D = (
@@ -586,7 +586,7 @@ def CIECAM02_to_XYZ(
 
     # Converting *CMCCAT2000* transform sharpened *RGB* values to *CIE XYZ*
     # tristimulus values.
-    XYZ = vector_dot(CAT_INVERSE_CAT02, RGB)
+    XYZ = vecmul(CAT_INVERSE_CAT02, RGB)
 
     return from_range_100(XYZ)
 
@@ -849,7 +849,7 @@ def RGB_to_rgb(RGB: ArrayLike) -> NDArrayFloat:
     array([ 19.9969397...,  20.0018612...,  20.0135053...])
     """
 
-    rgb = vector_dot(matrix_dot(MATRIX_XYZ_TO_HPE, CAT_INVERSE_CAT02), RGB)
+    rgb = vecmul(np.matmul(MATRIX_XYZ_TO_HPE, CAT_INVERSE_CAT02), RGB)
 
     return rgb
 
@@ -876,7 +876,7 @@ def rgb_to_RGB(rgb: ArrayLike) -> NDArrayFloat:
     array([ 19.9937078...,  20.0039363...,  20.0132638...])
     """
 
-    RGB = vector_dot(matrix_dot(CAT_CAT02, MATRIX_HPE_TO_XYZ), rgb)
+    RGB = vecmul(np.matmul(CAT_CAT02, MATRIX_HPE_TO_XYZ), rgb)
 
     return RGB
 
@@ -1689,7 +1689,7 @@ def matrix_post_adaptation_non_linear_response_compression(
     b = as_float_array(b)
 
     RGB_a = (
-        vector_dot(
+        vecmul(
             [
                 [460, 451, 288],
                 [460, -891, -261],
