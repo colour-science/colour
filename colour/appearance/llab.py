@@ -35,7 +35,7 @@ from colour.algebra import (
     sdiv,
     sdiv_mode,
     spow,
-    vector_dot,
+    vecmul,
 )
 from colour.hints import ArrayLike, NDArrayFloat, Optional, Union
 from colour.utilities import (
@@ -402,7 +402,7 @@ def XYZ_to_RGB_LLAB(XYZ: ArrayLike) -> NDArrayFloat:
     XYZ = as_float_array(XYZ)
 
     with sdiv_mode():
-        return vector_dot(MATRIX_XYZ_TO_RGB_LLAB, sdiv(XYZ, XYZ[..., 1, None]))
+        return vecmul(MATRIX_XYZ_TO_RGB_LLAB, sdiv(XYZ, XYZ[..., 1, None]))
 
 
 def chromatic_adaptation(
@@ -461,7 +461,7 @@ def chromatic_adaptation(
 
     Y = tstack([Y, Y, Y])
 
-    XYZ_r = vector_dot(MATRIX_RGB_TO_XYZ_LLAB, RGB_r * Y)
+    XYZ_r = vecmul(MATRIX_RGB_TO_XYZ_LLAB, RGB_r * Y)
 
     return XYZ_r
 

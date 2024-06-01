@@ -25,7 +25,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.algebra import vector_dot
+from colour.algebra import vecmul
 from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.models.rgb.transfer_functions import (
     eotf_inverse_ST2084,
@@ -251,15 +251,15 @@ def XYZ_to_Izazbz(
 
     XYZ_p_D65 = tstack([X_p_D65, Y_p_D65, Z_D65])
 
-    LMS = vector_dot(MATRIX_JZAZBZ_XYZ_TO_LMS, XYZ_p_D65)
+    LMS = vecmul(MATRIX_JZAZBZ_XYZ_TO_LMS, XYZ_p_D65)
 
     with domain_range_scale("ignore"):
         LMS_p = eotf_inverse_ST2084(LMS, 10000, constants)
 
     if method == "safdar 2017":
-        Izazbz = vector_dot(MATRIX_JZAZBZ_LMS_P_TO_IZAZBZ_SAFDAR2017, LMS_p)
+        Izazbz = vecmul(MATRIX_JZAZBZ_LMS_P_TO_IZAZBZ_SAFDAR2017, LMS_p)
     else:
-        Izazbz = vector_dot(MATRIX_JZAZBZ_LMS_P_TO_IZAZBZ_SAFDAR2021, LMS_p)
+        Izazbz = vecmul(MATRIX_JZAZBZ_LMS_P_TO_IZAZBZ_SAFDAR2021, LMS_p)
         Izazbz[..., 0] -= constants.d_0
 
     return Izazbz
@@ -344,15 +344,15 @@ def Izazbz_to_XYZ(
     )
 
     if method == "safdar 2017":
-        LMS_p = vector_dot(MATRIX_JZAZBZ_IZAZBZ_TO_LMS_P_SAFDAR2017, Izazbz)
+        LMS_p = vecmul(MATRIX_JZAZBZ_IZAZBZ_TO_LMS_P_SAFDAR2017, Izazbz)
     else:
         Izazbz[..., 0] += constants.d_0
-        LMS_p = vector_dot(MATRIX_JZAZBZ_IZAZBZ_TO_LMS_P_SAFDAR2021, Izazbz)
+        LMS_p = vecmul(MATRIX_JZAZBZ_IZAZBZ_TO_LMS_P_SAFDAR2021, Izazbz)
 
     with domain_range_scale("ignore"):
         LMS = eotf_ST2084(LMS_p, 10000, constants)
 
-    X_p_D65, Y_p_D65, Z_p_D65 = tsplit(vector_dot(MATRIX_JZAZBZ_LMS_TO_XYZ, LMS))
+    X_p_D65, Y_p_D65, Z_p_D65 = tsplit(vecmul(MATRIX_JZAZBZ_LMS_TO_XYZ, LMS))
 
     X_D65 = (X_p_D65 + (constants.b - 1) * Z_p_D65) / constants.b
     Y_D65 = (Y_p_D65 + (constants.g - 1) * X_D65) / constants.g

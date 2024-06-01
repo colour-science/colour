@@ -12,7 +12,7 @@ from __future__ import annotations
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
-from colour.algebra import vector_dot
+from colour.algebra import vecmul
 from colour.blindness import matrix_cvd_Machado2009
 from colour.hints import (
     Any,
@@ -98,6 +98,6 @@ def plot_cvd_simulation_Machado2009(
     settings.update(kwargs)
 
     return plot_image(
-        CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding(vector_dot(M_a, RGB)),
+        CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding(vecmul(M_a, RGB)),
         **settings,
     )

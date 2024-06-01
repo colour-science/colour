@@ -27,7 +27,7 @@ from typing import NamedTuple
 import numpy as np
 
 from colour.adaptation import CAT_CMCCAT2000
-from colour.algebra import vector_dot
+from colour.algebra import vecmul
 from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.utilities import (
     CanonicalMapping,
@@ -168,9 +168,9 @@ def chromatic_adaptation_forward_CMCCAT2000(
     L_A1 = as_float_array(L_A1)
     L_A2 = as_float_array(L_A2)
 
-    RGB = vector_dot(CAT_CMCCAT2000, XYZ)
-    RGB_w = vector_dot(CAT_CMCCAT2000, XYZ_w)
-    RGB_wr = vector_dot(CAT_CMCCAT2000, XYZ_wr)
+    RGB = vecmul(CAT_CMCCAT2000, XYZ)
+    RGB_w = vecmul(CAT_CMCCAT2000, XYZ_w)
+    RGB_wr = vecmul(CAT_CMCCAT2000, XYZ_wr)
 
     D = surround.F * (
         0.08 * np.log10(0.5 * (L_A1 + L_A2))
@@ -182,7 +182,7 @@ def chromatic_adaptation_forward_CMCCAT2000(
     a = D * XYZ_w[..., 1] / XYZ_wr[..., 1]
 
     RGB_c = RGB * (a[..., None] * (RGB_wr / RGB_w) + 1 - D[..., None])
-    XYZ_c = vector_dot(CAT_INVERSE_CMCCAT2000, RGB_c)
+    XYZ_c = vecmul(CAT_INVERSE_CMCCAT2000, RGB_c)
 
     return from_range_100(XYZ_c)
 
@@ -261,9 +261,9 @@ def chromatic_adaptation_inverse_CMCCAT2000(
     L_A1 = as_float_array(L_A1)
     L_A2 = as_float_array(L_A2)
 
-    RGB_c = vector_dot(CAT_CMCCAT2000, XYZ_c)
-    RGB_w = vector_dot(CAT_CMCCAT2000, XYZ_w)
-    RGB_wr = vector_dot(CAT_CMCCAT2000, XYZ_wr)
+    RGB_c = vecmul(CAT_CMCCAT2000, XYZ_c)
+    RGB_w = vecmul(CAT_CMCCAT2000, XYZ_w)
+    RGB_wr = vecmul(CAT_CMCCAT2000, XYZ_wr)
 
     D = surround.F * (
         0.08 * np.log10(0.5 * (L_A1 + L_A2))
@@ -275,7 +275,7 @@ def chromatic_adaptation_inverse_CMCCAT2000(
     a = D * XYZ_w[..., 1] / XYZ_wr[..., 1]
 
     RGB = RGB_c / (a[..., None] * (RGB_wr / RGB_w) + 1 - D[..., None])
-    XYZ = vector_dot(CAT_INVERSE_CMCCAT2000, RGB)
+    XYZ = vecmul(CAT_INVERSE_CMCCAT2000, RGB)
 
     return from_range_100(XYZ)
 

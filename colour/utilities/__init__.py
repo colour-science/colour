@@ -247,8 +247,6 @@ __all__ += [
     "tstack",
     "tsplit",
     "row_as_diagonal",
-    "vector_dot",
-    "matrix_dot",
     "orient",
     "centroid",
     "linear_conversion",
@@ -302,16 +300,12 @@ API_CHANGES: dict = {
             "colour.algebra.linear_conversion",
         ],
         [
-            "colour.utilities.matrix_dot",
-            "colour.algebra.matrix_dot",
-        ],
-        [
             "colour.utilities.normalise_maximum",
             "colour.algebra.normalise_maximum",
         ],
         [
-            "colour.utilities.vector_dot",
-            "colour.algebra.vector_dot",
+            "colour.utilities.vecmul",
+            "colour.algebra.vecmul",
         ],
     ],
 }
@@ -329,6 +323,16 @@ API_CHANGES["ObjectRenamed"].extend(
         ],
     ]
 )
+"""
+Define the *colour.utilities* sub-package API changes.
+
+API_CHANGES
+"""
+
+# v0.4.5
+API_CHANGES["ObjectRemoved"] = [
+    "colour.algebra.matrix_dot",
+]
 """
 Define the *colour.utilities* sub-package API changes.
 

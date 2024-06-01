@@ -22,7 +22,7 @@ from collections import namedtuple
 import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
-from colour.algebra import matrix_dot, sdiv, sdiv_mode, vector_dot
+from colour.algebra import sdiv, sdiv_mode, vecmul
 from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.utilities import (
     CanonicalMapping,
@@ -202,15 +202,15 @@ def matrix_chromatic_adaptation_vk20(
 
     D_n, D_r, D_p = coefficients
 
-    LMS_n = vector_dot(M, XYZ_n)
-    LMS_r = vector_dot(M, XYZ_r)
-    LMS_p = vector_dot(M, XYZ_p)
+    LMS_n = vecmul(M, XYZ_n)
+    LMS_r = vecmul(M, XYZ_r)
+    LMS_p = vecmul(M, XYZ_p)
 
     with sdiv_mode():
         D = row_as_diagonal(sdiv(1, (D_n * LMS_n + D_r * LMS_r + D_p * LMS_p)))
 
-    M_CAT = matrix_dot(np.linalg.inv(M), D)
-    M_CAT = matrix_dot(M_CAT, M)
+    M_CAT = np.matmul(np.linalg.inv(M), D)
+    M_CAT = np.matmul(M_CAT, M)
 
     return M_CAT
 
@@ -316,6 +316,6 @@ def chromatic_adaptation_vK20(
     M_CAT = matrix_chromatic_adaptation_vk20(
         XYZ_p, XYZ_n, XYZ_r, transform, coefficients
     )
-    XYZ_a = vector_dot(M_CAT, XYZ)
+    XYZ_a = vecmul(M_CAT, XYZ)
 
     return from_range_1(XYZ_a)

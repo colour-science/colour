@@ -125,8 +125,7 @@ Common
     spow
     normalise_vector
     normalise_maximum
-    vector_dot
-    matrix_dot
+    vecmul
     euclidean_distance
     manhattan_distance
     linear_conversion

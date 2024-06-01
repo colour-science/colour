@@ -30,7 +30,7 @@ from copy import deepcopy
 import numpy as np
 
 from colour.adaptation import matrix_chromatic_adaptation_VonKries
-from colour.algebra import matrix_dot, vector_dot
+from colour.algebra import vecmul
 from colour.hints import (
     Any,
     ArrayLike,
@@ -1049,9 +1049,9 @@ def XYZ_to_RGB(
             transform=chromatic_adaptation_transform,
         )
 
-        XYZ = vector_dot(M_CAT, XYZ)
+        XYZ = vecmul(M_CAT, XYZ)
 
-    RGB = vector_dot(matrix_XYZ_to_RGB, XYZ)
+    RGB = vecmul(matrix_XYZ_to_RGB, XYZ)
 
     if apply_cctf_encoding and cctf_encoding is not None:
         with domain_range_scale("ignore"):
@@ -1180,7 +1180,7 @@ def RGB_to_XYZ(
         with domain_range_scale("ignore"):
             RGB = cctf_decoding(RGB)
 
-    XYZ = vector_dot(matrix_RGB_to_XYZ, RGB)
+    XYZ = vecmul(matrix_RGB_to_XYZ, RGB)
 
     if chromatic_adaptation_transform is not None:
         M_CAT = matrix_chromatic_adaptation_VonKries(
@@ -1189,7 +1189,7 @@ def RGB_to_XYZ(
             transform=chromatic_adaptation_transform,
         )
 
-        XYZ = vector_dot(M_CAT, XYZ)
+        XYZ = vecmul(M_CAT, XYZ)
 
     return from_range_1(XYZ)
 
@@ -1266,9 +1266,9 @@ def matrix_RGB_to_RGB(
             chromatic_adaptation_transform,
         )
 
-        M = matrix_dot(M_CAT, input_colourspace.matrix_RGB_to_XYZ)
+        M = np.matmul(M_CAT, input_colourspace.matrix_RGB_to_XYZ)
 
-    M = matrix_dot(output_colourspace.matrix_XYZ_to_RGB, M)
+    M = np.matmul(output_colourspace.matrix_XYZ_to_RGB, M)
 
     return M
 
@@ -1375,7 +1375,7 @@ def RGB_to_RGB(
         input_colourspace, output_colourspace, chromatic_adaptation_transform
     )
 
-    RGB = vector_dot(M, RGB)
+    RGB = vecmul(M, RGB)
 
     if apply_cctf_encoding and output_colourspace.cctf_encoding is not None:
         with domain_range_scale("ignore"):

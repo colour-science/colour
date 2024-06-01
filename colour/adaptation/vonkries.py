@@ -19,7 +19,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
-from colour.algebra import matrix_dot, sdiv, sdiv_mode, vector_dot
+from colour.algebra import sdiv, sdiv_mode, vecmul
 from colour.hints import (
     ArrayLike,
     LiteralChromaticAdaptationTransform,
@@ -117,16 +117,16 @@ def matrix_chromatic_adaptation_VonKries(
 
     M = CHROMATIC_ADAPTATION_TRANSFORMS[transform]
 
-    RGB_w = vector_dot(M, XYZ_w)
-    RGB_wr = vector_dot(M, XYZ_wr)
+    RGB_w = vecmul(M, XYZ_w)
+    RGB_wr = vecmul(M, XYZ_wr)
 
     with sdiv_mode():
         D = sdiv(RGB_wr, RGB_w)
 
     D = row_as_diagonal(D)
 
-    M_CAT = matrix_dot(np.linalg.inv(M), D)
-    M_CAT = matrix_dot(M_CAT, M)
+    M_CAT = np.matmul(np.linalg.inv(M), D)
+    M_CAT = np.matmul(M_CAT, M)
 
     return M_CAT
 
@@ -202,6 +202,6 @@ def chromatic_adaptation_VonKries(
     XYZ = to_domain_1(XYZ)
 
     M_CAT = matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr, transform)
-    XYZ_a = vector_dot(M_CAT, XYZ)
+    XYZ_a = vecmul(M_CAT, XYZ)
 
     return from_range_1(XYZ_a)

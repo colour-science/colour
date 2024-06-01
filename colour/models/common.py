@@ -21,7 +21,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.algebra import cartesian_to_polar, polar_to_cartesian, vector_dot
+from colour.algebra import cartesian_to_polar, polar_to_cartesian, vecmul
 from colour.hints import ArrayLike, Callable, NDArrayFloat
 from colour.utilities import (
     CanonicalMapping,
@@ -395,9 +395,9 @@ def XYZ_to_Iab(
 
     XYZ = to_domain_1(XYZ)
 
-    LMS = vector_dot(matrix_XYZ_to_LMS, XYZ)
+    LMS = vecmul(matrix_XYZ_to_LMS, XYZ)
     LMS_p = LMS_to_LMS_p_callable(LMS)
-    Iab = vector_dot(matrix_LMS_p_to_Iab, LMS_p)
+    Iab = vecmul(matrix_LMS_p_to_Iab, LMS_p)
 
     return from_range_1(Iab)
 
@@ -485,8 +485,8 @@ def Iab_to_XYZ(
 
     Iab = to_domain_1(Iab)
 
-    LMS = vector_dot(matrix_Iab_to_LMS_p, Iab)
+    LMS = vecmul(matrix_Iab_to_LMS_p, Iab)
     LMS_p = LMS_p_to_LMS_callable(LMS)
-    XYZ = vector_dot(matrix_LMS_to_XYZ, LMS_p)
+    XYZ = vecmul(matrix_LMS_to_XYZ, LMS_p)
 
     return from_range_1(XYZ)

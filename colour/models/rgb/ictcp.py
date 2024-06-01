@@ -29,7 +29,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.algebra import vector_dot
+from colour.algebra import vecmul
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import (
     ArrayLike,
@@ -251,15 +251,15 @@ def RGB_to_ICtCp(
     is_hlg_method = "hlg" in method
     is_BT2100_2_method = "2100-2" in method
 
-    LMS = vector_dot(MATRIX_ICTCP_RGB_TO_LMS, RGB)
+    LMS = vecmul(MATRIX_ICTCP_RGB_TO_LMS, RGB)
 
     with domain_range_scale("ignore"):
         LMS_p = oetf_BT2100_HLG(LMS) if is_hlg_method else eotf_inverse_ST2084(LMS, L_p)
 
     ICtCp = (
-        vector_dot(MATRIX_ICTCP_LMS_P_TO_ICTCP_BT2100_HLG_2, LMS_p)
+        vecmul(MATRIX_ICTCP_LMS_P_TO_ICTCP_BT2100_HLG_2, LMS_p)
         if (is_hlg_method and is_BT2100_2_method)
-        else vector_dot(MATRIX_ICTCP_LMS_P_TO_ICTCP, LMS_p)
+        else vecmul(MATRIX_ICTCP_LMS_P_TO_ICTCP, LMS_p)
     )
 
     return ICtCp
@@ -383,9 +383,9 @@ def ICtCp_to_RGB(
     is_BT2100_2_method = "2100-2" in method
 
     LMS_p = (
-        vector_dot(MATRIX_ICTCP_ICTCP_TO_LMS_P_BT2100_HLG_2, ICtCp)
+        vecmul(MATRIX_ICTCP_ICTCP_TO_LMS_P_BT2100_HLG_2, ICtCp)
         if (is_hlg_method and is_BT2100_2_method)
-        else vector_dot(MATRIX_ICTCP_ICTCP_TO_LMS_P, ICtCp)
+        else vecmul(MATRIX_ICTCP_ICTCP_TO_LMS_P, ICtCp)
     )
 
     with domain_range_scale("ignore"):
@@ -393,7 +393,7 @@ def ICtCp_to_RGB(
             oetf_inverse_BT2100_HLG(LMS_p) if is_hlg_method else eotf_ST2084(LMS_p, L_p)
         )
 
-    RGB = vector_dot(MATRIX_ICTCP_LMS_TO_RGB, LMS)
+    RGB = vecmul(MATRIX_ICTCP_LMS_TO_RGB, LMS)
 
     return RGB
 

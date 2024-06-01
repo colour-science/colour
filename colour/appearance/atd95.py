@@ -30,7 +30,7 @@ from dataclasses import dataclass, field
 
 import numpy as np
 
-from colour.algebra import spow, vector_dot
+from colour.algebra import spow, vecmul
 from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     MixinDataclassArithmetic,
@@ -327,7 +327,7 @@ def XYZ_to_LMS_ATD95(XYZ: ArrayLike) -> NDArrayFloat:
     array([ 6.2283272...,  7.4780666...,  3.8859772...])
     """
 
-    LMS = vector_dot(
+    LMS = vecmul(
         [
             [0.2435, 0.8524, -0.0516],
             [-0.3954, 1.1642, 0.0837],

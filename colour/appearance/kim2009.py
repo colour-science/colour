@@ -27,7 +27,7 @@ from dataclasses import astuple, dataclass, field
 import numpy as np
 
 from colour.adaptation import CAT_CAT02
-from colour.algebra import spow, vector_dot
+from colour.algebra import spow, vecmul
 from colour.appearance.ciecam02 import (
     CAT_INVERSE_CAT02,
     VIEWING_CONDITIONS_CIECAM02,
@@ -305,8 +305,8 @@ H=278.0602824..., HC=None)
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
     # sharpened *RGB* values.
-    RGB = vector_dot(CAT_CAT02, XYZ)
-    RGB_w = vector_dot(CAT_CAT02, XYZ_w)
+    RGB = vecmul(CAT_CAT02, XYZ)
+    RGB_w = vecmul(CAT_CAT02, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
     D = (
@@ -483,7 +483,7 @@ def Kim2009_to_XYZ(
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
     # sharpened *RGB* values.
-    RGB_w = vector_dot(CAT_CAT02, XYZ_w)
+    RGB_w = vecmul(CAT_CAT02, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
     D = (
@@ -540,7 +540,7 @@ def Kim2009_to_XYZ(
             [1.0000, -0.1568, -4.4904],
         ]
     )
-    LMS_p = vector_dot(M, tstack([A, a, b]))
+    LMS_p = vecmul(M, tstack([A, a, b]))
     LMS = spow((-spow(L_A, n_c) * LMS_p) / (LMS_p - 1), 1 / n_c)
 
     # Converting to *Hunt-Pointer-Estevez* colourspace.
@@ -549,6 +549,6 @@ def Kim2009_to_XYZ(
     # Applying inverse full chromatic adaptation.
     RGB = full_chromatic_adaptation_inverse(RGB_c, RGB_w, Y_w, D)
 
-    XYZ = vector_dot(CAT_INVERSE_CAT02, RGB)
+    XYZ = vecmul(CAT_INVERSE_CAT02, RGB)
 
     return from_range_100(XYZ)

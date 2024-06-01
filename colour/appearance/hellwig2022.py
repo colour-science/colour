@@ -29,7 +29,7 @@ from dataclasses import astuple, dataclass, field
 
 import numpy as np
 
-from colour.algebra import sdiv, sdiv_mode, spow, vector_dot
+from colour.algebra import sdiv, sdiv_mode, spow, vecmul
 from colour.appearance.cam16 import (
     MATRIX_16,
     MATRIX_INVERSE_16,
@@ -307,7 +307,7 @@ H=275.5949861..., HC=None, J_HK=41.8802782..., Q_HK=56.0518358...)
 
     # Step 0
     # Converting *CIE XYZ* tristimulus values to sharpened *RGB* values.
-    RGB_w = vector_dot(MATRIX_16, XYZ_w)
+    RGB_w = vecmul(MATRIX_16, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
     D = (
@@ -329,7 +329,7 @@ H=275.5949861..., HC=None, J_HK=41.8802782..., Q_HK=56.0518358...)
 
     # Step 1
     # Converting *CIE XYZ* tristimulus values to sharpened *RGB* values.
-    RGB = vector_dot(MATRIX_16, XYZ)
+    RGB = vecmul(MATRIX_16, XYZ)
 
     # Step 2
     RGB_c = D_RGB * RGB
@@ -549,7 +549,7 @@ def Hellwig2022_to_XYZ(
 
     # Step 0
     # Converting *CIE XYZ* tristimulus values to sharpened *RGB* values.
-    RGB_w = vector_dot(MATRIX_16, XYZ_w)
+    RGB_w = vecmul(MATRIX_16, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
     D = (
@@ -606,7 +606,7 @@ def Hellwig2022_to_XYZ(
     RGB = RGB_c / D_RGB
 
     # Step 7
-    XYZ = vector_dot(MATRIX_INVERSE_16, RGB)
+    XYZ = vecmul(MATRIX_INVERSE_16, RGB)
 
     return from_range_100(XYZ)
 
