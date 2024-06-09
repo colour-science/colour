@@ -1,4 +1,4 @@
-"""Showcases *CIECAM16* colour appearance model computations."""
+"""Showcase *CIECAM16* colour appearance model computations."""
 
 import numpy as np
 

@@ -2,7 +2,7 @@
 Test Colour Samples Spectral Distributions
 ==========================================
 
-Defines the *CIE 1995* test colour samples spectral distributions.
+Define the *CIE 1995* test colour samples spectral distributions.
 
 The *CIE 1995* test colour samples data is in the form of a *dict* of
 :class:`colour.SpectralDistribution` classes as follows::

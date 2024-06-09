@@ -2,7 +2,7 @@
 DaVinci Intermediate
 ====================
 
-Defines the *DaVinci Intermediate* opto-electrical transfer function
+Define the *DaVinci Intermediate* opto-electrical transfer function
 (OETF) and its inverse:
 
 -   :func:`colour.models.oetf_DaVinciIntermediate`

@@ -2,7 +2,7 @@
 Colour Notation Systems Plotting
 ================================
 
-Defines the colour notation systems plotting objects:
+Define the colour notation systems plotting objects:
 
 -   :func:`colour.plotting.plot_single_munsell_value_function`
 -   :func:`colour.plotting.plot_multi_munsell_value_functions`

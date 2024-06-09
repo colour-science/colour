@@ -2,7 +2,7 @@
 IPT Colourspace
 ===============
 
-Defines the *IPT* colourspace transformations:
+Define the *IPT* colourspace transformations:
 
 -   :func:`colour.XYZ_to_IPT`
 -   :func:`colour.IPT_to_XYZ`

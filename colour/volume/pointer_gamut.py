@@ -2,7 +2,7 @@
 Pointer's Gamut Volume Computations
 ===================================
 
-Defines the objects related to *Pointer's Gamut* volume computations.
+Define the objects related to *Pointer's Gamut* volume computations.
 """
 
 from __future__ import annotations

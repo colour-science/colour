@@ -2,7 +2,7 @@
 :math:`I_GP_GT_G` Colourspace
 =============================
 
-Defines the :math:`I_GP_GT_G` colourspace transformations:
+Define the :math:`I_GP_GT_G` colourspace transformations:
 
 -   :func:`colour.XYZ_to_IgPgTg`
 -   :func:`colour.IgPgTg_to_XYZ`

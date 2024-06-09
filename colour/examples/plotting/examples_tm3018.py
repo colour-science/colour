@@ -1,4 +1,4 @@
-"""Showcases *ANSI/IES TM-30-18 Colour Rendition Report* plotting examples."""
+"""Showcase *ANSI/IES TM-30-18 Colour Rendition Report* plotting examples."""
 
 import colour
 from colour.plotting import (

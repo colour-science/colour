@@ -1,4 +1,4 @@
-"""Showcases *Academy Spectral Similarity Index* (SSI) computations."""
+"""Showcase *Academy Spectral Similarity Index* (SSI) computations."""
 
 import colour
 from colour.utilities import message_box

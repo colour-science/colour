@@ -2,7 +2,7 @@
 Recommendation ITU-R BT.2100
 ============================
 
-Defines the *Recommendation ITU-R BT.2100* opto-electrical transfer functions
+Define the *Recommendation ITU-R BT.2100* opto-electrical transfer functions
 (OETF), opto-optical transfer functions (OOTF / OOCF) and electro-optical
 transfer functions (EOTF) and their inverse:
 

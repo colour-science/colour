@@ -2,7 +2,7 @@
 Automatic Colour Conversion Graph
 =================================
 
-Defines the automatic colour conversion graph objects:
+Define the automatic colour conversion graph objects:
 
 -   :func:`colour.describe_conversion_path`
 -   :func:`colour.convert`

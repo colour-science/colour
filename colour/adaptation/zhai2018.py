@@ -2,7 +2,7 @@
 Zhai and Luo (2018) Chromatic Adaptation Model
 ==============================================
 
-Defines the *Zhai and Luo (2018)* chromatic adaptation model object:
+Define the *Zhai and Luo (2018)* chromatic adaptation model object:
 
 -   :func:`colour.adaptation.chromatic_adaptation_Zhai2018`
 

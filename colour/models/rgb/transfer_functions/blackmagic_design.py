@@ -2,7 +2,7 @@
 Blackmagic Design Transfer Functions
 ====================================
 
-Defines the *Blackmagic Design* colour component transfer functions:
+Define the *Blackmagic Design* colour component transfer functions:
 
 -   :func:`colour.models.oetf_BlackmagicFilmGeneration5`
 -   :func:`colour.models.oetf_inverse_BlackmagicFilmGeneration5`

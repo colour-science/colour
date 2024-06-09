@@ -2,7 +2,7 @@
 Ellipse
 =======
 
-Defines the objects related to ellipse computations:
+Define the objects related to ellipse computations:
 
 -   :func:`colour.algebra.ellipse_coefficients_general_form`
 -   :func:`colour.algebra.ellipse_coefficients_canonical_form`

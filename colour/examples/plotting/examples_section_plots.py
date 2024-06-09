@@ -1,4 +1,4 @@
-"""Showcases gamut section plotting examples."""
+"""Showcase gamut section plotting examples."""
 
 import numpy as np
 from matplotlib.lines import Line2D

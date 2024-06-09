@@ -2,7 +2,7 @@
 Breneman Corresponding Chromaticities Dataset
 =============================================
 
-Defines the *Breneman (1987)* results for corresponding chromaticities
+Define the *Breneman (1987)* results for corresponding chromaticities
 experiments.
 
 References

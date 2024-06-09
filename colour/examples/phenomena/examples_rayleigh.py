@@ -1,4 +1,4 @@
-"""Showcases *Rayleigh Optical Depth* computations examples."""
+"""Showcase *Rayleigh Optical Depth* computations examples."""
 
 import colour
 from colour.utilities import message_box

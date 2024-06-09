@@ -2,7 +2,7 @@
 Photometry
 ==========
 
-Defines the photometric quantities computation related objects.
+Define the photometric quantities computation related objects.
 
 References
 ----------

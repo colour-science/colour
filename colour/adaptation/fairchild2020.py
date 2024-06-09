@@ -2,7 +2,7 @@
 Von Kries 2020 (vK20) Chromatic Adaptation Model
 ================================================
 
-Defines the *Von Kries 2020* (*vK20*) chromatic adaptation model objects:
+Define the *Von Kries 2020* (*vK20*) chromatic adaptation model objects:
 
 -   :attr:`colour.adaptation.CONDITIONS_DEGREE_OF_ADAPTATION_VK20`
 -   :func:`colour.adaptation.matrix_chromatic_adaptation_vk20`

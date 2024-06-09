@@ -2,7 +2,7 @@
 Colorimetry Plotting
 ====================
 
-Defines the colorimetry plotting objects:
+Define the colorimetry plotting objects:
 
 -   :func:`colour.plotting.plot_single_sd`
 -   :func:`colour.plotting.plot_multi_sds`

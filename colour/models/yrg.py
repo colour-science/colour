@@ -2,7 +2,7 @@
 Yrg Colourspace - Kirk (2019)
 =============================
 
-Defines the *Kirk (2019)* *Yrg* colourspace:
+Define the *Kirk (2019)* *Yrg* colourspace:
 
 -   :func:`colour.models.LMS_to_Yrg`
 -   :func:`colour.models.Yrg_to_LMS`

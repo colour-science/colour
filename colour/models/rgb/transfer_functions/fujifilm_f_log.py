@@ -2,7 +2,7 @@
 Fujifilm F-Log Log Encoding
 ===========================
 
-Defines the *Fujifilm F-Log* log encoding:
+Define the *Fujifilm F-Log* log encoding:
 
 -   :func:`colour.models.log_encoding_FLog`
 -   :func:`colour.models.log_decoding_FLog`

@@ -2,7 +2,7 @@
 PLASA ANSI E1.54 Colourspace
 ============================
 
-Defines the *PLASA ANSI E1.54* colourspace:
+Define the *PLASA ANSI E1.54* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_PLASA_ANSI_E154`.
 

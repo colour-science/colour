@@ -2,7 +2,7 @@
 Mesh Volume Computation Helpers
 ===============================
 
-Defines the helpers objects related to volume computations.
+Define the helpers objects related to volume computations.
 """
 
 from __future__ import annotations

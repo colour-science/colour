@@ -2,7 +2,7 @@
 Geometry Primitive Vertices
 ===========================
 
-Defines various geometry primitive vertices generation methods:
+Define various geometry primitive vertices generation methods:
 
 -   :func:`colour.geometry.primitive_vertices_quad_mpl`
 -   :func:`colour.geometry.primitive_vertices_grid_mpl`

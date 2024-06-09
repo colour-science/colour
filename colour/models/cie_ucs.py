@@ -2,7 +2,7 @@
 CIE 1960 UCS Colourspace
 ========================
 
-Defines the *CIE 1960 UCS* colourspace transformations:
+Define the *CIE 1960 UCS* colourspace transformations:
 
 -   :func:`colour.XYZ_to_UCS`
 -   :func:`colour.UCS_to_XYZ`

@@ -2,7 +2,7 @@
 Plotting - Pytest Configuration
 ===============================
 
-Configures *pytest* to use the *Matplotlib* *AGG* headless backend. This allows
+Configure *pytest* to use the *Matplotlib* *AGG* headless backend. This allows
 the plotting unittests to run without creating windows in IDEs such as
 *VSCode*.
 """

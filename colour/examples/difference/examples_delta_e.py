@@ -1,4 +1,4 @@
-"""Showcases *Delta E* colour difference computations."""
+"""Showcase *Delta E* colour difference computations."""
 
 import numpy as np
 

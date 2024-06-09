@@ -2,7 +2,7 @@
 DIN99 Colourspace and DIN99b, DIN99c, DIN99d Refined Formulas
 =============================================================
 
-Defines the *DIN99* colourspace and *DIN99b*, *DIN99c*, *DIN99d* refined
+Define the *DIN99* colourspace and *DIN99b*, *DIN99c*, *DIN99d* refined
 formulas transformations:
 
 -   :func:`colour.Lab_to_DIN99`

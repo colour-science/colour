@@ -2,7 +2,7 @@
 Spectral Bandpass Dependence Correction
 =======================================
 
-Defines the objects to perform spectral bandpass dependence correction.
+Define the objects to perform spectral bandpass dependence correction.
 
 The following correction methods are available:
 

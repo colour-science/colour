@@ -1,4 +1,4 @@
-"""Showcases colour models plotting examples."""
+"""Showcase colour models plotting examples."""
 
 from pprint import pprint
 

@@ -2,7 +2,7 @@
 Resolve .cube LUT Format Input / Output Utilities
 =================================================
 
-Defines the *Resolve* *.cube* *LUT* format related input / output utilities
+Define the *Resolve* *.cube* *LUT* format related input / output utilities
 objects:
 
 -   :func:`colour.io.read_LUT_ResolveCube`

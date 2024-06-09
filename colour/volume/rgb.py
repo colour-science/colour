@@ -2,7 +2,7 @@
 RGB Colourspace Volume Computation
 ==================================
 
-Defines various RGB colourspace volume computation objects:
+Define various RGB colourspace volume computation objects:
 
 -   :func:`colour.RGB_colourspace_limits`
 -   :func:`colour.RGB_colourspace_volume_MonteCarlo`

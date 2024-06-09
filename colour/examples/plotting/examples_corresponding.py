@@ -1,4 +1,4 @@
-"""Showcases corresponding chromaticities prediction plotting examples."""
+"""Showcase corresponding chromaticities prediction plotting examples."""
 
 from colour.plotting import (
     colour_style,

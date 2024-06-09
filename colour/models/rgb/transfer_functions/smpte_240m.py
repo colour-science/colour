@@ -2,7 +2,7 @@
 SMPTE 240M
 ==========
 
-Defines the *SMPTE 240M* opto-electrical transfer function (OETF) and
+Define the *SMPTE 240M* opto-electrical transfer function (OETF) and
 electro-optical transfer function (EOTF):
 
 -   :func:`colour.models.oetf_SMPTE240M`

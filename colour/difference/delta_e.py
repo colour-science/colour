@@ -2,7 +2,7 @@
 :math:`\\Delta E^*_{ab}` - Delta E Colour Difference
 ====================================================
 
-Defines the :math:`\\Delta E^*_{ab}` colour difference computation objects:
+Define the :math:`\\Delta E^*_{ab}` colour difference computation objects:
 
 The following attributes and methods are available:
 

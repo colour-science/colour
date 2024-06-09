@@ -1,4 +1,4 @@
-"""Showcases *CIE XYZ* tristimulus values computations."""
+"""Showcase *CIE XYZ* tristimulus values computations."""
 
 import numpy as np
 

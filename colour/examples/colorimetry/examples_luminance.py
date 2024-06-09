@@ -1,4 +1,4 @@
-"""Showcases *Luminance* computations."""
+"""Showcase *Luminance* computations."""
 
 import colour
 from colour.utilities import message_box

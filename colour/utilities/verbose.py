@@ -2,7 +2,7 @@
 Verbose
 =======
 
-Defines the verbose related objects.
+Define the verbose related objects.
 """
 
 from __future__ import annotations

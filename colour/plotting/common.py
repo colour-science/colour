@@ -2,7 +2,7 @@
 Common Plotting
 ===============
 
-Defines the common plotting objects:
+Define the common plotting objects:
 
 -   :func:`colour.plotting.colour_style`
 -   :func:`colour.plotting.override_style`

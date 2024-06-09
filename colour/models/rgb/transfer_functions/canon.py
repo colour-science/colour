@@ -2,7 +2,7 @@
 Canon Log Encodings
 ===================
 
-Defines the *Canon Log* encodings:
+Define the *Canon Log* encodings:
 
 -   :attr:`colour.models.CANON_LOG_ENCODING_METHODS`
 -   :func:`colour.models.log_encoding_CanonLog`

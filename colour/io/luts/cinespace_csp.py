@@ -2,7 +2,7 @@
 Cinespace .csp LUT Format Input / Output Utilities
 ==================================================
 
-Defines the *Cinespace* *.csp* *LUT* format related input / output utilities
+Define the *Cinespace* *.csp* *LUT* format related input / output utilities
 objects:
 
 -   :func:`colour.io.read_LUT_Cinespace`

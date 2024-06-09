@@ -2,7 +2,7 @@
 Rayleigh Optical Depth - Scattering in the Atmosphere
 =====================================================
 
-Implements *Rayleigh* scattering / optical depth in the atmosphere computation:
+Implement *Rayleigh* scattering / optical depth in the atmosphere computation:
 
 -   :func:`colour.scattering_cross_section`
 -   :func:`colour.phenomena.rayleigh_optical_depth`

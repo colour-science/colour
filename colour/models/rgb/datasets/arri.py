@@ -2,7 +2,7 @@
 ARRI Colourspaces
 =================
 
-Defines the *ARRI* colourspaces:
+Define the *ARRI* colourspaces:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_ARRI_WIDE_GAMUT_3`.
 -   :attr:`colour.models.RGB_COLOURSPACE_ARRI_WIDE_GAMUT_4`.

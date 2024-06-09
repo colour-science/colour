@@ -2,7 +2,7 @@
 Multi Signals
 =============
 
-Defines the class implementing support for multi-continuous signals:
+Define the class implementing support for multi-continuous signals:
 
 -   :class:`colour.continuous.MultiSignals`
 """

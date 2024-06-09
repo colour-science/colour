@@ -2,7 +2,7 @@
 Signal
 ======
 
-Defines the class implementing support for continuous signal:
+Define the class implementing support for continuous signal:
 
 -   :class:`colour.continuous.Signal`
 """

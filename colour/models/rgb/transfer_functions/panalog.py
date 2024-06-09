@@ -2,7 +2,7 @@
 Panalog Encoding
 ================
 
-Defines the *Panalog* encoding:
+Define the *Panalog* encoding:
 
 -   :func:`colour.models.log_encoding_Panalog`
 -   :func:`colour.models.log_decoding_Panalog`

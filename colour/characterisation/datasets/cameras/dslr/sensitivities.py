@@ -2,7 +2,7 @@
 Sensitivities of *DSLR* Cameras
 ===============================
 
-Defines the sensitivities of *DSLR* cameras.
+Define the sensitivities of *DSLR* cameras.
 
 Each *DSLR* camera data is in the form of a *dict* of
 :class:`colour.characterisation.RGB_CameraSensitivities` classes as follows::

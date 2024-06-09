@@ -2,7 +2,7 @@
 Recommendation ITU-T H.273 Code points for Video Signal Type Identification
 ===========================================================================
 
-Defines a set of standard video signal colour primaries, transfer functions and
+Define a set of standard video signal colour primaries, transfer functions and
 matrix coefficients used in deriving luma and chroma signals along with
 related definitions:
 

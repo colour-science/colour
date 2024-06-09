@@ -2,7 +2,7 @@
 Simulation of CVD - Machado, Oliveira and Fernandes (2009)
 ==========================================================
 
-Defines the *Machado et al. (2009)* objects for simulation of colour vision
+Define the *Machado et al. (2009)* objects for simulation of colour vision
 deficiency:
 
 -   :func:`colour.msds_cmfs_anomalous_trichromacy_Machado2009`

@@ -2,7 +2,7 @@
 ANSI/IES TM-30-18 Colour Rendition Report
 =========================================
 
-Defines the *ANSI/IES TM-30-18 Colour Rendition Report* plotting objects:
+Define the *ANSI/IES TM-30-18 Colour Rendition Report* plotting objects:
 
 -   :func:`colour.plotting.tm3018.plot_single_sd_colour_rendition_report_full`
 -   :func:`colour.plotting.

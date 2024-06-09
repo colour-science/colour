@@ -2,7 +2,7 @@
 FilmLight T-Log Log Encoding
 ============================
 
-Defines the *FilmLight T-Log* log encoding:
+Define the *FilmLight T-Log* log encoding:
 
 -   :func:`colour.models.log_encoding_FilmLightTLog`
 -   :func:`colour.models.log_decoding_FilmLightTLog`

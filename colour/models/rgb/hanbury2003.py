@@ -2,7 +2,7 @@
 IHLS Colour Encoding
 ====================
 
-Defines the :math:`IHLS` (Improved HLS) colourspace related transformations:
+Define the :math:`IHLS` (Improved HLS) colourspace related transformations:
 
 -   :func:`colour.RGB_to_IHLS`
 -   :func:`colour.IHLS_to_RGB`

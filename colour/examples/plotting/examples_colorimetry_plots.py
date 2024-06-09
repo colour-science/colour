@@ -1,4 +1,4 @@
-"""Showcases colorimetry plotting examples."""
+"""Showcase colorimetry plotting examples."""
 
 from pprint import pprint
 

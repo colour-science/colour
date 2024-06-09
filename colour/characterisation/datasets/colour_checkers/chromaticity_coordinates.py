@@ -2,7 +2,7 @@
 Chromaticity Coordinates of the Colour Checkers
 ===============================================
 
-Defines the chromaticity coordinates of the colour checkers.
+Define the chromaticity coordinates of the colour checkers.
 
 Each colour checker data is in the form of an :class:`dict` class instance of
 24 samples as follows::

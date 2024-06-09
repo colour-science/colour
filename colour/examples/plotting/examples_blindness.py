@@ -1,4 +1,4 @@
-"""Showcases corresponding colour blindness plotting examples."""
+"""Showcase corresponding colour blindness plotting examples."""
 
 import os
 

@@ -1,4 +1,4 @@
-"""Showcases blackbody / planckian radiator computations."""
+"""Showcase blackbody / planckian radiator computations."""
 
 import colour
 from colour.utilities import message_box

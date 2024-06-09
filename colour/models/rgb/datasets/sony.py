@@ -2,7 +2,7 @@
 Sony Colourspaces
 =================
 
-Defines the *Sony* colourspaces:
+Define the *Sony* colourspaces:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_S_GAMUT`.
 -   :attr:`colour.models.RGB_COLOURSPACE_S_GAMUT3`.

@@ -2,7 +2,7 @@
 EBU Tech. 3213-E Colourspace
 ============================
 
-Defines the *EBU Tech. 3213-E* colourspace:
+Define the *EBU Tech. 3213-E* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_EBU_3213_E`.
 

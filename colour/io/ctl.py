@@ -2,7 +2,7 @@
 CTL Processing
 ==============
 
-Defines the object for the *Color Transformation Language* (CTL) processing:
+Define the object for the *Color Transformation Language* (CTL) processing:
 
 -   :func:`colour.io.ctl_render`
 -   :func:`colour.io.process_image_ctl`

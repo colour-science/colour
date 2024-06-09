@@ -2,7 +2,7 @@
 Nikon N-Log Log Encoding
 ========================
 
-Defines the *Nikon N-Log* log encoding:
+Define the *Nikon N-Log* log encoding:
 
 -   :func:`colour.models.log_encoding_NLog`
 -   :func:`colour.models.log_decoding_NLog`

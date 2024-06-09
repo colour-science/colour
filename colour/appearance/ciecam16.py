@@ -2,7 +2,7 @@
 CIECAM16 Colour Appearance Model
 ================================
 
-Defines the *CIECAM16* colour appearance model objects:
+Define the *CIECAM16* colour appearance model objects:
 
 -   :class:`colour.appearance.InductionFactors_CIECAM16`
 -   :attr:`colour.VIEWING_CONDITIONS_CIECAM16`

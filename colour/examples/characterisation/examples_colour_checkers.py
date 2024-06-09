@@ -1,4 +1,4 @@
-"""Showcases colour rendition charts computations."""
+"""Showcase colour rendition charts computations."""
 
 from pprint import pprint
 

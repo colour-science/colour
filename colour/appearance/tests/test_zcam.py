@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the :mod:`colour.appearance.zcam` module.
+Define the unit tests for the :mod:`colour.appearance.zcam` module.
 """
 
 from itertools import permutations

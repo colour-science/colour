@@ -2,7 +2,7 @@
 Common Utilities
 ================
 
-Defines the common algebra utilities objects that don't fall in any specific
+Define the common algebra utilities objects that don't fall in any specific
 category.
 """
 

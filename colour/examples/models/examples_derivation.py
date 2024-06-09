@@ -1,4 +1,4 @@
-"""Showcases *RGB* colourspace derivation."""
+"""Showcase *RGB* colourspace derivation."""
 
 import numpy as np
 

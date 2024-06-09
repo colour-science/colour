@@ -2,7 +2,7 @@
 DCI-P3 & DCI-P3+ Colourspaces
 =============================
 
-Defines the *DCI-P3* and *DCI-P3+* colourspaces:
+Define the *DCI-P3* and *DCI-P3+* colourspaces:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_DCI_P3`.
 -   :attr:`colour.models.RGB_COLOURSPACE_DCI_P3_P`.

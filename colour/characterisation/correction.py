@@ -2,7 +2,7 @@
 Colour Correction
 =================
 
-Defines various objects for colour correction, like colour matching two images:
+Define various objects for colour correction, like colour matching two images:
 
 -   :func:`colour.characterisation.matrix_augmented_Cheung2004` : Polynomial
     expansion using *Cheung, Westland, Connah and Ripamonti (2004)* method.

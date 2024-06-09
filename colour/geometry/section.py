@@ -2,7 +2,7 @@
 Geometry / Hull Section
 =======================
 
-Defines various objects to compute hull sections:
+Define various objects to compute hull sections:
 
 -   :func:`colour.geometry.hull_section`
 """

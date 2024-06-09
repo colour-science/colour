@@ -2,7 +2,7 @@
 Max RGB Colourspace
 ===================
 
-Defines the *Max RGB* colourspace:
+Define the *Max RGB* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_MAX_RGB`.
 

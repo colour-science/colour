@@ -2,7 +2,7 @@
 Standardized Residual Sum of Squares (STRESS) Index
 ===================================================
 
-Defines the *Kruskal's Standardized Residual Sum of Squares (:math:`STRESS`)*
+Define the *Kruskal's Standardized Residual Sum of Squares (:math:`STRESS`)*
 index:
 
 -   :func:`colour.index_stress_Garcia2007`: :math:`STRESS` index computation

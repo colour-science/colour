@@ -2,7 +2,7 @@
 RGB Colourspace and Transformations
 ===================================
 
-Defines the :class:`colour.RGB_Colourspace` class for the *RGB* colourspaces
+Define the :class:`colour.RGB_Colourspace` class for the *RGB* colourspaces
 datasets from :mod:`colour.models.datasets.aces_rgb`, etc... and the following
 *RGB* colourspace transformations or helper definitions:
 

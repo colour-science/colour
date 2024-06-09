@@ -2,7 +2,7 @@
 CSV Tabular Data Input / Output
 ===============================
 
-Defines various input / output objects for *CSV* tabular data files:
+Define various input / output objects for *CSV* tabular data files:
 
 -   :func:`colour.read_spectral_data_from_csv_file`
 -   :func:`colour.read_sds_from_csv_file`

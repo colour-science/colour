@@ -1,4 +1,4 @@
-"""Showcases *RLAB* colour appearance model computations."""
+"""Showcase *RLAB* colour appearance model computations."""
 
 import numpy as np
 

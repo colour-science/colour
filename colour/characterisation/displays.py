@@ -2,7 +2,7 @@
 RGB Display Primaries
 =====================
 
-Defines the spectral distributions classes for the datasets from
+Define the spectral distributions classes for the datasets from
 the :mod:`colour.characterisation.datasets.displays` module:
 
 -   :class:`colour.characterisation.RGB_DisplayPrimaries`: Implements support

@@ -2,7 +2,7 @@
 Pivoted Log Encoding
 ====================
 
-Defines the *Pivoted Log* encoding:
+Define the *Pivoted Log* encoding:
 
 -   :func:`colour.models.log_encoding_PivotedLog`
 -   :func:`colour.models.log_decoding_PivotedLog`

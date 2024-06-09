@@ -1,4 +1,4 @@
-"""Showcases dominant wavelength and purity of a colour computations."""
+"""Showcase dominant wavelength and purity of a colour computations."""
 
 import numpy as np
 

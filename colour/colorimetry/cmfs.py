@@ -2,7 +2,7 @@
 Colour Matching Functions
 =========================
 
-Defines the colour matching functions classes for the datasets from
+Define the colour matching functions classes for the datasets from
 the :mod:`colour.colorimetry.datasets.cmfs` module:
 
 -   :class:`colour.colorimetry.LMS_ConeFundamentals`: Implements support for

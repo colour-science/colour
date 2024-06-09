@@ -2,7 +2,7 @@
 LUT Operator
 ============
 
-Defines the *LUT* operator classes:
+Define the *LUT* operator classes:
 
 -   :class:`colour.io.AbstractLUTSequenceOperator`
 -   :class:`colour.LUTOperatorMatrix`

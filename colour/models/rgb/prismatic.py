@@ -2,7 +2,7 @@
 Prismatic Colourspace
 =====================
 
-Defines the *Prismatic* colourspace transformations:
+Define the *Prismatic* colourspace transformations:
 
 -   :func:`colour.RGB_to_Prismatic`
 -   :func:`colour.Prismatic_to_RGB`

@@ -2,7 +2,7 @@
 Sony .spimtx LUT Format Input / Output Utilities
 ================================================
 
-Defines *Sony* *.spimtx* *LUT* format related input / output utilities objects.
+Define *Sony* *.spimtx* *LUT* format related input / output utilities objects.
 
 -   :func:`colour.io.read_LUT_SonySPImtx`
 -   :func:`colour.io.write_LUT_SonySPImtx`

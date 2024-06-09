@@ -2,7 +2,7 @@
 :math:`\\Delta E_{99}` DIN99 - Colour Difference Formula
 ========================================================
 
-Defines the :math:`\\Delta E_{99}` *DIN99* colour difference formula:
+Define the :math:`\\Delta E_{99}` *DIN99* colour difference formula:
 
 -   :func:`colour.difference.delta_E_DIN99`
 

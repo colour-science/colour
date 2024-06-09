@@ -2,7 +2,7 @@
 Canon Cinema Gamut Colourspace
 ==============================
 
-Defines the *Canon Cinema Gamut* colourspace:
+Define the *Canon Cinema Gamut* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_CINEMA_GAMUT`.
 

@@ -2,7 +2,7 @@
 Blackmagic Design Colourspaces
 ==============================
 
-Defines the *Blackmagic Design* *RGB* colourspaces:
+Define the *Blackmagic Design* *RGB* colourspaces:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_BLACKMAGIC_WIDE_GAMUT`.
 

@@ -2,7 +2,7 @@
 :math:`J_za_zb_z` Colourspace
 =============================
 
-Defines the :math:`J_za_zb_z` colourspace:
+Define the :math:`J_za_zb_z` colourspace:
 
 -   :func:`colour.models.IZAZBZ_METHODS`
 -   :func:`colour.models.XYZ_to_Izazbz`

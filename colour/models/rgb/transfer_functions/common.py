@@ -2,7 +2,7 @@
 Common Transfer Functions Utilities
 ===================================
 
-Defines various transfer functions common utilities.
+Define various transfer functions common utilities.
 """
 
 from __future__ import annotations

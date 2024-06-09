@@ -2,7 +2,7 @@
 Characterisation Plotting
 =========================
 
-Defines the characterisation plotting objects:
+Define the characterisation plotting objects:
 
 -   :func:`colour.plotting.plot_single_colour_checker`
 -   :func:`colour.plotting.plot_multi_colour_checkers`

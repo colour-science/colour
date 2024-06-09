@@ -1,4 +1,4 @@
-"""Showcases *Colour Rendering Index* (CRI) computations."""
+"""Showcase *Colour Rendering Index* (CRI) computations."""
 
 from pprint import pprint
 

@@ -2,7 +2,7 @@
 LUT Operator
 ============
 
-Defines the *LUT* sequence class:
+Define the *LUT* sequence class:
 
 -   :class:`colour.LUTSequence`
 """

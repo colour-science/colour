@@ -2,7 +2,7 @@
 Optical Society of America Uniform Colour Scales (OSA UCS)
 ==========================================================
 
-Defines the *OSA UCS* colourspace:
+Define the *OSA UCS* colourspace:
 
 -   :func:`colour.XYZ_to_OSA_UCS`
 -   :func:`colour.OSA_UCS_to_XYZ`

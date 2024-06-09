@@ -2,7 +2,7 @@
 CMYK Colour Transformations
 ===========================
 
-Defines various Cyan-Magenta-Yellow (Black) (CMY(K)) colour transformations:
+Define various Cyan-Magenta-Yellow (Black) (CMY(K)) colour transformations:
 
 -   :func:`colour.RGB_to_CMY`
 -   :func:`colour.CMY_to_RGB`

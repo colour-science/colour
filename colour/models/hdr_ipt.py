@@ -2,7 +2,7 @@
 Hdr-IPT Colourspace
 ===================
 
-Defines the *hdr-IPT* colourspace transformations:
+Define the *hdr-IPT* colourspace transformations:
 
 -   :attr:`colour.HDR_IPT_METHODS`: Supported *hdr-IPT* colourspace computation
     methods.

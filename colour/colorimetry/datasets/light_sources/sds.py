@@ -2,7 +2,7 @@
 Spectral Distributions of the Light Sources
 ===========================================
 
-Defines the spectral distributions of the light sources.
+Define the spectral distributions of the light sources.
 
 The light sources data is in the form of a *dict* of
 :class:`colour.SpectralDistribution` classes as follows::

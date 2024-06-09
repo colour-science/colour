@@ -2,7 +2,7 @@
 OpenColorIO Processing
 ======================
 
-Defines the object for *OpenColorIO* processing:
+Define the object for *OpenColorIO* processing:
 
 -   :func:`colour.io.process_image_OpenColorIO`
 """

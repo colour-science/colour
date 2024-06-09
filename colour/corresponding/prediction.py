@@ -2,7 +2,7 @@
 Corresponding Chromaticities Prediction
 =======================================
 
-Defines the objects to compute corresponding chromaticities prediction.
+Define the objects to compute corresponding chromaticities prediction.
 
 References
 ----------

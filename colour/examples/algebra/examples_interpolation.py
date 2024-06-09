@@ -1,4 +1,4 @@
-"""Showcases interpolation computations."""
+"""Showcase interpolation computations."""
 
 import os
 

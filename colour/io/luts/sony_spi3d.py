@@ -2,7 +2,7 @@
 Sony .spi3d LUT Format Input / Output Utilities
 ===============================================
 
-Defines the *Sony* *.spi3d* *LUT* format related input / output utilities
+Define the *Sony* *.spi3d* *LUT* format related input / output utilities
 objects:
 
 -   :func:`colour.io.read_LUT_SonySPI3D`

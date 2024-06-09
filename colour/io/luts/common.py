@@ -2,7 +2,7 @@
 LUT Processing Common Utilities
 ===============================
 
-Defines the *LUT* processing common utilities objects that don't fall in any
+Define the *LUT* processing common utilities objects that don't fall in any
 specific category.
 """
 

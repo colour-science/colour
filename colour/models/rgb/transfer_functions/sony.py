@@ -2,7 +2,7 @@
 Sony Encodings
 ==============
 
-Defines the *Sony* log encodings:
+Define the *Sony* log encodings:
 
 -   :func:`colour.models.log_encoding_SLog`
 -   :func:`colour.models.log_decoding_SLog`

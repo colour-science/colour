@@ -2,7 +2,7 @@
 GoPro Encoding
 ==============
 
-Defines the *GoPro* *Protune* encoding:
+Define the *GoPro* *Protune* encoding:
 
 -   :func:`colour.models.log_encoding_Protune`
 -   :func:`colour.models.log_decoding_Protune`

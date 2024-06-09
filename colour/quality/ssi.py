@@ -2,7 +2,7 @@
 Academy Spectral Similarity Index (SSI)
 =======================================
 
-Defines the *Academy Spectral Similarity Index* (SSI) computation objects:
+Define the *Academy Spectral Similarity Index* (SSI) computation objects:
 
 -   :func:`colour.spectral_similarity_index`
 

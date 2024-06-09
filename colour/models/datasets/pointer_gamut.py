@@ -2,7 +2,7 @@
 Pointer's Gamut
 ===============
 
-Defines the *Pointer's Gamut* data.
+Define the *Pointer's Gamut* data.
 
 References
 ----------

@@ -2,7 +2,7 @@
 Academy Color Encoding System - Log Encodings
 =============================================
 
-Defines the *Academy Color Encoding System* (ACES) log encodings:
+Define the *Academy Color Encoding System* (ACES) log encodings:
 
 -   :func:`colour.models.log_encoding_ACESproxy`
 -   :func:`colour.models.log_decoding_ACESproxy`

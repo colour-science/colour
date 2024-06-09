@@ -1,4 +1,4 @@
-"""Showcases *Colour Quality Scale* (CQS) computations."""
+"""Showcase *Colour Quality Scale* (CQS) computations."""
 
 from pprint import pprint
 

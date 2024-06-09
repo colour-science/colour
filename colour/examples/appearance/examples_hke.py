@@ -1,4 +1,4 @@
-"""Showcases Helmholtz—Kohlrausch effect estimation computations."""
+"""Showcase Helmholtz—Kohlrausch effect estimation computations."""
 
 import colour
 from colour.plotting import colour_style, plot_multi_colour_swatches

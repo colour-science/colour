@@ -2,7 +2,7 @@
 Basic and Monitor-Curve Exponent Transfer Functions
 ===================================================
 
-Defines the exponent transfer functions:
+Define the exponent transfer functions:
 
 -   :func:`colour.models.exponent_function_basic`
 -   :func:`colour.models.exponent_function_monitor_curve`

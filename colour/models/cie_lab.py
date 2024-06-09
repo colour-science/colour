@@ -2,7 +2,7 @@
 CIE L*a*b* Colourspace
 ======================
 
-Defines the *CIE L\\*a\\*b\\** colourspace transformations:
+Define the *CIE L\\*a\\*b\\** colourspace transformations:
 
 -   :func:`colour.XYZ_to_Lab`
 -   :func:`colour.Lab_to_XYZ`

@@ -2,7 +2,7 @@
 CIE XYZ Tristimulus Values of the Hunter L,a,b Illuminants
 ==========================================================
 
-Defines the *CIE XYZ* tristimulus values of the *Hunter L,a,b* illuminants
+Define the *CIE XYZ* tristimulus values of the *Hunter L,a,b* illuminants
 dataset for the *CIE 1931 2 Degree Standard Observer* and
 *CIE 1964 10 Degree Standard Observer*.
 

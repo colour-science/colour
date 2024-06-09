@@ -2,7 +2,7 @@
 DJI D-Log Log Encoding
 ======================
 
-Defines the *DJI D-Log* log encoding:
+Define the *DJI D-Log* log encoding:
 
 -   :func:`colour.models.log_encoding_DJIDLog`
 -   :func:`colour.models.log_decoding_DJIDLog`

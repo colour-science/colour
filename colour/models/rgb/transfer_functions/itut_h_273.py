@@ -2,7 +2,7 @@
 Recommendation ITU-T H.273 Transfer Characteristics
 ===================================================
 
-Defines the *Recommendation ITU-T H.273* transfer functions that do not belong
+Define the *Recommendation ITU-T H.273* transfer functions that do not belong
 in another specification or standard, or have been modified for inclusion:
 
 -   :func:`colour.models.oetf_H273_Log`

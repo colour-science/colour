@@ -2,7 +2,7 @@
 Kim, Weyrich and Kautz (2009) Colour Appearance Model
 =====================================================
 
-Defines the *Kim, Weyrich and Kautz (2009)* colour appearance model objects:
+Define the *Kim, Weyrich and Kautz (2009)* colour appearance model objects:
 
 -   :class:`colour.appearance.InductionFactors_Kim2009`
 -   :attr:`colour.VIEWING_CONDITIONS_KIM2009`

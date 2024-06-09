@@ -2,7 +2,7 @@
 Colour Models Plotting
 ======================
 
-Defines the colour models plotting objects:
+Define the colour models plotting objects:
 
 -   :func:`colour.plotting.lines_pointer_gamut`
 -   :func:`colour.plotting.\

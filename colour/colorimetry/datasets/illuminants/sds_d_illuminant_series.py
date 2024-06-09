@@ -2,7 +2,7 @@
 CIE Illuminant D Series :math:`S_n(\\lambda)` Distributions
 ===========================================================
 
-Defines the *CIE Illuminant D Series* :math:`S_n(\\lambda)` distributions
+Define the *CIE Illuminant D Series* :math:`S_n(\\lambda)` distributions
 involved in the computation of *CIE Illuminant D Series* spectral
 distributions.
 

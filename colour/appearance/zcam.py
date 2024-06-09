@@ -2,7 +2,7 @@
 ZCAM Colour Appearance Model
 ============================
 
-Defines the *ZCAM* colour appearance model objects:
+Define the *ZCAM* colour appearance model objects:
 
 -   :class:`colour.appearance.InductionFactors_ZCAM`
 -   :attr:`colour.VIEWING_CONDITIONS_ZCAM`

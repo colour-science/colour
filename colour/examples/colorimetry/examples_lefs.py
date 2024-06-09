@@ -1,4 +1,4 @@
-"""Showcases luminous efficiency functions computations."""
+"""Showcase luminous efficiency functions computations."""
 
 from pprint import pprint
 

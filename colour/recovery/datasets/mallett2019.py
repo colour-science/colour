@@ -2,7 +2,7 @@
 Mallett and Yuksel (2019) - Reflectance Recovery
 ================================================
 
-Defines the datasets for reflectance recovery using *Mallett and Yuksel
+Define the datasets for reflectance recovery using *Mallett and Yuksel
 (2019)* method.
 
 References

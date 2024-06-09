@@ -2,7 +2,7 @@
 Colour Temperature & Correlated Colour Temperature Plotting
 ===========================================================
 
-Defines the colour temperature and correlated colour temperature plotting
+Define the colour temperature and correlated colour temperature plotting
 objects:
 
 -   :func:`colour.plotting.lines_daylight_locus`

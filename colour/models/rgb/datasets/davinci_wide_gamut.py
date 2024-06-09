@@ -2,7 +2,7 @@
 DaVinci Wide Gamut Colourspace
 ==============================
 
-Defines the *DaVinci Wide Gamut* *RGB* colourspace:
+Define the *DaVinci Wide Gamut* *RGB* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_DAVINCI_WIDE_GAMUT`.
 

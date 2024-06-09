@@ -1,4 +1,4 @@
-"""Showcases *CMCCAT2000* chromatic adaptation model computations."""
+"""Showcase *CMCCAT2000* chromatic adaptation model computations."""
 
 import numpy as np
 

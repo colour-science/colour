@@ -2,7 +2,7 @@
 Abstract Continuous Function
 ============================
 
-Defines the abstract class implementing support for abstract continuous
+Define the abstract class implementing support for abstract continuous
 function:
 
 -   :class:`colour.continuous.AbstractContinuousFunction`.

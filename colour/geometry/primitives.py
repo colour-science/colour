@@ -2,7 +2,7 @@
 Geometry Primitives
 ===================
 
-Defines various geometry primitives and their generation methods:
+Define various geometry primitives and their generation methods:
 
 -   :attr:`colour.geometry.MAPPING_PLANE_TO_AXIS`
 -   :func:`colour.geometry.primitive_grid`

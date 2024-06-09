@@ -2,7 +2,7 @@
 LUT Processing
 ==============
 
-Defines the classes and definitions handling *LUT* processing:
+Define the classes and definitions handling *LUT* processing:
 
 -   :class:`colour.LUT1D`
 -   :class:`colour.LUT3x1D`

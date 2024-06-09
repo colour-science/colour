@@ -2,7 +2,7 @@
 Common RGB Colour Models Utilities
 ==================================
 
-Defines various RGB colour models common utilities.
+Define various RGB colour models common utilities.
 """
 
 from __future__ import annotations

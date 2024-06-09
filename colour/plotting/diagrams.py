@@ -2,7 +2,7 @@
 CIE Chromaticity Diagrams Plotting
 ==================================
 
-Defines the *CIE* chromaticity diagrams plotting objects:
+Define the *CIE* chromaticity diagrams plotting objects:
 
 -   :func:`colour.plotting.lines_spectral_locus`
 -   :func:`colour.plotting.plot_chromaticity_diagram_CIE1931`
