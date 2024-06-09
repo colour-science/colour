@@ -2,7 +2,7 @@
 Common Colour Models Utilities
 ==============================
 
-Defines various colour models common utilities:
+Define various colour models common utilities:
 
 -   :attr:`colour.COLOURSPACE_MODELS`
 -   :func:`colour.models.Jab_to_JCh`

@@ -2,7 +2,7 @@
 Colour Quality Plotting
 =======================
 
-Defines the colour quality plotting objects:
+Define the colour quality plotting objects:
 
 -   :func:`colour.plotting.plot_single_sd_colour_rendering_index_bars`
 -   :func:`colour.plotting.plot_multi_sds_colour_rendering_indexes_bars`

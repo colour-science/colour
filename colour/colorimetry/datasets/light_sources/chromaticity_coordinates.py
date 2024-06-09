@@ -2,7 +2,7 @@
 Chromaticity Coordinates of the Light Sources
 =============================================
 
-Defines the chromaticity coordinates of the light sources.
+Define the chromaticity coordinates of the light sources.
 
 The following light sources are available:
 

@@ -2,7 +2,7 @@
 Blackbody - Planckian Radiator
 ==============================
 
-Defines the objects to compute the spectral radiance of a planckian radiator
+Define the objects to compute the spectral radiance of a planckian radiator
 and its spectral distribution.
 
 References

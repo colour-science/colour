@@ -2,7 +2,7 @@
 ASTM G-173 Solar Spectral Irradiance
 ====================================
 
-Defines the solar spectral irradiance spectral distribution used in various
+Define the solar spectral irradiance spectral distribution used in various
 plotting objects.
 
 References

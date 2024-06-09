@@ -2,7 +2,7 @@
 Coordinates System Transformations
 ==================================
 
-Defines the objects to apply transformations on coordinates systems.
+Define the objects to apply transformations on coordinates systems.
 
 The following transformations are available:
 

@@ -2,7 +2,7 @@
 Rösch-MacAdam colour solid - Visible Spectrum Volume Computations
 =================================================================
 
-Defines the objects related to *Rösch-MacAdam* colour solid, visible spectrum
+Define the objects related to *Rösch-MacAdam* colour solid, visible spectrum
 volume computations.
 
 References

@@ -1,4 +1,4 @@
-"""Showcases corresponding chromaticities prediction computations."""
+"""Showcase corresponding chromaticities prediction computations."""
 
 from pprint import pprint
 

@@ -2,7 +2,7 @@
 ANSI/IES TM-30-18 Colour Fidelity Index
 =======================================
 
-Defines the *ANSI/IES TM-30-18 Colour Fidelity Index* (CFI) computation
+Define the *ANSI/IES TM-30-18 Colour Fidelity Index* (CFI) computation
 objects:
 
 - :class:`colour.quality.ColourQuality_Specification_ANSIIESTM3018`

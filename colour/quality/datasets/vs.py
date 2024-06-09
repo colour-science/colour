@@ -2,7 +2,7 @@
 NIST CQS Test Colour Samples Spectral Distributions
 ===================================================
 
-Defines the *NIST CQS (Color Quality Scale)* test colour samples spectral
+Define the *NIST CQS (Color Quality Scale)* test colour samples spectral
 distributions.
 
 The *NIST CQS* test colour samples data is in the form of a *dict* of

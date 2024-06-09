@@ -2,7 +2,7 @@
 Munsell Renotation System
 =========================
 
-Defines various objects for *Munsell Renotation System* computations:
+Define various objects for *Munsell Renotation System* computations:
 
 -   :func:`colour.notation.munsell_value_Priest1920`: *Munsell* value :math:`V`
     computation of given *luminance* :math:`Y` using

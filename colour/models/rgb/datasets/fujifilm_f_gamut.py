@@ -2,7 +2,7 @@
 Fujifilm F-Gamut Colourspace
 ============================
 
-Defines the *Fujifilm F-Gamut* colourspace:
+Define the *Fujifilm F-Gamut* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_F_GAMUT`.
 

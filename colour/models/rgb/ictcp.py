@@ -2,7 +2,7 @@
 :math:`IC_TC_P` Colour Encoding
 ===============================
 
-Defines the :math:`IC_TC_P` colour encoding related transformations:
+Define the :math:`IC_TC_P` colour encoding related transformations:
 
 -   :func:`colour.RGB_to_ICtCp`
 -   :func:`colour.ICtCp_to_RGB`

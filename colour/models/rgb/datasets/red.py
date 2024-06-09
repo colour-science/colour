@@ -2,7 +2,7 @@
 RED Colourspaces
 ================
 
-Defines the *RED* colourspaces:
+Define the *RED* colourspaces:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_RED_COLOR`
 -   :attr:`colour.models.RGB_COLOURSPACE_RED_COLOR_2`

@@ -2,7 +2,7 @@
 IES TM-27-14 Data Input / Output
 ================================
 
-Defines the :class:`colour.SpectralDistribution_IESTM2714` class handling *IES
+Define the :class:`colour.SpectralDistribution_IESTM2714` class handling *IES
 TM-27-14* spectral data *XML* files.
 
 References

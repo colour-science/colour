@@ -2,7 +2,7 @@
 Michaelis-Menten Kinetics
 =========================
 
-Implements support for *Michaelis-Menten* kinetics, a model of enzyme kinetics:
+Implement support for *Michaelis-Menten* kinetics, a model of enzyme kinetics:
 
 -   :func:`colour.biochemistry.reaction_rate_MichaelisMenten_Michaelis1913`
 -   :func:`colour.biochemistry.reaction_rate_MichaelisMenten_Abebe2017`

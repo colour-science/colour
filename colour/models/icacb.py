@@ -2,7 +2,7 @@
 :math:`IC_AC_B` Colourspace
 ===========================
 
-Defines the :math:`IC_AC_B` colourspace transformations:
+Define the :math:`IC_AC_B` colourspace transformations:
 
 -   :func:`colour.XYZ_to_ICaCb`
 -   :func:`colour.ICaCb_to_XYZ`

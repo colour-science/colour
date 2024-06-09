@@ -1,4 +1,4 @@
-"""Showcases colour quality plotting examples."""
+"""Showcase colour quality plotting examples."""
 
 import colour
 from colour.plotting import (

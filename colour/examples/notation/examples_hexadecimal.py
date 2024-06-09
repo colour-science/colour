@@ -1,4 +1,4 @@
-"""Showcases hexadecimal computations."""
+"""Showcase hexadecimal computations."""
 
 import numpy as np
 

@@ -2,7 +2,7 @@
 Blackbody - Planck (1900) - Correlated Colour Temperature
 =========================================================
 
-Defines the *Planck (1900)* correlated colour temperature :math:`T_{cp}`
+Define the *Planck (1900)* correlated colour temperature :math:`T_{cp}`
 computations objects based on the spectral radiance of a planckian radiator:
 
 -   :func:`colour.temperature.uv_to_CCT_Planck1900`

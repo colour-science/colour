@@ -1,4 +1,4 @@
-"""Showcases *Photometry* computations."""
+"""Showcase *Photometry* computations."""
 
 import colour
 from colour.utilities import message_box

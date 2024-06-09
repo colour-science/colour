@@ -2,7 +2,7 @@
 Optimal Colour Stimuli - MacAdam Limits
 =======================================
 
-Defines the objects related to *Optimal Colour Stimuli* computations.
+Define the objects related to *Optimal Colour Stimuli* computations.
 """
 
 from __future__ import annotations

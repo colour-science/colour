@@ -2,7 +2,7 @@
 ProLab Colourspace
 ==================
 
-Defines the *ProLab* colourspace transformations:
+Define the *ProLab* colourspace transformations:
 
 -   :func:`colour.XYZ_to_ProLab`
 -   :func:`colour.ProLab_to_XYZ`

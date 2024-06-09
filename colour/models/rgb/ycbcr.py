@@ -2,7 +2,7 @@
 Y'CbCr Colour Encoding
 ======================
 
-Defines the *Y'CbCr* colour encoding related attributes and objects:
+Define the *Y'CbCr* colour encoding related attributes and objects:
 
 -   :attr:`colour.WEIGHTS_YCBCR`
 -   :func:`colour.matrix_YCbCr`

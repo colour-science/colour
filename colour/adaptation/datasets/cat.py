@@ -2,7 +2,7 @@
 Chromatic Adaptation Transforms
 ===============================
 
-Defines various chromatic adaptation transforms (CAT):
+Define various chromatic adaptation transforms (CAT):
 
 -   :attr:`colour.adaptation.CAT_XYZ_SCALING`: *XYZ Scaling* chromatic
     adaptation transform.

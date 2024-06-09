@@ -2,7 +2,7 @@
 Regression
 ==========
 
-Defines various objects to perform regression:
+Define various objects to perform regression:
 
 -   :func:`colour.algebra.least_square_mapping_MoorePenrose`: *Least-squares*
     mapping using *Moore-Penrose* inverse.

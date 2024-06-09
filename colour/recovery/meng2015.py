@@ -2,7 +2,7 @@
 Meng et al. (2015) - Reflectance Recovery
 =========================================
 
-Defines the objects for reflectance recovery using
+Define the objects for reflectance recovery using
 *Meng, Simon and Hanika (2015)* method:
 
 -   :func:`colour.recovery.XYZ_to_sd_Meng2015`

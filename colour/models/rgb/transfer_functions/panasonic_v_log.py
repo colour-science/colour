@@ -2,7 +2,7 @@
 Panasonic V-Log Log Encoding
 ============================
 
-Defines the *Panasonic V-Log* log encoding:
+Define the *Panasonic V-Log* log encoding:
 
 -   :func:`colour.models.log_encoding_VLog`
 -   :func:`colour.models.log_decoding_VLog`

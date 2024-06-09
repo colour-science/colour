@@ -2,7 +2,7 @@
 Intersection Utilities
 ======================
 
-Defines the geometry intersection utilities objects.
+Define the geometry intersection utilities objects.
 
 References
 ----------

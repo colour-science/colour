@@ -2,7 +2,7 @@
 Dominant Wavelength and Purity
 ==============================
 
-Defines the objects to compute the *dominant wavelength* and *purity* of a
+Define the objects to compute the *dominant wavelength* and *purity* of a
 colour and related quantities:
 
 -   :func:`colour.dominant_wavelength`

@@ -2,7 +2,7 @@
 SMPTE C Colourspace
 ===================
 
-Defines the *SMPTE C* colourspace:
+Define the *SMPTE C* colourspace:
 
 -   :attr:`RGB_COLOURSPACE_SMPTE_C`.
 

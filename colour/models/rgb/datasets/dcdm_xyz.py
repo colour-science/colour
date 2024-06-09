@@ -2,7 +2,7 @@
 Digital Cinema Distribution Master (DCDM) XYZ Colourspace
 =========================================================
 
-Defines the *DCDM XYZ* colourspace:
+Define the *DCDM XYZ* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_DCDM_XYZ`.
 

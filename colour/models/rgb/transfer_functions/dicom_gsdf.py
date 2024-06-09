@@ -2,7 +2,7 @@
 DICOM - Grayscale Standard Display Function
 ===========================================
 
-Defines the *DICOM - Grayscale Standard Display Function* electro-optical
+Define the *DICOM - Grayscale Standard Display Function* electro-optical
 transfer function (EOTF) and its inverse:
 
 -   :func:`colour.models.eotf_inverse_DICOMGSDF`

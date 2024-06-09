@@ -2,7 +2,7 @@
 RIMM, ROMM and ERIMM Encodings
 ==============================
 
-Defines the *RIMM, ROMM and ERIMM* encodings:
+Define the *RIMM, ROMM and ERIMM* encodings:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_ROMM_RGB`.
 -   :attr:`colour.models.RGB_COLOURSPACE_RIMM_RGB`.

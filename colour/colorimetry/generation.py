@@ -2,7 +2,7 @@
 Spectral Generation
 ===================
 
-Defines various objects performing spectral generation:
+Define various objects performing spectral generation:
 
 -   :func:`colour.sd_constant`
 -   :func:`colour.sd_zeros`

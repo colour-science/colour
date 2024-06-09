@@ -2,7 +2,7 @@
 Sharp RGB Colourspace
 =====================
 
-Defines the *Sharp RGB* colourspace:
+Define the *Sharp RGB* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_SHARP_RGB`
 

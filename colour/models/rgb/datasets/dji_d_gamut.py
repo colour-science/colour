@@ -2,7 +2,7 @@
 DJI D-Gamut Colourspace
 =======================
 
-Defines the *DJI D-Gamut* colourspace:
+Define the *DJI D-Gamut* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_DJI_D_GAMUT`.
 

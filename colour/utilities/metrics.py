@@ -2,7 +2,7 @@
 Metrics
 =======
 
-Defines various metrics:
+Define various metrics:
 
 -   :func:`colour.utilities.metric_mse`
 -   :func:`colour.utilities.metric_psnr`

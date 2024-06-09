@@ -2,7 +2,7 @@
 Panasonic V-Gamut Colourspace
 =============================
 
-Defines the *Panasonic V-Gamut* colourspace:
+Define the *Panasonic V-Gamut* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_V_GAMUT`.
 

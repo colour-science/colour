@@ -2,7 +2,7 @@
 Colour Matching Functions Transformations
 =========================================
 
-Defines various educational objects for colour matching functions
+Define various educational objects for colour matching functions
 transformations:
 
 -   :func:`colour.colorimetry.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs`

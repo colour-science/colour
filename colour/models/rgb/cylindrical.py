@@ -2,7 +2,7 @@
 Cylindrical & Spherical Colour Models
 =====================================
 
-Defines various cylindrical and spherical colour models:
+Define various cylindrical and spherical colour models:
 
 -   :func:`colour.RGB_to_HSV`
 -   :func:`colour.HSV_to_RGB`

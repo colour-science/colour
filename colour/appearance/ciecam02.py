@@ -2,7 +2,7 @@
 CIECAM02 Colour Appearance Model
 ================================
 
-Defines the *CIECAM02* colour appearance model objects:
+Define the *CIECAM02* colour appearance model objects:
 
 -   :class:`colour.appearance.InductionFactors_CIECAM02`
 -   :attr:`colour.VIEWING_CONDITIONS_CIECAM02`

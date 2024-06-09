@@ -2,7 +2,7 @@
 RIMM, ROMM and ERIMM Encodings
 ==============================
 
-Defines the *RIMM, ROMM and ERIMM* encodings opto-electrical transfer functions
+Define the *RIMM, ROMM and ERIMM* encodings opto-electrical transfer functions
 (OETF) and electro-optical transfer functions (EOTF):
 
 -   :func:`colour.models.cctf_encoding_ROMMRGB`

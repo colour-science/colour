@@ -2,7 +2,7 @@
 OpenEXR Layout for Spectral Images - Fichet, Pacanowski and Wilkie (2021)
 =========================================================================
 
-Defines the *Fichet et al. (2021)* spectral image input / output objects.
+Define the *Fichet et al. (2021)* spectral image input / output objects.
 
 References
 ----------

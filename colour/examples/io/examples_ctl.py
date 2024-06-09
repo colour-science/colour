@@ -1,4 +1,4 @@
-"""Showcases Color Transformation Language (CTL) related examples."""
+"""Showcase Color Transformation Language (CTL) related examples."""
 
 import os
 import tempfile

@@ -2,7 +2,7 @@
 Common Constants
 ================
 
-Defines the common constants objects that don't belong to any specific
+Define the common constants objects that don't belong to any specific
 category.
 """
 

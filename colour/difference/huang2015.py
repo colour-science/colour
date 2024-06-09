@@ -2,7 +2,7 @@
 Huang et al. (2015) Power-Functions
 ===================================
 
-Defines the *Huang, Cui, Melgosa, Sanchez-Maranon, Li, Luo and Liu (2015)*
+Define the *Huang, Cui, Melgosa, Sanchez-Maranon, Li, Luo and Liu (2015)*
 power-functions improving the performance of colour-difference formulas:
 
 -   :func:`colour.difference.power_function_Huang2015`

@@ -1,4 +1,4 @@
-"""Showcases *Fairchild (1990)* chromatic adaptation model computations."""
+"""Showcase *Fairchild (1990)* chromatic adaptation model computations."""
 
 import numpy as np
 

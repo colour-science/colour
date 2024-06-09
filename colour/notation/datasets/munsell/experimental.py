@@ -2,7 +2,7 @@
 Munsell Renotation System Dataset - 1929 Munsell Colours
 ========================================================
 
-Defines the *Munsell Renotation System* *1929* datasets. Those are the colours
+Define the *Munsell Renotation System* *1929* datasets. Those are the colours
 appearing in the 1929 *Munsell Book of Color*. These data has been used in the
 scaling experiments leading to the 1943 renotation.
 

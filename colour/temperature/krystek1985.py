@@ -2,7 +2,7 @@
 Krystek (1985) Correlated Colour Temperature
 ============================================
 
-Defines the *Krystek (1985)* correlated colour temperature :math:`T_{cp}`
+Define the *Krystek (1985)* correlated colour temperature :math:`T_{cp}`
 computations objects:
 
 -   :func:`colour.temperature.uv_to_CCT_Krystek1985`: Correlated colour

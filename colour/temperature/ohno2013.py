@@ -2,7 +2,7 @@
 Ohno (2013) Correlated Colour Temperature
 =========================================
 
-Defines the *Ohno (2013)* correlated colour temperature :math:`T_{cp}`
+Define the *Ohno (2013)* correlated colour temperature :math:`T_{cp}`
 computations objects:
 
 -   :func:`colour.temperature.uv_to_CCT_Ohno2013`: Correlated colour

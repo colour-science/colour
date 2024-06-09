@@ -2,7 +2,7 @@
 Hunter Rd,a,b Colour Scale
 ==========================
 
-Defines the *Hunter Rd,a,b* colour scale transformations:
+Define the *Hunter Rd,a,b* colour scale transformations:
 
 -   :func:`colour.XYZ_to_Hunter_Rdab`
 -   :func:`colour.Hunter_Rdab_to_XYZ`

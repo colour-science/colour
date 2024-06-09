@@ -2,7 +2,7 @@
 Kodak Cineon Encoding
 =====================
 
-Defines the *Kodak Cineon* encoding:
+Define the *Kodak Cineon* encoding:
 
 -   :func:`colour.models.log_encoding_Cineon`
 -   :func:`colour.models.log_decoding_Cineon`

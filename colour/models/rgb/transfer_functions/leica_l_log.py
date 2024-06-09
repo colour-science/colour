@@ -2,7 +2,7 @@
 Leica L-Log Log Encoding
 ========================
 
-Defines the *Leica L-Log* log encoding:
+Define the *Leica L-Log* log encoding:
 
 -   :func:`colour.models.log_encoding_LLog`
 -   :func:`colour.models.log_decoding_LLog`

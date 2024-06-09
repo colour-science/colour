@@ -1,4 +1,4 @@
-"""Showcases colour correction computations."""
+"""Showcase colour correction computations."""
 
 import numpy as np
 

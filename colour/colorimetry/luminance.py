@@ -2,7 +2,7 @@
 Luminance :math:`Y`
 ===================
 
-Defines the *luminance* :math:`Y` computation objects.
+Define the *luminance* :math:`Y` computation objects.
 
 The following methods are available:
 

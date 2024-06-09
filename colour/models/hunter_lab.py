@@ -2,7 +2,7 @@
 Hunter L,a,b Colour Scale
 =========================
 
-Defines the *Hunter L,a,b* colour scale transformations:
+Define the *Hunter L,a,b* colour scale transformations:
 
 -   :func:`colour.XYZ_to_K_ab_HunterLab1966`
 -   :func:`colour.XYZ_to_Hunter_Lab`

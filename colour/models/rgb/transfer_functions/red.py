@@ -2,7 +2,7 @@
 RED Log Encodings
 =================
 
-Defines the *RED* log encodings:
+Define the *RED* log encodings:
 
 -   :func:`colour.models.log_encoding_REDLog`
 -   :func:`colour.models.log_decoding_REDLog`

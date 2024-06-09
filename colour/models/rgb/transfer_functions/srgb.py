@@ -2,7 +2,7 @@
 SRGB
 ====
 
-Defines the *sRGB* electro-optical transfer function (EOTF) and its
+Define the *sRGB* electro-optical transfer function (EOTF) and its
 inverse:
 
 -   :func:`colour.models.eotf_inverse_sRGB`

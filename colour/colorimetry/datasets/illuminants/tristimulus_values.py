@@ -2,7 +2,7 @@
 CIE XYZ Tristimulus Values of Illuminants
 =========================================
 
-Defines the *CIE XYZ* tristimulus values of the illuminants for the
+Define the *CIE XYZ* tristimulus values of the illuminants for the
 *CIE 1931 2 Degree Standard Observer* and
 *CIE 1964 10 Degree Standard Observer*.
 

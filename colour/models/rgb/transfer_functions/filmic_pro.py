@@ -2,7 +2,7 @@
 FiLMiC Pro 6 Encoding
 =====================
 
-Defines the *FiLMiC Pro 6* encoding:
+Define the *FiLMiC Pro 6* encoding:
 
 -   :func:`colour.models.log_encoding_FilmicPro6`
 -   :func:`colour.models.log_decoding_FilmicPro6`

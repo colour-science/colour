@@ -2,7 +2,7 @@
 UPRTek and Sekonic Spectral Data
 ================================
 
-Defines the input and output objects for *UPRTek* and *Sekonic*
+Define the input and output objects for *UPRTek* and *Sekonic*
 *Pseudo-XLS*/*CSV* spectral data files.
 
 -   :class:`colour.SpectralDistribution_UPRTek`

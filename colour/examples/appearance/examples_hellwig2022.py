@@ -1,4 +1,4 @@
-"""Showcases *Hellwig and Fairchild (2022)* colour appearance model computations."""
+"""Showcase *Hellwig and Fairchild (2022)* colour appearance model computations."""
 
 import numpy as np
 

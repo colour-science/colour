@@ -2,7 +2,7 @@
 Mallett and Yuksel (2019) - Reflectance Recovery
 ================================================
 
-Defines the objects for reflectance recovery, i.e. spectral upsampling, using
+Define the objects for reflectance recovery, i.e. spectral upsampling, using
 *Mallett and Yuksel (2019)* method:
 
 -   :func:`colour.recovery.spectral_primary_decomposition_Mallett2019`

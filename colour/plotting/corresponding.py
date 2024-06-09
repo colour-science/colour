@@ -2,7 +2,7 @@
 Corresponding Chromaticities Prediction Plotting
 ================================================
 
-Defines the corresponding chromaticities prediction plotting objects:
+Define the corresponding chromaticities prediction plotting objects:
 
 -   :func:`colour.plotting.plot_corresponding_chromaticities_prediction`
 """

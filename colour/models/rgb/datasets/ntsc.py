@@ -2,7 +2,7 @@
 NTSC Colourspaces
 =================
 
-Defines the *NTSC* colourspaces:
+Define the *NTSC* colourspaces:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_NTSC1953`.
 -   :attr:`colour.models.RGB_COLOURSPACE_NTSC1987`.

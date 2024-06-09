@@ -1,4 +1,4 @@
-"""Showcases *Lightness* computations."""
+"""Showcase *Lightness* computations."""
 
 import numpy as np
 

@@ -2,7 +2,7 @@
 Spectral Distributions of the Illuminants
 =========================================
 
-Defines the spectral distributions of the illuminants.
+Define the spectral distributions of the illuminants.
 
 The illuminants data is in the form of a *dict* of
 :class:`colour.SpectralDistribution` classes as follows::

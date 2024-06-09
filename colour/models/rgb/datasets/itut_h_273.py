@@ -2,7 +2,7 @@
 Recommendation ITU-T H.273 Colour Primaries (and Colourspaces)
 ==============================================================
 
-Defines the *Recommendation ITU-T H.273* colourspaces that do not belong in
+Define the *Recommendation ITU-T H.273* colourspaces that do not belong in
 another specification or standard, or have been modified for inclusion:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_H273_GENERIC_FILM`.

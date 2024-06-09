@@ -2,7 +2,7 @@
 Annotation Type Hints
 =====================
 
-Defines the annotation type hints, the module exposes many aliases from
+Define the annotation type hints, the module exposes many aliases from
 :mod:`typing` and :mod:`numpy.typing` to avoid having to handle multiple
 imports.
 """

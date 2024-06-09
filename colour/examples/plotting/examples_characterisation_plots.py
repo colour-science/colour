@@ -1,4 +1,4 @@
-"""Showcases characterisation plotting examples."""
+"""Showcase characterisation plotting examples."""
 
 from pprint import pprint
 

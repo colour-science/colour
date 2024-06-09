@@ -2,7 +2,7 @@
 Spectral Uniformity
 ===================
 
-Defines the objects to compute the *spectral uniformity*
+Define the objects to compute the *spectral uniformity*
 (or *spectral flatness*) of spectral distributions.
 
 References

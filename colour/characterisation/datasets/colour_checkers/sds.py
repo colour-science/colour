@@ -2,7 +2,7 @@
 Spectral Distributions of the Colour Checkers
 =============================================
 
-Defines the spectral distributions of the colour checkers.
+Define the spectral distributions of the colour checkers.
 
 Each colour checker data is in the form of :class:`dict` class instance of
 :class:`colour.SpectralDistribution` classes as follows::

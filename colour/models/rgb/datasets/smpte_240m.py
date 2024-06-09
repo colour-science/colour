@@ -2,7 +2,7 @@
 SMPTE 240M Colourspace
 ======================
 
-Defines the *SMPTE 240M* colourspace:
+Define the *SMPTE 240M* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_SMPTE_240M`.
 

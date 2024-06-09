@@ -2,7 +2,7 @@
 Display P3 Colourspace
 ======================
 
-Defines the *Display P3* colourspace:
+Define the *Display P3* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_DISPLAY_P3`.
 

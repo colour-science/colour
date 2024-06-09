@@ -2,7 +2,7 @@
 ECI RGB v2 Colourspace
 ======================
 
-Defines the *ECI RGB v2* colourspace:
+Define the *ECI RGB v2* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_ECI_RGB_V2`.
 

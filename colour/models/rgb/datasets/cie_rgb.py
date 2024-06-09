@@ -2,7 +2,7 @@
 CIE RGB Colourspace
 ===================
 
-Defines the *CIE RGB* colourspace:
+Define the *CIE RGB* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_CIE_RGB`.
 

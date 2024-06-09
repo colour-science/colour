@@ -1,4 +1,4 @@
-"""Showcases colour matching functions computations."""
+"""Showcase colour matching functions computations."""
 
 from pprint import pprint
 

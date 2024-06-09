@@ -2,7 +2,7 @@
 Apple Log Profile Log Encoding
 ==============================
 
-Defines the *Apple Log Profile* log encoding:
+Define the *Apple Log Profile* log encoding:
 
 -   :func:`colour.models.log_encoding_AppleLogProfile`
 -   :func:`colour.models.log_decoding_AppleLogProfile`

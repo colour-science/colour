@@ -2,7 +2,7 @@
 Hellwig and Fairchild (2022) Colour Appearance Model
 ====================================================
 
-Defines the *Hellwig and Fairchild (2022)* colour appearance model objects:
+Define the *Hellwig and Fairchild (2022)* colour appearance model objects:
 
 -   :class:`colour.appearance.InductionFactors_Hellwig2022`
 -   :attr:`colour.VIEWING_CONDITIONS_HELLWIG2022`

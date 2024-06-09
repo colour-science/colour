@@ -1,4 +1,4 @@
-"""Showcases *ICtCp* *colour encoding* computations."""
+"""Showcase *ICtCp* *colour encoding* computations."""
 
 import numpy as np
 

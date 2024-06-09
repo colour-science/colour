@@ -2,7 +2,7 @@
 CSS Color Module Level 3 - Web Colours
 ======================================
 
-Defines the conversion of colour keywords to *RGB* colourspace:
+Define the conversion of colour keywords to *RGB* colourspace:
 
 -   :attr:`colour.notation.keyword_to_RGB_CSSColor3`
 

@@ -2,7 +2,7 @@
 Tristimulus Values, CIE xyY Colourspace and Chromaticity Coordinates
 ====================================================================
 
-Defines the *CIE xyY* colourspace transformations:
+Define the *CIE xyY* colourspace transformations:
 
 -   :func:`colour.XYZ_to_xyY`
 -   :func:`colour.xyY_to_XYZ`

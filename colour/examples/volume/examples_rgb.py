@@ -1,4 +1,4 @@
-"""Showcases RGB colourspace volume computations."""
+"""Showcase RGB colourspace volume computations."""
 
 import colour
 from colour.utilities import message_box

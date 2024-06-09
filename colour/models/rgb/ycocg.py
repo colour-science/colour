@@ -2,7 +2,7 @@
 YCoCg Colour Encoding
 ======================
 
-Defines the *YCoCg* colour encoding related transformations:
+Define the *YCoCg* colour encoding related transformations:
 
 -   :func:`colour.RGB_to_YCoCg`
 -   :func:`colour.YCoCg_to_RGB`

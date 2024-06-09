@@ -1,4 +1,4 @@
-"""Showcases *Von Kries* chromatic adaptation model computations."""
+"""Showcase *Von Kries* chromatic adaptation model computations."""
 
 import numpy as np
 

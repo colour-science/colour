@@ -2,7 +2,7 @@
 Russell RGB Colourspace
 =======================
 
-Defines the *Russell RGB* colourspace:
+Define the *Russell RGB* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_RUSSELL_RGB`.
 

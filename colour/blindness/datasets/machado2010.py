@@ -2,7 +2,7 @@
 Pre-Computed Matrices for simulation of CVD - Machado (2009)
 ============================================================
 
-Defines the pre-computed matrices for simulation of colour vision deficiency
+Define the pre-computed matrices for simulation of colour vision deficiency
 from Machado (2010).
 
 References

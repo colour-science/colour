@@ -2,7 +2,7 @@
 Ragoo and Farup (2021) Optimised IPT Colourspace
 ================================================
 
-Defines the *Ragoo and Farup (2021)* *Optimised IPT* colourspace
+Define the *Ragoo and Farup (2021)* *Optimised IPT* colourspace
 transformations:
 
 -   :func:`colour.XYZ_to_IPT_Ragoo2021`

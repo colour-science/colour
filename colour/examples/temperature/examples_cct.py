@@ -1,4 +1,4 @@
-"""Showcases correlated colour temperature computations."""
+"""Showcase correlated colour temperature computations."""
 
 import colour
 from colour.utilities import message_box

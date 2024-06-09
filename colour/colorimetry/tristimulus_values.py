@@ -2,7 +2,7 @@
 Tristimulus Values
 ==================
 
-Defines the objects for tristimulus values computation from spectral data:
+Define the objects for tristimulus values computation from spectral data:
 
 -   :attr:`colour.SPECTRAL_SHAPE_ASTME308`
 -   :func:`colour.colorimetry.handle_spectral_arguments`

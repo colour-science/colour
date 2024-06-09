@@ -2,7 +2,7 @@
 Spectrum
 ========
 
-Defines the classes and objects handling spectral data computations:
+Define the classes and objects handling spectral data computations:
 
 -   :class:`colour.SPECTRAL_SHAPE_DEFAULT`
 -   :class:`colour.SpectralShape`

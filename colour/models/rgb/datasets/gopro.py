@@ -2,7 +2,7 @@
 GoPro Colourspaces
 ==================
 
-Defines the *GoPro* colourspaces:
+Define the *GoPro* colourspaces:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_PROTUNE_NATIVE`.
 

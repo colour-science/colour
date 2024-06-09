@@ -2,7 +2,7 @@
 Munsell Renotation System Dataset - Real Munsell Colours
 ========================================================
 
-Defines the *Munsell Renotation System* *Real* datasets. Those are *real*,
+Define the *Munsell Renotation System* *Real* datasets. Those are *real*,
 within MacAdam limits *Munsell* colours only. They are the colours listed in
 the original 1943 renotation article *(Newhall, Nickerson, & Judd, 1943)*.
 

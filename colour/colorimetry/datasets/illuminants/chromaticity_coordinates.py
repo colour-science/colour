@@ -2,7 +2,7 @@
 Chromaticity Coordinates of Illuminants
 =======================================
 
-Defines the chromaticity coordinates of the illuminants for the
+Define the chromaticity coordinates of the illuminants for the
 *CIE 1931 2 Degree Standard Observer* and
 *CIE 1964 10 Degree Standard Observer*.
 

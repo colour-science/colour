@@ -2,7 +2,7 @@
 P3-D65 Colourspace
 ==================
 
-Defines the *P3-D65* colourspace:
+Define the *P3-D65* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_P3_D65`.
 """

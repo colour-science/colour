@@ -2,7 +2,7 @@
 RLAB Colour Appearance Model
 ============================
 
-Defines the *RLAB* colour appearance model objects:
+Define the *RLAB* colour appearance model objects:
 
 -   :attr:`colour.VIEWING_CONDITIONS_RLAB`
 -   :attr:`colour.D_FACTOR_RLAB`

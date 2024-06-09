@@ -2,7 +2,7 @@
 Pal/Secam Colourspace
 =====================
 
-Defines the *Pal/Secam* colourspace:
+Define the *Pal/Secam* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_PAL_SECAM`.
 

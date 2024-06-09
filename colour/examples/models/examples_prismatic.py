@@ -1,4 +1,4 @@
-"""Showcases *Prismatic* colourspace computations."""
+"""Showcase *Prismatic* colourspace computations."""
 
 import numpy as np
 

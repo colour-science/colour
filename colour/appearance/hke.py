@@ -2,7 +2,7 @@
 Helmholtz—Kohlrausch Effect
 ===========================
 
-Defines the following methods for estimating Helmholtz-Kohlrausch effect (HKE):
+Define the following methods for estimating Helmholtz-Kohlrausch effect (HKE):
 
 -   :attr:`colour.HKE_NAYATANI1997_METHODS`: Nayatani HKE computation methods,
     choice between variable achromatic colour ('VAC') and variable chromatic

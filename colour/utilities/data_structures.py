@@ -2,7 +2,7 @@
 Data Structures
 ===============
 
-Defines various data structures classes:
+Define various data structures classes:
 
 -   :class:`colour.utilities.Structure`: An object similar to C/C++ structured
     type.

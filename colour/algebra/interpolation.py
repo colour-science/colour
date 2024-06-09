@@ -2,7 +2,7 @@
 Interpolation
 =============
 
-Defines the classes and definitions for interpolating variables.
+Define the classes and definitions for interpolating variables.
 
 -   :class:`colour.KernelInterpolator`: 1-D function generic interpolation with
     arbitrary kernel.

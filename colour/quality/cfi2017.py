@@ -2,7 +2,7 @@
 CIE 2017 Colour Fidelity Index
 ==============================
 
-Defines the *CIE 2017 Colour Fidelity Index* (CFI) computation objects:
+Define the *CIE 2017 Colour Fidelity Index* (CFI) computation objects:
 
 - :class:`colour.quality.ColourRendering_Specification_CIE2017`
 - :func:`colour.quality.colour_fidelity_index_CIE2017`

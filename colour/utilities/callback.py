@@ -2,7 +2,7 @@
 Callback Management
 ===================
 
-Defines the callback management objects.
+Define the callback management objects.
 """
 
 from __future__ import annotations

@@ -2,7 +2,7 @@
 Array Utilities
 ===============
 
-Defines array utilities objects.
+Define array utilities objects.
 
 References
 ----------

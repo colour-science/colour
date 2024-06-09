@@ -2,7 +2,7 @@
 Smits (1999) - Reflectance Recovery
 ===================================
 
-Defines the objects for reflectance recovery using *Smits (1999)* method.
+Define the objects for reflectance recovery using *Smits (1999)* method.
 
 References
 ----------

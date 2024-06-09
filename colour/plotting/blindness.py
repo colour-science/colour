@@ -2,7 +2,7 @@
 Colour Blindness Plotting
 =========================
 
-Defines the colour blindness plotting objects:
+Define the colour blindness plotting objects:
 
 -   :func:`colour.plotting.plot_cvd_simulation_Machado2009`
 """

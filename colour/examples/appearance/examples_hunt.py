@@ -1,4 +1,4 @@
-"""Showcases *Hunt* colour appearance model computations."""
+"""Showcase *Hunt* colour appearance model computations."""
 
 import numpy as np
 

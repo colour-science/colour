@@ -2,7 +2,7 @@
 Common Log Encodings
 ====================
 
-Defines the common log encodings:
+Define the common log encodings:
 
 -   :func:`colour.models.logarithmic_function_basic`
 -   :func:`colour.models.logarithmic_function_quasilog`

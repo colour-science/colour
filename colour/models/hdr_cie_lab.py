@@ -2,7 +2,7 @@
 Hdr-CIELAB Colourspace
 ======================
 
-Defines the *hdr-CIELAB* colourspace transformations:
+Define the *hdr-CIELAB* colourspace transformations:
 
 -   :attr:`colour.HDR_CIELAB_METHODS`: Supported *hdr-CIELAB* colourspace
     computation methods.

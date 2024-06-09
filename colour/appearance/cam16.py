@@ -2,7 +2,7 @@
 CAM16 Colour Appearance Model
 =============================
 
-Defines the *CAM16* colour appearance model objects:
+Define the *CAM16* colour appearance model objects:
 
 -   :class:`colour.appearance.InductionFactors_CAM16`
 -   :attr:`colour.VIEWING_CONDITIONS_CAM16`

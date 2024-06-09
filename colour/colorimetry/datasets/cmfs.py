@@ -2,7 +2,7 @@
 Multi-Spectral Distributions of the Colour Matching Functions
 =============================================================
 
-Defines the multi-spectral distributions of the colour matching functions.
+Define the multi-spectral distributions of the colour matching functions.
 
 The colour matching functions data is in the form of a *dict* of
 :class:`colour.colorimetry.MultiSpectralDistributions` classes as follows::

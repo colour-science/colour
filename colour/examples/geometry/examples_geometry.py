@@ -1,4 +1,4 @@
-"""Showcases geometry primitives generation examples."""
+"""Showcase geometry primitives generation examples."""
 
 import numpy as np
 

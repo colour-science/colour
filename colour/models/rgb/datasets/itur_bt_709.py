@@ -2,7 +2,7 @@
 Recommendation ITU-R BT.709 Colourspace
 =======================================
 
-Defines the *Recommendation ITU-R BT.709* colourspace:
+Define the *Recommendation ITU-R BT.709* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_BT709`.
 

@@ -2,7 +2,7 @@
 Image Input / Output Utilities
 ==============================
 
-Defines the image related input / output utilities objects.
+Define the image related input / output utilities objects.
 """
 
 from __future__ import annotations

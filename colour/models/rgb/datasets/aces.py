@@ -2,7 +2,7 @@
 Academy Color Encoding System
 =============================
 
-Defines the *Academy Color Encoding System* (ACES) related encodings:
+Define the *Academy Color Encoding System* (ACES) related encodings:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_ACES2065_1`
 -   :attr:`colour.models.RGB_COLOURSPACE_ACESCG`

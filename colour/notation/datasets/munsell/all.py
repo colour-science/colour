@@ -2,7 +2,7 @@
 Munsell Renotation System Dataset - All Munsell Colours
 =======================================================
 
-Defines the *Munsell Renotation System* *All* datasets. Those are *all*
+Define the *Munsell Renotation System* *All* datasets. Those are *all*
 published *Munsell* colours, including the extrapolated colors.
 
 Notes

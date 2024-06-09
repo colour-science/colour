@@ -2,7 +2,7 @@
 ANSI/IES TM-30-18 Colour Rendition Report Components
 ====================================================
 
-Defines the *ANSI/IES TM-30-18 Colour Rendition Report* components plotting
+Define the *ANSI/IES TM-30-18 Colour Rendition Report* components plotting
 objects:
 
 -   :func:`colour.plotting.tm3018.components.plot_spectra_ANSIIESTM3018`

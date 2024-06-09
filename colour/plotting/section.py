@@ -2,7 +2,7 @@
 Gamut Section Plotting
 ======================
 
-Defines the gamut section plotting objects:
+Define the gamut section plotting objects:
 
 -   :func:`colour.plotting.section.plot_hull_section_colours`
 -   :func:`colour.plotting.section.plot_hull_section_contour`

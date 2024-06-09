@@ -2,7 +2,7 @@
 Deprecation Utilities
 =====================
 
-Defines various deprecation management related objects.
+Define various deprecation management related objects.
 """
 
 from __future__ import annotations

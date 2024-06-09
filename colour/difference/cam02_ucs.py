@@ -2,7 +2,7 @@
 :math:`\\Delta E'` - Delta E Colour Difference - Luo, Cui and Li (2006)
 =======================================================================
 
-Defines the :math:`\\Delta E'` colour difference computation objects based on
+Define the :math:`\\Delta E'` colour difference computation objects based on
 *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS* colourspaces:
 
 -   :func:`colour.difference.delta_E_CAM02LCD`

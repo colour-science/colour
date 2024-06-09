@@ -2,7 +2,7 @@
 Spectral Distributions of the Luminous Efficiency Functions
 ===========================================================
 
-Defines the spectral distributions of the luminous efficiency functions.
+Define the spectral distributions of the luminous efficiency functions.
 
 The luminous efficiency data is in the form of a *dict* of
 :class:`colour.SpectralDistribution` classes as follows::

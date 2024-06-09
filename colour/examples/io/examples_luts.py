@@ -1,4 +1,4 @@
-"""Showcases Look Up Table (LUT) data related examples."""
+"""Showcase Look Up Table (LUT) data related examples."""
 
 import os
 

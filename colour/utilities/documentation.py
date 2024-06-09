@@ -2,7 +2,7 @@
 Documentation
 =============
 
-Defines the documentation related objects.
+Define the documentation related objects.
 """
 
 from __future__ import annotations

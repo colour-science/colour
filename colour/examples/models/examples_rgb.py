@@ -1,4 +1,4 @@
-"""Showcases *RGB* *colourspaces* computations."""
+"""Showcase *RGB* *colourspaces* computations."""
 
 from pprint import pprint
 

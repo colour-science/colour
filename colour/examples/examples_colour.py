@@ -1,4 +1,4 @@
-"""Showcases overall *Colour* examples."""
+"""Showcase overall *Colour* examples."""
 
 import warnings
 
