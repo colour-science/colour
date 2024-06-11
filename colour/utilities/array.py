@@ -511,7 +511,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
         }[operation]
 
         if is_dataclass(a):
-            a = as_float_array(a)
+            a = as_float_array(a)  # pyright: ignore
 
         values = tsplit(callable_operation(as_float_array(self), a))
         field_values = {field: values[i] for i, field in enumerate(self.keys)}

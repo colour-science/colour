@@ -880,7 +880,7 @@ class Data_Otsu2018:
             )
 
             _w, w = eigen_decomposition(
-                self._reflectances - self._mean,
+                self._reflectances - self._mean,  # pyright: ignore
                 descending_order=False,
                 covariance_matrix=True,
             )

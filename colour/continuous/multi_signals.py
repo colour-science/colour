@@ -1625,4 +1625,8 @@ class MultiSignals(AbstractContinuousFunction):
         9.0  100.0  110.0  120.0
         """
 
-        return DataFrame(data=self.range, index=self.domain, columns=self.labels)
+        return DataFrame(
+            data=self.range,
+            index=self.domain,
+            columns=self.labels,  # pyright: ignore
+        )
