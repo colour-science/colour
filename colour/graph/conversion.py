@@ -74,7 +74,7 @@ from colour.hints import (
     cast,
 )
 from colour.models import (
-    COLOURSPACE_MODELS_POLAR_CONVERSION,
+    COLOURSPACE_MODELS_POLAR_CONVERSIONS,
     CAM02LCD_to_JMh_CIECAM02,
     CAM02SCD_to_JMh_CIECAM02,
     CAM02UCS_to_JMh_CIECAM02,
@@ -991,7 +991,7 @@ def _format_node_name(name):
     return name
 
 
-for _Jab, _JCh in COLOURSPACE_MODELS_POLAR_CONVERSION:
+for _Jab, _JCh in COLOURSPACE_MODELS_POLAR_CONVERSIONS:
     _module = sys.modules["colour.models"]
     _Jab_name = _format_node_name(_Jab)
     _JCh_name = _format_node_name(_JCh)

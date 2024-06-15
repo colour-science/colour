@@ -274,7 +274,7 @@ from .models import (
     CCTF_ENCODINGS,
     COLOUR_PRIMARIES_ITUTH273,
     COLOURSPACE_MODELS,
-    COLOURSPACE_MODELS_POLAR_CONVERSION,
+    COLOURSPACE_MODELS_POLAR_CONVERSIONS,
     DATA_MACADAM_1942_ELLIPSES,
     EOTF_INVERSES,
     EOTFS,
@@ -674,7 +674,7 @@ __all__ += [
     "CMY_to_CMYK",
     "CMY_to_RGB",
     "COLOURSPACE_MODELS",
-    "COLOURSPACE_MODELS_POLAR_CONVERSION",
+    "COLOURSPACE_MODELS_POLAR_CONVERSIONS",
     "COLOUR_PRIMARIES_ITUTH273",
     "CV_range",
     "DATA_MACADAM_1942_ELLIPSES",
@@ -894,7 +894,7 @@ __all__ += [
 ]
 
 # Programmatically defining the colourspace models polar conversions.
-for _Jab, _JCh in COLOURSPACE_MODELS_POLAR_CONVERSION:
+for _Jab, _JCh in COLOURSPACE_MODELS_POLAR_CONVERSIONS:
     for name in (f"{_Jab}_to_{_JCh}", f"{_JCh}_to_{_Jab}"):
         _module = sys.modules["colour"]
         _sub_module = sys.modules["colour.models"]

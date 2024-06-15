@@ -375,7 +375,7 @@ from .rgb import (
 __all__ = []
 
 # Programmatically defining the colourspace models polar conversions.
-COLOURSPACE_MODELS_POLAR_CONVERSION = (
+COLOURSPACE_MODELS_POLAR_CONVERSIONS = (
     ("Lab", "LCHab"),
     ("Luv", "LCHuv"),
     ("hdr_CIELab", "hdr_CIELCHab"),
@@ -471,7 +471,7 @@ Notes
 +-------------+-----------------------+-----------------+
 """
 
-for _Jab, _JCh in COLOURSPACE_MODELS_POLAR_CONVERSION:
+for _Jab, _JCh in COLOURSPACE_MODELS_POLAR_CONVERSIONS:
     name = f"{_Jab}_to_{_JCh}"
     _callable = copy_definition(Jab_to_JCh, name)
     _callable.__doc__ = _DOCSTRING_JAB_TO_JCH.format(Jab=_Jab, JCh=_JCh)
