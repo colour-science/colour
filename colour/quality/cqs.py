@@ -49,8 +49,8 @@ from colour.hints import (
     Tuple,
     cast,
 )
+from colour.models import Lab_to_LCHab  # pyright: ignore
 from colour.models import (
-    Lab_to_LCHab,
     UCS_to_uv,
     XYZ_to_Lab,
     XYZ_to_UCS,

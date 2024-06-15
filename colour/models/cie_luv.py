@@ -10,8 +10,6 @@ Define the *CIE L\\*u\\*v\\** colourspace transformations:
 -   :func:`colour.uv_to_Luv`
 -   :func:`colour.Luv_uv_to_xy`
 -   :func:`colour.xy_to_Luv_uv`
--   :func:`colour.Luv_to_LCHuv`
--   :func:`colour.LCHuv_to_Luv`
 -   :func:`colour.XYZ_to_CIE1976UCS`
 -   :func:`colour.CIE1976UCS_to_XYZ`
 
@@ -41,7 +39,7 @@ from colour.colorimetry import (
     luminance_CIE1976,
 )
 from colour.hints import ArrayLike, NDArrayFloat
-from colour.models import Jab_to_JCh, JCh_to_Jab, xy_to_xyY, xyY_to_XYZ
+from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import (
     domain_range_scale,
     from_range_1,
@@ -66,8 +64,6 @@ __all__ = [
     "uv_to_Luv",
     "Luv_uv_to_xy",
     "xy_to_Luv_uv",
-    "Luv_to_LCHuv",
-    "LCHuv_to_Luv",
     "XYZ_to_CIE1976UCS",
     "CIE1976UCS_to_XYZ",
 ]
@@ -434,110 +430,6 @@ def xy_to_Luv_uv(xy: ArrayLike) -> NDArrayFloat:
         uv = tstack([sdiv(4 * x, d), sdiv(9 * y, d)])
 
     return uv
-
-
-def Luv_to_LCHuv(Luv: ArrayLike) -> NDArrayFloat:
-    """
-    Convert from *CIE L\\*u\\*v\\** colourspace to *CIE L\\*C\\*Huv*
-    colourspace.
-
-    Parameters
-    ----------
-    Luv
-        *CIE L\\*u\\*v\\** colourspace array.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        *CIE L\\*C\\*Huv* colourspace array.
-
-    Notes
-    -----
-    +------------+-----------------------+-----------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1**   |
-    +============+=======================+=================+
-    | ``Luv``    | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``u`` : [-100, 100]   | ``u`` : [-1, 1] |
-    |            |                       |                 |
-    |            | ``v`` : [-100, 100]   | ``v`` : [-1, 1] |
-    +------------+-----------------------+-----------------+
-
-    +------------+-----------------------+------------------+
-    | **Range**  | **Scale - Reference** | **Scale - 1**    |
-    +============+=======================+==================+
-    | ``LCHuv``  | ``L``   : [0, 100]    | ``L``   : [0, 1] |
-    |            |                       |                  |
-    |            | ``C``   : [0, 100]    | ``C``   : [0, 1] |
-    |            |                       |                  |
-    |            | ``Huv`` : [0, 360]    | ``Huv`` : [0, 1] |
-    +------------+-----------------------+------------------+
-
-    References
-    ----------
-    :cite:`CIETC1-482004m`
-
-    Examples
-    --------
-    >>> import numpy as np
-    >>> Luv = np.array([41.52787529, 96.83626054, 17.75210149])
-    >>> Luv_to_LCHuv(Luv)  # doctest: +ELLIPSIS
-    array([ 41.5278752...,  98.4499795...,  10.3881634...])
-    """
-
-    return Jab_to_JCh(Luv)
-
-
-def LCHuv_to_Luv(LCHuv: ArrayLike) -> NDArrayFloat:
-    """
-    Convert from *CIE L\\*C\\*Huv* colourspace to *CIE L\\*u\\*v\\**
-    colourspace.
-
-    Parameters
-    ----------
-    LCHuv
-        *CIE L\\*C\\*Huv* colourspace array.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        *CIE L\\*u\\*v\\** colourspace array.
-
-    Notes
-    -----
-    +------------+-----------------------+------------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1**    |
-    +============+=======================+==================+
-    | ``LCHuv``  | ``L``   : [0, 100]    | ``L``   : [0, 1] |
-    |            |                       |                  |
-    |            | ``C``   : [0, 100]    | ``C``   : [0, 1] |
-    |            |                       |                  |
-    |            | ``Huv`` : [0, 360]    | ``Huv`` : [0, 1] |
-    +------------+-----------------------+------------------+
-
-    +------------+-----------------------+-----------------+
-    | **Range**  | **Scale - Reference** | **Scale - 1**   |
-    +============+=======================+=================+
-    | ``Luv``    | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``u`` : [-100, 100]   | ``u`` : [-1, 1] |
-    |            |                       |                 |
-    |            | ``v`` : [-100, 100]   | ``v`` : [-1, 1] |
-    +------------+-----------------------+-----------------+
-
-    References
-    ----------
-    :cite:`CIETC1-482004m`
-
-    Examples
-    --------
-    >>> import numpy as np
-    >>> LCHuv = np.array([41.52787529, 98.44997950, 10.38816348])
-    >>> LCHuv_to_Luv(LCHuv)  # doctest: +ELLIPSIS
-    array([ 41.5278752...,  96.8362605...,  17.7521014...])
-    """
-
-    return JCh_to_Jab(LCHuv)
 
 
 def XYZ_to_CIE1976UCS(

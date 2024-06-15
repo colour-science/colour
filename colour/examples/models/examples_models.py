@@ -185,7 +185,7 @@ message_box(
     f'Converting to "CIE L*C*Huv" colourspace from given "CIE L*u*v*" '
     f"colourspace values:\n\n\t{Luv}"
 )
-print(colour.Luv_to_LCHuv(Luv))
+print(colour.Luv_to_LCHuv(Luv))  # pyright: ignore
 
 print("\n")
 
@@ -194,7 +194,7 @@ message_box(
     f'Converting to "CIE L*u*v*" colourspace from given "CIE L*C*Huv" '
     f"colourspace values:\n\n\t{LCHuv}"
 )
-print(colour.LCHuv_to_Luv(LCHuv))
+print(colour.LCHuv_to_Luv(LCHuv))  # pyright: ignore
 
 print("\n")
 
@@ -219,7 +219,7 @@ message_box(
     f'Converting to "CIE L*C*Hab" colourspace from given "CIE L*a*b*" '
     f"colourspace values:\n\n\t{Lab}"
 )
-print(colour.Lab_to_LCHab(Lab))
+print(colour.Lab_to_LCHab(Lab))  # pyright: ignore
 
 print("\n")
 
@@ -228,7 +228,7 @@ message_box(
     f'Converting to "CIE L*a*b*" colourspace from given "CIE L*C*Hab" '
     f"colourspace values:\n\n\t{LCHab}"
 )
-print(colour.LCHab_to_Lab(LCHab))
+print(colour.LCHab_to_Lab(LCHab))  # pyright: ignore
 
 print("\n")
 

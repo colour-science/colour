@@ -1,5 +1,6 @@
 import sys
 
+from colour.utilities import copy_definition
 from colour.utilities.deprecation import ModuleAPI, build_API_changes
 from colour.utilities.documentation import is_documentation_building
 
@@ -50,7 +51,7 @@ from .cie_xyy import (
     xy_to_XYZ,
     XYZ_to_xy,
 )
-from .cie_lab import XYZ_to_Lab, Lab_to_XYZ, Lab_to_LCHab, LCHab_to_Lab
+from .cie_lab import XYZ_to_Lab, Lab_to_XYZ
 from .cie_luv import (
     XYZ_to_Luv,
     Luv_to_XYZ,
@@ -58,8 +59,6 @@ from .cie_luv import (
     uv_to_Luv,
     Luv_uv_to_xy,
     xy_to_Luv_uv,
-    Luv_to_LCHuv,
-    LCHuv_to_Luv,
     XYZ_to_CIE1976UCS,
     CIE1976UCS_to_XYZ,
 )
@@ -373,7 +372,125 @@ from .rgb import (
     describe_video_signal_matrix_coefficients,
 )
 
-__all__ = [
+__all__ = []
+
+# Programmatically defining the colourspace models polar conversions.
+COLOURSPACE_MODELS_POLAR_CONVERSION = (
+    ("Lab", "LCHab"),
+    ("Luv", "LCHuv"),
+    ("hdr_CIELab", "hdr_CIELCHab"),
+    ("Hunter_Lab", "Hunter_LCHab"),
+    ("Hunter_Rdab", "Hunter_RdCHab"),
+    ("ICaCb", "IaCH"),
+    ("ICtCp", "ItCH"),
+    ("IgPgTg", "IgCH"),
+    ("IPT", "ICH"),
+    ("Izazbz", "IzCH"),
+    ("Jzazbz", "JzCH"),
+    ("hdr_IPT", "hdr_ICH"),
+    ("Oklab", "Oklch"),
+    ("ProLab", "ProLCHab"),
+    ("IPT_Ragoo2021", "ICHPT_Ragoo2021"),
+)
+
+_DOCSTRING_JAB_TO_JCH = """
+Convert from *{Jab}* colourspace to *{JCh}* colourspace.
+
+This is a convenient definition wrapping :func:`colour.models.Jab_to_JCh`
+definition.
+
+Parameters
+----------
+Jab
+    *{Jab}* colourspace array.
+
+Returns
+-------
+:class:`numpy.ndarray`
+    *{JCh}* colourspace array.
+
+Notes
+-----
++------------+-----------------------+-----------------+
+| **Domain** | **Scale - Reference** | **Scale - 1**   |
++============+=======================+=================+
+| ``Jab``    | ``J`` : [0, 100]      | ``J`` : [0, 1]  |
+|            |                       |                 |
+|            | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
+|            |                       |                 |
+|            | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
++------------+-----------------------+-----------------+
+
++------------+-----------------------+-----------------+
+| **Range**  | **Scale - Reference** | **Scale - 1**   |
++============+=======================+=================+
+| ``JCh``    | ``J``  : [0, 100]     | ``J`` : [0, 1]  |
+|            |                       |                 |
+|            | ``C``  : [0, 100]     | ``C`` : [0, 1]  |
+|            |                       |                 |
+|            | ``h`` : [0, 360]      | ``h`` : [0, 1]  |
++------------+-----------------------+-----------------+
+"""
+
+_DOCSTRING_JCH_TO_JAB = """
+Convert from *{JCh}* colourspace to *{Jab}* colourspace.
+
+This is a convenient definition wrapping :func:`colour.models.JCh_to_Jab`
+definition.
+
+Parameters
+----------
+JCh
+    *{JCh}* colourspace array.
+
+Returns
+-------
+:class:`numpy.ndarray`
+    *{Jab}* colourspace array.
+
+Notes
+-----
++-------------+-----------------------+-----------------+
+| **Domain**  | **Scale - Reference** | **Scale - 1**   |
++=============+=======================+=================+
+| ``JCh``     | ``J``  : [0, 100]     | ``J``  : [0, 1] |
+|             |                       |                 |
+|             | ``C``  : [0, 100]     | ``C``  : [0, 1] |
+|             |                       |                 |
+|             | ``h`` : [0, 360]      | ``h`` : [0, 1]  |
++-------------+-----------------------+-----------------+
+
++-------------+-----------------------+-----------------+
+| **Range**   | **Scale - Reference** | **Scale - 1**   |
++=============+=======================+=================+
+| ``Jab``     | ``J`` : [0, 100]      | ``J`` : [0, 1]  |
+|             |                       |                 |
+|             | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
+|             |                       |                 |
+|             | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
++-------------+-----------------------+-----------------+
+"""
+
+for _Jab, _JCh in COLOURSPACE_MODELS_POLAR_CONVERSION:
+    name = f"{_Jab}_to_{_JCh}"
+    _callable = copy_definition(Jab_to_JCh, name)
+    _callable.__doc__ = _DOCSTRING_JAB_TO_JCH.format(Jab=_Jab, JCh=_JCh)
+    _module = sys.modules["colour.models"]
+    setattr(_module, name, _callable)
+    __all__.append(name)
+
+    name = f"{_JCh}_to_{_Jab}"
+    _callable = copy_definition(JCh_to_Jab, name)
+    _callable.__doc__ = _DOCSTRING_JCH_TO_JAB.format(JCh=_JCh, Jab=_Jab)
+    _module = sys.modules["colour.models"]
+    setattr(_module, name, _callable)
+    __all__.append(name)
+
+del _DOCSTRING_JAB_TO_JCH, _DOCSTRING_JCH_TO_JAB, _JCh, _Jab, _callable, _module
+
+__all__ += ["COLOURSPACE_MODELS_POLAR"]
+
+__all__ += [
     "COLOURSPACE_MODELS",
     "COLOURSPACE_MODELS_AXIS_LABELS",
     "COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE",
@@ -421,8 +538,6 @@ __all__ += [
 __all__ += [
     "XYZ_to_Lab",
     "Lab_to_XYZ",
-    "Lab_to_LCHab",
-    "LCHab_to_Lab",
 ]
 __all__ += [
     "XYZ_to_Luv",
@@ -431,8 +546,6 @@ __all__ += [
     "uv_to_Luv",
     "Luv_uv_to_xy",
     "xy_to_Luv_uv",
-    "Luv_to_LCHuv",
-    "LCHuv_to_Luv",
     "XYZ_to_CIE1976UCS",
     "CIE1976UCS_to_XYZ",
 ]

@@ -75,6 +75,7 @@ from colour.hints import (
     Tuple,
     cast,
 )
+from colour.models import LCHab_to_Lab  # pyright: ignore
 from colour.models import (
     CCS_ILLUMINANT_POINTER_GAMUT,
     CCS_POINTER_GAMUT_BOUNDARY,
@@ -85,7 +86,6 @@ from colour.models import (
     DATA_MACADAM_1942_ELLIPSES,
     DATA_POINTER_GAMUT_VOLUME,
     Lab_to_XYZ,
-    LCHab_to_Lab,
     RGB_Colourspace,
     RGB_to_RGB,
     RGB_to_XYZ,
