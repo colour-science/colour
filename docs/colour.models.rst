@@ -384,26 +384,26 @@ Polar Conversions
     Hunter_LCHab_to_Hunter_Lab
     Hunter_Rdab_to_Hunter_RdCHab
     Hunter_RdCHab_to_Hunter_Rdab
-    ICaCb_to_IaCH
-    IaCH_to_ICaCb
-    ICtCp_to_ItCH
-    ItCH_to_ICtCp
-    IgPgTg_to_IgCH
-    IgCH_to_IgPgTg
+    ICaCb_to_ICHab
+    ICHab_to_ICaCb
+    ICtCp_to_ICHtp
+    ICHtp_to_ICtCp
+    IgPgTg_to_IgCHpt
+    IgCHpt_to_IgPgTg
     IPT_to_ICH
     ICH_to_IPT
-    Izazbz_to_IzCH
-    IzCH_to_Izazbz
-    Jzazbz_to_JzCH
-    JzCH_to_Jzazbz
+    Izazbz_to_IzCHab
+    IzCHab_to_Izazbz
+    Jzazbz_to_JzCHab
+    JzCHab_to_Jzazbz
     hdr_IPT_to_hdr_ICH
     hdr_ICH_to_hdr_IPT
     Oklab_to_Oklch
     Oklch_to_Oklab
     ProLab_to_ProLCHab
     ProLCHab_to_ProLab
-    IPT_Ragoo2021_to_ICHPT_Ragoo2021
-    ICHPT_Ragoo2021_to_IPT_Ragoo2021
+    IPT_Ragoo2021_to_ICH_Ragoo2021
+    ICH_Ragoo2021_to_IPT_Ragoo2021
 
 RGB Colourspace and Transformations
 -----------------------------------

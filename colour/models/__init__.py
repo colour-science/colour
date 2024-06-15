@@ -381,16 +381,16 @@ COLOURSPACE_MODELS_POLAR_CONVERSIONS = (
     ("hdr_CIELab", "hdr_CIELCHab"),
     ("Hunter_Lab", "Hunter_LCHab"),
     ("Hunter_Rdab", "Hunter_RdCHab"),
-    ("ICaCb", "IaCH"),
-    ("ICtCp", "ItCH"),
-    ("IgPgTg", "IgCH"),
+    ("ICaCb", "ICHab"),
+    ("ICtCp", "ICHtp"),
+    ("IgPgTg", "IgCHpt"),
     ("IPT", "ICH"),
-    ("Izazbz", "IzCH"),
-    ("Jzazbz", "JzCH"),
+    ("Izazbz", "IzCHab"),
+    ("Jzazbz", "JzCHab"),
     ("hdr_IPT", "hdr_ICH"),
     ("Oklab", "Oklch"),
     ("ProLab", "ProLCHab"),
-    ("IPT_Ragoo2021", "ICHPT_Ragoo2021"),
+    ("IPT_Ragoo2021", "ICH_Ragoo2021"),
 )
 
 _DOCSTRING_JAB_TO_JCH = """
