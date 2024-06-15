@@ -274,6 +274,7 @@ from .models import (
     CCTF_ENCODINGS,
     COLOUR_PRIMARIES_ITUTH273,
     COLOURSPACE_MODELS,
+    COLOURSPACE_MODELS_POLAR_CONVERSION,
     DATA_MACADAM_1942_ELLIPSES,
     EOTF_INVERSES,
     EOTFS,
@@ -330,11 +331,7 @@ from .models import (
     JMh_CIECAM02_to_CAM02UCS,
     Jzazbz_to_XYZ,
     Lab_to_DIN99,
-    Lab_to_LCHab,
     Lab_to_XYZ,
-    LCHab_to_Lab,
-    LCHuv_to_Luv,
-    Luv_to_LCHuv,
     Luv_to_uv,
     Luv_to_XYZ,
     Luv_uv_to_xy,
@@ -677,6 +674,7 @@ __all__ += [
     "CMY_to_CMYK",
     "CMY_to_RGB",
     "COLOURSPACE_MODELS",
+    "COLOURSPACE_MODELS_POLAR_CONVERSION",
     "COLOUR_PRIMARIES_ITUTH273",
     "CV_range",
     "DATA_MACADAM_1942_ELLIPSES",
@@ -706,14 +704,10 @@ __all__ += [
     "JMh_CIECAM02_to_CAM02SCD",
     "JMh_CIECAM02_to_CAM02UCS",
     "Jzazbz_to_XYZ",
-    "LCHab_to_Lab",
-    "LCHuv_to_Luv",
     "LOG_DECODINGS",
     "LOG_ENCODINGS",
     "Lab_to_DIN99",
-    "Lab_to_LCHab",
     "Lab_to_XYZ",
-    "Luv_to_LCHuv",
     "Luv_to_XYZ",
     "Luv_to_uv",
     "Luv_uv_to_xy",
@@ -898,6 +892,17 @@ __all__ += [
     "describe_conversion_path",
     "convert",
 ]
+
+# Programmatically defining the colourspace models polar conversions.
+for _Jab, _JCh in COLOURSPACE_MODELS_POLAR_CONVERSION:
+    for name in (f"{_Jab}_to_{_JCh}", f"{_JCh}_to_{_Jab}"):
+        _module = sys.modules["colour"]
+        _sub_module = sys.modules["colour.models"]
+        setattr(_module, name, getattr(_sub_module, name))
+        __all__.append(name)
+
+del _JCh, _Jab, _module, _sub_module
+
 
 __application_name__ = "Colour"
 

@@ -54,8 +54,6 @@ CIE L*a*b* Colourspace
 
     XYZ_to_Lab
     Lab_to_XYZ
-    Lab_to_LCHab
-    LCHab_to_Lab
 
 CIE L*u*v* Colourspace
 ----------------------
@@ -73,8 +71,6 @@ CIE L*u*v* Colourspace
     uv_to_Luv
     Luv_uv_to_xy
     xy_to_Luv_uv
-    Luv_to_LCHuv
-    LCHuv_to_Luv
     XYZ_to_CIE1976UCS
     CIE1976UCS_to_XYZ
 
@@ -366,6 +362,47 @@ Yrg Colourspace - Kirk (2019)
     IZAZBZ_METHODS
     XYZ_to_Izazbz
     Izazbz_to_XYZ
+
+Polar Conversions
+-----------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    Lab_to_LCHab
+    LCHab_to_Lab
+    Luv_to_LCHuv
+    LCHuv_to_Luv
+    hdr_CIELab_to_hdr_CIELCHab
+    hdr_CIELCHab_to_hdr_CIELab
+    Hunter_Lab_to_Hunter_LCHab
+    Hunter_LCHab_to_Hunter_Lab
+    Hunter_Rdab_to_Hunter_RdCHab
+    Hunter_RdCHab_to_Hunter_Rdab
+    ICaCb_to_IaCH
+    IaCH_to_ICaCb
+    ICtCp_to_ItCH
+    ItCH_to_ICtCp
+    IgPgTg_to_IgCH
+    IgCH_to_IgPgTg
+    IPT_to_ICH
+    ICH_to_IPT
+    Izazbz_to_IzCH
+    IzCH_to_Izazbz
+    Jzazbz_to_JzCH
+    JzCH_to_Jzazbz
+    hdr_IPT_to_hdr_ICH
+    hdr_ICH_to_hdr_IPT
+    Oklab_to_Oklch
+    Oklch_to_Oklab
+    ProLab_to_ProLCHab
+    ProLCHab_to_ProLab
+    IPT_Ragoo2021_to_ICHPT_Ragoo2021
+    ICHPT_Ragoo2021_to_IPT_Ragoo2021
 
 RGB Colourspace and Transformations
 -----------------------------------

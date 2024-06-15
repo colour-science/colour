@@ -5,7 +5,7 @@ from itertools import product
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.models import Lab_to_LCHab, Lab_to_XYZ, LCHab_to_Lab, XYZ_to_Lab
+from colour.models import Lab_to_XYZ, XYZ_to_Lab
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
@@ -18,8 +18,6 @@ __status__ = "Production"
 __all__ = [
     "TestXYZ_to_Lab",
     "TestLab_to_XYZ",
-    "TestLab_to_LCHab",
-    "TestLCHab_to_Lab",
 ]
 
 
@@ -241,167 +239,3 @@ class TestLab_to_XYZ:
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         Lab_to_XYZ(cases, cases[..., 0:2])
-
-
-class TestLab_to_LCHab:
-    """
-    Define :func:`colour.models.cie_lab.Lab_to_LCHab` definition unit tests
-    methods.
-    """
-
-    def test_Lab_to_LCHab(self):
-        """Test :func:`colour.models.cie_lab.Lab_to_LCHab` definition."""
-
-        np.testing.assert_allclose(
-            Lab_to_LCHab(np.array([41.52787529, 52.63858304, 26.92317922])),
-            np.array([41.52787529, 59.12425901, 27.08848784]),
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            Lab_to_LCHab(np.array([55.11636304, -41.08791787, 30.91825778])),
-            np.array([55.11636304, 51.42135412, 143.03889556]),
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            Lab_to_LCHab(np.array([29.80565520, 20.01830466, -48.34913874])),
-            np.array([29.80565520, 52.32945383, 292.49133666]),
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-    def test_n_dimensional_Lab_to_LCHab(self):
-        """
-        Test :func:`colour.models.cie_lab.Lab_to_LCHab` definition
-        n-dimensional arrays support.
-        """
-
-        Lab = np.array([41.52787529, 52.63858304, 26.92317922])
-        LCHab = Lab_to_LCHab(Lab)
-
-        Lab = np.tile(Lab, (6, 1))
-        LCHab = np.tile(LCHab, (6, 1))
-        np.testing.assert_allclose(
-            Lab_to_LCHab(Lab), LCHab, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-        Lab = np.reshape(Lab, (2, 3, 3))
-        LCHab = np.reshape(LCHab, (2, 3, 3))
-        np.testing.assert_allclose(
-            Lab_to_LCHab(Lab), LCHab, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-    def test_domain_range_scale_Lab_to_LCHab(self):
-        """
-        Test :func:`colour.models.cie_lab.Lab_to_LCHab` definition domain and
-        range scale support.
-        """
-
-        Lab = np.array([41.52787529, 52.63858304, 26.92317922])
-        LCHab = Lab_to_LCHab(Lab)
-
-        d_r = (
-            ("reference", 1, 1),
-            ("1", 0.01, np.array([0.01, 0.01, 1 / 360])),
-            ("100", 1, np.array([1, 1, 1 / 3.6])),
-        )
-        for scale, factor_a, factor_b in d_r:
-            with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    Lab_to_LCHab(Lab * factor_a),
-                    LCHab * factor_b,
-                    atol=TOLERANCE_ABSOLUTE_TESTS,
-                )
-
-    @ignore_numpy_errors
-    def test_nan_Lab_to_LCHab(self):
-        """
-        Test :func:`colour.models.cie_lab.Lab_to_LCHab` definition nan
-        support.
-        """
-
-        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = np.array(list(set(product(cases, repeat=3))))
-        Lab_to_LCHab(cases)
-
-
-class TestLCHab_to_Lab:
-    """
-    Define :func:`colour.models.cie_lab.LCHab_to_Lab` definition unit tests
-    methods.
-    """
-
-    def test_LCHab_to_Lab(self):
-        """Test :func:`colour.models.cie_lab.LCHab_to_Lab` definition."""
-
-        np.testing.assert_allclose(
-            LCHab_to_Lab(np.array([41.52787529, 59.12425901, 27.08848784])),
-            np.array([41.52787529, 52.63858304, 26.92317922]),
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            LCHab_to_Lab(np.array([55.11636304, 51.42135412, 143.03889556])),
-            np.array([55.11636304, -41.08791787, 30.91825778]),
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            LCHab_to_Lab(np.array([29.80565520, 52.32945383, 292.49133666])),
-            np.array([29.80565520, 20.01830466, -48.34913874]),
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-    def test_n_dimensional_LCHab_to_Lab(self):
-        """
-        Test :func:`colour.models.cie_lab.LCHab_to_Lab` definition
-        n-dimensional arrays support.
-        """
-
-        LCHab = np.array([41.52787529, 59.12425901, 27.08848784])
-        Lab = LCHab_to_Lab(LCHab)
-
-        LCHab = np.tile(LCHab, (6, 1))
-        Lab = np.tile(Lab, (6, 1))
-        np.testing.assert_allclose(
-            LCHab_to_Lab(LCHab), Lab, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-        LCHab = np.reshape(LCHab, (2, 3, 3))
-        Lab = np.reshape(Lab, (2, 3, 3))
-        np.testing.assert_allclose(
-            LCHab_to_Lab(LCHab), Lab, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-    def test_domain_range_scale_LCHab_to_Lab(self):
-        """
-        Test :func:`colour.models.cie_lab.LCHab_to_Lab` definition domain and
-        range scale support.
-        """
-
-        LCHab = np.array([41.52787529, 59.12425901, 27.08848784])
-        Lab = LCHab_to_Lab(LCHab)
-
-        d_r = (
-            ("reference", 1, 1),
-            ("1", np.array([0.01, 0.01, 1 / 360]), 0.01),
-            ("100", np.array([1, 1, 1 / 3.6]), 1),
-        )
-        for scale, factor_a, factor_b in d_r:
-            with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    LCHab_to_Lab(LCHab * factor_a),
-                    Lab * factor_b,
-                    atol=TOLERANCE_ABSOLUTE_TESTS,
-                )
-
-    @ignore_numpy_errors
-    def test_nan_LCHab_to_Lab(self):
-        """
-        Test :func:`colour.models.cie_lab.LCHab_to_Lab` definition nan
-        support.
-        """
-
-        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = np.array(list(set(product(cases, repeat=3))))
-        LCHab_to_Lab(cases)

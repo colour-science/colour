@@ -7,8 +7,6 @@ import numpy as np
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models import (
     CIE1976UCS_to_XYZ,
-    LCHuv_to_Luv,
-    Luv_to_LCHuv,
     Luv_to_uv,
     Luv_to_XYZ,
     Luv_uv_to_xy,
@@ -33,8 +31,6 @@ __all__ = [
     "Testuv_to_Luv",
     "TestLuv_uv_to_xy",
     "TestXy_to_Luv_uv",
-    "TestLuv_to_LCHuv",
-    "TestLCHuv_to_Luv",
     "TestXYZ_to_CIE1976UCS",
     "TestCIE1976UCS_to_XYZ",
 ]
@@ -597,170 +593,6 @@ class TestXy_to_Luv_uv:
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=2))))
         xy_to_Luv_uv(cases)
-
-
-class TestLuv_to_LCHuv:
-    """
-    Define :func:`colour.models.cie_luv.Luv_to_LCHuv` definition unit tests
-    methods.
-    """
-
-    def test_Luv_to_LCHuv(self):
-        """Test :func:`colour.models.cie_luv.Luv_to_LCHuv` definition."""
-
-        np.testing.assert_allclose(
-            Luv_to_LCHuv(np.array([41.52787529, 96.83626054, 17.75210149])),
-            np.array([41.52787529, 98.44997950, 10.38816348]),
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            Luv_to_LCHuv(np.array([55.11636304, -37.59308176, 44.13768458])),
-            np.array([55.11636304, 57.97736624, 130.42180076]),
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            Luv_to_LCHuv(np.array([29.80565520, -10.96316802, -65.06751860])),
-            np.array([29.80565520, 65.98464238, 260.43611196]),
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-    def test_n_dimensional_Luv_to_LCHuv(self):
-        """
-        Test :func:`colour.models.cie_luv.Luv_to_LCHuv` definition
-        n-dimensional arrays support.
-        """
-
-        Luv = np.array([41.52787529, 96.83626054, 17.75210149])
-        LCHuv = Luv_to_LCHuv(Luv)
-
-        Luv = np.tile(Luv, (6, 1))
-        LCHuv = np.tile(LCHuv, (6, 1))
-        np.testing.assert_allclose(
-            Luv_to_LCHuv(Luv), LCHuv, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-        Luv = np.reshape(Luv, (2, 3, 3))
-        LCHuv = np.reshape(LCHuv, (2, 3, 3))
-        np.testing.assert_allclose(
-            Luv_to_LCHuv(Luv), LCHuv, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-    def test_domain_range_scale_Luv_to_LCHuv(self):
-        """
-        Test :func:`colour.models.cie_luv.Luv_to_LCHuv` definition domain and
-        range scale support.
-        """
-
-        Luv = np.array([41.52787529, 96.83626054, 17.75210149])
-        LCHuv = Luv_to_LCHuv(Luv)
-
-        d_r = (
-            ("reference", 1, 1),
-            ("1", 0.01, np.array([0.01, 0.01, 1 / 360])),
-            ("100", 1, np.array([1, 1, 1 / 3.6])),
-        )
-        for scale, factor_a, factor_b in d_r:
-            with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    Luv_to_LCHuv(Luv * factor_a),
-                    LCHuv * factor_b,
-                    atol=TOLERANCE_ABSOLUTE_TESTS,
-                )
-
-    @ignore_numpy_errors
-    def test_nan_Luv_to_LCHuv(self):
-        """
-        Test :func:`colour.models.cie_luv.Luv_to_LCHuv` definition nan
-        support.
-        """
-
-        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = np.array(list(set(product(cases, repeat=3))))
-        Luv_to_LCHuv(cases)
-
-
-class TestLCHuv_to_Luv:
-    """
-    Define :func:`colour.models.cie_luv.LCHuv_to_Luv` definition unit tests
-    methods.
-    """
-
-    def test_LCHuv_to_Luv(self):
-        """Test :func:`colour.models.cie_luv.LCHuv_to_Luv` definition."""
-
-        np.testing.assert_allclose(
-            LCHuv_to_Luv(np.array([41.52787529, 98.44997950, 10.38816348])),
-            np.array([41.52787529, 96.83626054, 17.75210149]),
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            LCHuv_to_Luv(np.array([55.11636304, 57.97736624, 130.42180076])),
-            np.array([55.11636304, -37.59308176, 44.13768458]),
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            LCHuv_to_Luv(np.array([29.80565520, 65.98464238, 260.43611196])),
-            np.array([29.80565520, -10.96316802, -65.06751860]),
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-    def test_n_dimensional_LCHuv_to_Luv(self):
-        """
-        Test :func:`colour.models.cie_luv.LCHuv_to_Luv` definition
-        n-dimensional arrays support.
-        """
-
-        LCHuv = np.array([41.52787529, 98.44997950, 10.38816348])
-        Luv = LCHuv_to_Luv(LCHuv)
-
-        Luv = np.tile(Luv, (6, 1))
-        LCHuv = np.tile(LCHuv, (6, 1))
-        np.testing.assert_allclose(
-            LCHuv_to_Luv(LCHuv), Luv, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-        Luv = np.reshape(Luv, (2, 3, 3))
-        LCHuv = np.reshape(LCHuv, (2, 3, 3))
-        np.testing.assert_allclose(
-            LCHuv_to_Luv(LCHuv), Luv, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-    def test_domain_range_scale_LCHuv_to_Lab(self):
-        """
-        Test :func:`colour.models.cie_luv.LCHuv_to_Luv` definition domain and
-        range scale support.
-        """
-
-        LCHuv = np.array([41.52787529, 98.44997950, 10.38816348])
-        Luv = LCHuv_to_Luv(LCHuv)
-
-        d_r = (
-            ("reference", 1, 1),
-            ("1", np.array([0.01, 0.01, 1 / 360]), 0.01),
-            ("100", np.array([1, 1, 1 / 3.6]), 1),
-        )
-        for scale, factor_a, factor_b in d_r:
-            with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    LCHuv_to_Luv(LCHuv * factor_a),
-                    Luv * factor_b,
-                    atol=TOLERANCE_ABSOLUTE_TESTS,
-                )
-
-    @ignore_numpy_errors
-    def test_nan_LCHuv_to_Luv(self):
-        """
-        Test :func:`colour.models.cie_luv.LCHuv_to_Luv` definition nan
-        support.
-        """
-
-        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = np.array(list(set(product(cases, repeat=3))))
-        LCHuv_to_Luv(cases)
 
 
 class TestXYZ_to_CIE1976UCS:

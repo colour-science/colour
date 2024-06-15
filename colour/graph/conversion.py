@@ -11,6 +11,8 @@ Define the automatic colour conversion graph objects:
 from __future__ import annotations
 
 import inspect
+import re
+import sys
 import textwrap
 from collections import namedtuple
 from copy import copy
@@ -20,6 +22,7 @@ from pprint import pformat
 import numpy as np
 
 import colour
+import colour.models
 from colour.appearance import (
     CAM16_to_XYZ,
     CAM_Specification_CAM16,
@@ -71,6 +74,7 @@ from colour.hints import (
     cast,
 )
 from colour.models import (
+    COLOURSPACE_MODELS_POLAR_CONVERSION,
     CAM02LCD_to_JMh_CIECAM02,
     CAM02SCD_to_JMh_CIECAM02,
     CAM02UCS_to_JMh_CIECAM02,
@@ -101,11 +105,7 @@ from colour.models import (
     JMh_CIECAM02_to_CAM02SCD,
     JMh_CIECAM02_to_CAM02UCS,
     Jzazbz_to_XYZ,
-    Lab_to_LCHab,
     Lab_to_XYZ,
-    LCHab_to_Lab,
-    LCHuv_to_Luv,
-    Luv_to_LCHuv,
     Luv_to_uv,
     Luv_to_XYZ,
     Luv_uv_to_xy,
@@ -666,16 +666,12 @@ CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
     ("CIE xy", "CIE XYZ", xy_to_XYZ),
     ("CIE XYZ", "CIE Lab", XYZ_to_Lab),
     ("CIE Lab", "CIE XYZ", Lab_to_XYZ),
-    ("CIE Lab", "CIE LCHab", Lab_to_LCHab),
-    ("CIE LCHab", "CIE Lab", LCHab_to_Lab),
     ("CIE XYZ", "CIE Luv", XYZ_to_Luv),
     ("CIE Luv", "CIE XYZ", Luv_to_XYZ),
     ("CIE Luv", "CIE Luv uv", Luv_to_uv),
     ("CIE Luv uv", "CIE Luv", uv_to_Luv),
     ("CIE Luv uv", "CIE xy", Luv_uv_to_xy),
     ("CIE xy", "CIE Luv uv", xy_to_Luv_uv),
-    ("CIE Luv", "CIE LCHuv", Luv_to_LCHuv),
-    ("CIE LCHuv", "CIE Luv", LCHuv_to_Luv),
     ("CIE XYZ", "CIE UCS", XYZ_to_UCS),
     ("CIE UCS", "CIE XYZ", UCS_to_XYZ),
     ("CIE UCS", "CIE UCS uv", UCS_to_uv),
@@ -972,6 +968,41 @@ CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
 Automatic colour conversion graph specifications data describing two nodes and
 the edge in the graph.
 """
+
+
+# Programmatically defining the colourspace models polar conversions.
+
+
+def _format_node_name(name):
+    """Format given name by applying a series of substitutions."""
+
+    for pattern, substitution in [
+        ("hdr_", "hdr-"),
+        ("-CIELab", "-CIELAB"),
+        ("_", " "),
+        ("^Lab", "CIE Lab"),
+        ("^LCHab", "CIE LCHab"),
+        ("^Luv", "CIE Luv"),
+        ("^LCHuv", "CIE LCHuv"),
+        ("Ragoo2021", "Ragoo 2021"),
+    ]:
+        name = re.sub(pattern, substitution, name)
+
+    return name
+
+
+for _Jab, _JCh in COLOURSPACE_MODELS_POLAR_CONVERSION:
+    _module = sys.modules["colour.models"]
+    _Jab_name = _format_node_name(_Jab)
+    _JCh_name = _format_node_name(_JCh)
+    CONVERSION_SPECIFICATIONS_DATA.append(
+        (_Jab_name, _JCh_name, getattr(_module, f"{_Jab}_to_{_JCh}"))
+    )
+    CONVERSION_SPECIFICATIONS_DATA.append(
+        (_JCh_name, _Jab_name, getattr(_module, f"{_JCh}_to_{_Jab}"))
+    )
+
+del _format_node_name, _JCh, _Jab, _module, _Jab_name, _JCh_name
 
 CONVERSION_SPECIFICATIONS: list = [
     Conversion_Specification(*specification)
