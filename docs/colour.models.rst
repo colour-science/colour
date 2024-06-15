@@ -373,6 +373,7 @@ Polar Conversions
 .. autosummary::
     :toctree: generated/
 
+    COLOURSPACE_MODELS_POLAR_CONVERSIONS
     Lab_to_LCHab
     LCHab_to_Lab
     Luv_to_LCHuv
