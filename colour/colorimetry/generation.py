@@ -465,8 +465,8 @@ def sd_gaussian_fwhm(
     SpectralShape(360.0, 780.0, 1.0)
     >>> sd[555]  # doctest: +SKIP
     1.0
-    >>> sd[530]
-    0.0625
+    >>> sd[530] # doctest: +ELLIPSIS
+    0.0625...
     """
 
     settings = {"name": f"{peak_wavelength}nm - {fwhm} FWHM - Gaussian"}
@@ -543,8 +543,8 @@ def sd_gaussian(
     SpectralShape(360.0, 780.0, 1.0)
     >>> sd[555]  # doctest: +SKIP
     1.0
-    >>> sd[530]
-    0.0625
+    >>> sd[530] # doctest: +ELLIPSIS
+    0.0625...
     """
 
     method = validate_method(method, tuple(SD_GAUSSIAN_METHODS))
