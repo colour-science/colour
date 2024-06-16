@@ -1204,9 +1204,7 @@ class SpragueInterpolator:
         # Fancy vector code here... use underlying numpy structures to accelerate
         # parts of the linear algebra.
 
-        y = r[i] + np.einsum(
-            "ab,ab->b", a.reshape(5, -1), X ** np.arange(1, 6).reshape(-1, 1)
-        )
+        y = r[i] + (a.reshape(5, -1) * X ** np.arange(1, 6).reshape(-1, 1)).sum(axis=0)
         if y.size == 1:
             return y[0]
         return y
