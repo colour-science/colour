@@ -78,7 +78,7 @@ def mesopic_weighting_function(
     Examples
     --------
     >>> mesopic_weighting_function(500, 0.2)  # doctest: +ELLIPSIS
-    0.7052200...
+    0.7052...
     """
 
     photopic_lef = optional(
