@@ -47,7 +47,7 @@ classifiers = [
 python = ">= 3.10, < 3.13"
 imageio = ">= 2, < 3"
 numpy = ">= 1.24, < 2"
-scipy = ">= 1.10, < 2, != 1.13.0, != 1.13.1"
+scipy = ">= 1.10, < 2"
 typing-extensions = ">= 4, < 5"
 
 [tool.poetry.group.optional.dependencies]
