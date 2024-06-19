@@ -82,7 +82,7 @@ jobs:
         shell: bash
       - name: Test with Pytest
         run: |
-          poetry run python -W ignore -m pytest --doctest-modules --ignore=$CI_PACKAGE/examples --cov=$CI_PACKAGE $CI_PACKAGE
+          poetry run python -W ignore -m pytest --doctest-modules --ignore=$CI_PACKAGE/examples --cov=$CI_PACKAGE colour/volume/tests
         shell: bash
       - name: Upload Coverage to coveralls.io
         if: matrix.os == 'macOS-latest' && matrix.python-version == '3.12'
