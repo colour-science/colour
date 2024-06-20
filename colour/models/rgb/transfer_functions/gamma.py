@@ -25,15 +25,87 @@ __status__ = "Production"
 
 __all__ = [
     "gamma_function",
+    "GammaFunction",
 ]
+
+NegativeNumberHandlingType = (
+    Literal["Clamp", "Indeterminate", "Mirror", "Preserve"] | str
+)
+
+
+class GammaFunction:
+    """Provides an object oriented interface to contain optional parameters for
+    an underlying :func:gamma_function call. Useful for providing both a simpler
+    and constructed api for gamma_function as well as allowing for control flow.
+    """
+
+    def __init__(
+        self,
+        exponent: float = 1,
+        negative_number_handling: NegativeNumberHandlingType = "Indeterminate",
+    ):
+        """
+        Construct an object oriented interface to contain optional parameters for
+        an underlying :func:gamma_function call. Useful for providing both a simpler
+        and constructed api for gamma_function as well as allowing for control flow.
+
+        Parameters
+        ----------
+        exponent : float, optional
+            The exponent value in a^b, by default 1
+        negative_number_handling : NegativeNumberHandlingType, optional
+            Defines the behavior for negative number handling, by default
+            "Indeterminate"
+
+        See Also
+        --------
+        :func:gamma_function
+        """
+        self._exponent = exponent
+        self._negative_number_handling = negative_number_handling
+
+    @property
+    def exponent(self) -> float:
+        """The exponent, b, in the function a^b
+
+        Returns
+        -------
+        float
+        """
+        return self._exponent
+
+    @property
+    def negative_number_handling(self) -> NegativeNumberHandlingType:
+        """How to treat negative numbers. See also :func:gamma_function
+
+        Returns
+        -------
+        NegativeNumberHandlingType
+            See also :func:gamma_function
+        """
+        return self._negative_number_handling
+
+    def __call__(self, a: ArrayLike):
+        """Calculate a typical encoding / decoding function on `a`. Representative
+        of the function a ^ b where b is determined by the instance value of
+        `exponent` and negative handling behavior is defined by the instance
+        value `negative_number_handling`. See also :func:gamma_function
+
+        Parameters
+        ----------
+        a : ArrayLike
+        """
+        return gamma_function(
+            a,
+            exponent=self.exponent,
+            negative_number_handling=self.negative_number_handling,
+        )
 
 
 def gamma_function(
     a: ArrayLike,
     exponent: ArrayLike = 1,
-    negative_number_handling: (
-        Literal["Clamp", "Indeterminate", "Mirror", "Preserve"] | str
-    ) = "Indeterminate",
+    negative_number_handling: NegativeNumberHandlingType = "Indeterminate",
 ) -> NDArrayFloat:
     """
     Define a typical gamma encoding / decoding function.
