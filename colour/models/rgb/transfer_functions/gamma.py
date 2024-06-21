@@ -101,6 +101,26 @@ class GammaFunction:
             negative_number_handling=self.negative_number_handling,
         )
 
+    def __eq__(self, other: object) -> bool:
+        """Return if two gamma functions have the same parameters and therefore
+        produce the same results
+
+        Parameters
+        ----------
+        other : object
+
+        Returns
+        -------
+        bool
+        """
+        if not isinstance(other, GammaFunction):
+            return False
+
+        return (
+            self.exponent == other.exponent
+            and self.negative_number_handling == other.negative_number_handling
+        )
+
 
 def gamma_function(
     a: ArrayLike,

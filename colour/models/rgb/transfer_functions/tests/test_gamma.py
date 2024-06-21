@@ -204,6 +204,16 @@ gamma_function` definition n-dimensional arrays support.
             GammaFunction(2.2, "Clamp")(a), a_p, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
+    def test__eq__(self):
+        g1 = GammaFunction(exponent=3, negative_number_handling="Clip")
+        g2 = GammaFunction(exponent=3, negative_number_handling="Clip")
+        g3 = GammaFunction(exponent=4, negative_number_handling="Clip")
+        g4 = GammaFunction(exponent=3, negative_number_handling="Mirror")
+
+        assert g1 == g2
+        assert g1 != g3
+        assert g1 != g4
+
     @ignore_numpy_errors
     def test_nan_gamma_function(self):
         """
