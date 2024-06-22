@@ -26,16 +26,14 @@ lp2480zx-dci--p3-emulation.pdf
 
 from __future__ import annotations
 
-from functools import partial
-
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import NDArrayFloat
-from colour.models.rgb import (
-    RGB_Colourspace,
-    gamma_function,
-    normalised_primary_matrix,
+from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
+from colour.models.rgb.transfer_functions.gamma import (
+    decoding_gamma_function_2_6,
+    encoding_gamma_function_2_6,
 )
 
 __author__ = "Colour Developers"
@@ -115,8 +113,8 @@ RGB_COLOURSPACE_DCI_P3: RGB_Colourspace = RGB_Colourspace(
     WHITEPOINT_NAME_DCI_P3,
     MATRIX_DCI_P3_TO_XYZ,
     MATRIX_XYZ_TO_DCI_P3,
-    partial(gamma_function, exponent=1 / 2.6),
-    partial(gamma_function, exponent=2.6),
+    encoding_gamma_function_2_6,
+    decoding_gamma_function_2_6,
 )
 RGB_COLOURSPACE_DCI_P3.__doc__ = """
 *DCI-P3* colourspace.
@@ -134,8 +132,8 @@ RGB_COLOURSPACE_DCI_P3_P: RGB_Colourspace = RGB_Colourspace(
     WHITEPOINT_NAME_DCI_P3,
     MATRIX_DCI_P3_P_TO_XYZ,
     MATRIX_XYZ_TO_DCI_P3_P,
-    partial(gamma_function, exponent=1 / 2.6),
-    partial(gamma_function, exponent=2.6),
+    encoding_gamma_function_2_6,
+    decoding_gamma_function_2_6,
 )
 RGB_COLOURSPACE_DCI_P3_P.__doc__ = """
 *DCI-P3+* colourspace.
