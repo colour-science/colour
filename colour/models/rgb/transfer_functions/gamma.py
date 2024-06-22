@@ -10,6 +10,8 @@ related objects:
 
 from __future__ import annotations
 
+from functools import partial
+
 import numpy as np
 
 from colour.algebra import spow
@@ -25,6 +27,18 @@ __status__ = "Production"
 
 __all__ = [
     "gamma_function",
+    "encoding_gamma_function_1_8",
+    "decoding_gamma_function_1_8",
+    "encoding_gamma_function_2_199",
+    "decoding_gamma_function_2_199",
+    "encoding_gamma_function_2_2",
+    "decoding_gamma_function_2_2",
+    "encoding_gamma_function_2_4",
+    "decoding_gamma_function_2_4",
+    "encoding_gamma_function_2_6",
+    "decoding_gamma_function_2_6",
+    "encoding_gamma_function_2_8",
+    "decoding_gamma_function_2_8",
 ]
 
 
@@ -95,3 +109,22 @@ def gamma_function(
         return as_float(np.where(a <= 0, a, a**exponent))
     else:  # negative_number_handling == 'clamp':
         return as_float(np.where(a <= 0, 0, a**exponent))
+
+
+encoding_gamma_function_1_8 = partial(gamma_function, exponent=1 / 1.8)
+decoding_gamma_function_1_8 = partial(gamma_function, exponent=1.8)
+
+encoding_gamma_function_2_199 = partial(gamma_function, exponent=1 / (563 / 256))
+decoding_gamma_function_2_199 = partial(gamma_function, exponent=563 / 256)
+
+encoding_gamma_function_2_2 = partial(gamma_function, exponent=1 / 2.2)
+decoding_gamma_function_2_2 = partial(gamma_function, exponent=2.2)
+
+encoding_gamma_function_2_4 = partial(gamma_function, exponent=1 / 2.4)
+decoding_gamma_function_2_4 = partial(gamma_function, exponent=2.4)
+
+encoding_gamma_function_2_6 = partial(gamma_function, exponent=1 / 2.6)
+decoding_gamma_function_2_6 = partial(gamma_function, exponent=2.6)
+
+encoding_gamma_function_2_8 = partial(gamma_function, exponent=1 / 2.8)
+decoding_gamma_function_2_8 = partial(gamma_function, exponent=2.8)

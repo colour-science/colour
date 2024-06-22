@@ -16,13 +16,15 @@ References
 
 from __future__ import annotations
 
-from functools import partial
-
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import NDArrayFloat
-from colour.models.rgb import RGB_Colourspace, gamma_function
+from colour.models.rgb import RGB_Colourspace
+from colour.models.rgb.transfer_functions.gamma import (
+    decoding_gamma_function_2_2,
+    encoding_gamma_function_2_2,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -84,8 +86,8 @@ RGB_COLOURSPACE_CIE_RGB: RGB_Colourspace = RGB_Colourspace(
     WHITEPOINT_NAME_CIE_RGB,
     MATRIX_CIE_RGB_TO_XYZ,
     MATRIX_XYZ_TO_CIE_RGB,
-    partial(gamma_function, exponent=1 / 2.2),
-    partial(gamma_function, exponent=2.2),
+    encoding_gamma_function_2_2,
+    decoding_gamma_function_2_2,
 )
 RGB_COLOURSPACE_CIE_RGB.__doc__ = """
 *CIE RGB* colourspace.

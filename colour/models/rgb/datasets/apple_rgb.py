@@ -14,16 +14,17 @@ References
 
 from __future__ import annotations
 
-from functools import partial
-
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
-    gamma_function,
     normalised_primary_matrix,
+)
+from colour.models.rgb.transfer_functions.gamma import (
+    decoding_gamma_function_1_8,
+    encoding_gamma_function_1_8,
 )
 
 __author__ = "Colour Developers"
@@ -74,8 +75,8 @@ RGB_COLOURSPACE_APPLE_RGB: RGB_Colourspace = RGB_Colourspace(
     WHITEPOINT_NAME_APPLE_RGB,
     MATRIX_APPLE_RGB_TO_XYZ,
     MATRIX_XYZ_TO_APPLE_RGB,
-    partial(gamma_function, exponent=1 / 1.8),
-    partial(gamma_function, exponent=1.8),
+    encoding_gamma_function_1_8,
+    decoding_gamma_function_1_8,
 )
 RGB_COLOURSPACE_APPLE_RGB.__doc__ = """
 *Apple RGB* colourspace.
