@@ -18,14 +18,16 @@ R-REC-BT.470-6-199811-S!!PDF-E.pdf
 
 from __future__ import annotations
 
+from functools import partial
+
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import NDArrayFloat
-from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
-from colour.models.rgb.transfer_functions.gamma import (
-    decoding_gamma_function_2_8,
-    encoding_gamma_function_2_8,
+from colour.models.rgb import (
+    RGB_Colourspace,
+    gamma_function,
+    normalised_primary_matrix,
 )
 
 __author__ = "Colour Developers"
@@ -91,8 +93,8 @@ RGB_COLOURSPACE_BT470_525: RGB_Colourspace = RGB_Colourspace(
     WHITEPOINT_NAME_BT470_525,
     MATRIX_BT470_525_TO_XYZ,
     MATRIX_XYZ_TO_BT470_525,
-    encoding_gamma_function_2_8,
-    decoding_gamma_function_2_8,
+    partial(gamma_function, exponent=1 / 2.8),
+    partial(gamma_function, exponent=2.8),
 )
 RGB_COLOURSPACE_BT470_525.__doc__ = """
 *Recommendation ITU-R BT.470 - 525* colourspace.
@@ -143,8 +145,8 @@ RGB_COLOURSPACE_BT470_625: RGB_Colourspace = RGB_Colourspace(
     WHITEPOINT_NAME_BT470_625,
     MATRIX_BT470_625_TO_XYZ,
     MATRIX_XYZ_TO_BT470_625,
-    encoding_gamma_function_2_8,
-    decoding_gamma_function_2_8,
+    partial(gamma_function, exponent=1 / 2.8),
+    partial(gamma_function, exponent=2.8),
 )
 RGB_COLOURSPACE_BT470_625.__doc__ = """
 *Recommendation ITU-R BT.470 - 625* colourspace.

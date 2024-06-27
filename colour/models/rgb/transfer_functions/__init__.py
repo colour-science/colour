@@ -1,3 +1,5 @@
+from functools import partial
+
 from colour.hints import (
     Any,
     ArrayLike,
@@ -23,22 +25,7 @@ from colour.utilities import (
 )
 
 from .common import CV_range, legal_to_full, full_to_legal
-from .gamma import (
-    gamma_function,
-    encoding_gamma_function_1_8,
-    decoding_gamma_function_1_8,
-    encoding_gamma_function_2_199,
-    decoding_gamma_function_2_199,
-    encoding_gamma_function_2_2,
-    decoding_gamma_function_2_2,
-    encoding_gamma_function_2_4,
-    decoding_gamma_function_2_4,
-    encoding_gamma_function_2_6,
-    decoding_gamma_function_2_6,
-    encoding_gamma_function_2_8,
-    decoding_gamma_function_2_8,
-)
-
+from .gamma import gamma_function
 from .aces import (
     log_encoding_ACESproxy,
     log_decoding_ACESproxy,
@@ -951,12 +938,9 @@ __all__ += [
 
 CCTF_ENCODINGS: CanonicalMapping = CanonicalMapping(
     {
-        "Gamma 1.8": encoding_gamma_function_1_8,
-        "Gamma 2.199": encoding_gamma_function_2_199,
-        "Gamma 2.2": encoding_gamma_function_2_2,
-        "Gamma 2.4": encoding_gamma_function_2_4,
-        "Gamma 2.6": encoding_gamma_function_2_6,
-        "Gamma 2.8": encoding_gamma_function_2_8,
+        "Gamma 2.2": partial(gamma_function, exponent=1 / 2.2),
+        "Gamma 2.4": partial(gamma_function, exponent=1 / 2.4),
+        "Gamma 2.6": partial(gamma_function, exponent=1 / 2.6),
         "ProPhoto RGB": cctf_encoding_ProPhotoRGB,
         "RIMM RGB": cctf_encoding_RIMMRGB,
         "ROMM RGB": cctf_encoding_ROMMRGB,
@@ -1051,12 +1035,9 @@ def cctf_encoding(
 
 CCTF_DECODINGS: CanonicalMapping = CanonicalMapping(
     {
-        "Gamma 1.8": decoding_gamma_function_1_8,
-        "Gamma 2.199": decoding_gamma_function_2_199,
-        "Gamma 2.2": decoding_gamma_function_2_2,
-        "Gamma 2.4": decoding_gamma_function_2_4,
-        "Gamma 2.6": decoding_gamma_function_2_6,
-        "Gamma 2.8": decoding_gamma_function_2_8,
+        "Gamma 2.2": partial(gamma_function, exponent=2.2),
+        "Gamma 2.4": partial(gamma_function, exponent=2.4),
+        "Gamma 2.6": partial(gamma_function, exponent=2.6),
         "ProPhoto RGB": cctf_decoding_ProPhotoRGB,
         "RIMM RGB": cctf_decoding_RIMMRGB,
         "ROMM RGB": cctf_decoding_ROMMRGB,

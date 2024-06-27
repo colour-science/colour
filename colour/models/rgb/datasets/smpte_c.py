@@ -16,14 +16,16 @@ References
 
 from __future__ import annotations
 
+from functools import partial
+
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import NDArrayFloat
-from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
-from colour.models.rgb.transfer_functions.gamma import (
-    decoding_gamma_function_2_2,
-    encoding_gamma_function_2_2,
+from colour.models.rgb import (
+    RGB_Colourspace,
+    gamma_function,
+    normalised_primary_matrix,
 )
 
 __author__ = "Colour Developers"
@@ -74,8 +76,8 @@ RGB_COLOURSPACE_SMPTE_C: RGB_Colourspace = RGB_Colourspace(
     WHITEPOINT_NAME_SMPTE_C,
     MATRIX_SMPTE_C_TO_XYZ,
     MATRIX_XYZ_TO_SMPTE_C,
-    encoding_gamma_function_2_2,
-    decoding_gamma_function_2_2,
+    partial(gamma_function, exponent=1 / 2.2),
+    partial(gamma_function, exponent=2.2),
 )
 RGB_COLOURSPACE_SMPTE_C.__doc__ = """
 *SMPTE C* colourspace.

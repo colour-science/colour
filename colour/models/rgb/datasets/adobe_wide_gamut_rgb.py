@@ -15,14 +15,16 @@ References
 
 from __future__ import annotations
 
+from functools import partial
+
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import NDArrayFloat
-from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
-from colour.models.rgb.transfer_functions.gamma import (
-    decoding_gamma_function_2_199,
-    encoding_gamma_function_2_199,
+from colour.models.rgb import (
+    RGB_Colourspace,
+    gamma_function,
+    normalised_primary_matrix,
 )
 
 __author__ = "Colour Developers"
@@ -75,8 +77,8 @@ RGB_COLOURSPACE_ADOBE_WIDE_GAMUT_RGB: RGB_Colourspace = RGB_Colourspace(
     WHITEPOINT_NAME_ADOBE_WIDE_GAMUT_RGB,
     MATRIX_ADOBE_WIDE_GAMUT_RGB_TO_XYZ,
     MATRIX_XYZ_TO_ADOBE_WIDE_GAMUT_RGB,
-    encoding_gamma_function_2_199,
-    decoding_gamma_function_2_199,
+    partial(gamma_function, exponent=1 / (563 / 256)),
+    partial(gamma_function, exponent=563 / 256),
 )
 RGB_COLOURSPACE_ADOBE_WIDE_GAMUT_RGB.__doc__ = """
 *Adobe Wide Gamut RGB* colourspace.
