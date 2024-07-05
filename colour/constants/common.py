@@ -48,7 +48,7 @@ Integer threshold value when checking if a float point number is almost an
 int.
 """
 
-EPSILON: float = cast(float, np.finfo(np.float_).eps)
+EPSILON: float = cast(float, np.finfo(np.double).eps)
 """
 Default epsilon value for tolerance and singularities avoidance in various
 computations.
