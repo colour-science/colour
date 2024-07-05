@@ -169,6 +169,10 @@ API_CHANGES["ObjectRenamed"] = [
     ],
 ]
 
+API_CHANGES["ObjectRemoved"] = [  # pyright: ignore
+    "colour.algebra.matrix_dot",
+]
+
 if not is_documentation_building():
     sys.modules["colour.algebra"] = algebra(  # pyright: ignore
         sys.modules["colour.algebra"], build_API_changes(API_CHANGES)
