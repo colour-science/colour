@@ -62,18 +62,6 @@ Common
     batch
     disable_multiprocessing
     multiprocessing_pool
-    is_ctlrender_installed
-    is_graphviz_installed
-    is_matplotlib_installed
-    is_networkx_installed
-    is_opencolorio_installed
-    is_openimageio_installed
-    is_pandas_installed
-    is_tqdm_installed
-    is_trimesh_installed
-    is_xxhash_installed
-    required
-    as_bool
     is_iterable
     is_numeric
     is_integer
@@ -178,6 +166,29 @@ Data Structures
     Node
     Structure
 
+Requirements
+------------
+
+``colour.utilities``
+
+.. currentmodule:: colour.utilities
+
+.. autosummary::
+    :toctree: generated/
+
+    is_ctlrender_installed
+    is_graphviz_installed
+    is_matplotlib_installed
+    is_networkx_installed
+    is_opencolorio_installed
+    is_openimageio_installed
+    is_pandas_installed
+    is_tqdm_installed
+    is_trimesh_installed
+    is_xxhash_installed
+    REQUIREMENTS_TO_CALLABLE
+    required
+
 Verbose
 -------
 
@@ -192,6 +203,7 @@ Verbose
     show_warning
     warning
     filter_warnings
+    as_bool
     suppress_warnings
     suppress_stdout
     numpy_print_options
@@ -209,6 +221,7 @@ Verbose
     :toctree: generated/
     :template: class.rst
 
+    MixinLogging
     ColourWarning
     ColourUsageWarning
     ColourRuntimeWarning
