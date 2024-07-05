@@ -309,6 +309,11 @@ API_CHANGES: dict = {
         ],
     ],
 }
+"""
+Define the *colour.utilities* sub-package API changes.
+
+API_CHANGES
+"""
 
 # v0.4.2
 API_CHANGES["ObjectRenamed"].extend(
@@ -323,21 +328,6 @@ API_CHANGES["ObjectRenamed"].extend(
         ],
     ]
 )
-"""
-Define the *colour.utilities* sub-package API changes.
-
-API_CHANGES
-"""
-
-# v0.4.5
-API_CHANGES["ObjectRemoved"] = [
-    "colour.algebra.matrix_dot",
-]
-"""
-Define the *colour.utilities* sub-package API changes.
-
-API_CHANGES
-"""
 
 if not is_documentation_building():
     sys.modules["colour.utilities"] = utilities(  # pyright: ignore
