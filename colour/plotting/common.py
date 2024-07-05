@@ -83,7 +83,6 @@ from colour.utilities import (
     filter_mapping,
     first_item,
     is_sibling,
-    is_string,
     optional,
     runtime_warning,
     validate_method,
@@ -950,11 +949,11 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
         used for matching.
     """
 
-    if is_string(filterers) or not isinstance(filterers, (list, tuple)):
+    if isinstance(filterers, str) or not isinstance(filterers, (list, tuple)):
         filterers = [filterers]
 
     string_filterers: List[str] = [
-        cast(str, filterer) for filterer in filterers if is_string(filterer)
+        cast(str, filterer) for filterer in filterers if isinstance(filterer, str)
     ]
 
     object_filterers: List[Any] = [
@@ -1060,7 +1059,7 @@ def filter_cmfs(
 
 
 def filter_illuminants(
-    filterers: (SpectralDistribution | str | Sequence[SpectralDistribution | str]),
+    filterers: SpectralDistribution | str | Sequence[SpectralDistribution | str],
     allow_non_siblings: bool = True,
 ) -> Dict[str, SpectralDistribution]:
     """

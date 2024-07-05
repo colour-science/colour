@@ -37,7 +37,6 @@ from colour.utilities import (
     as_float_array,
     attest,
     is_numeric,
-    is_string,
     optional,
     validate_method,
 )
@@ -218,7 +217,7 @@ class Extrapolator:
         """Setter for the **self.method** property."""
 
         attest(
-            is_string(value),
+            isinstance(value, str),
             f'"method" property: "{value}" type is not "str"!',
         )
 

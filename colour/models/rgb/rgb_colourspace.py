@@ -51,7 +51,6 @@ from colour.utilities import (
     domain_range_scale,
     filter_kwargs,
     from_range_1,
-    is_string,
     multiline_repr,
     multiline_str,
     optional,
@@ -300,7 +299,7 @@ class RGB_Colourspace:
         """Setter for the **self.name** property."""
 
         attest(
-            is_string(value),
+            isinstance(value, str),
             f'"name" property: "{value}" type is not "str"!',
         )
 
@@ -401,7 +400,7 @@ class RGB_Colourspace:
 
         if value is not None:
             attest(
-                is_string(value),
+                isinstance(value, str),
                 f'"whitepoint_name" property: "{value}" type is not "str"!',
             )
 

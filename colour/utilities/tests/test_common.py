@@ -25,7 +25,6 @@ from colour.utilities import (
     is_iterable,
     is_numeric,
     is_sibling,
-    is_string,
     multiprocessing_pool,
     optional,
     set_caching_enable,
@@ -50,7 +49,6 @@ __all__ = [
     "TestMultiprocessingPool",
     "TestAsBool",
     "TestIsIterable",
-    "TestIsString",
     "TestIsNumeric",
     "TestIsInteger",
     "TestIsSibling",
@@ -372,27 +370,6 @@ class TestIsIterable:
         assert is_iterable(generator)
         assert len(list(generator)) == 10
 
-
-class TestIsString:
-    """
-    Define :func:`colour.utilities.common.is_string` definition unit tests
-    methods.
-    """
-
-    def test_is_string(self):
-        """Test :func:`colour.utilities.common.is_string` definition."""
-
-        assert is_string("Hello World!")
-
-        assert is_string("Hello World!")
-
-        assert is_string(r"Hello World!")
-
-        assert not is_string(1)
-
-        assert not is_string([1])
-
-        assert not is_string({1: None})
 
 
 class TestIsNumeric:

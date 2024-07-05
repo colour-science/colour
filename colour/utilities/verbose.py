@@ -32,7 +32,7 @@ from colour.hints import (
     Type,
     cast,
 )
-from colour.utilities import as_bool, is_string, optional
+from colour.utilities import as_bool, optional
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -383,7 +383,7 @@ def filter_warnings(
         if action is None:
             continue
 
-        if is_string(action):
+        if isinstance(action, str):
             action = cast(LiteralWarning, str(action))  # noqa: PLW2901
         else:
             action = "ignore" if action else "default"  # noqa: PLW2901

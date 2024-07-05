@@ -75,7 +75,6 @@ Common
     required
     as_bool
     is_iterable
-    is_string
     is_numeric
     is_integer
     is_sibling

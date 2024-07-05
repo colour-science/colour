@@ -82,7 +82,6 @@ __all__ = [
     "required",
     "as_bool",
     "is_iterable",
-    "is_string",
     "is_numeric",
     "is_integer",
     "is_sibling",
@@ -1139,32 +1138,7 @@ def is_iterable(a: Any) -> bool:
     False
     """
 
-    return is_string(a) or (bool(getattr(a, "__iter__", False)))
-
-
-def is_string(a: Any) -> bool:
-    """
-    Return whether given variable :math:`a` is a :class:`str`-like variable.
-
-    Parameters
-    ----------
-    a
-        Variable :math:`a` to test.
-
-    Returns
-    -------
-    :class:`bool`
-        Whether variable :math:`a` is a :class:`str`-like variable.
-
-    Examples
-    --------
-    >>> is_string("I'm a string!")
-    True
-    >>> is_string(["I'm a string!"])
-    False
-    """
-
-    return bool(isinstance(a, str))
+    return isinstance(a, str) or (bool(getattr(a, "__iter__", False)))
 
 
 def is_numeric(a: Any) -> bool:
@@ -1383,7 +1357,7 @@ def filter_mapping(mapping: Mapping, names: str | Sequence[str]) -> dict:
 
         return {lookup.first_key_from_value(element): element for element in elements}
 
-    names = [str(names)] if is_string(names) else names
+    names = [str(names)] if isinstance(names, str) else names
 
     filtered_mapping = {}
 
