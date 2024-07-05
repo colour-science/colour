@@ -6,6 +6,7 @@ import textwrap
 
 from colour.hints import Optional
 from colour.utilities import (
+    as_bool,
     describe_environment,
     multiline_repr,
     multiline_str,
@@ -24,6 +25,7 @@ __status__ = "Production"
 
 __all__ = [
     "TestShowWarning",
+    "TestAsBool",
     "TestSuppressWarnings",
     "TestSuppressStdout",
     "TestDescribeEnvironment",
@@ -52,6 +54,30 @@ class TestShowWarning:
             show_warning("This is a unit test warning!", Warning, None, None)
         finally:
             sys.stderr = stderr
+
+
+class TestAsBool:
+    """
+    Define :func:`colour.utilities.common.as_bool` definition unit tests
+    methods.
+    """
+
+    def test_as_bool(self):
+        """Test :func:`colour.utilities.common.as_bool` definition."""
+
+        assert as_bool("1")
+
+        assert as_bool("On")
+
+        assert as_bool("True")
+
+        assert not as_bool("0")
+
+        assert not as_bool("Off")
+
+        assert not as_bool("False")
+
+        assert not as_bool("")
 
 
 class TestSuppressWarnings:

@@ -32,7 +32,7 @@ from colour.hints import (
     Type,
     cast,
 )
-from colour.utilities import as_bool, optional
+from colour.utilities import optional
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -51,6 +51,7 @@ __all__ = [
     "runtime_warning",
     "usage_warning",
     "filter_warnings",
+    "as_bool",
     "suppress_warnings",
     "suppress_stdout",
     "numpy_print_options",
@@ -389,6 +390,41 @@ def filter_warnings(
             action = "ignore" if action else "default"  # noqa: PLW2901
 
         filterwarnings(action, category=category)
+
+
+def as_bool(a: str) -> bool:
+    """
+    Convert given string to bool.
+
+    The following string values evaluate to *True*: "1", "On", and "True".
+
+    Parameters
+    ----------
+    a
+        String to convert to bool.
+
+    Returns
+    -------
+    :class:`bool`
+        Whether the given string is *True*.
+
+    Examples
+    --------
+    >>> as_bool("1")
+    True
+    >>> as_bool("On")
+    True
+    >>> as_bool("True")
+    True
+    >>> as_bool("0")
+    False
+    >>> as_bool("Off")
+    False
+    >>> as_bool("False")
+    False
+    """
+
+    return a.lower() in ["1", "on", "true"]
 
 
 # Defaulting to filter *Colour* runtime warnings.
