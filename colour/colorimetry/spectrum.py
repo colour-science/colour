@@ -70,7 +70,6 @@ from colour.utilities import (
     is_iterable,
     is_numeric,
     is_pandas_installed,
-    is_string,
     is_uniform,
     optional,
     runtime_warning,
@@ -741,7 +740,7 @@ class SpectralDistribution(Signal):
         """Setter for the **self.display_name** property."""
 
         attest(
-            is_string(value),
+            isinstance(value, str),
             f'"display_name" property: "{value}" type is not "str"!',
         )
 
@@ -1880,7 +1879,7 @@ class MultiSpectralDistributions(MultiSignals):
         """Setter for the **self.display_name** property."""
 
         attest(
-            is_string(value),
+            isinstance(value, str),
             f'"display_name" property: "{value}" type is not "str"!',
         )
 

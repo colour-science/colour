@@ -44,7 +44,6 @@ from .common import (
     required,
     as_bool,
     is_iterable,
-    is_string,
     is_numeric,
     is_integer,
     is_sibling,
@@ -173,7 +172,6 @@ __all__ += [
     "required",
     "as_bool",
     "is_iterable",
-    "is_string",
     "is_numeric",
     "is_integer",
     "is_sibling",
@@ -328,6 +326,11 @@ API_CHANGES["ObjectRenamed"].extend(
         ],
     ]
 )
+
+# v0.4.5
+API_CHANGES["ObjectRemoved"] = [  # pyright: ignore
+    "colour.utilities.is_string",
+]
 
 if not is_documentation_building():
     sys.modules["colour.utilities"] = utilities(  # pyright: ignore

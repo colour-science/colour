@@ -56,7 +56,6 @@ from colour.utilities import (
     full,
     is_iterable,
     is_numeric,
-    is_string,
     multiline_repr,
     multiline_str,
     optional,
@@ -212,7 +211,7 @@ class AbstractLUT(ABC):
         """Setter for the **self.name** property."""
 
         attest(
-            is_string(value),
+            isinstance(value, str),
             f'"name" property: "{value}" type is not "str"!',
         )
 

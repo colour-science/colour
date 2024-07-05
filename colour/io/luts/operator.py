@@ -26,7 +26,6 @@ from colour.utilities import (
     as_float_array,
     attest,
     is_iterable,
-    is_string,
     ones,
     optional,
     zeros,
@@ -102,7 +101,7 @@ class AbstractLUTSequenceOperator(ABC):
         """Setter for the **self.name** property."""
 
         attest(
-            is_string(value),
+            isinstance(value, str),
             f'"name" property: "{value}" type is not "str"!',
         )
 

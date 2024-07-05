@@ -34,7 +34,6 @@ from colour.utilities import (
     as_float,
     attest,
     closest,
-    is_string,
     is_uniform,
     optional,
 )
@@ -148,7 +147,7 @@ arithmetical_operation`
         """Setter for the **self.name** property."""
 
         attest(
-            is_string(value),
+            isinstance(value, str),
             f'"name" property: "{value}" type is not "str"!',
         )
 

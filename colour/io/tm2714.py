@@ -30,7 +30,6 @@ from colour.utilities import (
     as_float_scalar,
     attest,
     is_numeric,
-    is_string,
     multiline_repr,
     multiline_str,
     optional,
@@ -268,7 +267,7 @@ class Header_IESTM2714:
 
         if value is not None:
             attest(
-                is_string(value),
+                isinstance(value, str),
                 f'"manufacturer" property: "{value}" type is not "str"!',
             )
 
@@ -298,7 +297,7 @@ class Header_IESTM2714:
 
         if value is not None:
             attest(
-                is_string(value),
+                isinstance(value, str),
                 f'"catalog_number" property: "{value}" type is not "str"!',
             )
 
@@ -328,7 +327,7 @@ class Header_IESTM2714:
 
         if value is not None:
             attest(
-                is_string(value),
+                isinstance(value, str),
                 f'"description" property: "{value}" type is not "str"!',
             )
 
@@ -358,7 +357,7 @@ class Header_IESTM2714:
 
         if value is not None:
             attest(
-                is_string(value),
+                isinstance(value, str),
                 f'"document_creator" property: "{value}" type is not "str"!',
             )
 
@@ -388,7 +387,7 @@ class Header_IESTM2714:
 
         if value is not None:
             attest(
-                is_string(value),
+                isinstance(value, str),
                 f'"unique_identifier" property: "{value}" type is not "str"!',
             )
 
@@ -418,7 +417,7 @@ class Header_IESTM2714:
 
         if value is not None:
             attest(
-                is_string(value),
+                isinstance(value, str),
                 f'"measurement_equipment" property: "{value}" type is not "str"!',
             )
 
@@ -448,7 +447,7 @@ class Header_IESTM2714:
 
         if value is not None:
             attest(
-                is_string(value),
+                isinstance(value, str),
                 f'"laboratory" property: "{value}" type is not "str"!',
             )
 
@@ -478,7 +477,7 @@ class Header_IESTM2714:
 
         if value is not None:
             attest(
-                is_string(value),
+                isinstance(value, str),
                 f'"report_number" property: "{value}" type is not "str"!',
             )
 
@@ -508,7 +507,7 @@ class Header_IESTM2714:
 
         if value is not None:
             attest(
-                is_string(value),
+                isinstance(value, str),
                 f'"report_date" property: "{value}" type is not "str"!',
             )
 
@@ -538,7 +537,7 @@ class Header_IESTM2714:
 
         if value is not None:
             attest(
-                is_string(value),
+                isinstance(value, str),
                 f'"document_creation_date" property: "{value}" type is not "str"!',
             )
 
@@ -568,7 +567,7 @@ class Header_IESTM2714:
 
         if value is not None:
             attest(
-                is_string(value),
+                isinstance(value, str),
                 f'"comments" property: "{value}" type is not "str"!',
             )
 
@@ -1037,7 +1036,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
         if value is not None:
             attest(
-                is_string(value) or isinstance(value, Path),
+                isinstance(value, (str, Path)),
                 f'"path" property: "{value}" type is not "str" or "Path"!',
             )
 
@@ -1135,7 +1134,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
         if value is not None:
             attest(
-                is_string(value),
+                isinstance(value, str),
                 f'"spectral_quantity" property: "{value}" type is not "str"!',
             )
 
@@ -1202,7 +1201,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
         if value is not None:
             attest(
-                is_string(value),
+                isinstance(value, str),
                 f'"reflection_geometry" property: "{value}" type is not "str"!',
             )
 
@@ -1237,7 +1236,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
         if value is not None:
             attest(
-                is_string(value),
+                isinstance(value, str),
                 f'"transmission_geometry" property: "{value}" type is not "str"!',
             )
 
