@@ -6,6 +6,7 @@ import textwrap
 
 from colour.hints import Optional
 from colour.utilities import (
+    MixinLogging,
     as_bool,
     describe_environment,
     multiline_repr,
@@ -24,6 +25,7 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "TestMixinLogging",
     "TestShowWarning",
     "TestAsBool",
     "TestSuppressWarnings",
@@ -32,6 +34,21 @@ __all__ = [
     "TestMultilineStr",
     "TestMultilineRepr",
 ]
+
+
+class TestMixinLogging:
+    """
+    Define :class:`colour.utilities.verbose.MixinLogging` class unit tests
+    methods.
+    """
+
+    def test_required_methods(self):
+        """Test the presence of required methods."""
+
+        required_methods = ("log",)
+
+        for method in required_methods:
+            assert method in dir(MixinLogging)
 
 
 class TestShowWarning:

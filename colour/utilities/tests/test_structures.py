@@ -1,4 +1,4 @@
-"""Define the unit tests for the :mod:`colour.utilities.data_structures` module."""
+"""Define the unit tests for the :mod:`colour.utilities.structures` module."""
 
 import operator
 import pickle
@@ -11,7 +11,6 @@ from colour.utilities import (
     ColourUsageWarning,
     LazyCanonicalMapping,
     Lookup,
-    Node,
     Structure,
 )
 
@@ -27,18 +26,17 @@ __all__ = [
     "TestLookup",
     "TestCanonicalMapping",
     "TestLazyCanonicalMapping",
-    "TestNode",
 ]
 
 
 class TestStructure:
     """
-    Define :class:`colour.utilities.data_structures.Structure` class unit
+    Define :class:`colour.utilities.structures.Structure` class unit
     tests methods.
     """
 
     def test_Structure(self):
-        """Test :class:`colour.utilities.data_structures.Structure` class."""
+        """Test :class:`colour.utilities.structures.Structure` class."""
 
         structure = Structure(John="Doe", Jane="Doe")
         assert "John" in structure
@@ -72,7 +70,7 @@ class TestStructure:
 
     def test_pickling(self):
         """
-        Test whether :class:`colour.utilities.data_structures.Structure` class
+        Test whether :class:`colour.utilities.structures.Structure` class
         can be pickled.
         """
 
@@ -91,7 +89,7 @@ class TestStructure:
 
 class TestLookup:
     """
-    Define :class:`colour.utilities.data_structures.Lookup` class unit tests
+    Define :class:`colour.utilities.structures.Lookup` class unit tests
     methods.
     """
 
@@ -105,7 +103,7 @@ class TestLookup:
 
     def test_keys_from_value(self):
         """
-        Test :meth:`colour.utilities.data_structures.Lookup.keys_from_value`
+        Test :meth:`colour.utilities.structures.Lookup.keys_from_value`
         method.
         """
 
@@ -119,7 +117,7 @@ class TestLookup:
 
     def test_first_key_from_value(self):
         """
-        Test :meth:`colour.utilities.data_structures.\
+        Test :meth:`colour.utilities.structures.\
 Lookup.first_key_from_value` method.
         """
 
@@ -133,7 +131,7 @@ Lookup.first_key_from_value` method.
 
     def test_raise_exception_first_key_from_value(self):
         """
-        Test :meth:`colour.utilities.data_structures.\
+        Test :meth:`colour.utilities.structures.\
 Lookup.first_key_from_value` method raised exception.
         """
 
@@ -142,7 +140,7 @@ Lookup.first_key_from_value` method raised exception.
 
 class TestCanonicalMapping:
     """
-    Define :class:`colour.utilities.data_structures.CanonicalMapping` class
+    Define :class:`colour.utilities.structures.CanonicalMapping` class
     unit tests methods.
     """
 
@@ -182,7 +180,7 @@ class TestCanonicalMapping:
 
     def test_data(self):
         """
-        Test :meth:`colour.utilities.data_structures.CanonicalMapping.data`
+        Test :meth:`colour.utilities.structures.CanonicalMapping.data`
         property.
         """
 
@@ -193,7 +191,7 @@ class TestCanonicalMapping:
 
     def test__repr__(self):
         """
-        Test :meth:`colour.utilities.data_structures.CanonicalMapping.__repr__`
+        Test :meth:`colour.utilities.structures.CanonicalMapping.__repr__`
         method.
         """
 
@@ -204,7 +202,7 @@ class TestCanonicalMapping:
 
     def test__setitem__(self):
         """
-        Test :meth:`colour.utilities.data_structures.CanonicalMapping.\
+        Test :meth:`colour.utilities.structures.CanonicalMapping.\
 __setitem__` method.
         """
 
@@ -216,7 +214,7 @@ __setitem__` method.
 
     def test__getitem__(self):
         """
-        Test :meth:`colour.utilities.data_structures.CanonicalMapping.\
+        Test :meth:`colour.utilities.structures.CanonicalMapping.\
 __getitem__` method.
         """
 
@@ -242,7 +240,7 @@ __getitem__` method.
 
     def test__delitem__(self):
         """
-        Test :meth:`colour.utilities.data_structures.CanonicalMapping.\
+        Test :meth:`colour.utilities.structures.CanonicalMapping.\
 __delitem__` method.
         """
 
@@ -285,7 +283,7 @@ __delitem__` method.
 
     def test__contains__(self):
         """
-        Test :meth:`colour.utilities.data_structures.CanonicalMapping.\
+        Test :meth:`colour.utilities.structures.CanonicalMapping.\
 __contains__` method.
         """
 
@@ -307,7 +305,7 @@ __contains__` method.
 
     def test__iter__(self):
         """
-        Test :meth:`colour.utilities.data_structures.CanonicalMapping.__iter__`
+        Test :meth:`colour.utilities.structures.CanonicalMapping.__iter__`
         method.
         """
 
@@ -316,7 +314,7 @@ __contains__` method.
 
     def test__len__(self):
         """
-        Test :meth:`colour.utilities.data_structures.CanonicalMapping.__len__`
+        Test :meth:`colour.utilities.structures.CanonicalMapping.__len__`
         method.
         """
 
@@ -326,7 +324,7 @@ __contains__` method.
 
     def test__eq__(self):
         """
-        Test :meth:`colour.utilities.data_structures.CanonicalMapping.__eq__`
+        Test :meth:`colour.utilities.structures.CanonicalMapping.__eq__`
         method.
         """
 
@@ -340,7 +338,7 @@ __contains__` method.
 
     def test_raise_exception__eq__(self):
         """
-        Test :meth:`colour.utilities.data_structures.CanonicalMapping.__eq__`
+        Test :meth:`colour.utilities.structures.CanonicalMapping.__eq__`
         method raised exception.
         """
 
@@ -353,7 +351,7 @@ __contains__` method.
 
     def test__ne__(self):
         """
-        Test :meth:`colour.utilities.data_structures.CanonicalMapping.__ne__`
+        Test :meth:`colour.utilities.structures.CanonicalMapping.__ne__`
         method.
         """
 
@@ -364,7 +362,7 @@ __contains__` method.
 
     def test_raise_exception__ne__(self):
         """
-        Test :meth:`colour.utilities.data_structures.CanonicalMapping.__ne__`
+        Test :meth:`colour.utilities.structures.CanonicalMapping.__ne__`
         method raised exception.
         """
 
@@ -377,7 +375,7 @@ __contains__` method.
 
     def test_copy(self):
         """
-        Test :meth:`colour.utilities.data_structures.CanonicalMapping.copy`
+        Test :meth:`colour.utilities.structures.CanonicalMapping.copy`
         method.
         """
 
@@ -390,7 +388,7 @@ __contains__` method.
 
     def test_lower_keys(self):
         """
-        Test :meth:`colour.utilities.data_structures.CanonicalMapping.\
+        Test :meth:`colour.utilities.structures.CanonicalMapping.\
 lower_keys` method.
         """
 
@@ -404,7 +402,7 @@ lower_keys` method.
 
     def test_lower_items(self):
         """
-        Test :meth:`colour.utilities.data_structures.CanonicalMapping.\
+        Test :meth:`colour.utilities.structures.CanonicalMapping.\
 lower_items` method.
         """
 
@@ -417,7 +415,7 @@ lower_items` method.
 
     def test_slugified_keys(self):
         """
-        Test :meth:`colour.utilities.data_structures.CanonicalMapping.\
+        Test :meth:`colour.utilities.structures.CanonicalMapping.\
 slugified_keys` method.
         """
 
@@ -434,7 +432,7 @@ slugified_keys` method.
 
     def test_slugified_items(self):
         """
-        Test :meth:`colour.utilities.data_structures.CanonicalMapping.\
+        Test :meth:`colour.utilities.structures.CanonicalMapping.\
 slugified_items` method.
         """
 
@@ -446,7 +444,7 @@ slugified_items` method.
 
     def test_canonical_keys(self):
         """
-        Test :meth:`colour.utilities.data_structures.CanonicalMapping.\
+        Test :meth:`colour.utilities.structures.CanonicalMapping.\
 canonical_keys` method.
         """
 
@@ -463,7 +461,7 @@ canonical_keys` method.
 
     def test_canonical_items(self):
         """
-        Test :meth:`colour.utilities.data_structures.CanonicalMapping.\
+        Test :meth:`colour.utilities.structures.CanonicalMapping.\
 canonical_items` method.
         """
 
@@ -476,7 +474,7 @@ canonical_items` method.
 
 class TestLazyCanonicalMapping:
     """
-    Define :class:`colour.utilities.data_structures.LazyCanonicalMapping` class
+    Define :class:`colour.utilities.structures.LazyCanonicalMapping` class
     unit tests methods.
     """
 
@@ -498,7 +496,7 @@ class TestLazyCanonicalMapping:
 
     def test__getitem__(self):
         """
-        Test :meth:`colour.utilities.data_structures.LazyCanonicalMapping.\
+        Test :meth:`colour.utilities.structures.LazyCanonicalMapping.\
 __getitem__` method.
         """
 
@@ -508,171 +506,3 @@ __getitem__` method.
         assert mapping["john"] == "Doe"
         assert mapping["Jane"] == "Doe"
         assert mapping["jane"] == "Doe"
-
-
-class TestNode:
-    """
-    Define :class:`colour.utilities.data_structures.Node` class unit tests
-    methods.
-    """
-
-    def setup_method(self):
-        """Initialise the common tests attributes."""
-
-        self._data = {"John": "Doe"}
-
-        self._node_a = Node("Node A", data=self._data)
-        self._node_b = Node("Node B", self._node_a)
-        self._node_c = Node("Node C", self._node_a)
-        self._node_d = Node("Node D", self._node_b)
-        self._node_e = Node("Node E", self._node_b)
-        self._node_f = Node("Node F", self._node_d)
-        self._node_g = Node("Node G", self._node_f)
-        self._node_h = Node("Node H", self._node_g)
-
-        self._tree = self._node_a
-
-    def test_required_attributes(self):
-        """Test the presence of required attributes."""
-
-        required_attributes = (
-            "name",
-            "parent",
-            "children",
-            "id",
-            "root",
-            "leaves",
-            "siblings",
-            "data",
-        )
-
-        for attribute in required_attributes:
-            assert attribute in dir(Node)
-
-    def test_required_methods(self):
-        """Test the presence of required methods."""
-
-        required_methods = (
-            "__new__",
-            "__init__",
-            "__str__",
-            "__len__",
-            "is_root",
-            "is_inner",
-            "is_leaf",
-            "walk",
-            "render",
-        )
-
-        for method in required_methods:
-            assert method in dir(Node)
-
-    def test_name(self):
-        """Test :attr:`colour.utilities.data_structures.Node.name` property."""
-
-        assert self._tree.name == "Node A"
-        assert "Node#" in Node().name
-
-    def test_parent(self):
-        """Test :attr:`colour.utilities.data_structures.Node.parent` property."""
-
-        assert self._node_b.parent is self._node_a
-        assert self._node_h.parent is self._node_g
-
-    def test_children(self):
-        """Test :attr:`colour.utilities.data_structures.Node.children` property."""
-
-        assert self._node_a.children == [self._node_b, self._node_c]
-
-    def test_id(self):
-        """Test :attr:`colour.utilities.data_structures.Node.id` property."""
-
-        assert isinstance(self._node_a.id, int)
-
-    def test_root(self):
-        """Test :attr:`colour.utilities.data_structures.Node.root` property."""
-
-        assert self._node_a.root is self._node_a
-        assert self._node_f.root is self._node_a
-        assert self._node_g.root is self._node_a
-        assert self._node_h.root is self._node_a
-
-    def test_leaves(self):
-        """Test :attr:`colour.utilities.data_structures.Node.leaves` property."""
-
-        assert list(self._node_h.leaves) == [self._node_h]
-
-        assert list(self._node_a.leaves) == [self._node_h, self._node_e, self._node_c]
-
-    def test_siblings(self):
-        """Test :attr:`colour.utilities.data_structures.Node.siblings` property."""
-
-        assert list(self._node_a.siblings) == []
-
-        assert list(self._node_b.siblings) == [self._node_c]
-
-    def test_data(self):
-        """Test :attr:`colour.utilities.data_structures.Node.data` property."""
-
-        assert self._node_a.data is self._data
-
-    def test__str__(self):
-        """Test :attr:`colour.utilities.data_structures.Node.__str__` method."""
-
-        assert "Node#" in str(self._node_a)
-        assert "{'John': 'Doe'})" in str(self._node_a)
-
-    def test__len__(self):
-        """Test :attr:`colour.utilities.data_structures.Node.__len__` method."""
-
-        assert len(self._node_a) == 7
-
-    def test_is_root(self):
-        """Test :attr:`colour.utilities.data_structures.Node.is_root` method."""
-
-        assert self._node_a.is_root()
-        assert not self._node_b.is_root()
-        assert not self._node_c.is_root()
-        assert not self._node_h.is_root()
-
-    def test_is_inner(self):
-        """Test :attr:`colour.utilities.data_structures.Node.is_inner` method."""
-
-        assert not self._node_a.is_inner()
-        assert self._node_b.is_inner()
-        assert not self._node_c.is_inner()
-        assert not self._node_h.is_inner()
-
-    def test_is_leaf(self):
-        """Test :attr:`colour.utilities.data_structures.Node.is_leaf` method."""
-
-        assert not self._node_a.is_leaf()
-        assert not self._node_b.is_leaf()
-        assert self._node_c.is_leaf()
-        assert self._node_h.is_leaf()
-
-    def test_walk(self):
-        """Test :attr:`colour.utilities.data_structures.Node.walk` method."""
-
-        assert list(self._node_a.walk()) == [
-            self._node_b,
-            self._node_d,
-            self._node_f,
-            self._node_g,
-            self._node_h,
-            self._node_e,
-            self._node_c,
-        ]
-
-        assert list(self._node_h.walk(ascendants=True)) == [
-            self._node_g,
-            self._node_f,
-            self._node_d,
-            self._node_b,
-            self._node_a,
-        ]
-
-    def test_render(self):
-        """Test :attr:`colour.utilities.data_structures.Node.render` method."""
-
-        assert isinstance(self._node_a.render(), str)

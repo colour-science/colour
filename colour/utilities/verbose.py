@@ -8,6 +8,7 @@ Define the verbose related objects.
 from __future__ import annotations
 
 import functools
+import logging
 import os
 import sys
 import traceback
@@ -23,16 +24,17 @@ import numpy as np
 from colour.hints import (
     Any,
     Callable,
+    ClassVar,
     Dict,
     Generator,
     List,
+    Literal,
     LiteralWarning,
     Mapping,
     TextIO,
     Type,
     cast,
 )
-from colour.utilities import optional
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -42,6 +44,8 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "LOGGER",
+    "MixinLogging",
     "ColourWarning",
     "ColourUsageWarning",
     "ColourRuntimeWarning",
@@ -63,6 +67,58 @@ __all__ = [
     "multiline_str",
     "multiline_repr",
 ]
+
+LOGGER = logging.getLogger(__name__)
+
+
+class MixinLogging:
+    """
+    A mixin providing a convenient logging method.
+
+    Attributes
+    ----------
+    -   :func:`~colour.utilities.MixinLogging.MAPPING_LOGGING_LEVEL_TO_CALLABLE`
+
+    Methods
+    -------
+    -   :func:`~colour.utilities.MixinLogging.log`
+    """
+
+    MAPPING_LOGGING_LEVEL_TO_CALLABLE: ClassVar = {  # pyright: ignore
+        "critical": LOGGER.critical,
+        "error": LOGGER.error,
+        "warning": LOGGER.warning,
+        "info": LOGGER.info,
+        "debug": LOGGER.debug,
+    }
+
+    def log(
+        self,
+        message: str,
+        verbosity: Literal[
+            "critical",
+            "error",
+            "warning",
+            "info",
+            "debug",
+        ] = "info",
+    ) -> None:
+        """
+        Log given message using given verbosity level.
+
+        Parameters
+        ----------
+        message
+            Message to log.
+        verbosity
+            Verbosity level.
+        """
+
+        self.MAPPING_LOGGING_LEVEL_TO_CALLABLE[verbosity](  # pyright: ignore
+            "%s: %s",
+            self.name,  # pyright: ignore
+            message,
+        )
 
 
 class ColourWarning(Warning):
@@ -211,7 +267,7 @@ def show_warning(
 
     frame_range = (1, None)
 
-    file = optional(file, sys.stderr)
+    file = file if file is None else sys.stderr
     if file is None:
         return
 

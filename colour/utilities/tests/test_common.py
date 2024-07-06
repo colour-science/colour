@@ -315,8 +315,6 @@ class TestMultiprocessingPool:
             ]
 
 
-
-
 class TestIsIterable:
     """
     Define :func:`colour.utilities.common.is_iterable` definition unit tests
@@ -345,7 +343,6 @@ class TestIsIterable:
         generator = (a for a in range(10))
         assert is_iterable(generator)
         assert len(list(generator)) == 10
-
 
 
 class TestIsNumeric:

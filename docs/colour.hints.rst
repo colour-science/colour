@@ -25,6 +25,7 @@ Annotation Type Hints
     Optional
     Protocol
     Sequence
+    Set
     SupportsIndex
     TYPE_CHECKING
     TextIO

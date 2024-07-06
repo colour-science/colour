@@ -953,7 +953,7 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
         filterers = [filterers]
 
     string_filterers: List[str] = [
-        cast(str, filterer) for filterer in filterers if isinstance(filterer, str)
+        filterer for filterer in filterers if isinstance(filterer, str)
     ]
 
     object_filterers: List[Any] = [

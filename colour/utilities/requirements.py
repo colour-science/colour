@@ -15,6 +15,7 @@ from colour.hints import (
     Callable,
     Literal,
 )
+from colour.utilities import CanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -397,18 +398,20 @@ def is_xxhash_installed(raise_exception: bool = False) -> bool:
         return False
 
 
-REQUIREMENTS_TO_CALLABLE: dict = {
-    "ctlrender": is_ctlrender_installed,
-    "Graphviz": is_graphviz_installed,
-    "Matplotlib": is_matplotlib_installed,
-    "NetworkX": is_networkx_installed,
-    "OpenColorIO": is_opencolorio_installed,
-    "OpenImageIO": is_openimageio_installed,
-    "Pandas": is_pandas_installed,
-    "tqdm": is_tqdm_installed,
-    "trimesh": is_trimesh_installed,
-    "xxhash": is_xxhash_installed,
-}
+REQUIREMENTS_TO_CALLABLE: CanonicalMapping = CanonicalMapping(
+    {
+        "ctlrender": is_ctlrender_installed,
+        "Graphviz": is_graphviz_installed,
+        "Matplotlib": is_matplotlib_installed,
+        "NetworkX": is_networkx_installed,
+        "OpenColorIO": is_opencolorio_installed,
+        "OpenImageIO": is_openimageio_installed,
+        "Pandas": is_pandas_installed,
+        "tqdm": is_tqdm_installed,
+        "trimesh": is_trimesh_installed,
+        "xxhash": is_xxhash_installed,
+    }
+)
 """
 Mapping of requirements to their respective callables.
 """
@@ -449,12 +452,8 @@ def required(
         def wrapped(*args: Any, **kwargs: Any) -> Any:
             """Wrap given function."""
 
-            from colour.utilities import CanonicalMapping
-
             for requirement in requirements:
-                CanonicalMapping(REQUIREMENTS_TO_CALLABLE)[requirement](
-                    raise_exception=True
-                )
+                REQUIREMENTS_TO_CALLABLE[requirement](raise_exception=True)
 
             return function(*args, **kwargs)
 

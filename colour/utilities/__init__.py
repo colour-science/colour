@@ -27,6 +27,12 @@ from .verbose import (
     multiline_str,
     multiline_repr,
 )
+from .structures import (
+    Lookup,
+    Structure,
+    CanonicalMapping,
+    LazyCanonicalMapping,
+)
 from .requirements import (
     is_ctlrender_installed,
     is_graphviz_installed,
@@ -39,13 +45,6 @@ from .requirements import (
     is_trimesh_installed,
     is_xxhash_installed,
     required,
-)
-from .data_structures import (
-    Lookup,
-    Structure,
-    CanonicalMapping,
-    LazyCanonicalMapping,
-    Node,
 )
 from .callback import (
     Callback,
@@ -131,7 +130,18 @@ from .array import (
     format_array_as_row,
 )
 from .metrics import metric_mse, metric_psnr
-
+from .network import (
+    TreeNode,
+    Port,
+    PortNode,
+    PortGraph,
+    ExecutionPort,
+    ExecutionNode,
+    ControlFlowNode,
+    For,
+    ParallelForThread,
+    ParallelForMultiprocess,
+)
 from colour.utilities.deprecation import ModuleAPI, build_API_changes
 from colour.utilities.documentation import is_documentation_building
 
@@ -159,6 +169,12 @@ __all__ = [
     "multiline_repr",
 ]
 __all__ += [
+    "Lookup",
+    "Structure",
+    "CanonicalMapping",
+    "LazyCanonicalMapping",
+]
+__all__ += [
     "is_ctlrender_installed",
     "is_graphviz_installed",
     "is_matplotlib_installed",
@@ -170,13 +186,6 @@ __all__ += [
     "is_trimesh_installed",
     "is_xxhash_installed",
     "required",
-]
-__all__ += [
-    "Lookup",
-    "Structure",
-    "CanonicalMapping",
-    "LazyCanonicalMapping",
-    "Node",
 ]
 __all__ += [
     "Callback",
@@ -267,6 +276,18 @@ __all__ += [
 __all__ += [
     "metric_mse",
     "metric_psnr",
+]
+__all__ += [
+    "TreeNode",
+    "Port",
+    "PortNode",
+    "PortGraph",
+    "ExecutionPort",
+    "ExecutionNode",
+    "ControlFlowNode",
+    "For",
+    "ParallelForThread",
+    "ParallelForMultiprocess",
 ]
 
 
