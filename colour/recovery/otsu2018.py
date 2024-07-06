@@ -52,7 +52,7 @@ from colour.recovery import (
     SPECTRAL_SHAPE_OTSU2018,
 )
 from colour.utilities import (
-    Node,
+    TreeNode,
     as_float_array,
     as_float_scalar,
     domain_range_scale,
@@ -974,7 +974,7 @@ class Data_Otsu2018:
             raise ValueError('The "tristimulus values" are undefined!')
 
 
-class Node_Otsu2018(Node):
+class Node_Otsu2018(TreeNode):
     """
     Represent a node in a :meth:`colour.recovery.Tree_Otsu2018` class instance
     node tree.

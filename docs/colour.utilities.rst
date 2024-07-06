@@ -136,19 +136,6 @@ Array
     index_along_last_axis
     format_array_as_row
 
-Metrics
--------
-
-``colour.utilities``
-
-.. currentmodule:: colour.utilities
-
-.. autosummary::
-    :toctree: generated/
-
-    metric_mse
-    metric_psnr
-
 Data Structures
 ---------------
 
@@ -163,8 +150,36 @@ Data Structures
     CanonicalMapping
     LazyCanonicalMapping
     Lookup
-    Node
     Structure
+
+Network
+-------
+
+``colour.utilities``
+
+.. currentmodule:: colour.utilities
+
+.. autosummary::
+    :toctree: generated/
+    :template: class.rst
+
+    TreeNode
+    Port
+    PortNode
+    PortGraph
+
+Metrics
+-------
+
+``colour.utilities``
+
+.. currentmodule:: colour.utilities
+
+.. autosummary::
+    :toctree: generated/
+
+    metric_mse
+    metric_psnr
 
 Requirements
 ------------
