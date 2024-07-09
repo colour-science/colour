@@ -23,8 +23,7 @@ from enum import Enum
 from itertools import islice
 from typing import Callable, Optional
 
-import lxml
-from lxml import etree
+import lxml.etree
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -403,7 +402,7 @@ def parse_process_node(xml):
         correctly correspond to the specification..
 
     """
-    tag = etree.QName(xml).localname
+    tag = lxml.etree.QName(xml).localname
     constructor = processing_node_constructors.get(tag)
     if constructor is not None:
         return processing_node_constructors[tag](xml)
@@ -472,7 +471,7 @@ class ProcessList:
 
         ignore_nodes = ["Description", "InputDescriptor", "OutputDescriptor", "Info"]
         process_nodes = filter(
-            lambda node: etree.QName(node).localname not in ignore_nodes, xml
+            lambda node: lxml.etree.QName(node).localname not in ignore_nodes, xml
         )
         process_nodes = [parse_process_node(xml_node) for xml_node in process_nodes]
         check_bit_depth_compatibility(process_nodes)

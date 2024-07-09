@@ -34,8 +34,7 @@ from operator import (
     truediv,
 )
 
-from algebra import vector_dot
-from models import (
+from colour.models import (
     exponent_function_basic,
     exponent_function_monitor_curve,
     logarithmic_function_basic,
@@ -59,6 +58,7 @@ from colour.algebra import (
     LinearInterpolator,
     linear_conversion,
     table_interpolation_trilinear,
+    vector_dot,
 )
 from colour.hints import (
     Any,
@@ -748,18 +748,17 @@ class AbstractLUT(ABC):
     @abstractmethod
     def invert(self, **kwargs: Any) -> AbstractLUT:
         """
-            Compute and returns an inverse copy of the *LUT*.
+        Compute and returns an inverse copy of the *LUT*.
 
-            Other Parameters
-            ----------------
-            kwargs
-                Keywords arguments.
+        Other Parameters
+        ----------------
+        kwargs
+            Keywords arguments.
 
-            Returns
-            -------
-            :class:`colour.io.luts.lut.AbstractLUT`
-                Inverse *LUT* class instance.
-        def apply(self, RGB, interpolator, interpolator_kwargs):
+        Returns
+        -------
+        :class:`colour.io.luts.lut.AbstractLUT`
+            Inverse *LUT* class instance.
         """
 
     @abstractmethod
@@ -2644,7 +2643,7 @@ class LUTSequence(MutableSequence):
         return not (self == other)
 
     # pylint: disable=W0221
-    def insert(self, index, LUT):
+    def insert(self, index: int, value):
         """
         Inserts given *LUT* at given index into the *LUT* sequence.
 
@@ -2652,16 +2651,18 @@ class LUTSequence(MutableSequence):
         ----------
         index : index
             Index to insert the *LUT* at into the *LUT* sequence.
-        LUT : LUT1D or LUT3x1D or LUT3D or AbstractLUTSequenceOperator
+        value : LUT1D or LUT3x1D or LUT3D or AbstractLUTSequenceOperator
             *LUT* to insert into the *LUT* sequence.
         """
 
-        assert isinstance(LUT, (LUT1D, LUT3x1D, LUT3D, AbstractLUTSequenceOperator)), (
+        assert isinstance(
+            value, (LUT1D, LUT3x1D, LUT3D, AbstractLUTSequenceOperator)
+        ), (
             '"LUT" must be an instance of "LUT1D", "LUT3x1D", "LUT3D" or '
             '"AbstractLUTSequenceOperator"!'
         )
 
-        self._sequence.insert(index, LUT)
+        self._sequence.insert(index, value)
 
     def apply(
         self,
@@ -2831,7 +2832,7 @@ class Range(AbstractLUTSequenceOperator):
         self.name = name
         self.comments = comments
 
-    def apply(self, RGB):
+    def apply(self, RGB, *args):
         """
         Applies the *Range* scale to given *RGB* array.
 
@@ -2964,7 +2965,7 @@ class Matrix(AbstractLUTSequenceOperator):
 
         return array
 
-    def apply(self, RGB):
+    def apply(self, RGB, *args):
         """
         Applies the *Matrix* transform to given *RGB* array.
 
@@ -3048,7 +3049,7 @@ class Exponent(AbstractLUTSequenceOperator):
         self.name = name
         self.comments = comments
 
-    def apply(self, RGB):
+    def apply(self, RGB, *args):
         if as_float_array(RGB).size == 3 or (
             isinstance(RGB, np.ndarray) and RGB.shape[-1] == 3
         ):
@@ -3313,7 +3314,7 @@ class Log(AbstractLUTSequenceOperator):
 
         return logarithmic_function(RGB_out)
 
-    def apply(self, RGB):
+    def apply(self, RGB, *args):
         return self._apply_directed(RGB, inverse=False)
 
     def reverse(self, RGB):
