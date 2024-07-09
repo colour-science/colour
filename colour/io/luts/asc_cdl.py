@@ -162,21 +162,21 @@ class ASC_CDL(AbstractLUTSequenceOperator):
             ]
 
         return (
-            "ASC CDL - {0}\n"
-            "{1}\n\n"
-            '<ColorCorrection id="{2}">\n'
+            "ASC CDL - {}\n"
+            "{}\n\n"
+            '<ColorCorrection id="{}">\n'
             "    <SOPNode>\n"
-            "        <Slope> {3} </Slope>\n"
-            "        <Offset> {4} </Offset>\n"
-            "        <Power> {5} </Power>\n"
+            "        <Slope> {} </Slope>\n"
+            "        <Offset> {} </Offset>\n"
+            "        <Power> {} </Power>\n"
             "    </SOPNode>\n"
             "    <SATNode>\n"
-            "        <Saturation> {6} </Saturation>\n"
+            "        <Saturation> {} </Saturation>\n"
             "    </SATNode>\n"
             "</ColorCorrection>\n\n"
-            "Clamping   : {7}\n"
-            "Reverse    : {8}"
-            "{9}".format(
+            "Clamping   : {}\n"
+            "Reverse    : {}"
+            "{}".format(
                 self.name,
                 "-" * (10 + len(self.name)),
                 self.id,
@@ -186,7 +186,7 @@ class ASC_CDL(AbstractLUTSequenceOperator):
                 self.saturation,
                 "Yes" if self.clamp else "No",
                 "Yes" if self.reverse else "No",
-                "\n\n{0}".format("\n".join(comments)) if self.comments else "",
+                "\n\n{}".format("\n".join(comments)) if self.comments else "",
             )
         )
 
@@ -278,7 +278,7 @@ def read_LUT_cdl_xml(path):
         saturation = correction.getElementsByTagName("Saturation")
         saturation = "1" if not saturation else saturation[0].firstChild.data
 
-        if "id" in correction.attributes.keys():
+        if "id" in correction.attributes:
             event.id = correction.attributes["id"].value
 
         event.slope = _parse_array(slope)
@@ -321,21 +321,20 @@ def read_LUT_cdl_edl(path):
             event_cdl.comments = []
             continue
 
-        if event_cdl:
-            if line[0] == "*":
-                trimmed = line[1:].lstrip()
+        if event_cdl and line[0] == "*":
+            trimmed = line[1:].lstrip()
 
-                if trimmed.startswith("ASC_SOP"):
-                    sop = re.sub(r"\)\s*\(|\s*\(|\s*\)", " ", trimmed).split()
-                    event_cdl.slope = np.array(sop[1:4]).astype(np.float)
-                    event_cdl.offset = np.array(sop[4:7]).astype(np.float)
-                    event_cdl.power = np.array(sop[7:]).astype(np.float)
-                    has_cdl = True
-                elif trimmed.startswith("ASC_SAT"):
-                    event_cdl.saturation = float(trimmed.split()[1])
-                    has_cdl = True
-                else:
-                    event_cdl.comments.append(trimmed)
+            if trimmed.startswith("ASC_SOP"):
+                sop = re.sub(r"\)\s*\(|\s*\(|\s*\)", " ", trimmed).split()
+                event_cdl.slope = np.array(sop[1:4]).astype(np.float)
+                event_cdl.offset = np.array(sop[4:7]).astype(np.float)
+                event_cdl.power = np.array(sop[7:]).astype(np.float)
+                has_cdl = True
+            elif trimmed.startswith("ASC_SAT"):
+                event_cdl.saturation = float(trimmed.split()[1])
+                has_cdl = True
+            else:
+                event_cdl.comments.append(trimmed)
     if event_cdl:
         LUT.append(event_cdl)
 

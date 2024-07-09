@@ -171,10 +171,10 @@ def ns_strip(s):
 
 def add_LUT1D(LUT, node):
     shaper, is_half_domain, is_raw_halfs = None, None, None
-    if "halfDomain" in node.keys():
+    if "halfDomain" in node:
         is_half_domain = bool(node.attrib["halfDomain"])
 
-        if "rawHalfs" in node.keys():
+        if "rawHalfs" in node:
             is_raw_halfs = bool(node.attrib["rawHalfs"])
 
     for child in node:
@@ -218,12 +218,12 @@ def add_LUT1D(LUT, node):
             else:
                 shaper.table /= np.max(shaper.table)
 
-                if "name" in node.keys():
+                if "name" in node:
                     shaper.name = f"{node.attrib['name']}_shaper"
 
                 LUT.append(shaper)
 
-    if "name" in node.keys():
+    if "name" in node:
         LUT_1.name = node.attrib["name"]
 
     LUT.append(LUT_1)
@@ -259,12 +259,12 @@ def add_LUT3D(LUT, node):
                 ]
             )
         else:
-            if "name" in node.keys():
+            if "name" in node:
                 shaper.name = f"{node.attrib['name']}_shaper"
 
             LUT.append(shaper)
 
-    if "name" in node.keys():
+    if "name" in node:
         LUT_1.name = node.attrib["name"]
 
     LUT.append(LUT_1)
@@ -275,10 +275,10 @@ def add_LUT3D(LUT, node):
 def add_Range(LUT, node):
     operator = Range()
 
-    if "name" in node.keys():
+    if "name" in node:
         operator.name = node.attrib["name"]
 
-    if "style" in node.keys():
+    if "style" in node:
         style = node.attrib["style"].lower()
 
         if style == "noclamp":
@@ -306,7 +306,7 @@ def add_Range(LUT, node):
 def add_Matrix(LUT, node):
     operator = Matrix()
 
-    if "name" in node.keys():
+    if "name" in node:
         operator.name = node.attrib["name"]
 
     for child in node:
@@ -324,10 +324,10 @@ def add_Matrix(LUT, node):
 def add_ASC_CDL(LUT, node):
     operator = ASC_CDL()
 
-    if "name" in node.keys():
+    if "name" in node:
         operator.name = node.attrib["name"]
 
-    if "style" in node.keys():
+    if "style" in node:
         style = node.attrib["style"].lower()
 
         if style == "fwdnoclamp":
@@ -364,26 +364,26 @@ def add_ASC_CDL(LUT, node):
 def add_Exponent(LUT, node):
     operator = Exponent(exponent=[1, 1, 1], offset=[0, 0, 0])
 
-    if "name" in node.keys():
+    if "name" in node:
         operator.name = node.attrib["name"]
 
-    if "style" in node.keys():
+    if "style" in node:
         operator.style = node.attrib["style"]
 
     for child in node:
         if child.tag.lower().endswith("exponentparams"):
-            if "channel" in child.keys():
+            if "channel" in child:
                 if child.attrib["channel"].lower() == "r":
                     operator.exponent[0] = child.attrib["exponent"]
-                    if "offset" in child.keys():
+                    if "offset" in child:
                         operator.offset[0] = child.attrib["offset"]
                 elif child.attrib["channel"].lower() == "g":
                     operator.exponent[1] = child.attrib["exponent"]
-                    if "offset" in child.keys():
+                    if "offset" in child:
                         operator.offset[1] = child.attrib["offset"]
                 elif child.attrib["channel"].lower() == "b":
                     operator.exponent[2] = child.attrib["exponent"]
-                    if "offset" in child.keys():
+                    if "offset" in child:
                         operator.offset[2] = child.attrib["offset"]
             else:
                 operator.exponent = [
@@ -391,7 +391,7 @@ def add_Exponent(LUT, node):
                     child.attrib["exponent"],
                     child.attrib["exponent"],
                 ]
-                if "offset" in child.keys():
+                if "offset" in child:
                     operator.offset = [
                         child.attrib["offset"],
                         child.attrib["offset"],
@@ -436,10 +436,10 @@ def read_clf(path):
 def write_clf(LUT, path, name="", id="", decimals=10):
     def _format_array(array, decimals=10):
         buffer = StringIO()
-        if not array.dtype == np.uint16:
+        if array.dtype != np.uint16:
             np.savetxt(buffer, array, fmt=str(f"%.{decimals}f"))
         else:
-            np.savetxt(buffer, array, fmt=str("%d"))
+            np.savetxt(buffer, array, fmt="%d")
         return ("\n" + buffer.getvalue()).replace("\n", "\n\t\t\t")[:-1]
 
     def _format_row(array, decimals=10):
@@ -570,7 +570,7 @@ def write_clf(LUT, path, name="", id="", decimals=10):
                 _add_comments(process_node, node.comments)
 
             array = ElementTree.SubElement(process_node, "Array")
-            array.set("dim", "{0} {0} {0} 3".format(node.size))
+            array.set("dim", f"{node.size} {node.size} {node.size} 3")
             array.text = _format_array(
                 node.table.reshape(-1, 3, order="C"), decimals=decimals
             )

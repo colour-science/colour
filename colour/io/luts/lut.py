@@ -2394,8 +2394,6 @@ class AbstractLUTSequenceOperator:
             Processed *RGB* colourspace array.
         """
 
-        pass
-
 
 class LUTSequence(MutableSequence):
     """
@@ -2881,12 +2879,12 @@ class Range(AbstractLUTSequenceOperator):
         """
 
         return (
-            "{0} - {1}\n"
-            "{2}\n\n"
-            "Input      : {3} - {4}\n"
-            "Output     : {5} - {6}\n\n"
-            "Clamping   : {7}"
-            "{8}".format(
+            "{} - {}\n"
+            "{}\n\n"
+            "Input      : {} - {}\n"
+            "Output     : {} - {}\n\n"
+            "Clamping   : {}"
+            "{}".format(
                 self.__class__.__name__,
                 self.name,
                 "-" * (len(self.__class__.__name__) + 3 + len(self.name)),
@@ -2895,7 +2893,7 @@ class Range(AbstractLUTSequenceOperator):
                 self.min_out_value,
                 self.max_out_value,
                 "No" if self.no_clamp else "Yes",
-                "\n\n{0}".format("\n".join(self.comments)) if self.comments else "",
+                "\n\n{}".format("\n".join(self.comments)) if self.comments else "",
             )
         )
 
@@ -3019,17 +3017,17 @@ class Matrix(AbstractLUTSequenceOperator):
             return str(a).replace(" [", " " * 14 + "[")
 
         return (
-            "{0} - {1}\n"
-            "{2}\n\n"
-            "Dimensions : {3}\n"
-            "Matrix     : {4}"
-            "{5}".format(
+            "{} - {}\n"
+            "{}\n\n"
+            "Dimensions : {}\n"
+            "Matrix     : {}"
+            "{}".format(
                 self.__class__.__name__,
                 self.name,
                 "-" * (len(self.__class__.__name__) + 3 + len(self.name)),
                 self.array.shape,
                 _indent_array(self.array),
-                "\n\n{0}".format("\n".join(self.comments)) if self.comments else "",
+                "\n\n{}".format("\n".join(self.comments)) if self.comments else "",
             )
         )
 
@@ -3037,12 +3035,16 @@ class Matrix(AbstractLUTSequenceOperator):
 class Exponent(AbstractLUTSequenceOperator):
     def __init__(
         self,
-        exponent=[1, 1, 1],
-        offset=[0, 0, 0],  # ignored for basic
+        exponent=None,
+        offset=None,  # ignored for basic
         style="basicFwd",
         name="",
         comments=None,
     ):
+        if offset is None:
+            offset = [0, 0, 0]
+        if exponent is None:
+            exponent = [1, 1, 1]
         self.exponent = exponent
         self.offset = offset
         self.style = style
@@ -3080,27 +3082,25 @@ class Exponent(AbstractLUTSequenceOperator):
 
     def __str__(self):
         return (
-            "{0} - {1}\n"
-            "{2}\n\n"
-            "Exponent.r : {3}\n"
-            "Exponent.g : {4}\n"
-            "Exponent.b : {5}\n"
-            "{6}"
-            "Style : {7}\n"
-            "{8}".format(
+            "{} - {}\n"
+            "{}\n\n"
+            "Exponent.r : {}\n"
+            "Exponent.g : {}\n"
+            "Exponent.b : {}\n"
+            "{}"
+            "Style : {}\n"
+            "{}".format(
                 self.__class__.__name__,
                 self.name,
                 "-" * (len(self.__class__.__name__) + 3 + len(self.name)),
                 self.exponent[0],
                 self.exponent[1],
                 self.exponent[2],
-                "Offset.r : {}\nOffset.g : {}\nOffset.b : {}\n".format(
-                    self.offset[0], self.offset[1], self.offset[2]
-                )
+                f"Offset.r : {self.offset[0]}\nOffset.g : {self.offset[1]}\nOffset.b : {self.offset[2]}\n"
                 if self.style.lower()[:8] == "moncurve"
                 else "",
                 self.style,
-                "\n\n{0}".format("\n".join(self.comments)) if self.comments else "",
+                "\n\n{}".format("\n".join(self.comments)) if self.comments else "",
             )
         )
 
@@ -3147,7 +3147,7 @@ class Log(AbstractLUTSequenceOperator):
 
     @style.setter
     def style(self, value):
-        if not value in self.log_styles:
+        if value not in self.log_styles:
             raise ValueError(f"Invalid Log style: {value}")
 
         if value.endswith("2"):
@@ -3244,15 +3244,13 @@ class Log(AbstractLUTSequenceOperator):
             )
 
         elif style.startswith("anti") or any(
-            [
-                x is None
+            x is None
                 for x in [
                     lin_side_slope,
                     lin_side_offset,
                     log_side_slope,
                     log_side_offset,
                 ]
-            ]
         ):
             style = "logB"
             if style.lower().startswith("anti"):
@@ -3261,12 +3259,12 @@ class Log(AbstractLUTSequenceOperator):
             __function = partial(logarithmic_function_basic, base=base, style=style)
 
         else:
-            function_kwargs = dict(
-                log_side_slope=log_side_slope,
-                log_side_offset=log_side_offset,
-                lin_side_slope=lin_side_slope,
-                lin_side_offset=lin_side_offset,
-            )
+            function_kwargs = {
+                "log_side_slope": log_side_slope,
+                "log_side_offset": log_side_offset,
+                "lin_side_slope": lin_side_slope,
+                "lin_side_offset": lin_side_offset,
+            }
 
             if lin_side_break is not None:
                 function_kwargs.update(lin_side_break=lin_side_break)
@@ -3283,7 +3281,7 @@ class Log(AbstractLUTSequenceOperator):
                     logarithmic_function_quasilog, base=base, style=style
                 )
 
-            if any([as_float_array(v).size > 1 for v in function_kwargs.values()]):
+            if any(as_float_array(v).size > 1 for v in function_kwargs.values()):
                 function_kwargs = {
                     k: v * np.ones(3) for k, v in function_kwargs.items()
                 }
@@ -3293,13 +3291,10 @@ class Log(AbstractLUTSequenceOperator):
     def _apply_directed(self, RGB, inverse=False):
         RGB_out = as_float_array(RGB)
 
-        inverse_styles = {
-            fwd: inv
-            for fwd, inv in zip(
+        inverse_styles = dict(zip(
                 self.lin_to_log_styles + self.log_to_lin_styles,
                 self.log_to_lin_styles + self.lin_to_log_styles,
-            )
-        }
+            ))
         style = inverse_styles[self.style] if inverse else self.style
         logarithmic_function = self._logarithmic_function_factory(
             style=style,
@@ -3327,36 +3322,28 @@ class Log(AbstractLUTSequenceOperator):
         title = f"{f'{self.name} - ' if self.name else ''}{direction}"
         basic_style = self.style[-1] in "20"
         return (
-            "{0} - {1}\n"
-            "{2}\n\n"
-            "style          : {3}\n"
-            "base           : {4}"
-            "{5}{6}{7}{8}{9}{10}{11}"
+            "{} - {}\n"
+            "{}\n\n"
+            "style          : {}\n"
+            "base           : {}"
+            "{}{}{}{}{}{}{}"
         ).format(
             self.__class__.__name__,
             title,
             "-" * (len(self.__class__.__name__) + 3 + len(title)),
             self.style,
             self.base,
-            "\nlogSideSlope   : {0}".format(self.log_side_slope)
-            if not basic_style
-            else "",
-            "\nlogSideOffset  : {0}".format(self.log_side_offset)
-            if not basic_style
-            else "",
-            "\nlinSideSlope   : {0}".format(self.lin_side_slope)
-            if not basic_style
-            else "",
-            "\nlinSideOffset  : {0}".format(self.lin_side_offset)
-            if not basic_style
-            else "",
-            "\nlinearSlope    : {0}".format(self.linear_slope)
+            f"\nlogSideSlope   : {self.log_side_slope}" if not basic_style else "",
+            f"\nlogSideOffset  : {self.log_side_offset}" if not basic_style else "",
+            f"\nlinSideSlope   : {self.lin_side_slope}" if not basic_style else "",
+            f"\nlinSideOffset  : {self.lin_side_offset}" if not basic_style else "",
+            f"\nlinearSlope    : {self.linear_slope}"
             if not basic_style and self.linear_slope is not None
             else "",
-            "\nlinSideBreak   : {0}".format(self.lin_side_break)
+            f"\nlinSideBreak   : {self.lin_side_break}"
             if not basic_style and self.lin_side_break is not None
             else "",
-            "\n\n{0}".format("\n".join(self.comments)) if self.comments else "",
+            "\n\n{}".format("\n".join(self.comments)) if self.comments else "",
         )
 
     def __repr__(self):
