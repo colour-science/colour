@@ -311,7 +311,7 @@ def convert_bit_depth(
 
     if source_dtype == "uint8":
         if bit_depth == "uint16":
-            a = (a * 257).astype(target_dtype)
+            a = a.astype(target_dtype) * 257
         elif bit_depth in ("float16", "float32", "float64", "float128"):
             a = (a / 255).astype(target_dtype)
     elif source_dtype == "uint16":

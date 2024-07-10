@@ -794,7 +794,7 @@ class Signal(AbstractContinuousFunction):
             y = np.resize(y, x.shape)
 
             # Matching domain, updating existing `self._range` values.
-            mask = np.in1d(x, self._domain)
+            mask = np.in1d(x, self._domain)  # pyright: ignore
             x_m = x[mask]
             indexes = np.searchsorted(self._domain, x_m)
             self._range[indexes] = y[mask]

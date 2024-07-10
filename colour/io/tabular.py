@@ -122,7 +122,10 @@ def read_spectral_data_from_csv_file(
     path = str(path)
 
     settings = {
+        "names": True,
+        "delimiter": ",",
         "case_sensitive": True,
+        # "case_sensitive": "lower",
         "deletechars": "",
         "replace_space": " ",
         "dtype": DTYPE_FLOAT_DEFAULT,
@@ -132,23 +135,23 @@ def read_spectral_data_from_csv_file(
     transpose = settings.get("transpose")
     if transpose:
         delimiter = cast(str, settings.get("delimiter", ","))
-        if settings.get("delimiter") is not None:
-            del settings["delimiter"]
 
         with open(path) as csv_file:
             content = zip(*csv.reader(csv_file, delimiter=delimiter))
+
+        settings["delimiter"] = ","
 
         transposed_csv_file = tempfile.NamedTemporaryFile(mode="w", delete=False)
         path = transposed_csv_file.name
         csv.writer(transposed_csv_file).writerows(content)
         transposed_csv_file.close()
 
-    data = np.recfromcsv(path, **filter_kwargs(np.genfromtxt, **settings))
+    data = np.genfromtxt(path, **filter_kwargs(np.genfromtxt, **settings))
 
     if transpose:
         os.unlink(transposed_csv_file.name)
 
-    return {name: data[name] for name in data.dtype.names}
+    return {name: data[name] for name in data.dtype.names}  # pyright: ignore
 
 
 def read_sds_from_csv_file(

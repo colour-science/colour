@@ -84,7 +84,7 @@ def luminous_flux(
         extrapolator_kwargs={"method": "Constant", "left": 0, "right": 0},
     )
 
-    flux = K_m * np.trapz(lef.values * sd.values, sd.wavelengths)
+    flux = K_m * np.trapz(lef.values * sd.values, sd.wavelengths)  # pyright: ignore
 
     return as_float_scalar(flux)
 
@@ -130,7 +130,9 @@ def luminous_efficiency(
         extrapolator_kwargs={"method": "Constant", "left": 0, "right": 0},
     )
 
-    efficiency = np.trapz(lef.values * sd.values, sd.wavelengths) / np.trapz(
+    efficiency = np.trapz(  # pyright: ignore
+        lef.values * sd.values, sd.wavelengths
+    ) / np.trapz(  # pyright: ignore
         sd.values, sd.wavelengths
     )
 
