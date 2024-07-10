@@ -725,6 +725,7 @@ def describe_environment(
             "scipy",
             "tqdm",
             "trimesh",
+            "xxhash",
         ]:
             with suppress(ImportError):
                 namespace = __import__(package)
@@ -762,6 +763,9 @@ def describe_environment(
         mapping = {
             "biblib.bib": "biblib-simple",
             "pre_commit": "pre-commit",
+            "pydata_sphinx_theme": "pydata-sphinx-theme",
+            "pytest_cov": "pytest-cov",
+            "pytest_xdist": "pytest-xdist",
             "restructuredtext_lint": "restructuredtext-lint",
             "sphinxcontrib.bibtex": "sphinxcontrib-bibtex",
         }
@@ -769,20 +773,18 @@ def describe_environment(
             "biblib.bib",
             "coverage",
             "coveralls",
-            "flake8",
             "invoke",
             "jupyter",
-            "mock",
-            "nose",
             "pre_commit",
+            "pydata_sphinx_theme",
+            "pyright",
             "pytest",
+            "pytest_cov",
+            "pytest_xdist",
             "restructuredtext_lint",
-            "sphinx",
-            "sphinx_rtd_theme",
             "sphinxcontrib.bibtex",
             "toml",
             "twine",
-            "yapf",
         ]:
             try:
                 version = _get_package_version(package, mapping)
