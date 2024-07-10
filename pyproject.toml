@@ -46,8 +46,8 @@ classifiers = [
 [tool.poetry.dependencies]
 python = ">= 3.10, < 3.13"
 imageio = ">= 2, < 3"
-numpy = ">= 1.24, < 2"
-scipy = ">= 1.10, < 2, != 1.13.0, != 1.13.1"
+numpy = ">= 1.24, < 3"
+scipy = ">= 1.10, < 2"
 typing-extensions = ">= 4, < 5"
 
 [tool.poetry.group.optional.dependencies]
@@ -62,7 +62,7 @@ xxhash = ">= 3.2, < 4"
 pygraphviz = { version = ">= 1, < 2" }
 
 [tool.poetry.group.meshing.dependencies]
-trimesh = ">= 3, < 4"
+trimesh = ">= 3, < 5"
 
 [tool.poetry.group.dev.dependencies]
 coverage = ">= 6, < 7"

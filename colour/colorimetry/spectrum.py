@@ -399,7 +399,7 @@ class SpectralShape:
 
         return bool(
             np.all(
-                np.in1d(
+                np.in1d(  # pyright: ignore
                     np.around(
                         wavelength,  # pyright: ignore
                         decimals,

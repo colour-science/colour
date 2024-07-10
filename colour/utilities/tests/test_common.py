@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import platform
 import unicodedata
 from functools import partial
 
@@ -640,9 +639,6 @@ class TestIntDigest:
 
         assert int_digest("Foo") == 7467386374397815550
 
-        if platform.system() in ("Windows", "Microsoft"):  # pragma: no cover
-            assert int_digest(np.array([1, 2, 3]).tobytes()) == 7764052002911021640
-        else:
-            assert int_digest(np.array([1, 2, 3]).tobytes()) == 8964613590703056768
+        assert int_digest(np.array([1, 2, 3]).tobytes()) == 8964613590703056768
 
         assert int_digest(repr((1, 2, 3))) == 5069958125469218295

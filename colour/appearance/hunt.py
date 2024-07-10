@@ -757,7 +757,7 @@ def chromatic_adaptation(
         rgb_w = adjusted_reference_white_signals(rgb_p, B_rgb, rgb_w, p)
 
     # Computing adapted cone responses.
-    rgb_a = 1 + B_rgb * (f_n(F_L[..., None] * F_rgb * rgb / rgb_w) + D_rgb)
+    rgb_a = 1.0 + B_rgb * (f_n(F_L[..., None] * F_rgb * rgb / rgb_w) + D_rgb)
 
     return rgb_a
 

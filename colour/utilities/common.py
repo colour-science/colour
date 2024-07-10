@@ -405,7 +405,7 @@ def handle_numpy_errors(**kwargs: Any) -> Callable:
     >>> f()
     """
 
-    context = np.errstate(**kwargs)
+    keyword_arguments = kwargs
 
     def wrapper(function: Callable) -> Callable:
         """Wrap given function wrapper."""
@@ -414,7 +414,7 @@ def handle_numpy_errors(**kwargs: Any) -> Callable:
         def wrapped(*args: Any, **kwargs: Any) -> Any:
             """Wrap given function."""
 
-            with context:
+            with np.errstate(**keyword_arguments):
                 return function(*args, **kwargs)
 
         return wrapped
