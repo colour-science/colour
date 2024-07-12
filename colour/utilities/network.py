@@ -2047,6 +2047,13 @@ class PortGraph(PortNode):
         agraph.graph_attr["rankdir"] = "LR"
         agraph.graph_attr["splines"] = "polyline"
 
+        graphs = [node for node in self.walk() if isinstance(node, PortGraph)]
+
+        def is_graph_member(node: PortNode) -> bool:
+            """Return whether the given node is member of a graph."""
+
+            return any(node in graph.nodes.values() for graph in graphs)
+
         for node in self.walk():
             agraph.add_node(
                 f"{node.name} (#{node.id})", label=node.to_graphviz(), shape="record"
@@ -2054,26 +2061,8 @@ class PortGraph(PortNode):
             input_edges, output_edges = node.edges
 
             for edge in input_edges:
-                is_ii_or_oo_connection = False
-
-                if edge[0].is_input_port() and edge[1].is_input_port():
-                    is_ii_or_oo_connection = True
-
-                if edge[0].is_output_port() and edge[1].is_output_port():
-                    is_ii_or_oo_connection = True
-
-                if (
-                    isinstance(edge[0].node, PortGraph)
-                    and edge[0].node.is_subgraph
-                    and is_ii_or_oo_connection
-                ):
-                    continue
-
-                if (
-                    isinstance(edge[1].node, PortGraph)
-                    and edge[1].node.is_subgraph
-                    and is_ii_or_oo_connection
-                ):
+                # Not drawing node edges that involve a node member of graph.
+                if is_graph_member(edge[0].node) or is_graph_member(edge[1].node):
                     continue
 
                 agraph.add_edge(
