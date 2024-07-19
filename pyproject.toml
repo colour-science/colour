@@ -49,7 +49,11 @@ dependencies = [
     "numpy>=1.24,<3",
     "scipy>=1.10,<2",
     "typing-extensions>=4,<5",
+    "colour-clf-io"
 ]
+
+[tool.uv.sources]
+colour-clf-io = {path = '../clf_io'}
 
 [project.optional-dependencies]
 optional = [
