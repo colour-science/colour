@@ -2,7 +2,7 @@
 CLF Parsing
 ===========
 
-Defines the functionality and data structures to  parse CLF documents.
+Defines the functionality and data structures to parse CLF documents.
 
 The main functionality is exposed through the following two methods:
 -   :func:`colour.io.clf.read_clf`: Read a file in the CLF format and return the

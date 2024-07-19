@@ -1037,7 +1037,8 @@ class LUT1D(AbstractLUT):
         if len(domain) != 2:
             return domain
         else:
-            attest(is_numeric(size), "Linear table size must be a numeric!")
+            attest(is_numeric(size),
+                   f"Linear table size must be a numeric but is {size} instead!")
 
             return np.linspace(domain[0], domain[1], as_int_scalar(size))
 

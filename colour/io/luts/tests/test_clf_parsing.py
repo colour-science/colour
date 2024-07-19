@@ -18,14 +18,10 @@ import numpy as np
 
 from colour.io import clf
 from colour.io.clf import parse_clf, read_clf
+from io.luts.tests.test_clf_common import wrap_snippet
 
 ROOT_CLF: str = os.path.join(os.path.dirname(__file__), "resources", "clf")
 
-EXAMPLE_WRAPPER = """<?xml version="1.0" ?>
-<ProcessList xmlns="urn:NATAS:AMPAS:LUT:v2.0" id="Example Wrapper" compCLFversion="2.0">
-{0}
-</ProcessList>
-"""
 
 
 class TestParseCLF(unittest.TestCase):
@@ -97,7 +93,7 @@ class TestParseCLF(unittest.TestCase):
             </Array>
         </LUT1D>
         """
-        doc = parse_clf(EXAMPLE_WRAPPER.format(example))
+        doc = parse_clf(wrap_snippet(example))
         node = doc.process_nodes[0]
         self.assertIsInstance(node, clf.LUT1D)
         self.assertEqual(node.id, "lut-23")
@@ -131,7 +127,7 @@ class TestParseCLF(unittest.TestCase):
             </Array>
         </LUT3D>
         """  # noqa: E501
-        doc = parse_clf(EXAMPLE_WRAPPER.format(example))
+        doc = parse_clf(wrap_snippet(example))
         node = doc.process_nodes[0]
         self.assertIsInstance(node, clf.LUT3D)
         self.assertEqual(node.id, "lut-24")
@@ -171,7 +167,7 @@ class TestParseCLF(unittest.TestCase):
             </Array>
         </Matrix>
         """
-        doc = parse_clf(EXAMPLE_WRAPPER.format(example))
+        doc = parse_clf(wrap_snippet(example))
         node = doc.process_nodes[0]
         self.assertIsInstance(node, clf.Matrix)
         self.assertEqual(node.id, "lut-28")
@@ -205,7 +201,7 @@ class TestParseCLF(unittest.TestCase):
             </Array>
         </Matrix>
         """  # noqa: E501
-        doc = parse_clf(EXAMPLE_WRAPPER.format(example))
+        doc = parse_clf(wrap_snippet(example))
         node = doc.process_nodes[0]
         self.assertIsInstance(node, clf.Matrix)
         self.assertEqual(node.id, "lut-25")
@@ -253,7 +249,7 @@ class TestParseCLF(unittest.TestCase):
             <maxOutValue>940</maxOutValue>
         </Range>
         """
-        doc = parse_clf(EXAMPLE_WRAPPER.format(example))
+        doc = parse_clf(wrap_snippet(example))
         node = doc.process_nodes[0]
         self.assertIsInstance(node, clf.Range)
         self.assertEqual(node.id, None)
@@ -275,7 +271,7 @@ class TestParseCLF(unittest.TestCase):
             <Description>Base 10 Logarithm</Description>
         </Log>
         """
-        doc = parse_clf(EXAMPLE_WRAPPER.format(example))
+        doc = parse_clf(wrap_snippet(example))
         node = doc.process_nodes[0]
         self.assertIsInstance(node, clf.Log)
         self.assertEqual(node.id, None)
@@ -299,7 +295,7 @@ class TestParseCLF(unittest.TestCase):
                 linearSlope="6.025"/>
         </Log>
         """
-        doc = parse_clf(EXAMPLE_WRAPPER.format(example))
+        doc = parse_clf(wrap_snippet(example))
         node = doc.process_nodes[0]
         self.assertIsInstance(node, clf.Log)
         self.assertEqual(node.id, None)
@@ -327,7 +323,7 @@ class TestParseCLF(unittest.TestCase):
             <ExponentParams exponent="2.2"/>
         </Exponent>
         """
-        doc = parse_clf(EXAMPLE_WRAPPER.format(example))
+        doc = parse_clf(wrap_snippet(example))
         node = doc.process_nodes[0]
         self.assertIsInstance(node, clf.Exponent)
         self.assertEqual(node.id, None)
@@ -349,7 +345,7 @@ class TestParseCLF(unittest.TestCase):
             <ExponentParams exponent="2.4" offset="0.055" />
         </Exponent>
         """
-        doc = parse_clf(EXAMPLE_WRAPPER.format(example))
+        doc = parse_clf(wrap_snippet(example))
         node = doc.process_nodes[0]
         self.assertIsInstance(node, clf.Exponent)
         self.assertEqual(node.id, None)
@@ -372,7 +368,7 @@ class TestParseCLF(unittest.TestCase):
             <ExponentParams exponent="3.0" offset="0.16" />
         </Exponent>
         """
-        doc = parse_clf(EXAMPLE_WRAPPER.format(example))
+        doc = parse_clf(wrap_snippet(example))
         node = doc.process_nodes[0]
         self.assertIsInstance(node, clf.Exponent)
         self.assertEqual(node.id, None)
@@ -395,7 +391,7 @@ class TestParseCLF(unittest.TestCase):
             <ExponentParams exponent="2.2222222222222222" offset="0.099" />
         </Exponent>
         """
-        doc = parse_clf(EXAMPLE_WRAPPER.format(example))
+        doc = parse_clf(wrap_snippet(example))
         node = doc.process_nodes[0]
         self.assertIsInstance(node, clf.Exponent)
         self.assertEqual(node.id, None)
@@ -425,7 +421,7 @@ class TestParseCLF(unittest.TestCase):
             </SatNode>
         </ASC_CDL>
         """
-        doc = parse_clf(EXAMPLE_WRAPPER.format(example))
+        doc = parse_clf(wrap_snippet(example))
         node = doc.process_nodes[0]
         self.assertIsInstance(node, clf.ASC_CDL)
         self.assertEqual(node.id, "cc01234")

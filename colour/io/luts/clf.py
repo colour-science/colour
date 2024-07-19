@@ -1,6 +1,7 @@
-from __future__ import division, unicode_literals
+from __future__ import division, unicode_literals, annotations
 
 import re
+from typing import Tuple
 from xml.dom import minidom
 from xml.etree import ElementTree
 
@@ -20,6 +21,16 @@ from colour.io.luts import (
     Matrix,
     Range,
 )
+from colour.hints import (
+    Any,
+    ArrayLike,
+    List,
+    Literal,
+    NDArrayFloat,
+    Sequence,
+    Type,
+    cast,
+)
 from colour.utilities import as_float, as_float_array, tsplit, tstack
 
 __all__ = [
@@ -33,6 +44,8 @@ __all__ = [
     "read_clf",
     "write_clf",
 ]
+
+from colour.io import clf
 
 
 def half_to_uint16(x):
@@ -321,240 +334,34 @@ def add_Matrix(LUT, node):
     return LUT
 
 
-def add_ASC_CDL(LUT, node):
-    operator = ASC_CDL()
+def apply_LUT1D(node: clf.LUT1D, value: ArrayLike) -> ArrayLike:
+    table = node.array.as_array()
+    size = node.array.dim[0]
+    domain = min(table), max(table)
+    lut = LUT1D(table, size=size, domain=domain)
+    return lut.apply(value)
 
-    if "name" in node:
-        operator.name = node.attrib["name"]
-
-    if "style" in node:
-        style = node.attrib["style"].lower()
-
-        if style == "fwdnoclamp":
-            operator.clamp, operator.reverse = False, False
-        elif style == "revnoclamp":
-            operator.clamp, operator.reverse = False, True
-        elif style == "fwd":
-            operator.clamp, operator.reverse = True, False
-        elif style == "reverse":
-            operator.clamp, operator.reverse = True, True
-
-    for child in node:
-        if child.tag.lower().endswith("sopnode"):
-            for grand_child in child:
-                tag = grand_child.tag.lower()
-
-                if tag.endswith("slope"):
-                    operator.slope = parse_array(grand_child.text)
-                elif tag.endswith("offset"):
-                    operator.offset = parse_array(grand_child.text)
-                elif tag.endswith("power"):
-                    operator.power = parse_array(grand_child.text)
-
-        if child.tag.lower().endswith("satnode"):
-            for grand_child in child:
-                if grand_child.tag.lower().endswith("saturation"):
-                    operator.saturation = float(grand_child.text)
-
-    LUT.append(operator)
-
-    return LUT
-
-
-def add_Exponent(LUT, node):
-    operator = Exponent(exponent=[1, 1, 1], offset=[0, 0, 0])
-
-    if "name" in node:
-        operator.name = node.attrib["name"]
-
-    if "style" in node:
-        operator.style = node.attrib["style"]
-
-    for child in node:
-        if child.tag.lower().endswith("exponentparams"):
-            if "channel" in child:
-                if child.attrib["channel"].lower() == "r":
-                    operator.exponent[0] = child.attrib["exponent"]
-                    if "offset" in child:
-                        operator.offset[0] = child.attrib["offset"]
-                elif child.attrib["channel"].lower() == "g":
-                    operator.exponent[1] = child.attrib["exponent"]
-                    if "offset" in child:
-                        operator.offset[1] = child.attrib["offset"]
-                elif child.attrib["channel"].lower() == "b":
-                    operator.exponent[2] = child.attrib["exponent"]
-                    if "offset" in child:
-                        operator.offset[2] = child.attrib["offset"]
-            else:
-                operator.exponent = [
-                    child.attrib["exponent"],
-                    child.attrib["exponent"],
-                    child.attrib["exponent"],
-                ]
-                if "offset" in child:
-                    operator.offset = [
-                        child.attrib["offset"],
-                        child.attrib["offset"],
-                        child.attrib["offset"],
-                    ]
-
-    LUT.append(operator)
-
-    return LUT
-
-
-def read_clf(path):
-    LUT = LUTSequence()
-    tree = ElementTree.parse(path)
-    process_list = tree.getroot()
-    # if 'name' in process_list.keys():
-    # LUT.name = process_list.attrib['name']
-    for node in process_list:
-        tag = node.tag.lower()
-        # if node.tag.endswith('Description'):
-        # LUT.comments.append(node.text)
-        # if node.tag.endswith('InputDescriptor'):
-        # LUT.InputDescriptor = node.text
-        # if node.tag.endswith('OutputDescriptor'):
-        # LUT.OutputDescriptor = node.text
-        if tag.endswith("lut1d"):
-            LUT = add_LUT1D(LUT, node)
-        elif tag.endswith("lut3d"):
-            LUT = add_LUT3D(LUT, node)
-        elif tag.endswith("range"):
-            LUT = add_Range(LUT, node)
-        elif tag.endswith("matrix"):
-            LUT = add_Matrix(LUT, node)
-        elif tag.endswith("asc_cdl"):
-            LUT = add_ASC_CDL(LUT, node)
-        elif tag.endswith("exponent"):
-            LUT = add_Exponent(LUT, node)
-
-    return LUT
-
-
-def write_clf(LUT, path, name="", id="", decimals=10):
-    def _format_array(array, decimals=10):
-        buffer = StringIO()
-        if array.dtype != np.uint16:
-            np.savetxt(buffer, array, fmt=str(f"%.{decimals}f"))
-        else:
-            np.savetxt(buffer, array, fmt="%d")
-        return ("\n" + buffer.getvalue()).replace("\n", "\n\t\t\t")[:-1]
-
-    def _format_row(array, decimals=10):
-        return "{1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)
-
-    def _add_comments(node, comments):
-        for comment in comments:
-            d = ElementTree.SubElement(node, "Description")
-            d.text = comment
-
-    process_list = ElementTree.Element("ProcessList")
-    process_list.set("xmlns", "urn:NATAS:AMPAS:LUT:v2.0")
-    process_list.set("id", id)
-    process_list.set("name", name)
-    process_list.set("compCLFversion", "2.0")
-    for node in LUT:
-        if isinstance(node, ASC_CDL):
-            process_node = ElementTree.Element("ASC_CDL")
-
-            if node.comments:
-                _add_comments(process_node, node.comments)
-
-            if node.reverse and not node.clamp:
-                process_node.set("style", "RevNoClamp")
-
-            if node.reverse and node.clamp:
-                process_node.set("style", "Rev")
-
-            if not node.reverse and node.clamp:
-                process_node.set("style", "FwdClamp")
-
-            if not node.reverse and not node.clamp:
-                process_node.set("style", "FwdNoClamp")
-
-            sop_node = ElementTree.SubElement(process_node, "SOPNode")
-            slope = ElementTree.SubElement(sop_node, "Slope")
-            slope.text = _format_row(node.slope, decimals=decimals)
-            offset = ElementTree.SubElement(sop_node, "Offset")
-            offset.text = _format_row(node.offset, decimals=decimals)
-            power = ElementTree.SubElement(sop_node, "power")
-            power.text = _format_row(node.power, decimals=decimals)
-            sat_node = ElementTree.SubElement(process_node, "SatNode")
-            saturation = ElementTree.SubElement(sat_node, "Saturation")
-            saturation.text = "{1:0.{0}f}".format(decimals, node.saturation)
-
-        if isinstance(node, HalfDomain1D):
-            process_node = ElementTree.Element("LUT1D")
-            process_node.set("halfDomain", "True")
-            array = ElementTree.SubElement(process_node, "Array")
-            array.set("dim", "65536 1")
-
-            if node.raw_halfs:
-                process_node.set("rawHalfs", "True")
-                array.text = _format_array(node.table)
-            else:
-                array.text = _format_array(node.table, decimals=decimals)
-
-        if isinstance(node, HalfDomain3x1D):
-            process_node = ElementTree.Element("LUT1D")
-            process_node.set("halfDomain", "True")
-            array = ElementTree.SubElement(process_node, "Array")
-            array.set("dim", "65536 3")
-
-            if node.raw_halfs:
-                process_node.set("rawHalfs", "True")
-                array.text = _format_array(node.table)
-            else:
-                array.text = _format_array(node.table, decimals=decimals)
-
-        if isinstance(node, LUT1D):
-            process_node = ElementTree.Element("LUT1D")
-            if not np.all(node.domain == np.array([0, 1])):
-                index_map = ElementTree.SubElement(process_node, "IndexMap")
-
-                if node.domain.shape == (2,):
-                    index_map.set("dim", "2")
-                    index_map.text = (
-                        f"{node.domain[0]}@0 {node.domain[1]}@{node.size - 1}"
-                    )
-                else:
-                    index_text = ""
-
-                    for i in range(len(node.domain)):
-                        index_text = "{1} {2:0.{0}f}@{3}".format(
-                            decimals,
-                            index_text,
-                            node.domain[i],
-                            int((node.size - 1) * node.table[i] / np.max(node.table)),
-                        )
-
-                    index_map.text = index_text[1:]
-
-            if node.comments:
-                _add_comments(process_node, node.comments)
-
-            array = ElementTree.SubElement(process_node, "Array")
-            array.set("dim", f"{node.size} 1")
-            array.text = _format_array(node.table, decimals=decimals)
+def apply_proces_node(node: clf.ProcessNode, value: ArrayLike) -> ArrayLike:
+    if isinstance(node, clf.LUT1D):
+        return apply_LUT1D(node, value)
+    raise RuntimeError("No matching process node found") # TODO: Better error handling
 
         if isinstance(node, LUT3x1D):
             process_node = ElementTree.Element("LUT1D")
 
-            if not np.all(node.domain == np.array([[0, 0, 0], [1, 1, 1]])):
-                index_map = ElementTree.SubElement(process_node, "IndexMap")
-                index_map.set("dim", "2")
-                index_map.text = "{1:0.{0}f}@0 {2:0.{0}f}@{3}".format(
-                    decimals, node.domain[0][0], node.domain[1][0], node.size - 1
-                )  # assuming consistent domain
+def apply_next_node(process_list: clf.ProcessList, value: ArrayLike) -> ArrayLike:
+    next_node = process_list.process_nodes.pop(0)
+    result = apply_proces_node(next_node, value)
+    return result
 
             if node.comments:
                 _add_comments(process_node, node.comments)
 
-            array = ElementTree.SubElement(process_node, "Array")
-            array.set("dim", f"{node.size} 3")
-            array.text = _format_array(node.table, decimals=decimals)
+def apply(process_list: clf.ProcessList, value: ArrayLike) -> ArrayLike:
+    result = value
+    while process_list.process_nodes:
+        result = apply_next_node(process_list, result)
+    return result
 
         if isinstance(node, LUT3D):
             process_node = ElementTree.Element("LUT3D")
