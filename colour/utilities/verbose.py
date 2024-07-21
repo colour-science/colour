@@ -725,7 +725,6 @@ def describe_environment(
             "scipy",
             "tqdm",
             "trimesh",
-            "xxhash",
         ]:
             with suppress(ImportError):
                 namespace = __import__(package)
