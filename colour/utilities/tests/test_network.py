@@ -84,7 +84,7 @@ class TestTreeNode:
             "is_root",
             "is_inner",
             "is_leaf",
-            "walk",
+            "walk_hierarchy",
             "render",
         )
 
@@ -175,10 +175,10 @@ class TestTreeNode:
         assert self._node_c.is_leaf()
         assert self._node_h.is_leaf()
 
-    def test_walk(self):
-        """Test :attr:`colour.utilities.network.TreeNode.walk` method."""
+    def test_walk_hierarchy(self):
+        """Test :attr:`colour.utilities.network.TreeNode.walk_hierarchy` method."""
 
-        assert list(self._node_a.walk()) == [
+        assert list(self._node_a.walk_hierarchy()) == [
             self._node_b,
             self._node_d,
             self._node_f,
@@ -188,7 +188,7 @@ class TestTreeNode:
             self._node_c,
         ]
 
-        assert list(self._node_h.walk(ascendants=True)) == [
+        assert list(self._node_h.walk_hierarchy(ascendants=True)) == [
             self._node_g,
             self._node_f,
             self._node_d,
@@ -485,8 +485,6 @@ class TestPortNode:
         """Test the presence of required attributes."""
 
         required_attributes = (
-            "id",
-            "name",
             "input_ports",
             "output_ports",
             "dirty",
@@ -501,9 +499,7 @@ class TestPortNode:
         """Test the presence of required methods."""
 
         required_methods = (
-            "__new__",
             "__init__",
-            "__str__",
             "add_input_port",
             "remove_input_port",
             "add_output_port",
@@ -520,13 +516,6 @@ class TestPortNode:
 
         for method in required_methods:
             assert method in dir(PortNode)
-
-    def test_name(self):
-        """Test :attr:`colour.utilities.network.PortNode.name` property."""
-
-        assert self._add_node_1.name == "Node Add 1"
-        assert self._multiply_node_1.name == "Node Multiply 1"
-        assert self._add_node_2.name == "Node Add 2"
 
     def test_input_ports(self):
         """Test :attr:`colour.utilities.network.PortNode.input_ports` property."""
@@ -650,13 +639,6 @@ class TestPortNode:
             self._add_node_2.description
             == "Perform the addition of the two input port values."
         )
-
-    def test___str__(self):
-        """Test :meth:`colour.utilities.network.PortNode.__str__` method."""
-
-        assert "_NodeAdd#" in str(self._add_node_1)
-        assert "_NodeMultiply#" in str(self._multiply_node_1)
-        assert "_NodeAdd#" in str(self._add_node_2)
 
     def test_add_input_port(self):
         """Test :meth:`colour.utilities.network.PortNode.add_input_port` method."""
@@ -820,10 +802,7 @@ class TestPortGraph:
     def test_required_attributes(self):
         """Test the presence of required attributes."""
 
-        required_attributes = (
-            "nodes",
-            "is_subgraph",
-        )
+        required_attributes = ("nodes",)
 
         for attribute in required_attributes:
             assert attribute in dir(PortGraph)
@@ -836,7 +815,7 @@ class TestPortGraph:
             "__str__",
             "add_node",
             "remove_node",
-            "walk",
+            "walk_ports",
             "process",
             "to_graphviz",
         )
@@ -848,11 +827,6 @@ class TestPortGraph:
         """Test :attr:`colour.utilities.network.PortGraph.nodes` property."""
 
         assert self._graph.nodes == self._nodes
-
-    def test_is_subgraph(self):
-        """Test :attr:`colour.utilities.network.PortGraph.is_subgraph` property."""
-
-        assert self._graph.is_subgraph is False
 
     def test___str__(self):
         """Test :meth:`colour.utilities.network.PortGraph.__str__` method."""
@@ -877,10 +851,10 @@ class TestPortGraph:
 
         self.test_add_node()
 
-    def test_walk(self):
-        """Test :meth:`colour.utilities.network.PortGraph.walk` method."""
+    def test_walk_ports(self):
+        """Test :meth:`colour.utilities.network.PortGraph.walk_ports` method."""
 
-        assert list(self._graph.walk()) == list(self._nodes.values())
+        assert list(self._graph.walk_ports()) == list(self._nodes.values())
 
     def test_process(self):
         """Test :meth:`colour.utilities.network.PortGraph.process` method."""
