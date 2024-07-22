@@ -83,26 +83,26 @@ class TreeNode:
 
     Attributes
     ----------
-    -   :attr:`~colour.utilities.Node.id`
-    -   :attr:`~colour.utilities.Node.name`
-    -   :attr:`~colour.utilities.Node.parent`
-    -   :attr:`~colour.utilities.Node.children`
-    -   :attr:`~colour.utilities.Node.root`
-    -   :attr:`~colour.utilities.Node.leaves`
-    -   :attr:`~colour.utilities.Node.siblings`
-    -   :attr:`~colour.utilities.Node.data`
+    -   :attr:`~colour.utilities.TreeNode.id`
+    -   :attr:`~colour.utilities.TreeNode.name`
+    -   :attr:`~colour.utilities.TreeNode.parent`
+    -   :attr:`~colour.utilities.TreeNode.children`
+    -   :attr:`~colour.utilities.TreeNode.root`
+    -   :attr:`~colour.utilities.TreeNode.leaves`
+    -   :attr:`~colour.utilities.TreeNode.siblings`
+    -   :attr:`~colour.utilities.TreeNode.data`
 
     Methods
     -------
-    -   :meth:`~colour.utilities.Node.__new__`
-    -   :meth:`~colour.utilities.Node.__init__`
-    -   :meth:`~colour.utilities.Node.__str__`
-    -   :meth:`~colour.utilities.Node.__len__`
-    -   :meth:`~colour.utilities.Node.is_root`
-    -   :meth:`~colour.utilities.Node.is_inner`
-    -   :meth:`~colour.utilities.Node.is_leaf`
-    -   :meth:`~colour.utilities.Node.walk`
-    -   :meth:`~colour.utilities.Node.render`
+    -   :meth:`~colour.utilities.TreeNode.__new__`
+    -   :meth:`~colour.utilities.TreeNode.__init__`
+    -   :meth:`~colour.utilities.TreeNode.__str__`
+    -   :meth:`~colour.utilities.TreeNode.__len__`
+    -   :meth:`~colour.utilities.TreeNode.is_root`
+    -   :meth:`~colour.utilities.TreeNode.is_inner`
+    -   :meth:`~colour.utilities.TreeNode.is_leaf`
+    -   :meth:`~colour.utilities.TreeNode.walk_hierarchy`
+    -   :meth:`~colour.utilities.TreeNode.render`
 
     Examples
     --------
@@ -295,7 +295,7 @@ class TreeNode:
         if self.is_root():
             return self
         else:
-            return list(self.walk(ascendants=True))[-1]
+            return list(self.walk_hierarchy(ascendants=True))[-1]
 
     @property
     def leaves(self) -> Generator:
@@ -311,7 +311,7 @@ class TreeNode:
         if self.is_leaf():
             return (node for node in (self,))
         else:
-            return (node for node in self.walk() if node.is_leaf())
+            return (node for node in self.walk_hierarchy() if node.is_leaf())
 
     @property
     def siblings(self) -> Generator:
@@ -370,7 +370,7 @@ class TreeNode:
             Number of children of the node.
         """
 
-        return len(list(self.walk()))
+        return len(list(self.walk_hierarchy()))
 
     def is_root(self) -> bool:
         """
@@ -438,10 +438,10 @@ class TreeNode:
 
         return len(self._children) == 0
 
-    def walk(self, ascendants: bool = False) -> Generator:
+    def walk_hierarchy(self, ascendants: bool = False) -> Generator:
         """
         Return a generator used to walk into :class:`colour.utilities.Node`
-        trees.
+        tree.
 
         Parameters
         ----------
@@ -463,7 +463,7 @@ class TreeNode:
         >>> node_f = TreeNode("Node F", node_d)
         >>> node_g = TreeNode("Node G", node_f)
         >>> node_h = TreeNode("Node H", node_g)
-        >>> for node in node_a.walk():
+        >>> for node in node_a.walk_hierarchy():
         ...     print(node.name)
         Node B
         Node D
@@ -485,7 +485,7 @@ class TreeNode:
             if not getattr(node, attribute):
                 continue
 
-            yield from node.walk(ascendants=ascendants)
+            yield from node.walk_hierarchy(ascendants=ascendants)
 
     def render(self, tab_level: int = 0):
         """
@@ -920,7 +920,7 @@ class Port(MixinLogging):
         return f"<{self._name}> {self.name}"
 
 
-class PortNode(MixinLogging):
+class PortNode(TreeNode, MixinLogging):
     """
     Define a node with support for input and output ports.
 
@@ -931,8 +931,6 @@ class PortNode(MixinLogging):
 
     Attributes
     ----------
-    -   :attr:`~colour.utilities.PortNode.id`
-    -   :attr:`~colour.utilities.PortNode.name`
     -   :attr:`~colour.utilities.PortNode.input_ports`
     -   :attr:`~colour.utilities.PortNode.output_ports`
     -   :attr:`~colour.utilities.PortNode.dirty`
@@ -941,9 +939,7 @@ class PortNode(MixinLogging):
 
     Methods
     -------
-    -   :meth:`~colour.utilities.PortNode.__new__`
     -   :meth:`~colour.utilities.PortNode.__init__`
-    -   :meth:`~colour.utilities.PortNode.__str__`
     -   :meth:`~colour.utilities.PortNode.add_input_port`
     -   :meth:`~colour.utilities.PortNode.remove_input_port`
     -   :meth:`~colour.utilities.PortNode.add_output_port`
@@ -987,83 +983,14 @@ class PortNode(MixinLogging):
     2
     """
 
-    _INSTANCE_ID: int = 1
-    """
-    Node id counter.
-
-    _INSTANCE_ID
-    """
-
-    def __new__(cls, *args, **kwargs) -> Self:  # noqa: ARG003
-        """
-        Return a new instance of the :class:`colour.utilities.PortNode` class.
-
-        Other Parameters
-        ----------------
-        args
-            Arguments.
-        kwargs
-            Keywords arguments.
-        """
-
-        instance = super().__new__(cls)
-
-        instance._id = PortNode._INSTANCE_ID  # pyright: ignore
-        PortNode._INSTANCE_ID += 1
-
-        return instance
-
     def __init__(self, name: str | None = None, description: str | None = None):
-        self._name: str = f"{self.__class__.__name__}#{self.id}"
-        self.name = optional(name, self._name)
+        super().__init__(name)
         self._description = description
         self.description = optional(description, self._description)
 
         self._input_ports = {}
         self._output_ports = {}
         self._dirty = True
-
-    @property
-    def id(self) -> int:
-        """
-        Getter property for the node id.
-
-        Returns
-        -------
-        :class:`int`
-            Node id.
-        """
-
-        return self._id  # pyright: ignore
-
-    @property
-    def name(self) -> str:
-        """
-        Getter and setter property for the name.
-
-        Parameters
-        ----------
-        value
-            Value to set the name with.
-
-        Returns
-        -------
-        :class:`str`
-            Node name.
-        """
-
-        return self._name
-
-    @name.setter
-    def name(self, value: str):
-        """Setter for the **self.name** property."""
-
-        attest(
-            isinstance(value, str),
-            f'"name" property: "{value}" type is not "str"!',
-        )
-
-        self._name = value
 
     @property
     def input_ports(self) -> Dict[str, Port]:
@@ -1178,18 +1105,6 @@ class PortNode(MixinLogging):
         )
 
         self._description = value
-
-    def __str__(self) -> str:
-        """
-        Return a formatted string representation of the node.
-
-        Returns
-        -------
-        :class`str`
-            Formatted string representation.
-        """
-
-        return f"{self.__class__.__name__}#{self.id}"
 
     def add_input_port(
         self,
@@ -1645,14 +1560,13 @@ class PortGraph(PortNode):
     Attributes
     ----------
     -   :attr:`~colour.utilities.PortGraph.nodes`
-    -   :attr:`~colour.utilities.PortGraph.is_subgraph`
 
     Methods
     -------
     -   :meth:`~colour.utilities.PortGraph.__str__`
     -   :meth:`~colour.utilities.PortGraph.add_node`
     -   :meth:`~colour.utilities.PortGraph.remove_node`
-    -   :meth:`~colour.utilities.PortGraph.walk`
+    -   :meth:`~colour.utilities.PortGraph.walk_ports`
     -   :meth:`~colour.utilities.PortGraph.process`
     -   :meth:`~colour.utilities.PortGraph.to_graphviz`
 
@@ -1704,7 +1618,6 @@ class PortGraph(PortNode):
         self.description = optional(description, self._description)
 
         self._nodes = {}
-        self._is_subgraph = False
 
     @property
     def nodes(self) -> Dict[str, PortNode]:
@@ -1718,35 +1631,6 @@ class PortGraph(PortNode):
         """
 
         return self._nodes
-
-    @property
-    def is_subgraph(self) -> bool:
-        """
-        Getter and setter property for the sub-graph state.
-
-        Parameters
-        ----------
-        value
-            Value to set the sub-graph state with.
-
-        Returns
-        -------
-        :class:`bool`
-            Node sub-graph state.
-        """
-
-        return self._is_subgraph
-
-    @is_subgraph.setter
-    def is_subgraph(self, value: bool):
-        """Setter for the **self.is_subgraph** property."""
-
-        attest(
-            isinstance(value, bool),
-            f'"is_subgraph" property: "{value}" type is not "bool"!',
-        )
-
-        self._is_subgraph = value
 
     def __str__(self) -> str:
         """
@@ -1798,6 +1682,8 @@ class PortGraph(PortNode):
         )
 
         self._nodes[node.name] = node
+        self._children.append(node)  # pyright: ignore
+        node._parent = self
 
     def remove_node(self, node: PortNode) -> None:
         """
@@ -1850,9 +1736,11 @@ class PortGraph(PortNode):
                 port.disconnect(connection)
 
         self._nodes.pop(node.name)
+        self._children.remove(node)  # pyright: ignore
+        node._parent = None
 
     @required("NetworkX")
-    def walk(self) -> Generator:
+    def walk_ports(self) -> Generator:
         """
         Return a generator used to walk into the node-graph.
 
@@ -1880,7 +1768,7 @@ class PortGraph(PortNode):
         >>> graph.add_node(node_1)
         >>> graph.add_node(node_2)
         >>> node_1.connect("output", node_2, "a")
-        >>> list(graph.walk())  # doctest: +ELLIPSIS
+        >>> list(graph.walk_ports())  # doctest: +ELLIPSIS
         [<...PortNode object at 0x...>, <...PortNode object at 0x...>]
         """
 
@@ -1888,10 +1776,13 @@ class PortGraph(PortNode):
 
         graph = nx.DiGraph()
 
-        for node in self._nodes.values():
+        for node in self._children:
             input_edges, output_edges = node.edges
 
             graph.add_node(node.name, node=node)
+
+            if len(node.children) != 0:
+                continue
 
             for edge in input_edges:
                 # PortGraph is used a container, it is common to connect its
@@ -1903,11 +1794,19 @@ class PortGraph(PortNode):
 
                 # Node -> Port -> Port -> Node
                 # Connected Node Output Port Node -> Connected Node Output Port
-                graph.add_edge(edge[1].node.name, str(edge[1]), edge=edge)
+                graph.add_edge(
+                    edge[1].node.name,  # pyright: ignore
+                    str(edge[1]),
+                    edge=edge,
+                )
                 # Connected Node Output Port -> Node Input Port
                 graph.add_edge(str(edge[1]), str(edge[0]), edge=edge)
                 # Input Port - Input Port Node
-                graph.add_edge(str(edge[0]), edge[0].node.name, edge=edge)
+                graph.add_edge(
+                    str(edge[0]),
+                    edge[0].node.name,  # pyright: ignore
+                    edge=edge,
+                )
 
             for edge in output_edges:
                 if self in (edge[0].node, edge[1].node):
@@ -1915,11 +1814,19 @@ class PortGraph(PortNode):
 
                 # Node -> Port -> Port -> Node
                 # Output Port Node -> Output Port
-                graph.add_edge(edge[0].node.name, str(edge[0]), edge=edge)
+                graph.add_edge(
+                    edge[0].node.name,  # pyright: ignore
+                    str(edge[0]),
+                    edge=edge,
+                )
                 # Node Output Port -> Connected Node Input Port
                 graph.add_edge(str(edge[0]), str(edge[1]), edge=edge)
                 # Connected Node Input Port -> Connected Node Input Port Node
-                graph.add_edge(str(edge[1]), edge[1].node.name, edge=edge)
+                graph.add_edge(
+                    str(edge[1]),
+                    edge[1].node.name,  # pyright: ignore
+                    edge=edge,
+                )
 
         try:
             for name in nx.topological_sort(graph):
@@ -1993,7 +1900,7 @@ class PortGraph(PortNode):
         dry_run = kwargs.get("dry_run", False)
 
         for_node_reached = False
-        for node in self.walk():
+        for node in self.walk_ports():
             if for_node_reached:
                 break
 
@@ -2038,8 +1945,8 @@ class PortGraph(PortNode):
         <AGraph <Swig Object of type 'Agraph_t *' at 0x...>>
         """
 
-        if self.is_subgraph:
-            return super().to_graphviz()
+        if self._parent is not None:
+            return PortNode.to_graphviz(self)
 
         from pygraphviz import AGraph
 
@@ -2047,14 +1954,14 @@ class PortGraph(PortNode):
         agraph.graph_attr["rankdir"] = "LR"
         agraph.graph_attr["splines"] = "polyline"
 
-        graphs = [node for node in self.walk() if isinstance(node, PortGraph)]
+        graphs = [node for node in self.walk_ports() if isinstance(node, PortGraph)]
 
         def is_graph_member(node: PortNode) -> bool:
             """Return whether the given node is member of a graph."""
 
             return any(node in graph.nodes.values() for graph in graphs)
 
-        for node in self.walk():
+        for node in self.walk_ports():
             agraph.add_node(
                 f"{node.name} (#{node.id})", label=node.to_graphviz(), shape="record"
             )
