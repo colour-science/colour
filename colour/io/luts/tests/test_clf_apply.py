@@ -19,7 +19,7 @@ class TestLUT1D(unittest.TestCase):
     EXAMPLE = """
         <LUT1D id="lut-23" name="4 Value Lut" inBitDepth="12i" outBitDepth="12i">
             <Description>1D LUT - Turn 4 grey levels into 4 inverted codes</Description>
-            <Array dim="4">
+            <Array dim="4 1">
                 3
                 2
                 1
