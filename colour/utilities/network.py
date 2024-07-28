@@ -29,7 +29,6 @@ Define various node-graph / network related classes:
 from __future__ import annotations
 
 import concurrent.futures
-import multiprocessing
 import os
 import threading
 
@@ -2295,16 +2294,19 @@ class ParallelForMultiprocess(ControlFlowNode):
 
         self.log(f'Processing "{node}" node...')
 
-        with multiprocessing.Pool(processes=self.get_input("processes")) as pool:
-            results = dict(
-                pool.map(
-                    self.get_input("task"),
-                    [
-                        (i, element, node, self)
-                        for i, element in enumerate(self.get_input("array"))
-                    ],
-                )
-            )
+        results = {}
+        with concurrent.futures.ProcessPoolExecutor(
+            max_workers=self.get_input("processes")
+        ) as executor:
+            futures = [
+                executor.submit(self.get_input("task"), (i, element, node, self))
+                for i, element in enumerate(self.get_input("array"))
+            ]
+
+            for future in concurrent.futures.as_completed(futures):
+                index, element = future.result()
+                self.log(f'Processed "{element}" element with index "{index}".')
+                results[index] = element
 
         results = dict(sorted(results.items()))
         self.set_output("results", list(results.values()))
