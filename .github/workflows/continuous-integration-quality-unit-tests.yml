@@ -80,7 +80,6 @@ jobs:
       - name: Test Optimised Python Execution
         run: |
           poetry run python -OO -c "import $CI_PACKAGE"
-          poetry run python -OO -c "import $CI_PACKAGE"
         shell: bash
       - name: Test with Pytest
         run: |
