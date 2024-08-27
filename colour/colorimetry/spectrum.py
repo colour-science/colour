@@ -151,8 +151,8 @@ class SpectralShape:
     """
 
     def __init__(self, start: Real, end: Real, interval: Real) -> None:
-        self._start: Real = 360
-        self._end: Real = 780
+        self._start: Real = 0
+        self._end: Real = np.inf
         self._interval: Real = 1
         self.start = start
         self.end = end
