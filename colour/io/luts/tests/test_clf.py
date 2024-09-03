@@ -17,12 +17,13 @@ __all__ = [
 import numpy as np
 
 from colour.io import clf
-from colour.io.clf import parse_clf, read_clf
+from colour.io.clf import CLFValidationError, parse_clf, read_clf
+from colour.utilities import required
 
 ROOT_CLF: str = os.path.join(os.path.dirname(__file__), "resources", "clf")
 
 EXAMPLE_WRAPPER = """<?xml version="1.0" ?>
-<ProcessList xmlns="urn:NATAS:AMPAS:LUT:v2.0" id="Example Wrapper" compCLFversion="2.0">
+<ProcessList xmlns="urn:NATAS:AMPAS:LUT:v3.0" id="Example Wrapper" compCLFversion="2.0">
 {0}
 </ProcessList>
 """
@@ -542,6 +543,53 @@ class TestParseCLF(unittest.TestCase):
         self.assertIsInstance(doc.process_nodes[0], clf.Matrix)
         self.assertIsInstance(doc.process_nodes[1], clf.Exponent)
         self.assertIsInstance(doc.process_nodes[2], clf.Matrix)
+
+    def test_fail_on_invalid_namespace(self):
+        """
+        Test parsing oa a process list with an invalid xmlns attribute.
+        """
+        example = b"""<?xml version="1.0" encoding="UTF-8"?>
+        <ProcessList xmlns="invalid:value" id="5ac02dc7-1e02-4f87-af46-fa5a83d5232d"
+            compCLFversion="3.0">
+            <Exponent inBitDepth="16f" outBitDepth="16f" style="monCurveRev">
+                <ExponentParams exponent="1.0" offset="0.0" />
+            </Exponent>
+        </ProcessList>
+        """
+        try:
+            parse_clf(example)
+        except CLFValidationError:
+            return
+        self.fail(
+            "Parsing should have thrown a validation error due to invalid xmlns "
+            "attribute."
+        )
+
+    @required("OpenColorIO")
+    def test_CLF_from_OCIO(self):
+        """
+        Test parsing of a CLF file written by OpenColorIO.
+        """
+        import PyOpenColorIO as ocio
+
+        ocio_transform = (
+            ocio.Config()
+            .getProcessor(ocio.BuiltinTransform("ARRI_LOGC4_to_ACES2065-1"))
+            .createGroupTransform()
+        )
+        clf_text = ocio_transform.write("Academy/ASC Common LUT Format").encode()
+        doc = parse_clf(clf_text)
+        self.assertEqual(len(doc.process_nodes), 2)
+        self.assertIsInstance(doc.process_nodes[0], clf.Log)
+        self.assertIsInstance(doc.process_nodes[1], clf.Matrix)
+        node = doc.process_nodes[0]
+        self.assertIsNotNone(
+            node.log_params, "Log Params were not parsed successfully."
+        )
+        self.assertAlmostEqual(node.log_params.base, ocio_transform[0].getBase())
+        self.assertAlmostEqual(
+            node.log_params.log_side_slope, ocio_transform[0].getLogSideSlopeValue()[0]
+        )
 
 
 if __name__ == "__main__":
