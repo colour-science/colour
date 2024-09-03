@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<ProcessList xmlns="urn:NATAS:AMPAS:LUT:v2.0" id="BMD_LMT_Kodak_2383_v1" name="LMT Kodak 2383" compCLFversion="2.0">
+<ProcessList xmlns="urn:NATAS:AMPAS:LUT:v3.0" id="BMD_LMT_Kodak_2383_v1" name="LMT Kodak 2383" compCLFversion="2.0">
 	<Description>Print film emulation (Kodak 2383)</Description>
 	<InputDescriptor>ACES (SMPTE ST 2065-1)</InputDescriptor>
     <OutputDescriptor>ACES (SMPTE ST 2065-1)</OutputDescriptor>

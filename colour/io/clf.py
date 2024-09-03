@@ -2,7 +2,7 @@
 CLF Parsing
 ===========
 
-Defines the functionality and data structures to  parse CLF documents.
+Defines the functionality and data structures to parse CLF documents.
 
 The main functionality is exposed through the following two methods:
 -   :func:`colour.io.clf.read_clf`: Read a file in the CLF format and return the
@@ -26,6 +26,8 @@ from typing import Callable, Optional
 # Security issues in lxml should be addressed and no longer be a concern:
 # https://discuss.python.org/t/status-of-defusedxml-and-recommendation-in-docs/34762/6
 import lxml.etree
+
+from colour.utilities import warning
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -64,12 +66,34 @@ __all__ = [
     "SOPNode",
 ]
 
-NAMESPACE_NAME = "urn:NATAS:AMPAS:LUT:v2.0"
-CLF_NAMESPACE = {"clf": NAMESPACE_NAME}
+NAMESPACE_NAME = "urn:NATAS:AMPAS:LUT:v3.0"
 
 
-def fully_qualified_name(name):
-    return f"{{{NAMESPACE_NAME}}}{name}"
+@dataclass
+class ParserConfig:
+    """Additional settings for parsing the CLF document.
+
+    Parameters
+    ----------
+    namespace_name
+        The namespace name used for parsing the CLF document. Usually this should be
+        the `CLF_NAMESPACE`, but it can be omitted.
+    """
+
+    namespace_name: Optional[str] = NAMESPACE_NAME
+
+    def clf_namespaces(self):
+        if self.namespace_name:
+            return {"clf": self.namespace_name}
+        else:
+            return None
+
+
+def fully_qualified_name(name, config: ParserConfig):
+    if config.namespace_name is None:
+        return name
+    else:
+        return f"{{{config.namespace_name}}}{name}"
 
 
 def map_optional(f: Callable, value):
@@ -268,7 +292,7 @@ class Info:
     calibration_info: Optional[CalibrationInfo]
 
     @staticmethod
-    def from_xml(xml):
+    def from_xml(xml, config: ParserConfig):
         """
         Parse and return the Info from the given XML node. Returns None if the given
         element is None.
@@ -297,7 +321,7 @@ class Info:
             },
         )
         calibration_info = CalibrationInfo.from_xml(
-            child_element(xml, "CalibrationInfo")
+            child_element(xml, "CalibrationInfo", config)
         )
         return Info(calibration_info=calibration_info, **attributes)
 
@@ -313,8 +337,13 @@ def must_have(value, message):
         raise CLFValidationError(message)
 
 
-def child_element(xml, name, xpath_function=""):
-    elements = xml.xpath(f"clf:{name}{xpath_function}", namespaces=CLF_NAMESPACE)
+def child_element(xml, name, config: ParserConfig, xpath_function=""):
+    if config.clf_namespaces():
+        elements = xml.xpath(
+            f"clf:{name}{xpath_function}", namespaces=config.clf_namespaces()
+        )
+    else:
+        elements = xml.xpath(f"{name}{xpath_function}")
     element_count = len(elements)
     if element_count == 0:
         return None
@@ -327,12 +356,15 @@ def child_element(xml, name, xpath_function=""):
         )
 
 
-def element_as_text(xml, name):
-    return child_element(xml, name, xpath_function="/text()")
+def element_as_text(xml, name, config: ParserConfig):
+    return child_element(xml, name, config, xpath_function="/text()")
 
 
-def elements_as_text_list(xml, name):
-    return xml.xpath(f"clf:{name}/text()", namespaces=CLF_NAMESPACE)
+def elements_as_text_list(xml, name, config: ParserConfig):
+    if config.clf_namespaces():
+        return xml.xpath(f"clf:{name}/text()", namespaces=config.clf_namespaces())
+    else:
+        return xml.xpath(f"{name}/text()")
 
 
 processing_node_constructors = {}
@@ -367,7 +399,7 @@ class ProcessNode:
     description: Optional[str]
 
     @staticmethod
-    def parse_attributes(xml):
+    def parse_attributes(xml, config: ParserConfig):
         attributes = retrieve_attributes(
             xml,
             {
@@ -377,7 +409,7 @@ class ProcessNode:
         )
         in_bit_depth = BitDepth(xml.get("inBitDepth"))
         out_bit_depth = BitDepth(xml.get("outBitDepth"))
-        description = element_as_text(xml, "Description")
+        description = element_as_text(xml, "Description", config)
         args = {
             "in_bit_depth": in_bit_depth,
             "out_bit_depth": out_bit_depth,
@@ -387,7 +419,7 @@ class ProcessNode:
         return args
 
 
-def parse_process_node(xml):
+def parse_process_node(xml, config: ParserConfig):
     """
     Return the correct process node that corresponds to this XML element.
 
@@ -406,7 +438,7 @@ def parse_process_node(xml):
     tag = lxml.etree.QName(xml).localname
     constructor = processing_node_constructors.get(tag)
     if constructor is not None:
-        return processing_node_constructors[tag](xml)
+        return processing_node_constructors[tag](xml, config)
     raise CLFValidationError(
         f"Encountered invalid processing node with tag '{xml.tag}'"
     )
@@ -462,19 +494,35 @@ class ProcessList:
             "ProcessList must contain an `compCLFversion` attribute",
         )
 
+        # By default, we would expect the correct namespace as per the specification.
+        # But if it is not present, we will still try to parse the document anyway.
+        # We won't accept a wrong namespace through.
+        config = ParserConfig()
+        namespace = xml.xpath("namespace-uri(.)")
+        if not namespace:
+            config.namespace_name = None
+        elif namespace != config.namespace_name:
+            raise CLFValidationError(
+                f"Found invalid xmlns attribute in process list: {namespace}"
+            )
+
         name = xml.get("name")
         inverse_of = xml.get("inverseOf")
-        info = Info.from_xml(xml)
+        info = Info.from_xml(xml, config)
 
-        description = elements_as_text_list(xml, "Description")
-        input_descriptor = element_as_text(xml, "InputDescriptor")
-        output_descriptor = element_as_text(xml, "OutputDescriptor")
+        description = elements_as_text_list(xml, "Description", config)
+        input_descriptor = element_as_text(xml, "InputDescriptor", config)
+        output_descriptor = element_as_text(xml, "OutputDescriptor", config)
 
         ignore_nodes = ["Description", "InputDescriptor", "OutputDescriptor", "Info"]
         process_nodes = filter(
             lambda node: lxml.etree.QName(node).localname not in ignore_nodes, xml
         )
-        process_nodes = [parse_process_node(xml_node) for xml_node in process_nodes]
+        if not process_nodes:
+            warning("Got empty process node.")
+        process_nodes = [
+            parse_process_node(xml_node, config) for xml_node in process_nodes
+        ]
         check_bit_depth_compatibility(process_nodes)
 
         return ProcessList(
@@ -529,7 +577,7 @@ class LUT1D(ProcessNode):
 
     @staticmethod
     @register_process_node_xml_constructor("LUT1D")
-    def from_xml(xml):
+    def from_xml(xml, config: ParserConfig):
         """
         Parse and return the LUT1D from the given XML node. Returns None if the given
         element is None.
@@ -546,8 +594,9 @@ class LUT1D(ProcessNode):
         """
         if xml is None:
             return None
-        super_args = ProcessNode.parse_attributes(xml)
-        array = Array.from_xml(child_element(xml, "Array"))
+        super_args = ProcessNode.parse_attributes(xml, config)
+        array = Array.from_xml(child_element(xml, "Array", config))
+
         half_domain = xml.get("halfDomain") == "true"
         raw_halfs = xml.get("rawHalfs") == "true"
         interpolation = map_optional(Interpolation1D, xml.get("interpolation"))
@@ -577,7 +626,7 @@ class LUT3D(ProcessNode):
 
     @staticmethod
     @register_process_node_xml_constructor("LUT3D")
-    def from_xml(xml):
+    def from_xml(xml, config: ParserConfig):
         """
         Parse and return the LUT3D from the given XML node. Returns None if the given
         element is None.
@@ -594,8 +643,8 @@ class LUT3D(ProcessNode):
         """
         if xml is None:
             return None
-        super_args = ProcessNode.parse_attributes(xml)
-        array = Array.from_xml(child_element(xml, "Array"))
+        super_args = ProcessNode.parse_attributes(xml, config)
+        array = Array.from_xml(child_element(xml, "Array", config))
 
         half_domain = xml.get("halfDomain") == "true"
         raw_halfs = xml.get("rawHalfs") == "true"
@@ -623,7 +672,7 @@ class Matrix(ProcessNode):
 
     @staticmethod
     @register_process_node_xml_constructor("Matrix")
-    def from_xml(xml):
+    def from_xml(xml, config: ParserConfig):
         """
         Parse and return the Matrix from the given XML node. Returns None if the given
         element is None.
@@ -640,8 +689,8 @@ class Matrix(ProcessNode):
         """
         if xml is None:
             return None
-        super_args = ProcessNode.parse_attributes(xml)
-        array = Array.from_xml(child_element(xml, "Array"))
+        super_args = ProcessNode.parse_attributes(xml, config)
+        array = Array.from_xml(child_element(xml, "Array", config))
         return Matrix(array=array, **super_args)
 
 
@@ -677,7 +726,7 @@ class Range(ProcessNode):
 
     @staticmethod
     @register_process_node_xml_constructor("Range")
-    def from_xml(xml):
+    def from_xml(xml, config: ParserConfig):
         """
         Parse and return the Range from the given XML node. Returns None if the given
         element is None.
@@ -695,12 +744,12 @@ class Range(ProcessNode):
         if xml is None:
             return None
 
-        super_args = ProcessNode.parse_attributes(xml)
+        super_args = ProcessNode.parse_attributes(xml, config)
 
-        min_in_value = float(element_as_text(xml, "minInValue"))
-        max_in_value = float(element_as_text(xml, "maxInValue"))
-        min_out_value = float(element_as_text(xml, "minOutValue"))
-        max_out_value = float(element_as_text(xml, "maxOutValue"))
+        min_in_value = float(element_as_text(xml, "minInValue", config))
+        max_in_value = float(element_as_text(xml, "maxInValue", config))
+        min_out_value = float(element_as_text(xml, "minOutValue", config))
+        max_out_value = float(element_as_text(xml, "maxOutValue", config))
 
         style = map_optional(RangeStyle, xml.get("style"))
 
@@ -767,7 +816,7 @@ class LogParams:
     channel: Optional[Channel]
 
     @staticmethod
-    def from_xml(xml):
+    def from_xml(xml, _config: ParserConfig):
         """
         Parse and return the Log Param from the given XML node. Returns None if the
         given element is None.
@@ -817,7 +866,7 @@ class Log(ProcessNode):
 
     @staticmethod
     @register_process_node_xml_constructor("Log")
-    def from_xml(xml):
+    def from_xml(xml, config: ParserConfig):
         """
         Parse and return the Log from the given XML node. Returns None if the given
         element is None.
@@ -834,9 +883,10 @@ class Log(ProcessNode):
         """
         if xml is None:
             return None
-        super_args = ProcessNode.parse_attributes(xml)
+        super_args = ProcessNode.parse_attributes(xml, config)
         style = LogStyle(xml.get("style"))
-        log_params = LogParams.from_xml(child_element(xml, "LogParams"))
+        param_element = child_element(xml, "LogParams", config)
+        log_params = LogParams.from_xml(param_element, config)
 
         return Log(style=style, log_params=log_params, **super_args)
 
@@ -877,7 +927,7 @@ class ExponentParams:
     channel: Optional[Channel]
 
     @staticmethod
-    def from_xml(xml):
+    def from_xml(xml, _config: ParserConfig):
         """
         Parse and return the Exponent Params from the given XML node. Returns None if
         the given element is None.
@@ -924,7 +974,7 @@ class Exponent(ProcessNode):
 
     @staticmethod
     @register_process_node_xml_constructor("Exponent")
-    def from_xml(xml):
+    def from_xml(xml, config: ParserConfig):
         """
         Parse and return the Exponent from the given XML node. Returns None if the given
         element is None.
@@ -941,9 +991,10 @@ class Exponent(ProcessNode):
         """
         if xml is None:
             return None
-        super_args = ProcessNode.parse_attributes(xml)
+        super_args = ProcessNode.parse_attributes(xml, config)
         style = map_optional(ExponentStyle, xml.get("style"))
-        log_params = ExponentParams.from_xml(child_element(xml, "ExponentParams"))
+        param_element = child_element(xml, "ExponentParams", config)
+        log_params = ExponentParams.from_xml(param_element, config)
         return Exponent(style=style, exponent_params=log_params, **super_args)
 
 
@@ -988,7 +1039,7 @@ class SOPNode:
     power: tuple[float, float, float]
 
     @staticmethod
-    def from_xml(xml):
+    def from_xml(xml, config: ParserConfig):
         """
         Parse and return the SOPNode from the given XML node. Returns None if the given
         element is None.
@@ -1005,9 +1056,9 @@ class SOPNode:
         """
         if xml is None:
             return None
-        slope = three_floats(child_element(xml, "Slope").text)
-        offset = three_floats(child_element(xml, "Offset").text)
-        power = three_floats(child_element(xml, "Power").text)
+        slope = three_floats(child_element(xml, "Slope", config).text)
+        offset = three_floats(child_element(xml, "Offset", config).text)
+        power = three_floats(child_element(xml, "Power", config).text)
         return SOPNode(slope=slope, offset=offset, power=power)
 
 
@@ -1024,7 +1075,7 @@ class SatNode:
     saturation: float
 
     @staticmethod
-    def from_xml(xml):
+    def from_xml(xml, config: ParserConfig):
         """
         Parse and return the SatNode from the given XML node. Returns None if the given
         element is None.
@@ -1041,7 +1092,7 @@ class SatNode:
         """
         if xml is None:
             return None
-        saturation = float(child_element(xml, "Saturation").text)
+        saturation = float(child_element(xml, "Saturation", config).text)
         return SatNode(saturation=saturation)
 
 
@@ -1061,7 +1112,7 @@ class ASC_CDL(ProcessNode):
 
     @staticmethod
     @register_process_node_xml_constructor("ASC_CDL")
-    def from_xml(xml):
+    def from_xml(xml, config: ParserConfig):
         """
         Parse and return the ASC_CDL from the given XML node. Returns None if the given
         element is None.
@@ -1078,10 +1129,10 @@ class ASC_CDL(ProcessNode):
         """
         if xml is None:
             return None
-        super_args = ProcessNode.parse_attributes(xml)
+        super_args = ProcessNode.parse_attributes(xml, config)
         style = ASC_CDL_Style(xml.get("style"))
-        sopnode = SOPNode.from_xml(child_element(xml, "SOPNode"))
-        sat_node = SatNode.from_xml(child_element(xml, "SatNode"))
+        sopnode = SOPNode.from_xml(child_element(xml, "SOPNode", config), config)
+        sat_node = SatNode.from_xml(child_element(xml, "SatNode", config), config)
         return ASC_CDL(style=style, sopnode=sopnode, sat_node=sat_node, **super_args)
 
 
