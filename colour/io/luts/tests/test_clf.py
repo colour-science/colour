@@ -262,9 +262,9 @@ class TestParseCLF(unittest.TestCase):
         self.assertEqual(node.in_bit_depth, clf.BitDepth.i10)
         self.assertEqual(node.out_bit_depth, clf.BitDepth.i10)
         self.assertEqual(node.description, "10-bit full range to SMPTE range")
-        (self.assertEqual(node.min_in_value, 0.0),)
-        (self.assertEqual(node.min_out_value, 64.0),)
-        (self.assertEqual(node.max_out_value, 940.0),)
+        self.assertEqual(node.min_in_value, 0.0)
+        self.assertEqual(node.min_out_value, 64.0)
+        self.assertEqual(node.max_out_value, 940.0)
 
     def test_log_example_1(self):
         """
@@ -284,8 +284,8 @@ class TestParseCLF(unittest.TestCase):
         self.assertEqual(node.in_bit_depth, clf.BitDepth.f16)
         self.assertEqual(node.out_bit_depth, clf.BitDepth.f16)
         self.assertEqual(node.description, "Base 10 Logarithm")
-        (self.assertEqual(node.style, clf.LogStyle.LOG_10),)
-        (self.assertEqual(node.log_params, None),)
+        self.assertEqual(node.style, clf.LogStyle.LOG_10)
+        self.assertEqual(node.log_params, None)
 
     def test_log_example_2(self):
         """
@@ -308,7 +308,7 @@ class TestParseCLF(unittest.TestCase):
         self.assertEqual(node.in_bit_depth, clf.BitDepth.f32)
         self.assertEqual(node.out_bit_depth, clf.BitDepth.f32)
         self.assertEqual(node.description, "Linear to DJI D-Log")
-        (self.assertEqual(node.style, clf.LogStyle.CAMERA_LIN_TO_LOG),)
+        self.assertEqual(node.style, clf.LogStyle.CAMERA_LIN_TO_LOG)
         self.assertAlmostEqual(node.log_params.base, 10.0)
         self.assertAlmostEqual(node.log_params.log_side_slope, 0.256663)
         self.assertAlmostEqual(node.log_params.log_side_offset, 0.584555)
@@ -336,7 +336,7 @@ class TestParseCLF(unittest.TestCase):
         self.assertEqual(node.in_bit_depth, clf.BitDepth.f32)
         self.assertEqual(node.out_bit_depth, clf.BitDepth.f32)
         self.assertEqual(node.description, "Basic 2.2 Gamma")
-        (self.assertEqual(node.style, clf.ExponentStyle.BASIC_FWD),)
+        self.assertEqual(node.style, clf.ExponentStyle.BASIC_FWD)
         self.assertAlmostEqual(node.exponent_params.exponent, 2.2)
 
     def test_exponent_example_2(self):
@@ -358,7 +358,7 @@ class TestParseCLF(unittest.TestCase):
         self.assertEqual(node.in_bit_depth, clf.BitDepth.f32)
         self.assertEqual(node.out_bit_depth, clf.BitDepth.f32)
         self.assertEqual(node.description, "EOTF (sRGB)")
-        (self.assertEqual(node.style, clf.ExponentStyle.MON_CURVE_FWD),)
+        self.assertEqual(node.style, clf.ExponentStyle.MON_CURVE_FWD)
         self.assertAlmostEqual(node.exponent_params.exponent, 2.4)
         self.assertAlmostEqual(node.exponent_params.offset, 0.055)
 
@@ -381,7 +381,7 @@ class TestParseCLF(unittest.TestCase):
         self.assertEqual(node.in_bit_depth, clf.BitDepth.f32)
         self.assertEqual(node.out_bit_depth, clf.BitDepth.f32)
         self.assertEqual(node.description, "CIE L*")
-        (self.assertEqual(node.style, clf.ExponentStyle.MON_CURVE_REV),)
+        self.assertEqual(node.style, clf.ExponentStyle.MON_CURVE_REV)
         self.assertAlmostEqual(node.exponent_params.exponent, 3.0)
         self.assertAlmostEqual(node.exponent_params.offset, 0.16)
 
@@ -404,7 +404,7 @@ class TestParseCLF(unittest.TestCase):
         self.assertEqual(node.in_bit_depth, clf.BitDepth.f32)
         self.assertEqual(node.out_bit_depth, clf.BitDepth.f32)
         self.assertEqual(node.description, "Rec. 709 OETF")
-        (self.assertEqual(node.style, clf.ExponentStyle.MON_CURVE_REV),)
+        self.assertEqual(node.style, clf.ExponentStyle.MON_CURVE_REV)
         self.assertAlmostEqual(node.exponent_params.exponent, 2.2222222222222222)
         self.assertAlmostEqual(node.exponent_params.offset, 0.099)
 
@@ -434,7 +434,7 @@ class TestParseCLF(unittest.TestCase):
         self.assertEqual(node.in_bit_depth, clf.BitDepth.f16)
         self.assertEqual(node.out_bit_depth, clf.BitDepth.f16)
         self.assertEqual(node.description, "scene 1 exterior look")
-        (self.assertEqual(node.style, clf.ASC_CDL_Style.FWD),)
+        self.assertEqual(node.style, clf.ASC_CDL_Style.FWD)
         self.assertEqual(node.sopnode.slope, (1.000000, 1.000000, 0.900000))
         self.assertEqual(node.sopnode.offset, (-0.030000, -0.020000, 0.000000))
         self.assertEqual(node.sopnode.power, (1.2500000, 1.000000, 1.000000))
