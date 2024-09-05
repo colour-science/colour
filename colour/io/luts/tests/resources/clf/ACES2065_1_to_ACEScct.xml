@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<ProcessList xmlns="urn:NATAS:AMPAS:LUT:v3.0" id="ACEScsc.ACES_to_ACEScct.a1.0.3" name="ACES2065-1 to ACEScct" compCLFversion="2.0">
+<ProcessList xmlns="urn:AMPAS:CLF:v3.0" id="ACEScsc.ACES_to_ACEScct.a1.0.3" name="ACES2065-1 to ACEScct" compCLFversion="2.0">
 	<Description>Conversion from linear ACES2065-1 to ACEScct</Description>
 	<InputDescriptor>ACES (SMPTE ST 2065-1)</InputDescriptor>
 	<OutputDescriptor>ACEScct</OutputDescriptor>

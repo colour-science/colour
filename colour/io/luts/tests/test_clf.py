@@ -23,7 +23,7 @@ from colour.utilities import required
 ROOT_CLF: str = os.path.join(os.path.dirname(__file__), "resources", "clf")
 
 EXAMPLE_WRAPPER = """<?xml version="1.0" ?>
-<ProcessList xmlns="urn:NATAS:AMPAS:LUT:v3.0" id="Example Wrapper" compCLFversion="2.0">
+<ProcessList xmlns="urn:AMPAS:CLF:v3.0" id="Example Wrapper" compCLFversion="2.0">
 {0}
 </ProcessList>
 """
