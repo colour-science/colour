@@ -69,7 +69,7 @@ __all__ = [
     "SOPNode",
 ]
 
-NAMESPACE_NAME = "urn:NATAS:AMPAS:LUT:v3.0"
+NAMESPACE_NAME = "urn:AMPAS:CLF:v3.0"
 
 
 @dataclass
