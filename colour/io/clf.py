@@ -23,7 +23,7 @@ import xml.etree.ElementTree
 from dataclasses import dataclass
 from enum import Enum
 from itertools import islice
-from typing import Callable, Optional, TypeVar
+from typing import Callable, TypeVar
 
 # Security issues in lxml should be addressed and no longer be a concern:
 # https://discuss.python.org/t/status-of-defusedxml-and-recommendation-in-docs/34762/6
@@ -83,7 +83,7 @@ class ParserConfig:
         the `CLF_NAMESPACE`, but it can be omitted.
     """
 
-    namespace_name: Optional[str] = NAMESPACE_NAME
+    namespace_name: str | None = NAMESPACE_NAME
 
     def clf_namespaces(self):
         if self.namespace_name:
@@ -107,7 +107,7 @@ def map_optional(f: Callable, value):
 
 def retrieve_attributes(
     xml, attribute_mapping: dict[str, str]
-) -> dict[str, Optional[str]]:
+) -> dict[str, str | None]:
     def get_attribute(name):
         return xml.get(name)
 
@@ -119,7 +119,7 @@ def retrieve_attributes(
 
 def retrieve_attributes_as_float(
     xml, attribute_mapping: dict[str, str]
-) -> dict[str, Optional[float]]:
+) -> dict[str, float | None]:
     attributes = retrieve_attributes(xml, attribute_mapping)
 
     def as_float(value):
@@ -235,13 +235,13 @@ class CalibrationInfo:
     https://docs.acescentral.com/specifications/clf/#processlist
     """
 
-    display_device_serial_num: Optional[str]
-    display_device_host_name: Optional[str]
-    operator_name: Optional[str]
-    calibration_date_time: Optional[str]
-    measurement_probe: Optional[str]
-    calibration_software_name: Optional[str]
-    calibration_software_version: Optional[str]
+    display_device_serial_num: str | None
+    display_device_host_name: str | None
+    operator_name: str | None
+    calibration_date_time: str | None
+    measurement_probe: str | None
+    calibration_software_name: str | None
+    calibration_software_version: str | None
 
     @staticmethod
     def from_xml(xml):
@@ -287,12 +287,12 @@ class Info:
     https://docs.acescentral.com/specifications/clf/#processList
     """
 
-    app_release: Optional[str]
-    copyright: Optional[str]
-    revision: Optional[str]
-    aces_transform_id: Optional[str]
-    aces_user_name: Optional[str]
-    calibration_info: Optional[CalibrationInfo]
+    app_release: str | None
+    copyright: str | None
+    revision: str | None
+    aces_transform_id: str | None
+    aces_user_name: str | None
+    calibration_info: CalibrationInfo | None
 
     @staticmethod
     def from_xml(xml, config: ParserConfig):
@@ -369,7 +369,7 @@ def child_element_or_exception(
     xml, name, config: ParserConfig
 ) -> xml.etree.ElementTree.Element:
     element = child_element(xml, name, config)
-    assert not isinstance(element, str)
+    assert not isinstance(element, str)  # noqa: S101
     if element is None:
         raise CLFValidationError(
             f"Tried to retrieve child element '{name}' from '{xml}' but child was "
@@ -418,11 +418,11 @@ class ProcessNode:
     https://docs.acescentral.com/specifications/clf/#processNode
     """
 
-    id: Optional[str]
-    name: Optional[str]
-    in_bit_depth: Optional[BitDepth]
-    out_bit_depth: Optional[BitDepth]
-    description: Optional[str]
+    id: str | None
+    name: str | None
+    in_bit_depth: BitDepth | None
+    out_bit_depth: BitDepth | None
+    description: str | None
 
     @staticmethod
     def parse_attributes(xml, config: ParserConfig):
@@ -484,14 +484,14 @@ class ProcessList:
     compatible_CLF_version: str
     process_nodes: list[ProcessNode]
 
-    name: Optional[str]
-    inverse_of: Optional[str]
+    name: str | None
+    inverse_of: str | None
 
     description: list[str]
-    input_descriptor: Optional[str]
-    output_descriptor: Optional[str]
+    input_descriptor: str | None
+    output_descriptor: str | None
 
-    info: Optional[Info]
+    info: Info | None
 
     @staticmethod
     def from_xml(xml):
@@ -599,7 +599,7 @@ class LUT1D(ProcessNode):
     array: Array
     half_domain: bool
     raw_halfs: bool
-    interpolation: Optional[Interpolation1D]
+    interpolation: Interpolation1D | None
 
     @staticmethod
     @register_process_node_xml_constructor("LUT1D")
@@ -648,7 +648,7 @@ class LUT3D(ProcessNode):
     array: Array
     half_domain: bool
     raw_halfs: bool
-    interpolation: Optional[Interpolation3D]
+    interpolation: Interpolation3D | None
 
     @staticmethod
     @register_process_node_xml_constructor("LUT3D")
@@ -743,12 +743,12 @@ class Range(ProcessNode):
     https://docs.acescentral.com/specifications/clf/#range
     """
 
-    min_in_value: Optional[float]
-    max_in_value: Optional[float]
-    min_out_value: Optional[float]
-    max_out_value: Optional[float]
+    min_in_value: float | None
+    max_in_value: float | None
+    min_out_value: float | None
+    max_out_value: float | None
 
-    style: Optional[RangeStyle]
+    style: RangeStyle | None
 
     @staticmethod
     @register_process_node_xml_constructor("Range")
@@ -832,14 +832,14 @@ class LogParams:
     https://docs.acescentral.com/specifications/clf/#log
     """
 
-    base: Optional[float]
-    log_side_slope: Optional[float]
-    log_side_offset: Optional[float]
-    lin_side_slope: Optional[float]
-    lin_side_offset: Optional[float]
-    lin_side_break: Optional[float]
-    linear_slope: Optional[float]
-    channel: Optional[Channel]
+    base: float | None
+    log_side_slope: float | None
+    log_side_offset: float | None
+    lin_side_slope: float | None
+    lin_side_offset: float | None
+    lin_side_break: float | None
+    linear_slope: float | None
+    channel: Channel | None
 
     @staticmethod
     def from_xml(xml, _config: ParserConfig):
@@ -888,7 +888,7 @@ class Log(ProcessNode):
     """
 
     style: LogStyle
-    log_params: Optional[LogParams]
+    log_params: LogParams | None
 
     @staticmethod
     @register_process_node_xml_constructor("Log")
@@ -949,8 +949,8 @@ class ExponentParams:
     """
 
     exponent: float
-    offset: Optional[float]
-    channel: Optional[Channel]
+    offset: float | None
+    channel: Channel | None
 
     @staticmethod
     def from_xml(xml, _config: ParserConfig):
@@ -996,7 +996,7 @@ class Exponent(ProcessNode):
     """
 
     style: ExponentStyle
-    exponent_params: Optional[ExponentParams]
+    exponent_params: ExponentParams | None
 
     @staticmethod
     @register_process_node_xml_constructor("Exponent")
@@ -1138,8 +1138,8 @@ class ASC_CDL(ProcessNode):
     """
 
     style: ASC_CDL_Style
-    sopnode: Optional[SOPNode]
-    sat_node: Optional[SatNode]
+    sopnode: SOPNode | None
+    sat_node: SatNode | None
 
     @staticmethod
     @register_process_node_xml_constructor("ASC_CDL")
