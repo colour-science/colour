@@ -24,11 +24,11 @@ from dataclasses import dataclass
 from enum import Enum
 from itertools import islice
 from typing import Callable, Optional, TypeVar
-from typing_extensions import TypeGuard
 
 # Security issues in lxml should be addressed and no longer be a concern:
 # https://discuss.python.org/t/status-of-defusedxml-and-recommendation-in-docs/34762/6
 import lxml.etree
+from typing_extensions import TypeGuard
 
 from colour.utilities import warning
 
@@ -334,7 +334,9 @@ class CLFValidationError(Exception):
     Indicates an error with parsing a CLF document..
     """
 
+
 _T = TypeVar("_T")
+
 
 def must_have(value: _T | None, message) -> TypeGuard[_T]:
     if value is None:
@@ -342,8 +344,9 @@ def must_have(value: _T | None, message) -> TypeGuard[_T]:
     return True
 
 
-def child_element(xml, name, config: ParserConfig, xpath_function="") \
-        -> xml.etree.ElementTree.Element | None | str:
+def child_element(
+    xml, name, config: ParserConfig, xpath_function=""
+) -> xml.etree.ElementTree.Element | None | str:
     if config.clf_namespaces():
         elements = xml.xpath(
             f"clf:{name}{xpath_function}", namespaces=config.clf_namespaces()
@@ -361,10 +364,12 @@ def child_element(xml, name, config: ParserConfig, xpath_function="") \
             f"element {xml}, but only expected exactly one."
         )
 
-def child_element_or_exception(xml, name, config: ParserConfig) \
-        -> xml.etree.ElementTree.Element:
+
+def child_element_or_exception(
+    xml, name, config: ParserConfig
+) -> xml.etree.ElementTree.Element:
     element = child_element(xml, name, config)
-    assert( not isinstance(element, str))
+    assert not isinstance(element, str)
     if element is None:
         raise CLFValidationError(
             f"Tried to retrieve child element '{name}' from '{xml}' but child was "
@@ -373,13 +378,13 @@ def child_element_or_exception(xml, name, config: ParserConfig) \
     return element
 
 
-
-def element_as_text(xml, name, config: ParserConfig) -> str :
+def element_as_text(xml, name, config: ParserConfig) -> str:
     text = child_element(xml, name, config, xpath_function="/text()")
     if text is None:
         return ""
     else:
         return str(text)
+
 
 def elements_as_text_list(xml, name, config: ParserConfig):
     if config.clf_namespaces():
