@@ -15,13 +15,16 @@ References
 -   :cite:`CLFv3` : Common LUT Format (CLF) - A Common File Format for Look-Up Tables.
     Retrieved May 1st, 2024, from https://docs.acescentral.com/specifications/clf
 """
+from __future__ import annotations
 
 import collections
 import enum
+import xml.etree.ElementTree
 from dataclasses import dataclass
 from enum import Enum
 from itertools import islice
-from typing import Callable, Optional
+from typing import Callable, Optional, TypeVar
+from typing_extensions import TypeGuard
 
 # Security issues in lxml should be addressed and no longer be a concern:
 # https://discuss.python.org/t/status-of-defusedxml-and-recommendation-in-docs/34762/6
@@ -331,13 +334,16 @@ class CLFValidationError(Exception):
     Indicates an error with parsing a CLF document..
     """
 
+_T = TypeVar("_T")
 
-def must_have(value, message):
+def must_have(value: _T | None, message) -> TypeGuard[_T]:
     if value is None:
         raise CLFValidationError(message)
+    return True
 
 
-def child_element(xml, name, config: ParserConfig, xpath_function=""):
+def child_element(xml, name, config: ParserConfig, xpath_function="") \
+        -> xml.etree.ElementTree.Element | None | str:
     if config.clf_namespaces():
         elements = xml.xpath(
             f"clf:{name}{xpath_function}", namespaces=config.clf_namespaces()
@@ -355,10 +361,25 @@ def child_element(xml, name, config: ParserConfig, xpath_function=""):
             f"element {xml}, but only expected exactly one."
         )
 
+def child_element_or_exception(xml, name, config: ParserConfig) \
+        -> xml.etree.ElementTree.Element:
+    element = child_element(xml, name, config)
+    assert( not isinstance(element, str))
+    if element is None:
+        raise CLFValidationError(
+            f"Tried to retrieve child element '{name}' from '{xml}' but child was "
+            "not present."
+        )
+    return element
 
-def element_as_text(xml, name, config: ParserConfig):
-    return child_element(xml, name, config, xpath_function="/text()")
 
+
+def element_as_text(xml, name, config: ParserConfig) -> str :
+    text = child_element(xml, name, config, xpath_function="/text()")
+    if text is None:
+        return ""
+    else:
+        return str(text)
 
 def elements_as_text_list(xml, name, config: ParserConfig):
     if config.clf_namespaces():
@@ -951,12 +972,12 @@ class ExponentParams:
                 "offset": "offset",
             },
         )
-        must_have(
-            attributes["exponent"], "Exponent process node has no `exponent' value."
-        )
+        exponent = attributes.pop("exponent")
+        if exponent is None:
+            raise CLFValidationError("Exponent process node has no `exponent' value.")
         channel = map_optional(Channel, xml.get("channel"))
 
-        return ExponentParams(channel=channel, **attributes)
+        return ExponentParams(channel=channel, exponent=exponent, **attributes)
 
 
 @dataclass
@@ -993,6 +1014,8 @@ class Exponent(ProcessNode):
             return None
         super_args = ProcessNode.parse_attributes(xml, config)
         style = map_optional(ExponentStyle, xml.get("style"))
+        if style is None:
+            raise CLFValidationError("Exponent process node has no `style' value.")
         param_element = child_element(xml, "ExponentParams", config)
         log_params = ExponentParams.from_xml(param_element, config)
         return Exponent(style=style, exponent_params=log_params, **super_args)
@@ -1056,9 +1079,9 @@ class SOPNode:
         """
         if xml is None:
             return None
-        slope = three_floats(child_element(xml, "Slope", config).text)
-        offset = three_floats(child_element(xml, "Offset", config).text)
-        power = three_floats(child_element(xml, "Power", config).text)
+        slope = three_floats(child_element_or_exception(xml, "Slope", config).text)
+        offset = three_floats(child_element_or_exception(xml, "Offset", config).text)
+        power = three_floats(child_element_or_exception(xml, "Power", config).text)
         return SOPNode(slope=slope, offset=offset, power=power)
 
 
@@ -1092,7 +1115,10 @@ class SatNode:
         """
         if xml is None:
             return None
-        saturation = float(child_element(xml, "Saturation", config).text)
+        saturation = child_element_or_exception(xml, "Saturation", config).text
+        if saturation is None:
+            raise CLFValidationError("Saturation node in SatNode contains no value.")
+        saturation = float(saturation)
         return SatNode(saturation=saturation)
 
 
