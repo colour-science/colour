@@ -15,6 +15,7 @@ import numpy as np
 import pytest
 
 from colour.algebra import LinearInterpolator, SpragueInterpolator
+from colour.characterisation import SDS_COLOURCHECKERS
 from colour.colorimetry import (
     MSDS_CMFS,
     SDS_ILLUMINANTS,
@@ -36,6 +37,7 @@ from colour.colorimetry import (
     sd_to_XYZ_integration,
     sd_to_XYZ_tristimulus_weighting_factors_ASTME308,
     sd_zeros,
+    sds_and_msds_to_msds,
     tristimulus_weighting_factors_ASTME2022,
     wavelength_to_XYZ,
 )
@@ -1381,6 +1383,41 @@ class TestSd_to_XYZ:
                 shape=SpectralShape(400, 700, 20),
             ),
             np.array([14.52005467, 10.88000966, 2.03888717]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            sd_to_XYZ(
+                sds_and_msds_to_msds(SDS_COLOURCHECKERS["babel_average"].values()),
+            ),
+            np.array(
+                [
+                    [12.06344619, 10.33615020, 6.25100082],
+                    [40.27284790, 35.29615976, 23.01540616],
+                    [18.09306423, 18.50797244, 31.67770084],
+                    [11.16523793, 13.25122619, 6.36666038],
+                    [25.83420330, 23.32560917, 40.31232440],
+                    [31.64244829, 41.64149301, 40.76605171],
+                    [40.89999141, 31.22508083, 5.82002195],
+                    [13.60742370, 11.51655221, 35.39885724],
+                    [30.69032237, 19.87942885, 12.46562439],
+                    [8.93362430, 6.46162368, 13.07228804],
+                    [35.66114785, 44.08411919, 10.28724123],
+                    [49.24169657, 43.46327044, 7.13506647],
+                    [7.81888273, 5.89050934, 25.75773837],
+                    [15.18817149, 22.93975934, 8.94663877],
+                    [22.23187260, 12.73987267, 4.62599881],
+                    [60.68157753, 60.55780947, 8.43465082],
+                    [32.27071879, 20.22049576, 28.85354643],
+                    [14.49902213, 19.10377565, 35.60283004],
+                    [90.78293221, 91.26928233, 87.29499532],
+                    [58.53195263, 58.84257471, 58.34877604],
+                    [35.77113141, 35.94371650, 35.85712527],
+                    [18.98962045, 19.11651714, 19.15115933],
+                    [8.87518188, 8.93947283, 9.06486638],
+                    [3.21099614, 3.20073667, 3.25495104],
+                ]
+            ),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
