@@ -1263,7 +1263,14 @@ def sd_to_XYZ(
     if is_caching_enabled() and hash_key in _CACHE_SD_TO_XYZ:
         return np.copy(_CACHE_SD_TO_XYZ[hash_key])
 
-    function = SD_TO_XYZ_METHODS[method]
+    if isinstance(sd, MultiSpectralDistributions):
+        runtime_warning(
+            "A multi-spectral distributions was passed, enforcing integration "
+            "method!"
+        )
+        function = sd_to_XYZ_integration
+    else:
+        function = SD_TO_XYZ_METHODS[method]
 
     XYZ = function(sd, cmfs, illuminant, k=k, **filter_kwargs(function, **kwargs))
 
