@@ -2,10 +2,12 @@
 ARRI Log Encodings
 ==================
 
-Define the *ARRI LogC3* log encoding:
+Define the *ARRI LogC3* and *ARRI LogC4* log encodings:
 
 -   :func:`colour.models.log_encoding_ARRILogC3`
 -   :func:`colour.models.log_decoding_ARRILogC3`
+-   :func:`colour.models.log_encoding_ARRILogC4`
+-   :func:`colour.models.log_decoding_ARRILogC4`
 
 References
 ----------
