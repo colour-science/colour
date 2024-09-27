@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import numpy as np
 
+from colour.algebra import spow
 from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import as_float, from_range_1, to_domain_1
 
@@ -91,7 +92,7 @@ def eotf_inverse_BT1886(L: ArrayLike, L_B: float = 0, L_W: float = 1) -> NDArray
     a = n**gamma
     b = L_B**gamma_d / n
 
-    V = (L / a) ** gamma_d - b
+    V = spow(L / a, gamma_d) - b
 
     return as_float(from_range_1(V))
 
@@ -151,6 +152,6 @@ def eotf_BT1886(V: ArrayLike, L_B: float = 0, L_W: float = 1) -> NDArrayFloat:
     n = L_W**gamma_d - L_B**gamma_d
     a = n**gamma
     b = L_B**gamma_d / n
-    L = a * np.maximum(V + b, 0) ** gamma
+    L = a * spow(np.maximum(V + b, 0), gamma)
 
     return as_float(from_range_1(L))
