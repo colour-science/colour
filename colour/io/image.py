@@ -112,7 +112,8 @@ class Image_Specification_Attribute:
 
 
 if is_openimageio_installed():  # pragma: no cover
-    from OpenImageIO import DOUBLE, FLOAT, HALF, UINT8, UINT16, ImageSpec
+    from OpenImageIO import ImageSpec  # pyright: ignore
+    from OpenImageIO import DOUBLE, FLOAT, HALF, UINT8, UINT16  # pyright: ignore
 
     MAPPING_BIT_DEPTH: CanonicalMapping = CanonicalMapping(
         {
@@ -237,7 +238,7 @@ def image_specification_OpenImageIO(
     <OpenImageIO.ImageSpec object at 0x...>
     """  # noqa: D405, D407, D410, D411
 
-    from OpenImageIO import ImageSpec
+    from OpenImageIO import ImageSpec  # pyright: ignore
 
     attributes = cast(list, optional(attributes, []))
 
@@ -377,7 +378,7 @@ def read_image_OpenImageIO(
     >>> image = read_image_OpenImageIO(path)  # doctest: +SKIP
     """
 
-    from OpenImageIO import ImageInput
+    from OpenImageIO import ImageInput  # pyright: ignore
 
     path = str(path)
 
@@ -656,7 +657,7 @@ def write_image_OpenImageIO(
     ...     write_image_OpenImageIO(image, path, attributes=attributes)
     """  # noqa: D405, D407, D410, D411
 
-    from OpenImageIO import ImageOutput
+    from OpenImageIO import ImageOutput  # pyright: ignore
 
     image = as_float_array(image)
     path = str(path)

@@ -349,7 +349,7 @@ class Specification_Fichet2021:
         True
         """
 
-        from OpenImageIO import ImageInput
+        from OpenImageIO import ImageInput  # pyright: ignore
 
         path = str(path)
 
@@ -478,7 +478,7 @@ def read_spectral_image_Fichet2021(
     True
     """
 
-    from OpenImageIO import ImageInput
+    from OpenImageIO import ImageInput  # pyright: ignore
 
     path = str(path)
 
@@ -634,7 +634,7 @@ def components_to_sRGB_Fichet2021(
     EV
     """
 
-    from OpenImageIO import TypeDesc
+    from OpenImageIO import TypeDesc  # pyright: ignore
 
     component = components.get("S0", components.get("T"))
 
@@ -777,7 +777,7 @@ def write_spectral_image_Fichet2021(
     True
     """
 
-    from OpenImageIO import ImageBuf, ImageBufAlgo
+    from OpenImageIO import ImageBuf, ImageBufAlgo  # pyright: ignore
 
     path = str(path)
 
