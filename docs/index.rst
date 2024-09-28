@@ -99,9 +99,11 @@ Chromatic Adaptation - ``colour.adaptation``
 
 
 .. code-block:: python
+
     sorted(colour.CHROMATIC_ADAPTATION_METHODS)
 
 .. code-block:: text
+
     ['CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries', 'Zhai 2018', 'vK20']
 
 
