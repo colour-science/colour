@@ -1181,7 +1181,7 @@ class Signal(AbstractContinuousFunction):
         if isinstance(data, Signal):
             domain_unpacked = data.domain
             range_unpacked = data.range
-        elif issubclass(type(data), Sequence) or isinstance(
+        elif issubclass(type(data), Sequence) or isinstance(  # pyright: ignore
             data, (tuple, list, np.ndarray, Iterator, ValuesView)
         ):
             data_array = (
@@ -1196,7 +1196,7 @@ class Signal(AbstractContinuousFunction):
                 np.arange(0, data_array.size, dtype=dtype),
                 data_array,
             )
-        elif issubclass(type(data), Mapping) or isinstance(data, dict):
+        elif issubclass(type(data), Mapping) or isinstance(data, dict):  # pyright: ignore
             domain_unpacked, range_unpacked = tsplit(
                 sorted(cast(Mapping, data).items())
             )
