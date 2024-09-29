@@ -239,7 +239,7 @@ class MixinDataclassArray(MixinDataclassIterable):
         -   :class:`colour.utilities.MixinDataclassFields`
     """
 
-    def __array__(self, dtype: Type[DTypeReal] | None = None) -> NDArray:
+    def __array__(self, dtype: Type[DTypeReal] | None = None, copy=None) -> NDArray:
         """
         Implement support for :class:`dataclass`-like class conversion to
         :class:`numpy.ndarray` class.
@@ -253,6 +253,9 @@ class MixinDataclassArray(MixinDataclassIterable):
             :class:`numpy.dtype` to use for conversion to `np.ndarray`, default
             to the :class:`numpy.dtype` defined by
             :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
+        copy
+            Whether to return a copy of the underlying data, will always be
+            `True`, irrespective of the parameter value.
 
         Returns
         -------
@@ -2090,7 +2093,7 @@ def in_array(a: ArrayLike, b: ArrayLike, tolerance: Real = EPSILON) -> NDArray:
     --------
     >>> a = np.array([0.50, 0.60])
     >>> b = np.linspace(0, 10, 101)
-    >>> np.in1d(a, b)
+    >>> np.isin(a, b)
     array([ True, False], dtype=bool)
     >>> in_array(a, b)
     array([ True,  True], dtype=bool)

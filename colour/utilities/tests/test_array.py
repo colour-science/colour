@@ -277,7 +277,7 @@ class TestMixinDataclassArray(unittest.TestCase):
         method.
         """
 
-        np.testing.assert_array_equal(np.array(self._data), self._array)
+        np.testing.assert_array_equal(self._data, self._array)
 
         assert np.array(self._data, dtype=DTYPE_INT_DEFAULT).dtype == DTYPE_INT_DEFAULT
 
@@ -344,61 +344,61 @@ arithmetical_operation` method.
         """
 
         np.testing.assert_allclose(
-            np.array(self._data.arithmetical_operation(10, "+", False)),
+            self._data.arithmetical_operation(10, "+", False),
             self._array + 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(self._data.arithmetical_operation(10, "-", False)),
+            self._data.arithmetical_operation(10, "-", False),
             self._array - 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(self._data.arithmetical_operation(10, "*", False)),
+            self._data.arithmetical_operation(10, "*", False),
             self._array * 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(self._data.arithmetical_operation(10, "/", False)),
+            self._data.arithmetical_operation(10, "/", False),
             self._array / 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(self._data.arithmetical_operation(10, "**", False)),
+            self._data.arithmetical_operation(10, "**", False),
             self._array**10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(self._data + 10),
+            self._data + 10,
             self._array + 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(self._data - 10),
+            self._data - 10,
             self._array - 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(self._data * 10),
+            self._data * 10,
             self._array * 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(self._data / 10),
+            self._data / 10,
             self._array / 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(self._data**10),
+            self._data**10,
             self._array**10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -406,31 +406,31 @@ arithmetical_operation` method.
         data = deepcopy(self._data)
 
         np.testing.assert_allclose(
-            np.array(data.arithmetical_operation(10, "+", True)),
+            data.arithmetical_operation(10, "+", True),
             self._array + 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(data.arithmetical_operation(10, "-", True)),
+            data.arithmetical_operation(10, "-", True),
             self._array,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(data.arithmetical_operation(10, "*", True)),
+            data.arithmetical_operation(10, "*", True),
             self._array * 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(data.arithmetical_operation(10, "/", True)),
+            data.arithmetical_operation(10, "/", True),
             self._array,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(data.arithmetical_operation(10, "**", True)),
+            data.arithmetical_operation(10, "**", True),
             self._array**10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -438,13 +438,13 @@ arithmetical_operation` method.
         data = deepcopy(self._data)
 
         np.testing.assert_allclose(
-            np.array(data.arithmetical_operation(self._array, "+", False)),
+            data.arithmetical_operation(self._array, "+", False),
             data + self._array,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(data.arithmetical_operation(data, "+", False)),
+            data.arithmetical_operation(data, "+", False),
             data + data,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

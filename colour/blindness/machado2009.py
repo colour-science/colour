@@ -120,17 +120,17 @@ def matrix_RGB_to_WSYBRG(
 
     R, G, B = tsplit(primaries.values)
 
-    WS_R = np.trapz(R * WS, wavelengths)  # pyright: ignore
-    WS_G = np.trapz(G * WS, wavelengths)  # pyright: ignore
-    WS_B = np.trapz(B * WS, wavelengths)  # pyright: ignore
+    WS_R = np.trapezoid(R * WS, wavelengths)  # pyright: ignore
+    WS_G = np.trapezoid(G * WS, wavelengths)  # pyright: ignore
+    WS_B = np.trapezoid(B * WS, wavelengths)  # pyright: ignore
 
-    YB_R = np.trapz(R * YB, wavelengths)  # pyright: ignore
-    YB_G = np.trapz(G * YB, wavelengths)  # pyright: ignore
-    YB_B = np.trapz(B * YB, wavelengths)  # pyright: ignore
+    YB_R = np.trapezoid(R * YB, wavelengths)  # pyright: ignore
+    YB_G = np.trapezoid(G * YB, wavelengths)  # pyright: ignore
+    YB_B = np.trapezoid(B * YB, wavelengths)  # pyright: ignore
 
-    RG_R = np.trapz(R * RG, wavelengths)  # pyright: ignore
-    RG_G = np.trapz(G * RG, wavelengths)  # pyright: ignore
-    RG_B = np.trapz(B * RG, wavelengths)  # pyright: ignore
+    RG_R = np.trapezoid(R * RG, wavelengths)  # pyright: ignore
+    RG_G = np.trapezoid(G * RG, wavelengths)  # pyright: ignore
+    RG_B = np.trapezoid(B * RG, wavelengths)  # pyright: ignore
 
     M_G = as_float_array(
         [
@@ -219,8 +219,8 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(
             "deuteranomaly simulation."
         )
 
-    area_L = np.trapz(L, cmfs.wavelengths)  # pyright: ignore
-    area_M = np.trapz(M, cmfs.wavelengths)  # pyright: ignore
+    area_L = np.trapezoid(L, cmfs.wavelengths)  # pyright: ignore
+    area_M = np.trapezoid(M, cmfs.wavelengths)  # pyright: ignore
 
     def alpha(x: NDArrayFloat) -> NDArrayFloat:
         """Compute :math:`alpha` factor."""
