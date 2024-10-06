@@ -42,51 +42,36 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get --yes install graphviz graphviz-dev
-      - name: Install Poetry
+      - name: Install uv
         run: |
-          curl -sSL https://install.python-poetry.org | POETRY_HOME=$HOME/.poetry python3 -
-          echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+          pip install uv
         shell: bash
-      - name: Install Package Dependencies (macOs)
-        if: matrix.os == 'macOS-latest'
+      - name: Install Package Dependencies
         run: |
-          poetry run python -m pip install --upgrade pip
-          poetry install
-      - name: Install Package Dependencies (Ubuntu)
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          poetry run python -m pip install --upgrade pip
-          poetry install
-          poetry run python -c "import imageio;imageio.plugins.freeimage.download()"
-        shell: bash
-      - name: Install Package Dependencies (Windows)
-        if: matrix.os == 'windows-latest'
-        run: |
-          poetry run python -m pip install --upgrade pip
-          poetry install
-          poetry run python -c "import imageio;imageio.plugins.freeimage.download()"
+          uv sync --all-extras --no-dev
+          uv run python -c "import imageio;imageio.plugins.freeimage.download()"
         shell: bash
       - name: Install OpenImageIO (macOs)
         if: matrix.os == 'macOS-latest' && matrix.python-version == '3.12'
         run: |
           brew install openimageio
-          find /Users/runner/Library/Caches/pypoetry/virtualenvs/ -path "/Users/runner/Library/Caches/pypoetry/virtualenvs/*/lib/python3.12/site-packages" -type d -exec ln -s /opt/homebrew/Cellar/openimageio/*/lib/python*/site-packages/OpenImageIO/OpenImageIO*.so {}/OpenImageIO.so \;
-          poetry run python -c "import OpenImageIO;print(OpenImageIO.__version__)"
+          ln -s /opt/homebrew/Cellar/openimageio/*/lib/python*/site-packages/OpenImageIO/OpenImageIO*.so ./.venv/lib/python3.12/site-packages/OpenImageIO.so
+          uv run python -c "import OpenImageIO;print(OpenImageIO.__version__)"
         shell: bash
       - name: Pre-Commit (All Files)
         run: |
-          poetry run pre-commit run --all-files
+          uv run pre-commit run --all-files
         shell: bash
       - name: Test Optimised Python Execution
         run: |
-          poetry run python -OO -c "import $CI_PACKAGE"
+          uv run python -OO -c "import $CI_PACKAGE"
         shell: bash
       - name: Test with Pytest
         run: |
-          poetry run python -W ignore -m pytest --doctest-modules --ignore=$CI_PACKAGE/examples --cov=$CI_PACKAGE $CI_PACKAGE
+          uv run python -W ignore -m pytest --doctest-modules --ignore=$CI_PACKAGE/examples --cov=$CI_PACKAGE $CI_PACKAGE
         shell: bash
       - name: Upload Coverage to coveralls.io
         if: matrix.os == 'macOS-latest' && matrix.python-version == '3.12'
         run: |
-          if [ -z "$COVERALLS_REPO_TOKEN" ]; then echo \"COVERALLS_REPO_TOKEN\" secret is undefined!; else poetry run coveralls; fi
+          if [ -z "$COVERALLS_REPO_TOKEN" ]; then echo \"COVERALLS_REPO_TOKEN\" secret is undefined!; else uv run coveralls; fi
         shell: bash
