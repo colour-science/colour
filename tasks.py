@@ -346,19 +346,12 @@ def requirements(ctx: Context):
     """
 
     message_box('Exporting "requirements.txt" file...')
-    ctx.run(
-        "poetry export -f requirements.txt "
-        "--without-hashes "
-        "--with dev,docs,graphviz,meshing,optional "
-        "--output requirements.txt"
-    )
+    ctx.run('uv export --no-hashes --all-extras | grep -v "-e \\." > requirements.txt')
 
     message_box('Exporting "docs/requirements.txt" file...')
     ctx.run(
-        "poetry export -f requirements.txt "
-        "--without-hashes "
-        "--with docs,graphviz,meshing,optional "
-        "--output docs/requirements.txt"
+        'uv export --no-hashes --all-extras --no-dev | grep -v "-e \\." > '
+        "docs/requirements.txt"
     )
 
 
@@ -375,9 +368,7 @@ def build(ctx: Context):
     """
 
     message_box("Building...")
-    if (
-        "modified:   README.rst" in ctx.run("git status").stdout  # pyright: ignore
-    ):
+    if "modified:   README.rst" in ctx.run("git status").stdout:  # pyright: ignore
         raise RuntimeError('Please commit your changes to the "README.rst" file!')
 
     with open("README.rst") as readme_file:
@@ -402,7 +393,7 @@ def build(ctx: Context):
             )
         )
 
-    ctx.run("poetry build")
+    ctx.run("uv build")
     ctx.run("git checkout -- README.rst")
     ctx.run("twine check dist/*")
 
@@ -425,12 +416,14 @@ def virtualise(ctx: Context, tests: bool = True):
         ctx.run(f"tar -xvf {PYPI_ARCHIVE_NAME}-{APPLICATION_VERSION}.tar.gz")
         ctx.run(f"mv {PYPI_ARCHIVE_NAME}-{APPLICATION_VERSION} {unique_name}")
         with ctx.cd(unique_name):
-            ctx.run("poetry install")
-            ctx.run("source $(poetry env info -p)/bin/activate")
-            ctx.run('python -c "import imageio;imageio.plugins.freeimage.download()"')
+            ctx.run("uv sync --all-extras --no-dev")
+            ctx.run(
+                'uv run python -c "import imageio;imageio.plugins.freeimage.download()"'
+            )
             if tests:
                 ctx.run(
-                    "poetry run pytest "
+                    "source .venv/bin/activate && "
+                    "uv run pytest "
                     "--doctest-modules "
                     f"--ignore={PYTHON_PACKAGE_NAME}/examples "
                     f"{PYTHON_PACKAGE_NAME}",

@@ -29,20 +29,18 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get --yes install graphviz graphviz-dev latexmk texlive-full
-      - name: Install Poetry
+      - name: Install uv
         run: |
-          curl -sSL https://install.python-poetry.org | POETRY_HOME=$HOME/.poetry python3 -
-          echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+          pip install uv
         shell: bash
       - name: Install Package Dependencies
         run: |
-          poetry run python -m pip install --upgrade pip
-          poetry install
-          poetry run python -c "import imageio;imageio.plugins.freeimage.download()"
+          uv sync --all-extras --no-dev
+          uv run python -c "import imageio;imageio.plugins.freeimage.download()"
         shell: bash
       - name: Build Documentation
         run: |
-          poetry run invoke docs
+          uv run invoke docs
         shell: bash
       - uses: actions/upload-artifact@v4
         with:
