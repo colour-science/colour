@@ -3,7 +3,6 @@ Define the unit tests for the :mod:`colour.colorimetry.transformations`
 module.
 """
 
-
 import numpy as np
 
 from colour.colorimetry import (

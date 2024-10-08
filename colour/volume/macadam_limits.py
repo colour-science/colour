@@ -122,9 +122,9 @@ def is_within_macadam_limits(
     triangulation = _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS.get(illuminant)
 
     if triangulation is None:
-        _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS[illuminant] = (
-            triangulation
-        ) = Delaunay(optimal_colour_stimuli)
+        _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS[illuminant] = triangulation = (
+            Delaunay(optimal_colour_stimuli)
+        )
 
     simplex = triangulation.find_simplex(xyY_to_XYZ(xyY), tol=tolerance)
     simplex = np.where(simplex >= 0, True, False)

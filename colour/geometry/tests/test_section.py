@@ -1,6 +1,5 @@
 """Define the unit tests for the :mod:`colour.geometry.section` module."""
 
-
 import numpy as np
 import pytest
 

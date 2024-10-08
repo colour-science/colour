@@ -8,7 +8,6 @@ Notes
     http://media.ies.org/docs/errata/TM-30-18_tools_etc.zip.
 """
 
-
 import numpy as np
 
 from colour.colorimetry import SDS_ILLUMINANTS

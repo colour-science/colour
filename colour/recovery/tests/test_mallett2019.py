@@ -1,6 +1,5 @@
 """Define the unit tests for the :mod:`colour.recovery.mallett2019` module."""
 
-
 import numpy as np
 import pytest
 

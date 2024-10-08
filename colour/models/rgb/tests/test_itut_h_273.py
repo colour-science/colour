@@ -1,6 +1,5 @@
 """Define the unit tests for the :mod:`colour.models.rgb.itut_h_273` module."""
 
-
 from colour.models import (
     describe_video_signal_colour_primaries,
     describe_video_signal_matrix_coefficients,

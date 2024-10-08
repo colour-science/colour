@@ -151,19 +151,16 @@ class ProtocolInterpolator(Protocol):  # noqa: D101  # pragma: no cover
         ...
 
     @x.setter
-    def x(self, value: ArrayLike):
-        ...
+    def x(self, value: ArrayLike): ...
 
     @property
     def y(self) -> NDArray:  # noqa: D102
         ...
 
     @y.setter
-    def y(self, value: ArrayLike):
-        ...
+    def y(self, value: ArrayLike): ...
 
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        ...  # pragma: no cover
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...  # pragma: no cover
 
     def __call__(self, x: ArrayLike) -> NDArray:  # noqa: D102
         ...  # pragma: no cover
@@ -175,11 +172,9 @@ class ProtocolExtrapolator(Protocol):  # noqa: D101  # pragma: no cover
         ...
 
     @interpolator.setter
-    def interpolator(self, value: ProtocolInterpolator):
-        ...
+    def interpolator(self, value: ProtocolInterpolator): ...
 
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        ...  # pragma: no cover
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...  # pragma: no cover
 
     def __call__(self, x: ArrayLike) -> NDArray:  # noqa: D102
         ...  # pragma: no cover

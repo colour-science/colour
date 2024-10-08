@@ -1,6 +1,5 @@
 """Define the unit tests for the :mod:`colour.continuous.abstract` module."""
 
-
 from colour.continuous import AbstractContinuousFunction
 
 __author__ = "Colour Developers"

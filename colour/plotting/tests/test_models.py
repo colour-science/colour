@@ -1,6 +1,5 @@
 """Define the unit tests for the :mod:`colour.plotting.models` module."""
 
-
 import numpy as np
 import pytest
 from matplotlib.axes import Axes

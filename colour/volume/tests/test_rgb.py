@@ -18,7 +18,6 @@ References
 reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 """
 
-
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS

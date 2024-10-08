@@ -346,9 +346,9 @@ def _munsell_value_ASTMD1535_interpolator() -> Extrapolator:
     )
     extrapolator = Extrapolator(interpolator)
 
-    _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR[
-        "ASTM D1535-08 Interpolator"
-    ] = extrapolator
+    _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR["ASTM D1535-08 Interpolator"] = (
+        extrapolator
+    )
 
     return extrapolator
 
