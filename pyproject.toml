@@ -49,6 +49,8 @@ imageio = ">= 2, < 3"
 numpy = ">= 1.24, < 3"
 scipy = ">= 1.10, < 2"
 typing-extensions = ">= 4, < 5"
+lxml = "^5.2.1"
+lxml-stubs = "^0.5.1"
 
 [tool.poetry.group.optional.dependencies]
 matplotlib = ">= 3.6"
