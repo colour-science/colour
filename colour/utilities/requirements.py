@@ -8,6 +8,7 @@ Define the requirements utilities objects.
 from __future__ import annotations
 
 import functools
+import shutil
 import subprocess
 
 from colour.hints import (
@@ -26,12 +27,12 @@ __status__ = "Production"
 
 __all__ = [
     "is_ctlrender_installed",
-    "is_graphviz_installed",
     "is_matplotlib_installed",
     "is_networkx_installed",
     "is_opencolorio_installed",
     "is_openimageio_installed",
     "is_pandas_installed",
+    "is_pydot_installed",
     "is_tqdm_installed",
     "is_trimesh_installed",
     "is_xxhash_installed",
@@ -75,41 +76,6 @@ def is_ctlrender_installed(raise_exception: bool = False) -> bool:
         if raise_exception:
             raise FileNotFoundError(
                 '"ctlrender" related API features are not available: '
-                f'"{error}".\nSee the installation guide for more information: '
-                "https://www.colour-science.org/installation-guide/"
-            ) from error
-
-        return False
-
-
-def is_graphviz_installed(raise_exception: bool = False) -> bool:
-    """
-    Return whether *Graphviz* is installed and available.
-
-    Parameters
-    ----------
-    raise_exception
-        Whether to raise an exception if *Graphviz* is unavailable.
-
-    Returns
-    -------
-    :class:`bool`
-        Whether *Graphviz* is installed.
-
-    Raises
-    ------
-    :class:`ImportError`
-        If *Graphviz* is not installed.
-    """
-
-    try:  # pragma: no cover
-        import pygraphviz  # noqa: F401
-
-        return True
-    except ImportError as error:  # pragma: no cover
-        if raise_exception:
-            raise ImportError(
-                '"Graphviz" related API features are not available: '
                 f'"{error}".\nSee the installation guide for more information: '
                 "https://www.colour-science.org/installation-guide/"
             ) from error
@@ -293,6 +259,52 @@ def is_pandas_installed(raise_exception: bool = False) -> bool:
         return False
 
 
+def is_pydot_installed(raise_exception: bool = False) -> bool:
+    """
+    Return whether *Pydot* is installed and available. The presence of
+    *Graphviz* will also be tested.
+
+    Parameters
+    ----------
+    raise_exception
+        Whether to raise an exception if *Pydot* is unavailable.
+
+    Returns
+    -------
+    :class:`bool`
+        Whether *Pydot* is installed.
+
+    Raises
+    ------
+    :class:`ImportError`
+        If *Pydot* is not installed.
+    """
+
+    try:  # pragma: no cover
+        import pydot  # noqa: F401
+
+    except ImportError as error:  # pragma: no cover
+        if raise_exception:
+            raise ImportError(
+                '"Pydot" related API features are not available: '
+                f'"{error}".\nSee the installation guide for more information: '
+                "https://www.colour-science.org/installation-guide/"
+            ) from error
+
+    if shutil.which("fdp") is not None:
+        return True
+    else:
+        if raise_exception:
+            raise RuntimeError(
+                '"Graphviz" is not installed, "Pydot" related API features '
+                "are not available!"
+                "\nSee the installation guide for more information: "
+                "https://www.colour-science.org/installation-guide/"
+            )
+
+        return False
+
+
 def is_tqdm_installed(raise_exception: bool = False) -> bool:
     """
     Return whether *tqdm* is installed and available.
@@ -401,12 +413,12 @@ def is_xxhash_installed(raise_exception: bool = False) -> bool:
 REQUIREMENTS_TO_CALLABLE: CanonicalMapping = CanonicalMapping(
     {
         "ctlrender": is_ctlrender_installed,
-        "Graphviz": is_graphviz_installed,
         "Matplotlib": is_matplotlib_installed,
         "NetworkX": is_networkx_installed,
         "OpenColorIO": is_opencolorio_installed,
         "OpenImageIO": is_openimageio_installed,
         "Pandas": is_pandas_installed,
+        "Pydot": is_pydot_installed,
         "tqdm": is_tqdm_installed,
         "trimesh": is_trimesh_installed,
         "xxhash": is_xxhash_installed,
@@ -420,12 +432,12 @@ Mapping of requirements to their respective callables.
 def required(
     *requirements: Literal[
         "ctlrender",
-        "Graphviz",
         "Matplotlib",
         "NetworkX",
         "OpenColorIO",
         "OpenImageIO",
         "Pandas",
+        "Pydot",
         "tqdm",
         "trimesh",
         "xxhash",

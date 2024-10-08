@@ -13,7 +13,7 @@ from colour.utilities import (
     PortGraph,
     PortNode,
     TreeNode,
-    is_graphviz_installed,
+    is_pydot_installed,
 )
 
 __author__ = "Colour Developers"
@@ -866,12 +866,12 @@ class TestPortGraph:
     def test_to_graphviz(self):
         """Test :meth:`colour.utilities.network.PortGraph.to_graphviz` method."""
 
-        if not is_graphviz_installed():
+        if not is_pydot_installed():
             return
 
-        from pygraphviz import AGraph
+        import pydot
 
-        assert isinstance(self._graph.to_graphviz(), AGraph)
+        assert isinstance(self._graph.to_graphviz(), pydot.Dot)
 
 
 class _AddItem(ExecutionNode):

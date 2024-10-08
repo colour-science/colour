@@ -9,6 +9,8 @@ Define the automatic colour conversion graph plotting objects:
 
 from __future__ import annotations
 
+import os
+
 import colour
 from colour.graph import (
     CONVERSION_GRAPH_NODE_LABELS,
@@ -29,13 +31,12 @@ __all__ = [
 ]
 
 
-@required("Graphviz")
+@required("Pydot")
 @required("NetworkX")
 def plot_automatic_colour_conversion_graph(
     filename: str,
-    prog: (Literal["circo", "dot", "fdp", "neato", "nop", "twopi"] | str) = "fdp",
-    args: str = "",
-) -> AGraph:  # pyright: ignore  # noqa: F821  # pragma: no cover
+    prog: Literal["circo", "dot", "fdp", "neato", "nop", "twopi"] | str = "fdp",
+) -> Dot:  # pyright: ignore  # noqa: F821  # pragma: no cover
     """
     Plot *Colour* automatic colour conversion graph using
     `Graphviz <https://www.graphviz.org>`__ and
@@ -47,13 +48,11 @@ def plot_automatic_colour_conversion_graph(
         Filename to use to save the image.
     prog
         *Graphviz* layout method.
-    args
-         Additional arguments for *Graphviz*.
 
     Returns
     -------
-    :class:`AGraph`
-        *Pyraphviz* graph.
+    :class:`pydot.Dot`
+        *Pydot* graph.
 
     Notes
     -----
@@ -87,28 +86,31 @@ def plot_automatic_colour_conversion_graph(
     # TODO: Investigate API to trigger the conversion graph build.
     describe_conversion_path("RGB", "RGB", print_callable=lambda x: x)
 
-    agraph = nx.nx_agraph.to_agraph(cast(nx.DiGraph, colour.graph.CONVERSION_GRAPH))
+    dot = nx.drawing.nx_pydot.to_pydot(cast(nx.DiGraph, colour.graph.CONVERSION_GRAPH))
 
-    for node in agraph.nodes():
-        node.attr.update(label=CONVERSION_GRAPH_NODE_LABELS[node.name])
+    for node in dot.get_nodes():
+        label = CONVERSION_GRAPH_NODE_LABELS.get(node.get_name())
 
-    agraph.node_attr.update(
-        style="filled",
-        shape="circle",
-        color="#2196F3FF",
-        fillcolor="#2196F370",
-        fontname="Helvetica",
-        fontcolor="#263238",
-    )
-    agraph.edge_attr.update(color="#26323870")
-    for node in ("CIE XYZ", "RGB", "Spectral Distribution"):
-        agraph.get_node(node.lower()).attr.update(
-            shape="doublecircle",
-            color="#673AB7FF",
-            fillcolor="#673AB770",
-            fontsize=30,
-        )
-    for node in (
+        if label is None:
+            continue
+
+        node.set_label(label)
+        node.set_style("filled")
+        node.set_shape("circle")
+        node.set_color("#2196F3FF")
+        node.set_fillcolor("#2196F370")
+        node.set_fontname("Helvetica")
+        node.set_fontcolor("#263238")
+
+    for name in ("CIE XYZ", "RGB", "Spectral Distribution"):
+        node = next(iter(dot.get_node(name.lower())))
+
+        node.set_shape("doublecircle")
+        node.set_color("#673AB7FF")
+        node.set_fillcolor("#673AB770")
+        node.set_fontsize(30)
+
+    for name in (
         "ATD95",
         "CAM16",
         "CIECAM02",
@@ -120,10 +122,16 @@ def plot_automatic_colour_conversion_graph(
         "RLAB",
         "ZCAM",
     ):
-        agraph.get_node(node.lower()).attr.update(
-            color="#00BCD4FF", fillcolor="#00BCD470"
-        )
+        node = next(iter(dot.get_node(name.lower())))
 
-    agraph.draw(filename, prog=prog, args=args)
+        node.set_color("#00BCD4FF")
+        node.set_fillcolor("#00BCD470")
 
-    return agraph
+    for edge in dot.get_edges():
+        edge.set_color("#26323870")
+
+    file_format = os.path.splitext(filename)[-1][1:]
+    write_method = getattr(dot, f"write_{file_format}")
+    write_method(filename, prog=prog, f=file_format)
+
+    return dot

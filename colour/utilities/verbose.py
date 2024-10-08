@@ -716,21 +716,25 @@ def describe_environment(
     ===========================================================================
     *                                                                         *
     *   Interpreter :                                                         *
-    *       python : 3.8.6 (default, Nov 20 2020, 18:29:40)                   *
-    *                [Clang 12.0.0 (clang-1200.0.32.27)]                      *
+    *       python : 3.12.4 (main, Jun  6 2024, 18:26:44) [Clang 15.0.0       *
+    *   (clang-1500.3.9.4)]                                                   *
     *                                                                         *
     *   colour-science.org :                                                  *
-    *       colour : v0.3.16-3-gd8bac475                                      *
+    *       colour : v0.4.3-282-gcb450ff50                                    *
     *                                                                         *
     *   Runtime :                                                             *
-    *       imageio : 2.9.0                                                   *
-    *       matplotlib : 3.3.3                                                *
-    *       networkx : 2.5                                                    *
-    *       numpy : 1.19.4                                                    *
-    *       pandas : 0.25.3                                                   *
-    *       pygraphviz : 1.6                                                  *
-    *       scipy : 1.5.4                                                     *
-    *       tqdm : 4.54.0                                                     *
+    *       imageio : 2.35.1                                                  *
+    *       matplotlib : 3.9.2                                                *
+    *       networkx : 3.3                                                    *
+    *       numpy : 2.1.1                                                     *
+    *       pandas : 2.2.3                                                    *
+    *       pydot : 3.0.2                                                     *
+    *       PyOpenColorIO : 2.3.2                                             *
+    *       scipy : 1.14.1                                                    *
+    *       tqdm : 4.66.5                                                     *
+    *       trimesh : 4.4.9                                                   *
+    *       OpenImageIO : 2.5.14.0                                            *
+    *       xxhash : 3.5.0                                                    *
     *                                                                         *
     ===========================================================================
     >>> environment = describe_environment(True, True, True, width=75)
@@ -738,44 +742,44 @@ def describe_environment(
     ===========================================================================
     *                                                                         *
     *   Interpreter :                                                         *
-    *       python : 3.8.6 (default, Nov 20 2020, 18:29:40)                   *
-    *                [Clang 12.0.0 (clang-1200.0.32.27)]                      *
+    *       python : 3.12.4 (main, Jun  6 2024, 18:26:44) [Clang 15.0.0       *
+    *   (clang-1500.3.9.4)]                                                   *
     *                                                                         *
     *   colour-science.org :                                                  *
-    *       colour : v0.3.16-3-gd8bac475                                      *
+    *       colour : v0.4.3-282-gcb450ff50                                    *
     *                                                                         *
     *   Runtime :                                                             *
-    *       imageio : 2.9.0                                                   *
-    *       matplotlib : 3.3.3                                                *
-    *       networkx : 2.5                                                    *
-    *       numpy : 1.19.4                                                    *
-    *       pandas : 0.25.3                                                   *
-    *       pygraphviz : 1.6                                                  *
-    *       scipy : 1.5.4                                                     *
-    *       tqdm : 4.54.0                                                     *
+    *       imageio : 2.35.1                                                  *
+    *       matplotlib : 3.9.2                                                *
+    *       networkx : 3.3                                                    *
+    *       numpy : 2.1.1                                                     *
+    *       pandas : 2.2.3                                                    *
+    *       pydot : 3.0.2                                                     *
+    *       PyOpenColorIO : 2.3.2                                             *
+    *       scipy : 1.14.1                                                    *
+    *       tqdm : 4.66.5                                                     *
+    *       trimesh : 4.4.9                                                   *
+    *       OpenImageIO : 2.5.14.0                                            *
+    *       xxhash : 3.5.0                                                    *
     *                                                                         *
     *   Development :                                                         *
-    *       biblib-simple : 0.1.1                                             *
-    *       coverage : 5.3                                                    *
-    *       coveralls : 2.2.0                                                 *
-    *       flake8 : 3.8.4                                                    *
-    *       invoke : 1.4.1                                                    *
-    *       jupyter : 1.0.0                                                   *
-    *       mock : 4.0.2                                                      *
-    *       nose : 1.3.7                                                      *
-    *       pre-commit : 2.1.1                                                *
-    *       pytest : 6.1.2                                                    *
-    *       restructuredtext-lint : 1.3.2                                     *
-    *       sphinx : 3.1.2                                                    *
-    *       sphinx_rtd_theme : 0.5.0                                          *
-    *       sphinxcontrib-bibtex : 1.0.0                                      *
+    *       biblib-simple : 0.1.2                                             *
+    *       coverage : 6.5.0                                                  *
+    *       coveralls : 4.0.1                                                 *
+    *       invoke : 2.2.0                                                    *
+    *       pre-commit : 3.8.0                                                *
+    *       pydata-sphinx-theme : 0.15.4                                      *
+    *       pyright : 1.1.382.post1                                           *
+    *       pytest : 8.3.3                                                    *
+    *       pytest-cov : 5.0.0                                                *
+    *       restructuredtext-lint : 1.4.0                                     *
+    *       sphinxcontrib-bibtex : 2.6.3                                      *
     *       toml : 0.10.2                                                     *
-    *       twine : 3.2.0                                                     *
-    *       yapf : 0.23.0                                                     *
+    *       twine : 5.1.1                                                     *
     *                                                                         *
     *   Extras :                                                              *
-    *       ipywidgets : 7.5.1                                                *
-    *       notebook : 6.1.5                                                  *
+    *       ipywidgets : 8.1.5                                                *
+    *       notebook : 7.2.2                                                  *
     *                                                                         *
     ===========================================================================
     """
@@ -812,7 +816,7 @@ def describe_environment(
             "networkx",
             "numpy",
             "pandas",
-            "pygraphviz",
+            "pydot",
             "PyOpenColorIO",
             "scipy",
             "tqdm",

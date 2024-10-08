@@ -55,11 +55,9 @@ matplotlib = ">= 3.6"
 networkx = ">= 3, < 4"
 opencolorio = ">= 2, < 3"
 pandas = ">= 1.5, < 3"
+pydot = ">= 3, < 4"
 tqdm = ">= 4, < 5"
 xxhash = ">= 3.2, < 4"
-
-[tool.poetry.group.graphviz.dependencies]
-pygraphviz = { version = ">= 1, < 2" }
 
 [tool.poetry.group.meshing.dependencies]
 trimesh = ">= 3, < 5"
