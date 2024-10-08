@@ -192,12 +192,12 @@ Requirements
     :toctree: generated/
 
     is_ctlrender_installed
-    is_graphviz_installed
     is_matplotlib_installed
     is_networkx_installed
     is_opencolorio_installed
     is_openimageio_installed
     is_pandas_installed
+    is_pydot_installed
     is_tqdm_installed
     is_trimesh_installed
     is_xxhash_installed

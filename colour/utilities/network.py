@@ -1919,16 +1919,15 @@ class PortGraph(PortNode):
 
             node.process()
 
-    @required("Graphviz")
-    def to_graphviz(self) -> AGraph:  # noqa: F821  # pyright: ignore
+    @required("Pydot")
+    def to_graphviz(self) -> Dot:  # noqa: F821  # pyright: ignore
         """
         Return a visualisation node-graph for *Graphviz*.
 
         Returns
         -------
-        :class:`pygraphviz.AGraph`
-            String representation for visualisation of the node-graph with
-            *Graphviz*.
+        :class:`pydot.Dot`
+            *Pydot* graph.
 
         Examples
         --------
@@ -1941,17 +1940,17 @@ class PortGraph(PortNode):
         >>> graph.add_node(node_2)
         >>> node_1.connect("output", node_2, "a")
         >>> graph.to_graphviz()  # doctest: +SKIP
-        <AGraph <Swig Object of type 'Agraph_t *' at 0x...>>
+        <pydot.core.Dot object at 0x...>
         """
 
         if self._parent is not None:
             return PortNode.to_graphviz(self)
 
-        from pygraphviz import AGraph
+        import pydot
 
-        agraph = AGraph(strict=False)
-        agraph.graph_attr["rankdir"] = "LR"
-        agraph.graph_attr["splines"] = "polyline"
+        dot = pydot.Dot(
+            "digraph", graph_type="digraph", rankdir="LR", splines="polyline"
+        )
 
         graphs = [node for node in self.walk_ports() if isinstance(node, PortGraph)]
 
@@ -1961,8 +1960,12 @@ class PortGraph(PortNode):
             return any(node in graph.nodes.values() for graph in graphs)
 
         for node in self.walk_ports():
-            agraph.add_node(
-                f"{node.name} (#{node.id})", label=node.to_graphviz(), shape="record"
+            dot.add_node(
+                pydot.Node(
+                    f"{node.name} (#{node.id})",
+                    label=node.to_graphviz(),
+                    shape="record",
+                )
             )
             input_edges, output_edges = node.edges
 
@@ -1971,16 +1974,18 @@ class PortGraph(PortNode):
                 if is_graph_member(edge[0].node) or is_graph_member(edge[1].node):
                     continue
 
-                agraph.add_edge(
-                    f"{edge[1].node.name} (#{edge[1].node.id})",
-                    f"{edge[0].node.name} (#{edge[0].node.id})",
-                    tailport=edge[1].name,
-                    headport=edge[0].name,
-                    key=f"{edge[1]} => {edge[0]}",
-                    dir="forward",
+                dot.add_edge(
+                    pydot.Edge(
+                        f"{edge[1].node.name} (#{edge[1].node.id})",
+                        f"{edge[0].node.name} (#{edge[0].node.id})",
+                        tailport=edge[1].name,
+                        headport=edge[0].name,
+                        key=f"{edge[1]} => {edge[0]}",
+                        dir="forward",
+                    )
                 )
 
-        return agraph
+        return dot
 
 
 class ExecutionPort(Port):
