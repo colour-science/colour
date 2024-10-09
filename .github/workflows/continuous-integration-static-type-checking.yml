@@ -33,4 +33,4 @@ jobs:
           pip install -r requirements.txt
       - name: Static Type Checking
         run: |
-          pyright --skipunannotated
+          pyright --threads --skipunannotated
