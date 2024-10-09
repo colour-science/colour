@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         os: [macOS-latest]
-        python-version: [3.12]
+        python-version: [3.13]
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
@@ -18,7 +18,7 @@ jobs:
           echo "CI_PACKAGE=colour" >> $GITHUB_ENV
         shell: bash
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install Dependencies (macOS)
@@ -30,7 +30,7 @@ jobs:
           echo "IMAGEIO_FREEIMAGE_LIB=/opt/homebrew/Cellar/freeimage/3.18.0/lib/libfreeimage.3.18.0.dylib" >> $GITHUB_ENV
       - name: Install Package Dependencies
         run: |
-          pip install -r requirements.txt
+          cat requirements.txt | grep -Eo '(^[^#]+)' | xargs -n 1 pip install || true
       - name: Static Type Checking
         run: |
           pyright --threads --skipunannotated

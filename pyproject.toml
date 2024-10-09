@@ -3,7 +3,7 @@ name = "colour-science"
 version = "0.4.4"
 description = "Colour Science for Python"
 readme = "README.rst"
-requires-python = ">=3.10,<3.13"
+requires-python = ">=3.10,<3.14"
 authors = [
     { name = "Colour Developers", email = "colour-developers@colour-science.org" },
 ]
@@ -48,16 +48,16 @@ dependencies = [
     "imageio>=2,<3",
     "numpy>=1.24,<3",
     "scipy>=1.10,<2",
-    "trimesh>=1.16.1",
+    "trimesh>=4",
     "typing-extensions>=4,<5",
 ]
 
 [project.optional-dependencies]
 optional = [
-    "matplotlib>=3.6",
+    "matplotlib>=3.7",
     "networkx>=3,<4",
     "opencolorio>=2,<3",
-    "pandas>=1.5,<3",
+    "pandas>=2,<3",
     "pydot>=3,<4",
     "tqdm>=4,<5",
     "xxhash>=3,<4",
@@ -83,13 +83,13 @@ Changelog = "https://github.com/colour-science/colour/releases"
 [tool.uv]
 package = true
 dev-dependencies = [
-    "coverage>=6,<7",
+    "coverage",
     "coveralls",
     "hatch",
     "invoke",
     "jupyter",
-    "pre-commit>=3.5",
-    "pyright!=1.1.383",
+    "pre-commit",
+    "pyright",
     "pytest",
     "pytest-cov",
     "pytest-xdist",

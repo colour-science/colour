@@ -6,7 +6,7 @@ babel==2.16.0
 beautifulsoup4==4.12.3
 biblib-simple==0.1.2
 certifi==2024.8.30
-charset-normalizer==3.3.2
+charset-normalizer==3.4.0
 colorama==0.4.6 ; sys_platform == 'win32' or platform_system == 'Windows'
 contourpy==1.3.0
 cycler==0.12.1
