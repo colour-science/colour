@@ -20,8 +20,8 @@ is available to guide the process: https://www.colour-science.org/contributing/.
 - [ ] New transformations have been added to the _Automatic Colour Conversion Graph_.
 - [ ] New transformations have been exported to the relevant namespaces, e.g. `colour`, `colour.models`.
 
-<!-- The unit tests can be invoked with `poetry run invoke tests` -->
-<!-- Pyright can be started with `pyright --skipunannotated` -->
+<!-- The unit tests can be invoked with `uv run invoke tests` -->
+<!-- Pyright can be started with `uv run pyright --threads --skipunannotated` -->
 
 **Documentation**
 
