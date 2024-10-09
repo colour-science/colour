@@ -54,9 +54,10 @@ If you'd like to join them, please consider
         <tbody>
             <tr>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="http://antlerpost.com/" target="_blank">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/1394284009329504257/CZxrhA6x.jpg">
                     </a>
+                    <p><a href="http://antlerpost.com/" target="_blank">Nick Shaw</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
@@ -110,9 +111,10 @@ If you'd like to join them, please consider
                     <p><a href="https://www.zhannaalekseeva.nyc" target="_blank">Studio Zhanna Alekseeva.NYC</a></p>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="126px" src="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://opencollective.com/guest-b971dc73" target="_blank">
+                        <img width="126px" src="https://opencollective.com/static/images/default-guest-logo.svg">
                     </a>
+                    <p><a href="https://opencollective.com/guest-b971dc73" target="_blank">James Howard</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
@@ -240,12 +242,6 @@ If you'd like to join them, please consider
                     <p><a href="https://www.artstation.com/monsieur_lixm" target="_blank">Liam Collod</a></p>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="http://antlerpost.com/" target="_blank">
-                        <img width="176px" src="https://pbs.twimg.com/profile_images/1394284009329504257/CZxrhA6x.jpg">
-                    </a>
-                    <p><a href="http://antlerpost.com/" target="_blank">Nick Shaw</a></p>
-                </td>
-                <td align="center" valign="middle">
                     <a href="https://twitter.com/alexmitchellmus" target="_blank">
                         <img width="176px" src="https://pbs.twimg.com/profile_images/763631280722370560/F9FN4lEz.jpg">
                     </a>
@@ -263,19 +259,19 @@ If you'd like to join them, please consider
                     </a>
                     <p><a href="https://github.com/zachlewis" target="_blank">Zack Lewis</a></p>
                 </td>
-            </tr>
-            <tr>
                 <td align="center" valign="middle">
                     <a href="https://twitter.com/fredsavoir" target="_blank">
                         <img width="176px" src="https://pbs.twimg.com/profile_images/363988638/FS_Portrait082009.jpg">
                     </a>
                     <p><a href="https://twitter.com/fredsavoir" target="_blank">Frederic Savoir</a></p>
                 </td>
+            </tr>
+            <tr>
                 <td align="center" valign="middle">
                     <a href="https://twitter.com/hdc_digital" target="_blank">
-                        <img width="176px" src="https://pbs.twimg.com/profile_images/1276879673536937985/W56dpzI1.jpg">
+                        <img width="176px" src="https://images.squarespace-cdn.com/content/v1/5ef3250008605a61d88e7240/1593263686377-LPNJQMBE7U00WRNBY6JH/DIT+Logo+-+Dark+theme+-+PNG.png">
                     </a>
-                    <p><a href="https://twitter.com/hdc_digital" target="_blank">Howard Colin</a></p>
+                    <p><a href="https://www.digitalimagingtech.co.uk" target="_blank">Howard Colin</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://chrisbrejon.com/" target="_blank">
@@ -288,6 +284,12 @@ If you'd like to join them, please consider
                         <img width="176px" src="https://pbs.twimg.com/profile_images/1801891382/mario_pi_sq_400x400.jpg">
                     </a>
                     <p><a href="https://twitter.com/MarioRokicki" target="_blank">Mario Rokicki</a></p>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://opencollective.com/joshua-pines" target="_blank">
+                        <img width="176px" src="https://images.opencollective.com/joshua-pines/ad0ec4b/avatar/256.png">
+                    </a>
+                    <p><a href="https://opencollective.com/joshua-pines" target="_blank">Joshua Pines</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
