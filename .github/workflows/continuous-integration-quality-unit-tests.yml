@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         os: [macOS-latest, ubuntu-latest, windows-latest]
-        python-version: ["3.10", 3.11, 3.12]
+        python-version: ["3.10", 3.11, 3.12, 3.13]
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
@@ -24,11 +24,11 @@ jobs:
           echo "OMP_NUM_THREADS=1" >> $GITHUB_ENV
         shell: bash
       - name: Set up Python 3.10 for Pre-Commit
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.10"
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install Dependencies (macOS)
