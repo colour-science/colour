@@ -630,7 +630,14 @@ class KwargsRender(TypedDict):
         Whether to show the figure and call :func:`matplotlib.pyplot.show`
         definition.
     block
-        Whether to block on `show`ing the plot.
+        Whether to wait for all figures to be closed before returning.
+        If `True` block and run the GUI main loop until all figure windows
+        are closed.
+        If `False` ensure that all figure windows are displayed and return
+        immediately.  In this case, you are responsible for ensuring
+        that the event loop is running to have responsive figures.
+        Defaults to True in non-interactive mode and to False in interactive
+        mode.
     aspect
         Matplotlib axes aspect.
     axes_visible

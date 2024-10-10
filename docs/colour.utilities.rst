@@ -201,7 +201,6 @@ Requirements
     is_tqdm_installed
     is_trimesh_installed
     is_xxhash_installed
-    REQUIREMENTS_TO_CALLABLE
     required
 
 Verbose
