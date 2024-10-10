@@ -1,6 +1,5 @@
 """Define the unit tests for the :mod:`colour.plotting.temperature` module."""
 
-
 import pytest
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure

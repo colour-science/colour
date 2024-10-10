@@ -190,9 +190,7 @@ References
 :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
 """
 
-CCS_ILLUMINANTS_BLACKMAGIC_DESIGN_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
-    CanonicalMapping
-) = CanonicalMapping(
+CCS_ILLUMINANTS_BLACKMAGIC_DESIGN_STANDARD_OBSERVER_2_DEGREE_CIE1931: CanonicalMapping = CanonicalMapping(
     {
         "Blackmagic Wide Gamut": np.array([0.3127170, 0.3290312]),
     }

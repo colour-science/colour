@@ -1,6 +1,5 @@
 """Define the unit tests for the :mod:`colour.io.luts.common` module."""
 
-
 from colour.io.luts.common import path_to_title
 
 __author__ = "Colour Developers"

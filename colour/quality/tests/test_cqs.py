@@ -1,6 +1,5 @@
 """Define the unit tests for the :mod:`colour.quality.cqs` module."""
 
-
 import numpy as np
 
 from colour.colorimetry import SDS_ILLUMINANTS, SDS_LIGHT_SOURCES

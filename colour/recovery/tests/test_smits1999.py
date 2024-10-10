@@ -1,6 +1,5 @@
 """Define the unit tests for the :mod:`colour.recovery.smits1999` module."""
 
-
 import numpy as np
 
 from colour.colorimetry import sd_to_XYZ_integration

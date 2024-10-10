@@ -210,8 +210,7 @@ class TestPort:
     def setup_method(self):
         """Initialise the common tests attributes."""
 
-        class Node(PortNode):
-            ...
+        class Node(PortNode): ...
 
         self._node_a = Node("Node A")
         self._port_a_node_a = self._node_a.add_input_port("a", 1, "Port A")

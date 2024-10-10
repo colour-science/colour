@@ -1,4 +1,5 @@
 """Define the unit tests for the :mod:`colour.plotting.graph` module."""
+
 import tempfile
 
 from colour.plotting import plot_automatic_colour_conversion_graph

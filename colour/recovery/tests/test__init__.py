@@ -1,6 +1,5 @@
 """Define the unit tests for the :mod:`colour.recovery` module."""
 
-
 import numpy as np
 
 from colour.colorimetry import (

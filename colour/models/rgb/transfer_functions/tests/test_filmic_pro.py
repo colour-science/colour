@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.filmic_pro` module.
 """
 
-
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS

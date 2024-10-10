@@ -3287,12 +3287,12 @@ def _CIE_2012_10_Degree_Standard_Observer():
     )
 
 
-MSDS_CMFS_STANDARD_OBSERVER[
-    "CIE 2012 2 Degree Standard Observer"
-] = _CIE_2012_2_Degree_Standard_Observer
-MSDS_CMFS_STANDARD_OBSERVER[
-    "CIE 2012 10 Degree Standard Observer"
-] = _CIE_2012_10_Degree_Standard_Observer
+MSDS_CMFS_STANDARD_OBSERVER["CIE 2012 2 Degree Standard Observer"] = (
+    _CIE_2012_2_Degree_Standard_Observer
+)
+MSDS_CMFS_STANDARD_OBSERVER["CIE 2012 10 Degree Standard Observer"] = (
+    _CIE_2012_10_Degree_Standard_Observer
+)
 # ----------------------------------------------------------------------------#
 
 MSDS_CMFS = LazyCanonicalMapping(MSDS_CMFS_LMS)
