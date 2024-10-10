@@ -255,7 +255,6 @@ LiteralRGBColourspace = Literal[
     "ACEScct",
     "ACEScg",
     "ACESproxy",
-    "ALEXA Wide Gamut",
     "ARRI Wide Gamut 3",
     "ARRI Wide Gamut 4",
     "Adobe RGB (1998)",

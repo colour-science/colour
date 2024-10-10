@@ -251,11 +251,11 @@ The various sub-packages also expose their public API:
 
 
     Models
-    ['COLOURSPACE_MODELS',
-     'COLOURSPACE_MODELS_AXIS_LABELS',
-     'COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE',
-     'Jab_to_JCh',
-     'JCh_to_Jab',
+    ['Lab_to_LCHab',
+     'LCHab_to_Lab',
+     'Luv_to_LCHuv',
+     'LCHuv_to_Luv',
+     'hdr_CIELab_to_hdr_CIELCHab',
      '...']
 
 
@@ -313,11 +313,11 @@ The various sub-packages also expose their public API:
 
 
     Utilities
-    ['Lookup',
-     'Structure',
-     'CanonicalMapping',
-     'LazyCanonicalMapping',
-     'Node',
+    ['MixinLogging',
+     'ColourWarning',
+     'ColourUsageWarning',
+     'ColourRuntimeWarning',
+     'message_box',
      '...']
 
 
@@ -360,14 +360,14 @@ The codebase is documented and most docstrings have usage examples:
 
     Examples
     --------
-    from colour import MSDS_CMFS, SPECTRAL_SHAPE_DEFAULT
-    cmfs = (
-        MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
-        .copy()
-        .align(SPECTRAL_SHAPE_DEFAULT)
-    )
-    CCT_D_uv = np.array([6507.4342201047066, 0.003223690901513])
-    CCT_to_uv_Ohno2013(CCT_D_uv, cmfs)  # doctest: +ELLIPSIS
+    >>> from colour import MSDS_CMFS, SPECTRAL_SHAPE_DEFAULT
+    >>> cmfs = (
+    ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    ...     .copy()
+    ...     .align(SPECTRAL_SHAPE_DEFAULT)
+    ... )
+    >>> CCT_D_uv = np.array([6507.4342201047066, 0.003223690901513])
+    >>> CCT_to_uv_Ohno2013(CCT_D_uv, cmfs)  # doctest: +ELLIPSIS
     array([ 0.1977999...,  0.3122004...])
 
 At the core of **Colour** is the ``colour.colorimetry`` sub-package, it defines
@@ -1167,26 +1167,36 @@ computations are available, expanding to even more computations:
      'CAM16LCD',
      'CAM16SCD',
      'CAM16UCS',
-     'CIE XYZ',
-     'CIE xyY',
+     'CIE 1931',
+     'CIE 1960 UCS',
+     'CIE 1976 UCS',
      'CIE Lab',
      'CIE Luv',
      'CIE UCS',
      'CIE UVW',
+     'CIE XYZ',
+     'CIE xyY',
      'DIN99',
+     'HCL',
+     'HSL',
+     'HSV',
      'Hunter Lab',
      'Hunter Rdab',
      'ICaCb',
      'ICtCp',
-     'IPT',
+     'IHLS',
      'IPT Ragoo 2021',
+     'IPT',
      'IgPgTg',
      'Jzazbz',
      'OSA UCS',
      'Oklab',
+     'RGB',
+     'YCbCr',
+     'YCoCg',
+     'Yrg',
      'hdr-CIELAB',
-     'hdr-IPT',
-     'Yrg')
+     'hdr-IPT')
 
 Convert to Display Colours
 --------------------------
@@ -1237,8 +1247,8 @@ various colour rendition charts:
 
 .. code-block:: text
 
-    ['BabelColor Average', 'ColorChecker 1976', 'ColorChecker 2005', 'ColorChecker24 - After November 2014', 'ColorChecker24 - Before November 2014', 'TE226 V2', 'babel_average', 'cc2005', 'cca2014', 'ccb2014']
-    ['BabelColor Average', 'ColorChecker N Ohta', 'ISO 17321-1', 'babel_average', 'cc_ohta']
+    ['BabelColor Average', 'ColorChecker 1976', 'ColorChecker 2005', 'ColorChecker24 - After November 2014', 'ColorChecker24 - Before November 2014', 'ColorCheckerSG - After November 2014', 'ColorCheckerSG - Before November 2014', 'TE226 V2', 'babel_average', 'cc2005', 'cca2014', 'ccb2014']
+    ['BabelColor Average', 'ColorChecker N Ohta', 'ISO 17321-1', 'PMC', 'babel_average', 'cc_ohta']
 
 .. note::
 
