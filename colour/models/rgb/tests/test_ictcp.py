@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.rgb.ictcp` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -30,7 +28,7 @@ __all__ = [
 ]
 
 
-class TestRGB_to_ICtCp(unittest.TestCase):
+class TestRGB_to_ICtCp:
     """
     Define :func:`colour.models.rgb.ictcp.TestRGB_to_ICtCp` definition unit
     tests methods.
@@ -46,17 +44,13 @@ class TestRGB_to_ICtCp(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            RGB_to_ICtCp(
-                np.array([0.45620519, 0.03081071, 0.04091952]), L_p=4000
-            ),
+            RGB_to_ICtCp(np.array([0.45620519, 0.03081071, 0.04091952]), L_p=4000),
             np.array([0.10516931, 0.00514031, 0.12318730]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            RGB_to_ICtCp(
-                np.array([0.45620519, 0.03081071, 0.04091952]), L_p=1000
-            ),
+            RGB_to_ICtCp(np.array([0.45620519, 0.03081071, 0.04091952]), L_p=1000),
             np.array([0.17079612, 0.00485580, 0.17431356]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -148,7 +142,7 @@ class TestRGB_to_ICtCp(unittest.TestCase):
         RGB_to_ICtCp(cases)
 
 
-class TestICtCp_to_RGB(unittest.TestCase):
+class TestICtCp_to_RGB:
     """
     Define :func:`colour.models.rgb.ictcp.ICtCp_to_RGB` definition unit tests
     methods.
@@ -164,17 +158,13 @@ class TestICtCp_to_RGB(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            ICtCp_to_RGB(
-                np.array([0.10516931, 0.00514031, 0.12318730]), L_p=4000
-            ),
+            ICtCp_to_RGB(np.array([0.10516931, 0.00514031, 0.12318730]), L_p=4000),
             np.array([0.45620519, 0.03081071, 0.04091952]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            ICtCp_to_RGB(
-                np.array([0.17079612, 0.00485580, 0.17431356]), L_p=1000
-            ),
+            ICtCp_to_RGB(np.array([0.17079612, 0.00485580, 0.17431356]), L_p=1000),
             np.array([0.45620519, 0.03081071, 0.04091952]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -266,7 +256,7 @@ class TestICtCp_to_RGB(unittest.TestCase):
         ICtCp_to_RGB(cases)
 
 
-class TestXYZ_to_ICtCp(unittest.TestCase):
+class TestXYZ_to_ICtCp:
     """
     Define :func:`colour.models.rgb.ictcp.TestXYZ_to_ICtCp` definition unit
     tests methods.
@@ -301,17 +291,13 @@ class TestXYZ_to_ICtCp(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            XYZ_to_ICtCp(
-                np.array([0.20654008, 0.12197225, 0.05136952]), L_p=4000
-            ),
+            XYZ_to_ICtCp(np.array([0.20654008, 0.12197225, 0.05136952]), L_p=4000),
             np.array([0.09871102, -0.00447247, 0.07984812]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            XYZ_to_ICtCp(
-                np.array([0.20654008, 0.12197225, 0.05136952]), L_p=1000
-            ),
+            XYZ_to_ICtCp(np.array([0.20654008, 0.12197225, 0.05136952]), L_p=1000),
             np.array([0.16173872, -0.00792543, 0.11409458]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -403,7 +389,7 @@ class TestXYZ_to_ICtCp(unittest.TestCase):
         XYZ_to_ICtCp(cases)
 
 
-class TestICtCp_to_XYZ(unittest.TestCase):
+class TestICtCp_to_XYZ:
     """
     Define :func:`colour.models.rgb.ictcp.ICtCp_to_XYZ` definition unit tests
     methods.
@@ -438,17 +424,13 @@ class TestICtCp_to_XYZ(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            ICtCp_to_XYZ(
-                np.array([0.09871102, -0.00447247, 0.07984812]), L_p=4000
-            ),
+            ICtCp_to_XYZ(np.array([0.09871102, -0.00447247, 0.07984812]), L_p=4000),
             np.array([0.20654008, 0.12197225, 0.05136952]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            ICtCp_to_XYZ(
-                np.array([0.16173872, -0.00792543, 0.11409458]), L_p=1000
-            ),
+            ICtCp_to_XYZ(np.array([0.16173872, -0.00792543, 0.11409458]), L_p=1000),
             np.array([0.20654008, 0.12197225, 0.05136952]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -538,7 +520,3 @@ class TestICtCp_to_XYZ(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         ICtCp_to_XYZ(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

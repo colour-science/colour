@@ -26,13 +26,13 @@
     :target: https://coveralls.io/r/colour-science/colour
     :alt: Coverage Status
 .. |codacy| image:: https://img.shields.io/codacy/grade/1f3b8d3bba7440ba9ebc1170589628b1/develop.svg?style=flat-square
-    :target: https://www.codacy.com/app/colour-science/colour
+    :target: https://app.codacy.com/gh/colour-science/colour
     :alt: Code Grade
 .. |version| image:: https://img.shields.io/pypi/v/colour-science.svg?style=flat-square
     :target: https://pypi.org/project/colour-science
     :alt: Package Version
-.. |zenodo| image:: https://img.shields.io/badge/DOI-10.5281/zenodo.10396329-blue.svg?style=flat-square
-    :target: https://dx.doi.org/10.5281/zenodo.10396329
+.. |zenodo| image:: https://img.shields.io/badge/DOI-10.5281/zenodo.13910741-blue.svg?style=flat-square
+    :target: https://dx.doi.org/10.5281/zenodo.13910741
     :alt: DOI
 
 .. end-badges
@@ -93,8 +93,48 @@ If you'd like to join them, please consider
                     <p><a href="https://twitter.com/JRGoldstone" target="_blank">Joseph Goldstone</a></p>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/288x288/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="288px"" src="https://dummyimage.com/288x288/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://colorhythm.com" target="_blank">
+                        <img width="288px" src="https://www.colour-science.org/images/Colorhythm_Logo.png">
+                    </a>
+                    <p><a href="https://colorhythm.com" target="_blank">Colorhythm</a></p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+.. raw:: html
+
+    <h2 align="center">Silver Sponsors</h2>
+
+.. raw:: html
+
+    <table>
+        <tbody>
+            <tr>
+                <td align="center" valign="middle">
+                    <a href="http://antlerpost.com/" target="_blank">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/1394284009329504257/CZxrhA6x.jpg">
+                    </a>
+                    <p><a href="http://antlerpost.com/" target="_blank">Nick Shaw</a></p>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
                     </a>
                 </td>
             </tr>
@@ -129,9 +169,10 @@ If you'd like to join them, please consider
                     <p><a href="https://www.zhannaalekseeva.nyc" target="_blank">Studio Zhanna Alekseeva.NYC</a></p>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="126px" src="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://opencollective.com/guest-b971dc73" target="_blank">
+                        <img width="126px" src="https://opencollective.com/static/images/default-guest-logo.svg">
                     </a>
+                    <p><a href="https://opencollective.com/guest-b971dc73" target="_blank">James Howard</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
@@ -200,12 +241,6 @@ If you'd like to join them, please consider
                     <p><a href="https://www.artstation.com/monsieur_lixm" target="_blank">Liam Collod</a></p>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="http://antlerpost.com/" target="_blank">
-                        <img width="176px" src="https://pbs.twimg.com/profile_images/1394284009329504257/CZxrhA6x.jpg">
-                    </a>
-                    <p><a href="http://antlerpost.com/" target="_blank">Nick Shaw</a></p>
-                </td>
-                <td align="center" valign="middle">
                     <a href="https://twitter.com/alexmitchellmus" target="_blank">
                         <img width="176px" src="https://pbs.twimg.com/profile_images/763631280722370560/F9FN4lEz.jpg">
                     </a>
@@ -223,19 +258,19 @@ If you'd like to join them, please consider
                     </a>
                     <p><a href="https://github.com/zachlewis" target="_blank">Zack Lewis</a></p>
                 </td>
-            </tr>
-            <tr>
                 <td align="center" valign="middle">
                     <a href="https://twitter.com/fredsavoir" target="_blank">
                         <img width="176px" src="https://pbs.twimg.com/profile_images/363988638/FS_Portrait082009.jpg">
                     </a>
                     <p><a href="https://twitter.com/fredsavoir" target="_blank">Frederic Savoir</a></p>
                 </td>
+            </tr>
+            <tr>
                 <td align="center" valign="middle">
-                    <a href="https://twitter.com/hdc_digital" target="_blank">
-                        <img width="176px" src="https://pbs.twimg.com/profile_images/1276879673536937985/W56dpzI1.jpg">
+                    <a href="https://twitter.com/digitaltechltd" target="_blank">
+                        <img width="176px" src="https://images.squarespace-cdn.com/content/v1/5ef3250008605a61d88e7240/1593263686377-LPNJQMBE7U00WRNBY6JH/DIT+Logo+-+Dark+theme+-+PNG.png">
                     </a>
-                    <p><a href="https://twitter.com/hdc_digital" target="_blank">Howard Colin</a></p>
+                    <p><a href="https://www.digitalimagingtech.co.uk" target="_blank">Howard Colin</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://chrisbrejon.com/" target="_blank">
@@ -248,6 +283,12 @@ If you'd like to join them, please consider
                         <img width="176px" src="https://pbs.twimg.com/profile_images/1801891382/mario_pi_sq_400x400.jpg">
                     </a>
                     <p><a href="https://twitter.com/MarioRokicki" target="_blank">Mario Rokicki</a></p>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://opencollective.com/joshua-pines" target="_blank">
+                        <img width="176px" src="https://images.opencollective.com/joshua-pines/ad0ec4b/avatar/256.png">
+                    </a>
+                    <p><a href="https://opencollective.com/joshua-pines" target="_blank">Joshua Pines</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
@@ -321,13 +362,14 @@ Chromatic Adaptation - ``colour.adaptation``
 
     array([ 0.2533053 ,  0.13765138,  0.01543307])
 
+
 .. code-block:: python
 
     sorted(colour.CHROMATIC_ADAPTATION_METHODS)
 
 .. code-block:: text
 
-    ['CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries', 'Zhai 2018']
+    ['CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries', 'Zhai 2018', 'vK20']
 
 Algebra - ``colour.algebra``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -874,6 +916,18 @@ Images
 .. code-block:: text
 
     (276, 281, 3)
+
+Spectral Images - Fichet et al. (2021)
+**************************************
+
+.. code-block:: python
+
+    components = colour.read_spectral_image_Fichet2021("Polarised.exr")
+    list(components.keys())
+
+.. code-block:: text
+
+    ['S0', 'S1', 'S2', 'S3']
 
 Look Up Table (LUT) Data
 ************************
@@ -2092,7 +2146,7 @@ by issuing this command in a shell:
 The detailed installation procedure for the secondary dependencies is
 described in the `Installation Guide <https://www.colour-science.org/installation-guide>`__.
 
-**Colour** is also available for `Anaconda <https://www.continuum.io/downloads>`__
+**Colour** is also available for `Anaconda <https://www.anaconda.com/download>`__
 from *Continuum Analytics* via `conda-forge <https://conda-forge.org>`__:
 
 .. code-block:: bash
@@ -2138,8 +2192,8 @@ API Reference
 
 The main technical reference for **Colour** is the *API Reference*:
 
-- `Release <https://colour.readthedocs.io/en/master/reference.html>`__.
-- `Develop <https://colour.readthedocs.io/en/latest/reference.html>`__.
+- `Release <https://colour.readthedocs.io/en/master/reference.html>`__
+- `Develop <https://colour.readthedocs.io/en/latest/reference.html>`__
 
 See Also
 --------
@@ -2149,6 +2203,7 @@ Software
 
 **Python**
 
+- `ColorAide <https://facelessuser.github.io/coloraide>`__ by Muse, I.
 - `ColorPy <http://markkness.net/colorpy/ColorPy.html>`__ by Kness, M.
 - `Colorspacious <https://colorspacious.readthedocs.io>`__ by Smith, N. J., et al.
 - `python-colormath <https://python-colormath.readthedocs.io>`__ by Taylor, G., et al.

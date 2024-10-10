@@ -1,4 +1,4 @@
-"""Showcases cylindrical and spherical colour models computations."""
+"""Showcase cylindrical and spherical colour models computations."""
 
 import numpy as np
 

@@ -2,7 +2,7 @@
 Kim, Weyrich and Kautz (2009) Colour Appearance Model
 =====================================================
 
-Defines the *Kim, Weyrich and Kautz (2009)* colour appearance model objects:
+Define the *Kim, Weyrich and Kautz (2009)* colour appearance model objects:
 
 -   :class:`colour.appearance.InductionFactors_Kim2009`
 -   :attr:`colour.VIEWING_CONDITIONS_KIM2009`
@@ -27,7 +27,7 @@ from dataclasses import astuple, dataclass, field
 import numpy as np
 
 from colour.adaptation import CAT_CAT02
-from colour.algebra import spow, vector_dot
+from colour.algebra import spow, vecmul
 from colour.appearance.ciecam02 import (
     CAT_INVERSE_CAT02,
     VIEWING_CONDITIONS_CIECAM02,
@@ -165,13 +165,11 @@ Aliases:
 MEDIA_PARAMETERS_KIM2009["bright_lcd_display"] = MEDIA_PARAMETERS_KIM2009[
     "High-luminance LCD Display"
 ]
-MEDIA_PARAMETERS_KIM2009[
-    "advertising_transparencies"
-] = MEDIA_PARAMETERS_KIM2009["Transparent Advertising Media"]
-MEDIA_PARAMETERS_KIM2009["crt"] = MEDIA_PARAMETERS_KIM2009["CRT Displays"]
-MEDIA_PARAMETERS_KIM2009["paper"] = MEDIA_PARAMETERS_KIM2009[
-    "Reflective Paper"
+MEDIA_PARAMETERS_KIM2009["advertising_transparencies"] = MEDIA_PARAMETERS_KIM2009[
+    "Transparent Advertising Media"
 ]
+MEDIA_PARAMETERS_KIM2009["crt"] = MEDIA_PARAMETERS_KIM2009["CRT Displays"]
+MEDIA_PARAMETERS_KIM2009["paper"] = MEDIA_PARAMETERS_KIM2009["Reflective Paper"]
 
 
 @dataclass
@@ -307,8 +305,8 @@ H=278.0602824..., HC=None)
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
     # sharpened *RGB* values.
-    RGB = vector_dot(CAT_CAT02, XYZ)
-    RGB_w = vector_dot(CAT_CAT02, XYZ_w)
+    RGB = vecmul(CAT_CAT02, XYZ)
+    RGB_w = vecmul(CAT_CAT02, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
     D = (
@@ -340,9 +338,7 @@ H=278.0602824..., HC=None)
     # Perceived *Lightness* :math:`J_p`.
     a_j, b_j, o_j, n_j = 0.89, 0.24, 0.65, 3.65
     A_A_w = A / A_w
-    J_p = spow(
-        (-(A_A_w - b_j) * spow(o_j, n_j)) / (A_A_w - b_j - a_j), 1 / n_j
-    )
+    J_p = spow((-(A_A_w - b_j) * spow(o_j, n_j)) / (A_A_w - b_j - a_j), 1 / n_j)
 
     # Computing the media dependent *Lightness* :math:`J`.
     J = 100 * (media.E * (J_p - 1) + 1)
@@ -403,7 +399,7 @@ def Kim2009_to_XYZ(
          *Kim, Weyrich and Kautz (2009)* colour appearance model specification.
          Correlate of *Lightness* :math:`J`, correlate of *chroma* :math:`C` or
          correlate of *colourfulness* :math:`M` and *hue* angle :math:`h` in
-         degrees must be specified, e.g. :math:`JCh` or :math:`JMh`.
+         degrees must be specified, e.g., :math:`JCh` or :math:`JMh`.
     XYZ_w
         *CIE XYZ* tristimulus values of reference white.
     L_A
@@ -487,7 +483,7 @@ def Kim2009_to_XYZ(
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
     # sharpened *RGB* values.
-    RGB_w = vector_dot(CAT_CAT02, XYZ_w)
+    RGB_w = vecmul(CAT_CAT02, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
     D = (
@@ -544,7 +540,7 @@ def Kim2009_to_XYZ(
             [1.0000, -0.1568, -4.4904],
         ]
     )
-    LMS_p = vector_dot(M, tstack([A, a, b]))
+    LMS_p = vecmul(M, tstack([A, a, b]))
     LMS = spow((-spow(L_A, n_c) * LMS_p) / (LMS_p - 1), 1 / n_c)
 
     # Converting to *Hunt-Pointer-Estevez* colourspace.
@@ -553,6 +549,6 @@ def Kim2009_to_XYZ(
     # Applying inverse full chromatic adaptation.
     RGB = full_chromatic_adaptation_inverse(RGB_c, RGB_w, Y_w, D)
 
-    XYZ = vector_dot(CAT_INVERSE_CAT02, RGB)
+    XYZ = vecmul(CAT_INVERSE_CAT02, RGB)
 
     return from_range_100(XYZ)

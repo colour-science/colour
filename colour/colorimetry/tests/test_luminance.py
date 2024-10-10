@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.colorimetry.luminance` module."""
 
-import unittest
 
 import numpy as np
 
@@ -37,7 +35,7 @@ __all__ = [
 ]
 
 
-class TestLuminanceNewhall1943(unittest.TestCase):
+class TestLuminanceNewhall1943:
     """
     Define :func:`colour.colorimetry.luminance.luminance_Newhall1943`
     definition unit tests methods.
@@ -118,12 +116,10 @@ class TestLuminanceNewhall1943(unittest.TestCase):
         definition nan support.
         """
 
-        luminance_Newhall1943(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        luminance_Newhall1943(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLuminanceASTMD1535(unittest.TestCase):
+class TestLuminanceASTMD1535:
     """
     Define :func:`colour.colorimetry.luminance.luminance_ASTMD1535`
     definition unit tests methods.
@@ -204,12 +200,10 @@ class TestLuminanceASTMD1535(unittest.TestCase):
         definition nan support.
         """
 
-        luminance_ASTMD1535(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        luminance_ASTMD1535(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestIntermediateLuminanceFunctionCIE1976(unittest.TestCase):
+class TestIntermediateLuminanceFunctionCIE1976:
     """
     Define :func:`colour.colorimetry.luminance.\
 intermediate_luminance_function_CIE1976` definition unit tests methods.
@@ -285,9 +279,7 @@ intermediate_luminance_function_CIE1976` definition domain and range scale
         for scale in ("reference", "1", "100"):
             with domain_range_scale(scale):
                 np.testing.assert_allclose(
-                    intermediate_luminance_function_CIE1976(
-                        41.527875844653451, 100
-                    ),
+                    intermediate_luminance_function_CIE1976(41.527875844653451, 100),
                     Y,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
@@ -304,7 +296,7 @@ intermediate_luminance_function_CIE1976` definition nan support.
         )
 
 
-class TestLuminanceCIE1976(unittest.TestCase):
+class TestLuminanceCIE1976:
     """
     Define :func:`colour.colorimetry.luminance.luminance_CIE1976` definition
     unit tests methods.
@@ -391,7 +383,7 @@ class TestLuminanceCIE1976(unittest.TestCase):
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_allclose(
-                    luminance_CIE1976(41.527875844653451 * factor, 100),
+                    luminance_CIE1976(41.527875844653451 * factor, 100 * factor),
                     Y * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
@@ -406,7 +398,7 @@ class TestLuminanceCIE1976(unittest.TestCase):
         luminance_CIE1976(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLuminanceFairchild2010(unittest.TestCase):
+class TestLuminanceFairchild2010:
     """
     Define :func:`colour.colorimetry.luminance.luminance_Fairchild2010`
     definition unit tests methods.
@@ -505,12 +497,10 @@ class TestLuminanceFairchild2010(unittest.TestCase):
         definition nan support.
         """
 
-        luminance_Fairchild2010(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        luminance_Fairchild2010(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLuminanceFairchild2011(unittest.TestCase):
+class TestLuminanceFairchild2011:
     """
     Define :func:`colour.colorimetry.luminance.luminance_Fairchild2011`
     definition unit tests methods.
@@ -609,12 +599,10 @@ class TestLuminanceFairchild2011(unittest.TestCase):
         definition nan support.
         """
 
-        luminance_Fairchild2011(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        luminance_Fairchild2011(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLuminanceAbebe2017(unittest.TestCase):
+class TestLuminanceAbebe2017:
     """
     Define :func:`colour.colorimetry.luminance.luminance_Abebe2017`
     definition unit tests methods.
@@ -695,9 +683,7 @@ class TestLuminanceAbebe2017(unittest.TestCase):
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_allclose(
-                    luminance_Abebe2017(
-                        0.486955571109229 * factor, 100 * factor
-                    ),
+                    luminance_Abebe2017(0.486955571109229 * factor, 100 * factor),
                     L * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
@@ -709,12 +695,10 @@ class TestLuminanceAbebe2017(unittest.TestCase):
         definition nan support.
         """
 
-        luminance_Abebe2017(
-            *[np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])] * 2
-        )
+        luminance_Abebe2017(*[np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])] * 2)
 
 
-class TestLuminance(unittest.TestCase):
+class TestLuminance:
     """
     Define :func:`colour.colorimetry.luminance.luminance` definition unit
     tests methods.
@@ -742,12 +726,8 @@ class TestLuminance(unittest.TestCase):
                 with domain_range_scale(scale):
                     np.testing.assert_allclose(
                         luminance(
-                            41.527875844653451 * factor, method, Y_n=100
+                            41.527875844653451 * factor, method, Y_n=100 * factor
                         ),
                         value * factor,
                         atol=TOLERANCE_ABSOLUTE_TESTS,
                     )
-
-
-if __name__ == "__main__":
-    unittest.main()

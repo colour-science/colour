@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.osa_ucs` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -23,7 +21,7 @@ __all__ = [
 ]
 
 
-class TestXYZ_to_OSA_UCS(unittest.TestCase):
+class TestXYZ_to_OSA_UCS:
     """
     Define :func:`colour.models.osa_ucs.XYZ_to_OSA_UCS` definition unit tests
     methods.
@@ -33,25 +31,19 @@ class TestXYZ_to_OSA_UCS(unittest.TestCase):
         """Test :func:`colour.models.osa_ucs.XYZ_to_OSA_UCS` definition."""
 
         np.testing.assert_allclose(
-            XYZ_to_OSA_UCS(
-                np.array([0.20654008, 0.12197225, 0.05136952]) * 100
-            ),
+            XYZ_to_OSA_UCS(np.array([0.20654008, 0.12197225, 0.05136952]) * 100),
             np.array([-3.00499790, 2.99713697, -9.66784231]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            XYZ_to_OSA_UCS(
-                np.array([0.14222010, 0.23042768, 0.10495772]) * 100
-            ),
+            XYZ_to_OSA_UCS(np.array([0.14222010, 0.23042768, 0.10495772]) * 100),
             np.array([-1.64657491, 4.59201565, 5.31738757]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            XYZ_to_OSA_UCS(
-                np.array([0.07818780, 0.06157201, 0.28099326]) * 100
-            ),
+            XYZ_to_OSA_UCS(np.array([0.07818780, 0.06157201, 0.28099326]) * 100),
             np.array([-5.08589672, -7.91062749, 0.98107575]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -107,7 +99,7 @@ class TestXYZ_to_OSA_UCS(unittest.TestCase):
         XYZ_to_OSA_UCS(cases)
 
 
-class TestOSA_UCS_to_XYZ(unittest.TestCase):
+class TestOSA_UCS_to_XYZ:
     """
     Define :func:`colour.models.osa_ucs.OSA_UCS_to_XYZ` definition unit tests
     methods.
@@ -190,7 +182,3 @@ class TestOSA_UCS_to_XYZ(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         OSA_UCS_to_XYZ(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

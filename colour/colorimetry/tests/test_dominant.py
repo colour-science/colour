@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.colorimetry.dominant` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -37,22 +35,18 @@ __all__ = [
 ]
 
 
-class TestClosestSpectralLocusWavelength(unittest.TestCase):
+class TestClosestSpectralLocusWavelength:
     """
     Define :func:`colour.colorimetry.dominant.\
 closest_spectral_locus_wavelength` definition unit tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
-        self._xy_s = XYZ_to_xy(
-            MSDS_CMFS["CIE 1931 2 Degree Standard Observer"].values
-        )
+        self._xy_s = XYZ_to_xy(MSDS_CMFS["CIE 1931 2 Degree Standard Observer"].values)
 
-        self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-            "D65"
-        ]
+        self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
 
     def test_closest_spectral_locus_wavelength(self):
         """
@@ -64,7 +58,7 @@ closest_spectral_locus_wavelength` definition.
         xy_n = self._xy_D65
         i_wl, xy_wl = closest_spectral_locus_wavelength(xy, xy_n, self._xy_s)
 
-        self.assertEqual(i_wl, np.array(256))
+        assert i_wl == np.array(256)
         np.testing.assert_allclose(
             xy_wl,
             np.array([0.68354746, 0.31628409]),
@@ -74,7 +68,7 @@ closest_spectral_locus_wavelength` definition.
         xy = np.array([0.37605506, 0.24452225])
         i_wl, xy_wl = closest_spectral_locus_wavelength(xy, xy_n, self._xy_s)
 
-        self.assertEqual(i_wl, np.array(248))
+        assert i_wl == np.array(248)
         np.testing.assert_allclose(
             xy_wl,
             np.array([0.45723147, 0.13628148]),
@@ -92,9 +86,7 @@ closest_spectral_locus_wavelength` definition n-dimensional arrays support.
         i_wl, xy_wl = closest_spectral_locus_wavelength(xy, xy_n, self._xy_s)
         i_wl_r, xy_wl_r = np.array(256), np.array([0.68354746, 0.31628409])
         np.testing.assert_allclose(i_wl, i_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(
-            xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         xy = np.tile(xy, (6, 1))
         xy_n = np.tile(xy_n, (6, 1))
@@ -102,9 +94,7 @@ closest_spectral_locus_wavelength` definition n-dimensional arrays support.
         i_wl_r = np.tile(i_wl_r, 6)
         xy_wl_r = np.tile(xy_wl_r, (6, 1))
         np.testing.assert_allclose(i_wl, i_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(
-            xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         xy = np.reshape(xy, (2, 3, 2))
         xy_n = np.reshape(xy_n, (2, 3, 2))
@@ -112,9 +102,7 @@ closest_spectral_locus_wavelength` definition n-dimensional arrays support.
         i_wl_r = np.reshape(i_wl_r, (2, 3))
         xy_wl_r = np.reshape(xy_wl_r, (2, 3, 2))
         np.testing.assert_allclose(i_wl, i_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(
-            xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_closest_spectral_locus_wavelength(self):
@@ -129,18 +117,16 @@ closest_spectral_locus_wavelength` definition nan support.
             closest_spectral_locus_wavelength(case, case, self._xy_s)
 
 
-class TestDominantWavelength(unittest.TestCase):
+class TestDominantWavelength:
     """
     Define :func:`colour.colorimetry.dominant.dominant_wavelength` definition
     unit tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
-        self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-            "D65"
-        ]
+        self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
 
     def test_dominant_wavelength(self):
         """
@@ -152,7 +138,7 @@ class TestDominantWavelength(unittest.TestCase):
         xy_n = self._xy_D65
         wl, xy_wl, xy_cwl = dominant_wavelength(xy, xy_n)
 
-        self.assertEqual(wl, np.array(616.0))
+        assert wl == np.array(616.0)
         np.testing.assert_allclose(
             xy_wl,
             np.array([0.68354746, 0.31628409]),
@@ -167,7 +153,7 @@ class TestDominantWavelength(unittest.TestCase):
         xy = np.array([0.37605506, 0.24452225])
         i_wl, xy_wl, xy_cwl = dominant_wavelength(xy, xy_n)
 
-        self.assertEqual(i_wl, np.array(-509.0))
+        assert i_wl == np.array(-509.0)
         np.testing.assert_allclose(
             xy_wl,
             np.array([0.45723147, 0.13628148]),
@@ -194,12 +180,8 @@ class TestDominantWavelength(unittest.TestCase):
             np.array([0.68354746, 0.31628409]),
         )
         np.testing.assert_allclose(wl, wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(
-            xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-        np.testing.assert_allclose(
-            xy_cwl, xy_cwl_r, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        np.testing.assert_allclose(xy_cwl, xy_cwl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         xy = np.tile(xy, (6, 1))
         xy_n = np.tile(xy_n, (6, 1))
@@ -208,12 +190,8 @@ class TestDominantWavelength(unittest.TestCase):
         xy_wl_r = np.tile(xy_wl_r, (6, 1))
         xy_cwl_r = np.tile(xy_cwl_r, (6, 1))
         np.testing.assert_allclose(wl, wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(
-            xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-        np.testing.assert_allclose(
-            xy_cwl, xy_cwl_r, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        np.testing.assert_allclose(xy_cwl, xy_cwl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         xy = np.reshape(xy, (2, 3, 2))
         xy_n = np.reshape(xy_n, (2, 3, 2))
@@ -222,12 +200,8 @@ class TestDominantWavelength(unittest.TestCase):
         xy_wl_r = np.reshape(xy_wl_r, (2, 3, 2))
         xy_cwl_r = np.reshape(xy_cwl_r, (2, 3, 2))
         np.testing.assert_allclose(wl, wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(
-            xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-        np.testing.assert_allclose(
-            xy_cwl, xy_cwl_r, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        np.testing.assert_allclose(xy_cwl, xy_cwl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_dominant_wavelength(self):
@@ -242,18 +216,16 @@ class TestDominantWavelength(unittest.TestCase):
             dominant_wavelength(case, case)
 
 
-class TestComplementaryWavelength(unittest.TestCase):
+class TestComplementaryWavelength:
     """
     Define :func:`colour.colorimetry.dominant.complementary_wavelength`
     definition unit tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
-        self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-            "D65"
-        ]
+        self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
 
     def test_complementary_wavelength(self):
         """
@@ -265,7 +237,7 @@ class TestComplementaryWavelength(unittest.TestCase):
         xy_n = self._xy_D65
         wl, xy_wl, xy_cwl = complementary_wavelength(xy, xy_n)
 
-        self.assertEqual(wl, np.array(492.0))
+        assert wl == np.array(492.0)
         np.testing.assert_allclose(
             xy_wl,
             np.array([0.03647950, 0.33847127]),
@@ -280,7 +252,7 @@ class TestComplementaryWavelength(unittest.TestCase):
         xy = np.array([0.37605506, 0.24452225])
         i_wl, xy_wl, xy_cwl = complementary_wavelength(xy, xy_n)
 
-        self.assertEqual(i_wl, np.array(509.0))
+        assert i_wl == np.array(509.0)
         np.testing.assert_allclose(
             xy_wl,
             np.array([0.01040962, 0.73207453]),
@@ -307,12 +279,8 @@ class TestComplementaryWavelength(unittest.TestCase):
             np.array([0.03647950, 0.33847127]),
         )
         np.testing.assert_allclose(wl, wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(
-            xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-        np.testing.assert_allclose(
-            xy_cwl, xy_cwl_r, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        np.testing.assert_allclose(xy_cwl, xy_cwl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         xy = np.tile(xy, (6, 1))
         xy_n = np.tile(xy_n, (6, 1))
@@ -321,12 +289,8 @@ class TestComplementaryWavelength(unittest.TestCase):
         xy_wl_r = np.tile(xy_wl_r, (6, 1))
         xy_cwl_r = np.tile(xy_cwl_r, (6, 1))
         np.testing.assert_allclose(wl, wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(
-            xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-        np.testing.assert_allclose(
-            xy_cwl, xy_cwl_r, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        np.testing.assert_allclose(xy_cwl, xy_cwl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         xy = np.reshape(xy, (2, 3, 2))
         xy_n = np.reshape(xy_n, (2, 3, 2))
@@ -335,12 +299,8 @@ class TestComplementaryWavelength(unittest.TestCase):
         xy_wl_r = np.reshape(xy_wl_r, (2, 3, 2))
         xy_cwl_r = np.reshape(xy_cwl_r, (2, 3, 2))
         np.testing.assert_allclose(wl, wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(
-            xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-        np.testing.assert_allclose(
-            xy_cwl, xy_cwl_r, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        np.testing.assert_allclose(xy_cwl, xy_cwl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_complementary_wavelength(self):
@@ -355,18 +315,16 @@ class TestComplementaryWavelength(unittest.TestCase):
             complementary_wavelength(case, case)
 
 
-class TestExcitationPurity(unittest.TestCase):
+class TestExcitationPurity:
     """
     Define :func:`colour.colorimetry.dominant.excitation_purity` definition
     unit tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
-        self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-            "D65"
-        ]
+        self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
 
     def test_excitation_purity(self):
         """Test :func:`colour.colorimetry.dominant.excitation_purity` definition."""
@@ -424,18 +382,16 @@ class TestExcitationPurity(unittest.TestCase):
             excitation_purity(case, case)
 
 
-class TestColorimetricPurity(unittest.TestCase):
+class TestColorimetricPurity:
     """
     Define :func:`colour.colorimetry.dominant.colorimetric_purity` definition
     unit tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
-        self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-            "D65"
-        ]
+        self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
 
     def test_colorimetric_purity(self):
         """
@@ -494,7 +450,3 @@ class TestColorimetricPurity(unittest.TestCase):
         cases = np.array(list(set(product(cases, repeat=2))))
         for case in cases:
             colorimetric_purity(case, case)
-
-
-if __name__ == "__main__":
-    unittest.main()

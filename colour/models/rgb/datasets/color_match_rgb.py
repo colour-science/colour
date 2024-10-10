@@ -2,7 +2,7 @@
 ColorMatch RGB Colourspace
 ==========================
 
-Defines the *ColorMatch RGB* colourspace:
+Define the *ColorMatch RGB* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_COLOR_MATCH_RGB`.
 

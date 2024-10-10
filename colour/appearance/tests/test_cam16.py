@@ -1,10 +1,9 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.appearance.cam16` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
+import pytest
 
 from colour.appearance import (
     VIEWING_CONDITIONS_CAM16,
@@ -34,7 +33,7 @@ __all__ = [
 ]
 
 
-class TestXYZ_to_CAM16(unittest.TestCase):
+class TestXYZ_to_CAM16:
     """
     Define :func:`colour.appearance.cam16.XYZ_to_CAM16` definition unit
     tests methods.
@@ -221,9 +220,7 @@ class TestXYZ_to_CAM16(unittest.TestCase):
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_allclose(
-                    XYZ_to_CAM16(
-                        XYZ * factor_a, XYZ_w * factor_a, L_A, Y_b, surround
-                    ),
+                    XYZ_to_CAM16(XYZ * factor_a, XYZ_w * factor_a, L_A, Y_b, surround),
                     as_float_array(specification) * factor_b,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
@@ -237,13 +234,11 @@ class TestXYZ_to_CAM16(unittest.TestCase):
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
-        surround = InductionFactors_CAM16(
-            cases[0, 0], cases[0, 0], cases[0, 0]
-        )
+        surround = InductionFactors_CAM16(cases[0, 0], cases[0, 0], cases[0, 0])
         XYZ_to_CAM16(cases, cases, cases[..., 0], cases[..., 0], surround)
 
 
-class TestCAM16_to_XYZ(unittest.TestCase):
+class TestCAM16_to_XYZ:
     """
     Define :func:`colour.appearance.cam16.CAM16_to_XYZ` definition unit tests
     methods.
@@ -252,9 +247,7 @@ class TestCAM16_to_XYZ(unittest.TestCase):
     def test_CAM16_to_XYZ(self):
         """Test :func:`colour.appearance.cam16.CAM16_to_XYZ` definition."""
 
-        specification = CAM_Specification_CAM16(
-            41.73120791, 0.10335574, 217.06795977
-        )
+        specification = CAM_Specification_CAM16(41.73120791, 0.10335574, 217.06795977)
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
         Y_b = 20
@@ -265,9 +258,7 @@ class TestCAM16_to_XYZ(unittest.TestCase):
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        specification = CAM_Specification_CAM16(
-            65.42828069, 49.67956420, 17.48659243
-        )
+        specification = CAM_Specification_CAM16(65.42828069, 49.67956420, 17.48659243)
         L_A = 31.83
         np.testing.assert_allclose(
             CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
@@ -275,9 +266,7 @@ class TestCAM16_to_XYZ(unittest.TestCase):
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        specification = CAM_Specification_CAM16(
-            21.36052893, 50.99381895, 178.86724266
-        )
+        specification = CAM_Specification_CAM16(21.36052893, 50.99381895, 178.86724266)
         XYZ_w = np.array([109.85, 100, 35.58])
         L_A = 318.31
         np.testing.assert_allclose(
@@ -286,9 +275,7 @@ class TestCAM16_to_XYZ(unittest.TestCase):
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        specification = CAM_Specification_CAM16(
-            41.36326063, 52.81154022, 258.88676291
-        )
+        specification = CAM_Specification_CAM16(41.36326063, 52.81154022, 258.88676291)
         L_A = 318.31
         np.testing.assert_allclose(
             CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
@@ -296,9 +283,7 @@ class TestCAM16_to_XYZ(unittest.TestCase):
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        specification = CAM_Specification_CAM16(
-            21.03801957, 457.78881613, 350.06445098
-        )
+        specification = CAM_Specification_CAM16(21.03801957, 457.78881613, 350.06445098)
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 4.074366543152521
         np.testing.assert_allclose(
@@ -409,12 +394,10 @@ class TestCAM16_to_XYZ(unittest.TestCase):
         exception.
         """
 
-        self.assertRaises(
+        pytest.raises(
             ValueError,
             CAM16_to_XYZ,
-            CAM_Specification_CAM16(
-                41.731207905126638, None, 217.06795976739301
-            ),
+            CAM_Specification_CAM16(41.731207905126638, None, 217.06795976739301),
             np.array([95.05, 100.00, 108.88]),
             318.31,
             20.0,
@@ -430,19 +413,11 @@ class TestCAM16_to_XYZ(unittest.TestCase):
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
-        surround = InductionFactors_CAM16(
-            cases[0, 0], cases[0, 0], cases[0, 0]
-        )
+        surround = InductionFactors_CAM16(cases[0, 0], cases[0, 0], cases[0, 0])
         CAM16_to_XYZ(
-            CAM_Specification_CAM16(
-                cases[..., 0], cases[..., 0], cases[..., 0], M=50
-            ),
+            CAM_Specification_CAM16(cases[..., 0], cases[..., 0], cases[..., 0], M=50),
             cases,
             cases[..., 0],
             cases[..., 0],
             surround,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.hunter_lab` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -29,7 +27,7 @@ __all__ = [
 ]
 
 
-class TestXYZ_to_K_ab_HunterLab1966(unittest.TestCase):
+class TestXYZ_to_K_ab_HunterLab1966:
     """
     Define :func:`colour.models.hunter_lab.XYZ_to_K_ab_HunterLab1966`
     definition unit tests methods.
@@ -98,7 +96,7 @@ class TestXYZ_to_K_ab_HunterLab1966(unittest.TestCase):
         XYZ_to_K_ab_HunterLab1966(cases)
 
 
-class TestXYZ_to_Hunter_Lab(unittest.TestCase):
+class TestXYZ_to_Hunter_Lab:
     """
     Define :func:`colour.models.hunter_lab.XYZ_to_Hunter_Lab` definition unit
     tests methods.
@@ -108,25 +106,19 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
         """Test :func:`colour.models.hunter_lab.XYZ_to_Hunter_Lab` definition."""
 
         np.testing.assert_allclose(
-            XYZ_to_Hunter_Lab(
-                np.array([0.20654008, 0.12197225, 0.05136952]) * 100
-            ),
+            XYZ_to_Hunter_Lab(np.array([0.20654008, 0.12197225, 0.05136952]) * 100),
             np.array([34.92452577, 47.06189858, 14.38615107]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            XYZ_to_Hunter_Lab(
-                np.array([0.14222010, 0.23042768, 0.10495772]) * 100
-            ),
+            XYZ_to_Hunter_Lab(np.array([0.14222010, 0.23042768, 0.10495772]) * 100),
             np.array([48.00288325, -28.98551622, 18.75564181]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            XYZ_to_Hunter_Lab(
-                np.array([0.07818780, 0.06157201, 0.28099326]) * 100
-            ),
+            XYZ_to_Hunter_Lab(np.array([0.07818780, 0.06157201, 0.28099326]) * 100),
             np.array([24.81370791, 14.38300039, -53.25539126]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -239,7 +231,7 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
         XYZ_to_Hunter_Lab(cases, cases, cases[..., 0:2])
 
 
-class TestHunter_Lab_to_XYZ(unittest.TestCase):
+class TestHunter_Lab_to_XYZ:
     """
     Define :func:`colour.models.hunter_lab.Hunter_Lab_to_XYZ` definition unit
     tests methods.
@@ -249,25 +241,19 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
         """Test :func:`colour.models.hunter_lab.Hunter_Lab_to_XYZ` definition."""
 
         np.testing.assert_allclose(
-            Hunter_Lab_to_XYZ(
-                np.array([34.92452577, 47.06189858, 14.38615107])
-            ),
+            Hunter_Lab_to_XYZ(np.array([34.92452577, 47.06189858, 14.38615107])),
             np.array([20.65400800, 12.19722500, 5.13695200]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            Hunter_Lab_to_XYZ(
-                np.array([48.00288325, -28.98551622, 18.75564181])
-            ),
+            Hunter_Lab_to_XYZ(np.array([48.00288325, -28.98551622, 18.75564181])),
             np.array([14.22201000, 23.04276800, 10.49577200]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            Hunter_Lab_to_XYZ(
-                np.array([24.81370791, 14.38300039, -53.25539126])
-            ),
+            Hunter_Lab_to_XYZ(np.array([24.81370791, 14.38300039, -53.25539126])),
             np.array([7.81878000, 6.15720100, 28.09932601]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -378,7 +364,3 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         Hunter_Lab_to_XYZ(cases, cases, cases[..., 0:2])
-
-
-if __name__ == "__main__":
-    unittest.main()

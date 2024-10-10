@@ -1,9 +1,6 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.phenomena.rayleigh` module."""
 
 from __future__ import annotations
-
-import unittest
 
 import numpy as np
 
@@ -482,7 +479,7 @@ DATA_SD_RAYLEIGH_SCATTERING: tuple = (
 )
 
 
-class TestAirRefractionIndexPenndorf1957(unittest.TestCase):
+class TestAirRefractionIndexPenndorf1957:
     """
     Define :func:`colour.phenomena.rayleigh.\
 air_refraction_index_Penndorf1957` definition unit tests methods.
@@ -557,7 +554,7 @@ air_refraction_index_Penndorf1957` definition nan support.
         )
 
 
-class TestAirRefractionIndexEdlen1966(unittest.TestCase):
+class TestAirRefractionIndexEdlen1966:
     """
     Define :func:`colour.phenomena.rayleigh.air_refraction_index_Edlen1966`
     definition unit tests methods.
@@ -632,7 +629,7 @@ air_refraction_index_Edlen1966` definition nan support.
         )
 
 
-class TestAirRefractionIndexPeck1972(unittest.TestCase):
+class TestAirRefractionIndexPeck1972:
     """
     Define :func:`colour.phenomena.rayleigh.air_refraction_index_Peck1972`
     definition unit tests methods.
@@ -701,7 +698,7 @@ class TestAirRefractionIndexPeck1972(unittest.TestCase):
         )
 
 
-class TestAirRefractionIndexBodhaine1999(unittest.TestCase):
+class TestAirRefractionIndexBodhaine1999:
     """
     Define :func:`colour.phenomena.rayleigh.\
 air_refraction_index_Bodhaine1999` definition unit tests methods.
@@ -793,7 +790,7 @@ air_refraction_index_Bodhaine1999` definition nan support.
         air_refraction_index_Bodhaine1999(cases, cases)
 
 
-class TestN2Depolarisation(unittest.TestCase):
+class TestN2Depolarisation:
     """
     Define :func:`colour.phenomena.rayleigh.N2_depolarisation` definition
     unit tests methods.
@@ -857,7 +854,7 @@ class TestN2Depolarisation(unittest.TestCase):
         N2_depolarisation(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestO2Depolarisation(unittest.TestCase):
+class TestO2Depolarisation:
     """
     Define :func:`colour.phenomena.rayleigh.O2_depolarisation` definition
     unit tests methods.
@@ -921,7 +918,7 @@ class TestO2Depolarisation(unittest.TestCase):
         O2_depolarisation(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestF_airPenndorf1957(unittest.TestCase):
+class TestF_airPenndorf1957:
     """
     Define :func:`colour.phenomena.rayleigh.F_air_Penndorf1957` definition
     unit tests methods.
@@ -933,7 +930,7 @@ class TestF_airPenndorf1957(unittest.TestCase):
         definition.
         """
 
-        self.assertEqual(F_air_Penndorf1957(0.360), 1.0608)
+        assert F_air_Penndorf1957(0.360) == 1.0608
 
     def test_n_dimensional_F_air_Penndorf1957(self):
         """
@@ -972,7 +969,7 @@ class TestF_airPenndorf1957(unittest.TestCase):
         F_air_Penndorf1957(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestF_airYoung1981(unittest.TestCase):
+class TestF_airYoung1981:
     """
     Define :func:`colour.phenomena.rayleigh.F_air_Young1981` definition
     unit tests methods.
@@ -981,7 +978,7 @@ class TestF_airYoung1981(unittest.TestCase):
     def test_F_air_Young1981(self):
         """Test :func:`colour.phenomena.rayleigh.F_air_Young1981` definition."""
 
-        self.assertEqual(F_air_Young1981(0.360), 1.0480)
+        assert F_air_Young1981(0.360) == 1.0480
 
     def test_n_dimensional_F_air_Young1981(self):
         """
@@ -1020,7 +1017,7 @@ class TestF_airYoung1981(unittest.TestCase):
         F_air_Young1981(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestF_airBates1984(unittest.TestCase):
+class TestF_airBates1984:
     """
     Define :func:`colour.phenomena.rayleigh.F_air_Bates1984` definition unit
     tests methods.
@@ -1084,7 +1081,7 @@ class TestF_airBates1984(unittest.TestCase):
         F_air_Bates1984(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestF_airBodhaine1999(unittest.TestCase):
+class TestF_airBodhaine1999:
     """
     Define :func:`colour.phenomena.rayleigh.F_air_Bodhaine1999` definition
     unit tests methods.
@@ -1170,7 +1167,7 @@ class TestF_airBodhaine1999(unittest.TestCase):
         F_air_Bodhaine1999(cases, cases)
 
 
-class TestMolecularDensity(unittest.TestCase):
+class TestMolecularDensity:
     """
     Define :func:`colour.phenomena.rayleigh.molecular_density` definition
     unit tests methods.
@@ -1228,7 +1225,7 @@ class TestMolecularDensity(unittest.TestCase):
         molecular_density(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestMeanMolecularWeights(unittest.TestCase):
+class TestMeanMolecularWeights:
     """
     Define :func:`colour.phenomena.rayleigh.mean_molecular_weights`
     definition unit tests methods.
@@ -1290,12 +1287,10 @@ class TestMeanMolecularWeights(unittest.TestCase):
         definition nan support.
         """
 
-        mean_molecular_weights(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        mean_molecular_weights(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestGravityList1968(unittest.TestCase):
+class TestGravityList1968:
     """
     Define :func:`colour.phenomena.rayleigh.gravity_List1968` definition
     unit tests methods.
@@ -1329,24 +1324,16 @@ class TestGravityList1968(unittest.TestCase):
         """
 
         g = 978.03560706
-        np.testing.assert_allclose(
-            gravity_List1968(), g, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(gravity_List1968(), g, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         g = np.tile(g, 6)
-        np.testing.assert_allclose(
-            gravity_List1968(), g, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(gravity_List1968(), g, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         g = np.reshape(g, (2, 3))
-        np.testing.assert_allclose(
-            gravity_List1968(), g, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(gravity_List1968(), g, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         g = np.reshape(g, (2, 3, 1))
-        np.testing.assert_allclose(
-            gravity_List1968(), g, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(gravity_List1968(), g, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_gravity_List1968(self):
@@ -1359,7 +1346,7 @@ class TestGravityList1968(unittest.TestCase):
         gravity_List1968(cases, cases)
 
 
-class TestScatteringCrossSection(unittest.TestCase):
+class TestScatteringCrossSection:
     """
     Define :func:`colour.phenomena.rayleigh.scattering_cross_section`
     definition unit tests methods.
@@ -1460,7 +1447,7 @@ class TestScatteringCrossSection(unittest.TestCase):
         scattering_cross_section(cases, cases, cases)
 
 
-class TestRayleighOpticalDepth(unittest.TestCase):
+class TestRayleighOpticalDepth:
     """
     Define :func:`colour.phenomena.rayleigh.rayleigh_optical_depth`
     definition unit tests methods.
@@ -1597,7 +1584,7 @@ class TestRayleighOpticalDepth(unittest.TestCase):
         rayleigh_optical_depth(cases, cases, cases, cases, cases)
 
 
-class TestSdRayleighScattering(unittest.TestCase):
+class TestSdRayleighScattering:
     """
     Define :func:`colour.phenomena.rayleigh.sd_rayleigh_scattering`
     definition unit tests methods.
@@ -1614,7 +1601,3 @@ class TestSdRayleighScattering(unittest.TestCase):
             DATA_SD_RAYLEIGH_SCATTERING,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

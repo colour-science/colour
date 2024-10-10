@@ -1,4 +1,4 @@
-"""Showcases *Colour Fidelity Index* (CFI) computations."""
+"""Showcase *Colour Fidelity Index* (CFI) computations."""
 
 from pprint import pprint
 
@@ -9,24 +9,14 @@ message_box("Colour Fidelity Index Computations")
 
 message_box('Computing "F2" illuminant "Colour Fidelity Index (CFI)".')
 print(colour.colour_fidelity_index(colour.SDS_ILLUMINANTS["FL2"]))
-print(
-    colour.colour_fidelity_index(
-        colour.SDS_ILLUMINANTS["FL2"], method="CIE 2017"
-    )
-)
-print(
-    colour.quality.colour_fidelity_index_CIE2017(colour.SDS_ILLUMINANTS["FL2"])
-)
+print(colour.colour_fidelity_index(colour.SDS_ILLUMINANTS["FL2"], method="CIE 2017"))
+print(colour.quality.colour_fidelity_index_CIE2017(colour.SDS_ILLUMINANTS["FL2"]))
 print(
     colour.colour_fidelity_index(
         colour.SDS_ILLUMINANTS["FL2"], method="ANSI/IES TM-30-18"
     )
 )
-print(
-    colour.quality.colour_fidelity_index_ANSIIESTM3018(
-        colour.SDS_ILLUMINANTS["FL2"]
-    )
-)
+print(colour.quality.colour_fidelity_index_ANSIIESTM3018(colour.SDS_ILLUMINANTS["FL2"]))
 
 print("\n")
 
@@ -35,9 +25,7 @@ message_box(
     "output data."
 )
 pprint(
-    colour.colour_fidelity_index(
-        colour.SDS_ILLUMINANTS["FL2"], additional_data=True
-    )
+    colour.colour_fidelity_index(colour.SDS_ILLUMINANTS["FL2"], additional_data=True)
 )
 print(
     colour.colour_fidelity_index(
@@ -64,9 +52,7 @@ print(
 
 print("\n")
 
-message_box(
-    'Computing "CIE Standard Illuminant A" "Colour Fidelity Index (CFI)".'
-)
+message_box('Computing "CIE Standard Illuminant A" "Colour Fidelity Index (CFI)".')
 print(colour.colour_fidelity_index(colour.SDS_ILLUMINANTS["A"]))
 
 print("\n")

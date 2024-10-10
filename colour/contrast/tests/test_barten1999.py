@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.contrast.barten1999` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -34,7 +32,7 @@ __all__ = [
 ]
 
 
-class TestOpticalMTFBarten1999(unittest.TestCase):
+class TestOpticalMTFBarten1999:
     """
     Define :func:`colour.contrast.barten1999.optical_MTF_Barten1999`
     definition unit tests methods.
@@ -104,7 +102,7 @@ class TestOpticalMTFBarten1999(unittest.TestCase):
         optical_MTF_Barten1999(cases, cases)
 
 
-class TestPupilDiameterBarten1999(unittest.TestCase):
+class TestPupilDiameterBarten1999:
     """
     Define :func:`colour.contrast.barten1999.pupil_diameter_Barten1999`
     definition unit tests methods.
@@ -175,7 +173,7 @@ class TestPupilDiameterBarten1999(unittest.TestCase):
         pupil_diameter_Barten1999(cases, cases, cases)
 
 
-class TestSigmaBarten1999(unittest.TestCase):
+class TestSigmaBarten1999:
     """
     Define :func:`colour.contrast.barten1999.sigma_Barten1999` definition unit
     tests methods.
@@ -249,7 +247,7 @@ class TestSigmaBarten1999(unittest.TestCase):
         sigma_Barten1999(cases, cases, cases)
 
 
-class TestRetinalIlluminanceBarten1999(unittest.TestCase):
+class TestRetinalIlluminanceBarten1999:
     """
     Define :func:`colour.contrast.barten1999.retinal_illuminance_Barten1999`
     definition unit tests methods.
@@ -319,7 +317,7 @@ class TestRetinalIlluminanceBarten1999(unittest.TestCase):
         retinal_illuminance_Barten1999(cases, cases)
 
 
-class TestMaximumAngularSizeBarten1999(unittest.TestCase):
+class TestMaximumAngularSizeBarten1999:
     """
     Define :func:`colour.contrast.barten1999.maximum_angular_size_Barten1999`
     definition unit tests methods.
@@ -403,7 +401,7 @@ maximum_angular_size_Barten1999` definition nan support.
         maximum_angular_size_Barten1999(cases, cases, cases, cases)
 
 
-class TestContrastSensitivityFunctionBarten1999(unittest.TestCase):
+class TestContrastSensitivityFunctionBarten1999:
     """
     Define :func:`colour.contrast.barten1999.\
 contrast_sensitivity_function_Barten1999` definition unit tests methods.
@@ -554,17 +552,13 @@ contrast_sensitivity_function_Barten1999` definition n-dimensional support.
         sigma = np.array([0.01, 0.02, 0.04])
         E = np.array([0.65, 90, 1500])
         X_0 = np.array([60, 120, 240])
-        S = contrast_sensitivity_function_Barten1999(
-            u=u, sigma=sigma, E=E, X_0=X_0
-        )
+        S = contrast_sensitivity_function_Barten1999(u=u, sigma=sigma, E=E, X_0=X_0)
 
         u = np.tile(u, (6, 1))
         E = np.tile(E, (6, 1))
         S = np.tile(S, (6, 1))
         np.testing.assert_allclose(
-            contrast_sensitivity_function_Barten1999(
-                u=u, sigma=sigma, E=E, X_0=X_0
-            ),
+            contrast_sensitivity_function_Barten1999(u=u, sigma=sigma, E=E, X_0=X_0),
             S,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -573,9 +567,7 @@ contrast_sensitivity_function_Barten1999` definition n-dimensional support.
         E = np.reshape(E, (2, 3, 3))
         S = np.reshape(S, (2, 3, 3))
         np.testing.assert_allclose(
-            contrast_sensitivity_function_Barten1999(
-                u=u, sigma=sigma, E=E, X_0=X_0
-            ),
+            contrast_sensitivity_function_Barten1999(u=u, sigma=sigma, E=E, X_0=X_0),
             S,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -592,7 +584,3 @@ contrast_sensitivity_function_Barten1999` definition nan support.
         contrast_sensitivity_function_Barten1999(
             u=cases, sigma=cases, E=cases, X_0=cases
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

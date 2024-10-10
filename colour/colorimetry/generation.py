@@ -2,7 +2,7 @@
 Spectral Generation
 ===================
 
-Defines various objects performing spectral generation:
+Define various objects performing spectral generation:
 
 -   :func:`colour.sd_constant`
 -   :func:`colour.sd_zeros`
@@ -267,9 +267,7 @@ def msds_constant(
     wavelengths = shape.wavelengths
     values = full((len(wavelengths), len(labels)), k)
 
-    return MultiSpectralDistributions(
-        values, wavelengths, labels=labels, **settings
-    )
+    return MultiSpectralDistributions(values, wavelengths, labels=labels, **settings)
 
 
 def msds_zeros(
@@ -438,7 +436,7 @@ def sd_gaussian_fwhm(
     peak_wavelength
         Wavelength the gaussian spectral distribution will peak at.
     fwhm
-        Full width at half maximum, i.e. width of the gaussian spectral
+        Full width at half maximum, i.e., width of the gaussian spectral
         distribution measured between those points on the *y* axis which are
         half the maximum amplitude.
     shape
@@ -467,8 +465,8 @@ def sd_gaussian_fwhm(
     SpectralShape(360.0, 780.0, 1.0)
     >>> sd[555]  # doctest: +SKIP
     1.0
-    >>> sd[530]
-    0.0625
+    >>> sd[530]  # doctest: +ELLIPSIS
+    0.062...
     """
 
     settings = {"name": f"{peak_wavelength}nm - {fwhm} FWHM - Gaussian"}
@@ -506,7 +504,7 @@ def sd_gaussian(
         peak at.
     sigma_fwhm
         Standard deviation :math:`sigma` of the gaussian spectral distribution
-        or full width at half maximum, i.e. width of the gaussian spectral
+        or full width at half maximum, i.e., width of the gaussian spectral
         distribution measured between those points on the *y* axis which are
         half the maximum amplitude.
     shape
@@ -545,15 +543,13 @@ def sd_gaussian(
     SpectralShape(360.0, 780.0, 1.0)
     >>> sd[555]  # doctest: +SKIP
     1.0
-    >>> sd[530]
-    0.0625
+    >>> sd[530]  # doctest: +ELLIPSIS
+    0.062...
     """
 
     method = validate_method(method, tuple(SD_GAUSSIAN_METHODS))
 
-    return SD_GAUSSIAN_METHODS[method](
-        mu_peak_wavelength, sigma_fwhm, shape, **kwargs
-    )
+    return SD_GAUSSIAN_METHODS[method](mu_peak_wavelength, sigma_fwhm, shape, **kwargs)
 
 
 def sd_single_led_Ohno2005(
@@ -702,7 +698,7 @@ def sd_multi_leds_Ohno2005(
     Parameters
     ----------
     peak_wavelengths
-        Wavelengths the multi *LED* spectral distribution will peak at, i.e.
+        Wavelengths the multi *LED* spectral distribution will peak at, i.e.,
         the peaks for each generated single *LED* spectral distributions.
     half_spectral_widths
         Half spectral widths :math:`\\Delta\\lambda_{0.5}`.
@@ -746,15 +742,11 @@ def sd_multi_leds_Ohno2005(
     """
 
     peak_wavelengths = as_float_array(peak_wavelengths)
-    half_spectral_widths = np.resize(
-        half_spectral_widths, peak_wavelengths.shape
-    )
+    half_spectral_widths = np.resize(half_spectral_widths, peak_wavelengths.shape)
     if peak_power_ratios is None:
         peak_power_ratios = ones(peak_wavelengths.shape)
     else:
-        peak_power_ratios = np.resize(
-            peak_power_ratios, peak_wavelengths.shape
-        )
+        peak_power_ratios = np.resize(peak_power_ratios, peak_wavelengths.shape)
 
     sd = sd_zeros(shape)
 
@@ -762,9 +754,7 @@ def sd_multi_leds_Ohno2005(
         peak_wavelengths, half_spectral_widths, peak_power_ratios
     ):
         sd += (
-            sd_single_led_Ohno2005(
-                peak_wavelength, half_spectral_width, **kwargs
-            )
+            sd_single_led_Ohno2005(peak_wavelength, half_spectral_width, **kwargs)
             * peak_power_ratio
         )
 
@@ -806,7 +796,7 @@ def sd_multi_leds(
     Parameters
     ----------
     peak_wavelengths
-        Wavelengths the multi *LED* spectral distribution will peak at, i.e.
+        Wavelengths the multi *LED* spectral distribution will peak at, i.e.,
         the peaks for each generated single *LED* spectral distributions.
     shape
         Spectral shape used to create the spectral distribution.

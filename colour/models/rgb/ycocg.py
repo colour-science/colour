@@ -2,7 +2,7 @@
 YCoCg Colour Encoding
 ======================
 
-Defines the *YCoCg* colour encoding related transformations:
+Define the *YCoCg* colour encoding related transformations:
 
 -   :func:`colour.RGB_to_YCoCg`
 -   :func:`colour.YCoCg_to_RGB`
@@ -19,7 +19,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.algebra import vector_dot
+from colour.algebra import vecmul
 from colour.hints import ArrayLike, NDArrayFloat
 
 __author__ = "Colour Developers"
@@ -82,7 +82,7 @@ def RGB_to_YCoCg(RGB: ArrayLike) -> NDArrayFloat:
     array([ 0.5625,  0.125 , -0.0625])
     """
 
-    return vector_dot(MATRIX_RGB_TO_YCOCG, RGB)
+    return vecmul(MATRIX_RGB_TO_YCOCG, RGB)
 
 
 def YCoCg_to_RGB(YCoCg: ArrayLike) -> NDArrayFloat:
@@ -112,4 +112,4 @@ def YCoCg_to_RGB(YCoCg: ArrayLike) -> NDArrayFloat:
     array([ 0.75,  0.5 ,  0.5 ])
     """
 
-    return vector_dot(MATRIX_YCOCG_TO_RGB, YCoCg)
+    return vecmul(MATRIX_YCOCG_TO_RGB, YCoCg)

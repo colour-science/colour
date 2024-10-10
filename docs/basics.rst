@@ -1,5 +1,5 @@
-Basic Concepts
-==============
+Basic Usage
+===========
 
 This page puts an emphasis on basic concepts of **Colour**, those are important
 to understand.
@@ -300,10 +300,10 @@ setting the values of the data.
 Getting the value(s) for a single (or multiple wavelengths) is done by indexing
 the :class:`colour.SpectralDistribution` (or
 :class:`colour.MultiSpectralDistributions`) class with the a single numeric
-or array of numeric wavelengths, e.g. ``sd[555.5]`` or
+or array of numeric wavelengths, e.g., ``sd[555.5]`` or
 ``sd[555.25, 555.25, 555.75]``.
 
-However, if getting the values using a :class:`slice` class instance, e.g.
+However, if getting the values using a :class:`slice` class instance, e.g.,
 ``sd[0:3]``, the underlying discrete values for the indexes represented by the
 :class:`slice` class instance are returned instead.
 
@@ -360,7 +360,7 @@ However, slices will return the values for the corresponding wavelength
 
     Indexing a multi-spectral distribution is achieved similarly, it can
     however be sliced along multiple axes because the data is2-dimensional,
-    e.g. `msds[0:3, 0:2]`.
+    e.g., `msds[0:3, 0:2]`.
 
 A *copy* of the underlying :class:`colour.SpectralDistribution` and
 :class:`colour.MultiSpectralDistributions` classes discretized data can be
@@ -443,11 +443,11 @@ Scale - Reference
 ~~~~~~~~~~~~~~~~~
 
 **'Reference'** is the default domain-range scale of **Colour**, objects adopt
-the implemented reference, i.e. paper, publication, etc.., domain-range scale.
+the implemented reference, i.e., paper, publication, etc.., domain-range scale.
 
-The **'Reference'** domain-range scale is inconsistent, e.g. colour appearance
+The **'Reference'** domain-range scale is inconsistent, e.g., colour appearance
 models, spectral conversions are typically in domain-range ``[0, 100]`` while RGB
-models will operate in domain-range ``[0, 1]``. Some objects, e.g.
+models will operate in domain-range ``[0, 1]``. Some objects, e.g.,
 :func:``colour.colorimetry.lightness_Fairchild2011`` definition have mismatched
 domain-range: input domain ``[0, 1]`` and output range ``[0, 100]``.
 
@@ -470,8 +470,8 @@ Scale - 1
 
     The conversion to **'1'** domain-range scale is a *soft* normalisation and
     similarly to the **'Reference'** domain-range scale it is normal to
-    encounter values exceeding *1*, e.g. High Dynamic Range Imagery (HDRI) or
-    negative values, e.g. out-of-gamut RGB colourspace values. Some definitions
+    encounter values exceeding *1*, e.g., High Dynamic Range Imagery (HDRI) or
+    negative values, e.g., out-of-gamut RGB colourspace values. Some definitions
     such as :func:`colour.models.eotf_ST2084` which decodes absolute luminance
     values are not affected by any domain-range scales and are indicated with
     `UN`.
@@ -574,7 +574,7 @@ Setting the **'1'** domain-range scale has the following effect on the
 :func:`colour.adaptation.chromatic_adaptation_CIE1994` definition:
 
 As it expects values in domain ``[0, 100]``, scaling occurs and the
-relevant input values, i.e. the values listed in the domain table, ``XYZ_1``
+relevant input values, i.e., the values listed in the domain table, ``XYZ_1``
 and ``Y_o`` are converted from domain ``[0, 1]`` to domain ``[0, 100]`` by
 :func:`colour.utilities.to_domain_100` definition and conversely
 return value ``XYZ_2`` is converted from range ``[0, 100]`` to range ``[0, 1]``

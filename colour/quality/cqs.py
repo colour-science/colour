@@ -2,7 +2,7 @@
 Colour Quality Scale
 ====================
 
-Defines the *Colour Quality Scale* (CQS) computation objects:
+Define the *Colour Quality Scale* (CQS) computation objects:
 
 -   :class:`colour.quality.ColourRendering_Specification_CQS`
 -   :func:`colour.colour_quality_scale`
@@ -49,8 +49,8 @@ from colour.hints import (
     Tuple,
     cast,
 )
+from colour.models import Lab_to_LCHab  # pyright: ignore
 from colour.models import (
-    Lab_to_LCHab,
     UCS_to_uv,
     XYZ_to_Lab,
     XYZ_to_UCS,
@@ -231,8 +231,7 @@ def colour_quality_scale(
     shape = cmfs.shape
     sd_test = reshape_sd(sd_test, shape, copy=False)
     vs_sds = {
-        sd.name: reshape_sd(sd, shape, copy=False)
-        for sd in SDS_VS[method].values()
+        sd.name: reshape_sd(sd, shape, copy=False) for sd in SDS_VS[method].values()
     }
 
     with domain_range_scale("1"):
@@ -282,12 +281,8 @@ def colour_quality_scale(
 
     Q_f = scale_conversion(D_E_RMS, CCT_f, scaling_f)
 
-    G_t = gamut_area(
-        [vs_CQS_data.Lab for vs_CQS_data in test_vs_colorimetry_data]
-    )
-    G_r = gamut_area(
-        [vs_CQS_data.Lab for vs_CQS_data in reference_vs_colorimetry_data]
-    )
+    G_t = gamut_area([vs_CQS_data.Lab for vs_CQS_data in test_vs_colorimetry_data])
+    G_r = gamut_area([vs_CQS_data.Lab for vs_CQS_data in reference_vs_colorimetry_data])
 
     Q_g = G_t / GAMUT_AREA_D65 * 100
 
@@ -524,10 +519,7 @@ def delta_E_RMS(
         1
         / len(CQS_data)
         * np.sum(
-            [
-                getattr(sample_data, attribute) ** 2
-                for sample_data in CQS_data.values()
-            ]
+            [getattr(sample_data, attribute) ** 2 for sample_data in CQS_data.values()]
         )
     )
 
@@ -565,9 +557,7 @@ def colour_quality_scales(
         D_E_ab = cast(
             float, euclidean_distance(test_data[i].Lab, reference_data[i].Lab)
         )
-        D_Ep_ab = cast(
-            float, np.sqrt(D_E_ab**2 - D_C_ab**2) if D_C_ab > 0 else D_E_ab
-        )
+        D_Ep_ab = cast(float, np.sqrt(D_E_ab**2 - D_C_ab**2) if D_C_ab > 0 else D_E_ab)
 
         Q_a = scale_conversion(D_Ep_ab, CCT_f, scaling_f)
         Q_as[i + 1] = DataColourQualityScale_VS(

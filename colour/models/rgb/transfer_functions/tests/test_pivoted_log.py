@@ -3,7 +3,6 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
 pivoted_log` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -27,7 +26,7 @@ __all__ = [
 ]
 
 
-class TestLogEncoding_PivotedLog(unittest.TestCase):
+class TestLogEncoding_PivotedLog:
     """
     Define :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_encoding_PivotedLog` definition unit tests methods.
@@ -109,12 +108,10 @@ log_encoding_PivotedLog` definition domain and range scale support.
 log_encoding_PivotedLog` definition nan support.
         """
 
-        log_encoding_PivotedLog(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_PivotedLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_PivotedLog(unittest.TestCase):
+class TestLogDecoding_PivotedLog:
     """
     Define :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_decoding_PivotedLog` definition unit tests methods.
@@ -196,10 +193,4 @@ log_decoding_PivotedLog` definition domain and range scale support.
 log_decoding_PivotedLog` definition nan support.
         """
 
-        log_decoding_PivotedLog(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
-
-
-if __name__ == "__main__":
-    unittest.main()
+        log_decoding_PivotedLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))

@@ -2,7 +2,7 @@
 Data Structures
 ===============
 
-Defines various data structures classes:
+Define various data structures classes:
 
 -   :class:`colour.utilities.Structure`: An object similar to C/C++ structured
     type.
@@ -14,14 +14,12 @@ Defines various data structures classes:
 -   :class:`colour.utilities.LazyCanonicalMapping`: Another delimiter and
     case-insensitive mapping allowing lazy values retrieving from keys while
     ignoring the key case.
--   :class:`colour.utilities.Node`: A basic node object supporting creation of
-    basic node trees.
 
 References
 ----------
 -   :cite:`Mansencalc` : Mansencal, T. (n.d.). Lookup.
     https://github.com/KelSolaar/Foundations/blob/develop/foundations/\
-data_structures.py
+structures.py
 -   :cite:`Rakotoarison2017` : Rakotoarison, H. (2017). Bunch.
     https://github.com/scikit-learn/scikit-learn/blob/\
 fb5a498d0bd00fc2b42fbd19b6ef18e1dfeee47e/sklearn/utils/__init__.py#L65
@@ -37,9 +35,7 @@ from colour.hints import (
     Any,
     Generator,
     Iterable,
-    List,
     Mapping,
-    Self,
 )
 from colour.utilities.documentation import is_documentation_building
 
@@ -55,7 +51,6 @@ __all__ = [
     "Lookup",
     "CanonicalMapping",
     "LazyCanonicalMapping",
-    "Node",
 ]
 
 
@@ -239,8 +234,8 @@ class Lookup(dict):
 class CanonicalMapping(MutableMapping):
     """
     Implement a delimiter and case-insensitive :class:`dict`-like object with
-    support for slugs, i.e. *SEO* friendly and human-readable version of the
-    keys but also canonical keys, i.e. slugified keys without delimiters.
+    support for slugs, i.e., *SEO* friendly and human-readable version of the
+    keys but also canonical keys, i.e., slugified keys without delimiters.
 
     The item keys are expected to be :class:`str`-like objects thus supporting
     the :meth:`str.lower` method. Setting items is done by using the given
@@ -307,9 +302,7 @@ class CanonicalMapping(MutableMapping):
     1
     """
 
-    def __init__(
-        self, data: Generator | Mapping | None = None, **kwargs: Any
-    ) -> None:
+    def __init__(self, data: Generator | Mapping | None = None, **kwargs: Any) -> None:
         self._data: dict = {}
 
         self.update({} if data is None else data, **kwargs)
@@ -340,9 +333,9 @@ class CanonicalMapping(MutableMapping):
         """
 
         if is_documentation_building():  # pragma: no cover
-            representation = repr(
-                dict(zip(self.keys(), ["..."] * len(self)))
-            ).replace("'...'", "...")
+            representation = repr(dict(zip(self.keys(), ["..."] * len(self)))).replace(
+                "'...'", "..."
+            )
             return f"{self.__class__.__name__}({representation})"
         else:
             return f"{self.__class__.__name__}({dict(self.items())})"
@@ -392,9 +385,7 @@ class CanonicalMapping(MutableMapping):
             pass
 
         try:
-            return self[
-                dict(zip(self.lower_keys(), self.keys()))[str(item).lower()]
-            ]
+            return self[dict(zip(self.lower_keys(), self.keys()))[str(item).lower()]]
         except KeyError:
             pass
 
@@ -429,9 +420,7 @@ class CanonicalMapping(MutableMapping):
             pass
 
         try:
-            del self._data[
-                dict(zip(self.lower_keys(), self.keys()))[str(item).lower()]
-            ]
+            del self._data[dict(zip(self.lower_keys(), self.keys()))[str(item).lower()]]
             return
         except KeyError:
             pass
@@ -567,9 +556,7 @@ class CanonicalMapping(MutableMapping):
 
         from colour.utilities import usage_warning
 
-        collisions = [
-            key for (key, value) in Counter(keys).items() if value > 1
-        ]
+        collisions = [key for (key, value) in Counter(keys).items() if value > 1]
 
         if collisions:
             usage_warning(f"{list(set(keys))} key(s) collide(s)!")
@@ -620,9 +607,7 @@ class CanonicalMapping(MutableMapping):
             Item generator.
         """
 
-        yield from (
-            (str(key).lower(), value) for (key, value) in self._data.items()
-        )
+        yield from ((str(key).lower(), value) for (key, value) in self._data.items())
 
     def slugified_keys(self) -> Generator:
         """
@@ -667,9 +652,7 @@ class CanonicalMapping(MutableMapping):
             Item generator.
         """
 
-        canonical_keys = [
-            re.sub("-|_", "", key) for key in self.slugified_keys()
-        ]
+        canonical_keys = [re.sub("-|_", "", key) for key in self.slugified_keys()]
 
         self._collision_warning(canonical_keys)
 
@@ -718,7 +701,6 @@ class LazyCanonicalMapping(CanonicalMapping):
     >>> def callable_a():
     ...     print(2)
     ...     return 2
-    ...
     >>> methods = LazyCanonicalMapping({"McCamy": 1, "Hernandez": callable_a})
     >>> methods["mccamy"]
     1
@@ -753,476 +735,3 @@ class LazyCanonicalMapping(CanonicalMapping):
             super().__setitem__(item, value)
 
         return value
-
-
-class Node:
-    """
-    Represent a basic node supporting the creation of basic node trees.
-
-    Parameters
-    ----------
-    name
-        Node name.
-    parent
-        Parent of the node.
-    children
-        Children of the node.
-    data
-        The data belonging to this node.
-
-    Attributes
-    ----------
-    -   :attr:`~colour.utilities.Node.name`
-    -   :attr:`~colour.utilities.Node.parent`
-    -   :attr:`~colour.utilities.Node.children`
-    -   :attr:`~colour.utilities.Node.id`
-    -   :attr:`~colour.utilities.Node.root`
-    -   :attr:`~colour.utilities.Node.leaves`
-    -   :attr:`~colour.utilities.Node.siblings`
-    -   :attr:`~colour.utilities.Node.data`
-
-    Methods
-    -------
-    -   :meth:`~colour.utilities.Node.__new__`
-    -   :meth:`~colour.utilities.Node.__init__`
-    -   :meth:`~colour.utilities.Node.__str__`
-    -   :meth:`~colour.utilities.Node.__len__`
-    -   :meth:`~colour.utilities.Node.is_root`
-    -   :meth:`~colour.utilities.Node.is_inner`
-    -   :meth:`~colour.utilities.Node.is_leaf`
-    -   :meth:`~colour.utilities.Node.walk`
-    -   :meth:`~colour.utilities.Node.render`
-
-    Examples
-    --------
-    >>> node_a = Node("Node A")
-    >>> node_b = Node("Node B", node_a)
-    >>> node_c = Node("Node C", node_a)
-    >>> node_d = Node("Node D", node_b)
-    >>> node_e = Node("Node E", node_b)
-    >>> node_f = Node("Node F", node_d)
-    >>> node_g = Node("Node G", node_f)
-    >>> node_h = Node("Node H", node_g)
-    >>> [node.name for node in node_a.leaves]
-    ['Node H', 'Node E', 'Node C']
-    >>> print(node_h.root.name)
-    Node A
-    >>> len(node_a)
-    7
-    """
-
-    _INSTANCE_ID: int = 1
-    """
-    Node id counter.
-
-    _INSTANCE_ID
-    """
-
-    def __new__(cls, *args: Any, **kwargs: Any) -> Self:  # noqa: ARG003
-        """
-        Return a new instance of the :class:`colour.utilities.Node` class.
-
-        Other Parameters
-        ----------------
-        args
-            Arguments.
-        kwargs
-            Keywords arguments.
-        """
-
-        instance = super().__new__(cls)
-
-        instance._id = Node._INSTANCE_ID  # pyright: ignore
-        Node._INSTANCE_ID += 1
-
-        return instance
-
-    def __init__(
-        self,
-        name: str | None = None,
-        parent: Self | None = None,
-        children: List[Self] | None = None,
-        data: Any | None = None,
-    ) -> None:
-        self._name: str = f"{self.__class__.__name__}#{self.id}"
-        self.name = self._name if name is None else name
-        self._parent: Self | None = None
-        self.parent = parent
-        self._children: List[Self] = []
-        self.children = (  # pyright: ignore
-            self._children if children is None else children
-        )
-        self._data: Any | None = data
-
-    @property
-    def name(self) -> str:
-        """
-        Getter and setter property for the name.
-
-        Parameters
-        ----------
-        value
-            Value to set the name with.
-
-        Returns
-        -------
-        :class:`str`
-            Node name.
-        """
-
-        return self._name
-
-    @name.setter
-    def name(self, value: str):
-        """Setter for the **self.name** property."""
-
-        from colour.utilities import attest
-
-        attest(
-            isinstance(value, str),
-            f'"name" property: "{value}" type is not "str"!',
-        )
-
-        self._name = value
-
-    @property
-    def parent(self) -> Self | None:
-        """
-        Getter and setter property for the node parent.
-
-        Parameters
-        ----------
-        value
-            Parent to set the node with.
-
-        Returns
-        -------
-        :class:`Node` or :py:data:`None`
-            Node parent.
-        """
-
-        return self._parent
-
-    @parent.setter
-    def parent(self, value: Self | None):
-        """Setter for the **self.parent** property."""
-
-        from colour.utilities import attest
-
-        if value is not None:
-            attest(
-                issubclass(value.__class__, Node),
-                f'"parent" property: "{value}" is not a '
-                f'"{self.__class__.__name__}" subclass!',
-            )
-
-            value.children.append(self)
-
-        self._parent = value
-
-    @property
-    def children(self) -> List[Self]:
-        """
-        Getter and setter property for the node children.
-
-        Parameters
-        ----------
-        value
-            Children to set the node with.
-
-        Returns
-        -------
-        :class:`list`
-            Node children.
-        """
-
-        return self._children
-
-    @children.setter
-    def children(self, value: List[Self]):
-        """Setter for the **self.children** property."""
-
-        from colour.utilities import attest
-
-        attest(
-            isinstance(value, list),
-            f'"children" property: "{value}" type is not a "list" instance!',
-        )
-
-        for element in value:
-            attest(
-                issubclass(element.__class__, Node),
-                f'"children" property: A "{element}" element is not a '
-                f'"{self.__class__.__name__}" subclass!',
-            )
-
-        for node in value:
-            node.parent = self
-
-        self._children = value
-
-    @property
-    def id(self) -> int:  # noqa: A003
-        """
-        Getter property for the node id.
-
-        Returns
-        -------
-        :class:`int`
-            Node id.
-        """
-
-        return self._id  # pyright: ignore
-
-    @property
-    def root(self) -> Self:
-        """
-        Getter property for the node tree.
-
-        Returns
-        -------
-        :class:`Node`
-            Node root.
-        """
-
-        if self.is_root():
-            return self
-        else:
-            return list(self.walk(ascendants=True))[-1]
-
-    @property
-    def leaves(self) -> Generator:
-        """
-        Getter property for the node leaves.
-
-        Yields
-        ------
-        Generator
-            Node leaves.
-        """
-
-        if self.is_leaf():
-            return (node for node in (self,))
-        else:
-            return (node for node in self.walk() if node.is_leaf())
-
-    @property
-    def siblings(self) -> Generator:
-        """
-        Getter property for the node siblings.
-
-        Returns
-        -------
-        Generator
-            Node siblings.
-        """
-
-        if self.parent is None:
-            return (sibling for sibling in ())
-        else:
-            return (
-                sibling
-                for sibling in self.parent.children
-                if sibling is not self
-            )
-
-    @property
-    def data(self) -> Any:
-        """
-        Getter property for the node data.
-
-        Returns
-        -------
-        :class:`object`
-            Node data.
-        """
-
-        return self._data
-
-    @data.setter
-    def data(self, value: Any):
-        """Setter for the **self.data** property."""
-
-        self._data = value
-
-    def __str__(self) -> str:
-        """
-        Return a formatted string representation of the node.
-
-        Returns
-        -------
-        :class`str`
-            Formatted string representation.
-        """
-
-        return f"{self.__class__.__name__}#{self.id}({self._data})"
-
-    def __len__(self) -> int:
-        """
-        Return the number of children of the node.
-
-        Returns
-        -------
-        :class:`int`
-            Number of children of the node.
-        """
-
-        return len(list(self.walk()))
-
-    def is_root(self) -> bool:
-        """
-        Return whether the node is a root node.
-
-        Returns
-        -------
-        :class:`bool`
-            Whether the node is a root node.
-
-        Examples
-        --------
-        >>> node_a = Node("Node A")
-        >>> node_b = Node("Node B", node_a)
-        >>> node_c = Node("Node C", node_b)
-        >>> node_a.is_root()
-        True
-        >>> node_b.is_root()
-        False
-        """
-
-        return self.parent is None
-
-    def is_inner(self) -> bool:
-        """
-        Return whether the node is an inner node.
-
-        Returns
-        -------
-        :class:`bool`
-            Whether the node is an inner node.
-
-        Examples
-        --------
-        >>> node_a = Node("Node A")
-        >>> node_b = Node("Node B", node_a)
-        >>> node_c = Node("Node C", node_b)
-        >>> node_a.is_inner()
-        False
-        >>> node_b.is_inner()
-        True
-        """
-
-        return all([not self.is_root(), not self.is_leaf()])
-
-    def is_leaf(self) -> bool:
-        """
-        Return whether the node is a leaf node.
-
-        Returns
-        -------
-        :class:`bool`
-            Whether the node is a leaf node.
-
-        Examples
-        --------
-        >>> node_a = Node("Node A")
-        >>> node_b = Node("Node B", node_a)
-        >>> node_c = Node("Node C", node_b)
-        >>> node_a.is_leaf()
-        False
-        >>> node_c.is_leaf()
-        True
-        """
-
-        return len(self._children) == 0
-
-    def walk(self, ascendants: bool = False) -> Generator:
-        """
-        Return a generator used to walk into :class:`colour.utilities.Node`
-        trees.
-
-        Parameters
-        ----------
-        ascendants
-            Whether to walk up the node tree.
-
-        Yields
-        ------
-        Generator
-            Node tree walker.
-
-        Examples
-        --------
-        >>> node_a = Node("Node A")
-        >>> node_b = Node("Node B", node_a)
-        >>> node_c = Node("Node C", node_a)
-        >>> node_d = Node("Node D", node_b)
-        >>> node_e = Node("Node E", node_b)
-        >>> node_f = Node("Node F", node_d)
-        >>> node_g = Node("Node G", node_f)
-        >>> node_h = Node("Node H", node_g)
-        >>> for node in node_a.walk():
-        ...     print(node.name)
-        ...
-        Node B
-        Node D
-        Node F
-        Node G
-        Node H
-        Node E
-        Node C
-        """
-
-        attribute = "children" if not ascendants else "parent"
-
-        nodes = getattr(self, attribute)
-        nodes = nodes if isinstance(nodes, list) else [nodes]
-
-        for node in nodes:
-            yield node
-
-            if not getattr(node, attribute):
-                continue
-
-            yield from node.walk(ascendants=ascendants)
-
-    def render(self, tab_level: int = 0):
-        """
-        Render the current node and its children as a string.
-
-        Parameters
-        ----------
-        tab_level
-            Initial indentation level
-
-        Returns
-        -------
-        :class:`str`
-            Rendered node tree.
-
-        Examples
-        --------
-        >>> node_a = Node("Node A")
-        >>> node_b = Node("Node B", node_a)
-        >>> node_c = Node("Node C", node_a)
-        >>> print(node_a.render())
-        |----"Node A"
-            |----"Node B"
-            |----"Node C"
-        <BLANKLINE>
-        """
-
-        output = ""
-
-        for _i in range(tab_level):
-            output += "    "
-
-        tab_level += 1
-
-        output += f'|----"{self.name}"\n'
-
-        for child in self._children:
-            output += child.render(tab_level)
-
-        tab_level -= 1
-
-        return output

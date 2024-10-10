@@ -2,7 +2,7 @@
 RED Colourspaces
 ================
 
-Defines the *RED* colourspaces:
+Define the *RED* colourspaces:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_RED_COLOR`
 -   :attr:`colour.models.RGB_COLOURSPACE_RED_COLOR_2`
@@ -155,9 +155,7 @@ MATRIX_RED_COLOR_2_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
 )
 """*REDcolor2* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_RED_COLOR_2: NDArrayFloat = np.linalg.inv(
-    MATRIX_RED_COLOR_2_TO_XYZ
-)
+MATRIX_XYZ_TO_RED_COLOR_2: NDArrayFloat = np.linalg.inv(MATRIX_RED_COLOR_2_TO_XYZ)
 """*CIE XYZ* tristimulus values to *REDcolor2* colourspace matrix."""
 
 RGB_COLOURSPACE_RED_COLOR_2: RGB_Colourspace = RGB_Colourspace(
@@ -198,9 +196,7 @@ MATRIX_RED_COLOR_3_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
 )
 """*REDcolor3* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_RED_COLOR_3: NDArrayFloat = np.linalg.inv(
-    MATRIX_RED_COLOR_3_TO_XYZ
-)
+MATRIX_XYZ_TO_RED_COLOR_3: NDArrayFloat = np.linalg.inv(MATRIX_RED_COLOR_3_TO_XYZ)
 """*CIE XYZ* tristimulus values to *REDcolor3* colourspace matrix."""
 
 RGB_COLOURSPACE_RED_COLOR_3: RGB_Colourspace = RGB_Colourspace(
@@ -241,9 +237,7 @@ MATRIX_RED_COLOR_4_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
 )
 """*REDcolor4* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_RED_COLOR_4: NDArrayFloat = np.linalg.inv(
-    MATRIX_RED_COLOR_4_TO_XYZ
-)
+MATRIX_XYZ_TO_RED_COLOR_4: NDArrayFloat = np.linalg.inv(MATRIX_RED_COLOR_4_TO_XYZ)
 """*CIE XYZ* tristimulus values to *REDcolor4* colourspace matrix."""
 
 RGB_COLOURSPACE_RED_COLOR_4: RGB_Colourspace = RGB_Colourspace(
@@ -284,9 +278,7 @@ MATRIX_DRAGON_COLOR_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
 )
 """*DRAGONcolor* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_DRAGON_COLOR: NDArrayFloat = np.linalg.inv(
-    MATRIX_DRAGON_COLOR_TO_XYZ
-)
+MATRIX_XYZ_TO_DRAGON_COLOR: NDArrayFloat = np.linalg.inv(MATRIX_DRAGON_COLOR_TO_XYZ)
 """*CIE XYZ* tristimulus values to *DRAGONcolor* colourspace matrix."""
 
 RGB_COLOURSPACE_DRAGON_COLOR: RGB_Colourspace = RGB_Colourspace(
@@ -327,9 +319,7 @@ MATRIX_DRAGON_COLOR_2_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
 )
 """*DRAGONcolor2* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_DRAGON_COLOR_2: NDArrayFloat = np.linalg.inv(
-    MATRIX_DRAGON_COLOR_2_TO_XYZ
-)
+MATRIX_XYZ_TO_DRAGON_COLOR_2: NDArrayFloat = np.linalg.inv(MATRIX_DRAGON_COLOR_2_TO_XYZ)
 """*CIE XYZ* tristimulus values to *DRAGONcolor2* colourspace matrix."""
 
 RGB_COLOURSPACE_DRAGON_COLOR_2: RGB_Colourspace = RGB_Colourspace(

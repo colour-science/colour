@@ -2,7 +2,7 @@
 Gamma Colour Component Transfer Function
 ========================================
 
-Defines the gamma encoding / decoding colour component transfer function
+Define the gamma encoding / decoding colour component transfer function
 related objects:
 
 - :func:`colour.gamma_function`
@@ -31,10 +31,9 @@ __all__ = [
 def gamma_function(
     a: ArrayLike,
     exponent: ArrayLike = 1,
-    negative_number_handling: Literal[
-        "Clamp", "Indeterminate", "Mirror", "Preserve"
-    ]
-    | str = "Indeterminate",
+    negative_number_handling: (
+        Literal["Clamp", "Indeterminate", "Mirror", "Preserve"] | str
+    ) = "Indeterminate",
 ) -> NDArrayFloat:
     """
     Define a typical gamma encoding / decoding function.
@@ -52,10 +51,10 @@ def gamma_function(
         -   *Indeterminate*: The behaviour will be indeterminate and
             definition return value might contain *nans*.
         -   *Mirror*: The definition return value will be mirrored around
-            abscissa and ordinate axis, i.e. Blackmagic Design: Davinci Resolve
+            abscissa and ordinate axis, i.e., Blackmagic Design: Davinci Resolve
             behaviour.
         -   *Preserve*: The definition will preserve any negative number in
-            ``a``, i.e. The Foundry Nuke behaviour.
+            ``a``, i.e., The Foundry Nuke behaviour.
         -   *Clamp*: The definition will clamp any negative number in ``a`` to
             0.
 

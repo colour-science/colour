@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.cam16_ucs` module."""
 
-import unittest
 
 from colour.models.tests.test_cam02_ucs import (
     TestJMh_CIECAM02_to_UCS_Luo2006,
@@ -63,7 +61,3 @@ class TestUCS_Li2017_to_XYZ(TestUCS_Luo2006_to_XYZ):
     Define :func:`colour.models.cam16_ucs.UCS_Li2017_to_XYZ`
     definition unit tests methods.
     """
-
-
-if __name__ == "__main__":
-    unittest.main()

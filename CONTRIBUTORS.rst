@@ -4,7 +4,7 @@ Contributors
 The Colour Developers
 ---------------------
 
--   **Thomas Mansencal**, *Technology Supervisor @ Wētā FX*
+-   **Thomas Mansencal**, *Principal Pipeline Programmer @ Epic Games*
 
     Maintainer, project coordination, overall development.
 

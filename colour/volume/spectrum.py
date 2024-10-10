@@ -2,7 +2,7 @@
 Rösch-MacAdam colour solid - Visible Spectrum Volume Computations
 =================================================================
 
-Defines the objects related to *Rösch-MacAdam* colour solid, visible spectrum
+Define the objects related to *Rösch-MacAdam* colour solid, visible spectrum
 volume computations.
 
 References
@@ -218,9 +218,9 @@ def generate_pulse_waves(
     )
 
     square_waves = []
-    square_waves_basis = np.tril(
-        np.ones((bins, bins), dtype=DTYPE_FLOAT_DEFAULT)
-    )[0:-1, :]
+    square_waves_basis = np.tril(np.ones((bins, bins), dtype=DTYPE_FLOAT_DEFAULT))[
+        0:-1, :
+    ]
 
     if pulse_order.lower() == "bins":
         for square_wave_basis in square_waves_basis:
@@ -251,7 +251,7 @@ def XYZ_outer_surface(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Generate the *Rösch-MacAdam* colour solid, i.e. *CIE XYZ* colourspace
+    Generate the *Rösch-MacAdam* colour solid, i.e., *CIE XYZ* colourspace
     outer surface, for given colour matching functions using multi-spectral
     conversion of pulse waves to *CIE XYZ* tristimulus values.
 
@@ -364,16 +364,14 @@ def XYZ_outer_surface(
     )
     XYZ = _CACHE_OUTER_SURFACE_XYZ.get(key)
 
-    if is_caching_enabled() and XYZ is not None:
+    if is_caching_enabled() and XYZ is not None:  # pragma: no cover
         return XYZ
 
     pulse_waves = generate_pulse_waves(
         len(cmfs.wavelengths), point_order, filter_jagged_points
     )
     XYZ = (
-        msds_to_XYZ(
-            pulse_waves, cmfs, illuminant, method="Integration", **settings
-        )
+        msds_to_XYZ(pulse_waves, cmfs, illuminant, method="Integration", **settings)
         / 100
     )
 
@@ -394,7 +392,7 @@ def is_within_visible_spectrum(
 ) -> NDArrayFloat:
     """
     Return whether given *CIE XYZ* tristimulus values are within the visible
-    spectrum volume, i.e. *Rösch-MacAdam* colour solid, for given colour
+    spectrum volume, i.e., *Rösch-MacAdam* colour solid, for given colour
     matching functions and illuminant.
 
     Parameters
@@ -419,7 +417,7 @@ def is_within_visible_spectrum(
     -------
     :class:`numpy.ndarray`
         Are *CIE XYZ* tristimulus values within the visible spectrum volume,
-        i.e. *Rösch-MacAdam* colour solid.
+        i.e., *Rösch-MacAdam* colour solid.
 
     Notes
     -----

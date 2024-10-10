@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.adaptation.zhai2018` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -22,7 +20,7 @@ __all__ = [
 ]
 
 
-class TestChromaticAdaptationZhai2018(unittest.TestCase):
+class TestChromaticAdaptationZhai2018:
     """
     Define :func:`colour.adaptation.zhai2018.chromatic_adaptation_Zhai2018`
     definition unit tests methods.
@@ -175,7 +173,3 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
         chromatic_adaptation_Zhai2018(
             cases, cases, cases, cases[0, 0], cases[0, 0], cases
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

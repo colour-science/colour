@@ -2,7 +2,7 @@
 Otsu et al. (2018) - Reflectance Recovery
 =========================================
 
-Defines the datasets for reflectance recovery using *Otsu et al. (2018)*
+Define the datasets for reflectance recovery using *Otsu et al. (2018)*
 method.
 
 References

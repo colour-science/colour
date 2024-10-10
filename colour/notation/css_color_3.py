@@ -2,7 +2,7 @@
 CSS Color Module Level 3 - Web Colours
 ======================================
 
-Defines the conversion of colour keywords to *RGB* colourspace:
+Define the conversion of colour keywords to *RGB* colourspace:
 
 -   :attr:`colour.notation.keyword_to_RGB_CSSColor3`
 
@@ -60,8 +60,6 @@ def keyword_to_RGB_CSSColor3(keyword: str) -> NDArrayFloat:
     array([ 0.9411764...,  0.9725490...,  1.        ])
     """
 
-    attest(
-        keyword in CSS_COLOR_3, f'{keyword} is not defined in "CSS Color 3"!'
-    )
+    attest(keyword in CSS_COLOR_3, f'{keyword} is not defined in "CSS Color 3"!')
 
     return HEX_to_RGB(CSS_COLOR_3[keyword])

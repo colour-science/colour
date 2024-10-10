@@ -2,7 +2,7 @@
 Fundamental Physical Constants
 ==============================
 
-Defines various constants from recommended values by the Committee on Data for
+Define various constants from recommended values by the Committee on Data for
 Science and Technology (CODATA).
 """
 

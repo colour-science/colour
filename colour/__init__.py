@@ -45,10 +45,29 @@ Sub-packages
 """
 
 import contextlib
+import json
 import os
 import sys
 
 import numpy as np
+
+# Loading the "colour-science" JEnv file.
+_JENV_FILE_PATH = os.path.join(
+    os.path.expanduser("~"),
+    ".colour-science",
+    "colour-science.jenv",
+)
+
+if os.path.exists(_JENV_FILE_PATH):
+    with open(_JENV_FILE_PATH) as _JENV_FILE:
+        for _KEY, _VALUE in json.loads(_JENV_FILE.read()).items():
+            os.environ[_KEY] = str(_VALUE)
+
+    del _JENV_FILE, _KEY, _VALUE
+
+del _JENV_FILE_PATH
+
+# ruff: noqa: E402
 
 from colour import plotting  # noqa: F401
 
@@ -235,6 +254,7 @@ from .io import (
     LUT3x1D,
     LUTOperatorMatrix,
     LUTSequence,
+    Specification_Fichet2021,
     SpectralDistribution_IESTM2714,
     SpectralDistribution_Sekonic,
     SpectralDistribution_UPRTek,
@@ -243,15 +263,18 @@ from .io import (
     read_sds_from_csv_file,
     read_sds_from_xrite_file,
     read_spectral_data_from_csv_file,
+    read_spectral_image_Fichet2021,
     write_image,
     write_LUT,
     write_sds_to_csv_file,
+    write_spectral_image_Fichet2021,
 )
 from .models import (
     CCTF_DECODINGS,
     CCTF_ENCODINGS,
     COLOUR_PRIMARIES_ITUTH273,
     COLOURSPACE_MODELS,
+    COLOURSPACE_MODELS_POLAR_CONVERSIONS,
     DATA_MACADAM_1942_ELLIPSES,
     EOTF_INVERSES,
     EOTFS,
@@ -279,6 +302,8 @@ from .models import (
     CAM16SCD_to_XYZ,
     CAM16UCS_to_JMh_CAM16,
     CAM16UCS_to_XYZ,
+    CIE1960UCS_to_XYZ,
+    CIE1976UCS_to_XYZ,
     CMY_to_CMYK,
     CMY_to_RGB,
     CMYK_to_CMY,
@@ -306,11 +331,7 @@ from .models import (
     JMh_CIECAM02_to_CAM02UCS,
     Jzazbz_to_XYZ,
     Lab_to_DIN99,
-    Lab_to_LCHab,
     Lab_to_XYZ,
-    LCHab_to_Lab,
-    LCHuv_to_Luv,
-    Luv_to_LCHuv,
     Luv_to_uv,
     Luv_to_XYZ,
     Luv_uv_to_xy,
@@ -343,6 +364,8 @@ from .models import (
     XYZ_to_CAM16LCD,
     XYZ_to_CAM16SCD,
     XYZ_to_CAM16UCS,
+    XYZ_to_CIE1960UCS,
+    XYZ_to_CIE1976UCS,
     XYZ_to_DIN99,
     XYZ_to_hdr_CIELab,
     XYZ_to_hdr_IPT,
@@ -439,8 +462,7 @@ from .utilities.array import (
     get_domain_range_scale,
     set_domain_range_scale,
 )
-from .utilities.deprecation import ModuleAPI, build_API_changes
-from .utilities.documentation import is_documentation_building
+from .utilities.deprecation import ModuleAPI
 from .volume import (
     OPTIMAL_COLOUR_STIMULI_ILLUMINANTS,
     RGB_colourspace_limits,
@@ -613,6 +635,7 @@ __all__ += [
     "LUT3D",
     "LUTOperatorMatrix",
     "LUTSequence",
+    "Specification_Fichet2021",
     "READ_IMAGE_METHODS",
     "SpectralDistribution_IESTM2714",
     "WRITE_IMAGE_METHODS",
@@ -621,31 +644,36 @@ __all__ += [
     "read_sds_from_csv_file",
     "read_sds_from_xrite_file",
     "read_spectral_data_from_csv_file",
+    "read_spectral_image_Fichet2021",
     "SpectralDistribution_UPRTek",
     "SpectralDistribution_Sekonic",
     "write_image",
     "write_LUT",
     "write_sds_to_csv_file",
+    "write_spectral_image_Fichet2021",
 ]
 __all__ += [
     "CAM02LCD_to_JMh_CIECAM02",
-    "CAM02SCD_to_JMh_CIECAM02",
-    "CAM02UCS_to_JMh_CIECAM02",
     "CAM02LCD_to_XYZ",
+    "CAM02SCD_to_JMh_CIECAM02",
     "CAM02SCD_to_XYZ",
+    "CAM02UCS_to_JMh_CIECAM02",
     "CAM02UCS_to_XYZ",
     "CAM16LCD_to_JMh_CAM16",
-    "CAM16SCD_to_JMh_CAM16",
-    "CAM16UCS_to_JMh_CAM16",
     "CAM16LCD_to_XYZ",
+    "CAM16SCD_to_JMh_CAM16",
     "CAM16SCD_to_XYZ",
+    "CAM16UCS_to_JMh_CAM16",
     "CAM16UCS_to_XYZ",
     "CCTF_DECODINGS",
     "CCTF_ENCODINGS",
+    "CIE1960UCS_to_XYZ",
+    "CIE1976UCS_to_XYZ",
     "CMYK_to_CMY",
     "CMY_to_CMYK",
     "CMY_to_RGB",
     "COLOURSPACE_MODELS",
+    "COLOURSPACE_MODELS_POLAR_CONVERSIONS",
     "COLOUR_PRIMARIES_ITUTH273",
     "CV_range",
     "DATA_MACADAM_1942_ELLIPSES",
@@ -664,10 +692,10 @@ __all__ += [
     "ICtCp_to_RGB",
     "ICtCp_to_XYZ",
     "IHLS_to_RGB",
-    "IgPgTg_to_XYZ",
+    "IPT_Ragoo2021_to_XYZ",
     "IPT_hue_angle",
     "IPT_to_XYZ",
-    "IPT_Ragoo2021_to_XYZ",
+    "IgPgTg_to_XYZ",
     "JMh_CAM16_to_CAM16LCD",
     "JMh_CAM16_to_CAM16SCD",
     "JMh_CAM16_to_CAM16UCS",
@@ -675,14 +703,10 @@ __all__ += [
     "JMh_CIECAM02_to_CAM02SCD",
     "JMh_CIECAM02_to_CAM02UCS",
     "Jzazbz_to_XYZ",
-    "LCHab_to_Lab",
-    "LCHuv_to_Luv",
     "LOG_DECODINGS",
     "LOG_ENCODINGS",
     "Lab_to_DIN99",
-    "Lab_to_LCHab",
     "Lab_to_XYZ",
-    "Luv_to_LCHuv",
     "Luv_to_XYZ",
     "Luv_to_uv",
     "Luv_uv_to_xy",
@@ -723,14 +747,16 @@ __all__ += [
     "XYZ_to_CAM16LCD",
     "XYZ_to_CAM16SCD",
     "XYZ_to_CAM16UCS",
+    "XYZ_to_CIE1960UCS",
+    "XYZ_to_CIE1976UCS",
     "XYZ_to_DIN99",
     "XYZ_to_Hunter_Lab",
     "XYZ_to_Hunter_Rdab",
     "XYZ_to_ICaCb",
     "XYZ_to_ICtCp",
-    "XYZ_to_IgPgTg",
     "XYZ_to_IPT",
     "XYZ_to_IPT_Ragoo2021",
+    "XYZ_to_IgPgTg",
     "XYZ_to_Jzazbz",
     "XYZ_to_K_ab_HunterLab1966",
     "XYZ_to_Lab",
@@ -741,12 +767,12 @@ __all__ += [
     "XYZ_to_RGB",
     "XYZ_to_UCS",
     "XYZ_to_UVW",
+    "XYZ_to_Yrg",
     "XYZ_to_hdr_CIELab",
     "XYZ_to_hdr_IPT",
     "XYZ_to_sRGB",
     "XYZ_to_xy",
     "XYZ_to_xyY",
-    "XYZ_to_Yrg",
     "YCbCr_to_RGB",
     "YCoCg_to_RGB",
     "YcCbcCrc_to_RGB",
@@ -866,14 +892,23 @@ __all__ += [
     "convert",
 ]
 
+# Programmatically defining the colourspace models polar conversions.
+for _Jab, _JCh in COLOURSPACE_MODELS_POLAR_CONVERSIONS:
+    for name in (f"{_Jab}_to_{_JCh}", f"{_JCh}_to_{_Jab}"):
+        _module = sys.modules["colour"]
+        _sub_module = sys.modules["colour.models"]
+        setattr(_module, name, getattr(_sub_module, name))
+        __all__.append(name)
+
+del _JCh, _Jab, _module, _sub_module
+
+
 __application_name__ = "Colour"
 
 __major_version__ = "0"
 __minor_version__ = "4"
-__change_version__ = "4"
-__version__ = ".".join(
-    (__major_version__, __minor_version__, __change_version__)
-)
+__change_version__ = "5"
+__version__ = ".".join((__major_version__, __minor_version__, __change_version__))
 
 # TODO: Remove legacy printing support when deemed appropriate.
 with contextlib.suppress(TypeError):
@@ -899,58 +934,6 @@ colour.__minor_version__ = __minor_version__  # pyright: ignore
 colour.__change_version__ = __change_version__  # pyright: ignore
 colour.__version__ = __version__  # pyright: ignore
 
-# v0.4.0
-API_CHANGES = {
-    "ObjectRenamed": [
-        [
-            "colour.RGB_to_ICTCP",
-            "colour.RGB_to_ICtCp",
-        ],
-        [
-            "colour.ICTCP_to_RGB",
-            "colour.ICtCp_to_RGB",
-        ],
-        [
-            "colour.RGB_to_IGPGTG",
-            "colour.RGB_to_IgPgTg",
-        ],
-        [
-            "colour.IGPGTG_to_RGB",
-            "colour.IgPgTg_to_RGB",
-        ],
-        [
-            "colour.XYZ_to_JzAzBz",
-            "colour.XYZ_to_Jzazbz",
-        ],
-        [
-            "colour.JzAzBz_to_XYZ",
-            "colour.Jzazbz_to_XYZ",
-        ],
-    ]
-}
-
-# v0.4.3
-API_CHANGES["ObjectRenamed"].extend(
-    [
-        [
-            "colour.XYZ_to_IPT_Munish2021",
-            "colour.XYZ_to_IPT_Ragoo2021",
-        ],
-        [
-            "colour.IPT_Munish2021_to_XYZ",
-            "colour.IPT_Ragoo2021_to_XYZ",
-        ],
-    ]
-)
-"""Defines the *colour.models* sub-package API changes."""
-
-if not is_documentation_building():
-    sys.modules["colour"] = colour(  # pyright: ignore
-        sys.modules["colour"], build_API_changes(API_CHANGES)
-    )
-
-    del ModuleAPI, is_documentation_building, build_API_changes
-
 colour.__disable_lazy_load__ = True  # pyright: ignore
 __disable_lazy_load__ = colour.__disable_lazy_load__  # pyright: ignore
 """
@@ -967,13 +950,13 @@ See :class:`colour.utilities.LazyCanonicalMapping` for more information.
 # - https://github.com/colour-science/colour/issues/958
 # - https://github.com/colour-science/colour/issues/1221
 # - https://github.com/vaab/colour/issues/62
-for _path in sys.path:
+for _path in sys.path:  # pragma: no cover
     _module_path = os.path.join(_path, "colour.py")
     if os.path.exists(_module_path):
         import colour  # pyright: ignore
 
         if not os.environ.get("COLOUR_SCIENCE__COLOUR__IMPORT_VAAB_COLOUR"):
-            colour.utilities.warning(  # pyright: ignore
+            colour.utilities.runtime_warning(  # pyright: ignore
                 '"vaab/colour" was detected in "sys.path", please define a '
                 '"COLOUR_SCIENCE__COLOUR__IMPORT_VAAB_COLOUR=True" environment '
                 'variable to import its objects into "colour" namespace!'
@@ -1018,7 +1001,7 @@ for _path in sys.path:
             "web2rgb",
         ]:
             if name in dir(_module):
-                colour.utilities.warning(  # pyright: ignore
+                colour.utilities.runtime_warning(  # pyright: ignore
                     f'Importing "vaab/colour" "{name}" object into '
                     f'"Colour"\'s namespace!'
                 )

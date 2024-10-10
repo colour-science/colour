@@ -1,8 +1,8 @@
-Input and Output
-================
+Input and Output (IO)
+=====================
 
-Image Data
-----------
+Image IO
+--------
 
 ``colour``
 
@@ -25,13 +25,42 @@ Image Data
 .. autosummary::
     :toctree: generated/
 
-    ImageAttribute_Specification
+    Image_Specification_Attribute
+    MAPPING_BIT_DEPTH
+    image_specification_OpenImageIO
     convert_bit_depth
     read_image_OpenImageIO
     write_image_OpenImageIO
     read_image_Imageio
     write_image_Imageio
     as_3_channels_image
+
+Spectral Image - Fichet et al. (2021)
+=====================================
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    Specification_Fichet2021
+    read_spectral_image_Fichet2021
+    write_spectral_image_Fichet2021
+
+**Ancillary Objects**
+
+``colour.io``
+
+.. currentmodule:: colour.io
+
+.. autosummary::
+    :toctree: generated/
+
+    ComponentsFichet2021
+    sd_to_spectrum_attribute_Fichet2021
+    spectrum_attribute_to_sd_Fichet2021
 
 OpenColorIO Processing
 ----------------------

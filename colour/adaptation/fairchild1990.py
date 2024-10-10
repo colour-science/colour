@@ -2,7 +2,7 @@
 Fairchild (1990) Chromatic Adaptation Model
 ===========================================
 
-Defines the *Fairchild (1990)* chromatic adaptation model objects:
+Define the *Fairchild (1990)* chromatic adaptation model objects:
 
 -   :func:`colour.adaptation.chromatic_adaptation_Fairchild1990`
 
@@ -20,7 +20,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.adaptation import CAT_VON_KRIES
-from colour.algebra import sdiv, sdiv_mode, spow, vector_dot
+from colour.algebra import sdiv, sdiv_mode, spow, vecmul
 from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     as_float_array,
@@ -129,13 +129,11 @@ def chromatic_adaptation_Fairchild1990(
     XYZ_r = to_domain_100(XYZ_r)
     Y_n = as_float_array(Y_n)
 
-    LMS_1 = vector_dot(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ_1)
-    LMS_n = vector_dot(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ_n)
-    LMS_r = vector_dot(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ_r)
+    LMS_1 = vecmul(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ_1)
+    LMS_n = vecmul(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ_n)
+    LMS_r = vecmul(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ_r)
 
-    p_LMS = degrees_of_adaptation(
-        LMS_1, Y_n, discount_illuminant=discount_illuminant
-    )
+    p_LMS = degrees_of_adaptation(LMS_1, Y_n, discount_illuminant=discount_illuminant)
 
     a_LMS_1 = p_LMS / LMS_n
     a_LMS_2 = p_LMS / LMS_r
@@ -143,16 +141,16 @@ def chromatic_adaptation_Fairchild1990(
     A_1 = row_as_diagonal(a_LMS_1)
     A_2 = row_as_diagonal(a_LMS_2)
 
-    LMSp_1 = vector_dot(A_1, LMS_1)
+    LMSp_1 = vecmul(A_1, LMS_1)
 
     c = 0.219 - 0.0784 * np.log10(Y_n)
     C = row_as_diagonal(tstack([c, c, c]))
 
-    LMS_a = vector_dot(C, LMSp_1)
-    LMSp_2 = vector_dot(np.linalg.inv(C), LMS_a)
+    LMS_a = vecmul(C, LMSp_1)
+    LMSp_2 = vecmul(np.linalg.inv(C), LMS_a)
 
-    LMS_c = vector_dot(np.linalg.inv(A_2), LMSp_2)
-    XYZ_c = vector_dot(MATRIX_RGB_TO_XYZ_FAIRCHILD1990, LMS_c)
+    LMS_c = vecmul(np.linalg.inv(A_2), LMSp_2)
+    XYZ_c = vecmul(MATRIX_RGB_TO_XYZ_FAIRCHILD1990, LMS_c)
 
     return from_range_100(XYZ_c)
 
@@ -178,7 +176,7 @@ def XYZ_to_RGB_Fairchild1990(XYZ: ArrayLike) -> NDArrayFloat:
     array([ 22.1231935...,  23.6054224...,  22.9279534...])
     """
 
-    return vector_dot(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ)
+    return vecmul(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ)
 
 
 def RGB_to_XYZ_Fairchild1990(RGB: ArrayLike) -> NDArrayFloat:
@@ -202,7 +200,7 @@ def RGB_to_XYZ_Fairchild1990(RGB: ArrayLike) -> NDArrayFloat:
     array([ 19.53,  23.07,  24.97])
     """
 
-    return vector_dot(MATRIX_RGB_TO_XYZ_FAIRCHILD1990, RGB)
+    return vecmul(MATRIX_RGB_TO_XYZ_FAIRCHILD1990, RGB)
 
 
 def degrees_of_adaptation(
@@ -249,7 +247,7 @@ def degrees_of_adaptation(
     v = as_float_array(v)
 
     # E illuminant.
-    LMS_E = vector_dot(CAT_VON_KRIES, ones(LMS.shape))
+    LMS_E = vecmul(CAT_VON_KRIES, ones(LMS.shape))
 
     Ye_n = spow(Y_n, v)
 

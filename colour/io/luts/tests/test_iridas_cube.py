@@ -1,4 +1,3 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.io.luts.iridas_cube` module."""
 
 from __future__ import annotations
@@ -6,7 +5,6 @@ from __future__ import annotations
 import os
 import shutil
 import tempfile
-import unittest
 
 import numpy as np
 
@@ -31,12 +29,10 @@ __all__ = [
     "TestWriteLUTIridasCube",
 ]
 
-ROOT_LUTS: str = os.path.join(
-    os.path.dirname(__file__), "resources", "iridas_cube"
-)
+ROOT_LUTS: str = os.path.join(os.path.dirname(__file__), "resources", "iridas_cube")
 
 
-class TestReadLUTIridasCube(unittest.TestCase):
+class TestReadLUTIridasCube:
     """
     Define :func:`colour.io.luts.iridas_cube.read_LUT_IridasCube` definition
     unit tests methods.
@@ -92,39 +88,35 @@ class TestReadLUTIridasCube(unittest.TestCase):
             ),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        self.assertEqual(LUT_1.name, "ACES Proxy 10 to ACES")
-        self.assertEqual(LUT_1.dimensions, 2)
-        np.testing.assert_array_equal(
-            LUT_1.domain, np.array([[0, 0, 0], [1, 1, 1]])
-        )
-        self.assertEqual(LUT_1.size, 32)
-        self.assertListEqual(LUT_1.comments, [])
+        assert LUT_1.name == "ACES Proxy 10 to ACES"
+        assert LUT_1.dimensions == 2
+        np.testing.assert_array_equal(LUT_1.domain, np.array([[0, 0, 0], [1, 1, 1]]))
+        assert LUT_1.size == 32
+        assert LUT_1.comments == []
 
         LUT_2 = read_LUT_IridasCube(os.path.join(ROOT_LUTS, "Demo.cube"))
-        self.assertListEqual(LUT_2.comments, ["Comments can go anywhere"])
-        np.testing.assert_array_equal(
-            LUT_2.domain, np.array([[0, 0, 0], [1, 2, 3]])
-        )
+        assert LUT_2.comments == ["Comments can go anywhere"]
+        np.testing.assert_array_equal(LUT_2.domain, np.array([[0, 0, 0], [1, 2, 3]]))
 
         LUT_3 = read_LUT_IridasCube(
             os.path.join(ROOT_LUTS, "Three_Dimensional_Table.cube")
         )
-        self.assertEqual(LUT_3.dimensions, 3)
-        self.assertEqual(LUT_3.size, 2)
+        assert LUT_3.dimensions == 3
+        assert LUT_3.size == 2
 
 
-class TestWriteLUTIridasCube(unittest.TestCase):
+class TestWriteLUTIridasCube:
     """
     Define :func:`colour.io.luts.iridas_cube.write_LUT_IridasCube` definition
     unit tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
-    def tearDown(self):
+    def teardown_method(self):
         """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
@@ -140,24 +132,18 @@ class TestWriteLUTIridasCube(unittest.TestCase):
         )
         write_LUT_IridasCube(
             LUT_1_r,
-            os.path.join(
-                self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"
-            ),
+            os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"),
         )
         LUT_1_t = read_LUT_IridasCube(
-            os.path.join(
-                self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"
-            )
+            os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.cube")
         )
-        self.assertEqual(LUT_1_r, LUT_1_t)
+        assert LUT_1_r == LUT_1_t
 
         write_LUT_IridasCube(
             LUTSequence(LUT_1_r),
-            os.path.join(
-                self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"
-            ),
+            os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"),
         )
-        self.assertEqual(LUT_1_r, LUT_1_t)
+        assert LUT_1_r == LUT_1_t
 
         LUT_2_r = read_LUT_IridasCube(os.path.join(ROOT_LUTS, "Demo.cube"))
         write_LUT_IridasCube(
@@ -166,41 +152,29 @@ class TestWriteLUTIridasCube(unittest.TestCase):
         LUT_2_t = read_LUT_IridasCube(
             os.path.join(self._temporary_directory, "Demo.cube")
         )
-        self.assertEqual(LUT_2_r, LUT_2_t)
-        self.assertListEqual(LUT_2_r.comments, LUT_2_t.comments)
+        assert LUT_2_r == LUT_2_t
+        assert LUT_2_r.comments == LUT_2_t.comments
 
         LUT_3_r = read_LUT_IridasCube(
             os.path.join(ROOT_LUTS, "Three_Dimensional_Table.cube")
         )
         write_LUT_IridasCube(
             LUT_3_r,
-            os.path.join(
-                self._temporary_directory, "Three_Dimensional_Table.cube"
-            ),
+            os.path.join(self._temporary_directory, "Three_Dimensional_Table.cube"),
         )
         LUT_3_t = read_LUT_IridasCube(
-            os.path.join(
-                self._temporary_directory, "Three_Dimensional_Table.cube"
-            )
+            os.path.join(self._temporary_directory, "Three_Dimensional_Table.cube")
         )
-        self.assertEqual(LUT_3_r, LUT_3_t)
+        assert LUT_3_r == LUT_3_t
 
         LUT_4_r = read_LUT_IridasCube(
             os.path.join(ROOT_LUTS, "ACES_Proxy_10_to_ACES.cube")
         )
         write_LUT_IridasCube(
             LUT_4_r.convert(LUT1D, force_conversion=True),
-            os.path.join(
-                self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"
-            ),
+            os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"),
         )
         LUT_4_t = read_LUT_IridasCube(
-            os.path.join(
-                self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"
-            )
+            os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.cube")
         )
-        self.assertEqual(LUT_4_r, LUT_4_t)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert LUT_4_r == LUT_4_t

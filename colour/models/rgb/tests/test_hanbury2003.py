@@ -1,6 +1,5 @@
 """Defines unit tests for :mod:`colour.models.rgb.hanbury2003` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -22,7 +21,7 @@ __all__ = [
 ]
 
 
-class TestRGB_to_IHLS(unittest.TestCase):
+class TestRGB_to_IHLS:
     """
     Define :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition unit
     tests methods.
@@ -60,15 +59,11 @@ class TestRGB_to_IHLS(unittest.TestCase):
 
         RGB = np.tile(RGB, (6, 1))
         HYS = np.tile(HYS, (6, 1))
-        np.testing.assert_allclose(
-            RGB_to_IHLS(RGB), HYS, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(RGB_to_IHLS(RGB), HYS, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         RGB = np.reshape(RGB, (2, 3, 3))
         HYS = np.reshape(HYS, (2, 3, 3))
-        np.testing.assert_allclose(
-            RGB_to_IHLS(RGB), HYS, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(RGB_to_IHLS(RGB), HYS, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_RGB_to_IHLS(self):
         """
@@ -100,7 +95,7 @@ class TestRGB_to_IHLS(unittest.TestCase):
         RGB_to_IHLS(cases)
 
 
-class TestIHLS_to_RGB(unittest.TestCase):
+class TestIHLS_to_RGB:
     """
     Define :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition unit
     tests methods.
@@ -138,15 +133,11 @@ class TestIHLS_to_RGB(unittest.TestCase):
 
         HYS = np.tile(HYS, (6, 1))
         RGB = np.tile(RGB, (6, 1))
-        np.testing.assert_allclose(
-            IHLS_to_RGB(HYS), RGB, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(IHLS_to_RGB(HYS), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         HYS = np.reshape(HYS, (2, 3, 3))
         RGB = np.reshape(RGB, (2, 3, 3))
-        np.testing.assert_allclose(
-            IHLS_to_RGB(HYS), RGB, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(IHLS_to_RGB(HYS), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_IHLS_to_RGB(self):
         """
@@ -176,7 +167,3 @@ class TestIHLS_to_RGB(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         IHLS_to_RGB(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

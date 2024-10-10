@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.colorimetry.yellowness` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -33,7 +31,7 @@ __all__ = [
 ]
 
 
-class TestYellownessASTMD1925(unittest.TestCase):
+class TestYellownessASTMD1925:
     """
     Define :func:`colour.colorimetry.yellowness.yellowness_ASTMD1925`
     definition unit tests methods.
@@ -46,25 +44,19 @@ class TestYellownessASTMD1925(unittest.TestCase):
         """
 
         np.testing.assert_allclose(
-            yellowness_ASTMD1925(
-                np.array([95.00000000, 100.00000000, 105.00000000])
-            ),
+            yellowness_ASTMD1925(np.array([95.00000000, 100.00000000, 105.00000000])),
             10.299999999999997,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            yellowness_ASTMD1925(
-                np.array([105.00000000, 100.00000000, 95.00000000])
-            ),
+            yellowness_ASTMD1925(np.array([105.00000000, 100.00000000, 95.00000000])),
             33.700000000000003,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            yellowness_ASTMD1925(
-                np.array([100.00000000, 100.00000000, 100.00000000])
-            ),
+            yellowness_ASTMD1925(np.array([100.00000000, 100.00000000, 100.00000000])),
             22.0,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -120,7 +112,7 @@ class TestYellownessASTMD1925(unittest.TestCase):
         yellowness_ASTMD1925(cases)
 
 
-class TestYellownessASTM313Alternative(unittest.TestCase):
+class TestYellownessASTM313Alternative:
     """
     Define :func:`colour.colorimetry.yellowness.\
 yellowness_ASTME313_alternative` definition unit tests methods.
@@ -211,7 +203,7 @@ yellowness_ASTME313_alternative` definition nan support.
         yellowness_ASTME313_alternative(cases)
 
 
-class TestYellownessASTM313(unittest.TestCase):
+class TestYellownessASTM313:
     """
     Define :func:`colour.colorimetry.yellowness.yellowness_ASTME313`
     definition unit tests methods.
@@ -224,25 +216,19 @@ class TestYellownessASTM313(unittest.TestCase):
         """
 
         np.testing.assert_allclose(
-            yellowness_ASTME313(
-                np.array([95.00000000, 100.00000000, 105.00000000])
-            ),
+            yellowness_ASTME313(np.array([95.00000000, 100.00000000, 105.00000000])),
             4.340000000000003,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            yellowness_ASTME313(
-                np.array([105.00000000, 100.00000000, 95.00000000])
-            ),
+            yellowness_ASTME313(np.array([105.00000000, 100.00000000, 95.00000000])),
             28.660000000000011,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            yellowness_ASTME313(
-                np.array([100.00000000, 100.00000000, 100.00000000])
-            ),
+            yellowness_ASTME313(np.array([100.00000000, 100.00000000, 100.00000000])),
             16.500000000000000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -250,9 +236,9 @@ class TestYellownessASTM313(unittest.TestCase):
         np.testing.assert_allclose(
             yellowness_ASTME313(
                 np.array([95.00000000, 100.00000000, 105.00000000]),
-                YELLOWNESS_COEFFICIENTS_ASTME313[
-                    "CIE 1931 2 Degree Standard Observer"
-                ]["C"],
+                YELLOWNESS_COEFFICIENTS_ASTME313["CIE 1931 2 Degree Standard Observer"][
+                    "C"
+                ],
             ),
             10.089500000000001,
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -309,7 +295,7 @@ class TestYellownessASTM313(unittest.TestCase):
         yellowness_ASTME313(cases)
 
 
-class TestYellowness(unittest.TestCase):
+class TestYellowness:
     """
     Define :func:`colour.colorimetry.yellowness.yellowness` definition unit
     tests methods.
@@ -335,7 +321,3 @@ class TestYellowness(unittest.TestCase):
                         value * factor,
                         atol=TOLERANCE_ABSOLUTE_TESTS,
                     )
-
-
-if __name__ == "__main__":
-    unittest.main()

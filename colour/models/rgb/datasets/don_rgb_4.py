@@ -2,7 +2,7 @@
 Don RGB 4 Colourspace
 =====================
 
-Defines the *Don RGB 4* colourspace:
+Define the *Don RGB 4* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_DON_RGB_4`.
 

@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.itur_bt_2100` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -59,7 +58,7 @@ __all__ = [
 ]
 
 
-class TestOetf_BT2100_PQ(unittest.TestCase):
+class TestOetf_BT2100_PQ:
     """
     Define :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 oetf_BT2100_PQ` definition unit tests methods.
@@ -144,7 +143,7 @@ oetf_BT2100_PQ` definition nan support.
         oetf_BT2100_PQ(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestOetf_inverse_BT2100_PQ(unittest.TestCase):
+class TestOetf_inverse_BT2100_PQ:
     """
     Define :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 oetf_inverse_BT2100_PQ` definition unit tests methods.
@@ -226,12 +225,10 @@ oetf_inverse_BT2100_PQ` definition domain and range scale support.
 oetf_inverse_BT2100_PQ` definition nan support.
         """
 
-        oetf_inverse_BT2100_PQ(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        oetf_inverse_BT2100_PQ(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestEotf_BT2100_PQ(unittest.TestCase):
+class TestEotf_BT2100_PQ:
     """
     Define :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_BT2100_PQ` definition unit tests methods.
@@ -312,7 +309,7 @@ eotf_BT2100_PQ` definition nan support.
         eotf_BT2100_PQ(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestEotf_inverse_BT2100_PQ(unittest.TestCase):
+class TestEotf_inverse_BT2100_PQ:
     """
     Define :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_inverse_BT2100_PQ` definition unit tests methods.
@@ -392,12 +389,10 @@ eotf_inverse_BT2100_PQ` definition domain and range scale support.
 eotf_inverse_BT2100_PQ` definition nan support.
         """
 
-        eotf_inverse_BT2100_PQ(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        eotf_inverse_BT2100_PQ(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestOotf_BT2100_PQ(unittest.TestCase):
+class TestOotf_BT2100_PQ:
     """
     Define :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_BT2100_PQ` definition unit tests methods.
@@ -480,7 +475,7 @@ ootf_BT2100_PQ` definition nan support.
         ootf_BT2100_PQ(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestOotf_inverse_BT2100_PQ(unittest.TestCase):
+class TestOotf_inverse_BT2100_PQ:
     """
     Define :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_inverse_BT2100_PQ` definition unit tests methods.
@@ -560,12 +555,10 @@ ootf_inverse_BT2100_PQ` definition domain and range scale support.
 ootf_inverse_BT2100_PQ` definition nan support.
         """
 
-        ootf_inverse_BT2100_PQ(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        ootf_inverse_BT2100_PQ(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestGamma_function_BT2100_HLG(unittest.TestCase):
+class TestGamma_function_BT2100_HLG:
     """
     Define :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 gamma_function_BT2100_HLG` definition unit tests methods.
@@ -602,7 +595,7 @@ gamma_function_BT2100_HLG` definition.
         )
 
 
-class TestOetf_BT2100_HLG(unittest.TestCase):
+class TestOetf_BT2100_HLG:
     """
     Define :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 oetf_BT2100_HLG` definition unit tests methods.
@@ -685,7 +678,7 @@ oetf_BT2100_HLG` definition nan support.
         oetf_BT2100_HLG(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestOetf_inverse_BT2100_HLG(unittest.TestCase):
+class TestOetf_inverse_BT2100_HLG:
     """
     Define :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 oetf_inverse_BT2100_HLG` definition unit tests methods.
@@ -765,12 +758,10 @@ oetf_inverse_BT2100_HLG` definition domain and range scale support.
 oetf_inverse_BT2100_HLG` definition nan support.
         """
 
-        oetf_inverse_BT2100_HLG(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        oetf_inverse_BT2100_HLG(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestEotf_BT2100_HLG_1(unittest.TestCase):
+class TestEotf_BT2100_HLG_1:
     """
     Define :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_BT2100_HLG_1` definition unit tests methods.
@@ -883,7 +874,7 @@ eotf_BT2100_HLG_1` definition nan support.
         eotf_BT2100_HLG_1(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestEotf_BT2100_HLG_2(unittest.TestCase):
+class TestEotf_BT2100_HLG_2:
     """
     Define :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_BT2100_HLG_2` definition unit tests methods.
@@ -996,7 +987,7 @@ eotf_BT2100_HLG_2` definition nan support.
         eotf_BT2100_HLG_2(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestEotf_inverse_BT2100_HLG_1(unittest.TestCase):
+class TestEotf_inverse_BT2100_HLG_1:
     """
     Define :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_inverse_BT2100_HLG_1` definition unit tests methods.
@@ -1106,12 +1097,10 @@ eotf_inverse_BT2100_HLG_1` definition domain and range scale support.
 eotf_inverse_BT2100_HLG_1` definition nan support.
         """
 
-        eotf_inverse_BT2100_HLG_1(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        eotf_inverse_BT2100_HLG_1(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestEotf_inverse_BT2100_HLG_2(unittest.TestCase):
+class TestEotf_inverse_BT2100_HLG_2:
     """
     Define :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_inverse_BT2100_HLG_2` definition unit tests methods.
@@ -1221,12 +1210,10 @@ eotf_inverse_BT2100_HLG_2` definition domain and range scale support.
 eotf_inverse_BT2100_HLG_2` definition nan support.
         """
 
-        eotf_inverse_BT2100_HLG_2(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        eotf_inverse_BT2100_HLG_2(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestOotf_BT2100_HLG_1(unittest.TestCase):
+class TestOotf_BT2100_HLG_1:
     """
     Define :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_BT2100_HLG_1` definition unit tests methods.
@@ -1364,7 +1351,7 @@ ootf_BT2100_HLG_1` definition nan support.
         ootf_BT2100_HLG_1(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestOotf_BT2100_HLG_2(unittest.TestCase):
+class TestOotf_BT2100_HLG_2:
     """
     Define :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_BT2100_HLG_2` definition unit tests methods.
@@ -1502,7 +1489,7 @@ ootf_BT2100_HLG_1` definition nan support.
         ootf_BT2100_HLG_1(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestOotf_inverse_BT2100_HLG_1(unittest.TestCase):
+class TestOotf_inverse_BT2100_HLG_1:
     """
     Define :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_inverse_BT2100_HLG_1` definition unit tests methods.
@@ -1637,12 +1624,10 @@ ootf_inverse_BT2100_HLG_1` definition domain and range scale support.
 ootf_inverse_BT2100_HLG_1` definition nan support.
         """
 
-        ootf_inverse_BT2100_HLG_1(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        ootf_inverse_BT2100_HLG_1(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestOotf_inverse_BT2100_HLG_2(unittest.TestCase):
+class TestOotf_inverse_BT2100_HLG_2:
     """
     Define :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_inverse_BT2100_HLG_2` definition unit tests methods.
@@ -1777,10 +1762,4 @@ ootf_inverse_BT2100_HLG_2` definition domain and range scale support.
 ootf_inverse_BT2100_HLG_2` definition nan support.
         """
 
-        ootf_inverse_BT2100_HLG_2(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
-
-
-if __name__ == "__main__":
-    unittest.main()
+        ootf_inverse_BT2100_HLG_2(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))

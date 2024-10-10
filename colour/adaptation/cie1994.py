@@ -2,7 +2,7 @@
 CIE 1994 Chromatic Adaptation Model
 ===================================
 
-Defines the *CIE 1994* chromatic adaptation model objects:
+Define the *CIE 1994* chromatic adaptation model objects:
 
 -   :func:`colour.adaptation.chromatic_adaptation_CIE1994`
 
@@ -19,7 +19,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.adaptation import CAT_VON_KRIES
-from colour.algebra import sdiv, sdiv_mode, spow, vector_dot
+from colour.algebra import sdiv, sdiv_mode, spow, vecmul
 from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     as_float_array,
@@ -58,9 +58,7 @@ MATRIX_XYZ_TO_RGB_CIE1994: NDArrayFloat = CAT_VON_KRIES
 responses matrix.
 """
 
-MATRIX_RGB_TO_XYZ_CIE1994: NDArrayFloat = np.linalg.inv(
-    MATRIX_XYZ_TO_RGB_CIE1994
-)
+MATRIX_RGB_TO_XYZ_CIE1994: NDArrayFloat = np.linalg.inv(MATRIX_XYZ_TO_RGB_CIE1994)
 """
 *CIE 1994* colour appearance model cone responses to *CIE XYZ* tristimulus
 values matrix.
@@ -163,9 +161,7 @@ def chromatic_adaptation_CIE1994(
 
     K = K_coefficient(xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, n)
 
-    RGB_2 = corresponding_colour(
-        RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n
-    )
+    RGB_2 = corresponding_colour(RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n)
     XYZ_2 = RGB_to_XYZ_CIE1994(RGB_2)
 
     return from_range_100(XYZ_2)
@@ -192,7 +188,7 @@ def XYZ_to_RGB_CIE1994(XYZ: ArrayLike) -> NDArrayFloat:
     array([ 25.8244273...,  18.6791422...,   4.8390194...])
     """
 
-    return vector_dot(MATRIX_XYZ_TO_RGB_CIE1994, XYZ)
+    return vecmul(MATRIX_XYZ_TO_RGB_CIE1994, XYZ)
 
 
 def RGB_to_XYZ_CIE1994(RGB: ArrayLike) -> NDArrayFloat:
@@ -216,7 +212,7 @@ def RGB_to_XYZ_CIE1994(RGB: ArrayLike) -> NDArrayFloat:
     array([ 28.  ,  21.26,   5.27])
     """
 
-    return vector_dot(MATRIX_RGB_TO_XYZ_CIE1994, RGB)
+    return vecmul(MATRIX_RGB_TO_XYZ_CIE1994, RGB)
 
 
 def intermediate_values(xy_o: ArrayLike) -> NDArrayFloat:

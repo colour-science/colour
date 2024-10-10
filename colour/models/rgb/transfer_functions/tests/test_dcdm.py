@@ -3,7 +3,6 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.dcdm`
 module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -24,7 +23,7 @@ __all__ = [
 ]
 
 
-class TestEotf_inverse_DCDM(unittest.TestCase):
+class TestEotf_inverse_DCDM:
     """
     Define :func:`colour.models.rgb.transfer_functions.dcdm.eotf_inverse_DCDM`
     definition unit tests methods.
@@ -48,7 +47,7 @@ dcdm.eotf_inverse_DCDM` definition.
             eotf_inverse_DCDM(1.0), 0.21817973, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertEqual(eotf_inverse_DCDM(0.18, out_int=True), 462)
+        assert eotf_inverse_DCDM(0.18, out_int=True) == 462
 
     def test_n_dimensional_eotf_inverse_DCDM(self):
         """
@@ -105,7 +104,7 @@ eotf_inverse_DCDM` definition nan support.
         eotf_inverse_DCDM(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestEotf_DCDM(unittest.TestCase):
+class TestEotf_DCDM:
     """
     Define :func:`colour.models.rgb.transfer_functions.dcdm.eotf_DCDM`
     definition unit tests methods.
@@ -117,9 +116,7 @@ class TestEotf_DCDM(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_allclose(
-            eotf_DCDM(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(eotf_DCDM(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         np.testing.assert_allclose(
             eotf_DCDM(0.11281861), 0.18, atol=TOLERANCE_ABSOLUTE_TESTS
@@ -129,9 +126,7 @@ class TestEotf_DCDM(unittest.TestCase):
             eotf_DCDM(0.21817973), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        np.testing.assert_allclose(
-            eotf_DCDM(462, in_int=True), 0.18, atol=1e-5
-        )
+        np.testing.assert_allclose(eotf_DCDM(462, in_int=True), 0.18, atol=1e-5)
 
     def test_n_dimensional_eotf_DCDM(self):
         """
@@ -144,21 +139,15 @@ class TestEotf_DCDM(unittest.TestCase):
 
         XYZ_p = np.tile(XYZ_p, 6)
         XYZ = np.tile(XYZ, 6)
-        np.testing.assert_allclose(
-            eotf_DCDM(XYZ_p), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(eotf_DCDM(XYZ_p), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         XYZ_p = np.reshape(XYZ_p, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3))
-        np.testing.assert_allclose(
-            eotf_DCDM(XYZ_p), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(eotf_DCDM(XYZ_p), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         XYZ_p = np.reshape(XYZ_p, (2, 3, 1))
         XYZ = np.reshape(XYZ, (2, 3, 1))
-        np.testing.assert_allclose(
-            eotf_DCDM(XYZ_p), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(eotf_DCDM(XYZ_p), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_eotf_DCDM(self):
         """
@@ -186,7 +175,3 @@ class TestEotf_DCDM(unittest.TestCase):
         """
 
         eotf_DCDM(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
-
-
-if __name__ == "__main__":
-    unittest.main()

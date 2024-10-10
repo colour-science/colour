@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.algebra.regression` module."""
 
-import unittest
 
 import numpy as np
 
@@ -20,7 +18,7 @@ __all__ = [
 ]
 
 
-class TestLeastSquareMappingMoorePenrose(unittest.TestCase):
+class TestLeastSquareMappingMoorePenrose:
     """
     Define :func:`colour.algebra.regression.\
 least_square_mapping_MoorePenrose` definition unit tests methods.
@@ -86,7 +84,3 @@ least_square_mapping_MoorePenrose` definition.
             ),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

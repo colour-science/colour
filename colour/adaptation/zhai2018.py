@@ -2,7 +2,7 @@
 Zhai and Luo (2018) Chromatic Adaptation Model
 ==============================================
 
-Defines the *Zhai and Luo (2018)* chromatic adaptation model object:
+Define the *Zhai and Luo (2018)* chromatic adaptation model object:
 
 -   :func:`colour.adaptation.chromatic_adaptation_Zhai2018`
 
@@ -16,7 +16,7 @@ References
 import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
-from colour.algebra import vector_dot
+from colour.algebra import vecmul
 from colour.hints import ArrayLike, Literal, NDArrayFloat, Union
 from colour.utilities import (
     as_float_array,
@@ -152,10 +152,10 @@ def chromatic_adaptation_Zhai2018(
     transform = validate_method(transform, ("CAT02", "CAT16"))
     M = CHROMATIC_ADAPTATION_TRANSFORMS[transform]
 
-    RGB_b = vector_dot(M, XYZ_b)
-    RGB_wb = vector_dot(M, XYZ_wb)
-    RGB_wd = vector_dot(M, XYZ_wd)
-    RGB_wo = vector_dot(M, XYZ_wo)
+    RGB_b = vecmul(M, XYZ_b)
+    RGB_wb = vecmul(M, XYZ_wb)
+    RGB_wd = vecmul(M, XYZ_wd)
+    RGB_wo = vecmul(M, XYZ_wo)
 
     D_RGB_b = D_b * (Y_wb / Y_wo) * (RGB_wo / RGB_wb) + 1 - D_b
     D_RGB_d = D_d * (Y_wd / Y_wo) * (RGB_wo / RGB_wd) + 1 - D_d
@@ -164,6 +164,6 @@ def chromatic_adaptation_Zhai2018(
 
     RGB_d = D_RGB * RGB_b
 
-    XYZ_d = vector_dot(np.linalg.inv(M), RGB_d)
+    XYZ_d = vecmul(np.linalg.inv(M), RGB_d)
 
     return from_range_100(XYZ_d)

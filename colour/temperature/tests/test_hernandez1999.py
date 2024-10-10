@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.temperature.hernandez1999` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -23,7 +21,7 @@ __all__ = [
 ]
 
 
-class Testxy_to_CCT_Hernandez1999(unittest.TestCase):
+class Testxy_to_CCT_Hernandez1999:
     """
     Define :func:`colour.temperature.hernandez1999.xy_to_CCT_Hernandez1999`
     definition unit tests methods.
@@ -48,9 +46,7 @@ class Testxy_to_CCT_Hernandez1999(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            xy_to_CCT_Hernandez1999(
-                np.array([0.244162248213914, 0.240333674758318])
-            ),
+            xy_to_CCT_Hernandez1999(np.array([0.244162248213914, 0.240333674758318])),
             64448.11092565,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -88,7 +84,7 @@ class Testxy_to_CCT_Hernandez1999(unittest.TestCase):
         xy_to_CCT_Hernandez1999(cases)
 
 
-class TestCCT_to_xy_Hernandez1999(unittest.TestCase):
+class TestCCT_to_xy_Hernandez1999:
     """
     Define :func:`colour.temperature.hernandez1999.CCT_to_xy_Hernandez1999`
     definition unit tests methods.
@@ -149,7 +145,3 @@ class TestCCT_to_xy_Hernandez1999(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=2))))
         CCT_to_xy_Hernandez1999(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

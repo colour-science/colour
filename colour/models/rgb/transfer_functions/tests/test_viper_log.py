@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.viper_log` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -27,7 +26,7 @@ __all__ = [
 ]
 
 
-class TestLogEncoding_ViperLog(unittest.TestCase):
+class TestLogEncoding_ViperLog:
     """
     Define :func:`colour.models.rgb.transfer_functions.viper_log.\
 log_encoding_ViperLog` definition unit tests methods.
@@ -105,12 +104,10 @@ log_encoding_ViperLog` definition domain and range scale support.
 log_encoding_ViperLog` definition nan support.
         """
 
-        log_encoding_ViperLog(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_ViperLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_ViperLog(unittest.TestCase):
+class TestLogDecoding_ViperLog:
     """
     Define :func:`colour.models.rgb.transfer_functions.viper_log.\
 log_decoding_ViperLog` definition unit tests methods.
@@ -188,10 +185,4 @@ log_decoding_ViperLog` definition domain and range scale support.
 log_decoding_ViperLog` definition nan support.
         """
 
-        log_decoding_ViperLog(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
-
-
-if __name__ == "__main__":
-    unittest.main()
+        log_decoding_ViperLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))

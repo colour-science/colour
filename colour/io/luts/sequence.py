@@ -2,7 +2,7 @@
 LUT Operator
 ============
 
-Defines the *LUT* sequence class:
+Define the *LUT* sequence class:
 
 -   :class:`colour.LUTSequence`
 """
@@ -37,7 +37,7 @@ __all__ = [
 
 class LUTSequence(MutableSequence):
     """
-    Define the base class for a *LUT* sequence, i.e. a series of *LUTs*,
+    Define the base class for a *LUT* sequence, i.e., a series of *LUTs*,
     *LUT* operators or objects implementing the
     :class:`colour.hints.ProtocolLUTSequenceItem` protocol.
 
@@ -315,8 +315,7 @@ class LUTSequence(MutableSequence):
 
         attest(
             isinstance(value, ProtocolLUTSequenceItem),
-            '"value" items must implement the "ProtocolLUTSequenceItem" '
-            "protocol!",
+            '"value" items must implement the "ProtocolLUTSequenceItem" protocol!',
         )
 
         self._sequence.insert(index, value)
@@ -371,9 +370,7 @@ class LUTSequence(MutableSequence):
 
         RGB_o = RGB
         for operator in self:
-            RGB_o = operator.apply(
-                RGB_o, **kwargs.get(operator.__class__.__name__, {})
-            )
+            RGB_o = operator.apply(RGB_o, **kwargs.get(operator.__class__.__name__, {}))
 
         return RGB_o
 

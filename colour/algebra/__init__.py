@@ -16,8 +16,7 @@ from .common import (
     spow,
     normalise_vector,
     normalise_maximum,
-    vector_dot,
-    matrix_dot,
+    vecmul,
     euclidean_distance,
     manhattan_distance,
     linear_conversion,
@@ -65,8 +64,7 @@ __all__ += [
     "spow",
     "normalise_vector",
     "normalise_maximum",
-    "vector_dot",
-    "matrix_dot",
+    "vecmul",
     "euclidean_distance",
     "manhattan_distance",
     "linear_conversion",
@@ -120,48 +118,21 @@ class algebra(ModuleAPI):
         return super().__getattr__(attribute)
 
 
-# v0.4.2
-API_CHANGES = {
-    "ObjectFutureAccessChange": [
+# v0.4.5
+API_CHANGES: dict = {
+    "ObjectRenamed": [
         [
-            "colour.algebra.ellipse_coefficients_general_form",
-            "colour.geometry.ellipse_coefficients_general_form",
-        ],
-        [
-            "colour.algebra.ellipse_coefficients_canonical_form",
-            "colour.geometry.ellipse_coefficients_canonical_form",
-        ],
-        [
-            "colour.algebra.point_at_angle_on_ellipse",
-            "colour.geometry.point_at_angle_on_ellipse",
-        ],
-        [
-            "colour.algebra.ellipse_fitting_Halir1998",
-            "colour.geometry.ellipse_fitting_Halir1998",
-        ],
-        [
-            "colour.algebra.ELLIPSE_FITTING_METHODS",
-            "colour.geometry.ELLIPSE_FITTING_METHODS",
-        ],
-        [
-            "colour.algebra.ellipse_fitting",
-            "colour.geometry.ellipse_fitting",
-        ],
-        [
-            "colour.algebra.extend_line_segment",
-            "colour.geometry.extend_line_segment",
-        ],
-        [
-            "colour.algebra.extend_line_segment",
-            "colour.geometry.intersect_line_segments",
-        ],
-        [
-            "colour.algebra.extend_line_segment",
-            "colour.geometry.LineSegmentsIntersections_Specification",
+            "colour.algebra.vector_dot",
+            "colour.algebra.vecmul",
         ],
     ]
 }
 """Defines the *colour.algebra* sub-package API changes."""
+
+
+API_CHANGES["ObjectRemoved"] = [  # pyright: ignore
+    "colour.algebra.matrix_dot",
+]
 
 if not is_documentation_building():
     sys.modules["colour.algebra"] = algebra(  # pyright: ignore

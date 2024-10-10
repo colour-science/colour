@@ -2,7 +2,7 @@
 CIECAM02 Colour Appearance Model
 ================================
 
-Defines the *CIECAM02* colour appearance model objects:
+Define the *CIECAM02* colour appearance model objects:
 
 -   :class:`colour.appearance.InductionFactors_CIECAM02`
 -   :attr:`colour.VIEWING_CONDITIONS_CIECAM02`
@@ -38,7 +38,7 @@ from dataclasses import astuple, dataclass, field
 import numpy as np
 
 from colour.adaptation import CAT_CAT02
-from colour.algebra import matrix_dot, sdiv, sdiv_mode, spow, vector_dot
+from colour.algebra import sdiv, sdiv_mode, spow, vecmul
 from colour.appearance.hunt import (
     MATRIX_HPE_TO_XYZ,
     MATRIX_XYZ_TO_HPE,
@@ -162,9 +162,7 @@ HUE_DATA_FOR_HUE_QUADRATURE: dict = {
 }
 
 CAM_KWARGS_CIECAM02_sRGB: dict = {
-    "XYZ_w": xy_to_XYZ(
-        CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
-    )
+    "XYZ_w": xy_to_XYZ(CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"])
     * 100,
     "L_A": 64 / np.pi * 0.2,
     "Y_b": 20,
@@ -228,9 +226,7 @@ def XYZ_to_CIECAM02(
     XYZ_w: ArrayLike,
     L_A: ArrayLike,
     Y_b: ArrayLike,
-    surround: InductionFactors_CIECAM02 = VIEWING_CONDITIONS_CIECAM02[
-        "Average"
-    ],
+    surround: InductionFactors_CIECAM02 = VIEWING_CONDITIONS_CIECAM02["Average"],
     discount_illuminant: bool = False,
     compute_H: bool = True,
 ) -> CAM_Specification_CIECAM02:
@@ -336,14 +332,12 @@ H=278.0607358..., HC=None)
     L_A = as_float_array(L_A)
     Y_b = as_float_array(Y_b)
 
-    n, F_L, N_bb, N_cb, z = viewing_conditions_dependent_parameters(
-        Y_b, Y_w, L_A
-    )
+    n, F_L, N_bb, N_cb, z = viewing_conditions_dependent_parameters(Y_b, Y_w, L_A)
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
     # sharpened *RGB* values.
-    RGB = vector_dot(CAT_CAT02, XYZ)
-    RGB_w = vector_dot(CAT_CAT02, XYZ_w)
+    RGB = vecmul(CAT_CAT02, XYZ)
+    RGB_w = vecmul(CAT_CAT02, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
     D = (
@@ -362,9 +356,7 @@ H=278.0607358..., HC=None)
 
     # Applying forward post-adaptation non-linear response compression.
     RGB_a = post_adaptation_non_linear_response_compression_forward(RGB_p, F_L)
-    RGB_aw = post_adaptation_non_linear_response_compression_forward(
-        RGB_pw, F_L
-    )
+    RGB_aw = post_adaptation_non_linear_response_compression_forward(RGB_pw, F_L)
 
     # Converting to preliminary cartesian coordinates.
     a, b = tsplit(opponent_colour_dimensions_forward(RGB_a))
@@ -415,9 +407,7 @@ def CIECAM02_to_XYZ(
     XYZ_w: ArrayLike,
     L_A: ArrayLike,
     Y_b: ArrayLike,
-    surround: InductionFactors_CIECAM02 = VIEWING_CONDITIONS_CIECAM02[
-        "Average"
-    ],
+    surround: InductionFactors_CIECAM02 = VIEWING_CONDITIONS_CIECAM02["Average"],
     discount_illuminant: bool = False,
 ) -> NDArrayFloat:
     """
@@ -429,7 +419,7 @@ def CIECAM02_to_XYZ(
         *CIECAM02* colour appearance model specification. Correlate of
         *Lightness* :math:`J`, correlate of *chroma* :math:`C` or correlate of
         *colourfulness* :math:`M` and *hue* angle :math:`h` in degrees must be
-        specified, e.g. :math:`JCh` or :math:`JMh`.
+        specified, e.g., :math:`JCh` or :math:`JMh`.
     XYZ_w
         *CIE XYZ* tristimulus values of reference white.
     L_A
@@ -532,9 +522,7 @@ def CIECAM02_to_XYZ(
     XYZ_w = to_domain_100(XYZ_w)
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
 
-    n, F_L, N_bb, N_cb, z = viewing_conditions_dependent_parameters(
-        Y_b, Y_w, L_A
-    )
+    n, F_L, N_bb, N_cb, z = viewing_conditions_dependent_parameters(Y_b, Y_w, L_A)
 
     if has_only_nan(C) and not has_only_nan(M):
         C = M / spow(F_L, 0.25)
@@ -546,7 +534,7 @@ def CIECAM02_to_XYZ(
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
     # sharpened *RGB* values.
-    RGB_w = vector_dot(CAT_CAT02, XYZ_w)
+    RGB_w = vecmul(CAT_CAT02, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
     D = (
@@ -562,9 +550,7 @@ def CIECAM02_to_XYZ(
     RGB_pw = RGB_to_rgb(RGB_wc)
 
     # Applying post-adaptation non-linear response compression.
-    RGB_aw = post_adaptation_non_linear_response_compression_forward(
-        RGB_pw, F_L
-    )
+    RGB_aw = post_adaptation_non_linear_response_compression_forward(RGB_pw, F_L)
 
     # Computing achromatic response for the whitepoint.
     A_w = achromatic_response_forward(RGB_aw, N_bb)
@@ -600,7 +586,7 @@ def CIECAM02_to_XYZ(
 
     # Converting *CMCCAT2000* transform sharpened *RGB* values to *CIE XYZ*
     # tristimulus values.
-    XYZ = vector_dot(CAT_INVERSE_CAT02, RGB)
+    XYZ = vecmul(CAT_INVERSE_CAT02, RGB)
 
     return from_range_100(XYZ)
 
@@ -788,9 +774,7 @@ def full_chromatic_adaptation_forward(
     D = as_float_array(D)
 
     with sdiv_mode():
-        RGB_c = (
-            Y_w[..., None] * sdiv(D[..., None], RGB_w) + 1 - D[..., None]
-        ) * RGB
+        RGB_c = (Y_w[..., None] * sdiv(D[..., None], RGB_w) + 1 - D[..., None]) * RGB
 
     return cast(NDArrayFloat, RGB_c)
 
@@ -838,9 +822,7 @@ def full_chromatic_adaptation_inverse(
     D = as_float_array(D)
 
     with sdiv_mode():
-        RGB_c = RGB / (
-            Y_w[..., None] * sdiv(D[..., None], RGB_w) + 1 - D[..., None]
-        )
+        RGB_c = RGB / (Y_w[..., None] * sdiv(D[..., None], RGB_w) + 1 - D[..., None])
 
     return cast(NDArrayFloat, RGB_c)
 
@@ -867,7 +849,7 @@ def RGB_to_rgb(RGB: ArrayLike) -> NDArrayFloat:
     array([ 19.9969397...,  20.0018612...,  20.0135053...])
     """
 
-    rgb = vector_dot(matrix_dot(MATRIX_XYZ_TO_HPE, CAT_INVERSE_CAT02), RGB)
+    rgb = vecmul(np.matmul(MATRIX_XYZ_TO_HPE, CAT_INVERSE_CAT02), RGB)
 
     return rgb
 
@@ -894,7 +876,7 @@ def rgb_to_RGB(rgb: ArrayLike) -> NDArrayFloat:
     array([ 19.9937078...,  20.0039363...,  20.0132638...])
     """
 
-    RGB = vector_dot(matrix_dot(CAT_CAT02, MATRIX_HPE_TO_XYZ), rgb)
+    RGB = vecmul(np.matmul(CAT_CAT02, MATRIX_HPE_TO_XYZ), rgb)
 
     return RGB
 
@@ -1017,9 +999,7 @@ def opponent_colour_dimensions_forward(RGB: ArrayLike) -> NDArrayFloat:
     return ab
 
 
-def opponent_colour_dimensions_inverse(
-    P_n: ArrayLike, h: ArrayLike
-) -> NDArrayFloat:
+def opponent_colour_dimensions_inverse(P_n: ArrayLike, h: ArrayLike) -> NDArrayFloat:
     """
     Return opponent colour dimensions from given points :math:`P_n` and hue
     :math:`h` in degrees for inverse *CIECAM02* implementation.
@@ -1173,9 +1153,7 @@ def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
     h_ii1 = h_i[i + 1]
     e_ii1 = e_i[i + 1]
 
-    H = H_ii + (
-        (100 * (h - h_ii) / e_ii) / ((h - h_ii) / e_ii + (h_ii1 - h) / e_ii1)
-    )
+    H = H_ii + ((100 * (h - h_ii) / e_ii) / ((h - h_ii) / e_ii + (h_ii1 - h) / e_ii1))
 
     H = np.where(
         h < 20.14,
@@ -1184,11 +1162,7 @@ def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
     )
     H = np.where(
         h >= 237.53,
-        H_ii
-        + (
-            (85.9 * (h - h_ii) / e_ii)
-            / ((h - h_ii) / e_ii + (360 - h) / 0.856)
-        ),
+        H_ii + ((85.9 * (h - h_ii) / e_ii) / ((h - h_ii) / e_ii + (360 - h) / 0.856)),
         H,
     )
     return as_float(H)
@@ -1222,9 +1196,7 @@ def eccentricity_factor(h: ArrayLike) -> NDArrayFloat:
     return e_t
 
 
-def achromatic_response_forward(
-    RGB: ArrayLike, N_bb: ArrayLike
-) -> NDArrayFloat:
+def achromatic_response_forward(RGB: ArrayLike, N_bb: ArrayLike) -> NDArrayFloat:
     """
     Return the achromatic response :math:`A` from given compressed
     *CMCCAT2000* transform sharpened *RGB* array and :math:`N_{bb}` chromatic
@@ -1717,7 +1689,7 @@ def matrix_post_adaptation_non_linear_response_compression(
     b = as_float_array(b)
 
     RGB_a = (
-        vector_dot(
+        vecmul(
             [
                 [460, 451, 288],
                 [460, -891, -261],

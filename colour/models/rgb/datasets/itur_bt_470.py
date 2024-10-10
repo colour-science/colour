@@ -2,7 +2,7 @@
 Recommendation ITU-R BT.470 Colourspaces
 ========================================
 
-Defines the *Recommendation ITU-R BT.470* colourspaces:
+Define the *Recommendation ITU-R BT.470* colourspaces:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_BT470_525`.
 -   :attr:`colour.models.RGB_COLOURSPACE_BT470_625`.

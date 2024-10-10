@@ -2,7 +2,7 @@
 Von Kries Chromatic Adaptation Model
 ====================================
 
-Defines the *Von Kries* chromatic adaptation model objects:
+Define the *Von Kries* chromatic adaptation model objects:
 
 -   :func:`colour.adaptation.matrix_chromatic_adaptation_VonKries`
 -   :func:`colour.adaptation.chromatic_adaptation_VonKries`
@@ -19,13 +19,14 @@ from __future__ import annotations
 import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
-from colour.algebra import matrix_dot, sdiv, sdiv_mode, vector_dot
+from colour.algebra import sdiv, sdiv_mode, vecmul
 from colour.hints import (
     ArrayLike,
     LiteralChromaticAdaptationTransform,
     NDArrayFloat,
 )
 from colour.utilities import (
+    as_float_array,
     from_range_1,
     row_as_diagonal,
     to_domain_1,
@@ -93,40 +94,39 @@ def matrix_chromatic_adaptation_VonKries(
            [ 0.0221934...,  1.0018566..., -0.0210737...],
            [-0.0011648..., -0.0034205...,  0.7617890...]])
 
-    Using Bradford method:
+    Using *Bradford* transform:
 
     >>> XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
     >>> XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
-    >>> method = "Bradford"
-    >>> matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr, method)
+    >>> transform = "Bradford"
+    >>> matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr, transform)
     ... # doctest: +ELLIPSIS
     array([[ 1.0479297...,  0.0229468..., -0.0501922...],
            [ 0.0296278...,  0.9904344..., -0.0170738...],
            [-0.0092430...,  0.0150551...,  0.7518742...]])
     """
 
-    XYZ_w = to_domain_1(XYZ_w)
-    XYZ_wr = to_domain_1(XYZ_wr)
+    XYZ_w = as_float_array(XYZ_w)
+    XYZ_wr = as_float_array(XYZ_wr)
 
     transform = validate_method(
         transform,
         tuple(CHROMATIC_ADAPTATION_TRANSFORMS),
-        '"{0}" chromatic adaptation transform is invalid, '
-        "it must be one of {1}!",
+        '"{0}" chromatic adaptation transform is invalid, it must be one of {1}!',
     )
 
     M = CHROMATIC_ADAPTATION_TRANSFORMS[transform]
 
-    RGB_w = np.einsum("...i,...ij->...j", XYZ_w, np.transpose(M))
-    RGB_wr = np.einsum("...i,...ij->...j", XYZ_wr, np.transpose(M))
+    RGB_w = vecmul(M, XYZ_w)
+    RGB_wr = vecmul(M, XYZ_wr)
 
     with sdiv_mode():
         D = sdiv(RGB_wr, RGB_w)
 
     D = row_as_diagonal(D)
 
-    M_CAT = matrix_dot(np.linalg.inv(M), D)
-    M_CAT = matrix_dot(M_CAT, M)
+    M_CAT = np.matmul(np.linalg.inv(M), D)
+    M_CAT = np.matmul(M_CAT, M)
 
     return M_CAT
 
@@ -173,7 +173,7 @@ def chromatic_adaptation_VonKries(
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ_c``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_a``  | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
     References
@@ -188,7 +188,7 @@ def chromatic_adaptation_VonKries(
     >>> chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr)  # doctest: +ELLIPSIS
     array([ 0.2163881...,  0.1257    ,  0.0384749...])
 
-    Using Bradford method:
+    Using *Bradford* transform:
 
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
@@ -202,6 +202,6 @@ def chromatic_adaptation_VonKries(
     XYZ = to_domain_1(XYZ)
 
     M_CAT = matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr, transform)
-    XYZ_a = vector_dot(M_CAT, XYZ)
+    XYZ_a = vecmul(M_CAT, XYZ)
 
     return from_range_1(XYZ_a)

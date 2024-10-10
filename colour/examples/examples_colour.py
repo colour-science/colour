@@ -1,4 +1,4 @@
-"""Showcases overall *Colour* examples."""
+"""Showcase overall *Colour* examples."""
 
 import warnings
 
@@ -163,9 +163,7 @@ message_box(
     f"\tE_o2: {E_o2!r}"
 )
 print(
-    colour.adaptation.chromatic_adaptation_CIE1994(
-        XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2
-    )
+    colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
 )
 
 print("\n")
@@ -181,9 +179,7 @@ message_box(
     f"\tE_o2: {E_o2!r}"
 )
 print(
-    colour.adaptation.chromatic_adaptation_CIE1994(
-        XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2
-    )
+    colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
 )
 
 print("\n")
@@ -203,9 +199,7 @@ message_box(
     f"\tE_o2: {E_o2!r}"
 )
 print(
-    colour.adaptation.chromatic_adaptation_CIE1994(
-        XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2
-    )
+    colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
 )
 
 print("\n")
@@ -226,20 +220,14 @@ message_box(
     f"\tE_o2: {E_o2!r}"
 )
 print(
-    colour.adaptation.chromatic_adaptation_CIE1994(
-        XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2
-    )
+    colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
 )
 
 print("\n")
 
 message_box("Domain-Range Scales")
 
-message_box(
-    '"Colour" uses two different domain-range scales: \n\n'
-    '- "Reference"\n'
-    '- "1"'
-)
+message_box('"Colour" uses two different domain-range scales: \n\n- "Reference"\n- "1"')
 
 print("\n")
 
@@ -269,7 +257,5 @@ message_box(
     f"\tE_o2: {E_o2!r}"
 )
 print(
-    colour.adaptation.chromatic_adaptation_CIE1994(
-        XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2
-    )
+    colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
 )

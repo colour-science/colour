@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.ipt` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -24,7 +22,7 @@ __all__ = [
 ]
 
 
-class TestXYZ_to_IPT(unittest.TestCase):
+class TestXYZ_to_IPT:
     """Define :func:`colour.models.ipt.XYZ_to_IPT` definition unit tests methods."""
 
     def test_XYZ_to_IPT(self):
@@ -59,15 +57,11 @@ class TestXYZ_to_IPT(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         IPT = np.tile(IPT, (6, 1))
-        np.testing.assert_allclose(
-            XYZ_to_IPT(XYZ), IPT, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(XYZ_to_IPT(XYZ), IPT, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         IPT = np.reshape(IPT, (2, 3, 3))
-        np.testing.assert_allclose(
-            XYZ_to_IPT(XYZ), IPT, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(XYZ_to_IPT(XYZ), IPT, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_XYZ_to_IPT(self):
         """
@@ -96,7 +90,7 @@ class TestXYZ_to_IPT(unittest.TestCase):
         XYZ_to_IPT(cases)
 
 
-class TestIPT_to_XYZ(unittest.TestCase):
+class TestIPT_to_XYZ:
     """
     Define :func:`colour.models.ipt.IPT_to_XYZ` definition unit tests
     methods.
@@ -134,15 +128,11 @@ class TestIPT_to_XYZ(unittest.TestCase):
 
         IPT = np.tile(IPT, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_allclose(
-            IPT_to_XYZ(IPT), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(IPT_to_XYZ(IPT), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         IPT = np.reshape(IPT, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_allclose(
-            IPT_to_XYZ(IPT), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(IPT_to_XYZ(IPT), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_IPT_to_XYZ(self):
         """
@@ -171,7 +161,7 @@ class TestIPT_to_XYZ(unittest.TestCase):
         IPT_to_XYZ(cases)
 
 
-class TestIPTHueAngle(unittest.TestCase):
+class TestIPTHueAngle:
     """
     Define :func:`colour.models.ipt.IPT_hue_angle` definition unit tests
     methods.
@@ -244,7 +234,3 @@ class TestIPTHueAngle(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         IPT_hue_angle(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

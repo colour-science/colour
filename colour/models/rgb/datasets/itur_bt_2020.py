@@ -2,7 +2,7 @@
 Recommendation ITU-R BT.2020 Colourspace
 ========================================
 
-Defines the *RecommendationITU-R BT.2020* colourspace:
+Define the *RecommendationITU-R BT.2020* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_BT2020`.
 

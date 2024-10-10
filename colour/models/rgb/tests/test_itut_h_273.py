@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.rgb.itut_h_273` module."""
 
-import unittest
 
 from colour.models import (
     describe_video_signal_colour_primaries,
@@ -23,7 +21,7 @@ __all__ = [
 ]
 
 
-class TestDescribeVideoSignalColourPrimaries(unittest.TestCase):
+class TestDescribeVideoSignalColourPrimaries:
     """
     Define :func:`colour.models.rgb.itut_h_273.\
 describe_video_signal_colour_primaries` definition unit tests methods.
@@ -37,10 +35,10 @@ describe_video_signal_colour_primaries` definition.
         """
 
         description = describe_video_signal_colour_primaries(1)
-        self.assertIsInstance(description, str)
+        assert isinstance(description, str)
 
 
-class TestDescribeVideoSignalTransferCharacteristics(unittest.TestCase):
+class TestDescribeVideoSignalTransferCharacteristics:
     """
     Define :func:`colour.models.rgb.itut_h_273.\
 describe_video_signal_transfer_characteristics` definition unit tests methods.
@@ -53,10 +51,10 @@ describe_video_signal_transfer_characteristics` definition.
         """
 
         description = describe_video_signal_transfer_characteristics(1)
-        self.assertIsInstance(description, str)
+        assert isinstance(description, str)
 
 
-class TestDescribeVideoSignalMatrixCoefficients(unittest.TestCase):
+class TestDescribeVideoSignalMatrixCoefficients:
     """
     Define :func:`colour.models.rgb.itut_h_273.\
 describe_video_signal_matrix_coefficients` definition unit tests methods.
@@ -69,8 +67,4 @@ describe_video_signal_matrix_coefficients` definition.
         """
 
         description = describe_video_signal_matrix_coefficients(1)
-        self.assertIsInstance(description, str)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert isinstance(description, str)

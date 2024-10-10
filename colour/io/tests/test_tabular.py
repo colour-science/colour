@@ -1,4 +1,3 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.io.tabular` module."""
 
 from __future__ import annotations
@@ -6,7 +5,8 @@ from __future__ import annotations
 import os
 import shutil
 import tempfile
-import unittest
+
+import pytest
 
 from colour.colorimetry import SpectralDistribution, SpectralShape
 from colour.io import (
@@ -117,7 +117,7 @@ COLOURCHECKER_N_OHTA_1: dict = {
 }
 
 
-class TestReadSpectralDataFromCsvFile(unittest.TestCase):
+class TestReadSpectralDataFromCsvFile:
     """
     Define :func:`colour.io.tabular.read_spectral_data_from_csv_file`
     definition unit tests methods.
@@ -129,16 +129,10 @@ class TestReadSpectralDataFromCsvFile(unittest.TestCase):
         definition.
         """
 
-        colour_checker_n_ohta = os.path.join(
-            ROOT_RESOURCES, "colorchecker_n_ohta.csv"
-        )
+        colour_checker_n_ohta = os.path.join(ROOT_RESOURCES, "colorchecker_n_ohta.csv")
         data = read_spectral_data_from_csv_file(colour_checker_n_ohta)
-        self.assertListEqual(
-            list(data.keys()), ["wavelength"] + [str(x) for x in range(1, 25)]
-        )
-        self.assertDictEqual(
-            dict(zip(data["wavelength"], data["1"])), COLOURCHECKER_N_OHTA_1
-        )
+        assert list(data.keys()) == ["wavelength"] + [str(x) for x in range(1, 25)]
+        assert dict(zip(data["wavelength"], data["1"])) == COLOURCHECKER_N_OHTA_1
 
         colour_checker_n_ohta_transposed = os.path.join(
             ROOT_RESOURCES, "colorchecker_n_ohta_transposed.csv"
@@ -146,12 +140,8 @@ class TestReadSpectralDataFromCsvFile(unittest.TestCase):
         data = read_spectral_data_from_csv_file(
             colour_checker_n_ohta_transposed, transpose=True, delimiter="\t"
         )
-        self.assertListEqual(
-            list(data.keys()), ["wavelength"] + [str(x) for x in range(1, 25)]
-        )
-        self.assertDictEqual(
-            dict(zip(data["wavelength"], data["1"])), COLOURCHECKER_N_OHTA_1
-        )
+        assert list(data.keys()) == ["wavelength"] + [str(x) for x in range(1, 25)]
+        assert dict(zip(data["wavelength"], data["1"])) == COLOURCHECKER_N_OHTA_1
 
         linss2_10e_5 = os.path.join(ROOT_RESOURCES, "linss2_10e_5.csv")
         data = read_spectral_data_from_csv_file(
@@ -159,19 +149,17 @@ class TestReadSpectralDataFromCsvFile(unittest.TestCase):
             names=["wavelength", "l_bar", "m_bar", "s_bar"],
             filling_values=0,
         )
-        self.assertListEqual(
-            list(data.keys()), ["wavelength", "l_bar", "m_bar", "s_bar"]
-        )
-        self.assertEqual(data["s_bar"][77], 0)
+        assert list(data.keys()) == ["wavelength", "l_bar", "m_bar", "s_bar"]
+        assert data["s_bar"][77] == 0
         data = read_spectral_data_from_csv_file(
             linss2_10e_5,
             names=["wavelength", "l_bar", "m_bar", "s_bar"],
             filling_values=-1,
         )
-        self.assertEqual(data["s_bar"][77], -1)
+        assert data["s_bar"][77] == -1
 
 
-class TestReadSdsFromCsvFile(unittest.TestCase):
+class TestReadSdsFromCsvFile:
     """
     Define :func:`colour.io.tabular.read_sds_from_csv_file` definition unit
     tests methods.
@@ -180,30 +168,26 @@ class TestReadSdsFromCsvFile(unittest.TestCase):
     def test_read_sds_from_csv_file(self):
         """Test :func:`colour.io.tabular.read_sds_from_csv_file` definition."""
 
-        colour_checker_n_ohta = os.path.join(
-            ROOT_RESOURCES, "colorchecker_n_ohta.csv"
-        )
+        colour_checker_n_ohta = os.path.join(ROOT_RESOURCES, "colorchecker_n_ohta.csv")
         sds = read_sds_from_csv_file(colour_checker_n_ohta)
         for sd in sds.values():
-            self.assertIsInstance(sd, SpectralDistribution)
+            assert isinstance(sd, SpectralDistribution)
 
-        self.assertEqual(
-            sds["1"], SpectralDistribution(COLOURCHECKER_N_OHTA_1, name="1")
-        )
+        assert sds["1"] == SpectralDistribution(COLOURCHECKER_N_OHTA_1, name="1")
 
 
-class TestWriteSdsToCsvFile(unittest.TestCase):
+class TestWriteSdsToCsvFile:
     """
     Define :func:`colour.io.tabular.write_sds_to_csv_file` definition unit
     tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
-    def tearDown(self):
+    def teardown_method(self):
         """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
@@ -211,9 +195,7 @@ class TestWriteSdsToCsvFile(unittest.TestCase):
     def test_write_sds_to_csv_file(self):
         """Test :func:`colour.io.tabular.write_sds_to_csv_file` definition."""
 
-        colour_checker_n_ohta = os.path.join(
-            ROOT_RESOURCES, "colorchecker_n_ohta.csv"
-        )
+        colour_checker_n_ohta = os.path.join(ROOT_RESOURCES, "colorchecker_n_ohta.csv")
         sds = read_sds_from_csv_file(colour_checker_n_ohta)
         colour_checker_n_ohta_test = os.path.join(
             self._temporary_directory, "colorchecker_n_ohta.csv"
@@ -221,7 +203,7 @@ class TestWriteSdsToCsvFile(unittest.TestCase):
         write_sds_to_csv_file(sds, colour_checker_n_ohta_test)
         sds_test = read_sds_from_csv_file(colour_checker_n_ohta_test)
         for key, value in sds.items():
-            self.assertEqual(value, sds_test[key])
+            assert value == sds_test[key]
 
     def test_raise_exception_write_sds_to_csv_file(self):
         """
@@ -229,15 +211,9 @@ class TestWriteSdsToCsvFile(unittest.TestCase):
         raised exception.
         """
 
-        colour_checker_n_ohta = os.path.join(
-            ROOT_RESOURCES, "colorchecker_n_ohta.csv"
-        )
+        colour_checker_n_ohta = os.path.join(ROOT_RESOURCES, "colorchecker_n_ohta.csv")
         sds = read_sds_from_csv_file(colour_checker_n_ohta)
         key = next(iter(sds.keys()))
         sds[key] = sds[key].align(SpectralShape(400, 700, 10))
 
-        self.assertRaises(ValueError, write_sds_to_csv_file, sds, "")
-
-
-if __name__ == "__main__":
-    unittest.main()
+        pytest.raises(ValueError, write_sds_to_csv_file, sds, "")

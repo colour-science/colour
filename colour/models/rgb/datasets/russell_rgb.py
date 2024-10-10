@@ -2,7 +2,7 @@
 Russell RGB Colourspace
 =======================
 
-Defines the *Russell RGB* colourspace:
+Define the *Russell RGB* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_RUSSELL_RGB`.
 
@@ -64,9 +64,7 @@ MATRIX_RUSSELL_RGB_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
 )
 """*Russell RGB* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_RUSSELL_RGB: NDArrayFloat = np.linalg.inv(
-    MATRIX_RUSSELL_RGB_TO_XYZ
-)
+MATRIX_XYZ_TO_RUSSELL_RGB: NDArrayFloat = np.linalg.inv(MATRIX_RUSSELL_RGB_TO_XYZ)
 """*CIE XYZ* tristimulus values to *Russell RGB* colourspace matrix."""
 
 RGB_COLOURSPACE_RUSSELL_RGB: RGB_Colourspace = RGB_Colourspace(

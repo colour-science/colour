@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.colorimetry.photometry` module."""
 
-import unittest
 
 import numpy as np
 
@@ -29,7 +27,7 @@ __all__ = [
 ]
 
 
-class TestLuminousFlux(unittest.TestCase):
+class TestLuminousFlux:
     """
     Define :func:`colour.colorimetry.photometry.luminous_flux` definition unit
     tests methods.
@@ -57,7 +55,7 @@ class TestLuminousFlux(unittest.TestCase):
         )
 
 
-class TestLuminousEfficiency(unittest.TestCase):
+class TestLuminousEfficiency:
     """
     Define :func:`colour.colorimetry.photometry.luminous_efficiency`
     definition unit tests methods.
@@ -82,15 +80,13 @@ class TestLuminousEfficiency(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            luminous_efficiency(
-                SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"]
-            ),
+            luminous_efficiency(SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"]),
             0.51080919,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
-class TestLuminousEfficacy(unittest.TestCase):
+class TestLuminousEfficacy:
     """
     Define :func:`colour.colorimetry.photometry.luminous_efficacy`
     definition unit tests methods.
@@ -125,7 +121,3 @@ class TestLuminousEfficacy(unittest.TestCase):
         np.testing.assert_allclose(
             luminous_efficacy(sd), 683.00000000, atol=TOLERANCE_ABSOLUTE_TESTS
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

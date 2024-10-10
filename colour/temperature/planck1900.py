@@ -2,7 +2,7 @@
 Blackbody - Planck (1900) - Correlated Colour Temperature
 =========================================================
 
-Defines the *Planck (1900)* correlated colour temperature :math:`T_{cp}`
+Define the *Planck (1900)* correlated colour temperature :math:`T_{cp}`
 computations objects based on the spectral radiance of a planckian radiator:
 
 -   :func:`colour.temperature.uv_to_CCT_Planck1900`
@@ -89,11 +89,9 @@ def uv_to_CCT_Planck1900(
     cmfs, _illuminant = handle_spectral_arguments(cmfs)
 
     shape = uv.shape
-    uv = np.atleast_1d(uv.reshape([-1, 2]))
+    uv = np.atleast_1d(np.reshape(uv, (-1, 2)))
 
-    def objective_function(
-        CCT: NDArrayFloat, uv: NDArrayFloat
-    ) -> NDArrayFloat:
+    def objective_function(CCT: NDArrayFloat, uv: NDArrayFloat) -> NDArrayFloat:
         """Objective function."""
 
         objective = np.linalg.norm(CCT_to_uv_Planck1900(CCT, cmfs) - uv)
@@ -160,9 +158,7 @@ def CCT_to_uv_Planck1900(
     cmfs, _illuminant = handle_spectral_arguments(cmfs)
 
     XYZ = msds_to_XYZ_integration(
-        np.transpose(
-            planck_law(cmfs.wavelengths * 1e-9, np.ravel(CCT)) * 1e-9
-        ),
+        np.transpose(planck_law(cmfs.wavelengths * 1e-9, np.ravel(CCT)) * 1e-9),
         cmfs,
         shape=cmfs.shape,
     )

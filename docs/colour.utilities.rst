@@ -62,19 +62,7 @@ Common
     batch
     disable_multiprocessing
     multiprocessing_pool
-    is_ctlrender_installed
-    is_graphviz_installed
-    is_matplotlib_installed
-    is_networkx_installed
-    is_opencolorio_installed
-    is_openimageio_installed
-    is_pandas_installed
-    is_tqdm_installed
-    is_trimesh_installed
-    is_xxhash_installed
-    required
     is_iterable
-    is_string
     is_numeric
     is_integer
     is_sibling
@@ -148,19 +136,6 @@ Array
     index_along_last_axis
     format_array_as_row
 
-Metrics
--------
-
-``colour.utilities``
-
-.. currentmodule:: colour.utilities
-
-.. autosummary::
-    :toctree: generated/
-
-    metric_mse
-    metric_psnr
-
 Data Structures
 ---------------
 
@@ -175,8 +150,58 @@ Data Structures
     CanonicalMapping
     LazyCanonicalMapping
     Lookup
-    Node
     Structure
+
+Network
+-------
+
+``colour.utilities``
+
+.. currentmodule:: colour.utilities
+
+.. autosummary::
+    :toctree: generated/
+    :template: class.rst
+
+    TreeNode
+    Port
+    PortNode
+    PortGraph
+
+Metrics
+-------
+
+``colour.utilities``
+
+.. currentmodule:: colour.utilities
+
+.. autosummary::
+    :toctree: generated/
+
+    metric_mse
+    metric_psnr
+
+Requirements
+------------
+
+``colour.utilities``
+
+.. currentmodule:: colour.utilities
+
+.. autosummary::
+    :toctree: generated/
+
+    is_ctlrender_installed
+    is_matplotlib_installed
+    is_networkx_installed
+    is_opencolorio_installed
+    is_openimageio_installed
+    is_pandas_installed
+    is_pydot_installed
+    is_tqdm_installed
+    is_trimesh_installed
+    is_xxhash_installed
+    required
 
 Verbose
 -------
@@ -192,6 +217,7 @@ Verbose
     show_warning
     warning
     filter_warnings
+    as_bool
     suppress_warnings
     suppress_stdout
     numpy_print_options
@@ -209,6 +235,7 @@ Verbose
     :toctree: generated/
     :template: class.rst
 
+    MixinLogging
     ColourWarning
     ColourUsageWarning
     ColourRuntimeWarning

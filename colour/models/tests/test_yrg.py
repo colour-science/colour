@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.yrg` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -30,7 +28,7 @@ __all__ = [
 ]
 
 
-class TestLMS_to_Yrg(unittest.TestCase):
+class TestLMS_to_Yrg:
     """
     Define :func:`colour.models.yrg.TestLMS_to_Yrg` definition unit tests
     methods.
@@ -68,15 +66,11 @@ class TestLMS_to_Yrg(unittest.TestCase):
 
         LMS = np.tile(LMS, (6, 1))
         Yrg = np.tile(Yrg, (6, 1))
-        np.testing.assert_allclose(
-            LMS_to_Yrg(LMS), Yrg, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(LMS_to_Yrg(LMS), Yrg, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         LMS = np.reshape(LMS, (2, 3, 3))
         Yrg = np.reshape(Yrg, (2, 3, 3))
-        np.testing.assert_allclose(
-            LMS_to_Yrg(LMS), Yrg, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(LMS_to_Yrg(LMS), Yrg, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_LMS_to_Yrg(self):
         """
@@ -105,7 +99,7 @@ class TestLMS_to_Yrg(unittest.TestCase):
         LMS_to_Yrg(cases)
 
 
-class TestYrg_to_LMS(unittest.TestCase):
+class TestYrg_to_LMS:
     """
     Define :func:`colour.models.yrg.Yrg_to_LMS` definition unit tests methods.
     """
@@ -142,15 +136,11 @@ class TestYrg_to_LMS(unittest.TestCase):
 
         Yrg = np.tile(Yrg, (6, 1))
         LMS = np.tile(LMS, (6, 1))
-        np.testing.assert_allclose(
-            Yrg_to_LMS(Yrg), LMS, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(Yrg_to_LMS(Yrg), LMS, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         Yrg = np.reshape(Yrg, (2, 3, 3))
         LMS = np.reshape(LMS, (2, 3, 3))
-        np.testing.assert_allclose(
-            Yrg_to_LMS(Yrg), LMS, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(Yrg_to_LMS(Yrg), LMS, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_Yrg_to_LMS(self):
         """
@@ -179,7 +169,7 @@ class TestYrg_to_LMS(unittest.TestCase):
         Yrg_to_LMS(cases)
 
 
-class TestXYZ_to_Yrg(unittest.TestCase):
+class TestXYZ_to_Yrg:
     """
     Define :func:`colour.models.yrg.TestXYZ_to_Yrg` definition unit tests
     methods.
@@ -217,15 +207,11 @@ class TestXYZ_to_Yrg(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         Yrg = np.tile(Yrg, (6, 1))
-        np.testing.assert_allclose(
-            XYZ_to_Yrg(XYZ), Yrg, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(XYZ_to_Yrg(XYZ), Yrg, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         Yrg = np.reshape(Yrg, (2, 3, 3))
-        np.testing.assert_allclose(
-            XYZ_to_Yrg(XYZ), Yrg, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(XYZ_to_Yrg(XYZ), Yrg, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_XYZ_to_Yrg(self):
         """
@@ -239,8 +225,10 @@ class TestXYZ_to_Yrg(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_equal(
-                    XYZ_to_Yrg(XYZ * factor), Yrg * factor
+                np.testing.assert_allclose(
+                    XYZ_to_Yrg(XYZ * factor),
+                    Yrg * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -252,7 +240,7 @@ class TestXYZ_to_Yrg(unittest.TestCase):
         XYZ_to_Yrg(cases)
 
 
-class TestYrg_to_XYZ(unittest.TestCase):
+class TestYrg_to_XYZ:
     """
     Define :func:`colour.models.yrg.Yrg_to_XYZ` definition unit tests methods.
     """
@@ -289,15 +277,11 @@ class TestYrg_to_XYZ(unittest.TestCase):
 
         Yrg = np.tile(Yrg, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_allclose(
-            Yrg_to_XYZ(Yrg), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(Yrg_to_XYZ(Yrg), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         Yrg = np.reshape(Yrg, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_allclose(
-            Yrg_to_XYZ(Yrg), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(Yrg_to_XYZ(Yrg), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_Yrg_to_XYZ(self):
         """
@@ -324,7 +308,3 @@ class TestYrg_to_XYZ(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         Yrg_to_XYZ(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

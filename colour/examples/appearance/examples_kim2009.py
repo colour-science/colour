@@ -1,13 +1,11 @@
-"""Showcases *Kim, Weyrich and Kautz (2009)* colour appearance model computations."""
+"""Showcase *Kim, Weyrich and Kautz (2009)* colour appearance model computations."""
 
 import numpy as np
 
 import colour
 from colour.utilities import message_box
 
-message_box(
-    '"Kim, Weyrich and Kautz (2009)" Colour Appearance Model Computations'
-)
+message_box('"Kim, Weyrich and Kautz (2009)" Colour Appearance Model Computations')
 
 XYZ = np.array([19.01, 20.00, 21.78])
 XYZ_w = np.array([95.05, 100.00, 108.88])

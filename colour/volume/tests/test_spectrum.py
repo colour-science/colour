@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.volume.spectrum` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -34,7 +32,7 @@ __all__ = [
 ]
 
 
-class TestGeneratePulseWaves(unittest.TestCase):
+class TestGeneratePulseWaves:
     """
     Define :func:`colour.volume.spectrum.generate_pulse_waves`
     definition unit tests methods.
@@ -132,7 +130,7 @@ class TestGeneratePulseWaves(unittest.TestCase):
     )
 
 
-class TestXYZOuterSurface(unittest.TestCase):
+class TestXYZOuterSurface:
     """
     Define :func:`colour.volume.spectrum.XYZ_outer_surface`
     definition unit tests methods.
@@ -191,7 +189,7 @@ class TestXYZOuterSurface(unittest.TestCase):
         )
 
 
-class TestIsWithinVisibleSpectrum(unittest.TestCase):
+class TestIsWithinVisibleSpectrum:
     """
     Define :func:`colour.volume.spectrum.is_within_visible_spectrum`
     definition unit tests methods.
@@ -203,21 +201,13 @@ class TestIsWithinVisibleSpectrum(unittest.TestCase):
         definition.
         """
 
-        self.assertTrue(
-            is_within_visible_spectrum(np.array([0.3205, 0.4131, 0.5100]))
-        )
+        assert is_within_visible_spectrum(np.array([0.3205, 0.4131, 0.5100]))
 
-        self.assertFalse(
-            is_within_visible_spectrum(np.array([-0.0005, 0.0031, 0.0010]))
-        )
+        assert not is_within_visible_spectrum(np.array([-0.0005, 0.0031, 0.0010]))
 
-        self.assertTrue(
-            is_within_visible_spectrum(np.array([0.4325, 0.3788, 0.1034]))
-        )
+        assert is_within_visible_spectrum(np.array([0.4325, 0.3788, 0.1034]))
 
-        self.assertFalse(
-            is_within_visible_spectrum(np.array([0.0025, 0.0088, 0.0340]))
-        )
+        assert not is_within_visible_spectrum(np.array([0.0025, 0.0088, 0.0340]))
 
     def test_n_dimensional_is_within_visible_spectrum(self):
         """
@@ -246,7 +236,3 @@ class TestIsWithinVisibleSpectrum(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         is_within_visible_spectrum(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

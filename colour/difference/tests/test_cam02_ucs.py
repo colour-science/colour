@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.difference.cam02_ucs` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -28,7 +26,7 @@ __all__ = [
 ]
 
 
-class TestDelta_E_Luo2006(unittest.TestCase):
+class TestDelta_E_Luo2006:
     """
     Define :func:`colour.difference.cam02_ucs.delta_E_Luo2006` definition unit
     tests methods.
@@ -102,9 +100,7 @@ class TestDelta_E_Luo2006(unittest.TestCase):
         Jpapbp_2 = np.tile(Jpapbp_2, (6, 1))
         delta_E_p = np.tile(delta_E_p, 6)
         np.testing.assert_allclose(
-            delta_E_Luo2006(
-                Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
-            ),
+            delta_E_Luo2006(Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]),
             delta_E_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -113,9 +109,7 @@ class TestDelta_E_Luo2006(unittest.TestCase):
         Jpapbp_2 = np.reshape(Jpapbp_2, (2, 3, 3))
         delta_E_p = np.reshape(delta_E_p, (2, 3))
         np.testing.assert_allclose(
-            delta_E_Luo2006(
-                Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
-            ),
+            delta_E_Luo2006(Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]),
             delta_E_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -130,7 +124,3 @@ class TestDelta_E_Luo2006(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         delta_E_Luo2006(cases, cases, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
-
-
-if __name__ == "__main__":
-    unittest.main()

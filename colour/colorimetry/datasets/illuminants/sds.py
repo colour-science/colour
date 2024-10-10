@@ -2,7 +2,7 @@
 Spectral Distributions of the Illuminants
 =========================================
 
-Defines the spectral distributions of the illuminants.
+Define the spectral distributions of the illuminants.
 
 The illuminants data is in the form of a *dict* of
 :class:`colour.SpectralDistribution` classes as follows::
@@ -4895,9 +4895,7 @@ References
 :cite:`InternationalOrganizationforStandardization2002`
 """
 
-SDS_ILLUMINANTS: LazyCanonicalMapping = LazyCanonicalMapping(
-    SDS_ILLUMINANTS_CIE
-)
+SDS_ILLUMINANTS: LazyCanonicalMapping = LazyCanonicalMapping(SDS_ILLUMINANTS_CIE)
 SDS_ILLUMINANTS.__doc__ = """
 Spectral distributions of the illuminants.
 

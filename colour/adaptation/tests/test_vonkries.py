@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.adaptation.vonkries` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -26,7 +24,7 @@ __all__ = [
 ]
 
 
-class TestMatrixChromaticAdaptationVonKries(unittest.TestCase):
+class TestMatrixChromaticAdaptationVonKries:
     """
     Define :func:`colour.adaptation.vonkries.\
 matrix_chromatic_adaptation_VonKries` definition unit tests methods.
@@ -158,7 +156,7 @@ matrix_chromatic_adaptation_VonKries` definition n-dimensional arrays support.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_chromatic_adaptation_VonKries(self):
+    def test_domain_range_scale_matrix_chromatic_adaptation_VonKries(self):
         """
         Test :func:`colour.adaptation.vonkries.\
 matrix_chromatic_adaptation_VonKries` definition domain and range scale
@@ -169,7 +167,7 @@ matrix_chromatic_adaptation_VonKries` definition domain and range scale
         XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
         M = matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr)
 
-        d_r = (("reference", 1), ("1", 1), ("100", 0.01))
+        d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_allclose(
@@ -192,7 +190,7 @@ matrix_chromatic_adaptation_VonKries` definition nan support.
         matrix_chromatic_adaptation_VonKries(cases, cases)
 
 
-class TestChromaticAdaptationVonKries(unittest.TestCase):
+class TestChromaticAdaptationVonKries:
     """
     Define :func:`colour.adaptation.vonkries.chromatic_adaptation_VonKries`
     definition unit tests methods.
@@ -309,7 +307,7 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
         XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
         XYZ_a = chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr)
 
-        d_r = (("reference", 1), ("1", 1), ("100", 0.01))
+        d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_allclose(
@@ -330,7 +328,3 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         chromatic_adaptation_VonKries(cases, cases, cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

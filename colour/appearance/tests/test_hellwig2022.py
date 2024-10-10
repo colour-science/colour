@@ -1,4 +1,3 @@
-# !/usr/bin/env python
 """
 Define the unit tests for the :mod:`colour.appearance.hellwig2022` module.
 
@@ -8,10 +7,10 @@ References
     Discussion with Mansencal, T.
 """
 
-import unittest
 from itertools import product
 
 import numpy as np
+import pytest
 
 from colour.appearance import (
     VIEWING_CONDITIONS_HELLWIG2022,
@@ -41,7 +40,7 @@ __all__ = [
 ]
 
 
-class TestXYZ_to_Hellwig2022(unittest.TestCase):
+class TestXYZ_to_Hellwig2022:
     """
     Define :func:`colour.appearance.hellwig2022.XYZ_to_Hellwig2022` definition
     unit tests methods.
@@ -238,15 +237,11 @@ class TestXYZ_to_Hellwig2022(unittest.TestCase):
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
-        surround = InductionFactors_Hellwig2022(
-            cases[0, 0], cases[0, 0], cases[0, 0]
-        )
-        XYZ_to_Hellwig2022(
-            cases, cases, cases[..., 0], cases[..., 0], surround
-        )
+        surround = InductionFactors_Hellwig2022(cases[0, 0], cases[0, 0], cases[0, 0])
+        XYZ_to_Hellwig2022(cases, cases, cases[..., 0], cases[..., 0], surround)
 
 
-class TestHellwig2022_to_XYZ(unittest.TestCase):
+class TestHellwig2022_to_XYZ:
     """
     Define :func:`colour.appearance.hellwig2022.Hellwig2022_to_XYZ` definition
     unit tests methods.
@@ -418,7 +413,7 @@ class TestHellwig2022_to_XYZ(unittest.TestCase):
         Test :func:`colour.appearance.hellwig2022.Hellwig2022_to_XYZ`
         definition raised exception.
         """
-        self.assertRaises(
+        pytest.raises(
             ValueError,
             Hellwig2022_to_XYZ,
             CAM_Specification_Hellwig2022(
@@ -430,12 +425,10 @@ class TestHellwig2022_to_XYZ(unittest.TestCase):
             VIEWING_CONDITIONS_HELLWIG2022["Average"],
         )
 
-        self.assertRaises(
+        pytest.raises(
             ValueError,
             Hellwig2022_to_XYZ,
-            CAM_Specification_Hellwig2022(
-                41.731207905126638, None, 217.06795976739301
-            ),
+            CAM_Specification_Hellwig2022(41.731207905126638, None, 217.06795976739301),
             np.array([95.05, 100.00, 108.88]),
             318.31,
             20.0,
@@ -451,9 +444,7 @@ class TestHellwig2022_to_XYZ(unittest.TestCase):
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
-        surround = InductionFactors_Hellwig2022(
-            cases[0, 0], cases[0, 0], cases[0, 0]
-        )
+        surround = InductionFactors_Hellwig2022(cases[0, 0], cases[0, 0], cases[0, 0])
         Hellwig2022_to_XYZ(
             CAM_Specification_Hellwig2022(
                 cases[..., 0], cases[..., 0], cases[..., 0], M=50
@@ -463,7 +454,3 @@ class TestHellwig2022_to_XYZ(unittest.TestCase):
             cases[..., 0],
             surround,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

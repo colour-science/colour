@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.rgb.prismatic` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -23,7 +21,7 @@ __all__ = [
 ]
 
 
-class TestRGB_to_Prismatic(unittest.TestCase):
+class TestRGB_to_Prismatic:
     """
     Define :func:`colour.models.rgb.prismatic.TestRGB_to_Prismatic` definition
     unit tests methods.
@@ -95,7 +93,7 @@ class TestRGB_to_Prismatic(unittest.TestCase):
         RGB_to_Prismatic(cases)
 
 
-class TestPrismatic_to_RGB(unittest.TestCase):
+class TestPrismatic_to_RGB:
     """
     Define :func:`colour.models.rgb.prismatic.Prismatic_to_RGB` definition
     unit tests methods.
@@ -111,9 +109,7 @@ class TestPrismatic_to_RGB(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            Prismatic_to_RGB(
-                np.array([0.7500000, 0.1666667, 0.3333333, 0.5000000])
-            ),
+            Prismatic_to_RGB(np.array([0.7500000, 0.1666667, 0.3333333, 0.5000000])),
             np.array([0.25, 0.50, 0.75]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -167,7 +163,3 @@ class TestPrismatic_to_RGB(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         Prismatic_to_RGB(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

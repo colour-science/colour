@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.volume.macadam_limits` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -21,7 +19,7 @@ __all__ = [
 ]
 
 
-class TestIsWithinMacadamLimits(unittest.TestCase):
+class TestIsWithinMacadamLimits:
     """
     Define :func:`colour.volume.macadam_limits.is_within_macadam_limits`
     definition unit tests methods.
@@ -33,21 +31,13 @@ class TestIsWithinMacadamLimits(unittest.TestCase):
         definition.
         """
 
-        self.assertTrue(
-            is_within_macadam_limits(np.array([0.3205, 0.4131, 0.5100]), "A")
-        )
+        assert is_within_macadam_limits(np.array([0.3205, 0.4131, 0.5100]), "A")
 
-        self.assertFalse(
-            is_within_macadam_limits(np.array([0.0005, 0.0031, 0.0010]), "A")
-        )
+        assert not is_within_macadam_limits(np.array([0.0005, 0.0031, 0.0010]), "A")
 
-        self.assertTrue(
-            is_within_macadam_limits(np.array([0.4325, 0.3788, 0.1034]), "C")
-        )
+        assert is_within_macadam_limits(np.array([0.4325, 0.3788, 0.1034]), "C")
 
-        self.assertFalse(
-            is_within_macadam_limits(np.array([0.0025, 0.0088, 0.0340]), "C")
-        )
+        assert not is_within_macadam_limits(np.array([0.0025, 0.0088, 0.0340]), "C")
 
     def test_n_dimensional_is_within_macadam_limits(self):
         """
@@ -76,7 +66,3 @@ class TestIsWithinMacadamLimits(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         is_within_macadam_limits(cases, "A")
-
-
-if __name__ == "__main__":
-    unittest.main()

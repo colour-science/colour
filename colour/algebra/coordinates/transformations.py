@@ -2,7 +2,7 @@
 Coordinates System Transformations
 ==================================
 
-Defines the objects to apply transformations on coordinates systems.
+Define the objects to apply transformations on coordinates systems.
 
 The following transformations are available:
 
@@ -68,8 +68,8 @@ def cartesian_to_spherical(a: ArrayLike) -> NDArrayFloat:
     -------
     :class:`numpy.ndarray`
         Spherical coordinates array :math:`\\rho\\theta\\phi`, :math:`\\rho` is
-        in range [0, +inf], :math:`\\theta` is in range [0, pi] radians, i.e.
-        [0, 180] degrees, and :math:`\\phi` is in range [-pi, pi] radians, i.e.
+        in range [0, +inf], :math:`\\theta` is in range [0, pi] radians, i.e.,
+        [0, 180] degrees, and :math:`\\phi` is in range [-pi, pi] radians, i.e.,
         [-180, 180] degrees.
 
     References
@@ -106,8 +106,8 @@ def spherical_to_cartesian(a: ArrayLike) -> NDArrayFloat:
     a
         Spherical coordinates array :math:`\\rho\\theta\\phi` to transform,
         :math:`\\rho` is in range [0, +inf], :math:`\\theta` is in range
-        [0, pi] radians, i.e. [0, 180] degrees, and :math:`\\phi` is in range
-        [-pi, pi] radians, i.e. [-180, 180] degrees.
+        [0, pi] radians, i.e., [0, 180] degrees, and :math:`\\phi` is in range
+        [-pi, pi] radians, i.e., [-180, 180] degrees.
 
     Returns
     -------
@@ -151,7 +151,7 @@ def cartesian_to_polar(a: ArrayLike) -> NDArrayFloat:
     -------
     :class:`numpy.ndarray`
         Polar coordinates array :math:`\\rho\\phi`, :math:`\\rho` is
-        in range [0, +inf], :math:`\\phi` is in range [-pi, pi] radians, i.e.
+        in range [0, +inf], :math:`\\phi` is in range [-pi, pi] radians, i.e.,
         [-180, 180] degrees.
 
     References
@@ -183,7 +183,7 @@ def polar_to_cartesian(a: ArrayLike) -> NDArrayFloat:
     a
         Polar coordinates array :math:`\\rho\\phi` to transform, :math:`\\rho`
         is in range [0, +inf], :math:`\\phi` is in range [-pi, pi] radians
-        i.e. [-180, 180] degrees.
+        i.e., [-180, 180] degrees.
 
     Returns
     -------
@@ -224,7 +224,7 @@ def cartesian_to_cylindrical(a: ArrayLike) -> NDArrayFloat:
     -------
     :class:`numpy.ndarray`
         Cylindrical coordinates array :math:`\\rho\\phi z`, :math:`\\rho` is in
-        range [0, +inf], :math:`\\phi` is in range [-pi, pi] radians i.e.
+        range [0, +inf], :math:`\\phi` is in range [-pi, pi] radians i.e.,
         [-180, 180] degrees, :math:`z` is in range [0, +inf].
 
     References
@@ -256,7 +256,7 @@ def cylindrical_to_cartesian(a: ArrayLike) -> NDArrayFloat:
     a
         Cylindrical coordinates array :math:`\\rho\\phi z` to transform,
         :math:`\\rho` is in range [0, +inf], :math:`\\phi` is in range
-        [-pi, pi] radians i.e. [-180, 180] degrees, :math:`z` is in range
+        [-pi, pi] radians i.e., [-180, 180] degrees, :math:`z` is in range
         [0, +inf].
 
     Returns

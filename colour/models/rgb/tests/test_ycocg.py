@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.rgb.ycocg` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -23,7 +21,7 @@ __all__ = [
 ]
 
 
-class TestRGB_to_YCoCg(unittest.TestCase):
+class TestRGB_to_YCoCg:
     """
     Define :func:`colour.models.rgb.ycocg.RGB_to_YCoCg` definition unit tests
     methods.
@@ -92,7 +90,7 @@ class TestRGB_to_YCoCg(unittest.TestCase):
         RGB_to_YCoCg(cases)
 
 
-class TestYCoCg_to_RGB(unittest.TestCase):
+class TestYCoCg_to_RGB:
     """
     Define :func:`colour.models.rgb.ycocg.YCoCg_to_RGB` definition unit tests
     methods.
@@ -159,7 +157,3 @@ class TestYCoCg_to_RGB(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         YCoCg_to_RGB(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

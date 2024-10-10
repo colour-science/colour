@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.difference.huang2015` module."""
 
-import unittest
 
 import numpy as np
 
@@ -20,7 +18,7 @@ __all__ = [
 ]
 
 
-class TestPowerFunctionHuang2015(unittest.TestCase):
+class TestPowerFunctionHuang2015:
     """
     Define :func:`colour.difference.huang2015.power_function_Huang2015`
     definition unit tests methods.
@@ -39,7 +37,3 @@ class TestPowerFunctionHuang2015(unittest.TestCase):
             np.array([2.35748796, 2.98505036, 3.39651062]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

@@ -2,7 +2,7 @@
 Primaries of CRT Displays
 =========================
 
-Defines the primaries multi-spectral distributions of *CRT* displays.
+Define the primaries multi-spectral distributions of *CRT* displays.
 
 Each *CRT* display data is in the form of a *dict* of
 :class:`colour.characterisation.RGB_DisplayPrimaries` classes as follows::

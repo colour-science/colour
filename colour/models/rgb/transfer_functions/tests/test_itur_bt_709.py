@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.itur_bt_709` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -24,7 +23,7 @@ __all__ = [
 ]
 
 
-class TestOetf_BT709(unittest.TestCase):
+class TestOetf_BT709:
     """
     Define :func:`colour.models.rgb.transfer_functions.itur_bt_709.oetf_BT709`
     definition unit tests methods.
@@ -36,9 +35,7 @@ class TestOetf_BT709(unittest.TestCase):
 oetf_BT709` definition.
         """
 
-        np.testing.assert_allclose(
-            oetf_BT709(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(oetf_BT709(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         np.testing.assert_allclose(
             oetf_BT709(0.015), 0.067500000000000, atol=TOLERANCE_ABSOLUTE_TESTS
@@ -48,9 +45,7 @@ oetf_BT709` definition.
             oetf_BT709(0.18), 0.409007728864150, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        np.testing.assert_allclose(
-            oetf_BT709(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(oetf_BT709(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_n_dimensional_oetf_BT709(self):
         """
@@ -63,21 +58,15 @@ oetf_BT709` definition n-dimensional arrays support.
 
         L = np.tile(L, 6)
         V = np.tile(V, 6)
-        np.testing.assert_allclose(
-            oetf_BT709(L), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(oetf_BT709(L), V, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         L = np.reshape(L, (2, 3))
         V = np.reshape(V, (2, 3))
-        np.testing.assert_allclose(
-            oetf_BT709(L), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(oetf_BT709(L), V, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         L = np.reshape(L, (2, 3, 1))
         V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_allclose(
-            oetf_BT709(L), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(oetf_BT709(L), V, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_oetf_BT709(self):
         """
@@ -107,7 +96,7 @@ oetf_BT709` definition nan support.
         oetf_BT709(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestOetf_inverse_BT709(unittest.TestCase):
+class TestOetf_inverse_BT709:
     """
     Define :func:`colour.models.rgb.transfer_functions.itur_bt_709.\
 oetf_inverse_BT709` definition unit tests methods.
@@ -192,7 +181,3 @@ oetf_inverse_BT709` definition nan support.
         """
 
         oetf_inverse_BT709(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
-
-
-if __name__ == "__main__":
-    unittest.main()

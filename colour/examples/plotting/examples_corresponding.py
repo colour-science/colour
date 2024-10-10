@@ -1,4 +1,4 @@
-"""Showcases corresponding chromaticities prediction plotting examples."""
+"""Showcase corresponding chromaticities prediction plotting examples."""
 
 from colour.plotting import (
     colour_style,
@@ -18,9 +18,7 @@ message_box(
 plot_corresponding_chromaticities_prediction(
     2,
     "Von Kries",
-    corresponding_chromaticities_prediction_kwargs={
-        "transform": "Bianco 2010"
-    },
+    corresponding_chromaticities_prediction_kwargs={"transform": "Bianco 2010"},
 )
 
 print("\n")

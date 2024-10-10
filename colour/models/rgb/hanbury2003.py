@@ -2,7 +2,7 @@
 IHLS Colour Encoding
 ====================
 
-Defines the :math:`IHLS` (Improved HLS) colourspace related transformations:
+Define the :math:`IHLS` (Improved HLS) colourspace related transformations:
 
 -   :func:`colour.RGB_to_IHLS`
 -   :func:`colour.IHLS_to_RGB`
@@ -19,7 +19,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.algebra import sdiv, sdiv_mode, vector_dot
+from colour.algebra import sdiv, sdiv_mode, vecmul
 from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     from_range_1,
@@ -96,7 +96,7 @@ def RGB_to_IHLS(RGB: ArrayLike) -> NDArrayFloat:
     RGB = to_domain_1(RGB)
     R, G, B = tsplit(RGB)
 
-    Y, C_1, C_2 = tsplit(vector_dot(MATRIX_RGB_TO_YC_1_C_2, RGB))
+    Y, C_1, C_2 = tsplit(vecmul(MATRIX_RGB_TO_YC_1_C_2, RGB))
 
     C = np.hypot(C_1, C_2)
 
@@ -165,6 +165,6 @@ def IHLS_to_RGB(HYS: ArrayLike) -> NDArrayFloat:
     C_1 = C * np.cos(H)
     C_2 = -C * np.sin(H)
 
-    RGB = vector_dot(MATRIX_YC_1_C_2_TO_RGB, tstack([Y, C_1, C_2]))
+    RGB = vecmul(MATRIX_YC_1_C_2_TO_RGB, tstack([Y, C_1, C_2]))
 
     return from_range_1(RGB)

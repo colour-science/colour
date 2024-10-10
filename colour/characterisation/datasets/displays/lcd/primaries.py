@@ -2,7 +2,7 @@
 Primaries of LCD Displays
 =========================
 
-Defines the primaries multi-spectral distributions of *LCD* displays.
+Define the primaries multi-spectral distributions of *LCD* displays.
 
 Each *LCD* display data is in the form of a *dict* of
 :class:`colour.characterisation.RGB_DisplayPrimaries` classes as follows::

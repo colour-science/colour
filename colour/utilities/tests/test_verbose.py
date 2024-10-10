@@ -1,13 +1,13 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.utilities.verbose` module."""
 
 import os
 import sys
 import textwrap
-import unittest
 
 from colour.hints import Optional
 from colour.utilities import (
+    MixinLogging,
+    as_bool,
     describe_environment,
     multiline_repr,
     multiline_str,
@@ -25,7 +25,9 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "TestMixinLogging",
     "TestShowWarning",
+    "TestAsBool",
     "TestSuppressWarnings",
     "TestSuppressStdout",
     "TestDescribeEnvironment",
@@ -34,7 +36,22 @@ __all__ = [
 ]
 
 
-class TestShowWarning(unittest.TestCase):
+class TestMixinLogging:
+    """
+    Define :class:`colour.utilities.verbose.MixinLogging` class unit tests
+    methods.
+    """
+
+    def test_required_methods(self):
+        """Test the presence of required methods."""
+
+        required_methods = ("log",)
+
+        for method in required_methods:
+            assert method in dir(MixinLogging)
+
+
+class TestShowWarning:
     """
     Define :func:`colour.utilities.verbose.show_warning` definition unit tests
     methods.
@@ -46,9 +63,7 @@ class TestShowWarning(unittest.TestCase):
         show_warning("This is a unit test warning!", Warning, None, None)
 
         with open(os.devnull) as dev_null:
-            show_warning(
-                "This is a unit test warning!", Warning, None, None, dev_null
-            )
+            show_warning("This is a unit test warning!", Warning, None, None, dev_null)
 
         stderr = sys.stderr
         try:
@@ -58,7 +73,31 @@ class TestShowWarning(unittest.TestCase):
             sys.stderr = stderr
 
 
-class TestSuppressWarnings(unittest.TestCase):
+class TestAsBool:
+    """
+    Define :func:`colour.utilities.common.as_bool` definition unit tests
+    methods.
+    """
+
+    def test_as_bool(self):
+        """Test :func:`colour.utilities.common.as_bool` definition."""
+
+        assert as_bool("1")
+
+        assert as_bool("On")
+
+        assert as_bool("True")
+
+        assert not as_bool("0")
+
+        assert not as_bool("Off")
+
+        assert not as_bool("False")
+
+        assert not as_bool("")
+
+
+class TestSuppressWarnings:
     """
     Define :func:`colour.utilities.verbose.suppress_warnings` definition unit
     tests methods.
@@ -71,7 +110,7 @@ class TestSuppressWarnings(unittest.TestCase):
             warning("This is a suppressed unit test warning!")
 
 
-class TestSuppressStdout(unittest.TestCase):
+class TestSuppressStdout:
     """
     Define :func:`colour.utilities.verbose.suppress_stdout` definition unit
     tests methods.
@@ -84,7 +123,7 @@ class TestSuppressStdout(unittest.TestCase):
             print("This is a suppressed message!")  # noqa: T201
 
 
-class TestDescribeEnvironment(unittest.TestCase):
+class TestDescribeEnvironment:
     """
     Define :func:`colour.utilities.verbose.describe_environment` definition
     unit tests methods.
@@ -94,34 +133,34 @@ class TestDescribeEnvironment(unittest.TestCase):
         """Test :func:`colour.utilities.verbose.describe_environment` definition."""
 
         environment = describe_environment()
-        self.assertIsInstance(environment, dict)
-        self.assertListEqual(
-            sorted(environment.keys()),
-            ["Interpreter", "Runtime", "colour-science.org"],
-        )
+        assert isinstance(environment, dict)
+        assert sorted(environment.keys()) == [
+            "Interpreter",
+            "Runtime",
+            "colour-science.org",
+        ]
 
         environment = describe_environment(development_packages=True)
-        self.assertListEqual(
-            sorted(environment.keys()),
-            ["Development", "Interpreter", "Runtime", "colour-science.org"],
-        )
+        assert sorted(environment.keys()) == [
+            "Development",
+            "Interpreter",
+            "Runtime",
+            "colour-science.org",
+        ]
 
         environment = describe_environment(
             development_packages=True, extras_packages=True
         )
-        self.assertListEqual(
-            sorted(environment.keys()),
-            [
-                "Development",
-                "Extras",
-                "Interpreter",
-                "Runtime",
-                "colour-science.org",
-            ],
-        )
+        assert sorted(environment.keys()) == [
+            "Development",
+            "Extras",
+            "Interpreter",
+            "Runtime",
+            "colour-science.org",
+        ]
 
 
-class TestMultilineStr(unittest.TestCase):
+class TestMultilineStr:
     """
     Define :func:`colour.utilities.verbose.multiline_str` definition unit
     tests methods.
@@ -164,8 +203,7 @@ class TestMultilineStr(unittest.TestCase):
                     ],
                 )
 
-        self.assertEqual(
-            str(Data("Foo", 1, ["John", "Doe"])),
+        assert str(Data("Foo", 1, ["John", "Doe"])) == (
             textwrap.dedent(
                 """
                 Object - Data
@@ -186,11 +224,11 @@ class TestMultilineStr(unittest.TestCase):
                 ----
                 List "c"    : John; Doe
                 """
-            ).strip(),
+            ).strip()
         )
 
 
-class TestMultilineRepr(unittest.TestCase):
+class TestMultilineRepr:
     """
     Define :func:`colour.utilities.verbose.multiline_repr` definition unit
     tests methods.
@@ -227,8 +265,7 @@ class TestMultilineRepr(unittest.TestCase):
                     ],
                 )
 
-        self.assertEqual(
-            repr(Data("Foo", 1, ["John", "Doe"])),
+        assert repr(Data("Foo", 1, ["John", "Doe"])) == (
             textwrap.dedent(
                 """
                 Data('Foo',
@@ -236,9 +273,5 @@ class TestMultilineRepr(unittest.TestCase):
                      ('John', 'Doe'),
                      None)
                 """
-            ).strip(),
+            ).strip()
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

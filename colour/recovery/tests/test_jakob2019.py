@@ -1,12 +1,11 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.recovery.jakob2019` module."""
 
 import os
 import shutil
 import tempfile
-import unittest
 
 import numpy as np
+import pytest
 
 from colour.characterisation import SDS_COLOURCHECKERS
 from colour.colorimetry import handle_spectral_arguments, sd_to_XYZ
@@ -42,19 +41,17 @@ __all__ = [
 ]
 
 
-class TestErrorFunction(unittest.TestCase):
+class TestErrorFunction:
     """
     Define :func:`colour.recovery.jakob2019.error_function` definition unit
     tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         self._shape = SPECTRAL_SHAPE_JAKOB2019
-        self._cmfs, self._sd_D65 = handle_spectral_arguments(
-            shape_default=self._shape
-        )
+        self._cmfs, self._sd_D65 = handle_spectral_arguments(shape_default=self._shape)
         self._XYZ_D65 = sd_to_XYZ(self._sd_D65)
         self._xy_D65 = XYZ_to_xy(self._XYZ_D65)
 
@@ -101,15 +98,11 @@ class TestErrorFunction(unittest.TestCase):
             sd_Lab = XYZ_to_Lab(XYZ, self._xy_D65)
             error_reference = delta_E_CIE1976(self._Lab_e, Lab)
 
-            np.testing.assert_allclose(
-                sd.values, R, atol=TOLERANCE_ABSOLUTE_TESTS
-            )
-            np.testing.assert_allclose(
-                XYZ, sd_XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-            )
+            np.testing.assert_allclose(sd.values, R, atol=TOLERANCE_ABSOLUTE_TESTS)
+            np.testing.assert_allclose(XYZ, sd_XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-            self.assertLess(abs(error_reference - error), JND_CIE1976 / 100)
-            self.assertLess(delta_E_CIE1976(Lab, sd_Lab), JND_CIE1976 / 100)
+            assert abs(error_reference - error) < JND_CIE1976 / 100
+            assert delta_E_CIE1976(Lab, sd_Lab) < JND_CIE1976 / 100
 
     def test_derivatives(self):
         """
@@ -146,19 +139,17 @@ class TestErrorFunction(unittest.TestCase):
             )
 
 
-class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
+class TestXYZ_to_sd_Jakob2019:
     """
     Define :func:`colour.recovery.jakob2019.XYZ_to_sd_Jakob2019` definition
     unit tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         self._shape = SPECTRAL_SHAPE_JAKOB2019
-        self._cmfs, self._sd_D65 = handle_spectral_arguments(
-            shape_default=self._shape
-        )
+        self._cmfs, self._sd_D65 = handle_spectral_arguments(shape_default=self._shape)
 
     def test_XYZ_to_sd_Jakob2019(self):
         """Test :func:`colour.recovery.jakob2019.XYZ_to_sd_Jakob2019` definition."""
@@ -172,7 +163,7 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
             )
 
             if error > JND_CIE1976 / 100:  # pragma: no cover
-                self.fail(f"Delta E for '{name}' is {error}!")
+                pytest.fail(f"Delta E for '{name}' is {error}!")
 
     def test_domain_range_scale_XYZ_to_sd_Jakob2019(self):
         """
@@ -192,9 +183,7 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
             with domain_range_scale(scale):
                 np.testing.assert_allclose(
                     sd_to_XYZ(
-                        XYZ_to_sd_Jakob2019(
-                            XYZ_i * factor_a, self._cmfs, self._sd_D65
-                        ),
+                        XYZ_to_sd_Jakob2019(XYZ_i * factor_a, self._cmfs, self._sd_D65),
                         self._cmfs,
                         self._sd_D65,
                     ),
@@ -203,7 +192,7 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
                 )
 
 
-class TestLUT3D_Jakob2019(unittest.TestCase):
+class TestLUT3D_Jakob2019:
     """
     Define :class:`colour.recovery.jakob2019.LUT3D_Jakob2019` definition unit
     tests methods.
@@ -223,9 +212,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
 
         if not hasattr(cls, "_LUT"):
             cls._shape = SPECTRAL_SHAPE_JAKOB2019
-            cls._cmfs, cls._sd_D65 = handle_spectral_arguments(
-                shape_default=cls._shape
-            )
+            cls._cmfs, cls._sd_D65 = handle_spectral_arguments(shape_default=cls._shape)
             cls._XYZ_D65 = sd_to_XYZ(cls._sd_D65)
             cls._xy_D65 = XYZ_to_xy(cls._XYZ_D65)
 
@@ -247,7 +234,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
         )
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(LUT3D_Jakob2019))
+            assert attribute in dir(LUT3D_Jakob2019)
 
     def test_required_methods(self):
         """Test the presence of required methods."""
@@ -262,12 +249,12 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
         )
 
         for method in required_methods:
-            self.assertIn(method, dir(LUT3D_Jakob2019))
+            assert method in dir(LUT3D_Jakob2019)
 
     def test_size(self):
         """Test :attr:`colour.recovery.jakob2019.LUT3D_Jakob2019.size` property."""
 
-        self.assertEqual(TestLUT3D_Jakob2019.generate_LUT().size, 5)
+        assert TestLUT3D_Jakob2019.generate_LUT().size == 5
 
     def test_lightness_scale(self):
         """
@@ -277,9 +264,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
 
         np.testing.assert_allclose(
             TestLUT3D_Jakob2019.generate_LUT().lightness_scale,
-            np.array(
-                [0.00000000, 0.06561279, 0.50000000, 0.93438721, 1.00000000]
-            ),
+            np.array([0.00000000, 0.06561279, 0.50000000, 0.93438721, 1.00000000]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -289,10 +274,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
         property.
         """
 
-        self.assertTupleEqual(
-            TestLUT3D_Jakob2019.generate_LUT().coefficients.shape,
-            (3, 5, 5, 5, 3),
-        )
+        assert TestLUT3D_Jakob2019.generate_LUT().coefficients.shape == (3, 5, 5, 5, 3)
 
     def test_LUT3D_Jakob2019(self):
         """
@@ -334,15 +316,13 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
             Lab = XYZ_to_Lab(XYZ, self._xy_D65)
 
             recovered_sd = LUT.RGB_to_sd(RGB)
-            recovered_XYZ = (
-                sd_to_XYZ(recovered_sd, self._cmfs, self._sd_D65) / 100
-            )
+            recovered_XYZ = sd_to_XYZ(recovered_sd, self._cmfs, self._sd_D65) / 100
             recovered_Lab = XYZ_to_Lab(recovered_XYZ, self._xy_D65)
 
             error = delta_E_CIE1976(Lab, recovered_Lab)
 
             if error > 2 * JND_CIE1976 / 100:  # pragma: no cover
-                self.fail(
+                pytest.fail(
                     f"Delta E for RGB={RGB} in colourspace "
                     f"{self._RGB_colourspace.name} is {error}!"
                 )
@@ -355,7 +335,7 @@ RGB_to_coefficients` method raised exception.
 
         LUT = LUT3D_Jakob2019()
 
-        self.assertRaises(ValueError, LUT.RGB_to_coefficients, np.array([]))
+        pytest.raises(RuntimeError, LUT.RGB_to_coefficients, np.array([1, 2, 3, 4]))
 
     def test_raise_exception_read(self):
         """
@@ -364,8 +344,4 @@ RGB_to_coefficients` method raised exception.
         """
 
         LUT = LUT3D_Jakob2019()
-        self.assertRaises(ValueError, LUT.read, __file__)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        pytest.raises(ValueError, LUT.read, __file__)

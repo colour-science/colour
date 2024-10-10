@@ -2,7 +2,7 @@
 Regression
 ==========
 
-Defines various objects to perform regression:
+Define various objects to perform regression:
 
 -   :func:`colour.algebra.least_square_mapping_MoorePenrose`: *Least-squares*
     mapping using *Moore-Penrose* inverse.
@@ -33,9 +33,7 @@ __all__ = [
 ]
 
 
-def least_square_mapping_MoorePenrose(
-    y: ArrayLike, x: ArrayLike
-) -> NDArrayFloat:
+def least_square_mapping_MoorePenrose(y: ArrayLike, x: ArrayLike) -> NDArrayFloat:
     """
     Compute the *least-squares* mapping from dependent variable :math:`y` to
     independent variable :math:`x` using *Moore-Penrose* inverse.

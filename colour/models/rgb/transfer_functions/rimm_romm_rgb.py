@@ -2,7 +2,7 @@
 RIMM, ROMM and ERIMM Encodings
 ==============================
 
-Defines the *RIMM, ROMM and ERIMM* encodings opto-electrical transfer functions
+Define the *RIMM, ROMM and ERIMM* encodings opto-electrical transfer functions
 (OETF) and electro-optical transfer functions (EOTF):
 
 -   :func:`colour.models.cctf_encoding_ROMMRGB`
@@ -199,20 +199,16 @@ cctf_encoding_ProPhotoRGB = copy_definition(
 )
 # If-clause required for optimised python launch.
 if cctf_encoding_ProPhotoRGB.__doc__ is not None:
-    cctf_encoding_ProPhotoRGB.__doc__ = (
-        cctf_encoding_ProPhotoRGB.__doc__.replace(
-            "*ROMM RGB*", "*ProPhoto RGB*"
-        )
+    cctf_encoding_ProPhotoRGB.__doc__ = cctf_encoding_ProPhotoRGB.__doc__.replace(
+        "*ROMM RGB*", "*ProPhoto RGB*"
     )
 cctf_decoding_ProPhotoRGB = copy_definition(
     cctf_decoding_ROMMRGB, "cctf_decoding_ProPhotoRGB"
 )
 # If-clause required for optimised python launch.
 if cctf_decoding_ProPhotoRGB.__doc__ is not None:
-    cctf_decoding_ProPhotoRGB.__doc__ = (
-        cctf_decoding_ProPhotoRGB.__doc__.replace(
-            "*ROMM RGB*", "*ProPhoto RGB*"
-        )
+    cctf_decoding_ProPhotoRGB.__doc__ = cctf_decoding_ProPhotoRGB.__doc__.replace(
+        "*ROMM RGB*", "*ProPhoto RGB*"
     )
 
 
@@ -362,8 +358,7 @@ def cctf_decoding_RIMMRGB(
 
     with domain_range_scale("ignore"):
         X = np.where(
-            X_p / I_max
-            < cctf_encoding_RIMMRGB(0.018, bit_depth, E_clip=E_clip),
+            X_p / I_max < cctf_encoding_RIMMRGB(0.018, bit_depth, E_clip=E_clip),
             m / 4.5,
             spow((m + 0.099) / 1.099, 1 / 0.45),
         )

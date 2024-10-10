@@ -2,7 +2,7 @@
 Lightness :math:`L`
 ===================
 
-Defines the *Lightness* :math:`L` computation objects.
+Define the *Lightness* :math:`L` computation objects.
 
 The following methods are available:
 
@@ -307,16 +307,14 @@ def lightness_CIE1976(Y: ArrayLike, Y_n: ArrayLike = 100) -> NDArrayFloat:
     """
 
     Y = to_domain_100(Y)
-    Y_n = as_float_array(Y_n)
+    Y_n = to_domain_100(Y_n)
 
     L_star = 116 * intermediate_lightness_function_CIE1976(Y, Y_n) - 16
 
     return as_float(from_range_100(L_star))
 
 
-def lightness_Fairchild2010(
-    Y: ArrayLike, epsilon: ArrayLike = 1.836
-) -> NDArrayFloat:
+def lightness_Fairchild2010(Y: ArrayLike, epsilon: ArrayLike = 1.836) -> NDArrayFloat:
     """
     Compute *Lightness* :math:`L_{hdr}` of given *luminance* :math:`Y` using
     *Fairchild and Wyble (2010)* method according to *Michaelis-Menten*
@@ -548,15 +546,17 @@ LIGHTNESS_METHODS["Lstar1976"] = LIGHTNESS_METHODS["CIE 1976"]
 
 def lightness(
     Y: ArrayLike,
-    method: Literal[
-        "Abebe 2017",
-        "CIE 1976",
-        "Glasser 1958",
-        "Fairchild 2010",
-        "Fairchild 2011",
-        "Wyszecki 1963",
-    ]
-    | str = "CIE 1976",
+    method: (
+        Literal[
+            "Abebe 2017",
+            "CIE 1976",
+            "Glasser 1958",
+            "Fairchild 2010",
+            "Fairchild 2011",
+            "Wyszecki 1963",
+        ]
+        | str
+    ) = "CIE 1976",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
@@ -649,12 +649,11 @@ def lightness(
 
     if function in domain_undefined and domain_range_1:
         Y = Y * 100
+        kwargs["Y_n"] = kwargs.get("Y_n", 100) * 100
 
     L = function(Y, **filter_kwargs(function, **kwargs))
 
-    if function in domain_undefined and (
-        domain_range_reference or domain_range_100
-    ):
+    if function in domain_undefined and (domain_range_reference or domain_range_100):
         L *= 100
 
     return L

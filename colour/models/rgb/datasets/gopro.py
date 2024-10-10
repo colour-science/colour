@@ -2,7 +2,7 @@
 GoPro Colourspaces
 ==================
 
-Defines the *GoPro* colourspaces:
+Define the *GoPro* colourspaces:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_PROTUNE_NATIVE`.
 
@@ -75,9 +75,7 @@ MATRIX_PROTUNE_NATIVE_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
 )
 """*Protune Native* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_PROTUNE_NATIVE: NDArrayFloat = np.linalg.inv(
-    MATRIX_PROTUNE_NATIVE_TO_XYZ
-)
+MATRIX_XYZ_TO_PROTUNE_NATIVE: NDArrayFloat = np.linalg.inv(MATRIX_PROTUNE_NATIVE_TO_XYZ)
 """*CIE XYZ* tristimulus values to *Protune Native* colourspace matrix."""
 
 RGB_COLOURSPACE_PROTUNE_NATIVE: RGB_Colourspace = RGB_Colourspace(

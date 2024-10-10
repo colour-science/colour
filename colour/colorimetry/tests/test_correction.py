@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.colorimetry.correction` module."""
 
-import unittest
 
 import numpy as np
 
@@ -63,7 +61,7 @@ DATA_BANDPASS_CORRECTED: tuple = (
 )
 
 
-class TestBandpassCorrectionStearns1988(unittest.TestCase):
+class TestBandpassCorrectionStearns1988:
     """
     Define :func:`colour.colorimetry.correction.\
 bandpass_correction_Stearns1988` definition unit tests methods.
@@ -89,7 +87,3 @@ bandpass_correction_Stearns1988` definition.
             DATA_BANDPASS_CORRECTED,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

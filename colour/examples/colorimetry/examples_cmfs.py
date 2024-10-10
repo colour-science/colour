@@ -1,4 +1,4 @@
-"""Showcases colour matching functions computations."""
+"""Showcase colour matching functions computations."""
 
 from pprint import pprint
 
@@ -50,9 +50,9 @@ message_box(
 )
 print(colour.MSDS_CMFS["Stockman & Sharpe 10 Degree Cone Fundamentals"][700])
 print(
-    colour.colorimetry.MSDS_CMFS_LMS[
-        "Stockman & Sharpe 10 Degree Cone Fundamentals"
-    ][700]
+    colour.colorimetry.MSDS_CMFS_LMS["Stockman & Sharpe 10 Degree Cone Fundamentals"][
+        700
+    ]
 )
 print(colour.colorimetry.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(700))
 

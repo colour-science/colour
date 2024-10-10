@@ -1,9 +1,6 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.notation.css_color_3` module."""
 
 from __future__ import annotations
-
-import unittest
 
 import numpy as np
 
@@ -22,7 +19,7 @@ __all__ = [
 ]
 
 
-class TestKeywordToRGBCSSColor3(unittest.TestCase):
+class TestKeywordToRGBCSSColor3:
     """
     Define :func:`colour.notation.css_color_3.keyword_to_RGB_CSSColor3`
     definition unit tests methods.
@@ -47,7 +44,3 @@ class TestKeywordToRGBCSSColor3(unittest.TestCase):
             np.array([0.94117647, 0.97254902, 1.00000000]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

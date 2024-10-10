@@ -6,6 +6,7 @@
 .fleet
 .idea
 .ipynb_checkpoints
+.python-version
 .vs
 .vscode
 .sandbox
@@ -20,5 +21,5 @@ docs/_static/Examples_*.png
 docs/_static/Plotting_*.png
 docs/_static/Tutorial_*.png
 docs/generated
-poetry.lock
 references
+uv.lock

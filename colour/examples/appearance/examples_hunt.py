@@ -1,4 +1,4 @@
-"""Showcases *Hunt* colour appearance model computations."""
+"""Showcase *Hunt* colour appearance model computations."""
 
 import numpy as np
 
@@ -25,9 +25,7 @@ message_box(
     f"\tCCT_w: {CCT_w}"
 )
 
-specification = colour.XYZ_to_Hunt(
-    XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w
-)
+specification = colour.XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)
 print(specification)
 
 print("\n")

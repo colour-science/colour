@@ -2,7 +2,7 @@
 Spectral Distributions of the Luminous Efficiency Functions
 ===========================================================
 
-Defines the spectral distributions of the luminous efficiency functions.
+Define the spectral distributions of the luminous efficiency functions.
 
 The luminous efficiency data is in the form of a *dict* of
 :class:`colour.SpectralDistribution` classes as follows::
@@ -2354,39 +2354,29 @@ SDS_LEFS_PHOTOPIC: LazyCanonicalMapping = LazyCanonicalMapping(
         ),
         "Judd Modified CIE 1951 Photopic Standard Observer": partial(
             SpectralDistribution,
-            DATA_LEFS_PHOTOPIC[
-                "Judd Modified CIE 1951 Photopic Standard Observer"
-            ],
+            DATA_LEFS_PHOTOPIC["Judd Modified CIE 1951 Photopic Standard Observer"],
             name="Judd Modified CIE 1951 Photopic Standard Observer",
         ),
         "Judd-Vos Modified CIE 1978 Photopic Standard Observer": partial(
             SpectralDistribution,
-            DATA_LEFS_PHOTOPIC[
-                "Judd-Vos Modified CIE 1978 Photopic Standard Observer"
-            ],
+            DATA_LEFS_PHOTOPIC["Judd-Vos Modified CIE 1978 Photopic Standard Observer"],
             name="Judd-Vos Modified CIE 1978 Photopic Standard Observer",
         ),
         "CIE 1964 Photopic 10 Degree Standard Observer": partial(
             SpectralDistribution,
-            DATA_LEFS_PHOTOPIC[
-                "CIE 1964 Photopic 10 Degree Standard Observer"
-            ],
+            DATA_LEFS_PHOTOPIC["CIE 1964 Photopic 10 Degree Standard Observer"],
             name="CIE 1964 Photopic 10 Degree Standard Observer",
             display_name="CIE 1964 Photopic 10$^\\circ$ Standard Observer",
         ),
         "CIE 2008 2 Degree Physiologically Relevant LEF": partial(
             SpectralDistribution,
-            DATA_LEFS_PHOTOPIC[
-                "CIE 2008 2 Degree Physiologically Relevant LEF"
-            ],
+            DATA_LEFS_PHOTOPIC["CIE 2008 2 Degree Physiologically Relevant LEF"],
             name="CIE 2008 2 Degree Physiologically Relevant LEF",
             display_name="CIE 2008 2$^\\circ$ Physiologically Relevant LEF",
         ),
         "CIE 2008 10 Degree Physiologically Relevant LEF": partial(
             SpectralDistribution,
-            DATA_LEFS_PHOTOPIC[
-                "CIE 2008 10 Degree Physiologically Relevant LEF"
-            ],
+            DATA_LEFS_PHOTOPIC["CIE 2008 10 Degree Physiologically Relevant LEF"],
             name="CIE 2008 10 Degree Physiologically Relevant LEF",
             display_name="CIE 2008 10$^\\circ$ Physiologically Relevant LEF",
         ),
@@ -2837,9 +2827,7 @@ Aliases:
 
 -   'cie_1951': 'CIE 1951 Scotopic Standard Observer'
 """
-SDS_LEFS_SCOTOPIC["cie_1951"] = SDS_LEFS_SCOTOPIC[
-    "CIE 1951 Scotopic Standard Observer"
-]
+SDS_LEFS_SCOTOPIC["cie_1951"] = SDS_LEFS_SCOTOPIC["CIE 1951 Scotopic Standard Observer"]
 
 SDS_LEFS: LazyCanonicalMapping = LazyCanonicalMapping(SDS_LEFS_PHOTOPIC)
 SDS_LEFS.__doc__ = """

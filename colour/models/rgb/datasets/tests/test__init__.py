@@ -1,8 +1,6 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.rgb.datasets` module."""
 
 import pickle
-import unittest
 from copy import deepcopy
 
 import numpy as np
@@ -26,7 +24,7 @@ __all__ = [
 ]
 
 
-class TestRGB_COLOURSPACES(unittest.TestCase):
+class TestRGB_COLOURSPACES:
     """
     Define :attr:`colour.models.rgb.datasets.RGB_COLOURSPACES`
     attribute unit tests methods.
@@ -51,11 +49,9 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
             "sRGB": 1e-4,
             "V-Gamut": 1e-6,
         }
-        XYZ_r = np.array([0.5, 0.5, 0.5]).reshape([3, 1])
+        XYZ_r = np.reshape(np.array([0.5, 0.5, 0.5]), (3, 1))
         for colourspace in RGB_COLOURSPACES.values():
-            M = normalised_primary_matrix(
-                colourspace.primaries, colourspace.whitepoint
-            )
+            M = normalised_primary_matrix(colourspace.primaries, colourspace.whitepoint)
 
             tolerance = tolerances.get(colourspace.name, 1e-7)
             np.testing.assert_allclose(
@@ -165,7 +161,3 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
         for colourspace in RGB_COLOURSPACES.values():
             pickle.dumps(colourspace)
-
-
-if __name__ == "__main__":
-    unittest.main()

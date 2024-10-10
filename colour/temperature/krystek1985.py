@@ -2,7 +2,7 @@
 Krystek (1985) Correlated Colour Temperature
 ============================================
 
-Defines the *Krystek (1985)* correlated colour temperature :math:`T_{cp}`
+Define the *Krystek (1985)* correlated colour temperature :math:`T_{cp}`
 computations objects:
 
 -   :func:`colour.temperature.uv_to_CCT_Krystek1985`: Correlated colour
@@ -86,11 +86,9 @@ def uv_to_CCT_Krystek1985(
 
     uv = as_float_array(uv)
     shape = uv.shape
-    uv = np.atleast_1d(uv.reshape([-1, 2]))
+    uv = np.atleast_1d(np.reshape(uv, (-1, 2)))
 
-    def objective_function(
-        CCT: NDArrayFloat, uv: NDArrayFloat
-    ) -> NDArrayFloat:
+    def objective_function(CCT: NDArrayFloat, uv: NDArrayFloat) -> NDArrayFloat:
         """Objective function."""
 
         objective = np.linalg.norm(CCT_to_uv_Krystek1985(CCT) - uv)
@@ -155,11 +153,11 @@ def CCT_to_uv_Krystek1985(CCT: ArrayLike) -> NDArrayFloat:
 
     T_2 = T**2
 
-    u = (
-        0.860117757 + 1.54118254 * 10**-4 * T + 1.28641212 * 10**-7 * T_2
-    ) / (1 + 8.42420235 * 10**-4 * T + 7.08145163 * 10**-7 * T_2)
-    v = (
-        0.317398726 + 4.22806245 * 10**-5 * T + 4.20481691 * 10**-8 * T_2
-    ) / (1 - 2.89741816 * 10**-5 * T + 1.61456053 * 10**-7 * T_2)
+    u = (0.860117757 + 1.54118254 * 10**-4 * T + 1.28641212 * 10**-7 * T_2) / (
+        1 + 8.42420235 * 10**-4 * T + 7.08145163 * 10**-7 * T_2
+    )
+    v = (0.317398726 + 4.22806245 * 10**-5 * T + 4.20481691 * 10**-8 * T_2) / (
+        1 - 2.89741816 * 10**-5 * T + 1.61456053 * 10**-7 * T_2
+    )
 
     return tstack([u, v])

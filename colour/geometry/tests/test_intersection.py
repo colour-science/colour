@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.geometry.intersection` module."""
 
-import unittest
 
 import numpy as np
 
@@ -24,7 +22,7 @@ __all__ = [
 ]
 
 
-class TestExtendLineSegment(unittest.TestCase):
+class TestExtendLineSegment:
     """
     Define :func:`colour.geometry.intersection.extend_line_segment` definition unit
     tests methods.
@@ -63,7 +61,7 @@ class TestExtendLineSegment(unittest.TestCase):
         )
 
 
-class TestIntersectLineSegments(unittest.TestCase):
+class TestIntersectLineSegments:
     """
     Define :func:`colour.geometry.intersection.intersect_line_segments`
     definition unit tests methods.
@@ -120,18 +118,10 @@ class TestIntersectLineSegments(unittest.TestCase):
 
         np.testing.assert_array_equal(
             s.parallel,
-            np.array(
-                [[False, False, False, False], [False, False, False, True]]
-            ),
+            np.array([[False, False, False, False], [False, False, False, True]]),
         )
 
         np.testing.assert_array_equal(
             s.coincident,
-            np.array(
-                [[False, False, False, False], [False, False, False, True]]
-            ),
+            np.array([[False, False, False, False], [False, False, False, True]]),
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

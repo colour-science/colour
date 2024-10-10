@@ -2,7 +2,7 @@
 Robertson (1968) Correlated Colour Temperature
 ==============================================
 
-Defines the *Robertson (1968)* correlated colour temperature :math:`T_{cp}`
+Define the *Robertson (1968)* correlated colour temperature :math:`T_{cp}`
 computations objects:
 
 -   :func:`colour.temperature.mired_to_CCT`: Micro reciprocal degree to

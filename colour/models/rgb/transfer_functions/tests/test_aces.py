@@ -3,7 +3,6 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.aces`
 module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -34,7 +33,7 @@ __all__ = [
 ]
 
 
-class TestLogEncoding_ACESproxy(unittest.TestCase):
+class TestLogEncoding_ACESproxy:
     """
     Define :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACESproxy`
@@ -71,7 +70,7 @@ log_encoding_ACESproxy` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertEqual(log_encoding_ACESproxy(0.18, out_int=True), 426)
+        assert log_encoding_ACESproxy(0.18, out_int=True) == 426
 
     def test_n_dimensional_log_encoding_ACESproxy(self):
         """
@@ -131,12 +130,10 @@ log_encoding_ACESproxy` definition domain and range scale support.
 log_encoding_ACESproxy` definition nan support.
         """
 
-        log_encoding_ACESproxy(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_ACESproxy(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_ACESproxy(unittest.TestCase):
+class TestLogDecoding_ACESproxy:
     """
     Define :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACESproxy`
@@ -237,12 +234,10 @@ log_decoding_ACESproxy` definition domain and range scale support.
 log_decoding_ACESproxy` definition nan support.
         """
 
-        log_decoding_ACESproxy(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_decoding_ACESproxy(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogEncoding_ACEScc(unittest.TestCase):
+class TestLogEncoding_ACEScc:
     """
     Define :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACEScc` definition unit tests methods.
@@ -324,12 +319,10 @@ log_encoding_ACEScc` definition domain and range scale support.
 log_encoding_ACEScc` definition nan support.
         """
 
-        log_encoding_ACEScc(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_ACEScc(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_ACEScc(unittest.TestCase):
+class TestLogDecoding_ACEScc:
     """
     Define :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACEScc` definition unit tests methods.
@@ -411,12 +404,10 @@ log_decoding_ACEScc` definition domain and range scale support.
 log_decoding_ACEScc` definition nan support.
         """
 
-        log_decoding_ACEScc(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_decoding_ACEScc(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogEncoding_ACEScct(unittest.TestCase):
+class TestLogEncoding_ACEScct:
     """
     Define :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACEScct` definition unit tests methods.
@@ -520,12 +511,10 @@ S-2016-001/introduction.tex#L14)
 log_encoding_ACEScct` definition nan support.
         """
 
-        log_encoding_ACEScct(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_ACEScct(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_ACEScct(unittest.TestCase):
+class TestLogDecoding_ACEScct:
     """
     Define :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACEScct` definition unit tests methods.
@@ -629,10 +618,4 @@ S-2016-001/introduction.tex#L14)
 log_decoding_ACEScct` definition nan support.
         """
 
-        log_decoding_ACEScct(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
-
-
-if __name__ == "__main__":
-    unittest.main()
+        log_decoding_ACEScct(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))

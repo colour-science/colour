@@ -2,7 +2,7 @@
 Common Constants
 ================
 
-Defines the common constants objects that don't belong to any specific
+Define the common constants objects that don't belong to any specific
 category.
 """
 
@@ -26,8 +26,8 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "FLOATING_POINT_NUMBER_PATTERN",
-    "INTEGER_THRESHOLD",
+    "PATTERN_FLOATING_POINT_NUMBER",
+    "THRESHOLD_INTEGER",
     "EPSILON",
     "DTYPE_INT_DEFAULT",
     "DTYPE_FLOAT_DEFAULT",
@@ -37,18 +37,18 @@ __all__ = [
     "TOLERANCE_RELATIVE_TESTS",
 ]
 
-FLOATING_POINT_NUMBER_PATTERN: str = "[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"
-"""float point number regex matching pattern."""
+PATTERN_FLOATING_POINT_NUMBER: str = "[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"
+"""Floating point number regex matching pattern."""
 
-INTEGER_THRESHOLD: float = 1e-3
+THRESHOLD_INTEGER: float = 1e-3
 if is_documentation_building():  # pragma: no cover
-    INTEGER_THRESHOLD = DocstringFloat(INTEGER_THRESHOLD)
-    INTEGER_THRESHOLD.__doc__ = """
-int threshold value when checking if a float point number is almost an
+    THRESHOLD_INTEGER = DocstringFloat(THRESHOLD_INTEGER)
+    THRESHOLD_INTEGER.__doc__ = """
+Integer threshold value when checking if a float point number is almost an
 int.
 """
 
-EPSILON: float = cast(float, np.finfo(np.float_).eps)
+EPSILON: float = cast(float, np.finfo(np.double).eps)
 """
 Default epsilon value for tolerance and singularities avoidance in various
 computations.

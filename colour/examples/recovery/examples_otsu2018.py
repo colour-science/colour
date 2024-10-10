@@ -1,4 +1,4 @@
-"""Showcases reflectance recovery computations using *Otsu et al. (2018)* method."""
+"""Showcase reflectance recovery computations using *Otsu et al. (2018)* method."""
 
 import numpy as np
 
@@ -22,8 +22,7 @@ print(colour.sd_to_XYZ(sd, illuminant=illuminant) / 100)
 print("\n")
 
 message_box(
-    'Generating a spectral dataset according to the "Otsu et al. (2018) "'
-    "method :"
+    'Generating a spectral dataset according to the "Otsu et al. (2018) method :'
 )
 XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
 reflectances = colour.colorimetry.sds_and_msds_to_msds(

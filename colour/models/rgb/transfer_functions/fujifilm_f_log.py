@@ -2,7 +2,7 @@
 Fujifilm F-Log Log Encoding
 ===========================
 
-Defines the *Fujifilm F-Log* log encoding:
+Define the *Fujifilm F-Log* log encoding:
 
 -   :func:`colour.models.log_encoding_FLog`
 -   :func:`colour.models.log_decoding_FLog`
@@ -148,9 +148,7 @@ def log_encoding_FLog(
         c * np.log10(a * in_r + b) + d,
     )
 
-    out_r_cv = (
-        out_r if out_normalised_code_value else legal_to_full(out_r, bit_depth)
-    )
+    out_r_cv = out_r if out_normalised_code_value else legal_to_full(out_r, bit_depth)
 
     return as_float(from_range_1(out_r_cv))
 
@@ -211,9 +209,7 @@ def log_decoding_FLog(
 
     out_r = to_domain_1(out_r)
 
-    out_r = (
-        out_r if in_normalised_code_value else full_to_legal(out_r, bit_depth)
-    )
+    out_r = out_r if in_normalised_code_value else full_to_legal(out_r, bit_depth)
 
     cut2 = constants.cut2
     a = constants.a

@@ -2,7 +2,7 @@
 Common RGB Colour Models Utilities
 ==================================
 
-Defines various RGB colour models common utilities.
+Define various RGB colour models common utilities.
 """
 
 from __future__ import annotations
@@ -30,12 +30,12 @@ __all__ = [
 
 def XYZ_to_sRGB(
     XYZ: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS[
-        "CIE 1931 2 Degree Standard Observer"
-    ]["D65"],
-    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
-    | str
-    | None = "CAT02",
+    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
+    chromatic_adaptation_transform: (
+        LiteralChromaticAdaptationTransform | str | None
+    ) = "CAT02",
     apply_cctf_encoding: bool = True,
 ) -> NDArrayFloat:
     """
@@ -91,12 +91,12 @@ def XYZ_to_sRGB(
 
 def sRGB_to_XYZ(
     RGB: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS[
-        "CIE 1931 2 Degree Standard Observer"
-    ]["D65"],
-    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
-    | str
-    | None = "CAT02",
+    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
+    chromatic_adaptation_transform: (
+        LiteralChromaticAdaptationTransform | str | None
+    ) = "CAT02",
     apply_cctf_decoding: bool = True,
 ) -> NDArrayFloat:
     """

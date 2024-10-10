@@ -2,7 +2,7 @@
 Canon Cinema Gamut Colourspace
 ==============================
 
-Defines the *Canon Cinema Gamut* colourspace:
+Define the *Canon Cinema Gamut* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_CINEMA_GAMUT`.
 
@@ -51,7 +51,7 @@ PRIMARIES_CINEMA_GAMUT: NDArrayFloat = np.array(
 )
 """*Canon Cinema Gamut* colourspace primaries."""
 
-WHITEPOINT_NAME_CINEMA_GAMUT: str = "D65"
+WHITEPOINT_NAME_CINEMA_GAMUT: str = "D55"
 """*Canon Cinema Gamut* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_CINEMA_GAMUT: NDArrayFloat = CCS_ILLUMINANTS[
@@ -64,9 +64,7 @@ MATRIX_CINEMA_GAMUT_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
 )
 """*Canon Cinema Gamut* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_CINEMA_GAMUT: NDArrayFloat = np.linalg.inv(
-    MATRIX_CINEMA_GAMUT_TO_XYZ
-)
+MATRIX_XYZ_TO_CINEMA_GAMUT: NDArrayFloat = np.linalg.inv(MATRIX_CINEMA_GAMUT_TO_XYZ)
 """*CIE XYZ* tristimulus values to *Canon Cinema Gamut* colourspace matrix."""
 
 RGB_COLOURSPACE_CINEMA_GAMUT: RGB_Colourspace = RGB_Colourspace(

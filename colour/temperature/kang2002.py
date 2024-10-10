@@ -2,7 +2,7 @@
 Kang, Moon, Hong, Lee, Cho and Kim (2002) Correlated Colour Temperature
 =======================================================================
 
-Defines the *Kang et al. (2002)* correlated colour temperature :math:`T_{cp}`
+Define the *Kang et al. (2002)* correlated colour temperature :math:`T_{cp}`
 computations objects:
 
 -   :func:`colour.temperature.xy_to_CCT_Kang2002`: Correlated colour
@@ -80,11 +80,9 @@ def xy_to_CCT_Kang2002(
 
     xy = as_float_array(xy)
     shape = xy.shape
-    xy = np.atleast_1d(xy.reshape([-1, 2]))
+    xy = np.atleast_1d(np.reshape(xy, (-1, 2)))
 
-    def objective_function(
-        CCT: NDArrayFloat, xy: NDArrayFloat
-    ) -> NDArrayFloat:
+    def objective_function(CCT: NDArrayFloat, xy: NDArrayFloat) -> NDArrayFloat:
         """Objective function."""
 
         objective = np.linalg.norm(CCT_to_xy_Kang2002(CCT) - xy)

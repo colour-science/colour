@@ -1,8 +1,6 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.utilities.documentation` module."""
 
 import os
-import unittest
 
 from colour.utilities.documentation import is_documentation_building
 
@@ -18,7 +16,7 @@ __all__ = [
 ]
 
 
-class TestIsDocumentationBuilding(unittest.TestCase):
+class TestIsDocumentationBuilding:
     """
     Define :func:`colour.utilities.documentation.is_documentation_building`
     definition unit tests methods.
@@ -31,25 +29,25 @@ class TestIsDocumentationBuilding(unittest.TestCase):
         """
 
         try:
-            self.assertFalse(is_documentation_building())
+            assert not is_documentation_building()
 
             os.environ["READTHEDOCS"] = "True"
-            self.assertTrue(is_documentation_building())
+            assert is_documentation_building()
 
             os.environ["READTHEDOCS"] = "False"
-            self.assertTrue(is_documentation_building())
+            assert is_documentation_building()
 
             del os.environ["READTHEDOCS"]
-            self.assertFalse(is_documentation_building())
+            assert not is_documentation_building()
 
             os.environ["COLOUR_SCIENCE__DOCUMENTATION_BUILD"] = "True"
-            self.assertTrue(is_documentation_building())
+            assert is_documentation_building()
 
             os.environ["COLOUR_SCIENCE__DOCUMENTATION_BUILD"] = "False"
-            self.assertTrue(is_documentation_building())
+            assert is_documentation_building()
 
             del os.environ["COLOUR_SCIENCE__DOCUMENTATION_BUILD"]
-            self.assertFalse(is_documentation_building())
+            assert not is_documentation_building()
 
         finally:  # pragma: no cover
             if os.environ.get("READTHEDOCS"):
@@ -57,7 +55,3 @@ class TestIsDocumentationBuilding(unittest.TestCase):
 
             if os.environ.get("COLOUR_SCIENCE__DOCUMENTATION_BUILD"):
                 del os.environ["COLOUR_SCIENCE__DOCUMENTATION_BUILD"]
-
-
-if __name__ == "__main__":
-    unittest.main()

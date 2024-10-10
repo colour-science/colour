@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.gopro` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -27,7 +26,7 @@ __all__ = [
 ]
 
 
-class TestLogEncoding_Protune(unittest.TestCase):
+class TestLogEncoding_Protune:
     """
     Define :func:`colour.models.rgb.transfer_functions.gopro.\
 log_encoding_Protune` definition unit tests methods.
@@ -105,12 +104,10 @@ log_encoding_Protune` definition domain and range scale support.
 log_encoding_Protune` definition nan support.
         """
 
-        log_encoding_Protune(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_Protune(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_Protune(unittest.TestCase):
+class TestLogDecoding_Protune:
     """
     Define :func:`colour.models.rgb.transfer_functions.gopro.\
 log_decoding_Protune` definition unit tests methods.
@@ -188,10 +185,4 @@ log_decoding_Protune` definition domain and range scale support.
 log_decoding_Protune` definition nan support.
         """
 
-        log_decoding_Protune(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
-
-
-if __name__ == "__main__":
-    unittest.main()
+        log_decoding_Protune(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))

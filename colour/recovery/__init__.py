@@ -20,12 +20,9 @@ References
 
 from __future__ import annotations
 
-import sys
 
 from colour.colorimetry import SpectralDistribution
 from colour.hints import Any, ArrayLike, Literal
-from colour.utilities.deprecation import ModuleAPI, build_API_changes
-from colour.utilities.documentation import is_documentation_building
 from colour.utilities import (
     CanonicalMapping,
     as_float_array,
@@ -104,10 +101,16 @@ References
 
 def XYZ_to_sd(
     XYZ: ArrayLike,
-    method: Literal[
-        "Jakob 2019", "Mallett 2019", "Meng 2015", "Otsu 2018", "Smits 1999"
-    ]
-    | str = "Meng 2015",
+    method: (
+        Literal[
+            "Jakob 2019",
+            "Mallett 2019",
+            "Meng 2015",
+            "Otsu 2018",
+            "Smits 1999",
+        ]
+        | str
+    ) = "Meng 2015",
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
@@ -130,7 +133,7 @@ def XYZ_to_sd(
     basis_functions
         {:func:`colour.recovery.RGB_to_sd_Mallett2019`},
         Basis functions for the method. The default is to use the built-in
-        *sRGB* basis functions, i.e.
+        *sRGB* basis functions, i.e.,
         :attr:`colour.recovery.MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019`.
     clip
         {:func:`colour.recovery.XYZ_to_sd_Otsu2018`},
@@ -189,7 +192,7 @@ def XYZ_to_sd(
 
     Examples
     --------
-    *Jakob and Hanika (2009)* reflectance recovery:
+    *Jakob and Hanika (2019)* reflectance recovery:
 
     >>> import numpy as np
     >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape
@@ -202,12 +205,9 @@ def XYZ_to_sd(
     ...     .align(SpectralShape(360, 780, 10))
     ... )
     >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
-    >>> sd = XYZ_to_sd(
-    ...     XYZ, method="Jakob 2019", cmfs=cmfs, illuminant=illuminant
-    ... )
+    >>> sd = XYZ_to_sd(XYZ, method="Jakob 2019", cmfs=cmfs, illuminant=illuminant)
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
-    ...
     SpectralDistribution([[ 360.        ,    0.4893773...],
                           [ 370.        ,    0.3258214...],
                           [ 380.        ,    0.2147792...],
@@ -251,10 +251,10 @@ def XYZ_to_sd(
                           [ 760.        ,    0.9955066...],
                           [ 770.        ,    0.9962855...],
                           [ 780.        ,    0.9968976...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
     array([ 0.2066217...,  0.1220128...,  0.0513958...])
 
@@ -269,7 +269,6 @@ def XYZ_to_sd(
     >>> sd = XYZ_to_sd(XYZ, method="Mallett 2019")
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
-    ...
     SpectralDistribution([[ 380.        ,    0.1735531...],
                           [ 385.        ,    0.1720357...],
                           [ 390.        ,    0.1677721...],
@@ -351,10 +350,10 @@ def XYZ_to_sd(
                           [ 770.        ,    0.1761803...],
                           [ 775.        ,    0.1761195...],
                           [ 780.        ,    0.1760763...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100
     ... # doctest: +ELLIPSIS
     array([ 0.2065436...,  0.1219996...,  0.0513764...])
@@ -367,12 +366,9 @@ def XYZ_to_sd(
     ...     .align(SpectralShape(360, 780, 10))
     ... )
     >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
-    >>> sd = XYZ_to_sd(
-    ...     XYZ, method="Meng 2015", cmfs=cmfs, illuminant=illuminant
-    ... )
+    >>> sd = XYZ_to_sd(XYZ, method="Meng 2015", cmfs=cmfs, illuminant=illuminant)
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +SKIP
-    ...
     SpectralDistribution([[ 360.        ,    0.0762005...],
                           [ 370.        ,    0.0761792...],
                           [ 380.        ,    0.0761363...],
@@ -416,10 +412,10 @@ def XYZ_to_sd(
                           [ 760.        ,    0.4484969...],
                           [ 770.        ,    0.4484853...],
                           [ 780.        ,    0.4485134...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
 
@@ -431,12 +427,9 @@ def XYZ_to_sd(
     ...     .align(SPECTRAL_SHAPE_OTSU2018)
     ... )
     >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
-    >>> sd = XYZ_to_sd(
-    ...     XYZ, method="Otsu 2018", cmfs=cmfs, illuminant=illuminant
-    ... )
+    >>> sd = XYZ_to_sd(XYZ, method="Otsu 2018", cmfs=cmfs, illuminant=illuminant)
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
-    ...
     SpectralDistribution([[ 380.        ,    0.0601939...],
                           [ 390.        ,    0.0568063...],
                           [ 400.        ,    0.0517429...],
@@ -473,10 +466,10 @@ def XYZ_to_sd(
                           [ 710.        ,    0.7084128...],
                           [ 720.        ,    0.7154674...],
                           [ 730.        ,    0.7234334...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
     array([ 0.2065494...,  0.1219712...,  0.0514002...])
 
@@ -491,7 +484,6 @@ def XYZ_to_sd(
     >>> sd = XYZ_to_sd(XYZ, method="Smits 1999")
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
-    ...
     SpectralDistribution([[ 380.        ,    0.0787830...],
                           [ 417.7778    ,    0.0622018...],
                           [ 455.5556    ,    0.0446206...],
@@ -502,10 +494,10 @@ def XYZ_to_sd(
                           [ 644.4444    ,    0.3836164...],
                           [ 682.2222    ,    0.3836164...],
                           [ 720.        ,    0.3835649...]],
-                         interpolator=LinearInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         LinearInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
     array([ 0.1894770...,  0.1126470...,  0.0474420...])
     """
@@ -531,34 +523,3 @@ __all__ += [
     "XYZ_TO_SD_METHODS",
     "XYZ_to_sd",
 ]
-
-
-# ----------------------------------------------------------------------------#
-# ---                API Changes and Deprecation Management                ---#
-# ----------------------------------------------------------------------------#
-class recovery(ModuleAPI):
-    """Define a class acting like the *recovery* module."""
-
-    def __getattr__(self, attribute) -> Any:
-        """Return the value from the attribute with given name."""
-
-        return super().__getattr__(attribute)
-
-
-# v0.4.0
-API_CHANGES = {
-    "ObjectRenamed": [
-        [
-            "colour.recovery.NodeTree_Otsu2018",
-            "colour.recovery.Tree_Otsu2018",
-        ],
-    ]
-}
-"""Defines the *colour.recovery* sub-package API changes."""
-
-if not is_documentation_building():
-    sys.modules["colour.recovery"] = recovery(  # pyright: ignore
-        sys.modules["colour.recovery"], build_API_changes(API_CHANGES)
-    )
-
-    del ModuleAPI, is_documentation_building, build_API_changes, sys

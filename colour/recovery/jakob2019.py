@@ -2,7 +2,7 @@
 Jakob and Hanika (2019) - Reflectance Recovery
 ==============================================
 
-Defines the objects for reflectance recovery, i.e. spectral upsampling, using
+Define the objects for reflectance recovery, i.e., spectral upsampling, using
 *Jakob and Hanika (2019)* method:
 
 -   :func:`colour.recovery.sd_Jakob2019`
@@ -20,6 +20,7 @@ References
 from __future__ import annotations
 
 import struct
+from pathlib import Path
 
 import numpy as np
 from scipy.interpolate import RegularGridInterpolator
@@ -162,7 +163,6 @@ def sd_Jakob2019(
     >>> with numpy_print_options(suppress=True):
     ...     sd_Jakob2019([-9e-05, 8.5e-02, -20], SpectralShape(400, 700, 20))
     ...     # doctest: +ELLIPSIS
-    ...
     SpectralDistribution([[ 400.        ,    0.3143046...],
                           [ 420.        ,    0.4133320...],
                           [ 440.        ,    0.4880034...],
@@ -232,7 +232,7 @@ def error_function(
     -------
     :class:`tuple` or :class:`tuple`
         Tuple of computed :math:`\\Delta E_{76}` error and gradient of error,
-        i.e. the first derivatives of error with respect to the input
+        i.e., the first derivatives of error with respect to the input
         coefficients or tuple of computed :math:`\\Delta E_{76}` error,
         gradient of error, computed spectral reflectance, *CIE XYZ* tristimulus
         values corresponding to ``R`` and *CIE L\\*a\\*b\\** colourspace array
@@ -268,9 +268,7 @@ def error_function(
     XYZ_f = intermediate_lightness_function_CIE1976(XYZ, XYZ_n)
     dXYZ_f = np.where(
         XYZ_XYZ_n[..., None] > (24 / 116) ** 3,
-        1
-        / (3 * spow(XYZ_n[..., None], 1 / 3) * spow(XYZ[..., None], 2 / 3))
-        * dXYZ,
+        1 / (3 * spow(XYZ_n[..., None], 1 / 3) * spow(XYZ[..., None], 2 / 3)) * dXYZ,
         (841 / 108) * dXYZ / XYZ_n[..., None],
     )
 
@@ -297,9 +295,7 @@ def error_function(
     if max_error is not None and error <= max_error:
         raise StopMinimizationEarlyError(coefficients, error)
 
-    derror = (
-        np.sum(dLab_i * (Lab_i[..., None] - target[..., None]), axis=0) / error
-    )
+    derror = np.sum(dLab_i * (Lab_i[..., None] - target[..., None]), axis=0) / error
 
     if additional_data:
         return error, derror, R, XYZ, Lab_i
@@ -339,9 +335,7 @@ def dimensionalise_coefficients(
 
     c_0 = cp_0 / span**2
     c_1 = cp_1 / span - 2 * cp_0 * shape.start / span**2
-    c_2 = (
-        cp_0 * shape.start**2 / span**2 - cp_1 * shape.start / span + cp_2
-    )
+    c_2 = cp_0 * shape.start**2 / span**2 - cp_1 * shape.start / span + cp_2
 
     return np.array([c_0, c_1, c_2])
 
@@ -549,7 +543,6 @@ def XYZ_to_sd_Jakob2019(
     >>> sd = XYZ_to_sd_Jakob2019(XYZ, cmfs, illuminant)
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
-    ...
     SpectralDistribution([[ 360.        ,    0.4893773...],
                           [ 370.        ,    0.3258214...],
                           [ 380.        ,    0.2147792...],
@@ -684,7 +677,6 @@ class LUT3D_Jakob2019:
     >>> RGB = np.array([0.70573936, 0.19248266, 0.22354169])
     >>> with numpy_print_options(suppress=True):
     ...     LUT.RGB_to_sd(RGB, cmfs.shape)  # doctest: +ELLIPSIS
-    ...
     SpectralDistribution([[ 360.        ,    0.7666803...],
                           [ 370.        ,    0.6251547...],
                           [ 380.        ,    0.4584310...],
@@ -738,6 +730,7 @@ class LUT3D_Jakob2019:
         self._interpolator: RegularGridInterpolator = RegularGridInterpolator(
             np.array([]), np.array([])
         )
+
         self._size: int = 0
         self._lightness_scale: NDArrayFloat = np.array([])
         self._coefficients: NDArrayFloat = np.array([])
@@ -746,7 +739,7 @@ class LUT3D_Jakob2019:
     def size(self) -> int:
         """
         Getter property for the *Jakob and Hanika (2019)* interpolator
-        size, i.e. the samples count on one side of the 3D table.
+        size, i.e., the sample count on one side of the 3D table.
 
         Returns
         -------
@@ -1000,15 +993,13 @@ class LUT3D_Jakob2019:
         ... )
         >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
         >>> LUT = LUT3D_Jakob2019()
-        >>> LUT.generate(
-        ...     RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x
-        ... )
+        >>> LUT.generate(RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x)
         >>> RGB = np.array([0.70573936, 0.19248266, 0.22354169])
         >>> LUT.RGB_to_coefficients(RGB)  # doctest: +ELLIPSIS
         array([  1.5013448...e-04,  -1.4679754...e-01,   3.4020219...e+01])
         """
 
-        if self._interpolator is not None:
+        if len(self._interpolator.grid) != 0:
             RGB = as_float_array(RGB)
 
             value_max = np.max(RGB, axis=-1)
@@ -1059,13 +1050,10 @@ class LUT3D_Jakob2019:
         ... )
         >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
         >>> LUT = LUT3D_Jakob2019()
-        >>> LUT.generate(
-        ...     RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x
-        ... )
+        >>> LUT.generate(RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x)
         >>> RGB = np.array([0.70573936, 0.19248266, 0.22354169])
         >>> with numpy_print_options(suppress=True):
         ...     LUT.RGB_to_sd(RGB, cmfs.shape)  # doctest: +ELLIPSIS
-        ...
         SpectralDistribution([[ 360.        ,    0.7666803...],
                               [ 370.        ,    0.6251547...],
                               [ 380.        ,    0.4584310...],
@@ -1120,7 +1108,7 @@ class LUT3D_Jakob2019:
 
         return sd
 
-    def read(self, path: str) -> LUT3D_Jakob2019:
+    def read(self, path: str | Path) -> LUT3D_Jakob2019:
         """
         Load a lookup table from a *\\*.coeff* file.
 
@@ -1148,9 +1136,7 @@ class LUT3D_Jakob2019:
         ... )
         >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
         >>> LUT = LUT3D_Jakob2019()
-        >>> LUT.generate(
-        ...     RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x
-        ... )
+        >>> LUT.generate(RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x)
         >>> path = os.path.join(
         ...     colour.__path__[0],
         ...     "recovery",
@@ -1161,6 +1147,8 @@ class LUT3D_Jakob2019:
         >>> LUT.write(path)  # doctest: +SKIP
         >>> LUT.read(path)  # doctest: +SKIP
         """
+
+        path = str(path)
 
         with open(path, "rb") as coeff_file:
             if coeff_file.read(4).decode("ISO-8859-1") != "SPEC":
@@ -1175,15 +1163,15 @@ class LUT3D_Jakob2019:
             self._coefficients = np.fromfile(
                 coeff_file, count=3 * (self._size**3) * 3, dtype=np.float32
             )
-            self._coefficients = self._coefficients.reshape(
-                3, self._size, self._size, self._size, 3
+            self._coefficients = np.reshape(
+                self._coefficients, (3, self._size, self._size, self._size, 3)
             )
 
         self._create_interpolator()
 
         return self
 
-    def write(self, path: str) -> bool:
+    def write(self, path: str | Path) -> bool:
         """
         Write the lookup table to a *\\*.coeff* file.
 
@@ -1211,9 +1199,7 @@ class LUT3D_Jakob2019:
         ... )
         >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
         >>> LUT = LUT3D_Jakob2019()
-        >>> LUT.generate(
-        ...     RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x
-        ... )
+        >>> LUT.generate(RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x)
         >>> path = os.path.join(
         ...     colour.__path__[0],
         ...     "recovery",
@@ -1224,6 +1210,8 @@ class LUT3D_Jakob2019:
         >>> LUT.write(path)  # doctest: +SKIP
         >>> LUT.read(path)  # doctest: +SKIP
         """
+
+        path = str(path)
 
         with open(path, "wb") as coeff_file:
             coeff_file.write(b"SPEC")

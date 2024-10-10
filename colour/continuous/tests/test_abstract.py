@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.continuous.abstract` module."""
 
-import unittest
 
 from colour.continuous import AbstractContinuousFunction
 
@@ -17,7 +15,7 @@ __all__ = [
 ]
 
 
-class TestAbstractContinuousFunction(unittest.TestCase):
+class TestAbstractContinuousFunction:
     """
     Define :class:`colour.continuous.abstract.AbstractContinuousFunction`
     class unit tests methods.
@@ -38,7 +36,7 @@ class TestAbstractContinuousFunction(unittest.TestCase):
         )
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(AbstractContinuousFunction))
+            assert attribute in dir(AbstractContinuousFunction)
 
     def test_required_methods(self):
         """Test the presence of required methods."""
@@ -73,8 +71,4 @@ class TestAbstractContinuousFunction(unittest.TestCase):
         )
 
         for method in required_methods:
-            self.assertIn(method, dir(AbstractContinuousFunction))
-
-
-if __name__ == "__main__":
-    unittest.main()
+            assert method in dir(AbstractContinuousFunction)

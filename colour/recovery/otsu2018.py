@@ -2,7 +2,7 @@
 Otsu, Yamamoto and Hachisuka (2018) - Reflectance Recovery
 ==========================================================
 
-Defines the objects for reflectance recovery, i.e. spectral upsampling, using
+Define the objects for reflectance recovery, i.e., spectral upsampling, using
 *Otsu et al. (2018)* method:
 
 -   :class:`colour.recovery.Dataset_Otsu2018`
@@ -19,6 +19,7 @@ References
 from __future__ import annotations
 
 from dataclasses import dataclass
+from pathlib import Path
 
 import numpy as np
 
@@ -51,7 +52,7 @@ from colour.recovery import (
     SPECTRAL_SHAPE_OTSU2018,
 )
 from colour.utilities import (
-    Node,
+    TreeNode,
     as_float_array,
     as_float_scalar,
     domain_range_scale,
@@ -170,9 +171,7 @@ class Dataset_Otsu2018:
             means if means is None else as_float_array(means)
         )
         self._selector_array: NDArrayFloat | None = (
-            selector_array
-            if selector_array is None
-            else as_float_array(selector_array)
+            selector_array if selector_array is None else as_float_array(selector_array)
         )
 
     @property
@@ -316,7 +315,7 @@ class Dataset_Otsu2018:
         else:
             raise ValueError('The "basis functions" or "means" are undefined!')
 
-    def read(self, path: str):
+    def read(self, path: str | Path) -> None:
         """
         Read and loads a dataset from an *.npz* file.
 
@@ -349,6 +348,8 @@ class Dataset_Otsu2018:
         >>> dataset.read(path)  # doctest: +SKIP
         """
 
+        path = str(path)
+
         data = np.load(path)
 
         start, end, interval = data["shape"]
@@ -357,7 +358,7 @@ class Dataset_Otsu2018:
         self._means = data["means"]
         self._selector_array = data["selector_array"]
 
-    def write(self, path: str):
+    def write(self, path: str | Path) -> None:
         """
         Write the dataset to an *.npz* file at given path.
 
@@ -392,6 +393,8 @@ class Dataset_Otsu2018:
         ... )
         >>> dataset.write(path)  # doctest: +SKIP
         """
+
+        path = str(path)
 
         if self._shape is not None:
             np.savez(
@@ -489,7 +492,6 @@ def XYZ_to_sd_Otsu2018(
     >>> sd = XYZ_to_sd_Otsu2018(XYZ, cmfs, illuminant)
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
-    ...
     SpectralDistribution([[ 380.        ,    0.0601939...],
                           [ 390.        ,    0.0568063...],
                           [ 400.        ,    0.0517429...],
@@ -781,11 +783,7 @@ class Data_Otsu2018:
             Number of colours in the data.
         """
 
-        return (
-            self._reflectances.shape[0]
-            if self._reflectances is not None
-            else 0
-        )
+        return self._reflectances.shape[0] if self._reflectances is not None else 0
 
     def origin(self, i: int, direction: int) -> float:
         """
@@ -815,9 +813,7 @@ class Data_Otsu2018:
         else:
             raise ValueError('The "chromaticity coordinates" are undefined!')
 
-    def partition(
-        self, axis: PartitionAxis
-    ) -> Tuple[Data_Otsu2018, Data_Otsu2018]:
+    def partition(self, axis: PartitionAxis) -> Tuple[Data_Otsu2018, Data_Otsu2018]:
         """
         Partition the data using given partition axis.
 
@@ -879,22 +875,19 @@ class Data_Otsu2018:
 
             self._mean = np.mean(self._reflectances, axis=0)
             self._XYZ_mu = (
-                msds_to_XYZ_integration(
-                    cast(NDArrayFloat, self._mean), **settings
-                )
+                msds_to_XYZ_integration(cast(NDArrayFloat, self._mean), **settings)
                 / 100
             )
 
             _w, w = eigen_decomposition(
-                self._reflectances - self._mean,
+                self._reflectances - self._mean,  # pyright: ignore
                 descending_order=False,
                 covariance_matrix=True,
             )
             self._basis_functions = np.transpose(w[:, -3:])
 
             self._M = np.transpose(
-                msds_to_XYZ_integration(self._basis_functions, **settings)
-                / 100
+                msds_to_XYZ_integration(self._basis_functions, **settings) / 100
             )
 
     def reconstruct(self, XYZ: ArrayLike) -> SpectralDistribution:
@@ -981,7 +974,7 @@ class Data_Otsu2018:
             raise ValueError('The "tristimulus values" are undefined!')
 
 
-class Node_Otsu2018(Node):
+class Node_Otsu2018(TreeNode):
     """
     Represent a node in a :meth:`colour.recovery.Tree_Otsu2018` class instance
     node tree.
@@ -1018,9 +1011,9 @@ class Node_Otsu2018(Node):
         super().__init__(parent=parent, children=children, data=data)
 
         self._partition_axis: PartitionAxis | None = None
-        self._best_partition: Tuple[
-            Sequence[Node_Otsu2018], PartitionAxis, float
-        ] | None = None
+        self._best_partition: (
+            Tuple[Sequence[Node_Otsu2018], PartitionAxis, float] | None
+        ) = None
 
     @property
     def partition_axis(self) -> PartitionAxis | None:
@@ -1098,7 +1091,7 @@ class Node_Otsu2018(Node):
         -------
         :class:`tuple`
             Tuple of tuple of nodes created by splitting a node with a given
-            partition, partition axis, i.e. the horizontal or vertical line,
+            partition, partition axis, i.e., the horizontal or vertical line,
             partitioning the 2D space in two half-planes and partition error.
         """
 
@@ -1113,9 +1106,7 @@ class Node_Otsu2018(Node):
                 for i in range(len(self.data)):
                     progress.update()
 
-                    axis = PartitionAxis(
-                        self.data.origin(i, direction), direction
-                    )
+                    axis = PartitionAxis(self.data.origin(i, direction), direction)
                     data_lesser, data_greater = self.data.partition(axis)
 
                     if np.any(
@@ -1175,7 +1166,7 @@ class Node_Otsu2018(Node):
     def branch_reconstruction_error(self) -> float:
         """
         Compute the reconstruction error for all the leaves data connected to
-        the node or its children, i.e. the reconstruction errors summation for
+        the node or its children, i.e., the reconstruction errors summation for
         all the leaves in the branch.
 
         Returns
@@ -1189,12 +1180,7 @@ class Node_Otsu2018(Node):
             return self.leaf_reconstruction_error()
         else:
             return as_float_scalar(
-                np.sum(
-                    [
-                        child.branch_reconstruction_error()
-                        for child in self.children
-                    ]
-                )
+                np.sum([child.branch_reconstruction_error() for child in self.children])
             )
 
 
@@ -1270,7 +1256,6 @@ class Tree_Otsu2018(Node_Otsu2018):
     >>> sd = XYZ_to_sd_Otsu2018(XYZ, cmfs, illuminant, dataset)
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
-    ...
     SpectralDistribution([[ 360.        ,    0.0651341...],
                           [ 370.        ,    0.0651341...],
                           [ 380.        ,    0.0651341...],
@@ -1502,9 +1487,7 @@ the initial error.
                     continue
 
                 new_total_error = (
-                    total_error
-                    - leaf.leaf_reconstruction_error()
-                    + partition_error
+                    total_error - leaf.leaf_reconstruction_error() + partition_error
                 )
 
                 if (
@@ -1578,14 +1561,10 @@ the initial error.
             selector_array = zeros(4)
         else:
 
-            def add_rows(
-                node: Node_Otsu2018, data: dict | None = None
-            ) -> dict | None:
+            def add_rows(node: Node_Otsu2018, data: dict | None = None) -> dict | None:
                 """Add rows for given node and its children."""
 
-                data = optional(
-                    data, {"rows": [], "node_to_leaf_id": {}, "leaf_id": 0}
-                )
+                data = optional(data, {"rows": [], "node_to_leaf_id": {}, "leaf_id": 0})
 
                 if node.is_leaf():
                     data["node_to_leaf_id"][node] = data["leaf_id"]

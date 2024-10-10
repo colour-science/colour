@@ -2,7 +2,7 @@
 Simulation of CVD - Machado, Oliveira and Fernandes (2009)
 ==========================================================
 
-Defines the *Machado et al. (2009)* objects for simulation of colour vision
+Define the *Machado et al. (2009)* objects for simulation of colour vision
 deficiency:
 
 -   :func:`colour.msds_cmfs_anomalous_trichromacy_Machado2009`
@@ -30,7 +30,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.algebra import matrix_dot, vector_dot
+from colour.algebra import vecmul
 from colour.blindness import CVD_MATRICES_MACHADO2010
 from colour.characterisation import RGB_DisplayPrimaries
 from colour.colorimetry import (
@@ -108,7 +108,7 @@ def matrix_RGB_to_WSYBRG(
     """
 
     wavelengths = cmfs.wavelengths
-    WSYBRG = vector_dot(MATRIX_LMS_TO_WSYBRG, cmfs.values)
+    WSYBRG = vecmul(MATRIX_LMS_TO_WSYBRG, cmfs.values)
     WS, YB, RG = tsplit(WSYBRG)
 
     primaries = reshape_msds(
@@ -120,17 +120,17 @@ def matrix_RGB_to_WSYBRG(
 
     R, G, B = tsplit(primaries.values)
 
-    WS_R = np.trapz(R * WS, wavelengths)
-    WS_G = np.trapz(G * WS, wavelengths)
-    WS_B = np.trapz(B * WS, wavelengths)
+    WS_R = np.trapezoid(R * WS, wavelengths)  # pyright: ignore
+    WS_G = np.trapezoid(G * WS, wavelengths)  # pyright: ignore
+    WS_B = np.trapezoid(B * WS, wavelengths)  # pyright: ignore
 
-    YB_R = np.trapz(R * YB, wavelengths)
-    YB_G = np.trapz(G * YB, wavelengths)
-    YB_B = np.trapz(B * YB, wavelengths)
+    YB_R = np.trapezoid(R * YB, wavelengths)  # pyright: ignore
+    YB_G = np.trapezoid(G * YB, wavelengths)  # pyright: ignore
+    YB_B = np.trapezoid(B * YB, wavelengths)  # pyright: ignore
 
-    RG_R = np.trapz(R * RG, wavelengths)
-    RG_G = np.trapz(G * RG, wavelengths)
-    RG_B = np.trapz(B * RG, wavelengths)
+    RG_R = np.trapezoid(R * RG, wavelengths)  # pyright: ignore
+    RG_G = np.trapezoid(G * RG, wavelengths)  # pyright: ignore
+    RG_B = np.trapezoid(B * RG, wavelengths)  # pyright: ignore
 
     M_G = as_float_array(
         [
@@ -193,9 +193,7 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(
     >>> cmfs = MSDS_CMFS_LMS["Stockman & Sharpe 2 Degree Cone Fundamentals"]
     >>> cmfs[450]
     array([ 0.0498639,  0.0870524,  0.955393 ])
-    >>> msds_cmfs_anomalous_trichromacy_Machado2009(
-    ...     cmfs, np.array([15, 0, 0])
-    ... )[
+    >>> msds_cmfs_anomalous_trichromacy_Machado2009(cmfs, np.array([15, 0, 0]))[
     ...     450
     ... ]  # doctest: +ELLIPSIS
     array([ 0.0891288...,  0.0870524 ,  0.955393  ])
@@ -221,8 +219,8 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(
             "deuteranomaly simulation."
         )
 
-    area_L = np.trapz(L, cmfs.wavelengths)
-    area_M = np.trapz(M, cmfs.wavelengths)
+    area_L = np.trapezoid(L, cmfs.wavelengths)  # pyright: ignore
+    area_M = np.trapezoid(M, cmfs.wavelengths)  # pyright: ignore
 
     def alpha(x: NDArrayFloat) -> NDArrayFloat:
         """Compute :math:`alpha` factor."""
@@ -310,7 +308,7 @@ def matrix_anomalous_trichromacy_Machado2009(
     cmfs_a = msds_cmfs_anomalous_trichromacy_Machado2009(cmfs, d_LMS)
     M_a = matrix_RGB_to_WSYBRG(cmfs_a, primaries)
 
-    return matrix_dot(np.linalg.inv(M_n), M_a)
+    return np.matmul(np.linalg.inv(M_n), M_a)
 
 
 def matrix_cvd_Machado2009(

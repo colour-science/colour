@@ -2,7 +2,7 @@
 Hellwig and Fairchild (2022) Colour Appearance Model
 ====================================================
 
-Defines the *Hellwig and Fairchild (2022)* colour appearance model objects:
+Define the *Hellwig and Fairchild (2022)* colour appearance model objects:
 
 -   :class:`colour.appearance.InductionFactors_Hellwig2022`
 -   :attr:`colour.VIEWING_CONDITIONS_HELLWIG2022`
@@ -29,7 +29,7 @@ from dataclasses import astuple, dataclass, field
 
 import numpy as np
 
-from colour.algebra import sdiv, sdiv_mode, spow, vector_dot
+from colour.algebra import sdiv, sdiv_mode, spow, vecmul
 from colour.appearance.cam16 import (
     MATRIX_16,
     MATRIX_INVERSE_16,
@@ -186,8 +186,9 @@ def XYZ_to_Hellwig2022(
     XYZ_w: ArrayLike,
     L_A: ArrayLike,
     Y_b: ArrayLike,
-    surround: InductionFactors_CIECAM02
-    | InductionFactors_Hellwig2022 = VIEWING_CONDITIONS_HELLWIG2022["Average"],
+    surround: (
+        InductionFactors_CIECAM02 | InductionFactors_Hellwig2022
+    ) = VIEWING_CONDITIONS_HELLWIG2022["Average"],
     discount_illuminant: bool = False,
     compute_H: bool = True,
 ) -> CAM_Specification_Hellwig2022:
@@ -306,7 +307,7 @@ H=275.5949861..., HC=None, J_HK=41.8802782..., Q_HK=56.0518358...)
 
     # Step 0
     # Converting *CIE XYZ* tristimulus values to sharpened *RGB* values.
-    RGB_w = vector_dot(MATRIX_16, XYZ_w)
+    RGB_w = vecmul(MATRIX_16, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
     D = (
@@ -321,16 +322,14 @@ H=275.5949861..., HC=None, J_HK=41.8802782..., Q_HK=56.0518358...)
     RGB_wc = D_RGB * RGB_w
 
     # Applying forward post-adaptation non-linear response compression.
-    RGB_aw = post_adaptation_non_linear_response_compression_forward(
-        RGB_wc, F_L
-    )
+    RGB_aw = post_adaptation_non_linear_response_compression_forward(RGB_wc, F_L)
 
     # Computing achromatic responses for the whitepoint.
     A_w = achromatic_response_forward(RGB_aw)
 
     # Step 1
     # Converting *CIE XYZ* tristimulus values to sharpened *RGB* values.
-    RGB = vector_dot(MATRIX_16, XYZ)
+    RGB = vecmul(MATRIX_16, XYZ)
 
     # Step 2
     RGB_c = D_RGB * RGB
@@ -399,8 +398,9 @@ def Hellwig2022_to_XYZ(
     XYZ_w: ArrayLike,
     L_A: ArrayLike,
     Y_b: ArrayLike,
-    surround: InductionFactors_CIECAM02
-    | InductionFactors_Hellwig2022 = VIEWING_CONDITIONS_HELLWIG2022["Average"],
+    surround: (
+        InductionFactors_CIECAM02 | InductionFactors_Hellwig2022
+    ) = VIEWING_CONDITIONS_HELLWIG2022["Average"],
     discount_illuminant: bool = False,
 ) -> NDArrayFloat:
     """
@@ -416,7 +416,7 @@ def Hellwig2022_to_XYZ(
         *Hellwig and Fairchild (2022)* colour appearance model specification.
         Correlate of *Lightness* :math:`J`, correlate of *chroma* :math:`C` or
         correlate of *colourfulness* :math:`M` and *hue* angle :math:`h` in
-        degrees must be specified, e.g. :math:`JCh` or :math:`JMh`.
+        degrees must be specified, e.g., :math:`JCh` or :math:`JMh`.
     XYZ_w
         *CIE XYZ* tristimulus values of reference white.
     L_A
@@ -549,7 +549,7 @@ def Hellwig2022_to_XYZ(
 
     # Step 0
     # Converting *CIE XYZ* tristimulus values to sharpened *RGB* values.
-    RGB_w = vector_dot(MATRIX_16, XYZ_w)
+    RGB_w = vecmul(MATRIX_16, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
     D = (
@@ -564,9 +564,7 @@ def Hellwig2022_to_XYZ(
     RGB_wc = D_RGB * RGB_w
 
     # Applying forward post-adaptation non-linear response compression.
-    RGB_aw = post_adaptation_non_linear_response_compression_forward(
-        RGB_wc, F_L
-    )
+    RGB_aw = post_adaptation_non_linear_response_compression_forward(RGB_wc, F_L)
 
     # Computing achromatic responses for the whitepoint.
     A_w = achromatic_response_forward(RGB_aw)
@@ -602,15 +600,13 @@ def Hellwig2022_to_XYZ(
 
     # Step 5
     # Applying inverse post-adaptation non-linear response compression.
-    RGB_c = post_adaptation_non_linear_response_compression_inverse(
-        RGB_a + 0.1, F_L
-    )
+    RGB_c = post_adaptation_non_linear_response_compression_inverse(RGB_a + 0.1, F_L)
 
     # Step 6
     RGB = RGB_c / D_RGB
 
     # Step 7
-    XYZ = vector_dot(MATRIX_INVERSE_16, RGB)
+    XYZ = vecmul(MATRIX_INVERSE_16, RGB)
 
     return from_range_100(XYZ)
 

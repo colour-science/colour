@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.temperature.krystek1985` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -22,7 +20,7 @@ __all__ = [
 ]
 
 
-class TestUv_to_CCT_Krystek1985(unittest.TestCase):
+class TestUv_to_CCT_Krystek1985:
     """
     Define :func:`colour.temperature.krystek1985.uv_to_CCT_Krystek1985`
     definition unit tests methods.
@@ -94,7 +92,7 @@ class TestUv_to_CCT_Krystek1985(unittest.TestCase):
         uv_to_CCT_Krystek1985(cases)
 
 
-class TestCCT_to_uv_Krystek1985(unittest.TestCase):
+class TestCCT_to_uv_Krystek1985:
     """
     Define :func:`colour.temperature.krystek1985.CCT_to_uv_Krystek1985`
     definition unit tests methods.
@@ -154,7 +152,3 @@ class TestCCT_to_uv_Krystek1985(unittest.TestCase):
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         CCT_to_uv_Krystek1985(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

@@ -2,7 +2,7 @@
 Hdr-CIELAB Colourspace
 ======================
 
-Defines the *hdr-CIELAB* colourspace transformations:
+Define the *hdr-CIELAB* colourspace transformations:
 
 -   :attr:`colour.HDR_CIELAB_METHODS`: Supported *hdr-CIELAB* colourspace
     computation methods.
@@ -79,8 +79,7 @@ References
 def exponent_hdr_CIELab(
     Y_s: ArrayLike,
     Y_abs: ArrayLike,
-    method: Literal["Fairchild 2011", "Fairchild 2010"]
-    | str = "Fairchild 2011",
+    method: (Literal["Fairchild 2011", "Fairchild 2010"] | str) = "Fairchild 2011",
 ) -> NDArrayFloat:
     """
     Compute *hdr-CIELAB* colourspace *Lightness* :math:`\\epsilon` exponent
@@ -136,13 +135,12 @@ def exponent_hdr_CIELab(
 
 def XYZ_to_hdr_CIELab(
     XYZ: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS[
-        "CIE 1931 2 Degree Standard Observer"
-    ]["D65"],
+    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
     Y_s: ArrayLike = 0.2,
     Y_abs: ArrayLike = 100,
-    method: Literal["Fairchild 2011", "Fairchild 2010"]
-    | str = "Fairchild 2011",
+    method: (Literal["Fairchild 2011", "Fairchild 2010"] | str) = "Fairchild 2011",
 ) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *hdr-CIELAB* colourspace.
@@ -235,13 +233,12 @@ def XYZ_to_hdr_CIELab(
 
 def hdr_CIELab_to_XYZ(
     Lab_hdr: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS[
-        "CIE 1931 2 Degree Standard Observer"
-    ]["D65"],
+    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
     Y_s: ArrayLike = 0.2,
     Y_abs: ArrayLike = 100,
-    method: Literal["Fairchild 2011", "Fairchild 2010"]
-    | str = "Fairchild 2011",
+    method: (Literal["Fairchild 2011", "Fairchild 2010"] | str) = "Fairchild 2011",
 ) -> NDArrayFloat:
     """
     Convert from *hdr-CIELAB* colourspace to *CIE XYZ* tristimulus values.

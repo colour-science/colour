@@ -1,4 +1,4 @@
-"""Showcases optical phenomena plotting examples."""
+"""Showcase optical phenomena plotting examples."""
 
 from colour.phenomena import sd_rayleigh_scattering
 from colour.plotting import (

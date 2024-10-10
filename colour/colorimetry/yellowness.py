@@ -2,7 +2,7 @@
 Yellowness Index :math:`Y`
 ==========================
 
-Defines the *yellowness* index :math:`Y` computation objects:
+Define the *yellowness* index :math:`Y` computation objects:
 
 -   :func:`colour.colorimetry.yellowness_ASTMD1925`: *Yellowness* index
     :math:`YI` computation of given sample *CIE XYZ* tristimulus values using
@@ -207,12 +207,12 @@ Aliases:
 -   'cie_2_1931': 'CIE 1931 2 Degree Standard Observer'
 -   'cie_10_1964': 'CIE 1964 10 Degree Standard Observer'
 """
-YELLOWNESS_COEFFICIENTS_ASTME313[
-    "cie_2_1931"
-] = YELLOWNESS_COEFFICIENTS_ASTME313["CIE 1931 2 Degree Standard Observer"]
-YELLOWNESS_COEFFICIENTS_ASTME313[
-    "cie_10_1964"
-] = YELLOWNESS_COEFFICIENTS_ASTME313["CIE 1964 10 Degree Standard Observer"]
+YELLOWNESS_COEFFICIENTS_ASTME313["cie_2_1931"] = YELLOWNESS_COEFFICIENTS_ASTME313[
+    "CIE 1931 2 Degree Standard Observer"
+]
+YELLOWNESS_COEFFICIENTS_ASTME313["cie_10_1964"] = YELLOWNESS_COEFFICIENTS_ASTME313[
+    "CIE 1964 10 Degree Standard Observer"
+]
 
 
 def yellowness_ASTME313(
@@ -295,8 +295,9 @@ References
 
 def yellowness(
     XYZ: ArrayLike,
-    method: Literal["ASTM D1925", "ASTM E313", "ASTM E313 Alternative"]
-    | str = "ASTM E313",
+    method: (
+        Literal["ASTM D1925", "ASTM E313", "ASTM E313 Alternative"] | str
+    ) = "ASTM E313",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """

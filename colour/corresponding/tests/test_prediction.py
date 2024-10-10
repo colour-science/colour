@@ -1,9 +1,6 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.corresponding.prediction` module."""
 
 from __future__ import annotations
-
-import unittest
 
 import numpy as np
 
@@ -42,101 +39,95 @@ __all__ = [
     "TestCorrespondingChromaticitiesPredictionZhai2018",
 ]
 
-DATASET_CORRESPONDING_COLOUR_1: CorrespondingColourDataset = (
-    CorrespondingColourDataset(
-        name=1,
-        XYZ_r=np.array(
-            [0.947368421052632, 1.000000000000000, 1.000000000000000]
-        ),
-        XYZ_t=np.array(
-            [1.107889733840304, 1.000000000000000, 0.334125475285171]
-        ),
-        XYZ_cr=np.array(
+DATASET_CORRESPONDING_COLOUR_1: CorrespondingColourDataset = CorrespondingColourDataset(
+    name=1,
+    XYZ_r=np.array([0.947368421052632, 1.000000000000000, 1.000000000000000]),
+    XYZ_t=np.array([1.107889733840304, 1.000000000000000, 0.334125475285171]),
+    XYZ_cr=np.array(
+        [
             [
-                [
-                    372.358829568788565,
-                    405.000000000000000,
-                    345.746919917864489,
-                ],
-                [250.638506876227865, 135.000000000000000, 37.131630648330052],
-                [
-                    456.541750503018136,
-                    405.000000000000000,
-                    267.487424547283638,
-                ],
-                [502.185218978102114, 405.000000000000000, 24.758211678831920],
-                [164.036312849162016, 135.000000000000000, 24.511173184357535],
-                [422.727888086642622, 405.000000000000000, 27.231498194945619],
-                [110.245746691871460, 135.000000000000000, 53.846880907372366],
-                [75.208733205374273, 135.000000000000000, 77.281669865642954],
-                [
-                    258.414179104477626,
-                    405.000000000000000,
-                    479.480277185501166,
-                ],
-                [
-                    141.154411764705856,
-                    135.000000000000000,
-                    469.124999999999943,
-                ],
-                [
-                    380.757042253521092,
-                    405.000000000000000,
-                    700.193661971831261,
-                ],
-                [
-                    192.236301369863071,
-                    135.000000000000000,
-                    370.510273972602761,
-                ],
-            ]
-        ),
-        XYZ_ct=np.array(
+                372.358829568788565,
+                405.000000000000000,
+                345.746919917864489,
+            ],
+            [250.638506876227865, 135.000000000000000, 37.131630648330052],
             [
-                [
-                    450.407919847328230,
-                    405.000000000000000,
-                    143.566316793893037,
-                ],
-                [267.090517241379359, 135.000000000000000, 11.831896551724059],
-                [
-                    531.851235741444839,
-                    405.000000000000000,
-                    107.602186311787023,
-                ],
-                [603.033088235294031, 405.000000000000000, 7.444852941176350],
-                [196.511090573012893, 135.000000000000000, 8.109981515711597],
-                [526.868181818181711, 405.000000000000000, 8.468181818181574],
-                [144.589483394833962, 135.000000000000000, 24.035977859778562],
-                [108.161900369003689, 135.000000000000000, 36.178505535055272],
-                [
-                    317.877906976744100,
-                    405.000000000000000,
-                    223.691860465116235,
-                ],
-                [
-                    126.960674157303373,
-                    135.000000000000000,
-                    192.792134831460686,
-                ],
-                [
-                    419.434826883910489,
-                    405.000000000000000,
-                    309.730142566191489,
-                ],
-                [
-                    185.180921052631589,
-                    135.000000000000000,
-                    151.430921052631589,
-                ],
-            ]
-        ),
-        Y_r=np.array(1500),
-        Y_t=np.array(1500),
-        B_r=0.3,
-        B_t=0.3,
-        metadata={},
-    )
+                456.541750503018136,
+                405.000000000000000,
+                267.487424547283638,
+            ],
+            [502.185218978102114, 405.000000000000000, 24.758211678831920],
+            [164.036312849162016, 135.000000000000000, 24.511173184357535],
+            [422.727888086642622, 405.000000000000000, 27.231498194945619],
+            [110.245746691871460, 135.000000000000000, 53.846880907372366],
+            [75.208733205374273, 135.000000000000000, 77.281669865642954],
+            [
+                258.414179104477626,
+                405.000000000000000,
+                479.480277185501166,
+            ],
+            [
+                141.154411764705856,
+                135.000000000000000,
+                469.124999999999943,
+            ],
+            [
+                380.757042253521092,
+                405.000000000000000,
+                700.193661971831261,
+            ],
+            [
+                192.236301369863071,
+                135.000000000000000,
+                370.510273972602761,
+            ],
+        ]
+    ),
+    XYZ_ct=np.array(
+        [
+            [
+                450.407919847328230,
+                405.000000000000000,
+                143.566316793893037,
+            ],
+            [267.090517241379359, 135.000000000000000, 11.831896551724059],
+            [
+                531.851235741444839,
+                405.000000000000000,
+                107.602186311787023,
+            ],
+            [603.033088235294031, 405.000000000000000, 7.444852941176350],
+            [196.511090573012893, 135.000000000000000, 8.109981515711597],
+            [526.868181818181711, 405.000000000000000, 8.468181818181574],
+            [144.589483394833962, 135.000000000000000, 24.035977859778562],
+            [108.161900369003689, 135.000000000000000, 36.178505535055272],
+            [
+                317.877906976744100,
+                405.000000000000000,
+                223.691860465116235,
+            ],
+            [
+                126.960674157303373,
+                135.000000000000000,
+                192.792134831460686,
+            ],
+            [
+                419.434826883910489,
+                405.000000000000000,
+                309.730142566191489,
+            ],
+            [
+                185.180921052631589,
+                135.000000000000000,
+                151.430921052631589,
+            ],
+        ]
+    ),
+    Y_r=np.array(1500),
+    Y_t=np.array(1500),
+    B_r=0.3,
+    B_t=0.3,
+    metadata={},
 )
 
 DATA_PREDICTION_FAIRCHILD1990: NDArrayFloat = np.array(
@@ -225,7 +216,7 @@ DATA_PREDICTION_ZHAI2018: NDArrayFloat = np.array(
 )
 
 
-class TestConvertExperimentResultsBreneman1987(unittest.TestCase):
+class TestConvertExperimentResultsBreneman1987:
     """
     Define :func:`colour.corresponding.prediction.\
 convert_experiment_results_Breneman1987` definition unit tests
@@ -238,9 +229,7 @@ convert_experiment_results_Breneman1987` definition unit tests
 convert_experiment_results_Breneman1987` definition.
         """
 
-        corresponding_colour_dataset = convert_experiment_results_Breneman1987(
-            1
-        )
+        corresponding_colour_dataset = convert_experiment_results_Breneman1987(1)
 
         np.testing.assert_allclose(
             corresponding_colour_dataset.XYZ_r,
@@ -279,9 +268,7 @@ convert_experiment_results_Breneman1987` definition.
         )
 
 
-class TestCorrespondingChromaticitiesPredictionFairchild1990(
-    unittest.TestCase
-):
+class TestCorrespondingChromaticitiesPredictionFairchild1990:
     """
     Define :func:`colour.corresponding.prediction.\
 corresponding_chromaticities_prediction_Fairchild1990` definition unit tests
@@ -306,7 +293,7 @@ corresponding_chromaticities_prediction_Fairchild1990` definition.
         )
 
 
-class TestCorrespondingChromaticitiesPredictionCIE1994(unittest.TestCase):
+class TestCorrespondingChromaticitiesPredictionCIE1994:
     """
     Define :func:`colour.corresponding.prediction.\
 corresponding_chromaticities_prediction_CIE1994` definition unit tests methods.
@@ -330,7 +317,7 @@ corresponding_chromaticities_prediction_CIE1994` definition.
         )
 
 
-class TestCorrespondingChromaticitiesPredictionCMCCAT2000(unittest.TestCase):
+class TestCorrespondingChromaticitiesPredictionCMCCAT2000:
     """
     Define :func:`colour.corresponding.prediction.\
 corresponding_chromaticities_prediction_CMCCAT2000` definition unit tests
@@ -355,7 +342,7 @@ corresponding_chromaticities_prediction_CMCCAT2000` definition.
         )
 
 
-class TestCorrespondingChromaticitiesPredictionVonKries(unittest.TestCase):
+class TestCorrespondingChromaticitiesPredictionVonKries:
     """
     Define :func:`colour.corresponding.prediction.\
 corresponding_chromaticities_prediction_VonKries` definition unit tests
@@ -380,7 +367,7 @@ corresponding_chromaticities_prediction_VonKries` definition.
         )
 
 
-class TestCorrespondingChromaticitiesPredictionZhai2018(unittest.TestCase):
+class TestCorrespondingChromaticitiesPredictionZhai2018:
     """
     Define :func:`colour.corresponding.prediction.\
 corresponding_chromaticities_prediction_Zhai2018` definition unit tests

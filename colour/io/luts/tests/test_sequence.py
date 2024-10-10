@@ -1,10 +1,8 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.io.luts.sequence` module."""
 
 from __future__ import annotations
 
 import textwrap
-import unittest
 
 import numpy as np
 
@@ -32,13 +30,13 @@ __all__ = [
 ]
 
 
-class TestLUTSequence(unittest.TestCase):
+class TestLUTSequence:
     """
     Define :class:`colour.io.luts.sequence.LUTSequence` class unit tests
     methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         self._LUT_1 = LUT1D(LUT1D.linear_table(16) + 0.125, "Nemo 1D")
@@ -56,7 +54,7 @@ class TestLUTSequence(unittest.TestCase):
         required_attributes = ("sequence",)
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(LUTSequence))
+            assert attribute in dir(LUTSequence)
 
     def test_required_methods(self):
         """Test the presence of required methods."""
@@ -77,7 +75,7 @@ class TestLUTSequence(unittest.TestCase):
         )
 
         for method in required_methods:
-            self.assertIn(method, dir(LUTSequence))
+            assert method in dir(LUTSequence)
 
     def test_sequence(self):
         """Test :class:`colour.io.luts.sequence.LUTSequence.sequence` property."""
@@ -85,22 +83,19 @@ class TestLUTSequence(unittest.TestCase):
         sequence = [self._LUT_1, self._LUT_2, self._LUT_3]
         LUT_sequence = LUTSequence()
         LUT_sequence.sequence = sequence
-        self.assertListEqual(self._LUT_sequence.sequence, sequence)
+        assert self._LUT_sequence.sequence == sequence
 
     def test__init__(self):
         """Test :class:`colour.io.luts.sequence.LUTSequence.__init__` method."""
 
-        self.assertEqual(
-            LUTSequence(self._LUT_1, self._LUT_2, self._LUT_3),
-            self._LUT_sequence,
-        )
+        assert LUTSequence(self._LUT_1, self._LUT_2, self._LUT_3) == self._LUT_sequence
 
     def test__getitem__(self):
         """Test :class:`colour.io.luts.sequence.LUTSequence.__getitem__` method."""
 
-        self.assertEqual(self._LUT_sequence[0], self._LUT_1)
-        self.assertEqual(self._LUT_sequence[1], self._LUT_2)
-        self.assertEqual(self._LUT_sequence[2], self._LUT_3)
+        assert self._LUT_sequence[0] == self._LUT_1
+        assert self._LUT_sequence[1] == self._LUT_2
+        assert self._LUT_sequence[2] == self._LUT_3
 
     def test__setitem__(self):
         """Test :class:`colour.io.luts.sequence.LUTSequence.__setitem__` method."""
@@ -110,9 +105,9 @@ class TestLUTSequence(unittest.TestCase):
         LUT_sequence[1] = self._LUT_1
         LUT_sequence[2] = self._LUT_2
 
-        self.assertEqual(LUT_sequence[1], self._LUT_1)
-        self.assertEqual(LUT_sequence[2], self._LUT_2)
-        self.assertEqual(LUT_sequence[0], self._LUT_3)
+        assert LUT_sequence[1] == self._LUT_1
+        assert LUT_sequence[2] == self._LUT_2
+        assert LUT_sequence[0] == self._LUT_3
 
     def test__delitem__(self):
         """Test :class:`colour.io.luts.sequence.LUTSequence.__delitem__` method."""
@@ -122,18 +117,17 @@ class TestLUTSequence(unittest.TestCase):
         del LUT_sequence[0]
         del LUT_sequence[0]
 
-        self.assertEqual(LUT_sequence[0], self._LUT_3)
+        assert LUT_sequence[0] == self._LUT_3
 
     def test__len__(self):
         """Test :class:`colour.io.luts.sequence.LUTSequence.__len__` method."""
 
-        self.assertEqual(len(self._LUT_sequence), 3)
+        assert len(self._LUT_sequence) == 3
 
     def test__str__(self):
         """Test :class:`colour.io.luts.sequence.LUTSequence.__str__` method."""
 
-        self.assertEqual(
-            str(self._LUT_sequence),
+        assert str(self._LUT_sequence) == (
             textwrap.dedent(
                 """
             LUT Sequence
@@ -168,7 +162,7 @@ class TestLUTSequence(unittest.TestCase):
                               [ 1.  1.  1.]]
                 Size       : (16, 3)
             """
-            ).strip(),
+            ).strip()
         )
 
     def test__repr__(self):
@@ -177,8 +171,7 @@ class TestLUTSequence(unittest.TestCase):
         LUT_sequence = self._LUT_sequence.copy()
         LUT_sequence[1].table = LUT3D.linear_table(5)
 
-        self.assertEqual(
-            repr(LUT_sequence),
+        assert repr(LUT_sequence) == (
             textwrap.dedent(
                 """
 LUTSequence(
@@ -364,7 +357,7 @@ LUTSequence(
             16)
 )
 """.strip()
-            ),
+            )
         )
 
     def test__eq__(self):
@@ -373,18 +366,17 @@ LUTSequence(
         LUT_sequence_1 = LUTSequence(self._LUT_1, self._LUT_2, self._LUT_3)
         LUT_sequence_2 = LUTSequence(self._LUT_1, self._LUT_2)
 
-        self.assertEqual(self._LUT_sequence, LUT_sequence_1)
+        assert self._LUT_sequence == LUT_sequence_1
 
-        self.assertNotEqual(self._LUT_sequence, self._LUT_sequence[0])
+        assert self._LUT_sequence != self._LUT_sequence[0]
 
-        self.assertNotEqual(LUT_sequence_1, LUT_sequence_2)
+        assert LUT_sequence_1 != LUT_sequence_2
 
     def test__neq__(self):
         """Test :class:`colour.io.luts.sequence.LUTSequence.__neq__` method."""
 
-        self.assertNotEqual(
-            self._LUT_sequence,
-            LUTSequence(self._LUT_1, self._LUT_2.copy() * 0.75, self._LUT_3),
+        assert self._LUT_sequence != LUTSequence(
+            self._LUT_1, self._LUT_2.copy() * 0.75, self._LUT_3
         )
 
     def test_insert(self):
@@ -394,14 +386,11 @@ LUTSequence(
 
         LUT_sequence.insert(1, self._LUT_2.copy())
 
-        self.assertEqual(
-            LUT_sequence,
-            LUTSequence(
-                self._LUT_1,
-                self._LUT_2,
-                self._LUT_2,
-                self._LUT_3,
-            ),
+        assert LUT_sequence == LUTSequence(
+            self._LUT_1,
+            self._LUT_2,
+            self._LUT_2,
+            self._LUT_3,
         )
 
     def test_apply(self):
@@ -421,7 +410,10 @@ LUTSequence(
                 self._gamma = as_float_array(gamma)
 
             def apply(
-                self, RGB: ArrayLike, *args: Any, **kwargs: Any  # noqa: ARG002
+                self,
+                RGB: ArrayLike,
+                *args: Any,  # noqa: ARG002
+                **kwargs: Any,
             ) -> NDArrayFloat:
                 """
                 Apply the *LUT* sequence operator to given *RGB* colourspace
@@ -441,11 +433,7 @@ LUTSequence(
 
                 direction = kwargs.get("direction", "Forward")
 
-                gamma = (
-                    self._gamma
-                    if direction == "Forward"
-                    else 1.0 / self._gamma
-                )
+                gamma = self._gamma if direction == "Forward" else 1.0 / self._gamma
 
                 return as_float_array(gamma_function(RGB, gamma))
 
@@ -467,7 +455,3 @@ LUTSequence(
             ),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

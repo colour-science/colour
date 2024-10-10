@@ -2,7 +2,7 @@
 Photometry
 ==========
 
-Defines the photometric quantities computation related objects.
+Define the photometric quantities computation related objects.
 
 References
 ----------
@@ -75,9 +75,7 @@ def luminous_flux(
     23807.6555273...
     """
 
-    lef = optional(
-        lef, SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"]
-    )
+    lef = optional(lef, SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"])
 
     lef = reshape_sd(
         lef,
@@ -86,7 +84,7 @@ def luminous_flux(
         extrapolator_kwargs={"method": "Constant", "left": 0, "right": 0},
     )
 
-    flux = K_m * np.trapz(lef.values * sd.values, sd.wavelengths)
+    flux = K_m * np.trapezoid(lef.values * sd.values, sd.wavelengths)  # pyright: ignore
 
     return as_float_scalar(flux)
 
@@ -123,9 +121,7 @@ def luminous_efficiency(
     0.1994393...
     """
 
-    lef = optional(
-        lef, SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"]
-    )
+    lef = optional(lef, SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"])
 
     lef = reshape_sd(
         lef,
@@ -134,7 +130,9 @@ def luminous_efficiency(
         extrapolator_kwargs={"method": "Constant", "left": 0, "right": 0},
     )
 
-    efficiency = np.trapz(lef.values * sd.values, sd.wavelengths) / np.trapz(
+    efficiency = np.trapezoid(  # pyright: ignore
+        lef.values * sd.values, sd.wavelengths
+    ) / np.trapezoid(  # pyright: ignore
         sd.values, sd.wavelengths
     )
 

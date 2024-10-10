@@ -2,7 +2,7 @@
 Recommendation ITU-R BT.1361
 ============================
 
-Defines the *Recommendation ITU-R BT.1361* opto-electrical transfer function
+Define the *Recommendation ITU-R BT.1361* opto-electrical transfer function
 (OETF) and its inverse:
 
 -   :func:`colour.models.oetf_BT1361`
@@ -91,7 +91,7 @@ def oetf_BT1361(L):
             L >= 0,
             oetf_BT709(L),
             np.where(
-                -0.0045 >= L,
+                L <= -0.0045,
                 # L in [-0.25, -0.0045] range
                 -(1.099 * spow(-4 * L, 0.45) - 0.099) / 4,
                 # L in [-0.0045, 0] range

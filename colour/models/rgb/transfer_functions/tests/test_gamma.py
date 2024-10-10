@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.gamma` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -23,7 +22,7 @@ __all__ = [
 ]
 
 
-class TestGammaFunction(unittest.TestCase):
+class TestGammaFunction:
     """
     Define :func:`colour.models.rgb.transfer_functions.gamma.gamma_function`
     definition unit tests methods.
@@ -219,7 +218,3 @@ gamma_function` definition nan support.
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         gamma_function(cases, cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

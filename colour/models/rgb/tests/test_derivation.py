@@ -1,9 +1,7 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.rgb.derivation` module."""
 
 import contextlib
 import re
-import unittest
 from itertools import product
 
 import numpy as np
@@ -37,7 +35,7 @@ __all__ = [
 ]
 
 
-class Testxy_to_z(unittest.TestCase):
+class Testxy_to_z:
     """
     Define :func:`colour.models.rgb.derivation.xy_to_z` definition unit
     tests methods.
@@ -78,15 +76,11 @@ class Testxy_to_z(unittest.TestCase):
             z,
             6,
         )
-        np.testing.assert_allclose(
-            xy_to_z(xy), z, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(xy_to_z(xy), z, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         xy = np.reshape(xy, (2, 3, 2))
         z = np.reshape(z, (2, 3))
-        np.testing.assert_allclose(
-            xy_to_z(xy), z, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(xy_to_z(xy), z, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_xy_to_z(self):
@@ -100,7 +94,7 @@ class Testxy_to_z(unittest.TestCase):
         xy_to_z(cases)
 
 
-class TestNormalisedPrimaryMatrix(unittest.TestCase):
+class TestNormalisedPrimaryMatrix:
     """
     Define :func:`colour.models.rgb.derivation.normalised_primary_matrix`
     definition unit tests methods.
@@ -114,9 +108,7 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
 
         np.testing.assert_allclose(
             normalised_primary_matrix(
-                np.array(
-                    [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]
-                ),
+                np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
                 np.array([0.32168, 0.33767]),
             ),
             np.array(
@@ -160,7 +152,7 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
                 normalised_primary_matrix(P, W)
 
 
-class TestChromaticallyAdaptedPrimaries(unittest.TestCase):
+class TestChromaticallyAdaptedPrimaries:
     """
     Define :func:`colour.models.rgb.derivation.\
 chromatically_adapted_primaries` definition unit tests methods.
@@ -174,9 +166,7 @@ chromatically_adapted_primaries` definition.
 
         np.testing.assert_allclose(
             chromatically_adapted_primaries(
-                np.array(
-                    [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]
-                ),
+                np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
                 np.array([0.32168, 0.33767]),
                 np.array([0.34570, 0.35850]),
             ),
@@ -238,7 +228,7 @@ chromatically_adapted_primaries` definition nan support.
             chromatically_adapted_primaries(P, W, W)
 
 
-class TestPrimariesWhitepoint(unittest.TestCase):
+class TestPrimariesWhitepoint:
     """
     Define :func:`colour.models.rgb.derivation.primaries_whitepoint`
     definition unit tests methods.
@@ -314,7 +304,7 @@ class TestPrimariesWhitepoint(unittest.TestCase):
             primaries_whitepoint(M)
 
 
-class TestRGBLuminanceEquation(unittest.TestCase):
+class TestRGBLuminanceEquation:
     """
     Define :func:`colour.models.rgb.derivation.RGB_luminance_equation`
     definition unit tests methods.
@@ -326,11 +316,9 @@ class TestRGBLuminanceEquation(unittest.TestCase):
         definition.
         """
 
-        self.assertIsInstance(
+        assert isinstance(
             RGB_luminance_equation(
-                np.array(
-                    [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]
-                ),
+                np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
                 np.array([0.32168, 0.33767]),
             ),
             str,
@@ -344,15 +332,13 @@ class TestRGBLuminanceEquation(unittest.TestCase):
             "\\(B\\)"
         )
         P = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
-        self.assertTrue(
-            re.match(
-                pattern,
-                RGB_luminance_equation(P, np.array([0.32168, 0.33767])),
-            )
+        assert re.match(
+            pattern,
+            RGB_luminance_equation(P, np.array([0.32168, 0.33767])),
         )
 
 
-class TestRGBLuminance(unittest.TestCase):
+class TestRGBLuminance:
     """
     Define :func:`colour.models.rgb.derivation.RGB_luminance` definition
     unit tests methods.
@@ -367,9 +353,7 @@ class TestRGBLuminance(unittest.TestCase):
         np.testing.assert_allclose(
             RGB_luminance(
                 np.array([0.18, 0.18, 0.18]),
-                np.array(
-                    [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]
-                ),
+                np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
                 np.array([0.32168, 0.33767]),
             ),
             0.18000000,
@@ -379,9 +363,7 @@ class TestRGBLuminance(unittest.TestCase):
         np.testing.assert_allclose(
             RGB_luminance(
                 np.array([0.21959402, 0.06986677, 0.04703877]),
-                np.array(
-                    [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]
-                ),
+                np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
                 np.array([0.32168, 0.33767]),
             ),
             0.123014562384318,
@@ -405,9 +387,7 @@ class TestRGBLuminance(unittest.TestCase):
         """
 
         RGB = (np.array([0.18, 0.18, 0.18]),)
-        P = (
-            np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
-        )
+        P = (np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),)
         W = np.array([0.32168, 0.33767])
         Y = RGB_luminance(RGB, P, W)
 
@@ -438,7 +418,3 @@ class TestRGBLuminance(unittest.TestCase):
             W = case[0:2]
             with contextlib.suppress(LinAlgError):
                 RGB_luminance(RGB, P, W)
-
-
-if __name__ == "__main__":
-    unittest.main()

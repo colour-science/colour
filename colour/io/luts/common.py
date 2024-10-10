@@ -2,7 +2,7 @@
 LUT Processing Common Utilities
 ===============================
 
-Defines the *LUT* processing common utilities objects that don't fall in any
+Define the *LUT* processing common utilities objects that don't fall in any
 specific category.
 """
 
@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import os
 import re
+from pathlib import Path
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -23,7 +24,7 @@ __all__ = [
 ]
 
 
-def path_to_title(path: str) -> str:
+def path_to_title(path: str | Path) -> str:
     """
     Convert given file path to title.
 
@@ -39,10 +40,10 @@ def path_to_title(path: str) -> str:
 
     Examples
     --------
-    >>> path_to_title(
-    ...     "colour/io/luts/tests/resources/sony_spi3d/Colour_Correct.spi3d"
-    ... )
+    >>> path_to_title("colour/io/luts/tests/resources/sony_spi3d/Colour_Correct.spi3d")
     'Colour Correct'
     """
+
+    path = str(path)
 
     return re.sub("_|-|\\.", " ", os.path.splitext(os.path.basename(path))[0])

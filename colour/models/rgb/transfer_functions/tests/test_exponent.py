@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.exponent` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -27,7 +26,7 @@ __all__ = [
 ]
 
 
-class TestExponentFunctionBasic(unittest.TestCase):
+class TestExponentFunctionBasic:
     """
     Define :func:`colour.models.rgb.transfer_functions.exponent.\
 exponent_function_basic` definition unit tests methods.
@@ -239,7 +238,7 @@ exponent_function_basic` definition nan support.
             exponent_function_basic(case, case)
 
 
-class TestExponentFunctionMonitorCurve(unittest.TestCase):
+class TestExponentFunctionMonitorCurve:
     """
     Define :func:`colour.models.rgb.transfer_functions.exponent.\
 exponent_function_monitor_curve` definition unit tests methods.
@@ -260,9 +259,7 @@ exponent_function_monitor_curve` definition.
         )
 
         np.testing.assert_allclose(
-            exponent_function_monitor_curve(
-                a, 2.2, 0.001, "monCurveMirrorFwd"
-            ),
+            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorFwd"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -276,9 +273,7 @@ exponent_function_monitor_curve` definition.
         )
 
         np.testing.assert_allclose(
-            exponent_function_monitor_curve(
-                a, 2.2, 0.001, "monCurveMirrorRev"
-            ),
+            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorRev"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -291,9 +286,7 @@ exponent_function_monitor_curve` definition.
         )
 
         np.testing.assert_allclose(
-            exponent_function_monitor_curve(
-                a, 2.2, 0.001, "monCurveMirrorFwd"
-            ),
+            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorFwd"),
             -0.0232240466001,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -306,9 +299,7 @@ exponent_function_monitor_curve` definition.
         )
 
         np.testing.assert_allclose(
-            exponent_function_monitor_curve(
-                a, 2.2, 0.001, "monCurveMirrorRev"
-            ),
+            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorRev"),
             -0.0201036111565,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -330,9 +321,7 @@ exponent_function_monitor_curve` definition n-dimensional arrays support.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
         np.testing.assert_allclose(
-            exponent_function_monitor_curve(
-                a, 2.2, 0.001, "monCurveMirrorFwd"
-            ),
+            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorFwd"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -345,9 +334,7 @@ exponent_function_monitor_curve` definition n-dimensional arrays support.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
         np.testing.assert_allclose(
-            exponent_function_monitor_curve(
-                a, 2.2, 0.001, "monCurveMirrorFwd"
-            ),
+            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorFwd"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -360,9 +347,7 @@ exponent_function_monitor_curve` definition n-dimensional arrays support.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
         np.testing.assert_allclose(
-            exponent_function_monitor_curve(
-                a, 2.2, 0.001, "monCurveMirrorFwd"
-            ),
+            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorFwd"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -378,9 +363,7 @@ exponent_function_monitor_curve` definition n-dimensional arrays support.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
         np.testing.assert_allclose(
-            exponent_function_monitor_curve(
-                a, 2.2, 0.001, "monCurveMirrorRev"
-            ),
+            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorRev"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -393,9 +376,7 @@ exponent_function_monitor_curve` definition n-dimensional arrays support.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
         np.testing.assert_allclose(
-            exponent_function_monitor_curve(
-                a, 2.2, 0.001, "monCurveMirrorRev"
-            ),
+            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorRev"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -408,9 +389,7 @@ exponent_function_monitor_curve` definition n-dimensional arrays support.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
         np.testing.assert_allclose(
-            exponent_function_monitor_curve(
-                a, 2.2, 0.001, "monCurveMirrorRev"
-            ),
+            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorRev"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -425,7 +404,3 @@ exponent_function_monitor_curve` definition nan support.
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         for case in cases:
             exponent_function_monitor_curve(case, case, case)
-
-
-if __name__ == "__main__":
-    unittest.main()

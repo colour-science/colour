@@ -2,7 +2,7 @@
 Nikon N-Gamut Colourspace
 =========================
 
-Defines the *Nikon N-Gamut* colourspace:
+Define the *Nikon N-Gamut* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_N_GAMUT`.
 

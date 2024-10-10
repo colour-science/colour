@@ -2,7 +2,7 @@
 Luminance :math:`Y`
 ===================
 
-Defines the *luminance* :math:`Y` computation objects.
+Define the *luminance* :math:`Y` computation objects.
 
 The following methods are available:
 
@@ -312,7 +312,7 @@ def luminance_CIE1976(L_star: ArrayLike, Y_n: ArrayLike = 100) -> NDArrayFloat:
     """
 
     L_star = to_domain_100(L_star)
-    Y_n = as_float_array(Y_n)
+    Y_n = to_domain_100(Y_n)
 
     f_Y_Y_n = (L_star + 16) / 116
 
@@ -566,15 +566,17 @@ LUMINANCE_METHODS["cie1976"] = LUMINANCE_METHODS["CIE 1976"]
 
 def luminance(
     LV: ArrayLike,
-    method: Literal[
-        "Abebe 2017",
-        "CIE 1976",
-        "Glasser 1958",
-        "Fairchild 2010",
-        "Fairchild 2011",
-        "Wyszecki 1963",
-    ]
-    | str = "CIE 1976",
+    method: (
+        Literal[
+            "Abebe 2017",
+            "CIE 1976",
+            "Glasser 1958",
+            "Fairchild 2010",
+            "Fairchild 2011",
+            "Wyszecki 1963",
+        ]
+        | str
+    ) = "CIE 1976",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
@@ -663,6 +665,7 @@ def luminance(
 
     if function in domain_undefined and domain_range_1:
         LV = LV * 100
+        kwargs["Y_n"] = kwargs.get("Y_n", 100) * 100
 
     Y_V = function(LV, **filter_kwargs(function, **kwargs))
 

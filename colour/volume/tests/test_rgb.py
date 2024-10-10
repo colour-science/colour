@@ -18,7 +18,6 @@ References
 reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 """
 
-import unittest
 
 import numpy as np
 
@@ -54,7 +53,7 @@ __all__ = [
 ]
 
 
-class TestRGB_colourspaceLimits(unittest.TestCase):
+class TestRGB_colourspaceLimits:
     """
     Define :func:`colour.volume.rgb.RGB_colourspace_limits` definition unit
     tests methods.
@@ -100,7 +99,7 @@ class TestRGB_colourspaceLimits(unittest.TestCase):
         )
 
 
-class TestRGB_colourspaceVolumeMonteCarlo(unittest.TestCase):
+class TestRGB_colourspaceVolumeMonteCarlo:
     """
     Define :func:`colour.volume.rgb.RGB_colourspace_volume_MonteCarlo`
     definition unit tests methods.
@@ -129,7 +128,7 @@ class TestRGB_colourspaceVolumeMonteCarlo(unittest.TestCase):
         )
 
 
-class TestRGB_colourspace_volume_coverage_MonteCarlo(unittest.TestCase):
+class TestRGB_colourspace_volume_coverage_MonteCarlo:
     """
     Define :func:`colour.volume.rgb.\
 RGB_colourspace_volume_coverage_MonteCarlo` definition unit tests methods.
@@ -157,7 +156,7 @@ RGB_colourspace_volume_coverage_MonteCarlo` definition.
         )
 
 
-class TestRGB_colourspacePointerGamutCoverageMonteCarlo(unittest.TestCase):
+class TestRGB_colourspacePointerGamutCoverageMonteCarlo:
     """
     Define :func:`colour.volume.rgb.\
 RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition unit tests
@@ -185,7 +184,7 @@ RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition.
         )
 
 
-class TestRGB_colourspaceVisibleSpectrumCoverageMonteCarlo(unittest.TestCase):
+class TestRGB_colourspaceVisibleSpectrumCoverageMonteCarlo:
     """
     Define :func:`colour.volume.rgb.\
 RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition unit tests
@@ -211,7 +210,3 @@ RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition.
             46.931407942238266,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

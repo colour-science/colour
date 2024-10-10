@@ -2,7 +2,7 @@
 Deprecation Utilities
 =====================
 
-Defines various deprecation management related objects.
+Define various deprecation management related objects.
 """
 
 from __future__ import annotations
@@ -88,11 +88,9 @@ class ObjectRemoved(namedtuple("ObjectRemoved", ("name",))):
         return f'"{self.name}" object has been removed from the API.'
 
 
-class ObjectFutureRename(
-    namedtuple("ObjectFutureRename", ("name", "new_name"))
-):
+class ObjectFutureRename(namedtuple("ObjectFutureRename", ("name", "new_name"))):
     """
-    A class used for future object name deprecation, i.e. object name will
+    A class used for future object name deprecation, i.e., object name will
     change in a future release.
 
     Parameters
@@ -149,7 +147,7 @@ class ObjectFutureAccessChange(
     namedtuple("ObjectFutureAccessChange", ("access", "new_access"))
 ):
     """
-    A class used for future object access deprecation, i.e. object access will
+    A class used for future object access deprecation, i.e., object access will
     change in a future release.
 
     Parameters
@@ -176,11 +174,9 @@ class ObjectFutureAccessChange(
         )
 
 
-class ObjectFutureAccessRemove(
-    namedtuple("ObjectFutureAccessRemove", ("name",))
-):
+class ObjectFutureAccessRemove(namedtuple("ObjectFutureAccessRemove", ("name",))):
     """
-    A class used for future object access removal, i.e. object access will
+    A class used for future object access removal, i.e., object access will
     be removed in a future release.
 
     Parameters
@@ -199,9 +195,7 @@ class ObjectFutureAccessRemove(
             Formatted string representation.
         """
 
-        return (
-            f'"{self.name}" object access will be removed in a future release.'
-        )
+        return f'"{self.name}" object access will be removed in a future release.'
 
 
 class ArgumentRenamed(namedtuple("ArgumentRenamed", ("name", "new_name"))):
@@ -252,11 +246,9 @@ class ArgumentRemoved(namedtuple("ArgumentRemoved", ("name",))):
         return f'"{self.name}" argument has been removed from the API.'
 
 
-class ArgumentFutureRename(
-    namedtuple("ArgumentFutureRename", ("name", "new_name"))
-):
+class ArgumentFutureRename(namedtuple("ArgumentFutureRename", ("name", "new_name"))):
     """
-    A class used for future argument name deprecation, i.e. argument name will
+    A class used for future argument name deprecation, i.e., argument name will
     change in a future release.
 
     Parameters
@@ -332,9 +324,7 @@ class ModuleAPI:
     ... # doctest: +SKIP
     """
 
-    def __init__(
-        self, module: ModuleType, changes: dict | None = None
-    ) -> None:
+    def __init__(self, module: ModuleType, changes: dict | None = None) -> None:
         self._module = module
         self._changes = optional(changes, {})
 
@@ -401,7 +391,7 @@ def get_attribute(attribute: str) -> Any:
     Parameters
     ----------
     attribute
-        Attribute to retrieve, ``attribute`` must have a namespace module, e.g.
+        Attribute to retrieve, ``attribute`` must have a namespace module, e.g.,
         *colour.models.oetf_inverse_BT2020*.
 
     Returns
@@ -411,9 +401,7 @@ def get_attribute(attribute: str) -> Any:
 
     Examples
     --------
-    >>> get_attribute(
-    ...     "colour.models.oetf_inverse_BT2020"
-    ... )  # doctest: +ELLIPSIS
+    >>> get_attribute("colour.models.oetf_inverse_BT2020")  # doctest: +ELLIPSIS
     <function oetf_inverse_BT2020 at 0x...>
     """
 

@@ -2,7 +2,7 @@
 McCamy (1992) Correlated Colour Temperature
 ===========================================
 
-Defines the *McCamy (1992)* correlated colour temperature :math:`T_{cp}`
+Define the *McCamy (1992)* correlated colour temperature :math:`T_{cp}`
 computations objects:
 
 -   :func:`colour.temperature.xy_to_CCT_McCamy1992`: Correlated colour
@@ -127,11 +127,9 @@ def CCT_to_xy_McCamy1992(
 
     CCT = as_float_array(CCT)
     shape = list(CCT.shape)
-    CCT = np.atleast_1d(CCT.reshape([-1, 1]))
+    CCT = np.atleast_1d(np.reshape(CCT, (-1, 1)))
 
-    def objective_function(
-        xy: NDArrayFloat, CCT: NDArrayFloat
-    ) -> NDArrayFloat:
+    def objective_function(xy: NDArrayFloat, CCT: NDArrayFloat) -> NDArrayFloat:
         """Objective function."""
 
         objective = np.linalg.norm(xy_to_CCT_McCamy1992(xy) - CCT)
@@ -151,9 +149,7 @@ def CCT_to_xy_McCamy1992(
         [
             minimize(
                 objective_function,
-                x0=CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-                    "D65"
-                ],
+                x0=CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"],
                 args=(CCT_i,),
                 **optimisation_settings,
             ).x

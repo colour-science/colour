@@ -97,13 +97,15 @@ Chromatic Adaptation - ``colour.adaptation``
 
     array([ 0.2533053 ,  0.13765138,  0.01543307])
 
+
 .. code-block:: python
 
     sorted(colour.CHROMATIC_ADAPTATION_METHODS)
 
 .. code-block:: text
 
-    ['CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries', 'Zhai 2018']
+    ['CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries', 'Zhai 2018', 'vK20']
+
 
 Algebra - ``colour.algebra``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -650,6 +652,18 @@ Images
 .. code-block:: text
 
     (276, 281, 3)
+
+Spectral Images - Fichet et al. (2021)
+**************************************
+
+.. code-block:: python
+
+    components = colour.read_spectral_image_Fichet2021("Polarised.exr")
+    list(components.keys())
+
+.. code-block:: text
+
+    ['S0', 'S1', 'S2', 'S3']
 
 Look Up Table (LUT) Data
 ************************
@@ -1874,6 +1888,7 @@ Software
 
 **Python**
 
+- `ColorAide <https://facelessuser.github.io/coloraide>`__ by Muse, I.
 - `ColorPy <http://markkness.net/colorpy/ColorPy.html>`__ by Kness, M.
 - `Colorspacious <https://colorspacious.readthedocs.io>`__ by Smith, N. J., et al.
 - `python-colormath <https://python-colormath.readthedocs.io>`__ by Taylor, G., et al.

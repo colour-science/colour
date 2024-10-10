@@ -2,7 +2,7 @@
 FilmLight E-Gamut Colourspace
 =============================
 
-Defines the *FilmLight E-Gamut* colourspace:
+Define the *FilmLight E-Gamut* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_FILMLIGHT_E_GAMUT`.
 

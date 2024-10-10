@@ -2,7 +2,7 @@
 :math:`LLAB(l:c)` Colour Appearance Model
 =========================================
 
-Defines the *:math:`LLAB(l:c)`* colour appearance model objects:
+Define the *:math:`LLAB(l:c)`* colour appearance model objects:
 
 -   :class:`colour.appearance.InductionFactors_LLAB`
 -   :attr:`colour.VIEWING_CONDITIONS_LLAB`
@@ -35,7 +35,7 @@ from colour.algebra import (
     sdiv,
     sdiv_mode,
     spow,
-    vector_dot,
+    vecmul,
 )
 from colour.hints import ArrayLike, NDArrayFloat, Optional, Union
 from colour.utilities import (
@@ -110,9 +110,7 @@ VIEWING_CONDITIONS_LLAB: CanonicalMapping = CanonicalMapping(
         "Television & VDU Displays, Dim Surround": (
             InductionFactors_LLAB(0.7, 3.5, 1, 1)
         ),
-        "Cut Sheet Transparency, Dim Surround": (
-            InductionFactors_LLAB(1, 5, 1, 1.1)
-        ),
+        "Cut Sheet Transparency, Dim Surround": (InductionFactors_LLAB(1, 5, 1, 1.1)),
         "35mm Projection Transparency, Dark Surround": (
             InductionFactors_LLAB(0.7, 4, 1, 1)
         ),
@@ -203,30 +201,14 @@ class CAM_ReferenceSpecification_LLAB(MixinDataclassArithmetic):
     :cite:`Fairchild2013x`, :cite:`Luo1996b`, :cite:`Luo1996c`
     """
 
-    L_L: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    Ch_L: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    h_L: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    s_L: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    C_L: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    HC: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    A_L: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    B_L: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
+    L_L: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
+    Ch_L: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
+    h_L: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
+    s_L: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
+    C_L: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
+    HC: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
+    A_L: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
+    B_L: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
 
 
 @dataclass
@@ -266,30 +248,14 @@ class CAM_Specification_LLAB(MixinDataclassArithmetic):
     :cite:`Fairchild2013x`, :cite:`Luo1996b`, :cite:`Luo1996c`
     """
 
-    J: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    C: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    h: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    s: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    M: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    HC: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    a: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
-    b: Optional[Union[float, NDArrayFloat]] = field(
-        default_factory=lambda: None
-    )
+    J: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
+    C: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
+    h: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
+    s: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
+    M: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
+    HC: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
+    a: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
+    b: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
 
 
 def XYZ_to_LLAB(
@@ -436,7 +402,7 @@ def XYZ_to_RGB_LLAB(XYZ: ArrayLike) -> NDArrayFloat:
     XYZ = as_float_array(XYZ)
 
     with sdiv_mode():
-        return vector_dot(MATRIX_XYZ_TO_RGB_LLAB, sdiv(XYZ, XYZ[..., 1, None]))
+        return vecmul(MATRIX_XYZ_TO_RGB_LLAB, sdiv(XYZ, XYZ[..., 1, None]))
 
 
 def chromatic_adaptation(
@@ -495,7 +461,7 @@ def chromatic_adaptation(
 
     Y = tstack([Y, Y, Y])
 
-    XYZ_r = vector_dot(MATRIX_RGB_TO_XYZ_LLAB, RGB_r * Y)
+    XYZ_r = vecmul(MATRIX_RGB_TO_XYZ_LLAB, RGB_r * Y)
 
     return XYZ_r
 

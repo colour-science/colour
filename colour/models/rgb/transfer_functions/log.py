@@ -2,7 +2,7 @@
 Common Log Encodings
 ====================
 
-Defines the common log encodings:
+Define the common log encodings:
 
 -   :func:`colour.models.logarithmic_function_basic`
 -   :func:`colour.models.logarithmic_function_quasilog`
@@ -76,10 +76,9 @@ FLT_MIN = 1.175494e-38
 
 def logarithmic_function_basic(
     x: ArrayLike,
-    style: Literal[
-        "log10", "antiLog10", "log2", "antiLog2", "logB", "antiLogB"
-    ]
-    | str = "log2",
+    style: (
+        Literal["log10", "antiLog10", "log2", "antiLog2", "logB", "antiLogB"] | str
+    ) = "log2",
     base: int = 2,
 ) -> NDArrayFloat:
     """
@@ -216,9 +215,7 @@ def logarithmic_function_quasilog(
         y = (
             log_side_slope
             * (
-                np.log(
-                    np.maximum(lin_side_slope * x + lin_side_offset, FLT_MIN)
-                )
+                np.log(np.maximum(lin_side_slope * x + lin_side_offset, FLT_MIN))
                 / np.log(base)
             )
             + log_side_offset
@@ -226,8 +223,7 @@ def logarithmic_function_quasilog(
     else:  # style == 'logtolin'
         with sdiv_mode():
             y = sdiv(
-                base ** sdiv(x - log_side_offset, log_side_slope)
-                - lin_side_offset,
+                base ** sdiv(x - log_side_offset, log_side_slope) - lin_side_offset,
                 lin_side_slope,
             )
 
@@ -236,8 +232,7 @@ def logarithmic_function_quasilog(
 
 def logarithmic_function_camera(
     x: ArrayLike,
-    style: Literal["cameraLinToLog", "cameraLogToLin"]
-    | str = "cameraLinToLog",
+    style: (Literal["cameraLinToLog", "cameraLogToLin"] | str) = "cameraLinToLog",
     base: int = 2,
     log_side_slope: float = 1,
     lin_side_slope: float = 1,
@@ -308,10 +303,7 @@ def logarithmic_function_camera(
 
     log_side_break = (
         log_side_slope
-        * (
-            np.log(lin_side_slope * lin_side_break + lin_side_offset)
-            / np.log(base)
-        )
+        * (np.log(lin_side_slope * lin_side_break + lin_side_offset) / np.log(base))
         + log_side_offset
     )
 

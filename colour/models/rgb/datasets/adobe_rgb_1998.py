@@ -2,7 +2,7 @@
 Adobe RGB (1998) Colourspace
 ============================
 
-Defines the *Adobe RGB (1998)* *RGB* colourspace:
+Define the *Adobe RGB (1998)* *RGB* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_ADOBE_RGB1998`.
 

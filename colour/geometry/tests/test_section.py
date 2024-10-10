@@ -1,9 +1,8 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.geometry.section` module."""
 
-import unittest
 
 import numpy as np
+import pytest
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.geometry import hull_section, primitive_cube
@@ -29,7 +28,7 @@ __all__ = [
 ]
 
 
-class TestEdgesToChord(unittest.TestCase):
+class TestEdgesToChord:
     """
     Define :func:`colour.geometry.section.edges_to_chord` definition unit
     tests methods.
@@ -102,7 +101,7 @@ class TestEdgesToChord(unittest.TestCase):
         )
 
 
-class TestCloseChord(unittest.TestCase):
+class TestCloseChord:
     """
     Define :func:`colour.geometry.section.close_chord` definition unit tests
     methods.
@@ -118,7 +117,7 @@ class TestCloseChord(unittest.TestCase):
         )
 
 
-class TestUniqueVertices(unittest.TestCase):
+class TestUniqueVertices:
     """
     Define :func:`colour.geometry.section.unique_vertices` definition unit
     tests methods.
@@ -137,9 +136,7 @@ class TestUniqueVertices(unittest.TestCase):
 
         np.testing.assert_allclose(
             unique_vertices(
-                np.array(
-                    [[0.0, 0.51, 0.0], [0.0, 0.0, 0.51], [0.0, 0.52, 0.0]]
-                ),
+                np.array([[0.0, 0.51, 0.0], [0.0, 0.0, 0.51], [0.0, 0.52, 0.0]]),
                 1,
             ),
             np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5]]),
@@ -147,7 +144,7 @@ class TestUniqueVertices(unittest.TestCase):
         )
 
 
-class TestHullSection(unittest.TestCase):
+class TestHullSection:
     """
     Define :func:`colour.geometry.section.hull_section` definition unit tests
     methods.
@@ -237,8 +234,4 @@ class TestHullSection(unittest.TestCase):
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertRaises(ValueError, hull_section, hull, origin=-1)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        pytest.raises(ValueError, hull_section, hull, origin=-1)

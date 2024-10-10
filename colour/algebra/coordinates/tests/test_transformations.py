@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.algebra.coordinates.transformations` module.
 """
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -36,7 +35,7 @@ __all__ = [
 ]
 
 
-class TestCartesianToSpherical(unittest.TestCase):
+class TestCartesianToSpherical:
     """
     Define :func:`colour.algebra.coordinates.transformations.\
 cartesian_to_spherical` definition unit tests methods.
@@ -99,7 +98,7 @@ cartesian_to_spherical` definition nan support.
         cartesian_to_spherical(cases)
 
 
-class TestSphericalToCartesian(unittest.TestCase):
+class TestSphericalToCartesian:
     """
     Define :func:`colour.algebra.coordinates.transformations.\
 spherical_to_cartesian` definition unit tests methods.
@@ -112,25 +111,19 @@ spherical_to_cartesian` definition.
         """
 
         np.testing.assert_allclose(
-            spherical_to_cartesian(
-                np.array([6.78232998, 0.48504979, 0.32175055])
-            ),
+            spherical_to_cartesian(np.array([6.78232998, 0.48504979, 0.32175055])),
             np.array([3.00000000, 0.99999999, 6.00000000]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            spherical_to_cartesian(
-                np.array([18.38477631, 0.51501513, 1.68145355])
-            ),
+            spherical_to_cartesian(np.array([18.38477631, 0.51501513, 1.68145355])),
             np.array([-1.00000003, 9.00000007, 15.99999996]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            spherical_to_cartesian(
-                np.array([19.64342307, 0.33250603, -0.14626640])
-            ),
+            spherical_to_cartesian(np.array([19.64342307, 0.33250603, -0.14626640])),
             np.array([6.34339996, -0.93449999, 18.56750001]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -168,7 +161,7 @@ spherical_to_cartesian` definition nan support.
         spherical_to_cartesian(cases)
 
 
-class TestCartesianToPolar(unittest.TestCase):
+class TestCartesianToPolar:
     """
     Define :func:`colour.algebra.coordinates.transformations.\
 cartesian_to_polar` definition unit tests methods.
@@ -231,7 +224,7 @@ cartesian_to_polar` definition nan support.
         cartesian_to_polar(cases)
 
 
-class TestPolarToCartesian(unittest.TestCase):
+class TestPolarToCartesian:
     """
     Define :func:`colour.algebra.coordinates.transformations.\
 polar_to_cartesian` definition unit tests methods.
@@ -294,7 +287,7 @@ polar_to_cartesian` definition nan support.
         polar_to_cartesian(cases)
 
 
-class TestCartesianToCylindrical(unittest.TestCase):
+class TestCartesianToCylindrical:
     """
     Define :func:`colour.algebra.coordinates.transformations.\
 cartesian_to_cylindrical` definition unit tests methods.
@@ -357,7 +350,7 @@ cartesian_to_cylindrical` definition nan support.
         cartesian_to_cylindrical(cases)
 
 
-class TestCylindricalToCartesian(unittest.TestCase):
+class TestCylindricalToCartesian:
     """
     Define :func:`colour.algebra.coordinates.transformations.\
 cylindrical_to_cartesian` definition unit tests methods.
@@ -370,25 +363,19 @@ cylindrical_to_cartesian` definition.
         """
 
         np.testing.assert_allclose(
-            cylindrical_to_cartesian(
-                np.array([0.32175055, 1.08574654, 6.78232998])
-            ),
+            cylindrical_to_cartesian(np.array([0.32175055, 1.08574654, 6.78232998])),
             np.array([0.15001697, 0.28463718, 6.78232998]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            cylindrical_to_cartesian(
-                np.array([1.68145355, 1.05578119, 18.38477631])
-            ),
+            cylindrical_to_cartesian(np.array([1.68145355, 1.05578119, 18.38477631])),
             np.array([0.82819662, 1.46334425, 18.38477631]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            cylindrical_to_cartesian(
-                np.array([-0.14626640, 1.23829030, 19.64342307])
-            ),
+            cylindrical_to_cartesian(np.array([-0.14626640, 1.23829030, 19.64342307])),
             np.array([-0.04774323, -0.13825500, 19.64342307]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -424,7 +411,3 @@ cylindrical_to_cartesian` definition nan support.
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         cylindrical_to_cartesian(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

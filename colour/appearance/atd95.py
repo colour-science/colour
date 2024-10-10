@@ -2,7 +2,7 @@
 ATD (1995) Colour Vision Model
 ==============================
 
-Defines the *ATD (1995)* colour vision model objects:
+Define the *ATD (1995)* colour vision model objects:
 
 -   :class:`colour.CAM_Specification_ATD95`
 -   :func:`colour.XYZ_to_ATD95`
@@ -30,7 +30,7 @@ from dataclasses import dataclass, field
 
 import numpy as np
 
-from colour.algebra import spow, vector_dot
+from colour.algebra import spow, vecmul
 from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     MixinDataclassArithmetic,
@@ -275,9 +275,7 @@ T_2=0.0205377..., D_2=0.0107584...)
     )
 
 
-def luminance_to_retinal_illuminance(
-    XYZ: ArrayLike, Y_c: ArrayLike
-) -> NDArrayFloat:
+def luminance_to_retinal_illuminance(XYZ: ArrayLike, Y_c: ArrayLike) -> NDArrayFloat:
     """
     Convert from luminance in :math:`cd/m^2` to retinal illuminance in
     trolands.
@@ -329,7 +327,7 @@ def XYZ_to_LMS_ATD95(XYZ: ArrayLike) -> NDArrayFloat:
     array([ 6.2283272...,  7.4780666...,  3.8859772...])
     """
 
-    LMS = vector_dot(
+    LMS = vecmul(
         [
             [0.2435, 0.8524, -0.0516],
             [-0.3954, 1.1642, 0.0837],

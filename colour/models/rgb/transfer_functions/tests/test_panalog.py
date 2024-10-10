@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.panalog` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -27,7 +26,7 @@ __all__ = [
 ]
 
 
-class TestLogEncoding_Panalog(unittest.TestCase):
+class TestLogEncoding_Panalog:
     """
     Define :func:`colour.models.rgb.transfer_functions.panalog.\
 log_encoding_Panalog` definition unit tests methods.
@@ -109,12 +108,10 @@ log_encoding_Panalog` definition domain and range scale support.
 log_encoding_Panalog` definition nan support.
         """
 
-        log_encoding_Panalog(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_Panalog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_Panalog(unittest.TestCase):
+class TestLogDecoding_Panalog:
     """
     Define :func:`colour.models.rgb.transfer_functions.panalog.\
 log_decoding_Panalog` definition unit tests methods.
@@ -196,10 +193,4 @@ log_decoding_Panalog` definition domain and range scale support.
 log_decoding_Panalog` definition nan support.
         """
 
-        log_decoding_Panalog(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
-
-
-if __name__ == "__main__":
-    unittest.main()
+        log_decoding_Panalog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))

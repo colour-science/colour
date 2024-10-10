@@ -1,9 +1,6 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.colorimetry.illuminants` module."""
 
 from __future__ import annotations
-
-import unittest
 
 import numpy as np
 
@@ -134,7 +131,7 @@ DATA_A: NDArrayFloat = np.array(
 )
 
 
-class TestSdCIEStandardIlluminantA(unittest.TestCase):
+class TestSdCIEStandardIlluminantA:
     """
     Define :func:`colour.colorimetry.illuminants.\
 sd_CIE_standard_illuminant_A` definition unit tests methods.
@@ -153,7 +150,7 @@ sd_CIE_standard_illuminant_A` definition.
         )
 
 
-class TestSdCIEIlluminantDSeries(unittest.TestCase):
+class TestSdCIEIlluminantDSeries:
     """
     Define :func:`colour.colorimetry.illuminants.sd_CIE_illuminant_D_series`
     definition unit tests methods.
@@ -183,7 +180,7 @@ sd_CIE_illuminant_D_series` definition.
             )
 
 
-class TestDaylightLocusFunction(unittest.TestCase):
+class TestDaylightLocusFunction:
     """
     Define :func:`colour.colorimetry.illuminants.daylight_locus_function`
     definition unit tests methods.
@@ -243,7 +240,3 @@ class TestDaylightLocusFunction(unittest.TestCase):
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         daylight_locus_function(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

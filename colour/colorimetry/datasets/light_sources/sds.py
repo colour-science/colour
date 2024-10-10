@@ -2,7 +2,7 @@
 Spectral Distributions of the Light Sources
 ===========================================
 
-Defines the spectral distributions of the light sources.
+Define the spectral distributions of the light sources.
 
 The light sources data is in the form of a *dict* of
 :class:`colour.SpectralDistribution` classes as follows::
@@ -744,7 +744,7 @@ DATA_LIGHT_SOURCES_RIT: dict = {
     },
 }
 
-SDS_LIGHT_SOURCES_RIT: (LazyCanonicalMapping) = LazyCanonicalMapping(
+SDS_LIGHT_SOURCES_RIT: LazyCanonicalMapping = LazyCanonicalMapping(
     (
         key,
         partial(
@@ -1604,9 +1604,7 @@ DATA_LIGHT_SOURCES_NIST_TRADITIONAL: dict = {
     },
 }
 
-SDS_LIGHT_SOURCES_NIST_TRADITIONAL: (
-    LazyCanonicalMapping
-) = LazyCanonicalMapping(
+SDS_LIGHT_SOURCES_NIST_TRADITIONAL: LazyCanonicalMapping = LazyCanonicalMapping(
     (
         key,
         partial(
@@ -2875,7 +2873,7 @@ DATA_LIGHT_SOURCES_NIST_LED: dict = {
     },
 }
 
-SDS_LIGHT_SOURCES_NIST_LED: (LazyCanonicalMapping) = LazyCanonicalMapping(
+SDS_LIGHT_SOURCES_NIST_LED: LazyCanonicalMapping = LazyCanonicalMapping(
     (
         key,
         partial(
@@ -4721,7 +4719,7 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS: dict = {
     },
 }
 
-SDS_LIGHT_SOURCES_NIST_PHILIPS: (LazyCanonicalMapping) = LazyCanonicalMapping(
+SDS_LIGHT_SOURCES_NIST_PHILIPS: LazyCanonicalMapping = LazyCanonicalMapping(
     (
         key,
         partial(
@@ -4944,7 +4942,7 @@ DATA_LIGHT_SOURCES_COMMON: dict = {
     }
 }
 
-SDS_LIGHT_SOURCES_COMMON: (LazyCanonicalMapping) = LazyCanonicalMapping(
+SDS_LIGHT_SOURCES_COMMON: LazyCanonicalMapping = LazyCanonicalMapping(
     {
         "Kinoton 75P": partial(
             SpectralDistribution,
@@ -4962,9 +4960,7 @@ References
 :cite:`Houston2015a`
 """
 
-SDS_LIGHT_SOURCES: (LazyCanonicalMapping) = LazyCanonicalMapping(
-    SDS_LIGHT_SOURCES_RIT
-)
+SDS_LIGHT_SOURCES: LazyCanonicalMapping = LazyCanonicalMapping(SDS_LIGHT_SOURCES_RIT)
 SDS_LIGHT_SOURCES.__doc__ = """
 Spectral distributions of the light sources.
 

@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.temperature.planck1900` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -23,7 +21,7 @@ __all__ = [
 ]
 
 
-class TestUv_to_CCT_Planck1900(unittest.TestCase):
+class TestUv_to_CCT_Planck1900:
     """
     Define :func:`colour.temperature.planck1900.uv_to_CCT_Planck1900`
     definition unit tests methods.
@@ -95,7 +93,7 @@ class TestUv_to_CCT_Planck1900(unittest.TestCase):
         uv_to_CCT_Planck1900(cases)
 
 
-class TestCCT_to_uv_Planck1900(unittest.TestCase):
+class TestCCT_to_uv_Planck1900:
     """
     Define :func:`colour.temperature.planck1900.CCT_to_uv_Planck1900` definition
     unit tests methods.
@@ -156,7 +154,3 @@ class TestCCT_to_uv_Planck1900(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=2))))
         CCT_to_uv_Planck1900(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

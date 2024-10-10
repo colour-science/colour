@@ -2,7 +2,7 @@
 Best RGB Colourspace
 ====================
 
-Defines the *Best RGB* colourspace:
+Define the *Best RGB* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_BEST_RGB`.
 

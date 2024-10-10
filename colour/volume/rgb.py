@@ -2,7 +2,7 @@
 RGB Colourspace Volume Computation
 ==================================
 
-Defines various RGB colourspace volume computation objects:
+Define various RGB colourspace volume computation objects:
 
 -   :func:`colour.RGB_colourspace_limits`
 -   :func:`colour.RGB_colourspace_volume_MonteCarlo`
@@ -66,7 +66,7 @@ def _wrapper_RGB_colourspace_volume_MonteCarlo(arguments: tuple) -> int:
     Returns
     -------
     :class:`int`
-        Inside *RGB* colourspace volume samples count.
+        Inside *RGB* colourspace volume sample count.
     """
 
     return sample_RGB_colourspace_volume_MonteCarlo(*arguments)
@@ -76,12 +76,12 @@ def sample_RGB_colourspace_volume_MonteCarlo(
     colourspace: RGB_Colourspace,
     samples: int = 1000000,
     limits: ArrayLike = np.array([[0, 100], [-150, 150], [-150, 150]]),
-    illuminant_Lab: ArrayLike = CCS_ILLUMINANTS[
-        "CIE 1931 2 Degree Standard Observer"
-    ]["D65"],
-    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
-    | str
-    | None = "CAT02",
+    illuminant_Lab: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
+    chromatic_adaptation_transform: (
+        LiteralChromaticAdaptationTransform | str | None
+    ) = "CAT02",
     random_generator: Callable = random_triplet_generator,
     random_state: np.random.RandomState | None = None,
 ) -> int:
@@ -94,7 +94,7 @@ def sample_RGB_colourspace_volume_MonteCarlo(
     colourspace
         *RGB* colourspace to compute the volume of.
     samples
-        Samples count.
+        Sample count.
     limits
         *CIE L\\*a\\*b\\** colourspace volume.
     illuminant_Lab
@@ -111,7 +111,7 @@ def sample_RGB_colourspace_volume_MonteCarlo(
     Returns
     -------
     :class:`int`
-        Within *RGB* colourspace volume samples count.
+        Within *RGB* colourspace volume sample count.
 
     Notes
     -----
@@ -133,9 +133,7 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
     9...
     """
 
-    random_state = (
-        random_state if random_state is not None else np.random.RandomState()
-    )
+    random_state = random_state if random_state is not None else np.random.RandomState()
 
     Lab = random_generator(DTYPE_INT_DEFAULT(samples), limits, random_state)
     RGB = XYZ_to_RGB(
@@ -144,9 +142,7 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
         illuminant_Lab,
         chromatic_adaptation_transform,
     )
-    RGB_w = RGB[
-        np.logical_and(np.min(RGB, axis=-1) >= 0, np.max(RGB, axis=-1) <= 1)
-    ]
+    RGB_w = RGB[np.logical_and(np.min(RGB, axis=-1) >= 0, np.max(RGB, axis=-1) <= 1)]
     return len(RGB_w)
 
 
@@ -204,12 +200,12 @@ def RGB_colourspace_volume_MonteCarlo(
     colourspace: RGB_Colourspace,
     samples: int = 1000000,
     limits: ArrayLike = np.array([[0, 100], [-150, 150], [-150, 150]]),
-    illuminant_Lab: ArrayLike = CCS_ILLUMINANTS[
-        "CIE 1931 2 Degree Standard Observer"
-    ]["D65"],
-    chromatic_adaptation_transform: LiteralChromaticAdaptationTransform
-    | str
-    | None = "CAT02",
+    illuminant_Lab: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
+    chromatic_adaptation_transform: (
+        LiteralChromaticAdaptationTransform | str | None
+    ) = "CAT02",
     random_generator: Callable = random_triplet_generator,
     random_state: np.random.RandomState | None = None,
 ) -> float:
@@ -222,7 +218,7 @@ def RGB_colourspace_volume_MonteCarlo(
     colourspace\
         *RGB* colourspace to compute the volume of.
     samples\
-        Samples count.
+        Sample count.
     limits\
         *CIE L\\*a\\*b\\** colourspace volume.
     illuminant_Lab\
@@ -307,7 +303,7 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
     coverage_sampler
         Python object responsible for checking the volume coverage.
     samples
-        Samples count.
+        Sample count.
     random_generator
         Random triplet generator providing the random samples.
     random_state
@@ -330,20 +326,14 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
     81...
     """
 
-    random_state = (
-        random_state if random_state is not None else np.random.RandomState()
-    )
+    random_state = random_state if random_state is not None else np.random.RandomState()
 
-    XYZ = random_generator(
-        DTYPE_INT_DEFAULT(samples), random_state=random_state
-    )
+    XYZ = random_generator(DTYPE_INT_DEFAULT(samples), random_state=random_state)
     XYZ_vs = XYZ[coverage_sampler(XYZ)]
 
     RGB = XYZ_to_RGB(XYZ_vs, colourspace)
 
-    RGB_c = RGB[
-        np.logical_and(np.min(RGB, axis=-1) >= 0, np.max(RGB, axis=-1) <= 1)
-    ]
+    RGB_c = RGB[np.logical_and(np.min(RGB, axis=-1) >= 0, np.max(RGB, axis=-1) <= 1)]
 
     return 100 * RGB_c.size / XYZ_vs.size
 
@@ -363,7 +353,7 @@ def RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
     colourspace
         *RGB* colourspace to compute the *Pointer's Gamut* coverage percentage.
     samples
-        Samples count.
+        Sample count.
     random_generator
         Random triplet generator providing the random samples.
     random_state
@@ -409,7 +399,7 @@ def RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
     colourspace
         *RGB* colourspace to compute the visible spectrum coverage percentage.
     samples
-        Samples count.
+        Sample count.
     random_generator
         Random triplet generator providing the random samples.
     random_state

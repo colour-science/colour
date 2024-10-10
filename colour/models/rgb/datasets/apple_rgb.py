@@ -2,7 +2,7 @@
 Apple RGB Colourspace
 =====================
 
-Defines the *Apple RGB* colourspace:
+Define the *Apple RGB* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_APPLE_RGB`.
 

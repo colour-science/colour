@@ -1,4 +1,4 @@
-"""Showcases corresponding colour blindness plotting examples."""
+"""Showcase corresponding colour blindness plotting examples."""
 
 import os
 
@@ -18,9 +18,7 @@ colour_style()
 
 ISHIHARA_CBT_3_IMAGE = colour.cctf_decoding(
     colour.read_image(
-        os.path.join(
-            ROOT_RESOURCES, "Ishihara_Colour_Blindness_Test_Plate_3.png"
-        )
+        os.path.join(ROOT_RESOURCES, "Ishihara_Colour_Blindness_Test_Plate_3.png")
     ),
     function="sRGB",
 )

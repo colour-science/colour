@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.common` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -25,7 +23,7 @@ __all__ = [
 ]
 
 
-class TestJab_to_JCh(unittest.TestCase):
+class TestJab_to_JCh:
     """
     Define :func:`colour.models.common.Jab_to_JCh` definition unit tests
     methods.
@@ -104,7 +102,7 @@ class TestJab_to_JCh(unittest.TestCase):
         Jab_to_JCh(cases)
 
 
-class TestJCh_to_Jab(unittest.TestCase):
+class TestJCh_to_Jab:
     """
     Define :func:`colour.models.common.JCh_to_Jab` definition unit tests
     methods.
@@ -183,10 +181,10 @@ class TestJCh_to_Jab(unittest.TestCase):
         JCh_to_Jab(cases)
 
 
-class TestXYZ_to_Iab(unittest.TestCase):
+class TestXYZ_to_Iab:
     """Define :func:`colour.models.common.XYZ_to_Iab` definition unit tests methods."""
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         self.LMS_to_LMS_p = lambda x: x**0.43
@@ -248,16 +246,12 @@ class TestXYZ_to_Iab(unittest.TestCase):
         """
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-        Iab = XYZ_to_Iab(
-            XYZ, self.LMS_to_LMS_p, self.M_XYZ_to_LMS, self.M_LMS_p_to_Iab
-        )
+        Iab = XYZ_to_Iab(XYZ, self.LMS_to_LMS_p, self.M_XYZ_to_LMS, self.M_LMS_p_to_Iab)
 
         XYZ = np.tile(XYZ, (6, 1))
         Iab = np.tile(Iab, (6, 1))
         np.testing.assert_allclose(
-            XYZ_to_Iab(
-                XYZ, self.LMS_to_LMS_p, self.M_XYZ_to_LMS, self.M_LMS_p_to_Iab
-            ),
+            XYZ_to_Iab(XYZ, self.LMS_to_LMS_p, self.M_XYZ_to_LMS, self.M_LMS_p_to_Iab),
             Iab,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -265,9 +259,7 @@ class TestXYZ_to_Iab(unittest.TestCase):
         XYZ = np.reshape(XYZ, (2, 3, 3))
         Iab = np.reshape(Iab, (2, 3, 3))
         np.testing.assert_allclose(
-            XYZ_to_Iab(
-                XYZ, self.LMS_to_LMS_p, self.M_XYZ_to_LMS, self.M_LMS_p_to_Iab
-            ),
+            XYZ_to_Iab(XYZ, self.LMS_to_LMS_p, self.M_XYZ_to_LMS, self.M_LMS_p_to_Iab),
             Iab,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -279,9 +271,7 @@ class TestXYZ_to_Iab(unittest.TestCase):
         """
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-        Iab = XYZ_to_Iab(
-            XYZ, self.LMS_to_LMS_p, self.M_XYZ_to_LMS, self.M_LMS_p_to_Iab
-        )
+        Iab = XYZ_to_Iab(XYZ, self.LMS_to_LMS_p, self.M_XYZ_to_LMS, self.M_LMS_p_to_Iab)
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
@@ -303,18 +293,16 @@ class TestXYZ_to_Iab(unittest.TestCase):
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
-        XYZ_to_Iab(
-            cases, self.LMS_to_LMS_p, self.M_XYZ_to_LMS, self.M_LMS_p_to_Iab
-        )
+        XYZ_to_Iab(cases, self.LMS_to_LMS_p, self.M_XYZ_to_LMS, self.M_LMS_p_to_Iab)
 
 
-class TestIab_to_XYZ(unittest.TestCase):
+class TestIab_to_XYZ:
     """
     Define :func:`colour.models.common.Iab_to_XYZ` definition unit tests
     methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         self.LMS_p_to_LMS = lambda x: x ** (1 / 0.43)
@@ -380,16 +368,12 @@ class TestIab_to_XYZ(unittest.TestCase):
         """
 
         Iab = np.array([0.38426191, 0.38487306, 0.18886838])
-        XYZ = Iab_to_XYZ(
-            Iab, self.LMS_p_to_LMS, self.M_Iab_to_LMS_p, self.M_LMS_to_XYZ
-        )
+        XYZ = Iab_to_XYZ(Iab, self.LMS_p_to_LMS, self.M_Iab_to_LMS_p, self.M_LMS_to_XYZ)
 
         Iab = np.tile(Iab, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
         np.testing.assert_allclose(
-            Iab_to_XYZ(
-                Iab, self.LMS_p_to_LMS, self.M_Iab_to_LMS_p, self.M_LMS_to_XYZ
-            ),
+            Iab_to_XYZ(Iab, self.LMS_p_to_LMS, self.M_Iab_to_LMS_p, self.M_LMS_to_XYZ),
             XYZ,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -397,9 +381,7 @@ class TestIab_to_XYZ(unittest.TestCase):
         Iab = np.reshape(Iab, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_allclose(
-            Iab_to_XYZ(
-                Iab, self.LMS_p_to_LMS, self.M_Iab_to_LMS_p, self.M_LMS_to_XYZ
-            ),
+            Iab_to_XYZ(Iab, self.LMS_p_to_LMS, self.M_Iab_to_LMS_p, self.M_LMS_to_XYZ),
             XYZ,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -411,9 +393,7 @@ class TestIab_to_XYZ(unittest.TestCase):
         """
 
         Iab = np.array([0.38426191, 0.38487306, 0.18886838])
-        XYZ = Iab_to_XYZ(
-            Iab, self.LMS_p_to_LMS, self.M_Iab_to_LMS_p, self.M_LMS_to_XYZ
-        )
+        XYZ = Iab_to_XYZ(Iab, self.LMS_p_to_LMS, self.M_Iab_to_LMS_p, self.M_LMS_to_XYZ)
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
@@ -435,10 +415,4 @@ class TestIab_to_XYZ(unittest.TestCase):
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
-        Iab_to_XYZ(
-            cases, self.LMS_p_to_LMS, self.M_Iab_to_LMS_p, self.M_LMS_to_XYZ
-        )
-
-
-if __name__ == "__main__":
-    unittest.main()
+        Iab_to_XYZ(cases, self.LMS_p_to_LMS, self.M_Iab_to_LMS_p, self.M_LMS_to_XYZ)

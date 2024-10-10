@@ -2,7 +2,7 @@
 SMPTE 240M Colourspace
 ======================
 
-Defines the *SMPTE 240M* colourspace:
+Define the *SMPTE 240M* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_SMPTE_240M`.
 
@@ -66,9 +66,7 @@ MATRIX_SMPTE_240M_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
 )
 """*SMPTE 240M* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_SMPTE_240M: NDArrayFloat = np.linalg.inv(
-    MATRIX_SMPTE_240M_TO_XYZ
-)
+MATRIX_XYZ_TO_SMPTE_240M: NDArrayFloat = np.linalg.inv(MATRIX_SMPTE_240M_TO_XYZ)
 """*CIE XYZ* tristimulus values to *SMPTE 240M* colourspace matrix."""
 
 RGB_COLOURSPACE_SMPTE_240M: RGB_Colourspace = RGB_Colourspace(

@@ -2,12 +2,13 @@
 Image Input / Output Utilities
 ==============================
 
-Defines the image related input / output utilities objects.
+Define the image related input / output utilities objects.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from pathlib import Path
 
 import numpy as np
 
@@ -38,6 +39,7 @@ from colour.utilities import (
     usage_warning,
     validate_method,
 )
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -47,8 +49,11 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "BitDepth_Specification",
-    "ImageAttribute_Specification",
+    "Image_Specification_BitDepth",
+    "Image_Specification_Attribute",
+    "MAPPING_BIT_DEPTH",
+    "add_attributes_to_image_specification_OpenImageIO",
+    "image_specification_OpenImageIO",
     "convert_bit_depth",
     "read_image_OpenImageIO",
     "read_image_Imageio",
@@ -63,7 +68,7 @@ __all__ = [
 
 
 @dataclass(frozen=True)
-class BitDepth_Specification:
+class Image_Specification_BitDepth:
     """
     Define a bit-depth specification.
 
@@ -83,7 +88,7 @@ class BitDepth_Specification:
 
 
 @dataclass
-class ImageAttribute_Specification:
+class Image_Specification_Attribute:
     """
     Define an image specification attribute.
 
@@ -107,35 +112,147 @@ class ImageAttribute_Specification:
 
 
 if is_openimageio_installed():  # pragma: no cover
-    from OpenImageIO import DOUBLE, FLOAT, HALF, UINT8, UINT16
+    from OpenImageIO import ImageSpec  # pyright: ignore
+    from OpenImageIO import DOUBLE, FLOAT, HALF, UINT8, UINT16  # pyright: ignore
 
     MAPPING_BIT_DEPTH: CanonicalMapping = CanonicalMapping(
         {
-            "uint8": BitDepth_Specification("uint8", np.uint8, UINT8),
-            "uint16": BitDepth_Specification("uint16", np.uint16, UINT16),
-            "float16": BitDepth_Specification("float16", np.float16, HALF),
-            "float32": BitDepth_Specification("float32", np.float32, FLOAT),
-            "float64": BitDepth_Specification("float64", np.float64, DOUBLE),
+            "uint8": Image_Specification_BitDepth("uint8", np.uint8, UINT8),
+            "uint16": Image_Specification_BitDepth("uint16", np.uint16, UINT16),
+            "float16": Image_Specification_BitDepth("float16", np.float16, HALF),
+            "float32": Image_Specification_BitDepth("float32", np.float32, FLOAT),
+            "float64": Image_Specification_BitDepth("float64", np.float64, DOUBLE),
         }
     )
     if not TYPE_CHECKING and hasattr(np, "float128"):  # pragma: no cover
-        MAPPING_BIT_DEPTH["float128"] = BitDepth_Specification(
+        MAPPING_BIT_DEPTH["float128"] = Image_Specification_BitDepth(
             "float128", np.float128, DOUBLE
         )
 else:  # pragma: no cover
+    #
+    class ImageSpec:
+        attribute: Any
+
     MAPPING_BIT_DEPTH: CanonicalMapping = CanonicalMapping(
         {
-            "uint8": BitDepth_Specification("uint8", np.uint8, None),
-            "uint16": BitDepth_Specification("uint16", np.uint16, None),
-            "float16": BitDepth_Specification("float16", np.float16, None),
-            "float32": BitDepth_Specification("float32", np.float32, None),
-            "float64": BitDepth_Specification("float64", np.float64, None),
+            "uint8": Image_Specification_BitDepth("uint8", np.uint8, None),
+            "uint16": Image_Specification_BitDepth("uint16", np.uint16, None),
+            "float16": Image_Specification_BitDepth("float16", np.float16, None),
+            "float32": Image_Specification_BitDepth("float32", np.float32, None),
+            "float64": Image_Specification_BitDepth("float64", np.float64, None),
         }
     )
     if not TYPE_CHECKING and hasattr(np, "float128"):  # pragma: no cover
-        MAPPING_BIT_DEPTH["float128"] = BitDepth_Specification(
+        MAPPING_BIT_DEPTH["float128"] = Image_Specification_BitDepth(
             "float128", np.float128, None
         )
+
+
+def add_attributes_to_image_specification_OpenImageIO(
+    image_specification: ImageSpec, attributes: Sequence
+):
+    """
+    Add given attributes to given *OpenImageIO* image specification.
+
+    Parameters
+    ----------
+    image_specification
+        *OpenImageIO* image specification.
+    attributes
+        An array of :class:`colour.io.Image_Specification_Attribute` class
+        instances used to set attributes of the image.
+
+    Returns
+    -------
+    :class:`ImageSpec`
+        *OpenImageIO*. image specification.
+
+    Examples
+    --------
+    >>> image_specification = image_specification_OpenImageIO(
+    ...     1920, 1080, 3, "float16"
+    ... )  # doctest: +SKIP
+    >>> compression = Image_Specification_Attribute("Compression", "none")
+    >>> image_specification = add_attributes_to_image_specification_OpenImageIO(
+    ...     image_specification, [compression]
+    ... )  # doctest: +SKIP
+    >>> image_specification.extra_attribs[0].value  # doctest: +SKIP
+    'none'
+    """  # noqa: D405, D407, D410, D411
+
+    for attribute in attributes:
+        name = str(attribute.name)
+        value = (
+            str(attribute.value)
+            if isinstance(attribute.value, str)
+            else attribute.value
+        )
+        type_ = attribute.type_
+        if attribute.type_ is None:
+            image_specification.attribute(name, value)
+        else:
+            image_specification.attribute(name, type_, value)
+
+    return image_specification
+
+
+@required("OpenImageIO")
+def image_specification_OpenImageIO(
+    width: int,
+    height: int,
+    channels: int,
+    bit_depth: Literal[
+        "uint8", "uint16", "float16", "float32", "float64", "float128"
+    ] = "float32",
+    attributes: Sequence | None = None,
+) -> ImageSpec:
+    """
+    Create an *OpenImageIO* image specification.
+
+    Parameters
+    ----------
+    width
+        Image width.
+    height
+        Image height.
+    channels
+        Image channel count.
+    bit_depth
+        Bit-depth to create the image with, the bit-depth conversion behaviour is
+        ruled directly by *OpenImageIO*.
+    attributes
+        An array of :class:`colour.io.Image_Specification_Attribute` class
+        instances used to set attributes of the image.
+
+    Returns
+    -------
+    :class:`ImageSpec`
+        *OpenImageIO*. image specification.
+
+    Examples
+    --------
+    >>> compression = Image_Specification_Attribute("Compression", "none")
+    >>> image_specification_OpenImageIO(
+    ...     1920, 1080, 3, "float16", [compression]
+    ... )  # doctest: +SKIP
+    <OpenImageIO.ImageSpec object at 0x...>
+    """  # noqa: D405, D407, D410, D411
+
+    from OpenImageIO import ImageSpec  # pyright: ignore
+
+    attributes = cast(list, optional(attributes, []))
+
+    bit_depth_specification = MAPPING_BIT_DEPTH[bit_depth]
+
+    image_specification = ImageSpec(
+        width, height, channels, bit_depth_specification.openimageio
+    )
+
+    add_attributes_to_image_specification_OpenImageIO(
+        image_specification, attributes or []
+    )
+
+    return image_specification
 
 
 def convert_bit_depth(
@@ -195,7 +312,7 @@ def convert_bit_depth(
 
     if source_dtype == "uint8":
         if bit_depth == "uint16":
-            a = (a * 257).astype(target_dtype)
+            a = a.astype(target_dtype) * 257
         elif bit_depth in ("float16", "float32", "float64", "float128"):
             a = (a / 255).astype(target_dtype)
     elif source_dtype == "uint16":
@@ -216,11 +333,12 @@ def convert_bit_depth(
 
 @required("OpenImageIO")
 def read_image_OpenImageIO(
-    path: str,
+    path: str | Path,
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
-    attributes: bool = False,
+    additional_data: bool = False,
+    **kwargs: Any,
 ) -> NDArrayReal | Tuple[NDArrayReal, list]:
     """
     Read the image data at given path using *OpenImageIO*.
@@ -233,14 +351,14 @@ def read_image_OpenImageIO(
         Returned image bit-depth, the bit-depth conversion behaviour is driven
         directly by *OpenImageIO*, this definition only converts to the
         relevant data type after reading.
-    attributes
-        Whether to return the image attributes.
+    additional_data
+        Whether to return additional data.
 
     Returns
     -------
     :class`numpy.ndarray` or :class:`tuple`
         Image data or tuple of image data and list of
-        :class:`colour.io.ImageAttribute_Specification` class instances.
+        :class:`colour.io.Image_Specification_Attribute` class instances.
 
     Notes
     -----
@@ -258,34 +376,43 @@ def read_image_OpenImageIO(
     ...     "CMS_Test_Pattern.exr",
     ... )
     >>> image = read_image_OpenImageIO(path)  # doctest: +SKIP
-    """  # noqa: D405, D407, D410, D411
+    """
 
-    from OpenImageIO import ImageInput
+    from OpenImageIO import ImageInput  # pyright: ignore
 
     path = str(path)
+
+    kwargs = handle_arguments_deprecation(
+        {
+            "ArgumentRenamed": [["attributes", "additional_data"]],
+        },
+        **kwargs,
+    )
+
+    additional_data = kwargs.get("additional_data", additional_data)
 
     bit_depth_specification = MAPPING_BIT_DEPTH[bit_depth]
 
     image_input = ImageInput.open(path)
-    specification = image_input.spec()
+    image_specification = image_input.spec()
 
     shape = (
-        specification.height,
-        specification.width,
-        specification.nchannels,
+        image_specification.height,
+        image_specification.width,
+        image_specification.nchannels,
     )
 
     image = image_input.read_image(bit_depth_specification.openimageio)
     image_input.close()
 
-    image = np.array(image, dtype=bit_depth_specification.numpy).reshape(shape)
+    image = np.reshape(np.array(image, dtype=bit_depth_specification.numpy), shape)
     image = cast(NDArrayReal, np.squeeze(image))
 
-    if attributes:
+    if additional_data:
         extra_attributes = []
-        for attribute in specification.extra_attribs:
+        for attribute in image_specification.extra_attribs:
             extra_attributes.append(
-                ImageAttribute_Specification(
+                Image_Specification_Attribute(
                     attribute.name, attribute.value, attribute.type
                 )
             )
@@ -296,7 +423,7 @@ def read_image_OpenImageIO(
 
 
 def read_image_Imageio(
-    path: str,
+    path: str | Path,
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
@@ -346,7 +473,9 @@ def read_image_Imageio(
     dtype('float32')
     """
 
-    from imageio import imread
+    from imageio.v2 import imread
+
+    path = str(path)
 
     image = np.squeeze(imread(path, **kwargs))
 
@@ -365,7 +494,7 @@ Supported image read methods.
 
 
 def read_image(
-    path: str,
+    path: str | Path,
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
@@ -386,13 +515,13 @@ def read_image(
         conversion behaviour is driven directly by the library, this definition
         only converts to the relevant data type after reading.
     method
-        Read method, i.e. the image library used for reading images.
+        Read method, i.e., the image library used for reading images.
 
     Other Parameters
     ----------------
-    attributes
+    additional_data
         {:func:`colour.io.read_image_OpenImageIO`},
-        Whether to return the image attributes.
+        Whether to return additional data.
 
     Returns
     -------
@@ -423,13 +552,11 @@ def read_image(
     (1267, 1274, 3)
     >>> image.dtype
     dtype('float32')
-    """  # noqa: D405, D407, D410, D411, D414
+    """
 
     method = validate_method(method, tuple(READ_IMAGE_METHODS))
 
-    if (
-        method == "openimageio" and not is_openimageio_installed()
-    ):  # pragma: no cover
+    if method == "openimageio" and not is_openimageio_installed():  # pragma: no cover
         usage_warning(
             '"OpenImageIO" related API features are not available, '
             'switching to "Imageio"!'
@@ -447,7 +574,7 @@ def read_image(
 @required("OpenImageIO")
 def write_image_OpenImageIO(
     image: ArrayLike,
-    path: str,
+    path: str | Path,
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
@@ -466,7 +593,7 @@ def write_image_OpenImageIO(
         Bit-depth to write the image at, the bit-depth conversion behaviour is
         ruled directly by *OpenImageIO*.
     attributes
-        An array of :class:`colour.io.ImageAttribute_Specification` class
+        An array of :class:`colour.io.Image_Specification_Attribute` class
         instances used to set attributes of the image.
 
     Returns
@@ -500,7 +627,7 @@ def write_image_OpenImageIO(
 
     Advanced image writing while setting attributes:
 
-    >>> compression = ImageAttribute_Specification("Compression", "none")
+    >>> compression = Image_Specification_Attribute("Compression", "none")
     >>> write_image_OpenImageIO(image, path, "uint8", [compression])
     ... # doctest: +SKIP
     True
@@ -521,17 +648,16 @@ def write_image_OpenImageIO(
     ...         0.33767,
     ...     )
     ...     attributes = [
-    ...         ImageAttribute_Specification("acesImageContainerFlag", True),
-    ...         ImageAttribute_Specification(
+    ...         Image_Specification_Attribute("acesImageContainerFlag", True),
+    ...         Image_Specification_Attribute(
     ...             "chromaticities", chromaticities, TypeDesc("float[8]")
     ...         ),
-    ...         ImageAttribute_Specification("compression", "none"),
+    ...         Image_Specification_Attribute("compression", "none"),
     ...     ]
     ...     write_image_OpenImageIO(image, path, attributes=attributes)
-    ...
     """  # noqa: D405, D407, D410, D411
 
-    from OpenImageIO import ImageOutput, ImageSpec
+    from OpenImageIO import ImageOutput  # pyright: ignore
 
     image = as_float_array(image)
     path = str(path)
@@ -557,25 +683,13 @@ def write_image_OpenImageIO(
     else:
         height, width, channels = image.shape
 
-    specification = ImageSpec(
-        width, height, channels, bit_depth_specification.openimageio
+    image_specification = image_specification_OpenImageIO(
+        width, height, channels, bit_depth, attributes
     )
-    for attribute in attributes:
-        name = str(attribute.name)
-        value = (
-            str(attribute.value)
-            if isinstance(attribute.value, str)
-            else attribute.value
-        )
-        type_ = attribute.type_
-        if attribute.type_ is None:
-            specification.attribute(name, value)
-        else:
-            specification.attribute(name, type_, value)
 
     image_output = ImageOutput.create(path)
 
-    image_output.open(path, specification)
+    image_output.open(path, image_specification)
     image_output.write_image(image)
 
     image_output.close()
@@ -585,7 +699,7 @@ def write_image_OpenImageIO(
 
 def write_image_Imageio(
     image: ArrayLike,
-    path: str,
+    path: str | Path,
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
@@ -646,7 +760,9 @@ Source/FreeImage.h
     True
     """
 
-    from imageio import imwrite
+    from imageio.v2 import imwrite
+
+    path = str(path)
 
     if all(
         [
@@ -676,7 +792,7 @@ Supported image write methods.
 
 def write_image(
     image: ArrayLike,
-    path: str,
+    path: str | Path,
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
@@ -697,13 +813,13 @@ def write_image(
         data is converted with :func:`colour.io.convert_bit_depth` definition
         prior to writing the image.
     method
-        Write method, i.e. the image library used for writing images.
+        Write method, i.e., the image library used for writing images.
 
     Other Parameters
     ----------------
     attributes
         {:func:`colour.io.write_image_OpenImageIO`},
-        An array of :class:`colour.io.ImageAttribute_Specification` class
+        An array of :class:`colour.io.Image_Specification_Attribute` class
         instances used to set attributes of the image.
 
     Returns
@@ -749,7 +865,7 @@ Source/FreeImage.h
 
     Advanced image writing while setting attributes using *OpenImageIO*:
 
-    >>> compression = ImageAttribute_Specification("Compression", "none")
+    >>> compression = Image_Specification_Attribute("Compression", "none")
     >>> write_image(image, path, bit_depth="uint8", attributes=[compression])
     ... # doctest: +SKIP
     True
@@ -757,9 +873,7 @@ Source/FreeImage.h
 
     method = validate_method(method, tuple(WRITE_IMAGE_METHODS))
 
-    if (
-        method == "openimageio" and not is_openimageio_installed()
-    ):  # pragma: no cover
+    if method == "openimageio" and not is_openimageio_installed():  # pragma: no cover
         usage_warning(
             '"OpenImageIO" related API features are not available, '
             'switching to "Imageio"!'
@@ -800,14 +914,25 @@ def as_3_channels_image(a: ArrayLike) -> NDArrayFloat:
     array([[[ 0.18,  0.18,  0.18]]])
     >>> as_3_channels_image([[[0.18, 0.18, 0.18]]])
     array([[[ 0.18,  0.18,  0.18]]])
+    >>> as_3_channels_image([[[[0.18, 0.18, 0.18]]]])
+    array([[[ 0.18,  0.18,  0.18]]])
     """
 
-    a = as_float_array(a)
+    a = np.squeeze(as_float_array(a))
 
-    if len(a.shape) == 0:
-        a = tstack([a, a, a])
+    if len(a.shape) > 3:
+        raise ValueError(
+            "Array has more than 3-dimensions and cannot be converted to a "
+            "3-channels image-like representation!"
+        )
 
-    if a.shape[-1] == 1:
+    if len(a.shape) > 0 and a.shape[-1] not in (1, 3):
+        raise ValueError(
+            "Array has more than 1 or 3 channels and cannot be converted to a "
+            "3-channels image-like representation!"
+        )
+
+    if len(a.shape) == 0 or a.shape[-1] == 1:
         a = tstack([a, a, a])
 
     if len(a.shape) == 1:

@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.adaptation` module."""
 
-import unittest
 
 import numpy as np
 
@@ -21,7 +19,7 @@ __all__ = [
 ]
 
 
-class TestChromaticAdaptation(unittest.TestCase):
+class TestChromaticAdaptation:
     """
     Define :func:`colour.adaptation.chromatic_adaptation` definition unit
     tests methods.
@@ -66,9 +64,7 @@ class TestChromaticAdaptation(unittest.TestCase):
 
         Y_n = 200
         np.testing.assert_allclose(
-            chromatic_adaptation(
-                XYZ, XYZ_w, XYZ_wr, method="Fairchild 1990", Y_n=Y_n
-            ),
+            chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method="Fairchild 1990", Y_n=Y_n),
             np.array([0.21394049, 0.12262315, 0.03891917]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -124,7 +120,3 @@ class TestChromaticAdaptation(unittest.TestCase):
                         value * factor,
                         atol=TOLERANCE_ABSOLUTE_TESTS,
                     )
-
-
-if __name__ == "__main__":
-    unittest.main()

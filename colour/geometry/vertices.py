@@ -2,7 +2,7 @@
 Geometry Primitive Vertices
 ===========================
 
-Defines various geometry primitive vertices generation methods:
+Define various geometry primitive vertices generation methods:
 
 -   :func:`colour.geometry.primitive_vertices_quad_mpl`
 -   :func:`colour.geometry.primitive_vertices_grid_mpl`
@@ -204,10 +204,23 @@ def primitive_vertices_cube_mpl(
     height_segments: int = 1,
     depth_segments: int = 1,
     origin: ArrayLike = np.array([0, 0, 0]),
-    planes: Literal[
-        "-x", "+x", "-y", "+y", "-z", "+z", "xy", "xz", "yz", "yx", "zx", "zy"
-    ]
-    | None = None,
+    planes: (
+        Literal[
+            "-x",
+            "+x",
+            "-y",
+            "+y",
+            "-z",
+            "+z",
+            "xy",
+            "xz",
+            "yz",
+            "yx",
+            "zx",
+            "zy",
+        ]
+        | None
+    ) = None,
 ) -> NDArrayFloat:
     """
     Return the vertices of a cube primitive made of grid primitives for use
@@ -275,9 +288,7 @@ def primitive_vertices_cube_mpl(
     axis = (
         sorted(MAPPING_PLANE_TO_AXIS.values())
         if planes is None
-        else [
-            MAPPING_PLANE_TO_AXIS.get(plane, plane).lower() for plane in planes
-        ]
+        else [MAPPING_PLANE_TO_AXIS.get(plane, plane).lower() for plane in planes]
     )
 
     u, v, w = tsplit(origin)
@@ -287,9 +298,7 @@ def primitive_vertices_cube_mpl(
     grids: list = []
     if "-z" in axis:
         grids.extend(
-            primitive_vertices_grid_mpl(
-                width, depth, v, w_s, d_s, (u, w), "+z"
-            )
+            primitive_vertices_grid_mpl(width, depth, v, w_s, d_s, (u, w), "+z")
         )
     if "+z" in axis:
         grids.extend(
@@ -300,9 +309,7 @@ def primitive_vertices_cube_mpl(
 
     if "-y" in axis:
         grids.extend(
-            primitive_vertices_grid_mpl(
-                width, height, w, w_s, h_s, (u, v), "+y"
-            )
+            primitive_vertices_grid_mpl(width, height, w, w_s, h_s, (u, v), "+y")
         )
     if "+y" in axis:
         grids.extend(
@@ -313,9 +320,7 @@ def primitive_vertices_cube_mpl(
 
     if "-x" in axis:
         grids.extend(
-            primitive_vertices_grid_mpl(
-                depth, height, u, d_s, h_s, (w, v), "+x"
-            )
+            primitive_vertices_grid_mpl(depth, height, u, d_s, h_s, (w, v), "+x")
         )
     if "+x" in axis:
         grids.extend(
@@ -464,8 +469,7 @@ Supported geometry primitive vertices generation methods.
 
 
 def primitive_vertices(
-    method: Literal["Cube MPL", "Quad MPL", "Grid MPL", "Sphere"]
-    | str = "Cube MPL",
+    method: (Literal["Cube MPL", "Quad MPL", "Grid MPL", "Sphere"] | str) = "Cube MPL",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """

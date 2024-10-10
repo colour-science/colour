@@ -2,7 +2,7 @@
 Abstract Continuous Function
 ============================
 
-Defines the abstract class implementing support for abstract continuous
+Define the abstract class implementing support for abstract continuous
 function:
 
 -   :class:`colour.continuous.AbstractContinuousFunction`.
@@ -34,7 +34,6 @@ from colour.utilities import (
     as_float,
     attest,
     closest,
-    is_string,
     is_uniform,
     optional,
 )
@@ -148,7 +147,7 @@ arithmetical_operation`
         """Setter for the **self.name** property."""
 
         attest(
-            is_string(value),
+            isinstance(value, str),
             f'"name" property: "{value}" type is not "str"!',
         )
 
@@ -218,7 +217,7 @@ arithmetical_operation`
 
     @property
     @abstractmethod
-    def range(self) -> NDArrayFloat:  # noqa: A003
+    def range(self) -> NDArrayFloat:
         """
         Getter and setter property for the abstract continuous function
         corresponding range variable :math:`y`, must be reimplemented by
@@ -241,7 +240,7 @@ arithmetical_operation`
 
     @range.setter
     @abstractmethod
-    def range(self, value: ArrayLike):  # noqa: A003
+    def range(self, value: ArrayLike):
         """
         Setter for the **self.range** property, must be reimplemented by
         sub-classes.

@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.plotting.characterisation` module."""
 
-import unittest
 
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
@@ -24,7 +22,7 @@ __all__ = [
 ]
 
 
-class TestPlotSingleColourChecker(unittest.TestCase):
+class TestPlotSingleColourChecker:
     """
     Define :func:`colour.plotting.characterisation.plot_single_colour_checker`
     definition unit tests methods.
@@ -38,11 +36,11 @@ plot_single_colour_checker` definition.
 
         figure, axes = plot_single_colour_checker()
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
 
 
-class TestPlotMultiColourCheckers(unittest.TestCase):
+class TestPlotMultiColourCheckers:
     """
     Define :func:`colour.plotting.characterisation.plot_multi_colour_checkers`
     definition unit tests methods.
@@ -58,9 +56,5 @@ plot_multi_colour_checkers` definition.
             ["ColorChecker 1976", "ColorChecker 2005"]
         )
 
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)

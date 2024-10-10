@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.canon` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -47,7 +46,7 @@ __all__ = [
 ]
 
 
-class TestLogEncoding_CanonLog_v1(unittest.TestCase):
+class TestLogEncoding_CanonLog_v1:
     """
     Define :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog_v1` definition unit tests methods.
@@ -153,12 +152,10 @@ log_encoding_CanonLog_v1` definition domain and range scale support.
 log_encoding_CanonLog_v1` definition nan support.
         """
 
-        log_encoding_CanonLog_v1(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_CanonLog_v1(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_CanonLog_v1(unittest.TestCase):
+class TestLogDecoding_CanonLog_v1:
     """
     Define :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog_v1` definition unit tests methods.
@@ -264,12 +261,10 @@ log_decoding_CanonLog_v1` definition domain and range scale support.
 log_decoding_CanonLog_v1` definition nan support.
         """
 
-        log_decoding_CanonLog_v1(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_decoding_CanonLog_v1(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogEncoding_CanonLog_v1_2(unittest.TestCase):
+class TestLogEncoding_CanonLog_v1_2:
     """
     Define :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog_v1_2` definition unit tests methods.
@@ -339,9 +334,7 @@ log_encoding_CanonLog_v1_2` definition.
 
         np.testing.assert_allclose(
             log_encoding_CanonLog_v1(samples, out_normalised_code_value=False),
-            log_encoding_CanonLog_v1_2(
-                samples, out_normalised_code_value=False
-            ),
+            log_encoding_CanonLog_v1_2(samples, out_normalised_code_value=False),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
         np.testing.assert_allclose(
@@ -402,12 +395,10 @@ log_encoding_CanonLog_v1_2` definition domain and range scale support.
 log_encoding_CanonLog_v1_2` definition nan support.
         """
 
-        log_encoding_CanonLog_v1_2(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_CanonLog_v1_2(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_CanonLog_v1_2(unittest.TestCase):
+class TestLogDecoding_CanonLog_v1_2:
     """
     Define :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog_v1_2` definition unit tests methods.
@@ -477,9 +468,7 @@ log_decoding_CanonLog_v1_2` definition.
 
         np.testing.assert_allclose(
             log_decoding_CanonLog_v1(samples, in_normalised_code_value=False),
-            log_decoding_CanonLog_v1_2(
-                samples, in_normalised_code_value=False
-            ),
+            log_decoding_CanonLog_v1_2(samples, in_normalised_code_value=False),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
         np.testing.assert_allclose(
@@ -540,12 +529,10 @@ log_decoding_CanonLog_v1_2` definition domain and range scale support.
 log_decoding_CanonLog_v1_2` definition nan support.
         """
 
-        log_decoding_CanonLog_v1_2(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_decoding_CanonLog_v1_2(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogEncoding_CanonLog2_v1(unittest.TestCase):
+class TestLogEncoding_CanonLog2_v1:
     """
     Define :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog2_v1` definition unit tests methods.
@@ -651,12 +638,10 @@ log_encoding_CanonLog2_v1` definition domain and range scale support.
 log_encoding_CanonLog2_v1` definition nan support.
         """
 
-        log_encoding_CanonLog2_v1(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_CanonLog2_v1(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_CanonLog2_v1(unittest.TestCase):
+class TestLogDecoding_CanonLog2_v1:
     """
     Define :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog2_v1` definition unit tests methods.
@@ -762,12 +747,10 @@ log_decoding_CanonLog2_v1` definition domain and range scale support.
 log_decoding_CanonLog2_v1` definition nan support.
         """
 
-        log_decoding_CanonLog2_v1(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_decoding_CanonLog2_v1(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogEncoding_CanonLog2_v1_2(unittest.TestCase):
+class TestLogEncoding_CanonLog2_v1_2:
     """
     Define :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog2_v1_2` definition unit tests methods.
@@ -836,12 +819,8 @@ log_encoding_CanonLog2_v1_2` definition.
         )
 
         np.testing.assert_allclose(
-            log_encoding_CanonLog2_v1(
-                samples, out_normalised_code_value=False
-            ),
-            log_encoding_CanonLog2_v1_2(
-                samples, out_normalised_code_value=False
-            ),
+            log_encoding_CanonLog2_v1(samples, out_normalised_code_value=False),
+            log_encoding_CanonLog2_v1_2(samples, out_normalised_code_value=False),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
         np.testing.assert_allclose(
@@ -908,12 +887,10 @@ log_encoding_CanonLog2_v1_2` definition domain and range scale support.
 log_encoding_CanonLog2_v1_2` definition nan support.
         """
 
-        log_encoding_CanonLog2_v1_2(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_CanonLog2_v1_2(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_CanonLog2_v1_2(unittest.TestCase):
+class TestLogDecoding_CanonLog2_v1_2:
     """
     Define :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog2_v1_2` definition unit tests methods.
@@ -983,9 +960,7 @@ log_decoding_CanonLog2_v1_2` definition.
 
         np.testing.assert_allclose(
             log_decoding_CanonLog_v1(samples, in_normalised_code_value=False),
-            log_decoding_CanonLog_v1_2(
-                samples, in_normalised_code_value=False
-            ),
+            log_decoding_CanonLog_v1_2(samples, in_normalised_code_value=False),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
         np.testing.assert_allclose(
@@ -1052,12 +1027,10 @@ log_decoding_CanonLog2_v1_2` definition domain and range scale support.
 log_decoding_CanonLog2_v1_2` definition nan support.
         """
 
-        log_decoding_CanonLog2_v1_2(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_decoding_CanonLog2_v1_2(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogEncoding_CanonLog3_v1(unittest.TestCase):
+class TestLogEncoding_CanonLog3_v1:
     """
     Define :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog3_v1` definition unit tests methods.
@@ -1163,12 +1136,10 @@ log_encoding_CanonLog3_v1` definition domain and range scale support.
 log_encoding_CanonLog3_v1` definition nan support.
         """
 
-        log_encoding_CanonLog3_v1(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_CanonLog3_v1(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_CanonLog3_v1(unittest.TestCase):
+class TestLogDecoding_CanonLog3_v1:
     """
     Define :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog3_v1` definition unit tests methods.
@@ -1274,12 +1245,10 @@ log_decoding_CanonLog3_v1` definition domain and range scale support.
 log_decoding_CanonLog3_v1` definition nan support.
         """
 
-        log_decoding_CanonLog3_v1(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_decoding_CanonLog3_v1(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogEncoding_CanonLog3_v1_2(unittest.TestCase):
+class TestLogEncoding_CanonLog3_v1_2:
     """
     Define :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog3_v1_2` definition unit tests methods.
@@ -1348,12 +1317,8 @@ log_encoding_CanonLog3_v1_2` definition.
         )
 
         np.testing.assert_allclose(
-            log_encoding_CanonLog3_v1(
-                samples, out_normalised_code_value=False
-            ),
-            log_encoding_CanonLog3_v1_2(
-                samples, out_normalised_code_value=False
-            ),
+            log_encoding_CanonLog3_v1(samples, out_normalised_code_value=False),
+            log_encoding_CanonLog3_v1_2(samples, out_normalised_code_value=False),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
         np.testing.assert_allclose(
@@ -1420,12 +1385,10 @@ log_encoding_CanonLog3_v1_2` definition domain and range scale support.
 log_encoding_CanonLog3_v1_2` definition nan support.
         """
 
-        log_encoding_CanonLog3_v1_2(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_CanonLog3_v1_2(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_CanonLog3_v1_2(unittest.TestCase):
+class TestLogDecoding_CanonLog3_v1_2:
     """
     Define :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog3_v1_2` definition unit tests methods.
@@ -1495,9 +1458,7 @@ log_decoding_CanonLog3_v1_2` definition.
 
         np.testing.assert_allclose(
             log_decoding_CanonLog3_v1(samples, in_normalised_code_value=False),
-            log_decoding_CanonLog3_v1_2(
-                samples, in_normalised_code_value=False
-            ),
+            log_decoding_CanonLog3_v1_2(samples, in_normalised_code_value=False),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
         np.testing.assert_allclose(
@@ -1564,10 +1525,4 @@ log_decoding_CanonLog3_v1_2` definition domain and range scale support.
 log_decoding_CanonLog3_v1_2` definition nan support.
         """
 
-        log_decoding_CanonLog3_v1_2(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
-
-
-if __name__ == "__main__":
-    unittest.main()
+        log_decoding_CanonLog3_v1_2(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))

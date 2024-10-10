@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.appearance.atd95` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -26,7 +24,7 @@ __all__ = [
 ]
 
 
-class TestXYZ_to_ATD95(unittest.TestCase):
+class TestXYZ_to_ATD95:
     """
     Define :func:`colour.appearance.atd95.XYZ_to_ATD95` definition unit
     tests methods.
@@ -188,9 +186,7 @@ class TestXYZ_to_ATD95(unittest.TestCase):
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_allclose(
-                    XYZ_to_ATD95(
-                        XYZ * factor_a, XYZ_0 * factor_a, Y_0, k_1, k_2
-                    ),
+                    XYZ_to_ATD95(XYZ * factor_a, XYZ_0 * factor_a, Y_0, k_1, k_2),
                     as_float_array(specification) * factor_b,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
@@ -205,7 +201,3 @@ class TestXYZ_to_ATD95(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         XYZ_to_ATD95(cases, cases, cases[..., 0], cases[..., 0], cases[..., 0])
-
-
-if __name__ == "__main__":
-    unittest.main()

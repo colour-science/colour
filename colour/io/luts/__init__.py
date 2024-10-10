@@ -14,6 +14,7 @@ References
 from __future__ import annotations
 
 import os
+from pathlib import Path
 
 from colour.hints import Any, LiteralLUTReadMethod, LiteralLUTWriteMethod
 from colour.utilities import (
@@ -101,7 +102,7 @@ References
 
 
 def read_LUT(
-    path: str,
+    path: str | Path,
     method: LiteralLUTReadMethod | str | None = None,
     **kwargs: Any,
 ) -> LUT1D | LUT3x1D | LUT3D | LUTSequence | LUTOperatorMatrix:
@@ -207,6 +208,8 @@ or :class:`colour.LUTSequence` or :class:`colour.LUTOperatorMatrix`
     Offset     : [ 0.  0.  0.  0.]
     """
 
+    path = str(path)
+
     method = (
         MAPPING_EXTENSION_TO_LUT_FORMAT[os.path.splitext(path)[-1]].lower()
         if method is None
@@ -248,7 +251,7 @@ References
 
 def write_LUT(
     LUT: LUT1D | LUT3x1D | LUT3D | LUTSequence | LUTOperatorMatrix,
-    path: str,
+    path: str | Path,
     decimals: int = 7,
     method: LiteralLUTWriteMethod | str | None = None,
     **kwargs: Any,
@@ -317,6 +320,8 @@ def write_LUT(
     ... )
     >>> write_LUT(LUT, "My_LUT.cube")  # doctest: +SKIP
     """
+
+    path = str(path)
 
     method = (
         MAPPING_EXTENSION_TO_LUT_FORMAT[os.path.splitext(path)[-1]].lower()

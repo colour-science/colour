@@ -2,7 +2,7 @@
 Mallett and Yuksel (2019) - Reflectance Recovery
 ================================================
 
-Defines the objects for reflectance recovery, i.e. spectral upsampling, using
+Define the objects for reflectance recovery, i.e., spectral upsampling, using
 *Mallett and Yuksel (2019)* method:
 
 -   :func:`colour.recovery.spectral_primary_decomposition_Mallett2019`
@@ -67,7 +67,7 @@ def spectral_primary_decomposition_Mallett2019(
         Illuminant spectral distribution, default to
         *CIE Standard Illuminant D65*.
     metric
-        Function to be minimised, i.e. the objective function.
+        Function to be minimised, i.e., the objective function.
 
             ``metric(basis, *metric_args) -> float``
 
@@ -117,7 +117,6 @@ def spectral_primary_decomposition_Mallett2019(
     ... )
     >>> with numpy_print_options(suppress=True):
     ...     print(msds)  # doctest: +SKIP
-    ...
     [[ 360.            0.3395134...    0.3400214...    0.3204650...]
      [ 370.            0.3355246...    0.3338028...    0.3306724...]
      [ 380.            0.3376707...    0.3185578...    0.3437715...]
@@ -227,7 +226,7 @@ def RGB_to_sd_Mallett2019(
         *RGB* colourspace array.
     basis_functions
         Basis functions for the method. The default is to use the built-in
-        *sRGB* basis functions, i.e.
+        *sRGB* basis functions, i.e.,
         :attr:`colour.recovery.MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019`.
 
     Returns
@@ -267,7 +266,6 @@ def RGB_to_sd_Mallett2019(
     >>> sd = RGB_to_sd_Mallett2019(RGB)
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
-    ...
     SpectralDistribution([[ 380.        ,    0.1735531...],
                           [ 385.        ,    0.1720357...],
                           [ 390.        ,    0.1677721...],

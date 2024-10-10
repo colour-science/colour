@@ -7,12 +7,12 @@ jobs:
     name: ${{ matrix.os }} - Python ${{ matrix.python-version }}
     strategy:
       matrix:
-        os: [macOS-latest, ubuntu-22.04, windows-latest]
-        python-version: [3.9, "3.10", 3.11, 3.12]
+        os: [macOS-latest, ubuntu-latest, windows-latest]
+        python-version: ["3.10", 3.11, 3.12, 3.13]
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
       - name: Environment Variables
         run: |
           echo "CI_PYTHON_VERSION=${{ matrix.python-version }}" >> $GITHUB_ENV
@@ -20,62 +20,58 @@ jobs:
           echo "CI_SHA=${{ github.sha }}" >> $GITHUB_ENV
           echo "COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }}" >> $GITHUB_ENV
           echo "MPLBACKEND=AGG" >> $GITHUB_ENV
+          # https://github.com/scipy/scipy/issues/20613
+          echo "OMP_NUM_THREADS=1" >> $GITHUB_ENV
         shell: bash
-      - name: Set up Python 3.9 for Pre-Commit
-        uses: actions/setup-python@v4
+      - name: Set up Python 3.10 for Pre-Commit
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.9
+          python-version: "3.10"
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Install Dependencies (macOS)
+        if: matrix.os == 'macOS-latest'
+        run: |
+          brew install freeimage
+          # TODO: Drop when https://github.com/imageio/imageio/issues/628 is addressed
+          echo "IMAGEIO_FREEIMAGE_LIB=/opt/homebrew/Cellar/freeimage/3.18.0/lib/libfreeimage.3.18.0.dylib" >> $GITHUB_ENV
       - name: Install Dependencies (Ubuntu)
-        if: matrix.os == 'ubuntu-22.04'
+        if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo apt-get --yes install graphviz graphviz-dev libboost-all-dev libilmbase-dev libopenexr-dev libpng-dev libtiff5-dev
-      - name: Install Poetry
-        env:
-          POETRY_VERSION: 1.4.0
+          sudo apt-get --yes install graphviz graphviz-dev
+      - name: Install uv
         run: |
-          curl -sSL https://install.python-poetry.org | POETRY_HOME=$HOME/.poetry python3 -
-          echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+          pip install uv
         shell: bash
-      - name: Install Package Dependencies (Ubuntu)
-        if: matrix.os == 'ubuntu-22.04'
+      - name: Install Package Dependencies
         run: |
-          poetry run python -m pip install --upgrade pip
-          poetry install
-          poetry run python -c "import imageio;imageio.plugins.freeimage.download()"
-        shell: bash
-      - name: Install Package Dependencies (macOS & Windows)
-        if: matrix.os == 'macOS-latest' || matrix.os == 'windows-latest'
-        run: |
-          poetry run python -m pip install --upgrade pip
-          poetry install --without graphviz
-          poetry run python -c "import imageio;imageio.plugins.freeimage.download()"
+          uv sync --all-extras --no-dev
+          uv run python -c "import imageio;imageio.plugins.freeimage.download()"
         shell: bash
       - name: Install OpenImageIO (macOs)
-        if: matrix.os == 'macOS-latest' && matrix.python-version == '3.11'
+        if: matrix.os == 'macOS-latest' && matrix.python-version == '3.12'
         run: |
           brew install openimageio
-          ls /usr/local/Cellar/openimageio/*/lib/python*/site-packages/OpenImageIO/
-          ln -s /usr/local/Cellar/openimageio/*/lib/python*/site-packages/OpenImageIO/OpenImageIO*.so /Library/Frameworks/Python.framework/Versions/${{ matrix.python-version }}/lib/python${{ matrix.python-version }}/site-packages/OpenImageIO.so
+          ln -s /opt/homebrew/Cellar/openimageio/*/lib/python*/site-packages/OpenImageIO/OpenImageIO*.so ./.venv/lib/python3.12/site-packages/OpenImageIO.so
+          uv run python -c "import OpenImageIO;print(OpenImageIO.__version__)"
         shell: bash
       - name: Pre-Commit (All Files)
         run: |
-          poetry run pre-commit run --all-files
+          uv run pre-commit run --all-files
         shell: bash
       - name: Test Optimised Python Execution
         run: |
-          poetry run python -OO -c "import $CI_PACKAGE"
+          uv run python -OO -c "import $CI_PACKAGE"
         shell: bash
       - name: Test with Pytest
         run: |
-          poetry run python -W ignore -m pytest --doctest-modules --ignore=$CI_PACKAGE/examples --cov=$CI_PACKAGE $CI_PACKAGE
+          uv run python -W ignore -m pytest --doctest-modules --ignore=$CI_PACKAGE/examples --cov=$CI_PACKAGE $CI_PACKAGE
         shell: bash
       - name: Upload Coverage to coveralls.io
-        if: matrix.os == 'macOS-latest' && matrix.python-version == '3.11'
+        if: matrix.os == 'macOS-latest' && matrix.python-version == '3.12'
         run: |
-          if [ -z "$COVERALLS_REPO_TOKEN" ]; then echo \"COVERALLS_REPO_TOKEN\" secret is undefined!; else poetry run coveralls; fi
+          if [ -z "$COVERALLS_REPO_TOKEN" ]; then echo \"COVERALLS_REPO_TOKEN\" secret is undefined!; else uv run coveralls; fi
         shell: bash

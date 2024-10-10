@@ -1,4 +1,4 @@
-"""Showcases colour models computations."""
+"""Showcase colour models computations."""
 
 import numpy as np
 
@@ -57,11 +57,7 @@ message_box(
     f"values:\n\n\t{XYZ}"
 )
 D65 = colour.CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
-print(
-    colour.XYZ_to_RGB(
-        XYZ, colour.RGB_COLOURSPACES["sRGB"], D65, "Bradford", True
-    )
-)
+print(colour.XYZ_to_RGB(XYZ, colour.RGB_COLOURSPACES["sRGB"], D65, "Bradford", True))
 
 print("\n")
 
@@ -70,11 +66,7 @@ message_box(
     f'Converting to "CIE XYZ" tristimulus values from given "RGB" colourspace '
     f"values:\n\n\t{RGB}"
 )
-print(
-    colour.RGB_to_XYZ(
-        RGB, colour.RGB_COLOURSPACES["sRGB"], D65, "Bradford", True
-    )
-)
+print(colour.RGB_to_XYZ(RGB, colour.RGB_COLOURSPACES["sRGB"], D65, "Bradford", True))
 
 print("\n")
 
@@ -193,7 +185,7 @@ message_box(
     f'Converting to "CIE L*C*Huv" colourspace from given "CIE L*u*v*" '
     f"colourspace values:\n\n\t{Luv}"
 )
-print(colour.Luv_to_LCHuv(Luv))
+print(colour.Luv_to_LCHuv(Luv))  # pyright: ignore
 
 print("\n")
 
@@ -202,7 +194,7 @@ message_box(
     f'Converting to "CIE L*u*v*" colourspace from given "CIE L*C*Huv" '
     f"colourspace values:\n\n\t{LCHuv}"
 )
-print(colour.LCHuv_to_Luv(LCHuv))
+print(colour.LCHuv_to_Luv(LCHuv))  # pyright: ignore
 
 print("\n")
 
@@ -227,7 +219,7 @@ message_box(
     f'Converting to "CIE L*C*Hab" colourspace from given "CIE L*a*b*" '
     f"colourspace values:\n\n\t{Lab}"
 )
-print(colour.Lab_to_LCHab(Lab))
+print(colour.Lab_to_LCHab(Lab))  # pyright: ignore
 
 print("\n")
 
@@ -236,7 +228,7 @@ message_box(
     f'Converting to "CIE L*a*b*" colourspace from given "CIE L*C*Hab" '
     f"colourspace values:\n\n\t{LCHab}"
 )
-print(colour.LCHab_to_Lab(LCHab))
+print(colour.LCHab_to_Lab(LCHab))  # pyright: ignore
 
 print("\n")
 
@@ -481,9 +473,7 @@ print("\n")
 specification_CAM16 = colour.XYZ_to_CAM16(
     XYZ, XYZ_w, L_A, Y_b, colour.VIEWING_CONDITIONS_CAM16["Average"]
 )
-JMh = np.array(
-    [specification_CAM16.J, specification_CAM16.M, specification_CAM16.h]
-)
+JMh = np.array([specification_CAM16.J, specification_CAM16.M, specification_CAM16.h])
 message_box(
     f'Converting to "CAM16-UCS" colourspace from given "CAM16" colour '
     f'appearance model "JMh" correlates:\n\n\t{JMh}'

@@ -2,7 +2,7 @@
 Nayatani (1995) Colour Appearance Model
 =======================================
 
-Defines the *Nayatani (1995)* colour appearance model objects:
+Define the *Nayatani (1995)* colour appearance model objects:
 
 -   :class:`colour.CAM_Specification_Nayatani95`
 -   :func:`colour.XYZ_to_Nayatani95`
@@ -30,7 +30,7 @@ from colour.adaptation.cie1994 import (
     exponential_factors,
     intermediate_values,
 )
-from colour.algebra import spow, vector_dot
+from colour.algebra import spow, vecmul
 from colour.hints import ArrayLike, NDArrayFloat, cast
 from colour.models import XYZ_to_xy
 from colour.utilities import (
@@ -293,27 +293,21 @@ H=None, HC=None, L_star_N=50.0039154...)
     B_r = brightness_correlate(bRGB_o, bL_or, Q_response)
 
     # Computing *brightness* :math:`B_{rw}` of ideal white.
-    brightness_ideal_white = ideal_white_brightness_correlate(
-        bRGB_o, xez, bL_or, n
-    )
+    brightness_ideal_white = ideal_white_brightness_correlate(bRGB_o, xez, bL_or, n)
 
     # Computing the correlate of achromatic *Lightness* :math:`L_p^\\star`.
     L_star_P = achromatic_lightness_correlate(Q_response)
 
     # Computing the correlate of normalised achromatic *Lightness*
     # :math:`L_n^\\star`.
-    L_star_N = normalised_achromatic_lightness_correlate(
-        B_r, brightness_ideal_white
-    )
+    L_star_N = normalised_achromatic_lightness_correlate(B_r, brightness_ideal_white)
 
     # Computing the *hue* angle :math:`\\theta`.
     theta = hue_angle(p_response, t_response)
     # TODO: Implement hue quadrature & composition computation.
 
     # Computing the correlate of *saturation* :math:`S`.
-    S_RG, S_YB = tsplit(
-        saturation_components(theta, bL_or, t_response, p_response)
-    )
+    S_RG, S_YB = tsplit(saturation_components(theta, bL_or, t_response, p_response))
     S = saturation_correlate(S_RG, S_YB)
 
     # Computing the correlate of *chroma* :math:`C`.
@@ -389,7 +383,7 @@ def XYZ_to_RGB_Nayatani95(XYZ: ArrayLike) -> NDArrayFloat:
     array([ 20.0005206...,  19.999783 ...,  19.9988316...])
     """
 
-    return vector_dot(MATRIX_XYZ_TO_RGB_NAYATANI95, XYZ)
+    return vecmul(MATRIX_XYZ_TO_RGB_NAYATANI95, XYZ)
 
 
 def scaling_coefficient(x: ArrayLike, y: ArrayLike) -> NDArrayFloat:

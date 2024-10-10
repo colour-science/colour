@@ -2,7 +2,7 @@
 Common Colour Models Utilities
 ==============================
 
-Defines various colour models common utilities:
+Define various colour models common utilities:
 
 -   :attr:`colour.COLOURSPACE_MODELS`
 -   :func:`colour.models.Jab_to_JCh`
@@ -21,7 +21,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.algebra import cartesian_to_polar, polar_to_cartesian, vector_dot
+from colour.algebra import cartesian_to_polar, polar_to_cartesian, vecmul
 from colour.hints import ArrayLike, Callable, NDArrayFloat
 from colour.utilities import (
     CanonicalMapping,
@@ -63,6 +63,9 @@ COLOURSPACE_MODELS: tuple = (
     "CAM16LCD",
     "CAM16SCD",
     "CAM16UCS",
+    "CIE 1931",
+    "CIE 1960 UCS",
+    "CIE 1976 UCS",
     "CIE Lab",
     "CIE Luv",
     "CIE UCS",
@@ -106,6 +109,9 @@ COLOURSPACE_MODELS_AXIS_LABELS: CanonicalMapping = CanonicalMapping(
         "CAM16LCD": ("$J^'$", "$a^'$", "$b^'$"),
         "CAM16SCD": ("$J^'$", "$a^'$", "$b^'$"),
         "CAM16UCS": ("$J^'$", "$a^'$", "$b^'$"),
+        "CIE 1931": ("x", "y", "Y"),
+        "CIE 1960 UCS": ("$u^'$", "$v^'$", "$L^*$"),
+        "CIE 1976 UCS": ("$u^'$", "$v^'$", "$L^*$"),
         "CIE Lab": ("$L^*$", "$a^*$", "$b^*$"),
         "CIE Luv": ("$L^*$", "$u^'$", "$v^'$"),
         "CIE UCS": ("U", "V", "W"),
@@ -139,44 +145,47 @@ COLOURSPACE_MODELS_AXIS_LABELS: CanonicalMapping = CanonicalMapping(
 
 attest(tuple(COLOURSPACE_MODELS_AXIS_LABELS.keys()) == COLOURSPACE_MODELS)
 
-COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE: (
-    CanonicalMapping
-) = CanonicalMapping(
-    {
-        "CAM02LCD": np.array([100, 100, 100]),
-        "CAM02SCD": np.array([100, 100, 100]),
-        "CAM02UCS": np.array([100, 100, 100]),
-        "CAM16LCD": np.array([100, 100, 100]),
-        "CAM16SCD": np.array([100, 100, 100]),
-        "CAM16UCS": np.array([100, 100, 100]),
-        "CIE Lab": np.array([100, 100, 100]),
-        "CIE Luv": np.array([100, 100, 100]),
-        "CIE UCS": np.array([1, 1, 1]),
-        "CIE UVW": np.array([100, 100, 100]),
-        "CIE XYZ": np.array([1, 1, 1]),
-        "CIE xyY": np.array([1, 1, 1]),
-        "DIN99": np.array([100, 100, 100]),
-        "HCL": np.array([1, 1, 1]),
-        "HSL": np.array([1, 1, 1]),
-        "HSV": np.array([1, 1, 1]),
-        "Hunter Lab": np.array([100, 100, 100]),
-        "Hunter Rdab": np.array([100, 100, 100]),
-        "ICaCb": np.array([1, 1, 1]),
-        "ICtCp": np.array([1, 1, 1]),
-        "IHLS": np.array([1, 1, 1]),
-        "IPT Ragoo 2021": np.array([1, 1, 1]),
-        "IPT": np.array([1, 1, 1]),
-        "IgPgTg": np.array([1, 1, 1]),
-        "Jzazbz": np.array([1, 1, 1]),
-        "OSA UCS": np.array([100, 100, 100]),
-        "Oklab": np.array([1, 1, 1]),
-        "RGB": np.array([1, 1, 1]),
-        "YCbCr": np.array([1, 1, 1]),
-        "YCoCg": np.array([1, 1, 1]),
-        "Yrg": np.array([1, 1, 1]),
-        "hdr-CIELAB": np.array([100, 100, 100]),
-        "hdr-IPT": np.array([100, 100, 100]),
-    }
+COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE: CanonicalMapping = (
+    CanonicalMapping(
+        {
+            "CAM02LCD": np.array([100, 100, 100]),
+            "CAM02SCD": np.array([100, 100, 100]),
+            "CAM02UCS": np.array([100, 100, 100]),
+            "CAM16LCD": np.array([100, 100, 100]),
+            "CAM16SCD": np.array([100, 100, 100]),
+            "CAM16UCS": np.array([100, 100, 100]),
+            "CIE 1931": np.array([1, 1, 1]),
+            "CIE 1960 UCS": np.array([1, 1, 100]),
+            "CIE 1976 UCS": np.array([1, 1, 100]),
+            "CIE Lab": np.array([100, 100, 100]),
+            "CIE Luv": np.array([100, 100, 100]),
+            "CIE UCS": np.array([1, 1, 1]),
+            "CIE UVW": np.array([100, 100, 100]),
+            "CIE XYZ": np.array([1, 1, 1]),
+            "CIE xyY": np.array([1, 1, 1]),
+            "DIN99": np.array([100, 100, 100]),
+            "HCL": np.array([1, 1, 1]),
+            "HSL": np.array([1, 1, 1]),
+            "HSV": np.array([1, 1, 1]),
+            "Hunter Lab": np.array([100, 100, 100]),
+            "Hunter Rdab": np.array([100, 100, 100]),
+            "ICaCb": np.array([1, 1, 1]),
+            "ICtCp": np.array([1, 1, 1]),
+            "IHLS": np.array([1, 1, 1]),
+            "IPT Ragoo 2021": np.array([1, 1, 1]),
+            "IPT": np.array([1, 1, 1]),
+            "IgPgTg": np.array([1, 1, 1]),
+            "Jzazbz": np.array([1, 1, 1]),
+            "OSA UCS": np.array([100, 100, 100]),
+            "Oklab": np.array([1, 1, 1]),
+            "RGB": np.array([1, 1, 1]),
+            "YCbCr": np.array([1, 1, 1]),
+            "YCoCg": np.array([1, 1, 1]),
+            "Yrg": np.array([1, 1, 1]),
+            "hdr-CIELAB": np.array([100, 100, 100]),
+            "hdr-IPT": np.array([100, 100, 100]),
+        }
+    )
 )
 """Colourspace models domain-range scale **'1'** to **'Reference'** mapping."""
 
@@ -299,9 +308,7 @@ def JCh_to_Jab(JCh: ArrayLike) -> NDArrayFloat:
 
     L, C, H = tsplit(JCh)
 
-    a, b = tsplit(
-        polar_to_cartesian(tstack([C, np.radians(to_domain_degrees(H))]))
-    )
+    a, b = tsplit(polar_to_cartesian(tstack([C, np.radians(to_domain_degrees(H))])))
 
     Jab = tstack([L, a, b])
 
@@ -322,8 +329,8 @@ def XYZ_to_Iab(
     values to *IPT* colourspace and for other similar conversions. It
     implements a generic transformation from *CIE XYZ* tristimulus values to
     *Lightness* :math:`I`, :math:`a` and :math:`b` representing
-    red-green dimension, i.e. the dimension lost by protanopes and
-    the yellow-blue dimension, i.e. the dimension lost by tritanopes,
+    red-green dimension, i.e., the dimension lost by protanopes and
+    the yellow-blue dimension, i.e., the dimension lost by tritanopes,
     respectively.
 
     Parameters
@@ -388,9 +395,9 @@ def XYZ_to_Iab(
 
     XYZ = to_domain_1(XYZ)
 
-    LMS = vector_dot(matrix_XYZ_to_LMS, XYZ)
+    LMS = vecmul(matrix_XYZ_to_LMS, XYZ)
     LMS_p = LMS_to_LMS_p_callable(LMS)
-    Iab = vector_dot(matrix_LMS_p_to_Iab, LMS_p)
+    Iab = vecmul(matrix_LMS_p_to_Iab, LMS_p)
 
     return from_range_1(Iab)
 
@@ -408,8 +415,8 @@ def Iab_to_XYZ(
     This definition is used to perform conversion from *IPT* colourspace to
     *CIE XYZ* tristimulus values and for other similar conversions. It
     implements a generic transformation from *Lightness* :math:`I`, :math:`a`
-    and :math:`b` representing red-green dimension, i.e. the dimension lost by
-    protanopes and the yellow-blue dimension, i.e. the dimension lost by
+    and :math:`b` representing red-green dimension, i.e., the dimension lost by
+    protanopes and the yellow-blue dimension, i.e., the dimension lost by
     tritanopes, respectively to *CIE XYZ* tristimulus values.
 
     Parameters
@@ -478,8 +485,8 @@ def Iab_to_XYZ(
 
     Iab = to_domain_1(Iab)
 
-    LMS = vector_dot(matrix_Iab_to_LMS_p, Iab)
+    LMS = vecmul(matrix_Iab_to_LMS_p, Iab)
     LMS_p = LMS_p_to_LMS_callable(LMS)
-    XYZ = vector_dot(matrix_LMS_to_XYZ, LMS_p)
+    XYZ = vecmul(matrix_LMS_to_XYZ, LMS_p)
 
     return from_range_1(XYZ)

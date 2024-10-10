@@ -2,7 +2,7 @@
 Resolve .cube LUT Format Input / Output Utilities
 =================================================
 
-Defines the *Resolve* *.cube* *LUT* format related input / output utilities
+Define the *Resolve* *.cube* *LUT* format related input / output utilities
 objects:
 
 -   :func:`colour.io.read_LUT_ResolveCube`
@@ -16,6 +16,8 @@ References
 """
 
 from __future__ import annotations
+
+from pathlib import Path
 
 import numpy as np
 
@@ -42,7 +44,7 @@ __all__ = [
 ]
 
 
-def read_LUT_ResolveCube(path: str) -> LUT3x1D | LUT3D | LUTSequence:
+def read_LUT_ResolveCube(path: str | Path) -> LUT3x1D | LUT3D | LUTSequence:
     """
     Read given *Resolve* *.cube* *LUT* file.
 
@@ -160,6 +162,8 @@ def read_LUT_ResolveCube(path: str) -> LUT3x1D | LUT3D | LUTSequence:
         Comment 04 : A second "LUT3D" comment.
     """
 
+    path = str(path)
+
     title = path_to_title(path)
     domain_3x1D, domain_3D = None, None
     size_3x1D: int = 2
@@ -204,8 +208,8 @@ def read_LUT_ResolveCube(path: str) -> LUT3x1D | LUT3D | LUTSequence:
         # The lines of table data shall be in ascending index order,
         # with the first component index (Red) changing most rapidly,
         # and the last component index (Blue) changing least rapidly.
-        table_3D = table[int(size_3x1D) :].reshape(
-            (size_3D, size_3D, size_3D, 3), order="F"
+        table_3D = np.reshape(
+            table[int(size_3x1D) :], (size_3D, size_3D, size_3D, 3), order="F"
         )
         LUT = LUTSequence(
             LUT3x1D(
@@ -226,7 +230,7 @@ def read_LUT_ResolveCube(path: str) -> LUT3x1D | LUT3D | LUTSequence:
         # The lines of table data shall be in ascending index order,
         # with the first component index (Red) changing most rapidly,
         # and the last component index (Blue) changing least rapidly.
-        table = table.reshape([size_3D, size_3D, size_3D, 3], order="F")
+        table = np.reshape(table, (size_3D, size_3D, size_3D, 3), order="F")
         LUT = LUT3D(table, title, domain_3D, comments=comments)
 
     return LUT
@@ -234,7 +238,7 @@ def read_LUT_ResolveCube(path: str) -> LUT3x1D | LUT3D | LUTSequence:
 
 def write_LUT_ResolveCube(
     LUT: LUT1D | LUT3x1D | LUT3D | LUTSequence,
-    path: str,
+    path: str | Path,
     decimals: int = 7,
 ) -> bool:
     """
@@ -294,7 +298,6 @@ def write_LUT_ResolveCube(
     ...     H[H > 1] -= 1
     ...     H[H < 0] += 1
     ...     return HSV_to_RGB([H, S, V])
-    ...
     >>> domain = np.array([[-0.1, -0.1, -0.1], [3.0, 3.0, 3.0]])
     >>> shaper = LUT3x1D(
     ...     spow(LUT3x1D.linear_table(10, domain), 1 / 2.2),
@@ -314,6 +317,8 @@ def write_LUT_ResolveCube(
     >>> LUT_sequence = LUTSequence(shaper, LUT)
     >>> write_LUT_ResolveCube(LUT_sequence, "My_LUT.cube")  # doctest: +SKIP
     """
+
+    path = str(path)
 
     has_3D, has_3x1D = False, False
 
@@ -347,15 +352,10 @@ def write_LUT_ResolveCube(
         raise TypeError("LUT must be 1D, 3x1D, 3D, 1D + 3D or 3x1D + 3D!")
 
     for i in range(2):
-        attest(
-            not LUT[i].is_domain_explicit(), '"LUT" domain must be implicit!'
-        )
+        attest(not LUT[i].is_domain_explicit(), '"LUT" domain must be implicit!')
 
     attest(
-        (
-            len(np.unique(LUT[0].domain)) == 2
-            and len(np.unique(LUT[1].domain)) == 2
-        ),
+        (len(np.unique(LUT[0].domain)) == 2 and len(np.unique(LUT[1].domain)) == 2),
         '"LUT" domain must be 1D!',
     )
 
@@ -365,9 +365,7 @@ def write_LUT_ResolveCube(
             "Shaper size must be in domain [2, 65536]!",
         )
     if has_3D:
-        attest(
-            2 <= LUT[1].size <= 256, "Cube size must be in domain [2, 256]!"
-        )
+        attest(2 <= LUT[1].size <= 256, "Cube size must be in domain [2, 256]!")
 
     with open(path, "w") as cube_file:
         cube_file.write(f'TITLE "{name}"\n')
@@ -405,7 +403,7 @@ def write_LUT_ResolveCube(
             cube_file.write("\n")
 
         if has_3D:
-            table = LUT[1].table.reshape([-1, 3], order="F")
+            table = np.reshape(LUT[1].table, (-1, 3), order="F")
             for vector in table:
                 cube_file.write(f"{format_array_as_row(vector, decimals)}\n")
 

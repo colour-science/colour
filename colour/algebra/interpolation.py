@@ -2,7 +2,7 @@
 Interpolation
 =============
 
-Defines the classes and definitions for interpolating variables.
+Define the classes and definitions for interpolating variables.
 
 -   :class:`colour.KernelInterpolator`: 1-D function generic interpolation with
     arbitrary kernel.
@@ -302,10 +302,7 @@ def kernel_cardinal_spline(
     x_abs = np.abs(x)
     y = np.where(
         x_abs < 1,
-        (-6 * a - 9 * b + 12) * x_abs**3
-        + (6 * a + 12 * b - 18) * x_abs**2
-        - 2 * b
-        + 6,
+        (-6 * a - 9 * b + 12) * x_abs**3 + (6 * a + 12 * b - 18) * x_abs**2 - 2 * b + 6,
         (-6 * a - b) * x_abs**3
         + (30 * a + 6 * b) * x_abs**2
         + (-48 * a - 12 * b) * x_abs
@@ -543,9 +540,7 @@ class KernelInterpolator:
     def window(self, value: float):
         """Setter for the **self.window** property."""
 
-        attest(
-            bool(value >= 1), '"window" must be equal to or greater than 1!'
-        )
+        attest(bool(value >= 1), '"window" must be equal to or greater than 1!')
 
         self._window = value
 
@@ -690,9 +685,7 @@ class KernelInterpolator:
         x_interval = interval(self._x)[0]
         x_f = np.floor(x / x_interval)
 
-        windows = x_f[..., None] + np.arange(
-            -self._window + 1, self._window + 1
-        )
+        windows = x_f[..., None] + np.arange(-self._window + 1, self._window + 1)
         clip_l = min(self._x_p) / x_interval
         clip_h = max(self._x_p) / x_interval
         windows = np.clip(windows, clip_l, clip_h) - clip_l
@@ -701,9 +694,7 @@ class KernelInterpolator:
         return np.sum(
             self._y_p[windows]
             * self._kernel(
-                x[..., None] / x_interval
-                - windows
-                - min(self._x_p) / x_interval,
+                x[..., None] / x_interval - windows - min(self._x_p) / x_interval,
                 **self._kernel_kwargs,
             ),
             axis=-1,
@@ -797,9 +788,7 @@ class LinearInterpolator:
     --------
     Interpolating a single numeric variable:
 
-    >>> y = np.array(
-    ...     [5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500]
-    ... )
+    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])
     >>> x = np.arange(len(y))
     >>> f = LinearInterpolator(x, y)
     >>> f(0.5)  # doctest: +ELLIPSIS
@@ -1000,9 +989,7 @@ class SpragueInterpolator:
     --------
     Interpolating a single numeric variable:
 
-    >>> y = np.array(
-    ...     [5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500]
-    ... )
+    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])
     >>> x = np.arange(len(y))
     >>> f = SpragueInterpolator(x, y)
     >>> f(0.5)  # doctest: +ELLIPSIS
@@ -1140,42 +1127,14 @@ class SpragueInterpolator:
 
         self._y = value
 
-        yp1 = np.ravel(
-            (
-                np.dot(
-                    self.SPRAGUE_C_COEFFICIENTS[0],
-                    np.array(value[0:6]).reshape([6, 1]),
-                )
+        yp1, yp2, yp3, yp4 = (
+            np.sum(
+                self.SPRAGUE_C_COEFFICIENTS
+                * np.asarray((value[0:6], value[0:6], value[-6:], value[-6:])),
+                axis=1,
             )
             / 209
-        )[0]
-        yp2 = np.ravel(
-            (
-                np.dot(
-                    self.SPRAGUE_C_COEFFICIENTS[1],
-                    np.array(value[0:6]).reshape([6, 1]),
-                )
-            )
-            / 209
-        )[0]
-        yp3 = np.ravel(
-            (
-                np.dot(
-                    self.SPRAGUE_C_COEFFICIENTS[2],
-                    np.array(value[-6:]).reshape([6, 1]),
-                )
-            )
-            / 209
-        )[0]
-        yp4 = np.ravel(
-            (
-                np.dot(
-                    self.SPRAGUE_C_COEFFICIENTS[3],
-                    np.array(value[-6:]).reshape([6, 1]),
-                )
-            )
-            / 209
-        )[0]
+        )
 
         self._yp = np.concatenate(
             [
@@ -1230,47 +1189,24 @@ class SpragueInterpolator:
 
         r = self._yp
 
-        a0p = r[i]
-        a1p = (
-            2 * r[i - 2] - 16 * r[i - 1] + 16 * r[i + 1] - 2 * r[i + 2]
-        ) / 24
-        a2p = (
-            -r[i - 2] + 16 * r[i - 1] - 30 * r[i] + 16 * r[i + 1] - r[i + 2]
-        ) / 24
-        a3p = (
-            -9 * r[i - 2]
-            + 39 * r[i - 1]
-            - 70 * r[i]
-            + 66 * r[i + 1]
-            - 33 * r[i + 2]
-            + 7 * r[i + 3]
-        ) / 24
-        a4p = (
-            13 * r[i - 2]
-            - 64 * r[i - 1]
-            + 126 * r[i]
-            - 124 * r[i + 1]
-            + 61 * r[i + 2]
-            - 12 * r[i + 3]
-        ) / 24
-        a5p = (
-            -5 * r[i - 2]
-            + 25 * r[i - 1]
-            - 50 * r[i]
-            + 50 * r[i + 1]
-            - 25 * r[i + 2]
-            + 5 * r[i + 3]
-        ) / 24
-
-        y = (
-            a0p
-            + a1p * X
-            + a2p * X**2
-            + a3p * X**3
-            + a4p * X**4
-            + a5p * X**5
+        r_s = np.asarray((r[i - 2], r[i - 1], r[i], r[i + 1], r[i + 2], r[i + 3]))
+        w_s = np.asarray(
+            (
+                (2, -16, 0, 16, -2, 0),
+                (-1, 16, -30, 16, -1, 0),
+                (-9, 39, -70, 66, -33, 7),
+                (13, -64, 126, -124, 61, -12),
+                (-5, 25, -50, 50, -25, 5),
+            )
         )
+        a = np.dot(w_s, r_s) / 24
 
+        # Fancy vector code here... use underlying numpy structures to accelerate
+        # parts of the linear algebra.
+
+        y = r[i] + (a.reshape(5, -1) * X ** np.arange(1, 6).reshape(-1, 1)).sum(axis=0)
+        if y.size == 1:
+            return y[0]
         return y
 
     def _validate_dimensions(self):
@@ -1332,9 +1268,7 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
         class.
     """
 
-    def __init__(
-        self, x: ArrayLike, y: ArrayLike, *args: Any, **kwargs: Any
-    ) -> None:
+    def __init__(self, x: ArrayLike, y: ArrayLike, *args: Any, **kwargs: Any) -> None:
         super().__init__(x, y, *args, **kwargs)
 
         self._y: NDArrayFloat = as_float_array(y)
@@ -1368,7 +1302,7 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
 
 class NullInterpolator:
     """
-    Perform 1-D function null interpolation, i.e. a call within given
+    Perform 1-D function null interpolation, i.e., a call within given
     tolerances will return existing :math:`y` variable values and ``default``
     if outside tolerances.
 
@@ -1404,9 +1338,7 @@ class NullInterpolator:
 
     Examples
     --------
-    >>> y = np.array(
-    ...     [5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500]
-    ... )
+    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])
     >>> x = np.arange(len(y))
     >>> f = NullInterpolator(x, y)
     >>> f(0.5)
@@ -1699,9 +1631,7 @@ def lagrange_coefficients(r: float, n: int = 4) -> NDArrayFloat:
     r_i = np.arange(n)
     L_n = []
     for j in range(len(r_i)):
-        basis = [
-            (r - r_i[i]) / (r_i[j] - r_i[i]) for i in range(len(r_i)) if i != j
-        ]
+        basis = [(r - r_i[i]) / (r_i[j] - r_i[i]) for i in range(len(r_i)) if i != j]
         L_n.append(reduce(lambda x, y: x * y, basis))
 
     return np.array(L_n)
@@ -1811,9 +1741,7 @@ def vertices_and_relative_coordinates(
     # forming a cube around it:
     vertices = np.array(
         [
-            table[
-                i_f_c[i[0]][..., 0], i_f_c[i[1]][..., 1], i_f_c[i[2]][..., 2]
-            ]
+            table[i_f_c[i[0]][..., 0], i_f_c[i[1]][..., 1], i_f_c[i[2]][..., 2]]
             for i in itertools.product(*zip([0, 0, 0], [1, 1, 1]))
         ]
     )
@@ -1821,9 +1749,7 @@ def vertices_and_relative_coordinates(
     return vertices, V_xyzr
 
 
-def table_interpolation_trilinear(
-    V_xyz: ArrayLike, table: ArrayLike
-) -> NDArrayFloat:
+def table_interpolation_trilinear(V_xyz: ArrayLike, table: ArrayLike) -> NDArrayFloat:
     """
     Perform the trilinear interpolation of given :math:`V_{xyz}` values using
     given interpolation table.
@@ -1901,9 +1827,7 @@ def table_interpolation_trilinear(
     return xyz_o
 
 
-def table_interpolation_tetrahedral(
-    V_xyz: ArrayLike, table: ArrayLike
-) -> NDArrayFloat:
+def table_interpolation_tetrahedral(V_xyz: ArrayLike, table: ArrayLike) -> NDArrayFloat:
     """
     Perform the tetrahedral interpolation of given :math:`V_{xyz}` values using
     given interpolation table.

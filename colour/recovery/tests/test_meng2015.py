@@ -1,9 +1,8 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.recovery.meng2015` module."""
 
-import unittest
 
 import numpy as np
+import pytest
 
 from colour.colorimetry import (
     MSDS_CMFS,
@@ -29,13 +28,13 @@ __all__ = [
 ]
 
 
-class TestXYZ_to_sd_Meng2015(unittest.TestCase):
+class TestXYZ_to_sd_Meng2015:
     """
     Define :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition unit
     tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         self._cmfs = reshape_msds(
@@ -108,7 +107,7 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
         definition raised exception.
         """
 
-        self.assertRaises(
+        pytest.raises(
             RuntimeError,
             XYZ_to_sd_Meng2015,
             np.array([0.0, 0.0, 1.0]),
@@ -135,16 +134,10 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
             with domain_range_scale(scale):
                 np.testing.assert_allclose(
                     sd_to_XYZ_integration(
-                        XYZ_to_sd_Meng2015(
-                            XYZ_i * factor_a, self._cmfs, self._sd_D65
-                        ),
+                        XYZ_to_sd_Meng2015(XYZ_i * factor_a, self._cmfs, self._sd_D65),
                         self._cmfs,
                         self._sd_D65,
                     ),
                     XYZ_o * factor_b,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
-
-
-if __name__ == "__main__":
-    unittest.main()

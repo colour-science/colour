@@ -1,11 +1,10 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.continuous.signal` module."""
 
 import pickle
 import textwrap
-import unittest
 
 import numpy as np
+import pytest
 
 from colour.algebra import (
     CubicSplineInterpolator,
@@ -28,10 +27,10 @@ __all__ = [
 ]
 
 
-class TestSignal(unittest.TestCase):
+class TestSignal:
     """Define :class:`colour.continuous.signal.Signal` class unit tests methods."""
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         self._range = np.linspace(10, 100, 10)
@@ -54,7 +53,7 @@ class TestSignal(unittest.TestCase):
         )
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(Signal))
+            assert attribute in dir(Signal)
 
     def test_required_methods(self):
         """Test the presence of required methods."""
@@ -78,7 +77,7 @@ class TestSignal(unittest.TestCase):
         )
 
         for method in required_methods:
-            self.assertIn(method, dir(Signal))
+            assert method in dir(Signal)
 
     def test_pickling(self):
         """
@@ -88,16 +87,16 @@ class TestSignal(unittest.TestCase):
 
         data = pickle.dumps(self._signal)
         data = pickle.loads(data)  # noqa: S301
-        self.assertEqual(self._signal, data)
+        assert self._signal == data
 
     def test_dtype(self):
         """Test :func:`colour.continuous.signal.Signal.dtype` property."""
 
-        self.assertEqual(self._signal.dtype, DTYPE_FLOAT_DEFAULT)
+        assert self._signal.dtype == DTYPE_FLOAT_DEFAULT
 
         signal = self._signal.copy()
         signal.dtype = np.float32
-        self.assertEqual(signal.dtype, np.float32)
+        assert signal.dtype == np.float32
 
     def test_domain(self):
         """Test :func:`colour.continuous.signal.Signal.domain` property."""
@@ -128,7 +127,7 @@ class TestSignal(unittest.TestCase):
 
             signal.domain = domain
 
-        self.assertWarns(ColourRuntimeWarning, assert_warns)
+        pytest.warns(ColourRuntimeWarning, assert_warns)
 
     def test_range(self):
         """Test :func:`colour.continuous.signal.Signal.range` property."""
@@ -156,7 +155,7 @@ class TestSignal(unittest.TestCase):
 
             signal.range = self._range * np.inf
 
-        self.assertWarns(ColourRuntimeWarning, assert_warns)
+        pytest.warns(ColourRuntimeWarning, assert_warns)
 
     def test_interpolator(self):
         """Test :func:`colour.continuous.signal.Signal.interpolator` property."""
@@ -226,7 +225,7 @@ class TestSignal(unittest.TestCase):
     def test_extrapolator(self):
         """Test :func:`colour.continuous.signal.Signal.extrapolator` property."""
 
-        self.assertIsInstance(self._signal.extrapolator(), Extrapolator)
+        assert isinstance(self._signal.extrapolator(), Extrapolator)
 
     def test_extrapolator_kwargs(self):
         """
@@ -259,7 +258,7 @@ class TestSignal(unittest.TestCase):
         exception.
         """
 
-        self.assertRaises(ValueError, Signal().function, 0)
+        pytest.raises(ValueError, Signal().function, 0)
 
     def test__init__(self):
         """Test :func:`colour.continuous.signal.Signal.__init__` method."""
@@ -290,15 +289,16 @@ class TestSignal(unittest.TestCase):
     def test__hash__(self):
         """Test :func:`colour.continuous.signal.Signal.__hash__` method."""
 
-        self.assertIsInstance(hash(self._signal), int)
+        assert isinstance(hash(self._signal), int)
 
     def test__str__(self):
         """Test :func:`colour.continuous.signal.Signal.__str__` method."""
 
-        self.assertEqual(
-            str(self._signal),
-            textwrap.dedent(
-                """
+        assert (
+            str(self._signal)
+            == (
+                textwrap.dedent(
+                    """
                 [[   0.   10.]
                  [   1.   20.]
                  [   2.   30.]
@@ -309,16 +309,16 @@ class TestSignal(unittest.TestCase):
                  [   7.   80.]
                  [   8.   90.]
                  [   9.  100.]]"""
-            )[1:],
+                )[1:]
+            )
         )
 
-        self.assertIsInstance(str(Signal()), str)
+        assert isinstance(str(Signal()), str)
 
     def test__repr__(self):
         """Test :func:`colour.continuous.signal.Signal.__repr__` method."""
 
-        self.assertEqual(
-            repr(self._signal),
+        assert repr(self._signal) == (
             textwrap.dedent(
                 """
                 Signal([[   0.,   10.],
@@ -336,15 +336,15 @@ class TestSignal(unittest.TestCase):
                        Extrapolator,
                        {'method': 'Constant', 'left': nan, 'right': nan})
                 """
-            ).strip(),
+            ).strip()
         )
 
-        self.assertIsInstance(repr(Signal()), str)
+        assert isinstance(repr(Signal()), str)
 
     def test__getitem__(self):
         """Test :func:`colour.continuous.signal.Signal.__getitem__` method."""
 
-        self.assertEqual(self._signal[0], 10.0)
+        assert self._signal[0] == 10.0
 
         np.testing.assert_allclose(
             self._signal[np.array([0, 1, 2])],
@@ -393,26 +393,20 @@ class TestSignal(unittest.TestCase):
         signal[0] = 20
         np.testing.assert_allclose(
             signal.range,
-            np.array(
-                [20.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]
-            ),
+            np.array([20.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]),
         )
 
         signal[np.array([0, 1, 2])] = 30
         np.testing.assert_allclose(
             signal.range,
-            np.array(
-                [30.0, 30.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]
-            ),
+            np.array([30.0, 30.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         signal[0:3] = 40
         np.testing.assert_allclose(
             signal.range,
-            np.array(
-                [40.0, 40.0, 40.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]
-            ),
+            np.array([40.0, 40.0, 40.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -486,9 +480,9 @@ class TestSignal(unittest.TestCase):
     def test__contains__(self):
         """Test :func:`colour.continuous.signal.Signal.__contains__` method."""
 
-        self.assertIn(0, self._signal)
-        self.assertIn(0.5, self._signal)
-        self.assertNotIn(1000, self._signal)
+        assert 0 in self._signal
+        assert 0.5 in self._signal
+        assert 1000 not in self._signal
 
     def test__iter__(self):
         """Test :func:`colour.continuous.signal.Signal.__iter__` method."""
@@ -501,7 +495,7 @@ class TestSignal(unittest.TestCase):
     def test__len__(self):
         """Test :func:`colour.continuous.signal.Signal.__len__` method."""
 
-        self.assertEqual(len(self._signal), 10)
+        assert len(self._signal) == 10
 
     def test__eq__(self):
         """Test :func:`colour.continuous.signal.Signal.__eq__` method."""
@@ -509,7 +503,7 @@ class TestSignal(unittest.TestCase):
         signal_1 = self._signal.copy()
         signal_2 = self._signal.copy()
 
-        self.assertEqual(signal_1, signal_2)
+        assert signal_1 == signal_2
 
     def test__ne__(self):
         """Test :func:`colour.continuous.signal.Signal.__ne__` method."""
@@ -518,41 +512,41 @@ class TestSignal(unittest.TestCase):
         signal_2 = self._signal.copy()
 
         signal_2[0] = 20
-        self.assertNotEqual(signal_1, signal_2)
+        assert signal_1 != signal_2
 
         signal_2[0] = 10
-        self.assertEqual(signal_1, signal_2)
+        assert signal_1 == signal_2
 
         signal_2.interpolator = CubicSplineInterpolator
-        self.assertNotEqual(signal_1, signal_2)
+        assert signal_1 != signal_2
 
         signal_2.interpolator = KernelInterpolator
-        self.assertEqual(signal_1, signal_2)
+        assert signal_1 == signal_2
 
         signal_2.interpolator_kwargs = {"window": 1}
-        self.assertNotEqual(signal_1, signal_2)
+        assert signal_1 != signal_2
 
         signal_2.interpolator_kwargs = {}
-        self.assertEqual(signal_1, signal_2)
+        assert signal_1 == signal_2
 
         class NotExtrapolator(Extrapolator):
             """Not :class:`Extrapolator` class."""
 
         signal_2.extrapolator = NotExtrapolator
-        self.assertNotEqual(signal_1, signal_2)
+        assert signal_1 != signal_2
 
         signal_2.extrapolator = Extrapolator
-        self.assertEqual(signal_1, signal_2)
+        assert signal_1 == signal_2
 
         signal_2.extrapolator_kwargs = {}
-        self.assertNotEqual(signal_1, signal_2)
+        assert signal_1 != signal_2
 
         signal_2.extrapolator_kwargs = {
             "method": "Constant",
             "left": np.nan,
             "right": np.nan,
         }
-        self.assertEqual(signal_1, signal_2)
+        assert signal_1 == signal_2
 
     def test_arithmetical_operation(self):
         """
@@ -669,17 +663,17 @@ class TestSignal(unittest.TestCase):
     def test_is_uniform(self):
         """Test :func:`colour.continuous.signal.Signal.is_uniform` method."""
 
-        self.assertTrue(self._signal.is_uniform())
+        assert self._signal.is_uniform()
 
         signal = self._signal.copy()
         signal[0.5] = 1.0
-        self.assertFalse(signal.is_uniform())
+        assert not signal.is_uniform()
 
     def test_copy(self):
         """Test :func:`colour.continuous.signal.Signal.copy` method."""
 
-        self.assertIsNot(self._signal, self._signal.copy())
-        self.assertEqual(self._signal, self._signal.copy())
+        assert self._signal is not self._signal.copy()
+        assert self._signal == self._signal.copy()
 
     def test_signal_unpack_data(self):
         """
@@ -700,15 +694,11 @@ class TestSignal(unittest.TestCase):
         )
         np.testing.assert_array_equal(domain, self._domain)
 
-        domain, range_ = Signal.signal_unpack_data(
-            dict(zip(self._domain, self._range))
-        )
+        domain, range_ = Signal.signal_unpack_data(dict(zip(self._domain, self._range)))
         np.testing.assert_array_equal(range_, self._range)
         np.testing.assert_array_equal(domain, self._domain)
 
-        domain, range_ = Signal.signal_unpack_data(
-            Signal(self._range, self._domain)
-        )
+        domain, range_ = Signal.signal_unpack_data(Signal(self._range, self._domain))
         np.testing.assert_array_equal(range_, self._range)
         np.testing.assert_array_equal(domain, self._domain)
 
@@ -730,9 +720,7 @@ class TestSignal(unittest.TestCase):
 
         np.testing.assert_allclose(
             signal.fill_nan().range,
-            np.array(
-                [10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]
-            ),
+            np.array([10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -740,9 +728,7 @@ class TestSignal(unittest.TestCase):
 
         np.testing.assert_allclose(
             signal.fill_nan(method="Constant").range,
-            np.array(
-                [10.0, 20.0, 30.0, 0.0, 0.0, 0.0, 0.0, 80.0, 90.0, 100.0]
-            ),
+            np.array([10.0, 20.0, 30.0, 0.0, 0.0, 0.0, 0.0, 80.0, 90.0, 100.0]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -767,11 +753,7 @@ class TestSignal(unittest.TestCase):
         if is_pandas_installed():
             from pandas import Series
 
-            self.assertEqual(
-                Signal(self._range, self._domain).to_series().all(),
-                Series(dict(zip(self._domain, self._range))).all(),
+            assert (
+                Signal(self._range, self._domain).to_series().all()
+                == Series(dict(zip(self._domain, self._range))).all()
             )
-
-
-if __name__ == "__main__":
-    unittest.main()

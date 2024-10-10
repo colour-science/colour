@@ -2,10 +2,12 @@
 ARRI Log Encodings
 ==================
 
-Defines the *ARRI LogC3* log encoding:
+Define the *ARRI LogC3* and *ARRI LogC4* log encodings:
 
 -   :func:`colour.models.log_encoding_ARRILogC3`
 -   :func:`colour.models.log_decoding_ARRILogC3`
+-   :func:`colour.models.log_encoding_ARRILogC4`
+-   :func:`colour.models.log_decoding_ARRILogC4`
 
 References
 ----------
@@ -553,11 +555,10 @@ exposure factor for *SUP 3.x* and signal and normalised sensor signal for
 def log_encoding_ARRILogC3(
     x: ArrayLike,
     firmware: Literal["SUP 2.x", "SUP 3.x"] | str = "SUP 3.x",
-    method: Literal["Linear Scene Exposure Factor", "Normalised Sensor Signal"]
-    | str = "Linear Scene Exposure Factor",
-    EI: Literal[
-        160, 200, 250, 320, 400, 500, 640, 800, 1000, 1280, 1600
-    ] = 800,
+    method: (
+        Literal["Linear Scene Exposure Factor", "Normalised Sensor Signal"] | str
+    ) = "Linear Scene Exposure Factor",
+    EI: Literal[160, 200, 250, 320, 400, 500, 640, 800, 1000, 1280, 1600] = 800,
 ) -> NDArrayFloat:
     """
     Define the *ARRI LogC3* log encoding curve / opto-electronic transfer
@@ -609,9 +610,9 @@ def log_encoding_ARRILogC3(
         method, ("Linear Scene Exposure Factor", "Normalised Sensor Signal")
     )
 
-    cut, a, b, c, d, e, f, _e_cut_f = DATA_ALEXA_LOG_C_CURVE_CONVERSION[
-        firmware
-    ][method][EI]
+    cut, a, b, c, d, e, f, _e_cut_f = DATA_ALEXA_LOG_C_CURVE_CONVERSION[firmware][
+        method
+    ][EI]
 
     t = np.where(x > cut, c * np.log10(a * x + b) + d, e * x + f)
 
@@ -621,11 +622,10 @@ def log_encoding_ARRILogC3(
 def log_decoding_ARRILogC3(
     t: ArrayLike,
     firmware: Literal["SUP 2.x", "SUP 3.x"] | str = "SUP 3.x",
-    method: Literal["Linear Scene Exposure Factor", "Normalised Sensor Signal"]
-    | str = "Linear Scene Exposure Factor",
-    EI: Literal[
-        160, 200, 250, 320, 400, 500, 640, 800, 1000, 1280, 1600
-    ] = 800,
+    method: (
+        Literal["Linear Scene Exposure Factor", "Normalised Sensor Signal"] | str
+    ) = "Linear Scene Exposure Factor",
+    EI: Literal[160, 200, 250, 320, 400, 500, 640, 800, 1000, 1280, 1600] = 800,
 ) -> NDArrayFloat:
     """
     Define the *ARRI LogC3* log decoding curve / electro-optical transfer
@@ -676,9 +676,9 @@ def log_decoding_ARRILogC3(
         method, ("Linear Scene Exposure Factor", "Normalised Sensor Signal")
     )
 
-    cut, a, b, c, d, e, f, _e_cut_f = DATA_ALEXA_LOG_C_CURVE_CONVERSION[
-        firmware
-    ][method][EI]
+    cut, a, b, c, d, e, f, _e_cut_f = DATA_ALEXA_LOG_C_CURVE_CONVERSION[firmware][
+        method
+    ][EI]
 
     x = np.where(t > e * cut + f, (10 ** ((t - d) / c) - b) / a, (t - f) / e)
 

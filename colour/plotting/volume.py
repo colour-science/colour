@@ -2,7 +2,7 @@
 Colour Models Volume Plotting
 =============================
 
-Defines the colour models volume and gamut plotting objects:
+Define the colour models volume and gamut plotting objects:
 
 -   :func:`colour.plotting.plot_RGB_colourspaces_gamuts`
 -   :func:`colour.plotting.plot_RGB_scatter`
@@ -218,13 +218,9 @@ def nadir_grid(
 
     RGB_g = ones((quads_g.shape[0], quads_g.shape[-1]))
     RGB_gf = RGB_g * settings.grid_face_colours
-    RGB_gf = np.hstack(
-        [RGB_gf, full((RGB_gf.shape[0], 1), settings.grid_face_alpha)]
-    )
+    RGB_gf = np.hstack([RGB_gf, full((RGB_gf.shape[0], 1), settings.grid_face_alpha)])
     RGB_ge = RGB_g * settings.grid_edge_colours
-    RGB_ge = np.hstack(
-        [RGB_ge, full((RGB_ge.shape[0], 1), settings.grid_edge_alpha)]
-    )
+    RGB_ge = np.hstack([RGB_ge, full((RGB_ge.shape[0], 1), settings.grid_edge_alpha)])
 
     # Inner grid.
     quads_gs = primitive_vertices_grid_mpl(
@@ -268,16 +264,8 @@ def nadir_grid(
             ticks = sorted(set(quads_g[..., 0, i]))
             ticks += [ticks[-1] + ticks[-1] - ticks[-2]]
             for tick in ticks:
-                x = (
-                    limits[1, 1 if x_s == 1 else 0] + (x_s * extent / 25)
-                    if i
-                    else tick
-                )
-                y = (
-                    tick
-                    if i
-                    else limits[0, 1 if y_s == 1 else 0] + (y_s * extent / 25)
-                )
+                x = limits[1, 1 if x_s == 1 else 0] + (x_s * extent / 25) if i else tick
+                y = tick if i else limits[0, 1 if y_s == 1 else 0] + (y_s * extent / 25)
 
                 tick = (  # noqa: PLW2901
                     as_int_scalar(tick) if is_integer(tick) else tick
@@ -301,16 +289,8 @@ def nadir_grid(
             h_a = "center" if axis == "x" else "left" if x_s == 1 else "right"
             v_a = "center"
 
-            x = (
-                limits[1, 1 if x_s == 1 else 0] + (x_s * extent / 10)
-                if i
-                else 0
-            )
-            y = (
-                0
-                if i
-                else limits[0, 1 if y_s == 1 else 0] + (y_s * extent / 10)
-            )
+            x = limits[1, 1 if x_s == 1 else 0] + (x_s * extent / 10) if i else 0
+            y = 0 if i else limits[0, 1 if y_s == 1 else 0] + (y_s * extent / 10)
 
             c = settings[f"{axis}_label_colour"]
 
@@ -338,10 +318,23 @@ def RGB_identity_cube(
     width_segments: int = 16,
     height_segments: int = 16,
     depth_segments: int = 16,
-    planes: Literal[
-        "-x", "+x", "-y", "+y", "-z", "+z", "xy", "xz", "yz", "yx", "zx", "zy"
-    ]
-    | None = None,
+    planes: (
+        Literal[
+            "-x",
+            "+x",
+            "-y",
+            "+y",
+            "-z",
+            "+z",
+            "xy",
+            "xz",
+            "yz",
+            "yx",
+            "zx",
+            "zy",
+        ]
+        | None
+    ) = None,
 ) -> Tuple[NDArrayFloat, NDArrayFloat]:
     """
     Return an *RGB* identity cube made of quad geometric elements and its
@@ -421,21 +414,21 @@ def RGB_identity_cube(
 
 @override_style()
 def plot_RGB_colourspaces_gamuts(
-    colourspaces: RGB_Colourspace
-    | LiteralRGBColourspace
-    | str
-    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str],
+    colourspaces: (
+        RGB_Colourspace
+        | LiteralRGBColourspace
+        | str
+        | Sequence[RGB_Colourspace | LiteralRGBColourspace | str]
+    ),
     model: LiteralColourspaceModel | str = "CIE xyY",
     segments: int = 8,
     show_grid: bool = True,
     grid_segments: int = 10,
     show_spectral_locus: bool = False,
     spectral_locus_colour: ArrayLike | str | None = None,
-    cmfs: MultiSpectralDistributions
-    | str
-    | Sequence[
-        MultiSpectralDistributions | str
-    ] = "CIE 1931 2 Degree Standard Observer",
+    cmfs: (
+        MultiSpectralDistributions | str | Sequence[MultiSpectralDistributions | str]
+    ) = "CIE 1931 2 Degree Standard Observer",
     chromatically_adapt: bool = False,
     convert_kwargs: dict | None = None,
     **kwargs: Any,
@@ -519,10 +512,7 @@ def plot_RGB_colourspaces_gamuts(
 
     count_c = len(colourspaces)
 
-    title = (
-        f"{', '.join([colourspace.name for colourspace in colourspaces])} "
-        f"- {model}"
-    )
+    title = f"{', '.join([colourspace.name for colourspace in colourspaces])} - {model}"
 
     illuminant = CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint
 
@@ -545,9 +535,7 @@ def plot_RGB_colourspaces_gamuts(
 
     points = zeros((4, 3))
     if show_spectral_locus:
-        cmfs = cast(
-            MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
-        )
+        cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
         XYZ = cmfs.values
 
         points = colourspace_model_axis_reorder(
@@ -616,16 +604,12 @@ def plot_RGB_colourspaces_gamuts(
         if settings.face_colours[i] is not None:
             RGB = ones(RGB.shape) * settings.face_colours[i]
 
-        RGB_cf.extend(
-            np.hstack([RGB, full((RGB.shape[0], 1), settings.face_alpha[i])])
-        )
+        RGB_cf.extend(np.hstack([RGB, full((RGB.shape[0], 1), settings.face_alpha[i])]))
 
         if settings.edge_colours[i] is not None:
             RGB = ones(RGB.shape) * settings.edge_colours[i]
 
-        RGB_ce.extend(
-            np.hstack([RGB, full((RGB.shape[0], 1), settings.edge_alpha[i])])
-        )
+        RGB_ce.extend(np.hstack([RGB, full((RGB.shape[0], 1), settings.edge_alpha[i])]))
 
     quads = as_float_array(quads_c)
     RGB_f = as_float_array(RGB_cf)
@@ -661,9 +645,7 @@ def plot_RGB_colourspaces_gamuts(
 
     axes.add_collection3d(collection)
 
-    settings.update(
-        {"axes": axes, "axes_visible": False, "camera_aspect": "equal"}
-    )
+    settings.update({"axes": axes, "axes_visible": False, "camera_aspect": "equal"})
     settings.update(kwargs)
 
     return cast(Tuple[Figure, Axes3D], render(**settings))
@@ -672,25 +654,25 @@ def plot_RGB_colourspaces_gamuts(
 @override_style()
 def plot_RGB_scatter(
     RGB: ArrayLike,
-    colourspace: RGB_Colourspace
-    | str
-    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str] = "sRGB",
+    colourspace: (
+        RGB_Colourspace | str | Sequence[RGB_Colourspace | LiteralRGBColourspace | str]
+    ) = "sRGB",
     model: LiteralColourspaceModel | str = "CIE xyY",
-    colourspaces: RGB_Colourspace
-    | str
-    | Sequence[RGB_Colourspace | LiteralRGBColourspace | str]
-    | None = None,
+    colourspaces: (
+        RGB_Colourspace
+        | str
+        | Sequence[RGB_Colourspace | LiteralRGBColourspace | str]
+        | None
+    ) = None,
     segments: int = 8,
     show_grid: bool = True,
     grid_segments: int = 10,
     show_spectral_locus: bool = False,
     spectral_locus_colour: ArrayLike | str | None = None,
     points_size: float = 12,
-    cmfs: MultiSpectralDistributions
-    | str
-    | Sequence[
-        MultiSpectralDistributions | str
-    ] = "CIE 1931 2 Degree Standard Observer",
+    cmfs: (
+        MultiSpectralDistributions | str | Sequence[MultiSpectralDistributions | str]
+    ) = "CIE 1931 2 Degree Standard Observer",
     chromatically_adapt: bool = False,
     convert_kwargs: dict | None = None,
     **kwargs: Any,
@@ -757,6 +739,8 @@ def plot_RGB_scatter(
         :align: center
         :alt: plot_RGB_scatter
     """
+
+    RGB = np.reshape(as_float_array(RGB)[..., :3], (-1, 3))
 
     colourspace = cast(
         RGB_Colourspace,

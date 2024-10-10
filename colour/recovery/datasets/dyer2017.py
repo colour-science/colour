@@ -2,7 +2,7 @@
 Dyer et al. (2017) - Camera Sensitivities Basis Functions
 =========================================================
 
-Defines the datasets for camera sensitivities recovery using
+Define the datasets for camera sensitivities recovery using
 *Jiang, Liu, Gu and Süsstrunk (2013)* method.
 
 References
@@ -31,9 +31,7 @@ __all__ = [
 ]
 
 
-SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017: SpectralShape = SpectralShape(
-    400, 700, 10
-)
+SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017: SpectralShape = SpectralShape(400, 700, 10)
 """
 Spectral shape of the *Dyer et al. (2017)* basis functions.
 """

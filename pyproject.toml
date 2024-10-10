@@ -1,14 +1,16 @@
-[tool.poetry]
+[project]
 name = "colour-science"
-packages = [{ include = "colour" }]
-version = "0.4.4"
+version = "0.4.5"
 description = "Colour Science for Python"
-license = "BSD-3-Clause"
-authors = ["Colour Developers <colour-developers@colour-science.org>"]
-maintainers = ["Colour Developers <colour-developers@colour-science.org>"]
-readme = 'README.rst'
-repository = "https://github.com/colour-science/colour"
-homepage = "https://www.colour-science.org/"
+readme = "README.rst"
+requires-python = ">=3.10,<3.14"
+authors = [
+    { name = "Colour Developers", email = "colour-developers@colour-science.org" },
+]
+maintainers = [
+    { name = "Colour Developers", email = "colour-developers@colour-science.org" }
+]
+license = { text = "BSD-3-Clause" }
 keywords = [
     "color",
     "color-science",
@@ -42,55 +44,69 @@ classifiers = [
     "Topic :: Scientific/Engineering",
     "Topic :: Software Development",
 ]
+dependencies = [
+    "imageio>=2,<3",
+    "numpy>=1.24,<3",
+    "scipy>=1.10,<2",
+    "trimesh>=4",
+    "typing-extensions>=4,<5",
+]
 
-[tool.poetry.dependencies]
-python = ">= 3.9, < 3.13"
-imageio = ">= 2, < 3"
-numpy = ">= 1.22, < 2"
-scipy = ">= 1.8, < 2"
-typing-extensions = ">= 4, < 5"
+[project.optional-dependencies]
+optional = [
+    "matplotlib>=3.7",
+    "networkx>=3,<4",
+    "opencolorio>=2,<3",
+    "pandas>=2,<3",
+    "pydot>=3,<4",
+    "tqdm>=4,<5",
+    "xxhash>=3,<4",
+]
+docs = [
+    "biblib-simple",
+    "pydata-sphinx-theme",
+    "restructuredtext-lint",
+    "sphinx",
+    "sphinxcontrib-bibtex",
+]
+meshing = [
+    "trimesh>=4,<5",
+]
 
-[tool.poetry.group.optional.dependencies]
-matplotlib = ">= 3.5, != 3.5.0, != 3.5.1"
-networkx = ">= 2.7, < 3"
-opencolorio = ">= 2, < 3"
-pandas = ">= 1.4, < 2"
-tqdm = ">= 4, < 5"
-xxhash = ">= 3.2, < 4"
+[project.urls]
+Homepage = "https://www.colour-science.org"
+Documentation = "https://readthedocs.org"
+Repository = "https://github.com/colour-science/colour"
+Issues = "https://github.com/colour-science/colour/issues"
+Changelog = "https://github.com/colour-science/colour/releases"
 
-[tool.poetry.group.graphviz.dependencies]
-pygraphviz = { version =  ">= 1, < 2", python = "< 3.12" }
+[tool.uv]
+package = true
+dev-dependencies = [
+    "coverage",
+    "coveralls",
+    "hatch",
+    "invoke",
+    "jupyter",
+    "pre-commit",
+    "pyright",
+    "pytest",
+    "pytest-cov",
+    "pytest-xdist",
+    "toml",
+    "twine",
+]
 
-[tool.poetry.group.meshing.dependencies]
-trimesh = ">= 3, < 4"
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.poetry.group.dev.dependencies]
-coverage = "!= 6.3"
-coveralls = "*"
-invoke = "*"
-jupyter = "*"
-pre-commit = ">= 3.5"
-pyright = "*"
-pytest = "*"
-pytest-cov = "*"
-pytest-xdist = "*"
-toml = "*"
-twine = "*"
-
-[tool.poetry.group.docs.dependencies]
-biblib-simple = "*"
-pydata-sphinx-theme = "*"
-restructuredtext-lint = "*"
-sphinx = "*"
-sphinxcontrib-bibtex = "*"
-
-[tool.black]
-line-length = 79
-exclude = '''/(\.git|build|dist)/'''
+[tool.hatch.build.targets.wheel]
+packages = [ "colour" ]
 
 [tool.codespell]
-ignore-words-list = 'co-ordinates,exitance,hart,ist'
-skip = 'BIBLIOGRAPHY.bib,CONTRIBUTORS.rst'
+ignore-words-list = "co-ordinates,exitance,hart,ist"
+skip = "BIBLIOGRAPHY.bib,CONTRIBUTORS.rst"
 
 [tool.flynt]
 line_length = 999
@@ -138,7 +154,7 @@ filterwarnings = [
 target-version = "py39"
 line-length = 88
 select = [
-    "A",   # flake8-builtins
+    "A", # flake8-builtins
     "ARG", # flake8-unused-arguments
     # "ANN", # flake8-annotations
     "B", # flake8-bugbear
@@ -147,36 +163,37 @@ select = [
     # "C90", # mccabe
     # "COM", # flake8-commas
     "DTZ", # flake8-datetimez
-    "D",   # pydocstyle
-    "E",   # pydocstyle
+    "D", # pydocstyle
+    "E", # pydocstyle
     # "ERA", # eradicate
     # "EM", # flake8-errmsg
     "EXE", # flake8-executable
-    "F",   # flake8
+    "F", # flake8
     # "FBT", # flake8-boolean-trap
-    "G",   # flake8-logging-format
-    "I",   # isort
+    "G", # flake8-logging-format
+    "I", # isort
     "ICN", # flake8-import-conventions
     "INP", # flake8-no-pep420
     "ISC", # flake8-implicit-str-concat
-    "N",   # pep8-naming
+    "N", # pep8-naming
     # "PD", # pandas-vet
     "PIE", # flake8-pie
     "PGH", # pygrep-hooks
-    "PL",  # pylint
+    "PL", # pylint
     # "PT", # flake8-pytest-style
-    # "PTH", # flake8-use-pathlib [Enable]    "Q",   # flake8-quotes
+    # "PTH", # flake8-use-pathlib [Enable]
+    "Q", # flake8-quotes
     "RET", # flake8-return
     "RUF", # Ruff
-    "S",   # flake8-bandit
+    "S", # flake8-bandit
     "SIM", # flake8-simplify
     "T10", # flake8-debugger
     "T20", # flake8-print
     # "TCH", # flake8-type-checking
     "TID", # flake8-tidy-imports
     "TRY", # tryceratops
-    "UP",  # pyupgrade
-    "W",   # pydocstyle
+    "UP", # pyupgrade
+    "W", # pydocstyle
     "YTT", # flake8-2020
 ]
 ignore = [
@@ -222,9 +239,9 @@ convention = "numpy"
 "colour/examples/*" = ["INP", "T201", "T203"]
 "docs/*" = ["INP"]
 "tasks.py" = ["INP"]
+"test_*" = ["S101"]
 "utilities/*" = ["EXE001", "INP"]
 "utilities/unicode_to_ascii.py" = ["RUF001"]
 
-[build-system]
-requires = ["poetry_core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+[tool.ruff.format]
+docstring-code-format = true

@@ -1,11 +1,31 @@
+import sys
+
+from colour.utilities.deprecation import ModuleAPI, build_API_changes
+from colour.utilities.documentation import is_documentation_building
+
+from colour.hints import Any
+
 from .luts import *  # noqa: F403
 from . import luts
-from .image import ImageAttribute_Specification, convert_bit_depth
+from .image import (
+    Image_Specification_Attribute,
+    MAPPING_BIT_DEPTH,
+    image_specification_OpenImageIO,
+    convert_bit_depth,
+)
 from .image import read_image_OpenImageIO, write_image_OpenImageIO
 from .image import read_image_Imageio, write_image_Imageio
 from .image import READ_IMAGE_METHODS, WRITE_IMAGE_METHODS
 from .image import read_image, write_image
 from .image import as_3_channels_image
+from .fichet2021 import (
+    ComponentsFichet2021,
+    sd_to_spectrum_attribute_Fichet2021,
+    spectrum_attribute_to_sd_Fichet2021,
+    Specification_Fichet2021,
+    read_spectral_image_Fichet2021,
+    write_spectral_image_Fichet2021,
+)
 from .ctl import (
     ctl_render,
     process_image_ctl,
@@ -28,7 +48,9 @@ from .xrite import read_sds_from_xrite_file
 __all__ = []
 __all__ += luts.__all__
 __all__ += [
-    "ImageAttribute_Specification",
+    "Image_Specification_Attribute",
+    "MAPPING_BIT_DEPTH",
+    "image_specification_OpenImageIO",
     "convert_bit_depth",
 ]
 __all__ += [
@@ -57,6 +79,14 @@ __all__ += [
     "as_3_channels_image",
 ]
 __all__ += [
+    "ComponentsFichet2021",
+    "sd_to_spectrum_attribute_Fichet2021",
+    "spectrum_attribute_to_sd_Fichet2021",
+    "Specification_Fichet2021",
+    "read_spectral_image_Fichet2021",
+    "write_spectral_image_Fichet2021",
+]
+__all__ += [
     "process_image_OpenColorIO",
 ]
 __all__ += [
@@ -75,3 +105,35 @@ __all__ += [
 __all__ += [
     "read_sds_from_xrite_file",
 ]
+
+
+# ----------------------------------------------------------------------------#
+# ---                API Changes and Deprecation Management                ---#
+# ----------------------------------------------------------------------------#
+class io(ModuleAPI):
+    """Define a class acting like the *io* module."""
+
+    def __getattr__(self, attribute) -> Any:
+        """Return the value from the attribute with given name."""
+
+        return super().__getattr__(attribute)
+
+
+# v0.4.5
+API_CHANGES = {
+    "ObjectRenamed": [
+        [
+            "colour.io.ImageAttribute_Specification",
+            "colour.io.Image_Specification_Attribute",
+        ],
+    ]
+}
+
+"""Defines the *colour.io* sub-package API changes."""
+
+if not is_documentation_building():
+    sys.modules["colour.io"] = io(  # pyright: ignore
+        sys.modules["colour.io"], build_API_changes(API_CHANGES)
+    )
+
+    del ModuleAPI, is_documentation_building, build_API_changes, sys

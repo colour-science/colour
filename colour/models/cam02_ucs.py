@@ -2,7 +2,7 @@
 CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
 =========================================================================
 
-Defines the *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS*
+Define the *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS*
 colourspaces transformations:
 
 -   :func:`colour.JMh_CIECAM02_to_CAM02LCD`
@@ -227,9 +227,7 @@ def UCS_Luo2006_to_JMh_CIECAM02(
     Examples
     --------
     >>> Jpapbp = np.array([54.90433134, -0.08450395, -0.06854831])
-    >>> UCS_Luo2006_to_JMh_CIECAM02(
-    ...     Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
-    ... )
+    >>> UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
     ... # doctest: +ELLIPSIS
     array([  4.1731091...e+01,   1.0884217...e-01,   2.1904843...e+02])
     """
@@ -635,7 +633,7 @@ def XYZ_to_UCS_Luo2006(
     kwargs
         {:func:`colour.XYZ_to_CIECAM02`},
         See the documentation of the previously listed definition. The default
-        viewing conditions are that of *IEC 61966-2-1:1999*, i.e. *sRGB* 64 Lux
+        viewing conditions are that of *IEC 61966-2-1:1999*, i.e., *sRGB* 64 Lux
         ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
         20% of a white object in the scene.
 
@@ -723,7 +721,7 @@ def UCS_Luo2006_to_XYZ(
     kwargs
         {:func:`colour.CIECAM02_to_XYZ`},
         See the documentation of the previously listed definition. The default
-        viewing conditions are that of *IEC 61966-2-1:1999*, i.e. *sRGB* 64 Lux
+        viewing conditions are that of *IEC 61966-2-1:1999*, i.e., *sRGB* 64 Lux
         ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
         20% of a white object in the scene.
 
@@ -805,7 +803,7 @@ def XYZ_to_CAM02LCD(XYZ: ArrayLike, **kwargs: Any) -> NDArrayFloat:
     kwargs
         {:func:`colour.XYZ_to_CIECAM02`},
         See the documentation of the previously listed definition. The default
-        viewing conditions are that of *IEC 61966-2-1:1999*, i.e. *sRGB* 64 Lux
+        viewing conditions are that of *IEC 61966-2-1:1999*, i.e., *sRGB* 64 Lux
         ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
         20% of a white object in the scene.
 
@@ -870,7 +868,7 @@ def CAM02LCD_to_XYZ(Jpapbp: ArrayLike, **kwargs: Any) -> NDArrayFloat:
     kwargs
         {:func:`colour.CIECAM02_to_XYZ`},
         See the documentation of the previously listed definition. The default
-        viewing conditions are that of *IEC 61966-2-1:1999*, i.e. *sRGB* 64 Lux
+        viewing conditions are that of *IEC 61966-2-1:1999*, i.e., *sRGB* 64 Lux
         ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
         20% of a white object in the scene.
 
@@ -935,7 +933,7 @@ def XYZ_to_CAM02SCD(XYZ: ArrayLike, **kwargs: Any) -> NDArrayFloat:
     kwargs
         {:func:`colour.XYZ_to_CIECAM02`},
         See the documentation of the previously listed definition. The default
-        viewing conditions are that of *IEC 61966-2-1:1999*, i.e. *sRGB* 64 Lux
+        viewing conditions are that of *IEC 61966-2-1:1999*, i.e., *sRGB* 64 Lux
         ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
         20% of a white object in the scene.
 
@@ -1000,7 +998,7 @@ def CAM02SCD_to_XYZ(Jpapbp: ArrayLike, **kwargs: Any) -> NDArrayFloat:
     kwargs
         {:func:`colour.CIECAM02_to_XYZ`},
         See the documentation of the previously listed definition. The default
-        viewing conditions are that of *IEC 61966-2-1:1999*, i.e. *sRGB* 64 Lux
+        viewing conditions are that of *IEC 61966-2-1:1999*, i.e., *sRGB* 64 Lux
         ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
         20% of a white object in the scene.
 
@@ -1065,7 +1063,7 @@ def XYZ_to_CAM02UCS(XYZ: ArrayLike, **kwargs: Any) -> NDArrayFloat:
     kwargs
         {:func:`colour.XYZ_to_CIECAM02`},
         See the documentation of the previously listed definition. The default
-        viewing conditions are that of *IEC 61966-2-1:1999*, i.e. *sRGB* 64 Lux
+        viewing conditions are that of *IEC 61966-2-1:1999*, i.e., *sRGB* 64 Lux
         ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
         20% of a white object in the scene.
 
@@ -1130,7 +1128,7 @@ def CAM02UCS_to_XYZ(Jpapbp: ArrayLike, **kwargs: Any) -> NDArrayFloat:
     kwargs
         {:func:`colour.CIECAM02_to_XYZ`},
         See the documentation of the previously listed definition. The default
-        viewing conditions are that of *IEC 61966-2-1:1999*, i.e. *sRGB* 64 Lux
+        viewing conditions are that of *IEC 61966-2-1:1999*, i.e., *sRGB* 64 Lux
         ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
         20% of a white object in the scene.
 

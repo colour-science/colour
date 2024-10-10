@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.geometry.primitives` module."""
 
-import unittest
 
 import numpy as np
 
@@ -25,7 +23,7 @@ __all__ = [
 ]
 
 
-class TestPrimitiveGrid(unittest.TestCase):
+class TestPrimitiveGrid:
     """
     Define :func:`colour.geometry.primitives.primitive_grid`
     definition unit tests methods.
@@ -78,9 +76,7 @@ class TestPrimitiveGrid(unittest.TestCase):
 
         np.testing.assert_equal(faces, np.array([[0, 2, 1], [2, 3, 1]]))
 
-        np.testing.assert_equal(
-            outline, np.array([[0, 2], [2, 3], [3, 1], [1, 0]])
-        )
+        np.testing.assert_equal(outline, np.array([[0, 2], [2, 3], [3, 1], [1, 0]]))
 
         vertices, faces, outline = primitive_grid(
             width=0.2,
@@ -181,14 +177,12 @@ class TestPrimitiveGrid(unittest.TestCase):
         for plane in MAPPING_PLANE_TO_AXIS:
             np.testing.assert_allclose(
                 primitive_grid(axis=plane)[0]["position"],
-                primitive_grid(axis=MAPPING_PLANE_TO_AXIS[plane])[0][
-                    "position"
-                ],
+                primitive_grid(axis=MAPPING_PLANE_TO_AXIS[plane])[0]["position"],
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
 
-class TestPrimitiveCube(unittest.TestCase):
+class TestPrimitiveCube:
     """
     Define :func:`colour.geometry.primitives.primitive_cube`
     definition unit tests methods.
@@ -789,12 +783,6 @@ class TestPrimitiveCube(unittest.TestCase):
         for plane in MAPPING_PLANE_TO_AXIS:
             np.testing.assert_allclose(
                 primitive_cube(planes=[plane])[0]["position"],
-                primitive_cube(planes=[MAPPING_PLANE_TO_AXIS[plane]])[0][
-                    "position"
-                ],
+                primitive_cube(planes=[MAPPING_PLANE_TO_AXIS[plane]])[0]["position"],
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
-
-
-if __name__ == "__main__":
-    unittest.main()

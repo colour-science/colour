@@ -2,7 +2,7 @@
 Smits (1999) - Reflectance Recovery
 ===================================
 
-Defines the objects for reflectance recovery using *Smits (1999)* method.
+Define the objects for reflectance recovery using *Smits (1999)* method.
 
 References
 ----------
@@ -135,7 +135,6 @@ def RGB_to_sd_Smits1999(RGB: ArrayLike) -> SpectralDistribution:
     >>> sd = RGB_to_sd_Smits1999(RGB)
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
-    ...
     SpectralDistribution([[ 380.        ,    0.0787830...],
                           [ 417.7778    ,    0.0622018...],
                           [ 455.5556    ,    0.0446206...],

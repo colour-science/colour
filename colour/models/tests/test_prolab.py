@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.prolab` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -23,7 +21,7 @@ __all__ = [
 ]
 
 
-class TestXYZ_to_ProLab(unittest.TestCase):
+class TestXYZ_to_ProLab:
     """
     Define :func:`colour.models.ProLab.TestXYZ_to_ProLab` definition unit
     tests methods.
@@ -101,7 +99,7 @@ class TestXYZ_to_ProLab(unittest.TestCase):
         XYZ_to_ProLab(cases)
 
 
-class TestProLab_to_XYZ(unittest.TestCase):
+class TestProLab_to_XYZ:
     """
     Define :func:`colour.models.ProLab.ProLab_to_XYZ` definition unit tests
     methods.
@@ -177,7 +175,3 @@ class TestProLab_to_XYZ(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         ProLab_to_XYZ(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

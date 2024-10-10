@@ -2,7 +2,7 @@
 Colour Matching Functions Transformations
 =========================================
 
-Defines various educational objects for colour matching functions
+Define various educational objects for colour matching functions
 transformations:
 
 -   :func:`colour.colorimetry.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs`
@@ -34,7 +34,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.algebra import vector_dot
+from colour.algebra import vecmul
 from colour.colorimetry import (
     MSDS_CMFS_LMS,
     MSDS_CMFS_RGB,
@@ -91,7 +91,6 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(
     >>> from colour.utilities import numpy_print_options
     >>> with numpy_print_options(suppress=True):
     ...     RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(700)  # doctest: +ELLIPSIS
-    ...
     array([ 0.0113577...,  0.004102  ,  0.        ])
     """
 
@@ -117,7 +116,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(
         ]
     )
 
-    xyz = vector_dot(M1, rgb) / vector_dot(M2, rgb)
+    xyz = vecmul(M1, rgb) / vecmul(M2, rgb)
 
     x, y, z = xyz[..., 0], xyz[..., 1], xyz[..., 2]
 
@@ -169,7 +168,6 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(
     >>> from colour.utilities import numpy_print_options
     >>> with numpy_print_options(suppress=True):
     ...     RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(700)  # doctest: +ELLIPSIS
-    ...
     array([ 0.0096432...,  0.0037526..., -0.0000041...])
     """
 
@@ -185,7 +183,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(
         ]
     )
 
-    xyz_bar = vector_dot(M, rgb_bar)
+    xyz_bar = vecmul(M, rgb_bar)
 
     return xyz_bar
 
@@ -223,7 +221,6 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(
     >>> from colour.utilities import numpy_print_options
     >>> with numpy_print_options(suppress=True):
     ...     RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(700)  # doctest: +ELLIPSIS
-    ...
     array([ 0.0052860...,  0.0003252...,  0.        ])
     """
 
@@ -239,7 +236,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(
         ]
     )
 
-    lms_bar = vector_dot(M, rgb_bar)
+    lms_bar = vecmul(M, rgb_bar)
     lms_bar[..., -1][np.asarray(np.asarray(wavelength) > 505)] = 0
 
     return lms_bar
@@ -277,7 +274,6 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(
     >>> from colour.utilities import numpy_print_options
     >>> with numpy_print_options(suppress=True):
     ...     LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(700)  # doctest: +ELLIPSIS
-    ...
     array([ 0.0109677...,  0.0041959...,  0.        ])
     """
 
@@ -293,7 +289,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(
         ]
     )
 
-    xyz_bar = vector_dot(M, lms_bar)
+    xyz_bar = vecmul(M, lms_bar)
 
     return xyz_bar
 
@@ -330,7 +326,6 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(
     >>> from colour.utilities import numpy_print_options
     >>> with numpy_print_options(suppress=True):
     ...     LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(700)  # doctest: +ELLIPSIS
-    ...
     array([ 0.0098162...,  0.0037761...,  0.        ])
     """
 
@@ -346,6 +341,6 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(
         ]
     )
 
-    xyz_bar = vector_dot(M, lms_bar)
+    xyz_bar = vecmul(M, lms_bar)
 
     return xyz_bar

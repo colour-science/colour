@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.temperature.ohno2013` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -35,7 +33,7 @@ __all__ = [
 ]
 
 
-class TestPlanckianTable(unittest.TestCase):
+class TestPlanckianTable:
     """
     Define :func:`colour.temperature.ohno2013.planckian_table` definition
     unit tests methods.
@@ -82,7 +80,7 @@ class TestPlanckianTable(unittest.TestCase):
         )
 
 
-class TestUv_to_CCT_Ohno2013(unittest.TestCase):
+class TestUv_to_CCT_Ohno2013:
     """
     Define :func:`colour.temperature.ohno2013.uv_to_CCT_Ohno2013` definition
     unit tests methods.
@@ -154,7 +152,7 @@ class TestUv_to_CCT_Ohno2013(unittest.TestCase):
         uv_to_CCT_Ohno2013(cases)
 
 
-class TestCCT_to_uv_Ohno2013(unittest.TestCase):
+class TestCCT_to_uv_Ohno2013:
     """
     Define :func:`colour.temperature.ohno2013.CCT_to_uv_Ohno2013` definition
     unit tests methods.
@@ -217,7 +215,7 @@ class TestCCT_to_uv_Ohno2013(unittest.TestCase):
         CCT_to_uv_Ohno2013(cases)
 
 
-class Test_XYZ_to_CCT_Ohno2013(unittest.TestCase):
+class Test_XYZ_to_CCT_Ohno2013:
     """
     Define :func:`colour.temperature.ohno2013.XYZ_to_CCT_Ohno2013` definition
     unit tests methods.
@@ -267,7 +265,7 @@ class Test_XYZ_to_CCT_Ohno2013(unittest.TestCase):
         XYZ_to_CCT_Ohno2013(cases)
 
 
-class Test_CCT_to_XYZ_Ohno2013(unittest.TestCase):
+class Test_CCT_to_XYZ_Ohno2013:
     """
     Define :func:`colour.temperature.ohno2013.CCT_to_XYZ_Ohno2013` definition
     unit tests methods.
@@ -315,7 +313,3 @@ class Test_CCT_to_XYZ_Ohno2013(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=2))))
         CCT_to_uv_Ohno2013(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

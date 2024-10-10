@@ -2,7 +2,7 @@
 Michaelis-Menten Kinetics
 =========================
 
-Implements support for *Michaelis-Menten* kinetics, a model of enzyme kinetics:
+Implement support for *Michaelis-Menten* kinetics, a model of enzyme kinetics:
 
 -   :func:`colour.biochemistry.reaction_rate_MichaelisMenten_Michaelis1913`
 -   :func:`colour.biochemistry.reaction_rate_MichaelisMenten_Abebe2017`
@@ -217,9 +217,7 @@ def reaction_rate_MichaelisMenten(
     1.0360547...
     """
 
-    method = validate_method(
-        method, tuple(REACTION_RATE_MICHAELISMENTEN_METHODS)
-    )
+    method = validate_method(method, tuple(REACTION_RATE_MICHAELISMENTEN_METHODS))
 
     function = REACTION_RATE_MICHAELISMENTEN_METHODS[method]
 
@@ -323,9 +321,7 @@ def substrate_concentration_MichaelisMenten_Abebe2017(
     return as_float(S)
 
 
-SUBSTRATE_CONCENTRATION_MICHAELISMENTEN_METHODS: (
-    CanonicalMapping
-) = CanonicalMapping(
+SUBSTRATE_CONCENTRATION_MICHAELISMENTEN_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Michaelis 1913": substrate_concentration_MichaelisMenten_Michaelis1913,
         "Abebe 2017": substrate_concentration_MichaelisMenten_Abebe2017,

@@ -2,7 +2,7 @@
 Optical Phenomenon Plotting
 ===========================
 
-Defines the optical phenomena plotting objects:
+Define the optical phenomena plotting objects:
 
 -   :func:`colour.plotting.plot_single_sd_rayleigh_scattering`
 -   :func:`colour.plotting.plot_the_blue_sky`
@@ -61,11 +61,9 @@ def plot_single_sd_rayleigh_scattering(
     pressure: ArrayLike = CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
     latitude: ArrayLike = CONSTANT_DEFAULT_LATITUDE,
     altitude: ArrayLike = CONSTANT_DEFAULT_ALTITUDE,
-    cmfs: MultiSpectralDistributions
-    | str
-    | Sequence[
-        MultiSpectralDistributions | str
-    ] = "CIE 1931 2 Degree Standard Observer",
+    cmfs: (
+        MultiSpectralDistributions | str | Sequence[MultiSpectralDistributions | str]
+    ) = "CIE 1931 2 Degree Standard Observer",
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
@@ -113,9 +111,7 @@ def plot_single_sd_rayleigh_scattering(
 
     title = "Rayleigh Scattering"
 
-    cmfs = cast(
-        MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
-    )
+    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
 
     settings: Dict[str, Any] = {"title": title, "y_label": "Optical Depth"}
     settings.update(kwargs)
@@ -134,11 +130,9 @@ def plot_single_sd_rayleigh_scattering(
 
 @override_style()
 def plot_the_blue_sky(
-    cmfs: MultiSpectralDistributions
-    | str
-    | Sequence[
-        MultiSpectralDistributions | str
-    ] = "CIE 1931 2 Degree Standard Observer",
+    cmfs: (
+        MultiSpectralDistributions | str | Sequence[MultiSpectralDistributions | str]
+    ) = "CIE 1931 2 Degree Standard Observer",
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
@@ -179,9 +173,7 @@ def plot_the_blue_sky(
 
     figure.subplots_adjust(hspace=CONSTANTS_COLOUR_STYLE.geometry.short / 2)
 
-    cmfs = cast(
-        MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
-    )
+    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
 
     ASTMG173_sd = SD_ASTMG173_ETR.copy()
     rayleigh_sd = sd_rayleigh_scattering()

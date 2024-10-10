@@ -2,7 +2,7 @@
 :math:`J_za_zb_z` Colourspace
 =============================
 
-Defines the :math:`J_za_zb_z` colourspace:
+Define the :math:`J_za_zb_z` colourspace:
 
 -   :func:`colour.models.IZAZBZ_METHODS`
 -   :func:`colour.models.XYZ_to_Izazbz`
@@ -25,7 +25,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.algebra import vector_dot
+from colour.algebra import vecmul
 from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.models.rgb.transfer_functions import (
     eotf_inverse_ST2084,
@@ -80,13 +80,11 @@ quantizer (PQ) from Dolby Laboratories.
 
 Notes
 -----
--   The :math:`m2` constant, i.e. the power factor has been re-optimized during
+-   The :math:`m2` constant, i.e., the power factor has been re-optimized during
     the development of the :math:`J_za_zb_z` colourspace.
 """
 
-CONSTANTS_JZAZBZ_SAFDAR2021: Structure = Structure(
-    **CONSTANTS_JZAZBZ_SAFDAR2017
-)
+CONSTANTS_JZAZBZ_SAFDAR2021: Structure = Structure(**CONSTANTS_JZAZBZ_SAFDAR2017)
 CONSTANTS_JZAZBZ_SAFDAR2021.d_0 = 3.7035226210190005 * 10**-11
 """:math:`J_za_zb_z` colourspace constants for the *ZCAM* colour appearance model."""
 
@@ -102,9 +100,7 @@ MATRIX_JZAZBZ_XYZ_TO_LMS: NDArrayFloat = np.array(
 matrix.
 """
 
-MATRIX_JZAZBZ_LMS_TO_XYZ: NDArrayFloat = np.linalg.inv(
-    MATRIX_JZAZBZ_XYZ_TO_LMS
-)
+MATRIX_JZAZBZ_LMS_TO_XYZ: NDArrayFloat = np.linalg.inv(MATRIX_JZAZBZ_XYZ_TO_LMS)
 """
 :math:`J_za_zb_z` normalised cone responses to *CIE XYZ* tristimulus values
 matrix.
@@ -173,8 +169,7 @@ References
 def XYZ_to_Izazbz(
     XYZ_D65: ArrayLike,
     constants: Structure | None = None,
-    method: Literal["Safdar 2017", "Safdar 2021", "ZCAM"]
-    | str = "Safdar 2017",
+    method: (Literal["Safdar 2017", "Safdar 2021", "ZCAM"] | str) = "Safdar 2017",
 ) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to :math:`I_za_zb_z`
@@ -244,9 +239,11 @@ def XYZ_to_Izazbz(
 
     constants = optional(
         constants,
-        CONSTANTS_JZAZBZ_SAFDAR2017
-        if method == "safdar 2017"
-        else CONSTANTS_JZAZBZ_SAFDAR2021,
+        (
+            CONSTANTS_JZAZBZ_SAFDAR2017
+            if method == "safdar 2017"
+            else CONSTANTS_JZAZBZ_SAFDAR2021
+        ),
     )
 
     X_p_D65 = constants.b * X_D65 - (constants.b - 1) * Z_D65
@@ -254,15 +251,15 @@ def XYZ_to_Izazbz(
 
     XYZ_p_D65 = tstack([X_p_D65, Y_p_D65, Z_D65])
 
-    LMS = vector_dot(MATRIX_JZAZBZ_XYZ_TO_LMS, XYZ_p_D65)
+    LMS = vecmul(MATRIX_JZAZBZ_XYZ_TO_LMS, XYZ_p_D65)
 
     with domain_range_scale("ignore"):
         LMS_p = eotf_inverse_ST2084(LMS, 10000, constants)
 
     if method == "safdar 2017":
-        Izazbz = vector_dot(MATRIX_JZAZBZ_LMS_P_TO_IZAZBZ_SAFDAR2017, LMS_p)
+        Izazbz = vecmul(MATRIX_JZAZBZ_LMS_P_TO_IZAZBZ_SAFDAR2017, LMS_p)
     else:
-        Izazbz = vector_dot(MATRIX_JZAZBZ_LMS_P_TO_IZAZBZ_SAFDAR2021, LMS_p)
+        Izazbz = vecmul(MATRIX_JZAZBZ_LMS_P_TO_IZAZBZ_SAFDAR2021, LMS_p)
         Izazbz[..., 0] -= constants.d_0
 
     return Izazbz
@@ -271,8 +268,7 @@ def XYZ_to_Izazbz(
 def Izazbz_to_XYZ(
     Izazbz: ArrayLike,
     constants: Structure | None = None,
-    method: Literal["Safdar 2017", "Safdar 2021", "ZCAM"]
-    | str = "Safdar 2017",
+    method: (Literal["Safdar 2017", "Safdar 2021", "ZCAM"] | str) = "Safdar 2017",
 ) -> NDArrayFloat:
     """
     Convert from :math:`I_za_zb_z` colourspace to *CIE XYZ* tristimulus
@@ -340,23 +336,23 @@ def Izazbz_to_XYZ(
 
     constants = optional(
         constants,
-        CONSTANTS_JZAZBZ_SAFDAR2017
-        if method == "safdar 2017"
-        else CONSTANTS_JZAZBZ_SAFDAR2021,
+        (
+            CONSTANTS_JZAZBZ_SAFDAR2017
+            if method == "safdar 2017"
+            else CONSTANTS_JZAZBZ_SAFDAR2021
+        ),
     )
 
     if method == "safdar 2017":
-        LMS_p = vector_dot(MATRIX_JZAZBZ_IZAZBZ_TO_LMS_P_SAFDAR2017, Izazbz)
+        LMS_p = vecmul(MATRIX_JZAZBZ_IZAZBZ_TO_LMS_P_SAFDAR2017, Izazbz)
     else:
         Izazbz[..., 0] += constants.d_0
-        LMS_p = vector_dot(MATRIX_JZAZBZ_IZAZBZ_TO_LMS_P_SAFDAR2021, Izazbz)
+        LMS_p = vecmul(MATRIX_JZAZBZ_IZAZBZ_TO_LMS_P_SAFDAR2021, Izazbz)
 
     with domain_range_scale("ignore"):
         LMS = eotf_ST2084(LMS_p, 10000, constants)
 
-    X_p_D65, Y_p_D65, Z_p_D65 = tsplit(
-        vector_dot(MATRIX_JZAZBZ_LMS_TO_XYZ, LMS)
-    )
+    X_p_D65, Y_p_D65, Z_p_D65 = tsplit(vecmul(MATRIX_JZAZBZ_LMS_TO_XYZ, LMS))
 
     X_D65 = (X_p_D65 + (constants.b - 1) * Z_p_D65) / constants.b
     Y_D65 = (Y_p_D65 + (constants.g - 1) * X_D65) / constants.g

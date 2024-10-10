@@ -2,7 +2,7 @@
 Panasonic V-Log Log Encoding
 ============================
 
-Defines the *Panasonic V-Log* log encoding:
+Define the *Panasonic V-Log* log encoding:
 
 -   :func:`colour.models.log_encoding_VLog`
 -   :func:`colour.models.log_decoding_VLog`
@@ -126,9 +126,7 @@ def log_encoding_VLog(
         c * np.log10(L_in + b) + d,
     )
 
-    V_out_cv = (
-        V_out if out_normalised_code_value else legal_to_full(V_out, bit_depth)
-    )
+    V_out_cv = V_out if out_normalised_code_value else legal_to_full(V_out, bit_depth)
 
     return as_float(from_range_1(V_out_cv))
 
@@ -189,9 +187,7 @@ def log_decoding_VLog(
 
     V_out = to_domain_1(V_out)
 
-    V_out = (
-        V_out if in_normalised_code_value else full_to_legal(V_out, bit_depth)
-    )
+    V_out = V_out if in_normalised_code_value else full_to_legal(V_out, bit_depth)
 
     cut2 = constants.cut2
     b = constants.b

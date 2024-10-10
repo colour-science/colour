@@ -2,7 +2,7 @@
 Colorimetry Plotting
 ====================
 
-Defines the colorimetry plotting objects:
+Define the colorimetry plotting objects:
 
 -   :func:`colour.plotting.plot_single_sd`
 -   :func:`colour.plotting.plot_multi_sds`
@@ -111,11 +111,9 @@ __all__ = [
 @override_style()
 def plot_single_sd(
     sd: SpectralDistribution,
-    cmfs: MultiSpectralDistributions
-    | str
-    | Sequence[
-        MultiSpectralDistributions | str
-    ] = "CIE 1931 2 Degree Standard Observer",
+    cmfs: (
+        MultiSpectralDistributions | str | Sequence[MultiSpectralDistributions | str]
+    ) = "CIE 1931 2 Degree Standard Observer",
     out_of_gamut_clipping: bool = True,
     modulate_colours_with_sd_amplitude: bool = False,
     equalize_sd_amplitude: bool = False,
@@ -183,18 +181,14 @@ def plot_single_sd(
 
     _figure, axes = artist(**kwargs)
 
-    cmfs = cast(
-        MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
-    )
+    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
 
     sd = sd.copy()
     sd.interpolator = LinearInterpolator
     wavelengths = cmfs.wavelengths[
         np.logical_and(
-            cmfs.wavelengths
-            >= max(min(cmfs.wavelengths), min(sd.wavelengths)),
-            cmfs.wavelengths
-            <= min(max(cmfs.wavelengths), max(sd.wavelengths)),
+            cmfs.wavelengths >= max(min(cmfs.wavelengths), min(sd.wavelengths)),
+            cmfs.wavelengths <= min(max(cmfs.wavelengths), max(sd.wavelengths)),
         )
     ]
     values = sd[wavelengths]
@@ -270,9 +264,11 @@ def plot_single_sd(
 
 @override_style()
 def plot_multi_sds(
-    sds: Sequence[SpectralDistribution | MultiSpectralDistributions]
-    | SpectralDistribution
-    | MultiSpectralDistributions,
+    sds: (
+        Sequence[SpectralDistribution | MultiSpectralDistributions]
+        | SpectralDistribution
+        | MultiSpectralDistributions
+    ),
     plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
@@ -391,9 +387,7 @@ def plot_multi_sds(
         )
         illuminant = cast(
             SpectralDistribution,
-            first_item(
-                filter_illuminants(plot_settings.pop("illuminant")).values()
-            ),
+            first_item(filter_illuminants(plot_settings.pop("illuminant")).values()),
         )
         normalise_sd_colours = plot_settings.pop("normalise_sd_colours")
         use_sd_colours = plot_settings.pop("use_sd_colours")
@@ -413,9 +407,7 @@ def plot_multi_sds(
             if normalise_sd_colours:
                 XYZ /= XYZ[..., 1]
 
-            plot_settings["color"] = np.clip(
-                XYZ_to_plotting_colourspace(XYZ), 0, 1
-            )
+            plot_settings["color"] = np.clip(XYZ_to_plotting_colourspace(XYZ), 0, 1)
 
         axes.plot(wavelengths, values, **plot_settings)
 
@@ -439,11 +431,9 @@ def plot_multi_sds(
 
 @override_style()
 def plot_single_cmfs(
-    cmfs: MultiSpectralDistributions
-    | str
-    | Sequence[
-        MultiSpectralDistributions | str
-    ] = "CIE 1931 2 Degree Standard Observer",
+    cmfs: (
+        MultiSpectralDistributions | str | Sequence[MultiSpectralDistributions | str]
+    ) = "CIE 1931 2 Degree Standard Observer",
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
@@ -479,9 +469,7 @@ def plot_single_cmfs(
         :alt: plot_single_cmfs
     """
 
-    cmfs = cast(
-        MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
-    )
+    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
 
     settings: Dict[str, Any] = {
         "title": f"{cmfs.display_name} - Colour Matching Functions"
@@ -493,9 +481,9 @@ def plot_single_cmfs(
 
 @override_style()
 def plot_multi_cmfs(
-    cmfs: MultiSpectralDistributions
-    | str
-    | Sequence[MultiSpectralDistributions | str],
+    cmfs: (
+        MultiSpectralDistributions | str | Sequence[MultiSpectralDistributions | str]
+    ),
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
@@ -533,9 +521,7 @@ def plot_multi_cmfs(
         :alt: plot_multi_cmfs
     """
 
-    cmfs = cast(
-        List[MultiSpectralDistributions], list(filter_cmfs(cmfs).values())
-    )  # pyright: ignore
+    cmfs = cast(List[MultiSpectralDistributions], list(filter_cmfs(cmfs).values()))  # pyright: ignore
 
     _figure, axes = artist(**kwargs)
 
@@ -547,9 +533,7 @@ def plot_multi_cmfs(
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for i, cmfs_i in enumerate(cmfs):
-        for j, RGB in enumerate(
-            as_float_array([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
-        ):
+        for j, RGB in enumerate(as_float_array([[1, 0, 0], [0, 1, 0], [0, 0, 1]])):
             RGB = [  # noqa: PLW2901
                 reduce(lambda y, _: y * 0.5, range(i), x) for x in RGB
             ]
@@ -594,11 +578,9 @@ def plot_multi_cmfs(
 @override_style()
 def plot_single_illuminant_sd(
     illuminant: SpectralDistribution | str,
-    cmfs: MultiSpectralDistributions
-    | str
-    | Sequence[
-        MultiSpectralDistributions | str
-    ] = "CIE 1931 2 Degree Standard Observer",
+    cmfs: (
+        MultiSpectralDistributions | str | Sequence[MultiSpectralDistributions | str]
+    ) = "CIE 1931 2 Degree Standard Observer",
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
@@ -641,9 +623,7 @@ def plot_single_illuminant_sd(
         :alt: plot_single_illuminant_sd
     """
 
-    cmfs = cast(
-        MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
-    )
+    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
 
     title = f"Illuminant {illuminant} - {cmfs.display_name}"
 
@@ -660,9 +640,7 @@ def plot_single_illuminant_sd(
 
 @override_style()
 def plot_multi_illuminant_sds(
-    illuminants: SpectralDistribution
-    | str
-    | Sequence[SpectralDistribution | str],
+    illuminants: (SpectralDistribution | str | Sequence[SpectralDistribution | str]),
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
@@ -731,11 +709,9 @@ def plot_multi_illuminant_sds(
     }
 )
 def plot_visible_spectrum(
-    cmfs: MultiSpectralDistributions
-    | str
-    | Sequence[
-        MultiSpectralDistributions | str
-    ] = "CIE 1931 2 Degree Standard Observer",
+    cmfs: (
+        MultiSpectralDistributions | str | Sequence[MultiSpectralDistributions | str]
+    ) = "CIE 1931 2 Degree Standard Observer",
     out_of_gamut_clipping: bool = True,
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
@@ -781,9 +757,7 @@ def plot_visible_spectrum(
         :alt: plot_visible_spectrum
     """
 
-    cmfs = cast(
-        MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
-    )
+    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
 
     bounding_box = (min(cmfs.wavelengths), max(cmfs.wavelengths), 0, 1)
 
@@ -1006,11 +980,9 @@ def plot_multi_luminance_functions(
 @override_style()
 def plot_blackbody_spectral_radiance(
     temperature: float = 3500,
-    cmfs: MultiSpectralDistributions
-    | str
-    | Sequence[
-        MultiSpectralDistributions | str
-    ] = "CIE 1931 2 Degree Standard Observer",
+    cmfs: (
+        MultiSpectralDistributions | str | Sequence[MultiSpectralDistributions | str]
+    ) = "CIE 1931 2 Degree Standard Observer",
     blackbody: str = "VY Canis Major",
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
@@ -1056,9 +1028,7 @@ def plot_blackbody_spectral_radiance(
 
     figure.subplots_adjust(hspace=CONSTANTS_COLOUR_STYLE.geometry.short / 2)
 
-    cmfs = cast(
-        MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
-    )
+    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
 
     sd = sd_blackbody(temperature, cmfs.shape)
 
@@ -1108,11 +1078,9 @@ def plot_blackbody_spectral_radiance(
 )
 def plot_blackbody_colours(
     shape: SpectralShape = SpectralShape(150, 12500, 50),
-    cmfs: MultiSpectralDistributions
-    | str
-    | Sequence[
-        MultiSpectralDistributions | str
-    ] = "CIE 1931 2 Degree Standard Observer",
+    cmfs: (
+        MultiSpectralDistributions | str | Sequence[MultiSpectralDistributions | str]
+    ) = "CIE 1931 2 Degree Standard Observer",
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
@@ -1151,9 +1119,7 @@ def plot_blackbody_colours(
 
     _figure, axes = artist(**kwargs)
 
-    cmfs = cast(
-        MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
-    )
+    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
 
     RGB = []
     temperatures = []

@@ -2,7 +2,7 @@
 Metrics
 =======
 
-Defines various metrics:
+Define various metrics:
 
 -   :func:`colour.utilities.metric_mse`
 -   :func:`colour.utilities.metric_psnr`
@@ -80,9 +80,7 @@ def metric_mse(
     0.0012714...
     """
 
-    return as_float(
-        np.mean((as_float_array(a) - as_float_array(b)) ** 2, axis=axis)
-    )
+    return as_float(np.mean((as_float_array(a) - as_float_array(b)) ** 2, axis=axis))
 
 
 def metric_psnr(

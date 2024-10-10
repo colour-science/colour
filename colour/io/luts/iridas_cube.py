@@ -2,7 +2,7 @@
 Iridas .cube LUT Format Input / Output Utilities
 ================================================
 
-Defines the *Iridas* *.cube* *LUT* format related input / output utilities
+Define the *Iridas* *.cube* *LUT* format related input / output utilities
 objects:
 
 -   :func:`colour.io.read_LUT_IridasCube`
@@ -15,6 +15,8 @@ References
 """
 
 from __future__ import annotations
+
+from pathlib import Path
 
 import numpy as np
 
@@ -41,7 +43,7 @@ __all__ = [
 ]
 
 
-def read_LUT_IridasCube(path: str) -> LUT3x1D | LUT3D:
+def read_LUT_IridasCube(path: str | Path) -> LUT3x1D | LUT3D:
     """
     Read given *Iridas* *.cube* *LUT* file.
 
@@ -118,6 +120,8 @@ def read_LUT_IridasCube(path: str) -> LUT3x1D | LUT3D:
     Comment 01 : Comments can go anywhere
     """
 
+    path = str(path)
+
     title = path_to_title(path)
     domain_min, domain_max = np.array([0, 0, 0]), np.array([1, 1, 1])
     dimensions: int = 3
@@ -167,7 +171,7 @@ def read_LUT_IridasCube(path: str) -> LUT3x1D | LUT3D:
         # The lines of table data shall be in ascending index order,
         # with the first component index (Red) changing most rapidly,
         # and the last component index (Blue) changing least rapidly.
-        table = table.reshape([size, size, size, 3], order="F")
+        table = np.reshape(table, (size, size, size, 3), order="F")
 
         LUT = LUT3D(
             table,
@@ -180,7 +184,7 @@ def read_LUT_IridasCube(path: str) -> LUT3x1D | LUT3D:
 
 
 def write_LUT_IridasCube(
-    LUT: LUT3x1D | LUT3D | LUTSequence, path: str, decimals: int = 7
+    LUT: LUT3x1D | LUT3D | LUTSequence, path: str | Path, decimals: int = 7
 ) -> bool:
     """
     Write given *LUT* to given  *Iridas* *.cube* *LUT* file.
@@ -235,6 +239,8 @@ def write_LUT_IridasCube(
     >>> write_LUT_IridasCube(LUTxD, "My_LUT.cube")  # doctest: +SKIP
     """
 
+    path = str(path)
+
     if isinstance(LUT, LUTSequence):
         usage_warning(
             f'"LUT" is a "LUTSequence" instance was passed, '
@@ -282,9 +288,7 @@ def write_LUT_IridasCube(
             )
 
         table = (
-            LUTxD.table.reshape([-1, 3], order="F")
-            if not is_3x1D
-            else LUTxD.table
+            np.reshape(LUTxD.table, (-1, 3), order="F") if not is_3x1D else LUTxD.table
         )
 
         for array in table:

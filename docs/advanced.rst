@@ -1,5 +1,5 @@
-Advanced Concepts
-=================
+Advanced Usage
+==============
 
 This page describes some advanced usage scenarios of **Colour**.
 
@@ -18,8 +18,8 @@ runtime:
     `float64` (default). Changing the float dtype might result in various
     **Colour** `functionality breaking entirely <https://github.com/numpy/numpy/issues/6860>`__.
     *With great power comes great responsibility*.
--   ``COLOUR_SCIENCE__COLOUR__DISABLE_CACHING``: Disable the caches that can
-    be disabled, useful for debugging purposes.
+-   ``COLOUR_SCIENCE__DISABLE_CACHING``: Disable the caches that can be
+    disabled, useful for debugging purposes.
 -   ``COLOUR_SCIENCE__COLOUR__IMPORT_VAAB_COLOUR``: Import
     `vaab/colour <https://github.com/vaab/colour>`__ injection into
     **Colour** namespace. This solves the clash with
@@ -29,6 +29,25 @@ runtime:
     :func:`warnings.showwarning` definition to be replaced with the
     :func:`colour.utilities.show_warning` definition and thus providing
     complete traceback from the point where the warning occurred.
+-   ``COLOUR_SCIENCE__FILTER_RUNTIME_WARNINGS``: Filter *Colour* runtime
+    warnings.
+-   ``COLOUR_SCIENCE__FILTER_USAGE_WARNINGS``: Filter *Colour* usage warnings.
+-   ``COLOUR_SCIENCE__FILTER_COLOUR_WARNINGS``: Filter *Colour* warnings, this
+    also filters *Colour* usage and runtime warnings.
+-   ``COLOUR_SCIENCE__FILTER_PYTHON_WARNINGS``: Filter *Python* warnings.
+
+JEnv File
+---------
+
+**Colour** will also read the ``~/.colour-science/colour-science.jenv`` JSON
+file if it exists. The syntax is that of a mapping of environment variable and
+values as follows:
+
+.. code-block:: json
+
+    {
+      "COLOUR_SCIENCE__COLOUR__SHOW_WARNINGS_WITH_TRACEBACK": "True"
+    }
 
 Caching
 -------

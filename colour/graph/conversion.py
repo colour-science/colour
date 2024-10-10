@@ -2,7 +2,7 @@
 Automatic Colour Conversion Graph
 =================================
 
-Defines the automatic colour conversion graph objects:
+Define the automatic colour conversion graph objects:
 
 -   :func:`colour.describe_conversion_path`
 -   :func:`colour.convert`
@@ -11,6 +11,8 @@ Defines the automatic colour conversion graph objects:
 from __future__ import annotations
 
 import inspect
+import re
+import sys
 import textwrap
 from collections import namedtuple
 from copy import copy
@@ -20,6 +22,7 @@ from pprint import pformat
 import numpy as np
 
 import colour
+import colour.models
 from colour.appearance import (
     CAM16_to_XYZ,
     CAM_Specification_CAM16,
@@ -68,16 +71,18 @@ from colour.hints import (
     List,
     Literal,
     NDArrayFloat,
-    Optional,
     cast,
 )
 from colour.models import (
+    COLOURSPACE_MODELS_POLAR_CONVERSIONS,
     CAM02LCD_to_JMh_CIECAM02,
     CAM02SCD_to_JMh_CIECAM02,
     CAM02UCS_to_JMh_CIECAM02,
     CAM16LCD_to_JMh_CAM16,
     CAM16SCD_to_JMh_CAM16,
     CAM16UCS_to_JMh_CAM16,
+    CIE1960UCS_to_XYZ,
+    CIE1976UCS_to_XYZ,
     CMY_to_CMYK,
     CMY_to_RGB,
     CMYK_to_CMY,
@@ -100,11 +105,7 @@ from colour.models import (
     JMh_CIECAM02_to_CAM02SCD,
     JMh_CIECAM02_to_CAM02UCS,
     Jzazbz_to_XYZ,
-    Lab_to_LCHab,
     Lab_to_XYZ,
-    LCHab_to_Lab,
-    LCHuv_to_Luv,
-    Luv_to_LCHuv,
     Luv_to_uv,
     Luv_to_XYZ,
     Luv_uv_to_xy,
@@ -130,6 +131,8 @@ from colour.models import (
     UCS_to_XYZ,
     UCS_uv_to_xy,
     UVW_to_XYZ,
+    XYZ_to_CIE1960UCS,
+    XYZ_to_CIE1976UCS,
     XYZ_to_DIN99,
     XYZ_to_hdr_CIELab,
     XYZ_to_hdr_IPT,
@@ -223,9 +226,7 @@ __all__ = [
 
 
 class Conversion_Specification(
-    namedtuple(
-        "Conversion_Specification", ("source", "target", "conversion_function")
-    )
+    namedtuple("Conversion_Specification", ("source", "target", "conversion_function"))
 ):
     """
     Conversion specification for *Colour* graph for automatic colour
@@ -247,9 +248,7 @@ class Conversion_Specification(
         :class:`colour.graph.conversion.Conversion_Specification` class.
         """
 
-        return super().__new__(
-            cls, source.lower(), target.lower(), conversion_function
-        )
+        return super().__new__(cls, source.lower(), target.lower(), conversion_function)
 
 
 def CIECAM02_to_JMh_CIECAM02(
@@ -667,16 +666,12 @@ CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
     ("CIE xy", "CIE XYZ", xy_to_XYZ),
     ("CIE XYZ", "CIE Lab", XYZ_to_Lab),
     ("CIE Lab", "CIE XYZ", Lab_to_XYZ),
-    ("CIE Lab", "CIE LCHab", Lab_to_LCHab),
-    ("CIE LCHab", "CIE Lab", LCHab_to_Lab),
     ("CIE XYZ", "CIE Luv", XYZ_to_Luv),
     ("CIE Luv", "CIE XYZ", Luv_to_XYZ),
     ("CIE Luv", "CIE Luv uv", Luv_to_uv),
     ("CIE Luv uv", "CIE Luv", uv_to_Luv),
     ("CIE Luv uv", "CIE xy", Luv_uv_to_xy),
     ("CIE xy", "CIE Luv uv", xy_to_Luv_uv),
-    ("CIE Luv", "CIE LCHuv", Luv_to_LCHuv),
-    ("CIE LCHuv", "CIE Luv", LCHuv_to_Luv),
     ("CIE XYZ", "CIE UCS", XYZ_to_UCS),
     ("CIE UCS", "CIE XYZ", UCS_to_XYZ),
     ("CIE UCS", "CIE UCS uv", UCS_to_uv),
@@ -694,9 +689,9 @@ CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
         "Hunter Lab",
         partial(
             XYZ_to_Hunter_Lab,
-            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB[
-                "CIE 1931 2 Degree Standard Observer"
-            ]["D65"].XYZ_n
+            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
+                "D65"
+            ].XYZ_n
             / 100,
         ),
     ),
@@ -705,9 +700,9 @@ CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
         "CIE XYZ",
         partial(
             Hunter_Lab_to_XYZ,
-            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB[
-                "CIE 1931 2 Degree Standard Observer"
-            ]["D65"].XYZ_n
+            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
+                "D65"
+            ].XYZ_n
             / 100,
         ),
     ),
@@ -716,9 +711,9 @@ CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
         "Hunter Rdab",
         partial(
             XYZ_to_Hunter_Rdab,
-            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB[
-                "CIE 1931 2 Degree Standard Observer"
-            ]["D65"].XYZ_n
+            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
+                "D65"
+            ].XYZ_n
             / 100,
         ),
     ),
@@ -727,9 +722,9 @@ CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
         "CIE XYZ",
         partial(
             Hunter_Rdab_to_XYZ,
-            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB[
-                "CIE 1931 2 Degree Standard Observer"
-            ]["D65"].XYZ_n
+            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
+                "D65"
+            ].XYZ_n
             / 100,
         ),
     ),
@@ -755,6 +750,12 @@ CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
     ("ProLab", "CIE XYZ", ProLab_to_XYZ),
     ("CIE XYZ", "Yrg", XYZ_to_Yrg),
     ("Yrg", "CIE XYZ", Yrg_to_XYZ),
+    ("CIE 1931", "CIE XYZ", xyY_to_XYZ),
+    ("CIE XYZ", "CIE 1931", XYZ_to_xyY),
+    ("CIE 1960 UCS", "CIE XYZ", CIE1960UCS_to_XYZ),
+    ("CIE XYZ", "CIE 1960 UCS", XYZ_to_CIE1960UCS),
+    ("CIE 1976 UCS", "CIE XYZ", CIE1976UCS_to_XYZ),
+    ("CIE XYZ", "CIE 1976 UCS", XYZ_to_CIE1976UCS),
     # RGB Colour Models
     (
         "CIE XYZ",
@@ -912,9 +913,7 @@ CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
     (
         "CIE XYZ",
         "LLAB",
-        partial(
-            XYZ_to_LLAB, XYZ_0=_TVS_ILLUMINANT_DEFAULT, Y_b=80 * 0.2, L=80
-        ),
+        partial(XYZ_to_LLAB, XYZ_0=_TVS_ILLUMINANT_DEFAULT, Y_b=80 * 0.2, L=80),
     ),
     (
         "CIE XYZ",
@@ -970,6 +969,41 @@ Automatic colour conversion graph specifications data describing two nodes and
 the edge in the graph.
 """
 
+
+# Programmatically defining the colourspace models polar conversions.
+
+
+def _format_node_name(name):
+    """Format given name by applying a series of substitutions."""
+
+    for pattern, substitution in [
+        ("hdr_", "hdr-"),
+        ("-CIELab", "-CIELAB"),
+        ("_", " "),
+        ("^Lab", "CIE Lab"),
+        ("^LCHab", "CIE LCHab"),
+        ("^Luv", "CIE Luv"),
+        ("^LCHuv", "CIE LCHuv"),
+        ("Ragoo2021", "Ragoo 2021"),
+    ]:
+        name = re.sub(pattern, substitution, name)
+
+    return name
+
+
+for _Jab, _JCh in COLOURSPACE_MODELS_POLAR_CONVERSIONS:
+    _module = sys.modules["colour.models"]
+    _Jab_name = _format_node_name(_Jab)
+    _JCh_name = _format_node_name(_JCh)
+    CONVERSION_SPECIFICATIONS_DATA.append(
+        (_Jab_name, _JCh_name, getattr(_module, f"{_Jab}_to_{_JCh}"))
+    )
+    CONVERSION_SPECIFICATIONS_DATA.append(
+        (_JCh_name, _Jab_name, getattr(_module, f"{_JCh}_to_{_Jab}"))
+    )
+
+del _format_node_name, _JCh, _Jab, _module, _Jab_name, _JCh_name
+
 CONVERSION_SPECIFICATIONS: list = [
     Conversion_Specification(*specification)
     for specification in CONVERSION_SPECIFICATIONS_DATA
@@ -1018,9 +1052,7 @@ def _build_graph() -> networkx.DiGraph:  # pyright: ignore  # noqa: F821
     return graph
 
 
-CONVERSION_GRAPH: (
-    Optional[nx.DiGraph]  # pyright: ignore  # noqa: F821, UP007
-) = None
+CONVERSION_GRAPH: nx.DiGraph | None = None  # pyright: ignore # noqa: F821
 """Automatic colour conversion graph."""
 
 
@@ -1040,7 +1072,7 @@ def _conversion_path(source: str, target: str) -> List[Callable]:
     Returns
     -------
     :class:`list`
-        Conversion path from the source node to the target node, i.e. a list of
+        Conversion path from the source node to the target node, i.e., a list of
         conversion function callables.
 
     Examples
@@ -1062,16 +1094,14 @@ def _conversion_path(source: str, target: str) -> List[Callable]:
     path = nx.shortest_path(cast(nx.DiGraph, CONVERSION_GRAPH), source, target)
 
     return [
-        CONVERSION_GRAPH.get_edge_data(a, b)[  # pyright: ignore
-            "conversion_function"
-        ]
+        CONVERSION_GRAPH.get_edge_data(a, b)["conversion_function"]  # pyright: ignore
         for a, b in zip(path[:-1], path[1:])
     ]
 
 
 def _lower_order_function(callable_: Callable) -> Callable:
     """
-    Return the lower order function associated with given callable, i.e.
+    Return the lower order function associated with given callable, i.e.,
     the function wrapped by a partial object.
 
     Parameters
@@ -1105,10 +1135,10 @@ def describe_conversion_path(
     Parameters
     ----------
     source
-        Source colour representation, i.e. the source node in the automatic
+        Source colour representation, i.e., the source node in the automatic
         colour conversion graph.
     target
-        Target colour representation, i.e. the target node in the automatic
+        Target colour representation, i.e., the target node in the automatic
         colour conversion graph.
     mode
         Verbose mode: *Short* describes the conversion path, *Long* provides
@@ -1170,9 +1200,7 @@ def describe_conversion_path(
     )
 
     for conversion_function in conversion_path:
-        conversion_function_name = _lower_order_function(
-            conversion_function
-        ).__name__
+        conversion_function_name = _lower_order_function(conversion_function).__name__
 
         # Filtering compatible keyword arguments passed directly and
         # irrespective of any conversion function name.
@@ -1186,9 +1214,7 @@ def describe_conversion_path(
 
         if mode in ("long", "extended"):
             signature = pformat(
-                signature_inspection(
-                    _lower_order_function(conversion_function)
-                )
+                signature_inspection(_lower_order_function(conversion_function))
             )
             message = (
                 f'[ "{_lower_order_function(conversion_function).__name__}" ]\n\n'
@@ -1197,9 +1223,7 @@ def describe_conversion_path(
             )
 
             if filtered_kwargs:
-                message += (
-                    f"\n\n[ Filtered Arguments ]\n\n{pformat(filtered_kwargs)}"
-                )
+                message += f"\n\n[ Filtered Arguments ]\n\n{pformat(filtered_kwargs)}"
 
             if mode in ("extended",):
                 docstring = textwrap.dedent(
@@ -1246,10 +1270,10 @@ def convert(a: Any, source: str, target: str, **kwargs: Any) -> Any:
         viewed under *CIE Standard Illuminant D Series* *D65*. The illuminant
         can be changed on a per-definition basis along the conversion path.
     source
-        Source colour representation, i.e. the source node in the automatic
+        Source colour representation, i.e., the source node in the automatic
         colour conversion graph.
     target
-        Target colour representation, i.e. the target node in the automatic
+        Target colour representation, i.e., the target node in the automatic
         colour conversion graph.
 
     Other Parameters
@@ -1330,9 +1354,9 @@ verbose={"mode": "Long"})
     Notes
     -----
     -   The **RGB** colour representation is assumed to be linear and
-        representing *scene-referred* imagery, i.e. **Scene-Referred RGB**
+        representing *scene-referred* imagery, i.e., **Scene-Referred RGB**
         representation. To encode such *RGB* values as *output-referred*
-        (*display-referred*) imagery, i.e. encode the *RGB* values using an
+        (*display-referred*) imagery, i.e., encode the *RGB* values using an
         encoding colour component transfer function (Encoding CCTF) /
         opto-electronic transfer function (OETF), the
         **Output-Referred RGB** representation must be used::
@@ -1360,7 +1384,7 @@ verbose={"mode": "Long"})
             Thus, decoding and encoding using the sRGB electro-optical transfer
             function (EOTF) and its inverse will be applied by default.
         -   Most of the colour appearance models have defaults set according to
-            *IEC 61966-2-1:1999* viewing conditions, i.e. *sRGB* 64 Lux ambient
+            *IEC 61966-2-1:1999* viewing conditions, i.e., *sRGB* 64 Lux ambient
             illumination, 80 :math:`cd/m^2`, adapting field luminance about
             20% of a white object in the scene.
 
@@ -1417,9 +1441,7 @@ verbose={"mode": "Long"})
 
     verbose_kwargs = copy(kwargs)
     for conversion_function in conversion_path:
-        conversion_function_name = _lower_order_function(
-            conversion_function
-        ).__name__
+        conversion_function_name = _lower_order_function(conversion_function).__name__
 
         # Filtering compatible keyword arguments passed directly and
         # irrespective of any conversion function name.

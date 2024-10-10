@@ -1,4 +1,3 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.utilities.array` module."""
 
 import unittest
@@ -6,6 +5,7 @@ from copy import deepcopy
 from dataclasses import dataclass, field, fields
 
 import numpy as np
+import pytest
 
 from colour.constants import (
     DTYPE_FLOAT_DEFAULT,
@@ -146,7 +146,7 @@ class TestMixinDataclassFields(unittest.TestCase):
         required_attributes = ("fields",)
 
         for method in required_attributes:
-            self.assertIn(method, dir(MixinDataclassFields))
+            assert method in dir(MixinDataclassFields)
 
     def test_fields(self):
         """
@@ -154,10 +154,7 @@ class TestMixinDataclassFields(unittest.TestCase):
         method.
         """
 
-        self.assertTupleEqual(
-            self._data.fields,
-            fields(self._data),
-        )
+        assert self._data.fields == fields(self._data)
 
 
 class TestMixinDataclassIterable(unittest.TestCase):
@@ -187,7 +184,7 @@ class TestMixinDataclassIterable(unittest.TestCase):
         )
 
         for method in required_attributes:
-            self.assertIn(method, dir(MixinDataclassIterable))
+            assert method in dir(MixinDataclassIterable)
 
     def test_required_methods(self):
         """Test the presence of required methods."""
@@ -195,7 +192,7 @@ class TestMixinDataclassIterable(unittest.TestCase):
         required_methods = ("__iter__",)
 
         for method in required_methods:
-            self.assertIn(method, dir(MixinDataclassIterable))
+            assert method in dir(MixinDataclassIterable)
 
     def test__iter__(self):
         """
@@ -203,9 +200,8 @@ class TestMixinDataclassIterable(unittest.TestCase):
         method.
         """
 
-        self.assertDictEqual(
-            {key: value for key, value in self._data},  # noqa: C416
-            {"a": "Foo", "b": "Bar", "c": "Baz"},
+        assert {key: value for key, value in self._data} == (  # noqa: C416
+            {"a": "Foo", "b": "Bar", "c": "Baz"}
         )
 
     def test_keys(self):
@@ -214,10 +210,7 @@ class TestMixinDataclassIterable(unittest.TestCase):
         method.
         """
 
-        self.assertTupleEqual(
-            tuple(self._data.keys),
-            ("a", "b", "c"),
-        )
+        assert tuple(self._data.keys) == ("a", "b", "c")
 
     def test_values(self):
         """
@@ -225,10 +218,7 @@ class TestMixinDataclassIterable(unittest.TestCase):
         method.
         """
 
-        self.assertTupleEqual(
-            tuple(self._data.values),
-            ("Foo", "Bar", "Baz"),
-        )
+        assert tuple(self._data.values) == ("Foo", "Bar", "Baz")
 
     def test_items(self):
         """
@@ -236,10 +226,7 @@ class TestMixinDataclassIterable(unittest.TestCase):
         method.
         """
 
-        self.assertTupleEqual(
-            tuple(self._data.items),
-            (("a", "Foo"), ("b", "Bar"), ("c", "Baz")),
-        )
+        assert tuple(self._data.items) == (("a", "Foo"), ("b", "Bar"), ("c", "Baz"))
 
 
 class TestMixinDataclassArray(unittest.TestCase):
@@ -282,7 +269,7 @@ class TestMixinDataclassArray(unittest.TestCase):
         required_methods = ("__array__",)
 
         for method in required_methods:
-            self.assertIn(method, dir(MixinDataclassArray))
+            assert method in dir(MixinDataclassArray)
 
     def test__array__(self):
         """
@@ -290,12 +277,9 @@ class TestMixinDataclassArray(unittest.TestCase):
         method.
         """
 
-        np.testing.assert_array_equal(np.array(self._data), self._array)
+        np.testing.assert_array_equal(self._data, self._array)
 
-        self.assertEqual(
-            np.array(self._data, dtype=DTYPE_INT_DEFAULT).dtype,
-            DTYPE_INT_DEFAULT,
-        )
+        assert np.array(self._data, dtype=DTYPE_INT_DEFAULT).dtype == DTYPE_INT_DEFAULT
 
 
 class TestMixinDataclassArithmetic(unittest.TestCase):
@@ -351,7 +335,7 @@ class TestMixinDataclassArithmetic(unittest.TestCase):
         )
 
         for method in required_methods:
-            self.assertIn(method, dir(MixinDataclassArithmetic))
+            assert method in dir(MixinDataclassArithmetic)
 
     def test_arithmetical_operation(self):
         """
@@ -360,61 +344,61 @@ arithmetical_operation` method.
         """
 
         np.testing.assert_allclose(
-            np.array(self._data.arithmetical_operation(10, "+", False)),
+            self._data.arithmetical_operation(10, "+", False),
             self._array + 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(self._data.arithmetical_operation(10, "-", False)),
+            self._data.arithmetical_operation(10, "-", False),
             self._array - 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(self._data.arithmetical_operation(10, "*", False)),
+            self._data.arithmetical_operation(10, "*", False),
             self._array * 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(self._data.arithmetical_operation(10, "/", False)),
+            self._data.arithmetical_operation(10, "/", False),
             self._array / 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(self._data.arithmetical_operation(10, "**", False)),
+            self._data.arithmetical_operation(10, "**", False),
             self._array**10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(self._data + 10),
+            self._data + 10,
             self._array + 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(self._data - 10),
+            self._data - 10,
             self._array - 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(self._data * 10),
+            self._data * 10,
             self._array * 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(self._data / 10),
+            self._data / 10,
             self._array / 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(self._data**10),
+            self._data**10,
             self._array**10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -422,31 +406,31 @@ arithmetical_operation` method.
         data = deepcopy(self._data)
 
         np.testing.assert_allclose(
-            np.array(data.arithmetical_operation(10, "+", True)),
+            data.arithmetical_operation(10, "+", True),
             self._array + 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(data.arithmetical_operation(10, "-", True)),
+            data.arithmetical_operation(10, "-", True),
             self._array,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(data.arithmetical_operation(10, "*", True)),
+            data.arithmetical_operation(10, "*", True),
             self._array * 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(data.arithmetical_operation(10, "/", True)),
+            data.arithmetical_operation(10, "/", True),
             self._array,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(data.arithmetical_operation(10, "**", True)),
+            data.arithmetical_operation(10, "**", True),
             self._array**10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -454,13 +438,13 @@ arithmetical_operation` method.
         data = deepcopy(self._data)
 
         np.testing.assert_allclose(
-            np.array(data.arithmetical_operation(self._array, "+", False)),
+            data.arithmetical_operation(self._array, "+", False),
             data + self._array,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            np.array(data.arithmetical_operation(data, "+", False)),
+            data.arithmetical_operation(data, "+", False),
             data + data,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -468,19 +452,19 @@ arithmetical_operation` method.
         data = self._factory(1, 2, 3)
 
         data += 1
-        self.assertEqual(data.a, 2)
+        assert data.a == 2
 
         data -= 1
-        self.assertEqual(data.a, 1)
+        assert data.a == 1
 
         data *= 2
-        self.assertEqual(data.a, 2)
+        assert data.a == 2
 
         data /= 2
-        self.assertEqual(data.a, 1)
+        assert data.a == 1
 
         data **= 0.5
-        self.assertEqual(data.a, 1)
+        assert data.a == 1
 
 
 class TestAsArray(unittest.TestCase):
@@ -494,13 +478,9 @@ class TestAsArray(unittest.TestCase):
 
         np.testing.assert_equal(as_array([1, 2, 3]), np.array([1, 2, 3]))
 
-        self.assertEqual(
-            as_array([1, 2, 3], DTYPE_FLOAT_DEFAULT).dtype, DTYPE_FLOAT_DEFAULT
-        )
+        assert as_array([1, 2, 3], DTYPE_FLOAT_DEFAULT).dtype == DTYPE_FLOAT_DEFAULT
 
-        self.assertEqual(
-            as_array([1, 2, 3], DTYPE_INT_DEFAULT).dtype, DTYPE_INT_DEFAULT
-        )
+        assert as_array([1, 2, 3], DTYPE_INT_DEFAULT).dtype == DTYPE_INT_DEFAULT
 
         np.testing.assert_equal(
             as_array(dict(zip("abc", [1, 2, 3])).values()), np.array([1, 2, 3])
@@ -516,21 +496,19 @@ class TestAsInt(unittest.TestCase):
     def test_as_int(self):
         """Test :func:`colour.utilities.array.as_int` definition."""
 
-        self.assertEqual(as_int(1), 1)
+        assert as_int(1) == 1
 
-        self.assertEqual(as_int(np.array([1])).ndim, 1)
+        assert as_int(np.array([1])).ndim == 1
 
-        self.assertEqual(as_int(np.array([[1]])).ndim, 2)
+        assert as_int(np.array([[1]])).ndim == 2
 
         np.testing.assert_array_equal(
             as_int(np.array([1.0, 2.0, 3.0])), np.array([1, 2, 3])
         )
 
-        self.assertEqual(
-            as_int(np.array([1.0, 2.0, 3.0])).dtype, DTYPE_INT_DEFAULT
-        )
+        assert as_int(np.array([1.0, 2.0, 3.0])).dtype == DTYPE_INT_DEFAULT
 
-        self.assertIsInstance(as_int(1), DTYPE_INT_DEFAULT)
+        assert isinstance(as_int(1), DTYPE_INT_DEFAULT)
 
 
 class TestAsFloat(unittest.TestCase):
@@ -542,11 +520,11 @@ class TestAsFloat(unittest.TestCase):
     def test_as_float(self):
         """Test :func:`colour.utilities.array.as_float` definition."""
 
-        self.assertEqual(as_float(1), 1.0)
+        assert as_float(1) == 1.0
 
-        self.assertEqual(as_float(np.array([1])).ndim, 1)
+        assert as_float(np.array([1])).ndim == 1
 
-        self.assertEqual(as_float(np.array([[1]])).ndim, 2)
+        assert as_float(np.array([[1]])).ndim == 2
 
         np.testing.assert_allclose(
             as_float(np.array([1, 2, 3])),
@@ -554,11 +532,9 @@ class TestAsFloat(unittest.TestCase):
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertEqual(
-            as_float(np.array([1, 2, 3])).dtype, DTYPE_FLOAT_DEFAULT
-        )
+        assert as_float(np.array([1, 2, 3])).dtype == DTYPE_FLOAT_DEFAULT
 
-        self.assertIsInstance(as_float(1), DTYPE_FLOAT_DEFAULT)
+        assert isinstance(as_float(1), DTYPE_FLOAT_DEFAULT)
 
 
 class TestAsIntArray(unittest.TestCase):
@@ -570,11 +546,9 @@ class TestAsIntArray(unittest.TestCase):
     def test_as_int_array(self):
         """Test :func:`colour.utilities.array.as_int_array` definition."""
 
-        np.testing.assert_equal(
-            as_int_array([1.0, 2.0, 3.0]), np.array([1, 2, 3])
-        )
+        np.testing.assert_equal(as_int_array([1.0, 2.0, 3.0]), np.array([1, 2, 3]))
 
-        self.assertEqual(as_int_array([1, 2, 3]).dtype, DTYPE_INT_DEFAULT)
+        assert as_int_array([1, 2, 3]).dtype == DTYPE_INT_DEFAULT
 
 
 class TestAsFloatArray(unittest.TestCase):
@@ -588,7 +562,7 @@ class TestAsFloatArray(unittest.TestCase):
 
         np.testing.assert_equal(as_float_array([1, 2, 3]), np.array([1, 2, 3]))
 
-        self.assertEqual(as_float_array([1, 2, 3]).dtype, DTYPE_FLOAT_DEFAULT)
+        assert as_float_array([1, 2, 3]).dtype == DTYPE_FLOAT_DEFAULT
 
 
 class TestAsIntScalar(unittest.TestCase):
@@ -600,9 +574,9 @@ class TestAsIntScalar(unittest.TestCase):
     def test_as_int_scalar(self):
         """Test :func:`colour.utilities.array.as_int_scalar` definition."""
 
-        self.assertEqual(as_int_scalar(1.0), 1)
+        assert as_int_scalar(1.0) == 1
 
-        self.assertEqual(as_int_scalar(1.0).dtype, DTYPE_INT_DEFAULT)
+        assert as_int_scalar(1.0).dtype == DTYPE_INT_DEFAULT
 
 
 class TestAsFloatScalar(unittest.TestCase):
@@ -614,9 +588,9 @@ class TestAsFloatScalar(unittest.TestCase):
     def test_as_float_scalar(self):
         """Test :func:`colour.utilities.array.as_float_scalar` definition."""
 
-        self.assertEqual(as_float_scalar(1), 1.0)
+        assert as_float_scalar(1) == 1.0
 
-        self.assertEqual(as_float_scalar(1).dtype, DTYPE_FLOAT_DEFAULT)
+        assert as_float_scalar(1).dtype == DTYPE_FLOAT_DEFAULT
 
 
 class TestSetDefaultIntegerDtype(unittest.TestCase):
@@ -630,15 +604,15 @@ class TestSetDefaultIntegerDtype(unittest.TestCase):
         Test :func:`colour.utilities.array.set_default_int_dtype` definition.
         """
 
-        self.assertEqual(as_int_array(np.ones(3)).dtype, np.int64)
+        assert as_int_array(np.ones(3)).dtype == np.int64
 
         set_default_int_dtype(np.int32)
 
-        self.assertEqual(as_int_array(np.ones(3)).dtype, np.int32)
+        assert as_int_array(np.ones(3)).dtype == np.int32
 
         set_default_int_dtype(np.int64)
 
-        self.assertEqual(as_int_array(np.ones(3)).dtype, np.int64)
+        assert as_int_array(np.ones(3)).dtype == np.int64
 
     def tearDown(self):
         """After tests actions."""
@@ -658,15 +632,18 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
         definition.
         """
 
-        self.assertEqual(as_float_array(np.ones(3)).dtype, np.float64)
+        try:
+            assert as_float_array(np.ones(3)).dtype == np.float64
 
-        set_default_float_dtype(np.float16)
+            set_default_float_dtype(np.float16)
 
-        self.assertEqual(as_float_array(np.ones(3)).dtype, np.float16)
+            assert as_float_array(np.ones(3)).dtype == np.float16
 
-        set_default_float_dtype(np.float64)
+            set_default_float_dtype(np.float64)
 
-        self.assertEqual(as_float_array(np.ones(3)).dtype, np.float64)
+            assert as_float_array(np.ones(3)).dtype == np.float64
+        finally:
+            set_default_float_dtype(np.float64)
 
     def test_set_default_float_dtype_enforcement(self):
         """
@@ -690,90 +667,88 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
             convert,
         )
 
-        dtype = np.float32
-        set_default_float_dtype(dtype)
+        try:
+            dtype = np.float32
+            set_default_float_dtype(dtype)
 
-        for source, target, _callable in CONVERSION_SPECIFICATIONS_DATA:
-            if target in ("Hexadecimal", "Munsell Colour"):
-                continue
+            for source, target, _callable in CONVERSION_SPECIFICATIONS_DATA:
+                if target in ("Hexadecimal", "Munsell Colour"):
+                    continue
 
-            # Spectral distributions are instantiated with float64 data and
-            # spectral up-sampling optimization fails.
-            if (
-                "Spectral Distribution" in (source, target)
-                or target == "Complementary Wavelength"
-                or target == "Dominant Wavelength"
-            ):
-                continue
-
-            a = np.array([(0.25, 0.5, 0.25), (0.25, 0.5, 0.25)])
-
-            if source == "CAM16":
-                a = CAM_Specification_CAM16(J=0.25, M=0.5, h=0.25)
-
-            if source == "CIECAM02":
-                a = CAM_Specification_CIECAM02(J=0.25, M=0.5, h=0.25)
-
-            if source == "CIECAM16":
-                a = CAM_Specification_CIECAM16(J=0.25, M=0.5, h=0.25)
-
-            if source == "Hellwig 2022":
-                a = CAM_Specification_Hellwig2022(J=0.25, M=0.5, h=0.25)
-
-            if source == "Kim 2009":
-                a = CAM_Specification_Kim2009(J=0.25, M=0.5, h=0.25)
-
-            if source == "ZCAM":
-                a = CAM_Specification_ZCAM(J=0.25, M=0.5, h=0.25)
-
-            if source == "CMYK":
-                a = np.array([(0.25, 0.5, 0.25, 0.5), (0.25, 0.5, 0.25, 0.5)])
-
-            if source == "Hexadecimal":
-                a = np.array(["#FFFFFF", "#FFFFFF"])
-
-            if source == "CSS Color 3":
-                a = "aliceblue"
-
-            if source == "Munsell Colour":
-                a = ["4.2YR 8.1/5.3", "4.2YR 8.1/5.3"]
-
-            if source == "Wavelength":
-                a = 555
-
-            if (
-                source.startswith("CCT")  # noqa: PIE810
-                or source.endswith(" xy")
-                or source.endswith(" uv")
-            ):
-                a = np.array([(0.25, 0.5), (0.25, 0.5)])
-
-            def dtype_getter(x):
-                """Dtype getter callable."""
-
-                for specification in (
-                    "ATD95",
-                    "CIECAM02",
-                    "CAM16",
-                    "Hellwig 2022",
-                    "Hunt",
-                    "Kim 2009",
-                    "LLAB",
-                    "Nayatani95",
-                    "RLAB",
-                    "ZCAM",
+                # Spectral distributions are instantiated with float64 data and
+                # spectral up-sampling optimization fails.
+                if (
+                    "Spectral Distribution" in (source, target)
+                    or target == "Complementary Wavelength"
+                    or target == "Dominant Wavelength"
                 ):
-                    if target.endswith(specification):  # noqa: B023
-                        return getattr(x, fields(x)[0].name).dtype
+                    continue
 
-                return x.dtype
+                a = np.array([(0.25, 0.5, 0.25), (0.25, 0.5, 0.25)])
 
-            self.assertEqual(dtype_getter(convert(a, source, target)), dtype)
+                if source == "CAM16":
+                    a = CAM_Specification_CAM16(J=0.25, M=0.5, h=0.25)
 
-    def tearDown(self):
-        """After tests actions."""
+                if source == "CIECAM02":
+                    a = CAM_Specification_CIECAM02(J=0.25, M=0.5, h=0.25)
 
-        set_default_float_dtype(np.float64)
+                if source == "CIECAM16":
+                    a = CAM_Specification_CIECAM16(J=0.25, M=0.5, h=0.25)
+
+                if source == "Hellwig 2022":
+                    a = CAM_Specification_Hellwig2022(J=0.25, M=0.5, h=0.25)
+
+                if source == "Kim 2009":
+                    a = CAM_Specification_Kim2009(J=0.25, M=0.5, h=0.25)
+
+                if source == "ZCAM":
+                    a = CAM_Specification_ZCAM(J=0.25, M=0.5, h=0.25)
+
+                if source == "CMYK":
+                    a = np.array([(0.25, 0.5, 0.25, 0.5), (0.25, 0.5, 0.25, 0.5)])
+
+                if source == "Hexadecimal":
+                    a = np.array(["#FFFFFF", "#FFFFFF"])
+
+                if source == "CSS Color 3":
+                    a = "aliceblue"
+
+                if source == "Munsell Colour":
+                    a = ["4.2YR 8.1/5.3", "4.2YR 8.1/5.3"]
+
+                if source == "Wavelength":
+                    a = 555
+
+                if (
+                    source.startswith("CCT")  # noqa: PIE810
+                    or source.endswith(" xy")
+                    or source.endswith(" uv")
+                ):
+                    a = np.array([(0.25, 0.5), (0.25, 0.5)])
+
+                def dtype_getter(x):
+                    """Dtype getter callable."""
+
+                    for specification in (
+                        "ATD95",
+                        "CIECAM02",
+                        "CAM16",
+                        "Hellwig 2022",
+                        "Hunt",
+                        "Kim 2009",
+                        "LLAB",
+                        "Nayatani95",
+                        "RLAB",
+                        "ZCAM",
+                    ):
+                        if target.endswith(specification):  # noqa: B023
+                            return getattr(x, fields(x)[0].name).dtype
+
+                    return x.dtype
+
+                assert dtype_getter(convert(a, source, target)) == dtype
+        finally:
+            set_default_float_dtype(np.float64)
 
 
 class TestGetDomainRangeScale(unittest.TestCase):
@@ -789,13 +764,13 @@ class TestGetDomainRangeScale(unittest.TestCase):
         """
 
         with domain_range_scale("Reference"):
-            self.assertEqual(get_domain_range_scale(), "reference")
+            assert get_domain_range_scale() == "reference"
 
         with domain_range_scale("1"):
-            self.assertEqual(get_domain_range_scale(), "1")
+            assert get_domain_range_scale() == "1"
 
         with domain_range_scale("100"):
-            self.assertEqual(get_domain_range_scale(), "100")
+            assert get_domain_range_scale() == "100"
 
 
 class TestSetDomainRangeScale(unittest.TestCase):
@@ -812,19 +787,18 @@ class TestSetDomainRangeScale(unittest.TestCase):
 
         with domain_range_scale("Reference"):
             set_domain_range_scale("1")
-            self.assertEqual(get_domain_range_scale(), "1")
+            assert get_domain_range_scale() == "1"
 
         with domain_range_scale("Reference"):
             set_domain_range_scale("100")
-            self.assertEqual(get_domain_range_scale(), "100")
+            assert get_domain_range_scale() == "100"
 
         with domain_range_scale("1"):
             set_domain_range_scale("Reference")
-            self.assertEqual(get_domain_range_scale(), "reference")
+            assert get_domain_range_scale() == "reference"
 
-        self.assertRaises(
-            ValueError, lambda: set_domain_range_scale("Invalid")
-        )
+        with pytest.raises(ValueError):
+            set_domain_range_scale("Invalid")
 
 
 class TestDomainRangeScale(unittest.TestCase):
@@ -839,22 +813,22 @@ class TestDomainRangeScale(unittest.TestCase):
         definition.
         """
 
-        self.assertEqual(get_domain_range_scale(), "reference")
+        assert get_domain_range_scale() == "reference"
 
         with domain_range_scale("Reference"):
-            self.assertEqual(get_domain_range_scale(), "reference")
+            assert get_domain_range_scale() == "reference"
 
-        self.assertEqual(get_domain_range_scale(), "reference")
+        assert get_domain_range_scale() == "reference"
 
         with domain_range_scale("1"):
-            self.assertEqual(get_domain_range_scale(), "1")
+            assert get_domain_range_scale() == "1"
 
-        self.assertEqual(get_domain_range_scale(), "reference")
+        assert get_domain_range_scale() == "reference"
 
         with domain_range_scale("100"):
-            self.assertEqual(get_domain_range_scale(), "100")
+            assert get_domain_range_scale() == "100"
 
-        self.assertEqual(get_domain_range_scale(), "reference")
+        assert get_domain_range_scale() == "reference"
 
         def fn_a(a):
             """Change the domain-range scale for unit testing."""
@@ -869,19 +843,19 @@ class TestDomainRangeScale(unittest.TestCase):
             with domain_range_scale("1"):
                 with domain_range_scale("100"):
                     with domain_range_scale("Ignore"):
-                        self.assertEqual(get_domain_range_scale(), "ignore")
-                        self.assertEqual(fn_a(4), 8)
+                        assert get_domain_range_scale() == "ignore"
+                        assert fn_a(4) == 8
 
-                    self.assertEqual(get_domain_range_scale(), "100")
-                    self.assertEqual(fn_a(40), 8)
+                    assert get_domain_range_scale() == "100"
+                    assert fn_a(40) == 8
 
-                self.assertEqual(get_domain_range_scale(), "1")
-                self.assertEqual(fn_a(0.4), 0.08)
+                assert get_domain_range_scale() == "1"
+                assert fn_a(0.4) == 0.08
 
-            self.assertEqual(get_domain_range_scale(), "reference")
-            self.assertEqual(fn_a(4), 8)
+            assert get_domain_range_scale() == "reference"
+            assert fn_a(4) == 8
 
-        self.assertEqual(get_domain_range_scale(), "reference")
+        assert get_domain_range_scale() == "reference"
 
         @domain_range_scale("1")
         def fn_b(a):
@@ -893,7 +867,7 @@ class TestDomainRangeScale(unittest.TestCase):
 
             return from_range_100(b)
 
-        self.assertEqual(fn_b(10), 2.0)
+        assert fn_b(10) == 2.0
 
 
 class TestToDomain1(unittest.TestCase):
@@ -906,21 +880,19 @@ class TestToDomain1(unittest.TestCase):
         """Test :func:`colour.utilities.common.to_domain_1` definition."""
 
         with domain_range_scale("Reference"):
-            self.assertEqual(to_domain_1(1), 1)
+            assert to_domain_1(1) == 1
 
         with domain_range_scale("1"):
-            self.assertEqual(to_domain_1(1), 1)
+            assert to_domain_1(1) == 1
 
         with domain_range_scale("100"):
-            self.assertEqual(to_domain_1(1), 0.01)
+            assert to_domain_1(1) == 0.01
 
         with domain_range_scale("100"):
-            self.assertEqual(to_domain_1(1, np.pi), 1 / np.pi)
+            assert to_domain_1(1, np.pi) == 1 / np.pi
 
         with domain_range_scale("100"):
-            self.assertEqual(
-                to_domain_1(1, dtype=np.float16).dtype, np.float16
-            )
+            assert to_domain_1(1, dtype=np.float16).dtype == np.float16
 
 
 class TestToDomain10(unittest.TestCase):
@@ -933,21 +905,19 @@ class TestToDomain10(unittest.TestCase):
         """Test :func:`colour.utilities.common.to_domain_10` definition."""
 
         with domain_range_scale("Reference"):
-            self.assertEqual(to_domain_10(1), 1)
+            assert to_domain_10(1) == 1
 
         with domain_range_scale("1"):
-            self.assertEqual(to_domain_10(1), 10)
+            assert to_domain_10(1) == 10
 
         with domain_range_scale("100"):
-            self.assertEqual(to_domain_10(1), 0.1)
+            assert to_domain_10(1) == 0.1
 
         with domain_range_scale("100"):
-            self.assertEqual(to_domain_10(1, np.pi), 1 / np.pi)
+            assert to_domain_10(1, np.pi) == 1 / np.pi
 
         with domain_range_scale("100"):
-            self.assertEqual(
-                to_domain_10(1, dtype=np.float16).dtype, np.float16
-            )
+            assert to_domain_10(1, dtype=np.float16).dtype == np.float16
 
 
 class TestToDomain100(unittest.TestCase):
@@ -960,21 +930,19 @@ class TestToDomain100(unittest.TestCase):
         """Test :func:`colour.utilities.common.to_domain_100` definition."""
 
         with domain_range_scale("Reference"):
-            self.assertEqual(to_domain_100(1), 1)
+            assert to_domain_100(1) == 1
 
         with domain_range_scale("1"):
-            self.assertEqual(to_domain_100(1), 100)
+            assert to_domain_100(1) == 100
 
         with domain_range_scale("100"):
-            self.assertEqual(to_domain_100(1), 1)
+            assert to_domain_100(1) == 1
 
         with domain_range_scale("1"):
-            self.assertEqual(to_domain_100(1, np.pi), np.pi)
+            assert to_domain_100(1, np.pi) == np.pi
 
         with domain_range_scale("100"):
-            self.assertEqual(
-                to_domain_100(1, dtype=np.float16).dtype, np.float16
-            )
+            assert to_domain_100(1, dtype=np.float16).dtype == np.float16
 
 
 class TestToDomainDegrees(unittest.TestCase):
@@ -987,21 +955,19 @@ class TestToDomainDegrees(unittest.TestCase):
         """Test :func:`colour.utilities.common.to_domain_degrees` definition."""
 
         with domain_range_scale("Reference"):
-            self.assertEqual(to_domain_degrees(1), 1)
+            assert to_domain_degrees(1) == 1
 
         with domain_range_scale("1"):
-            self.assertEqual(to_domain_degrees(1), 360)
+            assert to_domain_degrees(1) == 360
 
         with domain_range_scale("100"):
-            self.assertEqual(to_domain_degrees(1), 3.6)
+            assert to_domain_degrees(1) == 3.6
 
         with domain_range_scale("100"):
-            self.assertEqual(to_domain_degrees(1, np.pi), np.pi / 100)
+            assert to_domain_degrees(1, np.pi) == np.pi / 100
 
         with domain_range_scale("100"):
-            self.assertEqual(
-                to_domain_degrees(1, dtype=np.float16).dtype, np.float16
-            )
+            assert to_domain_degrees(1, dtype=np.float16).dtype == np.float16
 
 
 class TestToDomainInt(unittest.TestCase):
@@ -1014,21 +980,19 @@ class TestToDomainInt(unittest.TestCase):
         """Test :func:`colour.utilities.common.to_domain_int` definition."""
 
         with domain_range_scale("Reference"):
-            self.assertEqual(to_domain_int(1), 1)
+            assert to_domain_int(1) == 1
 
         with domain_range_scale("1"):
-            self.assertEqual(to_domain_int(1), 255)
+            assert to_domain_int(1) == 255
 
         with domain_range_scale("100"):
-            self.assertEqual(to_domain_int(1), 2.55)
+            assert to_domain_int(1) == 2.55
 
         with domain_range_scale("100"):
-            self.assertEqual(to_domain_int(1, 10), 10.23)
+            assert to_domain_int(1, 10) == 10.23
 
         with domain_range_scale("100"):
-            self.assertEqual(
-                to_domain_int(1, dtype=np.float16).dtype, np.float16
-            )
+            assert to_domain_int(1, dtype=np.float16).dtype == np.float16
 
 
 class TestFromRange1(unittest.TestCase):
@@ -1041,16 +1005,16 @@ class TestFromRange1(unittest.TestCase):
         """Test :func:`colour.utilities.common.from_range_1` definition."""
 
         with domain_range_scale("Reference"):
-            self.assertEqual(from_range_1(1), 1)
+            assert from_range_1(1) == 1
 
         with domain_range_scale("1"):
-            self.assertEqual(from_range_1(1), 1)
+            assert from_range_1(1) == 1
 
         with domain_range_scale("100"):
-            self.assertEqual(from_range_1(1), 100)
+            assert from_range_1(1) == 100
 
         with domain_range_scale("100"):
-            self.assertEqual(from_range_1(1, np.pi), 1 * np.pi)
+            assert from_range_1(1, np.pi) == 1 * np.pi
 
 
 class TestFromRange10(unittest.TestCase):
@@ -1063,16 +1027,16 @@ class TestFromRange10(unittest.TestCase):
         """Test :func:`colour.utilities.common.from_range_10` definition."""
 
         with domain_range_scale("Reference"):
-            self.assertEqual(from_range_10(1), 1)
+            assert from_range_10(1) == 1
 
         with domain_range_scale("1"):
-            self.assertEqual(from_range_10(1), 0.1)
+            assert from_range_10(1) == 0.1
 
         with domain_range_scale("100"):
-            self.assertEqual(from_range_10(1), 10)
+            assert from_range_10(1) == 10
 
         with domain_range_scale("100"):
-            self.assertEqual(from_range_10(1, np.pi), 1 * np.pi)
+            assert from_range_10(1, np.pi) == 1 * np.pi
 
 
 class TestFromRange100(unittest.TestCase):
@@ -1085,16 +1049,16 @@ class TestFromRange100(unittest.TestCase):
         """Test :func:`colour.utilities.common.from_range_100` definition."""
 
         with domain_range_scale("Reference"):
-            self.assertEqual(from_range_100(1), 1)
+            assert from_range_100(1) == 1
 
         with domain_range_scale("1"):
-            self.assertEqual(from_range_100(1), 0.01)
+            assert from_range_100(1) == 0.01
 
         with domain_range_scale("100"):
-            self.assertEqual(from_range_100(1), 1)
+            assert from_range_100(1) == 1
 
         with domain_range_scale("1"):
-            self.assertEqual(from_range_100(1, np.pi), 1 / np.pi)
+            assert from_range_100(1, np.pi) == 1 / np.pi
 
 
 class TestFromRangeDegrees(unittest.TestCase):
@@ -1107,16 +1071,16 @@ class TestFromRangeDegrees(unittest.TestCase):
         """Test :func:`colour.utilities.common.from_range_degrees` definition."""
 
         with domain_range_scale("Reference"):
-            self.assertEqual(from_range_degrees(1), 1)
+            assert from_range_degrees(1) == 1
 
         with domain_range_scale("1"):
-            self.assertEqual(from_range_degrees(1), 1 / 360)
+            assert from_range_degrees(1) == 1 / 360
 
         with domain_range_scale("100"):
-            self.assertEqual(from_range_degrees(1), 1 / 3.6)
+            assert from_range_degrees(1) == 1 / 3.6
 
         with domain_range_scale("100"):
-            self.assertEqual(from_range_degrees(1, np.pi), 1 / (np.pi / 100))
+            assert from_range_degrees(1, np.pi) == 1 / (np.pi / 100)
 
 
 class TestFromRangeInt(unittest.TestCase):
@@ -1129,21 +1093,19 @@ class TestFromRangeInt(unittest.TestCase):
         """Test :func:`colour.utilities.common.from_range_int` definition."""
 
         with domain_range_scale("Reference"):
-            self.assertEqual(from_range_int(1), 1)
+            assert from_range_int(1) == 1
 
         with domain_range_scale("1"):
-            self.assertEqual(from_range_int(1), 1 / 255)
+            assert from_range_int(1) == 1 / 255
 
         with domain_range_scale("100"):
-            self.assertEqual(from_range_int(1), 1 / 2.55)
+            assert from_range_int(1) == 1 / 2.55
 
         with domain_range_scale("100"):
-            self.assertEqual(from_range_int(1, 10), 1 / (1023 / 100))
+            assert from_range_int(1, 10) == 1 / (1023 / 100)
 
         with domain_range_scale("100"):
-            self.assertEqual(
-                from_range_int(1, dtype=np.float16).dtype, np.float16
-            )
+            assert from_range_int(1, dtype=np.float16).dtype == np.float16
 
 
 class TestIsNdarrayCopyEnabled(unittest.TestCase):
@@ -1158,10 +1120,10 @@ class TestIsNdarrayCopyEnabled(unittest.TestCase):
         """
 
         with ndarray_copy_enable(True):
-            self.assertTrue(is_ndarray_copy_enabled())
+            assert is_ndarray_copy_enabled()
 
         with ndarray_copy_enable(False):
-            self.assertFalse(is_ndarray_copy_enabled())
+            assert not is_ndarray_copy_enabled()
 
 
 class TestSetNdarrayCopyEnabled(unittest.TestCase):
@@ -1177,11 +1139,11 @@ class TestSetNdarrayCopyEnabled(unittest.TestCase):
 
         with ndarray_copy_enable(is_ndarray_copy_enabled()):
             set_ndarray_copy_enable(True)
-            self.assertTrue(is_ndarray_copy_enabled())
+            assert is_ndarray_copy_enabled()
 
         with ndarray_copy_enable(is_ndarray_copy_enabled()):
             set_ndarray_copy_enable(False)
-            self.assertFalse(is_ndarray_copy_enabled())
+            assert not is_ndarray_copy_enabled()
 
 
 class TestNdarrayCopyEnable(unittest.TestCase):
@@ -1196,16 +1158,16 @@ class TestNdarrayCopyEnable(unittest.TestCase):
         """
 
         with ndarray_copy_enable(True):
-            self.assertTrue(is_ndarray_copy_enabled())
+            assert is_ndarray_copy_enabled()
 
         with ndarray_copy_enable(False):
-            self.assertFalse(is_ndarray_copy_enabled())
+            assert not is_ndarray_copy_enabled()
 
         @ndarray_copy_enable(True)
         def fn_a():
             """:func:`ndarray_copy_enable` unit tests :func:`fn_a` definition."""
 
-            self.assertTrue(is_ndarray_copy_enabled())
+            assert is_ndarray_copy_enabled()
 
         fn_a()
 
@@ -1213,7 +1175,7 @@ class TestNdarrayCopyEnable(unittest.TestCase):
         def fn_b():
             """:func:`ndarray_copy_enable` unit tests :func:`fn_b` definition."""
 
-            self.assertFalse(is_ndarray_copy_enabled())
+            assert not is_ndarray_copy_enabled()
 
         fn_b()
 
@@ -1229,10 +1191,10 @@ class TestNdarrayCopy(unittest.TestCase):
 
         a = np.linspace(0, 1, 10)
         with ndarray_copy_enable(True):
-            self.assertNotEqual(id(ndarray_copy(a)), id(a))
+            assert id(ndarray_copy(a)) != id(a)
 
         with ndarray_copy_enable(False):
-            self.assertEqual(id(ndarray_copy(a)), id(a))
+            assert id(ndarray_copy(a)) == id(a)
 
 
 class TestClosestIndexes(unittest.TestCase):
@@ -1255,11 +1217,11 @@ class TestClosestIndexes(unittest.TestCase):
             ]
         )
 
-        self.assertEqual(closest_indexes(a, 63.05), 3)
+        assert closest_indexes(a, 63.05) == 3
 
-        self.assertEqual(closest_indexes(a, 51.15), 4)
+        assert closest_indexes(a, 51.15) == 4
 
-        self.assertEqual(closest_indexes(a, 24.90), 5)
+        assert closest_indexes(a, 24.90) == 5
 
         np.testing.assert_array_equal(
             closest_indexes(a, np.array([63.05, 51.15, 24.90])),
@@ -1287,11 +1249,11 @@ class TestClosest(unittest.TestCase):
             ]
         )
 
-        self.assertEqual(closest(a, 63.05), 62.70988028)
+        assert closest(a, 63.05) == 62.70988028
 
-        self.assertEqual(closest(a, 51.15), 46.84480573)
+        assert closest(a, 51.15) == 46.84480573
 
-        self.assertEqual(closest(a, 24.90), 25.40026416)
+        assert closest(a, 24.90) == 25.40026416
 
         np.testing.assert_allclose(
             closest(a, np.array([63.05, 51.15, 24.90])),
@@ -1337,9 +1299,9 @@ class TestIsUniform(unittest.TestCase):
     def test_is_uniform(self):
         """Test :func:`colour.utilities.array.is_uniform` definition."""
 
-        self.assertTrue(is_uniform(range(0, 10, 2)))
+        assert is_uniform(range(0, 10, 2))
 
-        self.assertFalse(is_uniform([1, 2, 3, 4, 6]))
+        assert not is_uniform([1, 2, 3, 4, 6])
 
 
 class TestInArray(unittest.TestCase):
@@ -1351,25 +1313,19 @@ class TestInArray(unittest.TestCase):
     def test_in_array(self):
         """Test :func:`colour.utilities.array.in_array` definition."""
 
-        self.assertTrue(
-            np.array_equal(
-                in_array(np.array([0.50, 0.60]), np.linspace(0, 10, 101)),
-                np.array([True, True]),
-            )
+        assert np.array_equal(
+            in_array(np.array([0.50, 0.60]), np.linspace(0, 10, 101)),
+            np.array([True, True]),
         )
 
-        self.assertFalse(
-            np.array_equal(
-                in_array(np.array([0.50, 0.61]), np.linspace(0, 10, 101)),
-                np.array([True, True]),
-            )
+        assert not np.array_equal(
+            in_array(np.array([0.50, 0.61]), np.linspace(0, 10, 101)),
+            np.array([True, True]),
         )
 
-        self.assertTrue(
-            np.array_equal(
-                in_array(np.array([[0.50], [0.60]]), np.linspace(0, 10, 101)),
-                np.array([[True], [True]]),
-            )
+        assert np.array_equal(
+            in_array(np.array([[0.50], [0.60]]), np.linspace(0, 10, 101)),
+            np.array([[True], [True]]),
         )
 
     def test_n_dimensional_in_array(self):
@@ -1389,9 +1345,7 @@ class TestInArray(unittest.TestCase):
         )
 
         np.testing.assert_array_equal(
-            in_array(
-                np.array([[0.50], [0.60]]), np.linspace(0, 10, 101)
-            ).shape,
+            in_array(np.array([[0.50], [0.60]]), np.linspace(0, 10, 101)).shape,
             np.array([2, 1]),
         )
 
@@ -1716,13 +1670,13 @@ class TestHasNanOnly(unittest.TestCase):
     def test_has_only_nan(self):
         """Test :func:`colour.utilities.array.has_only_nan` definition."""
 
-        self.assertTrue(has_only_nan(None))
+        assert has_only_nan(None)
 
-        self.assertTrue(has_only_nan([None, None]))
+        assert has_only_nan([None, None])
 
-        self.assertFalse(has_only_nan([True, None]))
+        assert not has_only_nan([True, None])
 
-        self.assertFalse(has_only_nan([0.1, np.nan, 0.3]))
+        assert not has_only_nan([0.1, np.nan, 0.3])
 
 
 class TestNdarrayWrite(unittest.TestCase):
@@ -1737,7 +1691,7 @@ class TestNdarrayWrite(unittest.TestCase):
         a = np.linspace(0, 1, 10)
         a.setflags(write=False)
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             a += 1
 
         with ndarray_write(a):
@@ -1823,9 +1777,7 @@ class TestIndexAlongLastAxis(unittest.TestCase):
             ]
         )
 
-        indexes = np.array(
-            [[[0, 1], [0, 1]], [[2, 1], [2, 1]], [[2, 1], [2, 0]]]
-        )
+        indexes = np.array([[[0, 1], [0, 1]], [[2, 1], [2, 1]], [[2, 1], [2, 0]]])
 
         np.testing.assert_equal(
             index_along_last_axis(a, indexes),
@@ -1863,17 +1815,17 @@ class TestIndexAlongLastAxis(unittest.TestCase):
         a = as_float_array([[11, 12], [21, 22]])
 
         # Bad shape
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             indexes = np.array([0])
             index_along_last_axis(a, indexes)
 
         # Indexes out of range
-        with self.assertRaises(IndexError):
+        with pytest.raises(IndexError):
             indexes = np.array([123, 456])
             index_along_last_axis(a, indexes)
 
         # Non-int indexes
-        with self.assertRaises(IndexError):
+        with pytest.raises(IndexError):
             indexes = np.array([0.0, 0.0])
             index_along_last_axis(a, indexes)
 
@@ -1887,21 +1839,8 @@ class TestFormatArrayAsRow(unittest.TestCase):
     def test_format_array_as_row(self):
         """Test :func:`colour.utilities.array.format_array_as_row` definition."""
 
-        self.assertEqual(
-            format_array_as_row([1.25, 2.5, 3.75]),
-            "1.2500000 2.5000000 3.7500000",
-        )
+        assert format_array_as_row([1.25, 2.5, 3.75]) == "1.2500000 2.5000000 3.7500000"
 
-        self.assertEqual(
-            format_array_as_row([1.25, 2.5, 3.75], 3),
-            "1.250 2.500 3.750",
-        )
+        assert format_array_as_row([1.25, 2.5, 3.75], 3) == "1.250 2.500 3.750"
 
-        self.assertEqual(
-            format_array_as_row([1.25, 2.5, 3.75], 3, ", "),
-            "1.250, 2.500, 3.750",
-        )
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert format_array_as_row([1.25, 2.5, 3.75], 3, ", ") == "1.250, 2.500, 3.750"

@@ -2,7 +2,7 @@
 Common Utilities
 ================
 
-Defines the common utilities objects that don't fall in any specific category.
+Define the common utilities objects that don't fall in any specific category.
 
 References
 ----------
@@ -22,7 +22,6 @@ import functools
 import inspect
 import os
 import re
-import subprocess
 import types
 import unicodedata
 import warnings
@@ -32,7 +31,7 @@ from pprint import pformat
 
 import numpy as np
 
-from colour.constants import INTEGER_THRESHOLD
+from colour.constants import THRESHOLD_INTEGER
 from colour.hints import (
     Any,
     Callable,
@@ -44,7 +43,7 @@ from colour.hints import (
     Sequence,
     TypeVar,
 )
-from colour.utilities import CanonicalMapping, Lookup
+from colour.utilities import CanonicalMapping, Lookup, is_xxhash_installed
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -69,19 +68,7 @@ __all__ = [
     "batch",
     "disable_multiprocessing",
     "multiprocessing_pool",
-    "is_ctlrender_installed",
-    "is_graphviz_installed",
-    "is_matplotlib_installed",
-    "is_networkx_installed",
-    "is_opencolorio_installed",
-    "is_openimageio_installed",
-    "is_pandas_installed",
-    "is_tqdm_installed",
-    "is_trimesh_installed",
-    "is_xxhash_installed",
-    "required",
     "is_iterable",
-    "is_string",
     "is_numeric",
     "is_integer",
     "is_sibling",
@@ -95,9 +82,7 @@ __all__ = [
     "int_digest",
 ]
 
-_CACHING_ENABLED: bool = not os.environ.get(
-    "COLOUR_SCIENCE__COLOUR__DISABLE_CACHING", False
-)
+_CACHING_ENABLED: bool = not os.environ.get("COLOUR_SCIENCE__DISABLE_CACHING", False)
 """
 Global variable storing the current *Colour* caching enabled state.
 """
@@ -116,11 +101,9 @@ def is_caching_enabled() -> bool:
     --------
     >>> with caching_enable(False):
     ...     is_caching_enabled()
-    ...
     False
     >>> with caching_enable(True):
     ...     is_caching_enabled()
-    ...
     True
     """
 
@@ -142,7 +125,6 @@ def set_caching_enable(enable: bool):
     ...     print(is_caching_enabled())
     ...     set_caching_enable(False)
     ...     print(is_caching_enabled())
-    ...
     True
     False
     """
@@ -406,11 +388,10 @@ def handle_numpy_errors(**kwargs: Any) -> Callable:
     >>> @handle_numpy_errors(all="ignore")
     ... def f():
     ...     1 / numpy.zeros(3)
-    ...
     >>> f()
     """
 
-    context = np.errstate(**kwargs)
+    keyword_arguments = kwargs
 
     def wrapper(function: Callable) -> Callable:
         """Wrap given function wrapper."""
@@ -419,7 +400,7 @@ def handle_numpy_errors(**kwargs: Any) -> Callable:
         def wrapped(*args: Any, **kwargs: Any) -> Any:
             """Wrap given function."""
 
-            with context:
+            with np.errstate(**keyword_arguments):
                 return function(*args, **kwargs)
 
         return wrapped
@@ -451,7 +432,6 @@ def ignore_python_warnings(function: Callable) -> Callable:
     >>> @ignore_python_warnings
     ... def f():
     ...     warnings.warn("This is an ignored warning!")
-    ...
     >>> f()
     """
 
@@ -609,11 +589,9 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
     >>> from functools import partial
     >>> def _add(a, b):
     ...     return a + b
-    ...
     >>> with multiprocessing_pool() as pool:
     ...     pool.map(partial(_add, b=2), range(10))
     ... # doctest: +SKIP
-    ...
     [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
     """
 
@@ -635,7 +613,7 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
         def __init__(self, *args: Any, **kwargs: Any) -> None:
             pass
 
-        def map(self, func, iterable, chunksize=None):  # noqa: A003, ARG002
+        def map(self, func, iterable, chunksize=None):  # noqa: ARG002
             """Apply given function to each element of given iterable."""
 
             return [func(a) for a in iterable]
@@ -668,428 +646,6 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
         pool.terminate()
 
 
-def is_ctlrender_installed(raise_exception: bool = False) -> bool:
-    """
-    Return whether *ctlrender* is installed and available.
-
-    Parameters
-    ----------
-    raise_exception
-        Whether to raise an exception if *ctlrender* is unavailable.
-
-    Returns
-    -------
-    :class:`bool`
-        Whether *ctlrender* is installed.
-
-    Raises
-    ------
-    :class:`ImportError`
-        If *ctlrender* is not installed.
-    """
-
-    try:  # pragma: no cover
-        stdout = subprocess.run(
-            ["ctlrender", "-help"],  # noqa: S603, S607
-            capture_output=True,
-            check=False,
-        ).stdout.decode("utf-8")
-
-        if "transforms an image using one or more CTL scripts" not in stdout:
-            raise FileNotFoundError  # noqa: TRY301
-
-        return True
-    except FileNotFoundError as error:  # pragma: no cover
-        if raise_exception:
-            raise FileNotFoundError(
-                '"ctlrender" related API features are not available: '
-                f'"{error}".\nSee the installation guide for more information: '
-                "https://www.colour-science.org/installation-guide/"
-            ) from error
-
-        return False
-
-
-def is_graphviz_installed(raise_exception: bool = False) -> bool:
-    """
-    Return whether *Graphviz* is installed and available.
-
-    Parameters
-    ----------
-    raise_exception
-        Whether to raise an exception if *Graphviz* is unavailable.
-
-    Returns
-    -------
-    :class:`bool`
-        Whether *Graphviz* is installed.
-
-    Raises
-    ------
-    :class:`ImportError`
-        If *Graphviz* is not installed.
-    """
-
-    try:  # pragma: no cover
-        import pygraphviz  # noqa: F401
-
-        return True
-    except ImportError as error:  # pragma: no cover
-        if raise_exception:
-            raise ImportError(
-                '"Graphviz" related API features are not available: '
-                f'"{error}".\nSee the installation guide for more information: '
-                "https://www.colour-science.org/installation-guide/"
-            ) from error
-
-        return False
-
-
-def is_matplotlib_installed(raise_exception: bool = False) -> bool:
-    """
-    Return whether *Matplotlib* is installed and available.
-
-    Parameters
-    ----------
-    raise_exception
-        Whether to raise an exception if *Matplotlib* is unavailable.
-
-    Returns
-    -------
-    :class:`bool`
-        Whether *Matplotlib* is installed.
-
-    Raises
-    ------
-    :class:`ImportError`
-        If *Matplotlib* is not installed.
-    """
-
-    try:  # pragma: no cover
-        import matplotlib as mpl  # noqa: F401
-
-        return True
-    except ImportError as error:  # pragma: no cover
-        if raise_exception:
-            raise ImportError(
-                '"Matplotlib" related API features are not available: '
-                f'"{error}".\nSee the installation guide for more information: '
-                "https://www.colour-science.org/installation-guide/"
-            ) from error
-
-        return False
-
-
-def is_networkx_installed(raise_exception: bool = False) -> bool:
-    """
-    Return whether *NetworkX* is installed and available.
-
-    Parameters
-    ----------
-    raise_exception
-        Whether to raise an exception if *NetworkX* is unavailable.
-
-    Returns
-    -------
-    :class:`bool`
-        Whether *NetworkX* is installed.
-
-    Raises
-    ------
-    :class:`ImportError`
-        If *NetworkX* is not installed.
-    """
-
-    try:  # pragma: no cover
-        import networkx as nx  # noqa: F401
-
-        return True
-    except ImportError as error:  # pragma: no cover
-        if raise_exception:
-            raise ImportError(
-                '"NetworkX" related API features, e.g. the automatic colour '
-                f'conversion graph, are not available: "{error}".\nPlease refer '
-                "to the installation guide for more information: "
-                "https://www.colour-science.org/installation-guide/"
-            ) from error
-
-        return False
-
-
-def is_opencolorio_installed(raise_exception: bool = False) -> bool:
-    """
-    Return whether *OpenColorIO* is installed and available.
-
-    Parameters
-    ----------
-    raise_exception
-        Whether to raise an exception if *OpenColorIO* is unavailable.
-
-    Returns
-    -------
-    :class:`bool`
-        Whether *OpenColorIO* is installed.
-
-    Raises
-    ------
-    :class:`ImportError`
-        If *OpenColorIO* is not installed.
-    """
-
-    try:  # pragma: no cover
-        import PyOpenColorIO  # noqa: F401
-
-        return True
-    except ImportError as error:  # pragma: no cover
-        if raise_exception:
-            raise ImportError(
-                '"OpenColorIO" related API features are not available: '
-                f'"{error}".\nSee the installation guide for more information: '
-                "https://www.colour-science.org/installation-guide/"
-            ) from error
-
-        return False
-
-
-def is_openimageio_installed(raise_exception: bool = False) -> bool:
-    """
-    Return whether *OpenImageIO* is installed and available.
-
-    Parameters
-    ----------
-    raise_exception
-        Whether to raise an exception if *OpenImageIO* is unavailable.
-
-    Returns
-    -------
-    :class:`bool`
-        Whether *OpenImageIO* is installed.
-
-    Raises
-    ------
-    :class:`ImportError`
-        If *OpenImageIO* is not installed.
-    """
-
-    try:  # pragma: no cover
-        import OpenImageIO  # noqa: F401
-
-        return True
-    except ImportError as error:  # pragma: no cover
-        if raise_exception:
-            raise ImportError(
-                '"OpenImageIO" related API features are not available: '
-                f'"{error}".\nSee the installation guide for more information: '
-                "https://www.colour-science.org/installation-guide/"
-            ) from error
-
-        return False
-
-
-def is_pandas_installed(raise_exception: bool = False) -> bool:
-    """
-    Return whether *Pandas* is installed and available.
-
-    Parameters
-    ----------
-    raise_exception
-        Whether to raise an exception if *Pandas* is unavailable.
-
-    Returns
-    -------
-    :class:`bool`
-        Whether *Pandas* is installed.
-
-    Raises
-    ------
-    :class:`ImportError`
-        If *Pandas* is not installed.
-    """
-
-    try:  # pragma: no cover
-        import pandas  # noqa: F401, ICN001
-
-        return True
-    except ImportError as error:  # pragma: no cover
-        if raise_exception:
-            raise ImportError(
-                f'"Pandas" related API features are not available: "{error}".\n'
-                "See the installation guide for more information: "
-                "https://www.colour-science.org/installation-guide/"
-            ) from error
-
-        return False
-
-
-def is_tqdm_installed(raise_exception: bool = False) -> bool:
-    """
-    Return whether *tqdm* is installed and available.
-
-    Parameters
-    ----------
-    raise_exception
-        Whether to raise an exception if *tqdm* is unavailable.
-
-    Returns
-    -------
-    :class:`bool`
-        Whether *tqdm* is installed.
-
-    Raises
-    ------
-    :class:`ImportError`
-        If *tqdm* is not installed.
-    """
-
-    try:  # pragma: no cover
-        import tqdm  # noqa: F401
-
-        return True
-    except ImportError as error:  # pragma: no cover
-        if raise_exception:
-            raise ImportError(
-                f'"tqdm" related API features are not available: "{error}".\n'
-                "See the installation guide for more information: "
-                "https://www.colour-science.org/installation-guide/"
-            ) from error
-
-        return False
-
-
-def is_trimesh_installed(raise_exception: bool = False) -> bool:
-    """
-    Return whether *Trimesh* is installed and available.
-
-    Parameters
-    ----------
-    raise_exception
-        Whether to raise an exception if *Trimesh* is unavailable.
-
-    Returns
-    -------
-    :class:`bool`
-        Whether *Trimesh* is installed.
-
-    Raises
-    ------
-    :class:`ImportError`
-        If *Trimesh* is not installed.
-    """
-
-    try:  # pragma: no cover
-        import trimesh  # noqa: F401
-
-        return True
-    except ImportError as error:  # pragma: no cover
-        if raise_exception:
-            raise ImportError(
-                '"Trimesh" related API features are not available: '
-                f'"{error}".\nSee the installation guide for more information: '
-                "https://www.colour-science.org/installation-guide/"
-            ) from error
-
-        return False
-
-
-def is_xxhash_installed(raise_exception: bool = False) -> bool:
-    """
-    Return whether *xxhash* is installed and available.
-
-    Parameters
-    ----------
-    raise_exception
-        Whether to raise an exception if *xxhash* is unavailable.
-
-    Returns
-    -------
-    :class:`bool`
-        Whether *xxhash* is installed.
-
-    Raises
-    ------
-    :class:`ImportError`
-        If *xxhash* is not installed.
-    """
-
-    try:  # pragma: no cover
-        import xxhash  # noqa: F401
-
-        return True
-    except ImportError as error:  # pragma: no cover
-        if raise_exception:
-            raise ImportError(
-                '"xxhash" related API features are not available: '
-                f'"{error}".\nSee the installation guide for more information: '
-                "https://www.colour-science.org/installation-guide/"
-            ) from error
-
-        return False
-
-
-_REQUIREMENTS_TO_CALLABLE: CanonicalMapping = CanonicalMapping(
-    {
-        "ctlrender": is_ctlrender_installed,
-        "Graphviz": is_graphviz_installed,
-        "Matplotlib": is_matplotlib_installed,
-        "NetworkX": is_networkx_installed,
-        "OpenColorIO": is_opencolorio_installed,
-        "OpenImageIO": is_openimageio_installed,
-        "Pandas": is_pandas_installed,
-        "tqdm": is_tqdm_installed,
-        "trimesh": is_trimesh_installed,
-        "xxhash": is_xxhash_installed,
-    }
-)
-"""
-Mapping of requirements to their respective callables.
-"""
-
-
-def required(
-    *requirements: Literal[
-        "ctlrender",
-        "Graphviz",
-        "Matplotlib",
-        "NetworkX",
-        "OpenColorIO",
-        "OpenImageIO",
-        "Pandas",
-        "tqdm",
-        "trimesh",
-        "xxhash",
-    ]
-) -> Callable:
-    """
-    Decorate a function to check whether various ancillary package requirements
-    are satisfied.
-
-    Other Parameters
-    ----------------
-    requirements
-        Requirements to check whether they are satisfied.
-
-    Returns
-    -------
-    Callable
-    """
-
-    def wrapper(function: Callable) -> Callable:
-        """Wrap given function wrapper."""
-
-        @functools.wraps(function)
-        def wrapped(*args: Any, **kwargs: Any) -> Any:
-            """Wrap given function."""
-
-            for requirement in requirements:
-                _REQUIREMENTS_TO_CALLABLE[requirement](raise_exception=True)
-
-            return function(*args, **kwargs)
-
-        return wrapped
-
-    return wrapper
-
-
 def is_iterable(a: Any) -> bool:
     """
     Return whether given variable :math:`a` is iterable.
@@ -1112,32 +668,7 @@ def is_iterable(a: Any) -> bool:
     False
     """
 
-    return is_string(a) or (bool(getattr(a, "__iter__", False)))
-
-
-def is_string(a: Any) -> bool:
-    """
-    Return whether given variable :math:`a` is a :class:`str`-like variable.
-
-    Parameters
-    ----------
-    a
-        Variable :math:`a` to test.
-
-    Returns
-    -------
-    :class:`bool`
-        Whether variable :math:`a` is a :class:`str`-like variable.
-
-    Examples
-    --------
-    >>> is_string("I'm a string!")
-    True
-    >>> is_string(["I'm a string!"])
-    False
-    """
-
-    return bool(isinstance(a, str))
+    return isinstance(a, str) or (bool(getattr(a, "__iter__", False)))
 
 
 def is_numeric(a: Any) -> bool:
@@ -1207,7 +738,7 @@ def is_integer(a: Any) -> bool:
     Notes
     -----
     -   The determination threshold is defined by the
-        :attr:`colour.algebra.common.INTEGER_THRESHOLD` attribute.
+        :attr:`colour.algebra.common.THRESHOLD_INTEGER` attribute.
 
     Examples
     --------
@@ -1217,7 +748,7 @@ def is_integer(a: Any) -> bool:
     False
     """
 
-    return abs(a - np.around(a)) <= INTEGER_THRESHOLD
+    return abs(a - np.around(a)) <= THRESHOLD_INTEGER
 
 
 def is_sibling(element: Any, mapping: Mapping) -> bool:
@@ -1237,9 +768,7 @@ def is_sibling(element: Any, mapping: Mapping) -> bool:
         Whether given element type is present in given mapping types.
     """
 
-    return isinstance(
-        element, tuple({type(element) for element in mapping.values()})
-    )
+    return isinstance(element, tuple({type(element) for element in mapping.values()}))
 
 
 def filter_kwargs(function: Callable, **kwargs: Any) -> dict:
@@ -1265,13 +794,10 @@ def filter_kwargs(function: Callable, **kwargs: Any) -> dict:
     --------
     >>> def fn_a(a):
     ...     return a
-    ...
     >>> def fn_b(a, b=0):
     ...     return a, b
-    ...
     >>> def fn_c(a, b=0, c=0):
     ...     return a, b, c
-    ...
     >>> fn_a(1, **filter_kwargs(fn_a, b=2, c=3))
     1
     >>> fn_b(1, **filter_kwargs(fn_b, b=2, c=3))
@@ -1321,7 +847,6 @@ def filter_mapping(mapping: Mapping, names: str | Sequence[str]) -> dict:
     --------
     >>> class Element:
     ...     pass
-    ...
     >>> mapping = {
     ...     "Element A": Element(),
     ...     "Element B": Element(),
@@ -1360,12 +885,9 @@ def filter_mapping(mapping: Mapping, names: str | Sequence[str]) -> dict:
 
         lookup = Lookup(mapping)
 
-        return {
-            lookup.first_key_from_value(element): element
-            for element in elements
-        }
+        return {lookup.first_key_from_value(element): element for element in elements}
 
-    names = [str(names)] if is_string(names) else names
+    names = [str(names)] if isinstance(names, str) else names
 
     filtered_mapping = {}
 
@@ -1438,10 +960,11 @@ def validate_method(
     method: str,
     valid_methods: tuple,
     message: str = '"{0}" method is invalid, it must be one of {1}!',
+    as_lowercase: bool = True,
 ) -> str:
     """
     Validate whether given method exists in the given valid methods and
-    returns the method lower cased.
+    optionally returns the method lower cased.
 
     Parameters
     ----------
@@ -1451,11 +974,13 @@ def validate_method(
         Valid methods.
     message
         Message for the exception.
+    as_lowercase
+        Whether to convert the given method to lower case or not.
 
     Returns
     -------
     :class:`str`
-        Method lower cased.
+        Method optionally lower cased.
 
     Raises
     ------
@@ -1466,19 +991,17 @@ def validate_method(
     --------
     >>> validate_method("Valid", ("Valid", "Yes", "Ok"))
     'valid'
+    >>> validate_method("Valid", ("Valid", "Yes", "Ok"), as_lowercase=False)
+    'Valid'
     """
 
-    valid_methods = tuple(
-        [str(valid_method) for valid_method in valid_methods]
-    )
+    valid_methods = tuple([str(valid_method) for valid_method in valid_methods])
 
     method_lower = method.lower()
-    if method_lower not in [
-        valid_method.lower() for valid_method in valid_methods
-    ]:
+    if method_lower not in [valid_method.lower() for valid_method in valid_methods]:
         raise ValueError(message.format(method, valid_methods))
 
-    return method_lower
+    return method_lower if as_lowercase else method
 
 
 T = TypeVar("T")
@@ -1541,9 +1064,7 @@ def slugify(object_: Any, allow_unicode: bool = False) -> str:
 
     Examples
     --------
-    >>> slugify(
-    ...     " Jack & Jill like numbers 1,2,3 and 4 and silly characters ?%.$!/"
-    ... )
+    >>> slugify(" Jack & Jill like numbers 1,2,3 and 4 and silly characters ?%.$!/")
     'jack-jill-like-numbers-123-and-4-and-silly-characters'
     """
 
@@ -1574,11 +1095,9 @@ if is_xxhash_installed():
         import array
 
         def int_digest(
-            args: str  # noqa: ARG001
-            | bytes
-            | bytearray
-            | memoryview
-            | array.ArrayType[int],
+            args: (  # noqa: ARG001
+                str | bytes | bytearray | memoryview | array.ArrayType[int]
+            ),
             seed: int = 0,  # noqa: ARG001
         ) -> int:
             """
@@ -1601,4 +1120,4 @@ if is_xxhash_installed():
             return -1
 
 else:
-    int_digest = hash  # pyright: ignore
+    int_digest = hash  # pyright: ignore  # pragma: no cover

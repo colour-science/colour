@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.io.luts.common` module."""
 
-import unittest
 
 from colour.io.luts.common import path_to_title
 
@@ -17,7 +15,7 @@ __all__ = [
 ]
 
 
-class TestPathToTitle(unittest.TestCase):
+class TestPathToTitle:
     """
     Define :func:`colour.io.luts.common.path_to_title` definition unit tests
     methods.
@@ -26,13 +24,7 @@ class TestPathToTitle(unittest.TestCase):
     def test_path_to_title(self):
         """Test :func:`colour.io.luts.common.path_to_title` definition."""
 
-        self.assertEqual(
-            path_to_title(
-                "colour/io/luts/tests/resources/cinespace/RGB_1_0.5_0.25.csp"
-            ),
-            "RGB 1 0 5 0 25",
+        assert (
+            path_to_title("colour/io/luts/tests/resources/cinespace/RGB_1_0.5_0.25.csp")
+            == "RGB 1 0 5 0 25"
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

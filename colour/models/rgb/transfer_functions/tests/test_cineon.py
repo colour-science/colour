@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.cineon` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -27,7 +26,7 @@ __all__ = [
 ]
 
 
-class TestLogEncoding_Cineon(unittest.TestCase):
+class TestLogEncoding_Cineon:
     """
     Define :func:`colour.models.rgb.transfer_functions.cineon.\
 log_encoding_Cineon` definition unit tests methods.
@@ -109,12 +108,10 @@ log_encoding_Cineon` definition domain and range scale support.
 log_encoding_Cineon` definition nan support.
         """
 
-        log_encoding_Cineon(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_Cineon(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_Cineon(unittest.TestCase):
+class TestLogDecoding_Cineon:
     """
     Define :func:`colour.models.rgb.transfer_functions.cineon.\
 log_decoding_Cineon` definition unit tests methods.
@@ -196,10 +193,4 @@ log_decoding_Cineon` definition domain and range scale support.
 log_decoding_Cineon` definition nan support.
         """
 
-        log_decoding_Cineon(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
-
-
-if __name__ == "__main__":
-    unittest.main()
+        log_decoding_Cineon(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))

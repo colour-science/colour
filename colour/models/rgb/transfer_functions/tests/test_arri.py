@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.arri` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -31,7 +30,7 @@ __all__ = [
 ]
 
 
-class TestLogEncoding_ARRILogC3(unittest.TestCase):
+class TestLogEncoding_ARRILogC3:
     """
     Define :func:`colour.models.rgb.transfer_functions.arri.\
 log_encoding_ARRILogC3` definition unit tests methods.
@@ -113,12 +112,10 @@ log_encoding_ARRILogC3` definition domain and range scale support.
 log_encoding_ARRILogC3` definition nan support.
         """
 
-        log_encoding_ARRILogC3(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_ARRILogC3(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_ARRILogC3(unittest.TestCase):
+class TestLogDecoding_ARRILogC3:
     """
     Define :func:`colour.models.rgb.transfer_functions.arri.\
 log_decoding_ARRILogC3` definition unit tests methods.
@@ -200,12 +197,10 @@ log_decoding_ARRILogC3` definition domain and range scale support.
 log_decoding_ARRILogC3` definition nan support.
         """
 
-        log_decoding_ARRILogC3(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_decoding_ARRILogC3(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogEncoding_ARRILogC4(unittest.TestCase):
+class TestLogEncoding_ARRILogC4:
     """
     Define :func:`colour.models.rgb.transfer_functions.arri.\
 log_encoding_ARRILogC4` definition unit tests methods.
@@ -287,12 +282,10 @@ log_encoding_ARRILogC4` definition domain and range scale support.
 log_encoding_ARRILogC4` definition nan support.
         """
 
-        log_encoding_ARRILogC4(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_ARRILogC4(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_ARRILogC4(unittest.TestCase):
+class TestLogDecoding_ARRILogC4:
     """
     Define :func:`colour.models.rgb.transfer_functions.arri.\
 log_decoding_ARRILogC4` definition unit tests methods.
@@ -374,10 +367,4 @@ log_decoding_ARRILogC4` definition domain and range scale support.
 log_decoding_ARRILogC4` definition nan support.
         """
 
-        log_decoding_ARRILogC4(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
-
-
-if __name__ == "__main__":
-    unittest.main()
+        log_decoding_ARRILogC4(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))

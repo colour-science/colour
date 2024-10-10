@@ -2,7 +2,7 @@
 CSS Color Module Level 3 - Web Colours
 ======================================
 
-Defines the lists of colour keywords as given by *CSS Color Module Level 3*
+Define the lists of colour keywords as given by *CSS Color Module Level 3*
 *W3C Recommendation*.
 
 -   :attr:`colour.notation.CSS_COLOR_3_BASIC`

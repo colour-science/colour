@@ -2,7 +2,7 @@
 CIECAM16 Colour Appearance Model
 ================================
 
-Defines the *CIECAM16* colour appearance model objects:
+Define the *CIECAM16* colour appearance model objects:
 
 -   :class:`colour.appearance.InductionFactors_CIECAM16`
 -   :attr:`colour.VIEWING_CONDITIONS_CIECAM16`
@@ -25,7 +25,7 @@ from dataclasses import astuple, dataclass, field
 
 import numpy as np
 
-from colour.algebra import spow, vector_dot
+from colour.algebra import spow, vecmul
 from colour.appearance.cam16 import MATRIX_16, MATRIX_INVERSE_16
 from colour.appearance.ciecam02 import (
     VIEWING_CONDITIONS_CIECAM02,
@@ -166,8 +166,9 @@ def XYZ_to_CIECAM16(
     XYZ_w: ArrayLike,
     L_A: ArrayLike,
     Y_b: ArrayLike,
-    surround: InductionFactors_CIECAM02
-    | InductionFactors_CIECAM16 = VIEWING_CONDITIONS_CIECAM16["Average"],
+    surround: (
+        InductionFactors_CIECAM02 | InductionFactors_CIECAM16
+    ) = VIEWING_CONDITIONS_CIECAM16["Average"],
     discount_illuminant: bool = False,
     compute_H: bool = True,
 ) -> CAM_Specification_CIECAM16:
@@ -274,7 +275,7 @@ H=275.5949861..., HC=None)
 
     # Step 0
     # Converting *CIE XYZ* tristimulus values to sharpened *RGB* values.
-    RGB_w = vector_dot(MATRIX_16, XYZ_w)
+    RGB_w = vecmul(MATRIX_16, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
     D = (
@@ -283,24 +284,20 @@ H=275.5949861..., HC=None)
         else ones(L_A.shape)
     )
 
-    n, F_L, N_bb, N_cb, z = viewing_conditions_dependent_parameters(
-        Y_b, Y_w, L_A
-    )
+    n, F_L, N_bb, N_cb, z = viewing_conditions_dependent_parameters(Y_b, Y_w, L_A)
 
     D_RGB = D[..., None] * 100 / RGB_w + 1 - D[..., None]
     RGB_wc = D_RGB * RGB_w
 
     # Applying forward post-adaptation non-linear response compression.
-    RGB_aw = post_adaptation_non_linear_response_compression_forward(
-        RGB_wc, F_L
-    )
+    RGB_aw = post_adaptation_non_linear_response_compression_forward(RGB_wc, F_L)
 
     # Computing achromatic responses for the whitepoint.
     A_w = achromatic_response_forward(RGB_aw, N_bb)
 
     # Step 1
     # Converting *CIE XYZ* tristimulus values to sharpened *RGB* values.
-    RGB = vector_dot(MATRIX_16, XYZ)
+    RGB = vecmul(MATRIX_16, XYZ)
 
     # Step 2
     RGB_c = D_RGB * RGB
@@ -363,8 +360,9 @@ def CIECAM16_to_XYZ(
     XYZ_w: ArrayLike,
     L_A: ArrayLike,
     Y_b: ArrayLike,
-    surround: InductionFactors_CIECAM02
-    | InductionFactors_CIECAM16 = VIEWING_CONDITIONS_CIECAM16["Average"],
+    surround: (
+        InductionFactors_CIECAM02 | InductionFactors_CIECAM16
+    ) = VIEWING_CONDITIONS_CIECAM16["Average"],
     discount_illuminant: bool = False,
 ) -> NDArrayFloat:
     """
@@ -376,7 +374,7 @@ def CIECAM16_to_XYZ(
         *CIECAM16* colour appearance model specification. Correlate of
         *Lightness* :math:`J`, correlate of *chroma* :math:`C` or correlate of
         *colourfulness* :math:`M` and *hue* angle :math:`h` in degrees must be
-        specified, e.g. :math:`JCh` or :math:`JMh`.
+        specified, e.g., :math:`JCh` or :math:`JMh`.
     XYZ_w
         *CIE XYZ* tristimulus values of reference white.
     L_A
@@ -480,7 +478,7 @@ def CIECAM16_to_XYZ(
 
     # Step 0
     # Converting *CIE XYZ* tristimulus values to sharpened *RGB* values.
-    RGB_w = vector_dot(MATRIX_16, XYZ_w)
+    RGB_w = vecmul(MATRIX_16, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
     D = (
@@ -489,17 +487,13 @@ def CIECAM16_to_XYZ(
         else ones(L_A.shape)
     )
 
-    n, F_L, N_bb, N_cb, z = viewing_conditions_dependent_parameters(
-        Y_b, Y_w, L_A
-    )
+    n, F_L, N_bb, N_cb, z = viewing_conditions_dependent_parameters(Y_b, Y_w, L_A)
 
     D_RGB = D[..., None] * 100 / RGB_w + 1 - D[..., None]
     RGB_wc = D_RGB * RGB_w
 
     # Applying forward post-adaptation non-linear response compression.
-    RGB_aw = post_adaptation_non_linear_response_compression_forward(
-        RGB_wc, F_L
-    )
+    RGB_aw = post_adaptation_non_linear_response_compression_forward(RGB_wc, F_L)
 
     # Computing achromatic responses for the whitepoint.
     A_w = achromatic_response_forward(RGB_aw, N_bb)
@@ -544,7 +538,7 @@ def CIECAM16_to_XYZ(
     RGB = RGB_c / D_RGB
 
     # Step 7
-    XYZ = vector_dot(MATRIX_INVERSE_16, RGB)
+    XYZ = vecmul(MATRIX_INVERSE_16, RGB)
 
     return from_range_100(XYZ)
 
@@ -650,9 +644,7 @@ def f_e_inverse(RGB_a: ArrayLike, F_L: ArrayLike) -> NDArrayFloat:
         ],
         [
             q_U + (RGB_a - f_q_F_L_q_U) / d_f_q_F_L_q_U,
-            100
-            / F_L[..., None]
-            * spow((27.13 * RGB_a) / (400 - RGB_a), 1 / 0.42),
+            100 / F_L[..., None] * spow((27.13 * RGB_a) / (400 - RGB_a), 1 / 0.42),
             q_L * RGB_a / f_q_F_L_q_L,
         ],
     )

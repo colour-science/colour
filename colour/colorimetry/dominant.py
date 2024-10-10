@@ -2,7 +2,7 @@
 Dominant Wavelength and Purity
 ==============================
 
-Defines the objects to compute the *dominant wavelength* and *purity* of a
+Define the objects to compute the *dominant wavelength* and *purity* of a
 colour and related quantities:
 
 -   :func:`colour.dominant_wavelength`
@@ -109,11 +109,7 @@ def closest_spectral_locus_wavelength(
     xy_n = np.resize(xy_n, xy.shape)
     xy_s = as_float_array(xy_s)
 
-    xy_e = (
-        extend_line_segment(xy, xy_n)
-        if inverse
-        else extend_line_segment(xy_n, xy)
-    )
+    xy_e = extend_line_segment(xy, xy_n) if inverse else extend_line_segment(xy_n, xy)
 
     # Closing horse-shoe shape to handle line of purples intersections.
     xy_s = np.vstack([xy_s, xy_s[0, :]])
@@ -213,19 +209,13 @@ def dominant_wavelength(
     xy_cwl = xy_wl
     wl = cmfs.wavelengths[i_wl]
 
-    xy_e = (
-        extend_line_segment(xy, xy_n)
-        if inverse
-        else extend_line_segment(xy_n, xy)
-    )
+    xy_e = extend_line_segment(xy, xy_n) if inverse else extend_line_segment(xy_n, xy)
     intersect = intersect_line_segments(
         np.concatenate((xy_n, xy_e), -1), np.hstack([xy_s[0], xy_s[-1]])
     ).intersect
     intersect = np.reshape(intersect, wl.shape)
 
-    i_wl_r, xy_cwl_r = closest_spectral_locus_wavelength(
-        xy, xy_n, xy_s, not inverse
-    )
+    i_wl_r, xy_cwl_r = closest_spectral_locus_wavelength(xy, xy_n, xy_s, not inverse)
     wl_r = -cmfs.wavelengths[i_wl_r]
 
     wl = np.where(intersect, wl_r, wl)

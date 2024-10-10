@@ -1,9 +1,8 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.recovery.mallett2019` module."""
 
-import unittest
 
 import numpy as np
+import pytest
 
 from colour.characterisation import SDS_COLOURCHECKERS
 from colour.colorimetry import (
@@ -36,26 +35,25 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "TestMixinMallett2019",
+    "FixtureMallett2019",
     "TestSpectralPrimaryDecompositionMallett2019",
     "TestRGB_to_sd_Mallett2019",
 ]
 
 
-class TestMixinMallett2019:
-    """A mixin for testing the :mod:`colour.recovery.mallett2019` module."""
+class FixtureMallett2019:
+    """A fixture for testing the :mod:`colour.recovery.mallett2019` module."""
 
-    def __init__(self) -> None:
-        """Initialise common tests attributes for the mixin."""
+    @pytest.fixture(autouse=True)
+    def setup_fixture_mallett_2019(self) -> None:
+        """Configure the class instance."""
 
         self._cmfs = reshape_msds(
             MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
             SpectralShape(360, 780, 10),
         )
         self._sd_D65 = reshape_sd(SDS_ILLUMINANTS["D65"], self._cmfs.shape)
-        self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-            "D65"
-        ]
+        self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
 
     def check_basis_functions(self):
         """
@@ -68,7 +66,7 @@ class TestMixinMallett2019:
         # spectrum.
         RGB = np.full(3, 1.0)
         sd = RGB_to_sd_Mallett2019(RGB, self._basis)
-        self.assertLess(np.var(sd.values), 1e-5)
+        assert np.var(sd.values) < 1e-5
 
         # Check if the primaries or their combination exceeds the [0, 1] range.
         lower = np.zeros_like(sd.values) - 1e-12
@@ -85,29 +83,25 @@ class TestMixinMallett2019:
             RGB = XYZ_to_RGB(XYZ, self._RGB_colourspace, self._xy_D65)
 
             recovered_sd = RGB_to_sd_Mallett2019(RGB, self._basis)
-            recovered_XYZ = (
-                sd_to_XYZ(recovered_sd, self._cmfs, self._sd_D65) / 100
-            )
+            recovered_XYZ = sd_to_XYZ(recovered_sd, self._cmfs, self._sd_D65) / 100
             recovered_Lab = XYZ_to_Lab(recovered_XYZ, self._xy_D65)
 
             error = delta_E_CIE1976(Lab, recovered_Lab)
 
             if error > 4 * JND_CIE1976 / 100:  # pragma: no cover
-                self.fail(f'Delta E for "{name}" is {error}!')
+                pytest.fail(f'Delta E for "{name}" is {error}!')
 
 
-class TestSpectralPrimaryDecompositionMallett2019(
-    unittest.TestCase, TestMixinMallett2019
-):
+class TestSpectralPrimaryDecompositionMallett2019(FixtureMallett2019):
     """
     Define :func:`colour.recovery.mallett2019.\
 spectral_primary_decomposition_Mallett2019` definition unit tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
-        TestMixinMallett2019.__init__(self)
+        FixtureMallett2019.__init__(self)
 
         self._RGB_colourspace = RGB_COLOURSPACE_PAL_SECAM
 
@@ -124,16 +118,16 @@ test_spectral_primary_decomposition_Mallett2019` definition.
         self.check_basis_functions()
 
 
-class TestRGB_to_sd_Mallett2019(unittest.TestCase, TestMixinMallett2019):
+class TestRGB_to_sd_Mallett2019(FixtureMallett2019):
     """
     Define :func:`colour.recovery.mallett2019.RGB_to_sd_Mallett2019` definition
     unit tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
-        TestMixinMallett2019.__init__(self)
+        FixtureMallett2019.__init__(self)
 
         self._RGB_colourspace = RGB_COLOURSPACE_sRGB
         self._basis = MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019
@@ -145,7 +139,3 @@ class TestRGB_to_sd_Mallett2019(unittest.TestCase, TestMixinMallett2019):
         """
 
         self.check_basis_functions()
-
-
-if __name__ == "__main__":
-    unittest.main()

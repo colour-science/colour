@@ -2,7 +2,7 @@
 Colour Blindness Plotting
 =========================
 
-Defines the colour blindness plotting objects:
+Define the colour blindness plotting objects:
 
 -   :func:`colour.plotting.plot_cvd_simulation_Machado2009`
 """
@@ -12,7 +12,7 @@ from __future__ import annotations
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
-from colour.algebra import vector_dot
+from colour.algebra import vecmul
 from colour.blindness import matrix_cvd_Machado2009
 from colour.hints import (
     Any,
@@ -39,8 +39,9 @@ __all__ = [
 @override_style()
 def plot_cvd_simulation_Machado2009(
     RGB: ArrayLike,
-    deficiency: Literal["Deuteranomaly", "Protanomaly", "Tritanomaly"]
-    | str = "Protanomaly",
+    deficiency: (
+        Literal["Deuteranomaly", "Protanomaly", "Tritanomaly"] | str
+    ) = "Protanomaly",
     severity: float = 0.5,
     M_a: ArrayLike | None = None,
     **kwargs: Any,
@@ -92,15 +93,11 @@ def plot_cvd_simulation_Machado2009(
     M_a = optional(M_a, matrix_cvd_Machado2009(deficiency, severity))
 
     settings: Dict[str, Any] = {
-        "text_kwargs": {
-            "text": f"Deficiency: {deficiency} - Severity: {severity}"
-        }
+        "text_kwargs": {"text": f"Deficiency: {deficiency} - Severity: {severity}"}
     }
     settings.update(kwargs)
 
     return plot_image(
-        CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding(
-            vector_dot(M_a, RGB)
-        ),
+        CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding(vecmul(M_a, RGB)),
         **settings,
     )

@@ -2,7 +2,7 @@
 Barten (1999) Contrast Sensitivity Function
 ===========================================
 
-Defines the *Barten (1999)* contrast sensitivity function:
+Define the *Barten (1999)* contrast sensitivity function:
 
 -   :func:`colour.contrast.contrast_sensitivity_function_Barten1999`
 
@@ -50,9 +50,7 @@ __all__ = [
 ]
 
 
-def optical_MTF_Barten1999(
-    u: ArrayLike, sigma: ArrayLike = 0.01
-) -> NDArrayFloat:
+def optical_MTF_Barten1999(u: ArrayLike, sigma: ArrayLike = 0.01) -> NDArrayFloat:
     """
     Return the optical modulation transfer function (MTF) :math:`M_{opt}` of
     the eye using *Barten (1999)* method.
@@ -219,7 +217,7 @@ def retinal_illuminance_Barten1999(
     Notes
     -----
     -   This definition is for use with photopic viewing conditions and thus
-        corrects for the Stiles-Crawford effect by default, i.e. directional
+        corrects for the Stiles-Crawford effect by default, i.e., directional
         sensitivity of the cone cells with lower response of cone cells
         receiving light from the edge of the pupil.
 
@@ -291,9 +289,7 @@ def maximum_angular_size_Barten1999(
     X_max = as_float_array(X_max)
     N_max = as_float_array(N_max)
 
-    return as_float(
-        (1 / X_0**2 + 1 / X_max**2 + u**2 / N_max**2) ** -0.5
-    )
+    return as_float((1 / X_0**2 + 1 / X_max**2 + u**2 / N_max**2) ** -0.5)
 
 
 def contrast_sensitivity_function_Barten1999(
@@ -499,10 +495,7 @@ def contrast_sensitivity_function_Barten1999(
     )
 
     S = (M_opt / k) / np.sqrt(
-        2
-        / T
-        * M_as
-        * (1 / (n * p * E) + phi_0 / (1 - np.exp(-((u / u_0) ** 2))))
+        2 / T * M_as * (1 / (n * p * E) + phi_0 / (1 - np.exp(-((u / u_0) ** 2))))
     )
 
     return as_float(S)

@@ -2,7 +2,7 @@
 Hernandez-Andres, Lee and Romero (1999) Correlated Colour Temperature
 =====================================================================
 
-Defines the *Hernandez-Andres et al. (1999)* correlated colour temperature
+Define the *Hernandez-Andres et al. (1999)* correlated colour temperature
 :math:`T_{cp}` computations objects:
 
 -   :func:`colour.temperature.xy_to_CCT_Hernandez1999`: Correlated colour
@@ -144,11 +144,9 @@ def CCT_to_xy_Hernandez1999(
 
     CCT = as_float_array(CCT)
     shape = list(CCT.shape)
-    CCT = np.atleast_1d(CCT.reshape([-1, 1]))
+    CCT = np.atleast_1d(np.reshape(CCT, (-1, 1)))
 
-    def objective_function(
-        xy: NDArrayFloat, CCT: NDArrayFloat
-    ) -> NDArrayFloat:
+    def objective_function(xy: NDArrayFloat, CCT: NDArrayFloat) -> NDArrayFloat:
         """Objective function."""
 
         objective = np.linalg.norm(xy_to_CCT_Hernandez1999(xy) - CCT)
@@ -168,9 +166,7 @@ def CCT_to_xy_Hernandez1999(
         [
             minimize(
                 objective_function,
-                x0=CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-                    "D65"
-                ],
+                x0=CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"],
                 args=(CCT_i,),
                 **optimisation_settings,
             ).x

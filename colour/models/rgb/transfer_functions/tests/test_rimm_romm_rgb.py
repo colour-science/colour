@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.rimm_romm_rgb` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -35,7 +34,7 @@ __all__ = [
 ]
 
 
-class TestCctfEncoding_ROMMRGB(unittest.TestCase):
+class TestCctfEncoding_ROMMRGB:
     """
     Define :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 cctf_encoding_ROMMRGB` definition unit tests methods.
@@ -61,11 +60,9 @@ cctf_encoding_ROMMRGB` definition.
             cctf_encoding_ROMMRGB(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        self.assertEqual(cctf_encoding_ROMMRGB(0.18, out_int=True), 98)
+        assert cctf_encoding_ROMMRGB(0.18, out_int=True) == 98
 
-        self.assertEqual(
-            cctf_encoding_ROMMRGB(0.18, bit_depth=12, out_int=True), 1579
-        )
+        assert cctf_encoding_ROMMRGB(0.18, bit_depth=12, out_int=True) == 1579
 
     def test_n_dimensional_cctf_encoding_ROMMRGB(self):
         """
@@ -119,12 +116,10 @@ cctf_encoding_ROMMRGB` definition domain and range scale support.
 cctf_encoding_ROMMRGB` definition nan support.
         """
 
-        cctf_encoding_ROMMRGB(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        cctf_encoding_ROMMRGB(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestCctfDecoding_ROMMRGB(unittest.TestCase):
+class TestCctfDecoding_ROMMRGB:
     """
         Define :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.
     cctf_decoding_ROMMRGB` definition unit tests methods.
@@ -214,12 +209,10 @@ cctf_decoding_ROMMRGB` definition domain and range scale support.
 cctf_decoding_ROMMRGB` definition nan support.
         """
 
-        cctf_decoding_ROMMRGB(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        cctf_decoding_ROMMRGB(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestCctfEncoding_RIMMRGB(unittest.TestCase):
+class TestCctfEncoding_RIMMRGB:
     """
     Define :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 cctf_encoding_RIMMRGB` definition unit tests methods.
@@ -247,11 +240,9 @@ cctf_encoding_RIMMRGB` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertEqual(cctf_encoding_RIMMRGB(0.18, out_int=True), 74)
+        assert cctf_encoding_RIMMRGB(0.18, out_int=True) == 74
 
-        self.assertEqual(
-            cctf_encoding_RIMMRGB(0.18, bit_depth=12, out_int=True), 1194
-        )
+        assert cctf_encoding_RIMMRGB(0.18, bit_depth=12, out_int=True) == 1194
 
     def test_n_dimensional_cctf_encoding_RIMMRGB(self):
         """
@@ -305,12 +296,10 @@ cctf_encoding_RIMMRGB` definition domain and range scale support.
 cctf_encoding_RIMMRGB` definition nan support.
         """
 
-        cctf_encoding_RIMMRGB(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        cctf_encoding_RIMMRGB(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestCctfDecoding_RIMMRGB(unittest.TestCase):
+class TestCctfDecoding_RIMMRGB:
     """
         Define :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.
     cctf_decoding_RIMMRGB` definition unit tests methods.
@@ -402,12 +391,10 @@ cctf_decoding_RIMMRGB` definition domain and range scale support.
 cctf_decoding_RIMMRGB` definition nan support.
         """
 
-        cctf_decoding_RIMMRGB(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        cctf_decoding_RIMMRGB(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLog_encoding_ERIMMRGB(unittest.TestCase):
+class TestLog_encoding_ERIMMRGB:
     """
     Define :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 log_encoding_ERIMMRGB` definition unit tests methods.
@@ -435,11 +422,9 @@ log_encoding_ERIMMRGB` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        self.assertEqual(log_encoding_ERIMMRGB(0.18, out_int=True), 105)
+        assert log_encoding_ERIMMRGB(0.18, out_int=True) == 105
 
-        self.assertEqual(
-            log_encoding_ERIMMRGB(0.18, bit_depth=12, out_int=True), 1679
-        )
+        assert log_encoding_ERIMMRGB(0.18, bit_depth=12, out_int=True) == 1679
 
     def test_n_dimensional_log_encoding_ERIMMRGB(self):
         """
@@ -493,12 +478,10 @@ log_encoding_ERIMMRGB` definition domain and range scale support.
 log_encoding_ERIMMRGB` definition nan support.
         """
 
-        log_encoding_ERIMMRGB(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        log_encoding_ERIMMRGB(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLog_decoding_ERIMMRGB(unittest.TestCase):
+class TestLog_decoding_ERIMMRGB:
     """
         Define :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.
     log_decoding_ERIMMRGB` definition unit tests methods.
@@ -590,10 +573,4 @@ log_decoding_ERIMMRGB` definition domain and range scale support.
 log_decoding_ERIMMRGB` definition nan support.
         """
 
-        log_decoding_ERIMMRGB(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
-
-
-if __name__ == "__main__":
-    unittest.main()
+        log_decoding_ERIMMRGB(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))

@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.hdr_cie_lab` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -25,7 +23,7 @@ __all__ = [
 ]
 
 
-class TestExponent_hdr_CIELab(unittest.TestCase):
+class TestExponent_hdr_CIELab:
     """
     Define :func:`colour.models.hdr_cie_lab.exponent_hdr_CIELab`
     definition unit tests methods.
@@ -128,7 +126,7 @@ class TestExponent_hdr_CIELab(unittest.TestCase):
         exponent_hdr_CIELab(cases, cases)
 
 
-class TestXYZ_to_hdr_CIELab(unittest.TestCase):
+class TestXYZ_to_hdr_CIELab:
     """
     Define :func:`colour.models.hdr_cie_lab.XYZ_to_hdr_CIELab` definition unit
     tests methods.
@@ -163,9 +161,7 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            XYZ_to_hdr_CIELab(
-                np.array([0.20654008, 0.12197225, 0.05136952]), Y_s=0.5
-            ),
+            XYZ_to_hdr_CIELab(np.array([0.20654008, 0.12197225, 0.05136952]), Y_s=0.5),
             np.array([23.10388654, 59.31425004, 23.69960142]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -253,7 +249,7 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
         XYZ_to_hdr_CIELab(cases, cases[..., 0:2], cases[..., 0], cases[..., 0])
 
 
-class TestHdr_CIELab_to_XYZ(unittest.TestCase):
+class TestHdr_CIELab_to_XYZ:
     """
     Define :func:`colour.models.hdr_cie_lab.hdr_CIELab_to_XYZ` definition unit
     tests methods.
@@ -263,9 +259,7 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
         """Test :func:`colour.models.hdr_cie_lab.hdr_CIELab_to_XYZ` definition."""
 
         np.testing.assert_allclose(
-            hdr_CIELab_to_XYZ(
-                np.array([51.87002062, 60.47633850, 32.14551912])
-            ),
+            hdr_CIELab_to_XYZ(np.array([51.87002062, 60.47633850, 32.14551912])),
             np.array([0.20654008, 0.12197225, 0.05136952]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -378,7 +372,3 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         hdr_CIELab_to_XYZ(cases, cases[..., 0:2], cases[..., 0], cases[..., 0])
-
-
-if __name__ == "__main__":
-    unittest.main()

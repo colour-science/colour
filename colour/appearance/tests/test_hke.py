@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.appearance.hke` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -30,7 +28,7 @@ __all__ = [
 ]
 
 
-class TestHelmholtzKohlrauschEffectObjectNayatani1997(unittest.TestCase):
+class TestHelmholtzKohlrauschEffectObjectNayatani1997:
     """
     Define :func:`colour.colour.appearance.hke.\
 HelmholtzKohlrausch_effect_object_Nayatani1997` definition unit tests methods.
@@ -139,7 +137,7 @@ HelmholtzKohlrausch_effect_object_Nayatani1997` definition nan support.
             HelmholtzKohlrausch_effect_object_Nayatani1997(case, case, case[0])
 
 
-class TestHelmholtzKohlrauschEffectLuminousNayatani1997(unittest.TestCase):
+class TestHelmholtzKohlrauschEffectLuminousNayatani1997:
     """
     Define :func:`colour.appearance.hke.\
 HelmholtzKohlrausch_effect_luminous_Nayatani1997` definition unit tests
@@ -246,12 +244,10 @@ HelmholtzKohlrausch_effect_luminous_Nayatani1997` definition nan support.
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=2))))
         for case in cases:
-            HelmholtzKohlrausch_effect_luminous_Nayatani1997(
-                case, case, case[0]
-            )
+            HelmholtzKohlrausch_effect_luminous_Nayatani1997(case, case, case[0])
 
 
-class TestCoefficient_K_Br_Nayatani1997(unittest.TestCase):
+class TestCoefficient_K_Br_Nayatani1997:
     """
     Define :func:`colour.appearance.hke.coefficient_K_Br_Nayatani1997`
     definition unit tests methods.
@@ -331,7 +327,7 @@ class TestCoefficient_K_Br_Nayatani1997(unittest.TestCase):
         coefficient_K_Br_Nayatani1997(cases)
 
 
-class TestCoefficient_q_Nayatani1997(unittest.TestCase):
+class TestCoefficient_q_Nayatani1997:
     """
     Define :func:`colour.appearance.hke.coefficient_q_Nayatani1997`
     definition unit tests methods.
@@ -403,7 +399,3 @@ class TestCoefficient_q_Nayatani1997(unittest.TestCase):
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         coefficient_q_Nayatani1997(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

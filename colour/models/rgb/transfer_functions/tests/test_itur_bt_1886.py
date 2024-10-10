@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.itur_bt_1886` module.
 """
 
-import unittest
 
 import numpy as np
 
@@ -27,7 +26,7 @@ __all__ = [
 ]
 
 
-class TestEotf_inverse_BT1886(unittest.TestCase):
+class TestEotf_inverse_BT1886:
     """
     Define :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
 eotf_inverse_BT1886` definition unit tests methods.
@@ -105,12 +104,10 @@ eotf_inverse_BT1886` definition domain and range scale support.
 eotf_inverse_BT1886` definition nan support.
         """
 
-        eotf_inverse_BT1886(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
+        eotf_inverse_BT1886(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestEotf_BT1886(unittest.TestCase):
+class TestEotf_BT1886:
     """
     Define :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
 eotf_BT1886` definition unit tests methods.
@@ -122,17 +119,13 @@ eotf_BT1886` definition unit tests methods.
 eotf_BT1886` definition.
         """
 
-        np.testing.assert_allclose(
-            eotf_BT1886(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(eotf_BT1886(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         np.testing.assert_allclose(
             eotf_BT1886(0.18), 0.016317514686316, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        np.testing.assert_allclose(
-            eotf_BT1886(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(eotf_BT1886(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_n_dimensional_eotf_BT1886(self):
         """
@@ -145,21 +138,15 @@ eotf_BT1886` definition n-dimensional arrays support.
 
         V = np.tile(V, 6)
         L = np.tile(L, 6)
-        np.testing.assert_allclose(
-            eotf_BT1886(V), L, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(eotf_BT1886(V), L, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         V = np.reshape(V, (2, 3))
         L = np.reshape(L, (2, 3))
-        np.testing.assert_allclose(
-            eotf_BT1886(V), L, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(eotf_BT1886(V), L, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         V = np.reshape(V, (2, 3, 1))
         L = np.reshape(L, (2, 3, 1))
-        np.testing.assert_allclose(
-            eotf_BT1886(V), L, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        np.testing.assert_allclose(eotf_BT1886(V), L, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_eotf_BT1886(self):
         """
@@ -187,7 +174,3 @@ eotf_BT1886` definition nan support.
         """
 
         eotf_BT1886(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
-
-
-if __name__ == "__main__":
-    unittest.main()

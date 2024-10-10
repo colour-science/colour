@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.jzazbz` module."""
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -30,7 +28,7 @@ __all__ = [
 ]
 
 
-class TestXYZ_to_Izazbz(unittest.TestCase):
+class TestXYZ_to_Izazbz:
     """
     Define :func:`colour.models.jzazbz.TestXYZ_to_Izazbz` definition unit
     tests methods.
@@ -127,7 +125,7 @@ class TestXYZ_to_Izazbz(unittest.TestCase):
         XYZ_to_Izazbz(cases)
 
 
-class TestIzazbz_to_XYZ(unittest.TestCase):
+class TestIzazbz_to_XYZ:
     """
     Define :func:`colour.models.jzazbz.Izazbz_to_XYZ` definition unit tests
     methods.
@@ -230,7 +228,7 @@ class TestIzazbz_to_XYZ(unittest.TestCase):
         Izazbz_to_XYZ(cases)
 
 
-class TestXYZ_to_Jzazbz(unittest.TestCase):
+class TestXYZ_to_Jzazbz:
     """
     Define :func:`colour.models.jzazbz.TestXYZ_to_Jzazbz` definition unit
     tests methods.
@@ -306,7 +304,7 @@ class TestXYZ_to_Jzazbz(unittest.TestCase):
         XYZ_to_Jzazbz(cases)
 
 
-class TestJzazbz_to_XYZ(unittest.TestCase):
+class TestJzazbz_to_XYZ:
     """
     Define :func:`colour.models.jzazbz.Jzazbz_to_XYZ` definition unit tests
     methods.
@@ -382,7 +380,3 @@ class TestJzazbz_to_XYZ(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         Jzazbz_to_XYZ(cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

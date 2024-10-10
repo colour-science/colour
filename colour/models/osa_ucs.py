@@ -2,7 +2,7 @@
 Optical Society of America Uniform Colour Scales (OSA UCS)
 ==========================================================
 
-Defines the *OSA UCS* colourspace:
+Define the *OSA UCS* colourspace:
 
 -   :func:`colour.XYZ_to_OSA_UCS`
 -   :func:`colour.OSA_UCS_to_XYZ`
@@ -23,7 +23,7 @@ from __future__ import annotations
 import numpy as np
 from scipy.optimize import fmin
 
-from colour.algebra import sdiv, sdiv_mode, spow, vector_dot
+from colour.algebra import sdiv, sdiv_mode, spow, vecmul
 from colour.hints import ArrayLike, NDArrayFloat
 from colour.models import XYZ_to_xyY
 from colour.utilities import (
@@ -117,12 +117,7 @@ def XYZ_to_OSA_UCS(XYZ: ArrayLike) -> NDArrayFloat:
     x, y, Y = tsplit(XYZ_to_xyY(XYZ))
 
     Y_0 = Y * (
-        4.4934 * x**2
-        + 4.3034 * y**2
-        - 4.276 * x * y
-        - 1.3744 * x
-        - 2.5643 * y
-        + 1.8103
+        4.4934 * x**2 + 4.3034 * y**2 - 4.276 * x * y - 1.3744 * x - 2.5643 * y + 1.8103
     )
 
     o_3 = 1 / 3
@@ -131,7 +126,7 @@ def XYZ_to_OSA_UCS(XYZ: ArrayLike) -> NDArrayFloat:
     Y_0_s = Y_0 - 30
     Lambda = 5.9 * (Y_0_es + 0.042 * spow(Y_0_s, o_3))
 
-    RGB = vector_dot(MATRIX_XYZ_TO_RGB_OSA_UCS, XYZ)
+    RGB = vecmul(MATRIX_XYZ_TO_RGB_OSA_UCS, XYZ)
     RGB_3 = spow(RGB, 1 / 3)
 
     with sdiv_mode():
@@ -208,7 +203,7 @@ def OSA_UCS_to_XYZ(
 
     Ljg = to_domain_100(Ljg)
     shape = Ljg.shape
-    Ljg = np.atleast_1d(Ljg.reshape([-1, 3]))
+    Ljg = np.atleast_1d(np.reshape(Ljg, (-1, 3)))
 
     optimisation_settings = {"disp": False}
     if optimisation_kwargs is not None:
@@ -225,10 +220,7 @@ def OSA_UCS_to_XYZ(
 
     x_0 = np.array([30, 30, 30])
     XYZ = as_float_array(
-        [
-            fmin(error_function, x_0, (Ljg_i,), **optimisation_settings)
-            for Ljg_i in Ljg
-        ]
+        [fmin(error_function, x_0, (Ljg_i,), **optimisation_settings) for Ljg_i in Ljg]
     )
 
     return from_range_100(np.reshape(XYZ, shape))

@@ -1,9 +1,6 @@
 import sys
 
-from colour.utilities.deprecation import ModuleAPI, build_API_changes
-from colour.utilities.documentation import is_documentation_building
-
-from colour.hints import Any
+from colour.utilities import copy_definition
 
 from .common import (
     COLOURSPACE_MODELS,
@@ -50,7 +47,7 @@ from .cie_xyy import (
     xy_to_XYZ,
     XYZ_to_xy,
 )
-from .cie_lab import XYZ_to_Lab, Lab_to_XYZ, Lab_to_LCHab, LCHab_to_Lab
+from .cie_lab import XYZ_to_Lab, Lab_to_XYZ
 from .cie_luv import (
     XYZ_to_Luv,
     Luv_to_XYZ,
@@ -58,8 +55,8 @@ from .cie_luv import (
     uv_to_Luv,
     Luv_uv_to_xy,
     xy_to_Luv_uv,
-    Luv_to_LCHuv,
-    LCHuv_to_Luv,
+    XYZ_to_CIE1976UCS,
+    CIE1976UCS_to_XYZ,
 )
 from .cie_ucs import (
     XYZ_to_UCS,
@@ -68,6 +65,8 @@ from .cie_ucs import (
     uv_to_UCS,
     UCS_uv_to_xy,
     xy_to_UCS_uv,
+    XYZ_to_CIE1960UCS,
+    CIE1960UCS_to_XYZ,
 )
 from .cie_uvw import XYZ_to_UVW, UVW_to_XYZ
 from .din99 import Lab_to_DIN99, DIN99_to_Lab, XYZ_to_DIN99, DIN99_to_XYZ
@@ -369,7 +368,125 @@ from .rgb import (
     describe_video_signal_matrix_coefficients,
 )
 
-__all__ = [
+__all__ = []
+
+# Programmatically defining the colourspace models polar conversions.
+COLOURSPACE_MODELS_POLAR_CONVERSIONS = (
+    ("Lab", "LCHab"),
+    ("Luv", "LCHuv"),
+    ("hdr_CIELab", "hdr_CIELCHab"),
+    ("Hunter_Lab", "Hunter_LCHab"),
+    ("Hunter_Rdab", "Hunter_RdCHab"),
+    ("ICaCb", "ICHab"),
+    ("ICtCp", "ICHtp"),
+    ("IgPgTg", "IgCHpt"),
+    ("IPT", "ICH"),
+    ("Izazbz", "IzCHab"),
+    ("Jzazbz", "JzCHab"),
+    ("hdr_IPT", "hdr_ICH"),
+    ("Oklab", "Oklch"),
+    ("ProLab", "ProLCHab"),
+    ("IPT_Ragoo2021", "ICH_Ragoo2021"),
+)
+
+_DOCSTRING_JAB_TO_JCH = """
+Convert from *{Jab}* colourspace to *{JCh}* colourspace.
+
+This is a convenient definition wrapping :func:`colour.models.Jab_to_JCh`
+definition.
+
+Parameters
+----------
+Jab
+    *{Jab}* colourspace array.
+
+Returns
+-------
+:class:`numpy.ndarray`
+    *{JCh}* colourspace array.
+
+Notes
+-----
++------------+-----------------------+-----------------+
+| **Domain** | **Scale - Reference** | **Scale - 1**   |
++============+=======================+=================+
+| ``Jab``    | ``J`` : [0, 100]      | ``J`` : [0, 1]  |
+|            |                       |                 |
+|            | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
+|            |                       |                 |
+|            | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
++------------+-----------------------+-----------------+
+
++------------+-----------------------+-----------------+
+| **Range**  | **Scale - Reference** | **Scale - 1**   |
++============+=======================+=================+
+| ``JCh``    | ``J``  : [0, 100]     | ``J`` : [0, 1]  |
+|            |                       |                 |
+|            | ``C``  : [0, 100]     | ``C`` : [0, 1]  |
+|            |                       |                 |
+|            | ``h`` : [0, 360]      | ``h`` : [0, 1]  |
++------------+-----------------------+-----------------+
+"""
+
+_DOCSTRING_JCH_TO_JAB = """
+Convert from *{JCh}* colourspace to *{Jab}* colourspace.
+
+This is a convenient definition wrapping :func:`colour.models.JCh_to_Jab`
+definition.
+
+Parameters
+----------
+JCh
+    *{JCh}* colourspace array.
+
+Returns
+-------
+:class:`numpy.ndarray`
+    *{Jab}* colourspace array.
+
+Notes
+-----
++-------------+-----------------------+-----------------+
+| **Domain**  | **Scale - Reference** | **Scale - 1**   |
++=============+=======================+=================+
+| ``JCh``     | ``J``  : [0, 100]     | ``J``  : [0, 1] |
+|             |                       |                 |
+|             | ``C``  : [0, 100]     | ``C``  : [0, 1] |
+|             |                       |                 |
+|             | ``h`` : [0, 360]      | ``h`` : [0, 1]  |
++-------------+-----------------------+-----------------+
+
++-------------+-----------------------+-----------------+
+| **Range**   | **Scale - Reference** | **Scale - 1**   |
++=============+=======================+=================+
+| ``Jab``     | ``J`` : [0, 100]      | ``J`` : [0, 1]  |
+|             |                       |                 |
+|             | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
+|             |                       |                 |
+|             | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
++-------------+-----------------------+-----------------+
+"""
+
+for _Jab, _JCh in COLOURSPACE_MODELS_POLAR_CONVERSIONS:
+    name = f"{_Jab}_to_{_JCh}"
+    _callable = copy_definition(Jab_to_JCh, name)
+    _callable.__doc__ = _DOCSTRING_JAB_TO_JCH.format(Jab=_Jab, JCh=_JCh)
+    _module = sys.modules["colour.models"]
+    setattr(_module, name, _callable)
+    __all__.append(name)
+
+    name = f"{_JCh}_to_{_Jab}"
+    _callable = copy_definition(JCh_to_Jab, name)
+    _callable.__doc__ = _DOCSTRING_JCH_TO_JAB.format(JCh=_JCh, Jab=_Jab)
+    _module = sys.modules["colour.models"]
+    setattr(_module, name, _callable)
+    __all__.append(name)
+
+del _DOCSTRING_JAB_TO_JCH, _DOCSTRING_JCH_TO_JAB, _JCh, _Jab, _callable, _module
+
+__all__ += ["COLOURSPACE_MODELS_POLAR"]
+
+__all__ += [
     "COLOURSPACE_MODELS",
     "COLOURSPACE_MODELS_AXIS_LABELS",
     "COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE",
@@ -417,8 +534,6 @@ __all__ += [
 __all__ += [
     "XYZ_to_Lab",
     "Lab_to_XYZ",
-    "Lab_to_LCHab",
-    "LCHab_to_Lab",
 ]
 __all__ += [
     "XYZ_to_Luv",
@@ -427,8 +542,8 @@ __all__ += [
     "uv_to_Luv",
     "Luv_uv_to_xy",
     "xy_to_Luv_uv",
-    "Luv_to_LCHuv",
-    "LCHuv_to_Luv",
+    "XYZ_to_CIE1976UCS",
+    "CIE1976UCS_to_XYZ",
 ]
 __all__ += [
     "XYZ_to_UCS",
@@ -437,6 +552,8 @@ __all__ += [
     "uv_to_UCS",
     "UCS_uv_to_xy",
     "xy_to_UCS_uv",
+    "XYZ_to_CIE1960UCS",
+    "CIE1960UCS_to_XYZ",
 ]
 __all__ += [
     "XYZ_to_UVW",
@@ -780,143 +897,3 @@ __all__ += [
     "describe_video_signal_transfer_characteristics",
     "describe_video_signal_matrix_coefficients",
 ]
-
-
-# ----------------------------------------------------------------------------#
-# ---                API Changes and Deprecation Management                ---#
-# ----------------------------------------------------------------------------#
-class models(ModuleAPI):
-    """Define a class acting like the *models* module."""
-
-    def __getattr__(self, attribute) -> Any:
-        """Return the value from the attribute with given name."""
-
-        return super().__getattr__(attribute)
-
-
-# v0.4.0
-API_CHANGES = {
-    "ObjectRenamed": [
-        [
-            "colour.models.RGB_to_ICTCP",
-            "colour.models.RGB_to_ICtCp",
-        ],
-        [
-            "colour.models.ICTCP_to_RGB",
-            "colour.models.ICtCp_to_RGB",
-        ],
-        [
-            "colour.models.RGB_to_IGPGTG",
-            "colour.models.RGB_to_IgPgTg",
-        ],
-        [
-            "colour.models.IGPGTG_to_RGB",
-            "colour.models.IgPgTg_to_RGB",
-        ],
-        [
-            "colour.models.XYZ_to_JzAzBz",
-            "colour.models.XYZ_to_Jzazbz",
-        ],
-        [
-            "colour.models.JzAzBz_to_XYZ",
-            "colour.models.Jzazbz_to_XYZ",
-        ],
-    ]
-}
-
-# v0.4.2
-API_CHANGES["ObjectRenamed"].extend(
-    [
-        [
-            "colour.models.RGB_COLOURSPACE_ALEXA_WIDE_GAMUT",
-            "colour.models.RGB_COLOURSPACE_ARRI_WIDE_GAMUT_3",
-        ],
-        [
-            "colour.models.eotf_inverse_BT2020",
-            "colour.models.oetf_BT2020",
-        ],
-        [
-            "colour.models.eotf_BT2020",
-            "colour.models.oetf_inverse_BT2020",
-        ],
-        [
-            "colour.models.oetf_PQ_BT2100",
-            "colour.models.oetf_BT2100_PQ",
-        ],
-        [
-            "colour.models.oetf_inverse_PQ_BT2100",
-            "colour.models.oetf_inverse_BT2100_PQ",
-        ],
-        [
-            "colour.models.eotf_PQ_BT2100",
-            "colour.models.eotf_BT2100_PQ",
-        ],
-        [
-            "colour.models.eotf_inverse_PQ_BT2100",
-            "colour.models.eotf_inverse_BT2100_PQ",
-        ],
-        [
-            "colour.models.ootf_PQ_BT2100",
-            "colour.models.ootf_BT2100_PQ",
-        ],
-        [
-            "colour.models.ootf_inverse_PQ_BT2100",
-            "colour.models.ootf_inverse_BT2100_PQ",
-        ],
-        [
-            "colour.models.oetf_HLG_BT2100",
-            "colour.models.oetf_BT2100_HLG",
-        ],
-        [
-            "colour.models.oetf_inverse_HLG_BT2100",
-            "colour.models.oetf_inverse_BT2100_HLG",
-        ],
-        [
-            "colour.models.eotf_HLG_BT2100",
-            "colour.models.eotf_BT2100_HLG",
-        ],
-        [
-            "colour.models.eotf_inverse_HLG_BT2100",
-            "colour.models.eotf_inverse_BT2100_HLG",
-        ],
-        [
-            "colour.models.ootf_HLG_BT2100",
-            "colour.models.ootf_BT2100_HLG",
-        ],
-        [
-            "colour.models.ootf_inverse_HLG_BT2100",
-            "colour.models.ootf_inverse_BT2100_HLG",
-        ],
-        [
-            "colour.models.log_decoding_ALEXALogC",
-            "colour.models.log_decoding_ARRILogC3",
-        ],
-        [
-            "colour.models.log_encoding_ALEXALogC",
-            "colour.models.log_encoding_ARRILogC3",
-        ],
-    ]
-)
-
-
-# v0.4.3
-API_CHANGES["ObjectRenamed"].extend(
-    [
-        [
-            "colour.models.XYZ_to_IPT_Munish2021",
-            "colour.models.XYZ_to_IPT_Ragoo2021",
-        ],
-        [
-            "colour.models.IPT_Munish2021_to_XYZ",
-            "colour.models.IPT_Ragoo2021_to_XYZ",
-        ],
-    ]
-)
-"""Defines the *colour.models* sub-package API changes."""
-
-if not is_documentation_building():
-    sys.modules["colour.models"] = models(  # pyright: ignore
-        sys.modules["colour.models"], build_API_changes(API_CHANGES)
-    )
-
-    del ModuleAPI, is_documentation_building, build_API_changes, sys

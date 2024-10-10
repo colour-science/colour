@@ -2,7 +2,7 @@
 CIE 1964 U*V*W* Colourspace
 ===========================
 
-Defines the *CIE 1964 U\\*V\\*W\\** colourspace transformations:
+Define the *CIE 1964 U\\*V\\*W\\** colourspace transformations:
 
 -   :func:`colour.XYZ_to_UVW`
 -   :func:`colour.UVW_to_XYZ`
@@ -43,9 +43,9 @@ __all__ = [
 
 def XYZ_to_UVW(
     XYZ: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS[
-        "CIE 1931 2 Degree Standard Observer"
-    ]["D65"],
+    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
 ) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *CIE 1964 U\\*V\\*W\\**
@@ -115,9 +115,9 @@ def XYZ_to_UVW(
 
 def UVW_to_XYZ(
     UVW: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS[
-        "CIE 1931 2 Degree Standard Observer"
-    ]["D65"],
+    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
 ) -> NDArrayFloat:
     """
     Convert *CIE 1964 U\\*V\\*W\\** colourspace to *CIE XYZ* tristimulus

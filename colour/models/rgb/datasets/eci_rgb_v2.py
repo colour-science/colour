@@ -2,7 +2,7 @@
 ECI RGB v2 Colourspace
 ======================
 
-Defines the *ECI RGB v2* colourspace:
+Define the *ECI RGB v2* colourspace:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_ECI_RGB_V2`.
 
@@ -70,15 +70,11 @@ MATRIX_ECI_RGB_V2_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
 )
 """*ECI RGB v2* colourspace to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_XYZ_TO_ECI_RGB_V2: NDArrayFloat = np.linalg.inv(
-    MATRIX_ECI_RGB_V2_TO_XYZ
-)
+MATRIX_XYZ_TO_ECI_RGB_V2: NDArrayFloat = np.linalg.inv(MATRIX_ECI_RGB_V2_TO_XYZ)
 """*CIE XYZ* tristimulus values to *ECI RGB v2* colourspace matrix."""
 
 
-def _scale_domain_0_100_range_0_1(
-    a: ArrayLike, callable_: Callable
-) -> NDArrayFloat:
+def _scale_domain_0_100_range_0_1(a: ArrayLike, callable_: Callable) -> NDArrayFloat:
     """
     Scale the input domain of given *luminance* :math:`Y` or *Lightness*
     :math:`L^*` array to [0, 100], call the given callable, and

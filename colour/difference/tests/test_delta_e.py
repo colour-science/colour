@@ -9,7 +9,6 @@ References
     30(1), 21-30. doi:10.1002/col.20070
 """
 
-import unittest
 from itertools import product
 
 import numpy as np
@@ -41,7 +40,7 @@ __all__ = [
 ]
 
 
-class TestDelta_E_CIE1976(unittest.TestCase):
+class TestDelta_E_CIE1976:
     """
     Define :func:`colour.difference.delta_e.delta_E_CIE1976` definition unit
     tests methods.
@@ -58,8 +57,8 @@ class TestDelta_E_CIE1976(unittest.TestCase):
 
         Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
         Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
-        Lab_1 = np.tile(Lab_1, (6, 1)).reshape([2, 3, 3])
-        Lab_2 = np.tile(Lab_2, (6, 1)).reshape([2, 3, 3])
+        Lab_1 = np.reshape(np.tile(Lab_1, (6, 1)), (2, 3, 3))
+        Lab_2 = np.reshape(np.tile(Lab_2, (6, 1)), (2, 3, 3))
 
         np.testing.assert_allclose(
             delta_E_CIE1976(Lab_1, Lab_2),
@@ -99,7 +98,7 @@ class TestDelta_E_CIE1976(unittest.TestCase):
         """
 
 
-class TestDelta_E_CIE1994(unittest.TestCase):
+class TestDelta_E_CIE1994:
     """
     Define :func:`colour.difference.delta_e.delta_E_CIE1994` definition unit
     tests methods.
@@ -224,7 +223,7 @@ class TestDelta_E_CIE1994(unittest.TestCase):
         delta_E_CIE1994(cases, cases)
 
 
-class TestDelta_E_CIE2000(unittest.TestCase):
+class TestDelta_E_CIE2000:
     """
     Define :func:`colour.difference.delta_e.delta_E_CIE2000` definition unit
     tests methods.
@@ -513,12 +512,10 @@ class TestDelta_E_CIE2000(unittest.TestCase):
             ]
         )
 
-        np.testing.assert_allclose(
-            delta_E_CIE2000(Lab_1, Lab_2), d_E, atol=1e-4
-        )
+        np.testing.assert_allclose(delta_E_CIE2000(Lab_1, Lab_2), d_E, atol=1e-4)
 
 
-class TestDelta_E_CMC(unittest.TestCase):
+class TestDelta_E_CMC:
     """
     Define :func:`colour.difference.delta_e.delta_E_CMC` definition unit tests
     methods.
@@ -639,7 +636,7 @@ class TestDelta_E_CMC(unittest.TestCase):
         delta_E_CMC(cases, cases)
 
 
-class TestDelta_E_ITP(unittest.TestCase):
+class TestDelta_E_ITP:
     """
     Define :func:`colour.difference.delta_e.delta_E_ITP` definition unit tests
     methods.
@@ -748,7 +745,3 @@ class TestDelta_E_ITP(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         delta_E_ITP(cases, cases)
-
-
-if __name__ == "__main__":
-    unittest.main()

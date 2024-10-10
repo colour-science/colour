@@ -2,7 +2,7 @@
 :math:`\\Delta E'` - Delta E Colour Difference - Li et al. (2017)
 =================================================================
 
-Defines the :math:`\\Delta E'` colour difference computation objects based on
+Define the :math:`\\Delta E'` colour difference computation objects based on
 *Li, Li, Wang, Zu, Luo, Cui, Melgosa, Brill and Pointer (2017)* *CAM16-LCD*,
 *CAM16-SCD*, and *CAM16-UCS* colourspaces:
 
@@ -44,9 +44,7 @@ __all__ = [
 ]
 
 delta_E_Li2017 = copy_definition(delta_E_Luo2006, "delta_E_Li2017")
-delta_E_Li2017.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(
-    delta_E_Luo2006
-)
+delta_E_Li2017.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(delta_E_Luo2006)
 
 delta_E_CAM16LCD = copy_definition(delta_E_CAM02LCD, "delta_E_CAM16LCD")
 delta_E_CAM16LCD.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(

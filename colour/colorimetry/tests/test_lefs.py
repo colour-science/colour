@@ -1,7 +1,5 @@
-# !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.colorimetry.lefs` module."""
 
-import unittest
 
 import numpy as np
 
@@ -430,7 +428,7 @@ DATA_MESOPIC_LEF: tuple = (
 )
 
 
-class TestMesopicWeightingFunction(unittest.TestCase):
+class TestMesopicWeightingFunction:
     """
     Define :func:`colour.colorimetry.lefs.mesopic_weighting_function`
     definition unit tests methods.
@@ -449,17 +447,13 @@ class TestMesopicWeightingFunction(unittest.TestCase):
         )
 
         np.testing.assert_allclose(
-            mesopic_weighting_function(
-                500, 0.2, source="Red Heavy", method="LRC"
-            ),
+            mesopic_weighting_function(500, 0.2, source="Red Heavy", method="LRC"),
             0.90951000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            mesopic_weighting_function(
-                700, 10, source="Red Heavy", method="LRC"
-            ),
+            mesopic_weighting_function(700, 10, source="Red Heavy", method="LRC"),
             0.00410200,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -504,12 +498,14 @@ class TestMesopicWeightingFunction(unittest.TestCase):
         definition nan support.
         """
 
-        mesopic_weighting_function(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]), 0.2
-        ),
+        (
+            mesopic_weighting_function(
+                np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]), 0.2
+            ),
+        )
 
 
-class TestSdMesopicLuminousEfficiencyFunction(unittest.TestCase):
+class TestSdMesopicLuminousEfficiencyFunction:
     """
     Define :func:`colour.colorimetry.lefs.\
 sd_mesopic_luminous_efficiency_function` definition unit tests methods.
@@ -526,7 +522,3 @@ sd_mesopic_luminous_efficiency_function` definition.
             DATA_MESOPIC_LEF,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

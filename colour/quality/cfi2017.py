@@ -2,7 +2,7 @@
 CIE 2017 Colour Fidelity Index
 ==============================
 
-Defines the *CIE 2017 Colour Fidelity Index* (CFI) computation objects:
+Define the *CIE 2017 Colour Fidelity Index* (CFI) computation objects:
 
 - :class:`colour.quality.ColourRendering_Specification_CIE2017`
 - :func:`colour.quality.colour_fidelity_index_CIE2017`
@@ -79,9 +79,7 @@ Spectral shape for *CIE 2017 Colour Fidelity Index* (CFI)
 standard.
 """
 
-ROOT_RESOURCES_CIE2017: str = os.path.join(
-    os.path.dirname(__file__), "datasets"
-)
+ROOT_RESOURCES_CIE2017: str = os.path.join(os.path.dirname(__file__), "datasets")
 """*CIE 2017 Colour Fidelity Index* resources directory."""
 
 _CACHE_TCS_CIE2017: dict = CACHE_REGISTRY.register_cache(
@@ -132,9 +130,7 @@ class ColourRendering_Specification_CIE2017:
     R_s: NDArrayFloat
     CCT: float
     D_uv: float
-    colorimetry_data: Tuple[
-        DataColorimetry_TCS_CIE2017, DataColorimetry_TCS_CIE2017
-    ]
+    colorimetry_data: Tuple[DataColorimetry_TCS_CIE2017, DataColorimetry_TCS_CIE2017]
     delta_E_s: NDArrayFloat
 
 
@@ -322,14 +318,10 @@ def CCT_reference_illuminant(sd: SpectralDistribution) -> NDArrayFloat:
 
     # NOTE: Use "CFI2017" and "TM30" recommended temperature range of 1,000K to
     # 25,000K for performance.
-    return uv_to_CCT_Ohno2013(
-        UCS_to_uv(XYZ_to_UCS(XYZ)), start=1000, end=25000
-    )
+    return uv_to_CCT_Ohno2013(UCS_to_uv(XYZ_to_UCS(XYZ)), start=1000, end=25000)
 
 
-def sd_reference_illuminant(
-    CCT: float, shape: SpectralShape
-) -> SpectralDistribution:
+def sd_reference_illuminant(CCT: float, shape: SpectralShape) -> SpectralDistribution:
     """
     Compute the reference illuminant for a given correlated colour temperature
     :math:`T_{cp}` for use in *CIE 2017 Colour Fidelity Index* (CFI)
@@ -355,7 +347,6 @@ def sd_reference_illuminant(
     ...     sd_reference_illuminant(  # doctest: +ELLIPSIS
     ...         4224.469705295263300, SpectralShape(380, 780, 20)
     ...     )
-    ...
     SpectralDistribution([[ 380.        ,    0.0034089...],
                           [ 400.        ,    0.0044208...],
                           [ 420.        ,    0.0053260...],
@@ -398,9 +389,9 @@ def sd_reference_illuminant(
         sd_planckian /= sd_to_XYZ(
             sd_planckian.values, shape=shape, method="Integration"
         )[1]
-        sd_daylight /= sd_to_XYZ(
-            sd_daylight.values, shape=shape, method="Integration"
-        )[1]
+        sd_daylight /= sd_to_XYZ(sd_daylight.values, shape=shape, method="Integration")[
+            1
+        ]
 
         # Mixture: 4200K should be 80% Planckian, 20% CIE Illuminant D Series.
         m = (CCT - 4000) / 1000
@@ -410,9 +401,7 @@ def sd_reference_illuminant(
             f"Blackbody & CIE Illuminant D Series Mixture - "
             f"{as_float_scalar(100 * m):.1f}%"
         )
-        sd_reference = SpectralDistribution(
-            values, shape.wavelengths, name=name
-        )
+        sd_reference = SpectralDistribution(values, shape.wavelengths, name=name)
     elif CCT > 5000:
         sd_reference = sd_daylight
 
@@ -432,7 +421,7 @@ def tcs_colorimetry_data(
     Parameters
     ----------
     sd_irradiance
-        Test light source or reference illuminant spectral distribution, i.e.
+        Test light source or reference illuminant spectral distribution, i.e.,
         the irradiance emitter.
     sds_tcs
         *Test colour samples* spectral reflectance distributions.
@@ -447,8 +436,15 @@ def tcs_colorimetry_data(
 
     Examples
     --------
-    >>> delta_E_to_R_f(4.4410383190)  # doctest: +ELLIPSIS
-    70.1208254...
+    >>> from colour.colorimetry import SDS_ILLUMINANTS
+    >>> sd = SDS_ILLUMINANTS["FL2"]
+    >>> shape = SpectralShape(380, 780, 5)
+    >>> cmfs = MSDS_CMFS["CIE 1964 10 Degree Standard Observer"].copy().align(shape)
+    >>> test_tcs_colorimetry_data = tcs_colorimetry_data(
+    ...     sd, load_TCS_CIE2017(shape), cmfs
+    ... )
+    >>> len(test_tcs_colorimetry_data)
+    1
     """
 
     if isinstance(sd_irradiance, SpectralDistribution):
@@ -471,12 +467,11 @@ def tcs_colorimetry_data(
     L_A = 100
     surround = VIEWING_CONDITIONS_CIECAM02["Average"]
 
-    sds_tcs_t = np.tile(
-        np.transpose(sds_tcs.values), (len(sd_irradiance), 1, 1)
+    sds_tcs_t = np.tile(np.transpose(sds_tcs.values), (len(sd_irradiance), 1, 1))
+    sds_tcs_t = sds_tcs_t * np.reshape(
+        as_float_array([sd.values for sd in sd_irradiance]),
+        (len(sd_irradiance), 1, len(sd_irradiance[0])),
     )
-    sds_tcs_t = sds_tcs_t * as_float_array(
-        [sd.values for sd in sd_irradiance]
-    ).reshape(len(sd_irradiance), 1, len(sd_irradiance[0]))
 
     XYZ = msds_to_XYZ(
         sds_tcs_t,
@@ -486,7 +481,7 @@ def tcs_colorimetry_data(
     )
     specification = XYZ_to_CIECAM02(
         XYZ,
-        XYZ_w.reshape((len(sd_irradiance), 1, 3)),
+        np.reshape(XYZ_w, (len(sd_irradiance), 1, 3)),
         L_A,
         Y_b,
         surround,

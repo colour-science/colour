@@ -2,7 +2,7 @@
 Geometry Primitives
 ===================
 
-Defines various geometry primitives and their generation methods:
+Define various geometry primitives and their generation methods:
 
 -   :attr:`colour.geometry.MAPPING_PLANE_TO_AXIS`
 -   :func:`colour.geometry.primitive_grid`
@@ -234,10 +234,23 @@ def primitive_cube(
     width_segments: int = 1,
     height_segments: int = 1,
     depth_segments: int = 1,
-    planes: Literal[
-        "-x", "+x", "-y", "+y", "-z", "+z", "xy", "xz", "yz", "yx", "zx", "zy"
-    ]
-    | None = None,
+    planes: (
+        Literal[
+            "-x",
+            "+x",
+            "-y",
+            "+y",
+            "-z",
+            "+z",
+            "xy",
+            "xz",
+            "yz",
+            "yx",
+            "zx",
+            "zy",
+        ]
+        | None
+    ) = None,
     dtype_vertices: Type[DTypeFloat] | None = None,
     dtype_indexes: Type[DTypeInt] | None = None,
 ) -> Tuple[NDArray, NDArray, NDArray]:
@@ -346,9 +359,7 @@ def primitive_cube(
     axis = (
         sorted(MAPPING_PLANE_TO_AXIS.values())
         if planes is None
-        else [
-            MAPPING_PLANE_TO_AXIS.get(plane, plane).lower() for plane in planes
-        ]
+        else [MAPPING_PLANE_TO_AXIS.get(plane, plane).lower() for plane in planes]
     )
 
     dtype_vertices = optional(dtype_vertices, DTYPE_FLOAT_DEFAULT)

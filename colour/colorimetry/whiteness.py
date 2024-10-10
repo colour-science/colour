@@ -2,7 +2,7 @@
 Whiteness Index :math:`W`
 =========================
 
-Defines the *whiteness* index :math:`W` computation objects:
+Define the *whiteness* index :math:`W` computation objects:
 
 -   :func:`colour.colorimetry.whiteness_Berger1959`: *Whiteness* index
     :math:`WI` computation of given sample *CIE XYZ* tristimulus values using
@@ -469,15 +469,17 @@ WHITENESS_METHODS["cie2004"] = WHITENESS_METHODS["CIE 2004"]
 def whiteness(
     XYZ: ArrayLike,
     XYZ_0: ArrayLike,
-    method: Literal[
-        "ASTM E313",
-        "CIE 2004",
-        "Berger 1959",
-        "Ganz 1979",
-        "Stensby 1968",
-        "Taube 1960",
-    ]
-    | str = "CIE 2004",
+    method: (
+        Literal[
+            "ASTM E313",
+            "CIE 2004",
+            "Berger 1959",
+            "Ganz 1979",
+            "Stensby 1968",
+            "Taube 1960",
+        ]
+        | str
+    ) = "CIE 2004",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
@@ -561,8 +563,6 @@ def whiteness(
         from colour.models import XYZ_to_xy
 
         _X_0, Y_0, _Z_0 = tsplit(XYZ_0)
-        kwargs.update(
-            {"xy": XYZ_to_xy(XYZ), "Y": Y_0, "xy_n": XYZ_to_xy(XYZ_0)}
-        )
+        kwargs.update({"xy": XYZ_to_xy(XYZ), "Y": Y_0, "xy_n": XYZ_to_xy(XYZ_0)})
 
     return function(**filter_kwargs(function, **kwargs))

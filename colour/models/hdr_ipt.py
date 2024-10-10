@@ -2,7 +2,7 @@
 Hdr-IPT Colourspace
 ===================
 
-Defines the *hdr-IPT* colourspace transformations:
+Define the *hdr-IPT* colourspace transformations:
 
 -   :attr:`colour.HDR_IPT_METHODS`: Supported *hdr-IPT* colourspace computation
     methods.
@@ -25,7 +25,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.algebra import vector_dot
+from colour.algebra import vecmul
 from colour.colorimetry import (
     lightness_Fairchild2010,
     lightness_Fairchild2011,
@@ -82,8 +82,7 @@ References
 def exponent_hdr_IPT(
     Y_s: ArrayLike,
     Y_abs: ArrayLike,
-    method: Literal["Fairchild 2011", "Fairchild 2010"]
-    | str = "Fairchild 2011",
+    method: (Literal["Fairchild 2011", "Fairchild 2010"] | str) = "Fairchild 2011",
 ) -> NDArrayFloat:
     """
     Compute *hdr-IPT* colourspace *Lightness* :math:`\\epsilon` exponent using
@@ -141,8 +140,7 @@ def XYZ_to_hdr_IPT(
     XYZ: ArrayLike,
     Y_s: ArrayLike = 0.2,
     Y_abs: ArrayLike = 100,
-    method: Literal["Fairchild 2011", "Fairchild 2010"]
-    | str = "Fairchild 2011",
+    method: (Literal["Fairchild 2011", "Fairchild 2010"] | str) = "Fairchild 2011",
 ) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *hdr-IPT* colourspace.
@@ -210,13 +208,13 @@ def XYZ_to_hdr_IPT(
 
     e = exponent_hdr_IPT(Y_s, Y_abs, method)[..., None]
 
-    LMS = vector_dot(MATRIX_IPT_XYZ_TO_LMS, XYZ)
+    LMS = vecmul(MATRIX_IPT_XYZ_TO_LMS, XYZ)
 
     # Domain and range scaling has already been handled.
     with domain_range_scale("ignore"):
         LMS_prime = np.sign(LMS) * np.abs(lightness_callable(LMS, e))
 
-    IPT_hdr = vector_dot(MATRIX_IPT_LMS_P_TO_IPT, LMS_prime)
+    IPT_hdr = vecmul(MATRIX_IPT_LMS_P_TO_IPT, LMS_prime)
 
     return from_range_100(IPT_hdr)
 
@@ -225,8 +223,7 @@ def hdr_IPT_to_XYZ(
     IPT_hdr: ArrayLike,
     Y_s: ArrayLike = 0.2,
     Y_abs: ArrayLike = 100,
-    method: Literal["Fairchild 2011", "Fairchild 2010"]
-    | str = "Fairchild 2011",
+    method: (Literal["Fairchild 2011", "Fairchild 2010"] | str) = "Fairchild 2011",
 ) -> NDArrayFloat:
     """
     Convert from *hdr-IPT* colourspace to *CIE XYZ* tristimulus values.
@@ -293,12 +290,12 @@ def hdr_IPT_to_XYZ(
 
     e = exponent_hdr_IPT(Y_s, Y_abs, method)[..., None]
 
-    LMS = vector_dot(MATRIX_IPT_IPT_TO_LMS_P, IPT_hdr)
+    LMS = vecmul(MATRIX_IPT_IPT_TO_LMS_P, IPT_hdr)
 
     # Domain and range scaling has already be handled.
     with domain_range_scale("ignore"):
         LMS_prime = np.sign(LMS) * np.abs(luminance_callable(LMS, e))
 
-    XYZ = vector_dot(MATRIX_IPT_LMS_TO_XYZ, LMS_prime)
+    XYZ = vecmul(MATRIX_IPT_LMS_TO_XYZ, LMS_prime)
 
     return from_range_1(XYZ)

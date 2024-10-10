@@ -2,7 +2,7 @@
 MacAdam (1942) Ellipses (Observer PGN)
 ======================================
 
-Defines the *MacAdam (1942) Ellipses (Observer PGN)* ellipses data.
+Define the *MacAdam (1942) Ellipses (Observer PGN)* ellipses data.
 
 References
 ----------

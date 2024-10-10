@@ -2,7 +2,7 @@
 Spectral Uniformity
 ===================
 
-Defines the objects to compute the *spectral uniformity*
+Define the objects to compute the *spectral uniformity*
 (or *spectral flatness*) of spectral distributions.
 
 References
@@ -37,9 +37,11 @@ __all__ = [
 
 
 def spectral_uniformity(
-    sds: Sequence[SpectralDistribution | MultiSpectralDistributions]
-    | SpectralDistribution
-    | MultiSpectralDistributions,
+    sds: (
+        Sequence[SpectralDistribution | MultiSpectralDistributions]
+        | SpectralDistribution
+        | MultiSpectralDistributions
+    ),
     use_second_order_derivatives: bool = False,
 ) -> NDArrayFloat:
     """

@@ -2,7 +2,7 @@
 Intersection Utilities
 ======================
 
-Defines the geometry intersection utilities objects.
+Define the geometry intersection utilities objects.
 
 References
 ----------
@@ -201,9 +201,7 @@ def intersect_line_segments(
     r_1, c_1 = l_1.shape[0], l_1.shape[1]
     r_2, c_2 = l_2.shape[0], l_2.shape[1]
 
-    x_1, y_1, x_2, y_2 = (
-        np.tile(l_1[:, i, None], (1, r_2)) for i in range(c_1)
-    )
+    x_1, y_1, x_2, y_2 = (np.tile(l_1[:, i, None], (1, r_2)) for i in range(c_1))
 
     l_2 = np.transpose(l_2)
 
@@ -228,10 +226,6 @@ def intersect_line_segments(
     xy = tstack([x_1 + x_2_x_1 * u_a, y_1 + y_2_y_1 * u_a])
     xy[~intersect] = np.nan
     parallel = denominator == 0
-    coincident = np.logical_and.reduce(
-        (numerator_a == 0, numerator_b == 0, parallel)
-    )
+    coincident = np.logical_and.reduce((numerator_a == 0, numerator_b == 0, parallel))
 
-    return LineSegmentsIntersections_Specification(
-        xy, intersect, parallel, coincident
-    )
+    return LineSegmentsIntersections_Specification(xy, intersect, parallel, coincident)

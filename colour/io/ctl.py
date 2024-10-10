@@ -2,7 +2,7 @@
 CTL Processing
 ==============
 
-Defines the object for the *Color Transformation Language* (CTL) processing:
+Define the object for the *Color Transformation Language* (CTL) processing:
 
 -   :func:`colour.io.ctl_render`
 -   :func:`colour.io.process_image_ctl`
@@ -16,6 +16,7 @@ import os
 import subprocess
 import tempfile
 import textwrap
+from pathlib import Path
 
 import numpy as np
 
@@ -67,8 +68,8 @@ ARGUMENTS_CTL_RENDER_DEFAULTS: tuple = ("-verbose", "-force")
 
 @required("ctlrender")
 def ctl_render(
-    path_input: str,
-    path_output: str,
+    path_input: str | Path,
+    path_output: str | Path,
     ctl_transforms: Sequence[str] | Dict[str, Sequence[str]],
     *args: Any,
     **kwargs: Any,
@@ -91,9 +92,9 @@ def ctl_render(
     Other Parameters
     ----------------
     args
-        Arguments passed to *ctlrender*, e.g. ``-verbose``, ``-force``.
+        Arguments passed to *ctlrender*, e.g., ``-verbose``, ``-force``.
     kwargs
-        Keywords arguments passed to the sub-process calling *ctlrender*, e.g.
+        Keywords arguments passed to the sub-process calling *ctlrender*, e.g.,
         to define the environment variables such as ``CTL_MODULE_PATH``.
 
     Notes
@@ -149,6 +150,9 @@ def ctl_render(
     <BLANKLINE>
     """
 
+    path_input = str(path_input)
+    path_output = str(path_output)
+
     if len(args) == 0:
         args = ARGUMENTS_CTL_RENDER_DEFAULTS
 
@@ -171,9 +175,7 @@ def ctl_render(
                 ctl_transform = temp_filename  # noqa: PLW2901
                 temp_filenames.append(temp_filename)
         elif not os.path.exists(ctl_transform):
-            raise FileNotFoundError(
-                f'{ctl_transform} "CTL" transform does not exist!'
-            )
+            raise FileNotFoundError(f'{ctl_transform} "CTL" transform does not exist!')
 
         command.extend(["-ctl", ctl_transform])
         for parameter in parameters:
@@ -185,7 +187,9 @@ def ctl_render(
         command += arg.split()
 
     completed_process = subprocess.run(
-        command, check=False, **kwargs  # noqa: S603
+        command,  # noqa: S603
+        check=False,
+        **kwargs,
     )
 
     for temp_filename in temp_filenames:
@@ -217,9 +221,9 @@ def process_image_ctl(
     Other Parameters
     ----------------
     args
-        Arguments passed to *ctlrender*, e.g. ``-verbose``, ``-force``.
+        Arguments passed to *ctlrender*, e.g., ``-verbose``, ``-force``.
     kwargs
-        Keywords arguments passed to the sub-process calling *ctlrender*, e.g.
+        Keywords arguments passed to the sub-process calling *ctlrender*, e.g.,
         to define the environment variables such as ``CTL_MODULE_PATH``.
 
     Notes
@@ -365,7 +369,6 @@ def template_ctl_transform_float(
     }
     >>> def format_imports(imports):
     ...     return [f'import "{i}";' for i in imports]
-    ...
     >>> print(
     ...     template_ctl_transform_float(
     ...         "Y_2_linCV(rIn, CINEMA_WHITE, CINEMA_BLACK)",
@@ -488,7 +491,6 @@ def template_ctl_transform_float3(
     --------
     >>> def format_imports(imports):
     ...     return [f'import "{i}";' for i in imports]
-    ...
     >>> print(
     ...     template_ctl_transform_float3(
     ...         "darkSurround_to_dimSurround(rgbIn)",
@@ -579,8 +581,6 @@ void main
     bOut = rgbOut[2];
     aOut = aIn;
 }}
-""".strip().format(
-        RGB_function=RGB_function
-    )
+""".strip().format(RGB_function=RGB_function)
 
     return ctl_file_content

@@ -2,7 +2,7 @@
 Colour Temperature & Correlated Colour Temperature Plotting
 ===========================================================
 
-Defines the colour temperature and correlated colour temperature plotting
+Define the colour temperature and correlated colour temperature plotting
 objects:
 
 -   :func:`colour.plotting.lines_daylight_locus`
@@ -91,11 +91,10 @@ __all__ = [
 
 def lines_daylight_locus(
     mireds: bool = False,
-    method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
-    | str = "CIE 1931",
+    method: (Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"] | str) = "CIE 1931",
 ) -> Tuple[NDArray]:
     """
-    Return the *Daylight Locus* line vertices, i.e. positions, normals and
+    Return the *Daylight Locus* line vertices, i.e., positions, normals and
     colours, according to given method.
 
     Parameters
@@ -120,9 +119,7 @@ def lines_daylight_locus(
 ('colour', '<f8', (3,))])
     """
 
-    method = validate_method(
-        method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS")
-    )
+    method = validate_method(method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"))
 
     xy_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["xy_to_ij"]
 
@@ -142,8 +139,8 @@ def lines_daylight_locus(
     CCT = np.arange(start, end + 100, 10) * 1.4388 / 1.4380
     CCT = mired_to_CCT(CCT) if mireds else CCT
 
-    ij_sl = xy_to_ij(CCT_to_xy_CIE_D(CCT)).reshape([-1, 2])
-    colour_sl = CCT_to_plotting_colourspace(CCT).reshape([-1, 3])
+    ij_sl = np.reshape(xy_to_ij(CCT_to_xy_CIE_D(CCT)), (-1, 2))
+    colour_sl = np.reshape(CCT_to_plotting_colourspace(CCT), (-1, 3))
 
     lines_sl = zeros(
         ij_sl.shape[0],
@@ -165,8 +162,7 @@ def plot_daylight_locus(
     daylight_locus_colours: ArrayLike | str | None = None,
     daylight_locus_opacity: float = 1,
     daylight_locus_mireds: bool = False,
-    method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
-    | str = "CIE 1931",
+    method: (Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"] | str) = "CIE 1931",
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
@@ -207,13 +203,9 @@ def plot_daylight_locus(
         :alt: plot_daylight_locus
     """
 
-    method = validate_method(
-        method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS")
-    )
+    method = validate_method(method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"))
 
-    use_RGB_daylight_locus_colours = (
-        str(daylight_locus_colours).upper() == "RGB"
-    )
+    use_RGB_daylight_locus_colours = str(daylight_locus_colours).upper() == "RGB"
 
     daylight_locus_colours = optional(
         daylight_locus_colours, CONSTANTS_COLOUR_STYLE.colour.dark
@@ -227,14 +219,17 @@ def plot_daylight_locus(
     lines_sl, *_ = lines_daylight_locus(daylight_locus_mireds, method)
 
     line_collection = LineCollection(
-        np.concatenate(
-            [lines_sl["position"][:-1], lines_sl["position"][1:]], axis=1
-        ).reshape(
-            [-1, 2, 2]
+        np.reshape(
+            np.concatenate(
+                [lines_sl["position"][:-1], lines_sl["position"][1:]], axis=1
+            ),
+            (-1, 2, 2),
         ),  # pyright: ignore
-        colors=lines_sl["colour"]
-        if use_RGB_daylight_locus_colours
-        else daylight_locus_colours,
+        colors=(
+            lines_sl["colour"]
+            if use_RGB_daylight_locus_colours
+            else daylight_locus_colours
+        ),
         alpha=daylight_locus_opacity,
         zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
     )
@@ -259,11 +254,10 @@ def lines_planckian_locus(
     labels: Sequence | None = None,
     mireds: bool = False,
     iso_temperature_lines_D_uv: float = 0.05,
-    method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
-    | str = "CIE 1931",
+    method: (Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"] | str) = "CIE 1931",
 ) -> Tuple[NDArray, NDArray]:
     """
-    Return the *Planckian Locus* line vertices, i.e. positions, normals and
+    Return the *Planckian Locus* line vertices, i.e., positions, normals and
     colours, according to given method.
 
     Parameters
@@ -298,9 +292,7 @@ def lines_planckian_locus(
 ('colour', '<f8', (3,))])
     """
 
-    method = validate_method(
-        method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS")
-    )
+    method = validate_method(method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"))
 
     labels = cast(
         tuple,
@@ -363,14 +355,12 @@ def lines_planckian_locus(
 
         ij = uv_to_ij(CCT_to_uv(CCT_D_uv, "Robertson 1968"))
         ij_itl.append(ij)
-        normal_itl.append(
-            np.tile(normalise_vector(ij[-1, ...] - ij[0, ...]), (20, 1))
-        )
+        normal_itl.append(np.tile(normalise_vector(ij[-1, ...] - ij[0, ...]), (20, 1)))
         colour_itl.append(CCT_D_uv_to_plotting_colourspace(CCT_D_uv))
 
-    ij_l = as_float_array(ij_itl).reshape([-1, 2])
-    normal_l = as_float_array(normal_itl).reshape([-1, 2])
-    colour_l = as_float_array(colour_itl).reshape([-1, 3])
+    ij_l = np.reshape(as_float_array(ij_itl), (-1, 2))
+    normal_l = np.reshape(as_float_array(normal_itl), (-1, 2))
+    colour_l = np.reshape(as_float_array(colour_itl), (-1, 3))
 
     lines_l = zeros(
         ij_l.shape[0],
@@ -395,8 +385,7 @@ def plot_planckian_locus(
     planckian_locus_labels: Sequence | None = None,
     planckian_locus_mireds: bool = False,
     planckian_locus_iso_temperature_lines_D_uv: float = 0.05,
-    method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
-    | str = "CIE 1931",
+    method: (Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"] | str) = "CIE 1931",
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
@@ -448,9 +437,7 @@ def plot_planckian_locus(
         planckian_locus_colours, CONSTANTS_COLOUR_STYLE.colour.dark
     )
 
-    use_RGB_planckian_locus_colours = (
-        str(planckian_locus_colours).upper() == "RGB"
-    )
+    use_RGB_planckian_locus_colours = str(planckian_locus_colours).upper() == "RGB"
 
     labels = cast(
         tuple,
@@ -476,31 +463,39 @@ def plot_planckian_locus(
 
     axes.add_collection(
         LineCollection(
-            np.concatenate(
-                [lines_pl["position"][:-1], lines_pl["position"][1:]], axis=1
-            ).reshape(
-                [-1, 2, 2]
+            np.reshape(
+                np.concatenate(
+                    [lines_pl["position"][:-1], lines_pl["position"][1:]], axis=1
+                ),
+                (-1, 2, 2),
             ),  # pyright: ignore
-            colors=lines_pl["colour"]
-            if use_RGB_planckian_locus_colours
-            else planckian_locus_colours,
+            colors=(
+                lines_pl["colour"]
+                if use_RGB_planckian_locus_colours
+                else planckian_locus_colours
+            ),
             alpha=planckian_locus_opacity,
             zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
         )
     )
 
-    lines_itl = lines_l["position"].reshape([len(labels), 20, 2])
-    colours_itl = lines_l["colour"].reshape([len(labels), 20, 3])
+    lines_itl = np.reshape(lines_l["position"], (len(labels), 20, 2))
+    colours_itl = np.reshape(lines_l["colour"], (len(labels), 20, 3))
     for i, label in enumerate(labels):
         axes.add_collection(
             LineCollection(
-                np.concatenate(
-                    [lines_itl[i][:-1], lines_itl[i][1:]],  # pyright: ignore
-                    axis=1,
-                ).reshape([-1, 2, 2]),
-                colors=colours_itl[i]
-                if use_RGB_planckian_locus_colours
-                else planckian_locus_colours,
+                np.reshape(
+                    np.concatenate(
+                        [lines_itl[i][:-1], lines_itl[i][1:]],  # pyright: ignore
+                        axis=1,
+                    ),
+                    (-1, 2, 2),
+                ),
+                colors=(
+                    colours_itl[i]
+                    if use_RGB_planckian_locus_colours
+                    else planckian_locus_colours
+                ),
                 alpha=planckian_locus_opacity,
                 zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
             )
@@ -525,10 +520,9 @@ def plot_planckian_locus(
 
 @override_style()
 def plot_planckian_locus_in_chromaticity_diagram(
-    illuminants: str | Sequence[str],
+    illuminants: str | Sequence[str] | None = None,
     chromaticity_diagram_callable: Callable = plot_chromaticity_diagram,
-    method: Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
-    | str = "CIE 1931",
+    method: (Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"] | str) = "CIE 1931",
     annotate_kwargs: dict | List[dict] | None = None,
     plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,
@@ -605,15 +599,13 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
         :alt: plot_planckian_locus_in_chromaticity_diagram
     """
 
-    method = validate_method(
-        method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS")
-    )
+    illuminants = optional(illuminants, [])
+
+    method = validate_method(method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"))
 
     cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
 
-    illuminants_filtered = filter_passthrough(
-        CCS_ILLUMINANTS[cmfs.name], illuminants
-    )
+    illuminants_filtered = filter_passthrough(CCS_ILLUMINANTS[cmfs.name], illuminants)
 
     settings: Dict[str, Any] = {"uniform": True}
     settings.update(kwargs)
@@ -721,7 +713,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
 
 @override_style()
 def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
-    illuminants: str | Sequence[str],
+    illuminants: str | Sequence[str] | None = None,
     chromaticity_diagram_callable_CIE1931: Callable = (
         plot_chromaticity_diagram_CIE1931
     ),
@@ -800,7 +792,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1931.png
 
 @override_style()
 def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
-    illuminants: str | Sequence[str],
+    illuminants: str | Sequence[str] | None = None,
     chromaticity_diagram_callable_CIE1960UCS: Callable = (
         plot_chromaticity_diagram_CIE1960UCS
     ),
@@ -881,7 +873,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1960UCS.png
 
 @override_style()
 def plot_planckian_locus_in_chromaticity_diagram_CIE1976UCS(
-    illuminants: str | Sequence[str],
+    illuminants: str | Sequence[str] | None = None,
     chromaticity_diagram_callable_CIE1976UCS: Callable = (
         plot_chromaticity_diagram_CIE1976UCS
     ),

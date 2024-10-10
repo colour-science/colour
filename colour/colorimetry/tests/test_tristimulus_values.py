@@ -11,11 +11,11 @@ References
 
 from __future__ import annotations
 
-import unittest
-
 import numpy as np
+import pytest
 
 from colour.algebra import LinearInterpolator, SpragueInterpolator
+from colour.characterisation import SDS_COLOURCHECKERS
 from colour.colorimetry import (
     MSDS_CMFS,
     SDS_ILLUMINANTS,
@@ -37,6 +37,7 @@ from colour.colorimetry import (
     sd_to_XYZ_integration,
     sd_to_XYZ_tristimulus_weighting_factors_ASTME308,
     sd_zeros,
+    sds_and_msds_to_msds,
     tristimulus_weighting_factors_ASTME2022,
     wavelength_to_XYZ,
 )
@@ -577,7 +578,7 @@ TVS_D65_ASTME308_K1_MSDS: NDArrayFloat = np.array(
 )
 
 
-class TestHandleSpectralArguments(unittest.TestCase):
+class TestHandleSpectralArguments:
     """
     Define :func:`colour.colorimetry.tristimulus_values.\
 handle_spectral_arguments` definition unit tests methods.
@@ -590,34 +591,26 @@ handle_spectral_arguments` definition.
         """
 
         cmfs, illuminant = handle_spectral_arguments()
-        self.assertEqual(
-            cmfs,
-            reshape_msds(MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]),
-        )
-        self.assertEqual(illuminant, reshape_sd(SDS_ILLUMINANTS["D65"]))
+        assert cmfs == reshape_msds(MSDS_CMFS["CIE 1931 2 Degree Standard Observer"])
+        assert illuminant == reshape_sd(SDS_ILLUMINANTS["D65"])
 
         shape = SpectralShape(400, 700, 20)
         cmfs, illuminant = handle_spectral_arguments(shape_default=shape)
-        self.assertEqual(cmfs.shape, shape)
-        self.assertEqual(illuminant.shape, shape)
+        assert cmfs.shape == shape
+        assert illuminant.shape == shape
 
         cmfs, illuminant = handle_spectral_arguments(
             cmfs_default="CIE 2015 2 Degree Standard Observer",
             illuminant_default="E",
             shape_default=shape,
         )
-        self.assertEqual(
-            cmfs,
-            reshape_msds(
-                MSDS_CMFS["CIE 2015 2 Degree Standard Observer"], shape=shape
-            ),
+        assert cmfs == reshape_msds(
+            MSDS_CMFS["CIE 2015 2 Degree Standard Observer"], shape=shape
         )
-        self.assertEqual(
-            illuminant, sd_ones(shape, interpolator=LinearInterpolator) * 100
-        )
+        assert illuminant == sd_ones(shape, interpolator=LinearInterpolator) * 100
 
 
-class TestLagrangeCoefficientsASTME2022(unittest.TestCase):
+class TestLagrangeCoefficientsASTME2022:
     """
     Define :func:`colour.colorimetry.tristimulus_values.\
 lagrange_coefficients_ASTME2022` definition unit tests methods.
@@ -659,7 +652,7 @@ lagrange_coefficients_ASTME2022` definition.
         )
 
 
-class TestTristimulusWeightingFactorsASTME2022(unittest.TestCase):
+class TestTristimulusWeightingFactorsASTME2022:
     """
     Define :func:`colour.colorimetry.tristimulus_values.\
 tristimulus_weighting_factors_ASTME2022` definition unit tests methods.
@@ -687,16 +680,12 @@ tristimulus_weighting_factors_ASTME2022` definition.
         twf = tristimulus_weighting_factors_ASTME2022(
             cmfs, A, SpectralShape(360, 830, 10)
         )
-        np.testing.assert_allclose(
-            np.round(twf, 3), TWF_A_CIE_1964_10_10, atol=1e-5
-        )
+        np.testing.assert_allclose(np.round(twf, 3), TWF_A_CIE_1964_10_10, atol=1e-5)
 
         twf = tristimulus_weighting_factors_ASTME2022(
             cmfs, A, SpectralShape(360, 830, 20)
         )
-        np.testing.assert_allclose(
-            np.round(twf, 3), TWF_A_CIE_1964_10_20, atol=1e-5
-        )
+        np.testing.assert_allclose(np.round(twf, 3), TWF_A_CIE_1964_10_20, atol=1e-5)
 
         cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
         D65 = reshape_sd(
@@ -752,7 +741,7 @@ tristimulus_weighting_factors_ASTME2022` definition raised exception.
         A_1 = sd_CIE_standard_illuminant_A(cmfs_1.shape)
         A_2 = sd_CIE_standard_illuminant_A(cmfs_2.shape)
 
-        self.assertRaises(
+        pytest.raises(
             ValueError,
             tristimulus_weighting_factors_ASTME2022,
             cmfs_1,
@@ -760,7 +749,7 @@ tristimulus_weighting_factors_ASTME2022` definition raised exception.
             shape,
         )
 
-        self.assertRaises(
+        pytest.raises(
             ValueError,
             tristimulus_weighting_factors_ASTME2022,
             cmfs_2,
@@ -769,7 +758,7 @@ tristimulus_weighting_factors_ASTME2022` definition raised exception.
         )
 
 
-class TestAdjustTristimulusWeightingFactorsASTME308(unittest.TestCase):
+class TestAdjustTristimulusWeightingFactorsASTME308:
     """
     Define :func:`colour.colorimetry.tristimulus_values.\
 adjust_tristimulus_weighting_factors_ASTME308` definition unit tests methods.
@@ -792,7 +781,7 @@ adjust_tristimulus_weighting_factors_ASTME308` definition.
         )
 
 
-class TestSd_to_XYZ_integration(unittest.TestCase):
+class TestSd_to_XYZ_integration:
     """
     Define :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ_integration`
     definition unit tests methods.
@@ -836,10 +825,19 @@ sd_to_XYZ_integration` definition.
         )
 
         np.testing.assert_allclose(
-            sd_to_XYZ_integration(
-                SD_SAMPLE, cmfs, SDS_ILLUMINANTS["FL2"], k=683
-            ),
+            sd_to_XYZ_integration(SD_SAMPLE, cmfs, SDS_ILLUMINANTS["FL2"], k=683),
             np.array([1223.7509261493, 1055.7284645912, 417.8501342332]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            sd_to_XYZ_integration(
+                SD_SAMPLE,
+                cmfs,
+                SDS_ILLUMINANTS["FL2"],
+                shape=SpectralShape(400, 700, 20),
+            ),
+            np.array([11.98232967, 10.13543929, 3.66442524]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -856,15 +854,13 @@ sd_to_XYZ_integration` definition domain and range scale support.
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_allclose(
-                    sd_to_XYZ_integration(
-                        SD_SAMPLE, cmfs, SDS_ILLUMINANTS["A"]
-                    ),
+                    sd_to_XYZ_integration(SD_SAMPLE, cmfs, SDS_ILLUMINANTS["A"]),
                     XYZ * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
 
-class TestSd_to_XYZ_tristimulus_weighting_factors_ASTME308(unittest.TestCase):
+class TestSd_to_XYZ_tristimulus_weighting_factors_ASTME308:
     """
     Define :func:`colour.colorimetry.tristimulus_values.\
 sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
@@ -916,9 +912,7 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
 
         np.testing.assert_allclose(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
-                reshape_sd(
-                    SD_SAMPLE, SpectralShape(400, 700, 10), "Interpolate"
-                ),
+                reshape_sd(SD_SAMPLE, SpectralShape(400, 700, 10), "Interpolate"),
                 cmfs,
                 SDS_ILLUMINANTS["A"],
             ),
@@ -928,9 +922,7 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
 
         np.testing.assert_allclose(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
-                reshape_sd(
-                    SD_SAMPLE, SpectralShape(400, 700, 20), "Interpolate"
-                ),
+                reshape_sd(SD_SAMPLE, SpectralShape(400, 700, 20), "Interpolate"),
                 cmfs,
                 SDS_ILLUMINANTS["A"],
             ),
@@ -940,9 +932,7 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
 
         np.testing.assert_allclose(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
-                reshape_sd(
-                    SD_SAMPLE, SpectralShape(400, 700, 20), "Interpolate"
-                ),
+                reshape_sd(SD_SAMPLE, SpectralShape(400, 700, 20), "Interpolate"),
                 cmfs,
                 SDS_ILLUMINANTS["A"],
                 k=1,
@@ -975,13 +965,13 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308` definition domain and
                 )
 
 
-class TestSd_to_XYZ_ASTME308(unittest.TestCase):
+class TestSd_to_XYZ_ASTME308:
     """
     Define :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ_ASTME308`
     definition unit tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         self._sd = SD_SAMPLE.copy()
@@ -1341,20 +1331,20 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
         definition raised exception.
         """
 
-        self.assertRaises(
+        pytest.raises(
             ValueError,
             sd_to_XYZ_ASTME308,
             reshape_sd(self._sd, SpectralShape(360, 820, 2)),
         )
 
 
-class TestSd_to_XYZ(unittest.TestCase):
+class TestSd_to_XYZ:
     """
     Define :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ` definition
     unit tests methods.
     """
 
-    def setUp(self):
+    def setup_method(self):
         """Initialise the common tests attributes."""
 
         self._cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
@@ -1384,8 +1374,55 @@ class TestSd_to_XYZ(unittest.TestCase):
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        np.testing.assert_allclose(
+            sd_to_XYZ(
+                self._sd,
+                self._cmfs,
+                self._A,
+                method="Integration",
+                shape=SpectralShape(400, 700, 20),
+            ),
+            np.array([14.52005467, 10.88000966, 2.03888717]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
 
-class TestMsds_to_XYZ_integration(unittest.TestCase):
+        np.testing.assert_allclose(
+            sd_to_XYZ(
+                sds_and_msds_to_msds(SDS_COLOURCHECKERS["babel_average"].values()),
+            ),
+            np.array(
+                [
+                    [12.06344619, 10.33615020, 6.25100082],
+                    [40.27284790, 35.29615976, 23.01540616],
+                    [18.09306423, 18.50797244, 31.67770084],
+                    [11.16523793, 13.25122619, 6.36666038],
+                    [25.83420330, 23.32560917, 40.31232440],
+                    [31.64244829, 41.64149301, 40.76605171],
+                    [40.89999141, 31.22508083, 5.82002195],
+                    [13.60742370, 11.51655221, 35.39885724],
+                    [30.69032237, 19.87942885, 12.46562439],
+                    [8.93362430, 6.46162368, 13.07228804],
+                    [35.66114785, 44.08411919, 10.28724123],
+                    [49.24169657, 43.46327044, 7.13506647],
+                    [7.81888273, 5.89050934, 25.75773837],
+                    [15.18817149, 22.93975934, 8.94663877],
+                    [22.23187260, 12.73987267, 4.62599881],
+                    [60.68157753, 60.55780947, 8.43465082],
+                    [32.27071879, 20.22049576, 28.85354643],
+                    [14.49902213, 19.10377565, 35.60283004],
+                    [90.78293221, 91.26928233, 87.29499532],
+                    [58.53195263, 58.84257471, 58.34877604],
+                    [35.77113141, 35.94371650, 35.85712527],
+                    [18.98962045, 19.11651714, 19.15115933],
+                    [8.87518188, 8.93947283, 9.06486638],
+                    [3.21099614, 3.20073667, 3.25495104],
+                ]
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+
+class TestMsds_to_XYZ_integration:
     """
     Define :func:`colour.colorimetry.tristimulus_values.\
 msds_to_XYZ_integration` definition unit tests methods.
@@ -1449,7 +1486,7 @@ msds_to_XYZ_integration` definition domain and range scale support.
                 )
 
 
-class TestMsds_to_XYZ_ASTME308(unittest.TestCase):
+class TestMsds_to_XYZ_ASTME308:
     """
     Define :func:`colour.colorimetry.tristimulus_values.msds_to_XYZ_ASTME308`
     definition unit tests methods.
@@ -1501,17 +1538,17 @@ msds_to_XYZ_ASTME308` definition domain and range scale support.
 msds_to_XYZ_ASTME308` definition raise exception.
         """
 
-        self.assertRaises(TypeError, msds_to_XYZ_ASTME308, DATA_TWO)
+        pytest.raises(TypeError, msds_to_XYZ_ASTME308, DATA_TWO)
 
 
-class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
+class TestAbsoluteIntegrationToXYZ:
     """
     Test the absolute integration to tristimulus values for :math:`k = 683`
     """
 
     def test_absolute_integration_to_TVS_1nm(self):
         """
-        Test the absolute, i.e. user given :math:`k` value, integration to
+        Test the absolute, i.e., user given :math:`k` value, integration to
         tristimulus values for 1nm interval.
         """
 
@@ -1532,10 +1569,13 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
         # Test single spectral distribution integration methods.
         for method in methods[0:3]:
             XYZ = method(sd, k=k)
-            XYZ = XYZ.reshape(3) if len(XYZ.shape) > 1 else XYZ
-            np.testing.assert_allclose(XYZ[1], k, atol=5e-5), (
-                "1 watt @ 555nm should be approximately 683 candela."
-                f" Failed method: {method}"
+            XYZ = np.reshape(XYZ, 3) if len(XYZ.shape) > 1 else XYZ
+            (
+                np.testing.assert_allclose(XYZ[1], k, atol=5e-5),
+                (
+                    "1 watt @ 555nm should be approximately 683 candela."
+                    f" Failed method: {method}"
+                ),
             )
 
         # Test multi-spectral distributions integration methods.
@@ -1543,22 +1583,23 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
         for method in methods[3:6]:
             XYZ: np.ndarray = method(msds, k=k)
             if len(XYZ.shape) > 1:
-                XYZ = XYZ.reshape(3)
-            np.testing.assert_allclose(XYZ[1], k, atol=5e-5), (
-                "1 watt @ 555nm should be approximately 683 candela."
-                f" Failed method: {method}"
+                XYZ = np.reshape(XYZ, 3)
+            (
+                np.testing.assert_allclose(XYZ[1], k, atol=5e-5),
+                (
+                    "1 watt @ 555nm should be approximately 683 candela."
+                    f" Failed method: {method}"
+                ),
             )
 
     def test_absolute_integration_to_TVS_5nm(self):
         """
-        Test the absolute, i.e. user given :math:`k` value, integration to
+        Test the absolute, i.e., user given :math:`k` value, integration to
         tristimulus values for 5nm interval by ensuring that the *Riemann Sum*
         accounts for the :math:`\\delta w` term.
         """
 
-        sd = sd_zeros(
-            SpectralShape(380, 780, 5), interpolator=SpragueInterpolator
-        )
+        sd = sd_zeros(SpectralShape(380, 780, 5), interpolator=SpragueInterpolator)
 
         # 1 watt at 555nm, 0 watt everywhere else.
         # For 5nm average sampling, this corresponds to 0.2 watt at 555nm.
@@ -1577,10 +1618,13 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
         # Test single spectral distribution integration methods.
         for method in methods[0:3]:
             XYZ: np.ndarray = method(sd, k=k)
-            XYZ = XYZ.reshape(3) if len(XYZ.shape) > 1 else XYZ
-            np.testing.assert_allclose(XYZ[1], k, atol=5e-2), (
-                "1 watt @ 555nm should be approximately 683 candela. "
-                f"Failed method: {method}"
+            XYZ = np.reshape(XYZ, 3) if len(XYZ.shape) > 1 else XYZ
+            (
+                np.testing.assert_allclose(XYZ[1], k, atol=5e-2),
+                (
+                    "1 watt @ 555nm should be approximately 683 candela. "
+                    f"Failed method: {method}"
+                ),
             )
 
         # Test multi-spectral distributions integration methods.
@@ -1588,14 +1632,17 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
         for method in methods[3:6]:
             XYZ: np.ndarray = method(msds, k=k)
             if len(XYZ.shape) > 1:
-                XYZ = XYZ.reshape(3)
-            np.testing.assert_allclose(XYZ[1], k, atol=5e-2), (
-                "1 watt @ 555nm should be approximately 683 candela."
-                f"Failed method: {method}"
+                XYZ = np.reshape(XYZ, 3)
+            (
+                np.testing.assert_allclose(XYZ[1], k, atol=5e-2),
+                (
+                    "1 watt @ 555nm should be approximately 683 candela."
+                    f"Failed method: {method}"
+                ),
             )
 
 
-class TestWavelength_to_XYZ(unittest.TestCase):
+class TestWavelength_to_XYZ:
     """
     Define :func:`colour.colorimetry.tristimulus_values.wavelength_to_XYZ`
     definition unit tests methods.
@@ -1608,25 +1655,19 @@ class TestWavelength_to_XYZ(unittest.TestCase):
         """
 
         np.testing.assert_allclose(
-            wavelength_to_XYZ(
-                480, MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
-            ),
+            wavelength_to_XYZ(480, MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]),
             np.array([0.09564, 0.13902, 0.81295]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            wavelength_to_XYZ(
-                480, MSDS_CMFS["CIE 2015 2 Degree Standard Observer"]
-            ),
+            wavelength_to_XYZ(480, MSDS_CMFS["CIE 2015 2 Degree Standard Observer"]),
             np.array([0.08182895, 0.17880480, 0.75523790]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            wavelength_to_XYZ(
-                641.5, MSDS_CMFS["CIE 2015 2 Degree Standard Observer"]
-            ),
+            wavelength_to_XYZ(641.5, MSDS_CMFS["CIE 2015 2 Degree Standard Observer"]),
             np.array([0.44575583, 0.18184213, 0.00000000]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -1637,9 +1678,9 @@ class TestWavelength_to_XYZ(unittest.TestCase):
         definition raised exception.
         """
 
-        self.assertRaises(ValueError, wavelength_to_XYZ, 1)
+        pytest.raises(ValueError, wavelength_to_XYZ, 1)
 
-        self.assertRaises(ValueError, wavelength_to_XYZ, 1000)
+        pytest.raises(ValueError, wavelength_to_XYZ, 1000)
 
     def test_n_dimensional_wavelength_to_XYZ(self):
         """
@@ -1668,7 +1709,3 @@ class TestWavelength_to_XYZ(unittest.TestCase):
         np.testing.assert_allclose(
             wavelength_to_XYZ(wl, cmfs), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

@@ -2,7 +2,7 @@
 LUT Operator
 ============
 
-Defines the *LUT* operator classes:
+Define the *LUT* operator classes:
 
 -   :class:`colour.io.AbstractLUTSequenceOperator`
 -   :class:`colour.LUTOperatorMatrix`
@@ -14,7 +14,7 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-from colour.algebra import vector_dot
+from colour.algebra import vecmul
 from colour.hints import (
     Any,
     ArrayLike,
@@ -26,7 +26,6 @@ from colour.utilities import (
     as_float_array,
     attest,
     is_iterable,
-    is_string,
     ones,
     optional,
     zeros,
@@ -102,7 +101,7 @@ class AbstractLUTSequenceOperator(ABC):
         """Setter for the **self.name** property."""
 
         attest(
-            is_string(value),
+            isinstance(value, str),
             f'"name" property: "{value}" type is not "str"!',
         )
 
@@ -279,7 +278,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
         shape_t = value.shape[-1]
 
-        value = value.reshape([shape_t, shape_t])
+        value = np.reshape(value, (shape_t, shape_t))
 
         attest(
             value.shape in [(3, 3), (4, 4)],
@@ -380,9 +379,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
         Examples
         --------
-        >>> LUTOperatorMatrix(
-        ...     comments=["A first comment.", "A second comment."]
-        ... )
+        >>> LUTOperatorMatrix(comments=["A first comment.", "A second comment."])
         ... # doctest: +ELLIPSIS
         LUTOperatorMatrix([[ 1.,  0.,  0.,  0.],
                            [ 0.,  1.,  0.,  0.],
@@ -394,9 +391,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         """
 
         representation = repr(self._matrix)
-        representation = representation.replace(
-            "array", self.__class__.__name__
-        )
+        representation = representation.replace("array", self.__class__.__name__)
         representation = representation.replace(
             "       [", f"{' ' * (len(self.__class__.__name__) + 2)}["
         )
@@ -404,9 +399,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         indentation = " " * (len(self.__class__.__name__) + 1)
 
         comments = (
-            f",\n{indentation}comments={self._comments!r}"
-            if self._comments
-            else ""
+            f",\n{indentation}comments={self._comments!r}" if self._comments else ""
         )
 
         return "\n".join(
@@ -465,7 +458,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         Examples
         --------
         >>> LUTOperatorMatrix() != LUTOperatorMatrix(
-        ...     np.linspace(0, 1, 16).reshape([4, 4])
+        ...     np.reshape(np.linspace(0, 1, 16), (4, 4))
         ... )
         True
         """
@@ -473,7 +466,10 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         return not (self == other)
 
     def apply(
-        self, RGB: ArrayLike, *args: Any, **kwargs: Any  # noqa: ARG002
+        self,
+        RGB: ArrayLike,
+        *args: Any,  # noqa: ARG002
+        **kwargs: Any,
     ) -> NDArrayFloat:
         """
         Apply the *LUT* operator to given *RGB* array.
@@ -522,7 +518,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         if apply_offset_first:
             RGB += offset
 
-        RGB = vector_dot(M, RGB)
+        RGB = vecmul(M, RGB)
 
         if not apply_offset_first:
             RGB += offset

@@ -2,7 +2,7 @@
 Cinespace .csp LUT Format Input / Output Utilities
 ==================================================
 
-Defines the *Cinespace* *.csp* *LUT* format related input / output utilities
+Define the *Cinespace* *.csp* *LUT* format related input / output utilities
 objects:
 
 -   :func:`colour.io.read_LUT_Cinespace`
@@ -16,6 +16,8 @@ References
 """
 
 from __future__ import annotations
+
+from pathlib import Path
 
 import numpy as np
 
@@ -43,7 +45,7 @@ __all__ = [
 ]
 
 
-def read_LUT_Cinespace(path: str) -> LUT3x1D | LUT3D | LUTSequence:
+def read_LUT_Cinespace(path: str | Path) -> LUT3x1D | LUT3D | LUTSequence:
     """
     Read given *Cinespace* *.csp* *LUT* file.
 
@@ -114,9 +116,7 @@ def read_LUT_Cinespace(path: str) -> LUT3x1D | LUT3D | LUTSequence:
         """Parse the domain at given lines."""
 
         pre_LUT_size = max(int(lines[i]) for i in [0, 3, 6])
-        pre_LUT = [
-            as_float_array(lines[i].split()) for i in [1, 2, 4, 5, 7, 8]
-        ]
+        pre_LUT = [as_float_array(lines[i].split()) for i in [1, 2, 4, 5, 7, 8]]
 
         pre_LUT_padded = []
         for array in pre_LUT:
@@ -184,11 +184,9 @@ def read_LUT_Cinespace(path: str) -> LUT3x1D | LUT3D | LUTSequence:
     if (
         is_3D
         and pre_LUT.shape == (6, 2)
-        and np.array_equal(
-            np.transpose(np.reshape(pre_LUT, (3, 4)))[2:4], unity_range
-        )
+        and np.array_equal(np.transpose(np.reshape(pre_LUT, (3, 4)))[2:4], unity_range)
     ):
-        table = table.reshape([size[0], size[1], size[2], 3], order="F")
+        table = np.reshape(table, (size[0], size[1], size[2], 3), order="F")
         LUT = LUT3D(
             domain=np.transpose(np.reshape(pre_LUT, (3, 4)))[0:2],
             name=title,
@@ -199,12 +197,10 @@ def read_LUT_Cinespace(path: str) -> LUT3x1D | LUT3D | LUTSequence:
     elif (
         not is_3D
         and pre_LUT.shape == (6, 2)
-        and np.array_equal(
-            np.transpose(np.reshape(pre_LUT, (3, 4)))[2:4], unity_range
-        )
+        and np.array_equal(np.transpose(np.reshape(pre_LUT, (3, 4)))[2:4], unity_range)
     ):
         LUT = LUT3x1D(
-            domain=pre_LUT.reshape([3, 4]).transpose()[0:2],
+            domain=np.reshape(pre_LUT, (3, 4)).transpose()[0:2],
             name=title,
             comments=comments,
             table=table,
@@ -215,7 +211,7 @@ def read_LUT_Cinespace(path: str) -> LUT3x1D | LUT3D | LUTSequence:
         pre_table = tstack((pre_LUT[1], pre_LUT[3], pre_LUT[5]))
         shaper_name = f"{title} - Shaper"
         cube_name = f"{title} - Cube"
-        table = table.reshape([size[0], size[1], size[2], 3], order="F")
+        table = np.reshape(table, (size[0], size[1], size[2], 3), order="F")
 
         LUT = LUTSequence(
             LUT3x1D(pre_table, shaper_name, pre_domain),
@@ -246,7 +242,7 @@ def read_LUT_Cinespace(path: str) -> LUT3x1D | LUT3D | LUTSequence:
 
 
 def write_LUT_Cinespace(
-    LUT: LUT3x1D | LUT3D | LUTSequence, path: str, decimals: int = 7
+    LUT: LUT3x1D | LUT3D | LUTSequence, path: str | Path, decimals: int = 7
 ) -> bool:
     """
     Write given *LUT* to given  *Cinespace* *.csp* *LUT* file.
@@ -296,6 +292,8 @@ def write_LUT_Cinespace(
     >>> write_LUT_Cinespace(LUT, "My_LUT.cube")  # doctest: +SKIP
     """
 
+    path = str(path)
+
     has_3D, has_3x1D = False, False
 
     if isinstance(LUT, LUTSequence):
@@ -305,9 +303,7 @@ def write_LUT_Cinespace(
             and isinstance(LUT[1], LUT3D),
             '"LUTSequence" must be "1D + 3D" or "3x1D + 3D"!',
         )
-        LUT[0] = (
-            LUT[0].convert(LUT3x1D) if isinstance(LUT[0], LUT1D) else LUT[0]
-        )
+        LUT[0] = LUT[0].convert(LUT3x1D) if isinstance(LUT[0], LUT1D) else LUT[0]
         name = f"{LUT[0].name} - {LUT[1].name}"
         has_3x1D = True
         has_3D = True
@@ -336,9 +332,7 @@ def write_LUT_Cinespace(
             "Shaper size must be in domain [2, 65536]!",
         )
     if has_3D:
-        attest(
-            2 <= LUT[1].size <= 256, "Cube size must be in domain [2, 256]!"
-        )
+        attest(2 <= LUT[1].size <= 256, "Cube size must be in domain [2, 256]!")
 
     def _ragged_size(table: ArrayLike) -> list:
         """Return the ragged size of given table."""
@@ -395,17 +389,13 @@ def write_LUT_Cinespace(
                             )
                         )
 
-                        csp_file.write(
-                            f"{format_array_as_row(entry, decimals)} "
-                        )
+                        csp_file.write(f"{format_array_as_row(entry, decimals)} ")
 
                     csp_file.write("\n")
 
                     for j in range(size):
                         entry = LUT[0].table[j][i]
-                        csp_file.write(
-                            f"{format_array_as_row(entry, decimals)} "
-                        )
+                        csp_file.write(f"{format_array_as_row(entry, decimals)} ")
 
                     csp_file.write("\n")
             else:
@@ -415,16 +405,14 @@ def write_LUT_Cinespace(
                         [LUT[1].domain[0][i], LUT[1].domain[1][i]], decimals
                     )
                     csp_file.write(f"{domain}\n")
-                    csp_file.write(
-                        f"{format_array_as_row([0, 1], decimals)}\n"
-                    )
+                    csp_file.write(f"{format_array_as_row([0, 1], decimals)}\n")
 
             csp_file.write(
                 f"\n{LUT[1].table.shape[0]} "
                 f"{LUT[1].table.shape[1]} "
                 f"{LUT[1].table.shape[2]}\n"
             )
-            table = LUT[1].table.reshape([-1, 3], order="F")
+            table = np.reshape(LUT[1].table, (-1, 3), order="F")
 
             for array in table:
                 csp_file.write(f"{format_array_as_row(array, decimals)}\n")

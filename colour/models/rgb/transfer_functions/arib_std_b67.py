@@ -2,7 +2,7 @@
 ARIB STD-B67 (Hybrid Log-Gamma)
 ===============================
 
-Defines the *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electrical transfer function
+Define the *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electrical transfer function
 (OETF) and its inverse:
 
 -   :func:`colour.models.oetf_ARIBSTDB67`
@@ -45,9 +45,7 @@ __all__ = [
     "oetf_inverse_ARIBSTDB67",
 ]
 
-CONSTANTS_ARIBSTDB67: Structure = Structure(
-    a=0.17883277, b=0.28466892, c=0.55991073
-)
+CONSTANTS_ARIBSTDB67: Structure = Structure(a=0.17883277, b=0.28466892, c=0.55991073)
 """*ARIB STD-B67 (Hybrid Log-Gamma)* constants."""
 
 
@@ -111,9 +109,7 @@ def oetf_ARIBSTDB67(
     b = constants.b
     c = constants.c
 
-    E_p = np.where(
-        E <= 1, r * gamma_function(E, 0.5, "mirror"), a * np.log(E - b) + c
-    )
+    E_p = np.where(E <= 1, r * gamma_function(E, 0.5, "mirror"), a * np.log(E - b) + c)
 
     return as_float(from_range_1(E_p))
 
