@@ -74,7 +74,7 @@ meshing = [
 
 [project.urls]
 Homepage = "https://www.colour-science.org"
-Documentation = "https://readthedocs.org"
+Documentation = "https://colour.readthedocs.org"
 Repository = "https://github.com/colour-science/colour"
 Issues = "https://github.com/colour-science/colour/issues"
 Changelog = "https://github.com/colour-science/colour/releases"
