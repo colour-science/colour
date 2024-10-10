@@ -8,6 +8,7 @@ import shutil
 import tempfile
 
 import numpy as np
+import pytest
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.io import (
@@ -594,3 +595,32 @@ class TestAs3ChannelsImage:
         np.testing.assert_equal(as_3_channels_image(a), b)
         a = np.array([[[0.18, 0.18, 0.18]]])
         np.testing.assert_equal(as_3_channels_image(a), b)
+        a = np.array([[[[0.18, 0.18, 0.18]]]])
+        np.testing.assert_equal(as_3_channels_image(a), b)
+
+    def test_raise_exception_as_3_channels_image(self):
+        """
+        Test :func:`colour.io.image.as_3_channels_image` definition raised
+        exception.
+        """
+
+        pytest.raises(
+            ValueError,
+            as_3_channels_image,
+            [
+                [
+                    [[0.18, 0.18, 0.18], [0.18, 0.18, 0.18]],
+                    [[0.18, 0.18, 0.18], [0.18, 0.18, 0.18]],
+                ],
+                [
+                    [[0.18, 0.18, 0.18], [0.18, 0.18, 0.18]],
+                    [[0.18, 0.18, 0.18], [0.18, 0.18, 0.18]],
+                ],
+            ],
+        )
+
+        pytest.raises(
+            ValueError,
+            as_3_channels_image,
+            [0.18, 0.18, 0.18, 0.18],
+        )
