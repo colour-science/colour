@@ -317,7 +317,7 @@ If you'd like to join them, please consider
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://twitter.com/CLVPTY" target="_blank">
-                        <img width="98px" src="https://pbs.twimg.com/profile_images/973315780388540416/KEddjwch_400x400.jpg">
+                        <img width="98px" src="https://pbs.twimg.com/profile_images/1828737659918774273/uML8EAPp_400x400.jpg">
                     </a>
                     <p><a href="https://twitter.com/CLVPTY" target="_blank">Cedric Lejeune</a></p>
                 </td>
