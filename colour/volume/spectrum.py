@@ -251,7 +251,7 @@ def XYZ_outer_surface(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Generate the *Rösch-MacAdam* colour solid, i.e. *CIE XYZ* colourspace
+    Generate the *Rösch-MacAdam* colour solid, i.e., *CIE XYZ* colourspace
     outer surface, for given colour matching functions using multi-spectral
     conversion of pulse waves to *CIE XYZ* tristimulus values.
 
@@ -392,7 +392,7 @@ def is_within_visible_spectrum(
 ) -> NDArrayFloat:
     """
     Return whether given *CIE XYZ* tristimulus values are within the visible
-    spectrum volume, i.e. *Rösch-MacAdam* colour solid, for given colour
+    spectrum volume, i.e., *Rösch-MacAdam* colour solid, for given colour
     matching functions and illuminant.
 
     Parameters
@@ -417,7 +417,7 @@ def is_within_visible_spectrum(
     -------
     :class:`numpy.ndarray`
         Are *CIE XYZ* tristimulus values within the visible spectrum volume,
-        i.e. *Rösch-MacAdam* colour solid.
+        i.e., *Rösch-MacAdam* colour solid.
 
     Notes
     -----

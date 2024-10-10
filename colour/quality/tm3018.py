@@ -178,7 +178,7 @@ def colour_fidelity_index_ANSIIESTM3018(
     # Gamut Index.
     R_g = 100 * (averages_area(averages_test) / averages_area(averages_reference))
 
-    # Local colour fidelity indexes, i.e. 16 CFIs for each bin.
+    # Local colour fidelity indexes, i.e., 16 CFIs for each bin.
     bin_delta_E_s = np.nanmean(
         np.reshape(specification.delta_E_s, (1, -1)) * bin_mask, axis=1
     )

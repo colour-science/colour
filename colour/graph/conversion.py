@@ -1072,7 +1072,7 @@ def _conversion_path(source: str, target: str) -> List[Callable]:
     Returns
     -------
     :class:`list`
-        Conversion path from the source node to the target node, i.e. a list of
+        Conversion path from the source node to the target node, i.e., a list of
         conversion function callables.
 
     Examples
@@ -1101,7 +1101,7 @@ def _conversion_path(source: str, target: str) -> List[Callable]:
 
 def _lower_order_function(callable_: Callable) -> Callable:
     """
-    Return the lower order function associated with given callable, i.e.
+    Return the lower order function associated with given callable, i.e.,
     the function wrapped by a partial object.
 
     Parameters
@@ -1135,10 +1135,10 @@ def describe_conversion_path(
     Parameters
     ----------
     source
-        Source colour representation, i.e. the source node in the automatic
+        Source colour representation, i.e., the source node in the automatic
         colour conversion graph.
     target
-        Target colour representation, i.e. the target node in the automatic
+        Target colour representation, i.e., the target node in the automatic
         colour conversion graph.
     mode
         Verbose mode: *Short* describes the conversion path, *Long* provides
@@ -1270,10 +1270,10 @@ def convert(a: Any, source: str, target: str, **kwargs: Any) -> Any:
         viewed under *CIE Standard Illuminant D Series* *D65*. The illuminant
         can be changed on a per-definition basis along the conversion path.
     source
-        Source colour representation, i.e. the source node in the automatic
+        Source colour representation, i.e., the source node in the automatic
         colour conversion graph.
     target
-        Target colour representation, i.e. the target node in the automatic
+        Target colour representation, i.e., the target node in the automatic
         colour conversion graph.
 
     Other Parameters
@@ -1354,9 +1354,9 @@ verbose={"mode": "Long"})
     Notes
     -----
     -   The **RGB** colour representation is assumed to be linear and
-        representing *scene-referred* imagery, i.e. **Scene-Referred RGB**
+        representing *scene-referred* imagery, i.e., **Scene-Referred RGB**
         representation. To encode such *RGB* values as *output-referred*
-        (*display-referred*) imagery, i.e. encode the *RGB* values using an
+        (*display-referred*) imagery, i.e., encode the *RGB* values using an
         encoding colour component transfer function (Encoding CCTF) /
         opto-electronic transfer function (OETF), the
         **Output-Referred RGB** representation must be used::
@@ -1384,7 +1384,7 @@ verbose={"mode": "Long"})
             Thus, decoding and encoding using the sRGB electro-optical transfer
             function (EOTF) and its inverse will be applied by default.
         -   Most of the colour appearance models have defaults set according to
-            *IEC 61966-2-1:1999* viewing conditions, i.e. *sRGB* 64 Lux ambient
+            *IEC 61966-2-1:1999* viewing conditions, i.e., *sRGB* 64 Lux ambient
             illumination, 80 :math:`cd/m^2`, adapting field luminance about
             20% of a white object in the scene.
 

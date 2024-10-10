@@ -436,7 +436,7 @@ def sd_gaussian_fwhm(
     peak_wavelength
         Wavelength the gaussian spectral distribution will peak at.
     fwhm
-        Full width at half maximum, i.e. width of the gaussian spectral
+        Full width at half maximum, i.e., width of the gaussian spectral
         distribution measured between those points on the *y* axis which are
         half the maximum amplitude.
     shape
@@ -504,7 +504,7 @@ def sd_gaussian(
         peak at.
     sigma_fwhm
         Standard deviation :math:`sigma` of the gaussian spectral distribution
-        or full width at half maximum, i.e. width of the gaussian spectral
+        or full width at half maximum, i.e., width of the gaussian spectral
         distribution measured between those points on the *y* axis which are
         half the maximum amplitude.
     shape
@@ -698,7 +698,7 @@ def sd_multi_leds_Ohno2005(
     Parameters
     ----------
     peak_wavelengths
-        Wavelengths the multi *LED* spectral distribution will peak at, i.e.
+        Wavelengths the multi *LED* spectral distribution will peak at, i.e.,
         the peaks for each generated single *LED* spectral distributions.
     half_spectral_widths
         Half spectral widths :math:`\\Delta\\lambda_{0.5}`.
@@ -796,7 +796,7 @@ def sd_multi_leds(
     Parameters
     ----------
     peak_wavelengths
-        Wavelengths the multi *LED* spectral distribution will peak at, i.e.
+        Wavelengths the multi *LED* spectral distribution will peak at, i.e.,
         the peaks for each generated single *LED* spectral distributions.
     shape
         Spectral shape used to create the spectral distribution.

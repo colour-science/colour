@@ -12,7 +12,7 @@ Notes
     *experimental.dat* and *real.dat* files features *CIE xyY* colourspace
     values that are scaled by a :math:`1 / 0.975 \\simeq 1.02568` factor. If
     you are performing conversions using *Munsell* *Colorlab* specification,
-    e.g. *2.5R 9/2*, according to *ASTM D1535-08e1* method, you should not
+    e.g., *2.5R 9/2*, according to *ASTM D1535-08e1* method, you should not
     scale the output :math:`Y` Luminance. However, if you use directly the
     *CIE xyY* colourspace values from the Munsell Renotation data, you should
     scale the :math:`Y` Luminance before conversions by a :math:`0.975` factor.

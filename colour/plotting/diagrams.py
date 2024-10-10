@@ -216,7 +216,7 @@ def lines_spectral_locus(
     method: (Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"] | str) = "CIE 1931",
 ) -> Tuple[NDArray, NDArray]:
     """
-    Return the *Spectral Locus* line vertices, i.e. positions, normals and
+    Return the *Spectral Locus* line vertices, i.e., positions, normals and
     colours, according to given method.
 
     Parameters

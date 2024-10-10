@@ -373,7 +373,7 @@ def filter_warnings(
     """
     Filter *Colour* and also optionally overall Python warnings.
 
-    The possible values for all the actions, i.e. each argument, are as
+    The possible values for all the actions, i.e., each argument, are as
     follows:
 
     - *None* (No action is taken)
@@ -529,7 +529,7 @@ def suppress_warnings(
     Define a context manager filtering *Colour* and also optionally overall
     Python warnings.
 
-    The possible values for all the actions, i.e. each argument, are as
+    The possible values for all the actions, i.e., each argument, are as
     follows:
 
     - *None* (No action is taken)
@@ -679,7 +679,7 @@ def describe_environment(
     **kwargs: Any,
 ) -> defaultdict:
     """
-    Describe *Colour* running environment, i.e. interpreter, runtime and
+    Describe *Colour* running environment, i.e., interpreter, runtime and
     development packages.
 
     Parameters

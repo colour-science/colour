@@ -90,7 +90,7 @@ class ObjectRemoved(namedtuple("ObjectRemoved", ("name",))):
 
 class ObjectFutureRename(namedtuple("ObjectFutureRename", ("name", "new_name"))):
     """
-    A class used for future object name deprecation, i.e. object name will
+    A class used for future object name deprecation, i.e., object name will
     change in a future release.
 
     Parameters
@@ -147,7 +147,7 @@ class ObjectFutureAccessChange(
     namedtuple("ObjectFutureAccessChange", ("access", "new_access"))
 ):
     """
-    A class used for future object access deprecation, i.e. object access will
+    A class used for future object access deprecation, i.e., object access will
     change in a future release.
 
     Parameters
@@ -176,7 +176,7 @@ class ObjectFutureAccessChange(
 
 class ObjectFutureAccessRemove(namedtuple("ObjectFutureAccessRemove", ("name",))):
     """
-    A class used for future object access removal, i.e. object access will
+    A class used for future object access removal, i.e., object access will
     be removed in a future release.
 
     Parameters
@@ -248,7 +248,7 @@ class ArgumentRemoved(namedtuple("ArgumentRemoved", ("name",))):
 
 class ArgumentFutureRename(namedtuple("ArgumentFutureRename", ("name", "new_name"))):
     """
-    A class used for future argument name deprecation, i.e. argument name will
+    A class used for future argument name deprecation, i.e., argument name will
     change in a future release.
 
     Parameters
@@ -391,7 +391,7 @@ def get_attribute(attribute: str) -> Any:
     Parameters
     ----------
     attribute
-        Attribute to retrieve, ``attribute`` must have a namespace module, e.g.
+        Attribute to retrieve, ``attribute`` must have a namespace module, e.g.,
         *colour.models.oetf_inverse_BT2020*.
 
     Returns

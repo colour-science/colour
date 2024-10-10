@@ -515,7 +515,7 @@ def read_image(
         conversion behaviour is driven directly by the library, this definition
         only converts to the relevant data type after reading.
     method
-        Read method, i.e. the image library used for reading images.
+        Read method, i.e., the image library used for reading images.
 
     Other Parameters
     ----------------
@@ -813,7 +813,7 @@ def write_image(
         data is converted with :func:`colour.io.convert_bit_depth` definition
         prior to writing the image.
     method
-        Write method, i.e. the image library used for writing images.
+        Write method, i.e., the image library used for writing images.
 
     Other Parameters
     ----------------

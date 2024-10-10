@@ -2048,7 +2048,7 @@ class LUT3D(AbstractLUT):
 
         tree = KDTree(np.reshape(LUT_t.table, (-1, 3)))
 
-        # "LUT_q" stores the indexes of the KDTree query, i.e. the closest
+        # "LUT_q" stores the indexes of the KDTree query, i.e., the closest
         # entry of "LUT_t" for any searched table sample.
         LUT_q = LUT3D(size=target_size, domain=LUT.domain)
         query = tree.query(table, query_size)[-1]

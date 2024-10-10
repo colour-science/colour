@@ -92,9 +92,9 @@ def ctl_render(
     Other Parameters
     ----------------
     args
-        Arguments passed to *ctlrender*, e.g. ``-verbose``, ``-force``.
+        Arguments passed to *ctlrender*, e.g., ``-verbose``, ``-force``.
     kwargs
-        Keywords arguments passed to the sub-process calling *ctlrender*, e.g.
+        Keywords arguments passed to the sub-process calling *ctlrender*, e.g.,
         to define the environment variables such as ``CTL_MODULE_PATH``.
 
     Notes
@@ -221,9 +221,9 @@ def process_image_ctl(
     Other Parameters
     ----------------
     args
-        Arguments passed to *ctlrender*, e.g. ``-verbose``, ``-force``.
+        Arguments passed to *ctlrender*, e.g., ``-verbose``, ``-force``.
     kwargs
-        Keywords arguments passed to the sub-process calling *ctlrender*, e.g.
+        Keywords arguments passed to the sub-process calling *ctlrender*, e.g.,
         to define the environment variables such as ``CTL_MODULE_PATH``.
 
     Notes

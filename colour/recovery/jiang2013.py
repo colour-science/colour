@@ -289,7 +289,7 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
         values.
     basis_functions
         Basis functions for the method. The default is to use the built-in
-        *sRGB* basis functions, i.e.
+        *sRGB* basis functions, i.e.,
         :attr:`colour.recovery.BASIS_FUNCTIONS_DYER2017`.
     shape
         Spectral shape of the recovered camera *RGB* sensitivities,

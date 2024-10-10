@@ -194,7 +194,7 @@ def XYZ_to_UCS_Li2017(
     kwargs
         {:func:`colour.XYZ_to_CAM16`},
         See the documentation of the previously listed definition. The default
-        viewing conditions are that of *IEC 61966-2-1:1999*, i.e. *sRGB* 64 Lux
+        viewing conditions are that of *IEC 61966-2-1:1999*, i.e., *sRGB* 64 Lux
         ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
         20% of a white object in the scene.
 
@@ -289,7 +289,7 @@ def UCS_Li2017_to_XYZ(
     kwargs
         {:func:`colour.CAM16_to_XYZ`},
         See the documentation of the previously listed definition. The default
-        viewing conditions are that of *IEC 61966-2-1:1999*, i.e. *sRGB* 64 Lux
+        viewing conditions are that of *IEC 61966-2-1:1999*, i.e., *sRGB* 64 Lux
         ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
         20% of a white object in the scene.
 

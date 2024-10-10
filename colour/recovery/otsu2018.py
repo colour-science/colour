@@ -2,7 +2,7 @@
 Otsu, Yamamoto and Hachisuka (2018) - Reflectance Recovery
 ==========================================================
 
-Define the objects for reflectance recovery, i.e. spectral upsampling, using
+Define the objects for reflectance recovery, i.e., spectral upsampling, using
 *Otsu et al. (2018)* method:
 
 -   :class:`colour.recovery.Dataset_Otsu2018`
@@ -1091,7 +1091,7 @@ class Node_Otsu2018(TreeNode):
         -------
         :class:`tuple`
             Tuple of tuple of nodes created by splitting a node with a given
-            partition, partition axis, i.e. the horizontal or vertical line,
+            partition, partition axis, i.e., the horizontal or vertical line,
             partitioning the 2D space in two half-planes and partition error.
         """
 
@@ -1166,7 +1166,7 @@ class Node_Otsu2018(TreeNode):
     def branch_reconstruction_error(self) -> float:
         """
         Compute the reconstruction error for all the leaves data connected to
-        the node or its children, i.e. the reconstruction errors summation for
+        the node or its children, i.e., the reconstruction errors summation for
         all the leaves in the branch.
 
         Returns

@@ -76,12 +76,12 @@ def exponent_function_basic(
         -   *basicMirrorFwd*: *Basic Mirror Forward* exponential behaviour
             where the definition applies a basic power law using the exponent
             for values greater than or equal to zero and mirrors the function
-            for values less than zero (i.e. rotationally symmetric
+            for values less than zero (i.e., rotationally symmetric
             around the origin).
         -   *basicMirrorRev*: *Basic Mirror Reverse* exponential behaviour
             where the definition applies a basic power law using the exponent
             for values greater than or equal to zero and mirrors the function
-            for values less than zero (i.e. rotationally symmetric around the
+            for values less than zero (i.e., rotationally symmetric around the
             origin).
         -   *basicPassThruFwd*: *Basic Pass Forward* exponential behaviour
             where the definition applies a basic power law using the exponent
@@ -225,11 +225,11 @@ def exponent_function_monitor_curve(
         -   *monCurveMirrorFwd*: *Monitor Curve Mirror Forward* exponential
             behaviour where the definition applies a power law function with a
             linear segment near the origin and mirrors the function for values
-            less than zero (i.e. rotationally symmetric around the origin).
+            less than zero (i.e., rotationally symmetric around the origin).
         -   *monCurveMirrorRev*: *Monitor Curve Mirror Reverse* exponential
             behaviour where the definition applies a power law function with a
             linear segment near the origin and mirrors the function for values
-            less than zero (i.e. rotationally symmetric around the origin).
+            less than zero (i.e., rotationally symmetric around the origin).
 
     Returns
     -------

@@ -547,7 +547,7 @@ def sd_to_XYZ_integration(
     ----------
     sd
         Spectral distribution, if an `ArrayLike` the wavelengths are
-        expected to be in the last axis, e.g. for a spectral array with
+        expected to be in the last axis, e.g., for a spectral array with
         77 bins, ``sd`` shape could be (77, ) or (1, 77).
     cmfs
         Standard observer colour matching functions, default to the
@@ -1111,7 +1111,7 @@ def sd_to_XYZ(
     ----------
     sd
         Spectral distribution, if an `ArrayLike` and ``method`` is
-        *Integration* the wavelengths are expected to be in the last axis, e.g.
+        *Integration* the wavelengths are expected to be in the last axis, e.g.,
         for a spectral array with 77 bins, ``sd`` shape could be (77, ) or
         (1, 77).
     cmfs
@@ -1298,7 +1298,7 @@ def msds_to_XYZ_integration(
     ----------
     msds
         Multi-spectral distributions, if an `ArrayLike` the wavelengths are
-        expected to be in the last axis, e.g. for a 512x384 multi-spectral
+        expected to be in the last axis, e.g., for a 512x384 multi-spectral
         image with 77 bins, ``msds`` shape should be (384, 512, 77).
     cmfs
         Standard observer colour matching functions, default to the
@@ -1785,7 +1785,7 @@ def msds_to_XYZ(
     ----------
     msds
         Multi-spectral distributions, if an `ArrayLike` the wavelengths are
-        expected to be in the last axis, e.g. for a 512x384 multi-spectral
+        expected to be in the last axis, e.g., for a 512x384 multi-spectral
         image with 77 bins, ``msds`` shape should be (384, 512, 77).
     cmfs
         Standard observer colour matching functions, default to the

@@ -2,7 +2,7 @@
 Jakob and Hanika (2019) - Reflectance Recovery
 ==============================================
 
-Define the objects for reflectance recovery, i.e. spectral upsampling, using
+Define the objects for reflectance recovery, i.e., spectral upsampling, using
 *Jakob and Hanika (2019)* method:
 
 -   :func:`colour.recovery.sd_Jakob2019`
@@ -232,7 +232,7 @@ def error_function(
     -------
     :class:`tuple` or :class:`tuple`
         Tuple of computed :math:`\\Delta E_{76}` error and gradient of error,
-        i.e. the first derivatives of error with respect to the input
+        i.e., the first derivatives of error with respect to the input
         coefficients or tuple of computed :math:`\\Delta E_{76}` error,
         gradient of error, computed spectral reflectance, *CIE XYZ* tristimulus
         values corresponding to ``R`` and *CIE L\\*a\\*b\\** colourspace array
@@ -739,7 +739,7 @@ class LUT3D_Jakob2019:
     def size(self) -> int:
         """
         Getter property for the *Jakob and Hanika (2019)* interpolator
-        size, i.e. the sample count on one side of the 3D table.
+        size, i.e., the sample count on one side of the 3D table.
 
         Returns
         -------

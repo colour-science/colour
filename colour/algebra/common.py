@@ -760,9 +760,9 @@ def smoothstep_function(
     x
         Array :math:`x`.
     a
-        Low input domain limit, i.e. the left edge.
+        Low input domain limit, i.e., the left edge.
     b
-        High input domain limit, i.e. the right edge.
+        High input domain limit, i.e., the right edge.
     clip
         Whether to scale, bias and clip input values to domain [``a``, ``b``].
 

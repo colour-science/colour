@@ -329,8 +329,8 @@ def XYZ_to_Iab(
     values to *IPT* colourspace and for other similar conversions. It
     implements a generic transformation from *CIE XYZ* tristimulus values to
     *Lightness* :math:`I`, :math:`a` and :math:`b` representing
-    red-green dimension, i.e. the dimension lost by protanopes and
-    the yellow-blue dimension, i.e. the dimension lost by tritanopes,
+    red-green dimension, i.e., the dimension lost by protanopes and
+    the yellow-blue dimension, i.e., the dimension lost by tritanopes,
     respectively.
 
     Parameters
@@ -415,8 +415,8 @@ def Iab_to_XYZ(
     This definition is used to perform conversion from *IPT* colourspace to
     *CIE XYZ* tristimulus values and for other similar conversions. It
     implements a generic transformation from *Lightness* :math:`I`, :math:`a`
-    and :math:`b` representing red-green dimension, i.e. the dimension lost by
-    protanopes and the yellow-blue dimension, i.e. the dimension lost by
+    and :math:`b` representing red-green dimension, i.e., the dimension lost by
+    protanopes and the yellow-blue dimension, i.e., the dimension lost by
     tritanopes, respectively to *CIE XYZ* tristimulus values.
 
     Parameters

@@ -144,7 +144,7 @@ CONSTANTS_REPORT_STYLE: dict = {
 """Report style overrides."""
 
 CONTENT_REPORT_HEADER: str = "IES TM-30-18 Colour Rendition Report"
-"""Report header content, i.e. the report title."""
+"""Report header content, i.e., the report title."""
 
 CONTENT_REPORT_FOOTER: str = (
     "Colours are for visual orientation purposes only. Created with Colour{0}"
@@ -156,7 +156,7 @@ _VALUE_NOT_APPLICABLE: str = "N/A"
 
 def _plot_report_header(axes: Axes) -> Axes:
     """
-    Plot the report header, i.e. the title, on given axes.
+    Plot the report header, i.e., the title, on given axes.
 
     Parameters
     ----------

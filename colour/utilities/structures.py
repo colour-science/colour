@@ -234,8 +234,8 @@ class Lookup(dict):
 class CanonicalMapping(MutableMapping):
     """
     Implement a delimiter and case-insensitive :class:`dict`-like object with
-    support for slugs, i.e. *SEO* friendly and human-readable version of the
-    keys but also canonical keys, i.e. slugified keys without delimiters.
+    support for slugs, i.e., *SEO* friendly and human-readable version of the
+    keys but also canonical keys, i.e., slugified keys without delimiters.
 
     The item keys are expected to be :class:`str`-like objects thus supporting
     the :meth:`str.lower` method. Setting items is done by using the given

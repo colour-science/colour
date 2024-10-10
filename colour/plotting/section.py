@@ -409,7 +409,7 @@ def plot_visible_spectrum_section(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the visible spectrum volume, i.e. *Rösch-MacAdam* colour solid,
+    Plot the visible spectrum volume, i.e., *Rösch-MacAdam* colour solid,
     section colours along given axis and origin.
 
     Parameters

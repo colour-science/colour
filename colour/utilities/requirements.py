@@ -145,7 +145,7 @@ def is_networkx_installed(raise_exception: bool = False) -> bool:
     except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(
-                '"NetworkX" related API features, e.g. the automatic colour '
+                '"NetworkX" related API features, e.g., the automatic colour '
                 f'conversion graph, are not available: "{error}".\nPlease refer '
                 "to the installation guide for more information: "
                 "https://www.colour-science.org/installation-guide/"

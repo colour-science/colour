@@ -419,7 +419,7 @@ def CIECAM02_to_XYZ(
         *CIECAM02* colour appearance model specification. Correlate of
         *Lightness* :math:`J`, correlate of *chroma* :math:`C` or correlate of
         *colourfulness* :math:`M` and *hue* angle :math:`h` in degrees must be
-        specified, e.g. :math:`JCh` or :math:`JMh`.
+        specified, e.g., :math:`JCh` or :math:`JMh`.
     XYZ_w
         *CIE XYZ* tristimulus values of reference white.
     L_A
