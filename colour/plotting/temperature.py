@@ -520,7 +520,7 @@ def plot_planckian_locus(
 
 @override_style()
 def plot_planckian_locus_in_chromaticity_diagram(
-    illuminants: str | Sequence[str],
+    illuminants: str | Sequence[str] | None = None,
     chromaticity_diagram_callable: Callable = plot_chromaticity_diagram,
     method: (Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"] | str) = "CIE 1931",
     annotate_kwargs: dict | List[dict] | None = None,
@@ -598,6 +598,8 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
         :align: center
         :alt: plot_planckian_locus_in_chromaticity_diagram
     """
+
+    illuminants = optional(illuminants, [])
 
     method = validate_method(method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"))
 
@@ -711,7 +713,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
 
 @override_style()
 def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
-    illuminants: str | Sequence[str],
+    illuminants: str | Sequence[str] | None = None,
     chromaticity_diagram_callable_CIE1931: Callable = (
         plot_chromaticity_diagram_CIE1931
     ),
@@ -790,7 +792,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1931.png
 
 @override_style()
 def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
-    illuminants: str | Sequence[str],
+    illuminants: str | Sequence[str] | None = None,
     chromaticity_diagram_callable_CIE1960UCS: Callable = (
         plot_chromaticity_diagram_CIE1960UCS
     ),
@@ -871,7 +873,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1960UCS.png
 
 @override_style()
 def plot_planckian_locus_in_chromaticity_diagram_CIE1976UCS(
-    illuminants: str | Sequence[str],
+    illuminants: str | Sequence[str] | None = None,
     chromaticity_diagram_callable_CIE1976UCS: Callable = (
         plot_chromaticity_diagram_CIE1976UCS
     ),
