@@ -2203,6 +2203,7 @@ Software
 
 **Python**
 
+- `ColorAide <https://facelessuser.github.io/coloraide>`__ by Muse, I.
 - `ColorPy <http://markkness.net/colorpy/ColorPy.html>`__ by Kness, M.
 - `Colorspacious <https://colorspacious.readthedocs.io>`__ by Smith, N. J., et al.
 - `python-colormath <https://python-colormath.readthedocs.io>`__ by Taylor, G., et al.
