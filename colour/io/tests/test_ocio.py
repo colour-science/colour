@@ -8,7 +8,7 @@ import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.io import process_image_OpenColorIO
-from colour.utilities import full, is_opencolorio_installed
+from colour.utilities import full, is_opencolorio_installed, tstack
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -99,6 +99,23 @@ class TestProcessImageOpenColorIO:
                         [0.35595229, 0.35595256, 0.35595250],
                         [0.35595229, 0.35595256, 0.35595250],
                     ],
+                ]
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            process_image_OpenColorIO(
+                tstack(([0.2, 0.4, 0.6], [0.2, 0.4, 0.6], [0.2, 0.4, 0.6])),
+                "ACES - ACES2065-1",
+                "ACES - ACEScct",
+                config=config,
+            ),
+            np.array(
+                [
+                    [0.42226437, 0.42226437, 0.42226437],
+                    [0.47934198, 0.47934198, 0.47934198],
+                    [0.51273096, 0.51273096, 0.51273096],
                 ]
             ),
             atol=TOLERANCE_ABSOLUTE_TESTS,

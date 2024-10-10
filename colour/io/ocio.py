@@ -136,7 +136,7 @@ def process_image_OpenColorIO(a: ArrayLike, *args: Any, **kwargs: Any) -> NDArra
 
     a = as_float_array(a)
     shape, dtype = a.shape, a.dtype
-    a = as_3_channels_image(a).astype(np.float32)
+    a = np.ascontiguousarray(as_3_channels_image(a).astype(np.float32))
 
     height, width, channels = a.shape
 
