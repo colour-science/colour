@@ -65,7 +65,6 @@ from colour.utilities import (
     usage_warning,
     validate_method,
 )
-from colour.utilities.deprecation import ObjectRenamed
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -1133,27 +1132,6 @@ class LUT1D(AbstractLUT):
 
         return RGB_interpolator(RGB)
 
-    # ------------------------------------------------------------------------#
-    # ---              API Changes and Deprecation Management              ---#
-    # ------------------------------------------------------------------------#
-    def as_LUT(  # noqa: D102
-        self,
-        cls: Type[AbstractLUT],
-        force_conversion: bool = False,
-        **kwargs: Any,
-    ) -> AbstractLUT:  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed(
-                    "LUT1D.as_LUT",
-                    "LUT1D.convert",
-                )
-            )
-        )
-
-        return self.convert(cls, force_conversion, **kwargs)  # pyright: ignore
-
 
 class LUT3x1D(AbstractLUT):
     """
@@ -1600,27 +1578,6 @@ class LUT3x1D(AbstractLUT):
         ]
 
         return tstack(RGB_i)
-
-    # ------------------------------------------------------------------------#
-    # ---              API Changes and Deprecation Management              ---#
-    # ------------------------------------------------------------------------#
-    def as_LUT(  # noqa: D102
-        self,
-        cls: Type[AbstractLUT],
-        force_conversion: bool = False,
-        **kwargs: Any,
-    ) -> AbstractLUT:  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed(
-                    "LUT3x1D.as_LUT",
-                    "LUT3x1D.convert",
-                )
-            )
-        )
-
-        return self.convert(cls, force_conversion, **kwargs)  # pyright: ignore
 
 
 class LUT3D(AbstractLUT):
@@ -2163,27 +2120,6 @@ class LUT3D(AbstractLUT):
         RGB_i = interpolator(tstack(RGB_l), LUT.table, **interpolator_kwargs)
 
         return RGB_i
-
-    # ------------------------------------------------------------------------#
-    # ---              API Changes and Deprecation Management              ---#
-    # ------------------------------------------------------------------------#
-    def as_LUT(  # noqa: D102
-        self,
-        cls: Type[AbstractLUT],
-        force_conversion: bool = False,
-        **kwargs: Any,
-    ) -> AbstractLUT:  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed(
-                    "LUT3D.as_LUT",
-                    "LUT3D.convert",
-                )
-            )
-        )
-
-        return self.convert(cls, force_conversion, **kwargs)  # pyright: ignore
 
 
 def LUT_to_LUT(

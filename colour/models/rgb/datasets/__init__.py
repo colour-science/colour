@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from colour.utilities import LazyCanonicalMapping, usage_warning
+from colour.utilities import LazyCanonicalMapping
 from .aces import (
     RGB_COLOURSPACE_ACES2065_1,
     RGB_COLOURSPACE_ACESCC,
@@ -171,20 +171,3 @@ __all__ += [
     "RGB_COLOURSPACE_XTREME_RGB",
     "RGB_COLOURSPACE_F_GAMUT",
 ]
-
-
-# ----------------------------------------------------------------------------#
-# ---                API Changes and Deprecation Management                ---#
-# ----------------------------------------------------------------------------#
-# v0.4.2
-def _alexa_wide_gamut():
-    usage_warning(
-        'The "ALEXA Wide Gamut" RGB colourspace has been renamed to '
-        '"ARRI Wide Gamut 3" for consistency with ARRI\'s new naming '
-        "convention."
-    )
-
-    return RGB_COLOURSPACE_ARRI_WIDE_GAMUT_3
-
-
-RGB_COLOURSPACES["ALEXA Wide Gamut"] = _alexa_wide_gamut

@@ -74,10 +74,8 @@ from colour.utilities import (
     optional,
     runtime_warning,
     tstack,
-    usage_warning,
     validate_method,
 )
-from colour.utilities.deprecation import ObjectRenamed
 
 if TYPE_CHECKING or is_pandas_installed():
     from pandas import DataFrame, Series  # pragma: no cover
@@ -1609,37 +1607,6 @@ class SpectralDistribution(Signal):
 
         return self
 
-    # ------------------------------------------------------------------------#
-    # ---              API Changes and Deprecation Management              ---#
-    # ------------------------------------------------------------------------#
-    @property
-    def strict_name(self):  # pragma: no cover  # noqa: D102
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed(
-                    "SpectralDistribution.strict_name",
-                    "SpectralDistribution.display_name",
-                )
-            )
-        )
-
-        return self.display_name
-
-    @strict_name.setter
-    def strict_name(self, value):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed(
-                    "SpectralDistribution.strict_name",
-                    "SpectralDistribution.display_name",
-                )
-            )
-        )
-
-        self.display_name = value
-
 
 class MultiSpectralDistributions(MultiSignals):
     """
@@ -2669,65 +2636,6 @@ class MultiSpectralDistributions(MultiSignals):
             cast(SpectralDistribution, signal.copy())
             for signal in self.signals.values()
         ]
-
-    # ------------------------------------------------------------------------#
-    # ---              API Changes and Deprecation Management              ---#
-    # ------------------------------------------------------------------------#
-    @property
-    def strict_name(self):  # pragma: no cover  # noqa: D102
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed(
-                    "MultiSpectralDistributions.strict_name",
-                    "MultiSpectralDistributions.display_name",
-                )
-            )
-        )
-
-        return self.display_name
-
-    @strict_name.setter
-    def strict_name(self, value):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed(
-                    "MultiSpectralDistributions.strict_name",
-                    "MultiSpectralDistributions.display_name",
-                )
-            )
-        )
-
-        self.display_name = value
-
-    @property
-    def strict_labels(self):  # pragma: no cover  # noqa: D102
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed(
-                    "MultiSpectralDistributions.strict_labels",
-                    "MultiSpectralDistributions.display_labels",
-                )
-            )
-        )
-
-        return self.display_labels
-
-    @strict_labels.setter
-    def strict_labels(self, value):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed(
-                    "MultiSpectralDistributions.strict_labels",
-                    "MultiSpectralDistributions.display_labels",
-                )
-            )
-        )
-
-        self.display_labels = value
 
 
 _CACHE_RESHAPED_SDS_AND_MSDS: dict = CACHE_REGISTRY.register_cache(
