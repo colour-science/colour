@@ -27,14 +27,8 @@ __all__ = [
 ]
 
 
-# TODO: Reinstate coverage and doctests when "Pypi" wheel compatible with "ARM"
-#  on "macOS" is released.
-
-
 @required("OpenColorIO")
-def process_image_OpenColorIO(
-    a: ArrayLike, *args: Any, **kwargs: Any
-) -> NDArrayFloat:  # pragma: no cover
+def process_image_OpenColorIO(a: ArrayLike, *args: Any, **kwargs: Any) -> NDArrayFloat:
     """
     Process given image data with *OpenColorIO*.
 
