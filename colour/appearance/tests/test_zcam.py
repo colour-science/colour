@@ -91,7 +91,7 @@ class TestXYZ_to_ZCAM:
         )
 
         # NOTE: Hue quadrature :math:`H_z` is significantly different for this
-        # test, i.e. 47.748252 vs 43.8258.
+        # test, i.e., 47.748252 vs 43.8258.
         # NOTE: :math:`F_L` as reported in the supplemental document has the
         # same value as for :math:`L_a` = 264 instead of 150. The values seem
         # to be computed for :math:`L_a` = 264 and :math:`Y_b` = 100.

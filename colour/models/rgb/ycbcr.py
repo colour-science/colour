@@ -348,7 +348,7 @@ def RGB_to_YCbCr(
         *(0.2126, 0.0722)*, the weightings for *ITU-R BT.709*.
     in_bits
         Bit-depth for int input, or used in the calculation of the
-        denominator for legal range float values, i.e. 8-bit means the float
+        denominator for legal range float values, i.e., 8-bit means the float
         value for legal white is *235 / 255*. Default is *10*.
     in_legal
         Whether to treat the input values as legal range. Default is *False*.
@@ -357,7 +357,7 @@ def RGB_to_YCbCr(
         Default is *False*.
     out_bits
         Bit-depth for int output, or used in the calculation of the
-        denominator for legal range float values, i.e. 8-bit means the float
+        denominator for legal range float values, i.e., 8-bit means the float
         value for legal white is *235 / 255*. Ignored if ``out_legal`` and
         ``out_int`` are both *False*. Default is *8*.
     out_legal
@@ -546,7 +546,7 @@ def YCbCr_to_RGB(
         *(0.2126, 0.0722)*, the weightings for *ITU-R BT.709*.
     in_bits
         Bit-depth for int input, or used in the calculation of the
-        denominator for legal range float values, i.e. 8-bit means the float
+        denominator for legal range float values, i.e., 8-bit means the float
         value for legal white is *235 / 255*. Default is *8*.
     in_legal
         Whether to treat the input values as legal range. Default is *True*.
@@ -555,7 +555,7 @@ def YCbCr_to_RGB(
         Default is *False*.
     out_bits
         Bit-depth for int output, or used in the calculation of the
-        denominator for legal range float values, i.e. 8-bit means the float
+        denominator for legal range float values, i.e., 8-bit means the float
         value for legal white is *235 / 255*. Ignored if ``out_legal`` and
         ``out_int`` are both *False*. Default is *10*.
     out_legal
@@ -675,7 +675,7 @@ def RGB_to_YcCbcCrc(
         Input *RGB* array of linear float values.
     out_bits
         Bit-depth for int output, or used in the calculation of the
-        denominator for legal range float values, i.e. 8-bit means the float
+        denominator for legal range float values, i.e., 8-bit means the float
         value for legal white is *235 / 255*. Ignored if ``out_legal`` and
         ``out_int`` are both *False*. Default is *10*.
     out_legal
@@ -788,7 +788,7 @@ def YcCbcCrc_to_RGB(
         Input *Yc'Cbc'Crc'* colour encoding array of linear float values.
     in_bits
         Bit-depth for int input, or used in the calculation of the
-        denominator for legal range float values, i.e. 8-bit means the float
+        denominator for legal range float values, i.e., 8-bit means the float
         value for legal white is *235 / 255*. Default is *10*.
     in_legal
         Whether to treat the input values as legal range. Default is *False*.

@@ -65,7 +65,7 @@ DIN99_METHODS: CanonicalMapping = CanonicalMapping(
     }
 )
 """
-*DIN99* colourspace methods, i.e. the coefficients for the *DIN99b*, *DIN99c*,
+*DIN99* colourspace methods, i.e., the coefficients for the *DIN99b*, *DIN99c*,
 and *DIN99d* refined formulas according to *Cui et al. (2002)*.
 
 References

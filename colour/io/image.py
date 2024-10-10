@@ -515,7 +515,7 @@ def read_image(
         conversion behaviour is driven directly by the library, this definition
         only converts to the relevant data type after reading.
     method
-        Read method, i.e. the image library used for reading images.
+        Read method, i.e., the image library used for reading images.
 
     Other Parameters
     ----------------
@@ -813,7 +813,7 @@ def write_image(
         data is converted with :func:`colour.io.convert_bit_depth` definition
         prior to writing the image.
     method
-        Write method, i.e. the image library used for writing images.
+        Write method, i.e., the image library used for writing images.
 
     Other Parameters
     ----------------
@@ -914,14 +914,25 @@ def as_3_channels_image(a: ArrayLike) -> NDArrayFloat:
     array([[[ 0.18,  0.18,  0.18]]])
     >>> as_3_channels_image([[[0.18, 0.18, 0.18]]])
     array([[[ 0.18,  0.18,  0.18]]])
+    >>> as_3_channels_image([[[[0.18, 0.18, 0.18]]]])
+    array([[[ 0.18,  0.18,  0.18]]])
     """
 
-    a = as_float_array(a)
+    a = np.squeeze(as_float_array(a))
 
-    if len(a.shape) == 0:
-        a = tstack([a, a, a])
+    if len(a.shape) > 3:
+        raise ValueError(
+            "Array has more than 3-dimensions and cannot be converted to a "
+            "3-channels image-like representation!"
+        )
 
-    if a.shape[-1] == 1:
+    if len(a.shape) > 0 and a.shape[-1] not in (1, 3):
+        raise ValueError(
+            "Array has more than 1 or 3 channels and cannot be converted to a "
+            "3-channels image-like representation!"
+        )
+
+    if len(a.shape) == 0 or a.shape[-1] == 1:
         a = tstack([a, a, a])
 
     if len(a.shape) == 1:

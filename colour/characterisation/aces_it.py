@@ -298,7 +298,7 @@ Notes
 -----
 -   *Colour* only ships a minimal dataset from *RAW to ACES*, please see
     `Colour - Datasets <https://github.com/colour-science/colour-datasets>`_
-    for the complete *RAW to ACES* v1 dataset, i.e. *3372171*.
+    for the complete *RAW to ACES* v1 dataset, i.e., *3372171*.
 """
 
 _TRAINING_DATA_RAWTOACES_V1: MultiSpectralDistributions | None = None

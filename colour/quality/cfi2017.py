@@ -421,7 +421,7 @@ def tcs_colorimetry_data(
     Parameters
     ----------
     sd_irradiance
-        Test light source or reference illuminant spectral distribution, i.e.
+        Test light source or reference illuminant spectral distribution, i.e.,
         the irradiance emitter.
     sds_tcs
         *Test colour samples* spectral reflectance distributions.

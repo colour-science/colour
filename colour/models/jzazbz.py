@@ -80,7 +80,7 @@ quantizer (PQ) from Dolby Laboratories.
 
 Notes
 -----
--   The :math:`m2` constant, i.e. the power factor has been re-optimized during
+-   The :math:`m2` constant, i.e., the power factor has been re-optimized during
     the development of the :math:`J_za_zb_z` colourspace.
 """
 

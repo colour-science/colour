@@ -217,7 +217,7 @@ def retinal_illuminance_Barten1999(
     Notes
     -----
     -   This definition is for use with photopic viewing conditions and thus
-        corrects for the Stiles-Crawford effect by default, i.e. directional
+        corrects for the Stiles-Crawford effect by default, i.e., directional
         sensitivity of the cone cells with lower response of cone cells
         receiving light from the edge of the pupil.
 

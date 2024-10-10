@@ -27,14 +27,8 @@ __all__ = [
 ]
 
 
-# TODO: Reinstate coverage and doctests when "Pypi" wheel compatible with "ARM"
-#  on "macOS" is released.
-
-
 @required("OpenColorIO")
-def process_image_OpenColorIO(
-    a: ArrayLike, *args: Any, **kwargs: Any
-) -> NDArrayFloat:  # pragma: no cover
+def process_image_OpenColorIO(a: ArrayLike, *args: Any, **kwargs: Any) -> NDArrayFloat:
     """
     Process given image data with *OpenColorIO*.
 
@@ -142,7 +136,7 @@ def process_image_OpenColorIO(
 
     a = as_float_array(a)
     shape, dtype = a.shape, a.dtype
-    a = as_3_channels_image(a).astype(np.float32)
+    a = np.ascontiguousarray(as_3_channels_image(a).astype(np.float32))
 
     height, width, channels = a.shape
 

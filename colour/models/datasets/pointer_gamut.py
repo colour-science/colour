@@ -34,7 +34,7 @@ CCS_ILLUMINANT_POINTER_GAMUT: NDArrayFloat = CCS_LIGHT_SOURCES[
     "CIE 1931 2 Degree Standard Observer"
 ]["SC"]
 """
-*Pointer's Gamut* illuminant, i.e. *SC*.
+*Pointer's Gamut* illuminant, i.e., *SC*.
 
 References
 ----------

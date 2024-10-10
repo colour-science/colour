@@ -72,7 +72,7 @@ if is_documentation_building():  # pragma: no cover
     JND_CIE1976 = DocstringFloat(JND_CIE1976)
     JND_CIE1976.__doc__ = """
 Just Noticeable Difference (JND) according to *CIE 1976* colour difference
-formula, i.e. Euclidean distance in *CIE L\\*a\\*b\\** colourspace.
+formula, i.e., Euclidean distance in *CIE L\\*a\\*b\\** colourspace.
 
 Notes
 -----

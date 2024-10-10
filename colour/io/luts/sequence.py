@@ -37,7 +37,7 @@ __all__ = [
 
 class LUTSequence(MutableSequence):
     """
-    Define the base class for a *LUT* sequence, i.e. a series of *LUTs*,
+    Define the base class for a *LUT* sequence, i.e., a series of *LUTs*,
     *LUT* operators or objects implementing the
     :class:`colour.hints.ProtocolLUTSequenceItem` protocol.
 

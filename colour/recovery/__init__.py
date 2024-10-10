@@ -136,7 +136,7 @@ def XYZ_to_sd(
     basis_functions
         {:func:`colour.recovery.RGB_to_sd_Mallett2019`},
         Basis functions for the method. The default is to use the built-in
-        *sRGB* basis functions, i.e.
+        *sRGB* basis functions, i.e.,
         :attr:`colour.recovery.MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019`.
     clip
         {:func:`colour.recovery.XYZ_to_sd_Otsu2018`},

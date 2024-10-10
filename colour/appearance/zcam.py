@@ -518,7 +518,7 @@ def ZCAM_to_XYZ(
          *ZCAM* colour appearance model specification.
          Correlate of *Lightness* :math:`J`, correlate of *chroma* :math:`C` or
          correlate of *colourfulness* :math:`M` and *hue* angle :math:`h` in
-         degrees must be specified, e.g. :math:`JCh` or :math:`JMh`.
+         degrees must be specified, e.g., :math:`JCh` or :math:`JMh`.
     XYZ_w
         Absolute *CIE XYZ* tristimulus values of the white under reference
         illuminant.
@@ -736,7 +736,7 @@ def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
     e_i = HUE_DATA_FOR_HUE_QUADRATURE["e_i"]
     H_i = HUE_DATA_FOR_HUE_QUADRATURE["H_i"]
 
-    # :math:`h_p` = :math:`h_z` + 360 if :math:`h_z` < :math:`h_1, i.e. h_i[0]
+    # :math:`h_p` = :math:`h_z` + 360 if :math:`h_z` < :math:`h_1, i.e., h_i[0]
     h[h <= h_i[0]] += 360
     # *np.searchsorted* returns an erroneous index if a *nan* is used as input.
     h[np.asarray(np.isnan(h))] = 0

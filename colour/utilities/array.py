@@ -167,7 +167,7 @@ class MixinDataclassIterable(MixinDataclassFields):
     @property
     def keys(self) -> tuple:
         """
-        Getter property for the :class:`dataclass`-like class keys, i.e. the
+        Getter property for the :class:`dataclass`-like class keys, i.e., the
         field names.
 
         Returns
@@ -181,7 +181,7 @@ class MixinDataclassIterable(MixinDataclassFields):
     @property
     def values(self) -> tuple:
         """
-        Getter property for the :class:`dataclass`-like class values, i.e. the
+        Getter property for the :class:`dataclass`-like class values, i.e., the
         field values.
 
         Returns
@@ -195,7 +195,7 @@ class MixinDataclassIterable(MixinDataclassFields):
     @property
     def items(self) -> tuple:
         """
-        Getter property for  the :class:`dataclass`-like class items, i.e. the
+        Getter property for  the :class:`dataclass`-like class items, i.e., the
         field names and values.
 
         Returns
@@ -927,7 +927,7 @@ def get_domain_range_scale() -> Literal["ignore", "reference", "1", "100"] | str
     available:
 
     -   **'Reference'**, the default *Colour* domain-range scale which varies
-        depending on the referenced algorithm, e.g. [0, 1], [0, 10], [0, 100],
+        depending on the referenced algorithm, e.g., [0, 1], [0, 10], [0, 100],
         [0, 255], etc...
     -   **'1'**, a domain-range scale normalised to [0, 1], it is important to
         acknowledge that this is a soft normalisation and it is possible to
@@ -958,7 +958,7 @@ def set_domain_range_scale(
     available:
 
     -   **'Reference'**, the default *Colour* domain-range scale which varies
-        depending on the referenced algorithm, e.g. [0, 1], [0, 10], [0, 100],
+        depending on the referenced algorithm, e.g., [0, 1], [0, 10], [0, 100],
         [0, 255], etc...
     -   **'1'**, a domain-range scale normalised to [0, 1], it is important to
         acknowledge that this is a soft normalisation and it is possible to
@@ -993,7 +993,7 @@ class domain_range_scale:
     The following scales are available:
 
     -   **'Reference'**, the default *Colour* domain-range scale which varies
-        depending on the referenced algorithm, e.g. [0, 1], [0, 10], [0, 100],
+        depending on the referenced algorithm, e.g., [0, 1], [0, 10], [0, 100],
         [0, 255], etc...
     -   **'1'**, a domain-range scale normalised to [0, 1], it is important to
         acknowledge that this is a soft normalisation and it is possible to
@@ -1434,7 +1434,7 @@ def from_range_1(
 
     Warnings
     --------
-    The scale conversion of variable :math:`a` happens in-place, i.e. :math:`a`
+    The scale conversion of variable :math:`a` happens in-place, i.e., :math:`a`
     will be mutated!
 
     Examples
@@ -1502,7 +1502,7 @@ def from_range_10(
 
     Warnings
     --------
-    The scale conversion of variable :math:`a` happens in-place, i.e. :math:`a`
+    The scale conversion of variable :math:`a` happens in-place, i.e., :math:`a`
     will be mutated!
 
     Examples
@@ -1571,7 +1571,7 @@ def from_range_100(
 
     Warnings
     --------
-    The scale conversion of variable :math:`a` happens in-place, i.e. :math:`a`
+    The scale conversion of variable :math:`a` happens in-place, i.e., :math:`a`
     will be mutated!
 
     Examples
@@ -1639,7 +1639,7 @@ def from_range_degrees(
 
     Warnings
     --------
-    The scale conversion of variable :math:`a` happens in-place, i.e. :math:`a`
+    The scale conversion of variable :math:`a` happens in-place, i.e., :math:`a`
     will be mutated!
 
     Examples
@@ -1709,7 +1709,7 @@ def from_range_int(
 
     Warnings
     --------
-    The scale conversion of variable :math:`a` happens in-place, i.e. :math:`a`
+    The scale conversion of variable :math:`a` happens in-place, i.e., :math:`a`
     will be mutated!
 
     Notes
