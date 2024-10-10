@@ -6,12 +6,12 @@ TODO
 
 -   colour/__init__.py
 
-    -   Line 914 : # TODO: Remove legacy printing support when deemed appropriate.
+    -   Line 913 : # TODO: Remove legacy printing support when deemed appropriate.
 
 
 -   colour/colorimetry/spectrum.py
 
-    -   Line 1176 : # TODO: Provide support for fractional interval like 0.1, etc...
+    -   Line 1174 : # TODO: Provide support for fractional interval like 0.1, etc...
 
 
 -   colour/colorimetry/tristimulus_values.py
@@ -72,11 +72,6 @@ TODO
     -   Line 651 : # TODO: Implement support for re-binning component with non-uniform interval.
 
 
--   colour/io/ocio.py
-
-    -   Line 30 : # TODO: Reinstate coverage and doctests when "Pypi" wheel compatible with "ARM" on "macOS" is released.
-
-
 -   colour/io/ctl.py
 
     -   Line 65 : # TODO: Reinstate coverage when "ctlrender" is trivially available cross-platform.
@@ -94,7 +89,7 @@ TODO
 
 -   colour/io/tests/test_image.py
 
-    -   Line 321 : # TODO: Investigate "OIIO" behaviour here: 1.0 != 15360.0 image = read_image_OpenImageIO( os.path.join(ROOT_RESOURCES, 'Colour_Logo.png'), 'float16') self.assertIs(image.dtype, np.dtype('float16')) self.assertEqual(np.min(image), 0.0) self.assertEqual(np.max(image), 1.0)
+    -   Line 322 : # TODO: Investigate "OIIO" behaviour here: 1.0 != 15360.0 image = read_image_OpenImageIO( os.path.join(ROOT_RESOURCES, 'Colour_Logo.png'), 'float16') self.assertIs(image.dtype, np.dtype('float16')) self.assertEqual(np.min(image), 0.0) self.assertEqual(np.max(image), 1.0)
 
 
 -   colour/models/rgb/derivation.py
@@ -145,8 +140,8 @@ TODO
 
 -   colour/plotting/common.py
 
-    -   Line 864 : # TODO: Reassess according to https://github.com/matplotlib/matplotlib/issues/1077
-    -   Line 980 : # TODO: Consider using "MutableMapping" here.
+    -   Line 871 : # TODO: Reassess according to https://github.com/matplotlib/matplotlib/issues/1077
+    -   Line 987 : # TODO: Consider using "MutableMapping" here.
 
 
 -   colour/characterisation/aces_it.py
