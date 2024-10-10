@@ -20,12 +20,9 @@ References
 
 from __future__ import annotations
 
-import sys
 
 from colour.colorimetry import SpectralDistribution
 from colour.hints import Any, ArrayLike, Literal
-from colour.utilities.deprecation import ModuleAPI, build_API_changes
-from colour.utilities.documentation import is_documentation_building
 from colour.utilities import (
     CanonicalMapping,
     as_float_array,
@@ -254,10 +251,10 @@ def XYZ_to_sd(
                           [ 760.        ,    0.9955066...],
                           [ 770.        ,    0.9962855...],
                           [ 780.        ,    0.9968976...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
     array([ 0.2066217...,  0.1220128...,  0.0513958...])
 
@@ -353,10 +350,10 @@ def XYZ_to_sd(
                           [ 770.        ,    0.1761803...],
                           [ 775.        ,    0.1761195...],
                           [ 780.        ,    0.1760763...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100
     ... # doctest: +ELLIPSIS
     array([ 0.2065436...,  0.1219996...,  0.0513764...])
@@ -415,10 +412,10 @@ def XYZ_to_sd(
                           [ 760.        ,    0.4484969...],
                           [ 770.        ,    0.4484853...],
                           [ 780.        ,    0.4485134...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
 
@@ -469,10 +466,10 @@ def XYZ_to_sd(
                           [ 710.        ,    0.7084128...],
                           [ 720.        ,    0.7154674...],
                           [ 730.        ,    0.7234334...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
     array([ 0.2065494...,  0.1219712...,  0.0514002...])
 
@@ -497,10 +494,10 @@ def XYZ_to_sd(
                           [ 644.4444    ,    0.3836164...],
                           [ 682.2222    ,    0.3836164...],
                           [ 720.        ,    0.3835649...]],
-                         interpolator=LinearInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         LinearInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
     array([ 0.1894770...,  0.1126470...,  0.0474420...])
     """
@@ -526,34 +523,3 @@ __all__ += [
     "XYZ_TO_SD_METHODS",
     "XYZ_to_sd",
 ]
-
-
-# ----------------------------------------------------------------------------#
-# ---                API Changes and Deprecation Management                ---#
-# ----------------------------------------------------------------------------#
-class recovery(ModuleAPI):
-    """Define a class acting like the *recovery* module."""
-
-    def __getattr__(self, attribute) -> Any:
-        """Return the value from the attribute with given name."""
-
-        return super().__getattr__(attribute)
-
-
-# v0.4.0
-API_CHANGES = {
-    "ObjectRenamed": [
-        [
-            "colour.recovery.NodeTree_Otsu2018",
-            "colour.recovery.Tree_Otsu2018",
-        ],
-    ]
-}
-"""Defines the *colour.recovery* sub-package API changes."""
-
-if not is_documentation_building():
-    sys.modules["colour.recovery"] = recovery(  # pyright: ignore
-        sys.modules["colour.recovery"], build_API_changes(API_CHANGES)
-    )
-
-    del ModuleAPI, is_documentation_building, build_API_changes, sys

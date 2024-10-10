@@ -462,8 +462,7 @@ from .utilities.array import (
     get_domain_range_scale,
     set_domain_range_scale,
 )
-from .utilities.deprecation import ModuleAPI, build_API_changes
-from .utilities.documentation import is_documentation_building
+from .utilities.deprecation import ModuleAPI
 from .volume import (
     OPTIMAL_COLOUR_STIMULI_ILLUMINANTS,
     RGB_colourspace_limits,
@@ -934,58 +933,6 @@ colour.__major_version__ = __major_version__  # pyright: ignore
 colour.__minor_version__ = __minor_version__  # pyright: ignore
 colour.__change_version__ = __change_version__  # pyright: ignore
 colour.__version__ = __version__  # pyright: ignore
-
-# v0.4.0
-API_CHANGES = {
-    "ObjectRenamed": [
-        [
-            "colour.RGB_to_ICTCP",
-            "colour.RGB_to_ICtCp",
-        ],
-        [
-            "colour.ICTCP_to_RGB",
-            "colour.ICtCp_to_RGB",
-        ],
-        [
-            "colour.RGB_to_IGPGTG",
-            "colour.RGB_to_IgPgTg",
-        ],
-        [
-            "colour.IGPGTG_to_RGB",
-            "colour.IgPgTg_to_RGB",
-        ],
-        [
-            "colour.XYZ_to_JzAzBz",
-            "colour.XYZ_to_Jzazbz",
-        ],
-        [
-            "colour.JzAzBz_to_XYZ",
-            "colour.Jzazbz_to_XYZ",
-        ],
-    ]
-}
-
-# v0.4.3
-API_CHANGES["ObjectRenamed"].extend(
-    [
-        [
-            "colour.XYZ_to_IPT_Munish2021",
-            "colour.XYZ_to_IPT_Ragoo2021",
-        ],
-        [
-            "colour.IPT_Munish2021_to_XYZ",
-            "colour.IPT_Ragoo2021_to_XYZ",
-        ],
-    ]
-)
-"""Defines the *colour.models* sub-package API changes."""
-
-if not is_documentation_building():
-    sys.modules["colour"] = colour(  # pyright: ignore
-        sys.modules["colour"], build_API_changes(API_CHANGES)
-    )
-
-    del ModuleAPI, is_documentation_building, build_API_changes
 
 colour.__disable_lazy_load__ = True  # pyright: ignore
 __disable_lazy_load__ = colour.__disable_lazy_load__  # pyright: ignore

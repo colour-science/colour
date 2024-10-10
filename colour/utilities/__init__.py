@@ -303,61 +303,17 @@ class utilities(ModuleAPI):
         return super().__getattr__(attribute)
 
 
-# v0.4.0
+# v0.4.5
 API_CHANGES: dict = {
-    "ObjectRenamed": [
-        [
-            "colour.utilities.set_int_precision",
-            "colour.utilities.set_default_int_dtype",
-        ],
-        [
-            "colour.utilities.set_float_precision",
-            "colour.utilities.set_default_float_dtype",
-        ],
-    ],
-    "ObjectFutureAccessChange": [
-        [
-            "colour.utilities.linstep_function",
-            "colour.algebra.linstep_function",
-        ],
-        [
-            "colour.utilities.linear_conversion",
-            "colour.algebra.linear_conversion",
-        ],
-        [
-            "colour.utilities.normalise_maximum",
-            "colour.algebra.normalise_maximum",
-        ],
-        [
-            "colour.utilities.vecmul",
-            "colour.algebra.vecmul",
-        ],
-    ],
+    "ObjectRemoved": [  # pyright: ignore
+        "colour.utilities.is_string",
+    ]
 }
 """
 Define the *colour.utilities* sub-package API changes.
 
 API_CHANGES
 """
-
-# v0.4.2
-API_CHANGES["ObjectRenamed"].extend(
-    [
-        [
-            "colour.utilities.CaseInsensitiveMapping",
-            "colour.utilities.CanonicalMapping",
-        ],
-        [
-            "colour.utilities.LazyCaseInsensitiveMapping",
-            "colour.utilities.LazyCanonicalMapping",
-        ],
-    ]
-)
-
-# v0.4.5
-API_CHANGES["ObjectRemoved"] = [  # pyright: ignore
-    "colour.utilities.is_string",
-]
 
 if not is_documentation_building():
     sys.modules["colour.utilities"] = utilities(  # pyright: ignore
