@@ -71,6 +71,11 @@ def apply_LUT1D(
     return lut.apply(value_scaled, extrapolator_kwargs=extrapolator_kwargs)
 
 
+def apply_matrix(node: clf.Matrix, value: npt.NDArray[np.float_]):
+    matrix = node.array.as_array()
+    return matrix.dot(value)
+
+
 def apply_proces_node(
     node: clf.ProcessNode, value: npt.NDArray[np.float_]
 ) -> npt.NDArray[np.float_]:
@@ -78,6 +83,9 @@ def apply_proces_node(
         return apply_LUT1D(node, value)
     if isinstance(node, clf.LUT3D):
         return apply_LUT3D(node, value)
+    if isinstance(node, clf.Matrix):
+        return apply_matrix(node, value)
+
     raise RuntimeError("No matching process node found")  # TODO: Better error handling
 
 
@@ -99,7 +107,7 @@ def apply(
     process_list: clf.ProcessList,
     value: npt.NDArray[np.float_],
     use_normalised_values=False,
-) -> ArrayLike:
+) -> npt.NDArray[np.float_]:
     """Apply the transformation described by the given ProcessList to the given
     value.
     """
