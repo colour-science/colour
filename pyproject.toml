@@ -1,6 +1,6 @@
 [project]
 name = "colour-science"
-version = "0.4.5"
+version = "0.4.6"
 description = "Colour Science for Python"
 readme = "README.rst"
 requires-python = ">=3.10,<3.14"
@@ -48,7 +48,6 @@ dependencies = [
     "imageio>=2,<3",
     "numpy>=1.24,<3",
     "scipy>=1.10,<2",
-    "trimesh>=4",
     "typing-extensions>=4,<5",
 ]
 
@@ -75,7 +74,7 @@ meshing = [
 
 [project.urls]
 Homepage = "https://www.colour-science.org"
-Documentation = "https://readthedocs.org"
+Documentation = "https://colour.readthedocs.org"
 Repository = "https://github.com/colour-science/colour"
 Issues = "https://github.com/colour-science/colour/issues"
 Changelog = "https://github.com/colour-science/colour/releases"

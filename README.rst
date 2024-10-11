@@ -31,8 +31,8 @@
 .. |version| image:: https://img.shields.io/pypi/v/colour-science.svg?style=flat-square
     :target: https://pypi.org/project/colour-science
     :alt: Package Version
-.. |zenodo| image:: https://img.shields.io/badge/DOI-10.5281/zenodo.13910741-blue.svg?style=flat-square
-    :target: https://dx.doi.org/10.5281/zenodo.13910741
+.. |zenodo| image:: https://img.shields.io/badge/DOI-10.5281/zenodo.13917514-blue.svg?style=flat-square
+    :target: https://dx.doi.org/10.5281/zenodo.13917514
     :alt: DOI
 
 .. end-badges
@@ -2265,7 +2265,7 @@ Thank You!
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://twitter.com/CLVPTY" target="_blank">
-                        <img width="98px" src="https://pbs.twimg.com/profile_images/973315780388540416/KEddjwch_400x400.jpg">
+                        <img width="98px" src="https://pbs.twimg.com/profile_images/1828737659918774273/uML8EAPp_400x400.jpg">
                     </a>
                     <p><a href="https://twitter.com/CLVPTY" target="_blank">Cedric Lejeune</a></p>
                 </td>
