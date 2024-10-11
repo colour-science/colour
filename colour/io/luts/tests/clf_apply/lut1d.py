@@ -165,6 +165,5 @@ class TestLUT1D:
         path = os.path.abspath("./resources/clf/lut1_with_half_domain_sample.xml")
         assert_ocio_consistency_for_file(value_rgb, path)
 
-
 if __name__ == "__main__":
     unittest.main()

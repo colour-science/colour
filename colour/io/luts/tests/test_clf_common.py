@@ -7,7 +7,7 @@ import tempfile
 
 import colour_clf_io as clf
 import numpy as np
-
+from typing import Tuple
 from colour.io.luts.clf import apply
 
 __all__ = [
@@ -48,13 +48,14 @@ def snippet_to_process_list(snippet: str) -> clf.ProcessList:
 def snippet_as_tmp_file(snippet):
     doc = wrap_snippet(snippet)
     tmp_folder = tempfile.gettempdir()
-    file_name = os.path.join(tmp_folder, "colour_snippet.clf")
+    tmp_file_name = tempfile.mktemp(suffix=".clf")
+    file_name = os.path.join(tmp_folder, tmp_file_name)
     with open(file_name, "w") as f:
         f.write(doc)
     return file_name
 
 
-def ocio_outout_for_file(path, rgb=None):
+def ocio_outout_for_file(path: str, rgb: Tuple[float,float,float] | None = None):
     if rgb is None:
         return subprocess.check_output(["ociochecklut", f"{path}"])  # noqa: S603 S607
     else:
@@ -63,7 +64,7 @@ def ocio_outout_for_file(path, rgb=None):
         )
 
 
-def ocio_output_for_snippet(snippet, rgb=None):
+def ocio_output_for_snippet(snippet, rgb=Tuple[float,float,float]):
     f = snippet_as_tmp_file(snippet)
     try:
         return result_as_array(ocio_outout_for_file(f, rgb))
@@ -79,13 +80,14 @@ def result_as_array(result_text):
     return np.array(result_values)
 
 
-def assert_ocio_consistency(value, snippet):
+def assert_ocio_consistency(value, snippet: str):
     """Assert that the colour library calculates the same output os the `ociocheclut`
     tool for the given input.
     """
     process_list = snippet_to_process_list(snippet)
     process_list_output = apply(process_list, value, use_normalised_values=True)
-    ocio_output = ocio_output_for_snippet(snippet, value)
+    value_tuple = value[0], value[1], value[2]
+    ocio_output = ocio_output_for_snippet(snippet, value_tuple)
     np.testing.assert_array_almost_equal(process_list_output, ocio_output)
 
 
