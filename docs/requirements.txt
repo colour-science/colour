@@ -20,7 +20,7 @@ kiwisolver==1.4.7
 latexcodec==3.0.0
 markupsafe==3.0.1
 matplotlib==3.9.2
-networkx==3.3
+networkx==3.4
 numpy==2.1.2
 opencolorio==2.4.0
 packaging==24.1
@@ -42,7 +42,7 @@ setuptools==75.1.0 ; python_full_version >= '3.12'
 six==1.16.0
 snowballstemmer==2.2.0
 soupsieve==2.6
-sphinx==8.0.2
+sphinx==8.1.0
 sphinxcontrib-applehelp==2.0.0
 sphinxcontrib-bibtex==2.6.3
 sphinxcontrib-devhelp==2.0.0
