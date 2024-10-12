@@ -75,6 +75,30 @@ def apply_matrix(node: clf.Matrix, value: npt.NDArray[np.float_]):
     matrix = node.array.as_array()
     return matrix.dot(value)
 
+def apply_range(node: clf.Range, value: npt.NDArray[np.float_]):
+    max_in = node.max_in_value
+    max_out = node.max_out_value
+    max_in_out = node.max_in_value, node.max_out_value
+    min_in = node.min_in_value
+    min_out = node.min_out_value
+    min_in_out = node.min_in_value, node.min_out_value
+    scale = (max_out - min_out) / (max_in - min_in)
+    do_clamping = node.style is None or node.style == node.style.CLAMP
+
+    if None in max_in_out or None in min_in_out:
+        if not do_clamping:
+            raise ValueError("Inconsistent settings in range node. "
+                             "Clamping was not set, but not all values to calculate a "
+                             "range are supplied. ")
+        bit_depth_scale = node.out_bit_depth.scale_factor() / node.in_bit_depth.scale_factor()
+        scaled_value = value * bit_depth_scale
+        return np.clip(scaled_value, min_out, max_out)
+    else:
+        result = value * scale + min_out - min_in * scale
+        if do_clamping:
+            result = np.clip(result, min_out, max_out)
+        return result
+
 
 def apply_proces_node(
     node: clf.ProcessNode, value: npt.NDArray[np.float_]
@@ -85,6 +109,8 @@ def apply_proces_node(
         return apply_LUT3D(node, value)
     if isinstance(node, clf.Matrix):
         return apply_matrix(node, value)
+    if isinstance(node, clf.Range):
+        return apply_range(node, value)
 
     raise RuntimeError("No matching process node found")  # TODO: Better error handling
 
