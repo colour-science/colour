@@ -13,7 +13,7 @@ import re
 import typing
 import uuid
 
-import biblib.bib
+# import biblib.bib
 
 import colour
 from colour.utilities import message_box

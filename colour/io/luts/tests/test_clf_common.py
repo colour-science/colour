@@ -80,7 +80,7 @@ def result_as_array(result_text):
     return np.array(result_values)
 
 
-def assert_ocio_consistency(value, snippet: str):
+def assert_ocio_consistency(value, snippet: str, err_msg=''):
     """Assert that the colour library calculates the same output os the `ociocheclut`
     tool for the given input.
     """
@@ -88,7 +88,7 @@ def assert_ocio_consistency(value, snippet: str):
     process_list_output = apply(process_list, value, use_normalised_values=True)
     value_tuple = value[0], value[1], value[2]
     ocio_output = ocio_output_for_snippet(snippet, value_tuple)
-    np.testing.assert_array_almost_equal(process_list_output, ocio_output)
+    np.testing.assert_array_almost_equal(process_list_output, ocio_output, err_msg=err_msg)
 
 
 def assert_ocio_consistency_for_file(value_rgb, clf_path):
