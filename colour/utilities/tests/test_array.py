@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.utilities.array` module."""
 
+from __future__ import annotations
+
 import unittest
 from copy import deepcopy
 from dataclasses import dataclass, field, fields
@@ -12,7 +14,7 @@ from colour.constants import (
     DTYPE_INT_DEFAULT,
     TOLERANCE_ABSOLUTE_TESTS,
 )
-from colour.hints import NDArray, Optional, Type, Union
+from colour.hints import NDArray, Type
 from colour.utilities import (
     MixinDataclassArithmetic,
     MixinDataclassArray,
@@ -240,15 +242,15 @@ class TestMixinDataclassArray(unittest.TestCase):
 
         @dataclass
         class Data(MixinDataclassArray):
-            a: Optional[Union[float, list, tuple, np.ndarray]] = field(
+            a: float | list | tuple | np.ndarray | None = field(
                 default_factory=lambda: None
             )
 
-            b: Optional[Union[float, list, tuple, np.ndarray]] = field(
+            b: float | list | tuple | np.ndarray | None = field(
                 default_factory=lambda: None
             )
 
-            c: Optional[Union[float, list, tuple, np.ndarray]] = field(
+            c: float | list | tuple | np.ndarray | None = field(
                 default_factory=lambda: None
             )
 
@@ -293,15 +295,15 @@ class TestMixinDataclassArithmetic(unittest.TestCase):
 
         @dataclass
         class Data(MixinDataclassArithmetic):
-            a: Optional[Union[float, list, tuple, np.ndarray]] = field(
+            a: float | list | tuple | np.ndarray | None = field(
                 default_factory=lambda: None
             )
 
-            b: Optional[Union[float, list, tuple, np.ndarray]] = field(
+            b: float | list | tuple | np.ndarray | None = field(
                 default_factory=lambda: None
             )
 
-            c: Optional[Union[float, list, tuple, np.ndarray]] = field(
+            c: float | list | tuple | np.ndarray | None = field(
                 default_factory=lambda: None
             )
 

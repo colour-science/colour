@@ -12,7 +12,7 @@ import os
 
 import numpy as np
 
-from colour.hints import DTypeFloat, Type, Union, cast
+from colour.hints import DTypeFloat, Type, cast
 from colour.utilities.documentation import (
     DocstringFloat,
     is_documentation_building,
@@ -55,7 +55,7 @@ computations.
 """
 
 DTYPE_INT_DEFAULT: Type[np.int32 | np.int64] = cast(
-    Type[Union[np.int32, np.int64]],
+    Type[np.int32 | np.int64],
     np.sctypeDict.get(
         os.environ.get("COLOUR_SCIENCE__DEFAULT_INT_DTYPE", "int64"), np.int64
     ),

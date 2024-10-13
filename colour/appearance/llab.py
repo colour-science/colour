@@ -25,6 +25,8 @@ References
 Colour_Appearance_and_Gamut_Mapping
 """
 
+from __future__ import annotations
+
 from collections import namedtuple
 from dataclasses import dataclass, field
 
@@ -37,7 +39,7 @@ from colour.algebra import (
     spow,
     vecmul,
 )
-from colour.hints import ArrayLike, NDArrayFloat, Optional, Union
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
@@ -201,14 +203,14 @@ class CAM_ReferenceSpecification_LLAB(MixinDataclassArithmetic):
     :cite:`Fairchild2013x`, :cite:`Luo1996b`, :cite:`Luo1996c`
     """
 
-    L_L: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
-    Ch_L: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
-    h_L: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
-    s_L: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
-    C_L: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
-    HC: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
-    A_L: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
-    B_L: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
+    L_L: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    Ch_L: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    h_L: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    s_L: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    C_L: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    HC: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    A_L: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    B_L: float | NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 @dataclass
@@ -248,14 +250,14 @@ class CAM_Specification_LLAB(MixinDataclassArithmetic):
     :cite:`Fairchild2013x`, :cite:`Luo1996b`, :cite:`Luo1996c`
     """
 
-    J: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
-    C: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
-    h: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
-    s: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
-    M: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
-    HC: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
-    a: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
-    b: Optional[Union[float, NDArrayFloat]] = field(default_factory=lambda: None)
+    J: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    C: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    h: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    s: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    M: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    HC: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    a: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    b: float | NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 def XYZ_to_LLAB(

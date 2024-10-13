@@ -36,13 +36,11 @@ from colour.hints import (
     DTypeFloat,
     Literal,
     NDArrayFloat,
-    Optional,
     ProtocolExtrapolator,
     ProtocolInterpolator,
     Real,
     Self,
     Type,
-    Union,
     cast,
 )
 from colour.utilities import (
@@ -1097,7 +1095,7 @@ class Signal(AbstractContinuousFunction):
     @staticmethod
     @ndarray_copy_enable(True)
     def signal_unpack_data(
-        data=Optional[Union[ArrayLike, dict, Series, "Signal"]],
+        data=ArrayLike | dict | Series | "Signal" | None,
         domain: ArrayLike | None = None,
         dtype: Type[DTypeFloat] | None = None,
     ) -> tuple:

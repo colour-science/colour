@@ -150,7 +150,7 @@ filterwarnings = [
 ]
 
 [tool.ruff]
-target-version = "py39"
+target-version = "py310"
 line-length = 88
 select = [
     "A", # flake8-builtins
@@ -227,6 +227,7 @@ ignore = [
     "RET508",
     "TRY003",
     "TRY300",
+    "UP038",
 ]
 typing-modules = ["colour.hints"]
 fixable = ["B", "C", "E", "F", "PIE", "RUF", "SIM", "UP", "W"]

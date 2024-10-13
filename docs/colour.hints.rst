@@ -22,7 +22,6 @@ Annotation Type Hints
     Literal
     Mapping
     NewType
-    Optional
     Protocol
     Sequence
     Set
@@ -33,7 +32,6 @@ Annotation Type Hints
     Type
     TypeVar
     TypedDict
-    Union
     cast
     overload
     runtime_checkable

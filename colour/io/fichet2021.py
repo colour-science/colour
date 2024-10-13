@@ -38,7 +38,6 @@ from colour.hints import (
     NDArrayFloat,
     Sequence,
     Tuple,
-    Union,
 )
 from colour.io.image import (
     MAPPING_BIT_DEPTH,
@@ -114,7 +113,7 @@ References
 """
 
 
-ComponentsFichet2021 = Dict[Union[str, float], Tuple[NDArrayFloat, NDArrayFloat]]
+ComponentsFichet2021 = Dict[str | float, Tuple[NDArrayFloat, NDArrayFloat]]
 
 
 def match_groups_to_nm(

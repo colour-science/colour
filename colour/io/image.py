@@ -20,7 +20,6 @@ from colour.hints import (
     Literal,
     NDArrayFloat,
     NDArrayReal,
-    Optional,
     Sequence,
     Tuple,
     Type,
@@ -104,9 +103,7 @@ class Image_Specification_Attribute:
 
     name: str
     value: Any
-    type_: Optional[  # noqa: UP007
-        OpenImageIO.TypeDesc  # pyright: ignore # noqa: F821
-    ] = field(  # noqa: RUF100
+    type_: OpenImageIO.TypeDesc | None = field(  # noqa: F821, RUF100 # pyright: ignore # noqa: F821
         default_factory=lambda: None
     )
 

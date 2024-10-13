@@ -13,11 +13,13 @@ References
     Express, 26(6), 7724. doi:10.1364/OE.26.007724
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
 from colour.algebra import vecmul
-from colour.hints import ArrayLike, Literal, NDArrayFloat, Union
+from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.utilities import (
     as_float_array,
     from_range_100,
@@ -44,7 +46,7 @@ def chromatic_adaptation_Zhai2018(
     D_b: ArrayLike = 1,
     D_d: ArrayLike = 1,
     XYZ_wo: ArrayLike = np.array([1, 1, 1]),
-    transform: Union[Literal["CAT02", "CAT16"], str] = "CAT02",
+    transform: Literal["CAT02", "CAT16"] | str = "CAT02",
 ) -> NDArrayFloat:
     """
     Adapt given sample colour :math:`XYZ_{\\beta}` tristimulus values from

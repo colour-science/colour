@@ -21,7 +21,6 @@ from typing import (  # noqa: UP035
     List,
     Literal,
     NewType,
-    Optional,
     Protocol,
     Set,
     SupportsIndex,
@@ -31,7 +30,6 @@ from typing import (  # noqa: UP035
     Type,
     TypeVar,
     TypedDict,
-    Union,
     cast,
     overload,
     runtime_checkable,
@@ -61,7 +59,6 @@ __all__ = [
     "Literal",
     "Mapping",
     "NewType",
-    "Optional",
     "Protocol",
     "Sequence",
     "Set",
@@ -72,7 +69,6 @@ __all__ = [
     "Type",
     "TypeVar",
     "TypedDict",
-    "Union",
     "cast",
     "overload",
     "runtime_checkable",
@@ -116,30 +112,30 @@ __all__ = [
 
 RegexFlag = NewType("RegexFlag", re.RegexFlag)
 
-DTypeInt = Union[
-    np.int8,
-    np.int16,
-    np.int32,
-    np.int64,
-    np.uint8,
-    np.uint16,
-    np.uint32,
-    np.uint64,
-]
-DTypeFloat = Union[np.float16, np.float32, np.float64]
-DTypeReal = Union[DTypeInt, DTypeFloat]
-DTypeComplex = Union[np.csingle, np.cdouble]
+DTypeInt = (
+    np.int8
+    | np.int16
+    | np.int32
+    | np.int64
+    | np.uint8
+    | np.uint16
+    | np.uint32
+    | np.uint64
+)
+DTypeFloat = np.float16 | np.float32 | np.float64
+DTypeReal = DTypeInt | DTypeFloat
+DTypeComplex = np.csingle | np.cdouble
 DTypeBoolean = np.bool_
-DType = Union[DTypeBoolean, DTypeReal, DTypeComplex]
+DType = DTypeBoolean | DTypeReal | DTypeComplex
 
-Real = Union[int, float]
+Real = int | float
 
 # TODO: Revisit to use Protocol.
 Dataclass = Any
 
 NDArrayInt = NDArray[DTypeInt]
 NDArrayFloat = NDArray[DTypeFloat]
-NDArrayReal = NDArray[Union[DTypeInt, DTypeFloat]]
+NDArrayReal = NDArray[DTypeInt | DTypeFloat]
 NDArrayComplex = NDArray[DTypeComplex]
 NDArrayBoolean = NDArray[DTypeBoolean]
 NDArrayStr = NDArray[np.str_]

@@ -11,6 +11,7 @@ Define the automatic colour conversion graph objects:
 from __future__ import annotations
 
 import inspect
+import itertools
 import re
 import sys
 import textwrap
@@ -1095,7 +1096,7 @@ def _conversion_path(source: str, target: str) -> List[Callable]:
 
     return [
         CONVERSION_GRAPH.get_edge_data(a, b)["conversion_function"]  # pyright: ignore
-        for a, b in zip(path[:-1], path[1:])
+        for a, b in itertools.pairwise(path)
     ]
 
 

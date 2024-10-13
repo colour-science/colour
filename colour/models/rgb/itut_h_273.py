@@ -60,7 +60,7 @@ from enum import IntEnum, auto
 
 import numpy as np
 
-from colour.hints import Any, Callable, Dict, NDArrayFloat, Union
+from colour.hints import Any, Callable, Dict, NDArrayFloat
 from colour.models.rgb.datasets.dcdm_xyz import (
     CCS_WHITEPOINT_DCDM_XYZ,
     MATRIX_DCDM_XYZ_TO_XYZ,
@@ -187,7 +187,7 @@ __all__ = [
 
 
 def _clipped_domain_function(
-    function: Callable, domain: Union[list, tuple] = (0, 1)
+    function: Callable, domain: list | tuple = (0, 1)
 ) -> Callable:
     """
     Wrap given function and produce a new callable clipping the input value to

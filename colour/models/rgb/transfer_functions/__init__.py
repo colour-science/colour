@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from functools import partial
 
 from colour.hints import (
@@ -15,7 +17,6 @@ from colour.hints import (
     LiteralCCTFDecoding,
     LiteralOOTF,
     LiteralOOTFInverse,
-    Union,
 )
 from colour.utilities import (
     CanonicalMapping,
@@ -418,8 +419,8 @@ Supported *log* encoding functions.
 
 
 def log_encoding(
-    value: ArrayLike, function: Union[LiteralLogEncoding, str] = "Cineon", **kwargs: Any
-) -> Union[NDArrayFloat, NDArrayInt]:
+    value: ArrayLike, function: LiteralLogEncoding | str = "Cineon", **kwargs: Any
+) -> NDArrayFloat | NDArrayInt:
     """
     Encode *scene-referred* exposure values to :math:`R'G'B'` video component
     signal value using given *log* encoding function.
@@ -537,8 +538,8 @@ Supported *log* decoding functions.
 
 
 def log_decoding(
-    value: Union[ArrayLike, ArrayLike],
-    function: Union[LiteralLogDecoding, str] = "Cineon",
+    value: ArrayLike,
+    function: LiteralLogDecoding | str = "Cineon",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
@@ -650,7 +651,7 @@ Supported opto-electrical transfer functions (OETFs / OECFs).
 
 
 def oetf(
-    value: ArrayLike, function: Union[LiteralOETF, str] = "ITU-R BT.709", **kwargs: Any
+    value: ArrayLike, function: LiteralOETF | str = "ITU-R BT.709", **kwargs: Any
 ) -> NDArrayFloat:
     """
     Encode estimated tristimulus values in a scene to :math:`R'G'B'` video
@@ -724,7 +725,7 @@ Supported inverse opto-electrical transfer functions (OETFs / OECFs).
 
 def oetf_inverse(
     value: ArrayLike,
-    function: Union[LiteralOETFInverse, str] = "ITU-R BT.709",
+    function: LiteralOETFInverse | str = "ITU-R BT.709",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
@@ -798,8 +799,8 @@ Supported electro-optical transfer functions (EOTFs / EOCFs).
 
 
 def eotf(
-    value: Union[ArrayLike, ArrayLike],
-    function: Union[LiteralEOTF, str] = "ITU-R BT.1886",
+    value: ArrayLike,
+    function: LiteralEOTF | str = "ITU-R BT.1886",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
@@ -870,9 +871,9 @@ Supported inverse electro-optical transfer functions (EOTFs / EOCFs).
 
 def eotf_inverse(
     value: ArrayLike,
-    function: Union[LiteralEOTFInverse, str] = "ITU-R BT.1886",
+    function: LiteralEOTFInverse | str = "ITU-R BT.1886",
     **kwargs,
-) -> Union[NDArrayFloat, NDArrayInt]:
+) -> NDArrayFloat | NDArrayInt:
     """
     Encode estimated tristimulus values in a scene to :math:`R'G'B'` video
     component signal value using given inverse electro-optical transfer
@@ -968,8 +969,8 @@ For *ITU-R BT.2100*, only the inverse electro-optical transfer functions
 
 
 def cctf_encoding(
-    value: ArrayLike, function: Union[LiteralCCTFEncoding, str] = "sRGB", **kwargs: Any
-) -> Union[NDArrayFloat, NDArrayInt]:
+    value: ArrayLike, function: LiteralCCTFEncoding | str = "sRGB", **kwargs: Any
+) -> NDArrayFloat | NDArrayInt:
     """
     Encode linear :math:`RGB` values to non-linear :math:`R'G'B'` values using
     given encoding colour component transfer function (Encoding CCTF).
@@ -1070,8 +1071,8 @@ Notes
 
 
 def cctf_decoding(
-    value: Union[ArrayLike, ArrayLike],
-    function: Union[LiteralCCTFDecoding, str] = "sRGB",
+    value: ArrayLike,
+    function: LiteralCCTFDecoding | str = "sRGB",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
@@ -1159,7 +1160,7 @@ Supported opto-optical transfer functions (OOTFs / OOCFs).
 
 def ootf(
     value: ArrayLike,
-    function: Union[LiteralOOTF, str] = "ITU-R BT.2100 PQ",
+    function: LiteralOOTF | str = "ITU-R BT.2100 PQ",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
@@ -1217,7 +1218,7 @@ Supported inverse opto-optical transfer functions (OOTFs / OOCFs).
 
 def ootf_inverse(
     value: ArrayLike,
-    function: Union[LiteralOOTFInverse, str] = "ITU-R BT.2100 PQ",
+    function: LiteralOOTFInverse | str = "ITU-R BT.2100 PQ",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """

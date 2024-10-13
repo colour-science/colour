@@ -4,7 +4,6 @@ import os
 import sys
 import textwrap
 
-from colour.hints import Optional
 from colour.utilities import (
     MixinLogging,
     as_bool,
@@ -238,9 +237,7 @@ class TestMultilineRepr:
         """Test :func:`colour.utilities.verbose.multiline_repr` definition."""
 
         class Data:
-            def __init__(
-                self, a: str, b: int, c: list, d: Optional[str] = None
-            ) -> None:
+            def __init__(self, a: str, b: int, c: list, d: str | None = None) -> None:
                 self._a = a
                 self._b = b
                 self._c = c
