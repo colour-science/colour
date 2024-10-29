@@ -14,7 +14,6 @@ import numpy as np
 from colour.io.luts.clf import from_f16_to_uint16, from_uint16_to_f16
 
 
-
 class TestHelpers:
     """
     Define :func:`colour.io.luts.clf.from_uint16_to_f16` and

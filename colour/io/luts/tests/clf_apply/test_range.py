@@ -1,6 +1,5 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.io.clf` module."""
-import os
 import unittest
 
 __author__ = "Colour Developers"
@@ -11,23 +10,17 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 import numpy as np
-import pytest
-from colour_clf_io.values import BitDepth
 
-from colour.io.luts.clf import from_f16_to_uint16, from_uint16_to_f16
 from colour.io.luts.tests.test_clf_common import (
     assert_ocio_consistency,
-    assert_ocio_consistency_for_file,
+    rgb_sample_iter,
 )
-
-def rgb_iter(step=0.2):
-    for r in np.arange(0.0, 1.0, step):
-        for g in np.arange(0.0, 1.0, step):
-            for b in np.arange(0.0, 1.0, step):
-                yield r, g, b
 
 
 class TestRange:
+    """
+    Define test for applying Range nodes from a CLF file.
+    """
 
     def test_ocio_consistency_simple(self):
         """
@@ -43,7 +36,7 @@ class TestRange:
             <maxOutValue>940</maxOutValue>
         </Range>
         """
-        for rgb in rgb_iter():
+        for rgb in rgb_sample_iter():
             value_rgb = np.array(rgb)
             assert_ocio_consistency(value_rgb, example, f"Input value was {rgb}")
 
@@ -60,7 +53,7 @@ class TestRange:
             <maxOutValue>940</maxOutValue>
         </Range>
         """
-        for rgb in rgb_iter():
+        for rgb in rgb_sample_iter():
             value_rgb = np.array(rgb)
             assert_ocio_consistency(value_rgb, example, f"Input value was {rgb}")
 
@@ -75,7 +68,7 @@ class TestRange:
             <maxOutValue>15095.29411764706</maxOutValue>
         </Range>
         """
-        for rgb in rgb_iter():
+        for rgb in rgb_sample_iter():
             value_rgb = np.array(rgb)
             assert_ocio_consistency(value_rgb, example, f"Input value was {rgb}")
 
@@ -90,7 +83,7 @@ class TestRange:
             <minOutValue>15.988278388278388</minOutValue>
         </Range>
         """
-        for rgb in rgb_iter():
+        for rgb in rgb_sample_iter():
             value_rgb = np.array(rgb)
             assert_ocio_consistency(value_rgb, example, f"Input value was {rgb}")
 

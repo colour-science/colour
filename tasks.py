@@ -12,7 +12,7 @@ import os
 import re
 import uuid
 
-# import biblib.bib
+import biblib.bib
 
 import colour
 from colour.utilities import message_box
