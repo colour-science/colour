@@ -8,10 +8,7 @@ from colour.algebra import (
     table_interpolation_tetrahedral,
     table_interpolation_trilinear,
 )
-from colour.hints import ArrayLike
-from colour.io.luts import (
-    LUT1D, LUT3D
-)
+from colour.io.luts import LUT1D, LUT3D
 
 __all__ = ["apply"]
 
@@ -30,6 +27,7 @@ def from_f16_to_uint16(array: npt.NDArray[np.float16]) -> npt.NDArray[np.uint16]
     array.dtype = np.uint16  # type: ignore
     return array  # type: ignore
 
+
 def get_interpolator_for_LUT3D(node: clf.LUT3D):
     if node.interpolation == node.interpolation.TRILINEAR:
         return table_interpolation_trilinear
@@ -38,21 +36,25 @@ def get_interpolator_for_LUT3D(node: clf.LUT3D):
     else:
         raise NotImplementedError
 
-def apply_LUT3D(node: clf.LUT3D, normalised_value: npt.NDArray[np.float_]
-                ) -> npt.NDArray[np.float_]:
+
+def apply_LUT3D(
+    node: clf.LUT3D, normalised_value: npt.NDArray[np.float_]
+) -> npt.NDArray[np.float_]:
     table = node.array.as_array()
     size = node.array.dim[0]
     if node.raw_halfs:
         table = from_uint16_to_f16(table)
     if node.half_domain:
         normalised_value = from_f16_to_uint16(normalised_value) / (size - 1)
-    domain = np.min(table, axis=3, keepdims=True), np.max(table, axis=3, keepdims=True)
     # We need to map to indices, where 1 indicates the last element in the LUT array.
     value_scaled = normalised_value * (size - 1)
     extrapolator_kwargs = {"method": "Constant"}
     interpolator = get_interpolator_for_LUT3D(node)
     lut = LUT3D(table, size=size)
-    return lut.apply(value_scaled, extrapolator_kwargs=extrapolator_kwargs, interpolator=interpolator)
+    return lut.apply(
+        value_scaled, extrapolator_kwargs=extrapolator_kwargs, interpolator=interpolator
+    )
+
 
 def apply_LUT1D(
     node: clf.LUT1D, normalised_value: npt.NDArray[np.float_]
@@ -71,19 +73,23 @@ def apply_LUT1D(
     return lut.apply(value_scaled, extrapolator_kwargs=extrapolator_kwargs)
 
 
-def apply_matrix(node: clf.Matrix, value: npt.NDArray[np.float_]):
+def apply_matrix(
+    node: clf.Matrix, value: npt.NDArray[np.float_]
+) -> npt.NDArray[np.float_]:
     matrix = node.array.as_array()
     return matrix.dot(value)
 
 
 def assert_range_correct(in_out, bit_depth_scale):
     if None not in in_out:
-        expected_out_value =  in_out[0] * bit_depth_scale
+        expected_out_value = in_out[0] * bit_depth_scale
         if in_out[1] != expected_out_value:
             raise ValueError(
                 f"Inconsistent settings in range node. "
                 f"Input value was {in_out[1]}. "
-                f"Expected output value to be {expected_out_value}, but got {in_out[1]}")
+                f"Expected output value to be {expected_out_value}, but got {in_out[1]}"
+            )
+
 
 def apply_range(node: clf.Range, normalised_value: npt.NDArray[np.float_]):
     value = normalised_value * node.in_bit_depth.scale_factor()
@@ -97,10 +103,14 @@ def apply_range(node: clf.Range, normalised_value: npt.NDArray[np.float_]):
 
     if None in max_in_out or None in min_in_out:
         if not do_clamping:
-            raise ValueError("Inconsistent settings in range node. "
-                             "Clamping was not set, but not all values to calculate a "
-                             "range are supplied. ")
-        bit_depth_scale = node.out_bit_depth.scale_factor() / node.in_bit_depth.scale_factor()
+            raise ValueError(
+                "Inconsistent settings in range node. "
+                "Clamping was not set, but not all values to calculate a "
+                "range are supplied. "
+            )
+        bit_depth_scale = (
+            node.out_bit_depth.scale_factor() / node.in_bit_depth.scale_factor()
+        )
         assert_range_correct(min_in_out, bit_depth_scale)
         assert_range_correct(max_in_out, bit_depth_scale)
         scaled_value = value * bit_depth_scale
@@ -111,6 +121,119 @@ def apply_range(node: clf.Range, normalised_value: npt.NDArray[np.float_]):
         if do_clamping:
             result = np.clip(result, min_out, max_out)
         return result
+
+
+FLT_MIN = 1.175494e-38
+
+
+def apply_log(
+    node: clf.Log, normalised_value: npt.NDArray[np.float_]
+) -> npt.NDArray[np.float_]:
+    style = node.style
+    match style:
+        case clf.LogStyle.LOG_10:
+            return (
+                np.log10(np.maximum(normalised_value, FLT_MIN))
+                / node.out_bit_depth.scale_factor()
+            )
+        case clf.LogStyle.ANTI_LOG_10:
+            return np.power(10, normalised_value)
+        case clf.LogStyle.LOG_2:
+            return np.log2(np.maximum(normalised_value, FLT_MIN))
+        case clf.LogStyle.ANTI_LOG_2:
+            return np.power(2, normalised_value)
+        case clf.LogStyle.LIN_TO_LOG:
+            log_side_slope = node.log_params.log_side_slope
+            lin_side_slope = node.log_params.lin_side_slope
+            log_side_offset = node.log_params.log_side_offset
+            lin_side_offset = node.log_params.lin_side_offset
+            base = node.log_params.base
+            log_side_value = np.emath.logn(
+                base,
+                np.maximum(
+                    lin_side_slope * normalised_value + lin_side_offset, FLT_MIN
+                ),
+            )
+            return log_side_slope * log_side_value + log_side_offset
+        case clf.LogStyle.LOG_TO_LIN:
+            log_side_slope = node.log_params.log_side_slope
+            lin_side_slope = node.log_params.lin_side_slope
+            log_side_offset = node.log_params.log_side_offset
+            lin_side_offset = node.log_params.lin_side_offset
+            base = node.log_params.base
+            lin_side_value = base ** (
+                (normalised_value - log_side_offset) / log_side_slope
+            )
+            return (lin_side_value - lin_side_offset) / lin_side_slope
+        case clf.LogStyle.CAMERA_LIN_TO_LOG:
+            log_side_slope = node.log_params.log_side_slope
+            lin_side_slope = node.log_params.lin_side_slope
+            log_side_offset = node.log_params.log_side_offset
+            lin_side_offset = node.log_params.lin_side_offset
+            lin_side_break = node.log_params.lin_side_break
+            base = node.log_params.base
+            linear_slope = node.log_params.linear_slope
+            if lin_side_slope is None:
+                linear_slope = (
+                    log_side_slope
+                    * lin_side_slope
+                    / (
+                        (lin_side_slope * lin_side_break + lin_side_offset)
+                        * np.log(base)
+                    )
+                )
+            log_side_break = (
+                log_side_slope
+                * np.emath.logn(base, lin_side_slope * lin_side_break + lin_side_offset)
+                + log_side_offset
+            )
+            linear_offset = log_side_break - linear_slope * lin_side_break
+            return np.where(
+                normalised_value < lin_side_break,
+                linear_slope * normalised_value + linear_offset,
+                log_side_slope
+                * np.emath.logn(
+                    base,
+                    np.maximum(
+                        lin_side_slope * normalised_value + lin_side_offset, FLT_MIN
+                    ),
+                )
+                + log_side_offset,
+            )
+        case clf.LogStyle.CAMERA_LOG_TO_LIN:
+            log_side_slope = node.log_params.log_side_slope
+            lin_side_slope = node.log_params.lin_side_slope
+            log_side_offset = node.log_params.log_side_offset
+            lin_side_offset = node.log_params.lin_side_offset
+            lin_side_break = node.log_params.lin_side_break
+            base = node.log_params.base
+            linear_slope = node.log_params.linear_slope
+            if lin_side_slope is None:
+                linear_slope = (
+                    log_side_slope
+                    * lin_side_slope
+                    / (
+                        (lin_side_slope * lin_side_break + lin_side_offset)
+                        * np.log(base)
+                    )
+                )
+            log_side_break = (
+                log_side_slope
+                * np.emath.logn(base, lin_side_slope * lin_side_break + lin_side_offset)
+                + log_side_offset
+            )
+            linear_offset = log_side_break - linear_slope * lin_side_break
+            return np.where(
+                normalised_value <= log_side_break,
+                (normalised_value - linear_offset) / linear_slope,
+                (
+                    (base ** ((normalised_value - log_side_offset) / log_side_slope))
+                    - lin_side_offset
+                )
+                / lin_side_slope,
+            )
+        case _:
+            raise ValueError(f"Invalid LogStyle: {style}")
 
 
 def apply_proces_node(
@@ -124,6 +247,8 @@ def apply_proces_node(
         return apply_matrix(node, normalised_value)
     if isinstance(node, clf.Range):
         return apply_range(node, normalised_value)
+    if isinstance(node, clf.Log):
+        return apply_log(node, normalised_value)
 
     raise RuntimeError("No matching process node found")  # TODO: Better error handling
 

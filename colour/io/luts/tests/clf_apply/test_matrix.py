@@ -1,6 +1,5 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.io.clf` module."""
-import os
 import unittest
 
 __author__ = "Colour Developers"
@@ -11,23 +10,17 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 import numpy as np
-import pytest
-from colour_clf_io.values import BitDepth
 
-from colour.io.luts.clf import from_f16_to_uint16, from_uint16_to_f16
 from colour.io.luts.tests.test_clf_common import (
     assert_ocio_consistency,
-    assert_ocio_consistency_for_file,
+    rgb_sample_iter,
 )
-
-def rgb_iter(step=0.2):
-    for r in np.arange(0.0, 1.0, step):
-        for g in np.arange(0.0, 1.0, step):
-            for b in np.arange(0.0, 1.0, step):
-                yield r, g, b
 
 
 class TestMatrix:
+    """
+    Define test for applying Matrix nodes from a CLF file.
+    """
 
     def test_ocio_consistency_simple(self):
         """
@@ -42,11 +35,12 @@ class TestMatrix:
                 -0.0765537733960204    1.17622969983357     -0.0996759264375522
                  0.00831614842569772  -0.00603244979102103   0.997716301365324
             </Array>
-        </Matrix>   
+        </Matrix>
         """
-        for rgb in rgb_iter():
+        for rgb in rgb_sample_iter():
             value_rgb = np.array(rgb)
             assert_ocio_consistency(value_rgb, example)
+
 
 if __name__ == "__main__":
     unittest.main()
