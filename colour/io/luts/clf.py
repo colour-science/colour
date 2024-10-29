@@ -9,10 +9,13 @@ from colour.algebra import (
     table_interpolation_trilinear,
 )
 from colour.io.luts import LUT1D, LUT3D
+from colour.utilities import tsplit, tstack
 
 __all__ = ["apply"]
 
 import numpy.typing as npt
+from colour_clf_io import ExponentStyle
+from colour_clf_io.values import Channel
 
 
 def from_uint16_to_f16(array: npt.NDArray[np.uint16]) -> npt.NDArray[np.float16]:
@@ -233,7 +236,94 @@ def apply_log(
                 / lin_side_slope,
             )
         case _:
-            raise ValueError(f"Invalid LogStyle: {style}")
+            raise ValueError(f"Invalid Log Style: {style}")
+
+
+def mon_curve_forward(x, exponent, offset):
+    x_break = offset / (exponent - 1)
+    s = ((exponent - 1) / offset) * (
+        (offset * exponent) / ((exponent - 1) * (1 + offset))
+    ) ** exponent
+    return np.where(x >= x_break, ((x + offset) / (1 + offset)) ** exponent, x * s)
+
+
+def mon_curve_reverse(x, exponent, offset):
+    y_break = ((offset * exponent) / ((exponent - 1) * (1 + offset))) ** exponent
+    s = ((exponent - 1) / offset) * (
+        (offset * exponent) / ((exponent - 1) * (1 + offset))
+    ) ** exponent
+    return np.where(x >= y_break, (1 + offset) * x ** (1 / exponent) - offset, x / s)
+
+
+def apply_exponent_internal(
+    style: clf.ExponentStyle, params: clf.ExponentParams, value: npt.NDArray[np.float_]
+) -> npt.NDArray[np.float_]:
+    exponent = params.exponent
+    offset = params.offset
+
+    match style:
+        case ExponentStyle.BASIC_FWD:
+            return np.maximum(0.0, value) ** exponent
+        case ExponentStyle.BASIC_REV:
+            return np.maximum(0.0, value) ** (1 / exponent)
+        case ExponentStyle.BASIC_MIRROR_FWD:
+            return np.where(
+                value >= 0,
+                value**exponent,
+                -((-value) ** exponent),  # TODO check for type in reference
+            )
+        case ExponentStyle.BASIC_MIRROR_REV:
+            return np.where(
+                value >= 0,
+                value ** (1 / exponent),
+                -((-value) ** (1 / exponent)),
+            )
+        case ExponentStyle.BASIC_PASS_THRU_FWD:
+            return np.where(value >= 0, value**exponent, value)
+        case ExponentStyle.BASIC_PASS_THRU_REV:
+            return np.where(
+                value >= 0,
+                value ** (1 / exponent),
+                value,
+            )
+        case ExponentStyle.MON_CURVE_FWD:
+            return mon_curve_forward(value, exponent, offset)
+        case ExponentStyle.MON_CURVE_REV:
+            return mon_curve_reverse(value, exponent, offset)
+        case ExponentStyle.MON_CURVE_MIRROR_FWD:
+            return np.where(
+                value >= 0,
+                mon_curve_forward(value, exponent, offset),
+                -mon_curve_forward(-value, exponent, offset),
+            )
+        case ExponentStyle.MON_CURVE_MIRROR_REV:
+            return np.where(
+                value >= 0,
+                mon_curve_reverse(value, exponent, offset),
+                -mon_curve_reverse(-value, exponent, offset),
+            )
+        case _:
+            raise ValueError(f"Invalid Exponent Style: {style}")
+
+
+def apply_exponent(
+    node: clf.Exponent, normalised_value: npt.NDArray[np.float_]
+) -> npt.NDArray[np.float_]:
+    styles = node.style
+    params = node.exponent_params
+    if len(params) == 1 and params[0].channel is None:
+        return apply_exponent_internal(styles, params[0], normalised_value)
+    else:
+        R, G, B = tsplit(normalised_value)
+        for param in params:
+            match param.channel:
+                case Channel.R:
+                    R = apply_exponent_internal(styles, param, R)
+                case Channel.G:
+                    G = apply_exponent_internal(styles, param, G)
+                case Channel.B:
+                    B = apply_exponent_internal(styles, param, B)
+        return tstack([R, G, B])
 
 
 def apply_proces_node(
@@ -249,6 +339,8 @@ def apply_proces_node(
         return apply_range(node, normalised_value)
     if isinstance(node, clf.Log):
         return apply_log(node, normalised_value)
+    if isinstance(node, clf.Exponent):
+        return apply_exponent(node, normalised_value)
 
     raise RuntimeError("No matching process node found")  # TODO: Better error handling
 
