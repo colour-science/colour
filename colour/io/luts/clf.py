@@ -31,6 +31,24 @@ def from_f16_to_uint16(array: npt.NDArray[np.float16]) -> npt.NDArray[np.uint16]
     return array  # type: ignore
 
 
+def apply_by_channel(value, f, params, extra_args=None):
+    if params is None or len(params) == 0:
+        return f(value, params, extra_args)
+    elif len(params) == 1 and params[0].channel is None:
+        return f(value, params[0], extra_args)
+    else:
+        R, G, B = tsplit(value)
+        for param in params:
+            match param.channel:
+                case Channel.R:
+                    R = f(R, param, extra_args)
+                case Channel.G:
+                    G = f(G, param, extra_args)
+                case Channel.B:
+                    B = f(B, param, extra_args)
+        return tstack([R, G, B])
+
+
 def get_interpolator_for_LUT3D(node: clf.LUT3D):
     if node.interpolation == node.interpolation.TRILINEAR:
         return table_interpolation_trilinear
@@ -129,53 +147,46 @@ def apply_range(node: clf.Range, normalised_value: npt.NDArray[np.float_]):
 FLT_MIN = 1.175494e-38
 
 
-def apply_log(
-    node: clf.Log, normalised_value: npt.NDArray[np.float_]
+def apply_log_internal(
+    value: npt.NDArray[np.float_], params, extra_args
 ) -> npt.NDArray[np.float_]:
-    style = node.style
+    style, in_bit_depth, out_bit_depth = extra_args
     match style:
         case clf.LogStyle.LOG_10:
-            return (
-                np.log10(np.maximum(normalised_value, FLT_MIN))
-                / node.out_bit_depth.scale_factor()
-            )
+            return np.log10(np.maximum(value, FLT_MIN)) / out_bit_depth.scale_factor()
         case clf.LogStyle.ANTI_LOG_10:
-            return np.power(10, normalised_value)
+            return np.power(10, value)
         case clf.LogStyle.LOG_2:
-            return np.log2(np.maximum(normalised_value, FLT_MIN))
+            return np.log2(np.maximum(value, FLT_MIN))
         case clf.LogStyle.ANTI_LOG_2:
-            return np.power(2, normalised_value)
+            return np.power(2, value)
         case clf.LogStyle.LIN_TO_LOG:
-            log_side_slope = node.log_params.log_side_slope
-            lin_side_slope = node.log_params.lin_side_slope
-            log_side_offset = node.log_params.log_side_offset
-            lin_side_offset = node.log_params.lin_side_offset
-            base = node.log_params.base
+            log_side_slope = params.log_side_slope
+            lin_side_slope = params.lin_side_slope
+            log_side_offset = params.log_side_offset
+            lin_side_offset = params.lin_side_offset
+            base = params.base
             log_side_value = np.emath.logn(
                 base,
-                np.maximum(
-                    lin_side_slope * normalised_value + lin_side_offset, FLT_MIN
-                ),
+                np.maximum(lin_side_slope * value + lin_side_offset, FLT_MIN),
             )
             return log_side_slope * log_side_value + log_side_offset
         case clf.LogStyle.LOG_TO_LIN:
-            log_side_slope = node.log_params.log_side_slope
-            lin_side_slope = node.log_params.lin_side_slope
-            log_side_offset = node.log_params.log_side_offset
-            lin_side_offset = node.log_params.lin_side_offset
-            base = node.log_params.base
-            lin_side_value = base ** (
-                (normalised_value - log_side_offset) / log_side_slope
-            )
+            log_side_slope = params.log_side_slope
+            lin_side_slope = params.lin_side_slope
+            log_side_offset = params.log_side_offset
+            lin_side_offset = params.lin_side_offset
+            base = params.base
+            lin_side_value = base ** ((value - log_side_offset) / log_side_slope)
             return (lin_side_value - lin_side_offset) / lin_side_slope
         case clf.LogStyle.CAMERA_LIN_TO_LOG:
-            log_side_slope = node.log_params.log_side_slope
-            lin_side_slope = node.log_params.lin_side_slope
-            log_side_offset = node.log_params.log_side_offset
-            lin_side_offset = node.log_params.lin_side_offset
-            lin_side_break = node.log_params.lin_side_break
-            base = node.log_params.base
-            linear_slope = node.log_params.linear_slope
+            log_side_slope = params.log_side_slope
+            lin_side_slope = params.lin_side_slope
+            log_side_offset = params.log_side_offset
+            lin_side_offset = params.lin_side_offset
+            lin_side_break = params.lin_side_break
+            base = params.base
+            linear_slope = params.linear_slope
             if lin_side_slope is None:
                 linear_slope = (
                     log_side_slope
@@ -192,25 +203,23 @@ def apply_log(
             )
             linear_offset = log_side_break - linear_slope * lin_side_break
             return np.where(
-                normalised_value < lin_side_break,
-                linear_slope * normalised_value + linear_offset,
+                value < lin_side_break,
+                linear_slope * value + linear_offset,
                 log_side_slope
                 * np.emath.logn(
                     base,
-                    np.maximum(
-                        lin_side_slope * normalised_value + lin_side_offset, FLT_MIN
-                    ),
+                    np.maximum(lin_side_slope * value + lin_side_offset, FLT_MIN),
                 )
                 + log_side_offset,
             )
         case clf.LogStyle.CAMERA_LOG_TO_LIN:
-            log_side_slope = node.log_params.log_side_slope
-            lin_side_slope = node.log_params.lin_side_slope
-            log_side_offset = node.log_params.log_side_offset
-            lin_side_offset = node.log_params.lin_side_offset
-            lin_side_break = node.log_params.lin_side_break
-            base = node.log_params.base
-            linear_slope = node.log_params.linear_slope
+            log_side_slope = params.log_side_slope
+            lin_side_slope = params.lin_side_slope
+            log_side_offset = params.log_side_offset
+            lin_side_offset = params.lin_side_offset
+            lin_side_break = params.lin_side_break
+            base = params.base
+            linear_slope = params.linear_slope
             if lin_side_slope is None:
                 linear_slope = (
                     log_side_slope
@@ -227,16 +236,30 @@ def apply_log(
             )
             linear_offset = log_side_break - linear_slope * lin_side_break
             return np.where(
-                normalised_value <= log_side_break,
-                (normalised_value - linear_offset) / linear_slope,
+                value <= log_side_break,
+                (value - linear_offset) / linear_slope,
                 (
-                    (base ** ((normalised_value - log_side_offset) / log_side_slope))
+                    (base ** ((value - log_side_offset) / log_side_slope))
                     - lin_side_offset
                 )
                 / lin_side_slope,
             )
         case _:
             raise ValueError(f"Invalid Log Style: {style}")
+
+
+def apply_log(
+    node: clf.Log, normalised_value: npt.NDArray[np.float_]
+) -> npt.NDArray[np.float_]:
+    style = node.style
+    params = node.log_params
+    extra_args = style, node.in_bit_depth, node.out_bit_depth
+    return apply_by_channel(
+        normalised_value,
+        apply_log_internal,
+        params,
+        extra_args,
+    )
 
 
 def mon_curve_forward(x, exponent, offset):
@@ -256,11 +279,11 @@ def mon_curve_reverse(x, exponent, offset):
 
 
 def apply_exponent_internal(
-    style: clf.ExponentStyle, params: clf.ExponentParams, value: npt.NDArray[np.float_]
+    value: npt.NDArray[np.float_], params: clf.ExponentParams, extra_args
 ) -> npt.NDArray[np.float_]:
     exponent = params.exponent
     offset = params.offset
-
+    style = extra_args
     match style:
         case ExponentStyle.BASIC_FWD:
             return np.maximum(0.0, value) ** exponent
@@ -309,21 +332,11 @@ def apply_exponent_internal(
 def apply_exponent(
     node: clf.Exponent, normalised_value: npt.NDArray[np.float_]
 ) -> npt.NDArray[np.float_]:
-    styles = node.style
+    style = node.style
     params = node.exponent_params
-    if len(params) == 1 and params[0].channel is None:
-        return apply_exponent_internal(styles, params[0], normalised_value)
-    else:
-        R, G, B = tsplit(normalised_value)
-        for param in params:
-            match param.channel:
-                case Channel.R:
-                    R = apply_exponent_internal(styles, param, R)
-                case Channel.G:
-                    G = apply_exponent_internal(styles, param, G)
-                case Channel.B:
-                    B = apply_exponent_internal(styles, param, B)
-        return tstack([R, G, B])
+    return apply_by_channel(
+        normalised_value, apply_exponent_internal, params, extra_args=style
+    )
 
 
 def apply_proces_node(
