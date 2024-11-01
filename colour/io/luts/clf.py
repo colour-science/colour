@@ -339,6 +339,57 @@ def apply_exponent(
     )
 
 
+def asc_cdl_luma(value):
+    R, G, B = tsplit(value)
+    luma = 0.2126 * R + 0.7152 * G + 0.0722 * B
+    return luma
+
+
+def apply_asc_cdl(node: clf.ASC_CDL, normalised_value: npt.NDArray[np.float_]):
+    sop = node.sopnode
+    if sop is None:
+        slope = np.array([1.0, 1.0, 1.0])
+        offset = np.array([0.0, 0.0, 0.0])
+        power = np.array([1.0, 1.0, 1.0])
+    else:
+        slope = np.array(sop.slope)
+        offset = np.array(sop.offset)
+        power = np.array(sop.power)
+    saturation = 1.0 if node.sat_node is None else node.sat_node.saturation
+
+    def clamp(x):
+        return np.clip(x, 0.0, 1.0)
+
+    match node.style:
+        case clf.ASC_CDL_Style.FWD:
+            out_sop = (
+                clamp(
+                    normalised_value * slope + offset,
+                )
+                ** power
+            )
+            R, G, B = tsplit(out_sop)
+            luma = asc_cdl_luma(out_sop)
+            return clamp(luma + saturation * (out_sop - luma))
+        case clf.ASC_CDL_Style.FWD_NO_CLAMP:
+            lin = normalised_value * slope + offset
+            out_sop = np.where(lin >= 0, lin**power, lin)
+            luma = asc_cdl_luma(out_sop)
+            return luma + saturation * (out_sop - luma)
+        case clf.ASC_CDL_Style.REV:
+            in_clamp = clamp(normalised_value)
+            luma = asc_cdl_luma(in_clamp)
+            out_sat = luma + (in_clamp - luma) / saturation
+            return clamp((clamp(out_sat) ** (1.0 / power) - offset) / slope)
+        case clf.ASC_CDL_Style.REV_NO_CLAMP:
+            luma = asc_cdl_luma(normalised_value)
+            out_sat = luma + (normalised_value - luma) / saturation
+            out_pw = np.where(out_sat >= 0, (out_sat) ** (1 / power), out_sat)
+            return (out_pw - offset) / slope
+        case _:
+            raise ValueError(f"Invalid ASC_CDL Style: {node.style}")
+
+
 def apply_proces_node(
     node: clf.ProcessNode, normalised_value: npt.NDArray[np.float_]
 ) -> npt.NDArray[np.float_]:
@@ -354,6 +405,8 @@ def apply_proces_node(
         return apply_log(node, normalised_value)
     if isinstance(node, clf.Exponent):
         return apply_exponent(node, normalised_value)
+    if isinstance(node, clf.ASC_CDL):
+        return apply_asc_cdl(node, normalised_value)
 
     raise RuntimeError("No matching process node found")  # TODO: Better error handling
 
