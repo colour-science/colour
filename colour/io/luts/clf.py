@@ -3,10 +3,14 @@ Define functionality to execute and run CLF workflows.
 """
 import colour_clf_io as clf
 import numpy as np
+import numpy.lib.scimath as emath
 
 from colour.algebra import (
     table_interpolation_tetrahedral,
     table_interpolation_trilinear,
+)
+from colour.hints import (
+    NDArrayFloat,
 )
 from colour.io.luts import LUT1D, LUT3D
 from colour.utilities import tsplit, tstack
@@ -58,14 +62,13 @@ def get_interpolator_for_LUT3D(node: clf.LUT3D):
         raise NotImplementedError
 
 
-def apply_LUT3D(
-    node: clf.LUT3D, normalised_value: npt.NDArray[np.float_]
-) -> npt.NDArray[np.float_]:
+def apply_LUT3D(node: clf.LUT3D, normalised_value: NDArrayFloat) -> NDArrayFloat:
     table = node.array.as_array()
     size = node.array.dim[0]
     if node.raw_halfs:
         table = from_uint16_to_f16(table)
     if node.half_domain:
+        normalised_value = np.array(normalised_value, dtype=np.float16)
         normalised_value = from_f16_to_uint16(normalised_value) / (size - 1)
     # We need to map to indices, where 1 indicates the last element in the LUT array.
     value_scaled = normalised_value * (size - 1)
@@ -77,14 +80,13 @@ def apply_LUT3D(
     )
 
 
-def apply_LUT1D(
-    node: clf.LUT1D, normalised_value: npt.NDArray[np.float_]
-) -> npt.NDArray[np.float_]:
+def apply_LUT1D(node: clf.LUT1D, normalised_value: NDArrayFloat) -> NDArrayFloat:
     table = node.array.as_array()
     size = node.array.dim[0]
     if node.raw_halfs:
         table = from_uint16_to_f16(table)
     if node.half_domain:
+        normalised_value = np.array(normalised_value, dtype=np.float16)
         normalised_value = from_f16_to_uint16(normalised_value) / (size - 1)
     domain = np.min(table), np.max(table)
     # We need to map to indices, where 1 indicates the last element in the LUT array.
@@ -94,9 +96,7 @@ def apply_LUT1D(
     return lut.apply(value_scaled, extrapolator_kwargs=extrapolator_kwargs)
 
 
-def apply_matrix(
-    node: clf.Matrix, value: npt.NDArray[np.float_]
-) -> npt.NDArray[np.float_]:
+def apply_matrix(node: clf.Matrix, value: NDArrayFloat) -> NDArrayFloat:
     matrix = node.array.as_array()
     return matrix.dot(value)
 
@@ -112,7 +112,7 @@ def assert_range_correct(in_out, bit_depth_scale):
             )
 
 
-def apply_range(node: clf.Range, normalised_value: npt.NDArray[np.float_]):
+def apply_range(node: clf.Range, normalised_value: NDArrayFloat):
     value = normalised_value * node.in_bit_depth.scale_factor()
     max_in = node.max_in_value
     max_out = node.max_out_value
@@ -147,9 +147,7 @@ def apply_range(node: clf.Range, normalised_value: npt.NDArray[np.float_]):
 FLT_MIN = 1.175494e-38
 
 
-def apply_log_internal(
-    value: npt.NDArray[np.float_], params, extra_args
-) -> npt.NDArray[np.float_]:
+def apply_log_internal(value: NDArrayFloat, params, extra_args) -> NDArrayFloat:
     style, in_bit_depth, out_bit_depth = extra_args
     match style:
         case clf.LogStyle.LOG_10:
@@ -166,7 +164,7 @@ def apply_log_internal(
             log_side_offset = params.log_side_offset
             lin_side_offset = params.lin_side_offset
             base = params.base
-            log_side_value = np.emath.logn(
+            log_side_value = emath.logn(
                 base,
                 np.maximum(lin_side_slope * value + lin_side_offset, FLT_MIN),
             )
@@ -198,7 +196,7 @@ def apply_log_internal(
                 )
             log_side_break = (
                 log_side_slope
-                * np.emath.logn(base, lin_side_slope * lin_side_break + lin_side_offset)
+                * emath.logn(base, lin_side_slope * lin_side_break + lin_side_offset)
                 + log_side_offset
             )
             linear_offset = log_side_break - linear_slope * lin_side_break
@@ -206,7 +204,7 @@ def apply_log_internal(
                 value < lin_side_break,
                 linear_slope * value + linear_offset,
                 log_side_slope
-                * np.emath.logn(
+                * emath.logn(
                     base,
                     np.maximum(lin_side_slope * value + lin_side_offset, FLT_MIN),
                 )
@@ -231,7 +229,7 @@ def apply_log_internal(
                 )
             log_side_break = (
                 log_side_slope
-                * np.emath.logn(base, lin_side_slope * lin_side_break + lin_side_offset)
+                * emath.logn(base, lin_side_slope * lin_side_break + lin_side_offset)
                 + log_side_offset
             )
             linear_offset = log_side_break - linear_slope * lin_side_break
@@ -248,9 +246,7 @@ def apply_log_internal(
             raise ValueError(f"Invalid Log Style: {style}")
 
 
-def apply_log(
-    node: clf.Log, normalised_value: npt.NDArray[np.float_]
-) -> npt.NDArray[np.float_]:
+def apply_log(node: clf.Log, normalised_value: NDArrayFloat) -> NDArrayFloat:
     style = node.style
     params = node.log_params
     extra_args = style, node.in_bit_depth, node.out_bit_depth
@@ -279,8 +275,8 @@ def mon_curve_reverse(x, exponent, offset):
 
 
 def apply_exponent_internal(
-    value: npt.NDArray[np.float_], params: clf.ExponentParams, extra_args
-) -> npt.NDArray[np.float_]:
+    value: NDArrayFloat, params: clf.ExponentParams, extra_args
+) -> NDArrayFloat:
     exponent = params.exponent
     offset = params.offset
     style = extra_args
@@ -329,9 +325,7 @@ def apply_exponent_internal(
             raise ValueError(f"Invalid Exponent Style: {style}")
 
 
-def apply_exponent(
-    node: clf.Exponent, normalised_value: npt.NDArray[np.float_]
-) -> npt.NDArray[np.float_]:
+def apply_exponent(node: clf.Exponent, normalised_value: NDArrayFloat) -> NDArrayFloat:
     style = node.style
     params = node.exponent_params
     return apply_by_channel(
@@ -345,7 +339,7 @@ def asc_cdl_luma(value):
     return luma
 
 
-def apply_asc_cdl(node: clf.ASC_CDL, normalised_value: npt.NDArray[np.float_]):
+def apply_asc_cdl(node: clf.ASC_CDL, normalised_value: NDArrayFloat):
     sop = node.sopnode
     if sop is None:
         slope = np.array([1.0, 1.0, 1.0])
@@ -391,8 +385,8 @@ def apply_asc_cdl(node: clf.ASC_CDL, normalised_value: npt.NDArray[np.float_]):
 
 
 def apply_proces_node(
-    node: clf.ProcessNode, normalised_value: npt.NDArray[np.float_]
-) -> npt.NDArray[np.float_]:
+    node: clf.ProcessNode, normalised_value: NDArrayFloat
+) -> NDArrayFloat:
     if isinstance(node, clf.LUT1D):
         return apply_LUT1D(node, normalised_value)
     if isinstance(node, clf.LUT3D):
@@ -413,9 +407,9 @@ def apply_proces_node(
 
 def apply_next_node(
     process_list: clf.ProcessList,
-    value: npt.NDArray[np.float_],
+    value: NDArrayFloat,
     use_normalised_values: bool,
-) -> npt.NDArray[np.float_]:
+) -> NDArrayFloat:
     next_node = process_list.process_nodes.pop(0)
     if not use_normalised_values:
         value = value / next_node.in_bit_depth.scale_factor()
@@ -427,9 +421,9 @@ def apply_next_node(
 
 def apply(
     process_list: clf.ProcessList,
-    value: npt.NDArray[np.float_],
+    value: NDArrayFloat,
     use_normalised_values=False,
-) -> npt.NDArray[np.float_]:
+) -> NDArrayFloat:
     """Apply the transformation described by the given ProcessList to the given
     value.
     """
