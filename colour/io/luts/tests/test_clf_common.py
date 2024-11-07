@@ -1,4 +1,3 @@
-
 """
 Defines helper functionality for CLF tests.
 """
@@ -44,6 +43,7 @@ def snippet_to_process_list(snippet: str) -> clf.ProcessList:
     """
     doc = wrap_snippet(snippet)
     return clf.parse_clf(doc)
+
 
 def snippet_as_tmp_file(snippet):
     doc = wrap_snippet(snippet)
