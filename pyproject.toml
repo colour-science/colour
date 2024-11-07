@@ -53,7 +53,7 @@ dependencies = [
 ]
 
 [tool.uv.sources]
-colour-clf-io = {path = '../colour-clf-io'}
+colour-clf-io = {git = 'https://github.com/colour-science/colour-clf-io.git'}
 
 [project.optional-dependencies]
 optional = [
