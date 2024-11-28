@@ -12,6 +12,9 @@ Define the *Academy Color Encoding System* (ACES) related encodings:
 
 References
 ----------
+-   :cite:`ASWFColorInteropForum2024` : ASWF Color Interop Forum. (2024). Color
+    Space Encodings for Texture Assets and CG Rendering.
+    https://docs.google.com/document/d/1IV3e_9gpTOS_EFYRv2YGDuhExa4wTaPYHW1HyV36qUU
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project Subcommittee. (2014). Technical
@@ -159,8 +162,16 @@ RGB_COLOURSPACE_ACES2065_1.__doc__ = """
 *ACES2065-1* colourspace, base encoding, used for exchange of full fidelity
 images and archiving.
 
+The *ACES2065-1* colourspace encoding has a very wide gamut that allows all
+colours to be represented with only positive values. It is the reference space
+of the *Academy Color Encoding System* (ACES). It is thoroughly documented in
+*SMPTE standard ST 2065-1*. It is a bit too wide a gamut to use as a rendering
+space, but it is an excellent space for storing textures in *OpenEXR* files, as
+documented in SMPTE ST 2065-4.
+
 References
 ----------
+:cite:`ASWFColorInteropForum2024`
 :cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
 :cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
 :cite:`TheAcademyofMotionPictureArtsandSciencese`
@@ -180,8 +191,13 @@ RGB_COLOURSPACE_ACESCG.__doc__ = """
 *ACEScg* colourspace, a working space for paint/compositor applications that
 don't support ACES2065-1 or ACEScc.
 
+The ACEScg colourspace encoding has a wide gamut that has been shown to work
+well as the computational space for computer graphics rendering. It is thoroughly
+documented on the ACES website.
+
 References
 ----------
+:cite:`ASWFColorInteropForum2024`
 :cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
 :cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
 :cite:`TheAcademyofMotionPictureArtsandSciences2015b`,
