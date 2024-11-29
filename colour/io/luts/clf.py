@@ -3,7 +3,6 @@ Define functionality to execute and run CLF workflows.
 """
 import colour_clf_io as clf
 import numpy as np
-import numpy.lib.scimath as emath
 
 from colour.algebra import (
     table_interpolation_tetrahedral,
@@ -20,6 +19,14 @@ __all__ = ["apply"]
 import numpy.typing as npt
 from colour_clf_io import ExponentStyle
 from colour_clf_io.values import Channel
+
+from colour.models.rgb.transfer_functions import (
+    exponent_function_basic,
+    exponent_function_monitor_curve,
+    logarithmic_function_basic,
+    logarithmic_function_camera,
+    logarithmic_function_quasilog,
+)
 
 
 def from_uint16_to_f16(array: npt.NDArray[np.uint16]) -> npt.NDArray[np.float16]:
@@ -151,32 +158,46 @@ def apply_log_internal(value: NDArrayFloat, params, extra_args) -> NDArrayFloat:
     style, in_bit_depth, out_bit_depth = extra_args
     match style:
         case clf.LogStyle.LOG_10:
-            return np.log10(np.maximum(value, FLT_MIN)) / out_bit_depth.scale_factor()
+            return (
+                logarithmic_function_basic(np.maximum(value, FLT_MIN), "log10")
+                / out_bit_depth.scale_factor()
+            )
         case clf.LogStyle.ANTI_LOG_10:
-            return np.power(10, value)
+            return logarithmic_function_basic(np.maximum(value, FLT_MIN), "antiLog10")
         case clf.LogStyle.LOG_2:
-            return np.log2(np.maximum(value, FLT_MIN))
+            return logarithmic_function_basic(np.maximum(value, FLT_MIN), "log2")
         case clf.LogStyle.ANTI_LOG_2:
-            return np.power(2, value)
+            return logarithmic_function_basic(np.maximum(value, FLT_MIN), "antiLog2")
         case clf.LogStyle.LIN_TO_LOG:
             log_side_slope = params.log_side_slope
             lin_side_slope = params.lin_side_slope
             log_side_offset = params.log_side_offset
             lin_side_offset = params.lin_side_offset
             base = params.base
-            log_side_value = emath.logn(
+            return logarithmic_function_quasilog(
+                value,
+                "linToLog",
                 base,
-                np.maximum(lin_side_slope * value + lin_side_offset, FLT_MIN),
+                log_side_slope,
+                lin_side_slope,
+                log_side_offset,
+                lin_side_offset,
             )
-            return log_side_slope * log_side_value + log_side_offset
         case clf.LogStyle.LOG_TO_LIN:
             log_side_slope = params.log_side_slope
             lin_side_slope = params.lin_side_slope
             log_side_offset = params.log_side_offset
             lin_side_offset = params.lin_side_offset
             base = params.base
-            lin_side_value = base ** ((value - log_side_offset) / log_side_slope)
-            return (lin_side_value - lin_side_offset) / lin_side_slope
+            return logarithmic_function_quasilog(
+                value,
+                "logToLin",
+                base,
+                log_side_slope,
+                lin_side_slope,
+                log_side_offset,
+                lin_side_offset,
+            )
         case clf.LogStyle.CAMERA_LIN_TO_LOG:
             log_side_slope = params.log_side_slope
             lin_side_slope = params.lin_side_slope
@@ -185,30 +206,16 @@ def apply_log_internal(value: NDArrayFloat, params, extra_args) -> NDArrayFloat:
             lin_side_break = params.lin_side_break
             base = params.base
             linear_slope = params.linear_slope
-            if lin_side_slope is None:
-                linear_slope = (
-                    log_side_slope
-                    * lin_side_slope
-                    / (
-                        (lin_side_slope * lin_side_break + lin_side_offset)
-                        * np.log(base)
-                    )
-                )
-            log_side_break = (
-                log_side_slope
-                * emath.logn(base, lin_side_slope * lin_side_break + lin_side_offset)
-                + log_side_offset
-            )
-            linear_offset = log_side_break - linear_slope * lin_side_break
-            return np.where(
-                value < lin_side_break,
-                linear_slope * value + linear_offset,
-                log_side_slope
-                * emath.logn(
-                    base,
-                    np.maximum(lin_side_slope * value + lin_side_offset, FLT_MIN),
-                )
-                + log_side_offset,
+            return logarithmic_function_camera(
+                value,
+                "cameraLinToLog",
+                base,
+                log_side_slope,
+                lin_side_slope,
+                log_side_offset,
+                lin_side_offset,
+                lin_side_break,
+                linear_slope,
             )
         case clf.LogStyle.CAMERA_LOG_TO_LIN:
             log_side_slope = params.log_side_slope
@@ -218,29 +225,16 @@ def apply_log_internal(value: NDArrayFloat, params, extra_args) -> NDArrayFloat:
             lin_side_break = params.lin_side_break
             base = params.base
             linear_slope = params.linear_slope
-            if lin_side_slope is None:
-                linear_slope = (
-                    log_side_slope
-                    * lin_side_slope
-                    / (
-                        (lin_side_slope * lin_side_break + lin_side_offset)
-                        * np.log(base)
-                    )
-                )
-            log_side_break = (
-                log_side_slope
-                * emath.logn(base, lin_side_slope * lin_side_break + lin_side_offset)
-                + log_side_offset
-            )
-            linear_offset = log_side_break - linear_slope * lin_side_break
-            return np.where(
-                value <= log_side_break,
-                (value - linear_offset) / linear_slope,
-                (
-                    (base ** ((value - log_side_offset) / log_side_slope))
-                    - lin_side_offset
-                )
-                / lin_side_slope,
+            return logarithmic_function_camera(
+                value,
+                "cameraLogToLin",
+                base,
+                log_side_slope,
+                lin_side_slope,
+                log_side_offset,
+                lin_side_offset,
+                lin_side_break,
+                linear_slope,
             )
         case _:
             raise ValueError(f"Invalid Log Style: {style}")
@@ -282,44 +276,32 @@ def apply_exponent_internal(
     style = extra_args
     match style:
         case ExponentStyle.BASIC_FWD:
-            return np.maximum(0.0, value) ** exponent
+            return exponent_function_basic(value, exponent, "basicFwd")
         case ExponentStyle.BASIC_REV:
-            return np.maximum(0.0, value) ** (1 / exponent)
+            return exponent_function_basic(value, exponent, "basicRev")
         case ExponentStyle.BASIC_MIRROR_FWD:
-            return np.where(
-                value >= 0,
-                value**exponent,
-                -((-value) ** exponent),  # TODO check for type in reference
-            )
+            return exponent_function_basic(value, exponent, "basicMirrorFwd")
         case ExponentStyle.BASIC_MIRROR_REV:
-            return np.where(
-                value >= 0,
-                value ** (1 / exponent),
-                -((-value) ** (1 / exponent)),
-            )
+            return exponent_function_basic(value, exponent, "basicMirrorRev")
         case ExponentStyle.BASIC_PASS_THRU_FWD:
-            return np.where(value >= 0, value**exponent, value)
+            return exponent_function_basic(value, exponent, "basicPassThruFwd")
         case ExponentStyle.BASIC_PASS_THRU_REV:
-            return np.where(
-                value >= 0,
-                value ** (1 / exponent),
-                value,
-            )
+            return exponent_function_basic(value, exponent, "basicPassThruRev")
         case ExponentStyle.MON_CURVE_FWD:
-            return mon_curve_forward(value, exponent, offset)
+            return exponent_function_monitor_curve(
+                value, exponent, offset, "monCurveFwd"
+            )
         case ExponentStyle.MON_CURVE_REV:
-            return mon_curve_reverse(value, exponent, offset)
+            return exponent_function_monitor_curve(
+                value, exponent, offset, "monCurveRev"
+            )
         case ExponentStyle.MON_CURVE_MIRROR_FWD:
-            return np.where(
-                value >= 0,
-                mon_curve_forward(value, exponent, offset),
-                -mon_curve_forward(-value, exponent, offset),
+            return exponent_function_monitor_curve(
+                value, exponent, offset, "monCurveMirrorFwd"
             )
         case ExponentStyle.MON_CURVE_MIRROR_REV:
-            return np.where(
-                value >= 0,
-                mon_curve_reverse(value, exponent, offset),
-                -mon_curve_reverse(-value, exponent, offset),
+            return exponent_function_monitor_curve(
+                value, exponent, offset, "monCurveMirrorRev"
             )
         case _:
             raise ValueError(f"Invalid Exponent Style: {style}")
@@ -334,8 +316,10 @@ def apply_exponent(node: clf.Exponent, normalised_value: NDArrayFloat) -> NDArra
 
 
 def asc_cdl_luma(value):
-    R, G, B = tsplit(value)
-    luma = 0.2126 * R + 0.7152 * G + 0.0722 * B
+    # R, G, B = tsplit(value)
+    # luma = 0.2126 * R + 0.7152 * G + 0.0722 * B
+    weights = [0.2126, 0.7152, 0.0722]
+    luma = np.sum(weights * value, axis=-1)
     return luma
 
 
