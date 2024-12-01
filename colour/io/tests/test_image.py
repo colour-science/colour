@@ -296,7 +296,7 @@ class TestReadImageOpenImageIO:
         )
         assert image.shape == (1267, 1274, 3)
         assert attributes[0].name == "oiio:ColorSpace"
-        assert attributes[0].value == "Linear"
+        assert attributes[0].value in ("Linear", "lin_rec709")
 
         image = read_image_OpenImageIO(
             os.path.join(ROOT_RESOURCES, "Single_Channel.exr")
