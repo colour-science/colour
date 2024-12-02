@@ -85,7 +85,7 @@ def assert_ocio_consistency(value, snippet: str, err_msg=""):
     tool for the given input.
     """
     process_list = snippet_to_process_list(snippet)
-    process_list_output = apply(process_list, value, use_normalised_values=True)
+    process_list_output = apply(process_list, value, normalised_values=True)
     value_tuple = value[0], value[1], value[2]
     ocio_output = ocio_output_for_snippet(snippet, value_tuple)
     np.testing.assert_array_almost_equal(
@@ -100,7 +100,7 @@ def assert_ocio_consistency_for_file(value_rgb, clf_path):
     from colour_clf_io import read_clf
 
     clf_data = read_clf(clf_path)
-    process_list_output = apply(clf_data, value_rgb, use_normalised_values=True)
+    process_list_output = apply(clf_data, value_rgb, normalised_values=True)
     ocio_output = result_as_array(ocio_outout_for_file(clf_path, value_rgb))
     np.testing.assert_array_almost_equal(process_list_output, ocio_output)
 
