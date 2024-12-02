@@ -162,7 +162,7 @@ class TestLUT1D:
         consistent with `ociochecklut`.
         """
         value_rgb = np.array([1.0, 0.5, 0.0])
-        path = os.path.abspath("./resources/clf/lut1_with_half_domain_sample.xml")
+        path = os.path.abspath("./resources/lut1_with_half_domain_sample.xml")
         assert_ocio_consistency_for_file(value_rgb, path)
 
 
