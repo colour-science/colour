@@ -1,24 +1,34 @@
 """
-Fujifilm F-Gamut Colourspace
-============================
+Fujifilm Colourspaces
+=====================
 
-Define the *Fujifilm F-Gamut* colourspace:
+Define the *Fujifilm* colourspaces:
 
 -   :attr:`colour.models.RGB_COLOURSPACE_F_GAMUT`.
+-   :attr:`colour.models.RGB_COLOURSPACE_F_GAMUT_C`.
 
 References
 ----------
 -   :cite:`Fujifilm2022a` : Fujifilm. (2022). F-Log Data Sheet Ver.1.1 (pp.
     1-4). https://dl.fujifilm-x.com/support/lut/F-Log_DataSheet_E_Ver.1.1.pdf
+-   :cite:`Fujifilm2024` : Fujifilm. (2024). F-Log2 C Data Sheet Ver.1.0.
+    Retrieved December 8, 2024, from
+    https://dl.fujifilm-x.com/support/lut/F-Log2C_DataSheet_E_Ver.1.0.pdf
 """
 
 from __future__ import annotations
 
+import numpy as np
+
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import NDArrayFloat
 from colour.models.rgb import (
     RGB_Colourspace,
     log_decoding_FLog,
+    log_decoding_FLog2,
     log_encoding_FLog,
+    log_encoding_FLog2,
+    normalised_primary_matrix,
 )
 from colour.models.rgb.datasets.itur_bt_2020 import (
     CCS_WHITEPOINT_BT2020,
@@ -75,4 +85,48 @@ RGB_COLOURSPACE_F_GAMUT.__doc__ = """
 References
 ----------
 :cite:`Fujifilm2022a`
+"""
+
+
+PRIMARIES_F_GAMUT_C: NDArrayFloat = np.array(
+    [
+        [0.73470, 0.26530],
+        [0.02630, 0.97370],
+        [0.11730, -0.02240],
+    ]
+)
+"""*Fujifilm F-Gamut C* colourspace primaries."""
+
+WHITEPOINT_NAME_F_GAMUT_C: str = "D65"
+"""*Fujifilm F-Gamut C* colourspace whitepoint name."""
+
+CCS_WHITEPOINT_F_GAMUT_C: NDArrayFloat = CCS_ILLUMINANTS[
+    "CIE 1931 2 Degree Standard Observer"
+][WHITEPOINT_NAME_F_GAMUT_C]
+"""*Fujifilm F-Gamut C* colourspace whitepoint chromaticity coordinates."""
+
+MATRIX_F_GAMUT_C_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
+    PRIMARIES_F_GAMUT_C, CCS_WHITEPOINT_F_GAMUT_C
+)
+"""*Fujifilm F-Gamut C* colourspace to *CIE XYZ* tristimulus values matrix."""
+
+MATRIX_XYZ_TO_F_GAMUT_C: NDArrayFloat = np.linalg.inv(MATRIX_F_GAMUT_C_TO_XYZ)
+"""*CIE XYZ* tristimulus values to *Fujifilm F-Gamut C* colourspace matrix."""
+
+RGB_COLOURSPACE_F_GAMUT_C: RGB_Colourspace = RGB_Colourspace(
+    "F-Gamut C",
+    PRIMARIES_F_GAMUT_C,
+    CCS_WHITEPOINT_F_GAMUT_C,
+    WHITEPOINT_NAME_F_GAMUT_C,
+    MATRIX_F_GAMUT_C_TO_XYZ,
+    MATRIX_XYZ_TO_F_GAMUT_C,
+    log_encoding_FLog2,
+    log_decoding_FLog2,
+)
+RGB_COLOURSPACE_F_GAMUT_C.__doc__ = """
+*Fujifilm F-Gamut C* colourspace.
+
+References
+----------
+:cite:`Fujifilm2024`
 """

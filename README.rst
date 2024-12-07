@@ -1373,6 +1373,7 @@ RGB Colourspaces
      'ERIMM RGB',
      'Ekta Space PS 5',
      'F-Gamut',
+     'F-Gamut C',
      'FilmLight E-Gamut',
      'Gamma 1.8 Encoded Rec.709',
      'Gamma 2.2 Encoded AP1',
