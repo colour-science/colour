@@ -75,25 +75,27 @@ def get_interpolator_for_LUT3D(node: clf.LUT3D):
 
 class CLFNode(AbstractLUTSequenceOperator):
     node: clf.ProcessNode
+
     def __init__(self, node: clf.ProcessNode):
         super().__init__(node.name, [node.description])
         self.node = node
 
     def from_input_range(self, value):
-        return value / self.node.in_bit_depth.scale_factor()
+        return value
 
     def to_output_range(self, value):
-        return value * self.node.out_bit_depth.scale_factor()
+        return value
 
 
-class LUT3D(AbstractLUTSequenceOperator):
+class LUT3D(CLFNode):
     node: clf.LUT3D
 
     def __init__(self, node: clf.LUT3D):
-        super().__init__(node.name, [node.description])
+        super().__init__(node)
         self.node = node
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:
+        RGB = self.from_input_range(RGB)
         node = self.node
         table = node.array.as_array()
         size = node.array.dim[0]
@@ -107,21 +109,24 @@ class LUT3D(AbstractLUTSequenceOperator):
         extrapolator_kwargs = {"method": "Constant"}
         interpolator = get_interpolator_for_LUT3D(node)
         lut = luts.LUT3D(table, size=size)
-        return lut.apply(
+        out = lut.apply(
             value_scaled,
             extrapolator_kwargs=extrapolator_kwargs,
             interpolator=interpolator,
         )
+        out = self.to_output_range(out)
+        return out
 
 
-class LUT1D(AbstractLUTSequenceOperator):
+class LUT1D(CLFNode):
     node: clf.LUT1D
 
     def __init__(self, node: clf.LUT1D):
-        super().__init__(node.name, [node.description])
+        super().__init__(node)
         self.node = node
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:
+        RGB = self.from_input_range(RGB)
         table = self.node.array.as_array()
         size = self.node.array.dim[0]
         if self.node.raw_halfs:
@@ -134,17 +139,20 @@ class LUT1D(AbstractLUTSequenceOperator):
         value_scaled = RGB * (size - 1)
         lut = luts.LUT1D(table, size=size, domain=domain)
         extrapolator_kwargs = {"method": "Constant"}
-        return lut.apply(value_scaled, extrapolator_kwargs=extrapolator_kwargs)
+        out = lut.apply(value_scaled, extrapolator_kwargs=extrapolator_kwargs)
+        out = self.to_output_range(out)
+        return out
 
 
-class Matrix(AbstractLUTSequenceOperator):
+class Matrix(CLFNode):
     node: clf.Matrix
 
     def __init__(self, node: clf.Matrix):
-        super().__init__(node.name, [node.description])
+        super().__init__(node)
         self.node = node
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:
+        RGB = self.from_input_range(RGB)
         matrix = self.node.array.as_array()
         return matrix.dot(RGB)
 
@@ -160,16 +168,16 @@ def assert_range_correct(in_out, bit_depth_scale):
             )
 
 
-class Range(AbstractLUTSequenceOperator):
+class Range(CLFNode):
     node: clf.LUT1D
 
     def __init__(self, node: clf.LUT1D):
-        super().__init__(node.name, [node.description])
+        super().__init__(node)
         self.node = node
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:
         node = self.node
-        value = RGB * node.in_bit_depth.scale_factor()
+        value = self.from_input_range(RGB)
         max_in = node.max_in_value
         max_out = node.max_out_value
         max_in_out = node.max_in_value, node.max_out_value
@@ -191,13 +199,15 @@ class Range(AbstractLUTSequenceOperator):
             assert_range_correct(min_in_out, bit_depth_scale)
             assert_range_correct(max_in_out, bit_depth_scale)
             scaled_value = value * bit_depth_scale
-            return np.clip(scaled_value, min_out, max_out)
+            out = np.clip(scaled_value, min_out, max_out)
         else:
             scale = (max_out - min_out) / (max_in - min_in)
             result = value * scale + min_out - min_in * scale
             if do_clamping:
                 result = np.clip(result, min_out, max_out)
-            return result
+            out = result
+        out = self.to_output_range(out)
+        return out
 
 
 FLT_MIN = 1.175494e-38
@@ -289,24 +299,27 @@ def apply_log_internal(value: NDArrayFloat, params, extra_args) -> NDArrayFloat:
             raise ValueError(f"Invalid Log Style: {style}")
 
 
-class Log(AbstractLUTSequenceOperator):
+class Log(CLFNode):
     node: clf.Log
 
     def __init__(self, node: clf.Log):
-        super().__init__(node.name, [node.description])
+        super().__init__(node)
         self.node = node
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:
+        RGB = self.from_input_range(RGB)
         node = self.node
         style = node.style
         params = node.log_params
         extra_args = style, node.in_bit_depth, node.out_bit_depth
-        return apply_by_channel(
+        out = apply_by_channel(
             RGB,
             apply_log_internal,
             params,
             extra_args,
         )
+        out = self.to_output_range(out)
+        return out
 
 
 def mon_curve_forward(x, exponent, offset):
@@ -364,18 +377,21 @@ def apply_exponent_internal(
             raise ValueError(f"Invalid Exponent Style: {style}")
 
 
-class Exponent(AbstractLUTSequenceOperator):
+class Exponent(CLFNode):
     node: clf.Exponent
 
     def __init__(self, node: clf.Exponent):
-        super().__init__(node.name, [node.description])
+        super().__init__(node)
         self.node = node
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:
         node = self.node
+        RGB = self.from_input_range(RGB)
         style = node.style
         params = node.exponent_params
-        return apply_by_channel(RGB, apply_exponent_internal, params, extra_args=style)
+        out = apply_by_channel(RGB, apply_exponent_internal, params, extra_args=style)
+        out = self.to_output_range(out)
+        return out
 
 
 def asc_cdl_luma(value):
@@ -386,15 +402,16 @@ def asc_cdl_luma(value):
     return luma
 
 
-class ASC_CDL(AbstractLUTSequenceOperator):
+class ASC_CDL(CLFNode):
     node: clf.ASC_CDL
 
     def __init__(self, node: clf.ASC_CDL):
-        super().__init__(node.name, [node.description])
+        super().__init__(node)
         self.node = node
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:
         node = self.node
+        RGB = self.from_input_range(RGB)
         sop = node.sopnode
         if sop is None:
             slope = np.array([1.0, 1.0, 1.0])
@@ -419,24 +436,26 @@ class ASC_CDL(AbstractLUTSequenceOperator):
                 )
                 R, G, B = tsplit(out_sop)
                 luma = asc_cdl_luma(out_sop)
-                return clamp(luma + saturation * (out_sop - luma))
+                out = clamp(luma + saturation * (out_sop - luma))
             case clf.ASC_CDL_Style.FWD_NO_CLAMP:
                 lin = as_float_array(RGB * slope + offset)
                 out_sop = np.where(lin >= 0, lin**power, lin)
                 luma = asc_cdl_luma(out_sop)
-                return luma + saturation * (out_sop - luma)
+                out = luma + saturation * (out_sop - luma)
             case clf.ASC_CDL_Style.REV:
                 in_clamp = clamp(RGB)
                 luma = asc_cdl_luma(in_clamp)
                 out_sat = luma + (in_clamp - luma) / saturation
-                return clamp((clamp(out_sat) ** (1.0 / power) - offset) / slope)
+                out = clamp((clamp(out_sat) ** (1.0 / power) - offset) / slope)
             case clf.ASC_CDL_Style.REV_NO_CLAMP:
                 luma = asc_cdl_luma(RGB)
                 out_sat = luma + (RGB - luma) / saturation
                 out_pw = np.where(out_sat >= 0, (out_sat) ** (1 / power), out_sat)
-                return (out_pw - offset) / slope
+                out = (out_pw - offset) / slope
             case _:
                 raise ValueError(f"Invalid ASC_CDL Style: {node.style}")
+        out = self.to_output_range(out)
+        return out
 
 
 def as_LUT_sequence_item(node: clf.ProcessNode) -> ProtocolLUTSequenceItem:
@@ -479,8 +498,8 @@ def apply(
     """Apply the transformation described by the given ProcessList to the given
     value.
     """
-    if not normalised_values:
-        value = value / process_list.process_nodes[0].in_bit_depth.scale_factor()
+    if normalised_values:
+        value = value * process_list.process_nodes[0].in_bit_depth.scale_factor()
 
     lut_sequence_items = [
         as_LUT_sequence_item(node) for node in process_list.process_nodes
@@ -488,7 +507,7 @@ def apply(
     sequence = LUTSequence(*lut_sequence_items)
     result = sequence.apply(value)
 
-    if normalised_values:
-        result = result / process_list.process_nodes[-1].out_bit_depth.scale_factor()
+    # if normalised_values:
+    #     result = result / process_list.process_nodes[-1].out_bit_depth.scale_factor()
 
     return result
