@@ -38,6 +38,7 @@ from colour.hints import (
     Literal,
     NDArrayFloat,
 )
+from colour.models.cie_xyy import XYZ_to_xy
 from colour.utilities import (
     CACHE_REGISTRY,
     is_caching_enabled,
@@ -391,6 +392,95 @@ def is_within_visible_spectrum(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
+    Return whether given *CIE XYZ* tristimulus values or *CIE xy* chromaticity
+    values are within the visible spectrum volume, i.e. *Rösch-MacAdam* colour
+    solid, for given colour matching functions and illuminant.
+
+    For the brightness invariant *CIE xy* check, the limit is determined by the
+    spectral locus and "line of purples" depending on the precision of the
+    spectral arguments.
+
+    Parameters
+    ----------
+    XYZ
+        *CIE XYZ* or xy tristimulus values. xy chromaticity mode will be
+        selected if the size of the last dimension is 2. i.e. if XYZ.shape[-1]
+        == 2
+    cmfs
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
+    illuminant
+        Illuminant spectral distribution, default to *CIE Illuminant E*.
+    tolerance
+        Tolerance allowed in the inside-triangle check.
+
+    Other Parameters
+    ----------------
+    kwargs
+        {:func:`colour.msds_to_XYZ`},
+        See the documentation of the previously listed definition.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Are *CIE XYZ* tristimulus values within the visible spectrum volume,
+        i.e. *Rösch-MacAdam* colour solid.
+
+    Notes
+    -----
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> is_within_visible_spectrum(np.array([0.3205, 0.4131, 0.51]))
+    array(True, dtype=bool)
+    >>> a = np.array([[0.3205, 0.4131, 0.51], [-0.0005, 0.0031, 0.001]])
+    >>> is_within_visible_spectrum(a)
+    array([ True, False], dtype=bool)
+    """
+
+    XYZ = np.asarray(XYZ)
+    if XYZ.shape[-1] == 2:
+        return _is_within_visible_xy(
+            XYZ,
+            cmfs=cmfs,
+            illuminant=illuminant,
+            tolerance=tolerance,
+            **kwargs,
+        )
+
+    cmfs, illuminant = handle_spectral_arguments(
+        cmfs,
+        illuminant,
+        "CIE 1931 2 Degree Standard Observer",
+        "E",
+        SPECTRAL_SHAPE_OUTER_SURFACE_XYZ,
+    )
+
+    key = (hash(cmfs), hash(illuminant), str(kwargs))
+    vertices = _CACHE_OUTER_SURFACE_XYZ_POINTS.get(key)
+
+    if vertices is None:
+        _CACHE_OUTER_SURFACE_XYZ_POINTS[key] = vertices = solid_RoschMacAdam(
+            cmfs, illuminant, **kwargs
+        )
+
+    return is_within_mesh_volume(XYZ, vertices, tolerance)
+
+
+def _is_within_visible_xy(
+    xy: ArrayLike,
+    cmfs: MultiSpectralDistributions | None = None,
+    illuminant: SpectralDistribution | None = None,
+    tolerance: float = 100 * EPSILON,
+    **kwargs: Any,
+) -> NDArrayFloat:
+    """
     Return whether given *CIE XYZ* tristimulus values are within the visible
     spectrum volume, i.e., *Rösch-MacAdam* colour solid, for given colour
     matching functions and illuminant.
@@ -430,9 +520,9 @@ def is_within_visible_spectrum(
     Examples
     --------
     >>> import numpy as np
-    >>> is_within_visible_spectrum(np.array([0.3205, 0.4131, 0.51]))
+    >>> is_within_visible_spectrum(np.array([0.33, 0.33]))
     array(True, dtype=bool)
-    >>> a = np.array([[0.3205, 0.4131, 0.51], [-0.0005, 0.0031, 0.001]])
+    >>> a = np.array([[0.33, 0.33], [0.1, 0.1]])
     >>> is_within_visible_spectrum(a)
     array([ True, False], dtype=bool)
     """
@@ -449,8 +539,8 @@ def is_within_visible_spectrum(
     vertices = _CACHE_OUTER_SURFACE_XYZ_POINTS.get(key)
 
     if vertices is None:
-        _CACHE_OUTER_SURFACE_XYZ_POINTS[key] = vertices = solid_RoschMacAdam(
-            cmfs, illuminant, **kwargs
+        _CACHE_OUTER_SURFACE_XYZ_POINTS[key] = vertices = XYZ_to_xy(
+            cmfs.values
         )
 
-    return is_within_mesh_volume(XYZ, vertices, tolerance)
+    return is_within_mesh_volume(xy, vertices, tolerance)
