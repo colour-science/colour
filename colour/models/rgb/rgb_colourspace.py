@@ -26,6 +26,7 @@ References
 from __future__ import annotations
 
 from copy import deepcopy
+from functools import partial
 
 import numpy as np
 
@@ -275,6 +276,63 @@ class RGB_Colourspace:
         self.use_derived_matrix_RGB_to_XYZ = use_derived_matrix_RGB_to_XYZ
         self._use_derived_matrix_XYZ_to_RGB: bool = False
         self.use_derived_matrix_XYZ_to_RGB = use_derived_matrix_XYZ_to_RGB
+
+    def __eq__(self, other: object) -> bool:
+        """Return weather or not two RGB spaces are equivalent and would produce
+        the same results with XYZ_to_RGB and visa-versa. Can detect and compare
+        instances of `partial` for the cctf properties.
+
+        Parameters
+        ----------
+        other : object
+
+        Returns
+        -------
+        bool
+        """
+        if not isinstance(other, RGB_Colourspace):
+            return False
+
+        cctf_decoding_eq: bool
+        if isinstance(self.cctf_decoding, partial) and isinstance(
+            other.cctf_decoding, partial
+        ):
+            cctf_decoding_eq = np.all(
+                (
+                    self.cctf_decoding.func == other.cctf_decoding.func,
+                    np.all(self.cctf_decoding.args == other.cctf_decoding.args),
+                    np.all(self.cctf_decoding.keywords == other.cctf_decoding.keywords),
+                )
+            )
+        else:
+            cctf_decoding_eq = self.cctf_decoding == other.cctf_decoding
+
+        cctf_encoding_eq: bool
+        if isinstance(self.cctf_encoding, partial) and isinstance(
+            other.cctf_encoding, partial
+        ):
+            cctf_encoding_eq = np.all(
+                (
+                    self.cctf_encoding.func == other.cctf_encoding.func,
+                    np.all(self.cctf_encoding.args == other.cctf_encoding.args),
+                    np.all(self.cctf_encoding.keywords == other.cctf_encoding.keywords),
+                )
+            )
+        else:
+            cctf_encoding_eq = self.cctf_encoding == other.cctf_encoding
+
+        return np.all(
+            (
+                self.name == other.name,
+                np.all(self.primaries == other.primaries),
+                np.all(self.whitepoint == self.whitepoint),
+                self.whitepoint_name == self.whitepoint_name,
+                np.all(self.matrix_RGB_to_XYZ == other.matrix_RGB_to_XYZ),
+                np.all(self.matrix_XYZ_to_RGB == other.matrix_XYZ_to_RGB),
+                cctf_decoding_eq,
+                cctf_encoding_eq,
+            )
+        )
 
     @property
     def name(self) -> str:

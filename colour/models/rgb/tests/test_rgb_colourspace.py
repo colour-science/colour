@@ -4,6 +4,7 @@ Define the unit tests for the :mod:`colour.models.rgb.rgb_colourspace` module.
 
 import re
 import textwrap
+from functools import partial
 from itertools import product
 
 import numpy as np
@@ -24,6 +25,7 @@ from colour.models import (
     matrix_RGB_to_RGB,
     normalised_primary_matrix,
 )
+from colour.models.rgb.transfer_functions.gamma import gamma_function
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
@@ -66,6 +68,77 @@ class TestRGB_Colourspace:
             linear_function,
         )
 
+    class TestRGBSpace__eq__:
+        def setup_method(self):
+            pass
+            # Some pytest possible issue requires this since the encapsulating
+            # class has a setup_method.
+
+        @staticmethod
+        def get_two_rgb_spaces():
+            p = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
+            whitepoint = np.array([0.32168, 0.33767])
+            matrix_RGB_to_XYZ = np.identity(3)
+            matrix_XYZ_to_RGB = np.identity(3)
+
+            s1 = RGB_Colourspace(
+                "RGB Colourspace",
+                p,
+                whitepoint,
+                "ACES",
+                matrix_RGB_to_XYZ,
+                matrix_XYZ_to_RGB,
+                linear_function,
+                linear_function,
+            )
+
+            s2 = RGB_Colourspace(
+                "RGB Colourspace",
+                p,
+                whitepoint,
+                "ACES",
+                matrix_RGB_to_XYZ,
+                matrix_XYZ_to_RGB,
+                linear_function,
+                linear_function,
+            )
+
+            return s1, s2
+
+        def test_simple_eq(self):
+            s1, s2 = self.get_two_rgb_spaces()
+
+            assert s1 is not s2
+            assert s1 == s2
+
+            # Even if one space uses derived, if they return the same matrix
+            # they are equivalent
+            s2.use_derived_matrix_RGB_to_XYZ = True
+            s1.matrix_RGB_to_XYZ = s2.matrix_RGB_to_XYZ
+            s1.matrix_XYZ_to_RGB = s2.matrix_XYZ_to_RGB
+
+            assert s1 == s2
+
+        def test_partial_cctf(self):
+            s1, s2 = self.get_two_rgb_spaces()
+
+            s1.cctf_decoding = partial(gamma_function, exponent=2)
+            s1.cctf_encoding = partial(gamma_function, exponent=1 / 2)
+            assert s1 != s2
+
+            s2.cctf_encoding = partial(gamma_function, exponent=1 / 2)
+            assert s1 != s2
+
+            s2.cctf_decoding = partial(gamma_function, exponent=1.5)
+            assert s1 != s2
+
+            s2.cctf_decoding = partial(gamma_function, 2)
+            # Should be equal, but because one partial uses kwargs it is an error
+            assert s1 != s2
+
+            s2.cctf_decoding = partial(gamma_function, exponent=2)
+            assert s1 == s2
+
     def test_required_attributes(self):
         """Test the presence of required attributes."""
 
@@ -92,6 +165,7 @@ class TestRGB_Colourspace:
             "__init__",
             "__str__",
             "__repr__",
+            "__eq__",
             "use_derived_transformation_matrices",
             "chromatically_adapt",
             "copy",
