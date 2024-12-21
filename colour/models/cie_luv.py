@@ -281,9 +281,7 @@ def Luv_to_uv(
     X_Y_Z = X + 15 * Y + 3 * Z
 
     with sdiv_mode():
-        uv = tstack([4 * sdiv(X, X_Y_Z), 9 * sdiv(Y, X_Y_Z)])
-
-    return uv
+        return tstack([4 * sdiv(X, X_Y_Z), 9 * sdiv(Y, X_Y_Z)])
 
 
 def uv_to_Luv(
@@ -390,9 +388,7 @@ def Luv_uv_to_xy(uv: ArrayLike) -> NDArrayFloat:
     d = 6 * u - 16 * v + 12
 
     with sdiv_mode():
-        xy = tstack([sdiv(9 * u, d), sdiv(4 * v, d)])
-
-    return xy
+        return tstack([sdiv(9 * u, d), sdiv(4 * v, d)])
 
 
 def xy_to_Luv_uv(xy: ArrayLike) -> NDArrayFloat:
@@ -427,9 +423,7 @@ def xy_to_Luv_uv(xy: ArrayLike) -> NDArrayFloat:
     d = -2 * x + 12 * y + 3
 
     with sdiv_mode():
-        uv = tstack([sdiv(4 * x, d), sdiv(9 * y, d)])
-
-    return uv
+        return tstack([sdiv(4 * x, d), sdiv(9 * y, d)])
 
 
 def XYZ_to_CIE1976UCS(

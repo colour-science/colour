@@ -333,12 +333,10 @@ def excitation_purity(
     _wl, xy_wl, _xy_cwl = dominant_wavelength(xy, xy_n, cmfs)
 
     with sdiv_mode():
-        P_e = sdiv(
+        return sdiv(
             euclidean_distance(xy_n, xy),
             euclidean_distance(xy_n, xy_wl),
         )
-
-    return P_e
 
 
 def colorimetric_purity(
@@ -385,6 +383,4 @@ def colorimetric_purity(
     P_e = excitation_purity(xy, xy_n, cmfs)
 
     with sdiv_mode():
-        P_c = P_e * sdiv(xy_wl[..., 1], xy[..., 1])
-
-    return P_c
+        return P_e * sdiv(xy_wl[..., 1], xy[..., 1])

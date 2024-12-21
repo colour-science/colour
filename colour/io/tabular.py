@@ -287,14 +287,12 @@ def read_sds_from_csv_file(
     fields = list(data.keys())
     wavelength_field, sd_fields = fields[0], fields[1:]
 
-    sds = {
+    return {
         sd_field: SpectralDistribution(
             data[sd_field], data[wavelength_field], name=sd_field
         )
         for sd_field in sd_fields
     }
-
-    return sds
 
 
 def write_sds_to_csv_file(

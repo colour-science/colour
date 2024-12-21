@@ -190,9 +190,7 @@ def UCS_to_uv(UVW: ArrayLike) -> NDArrayFloat:
     U_V_W = U + V + W
 
     with sdiv_mode():
-        uv = tstack([sdiv(U, U_V_W), sdiv(V, U_V_W)])
-
-    return uv
+        return tstack([sdiv(U, U_V_W), sdiv(V, U_V_W)])
 
 
 def uv_to_UCS(uv: ArrayLike, V: ArrayLike = 1) -> NDArrayFloat:
@@ -267,9 +265,7 @@ def UCS_uv_to_xy(uv: ArrayLike) -> NDArrayFloat:
     d = 2 * u - 8 * v + 4
 
     with sdiv_mode():
-        xy = tstack([sdiv(3 * u, d), sdiv(2 * v, d)])
-
-    return xy
+        return tstack([sdiv(3 * u, d), sdiv(2 * v, d)])
 
 
 def xy_to_UCS_uv(xy: ArrayLike) -> NDArrayFloat:
@@ -304,9 +300,7 @@ def xy_to_UCS_uv(xy: ArrayLike) -> NDArrayFloat:
     d = 12 * y - 2 * x + 3
 
     with sdiv_mode():
-        uv = tstack([sdiv(4 * x, d), sdiv(6 * y, d)])
-
-    return uv
+        return tstack([sdiv(4 * x, d), sdiv(6 * y, d)])
 
 
 def XYZ_to_CIE1960UCS(

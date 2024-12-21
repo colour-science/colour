@@ -155,9 +155,7 @@ def delta_E_CIE1976(Lab_1: ArrayLike, Lab_2: ArrayLike) -> NDArrayFloat:
     2.7335037...
     """
 
-    d_E = euclidean_distance(to_domain_100(Lab_1), to_domain_100(Lab_2))
-
-    return d_E
+    return euclidean_distance(to_domain_100(Lab_1), to_domain_100(Lab_2))
 
 
 def delta_E_CIE1994(

@@ -464,9 +464,7 @@ def CCT_factor(
     )
 
     G_r = gamut_area(Lab) / GAMUT_AREA_D65
-    CCT_f = 1 if G_r > 1 else G_r
-
-    return CCT_f
+    return 1 if G_r > 1 else G_r
 
 
 def scale_conversion(D_E_ab: float, CCT_f: float, scaling_f: float) -> float:
@@ -489,9 +487,7 @@ def scale_conversion(D_E_ab: float, CCT_f: float, scaling_f: float) -> float:
         *Colour Quality Scale* (CQS).
     """
 
-    Q_a = 10 * np.log1p(np.exp((100 - scaling_f * D_E_ab) / 10)) * CCT_f
-
-    return Q_a
+    return 10 * np.log1p(np.exp((100 - scaling_f * D_E_ab) / 10)) * CCT_f
 
 
 def delta_E_RMS(

@@ -1822,9 +1822,7 @@ def table_interpolation_trilinear(V_xyz: ArrayLike, table: ArrayLike) -> NDArray
         -1,
     )
 
-    xyz_o = np.reshape(np.sum(vertices * weights, 1), V_xyz.shape)
-
-    return xyz_o
+    return np.reshape(np.sum(vertices * weights, 1), V_xyz.shape)
 
 
 def table_interpolation_tetrahedral(V_xyz: ArrayLike, table: ArrayLike) -> NDArrayFloat:
@@ -1903,9 +1901,7 @@ def table_interpolation_tetrahedral(V_xyz: ArrayLike, table: ArrayLike) -> NDArr
         ],
     )
 
-    xyz_o = np.reshape(xyz_o, V_xyz.shape)
-
-    return xyz_o
+    return np.reshape(xyz_o, V_xyz.shape)
 
 
 TABLE_INTERPOLATION_METHODS = CanonicalMapping(

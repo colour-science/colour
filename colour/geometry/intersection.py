@@ -89,9 +89,7 @@ def extend_line_segment(
         x_c = x_b + sdiv(x_b - x_a, d) * distance
         y_c = y_b + sdiv(y_b - y_a, d) * distance
 
-    xy_c = tstack([x_c, y_c])
-
-    return xy_c
+    return tstack([x_c, y_c])
 
 
 @dataclass

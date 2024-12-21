@@ -76,9 +76,7 @@ def xy_to_z(xy: ArrayLike) -> float:
 
     x, y = tsplit(xy)
 
-    z = 1 - x - y
-
-    return z
+    return 1 - x - y
 
 
 def normalised_primary_matrix(
@@ -125,9 +123,7 @@ def normalised_primary_matrix(
     coefficients = np.dot(np.linalg.inv(primaries), whitepoint)
     coefficients = np.diagflat(coefficients)
 
-    npm = np.dot(primaries, coefficients)
-
-    return npm
+    return np.dot(primaries, coefficients)
 
 
 def chromatically_adapted_primaries(
@@ -180,9 +176,7 @@ def chromatically_adapted_primaries(
         chromatic_adaptation_transform,
     )
 
-    P_a = XYZ_to_xyY(XYZ_a)[..., 0:2]
-
-    return P_a
+    return XYZ_to_xyY(XYZ_a)[..., 0:2]
 
 
 def primaries_whitepoint(npm: ArrayLike) -> Tuple[NDArrayFloat, NDArrayFloat]:

@@ -248,9 +248,7 @@ def Jab_to_JCh(Jab: ArrayLike) -> NDArrayFloat:
 
     C, H = tsplit(cartesian_to_polar(tstack([a, b])))
 
-    JCh = tstack([L, C, from_range_degrees(np.degrees(H) % 360)])
-
-    return JCh
+    return tstack([L, C, from_range_degrees(np.degrees(H) % 360)])
 
 
 def JCh_to_Jab(JCh: ArrayLike) -> NDArrayFloat:
@@ -310,9 +308,7 @@ def JCh_to_Jab(JCh: ArrayLike) -> NDArrayFloat:
 
     a, b = tsplit(polar_to_cartesian(tstack([C, np.radians(to_domain_degrees(H))])))
 
-    Jab = tstack([L, a, b])
-
-    return Jab
+    return tstack([L, a, b])
 
 
 def XYZ_to_Iab(

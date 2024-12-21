@@ -677,9 +677,7 @@ def achromatic_response_forward(RGB: ArrayLike) -> NDArrayFloat:
 
     R, G, B = tsplit(RGB)
 
-    A = 2 * R + G + 0.05 * B - 0.305
-
-    return A
+    return 2 * R + G + 0.05 * B - 0.305
 
 
 def opponent_colour_dimensions_inverse(
@@ -724,9 +722,7 @@ def opponent_colour_dimensions_inverse(
     a = gamma * np.cos(hr)
     b = gamma * np.sin(hr)
 
-    ab = tstack([a, b])
-
-    return ab
+    return tstack([a, b])
 
 
 def eccentricity_factor(h: ArrayLike) -> NDArrayFloat:
@@ -759,7 +755,7 @@ def eccentricity_factor(h: ArrayLike) -> NDArrayFloat:
     _3_h = 3 * hr
     _4_h = 4 * hr
 
-    e_t = (
+    return (
         -0.0582 * np.cos(_h)
         - 0.0258 * np.cos(_2_h)
         - 0.1347 * np.cos(_3_h)
@@ -770,8 +766,6 @@ def eccentricity_factor(h: ArrayLike) -> NDArrayFloat:
         + 0.0096 * np.sin(_4_h)
         + 1
     )
-
-    return e_t
 
 
 def brightness_correlate(
@@ -810,9 +804,7 @@ def brightness_correlate(
     A_w = as_float_array(A_w)
 
     with sdiv_mode():
-        Q = (2 / c) * (J / 100) * A_w
-
-    return Q
+        return (2 / c) * (J / 100) * A_w
 
 
 def colourfulness_correlate(
@@ -855,9 +847,7 @@ def colourfulness_correlate(
     a = as_float_array(a)
     b = as_float_array(b)
 
-    M = 43.0 * N_c * e_t * np.hypot(a, b)
-
-    return M
+    return 43.0 * N_c * e_t * np.hypot(a, b)
 
 
 def chroma_correlate(
@@ -891,9 +881,7 @@ def chroma_correlate(
     A_w = as_float_array(A_w)
 
     with sdiv_mode():
-        C = 35 * sdiv(M, A_w)
-
-    return C
+        return 35 * sdiv(M, A_w)
 
 
 def saturation_correlate(M: ArrayLike, Q: ArrayLike) -> NDArrayFloat:
@@ -924,9 +912,7 @@ def saturation_correlate(M: ArrayLike, Q: ArrayLike) -> NDArrayFloat:
     Q = as_float_array(Q)
 
     with sdiv_mode():
-        s = 100 * sdiv(M, Q)
-
-    return s
+        return 100 * sdiv(M, Q)
 
 
 def P_p(
@@ -967,9 +953,7 @@ def P_p(
     P_p_1 = 43 * N_c * e_t
     P_p_2 = A
 
-    P_p_n = tstack([P_p_1, P_p_2])
-
-    return P_p_n
+    return tstack([P_p_1, P_p_2])
 
 
 def hue_angle_dependency_Hellwig2022(

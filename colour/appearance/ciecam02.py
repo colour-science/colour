@@ -616,9 +616,7 @@ def chromatic_induction_factors(n: ArrayLike) -> NDArrayFloat:
     with sdiv_mode():
         N_bb = N_cb = 0.725 * spow(sdiv(1, n), 0.2)
 
-    N_bbcb = tstack([N_bb, N_cb])
-
-    return N_bbcb
+    return tstack([N_bb, N_cb])
 
 
 def base_exponential_non_linearity(
@@ -645,9 +643,7 @@ def base_exponential_non_linearity(
 
     n = as_float_array(n)
 
-    z = 1.48 + np.sqrt(n)
-
-    return z
+    return 1.48 + np.sqrt(n)
 
 
 def viewing_conditions_dependent_parameters(
@@ -725,9 +721,7 @@ def degree_of_adaptation(F: ArrayLike, L_A: ArrayLike) -> NDArrayFloat:
     F = as_float_array(F)
     L_A = as_float_array(L_A)
 
-    D = F * (1 - (1 / 3.6) * np.exp((-L_A - 42) / 92))
-
-    return D
+    return F * (1 - (1 / 3.6) * np.exp((-L_A - 42) / 92))
 
 
 def full_chromatic_adaptation_forward(
@@ -849,9 +843,7 @@ def RGB_to_rgb(RGB: ArrayLike) -> NDArrayFloat:
     array([ 19.9969397...,  20.0018612...,  20.0135053...])
     """
 
-    rgb = vecmul(np.matmul(MATRIX_XYZ_TO_HPE, CAT_INVERSE_CAT02), RGB)
-
-    return rgb
+    return vecmul(np.matmul(MATRIX_XYZ_TO_HPE, CAT_INVERSE_CAT02), RGB)
 
 
 def rgb_to_RGB(rgb: ArrayLike) -> NDArrayFloat:
@@ -876,9 +868,7 @@ def rgb_to_RGB(rgb: ArrayLike) -> NDArrayFloat:
     array([ 19.9937078...,  20.0039363...,  20.0132638...])
     """
 
-    RGB = vecmul(np.matmul(CAT_CAT02, MATRIX_HPE_TO_XYZ), rgb)
-
-    return RGB
+    return vecmul(np.matmul(CAT_CAT02, MATRIX_HPE_TO_XYZ), rgb)
 
 
 def post_adaptation_non_linear_response_compression_forward(
@@ -918,9 +908,7 @@ def post_adaptation_non_linear_response_compression_forward(
     F_L = as_float_array(F_L)
 
     F_L_RGB = spow(F_L[..., None] * np.absolute(RGB) / 100, 0.42)
-    RGB_c = (400 * np.sign(RGB) * F_L_RGB) / (27.13 + F_L_RGB) + 0.1
-
-    return RGB_c
+    return (400 * np.sign(RGB) * F_L_RGB) / (27.13 + F_L_RGB) + 0.1
 
 
 def post_adaptation_non_linear_response_compression_inverse(
@@ -954,7 +942,7 @@ def post_adaptation_non_linear_response_compression_inverse(
     RGB = as_float_array(RGB)
     F_L = as_float_array(F_L)
 
-    RGB_p = (
+    return (
         np.sign(RGB - 0.1)
         * 100
         / F_L[..., None]
@@ -963,8 +951,6 @@ def post_adaptation_non_linear_response_compression_inverse(
             1 / 0.42,
         )
     )
-
-    return RGB_p
 
 
 def opponent_colour_dimensions_forward(RGB: ArrayLike) -> NDArrayFloat:
@@ -994,9 +980,7 @@ def opponent_colour_dimensions_forward(RGB: ArrayLike) -> NDArrayFloat:
     a = R - 12 * G / 11 + B / 11
     b = (R + G - 2 * B) / 9
 
-    ab = tstack([a, b])
-
-    return ab
+    return tstack([a, b])
 
 
 def opponent_colour_dimensions_inverse(P_n: ArrayLike, h: ArrayLike) -> NDArrayFloat:
@@ -1080,9 +1064,7 @@ def opponent_colour_dimensions_inverse(P_n: ArrayLike, h: ArrayLike) -> NDArrayF
         b,
     )
 
-    ab = tstack([a, b])
-
-    return ab
+    return tstack([a, b])
 
 
 def hue_angle(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
@@ -1191,9 +1173,7 @@ def eccentricity_factor(h: ArrayLike) -> NDArrayFloat:
 
     h = as_float_array(h)
 
-    e_t = 1 / 4 * (np.cos(2 + h * np.pi / 180) + 3.8)
-
-    return e_t
+    return 1 / 4 * (np.cos(2 + h * np.pi / 180) + 3.8)
 
 
 def achromatic_response_forward(RGB: ArrayLike, N_bb: ArrayLike) -> NDArrayFloat:
@@ -1224,9 +1204,7 @@ def achromatic_response_forward(RGB: ArrayLike, N_bb: ArrayLike) -> NDArrayFloat
 
     R, G, B = tsplit(RGB)
 
-    A = (2 * R + G + (1 / 20) * B - 0.305) * N_bb
-
-    return A
+    return (2 * R + G + (1 / 20) * B - 0.305) * N_bb
 
 
 def achromatic_response_inverse(
@@ -1272,9 +1250,7 @@ def achromatic_response_inverse(
     c = as_float_array(c)
     z = as_float_array(z)
 
-    A = A_w * spow(J / 100, 1 / (c * z))
-
-    return A
+    return A_w * spow(J / 100, 1 / (c * z))
 
 
 def lightness_correlate(
@@ -1318,9 +1294,7 @@ def lightness_correlate(
     z = as_float_array(z)
 
     with sdiv_mode():
-        J = 100 * spow(sdiv(A, A_w), c * z)
-
-    return J
+        return 100 * spow(sdiv(A, A_w), c * z)
 
 
 def brightness_correlate(
@@ -1363,9 +1337,7 @@ def brightness_correlate(
     A_w = as_float_array(A_w)
     F_L = as_float_array(F_L)
 
-    Q = (4 / c) * np.sqrt(J / 100) * (A_w + 4) * spow(F_L, 0.25)
-
-    return Q
+    return (4 / c) * np.sqrt(J / 100) * (A_w + 4) * spow(F_L, 0.25)
 
 
 def temporary_magnitude_quantity_forward(
@@ -1421,11 +1393,9 @@ def temporary_magnitude_quantity_forward(
     Ra, Ga, Ba = tsplit(RGB_a)
 
     with sdiv_mode():
-        t = ((50000 / 13) * N_c * N_cb) * sdiv(
+        return ((50000 / 13) * N_c * N_cb) * sdiv(
             e_t * spow(a**2 + b**2, 0.5), Ra + Ga + 21 * Ba / 20
         )
-
-    return t
 
 
 def temporary_magnitude_quantity_inverse(
@@ -1462,9 +1432,7 @@ def temporary_magnitude_quantity_inverse(
     J = np.maximum(J, EPSILON)
     n = as_float_array(n)
 
-    t = spow(C / (np.sqrt(J / 100) * spow(1.64 - 0.29**n, 0.73)), 1 / 0.9)
-
-    return t
+    return spow(C / (np.sqrt(J / 100) * spow(1.64 - 0.29**n, 0.73)), 1 / 0.9)
 
 
 def chroma_correlate(
@@ -1523,9 +1491,7 @@ def chroma_correlate(
     n = as_float_array(n)
 
     t = temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a)
-    C = spow(t, 0.9) * spow(J / 100, 0.5) * spow(1.64 - 0.29**n, 0.73)
-
-    return C
+    return spow(t, 0.9) * spow(J / 100, 0.5) * spow(1.64 - 0.29**n, 0.73)
 
 
 def colourfulness_correlate(C: ArrayLike, F_L: ArrayLike) -> NDArrayFloat:
@@ -1555,9 +1521,7 @@ def colourfulness_correlate(C: ArrayLike, F_L: ArrayLike) -> NDArrayFloat:
     C = as_float_array(C)
     F_L = as_float_array(F_L)
 
-    M = C * spow(F_L, 0.25)
-
-    return M
+    return C * spow(F_L, 0.25)
 
 
 def saturation_correlate(M: ArrayLike, Q: ArrayLike) -> NDArrayFloat:
@@ -1588,9 +1552,7 @@ def saturation_correlate(M: ArrayLike, Q: ArrayLike) -> NDArrayFloat:
     Q = as_float_array(Q)
 
     with sdiv_mode():
-        s = 100 * spow(sdiv(M, Q), 0.5)
-
-    return s
+        return 100 * spow(sdiv(M, Q), 0.5)
 
 
 def P(
@@ -1649,9 +1611,7 @@ def P(
     P_2 = A / N_bb + 0.305
     P_3 = ones(P_1.shape) * (21 / 20)
 
-    P_n = tstack([P_1, P_2, P_3])
-
-    return P_n
+    return tstack([P_1, P_2, P_3])
 
 
 def matrix_post_adaptation_non_linear_response_compression(
@@ -1688,7 +1648,7 @@ def matrix_post_adaptation_non_linear_response_compression(
     a = as_float_array(a)
     b = as_float_array(b)
 
-    RGB_a = (
+    return (
         vecmul(
             [
                 [460, 451, 288],
@@ -1699,5 +1659,3 @@ def matrix_post_adaptation_non_linear_response_compression(
         )
         / 1403
     )
-
-    return RGB_a

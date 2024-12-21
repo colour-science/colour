@@ -86,9 +86,7 @@ def RGB_to_HEX(RGB: ArrayLike) -> NDArrayStr:
     to_HEX = np.vectorize("{:02x}".format)
 
     HEX = to_HEX(as_int_array(RGB * 255, dtype=np.uint8)).astype(object)
-    HEX = np.asarray("#") + HEX[..., 0] + HEX[..., 1] + HEX[..., 2]
-
-    return HEX
+    return np.asarray("#") + HEX[..., 0] + HEX[..., 1] + HEX[..., 2]
 
 
 def HEX_to_RGB(HEX: ArrayLike) -> NDArrayFloat:

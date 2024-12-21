@@ -610,9 +610,7 @@ class AbstractLUT(ABC):
 
             return self
         else:
-            copy = ioperator(self.copy(), a)
-
-            return copy
+            return ioperator(self.copy(), a)
 
     @abstractmethod
     def _validate_table(self, table: ArrayLike) -> NDArrayFloat:
@@ -1050,13 +1048,11 @@ class LUT1D(AbstractLUT):
             domain_min, domain_max = self.domain
             domain = np.linspace(domain_min, domain_max, self.size)
 
-        LUT_i = LUT1D(
+        return LUT1D(
             table=domain,
             name=f"{self.name} - Inverse",
             domain=self.table,
         )
-
-        return LUT_i
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArrayFloat:
         """
@@ -1465,13 +1461,11 @@ class LUT3x1D(AbstractLUT):
             domain_min, domain_max = self.domain
             domain = [np.linspace(domain_min[i], domain_max[i], size) for i in range(3)]
 
-        LUT_i = LUT3x1D(
+        return LUT3x1D(
             table=tstack(domain),
             name=f"{self.name} - Inverse",
             domain=self.table,
         )
-
-        return LUT_i
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArrayFloat:
         """
@@ -1907,15 +1901,13 @@ class LUT3D(AbstractLUT):
                 np.linspace(a[0], a[1], size_array[i]) for i, a in enumerate([B, G, R])
             ]
 
-        table = np.flip(
+        return np.flip(
             np.reshape(
                 np.transpose(np.meshgrid(*samples, indexing="ij")),
                 np.hstack([np.flip(size_array, -1), 3]),
             ),
             -1,
         )
-
-        return table
 
     def invert(self, **kwargs: Any) -> LUT3D:
         """
@@ -2114,9 +2106,7 @@ class LUT3D(AbstractLUT):
             for i, j in enumerate((R, G, B))
         ]
 
-        RGB_i = interpolator(tstack(RGB_l), LUT.table, **interpolator_kwargs)
-
-        return RGB_i
+        return interpolator(tstack(RGB_l), LUT.table, **interpolator_kwargs)
 
 
 def LUT_to_LUT(

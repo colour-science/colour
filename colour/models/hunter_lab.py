@@ -73,9 +73,7 @@ def XYZ_to_K_ab_HunterLab1966(XYZ: ArrayLike) -> NDArrayFloat:
     K_a = 175 * np.sqrt(X / 98.043)
     K_b = 70 * np.sqrt(Z / 118.115)
 
-    K_ab = tstack([K_a, K_b])
-
-    return K_ab
+    return tstack([K_a, K_b])
 
 
 def XYZ_to_Hunter_Lab(

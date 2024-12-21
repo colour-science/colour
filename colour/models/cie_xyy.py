@@ -94,9 +94,7 @@ def XYZ_to_xyY(XYZ: ArrayLike) -> NDArrayFloat:
         x = sdiv(X, X_Y_Z)
         y = sdiv(Y, X_Y_Z)
 
-    xyY = tstack([x, y, from_range_1(Y)])
-
-    return xyY
+    return tstack([x, y, from_range_1(Y)])
 
 
 def xyY_to_XYZ(xyY: ArrayLike) -> NDArrayFloat:
@@ -198,9 +196,7 @@ def xyY_to_xy(xyY: ArrayLike) -> NDArrayFloat:
     if xyY.shape[-1] == 2:
         return xyY
 
-    xy = xyY[..., 0:2]
-
-    return xy
+    return xyY[..., 0:2]
 
 
 def xy_to_xyY(xy: ArrayLike, Y: ArrayLike = 1) -> NDArrayFloat:

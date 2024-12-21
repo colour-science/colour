@@ -463,9 +463,7 @@ def chromatic_adaptation(
 
     Y = tstack([Y, Y, Y])
 
-    XYZ_r = vecmul(MATRIX_RGB_TO_XYZ_LLAB, RGB_r * Y)
-
-    return XYZ_r
+    return vecmul(MATRIX_RGB_TO_XYZ_LLAB, RGB_r * Y)
 
 
 def f(x: ArrayLike, F_S: ArrayLike) -> NDArrayFloat:
@@ -559,9 +557,7 @@ def opponent_colour_dimensions(
     a = 500 * (f(X / 95.05, F_S) - f(Y / 100, F_S))
     b = 200 * (f(Y / 100, F_S) - f(Z / 108.88, F_S))
 
-    Lab = tstack([L, a, b])
-
-    return Lab
+    return tstack([L, a, b])
 
 
 def hue_angle(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
@@ -701,9 +697,7 @@ def saturation_correlate(Ch_L: ArrayLike, L_L: ArrayLike) -> NDArrayFloat:
     Ch_L = as_float_array(Ch_L)
     L_L = as_float_array(L_L)
 
-    S_L = Ch_L / L_L
-
-    return S_L
+    return Ch_L / L_L
 
 
 def final_opponent_signals(C_L: ArrayLike, h_L: ArrayLike) -> NDArrayFloat:
@@ -730,6 +724,4 @@ def final_opponent_signals(C_L: ArrayLike, h_L: ArrayLike) -> NDArrayFloat:
     array([-0.0119478..., -0.0139711...])
     """
 
-    AB_L = polar_to_cartesian(tstack([as_float_array(C_L), np.radians(h_L)]))
-
-    return AB_L
+    return polar_to_cartesian(tstack([as_float_array(C_L), np.radians(h_L)]))

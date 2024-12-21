@@ -357,9 +357,7 @@ def Izazbz_to_XYZ(
     X_D65 = (X_p_D65 + (constants.b - 1) * Z_p_D65) / constants.b
     Y_D65 = (Y_p_D65 + (constants.g - 1) * X_D65) / constants.g
 
-    XYZ_D65 = tstack([X_D65, Y_D65, Z_p_D65])
-
-    return XYZ_D65
+    return tstack([X_D65, Y_D65, Z_p_D65])
 
 
 def XYZ_to_Jzazbz(
@@ -434,9 +432,7 @@ def XYZ_to_Jzazbz(
 
     J_z = ((1 + constants.d) * I_z) / (1 + constants.d * I_z) - constants.d_0
 
-    Jzazbz = tstack([J_z, a_z, b_z])
-
-    return Jzazbz
+    return tstack([J_z, a_z, b_z])
 
 
 def Jzazbz_to_XYZ(
@@ -507,8 +503,6 @@ def Jzazbz_to_XYZ(
     )
 
     with domain_range_scale("ignore"):
-        XYZ_D65 = Izazbz_to_XYZ(
+        return Izazbz_to_XYZ(
             tstack([I_z, a_z, b_z]), CONSTANTS_JZAZBZ_SAFDAR2017, "Safdar 2017"
         )
-
-    return XYZ_D65

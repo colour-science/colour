@@ -148,9 +148,7 @@ def contrast_sensitivity_function(
 
     function = CONTRAST_SENSITIVITY_METHODS[method]
 
-    S = function(**filter_kwargs(function, **kwargs))
-
-    return S
+    return function(**filter_kwargs(function, **kwargs))
 
 
 __all__ += [

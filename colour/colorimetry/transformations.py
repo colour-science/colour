@@ -131,9 +131,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(
     y_bar = L
     z_bar = z / y * L
 
-    xyz_bar = tstack([x_bar, y_bar, z_bar])
-
-    return xyz_bar
+    return tstack([x_bar, y_bar, z_bar])
 
 
 def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(
@@ -183,9 +181,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(
         ]
     )
 
-    xyz_bar = vecmul(M, rgb_bar)
-
-    return xyz_bar
+    return vecmul(M, rgb_bar)
 
 
 def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(
@@ -289,9 +285,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(
         ]
     )
 
-    xyz_bar = vecmul(M, lms_bar)
-
-    return xyz_bar
+    return vecmul(M, lms_bar)
 
 
 def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(
@@ -341,6 +335,4 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(
         ]
     )
 
-    xyz_bar = vecmul(M, lms_bar)
-
-    return xyz_bar
+    return vecmul(M, lms_bar)

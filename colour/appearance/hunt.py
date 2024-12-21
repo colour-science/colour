@@ -763,9 +763,7 @@ def chromatic_adaptation(
         rgb_w = adjusted_reference_white_signals(rgb_p, B_rgb, rgb_w, p)
 
     # Computing adapted cone responses.
-    rgb_a = 1.0 + B_rgb * (f_n(F_L[..., None] * F_rgb * rgb / rgb_w) + D_rgb)
-
-    return rgb_a
+    return 1.0 + B_rgb * (f_n(F_L[..., None] * F_rgb * rgb / rgb_w) + D_rgb)
 
 
 def adjusted_reference_white_signals(
@@ -816,13 +814,11 @@ def adjusted_reference_white_signals(
     p = as_float_array(p)
 
     p_rgb = rgb_p / rgb_b
-    rgb_w = (
+    return (
         rgb_w
         * (spow((1 - p) * p_rgb + (1 + p) / p_rgb, 0.5))
         / (spow((1 + p) * p_rgb + (1 - p) / p_rgb, 0.5))
     )
-
-    return rgb_w
 
 
 def achromatic_post_adaptation_signal(rgb: ArrayLike) -> NDArrayFloat:
@@ -849,9 +845,7 @@ def achromatic_post_adaptation_signal(rgb: ArrayLike) -> NDArrayFloat:
 
     r, g, b = tsplit(rgb)
 
-    A = 2 * r + g + (1 / 20) * b - 3.05 + 1
-
-    return A
+    return 2 * r + g + (1 / 20) * b - 3.05 + 1
 
 
 def colour_difference_signals(rgb: ArrayLike) -> NDArrayFloat:
@@ -883,9 +877,7 @@ def colour_difference_signals(rgb: ArrayLike) -> NDArrayFloat:
     C_2 = g - b
     C_3 = b - r
 
-    C = tstack([C_1, C_2, C_3])
-
-    return C
+    return tstack([C_1, C_2, C_3])
 
 
 def hue_angle(C: ArrayLike) -> NDArrayFloat:
@@ -1102,9 +1094,7 @@ def overall_chromatic_response(M_yb: ArrayLike, M_rg: ArrayLike) -> NDArrayFloat
     M_yb = as_float_array(M_yb)
     M_rg = as_float_array(M_rg)
 
-    M = spow((M_yb**2) + (M_rg**2), 0.5)
-
-    return M
+    return spow((M_yb**2) + (M_rg**2), 0.5)
 
 
 def saturation_correlate(M: ArrayLike, rgb_a: ArrayLike) -> NDArrayFloat:
@@ -1251,9 +1241,7 @@ def brightness_correlate(
     N_1 = spow(7 * A_w, 0.5) / (5.33 * spow(N_b, 0.13))
     N_2 = (7 * A_w * spow(N_b, 0.362)) / 200
 
-    Q = spow(7 * (A + (M / 100)), 0.6) * N_1 - N_2
-
-    return Q
+    return spow(7 * (A + (M / 100)), 0.6) * N_1 - N_2
 
 
 def lightness_correlate(
@@ -1297,9 +1285,7 @@ def lightness_correlate(
     Q_w = as_float_array(Q_w)
 
     Z = 1 + spow(Y_b / Y_w, 0.5)
-    J = 100 * spow(Q / Q_w, Z)
-
-    return J
+    return 100 * spow(Q / Q_w, Z)
 
 
 def chroma_correlate(
@@ -1349,11 +1335,9 @@ def chroma_correlate(
 
     Y_b_Y_w = Y_b / Y_w
 
-    C_94 = (
+    return (
         2.44 * spow(s, 0.69) * (spow(Q / Q_w, Y_b_Y_w)) * (1.64 - spow(0.29, Y_b_Y_w))
     )
-
-    return C_94
 
 
 def colourfulness_correlate(F_L: ArrayLike, C_94: ArrayLike) -> NDArrayFloat:
@@ -1383,6 +1367,4 @@ def colourfulness_correlate(F_L: ArrayLike, C_94: ArrayLike) -> NDArrayFloat:
     F_L = as_float_array(F_L)
     C_94 = as_float_array(C_94)
 
-    M_94 = spow(F_L, 0.15) * C_94
-
-    return M_94
+    return spow(F_L, 0.15) * C_94

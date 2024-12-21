@@ -102,9 +102,7 @@ def mesopic_weighting_function(
     index = mesopic_x_luminance_values.index(closest(mesopic_x_luminance_values, L_p))
     x = DATA_MESOPIC_X[mesopic_x_luminance_values[index]][source][method]
 
-    V_m = (1 - x) * scotopic_lef[wavelength] + x * photopic_lef[wavelength]
-
-    return V_m
+    return (1 - x) * scotopic_lef[wavelength] + x * photopic_lef[wavelength]
 
 
 def sd_mesopic_luminous_efficiency_function(

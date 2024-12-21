@@ -126,9 +126,7 @@ def matrix_chromatic_adaptation_VonKries(
     D = row_as_diagonal(D)
 
     M_CAT = np.matmul(np.linalg.inv(M), D)
-    M_CAT = np.matmul(M_CAT, M)
-
-    return M_CAT
+    return np.matmul(M_CAT, M)
 
 
 def chromatic_adaptation_VonKries(

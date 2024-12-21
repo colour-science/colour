@@ -275,9 +275,7 @@ def ellipse_fitting_Halir1998(a: ArrayLike) -> NDArrayFloat:
     A1 = v[:, np.nonzero(4 * v[0, :] * v[2, :] - v[1, :] ** 2 > 0)[0]]
     A2 = np.dot(T, A1)
 
-    A = cast(NDArrayFloat, np.ravel([A1, A2]))
-
-    return A
+    return cast(NDArrayFloat, np.ravel([A1, A2]))
 
 
 ELLIPSE_FITTING_METHODS: CanonicalMapping = CanonicalMapping(

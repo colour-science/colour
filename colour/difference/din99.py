@@ -92,9 +92,7 @@ def delta_E_DIN99(
 
     factor = 100 if get_domain_range_scale() == "1" else 1
 
-    d_E = euclidean_distance(
+    return euclidean_distance(
         Lab_to_DIN99(Lab_1, k_E, k_CH) * factor,
         Lab_to_DIN99(Lab_2, k_E, k_CH) * factor,
     )
-
-    return d_E

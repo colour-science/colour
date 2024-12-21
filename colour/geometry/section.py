@@ -245,6 +245,4 @@ def hull_section(
     if len(section) == 0:
         raise ValueError(f'No section exists on "{axis}" axis at {origin} origin!')
 
-    section = close_chord(unique_vertices(edges_to_chord(section)))
-
-    return section
+    return close_chord(unique_vertices(edges_to_chord(section)))

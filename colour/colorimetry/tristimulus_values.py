@@ -2086,6 +2086,4 @@ def wavelength_to_XYZ(
             f'"[{shape.start}, {shape.end}]" domain!'
         )
 
-    XYZ = np.reshape(cmfs[np.ravel(wavelength)], (*wavelength.shape, 3))
-
-    return XYZ
+    return np.reshape(cmfs[np.ravel(wavelength)], (*wavelength.shape, 3))

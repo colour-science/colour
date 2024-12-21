@@ -375,13 +375,11 @@ class ModuleAPI:
             Filtered list of names in the module local scope.
         """
 
-        attributes = [
+        return [
             attribute
             for attribute in dir(self._module)
             if attribute not in self._changes
         ]
-
-        return attributes
 
 
 def get_attribute(attribute: str) -> Any:

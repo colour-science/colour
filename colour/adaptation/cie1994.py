@@ -244,9 +244,7 @@ def intermediate_values(xy_o: ArrayLike) -> NDArrayFloat:
     eta = (-0.27200 * x_o + 1.11962 * y_o + 0.04570) / y_o
     zeta = (0.91822 * (1 - x_o - y_o)) / y_o
 
-    xez = tstack([xi, eta, zeta])
-
-    return xez
+    return tstack([xi, eta, zeta])
 
 
 def effective_adapting_responses(
@@ -284,9 +282,7 @@ def effective_adapting_responses(
     Y_o = as_float_array(Y_o)
     E_o = as_float_array(E_o)
 
-    RGB_o = ((Y_o[..., None] * E_o[..., None]) / (100 * np.pi)) * xez
-
-    return RGB_o
+    return ((Y_o[..., None] * E_o[..., None]) / (100 * np.pi)) * xez
 
 
 def beta_1(x: ArrayLike) -> NDArrayFloat:
@@ -370,9 +366,7 @@ def exponential_factors(RGB_o: ArrayLike) -> NDArrayFloat:
     bG_o = beta_1(G_o)
     bB_o = beta_2(B_o)
 
-    bRGB_o = tstack([bR_o, bG_o, bB_o])
-
-    return bRGB_o
+    return tstack([bR_o, bG_o, bB_o])
 
 
 def K_coefficient(
@@ -529,6 +523,4 @@ def corresponding_colour(
     G_2 = RGB_c(eta_1, eta_2, bG_o1, bG_o2, G_1, n)
     B_2 = RGB_c(zeta_1, zeta_2, bB_o1, bB_o2, B_1, n)
 
-    RGB_2 = tstack([R_2, G_2, B_2])
-
-    return RGB_2
+    return tstack([R_2, G_2, B_2])

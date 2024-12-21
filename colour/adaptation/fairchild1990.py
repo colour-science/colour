@@ -265,6 +265,4 @@ def degrees_of_adaptation(
         )
 
     with sdiv_mode():
-        p_LMS = P_c(m_E(LMS, LMS_E))
-
-    return p_LMS
+        return P_c(m_E(LMS, LMS_E))

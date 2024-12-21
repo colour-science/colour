@@ -90,9 +90,7 @@ def cartesian_to_spherical(a: ArrayLike) -> NDArrayFloat:
         theta = np.arccos(sdiv(z, rho))
     phi = np.arctan2(y, x)
 
-    rtp = tstack([rho, theta, phi])
-
-    return rtp
+    return tstack([rho, theta, phi])
 
 
 def spherical_to_cartesian(a: ArrayLike) -> NDArrayFloat:
@@ -131,9 +129,7 @@ def spherical_to_cartesian(a: ArrayLike) -> NDArrayFloat:
     y = rho * np.sin(theta) * np.sin(phi)
     z = rho * np.cos(theta)
 
-    xyz = tstack([x, y, z])
-
-    return xyz
+    return tstack([x, y, z])
 
 
 def cartesian_to_polar(a: ArrayLike) -> NDArrayFloat:

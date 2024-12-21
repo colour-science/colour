@@ -1088,9 +1088,7 @@ class Signal(AbstractContinuousFunction):
 
             return self
         else:
-            copy = ioperator(self.copy(), a)
-
-            return copy
+            return ioperator(self.copy(), a)
 
     @staticmethod
     @ndarray_copy_enable(True)

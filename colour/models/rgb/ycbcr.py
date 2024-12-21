@@ -646,15 +646,13 @@ def YCbCr_to_RGB(
     RGB *= RGB_max - RGB_min
     RGB += RGB_min
 
-    RGB = (
+    return (
         as_int_array(
             round_BT2100(np.clip(RGB, 0, 2**out_bits - 1) if clamp_int else RGB)
         )
         if out_int
         else from_range_1(RGB)
     )
-
-    return RGB
 
 
 def RGB_to_YcCbcCrc(

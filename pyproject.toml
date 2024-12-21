@@ -207,11 +207,10 @@ ignore = [
     "N815", # Variable `.*` in class scope should not be mixedCase
     "N816", # Variable `.*` in global scope should not be mixedCase
     "PGH003", # Use specific rule codes when ignoring type issues
-    "PLR0912",
-    "PLR0913",
-    "PLR0915",
-    "PLR2004",
-    "RET504",
+    "PLR0912", # Too many branches
+    "PLR0913", # Too many arguments in function definition
+    "PLR0915", # Too many statements
+    "PLR2004", # Magic value used in comparison, consider replacing `.*` with a constant variable
     "RET505",
     "RET506",
     "RET507",

@@ -210,9 +210,7 @@ def matrix_chromatic_adaptation_vk20(
         D = row_as_diagonal(sdiv(1, (D_n * LMS_n + D_r * LMS_r + D_p * LMS_p)))
 
     M_CAT = np.matmul(np.linalg.inv(M), D)
-    M_CAT = np.matmul(M_CAT, M)
-
-    return M_CAT
+    return np.matmul(M_CAT, M)
 
 
 def chromatic_adaptation_vK20(

@@ -256,13 +256,11 @@ def RGB_to_ICtCp(
     with domain_range_scale("ignore"):
         LMS_p = oetf_BT2100_HLG(LMS) if is_hlg_method else eotf_inverse_ST2084(LMS, L_p)
 
-    ICtCp = (
+    return (
         vecmul(MATRIX_ICTCP_LMS_P_TO_ICTCP_BT2100_HLG_2, LMS_p)
         if (is_hlg_method and is_BT2100_2_method)
         else vecmul(MATRIX_ICTCP_LMS_P_TO_ICTCP, LMS_p)
     )
-
-    return ICtCp
 
 
 def ICtCp_to_RGB(
@@ -393,9 +391,7 @@ def ICtCp_to_RGB(
             oetf_inverse_BT2100_HLG(LMS_p) if is_hlg_method else eotf_ST2084(LMS_p, L_p)
         )
 
-    RGB = vecmul(MATRIX_ICTCP_LMS_TO_RGB, LMS)
-
-    return RGB
+    return vecmul(MATRIX_ICTCP_LMS_TO_RGB, LMS)
 
 
 def XYZ_to_ICtCp(
@@ -635,11 +631,9 @@ def ICtCp_to_XYZ(
 
     RGB = ICtCp_to_RGB(ICtCp, method, L_p)
 
-    XYZ = RGB_to_XYZ(
+    return RGB_to_XYZ(
         RGB,
         RGB_COLOURSPACES["ITU-R BT.2020"],
         illuminant,
         chromatic_adaptation_transform,
     )
-
-    return XYZ

@@ -240,9 +240,7 @@ def N2_depolarisation(wavelength: ArrayLike) -> NDArrayFloat:
 
     wl = as_float_array(wavelength)
 
-    N2 = 1.034 + 3.17 * 1.0e-4 * (1 / wl**2)
-
-    return N2
+    return 1.034 + 3.17 * 1.0e-4 * (1 / wl**2)
 
 
 def O2_depolarisation(wavelength: ArrayLike) -> NDArrayFloat:
@@ -268,9 +266,7 @@ def O2_depolarisation(wavelength: ArrayLike) -> NDArrayFloat:
 
     wl = as_float_array(wavelength)
 
-    O2 = 1.096 + 1.385 * 1.0e-3 * (1 / wl**2) + 1.448 * 1.0e-4 * (1 / wl**4)
-
-    return O2
+    return 1.096 + 1.385 * 1.0e-3 * (1 / wl**2) + 1.448 * 1.0e-4 * (1 / wl**4)
 
 
 def F_air_Penndorf1957(wavelength: ArrayLike) -> NDArrayFloat:
@@ -364,9 +360,7 @@ def F_air_Bates1984(wavelength: ArrayLike) -> NDArrayFloat:
     Ar = 1.00
     CO2 = 1.15
 
-    F_air = (78.084 * N2 + 20.946 * O2 + CO2 + Ar) / (78.084 + 20.946 + Ar + CO2)
-
-    return F_air
+    return (78.084 * N2 + 20.946 * O2 + CO2 + Ar) / (78.084 + 20.946 + Ar + CO2)
 
 
 def F_air_Bodhaine1999(
@@ -404,11 +398,9 @@ def F_air_Bodhaine1999(
     # Converting from parts per million (ppm) to parts per volume per percent.
     CO2_c = CO2_c * 1e-4
 
-    F_air = (78.084 * N2 + 20.946 * O2 + 0.934 * 1 + CO2_c * 1.15) / (
+    return (78.084 * N2 + 20.946 * O2 + 0.934 * 1 + CO2_c * 1.15) / (
         78.084 + 20.946 + 0.934 + CO2_c
     )
-
-    return F_air
 
 
 def molecular_density(
@@ -450,9 +442,7 @@ def molecular_density(
     avogadro_constant = as_float_array(avogadro_constant)
 
     with sdiv_mode():
-        N_s = (avogadro_constant / 22.4141) * sdiv(273.15, T) * (1 / 1000)
-
-    return N_s
+        return (avogadro_constant / 22.4141) * sdiv(273.15, T) * (1 / 1000)
 
 
 def mean_molecular_weights(
@@ -482,8 +472,7 @@ def mean_molecular_weights(
 
     CO2_c = CO2_concentration * 1.0e-6
 
-    m_a = 15.0556 * CO2_c + 28.9595
-    return m_a
+    return 15.0556 * CO2_c + 28.9595
 
 
 def gravity_List1968(
@@ -528,14 +517,12 @@ def gravity_List1968(
     # Sea level acceleration of gravity.
     g0 = 980.6160 * (1 - 0.0026373 * cos2phi + 0.0000059 * cos2phi**2)
 
-    g = (
+    return (
         g0
         - (3.085462e-4 + 2.27e-7 * cos2phi) * altitude
         + (7.254e-11 + 1.0e-13 * cos2phi) * altitude**2
         - (1.517e-17 + 6e-20 * cos2phi) * altitude**3
     )
-
-    return g
 
 
 def scattering_cross_section(

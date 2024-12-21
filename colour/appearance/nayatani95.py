@@ -943,9 +943,7 @@ def chroma_correlate(L_star_P: ArrayLike, S: ArrayLike) -> NDArrayFloat:
     L_star_P = as_float_array(L_star_P)
     S = as_float_array(S)
 
-    C = spow(L_star_P / 50, 0.7) * S
-
-    return C
+    return spow(L_star_P / 50, 0.7) * S
 
 
 def colourfulness_components(

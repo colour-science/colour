@@ -342,9 +342,7 @@ def HSL_to_RGB(HSL: ArrayLike) -> NDArrayFloat:
             vi + (vj - vi) * ((2 / 3) - vH) * 6,
             v,
         )
-        v = np.where(np.isnan(v), vi, v)
-
-        return v
+        return np.where(np.isnan(v), vi, v)
 
     j = np.where(L < 0.5, L * (1 + S), (L + S) - (S * L))
     i = 2 * L - j

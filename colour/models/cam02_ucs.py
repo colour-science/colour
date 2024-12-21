@@ -241,15 +241,13 @@ def UCS_Luo2006_to_JMh_CIECAM02(
 
     M = np.expm1(M_p / (1 / c_2)) / c_2
 
-    JMh = tstack(
+    return tstack(
         [
             from_range_100(J),
             from_range_100(M),
             from_range_degrees(np.degrees(h) % 360),
         ]
     )
-
-    return JMh
 
 
 def JMh_CIECAM02_to_CAM02LCD(JMh: ArrayLike) -> NDArrayFloat:

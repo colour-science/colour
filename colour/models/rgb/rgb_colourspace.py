@@ -1267,9 +1267,7 @@ def matrix_RGB_to_RGB(
 
         M = np.matmul(M_CAT, input_colourspace.matrix_RGB_to_XYZ)
 
-    M = np.matmul(output_colourspace.matrix_XYZ_to_RGB, M)
-
-    return M
+    return np.matmul(output_colourspace.matrix_XYZ_to_RGB, M)
 
 
 def RGB_to_RGB(

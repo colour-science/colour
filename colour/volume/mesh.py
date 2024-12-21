@@ -67,6 +67,4 @@ def is_within_mesh_volume(
     triangulation = Delaunay(mesh)
 
     simplex = triangulation.find_simplex(points, tol=tolerance)
-    simplex = np.where(simplex >= 0, True, False)
-
-    return simplex
+    return np.where(simplex >= 0, True, False)
