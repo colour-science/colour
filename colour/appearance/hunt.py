@@ -408,7 +408,7 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
             "illuminant or its correlated colour temperature "
             '"CCT_w" must be specified!'
         )
-    elif L_AS is None and CCT_w is not None:
+    if L_AS is None and CCT_w is not None:
         L_AS = illuminant_scotopic_luminance(L_A, CCT_w)
         usage_warning(
             f'Unspecified "L_AS" argument, using approximation from "CCT": "{L_AS}"'
@@ -420,7 +420,7 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
             'reference white scotopic response "S_w" arguments '
             "need to be specified or none of them!"
         )
-    elif S is None and S_w is None:
+    if S is None and S_w is None:
         S_p = Y
         S_w_p = Y_w
         usage_warning(
