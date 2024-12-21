@@ -44,7 +44,7 @@ from colour.hints import (
     NDArrayFloat,
     NDArrayInt,
     Real,
-    Tuple,
+    Sequence,
     Type,
     cast,
 )
@@ -239,7 +239,9 @@ class MixinDataclassArray(MixinDataclassIterable):
         -   :class:`colour.utilities.MixinDataclassFields`
     """
 
-    def __array__(self, dtype: Type[DTypeReal] | None = None, copy=None) -> NDArray:
+    def __array__(
+        self, dtype: Type[DTypeReal] | None = None, copy: bool = True
+    ) -> NDArray:
         """
         Implement support for :class:`dataclass`-like class conversion to
         :class:`numpy.ndarray` class.
@@ -541,7 +543,7 @@ _ASSERTION_MESSAGE_DTYPE_FLOAT = (
 
 
 def as_array(
-    a: ArrayLike,
+    a: ArrayLike | KeysView | ValuesView,
     dtype: Type[DType] | None = None,
 ) -> NDArray:
     """
@@ -771,6 +773,7 @@ def as_int_scalar(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> int:
 
     attest(a.ndim == 0, f'"{a}" cannot be converted to "int" scalar!')
 
+    # TODO: Revisit when Numpy types are well established.
     return cast(int, as_int(a, dtype))
 
 
@@ -808,6 +811,7 @@ def as_float_scalar(a: ArrayLike, dtype: Type[DTypeFloat] | None = None) -> floa
 
     attest(a.ndim == 0, f'"{a}" cannot be converted to "float" scalar!')
 
+    # TODO: Revisit when Numpy types are well established.
     return cast(float, as_float(a, dtype))
 
 
@@ -952,7 +956,7 @@ def set_domain_range_scale(
     scale: (
         Literal["ignore", "reference", "Ignore", "Reference", "1", "100"] | str
     ) = "reference",
-):
+) -> None:
     """
     Set the current *Colour* domain-range scale. The following scales are
     available:
@@ -1056,7 +1060,7 @@ class domain_range_scale:
 
         return self
 
-    def __exit__(self, *args: Any):
+    def __exit__(self, *args: Any) -> None:
         """Set the previous domain-range scale upon exiting the context manager."""
 
         set_domain_range_scale(self._previous_scale)
@@ -1783,7 +1787,7 @@ def is_ndarray_copy_enabled() -> bool:
     return _NDARRAY_COPY_ENABLED
 
 
-def set_ndarray_copy_enable(enable: bool):
+def set_ndarray_copy_enable(enable: bool) -> None:
     """
     Set *Colour* :class:`numpy.ndarray` copy enabled state.
 
@@ -1832,7 +1836,7 @@ class ndarray_copy_enable:
 
         return self
 
-    def __exit__(self, *args: Any):
+    def __exit__(self, *args: Any) -> None:
         """
         Set the *Colour* :class:`numpy.ndarray` copy enabled state
         upon exiting the context manager.
@@ -2512,7 +2516,7 @@ def ndarray_write(a: ArrayLike) -> Generator:
 
 
 def zeros(
-    shape: int | Tuple[int, ...],
+    shape: int | Sequence[int],
     dtype: Type[DTypeReal] | None = None,
     order: Literal["C", "F"] = "C",
 ) -> NDArray:
@@ -2550,7 +2554,7 @@ def zeros(
 
 
 def ones(
-    shape: int | Tuple[int, ...],
+    shape: int | Sequence[int],
     dtype: Type[DTypeReal] | None = None,
     order: Literal["C", "F"] = "C",
 ) -> NDArray:
@@ -2588,7 +2592,7 @@ def ones(
 
 
 def full(
-    shape: int | Tuple[int, ...],
+    shape: int | Sequence[int],
     fill_value: Real,
     dtype: Type[DTypeReal] | None = None,
     order: Literal["C", "F"] = "C",

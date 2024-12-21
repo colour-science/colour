@@ -33,7 +33,7 @@ class TestReadLUTSonySPI1D:
     unit tests methods.
     """
 
-    def test_read_LUT_SonySPI1D(self):
+    def test_read_LUT_SonySPI1D(self) -> None:
         """Test :func:`colour.io.luts.sony_spi1d.read_LUT_SonySPI1D` definition."""
 
         LUT_1 = read_LUT_SonySPI1D(os.path.join(ROOT_LUTS, "eotf_sRGB_1D.spi1d"))
@@ -87,17 +87,17 @@ class TestWriteLUTSonySPI1D:
     unit tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
-    def teardown_method(self):
+    def teardown_method(self) -> None:
         """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
-    def test_write_LUT_SonySPI1D(self):
+    def test_write_LUT_SonySPI1D(self) -> None:
         """Test :func:`colour.io.luts.sony_spi1d.write_LUT_SonySPI1D` definition."""
 
         LUT_1_r = read_LUT_SonySPI1D(os.path.join(ROOT_LUTS, "eotf_sRGB_1D.spi1d"))

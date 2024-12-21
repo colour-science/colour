@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.utilities.metrics` module."""
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -24,7 +26,7 @@ class TestMetricMse:
     methods.
     """
 
-    def test_metric_mse(self):
+    def test_metric_mse(self) -> None:
         """Test :func:`colour.utilities.metrics.metric_mse` definition."""
 
         a = np.array([0.48222001, 0.31654775, 0.22070353])
@@ -51,7 +53,7 @@ class TestMetricPsnr:
     methods.
     """
 
-    def test_metric_psnr(self):
+    def test_metric_psnr(self) -> None:
         """Test :func:`colour.utilities.metrics.metric_psnr` definition."""
 
         a = np.array([0.48222001, 0.31654775, 0.22070353])

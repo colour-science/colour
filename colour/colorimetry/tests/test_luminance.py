@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.colorimetry.luminance` module."""
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.colorimetry import (
@@ -40,7 +42,7 @@ class TestLuminanceNewhall1943:
     definition unit tests methods.
     """
 
-    def test_luminance_Newhall1943(self):
+    def test_luminance_Newhall1943(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.luminance_Newhall1943`
         definition.
@@ -64,7 +66,7 @@ class TestLuminanceNewhall1943:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_luminance_Newhall1943(self):
+    def test_n_dimensional_luminance_Newhall1943(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.luminance_Newhall1943`
         definition n-dimensional arrays support.
@@ -91,7 +93,7 @@ class TestLuminanceNewhall1943:
             luminance_Newhall1943(V), Y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_luminance_Newhall1943(self):
+    def test_domain_range_scale_luminance_Newhall1943(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.luminance_Newhall1943`
         definition domain and range scale support.
@@ -109,7 +111,7 @@ class TestLuminanceNewhall1943:
                 )
 
     @ignore_numpy_errors
-    def test_nan_luminance_Newhall1943(self):
+    def test_nan_luminance_Newhall1943(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.luminance_Newhall1943`
         definition nan support.
@@ -124,7 +126,7 @@ class TestLuminanceASTMD1535:
     definition unit tests methods.
     """
 
-    def test_luminance_ASTMD1535(self):
+    def test_luminance_ASTMD1535(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.luminance_ASTMD1535`
         definition.
@@ -148,7 +150,7 @@ class TestLuminanceASTMD1535:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_luminance_ASTMD1535(self):
+    def test_n_dimensional_luminance_ASTMD1535(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.luminance_ASTMD1535`
         definition n-dimensional arrays support.
@@ -175,7 +177,7 @@ class TestLuminanceASTMD1535:
             luminance_ASTMD1535(V), Y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_luminance_ASTMD1535(self):
+    def test_domain_range_scale_luminance_ASTMD1535(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.luminance_ASTMD1535`
         definition domain and range scale support.
@@ -193,7 +195,7 @@ class TestLuminanceASTMD1535:
                 )
 
     @ignore_numpy_errors
-    def test_nan_luminance_ASTMD1535(self):
+    def test_nan_luminance_ASTMD1535(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.luminance_ASTMD1535`
         definition nan support.
@@ -208,7 +210,7 @@ class TestIntermediateLuminanceFunctionCIE1976:
 intermediate_luminance_function_CIE1976` definition unit tests methods.
     """
 
-    def test_intermediate_luminance_function_CIE1976(self):
+    def test_intermediate_luminance_function_CIE1976(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.\
 intermediate_luminance_function_CIE1976` definition.
@@ -232,7 +234,7 @@ intermediate_luminance_function_CIE1976` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_intermediate_luminance_function_CIE1976(self):
+    def test_n_dimensional_intermediate_luminance_function_CIE1976(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.\
 intermediate_luminance_function_CIE1976` definition n-dimensional arrays
@@ -266,7 +268,7 @@ intermediate_luminance_function_CIE1976` definition n-dimensional arrays
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_intermediate_luminance_function_CIE1976(self):
+    def test_domain_range_scale_intermediate_luminance_function_CIE1976(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.\
 intermediate_luminance_function_CIE1976` definition domain and range scale
@@ -284,7 +286,7 @@ intermediate_luminance_function_CIE1976` definition domain and range scale
                 )
 
     @ignore_numpy_errors
-    def test_nan_intermediate_luminance_function_CIE1976(self):
+    def test_nan_intermediate_luminance_function_CIE1976(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.\
 intermediate_luminance_function_CIE1976` definition nan support.
@@ -301,7 +303,7 @@ class TestLuminanceCIE1976:
     unit tests methods.
     """
 
-    def test_luminance_CIE1976(self):
+    def test_luminance_CIE1976(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.luminance_CIE1976`
         definition.
@@ -343,7 +345,7 @@ class TestLuminanceCIE1976:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_luminance_CIE1976(self):
+    def test_n_dimensional_luminance_CIE1976(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.luminance_CIE1976`
         definition n-dimensional arrays support.
@@ -370,7 +372,7 @@ class TestLuminanceCIE1976:
             luminance_CIE1976(L_star), Y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_luminance_CIE1976(self):
+    def test_domain_range_scale_luminance_CIE1976(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.luminance_CIE1976`
         definition domain and range scale support.
@@ -388,7 +390,7 @@ class TestLuminanceCIE1976:
                 )
 
     @ignore_numpy_errors
-    def test_nan_luminance_CIE1976(self):
+    def test_nan_luminance_CIE1976(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.luminance_CIE1976`
         definition nan support.
@@ -403,7 +405,7 @@ class TestLuminanceFairchild2010:
     definition unit tests methods.
     """
 
-    def test_luminance_Fairchild2010(self):
+    def test_luminance_Fairchild2010(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.luminance_Fairchild2010`
         definition.
@@ -445,7 +447,7 @@ class TestLuminanceFairchild2010:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_luminance_Fairchild2010(self):
+    def test_n_dimensional_luminance_Fairchild2010(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.luminance_Fairchild2010`
         definition n-dimensional arrays support.
@@ -472,7 +474,7 @@ class TestLuminanceFairchild2010:
             luminance_Fairchild2010(L_hdr), Y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_luminance_Fairchild2010(self):
+    def test_domain_range_scale_luminance_Fairchild2010(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.luminance_Fairchild2010`
         definition domain and range scale support.
@@ -490,7 +492,7 @@ class TestLuminanceFairchild2010:
                 )
 
     @ignore_numpy_errors
-    def test_nan_luminance_Fairchild2010(self):
+    def test_nan_luminance_Fairchild2010(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.luminance_Fairchild2010`
         definition nan support.
@@ -505,7 +507,7 @@ class TestLuminanceFairchild2011:
     definition unit tests methods.
     """
 
-    def test_luminance_Fairchild2011(self):
+    def test_luminance_Fairchild2011(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.luminance_Fairchild2011`
         definition.
@@ -547,7 +549,7 @@ class TestLuminanceFairchild2011:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_luminance_Fairchild2011(self):
+    def test_n_dimensional_luminance_Fairchild2011(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.luminance_Fairchild2011`
         definition n-dimensional arrays support.
@@ -574,7 +576,7 @@ class TestLuminanceFairchild2011:
             luminance_Fairchild2011(L_hdr), Y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_luminance_Fairchild2011(self):
+    def test_domain_range_scale_luminance_Fairchild2011(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.luminance_Fairchild2011`
         definition domain and range scale support.
@@ -592,7 +594,7 @@ class TestLuminanceFairchild2011:
                 )
 
     @ignore_numpy_errors
-    def test_nan_luminance_Fairchild2011(self):
+    def test_nan_luminance_Fairchild2011(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.luminance_Fairchild2011`
         definition nan support.
@@ -607,7 +609,7 @@ class TestLuminanceAbebe2017:
     definition unit tests methods.
     """
 
-    def test_luminance_Abebe2017(self):
+    def test_luminance_Abebe2017(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.luminance_Abebe2017`
         definition.
@@ -643,7 +645,7 @@ class TestLuminanceAbebe2017:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_luminance_Abebe2017(self):
+    def test_n_dimensional_luminance_Abebe2017(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.luminance_Abebe2017`
         definition n-dimensional arrays support.
@@ -670,7 +672,7 @@ class TestLuminanceAbebe2017:
             luminance_Abebe2017(L), Y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_luminance_Abebe2017(self):
+    def test_domain_range_scale_luminance_Abebe2017(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.luminance_Abebe2017`
         definition domain and range scale support.
@@ -688,13 +690,14 @@ class TestLuminanceAbebe2017:
                 )
 
     @ignore_numpy_errors
-    def test_nan_luminance_Abebe2017(self):
+    def test_nan_luminance_Abebe2017(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.luminance_Abebe2017`
         definition nan support.
         """
 
-        luminance_Abebe2017(*[np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])] * 2)
+        cases = np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        luminance_Abebe2017(cases, cases)
 
 
 class TestLuminance:
@@ -703,7 +706,7 @@ class TestLuminance:
     tests methods.
     """
 
-    def test_domain_range_scale_luminance(self):
+    def test_domain_range_scale_luminance(self) -> None:
         """
         Test :func:`colour.colorimetry.luminance.luminance` definition
         domain and range scale support.

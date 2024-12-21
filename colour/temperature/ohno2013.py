@@ -340,7 +340,7 @@ def XYZ_to_CCT_Ohno2013(
     start: float | None = None,
     end: float | None = None,
     spacing: float | None = None,
-):
+) -> NDArrayFloat:
     """
     Return the correlated colour temperature :math:`T_{cp}` and
     :math:`\\Delta_{uv}` from given *CIE XYZ* tristimulus values, colour
@@ -391,7 +391,7 @@ def XYZ_to_CCT_Ohno2013(
 
 def CCT_to_XYZ_Ohno2013(
     CCT_D_uv: ArrayLike, cmfs: MultiSpectralDistributions | None = None
-):
+) -> NDArrayFloat:
     """
     Return the *CIE XYZ* tristimulus values from given correlated colour
     temperature :math:`T_{cp}`, :math:`\\Delta_{uv}` and colour matching

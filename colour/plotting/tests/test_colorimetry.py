@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.plotting.colorimetry` module."""
 
+from __future__ import annotations
+
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
@@ -50,7 +52,7 @@ class TestPlotSingleSd:
     tests methods.
     """
 
-    def test_plot_single_sd(self):
+    def test_plot_single_sd(self) -> None:
         """Test :func:`colour.plotting.colorimetry.plot_single_sd` definition."""
 
         sd = SpectralDistribution(
@@ -83,7 +85,7 @@ class TestPlotMultiSds:
     tests methods.
     """
 
-    def test_plot_multi_sds(self):
+    def test_plot_multi_sds(self) -> None:
         """Test :func:`colour.plotting.colorimetry.plot_multi_sds` definition."""
 
         sd_1 = SpectralDistribution(
@@ -134,7 +136,7 @@ class TestPlotSingleCmfs:
     unit tests methods.
     """
 
-    def test_plot_single_cmfs(self):
+    def test_plot_single_cmfs(self) -> None:
         """Test :func:`colour.plotting.colorimetry.plot_single_cmfs` definition."""
 
         figure, axes = plot_single_cmfs()
@@ -149,7 +151,7 @@ class TestPlotMultiCmfs:
     tests methods.
     """
 
-    def test_plot_multi_cmfs(self):
+    def test_plot_multi_cmfs(self) -> None:
         """Test :func:`colour.plotting.colorimetry.plot_multi_cmfs` definition."""
 
         figure, axes = plot_multi_cmfs(
@@ -169,7 +171,7 @@ class TestPlotSingleIlluminantSd:
     definition unit tests methods.
     """
 
-    def test_plot_single_illuminant_sd(self):
+    def test_plot_single_illuminant_sd(self) -> None:
         """
         Test :func:`colour.plotting.colorimetry.plot_single_illuminant_sd`
         definition.
@@ -187,7 +189,7 @@ class TestPlotMultiIlluminantSds:
     definition unit tests methods.
     """
 
-    def test_plot_multi_illuminant_sds(self):
+    def test_plot_multi_illuminant_sds(self) -> None:
         """
         Test :func:`colour.plotting.colorimetry.plot_multi_illuminant_sds`
         definition.
@@ -213,7 +215,7 @@ class TestPlotVisibleSpectrum:
     definition unit tests methods.
     """
 
-    def test_plot_visible_spectrum(self):
+    def test_plot_visible_spectrum(self) -> None:
         """
         Test :func:`colour.plotting.colorimetry.plot_visible_spectrum`
         definition.
@@ -231,7 +233,7 @@ class TestPlotSingleLightnessFunction:
     definition unit tests methods.
     """
 
-    def test_plot_single_lightness_function(self):
+    def test_plot_single_lightness_function(self) -> None:
         """
         Test :func:`colour.plotting.colorimetry.\
 plot_single_lightness_function` definition.
@@ -249,7 +251,7 @@ class TestPlotMultiLightnessFunctions:
     definition unit tests methods.
     """
 
-    def test_plot_multi_lightness_functions(self):
+    def test_plot_multi_lightness_functions(self) -> None:
         """
         Test :func:`colour.plotting.colorimetry.\
 plot_multi_lightness_functions` definition.
@@ -267,7 +269,7 @@ class TestPlotSingleLuminanceFunction:
     definition unit tests methods.
     """
 
-    def test_plot_single_luminance_function(self):
+    def test_plot_single_luminance_function(self) -> None:
         """
         Test :func:`colour.plotting.colorimetry.\
 plot_single_luminance_function` definition.
@@ -285,7 +287,7 @@ class TestPlotMultiLuminanceFunctions:
     definition unit tests methods.
     """
 
-    def test_plot_multi_luminance_functions(self):
+    def test_plot_multi_luminance_functions(self) -> None:
         """
         Test :func:`colour.plotting.colorimetry.\
 plot_multi_luminance_functions` definition.
@@ -303,7 +305,7 @@ class TestPlotBlackbodySpectralRadiance:
 plot_blackbody_spectral_radiance` definition unit tests methods.
     """
 
-    def test_plot_blackbody_spectral_radiance(self):
+    def test_plot_blackbody_spectral_radiance(self) -> None:
         """
         Test :func:`colour.plotting.colorimetry.\
 plot_blackbody_spectral_radiance` definition.
@@ -321,7 +323,7 @@ class TestPlotBlackbodyColours:
     definition unit tests methods.
     """
 
-    def test_plot_blackbody_colours(self):
+    def test_plot_blackbody_colours(self) -> None:
         """
         Test :func:`colour.plotting.colorimetry.plot_blackbody_colours`
         definition.

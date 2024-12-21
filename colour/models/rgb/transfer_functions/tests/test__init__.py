@@ -43,7 +43,7 @@ class TestCctfEncoding:
     definition unit tests methods.
     """
 
-    def test_raise_exception_cctf_encoding(self):
+    def test_raise_exception_cctf_encoding(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACESproxy` definition raised exception.
@@ -69,7 +69,7 @@ class TestCctfDecoding:
     definition unit tests methods.
     """
 
-    def test_raise_exception_cctf_decoding(self):
+    def test_raise_exception_cctf_decoding(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACESproxy` definition raised exception.
@@ -92,7 +92,7 @@ log_encoding_ACESproxy` definition raised exception.
 class TestTransferFunctions:
     """Define the transfer functions unit tests methods."""
 
-    def test_transfer_functions(self):
+    def test_transfer_functions(self) -> None:
         """Test the transfer functions reciprocity."""
 
         ignored_transfer_functions = (

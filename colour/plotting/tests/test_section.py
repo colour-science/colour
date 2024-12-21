@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.plotting.section` module."""
 
+from __future__ import annotations
+
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
@@ -36,7 +38,7 @@ class TestPlotHullSectionColours:
     definition unit tests methods.
     """
 
-    def test_plot_hull_section_colours(self):
+    def test_plot_hull_section_colours(self) -> None:
         """
         Test :func:`colour.plotting.section.plot_hull_section_colours`
         definition.
@@ -73,7 +75,7 @@ class TestPlotHullSectionContour:
     definition unit tests methods.
     """
 
-    def test_plot_hull_section_contour(self):
+    def test_plot_hull_section_contour(self) -> None:
         """
         Test :func:`colour.plotting.section.plot_hull_section_contour`
         definition.
@@ -100,7 +102,7 @@ class TestPlotVisibleSpectrumSection:
     definition unit tests methods.
     """
 
-    def test_plot_visible_spectrum_section(self):
+    def test_plot_visible_spectrum_section(self) -> None:
         """
         Test :func:`colour.plotting.section.plot_visible_spectrum_section`
         definition.
@@ -121,7 +123,7 @@ class TestPlotRGBColourspaceSection:
     definition unit tests methods.
     """
 
-    def test_plot_RGB_colourspace_section(self):
+    def test_plot_RGB_colourspace_section(self) -> None:
         """
         Test :func:`colour.plotting.section.plot_RGB_colourspace_section`
         definition.

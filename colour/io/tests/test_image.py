@@ -11,6 +11,7 @@ import numpy as np
 import pytest
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
+from colour.hints import NDArrayReal, Tuple, cast
 from colour.io import (
     Image_Specification_Attribute,
     as_3_channels_image,
@@ -54,7 +55,7 @@ class TestImageSpecificationOpenImageIO:
     unit tests methods.
     """
 
-    def test_image_specification_OpenImageIO(self):  # pragma: no cover
+    def test_image_specification_OpenImageIO(self) -> None:  # pragma: no cover
         """
         Test :func:`colour.io.image.image_specification_OpenImageIO`
         definition.
@@ -70,11 +71,11 @@ class TestImageSpecificationOpenImageIO:
             1920, 1080, 3, "float16", [compression]
         )
 
-        assert specification.width == 1920
-        assert specification.height == 1080
-        assert specification.nchannels == 3
-        assert specification.format == HALF
-        assert specification.extra_attribs[0].name == "Compression"
+        assert specification.width == 1920  # pyright: ignore
+        assert specification.height == 1080  # pyright: ignore
+        assert specification.nchannels == 3  # pyright: ignore
+        assert specification.format == HALF  # pyright: ignore
+        assert specification.extra_attribs[0].name == "Compression"  # pyright: ignore
 
 
 class TestConvertBitDepth:
@@ -83,7 +84,7 @@ class TestConvertBitDepth:
     methods.
     """
 
-    def test_convert_bit_depth(self):
+    def test_convert_bit_depth(self) -> None:
         """Test :func:`colour.io.image.convert_bit_depth` definition."""
 
         a = np.around(np.linspace(0, 1, 10) * 255).astype("uint8")
@@ -272,47 +273,63 @@ class TestReadImageOpenImageIO:
     tests methods.
     """
 
-    def test_read_image_OpenImageIO(self):  # pragma: no cover
+    def test_read_image_OpenImageIO(self) -> None:  # pragma: no cover
         """Test :func:`colour.io.image.read_image_OpenImageIO` definition."""
 
         if not is_openimageio_installed():
             return
 
-        image = read_image_OpenImageIO(
-            os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
+        image = cast(
+            NDArrayReal,
+            read_image_OpenImageIO(
+                os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
+            ),
         )
         assert image.shape == (1267, 1274, 3)
         assert image.dtype is np.dtype("float32")
 
-        image = read_image_OpenImageIO(
-            os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr"),
-            "float16",
+        image = cast(
+            NDArrayReal,
+            read_image_OpenImageIO(
+                os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr"),
+                "float16",
+            ),
         )
         assert image.dtype is np.dtype("float16")
 
-        image, attributes = read_image_OpenImageIO(
-            os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr"),
-            additional_data=True,
+        image, attributes = cast(
+            Tuple[NDArrayReal, Tuple[Image_Specification_Attribute]],
+            read_image_OpenImageIO(
+                os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr"),
+                additional_data=True,
+            ),
         )
         assert image.shape == (1267, 1274, 3)
         assert attributes[0].name == "oiio:ColorSpace"
         assert attributes[0].value in ("Linear", "lin_rec709")
 
-        image = read_image_OpenImageIO(
-            os.path.join(ROOT_RESOURCES, "Single_Channel.exr")
+        image = cast(
+            NDArrayReal,
+            read_image_OpenImageIO(os.path.join(ROOT_RESOURCES, "Single_Channel.exr")),
         )
         assert image.shape == (256, 256)
 
-        image = read_image_OpenImageIO(
-            os.path.join(ROOT_RESOURCES, "Colour_Logo.png"), "uint8"
+        image = cast(
+            NDArrayReal,
+            read_image_OpenImageIO(
+                os.path.join(ROOT_RESOURCES, "Colour_Logo.png"), "uint8"
+            ),
         )
         assert image.shape == (128, 256, 4)
         assert image.dtype is np.dtype("uint8")
         assert np.min(image) == 0
         assert np.max(image) == 255
 
-        image = read_image_OpenImageIO(
-            os.path.join(ROOT_RESOURCES, "Colour_Logo.png"), "uint16"
+        image = cast(
+            NDArrayReal,
+            read_image_OpenImageIO(
+                os.path.join(ROOT_RESOURCES, "Colour_Logo.png"), "uint16"
+            ),
         )
         assert image.shape == (128, 256, 4)
         assert image.dtype is np.dtype("uint16")
@@ -326,8 +343,11 @@ class TestReadImageOpenImageIO:
         # self.assertEqual(np.min(image), 0.0)
         # self.assertEqual(np.max(image), 1.0)
 
-        image = read_image_OpenImageIO(
-            os.path.join(ROOT_RESOURCES, "Colour_Logo.png"), "float32"
+        image = cast(
+            NDArrayReal,
+            read_image_OpenImageIO(
+                os.path.join(ROOT_RESOURCES, "Colour_Logo.png"), "float32"
+            ),
         )
         assert image.dtype is np.dtype("float32")
         assert np.min(image) == 0.0
@@ -340,17 +360,17 @@ class TestWriteImageOpenImageIO:
     tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
-    def teardown_method(self):
+    def teardown_method(self) -> None:
         """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
-    def test_write_image_OpenImageIO(self):  # pragma: no cover
+    def test_write_image_OpenImageIO(self) -> None:  # pragma: no cover
         """Test :func:`colour.io.image.write_image_OpenImageIO` definition."""
 
         if not is_openimageio_installed():
@@ -381,9 +401,9 @@ class TestWriteImageOpenImageIO:
 
         source_path = os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
         target_path = os.path.join(self._temporary_directory, "CMS_Test_Pattern.exr")
-        image = read_image_OpenImageIO(source_path)
+        image = cast(NDArrayReal, read_image_OpenImageIO(source_path))
         write_image_OpenImageIO(image, target_path)
-        image = read_image_OpenImageIO(target_path)
+        image = cast(NDArrayReal, read_image_OpenImageIO(target_path))
         assert image.shape == (1267, 1274, 3)
         assert image.dtype is np.dtype("float32")
 
@@ -434,7 +454,7 @@ class TestReadImageImageio:
     methods.
     """
 
-    def test_read_image_Imageio(self):
+    def test_read_image_Imageio(self) -> None:
         """Test :func:`colour.io.image.read_image_Imageio` definition."""
 
         image = read_image_Imageio(os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr"))
@@ -488,17 +508,17 @@ class TestWriteImageImageio:
     tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
-    def teardown_method(self):
+    def teardown_method(self) -> None:
         """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
-    def test_write_image_Imageio(self):
+    def test_write_image_Imageio(self) -> None:
         """Test :func:`colour.io.image.write_image_Imageio` definition."""
 
         source_path = os.path.join(ROOT_RESOURCES, "Overflowing_Gradient.png")
@@ -539,7 +559,7 @@ class TestReadImage:
     methods.
     """
 
-    def test_read_image(self):
+    def test_read_image(self) -> None:
         """Test :func:`colour.io.image.read_image` definition."""
 
         image = read_image(os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr"))
@@ -553,17 +573,17 @@ class TestReadImage:
 class TestWriteImage:
     """Define :func:`colour.io.image.write_image` definition unit tests methods."""
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
-    def teardown_method(self):
+    def teardown_method(self) -> None:
         """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
-    def test_write_image(self):
+    def test_write_image(self) -> None:
         """Test :func:`colour.io.image.write_image` definition."""
 
         source_path = os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
@@ -581,7 +601,7 @@ class TestAs3ChannelsImage:
     methods.
     """
 
-    def test_as_3_channels_image(self):
+    def test_as_3_channels_image(self) -> None:
         """Test :func:`colour.io.image.as_3_channels_image` definition."""
 
         a = 0.18
@@ -598,7 +618,7 @@ class TestAs3ChannelsImage:
         a = np.array([[[[0.18, 0.18, 0.18]]]])
         np.testing.assert_equal(as_3_channels_image(a), b)
 
-    def test_raise_exception_as_3_channels_image(self):
+    def test_raise_exception_as_3_channels_image(self) -> None:
         """
         Test :func:`colour.io.image.as_3_channels_image` definition raised
         exception.

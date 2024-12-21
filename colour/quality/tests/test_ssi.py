@@ -559,7 +559,7 @@ class TestSpectralSimilarityIndex:
     definition unit tests methods.
     """
 
-    def test_spectral_similarity_index(self):
+    def test_spectral_similarity_index(self) -> None:
         """Test :func:`colour.quality.ssi.spectral_similarity_index` definition."""
 
         assert (
@@ -573,7 +573,7 @@ class TestSpectralSimilarityIndex:
             == 72.0
         )
 
-    def test_spectral_similarity_rounding(self):
+    def test_spectral_similarity_rounding(self) -> None:
         """
         Test :func:`colour.quality.ssi.spectral_similarity_index` for
         producing continuous values.

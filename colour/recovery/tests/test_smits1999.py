@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.recovery.smits1999` module."""
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.colorimetry import sd_to_XYZ_integration
@@ -26,7 +28,7 @@ class TestRGB_to_sd_Smits1999:
     definition unit tests methods.
     """
 
-    def test_RGB_to_sd_Smits1999(self):
+    def test_RGB_to_sd_Smits1999(self) -> None:
         """
         Test :func:`colour.recovery.smits1999.RGB_to_sd_Smits1999`
         definition.
@@ -152,7 +154,7 @@ class TestRGB_to_sd_Smits1999:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_RGB_to_sd_Smits1999(self):
+    def test_domain_range_scale_RGB_to_sd_Smits1999(self) -> None:
         """
         Test :func:`colour.recovery.smits1999.RGB_to_sd_Smits1999`
         definition domain and range scale support.

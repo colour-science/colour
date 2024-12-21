@@ -70,6 +70,7 @@ from colour.hints import (
     Literal,
     LiteralColourspaceModel,
     LiteralRGBColourspace,
+    NDArray,
     NDArrayFloat,
     Sequence,
     Tuple,
@@ -264,7 +265,7 @@ def colourspace_model_axis_reorder(
 
 def lines_pointer_gamut(
     method: (Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"] | str) = "CIE 1931",
-):
+) -> tuple[NDArray, NDArray]:
     """
     Return the *Pointer's Gamut* line vertices, i.e., positions, normals and
     colours, according to given method.

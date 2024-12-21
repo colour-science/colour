@@ -122,7 +122,7 @@ def set_sdiv_mode(
         ]
         | str
     ),
-):
+) -> None:
     """
     Set *Colour* safe division function mode.
 
@@ -212,7 +212,7 @@ class sdiv_mode:
 
         return self
 
-    def __exit__(self, *args: Any):
+    def __exit__(self, *args: Any) -> None:
         """
         Set the *Colour* safe division function mode upon exiting the context
         manager.
@@ -371,7 +371,7 @@ def is_spow_enabled() -> bool:
     return _SPOW_ENABLED
 
 
-def set_spow_enable(enable: bool):
+def set_spow_enable(enable: bool) -> None:
     """
     Set *Colour* safe / symmetrical power function enabled state.
 
@@ -421,7 +421,7 @@ class spow_enable:
 
         return self
 
-    def __exit__(self, *args: Any):
+    def __exit__(self, *args: Any) -> None:
         """
         Set the *Colour* safe / symmetrical power function enabled state
         upon exiting the context manager.

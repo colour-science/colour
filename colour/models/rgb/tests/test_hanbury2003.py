@@ -1,5 +1,7 @@
 """Defines unit tests for :mod:`colour.models.rgb.hanbury2003` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -27,7 +29,7 @@ class TestRGB_to_IHLS:
     tests methods.
     """
 
-    def test_RGB_to_IHLS(self):
+    def test_RGB_to_IHLS(self) -> None:
         """Test :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition."""
 
         np.testing.assert_allclose(
@@ -48,7 +50,7 @@ class TestRGB_to_IHLS:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_RGB_to_IHLS(self):
+    def test_n_dimensional_RGB_to_IHLS(self) -> None:
         """
         Test :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition
         n-dimensional arrays support.
@@ -65,7 +67,7 @@ class TestRGB_to_IHLS:
         HYS = np.reshape(HYS, (2, 3, 3))
         np.testing.assert_allclose(RGB_to_IHLS(RGB), HYS, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_RGB_to_IHLS(self):
+    def test_domain_range_scale_RGB_to_IHLS(self) -> None:
         """
         Test :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition
         domain and range scale support.
@@ -84,7 +86,7 @@ class TestRGB_to_IHLS:
                 )
 
     @ignore_numpy_errors
-    def test_nan_RGB_to_IHLS(self):
+    def test_nan_RGB_to_IHLS(self) -> None:
         """
         Test :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition nan
         support.
@@ -101,7 +103,7 @@ class TestIHLS_to_RGB:
     tests methods.
     """
 
-    def test_IHLS_to_RGB(self):
+    def test_IHLS_to_RGB(self) -> None:
         """Test :func:`colour.models.rgb.hanbury2003.IHLS_to_RGB` definition."""
 
         np.testing.assert_allclose(
@@ -122,7 +124,7 @@ class TestIHLS_to_RGB:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_IHLS_to_RGB(self):
+    def test_n_dimensional_IHLS_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.hanbury2003.IHLS_to_RGB` definition
         n-dimensional arrays support.
@@ -139,7 +141,7 @@ class TestIHLS_to_RGB:
         RGB = np.reshape(RGB, (2, 3, 3))
         np.testing.assert_allclose(IHLS_to_RGB(HYS), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_IHLS_to_RGB(self):
+    def test_domain_range_scale_IHLS_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.hanbury2003.IHLS_to_RGB` definition
         domain and range scale support.
@@ -158,7 +160,7 @@ class TestIHLS_to_RGB:
                 )
 
     @ignore_numpy_errors
-    def test_nan_IHLS_to_RGB(self):
+    def test_nan_IHLS_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.hanbury2003.IHLS_to_RGB` definition nan
         support.

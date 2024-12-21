@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.colorimetry.correction` module."""
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.colorimetry import (
@@ -66,7 +68,7 @@ class TestBandpassCorrectionStearns1988:
 bandpass_correction_Stearns1988` definition unit tests methods.
     """
 
-    def test_bandpass_correction_Stearns1988(self):
+    def test_bandpass_correction_Stearns1988(self) -> None:
         """
         Test :func:`colour.colorimetry.correction.\
 bandpass_correction_Stearns1988` definition.

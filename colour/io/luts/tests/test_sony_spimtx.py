@@ -33,7 +33,7 @@ class TestReadLUTSonySPImtx:
     unit tests methods.
     """
 
-    def test_read_LUT_SonySPImtx(self):
+    def test_read_LUT_SonySPImtx(self) -> None:
         """
         Test :func:`colour.io.luts.sony_spimtx.read_LUT_SonySPImtx`
         definition.
@@ -107,17 +107,17 @@ class TestWriteLUTSonySPImtx:
     unit tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
-    def teardown_method(self):
+    def teardown_method(self) -> None:
         """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
-    def test_write_LUT_SonySPImtx(self):
+    def test_write_LUT_SonySPImtx(self) -> None:
         """
         Test :func:`colour.io.luts.sony_spimtx.write_LUT_SonySPImtx`
         definition.

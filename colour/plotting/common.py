@@ -68,6 +68,7 @@ from colour.hints import (
     LiteralRGBColourspace,
     Mapping,
     NDArrayFloat,
+    Real,
     Sequence,
     Tuple,
     TypedDict,
@@ -776,7 +777,7 @@ def render(
 
 
 def label_rectangles(
-    labels: Sequence[str],
+    labels: Sequence[str | Real],
     rectangles: Sequence[Patch],
     rotation: Literal["horizontal", "vertical"] | str = "vertical",
     text_size: float = CONSTANTS_COLOUR_STYLE.font.scaling.medium,
@@ -847,7 +848,7 @@ def label_rectangles(
     return figure, axes
 
 
-def uniform_axes3d(**kwargs: Any) -> Tuple[Figure, Axes]:
+def uniform_axes3d(**kwargs: Any) -> Tuple[Figure, Axes3D]:
     """
     Set equal aspect ratio to given 3d axes.
 
@@ -1133,7 +1134,7 @@ def update_settings_collection(
     settings_collection: dict | List[dict],
     keyword_arguments: dict | List[dict],
     expected_count: int,
-):
+) -> None:
     """
     Update given settings collection, *in-place*, with given keyword arguments
     and expected count of settings collection elements.
@@ -1233,7 +1234,7 @@ def plot_single_colour_swatch(
     }
 )
 def plot_multi_colour_swatches(
-    colour_swatches: Sequence[ArrayLike | ColourSwatch],
+    colour_swatches: ArrayLike | Sequence[ArrayLike | ColourSwatch],
     width: float = 1,
     height: float = 1,
     spacing: float = 0,
@@ -1318,7 +1319,7 @@ def plot_multi_colour_swatches(
     _figure, axes = artist(**kwargs)
 
     # Handling case where `colour_swatches` is a regular *ArrayLike*.
-    colour_swatches = list(colour_swatches)
+    colour_swatches = list(colour_swatches)  # pyright: ignore
     colour_swatches_converted = []
     if not isinstance(first_item(colour_swatches), ColourSwatch):
         for _i, colour_swatch in enumerate(

@@ -1,5 +1,7 @@
 """Define the unit tests helper module for the deprecation management."""
 
+from __future__ import annotations
+
 import contextlib
 import sys
 
@@ -14,7 +16,7 @@ from colour.utilities.deprecation import (
 class deprecated(ModuleAPI):
     """Define a class acting like the *deprecated* module."""
 
-    def __getattr__(self, attribute) -> Any:
+    def __getattr__(self, attribute: str) -> Any:
         """Return the value from the attribute with given name."""
 
         return super().__getattr__(attribute)

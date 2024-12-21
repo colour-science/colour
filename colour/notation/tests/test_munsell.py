@@ -1106,7 +1106,7 @@ class TestMunsellValuePriest1920:
     unit tests methods.
     """
 
-    def test_munsell_value_Priest1920(self):
+    def test_munsell_value_Priest1920(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_Priest1920`
         definition.
@@ -1130,7 +1130,7 @@ class TestMunsellValuePriest1920:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_munsell_value_Priest1920(self):
+    def test_n_dimensional_munsell_value_Priest1920(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_Priest1920`
         definition n-dimensional arrays support.
@@ -1157,7 +1157,7 @@ class TestMunsellValuePriest1920:
             munsell_value_Priest1920(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_munsell_value_Priest1920(self):
+    def test_domain_range_scale_munsell_value_Priest1920(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_Priest1920`
         definition domain and range scale support.
@@ -1176,7 +1176,7 @@ class TestMunsellValuePriest1920:
                 )
 
     @ignore_numpy_errors
-    def test_nan_munsell_value_Priest1920(self):
+    def test_nan_munsell_value_Priest1920(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_Priest1920`
         definition nan support.
@@ -1191,7 +1191,7 @@ class TestMunsellValueMunsell1933:
     definition unit tests methods.
     """
 
-    def test_munsell_value_Munsell1933(self):
+    def test_munsell_value_Munsell1933(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_Munsell1933`
         definition.
@@ -1215,7 +1215,7 @@ class TestMunsellValueMunsell1933:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_munsell_value_Munsell1933(self):
+    def test_n_dimensional_munsell_value_Munsell1933(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_Munsell1933`
         definition n-dimensional arrays support.
@@ -1242,7 +1242,7 @@ class TestMunsellValueMunsell1933:
             munsell_value_Munsell1933(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_munsell_value_Munsell1933(self):
+    def test_domain_range_scale_munsell_value_Munsell1933(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_Munsell1933`
         definition domain and range scale support.
@@ -1261,7 +1261,7 @@ class TestMunsellValueMunsell1933:
                 )
 
     @ignore_numpy_errors
-    def test_nan_munsell_value_Munsell1933(self):
+    def test_nan_munsell_value_Munsell1933(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_Munsell1933`
         definition nan support.
@@ -1276,7 +1276,7 @@ class TestMunsellValueMoon1943:
     unit tests methods.
     """
 
-    def test_munsell_value_Moon1943(self):
+    def test_munsell_value_Moon1943(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_Moon1943`
         definition.
@@ -1300,7 +1300,7 @@ class TestMunsellValueMoon1943:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_munsell_value_Moon1943(self):
+    def test_n_dimensional_munsell_value_Moon1943(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_Moon1943`
         definition n-dimensional arrays support.
@@ -1327,7 +1327,7 @@ class TestMunsellValueMoon1943:
             munsell_value_Moon1943(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_munsell_value_Moon1943(self):
+    def test_domain_range_scale_munsell_value_Moon1943(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_Moon1943`
         definition domain and range scale support.
@@ -1346,7 +1346,7 @@ class TestMunsellValueMoon1943:
                 )
 
     @ignore_numpy_errors
-    def test_nan_munsell_value_Moon1943(self):
+    def test_nan_munsell_value_Moon1943(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_Moon1943`
         definition nan support.
@@ -1361,7 +1361,7 @@ class TestMunsellValueSaunderson1944:
     definition unit tests methods.
     """
 
-    def test_munsell_value_Saunderson1944(self):
+    def test_munsell_value_Saunderson1944(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_Saunderson1944`
         definition.
@@ -1385,7 +1385,7 @@ class TestMunsellValueSaunderson1944:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_munsell_value_Saunderson1944(self):
+    def test_n_dimensional_munsell_value_Saunderson1944(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_Saunderson1944`
         definition n-dimensional arrays support.
@@ -1412,7 +1412,7 @@ class TestMunsellValueSaunderson1944:
             munsell_value_Saunderson1944(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_munsell_value_Saunderson1944(self):
+    def test_domain_range_scale_munsell_value_Saunderson1944(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_Saunderson1944`
         definition domain and range scale support.
@@ -1431,7 +1431,7 @@ class TestMunsellValueSaunderson1944:
                 )
 
     @ignore_numpy_errors
-    def test_nan_munsell_value_Saunderson1944(self):
+    def test_nan_munsell_value_Saunderson1944(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_Saunderson1944`
         definition nan support.
@@ -1448,7 +1448,7 @@ class TestMunsellValueLadd1955:
     unit tests methods.
     """
 
-    def test_munsell_value_Ladd1955(self):
+    def test_munsell_value_Ladd1955(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_Ladd1955`
         definition.
@@ -1472,7 +1472,7 @@ class TestMunsellValueLadd1955:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_munsell_value_Ladd1955(self):
+    def test_n_dimensional_munsell_value_Ladd1955(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_Ladd1955`
         definition n-dimensional arrays support.
@@ -1499,7 +1499,7 @@ class TestMunsellValueLadd1955:
             munsell_value_Ladd1955(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_munsell_value_Ladd1955(self):
+    def test_domain_range_scale_munsell_value_Ladd1955(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_Ladd1955`
         definition domain and range scale support.
@@ -1518,7 +1518,7 @@ class TestMunsellValueLadd1955:
                 )
 
     @ignore_numpy_errors
-    def test_nan_munsell_value_Ladd1955(self):
+    def test_nan_munsell_value_Ladd1955(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_Ladd1955`
         definition nan support.
@@ -1533,7 +1533,7 @@ class TestMunsellValueMcCamy1992:
     unit tests methods.
     """
 
-    def test_munsell_value_McCamy1987(self):
+    def test_munsell_value_McCamy1987(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_McCamy1987`
         definition.
@@ -1557,7 +1557,7 @@ class TestMunsellValueMcCamy1992:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_munsell_value_McCamy1987(self):
+    def test_n_dimensional_munsell_value_McCamy1987(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_McCamy1987`
         definition n-dimensional arrays support.
@@ -1584,7 +1584,7 @@ class TestMunsellValueMcCamy1992:
             munsell_value_McCamy1987(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_munsell_value_McCamy1987(self):
+    def test_domain_range_scale_munsell_value_McCamy1987(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_McCamy1987`
         definition domain and range scale support.
@@ -1603,7 +1603,7 @@ class TestMunsellValueMcCamy1992:
                 )
 
     @ignore_numpy_errors
-    def test_nan_munsell_value_McCamy1987(self):
+    def test_nan_munsell_value_McCamy1987(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_McCamy1987`
         definition nan support.
@@ -1618,7 +1618,7 @@ class TestMunsellValueASTMD1535:
     definition unit tests methods.
     """
 
-    def test_munsell_value_ASTMD1535(self):
+    def test_munsell_value_ASTMD1535(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_ASTMD1535`
         definition.
@@ -1642,7 +1642,7 @@ class TestMunsellValueASTMD1535:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_munsell_value_ASTMD1535(self):
+    def test_n_dimensional_munsell_value_ASTMD1535(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_ASTMD1535`
         definition n-dimensional arrays support.
@@ -1669,7 +1669,7 @@ class TestMunsellValueASTMD1535:
             munsell_value_ASTMD1535(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_munsell_value_ASTMD1535(self):
+    def test_domain_range_scale_munsell_value_ASTMD1535(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_ASTMD1535`
         definition domain and range scale support.
@@ -1688,7 +1688,7 @@ class TestMunsellValueASTMD1535:
                 )
 
     @ignore_numpy_errors
-    def test_nan_munsell_value_ASTMD1535(self):
+    def test_nan_munsell_value_ASTMD1535(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_value_ASTMD1535`
         definition nan support.
@@ -1703,7 +1703,7 @@ class TestMunsellSpecification_to_xyY:
     definition unit tests methods.
     """
 
-    def test_munsell_specification_to_xyY(self):
+    def test_munsell_specification_to_xyY(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_specification_to_xyY`
         definition.
@@ -1733,7 +1733,7 @@ class TestMunsellSpecification_to_xyY:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_munsell_specification_to_xyY(self):
+    def test_n_dimensional_munsell_specification_to_xyY(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_specification_to_xyY`
         definition n-dimensional arrays support.
@@ -1777,7 +1777,7 @@ class TestMunsellSpecification_to_xyY:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_munsell_specification_to_xyY(self):
+    def test_domain_range_scale_munsell_specification_to_xyY(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_specification_to_xyY`
         definition domain and range scale support.
@@ -1800,7 +1800,7 @@ class TestMunsellSpecification_to_xyY:
                 )
 
     @ignore_numpy_errors
-    def test_nan_munsell_specification_to_xyY(self):
+    def test_nan_munsell_specification_to_xyY(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_specification_to_xyY`
         definition nan support.
@@ -1819,7 +1819,7 @@ class TestMunsellColour_to_xyY:
     unit tests methods.
     """
 
-    def test_domain_range_scale_munsell_colour_to_xyY(self):
+    def test_domain_range_scale_munsell_colour_to_xyY(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_colour_to_xyY` definition
         domain and range scale support.
@@ -1841,7 +1841,7 @@ class TestMunsellColour_to_xyY:
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
-    def test_n_dimensional_munsell_colour_to_xyY(self):
+    def test_n_dimensional_munsell_colour_to_xyY(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_colour_to_xyY` definition
         n-dimensional arrays support.
@@ -1892,7 +1892,7 @@ class TestxyY_to_munsell_specification:
     definition unit tests methods.
     """
 
-    def test_xyY_to_munsell_specification(self):
+    def test_xyY_to_munsell_specification(self) -> None:
         """
         Test :func:`colour.notation.munsell.xyY_to_munsell_specification`
         definition.
@@ -1923,7 +1923,7 @@ class TestxyY_to_munsell_specification:
             atol=0.00001,
         )
 
-    def test_n_dimensional_xyY_to_munsell_specification(self):
+    def test_n_dimensional_xyY_to_munsell_specification(self) -> None:
         """
         Test :func:`colour.notation.munsell.xyY_to_munsell_specification`
         definition n-dimensional arrays support.
@@ -1948,7 +1948,7 @@ class TestxyY_to_munsell_specification:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_raise_exception_xyY_to_munsell_specification(self):
+    def test_raise_exception_xyY_to_munsell_specification(self) -> None:
         """
         Test :func:`colour.notation.munsell.xyY_to_munsell_specification`
         definition raised exception.
@@ -1960,7 +1960,7 @@ class TestxyY_to_munsell_specification:
             np.array([0.90615118, 0.57945103, 0.91984064]),
         )
 
-    def test_domain_range_scale_xyY_to_munsell_specification(self):
+    def test_domain_range_scale_xyY_to_munsell_specification(self) -> None:
         """
         Test :func:`colour.notation.munsell.xyY_to_munsell_specification`
         definition domain and range scale support.
@@ -1983,7 +1983,7 @@ class TestxyY_to_munsell_specification:
                 )
 
     @ignore_numpy_errors
-    def test_nan_xyY_to_munsell_specification(self):
+    def test_nan_xyY_to_munsell_specification(self) -> None:
         """
         Test :func:`colour.notation.munsell.xyY_to_munsell_specification`
         definition nan support.
@@ -2002,7 +2002,7 @@ class TestxyY_to_munsell_colour:
     unit tests methods.
     """
 
-    def test_domain_range_scale_xyY_to_munsell_colour(self):
+    def test_domain_range_scale_xyY_to_munsell_colour(self) -> None:
         """
         Test :func:`colour.notation.munsell.xyY_to_munsell_colour` definition
         domain and range scale support.
@@ -2020,7 +2020,7 @@ class TestxyY_to_munsell_colour:
             with domain_range_scale(scale):
                 assert xyY_to_munsell_colour(xyY * factor) == munsell_colour
 
-    def test_n_dimensional_xyY_to_munsell_colour(self):
+    def test_n_dimensional_xyY_to_munsell_colour(self) -> None:
         """
         Test :func:`colour.notation.munsell.xyY_to_munsell_colour` definition
         n-dimensional arrays support.
@@ -2055,7 +2055,7 @@ class TestParseMunsellColour:
     unit tests methods.
     """
 
-    def test_parse_munsell_colour(self):
+    def test_parse_munsell_colour(self) -> None:
         """
         Test :func:`colour.notation.munsell.is_grey_munsell_colour`
         definition.
@@ -2079,7 +2079,7 @@ class TestParseMunsellColour:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_raise_exception_parse_munsell_colour(self):
+    def test_raise_exception_parse_munsell_colour(self) -> None:
         """
         Test :func:`colour.notation.munsell.is_grey_munsell_colour`
         definition raised exception.
@@ -2094,7 +2094,7 @@ class TestIsGreyMunsellColour:
     unit tests methods.
     """
 
-    def test_is_grey_munsell_colour(self):
+    def test_is_grey_munsell_colour(self) -> None:
         """
         Test :func:`colour.notation.munsell.is_grey_munsell_colour`
         definition.
@@ -2115,7 +2115,7 @@ class TestNormaliseMunsellSpecification:
     definition unit tests methods.
     """
 
-    def test_normalise_munsell_specification(self):
+    def test_normalise_munsell_specification(self) -> None:
         """
         Test :func:`colour.notation.munsell.normalise_munsell_specification`
         definition.
@@ -2152,7 +2152,7 @@ class TestMunsellColourToMunsellSpecification:
 munsell_colour_to_munsell_specification` definition unit tests methods.
     """
 
-    def test_munsell_colour_to_munsell_specification(self):
+    def test_munsell_colour_to_munsell_specification(self) -> None:
         """
         Test :func:`colour.notation.munsell.\
 munsell_colour_to_munsell_specification` definition.
@@ -2195,7 +2195,7 @@ class TestMunsellSpecificationToMunsellColour:
 munsell_specification_to_munsell_colour` definition unit tests methods.
     """
 
-    def test_munsell_specification_to_munsell_colour(self):
+    def test_munsell_specification_to_munsell_colour(self) -> None:
         """
         Test :func:`colour.notation.munsell.\
 munsell_specification_to_munsell_colour` definition.
@@ -2240,7 +2240,7 @@ class Test_xyY_fromRenotation:
     unit tests methods.
     """
 
-    def test_xyY_from_renotation(self):
+    def test_xyY_from_renotation(self) -> None:
         """
         Test :func:`colour.notation.munsell.xyY_from_renotation`
         definition.
@@ -2268,7 +2268,7 @@ class TestIsSpecificationInRenotation:
     definition unit tests methods.
     """
 
-    def test_is_specification_in_renotation(self):
+    def test_is_specification_in_renotation(self) -> None:
         """
         Test :func:`colour.notation.munsell.is_specification_in_renotation`
         definition.
@@ -2287,7 +2287,7 @@ class TestBoundingHuesFromRenotation:
     definition unit tests methods.
     """
 
-    def test_bounding_hues_from_renotation(self):
+    def test_bounding_hues_from_renotation(self) -> None:
         """
         Test :func:`colour.notation.munsell.bounding_hues_from_renotation`
         definition.
@@ -2307,7 +2307,7 @@ class TestHueToHueAngle:
     tests methods.
     """
 
-    def test_hue_to_hue_angle(self):
+    def test_hue_to_hue_angle(self) -> None:
         """Test :func:`colour.notation.munsell.hue_to_hue_angle` definition."""
 
         for hue, code, angle in MUNSELL_HUE_TO_ANGLE:
@@ -2320,7 +2320,7 @@ class TestHueAngleToHue:
     tests methods.
     """
 
-    def test_hue_angle_to_hue(self):
+    def test_hue_angle_to_hue(self) -> None:
         """Test :func:`colour.notation.munsell.hue_angle_to_hue` definition."""
 
         for hue, code, angle in MUNSELL_HUE_TO_ANGLE:
@@ -2333,7 +2333,7 @@ class TestHueTo_ASTM_hue:
     tests methods.
     """
 
-    def test_hue_to_ASTM_hue(self):
+    def test_hue_to_ASTM_hue(self) -> None:
         """Test :func:`colour.notation.munsell.hue_to_ASTM_hue` definition."""
 
         for hue, code, angle in MUNSELL_HUE_TO_ASTM_HUE:
@@ -2346,7 +2346,7 @@ class TestInterpolationMethodFromRenotationOvoid:
 interpolation_method_from_renotation_ovoid` definition unit tests methods.
     """
 
-    def test_interpolation_method_from_renotation_ovoid(self):
+    def test_interpolation_method_from_renotation_ovoid(self) -> None:
         """
         Test :func:`colour.notation.munsell.\
 interpolation_method_from_renotation_ovoid` definition.
@@ -2377,7 +2377,7 @@ class Test_xy_fromRenotationOvoid:
     unit tests methods.
     """
 
-    def test_xy_from_renotation_ovoid(self):
+    def test_xy_from_renotation_ovoid(self) -> None:
         """
         Test :func:`colour.notation.munsell.xy_from_renotation_ovoid`
         definition.
@@ -2398,7 +2398,7 @@ class TestLCHabToMunsellSpecification:
     definition unit tests methods.
     """
 
-    def test_LCHab_to_munsell_specification(self):
+    def test_LCHab_to_munsell_specification(self) -> None:
         """
         Test :func:`colour.notation.munsell.LCHab_to_munsell_specification`
         definition.
@@ -2451,7 +2451,7 @@ class TestMaximumChromaFromRenotation:
     definition unit tests methods.
     """
 
-    def test_maximum_chroma_from_renotation(self):
+    def test_maximum_chroma_from_renotation(self) -> None:
         """
         Test :func:`colour.notation.munsell.maximum_chroma_from_renotation`
         definition.
@@ -2470,7 +2470,7 @@ class TestMunsellSpecification_to_xy:
     definition unit tests methods.
     """
 
-    def test_munsell_specification_to_xy(self):
+    def test_munsell_specification_to_xy(self) -> None:
         """
         Test :func:`colour.notation.munsell.munsell_specification_to_xy`
         definition.

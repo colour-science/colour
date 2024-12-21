@@ -150,7 +150,7 @@ class TestIES_TM2714_Header:
     methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._header = Header_IESTM2714(
@@ -167,7 +167,7 @@ class TestIES_TM2714_Header:
             comments="k",
         )
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
         required_attributes = (
@@ -188,7 +188,7 @@ class TestIES_TM2714_Header:
         for attribute in required_attributes:
             assert attribute in dir(Header_IESTM2714)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = (
@@ -203,7 +203,7 @@ class TestIES_TM2714_Header:
         for method in required_methods:
             assert method in dir(Header_IESTM2714)
 
-    def test__str__(self):
+    def test__str__(self) -> None:
         """Test :meth:`colour.io.tm2714.Header_IESTM2714.__str__` method."""
 
         assert str(self._header) == (
@@ -224,7 +224,7 @@ class TestIES_TM2714_Header:
             ).strip()
         )
 
-    def test__repr__(self):
+    def test__repr__(self) -> None:
         """Test :meth:`colour.io.tm2714.Header_IESTM2714.__repr__` method."""
 
         assert repr(self._header) == (
@@ -245,7 +245,7 @@ class TestIES_TM2714_Header:
             ).strip()
         )
 
-    def test__eq__(self):
+    def test__eq__(self) -> None:
         """Test :meth:`colour.io.tm2714.Header_IESTM2714.__eq__` method."""
 
         header = deepcopy(self._header)
@@ -254,7 +254,7 @@ class TestIES_TM2714_Header:
 
         assert self._header != ()
 
-    def test__ne__(self):
+    def test__ne__(self) -> None:
         """Test :meth:`colour.io.tm2714.Header_IESTM2714.__ne__` method."""
 
         header = deepcopy(self._header)
@@ -265,7 +265,7 @@ class TestIES_TM2714_Header:
         header.manufacturer = "a"
         assert self._header == header
 
-    def test__hash__(self):
+    def test__hash__(self) -> None:
         """Test :meth:`colour.io.tm2714.Header_IESTM2714.__hash__` method."""
 
         assert isinstance(hash(self._header), int)
@@ -277,7 +277,7 @@ class TestIES_TM2714_Sd:
     tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
@@ -286,12 +286,12 @@ class TestIES_TM2714_Sd:
             os.path.join(ROOT_RESOURCES, "Fluorescent.spdx")
         ).read()
 
-    def teardown_method(self):
+    def teardown_method(self) -> None:
         """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
         required_attributes = (
@@ -308,7 +308,7 @@ class TestIES_TM2714_Sd:
         for attribute in required_attributes:
             assert attribute in dir(SpectralDistribution_IESTM2714)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("__init__", "__str__", "__repr__", "read", "write")
@@ -316,7 +316,7 @@ class TestIES_TM2714_Sd:
         for method in required_methods:
             assert method in dir(SpectralDistribution_IESTM2714)
 
-    def test__str__(self):
+    def test__str__(self) -> None:
         """
         Test :meth:`colour.io.tm2714.SpectralDistribution_IESTM2714.__str__`
         method.
@@ -446,7 +446,7 @@ class TestIES_TM2714_Sd:
             ).strip()
         )
 
-    def test__repr__(self):
+    def test__repr__(self) -> None:
         """
         Test :meth:`colour.io.tm2714.SpectralDistribution_IESTM2714.__repr__`
         method.
@@ -569,7 +569,7 @@ SpectralDistribution_IESTM2714(...,
             ).strip()
         )
 
-    def test_read(self, sd: SpectralDistribution | None = None):
+    def test_read(self, sd: SpectralDistribution | None = None) -> None:
         """
         Test :meth:`colour.io.tm2714.SpectralDistribution_IESTM2714.read`
         method.
@@ -609,7 +609,7 @@ SpectralDistribution_IESTM2714(...,
                     if key == specification.element:
                         assert getattr(read, specification.attribute) == value
 
-    def test_raise_exception_read(self):
+    def test_raise_exception_read(self) -> None:
         """
         Test :func:`colour.io.tm2714.SpectralDistribution_IESTM2714.read`
         method raised exception.
@@ -623,7 +623,7 @@ SpectralDistribution_IESTM2714(...,
                 os.path.join(ROOT_RESOURCES, "Invalid.spdx")
             )
 
-    def test_write(self):
+    def test_write(self) -> None:
         """
         Test :meth:`colour.io.tm2714.SpectralDistribution_IESTM2714.write`
         method.
@@ -662,7 +662,7 @@ SpectralDistribution_IESTM2714(...,
         ):
             assert getattr(sd_r, attribute) == getattr(sd_t, attribute)
 
-    def test_raise_exception_write(self):
+    def test_raise_exception_write(self) -> None:
         """
         Test :func:`colour.io.tm2714.SpectralDistribution_IESTM2714.write`
         method raised exception.

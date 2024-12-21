@@ -295,7 +295,7 @@ class RGB_Colourspace:
         return self._name
 
     @name.setter
-    def name(self, value: str):
+    def name(self, value: str) -> None:
         """Setter for the **self.name** property."""
 
         attest(
@@ -324,7 +324,7 @@ class RGB_Colourspace:
         return self._primaries
 
     @primaries.setter
-    def primaries(self, value: ArrayLike):
+    def primaries(self, value: ArrayLike) -> None:
         """Setter for the **self.primaries** property."""
 
         attest(
@@ -361,7 +361,7 @@ class RGB_Colourspace:
         return self._whitepoint
 
     @whitepoint.setter
-    def whitepoint(self, value: ArrayLike):
+    def whitepoint(self, value: ArrayLike) -> None:
         """Setter for the **self.whitepoint** property."""
 
         attest(
@@ -395,7 +395,7 @@ class RGB_Colourspace:
         return self._whitepoint_name
 
     @whitepoint_name.setter
-    def whitepoint_name(self, value: str | None):
+    def whitepoint_name(self, value: str | None) -> None:
         """Setter for the **self.whitepoint_name** property."""
 
         if value is not None:
@@ -433,7 +433,7 @@ class RGB_Colourspace:
             return self._matrix_RGB_to_XYZ
 
     @matrix_RGB_to_XYZ.setter
-    def matrix_RGB_to_XYZ(self, value: ArrayLike | None):
+    def matrix_RGB_to_XYZ(self, value: ArrayLike | None) -> None:
         """Setter for the **self.matrix_RGB_to_XYZ** property."""
 
         if value is not None:
@@ -474,7 +474,7 @@ class RGB_Colourspace:
             return self._matrix_XYZ_to_RGB
 
     @matrix_XYZ_to_RGB.setter
-    def matrix_XYZ_to_RGB(self, value: ArrayLike | None):
+    def matrix_XYZ_to_RGB(self, value: ArrayLike | None) -> None:
         """Setter for the **self.matrix_XYZ_to_RGB** property."""
 
         if value is not None:
@@ -511,7 +511,7 @@ class RGB_Colourspace:
         return self._cctf_encoding
 
     @cctf_encoding.setter
-    def cctf_encoding(self, value: Callable | None):
+    def cctf_encoding(self, value: Callable | None) -> None:
         """Setter for the **self.cctf_encoding** property."""
 
         if value is not None:
@@ -545,7 +545,7 @@ class RGB_Colourspace:
         return self._cctf_decoding
 
     @cctf_decoding.setter
-    def cctf_decoding(self, value: Callable | None):
+    def cctf_decoding(self, value: Callable | None) -> None:
         """Setter for the **self.cctf_decoding** property."""
 
         if value is not None:
@@ -579,7 +579,7 @@ class RGB_Colourspace:
         return self._use_derived_matrix_RGB_to_XYZ
 
     @use_derived_matrix_RGB_to_XYZ.setter
-    def use_derived_matrix_RGB_to_XYZ(self, value: bool):
+    def use_derived_matrix_RGB_to_XYZ(self, value: bool) -> None:
         """Setter for the **self.use_derived_matrix_RGB_to_XYZ** property."""
 
         attest(
@@ -614,7 +614,7 @@ class RGB_Colourspace:
         return self._use_derived_matrix_XYZ_to_RGB
 
     @use_derived_matrix_XYZ_to_RGB.setter
-    def use_derived_matrix_XYZ_to_RGB(self, value: bool):
+    def use_derived_matrix_XYZ_to_RGB(self, value: bool) -> None:
         """Setter for the **self.use_derived_matrix_XYZ_to_RGB** property."""
 
         attest(
@@ -804,7 +804,7 @@ class RGB_Colourspace:
             ],
         )
 
-    def _derive_transformation_matrices(self):
+    def _derive_transformation_matrices(self) -> None:
         """
         Compute the derived transformations matrices, the normalised primary
         matrix and its inverse.
@@ -816,7 +816,7 @@ class RGB_Colourspace:
             self._derived_matrix_RGB_to_XYZ = npm
             self._derived_matrix_XYZ_to_RGB = np.linalg.inv(npm)
 
-    def use_derived_transformation_matrices(self, usage: bool = True):
+    def use_derived_transformation_matrices(self, usage: bool = True) -> None:
         """
         Enable or disables usage of both derived transformations matrices,
         the normalised primary matrix and its inverse in subsequent
@@ -1067,8 +1067,8 @@ def RGB_to_XYZ(
         LiteralChromaticAdaptationTransform | str | None
     ) = "CAT02",
     apply_cctf_decoding: bool = False,
-    *args,
-    **kwargs,
+    *args: Any,
+    **kwargs: Any,
 ) -> NDArrayFloat:
     """
     Convert given *RGB* colourspace array to *CIE XYZ* tristimulus values.

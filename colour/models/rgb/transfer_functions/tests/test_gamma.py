@@ -27,7 +27,7 @@ class TestGammaFunction:
     definition unit tests methods.
     """
 
-    def test_gamma_function(self):
+    def test_gamma_function(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.gamma.\
 gamma_function` definition.
@@ -93,7 +93,7 @@ gamma_function` definition.
             gamma_function(0.0, 2.2, "Clamp"), 0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_n_dimensional_gamma_function(self):
+    def test_n_dimensional_gamma_function(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.gamma.\
 gamma_function` definition n-dimensional arrays support.
@@ -209,7 +209,7 @@ gamma_function` definition n-dimensional arrays support.
         )
 
     @ignore_numpy_errors
-    def test_nan_gamma_function(self):
+    def test_nan_gamma_function(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.gamma.\
 gamma_function` definition nan support.

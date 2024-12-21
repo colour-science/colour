@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.rgb.cmyk` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -34,7 +36,7 @@ class TestRGB_to_CMY:
     methods.
     """
 
-    def test_RGB_to_CMY(self):
+    def test_RGB_to_CMY(self) -> None:
         """Test :func:`colour.models.rgb.cmyk.RGB_to_CMY` definition."""
 
         np.testing.assert_allclose(
@@ -55,7 +57,7 @@ class TestRGB_to_CMY:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_RGB_to_CMY(self):
+    def test_n_dimensional_RGB_to_CMY(self) -> None:
         """
         Test :func:`colour.models.rgb.cmyk.RGB_to_CMY` definition
         n-dimensional arrays support.
@@ -72,7 +74,7 @@ class TestRGB_to_CMY:
         CMY = np.reshape(CMY, (2, 3, 3))
         np.testing.assert_allclose(RGB_to_CMY(RGB), CMY, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_RGB_to_CMY(self):
+    def test_domain_range_scale_RGB_to_CMY(self) -> None:
         """
         Test :func:`colour.models.rgb.cmyk.RGB_to_CMY` definition domain and
         range scale support.
@@ -91,7 +93,7 @@ class TestRGB_to_CMY:
                 )
 
     @ignore_numpy_errors
-    def test_nan_RGB_to_CMY(self):
+    def test_nan_RGB_to_CMY(self) -> None:
         """
         Test :func:`colour.models.rgb.cmyk.RGB_to_CMY` definition nan
         support.
@@ -108,7 +110,7 @@ class TestCMY_to_RGB:
     methods.
     """
 
-    def test_CMY_to_RGB(self):
+    def test_CMY_to_RGB(self) -> None:
         """Test :func:`colour.models.rgb.cmyk.CMY_to_RGB` definition."""
 
         np.testing.assert_allclose(
@@ -129,7 +131,7 @@ class TestCMY_to_RGB:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_CMY_to_RGB(self):
+    def test_n_dimensional_CMY_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.cmyk.CMY_to_RGB` definition
         n-dimensional arrays support.
@@ -146,7 +148,7 @@ class TestCMY_to_RGB:
         RGB = np.reshape(RGB, (2, 3, 3))
         np.testing.assert_allclose(CMY_to_RGB(CMY), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_CMY_to_RGB(self):
+    def test_domain_range_scale_CMY_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.cmyk.CMY_to_RGB` definition domain and
         range scale support.
@@ -165,7 +167,7 @@ class TestCMY_to_RGB:
                 )
 
     @ignore_numpy_errors
-    def test_nan_CMY_to_RGB(self):
+    def test_nan_CMY_to_RGB(self) -> None:
         """Test :func:`colour.models.rgb.cmyk.CMY_to_RGB` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -179,7 +181,7 @@ class TestCMY_to_CMYK:
     methods.
     """
 
-    def test_CMY_to_CMYK(self):
+    def test_CMY_to_CMYK(self) -> None:
         """Test :func:`colour.models.rgb.cmyk.CMY_to_CMYK` definition."""
 
         np.testing.assert_allclose(
@@ -200,7 +202,7 @@ class TestCMY_to_CMYK:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_CMY_to_CMYK(self):
+    def test_n_dimensional_CMY_to_CMYK(self) -> None:
         """
         Test :func:`colour.models.rgb.cmyk.CMY_to_CMYK` definition
         n-dimensional arrays support.
@@ -221,7 +223,7 @@ class TestCMY_to_CMYK:
             CMY_to_CMYK(CMY), CMYK, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_CMY_to_CMYK(self):
+    def test_domain_range_scale_CMY_to_CMYK(self) -> None:
         """
         Test :func:`colour.models.rgb.cmyk.CMY_to_CMYK` definition domain and
         range scale support.
@@ -240,7 +242,7 @@ class TestCMY_to_CMYK:
                 )
 
     @ignore_numpy_errors
-    def test_nan_CMY_to_CMYK(self):
+    def test_nan_CMY_to_CMYK(self) -> None:
         """
         Test :func:`colour.models.rgb.cmyk.CMY_to_CMYK` definition nan
         support.
@@ -257,7 +259,7 @@ class TestCMYK_to_CMY:
     methods.
     """
 
-    def test_CMYK_to_CMY(self):
+    def test_CMYK_to_CMY(self) -> None:
         """Test :func:`colour.models.rgb.cmyk.CMYK_to_CMY` definition."""
 
         np.testing.assert_allclose(
@@ -278,7 +280,7 @@ class TestCMYK_to_CMY:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_CMYK_to_CMY(self):
+    def test_n_dimensional_CMYK_to_CMY(self) -> None:
         """
         Test :func:`colour.models.rgb.cmyk.CMYK_to_CMY` definition
         n-dimensional arrays support.
@@ -299,7 +301,7 @@ class TestCMYK_to_CMY:
             CMYK_to_CMY(CMYK), CMY, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_CMYK_to_CMY(self):
+    def test_domain_range_scale_CMYK_to_CMY(self) -> None:
         """
         Test :func:`colour.models.rgb.cmyk.CMYK_to_CMY` definition domain and
         range scale support.
@@ -318,7 +320,7 @@ class TestCMYK_to_CMY:
                 )
 
     @ignore_numpy_errors
-    def test_nan_CMYK_to_CMY(self):
+    def test_nan_CMYK_to_CMY(self) -> None:
         """
         Test :func:`colour.models.rgb.cmyk.CMYK_to_CMY` definition nan
         support.

@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.geometry.intersection` module."""
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -27,7 +29,7 @@ class TestExtendLineSegment:
     tests methods.
     """
 
-    def test_extend_line_segment(self):
+    def test_extend_line_segment(self) -> None:
         """Test :func:`colour.geometry.intersection.extend_line_segment` definition."""
 
         np.testing.assert_allclose(
@@ -66,7 +68,7 @@ class TestIntersectLineSegments:
     definition unit tests methods.
     """
 
-    def test_intersect_line_segments(self):
+    def test_intersect_line_segments(self) -> None:
         """
         Test :func:`colour.geometry.intersection.intersect_line_segments`
         definition.

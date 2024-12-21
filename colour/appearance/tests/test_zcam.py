@@ -2,6 +2,8 @@
 Define the unit tests for the :mod:`colour.appearance.zcam` module.
 """
 
+from __future__ import annotations
+
 from itertools import permutations
 
 import numpy as np
@@ -37,7 +39,7 @@ class TestXYZ_to_ZCAM:
     methods.
     """
 
-    def test_XYZ_to_ZCAM(self):
+    def test_XYZ_to_ZCAM(self) -> None:
         """
         Tests :func:`colour.appearance.zcam.XYZ_to_ZCAM` definition.
         """
@@ -168,7 +170,7 @@ class TestXYZ_to_ZCAM:
             atol=0.025,
         )
 
-    def test_n_dimensional_XYZ_to_ZCAM(self):
+    def test_n_dimensional_XYZ_to_ZCAM(self) -> None:
         """
         Tests :func:`colour.appearance.zcam.XYZ_to_ZCAM` definition
         n-dimensional support.
@@ -200,7 +202,7 @@ class TestXYZ_to_ZCAM:
         )
 
     @ignore_numpy_errors
-    def test_domain_range_scale_XYZ_to_ZCAM(self):
+    def test_domain_range_scale_XYZ_to_ZCAM(self) -> None:
         """
         Tests :func:`colour.appearance.zcam.XYZ_to_ZCAM` definition
         domain and range scale support.
@@ -215,9 +217,9 @@ class TestXYZ_to_ZCAM:
 
         d_r = (
             ("reference", 1, 1),
-            (1, 1, np.array([1, 1, 1 / 360, 1, 1, 1, 1 / 400, np.nan, 1, 1, 1])),
+            ("1", 1, np.array([1, 1, 1 / 360, 1, 1, 1, 1 / 400, np.nan, 1, 1, 1])),
             (
-                100,
+                "100",
                 100,
                 np.array(
                     [
@@ -245,7 +247,7 @@ class TestXYZ_to_ZCAM:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_ZCAM(self):
+    def test_nan_XYZ_to_ZCAM(self) -> None:
         """
         Tests :func:`colour.appearance.zcam.XYZ_to_ZCAM` definition
         nan support.
@@ -268,7 +270,7 @@ class TestZCAM_to_XYZ:
     tests methods.
     """
 
-    def test_ZCAM_to_XYZ(self):
+    def test_ZCAM_to_XYZ(self) -> None:
         """
         Tests :func:`colour.appearance.zcam.ZCAM_to_XYZ` definition.
         """
@@ -382,7 +384,7 @@ class TestZCAM_to_XYZ:
             rtol=0.01,
         )
 
-    def test_n_dimensional_ZCAM_to_XYZ(self):
+    def test_n_dimensional_ZCAM_to_XYZ(self) -> None:
         """
         Tests :func:`colour.appearance.zcam.ZCAM_to_XYZ` definition
         n-dimensional support.
@@ -397,7 +399,7 @@ class TestZCAM_to_XYZ:
         XYZ = ZCAM_to_XYZ(specification, XYZ_w, L_a, Y_b, surround)
 
         specification = CAM_Specification_ZCAM(
-            *np.transpose(np.tile(tsplit(specification), (6, 1))).tolist()
+            *np.transpose(np.tile(tsplit(specification), (6, 1))).tolist()  # pyright: ignore
         )
         XYZ = np.tile(XYZ, (6, 1))
         np.testing.assert_almost_equal(
@@ -410,7 +412,7 @@ class TestZCAM_to_XYZ:
         )
 
         specification = CAM_Specification_ZCAM(
-            *tsplit(np.reshape(specification, (2, 3, 11))).tolist()
+            *tsplit(np.reshape(specification, (2, 3, 11))).tolist()  # pyright: ignore
         )
         XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
@@ -419,7 +421,7 @@ class TestZCAM_to_XYZ:
         )
 
     @ignore_numpy_errors
-    def test_domain_range_scale_ZCAM_to_XYZ(self):
+    def test_domain_range_scale_ZCAM_to_XYZ(self) -> None:
         """
         Tests :func:`colour.appearance.zcam.ZCAM_to_XYZ` definition
         domain and range scale support.
@@ -435,9 +437,9 @@ class TestZCAM_to_XYZ:
 
         d_r = (
             ("reference", 1, 1),
-            (1, np.array([1, 1, 1 / 360, 1, 1, 1, 1 / 400, np.nan, 1, 1, 1]), 1),
+            ("1", np.array([1, 1, 1 / 360, 1, 1, 1, 1 / 400, np.nan, 1, 1, 1]), 1),
             (
-                100,
+                "100",
                 np.array(
                     [
                         100,
@@ -467,7 +469,7 @@ class TestZCAM_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_raise_exception_ZCAM_to_XYZ(self):
+    def test_raise_exception_ZCAM_to_XYZ(self) -> None:
         """
         Tests :func:`colour.appearance.zcam.ZCAM_to_XYZ` definition
         raised exception.
@@ -488,7 +490,7 @@ class TestZCAM_to_XYZ:
         )
 
     @ignore_numpy_errors
-    def test_nan_ZCAM_to_XYZ(self):
+    def test_nan_ZCAM_to_XYZ(self) -> None:
         """
         Tests :func:`colour.appearance.zcam.ZCAM_to_XYZ` definition nan
         support.

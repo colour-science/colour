@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.rgb.ycocg` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -27,7 +29,7 @@ class TestRGB_to_YCoCg:
     methods.
     """
 
-    def test_RGB_to_YCoCg(self):
+    def test_RGB_to_YCoCg(self) -> None:
         """Test :func:`colour.models.rgb.ycocg.RGB_to_YCoCg` definition."""
 
         np.testing.assert_array_equal(
@@ -45,7 +47,7 @@ class TestRGB_to_YCoCg:
             np.array([0.5625, -0.375, 0.1875]),
         )
 
-    def test_n_dimensional_RGB_to_YCoCg(self):
+    def test_n_dimensional_RGB_to_YCoCg(self) -> None:
         """
         Test :func:`colour.models.rgb.ycocg.RGB_to_YCoCg` definition
         n-dimensional arrays support.
@@ -79,7 +81,7 @@ class TestRGB_to_YCoCg:
         )
 
     @ignore_numpy_errors
-    def test_nan_RGB_to_YCoCg(self):
+    def test_nan_RGB_to_YCoCg(self) -> None:
         """
         Test :func:`colour.models.rgb.ycocg.RGB_to_YCoCg` definition nan
         support.
@@ -96,7 +98,7 @@ class TestYCoCg_to_RGB:
     methods.
     """
 
-    def test_YCoCg_to_RGB(self):
+    def test_YCoCg_to_RGB(self) -> None:
         """Test :func:`colour.models.rgb.ycocg.YCoCg_to_RGB` definition."""
 
         np.testing.assert_array_equal(
@@ -114,7 +116,7 @@ class TestYCoCg_to_RGB:
             np.array([0.0, 0.75, 0.75]),
         )
 
-    def test_n_dimensional_YCoCg_to_RGB(self):
+    def test_n_dimensional_YCoCg_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.ycocg.YCoCg_to_RGB` definition
         n-dimensional arrays support.
@@ -148,7 +150,7 @@ class TestYCoCg_to_RGB:
         )
 
     @ignore_numpy_errors
-    def test_nan_YCoCg_to_RGB(self):
+    def test_nan_YCoCg_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.ycocg.YCoCg_to_RGB` definition nan
         support.

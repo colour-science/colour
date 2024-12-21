@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.io.luts.common` module."""
 
+from __future__ import annotations
+
 from colour.io.luts.common import path_to_title
 
 __author__ = "Colour Developers"
@@ -20,7 +22,7 @@ class TestPathToTitle:
     methods.
     """
 
-    def test_path_to_title(self):
+    def test_path_to_title(self) -> None:
         """Test :func:`colour.io.luts.common.path_to_title` definition."""
 
         assert (

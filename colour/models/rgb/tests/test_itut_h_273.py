@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.rgb.itut_h_273` module."""
 
+from __future__ import annotations
+
 from colour.models import (
     describe_video_signal_colour_primaries,
     describe_video_signal_matrix_coefficients,
@@ -26,7 +28,7 @@ class TestDescribeVideoSignalColourPrimaries:
 describe_video_signal_colour_primaries` definition unit tests methods.
     """
 
-    def test_describe_video_signal_colour_primaries(self):
+    def test_describe_video_signal_colour_primaries(self) -> None:
         """
         Test
         :func:`colour.models.rgb.itut_h_273.\
@@ -43,7 +45,7 @@ class TestDescribeVideoSignalTransferCharacteristics:
 describe_video_signal_transfer_characteristics` definition unit tests methods.
     """
 
-    def test_describe_video_signal_transfer_characteristics(self):
+    def test_describe_video_signal_transfer_characteristics(self) -> None:
         """
         Test :func:`colour.models.rgb.itut_h_273.\
 describe_video_signal_transfer_characteristics` definition.
@@ -59,7 +61,7 @@ class TestDescribeVideoSignalMatrixCoefficients:
 describe_video_signal_matrix_coefficients` definition unit tests methods.
     """
 
-    def test_describe_video_signal_matrix_coefficients(self):
+    def test_describe_video_signal_matrix_coefficients(self) -> None:
         """
         Test :func:`colour.models.rgb.itut_h_273.\
 describe_video_signal_matrix_coefficients` definition.

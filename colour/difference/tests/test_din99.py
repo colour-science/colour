@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.difference.din99` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -26,7 +28,7 @@ class TestDelta_E_DIN99:
     tests methods.
     """
 
-    def test_delta_E_DIN99(self):
+    def test_delta_E_DIN99(self) -> None:
         """Test :func:`colour.difference.din99.delta_E_DIN99` definition."""
 
         np.testing.assert_allclose(
@@ -86,7 +88,7 @@ class TestDelta_E_DIN99:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_delta_E_DIN99(self):
+    def test_n_dimensional_delta_E_DIN99(self) -> None:
         """
         Test :func:`colour.difference.din99.delta_E_DIN99` definition
         n-dimensional arrays support.
@@ -110,7 +112,7 @@ class TestDelta_E_DIN99:
             delta_E_DIN99(Lab_1, Lab_2), delta_E, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_delta_E_DIN99(self):
+    def test_domain_range_scale_delta_E_DIN99(self) -> None:
         """
         Test :func:`colour.difference.din99.delta_E_DIN99` definition
         domain and range scale support.
@@ -130,7 +132,7 @@ class TestDelta_E_DIN99:
                 )
 
     @ignore_numpy_errors
-    def test_nan_delta_E_DIN99(self):
+    def test_nan_delta_E_DIN99(self) -> None:
         """
         Test :func:`colour.difference.din99.delta_E_DIN99` definition nan
         support.

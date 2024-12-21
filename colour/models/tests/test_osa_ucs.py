@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.osa_ucs` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -27,7 +29,7 @@ class TestXYZ_to_OSA_UCS:
     methods.
     """
 
-    def test_XYZ_to_OSA_UCS(self):
+    def test_XYZ_to_OSA_UCS(self) -> None:
         """Test :func:`colour.models.osa_ucs.XYZ_to_OSA_UCS` definition."""
 
         np.testing.assert_allclose(
@@ -48,7 +50,7 @@ class TestXYZ_to_OSA_UCS:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_OSA_UCS(self):
+    def test_n_dimensional_XYZ_to_OSA_UCS(self) -> None:
         """
         Test :func:`colour.models.osa_ucs.XYZ_to_OSA_UCS` definition
         n-dimensional support.
@@ -69,7 +71,7 @@ class TestXYZ_to_OSA_UCS:
             XYZ_to_OSA_UCS(XYZ), Ljg, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_XYZ_to_OSA_UCS(self):
+    def test_domain_range_scale_XYZ_to_OSA_UCS(self) -> None:
         """
         Test :func:`colour.models.osa_ucs.XYZ_to_OSA_UCS` definition domain
         and range scale support.
@@ -88,7 +90,7 @@ class TestXYZ_to_OSA_UCS:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_OSA_UCS(self):
+    def test_nan_XYZ_to_OSA_UCS(self) -> None:
         """
         Test :func:`colour.models.osa_ucs.XYZ_to_OSA_UCS` definition nan
         support.
@@ -105,7 +107,7 @@ class TestOSA_UCS_to_XYZ:
     methods.
     """
 
-    def test_OSA_UCS_to_XYZ(self):
+    def test_OSA_UCS_to_XYZ(self) -> None:
         """Test :func:`colour.models.osa_ucs.OSA_UCS_to_XYZ` definition."""
 
         np.testing.assert_allclose(
@@ -135,7 +137,7 @@ class TestOSA_UCS_to_XYZ:
             atol=5e-5,
         )
 
-    def test_n_dimensional_OSA_UCS_to_XYZ(self):
+    def test_n_dimensional_OSA_UCS_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.osa_ucs.OSA_UCS_to_XYZ` definition
         n-dimensional support.
@@ -156,7 +158,7 @@ class TestOSA_UCS_to_XYZ:
             OSA_UCS_to_XYZ(Ljg), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_OSA_UCS_to_XYZ(self):
+    def test_domain_range_scale_OSA_UCS_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.osa_ucs.OSA_UCS_to_XYZ` definition domain
         and range scale support.
@@ -173,7 +175,7 @@ class TestOSA_UCS_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_nan_OSA_UCS_to_XYZ(self):
+    def test_nan_OSA_UCS_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.osa_ucs.OSA_UCS_to_XYZ` definition nan
         support.

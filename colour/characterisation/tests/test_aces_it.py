@@ -12,6 +12,7 @@ from colour.characterisation import (
     MSDS_ACES_RICD,
     MSDS_CAMERA_SENSITIVITIES,
     SDS_COLOURCHECKERS,
+    RGB_CameraSensitivities,
     best_illuminant,
     camera_RGB_to_ACES2065_1,
     generate_illuminants_rawtoaces_v1,
@@ -31,7 +32,6 @@ from colour.characterisation.aces_it import ROOT_RESOURCES_RAWTOACES
 from colour.colorimetry import (
     MSDS_CMFS,
     SDS_ILLUMINANTS,
-    MultiSpectralDistributions,
     SpectralDistribution,
     SpectralShape,
     reshape_msds,
@@ -69,14 +69,16 @@ __all__ = [
     "TestCamera_RGB_to_ACES2065_1",
 ]
 
-MSDS_CANON_EOS_5DMARK_II: MultiSpectralDistributions = sds_and_msds_to_msds(
-    list(
-        read_sds_from_csv_file(
-            os.path.join(
-                ROOT_RESOURCES_RAWTOACES,
-                "CANON_EOS_5DMark_II_RGB_Sensitivities.csv",
-            )
-        ).values()
+MSDS_CANON_EOS_5DMARK_II: RGB_CameraSensitivities = RGB_CameraSensitivities(
+    sds_and_msds_to_msds(
+        list(
+            read_sds_from_csv_file(
+                os.path.join(
+                    ROOT_RESOURCES_RAWTOACES,
+                    "CANON_EOS_5DMark_II_RGB_Sensitivities.csv",
+                )
+            ).values()
+        )
     )
 )
 
@@ -91,7 +93,7 @@ class TestSdToAcesRelativeExposureValues:
 sd_to_aces_relative_exposure_values` definition unit tests methods.
     """
 
-    def test_sd_to_aces_relative_exposure_values(self):
+    def test_sd_to_aces_relative_exposure_values(self) -> None:
         """
         Test :func:`colour.characterisation.aces_it.\
 sd_to_aces_relative_exposure_values` definition.
@@ -142,7 +144,7 @@ sd_to_aces_relative_exposure_values` definition.
 
     def test_domain_range_scale_spectral_to_aces_relative_exposure_values(
         self,
-    ):
+    ) -> None:
         """
                 Test :func:`colour.characterisation.aces_it.
         sd_to_aces_relative_exposure_values`  definition domain and range scale
@@ -169,7 +171,7 @@ class TestReadTrainingDataRawtoacesV1:
 read_training_data_rawtoaces_v1` definition unit tests methods.
     """
 
-    def test_read_training_data_rawtoaces_v1(self):
+    def test_read_training_data_rawtoaces_v1(self) -> None:
         """
                 Test :func:`colour.characterisation.aces_it.
         read_training_data_rawtoaces_v1` definition.
@@ -184,7 +186,7 @@ class TestGenerateIlluminantsRawtoacesV1:
 generate_illuminants_rawtoaces_v1` definition unit tests methods.
     """
 
-    def test_generate_illuminants_rawtoaces_v1(self):
+    def test_generate_illuminants_rawtoaces_v1(self) -> None:
         """
                 Test :func:`colour.characterisation.aces_it.
         generate_illuminants_rawtoaces_v1` definition.
@@ -250,7 +252,7 @@ class TestWhiteBalanceMultipliers:
     definition unit tests methods.
     """
 
-    def test_white_balance_multipliers(self):
+    def test_white_balance_multipliers(self) -> None:
         """
         Test :func:`colour.characterisation.aces_it.white_balance_multipliers`
         definition.
@@ -278,7 +280,7 @@ class TestBestIlluminant:
     unit tests methods.
     """
 
-    def test_best_illuminant(self):
+    def test_best_illuminant(self) -> None:
         """
         Test :func:`colour.characterisation.aces_it.best_illuminant`
         definition.
@@ -313,7 +315,7 @@ class TestNormaliseIlluminant:
     definition unit tests methods.
     """
 
-    def test_normalise_illuminant(self):
+    def test_normalise_illuminant(self) -> None:
         """
         Test :func:`colour.characterisation.aces_it.normalise_illuminant`
         definition.
@@ -336,7 +338,7 @@ class TestTrainingDataSdsToRGB:
     definition unit tests methods.
     """
 
-    def test_training_data_sds_to_RGB(self):
+    def test_training_data_sds_to_RGB(self) -> None:
         """
         Test :func:`colour.characterisation.aces_it.training_data_sds_to_RGB`
         definition.
@@ -604,7 +606,7 @@ class TestTrainingDataSdsToXYZ:
     definition unit tests methods.
     """
 
-    def test_training_data_sds_to_XYZ(self):
+    def test_training_data_sds_to_XYZ(self) -> None:
         """
         Test :func:`colour.characterisation.aces_it.training_data_sds_to_XYZ`
         definition.
@@ -899,7 +901,7 @@ class TestWhitepointPreservingMatrix:
     definition unit tests methods.
     """
 
-    def test_whitepoint_preserving_matrix(self):
+    def test_whitepoint_preserving_matrix(self) -> None:
         """
         Test :func:`colour.characterisation.aces_it.\
 whitepoint_preserving_matrix` definition.
@@ -929,7 +931,7 @@ class TestOptimizationFactoryRawtoacesV1:
 optimisation_factory_rawtoaces_v1` definition unit tests methods.
     """
 
-    def test_optimisation_factory_rawtoaces_v1(self):
+    def test_optimisation_factory_rawtoaces_v1(self) -> None:
         """
         Test :func:`colour.characterisation.aces_it.\
 optimisation_factory_rawtoaces_v1` definition.
@@ -944,7 +946,7 @@ class TestOptimizationFactoryJzazbz:
 optimisation_factory_Jzazbz` definition unit tests methods.
     """
 
-    def test_optimisation_factory_Jzazbz(self):
+    def test_optimisation_factory_Jzazbz(self) -> None:
         """
         Test :func:`colour.characterisation.aces_it.\
 optimisation_factory_Jzazbz` definition.
@@ -959,7 +961,7 @@ class TestOptimizationFactoryOklab18:
 optimisation_factory_Oklab_15` definition unit tests methods.
     """
 
-    def test_optimisation_factory_Oklab_18(self):
+    def test_optimisation_factory_Oklab_18(self) -> None:
         """
         Test :func:`colour.characterisation.aces_it.\
 optimisation_factory_Oklab_15` definition.
@@ -974,7 +976,7 @@ class TestMatrixIdt:
     tests methods.
     """
 
-    def test_matrix_idt(self):
+    def test_matrix_idt(self) -> None:
         """
         Test :func:`colour.characterisation.aces_it.matrix_idt` definition.
         """
@@ -1015,7 +1017,7 @@ class TestMatrixIdt:
             atol=0.0001,
         )
 
-        M, RGB_w = matrix_idt(
+        M, RGB_w = matrix_idt(  # pyright: ignore
             MSDS_CANON_EOS_5DMARK_II,
             SDS_ILLUMINANTS["D55"],
             optimisation_factory=optimisation_factory_Jzazbz,
@@ -1036,7 +1038,7 @@ class TestMatrixIdt:
             np.array([2.34141541, 1.00000000, 1.51633759]),
             atol=0.0001,
         )
-        M, RGB_w = matrix_idt(
+        M, RGB_w = matrix_idt(  # pyright: ignore
             MSDS_CANON_EOS_5DMARK_II,
             SDS_ILLUMINANTS["D55"],
             optimisation_factory=optimisation_factory_Oklab_15,
@@ -1079,7 +1081,7 @@ class TestMatrixIdt:
             atol=0.0001,
         )
 
-        M, RGB_w = matrix_idt(
+        M, RGB_w = matrix_idt(  # pyright: ignore
             MSDS_CANON_EOS_5DMARK_II,
             SDS_ILLUMINANTS["D55"],
             optimisation_kwargs={"method": "Nelder-Mead"},
@@ -1126,7 +1128,7 @@ class TestMatrixIdt:
 
         np.testing.assert_allclose(
             matrix_idt(
-                MSDS_CANON_EOS_5DMARK_II,
+                MSDS_CANON_EOS_5DMARK_II,  # pyright: ignore
                 SDS_ILLUMINANTS["D55"],
                 chromatic_adaptation_transform="Bradford",
             )[0],
@@ -1140,8 +1142,8 @@ class TestMatrixIdt:
             atol=0.0001,
         )
 
-        _M, RGB_w, XYZ, RGB = matrix_idt(
-            MSDS_CANON_EOS_5DMARK_II,
+        _M, RGB_w, XYZ, RGB = matrix_idt(  # pyright: ignore
+            MSDS_CANON_EOS_5DMARK_II,  # pyright: ignore
             SDS_ILLUMINANTS["D55"],
             additional_data=True,
         )
@@ -1185,13 +1187,13 @@ class TestCamera_RGB_to_ACES2065_1:
     definition unit tests methods.
     """
 
-    def test_camera_RGB_to_ACES2065_1(self):
+    def test_camera_RGB_to_ACES2065_1(self) -> None:
         """
         Test :func:`colour.characterisation.aces_it.camera_RGB_to_ACES2065_1`
         definition.
         """
 
-        B, b = matrix_idt(MSDS_CANON_EOS_5DMARK_II, SDS_ILLUMINANTS["D55"])
+        B, b = matrix_idt(MSDS_CANON_EOS_5DMARK_II, SDS_ILLUMINANTS["D55"])  # pyright: ignore
         np.testing.assert_allclose(
             camera_RGB_to_ACES2065_1(np.array([0.1, 0.2, 0.3]), B, b),
             np.array([0.27064400, 0.15614871, 0.50129650]),

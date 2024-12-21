@@ -118,8 +118,8 @@ __all__ = [
 
 def matrix_augmented_Cheung2004(
     RGB: ArrayLike,
-    terms: Literal[3, 4, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22, 35] = 3,
-) -> NDArrayFloat:
+    terms: Literal[3, 4, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22, 35] | int = 3,
+) -> NDArrayFloat:  # pyright: ignore
     """
     Perform polynomial expansion of given *RGB* colourspace array using
     *Cheung et al. (2004)* method.
@@ -418,9 +418,9 @@ def matrix_augmented_Cheung2004(
 
 def polynomial_expansion_Finlayson2015(
     RGB: ArrayLike,
-    degree: Literal[1, 2, 3, 4] = 1,
+    degree: Literal[1, 2, 3, 4] | int = 1,
     root_polynomial_expansion: bool = True,
-) -> NDArrayFloat:
+) -> NDArrayFloat:  # pyright: ignore
     """
     Perform polynomial expansion of given *RGB* colourspace array using
     *Finlayson et al. (2015)* method.
@@ -721,7 +721,7 @@ def polynomial_expansion(
 def matrix_colour_correction_Cheung2004(
     M_T: ArrayLike,
     M_R: ArrayLike,
-    terms: Literal[3, 4, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22, 35] = 3,
+    terms: Literal[3, 4, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22, 35] | int = 3,
 ) -> NDArrayFloat:
     """
     Compute a colour correction matrix from given :math:`M_T` colour array to
@@ -764,7 +764,7 @@ def matrix_colour_correction_Cheung2004(
 def matrix_colour_correction_Finlayson2015(
     M_T: ArrayLike,
     M_R: ArrayLike,
-    degree: Literal[1, 2, 3, 4] = 1,
+    degree: Literal[1, 2, 3, 4] | int = 1,
     root_polynomial_expansion: bool = True,
 ) -> NDArrayFloat:
     """
@@ -991,7 +991,7 @@ def matrix_colour_correction(
 def apply_matrix_colour_correction_Cheung2004(
     RGB: ArrayLike,
     CCM: ArrayLike,
-    terms: Literal[3, 4, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22, 35] = 3,
+    terms: Literal[3, 4, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22, 35] | int = 3,
 ) -> NDArrayFloat:
     """
     Apply given colour correction matrix :math:`CCM` computed using
@@ -1043,7 +1043,7 @@ def apply_matrix_colour_correction_Cheung2004(
 def apply_matrix_colour_correction_Finlayson2015(
     RGB: ArrayLike,
     CCM: ArrayLike,
-    degree: Literal[1, 2, 3, 4] = 1,
+    degree: Literal[1, 2, 3, 4] | int = 1,
     root_polynomial_expansion: bool = True,
 ) -> NDArrayFloat:
     """
@@ -1234,7 +1234,7 @@ def colour_correction_Cheung2004(
     RGB: ArrayLike,
     M_T: ArrayLike,
     M_R: ArrayLike,
-    terms: Literal[3, 4, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22, 35] = 3,
+    terms: Literal[3, 4, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22, 35] | int = 3,
 ) -> NDArrayFloat:
     """
     Perform colour correction of given *RGB* colourspace array using the
@@ -1280,7 +1280,7 @@ def colour_correction_Finlayson2015(
     RGB: ArrayLike,
     M_T: ArrayLike,
     M_R: ArrayLike,
-    degree: Literal[1, 2, 3, 4] = 1,
+    degree: Literal[1, 2, 3, 4] | int = 1,
     root_polynomial_expansion: bool = True,
 ) -> NDArrayFloat:
     """

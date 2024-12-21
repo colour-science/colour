@@ -52,7 +52,7 @@ class TestRandomTripletGenerator:
     unit tests methods.
     """
 
-    def test_random_triplet_generator(self):
+    def test_random_triplet_generator(self) -> None:
         """
         Test :func:`colour.algebra.prng.random_triplet_generator` definition.
 

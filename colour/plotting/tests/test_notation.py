@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.plotting.notation` module."""
 
+from __future__ import annotations
+
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
@@ -27,7 +29,7 @@ class TestPlotSingleMunsellValueFunction:
     definition unit tests methods.
     """
 
-    def test_plot_single_munsell_value_function(self):
+    def test_plot_single_munsell_value_function(self) -> None:
         """
         Test :func:`colour.plotting.notation.\
 plot_single_munsell_value_function` definition.
@@ -45,7 +47,7 @@ class TestPlotMultiMunsellValueFunctions:
     definition unit tests methods.
     """
 
-    def test_plot_multi_munsell_value_functions(self):
+    def test_plot_multi_munsell_value_functions(self) -> None:
         """
         Test :func:`colour.plotting.notation.\
 plot_multi_munsell_value_functions` definition.

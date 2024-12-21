@@ -68,7 +68,7 @@ BIBLIOGRAPHY_NAME: str = "BIBLIOGRAPHY.bib"
 
 
 @task
-def literalise(ctx: Context):
+def literalise(ctx: Context) -> None:
     """
     Write various literals in the `colour.hints` module.
 
@@ -91,7 +91,7 @@ def clean(
     docs: bool = True,
     bytecode: bool = False,
     pytest: bool = True,
-):
+) -> None:
     """
     Clean the project.
 
@@ -131,7 +131,7 @@ def formatting(
     ctx: Context,
     asciify: bool = True,
     bibtex: bool = True,
-):
+) -> None:
     """
     Convert unicode characters to ASCII and cleanup the *BibTeX* file.
 
@@ -174,7 +174,7 @@ def quality(
     ctx: Context,
     pyright: bool = True,
     rstlint: bool = True,
-):
+) -> None:
     """
     Check the codebase with *Pyright* and lints various *restructuredText*
     files with *rst-lint*.
@@ -199,7 +199,7 @@ def quality(
 
 
 @task
-def precommit(ctx: Context):
+def precommit(ctx: Context) -> None:
     """
     Run the "pre-commit" hooks on the codebase.
 
@@ -214,7 +214,7 @@ def precommit(ctx: Context):
 
 
 @task
-def tests(ctx: Context):
+def tests(ctx: Context) -> None:
     """
     Run the unit tests with *Pytest*.
 
@@ -235,7 +235,7 @@ def tests(ctx: Context):
 
 
 @task
-def examples(ctx: Context, plots: bool = False):
+def examples(ctx: Context, plots: bool = False) -> None:
     """
     Run the examples.
 
@@ -266,7 +266,7 @@ def examples(ctx: Context, plots: bool = False):
 
 
 @task(formatting, quality, precommit, tests, examples)
-def preflight(ctx: Context):  # noqa: ARG001
+def preflight(ctx: Context) -> None:  # noqa: ARG001
     """
     Perform the preflight tasks, i.e., *formatting*, *tests*, *quality*, and
     *examples*.
@@ -286,7 +286,7 @@ def docs(
     plots: bool = True,
     html: bool = True,
     pdf: bool = True,
-):
+) -> None:
     """
     Build the documentation.
 
@@ -318,7 +318,7 @@ def docs(
 
 
 @task
-def todo(ctx: Context):
+def todo(ctx: Context) -> None:
     """
     Export the TODO items.
 
@@ -335,7 +335,7 @@ def todo(ctx: Context):
 
 
 @task
-def requirements(ctx: Context):
+def requirements(ctx: Context) -> None:
     """
     Export the *requirements.txt* file.
 
@@ -356,7 +356,7 @@ def requirements(ctx: Context):
 
 
 @task(literalise, clean, preflight, docs, todo, requirements)
-def build(ctx: Context):
+def build(ctx: Context) -> None:
     """
     Build the project and runs dependency tasks, i.e., *docs*, *todo*, and
     *preflight*.
@@ -399,7 +399,7 @@ def build(ctx: Context):
 
 
 @task
-def virtualise(ctx: Context, tests: bool = True):
+def virtualise(ctx: Context, tests: bool = True) -> None:
     """
     Create a virtual environment for the project build.
 
@@ -432,7 +432,7 @@ def virtualise(ctx: Context, tests: bool = True):
 
 
 @task
-def tag(ctx: Context):
+def tag(ctx: Context) -> None:
     """
     Tag the repository according to defined version using *git-flow*.
 
@@ -485,7 +485,7 @@ def tag(ctx: Context):
 
 
 @task(build)
-def release(ctx: Context):
+def release(ctx: Context) -> None:
     """
     Release the project to *Pypi* with *Twine*.
 
@@ -502,7 +502,7 @@ def release(ctx: Context):
 
 
 @task
-def sha256(ctx: Context):
+def sha256(ctx: Context) -> None:
     """
     Compute the project *Pypi* package *sha256* with *OpenSSL*.
 

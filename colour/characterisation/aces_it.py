@@ -84,9 +84,9 @@ from colour.colorimetry import (
     sds_and_msds_to_msds,
 )
 from colour.hints import (
+    Any,
     ArrayLike,
     Callable,
-    DTypeFloat,
     LiteralChromaticAdaptationTransform,
     Mapping,
     NDArrayFloat,
@@ -112,6 +112,7 @@ from colour.utilities import (
     CanonicalMapping,
     as_float,
     as_float_array,
+    as_float_scalar,
     from_range_1,
     ones,
     optional,
@@ -163,7 +164,7 @@ def sd_to_aces_relative_exposure_values(
     chromatic_adaptation_transform: (
         LiteralChromaticAdaptationTransform | str | None
     ) = "CAT02",
-    **kwargs,
+    **kwargs: Any,
 ) -> NDArrayFloat:
     """
     Convert given spectral distribution to *ACES2065-1* colourspace relative
@@ -246,10 +247,10 @@ def sd_to_aces_relative_exposure_values(
 
     r_bar, g_bar, b_bar = tsplit(MSDS_ACES_RICD.values)
 
-    def k(x: NDArrayFloat, y: NDArrayFloat) -> DTypeFloat:
+    def k(x: NDArrayFloat, y: NDArrayFloat) -> float:
         """Compute the :math:`K_r`, :math:`K_g` or :math:`K_b` scale factors."""
 
-        return 1 / np.sum(x * y)
+        return as_float_scalar(1 / np.sum(x * y))
 
     k_r = k(i_v, r_bar)
     k_g = k(i_v, g_bar)
@@ -393,7 +394,7 @@ def generate_illuminants_rawtoaces_v1() -> CanonicalMapping:
 
         # Blackbody from 1000K to 4000K.
         for i in np.arange(1000, 4000, 500):
-            sd = sd_blackbody(i, SPECTRAL_SHAPE_RAWTOACES)
+            sd = sd_blackbody(cast(float, i), SPECTRAL_SHAPE_RAWTOACES)
             illuminants[sd.name] = sd
 
         # A.M.P.A.S. variant of ISO 7589 Studio Tungsten.

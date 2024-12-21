@@ -18,7 +18,7 @@ import numpy as np
 
 from colour.algebra import spherical_to_cartesian
 from colour.geometry import MAPPING_PLANE_TO_AXIS
-from colour.hints import Any, ArrayLike, Literal, NDArrayFloat
+from colour.hints import Any, ArrayLike, Literal, NDArrayFloat, Sequence
 from colour.utilities import (
     CanonicalMapping,
     as_float_array,
@@ -205,19 +205,21 @@ def primitive_vertices_cube_mpl(
     depth_segments: int = 1,
     origin: ArrayLike = np.array([0, 0, 0]),
     planes: (
-        Literal[
-            "-x",
-            "+x",
-            "-y",
-            "+y",
-            "-z",
-            "+z",
-            "xy",
-            "xz",
-            "yz",
-            "yx",
-            "zx",
-            "zy",
+        Sequence[
+            Literal[
+                "-x",
+                "+x",
+                "-y",
+                "+y",
+                "-z",
+                "+z",
+                "xy",
+                "xz",
+                "yz",
+                "yx",
+                "zx",
+                "zy",
+            ]
         ]
         | None
     ) = None,

@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.algebra.extrapolation` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -31,7 +33,7 @@ class TestExtrapolator:
     tests methods.
     """
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
         required_attributes = ("interpolator",)
@@ -39,7 +41,7 @@ class TestExtrapolator:
         for attribute in required_attributes:
             assert attribute in dir(Extrapolator)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("__init__",)
@@ -47,7 +49,7 @@ class TestExtrapolator:
         for method in required_methods:  # pragma: no cover
             assert method in dir(Extrapolator)
 
-    def test_interpolator(self):
+    def test_interpolator(self) -> None:
         """
         Test :attr:`colour.algebra.extrapolation.Extrapolator.interpolator`
         property.
@@ -58,7 +60,7 @@ class TestExtrapolator:
         )
         assert isinstance(extrapolator.interpolator, LinearInterpolator)
 
-    def test_method(self):
+    def test_method(self) -> None:
         """
         Test :attr:`colour.algebra.extrapolation.Extrapolator.method`
         property.
@@ -75,7 +77,7 @@ class TestExtrapolator:
         )
         assert extrapolator.method == "constant"
 
-    def test_left(self):
+    def test_left(self) -> None:
         """
         Test :attr:`colour.algebra.extrapolation.Extrapolator.left`
         property.
@@ -87,7 +89,7 @@ class TestExtrapolator:
         )
         assert extrapolator.left == 0
 
-    def test_right(self):
+    def test_right(self) -> None:
         """
         Test :attr:`colour.algebra.extrapolation.Extrapolator.right`
         property.
@@ -99,7 +101,7 @@ class TestExtrapolator:
         )
         assert extrapolator.right == 0
 
-    def test__call__(self):
+    def test__call__(self) -> None:
         """
         Test :meth:`colour.algebra.extrapolation.Extrapolator.__call__`
         method.
@@ -155,7 +157,7 @@ class TestExtrapolator:
         assert extrapolator(9) == 7.0
 
     @ignore_numpy_errors
-    def test_nan__call__(self):
+    def test_nan__call__(self) -> None:
         """
         Test :method:`colour.algebra.extrapolation.Extrapolator.__call__`
         method nan support.

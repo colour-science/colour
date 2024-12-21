@@ -63,7 +63,7 @@ class TestOetf_BT2100_PQ:
 oetf_BT2100_PQ` definition unit tests methods.
     """
 
-    def test_oetf_BT2100_PQ(self):
+    def test_oetf_BT2100_PQ(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 oetf_BT2100_PQ` definition.
@@ -87,7 +87,7 @@ oetf_BT2100_PQ` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_oetf_BT2100_PQ(self):
+    def test_n_dimensional_oetf_BT2100_PQ(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 oetf_BT2100_PQ` definition n-dimensional arrays support.
@@ -114,7 +114,7 @@ oetf_BT2100_PQ` definition n-dimensional arrays support.
             oetf_BT2100_PQ(E), E_p, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_oetf_BT2100_PQ(self):
+    def test_domain_range_scale_oetf_BT2100_PQ(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 oetf_BT2100_PQ` definition domain and range scale support.
@@ -133,7 +133,7 @@ oetf_BT2100_PQ` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_oetf_BT2100_PQ(self):
+    def test_nan_oetf_BT2100_PQ(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 oetf_BT2100_PQ` definition nan support.
@@ -148,7 +148,7 @@ class TestOetf_inverse_BT2100_PQ:
 oetf_inverse_BT2100_PQ` definition unit tests methods.
     """
 
-    def test_oetf_inverse_BT2100_PQ(self):
+    def test_oetf_inverse_BT2100_PQ(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 oetf_inverse_BT2100_PQ` definition.
@@ -172,7 +172,7 @@ oetf_inverse_BT2100_PQ` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_oetf_inverse_BT2100_PQ(self):
+    def test_n_dimensional_oetf_inverse_BT2100_PQ(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 oetf_inverse_BT2100_PQ` definition n-dimensional arrays support.
@@ -199,7 +199,7 @@ oetf_inverse_BT2100_PQ` definition n-dimensional arrays support.
             oetf_inverse_BT2100_PQ(E_p), E, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_oetf_inverse_BT2100_PQ(self):
+    def test_domain_range_scale_oetf_inverse_BT2100_PQ(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 oetf_inverse_BT2100_PQ` definition domain and range scale support.
@@ -218,7 +218,7 @@ oetf_inverse_BT2100_PQ` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_oetf_inverse_BT2100_PQ(self):
+    def test_nan_oetf_inverse_BT2100_PQ(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 oetf_inverse_BT2100_PQ` definition nan support.
@@ -233,7 +233,7 @@ class TestEotf_BT2100_PQ:
 eotf_BT2100_PQ` definition unit tests methods.
     """
 
-    def test_eotf_BT2100_PQ(self):
+    def test_eotf_BT2100_PQ(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_BT2100_PQ` definition.
@@ -253,7 +253,7 @@ eotf_BT2100_PQ` definition.
             eotf_BT2100_PQ(1.0), 10000.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_n_dimensional_eotf_BT2100_PQ(self):
+    def test_n_dimensional_eotf_BT2100_PQ(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_BT2100_PQ` definition n-dimensional arrays support.
@@ -280,7 +280,7 @@ eotf_BT2100_PQ` definition n-dimensional arrays support.
             eotf_BT2100_PQ(E_p), F_D, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_eotf_BT2100_PQ(self):
+    def test_domain_range_scale_eotf_BT2100_PQ(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_BT2100_PQ` definition domain and range scale support.
@@ -299,7 +299,7 @@ eotf_BT2100_PQ` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_eotf_BT2100_PQ(self):
+    def test_nan_eotf_BT2100_PQ(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_BT2100_PQ` definition nan support.
@@ -314,7 +314,7 @@ class TestEotf_inverse_BT2100_PQ:
 eotf_inverse_BT2100_PQ` definition unit tests methods.
     """
 
-    def test_eotf_inverse_BT2100_PQ(self):
+    def test_eotf_inverse_BT2100_PQ(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_inverse_BT2100_PQ` definition.
@@ -336,7 +336,7 @@ eotf_inverse_BT2100_PQ` definition.
             eotf_inverse_BT2100_PQ(10000.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_n_dimensional_eotf_inverse_BT2100_PQ(self):
+    def test_n_dimensional_eotf_inverse_BT2100_PQ(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_inverse_BT2100_PQ` definition n-dimensional arrays support.
@@ -363,7 +363,7 @@ eotf_inverse_BT2100_PQ` definition n-dimensional arrays support.
             eotf_inverse_BT2100_PQ(F_D), E_p, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_eotf_inverse_BT2100_PQ(self):
+    def test_domain_range_scale_eotf_inverse_BT2100_PQ(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_inverse_BT2100_PQ` definition domain and range scale support.
@@ -382,7 +382,7 @@ eotf_inverse_BT2100_PQ` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_eotf_inverse_BT2100_PQ(self):
+    def test_nan_eotf_inverse_BT2100_PQ(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_inverse_BT2100_PQ` definition nan support.
@@ -397,7 +397,7 @@ class TestOotf_BT2100_PQ:
 ootf_BT2100_PQ` definition unit tests methods.
     """
 
-    def test_ootf_BT2100_PQ(self):
+    def test_ootf_BT2100_PQ(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_BT2100_PQ` definition.
@@ -419,7 +419,7 @@ ootf_BT2100_PQ` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_ootf_BT2100_PQ(self):
+    def test_n_dimensional_ootf_BT2100_PQ(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_BT2100_PQ` definition n-dimensional arrays support.
@@ -446,7 +446,7 @@ ootf_BT2100_PQ` definition n-dimensional arrays support.
             ootf_BT2100_PQ(E), F_D, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_ootf_BT2100_PQ(self):
+    def test_domain_range_scale_ootf_BT2100_PQ(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_BT2100_PQ` definition domain and range scale support.
@@ -465,7 +465,7 @@ ootf_BT2100_PQ` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_ootf_BT2100_PQ(self):
+    def test_nan_ootf_BT2100_PQ(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_BT2100_PQ` definition nan support.
@@ -480,7 +480,7 @@ class TestOotf_inverse_BT2100_PQ:
 ootf_inverse_BT2100_PQ` definition unit tests methods.
     """
 
-    def test_ootf_inverse_BT2100_PQ(self):
+    def test_ootf_inverse_BT2100_PQ(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_inverse_BT2100_PQ` definition.
@@ -502,7 +502,7 @@ ootf_inverse_BT2100_PQ` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_ootf_inverse_BT2100_PQ(self):
+    def test_n_dimensional_ootf_inverse_BT2100_PQ(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_inverse_BT2100_PQ` definition n-dimensional arrays support.
@@ -529,7 +529,7 @@ ootf_inverse_BT2100_PQ` definition n-dimensional arrays support.
             ootf_inverse_BT2100_PQ(F_D), E, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_ootf_inverse_BT2100_PQ(self):
+    def test_domain_range_scale_ootf_inverse_BT2100_PQ(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_inverse_BT2100_PQ` definition domain and range scale support.
@@ -548,7 +548,7 @@ ootf_inverse_BT2100_PQ` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_ootf_inverse_BT2100_PQ(self):
+    def test_nan_ootf_inverse_BT2100_PQ(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_inverse_BT2100_PQ` definition nan support.
@@ -563,7 +563,7 @@ class TestGamma_function_BT2100_HLG:
 gamma_function_BT2100_HLG` definition unit tests methods.
     """
 
-    def test_gamma_function_BT2100_HLG(self):
+    def test_gamma_function_BT2100_HLG(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 gamma_function_BT2100_HLG` definition.
@@ -600,7 +600,7 @@ class TestOetf_BT2100_HLG:
 oetf_BT2100_HLG` definition unit tests methods.
     """
 
-    def test_oetf_BT2100_HLG(self):
+    def test_oetf_BT2100_HLG(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 oetf_BT2100_HLG` definition.
@@ -622,7 +622,7 @@ oetf_BT2100_HLG` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_oetf_BT2100_HLG(self):
+    def test_n_dimensional_oetf_BT2100_HLG(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 oetf_BT2100_HLG` definition n-dimensional arrays support.
@@ -649,7 +649,7 @@ oetf_BT2100_HLG` definition n-dimensional arrays support.
             oetf_BT2100_HLG(E), E_p, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_oetf_BT2100_HLG(self):
+    def test_domain_range_scale_oetf_BT2100_HLG(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 oetf_BT2100_HLG` definition domain and range scale support.
@@ -668,7 +668,7 @@ oetf_BT2100_HLG` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_oetf_BT2100_HLG(self):
+    def test_nan_oetf_BT2100_HLG(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 oetf_BT2100_HLG` definition nan support.
@@ -683,7 +683,7 @@ class TestOetf_inverse_BT2100_HLG:
 oetf_inverse_BT2100_HLG` definition unit tests methods.
     """
 
-    def test_oetf_inverse_BT2100_HLG(self):
+    def test_oetf_inverse_BT2100_HLG(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 oetf_inverse_BT2100_HLG` definition.
@@ -705,7 +705,7 @@ oetf_inverse_BT2100_HLG` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_oetf_inverse_BT2100_HLG(self):
+    def test_n_dimensional_oetf_inverse_BT2100_HLG(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 oetf_inverse_BT2100_HLG` definition n-dimensional arrays support.
@@ -732,7 +732,7 @@ oetf_inverse_BT2100_HLG` definition n-dimensional arrays support.
             oetf_inverse_BT2100_HLG(E_p), E, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_oetf_inverse_BT2100_HLG(self):
+    def test_domain_range_scale_oetf_inverse_BT2100_HLG(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 oetf_inverse_BT2100_HLG` definition domain and range scale support.
@@ -751,7 +751,7 @@ oetf_inverse_BT2100_HLG` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_oetf_inverse_BT2100_HLG(self):
+    def test_nan_oetf_inverse_BT2100_HLG(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 oetf_inverse_BT2100_HLG` definition nan support.
@@ -766,7 +766,7 @@ class TestEotf_BT2100_HLG_1:
 eotf_BT2100_HLG_1` definition unit tests methods.
     """
 
-    def test_eotf_BT2100_HLG_1(self):
+    def test_eotf_BT2100_HLG_1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_BT2100_HLG_1` definition.
@@ -794,7 +794,7 @@ eotf_BT2100_HLG_1` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_eotf_BT2100_HLG_1(self):
+    def test_n_dimensional_eotf_BT2100_HLG_1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_BT2100_HLG_1` definition n-dimensional arrays support.
@@ -845,7 +845,7 @@ eotf_BT2100_HLG_1` definition n-dimensional arrays support.
             eotf_BT2100_HLG_1(E_p), F_D, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_eotf_BT2100_HLG_1(self):
+    def test_domain_range_scale_eotf_BT2100_HLG_1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_BT2100_HLG_1` definition domain and range scale support.
@@ -864,7 +864,7 @@ eotf_BT2100_HLG_1` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_eotf_BT2100_HLG_1(self):
+    def test_nan_eotf_BT2100_HLG_1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_BT2100_HLG_1` definition nan support.
@@ -879,7 +879,7 @@ class TestEotf_BT2100_HLG_2:
 eotf_BT2100_HLG_2` definition unit tests methods.
     """
 
-    def test_eotf_BT2100_HLG_2(self):
+    def test_eotf_BT2100_HLG_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_BT2100_HLG_2` definition.
@@ -907,7 +907,7 @@ eotf_BT2100_HLG_2` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_eotf_BT2100_HLG_2(self):
+    def test_n_dimensional_eotf_BT2100_HLG_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_BT2100_HLG_2` definition n-dimensional arrays support.
@@ -958,7 +958,7 @@ eotf_BT2100_HLG_2` definition n-dimensional arrays support.
             eotf_BT2100_HLG_2(E_p), F_D, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_eotf_BT2100_HLG_2(self):
+    def test_domain_range_scale_eotf_BT2100_HLG_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_BT2100_HLG_2` definition domain and range scale support.
@@ -977,7 +977,7 @@ eotf_BT2100_HLG_2` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_eotf_BT2100_HLG_2(self):
+    def test_nan_eotf_BT2100_HLG_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_BT2100_HLG_2` definition nan support.
@@ -992,7 +992,7 @@ class TestEotf_inverse_BT2100_HLG_1:
 eotf_inverse_BT2100_HLG_1` definition unit tests methods.
     """
 
-    def test_eotf_inverse_BT2100_HLG_1(self):
+    def test_eotf_inverse_BT2100_HLG_1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_inverse_BT2100_HLG_1` definition.
@@ -1020,7 +1020,7 @@ eotf_inverse_BT2100_HLG_1` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_eotf_inverse_BT2100_HLG_1(self):
+    def test_n_dimensional_eotf_inverse_BT2100_HLG_1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_inverse_BT2100_HLG_1` definition n-dimensional arrays support.
@@ -1071,7 +1071,7 @@ eotf_inverse_BT2100_HLG_1` definition n-dimensional arrays support.
             eotf_inverse_BT2100_HLG_1(F_D), E_p, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_eotf_inverse_BT2100_HLG_1(self):
+    def test_domain_range_scale_eotf_inverse_BT2100_HLG_1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_inverse_BT2100_HLG_1` definition domain and range scale support.
@@ -1090,7 +1090,7 @@ eotf_inverse_BT2100_HLG_1` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_eotf_inverse_BT2100_HLG_1(self):
+    def test_nan_eotf_inverse_BT2100_HLG_1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_inverse_BT2100_HLG_1` definition nan support.
@@ -1105,7 +1105,7 @@ class TestEotf_inverse_BT2100_HLG_2:
 eotf_inverse_BT2100_HLG_2` definition unit tests methods.
     """
 
-    def test_eotf_inverse_BT2100_HLG_2(self):
+    def test_eotf_inverse_BT2100_HLG_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_inverse_BT2100_HLG_2` definition.
@@ -1133,7 +1133,7 @@ eotf_inverse_BT2100_HLG_2` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_eotf_inverse_BT2100_HLG_2(self):
+    def test_n_dimensional_eotf_inverse_BT2100_HLG_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_inverse_BT2100_HLG_2` definition n-dimensional arrays support.
@@ -1184,7 +1184,7 @@ eotf_inverse_BT2100_HLG_2` definition n-dimensional arrays support.
             eotf_inverse_BT2100_HLG_2(F_D), E_p, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_eotf_inverse_BT2100_HLG_2(self):
+    def test_domain_range_scale_eotf_inverse_BT2100_HLG_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_inverse_BT2100_HLG_2` definition domain and range scale support.
@@ -1203,7 +1203,7 @@ eotf_inverse_BT2100_HLG_2` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_eotf_inverse_BT2100_HLG_2(self):
+    def test_nan_eotf_inverse_BT2100_HLG_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 eotf_inverse_BT2100_HLG_2` definition nan support.
@@ -1218,7 +1218,7 @@ class TestOotf_BT2100_HLG_1:
 ootf_BT2100_HLG_1` definition unit tests methods.
     """
 
-    def test_ootf_BT2100_HLG_1(self):
+    def test_ootf_BT2100_HLG_1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_BT2100_HLG_1` definition.
@@ -1271,7 +1271,7 @@ ootf_BT2100_HLG_1` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_ootf_BT2100_HLG_1(self):
+    def test_n_dimensional_ootf_BT2100_HLG_1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_BT2100_HLG_1` definition n-dimensional arrays support.
@@ -1322,7 +1322,7 @@ ootf_BT2100_HLG_1` definition n-dimensional arrays support.
             ootf_BT2100_HLG_1(E), F_D, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_ootf_BT2100_HLG_1(self):
+    def test_domain_range_scale_ootf_BT2100_HLG_1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_BT2100_HLG_1` definition domain and range scale support.
@@ -1341,7 +1341,7 @@ ootf_BT2100_HLG_1` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_ootf_BT2100_HLG_1(self):
+    def test_nan_ootf_BT2100_HLG_1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_BT2100_HLG_1` definition nan support.
@@ -1356,7 +1356,7 @@ class TestOotf_BT2100_HLG_2:
 ootf_BT2100_HLG_2` definition unit tests methods.
     """
 
-    def test_ootf_BT2100_HLG_2(self):
+    def test_ootf_BT2100_HLG_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_BT2100_HLG_2` definition.
@@ -1409,7 +1409,7 @@ ootf_BT2100_HLG_2` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_ootf_BT2100_HLG_2(self):
+    def test_n_dimensional_ootf_BT2100_HLG_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_BT2100_HLG_2` definition n-dimensional arrays support.
@@ -1460,7 +1460,7 @@ ootf_BT2100_HLG_2` definition n-dimensional arrays support.
             ootf_BT2100_HLG_2(E), F_D, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_ootf_BT2100_HLG_2(self):
+    def test_domain_range_scale_ootf_BT2100_HLG_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_BT2100_HLG_2` definition domain and range scale support.
@@ -1479,7 +1479,7 @@ ootf_BT2100_HLG_2` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_ootf_BT2100_HLG_1(self):
+    def test_nan_ootf_BT2100_HLG_1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_BT2100_HLG_1` definition nan support.
@@ -1494,7 +1494,7 @@ class TestOotf_inverse_BT2100_HLG_1:
 ootf_inverse_BT2100_HLG_1` definition unit tests methods.
     """
 
-    def test_ootf_inverse_BT2100_HLG_1(self):
+    def test_ootf_inverse_BT2100_HLG_1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_inverse_BT2100_HLG_1` definition.
@@ -1547,7 +1547,7 @@ ootf_inverse_BT2100_HLG_1` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_ootf_inverse_BT2100_HLG_1(self):
+    def test_n_dimensional_ootf_inverse_BT2100_HLG_1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_inverse_BT2100_HLG_1` definition n-dimensional arrays support.
@@ -1598,7 +1598,7 @@ ootf_inverse_BT2100_HLG_1` definition n-dimensional arrays support.
             ootf_inverse_BT2100_HLG_1(F_D), E, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_ootf_inverse_BT2100_HLG_1(self):
+    def test_domain_range_scale_ootf_inverse_BT2100_HLG_1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_inverse_BT2100_HLG_1` definition domain and range scale support.
@@ -1617,7 +1617,7 @@ ootf_inverse_BT2100_HLG_1` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_ootf_inverse_BT2100_HLG_1(self):
+    def test_nan_ootf_inverse_BT2100_HLG_1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_inverse_BT2100_HLG_1` definition nan support.
@@ -1632,7 +1632,7 @@ class TestOotf_inverse_BT2100_HLG_2:
 ootf_inverse_BT2100_HLG_2` definition unit tests methods.
     """
 
-    def test_ootf_inverse_BT2100_HLG_2(self):
+    def test_ootf_inverse_BT2100_HLG_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_inverse_BT2100_HLG_2` definition.
@@ -1685,7 +1685,7 @@ ootf_inverse_BT2100_HLG_2` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_ootf_inverse_BT2100_HLG_2(self):
+    def test_n_dimensional_ootf_inverse_BT2100_HLG_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_inverse_BT2100_HLG_2` definition n-dimensional arrays support.
@@ -1736,7 +1736,7 @@ ootf_inverse_BT2100_HLG_2` definition n-dimensional arrays support.
             ootf_inverse_BT2100_HLG_2(F_D), E, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_ootf_inverse_BT2100_HLG_2(self):
+    def test_domain_range_scale_ootf_inverse_BT2100_HLG_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_inverse_BT2100_HLG_2` definition domain and range scale support.
@@ -1755,7 +1755,7 @@ ootf_inverse_BT2100_HLG_2` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_ootf_inverse_BT2100_HLG_2(self):
+    def test_nan_ootf_inverse_BT2100_HLG_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
 ootf_inverse_BT2100_HLG_2` definition nan support.

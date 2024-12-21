@@ -38,6 +38,7 @@ from colour.hints import (
     Generator,
     List,
     Self,
+    Sequence,
     Tuple,
     Type,
 )
@@ -194,7 +195,7 @@ class TreeNode:
         return self._name
 
     @name.setter
-    def name(self, value: str):
+    def name(self, value: str) -> None:
         """Setter for the **self.name** property."""
 
         attest(
@@ -223,7 +224,7 @@ class TreeNode:
         return self._parent
 
     @parent.setter
-    def parent(self, value: Self | None):
+    def parent(self, value: Self | None) -> None:
         """Setter for the **self.parent** property."""
 
         from colour.utilities import attest
@@ -258,7 +259,7 @@ class TreeNode:
         return self._children
 
     @children.setter
-    def children(self, value: List[Self]):
+    def children(self, value: List[Self]) -> None:
         """Setter for the **self.children** property."""
 
         from colour.utilities import attest
@@ -342,7 +343,7 @@ class TreeNode:
         return self._data
 
     @data.setter
-    def data(self, value: Any):
+    def data(self, value: Any) -> None:
         """Setter for the **self.data** property."""
 
         self._data = value
@@ -486,7 +487,7 @@ class TreeNode:
 
             yield from node.walk_hierarchy(ascendants=ascendants)
 
-    def render(self, tab_level: int = 0):
+    def render(self, tab_level: int = 0) -> str:
         """
         Render the current node and its children as a string.
 
@@ -615,7 +616,7 @@ class Port(MixinLogging):
         return self._name
 
     @name.setter
-    def name(self, value: str):
+    def name(self, value: str) -> None:
         """Setter for the **self.name** property."""
 
         attest(
@@ -651,7 +652,7 @@ class Port(MixinLogging):
         return self._value
 
     @value.setter
-    def value(self, value: Any):
+    def value(self, value: Any) -> None:
         """Setter for the **self.value** property."""
 
         self._value = value
@@ -704,7 +705,7 @@ class Port(MixinLogging):
         return self._description
 
     @description.setter
-    def description(self, value: str | None):
+    def description(self, value: str | None) -> None:
         """Setter for the **self.description** property."""
 
         attest(
@@ -729,7 +730,7 @@ class Port(MixinLogging):
         return self._node
 
     @node.setter
-    def node(self, value: PortNode | None):
+    def node(self, value: PortNode | None) -> None:
         """Setter for the **self.node** property."""
 
         attest(
@@ -955,7 +956,7 @@ class PortNode(TreeNode, MixinLogging):
     Examples
     --------
     >>> class NodeAdd(PortNode):
-    ...     def __init__(self, *args, **kwargs):
+    ...     def __init__(self, *args: Any, **kwargs: Any):
     ...         super().__init__(*args, **kwargs)
     ...
     ...         self.description = "Perform the addition of the two input port values."
@@ -982,7 +983,7 @@ class PortNode(TreeNode, MixinLogging):
     2
     """
 
-    def __init__(self, name: str | None = None, description: str | None = None):
+    def __init__(self, name: str | None = None, description: str | None = None) -> None:
         super().__init__(name)
         self._description = description
         self.description = optional(description, self._description)
@@ -1036,7 +1037,7 @@ class PortNode(TreeNode, MixinLogging):
         return self._dirty
 
     @dirty.setter
-    def dirty(self, value: bool):
+    def dirty(self, value: bool) -> None:
         """Setter for the **self.dirty** property."""
 
         attest(
@@ -1094,7 +1095,7 @@ class PortNode(TreeNode, MixinLogging):
         return self._description
 
     @description.setter
-    def description(self, value: str | None):
+    def description(self, value: str | None) -> None:
         """Setter for the **self.description** property."""
 
         attest(
@@ -1185,7 +1186,7 @@ class PortNode(TreeNode, MixinLogging):
         value: Any = None,
         description: str | None = None,
         port_type: Type[Port] = Port,
-    ) -> None:
+    ) -> Port:
         """
         Add an output port with given name and value to the node.
 
@@ -1484,7 +1485,7 @@ class PortNode(TreeNode, MixinLogging):
         Examples
         --------
         >>> class NodeAdd(PortNode):
-        ...     def __init__(self, *args, **kwargs):
+        ...     def __init__(self, *args: Any, **kwargs: Any):
         ...         super().__init__(*args, **kwargs)
         ...
         ...         self.description = (
@@ -1572,7 +1573,7 @@ class PortGraph(PortNode):
     Examples
     --------
     >>> class NodeAdd(PortNode):
-    ...     def __init__(self, *args, **kwargs):
+    ...     def __init__(self, *args: Any, **kwargs: Any):
     ...         super().__init__(*args, **kwargs)
     ...
     ...         self.description = "Perform the addition of the two input port values."
@@ -1608,7 +1609,7 @@ class PortGraph(PortNode):
     3
     """
 
-    def __init__(self, name: str | None = None, description: str | None = None):
+    def __init__(self, name: str | None = None, description: str | None = None) -> None:
         super().__init__(name, description)
 
         self._name: str = self.__class__.__name__
@@ -1834,7 +1835,7 @@ class PortGraph(PortNode):
                     yield node
         except nx.NetworkXUnfeasible as error:
             filename = "AGraph.png"
-            self.log(
+            self.log(  # pyright: ignore
                 f'A "NetworkX" error occurred, debug graph image has been '
                 f'saved to "{os.path.join(os.getcwd(), filename)}"!'
             )
@@ -1856,7 +1857,7 @@ class PortGraph(PortNode):
         Examples
         --------
         >>> class NodeAdd(PortNode):
-        ...     def __init__(self, *args, **kwargs):
+        ...     def __init__(self, *args: Any, **kwargs: Any):
         ...         super().__init__(*args, **kwargs)
         ...
         ...         self.description = (
@@ -2011,7 +2012,7 @@ class ExecutionPort(Port):
         """
 
     @value.setter
-    def value(self, value: Any):
+    def value(self, value: Any) -> None:
         """Setter for the **self.value** property."""
 
 
@@ -2020,7 +2021,7 @@ class ExecutionNode(PortNode):
     Define a special node with execution input and output ports.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
         self.add_input_port(
@@ -2034,7 +2035,7 @@ class ExecutionNode(PortNode):
 class ControlFlowNode(ExecutionNode):
     """Define a class inherited by control flow nodes."""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
 
@@ -2061,7 +2062,7 @@ class For(ControlFlowNode):
         :class:`colour.utilities.PortGraph` class instance.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
         self.add_input_port("array", [], "Array to loop onto")
@@ -2111,7 +2112,7 @@ class For(ControlFlowNode):
 _THREADING_LOCK = threading.Lock()
 
 
-def _task_thread(args):
+def _task_thread(args: Sequence) -> tuple[int, Any]:
     """
     Define the default task for the
     :class:`colour.utilities.ParallelForThread` loop node
@@ -2165,7 +2166,7 @@ class ParallelForThread(ControlFlowNode):
         instead.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
         self.add_input_port("array", [], "Array to loop onto")
@@ -2225,7 +2226,7 @@ class ParallelForThread(ControlFlowNode):
         self.dirty = False
 
 
-def _task_multiprocess(args):
+def _task_multiprocess(args: Sequence) -> tuple[int, Any]:
     """
     Define the default task for the
     :class:`colour.utilities.ParallelForMultiprocess` loop node
@@ -2272,7 +2273,7 @@ class ParallelForMultiprocess(ControlFlowNode):
         :class:`colour.utilities.PortGraph` class instance.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
         self.add_input_port("array", [], "Array to loop onto")

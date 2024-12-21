@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.din99` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -34,7 +36,7 @@ class TestLab_to_DIN99:
     methods.
     """
 
-    def test_Lab_to_DIN99(self):
+    def test_Lab_to_DIN99(self) -> None:
         """Test :func:`colour.models.din99.Lab_to_DIN99` definition."""
 
         np.testing.assert_allclose(
@@ -82,7 +84,7 @@ class TestLab_to_DIN99:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_Lab_to_DIN99(self):
+    def test_n_dimensional_Lab_to_DIN99(self) -> None:
         """
         Test :func:`colour.models.din99.Lab_to_DIN99` definition n-dimensional
         support.
@@ -103,7 +105,7 @@ class TestLab_to_DIN99:
             Lab_to_DIN99(Lab), Lab_99, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_Lab_to_DIN99(self):
+    def test_domain_range_scale_Lab_to_DIN99(self) -> None:
         """
         Test :func:`colour.models.din99.Lab_to_DIN99` definition domain and
         range scale support.
@@ -140,7 +142,7 @@ class TestLab_to_DIN99:
                 )
 
     @ignore_numpy_errors
-    def test_nan_Lab_to_DIN99(self):
+    def test_nan_Lab_to_DIN99(self) -> None:
         """Test :func:`colour.models.din99.Lab_to_DIN99` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -157,7 +159,7 @@ class TestDIN99_to_Lab:
     methods.
     """
 
-    def test_DIN99_to_Lab(self):
+    def test_DIN99_to_Lab(self) -> None:
         """Test :func:`colour.models.din99.DIN99_to_Lab` definition."""
 
         np.testing.assert_allclose(
@@ -205,7 +207,7 @@ class TestDIN99_to_Lab:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_DIN99_to_Lab(self):
+    def test_n_dimensional_DIN99_to_Lab(self) -> None:
         """
         Test :func:`colour.models.din99.DIN99_to_Lab` definition n-dimensional
         support.
@@ -226,7 +228,7 @@ class TestDIN99_to_Lab:
             DIN99_to_Lab(Lab_99), Lab, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_DIN99_to_Lab(self):
+    def test_domain_range_scale_DIN99_to_Lab(self) -> None:
         """
         Test :func:`colour.models.din99.DIN99_to_Lab` definition domain and
         range scale support.
@@ -263,7 +265,7 @@ class TestDIN99_to_Lab:
                 )
 
     @ignore_numpy_errors
-    def test_nan_DIN99_to_Lab(self):
+    def test_nan_DIN99_to_Lab(self) -> None:
         """Test :func:`colour.models.din99.DIN99_to_Lab` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -280,7 +282,7 @@ class TestXYZ_to_DIN99:
     methods.
     """
 
-    def test_XYZ_to_DIN99(self):
+    def test_XYZ_to_DIN99(self) -> None:
         """Test :func:`colour.models.din99.XYZ_to_DIN99` definition."""
 
         np.testing.assert_allclose(
@@ -309,7 +311,7 @@ class TestXYZ_to_DIN99:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_DIN99(self):
+    def test_n_dimensional_XYZ_to_DIN99(self) -> None:
         """
         Test :func:`colour.models.din99.XYZ_to_DIN99` definition n-dimensional
         support.
@@ -330,7 +332,7 @@ class TestXYZ_to_DIN99:
             XYZ_to_DIN99(XYZ), Lab_99, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_XYZ_to_DIN99(self):
+    def test_domain_range_scale_XYZ_to_DIN99(self) -> None:
         """
         Test :func:`colour.models.din99.XYZ_to_DIN99` definition domain and
         range scale support.
@@ -349,7 +351,7 @@ class TestXYZ_to_DIN99:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_DIN99(self):
+    def test_nan_XYZ_to_DIN99(self) -> None:
         """Test :func:`colour.models.din99.XYZ_to_DIN99` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -363,7 +365,7 @@ class TestDIN99_to_XYZ:
     methods.
     """
 
-    def test_DIN99_to_XYZ(self):
+    def test_DIN99_to_XYZ(self) -> None:
         """Test :func:`colour.models.din99.DIN99_to_XYZ` definition."""
 
         np.testing.assert_allclose(
@@ -393,7 +395,7 @@ class TestDIN99_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_DIN99_to_XYZ(self):
+    def test_n_dimensional_DIN99_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.din99.DIN99_to_XYZ` definition n-dimensional
         support.
@@ -414,7 +416,7 @@ class TestDIN99_to_XYZ:
             DIN99_to_XYZ(Lab_99), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_DIN99_to_XYZ(self):
+    def test_domain_range_scale_DIN99_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.din99.DIN99_to_XYZ` definition domain and
         range scale support.
@@ -433,7 +435,7 @@ class TestDIN99_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_nan_DIN99_to_XYZ(self):
+    def test_nan_DIN99_to_XYZ(self) -> None:
         """Test :func:`colour.models.din99.DIN99_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]

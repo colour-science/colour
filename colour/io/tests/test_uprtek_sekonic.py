@@ -39,16 +39,22 @@ class FixtureAbstractSpectralDistribution:
     methods.
     """
 
+    def __init__(self) -> None:
+        """Configure the class instance."""
+
+        self._sd_factory: Any = None
+        self._path: str = ROOT_RESOURCES
+        self._spectral_data: dict | None = None
+        self._prefix: str = ""
+        self._header: dict = {}
+
     @pytest.fixture(autouse=True)
     def setup_fixture_abstract_spectral_distribution(self) -> None:
         """Configure the class instance."""
 
-        self._sd_factory: Any = None
-        self._path: str | None = None
-        self._spectral_data: dict | None = None
-        self._prefix: str | None = None
+        self.__init__()
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
         required_attributes = (
@@ -66,7 +72,7 @@ class FixtureAbstractSpectralDistribution:
         for attribute in required_attributes:
             assert attribute in dir(SpectralDistribution_UPRTek)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("__init__", "__str__", "read", "write")
@@ -74,7 +80,7 @@ class FixtureAbstractSpectralDistribution:
         for method in required_methods:
             assert method in dir(SpectralDistribution_UPRTek)
 
-    def test__str__(self):
+    def test__str__(self) -> None:
         """
         Test :meth:`colour.SpectralDistribution_UPRTek.__str__` and
         :meth:`colour.SpectralDistribution_Sekonic.__str__` methods.
@@ -84,7 +90,7 @@ class FixtureAbstractSpectralDistribution:
             self._sd_factory(os.path.join(ROOT_RESOURCES, self._path)).read()
         ).startswith(self._prefix)
 
-    def test_read(self):
+    def test_read(self) -> None:
         """
         Test :meth:`colour.SpectralDistribution_UPRTek.read` and
         :meth:`colour.SpectralDistribution_Sekonic.read` methods.

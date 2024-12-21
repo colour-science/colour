@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.plotting.phenomena` module."""
 
+from __future__ import annotations
+
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
@@ -27,7 +29,7 @@ class TestPlotSingleSdRayleighScattering:
 plot_single_sd_rayleigh_scattering` definition unit tests methods.
     """
 
-    def test_plot_single_sd_rayleigh_scattering(self):
+    def test_plot_single_sd_rayleigh_scattering(self) -> None:
         """
         Test :func:`colour.plotting.phenomena.\
 plot_single_sd_rayleigh_scattering` definition.
@@ -45,7 +47,7 @@ class TestPlotTheBlueSky:
     tests methods.
     """
 
-    def test_plot_the_blue_sky(self):
+    def test_plot_the_blue_sky(self) -> None:
         """Test :func:`colour.plotting.phenomena.plot_the_blue_sky` definition."""
 
         figure, axes = plot_the_blue_sky()

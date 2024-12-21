@@ -21,6 +21,7 @@ Annotation Type Hints
     List
     Literal
     Mapping
+    NoReturn
     NewType
     Protocol
     Sequence

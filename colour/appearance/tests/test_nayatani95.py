@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.appearance.nayatani95` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -30,7 +32,7 @@ class TestXYZ_to_Nayatani95:
     unit tests methods.
     """
 
-    def test_XYZ_to_Nayatani95(self):
+    def test_XYZ_to_Nayatani95(self) -> None:
         """
         Test :func:`colour.appearance.nayatani95.XYZ_to_Nayatani95`
         definition.
@@ -78,7 +80,7 @@ class TestXYZ_to_Nayatani95:
             atol=0.05,
         )
 
-    def test_n_dimensional_XYZ_to_Nayatani95(self):
+    def test_n_dimensional_XYZ_to_Nayatani95(self) -> None:
         """
         Test :func:`colour.appearance.nayatani95.XYZ_to_Nayatani95` definition
         n-dimensional support.
@@ -115,7 +117,7 @@ class TestXYZ_to_Nayatani95:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_XYZ_to_Nayatani95(self):
+    def test_domain_range_scale_XYZ_to_Nayatani95(self) -> None:
         """
         Test :func:`colour.appearance.nayatani95.XYZ_to_Nayatani95` definition
         domain and range scale support.
@@ -146,7 +148,7 @@ class TestXYZ_to_Nayatani95:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_Nayatani95(self):
+    def test_nan_XYZ_to_Nayatani95(self) -> None:
         """
         Test :func:`colour.appearance.nayatani95.XYZ_to_Nayatani95` definition
         nan support.

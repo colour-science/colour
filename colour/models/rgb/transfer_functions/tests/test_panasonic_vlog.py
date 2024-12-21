@@ -31,7 +31,7 @@ class TestLogEncoding_VLog:
 log_encoding_VLog` definition unit tests methods.
     """
 
-    def test_log_encoding_VLog(self):
+    def test_log_encoding_VLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_encoding_VLog` definition.
@@ -71,7 +71,7 @@ log_encoding_VLog` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_VLog(self):
+    def test_n_dimensional_log_encoding_VLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_encoding_VLog` definition n-dimensional arrays support.
@@ -98,7 +98,7 @@ log_encoding_VLog` definition n-dimensional arrays support.
             log_encoding_VLog(L_in), V_out, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_encoding_VLog(self):
+    def test_domain_range_scale_log_encoding_VLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_encoding_VLog` definition domain and range scale support.
@@ -117,7 +117,7 @@ log_encoding_VLog` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_encoding_VLog(self):
+    def test_nan_log_encoding_VLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_encoding_VLog` definition nan support.
@@ -132,7 +132,7 @@ class TestLogDecoding_VLog:
 log_decoding_VLog` definition unit tests methods.
     """
 
-    def test_log_decoding_VLog(self):
+    def test_log_decoding_VLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_decoding_VLog` definition.
@@ -172,7 +172,7 @@ log_decoding_VLog` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_VLog(self):
+    def test_n_dimensional_log_decoding_VLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_decoding_VLog` definition n-dimensional arrays support.
@@ -199,7 +199,7 @@ log_decoding_VLog` definition n-dimensional arrays support.
             log_decoding_VLog(V_out), L_in, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_decoding_VLog(self):
+    def test_domain_range_scale_log_decoding_VLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_decoding_VLog` definition domain and range scale support.
@@ -218,7 +218,7 @@ log_decoding_VLog` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_decoding_VLog(self):
+    def test_nan_log_decoding_VLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_decoding_VLog` definition nan support.

@@ -150,7 +150,7 @@ def message_box(
     width: int = 79,
     padding: int = 3,
     print_callable: Callable = print,
-):
+) -> None:
     """
     Print a message inside a box.
 
@@ -200,7 +200,7 @@ def message_box(
 
     ideal_width = width - padding * 2 - 2
 
-    def inner(text):
+    def inner(text: str) -> str:
         """Format and pads inner text for the message box."""
 
         return (
@@ -301,7 +301,7 @@ if os.environ.get(  # pragma: no cover
     warnings.showwarning = show_warning  # pragma: no cover
 
 
-def warning(*args: Any, **kwargs: Any):
+def warning(*args: Any, **kwargs: Any) -> None:
     """
     Issue a warning.
 
@@ -322,7 +322,7 @@ def warning(*args: Any, **kwargs: Any):
     warn(*args, **kwargs)  # noqa: B028
 
 
-def runtime_warning(*args: Any, **kwargs: Any):
+def runtime_warning(*args: Any, **kwargs: Any) -> None:
     """
     Issue a runtime warning.
 
@@ -343,7 +343,7 @@ def runtime_warning(*args: Any, **kwargs: Any):
     warning(*args, **kwargs)
 
 
-def usage_warning(*args: Any, **kwargs: Any):
+def usage_warning(*args: Any, **kwargs: Any) -> None:
     """
     Issue a usage warning.
 
@@ -369,7 +369,7 @@ def filter_warnings(
     colour_usage_warnings: bool | LiteralWarning | None = None,
     colour_warnings: bool | LiteralWarning | None = None,
     python_warnings: bool | LiteralWarning | None = None,
-):
+) -> None:
     """
     Filter *Colour* and also optionally overall Python warnings.
 
@@ -595,7 +595,7 @@ class suppress_stdout:
 
         return self
 
-    def __exit__(self, *args: Any):
+    def __exit__(self, *args: Any) -> None:
         """Restore the standard output upon exiting the context manager."""
 
         sys.stdout.close()
@@ -1167,4 +1167,4 @@ def multiline_repr(
 
         representation.append(f"{'':{justify}}{_format(attribute)}")
 
-    return "{})".format(",\n".join(representation))  # noqa: flynt
+    return "{})".format(",\n".join(representation))

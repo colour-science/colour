@@ -31,7 +31,7 @@ SUBSTITUTIONS: dict[str, str] = {
 }
 
 
-def unicode_to_ascii(root_directory: str):
+def unicode_to_ascii(root_directory: str) -> None:
     """
     Recursively convert from unicode to ASCII *.py*, *.bib* and *.rst* files
     in given directory.

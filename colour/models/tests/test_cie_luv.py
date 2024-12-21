@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.cie_luv` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -42,7 +44,7 @@ class TestXYZ_to_Luv:
     methods.
     """
 
-    def test_XYZ_to_Luv(self):
+    def test_XYZ_to_Luv(self) -> None:
         """Test :func:`colour.models.cie_luv.XYZ_to_Luv` definition."""
 
         np.testing.assert_allclose(
@@ -90,7 +92,7 @@ class TestXYZ_to_Luv:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_Luv(self):
+    def test_n_dimensional_XYZ_to_Luv(self) -> None:
         """
         Test :func:`colour.models.cie_luv.XYZ_to_Luv` definition n-dimensional
         support.
@@ -118,7 +120,7 @@ class TestXYZ_to_Luv:
             XYZ_to_Luv(XYZ, illuminant), Luv, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_XYZ_to_Luv(self):
+    def test_domain_range_scale_XYZ_to_Luv(self) -> None:
         """
         Test :func:`colour.models.cie_luv.XYZ_to_Luv` definition
         domain and range scale support.
@@ -138,7 +140,7 @@ class TestXYZ_to_Luv:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_Luv(self):
+    def test_nan_XYZ_to_Luv(self) -> None:
         """Test :func:`colour.models.cie_luv.XYZ_to_Luv` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -152,7 +154,7 @@ class TestLuv_to_XYZ:
     methods.
     """
 
-    def test_Luv_to_XYZ(self):
+    def test_Luv_to_XYZ(self) -> None:
         """Test :func:`colour.models.cie_luv.Luv_to_XYZ` definition."""
 
         np.testing.assert_allclose(
@@ -200,7 +202,7 @@ class TestLuv_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_Luv_to_XYZ(self):
+    def test_n_dimensional_Luv_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.cie_luv.Luv_to_XYZ` definition n-dimensional
         support.
@@ -228,7 +230,7 @@ class TestLuv_to_XYZ:
             Luv_to_XYZ(Luv, illuminant), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_Luv_to_XYZ(self):
+    def test_domain_range_scale_Luv_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.cie_luv.Luv_to_XYZ` definition
         domain and range scale support.
@@ -248,7 +250,7 @@ class TestLuv_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_nan_Luv_to_XYZ(self):
+    def test_nan_Luv_to_XYZ(self) -> None:
         """Test :func:`colour.models.cie_luv.Luv_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -262,7 +264,7 @@ class TestLuv_to_uv:
     methods.
     """
 
-    def test_Luv_to_uv(self):
+    def test_Luv_to_uv(self) -> None:
         """Test :func:`colour.models.cie_luv.Luv_to_uv` definition."""
 
         np.testing.assert_allclose(
@@ -310,7 +312,7 @@ class TestLuv_to_uv:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_Luv_to_uv(self):
+    def test_n_dimensional_Luv_to_uv(self) -> None:
         """
         Test :func:`colour.models.cie_luv.Luv_to_uv` definition n-dimensional
         support.
@@ -338,7 +340,7 @@ class TestLuv_to_uv:
             Luv_to_uv(Luv, illuminant), uv, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_Luv_to_uv(self):
+    def test_domain_range_scale_Luv_to_uv(self) -> None:
         """
         Test :func:`colour.models.cie_luv.Luv_to_uv` definition
         domain and range scale support.
@@ -358,7 +360,7 @@ class TestLuv_to_uv:
                 )
 
     @ignore_numpy_errors
-    def test_nan_Luv_to_uv(self):
+    def test_nan_Luv_to_uv(self) -> None:
         """Test :func:`colour.models.cie_luv.Luv_to_uv` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -372,7 +374,7 @@ class Testuv_to_Luv:
     methods.
     """
 
-    def test_uv_to_Luv(self):
+    def test_uv_to_Luv(self) -> None:
         """Test :func:`colour.models.cie_luv.uv_to_Luv` definition."""
 
         np.testing.assert_allclose(
@@ -426,7 +428,7 @@ class Testuv_to_Luv:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_uv_to_Luv(self):
+    def test_n_dimensional_uv_to_Luv(self) -> None:
         """
         Test :func:`colour.models.cie_luv.uv_to_Luv` definition n-dimensional
         support.
@@ -454,7 +456,7 @@ class Testuv_to_Luv:
             uv_to_Luv(uv, illuminant), Luv, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_uv_to_Luv(self):
+    def test_domain_range_scale_uv_to_Luv(self) -> None:
         """
         Test :func:`colour.models.cie_luv.uv_to_Luv` definition
         domain and range scale support.
@@ -475,7 +477,7 @@ class Testuv_to_Luv:
                 )
 
     @ignore_numpy_errors
-    def test_nan_uv_to_Luv(self):
+    def test_nan_uv_to_Luv(self) -> None:
         """Test :func:`colour.models.cie_luv.uv_to_Luv` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -489,7 +491,7 @@ class TestLuv_uv_to_xy:
     methods.
     """
 
-    def test_Luv_uv_to_xy(self):
+    def test_Luv_uv_to_xy(self) -> None:
         """Test :func:`colour.models.cie_luv.Luv_uv_to_xy` definition."""
 
         np.testing.assert_allclose(
@@ -510,7 +512,7 @@ class TestLuv_uv_to_xy:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_Luv_uv_to_xy(self):
+    def test_n_dimensional_Luv_uv_to_xy(self) -> None:
         """
         Test :func:`colour.models.cie_luv.Luv_uv_to_xy` definition
         n-dimensional arrays support.
@@ -528,7 +530,7 @@ class TestLuv_uv_to_xy:
         np.testing.assert_allclose(Luv_uv_to_xy(uv), xy, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
-    def test_nan_Luv_uv_to_xy(self):
+    def test_nan_Luv_uv_to_xy(self) -> None:
         """
         Test :func:`colour.models.cie_luv.Luv_uv_to_xy` definition nan
         support.
@@ -545,7 +547,7 @@ class TestXy_to_Luv_uv:
     methods.
     """
 
-    def test_xy_to_Luv_uv(self):
+    def test_xy_to_Luv_uv(self) -> None:
         """Test :func:`colour.models.cie_luv.xy_to_Luv_uv` definition."""
 
         np.testing.assert_allclose(
@@ -566,7 +568,7 @@ class TestXy_to_Luv_uv:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_xy_to_Luv_uv(self):
+    def test_n_dimensional_xy_to_Luv_uv(self) -> None:
         """
         Test :func:`colour.models.cie_luv.xy_to_Luv_uv` definition
         n-dimensional arrays support.
@@ -584,7 +586,7 @@ class TestXy_to_Luv_uv:
         np.testing.assert_allclose(xy_to_Luv_uv(xy), uv, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
-    def test_nan_xy_to_Luv_uv(self):
+    def test_nan_xy_to_Luv_uv(self) -> None:
         """
         Test :func:`colour.models.cie_luv.xy_to_Luv_uv` definition nan
         support.
@@ -601,7 +603,7 @@ class TestXYZ_to_CIE1976UCS:
     methods.
     """
 
-    def test_XYZ_to_CIE1976UCS(self):
+    def test_XYZ_to_CIE1976UCS(self) -> None:
         """Test :func:`colour.models.cie_luv.XYZ_to_CIE1976UCS` definition."""
 
         np.testing.assert_allclose(
@@ -649,7 +651,7 @@ class TestXYZ_to_CIE1976UCS:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_CIE1976UCS(self):
+    def test_n_dimensional_XYZ_to_CIE1976UCS(self) -> None:
         """
         Test :func:`colour.models.cie_luv.XYZ_to_CIE1976UCS` definition n-dimensional
         support.
@@ -677,7 +679,7 @@ class TestXYZ_to_CIE1976UCS:
             XYZ_to_CIE1976UCS(XYZ, illuminant), Luv, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_XYZ_to_CIE1976UCS(self):
+    def test_domain_range_scale_XYZ_to_CIE1976UCS(self) -> None:
         """
         Test :func:`colour.models.cie_luv.XYZ_to_CIE1976UCS` definition
         domain and range scale support.
@@ -697,7 +699,7 @@ class TestXYZ_to_CIE1976UCS:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_CIE1976UCS(self):
+    def test_nan_XYZ_to_CIE1976UCS(self) -> None:
         """
         Test :func:`colour.models.cie_luv.XYZ_to_CIE1976UCS` definition nan
         support.
@@ -714,7 +716,7 @@ class TestCIE1976UCS_to_XYZ:
     methods.
     """
 
-    def test_CIE1976UCS_to_XYZ(self):
+    def test_CIE1976UCS_to_XYZ(self) -> None:
         """Test :func:`colour.models.cie_luv.CIE1976UCS_to_XYZ` definition."""
 
         np.testing.assert_allclose(
@@ -762,7 +764,7 @@ class TestCIE1976UCS_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_CIE1976UCS_to_XYZ(self):
+    def test_n_dimensional_CIE1976UCS_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.cie_luv.CIE1976UCS_to_XYZ` definition n-dimensional
         support.
@@ -790,7 +792,7 @@ class TestCIE1976UCS_to_XYZ:
             CIE1976UCS_to_XYZ(Luv, illuminant), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_CIE1976UCS_to_XYZ(self):
+    def test_domain_range_scale_CIE1976UCS_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.cie_luv.CIE1976UCS_to_XYZ` definition
         domain and range scale support.
@@ -810,7 +812,7 @@ class TestCIE1976UCS_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_nan_CIE1976UCS_to_XYZ(self):
+    def test_nan_CIE1976UCS_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.cie_luv.CIE1976UCS_to_XYZ` definition nan
         support.

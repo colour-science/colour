@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.volume.spectrum` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -38,7 +40,7 @@ class TestGeneratePulseWaves:
     definition unit tests methods.
     """
 
-    def test_generate_pulse_waves(self):
+    def test_generate_pulse_waves(self) -> None:
         """
         Test :func:`colour.volume.spectrum.generate_pulse_waves`
         definition.
@@ -136,7 +138,7 @@ class TestXYZOuterSurface:
     definition unit tests methods.
     """
 
-    def test_XYZ_outer_surface(self):
+    def test_XYZ_outer_surface(self) -> None:
         """
         Test :func:`colour.volume.spectrum.XYZ_outer_surface`
         definition.
@@ -195,7 +197,7 @@ class TestIsWithinVisibleSpectrum:
     definition unit tests methods.
     """
 
-    def test_is_within_visible_spectrum(self):
+    def test_is_within_visible_spectrum(self) -> None:
         """
         Test :func:`colour.volume.spectrum.is_within_visible_spectrum`
         definition.
@@ -209,7 +211,7 @@ class TestIsWithinVisibleSpectrum:
 
         assert not is_within_visible_spectrum(np.array([0.0025, 0.0088, 0.0340]))
 
-    def test_n_dimensional_is_within_visible_spectrum(self):
+    def test_n_dimensional_is_within_visible_spectrum(self) -> None:
         """
         Test :func:`colour.volume.spectrum.is_within_visible_spectrum`
         definition n-dimensional arrays support.
@@ -227,7 +229,7 @@ class TestIsWithinVisibleSpectrum:
         np.testing.assert_allclose(is_within_visible_spectrum(a), b)
 
     @ignore_numpy_errors
-    def test_nan_is_within_visible_spectrum(self):
+    def test_nan_is_within_visible_spectrum(self) -> None:
         """
         Test :func:`colour.volume.spectrum.is_within_visible_spectrum`
         definition nan support.

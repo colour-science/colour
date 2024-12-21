@@ -11,6 +11,8 @@ the :mod:`colour.characterisation.datasets.cameras` module:
 
 from __future__ import annotations
 
+from collections.abc import KeysView, ValuesView
+
 from colour.colorimetry import (
     MultiSpectralDistributions,
     SpectralDistribution,
@@ -97,9 +99,10 @@ class RGB_CameraSensitivities(MultiSpectralDistributions):
             | Series
             | Signal
             | SpectralDistribution
+            | ValuesView
             | None
         ) = None,
-        domain: ArrayLike | SpectralShape | None = None,
+        domain: ArrayLike | SpectralShape | KeysView | None = None,
         labels: Sequence | None = None,  # noqa: ARG002
         **kwargs: Any,
     ) -> None:

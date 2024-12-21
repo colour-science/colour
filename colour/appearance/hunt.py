@@ -105,7 +105,13 @@ class InductionFactors_Hunt(
     :cite:`Fairchild2013u`, :cite:`Hunt2004b`
     """
 
-    def __new__(cls, N_c, N_b, N_cb=None, N_bb=None):
+    def __new__(
+        cls,
+        N_c: float,
+        N_b: float,
+        N_cb: float | None = None,
+        N_bb: float | None = None,
+    ) -> InductionFactors_Hunt:
         """
         Return a new instance of the
         :class:`colour.appearance.InductionFactors_Hunt` class.
@@ -655,8 +661,8 @@ def chromatic_adaptation(
     XYZ: ArrayLike,
     XYZ_w: ArrayLike,
     XYZ_b: ArrayLike,
-    L_A,
-    F_L,
+    L_A: ArrayLike,
+    F_L: ArrayLike,
     XYZ_p: ArrayLike | None = None,
     p: ArrayLike | None = None,
     helson_judd_effect: bool = False,

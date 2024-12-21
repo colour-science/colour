@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.hunter_rdab` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -27,7 +29,7 @@ class TestXYZ_to_ICaCb:
     methods.
     """
 
-    def test_XYZ_to_ICaCb(self):
+    def test_XYZ_to_ICaCb(self) -> None:
         """Test :func:`colour.models.icacb.XYZ_to_ICaCb` definition."""
 
         np.testing.assert_allclose(
@@ -54,7 +56,7 @@ class TestXYZ_to_ICaCb:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_ICaCb(self):
+    def test_n_dimensional_XYZ_to_ICaCb(self) -> None:
         """
         Test :func:`colour.models.icacb.XYZ_to_ICaCb` definition
         n-dimensional support.
@@ -75,7 +77,7 @@ class TestXYZ_to_ICaCb:
             XYZ_to_ICaCb(XYZ), ICaCb, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_XYZ_to_ICaCb(self):
+    def test_domain_range_scale_XYZ_to_ICaCb(self) -> None:
         """
         Test :func:`colour.models.icacb.XYZ_to_ICaCb` definition domain and
         range scale support.
@@ -94,7 +96,7 @@ class TestXYZ_to_ICaCb:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_ICaCb(self):
+    def test_nan_XYZ_to_ICaCb(self) -> None:
         """Test :func:`colour.models.cie_lab.XYZ_to_Lab` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -105,7 +107,7 @@ class TestXYZ_to_ICaCb:
 class TestICaCb_to_XYZ:
     """Test :func:`colour.models.icacb.ICaCb_to_XYZ` definition."""
 
-    def test_XYZ_to_ICaCb(self):
+    def test_XYZ_to_ICaCb(self) -> None:
         """Test :func:`colour.models.icacb.ICaCb_to_XYZ` definition."""
 
         np.testing.assert_allclose(
@@ -132,7 +134,7 @@ class TestICaCb_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_ICaCb_to_XYZ(self):
+    def test_n_dimensional_ICaCb_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.icacb.ICaCb_to_XYZ` definition
         n-dimensional support.
@@ -153,7 +155,7 @@ class TestICaCb_to_XYZ:
             ICaCb_to_XYZ(ICaCb), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_ICaCb_to_XYZ(self):
+    def test_domain_range_scale_ICaCb_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.icacb.ICaCb_to_XYZ` definition domain and
         range scale support.
@@ -172,7 +174,7 @@ class TestICaCb_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_nan_ICaCb_to_XYZ(self):
+    def test_nan_ICaCb_to_XYZ(self) -> None:
         """Test :func:`colour.models.cie_lab.XYZ_to_Lab` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]

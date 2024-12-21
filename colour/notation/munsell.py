@@ -1949,7 +1949,7 @@ def hue_angle_to_hue(hue_angle: float) -> NDArrayFloat:
     return tstack(cast(ArrayLike, [hue, code]))
 
 
-def hue_to_ASTM_hue(hue_and_code) -> float:
+def hue_to_ASTM_hue(hue_and_code: ArrayLike) -> float:
     """
     Convert from the *Munsell* *Colorlab* specification hue and *Munsell*
     *Colorlab* specification codeto *ASTM* hue number.

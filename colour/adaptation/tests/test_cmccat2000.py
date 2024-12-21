@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.adaptation.cmccat2000."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -30,7 +32,7 @@ class TestChromaticAdaptationForwardCMCCAT2000:
 chromatic_adaptation_forward_CMCCAT2000` definition unit tests methods.
     """
 
-    def test_chromatic_adaptation_forward_CMCCAT2000(self):
+    def test_chromatic_adaptation_forward_CMCCAT2000(self) -> None:
         """
         Test :func:`colour.adaptation.cmccat2000.\
 chromatic_adaptation_forward_CMCCAT2000` definition.
@@ -72,7 +74,7 @@ chromatic_adaptation_forward_CMCCAT2000` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_chromatic_adaptation_forward_CMCCAT2000(self):
+    def test_n_dimensional_chromatic_adaptation_forward_CMCCAT2000(self) -> None:
         """
         Test :func:`colour.adaptation.cmccat2000.\
 chromatic_adaptation_forward_CMCCAT2000` definition n-dimensional arrays
@@ -116,7 +118,7 @@ chromatic_adaptation_forward_CMCCAT2000` definition n-dimensional arrays
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_chromatic_adaptation_CMCCAT2000(self):
+    def test_domain_range_scale_chromatic_adaptation_CMCCAT2000(self) -> None:
         """
         Test :func:`colour.adaptation.cmccat2000.\
 chromatic_adaptation_forward_CMCCAT2000` definition domain and range scale
@@ -146,7 +148,7 @@ chromatic_adaptation_forward_CMCCAT2000` definition domain and range scale
                 )
 
     @ignore_numpy_errors
-    def test_nan_chromatic_adaptation_forward_CMCCAT2000(self):
+    def test_nan_chromatic_adaptation_forward_CMCCAT2000(self) -> None:
         """
         Test :func:`colour.adaptation.cmccat2000.\
 chromatic_adaptation_forward_CMCCAT2000` definition nan support.
@@ -165,7 +167,7 @@ class TestChromaticAdaptationInverseCMCCAT2000:
 chromatic_adaptation_inverse_CMCCAT2000` definition unit tests methods.
     """
 
-    def test_chromatic_adaptation_inverse_CMCCAT2000(self):
+    def test_chromatic_adaptation_inverse_CMCCAT2000(self) -> None:
         """
         Test :func:`colour.adaptation.cmccat2000.\
 chromatic_adaptation_inverse_CMCCAT2000` definition.
@@ -207,7 +209,7 @@ chromatic_adaptation_inverse_CMCCAT2000` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_chromatic_adaptation_inverse_CMCCAT2000(self):
+    def test_n_dimensional_chromatic_adaptation_inverse_CMCCAT2000(self) -> None:
         """
         Test :func:`colour.adaptation.cmccat2000.\
 chromatic_adaptation_inverse_CMCCAT2000` definition n-dimensional arrays
@@ -251,7 +253,7 @@ chromatic_adaptation_inverse_CMCCAT2000` definition n-dimensional arrays
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_chromatic_adaptation_CMCCAT2000(self):
+    def test_domain_range_scale_chromatic_adaptation_CMCCAT2000(self) -> None:
         """
         Test :func:`colour.adaptation.cmccat2000.\
 chromatic_adaptation_inverse_CMCCAT2000` definition domain and range scale
@@ -281,7 +283,7 @@ chromatic_adaptation_inverse_CMCCAT2000` definition domain and range scale
                 )
 
     @ignore_numpy_errors
-    def test_nan_chromatic_adaptation_inverse_CMCCAT2000(self):
+    def test_nan_chromatic_adaptation_inverse_CMCCAT2000(self) -> None:
         """
         Test :func:`colour.adaptation.cmccat2000.\
 chromatic_adaptation_inverse_CMCCAT2000` definition nan support.

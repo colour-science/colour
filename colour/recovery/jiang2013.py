@@ -270,7 +270,7 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
     RGB: ArrayLike,
     illuminant: SpectralDistribution,
     reflectances: MultiSpectralDistributions,
-    basis_functions=BASIS_FUNCTIONS_DYER2017,
+    basis_functions: ArrayLike = BASIS_FUNCTIONS_DYER2017,
     shape: SpectralShape | None = None,
 ) -> MultiSpectralDistributions:
     """
@@ -369,6 +369,7 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
     """
 
     R, G, B = tsplit(np.reshape(RGB, [-1, 3]))
+    basis_functions = as_float_array(basis_functions)
     shape = optional(shape, illuminant.shape)
 
     R_w, G_w, B_w = tsplit(np.moveaxis(basis_functions, 0, 1))

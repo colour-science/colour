@@ -33,6 +33,7 @@ from colour.hints import (
     List,
     Literal,
     NDArray,
+    NDArrayFloat,
     Sequence,
     Tuple,
     cast,
@@ -123,7 +124,7 @@ def lines_daylight_locus(
 
     xy_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["xy_to_ij"]
 
-    def CCT_to_plotting_colourspace(CCT):
+    def CCT_to_plotting_colourspace(CCT: ArrayLike) -> NDArrayFloat:
         """
         Convert given correlated colour temperature :math:`T_{cp}` to the
         default plotting colourspace.
@@ -305,7 +306,7 @@ def lines_planckian_locus(
 
     uv_to_ij = METHODS_CHROMATICITY_DIAGRAM[method]["uv_to_ij"]
 
-    def CCT_D_uv_to_plotting_colourspace(CCT_D_uv):
+    def CCT_D_uv_to_plotting_colourspace(CCT_D_uv: ArrayLike) -> NDArrayFloat:
         """
         Convert given correlated colour temperature :math:`T_{cp}` and
         :math:`\\Delta_{uv}` to the default plotting colourspace.

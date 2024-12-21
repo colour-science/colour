@@ -26,6 +26,7 @@ References
 
 from __future__ import annotations
 
+from collections.abc import ValuesView
 from functools import reduce
 
 import matplotlib.pyplot as plt
@@ -268,6 +269,7 @@ def plot_multi_sds(
         Sequence[SpectralDistribution | MultiSpectralDistributions]
         | SpectralDistribution
         | MultiSpectralDistributions
+        | ValuesView
     ),
     plot_kwargs: dict | List[dict] | None = None,
     **kwargs: Any,

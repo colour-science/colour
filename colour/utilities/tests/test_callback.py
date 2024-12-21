@@ -22,20 +22,22 @@ class TestMixinCallback:
     tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         class WithCallback(MixinCallback):
             """Test :class:`MixinCallback` class."""
 
-            def __init__(self):
+            def __init__(self) -> None:
                 super().__init__()
 
                 self.attribute_a = "a"
 
         self._with_callback = WithCallback()
 
-        def _on_attribute_a_changed(self, name: str, value: str) -> str:
+        def _on_attribute_a_changed(
+            self: TestMixinCallback, name: str, value: str
+        ) -> str:
             """Transform *self._attribute_a* to uppercase."""
 
             value = value.upper()
@@ -49,7 +51,7 @@ class TestMixinCallback:
 
         self._on_attribute_a_changed = _on_attribute_a_changed
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
         required_attributes = ("callbacks",)
@@ -57,7 +59,7 @@ class TestMixinCallback:
         for attribute in required_attributes:
             assert attribute in dir(MixinCallback)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = (
@@ -69,7 +71,7 @@ class TestMixinCallback:
         for method in required_methods:
             assert method in dir(MixinCallback)
 
-    def test_register_callback(self):
+    def test_register_callback(self) -> None:
         """
         Test :class:`colour.utilities.callback.MixinCallback.register_callback`
         method.
@@ -85,7 +87,7 @@ class TestMixinCallback:
         assert self._with_callback.attribute_a == "A"
         assert len(self._with_callback.callbacks) == 1
 
-    def test_unregister_callback(self):
+    def test_unregister_callback(self) -> None:
         """
         Test :class:`colour.utilities.callback.MixinCallback.unregister_callback`
         method.

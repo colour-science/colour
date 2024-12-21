@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.rgb.datasets` module."""
 
+from __future__ import annotations
+
 import pickle
 from copy import deepcopy
 
@@ -30,7 +32,7 @@ class TestRGB_COLOURSPACES:
     attribute unit tests methods.
     """
 
-    def test_transformation_matrices(self):
+    def test_transformation_matrices(self) -> None:
         """
         Test the transformations matrices from the
         :attr:`colour.models.rgb.datasets.RGB_COLOURSPACES` attribute
@@ -73,7 +75,7 @@ class TestRGB_COLOURSPACES:
             XYZ = np.dot(colourspace.matrix_RGB_to_XYZ, RGB)
             np.testing.assert_allclose(XYZ_r, XYZ, atol=tolerance)
 
-    def test_cctf(self):
+    def test_cctf(self) -> None:
         """
         Test colour component transfer functions from the
         :attr:`colour.models.rgb.datasets.RGB_COLOURSPACES` attribute
@@ -101,7 +103,7 @@ class TestRGB_COLOURSPACES:
                 atol=tolerance.get(colourspace.name, TOLERANCE_ABSOLUTE_TESTS),
             )
 
-    def test_n_dimensional_cctf(self):
+    def test_n_dimensional_cctf(self) -> None:
         """
         Test colour component transfer functions from the
         :attr:`colour.models.rgb.datasets.RGB_COLOURSPACES` attribute
@@ -146,7 +148,7 @@ class TestRGB_COLOURSPACES:
             )
 
     @ignore_numpy_errors
-    def test_nan_cctf(self):
+    def test_nan_cctf(self) -> None:
         """
         Test colour component transfer functions from the
         :attr:`colour.models.rgb.datasets.RGB_COLOURSPACES` attribute
@@ -158,7 +160,7 @@ class TestRGB_COLOURSPACES:
             colourspace.cctf_encoding(cases)
             colourspace.cctf_decoding(cases)
 
-    def test_pickle(self):
+    def test_pickle(self) -> None:
         """Test the "pickle-ability" of the *RGB* colourspaces."""
 
         for colourspace in RGB_COLOURSPACES.values():

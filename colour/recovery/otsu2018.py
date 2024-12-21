@@ -181,7 +181,7 @@ class Dataset_Otsu2018:
 
         Returns
         -------
-        :py:data:`None` or :class:`colour.SpectralShape`
+        :class:`colour.SpectralShape` or :py:data:`None`
             Shape used by the *Otsu et al. (2018)* dataset.
         """
 
@@ -195,7 +195,7 @@ class Dataset_Otsu2018:
 
         Returns
         -------
-        :py:data:`None` or :class:`numpy.ndarray`
+        :class:`numpy.ndarray` or :py:data:`None`
             Basis functions of the *Otsu et al. (2018)* dataset.
         """
 
@@ -208,7 +208,7 @@ class Dataset_Otsu2018:
 
         Returns
         -------
-        :py:data:`None` or :class:`numpy.ndarray`
+        :class:`numpy.ndarray` or :py:data:`None`
             Means of the *Otsu et al. (2018)* dataset.
         """
 
@@ -222,7 +222,7 @@ class Dataset_Otsu2018:
 
         Returns
         -------
-        :py:data:`None` or :class:`numpy.ndarray`
+        :class:`numpy.ndarray` or :py:data:`None`
             Selector array of the *Otsu et al. (2018)* dataset.
         """
 
@@ -691,7 +691,7 @@ class Data_Otsu2018:
         return self._reflectances
 
     @reflectances.setter
-    def reflectances(self, value: ArrayLike | None):
+    def reflectances(self, value: ArrayLike | None) -> None:
         """Setter for the **self.reflectances** property."""
 
         if value is not None:
@@ -1006,7 +1006,7 @@ class Node_Otsu2018(TreeNode):
         self,
         parent: Self | None = None,
         children: list | None = None,
-        data: Self | None = None,
+        data: Data_Otsu2018 | None = None,
     ) -> None:
         super().__init__(parent=parent, children=children, data=data)
 
@@ -1054,7 +1054,7 @@ class Node_Otsu2018(TreeNode):
         else:
             raise ValueError('The "partition axis" is undefined!')
 
-    def split(self, children: Sequence[Self], axis: PartitionAxis):
+    def split(self, children: Sequence[Self], axis: PartitionAxis) -> None:
         """
         Convert the leaf node into an inner node using given children and
         partition axis.
@@ -1372,7 +1372,7 @@ class Tree_Otsu2018(Node_Otsu2018):
         iterations: int = 8,
         minimum_cluster_size: int | None = None,
         print_callable: Callable = print,
-    ):
+    ) -> None:
         """
         Optimise the tree by repeatedly performing optimal partitioning of the
         nodes, creating a tree that minimises the total reconstruction error.

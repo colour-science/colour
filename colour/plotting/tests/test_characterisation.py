@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.plotting.characterisation` module."""
 
+from __future__ import annotations
+
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
@@ -27,7 +29,7 @@ class TestPlotSingleColourChecker:
     definition unit tests methods.
     """
 
-    def test_plot_single_colour_checker(self):
+    def test_plot_single_colour_checker(self) -> None:
         """
         Test :func:`colour.plotting.characterisation.\
 plot_single_colour_checker` definition.
@@ -45,7 +47,7 @@ class TestPlotMultiColourCheckers:
     definition unit tests methods.
     """
 
-    def test_plot_multi_colour_checkers(self):
+    def test_plot_multi_colour_checkers(self) -> None:
         """
         Test :func:`colour.plotting.characterisation.\
 plot_multi_colour_checkers` definition.

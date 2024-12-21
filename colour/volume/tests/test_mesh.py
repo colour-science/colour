@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.volume.mesh` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -26,7 +28,7 @@ class TestIsWithinMeshVolume:
     tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._mesh = np.array(
@@ -39,7 +41,7 @@ class TestIsWithinMeshVolume:
             ]
         )
 
-    def test_is_within_mesh_volume(self):
+    def test_is_within_mesh_volume(self) -> None:
         """Test :func:`colour.volume.mesh.is_within_mesh_volume` definition."""
 
         assert is_within_mesh_volume(np.array([0.0005, 0.0031, 0.0010]), self._mesh)
@@ -50,7 +52,7 @@ class TestIsWithinMeshVolume:
 
         assert not is_within_mesh_volume(np.array([0.4325, 0.3788, 0.1034]), self._mesh)
 
-    def test_n_dimensional_is_within_mesh_volume(self):
+    def test_n_dimensional_is_within_mesh_volume(self) -> None:
         """
         Test :func:`colour.volume.mesh.is_within_mesh_volume` definition
         n-dimensional arrays support.
@@ -76,7 +78,7 @@ class TestIsWithinMeshVolume:
         )
 
     @ignore_numpy_errors
-    def test_nan_is_within_mesh_volume(self):
+    def test_nan_is_within_mesh_volume(self) -> None:
         """
         Test :func:`colour.volume.mesh.is_within_mesh_volume` definition nan
         support.

@@ -43,17 +43,17 @@ ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 class TestCtlRender:
     """Define :func:`colour.io.ctl.ctl_render` definition unit tests methods."""
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
-    def teardown_method(self):
+    def teardown_method(self) -> None:
         """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
-    def test_ctl_render(self):  # pragma: no cover
+    def test_ctl_render(self) -> None:  # pragma: no cover
         """Test :func:`colour.io.ctl.ctl_render` definition."""
 
         if not is_ctlrender_installed():
@@ -123,7 +123,7 @@ class TestProcessImageCtl:
     methods.
     """
 
-    def test_process_image_ctl(self):  # pragma: no cover
+    def test_process_image_ctl(self) -> None:  # pragma: no cover
         """Test :func:`colour.io.ctl.process_image_ctl` definition."""
 
         if not is_ctlrender_installed():
@@ -201,7 +201,7 @@ class TestTemplateCtlTransformFloat:
     tests methods.
     """
 
-    def test_template_ctl_transform_float(self):
+    def test_template_ctl_transform_float(self) -> None:
         """Test :func:`colour.io.ctl.template_ctl_transform_float` definition."""
 
         ctl_foo_bar_float = template_ctl_transform_float(
@@ -254,7 +254,7 @@ class TestTemplateCtlTransformFloat3:
     tests methods.
     """
 
-    def test_template_ctl_transform_float3(self):
+    def test_template_ctl_transform_float3(self) -> None:
         """Test :func:`colour.io.ctl.template_ctl_transform_float3` definition."""
 
         ctl_foo_bar_float3 = template_ctl_transform_float3(

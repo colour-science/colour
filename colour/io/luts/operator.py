@@ -97,7 +97,7 @@ class AbstractLUTSequenceOperator(ABC):
         return self._name
 
     @name.setter
-    def name(self, value: str):
+    def name(self, value: str) -> None:
         """Setter for the **self.name** property."""
 
         attest(
@@ -126,7 +126,7 @@ class AbstractLUTSequenceOperator(ABC):
         return self._comments
 
     @comments.setter
-    def comments(self, value: Sequence[str]):
+    def comments(self, value: Sequence[str]) -> None:
         """Setter for the **self.comments** property."""
 
         attest(
@@ -271,7 +271,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         return self._matrix
 
     @matrix.setter
-    def matrix(self, value: ArrayLike):
+    def matrix(self, value: ArrayLike) -> None:
         """Setter for the **self.matrix** property."""
 
         value = as_float_array(value)
@@ -309,7 +309,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         return self._offset
 
     @offset.setter
-    def offset(self, value: ArrayLike):
+    def offset(self, value: ArrayLike) -> None:
         """Setter for the **self.offset** property."""
 
         value = as_float_array(value)

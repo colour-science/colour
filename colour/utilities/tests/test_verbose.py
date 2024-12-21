@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.utilities.verbose` module."""
 
+from __future__ import annotations
+
 import os
 import sys
 import textwrap
@@ -41,7 +43,7 @@ class TestMixinLogging:
     methods.
     """
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("log",)
@@ -56,18 +58,18 @@ class TestShowWarning:
     methods.
     """
 
-    def test_show_warning(self):
+    def test_show_warning(self) -> None:
         """Test :func:`colour.utilities.verbose.show_warning` definition."""
 
-        show_warning("This is a unit test warning!", Warning, None, None)
+        show_warning("This is a unit test warning!", Warning, __file__, 0)
 
         with open(os.devnull) as dev_null:
-            show_warning("This is a unit test warning!", Warning, None, None, dev_null)
+            show_warning("This is a unit test warning!", Warning, __file__, 0, dev_null)
 
         stderr = sys.stderr
         try:
             sys.stderr = None
-            show_warning("This is a unit test warning!", Warning, None, None)
+            show_warning("This is a unit test warning!", Warning, __file__, 0)
         finally:
             sys.stderr = stderr
 
@@ -78,7 +80,7 @@ class TestAsBool:
     methods.
     """
 
-    def test_as_bool(self):
+    def test_as_bool(self) -> None:
         """Test :func:`colour.utilities.common.as_bool` definition."""
 
         assert as_bool("1")
@@ -102,7 +104,7 @@ class TestSuppressWarnings:
     tests methods.
     """
 
-    def test_suppress_warnings(self):
+    def test_suppress_warnings(self) -> None:
         """Test :func:`colour.utilities.verbose.suppress_warnings` definition."""
 
         with suppress_warnings():
@@ -115,7 +117,7 @@ class TestSuppressStdout:
     tests methods.
     """
 
-    def test_suppress_stdout(self):
+    def test_suppress_stdout(self) -> None:
         """Test :func:`colour.utilities.verbose.suppress_stdout` definition."""
 
         with suppress_stdout():
@@ -128,7 +130,7 @@ class TestDescribeEnvironment:
     unit tests methods.
     """
 
-    def test_describe_environment(self):
+    def test_describe_environment(self) -> None:
         """Test :func:`colour.utilities.verbose.describe_environment` definition."""
 
         environment = describe_environment()
@@ -165,7 +167,7 @@ class TestMultilineStr:
     tests methods.
     """
 
-    def test_multiline_str(self):
+    def test_multiline_str(self) -> None:
         """Test :func:`colour.utilities.verbose.multiline_str` definition."""
 
         class Data:
@@ -233,7 +235,7 @@ class TestMultilineRepr:
     tests methods.
     """
 
-    def test_multiline_repr(self):
+    def test_multiline_repr(self) -> None:
         """Test :func:`colour.utilities.verbose.multiline_repr` definition."""
 
         class Data:

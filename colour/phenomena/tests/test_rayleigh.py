@@ -485,7 +485,7 @@ class TestAirRefractionIndexPenndorf1957:
 air_refraction_index_Penndorf1957` definition unit tests methods.
     """
 
-    def test_air_refraction_index_Penndorf1957(self):
+    def test_air_refraction_index_Penndorf1957(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.\
 air_refraction_index_Penndorf1957` definition.
@@ -509,7 +509,7 @@ air_refraction_index_Penndorf1957` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_air_refraction_index_Penndorf1957(self):
+    def test_n_dimensional_air_refraction_index_Penndorf1957(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.\
 air_refraction_index_Penndorf1957` definition n-dimensional arrays support.
@@ -543,7 +543,7 @@ air_refraction_index_Penndorf1957` definition n-dimensional arrays support.
         )
 
     @ignore_numpy_errors
-    def test_nan_air_refraction_index_Penndorf1957(self):
+    def test_nan_air_refraction_index_Penndorf1957(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.\
 air_refraction_index_Penndorf1957` definition nan support.
@@ -560,7 +560,7 @@ class TestAirRefractionIndexEdlen1966:
     definition unit tests methods.
     """
 
-    def test_air_refraction_index_Edlen1966(self):
+    def test_air_refraction_index_Edlen1966(self) -> None:
         """
         Test :func:`colour.phenomena.\
 rayleigh.air_refraction_index_Edlen1966` definition.
@@ -584,7 +584,7 @@ rayleigh.air_refraction_index_Edlen1966` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_air_refraction_index_Edlen1966(self):
+    def test_n_dimensional_air_refraction_index_Edlen1966(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.\
 air_refraction_index_Edlen1966` definition n-dimensional arrays support.
@@ -618,7 +618,7 @@ air_refraction_index_Edlen1966` definition n-dimensional arrays support.
         )
 
     @ignore_numpy_errors
-    def test_nan_air_refraction_index_Edlen1966(self):
+    def test_nan_air_refraction_index_Edlen1966(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.\
 air_refraction_index_Edlen1966` definition nan support.
@@ -635,7 +635,7 @@ class TestAirRefractionIndexPeck1972:
     definition unit tests methods.
     """
 
-    def test_air_refraction_index_Peck1972(self):
+    def test_air_refraction_index_Peck1972(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.air_refraction_index_Peck1972`
         definition.
@@ -659,7 +659,7 @@ class TestAirRefractionIndexPeck1972:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_air_refraction_index_Peck1972(self):
+    def test_n_dimensional_air_refraction_index_Peck1972(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.air_refraction_index_Peck1972`
         definition n-dimensional arrays support.
@@ -687,7 +687,7 @@ class TestAirRefractionIndexPeck1972:
         )
 
     @ignore_numpy_errors
-    def test_nan_air_refraction_index_Peck1972(self):
+    def test_nan_air_refraction_index_Peck1972(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.air_refraction_index_Peck1972`
         definition nan support.
@@ -704,7 +704,7 @@ class TestAirRefractionIndexBodhaine1999:
 air_refraction_index_Bodhaine1999` definition unit tests methods.
     """
 
-    def test_air_refraction_index_Bodhaine1999(self):
+    def test_air_refraction_index_Bodhaine1999(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.\
 air_refraction_index_Bodhaine1999` definition.
@@ -746,7 +746,7 @@ air_refraction_index_Bodhaine1999` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_air_refraction_index_Bodhaine1999(self):
+    def test_n_dimensional_air_refraction_index_Bodhaine1999(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.\
 air_refraction_index_Bodhaine1999` definition n-dimensional arrays support.
@@ -780,7 +780,7 @@ air_refraction_index_Bodhaine1999` definition n-dimensional arrays support.
         )
 
     @ignore_numpy_errors
-    def test_nan_air_refraction_index_Bodhaine1999(self):
+    def test_nan_air_refraction_index_Bodhaine1999(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.\
 air_refraction_index_Bodhaine1999` definition nan support.
@@ -796,7 +796,7 @@ class TestN2Depolarisation:
     unit tests methods.
     """
 
-    def test_N2_depolarisation(self):
+    def test_N2_depolarisation(self) -> None:
         """Test :func:`colour.phenomena.rayleigh.N2_depolarisation` definition."""
 
         np.testing.assert_allclose(
@@ -817,7 +817,7 @@ class TestN2Depolarisation:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_N2_depolarisation(self):
+    def test_n_dimensional_N2_depolarisation(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.N2_depolarisation`
         definition n-dimensional arrays support.
@@ -845,7 +845,7 @@ class TestN2Depolarisation:
         )
 
     @ignore_numpy_errors
-    def test_nan_N2_depolarisation(self):
+    def test_nan_N2_depolarisation(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.N2_depolarisation` definition
         nan support.
@@ -860,7 +860,7 @@ class TestO2Depolarisation:
     unit tests methods.
     """
 
-    def test_O2_depolarisation(self):
+    def test_O2_depolarisation(self) -> None:
         """Test :func:`colour.phenomena.rayleigh.O2_depolarisation` definition."""
 
         np.testing.assert_allclose(
@@ -881,7 +881,7 @@ class TestO2Depolarisation:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_O2_depolarisation(self):
+    def test_n_dimensional_O2_depolarisation(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.O2_depolarisation` definition
         n-dimensional arrays support.
@@ -909,7 +909,7 @@ class TestO2Depolarisation:
         )
 
     @ignore_numpy_errors
-    def test_nan_O2_depolarisation(self):
+    def test_nan_O2_depolarisation(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.O2_depolarisation` definition
         nan support.
@@ -924,7 +924,7 @@ class TestF_airPenndorf1957:
     unit tests methods.
     """
 
-    def test_F_air_Penndorf1957(self):
+    def test_F_air_Penndorf1957(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.F_air_Penndorf1957`
         definition.
@@ -932,7 +932,7 @@ class TestF_airPenndorf1957:
 
         assert F_air_Penndorf1957(0.360) == 1.0608
 
-    def test_n_dimensional_F_air_Penndorf1957(self):
+    def test_n_dimensional_F_air_Penndorf1957(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.F_air_Penndorf1957` definition
         n-dimensional arrays support.
@@ -960,7 +960,7 @@ class TestF_airPenndorf1957:
         )
 
     @ignore_numpy_errors
-    def test_nan_F_air_Penndorf1957(self):
+    def test_nan_F_air_Penndorf1957(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.F_air_Penndorf1957` definition
         nan support.
@@ -975,12 +975,12 @@ class TestF_airYoung1981:
     unit tests methods.
     """
 
-    def test_F_air_Young1981(self):
+    def test_F_air_Young1981(self) -> None:
         """Test :func:`colour.phenomena.rayleigh.F_air_Young1981` definition."""
 
         assert F_air_Young1981(0.360) == 1.0480
 
-    def test_n_dimensional_F_air_Young1981(self):
+    def test_n_dimensional_F_air_Young1981(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.F_air_Young1981` definition
         n-dimensional arrays support.
@@ -1008,7 +1008,7 @@ class TestF_airYoung1981:
         )
 
     @ignore_numpy_errors
-    def test_nan_F_air_Young1981(self):
+    def test_nan_F_air_Young1981(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.F_air_Young1981` definition
         nan support.
@@ -1023,7 +1023,7 @@ class TestF_airBates1984:
     tests methods.
     """
 
-    def test_F_air_Bates1984(self):
+    def test_F_air_Bates1984(self) -> None:
         """Test :func:`colour.phenomena.rayleigh.F_air_Bates1984` definition."""
 
         np.testing.assert_allclose(
@@ -1044,7 +1044,7 @@ class TestF_airBates1984:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_F_air_Bates1984(self):
+    def test_n_dimensional_F_air_Bates1984(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.F_air_Bates1984` definition
         n-dimensional arrays support.
@@ -1072,7 +1072,7 @@ class TestF_airBates1984:
         )
 
     @ignore_numpy_errors
-    def test_nan_F_air_Bates1984(self):
+    def test_nan_F_air_Bates1984(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.F_air_Bates1984` definition
         nan support.
@@ -1087,7 +1087,7 @@ class TestF_airBodhaine1999:
     unit tests methods.
     """
 
-    def test_F_air_Bodhaine1999(self):
+    def test_F_air_Bodhaine1999(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.F_air_Bodhaine1999`
         definition.
@@ -1129,7 +1129,7 @@ class TestF_airBodhaine1999:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_F_air_Bodhaine1999(self):
+    def test_n_dimensional_F_air_Bodhaine1999(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.F_air_Bodhaine1999` definition
         n-dimensional arrays support.
@@ -1157,7 +1157,7 @@ class TestF_airBodhaine1999:
         )
 
     @ignore_numpy_errors
-    def test_nan_F_air_Bodhaine1999(self):
+    def test_nan_F_air_Bodhaine1999(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.F_air_Bodhaine1999` definition
         nan support.
@@ -1173,7 +1173,7 @@ class TestMolecularDensity:
     unit tests methods.
     """
 
-    def test_molecular_density(self):
+    def test_molecular_density(self) -> None:
         """Test :func:`colour.phenomena.rayleigh.molecular_density` definition."""
 
         np.testing.assert_allclose(
@@ -1188,7 +1188,7 @@ class TestMolecularDensity:
             molecular_density(400), 1.834724604086825e19, atol=10000
         )
 
-    def test_n_dimensional_molecular_density(self):
+    def test_n_dimensional_molecular_density(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.molecular_density` definition
         n-dimensional arrays support.
@@ -1216,7 +1216,7 @@ class TestMolecularDensity:
         )
 
     @ignore_numpy_errors
-    def test_nan_molecular_density(self):
+    def test_nan_molecular_density(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.molecular_density` definition
         nan support.
@@ -1231,7 +1231,7 @@ class TestMeanMolecularWeights:
     definition unit tests methods.
     """
 
-    def test_mean_molecular_weights(self):
+    def test_mean_molecular_weights(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.mean_molecular_weights`
         definition.
@@ -1253,7 +1253,7 @@ class TestMeanMolecularWeights:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_mean_molecular_weights(self):
+    def test_n_dimensional_mean_molecular_weights(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.mean_molecular_weights`
         definition n-dimensional arrays support.
@@ -1281,7 +1281,7 @@ class TestMeanMolecularWeights:
         )
 
     @ignore_numpy_errors
-    def test_nan_mean_molecular_weights(self):
+    def test_nan_mean_molecular_weights(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.mean_molecular_weights`
         definition nan support.
@@ -1296,7 +1296,7 @@ class TestGravityList1968:
     unit tests methods.
     """
 
-    def test_gravity_List1968(self):
+    def test_gravity_List1968(self) -> None:
         """Test :func:`colour.phenomena.rayleigh.gravity_List1968` definition."""
 
         np.testing.assert_allclose(
@@ -1317,7 +1317,7 @@ class TestGravityList1968:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_gravity_List1968(self):
+    def test_n_dimensional_gravity_List1968(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.gravity_List1968`
         definition n-dimensional arrays support.
@@ -1336,7 +1336,7 @@ class TestGravityList1968:
         np.testing.assert_allclose(gravity_List1968(), g, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
-    def test_nan_gravity_List1968(self):
+    def test_nan_gravity_List1968(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.gravity_List1968` definition
         nan support.
@@ -1352,7 +1352,7 @@ class TestScatteringCrossSection:
     definition unit tests methods.
     """
 
-    def test_scattering_cross_section(self):
+    def test_scattering_cross_section(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.scattering_cross_section`
         definition.
@@ -1412,7 +1412,7 @@ class TestScatteringCrossSection:
             atol=1e-30,
         )
 
-    def test_n_dimensional_scattering_cross_section(self):
+    def test_n_dimensional_scattering_cross_section(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.scattering_cross_section`
         definition n-dimensional arrays support.
@@ -1437,7 +1437,7 @@ class TestScatteringCrossSection:
         )
 
     @ignore_numpy_errors
-    def test_nan_scattering_cross_section(self):
+    def test_nan_scattering_cross_section(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.scattering_cross_section`
         definition nan support.
@@ -1453,7 +1453,7 @@ class TestRayleighOpticalDepth:
     definition unit tests methods.
     """
 
-    def test_rayleigh_optical_depth(self):
+    def test_rayleigh_optical_depth(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.rayleigh_optical_depth`
         definition.
@@ -1549,7 +1549,7 @@ class TestRayleighOpticalDepth:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_rayleigh_optical_depth(self):
+    def test_n_dimensional_rayleigh_optical_depth(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.rayleigh_optical_depth`
         definition n-dimensional arrays support.
@@ -1574,7 +1574,7 @@ class TestRayleighOpticalDepth:
         )
 
     @ignore_numpy_errors
-    def test_nan_rayleigh_optical_depth(self):
+    def test_nan_rayleigh_optical_depth(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.rayleigh_optical_depth`
         definition nan support.
@@ -1590,7 +1590,7 @@ class TestSdRayleighScattering:
     definition unit tests methods.
     """
 
-    def test_sd_rayleigh_scattering(self):
+    def test_sd_rayleigh_scattering(self) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.sd_rayleigh_scattering`
         definition.

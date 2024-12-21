@@ -16,6 +16,7 @@ Define the *CIE* chromaticity diagrams plotting objects:
 from __future__ import annotations
 
 import bisect
+from collections.abc import ValuesView
 
 import numpy as np
 from matplotlib.axes import Axes
@@ -881,6 +882,7 @@ def plot_sds_in_chromaticity_diagram(
         Sequence[SpectralDistribution | MultiSpectralDistributions]
         | SpectralDistribution
         | MultiSpectralDistributions
+        | ValuesView
     ),
     cmfs: (
         MultiSpectralDistributions | str | Sequence[MultiSpectralDistributions | str]
@@ -1103,7 +1105,9 @@ def plot_sds_in_chromaticity_diagram(
 def plot_sds_in_chromaticity_diagram_CIE1931(
     sds: (
         Sequence[SpectralDistribution | MultiSpectralDistributions]
+        | SpectralDistribution
         | MultiSpectralDistributions
+        | ValuesView
     ),
     cmfs: (
         MultiSpectralDistributions | str | Sequence[MultiSpectralDistributions | str]
@@ -1213,7 +1217,9 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1931.png
 def plot_sds_in_chromaticity_diagram_CIE1960UCS(
     sds: (
         Sequence[SpectralDistribution | MultiSpectralDistributions]
+        | SpectralDistribution
         | MultiSpectralDistributions
+        | ValuesView
     ),
     cmfs: (
         MultiSpectralDistributions | str | Sequence[MultiSpectralDistributions | str]
@@ -1324,7 +1330,9 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1960UCS.png
 def plot_sds_in_chromaticity_diagram_CIE1976UCS(
     sds: (
         Sequence[SpectralDistribution | MultiSpectralDistributions]
+        | SpectralDistribution
         | MultiSpectralDistributions
+        | ValuesView
     ),
     cmfs: (
         MultiSpectralDistributions | str | Sequence[MultiSpectralDistributions | str]

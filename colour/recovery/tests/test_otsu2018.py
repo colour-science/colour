@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.recovery.jakob2019` module."""
 
+from __future__ import annotations
+
 import os
 import platform
 import shutil
@@ -55,7 +57,7 @@ class TestDataset_Otsu2018:
     tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._dataset = DATASET_REFERENCE_OTSU2018
@@ -66,12 +68,12 @@ class TestDataset_Otsu2018:
         self._path = os.path.join(self._temporary_directory, "Test_Otsu2018.npz")
         self._dataset.write(self._path)
 
-    def teardown_method(self):
+    def teardown_method(self) -> None:
         """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
         required_attributes = (
@@ -84,7 +86,7 @@ class TestDataset_Otsu2018:
         for attribute in required_attributes:
             assert attribute in dir(Dataset_Otsu2018)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = (
@@ -99,48 +101,51 @@ class TestDataset_Otsu2018:
         for method in required_methods:
             assert method in dir(Dataset_Otsu2018)
 
-    def test_shape(self):
+    def test_shape(self) -> None:
         """Test :attr:`colour.recovery.otsu2018.Dataset_Otsu2018.shape` property."""
 
         assert self._dataset.shape == SPECTRAL_SHAPE_OTSU2018
 
-    def test_basis_functions(self):
+    def test_basis_functions(self) -> None:
         """
         Test :attr:`colour.recovery.otsu2018.Dataset_Otsu2018.basis_functions`
         property.
         """
 
+        assert self._dataset.basis_functions is not None
         assert self._dataset.basis_functions.shape == (8, 3, 36)
 
-    def test_means(self):
+    def test_means(self) -> None:
         """
         Test :attr:`colour.recovery.otsu2018.Dataset_Otsu2018.means`
         property.
         """
 
+        assert self._dataset.means is not None
         assert self._dataset.means.shape == (8, 36)
 
-    def test_selector_array(self):
+    def test_selector_array(self) -> None:
         """
         Test :attr:`colour.recovery.otsu2018.Dataset_Otsu2018.selector_array`
         property.
         """
 
+        assert self._dataset.selector_array is not None
         assert self._dataset.selector_array.shape == (7, 4)
 
-    def test__str__(self):
+    def test__str__(self) -> None:
         """Test :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.__str__` method."""
 
         assert str(self._dataset) == "Dataset_Otsu2018(8 basis functions)"
 
         assert str(Dataset_Otsu2018()) == "Dataset_Otsu2018()"
 
-    def test_select(self):
+    def test_select(self) -> None:
         """Test :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.select` method."""
 
         assert self._dataset.select(self._xy) == 6
 
-    def test_raise_exception_select(self):
+    def test_raise_exception_select(self) -> None:
         """
         Test :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.select` method
         raised exception.
@@ -148,14 +153,14 @@ class TestDataset_Otsu2018:
 
         pytest.raises(ValueError, Dataset_Otsu2018().select, np.array([0, 0]))
 
-    def test_cluster(self):
+    def test_cluster(self) -> None:
         """Test :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.cluster` method."""
 
         basis_functions, means = self._dataset.cluster(self._xy)
         assert basis_functions.shape == (3, 36)
         assert means.shape == (36,)
 
-    def test_raise_exception_cluster(self):
+    def test_raise_exception_cluster(self) -> None:
         """
         Test :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.cluster` method
         raised exception.
@@ -163,18 +168,21 @@ class TestDataset_Otsu2018:
 
         pytest.raises(ValueError, Dataset_Otsu2018().cluster, np.array([0, 0]))
 
-    def test_read(self):
+    def test_read(self) -> None:
         """Test :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.read` method."""
 
         dataset = Dataset_Otsu2018()
         dataset.read(self._path)
 
         assert dataset.shape == SPECTRAL_SHAPE_OTSU2018
+        assert dataset.basis_functions is not None
         assert dataset.basis_functions.shape == (8, 3, 36)
+        assert dataset.means is not None
         assert dataset.means.shape == (8, 36)
+        assert dataset.selector_array is not None
         assert dataset.selector_array.shape == (7, 4)
 
-    def test_write(self):
+    def test_write(self) -> None:
         """Test :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.write` method."""
 
         self._dataset.write(self._path)
@@ -183,11 +191,14 @@ class TestDataset_Otsu2018:
         dataset.read(self._path)
 
         assert dataset.shape == SPECTRAL_SHAPE_OTSU2018
+        assert dataset.basis_functions is not None
         assert dataset.basis_functions.shape == (8, 3, 36)
+        assert dataset.means is not None
         assert dataset.means.shape == (8, 36)
+        assert dataset.selector_array is not None
         assert dataset.selector_array.shape == (7, 4)
 
-    def test_raise_exception_write(self):
+    def test_raise_exception_write(self) -> None:
         """
         Test :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.write` method
         raised exception.
@@ -202,7 +213,7 @@ class TestXYZ_to_sd_Otsu2018:
     tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._shape = SPECTRAL_SHAPE_OTSU2018
@@ -210,7 +221,7 @@ class TestXYZ_to_sd_Otsu2018:
         self._XYZ_D65 = sd_to_XYZ(self._sd_D65)
         self._xy_D65 = XYZ_to_xy(self._XYZ_D65)
 
-    def test_XYZ_to_sd_Otsu2018(self):
+    def test_XYZ_to_sd_Otsu2018(self) -> None:
         """Test :func:`colour.recovery.otsu2018.XYZ_to_sd_Otsu2018` definition."""
 
         # Tests the round-trip with values of a colour checker.
@@ -231,7 +242,7 @@ class TestXYZ_to_sd_Otsu2018:
             delta_E = delta_E_CIE1976(Lab, recovered_Lab)
             assert delta_E < 1e-12
 
-    def test_raise_exception_XYZ_to_sd_Otsu2018(self):
+    def test_raise_exception_XYZ_to_sd_Otsu2018(self) -> None:
         """
         Test :func:`colour.recovery.otsu2018.XYZ_to_sd_Otsu2018` definition
         raised_exception.
@@ -246,7 +257,7 @@ class TestXYZ_to_sd_Otsu2018:
             Dataset_Otsu2018(),
         )
 
-    def test_domain_range_scale_XYZ_to_sd_Otsu2018(self):
+    def test_domain_range_scale_XYZ_to_sd_Otsu2018(self) -> None:
         """
         Test :func:`colour.recovery.otsu2018.XYZ_to_sd_Otsu2018` definition
         domain and range scale support.
@@ -279,7 +290,7 @@ class TestData_Otsu2018:
     tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._shape = SPECTRAL_SHAPE_OTSU2018
@@ -296,7 +307,7 @@ class TestData_Otsu2018:
 
         self._data = Data_Otsu2018(self._reflectances, self._cmfs, self._sd_D65)
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
         required_attributes = (
@@ -310,7 +321,7 @@ class TestData_Otsu2018:
         for attribute in required_attributes:
             assert attribute in dir(Data_Otsu2018)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = (
@@ -327,7 +338,7 @@ class TestData_Otsu2018:
         for method in required_methods:
             assert method in dir(Data_Otsu2018)
 
-    def test_reflectances(self):
+    def test_reflectances(self) -> None:
         """
         Test :attr:`colour.recovery.otsu2018.Data_Otsu2018.reflectances`
         property.
@@ -335,12 +346,12 @@ class TestData_Otsu2018:
 
         assert self._data.reflectances is self._reflectances
 
-    def test_cmfs(self):
+    def test_cmfs(self) -> None:
         """Test :attr:`colour.recovery.otsu2018.Data_Otsu2018.cmfs` property."""
 
         assert self._data.cmfs is self._cmfs
 
-    def test_illuminant(self):
+    def test_illuminant(self) -> None:
         """
         Test :attr:`colour.recovery.otsu2018.Data_Otsu2018.illuminant`
         property.
@@ -348,7 +359,7 @@ class TestData_Otsu2018:
 
         assert self._data.illuminant is self._sd_D65
 
-    def test_basis_functions(self):
+    def test_basis_functions(self) -> None:
         """
         Test :attr:`colour.recovery.otsu2018.Data_Otsu2018.basis_functions`
         property.
@@ -360,9 +371,10 @@ class TestData_Otsu2018:
 
         data.PCA()
 
+        assert data.basis_functions is not None
         assert data.basis_functions.shape == (3, 36)
 
-    def test_mean(self):
+    def test_mean(self) -> None:
         """Test :attr:`colour.recovery.otsu2018.Data_Otsu2018.mean` property."""
 
         data = Data_Otsu2018(self._reflectances, self._cmfs, self._sd_D65)
@@ -371,19 +383,20 @@ class TestData_Otsu2018:
 
         data.PCA()
 
+        assert data.mean is not None
         assert data.mean.shape == (36,)
 
-    def test__str__(self):
+    def test__str__(self) -> None:
         """Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.__str__` method."""
 
         assert str(self._data) == "Data_Otsu2018(24 Reflectances)"
 
-    def test__len__(self):
+    def test__len__(self) -> None:
         """Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.__len__` method."""
 
         assert len(self._data) == 24
 
-    def test_origin(self):
+    def test_origin(self) -> None:
         """Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.origin` method."""
 
         np.testing.assert_allclose(
@@ -392,7 +405,7 @@ class TestData_Otsu2018:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_raise_exception_origin(self):
+    def test_raise_exception_origin(self) -> None:
         """
         Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.origin` method
         raised exception.
@@ -405,14 +418,14 @@ class TestData_Otsu2018:
             1,
         )
 
-    def test_partition(self):
+    def test_partition(self) -> None:
         """Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.partition` method."""
 
         partition = self._data.partition(PartitionAxis(4, 1))
 
         assert len(partition) == 2
 
-    def test_raise_exception_partition(self):
+    def test_raise_exception_partition(self) -> None:
         """
         Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.partition` method
         raised exception.
@@ -424,7 +437,7 @@ class TestData_Otsu2018:
             PartitionAxis(4, 1),
         )
 
-    def test_PCA(self):
+    def test_PCA(self) -> None:
         """Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.PCA` method."""
 
         if platform.system() in ("Windows", "Microsoft", "Linux"):
@@ -433,6 +446,8 @@ class TestData_Otsu2018:
         data = Data_Otsu2018(self._reflectances, self._cmfs, self._sd_D65)
 
         data.PCA()
+
+        assert data.basis_functions is not None
 
         np.testing.assert_allclose(
             np.abs(data.basis_functions),
@@ -557,6 +572,8 @@ class TestData_Otsu2018:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        assert data.mean is not None
+
         np.testing.assert_allclose(
             data.mean,
             np.array(
@@ -602,7 +619,7 @@ class TestData_Otsu2018:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_reconstruct(self):
+    def test_reconstruct(self) -> None:
         """
         Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.reconstruct`
         method.
@@ -665,7 +682,7 @@ class TestData_Otsu2018:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_raise_exception_reconstruct(self):
+    def test_raise_exception_reconstruct(self) -> None:
         """
         Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.reconstruct` method
         raised exception.
@@ -677,7 +694,7 @@ class TestData_Otsu2018:
             np.array([0, 0, 0]),
         )
 
-    def test_reconstruction_error(self):
+    def test_reconstruction_error(self) -> None:
         """
         Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.\
 reconstruction_error` method.
@@ -691,7 +708,7 @@ reconstruction_error` method.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_raise_exception_reconstruction_error(self):
+    def test_raise_exception_reconstruction_error(self) -> None:
         """
         Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.\
 reconstruction_error` method raised exception.
@@ -709,7 +726,7 @@ class TestNode_Otsu2018:
     tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._shape = SPECTRAL_SHAPE_OTSU2018
@@ -736,7 +753,7 @@ class TestNode_Otsu2018:
 
         self._partition_axis = self._node_a.partition_axis
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
         required_attributes = ("partition_axis", "row")
@@ -744,7 +761,7 @@ class TestNode_Otsu2018:
         for attribute in required_attributes:
             assert attribute in dir(Node_Otsu2018)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = (
@@ -758,7 +775,7 @@ class TestNode_Otsu2018:
         for method in required_methods:
             assert method in dir(Node_Otsu2018)
 
-    def test_partition_axis(self):
+    def test_partition_axis(self) -> None:
         """
         Test :attr:`colour.recovery.otsu2018.Node_Otsu2018.partition_axis`
         property.
@@ -766,7 +783,7 @@ class TestNode_Otsu2018:
 
         assert self._node_a.partition_axis is self._partition_axis
 
-    def test_row(self):
+    def test_row(self) -> None:
         """Test :attr:`colour.recovery.otsu2018.Node_Otsu2018.row` property."""
 
         assert self._node_a.row == (
@@ -776,7 +793,7 @@ class TestNode_Otsu2018:
             self._node_c,
         )
 
-    def test_raise_exception_row(self):
+    def test_raise_exception_row(self) -> None:
         """
         Test :attr:`colour.recovery.otsu2018.Node_Otsu2018.row` property
         raised exception.
@@ -784,7 +801,7 @@ class TestNode_Otsu2018:
 
         pytest.raises(ValueError, lambda: Node_Otsu2018().row)
 
-    def test_split(self):
+    def test_split(self) -> None:
         """Test :meth:`colour.recovery.otsu2018.Node_Otsu2018.split` method."""
 
         node_a = Node_Otsu2018(self._tree, None)
@@ -794,7 +811,7 @@ class TestNode_Otsu2018:
 
         assert len(node_a.children) == 2
 
-    def test_minimise(self):
+    def test_minimise(self) -> None:
         """Test :meth:`colour.recovery.otsu2018.Node_Otsu2018.minimise` method."""
 
         node = Node_Otsu2018(data=self._data_a)
@@ -809,7 +826,7 @@ class TestNode_Otsu2018:
             partition_error, 2.0402980027, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_leaf_reconstruction_error(self):
+    def test_leaf_reconstruction_error(self) -> None:
         """
         Test :meth:`colour.recovery.otsu2018.Node_Otsu2018.\
 leaf_reconstruction_error` method.
@@ -821,7 +838,7 @@ leaf_reconstruction_error` method.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_branch_reconstruction_error(self):
+    def test_branch_reconstruction_error(self) -> None:
         """
         Test :meth:`colour.recovery.otsu2018.Node_Otsu2018.\
 branch_reconstruction_error` method.
@@ -840,7 +857,7 @@ class TestTree_Otsu2018:
     tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._shape = SPECTRAL_SHAPE_OTSU2018
@@ -860,12 +877,12 @@ class TestTree_Otsu2018:
 
         self._path = os.path.join(self._temporary_directory, "Test_Otsu2018.npz")
 
-    def teardown_method(self):
+    def teardown_method(self) -> None:
         """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
         required_attributes = ("reflectances", "cmfs", "illuminant")
@@ -873,7 +890,7 @@ class TestTree_Otsu2018:
         for attribute in required_attributes:
             assert attribute in dir(Tree_Otsu2018)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("__init__", "__str__", "optimise", "to_dataset")
@@ -881,7 +898,7 @@ class TestTree_Otsu2018:
         for method in required_methods:
             assert method in dir(Tree_Otsu2018)
 
-    def test_reflectances(self):
+    def test_reflectances(self) -> None:
         """
         Test :attr:`colour.recovery.otsu2018.Tree_Otsu2018.reflectances`
         property.
@@ -897,12 +914,12 @@ class TestTree_Otsu2018:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_cmfs(self):
+    def test_cmfs(self) -> None:
         """Test :attr:`colour.recovery.otsu2018.Tree_Otsu2018.cmfs` property."""
 
         assert self._tree.cmfs is self._cmfs
 
-    def test_illuminant(self):
+    def test_illuminant(self) -> None:
         """
         Test :attr:`colour.recovery.otsu2018.Tree_Otsu2018.illuminant`
         property.
@@ -910,7 +927,7 @@ class TestTree_Otsu2018:
 
         assert self._tree.illuminant is self._sd_D65
 
-    def test_optimise(self):
+    def test_optimise(self) -> None:
         """Test :class:`colour.recovery.otsu2018.Tree_Otsu2018.optimise` method."""
 
         node_tree = Tree_Otsu2018(self._reflectances, self._cmfs, self._sd_D65)
@@ -941,7 +958,7 @@ class TestTree_Otsu2018:
             delta_E = delta_E_CIE1976(Lab, recovered_Lab)
             assert delta_E < 1e-12
 
-    def test_to_dataset(self):
+    def test_to_dataset(self) -> None:
         """
         Test :attr:`colour.recovery.otsu2018.Tree_Otsu2018.to_dataset`
         method.

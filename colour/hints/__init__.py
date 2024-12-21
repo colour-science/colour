@@ -21,6 +21,7 @@ from typing import (  # noqa: UP035
     List,
     Literal,
     NewType,
+    NoReturn,
     Protocol,
     Set,
     SupportsIndex,
@@ -59,6 +60,7 @@ __all__ = [
     "List",
     "Literal",
     "Mapping",
+    "NoReturn",
     "NewType",
     "Protocol",
     "Sequence",
@@ -148,14 +150,14 @@ class ProtocolInterpolator(Protocol):  # noqa: D101  # pragma: no cover
         ...
 
     @x.setter
-    def x(self, value: ArrayLike): ...
+    def x(self, value: ArrayLike) -> None: ...
 
     @property
     def y(self) -> NDArray:  # noqa: D102
         ...
 
     @y.setter
-    def y(self, value: ArrayLike): ...
+    def y(self, value: ArrayLike) -> None: ...
 
     def __init__(self, *args: Any, **kwargs: Any) -> None: ...  # pragma: no cover
 
@@ -169,7 +171,7 @@ class ProtocolExtrapolator(Protocol):  # noqa: D101  # pragma: no cover
         ...
 
     @interpolator.setter
-    def interpolator(self, value: ProtocolInterpolator): ...
+    def interpolator(self, value: ProtocolInterpolator) -> None: ...
 
     def __init__(self, *args: Any, **kwargs: Any) -> None: ...  # pragma: no cover
 

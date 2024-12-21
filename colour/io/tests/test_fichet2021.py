@@ -16,7 +16,9 @@ from colour.colorimetry import (
     sds_and_msds_to_msds,
 )
 from colour.constants import CONSTANT_LIGHT_SPEED, TOLERANCE_ABSOLUTE_TESTS
+from colour.hints import NDArrayFloat, Tuple, cast
 from colour.io import (
+    ComponentsFichet2021,
     Specification_Fichet2021,
     read_spectral_image_Fichet2021,
     sd_to_spectrum_attribute_Fichet2021,
@@ -57,7 +59,7 @@ class TestMatchGroupsToNm:
     tests methods.
     """
 
-    def test_match_groups_to_nm(self):
+    def test_match_groups_to_nm(self) -> None:
         """Test :func:`colour.io.fichet2021.match_groups_to_nm` definition."""
 
         np.testing.assert_allclose(
@@ -85,7 +87,7 @@ class TestSdToSpectrumAttributeFichet2021:
     definition unit tests methods.
     """
 
-    def test_sd_to_spectrum_attribute_Fichet2021(self):
+    def test_sd_to_spectrum_attribute_Fichet2021(self) -> None:
         """
         Test :func:`colour.io.fichet2021.\
 sd_to_spectrum_attribute_Fichet2021` definition.
@@ -103,7 +105,7 @@ class TestSpectrumAttributeToSdFichet2021:
     definition unit tests methods.
     """
 
-    def test_spectrum_attribute_to_sd_Fichet2021(self):
+    def test_spectrum_attribute_to_sd_Fichet2021(self) -> None:
         """
         Test :func:`colour.io.fichet2021.\
 spectrum_attribute_to_sd_Fichet2021` definition.
@@ -132,7 +134,7 @@ class TestSdsAndMsdsToComponentsFichet2021:
     definition unit tests methods.
     """
 
-    def test_sds_and_msds_to_components_Fichet2021(self):
+    def test_sds_and_msds_to_components_Fichet2021(self) -> None:
         """
         Test :func:`colour.io.fichet2021.\
 sds_and_msds_to_components_Fichet2021` definition.
@@ -173,7 +175,7 @@ class TestComponentsToSRGBFichet2021:
     definition unit tests methods.
     """
 
-    def test_components_to_sRGB_Fichet2021(self):
+    def test_components_to_sRGB_Fichet2021(self) -> None:
         """
         Test :func:`colour.io.fichet2021.components_to_sRGB_Fichet2021`
         definition.
@@ -189,7 +191,7 @@ class TestComponentsToSRGBFichet2021:
         RGB, attributes = components_to_sRGB_Fichet2021(components, specification)
 
         np.testing.assert_allclose(
-            RGB,
+            cast(NDArrayFloat, RGB),
             np.array([[[0.17998291, 0.18000802, 0.18000908]]]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -239,7 +241,7 @@ class TestComponentsToSRGBFichet2021:
         RGB, attributes = components_to_sRGB_Fichet2021(components, specification)
 
         np.testing.assert_allclose(
-            RGB,
+            cast(NDArrayFloat, RGB),
             np.array(
                 [
                     [
@@ -291,10 +293,10 @@ class TestComponentsToSRGBFichet2021:
                 )
 
 
-def _test_spectral_image_D65(path):
+def _test_spectral_image_D65(path: str) -> None:
     """Test the *D65* spectral image."""
 
-    components = read_spectral_image_Fichet2021(path)
+    components = cast(ComponentsFichet2021, read_spectral_image_Fichet2021(path))
 
     assert "S0" in components
 
@@ -310,8 +312,11 @@ def _test_spectral_image_D65(path):
         atol=0.05,
     )
 
-    components, specification = read_spectral_image_Fichet2021(
-        os.path.join(ROOT_RESOURCES, "D65.exr"), additional_data=True
+    components, specification = cast(
+        Tuple[ComponentsFichet2021, Specification_Fichet2021],
+        read_spectral_image_Fichet2021(
+            os.path.join(ROOT_RESOURCES, "D65.exr"), additional_data=True
+        ),
     )
 
     assert specification.is_emissive is True
@@ -349,11 +354,12 @@ def _test_spectral_image_D65(path):
             )
 
 
-def _test_spectral_image_Ohta1997(path):
+def _test_spectral_image_Ohta1997(path: str) -> None:
     """Test the *Ohta (1997)* spectral image."""
 
-    components, specification = read_spectral_image_Fichet2021(
-        path, additional_data=True
+    components, specification = cast(
+        Tuple[ComponentsFichet2021, Specification_Fichet2021],
+        read_spectral_image_Fichet2021(path, additional_data=True),
     )
 
     assert "T" in components
@@ -382,11 +388,12 @@ def _test_spectral_image_Ohta1997(path):
     assert specification.is_bispectral is False
 
 
-def _test_spectral_image_Polarised(path):
+def _test_spectral_image_Polarised(path: str) -> None:
     """Test the *Polarised* spectral image."""
 
-    components, specification = read_spectral_image_Fichet2021(
-        path, additional_data=True
+    components, specification = cast(
+        Tuple[ComponentsFichet2021, Specification_Fichet2021],
+        read_spectral_image_Fichet2021(path, additional_data=True),
     )
 
     assert list(components.keys()) == ["S0", "S1", "S2", "S3"]
@@ -396,11 +403,12 @@ def _test_spectral_image_Polarised(path):
     assert specification.is_bispectral is False
 
 
-def _test_spectral_image_BiSpectral(path):
+def _test_spectral_image_BiSpectral(path: str) -> None:
     """Test the *Bi-Spectral* image."""
 
-    components, specification = read_spectral_image_Fichet2021(
-        path, additional_data=True
+    components, specification = cast(
+        Tuple[ComponentsFichet2021, Specification_Fichet2021],
+        read_spectral_image_Fichet2021(path, additional_data=True),
     )
 
     assert list(components.keys()) == [
@@ -458,7 +466,7 @@ class TestReadSpectralImageFichet2021:
     definition unit tests methods.
     """
 
-    def test_read_spectral_image_Fichet2021(self):
+    def test_read_spectral_image_Fichet2021(self) -> None:
         """
         Test :func:`colour.io.fichet2021.read_spectral_image_Fichet2021`
         definition.
@@ -482,17 +490,17 @@ class TestWriteSpectralImageFichet2021:
     definition unit tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
-    def teardown_method(self):
+    def teardown_method(self) -> None:
         """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
-    def test_write_spectral_image_Fichet2021(self):
+    def test_write_spectral_image_Fichet2021(self) -> None:
         """
         Test :func:`colour.io.fichet2021.write_spectral_image_Fichet2021`
         definition.
@@ -523,8 +531,11 @@ class TestWriteSpectralImageFichet2021:
             ("Polarised.exr", _test_spectral_image_Polarised),
             ("BiSpectral.exr", _test_spectral_image_BiSpectral),
         ]:
-            components, specification = read_spectral_image_Fichet2021(
-                os.path.join(ROOT_RESOURCES, basename), additional_data=True
+            components, specification = cast(
+                Tuple[ComponentsFichet2021, Specification_Fichet2021],
+                read_spectral_image_Fichet2021(
+                    os.path.join(ROOT_RESOURCES, basename), additional_data=True
+                ),
             )
             path = os.path.join(self._temporary_directory, basename)
             write_spectral_image_Fichet2021(components, path, "float16", specification)

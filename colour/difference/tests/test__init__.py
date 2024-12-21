@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.difference` module."""
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -21,7 +23,7 @@ __all__ = [
 class TestDelta_E:
     """Define :func:`colour.difference.delta_E` definition unit tests methods."""
 
-    def test_domain_range_scale_delta_E(self):
+    def test_domain_range_scale_delta_E(self) -> None:
         """
         Test :func:`colour.difference.delta_E` definition domain and range
         scale support.

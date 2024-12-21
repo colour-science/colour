@@ -17,9 +17,12 @@ References
 R-REC-BT.1361-0-199802-W!!PDF-E.pdf
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import spow
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.models.rgb.transfer_functions import oetf_BT709, oetf_inverse_BT709
 from colour.utilities import (
     as_float,
@@ -41,7 +44,7 @@ __all__ = [
 ]
 
 
-def oetf_BT1361(L):
+def oetf_BT1361(L: ArrayLike) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.1361* extended color gamut system
     opto-electronic transfer function (OETF).
@@ -102,7 +105,7 @@ def oetf_BT1361(L):
     return as_float(from_range_1(E_p))
 
 
-def oetf_inverse_BT1361(E_p):
+def oetf_inverse_BT1361(E_p: ArrayLike) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.1361* extended color gamut system inverse
     opto-electronic transfer functions (OETF).

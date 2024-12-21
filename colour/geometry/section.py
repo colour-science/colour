@@ -13,7 +13,7 @@ import numpy as np
 
 from colour.algebra import linear_conversion
 from colour.constants import DTYPE_FLOAT_DEFAULT
-from colour.hints import Any, ArrayLike, Literal, NDArrayFloat, cast
+from colour.hints import Any, ArrayLike, List, Literal, NDArrayFloat, cast
 from colour.utilities import (
     as_float_array,
     as_float_scalar,
@@ -85,7 +85,7 @@ def edges_to_chord(edges: ArrayLike, index: int = 0) -> NDArrayFloat:
            [-0. , -0.5,  0. ]])
     """
 
-    edge_list = as_float_array(edges).tolist()
+    edge_list = cast(List[List[float]], as_float_array(edges).tolist())
 
     edges_ordered = [edge_list.pop(index)]
     segment = np.array(edges_ordered[0][1])

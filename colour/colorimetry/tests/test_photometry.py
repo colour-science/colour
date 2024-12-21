@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.colorimetry.photometry` module."""
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.colorimetry import (
@@ -32,7 +34,7 @@ class TestLuminousFlux:
     tests methods.
     """
 
-    def test_luminous_flux(self):
+    def test_luminous_flux(self) -> None:
         """Test :func:`colour.colorimetry.photometry.luminous_flux` definition."""
 
         np.testing.assert_allclose(
@@ -60,7 +62,7 @@ class TestLuminousEfficiency:
     definition unit tests methods.
     """
 
-    def test_luminous_efficiency(self):
+    def test_luminous_efficiency(self) -> None:
         """
         Test :func:`colour.colorimetry.photometry.luminous_efficiency`
         definition.
@@ -91,7 +93,7 @@ class TestLuminousEfficacy:
     definition unit tests methods.
     """
 
-    def test_luminous_efficacy(self):
+    def test_luminous_efficacy(self) -> None:
         """
         Test :func:`colour.colorimetry.photometry.luminous_efficacy`
         definition.

@@ -28,7 +28,7 @@ class TestEotf_inverse_DCDM:
     definition unit tests methods.
     """
 
-    def test_eotf_inverse_DCDM(self):
+    def test_eotf_inverse_DCDM(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.\
 dcdm.eotf_inverse_DCDM` definition.
@@ -48,7 +48,7 @@ dcdm.eotf_inverse_DCDM` definition.
 
         assert eotf_inverse_DCDM(0.18, out_int=True) == 462
 
-    def test_n_dimensional_eotf_inverse_DCDM(self):
+    def test_n_dimensional_eotf_inverse_DCDM(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.dcdm.\
 eotf_inverse_DCDM` definition n-dimensional arrays support.
@@ -75,7 +75,7 @@ eotf_inverse_DCDM` definition n-dimensional arrays support.
             eotf_inverse_DCDM(XYZ), XYZ_p, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_eotf_inverse_DCDM(self):
+    def test_domain_range_scale_eotf_inverse_DCDM(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.\
 dcdm.eotf_inverse_DCDM` definition domain and range scale support.
@@ -94,7 +94,7 @@ dcdm.eotf_inverse_DCDM` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_eotf_inverse_DCDM(self):
+    def test_nan_eotf_inverse_DCDM(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.dcdm.\
 eotf_inverse_DCDM` definition nan support.
@@ -109,7 +109,7 @@ class TestEotf_DCDM:
     definition unit tests methods.
     """
 
-    def test_eotf_DCDM(self):
+    def test_eotf_DCDM(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.dcdm.eotf_DCDM`
         definition.
@@ -127,7 +127,7 @@ class TestEotf_DCDM:
 
         np.testing.assert_allclose(eotf_DCDM(462, in_int=True), 0.18, atol=1e-5)
 
-    def test_n_dimensional_eotf_DCDM(self):
+    def test_n_dimensional_eotf_DCDM(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.dcdm.eotf_DCDM`
         definition n-dimensional arrays support.
@@ -148,7 +148,7 @@ class TestEotf_DCDM:
         XYZ = np.reshape(XYZ, (2, 3, 1))
         np.testing.assert_allclose(eotf_DCDM(XYZ_p), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_eotf_DCDM(self):
+    def test_domain_range_scale_eotf_DCDM(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.dcdm.eotf_DCDM`
         definition domain and range scale support.
@@ -167,7 +167,7 @@ class TestEotf_DCDM:
                 )
 
     @ignore_numpy_errors
-    def test_nan_eotf_DCDM(self):
+    def test_nan_eotf_DCDM(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.dcdm.eotf_DCDM`
         definition nan support.

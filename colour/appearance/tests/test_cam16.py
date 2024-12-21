@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.appearance.cam16` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -39,7 +41,7 @@ class TestXYZ_to_CAM16:
     tests methods.
     """
 
-    def test_XYZ_to_CAM16(self):
+    def test_XYZ_to_CAM16(self) -> None:
         """Test :func:`colour.appearance.cam16.XYZ_to_CAM16` definition."""
 
         XYZ = np.array([19.01, 20.00, 21.78])
@@ -142,7 +144,7 @@ class TestXYZ_to_CAM16:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_CAM16(self):
+    def test_n_dimensional_XYZ_to_CAM16(self) -> None:
         """
         Test :func:`colour.appearance.cam16.XYZ_to_CAM16` definition
         n-dimensional support.
@@ -180,7 +182,7 @@ class TestXYZ_to_CAM16:
         )
 
     @ignore_numpy_errors
-    def test_domain_range_scale_XYZ_to_CAM16(self):
+    def test_domain_range_scale_XYZ_to_CAM16(self) -> None:
         """
         Test :func:`colour.appearance.cam16.XYZ_to_CAM16` definition domain
         and range scale support.
@@ -226,7 +228,7 @@ class TestXYZ_to_CAM16:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_CAM16(self):
+    def test_nan_XYZ_to_CAM16(self) -> None:
         """
         Test :func:`colour.appearance.cam16.XYZ_to_CAM16` definition
         nan support.
@@ -244,7 +246,7 @@ class TestCAM16_to_XYZ:
     methods.
     """
 
-    def test_CAM16_to_XYZ(self):
+    def test_CAM16_to_XYZ(self) -> None:
         """Test :func:`colour.appearance.cam16.CAM16_to_XYZ` definition."""
 
         specification = CAM_Specification_CAM16(41.73120791, 0.10335574, 217.06795977)
@@ -292,7 +294,7 @@ class TestCAM16_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_CAM16_to_XYZ(self):
+    def test_n_dimensional_CAM16_to_XYZ(self) -> None:
         """
         Test :func:`colour.appearance.cam16.CAM16_to_XYZ` definition
         n-dimensional support.
@@ -307,7 +309,7 @@ class TestCAM16_to_XYZ:
         XYZ = CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround)
 
         specification = CAM_Specification_CAM16(
-            *np.transpose(np.tile(tsplit(specification), (6, 1))).tolist()
+            *np.transpose(np.tile(tsplit(specification), (6, 1))).tolist()  # pyright: ignore
         )
         XYZ = np.tile(XYZ, (6, 1))
         np.testing.assert_allclose(
@@ -324,7 +326,7 @@ class TestCAM16_to_XYZ:
         )
 
         specification = CAM_Specification_CAM16(
-            *tsplit(np.reshape(specification, (2, 3, 8))).tolist()
+            *tsplit(np.reshape(specification, (2, 3, 8))).tolist()  # pyright: ignore
         )
         XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
@@ -335,7 +337,7 @@ class TestCAM16_to_XYZ:
         )
 
     @ignore_numpy_errors
-    def test_domain_range_scale_CAM16_to_XYZ(self):
+    def test_domain_range_scale_CAM16_to_XYZ(self) -> None:
         """
         Test :func:`colour.appearance.cam16.CAM16_to_XYZ` definition domain
         and range scale support.
@@ -388,7 +390,7 @@ class TestCAM16_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_raise_exception_CAM16_to_XYZ(self):
+    def test_raise_exception_CAM16_to_XYZ(self) -> None:
         """
         Test :func:`colour.appearance.cam16.CAM16_to_XYZ` definition raised
         exception.
@@ -405,7 +407,7 @@ class TestCAM16_to_XYZ:
         )
 
     @ignore_numpy_errors
-    def test_nan_CAM16_to_XYZ(self):
+    def test_nan_CAM16_to_XYZ(self) -> None:
         """
         Test :func:`colour.appearance.cam16.CAM16_to_XYZ` definition nan
         support.

@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.adaptation.cie1994` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -26,7 +28,7 @@ class TestChromaticAdaptationCIE1994:
     definition unit tests methods.
     """
 
-    def test_chromatic_adaptation_CIE1994(self):
+    def test_chromatic_adaptation_CIE1994(self) -> None:
         """
         Test :func:`colour.adaptation.cie1994.chromatic_adaptation_CIE1994`
         definition.
@@ -71,7 +73,7 @@ class TestChromaticAdaptationCIE1994:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_chromatic_adaptation_CIE1994(self):
+    def test_n_dimensional_chromatic_adaptation_CIE1994(self) -> None:
         """
         Test :func:`colour.adaptation.cie1994.chromatic_adaptation_CIE1994`
         definition n-dimensional arrays support.
@@ -117,7 +119,7 @@ class TestChromaticAdaptationCIE1994:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_chromatic_adaptation_CIE1994(self):
+    def test_domain_range_scale_chromatic_adaptation_CIE1994(self) -> None:
         """
         Test :func:`colour.adaptation.cie1994.chromatic_adaptation_CIE1994`
         definition domain and range scale support.
@@ -143,7 +145,7 @@ class TestChromaticAdaptationCIE1994:
                 )
 
     @ignore_numpy_errors
-    def test_nan_chromatic_adaptation_CIE1994(self):
+    def test_nan_chromatic_adaptation_CIE1994(self) -> None:
         """
         Test :func:`colour.adaptation.cie1994.chromatic_adaptation_CIE1994`
         definition nan support.

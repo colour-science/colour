@@ -184,7 +184,7 @@ def read_LUT_IridasCube(path: str | Path) -> LUT3x1D | LUT3D:
 
 
 def write_LUT_IridasCube(
-    LUT: LUT3x1D | LUT3D | LUTSequence, path: str | Path, decimals: int = 7
+    LUT: LUT1D | LUT3x1D | LUT3D | LUTSequence, path: str | Path, decimals: int = 7
 ) -> bool:
     """
     Write given *LUT* to given  *Iridas* *.cube* *LUT* file.
@@ -192,8 +192,8 @@ def write_LUT_IridasCube(
     Parameters
     ----------
     LUT
-        :class:`LUT3x1D`, :class:`LUT3D` or :class:`LUTSequence` class instance
-        to write at given path.
+        :class:`LUT1D`, :class:`LUT3x1D`, :class:`LUT3D` or :class:`LUTSequence`
+        class instance to write at given path.
     path
         *LUT* path.
     decimals

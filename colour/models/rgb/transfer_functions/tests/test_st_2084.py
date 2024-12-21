@@ -31,7 +31,7 @@ class TestEotf_inverse_ST2084:
 eotf_inverse_ST2084` definition unit tests methods.
     """
 
-    def test_eotf_inverse_ST2084(self):
+    def test_eotf_inverse_ST2084(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.st_2084.\
 eotf_inverse_ST2084` definition.
@@ -59,7 +59,7 @@ eotf_inverse_ST2084` definition.
             eotf_inverse_ST2084(5000, 5000), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_n_dimensional_eotf_inverse_ST2084(self):
+    def test_n_dimensional_eotf_inverse_ST2084(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.st_2084.\
 eotf_inverse_ST2084` definition n-dimensional arrays support.
@@ -86,7 +86,7 @@ eotf_inverse_ST2084` definition n-dimensional arrays support.
             eotf_inverse_ST2084(C), N, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_eotf_inverse_ST2084(self):
+    def test_domain_range_scale_eotf_inverse_ST2084(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.st_2084.\
 eotf_inverse_ST2084` definition domain and range scale support.
@@ -105,7 +105,7 @@ eotf_inverse_ST2084` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_eotf_inverse_ST2084(self):
+    def test_nan_eotf_inverse_ST2084(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.st_2084.\
 eotf_inverse_ST2084` definition nan support.
@@ -120,7 +120,7 @@ class TestEotf_ST2084:
     definition unit tests methods.
     """
 
-    def test_eotf_ST2084(self):
+    def test_eotf_ST2084(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.st_2084.\
 eotf_ST2084` definition.
@@ -140,7 +140,7 @@ eotf_ST2084` definition.
             eotf_ST2084(1.0, 5000), 5000.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_n_dimensional_eotf_ST2084(self):
+    def test_n_dimensional_eotf_ST2084(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.st_2084.\
 eotf_ST2084` definition n-dimensional arrays support.
@@ -161,7 +161,7 @@ eotf_ST2084` definition n-dimensional arrays support.
         C = np.reshape(C, (2, 3, 1))
         np.testing.assert_allclose(eotf_ST2084(N), C, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_eotf_ST2084(self):
+    def test_domain_range_scale_eotf_ST2084(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.st_2084.\
 eotf_ST2084` definition domain and range scale support.
@@ -180,7 +180,7 @@ eotf_ST2084` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_eotf_ST2084(self):
+    def test_nan_eotf_ST2084(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.st_2084.\
 eotf_ST2084` definition nan support.

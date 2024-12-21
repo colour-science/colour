@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.utilities.structures` module."""
 
+from __future__ import annotations
+
 import operator
 import pickle
 
@@ -35,7 +37,7 @@ class TestStructure:
     tests methods.
     """
 
-    def test_Structure(self):
+    def test_Structure(self) -> None:
         """Test :class:`colour.utilities.structures.Structure` class."""
 
         structure = Structure(John="Doe", Jane="Doe")
@@ -68,7 +70,7 @@ class TestStructure:
         assert structure.John == "Doe"
         assert structure["John"] == "Doe"
 
-    def test_pickling(self):
+    def test_pickling(self) -> None:
         """
         Test whether :class:`colour.utilities.structures.Structure` class
         can be pickled.
@@ -93,7 +95,7 @@ class TestLookup:
     methods.
     """
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("keys_from_value", "first_key_from_value")
@@ -101,7 +103,7 @@ class TestLookup:
         for method in required_methods:
             assert method in dir(Lookup)
 
-    def test_keys_from_value(self):
+    def test_keys_from_value(self) -> None:
         """
         Test :meth:`colour.utilities.structures.Lookup.keys_from_value`
         method.
@@ -115,7 +117,7 @@ class TestLookup:
         )
         assert sorted(lookup.keys_from_value(np.array([0, 1, 2]))) == ["A", "B"]
 
-    def test_first_key_from_value(self):
+    def test_first_key_from_value(self) -> None:
         """
         Test :meth:`colour.utilities.structures.\
 Lookup.first_key_from_value` method.
@@ -129,7 +131,7 @@ Lookup.first_key_from_value` method.
         )
         assert lookup.first_key_from_value(np.array([0, 1, 2])) == "A"
 
-    def test_raise_exception_first_key_from_value(self):
+    def test_raise_exception_first_key_from_value(self) -> None:
         """
         Test :meth:`colour.utilities.structures.\
 Lookup.first_key_from_value` method raised exception.
@@ -144,7 +146,7 @@ class TestCanonicalMapping:
     unit tests methods.
     """
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
         required_attributes = ("data",)
@@ -152,7 +154,7 @@ class TestCanonicalMapping:
         for attribute in required_attributes:
             assert attribute in dir(CanonicalMapping)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = (
@@ -178,7 +180,7 @@ class TestCanonicalMapping:
         for method in required_methods:
             assert method in dir(CanonicalMapping)
 
-    def test_data(self):
+    def test_data(self) -> None:
         """
         Test :meth:`colour.utilities.structures.CanonicalMapping.data`
         property.
@@ -189,7 +191,7 @@ class TestCanonicalMapping:
             "Jane": "Doe",
         }
 
-    def test__repr__(self):
+    def test__repr__(self) -> None:
         """
         Test :meth:`colour.utilities.structures.CanonicalMapping.__repr__`
         method.
@@ -200,7 +202,7 @@ class TestCanonicalMapping:
         mapping["John"] = "Doe"
         assert repr(mapping) == "CanonicalMapping({'John': 'Doe'})"
 
-    def test__setitem__(self):
+    def test__setitem__(self) -> None:
         """
         Test :meth:`colour.utilities.structures.CanonicalMapping.\
 __setitem__` method.
@@ -212,7 +214,7 @@ __setitem__` method.
         assert mapping["John"] == "Doe"
         assert mapping["john"] == "Doe"
 
-    def test__getitem__(self):
+    def test__getitem__(self) -> None:
         """
         Test :meth:`colour.utilities.structures.CanonicalMapping.\
 __getitem__` method.
@@ -238,7 +240,7 @@ __getitem__` method.
         assert mapping["mccamy1992"] == 1
         assert mapping["hernandez1999"] == 2
 
-    def test__delitem__(self):
+    def test__delitem__(self) -> None:
         """
         Test :meth:`colour.utilities.structures.CanonicalMapping.\
 __delitem__` method.
@@ -281,7 +283,7 @@ __delitem__` method.
 
         assert len(mapping) == 0
 
-    def test__contains__(self):
+    def test__contains__(self) -> None:
         """
         Test :meth:`colour.utilities.structures.CanonicalMapping.\
 __contains__` method.
@@ -303,7 +305,7 @@ __contains__` method.
         assert "mccamy1992" in mapping
         assert "hernandez1999" in mapping
 
-    def test__iter__(self):
+    def test__iter__(self) -> None:
         """
         Test :meth:`colour.utilities.structures.CanonicalMapping.__iter__`
         method.
@@ -312,7 +314,7 @@ __contains__` method.
         mapping = CanonicalMapping(John="Doe", Jane="Doe")
         assert sorted(item for item in mapping) == ["Jane", "John"]
 
-    def test__len__(self):
+    def test__len__(self) -> None:
         """
         Test :meth:`colour.utilities.structures.CanonicalMapping.__len__`
         method.
@@ -322,7 +324,7 @@ __contains__` method.
 
         assert len(CanonicalMapping(John="Doe", Jane="Doe")) == 2
 
-    def test__eq__(self):
+    def test__eq__(self) -> None:
         """
         Test :meth:`colour.utilities.structures.CanonicalMapping.__eq__`
         method.
@@ -336,7 +338,7 @@ __contains__` method.
 
         assert mapping2 != mapping3
 
-    def test_raise_exception__eq__(self):
+    def test_raise_exception__eq__(self) -> None:
         """
         Test :meth:`colour.utilities.structures.CanonicalMapping.__eq__`
         method raised exception.
@@ -349,7 +351,7 @@ __contains__` method.
             ["John", "Doe", "Jane", "Doe"],
         )
 
-    def test__ne__(self):
+    def test__ne__(self) -> None:
         """
         Test :meth:`colour.utilities.structures.CanonicalMapping.__ne__`
         method.
@@ -360,7 +362,7 @@ __contains__` method.
 
         assert mapping1 != mapping2
 
-    def test_raise_exception__ne__(self):
+    def test_raise_exception__ne__(self) -> None:
         """
         Test :meth:`colour.utilities.structures.CanonicalMapping.__ne__`
         method raised exception.
@@ -373,7 +375,7 @@ __contains__` method.
             ["John", "Doe", "Jane", "Doe"],
         )
 
-    def test_copy(self):
+    def test_copy(self) -> None:
         """
         Test :meth:`colour.utilities.structures.CanonicalMapping.copy`
         method.
@@ -386,7 +388,7 @@ __contains__` method.
 
         assert id(mapping1) != id(mapping2)
 
-    def test_lower_keys(self):
+    def test_lower_keys(self) -> None:
         """
         Test :meth:`colour.utilities.structures.CanonicalMapping.\
 lower_keys` method.
@@ -400,7 +402,7 @@ lower_keys` method.
 
         pytest.warns(ColourUsageWarning, lambda: list(mapping.lower_keys()))
 
-    def test_lower_items(self):
+    def test_lower_items(self) -> None:
         """
         Test :meth:`colour.utilities.structures.CanonicalMapping.\
 lower_items` method.
@@ -413,7 +415,7 @@ lower_items` method.
             ("john", "Doe"),
         ]
 
-    def test_slugified_keys(self):
+    def test_slugified_keys(self) -> None:
         """
         Test :meth:`colour.utilities.structures.CanonicalMapping.\
 slugified_keys` method.
@@ -430,7 +432,7 @@ slugified_keys` method.
 
         pytest.warns(ColourUsageWarning, lambda: list(mapping.slugified_keys()))
 
-    def test_slugified_items(self):
+    def test_slugified_items(self) -> None:
         """
         Test :meth:`colour.utilities.structures.CanonicalMapping.\
 slugified_items` method.
@@ -442,7 +444,7 @@ slugified_items` method.
             ("mccamy-1992", 1),
         ]
 
-    def test_canonical_keys(self):
+    def test_canonical_keys(self) -> None:
         """
         Test :meth:`colour.utilities.structures.CanonicalMapping.\
 canonical_keys` method.
@@ -459,7 +461,7 @@ canonical_keys` method.
 
         pytest.warns(ColourUsageWarning, lambda: list(mapping.canonical_keys()))
 
-    def test_canonical_items(self):
+    def test_canonical_items(self) -> None:
         """
         Test :meth:`colour.utilities.structures.CanonicalMapping.\
 canonical_items` method.
@@ -478,7 +480,7 @@ class TestLazyCanonicalMapping:
     unit tests methods.
     """
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
         required_attributes = ()
@@ -486,7 +488,7 @@ class TestLazyCanonicalMapping:
         for attribute in required_attributes:  # pragma: no cover
             assert attribute in dir(LazyCanonicalMapping)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("__getitem__",)
@@ -494,7 +496,7 @@ class TestLazyCanonicalMapping:
         for method in required_methods:
             assert method in dir(LazyCanonicalMapping)
 
-    def test__getitem__(self):
+    def test__getitem__(self) -> None:
         """
         Test :meth:`colour.utilities.structures.LazyCanonicalMapping.\
 __getitem__` method.

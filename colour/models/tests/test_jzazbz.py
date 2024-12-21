@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.jzazbz` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -34,7 +36,7 @@ class TestXYZ_to_Izazbz:
     tests methods.
     """
 
-    def test_XYZ_to_Izazbz(self):
+    def test_XYZ_to_Izazbz(self) -> None:
         """Test :func:`colour.models.jzazbz.XYZ_to_Izazbz` definition."""
 
         np.testing.assert_allclose(
@@ -74,7 +76,7 @@ class TestXYZ_to_Izazbz:
             ),
         )
 
-    def test_n_dimensional_XYZ_to_Izazbz(self):
+    def test_n_dimensional_XYZ_to_Izazbz(self) -> None:
         """
         Test :func:`colour.models.jzazbz.XYZ_to_Izazbz` definition
         n-dimensional support.
@@ -95,7 +97,7 @@ class TestXYZ_to_Izazbz:
             XYZ_to_Izazbz(XYZ), Izazbz, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_XYZ_to_Izazbz(self):
+    def test_domain_range_scale_XYZ_to_Izazbz(self) -> None:
         """
         Test :func:`colour.models.jzazbz.XYZ_to_Izazbz` definition domain and
         range scale support.
@@ -114,7 +116,7 @@ class TestXYZ_to_Izazbz:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_Izazbz(self):
+    def test_nan_XYZ_to_Izazbz(self) -> None:
         """
         Test :func:`colour.models.jzazbz.XYZ_to_Izazbz` definition nan
         support.
@@ -131,7 +133,7 @@ class TestIzazbz_to_XYZ:
     methods.
     """
 
-    def test_Izazbz_to_XYZ(self):
+    def test_Izazbz_to_XYZ(self) -> None:
         """Test :func:`colour.models.jzazbz.Izazbz_to_XYZ` definition."""
 
         np.testing.assert_allclose(
@@ -177,7 +179,7 @@ class TestIzazbz_to_XYZ:
             ),
         )
 
-    def test_n_dimensional_Izazbz_to_XYZ(self):
+    def test_n_dimensional_Izazbz_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.jzazbz.Izazbz_to_XYZ` definition
         n-dimensional support.
@@ -198,7 +200,7 @@ class TestIzazbz_to_XYZ:
             Izazbz_to_XYZ(Izazbz), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_Izazbz_to_XYZ(self):
+    def test_domain_range_scale_Izazbz_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.jzazbz.Izazbz_to_XYZ` definition domain and
         range scale support.
@@ -217,7 +219,7 @@ class TestIzazbz_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_nan_Izazbz_to_XYZ(self):
+    def test_nan_Izazbz_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.jzazbz.Izazbz_to_XYZ` definition nan
         support.
@@ -234,7 +236,7 @@ class TestXYZ_to_Jzazbz:
     tests methods.
     """
 
-    def test_XYZ_to_Jzazbz(self):
+    def test_XYZ_to_Jzazbz(self) -> None:
         """Test :func:`colour.models.jzazbz.XYZ_to_Jzazbz` definition."""
 
         np.testing.assert_allclose(
@@ -255,7 +257,7 @@ class TestXYZ_to_Jzazbz:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_Jzazbz(self):
+    def test_n_dimensional_XYZ_to_Jzazbz(self) -> None:
         """
         Test :func:`colour.models.jzazbz.XYZ_to_Jzazbz` definition
         n-dimensional support.
@@ -276,7 +278,7 @@ class TestXYZ_to_Jzazbz:
             XYZ_to_Jzazbz(XYZ), Jzazbz, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_XYZ_to_Jzazbz(self):
+    def test_domain_range_scale_XYZ_to_Jzazbz(self) -> None:
         """
         Test :func:`colour.models.jzazbz.XYZ_to_Jzazbz` definition domain and
         range scale support.
@@ -293,7 +295,7 @@ class TestXYZ_to_Jzazbz:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_Jzazbz(self):
+    def test_nan_XYZ_to_Jzazbz(self) -> None:
         """
         Test :func:`colour.models.jzazbz.XYZ_to_Jzazbz` definition nan
         support.
@@ -310,7 +312,7 @@ class TestJzazbz_to_XYZ:
     methods.
     """
 
-    def test_Jzazbz_to_XYZ(self):
+    def test_Jzazbz_to_XYZ(self) -> None:
         """Test :func:`colour.models.jzazbz.Jzazbz_to_XYZ` definition."""
 
         np.testing.assert_allclose(
@@ -331,7 +333,7 @@ class TestJzazbz_to_XYZ:
             atol=1e-6,
         )
 
-    def test_n_dimensional_Jzazbz_to_XYZ(self):
+    def test_n_dimensional_Jzazbz_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.jzazbz.Jzazbz_to_XYZ` definition
         n-dimensional support.
@@ -352,7 +354,7 @@ class TestJzazbz_to_XYZ:
             Jzazbz_to_XYZ(Jzazbz), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_Jzazbz_to_XYZ(self):
+    def test_domain_range_scale_Jzazbz_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.jzazbz.Jzazbz_to_XYZ` definition domain and
         range scale support.
@@ -371,7 +373,7 @@ class TestJzazbz_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_nan_Jzazbz_to_XYZ(self):
+    def test_nan_Jzazbz_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.jzazbz.Jzazbz_to_XYZ` definition nan
         support.

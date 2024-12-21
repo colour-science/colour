@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.plotting.corresponding` module."""
 
+from __future__ import annotations
+
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
@@ -23,7 +25,7 @@ class TestPlotCorrespondingChromaticitiesPrediction:
 plot_corresponding_chromaticities_prediction` definition unit tests methods.
     """
 
-    def test_plot_corresponding_chromaticities_prediction(self):
+    def test_plot_corresponding_chromaticities_prediction(self) -> None:
         """
         Test :func:`colour.plotting.corresponding.\
 plot_corresponding_chromaticities_prediction` definition.

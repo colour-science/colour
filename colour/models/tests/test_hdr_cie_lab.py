@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.hdr_cie_lab` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -29,7 +31,7 @@ class TestExponent_hdr_CIELab:
     definition unit tests methods.
     """
 
-    def test_exponent_hdr_CIELab(self):
+    def test_exponent_hdr_CIELab(self) -> None:
         """
         Test :func:`colour.models.hdr_cie_lab.exponent_hdr_CIELab`
         definition.
@@ -59,7 +61,7 @@ class TestExponent_hdr_CIELab:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_exponent_hdr_CIELab(self):
+    def test_n_dimensional_exponent_hdr_CIELab(self) -> None:
         """
         Test :func:`colour.models.hdr_cie_lab.exponent_hdr_CIELab`
         definition n-dimensional arrays support.
@@ -96,7 +98,7 @@ class TestExponent_hdr_CIELab:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_exponent_hdr_CIELab(self):
+    def test_domain_range_scale_exponent_hdr_CIELab(self) -> None:
         """
         Test :func:`colour.models.hdr_cie_lab.exponent_hdr_CIELab` definition
         domain and range scale support.
@@ -116,7 +118,7 @@ class TestExponent_hdr_CIELab:
                 )
 
     @ignore_numpy_errors
-    def test_nan_exponent_hdr_CIELab(self):
+    def test_nan_exponent_hdr_CIELab(self) -> None:
         """
         Test :func:`colour.models.hdr_cie_lab.exponent_hdr_CIELab`
         definition nan support.
@@ -132,7 +134,7 @@ class TestXYZ_to_hdr_CIELab:
     tests methods.
     """
 
-    def test_XYZ_to_hdr_CIELab(self):
+    def test_XYZ_to_hdr_CIELab(self) -> None:
         """Test :func:`colour.models.hdr_cie_lab.XYZ_to_hdr_CIELab` definition."""
 
         np.testing.assert_allclose(
@@ -174,7 +176,7 @@ class TestXYZ_to_hdr_CIELab:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_hdr_CIELab(self):
+    def test_n_dimensional_XYZ_to_hdr_CIELab(self) -> None:
         """
         Test :func:`colour.models.hdr_cie_lab.XYZ_to_hdr_CIELab` definition
         n-dimensional support.
@@ -214,7 +216,7 @@ class TestXYZ_to_hdr_CIELab:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_XYZ_to_hdr_CIELab(self):
+    def test_domain_range_scale_XYZ_to_hdr_CIELab(self) -> None:
         """
         Test :func:`colour.models.hdr_cie_lab.XYZ_to_hdr_CIELab` definition
         domain and range scale support.
@@ -238,7 +240,7 @@ class TestXYZ_to_hdr_CIELab:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_hdr_CIELab(self):
+    def test_nan_XYZ_to_hdr_CIELab(self) -> None:
         """
         Test :func:`colour.models.hdr_cie_lab.XYZ_to_hdr_CIELab` definition
         nan support.
@@ -255,7 +257,7 @@ class TestHdr_CIELab_to_XYZ:
     tests methods.
     """
 
-    def test_hdr_CIELab_to_XYZ(self):
+    def test_hdr_CIELab_to_XYZ(self) -> None:
         """Test :func:`colour.models.hdr_cie_lab.hdr_CIELab_to_XYZ` definition."""
 
         np.testing.assert_allclose(
@@ -299,7 +301,7 @@ class TestHdr_CIELab_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_hdr_CIELab_to_XYZ(self):
+    def test_n_dimensional_hdr_CIELab_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.hdr_cie_lab.hdr_CIELab_to_XYZ` definition
         n-dimensional support.
@@ -339,7 +341,7 @@ class TestHdr_CIELab_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_hdr_CIELab_to_XYZ(self):
+    def test_domain_range_scale_hdr_CIELab_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.hdr_cie_lab.hdr_CIELab_to_XYZ` definition
         domain and range scale support.
@@ -363,7 +365,7 @@ class TestHdr_CIELab_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_nan_hdr_CIELab_to_XYZ(self):
+    def test_nan_hdr_CIELab_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.hdr_cie_lab.hdr_CIELab_to_XYZ` definition
         nan support.

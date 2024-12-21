@@ -12,6 +12,7 @@ Define the colour quality plotting objects:
 
 from __future__ import annotations
 
+from collections.abc import ValuesView
 from itertools import cycle
 
 import numpy as np
@@ -288,6 +289,7 @@ def plot_multi_sds_colour_rendering_indexes_bars(
         Sequence[SpectralDistribution | MultiSpectralDistributions]
         | SpectralDistribution
         | MultiSpectralDistributions
+        | ValuesView
     ),
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
@@ -422,6 +424,7 @@ def plot_multi_sds_colour_quality_scales_bars(
         Sequence[SpectralDistribution | MultiSpectralDistributions]
         | SpectralDistribution
         | MultiSpectralDistributions
+        | ValuesView
     ),
     method: Literal["NIST CQS 7.4", "NIST CQS 9.0"] | str = "NIST CQS 9.0",
     **kwargs: Any,

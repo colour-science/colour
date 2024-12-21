@@ -31,7 +31,7 @@ class TestLogEncoding_DJIDLog:
 log_encoding_DJIDLog` definition unit tests methods.
     """
 
-    def test_log_encoding_DJIDLog(self):
+    def test_log_encoding_DJIDLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.dji_d_log.\
 log_encoding_DJIDLog` definition.
@@ -51,7 +51,7 @@ log_encoding_DJIDLog` definition.
             log_encoding_DJIDLog(1.0), 0.584555, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_n_dimensional_log_encoding_DLog(self):
+    def test_n_dimensional_log_encoding_DLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.dji_d_log.\
 log_encoding_DJIDLog` definition n-dimensional arrays support.
@@ -78,7 +78,7 @@ log_encoding_DJIDLog` definition n-dimensional arrays support.
             log_encoding_DJIDLog(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_encoding_DLog(self):
+    def test_domain_range_scale_log_encoding_DLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.dji_d_log.\
 log_encoding_DJIDLog` definition domain and range scale support.
@@ -97,7 +97,7 @@ log_encoding_DJIDLog` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_encoding_DLog(self):
+    def test_nan_log_encoding_DLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.dji_d_log.\
 log_encoding_DJIDLog` definition nan support.
@@ -112,7 +112,7 @@ class TestLogDecoding_DJIDLog:
 log_decoding_DJIDLog` definition unit tests methods.
     """
 
-    def test_log_decoding_DJIDLog(self):
+    def test_log_decoding_DJIDLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.dji_d_log.\
 log_decoding_DJIDLog` definition.
@@ -128,7 +128,7 @@ log_decoding_DJIDLog` definition.
 
         np.testing.assert_allclose(log_decoding_DJIDLog(0.584555), 1.0, atol=1e-6)
 
-    def test_n_dimensional_log_decoding_DLog(self):
+    def test_n_dimensional_log_decoding_DLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.dji_d_log.\
 log_decoding_DJIDLog` definition n-dimensional arrays support.
@@ -155,7 +155,7 @@ log_decoding_DJIDLog` definition n-dimensional arrays support.
             log_decoding_DJIDLog(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_decoding_DLog(self):
+    def test_domain_range_scale_log_decoding_DLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.dji_d_log.\
 log_decoding_DJIDLog` definition domain and range scale support.
@@ -174,7 +174,7 @@ log_decoding_DJIDLog` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_decoding_DLog(self):
+    def test_nan_log_decoding_DLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.dji_d_log.\
 log_decoding_DJIDLog` definition nan support.

@@ -182,7 +182,7 @@ class AbstractLUT(ABC):
         return self._table
 
     @table.setter
-    def table(self, value: ArrayLike):
+    def table(self, value: ArrayLike) -> None:
         """Setter for the **self.table** property."""
 
         self._table = self._validate_table(value)
@@ -206,7 +206,7 @@ class AbstractLUT(ABC):
         return self._name
 
     @name.setter
-    def name(self, value: str):
+    def name(self, value: str) -> None:
         """Setter for the **self.name** property."""
 
         attest(
@@ -235,7 +235,7 @@ class AbstractLUT(ABC):
         return self._domain
 
     @domain.setter
-    def domain(self, value: ArrayLike):
+    def domain(self, value: ArrayLike) -> None:
         """Setter for the **self.domain** property."""
 
         self._domain = self._validate_domain(value)
@@ -285,7 +285,7 @@ class AbstractLUT(ABC):
         return self._comments
 
     @comments.setter
-    def comments(self, value: Sequence):
+    def comments(self, value: Sequence) -> None:
         """Setter for the **self.comments** property."""
 
         attest(
@@ -2120,7 +2120,7 @@ class LUT3D(AbstractLUT):
 
 
 def LUT_to_LUT(
-    LUT,
+    LUT: AbstractLUT,
     cls: Type[AbstractLUT],
     force_conversion: bool = False,
     **kwargs: Any,
@@ -2130,6 +2130,8 @@ def LUT_to_LUT(
 
     Parameters
     ----------
+    LUT
+        *LUT* to convert.
     cls
         *LUT* class instance.
     force_conversion

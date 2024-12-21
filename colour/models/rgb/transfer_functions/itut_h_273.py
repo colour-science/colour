@@ -25,9 +25,12 @@ References
     Distribution Master — Image Characteristic. doi:10.5594/SMPTE.ST428-1.2019
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import spow
+from colour.hints import ArrayLike, NDArrayFloat
 from colour.models.rgb.transfer_functions import (
     eotf_DCDM,
     eotf_inverse_DCDM,
@@ -60,7 +63,7 @@ __all__ = [
 ]
 
 
-def oetf_H273_Log(L_c):
+def oetf_H273_Log(L_c: ArrayLike) -> NDArrayFloat:
     """
     Define *Recommendation ITU-T H.273* opto-electronic transfer function
     (OETF) for logarithmic encoding (100:1 range).
@@ -122,7 +125,7 @@ def oetf_H273_Log(L_c):
     return as_float(from_range_1(V))
 
 
-def oetf_inverse_H273_Log(V):
+def oetf_inverse_H273_Log(V: ArrayLike) -> NDArrayFloat:
     """
     Define *Recommendation ITU-T H.273* inverse-opto-electronic transfer
     function (OETF) for logarithmic encoding (100:1 range).
@@ -183,7 +186,7 @@ def oetf_inverse_H273_Log(V):
     return as_float(from_range_1(L_c))
 
 
-def oetf_H273_LogSqrt(L_c):
+def oetf_H273_LogSqrt(L_c: ArrayLike) -> NDArrayFloat:
     """
     Define *Recommendation ITU-T H.273* opto-electronic transfer function
     (OETF) for logarithmic encoding (100\\*Sqrt(10):1 range).
@@ -246,7 +249,7 @@ def oetf_H273_LogSqrt(L_c):
     return as_float(from_range_1(V))
 
 
-def oetf_inverse_H273_LogSqrt(V):
+def oetf_inverse_H273_LogSqrt(V: ArrayLike) -> NDArrayFloat:
     """
     Define *Recommendation ITU-T H.273* inverse-opto-electronic transfer
     function (OETF) for logarithmic encoding (100\\*Sqrt(10):1 range).
@@ -306,7 +309,7 @@ def oetf_inverse_H273_LogSqrt(V):
     return as_float(from_range_1(L_c))
 
 
-def oetf_H273_IEC61966_2(L_c):
+def oetf_H273_IEC61966_2(L_c: ArrayLike) -> NDArrayFloat:
     """
     Define *Recommendation ITU-T H.273* opto-electronic transfer function
     (OETF) for *IEC 61966-2* family of transfer functions (*2-1 sRGB*,
@@ -356,8 +359,10 @@ def oetf_H273_IEC61966_2(L_c):
     -0.4613561295004...
     """
 
+    L_c = as_float_array(L_c)
+
     V = np.where(
-        as_float_array(L_c) >= 0,
+        L_c >= 0,
         eotf_inverse_sRGB(L_c),
         -eotf_inverse_sRGB(-L_c),
     )
@@ -365,7 +370,7 @@ def oetf_H273_IEC61966_2(L_c):
     return as_float(V)
 
 
-def oetf_inverse_H273_IEC61966_2(V):
+def oetf_inverse_H273_IEC61966_2(V: ArrayLike) -> NDArrayFloat:
     """
     Define *Recommendation ITU-T H.273* inverse opto-electronic transfer
     function (OETF) for *IEC 61966-2* family of transfer functions (*2-1 sRGB*,
@@ -415,8 +420,10 @@ def oetf_inverse_H273_IEC61966_2(V):
     -0.1799999999...
     """
 
+    V = as_float_array(V)
+
     L_c = np.where(
-        as_float_array(V) >= 0,
+        V >= 0,
         eotf_sRGB(V),
         -eotf_sRGB(-V),
     )
@@ -424,7 +431,7 @@ def oetf_inverse_H273_IEC61966_2(V):
     return as_float(L_c)
 
 
-def eotf_inverse_H273_ST428_1(L_o):
+def eotf_inverse_H273_ST428_1(L_o: ArrayLike) -> NDArrayFloat:
     """
     Define *Recommendation ITU-T H.273* inverse electro-optical transfer
     function (EOTF) for *SMPTE ST 428-1 (2019)*.
@@ -474,7 +481,7 @@ def eotf_inverse_H273_ST428_1(L_o):
     return as_float(from_range_1(eotf_inverse_DCDM(L_o * 48)))
 
 
-def eotf_H273_ST428_1(V):
+def eotf_H273_ST428_1(V: ArrayLike) -> NDArrayFloat:
     """
     Define the *SMPTE ST 428-1 (2019)* electro-optical transfer function (EOTF).
 

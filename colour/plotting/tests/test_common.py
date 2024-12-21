@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.plotting.common` module."""
 
+from __future__ import annotations
+
 import os
 import shutil
 import tempfile
@@ -10,10 +12,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
+from mpl_toolkits.mplot3d.axes3d import Axes3D
 
 import colour
 from colour.colorimetry import SDS_ILLUMINANTS
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
+from colour.hints import List, cast
 from colour.io import read_image
 from colour.models import RGB_COLOURSPACES, XYZ_to_sRGB, gamma_function
 from colour.plotting import (
@@ -80,7 +84,7 @@ class TestColourStyle:
     methods.
     """
 
-    def test_colour_style(self):
+    def test_colour_style(self) -> None:
         """Test :func:`colour.plotting.common.colour_style` definition."""
 
         assert isinstance(colour_style(use_style=False), dict)
@@ -92,14 +96,14 @@ class TestOverrideStyle:
     methods.
     """
 
-    def test_override_style(self):
+    def test_override_style(self) -> None:
         """Test :func:`colour.plotting.common.override_style` definition."""
 
         text_color = plt.rcParams["text.color"]
         try:
 
             @override_style(**{"text.color": "red"})
-            def test_text_color_override():
+            def test_text_color_override() -> None:
                 """Test :func:`colour.plotting.common.override_style` definition."""
 
                 attest(plt.rcParams["text.color"] == "red")
@@ -115,7 +119,7 @@ class TestFontScaling:
     methods.
     """
 
-    def test_font_scaling(self):
+    def test_font_scaling(self) -> None:
         """Test :func:`colour.plotting.common.font_scaling` definition."""
 
         with font_scaling("medium-colour-science", 2):
@@ -130,7 +134,7 @@ class TestXYZToPlottingColourspace:
     definition unit tests methods.
     """
 
-    def test_XYZ_to_plotting_colourspace(self):
+    def test_XYZ_to_plotting_colourspace(self) -> None:
         """
         Test :func:`colour.plotting.common.XYZ_to_plotting_colourspace`
         definition.
@@ -150,7 +154,7 @@ class TestColourCycle:
     methods.
     """
 
-    def test_colour_cycle(self):
+    def test_colour_cycle(self) -> None:
         """Test :func:`colour.plotting.common.colour_cycle` definition."""
 
         cycler = colour_cycle()
@@ -188,26 +192,20 @@ class TestArtist:
     methods.
     """
 
-    def test_axes_args(self):
-        """
-        Test `colour.plotting.common.artist` figure / axis association
-        """
-        fig1 = plt.figure()
-        fig_sub1 = fig1.subfigures()
-        fig_sub2 = fig_sub1.subfigures()
-        ax1 = fig_sub2.gca()
-
-        fig_result1, _ = artist(axes=ax1)
-
-        assert fig1 is fig_result1
-
-        _ = plt.figure()
-
-        fig_result2, _ = artist(axes=ax1)
-        assert fig1 is fig_result2
-
-    def test_artist(self):
+    def test_artist(self) -> None:
         """Test :func:`colour.plotting.common.artist` definition."""
+
+        figure_1 = plt.figure()
+        axes = figure_1.subfigures().subfigures().gca()  # pyright: ignore
+
+        figure_2, _axes = artist(axes=axes)
+
+        assert figure_1 is figure_2
+
+        plt.figure()
+
+        figure_2, _axes = artist(axes=axes)
+        assert figure_1 is figure_2
 
         figure_1, axes_1 = artist()
 
@@ -227,7 +225,7 @@ class TestCamera:
     methods.
     """
 
-    def test_camera(self):
+    def test_camera(self) -> None:
         """Test :func:`colour.plotting.common.camera` definition."""
 
         figure, _axes = artist()
@@ -245,17 +243,17 @@ class TestRender:
     methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
-    def teardown_method(self):
+    def teardown_method(self) -> None:
         """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
-    def test_render(self):
+    def test_render(self) -> None:
         """Test :func:`colour.plotting.common.render` definition."""
 
         figure, axes = artist()
@@ -293,7 +291,7 @@ class TestLabelRectangles:
     tests methods.
     """
 
-    def test_label_rectangles(self):
+    def test_label_rectangles(self) -> None:
         """Test :func:`colour.plotting.common.label_rectangles` definition."""
 
         figure, axes = artist()
@@ -301,7 +299,10 @@ class TestLabelRectangles:
         samples = np.linspace(0, 1, 10)
 
         _figure, axes = label_rectangles(
-            samples, axes.bar(samples, 1), figure=figure, axes=axes
+            cast(List[float], samples.tolist()),
+            axes.bar(samples, 1),
+            figure=figure,
+            axes=axes,
         )
 
         assert len(axes.texts) == len(samples)
@@ -313,11 +314,11 @@ class TestUniformAxes3d:
     methods.
     """
 
-    def test_uniform_axes3d(self):
+    def test_uniform_axes3d(self) -> None:
         """Test :func:`colour.plotting.common.uniform_axes3d` definition."""
 
         figure, _axes = artist()
-        axes = figure.add_subplot(111, projection="3d")
+        axes = cast(Axes3D, figure.add_subplot(111, projection="3d"))
 
         uniform_axes3d(axes=axes)
 
@@ -331,7 +332,7 @@ class TestFilterPassthrough:
     tests methods.
     """
 
-    def test_filter_passthrough(self):
+    def test_filter_passthrough(self) -> None:
         """Test :func:`colour.plotting.common.filter_passthrough` definition."""
 
         assert sorted(
@@ -375,7 +376,7 @@ class TestFilterRgbColourspaces:
     unit tests methods.
     """
 
-    def test_filter_RGB_colourspaces(self):
+    def test_filter_RGB_colourspaces(self) -> None:
         """
         Test :func:`colour.plotting.common.filter_RGB_colourspaces`
         definition.
@@ -393,7 +394,7 @@ class TestFilterCmfs:
     methods.
     """
 
-    def test_filter_cmfs(self):
+    def test_filter_cmfs(self) -> None:
         """Test :func:`colour.plotting.common.filter_cmfs` definition."""
 
         assert sorted(
@@ -410,7 +411,7 @@ class TestFilterIlluminants:
     tests methods.
     """
 
-    def test_filter_illuminants(self):
+    def test_filter_illuminants(self) -> None:
         """Test :func:`colour.plotting.common.filter_illuminants` definition."""
 
         assert sorted(filter_illuminants(["D50"]).keys()) == ["D50"]
@@ -422,7 +423,7 @@ class TestFilterColourCheckers:
     unit tests methods.
     """
 
-    def test_filter_colour_checkers(self):
+    def test_filter_colour_checkers(self) -> None:
         """Test :func:`colour.plotting.common.filter_colour_checkers` definition."""
 
         assert sorted(
@@ -441,7 +442,7 @@ class TestUpdateSettingsCollection:
     definition unit tests methods.
     """
 
-    def test_update_settings_collection(self):
+    def test_update_settings_collection(self) -> None:
         """
         Test :func:`colour.plotting.common.update_settings_collection`
         definition.
@@ -464,7 +465,7 @@ class TestPlotSingleColourSwatch:
     unit tests methods.
     """
 
-    def test_plot_single_colour_swatch(self):
+    def test_plot_single_colour_swatch(self) -> None:
         """
         Test :func:`colour.plotting.common.plot_single_colour_swatch`
         definition.
@@ -491,7 +492,7 @@ class TestPlotMultiColourSwatches:
     definition unit tests methods.
     """
 
-    def test_plot_multi_colour_swatches(self):
+    def test_plot_multi_colour_swatches(self) -> None:
         """
         Test :func:`colour.plotting.common.plot_multi_colour_swatches`
         definition.
@@ -527,7 +528,7 @@ class TestPlotSingleFunction:
     tests methods.
     """
 
-    def test_plot_single_function(self):
+    def test_plot_single_function(self) -> None:
         """Test :func:`colour.plotting.common.plot_single_function` definition."""
 
         figure, axes = plot_single_function(partial(gamma_function, exponent=1 / 2.2))
@@ -542,7 +543,7 @@ class TestPlotMultiFunctions:
     tests methods.
     """
 
-    def test_plot_multi_functions(self):
+    def test_plot_multi_functions(self) -> None:
         """Test :func:`colour.plotting.common.plot_multi_functions` definition."""
 
         functions = {
@@ -581,11 +582,15 @@ class TestPlotImage:
     methods.
     """
 
-    def test_plot_image(self):
+    def test_plot_image(self) -> None:
         """Test :func:`colour.plotting.common.plot_image` definition."""
 
         path = os.path.join(
-            colour.__path__[0], "..", "docs", "_static", "Logo_Medium_001.png"
+            colour.__path__[0],  # pyright: ignore
+            "..",
+            "docs",
+            "_static",
+            "Logo_Medium_001.png",
         )
 
         # Distribution does not ship the documentation thus we are skipping

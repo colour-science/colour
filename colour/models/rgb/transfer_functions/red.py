@@ -685,7 +685,7 @@ References
 
 
 def log_decoding_Log3G10(
-    y, method: Literal["v1", "v2", "v3"] | str = "v3"
+    y: ArrayLike, method: Literal["v1", "v2", "v3"] | str = "v3"
 ) -> NDArrayFloat:
     """
     Define the *Log3G10* log decoding curve / electro-optical transfer

@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.ragoo2021` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -27,7 +29,7 @@ class TestXYZ_to_IPT_Ragoo2021:
     unit tests methods.
     """
 
-    def test_XYZ_to_IPT_Ragoo2021(self):
+    def test_XYZ_to_IPT_Ragoo2021(self) -> None:
         """
         Test :func:`colour.models.ragoo2021.XYZ_to_IPT_Ragoo2021` definition.
         """
@@ -50,7 +52,7 @@ class TestXYZ_to_IPT_Ragoo2021:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_IPT_Ragoo2021(self):
+    def test_n_dimensional_XYZ_to_IPT_Ragoo2021(self) -> None:
         """
         Test :func:`colour.models.ragoo2021.XYZ_to_IPT_Ragoo2021` definition
         n-dimensional support.
@@ -71,7 +73,7 @@ class TestXYZ_to_IPT_Ragoo2021:
             XYZ_to_IPT_Ragoo2021(XYZ), IPT, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_XYZ_to_IPT_Ragoo2021(self):
+    def test_domain_range_scale_XYZ_to_IPT_Ragoo2021(self) -> None:
         """
         Test :func:`colour.models.ragoo2021.XYZ_to_IPT_Ragoo2021` definition
         domain and range scale support.
@@ -90,7 +92,7 @@ class TestXYZ_to_IPT_Ragoo2021:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_IPT_Ragoo2021(self):
+    def test_nan_XYZ_to_IPT_Ragoo2021(self) -> None:
         """
         Test :func:`colour.models.ragoo2021.XYZ_to_IPT_Ragoo2021` definition
         nan support.
@@ -107,7 +109,7 @@ class TestIPT_Ragoo2021_to_XYZ:
     unit tests methods.
     """
 
-    def test_IPT_Ragoo2021_to_XYZ(self):
+    def test_IPT_Ragoo2021_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.ragoo2021.IPT_Ragoo2021_to_XYZ` definition.
         """
@@ -130,7 +132,7 @@ class TestIPT_Ragoo2021_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_IPT_Ragoo2021_to_XYZ(self):
+    def test_n_dimensional_IPT_Ragoo2021_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.ragoo2021.IPT_Ragoo2021_to_XYZ` definition
         n-dimensional support.
@@ -151,7 +153,7 @@ class TestIPT_Ragoo2021_to_XYZ:
             IPT_Ragoo2021_to_XYZ(IPT), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_IPT_Ragoo2021_to_XYZ(self):
+    def test_domain_range_scale_IPT_Ragoo2021_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.ragoo2021.IPT_Ragoo2021_to_XYZ` definition
         domain and range scale support.
@@ -170,7 +172,7 @@ class TestIPT_Ragoo2021_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_nan_IPT_Ragoo2021_to_XYZ(self):
+    def test_nan_IPT_Ragoo2021_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.ragoo2021.IPT_Ragoo2021_to_XYZ` definition
         nan support.

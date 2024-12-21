@@ -6,6 +6,7 @@ import numpy as np
 
 from colour.colorimetry import SDS_ILLUMINANTS, SpectralDistribution
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
+from colour.hints import cast
 from colour.quality import (
     ColourRendering_Specification_CRI,
     colour_rendering_index,
@@ -114,29 +115,29 @@ class TestColourRenderingIndex:
     definition unit tests methods.
     """
 
-    def test_colour_rendering_index(self):
+    def test_colour_rendering_index(self) -> None:
         """Test :func:`colour.quality.cri.colour_rendering_index` definition."""
 
         np.testing.assert_allclose(
-            colour_rendering_index(SDS_ILLUMINANTS["FL1"]),
+            cast(float, colour_rendering_index(SDS_ILLUMINANTS["FL1"])),
             75.852827992149358,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            colour_rendering_index(SDS_ILLUMINANTS["FL2"]),
+            cast(float, colour_rendering_index(SDS_ILLUMINANTS["FL2"])),
             64.233724121664778,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            colour_rendering_index(SDS_ILLUMINANTS["A"]),
+            cast(float, colour_rendering_index(SDS_ILLUMINANTS["A"])),
             99.996230290506887,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            colour_rendering_index(SpectralDistribution(DATA_SAMPLE)),
+            cast(float, colour_rendering_index(SpectralDistribution(DATA_SAMPLE))),
             70.815265381660197,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -161,7 +162,7 @@ class TestColourRenderingIndex:
                 14: DataColourQualityScale_TCS(name="TCS14", Q_a=94.884867470552663),
             },
             colorimetry_data=(
-                [
+                (
                     DataColorimetry_TCS(
                         name="TCS01",
                         XYZ=np.array([31.19561134, 29.74560797, 23.44190201]),
@@ -246,8 +247,8 @@ class TestColourRenderingIndex:
                         uv=np.array([0.18328188, 0.35214117]),
                         UVW=np.array([-6.11563143, 19.91896684, 40.34566797]),
                     ),
-                ],
-                [
+                ),
+                (
                     DataColorimetry_TCS(
                         name="TCS01",
                         XYZ=np.array([33.04774537, 29.80902109, 24.23929188]),
@@ -332,12 +333,13 @@ class TestColourRenderingIndex:
                         uv=np.array([0.18597686, 0.34955284]),
                         UVW=np.array([-6.34991066, 18.99712303, 39.76962229]),
                     ),
-                ],
+                ),
             ),
         )
 
-        specification_t = colour_rendering_index(
-            SDS_ILLUMINANTS["FL1"], additional_data=True
+        specification_t = cast(
+            ColourRendering_Specification_CRI,
+            colour_rendering_index(SDS_ILLUMINANTS["FL1"], additional_data=True),
         )
 
         np.testing.assert_allclose(

@@ -36,7 +36,7 @@ class TestLUTSequence:
     methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._LUT_1 = LUT1D(LUT1D.linear_table(16) + 0.125, "Nemo 1D")
@@ -48,7 +48,7 @@ class TestLUTSequence:
 
         self._RGB = tstack([samples, samples, samples])
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
         required_attributes = ("sequence",)
@@ -56,7 +56,7 @@ class TestLUTSequence:
         for attribute in required_attributes:
             assert attribute in dir(LUTSequence)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = (
@@ -77,7 +77,7 @@ class TestLUTSequence:
         for method in required_methods:
             assert method in dir(LUTSequence)
 
-    def test_sequence(self):
+    def test_sequence(self) -> None:
         """Test :class:`colour.io.luts.sequence.LUTSequence.sequence` property."""
 
         sequence = [self._LUT_1, self._LUT_2, self._LUT_3]
@@ -85,19 +85,19 @@ class TestLUTSequence:
         LUT_sequence.sequence = sequence
         assert self._LUT_sequence.sequence == sequence
 
-    def test__init__(self):
+    def test__init__(self) -> None:
         """Test :class:`colour.io.luts.sequence.LUTSequence.__init__` method."""
 
         assert LUTSequence(self._LUT_1, self._LUT_2, self._LUT_3) == self._LUT_sequence
 
-    def test__getitem__(self):
+    def test__getitem__(self) -> None:
         """Test :class:`colour.io.luts.sequence.LUTSequence.__getitem__` method."""
 
         assert self._LUT_sequence[0] == self._LUT_1
         assert self._LUT_sequence[1] == self._LUT_2
         assert self._LUT_sequence[2] == self._LUT_3
 
-    def test__setitem__(self):
+    def test__setitem__(self) -> None:
         """Test :class:`colour.io.luts.sequence.LUTSequence.__setitem__` method."""
 
         LUT_sequence = self._LUT_sequence.copy()
@@ -109,7 +109,7 @@ class TestLUTSequence:
         assert LUT_sequence[2] == self._LUT_2
         assert LUT_sequence[0] == self._LUT_3
 
-    def test__delitem__(self):
+    def test__delitem__(self) -> None:
         """Test :class:`colour.io.luts.sequence.LUTSequence.__delitem__` method."""
 
         LUT_sequence = self._LUT_sequence.copy()
@@ -119,12 +119,12 @@ class TestLUTSequence:
 
         assert LUT_sequence[0] == self._LUT_3
 
-    def test__len__(self):
+    def test__len__(self) -> None:
         """Test :class:`colour.io.luts.sequence.LUTSequence.__len__` method."""
 
         assert len(self._LUT_sequence) == 3
 
-    def test__str__(self):
+    def test__str__(self) -> None:
         """Test :class:`colour.io.luts.sequence.LUTSequence.__str__` method."""
 
         assert str(self._LUT_sequence) == (
@@ -165,7 +165,7 @@ class TestLUTSequence:
             ).strip()
         )
 
-    def test__repr__(self):
+    def test__repr__(self) -> None:
         """Test :class:`colour.io.luts.sequence.LUTSequence.__repr__` method."""
 
         LUT_sequence = self._LUT_sequence.copy()
@@ -360,7 +360,7 @@ LUTSequence(
             )
         )
 
-    def test__eq__(self):
+    def test__eq__(self) -> None:
         """Test :class:`colour.io.luts.sequence.LUTSequence.__eq__` method."""
 
         LUT_sequence_1 = LUTSequence(self._LUT_1, self._LUT_2, self._LUT_3)
@@ -372,14 +372,14 @@ LUTSequence(
 
         assert LUT_sequence_1 != LUT_sequence_2
 
-    def test__neq__(self):
+    def test__neq__(self) -> None:
         """Test :class:`colour.io.luts.sequence.LUTSequence.__neq__` method."""
 
         assert self._LUT_sequence != LUTSequence(
             self._LUT_1, self._LUT_2.copy() * 0.75, self._LUT_3
         )
 
-    def test_insert(self):
+    def test_insert(self) -> None:
         """Test :class:`colour.io.luts.sequence.LUTSequence.insert` method."""
 
         LUT_sequence = self._LUT_sequence.copy()
@@ -393,7 +393,7 @@ LUTSequence(
             self._LUT_3,
         )
 
-    def test_apply(self):
+    def test_apply(self) -> None:
         """Test :class:`colour.io.luts.sequence.LUTSequence.apply` method."""
 
         class GammaOperator(AbstractLUTSequenceOperator):

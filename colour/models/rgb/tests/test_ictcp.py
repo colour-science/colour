@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.rgb.ictcp` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -34,7 +36,7 @@ class TestRGB_to_ICtCp:
     tests methods.
     """
 
-    def test_RGB_to_ICtCp(self):
+    def test_RGB_to_ICtCp(self) -> None:
         """Test :func:`colour.models.rgb.ictcp.RGB_to_ICtCp` definition."""
 
         np.testing.assert_allclose(
@@ -91,7 +93,7 @@ class TestRGB_to_ICtCp:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_RGB_to_ICtCp(self):
+    def test_n_dimensional_RGB_to_ICtCp(self) -> None:
         """
         Test :func:`colour.models.rgb.ictcp.RGB_to_ICtCp` definition
         n-dimensional support.
@@ -112,7 +114,7 @@ class TestRGB_to_ICtCp:
             RGB_to_ICtCp(RGB), ICtCp, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_RGB_to_ICtCp(self):
+    def test_domain_range_scale_RGB_to_ICtCp(self) -> None:
         """
         Test :func:`colour.models.rgb.ictcp.RGB_to_ICtCp` definition domain
         and range scale support.
@@ -131,7 +133,7 @@ class TestRGB_to_ICtCp:
                 )
 
     @ignore_numpy_errors
-    def test_nan_RGB_to_ICtCp(self):
+    def test_nan_RGB_to_ICtCp(self) -> None:
         """
         Test :func:`colour.models.rgb.ictcp.RGB_to_ICtCp` definition nan
         support.
@@ -148,7 +150,7 @@ class TestICtCp_to_RGB:
     methods.
     """
 
-    def test_ICtCp_to_RGB(self):
+    def test_ICtCp_to_RGB(self) -> None:
         """Test :func:`colour.models.rgb.ictcp.ICtCp_to_RGB` definition."""
 
         np.testing.assert_allclose(
@@ -205,7 +207,7 @@ class TestICtCp_to_RGB:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_ICtCp_to_RGB(self):
+    def test_n_dimensional_ICtCp_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.ictcp.ICtCp_to_RGB` definition
         n-dimensional support.
@@ -226,7 +228,7 @@ class TestICtCp_to_RGB:
             ICtCp_to_RGB(ICtCp), RGB, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_ICtCp_to_RGB(self):
+    def test_domain_range_scale_ICtCp_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.ictcp.ICtCp_to_RGB` definition domain
         and range scale support.
@@ -245,7 +247,7 @@ class TestICtCp_to_RGB:
                 )
 
     @ignore_numpy_errors
-    def test_nan_ICtCp_to_RGB(self):
+    def test_nan_ICtCp_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.ictcp.ICtCp_to_RGB` definition nan
         support.
@@ -262,7 +264,7 @@ class TestXYZ_to_ICtCp:
     tests methods.
     """
 
-    def test_XYZ_to_ICtCp(self):
+    def test_XYZ_to_ICtCp(self) -> None:
         """Test :func:`colour.models.rgb.ictcp.XYZ_to_ICtCp` definition."""
 
         np.testing.assert_allclose(
@@ -338,7 +340,7 @@ class TestXYZ_to_ICtCp:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_ICtCp(self):
+    def test_n_dimensional_XYZ_to_ICtCp(self) -> None:
         """
         Test :func:`colour.models.rgb.ictcp.XYZ_to_ICtCp` definition
         n-dimensional support.
@@ -359,7 +361,7 @@ class TestXYZ_to_ICtCp:
             XYZ_to_ICtCp(XYZ), ICtCp, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_XYZ_to_ICtCp(self):
+    def test_domain_range_scale_XYZ_to_ICtCp(self) -> None:
         """
         Test :func:`colour.models.rgb.ictcp.XYZ_to_ICtCp` definition domain
         and range scale support.
@@ -378,7 +380,7 @@ class TestXYZ_to_ICtCp:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_ICtCp(self):
+    def test_nan_XYZ_to_ICtCp(self) -> None:
         """
         Test :func:`colour.models.rgb.ictcp.XYZ_to_ICtCp` definition nan
         support.
@@ -395,7 +397,7 @@ class TestICtCp_to_XYZ:
     methods.
     """
 
-    def test_ICtCp_to_XYZ(self):
+    def test_ICtCp_to_XYZ(self) -> None:
         """Test :func:`colour.models.rgb.ictcp.ICtCp_to_XYZ` definition."""
 
         np.testing.assert_allclose(
@@ -471,7 +473,7 @@ class TestICtCp_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_ICtCp_to_XYZ(self):
+    def test_n_dimensional_ICtCp_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.rgb.ictcp.ICtCp_to_XYZ` definition
         n-dimensional support.
@@ -492,7 +494,7 @@ class TestICtCp_to_XYZ:
             ICtCp_to_XYZ(ICtCp), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_ICtCp_to_XYZ(self):
+    def test_domain_range_scale_ICtCp_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.rgb.ictcp.ICtCp_to_XYZ` definition domain
         and range scale support.
@@ -511,7 +513,7 @@ class TestICtCp_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_nan_ICtCp_to_XYZ(self):
+    def test_nan_ICtCp_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.rgb.ictcp.ICtCp_to_XYZ` definition nan
         support.

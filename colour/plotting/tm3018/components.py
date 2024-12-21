@@ -429,7 +429,7 @@ def plot_colour_vector_graphic(
         zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
     )
 
-    def corner_label_and_text(label: str, text: str, ha: str, va: str):
+    def corner_label_and_text(label: str, text: str, ha: str, va: str) -> None:
         """Draw a label and text in given corner."""
 
         x = -1.45 if ha == "left" else 1.45

@@ -68,7 +68,7 @@ class TestReadSdsFromXRiteFile:
     tests methods.
     """
 
-    def test_read_sds_from_xrite_file(self):
+    def test_read_sds_from_xrite_file(self) -> None:
         """Test :func:`colour.io.xrite.read_sds_from_xrite_file` definition."""
 
         colour_checker_xrite = os.path.join(

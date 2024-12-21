@@ -83,9 +83,9 @@ def XYZ_to_Hunter_Lab(
     XYZ_n: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ].XYZ_n,
-    K_ab: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
-        "D65"
-    ].K_ab,
+    K_ab: ArrayLike | None = TVS_ILLUMINANTS_HUNTERLAB[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"].K_ab,
 ) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *Hunter L,a,b* colour scale.
@@ -161,9 +161,9 @@ def Hunter_Lab_to_XYZ(
     XYZ_n: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ].XYZ_n,
-    K_ab: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
-        "D65"
-    ].K_ab,
+    K_ab: ArrayLike | None = TVS_ILLUMINANTS_HUNTERLAB[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"].K_ab,
 ) -> NDArrayFloat:
     """
     Convert from *Hunter L,a,b* colour scale to *CIE XYZ* tristimulus values.

@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.graph.conversion` module."""
 
+from __future__ import annotations
+
 import numpy as np
 import pytest
 
@@ -28,7 +30,7 @@ class TestDescribeConversionPath:
     unit tests methods.
     """
 
-    def test_describe_conversion_path(self):
+    def test_describe_conversion_path(self) -> None:
         """
         Test :func:`colour.graph.conversion.describe_conversion_path`
         definition.
@@ -55,7 +57,7 @@ class TestConvert:
     methods.
     """
 
-    def test_convert(self):
+    def test_convert(self) -> None:
         """Test :func:`colour.graph.conversion.convert` definition."""
 
         RGB_a = convert(
@@ -128,7 +130,7 @@ class TestConvert:
                 model,
             )
 
-    def test_convert_direct_keyword_argument_passing(self):
+    def test_convert_direct_keyword_argument_passing(self) -> None:
         """
         Test :func:`colour.graph.conversion.convert` definition behaviour when
         direct keyword arguments are passed.

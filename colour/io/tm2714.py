@@ -262,7 +262,7 @@ class Header_IESTM2714:
         return self._manufacturer
 
     @manufacturer.setter
-    def manufacturer(self, value: str | None):
+    def manufacturer(self, value: str | None) -> None:
         """Setter for the **self.manufacturer** property."""
 
         if value is not None:
@@ -292,7 +292,7 @@ class Header_IESTM2714:
         return self._catalog_number
 
     @catalog_number.setter
-    def catalog_number(self, value: str | None):
+    def catalog_number(self, value: str | None) -> None:
         """Setter for the **self.catalog_number** property."""
 
         if value is not None:
@@ -322,7 +322,7 @@ class Header_IESTM2714:
         return self._description
 
     @description.setter
-    def description(self, value: str | None):
+    def description(self, value: str | None) -> None:
         """Setter for the **self.description** property."""
 
         if value is not None:
@@ -352,7 +352,7 @@ class Header_IESTM2714:
         return self._document_creator
 
     @document_creator.setter
-    def document_creator(self, value: str | None):
+    def document_creator(self, value: str | None) -> None:
         """Setter for the **self.document_creator** property."""
 
         if value is not None:
@@ -382,7 +382,7 @@ class Header_IESTM2714:
         return self._unique_identifier
 
     @unique_identifier.setter
-    def unique_identifier(self, value: str | None):
+    def unique_identifier(self, value: str | None) -> None:
         """Setter for the **self.unique_identifier** property."""
 
         if value is not None:
@@ -412,7 +412,7 @@ class Header_IESTM2714:
         return self._measurement_equipment
 
     @measurement_equipment.setter
-    def measurement_equipment(self, value: str | None):
+    def measurement_equipment(self, value: str | None) -> None:
         """Setter for the **self.measurement_equipment** property."""
 
         if value is not None:
@@ -442,7 +442,7 @@ class Header_IESTM2714:
         return self._laboratory
 
     @laboratory.setter
-    def laboratory(self, value: str | None):
+    def laboratory(self, value: str | None) -> None:
         """Setter for the **self.measurement_equipment** property."""
 
         if value is not None:
@@ -472,7 +472,7 @@ class Header_IESTM2714:
         return self._report_number
 
     @report_number.setter
-    def report_number(self, value: str | None):
+    def report_number(self, value: str | None) -> None:
         """Setter for the **self.report_number** property."""
 
         if value is not None:
@@ -502,7 +502,7 @@ class Header_IESTM2714:
         return self._report_date
 
     @report_date.setter
-    def report_date(self, value: str | None):
+    def report_date(self, value: str | None) -> None:
         """Setter for the **self.report_date** property."""
 
         if value is not None:
@@ -532,7 +532,7 @@ class Header_IESTM2714:
         return self._document_creation_date
 
     @document_creation_date.setter
-    def document_creation_date(self, value: str | None):
+    def document_creation_date(self, value: str | None) -> None:
         """Setter for the **self.document_creation_date** property."""
 
         if value is not None:
@@ -562,7 +562,7 @@ class Header_IESTM2714:
         return self._comments
 
     @comments.setter
-    def comments(self, value: str | None):
+    def comments(self, value: str | None) -> None:
         """Setter for the **self.comments** property."""
 
         if value is not None:
@@ -908,7 +908,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         ) = None,
         bandwidth_FWHM: float | None = None,
         bandwidth_corrected: bool | None = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> None:
         super().__init__(**kwargs)
 
@@ -1031,7 +1031,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         return self._path
 
     @path.setter
-    def path(self, value: str | Path | None):
+    def path(self, value: str | Path | None) -> None:
         """Setter for the **self.path** property."""
 
         if value is not None:
@@ -1063,7 +1063,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         return self._header
 
     @header.setter
-    def header(self, value: Header_IESTM2714):
+    def header(self, value: Header_IESTM2714) -> None:
         """Setter for the **self.header** property."""
 
         attest(
@@ -1129,7 +1129,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
             ]
             | None
         ),
-    ):
+    ) -> None:
         """Setter for the **self.spectral_quantity** property."""
 
         if value is not None:
@@ -1196,7 +1196,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
             ]
             | None
         ),
-    ):
+    ) -> None:
         """Setter for the **self.reflection_geometry** property."""
 
         if value is not None:
@@ -1231,7 +1231,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     def transmission_geometry(
         self,
         value: (Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"] | None),
-    ):
+    ) -> None:
         """Setter for the **self.transmission_geometry** property."""
 
         if value is not None:
@@ -1261,7 +1261,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         return self._bandwidth_FWHM
 
     @bandwidth_FWHM.setter
-    def bandwidth_FWHM(self, value: float | None):
+    def bandwidth_FWHM(self, value: float | None) -> None:
         """Setter for the **self.bandwidth_FWHM** property."""
 
         if value is not None:
@@ -1294,7 +1294,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         return self._bandwidth_corrected
 
     @bandwidth_corrected.setter
-    def bandwidth_corrected(self, value: bool | None):
+    def bandwidth_corrected(self, value: bool | None) -> None:
         """Setter for the **self.bandwidth_corrected** property."""
 
         if value is not None:

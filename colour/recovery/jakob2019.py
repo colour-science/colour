@@ -790,7 +790,7 @@ class LUT3D_Jakob2019:
 
         return self._interpolator
 
-    def _create_interpolator(self):
+    def _create_interpolator(self) -> None:
         """
         Create a :class:`scipy.interpolate.RegularGridInterpolator` class
         instance for read or generated coefficients.
@@ -810,7 +810,7 @@ class LUT3D_Jakob2019:
         illuminant: SpectralDistribution | None = None,
         size: int = 64,
         print_callable: Callable = print,
-    ):
+    ) -> None:
         """
         Generate the lookup table data for given *RGB* colourspace, colour
         matching functions, illuminant and given size.

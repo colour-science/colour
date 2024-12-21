@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.recovery.meng2015` module."""
 
+from __future__ import annotations
+
 import numpy as np
 import pytest
 
@@ -33,7 +35,7 @@ class TestXYZ_to_sd_Meng2015:
     tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._cmfs = reshape_msds(
@@ -43,7 +45,7 @@ class TestXYZ_to_sd_Meng2015:
         self._sd_D65 = reshape_sd(SDS_ILLUMINANTS["D65"], self._cmfs.shape)
         self._sd_E = reshape_sd(SDS_ILLUMINANTS["E"], self._cmfs.shape)
 
-    def test_XYZ_to_sd_Meng2015(self):
+    def test_XYZ_to_sd_Meng2015(self) -> None:
         """Test :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition."""
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
@@ -100,7 +102,7 @@ class TestXYZ_to_sd_Meng2015:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_raise_exception_XYZ_to_sd_Meng2015(self):
+    def test_raise_exception_XYZ_to_sd_Meng2015(self) -> None:
         """
         Test :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015`
         definition raised exception.
@@ -115,7 +117,7 @@ class TestXYZ_to_sd_Meng2015:
             },
         )
 
-    def test_domain_range_scale_XYZ_to_sd_Meng2015(self):
+    def test_domain_range_scale_XYZ_to_sd_Meng2015(self) -> None:
         """
         Test :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition
         domain and range scale support.

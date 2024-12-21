@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.temperature.kang2002` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -27,7 +29,7 @@ class TestXy_to_CCT_Kang2002:
     definition unit tests methods.
     """
 
-    def test_xy_to_CCT_Kang2002(self):
+    def test_xy_to_CCT_Kang2002(self) -> None:
         """
         Test :func:`colour.temperature.kang2002.xy_to_CCT_Kang2002`
         definition.
@@ -60,7 +62,7 @@ class TestXy_to_CCT_Kang2002:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_xy_to_CCT_Kang2002(self):
+    def test_n_dimensional_xy_to_CCT_Kang2002(self) -> None:
         """
         Test :func:`colour.temperature.kang2002.xy_to_CCT_Kang2002`
         definition n-dimensional arrays support.
@@ -82,7 +84,7 @@ class TestXy_to_CCT_Kang2002:
         )
 
     @ignore_numpy_errors
-    def test_nan_xy_to_CCT_Kang2002(self):
+    def test_nan_xy_to_CCT_Kang2002(self) -> None:
         """
         Test :func:`colour.temperature.kang2002.xy_to_CCT_Kang2002`
         definition nan support.
@@ -99,7 +101,7 @@ class TestCCT_to_xy_Kang2002:
     unit tests methods.
     """
 
-    def test_CCT_to_xy_Kang2002(self):
+    def test_CCT_to_xy_Kang2002(self) -> None:
         """
         Test :func:`colour.temperature.kang2002.CCT_to_xy_Kang2002`
         definition.
@@ -123,7 +125,7 @@ class TestCCT_to_xy_Kang2002:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_CCT_to_xy_Kang2002(self):
+    def test_n_dimensional_CCT_to_xy_Kang2002(self) -> None:
         """
         Test :func:`colour.temperature.kang2002.CCT_to_xy_Kang2002` definition
         n-dimensional arrays support.
@@ -145,7 +147,7 @@ class TestCCT_to_xy_Kang2002:
         )
 
     @ignore_numpy_errors
-    def test_nan_CCT_to_xy_Kang2002(self):
+    def test_nan_CCT_to_xy_Kang2002(self) -> None:
         """
         Test :func:`colour.temperature.kang2002.CCT_to_xy_Kang2002` definition
         nan support.

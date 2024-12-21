@@ -123,7 +123,7 @@ class TestReadSpectralDataFromCsvFile:
     definition unit tests methods.
     """
 
-    def test_read_spectral_data_from_csv_file(self):
+    def test_read_spectral_data_from_csv_file(self) -> None:
         """
         Test :func:`colour.io.tabular.read_spectral_data_from_csv_file`
         definition.
@@ -165,7 +165,7 @@ class TestReadSdsFromCsvFile:
     tests methods.
     """
 
-    def test_read_sds_from_csv_file(self):
+    def test_read_sds_from_csv_file(self) -> None:
         """Test :func:`colour.io.tabular.read_sds_from_csv_file` definition."""
 
         colour_checker_n_ohta = os.path.join(ROOT_RESOURCES, "colorchecker_n_ohta.csv")
@@ -182,17 +182,17 @@ class TestWriteSdsToCsvFile:
     tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
-    def teardown_method(self):
+    def teardown_method(self) -> None:
         """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
-    def test_write_sds_to_csv_file(self):
+    def test_write_sds_to_csv_file(self) -> None:
         """Test :func:`colour.io.tabular.write_sds_to_csv_file` definition."""
 
         colour_checker_n_ohta = os.path.join(ROOT_RESOURCES, "colorchecker_n_ohta.csv")
@@ -205,7 +205,7 @@ class TestWriteSdsToCsvFile:
         for key, value in sds.items():
             assert value == sds_test[key]
 
-    def test_raise_exception_write_sds_to_csv_file(self):
+    def test_raise_exception_write_sds_to_csv_file(self) -> None:
         """
         Test :func:`colour.io.tabular.write_sds_to_csv_file` definition
         raised exception.

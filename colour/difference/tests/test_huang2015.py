@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.difference.huang2015` module."""
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -23,7 +25,7 @@ class TestPowerFunctionHuang2015:
     definition unit tests methods.
     """
 
-    def test_power_function_Huang2015(self):
+    def test_power_function_Huang2015(self) -> None:
         """
         Test :func:`colour.difference.huang2015.power_function_Huang2015`
         definition.

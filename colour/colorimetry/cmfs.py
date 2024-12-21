@@ -16,6 +16,8 @@ the :mod:`colour.colorimetry.datasets.cmfs` module:
 
 from __future__ import annotations
 
+from collections.abc import KeysView, ValuesView
+
 from colour.colorimetry import (
     MultiSpectralDistributions,
     SpectralDistribution,
@@ -105,9 +107,10 @@ class LMS_ConeFundamentals(MultiSpectralDistributions):
             | Series
             | Signal
             | SpectralDistribution
+            | ValuesView
             | None
         ) = None,
-        domain: ArrayLike | SpectralShape | None = None,
+        domain: ArrayLike | SpectralShape | KeysView | None = None,
         labels: Sequence | None = None,  # noqa: ARG002
         **kwargs: Any,
     ) -> None:
@@ -172,9 +175,10 @@ class RGB_ColourMatchingFunctions(MultiSpectralDistributions):
             | Series
             | Signal
             | SpectralDistribution
+            | ValuesView
             | None
         ) = None,
-        domain: ArrayLike | SpectralShape | None = None,
+        domain: ArrayLike | SpectralShape | KeysView | None = None,
         labels: Sequence | None = None,  # noqa: ARG002
         **kwargs: Any,
     ) -> None:
@@ -240,9 +244,10 @@ class XYZ_ColourMatchingFunctions(MultiSpectralDistributions):
             | Series
             | Signal
             | SpectralDistribution
+            | ValuesView
             | None
         ) = None,
-        domain: ArrayLike | SpectralShape | None = None,
+        domain: ArrayLike | SpectralShape | KeysView | None = None,
         labels: Sequence | None = None,  # noqa: ARG002
         **kwargs: Any,
     ) -> None:

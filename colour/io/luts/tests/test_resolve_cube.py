@@ -10,7 +10,15 @@ import numpy as np
 import pytest
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.io import LUT1D, read_LUT_ResolveCube, write_LUT_ResolveCube
+from colour.hints import cast
+from colour.io import (
+    LUT1D,
+    LUT3D,
+    LUT3x1D,
+    LUTSequence,
+    read_LUT_ResolveCube,
+    write_LUT_ResolveCube,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -34,14 +42,15 @@ class TestReadLUTResolveCube:
     unit tests methods.
     """
 
-    def test_read_LUT_ResolveCube(self):
+    def test_read_LUT_ResolveCube(self) -> None:
         """
         Test :func:`colour.io.luts.resolve_cube.read_LUT_ResolveCube`
         definition.
         """
 
-        LUT_1 = read_LUT_ResolveCube(
-            os.path.join(ROOT_LUTS, "ACES_Proxy_10_to_ACES.cube")
+        LUT_1 = cast(
+            LUT3x1D,
+            read_LUT_ResolveCube(os.path.join(ROOT_LUTS, "ACES_Proxy_10_to_ACES.cube")),
         )
 
         np.testing.assert_allclose(
@@ -90,17 +99,25 @@ class TestReadLUTResolveCube:
         assert LUT_1.size == 32
         assert LUT_1.comments == []
 
-        LUT_2 = read_LUT_ResolveCube(os.path.join(ROOT_LUTS, "Demo.cube"))
+        LUT_2 = cast(
+            LUT3x1D, read_LUT_ResolveCube(os.path.join(ROOT_LUTS, "Demo.cube"))
+        )
         assert LUT_2.comments == ["Comments can't go anywhere"]
         np.testing.assert_array_equal(LUT_2.domain, np.array([[0, 0, 0], [3, 3, 3]]))
 
-        LUT_3 = read_LUT_ResolveCube(
-            os.path.join(ROOT_LUTS, "Three_Dimensional_Table.cube")
+        LUT_3 = cast(
+            LUT3D,
+            read_LUT_ResolveCube(
+                os.path.join(ROOT_LUTS, "Three_Dimensional_Table.cube")
+            ),
         )
         assert LUT_3.dimensions == 3
         assert LUT_3.size == 2
 
-        LUT_4 = read_LUT_ResolveCube(os.path.join(ROOT_LUTS, "LogC_Video.cube"))
+        LUT_4 = cast(
+            LUTSequence,
+            read_LUT_ResolveCube(os.path.join(ROOT_LUTS, "LogC_Video.cube")),
+        )
         np.testing.assert_allclose(
             LUT_4[0].table,
             np.array(
@@ -134,17 +151,17 @@ class TestWriteLUTResolveCube:
     definition unit tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
-    def teardown_method(self):
+    def teardown_method(self) -> None:
         """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
-    def test_write_LUT_ResolveCube(self):
+    def test_write_LUT_ResolveCube(self) -> None:
         """
         Test :func:`colour.io.luts.resolve_cube.write_LUT_ResolveCube`
         definition.
@@ -165,21 +182,27 @@ class TestWriteLUTResolveCube:
 
         assert LUT_1_r == LUT_1_t
 
-        LUT_2_r = read_LUT_ResolveCube(os.path.join(ROOT_LUTS, "Demo.cube"))
+        LUT_2_r = cast(
+            LUT3x1D, read_LUT_ResolveCube(os.path.join(ROOT_LUTS, "Demo.cube"))
+        )
 
         write_LUT_ResolveCube(
             LUT_2_r, os.path.join(self._temporary_directory, "Demo.cube")
         )
 
-        LUT_2_t = read_LUT_ResolveCube(
-            os.path.join(self._temporary_directory, "Demo.cube")
+        LUT_2_t = cast(
+            LUT3x1D,
+            read_LUT_ResolveCube(os.path.join(self._temporary_directory, "Demo.cube")),
         )
 
         assert LUT_2_r == LUT_2_t
         assert LUT_2_r.comments == LUT_2_t.comments
 
-        LUT_3_r = read_LUT_ResolveCube(
-            os.path.join(ROOT_LUTS, "Three_Dimensional_Table.cube")
+        LUT_3_r = cast(
+            LUT3D,
+            read_LUT_ResolveCube(
+                os.path.join(ROOT_LUTS, "Three_Dimensional_Table.cube")
+            ),
         )
 
         write_LUT_ResolveCube(
@@ -187,17 +210,24 @@ class TestWriteLUTResolveCube:
             os.path.join(self._temporary_directory, "Three_Dimensional_Table.cube"),
         )
 
-        LUT_3_t = read_LUT_ResolveCube(
-            os.path.join(self._temporary_directory, "Three_Dimensional_Table.cube")
+        LUT_3_t = cast(
+            LUT3D,
+            read_LUT_ResolveCube(
+                os.path.join(self._temporary_directory, "Three_Dimensional_Table.cube")
+            ),
         )
-
         assert LUT_3_r == LUT_3_t
 
-        LUT_4_r = read_LUT_ResolveCube(
-            os.path.join(ROOT_LUTS, "Three_Dimensional_Table_With_Shaper.cube")
+        LUT_4_r = cast(
+            LUTSequence,
+            read_LUT_ResolveCube(
+                os.path.join(ROOT_LUTS, "Three_Dimensional_Table_With_Shaper.cube")
+            ),
         )
 
-        LUT_4_r.sequence[0] = LUT_4_r.sequence[0].convert(LUT1D, force_conversion=True)
+        LUT_4_r.sequence[0] = LUT_4_r.sequence[0].convert(  # pyright: ignore
+            LUT1D, force_conversion=True
+        )
 
         write_LUT_ResolveCube(
             LUT_4_r,
@@ -207,35 +237,45 @@ class TestWriteLUTResolveCube:
             ),
         )
 
-        LUT_4_t = read_LUT_ResolveCube(
-            os.path.join(
-                self._temporary_directory,
-                "Three_Dimensional_Table_With_Shaper.cube",
-            )
+        LUT_4_t = cast(
+            LUTSequence,
+            read_LUT_ResolveCube(
+                os.path.join(
+                    self._temporary_directory,
+                    "Three_Dimensional_Table_With_Shaper.cube",
+                )
+            ),
         )
 
-        LUT_4_r = read_LUT_ResolveCube(
-            os.path.join(ROOT_LUTS, "Three_Dimensional_Table_With_Shaper.cube")
+        LUT_4_r = cast(
+            LUTSequence,
+            read_LUT_ResolveCube(
+                os.path.join(ROOT_LUTS, "Three_Dimensional_Table_With_Shaper.cube")
+            ),
         )
 
         assert LUT_4_r == LUT_4_t
 
-        LUT_5_r = read_LUT_ResolveCube(
-            os.path.join(ROOT_LUTS, "ACES_Proxy_10_to_ACES.cube")
+        LUT_5_r = cast(
+            LUT3x1D,
+            read_LUT_ResolveCube(os.path.join(ROOT_LUTS, "ACES_Proxy_10_to_ACES.cube")),
         )
 
         write_LUT_ResolveCube(
-            LUT_5_r.convert(LUT1D, force_conversion=True),
+            cast(LUT1D, LUT_5_r.convert(LUT1D, force_conversion=True)),
             os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"),
         )
 
-        LUT_5_t = read_LUT_ResolveCube(
-            os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.cube")
+        LUT_5_t = cast(
+            LUT3x1D,
+            read_LUT_ResolveCube(
+                os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.cube")
+            ),
         )
 
         assert LUT_5_r == LUT_5_t
 
-    def test_raise_exception_write_LUT_ResolveCube(self):
+    def test_raise_exception_write_LUT_ResolveCube(self) -> None:
         """
         Test :func:`colour.io.luts.resolve_cube.write_LUT_ResolveCube`
         definition raised exception.

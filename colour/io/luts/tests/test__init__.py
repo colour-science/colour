@@ -10,7 +10,8 @@ import numpy as np
 import pytest
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.io import LUTSequence, read_LUT, write_LUT
+from colour.hints import cast
+from colour.io import LUT1D, LUTSequence, read_LUT, write_LUT
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -34,10 +35,12 @@ class TestReadLUT:
     methods.
     """
 
-    def test_read_LUT(self):
+    def test_read_LUT(self) -> None:
         """Test :func:`colour.io.luts.__init__.read_LUT` definition."""
 
-        LUT_1 = read_LUT(os.path.join(ROOT_LUTS, "sony_spi1d", "eotf_sRGB_1D.spi1d"))
+        LUT_1 = cast(
+            LUT1D, read_LUT(os.path.join(ROOT_LUTS, "sony_spi1d", "eotf_sRGB_1D.spi1d"))
+        )
 
         np.testing.assert_allclose(
             LUT_1.table,
@@ -72,7 +75,10 @@ class TestReadLUT:
             '"colour.models.eotf_sRGB".',
         ]
 
-        LUT_2 = read_LUT(os.path.join(ROOT_LUTS, "resolve_cube", "LogC_Video.cube"))
+        LUT_2 = cast(
+            LUTSequence,
+            read_LUT(os.path.join(ROOT_LUTS, "resolve_cube", "LogC_Video.cube")),
+        )
         np.testing.assert_allclose(
             LUT_2[0].table,
             np.array(
@@ -106,7 +112,7 @@ class TestReadLUT:
             method="Sony SPI1D",
         )
 
-    def test_raise_exception_read_LUT(self):
+    def test_raise_exception_read_LUT(self) -> None:
         """
         Test :func:`colour.io.luts.__init__.read_LUT` definition raised
         exception.
@@ -125,17 +131,17 @@ class TestWriteLUT:
     methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
-    def teardown_method(self):
+    def teardown_method(self) -> None:
         """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
-    def test_write_LUT(self):
+    def test_write_LUT(self) -> None:
         """Test :func:`colour.io.luts.__init__.write_LUT` definition."""
 
         LUT_1_r = read_LUT(os.path.join(ROOT_LUTS, "sony_spi1d", "eotf_sRGB_1D.spi1d"))

@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.recovery.jiang2013` module."""
 
+from __future__ import annotations
+
 import platform
 
 import numpy as np
@@ -50,7 +52,7 @@ class TestPCA_Jiang2013:
     tests methods.
     """
 
-    def test_PCA_Jiang2013(self):
+    def test_PCA_Jiang2013(self) -> None:
         """Test :func:`colour.recovery.jiang2013.PCA_Jiang2013` definition."""
 
         if platform.system() in ("Windows", "Microsoft", "Linux"):
@@ -61,7 +63,11 @@ class TestPCA_Jiang2013:
             camera: msds.copy().align(shape)
             for camera, msds in MSDS_CAMERA_SENSITIVITIES.items()
         }
-        w, v = PCA_Jiang2013(camera_sensitivities, 3, True)
+        w, v = PCA_Jiang2013(  # pyright: ignore
+            camera_sensitivities,
+            3,
+            additional_data=True,
+        )
 
         np.testing.assert_allclose(
             np.abs(np.array(w)),
@@ -218,12 +224,12 @@ class TestRGB_to_sd_camera_sensitivity_Jiang2013(FixtureJiang2013):
     definition unit tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         FixtureJiang2013.__init__(self)
 
-    def test_RGB_to_sd_camera_sensitivity_Jiang2013(self):
+    def test_RGB_to_sd_camera_sensitivity_Jiang2013(self) -> None:
         """
         Test :func:`colour.recovery.jiang2013.\
 RGB_to_sd_camera_sensitivity_Jiang2013` definition.
@@ -284,12 +290,12 @@ class TestRGB_to_msds_camera_sensitivities_Jiang2013(FixtureJiang2013):
 RGB_to_msds_camera_sensitivities_Jiang2013` definition unit tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         FixtureJiang2013.__init__(self)
 
-    def test_RGB_to_msds_camera_sensitivities_Jiang2013(self):
+    def test_RGB_to_msds_camera_sensitivities_Jiang2013(self) -> None:
         """
         Test :func:`colour.recovery.jiang2013.\
 RGB_to_msds_camera_sensitivities_Jiang2013` definition.

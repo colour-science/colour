@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.geometry.section` module."""
 
+from __future__ import annotations
+
 import numpy as np
 import pytest
 
@@ -33,7 +35,7 @@ class TestEdgesToChord:
     tests methods.
     """
 
-    def test_edges_to_chord(self):
+    def test_edges_to_chord(self) -> None:
         """Test :func:`colour.geometry.section.edges_to_chord` definition."""
 
         edges = np.array(
@@ -106,7 +108,7 @@ class TestCloseChord:
     methods.
     """
 
-    def test_close_chord(self):
+    def test_close_chord(self) -> None:
         """Test :func:`colour.geometry.section.close_chord` definition."""
 
         np.testing.assert_allclose(
@@ -122,7 +124,7 @@ class TestUniqueVertices:
     tests methods.
     """
 
-    def test_unique_vertices(self):
+    def test_unique_vertices(self) -> None:
         """Test :func:`colour.geometry.section.unique_vertices` definition."""
 
         np.testing.assert_allclose(
@@ -149,7 +151,7 @@ class TestHullSection:
     methods.
     """
 
-    def test_hull_section(self):
+    def test_hull_section(self) -> None:
         """Test :func:`colour.geometry.section.hull_section` definition."""
 
         if not is_trimesh_installed():  # pragma: no cover

@@ -2,6 +2,8 @@
 Define the unit tests for the :mod:`colour.adaptation.fairchild2020` module.
 """
 
+from __future__ import annotations
+
 import unittest
 from itertools import product
 
@@ -36,7 +38,7 @@ class TestMatrixChromaticAdaptationVonKries(unittest.TestCase):
 matrix_chromatic_adaptation_vk20` definition unit tests methods.
     """
 
-    def test_matrix_chromatic_adaptation_vk20(self):
+    def test_matrix_chromatic_adaptation_vk20(self) -> None:
         """
         Test :func:`colour.adaptation.fairchild2020.\
 matrix_chromatic_adaptation_vk20` definition.
@@ -121,7 +123,7 @@ matrix_chromatic_adaptation_vk20` definition.
             decimal=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_matrix_chromatic_adaptation_vk20(self):
+    def test_n_dimensional_matrix_chromatic_adaptation_vk20(self) -> None:
         """
         Test :func:`colour.adaptation.fairchild2020.\
 matrix_chromatic_adaptation_vk20` definition n-dimensional arrays support.
@@ -149,7 +151,7 @@ matrix_chromatic_adaptation_vk20` definition n-dimensional arrays support.
             decimal=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_matrix_chromatic_adaptation_vk20(self):
+    def test_domain_range_scale_matrix_chromatic_adaptation_vk20(self) -> None:
         """
         Test :func:`colour.adaptation.fairchild2020.\
 matrix_chromatic_adaptation_vk20` definition domain and range scale
@@ -173,7 +175,7 @@ matrix_chromatic_adaptation_vk20` definition domain and range scale
                 )
 
     @ignore_numpy_errors
-    def test_nan_matrix_chromatic_adaptation_vk20(self):
+    def test_nan_matrix_chromatic_adaptation_vk20(self) -> None:
         """
         Test :func:`colour.adaptation.fairchild2020.\
 matrix_chromatic_adaptation_vk20` definition nan support.
@@ -190,7 +192,7 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
     definition unit tests methods.
     """
 
-    def test_chromatic_adaptation_vK20(self):
+    def test_chromatic_adaptation_vK20(self) -> None:
         """
         Test :func:`colour.adaptation.fairchild2020.chromatic_adaptation_vK20`
         definition.
@@ -260,7 +262,7 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
             decimal=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_chromatic_adaptation_vK20(self):
+    def test_n_dimensional_chromatic_adaptation_vK20(self) -> None:
         """
         Test :func:`colour.adaptation.fairchild2020.chromatic_adaptation_vK20`
         definition n-dimensional arrays support.
@@ -291,7 +293,7 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
             decimal=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_chromatic_adaptation_vK20(self):
+    def test_domain_range_scale_chromatic_adaptation_vK20(self) -> None:
         """
         Test :func:`colour.adaptation.fairchild2020.chromatic_adaptation_vK20`
         definition domain and range scale support.
@@ -318,7 +320,7 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
                 )
 
     @ignore_numpy_errors
-    def test_nan_chromatic_adaptation_vK20(self):
+    def test_nan_chromatic_adaptation_vK20(self) -> None:
         """
         Test :func:`colour.adaptation.fairchild2020.chromatic_adaptation_vK20`
         definition nan support.

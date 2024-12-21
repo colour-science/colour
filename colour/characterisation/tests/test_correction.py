@@ -120,7 +120,7 @@ class TestMatrixAugmentedCheung2004:
 matrix_augmented_Cheung2004` definition unit tests methods.
     """
 
-    def test_matrix_augmented_Cheung2004(self):
+    def test_matrix_augmented_Cheung2004(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 matrix_augmented_Cheung2004` definition.
@@ -364,7 +364,7 @@ matrix_augmented_Cheung2004` definition.
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
-    def test_raise_exception_matrix_augmented_Cheung2004(self):
+    def test_raise_exception_matrix_augmented_Cheung2004(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 matrix_augmented_Cheung2004` definition raised exception.
@@ -378,7 +378,7 @@ matrix_augmented_Cheung2004` definition raised exception.
         )
 
     @ignore_numpy_errors
-    def test_nan_matrix_augmented_Cheung2004(self):
+    def test_nan_matrix_augmented_Cheung2004(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 matrix_augmented_Cheung2004` definition nan support.
@@ -395,7 +395,7 @@ class TestPolynomialExpansionFinlayson2015:
 polynomial_expansion_Finlayson2015` definition unit tests methods.
     """
 
-    def test_polynomial_expansion_Finlayson2015(self):
+    def test_polynomial_expansion_Finlayson2015(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 polynomial_expansion_Finlayson2015` definition.
@@ -555,7 +555,7 @@ polynomial_expansion_Finlayson2015` definition.
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
-    def test_raise_exception_polynomial_expansion_Finlayson2015(self):
+    def test_raise_exception_polynomial_expansion_Finlayson2015(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 polynomial_expansion_Finlayson2015` definition raised exception.
@@ -569,7 +569,7 @@ polynomial_expansion_Finlayson2015` definition raised exception.
         )
 
     @ignore_numpy_errors
-    def test_nan_polynomial_expansion_Finlayson2015(self):
+    def test_nan_polynomial_expansion_Finlayson2015(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 polynomial_expansion_Finlayson2015` definition nan support.
@@ -586,7 +586,7 @@ class TestPolynomialExpansionVandermonde:
 polynomial_expansion_Vandermonde` definition unit tests methods.
     """
 
-    def test_polynomial_expansion_Vandermonde(self):
+    def test_polynomial_expansion_Vandermonde(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 polynomial_expansion_Vandermonde` definition.
@@ -648,7 +648,7 @@ polynomial_expansion_Vandermonde` definition.
             )
 
     @ignore_numpy_errors
-    def test_nan_polynomial_expansion_Vandermonde(self):
+    def test_nan_polynomial_expansion_Vandermonde(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 polynomial_expansion_Vandermonde` definition nan support.
@@ -665,7 +665,7 @@ class TestMatrixColourCorrectionCheung2004:
 matrix_colour_correction_Cheung2004` definition unit tests methods.
     """
 
-    def test_matrix_colour_correction_Cheung2004(self):
+    def test_matrix_colour_correction_Cheung2004(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 matrix_colour_correction_Cheung2004` definition.
@@ -720,7 +720,7 @@ matrix_colour_correction_Cheung2004` definition.
         )
 
     @ignore_numpy_errors
-    def test_nan_matrix_colour_correction_Cheung2004(self):  # pragma: no cover
+    def test_nan_matrix_colour_correction_Cheung2004(self) -> None:  # pragma: no cover
         """
         Test :func:`colour.characterisation.correction.\
         matrix_colour_correction_Cheung2004` definition nan support.
@@ -746,7 +746,7 @@ class TestMatrixColourCorrectionFinlayson2015:
 matrix_colour_correction_Finlayson2015` definition unit tests methods.
     """
 
-    def test_matrix_colour_correction_Finlayson2015(self):
+    def test_matrix_colour_correction_Finlayson2015(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 matrix_colour_correction_Finlayson2015` definition.
@@ -823,7 +823,7 @@ matrix_colour_correction_Finlayson2015` definition.
     @ignore_numpy_errors
     def test_nan_matrix_colour_correction_Finlayson2015(
         self,
-    ):  # pragma: no cover
+    ) -> None:  # pragma: no cover
         """
         Test :func:`colour.characterisation.correction.\
         matrix_colour_correction_Finlayson2015` definition nan support.
@@ -849,7 +849,7 @@ class TestMatrixColourCorrectionVandermonde:
 matrix_colour_correction_Vandermonde` definition unit tests methods.
     """
 
-    def test_matrix_colour_correction_Vandermonde(self):
+    def test_matrix_colour_correction_Vandermonde(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 matrix_colour_correction_Vandermonde` definition.
@@ -917,7 +917,7 @@ matrix_colour_correction_Vandermonde` definition.
     @ignore_numpy_errors
     def test_nan_matrix_colour_correction_Vandermonde(
         self,
-    ):  # pragma: no cover
+    ) -> None:  # pragma: no cover
         """
         Test :func:`colour.characterisation.correction.\
         matrix_colour_correction_Vandermonde` definition nan support.
@@ -943,7 +943,7 @@ class TestApplyMatrixColourCorrectionCheung2004:
 apply_matrix_colour_correction_Cheung2004` definition unit tests methods.
     """
 
-    def test_apply_matrix_colour_correction_Cheung2004(self):
+    def test_apply_matrix_colour_correction_Cheung2004(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 apply_matrix_colour_correction_Cheung2004` definition.
@@ -966,7 +966,7 @@ apply_matrix_colour_correction_Cheung2004` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_apply_matrix_colour_correction_Cheung2004(self):
+    def test_n_dimensional_apply_matrix_colour_correction_Cheung2004(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 apply_matrix_colour_correction_Cheung2004` definition n-dimensional support.
@@ -1001,7 +1001,7 @@ apply_matrix_colour_correction_Cheung2004` definition n-dimensional support.
     @ignore_numpy_errors
     def test_nan_apply_matrix_colour_correction_Cheung2004(
         self,
-    ):  # pragma: no cover
+    ) -> None:  # pragma: no cover
         """
         Test :func:`colour.characterisation.correction.\
 apply_matrix_colour_correction_Cheung2004` definition nan support.
@@ -1027,7 +1027,7 @@ class TestApplyMatrixColourCorrectionFinlayson2015:
 apply_matrix_colour_correction_Finlayson2015` definition unit tests methods.
     """
 
-    def test_apply_matrix_colour_correction_Finlayson2015(self):
+    def test_apply_matrix_colour_correction_Finlayson2015(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 apply_matrix_colour_correction_Finlayson2015` definition.
@@ -1050,7 +1050,7 @@ apply_matrix_colour_correction_Finlayson2015` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_apply_matrix_colour_correction_Finlayson2015(self):
+    def test_n_dimensional_apply_matrix_colour_correction_Finlayson2015(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 apply_matrix_colour_correction_Finlayson2015` definition n-dimensional support.
@@ -1085,7 +1085,7 @@ apply_matrix_colour_correction_Finlayson2015` definition n-dimensional support.
     @ignore_numpy_errors
     def test_nan_apply_matrix_colour_correction_Finlayson2015(
         self,
-    ):  # pragma: no cover
+    ) -> None:  # pragma: no cover
         """
                 Test :func:`colour.characterisation.correction.
         apply_matrix_colour_correction_Finlayson2015` definition nan support.
@@ -1111,7 +1111,7 @@ class TestApplyMatrixColourCorrectionVandermonde:
 apply_matrix_colour_correction_Vandermonde` definition unit tests methods.
     """
 
-    def test_apply_matrix_colour_correction_Vandermonde(self):
+    def test_apply_matrix_colour_correction_Vandermonde(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 apply_matrix_colour_correction_Vandermonde` definition.
@@ -1134,7 +1134,7 @@ apply_matrix_colour_correction_Vandermonde` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_apply_matrix_colour_correction_Vandermonde(self):
+    def test_n_dimensional_apply_matrix_colour_correction_Vandermonde(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 apply_matrix_colour_correction_Vandermonde` definition n-dimensional support.
@@ -1169,7 +1169,7 @@ apply_matrix_colour_correction_Vandermonde` definition n-dimensional support.
     @ignore_numpy_errors
     def test_nan_apply_matrix_colour_correction_Vandermonde(
         self,
-    ):  # pragma: no cover
+    ) -> None:  # pragma: no cover
         """
         Test :func:`colour.characterisation.correction.\
 apply_matrix_colour_correction_Vandermonde` definition nan support.
@@ -1195,7 +1195,7 @@ class TestColourCorrectionCheung2004:
 colour_correction_Cheung2004` definition unit tests methods.
     """
 
-    def test_colour_correction_Cheung2004(self):
+    def test_colour_correction_Cheung2004(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 colour_correction_Cheung2004` definition.
@@ -1215,7 +1215,7 @@ colour_correction_Cheung2004` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_colour_correction_Cheung2004(self):
+    def test_n_dimensional_colour_correction_Cheung2004(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 colour_correction_Cheung2004` definition n-dimensional support.
@@ -1241,7 +1241,7 @@ colour_correction_Cheung2004` definition n-dimensional support.
         )
 
     @ignore_numpy_errors
-    def test_nan_colour_correction_Cheung2004(self):  # pragma: no cover
+    def test_nan_colour_correction_Cheung2004(self) -> None:  # pragma: no cover
         """
         Test :func:`colour.characterisation.correction.\
 colour_correction_Cheung2004` definition nan support.
@@ -1268,7 +1268,7 @@ class TestColourCorrectionFinlayson2015:
 colour_correction_Finlayson2015` definition unit tests methods.
     """
 
-    def test_colour_correction_Finlayson2015(self):
+    def test_colour_correction_Finlayson2015(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 colour_correction_Finlayson2015` definition.
@@ -1290,7 +1290,7 @@ colour_correction_Finlayson2015` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_colour_correction_Finlayson2015(self):
+    def test_n_dimensional_colour_correction_Finlayson2015(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 colour_correction_Finlayson2015` definition n-dimensional support.
@@ -1316,7 +1316,7 @@ colour_correction_Finlayson2015` definition n-dimensional support.
         )
 
     @ignore_numpy_errors
-    def test_nan_colour_correction_Finlayson2015(self):  # pragma: no cover
+    def test_nan_colour_correction_Finlayson2015(self) -> None:  # pragma: no cover
         """
                 Test :func:`colour.characterisation.correction.
         colour_correction_Finlayson2015` definition nan support.
@@ -1343,7 +1343,7 @@ class TestColourCorrectionVandermonde:
 colour_correction_Vandermonde` definition unit tests methods.
     """
 
-    def test_colour_correction_Vandermonde(self):
+    def test_colour_correction_Vandermonde(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 colour_correction_Vandermonde` definition.
@@ -1363,7 +1363,7 @@ colour_correction_Vandermonde` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_colour_correction_Vandermonde(self):
+    def test_n_dimensional_colour_correction_Vandermonde(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 colour_correction_Vandermonde` definition n-dimensional support.
@@ -1389,7 +1389,7 @@ colour_correction_Vandermonde` definition n-dimensional support.
         )
 
     @ignore_numpy_errors
-    def test_nan_colour_correction_Vandermonde(self):  # pragma: no cover
+    def test_nan_colour_correction_Vandermonde(self) -> None:  # pragma: no cover
         """
         Test :func:`colour.characterisation.correction.\
 colour_correction_Vandermonde` definition nan support.

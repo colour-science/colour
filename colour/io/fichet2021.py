@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import re
 from collections import defaultdict
+from collections.abc import ValuesView
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -31,9 +32,9 @@ from colour.colorimetry import (
 )
 from colour.constants import CONSTANT_LIGHT_SPEED
 from colour.hints import (
+    Any,
     Callable,
     Dict,
-    List,
     Literal,
     NDArrayFloat,
     Sequence,
@@ -312,7 +313,7 @@ class Specification_Fichet2021:
     is_emissive: bool = field(default_factory=lambda: False)
     is_polarised: bool = field(default_factory=lambda: False)
     is_bispectral: bool = field(default_factory=lambda: False)
-    attributes: List | None = field(default_factory=lambda: None)
+    attributes: Tuple = field(default_factory=lambda: ())
 
     @staticmethod
     @required("OpenImageIO")
@@ -413,7 +414,7 @@ class Specification_Fichet2021:
             is_emissive,
             is_polarised,
             is_bispectral,
-            attributes,
+            tuple(attributes),
         )
 
 
@@ -507,9 +508,10 @@ def read_spectral_image_Fichet2021(
 def sds_and_msds_to_components_Fichet2021(
     sds: Sequence[SpectralDistribution | MultiSpectralDistributions]
     | SpectralDistribution
-    | MultiSpectralDistributions,
+    | MultiSpectralDistributions
+    | ValuesView,
     specification: Specification_Fichet2021 = Specification_Fichet2021(),
-    **kwargs,
+    **kwargs: Any,
 ) -> ComponentsFichet2021:
     """
     Convert given spectral and multi-spectral distributions to
@@ -716,13 +718,14 @@ def write_spectral_image_Fichet2021(
     components: Sequence[SpectralDistribution | MultiSpectralDistributions]
     | SpectralDistribution
     | MultiSpectralDistributions
-    | ComponentsFichet2021,
+    | ComponentsFichet2021
+    | ValuesView,
     path: str | Path,
     bit_depth: Literal["float16", "float32"] = "float32",
     specification: Specification_Fichet2021 = Specification_Fichet2021(),
     components_to_RGB_callable: Callable = components_to_sRGB_Fichet2021,
-    **kwargs,
-):
+    **kwargs: Any,
+) -> bool:
     """
     Write given *Fichet et al. (2021)* components to given path using *OpenImageIO*.
 
@@ -781,7 +784,8 @@ def write_spectral_image_Fichet2021(
     path = str(path)
 
     if isinstance(
-        components, (Sequence, SpectralDistribution, MultiSpectralDistributions)
+        components,
+        (Sequence, SpectralDistribution, MultiSpectralDistributions, ValuesView),
     ):
         components = sds_and_msds_to_components_Fichet2021(
             components, specification, **kwargs

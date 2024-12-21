@@ -60,7 +60,7 @@ from enum import IntEnum, auto
 
 import numpy as np
 
-from colour.hints import Any, Callable, Dict, NDArrayFloat
+from colour.hints import Any, ArrayLike, Callable, Dict, NDArrayFloat, NoReturn
 from colour.models.rgb.datasets.dcdm_xyz import (
     CCS_WHITEPOINT_DCDM_XYZ,
     MATRIX_DCDM_XYZ_TO_XYZ,
@@ -208,7 +208,7 @@ def _clipped_domain_function(
     """
 
     @functools.wraps(function)
-    def wrapped(x, *args: Any, **kwargs: Any) -> Any:
+    def wrapped(x: ArrayLike, *args: Any, **kwargs: Any) -> Any:
         """Wrap given function."""
 
         return function(np.clip(x, *domain), *args, **kwargs)
@@ -216,7 +216,7 @@ def _clipped_domain_function(
     return wrapped
 
 
-def _reserved(*args: Any):  # noqa: ARG001
+def _reserved(*args: Any) -> NoReturn:  # noqa: ARG001
     """
     Define a reserved function.
 
@@ -231,7 +231,7 @@ def _reserved(*args: Any):  # noqa: ARG001
     raise RuntimeError("Reserved; For future use by ITU-T | ISO/IEC.")
 
 
-def _unspecified(*args: Any):  # noqa: ARG001
+def _unspecified(*args: Any) -> NoReturn:  # noqa: ARG001
     """
     Define an unspecified function.
 
@@ -887,7 +887,7 @@ MATRICES_XYZ_TO_ISO14496_10_RGB = MATRICES_XYZ_TO_ITUTH273_RGB
 
 
 def describe_video_signal_colour_primaries(
-    code_point: int, print_description: bool = True, **kwargs
+    code_point: int, print_description: bool = True, **kwargs: Any
 ) -> str:
     """
     Describe given video signal colour primaries code point.
@@ -1043,7 +1043,7 @@ def describe_video_signal_colour_primaries(
 
 
 def describe_video_signal_transfer_characteristics(
-    code_point: int, print_description: bool = True, **kwargs
+    code_point: int, print_description: bool = True, **kwargs: Any
 ) -> str:
     """
     Describe given video signal transfer characteristics code point.
@@ -1167,7 +1167,7 @@ def describe_video_signal_transfer_characteristics(
 
 
 def describe_video_signal_matrix_coefficients(
-    code_point: int, print_description: bool = True, **kwargs
+    code_point: int, print_description: bool = True, **kwargs: Any
 ) -> str:
     """
     Describe given video signal matrix coefficients code point.

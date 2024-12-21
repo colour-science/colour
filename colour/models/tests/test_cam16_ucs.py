@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.cam16_ucs` module."""
 
+from __future__ import annotations
+
 from colour.models.tests.test_cam02_ucs import (
     TestJMh_CIECAM02_to_UCS_Luo2006,
     TestUCS_Luo2006_to_JMh_CIECAM02,

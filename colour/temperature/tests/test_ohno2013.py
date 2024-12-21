@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.temperature.ohno2013` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -39,7 +41,7 @@ class TestPlanckianTable:
     unit tests methods.
     """
 
-    def test_planckian_table(self):
+    def test_planckian_table(self) -> None:
         """Test :func:`colour.temperature.ohno2013.planckian_table` definition."""
 
         np.testing.assert_allclose(
@@ -86,7 +88,7 @@ class TestUv_to_CCT_Ohno2013:
     unit tests methods.
     """
 
-    def test_uv_to_CCT_Ohno2013(self):
+    def test_uv_to_CCT_Ohno2013(self) -> None:
         """
         Test :func:`colour.temperature.ohno2013.uv_to_CCT_Ohno2013`
         definition.
@@ -119,7 +121,7 @@ class TestUv_to_CCT_Ohno2013:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_uv_to_CCT_Ohno2013(self):
+    def test_n_dimensional_uv_to_CCT_Ohno2013(self) -> None:
         """
         Test :func:`colour.temperature.ohno2013.uv_to_CCT_Ohno2013` definition
         n-dimensional arrays support.
@@ -141,7 +143,7 @@ class TestUv_to_CCT_Ohno2013:
         )
 
     @ignore_numpy_errors
-    def test_nan_uv_to_CCT_Ohno2013(self):
+    def test_nan_uv_to_CCT_Ohno2013(self) -> None:
         """
         Test :func:`colour.temperature.ohno2013.uv_to_CCT_Ohno2013` definition
         nan support.
@@ -158,7 +160,7 @@ class TestCCT_to_uv_Ohno2013:
     unit tests methods.
     """
 
-    def test_CCT_to_uv_Ohno2013(self):
+    def test_CCT_to_uv_Ohno2013(self) -> None:
         """
         Test :func:`colour.temperature.ohno2013.CCT_to_uv_Ohno2013`
         definition.
@@ -182,7 +184,7 @@ class TestCCT_to_uv_Ohno2013:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_CCT_to_uv_Ohno2013(self):
+    def test_n_dimensional_CCT_to_uv_Ohno2013(self) -> None:
         """
         Test :func:`colour.temperature.ohno2013.CCT_to_uv_Ohno2013` definition
         n-dimensional arrays support.
@@ -204,7 +206,7 @@ class TestCCT_to_uv_Ohno2013:
         )
 
     @ignore_numpy_errors
-    def test_nan_CCT_to_uv_Ohno2013(self):
+    def test_nan_CCT_to_uv_Ohno2013(self) -> None:
         """
         Test :func:`colour.temperature.ohno2013.CCT_to_uv_Ohno2013` definition
         nan support.
@@ -221,7 +223,7 @@ class Test_XYZ_to_CCT_Ohno2013:
     unit tests methods.
     """
 
-    def test_XYZ_to_CCT_Ohno2013(self):
+    def test_XYZ_to_CCT_Ohno2013(self) -> None:
         """
         Test :func:`colour.temperature.ohno2013.XYZ_to_CCT_Ohno2013` definition.
         """
@@ -232,7 +234,7 @@ class Test_XYZ_to_CCT_Ohno2013:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_CCT_Ohno2013(self):
+    def test_n_dimensional_XYZ_to_CCT_Ohno2013(self) -> None:
         """
         Test :func:`colour.temperature.ohno2013.XYZ_to_CCT_Ohno2013` definition
         n-dimensional arrays support.
@@ -254,7 +256,7 @@ class Test_XYZ_to_CCT_Ohno2013:
         )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_CCT_Ohno2013(self):
+    def test_nan_XYZ_to_CCT_Ohno2013(self) -> None:
         """
         Test :func:`colour.temperature.ohno2013.XYZ_to_CCT_Ohno2013` definition
         nan support.
@@ -271,7 +273,7 @@ class Test_CCT_to_XYZ_Ohno2013:
     unit tests methods.
     """
 
-    def test_CCT_to_XYZ_Ohno2013(self):
+    def test_CCT_to_XYZ_Ohno2013(self) -> None:
         """
         Test :func:`colour.temperature.ohno2013.CCT_to_XYZ_Ohno2013` definition.
         """
@@ -282,7 +284,7 @@ class Test_CCT_to_XYZ_Ohno2013:
             atol=1e-6,
         )
 
-    def test_n_dimensional_CCT_to_XYZ_Ohno2013(self):
+    def test_n_dimensional_CCT_to_XYZ_Ohno2013(self) -> None:
         """
         Test :func:`colour.temperature.ohno2013.CCT_to_XYZ_Ohno2013` definition
         n-dimensional arrays support.
@@ -304,7 +306,7 @@ class Test_CCT_to_XYZ_Ohno2013:
         )
 
     @ignore_numpy_errors
-    def test_nan_CCT_to_uv_Ohno2013(self):
+    def test_nan_CCT_to_uv_Ohno2013(self) -> None:
         """
         Test :func:`colour.temperature.ohno2013.CCT_to_uv_Ohno2013` definition
         nan support.

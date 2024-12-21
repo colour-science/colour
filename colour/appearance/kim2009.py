@@ -130,7 +130,7 @@ class MediaParameters_Kim2009(namedtuple("MediaParameters_Kim2009", ("E",))):
     :cite:`Kim2009`
     """
 
-    def __new__(cls, E):
+    def __new__(cls, E: float) -> MediaParameters_Kim2009:
         """
         Return a new instance of the
         :class:`colour.appearance.MediaParameters_Kim2009` class.

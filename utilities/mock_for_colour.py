@@ -22,7 +22,7 @@ __all__ = [
 ]
 
 
-def mock_scipy_for_colour():
+def mock_scipy_for_colour() -> None:
     """Mock *Scipy* for *Colour*."""
 
     import sys

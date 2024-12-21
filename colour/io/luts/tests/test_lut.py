@@ -56,7 +56,7 @@ RANDOM_TRIPLETS: NDArrayFloat = np.reshape(
 class TestAbstractLUT:
     """Define :class:`colour.io.luts.lut.AbstractLUT` class unit tests methods."""
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
         required_attributes = (
@@ -71,7 +71,7 @@ class TestAbstractLUT:
         for attribute in required_attributes:
             assert attribute in dir(AbstractLUT)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = (
@@ -110,39 +110,43 @@ class FixtureAbstractLUT:
     :class:`colour.io.luts.lut.LUT3D` classes fixture.
     """
 
+    def __init__(self) -> None:
+        self._LUT_factory: Any = None
+
+        self._size: int = -1
+        self._dimensions: int = -1
+        self._domain_1: NDArrayFloat = np.array([])
+        self._domain_2: NDArrayFloat = np.array([])
+        self._domain_3: NDArrayFloat = np.array([])
+        self._domain_4: NDArrayFloat = np.array([])
+        self._table_1: NDArrayFloat = np.array([])
+        self._table_2: NDArrayFloat = np.array([])
+        self._table_3: NDArrayFloat = np.array([])
+        self._table_1_kwargs: dict = {}
+        self._table_2_kwargs: dict = {}
+        self._table_3_kwargs: dict = {}
+        self._interpolator_1: Callable | Type[ProtocolInterpolator] = LinearInterpolator
+        self._interpolator_kwargs_1: dict = {}
+        self._interpolator_2: Callable | Type[ProtocolInterpolator] = LinearInterpolator
+        self._interpolator_kwargs_2: dict = {}
+        self._invert_kwargs_1: dict = {}
+        self._invert_kwargs_2: dict = {}
+        self._str: str = ""
+        self._repr: str | None = None
+        self._inverted_apply_1: NDArrayFloat = np.array([])
+        self._inverted_apply_2: NDArrayFloat = np.array([])
+        self._applied_1: NDArrayFloat = np.array([])
+        self._applied_2: NDArrayFloat = np.array([])
+        self._applied_3: NDArrayFloat = np.array([])
+        self._applied_4: NDArrayFloat = np.array([])
+
     @pytest.fixture(autouse=True)
     def setup_fixture_abstract_lut(self) -> None:
         """Configure the class instance."""
 
-        self._LUT_factory: Any = None
+        self.__init__()
 
-        self._size: int | None = None
-        self._dimensions: int | None = None
-        self._domain_1: NDArrayFloat | None = None
-        self._domain_2: NDArrayFloat | None = None
-        self._domain_3: NDArrayFloat | None = None
-        self._table_1: NDArrayFloat | None = None
-        self._table_2: NDArrayFloat | None = None
-        self._table_3: NDArrayFloat | None = None
-        self._table_1_kwargs: dict | None = None
-        self._table_2_kwargs: dict | None = None
-        self._table_3_kwargs: dict | None = None
-        self._interpolator_1: Callable | Type[ProtocolInterpolator] | None = None
-        self._interpolator_kwargs_1: dict = {}
-        self._interpolator_2: Callable | Type[ProtocolInterpolator] | None = None
-        self._interpolator_kwargs_2: dict = {}
-        self._invert_kwargs_1: dict = {}
-        self._invert_kwargs_2: dict = {}
-        self._str: str | None = None
-        self._repr: str | None = None
-        self._inverted_apply_1: NDArrayFloat | None = None
-        self._inverted_apply_2: NDArrayFloat | None = None
-        self._applied_1: NDArrayFloat | None = None
-        self._applied_2: NDArrayFloat | None = None
-        self._applied_3: NDArrayFloat | None = None
-        self._applied_4: NDArrayFloat | None = None
-
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = (
@@ -158,7 +162,7 @@ class FixtureAbstractLUT:
             for method in required_methods:
                 assert method in dir(class_)
 
-    def test__init__(self):
+    def test__init__(self) -> None:
         """
         Test :class:`colour.io.luts.lut.LUT1D.__init__`,
         :class:`colour.io.luts.lut.LUT3x1D.__init__` and
@@ -181,7 +185,7 @@ class FixtureAbstractLUT:
             self._LUT_factory(self._table_3, domain=self._domain_3), self._LUT_factory
         )
 
-    def test_table(self):
+    def test_table(self) -> None:
         """
         Test :class:`colour.io.luts.lut.LUT1D.table`,
         :class:`colour.io.luts.lut.LUT3x1D.table` and
@@ -196,7 +200,7 @@ class FixtureAbstractLUT:
         LUT.table = table_1
         np.testing.assert_allclose(LUT.table, table_1, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_name(self):
+    def test_name(self) -> None:
         """
         Test :class:`colour.io.luts.lut.LUT1D.name`,
         :class:`colour.io.luts.lut.LUT3x1D.name` and
@@ -211,7 +215,7 @@ class FixtureAbstractLUT:
 
         assert LUT.name == f"Unity {self._table_1.shape[0]}"
 
-    def test_domain(self):
+    def test_domain(self) -> None:
         """
         Test :class:`colour.io.luts.lut.LUT1D.domain`,
         :class:`colour.io.luts.lut.LUT3x1D.domain` and
@@ -226,7 +230,7 @@ class FixtureAbstractLUT:
         LUT.domain = domain
         np.testing.assert_array_equal(LUT.domain, domain)
 
-    def test_size(self):
+    def test_size(self) -> None:
         """
         Test :class:`colour.io.luts.lut.LUT1D.size`,
         :class:`colour.io.luts.lut.LUT3x1D.size` and
@@ -237,7 +241,7 @@ class FixtureAbstractLUT:
 
         assert LUT.size == LUT.table.shape[0]
 
-    def test_dimensions(self):
+    def test_dimensions(self) -> None:
         """
         Test :class:`colour.io.luts.lut.LUT1D.dimensions`,
         :class:`colour.io.luts.lut.LUT3x1D.dimensions` and
@@ -248,7 +252,7 @@ class FixtureAbstractLUT:
 
         assert LUT.dimensions == self._dimensions
 
-    def test_comments(self):
+    def test_comments(self) -> None:
         """
         Test :class:`colour.io.luts.lut.LUT1D.comments`,
         :class:`colour.io.luts.lut.LUT3x1D.comments` and
@@ -263,7 +267,7 @@ class FixtureAbstractLUT:
 
         assert LUT.comments == comments
 
-    def test__str__(self):
+    def test__str__(self) -> None:
         """
         Test :class:`colour.io.luts.lut.LUT1D.__str__`,
         :class:`colour.io.luts.lut.LUT3x1D.__str__` and
@@ -274,7 +278,7 @@ class FixtureAbstractLUT:
 
         assert str(LUT) == self._str
 
-    def test__repr__(self):
+    def test__repr__(self) -> None:
         """
         Test :class:`colour.io.luts.lut.LUT1D.__repr__`,
         :class:`colour.io.luts.lut.LUT3x1D.__repr__` and
@@ -294,7 +298,7 @@ class FixtureAbstractLUT:
 
         assert repr(LUT) == self._repr
 
-    def test__eq__(self):
+    def test__eq__(self) -> None:
         """
         Test :class:`colour.io.luts.lut.LUT1D.__eq__`,
         :class:`colour.io.luts.lut.LUT3x1D.__eq__` and
@@ -306,7 +310,7 @@ class FixtureAbstractLUT:
 
         assert LUT_1 == LUT_2
 
-    def test__ne__(self):
+    def test__ne__(self) -> None:
         """
         Test :class:`colour.io.luts.lut.LUT1D.__ne__`,
         :class:`colour.io.luts.lut.LUT3x1D.__ne__` and
@@ -323,7 +327,7 @@ class FixtureAbstractLUT:
         LUT_2.domain = self._domain_1 * 0.8 + 0.1
         assert LUT_1 != LUT_2
 
-    def test_is_domain_explicit(self):
+    def test_is_domain_explicit(self) -> None:
         """
         Test :class:`colour.io.luts.lut.LUT1D.is_domain_explicit`,
         :class:`colour.io.luts.lut.LUT3x1D.is_domain_explicit` and
@@ -336,7 +340,7 @@ class FixtureAbstractLUT:
             self._table_3, domain=self._domain_3
         ).is_domain_explicit()
 
-    def test_arithmetical_operation(self):
+    def test_arithmetical_operation(self) -> None:
         """
         Test :class:`colour.io.luts.lut.LUT1D.arithmetical_operation`,
         :class:`colour.io.luts.lut.LUT3x1D.arithmetical_operation` and
@@ -450,7 +454,7 @@ class FixtureAbstractLUT:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_linear_table(self):
+    def test_linear_table(self) -> None:
         """
         Test :class:`colour.io.luts.lut.LUT1D.linear_table`,
         :class:`colour.io.luts.lut.LUT3x1D.linear_table` and
@@ -471,7 +475,7 @@ class FixtureAbstractLUT:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_copy(self):
+    def test_copy(self) -> None:
         """
         Test :class:`colour.io.luts.lut.LUT1D.copy`,
         :class:`colour.io.luts.lut.LUT3x1D.copy` and
@@ -483,7 +487,7 @@ class FixtureAbstractLUT:
         assert LUT_1 is not LUT_1.copy()
         assert LUT_1.copy() == LUT_1
 
-    def test_invert(self):
+    def test_invert(self) -> None:
         """
         Test :class:`colour.io.luts.lut.LUT1D.invert`,
         :class:`colour.io.luts.lut.LUT3x1D.invert` and
@@ -525,7 +529,7 @@ class FixtureAbstractLUT:
         except NotImplementedError:
             pass
 
-    def test_apply(self):
+    def test_apply(self) -> None:
         """
         Test :class:`colour.io.luts.lut.LUT1D.apply`,
         :class:`colour.io.luts.lut.LUT3x1D.apply` and
@@ -954,7 +958,7 @@ class TestLUT3D(FixtureAbstractLUT):
             Size       : (33, 33, 33, 3)
             """
         ).strip()
-        self._repr = None
+        self._repr = None  # pyright: ignore
         self._inverted_apply_1 = np.array(
             [
                 [
@@ -1066,7 +1070,7 @@ class TestLUT_to_LUT:
     methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._domain = np.array([[0.0, -0.1, -0.2], [1.0, 1.5, 3.0]])
@@ -1078,7 +1082,7 @@ class TestLUT_to_LUT:
         )
         self._LUT_3 = LUT3D(LUT3D.linear_table(16) ** (1 / 2.2), domain=self._domain)
 
-    def test_LUT_to_LUT(self):
+    def test_LUT_to_LUT(self) -> None:
         """Test :func:`colour.io.luts.lut.LUT_to_LUT` definition."""
 
         # "LUT" 1D to "LUT" 1D.

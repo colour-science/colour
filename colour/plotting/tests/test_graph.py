@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.plotting.graph` module."""
 
+from __future__ import annotations
+
 import tempfile
 
 from colour.plotting import plot_automatic_colour_conversion_graph
@@ -23,7 +25,7 @@ class TestPlotAutomaticColourConversionGraph:
 plot_automatic_colour_conversion_graph` definition unit tests methods.
     """
 
-    def test_plot_automatic_colour_conversion_graph(self):
+    def test_plot_automatic_colour_conversion_graph(self) -> None:
         """
         Test :func:`colour.plotting.graph.\
 plot_automatic_colour_conversion_graph` definition.

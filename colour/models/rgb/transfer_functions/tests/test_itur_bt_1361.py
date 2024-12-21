@@ -31,7 +31,7 @@ class TestOetf_BT1361:
     definition unit tests methods.
     """
 
-    def test_oetf_BT1361(self):
+    def test_oetf_BT1361(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_1361.\
 oetf_BT1361` definition.
@@ -57,7 +57,7 @@ oetf_BT1361` definition.
 
         np.testing.assert_allclose(oetf_BT1361(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_n_dimensional_oetf_BT1361(self):
+    def test_n_dimensional_oetf_BT1361(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_1361.\
 oetf_BT1361` definition n-dimensional arrays support.
@@ -78,7 +78,7 @@ oetf_BT1361` definition n-dimensional arrays support.
         V = np.reshape(V, (2, 3, 1))
         np.testing.assert_allclose(oetf_BT1361(L), V, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_oetf_BT1361(self):
+    def test_domain_range_scale_oetf_BT1361(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_1361.\
 oetf_BT1361` definition domain and range scale support.
@@ -97,7 +97,7 @@ oetf_BT1361` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_oetf_BT1361(self):
+    def test_nan_oetf_BT1361(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_1361.\
 oetf_BT1361` definition nan support.
@@ -112,7 +112,7 @@ class TestOetf_inverse_BT1361:
 oetf_inverse_BT1361` definition unit tests methods.
     """
 
-    def test_oetf_inverse_BT1361(self):
+    def test_oetf_inverse_BT1361(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_1361.\
 oetf_inverse_BT1361` definition.
@@ -144,7 +144,7 @@ oetf_inverse_BT1361` definition.
             oetf_inverse_BT1361(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_n_dimensional_oetf_inverse_BT1361(self):
+    def test_n_dimensional_oetf_inverse_BT1361(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_1361.\
 oetf_inverse_BT1361` definition n-dimensional arrays support.
@@ -171,7 +171,7 @@ oetf_inverse_BT1361` definition n-dimensional arrays support.
             oetf_inverse_BT1361(V), L, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_oetf_inverse_BT1361(self):
+    def test_domain_range_scale_oetf_inverse_BT1361(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_1361.\
 oetf_inverse_BT1361` definition domain and range scale support.
@@ -190,7 +190,7 @@ oetf_inverse_BT1361` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_oetf_inverse_BT1361(self):
+    def test_nan_oetf_inverse_BT1361(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_1361.\
 oetf_inverse_BT1361` definition nan support.

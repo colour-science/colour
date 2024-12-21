@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.temperature.planck1900` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -27,7 +29,7 @@ class TestUv_to_CCT_Planck1900:
     definition unit tests methods.
     """
 
-    def test_uv_to_CCT_Planck1900(self):
+    def test_uv_to_CCT_Planck1900(self) -> None:
         """
         Test :func:`colour.temperature.planck1900.uv_to_CCT_Planck1900`
         definition.
@@ -60,7 +62,7 @@ class TestUv_to_CCT_Planck1900:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_uv_to_CCT_Planck1900(self):
+    def test_n_dimensional_uv_to_CCT_Planck1900(self) -> None:
         """
         Test :func:`colour.temperature.planck1900.uv_to_CCT_Planck1900`
         definition n-dimensional arrays support.
@@ -82,7 +84,7 @@ class TestUv_to_CCT_Planck1900:
         )
 
     @ignore_numpy_errors
-    def test_nan_uv_to_CCT_Planck1900(self):
+    def test_nan_uv_to_CCT_Planck1900(self) -> None:
         """
         Test :func:`colour.temperature.planck1900.uv_to_CCT_Planck1900`
         definition nan support.
@@ -99,7 +101,7 @@ class TestCCT_to_uv_Planck1900:
     unit tests methods.
     """
 
-    def test_CCT_to_uv_Planck1900(self):
+    def test_CCT_to_uv_Planck1900(self) -> None:
         """
         Test :func:`colour.temperature.planck1900.CCT_to_uv_Planck1900`
         definition.
@@ -123,7 +125,7 @@ class TestCCT_to_uv_Planck1900:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_CCT_to_uv_Planck1900(self):
+    def test_n_dimensional_CCT_to_uv_Planck1900(self) -> None:
         """
         Test :func:`colour.temperature.planck1900.CCT_to_uv_Planck1900` definition
         n-dimensional arrays support.
@@ -145,7 +147,7 @@ class TestCCT_to_uv_Planck1900:
         )
 
     @ignore_numpy_errors
-    def test_nan_CCT_to_uv_Planck1900(self):
+    def test_nan_CCT_to_uv_Planck1900(self) -> None:
         """
         Test :func:`colour.temperature.planck1900.CCT_to_uv_Planck1900` definition
         nan support.

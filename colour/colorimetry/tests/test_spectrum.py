@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.colorimetry.spectrum` module."""
 
+from __future__ import annotations
+
 import pickle
 
 import numpy as np
@@ -1253,7 +1255,7 @@ class TestSpectralShape:
     methods.
     """
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
         required_attributes = (
@@ -1267,7 +1269,7 @@ class TestSpectralShape:
         for attribute in required_attributes:
             assert attribute in dir(SpectralShape)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = (
@@ -1286,7 +1288,7 @@ class TestSpectralShape:
         for method in required_methods:
             assert method in dir(SpectralShape)
 
-    def test_pickling(self):
+    def test_pickling(self) -> None:
         """
         Test whether the :class:`colour.colorimetry.spectrum.SpectralShape`
         class can be pickled.
@@ -1297,7 +1299,7 @@ class TestSpectralShape:
         data = pickle.loads(data)  # noqa: S301
         assert shape == data
 
-    def test_start(self):
+    def test_start(self) -> None:
         """
         Test :attr:`colour.colorimetry.spectrum.SpectralShape.start`
         attribute.
@@ -1309,7 +1311,7 @@ class TestSpectralShape:
 
         pytest.raises(AssertionError, lambda: SpectralShape(360, 0, 1))
 
-    def test_end(self):
+    def test_end(self) -> None:
         """Test :attr:`colour.colorimetry.spectrum.SpectralShape.end` property."""
 
         assert SpectralShape(360, 830, 1).end == 830
@@ -1318,7 +1320,7 @@ class TestSpectralShape:
 
         pytest.raises(AssertionError, lambda: SpectralShape(830, 0, 1))
 
-    def test_interval(self):
+    def test_interval(self) -> None:
         """
         Test :attr:`colour.colorimetry.spectrum.SpectralShape.interval`
         property.
@@ -1326,7 +1328,7 @@ class TestSpectralShape:
 
         assert SpectralShape(360, 830, 1).interval == 1
 
-    def test_boundaries(self):
+    def test_boundaries(self) -> None:
         """
         Test :attr:`colour.colorimetry.spectrum.SpectralShape.boundaries`
         property.
@@ -1338,7 +1340,7 @@ class TestSpectralShape:
         assert shape.start == 360
         assert shape.end == 830
 
-    def test_wavelengths(self):
+    def test_wavelengths(self) -> None:
         """
         Test :attr:`colour.colorimetry.spectrum.SpectralShape.wavelengths`
         property.
@@ -1349,7 +1351,7 @@ class TestSpectralShape:
             np.arange(0, 10 + 0.1, 0.1),
         )
 
-    def test__hash__(self):
+    def test__hash__(self) -> None:
         """
         Test :meth:`colour.colorimetry.spectrum.SpectralShape.__hash__`
         method.
@@ -1357,7 +1359,7 @@ class TestSpectralShape:
 
         assert isinstance(hash(SpectralShape(0, 10, 0.1)), int)
 
-    def test__iter__(self):
+    def test__iter__(self) -> None:
         """
         Test :meth:`colour.colorimetry.spectrum.SpectralShape.__iter__`
         method.
@@ -1368,7 +1370,7 @@ class TestSpectralShape:
             np.arange(0, 10 + 0.1, 0.1),
         )
 
-    def test__contains__(self):
+    def test__contains__(self) -> None:
         """
         Test :meth:`colour.colorimetry.spectrum.SpectralShape.__contains__`
         method.
@@ -1382,7 +1384,7 @@ class TestSpectralShape:
 
         assert np.array([0.5, 0.61]) not in SpectralShape(0, 10, 0.1)
 
-    def test__len__(self):
+    def test__len__(self) -> None:
         """
         Test :meth:`colour.colorimetry.spectrum.SpectralShape.__len__`
         method.
@@ -1390,7 +1392,7 @@ class TestSpectralShape:
 
         assert len(SpectralShape(0, 10, 0.1)) == 101
 
-    def test__eq__(self):
+    def test__eq__(self) -> None:
         """
         Test :meth:`colour.colorimetry.spectrum.SpectralShape.__eq__`
         method.
@@ -1399,7 +1401,7 @@ class TestSpectralShape:
         assert SpectralShape(0, 10, 0.1) == SpectralShape(0, 10, 0.1)
         assert SpectralShape(0, 10, 0.1) != ()
 
-    def test__ne__(self):
+    def test__ne__(self) -> None:
         """
         Test :meth:`colour.colorimetry.spectrum.SpectralShape.__ne__`
         method.
@@ -1407,7 +1409,7 @@ class TestSpectralShape:
 
         assert SpectralShape(0, 10, 0.1) != SpectralShape(1, 10, 0.1)
 
-    def test_range(self):
+    def test_range(self) -> None:
         """Test :func:`colour.colorimetry.spectrum.SpectralShape.range` method."""
 
         np.testing.assert_array_equal(
@@ -1422,7 +1424,7 @@ class TestSpectralDistribution:
     class unit tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._sd = SpectralDistribution(DATA_SAMPLE, name="Sample")
@@ -1435,7 +1437,7 @@ class TestSpectralDistribution:
 
         self._phi = (1 + np.sqrt(5)) / 2
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
         required_attributes = (
@@ -1448,7 +1450,7 @@ class TestSpectralDistribution:
         for attribute in required_attributes:
             assert attribute in dir(SpectralDistribution)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = (
@@ -1463,7 +1465,7 @@ class TestSpectralDistribution:
         for method in required_methods:
             assert method in dir(SpectralDistribution)
 
-    def test_pickling(self):
+    def test_pickling(self) -> None:
         """
         Test whether the :class:`colour.colorimetry.spectrum.\
 SpectralDistribution` class can be pickled.
@@ -1473,7 +1475,7 @@ SpectralDistribution` class can be pickled.
         data = pickle.loads(data)  # noqa: S301
         assert self._sd == data
 
-    def test_display_name(self):
+    def test_display_name(self) -> None:
         """
         Test :attr:`colour.colorimetry.spectrum.SpectralDistribution.display_name`
         property.
@@ -1482,7 +1484,7 @@ SpectralDistribution` class can be pickled.
         assert self._sd.display_name == "Sample"
         assert self._non_uniform_sd.display_name == "Display Non Uniform Sample"
 
-    def test_wavelengths(self):
+    def test_wavelengths(self) -> None:
         """
         Test :attr:`colour.colorimetry.spectrum.SpectralDistribution.wavelengths`
         property.
@@ -1494,7 +1496,7 @@ SpectralDistribution` class can be pickled.
         sd.wavelengths = sd.wavelengths + 10
         np.testing.assert_array_equal(sd.wavelengths, sd.domain)
 
-    def test_values(self):
+    def test_values(self) -> None:
         """
         Test :attr:`colour.colorimetry.spectrum.SpectralDistribution.values`
         property.
@@ -1506,7 +1508,7 @@ SpectralDistribution` class can be pickled.
         sd.values = sd.values + 10
         np.testing.assert_array_equal(sd.values, sd.range)
 
-    def test_shape(self):
+    def test_shape(self) -> None:
         """
         Test :attr:`colour.colorimetry.spectrum.SpectralDistribution.shape`
         property.
@@ -1514,7 +1516,7 @@ SpectralDistribution` class can be pickled.
 
         assert self._sd.shape == SpectralShape(340, 820, 20)
 
-    def test__init__(self):
+    def test__init__(self) -> None:
         """
         Test :meth:`colour.colorimetry.spectrum.SpectralDistribution.__init__`
         method.
@@ -1529,7 +1531,7 @@ SpectralDistribution` class can be pickled.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_interpolate(self):
+    def test_interpolate(self) -> None:
         """
         Test :func:`colour.colorimetry.spectrum.\
 SpectralDistribution.interpolate` method.
@@ -1559,7 +1561,7 @@ SpectralDistribution.interpolate` method.
             1,
         )
 
-    def test_extrapolate(self):
+    def test_extrapolate(self) -> None:
         """
         Test :func:`colour.colorimetry.spectrum.\
 SpectralDistribution.extrapolate` method.
@@ -1590,7 +1592,7 @@ SpectralDistribution.extrapolate` method.
             sd[50], 2.4999999999999964, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_align(self):
+    def test_align(self) -> None:
         """
         Test :func:`colour.colorimetry.spectrum.\
 SpectralDistribution.align` method.
@@ -1602,7 +1604,7 @@ SpectralDistribution.align` method.
         shape = SpectralShape(600, 650, 1)
         assert self._sd.copy().align(shape).shape == shape
 
-    def test_trim(self):
+    def test_trim(self) -> None:
         """
         Test :func:`colour.colorimetry.spectrum.\
 SpectralDistribution.trim` method.
@@ -1614,7 +1616,7 @@ SpectralDistribution.trim` method.
         shape = SpectralShape(200, 900, 1)
         assert self._sd.copy().trim(shape).shape == self._sd.shape
 
-    def test_normalise(self):
+    def test_normalise(self) -> None:
         """
         Test :func:`colour.colorimetry.spectrum.\
 SpectralDistribution.normalise` method.
@@ -1626,7 +1628,7 @@ SpectralDistribution.normalise` method.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_callback_on_domain_changed(self):
+    def test_callback_on_domain_changed(self) -> None:
         """
         Test :class:`colour.colorimetry.spectrum.\
 SpectralDistribution` *on_domain_changed* callback.
@@ -1644,7 +1646,7 @@ class TestMultiSpectralDistributions:
     class unit tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._labels = ("x_bar", "y_bar", "z_bar")
@@ -1684,7 +1686,7 @@ class TestMultiSpectralDistributions:
 
         self._phi = (1 + np.sqrt(5)) / 2
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
         required_attributes = (
@@ -1698,7 +1700,7 @@ class TestMultiSpectralDistributions:
         for attribute in required_attributes:
             assert attribute in dir(MultiSpectralDistributions)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = (
@@ -1714,7 +1716,7 @@ class TestMultiSpectralDistributions:
         for method in required_methods:
             assert method in dir(MultiSpectralDistributions)
 
-    def test_pickling(self):
+    def test_pickling(self) -> None:
         """
         Test whether the :class:`colour.colorimetry.spectrum.\
 MultiSpectralDistributions` class can be pickled.
@@ -1724,7 +1726,7 @@ MultiSpectralDistributions` class can be pickled.
         data = pickle.loads(data)  # noqa: S301
         assert self._msds == data
 
-    def test_display_name(self):
+    def test_display_name(self) -> None:
         """
         Test :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.display_name`
         property.
@@ -1736,7 +1738,7 @@ MultiSpectralDistributions` class can be pickled.
             == "Display Non Uniform Sample Observer"
         )
 
-    def test_wavelengths(self):
+    def test_wavelengths(self) -> None:
         """
         Test :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.wavelengths`
         property.
@@ -1748,7 +1750,7 @@ MultiSpectralDistributions` class can be pickled.
         msds.wavelengths = msds.wavelengths + 10
         np.testing.assert_array_equal(msds.wavelengths, msds.domain)
 
-    def test_values(self):
+    def test_values(self) -> None:
         """
         Test :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.values`
         property.
@@ -1760,7 +1762,7 @@ MultiSpectralDistributions` class can be pickled.
         msds.values = msds.values + 10
         np.testing.assert_array_equal(msds.values, msds.range)
 
-    def test_display_labels(self):
+    def test_display_labels(self) -> None:
         """
         Test :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.\
 display_labels` property.
@@ -1773,7 +1775,7 @@ display_labels` property.
             "Display z_bar",
         )
 
-    def test_shape(self):
+    def test_shape(self) -> None:
         """
         Test :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.shape`
         property.
@@ -1781,7 +1783,7 @@ display_labels` property.
 
         assert self._msds.shape == SpectralShape(380, 780, 5)
 
-    def test__init__(self):
+    def test__init__(self) -> None:
         """
         Test :func:`colour.colorimetry.spectrum.\
 MultiSpectralDistributions.__init__` method.
@@ -1796,7 +1798,7 @@ MultiSpectralDistributions.__init__` method.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_interpolate(self):
+    def test_interpolate(self) -> None:
         """
         Test :func:`colour.colorimetry.spectrum.\
 MultiSpectralDistributions.interpolate` method.
@@ -1808,7 +1810,7 @@ MultiSpectralDistributions.interpolate` method.
         msds = reshape_msds(self._sample_msds, shape, "Interpolate")
         for signal in msds.signals.values():
             np.testing.assert_allclose(
-                signal.values,
+                signal.values,  # pyright: ignore
                 DATA_SAMPLE_INTERPOLATED,
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
@@ -1826,7 +1828,7 @@ MultiSpectralDistributions.interpolate` method.
         )
         for signal in msds.signals.values():
             np.testing.assert_allclose(
-                signal.values,
+                signal.values,  # pyright: ignore
                 DATA_SAMPLE_INTERPOLATED_NON_UNIFORM,
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
@@ -1836,7 +1838,7 @@ MultiSpectralDistributions.interpolate` method.
             1,
         )
 
-    def test_extrapolate(self):
+    def test_extrapolate(self) -> None:
         """
         Test :func:`colour.colorimetry.spectrum.\
 MultiSpectralDistributions.extrapolate` method.
@@ -1873,7 +1875,7 @@ MultiSpectralDistributions.extrapolate` method.
             msds[50], np.array([2.5, 2.5, 2.5]), atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_align(self):
+    def test_align(self) -> None:
         """
         Test :func:`colour.colorimetry.spectrum.\
 MultiSpectralDistributions.align` method.
@@ -1887,7 +1889,7 @@ MultiSpectralDistributions.align` method.
         shape = SpectralShape(600, 650, 1)
         assert msds.align(shape).shape == shape
 
-    def test_trim(self):
+    def test_trim(self) -> None:
         """
         Test :func:`colour.colorimetry.spectrum.\
 MultiSpectralDistributions.trim` method.
@@ -1899,7 +1901,7 @@ MultiSpectralDistributions.trim` method.
         shape = SpectralShape(200, 900, 1)
         assert self._msds.copy().trim(shape).shape == self._msds.shape
 
-    def test_normalise(self):
+    def test_normalise(self) -> None:
         """
         Test :func:`colour.colorimetry.spectrum.
         MultiSpectralDistributions.normalise` method.
@@ -1911,7 +1913,7 @@ MultiSpectralDistributions.trim` method.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_to_sds(self):
+    def test_to_sds(self) -> None:
         """
         Test :func:`colour.colorimetry.spectrum.\
 MultiSpectralDistributions.to_sds` method.
@@ -1924,7 +1926,7 @@ MultiSpectralDistributions.to_sds` method.
             assert sd.name == self._labels[i]
             assert sd.display_name == self._display_labels[i]
 
-    def test_callback_on_domain_changed(self):
+    def test_callback_on_domain_changed(self) -> None:
         """
         Test underlying :class:`colour.colorimetry.spectrum.\
 SpectralDistribution` *on_domain_changed* callback when used with
@@ -1943,7 +1945,7 @@ class TestReshapeSd:
     tests methods.
     """
 
-    def test_reshape_sd(self):
+    def test_reshape_sd(self) -> None:
         """Test :func:`colour.colorimetry.spectrum.reshape_sd` definition."""
 
         sd = SpectralDistribution(DATA_SAMPLE_ABRIDGED)
@@ -1997,7 +1999,7 @@ class TestSdsAndMdsToSds:
     unit tests methods.
     """
 
-    def test_sds_and_msds_to_sds(self):
+    def test_sds_and_msds_to_sds(self) -> None:
         """
         Test :func:`colour.colorimetry.spectrum.sds_and_msds_to_sds`
         definition.
@@ -2032,7 +2034,7 @@ class TestSdsAndMsdsToMsds:
     definition unit tests methods.
     """
 
-    def test_sds_and_msds_to_msds(self):
+    def test_sds_and_msds_to_msds(self) -> None:
         """
         Test :func:`colour.colorimetry.spectrum.sds_and_msds_to_msds`
         definition.

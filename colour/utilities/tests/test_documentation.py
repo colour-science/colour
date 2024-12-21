@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.utilities.documentation` module."""
 
+from __future__ import annotations
+
 import os
 
 from colour.utilities.documentation import is_documentation_building
@@ -22,7 +24,7 @@ class TestIsDocumentationBuilding:
     definition unit tests methods.
     """
 
-    def test_is_documentation_building(self):
+    def test_is_documentation_building(self) -> None:
         """
         Test :func:`colour.utilities.documentation.is_documentation_building`
         definition.

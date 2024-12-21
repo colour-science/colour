@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.cie_xyy` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -38,7 +40,7 @@ class TestXYZ_to_xyY:
     methods.
     """
 
-    def test_XYZ_to_xyY(self):
+    def test_XYZ_to_xyY(self) -> None:
         """Test :func:`colour.models.cie_xyy.XYZ_to_xyY` definition."""
 
         np.testing.assert_allclose(
@@ -85,7 +87,7 @@ class TestXYZ_to_xyY:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_xyY(self):
+    def test_n_dimensional_XYZ_to_xyY(self) -> None:
         """
         Test :func:`colour.models.cie_xyy.XYZ_to_xyY` definition n-dimensional
         support.
@@ -102,7 +104,7 @@ class TestXYZ_to_xyY:
         xyY = np.reshape(xyY, (2, 3, 3))
         np.testing.assert_allclose(XYZ_to_xyY(XYZ), xyY, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_XYZ_to_xyY(self):
+    def test_domain_range_scale_XYZ_to_xyY(self) -> None:
         """
         Test :func:`colour.models.cie_xyy.XYZ_to_xyY` definition domain and
         range scale support.
@@ -127,7 +129,7 @@ class TestXYZ_to_xyY:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_xyY(self):
+    def test_nan_XYZ_to_xyY(self) -> None:
         """Test :func:`colour.models.cie_xyy.XYZ_to_xyY` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -141,7 +143,7 @@ class TestxyY_to_XYZ:
     methods.
     """
 
-    def test_xyY_to_XYZ(self):
+    def test_xyY_to_XYZ(self) -> None:
         """Test :func:`colour.models.cie_xyy.xyY_to_XYZ` definition."""
 
         np.testing.assert_allclose(
@@ -188,7 +190,7 @@ class TestxyY_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_xyY_to_XYZ(self):
+    def test_n_dimensional_xyY_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.cie_xyy.xyY_to_XYZ` definition n-dimensional
         support.
@@ -205,7 +207,7 @@ class TestxyY_to_XYZ:
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_allclose(xyY_to_XYZ(xyY), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_xyY_to_XYZ(self):
+    def test_domain_range_scale_xyY_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.cie_xyy.xyY_to_XYZ` definition domain and
         range scale support.
@@ -230,7 +232,7 @@ class TestxyY_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_nan_xyY_to_XYZ(self):
+    def test_nan_xyY_to_XYZ(self) -> None:
         """Test :func:`colour.models.cie_xyy.xyY_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -244,7 +246,7 @@ class TestxyY_to_xy:
     methods.
     """
 
-    def test_xyY_to_xy(self):
+    def test_xyY_to_xy(self) -> None:
         """Test :func:`colour.models.cie_xyy.xyY_to_xy` definition."""
 
         np.testing.assert_allclose(
@@ -271,7 +273,7 @@ class TestxyY_to_xy:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_xyY_to_xy(self):
+    def test_n_dimensional_xyY_to_xy(self) -> None:
         """
         Test :func:`colour.models.cie_xyy.xyY_to_xy` definition n-dimensional
         support.
@@ -288,7 +290,7 @@ class TestxyY_to_xy:
         xy = np.reshape(xy, (2, 3, 2))
         np.testing.assert_allclose(xyY_to_xy(xyY), xy, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_xyY_to_xy(self):
+    def test_domain_range_scale_xyY_to_xy(self) -> None:
         """
         Test :func:`colour.models.cie_xyy.xyY_to_xy` definition domain and
         range scale support.
@@ -313,7 +315,7 @@ class TestxyY_to_xy:
                 )
 
     @ignore_numpy_errors
-    def test_nan_xyY_to_xy(self):
+    def test_nan_xyY_to_xy(self) -> None:
         """Test :func:`colour.models.cie_xyy.xyY_to_xy` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -327,7 +329,7 @@ class Testxy_to_xyY:
     methods.
     """
 
-    def test_xy_to_xyY(self):
+    def test_xy_to_xyY(self) -> None:
         """Test :func:`colour.models.cie_xyy.xy_to_xyY` definition."""
 
         np.testing.assert_allclose(
@@ -360,7 +362,7 @@ class Testxy_to_xyY:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_xy_to_xyY(self):
+    def test_n_dimensional_xy_to_xyY(self) -> None:
         """
         Test :func:`colour.models.cie_xyy.xy_to_xyY` definition n-dimensional
         support.
@@ -377,7 +379,7 @@ class Testxy_to_xyY:
         xyY = np.reshape(xyY, (2, 3, 3))
         np.testing.assert_allclose(xy_to_xyY(xy), xyY, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_xy_to_xyY(self):
+    def test_domain_range_scale_xy_to_xyY(self) -> None:
         """
         Test :func:`colour.models.cie_xyy.xy_to_xyY` definition domain and
         range scale support.
@@ -390,9 +392,9 @@ class Testxy_to_xyY:
 
         d_r = (
             ("reference", 1, 1),
-            (1, 1, 1),
+            ("1", 1, 1),
             (
-                100,
+                "100",
                 np.array([1, 1, 100]),
                 np.array([1, 1, 100]),
             ),
@@ -406,7 +408,7 @@ class Testxy_to_xyY:
                 )
 
     @ignore_numpy_errors
-    def test_nan_xy_to_xyY(self):
+    def test_nan_xy_to_xyY(self) -> None:
         """Test :func:`colour.models.cie_xyy.xy_to_xyY` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -420,7 +422,7 @@ class TestXYZ_to_xy:
     methods.
     """
 
-    def test_XYZ_to_xy(self):
+    def test_XYZ_to_xy(self) -> None:
         """Test :func:`colour.models.cie_xyy.XYZ_to_xy` definition."""
 
         np.testing.assert_allclose(
@@ -447,7 +449,7 @@ class TestXYZ_to_xy:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_xy(self):
+    def test_n_dimensional_XYZ_to_xy(self) -> None:
         """
         Test :func:`colour.models.cie_xyy.XYZ_to_xy` definition n-dimensional
         support.
@@ -464,7 +466,7 @@ class TestXYZ_to_xy:
         xy = np.reshape(xy, (2, 3, 2))
         np.testing.assert_allclose(XYZ_to_xy(XYZ), xy, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_XYZ_to_xy(self):
+    def test_domain_range_scale_XYZ_to_xy(self) -> None:
         """
         Test :func:`colour.models.cie_xyy.XYZ_to_xy` definition domain and
         range scale support.
@@ -483,7 +485,7 @@ class TestXYZ_to_xy:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_xy(self):
+    def test_nan_XYZ_to_xy(self) -> None:
         """Test :func:`colour.models.cie_xyy.XYZ_to_xy` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -497,7 +499,7 @@ class Testxy_to_XYZ:
     methods.
     """
 
-    def test_xy_to_XYZ(self):
+    def test_xy_to_XYZ(self) -> None:
         """Test :func:`colour.models.cie_xyy.xy_to_XYZ` definition."""
 
         np.testing.assert_allclose(
@@ -524,7 +526,7 @@ class Testxy_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_xy_to_XYZ(self):
+    def test_n_dimensional_xy_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.cie_xyy.xy_to_XYZ` definition n-dimensional
         support.
@@ -541,7 +543,7 @@ class Testxy_to_XYZ:
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_allclose(xy_to_XYZ(xy), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_xy_to_XYZ(self):
+    def test_domain_range_scale_xy_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.cie_xyy.xy_to_XYZ` definition domain and
         range scale support.
@@ -566,7 +568,7 @@ class Testxy_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_nan_xy_to_XYZ(self):
+    def test_nan_xy_to_XYZ(self) -> None:
         """Test :func:`colour.models.cie_xyy.xy_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]

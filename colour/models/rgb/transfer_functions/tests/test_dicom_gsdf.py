@@ -31,7 +31,7 @@ class TestEotf_inverse_DICOMGSDF:
 eotf_inverse_DICOMGSDF` definition unit tests methods.
     """
 
-    def test_eotf_inverse_DICOMGSDF(self):
+    def test_eotf_inverse_DICOMGSDF(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
 eotf_inverse_DICOMGSDF` definition.
@@ -61,7 +61,7 @@ eotf_inverse_DICOMGSDF` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_eotf_inverse_DICOMGSDF(self):
+    def test_n_dimensional_eotf_inverse_DICOMGSDF(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
 eotf_inverse_DICOMGSDF` definition n-dimensional arrays support.
@@ -88,7 +88,7 @@ eotf_inverse_DICOMGSDF` definition n-dimensional arrays support.
             eotf_inverse_DICOMGSDF(L), J, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_eotf_inverse_DICOMGSDF(self):
+    def test_domain_range_scale_eotf_inverse_DICOMGSDF(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
 eotf_inverse_DICOMGSDF` definition domain and range scale support.
@@ -107,7 +107,7 @@ eotf_inverse_DICOMGSDF` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_eotf_inverse_DICOMGSDF(self):
+    def test_nan_eotf_inverse_DICOMGSDF(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
 eotf_inverse_DICOMGSDF` definition nan support.
@@ -122,7 +122,7 @@ class TestEotf_DICOMGSDF:
     eotf_DICOMGSDF` definition unit tests methods.
     """
 
-    def test_eotf_DICOMGSDF(self):
+    def test_eotf_DICOMGSDF(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
 eotf_DICOMGSDF` definition.
@@ -152,7 +152,7 @@ eotf_DICOMGSDF` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_eotf_DICOMGSDF(self):
+    def test_n_dimensional_eotf_DICOMGSDF(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
 eotf_DICOMGSDF` definition n-dimensional arrays support.
@@ -173,7 +173,7 @@ eotf_DICOMGSDF` definition n-dimensional arrays support.
         L = np.reshape(L, (2, 3, 1))
         np.testing.assert_allclose(eotf_DICOMGSDF(J), L, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_eotf_DICOMGSDF(self):
+    def test_domain_range_scale_eotf_DICOMGSDF(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
 eotf_DICOMGSDF` definition domain and range scale support.
@@ -192,7 +192,7 @@ eotf_DICOMGSDF` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_eotf_DICOMGSDF(self):
+    def test_nan_eotf_DICOMGSDF(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
 eotf_DICOMGSDF` definition nan support.

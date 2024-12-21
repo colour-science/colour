@@ -1202,7 +1202,7 @@ class TestPlanckLaw:
     tests methods.
     """
 
-    def test_planck_law(self):
+    def test_planck_law(self) -> None:
         """Test :func:`colour.colorimetry.blackbody.planck_law` definition."""
 
         wavelengths = 2 ** np.arange(0, 16, 1) * 1e-9
@@ -1213,7 +1213,7 @@ class TestPlanckLaw:
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
-    def test_n_dimensional_planck_law(self):
+    def test_n_dimensional_planck_law(self) -> None:
         """
         Test :func:`colour.colorimetry.blackbody.planck_law` definition
         n-dimensional arrays support.
@@ -1260,7 +1260,7 @@ class TestPlanckLaw:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_raise_exception_planck_law(self):
+    def test_raise_exception_planck_law(self) -> None:
         """
         Test :func:`colour.colorimetry.blackbody.planck_law` definition
         raised exception.
@@ -1270,7 +1270,7 @@ class TestPlanckLaw:
             pytest.raises(AssertionError, planck_law, wavelength, 5500)
 
     @ignore_numpy_errors
-    def test_nan_planck_law(self):
+    def test_nan_planck_law(self) -> None:
         """
         Test :func:`colour.colorimetry.blackbody.planck_law` definition nan
         support.
@@ -1288,7 +1288,7 @@ class TestSdBlackbody:
     tests methods.
     """
 
-    def test_sd_blackbody(self):
+    def test_sd_blackbody(self) -> None:
         """Test :func:`colour.colorimetry.blackbody.sd_blackbody` definition."""
 
         np.testing.assert_allclose(
@@ -1304,7 +1304,7 @@ class TestRayleighJeansLaw:
     tests methods.
     """
 
-    def test_rayleigh_jeans_law(self):
+    def test_rayleigh_jeans_law(self) -> None:
         """
         Test :func:`colour.colorimetry.blackbody.rayleigh_jeans_law`
         definition.
@@ -1318,7 +1318,7 @@ class TestRayleighJeansLaw:
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
-    def test_n_dimensional_rayleigh_jeans_law(self):
+    def test_n_dimensional_rayleigh_jeans_law(self) -> None:
         """
         Test :func:`colour.colorimetry.blackbody.rayleigh_jeans_law` definition
         n-dimensional arrays support.
@@ -1366,7 +1366,7 @@ class TestRayleighJeansLaw:
         )
 
     @ignore_numpy_errors
-    def test_nan_rayleigh_jeans_law(self):
+    def test_nan_rayleigh_jeans_law(self) -> None:
         """
         Test :func:`colour.colorimetry.blackbody.rayleigh_jeans_law` definition
         nan support.
@@ -1383,7 +1383,7 @@ class TestSdRayleighJeans:
     tests methods.
     """
 
-    def test_sd_rayleigh_jeans(self):
+    def test_sd_rayleigh_jeans(self) -> None:
         """
         Test :func:`colour.colorimetry.blackbody.sd_rayleigh_jeans`
         definition.

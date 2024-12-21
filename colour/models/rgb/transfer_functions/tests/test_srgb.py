@@ -28,7 +28,7 @@ class TestEotf_inverse_sRGB:
     definition unit tests methods.
     """
 
-    def test_eotf_inverse_sRGB(self):
+    def test_eotf_inverse_sRGB(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sRGB.\
 eotf_inverse_sRGB` definition.
@@ -48,7 +48,7 @@ eotf_inverse_sRGB` definition.
             eotf_inverse_sRGB(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_n_dimensional_eotf_inverse_sRGB(self):
+    def test_n_dimensional_eotf_inverse_sRGB(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sRGB.\
 eotf_inverse_sRGB` definition n-dimensional arrays support.
@@ -75,7 +75,7 @@ eotf_inverse_sRGB` definition n-dimensional arrays support.
             eotf_inverse_sRGB(L), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_eotf_inverse_sRGB(self):
+    def test_domain_range_scale_eotf_inverse_sRGB(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sRGB.\
 eotf_inverse_sRGB` definition domain and range scale support.
@@ -94,7 +94,7 @@ eotf_inverse_sRGB` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_eotf_inverse_sRGB(self):
+    def test_nan_eotf_inverse_sRGB(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sRGB.\
 eotf_inverse_sRGB` definition nan support.
@@ -109,7 +109,7 @@ class TestEotf_sRGB:
     definition unit tests methods.
     """
 
-    def test_eotf_sRGB(self):
+    def test_eotf_sRGB(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sRGB.\
 eotf_sRGB` definition.
@@ -123,7 +123,7 @@ eotf_sRGB` definition.
 
         np.testing.assert_allclose(eotf_sRGB(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_n_dimensional_eotf_sRGB(self):
+    def test_n_dimensional_eotf_sRGB(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sRGB.\
 eotf_sRGB` definition n-dimensional arrays support.
@@ -144,7 +144,7 @@ eotf_sRGB` definition n-dimensional arrays support.
         L = np.reshape(L, (2, 3, 1))
         np.testing.assert_allclose(eotf_sRGB(V), L, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_eotf_sRGB(self):
+    def test_domain_range_scale_eotf_sRGB(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sRGB.\
 eotf_sRGB` definition domain and range scale support.
@@ -163,7 +163,7 @@ eotf_sRGB` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_eotf_sRGB(self):
+    def test_nan_eotf_sRGB(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sRGB.\
 eotf_sRGB` definition nan support.

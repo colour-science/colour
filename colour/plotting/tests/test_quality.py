@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.plotting.quality` module."""
 
+from __future__ import annotations
+
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
@@ -40,7 +42,7 @@ class TestPlotColourQualityBars:
     unit tests methods.
     """
 
-    def test_plot_colour_quality_bars(self):
+    def test_plot_colour_quality_bars(self) -> None:
         """
         Test :func:`colour.plotting.quality.plot_colour_quality_bars`
         definition.
@@ -52,7 +54,7 @@ class TestPlotColourQualityBars:
         cqs_i = colour_quality_scale(illuminant, additional_data=True)
         cqs_l = colour_quality_scale(light_source, additional_data=True)
 
-        figure, axes = plot_colour_quality_bars([cqs_i, cqs_l])
+        figure, axes = plot_colour_quality_bars([cqs_i, cqs_l])  # pyright: ignore
 
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)
@@ -64,7 +66,7 @@ class TestPlotSingleSdColourRenderingIndexBars:
 plot_single_sd_colour_rendering_index_bars` definition unit tests methods.
     """
 
-    def test_plot_single_sd_colour_rendering_index_bars(self):
+    def test_plot_single_sd_colour_rendering_index_bars(self) -> None:
         """
         Test :func:`colour.plotting.quality.\
 plot_single_sd_colour_rendering_index_bars` definition.
@@ -84,7 +86,7 @@ class TestPlotMultiSdsColourRenderingIndexesBars:
 plot_multi_sds_colour_rendering_indexes_bars` definition unit tests methods.
     """
 
-    def test_plot_multi_sds_colour_rendering_indexes_bars(self):
+    def test_plot_multi_sds_colour_rendering_indexes_bars(self) -> None:
         """
         Test :func:`colour.plotting.quality.\
 plot_multi_sds_colour_rendering_indexes_bars` definition.
@@ -104,7 +106,7 @@ class TestPlotSingleSdColourQualityScaleBars:
 plot_single_sd_colour_quality_scale_bars` definition unit tests methods.
     """
 
-    def test_plot_single_sd_colour_quality_scale_bars(self):
+    def test_plot_single_sd_colour_quality_scale_bars(self) -> None:
         """
         Test :func:`colour.plotting.quality.\
 plot_single_sd_colour_quality_scale_bars` definition.
@@ -122,7 +124,7 @@ class TestPlotMultiSdsColourQualityScalesBars:
 plot_multi_sds_colour_quality_scales_bars` definition unit tests methods.
     """
 
-    def test_plot_multi_sds_colour_quality_scales_bars(self):
+    def test_plot_multi_sds_colour_quality_scales_bars(self) -> None:
         """
         Test :func:`colour.plotting.quality.\
 plot_multi_sds_colour_quality_scales_bars` definition.

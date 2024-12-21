@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.adaptation` module."""
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.adaptation import chromatic_adaptation
@@ -24,7 +26,7 @@ class TestChromaticAdaptation:
     tests methods.
     """
 
-    def test_chromatic_adaptation(self):
+    def test_chromatic_adaptation(self) -> None:
         """Test :func:`colour.adaptation.chromatic_adaptation` definition."""
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
@@ -68,7 +70,7 @@ class TestChromaticAdaptation:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_chromatic_adaptation(self):
+    def test_domain_range_scale_chromatic_adaptation(self) -> None:
         """
         Test :func:`colour.adaptation.chromatic_adaptation` definition domain
         and range scale support.

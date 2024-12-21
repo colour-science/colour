@@ -65,7 +65,7 @@ class TestIsCachingEnabled:
     tests methods.
     """
 
-    def test_is_caching_enabled(self):
+    def test_is_caching_enabled(self) -> None:
         """Test :func:`colour.utilities.common.is_caching_enabled` definition."""
 
         with caching_enable(True):
@@ -81,7 +81,7 @@ class TestSetCachingEnabled:
     tests methods.
     """
 
-    def test_set_caching_enable(self):
+    def test_set_caching_enable(self) -> None:
         """Test :func:`colour.utilities.common.set_caching_enable` definition."""
 
         with caching_enable(is_caching_enabled()):
@@ -99,7 +99,7 @@ class TestCachingEnable:
     tests methods.
     """
 
-    def test_caching_enable(self):
+    def test_caching_enable(self) -> None:
         """Test :func:`colour.utilities.common.caching_enable` definition."""
 
         with caching_enable(True):
@@ -109,7 +109,7 @@ class TestCachingEnable:
             assert not is_caching_enabled()
 
         @caching_enable(True)
-        def fn_a():
+        def fn_a() -> None:
             """:func:`caching_enable` unit tests :func:`fn_a` definition."""
 
             assert is_caching_enabled()
@@ -117,7 +117,7 @@ class TestCachingEnable:
         fn_a()
 
         @caching_enable(False)
-        def fn_b():
+        def fn_b() -> None:
             """:func:`caching_enable` unit tests :func:`fn_b` definition."""
 
             assert not is_caching_enabled()
@@ -132,7 +132,7 @@ class TestCacheRegistry:
     """
 
     @staticmethod
-    def _default_test_cache_registry():
+    def _default_test_cache_registry() -> CacheRegistry:
         """Create a default test cache registry."""
 
         cache_registry = CacheRegistry()
@@ -144,7 +144,7 @@ class TestCacheRegistry:
 
         return cache_registry
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
         required_attributes = ("registry",)
@@ -152,7 +152,7 @@ class TestCacheRegistry:
         for attribute in required_attributes:
             assert attribute in dir(CacheRegistry)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = (
@@ -167,13 +167,13 @@ class TestCacheRegistry:
         for method in required_methods:
             assert method in dir(CacheRegistry)
 
-    def test__str__(self):
+    def test__str__(self) -> None:
         """Test :class:`colour.utilities.common.CacheRegistry.__str__` method."""
 
         cache_registry = self._default_test_cache_registry()
         assert str(cache_registry) == "{'Cache A': '1 item(s)', 'Cache B': '2 item(s)'}"
 
-    def test_register_cache(self):
+    def test_register_cache(self) -> None:
         """
         Test :class:`colour.utilities.common.CacheRegistry.register_cache`
         method.
@@ -185,7 +185,7 @@ class TestCacheRegistry:
         cache_b = cache_registry.register_cache("Cache B")
         assert cache_registry.registry == {"Cache A": cache_a, "Cache B": cache_b}
 
-    def test_unregister_cache(self):
+    def test_unregister_cache(self) -> None:
         """
         Test :class:`colour.utilities.common.CacheRegistry.unregister_cache`
         method.
@@ -196,7 +196,7 @@ class TestCacheRegistry:
         assert "Cache A" not in cache_registry.registry
         assert "Cache B" in cache_registry.registry
 
-    def test_clear_cache(self):
+    def test_clear_cache(self) -> None:
         """
         Test :class:`colour.utilities.common.CacheRegistry.clear_cache`
         method.
@@ -209,7 +209,7 @@ class TestCacheRegistry:
             "Cache B": {"John": "Doe", "Luke": "Skywalker"},
         }
 
-    def test_clear_all_caches(self):
+    def test_clear_all_caches(self) -> None:
         """
         Test :class:`colour.utilities.common.CacheRegistry.clear_all_caches`
         method.
@@ -226,7 +226,7 @@ class TestAttest:
     tests methods.
     """
 
-    def test_attest(self):
+    def test_attest(self) -> None:
         """Test :func:`colour.utilities.common.attest` definition."""
 
         assert attest(True, "") is None
@@ -240,7 +240,7 @@ class TestBatch:
     methods.
     """
 
-    def test_batch(self):
+    def test_batch(self) -> None:
         """Test :func:`colour.utilities.common.batch` definition."""
 
         assert list(batch(tuple(range(10)), 3)) == [
@@ -266,7 +266,7 @@ class TestBatch:
         ]
 
 
-def _add(a: Real, b: Real):
+def _add(a: Real, b: Real) -> Real:
     """
     Add two numbers.
 
@@ -297,7 +297,7 @@ class TestMultiprocessingPool:
     unit tests methods.
     """
 
-    def test_multiprocessing_pool(self):
+    def test_multiprocessing_pool(self) -> None:
         """Test :func:`colour.utilities.common.multiprocessing_pool` definition."""
 
         with multiprocessing_pool() as pool:
@@ -321,7 +321,7 @@ class TestIsIterable:
     methods.
     """
 
-    def test_is_iterable(self):
+    def test_is_iterable(self) -> None:
         """Test :func:`colour.utilities.common.is_iterable` definition."""
 
         assert is_iterable("")
@@ -351,7 +351,7 @@ class TestIsNumeric:
     methods.
     """
 
-    def test_is_numeric(self):
+    def test_is_numeric(self) -> None:
         """Test :func:`colour.utilities.common.is_numeric` definition."""
 
         assert is_numeric(1)
@@ -371,7 +371,7 @@ class TestIsInteger:
     tests methods.
     """
 
-    def test_is_integer(self):
+    def test_is_integer(self) -> None:
         """Test :func:`colour.utilities.common.is_integer` definition."""
 
         assert is_integer(1)
@@ -387,7 +387,7 @@ class TestIsSibling:
     methods.
     """
 
-    def test_is_sibling(self):
+    def test_is_sibling(self) -> None:
         """Test :func:`colour.utilities.common.is_sibling` definition."""
 
         class Element:
@@ -419,7 +419,7 @@ class TestFilterKwargs:
     tests methods.
     """
 
-    def test_filter_kwargs(self):
+    def test_filter_kwargs(self) -> None:
         """Test :func:`colour.utilities.common.filter_kwargs` definition."""
 
         def fn_a(a: Any) -> Any:
@@ -452,7 +452,7 @@ class TestFilterMapping:
     tests methods.
     """
 
-    def test_filter_mapping(self):
+    def test_filter_mapping(self) -> None:
         """Test :func:`colour.utilities.common.filter_mapping` definition."""
 
         class Element:
@@ -494,7 +494,7 @@ class TestFirstItem:
     tests methods.
     """
 
-    def test_first_item(self):
+    def test_first_item(self) -> None:
         """Test :func:`colour.utilities.common.first_item` definition."""
 
         assert first_item(range(10)) == 0
@@ -511,7 +511,7 @@ class TestValidateMethod:
     tests methods.
     """
 
-    def test_validate_method(self):
+    def test_validate_method(self) -> None:
         """Test :func:`colour.utilities.common.validate_method` definition."""
 
         assert validate_method("Valid", ("Valid", "Yes", "Ok")) == "valid"
@@ -520,7 +520,7 @@ class TestValidateMethod:
             == "Valid"
         )
 
-    def test_raise_exception_validate_method(self):
+    def test_raise_exception_validate_method(self) -> None:
         """
         Test :func:`colour.utilities.common.validate_method` definition raised
         exception.
@@ -535,7 +535,7 @@ class TestOptional:
     tests methods.
     """
 
-    def test_optional(self):
+    def test_optional(self) -> None:
         """Test :func:`colour.utilities.common.optional` definition."""
 
         assert optional("Foo", "Bar") == "Foo"
@@ -549,7 +549,7 @@ class TestSlugify:
     methods.
     """
 
-    def test_slugify(self):
+    def test_slugify(self) -> None:
         """Test :func:`colour.utilities.common.slugify` definition."""
 
         assert (
@@ -584,7 +584,7 @@ class TestIntDigest:
     methods.
     """
 
-    def test_int_digest(self):
+    def test_int_digest(self) -> None:
         """Test :func:`colour.utilities.common.int_digest` definition."""
 
         assert int_digest("Foo") == 7467386374397815550

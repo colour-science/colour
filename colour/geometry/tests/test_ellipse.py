@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.geometry.ellipse` module."""
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -31,7 +33,7 @@ class TestEllipseCoefficientsCanonicalForm:
     definition unit tests methods.
     """
 
-    def test_ellipse_coefficients_canonical_form(self):
+    def test_ellipse_coefficients_canonical_form(self) -> None:
         """
         Test :func:`colour.geometry.ellipse.\
 ellipse_coefficients_canonical_form` definition.
@@ -60,7 +62,7 @@ class TestEllipseCoefficientsGeneralForm:
     definition unit tests methods.
     """
 
-    def test_ellipse_coefficients_general_form(self):
+    def test_ellipse_coefficients_general_form(self) -> None:
         """
         Test :func:`colour.geometry.ellipse.ellipse_coefficients_general_form`
         definition.
@@ -85,7 +87,7 @@ class TestPointAtAngleOnEllipse:
     definition unit tests methods.
     """
 
-    def test_point_at_angle_on_ellipse(self):
+    def test_point_at_angle_on_ellipse(self) -> None:
         """
         Test :func:`colour.geometry.ellipse.point_at_angle_on_ellipse`
         definition.
@@ -127,7 +129,7 @@ class TestEllipseFittingHalir1998:
     definition unit tests methods.
     """
 
-    def test_ellipse_fitting_Halir1998(self):
+    def test_ellipse_fitting_Halir1998(self) -> None:
         """
         Test :func:`colour.geometry.ellipse.ellipse_fitting_Halir1998`
         definition.

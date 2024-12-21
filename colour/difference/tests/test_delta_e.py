@@ -9,6 +9,8 @@ References
     30(1), 21-30. doi:10.1002/col.20070
 """
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -57,7 +59,7 @@ class TestDelta_E_CIE1976:
         definition, thus unit tests are not entirely implemented.
     """
 
-    def test_delta_E_CIE1976(self):
+    def test_delta_E_CIE1976(self) -> None:
         """Test :func:`colour.difference.delta_e.delta_E_CIE1976` definition."""
 
         Lab_1 = np.array([48.99183622, -0.10561667, 400.65619925])
@@ -71,13 +73,13 @@ class TestDelta_E_CIE1976:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_delta_E_CIE1976(self):
+    def test_n_dimensional_delta_E_CIE1976(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_CIE1976` definition
         n-dimensional arrays support.
         """
 
-    def test_domain_range_scale_delta_E_CIE1976(self):
+    def test_domain_range_scale_delta_E_CIE1976(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_CIE1976` definition
         domain and range scale support.
@@ -96,7 +98,7 @@ class TestDelta_E_CIE1976:
                 )
 
     @ignore_numpy_errors
-    def test_nan_delta_E_CIE1976(self):
+    def test_nan_delta_E_CIE1976(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_CIE1976` definition nan
         support.
@@ -109,7 +111,7 @@ class TestDelta_E_CIE1994:
     tests methods.
     """
 
-    def test_delta_E_CIE1994(self):
+    def test_delta_E_CIE1994(self) -> None:
         """Test :func:`colour.difference.delta_e.delta_E_CIE1994` definition."""
 
         np.testing.assert_allclose(
@@ -169,7 +171,7 @@ class TestDelta_E_CIE1994:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_delta_E_CIE1994(self):
+    def test_n_dimensional_delta_E_CIE1994(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_CIE1994` definition
         n-dimensional arrays support.
@@ -197,7 +199,7 @@ class TestDelta_E_CIE1994:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_delta_E_CIE1994(self):
+    def test_domain_range_scale_delta_E_CIE1994(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_CIE1994` definition
         domain and range scale support.
@@ -217,7 +219,7 @@ class TestDelta_E_CIE1994:
                 )
 
     @ignore_numpy_errors
-    def test_nan_delta_E_CIE1994(self):
+    def test_nan_delta_E_CIE1994(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_CIE1994` definition nan
         support.
@@ -234,7 +236,7 @@ class TestIntermediateAttributes_CIE2000:
     definition unit tests methods.
     """
 
-    def test_intermediate_attributes_CIE2000(self):
+    def test_intermediate_attributes_CIE2000(self) -> None:
         """
         Test :func:`colour.difference.delta_e.intermediate_attributes_CIE2000`
         definition.
@@ -266,7 +268,7 @@ class TestDelta_E_CIE2000:
     tests methods.
     """
 
-    def test_delta_E_CIE2000(self):
+    def test_delta_E_CIE2000(self) -> None:
         """Test :func:`colour.difference.delta_e.delta_E_CIE2000` definition."""
 
         np.testing.assert_allclose(
@@ -326,7 +328,7 @@ class TestDelta_E_CIE2000:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_delta_E_CIE2000(self):
+    def test_n_dimensional_delta_E_CIE2000(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_CIE2000` definition
         n-dimensional arrays support.
@@ -354,7 +356,7 @@ class TestDelta_E_CIE2000:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_delta_E_CIE2000(self):
+    def test_domain_range_scale_delta_E_CIE2000(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_CIE2000` definition
         domain and range scale support.
@@ -374,7 +376,7 @@ class TestDelta_E_CIE2000:
                 )
 
     @ignore_numpy_errors
-    def test_nan_delta_E_CIE2000(self):
+    def test_nan_delta_E_CIE2000(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_CIE2000` definition nan
         support.
@@ -384,7 +386,7 @@ class TestDelta_E_CIE2000:
         cases = np.array(list(set(product(cases, repeat=3))))
         delta_E_CIE2000(cases, cases)
 
-    def test_delta_E_CIE2000_Sharma2004(self):
+    def test_delta_E_CIE2000_Sharma2004(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_CIE2000` definition
         using Sharma (2004) dataset.
@@ -558,7 +560,7 @@ class TestDelta_E_CMC:
     methods.
     """
 
-    def test_delta_E_CMC(self):
+    def test_delta_E_CMC(self) -> None:
         """Test :func:`colour.difference.delta_e.delta_E_CMC` definition."""
 
         np.testing.assert_allclose(
@@ -618,7 +620,7 @@ class TestDelta_E_CMC:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_delta_E_CMC(self):
+    def test_n_dimensional_delta_E_CMC(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_CMC` definition
         n-dimensional arrays support.
@@ -642,7 +644,7 @@ class TestDelta_E_CMC:
             delta_E_CMC(Lab_1, Lab_2), delta_E, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_delta_E_CMC(self):
+    def test_domain_range_scale_delta_E_CMC(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_CMC` definition
         domain and range scale support.
@@ -662,7 +664,7 @@ class TestDelta_E_CMC:
                 )
 
     @ignore_numpy_errors
-    def test_nan_delta_E_CMC(self):
+    def test_nan_delta_E_CMC(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_CMC` definition nan
         support.
@@ -679,7 +681,7 @@ class TestDelta_E_ITP:
     methods.
     """
 
-    def test_delta_E_ITP(self):
+    def test_delta_E_ITP(self) -> None:
         """Test :func:`colour.difference.delta_e.delta_E_ITP` definition."""
 
         np.testing.assert_allclose(
@@ -772,7 +774,7 @@ class TestDelta_E_ITP:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_delta_E_ITP(self):
+    def test_n_dimensional_delta_E_ITP(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_ITP` definition
         n-dimensional arrays support.
@@ -796,7 +798,7 @@ class TestDelta_E_ITP:
             delta_E_ITP(ICtCp_1, ICtCp_2), delta_E, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_delta_E_ITP(self):
+    def test_domain_range_scale_delta_E_ITP(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_ITP` definition domain
         and range scale support.
@@ -816,7 +818,7 @@ class TestDelta_E_ITP:
                 )
 
     @ignore_numpy_errors
-    def test_nan_delta_E_ITP(self):
+    def test_nan_delta_E_ITP(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_ITP` definition nan
         support.
@@ -833,7 +835,7 @@ class TestDelta_E_HyAB:
     tests methods.
     """
 
-    def test_delta_E_HyAB(self):
+    def test_delta_E_HyAB(self) -> None:
         """Test :func:`colour.difference.delta_e.delta_E_HyAB` definition."""
 
         np.testing.assert_allclose(
@@ -863,7 +865,7 @@ class TestDelta_E_HyAB:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_delta_E_HyAB(self):
+    def test_n_dimensional_delta_E_HyAB(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_HyAB` definition
         n-dimensional arrays support.
@@ -891,7 +893,7 @@ class TestDelta_E_HyAB:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_delta_E_HyAB(self):
+    def test_domain_range_scale_delta_E_HyAB(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_HyAB` definition
         domain and range scale support.
@@ -911,7 +913,7 @@ class TestDelta_E_HyAB:
                 )
 
     @ignore_numpy_errors
-    def test_nan_delta_E_HyAB(self):
+    def test_nan_delta_E_HyAB(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_HyAB` definition nan
         support.
@@ -928,7 +930,7 @@ class TestDelta_E_HyCH:
     tests methods.
     """
 
-    def test_delta_E_HyCH(self):
+    def test_delta_E_HyCH(self) -> None:
         """Test :func:`colour.difference.delta_e.delta_E_HyCH` definition."""
 
         np.testing.assert_allclose(
@@ -958,7 +960,7 @@ class TestDelta_E_HyCH:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_delta_E_HyCH(self):
+    def test_n_dimensional_delta_E_HyCH(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_HyCH` definition
         n-dimensional arrays support.
@@ -986,7 +988,7 @@ class TestDelta_E_HyCH:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_delta_E_HyCH(self):
+    def test_domain_range_scale_delta_E_HyCH(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_HyCH` definition
         domain and range scale support.
@@ -1006,7 +1008,7 @@ class TestDelta_E_HyCH:
                 )
 
     @ignore_numpy_errors
-    def test_nan_delta_E_HyCH(self):
+    def test_nan_delta_E_HyCH(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_HyCH` definition nan
         support.

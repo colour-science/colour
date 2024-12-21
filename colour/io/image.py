@@ -147,7 +147,7 @@ else:  # pragma: no cover
 
 def add_attributes_to_image_specification_OpenImageIO(
     image_specification: ImageSpec, attributes: Sequence
-):
+) -> ImageSpec:
     """
     Add given attributes to given *OpenImageIO* image specification.
 
@@ -336,7 +336,7 @@ def read_image_OpenImageIO(
     ] = "float32",
     additional_data: bool = False,
     **kwargs: Any,
-) -> NDArrayReal | Tuple[NDArrayReal, list]:
+) -> NDArrayReal | Tuple[NDArrayReal, Tuple[Image_Specification_Attribute]]:
     """
     Read the image data at given path using *OpenImageIO*.
 
@@ -414,7 +414,7 @@ def read_image_OpenImageIO(
                 )
             )
 
-        return image, extra_attributes
+        return image, tuple(extra_attributes)
     else:
         return image
 

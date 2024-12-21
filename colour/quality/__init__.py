@@ -64,7 +64,7 @@ References
 
 def colour_fidelity_index(
     sd_test: SpectralDistribution,
-    additional_data=False,
+    additional_data: bool = False,
     method: Literal["CIE 2017", "ANSI/IES TM-30-18"] | str = "CIE 2017",
 ) -> (
     float

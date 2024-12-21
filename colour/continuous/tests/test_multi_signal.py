@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.continuous.multi_signals` module."""
 
+from __future__ import annotations
+
 import pickle
 import textwrap
 
@@ -39,7 +41,7 @@ class TestMultiSignals:
     tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._range_1 = np.linspace(10, 100, 10)
@@ -49,7 +51,7 @@ class TestMultiSignals:
 
         self._multi_signals = MultiSignals(self._range_2)
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
         required_attributes = (
@@ -69,7 +71,7 @@ class TestMultiSignals:
         for attribute in required_attributes:
             assert attribute in dir(MultiSignals)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = (
@@ -93,7 +95,7 @@ class TestMultiSignals:
         for method in required_methods:
             assert method in dir(MultiSignals)
 
-    def test_pickling(self):
+    def test_pickling(self) -> None:
         """
         Test whether the :class:``colour.continuous.signal.MultiSignals` class
         can be pickled.
@@ -103,7 +105,7 @@ class TestMultiSignals:
         data = pickle.loads(data)  # noqa: S301
         assert self._multi_signals == data
 
-    def test_dtype(self):
+    def test_dtype(self) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.dtype`
         property.
@@ -115,7 +117,7 @@ class TestMultiSignals:
         multi_signals.dtype = np.float32
         assert multi_signals.dtype == np.float32
 
-    def test_domain(self):
+    def test_domain(self) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.domain`
         property.
@@ -142,14 +144,14 @@ class TestMultiSignals:
         domain = np.linspace(0, 1, 10)
         domain[0] = -np.inf
 
-        def assert_warns():
+        def assert_warns() -> None:
             """Help to test the runtime warning."""
 
             multi_signals.domain = domain
 
         pytest.warns(ColourRuntimeWarning, assert_warns)
 
-    def test_range(self):
+    def test_range(self) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.range`
         property.
@@ -185,7 +187,7 @@ class TestMultiSignals:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_interpolator(self):
+    def test_interpolator(self) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.interpolator`
         property.
@@ -223,7 +225,7 @@ class TestMultiSignals:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_interpolator_kwargs(self):
+    def test_interpolator_kwargs(self) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.\
 interpolator_kwargs` property.
@@ -264,7 +266,7 @@ interpolator_kwargs` property.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_extrapolator(self):
+    def test_extrapolator(self) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.extrapolator`
         property.
@@ -272,7 +274,7 @@ interpolator_kwargs` property.
 
         assert isinstance(self._multi_signals.extrapolator(), Extrapolator)
 
-    def test_extrapolator_kwargs(self):
+    def test_extrapolator_kwargs(self) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.\
 extrapolator_kwargs` property.
@@ -292,7 +294,7 @@ extrapolator_kwargs` property.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_function(self):
+    def test_function(self) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.function`
         property.
@@ -300,7 +302,7 @@ extrapolator_kwargs` property.
 
         attest(callable(self._multi_signals.function))
 
-    def test_raise_exception_function(self):
+    def test_raise_exception_function(self) -> None:
         """
         Test :func:`colour.continuous.signal.multi_signals.MultiSignals.\
 function` property raised exception.
@@ -308,7 +310,7 @@ function` property raised exception.
 
         pytest.raises((ValueError, TypeError), MultiSignals().function, 0)
 
-    def test_signals(self):
+    def test_signals(self) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.signals`
         property.
@@ -320,7 +322,7 @@ function` property raised exception.
         np.testing.assert_array_equal(multi_signals.domain, self._domain_1)
         np.testing.assert_array_equal(multi_signals.range, self._range_1[:, None])
 
-    def test_labels(self):
+    def test_labels(self) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.labels`
         property.
@@ -334,7 +336,7 @@ function` property raised exception.
 
         assert multi_signals.labels == ["a", "b", "c"]
 
-    def test_signal_type(self):
+    def test_signal_type(self) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.signal_type`
         property.
@@ -344,7 +346,7 @@ function` property raised exception.
 
         assert multi_signals.signal_type == Signal
 
-    def test__init__(self):
+    def test__init__(self) -> None:
         """
         Test :meth:`colour.continuous.multi_signals.MultiSignals.__init__`
         method.
@@ -392,7 +394,7 @@ function` property raised exception.
             np.testing.assert_array_equal(multi_signals.domain, self._domain_2)
             np.testing.assert_array_equal(multi_signals.range, self._range_2)
 
-    def test__hash__(self):
+    def test__hash__(self) -> None:
         """
         Test :meth:`colour.continuous.multi_signals.MultiSignals.__hash__`
         method.
@@ -400,7 +402,7 @@ function` property raised exception.
 
         assert isinstance(hash(self._multi_signals), int)
 
-    def test__str__(self):
+    def test__str__(self) -> None:
         """
         Test :meth:`colour.continuous.multi_signals.MultiSignals.__str__`
         method.
@@ -427,7 +429,7 @@ function` property raised exception.
 
         assert isinstance(str(MultiSignals()), str)
 
-    def test__repr__(self):
+    def test__repr__(self) -> None:
         """
         Test :meth:`colour.continuous.multi_signals.MultiSignals.__repr__`
         method.
@@ -457,7 +459,7 @@ function` property raised exception.
 
         assert isinstance(repr(MultiSignals()), str)
 
-    def test__getitem__(self):
+    def test__getitem__(self) -> None:
         """
         Test :meth:`colour.continuous.multi_signals.MultiSignals.__getitem__`
         method.
@@ -504,7 +506,7 @@ function` property raised exception.
         )
 
         np.testing.assert_allclose(
-            self._multi_signals[:, :],
+            self._multi_signals[:, :],  # pyright: ignore
             self._multi_signals.range,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -522,7 +524,7 @@ function` property raised exception.
         )
 
         np.testing.assert_allclose(
-            self._multi_signals[:, 0:2],
+            self._multi_signals[:, 0:2],  # pyright: ignore
             np.array(
                 [
                     [10.0, 20.0],
@@ -564,7 +566,7 @@ function` property raised exception.
             np.array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]]),
         )
 
-    def test__setitem__(self):
+    def test__setitem__(self) -> None:
         """
         Test :meth:`colour.continuous.multi_signals.MultiSignals.__setitem__`
         method.
@@ -687,7 +689,7 @@ function` property raised exception.
             multi_signals.range, 40, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        multi_signals[:, :] = 50
+        multi_signals[:, :] = 50  # pyright: ignore
         np.testing.assert_allclose(
             multi_signals.range, 50, atol=TOLERANCE_ABSOLUTE_TESTS
         )
@@ -706,7 +708,7 @@ function` property raised exception.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        multi_signals[:, 0:2] = 50
+        multi_signals[:, 0:2] = 50  # pyright: ignore
         np.testing.assert_allclose(
             multi_signals.range,
             np.array(
@@ -726,7 +728,7 @@ function` property raised exception.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test__contains__(self):
+    def test__contains__(self) -> None:
         """
         Test :meth:`colour.continuous.multi_signals.MultiSignals.__contains__`
         method.
@@ -736,7 +738,7 @@ function` property raised exception.
         assert 0.5 in self._multi_signals
         assert 1000 not in self._multi_signals
 
-    def test__iter__(self):
+    def test__iter__(self) -> None:
         """Test :func:`colour.continuous.signal.Signal.__iter__` method."""
 
         domain = np.arange(0, 10)
@@ -744,7 +746,7 @@ function` property raised exception.
             np.testing.assert_array_equal(domain_range_value[0], domain[i])
             np.testing.assert_array_equal(domain_range_value[1:], self._range_2[i])
 
-    def test__len__(self):
+    def test__len__(self) -> None:
         """
         Test :meth:`colour.continuous.multi_signals.MultiSignals.__len__`
         method.
@@ -752,7 +754,7 @@ function` property raised exception.
 
         assert len(self._multi_signals) == 10
 
-    def test__eq__(self):
+    def test__eq__(self) -> None:
         """
         Test :meth:`colour.continuous.multi_signals.MultiSignals.__eq__`
         method.
@@ -765,7 +767,7 @@ function` property raised exception.
 
         assert signal_1 != ()
 
-    def test__ne__(self):
+    def test__ne__(self) -> None:
         """
         Test :meth:`colour.continuous.multi_signals.MultiSignals.__ne__`
         method.
@@ -811,7 +813,7 @@ function` property raised exception.
         }
         assert multi_signals_1 == multi_signals_2
 
-    def test_arithmetical_operation(self):
+    def test_arithmetical_operation(self) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.\
 arithmetical_operation` method.
@@ -922,7 +924,7 @@ arithmetical_operation` method.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_is_uniform(self):
+    def test_is_uniform(self) -> None:
         """
         Test :meth:`colour.continuous.multi_signals.MultiSignals.is_uniform`
         method.
@@ -934,13 +936,13 @@ arithmetical_operation` method.
         multi_signals[0.5] = 1.0
         assert not multi_signals.is_uniform()
 
-    def test_copy(self):
+    def test_copy(self) -> None:
         """Test :func:`colour.continuous.multi_signals.MultiSignals.copy` method."""
 
         assert self._multi_signals is not self._multi_signals.copy()
         assert self._multi_signals == self._multi_signals.copy()
 
-    def test_multi_signals_unpack_data(self):
+    def test_multi_signals_unpack_data(self) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.\
 multi_signals_unpack_data` method.
@@ -1029,7 +1031,7 @@ multi_signals_unpack_data` method.
             np.testing.assert_array_equal(signals["b"].range, self._range_1 + 10)
             np.testing.assert_array_equal(signals["c"].range, self._range_1 + 20)
 
-    def test_fill_nan(self):
+    def test_fill_nan(self) -> None:
         """
         Test :meth:`colour.continuous.multi_signals.MultiSignals.fill_nan`
         method.
@@ -1079,7 +1081,7 @@ multi_signals_unpack_data` method.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_distance(self):
+    def test_domain_distance(self) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.\
 domain_distance` method.
@@ -1097,7 +1099,7 @@ domain_distance` method.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_to_dataframe(self):
+    def test_to_dataframe(self) -> None:
         """
         Test :meth:`colour.continuous.multi_signals.MultiSignals.to_dataframe`
         method.

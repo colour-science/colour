@@ -227,7 +227,7 @@ class TestSpectralUniformity:
     definition unit tests methods.
     """
 
-    def test_spectral_uniformity(self):
+    def test_spectral_uniformity(self) -> None:
         """
         Test :func:`colour.colorimetry.uniformity.spectral_uniformity`
         definition.

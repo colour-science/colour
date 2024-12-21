@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.colorimetry.generation` module."""
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.colorimetry.generation import (
@@ -43,7 +45,7 @@ class TestSdConstant:
     tests methods.
     """
 
-    def test_sd_constant(self):
+    def test_sd_constant(self) -> None:
         """Test :func:`colour.colorimetry.generation.sd_constant` definition."""
 
         sd = sd_constant(np.pi)
@@ -61,7 +63,7 @@ class TestSdZeros:
     tests methods.
     """
 
-    def test_sd_zeros(self):
+    def test_sd_zeros(self) -> None:
         """
         Test :func:`colour.colorimetry.generation.sd_zeros`
         definition.
@@ -82,7 +84,7 @@ class TestSdOnes:
     tests methods.
     """
 
-    def test_sd_ones(self):
+    def test_sd_ones(self) -> None:
         """Test :func:`colour.colorimetry.generation.sd_ones` definition."""
 
         sd = sd_ones()
@@ -100,7 +102,7 @@ class TestMsdsConstant:
     tests methods.
     """
 
-    def test_msds_constant(self):
+    def test_msds_constant(self) -> None:
         """Test :func:`colour.colorimetry.generation.msds_constant` definition."""
 
         msds = msds_constant(np.pi, labels=["a", "b", "c"])
@@ -130,7 +132,7 @@ class TestMsdsZeros:
     tests methods.
     """
 
-    def test_msds_zeros(self):
+    def test_msds_zeros(self) -> None:
         """
         Test :func:`colour.colorimetry.generation.msds_zeros`
         definition.
@@ -151,7 +153,7 @@ class TestMsdsOnes:
     tests methods.
     """
 
-    def test_msds_ones(self):
+    def test_msds_ones(self) -> None:
         """Test :func:`colour.colorimetry.generation.msds_ones` definition."""
 
         msds = msds_ones(labels=["a", "b", "c"])
@@ -169,7 +171,7 @@ class TestSdGaussianNormal:
     definition unit tests methods.
     """
 
-    def test_sd_gaussian_normal(self):
+    def test_sd_gaussian_normal(self) -> None:
         """
         Test :func:`colour.colorimetry.generation.sd_gaussian_normal`
         definition.
@@ -194,7 +196,7 @@ class TestSdGaussianFwhm:
     unit tests methods.
     """
 
-    def test_sd_gaussian_fwhm(self):
+    def test_sd_gaussian_fwhm(self) -> None:
         """
         Test :func:`colour.colorimetry.generation.sd_gaussian_fwhm` definition.
         """
@@ -218,7 +220,7 @@ class TestSdSingleLedOhno2005:
     definition unit tests methods.
     """
 
-    def test_sd_single_led_Ohno2005(self):
+    def test_sd_single_led_Ohno2005(self) -> None:
         """
         Test :func:`colour.colorimetry.generation.sd_single_led_Ohno2005`
         definition.
@@ -243,7 +245,7 @@ class TestSdMultiLedsOhno2005:
     definition unit tests methods.
     """
 
-    def test_sd_multi_leds_Ohno2005(self):
+    def test_sd_multi_leds_Ohno2005(self) -> None:
         """
         Test :func:`colour.colorimetry.generation.sd_multi_leds_Ohno2005`
         definition.

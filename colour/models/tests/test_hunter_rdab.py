@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.hunter_rdab` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -28,7 +30,7 @@ class TestXYZ_to_Hunter_Rdab:
     unit tests methods.
     """
 
-    def test_XYZ_to_Hunter_Rdab(self):
+    def test_XYZ_to_Hunter_Rdab(self) -> None:
         """Test :func:`colour.models.hunter_rdab.XYZ_to_Hunter_Rdab` definition."""
 
         np.testing.assert_allclose(
@@ -82,7 +84,7 @@ class TestXYZ_to_Hunter_Rdab:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_Hunter_Rdab(self):
+    def test_n_dimensional_XYZ_to_Hunter_Rdab(self) -> None:
         """
         Test :func:`colour.models.hunter_rdab.XYZ_to_Hunter_Rdab` definition
         n-dimensional support.
@@ -122,7 +124,7 @@ class TestXYZ_to_Hunter_Rdab:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_XYZ_to_Hunter_Rdab(self):
+    def test_domain_range_scale_XYZ_to_Hunter_Rdab(self) -> None:
         """
         Test :func:`colour.models.hunter_lab.XYZ_to_Hunter_Rdab` definition
         domain and range scale support.
@@ -146,7 +148,7 @@ class TestXYZ_to_Hunter_Rdab:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_Hunter_Rdab(self):
+    def test_nan_XYZ_to_Hunter_Rdab(self) -> None:
         """
         Test :func:`colour.models.hunter_rdab.XYZ_to_Hunter_Rdab` definition
         nan support.
@@ -163,7 +165,7 @@ class TestHunter_Rdab_to_XYZ:
     unit tests methods.
     """
 
-    def test_Hunter_Rdab_to_XYZ(self):
+    def test_Hunter_Rdab_to_XYZ(self) -> None:
         """Test :func:`colour.models.hunter_rdab.Hunter_Rdab_to_XYZ` definition."""
 
         np.testing.assert_allclose(
@@ -217,7 +219,7 @@ class TestHunter_Rdab_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_Hunter_Rdab_to_XYZ(self):
+    def test_n_dimensional_Hunter_Rdab_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.hunter_rdab.Hunter_Rdab_to_XYZ` definition
         n-dimensional support.
@@ -257,7 +259,7 @@ class TestHunter_Rdab_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_Hunter_Rdab_to_XYZ(self):
+    def test_domain_range_scale_Hunter_Rdab_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.hunter_lab.Hunter_Rdab_to_XYZ` definition
         domain and range scale support.
@@ -281,7 +283,7 @@ class TestHunter_Rdab_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_nan_Hunter_Rdab_to_XYZ(self):
+    def test_nan_Hunter_Rdab_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.hunter_rdab.Hunter_Rdab_to_XYZ` definition
         nan support.

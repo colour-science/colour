@@ -27,7 +27,7 @@ References
 
 from __future__ import annotations
 
-from collections.abc import Mapping
+from collections.abc import KeysView, Mapping, ValuesView
 
 import numpy as np
 
@@ -175,7 +175,7 @@ class SpectralShape:
         return self._start
 
     @start.setter
-    def start(self, value: Real):
+    def start(self, value: Real) -> None:
         """Setter for the **self.start** property."""
 
         attest(
@@ -209,7 +209,7 @@ class SpectralShape:
         return self._end
 
     @end.setter
-    def end(self, value: Real):
+    def end(self, value: Real) -> None:
         """Setter for the **self.end** property."""
 
         attest(
@@ -243,7 +243,7 @@ class SpectralShape:
         return self._interval
 
     @interval.setter
-    def interval(self, value: Real):
+    def interval(self, value: Real) -> None:
         """Setter for the **self.interval** property."""
 
         attest(
@@ -272,7 +272,7 @@ class SpectralShape:
         return self._start, self._end
 
     @boundaries.setter
-    def boundaries(self, value: ArrayLike):
+    def boundaries(self, value: ArrayLike) -> None:
         """Setter for the **self.boundaries** property."""
 
         value = np.asarray(value)
@@ -673,8 +673,8 @@ class SpectralDistribution(Signal):
 
     def __init__(
         self,
-        data: ArrayLike | dict | Series | Signal | None = None,
-        domain: ArrayLike | SpectralShape | None = None,
+        data: ArrayLike | dict | Series | Signal | ValuesView | None = None,
+        domain: ArrayLike | SpectralShape | KeysView | None = None,
         **kwargs: Any,
     ) -> None:
         domain = domain.wavelengths if isinstance(domain, SpectralShape) else domain
@@ -708,8 +708,11 @@ class SpectralDistribution(Signal):
         self.register_callback("_domain", "on_domain_changed", self._on_domain_changed)
 
     @staticmethod
-    def _on_domain_changed(sd, name: str, value: NDArrayFloat) -> NDArrayFloat:
+    def _on_domain_changed(
+        sd: SpectralDistribution, name: str, value: NDArrayFloat
+    ) -> NDArrayFloat:
         """Invalidate *sd._shape* when *sd._domain* is changed."""
+
         if name == "_domain":
             sd._shape = None
 
@@ -734,7 +737,7 @@ class SpectralDistribution(Signal):
         return self._display_name
 
     @display_name.setter
-    def display_name(self, value: str):
+    def display_name(self, value: str) -> None:
         """Setter for the **self.display_name** property."""
 
         attest(
@@ -765,7 +768,7 @@ class SpectralDistribution(Signal):
         return self.domain
 
     @wavelengths.setter
-    def wavelengths(self, value: ArrayLike):
+    def wavelengths(self, value: ArrayLike) -> None:
         """Setter for the **self.wavelengths** property."""
 
         self.domain = as_float_array(value, self.dtype)
@@ -789,7 +792,7 @@ class SpectralDistribution(Signal):
         return self.range
 
     @values.setter
-    def values(self, value: ArrayLike):
+    def values(self, value: ArrayLike) -> None:
         """Setter for the **self.values** property."""
 
         self.range = as_float_array(value, self.dtype)
@@ -1789,9 +1792,10 @@ class MultiSpectralDistributions(MultiSignals):
             | Series
             | Signal
             | SpectralDistribution
+            | ValuesView
             | None
         ) = None,
-        domain: ArrayLike | SpectralShape | None = None,
+        domain: ArrayLike | SpectralShape | KeysView | None = None,
         labels: Sequence | None = None,
         **kwargs: Any,
     ) -> None:
@@ -1842,7 +1846,7 @@ class MultiSpectralDistributions(MultiSignals):
         return self._display_name
 
     @display_name.setter
-    def display_name(self, value: str):
+    def display_name(self, value: str) -> None:
         """Setter for the **self.display_name** property."""
 
         attest(
@@ -1872,7 +1876,7 @@ class MultiSpectralDistributions(MultiSignals):
         return self._display_labels
 
     @display_labels.setter
-    def display_labels(self, value: Sequence):
+    def display_labels(self, value: Sequence) -> None:
         """Setter for the **self.display_labels** property."""
 
         attest(
@@ -1916,7 +1920,7 @@ class MultiSpectralDistributions(MultiSignals):
         return self.domain
 
     @wavelengths.setter
-    def wavelengths(self, value: ArrayLike):
+    def wavelengths(self, value: ArrayLike) -> None:
         """Setter for the **self.wavelengths** property."""
 
         self.domain = as_float_array(value, self.dtype)
@@ -1941,7 +1945,7 @@ class MultiSpectralDistributions(MultiSignals):
         return self.range
 
     @values.setter
-    def values(self, value: ArrayLike):
+    def values(self, value: ArrayLike) -> None:
         """Setter for the **self.values** property."""
 
         self.range = as_float_array(value, self.dtype)
@@ -2772,6 +2776,7 @@ def sds_and_msds_to_sds(
         Sequence[SpectralDistribution | MultiSpectralDistributions]
         | SpectralDistribution
         | MultiSpectralDistributions
+        | ValuesView
     ),
 ) -> List[SpectralDistribution]:
     """
@@ -2835,6 +2840,7 @@ def sds_and_msds_to_msds(
         Sequence[SpectralDistribution | MultiSpectralDistributions]
         | SpectralDistribution
         | MultiSpectralDistributions
+        | ValuesView
     ),
 ) -> MultiSpectralDistributions:
     """

@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.plotting.diagrams` module."""
 
+from __future__ import annotations
+
 import pytest
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
@@ -54,7 +56,7 @@ class TestLinesSpectralLocus:
     unit tests methods.
     """
 
-    def test_lines_spectral_locus(self):
+    def test_lines_spectral_locus(self) -> None:
         """
         Test :func:`colour.plotting.diagrams.lines_spectral_locus`
         definition.
@@ -69,7 +71,7 @@ class TestPlotSpectralLocus:
     unit tests methods.
     """
 
-    def test_plot_spectral_locus(self):
+    def test_plot_spectral_locus(self) -> None:
         """
         Test :func:`colour.plotting.diagrams.plot_spectral_locus` definition.
         """
@@ -117,7 +119,7 @@ class TestPlotChromaticityDiagramColours:
     definition unit tests methods.
     """
 
-    def test_plot_chromaticity_diagram_colours(self):
+    def test_plot_chromaticity_diagram_colours(self) -> None:
         """
         Test :func:`colour.plotting.diagrams.plot_chromaticity_diagram_colours`
         definition.
@@ -145,7 +147,7 @@ class TestPlotChromaticityDiagram:
     definition unit tests methods.
     """
 
-    def test_plot_chromaticity_diagram(self):
+    def test_plot_chromaticity_diagram(self) -> None:
         """
         Test :func:`colour.plotting.diagrams.plot_chromaticity_diagram`
         definition.
@@ -182,7 +184,7 @@ class TestPlotChromaticityDiagramCIE1931:
     definition unit tests methods.
     """
 
-    def test_plot_chromaticity_diagram_CIE1931(self):
+    def test_plot_chromaticity_diagram_CIE1931(self) -> None:
         """
         Test :func:`colour.plotting.diagrams.\
 plot_chromaticity_diagram_CIE1931` definition.
@@ -200,7 +202,7 @@ class TestPlotChromaticityDiagramCIE1960UCS:
 plot_chromaticity_diagram_CIE1960UCS` definition unit tests methods.
     """
 
-    def test_plot_chromaticity_diagram_CIE1960UCS(self):
+    def test_plot_chromaticity_diagram_CIE1960UCS(self) -> None:
         """
         Test :func:`colour.plotting.diagrams.\
 plot_chromaticity_diagram_CIE1960UCS` definition.
@@ -218,7 +220,7 @@ class TestPlotChromaticityDiagramCIE1976UCS:
 plot_chromaticity_diagram_CIE1976UCS` definition unit tests methods.
     """
 
-    def test_plot_chromaticity_diagram_CIE1976UCS(self):
+    def test_plot_chromaticity_diagram_CIE1976UCS(self) -> None:
         """
         Test :func:`colour.plotting.diagrams.\
 plot_chromaticity_diagram_CIE1976UCS` definition.
@@ -236,7 +238,7 @@ class TestPlotSdsInChromaticityDiagram:
 plot_sds_in_chromaticity_diagram` definition unit tests methods.
     """
 
-    def test_plot_sds_in_chromaticity_diagram(self):
+    def test_plot_sds_in_chromaticity_diagram(self) -> None:
         """
         Test :func:`colour.plotting.diagrams.plot_sds_in_chromaticity_diagram`
         definition.
@@ -276,7 +278,7 @@ class TestPlotSdsInChromaticityDiagramCIE1931:
 plot_sds_in_chromaticity_diagram_CIE1931` definition unit tests methods.
     """
 
-    def test_plot_sds_in_chromaticity_diagram_CIE1931(self):
+    def test_plot_sds_in_chromaticity_diagram_CIE1931(self) -> None:
         """
         Test :func:`colour.plotting.diagrams.\
 plot_sds_in_chromaticity_diagram_CIE1931` definition.
@@ -296,7 +298,7 @@ class TestPlotSdsInChromaticityDiagramCIE1960UCS:
 plot_sds_in_chromaticity_diagram_CIE1960UCS` definition unit tests methods.
     """
 
-    def test_plot_sds_in_chromaticity_diagram_CIE1960UCS(self):
+    def test_plot_sds_in_chromaticity_diagram_CIE1960UCS(self) -> None:
         """
         Test :func:`colour.plotting.diagrams.\
 plot_sds_in_chromaticity_diagram_CIE1960UCS` definition.
@@ -316,7 +318,7 @@ class TestPlotSdsInChromaticityDiagramCIE1976UCS:
 plot_sds_in_chromaticity_diagram_CIE1976UCS` definition unit tests methods.
     """
 
-    def test_plot_sds_in_chromaticity_diagram_CIE1976UCS(self):
+    def test_plot_sds_in_chromaticity_diagram_CIE1976UCS(self) -> None:
         """
         Test :func:`colour.plotting.diagrams.\
 plot_sds_in_chromaticity_diagram_CIE1976UCS` definition.

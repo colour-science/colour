@@ -143,7 +143,7 @@ arithmetical_operation`
         return self._name
 
     @name.setter
-    def name(self, value: str):
+    def name(self, value: str) -> None:
         """Setter for the **self.name** property."""
 
         attest(
@@ -175,7 +175,7 @@ arithmetical_operation`
 
     @dtype.setter
     @abstractmethod
-    def dtype(self, value: Type[DTypeFloat]):
+    def dtype(self, value: Type[DTypeFloat]) -> None:
         """
         Setter for the **self.dtype** property, must be reimplemented by
         sub-classes.
@@ -207,7 +207,7 @@ arithmetical_operation`
 
     @domain.setter
     @abstractmethod
-    def domain(self, value: ArrayLike):
+    def domain(self, value: ArrayLike) -> None:
         """
         Setter for the **self.domain** property, must be reimplemented by
         sub-classes.
@@ -240,7 +240,7 @@ arithmetical_operation`
 
     @range.setter
     @abstractmethod
-    def range(self, value: ArrayLike):
+    def range(self, value: ArrayLike) -> None:
         """
         Setter for the **self.range** property, must be reimplemented by
         sub-classes.
@@ -271,7 +271,7 @@ arithmetical_operation`
 
     @interpolator.setter
     @abstractmethod
-    def interpolator(self, value: Type[ProtocolInterpolator]):
+    def interpolator(self, value: Type[ProtocolInterpolator]) -> None:
         """
         Setter for the **self.interpolator** property, must be reimplemented by
         sub-classes.
@@ -304,7 +304,7 @@ arithmetical_operation`
 
     @interpolator_kwargs.setter
     @abstractmethod
-    def interpolator_kwargs(self, value: dict):
+    def interpolator_kwargs(self, value: dict) -> None:
         """
         Setter for the **self.interpolator_kwargs** property, must be
         reimplemented by sub-classes.
@@ -335,7 +335,7 @@ arithmetical_operation`
 
     @extrapolator.setter
     @abstractmethod
-    def extrapolator(self, value: Type[ProtocolExtrapolator]):
+    def extrapolator(self, value: Type[ProtocolExtrapolator]) -> None:
         """
         Setter for the **self.extrapolator** property, must be reimplemented by
         sub-classes.
@@ -368,7 +368,7 @@ arithmetical_operation`
 
     @extrapolator_kwargs.setter
     @abstractmethod
-    def extrapolator_kwargs(self, value: dict):
+    def extrapolator_kwargs(self, value: dict) -> None:
         """
         Setter for the **self.extrapolator_kwargs** property, must be
         reimplemented by sub-classes.
@@ -452,7 +452,7 @@ arithmetical_operation`
         ...  # pragma: no cover
 
     @abstractmethod
-    def __setitem__(self, x: ArrayLike | slice, y: ArrayLike):
+    def __setitem__(self, x: ArrayLike | slice, y: ArrayLike) -> None:
         """
         Set the corresponding range variable :math:`y` for independent domain
         variable :math:`x`, must be reimplemented by sub-classes.

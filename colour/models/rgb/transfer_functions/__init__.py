@@ -874,7 +874,7 @@ Supported inverse electro-optical transfer functions (EOTFs / EOCFs).
 def eotf_inverse(
     value: ArrayLike,
     function: LiteralEOTFInverse | str = "ITU-R BT.1886",
-    **kwargs,
+    **kwargs: Any,
 ) -> NDArrayFloat | NDArrayInt:
     """
     Encode estimated tristimulus values in a scene to :math:`R'G'B'` video

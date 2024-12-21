@@ -7,6 +7,8 @@ References
     Discussion with Mansencal, T.
 """
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -46,7 +48,7 @@ class TestXYZ_to_Hellwig2022:
     unit tests methods.
     """
 
-    def test_XYZ_to_Hellwig2022(self):
+    def test_XYZ_to_Hellwig2022(self) -> None:
         """
         Test :func:`colour.appearance.hellwig2022.XYZ_to_Hellwig2022`
         definition.
@@ -141,7 +143,7 @@ class TestXYZ_to_Hellwig2022:
             atol=0.01,
         )
 
-    def test_n_dimensional_XYZ_to_Hellwig2022(self):
+    def test_n_dimensional_XYZ_to_Hellwig2022(self) -> None:
         """
         Test :func:`colour.appearance.hellwig2022.XYZ_to_Hellwig2022` definition
         n-dimensional support.
@@ -179,7 +181,7 @@ class TestXYZ_to_Hellwig2022:
         )
 
     @ignore_numpy_errors
-    def test_domain_range_scale_XYZ_to_Hellwig2022(self):
+    def test_domain_range_scale_XYZ_to_Hellwig2022(self) -> None:
         """
         Test :func:`colour.appearance.hellwig2022.XYZ_to_Hellwig2022`
         definition domain and range scale support.
@@ -229,7 +231,7 @@ class TestXYZ_to_Hellwig2022:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_Hellwig2022(self):
+    def test_nan_XYZ_to_Hellwig2022(self) -> None:
         """
         Test :func:`colour.appearance.hellwig2022.XYZ_to_Hellwig2022
         definition nan support.
@@ -247,7 +249,7 @@ class TestHellwig2022_to_XYZ:
     unit tests methods.
     """
 
-    def test_Hellwig2022_to_XYZ(self):
+    def test_Hellwig2022_to_XYZ(self) -> None:
         """
         Test :func:`colour.appearance.hellwig2022.Hellwig2022_to_XYZ`
         definition.
@@ -310,7 +312,7 @@ class TestHellwig2022_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_Hellwig2022_to_XYZ(self):
+    def test_n_dimensional_Hellwig2022_to_XYZ(self) -> None:
         """
         Test :func:`colour.appearance.hellwig2022.Hellwig2022_to_XYZ`
         definition n-dimensional support.
@@ -325,7 +327,7 @@ class TestHellwig2022_to_XYZ:
         XYZ = Hellwig2022_to_XYZ(specification, XYZ_w, L_A, Y_b, surround)
 
         specification = CAM_Specification_Hellwig2022(
-            *np.transpose(np.tile(tsplit(specification), (6, 1))).tolist()
+            *np.transpose(np.tile(tsplit(specification), (6, 1))).tolist()  # pyright: ignore
         )
         XYZ = np.tile(XYZ, (6, 1))
         np.testing.assert_allclose(
@@ -342,7 +344,7 @@ class TestHellwig2022_to_XYZ:
         )
 
         specification = CAM_Specification_Hellwig2022(
-            *tsplit(np.reshape(specification, (2, 3, 10))).tolist()
+            *tsplit(np.reshape(specification, (2, 3, 10))).tolist()  # pyright: ignore
         )
         XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
@@ -353,7 +355,7 @@ class TestHellwig2022_to_XYZ:
         )
 
     @ignore_numpy_errors
-    def test_domain_range_scale_Hellwig2022_to_XYZ(self):
+    def test_domain_range_scale_Hellwig2022_to_XYZ(self) -> None:
         """
         Test :func:`colour.appearance.hellwig2022.Hellwig2022_to_XYZ`
         definition domain and range scale support.
@@ -408,7 +410,7 @@ class TestHellwig2022_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_raise_exception_Hellwig2022_to_XYZ(self):
+    def test_raise_exception_Hellwig2022_to_XYZ(self) -> None:
         """
         Test :func:`colour.appearance.hellwig2022.Hellwig2022_to_XYZ`
         definition raised exception.
@@ -436,7 +438,7 @@ class TestHellwig2022_to_XYZ:
         )
 
     @ignore_numpy_errors
-    def test_nan_Hellwig2022_to_XYZ(self):
+    def test_nan_Hellwig2022_to_XYZ(self) -> None:
         """
         Test :func:`colour.appearance.hellwig2022.Hellwig2022_to_XYZ`
         definition nan support.

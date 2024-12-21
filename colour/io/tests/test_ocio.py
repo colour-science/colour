@@ -31,7 +31,7 @@ class TestProcessImageOpenColorIO:
     tests methods.
     """
 
-    def test_process_image_OpenColorIO(self):
+    def test_process_image_OpenColorIO(self) -> None:
         """Test :func:`colour.io.ocio.process_image_OpenColorIO` definition."""
 
         # TODO: Remove when "Pypi" wheel compatible with "ARM" on "macOS" is
@@ -78,7 +78,7 @@ class TestProcessImageOpenColorIO:
                 "ACES - ACES2065-1",
                 "Display - sRGB",
                 "Output - SDR Video - ACES 1.0",
-                ocio.TRANSFORM_DIR_FORWARD,
+                ocio.TRANSFORM_DIR_FORWARD,  # pyright: ignore
                 config=config,
             ),
             np.array(

@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.volume.pointer_gamut` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -25,7 +27,7 @@ class TestIsWithinPointerGamut:
     definition unit tests methods.
     """
 
-    def test_is_within_pointer_gamut(self):
+    def test_is_within_pointer_gamut(self) -> None:
         """
         Test :func:`colour.volume.pointer_gamut.is_within_pointer_gamut`
         definition.
@@ -39,7 +41,7 @@ class TestIsWithinPointerGamut:
 
         assert not is_within_pointer_gamut(np.array([0.0025, 0.0088, 0.0340]))
 
-    def test_n_dimensional_is_within_pointer_gamut(self):
+    def test_n_dimensional_is_within_pointer_gamut(self) -> None:
         """
         Test :func:`colour.volume.pointer_gamut.is_within_pointer_gamut`
         definition n-dimensional arrays support.
@@ -57,7 +59,7 @@ class TestIsWithinPointerGamut:
         np.testing.assert_allclose(is_within_pointer_gamut(a), b)
 
     @ignore_numpy_errors
-    def test_nan_is_within_pointer_gamut(self):
+    def test_nan_is_within_pointer_gamut(self) -> None:
         """
         Test :func:`colour.volume.pointer_gamut.is_within_pointer_gamut`
         definition nan support.

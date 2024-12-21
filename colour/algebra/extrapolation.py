@@ -179,7 +179,7 @@ class Extrapolator:
         return self._interpolator
 
     @interpolator.setter
-    def interpolator(self, value: ProtocolInterpolator):
+    def interpolator(self, value: ProtocolInterpolator) -> None:
         """Setter for the **self.interpolator** property."""
 
         attest(
@@ -213,7 +213,7 @@ class Extrapolator:
         return self._method
 
     @method.setter
-    def method(self, value: Literal["Linear", "Constant"] | str):
+    def method(self, value: Literal["Linear", "Constant"] | str) -> None:
         """Setter for the **self.method** property."""
 
         attest(
@@ -244,7 +244,7 @@ class Extrapolator:
         return self._left
 
     @left.setter
-    def left(self, value: Real | None):
+    def left(self, value: Real | None) -> None:
         """Setter for the **self.left** property."""
 
         if value is not None:
@@ -274,7 +274,7 @@ class Extrapolator:
         return self._right
 
     @right.setter
-    def right(self, value: Real | None):
+    def right(self, value: Real | None) -> None:
         """Setter for the **self.right** property."""
 
         if value is not None:

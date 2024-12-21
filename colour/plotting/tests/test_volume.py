@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.plotting.volume` module."""
 
+from __future__ import annotations
+
 import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
@@ -29,7 +31,7 @@ class TestNadirGrid:
     methods.
     """
 
-    def test_nadir_grid(self):
+    def test_nadir_grid(self) -> None:
         """Test :func:`colour.plotting.volume.nadir_grid` definition."""
 
         quads, faces_colours, edges_colours = nadir_grid(segments=1)
@@ -124,7 +126,7 @@ class TestRGBIdentityCube:
     tests methods.
     """
 
-    def test_RGB_identity_cube(self):
+    def test_RGB_identity_cube(self) -> None:
         """Test :func:`colour.plotting.volume.RGB_identity_cube` definition."""
 
         vertices, RGB = RGB_identity_cube(1, 1, 1)
@@ -196,7 +198,7 @@ class TestPlotRGBColourspacesGamuts:
     definition unit tests methods.
     """
 
-    def test_plot_RGB_colourspaces_gamuts(self):
+    def test_plot_RGB_colourspaces_gamuts(self) -> None:
         """
         Test :func:`colour.plotting.volume.plot_RGB_colourspaces_gamuts`
         definition.
@@ -219,7 +221,7 @@ class TestPlotRGBScatter:
     tests methods.
     """
 
-    def test_plot_RGB_scatter(self):
+    def test_plot_RGB_scatter(self) -> None:
         """Test :func:`colour.plotting.volume.plot_RGB_scatter` definition."""
 
         figure, axes = plot_RGB_scatter(np.random.random((128, 128, 3)), "ITU-R BT.709")

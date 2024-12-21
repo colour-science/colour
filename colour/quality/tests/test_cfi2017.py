@@ -19,8 +19,10 @@ from colour.colorimetry import (
     reshape_sd,
     sd_blackbody,
 )
+from colour.hints import cast
 from colour.quality.cfi2017 import (
     CCT_reference_illuminant,
+    ColourRendering_Specification_CIE2017,
     colour_fidelity_index_CIE2017,
     sd_reference_illuminant,
 )
@@ -552,14 +554,17 @@ class TestColourFidelityIndexCIE2017:
     definition unit tests methods.
     """
 
-    def test_colour_fidelity_index_CIE2017(self):
+    def test_colour_fidelity_index_CIE2017(self) -> None:
         """
         Test :func:`colour.quality.CIE2017.colour_fidelity_index_CIE2017`
         definition.
         """
 
         for sd in [SD_SAMPLE_5NM, SD_SAMPLE_1NM]:
-            specification = colour_fidelity_index_CIE2017(sd, additional_data=True)
+            specification = cast(
+                ColourRendering_Specification_CIE2017,
+                colour_fidelity_index_CIE2017(sd, additional_data=True),
+            )
             np.testing.assert_allclose(specification.R_f, 81.6, atol=0.1)
             np.testing.assert_allclose(
                 specification.R_s,
@@ -667,8 +672,9 @@ class TestColourFidelityIndexCIE2017:
                 atol=0.1,
             )
 
-        specification = colour_fidelity_index_CIE2017(
-            SDS_ILLUMINANTS["FL1"], additional_data=True
+        specification = cast(
+            ColourRendering_Specification_CIE2017,
+            colour_fidelity_index_CIE2017(SDS_ILLUMINANTS["FL1"], additional_data=True),
         )
         np.testing.assert_allclose(specification.R_f, 80.6, atol=0.1)
         np.testing.assert_allclose(
@@ -777,8 +783,9 @@ class TestColourFidelityIndexCIE2017:
             atol=0.1,
         )
 
-        specification = colour_fidelity_index_CIE2017(
-            SDS_ILLUMINANTS["FL2"], additional_data=True
+        specification = cast(
+            ColourRendering_Specification_CIE2017,
+            colour_fidelity_index_CIE2017(SDS_ILLUMINANTS["FL2"], additional_data=True),
         )
         np.testing.assert_allclose(specification.R_f, 70.1, atol=0.1)
         np.testing.assert_allclose(
@@ -887,7 +894,7 @@ class TestColourFidelityIndexCIE2017:
             atol=0.1,
         )
 
-    def test_raise_exception_colour_fidelity_index_CFI2017(self):
+    def test_raise_exception_colour_fidelity_index_CFI2017(self) -> None:
         """
         Test :func:`colour.quality.CIE2017.colour_fidelity_index_CFI2017`
         definition raised exception.
@@ -906,7 +913,7 @@ class TestCctReferenceIlluminant:
     definition unit tests methods.
     """
 
-    def test_CCT_reference_illuminant(self):
+    def test_CCT_reference_illuminant(self) -> None:
         """
         Test :func:`colour.quality.CIE2017.CCT_reference_illuminant`
         definition.
@@ -924,7 +931,7 @@ class TestSdReferenceIlluminant:
     definition unit tests methods.
     """
 
-    def test_sd_reference_illuminant(self):
+    def test_sd_reference_illuminant(self) -> None:
         """
         Test :func:`colour.quality.CIE2017.sd_reference_illuminant`
         definition.

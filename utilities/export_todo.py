@@ -93,7 +93,7 @@ def extract_todo_items(root_directory: str) -> dict:
     return todo_items
 
 
-def export_todo_items(todo_items: dict, file_path: str):
+def export_todo_items(todo_items: dict, file_path: str) -> None:
     """
     Export TODO items to given file.
 

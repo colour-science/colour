@@ -51,7 +51,7 @@ class TestLogEncoding_CanonLog_v1:
 log_encoding_CanonLog_v1` definition unit tests methods.
     """
 
-    def test_log_encoding_CanonLog_v1(self):
+    def test_log_encoding_CanonLog_v1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog_v1` definition.
@@ -99,7 +99,7 @@ log_encoding_CanonLog_v1` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_CanonLog_v1(self):
+    def test_n_dimensional_log_encoding_CanonLog_v1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog_v1` definition n-dimensional arrays support.
@@ -126,7 +126,7 @@ log_encoding_CanonLog_v1` definition n-dimensional arrays support.
             log_encoding_CanonLog_v1(x), clog, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_encoding_CanonLog_v1(self):
+    def test_domain_range_scale_log_encoding_CanonLog_v1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog_v1` definition domain and range scale support.
@@ -145,7 +145,7 @@ log_encoding_CanonLog_v1` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_encoding_CanonLog_v1(self):
+    def test_nan_log_encoding_CanonLog_v1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog_v1` definition nan support.
@@ -160,7 +160,7 @@ class TestLogDecoding_CanonLog_v1:
 log_decoding_CanonLog_v1` definition unit tests methods.
     """
 
-    def test_log_decoding_CanonLog_v1(self):
+    def test_log_decoding_CanonLog_v1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog_v1` definition.
@@ -208,7 +208,7 @@ log_decoding_CanonLog_v1` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_CanonLog_v1(self):
+    def test_n_dimensional_log_decoding_CanonLog_v1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog_v1` definition n-dimensional arrays support.
@@ -235,7 +235,7 @@ log_decoding_CanonLog_v1` definition n-dimensional arrays support.
             log_decoding_CanonLog_v1(clog), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_decoding_CanonLog_v1(self):
+    def test_domain_range_scale_log_decoding_CanonLog_v1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog_v1` definition domain and range scale support.
@@ -254,7 +254,7 @@ log_decoding_CanonLog_v1` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_decoding_CanonLog_v1(self):
+    def test_nan_log_decoding_CanonLog_v1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog_v1` definition nan support.
@@ -269,7 +269,7 @@ class TestLogEncoding_CanonLog_v1_2:
 log_encoding_CanonLog_v1_2` definition unit tests methods.
     """
 
-    def test_log_encoding_CanonLog_v1_2(self):
+    def test_log_encoding_CanonLog_v1_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog_v1_2` definition.
@@ -342,7 +342,7 @@ log_encoding_CanonLog_v1_2` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_CanonLog_v1_2(self):
+    def test_n_dimensional_log_encoding_CanonLog_v1_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog_v1_2` definition n-dimensional arrays support.
@@ -369,7 +369,7 @@ log_encoding_CanonLog_v1_2` definition n-dimensional arrays support.
             log_encoding_CanonLog_v1_2(x), clog, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_encoding_CanonLog_v1_2(self):
+    def test_domain_range_scale_log_encoding_CanonLog_v1_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog_v1_2` definition domain and range scale support.
@@ -388,7 +388,7 @@ log_encoding_CanonLog_v1_2` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_encoding_CanonLog_v1_2(self):
+    def test_nan_log_encoding_CanonLog_v1_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog_v1_2` definition nan support.
@@ -403,7 +403,7 @@ class TestLogDecoding_CanonLog_v1_2:
 log_decoding_CanonLog_v1_2` definition unit tests methods.
     """
 
-    def test_log_decoding_CanonLog_v1_2(self):
+    def test_log_decoding_CanonLog_v1_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog_v1_2` definition.
@@ -476,7 +476,7 @@ log_decoding_CanonLog_v1_2` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_CanonLog_v1_2(self):
+    def test_n_dimensional_log_decoding_CanonLog_v1_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog_v1_2` definition n-dimensional arrays support.
@@ -503,7 +503,7 @@ log_decoding_CanonLog_v1_2` definition n-dimensional arrays support.
             log_decoding_CanonLog_v1_2(clog), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_decoding_CanonLog_v1_2(self):
+    def test_domain_range_scale_log_decoding_CanonLog_v1_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog_v1_2` definition domain and range scale support.
@@ -522,7 +522,7 @@ log_decoding_CanonLog_v1_2` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_decoding_CanonLog_v1_2(self):
+    def test_nan_log_decoding_CanonLog_v1_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog_v1_2` definition nan support.
@@ -537,7 +537,7 @@ class TestLogEncoding_CanonLog2_v1:
 log_encoding_CanonLog2_v1` definition unit tests methods.
     """
 
-    def test_log_encoding_CanonLog2_v1(self):
+    def test_log_encoding_CanonLog2_v1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog2_v1` definition.
@@ -585,7 +585,7 @@ log_encoding_CanonLog2_v1` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_CanonLog2_v1(self):
+    def test_n_dimensional_log_encoding_CanonLog2_v1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog2_v1` definition n-dimensional arrays support.
@@ -612,7 +612,7 @@ log_encoding_CanonLog2_v1` definition n-dimensional arrays support.
             log_encoding_CanonLog2_v1(x), clog2, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_encoding_CanonLog2_v1(self):
+    def test_domain_range_scale_log_encoding_CanonLog2_v1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog2_v1` definition domain and range scale support.
@@ -631,7 +631,7 @@ log_encoding_CanonLog2_v1` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_encoding_CanonLog2_v1(self):
+    def test_nan_log_encoding_CanonLog2_v1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog2_v1` definition nan support.
@@ -646,7 +646,7 @@ class TestLogDecoding_CanonLog2_v1:
 log_decoding_CanonLog2_v1` definition unit tests methods.
     """
 
-    def test_log_decoding_CanonLog2_v1(self):
+    def test_log_decoding_CanonLog2_v1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog2_v1` definition.
@@ -694,7 +694,7 @@ log_decoding_CanonLog2_v1` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_CanonLog2_v1(self):
+    def test_n_dimensional_log_decoding_CanonLog2_v1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog2_v1` definition n-dimensional arrays support.
@@ -721,7 +721,7 @@ log_decoding_CanonLog2_v1` definition n-dimensional arrays support.
             log_decoding_CanonLog2_v1(clog2), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_decoding_CanonLog2_v1(self):
+    def test_domain_range_scale_log_decoding_CanonLog2_v1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog2_v1` definition domain and range scale support.
@@ -740,7 +740,7 @@ log_decoding_CanonLog2_v1` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_decoding_CanonLog2_v1(self):
+    def test_nan_log_decoding_CanonLog2_v1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog2_v1` definition nan support.
@@ -755,7 +755,7 @@ class TestLogEncoding_CanonLog2_v1_2:
 log_encoding_CanonLog2_v1_2` definition unit tests methods.
     """
 
-    def test_log_encoding_CanonLog2_v1_2(self):
+    def test_log_encoding_CanonLog2_v1_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog2_v1_2` definition.
@@ -828,7 +828,7 @@ log_encoding_CanonLog2_v1_2` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_CanonLog2_v1_2(self):
+    def test_n_dimensional_log_encoding_CanonLog2_v1_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog2_v1_2` definition n-dimensional arrays support.
@@ -861,7 +861,7 @@ log_encoding_CanonLog2_v1_2` definition n-dimensional arrays support.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_log_encoding_CanonLog2_v1_2(self):
+    def test_domain_range_scale_log_encoding_CanonLog2_v1_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog2_v1_2` definition domain and range scale support.
@@ -880,7 +880,7 @@ log_encoding_CanonLog2_v1_2` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_encoding_CanonLog2_v1_2(self):
+    def test_nan_log_encoding_CanonLog2_v1_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog2_v1_2` definition nan support.
@@ -895,7 +895,7 @@ class TestLogDecoding_CanonLog2_v1_2:
 log_decoding_CanonLog2_v1_2` definition unit tests methods.
     """
 
-    def test_log_decoding_CanonLog2_v1_2(self):
+    def test_log_decoding_CanonLog2_v1_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog2_v1_2` definition.
@@ -968,7 +968,7 @@ log_decoding_CanonLog2_v1_2` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_CanonLog2_v1_2(self):
+    def test_n_dimensional_log_decoding_CanonLog2_v1_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog2_v1_2` definition n-dimensional arrays support.
@@ -1001,7 +1001,7 @@ log_decoding_CanonLog2_v1_2` definition n-dimensional arrays support.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_log_decoding_CanonLog2_v1_2(self):
+    def test_domain_range_scale_log_decoding_CanonLog2_v1_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog2_v1_2` definition domain and range scale support.
@@ -1020,7 +1020,7 @@ log_decoding_CanonLog2_v1_2` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_decoding_CanonLog2_v1_2(self):
+    def test_nan_log_decoding_CanonLog2_v1_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog2_v1_2` definition nan support.
@@ -1035,7 +1035,7 @@ class TestLogEncoding_CanonLog3_v1:
 log_encoding_CanonLog3_v1` definition unit tests methods.
     """
 
-    def test_log_encoding_CanonLog3_v1(self):
+    def test_log_encoding_CanonLog3_v1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog3_v1` definition.
@@ -1083,7 +1083,7 @@ log_encoding_CanonLog3_v1` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_CanonLog3_v1(self):
+    def test_n_dimensional_log_encoding_CanonLog3_v1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog3_v1` definition n-dimensional arrays support.
@@ -1110,7 +1110,7 @@ log_encoding_CanonLog3_v1` definition n-dimensional arrays support.
             log_encoding_CanonLog3_v1(x), clog3, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_encoding_CanonLog3_v1(self):
+    def test_domain_range_scale_log_encoding_CanonLog3_v1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog3_v1` definition domain and range scale support.
@@ -1129,7 +1129,7 @@ log_encoding_CanonLog3_v1` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_encoding_CanonLog3_v1(self):
+    def test_nan_log_encoding_CanonLog3_v1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog3_v1` definition nan support.
@@ -1144,7 +1144,7 @@ class TestLogDecoding_CanonLog3_v1:
 log_decoding_CanonLog3_v1` definition unit tests methods.
     """
 
-    def test_log_decoding_CanonLog3_v1(self):
+    def test_log_decoding_CanonLog3_v1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog3_v1` definition.
@@ -1192,7 +1192,7 @@ log_decoding_CanonLog3_v1` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_CanonLog3_v1(self):
+    def test_n_dimensional_log_decoding_CanonLog3_v1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog3_v1` definition n-dimensional arrays support.
@@ -1219,7 +1219,7 @@ log_decoding_CanonLog3_v1` definition n-dimensional arrays support.
             log_decoding_CanonLog3_v1(clog3), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_decoding_CanonLog3_v1(self):
+    def test_domain_range_scale_log_decoding_CanonLog3_v1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog3_v1` definition domain and range scale support.
@@ -1238,7 +1238,7 @@ log_decoding_CanonLog3_v1` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_decoding_CanonLog3_v1(self):
+    def test_nan_log_decoding_CanonLog3_v1(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog3_v1` definition nan support.
@@ -1253,7 +1253,7 @@ class TestLogEncoding_CanonLog3_v1_2:
 log_encoding_CanonLog3_v1_2` definition unit tests methods.
     """
 
-    def test_log_encoding_CanonLog3_v1_2(self):
+    def test_log_encoding_CanonLog3_v1_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog3_v1_2` definition.
@@ -1326,7 +1326,7 @@ log_encoding_CanonLog3_v1_2` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_CanonLog3_v1_2(self):
+    def test_n_dimensional_log_encoding_CanonLog3_v1_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog3_v1_2` definition n-dimensional arrays support.
@@ -1359,7 +1359,7 @@ log_encoding_CanonLog3_v1_2` definition n-dimensional arrays support.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_log_encoding_CanonLog3_v1_2(self):
+    def test_domain_range_scale_log_encoding_CanonLog3_v1_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog3_v1_2` definition domain and range scale support.
@@ -1378,7 +1378,7 @@ log_encoding_CanonLog3_v1_2` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_encoding_CanonLog3_v1_2(self):
+    def test_nan_log_encoding_CanonLog3_v1_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog3_v1_2` definition nan support.
@@ -1393,7 +1393,7 @@ class TestLogDecoding_CanonLog3_v1_2:
 log_decoding_CanonLog3_v1_2` definition unit tests methods.
     """
 
-    def test_log_decoding_CanonLog3_v1_2(self):
+    def test_log_decoding_CanonLog3_v1_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog3_v1_2` definition.
@@ -1466,7 +1466,7 @@ log_decoding_CanonLog3_v1_2` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_CanonLog3_v1_2(self):
+    def test_n_dimensional_log_decoding_CanonLog3_v1_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog3_v1_2` definition n-dimensional arrays support.
@@ -1499,7 +1499,7 @@ log_decoding_CanonLog3_v1_2` definition n-dimensional arrays support.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_log_decoding_CanonLog3_v1_2(self):
+    def test_domain_range_scale_log_decoding_CanonLog3_v1_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog3_v1_2` definition domain and range scale support.
@@ -1518,7 +1518,7 @@ log_decoding_CanonLog3_v1_2` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_decoding_CanonLog3_v1_2(self):
+    def test_nan_log_decoding_CanonLog3_v1_2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog3_v1_2` definition nan support.

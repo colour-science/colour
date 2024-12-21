@@ -132,7 +132,7 @@ class LUTSequence(MutableSequence):
         return self._sequence
 
     @sequence.setter
-    def sequence(self, value: Sequence[ProtocolLUTSequenceItem]):
+    def sequence(self, value: Sequence[ProtocolLUTSequenceItem]) -> None:
         """Setter for the **self.sequence** property."""
 
         for item in value:
@@ -161,7 +161,7 @@ class LUTSequence(MutableSequence):
 
         return self._sequence[index]
 
-    def __setitem__(self, index: int | slice, value: Any):
+    def __setitem__(self, index: int | slice, value: Any) -> None:
         """
         Set the *LUT* sequence at given index (or slice) with given value.
 
@@ -182,7 +182,7 @@ class LUTSequence(MutableSequence):
 
         self._sequence[index] = value
 
-    def __delitem__(self, index: int | slice):
+    def __delitem__(self, index: int | slice) -> None:
         """
         Delete the *LUT* sequence item(s) at given index (or slice).
 
@@ -261,7 +261,7 @@ class LUTSequence(MutableSequence):
 
         return f"{self.__class__.__name__}(\n{operations}\n)"
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: Any) -> bool:
         """
         Return whether the *LUT* sequence is equal to given other object.
 
@@ -284,7 +284,7 @@ class LUTSequence(MutableSequence):
 
         return all(self[i] == other[i] for i in range(len(self)))
 
-    def __ne__(self, other) -> bool:
+    def __ne__(self, other: Any) -> bool:
         """
         Return whether the *LUT* sequence is not equal to given other object.
 
@@ -301,7 +301,7 @@ class LUTSequence(MutableSequence):
 
         return not (self == other)
 
-    def insert(self, index: int, value: ProtocolLUTSequenceItem):
+    def insert(self, index: int, value: ProtocolLUTSequenceItem) -> None:
         """
         Insert given *LUT* at given index into the *LUT* sequence.
 

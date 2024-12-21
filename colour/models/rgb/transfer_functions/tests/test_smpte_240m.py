@@ -28,7 +28,7 @@ class TestOetf_SMPTE240M:
 oetf_SMPTE240M` definition unit tests methods.
     """
 
-    def test_oetf_SMPTE240M(self):
+    def test_oetf_SMPTE240M(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.smpte_240m.\
 oetf_SMPTE240M` definition.
@@ -54,7 +54,7 @@ oetf_SMPTE240M` definition.
             oetf_SMPTE240M(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_n_dimensional_oetf_SMPTE240M(self):
+    def test_n_dimensional_oetf_SMPTE240M(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.smpte_240m.\
 oetf_SMPTE240M` definition n-dimensional arrays support.
@@ -81,7 +81,7 @@ oetf_SMPTE240M` definition n-dimensional arrays support.
             oetf_SMPTE240M(L_c), V_c, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_oetf_SMPTE240M(self):
+    def test_domain_range_scale_oetf_SMPTE240M(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.smpte_240m.\
 oetf_SMPTE240M` definition domain and range scale support.
@@ -100,7 +100,7 @@ oetf_SMPTE240M` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_oetf_SMPTE240M(self):
+    def test_nan_oetf_SMPTE240M(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.smpte_240m.\
 oetf_SMPTE240M` definition nan support.
@@ -115,7 +115,7 @@ class TestEotf_SMPTE240M:
 eotf_SMPTE240M` definition unit tests methods.
     """
 
-    def test_eotf_SMPTE240M(self):
+    def test_eotf_SMPTE240M(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.smpte_240m.\
 eotf_SMPTE240M` definition.
@@ -141,7 +141,7 @@ eotf_SMPTE240M` definition.
             eotf_SMPTE240M(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_n_dimensional_eotf_SMPTE240M(self):
+    def test_n_dimensional_eotf_SMPTE240M(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.smpte_240m.\
 eotf_SMPTE240M` definition n-dimensional arrays support.
@@ -168,7 +168,7 @@ eotf_SMPTE240M` definition n-dimensional arrays support.
             eotf_SMPTE240M(V_r), L_r, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_eotf_SMPTE240M(self):
+    def test_domain_range_scale_eotf_SMPTE240M(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.smpte_240m.\
 eotf_SMPTE240M` definition domain and range scale support.
@@ -187,7 +187,7 @@ eotf_SMPTE240M` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_eotf_SMPTE240M(self):
+    def test_nan_eotf_SMPTE240M(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.smpte_240m.\
 eotf_SMPTE240M` definition nan support.

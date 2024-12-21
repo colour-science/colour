@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.oklab` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -27,7 +29,7 @@ class TestXYZ_to_Oklab:
     tests methods.
     """
 
-    def test_XYZ_to_Oklab(self):
+    def test_XYZ_to_Oklab(self) -> None:
         """Test :func:`colour.models.oklab.XYZ_to_Oklab` definition."""
 
         np.testing.assert_allclose(
@@ -48,7 +50,7 @@ class TestXYZ_to_Oklab:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_Oklab(self):
+    def test_n_dimensional_XYZ_to_Oklab(self) -> None:
         """
         Test :func:`colour.models.oklab.XYZ_to_Oklab` definition
         n-dimensional support.
@@ -69,7 +71,7 @@ class TestXYZ_to_Oklab:
             XYZ_to_Oklab(XYZ), Oklab, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_XYZ_to_Oklab(self):
+    def test_domain_range_scale_XYZ_to_Oklab(self) -> None:
         """
         Test :func:`colour.models.oklab.XYZ_to_Oklab` definition domain and
         range scale support.
@@ -88,7 +90,7 @@ class TestXYZ_to_Oklab:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_Oklab(self):
+    def test_nan_XYZ_to_Oklab(self) -> None:
         """
         Test :func:`colour.models.oklab.XYZ_to_Oklab` definition nan
         support.
@@ -105,7 +107,7 @@ class TestOklab_to_XYZ:
     methods.
     """
 
-    def test_Oklab_to_XYZ(self):
+    def test_Oklab_to_XYZ(self) -> None:
         """Test :func:`colour.models.oklab.Oklab_to_XYZ` definition."""
 
         np.testing.assert_allclose(
@@ -126,7 +128,7 @@ class TestOklab_to_XYZ:
             atol=1e-6,
         )
 
-    def test_n_dimensional_Oklab_to_XYZ(self):
+    def test_n_dimensional_Oklab_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.oklab.Oklab_to_XYZ` definition
         n-dimensional support.
@@ -147,7 +149,7 @@ class TestOklab_to_XYZ:
             Oklab_to_XYZ(Oklab), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_Oklab_to_XYZ(self):
+    def test_domain_range_scale_Oklab_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.oklab.Oklab_to_XYZ` definition domain and
         range scale support.
@@ -165,7 +167,7 @@ class TestOklab_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_nan_Oklab_to_XYZ(self):
+    def test_nan_Oklab_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.oklab.Oklab_to_XYZ` definition nan
         support.

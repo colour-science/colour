@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.temperature.cie_d` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -27,7 +29,7 @@ class TestXy_to_CCT_CIE_D:
     tests methods.
     """
 
-    def test_xy_to_CCT_CIE_D(self):
+    def test_xy_to_CCT_CIE_D(self) -> None:
         """Test :func:`colour.temperature.cie_d.xy_to_CCT_CIE_D` definition."""
 
         np.testing.assert_allclose(
@@ -57,7 +59,7 @@ class TestXy_to_CCT_CIE_D:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_xy_to_CCT_CIE_D(self):
+    def test_n_dimensional_xy_to_CCT_CIE_D(self) -> None:
         """
         Test :func:`colour.temperature.cie_d.xy_to_CCT_CIE_D` definition
         n-dimensional arrays support.
@@ -79,7 +81,7 @@ class TestXy_to_CCT_CIE_D:
         )
 
     @ignore_numpy_errors
-    def test_nan_xy_to_CCT_CIE_D(self):
+    def test_nan_xy_to_CCT_CIE_D(self) -> None:
         """
         Test :func:`colour.temperature.cie_d.xy_to_CCT_CIE_D` definition nan
         support.
@@ -96,7 +98,7 @@ class TestCCT_to_xy_CIE_D:
     unit tests methods.
     """
 
-    def test_CCT_to_xy_CIE_D(self):
+    def test_CCT_to_xy_CIE_D(self) -> None:
         """Test :func:`colour.temperature.cie_d.CCT_to_xy_CIE_D` definition."""
 
         np.testing.assert_allclose(
@@ -117,7 +119,7 @@ class TestCCT_to_xy_CIE_D:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_CCT_to_xy_CIE_D(self):
+    def test_n_dimensional_CCT_to_xy_CIE_D(self) -> None:
         """
         Test :func:`colour.temperature.cie_d.CCT_to_xy_CIE_D` definition
         n-dimensional arrays support.
@@ -139,7 +141,7 @@ class TestCCT_to_xy_CIE_D:
         )
 
     @ignore_numpy_errors
-    def test_nan_CCT_to_xy_CIE_D(self):
+    def test_nan_CCT_to_xy_CIE_D(self) -> None:
         """
         Test :func:`colour.temperature.cie_d.CCT_to_xy_CIE_D` definition
         nan support.

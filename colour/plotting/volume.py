@@ -319,19 +319,21 @@ def RGB_identity_cube(
     height_segments: int = 16,
     depth_segments: int = 16,
     planes: (
-        Literal[
-            "-x",
-            "+x",
-            "-y",
-            "+y",
-            "-z",
-            "+z",
-            "xy",
-            "xz",
-            "yz",
-            "yx",
-            "zx",
-            "zy",
+        Sequence[
+            Literal[
+                "-x",
+                "+x",
+                "-y",
+                "+y",
+                "-z",
+                "+z",
+                "xy",
+                "xz",
+                "yz",
+                "yx",
+                "zx",
+                "zy",
+            ]
         ]
         | None
     ) = None,

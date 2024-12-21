@@ -137,7 +137,7 @@ class TestSdCIEStandardIlluminantA:
 sd_CIE_standard_illuminant_A` definition unit tests methods.
     """
 
-    def test_sd_CIE_standard_illuminant_A(self):
+    def test_sd_CIE_standard_illuminant_A(self) -> None:
         """
         Test :func:`colour.colorimetry.illuminants.\
 sd_CIE_standard_illuminant_A` definition.
@@ -156,7 +156,7 @@ class TestSdCIEIlluminantDSeries:
     definition unit tests methods.
     """
 
-    def test_sd_CIE_illuminant_D_series(self):
+    def test_sd_CIE_illuminant_D_series(self) -> None:
         """
         Test :func:`colour.colorimetry.illuminants.\
 sd_CIE_illuminant_D_series` definition.
@@ -186,7 +186,7 @@ class TestDaylightLocusFunction:
     definition unit tests methods.
     """
 
-    def test_daylight_locus_function(self):
+    def test_daylight_locus_function(self) -> None:
         """
         Test :func:`colour.colorimetry.illuminants.daylight_locus_function`
         definition.
@@ -210,7 +210,7 @@ class TestDaylightLocusFunction:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_daylight_locus_function(self):
+    def test_n_dimensional_daylight_locus_function(self) -> None:
         """
         Test :func:`colour.colorimetry.illuminants.daylight_locus_function`
         definition n-dimensional support.
@@ -232,7 +232,7 @@ class TestDaylightLocusFunction:
         )
 
     @ignore_numpy_errors
-    def test_nan_daylight_locus_function(self):
+    def test_nan_daylight_locus_function(self) -> None:
         """
         Test :func:`colour.colorimetry.illuminants.daylight_locus_function`
         definition nan support.

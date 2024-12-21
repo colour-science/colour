@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.volume.macadam_limits` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -25,7 +27,7 @@ class TestIsWithinMacadamLimits:
     definition unit tests methods.
     """
 
-    def test_is_within_macadam_limits(self):
+    def test_is_within_macadam_limits(self) -> None:
         """
         Test :func:`colour.volume.macadam_limits.is_within_macadam_limits`
         definition.
@@ -39,7 +41,7 @@ class TestIsWithinMacadamLimits:
 
         assert not is_within_macadam_limits(np.array([0.0025, 0.0088, 0.0340]), "C")
 
-    def test_n_dimensional_is_within_macadam_limits(self):
+    def test_n_dimensional_is_within_macadam_limits(self) -> None:
         """
         Test :func:`colour.volume.macadam_limits.is_within_macadam_limits`
         definition n-dimensional arrays support.
@@ -57,7 +59,7 @@ class TestIsWithinMacadamLimits:
         np.testing.assert_allclose(is_within_macadam_limits(a, "A"), b)
 
     @ignore_numpy_errors
-    def test_nan_is_within_macadam_limits(self):
+    def test_nan_is_within_macadam_limits(self) -> None:
         """
         Test :func:`colour.volume.macadam_limits.is_within_macadam_limits`
         definition nan support.

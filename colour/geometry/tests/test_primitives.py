@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.geometry.primitives` module."""
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -28,7 +30,7 @@ class TestPrimitiveGrid:
     definition unit tests methods.
     """
 
-    def test_primitive_grid(self):
+    def test_primitive_grid(self) -> None:
         """
         Test :func:`colour.geometry.primitives.primitive_grid`
         definition.
@@ -187,7 +189,7 @@ class TestPrimitiveCube:
     definition unit tests methods.
     """
 
-    def test_primitive_cube(self):
+    def test_primitive_cube(self) -> None:
         """
         Test :func:`colour.geometry.primitives.primitive_cube`
         definition.
@@ -781,7 +783,7 @@ class TestPrimitiveCube:
 
         for plane in MAPPING_PLANE_TO_AXIS:
             np.testing.assert_allclose(
-                primitive_cube(planes=[plane])[0]["position"],
-                primitive_cube(planes=[MAPPING_PLANE_TO_AXIS[plane]])[0]["position"],
+                primitive_cube(planes=[plane])[0]["position"],  # pyright: ignore
+                primitive_cube(planes=[MAPPING_PLANE_TO_AXIS[plane]])[0]["position"],  # pyright: ignore
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )

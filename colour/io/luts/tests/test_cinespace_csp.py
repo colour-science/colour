@@ -10,7 +10,15 @@ import numpy as np
 import pytest
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.io import LUT1D, LUT3x1D, read_LUT_Cinespace, write_LUT_Cinespace
+from colour.hints import cast
+from colour.io import (
+    LUT1D,
+    LUT3D,
+    LUT3x1D,
+    LUTSequence,
+    read_LUT_Cinespace,
+    write_LUT_Cinespace,
+)
 from colour.utilities import tstack
 
 __author__ = "Colour Developers"
@@ -35,13 +43,16 @@ class TestReadLUTCinespace:
     unit tests methods.
     """
 
-    def test_read_LUT_Cinespace(self):
+    def test_read_LUT_Cinespace(self) -> None:
         """
         Test :func:`colour.io.luts.cinespace_csp.read_LUT_Cinespace`
         definition.
         """
 
-        LUT_1 = read_LUT_Cinespace(os.path.join(ROOT_LUTS, "ACES_Proxy_10_to_ACES.csp"))
+        LUT_1 = cast(
+            LUT3x1D,
+            read_LUT_Cinespace(os.path.join(ROOT_LUTS, "ACES_Proxy_10_to_ACES.csp")),
+        )
 
         np.testing.assert_allclose(
             LUT_1.table,
@@ -89,22 +100,29 @@ class TestReadLUTCinespace:
         assert LUT_1.size == 32
         assert LUT_1.comments == []
 
-        LUT_2 = read_LUT_Cinespace(os.path.join(ROOT_LUTS, "Demo.csp"))
+        LUT_2 = cast(LUT3x1D, read_LUT_Cinespace(os.path.join(ROOT_LUTS, "Demo.csp")))
         assert LUT_2.comments == ["Comments are ignored by most parsers"]
         np.testing.assert_array_equal(LUT_2.domain, np.array([[0, 0, 0], [1, 2, 3]]))
 
-        LUT_3 = read_LUT_Cinespace(
-            os.path.join(ROOT_LUTS, "Three_Dimensional_Table.csp")
+        LUT_3 = cast(
+            LUT3D,
+            read_LUT_Cinespace(os.path.join(ROOT_LUTS, "Three_Dimensional_Table.csp")),
         )
         assert LUT_3.dimensions == 3
         assert LUT_3.size == 2
 
-        LUT_4 = read_LUT_Cinespace(os.path.join(ROOT_LUTS, "Explicit_Domain.csp"))
+        LUT_4 = cast(
+            LUTSequence,
+            read_LUT_Cinespace(os.path.join(ROOT_LUTS, "Explicit_Domain.csp")),
+        )
         assert LUT_4[0].is_domain_explicit() is True
         assert LUT_4[1].table.shape == (2, 3, 4, 3)
 
-        LUT_5 = read_LUT_Cinespace(
-            os.path.join(ROOT_LUTS, "Uncommon_3x1D_With_Pre_Lut.csp")
+        LUT_5 = cast(
+            LUTSequence,
+            read_LUT_Cinespace(
+                os.path.join(ROOT_LUTS, "Uncommon_3x1D_With_Pre_Lut.csp")
+            ),
         )
         assert isinstance(LUT_5[0], LUT3x1D)
         assert isinstance(LUT_5[1], LUT3x1D)
@@ -116,17 +134,17 @@ class TestWriteLUTCinespace:
     unit tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
-    def teardown_method(self):
+    def teardown_method(self) -> None:
         """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
-    def test_write_LUT_Cinespace(self):
+    def test_write_LUT_Cinespace(self) -> None:
         """
         Test :func:`colour.io.luts.cinespace_csp.write_LUT_Cinespace`
         definition.
@@ -145,25 +163,30 @@ class TestWriteLUTCinespace:
         assert LUT_1_r == LUT_1_t
         assert LUT_1_r == LUT_1_t
 
-        LUT_2_r = read_LUT_Cinespace(os.path.join(ROOT_LUTS, "Demo.csp"))
+        LUT_2_r = cast(LUT3x1D, read_LUT_Cinespace(os.path.join(ROOT_LUTS, "Demo.csp")))
         write_LUT_Cinespace(
             LUT_2_r, os.path.join(self._temporary_directory, "Demo.csp")
         )
-        LUT_2_t = read_LUT_Cinespace(
-            os.path.join(self._temporary_directory, "Demo.csp")
+        LUT_2_t = cast(
+            LUT3x1D,
+            read_LUT_Cinespace(os.path.join(self._temporary_directory, "Demo.csp")),
         )
         assert LUT_2_r == LUT_2_t
         assert LUT_2_r.comments == LUT_2_t.comments
 
-        LUT_3_r = read_LUT_Cinespace(
-            os.path.join(ROOT_LUTS, "Three_Dimensional_Table.csp")
+        LUT_3_r = cast(
+            LUT3D,
+            read_LUT_Cinespace(os.path.join(ROOT_LUTS, "Three_Dimensional_Table.csp")),
         )
         write_LUT_Cinespace(
             LUT_3_r,
             os.path.join(self._temporary_directory, "Three_Dimensional_Table.csp"),
         )
-        LUT_3_t = read_LUT_Cinespace(
-            os.path.join(self._temporary_directory, "Three_Dimensional_Table.csp")
+        LUT_3_t = cast(
+            LUT3D,
+            read_LUT_Cinespace(
+                os.path.join(self._temporary_directory, "Three_Dimensional_Table.csp")
+            ),
         )
         assert LUT_3_r == LUT_3_t
 
@@ -179,16 +202,23 @@ class TestWriteLUTCinespace:
             LUT_4_t,
             os.path.join(self._temporary_directory, "Ragged_Domain.csp"),
         )
-        LUT_4_r = read_LUT_Cinespace(os.path.join(ROOT_LUTS, "Ragged_Domain.csp"))
+        LUT_4_r = cast(
+            LUT3x1D, read_LUT_Cinespace(os.path.join(ROOT_LUTS, "Ragged_Domain.csp"))
+        )
         np.testing.assert_allclose(
             LUT_4_t.domain, LUT_4_r.domain, atol=TOLERANCE_ABSOLUTE_TESTS
         )
         np.testing.assert_allclose(LUT_4_t.table, LUT_4_r.table, atol=5e-5)
 
-        LUT_5_r = read_LUT_Cinespace(
-            os.path.join(ROOT_LUTS, "Three_Dimensional_Table_With_Shaper.csp")
+        LUT_5_r = cast(
+            LUTSequence,
+            read_LUT_Cinespace(
+                os.path.join(ROOT_LUTS, "Three_Dimensional_Table_With_Shaper.csp")
+            ),
         )
-        LUT_5_r.sequence[0] = LUT_5_r.sequence[0].convert(LUT1D, force_conversion=True)
+        LUT_5_r.sequence[0] = LUT_5_r.sequence[0].convert(  # pyright: ignore
+            LUT1D, force_conversion=True
+        )
         write_LUT_Cinespace(
             LUT_5_r,
             os.path.join(
@@ -196,21 +226,30 @@ class TestWriteLUTCinespace:
                 "Three_Dimensional_Table_With_Shaper.csp",
             ),
         )
-        LUT_5_r = read_LUT_Cinespace(
-            os.path.join(ROOT_LUTS, "Three_Dimensional_Table_With_Shaper.csp")
+        LUT_5_r = cast(
+            LUTSequence,
+            read_LUT_Cinespace(
+                os.path.join(ROOT_LUTS, "Three_Dimensional_Table_With_Shaper.csp")
+            ),
         )
-        LUT_5_t = read_LUT_Cinespace(
-            os.path.join(
-                self._temporary_directory,
-                "Three_Dimensional_Table_With_Shaper.csp",
-            )
+        LUT_5_t = cast(
+            LUTSequence,
+            read_LUT_Cinespace(
+                os.path.join(
+                    self._temporary_directory,
+                    "Three_Dimensional_Table_With_Shaper.csp",
+                )
+            ),
         )
         assert LUT_5_r == LUT_5_t
 
-        LUT_6_r = read_LUT_Cinespace(
-            os.path.join(ROOT_LUTS, "Three_Dimensional_Table_With_Shaper.csp")
+        LUT_6_r = cast(
+            LUTSequence,
+            read_LUT_Cinespace(
+                os.path.join(ROOT_LUTS, "Three_Dimensional_Table_With_Shaper.csp")
+            ),
         )
-        LUT_6_r.sequence[0] = LUT_6_r.sequence[0].convert(
+        LUT_6_r.sequence[0] = LUT_6_r.sequence[0].convert(  # pyright: ignore
             LUT3x1D, force_conversion=True
         )
         write_LUT_Cinespace(
@@ -220,30 +259,40 @@ class TestWriteLUTCinespace:
                 "Three_Dimensional_Table_With_Shaper.csp",
             ),
         )
-        LUT_6_r = read_LUT_Cinespace(
-            os.path.join(ROOT_LUTS, "Three_Dimensional_Table_With_Shaper.csp")
+        LUT_6_r = cast(
+            LUTSequence,
+            read_LUT_Cinespace(
+                os.path.join(ROOT_LUTS, "Three_Dimensional_Table_With_Shaper.csp")
+            ),
         )
-        LUT_6_t = read_LUT_Cinespace(
-            os.path.join(
-                self._temporary_directory,
-                "Three_Dimensional_Table_With_Shaper.csp",
-            )
+        LUT_6_t = cast(
+            LUTSequence,
+            read_LUT_Cinespace(
+                os.path.join(
+                    self._temporary_directory,
+                    "Three_Dimensional_Table_With_Shaper.csp",
+                )
+            ),
         )
         assert LUT_6_r == LUT_6_t
 
-        LUT_7_r = read_LUT_Cinespace(
-            os.path.join(ROOT_LUTS, "ACES_Proxy_10_to_ACES.csp")
+        LUT_7_r = cast(
+            LUT3x1D,
+            read_LUT_Cinespace(os.path.join(ROOT_LUTS, "ACES_Proxy_10_to_ACES.csp")),
         )
         write_LUT_Cinespace(
-            LUT_7_r.convert(LUT1D, force_conversion=True),
+            cast(LUT1D, LUT_7_r.convert(LUT1D, force_conversion=True)),
             os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.csp"),
         )
-        LUT_7_t = read_LUT_Cinespace(
-            os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.csp")
+        LUT_7_t = cast(
+            LUT3x1D,
+            read_LUT_Cinespace(
+                os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.csp")
+            ),
         )
         assert LUT_7_r == LUT_7_t
 
-    def test_raise_exception_write_LUT_Cinespace(self):
+    def test_raise_exception_write_LUT_Cinespace(self) -> None:
         """
         Test :func:`colour.io.luts.cinespace_csp.write_LUT_Cinespace`
         definition raised exception.

@@ -9,7 +9,7 @@ Define the class implementing support for multi-continuous signals:
 
 from __future__ import annotations
 
-from collections.abc import Iterator, Mapping, ValuesView
+from collections.abc import Iterator, KeysView, Mapping, ValuesView
 
 import numpy as np
 
@@ -300,9 +300,17 @@ class MultiSignals(AbstractContinuousFunction):
     def __init__(
         self,
         data: (
-            ArrayLike | DataFrame | dict | Self | Sequence | Series | Signal | None
+            ArrayLike
+            | DataFrame
+            | dict
+            | Self
+            | Sequence
+            | Series
+            | Signal
+            | ValuesView
+            | None
         ) = None,
-        domain: ArrayLike | None = None,
+        domain: ArrayLike | KeysView | None = None,
         labels: Sequence | None = None,
         **kwargs: Any,
     ) -> None:
@@ -333,7 +341,7 @@ class MultiSignals(AbstractContinuousFunction):
         return first_item(self._signals.values()).dtype
 
     @dtype.setter
-    def dtype(self, value: Type[DTypeFloat]):
+    def dtype(self, value: Type[DTypeFloat]) -> None:
         """Setter for the **self.dtype** property."""
 
         for signal in self._signals.values():
@@ -361,7 +369,7 @@ class MultiSignals(AbstractContinuousFunction):
         return first_item(self._signals.values()).domain
 
     @domain.setter
-    def domain(self, value: ArrayLike):
+    def domain(self, value: ArrayLike) -> None:
         """Setter for the **self.domain** property."""
 
         for signal in self._signals.values():
@@ -389,7 +397,7 @@ class MultiSignals(AbstractContinuousFunction):
         return tstack([signal.range for signal in self._signals.values()])
 
     @range.setter
-    def range(self, value: ArrayLike):
+    def range(self, value: ArrayLike) -> None:
         """Setter for the **self.range** property."""
 
         value = as_float_array(value)
@@ -429,7 +437,7 @@ class MultiSignals(AbstractContinuousFunction):
         return first_item(self._signals.values()).interpolator
 
     @interpolator.setter
-    def interpolator(self, value: Type[ProtocolInterpolator]):
+    def interpolator(self, value: Type[ProtocolInterpolator]) -> None:
         """Setter for the **self.interpolator** property."""
 
         if value is not None:
@@ -458,7 +466,7 @@ class MultiSignals(AbstractContinuousFunction):
         return first_item(self._signals.values()).interpolator_kwargs
 
     @interpolator_kwargs.setter
-    def interpolator_kwargs(self, value: dict):
+    def interpolator_kwargs(self, value: dict) -> None:
         """Setter for the **self.interpolator_kwargs** property."""
 
         for signal in self._signals.values():
@@ -486,7 +494,7 @@ class MultiSignals(AbstractContinuousFunction):
         return first_item(self._signals.values()).extrapolator
 
     @extrapolator.setter
-    def extrapolator(self, value: Type[ProtocolExtrapolator]):
+    def extrapolator(self, value: Type[ProtocolExtrapolator]) -> None:
         """Setter for the **self.extrapolator** property."""
 
         for signal in self._signals.values():
@@ -514,7 +522,7 @@ class MultiSignals(AbstractContinuousFunction):
         return first_item(self._signals.values()).extrapolator_kwargs
 
     @extrapolator_kwargs.setter
-    def extrapolator_kwargs(self, value: dict):
+    def extrapolator_kwargs(self, value: dict) -> None:
         """Setter for the **self.extrapolator_kwargs** property."""
 
         for signal in self._signals.values():
@@ -557,7 +565,7 @@ class MultiSignals(AbstractContinuousFunction):
     def signals(
         self,
         value: ArrayLike | DataFrame | dict | Self | Series | Signal | None,
-    ):
+    ) -> None:
         """Setter for the **self.signals** property."""
 
         self._signals = self.multi_signals_unpack_data(
@@ -585,7 +593,7 @@ class MultiSignals(AbstractContinuousFunction):
         return [str(key) for key in self._signals]
 
     @labels.setter
-    def labels(self, value: Sequence):
+    def labels(self, value: Sequence) -> None:
         """Setter for the **self.labels** property."""
 
         attest(
@@ -800,7 +808,7 @@ class MultiSignals(AbstractContinuousFunction):
 
         return values[..., x_c]  # pyright: ignore
 
-    def __setitem__(self, x: ArrayLike | slice, y: ArrayLike):
+    def __setitem__(self, x: ArrayLike | slice, y: ArrayLike) -> None:
         """
         Set the corresponding range variable :math:`y` for independent domain
         variable :math:`x`.
@@ -1207,9 +1215,10 @@ class MultiSignals(AbstractContinuousFunction):
             | Sequence
             | Series
             | Signal
+            | ValuesView
             | None
         ) = None,
-        domain: ArrayLike | None = None,
+        domain: ArrayLike | KeysView | None = None,
         labels: Sequence | None = None,
         dtype: Type[DTypeFloat] | None = None,
         signal_type: Type[Signal] = Signal,
@@ -1477,7 +1486,7 @@ class MultiSignals(AbstractContinuousFunction):
             if isinstance(data, Series):
                 signals["0"] = signal_type(data, **settings)
             elif isinstance(data, DataFrame):
-                domain_unpacked = cast(NDArrayFloat, data.index.values)
+                domain_unpacked = as_float_array(data.index.values, dtype)  # pyright: ignore
                 signals = {
                     label: signal_type(
                         data[label],
@@ -1488,6 +1497,9 @@ class MultiSignals(AbstractContinuousFunction):
                 }
 
         if domain is not None:
+            if isinstance(domain, KeysView):
+                domain = list(domain)
+
             domain_array = as_float_array(domain, dtype)
 
             for signal in signals.values():

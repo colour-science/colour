@@ -33,7 +33,7 @@ class TestCV_range:
     definition unit tests methods.
     """
 
-    def test_CV_range(self):
+    def test_CV_range(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.common.CV_range`
         definition.
@@ -70,7 +70,7 @@ class TestLegalToFull:
     definition unit tests methods.
     """
 
-    def test_legal_to_full(self):
+    def test_legal_to_full(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.common.legal_to_full`
         definition.
@@ -92,7 +92,7 @@ class TestLegalToFull:
 
         np.testing.assert_allclose(legal_to_full(940, in_int=True, out_int=True), 1023)
 
-    def test_n_dimensional_legal_to_full(self):
+    def test_n_dimensional_legal_to_full(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.common.legal_to_full`
         definition n-dimensional arrays support.
@@ -120,7 +120,7 @@ class TestLegalToFull:
         )
 
     @ignore_numpy_errors
-    def test_nan_legal_to_full(self):
+    def test_nan_legal_to_full(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.common.legal_to_full`
         definition nan support.
@@ -135,7 +135,7 @@ class TestFullToLegal:
     definition unit tests methods.
     """
 
-    def test_full_to_legal(self):
+    def test_full_to_legal(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.common.full_to_legal`
         definition.
@@ -157,7 +157,7 @@ class TestFullToLegal:
 
         np.testing.assert_allclose(full_to_legal(1023, in_int=True, out_int=True), 940)
 
-    def test_n_dimensional_full_to_legal(self):
+    def test_n_dimensional_full_to_legal(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.common.full_to_legal`
         definition n-dimensional arrays support.
@@ -185,7 +185,7 @@ class TestFullToLegal:
         )
 
     @ignore_numpy_errors
-    def test_nan_full_to_legal(self):
+    def test_nan_full_to_legal(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.common.full_to_legal`
         definition nan support.

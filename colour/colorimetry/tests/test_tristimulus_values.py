@@ -584,7 +584,7 @@ class TestHandleSpectralArguments:
 handle_spectral_arguments` definition unit tests methods.
     """
 
-    def test_handle_spectral_arguments(self):
+    def test_handle_spectral_arguments(self) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.\
 handle_spectral_arguments` definition.
@@ -616,7 +616,7 @@ class TestLagrangeCoefficientsASTME2022:
 lagrange_coefficients_ASTME2022` definition unit tests methods.
     """
 
-    def test_lagrange_coefficients_ASTME2022(self):
+    def test_lagrange_coefficients_ASTME2022(self) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.\
 lagrange_coefficients_ASTME2022` definition.
@@ -658,7 +658,7 @@ class TestTristimulusWeightingFactorsASTME2022:
 tristimulus_weighting_factors_ASTME2022` definition unit tests methods.
     """
 
-    def test_tristimulus_weighting_factors_ASTME2022(self):
+    def test_tristimulus_weighting_factors_ASTME2022(self) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.\
 tristimulus_weighting_factors_ASTME2022` definition.
@@ -729,7 +729,7 @@ tristimulus_weighting_factors_ASTME2022` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_raise_exception_tristimulus_weighting_factors_ASTME2022(self):
+    def test_raise_exception_tristimulus_weighting_factors_ASTME2022(self) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.\
 tristimulus_weighting_factors_ASTME2022` definition raised exception.
@@ -764,7 +764,7 @@ class TestAdjustTristimulusWeightingFactorsASTME308:
 adjust_tristimulus_weighting_factors_ASTME308` definition unit tests methods.
     """
 
-    def test_adjust_tristimulus_weighting_factors_ASTME308(self):
+    def test_adjust_tristimulus_weighting_factors_ASTME308(self) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.\
 adjust_tristimulus_weighting_factors_ASTME308` definition.
@@ -787,7 +787,7 @@ class TestSd_to_XYZ_integration:
     definition unit tests methods.
     """
 
-    def test_sd_to_XYZ_integration(self):
+    def test_sd_to_XYZ_integration(self) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.\
 sd_to_XYZ_integration` definition.
@@ -841,7 +841,7 @@ sd_to_XYZ_integration` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_sd_to_XYZ_integration(self):
+    def test_domain_range_scale_sd_to_XYZ_integration(self) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.\
 sd_to_XYZ_integration` definition domain and range scale support.
@@ -867,7 +867,7 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
     definition unit tests methods.
     """
 
-    def test_sd_to_XYZ_tristimulus_weighting_factors_ASTME308(self):
+    def test_sd_to_XYZ_tristimulus_weighting_factors_ASTME308(self) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.\
 sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
@@ -941,7 +941,7 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_sd_to_XYZ_twf_ASTME308(self):
+    def test_domain_range_scale_sd_to_XYZ_twf_ASTME308(self) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.\
 sd_to_XYZ_tristimulus_weighting_factors_ASTME308` definition domain and
@@ -971,14 +971,14 @@ class TestSd_to_XYZ_ASTME308:
     definition unit tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._sd = SD_SAMPLE.copy()
         self._cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
         self._A = sd_CIE_standard_illuminant_A(self._cmfs.shape)
 
-    def test_sd_to_XYZ_ASTME308_mi_1nm(self):
+    def test_sd_to_XYZ_ASTME308_mi_1nm(self) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ_ASTME308`
         definition for 1 nm measurement intervals.
@@ -1035,7 +1035,7 @@ class TestSd_to_XYZ_ASTME308:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_sd_to_XYZ_ASTME308_mi_5nm(self):
+    def test_sd_to_XYZ_ASTME308_mi_5nm(self) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ_ASTME308`
         definition for 5 nm measurement intervals.
@@ -1140,7 +1140,7 @@ class TestSd_to_XYZ_ASTME308:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_sd_to_XYZ_ASTME308_mi_10nm(self):
+    def test_sd_to_XYZ_ASTME308_mi_10nm(self) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ_ASTME308`
         definition for 10 nm measurement intervals.
@@ -1210,7 +1210,7 @@ class TestSd_to_XYZ_ASTME308:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_sd_to_XYZ_ASTME308_mi_20nm(self):
+    def test_sd_to_XYZ_ASTME308_mi_20nm(self) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ_ASTME308`
         definition for 20 nm measurement intervals.
@@ -1325,7 +1325,7 @@ class TestSd_to_XYZ_ASTME308:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_raise_exception_sd_to_XYZ_ASTME308(self):
+    def test_raise_exception_sd_to_XYZ_ASTME308(self) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ_ASTME308`
         definition raised exception.
@@ -1344,14 +1344,14 @@ class TestSd_to_XYZ:
     unit tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
         self._A = sd_CIE_standard_illuminant_A(self._cmfs.shape)
         self._sd = reshape_sd(SD_SAMPLE, self._cmfs.shape)
 
-    def test_sd_to_XYZ(self):
+    def test_sd_to_XYZ(self) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ`
         definition.
@@ -1428,7 +1428,7 @@ class TestMsds_to_XYZ_integration:
 msds_to_XYZ_integration` definition unit tests methods.
     """
 
-    def test_msds_to_XYZ_integration(self):
+    def test_msds_to_XYZ_integration(self) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.\
 msds_to_XYZ_integration` definition.
@@ -1464,7 +1464,7 @@ msds_to_XYZ_integration` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_msds_to_XYZ_integration(self):
+    def test_domain_range_scale_msds_to_XYZ_integration(self) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.\
 msds_to_XYZ_integration` definition domain and range scale support.
@@ -1492,7 +1492,7 @@ class TestMsds_to_XYZ_ASTME308:
     definition unit tests methods.
     """
 
-    def test_msds_to_XYZ_ASTME308(self):
+    def test_msds_to_XYZ_ASTME308(self) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.\
 msds_to_XYZ_ASTME308` definition.
@@ -1512,7 +1512,7 @@ msds_to_XYZ_ASTME308` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_msds_to_XYZ_ASTME308(self):
+    def test_domain_range_scale_msds_to_XYZ_ASTME308(self) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.\
 msds_to_XYZ_ASTME308` definition domain and range scale support.
@@ -1532,7 +1532,7 @@ msds_to_XYZ_ASTME308` definition domain and range scale support.
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
-    def test_raise_exception_msds_to_XYZ_ASTME308(self):
+    def test_raise_exception_msds_to_XYZ_ASTME308(self) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.\
 msds_to_XYZ_ASTME308` definition raise exception.
@@ -1546,7 +1546,7 @@ class TestAbsoluteIntegrationToXYZ:
     Test the absolute integration to tristimulus values for :math:`k = 683`
     """
 
-    def test_absolute_integration_to_TVS_1nm(self):
+    def test_absolute_integration_to_TVS_1nm(self) -> None:
         """
         Test the absolute, i.e., user given :math:`k` value, integration to
         tristimulus values for 1nm interval.
@@ -1592,7 +1592,7 @@ class TestAbsoluteIntegrationToXYZ:
                 ),
             )
 
-    def test_absolute_integration_to_TVS_5nm(self):
+    def test_absolute_integration_to_TVS_5nm(self) -> None:
         """
         Test the absolute, i.e., user given :math:`k` value, integration to
         tristimulus values for 5nm interval by ensuring that the *Riemann Sum*
@@ -1648,7 +1648,7 @@ class TestWavelength_to_XYZ:
     definition unit tests methods.
     """
 
-    def test_wavelength_to_XYZ(self):
+    def test_wavelength_to_XYZ(self) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.wavelength_to_XYZ`
         definition.
@@ -1672,7 +1672,7 @@ class TestWavelength_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_raise_exception_wavelength_to_XYZ(self):
+    def test_raise_exception_wavelength_to_XYZ(self) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.wavelength_to_XYZ`
         definition raised exception.
@@ -1682,7 +1682,7 @@ class TestWavelength_to_XYZ:
 
         pytest.raises(ValueError, wavelength_to_XYZ, 1000)
 
-    def test_n_dimensional_wavelength_to_XYZ(self):
+    def test_n_dimensional_wavelength_to_XYZ(self) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.wavelength_to_XYZ`
         definition n-dimensional arrays support.

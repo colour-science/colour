@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.recovery` module."""
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.colorimetry import (
@@ -32,7 +34,7 @@ class TestXYZ_to_sd:
     methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._cmfs = reshape_msds(
@@ -42,7 +44,7 @@ class TestXYZ_to_sd:
 
         self._sd_D65 = reshape_sd(SDS_ILLUMINANTS["D65"], self._cmfs.shape)
 
-    def test_domain_range_scale_XYZ_to_sd(self):
+    def test_domain_range_scale_XYZ_to_sd(self) -> None:
         """
         Test :func:`colour.recovery.XYZ_to_sd` definition domain
         and range scale support.

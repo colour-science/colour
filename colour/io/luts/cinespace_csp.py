@@ -21,7 +21,7 @@ from pathlib import Path
 
 import numpy as np
 
-from colour.hints import ArrayLike, List, NDArrayFloat
+from colour.hints import ArrayLike, List, NDArrayFloat, NDArrayInt
 from colour.io.luts import LUT1D, LUT3D, LUT3x1D, LUTSequence
 from colour.utilities import (
     as_float_array,
@@ -134,7 +134,7 @@ def read_LUT_Cinespace(path: str | Path) -> LUT3x1D | LUT3D | LUTSequence:
 
         return np.asarray(pre_LUT_padded)
 
-    def _parse_table_section(lines):
+    def _parse_table_section(lines: list[str]) -> tuple[NDArrayInt, NDArrayFloat]:
         """Parse the table at given lines."""
 
         size = as_int_array(lines[0].split())
@@ -242,7 +242,7 @@ def read_LUT_Cinespace(path: str | Path) -> LUT3x1D | LUT3D | LUTSequence:
 
 
 def write_LUT_Cinespace(
-    LUT: LUT3x1D | LUT3D | LUTSequence, path: str | Path, decimals: int = 7
+    LUT: LUT1D | LUT3x1D | LUT3D | LUTSequence, path: str | Path, decimals: int = 7
 ) -> bool:
     """
     Write given *LUT* to given  *Cinespace* *.csp* *LUT* file.

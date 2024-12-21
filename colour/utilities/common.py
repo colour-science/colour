@@ -110,7 +110,7 @@ def is_caching_enabled() -> bool:
     return _CACHING_ENABLED
 
 
-def set_caching_enable(enable: bool):
+def set_caching_enable(enable: bool) -> None:
     """
     Set *Colour* caching enabled state.
 
@@ -159,7 +159,7 @@ class caching_enable:
 
         return self
 
-    def __exit__(self, *args: Any):
+    def __exit__(self, *args: Any) -> None:
         """
         Set the *Colour* caching enabled state upon exiting the context
         manager.
@@ -278,7 +278,7 @@ class CacheRegistry:
 
         return self._registry[name]
 
-    def unregister_cache(self, name: str):
+    def unregister_cache(self, name: str) -> None:
         """
         Unregister cache with given name in the registry.
 
@@ -312,7 +312,7 @@ class CacheRegistry:
 
         del self._registry[name]
 
-    def clear_cache(self, name: str):
+    def clear_cache(self, name: str) -> None:
         """
         Clear the cache with given name.
 
@@ -335,7 +335,7 @@ class CacheRegistry:
 
         self._registry[name].clear()
 
-    def clear_all_caches(self):
+    def clear_all_caches(self) -> None:
         """
         Clear all the caches in the registry.
 
@@ -447,7 +447,7 @@ def ignore_python_warnings(function: Callable) -> Callable:
     return wrapper
 
 
-def attest(condition: bool | DTypeBoolean, message: str = ""):
+def attest(condition: bool | DTypeBoolean, message: str = "") -> None:
     """
     Provide the `assert` statement functionality without being disabled by
     optimised Python execution.
@@ -512,7 +512,7 @@ class disable_multiprocessing:
 
         return self
 
-    def __exit__(self, *args: Any):
+    def __exit__(self, *args: Any) -> None:
         """
         Enable *Colour* multiprocessing state upon exiting the context
         manager.
@@ -535,7 +535,7 @@ class disable_multiprocessing:
         return wrapper
 
 
-def _initializer(kwargs: Any):
+def _initializer(kwargs: Any) -> None:
     """
     Initialize a multiprocessing pool.
 
@@ -613,12 +613,17 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
         def __init__(self, *args: Any, **kwargs: Any) -> None:
             pass
 
-        def map(self, func, iterable, chunksize=None):  # noqa: ARG002
+        def map(
+            self,
+            func: Callable,
+            iterable: Sequence,
+            chunksize: int | None = None,  # noqa: ARG002
+        ) -> list[Any]:
             """Apply given function to each element of given iterable."""
 
             return [func(a) for a in iterable]
 
-        def terminate(self):
+        def terminate(self) -> None:
             """Terminate the process."""
 
     kwargs["initializer"] = _initializer

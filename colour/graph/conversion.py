@@ -243,7 +243,9 @@ class Conversion_Specification(
         Callable converting from the ``source`` node to the ``target`` node.
     """
 
-    def __new__(cls, source: str, target: str, conversion_function: Callable):
+    def __new__(
+        cls, source: str, target: str, conversion_function: Callable
+    ) -> Conversion_Specification:
         """
         Return a new instance of the
         :class:`colour.graph.conversion.Conversion_Specification` class.
@@ -316,7 +318,7 @@ s=None, Q=None, M=0.1088421..., H=None, HC=None)
     return CAM_Specification_CIECAM02(J=J, M=M, h=h)
 
 
-def CAM16_to_JMh_CAM16(specification) -> NDArrayFloat:
+def CAM16_to_JMh_CAM16(specification: CAM_Specification_CAM16) -> NDArrayFloat:
     """
     Convert from *CAM16* specification to *CAM16* :math:`JMh` correlates.
 
@@ -339,7 +341,7 @@ def CAM16_to_JMh_CAM16(specification) -> NDArrayFloat:
     array([  4.1731207...e+01,   1.0743677...e-01,   2.1706796...e+02])
     """
 
-    return tstack([specification.J, specification.M, specification.h])
+    return tstack([specification.J, specification.M, specification.h])  # pyright: ignore
 
 
 def JMh_CAM16_to_CAM16(JMh: ArrayLike) -> CAM_Specification_CAM16:
@@ -370,7 +372,7 @@ Q=None, M=0.1074367..., H=None, HC=None)
     return CAM_Specification_CAM16(J=J, M=M, h=h)
 
 
-def CIECAM16_to_JMh_CIECAM16(specification) -> NDArrayFloat:
+def CIECAM16_to_JMh_CIECAM16(specification: CAM_Specification_CIECAM16) -> NDArrayFloat:
     """
     Convert from *CIECAM16* specification to *CIECAM16* :math:`JMh` correlates.
 
@@ -393,7 +395,7 @@ def CIECAM16_to_JMh_CIECAM16(specification) -> NDArrayFloat:
     array([  4.1731207...e+01,   1.0743677...e-01,   2.1706796...e+02])
     """
 
-    return tstack([specification.J, specification.M, specification.h])
+    return tstack([specification.J, specification.M, specification.h])  # pyright: ignore
 
 
 def JMh_CIECAM16_to_CIECAM16(JMh: ArrayLike) -> CAM_Specification_CIECAM16:
@@ -424,7 +426,9 @@ s=None, Q=None, M=0.1074367..., H=None, HC=None)
     return CAM_Specification_CIECAM16(J=J, M=M, h=h)
 
 
-def Hellwig2022_to_JMh_Hellwig2022(specification) -> NDArrayFloat:
+def Hellwig2022_to_JMh_Hellwig2022(
+    specification: CAM_Specification_Hellwig2022,
+) -> NDArrayFloat:
     """
     Convert from *Hellwig and Fairchild (2022)* specification to
     *Hellwig and Fairchild (2022)* :math:`JMh` correlates.
@@ -448,7 +452,7 @@ def Hellwig2022_to_JMh_Hellwig2022(specification) -> NDArrayFloat:
     array([  4.1731207...e+01,   2.9382869...e-02,   2.1706796...e+02])
     """
 
-    return tstack([specification.J, specification.M, specification.h])
+    return tstack([specification.J, specification.M, specification.h])  # pyright: ignore
 
 
 def JMh_Hellwig2022_to_Hellwig2022(
@@ -974,7 +978,7 @@ the edge in the graph.
 # Programmatically defining the colourspace models polar conversions.
 
 
-def _format_node_name(name):
+def _format_node_name(name: str) -> str:
     """Format given name by applying a series of substitutions."""
 
     for pattern, substitution in [
@@ -1128,7 +1132,7 @@ def describe_conversion_path(
     padding: int = 3,
     print_callable: Callable = print,
     **kwargs: Any,
-):
+) -> None:
     """
     Describe the conversion path from source colour representation to target
     colour representation using the automatic colour conversion graph.

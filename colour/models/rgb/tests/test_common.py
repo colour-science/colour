@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.rgb.common` module."""
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -24,7 +26,7 @@ class TestXYZ_to_sRGB:
     methods.
     """
 
-    def test_XYZ_to_sRGB(self):
+    def test_XYZ_to_sRGB(self) -> None:
         """Test :func:`colour.models.rgb.common.XYZ_to_sRGB` definition."""
 
         np.testing.assert_allclose(
@@ -83,7 +85,7 @@ class TestsRGB_to_XYZ:
     methods.
     """
 
-    def test_sRGB_to_XYZ(self):
+    def test_sRGB_to_XYZ(self) -> None:
         """Test :func:`colour.models.rgb.common.sRGB_to_XYZ` definition."""
 
         np.testing.assert_allclose(

@@ -13,10 +13,13 @@ References
     doi:10.1364/JOSAA.4.001115
 """
 
+from __future__ import annotations
+
 from collections import namedtuple
 
 import numpy as np
 
+from colour.hints import ArrayLike, Literal
 from colour.utilities.documentation import (
     DocstringDict,
     is_documentation_building,
@@ -76,7 +79,15 @@ class BrenemanExperimentResult(
         :math:`\\delta_uv_g^p`.
     """
 
-    def __new__(cls, name, uv_t, uv_m, s_uv=None, d_uv_i=None, d_uv_g=None):
+    def __new__(
+        cls,
+        name: str,
+        uv_t: ArrayLike,
+        uv_m: ArrayLike,
+        s_uv: ArrayLike | None = None,
+        d_uv_i: ArrayLike | None = None,
+        d_uv_g: ArrayLike | None = None,
+    ) -> BrenemanExperimentResult:
         """
         Return a new instance of the
         :class:`colour.corresponding.datasets.corresponding_chromaticities.\
@@ -119,7 +130,15 @@ class PrimariesChromaticityCoordinates(
         Chromaticity coordinates :math:`uv^p` of primary :math:`T`.
     """
 
-    def __new__(cls, experiment, illuminants, Y, P_uvp=None, D_uvp=None, T_uvp=None):
+    def __new__(
+        cls,
+        experiment: Literal[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        illuminants: ArrayLike,
+        Y: ArrayLike,
+        P_uvp: ArrayLike | None = None,
+        D_uvp: ArrayLike | None = None,
+        T_uvp: ArrayLike | None = None,
+    ) -> PrimariesChromaticityCoordinates:
         """
         Return a new instance of the
         :class:`colour.corresponding.datasets.corresponding_chromaticities.\

@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.difference.cam16_ucs` module."""
 
+from __future__ import annotations
+
 from colour.difference.tests.test_cam02_ucs import TestDelta_E_Luo2006
 
 __author__ = "Colour Developers"

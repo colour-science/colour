@@ -452,7 +452,7 @@ class KernelInterpolator:
         return self._x
 
     @x.setter
-    def x(self, value: ArrayLike):
+    def x(self, value: ArrayLike) -> None:
         """Setter for the **self.x** property."""
 
         value = np.atleast_1d(value).astype(self._dtype)
@@ -503,7 +503,7 @@ class KernelInterpolator:
         return self._y
 
     @y.setter
-    def y(self, value: ArrayLike):
+    def y(self, value: ArrayLike) -> None:
         """Setter for the **self.y** property."""
 
         value = np.atleast_1d(value).astype(self._dtype)
@@ -537,7 +537,7 @@ class KernelInterpolator:
         return self._window
 
     @window.setter
-    def window(self, value: float):
+    def window(self, value: float) -> None:
         """Setter for the **self.window** property."""
 
         attest(bool(value >= 1), '"window" must be equal to or greater than 1!')
@@ -571,7 +571,7 @@ class KernelInterpolator:
         return self._kernel
 
     @kernel.setter
-    def kernel(self, value: Callable):
+    def kernel(self, value: Callable) -> None:
         """Setter for the **self.kernel** property."""
 
         attest(
@@ -600,7 +600,7 @@ class KernelInterpolator:
         return self._kernel_kwargs
 
     @kernel_kwargs.setter
-    def kernel_kwargs(self, value: dict):
+    def kernel_kwargs(self, value: dict) -> None:
         """Setter for the **self.kernel_kwargs** property."""
 
         attest(
@@ -629,7 +629,7 @@ class KernelInterpolator:
         return self._padding_kwargs
 
     @padding_kwargs.setter
-    def padding_kwargs(self, value: dict):
+    def padding_kwargs(self, value: dict) -> None:
         """Setter for the **self.padding_kwargs** property."""
 
         attest(
@@ -700,7 +700,7 @@ class KernelInterpolator:
             axis=-1,
         )
 
-    def _validate_dimensions(self):
+    def _validate_dimensions(self) -> None:
         """Validate that the variables dimensions are the same."""
 
         if len(self._x) != len(self._y):
@@ -709,7 +709,7 @@ class KernelInterpolator:
                 f'dimensions: "{len(self._x)}", "{len(self._y)}"'
             )
 
-    def _validate_interpolation_range(self, x: NDArrayFloat):
+    def _validate_interpolation_range(self, x: NDArrayFloat) -> None:
         """Validate given point to be in interpolation range."""
 
         below_interpolation_range = x < self._x[0]
@@ -838,7 +838,7 @@ class LinearInterpolator:
         return self._x
 
     @x.setter
-    def x(self, value: ArrayLike):
+    def x(self, value: ArrayLike) -> None:
         """Setter for the **self.x** property."""
 
         value = cast(NDArrayFloat, np.atleast_1d(value).astype(self._dtype))
@@ -871,7 +871,7 @@ class LinearInterpolator:
         return self._y
 
     @y.setter
-    def y(self, value: ArrayLike):
+    def y(self, value: ArrayLike) -> None:
         """Setter for the **self.y** property."""
 
         value = cast(NDArrayFloat, np.atleast_1d(value).astype(self._dtype))
@@ -925,7 +925,7 @@ class LinearInterpolator:
 
         return np.interp(x, self._x, self._y)
 
-    def _validate_dimensions(self):
+    def _validate_dimensions(self) -> None:
         """Validate that the variables dimensions are the same."""
 
         if len(self._x) != len(self._y):
@@ -934,7 +934,7 @@ class LinearInterpolator:
                 f'dimensions: "{len(self._x)}", "{len(self._y)}"'
             )
 
-    def _validate_interpolation_range(self, x: NDArrayFloat):
+    def _validate_interpolation_range(self, x: NDArrayFloat) -> None:
         """Validate given point to be in interpolation range."""
 
         below_interpolation_range = x < self._x[0]
@@ -1061,7 +1061,7 @@ class SpragueInterpolator:
         return self._x
 
     @x.setter
-    def x(self, value: ArrayLike):
+    def x(self, value: ArrayLike) -> None:
         """Setter for the **self.x** property."""
 
         value = as_array(np.atleast_1d(value), self._dtype)
@@ -1109,7 +1109,7 @@ class SpragueInterpolator:
         return self._y
 
     @y.setter
-    def y(self, value: ArrayLike):
+    def y(self, value: ArrayLike) -> None:
         """Setter for the **self.y** property."""
 
         value = as_array(np.atleast_1d(value), self._dtype)
@@ -1209,7 +1209,7 @@ class SpragueInterpolator:
             return y[0]
         return y
 
-    def _validate_dimensions(self):
+    def _validate_dimensions(self) -> None:
         """Validate that the variables dimensions are the same."""
 
         if len(self._x) != len(self._y):
@@ -1218,7 +1218,7 @@ class SpragueInterpolator:
                 f'dimensions: "{len(self._x)}", "{len(self._y)}"'
             )
 
-    def _validate_interpolation_range(self, x: NDArrayFloat):
+    def _validate_interpolation_range(self, x: NDArrayFloat) -> None:
         """Validate given point to be in interpolation range."""
 
         below_interpolation_range = x < self._x[0]
@@ -1294,7 +1294,7 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
         return self._y
 
     @y.setter
-    def y(self, value: ArrayLike):
+    def y(self, value: ArrayLike) -> None:
         """Setter for the **self.y** property."""
 
         self._y = as_float_array(value)
@@ -1397,7 +1397,7 @@ class NullInterpolator:
         return self._x
 
     @x.setter
-    def x(self, value: ArrayLike):
+    def x(self, value: ArrayLike) -> None:
         """Setter for the **self.x** property."""
 
         value = cast(NDArrayFloat, np.atleast_1d(value).astype(self._dtype))
@@ -1430,7 +1430,7 @@ class NullInterpolator:
         return self._y
 
     @y.setter
-    def y(self, value: ArrayLike):
+    def y(self, value: ArrayLike) -> None:
         """Setter for the **self.y** property."""
 
         value = cast(NDArrayFloat, np.atleast_1d(value).astype(self._dtype))
@@ -1461,7 +1461,7 @@ class NullInterpolator:
         return self._relative_tolerance
 
     @relative_tolerance.setter
-    def relative_tolerance(self, value: float):
+    def relative_tolerance(self, value: float) -> None:
         """Setter for the **self.relative_tolerance** property."""
 
         attest(
@@ -1490,7 +1490,7 @@ class NullInterpolator:
         return self._absolute_tolerance
 
     @absolute_tolerance.setter
-    def absolute_tolerance(self, value: float):
+    def absolute_tolerance(self, value: float) -> None:
         """Setter for the **self.absolute_tolerance** property."""
 
         attest(
@@ -1520,7 +1520,7 @@ class NullInterpolator:
         return self._default
 
     @default.setter
-    def default(self, value: float):
+    def default(self, value: float) -> None:
         """Setter for the **self.default** property."""
 
         attest(is_numeric(value), '"default" variable must be a "numeric"!')
@@ -1580,7 +1580,7 @@ class NullInterpolator:
 
         return np.squeeze(values)
 
-    def _validate_dimensions(self):
+    def _validate_dimensions(self) -> None:
         """Validate that the variables dimensions are the same."""
 
         if len(self._x) != len(self._y):
@@ -1589,7 +1589,7 @@ class NullInterpolator:
                 f'dimensions: "{len(self._x)}", "{len(self._y)}"'
             )
 
-    def _validate_interpolation_range(self, x: NDArrayFloat):
+    def _validate_interpolation_range(self, x: NDArrayFloat) -> None:
         """Validate given point to be in interpolation range."""
 
         below_interpolation_range = x < self._x[0]

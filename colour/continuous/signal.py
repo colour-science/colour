@@ -9,7 +9,7 @@ Define the class implementing support for continuous signal:
 
 from __future__ import annotations
 
-from collections.abc import Iterator, Mapping, Sequence, ValuesView
+from collections.abc import Iterator, KeysView, Mapping, Sequence, ValuesView
 from operator import pow  # noqa: A004
 from operator import (
     add,
@@ -242,8 +242,8 @@ class Signal(AbstractContinuousFunction):
 
     def __init__(
         self,
-        data: ArrayLike | dict | Self | Series | None = None,
-        domain: ArrayLike | None = None,
+        data: ArrayLike | dict | Self | Series | ValuesView | None = None,
+        domain: ArrayLike | KeysView | None = None,
         **kwargs: Any,
     ) -> None:
         super().__init__(kwargs.get("name"))
@@ -294,7 +294,7 @@ class Signal(AbstractContinuousFunction):
         return self._dtype
 
     @dtype.setter
-    def dtype(self, value: Type[DTypeFloat]):
+    def dtype(self, value: Type[DTypeFloat]) -> None:
         """Setter for the **self.dtype** property."""
 
         attest(
@@ -331,7 +331,7 @@ class Signal(AbstractContinuousFunction):
         return ndarray_copy(self._domain)
 
     @domain.setter
-    def domain(self, value: ArrayLike):
+    def domain(self, value: ArrayLike) -> None:
         """Setter for the **self.domain** property."""
 
         value = as_float_array(value, self.dtype)
@@ -374,7 +374,7 @@ class Signal(AbstractContinuousFunction):
         return ndarray_copy(self._range)
 
     @range.setter
-    def range(self, value: ArrayLike):
+    def range(self, value: ArrayLike) -> None:
         """Setter for the **self.range** property."""
 
         value = as_float_array(value, self.dtype)
@@ -414,7 +414,7 @@ class Signal(AbstractContinuousFunction):
         return self._interpolator
 
     @interpolator.setter
-    def interpolator(self, value: Type[ProtocolInterpolator]):
+    def interpolator(self, value: Type[ProtocolInterpolator]) -> None:
         """Setter for the **self.interpolator** property."""
 
         # TODO: Check for interpolator compatibility.
@@ -443,7 +443,7 @@ class Signal(AbstractContinuousFunction):
         return self._interpolator_kwargs
 
     @interpolator_kwargs.setter
-    def interpolator_kwargs(self, value: dict):
+    def interpolator_kwargs(self, value: dict) -> None:
         """Setter for the **self.interpolator_kwargs** property."""
 
         attest(
@@ -474,7 +474,7 @@ class Signal(AbstractContinuousFunction):
         return self._extrapolator
 
     @extrapolator.setter
-    def extrapolator(self, value: Type[ProtocolExtrapolator]):
+    def extrapolator(self, value: Type[ProtocolExtrapolator]) -> None:
         """Setter for the **self.extrapolator** property."""
 
         # TODO: Check for extrapolator compatibility.
@@ -503,7 +503,7 @@ class Signal(AbstractContinuousFunction):
         return self._extrapolator_kwargs
 
     @extrapolator_kwargs.setter
-    def extrapolator_kwargs(self, value: dict):
+    def extrapolator_kwargs(self, value: dict) -> None:
         """Setter for the **self.extrapolator_kwargs** property."""
 
         attest(
@@ -541,7 +541,7 @@ class Signal(AbstractContinuousFunction):
                 def _undefined_function(
                     *args: Any,  # noqa: ARG001
                     **kwargs: Any,  # noqa: ARG001
-                ):
+                ) -> None:
                     """
                     Raise a :class:`ValueError` exception.
 
@@ -717,7 +717,7 @@ class Signal(AbstractContinuousFunction):
         else:
             return self.function(x)
 
-    def __setitem__(self, x: ArrayLike | slice, y: ArrayLike):
+    def __setitem__(self, x: ArrayLike | slice, y: ArrayLike) -> None:
         """
         Set the corresponding range variable :math:`y` for independent domain
         variable :math:`x`.
@@ -938,7 +938,7 @@ class Signal(AbstractContinuousFunction):
         self,
         method: Literal["Constant", "Interpolation"] | str = "Interpolation",
         default: Real = 0,
-    ):
+    ) -> None:
         """
         Fill NaNs in independent domain variable :math:`x` using given method.
 
@@ -964,7 +964,7 @@ class Signal(AbstractContinuousFunction):
         self,
         method: Literal["Constant", "Interpolation"] | str = "Interpolation",
         default: Real = 0,
-    ):
+    ) -> None:
         """
         Fill NaNs in corresponding range variable :math:`y` using given method.
 
@@ -1095,8 +1095,8 @@ class Signal(AbstractContinuousFunction):
     @staticmethod
     @ndarray_copy_enable(True)
     def signal_unpack_data(
-        data=ArrayLike | dict | Series | "Signal" | None,
-        domain: ArrayLike | None = None,
+        data: ArrayLike | dict | Series | Signal | ValuesView | None,
+        domain: ArrayLike | KeysView | None = None,
         dtype: Type[DTypeFloat] | None = None,
     ) -> tuple:
         """
@@ -1199,10 +1199,13 @@ class Signal(AbstractContinuousFunction):
                 sorted(cast(Mapping, data).items())
             )
         elif is_pandas_installed() and isinstance(data, Series):
-            domain_unpacked = data.index.values
-            range_unpacked = data.values
+            domain_unpacked = as_float_array(data.index.values, dtype)  # pyright: ignore
+            range_unpacked = as_float_array(data.values, dtype)
 
         if domain is not None:
+            if isinstance(domain, KeysView):
+                domain = list(domain)
+
             domain_array = as_float_array(domain, dtype)
 
             attest(

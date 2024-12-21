@@ -93,7 +93,7 @@ class Structure(dict):
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
-    def __setattr__(self, name: str, value: Any):
+    def __setattr__(self, name: str, value: Any) -> None:
         """
         Assign given value to the attribute with given name.
 
@@ -107,7 +107,7 @@ class Structure(dict):
 
         self[name] = value
 
-    def __delattr__(self, name: str):
+    def __delattr__(self, name: str) -> None:
         """
         Delete the attribute with given name.
 
@@ -155,7 +155,7 @@ class Structure(dict):
         except KeyError as error:
             raise AttributeError(name) from error
 
-    def __setstate__(self, state):
+    def __setstate__(self, state: Any) -> None:
         """Set the object state when unpickling."""
         # See https://github.com/scikit-learn/scikit-learn/issues/6196 for more
         # information.
@@ -340,7 +340,7 @@ class CanonicalMapping(MutableMapping):
         else:
             return f"{self.__class__.__name__}({dict(self.items())})"
 
-    def __setitem__(self, item: str | Any, value: Any):
+    def __setitem__(self, item: str | Any, value: Any) -> None:
         """
         Set given item with given value in the delimiter and case-insensitive
         :class:`dict`-like object.
@@ -396,7 +396,7 @@ class CanonicalMapping(MutableMapping):
 
         return self[dict(zip(self.canonical_keys(), self.keys()))[item]]
 
-    def __delitem__(self, item: str | Any):
+    def __delitem__(self, item: str | Any) -> None:
         """
         Delete given item from the delimiter and case-insensitive
         :class:`dict`-like object.
@@ -545,7 +545,7 @@ class CanonicalMapping(MutableMapping):
         return not (self == other)
 
     @staticmethod
-    def _collision_warning(keys: list):
+    def _collision_warning(keys: list) -> None:
         """
         Issue a runtime warning when given keys are colliding.
 

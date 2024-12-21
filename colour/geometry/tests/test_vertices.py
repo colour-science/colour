@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.geometry.vertices` module."""
 
+from __future__ import annotations
+
 import numpy as np
 import pytest
 
@@ -33,7 +35,7 @@ class TestPrimitiveVerticesQuadMpl:
     definition unit tests methods.
     """
 
-    def test_primitive_vertices_quad_mpl(self):
+    def test_primitive_vertices_quad_mpl(self) -> None:
         """
         Test :func:`colour.geometry.vertices.primitive_vertices_quad_mpl`
         definition.
@@ -111,7 +113,7 @@ class TestPrimitiveVerticesGridMpl:
     definition unit tests methods.
     """
 
-    def test_primitive_vertices_grid_mpl(self):
+    def test_primitive_vertices_grid_mpl(self) -> None:
         """
         Test :func:`colour.geometry.vertices.primitive_vertices_grid_mpl`
         definition.
@@ -200,7 +202,7 @@ class TestPrimitiveVerticesCubeMpl:
     definition unit tests methods.
     """
 
-    def test_primitive_vertices_cube_mpl(self):
+    def test_primitive_vertices_cube_mpl(self) -> None:
         """
         Test :func:`colour.geometry.vertices.primitive_vertices_cube_mpl`
         definition.
@@ -599,7 +601,7 @@ class TestPrimitiveVerticesSphere:
     definition unit tests methods.
     """
 
-    def test_primitive_vertices_sphere(self):
+    def test_primitive_vertices_sphere(self) -> None:
         """
         Test :func:`colour.geometry.vertices.primitive_vertices_sphere`
         definition.

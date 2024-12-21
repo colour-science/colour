@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.adaptation.fairchild1990` module."""
 
+from __future__ import annotations
+
 import contextlib
 from itertools import product
 
@@ -28,7 +30,7 @@ class TestChromaticAdaptationFairchild1990:
 chromatic_adaptation_Fairchild1990` definition unit tests methods.
     """
 
-    def test_chromatic_adaptation_Fairchild1990(self):
+    def test_chromatic_adaptation_Fairchild1990(self) -> None:
         """
         Test :func:`colour.adaptation.fairchild1990.\
 chromatic_adaptation_Fairchild1990` definition.
@@ -67,7 +69,7 @@ chromatic_adaptation_Fairchild1990` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_chromatic_adaptation_Fairchild1990(self):
+    def test_n_dimensional_chromatic_adaptation_Fairchild1990(self) -> None:
         """
         Test :func:`colour.adaptation.fairchild1990.\
 chromatic_adaptation_Fairchild1990` definition n-dimensional arrays support.
@@ -107,7 +109,7 @@ chromatic_adaptation_Fairchild1990` definition n-dimensional arrays support.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_chromatic_adaptation_Fairchild1990(self):
+    def test_domain_range_scale_chromatic_adaptation_Fairchild1990(self) -> None:
         """
         Test :func:`colour.adaptation.fairchild1990.\
 chromatic_adaptation_Fairchild1990` definition domain and range scale support.
@@ -131,7 +133,7 @@ chromatic_adaptation_Fairchild1990` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_chromatic_adaptation_Fairchild1990(self):
+    def test_nan_chromatic_adaptation_Fairchild1990(self) -> None:
         """
         Test :func:`colour.adaptation.fairchild1990.\
 chromatic_adaptation_Fairchild1990` definition nan support.

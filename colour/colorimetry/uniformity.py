@@ -15,6 +15,8 @@ References
 
 from __future__ import annotations
 
+from collections.abc import ValuesView
+
 import numpy as np
 
 from colour.colorimetry import (
@@ -41,6 +43,7 @@ def spectral_uniformity(
         Sequence[SpectralDistribution | MultiSpectralDistributions]
         | SpectralDistribution
         | MultiSpectralDistributions
+        | ValuesView
     ),
     use_second_order_derivatives: bool = False,
 ) -> NDArrayFloat:

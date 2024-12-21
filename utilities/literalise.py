@@ -33,7 +33,7 @@ PATH_MODULE_HINTS = os.path.join(
 )
 
 
-def literalise(path_module_hints: str = PATH_MODULE_HINTS):
+def literalise(path_module_hints: str = PATH_MODULE_HINTS) -> None:
     """
     Write various literals in the `colour.hints` module.
 

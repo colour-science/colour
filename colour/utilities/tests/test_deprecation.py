@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.utilities.deprecation` module."""
 
+from __future__ import annotations
+
 import sys
 
 import pytest
@@ -53,7 +55,7 @@ class TestObjectRenamed:
     tests methods.
     """
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("__str__",)
@@ -61,7 +63,7 @@ class TestObjectRenamed:
         for method in required_methods:
             assert method in dir(ObjectRenamed)
 
-    def test__str__(self):
+    def test__str__(self) -> None:
         """
         Test :meth:`colour.utilities.deprecation.ObjectRenamed.__str__`
         method.
@@ -77,7 +79,7 @@ class TestObjectRemoved:
     tests methods.
     """
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("__str__",)
@@ -85,7 +87,7 @@ class TestObjectRemoved:
         for method in required_methods:
             assert method in dir(ObjectRemoved)
 
-    def test__str__(self):
+    def test__str__(self) -> None:
         """
         Test :meth:`colour.utilities.deprecation.ObjectRemoved.__str__`
         method.
@@ -100,7 +102,7 @@ class TestObjectFutureRename:
     tests methods.
     """
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("__str__",)
@@ -108,7 +110,7 @@ class TestObjectFutureRename:
         for method in required_methods:
             assert method in dir(ObjectFutureRename)
 
-    def test__str__(self):
+    def test__str__(self) -> None:
         """
         Test :meth:`colour.utilities.deprecation.ObjectFutureRename.__str__`
         method.
@@ -124,7 +126,7 @@ class TestObjectFutureRemove:
     tests methods.
     """
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("__str__",)
@@ -132,7 +134,7 @@ class TestObjectFutureRemove:
         for method in required_methods:
             assert method in dir(ObjectFutureRemove)
 
-    def test__str__(self):
+    def test__str__(self) -> None:
         """
         Test :meth:`colour.utilities.deprecation.ObjectFutureRemove.__str__`
         method.
@@ -151,7 +153,7 @@ class TestObjectFutureAccessChange:
     class unit tests methods.
     """
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("__str__",)
@@ -159,7 +161,7 @@ class TestObjectFutureAccessChange:
         for method in required_methods:
             assert method in dir(ObjectFutureAccessChange)
 
-    def test__str__(self):
+    def test__str__(self) -> None:
         """
         Test :meth:`colour.utilities.deprecation.\
 ObjectFutureAccessChange.__str__` method.
@@ -175,7 +177,7 @@ class TestObjectFutureAccessRemove:
     class unit tests methods.
     """
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("__str__",)
@@ -183,7 +185,7 @@ class TestObjectFutureAccessRemove:
         for method in required_methods:
             assert method in dir(ObjectFutureAccessRemove)
 
-    def test__str__(self):
+    def test__str__(self) -> None:
         """
         Test :meth:`colour.utilities.deprecation.\
 ObjectFutureAccessRemove.__str__` method.
@@ -202,7 +204,7 @@ class TestArgumentRenamed:
     tests methods.
     """
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("__str__",)
@@ -210,7 +212,7 @@ class TestArgumentRenamed:
         for method in required_methods:
             assert method in dir(ArgumentRenamed)
 
-    def test__str__(self):
+    def test__str__(self) -> None:
         """
         Test :meth:`colour.utilities.deprecation.ArgumentRenamed.__str__`
         method.
@@ -226,7 +228,7 @@ class TestArgumentRemoved:
     tests methods.
     """
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("__str__",)
@@ -234,7 +236,7 @@ class TestArgumentRemoved:
         for method in required_methods:
             assert method in dir(ArgumentRemoved)
 
-    def test__str__(self):
+    def test__str__(self) -> None:
         """
         Test :meth:`colour.utilities.deprecation.ArgumentRemoved.__str__`
         method.
@@ -249,7 +251,7 @@ class TestArgumentFutureRename:
     unit tests methods.
     """
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("__str__",)
@@ -257,7 +259,7 @@ class TestArgumentFutureRename:
         for method in required_methods:
             assert method in dir(ArgumentFutureRename)
 
-    def test__str__(self):
+    def test__str__(self) -> None:
         """
         Test :meth:`colour.utilities.deprecation.\
 ArgumentFutureRename.__str__` method.
@@ -273,7 +275,7 @@ class TestArgumentFutureRemove:
     unit tests methods.
     """
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("__str__",)
@@ -281,7 +283,7 @@ class TestArgumentFutureRemove:
         for method in required_methods:
             assert method in dir(ArgumentFutureRemove)
 
-    def test__str__(self):
+    def test__str__(self) -> None:
         """
         Test :meth:`colour.utilities.deprecation.\
 ArgumentFutureRemove.__str__` method.
@@ -300,7 +302,7 @@ class TestModuleAPI:
     methods.
     """
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("__init__", "__getattr__", "__dir__")
@@ -308,7 +310,7 @@ class TestModuleAPI:
         for method in required_methods:
             assert method in dir(ModuleAPI)
 
-    def test__getattr__(self):
+    def test__getattr__(self) -> None:
         """
         Test :meth:`colour.utilities.deprecation.ModuleAPI.__getattr__`
         method.
@@ -318,16 +320,16 @@ class TestModuleAPI:
 
         assert colour.utilities.tests.test_deprecated.NAME is None
 
-        def assert_warns():
+        def assert_warns() -> None:
             """Help to test the runtime warning."""
 
-            colour.utilities.tests.test_deprecated.OLD_NAME  # noqa: B018
+            colour.utilities.tests.test_deprecated.OLD_NAME  # noqa: B018  # pyright: ignore
 
         pytest.warns(ColourUsageWarning, assert_warns)
 
         del sys.modules["colour.utilities.tests.test_deprecated"]
 
-    def test_raise_exception__getattr__(self):
+    def test_raise_exception__getattr__(self) -> None:
         """
         Test :func:`colour.utilities.deprecation.ModuleAPI.__getattr__`
         method raised exception.
@@ -351,7 +353,7 @@ class TestGetAttribute:
     tests methods.
     """
 
-    def test_get_attribute(self):
+    def test_get_attribute(self) -> None:
         """Test :func:`colour.utilities.deprecation.get_attribute` definition."""
 
         from colour import adaptation
@@ -383,7 +385,7 @@ class TestBuildAPIChanges:
     unit tests methods.
     """
 
-    def test_build_API_changes(self):
+    def test_build_API_changes(self) -> None:
         """
         Test :func:`colour.utilities.deprecation.build_API_changes`
         definition.
@@ -449,7 +451,7 @@ class TestHandleArgumentsDeprecation:
     definition unit tests methods.
     """
 
-    def test_handle_arguments_deprecation(self):
+    def test_handle_arguments_deprecation(self) -> None:
         """
         Test :func:`colour.utilities.deprecation.handle_arguments_deprecation`
         definition.
