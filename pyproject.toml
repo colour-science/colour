@@ -213,7 +213,7 @@ ignore = [
     "PLR2004", # Magic value used in comparison, consider replacing `.*` with a constant variable
     "RUF022", # [*] `__all__` is not sorted
     "TRY003", # Avoid specifying long messages outside the exception class
-    "UP038",
+    "UP038", #  Use `X | Y` in `isinstance` call instead of `(X, Y)`
 ]
 typing-modules = ["colour.hints"]
 
