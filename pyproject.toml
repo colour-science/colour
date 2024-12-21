@@ -207,7 +207,6 @@ ignore = [
     "N815", # Variable `.*` in class scope should not be mixedCase
     "N816", # Variable `.*` in global scope should not be mixedCase
     "PGH003", # Use specific rule codes when ignoring type issues
-    "PLR0911",
     "PLR0912",
     "PLR0913",
     "PLR0915",

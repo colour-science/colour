@@ -166,12 +166,12 @@ def matrix_augmented_Cheung2004(
             f"{closest_terms} terms!"
         )
 
-    if terms == 3:  # noqa: RET503
-        return RGB
+    if terms == 3:
+        expansion = RGB
     elif terms == 4:
-        return tstack([R, G, B, tail])
+        expansion = tstack([R, G, B, tail])
     elif terms == 5:
-        return tstack(
+        expansion = tstack(
             [
                 R,
                 G,
@@ -181,7 +181,7 @@ def matrix_augmented_Cheung2004(
             ]
         )
     elif terms == 7:
-        return tstack(
+        expansion = tstack(
             [
                 R,
                 G,
@@ -193,7 +193,7 @@ def matrix_augmented_Cheung2004(
             ]
         )
     elif terms == 8:
-        return tstack(
+        expansion = tstack(
             [
                 R,
                 G,
@@ -206,7 +206,7 @@ def matrix_augmented_Cheung2004(
             ]
         )
     elif terms == 10:
-        return tstack(
+        expansion = tstack(
             [
                 R,
                 G,
@@ -221,7 +221,7 @@ def matrix_augmented_Cheung2004(
             ]
         )
     elif terms == 11:
-        return tstack(
+        expansion = tstack(
             [
                 R,
                 G,
@@ -237,7 +237,7 @@ def matrix_augmented_Cheung2004(
             ]
         )
     elif terms == 14:
-        return tstack(
+        expansion = tstack(
             [
                 R,
                 G,
@@ -256,7 +256,7 @@ def matrix_augmented_Cheung2004(
             ]
         )
     elif terms == 16:
-        return tstack(
+        expansion = tstack(
             [
                 R,
                 G,
@@ -277,7 +277,7 @@ def matrix_augmented_Cheung2004(
             ]
         )
     elif terms == 17:
-        return tstack(
+        expansion = tstack(
             [
                 R,
                 G,
@@ -299,7 +299,7 @@ def matrix_augmented_Cheung2004(
             ]
         )
     elif terms == 19:
-        return tstack(
+        expansion = tstack(
             [
                 R,
                 G,
@@ -323,7 +323,7 @@ def matrix_augmented_Cheung2004(
             ]
         )
     elif terms == 20:
-        return tstack(
+        expansion = tstack(
             [
                 R,
                 G,
@@ -348,7 +348,7 @@ def matrix_augmented_Cheung2004(
             ]
         )
     elif terms == 22:
-        return tstack(
+        expansion = tstack(
             [
                 R,
                 G,
@@ -375,7 +375,7 @@ def matrix_augmented_Cheung2004(
             ]
         )
     elif terms == 35:
-        return tstack(
+        expansion = tstack(
             [
                 R,
                 G,
@@ -414,6 +414,8 @@ def matrix_augmented_Cheung2004(
                 tail,
             ]
         )
+
+    return expansion
 
 
 def polynomial_expansion_Finlayson2015(
@@ -466,11 +468,11 @@ def polynomial_expansion_Finlayson2015(
             f"{closest_degree} degree!"
         )
 
-    if degree == 1:  # noqa: RET503
-        return RGB
+    if degree == 1:
+        expansion = RGB
     elif degree == 2:
         if root_polynomial_expansion:
-            return tstack(
+            expansion = tstack(
                 [
                     as_float(R),
                     as_float(G),
@@ -482,7 +484,7 @@ def polynomial_expansion_Finlayson2015(
             )
 
         else:
-            return tstack(
+            expansion = tstack(
                 [
                     R,
                     G,
@@ -497,7 +499,7 @@ def polynomial_expansion_Finlayson2015(
             )
     elif degree == 3:
         if root_polynomial_expansion:
-            return tstack(
+            expansion = tstack(
                 [
                     as_float(R),
                     as_float(G),
@@ -515,7 +517,7 @@ def polynomial_expansion_Finlayson2015(
                 ]
             )
         else:
-            return tstack(
+            expansion = tstack(
                 [
                     R,
                     G,
@@ -540,7 +542,7 @@ def polynomial_expansion_Finlayson2015(
             )
     elif degree == 4:
         if root_polynomial_expansion:
-            return tstack(
+            expansion = tstack(
                 [
                     as_float(R),
                     as_float(G),
@@ -567,7 +569,7 @@ def polynomial_expansion_Finlayson2015(
                 ]
             )
         else:
-            return tstack(
+            expansion = tstack(
                 [
                     R,
                     G,
@@ -605,6 +607,8 @@ def polynomial_expansion_Finlayson2015(
                     B**2 * R * G,
                 ]
             )
+
+    return expansion
 
 
 def polynomial_expansion_Vandermonde(a: ArrayLike, degree: int = 1) -> NDArrayFloat:
