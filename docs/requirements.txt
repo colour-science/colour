@@ -5,44 +5,44 @@ alabaster==1.0.0
 babel==2.16.0
 beautifulsoup4==4.12.3
 biblib-simple==0.1.2
-certifi==2024.8.30
+certifi==2024.12.14
 charset-normalizer==3.4.0
-colorama==0.4.6 ; sys_platform == 'win32' or platform_system == 'Windows'
-contourpy==1.3.0
+colorama==0.4.6 ; sys_platform == 'win32'
+contourpy==1.3.1
 cycler==0.12.1
 docutils==0.21.2
-fonttools==4.54.1
+fonttools==4.55.3
 idna==3.10
-imageio==2.35.1
+imageio==2.36.1
 imagesize==1.4.1
 jinja2==3.1.4
 kiwisolver==1.4.7
 latexcodec==3.0.0
-markupsafe==3.0.1
-matplotlib==3.9.2
-networkx==3.4
-numpy==2.1.2
-opencolorio==2.4.0
-packaging==24.1
+markupsafe==3.0.2
+matplotlib==3.10.0
+networkx==3.4.2
+numpy==2.2.0
+opencolorio==2.4.1
+packaging==24.2
 pandas==2.2.3
-pillow==10.4.0
+pillow==11.0.0
 pybtex==0.24.0
 pybtex-docutils==1.0.3
-pydata-sphinx-theme==0.15.4
-pydot==3.0.2
+pydata-sphinx-theme==0.16.1
+pydot==3.0.3
 pygments==2.18.0
-pyparsing==3.1.4
+pyparsing==3.2.0
 python-dateutil==2.9.0.post0
 pytz==2024.2
 pyyaml==6.0.2
 requests==2.32.3
 restructuredtext-lint==1.4.0
 scipy==1.14.1
-setuptools==75.1.0 ; python_full_version >= '3.12'
-six==1.16.0
+setuptools==75.6.0 ; python_full_version >= '3.12'
+six==1.17.0
 snowballstemmer==2.2.0
 soupsieve==2.6
-sphinx==8.1.0
+sphinx==8.1.3
 sphinxcontrib-applehelp==2.0.0
 sphinxcontrib-bibtex==2.6.3
 sphinxcontrib-devhelp==2.0.0
@@ -50,9 +50,9 @@ sphinxcontrib-htmlhelp==2.1.0
 sphinxcontrib-jsmath==1.0.1
 sphinxcontrib-qthelp==2.0.0
 sphinxcontrib-serializinghtml==2.0.0
-tomli==2.0.2 ; python_full_version < '3.11'
-tqdm==4.66.5
-trimesh==4.4.9
+tomli==2.2.1 ; python_full_version < '3.11'
+tqdm==4.67.1
+trimesh==4.5.3
 typing-extensions==4.12.2
 tzdata==2024.2
 urllib3==2.2.3
