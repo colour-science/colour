@@ -137,7 +137,7 @@ def _generate_unit_tests_specifications() -> tuple:  # pragma: no cover
 
             if len(specifications) == 100:
                 break
-        except Exception as error:
+        except (AssertionError, RuntimeError, ValueError) as error:
             print(specification)  # noqa: T201
             print(error)  # noqa: T201
 

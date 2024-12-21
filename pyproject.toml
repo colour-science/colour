@@ -153,7 +153,7 @@ select = [
     "ARG", # flake8-unused-arguments
     "ANN", # flake8-annotations
     "B", # flake8-bugbear
-    # "BLE", # flake8-blind-except
+    "BLE", # flake8-blind-except
     "C4", # flake8-comprehensions
     # "C90", # mccabe
     # "COM", # flake8-commas

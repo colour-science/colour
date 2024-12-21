@@ -406,9 +406,10 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
                             self._metadata[attribute] = method(
                                 value  # pyright: ignore
                             )
-                            break
-                        except Exception:
+                        except (TypeError, ValueError):
                             self._metadata[attribute] = value
+                        else:
+                            break
 
         self.name = os.path.splitext(os.path.basename(path))[0]
         spectral_data = as_float_array(

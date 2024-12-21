@@ -204,7 +204,7 @@ def _plot_report_footer(axes: Axes) -> Axes:
             "colour-science.org"
         ]["colour"]
         version = f" {describe}."
-    except Exception:  # pragma: no cover
+    except Exception:  # pragma: no cover # noqa: BLE001
         version = "."
 
     axes.set_axis_off()
