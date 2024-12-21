@@ -166,6 +166,7 @@ select = [
     "EM", # flake8-errmsg
     "EXE", # flake8-executable
     "F", # flake8
+    "FA", # flake8-future-annotations
     # "FBT", # flake8-boolean-trap
     "G", # flake8-logging-format
     "I", # isort
