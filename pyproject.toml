@@ -171,7 +171,7 @@ select = [
     "INP", # flake8-no-pep420
     "ISC", # flake8-implicit-str-concat
     "N", # pep8-naming
-    # "PD", # pandas-vet
+    "PD", # pandas-vet
     "PIE", # flake8-pie
     "PGH", # pygrep-hooks
     "PL", # pylint
