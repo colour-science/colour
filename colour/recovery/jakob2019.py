@@ -464,10 +464,9 @@ def find_coefficients_Jakob2019(
 
             if error > max_error:
                 break
-            else:
-                XYZ_g = XYZ_i
-                coefficients_g = coefficients_0
-                keep_divisions = True
+            XYZ_g = XYZ_i
+            coefficients_g = coefficients_0
+            keep_divisions = True
         else:
             break
 
