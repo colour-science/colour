@@ -116,7 +116,6 @@ from colour.utilities import (
     ones,
     optional,
     runtime_warning,
-    suppress_warnings,
     tsplit,
     zeros,
 )
@@ -392,13 +391,10 @@ def generate_illuminants_rawtoaces_v1() -> CanonicalMapping:
             sd.name = f"D{int(CCT / 100):d}"
             illuminants[sd.name] = sd.align(SPECTRAL_SHAPE_RAWTOACES)
 
-        # TODO: Remove when removing the "colour.sd_blackbody" definition
-        # warning.
-        with suppress_warnings(colour_usage_warnings=True):
-            # Blackbody from 1000K to 4000K.
-            for i in np.arange(1000, 4000, 500):
-                sd = sd_blackbody(i, SPECTRAL_SHAPE_RAWTOACES)
-                illuminants[sd.name] = sd
+        # Blackbody from 1000K to 4000K.
+        for i in np.arange(1000, 4000, 500):
+            sd = sd_blackbody(i, SPECTRAL_SHAPE_RAWTOACES)
+            illuminants[sd.name] = sd
 
         # A.M.P.A.S. variant of ISO 7589 Studio Tungsten.
         sd = read_sds_from_csv_file(
