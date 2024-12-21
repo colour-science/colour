@@ -70,13 +70,15 @@ def is_ctlrender_installed(raise_exception: bool = False) -> bool:
 
         if "transforms an image using one or more CTL scripts" not in stdout:
             raise FileNotFoundError  # noqa: TRY301
-    except FileNotFoundError as error:  # pragma: no cover
+    except FileNotFoundError as exception:  # pragma: no cover
         if raise_exception:
-            raise FileNotFoundError(
+            error = (
                 '"ctlrender" related API features are not available: '
-                f'"{error}".\nSee the installation guide for more information: '
+                f'"{exception}".\nSee the installation guide for more information: '
                 "https://www.colour-science.org/installation-guide/"
-            ) from error
+            )
+
+            raise FileNotFoundError(error) from exception
 
         return False
     else:
@@ -105,13 +107,15 @@ def is_matplotlib_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         import matplotlib as mpl  # noqa: F401
-    except ImportError as error:  # pragma: no cover
+    except ImportError as exception:  # pragma: no cover
         if raise_exception:
-            raise ImportError(
+            error = (
                 '"Matplotlib" related API features are not available: '
-                f'"{error}".\nSee the installation guide for more information: '
+                f'"{exception}".\nSee the installation guide for more information: '
                 "https://www.colour-science.org/installation-guide/"
-            ) from error
+            )
+
+            raise ImportError(error) from exception
 
         return False
     else:
@@ -140,14 +144,16 @@ def is_networkx_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         import networkx as nx  # noqa: F401
-    except ImportError as error:  # pragma: no cover
+    except ImportError as exception:  # pragma: no cover
         if raise_exception:
-            raise ImportError(
+            error = (
                 '"NetworkX" related API features, e.g., the automatic colour '
-                f'conversion graph, are not available: "{error}".\nPlease refer '
+                f'conversion graph, are not available: "{exception}".\nPlease refer '
                 "to the installation guide for more information: "
                 "https://www.colour-science.org/installation-guide/"
-            ) from error
+            )
+
+            raise ImportError(error) from exception
 
         return False
     else:
@@ -176,13 +182,15 @@ def is_opencolorio_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         import PyOpenColorIO  # noqa: F401
-    except ImportError as error:  # pragma: no cover
+    except ImportError as exception:  # pragma: no cover
         if raise_exception:
-            raise ImportError(
+            error = (
                 '"OpenColorIO" related API features are not available: '
-                f'"{error}".\nSee the installation guide for more information: '
+                f'"{exception}".\nSee the installation guide for more information: '
                 "https://www.colour-science.org/installation-guide/"
-            ) from error
+            )
+
+            raise ImportError(error) from exception
 
         return False
     else:
@@ -211,13 +219,15 @@ def is_openimageio_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         import OpenImageIO  # noqa: F401
-    except ImportError as error:  # pragma: no cover
+    except ImportError as exception:  # pragma: no cover
         if raise_exception:
-            raise ImportError(
+            error = (
                 '"OpenImageIO" related API features are not available: '
-                f'"{error}".\nSee the installation guide for more information: '
+                f'"{exception}".\nSee the installation guide for more information: '
                 "https://www.colour-science.org/installation-guide/"
-            ) from error
+            )
+
+            raise ImportError(error) from exception
 
         return False
     else:
@@ -246,13 +256,15 @@ def is_pandas_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         import pandas  # noqa: F401, ICN001
-    except ImportError as error:  # pragma: no cover
+    except ImportError as exception:  # pragma: no cover
         if raise_exception:
-            raise ImportError(
-                f'"Pandas" related API features are not available: "{error}".\n'
+            error = (
+                f'"Pandas" related API features are not available: "{exception}".\n'
                 "See the installation guide for more information: "
                 "https://www.colour-science.org/installation-guide/"
-            ) from error
+            )
+
+            raise ImportError(error) from exception
 
         return False
     else:
@@ -283,24 +295,28 @@ def is_pydot_installed(raise_exception: bool = False) -> bool:
     try:  # pragma: no cover
         import pydot  # noqa: F401
 
-    except ImportError as error:  # pragma: no cover
+    except ImportError as exception:  # pragma: no cover
         if raise_exception:
-            raise ImportError(
+            error = (
                 '"Pydot" related API features are not available: '
-                f'"{error}".\nSee the installation guide for more information: '
+                f'"{exception}".\nSee the installation guide for more information: '
                 "https://www.colour-science.org/installation-guide/"
-            ) from error
+            )
+
+            raise ImportError(error) from exception
 
     if shutil.which("fdp") is not None:
         return True
 
     if raise_exception:
-        raise RuntimeError(
+        error = (
             '"Graphviz" is not installed, "Pydot" related API features '
             "are not available!"
             "\nSee the installation guide for more information: "
             "https://www.colour-science.org/installation-guide/"
         )
+
+        raise RuntimeError(error)
 
     return False
 
@@ -327,13 +343,15 @@ def is_tqdm_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         import tqdm  # noqa: F401
-    except ImportError as error:  # pragma: no cover
+    except ImportError as exception:  # pragma: no cover
         if raise_exception:
-            raise ImportError(
-                f'"tqdm" related API features are not available: "{error}".\n'
+            error = (
+                f'"tqdm" related API features are not available: "{exception}".\n'
                 "See the installation guide for more information: "
                 "https://www.colour-science.org/installation-guide/"
-            ) from error
+            )
+
+            raise ImportError(error) from exception
 
         return False
     else:
@@ -362,13 +380,15 @@ def is_trimesh_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         import trimesh  # noqa: F401
-    except ImportError as error:  # pragma: no cover
+    except ImportError as exception:  # pragma: no cover
         if raise_exception:
-            raise ImportError(
+            error = (
                 '"Trimesh" related API features are not available: '
-                f'"{error}".\nSee the installation guide for more information: '
+                f'"{exception}".\nSee the installation guide for more information: '
                 "https://www.colour-science.org/installation-guide/"
-            ) from error
+            )
+
+            raise ImportError(error) from exception
 
         return False
     else:
@@ -397,13 +417,15 @@ def is_xxhash_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         import xxhash  # noqa: F401
-    except ImportError as error:  # pragma: no cover
+    except ImportError as exception:  # pragma: no cover
         if raise_exception:
-            raise ImportError(
+            error = (
                 '"xxhash" related API features are not available: '
-                f'"{error}".\nSee the installation guide for more information: '
+                f'"{exception}".\nSee the installation guide for more information: '
                 "https://www.colour-science.org/installation-guide/"
-            ) from error
+            )
+
+            raise ImportError(error) from exception
 
         return False
     else:

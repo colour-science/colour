@@ -502,10 +502,12 @@ def CIECAM16_to_XYZ(
     if has_only_nan(C) and not has_only_nan(M):
         C = M / spow(F_L, 0.25)
     elif has_only_nan(C):
-        raise ValueError(
+        error = (
             'Either "C" or "M" correlate must be defined in '
             'the "CAM_Specification_CIECAM16" argument!'
         )
+
+        raise ValueError(error)
 
     # Step 2
     # Computing temporary magnitude quantity :math:`t`.

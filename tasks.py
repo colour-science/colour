@@ -369,7 +369,9 @@ def build(ctx: Context) -> None:
 
     message_box("Building...")
     if "modified:   README.rst" in ctx.run("git status").stdout:  # pyright: ignore
-        raise RuntimeError('Please commit your changes to the "README.rst" file!')
+        error = 'Please commit your changes to the "README.rst" file!'
+
+        raise RuntimeError(error)
 
     with open("README.rst") as readme_file:
         readme_content = readme_file.read()
@@ -446,7 +448,9 @@ def tag(ctx: Context) -> None:
     result = ctx.run("git rev-parse --abbrev-ref HEAD", hide="both")
 
     if result.stdout.strip() != "develop":  # pyright: ignore
-        raise RuntimeError("Are you still on a feature or master branch?")
+        error = "Are you still on a feature or master branch?"
+
+        raise RuntimeError(error)
 
     with open(os.path.join(PYTHON_PACKAGE_NAME, "__init__.py")) as file_handle:
         file_content = file_handle.read()
@@ -475,10 +479,12 @@ def tag(ctx: Context) -> None:
             tags.add(remote_tag.split("refs/tags/")[1].replace("refs/tags/", "^{}"))
         version_tags = sorted(tags)
         if f"v{version}" in version_tags:
-            raise RuntimeError(
+            error = (
                 f'A "{PYTHON_PACKAGE_NAME}" "v{version}" tag already exists in '
                 f"remote repository!"
             )
+
+            raise RuntimeError(error)
 
         ctx.run(f"git flow release start v{version}")
         ctx.run(f"git flow release finish v{version}")

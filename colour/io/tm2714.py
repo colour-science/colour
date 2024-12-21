@@ -1670,10 +1670,12 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
             if match:
                 namespace = match.group(1)
             else:
-                raise ValueError(
+                error = (
                     'The "IES TM-27-14" spectral distribution namespace '
                     "was not found!"
                 )
+
+                raise ValueError(error)
 
             self.name = os.path.splitext(os.path.basename(self._path))[0]
 
@@ -1718,7 +1720,10 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
             self.values = as_float_array(values)
 
             return self
-        raise ValueError('The "IES TM-27-14" spectral distribution path is undefined!')
+
+        error = 'The "IES TM-27-14" spectral distribution path is undefined!'
+
+        raise ValueError(error)
 
     def write(self) -> bool:
         """
@@ -1780,4 +1785,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                 file.write(xml)
 
             return True
-        raise ValueError('The "IES TM-27-14" spectral distribution path is undefined!')
+
+        error = 'The "IES TM-27-14" spectral distribution path is undefined!'
+
+        raise ValueError(error)

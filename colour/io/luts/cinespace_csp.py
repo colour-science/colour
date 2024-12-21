@@ -324,7 +324,9 @@ def write_LUT_Cinespace(
         LUT = LUTSequence(LUT3x1D(), LUT)
 
     else:
-        raise TypeError("LUT must be 1D, 3x1D, 3D, 1D + 3D or 3x1D + 3D!")
+        error = "LUT must be 1D, 3x1D, 3D, 1D + 3D or 3x1D + 3D!"
+
+        raise TypeError(error)
 
     if has_3x1D:
         attest(

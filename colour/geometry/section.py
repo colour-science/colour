@@ -243,6 +243,8 @@ def hull_section(
 
     section = trimesh.intersections.mesh_plane(hull, normal, plane)
     if len(section) == 0:
-        raise ValueError(f'No section exists on "{axis}" axis at {origin} origin!')
+        error = f'No section exists on "{axis}" axis at {origin} origin!'
+
+        raise ValueError(error)
 
     return close_chord(unique_vertices(edges_to_chord(section)))

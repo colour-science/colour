@@ -1159,8 +1159,10 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArrayFloat:
                 # 300K iterations with random numbers never reached this code
                 # path, it is kept for consistency with the reference
                 # implementation.
+                error = "Maximum inner iterations count reached without convergence!"
+
                 raise RuntimeError(  # pragma: no cover
-                    "Maximum inner iterations count reached without convergence!"
+                    error
                 )
 
             hue_angle_inner = (
@@ -1269,9 +1271,9 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArrayFloat:
             iterations_inner += 1
 
             if iterations_inner > iterations_maximum_inner:
-                raise RuntimeError(
-                    "Maximum inner iterations count reached without convergence!"
-                )
+                error = "Maximum inner iterations count reached without convergence!"
+
+                raise RuntimeError(error)
 
             with sdiv_mode():
                 chroma_inner = (
@@ -1326,8 +1328,10 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArrayFloat:
     # NOTE: This exception is likely never raised in practice: 300K iterations
     # with random numbers never reached this code path, it is kept for
     # consistency with the reference # implementation
+    error = "Maximum outside iterations count reached without convergence!"
+
     raise RuntimeError(  # pragma: no cover
-        "Maximum outside iterations count reached without convergence!"
+        error
     )
 
 
@@ -1509,10 +1513,12 @@ def parse_munsell_colour(munsell_colour: str) -> NDArrayFloat:
             ]
         )
 
-    raise ValueError(
+    error = (
         f'"{munsell_colour}" is not a valid "Munsell Renotation System" '
         f"colour specification!"
     )
+
+    raise ValueError(error)
 
 
 def is_grey_munsell_colour(specification: ArrayLike) -> bool:
@@ -1742,11 +1748,13 @@ def xyY_from_renotation(
         )
 
         return MUNSELL_COLOURS_ALL[as_int_scalar(index[0])][1]
-    except Exception as error:
-        raise ValueError(
+    except Exception as exception:
+        error = (
             f'"{specification}" specification does not exists in '
             '"Munsell Renotation System" data!'
-        ) from error
+        )
+
+        raise ValueError(error) from exception
 
 
 def is_specification_in_renotation(specification: ArrayLike) -> bool:

@@ -1954,9 +1954,9 @@ class LUT3D(AbstractLUT):
         """
 
         if self.is_domain_explicit():
-            raise NotImplementedError(
-                'Inverting a "LUT3D" with an explicit domain is not implemented!'
-            )
+            error = 'Inverting a "LUT3D" with an explicit domain is not implemented!'
+
+            raise NotImplementedError(error)
 
         interpolator = kwargs.get("interpolator", table_interpolation_trilinear)
         extrapolate = kwargs.get("extrapolate", False)
@@ -2181,11 +2181,13 @@ def LUT_to_LUT(
     path = (ranks[LUT.__class__], ranks[cls])  # pyright: ignore
     path_verbose = [f"{element}D" if element != 2 else "3x1D" for element in path]
     if path in ((1, 3), (2, 1), (2, 3), (3, 1), (3, 2)) and not force_conversion:
-        raise ValueError(
+        error = (
             f'Conversion of a "LUT" {path_verbose[0]} to a "LUT" '
             f"{path_verbose[1]} is destructive, please use the "
             f'"force_conversion" argument to proceed!'
         )
+
+        raise ValueError(error)
 
     suffix = f" - Converted {path_verbose[0]} to {path_verbose[1]}"
     name = f"{LUT.name}{suffix}"

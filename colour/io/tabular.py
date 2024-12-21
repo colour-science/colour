@@ -324,10 +324,12 @@ def write_sds_to_csv_file(
     if len(sds) != 1:
         shapes = [sd.shape for sd in sds.values()]
         if not all(shape == shapes[0] for shape in shapes):
-            raise ValueError(
+            error = (
                 "Cannot write spectral distributions "
                 'with different shapes to "CSV" file!'
             )
+
+            raise ValueError(error)
 
     wavelengths = next(iter(sds.values())).wavelengths
     with open(path, "w") as csv_file:

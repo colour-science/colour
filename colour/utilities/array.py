@@ -2715,9 +2715,11 @@ def index_along_last_axis(a: ArrayLike, indexes: ArrayLike) -> NDArray:
     indexes = np.array(indexes)
 
     if a.shape[:-1] != indexes.shape:
-        raise ValueError(
+        error = (
             f"Array and indexes have incompatible shapes: {a.shape} and {indexes.shape}"
         )
+
+        raise ValueError(error)
 
     return np.take_along_axis(a, indexes[..., None], axis=-1).squeeze(axis=-1)
 

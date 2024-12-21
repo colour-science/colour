@@ -536,10 +536,12 @@ def Hellwig2022_to_XYZ(
 
         J = J_HK - hue_angle_dependency_Hellwig2022(h) * spow(C, 0.587)
     elif has_only_nan(J):
-        raise ValueError(
+        error = (
             'Either "J" or "J_HK" correlate must be defined in '
             'the "CAM_Specification_Hellwig2022" argument!'
         )
+
+        raise ValueError(error)
     else:
         J = to_domain_100(J)
 
@@ -573,10 +575,12 @@ def Hellwig2022_to_XYZ(
     if has_only_nan(M) and not has_only_nan(C):
         M = (C * A_w) / 35
     elif has_only_nan(M):
-        raise ValueError(
+        error = (
             'Either "C" or "M" correlate must be defined in '
             'the "CAM_Specification_Hellwig2022" argument!'
         )
+
+        raise ValueError(error)
 
     # Step 2
     # Computing eccentricity factor *e_t*.

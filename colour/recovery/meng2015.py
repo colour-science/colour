@@ -199,10 +199,12 @@ def XYZ_to_sd_Meng2015(
     result = minimize(objective_function, sd.values, **optimisation_settings)
 
     if not result.success:
-        raise RuntimeError(
+        error = (
             f"Optimisation failed for {XYZ} after {result.nit} iterations: "
             f'"{result.message}".'
         )
+
+        raise RuntimeError(error)
 
     return SpectralDistribution(
         from_range_100(result.x * 100),

@@ -504,10 +504,12 @@ def Kim2009_to_XYZ(
         a_m, b_m = 0.11, 0.61
         C = M / (a_m * np.log10(Y_w) + b_m)
     elif has_only_nan(C):
-        raise ValueError(
+        error = (
             'Either "C" or "M" correlate must be defined in '
             'the "CAM_Specification_Kim2009" argument!'
         )
+
+        raise ValueError(error)
 
     # Cones absolute response.
     LMS_w_n_c = spow(LMS_w, n_c)

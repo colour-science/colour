@@ -175,7 +175,9 @@ def ctl_render(
                 ctl_transform = temp_filename  # noqa: PLW2901
                 temp_filenames.append(temp_filename)
         elif not os.path.exists(ctl_transform):
-            raise FileNotFoundError(f'{ctl_transform} "CTL" transform does not exist!')
+            error = f'{ctl_transform} "CTL" transform does not exist!'
+
+            raise FileNotFoundError(error)
 
         command.extend(["-ctl", ctl_transform])
         for parameter in parameters:

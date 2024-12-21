@@ -228,7 +228,9 @@ def _reserved(*args: Any) -> NoReturn:  # noqa: ARG001
     ...     pass
     """
 
-    raise RuntimeError("Reserved; For future use by ITU-T | ISO/IEC.")
+    error = "Reserved; For future use by ITU-T | ISO/IEC."
+
+    raise RuntimeError(error)
 
 
 def _unspecified(*args: Any) -> NoReturn:  # noqa: ARG001
@@ -243,10 +245,12 @@ def _unspecified(*args: Any) -> NoReturn:  # noqa: ARG001
     ...     pass
     """
 
-    raise RuntimeError(
+    error = (
         "Unspecified; Image characteristics are unknown or are determined by "
         "the application."
     )
+
+    raise RuntimeError(error)
 
 
 COLOUR_PRIMARIES_ITUTH273: Dict[int, NDArrayFloat] = {

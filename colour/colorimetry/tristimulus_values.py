@@ -377,10 +377,14 @@ def tristimulus_weighting_factors_ASTME2022(
     """
 
     if cmfs.shape.interval != 1:
-        raise ValueError(f'"{cmfs}" shape "interval" must be 1!')
+        error = f'"{cmfs}" shape "interval" must be 1!'
+
+        raise ValueError(error)
 
     if illuminant.shape.interval != 1:
-        raise ValueError(f'"{illuminant}" shape "interval" must be 1!')
+        error = f'"{illuminant}" shape "interval" must be 1!'
+
+        raise ValueError(error)
 
     global _CACHE_TRISTIMULUS_WEIGHTING_FACTORS  # noqa: PLW0602
 
@@ -986,11 +990,13 @@ def sd_to_XYZ_ASTME308(
     )
 
     if sd.shape.interval not in (1, 5, 10, 20):
-        raise ValueError(
+        error = (
             "Tristimulus values conversion from spectral data according to "
             'practise "ASTM E308-15" should be performed on spectral data '
             "with measurement interval of 1, 5, 10 or 20nm!"
         )
+
+        raise ValueError(error)
 
     if sd.shape.interval in (10, 20) and (
         sd.shape.start % 10 != 0 or sd.shape.end % 10 != 0
@@ -1737,10 +1743,13 @@ def msds_to_XYZ_ASTME308(
                 for sd in msds.to_sds()
             ]
         )
-    raise TypeError(
+
+    error = (
         '"ASTM E308-15" method does not support "ArrayLike" '
         "multi-spectral distributions!"
     )
+
+    raise TypeError(error)
 
 
 MSDS_TO_XYZ_METHODS = CanonicalMapping(
@@ -2080,9 +2089,11 @@ def wavelength_to_XYZ(
 
     shape = cmfs.shape
     if np.min(wavelength) < shape.start or np.max(wavelength) > shape.end:
-        raise ValueError(
+        error = (
             f'"{wavelength}nm" wavelength is not in '
             f'"[{shape.start}, {shape.end}]" domain!'
         )
+
+        raise ValueError(error)
 
     return np.reshape(cmfs[np.ravel(wavelength)], (*wavelength.shape, 3))

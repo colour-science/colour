@@ -704,10 +704,12 @@ class KernelInterpolator:
         """Validate that the variables dimensions are the same."""
 
         if len(self._x) != len(self._y):
-            raise ValueError(
+            error = (
                 '"x" independent and "y" dependent variables have different '
                 f'dimensions: "{len(self._x)}", "{len(self._y)}"'
             )
+
+            raise ValueError(error)
 
     def _validate_interpolation_range(self, x: NDArrayFloat) -> None:
         """Validate given point to be in interpolation range."""
@@ -716,10 +718,14 @@ class KernelInterpolator:
         above_interpolation_range = x > self._x[-1]
 
         if below_interpolation_range.any():
-            raise ValueError(f'"{x}" is below interpolation range.')
+            error = f'"{x}" is below interpolation range.'
+
+            raise ValueError(error)
 
         if above_interpolation_range.any():
-            raise ValueError(f'"{x}" is above interpolation range.')
+            error = f'"{x}" is above interpolation range.'
+
+            raise ValueError(error)
 
 
 class NearestNeighbourInterpolator(KernelInterpolator):
@@ -929,10 +935,12 @@ class LinearInterpolator:
         """Validate that the variables dimensions are the same."""
 
         if len(self._x) != len(self._y):
-            raise ValueError(
+            error = (
                 '"x" independent and "y" dependent variables have different '
                 f'dimensions: "{len(self._x)}", "{len(self._y)}"'
             )
+
+            raise ValueError(error)
 
     def _validate_interpolation_range(self, x: NDArrayFloat) -> None:
         """Validate given point to be in interpolation range."""
@@ -941,10 +949,14 @@ class LinearInterpolator:
         above_interpolation_range = x > self._x[-1]
 
         if below_interpolation_range.any():
-            raise ValueError(f'"{x}" is below interpolation range.')
+            error = f'"{x}" is below interpolation range.'
+
+            raise ValueError(error)
 
         if above_interpolation_range.any():
-            raise ValueError(f'"{x}" is above interpolation range.')
+            error = f'"{x}" is above interpolation range.'
+
+            raise ValueError(error)
 
 
 class SpragueInterpolator:
@@ -1213,10 +1225,12 @@ class SpragueInterpolator:
         """Validate that the variables dimensions are the same."""
 
         if len(self._x) != len(self._y):
-            raise ValueError(
+            error = (
                 '"x" independent and "y" dependent variables have different '
                 f'dimensions: "{len(self._x)}", "{len(self._y)}"'
             )
+
+            raise ValueError(error)
 
     def _validate_interpolation_range(self, x: NDArrayFloat) -> None:
         """Validate given point to be in interpolation range."""
@@ -1225,10 +1239,14 @@ class SpragueInterpolator:
         above_interpolation_range = x > self._x[-1]
 
         if below_interpolation_range.any():
-            raise ValueError(f'"{x}" is below interpolation range.')
+            error = f'"{x}" is below interpolation range.'
+
+            raise ValueError(error)
 
         if above_interpolation_range.any():
-            raise ValueError(f'"{x}" is above interpolation range.')
+            error = f'"{x}" is above interpolation range.'
+
+            raise ValueError(error)
 
 
 class CubicSplineInterpolator(scipy.interpolate.interp1d):
@@ -1584,10 +1602,12 @@ class NullInterpolator:
         """Validate that the variables dimensions are the same."""
 
         if len(self._x) != len(self._y):
-            raise ValueError(
+            error = (
                 '"x" independent and "y" dependent variables have different '
                 f'dimensions: "{len(self._x)}", "{len(self._y)}"'
             )
+
+            raise ValueError(error)
 
     def _validate_interpolation_range(self, x: NDArrayFloat) -> None:
         """Validate given point to be in interpolation range."""
@@ -1596,10 +1616,14 @@ class NullInterpolator:
         above_interpolation_range = x > self._x[-1]
 
         if below_interpolation_range.any():
-            raise ValueError(f'"{x}" is below interpolation range.')
+            error = f'"{x}" is below interpolation range.'
+
+            raise ValueError(error)
 
         if above_interpolation_range.any():
-            raise ValueError(f'"{x}" is above interpolation range.')
+            error = f'"{x}" is above interpolation range.'
+
+            raise ValueError(error)
 
 
 def lagrange_coefficients(r: float, n: int = 4) -> NDArrayFloat:

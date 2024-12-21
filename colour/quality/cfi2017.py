@@ -167,11 +167,13 @@ def colour_fidelity_index_CIE2017(
     """
 
     if sd_test.shape.interval > 5:
-        raise ValueError(
-            "Test spectral distribution interval is greater than"
+        error = (
+            "Test spectral distribution interval is greater than "
             "5nm which is the maximum recommended value "
             'for computing the "CIE 2017 Colour Fidelity Index"!'
         )
+
+        raise ValueError(error)
 
     shape = SpectralShape(
         SPECTRAL_SHAPE_CIE2017.start,

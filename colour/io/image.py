@@ -917,16 +917,20 @@ def as_3_channels_image(a: ArrayLike) -> NDArrayFloat:
     a = np.squeeze(as_float_array(a))
 
     if len(a.shape) > 3:
-        raise ValueError(
+        error = (
             "Array has more than 3-dimensions and cannot be converted to a "
             "3-channels image-like representation!"
         )
 
+        raise ValueError(error)
+
     if len(a.shape) > 0 and a.shape[-1] not in (1, 3):
-        raise ValueError(
+        error = (
             "Array has more than 1 or 3 channels and cannot be converted to a "
             "3-channels image-like representation!"
         )
+
+        raise ValueError(error)
 
     if len(a.shape) == 0 or a.shape[-1] == 1:
         a = tstack([a, a, a])

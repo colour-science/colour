@@ -161,7 +161,7 @@ select = [
     "D", # pydocstyle
     "E", # pydocstyle
     # "ERA", # eradicate
-    # "EM", # flake8-errmsg
+    "EM", # flake8-errmsg
     "EXE", # flake8-executable
     "F", # flake8
     # "FBT", # flake8-boolean-trap

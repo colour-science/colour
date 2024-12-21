@@ -1010,9 +1010,10 @@ class LUT3D_Jakob2019:
             indexes = np.stack([i_m, i_1, i_2, i_3], axis=-1)
 
             return self._interpolator(indexes).squeeze()
-        raise RuntimeError(
-            "The pre-computed lookup table has not been read or generated!"
-        )
+
+        error = "The pre-computed lookup table has not been read or generated!"
+
+        raise RuntimeError(error)
 
     def RGB_to_sd(
         self, RGB: ArrayLike, shape: SpectralShape = SPECTRAL_SHAPE_JAKOB2019
@@ -1148,9 +1149,9 @@ class LUT3D_Jakob2019:
 
         with open(path, "rb") as coeff_file:
             if coeff_file.read(4).decode("ISO-8859-1") != "SPEC":
-                raise ValueError(
-                    "Bad magic number, this is likely not the right file type!"
-                )
+                error = "Bad magic number, this is likely not the right file type!"
+
+                raise ValueError(error)
 
             self._size = struct.unpack("i", coeff_file.read(4))[0]
             self._lightness_scale = np.fromfile(

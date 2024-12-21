@@ -349,7 +349,9 @@ def write_LUT_ResolveCube(
         has_3D = True
         LUT = LUTSequence(LUT3x1D(), LUT)
     else:
-        raise TypeError("LUT must be 1D, 3x1D, 3D, 1D + 3D or 3x1D + 3D!")
+        error = "LUT must be 1D, 3x1D, 3D, 1D + 3D or 3x1D + 3D!"
+
+        raise TypeError(error)
 
     for i in range(2):
         attest(not LUT[i].is_domain_explicit(), '"LUT" domain must be implicit!')

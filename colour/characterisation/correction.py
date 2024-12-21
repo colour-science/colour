@@ -160,11 +160,13 @@ def matrix_augmented_Cheung2004(
     existing_terms = np.array([3, 4, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22, 35])
     closest_terms = as_int(closest(existing_terms, terms))
     if closest_terms != terms:
-        raise ValueError(
+        error = (
             f'"Cheung et al. (2004)" method does not define an augmented '
             f"matrix with {terms} terms, closest augmented matrix has "
             f"{closest_terms} terms!"
         )
+
+        raise ValueError(error)
 
     if terms == 3:
         expansion = RGB
@@ -462,11 +464,13 @@ def polynomial_expansion_Finlayson2015(
     existing_degrees = np.array([1, 2, 3, 4])
     closest_degree = as_int(closest(existing_degrees, degree))
     if closest_degree != degree:
-        raise ValueError(
+        error = (
             f'"Finlayson et al. (2015)" method does not define a polynomial '
             f"expansion for {degree} degree, closest polynomial expansion is "
             f"{closest_degree} degree!"
         )
+
+        raise ValueError(error)
 
     if degree == 1:
         expansion = RGB

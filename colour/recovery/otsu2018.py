@@ -284,7 +284,9 @@ class Dataset_Otsu2018:
                 else:
                     return index
         else:
-            raise ValueError('The "selector array" is undefined!')
+            error = 'The "selector array" is undefined!'
+
+            raise ValueError(error)
 
     def cluster(self, xy: ArrayLike) -> Tuple[NDArrayFloat, NDArrayFloat]:
         """
@@ -311,7 +313,10 @@ class Dataset_Otsu2018:
             index = self.select(xy)
 
             return self._basis_functions[index, :, :], self._means[index, :]
-        raise ValueError('The "basis functions" or "means" are undefined!')
+
+        error = 'The "basis functions" or "means" are undefined!'
+
+        raise ValueError(error)
 
     def read(self, path: str | Path) -> None:
         """
@@ -409,7 +414,9 @@ class Dataset_Otsu2018:
                 selector_array=cast(NDArrayFloat, self._selector_array),
             )
         else:
-            raise ValueError('The "shape" is undefined!')
+            error = 'The "shape" is undefined!'
+
+            raise ValueError(error)
 
 
 DATASET_REFERENCE_OTSU2018: Dataset_Otsu2018 = Dataset_Otsu2018(
@@ -566,7 +573,10 @@ def XYZ_to_sd_Otsu2018(
         recovered_sd = np.clip(recovered_sd, 0, 1) if clip else recovered_sd
 
         return SpectralDistribution(recovered_sd, shape.wavelengths)
-    raise ValueError('The dataset "shape" is undefined!')
+
+    error = 'The dataset "shape" is undefined!'
+
+    raise ValueError(error)
 
 
 @dataclass
@@ -807,7 +817,10 @@ class Data_Otsu2018:
 
         if self._xy is not None:
             return self._xy[i, direction]
-        raise ValueError('The "chromaticity coordinates" are undefined!')
+
+        error = 'The "chromaticity coordinates" are undefined!'
+
+        raise ValueError(error)
 
     def partition(self, axis: PartitionAxis) -> Tuple[Data_Otsu2018, Data_Otsu2018]:
         """
@@ -851,9 +864,9 @@ class Data_Otsu2018:
 
             return lesser, greater
 
-        raise ValueError(
-            'The "tristimulus values" or "chromaticity coordinates" are undefined!'
-        )
+        error = 'The "tristimulus values" or "chromaticity coordinates" are undefined!'
+
+        raise ValueError(error)
 
     def PCA(self) -> None:
         """
@@ -920,10 +933,13 @@ class Data_Otsu2018:
             reflectance = np.clip(reflectance, 0, 1)
 
             return SpectralDistribution(reflectance, self._cmfs.wavelengths)
-        raise ValueError(
+
+        error = (
             'The matrix "M", the "mean tristimulus values" or the '
             '"basis functions" are undefined!'
         )
+
+        raise ValueError(error)
 
     def reconstruction_error(self) -> float:
         """
@@ -954,17 +970,22 @@ class Data_Otsu2018:
         if self._XYZ is not None and self._reflectances is not None:
             self.PCA()
 
-            error: float = 0.0
+            reconstruction_error: float = 0.0
             for i in range(len(self)):
                 sd = self._reflectances[i, :]
                 XYZ = self._XYZ[i, :]
                 recovered_sd = self.reconstruct(XYZ)
-                error += cast(float, np.sum((sd - recovered_sd.values) ** 2))
+                reconstruction_error += cast(
+                    float, np.sum((sd - recovered_sd.values) ** 2)
+                )
 
-            self._reconstruction_error = error
+            self._reconstruction_error = reconstruction_error
 
-            return error
-        raise ValueError('The "tristimulus values" are undefined!')
+            return reconstruction_error
+
+        error = 'The "tristimulus values" are undefined!'
+
+        raise ValueError(error)
 
 
 class Node_Otsu2018(TreeNode):
@@ -1044,7 +1065,10 @@ class Node_Otsu2018(TreeNode):
                 self.children[0],
                 self.children[1],
             )
-        raise ValueError('The "partition axis" is undefined!')
+
+        error = 'The "partition axis" is undefined!'
+
+        raise ValueError(error)
 
     def split(self, children: Sequence[Self], axis: PartitionAxis) -> None:
         """
@@ -1136,7 +1160,9 @@ class Node_Otsu2018(TreeNode):
                         )
 
         if self._best_partition is None:
-            raise RuntimeError("Could not find the best partition!")
+            error = "Could not find the best partition!"
+
+            raise RuntimeError(error)
 
         return self._best_partition
 

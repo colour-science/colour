@@ -529,10 +529,12 @@ class CanonicalMapping(MutableMapping):
         if isinstance(other, Mapping):
             other_mapping = CanonicalMapping(other)
         else:
-            raise TypeError(
+            error = (
                 f"Impossible to test equality with "
                 f'"{other.__class__.__name__}" class type!'
             )
+
+            raise TypeError(error)
 
         return self._data == other_mapping.data
 

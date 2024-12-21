@@ -675,10 +675,12 @@ def ZCAM_to_XYZ(
     if has_only_nan(M_z) and not has_only_nan(C_z):
         M_z = (C_z * Q_z_w) / 100
     elif has_only_nan(M_z):
-        raise ValueError(
+        error = (
             'Either "C" or "M" correlate must be defined in '
             'the "CAM_Specification_ZCAM" argument!'
         )
+
+        raise ValueError(error)
 
     # Step 3 (Inverse) - Computing hue angle :math:`h_z`
     # :math:`h_z` is currently required as an input.
