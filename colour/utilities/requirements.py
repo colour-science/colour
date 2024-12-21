@@ -70,8 +70,6 @@ def is_ctlrender_installed(raise_exception: bool = False) -> bool:
 
         if "transforms an image using one or more CTL scripts" not in stdout:
             raise FileNotFoundError  # noqa: TRY301
-
-        return True
     except FileNotFoundError as error:  # pragma: no cover
         if raise_exception:
             raise FileNotFoundError(
@@ -81,6 +79,8 @@ def is_ctlrender_installed(raise_exception: bool = False) -> bool:
             ) from error
 
         return False
+    else:
+        return True
 
 
 def is_matplotlib_installed(raise_exception: bool = False) -> bool:
@@ -105,8 +105,6 @@ def is_matplotlib_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         import matplotlib as mpl  # noqa: F401
-
-        return True
     except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(
@@ -116,6 +114,8 @@ def is_matplotlib_installed(raise_exception: bool = False) -> bool:
             ) from error
 
         return False
+    else:
+        return True
 
 
 def is_networkx_installed(raise_exception: bool = False) -> bool:
@@ -140,8 +140,6 @@ def is_networkx_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         import networkx as nx  # noqa: F401
-
-        return True
     except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(
@@ -152,6 +150,8 @@ def is_networkx_installed(raise_exception: bool = False) -> bool:
             ) from error
 
         return False
+    else:
+        return True
 
 
 def is_opencolorio_installed(raise_exception: bool = False) -> bool:
@@ -176,8 +176,6 @@ def is_opencolorio_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         import PyOpenColorIO  # noqa: F401
-
-        return True
     except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(
@@ -187,6 +185,8 @@ def is_opencolorio_installed(raise_exception: bool = False) -> bool:
             ) from error
 
         return False
+    else:
+        return True
 
 
 def is_openimageio_installed(raise_exception: bool = False) -> bool:
@@ -211,8 +211,6 @@ def is_openimageio_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         import OpenImageIO  # noqa: F401
-
-        return True
     except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(
@@ -222,6 +220,8 @@ def is_openimageio_installed(raise_exception: bool = False) -> bool:
             ) from error
 
         return False
+    else:
+        return True
 
 
 def is_pandas_installed(raise_exception: bool = False) -> bool:
@@ -246,8 +246,6 @@ def is_pandas_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         import pandas  # noqa: F401, ICN001
-
-        return True
     except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(
@@ -257,6 +255,8 @@ def is_pandas_installed(raise_exception: bool = False) -> bool:
             ) from error
 
         return False
+    else:
+        return True
 
 
 def is_pydot_installed(raise_exception: bool = False) -> bool:
@@ -293,6 +293,7 @@ def is_pydot_installed(raise_exception: bool = False) -> bool:
 
     if shutil.which("fdp") is not None:
         return True
+
     if raise_exception:
         raise RuntimeError(
             '"Graphviz" is not installed, "Pydot" related API features '
@@ -326,8 +327,6 @@ def is_tqdm_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         import tqdm  # noqa: F401
-
-        return True
     except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(
@@ -337,6 +336,8 @@ def is_tqdm_installed(raise_exception: bool = False) -> bool:
             ) from error
 
         return False
+    else:
+        return True
 
 
 def is_trimesh_installed(raise_exception: bool = False) -> bool:
@@ -361,8 +362,6 @@ def is_trimesh_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         import trimesh  # noqa: F401
-
-        return True
     except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(
@@ -372,6 +371,8 @@ def is_trimesh_installed(raise_exception: bool = False) -> bool:
             ) from error
 
         return False
+    else:
+        return True
 
 
 def is_xxhash_installed(raise_exception: bool = False) -> bool:
@@ -396,8 +397,6 @@ def is_xxhash_installed(raise_exception: bool = False) -> bool:
 
     try:  # pragma: no cover
         import xxhash  # noqa: F401
-
-        return True
     except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(
@@ -407,6 +406,8 @@ def is_xxhash_installed(raise_exception: bool = False) -> bool:
             ) from error
 
         return False
+    else:
+        return True
 
 
 REQUIREMENTS_TO_CALLABLE: CanonicalMapping = CanonicalMapping(

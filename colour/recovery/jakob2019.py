@@ -439,10 +439,10 @@ def find_coefficients_Jakob2019(
                 method="L-BFGS-B",
                 jac=True,
             )
-
-            return result.x, result.fun
         except StopMinimizationEarlyError as error:
             return error.coefficients, error.error
+        else:
+            return result.x, result.fun
 
     xy_n = XYZ_to_xy(sd_to_XYZ_integration(illuminant, cmfs))
 

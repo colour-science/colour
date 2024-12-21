@@ -1774,10 +1774,10 @@ def is_specification_in_renotation(specification: ArrayLike) -> bool:
 
     try:
         xyY_from_renotation(specification)
-
-        return True
     except ValueError:
         return False
+    else:
+        return True
 
 
 def bounding_hues_from_renotation(hue_and_code: ArrayLike) -> NDArrayFloat:

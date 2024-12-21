@@ -420,9 +420,10 @@ class CanonicalMapping(MutableMapping):
 
         try:
             del self._data[item]
-            return
         except KeyError:
             pass
+        else:
+            return
 
         try:
             del self._data[
@@ -430,15 +431,17 @@ class CanonicalMapping(MutableMapping):
                     str(item).lower()
                 ]
             ]
-            return
         except KeyError:
             pass
+        else:
+            return
 
         try:
             del self[dict(zip(self.slugified_keys(), self.keys(), strict=True))[item]]
-            return
         except KeyError:
             pass
+        else:
+            return
 
         del self[dict(zip(self.canonical_keys(), self.keys(), strict=True))[item]]
 
