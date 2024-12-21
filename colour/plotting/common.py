@@ -128,98 +128,90 @@ __all__ = [
 ]
 
 CONSTANTS_COLOUR_STYLE: Structure = Structure(
-    **{
-        "colour": Structure(
-            **{
-                "darkest": "#111111",
-                "darker": "#222222",
-                "dark": "#333333",
-                "dim": "#505050",
-                "average": "#808080",
-                "light": "#D5D5D5",
-                "bright": "#EEEEEE",
-                "brighter": "#F0F0F0",
-                "brightest": "#F5F5F5",
-                "cycle": (
-                    "#F44336",
-                    "#9C27B0",
-                    "#3F51B5",
-                    "#03A9F4",
-                    "#009688",
-                    "#8BC34A",
-                    "#FFEB3B",
-                    "#FF9800",
-                    "#795548",
-                    "#607D8B",
-                ),
-                "map": LinearSegmentedColormap.from_list(
-                    "colour",
-                    (
-                        "#F44336",
-                        "#9C27B0",
-                        "#3F51B5",
-                        "#03A9F4",
-                        "#009688",
-                        "#8BC34A",
-                        "#FFEB3B",
-                        "#FF9800",
-                        "#795548",
-                        "#607D8B",
-                    ),
-                ),
-                "colourspace": RGB_COLOURSPACES["sRGB"],
-            }
+    colour=Structure(
+        darkest="#111111",
+        darker="#222222",
+        dark="#333333",
+        dim="#505050",
+        average="#808080",
+        light="#D5D5D5",
+        bright="#EEEEEE",
+        brighter="#F0F0F0",
+        brightest="#F5F5F5",
+        cycle=(
+            "#F44336",
+            "#9C27B0",
+            "#3F51B5",
+            "#03A9F4",
+            "#009688",
+            "#8BC34A",
+            "#FFEB3B",
+            "#FF9800",
+            "#795548",
+            "#607D8B",
         ),
-        "font": Structure(
-            {
-                "size": 10,
-                "scaling": Structure(
-                    **{
-                        "xx_small": 0.579,
-                        "x_small": 0.694,
-                        "small": 0.833,
-                        "medium": 1,
-                        "large": 1 / 0.579,
-                        "x_large": 1 / 0.694,
-                        "xx_large": 1 / 0.833,
-                    }
-                ),
-            }
+        map=LinearSegmentedColormap.from_list(
+            "colour",
+            (
+                "#F44336",
+                "#9C27B0",
+                "#3F51B5",
+                "#03A9F4",
+                "#009688",
+                "#8BC34A",
+                "#FFEB3B",
+                "#FF9800",
+                "#795548",
+                "#607D8B",
+            ),
         ),
-        "opacity": Structure(**{"high": 0.75, "medium": 0.5, "low": 0.25}),
-        "geometry": Structure(**{"long": 5, "medium": 2.5, "short": 1}),
-        "hatch": Structure(
-            **{
-                "patterns": (
-                    "\\\\",
-                    "o",
-                    "x",
-                    ".",
-                    "*",
-                    "//",
-                )
-            }
-        ),
-        "zorder": Structure(
-            {
-                "background_polygon": -140,
-                "background_scatter": -130,
-                "background_line": -120,
-                "background_annotation": -110,
-                "background_label": -100,
-                "midground_polygon": -90,
-                "midground_scatter": -80,
-                "midground_line": -70,
-                "midground_annotation": -60,
-                "midground_label": -50,
-                "foreground_polygon": -40,
-                "foreground_scatter": -30,
-                "foreground_line": -20,
-                "foreground_annotation": -10,
-                "foreground_label": 0,
-            }
-        ),
-    }
+        colourspace=RGB_COLOURSPACES["sRGB"],
+    ),
+    font=Structure(
+        {
+            "size": 10,
+            "scaling": Structure(
+                xx_small=0.579,
+                x_small=0.694,
+                small=0.833,
+                medium=1,
+                large=1 / 0.579,
+                x_large=1 / 0.694,
+                xx_large=1 / 0.833,
+            ),
+        }
+    ),
+    opacity=Structure(high=0.75, medium=0.5, low=0.25),
+    geometry=Structure(long=5, medium=2.5, short=1),
+    hatch=Structure(
+        patterns=(
+            "\\\\",
+            "o",
+            "x",
+            ".",
+            "*",
+            "//",
+        )
+    ),
+    zorder=Structure(
+        {
+            "background_polygon": -140,
+            "background_scatter": -130,
+            "background_line": -120,
+            "background_annotation": -110,
+            "background_label": -100,
+            "midground_polygon": -90,
+            "midground_scatter": -80,
+            "midground_line": -70,
+            "midground_annotation": -60,
+            "midground_label": -50,
+            "foreground_polygon": -40,
+            "foreground_scatter": -30,
+            "foreground_line": -20,
+            "foreground_annotation": -10,
+            "foreground_label": 0,
+        }
+    ),
 )
 """Various defaults settings used across the plotting sub-package."""
 
@@ -233,14 +225,12 @@ for _scaling, _value in CONSTANTS_COLOUR_STYLE.font.scaling.items():
 del _scaling, _value
 
 CONSTANTS_ARROW_STYLE: Structure = Structure(
-    **{
-        "color": CONSTANTS_COLOUR_STYLE.colour.dark,
-        "headwidth": CONSTANTS_COLOUR_STYLE.geometry.short * 4,
-        "headlength": CONSTANTS_COLOUR_STYLE.geometry.long,
-        "width": CONSTANTS_COLOUR_STYLE.geometry.short * 0.5,
-        "shrink": CONSTANTS_COLOUR_STYLE.geometry.short * 0.1,
-        "connectionstyle": "arc3,rad=-0.2",
-    }
+    color=CONSTANTS_COLOUR_STYLE.colour.dark,
+    headwidth=CONSTANTS_COLOUR_STYLE.geometry.short * 4,
+    headlength=CONSTANTS_COLOUR_STYLE.geometry.long,
+    width=CONSTANTS_COLOUR_STYLE.geometry.short * 0.5,
+    shrink=CONSTANTS_COLOUR_STYLE.geometry.short * 0.1,
+    connectionstyle="arc3,rad=-0.2",
 )
 """Annotation arrow settings used across the plotting sub-package."""
 
@@ -488,10 +478,8 @@ def colour_cycle(**kwargs: Any) -> itertools.cycle:
     """
 
     settings = Structure(
-        **{
-            "colour_cycle_map": CONSTANTS_COLOUR_STYLE.colour.map,
-            "colour_cycle_count": len(CONSTANTS_COLOUR_STYLE.colour.cycle),
-        }
+        colour_cycle_map=CONSTANTS_COLOUR_STYLE.colour.map,
+        colour_cycle_count=len(CONSTANTS_COLOUR_STYLE.colour.cycle),
     )
     settings.update(kwargs)
 
@@ -601,9 +589,7 @@ def camera(**kwargs: KwargsCamera | Any) -> Tuple[Figure, Axes3D]:
     figure = cast(Figure, kwargs.get("figure", plt.gcf()))
     axes = cast(Axes3D, kwargs.get("axes", plt.gca()))
 
-    settings = Structure(
-        **{"camera_aspect": "equal", "elevation": None, "azimuth": None}
-    )
+    settings = Structure(camera_aspect="equal", elevation=None, azimuth=None)
     settings.update(kwargs)
 
     if settings.camera_aspect == "equal":
@@ -719,24 +705,22 @@ def render(
     )
 
     settings = Structure(
-        **{
-            "filename": None,
-            "show": True,
-            "block": True,
-            "aspect": None,
-            "axes_visible": True,
-            "bounding_box": None,
-            "tight_layout": True,
-            "legend": False,
-            "legend_columns": 1,
-            "transparent_background": True,
-            "title": None,
-            "wrap_title": True,
-            "x_label": None,
-            "y_label": None,
-            "x_ticker": True,
-            "y_ticker": True,
-        }
+        filename=None,
+        show=True,
+        block=True,
+        aspect=None,
+        axes_visible=True,
+        bounding_box=None,
+        tight_layout=True,
+        legend=False,
+        legend_columns=1,
+        transparent_background=True,
+        title=None,
+        wrap_title=True,
+        x_label=None,
+        y_label=None,
+        x_ticker=True,
+        y_ticker=True,
     )
     settings.update(kwargs)
 

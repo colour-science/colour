@@ -66,7 +66,7 @@ class TestStructure:
         assert structure.John is None
         assert structure["John"] is None
 
-        structure.update(**{"John": "Doe", "Jane": "Doe"})
+        structure.update(John="Doe", Jane="Doe")
         assert structure.John == "Doe"
         assert structure["John"] == "Doe"
 

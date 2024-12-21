@@ -1328,7 +1328,7 @@ def ootf_BT2100_HLG(
 
     return function(
         E,
-        **filter_kwargs(function, **{"L_B": L_B, "L_W": L_W, "gamma": gamma}),
+        **filter_kwargs(function, L_B=L_B, L_W=L_W, gamma=gamma),
     )
 
 
@@ -1622,5 +1622,5 @@ def ootf_inverse_BT2100_HLG(
 
     return function(
         F_D,
-        **filter_kwargs(function, **{"L_B": L_B, "L_W": L_W, "gamma": gamma}),
+        **filter_kwargs(function, L_B=L_B, L_W=L_W, gamma=gamma),
     )

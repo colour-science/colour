@@ -177,34 +177,32 @@ class Header_IESTM2714:
         comments: str | None = None,
     ) -> None:
         self._mapping: Structure = Structure(
-            **{
-                "element": "Header",
-                "elements": (
-                    Element_Specification_IESTM2714("Manufacturer", "manufacturer"),
-                    Element_Specification_IESTM2714("CatalogNumber", "catalog_number"),
-                    Element_Specification_IESTM2714(
-                        "Description", "description", required=True
-                    ),
-                    Element_Specification_IESTM2714(
-                        "DocumentCreator", "document_creator", required=True
-                    ),
-                    Element_Specification_IESTM2714(
-                        "UniqueIdentifier", "unique_identifier"
-                    ),
-                    Element_Specification_IESTM2714(
-                        "MeasurementEquipment", "measurement_equipment"
-                    ),
-                    Element_Specification_IESTM2714("Laboratory", "laboratory"),
-                    Element_Specification_IESTM2714("ReportNumber", "report_number"),
-                    Element_Specification_IESTM2714("ReportDate", "report_date"),
-                    Element_Specification_IESTM2714(
-                        "DocumentCreationDate",
-                        "document_creation_date",
-                        required=True,
-                    ),
-                    Element_Specification_IESTM2714("Comments", "comments", False),
+            element="Header",
+            elements=(
+                Element_Specification_IESTM2714("Manufacturer", "manufacturer"),
+                Element_Specification_IESTM2714("CatalogNumber", "catalog_number"),
+                Element_Specification_IESTM2714(
+                    "Description", "description", required=True
                 ),
-            }
+                Element_Specification_IESTM2714(
+                    "DocumentCreator", "document_creator", required=True
+                ),
+                Element_Specification_IESTM2714(
+                    "UniqueIdentifier", "unique_identifier"
+                ),
+                Element_Specification_IESTM2714(
+                    "MeasurementEquipment", "measurement_equipment"
+                ),
+                Element_Specification_IESTM2714("Laboratory", "laboratory"),
+                Element_Specification_IESTM2714("ReportNumber", "report_number"),
+                Element_Specification_IESTM2714("ReportDate", "report_date"),
+                Element_Specification_IESTM2714(
+                    "DocumentCreationDate",
+                    "document_creation_date",
+                    required=True,
+                ),
+                Element_Specification_IESTM2714("Comments", "comments", False),
+            ),
         )
 
         self._manufacturer: str | None = None
@@ -913,36 +911,34 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         super().__init__(**kwargs)
 
         self._mapping: Structure = Structure(
-            **{
-                "element": "SpectralDistribution",
-                "elements": (
-                    Element_Specification_IESTM2714(
-                        "SpectralQuantity", "spectral_quantity", required=True
-                    ),
-                    Element_Specification_IESTM2714(
-                        "ReflectionGeometry", "reflection_geometry"
-                    ),
-                    Element_Specification_IESTM2714(
-                        "TransmissionGeometry", "transmission_geometry"
-                    ),
-                    Element_Specification_IESTM2714(
-                        "BandwidthFWHM",
-                        "bandwidth_FWHM",
-                        read_conversion=(
-                            lambda x: (None if x == "None" else as_float_scalar(x))
-                        ),
-                    ),
-                    Element_Specification_IESTM2714(
-                        "BandwidthCorrected",
-                        "bandwidth_corrected",
-                        read_conversion=(lambda x: bool(x == "true")),
-                        write_conversion=(lambda x: "true" if x is True else "false"),
+            element="SpectralDistribution",
+            elements=(
+                Element_Specification_IESTM2714(
+                    "SpectralQuantity", "spectral_quantity", required=True
+                ),
+                Element_Specification_IESTM2714(
+                    "ReflectionGeometry", "reflection_geometry"
+                ),
+                Element_Specification_IESTM2714(
+                    "TransmissionGeometry", "transmission_geometry"
+                ),
+                Element_Specification_IESTM2714(
+                    "BandwidthFWHM",
+                    "bandwidth_FWHM",
+                    read_conversion=(
+                        lambda x: (None if x == "None" else as_float_scalar(x))
                     ),
                 ),
-                "data": Element_Specification_IESTM2714(
-                    "SpectralData", "wavelength", required=True
+                Element_Specification_IESTM2714(
+                    "BandwidthCorrected",
+                    "bandwidth_corrected",
+                    read_conversion=(lambda x: bool(x == "true")),
+                    write_conversion=(lambda x: "true" if x is True else "false"),
                 ),
-            }
+            ),
+            data=Element_Specification_IESTM2714(
+                "SpectralData", "wavelength", required=True
+            ),
         )
 
         self._path: str | None = None

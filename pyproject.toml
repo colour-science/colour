@@ -193,21 +193,20 @@ select = [
 ]
 ignore = [
     "ANN401", # Dynamically typed expressions (typing.Any) are disallowed in `**kwargs`
-    "D200",
-    "D202",
-    "D205",
-    "D301",
-    "D400",
-    "I001",
-    "N801",
-    "N802",
-    "N803",
-    "N806",
-    "N813",
-    "N815",
-    "N816",
-    "PGH003",
-    "PIE804",
+    "D200", # One-line docstring should fit on one line
+    "D202", # No blank lines allowed after function docstring
+    "D205", # 1 blank line required between summary line and description
+    "D301", # Use `r"""` if any backslashes in a docstring
+    "D400", # First line should end with a period
+    "I001", # Import block is un-sorted or un-formatted
+    "N801", # Class name `.*` should use CapWords convention
+    "N802", # Function name `.*` should be lowercase
+    "N803", # Argument name `.*` should be lowercase
+    "N806", # Variable `.*` in function should be lowercase
+    "N813", # Camelcase `.*` imported as lowercase `.*`
+    "N815", # Variable `.*` in class scope should not be mixedCase
+    "N816", # Variable `.*` in global scope should not be mixedCase
+    "PGH003", # Use specific rule codes when ignoring type issues
     "PLE0605",
     "PLR0911",
     "PLR0912",

@@ -191,19 +191,17 @@ def nadir_grid(
     extent = np.max(np.abs(limits[..., 1] - limits[..., 0]))
 
     settings = Structure(
-        **{
-            "grid_face_colours": (0.25, 0.25, 0.25),
-            "grid_edge_colours": (0.50, 0.50, 0.50),
-            "grid_face_alpha": 0.1,
-            "grid_edge_alpha": 0.5,
-            "x_axis_colour": (0.0, 0.0, 0.0, 1.0),
-            "y_axis_colour": (0.0, 0.0, 0.0, 1.0),
-            "x_ticks_colour": (0.0, 0.0, 0.0, 0.85),
-            "y_ticks_colour": (0.0, 0.0, 0.0, 0.85),
-            "x_label_colour": (0.0, 0.0, 0.0, 0.85),
-            "y_label_colour": (0.0, 0.0, 0.0, 0.85),
-            "ticks_and_label_location": ("-x", "-y"),
-        }
+        grid_face_colours=(0.25, 0.25, 0.25),
+        grid_edge_colours=(0.50, 0.50, 0.50),
+        grid_face_alpha=0.1,
+        grid_edge_alpha=0.5,
+        x_axis_colour=(0.0, 0.0, 0.0, 1.0),
+        y_axis_colour=(0.0, 0.0, 0.0, 1.0),
+        x_ticks_colour=(0.0, 0.0, 0.0, 0.85),
+        y_ticks_colour=(0.0, 0.0, 0.0, 0.85),
+        x_label_colour=(0.0, 0.0, 0.0, 0.85),
+        y_label_colour=(0.0, 0.0, 0.0, 0.85),
+        ticks_and_label_location=("-x", "-y"),
     )
     settings.update(**kwargs)
 
@@ -522,13 +520,11 @@ def plot_RGB_colourspaces_gamuts(
     convert_settings.update(convert_kwargs)
 
     settings = Structure(
-        **{
-            "face_colours": [None] * count_c,
-            "edge_colours": [None] * count_c,
-            "face_alpha": [1] * count_c,
-            "edge_alpha": [1] * count_c,
-            "title": title,
-        }
+        face_colours=[None] * count_c,
+        edge_colours=[None] * count_c,
+        face_alpha=[1] * count_c,
+        edge_alpha=[1] * count_c,
+        title=title,
     )
     settings.update(kwargs)
 
@@ -754,12 +750,10 @@ def plot_RGB_scatter(
 
     count_c = len(colourspaces)
     settings = Structure(
-        **{
-            "face_colours": [None] * count_c,
-            "edge_colours": [(0.25, 0.25, 0.25)] * count_c,
-            "face_alpha": [0.0] * count_c,
-            "edge_alpha": [0.1] * count_c,
-        }
+        face_colours=[None] * count_c,
+        edge_colours=[(0.25, 0.25, 0.25)] * count_c,
+        face_alpha=[0.0] * count_c,
+        edge_alpha=[0.1] * count_c,
     )
     settings.update(kwargs)
     settings["show"] = False
