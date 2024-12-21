@@ -193,7 +193,6 @@ select = [
 ]
 ignore = [
     "ANN401", # Dynamically typed expressions (typing.Any) are disallowed in `**kwargs`
-    "D104",
     "D200",
     "D202",
     "D205",
@@ -231,6 +230,7 @@ typing-modules = ["colour.hints"]
 convention = "numpy"
 
 [tool.ruff.per-file-ignores]
+"__init__.py" = ["D104"]
 "colour/examples/*" = ["INP", "T201", "T203"]
 "docs/*" = ["INP"]
 "tasks.py" = ["INP"]
