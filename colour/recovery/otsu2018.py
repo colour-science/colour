@@ -243,8 +243,7 @@ class Dataset_Otsu2018:
                 f"{self.__class__.__name__}"
                 f"({self._basis_functions.shape[0]} basis functions)"
             )
-        else:
-            return f"{self.__class__.__name__}()"
+        return f"{self.__class__.__name__}()"
 
     def select(self, xy: ArrayLike) -> int:
         """
@@ -312,8 +311,7 @@ class Dataset_Otsu2018:
             index = self.select(xy)
 
             return self._basis_functions[index, :, :], self._means[index, :]
-        else:
-            raise ValueError('The "basis functions" or "means" are undefined!')
+        raise ValueError('The "basis functions" or "means" are undefined!')
 
     def read(self, path: str | Path) -> None:
         """
@@ -568,8 +566,7 @@ def XYZ_to_sd_Otsu2018(
         recovered_sd = np.clip(recovered_sd, 0, 1) if clip else recovered_sd
 
         return SpectralDistribution(recovered_sd, shape.wavelengths)
-    else:
-        raise ValueError('The dataset "shape" is undefined!')
+    raise ValueError('The dataset "shape" is undefined!')
 
 
 @dataclass
@@ -810,8 +807,7 @@ class Data_Otsu2018:
 
         if self._xy is not None:
             return self._xy[i, direction]
-        else:
-            raise ValueError('The "chromaticity coordinates" are undefined!')
+        raise ValueError('The "chromaticity coordinates" are undefined!')
 
     def partition(self, axis: PartitionAxis) -> Tuple[Data_Otsu2018, Data_Otsu2018]:
         """
@@ -854,11 +850,10 @@ class Data_Otsu2018:
             greater._xy = self._xy[~mask, :]
 
             return lesser, greater
-        else:
-            raise ValueError(
-                'The "tristimulus values" or "chromaticity coordinates" are '
-                "undefined!"
-            )
+
+        raise ValueError(
+            'The "tristimulus values" or "chromaticity coordinates" are undefined!'
+        )
 
     def PCA(self) -> None:
         """
@@ -925,11 +920,10 @@ class Data_Otsu2018:
             reflectance = np.clip(reflectance, 0, 1)
 
             return SpectralDistribution(reflectance, self._cmfs.wavelengths)
-        else:
-            raise ValueError(
-                'The matrix "M", the "mean tristimulus values" or the '
-                '"basis functions" are undefined!'
-            )
+        raise ValueError(
+            'The matrix "M", the "mean tristimulus values" or the '
+            '"basis functions" are undefined!'
+        )
 
     def reconstruction_error(self) -> float:
         """
@@ -970,8 +964,7 @@ class Data_Otsu2018:
             self._reconstruction_error = error
 
             return error
-        else:
-            raise ValueError('The "tristimulus values" are undefined!')
+        raise ValueError('The "tristimulus values" are undefined!')
 
 
 class Node_Otsu2018(TreeNode):
@@ -1051,8 +1044,7 @@ class Node_Otsu2018(TreeNode):
                 self.children[0],
                 self.children[1],
             )
-        else:
-            raise ValueError('The "partition axis" is undefined!')
+        raise ValueError('The "partition axis" is undefined!')
 
     def split(self, children: Sequence[Self], axis: PartitionAxis) -> None:
         """
@@ -1178,10 +1170,9 @@ class Node_Otsu2018(TreeNode):
 
         if self.is_leaf():
             return self.leaf_reconstruction_error()
-        else:
-            return as_float_scalar(
-                np.sum([child.branch_reconstruction_error() for child in self.children])
-            )
+        return as_float_scalar(
+            np.sum([child.branch_reconstruction_error() for child in self.children])
+        )
 
 
 class Tree_Otsu2018(Node_Otsu2018):

@@ -1718,10 +1718,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
             self.values = as_float_array(values)
 
             return self
-        else:
-            raise ValueError(
-                'The "IES TM-27-14" spectral distribution path is undefined!'
-            )
+        raise ValueError('The "IES TM-27-14" spectral distribution path is undefined!')
 
     def write(self) -> bool:
         """
@@ -1783,7 +1780,4 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                 file.write(xml)
 
             return True
-        else:
-            raise ValueError(
-                'The "IES TM-27-14" spectral distribution path is undefined!'
-            )
+        raise ValueError('The "IES TM-27-14" spectral distribution path is undefined!')

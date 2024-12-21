@@ -516,8 +516,7 @@ def RGB_to_YCbCr(
         return as_int_array(
             round_BT2100(np.clip(YCbCr, 0, 2**out_bits - 1) if clamp_int else YCbCr)
         )
-    else:
-        return from_range_1(YCbCr)
+    return from_range_1(YCbCr)
 
 
 def YCbCr_to_RGB(
@@ -764,8 +763,7 @@ def RGB_to_YcCbcCrc(
 
     if out_int:
         return as_int_array(np.round(YcCbcCrc))
-    else:
-        return from_range_1(YcCbcCrc)
+    return from_range_1(YcCbcCrc)
 
 
 def YcCbcCrc_to_RGB(

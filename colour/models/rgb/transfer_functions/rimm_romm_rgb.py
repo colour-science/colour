@@ -119,8 +119,7 @@ def cctf_encoding_ROMMRGB(
 
     if out_int:
         return as_int(np.round(X_p))
-    else:
-        return as_float(from_range_1(X_p / I_max))
+    return as_float(from_range_1(X_p / I_max))
 
 
 def cctf_decoding_ROMMRGB(
@@ -285,8 +284,7 @@ def cctf_encoding_RIMMRGB(
 
     if out_int:
         return as_int(np.round(X_p))
-    else:
-        return as_float(from_range_1(X_p / I_max))
+    return as_float(from_range_1(X_p / I_max))
 
 
 def cctf_decoding_RIMMRGB(
@@ -451,8 +449,7 @@ def log_encoding_ERIMMRGB(
 
     if out_int:
         return as_int(np.round(X_p))
-    else:
-        return as_float(from_range_1(X_p / I_max))
+    return as_float(from_range_1(X_p / I_max))
 
 
 def log_decoding_ERIMMRGB(

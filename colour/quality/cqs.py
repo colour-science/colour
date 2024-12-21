@@ -312,8 +312,7 @@ def colour_quality_scale(
             Q_as,
             (test_vs_colorimetry_data, reference_vs_colorimetry_data),
         )
-    else:
-        return Q_a
+    return Q_a
 
 
 def gamut_area(Lab: ArrayLike) -> float:

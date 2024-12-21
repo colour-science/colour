@@ -195,8 +195,7 @@ def log_encoding_ACESproxy(
 
     if out_int:
         return as_int(np.round(ACESproxy))
-    else:
-        return as_float(from_range_1(ACESproxy / (2**bit_depth - 1)))
+    return as_float(from_range_1(ACESproxy / (2**bit_depth - 1)))
 
 
 def log_decoding_ACESproxy(

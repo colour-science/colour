@@ -788,7 +788,7 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
 
     if method == "full":
         return plot_single_sd_colour_rendition_report_full(sd, **kwargs)
-    elif method == "intermediate":
+    if method == "intermediate":
         return plot_single_sd_colour_rendition_report_intermediate(sd, **kwargs)
-    else:  # method == 'simple'
-        return plot_single_sd_colour_rendition_report_simple(sd, **kwargs)
+    # method == 'simple'
+    return plot_single_sd_colour_rendition_report_simple(sd, **kwargs)

@@ -528,8 +528,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
             for field in self.keys:
                 setattr(self, field, getattr(dataclass, field))
             return self
-        else:
-            return dataclass
+        return dataclass
 
 
 # NOTE : The following messages are pre-generated for performance reasons.
@@ -1884,8 +1883,7 @@ def ndarray_copy(a: NDArray) -> NDArray:
 
     if _NDARRAY_COPY_ENABLED:
         return np.copy(a)
-    else:
-        return a
+    return a
 
 
 def closest_indexes(a: ArrayLike, b: ArrayLike) -> NDArray:

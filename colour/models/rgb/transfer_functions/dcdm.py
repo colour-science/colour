@@ -100,8 +100,7 @@ def eotf_inverse_DCDM(XYZ: ArrayLike, out_int: bool = False) -> NDArrayReal:
 
     if out_int:
         return as_int(np.round(4095 * XYZ_p))
-    else:
-        return as_float(XYZ_p)
+    return as_float(XYZ_p)
 
 
 def eotf_DCDM(

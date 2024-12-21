@@ -1149,10 +1149,9 @@ def ootf_BT2100_HLG_1(
 
     if is_single_channel:
         return as_float(from_range_1(R_D))
-    else:
-        RGB_D = tstack([R_D, G_D, B_D])
+    RGB_D = tstack([R_D, G_D, B_D])
 
-        return from_range_1(RGB_D)
+    return from_range_1(RGB_D)
 
 
 def ootf_BT2100_HLG_2(
@@ -1236,10 +1235,9 @@ def ootf_BT2100_HLG_2(
 
     if is_single_channel:
         return as_float(from_range_1(R_D))
-    else:
-        RGB_D = tstack([R_D, G_D, B_D])
+    RGB_D = tstack([R_D, G_D, B_D])
 
-        return from_range_1(RGB_D)
+    return from_range_1(RGB_D)
 
 
 BT2100_HLG_OOTF_METHODS: CanonicalMapping = CanonicalMapping(
@@ -1432,10 +1430,9 @@ def ootf_inverse_BT2100_HLG_1(
 
     if is_single_channel:
         return as_float(from_range_1(R_S))
-    else:
-        RGB_S = tstack([R_S, G_S, B_S])
+    RGB_S = tstack([R_S, G_S, B_S])
 
-        return from_range_1(RGB_S)
+    return from_range_1(RGB_S)
 
 
 def ootf_inverse_BT2100_HLG_2(
@@ -1531,10 +1528,9 @@ def ootf_inverse_BT2100_HLG_2(
 
     if is_single_channel:
         return as_float(from_range_1(R_S))
-    else:
-        RGB_S = tstack([R_S, G_S, B_S])
+    RGB_S = tstack([R_S, G_S, B_S])
 
-        return from_range_1(RGB_S)
+    return from_range_1(RGB_S)
 
 
 BT2100_HLG_OOTF_INVERSE_METHODS: CanonicalMapping = CanonicalMapping(

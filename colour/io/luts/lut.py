@@ -609,8 +609,7 @@ class AbstractLUT(ABC):
             self.table = operator(self.table, operand)
 
             return self
-        else:
-            return ioperator(self.copy(), a)
+        return ioperator(self.copy(), a)
 
     @abstractmethod
     def _validate_table(self, table: ArrayLike) -> NDArrayFloat:
@@ -1000,10 +999,9 @@ class LUT1D(AbstractLUT):
 
         if len(domain) != 2:
             return domain
-        else:
-            attest(is_numeric(size), "Linear table size must be a numeric!")
+        attest(is_numeric(size), "Linear table size must be a numeric!")
 
-            return np.linspace(domain[0], domain[1], as_int_scalar(size))
+        return np.linspace(domain[0], domain[1], as_int_scalar(size))
 
     def invert(self, **kwargs: Any) -> LUT1D:  # noqa: ARG002
         """
@@ -1366,32 +1364,30 @@ class LUT3x1D(AbstractLUT):
 
         if domain.shape != (2, 3):
             return domain
-        else:
-            size_array = np.tile(size, 3) if is_numeric(size) else as_int_array(size)
+        size_array = np.tile(size, 3) if is_numeric(size) else as_int_array(size)
 
-            R, G, B = tsplit(domain)
+        R, G, B = tsplit(domain)
+
+        samples = [
+            np.linspace(a[0], a[1], size_array[i]) for i, a in enumerate([R, G, B])
+        ]
+
+        if len(np.unique(size_array)) != 1:
+            runtime_warning(
+                'Table is non uniform, axis will be padded with "NaNs" accordingly!'
+            )
 
             samples = [
-                np.linspace(a[0], a[1], size_array[i]) for i, a in enumerate([R, G, B])
+                np.pad(
+                    axis,
+                    (0, np.max(size_array) - len(axis)),  # pyright: ignore
+                    mode="constant",
+                    constant_values=np.nan,
+                )
+                for axis in samples
             ]
 
-            if len(np.unique(size_array)) != 1:
-                runtime_warning(
-                    "Table is non uniform, axis will be "
-                    'padded with "NaNs" accordingly!'
-                )
-
-                samples = [
-                    np.pad(
-                        axis,
-                        (0, np.max(size_array) - len(axis)),  # pyright: ignore
-                        mode="constant",
-                        constant_values=np.nan,
-                    )
-                    for axis in samples
-                ]
-
-            return tstack(samples)
+        return tstack(samples)
 
     def invert(self, **kwargs: Any) -> LUT3x1D:  # noqa: ARG002
         """

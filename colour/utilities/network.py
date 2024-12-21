@@ -294,8 +294,7 @@ class TreeNode:
 
         if self.is_root():
             return self
-        else:
-            return list(self.walk_hierarchy(ascendants=True))[-1]
+        return list(self.walk_hierarchy(ascendants=True))[-1]
 
     @property
     def leaves(self) -> Generator:
@@ -310,8 +309,7 @@ class TreeNode:
 
         if self.is_leaf():
             return (node for node in (self,))
-        else:
-            return (node for node in self.walk_hierarchy() if node.is_leaf())
+        return (node for node in self.walk_hierarchy() if node.is_leaf())
 
     @property
     def siblings(self) -> Generator:
@@ -326,8 +324,7 @@ class TreeNode:
 
         if self.parent is None:
             return (sibling for sibling in ())
-        else:
-            return (sibling for sibling in self.parent.children if sibling is not self)
+        return (sibling for sibling in self.parent.children if sibling is not self)
 
     @property
     def data(self) -> Any:

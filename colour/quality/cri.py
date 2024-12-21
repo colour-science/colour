@@ -184,8 +184,7 @@ def colour_rendering_index(
             Q_as,
             (test_tcs_colorimetry_data, reference_tcs_colorimetry_data),
         )
-    else:
-        return Q_a
+    return Q_a
 
 
 def tcs_colorimetry_data(

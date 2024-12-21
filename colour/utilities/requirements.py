@@ -293,16 +293,15 @@ def is_pydot_installed(raise_exception: bool = False) -> bool:
 
     if shutil.which("fdp") is not None:
         return True
-    else:
-        if raise_exception:
-            raise RuntimeError(
-                '"Graphviz" is not installed, "Pydot" related API features '
-                "are not available!"
-                "\nSee the installation guide for more information: "
-                "https://www.colour-science.org/installation-guide/"
-            )
+    if raise_exception:
+        raise RuntimeError(
+            '"Graphviz" is not installed, "Pydot" related API features '
+            "are not available!"
+            "\nSee the installation guide for more information: "
+            "https://www.colour-science.org/installation-guide/"
+        )
 
-        return False
+    return False
 
 
 def is_tqdm_installed(raise_exception: bool = False) -> bool:

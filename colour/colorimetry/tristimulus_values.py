@@ -1737,11 +1737,10 @@ def msds_to_XYZ_ASTME308(
                 for sd in msds.to_sds()
             ]
         )
-    else:
-        raise TypeError(
-            '"ASTM E308-15" method does not support "ArrayLike" '
-            "multi-spectral distributions!"
-        )
+    raise TypeError(
+        '"ASTM E308-15" method does not support "ArrayLike" '
+        "multi-spectral distributions!"
+    )
 
 
 MSDS_TO_XYZ_METHODS = CanonicalMapping(

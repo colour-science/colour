@@ -1038,8 +1038,7 @@ def optional(value: T | None, default: T) -> T:
 
     if value is None:
         return default
-    else:
-        return value
+    return value
 
 
 def slugify(object_: Any, allow_unicode: bool = False) -> str:

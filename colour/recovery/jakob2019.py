@@ -299,8 +299,7 @@ def error_function(
 
     if additional_data:
         return error, derror, R, XYZ, Lab_i
-    else:
-        return error, derror
+    return error, derror
 
 
 def dimensionalise_coefficients(
@@ -612,8 +611,7 @@ def XYZ_to_sd_Jakob2019(
 
     if additional_data:
         return sd, error
-    else:
-        return sd
+    return sd
 
 
 class LUT3D_Jakob2019:
@@ -1013,10 +1011,9 @@ class LUT3D_Jakob2019:
             indexes = np.stack([i_m, i_1, i_2, i_3], axis=-1)
 
             return self._interpolator(indexes).squeeze()
-        else:
-            raise RuntimeError(
-                "The pre-computed lookup table has not been read or generated!"
-            )
+        raise RuntimeError(
+            "The pre-computed lookup table has not been read or generated!"
+        )
 
     def RGB_to_sd(
         self, RGB: ArrayLike, shape: SpectralShape = SPECTRAL_SHAPE_JAKOB2019

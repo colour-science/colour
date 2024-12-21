@@ -380,7 +380,6 @@ def chromatic_adaptation_CMCCAT2000(
         return chromatic_adaptation_forward_CMCCAT2000(
             XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, surround
         )
-    else:
-        return chromatic_adaptation_inverse_CMCCAT2000(
-            XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, surround
-        )
+    return chromatic_adaptation_inverse_CMCCAT2000(
+        XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, surround
+    )

@@ -359,8 +359,7 @@ class ModuleAPI:
                     if isinstance(change, ObjectFutureRemove)
                     else get_attribute(change[1])
                 )
-            else:
-                raise AttributeError(str(change))
+            raise AttributeError(str(change))
 
         return getattr(self._module, attribute)
 

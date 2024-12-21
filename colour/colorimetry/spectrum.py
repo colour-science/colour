@@ -450,8 +450,7 @@ class SpectralShape:
 
         if isinstance(other, SpectralShape):
             return np.array_equal(self.wavelengths, other.wavelengths)
-        else:
-            return False
+        return False
 
     def __ne__(self, other: Any) -> bool:
         """
@@ -2824,7 +2823,7 @@ def sds_and_msds_to_sds(
 
     if isinstance(sds, SpectralDistribution):
         return sds_and_msds_to_sds([sds])
-    elif isinstance(sds, MultiSpectralDistributions):
+    if isinstance(sds, MultiSpectralDistributions):
         sds_converted = sds.to_sds()
     else:
         sds_converted = []
@@ -2925,7 +2924,7 @@ def sds_and_msds_to_msds(
 
     if isinstance(sds, SpectralDistribution):
         return sds_and_msds_to_msds([sds])
-    elif isinstance(sds, MultiSpectralDistributions):
+    if isinstance(sds, MultiSpectralDistributions):
         msds_converted = sds
     else:
         sds_converted = sds_and_msds_to_sds(sds)

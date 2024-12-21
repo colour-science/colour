@@ -337,8 +337,7 @@ class CanonicalMapping(MutableMapping):
                 dict(zip(self.keys(), ["..."] * len(self), strict=True))
             ).replace("'...'", "...")
             return f"{self.__class__.__name__}({representation})"
-        else:
-            return f"{self.__class__.__name__}({dict(self.items())})"
+        return f"{self.__class__.__name__}({dict(self.items())})"
 
     def __setitem__(self, item: str | Any, value: Any) -> None:
         """

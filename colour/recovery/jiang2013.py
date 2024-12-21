@@ -130,8 +130,7 @@ def PCA_Jiang2013(
             (R_w_v[1], G_w_v[1], B_w_v[1]),
             (R_w_v[0], G_w_v[0], B_w_v[0]),
         )
-    else:
-        return R_w_v[1], G_w_v[1], B_w_v[1]
+    return R_w_v[1], G_w_v[1], B_w_v[1]
 
 
 def RGB_to_sd_camera_sensitivity_Jiang2013(

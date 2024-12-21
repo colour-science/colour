@@ -89,9 +89,9 @@ def gamma_function(
 
     if negative_number_handling == "indeterminate":
         return as_float(a**exponent)
-    elif negative_number_handling == "mirror":
+    if negative_number_handling == "mirror":
         return spow(a, exponent)
-    elif negative_number_handling == "preserve":
+    if negative_number_handling == "preserve":
         return as_float(np.where(a <= 0, a, a**exponent))
-    else:  # negative_number_handling == 'clamp':
-        return as_float(np.where(a <= 0, 0, a**exponent))
+    # negative_number_handling == 'clamp':
+    return as_float(np.where(a <= 0, 0, a**exponent))

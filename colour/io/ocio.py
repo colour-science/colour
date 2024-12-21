@@ -152,7 +152,6 @@ def process_image_OpenColorIO(a: ArrayLike, *args: Any, **kwargs: Any) -> NDArra
 
     if len(shape) == 0:
         return as_float(np.squeeze(b)[0])
-    elif shape[-1] == 1:
+    if shape[-1] == 1:
         return np.reshape(b[..., 0], shape)
-    else:
-        return np.reshape(b, shape)
+    return np.reshape(b, shape)

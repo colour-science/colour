@@ -415,8 +415,7 @@ def read_image_OpenImageIO(
             )
 
         return image, tuple(extra_attributes)
-    else:
-        return image
+    return image
 
 
 def read_image_Imageio(

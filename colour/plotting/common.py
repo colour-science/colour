@@ -534,14 +534,13 @@ def artist(**kwargs: KwargsArtist | Any) -> Tuple[Figure, Axes]:
         figure = plt.figure(figsize=figure_size)
 
         return figure, figure.gca()
-    else:
-        axes = cast(Axes, axes)
-        figure = axes.figure
+    axes = cast(Axes, axes)
+    figure = axes.figure
 
-        if isinstance(figure, SubFigure):
-            figure = figure.get_figure()
+    if isinstance(figure, SubFigure):
+        figure = figure.get_figure()
 
-        return cast(Figure, figure), axes
+    return cast(Figure, figure), axes
 
 
 class KwargsCamera(TypedDict):

@@ -508,8 +508,7 @@ def read_spectral_image_Fichet2021(
 
     if additional_data:
         return components, specification
-    else:
-        return components
+    return components
 
 
 def sds_and_msds_to_components_Fichet2021(

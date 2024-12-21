@@ -1570,17 +1570,15 @@ def normalise_munsell_specification(specification: ArrayLike) -> NDArrayFloat:
 
     if is_grey_munsell_colour(specification):
         return specification * np.array([np.nan, 1, np.nan, np.nan])  # pyright: ignore
-    else:
-        hue, value, chroma, code = specification
+    hue, value, chroma, code = specification
 
-        if hue == 0:
-            # 0YR is equivalent to 10R.
-            hue, code = 10, (code + 1) % 10
+    if hue == 0:
+        # 0YR is equivalent to 10R.
+        hue, code = 10, (code + 1) % 10
 
-        if chroma == 0:
-            return tstack([np.nan, value, np.nan, np.nan])
-        else:
-            return tstack([hue, value, chroma, code])
+    if chroma == 0:
+        return tstack([np.nan, value, np.nan, np.nan])
+    return tstack([hue, value, chroma, code])
 
 
 def munsell_colour_to_munsell_specification(
@@ -1648,49 +1646,47 @@ def munsell_specification_to_munsell_colour(
 
     if is_grey_munsell_colour(specification):
         return MUNSELL_GRAY_EXTENDED_FORMAT.format(value, value_decimals)
-    else:
-        hue = round(hue, hue_decimals)
-        attest(
-            0 <= hue <= 10,
-            f'"{specification!r}" specification hue must be normalised to '
-            f"domain [0, 10]!",
-        )
+    hue = round(hue, hue_decimals)
+    attest(
+        0 <= hue <= 10,
+        f'"{specification!r}" specification hue must be normalised to '
+        f"domain [0, 10]!",
+    )
 
-        value = round(value, value_decimals)
-        attest(
-            0 <= value <= 10,
-            f'"{specification!r}" specification value must be normalised to '
-            f"domain [0, 10]!",
-        )
+    value = round(value, value_decimals)
+    attest(
+        0 <= value <= 10,
+        f'"{specification!r}" specification value must be normalised to '
+        f"domain [0, 10]!",
+    )
 
-        chroma = round(chroma, chroma_decimals)
-        attest(
-            2 <= chroma <= 50,
-            f'"{specification!r}" specification chroma must be normalised to '
-            f"domain [2, 50]!",
-        )
+    chroma = round(chroma, chroma_decimals)
+    attest(
+        2 <= chroma <= 50,
+        f'"{specification!r}" specification chroma must be normalised to '
+        f"domain [2, 50]!",
+    )
 
-        code_values = MUNSELL_HUE_LETTER_CODES.values()
-        code = round(code, 1)
-        attest(
-            code in code_values,
-            f'"{specification!r}" specification code must one of "{code_values}"!',
-        )
+    code_values = MUNSELL_HUE_LETTER_CODES.values()
+    code = round(code, 1)
+    attest(
+        code in code_values,
+        f'"{specification!r}" specification code must one of "{code_values}"!',
+    )
 
-        if value == 0:
-            return MUNSELL_GRAY_EXTENDED_FORMAT.format(value, value_decimals)
-        else:
-            hue_letter = MUNSELL_HUE_LETTER_CODES.first_key_from_value(code)
+    if value == 0:
+        return MUNSELL_GRAY_EXTENDED_FORMAT.format(value, value_decimals)
+    hue_letter = MUNSELL_HUE_LETTER_CODES.first_key_from_value(code)
 
-            return MUNSELL_COLOUR_EXTENDED_FORMAT.format(
-                hue,
-                hue_decimals,
-                hue_letter,
-                value,
-                value_decimals,
-                chroma,
-                chroma_decimals,
-            )
+    return MUNSELL_COLOUR_EXTENDED_FORMAT.format(
+        hue,
+        hue_decimals,
+        hue_letter,
+        value,
+        value_decimals,
+        chroma,
+        chroma_decimals,
+    )
 
 
 def xyY_from_renotation(
@@ -2304,119 +2300,117 @@ def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArrayFloat:
 
     if is_grey_munsell_colour(specification):
         return CCS_ILLUMINANT_MUNSELL
-    else:
-        hue, value, chroma, code = specification
+    hue, value, chroma, code = specification
 
-        attest(
-            1 <= value <= 9,
-            f'"{specification}" specification value must be normalised to '
-            f"domain [1, 9]!",
-        )
+    attest(
+        1 <= value <= 9,
+        f'"{specification}" specification value must be normalised to '
+        f"domain [1, 9]!",
+    )
 
-        attest(
-            is_integer(value),
-            f'"{specification}" specification value must be an int!',
-        )
+    attest(
+        is_integer(value),
+        f'"{specification}" specification value must be an int!',
+    )
 
-        value = round(value)
+    value = round(value)
 
-        attest(
-            2 <= chroma <= 50,
-            f'"{specification}" specification chroma must be normalised to '
-            f"domain [2, 50]!",
-        )
+    attest(
+        2 <= chroma <= 50,
+        f'"{specification}" specification chroma must be normalised to '
+        f"domain [2, 50]!",
+    )
 
-        attest(
-            abs(2 * (chroma / 2 - round(chroma / 2))) <= THRESHOLD_INTEGER,
-            f'"{specification}" specification chroma must be an int and '
-            f"multiple of 2!",
-        )
+    attest(
+        abs(2 * (chroma / 2 - round(chroma / 2))) <= THRESHOLD_INTEGER,
+        f'"{specification}" specification chroma must be an int and multiple of 2!',
+    )
 
-        chroma = 2 * round(chroma / 2)
+    chroma = 2 * round(chroma / 2)
 
-        # Checking if renotation data is available without interpolation using
-        # given threshold.
-        if (
-            abs(hue) < THRESHOLD_INTEGER
-            or abs(hue - 2.5) < THRESHOLD_INTEGER
-            or abs(hue - 5) < THRESHOLD_INTEGER
-            or abs(hue - 7.5) < THRESHOLD_INTEGER
-            or abs(hue - 10) < THRESHOLD_INTEGER
-        ):
-            hue = 2.5 * round(hue / 2.5)
+    # Checking if renotation data is available without interpolation using
+    # given threshold.
+    if (
+        abs(hue) < THRESHOLD_INTEGER
+        or abs(hue - 2.5) < THRESHOLD_INTEGER
+        or abs(hue - 5) < THRESHOLD_INTEGER
+        or abs(hue - 7.5) < THRESHOLD_INTEGER
+        or abs(hue - 10) < THRESHOLD_INTEGER
+    ):
+        hue = 2.5 * round(hue / 2.5)
 
-            x, y, _Y = xyY_from_renotation([hue, value, chroma, code])
-
-            return tstack([x, y])
-
-        hue_code_cw, hue_code_ccw = bounding_hues_from_renotation([hue, code])
-        hue_minus, code_minus = hue_code_cw
-        hue_plus, code_plus = hue_code_ccw
-
-        x_grey, y_grey = CCS_ILLUMINANT_MUNSELL
-
-        specification_minus = (hue_minus, value, chroma, code_minus)
-        x_minus, y_minus, Y_minus = xyY_from_renotation(specification_minus)
-        rho_minus, phi_minus, _z_minus = cartesian_to_cylindrical(
-            [x_minus - x_grey, y_minus - y_grey, Y_minus]
-        )
-        phi_minus = np.degrees(phi_minus)
-
-        specification_plus = (hue_plus, value, chroma, code_plus)
-        x_plus, y_plus, Y_plus = xyY_from_renotation(specification_plus)
-        rho_plus, phi_plus, _z_plus = cartesian_to_cylindrical(
-            [x_plus - x_grey, y_plus - y_grey, Y_plus]
-        )
-        phi_plus = np.degrees(phi_plus)
-
-        hue_angle_lower = hue_to_hue_angle([hue_minus, code_minus])
-        hue_angle = hue_to_hue_angle([hue, code])
-        hue_angle_upper = hue_to_hue_angle([hue_plus, code_plus])
-
-        if phi_minus - phi_plus > 180:
-            phi_plus += 360
-
-        if hue_angle_lower == 0:
-            hue_angle_lower = 360
-
-        if hue_angle_lower > hue_angle_upper:
-            if hue_angle_lower > hue_angle:
-                hue_angle_lower -= 360
-            else:
-                hue_angle_lower -= 360
-                hue_angle -= 360
-
-        interpolation_method = interpolation_method_from_renotation_ovoid(specification)
-
-        attest(
-            interpolation_method is not None,
-            f"Interpolation method must be one of: "
-            f"\"{', '.join(['Linear', 'Radial'])}\"",
-        )
-
-        hue_angle_lower_upper = np.squeeze([hue_angle_lower, hue_angle_upper])
-
-        if interpolation_method == "Linear":
-            x_minus_plus = np.squeeze([x_minus, x_plus])
-            y_minus_plus = np.squeeze([y_minus, y_plus])
-
-            x = LinearInterpolator(hue_angle_lower_upper, x_minus_plus)(hue_angle)
-            y = LinearInterpolator(hue_angle_lower_upper, y_minus_plus)(hue_angle)
-        elif interpolation_method == "Radial":
-            rho_minus_plus = np.squeeze([rho_minus, rho_plus])
-            phi_minus_plus = np.squeeze([phi_minus, phi_plus])
-
-            rho = as_float_array(
-                LinearInterpolator(hue_angle_lower_upper, rho_minus_plus)(hue_angle)
-            )
-            phi = as_float_array(
-                LinearInterpolator(hue_angle_lower_upper, phi_minus_plus)(hue_angle)
-            )
-
-            rho_phi = np.squeeze([rho, np.radians(phi)])
-            x, y = tsplit(polar_to_cartesian(rho_phi) + tstack([x_grey, y_grey]))
+        x, y, _Y = xyY_from_renotation([hue, value, chroma, code])
 
         return tstack([x, y])
+
+    hue_code_cw, hue_code_ccw = bounding_hues_from_renotation([hue, code])
+    hue_minus, code_minus = hue_code_cw
+    hue_plus, code_plus = hue_code_ccw
+
+    x_grey, y_grey = CCS_ILLUMINANT_MUNSELL
+
+    specification_minus = (hue_minus, value, chroma, code_minus)
+    x_minus, y_minus, Y_minus = xyY_from_renotation(specification_minus)
+    rho_minus, phi_minus, _z_minus = cartesian_to_cylindrical(
+        [x_minus - x_grey, y_minus - y_grey, Y_minus]
+    )
+    phi_minus = np.degrees(phi_minus)
+
+    specification_plus = (hue_plus, value, chroma, code_plus)
+    x_plus, y_plus, Y_plus = xyY_from_renotation(specification_plus)
+    rho_plus, phi_plus, _z_plus = cartesian_to_cylindrical(
+        [x_plus - x_grey, y_plus - y_grey, Y_plus]
+    )
+    phi_plus = np.degrees(phi_plus)
+
+    hue_angle_lower = hue_to_hue_angle([hue_minus, code_minus])
+    hue_angle = hue_to_hue_angle([hue, code])
+    hue_angle_upper = hue_to_hue_angle([hue_plus, code_plus])
+
+    if phi_minus - phi_plus > 180:
+        phi_plus += 360
+
+    if hue_angle_lower == 0:
+        hue_angle_lower = 360
+
+    if hue_angle_lower > hue_angle_upper:
+        if hue_angle_lower > hue_angle:
+            hue_angle_lower -= 360
+        else:
+            hue_angle_lower -= 360
+            hue_angle -= 360
+
+    interpolation_method = interpolation_method_from_renotation_ovoid(specification)
+
+    attest(
+        interpolation_method is not None,
+        f"Interpolation method must be one of: "
+        f"\"{', '.join(['Linear', 'Radial'])}\"",
+    )
+
+    hue_angle_lower_upper = np.squeeze([hue_angle_lower, hue_angle_upper])
+
+    if interpolation_method == "Linear":
+        x_minus_plus = np.squeeze([x_minus, x_plus])
+        y_minus_plus = np.squeeze([y_minus, y_plus])
+
+        x = LinearInterpolator(hue_angle_lower_upper, x_minus_plus)(hue_angle)
+        y = LinearInterpolator(hue_angle_lower_upper, y_minus_plus)(hue_angle)
+    elif interpolation_method == "Radial":
+        rho_minus_plus = np.squeeze([rho_minus, rho_plus])
+        phi_minus_plus = np.squeeze([phi_minus, phi_plus])
+
+        rho = as_float_array(
+            LinearInterpolator(hue_angle_lower_upper, rho_minus_plus)(hue_angle)
+        )
+        phi = as_float_array(
+            LinearInterpolator(hue_angle_lower_upper, phi_minus_plus)(hue_angle)
+        )
+
+        rho_phi = np.squeeze([rho, np.radians(phi)])
+        x, y = tsplit(polar_to_cartesian(rho_phi) + tstack([x_grey, y_grey]))
+
+    return tstack([x, y])
 
 
 def LCHab_to_munsell_specification(LCHab: ArrayLike) -> NDArrayFloat:
@@ -2603,48 +2597,45 @@ def munsell_specification_to_xy(specification: ArrayLike) -> NDArrayFloat:
 
     if is_grey_munsell_colour(specification):
         return CCS_ILLUMINANT_MUNSELL
+    hue, value, chroma, code = specification
+
+    attest(
+        0 <= value <= 10,
+        f'"{specification}" specification value must be normalised to '
+        f"domain [0, 10]!",
+    )
+
+    attest(
+        is_integer(value),
+        f'"{specification}" specification value must be an int!',
+    )
+
+    value = round(value)
+
+    if chroma % 2 == 0:
+        chroma_minus = chroma_plus = chroma
     else:
-        hue, value, chroma, code = specification
+        chroma_minus = 2 * np.floor(chroma / 2)
+        chroma_plus = chroma_minus + 2
 
-        attest(
-            0 <= value <= 10,
-            f'"{specification}" specification value must be normalised to '
-            f"domain [0, 10]!",
-        )
+    if chroma_minus == 0:
+        # Smallest chroma ovoid collapses to illuminant chromaticity
+        # coordinates.
+        x_minus, y_minus = CCS_ILLUMINANT_MUNSELL
+    else:
+        x_minus, y_minus = xy_from_renotation_ovoid([hue, value, chroma_minus, code])
 
-        attest(
-            is_integer(value),
-            f'"{specification}" specification value must be an int!',
-        )
+    x_plus, y_plus = xy_from_renotation_ovoid([hue, value, chroma_plus, code])
 
-        value = round(value)
+    if chroma_minus == chroma_plus:
+        x = x_minus
+        y = y_minus
+    else:
+        chroma_minus_plus = np.squeeze([chroma_minus, chroma_plus])
+        x_minus_plus = np.squeeze([x_minus, x_plus])
+        y_minus_plus = np.squeeze([y_minus, y_plus])
 
-        if chroma % 2 == 0:
-            chroma_minus = chroma_plus = chroma
-        else:
-            chroma_minus = 2 * np.floor(chroma / 2)
-            chroma_plus = chroma_minus + 2
+        x = LinearInterpolator(chroma_minus_plus, x_minus_plus)(chroma)
+        y = LinearInterpolator(chroma_minus_plus, y_minus_plus)(chroma)
 
-        if chroma_minus == 0:
-            # Smallest chroma ovoid collapses to illuminant chromaticity
-            # coordinates.
-            x_minus, y_minus = CCS_ILLUMINANT_MUNSELL
-        else:
-            x_minus, y_minus = xy_from_renotation_ovoid(
-                [hue, value, chroma_minus, code]
-            )
-
-        x_plus, y_plus = xy_from_renotation_ovoid([hue, value, chroma_plus, code])
-
-        if chroma_minus == chroma_plus:
-            x = x_minus
-            y = y_minus
-        else:
-            chroma_minus_plus = np.squeeze([chroma_minus, chroma_plus])
-            x_minus_plus = np.squeeze([x_minus, x_plus])
-            y_minus_plus = np.squeeze([y_minus, y_plus])
-
-            x = LinearInterpolator(chroma_minus_plus, x_minus_plus)(chroma)
-            y = LinearInterpolator(chroma_minus_plus, y_minus_plus)(chroma)
-
-        return tstack([x, y])
+    return tstack([x, y])

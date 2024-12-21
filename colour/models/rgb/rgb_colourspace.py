@@ -429,8 +429,7 @@ class RGB_Colourspace:
             if self._derived_matrix_RGB_to_XYZ.size == 0:
                 self._derive_transformation_matrices()
             return self._derived_matrix_RGB_to_XYZ
-        else:
-            return self._matrix_RGB_to_XYZ
+        return self._matrix_RGB_to_XYZ
 
     @matrix_RGB_to_XYZ.setter
     def matrix_RGB_to_XYZ(self, value: ArrayLike | None) -> None:
@@ -470,8 +469,7 @@ class RGB_Colourspace:
             if self._derived_matrix_XYZ_to_RGB.size == 0:
                 self._derive_transformation_matrices()
             return self._derived_matrix_XYZ_to_RGB
-        else:
-            return self._matrix_XYZ_to_RGB
+        return self._matrix_XYZ_to_RGB
 
     @matrix_XYZ_to_RGB.setter
     def matrix_XYZ_to_RGB(self, value: ArrayLike | None) -> None:

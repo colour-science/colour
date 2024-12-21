@@ -235,8 +235,7 @@ def colour_fidelity_index_CIE2017(
             (test_tcs_colorimetry_data, reference_tcs_colorimetry_data),
             delta_E_s,
         )
-    else:
-        return R_f
+    return R_f
 
 
 def load_TCS_CIE2017(shape: SpectralShape) -> MultiSpectralDistributions:
