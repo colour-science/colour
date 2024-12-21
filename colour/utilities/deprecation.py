@@ -554,8 +554,7 @@ def handle_arguments_deprecation(changes: dict, **kwargs: Any) -> dict:
 
             if isinstance(change, ArgumentFutureRemove):
                 continue
-            else:
-                kwargs[change[1]] = kwargs.pop(kwarg)
+            kwargs[change[1]] = kwargs.pop(kwarg)
         else:
             kwargs.pop(kwarg)
             usage_warning(str(change))

@@ -163,7 +163,7 @@ def read_LUT_Cinespace(path: str | Path) -> LUT3x1D | LUT3D | LUTSequence:
             if line == "BEGIN METADATA":
                 is_metadata = True
                 continue
-            elif line == "END METADATA":
+            if line == "END METADATA":
                 seek += i
                 break
 
