@@ -267,7 +267,8 @@ def show_warning(
 
     frame_range = (1, None)
 
-    file = file if file is None else sys.stderr
+    file = sys.stderr if file is None else file
+
     if file is None:
         return
 
@@ -289,7 +290,6 @@ def show_warning(
                 frame_in -= 1
 
         traceback.print_stack(frame, frame_out, file)
-
         file.write(formatwarning(message, category, filename, lineno, line))
     except (OSError, UnicodeError):
         pass
