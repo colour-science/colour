@@ -878,7 +878,7 @@ def uniform_axes3d(**kwargs: Any) -> Tuple[Figure, Axes3D]:
     centers = np.mean(extents, axis=1)
     extent = np.max(np.abs(extents[..., 1] - extents[..., 0]))
 
-    for center, axis in zip(centers, "xyz"):
+    for center, axis in zip(centers, "xyz", strict=True):
         getattr(axes, f"set_{axis}lim")(center - extent / 2, center + extent / 2)
 
     return figure, axes

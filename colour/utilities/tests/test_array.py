@@ -485,7 +485,8 @@ class TestAsArray(unittest.TestCase):
         assert as_array([1, 2, 3], DTYPE_INT_DEFAULT).dtype == DTYPE_INT_DEFAULT
 
         np.testing.assert_equal(
-            as_array(dict(zip("abc", [1, 2, 3])).values()), np.array([1, 2, 3])
+            as_array(dict(zip("abc", [1, 2, 3], strict=True)).values()),
+            np.array([1, 2, 3]),
         )
 
 

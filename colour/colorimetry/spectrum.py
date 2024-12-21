@@ -1169,6 +1169,7 @@ class SpectralDistribution(Signal):
                 for x in zip(
                     (shape.start, shape.end, shape.interval),
                     (shape_start, shape_end, shape_interval),
+                    strict=True,
                 )
             ]
         )

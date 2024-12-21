@@ -192,6 +192,7 @@ DATA_COLORCHECKER1976: dict = dict(
             np.array([0.3101, 0.3163, 0.0900]),
             np.array([0.3101, 0.3163, 0.0313]),
         ],
+        strict=True,
     )
 )
 
@@ -241,6 +242,7 @@ DATA_COLORCHECKER2005: dict = dict(
             np.array([0.3401, 0.3548, 0.0883]),
             np.array([0.3406, 0.3537, 0.0311]),
         ],
+        strict=True,
     )
 )
 
@@ -286,6 +288,7 @@ DATA_BABELCOLOR_AVERAGE: dict = dict(
             np.array([0.3423, 0.3576, 0.0893]),
             np.array([0.3439, 0.3565, 0.0320]),
         ],
+        strict=True,
     )
 )
 
@@ -332,6 +335,7 @@ DATA_COLORCHECKER24_BEFORE_NOV2014_CIE_LAB: dict = dict(
             np.array([35.656, -0.421, -1.231]),
             np.array([20.461, -0.079, -0.973]),
         ],
+        strict=True,
     )
 )
 
@@ -344,6 +348,7 @@ DATA_COLORCHECKER24_BEFORE_NOV2014: dict = dict(
                 CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["ICC D50"],
             )
         ),
+        strict=True,
     )
 )
 
@@ -398,6 +403,7 @@ DATA_COLORCHECKER24_AFTER_NOV2014_CIE_LAB: dict = dict(
             np.array([35.63, -0.46, -0.48]),
             np.array([20.64, 0.07, -0.46]),
         ],
+        strict=True,
     )
 )
 
@@ -410,6 +416,7 @@ DATA_COLORCHECKER24_AFTER_NOV2014: dict = dict(
                 CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["ICC D50"],
             )
         ),
+        strict=True,
     )
 )
 
@@ -719,6 +726,7 @@ DATA_COLORCHECKERSG_BEFORE_NOV2014_CIE_LAB: dict = dict(
             np.array([6.47, 0, -0.38]),
             np.array([96.46, -0.89, 0.71]),
         ],
+        strict=True,
     )
 )
 
@@ -730,6 +738,7 @@ _DATA_COLORCHECKERSG_BEFORE_NOV2014 = np.reshape(
                     zip(
                         SAMPLE_LABELS_COLORCHECKER_SG,
                         DATA_COLORCHECKERSG_BEFORE_NOV2014_CIE_LAB.values(),
+                        strict=True,
                     )
                 ),
                 dtype=object,
@@ -750,6 +759,7 @@ DATA_COLORCHECKERSG_BEFORE_NOV2014: dict = dict(
                 CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["ICC D50"],
             )
         ),
+        strict=True,
     )
 )
 
@@ -916,6 +926,7 @@ DATA_COLORCHECKERSG_AFTER_NOV2014_CIE_LAB: dict = dict(
             np.array([8.11, 0.15, -0.90]),
             np.array([96.55, -0.64, 2.02]),
         ],
+        strict=True,
     )
 )
 
@@ -927,6 +938,7 @@ _DATA_COLORCHECKERSG_AFTER_NOV2014 = np.reshape(
                     zip(
                         SAMPLE_LABELS_COLORCHECKER_SG,
                         DATA_COLORCHECKERSG_AFTER_NOV2014_CIE_LAB.values(),
+                        strict=True,
                     )
                 ),
                 dtype=object,
@@ -947,6 +959,7 @@ DATA_COLORCHECKERSG_AFTER_NOV2014: dict = dict(
                 CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["ICC D50"],
             )
         ),
+        strict=True,
     )
 )
 
@@ -1021,6 +1034,7 @@ DATA_TE226_V2: dict = dict(
     zip(
         tuple(DATA_TE226_V2_CIE_XYZ.keys()),
         XYZ_to_xyY(list(DATA_TE226_V2_CIE_XYZ.values())),
+        strict=True,
     )
 )
 

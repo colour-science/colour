@@ -79,6 +79,7 @@ bandpass_correction_Stearns1988` definition.
                 zip(
                     range(len(DATA_NON_BANDPASS_CORRECTED)),
                     DATA_NON_BANDPASS_CORRECTED,
+                    strict=True,
                 )
             )
         )

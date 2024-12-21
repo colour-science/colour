@@ -137,7 +137,7 @@ def read_spectral_data_from_csv_file(
         delimiter = cast(str, settings.get("delimiter", ","))
 
         with open(path) as csv_file:
-            content = zip(*csv.reader(csv_file, delimiter=delimiter))
+            content = zip(*csv.reader(csv_file, delimiter=delimiter), strict=True)
 
         settings["delimiter"] = ","
 

@@ -364,7 +364,9 @@ function` property raised exception.
         np.testing.assert_array_equal(multi_signals.domain, self._domain_2)
         np.testing.assert_array_equal(multi_signals.range, self._range_2)
 
-        multi_signals = MultiSignals(dict(zip(self._domain_2, self._range_2)))
+        multi_signals = MultiSignals(
+            dict(zip(self._domain_2, self._range_2, strict=True))
+        )
         np.testing.assert_array_equal(multi_signals.domain, self._domain_2)
         np.testing.assert_array_equal(multi_signals.range, self._range_2)
 
@@ -384,12 +386,12 @@ function` property raised exception.
             from pandas import DataFrame, Series
 
             multi_signals = MultiSignals(
-                Series(dict(zip(self._domain_2, self._range_1)))
+                Series(dict(zip(self._domain_2, self._range_1, strict=True)))
             )
             np.testing.assert_array_equal(multi_signals.domain, self._domain_2)
             np.testing.assert_array_equal(multi_signals.range, self._range_1[:, None])
 
-            data = dict(zip(["a", "b", "c"], tsplit(self._range_2)))
+            data = dict(zip(["a", "b", "c"], tsplit(self._range_2), strict=True))
             multi_signals = MultiSignals(DataFrame(data, self._domain_2))
             np.testing.assert_array_equal(multi_signals.domain, self._domain_2)
             np.testing.assert_array_equal(multi_signals.range, self._range_2)
@@ -959,7 +961,7 @@ multi_signals_unpack_data` method.
         np.testing.assert_array_equal(signals["0"].range, self._range_1)
 
         signals = MultiSignals.multi_signals_unpack_data(
-            self._range_1, dict(zip(self._domain_2, self._range_1)).keys()
+            self._range_1, dict(zip(self._domain_2, self._range_1, strict=True)).keys()
         )
         np.testing.assert_array_equal(signals["0"].domain, self._domain_2)
 
@@ -973,7 +975,7 @@ multi_signals_unpack_data` method.
             next(
                 iter(
                     MultiSignals.multi_signals_unpack_data(
-                        dict(zip(self._domain_2, self._range_2))
+                        dict(zip(self._domain_2, self._range_2, strict=True))
                     ).values()
                 )
             )
@@ -982,7 +984,7 @@ multi_signals_unpack_data` method.
 
         signals = MultiSignals.multi_signals_unpack_data(
             MultiSignals.multi_signals_unpack_data(
-                dict(zip(self._domain_2, self._range_2))
+                dict(zip(self._domain_2, self._range_2, strict=True))
             ).values()
         )
         np.testing.assert_array_equal(signals["0"].range, self._range_1)
@@ -990,7 +992,7 @@ multi_signals_unpack_data` method.
         np.testing.assert_array_equal(signals["2"].range, self._range_1 + 20)
 
         signals = MultiSignals.multi_signals_unpack_data(
-            dict(zip(self._domain_2, self._range_2))
+            dict(zip(self._domain_2, self._range_2, strict=True))
         )
         assert list(signals.keys()) == ["0", "1", "2"]
         np.testing.assert_array_equal(signals["0"].range, self._range_1)
@@ -999,7 +1001,7 @@ multi_signals_unpack_data` method.
 
         signals = MultiSignals.multi_signals_unpack_data(
             MultiSignals.multi_signals_unpack_data(
-                dict(zip(self._domain_2, self._range_2))
+                dict(zip(self._domain_2, self._range_2, strict=True))
             )
         )
         assert list(signals.keys()) == ["0", "1", "2"]
@@ -1008,7 +1010,8 @@ multi_signals_unpack_data` method.
         np.testing.assert_array_equal(signals["2"].range, self._range_1 + 20)
 
         signals = MultiSignals.multi_signals_unpack_data(
-            dict(zip(self._domain_2, self._range_2)), labels=["0", "0", "0"]
+            dict(zip(self._domain_2, self._range_2, strict=True)),
+            labels=["0", "0", "0"],
         )
         assert list(signals.keys()) == ["0 - 0", "0 - 1", "0 - 2"]
 
@@ -1016,13 +1019,13 @@ multi_signals_unpack_data` method.
             from pandas import DataFrame, Series
 
             signals = MultiSignals.multi_signals_unpack_data(
-                Series(dict(zip(self._domain_1, self._range_1)))
+                Series(dict(zip(self._domain_1, self._range_1, strict=True)))
             )
             assert list(signals.keys()) == ["0"]
             np.testing.assert_array_equal(signals["0"].domain, self._domain_1)
             np.testing.assert_array_equal(signals["0"].range, self._range_1)
 
-            data = dict(zip(["a", "b", "c"], tsplit(self._range_2)))
+            data = dict(zip(["a", "b", "c"], tsplit(self._range_2), strict=True))
             signals = MultiSignals.multi_signals_unpack_data(
                 DataFrame(data, self._domain_1)
             )
@@ -1108,7 +1111,7 @@ domain_distance` method.
         if is_pandas_installed():
             from pandas import DataFrame
 
-            data = dict(zip(["a", "b", "c"], tsplit(self._range_2)))
+            data = dict(zip(["a", "b", "c"], tsplit(self._range_2), strict=True))
 
             attest(
                 MultiSignals(self._range_2, self._domain_2, labels=["a", "b", "c"])

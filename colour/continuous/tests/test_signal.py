@@ -273,7 +273,7 @@ class TestSignal:
         np.testing.assert_array_equal(signal.domain, self._domain)
         np.testing.assert_array_equal(signal.range, self._range)
 
-        signal = Signal(dict(zip(self._domain, self._range)))
+        signal = Signal(dict(zip(self._domain, self._range, strict=True)))
         np.testing.assert_array_equal(signal.domain, self._domain)
         np.testing.assert_array_equal(signal.range, self._range)
 
@@ -284,7 +284,7 @@ class TestSignal:
         if is_pandas_installed():
             from pandas import Series
 
-            signal = Signal(Series(dict(zip(self._domain, self._range))))
+            signal = Signal(Series(dict(zip(self._domain, self._range, strict=True))))
             np.testing.assert_array_equal(signal.domain, self._domain)
             np.testing.assert_array_equal(signal.range, self._range)
 
@@ -692,11 +692,13 @@ class TestSignal:
         np.testing.assert_array_equal(domain, self._domain)
 
         domain, range_ = Signal.signal_unpack_data(
-            self._range, dict(zip(self._domain, self._range)).keys()
+            self._range, dict(zip(self._domain, self._range, strict=True)).keys()
         )
         np.testing.assert_array_equal(domain, self._domain)
 
-        domain, range_ = Signal.signal_unpack_data(dict(zip(self._domain, self._range)))
+        domain, range_ = Signal.signal_unpack_data(
+            dict(zip(self._domain, self._range, strict=True))
+        )
         np.testing.assert_array_equal(range_, self._range)
         np.testing.assert_array_equal(domain, self._domain)
 
@@ -708,7 +710,7 @@ class TestSignal:
             from pandas import Series
 
             domain, range_ = Signal.signal_unpack_data(
-                Series(dict(zip(self._domain, self._range)))
+                Series(dict(zip(self._domain, self._range, strict=True)))
             )
             np.testing.assert_array_equal(range_, self._range)
             np.testing.assert_array_equal(domain, self._domain)
@@ -757,5 +759,5 @@ class TestSignal:
 
             assert (
                 Signal(self._range, self._domain).to_series().all()
-                == Series(dict(zip(self._domain, self._range))).all()
+                == Series(dict(zip(self._domain, self._range, strict=True))).all()
             )

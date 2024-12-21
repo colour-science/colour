@@ -412,7 +412,7 @@ class MultiSignals(AbstractContinuousFunction):
                 'same count than underlying "Signal" components!',
             )
 
-            for signal, y in zip(self._signals.values(), tsplit(value)):
+            for signal, y in zip(self._signals.values(), tsplit(value), strict=True):
                 signal.range = y
 
     @property
@@ -934,7 +934,7 @@ class MultiSignals(AbstractContinuousFunction):
             'underlying "Signal" components!',
         )
 
-        values = list(zip(self._signals.values(), tsplit(y)))
+        values = list(zip(self._signals.values(), tsplit(y), strict=True))
 
         for signal, y in values[x_c]:  # pyright: ignore
             signal[x_r] = y
@@ -1178,7 +1178,7 @@ class MultiSignals(AbstractContinuousFunction):
             )
 
             for signal_a, signal_b in zip(
-                multi_signals.signals.values(), a.signals.values()
+                multi_signals.signals.values(), a.signals.values(), strict=True
             ):
                 signal_a.arithmetical_operation(signal_b, operation, True)
         else:
@@ -1200,7 +1200,9 @@ class MultiSignals(AbstractContinuousFunction):
                     'underlying "Signal" components!',
                 )
 
-                for signal, y in zip(multi_signals.signals.values(), tsplit(a)):
+                for signal, y in zip(
+                    multi_signals.signals.values(), tsplit(a), strict=True
+                ):
                     signal.arithmetical_operation(y, operation, True)
 
         return multi_signals
@@ -1477,7 +1479,9 @@ class MultiSignals(AbstractContinuousFunction):
                         signal.range, signal.domain, **settings
                     )
             else:
-                domain_unpacked, range_unpacked = zip(*sorted(data_mapping.items()))
+                domain_unpacked, range_unpacked = zip(
+                    *sorted(data_mapping.items()), strict=True
+                )
                 for i, values_unpacked in enumerate(tsplit(range_unpacked)):
                     signals[str(i)] = signal_type(
                         values_unpacked, domain_unpacked, **settings

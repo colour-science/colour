@@ -723,7 +723,7 @@ class TestLuminance:
         v = [luminance(41.527875844653451, method, Y_n=100) for method in m]
 
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
-        for method, value in zip(m, v):
+        for method, value in zip(m, v, strict=True):
             for scale, factor in d_r:
                 with domain_range_scale(scale):
                     np.testing.assert_allclose(

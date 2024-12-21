@@ -36,12 +36,12 @@ message_box(
 )
 wavelengths = colour.characterisation.MSDS_ACES_RICD.wavelengths
 gray_reflector = colour.SpectralDistribution(
-    dict(zip(wavelengths, [0.18] * len(wavelengths))), name="18%"
+    dict(zip(wavelengths, [0.18] * len(wavelengths), strict=True)), name="18%"
 )
 print(repr(colour.sd_to_aces_relative_exposure_values(gray_reflector)))
 
 perfect_reflector = colour.SpectralDistribution(
-    dict(zip(wavelengths, [1.0] * len(wavelengths))), name="100%"
+    dict(zip(wavelengths, [1.0] * len(wavelengths), strict=True)), name="100%"
 )
 print(colour.sd_to_aces_relative_exposure_values(perfect_reflector))
 

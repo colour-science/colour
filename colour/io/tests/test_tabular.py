@@ -132,7 +132,10 @@ class TestReadSpectralDataFromCsvFile:
         colour_checker_n_ohta = os.path.join(ROOT_RESOURCES, "colorchecker_n_ohta.csv")
         data = read_spectral_data_from_csv_file(colour_checker_n_ohta)
         assert list(data.keys()) == ["wavelength"] + [str(x) for x in range(1, 25)]
-        assert dict(zip(data["wavelength"], data["1"])) == COLOURCHECKER_N_OHTA_1
+        assert (
+            dict(zip(data["wavelength"], data["1"], strict=True))
+            == COLOURCHECKER_N_OHTA_1
+        )
 
         colour_checker_n_ohta_transposed = os.path.join(
             ROOT_RESOURCES, "colorchecker_n_ohta_transposed.csv"
@@ -141,7 +144,10 @@ class TestReadSpectralDataFromCsvFile:
             colour_checker_n_ohta_transposed, transpose=True, delimiter="\t"
         )
         assert list(data.keys()) == ["wavelength"] + [str(x) for x in range(1, 25)]
-        assert dict(zip(data["wavelength"], data["1"])) == COLOURCHECKER_N_OHTA_1
+        assert (
+            dict(zip(data["wavelength"], data["1"], strict=True))
+            == COLOURCHECKER_N_OHTA_1
+        )
 
         linss2_10e_5 = os.path.join(ROOT_RESOURCES, "linss2_10e_5.csv")
         data = read_spectral_data_from_csv_file(

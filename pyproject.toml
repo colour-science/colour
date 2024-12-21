@@ -193,7 +193,6 @@ select = [
 ]
 ignore = [
     "ANN401", # Dynamically typed expressions (typing.Any) are disallowed in `**kwargs`
-    "B905",
     "D104",
     "D200",
     "D202",

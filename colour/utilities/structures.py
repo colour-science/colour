@@ -333,9 +333,9 @@ class CanonicalMapping(MutableMapping):
         """
 
         if is_documentation_building():  # pragma: no cover
-            representation = repr(dict(zip(self.keys(), ["..."] * len(self)))).replace(
-                "'...'", "..."
-            )
+            representation = repr(
+                dict(zip(self.keys(), ["..."] * len(self), strict=True))
+            ).replace("'...'", "...")
             return f"{self.__class__.__name__}({representation})"
         else:
             return f"{self.__class__.__name__}({dict(self.items())})"
@@ -385,16 +385,22 @@ class CanonicalMapping(MutableMapping):
             pass
 
         try:
-            return self[dict(zip(self.lower_keys(), self.keys()))[str(item).lower()]]
+            return self[
+                dict(zip(self.lower_keys(), self.keys(), strict=True))[
+                    str(item).lower()
+                ]
+            ]
         except KeyError:
             pass
 
         try:
-            return self[dict(zip(self.slugified_keys(), self.keys()))[item]]
+            return self[
+                dict(zip(self.slugified_keys(), self.keys(), strict=True))[item]
+            ]
         except KeyError:
             pass
 
-        return self[dict(zip(self.canonical_keys(), self.keys()))[item]]
+        return self[dict(zip(self.canonical_keys(), self.keys(), strict=True))[item]]
 
     def __delitem__(self, item: str | Any) -> None:
         """
@@ -420,18 +426,22 @@ class CanonicalMapping(MutableMapping):
             pass
 
         try:
-            del self._data[dict(zip(self.lower_keys(), self.keys()))[str(item).lower()]]
+            del self._data[
+                dict(zip(self.lower_keys(), self.keys(), strict=True))[
+                    str(item).lower()
+                ]
+            ]
             return
         except KeyError:
             pass
 
         try:
-            del self[dict(zip(self.slugified_keys(), self.keys()))[item]]
+            del self[dict(zip(self.slugified_keys(), self.keys(), strict=True))[item]]
             return
         except KeyError:
             pass
 
-        del self[dict(zip(self.canonical_keys(), self.keys()))[item]]
+        del self[dict(zip(self.canonical_keys(), self.keys(), strict=True))[item]]
 
     def __contains__(self, item: str | Any) -> bool:
         """
@@ -639,7 +649,7 @@ class CanonicalMapping(MutableMapping):
             Item generator.
         """
 
-        yield from zip(self.slugified_keys(), self.values())
+        yield from zip(self.slugified_keys(), self.values(), strict=True)
 
     def canonical_keys(self) -> Generator:
         """
@@ -669,7 +679,7 @@ class CanonicalMapping(MutableMapping):
             Item generator.
         """
 
-        yield from zip(self.canonical_keys(), self.values())
+        yield from zip(self.canonical_keys(), self.values(), strict=True)
 
 
 class LazyCanonicalMapping(CanonicalMapping):

@@ -115,7 +115,7 @@ section_colours = colour.notation.HEX_to_RGB(
 
 origins = []
 legend_lines = []
-for i, RGB in zip(np.arange(0.5, 0.9, 0.1), section_colours):
+for i, RGB in zip(np.arange(0.5, 0.9, 0.1), section_colours, strict=True):
     origins.append(i * 100)
     plot_RGB_colourspace_section(
         colourspace="sRGB",

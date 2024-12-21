@@ -1567,7 +1567,7 @@ SpectralDistribution.interpolate` method.
 SpectralDistribution.extrapolate` method.
         """
 
-        data = dict(zip(range(25, 35), [0] * 5 + [1] * 5))
+        data = dict(zip(range(25, 35), [0] * 5 + [1] * 5, strict=True))
         sd = SpectralDistribution(data)
         sd.extrapolate(SpectralShape(10, 50, 5))
 
@@ -1844,7 +1844,7 @@ MultiSpectralDistributions.interpolate` method.
 MultiSpectralDistributions.extrapolate` method.
         """
 
-        data = dict(zip(range(25, 35), tstack([[0] * 5 + [1] * 5] * 3)))
+        data = dict(zip(range(25, 35), tstack([[0] * 5 + [1] * 5] * 3), strict=True))
         msds = MultiSpectralDistributions(data)
         msds.extrapolate(SpectralShape(10, 50, 5))
 

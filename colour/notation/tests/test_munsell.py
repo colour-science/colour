@@ -581,6 +581,7 @@ MUNSELL_GREYS_SPECIFICATIONS: NDArrayFloat = as_array(
                 [0.31006, 0.31616, 0.89710353],
                 [0.31006, 0.31616, 1.00000000],
             ),
+            strict=True,
         )
     ),
     dtype=object,  # pyright: ignore

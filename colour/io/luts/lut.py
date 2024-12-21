@@ -1571,7 +1571,7 @@ class LUT3x1D(AbstractLUT):
                 interpolator(a[0], a[1], **interpolator_kwargs),
                 **extrapolator_kwargs,
             )(a[2])
-            for a in zip((s_R, s_G, s_B), (R_t, G_t, B_t), (R, G, B))
+            for a in zip((s_R, s_G, s_B), (R_t, G_t, B_t), (R, G, B), strict=True)
         ]
 
         return tstack(RGB_i)

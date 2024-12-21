@@ -932,7 +932,7 @@ class LUT3D_Jakob2019:
             return coefficients
 
         with tqdm(total=total_coefficients) as progress:
-            for ijk, chroma in zip(cube_indexes, chromas):
+            for ijk, chroma in zip(cube_indexes, chromas, strict=True):
                 progress.update()
 
                 # Starts from somewhere in the middle, similarly to how

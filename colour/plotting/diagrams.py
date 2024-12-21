@@ -297,7 +297,7 @@ def lines_spectral_locus(
 
     # Labels Normals
     ij_n, colour_l, normal_l = [], [], []
-    wl_ij_cmfs = dict(zip(wavelengths, ij_cmfs))
+    wl_ij_cmfs = dict(zip(wavelengths, ij_cmfs, strict=True))
     for label in cast(Tuple, labels):
         ij_l = wl_ij_cmfs.get(label)
 

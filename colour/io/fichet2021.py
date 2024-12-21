@@ -222,7 +222,7 @@ def sd_to_spectrum_attribute_Fichet2021(
 
     return ";".join(
         f"{wavelength:.{decimals}f}nm:{value:.{decimals}f}"
-        for wavelength, value in zip(sd.wavelengths, sd.values)
+        for wavelength, value in zip(sd.wavelengths, sd.values, strict=True)
     )
 
 
@@ -496,7 +496,7 @@ def read_spectral_image_Fichet2021(
 
     components = {}
     for component, wavelengths_indexes in specification.components.items():
-        wavelengths, indexes = zip(*wavelengths_indexes.items())
+        wavelengths, indexes = zip(*wavelengths_indexes.items(), strict=True)
         values = as_float_array(
             image[:, :, indexes],
             dtype=bit_depth_specification.numpy,

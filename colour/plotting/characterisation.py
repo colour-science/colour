@@ -171,6 +171,7 @@ def plot_multi_colour_checkers(
             for pairs in zip(
                 colour_swatches[0 : len(colour_swatches) // 2],
                 colour_swatches[len(colour_swatches) // 2 :],
+                strict=True,
             )
             for swatch in pairs
         ]

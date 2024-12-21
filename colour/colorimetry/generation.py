@@ -751,7 +751,7 @@ def sd_multi_leds_Ohno2005(
     sd = sd_zeros(shape)
 
     for peak_wavelength, half_spectral_width, peak_power_ratio in zip(
-        peak_wavelengths, half_spectral_widths, peak_power_ratios
+        peak_wavelengths, half_spectral_widths, peak_power_ratios, strict=True
     ):
         sd += (
             sd_single_led_Ohno2005(peak_wavelength, half_spectral_width, **kwargs)

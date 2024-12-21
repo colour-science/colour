@@ -1742,7 +1742,7 @@ def vertices_and_relative_coordinates(
     vertices = np.array(
         [
             table[i_f_c[i[0]][..., 0], i_f_c[i[1]][..., 1], i_f_c[i[2]][..., 2]]
-            for i in itertools.product(*zip([0, 0, 0], [1, 1, 1]))
+            for i in itertools.product(*zip([0, 0, 0], [1, 1, 1], strict=True))
         ]
     )
 

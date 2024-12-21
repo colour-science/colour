@@ -723,7 +723,7 @@ class TestLightness:
         v = [lightness(12.19722535, method, Y_n=100) for method in m]
 
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
-        for method, value in zip(m, v):
+        for method, value in zip(m, v, strict=True):
             for scale, factor in d_r:
                 with domain_range_scale(scale):
                     np.testing.assert_allclose(
