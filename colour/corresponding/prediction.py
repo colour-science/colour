@@ -584,7 +584,7 @@ def corresponding_chromaticities_prediction_Zhai2018(
     experiment: (Literal[1, 2, 3, 4, 6, 8, 9, 11, 12] | CorrespondingColourDataset) = 1,
     D_b: ArrayLike = 1,
     D_d: ArrayLike = 1,
-    XYZ_wo: ArrayLike = np.array([1, 1, 1]),
+    XYZ_wo: ArrayLike = (1, 1, 1),
     transform: Literal["CAT02", "CAT16"] | str = "CAT02",
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """

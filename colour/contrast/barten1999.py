@@ -46,6 +46,8 @@ __all__ = [
     "sigma_Barten1999",
     "retinal_illuminance_Barten1999",
     "maximum_angular_size_Barten1999",
+    "SIGMA_DEFAULT",
+    "E_DEFAULT",
     "contrast_sensitivity_function_Barten1999",
 ]
 
@@ -292,9 +294,20 @@ def maximum_angular_size_Barten1999(
     return as_float((1 / X_0**2 + 1 / X_max**2 + u**2 / N_max**2) ** -0.5)
 
 
+SIGMA_DEFAULT: NDArrayFloat = sigma_Barten1999(0.5 / 60, 0.08 / 60, 2.1)
+"""
+Default standard deviation :math:`\\sigma`.
+"""
+
+E_DEFAULT: NDArrayFloat = retinal_illuminance_Barten1999(20, 2.1)
+"""
+Default retinal illuminance :math:`E` in Trolands.
+"""
+
+
 def contrast_sensitivity_function_Barten1999(
     u: ArrayLike,
-    sigma: ArrayLike = sigma_Barten1999(0.5 / 60, 0.08 / 60, 2.1),
+    sigma: ArrayLike = SIGMA_DEFAULT,
     k: ArrayLike = 3.0,
     T: ArrayLike = 0.1,
     X_0: ArrayLike = 60,
@@ -304,7 +317,7 @@ def contrast_sensitivity_function_Barten1999(
     N_max: ArrayLike = 15,
     n: ArrayLike = 0.03,
     p: ArrayLike = 1.2274 * 10**6,
-    E: ArrayLike = retinal_illuminance_Barten1999(20, 2.1),
+    E: ArrayLike = E_DEFAULT,
     phi_0: ArrayLike = 3 * 10**-8,
     u_0: ArrayLike = 7,
 ) -> NDArrayFloat:

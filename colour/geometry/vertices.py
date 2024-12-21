@@ -52,7 +52,7 @@ def primitive_vertices_quad_mpl(
     width: float = 1,
     height: float = 1,
     depth: float = 0,
-    origin: ArrayLike = np.array([0, 0]),
+    origin: ArrayLike = (0, 0),
     axis: Literal["+z", "+x", "+y", "yz", "xz", "xy"] | str = "+z",
 ) -> NDArrayFloat:
     """
@@ -125,7 +125,7 @@ def primitive_vertices_grid_mpl(
     depth: float = 0,
     width_segments: int = 1,
     height_segments: int = 1,
-    origin: ArrayLike = np.array([0, 0]),
+    origin: ArrayLike = (0, 0),
     axis: Literal["+z", "+x", "+y", "yz", "xz", "xy"] | str = "+z",
 ) -> NDArrayFloat:
     """
@@ -203,7 +203,7 @@ def primitive_vertices_cube_mpl(
     width_segments: int = 1,
     height_segments: int = 1,
     depth_segments: int = 1,
-    origin: ArrayLike = np.array([0, 0, 0]),
+    origin: ArrayLike = (0, 0, 0),
     planes: (
         Sequence[
             Literal[
@@ -338,7 +338,7 @@ def primitive_vertices_sphere(
     radius: float = 0.5,
     segments: int = 8,
     intermediate: bool = False,
-    origin: ArrayLike = np.array([0, 0, 0]),
+    origin: ArrayLike = (0, 0, 0),
     axis: Literal["+z", "+x", "+y", "yz", "xz", "xy"] | str = "+z",
 ) -> NDArrayFloat:
     """

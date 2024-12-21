@@ -45,7 +45,7 @@ def chromatic_adaptation_Zhai2018(
     XYZ_wd: ArrayLike,
     D_b: ArrayLike = 1,
     D_d: ArrayLike = 1,
-    XYZ_wo: ArrayLike = np.array([1, 1, 1]),
+    XYZ_wo: ArrayLike = (1, 1, 1),
     transform: Literal["CAT02", "CAT16"] | str = "CAT02",
 ) -> NDArrayFloat:
     """

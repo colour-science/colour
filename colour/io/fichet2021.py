@@ -69,6 +69,7 @@ __all__ = [
     "sd_to_spectrum_attribute_Fichet2021",
     "spectrum_attribute_to_sd_Fichet2021",
     "Specification_Fichet2021",
+    "SPECIFICATION_FICHET2021_DEFAULT",
     "read_spectral_image_Fichet2021",
     "sds_and_msds_to_components_Fichet2021",
     "components_to_sRGB_Fichet2021",
@@ -418,6 +419,12 @@ class Specification_Fichet2021:
         )
 
 
+SPECIFICATION_FICHET2021_DEFAULT: Specification_Fichet2021 = Specification_Fichet2021()
+"""
+Default *Fichet et al. (2021)* spectral image specification.
+"""
+
+
 @required("OpenImageIO")
 def read_spectral_image_Fichet2021(
     path: str | Path,
@@ -510,7 +517,7 @@ def sds_and_msds_to_components_Fichet2021(
     | SpectralDistribution
     | MultiSpectralDistributions
     | ValuesView,
-    specification: Specification_Fichet2021 = Specification_Fichet2021(),
+    specification: Specification_Fichet2021 = SPECIFICATION_FICHET2021_DEFAULT,
     **kwargs: Any,
 ) -> ComponentsFichet2021:
     """
@@ -579,7 +586,7 @@ def sds_and_msds_to_components_Fichet2021(
 @required("OpenImageIO")
 def components_to_sRGB_Fichet2021(
     components: ComponentsFichet2021,
-    specification: Specification_Fichet2021 = Specification_Fichet2021(),
+    specification: Specification_Fichet2021 = SPECIFICATION_FICHET2021_DEFAULT,
 ) -> Tuple[NDArrayFloat | None, Sequence[Image_Specification_Attribute]]:
     """
     Convert given *Fichet et al. (2021)* components to *sRGB* colourspace values.
@@ -722,7 +729,7 @@ def write_spectral_image_Fichet2021(
     | ValuesView,
     path: str | Path,
     bit_depth: Literal["float16", "float32"] = "float32",
-    specification: Specification_Fichet2021 = Specification_Fichet2021(),
+    specification: Specification_Fichet2021 = SPECIFICATION_FICHET2021_DEFAULT,
     components_to_RGB_callable: Callable = components_to_sRGB_Fichet2021,
     **kwargs: Any,
 ) -> bool:

@@ -82,6 +82,7 @@ from colour.utilities import (
     domain_range_scale,
     first_item,
     ones,
+    optional,
     tstack,
 )
 
@@ -1079,7 +1080,7 @@ def plot_blackbody_spectral_radiance(
     }
 )
 def plot_blackbody_colours(
-    shape: SpectralShape = SpectralShape(150, 12500, 50),
+    shape: SpectralShape | None = None,
     cmfs: (
         MultiSpectralDistributions | str | Sequence[MultiSpectralDistributions | str]
     ) = "CIE 1931 2 Degree Standard Observer",
@@ -1118,6 +1119,8 @@ def plot_blackbody_colours(
         :align: center
         :alt: plot_blackbody_colours
     """
+
+    shape = optional(shape, SpectralShape(150, 12500, 50))
 
     _figure, axes = artist(**kwargs)
 

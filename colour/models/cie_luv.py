@@ -291,7 +291,7 @@ def uv_to_Luv(
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-    L: ArrayLike = np.array(100),
+    L: ArrayLike = 100,
 ) -> NDArrayFloat:
     """
     Return the *CIE L\\*u\\*v\\** colourspace array from given :math:`uv^p`

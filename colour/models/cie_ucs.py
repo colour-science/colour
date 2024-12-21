@@ -195,7 +195,7 @@ def UCS_to_uv(UVW: ArrayLike) -> NDArrayFloat:
     return uv
 
 
-def uv_to_UCS(uv: ArrayLike, V: ArrayLike = np.array(1)) -> NDArrayFloat:
+def uv_to_UCS(uv: ArrayLike, V: ArrayLike = 1) -> NDArrayFloat:
     """
     Return the *CIE 1960 UCS* :math:`UVW` colourspace array from given *uv*
     chromaticity coordinates.

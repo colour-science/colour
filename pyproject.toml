@@ -192,8 +192,7 @@ select = [
     "YTT", # flake8-2020
 ]
 ignore = [
-    "ANN401",
-    "B008",
+    "ANN401", # Dynamically typed expressions (typing.Any) are disallowed in `**kwargs`
     "B905",
     "D104",
     "D200",

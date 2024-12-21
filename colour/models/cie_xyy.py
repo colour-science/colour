@@ -203,7 +203,7 @@ def xyY_to_xy(xyY: ArrayLike) -> NDArrayFloat:
     return xy
 
 
-def xy_to_xyY(xy: ArrayLike, Y: ArrayLike = np.array(1)) -> NDArrayFloat:
+def xy_to_xyY(xy: ArrayLike, Y: ArrayLike = 1) -> NDArrayFloat:
     """
     Convert from *CIE xy* chromaticity coordinates to *CIE xyY* colourspace by
     extending the array last dimension with given :math:`Y` *luminance*.

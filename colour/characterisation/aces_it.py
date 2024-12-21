@@ -114,7 +114,6 @@ from colour.utilities import (
     as_float_array,
     as_float_scalar,
     from_range_1,
-    ones,
     optional,
     runtime_warning,
     tsplit,
@@ -703,7 +702,7 @@ def training_data_sds_to_XYZ(
 
 
 def whitepoint_preserving_matrix(
-    M: ArrayLike, RGB_w: ArrayLike = ones(3)
+    M: ArrayLike, RGB_w: ArrayLike = (1, 1, 1)
 ) -> NDArrayFloat:
     """
     Normalise given matrix :math:`M` to preserve given white point
@@ -1111,7 +1110,7 @@ def camera_RGB_to_ACES2065_1(
     RGB: ArrayLike,
     B: ArrayLike,
     b: ArrayLike,
-    k: ArrayLike = np.ones(3),
+    k: ArrayLike = (1, 1, 1),
     clip: bool = False,
 ) -> NDArrayFloat:
     """

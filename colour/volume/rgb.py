@@ -75,7 +75,7 @@ def _wrapper_RGB_colourspace_volume_MonteCarlo(arguments: tuple) -> int:
 def sample_RGB_colourspace_volume_MonteCarlo(
     colourspace: RGB_Colourspace,
     samples: int = 1000000,
-    limits: ArrayLike = np.array([[0, 100], [-150, 150], [-150, 150]]),
+    limits: ArrayLike = ([0, 100], [-150, 150], [-150, 150]),
     illuminant_Lab: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
@@ -199,7 +199,7 @@ def RGB_colourspace_limits(colourspace: RGB_Colourspace) -> NDArrayFloat:
 def RGB_colourspace_volume_MonteCarlo(
     colourspace: RGB_Colourspace,
     samples: int = 1000000,
-    limits: ArrayLike = np.array([[0, 100], [-150, 150], [-150, 150]]),
+    limits: ArrayLike = ([0, 100], [-150, 150], [-150, 150]),
     illuminant_Lab: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],

@@ -39,7 +39,7 @@ RANDOM_STATE = np.random.RandomState()
 
 def random_triplet_generator(
     size: int,
-    limits: ArrayLike = np.array([[0, 1], [0, 1], [0, 1]]),
+    limits: ArrayLike = ([0, 1], [0, 1], [0, 1]),
     random_state: np.random.RandomState = RANDOM_STATE,
 ) -> NDArrayFloat:
     """

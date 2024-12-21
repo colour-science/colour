@@ -373,7 +373,7 @@ def find_coefficients_Jakob2019(
     XYZ: ArrayLike,
     cmfs: MultiSpectralDistributions | None = None,
     illuminant: SpectralDistribution | None = None,
-    coefficients_0: ArrayLike = zeros(3),
+    coefficients_0: ArrayLike = (0, 0, 0),
     max_error: float = JND_CIE1976 / 100,
     dimensionalise: bool = True,
 ) -> Tuple[NDArrayFloat, float]:
