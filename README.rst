@@ -1827,17 +1827,17 @@ Reflectance Recovery
 
 .. code-block:: text
 
-SpectralDistribution([[  3.60000000e+02,   8.52694330e-02],
-                      [  3.65000000e+02,   8.52203359e-02],
-                      [  3.70000000e+02,   8.52841304e-02],
-                      ...
-                      [  7.70000000e+02,   4.46546872e-01],
-                      [  7.75000000e+02,   4.46638451e-01],
-                      [  7.80000000e+02,   4.46641739e-01]],
-                     SpragueInterpolator,
-                     {},
-                     Extrapolator,
-                     {'method': 'Constant', 'left': None, 'right': None})
+    SpectralDistribution([[  3.60000000e+02,   8.52694330e-02],
+                          [  3.65000000e+02,   8.52203359e-02],
+                          [  3.70000000e+02,   8.52841304e-02],
+                          ...
+                          [  7.70000000e+02,   4.46546872e-01],
+                          [  7.75000000e+02,   4.46638451e-01],
+                          [  7.80000000e+02,   4.46641739e-01]],
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
 
 .. code-block:: python
 
