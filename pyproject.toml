@@ -184,6 +184,7 @@ select = [
     "PYI", # flake8-pyi
     "Q", # flake8-quotes
     "RET", # flake8-return
+    "RSE", # flake8-raise
     "RUF", # Ruff
     "S", # flake8-bandit
     "SIM", # flake8-simplify
