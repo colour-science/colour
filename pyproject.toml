@@ -179,6 +179,7 @@ select = [
     "ISC", # flake8-implicit-str-concat
     "LOG", # flake8-logging
     "N", # pep8-naming
+    "NPY", # Numpy
     "PD", # pandas-vet
     "PIE", # flake8-pie
     "PGH", # pygrep-hooks
@@ -220,6 +221,7 @@ ignore = [
     "N813", # Camelcase `.*` imported as lowercase `.*`
     "N815", # Variable `.*` in class scope should not be mixedCase
     "N816", # Variable `.*` in global scope should not be mixedCase
+    "NPY002", # Replace legacy `np.random.random` call with `np.random.Generator`
     "PGH003", # Use specific rule codes when ignoring type issues
     "PLR0912", # Too many branches
     "PLR0913", # Too many arguments in function definition
