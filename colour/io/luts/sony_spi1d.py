@@ -106,7 +106,7 @@ def read_LUT_SonySPI1D(path: str | Path) -> LUT1D | LUT3x1D:
     comments = []
 
     with open(path) as spi1d_file:
-        lines = filter(None, (line.strip() for line in spi1d_file.readlines()))
+        lines = filter(None, (line.strip() for line in spi1d_file))
         for line in lines:
             if line.startswith("#"):
                 comments.append(line[1:].strip())

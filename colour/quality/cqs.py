@@ -297,12 +297,7 @@ def colour_quality_scale(
     else:
         p_delta_C = cast(
             float,
-            np.average(
-                [
-                    sample_data.D_C_ab if sample_data.D_C_ab > 0 else 0
-                    for sample_data in Q_as.values()
-                ]
-            ),
+            np.average([max(0, sample_data.D_C_ab) for sample_data in Q_as.values()]),
         )
         Q_p = 100 - 3.6 * (D_Ep_RMS - p_delta_C)
         Q_d = G_t / G_r * CCT_f * 100
@@ -469,7 +464,7 @@ def CCT_factor(
     )
 
     G_r = gamut_area(Lab) / GAMUT_AREA_D65
-    return 1 if G_r > 1 else G_r
+    return min(G_r, 1)
 
 
 def scale_conversion(D_E_ab: float, CCT_f: float, scaling_f: float) -> float:

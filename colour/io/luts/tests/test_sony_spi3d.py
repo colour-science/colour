@@ -215,7 +215,7 @@ class TestWriteLUTSonySPI3D:
         indexes = []
 
         with open(path) as spi3d_file:
-            lines = filter(None, (line.strip() for line in spi3d_file.readlines()))
+            lines = filter(None, (line.strip() for line in spi3d_file))
             for line in lines:
                 tokens = line.split()
                 if len(tokens) == 6:
