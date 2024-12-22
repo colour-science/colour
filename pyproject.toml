@@ -186,6 +186,7 @@ select = [
     # "PTH", # flake8-use-pathlib [Enable]
     "PYI", # flake8-pyi
     "Q", # flake8-quotes
+    "R", # pylint-refactor
     "RET", # flake8-return
     "RSE", # flake8-raise
     "RUF", # Ruff
