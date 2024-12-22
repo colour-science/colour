@@ -2398,8 +2398,7 @@ def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArrayFloat:
 
     attest(
         interpolation_method is not None,
-        f"Interpolation method must be one of: "
-        f"\"{', '.join(['Linear', 'Radial'])}\"",
+        f"Interpolation method must be one of: \"{'Linear, Radial'}\"",
     )
 
     hue_angle_lower_upper = np.squeeze([hue_angle_lower, hue_angle_upper])

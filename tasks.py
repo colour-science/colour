@@ -473,7 +473,7 @@ def tag(ctx: Context) -> None:
             1
         )
 
-        version = ".".join((major_version, minor_version, change_version))
+        version = f"{major_version}.{minor_version}.{change_version}"
 
         result = ctx.run("git ls-remote --tags upstream", hide="both")
         remote_tags = result.stdout.strip().split("\n")  # pyright: ignore
