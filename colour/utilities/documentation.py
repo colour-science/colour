@@ -47,14 +47,14 @@ class DocstringInt(int):
     """
 
 
-class DocstringText(str):
+class DocstringText(str):  # noqa: SLOT000
     """
     A :class:`str` sub-class that allows settings a docstring to
     :class:`str` instances.
     """
 
 
-class DocstringTuple(tuple):
+class DocstringTuple(tuple):  # noqa: SLOT001
     """
     A :class:`tuple` sub-class that allows settings a docstring to
     :class:`tuple` instances.

@@ -188,6 +188,7 @@ select = [
     "RUF", # Ruff
     "S", # flake8-bandit
     "SLF", # flake8-self
+    "SLOT", # flake8-slots
     "SIM", # flake8-simplify
     "T10", # flake8-debugger
     "T20", # flake8-print
