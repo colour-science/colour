@@ -162,6 +162,7 @@ select = [
     "CPY", # flake8-copyright
     "DTZ", # flake8-datetimez
     "D", # pydocstyle
+    "DOC", # pydoclint
     "E", # Pylint - Error
     # "ERA", # eradicate
     "EM", # flake8-errmsg
