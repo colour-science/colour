@@ -452,6 +452,7 @@ class SpectralShape:
 
         if isinstance(other, SpectralShape):
             return np.array_equal(self.wavelengths, other.wavelengths)
+
         return False
 
     def __ne__(self, other: object) -> bool:
@@ -512,6 +513,7 @@ class SpectralShape:
         dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
         hash_key = hash((self, dtype))
+
         if is_caching_enabled() and hash_key in _CACHE_SHAPE_RANGE:
             return _CACHE_SHAPE_RANGE[hash_key].copy()
 
@@ -2710,6 +2712,7 @@ def reshape_sd(
 
     if is_caching_enabled() and hash_key in _CACHE_RESHAPED_SDS_AND_MSDS:
         reshaped_sd = _CACHE_RESHAPED_SDS_AND_MSDS[hash_key]
+
         return reshaped_sd.copy() if copy else reshaped_sd
 
     function = getattr(sd, method)
@@ -2825,10 +2828,12 @@ def sds_and_msds_to_sds(
 
     if isinstance(sds, SpectralDistribution):
         return sds_and_msds_to_sds([sds])
+
     if isinstance(sds, MultiSpectralDistributions):
         sds_converted = sds.to_sds()
     else:
         sds_converted = []
+
         for sd in sds:
             sds_converted += (
                 sd.to_sds() if isinstance(sd, MultiSpectralDistributions) else [sd]
@@ -2926,6 +2931,7 @@ def sds_and_msds_to_msds(
 
     if isinstance(sds, SpectralDistribution):
         return sds_and_msds_to_msds([sds])
+
     if isinstance(sds, MultiSpectralDistributions):
         msds_converted = sds
     else:

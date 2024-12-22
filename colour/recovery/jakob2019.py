@@ -341,6 +341,7 @@ def error_function(
 
     if additional_data:
         return error, derror, R, XYZ, Lab_i
+
     return error, derror
 
 
@@ -683,6 +684,7 @@ def XYZ_to_sd_Jakob2019(
 
     if additional_data:
         return sd, error
+
     return sd
 
 

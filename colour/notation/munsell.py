@@ -1078,6 +1078,7 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArrayFloat:
     phi_input = np.degrees(phi_input)
 
     grey_threshold = THRESHOLD_INTEGER
+
     if rho_input < grey_threshold:
         return from_range_10(normalise_munsell_specification(value))
 
@@ -1575,6 +1576,7 @@ def normalise_munsell_specification(specification: ArrayLike) -> NDArrayFloat:
 
     if is_grey_munsell_colour(specification):
         return specification * np.array([np.nan, 1, np.nan, np.nan])  # pyright: ignore
+
     hue, value, chroma, code = specification
 
     if hue == 0:
@@ -1583,6 +1585,7 @@ def normalise_munsell_specification(specification: ArrayLike) -> NDArrayFloat:
 
     if chroma == 0:
         return tstack([np.nan, value, np.nan, np.nan])
+
     return tstack([hue, value, chroma, code])
 
 
@@ -1651,6 +1654,7 @@ def munsell_specification_to_munsell_colour(
 
     if is_grey_munsell_colour(specification):
         return MUNSELL_GRAY_EXTENDED_FORMAT.format(value, value_decimals)
+
     hue = round(hue, hue_decimals)
     attest(
         0 <= hue <= 10,
@@ -1681,6 +1685,7 @@ def munsell_specification_to_munsell_colour(
 
     if value == 0:
         return MUNSELL_GRAY_EXTENDED_FORMAT.format(value, value_decimals)
+
     hue_letter = MUNSELL_HUE_LETTER_CODES.first_key_from_value(code)
 
     return MUNSELL_COLOUR_EXTENDED_FORMAT.format(
@@ -1747,6 +1752,7 @@ def xyY_from_renotation(
         )
 
         return MUNSELL_COLOURS_ALL[as_int_scalar(index[0])][1]
+
     except Exception as exception:
         error = (
             f'"{specification}" specification does not exists in '
@@ -2307,6 +2313,7 @@ def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArrayFloat:
 
     if is_grey_munsell_colour(specification):
         return CCS_ILLUMINANT_MUNSELL
+
     hue, value, chroma, code = specification
 
     attest(
@@ -2603,6 +2610,7 @@ def munsell_specification_to_xy(specification: ArrayLike) -> NDArrayFloat:
 
     if is_grey_munsell_colour(specification):
         return CCS_ILLUMINANT_MUNSELL
+
     hue, value, chroma, code = specification
 
     attest(

@@ -1142,6 +1142,7 @@ def matrix_idt(
 
     if additional_data:
         return M, RGB_w, XYZ, RGB
+
     return M, RGB_w
 
 

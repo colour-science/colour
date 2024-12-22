@@ -707,6 +707,7 @@ class Signal(AbstractContinuousFunction):
 
         if isinstance(x, slice):
             return self._range[x]
+
         return self.function(x)
 
     def __setitem__(self, x: ArrayLike | slice, y: ArrayLike) -> None:
@@ -886,6 +887,7 @@ class Signal(AbstractContinuousFunction):
                     repr(self._extrapolator_kwargs) == repr(other.extrapolator_kwargs),
                 ]
             )
+
         return False
 
     def __ne__(self, other: object) -> bool:
@@ -1078,6 +1080,7 @@ class Signal(AbstractContinuousFunction):
                 self.range = ioperator(self._range, a)
 
             return self
+
         return ioperator(self.copy(), a)
 
     @staticmethod

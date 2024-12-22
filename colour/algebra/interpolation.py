@@ -1220,8 +1220,10 @@ class SpragueInterpolator:
         # parts of the linear algebra.
 
         y = r[i] + (a.reshape(5, -1) * X ** np.arange(1, 6).reshape(-1, 1)).sum(axis=0)
+
         if y.size == 1:
             return y[0]
+
         return y
 
     def _validate_dimensions(self) -> None:

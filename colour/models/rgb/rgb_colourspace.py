@@ -429,7 +429,9 @@ class RGB_Colourspace:
         if self._matrix_RGB_to_XYZ is None or self._use_derived_matrix_RGB_to_XYZ:
             if self._derived_matrix_RGB_to_XYZ.size == 0:
                 self._derive_transformation_matrices()
+
             return self._derived_matrix_RGB_to_XYZ
+
         return self._matrix_RGB_to_XYZ
 
     @matrix_RGB_to_XYZ.setter
@@ -469,7 +471,9 @@ class RGB_Colourspace:
         if self._matrix_XYZ_to_RGB is None or self._use_derived_matrix_XYZ_to_RGB:
             if self._derived_matrix_XYZ_to_RGB.size == 0:
                 self._derive_transformation_matrices()
+
             return self._derived_matrix_XYZ_to_RGB
+
         return self._matrix_XYZ_to_RGB
 
     @matrix_XYZ_to_RGB.setter
@@ -688,6 +692,7 @@ class RGB_Colourspace:
         """
         if self._derived_matrix_XYZ_to_RGB.size == 0:
             self._derive_transformation_matrices()
+
         return multiline_str(
             self,
             [

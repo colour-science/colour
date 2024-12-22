@@ -322,6 +322,7 @@ def colour_quality_scale(
             Q_as,
             (test_vs_colorimetry_data, reference_vs_colorimetry_data),
         )
+
     return Q_a
 
 
@@ -473,6 +474,7 @@ def CCT_factor(
     )
 
     G_r = gamut_area(Lab) / GAMUT_AREA_D65
+
     return min(G_r, 1)
 
 

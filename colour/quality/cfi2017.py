@@ -260,6 +260,7 @@ def colour_fidelity_index_CIE2017(
             (test_tcs_colorimetry_data, reference_tcs_colorimetry_data),
             delta_E_s,
         )
+
     return R_f
 
 

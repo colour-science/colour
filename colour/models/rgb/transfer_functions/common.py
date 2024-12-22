@@ -136,6 +136,7 @@ def legal_to_full(
 
     if out_int:
         return as_int(np.round(CV_full * MV))
+
     return as_float(CV_full)
 
 
@@ -202,4 +203,5 @@ def full_to_legal(
 
     if out_int:
         return as_int(np.round(CV_legal))
+
     return as_float(CV_legal / MV)

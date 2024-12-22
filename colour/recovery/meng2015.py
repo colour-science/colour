@@ -186,6 +186,7 @@ def XYZ_to_sd_Meng2015(
         """Define the constraint function."""
 
         sd[:] = a
+
         return sd_to_XYZ_integration(sd, cmfs=cmfs, illuminant=illuminant) - XYZ
 
     wavelengths = sd.wavelengths

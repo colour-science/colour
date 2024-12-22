@@ -536,6 +536,7 @@ def read_spectral_image_Fichet2021(
 
     if additional_data:
         return components, specification
+
     return components
 
 

@@ -141,6 +141,7 @@ def planckian_table(
             [np.reshape(Ti, (-1, 1)), CCT_to_uv_Planck1900(Ti, cmfs)], axis=1
         )
         _CACHE_PLANCKIAN_TABLE[hash_key] = table.copy()
+
     return table
 
 

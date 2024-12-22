@@ -245,6 +245,7 @@ def degrees_of_adaptation(
     """
 
     LMS = as_float_array(LMS)
+
     if discount_illuminant:
         return ones(LMS.shape)
 

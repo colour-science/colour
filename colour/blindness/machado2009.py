@@ -381,4 +381,5 @@ def matrix_cvd_Machado2009(
     if a == b:
         # 1.0 severity CVD matrix, returning directly.
         return m1
+
     return m1 + (severity - a) * ((m2 - m1) / (b - a))

@@ -248,6 +248,7 @@ class Dataset_Otsu2018:
                 f"{self.__class__.__name__}"
                 f"({self._basis_functions.shape[0]} basis functions)"
             )
+
         return f"{self.__class__.__name__}()"
 
     def select(self, xy: ArrayLike) -> int:
@@ -1201,6 +1202,7 @@ class Node_Otsu2018(TreeNode):
 
         if self.is_leaf():
             return self.leaf_reconstruction_error()
+
         return as_float_scalar(
             np.sum([child.branch_reconstruction_error() for child in self.children])
         )

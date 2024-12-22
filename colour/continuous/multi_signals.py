@@ -1017,6 +1017,7 @@ class MultiSignals(AbstractContinuousFunction):
                     self.labels == other.labels,
                 ]
             )
+
         return False
 
     def __ne__(self, other: object) -> bool:

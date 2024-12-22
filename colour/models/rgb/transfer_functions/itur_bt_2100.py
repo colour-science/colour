@@ -1152,6 +1152,7 @@ def ootf_BT2100_HLG_1(
 
     if is_single_channel:
         return as_float(from_range_1(R_D))
+
     RGB_D = tstack([R_D, G_D, B_D])
 
     return from_range_1(RGB_D)
@@ -1238,6 +1239,7 @@ def ootf_BT2100_HLG_2(
 
     if is_single_channel:
         return as_float(from_range_1(R_D))
+
     RGB_D = tstack([R_D, G_D, B_D])
 
     return from_range_1(RGB_D)
@@ -1433,6 +1435,7 @@ def ootf_inverse_BT2100_HLG_1(
 
     if is_single_channel:
         return as_float(from_range_1(R_S))
+
     RGB_S = tstack([R_S, G_S, B_S])
 
     return from_range_1(RGB_S)
@@ -1531,6 +1534,7 @@ def ootf_inverse_BT2100_HLG_2(
 
     if is_single_channel:
         return as_float(from_range_1(R_S))
+
     RGB_S = tstack([R_S, G_S, B_S])
 
     return from_range_1(RGB_S)

@@ -729,6 +729,7 @@ class Header_IESTM2714:
                     self._comments == other.comments,
                 ]
             )
+
         return False
 
     def __ne__(self, other: object) -> bool:

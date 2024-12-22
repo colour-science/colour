@@ -260,6 +260,7 @@ def lagrange_coefficients_ASTME2022(
     )
 
     hash_key = hash((interval, interval_type))
+
     if is_caching_enabled() and hash_key in _CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS:
         return np.copy(_CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS[hash_key])
 
@@ -393,6 +394,7 @@ def tristimulus_weighting_factors_ASTME2022(
     global _CACHE_TRISTIMULUS_WEIGHTING_FACTORS  # noqa: PLW0602
 
     hash_key = hash((cmfs, illuminant, shape, k, get_domain_range_scale()))
+
     if is_caching_enabled() and hash_key in _CACHE_TRISTIMULUS_WEIGHTING_FACTORS:
         return np.copy(_CACHE_TRISTIMULUS_WEIGHTING_FACTORS[hash_key])
 

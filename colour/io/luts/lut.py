@@ -603,6 +603,7 @@ class AbstractLUT(ABC):
             self.table = operator(self.table, operand)
 
             return self
+
         return ioperator(self.copy(), a)
 
     @abstractmethod
@@ -993,6 +994,7 @@ class LUT1D(AbstractLUT):
 
         if len(domain) != 2:
             return domain
+
         attest(is_numeric(size), "Linear table size must be a numeric!")
 
         return np.linspace(domain[0], domain[1], as_int_scalar(size))
@@ -1358,6 +1360,7 @@ class LUT3x1D(AbstractLUT):
 
         if domain.shape != (2, 3):
             return domain
+
         size_array = np.tile(size, 3) if is_numeric(size) else as_int_array(size)
 
         R, G, B = tsplit(domain)

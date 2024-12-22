@@ -297,6 +297,7 @@ class TreeNode:
 
         if self.is_root():
             return self
+
         return list(self.walk_hierarchy(ascendants=True))[-1]
 
     @property
@@ -312,6 +313,7 @@ class TreeNode:
 
         if self.is_leaf():
             return (node for node in (self,))
+
         return (node for node in self.walk_hierarchy() if node.is_leaf())
 
     @property
@@ -327,6 +329,7 @@ class TreeNode:
 
         if self.parent is None:
             return (sibling for sibling in ())
+
         return (sibling for sibling in self.parent.children if sibling is not self)
 
     @property

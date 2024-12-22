@@ -128,4 +128,5 @@ def is_within_macadam_limits(
         )
 
     simplex = triangulation.find_simplex(xyY_to_XYZ(xyY), tol=tolerance)
+
     return np.where(simplex >= 0, True, False)

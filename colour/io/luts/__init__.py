@@ -234,6 +234,7 @@ or :class:`colour.LUTSequence` or :class:`colour.LUTOperatorMatrix`
         if method == "iridas cube":
             function = LUT_READ_METHODS["Resolve Cube"]
             return function(path, **filter_kwargs(function, **kwargs))
+
         raise ValueError from error
 
 

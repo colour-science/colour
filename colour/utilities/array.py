@@ -529,7 +529,9 @@ class MixinDataclassArithmetic(MixinDataclassArray):
         if in_place:
             for field in self.keys:
                 setattr(self, field, getattr(dataclass, field))
+
             return self
+
         return dataclass
 
 
@@ -2018,6 +2020,7 @@ def interval(distribution: ArrayLike, unique: bool = True) -> NDArray:
             unique,
         )
     )
+
     if is_caching_enabled() and hash_key in _CACHE_DISTRIBUTION_INTERVAL:
         return np.copy(_CACHE_DISTRIBUTION_INTERVAL[hash_key])
 

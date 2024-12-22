@@ -1043,6 +1043,7 @@ def optional(value: T | None, default: T) -> T:
 
     if value is None:
         return default
+
     return value
 
 

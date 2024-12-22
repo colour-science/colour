@@ -149,6 +149,7 @@ def eotf_inverse_DICOMGSDF(
 
     if out_int:
         return as_int(np.round(J))
+
     return as_float(from_range_1(J / 1023))
 
 

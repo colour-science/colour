@@ -904,6 +904,7 @@ def hue_angle(C: ArrayLike) -> NDArrayFloat:
     C_1, C_2, C_3 = tsplit(C)
 
     hue = (180 * np.arctan2(0.5 * (C_2 - C_3) / 4.5, C_1 - (C_2 / 11)) / np.pi) % 360
+
     return as_float(hue)
 
 
@@ -1284,6 +1285,7 @@ def lightness_correlate(
     Q_w = as_float_array(Q_w)
 
     Z = 1 + spow(Y_b / Y_w, 0.5)
+
     return 100 * spow(Q / Q_w, Z)
 
 

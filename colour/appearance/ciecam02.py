@@ -915,6 +915,7 @@ def post_adaptation_non_linear_response_compression_forward(
     F_L = as_float_array(F_L)
 
     F_L_RGB = spow(F_L[..., None] * np.absolute(RGB) / 100, 0.42)
+
     return (400 * np.sign(RGB) * F_L_RGB) / (27.13 + F_L_RGB) + 0.1
 
 
@@ -1154,6 +1155,7 @@ def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
         H_ii + ((85.9 * (h - h_ii) / e_ii) / ((h - h_ii) / e_ii + (360 - h) / 0.856)),
         H,
     )
+
     return as_float(H)
 
 
@@ -1498,6 +1500,7 @@ def chroma_correlate(
     n = as_float_array(n)
 
     t = temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a)
+
     return spow(t, 0.9) * spow(J / 100, 0.5) * spow(1.64 - 0.29**n, 0.73)
 
 

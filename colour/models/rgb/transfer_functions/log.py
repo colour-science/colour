@@ -144,14 +144,19 @@ def logarithmic_function_basic(
 
     if style == "log10":
         return as_float(np.where(x >= FLT_MIN, np.log10(x), np.log10(FLT_MIN)))
+
     if style == "antilog10":
         return as_float(10**x)
+
     if style == "log2":
         return as_float(np.where(x >= FLT_MIN, np.log2(x), np.log2(FLT_MIN)))
+
     if style == "antilog2":
         return as_float(2**x)
+
     if style == "logb":
         return as_float(np.log(x) / np.log(base))
+
     # style == 'antilogb'
     return as_float(base**x)
 

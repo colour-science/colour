@@ -540,6 +540,7 @@ def artist(**kwargs: KwargsArtist | Any) -> Tuple[Figure, Axes]:
         figure = plt.figure(figsize=figure_size)
 
         return figure, figure.gca()
+
     axes = cast(Axes, axes)
     figure = axes.figure
 
