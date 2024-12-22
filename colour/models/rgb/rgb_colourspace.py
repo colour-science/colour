@@ -898,9 +898,9 @@ class RGB_Colourspace:
         colourspace.whitepoint = whitepoint
         colourspace.whitepoint_name = whitepoint_name
 
-        colourspace._matrix_RGB_to_XYZ = None
-        colourspace._matrix_XYZ_to_RGB = None
-        colourspace._derive_transformation_matrices()
+        colourspace._matrix_RGB_to_XYZ = None  # noqa: SLF001
+        colourspace._matrix_XYZ_to_RGB = None  # noqa: SLF001
+        colourspace._derive_transformation_matrices()  # noqa: SLF001
         colourspace.use_derived_transformation_matrices()
 
         colourspace.name = (

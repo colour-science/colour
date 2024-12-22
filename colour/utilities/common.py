@@ -554,16 +554,16 @@ def _initializer(kwargs: Any) -> None:
 
     import colour.utilities.array  # pragma: no cover
 
-    colour.utilities.array._DOMAIN_RANGE_SCALE = kwargs.get(
+    colour.utilities.array._DOMAIN_RANGE_SCALE = kwargs.get(  # noqa: SLF001
         "scale", "reference"
     )  # pragma: no cover
 
     import colour.algebra.common  # pragma: no cover
 
-    colour.algebra.common._SDIV_MODE = kwargs.get(
+    colour.algebra.common._SDIV_MODE = kwargs.get(  # noqa: SLF001
         "sdiv_mode", "Ignore Zero Conversion"
     )  # pragma: no cover
-    colour.algebra.common._SPOW_ENABLED = kwargs.get(
+    colour.algebra.common._SPOW_ENABLED = kwargs.get(  # noqa: SLF001
         "spow_enabled", True
     )  # pragma: no cover
 

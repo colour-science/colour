@@ -143,7 +143,7 @@ class TreeNode:
 
         instance = super().__new__(cls)
 
-        instance._id = TreeNode._INSTANCE_ID  # pyright: ignore
+        instance._id = TreeNode._INSTANCE_ID  # pyright: ignore # noqa: SLF001
         TreeNode._INSTANCE_ID += 1
 
         return instance
@@ -644,7 +644,7 @@ class Port(MixinLogging):
         # port is valid as they should all carry the same value, thus the first
         # connected port is returned.
         for connection in self._connections:
-            return connection._value
+            return connection._value  # noqa: SLF001
 
         return self._value
 
@@ -662,7 +662,7 @@ class Port(MixinLogging):
         # should be also set to the same given value.
         for direct_connection in self._connections:
             self.log(f'Setting "{direct_connection.node}" value to {value}.', "debug")
-            direct_connection._value = value
+            direct_connection._value = value  # noqa: SLF001
 
             if direct_connection.node is not None:
                 self.log(f'Dirtying "{direct_connection.node}".', "debug")
@@ -675,7 +675,7 @@ class Port(MixinLogging):
                 self.log(
                     f'Setting "{indirect_connection.node}" value to {value}.', "debug"
                 )
-                indirect_connection._value = value
+                indirect_connection._value = value  # noqa: SLF001
 
                 if indirect_connection.node is not None:
                     self.log(f'Dirtying "{indirect_connection.node}".', "debug")
@@ -1680,7 +1680,7 @@ class PortGraph(PortNode):
 
         self._nodes[node.name] = node
         self._children.append(node)  # pyright: ignore
-        node._parent = self
+        node._parent = self  # noqa: SLF001
 
     def remove_node(self, node: PortNode) -> None:
         """
@@ -1734,7 +1734,7 @@ class PortGraph(PortNode):
 
         self._nodes.pop(node.name)
         self._children.remove(node)  # pyright: ignore
-        node._parent = None
+        node._parent = None  # noqa: SLF001
 
     @required("NetworkX")
     def walk_ports(self) -> Generator:

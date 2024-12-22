@@ -713,7 +713,7 @@ class SpectralDistribution(Signal):
         """Invalidate *sd._shape* when *sd._domain* is changed."""
 
         if name == "_domain":
-            sd._shape = None
+            sd._shape = None  # noqa: SLF001
 
         return value
 

@@ -658,7 +658,7 @@ class TestSignal:
 
         np.testing.assert_allclose(
             signal.arithmetical_operation(signal, "+", False).range,
-            signal.range + signal._range,
+            signal.range + signal.range,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 

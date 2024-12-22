@@ -853,14 +853,14 @@ class Data_Otsu2018:
         ):
             mask = self._xy[:, axis.direction] <= axis.origin
 
-            lesser._reflectances = self._reflectances[mask, :]
-            greater._reflectances = self._reflectances[~mask, :]
+            lesser._reflectances = self._reflectances[mask, :]  # noqa: SLF001
+            greater._reflectances = self._reflectances[~mask, :]  # noqa: SLF001
 
-            lesser._XYZ = self._XYZ[mask, :]
-            greater._XYZ = self._XYZ[~mask, :]
+            lesser._XYZ = self._XYZ[mask, :]  # noqa: SLF001
+            greater._XYZ = self._XYZ[~mask, :]  # noqa: SLF001
 
-            lesser._xy = self._xy[mask, :]
-            greater._xy = self._xy[~mask, :]
+            lesser._xy = self._xy[mask, :]  # noqa: SLF001
+            greater._xy = self._xy[~mask, :]  # noqa: SLF001
 
             return lesser, greater
 
