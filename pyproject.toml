@@ -227,7 +227,6 @@ ignore = [
     "UP038",
 ]
 typing-modules = ["colour.hints"]
-fixable = ["B", "C", "E", "F", "PIE", "RUF", "SIM", "UP", "W"]
 
 [tool.ruff.pydocstyle]
 convention = "numpy"
