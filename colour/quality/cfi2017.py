@@ -503,13 +503,12 @@ def tcs_colorimetry_data(
         ]
     )
     Jpapbp = JMh_CIECAM02_to_CAM02UCS(JMh)
-    tcs_data = []
 
     specification = as_float_array(specification).transpose((0, 2, 1))
     specification = [CAM_Specification_CIECAM02(*t) for t in specification]
 
-    for sd_idx in range(len(sd_irradiance)):
-        tcs_data.append(
+    return tuple(
+        [
             DataColorimetry_TCS_CIE2017(
                 sds_tcs.display_labels,
                 XYZ[sd_idx],
@@ -517,9 +516,9 @@ def tcs_colorimetry_data(
                 JMh[sd_idx],
                 Jpapbp[sd_idx],
             )
-        )
-
-    return tuple(tcs_data)
+            for sd_idx in range(len(sd_irradiance))
+        ]
+    )
 
 
 def delta_E_to_R_f(delta_E: ArrayLike) -> NDArrayFloat:

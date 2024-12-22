@@ -225,7 +225,7 @@ class TestXYZ_to_sd_Otsu2018:
         """Test :func:`colour.recovery.otsu2018.XYZ_to_sd_Otsu2018` definition."""
 
         # Tests the round-trip with values of a colour checker.
-        for _name, sd in SDS_COLOURCHECKERS["ColorChecker N Ohta"].items():
+        for sd in SDS_COLOURCHECKERS["ColorChecker N Ohta"].values():
             XYZ = sd_to_XYZ(sd, self._cmfs, self._sd_D65) / 100
             Lab = XYZ_to_Lab(XYZ, self._xy_D65)
 

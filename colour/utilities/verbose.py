@@ -889,7 +889,7 @@ def describe_environment(
                 package = mapping.get(package, package)  # noqa: PLW2901
 
                 environment["Development"][package] = version
-            except Exception:  # pragma: no cover  # noqa: BLE001, S112
+            except Exception:  # pragma: no cover  # noqa: BLE001, PERF203, S112
                 continue
 
         environment["Development"].update(ANCILLARY_DEVELOPMENT_PACKAGES)
@@ -902,7 +902,7 @@ def describe_environment(
                 package = mapping.get(package, package)  # noqa: PLW2901
 
                 environment["Extras"][package] = version
-            except Exception:  # pragma: no cover  # noqa: BLE001, S112
+            except Exception:  # pragma: no cover  # noqa: BLE001, PERF203, S112
                 continue
 
         environment["Extras"].update(ANCILLARY_EXTRAS_PACKAGES)

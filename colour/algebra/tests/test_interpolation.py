@@ -1289,7 +1289,7 @@ class TestLinearInterpolator:
             try:
                 linear_interpolator = LinearInterpolator(case, case)
                 linear_interpolator(case[0])
-            except ValueError:
+            except ValueError:  # noqa: PERF203
                 pass
 
 
@@ -1377,7 +1377,7 @@ class TestSpragueInterpolator:
             try:
                 sprague_interpolator = SpragueInterpolator(case, case)
                 sprague_interpolator(case[0])  # pragma: no cover
-            except AssertionError:
+            except AssertionError:  # noqa: PERF203
                 pass
 
 
@@ -1574,7 +1574,7 @@ default` property.
             try:
                 null_interpolator = NullInterpolator(case, case)
                 null_interpolator(case[0])
-            except ValueError:
+            except ValueError:  # noqa: PERF203
                 pass
 
 

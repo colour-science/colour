@@ -407,13 +407,12 @@ class Specification_Fichet2021:
                 wavelength = match_groups_to_nm(match.group(1), multiplier, units)
                 components["T"][wavelength] = i
 
-        attributes = []
-        for attribute in image_specification.extra_attribs:
-            attributes.append(
-                Image_Specification_Attribute(
-                    attribute.name, attribute.value, attribute.type
-                )
+        attributes = [
+            Image_Specification_Attribute(
+                attribute.name, attribute.value, attribute.type
             )
+            for attribute in image_specification.extra_attribs
+        ]
 
         return Specification_Fichet2021(
             path,

@@ -181,6 +181,7 @@ select = [
     "N", # pep8-naming
     "NPY", # Numpy
     "PD", # pandas-vet
+    "PERF", # Perflint
     "PIE", # flake8-pie
     "PGH", # pygrep-hooks
     "PL", # pylint

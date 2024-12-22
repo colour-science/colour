@@ -183,19 +183,17 @@ def RGB_colourspace_limits(colourspace: RGB_Colourspace) -> NDArrayFloat:
            [-107.8503557...,   94.4894974...]])
     """
 
-    Lab_c = []
-    for combination in list(itertools.product([0, 1], repeat=3)):
-        Lab_c.append(
+    Lab = np.array(
+        [
             XYZ_to_Lab(
                 RGB_to_XYZ(combination, colourspace),
                 colourspace.whitepoint,
             )
-        )
-    Lab = np.array(Lab_c)
+            for combination in list(itertools.product([0, 1], repeat=3))
+        ]
+    )
 
-    limits = []
-    for i in np.arange(3):
-        limits.append((np.min(Lab[..., i]), np.max(Lab[..., i])))
+    limits = [(np.min(Lab[..., i]), np.max(Lab[..., i])) for i in np.arange(3)]
 
     return np.array(limits)
 

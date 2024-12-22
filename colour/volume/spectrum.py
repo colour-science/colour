@@ -230,7 +230,7 @@ def generate_pulse_waves(
     if pulse_order.lower() == "bins":
         for square_wave_basis in square_waves_basis:
             for i in range(bins):
-                square_waves.append(np.roll(square_wave_basis, i))
+                square_waves.append(np.roll(square_wave_basis, i))  # noqa: PERF401
     else:
         for i in range(bins):
             for j, square_wave_basis in enumerate(square_waves_basis):

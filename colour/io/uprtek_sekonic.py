@@ -412,7 +412,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
                             self._metadata[attribute] = method(
                                 value  # pyright: ignore
                             )
-                        except (TypeError, ValueError):
+                        except (TypeError, ValueError):  # noqa: PERF203
                             self._metadata[attribute] = value
                         else:
                             break

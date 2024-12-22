@@ -340,7 +340,7 @@ def read_image_OpenImageIO(
     ] = "float32",
     additional_data: bool = False,
     **kwargs: Any,
-) -> NDArrayReal | Tuple[NDArrayReal, Tuple[Image_Specification_Attribute]]:
+) -> NDArrayReal | Tuple[NDArrayReal, Tuple[Image_Specification_Attribute, ...]]:
     """
     Read the image data at given path using *OpenImageIO*.
 
@@ -410,15 +410,15 @@ def read_image_OpenImageIO(
     image = cast(NDArrayReal, np.squeeze(image))
 
     if additional_data:
-        extra_attributes = []
-        for attribute in image_specification.extra_attribs:
-            extra_attributes.append(
-                Image_Specification_Attribute(
-                    attribute.name, attribute.value, attribute.type
-                )
+        extra_attributes = [
+            Image_Specification_Attribute(
+                attribute.name, attribute.value, attribute.type
             )
+            for attribute in image_specification.extra_attribs
+        ]
 
         return image, tuple(extra_attributes)
+
     return image
 
 

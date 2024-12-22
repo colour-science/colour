@@ -557,5 +557,5 @@ class TestUCS_Luo2006_to_XYZ:
         for case in cases:
             try:
                 UCS_Luo2006_to_XYZ(case, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
-            except ValueError as error:
+            except ValueError as error:  # noqa: PERF203
                 attest("CAM_Specification_CIECAM02" in str(error))

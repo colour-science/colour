@@ -192,7 +192,7 @@ def primitive_vertices_grid_mpl(
     quads = []
     for i in range(width_segments):
         for j in range(height_segments):
-            quads.append(
+            quads.append(  # noqa: PERF401
                 primitive_vertices_quad_mpl(
                     w_x, h_y, depth, (i * w_x + u, j * h_y + v), axis
                 )
