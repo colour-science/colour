@@ -19,7 +19,6 @@ References
 
 from __future__ import annotations
 
-from collections import namedtuple
 from dataclasses import dataclass, field
 
 import numpy as np
@@ -29,6 +28,7 @@ from colour.hints import ArrayLike, NDArrayFloat, cast
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
+    MixinDataclassIterable,
     as_float,
     as_float_array,
     from_range_degrees,
@@ -79,9 +79,8 @@ __all__ = [
 ]
 
 
-class InductionFactors_Hunt(
-    namedtuple("InductionFactors_Hunt", ("N_c", "N_b", "N_cb", "N_bb"))
-):
+@dataclass(frozen=True)
+class InductionFactors_Hunt(MixinDataclassIterable):
     """
     *Hunt* colour appearance model induction factors.
 
@@ -105,19 +104,10 @@ class InductionFactors_Hunt(
     :cite:`Fairchild2013u`, :cite:`Hunt2004b`
     """
 
-    def __new__(
-        cls,
-        N_c: float,
-        N_b: float,
-        N_cb: float | None = None,
-        N_bb: float | None = None,
-    ) -> InductionFactors_Hunt:
-        """
-        Return a new instance of the
-        :class:`colour.appearance.InductionFactors_Hunt` class.
-        """
-
-        return super().__new__(cls, N_c, N_b, N_cb, N_bb)
+    N_c: float
+    N_b: float
+    N_cb: float | None = field(default_factory=lambda: None)
+    N_bb: float | None = field(default_factory=lambda: None)
 
 
 VIEWING_CONDITIONS_HUNT: CanonicalMapping = CanonicalMapping(

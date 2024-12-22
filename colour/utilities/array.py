@@ -44,6 +44,7 @@ from colour.hints import (
     NDArrayFloat,
     NDArrayInt,
     Real,
+    Self,
     Sequence,
     Type,
     cast,
@@ -311,7 +312,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
         -   :class:`colour.utilities.MixinDataclassFields`
     """
 
-    def __add__(self, a: Any) -> Dataclass:
+    def __add__(self, a: Any) -> Self:
         """
         Implement support for addition.
 
@@ -328,7 +329,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
         return self.arithmetical_operation(a, "+")
 
-    def __iadd__(self, a: Any) -> Dataclass:
+    def __iadd__(self, a: Any) -> Self:
         """
         Implement support for in-place addition.
 
@@ -345,7 +346,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
         return self.arithmetical_operation(a, "+", True)
 
-    def __sub__(self, a: Any) -> Dataclass:
+    def __sub__(self, a: Any) -> Self:
         """
         Implement support for subtraction.
 
@@ -362,7 +363,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
         return self.arithmetical_operation(a, "-")
 
-    def __isub__(self, a: Any) -> Dataclass:
+    def __isub__(self, a: Any) -> Self:
         """
         Implement support for in-place subtraction.
 
@@ -379,7 +380,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
         return self.arithmetical_operation(a, "-", True)
 
-    def __mul__(self, a: Any) -> Dataclass:
+    def __mul__(self, a: Any) -> Self:
         """
         Implement support for multiplication.
 
@@ -396,7 +397,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
         return self.arithmetical_operation(a, "*")
 
-    def __imul__(self, a: Any) -> Dataclass:
+    def __imul__(self, a: Any) -> Self:
         """
         Implement support for in-place multiplication.
 
@@ -413,7 +414,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
         return self.arithmetical_operation(a, "*", True)
 
-    def __div__(self, a: Any) -> Dataclass:
+    def __div__(self, a: Any) -> Self:
         """
         Implement support for division.
 
@@ -430,7 +431,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
         return self.arithmetical_operation(a, "/")
 
-    def __idiv__(self, a: Any) -> Dataclass:
+    def __idiv__(self, a: Any) -> Self:
         """
         Implement support for in-place division.
 
@@ -450,7 +451,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
     __itruediv__ = __idiv__
     __truediv__ = __div__
 
-    def __pow__(self, a: Any) -> Dataclass:
+    def __pow__(self, a: Any) -> Self:
         """
         Implement support for exponentiation.
 
@@ -467,7 +468,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
         return self.arithmetical_operation(a, "**")
 
-    def __ipow__(self, a: Any) -> Dataclass:
+    def __ipow__(self, a: Any) -> Self:
         """
         Implement support for in-place exponentiation.
 
@@ -1052,7 +1053,7 @@ class domain_range_scale:
         self._scale = scale
         self._previous_scale = get_domain_range_scale()
 
-    def __enter__(self) -> domain_range_scale:
+    def __enter__(self) -> Self:
         """Set the new domain-range scale upon entering the context manager."""
 
         set_domain_range_scale(self._scale)
@@ -1825,7 +1826,7 @@ class ndarray_copy_enable:
         self._enable = enable
         self._previous_state = is_ndarray_copy_enabled()
 
-    def __enter__(self) -> ndarray_copy_enable:
+    def __enter__(self) -> Self:
         """
         Set the *Colour* :class:`numpy.ndarray` copy enabled state
         upon entering the context manager.

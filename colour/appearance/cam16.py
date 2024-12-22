@@ -20,7 +20,6 @@ References
 
 from __future__ import annotations
 
-from collections import namedtuple
 from dataclasses import astuple, dataclass, field
 
 import numpy as np
@@ -54,6 +53,7 @@ from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
+    MixinDataclassIterable,
     as_float,
     as_float_array,
     from_range_100,
@@ -89,7 +89,8 @@ MATRIX_INVERSE_16: NDArrayFloat = np.linalg.inv(MATRIX_16)
 """Inverse adaptation matrix :math:`M^{-1}_{16}`."""
 
 
-class InductionFactors_CAM16(namedtuple("InductionFactors_CAM16", ("F", "c", "N_c"))):
+@dataclass(frozen=True)
+class InductionFactors_CAM16(MixinDataclassIterable):
     """
     *CAM16* colour appearance model induction factors.
 
@@ -111,6 +112,10 @@ class InductionFactors_CAM16(namedtuple("InductionFactors_CAM16", ("F", "c", "N_
     ----------
     :cite:`Li2017`
     """
+
+    F: float
+    c: float
+    N_c: float
 
 
 VIEWING_CONDITIONS_CAM16: CanonicalMapping = CanonicalMapping(

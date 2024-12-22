@@ -32,7 +32,6 @@ References
 
 from __future__ import annotations
 
-from collections import namedtuple
 from dataclasses import astuple, dataclass, field
 
 import numpy as np
@@ -51,6 +50,7 @@ from colour.models import xy_to_XYZ
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
+    MixinDataclassIterable,
     as_float,
     as_float_array,
     as_int_array,
@@ -117,9 +117,8 @@ CAT_INVERSE_CAT02: NDArrayFloat = np.linalg.inv(CAT_CAT02)
 """Inverse CAT02 chromatic adaptation transform."""
 
 
-class InductionFactors_CIECAM02(
-    namedtuple("InductionFactors_CIECAM02", ("F", "c", "N_c"))
-):
+@dataclass(frozen=True)
+class InductionFactors_CIECAM02(MixinDataclassIterable):
     """
     *CIECAM02* colour appearance model induction factors.
 
@@ -137,6 +136,10 @@ class InductionFactors_CIECAM02(
     :cite:`Fairchild2004c`, :cite:`Luo2013`, :cite:`Moroneya`,
     :cite:`Wikipedia2007a`
     """
+
+    F: float
+    c: float
+    N_c: float
 
 
 VIEWING_CONDITIONS_CIECAM02: CanonicalMapping = CanonicalMapping(

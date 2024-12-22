@@ -40,6 +40,7 @@ from colour.hints import (
     Iterable,
     Literal,
     Mapping,
+    Self,
     Sequence,
     TypeVar,
 )
@@ -149,7 +150,7 @@ class caching_enable:
         self._enable = enable
         self._previous_state = is_caching_enabled()
 
-    def __enter__(self) -> caching_enable:
+    def __enter__(self) -> Self:
         """
         Set the *Colour* caching enabled state upon entering the context
         manager.
@@ -500,7 +501,7 @@ class disable_multiprocessing:
     multiprocessing state.
     """
 
-    def __enter__(self) -> disable_multiprocessing:
+    def __enter__(self) -> Self:
         """
         Disable *Colour* multiprocessing state upon entering the context
         manager.

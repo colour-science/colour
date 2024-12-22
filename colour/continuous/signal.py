@@ -849,7 +849,7 @@ class Signal(AbstractContinuousFunction):
         )
 
     @ndarray_copy_enable(False)
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         """
         Return whether the continuous signal is equal to given other object.
 
@@ -897,7 +897,7 @@ class Signal(AbstractContinuousFunction):
             )
         return False
 
-    def __ne__(self, other: Any) -> bool:
+    def __ne__(self, other: object) -> bool:
         """
         Return whether the continuous signal is not equal to given other
         object.

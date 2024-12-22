@@ -8,12 +8,12 @@ Define various deprecation management related objects.
 from __future__ import annotations
 
 import sys
-from collections import namedtuple
+from dataclasses import dataclass
 from importlib import import_module
 from operator import attrgetter
 
 from colour.hints import Any, ModuleType
-from colour.utilities import attest, optional, usage_warning
+from colour.utilities import MixinDataclassIterable, attest, optional, usage_warning
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -40,7 +40,8 @@ __all__ = [
 ]
 
 
-class ObjectRenamed(namedtuple("ObjectRenamed", ("name", "new_name"))):
+@dataclass(frozen=True)
+class ObjectRenamed(MixinDataclassIterable):
     """
     A class used for an object that has been renamed.
 
@@ -51,6 +52,9 @@ class ObjectRenamed(namedtuple("ObjectRenamed", ("name", "new_name"))):
     new_name
         Object new name.
     """
+
+    name: str
+    new_name: str
 
     def __str__(self) -> str:
         """
@@ -65,7 +69,8 @@ class ObjectRenamed(namedtuple("ObjectRenamed", ("name", "new_name"))):
         return f'"{self.name}" object has been renamed to "{self.new_name}".'
 
 
-class ObjectRemoved(namedtuple("ObjectRemoved", ("name",))):
+@dataclass(frozen=True)
+class ObjectRemoved(MixinDataclassIterable):
     """
     A class used for an object that has been removed.
 
@@ -74,6 +79,8 @@ class ObjectRemoved(namedtuple("ObjectRemoved", ("name",))):
     name
         Object name that has been removed.
     """
+
+    name: str
 
     def __str__(self) -> str:
         """
@@ -88,7 +95,8 @@ class ObjectRemoved(namedtuple("ObjectRemoved", ("name",))):
         return f'"{self.name}" object has been removed from the API.'
 
 
-class ObjectFutureRename(namedtuple("ObjectFutureRename", ("name", "new_name"))):
+@dataclass(frozen=True)
+class ObjectFutureRename(MixinDataclassIterable):
     """
     A class used for future object name deprecation, i.e., object name will
     change in a future release.
@@ -100,6 +108,9 @@ class ObjectFutureRename(namedtuple("ObjectFutureRename", ("name", "new_name")))
     new_name
         Object future release name.
     """
+
+    name: str
+    new_name: str
 
     def __str__(self) -> str:
         """
@@ -117,7 +128,8 @@ class ObjectFutureRename(namedtuple("ObjectFutureRename", ("name", "new_name")))
         )
 
 
-class ObjectFutureRemove(namedtuple("ObjectFutureRemove", ("name",))):
+@dataclass(frozen=True)
+class ObjectFutureRemove(MixinDataclassIterable):
     """
     A class used for future object removal.
 
@@ -126,6 +138,8 @@ class ObjectFutureRemove(namedtuple("ObjectFutureRemove", ("name",))):
     name
         Object name that will be removed in a future release.
     """
+
+    name: str
 
     def __str__(self) -> str:
         """
@@ -143,9 +157,8 @@ class ObjectFutureRemove(namedtuple("ObjectFutureRemove", ("name",))):
         )
 
 
-class ObjectFutureAccessChange(
-    namedtuple("ObjectFutureAccessChange", ("access", "new_access"))
-):
+@dataclass(frozen=True)
+class ObjectFutureAccessChange(MixinDataclassIterable):
     """
     A class used for future object access deprecation, i.e., object access will
     change in a future release.
@@ -157,6 +170,9 @@ class ObjectFutureAccessChange(
     new_access
         Object future release access.
     """
+
+    access: str
+    new_access: str
 
     def __str__(self) -> str:
         """
@@ -174,7 +190,8 @@ class ObjectFutureAccessChange(
         )
 
 
-class ObjectFutureAccessRemove(namedtuple("ObjectFutureAccessRemove", ("name",))):
+@dataclass(frozen=True)
+class ObjectFutureAccessRemove(MixinDataclassIterable):
     """
     A class used for future object access removal, i.e., object access will
     be removed in a future release.
@@ -184,6 +201,8 @@ class ObjectFutureAccessRemove(namedtuple("ObjectFutureAccessRemove", ("name",))
     name
         Object name whose access will removed in a future release.
     """
+
+    name: str
 
     def __str__(self) -> str:
         """
@@ -198,7 +217,8 @@ class ObjectFutureAccessRemove(namedtuple("ObjectFutureAccessRemove", ("name",))
         return f'"{self.name}" object access will be removed in a future release.'
 
 
-class ArgumentRenamed(namedtuple("ArgumentRenamed", ("name", "new_name"))):
+@dataclass(frozen=True)
+class ArgumentRenamed(MixinDataclassIterable):
     """
     A class used for an argument that has been renamed.
 
@@ -209,6 +229,9 @@ class ArgumentRenamed(namedtuple("ArgumentRenamed", ("name", "new_name"))):
     new_name
         Argument new name.
     """
+
+    name: str
+    new_name: str
 
     def __str__(self) -> str:
         """
@@ -223,7 +246,8 @@ class ArgumentRenamed(namedtuple("ArgumentRenamed", ("name", "new_name"))):
         return f'"{self.name}" argument has been renamed to "{self.new_name}".'
 
 
-class ArgumentRemoved(namedtuple("ArgumentRemoved", ("name",))):
+@dataclass(frozen=True)
+class ArgumentRemoved(MixinDataclassIterable):
     """
     A class used for an argument that has been removed.
 
@@ -232,6 +256,8 @@ class ArgumentRemoved(namedtuple("ArgumentRemoved", ("name",))):
     name
         Argument name that has been removed.
     """
+
+    name: str
 
     def __str__(self) -> str:
         """
@@ -246,7 +272,8 @@ class ArgumentRemoved(namedtuple("ArgumentRemoved", ("name",))):
         return f'"{self.name}" argument has been removed from the API.'
 
 
-class ArgumentFutureRename(namedtuple("ArgumentFutureRename", ("name", "new_name"))):
+@dataclass(frozen=True)
+class ArgumentFutureRename(MixinDataclassIterable):
     """
     A class used for future argument name deprecation, i.e., argument name will
     change in a future release.
@@ -258,6 +285,9 @@ class ArgumentFutureRename(namedtuple("ArgumentFutureRename", ("name", "new_name
     new_name
         Argument future release name.
     """
+
+    name: str
+    new_name: str
 
     def __str__(self) -> str:
         """
@@ -275,7 +305,8 @@ class ArgumentFutureRename(namedtuple("ArgumentFutureRename", ("name", "new_name
         )
 
 
-class ArgumentFutureRemove(namedtuple("ArgumentFutureRemove", ("name",))):
+@dataclass(frozen=True)
+class ArgumentFutureRemove(MixinDataclassIterable):
     """
     A class used for future argument removal.
 
@@ -284,6 +315,8 @@ class ArgumentFutureRemove(namedtuple("ArgumentFutureRemove", ("name",))):
     name
         Argument name that will be removed in a future release.
     """
+
+    name: str
 
     def __str__(self) -> str:
         """
@@ -357,8 +390,9 @@ class ModuleAPI:
                 return (
                     getattr(self._module, attribute)
                     if isinstance(change, ObjectFutureRemove)
-                    else get_attribute(change[1])
+                    else get_attribute(change.values[1])
                 )
+
             raise AttributeError(str(change))
 
         return getattr(self._module, attribute)
@@ -554,7 +588,7 @@ def handle_arguments_deprecation(changes: dict, **kwargs: Any) -> dict:
 
             if isinstance(change, ArgumentFutureRemove):
                 continue
-            kwargs[change[1]] = kwargs.pop(kwarg)
+            kwargs[change.values[1]] = kwargs.pop(kwarg)
         else:
             kwargs.pop(kwarg)
             usage_warning(str(change))

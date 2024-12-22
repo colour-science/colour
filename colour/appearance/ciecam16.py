@@ -20,7 +20,6 @@ References
 
 from __future__ import annotations
 
-from collections import namedtuple
 from dataclasses import astuple, dataclass, field
 
 import numpy as np
@@ -53,6 +52,7 @@ from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
+    MixinDataclassIterable,
     as_float,
     as_float_array,
     from_range_100,
@@ -84,9 +84,8 @@ __all__ = [
 ]
 
 
-class InductionFactors_CIECAM16(
-    namedtuple("InductionFactors_CIECAM16", ("F", "c", "N_c"))
-):
+@dataclass(frozen=True)
+class InductionFactors_CIECAM16(MixinDataclassIterable):
     """
     *CIECAM16* colour appearance model induction factors.
 
@@ -108,6 +107,10 @@ class InductionFactors_CIECAM16(
     ----------
     :cite:`CIEDivision12022`
     """
+
+    F: float
+    c: float
+    N_c: float
 
 
 VIEWING_CONDITIONS_CIECAM16: CanonicalMapping = CanonicalMapping(

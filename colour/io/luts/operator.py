@@ -411,7 +411,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
             ]
         )
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         """
         Return whether the *LUT* operator is equal to given other object.
 
@@ -438,7 +438,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
             ]
         )
 
-    def __ne__(self, other: Any) -> bool:
+    def __ne__(self, other: object) -> bool:
         """
         Return whether the *LUT* operator is not equal to given other object.
 

@@ -18,6 +18,7 @@ from colour.hints import (
     Callable,
     Literal,
     NDArrayFloat,
+    Self,
     Tuple,
     cast,
 )
@@ -202,7 +203,7 @@ class sdiv_mode:
         self._mode = optional(mode, get_sdiv_mode())
         self._previous_mode = get_sdiv_mode()
 
-    def __enter__(self) -> sdiv_mode:
+    def __enter__(self) -> Self:
         """
         Set the *Colour* safe division function mode upon entering the context
         manager.
@@ -411,7 +412,7 @@ class spow_enable:
         self._enable = enable
         self._previous_state = is_spow_enabled()
 
-    def __enter__(self) -> spow_enable:
+    def __enter__(self) -> Self:
         """
         Set the *Colour* safe / symmetrical power function enabled state
         upon entering the context manager.

@@ -426,7 +426,7 @@ class SpectralShape:
 
         return len(self.wavelengths)
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         """
         Return whether the spectral shape is equal to given other object.
 
@@ -452,7 +452,7 @@ class SpectralShape:
             return np.array_equal(self.wavelengths, other.wavelengths)
         return False
 
-    def __ne__(self, other: Any) -> bool:
+    def __ne__(self, other: object) -> bool:
         """
         Return whether the spectral shape is not equal to given other object.
 

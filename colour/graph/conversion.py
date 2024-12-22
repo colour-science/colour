@@ -15,8 +15,8 @@ import itertools
 import re
 import sys
 import textwrap
-from collections import namedtuple
 from copy import copy
+from dataclasses import dataclass
 from functools import partial
 from pprint import pformat
 
@@ -226,9 +226,8 @@ __all__ = [
 ]
 
 
-class Conversion_Specification(
-    namedtuple("Conversion_Specification", ("source", "target", "conversion_function"))
-):
+@dataclass(frozen=True)
+class Conversion_Specification:
     """
     Conversion specification for *Colour* graph for automatic colour
     conversion describing two nodes and the edge in the graph.
@@ -243,15 +242,15 @@ class Conversion_Specification(
         Callable converting from the ``source`` node to the ``target`` node.
     """
 
-    def __new__(
-        cls, source: str, target: str, conversion_function: Callable
-    ) -> Conversion_Specification:
-        """
-        Return a new instance of the
-        :class:`colour.graph.conversion.Conversion_Specification` class.
-        """
+    source: str
+    target: str
+    conversion_function: Callable
 
-        return super().__new__(cls, source.lower(), target.lower(), conversion_function)
+    def __post_init__(self) -> None:
+        """Post-initialise the class."""
+
+        object.__setattr__(self, "source", self.source.lower())
+        object.__setattr__(self, "target", self.target.lower())
 
 
 def CIECAM02_to_JMh_CIECAM02(

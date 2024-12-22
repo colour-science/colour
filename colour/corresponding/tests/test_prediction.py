@@ -123,8 +123,8 @@ DATASET_CORRESPONDING_COLOUR_1: CorrespondingColourDataset = CorrespondingColour
             ],
         ]
     ),
-    Y_r=np.array(1500),
-    Y_t=np.array(1500),
+    Y_r=1500,
+    Y_t=1500,
     B_r=0.3,
     B_t=0.3,
     metadata={},

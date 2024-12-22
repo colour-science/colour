@@ -181,6 +181,7 @@ select = [
     "PL", # pylint
     # "PT", # flake8-pytest-style
     # "PTH", # flake8-use-pathlib [Enable]
+    "PYI", # flake8-pyi
     "Q", # flake8-quotes
     "RET", # flake8-return
     "RUF", # Ruff
@@ -215,6 +216,9 @@ ignore = [
     "PLR0913", # Too many arguments in function definition
     "PLR0915", # Too many statements
     "PLR2004", # Magic value used in comparison, consider replacing `.*` with a constant variable
+    "PYI036", # Star-args in `.*` should be annotated with `object`
+    "PYI051", # `Literal[".*"]` is redundant in a union with `str`
+    "PYI056", # Calling `.append()` on `__all__` may not be supported by all type checkers (use `+=` instead)
     "RUF022", # [*] `__all__` is not sorted
     "TRY003", # Avoid specifying long messages outside the exception class
     "UP038", #  Use `X | Y` in `isinstance` call instead of `(X, Y)`

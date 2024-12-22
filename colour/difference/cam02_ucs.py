@@ -21,7 +21,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.hints import ArrayLike, NDArrayFloat
-from colour.models.cam02_ucs import COEFFICIENTS_UCS_LUO2006
+from colour.models.cam02_ucs import COEFFICIENTS_UCS_LUO2006, Coefficients_UCS_Luo2006
 from colour.utilities import as_float, tsplit
 
 __author__ = "Colour Developers"
@@ -40,7 +40,7 @@ __all__ = [
 
 
 def delta_E_Luo2006(
-    Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike, coefficients: ArrayLike
+    Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike, coefficients: Coefficients_UCS_Luo2006
 ) -> NDArrayFloat:
     """
     Return the difference :math:`\\Delta E'` between two given
@@ -99,7 +99,7 @@ def delta_E_Luo2006(
 
     J_p_1, a_p_1, b_p_1 = tsplit(Jpapbp_1)
     J_p_2, a_p_2, b_p_2 = tsplit(Jpapbp_2)
-    K_L, _c_1, _c_2 = tsplit(coefficients)
+    K_L, _c_1, _c_2 = coefficients.values
 
     d_E = np.sqrt(
         ((J_p_1 - J_p_2) / K_L) ** 2 + (a_p_1 - a_p_2) ** 2 + (b_p_1 - b_p_2) ** 2

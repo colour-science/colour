@@ -24,7 +24,6 @@ References
 
 from __future__ import annotations
 
-from collections import namedtuple
 from dataclasses import astuple, dataclass, field
 
 import numpy as np
@@ -53,6 +52,7 @@ from colour.hints import ArrayLike, NDArrayFloat, Tuple
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
+    MixinDataclassIterable,
     as_float,
     as_float_array,
     from_range_100,
@@ -91,9 +91,8 @@ __all__ = [
 ]
 
 
-class InductionFactors_Hellwig2022(
-    namedtuple("InductionFactors_Hellwig2022", ("F", "c", "N_c"))
-):
+@dataclass(frozen=True)
+class InductionFactors_Hellwig2022(MixinDataclassIterable):
     """
     *Hellwig and Fairchild (2022)* colour appearance model induction factors.
 
@@ -115,6 +114,10 @@ class InductionFactors_Hellwig2022(
     ----------
     :cite:`Fairchild2022`, :cite:`Hellwig2022`
     """
+
+    F: float
+    c: float
+    N_c: float
 
 
 VIEWING_CONDITIONS_HELLWIG2022: CanonicalMapping = CanonicalMapping(

@@ -27,7 +27,7 @@ References
 
 from __future__ import annotations
 
-from collections import namedtuple
+from dataclasses import dataclass
 
 import numpy as np
 
@@ -35,6 +35,7 @@ from colour.algebra import cartesian_to_polar, polar_to_cartesian
 from colour.hints import Any, ArrayLike, NDArrayFloat, cast
 from colour.utilities import (
     CanonicalMapping,
+    MixinDataclassIterable,
     as_float_array,
     from_range_100,
     from_range_degrees,
@@ -74,13 +75,16 @@ __all__ = [
 ]
 
 
-class Coefficients_UCS_Luo2006(
-    namedtuple("Coefficients_UCS_Luo2006", ("K_L", "c_1", "c_2"))
-):
+@dataclass(frozen=True)
+class Coefficients_UCS_Luo2006(MixinDataclassIterable):
     """
     Define the class storing *Luo et al. (2006)* fitting coefficients for
     the *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS* colourspaces.
     """
+
+    K_L: float
+    c_1: float
+    c_2: float
 
 
 COEFFICIENTS_UCS_LUO2006: CanonicalMapping = CanonicalMapping(
@@ -97,7 +101,7 @@ COEFFICIENTS_UCS_LUO2006: CanonicalMapping = CanonicalMapping(
 
 
 def JMh_CIECAM02_to_UCS_Luo2006(
-    JMh: ArrayLike, coefficients: ArrayLike
+    JMh: ArrayLike, coefficients: Coefficients_UCS_Luo2006
 ) -> NDArrayFloat:
     """
     Convert from *CIECAM02* :math:`JMh` correlates array to one of the
@@ -168,7 +172,7 @@ def JMh_CIECAM02_to_UCS_Luo2006(
     M = to_domain_100(M)
     h = to_domain_degrees(h)
 
-    _K_L, c_1, c_2 = tsplit(coefficients)
+    _K_L, c_1, c_2 = coefficients.values
 
     J_p = ((1 + 100 * c_1) * J) / (1 + c_1 * J)
     M_p = (1 / c_2) * np.log1p(c_2 * M)
@@ -181,7 +185,7 @@ def JMh_CIECAM02_to_UCS_Luo2006(
 
 
 def UCS_Luo2006_to_JMh_CIECAM02(
-    Jpapbp: ArrayLike, coefficients: ArrayLike
+    Jpapbp: ArrayLike, coefficients: Coefficients_UCS_Luo2006
 ) -> NDArrayFloat:
     """
     Convert from one of the *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or
@@ -233,7 +237,7 @@ def UCS_Luo2006_to_JMh_CIECAM02(
     """
 
     J_p, a_p, b_p = tsplit(to_domain_100(Jpapbp))
-    _K_L, c_1, c_2 = tsplit(coefficients)
+    _K_L, c_1, c_2 = coefficients.values
 
     J = -J_p / (c_1 * J_p - 1 - 100 * c_1)
 
@@ -611,7 +615,7 @@ def CAM02UCS_to_JMh_CIECAM02(Jpapbp: ArrayLike) -> NDArrayFloat:
 
 
 def XYZ_to_UCS_Luo2006(
-    XYZ: ArrayLike, coefficients: ArrayLike, **kwargs: Any
+    XYZ: ArrayLike, coefficients: Coefficients_UCS_Luo2006, **kwargs: Any
 ) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to one of the
@@ -698,7 +702,7 @@ def XYZ_to_UCS_Luo2006(
 
 
 def UCS_Luo2006_to_XYZ(
-    Jpapbp: ArrayLike, coefficients: ArrayLike, **kwargs: Any
+    Jpapbp: ArrayLike, coefficients: Coefficients_UCS_Luo2006, **kwargs: Any
 ) -> NDArrayFloat:
     """
     Convert from one of the *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or

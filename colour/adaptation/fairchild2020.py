@@ -17,7 +17,7 @@ References
 
 from __future__ import annotations
 
-from collections import namedtuple
+from dataclasses import dataclass
 
 import numpy as np
 
@@ -26,6 +26,7 @@ from colour.algebra import sdiv, sdiv_mode, vecmul
 from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.utilities import (
     CanonicalMapping,
+    MixinDataclassIterable,
     as_float_array,
     from_range_1,
     row_as_diagonal,
@@ -49,9 +50,8 @@ __all__ = [
 ]
 
 
-class Coefficients_DegreeOfAdaptation_vK20(
-    namedtuple("Coefficients_DegreeOfAdaptation_vK20", ("D_n", "D_r", "D_p"))
-):
+@dataclass(frozen=True)
+class Coefficients_DegreeOfAdaptation_vK20(MixinDataclassIterable):
     """
     *Von Kries 2020* (*vK20*) degree of adaptation coefficients.
 
@@ -68,6 +68,10 @@ class Coefficients_DegreeOfAdaptation_vK20(
     ----------
     :cite:`Fairchild2020`
     """
+
+    D_n: float
+    D_r: float
+    D_p: float
 
 
 CONDITIONS_DEGREE_OF_ADAPTATION_VK20: CanonicalMapping = CanonicalMapping(
@@ -200,7 +204,7 @@ def matrix_chromatic_adaptation_vk20(
 
     M = CHROMATIC_ADAPTATION_TRANSFORMS[transform]
 
-    D_n, D_r, D_p = coefficients
+    D_n, D_r, D_p = coefficients.values
 
     LMS_n = vecmul(M, XYZ_n)
     LMS_r = vecmul(M, XYZ_r)

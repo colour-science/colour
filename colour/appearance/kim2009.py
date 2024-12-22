@@ -21,7 +21,6 @@ References
 
 from __future__ import annotations
 
-from collections import namedtuple
 from dataclasses import astuple, dataclass, field
 
 import numpy as np
@@ -42,6 +41,7 @@ from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
+    MixinDataclassIterable,
     as_float,
     as_float_array,
     from_range_100,
@@ -72,9 +72,8 @@ __all__ = [
 ]
 
 
-class InductionFactors_Kim2009(
-    namedtuple("InductionFactors_Kim2009", ("F", "c", "N_c"))
-):
+@dataclass(frozen=True)
+class InductionFactors_Kim2009(MixinDataclassIterable):
     """
     *Kim, Weyrich and Kautz (2009)* colour appearance model induction factors.
 
@@ -102,6 +101,10 @@ class InductionFactors_Kim2009(
     :cite:`Kim2009`
     """
 
+    F: float
+    c: float
+    N_c: float
+
 
 VIEWING_CONDITIONS_KIM2009: CanonicalMapping = CanonicalMapping(
     VIEWING_CONDITIONS_CIECAM02
@@ -116,7 +119,8 @@ References
 """
 
 
-class MediaParameters_Kim2009(namedtuple("MediaParameters_Kim2009", ("E",))):
+@dataclass(frozen=True)
+class MediaParameters_Kim2009:
     """
     *Kim, Weyrich and Kautz (2009)* colour appearance model media parameters.
 
@@ -130,13 +134,7 @@ class MediaParameters_Kim2009(namedtuple("MediaParameters_Kim2009", ("E",))):
     :cite:`Kim2009`
     """
 
-    def __new__(cls, E: float) -> MediaParameters_Kim2009:
-        """
-        Return a new instance of the
-        :class:`colour.appearance.MediaParameters_Kim2009` class.
-        """
-
-        return super().__new__(cls, E)
+    E: float
 
 
 MEDIA_PARAMETERS_KIM2009: CanonicalMapping = CanonicalMapping(

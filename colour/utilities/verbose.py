@@ -31,6 +31,7 @@ from colour.hints import (
     Literal,
     LiteralWarning,
     Mapping,
+    Self,
     TextIO,
     Type,
     cast,
@@ -587,7 +588,7 @@ class suppress_stdout:
     Hello World!
     """
 
-    def __enter__(self) -> suppress_stdout:
+    def __enter__(self) -> Self:
         """Redirect the standard output upon entering the context manager."""
 
         self._stdout = sys.stdout

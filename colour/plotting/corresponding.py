@@ -123,7 +123,7 @@ Plot_Corresponding_Chromaticities_Prediction.png
     )
 
     for result in results:
-        _name, uv_t, uv_m, uv_p = result
+        _name, uv_t, uv_m, uv_p = result.values
         axes.arrow(
             uv_t[0],
             uv_t[1],

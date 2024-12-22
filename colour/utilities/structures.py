@@ -508,7 +508,7 @@ class CanonicalMapping(MutableMapping):
 
         return len(self._data)
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         """
         Return whether the delimiter and case-insensitive :class:`dict`-like
         object is equal to given other object.
@@ -538,7 +538,7 @@ class CanonicalMapping(MutableMapping):
 
         return self._data == other_mapping.data
 
-    def __ne__(self, other: Any) -> bool:
+    def __ne__(self, other: object) -> bool:
         """
         Return whether the delimiter and case-insensitive :class:`dict`-like
         object is not equal to given other object.

@@ -38,7 +38,7 @@ References
 
 from __future__ import annotations
 
-from collections import namedtuple
+from dataclasses import dataclass
 
 import numpy as np
 
@@ -58,6 +58,7 @@ from colour.hints import (
     ArrayLike,
     Literal,
     LiteralChromaticAdaptationTransform,
+    NDArrayFloat,
     Tuple,
 )
 from colour.models import (
@@ -70,6 +71,8 @@ from colour.models import (
 )
 from colour.utilities import (
     CanonicalMapping,
+    MixinDataclassIterable,
+    as_float_array,
     as_float_scalar,
     attest,
     domain_range_scale,
@@ -98,23 +101,8 @@ __all__ = [
 ]
 
 
-class CorrespondingColourDataset(
-    namedtuple(
-        "CorrespondingColourDataset",
-        (
-            "name",
-            "XYZ_r",
-            "XYZ_t",
-            "XYZ_cr",
-            "XYZ_ct",
-            "Y_r",
-            "Y_t",
-            "B_r",
-            "B_t",
-            "metadata",
-        ),
-    )
-):
+@dataclass(frozen=True)
+class CorrespondingColourDataset(MixinDataclassIterable):
     """
     Define a corresponding colour dataset.
 
@@ -154,13 +142,28 @@ class CorrespondingColourDataset(
     :cite:`Luo1999`
     """
 
+    name: int
+    XYZ_r: NDArrayFloat
+    XYZ_t: NDArrayFloat
+    XYZ_cr: NDArrayFloat
+    XYZ_ct: NDArrayFloat
+    Y_r: float
+    Y_t: float
+    B_r: float
+    B_t: float
+    metadata: dict
 
-class CorrespondingChromaticitiesPrediction(
-    namedtuple(
-        "CorrespondingChromaticitiesPrediction",
-        ("name", "uv_t", "uv_m", "uv_p"),
-    )
-):
+    def __post_init__(self) -> None:
+        """Post-initialise the class."""
+
+        object.__setattr__(self, "XYZ_r", as_float_array(self.XYZ_r))
+        object.__setattr__(self, "XYZ_t", as_float_array(self.XYZ_t))
+        object.__setattr__(self, "XYZ_cr", as_float_array(self.XYZ_cr))
+        object.__setattr__(self, "XYZ_ct", as_float_array(self.XYZ_ct))
+
+
+@dataclass(frozen=True)
+class CorrespondingChromaticitiesPrediction(MixinDataclassIterable):
     """
     Define a chromatic adaptation model prediction.
 
@@ -175,6 +178,18 @@ class CorrespondingChromaticitiesPrediction(
     uv_p
         Chromaticity coordinates :math:`uv_p^p` of predicted colour.
     """
+
+    name: int
+    uv_t: NDArrayFloat
+    uv_m: NDArrayFloat
+    uv_p: NDArrayFloat
+
+    def __post_init__(self) -> None:
+        """Post-initialise the class."""
+
+        object.__setattr__(self, "uv_t", as_float_array(self.uv_t))
+        object.__setattr__(self, "uv_m", as_float_array(self.uv_m))
+        object.__setattr__(self, "uv_p", as_float_array(self.uv_p))
 
 
 def convert_experiment_results_Breneman1987(
@@ -197,7 +212,7 @@ def convert_experiment_results_Breneman1987(
     Examples
     --------
     >>> from pprint import pprint
-    >>> pprint(tuple(convert_experiment_results_Breneman1987(2)))
+    >>> pprint(tuple(convert_experiment_results_Breneman1987(2).values))
     ... # doctest: +ELLIPSIS
     (2,
      array([ 0.9582463...,  1.        ,  0.9436325...]),
@@ -266,7 +281,7 @@ def convert_experiment_results_Breneman1987(
         xy_to_XYZ(
             np.hstack(
                 [
-                    Luv_uv_to_xy(illuminant_chromaticities[1:3]),
+                    Luv_uv_to_xy(illuminant_chromaticities.values[1:3]),
                     full((2, 1), Y_r),
                 ]
             )
@@ -279,7 +294,7 @@ def convert_experiment_results_Breneman1987(
         xyY_cr.append(
             np.hstack(
                 [
-                    Luv_uv_to_xy(experiment_result[2]),
+                    Luv_uv_to_xy(experiment_result.values[2]),
                     samples_luminance[i] * Y_r,
                 ]
             )
@@ -287,7 +302,7 @@ def convert_experiment_results_Breneman1987(
         xyY_ct.append(
             np.hstack(
                 [
-                    Luv_uv_to_xy(experiment_result[1]),
+                    Luv_uv_to_xy(experiment_result.values[1]),
                     samples_luminance[i] * Y_t,
                 ]
             )

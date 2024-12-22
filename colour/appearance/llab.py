@@ -27,7 +27,6 @@ Colour_Appearance_and_Gamut_Mapping
 
 from __future__ import annotations
 
-from collections import namedtuple
 from dataclasses import dataclass, field
 
 import numpy as np
@@ -43,6 +42,7 @@ from colour.hints import ArrayLike, NDArrayFloat
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
+    MixinDataclassIterable,
     as_float,
     as_float_array,
     from_range_degrees,
@@ -78,9 +78,8 @@ __all__ = [
 ]
 
 
-class InductionFactors_LLAB(
-    namedtuple("InductionFactors_LLAB", ("D", "F_S", "F_L", "F_C"))
-):
+@dataclass(frozen=True)
+class InductionFactors_LLAB(MixinDataclassIterable):
     """
     *:math:`LLAB(l:c)`* colour appearance model induction factors.
 
@@ -99,6 +98,11 @@ class InductionFactors_LLAB(
     ----------
     :cite:`Fairchild2013x`, :cite:`Luo1996b`, :cite:`Luo1996c`
     """
+
+    D: float
+    F_S: float
+    F_L: float
+    F_C: float
 
 
 VIEWING_CONDITIONS_LLAB: CanonicalMapping = CanonicalMapping(

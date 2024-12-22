@@ -687,7 +687,7 @@ class Header_IESTM2714:
             )
         )
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         """
         Return whether the header is equal to given other object.
 
@@ -727,7 +727,7 @@ class Header_IESTM2714:
             )
         return False
 
-    def __ne__(self, other: Any) -> bool:
+    def __ne__(self, other: object) -> bool:
         """
         Return whether the header is not equal to given other object.
 

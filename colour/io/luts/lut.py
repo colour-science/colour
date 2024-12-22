@@ -42,6 +42,7 @@ from colour.hints import (
     List,
     Literal,
     NDArrayFloat,
+    Self,
     Sequence,
     Type,
     cast,
@@ -357,7 +358,7 @@ class AbstractLUT(ABC):
 
         return multiline_repr(self, attributes)
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         """
         Return whether the *LUT* is equal to given other object.
 
@@ -379,7 +380,7 @@ class AbstractLUT(ABC):
             ]
         )
 
-    def __ne__(self, other: Any) -> bool:
+    def __ne__(self, other: object) -> bool:
         """
         Return whether the *LUT* is not equal to given other object.
 
@@ -413,7 +414,7 @@ class AbstractLUT(ABC):
 
         return self.arithmetical_operation(a, "+")
 
-    def __iadd__(self, a: ArrayLike | AbstractLUT) -> AbstractLUT:
+    def __iadd__(self, a: ArrayLike | AbstractLUT) -> Self:
         """
         Implement support for in-place addition.
 
@@ -430,7 +431,7 @@ class AbstractLUT(ABC):
 
         return self.arithmetical_operation(a, "+", True)
 
-    def __sub__(self, a: ArrayLike | AbstractLUT) -> AbstractLUT:
+    def __sub__(self, a: ArrayLike | AbstractLUT) -> Self:
         """
         Implement support for subtraction.
 
@@ -447,7 +448,7 @@ class AbstractLUT(ABC):
 
         return self.arithmetical_operation(a, "-")
 
-    def __isub__(self, a: ArrayLike | AbstractLUT) -> AbstractLUT:
+    def __isub__(self, a: ArrayLike | AbstractLUT) -> Self:
         """
         Implement support for in-place subtraction.
 
@@ -464,7 +465,7 @@ class AbstractLUT(ABC):
 
         return self.arithmetical_operation(a, "-", True)
 
-    def __mul__(self, a: ArrayLike | AbstractLUT) -> AbstractLUT:
+    def __mul__(self, a: ArrayLike | AbstractLUT) -> Self:
         """
         Implement support for multiplication.
 
@@ -481,7 +482,7 @@ class AbstractLUT(ABC):
 
         return self.arithmetical_operation(a, "*")
 
-    def __imul__(self, a: ArrayLike | AbstractLUT) -> AbstractLUT:
+    def __imul__(self, a: ArrayLike | AbstractLUT) -> Self:
         """
         Implement support for in-place multiplication.
 
@@ -498,7 +499,7 @@ class AbstractLUT(ABC):
 
         return self.arithmetical_operation(a, "*", True)
 
-    def __div__(self, a: ArrayLike | AbstractLUT) -> AbstractLUT:
+    def __div__(self, a: ArrayLike | AbstractLUT) -> Self:
         """
         Implement support for division.
 
@@ -515,7 +516,7 @@ class AbstractLUT(ABC):
 
         return self.arithmetical_operation(a, "/")
 
-    def __idiv__(self, a: ArrayLike | AbstractLUT) -> AbstractLUT:
+    def __idiv__(self, a: ArrayLike | AbstractLUT) -> Self:
         """
         Implement support for in-place division.
 
@@ -535,7 +536,7 @@ class AbstractLUT(ABC):
     __itruediv__ = __idiv__
     __truediv__ = __div__
 
-    def __pow__(self, a: ArrayLike | AbstractLUT) -> AbstractLUT:
+    def __pow__(self, a: ArrayLike | AbstractLUT) -> Self:
         """
         Implement support for exponentiation.
 
@@ -552,7 +553,7 @@ class AbstractLUT(ABC):
 
         return self.arithmetical_operation(a, "**")
 
-    def __ipow__(self, a: ArrayLike | AbstractLUT) -> AbstractLUT:
+    def __ipow__(self, a: ArrayLike | AbstractLUT) -> Self:
         """
         Implement support for in-place exponentiation.
 
@@ -574,7 +575,7 @@ class AbstractLUT(ABC):
         a: ArrayLike | AbstractLUT,
         operation: Literal["+", "-", "*", "/", "**"],
         in_place: bool = False,
-    ) -> AbstractLUT:
+    ) -> Self:
         """
         Perform given arithmetical operation with :math:`a` operand, the
         operation can be either performed on a copy or in-place, must be

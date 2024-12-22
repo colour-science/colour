@@ -22,10 +22,11 @@ an02_02.pdf
 
 from __future__ import annotations
 
-from collections import namedtuple
+from dataclasses import dataclass
 
 import numpy as np
 
+from colour.hints import NDArrayFloat
 from colour.utilities import CanonicalMapping
 
 __author__ = "Colour Developers"
@@ -44,9 +45,26 @@ __all__ = [
     "TVS_ILLUMINANTS_HUNTERLAB",
 ]
 
-Illuminant_Specification_HunterLab = namedtuple(
-    "Illuminant_Specification_HunterLab", ("name", "XYZ_n", "K_ab")
-)
+
+@dataclass(frozen=True)
+class Illuminant_Specification_HunterLab:
+    """
+    Define the specification for an *HunterLab* illuminant.
+
+    Parameters
+    ----------
+    name
+        Illuminant name
+    XYZ_n
+        Illuminant *CIE XYZ* tristimulus values
+    K_ab
+        Illuminant :math:`K_{a}` and :math:`K_{b}` chromaticity coefficients.
+    """
+
+    name: str
+    XYZ_n: NDArrayFloat
+    K_ab: NDArrayFloat
+
 
 DATA_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931: tuple = (
     ("A", np.array([109.83, 100.00, 35.55]), np.array([185.20, 38.40])),

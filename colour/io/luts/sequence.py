@@ -261,7 +261,7 @@ class LUTSequence(MutableSequence):
 
         return f"{self.__class__.__name__}(\n{operations}\n)"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         """
         Return whether the *LUT* sequence is equal to given other object.
 
@@ -284,7 +284,7 @@ class LUTSequence(MutableSequence):
 
         return all(self[i] == other[i] for i in range(len(self)))
 
-    def __ne__(self, other: Any) -> bool:
+    def __ne__(self, other: object) -> bool:
         """
         Return whether the *LUT* sequence is not equal to given other object.
 

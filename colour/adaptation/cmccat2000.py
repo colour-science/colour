@@ -22,7 +22,7 @@ References
 
 from __future__ import annotations
 
-from typing import NamedTuple
+from dataclasses import dataclass
 
 import numpy as np
 
@@ -31,6 +31,7 @@ from colour.algebra import vecmul
 from colour.hints import ArrayLike, Literal, NDArrayFloat
 from colour.utilities import (
     CanonicalMapping,
+    MixinDataclassIterable,
     as_float_array,
     from_range_100,
     to_domain_100,
@@ -61,7 +62,8 @@ CAT_INVERSE_CMCCAT2000
 """
 
 
-class InductionFactors_CMCCAT2000(NamedTuple):
+@dataclass(frozen=True)
+class InductionFactors_CMCCAT2000(MixinDataclassIterable):
     """
     *CMCCAT2000* chromatic adaptation model induction factors.
 

@@ -16,7 +16,6 @@ from copy import deepcopy
 import numpy as np
 
 from colour.hints import (
-    Any,
     ArrayLike,
     Callable,
     DTypeFloat,
@@ -514,7 +513,7 @@ arithmetical_operation`
         return len(self.domain)
 
     @abstractmethod
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         """
         Return whether the abstract continuous function is equal to given
         other object, must be reimplemented by sub-classes.
@@ -534,7 +533,7 @@ arithmetical_operation`
         ...  # pragma: no cover
 
     @abstractmethod
-    def __ne__(self, other: Any) -> bool:
+    def __ne__(self, other: object) -> bool:
         """
         Return whether the abstract continuous function is not equal to given
         other object, must be reimplemented by sub-classes.

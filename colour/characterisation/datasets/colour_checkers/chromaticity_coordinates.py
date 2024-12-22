@@ -56,7 +56,7 @@ SupportID=5884#
 
 from __future__ import annotations
 
-from collections import namedtuple
+from dataclasses import dataclass
 
 import numpy as np
 
@@ -114,9 +114,8 @@ __all__ = [
 ]
 
 
-class ColourChecker(
-    namedtuple("ColourChecker", ("name", "data", "illuminant", "rows", "columns"))
-):
+@dataclass(frozen=True)
+class ColourChecker:
     """
     *Colour Checker* data.
 
@@ -133,6 +132,12 @@ class ColourChecker(
     columns
         *Colour Checker* column count.
     """
+
+    name: str
+    data: dict[str, NDArrayFloat]
+    illuminant: NDArrayFloat
+    rows: int
+    columns: int
 
 
 SAMPLE_LABELS_COLORCHECKER_CLASSIC: tuple = (

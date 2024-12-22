@@ -968,7 +968,7 @@ class MultiSignals(AbstractContinuousFunction):
 
         return x in first_item(self._signals.values())
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         """
         Return whether the multi-continuous signals is equal to given other
         object.
@@ -1018,7 +1018,7 @@ class MultiSignals(AbstractContinuousFunction):
             )
         return False
 
-    def __ne__(self, other: Any) -> bool:
+    def __ne__(self, other: object) -> bool:
         """
         Return whether the multi-continuous signals is not equal to given
         other object.

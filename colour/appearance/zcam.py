@@ -26,7 +26,6 @@ References
 
 from __future__ import annotations
 
-from collections import namedtuple
 from dataclasses import astuple, dataclass, field
 
 import numpy as np
@@ -44,6 +43,7 @@ from colour.models import Izazbz_to_XYZ, XYZ_to_Izazbz, xy_to_XYZ
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
+    MixinDataclassIterable,
     as_float,
     as_float_array,
     as_int_array,
@@ -74,9 +74,8 @@ __all__ = [
 ]
 
 
-class InductionFactors_ZCAM(
-    namedtuple("InductionFactors_ZCAM", ("F_s", "F", "c", "N_c"))
-):
+@dataclass(frozen=True)
+class InductionFactors_ZCAM(MixinDataclassIterable):
     """
     *ZCAM* colour appearance model induction factors.
 
@@ -101,12 +100,21 @@ class InductionFactors_ZCAM(
     :cite:`Safdar2021`
     """
 
+    F_s: float
+    F: float
+    c: float
+    N_c: float
+
 
 VIEWING_CONDITIONS_ZCAM: CanonicalMapping = CanonicalMapping(
     {
-        "Average": InductionFactors_ZCAM(0.69, *VIEWING_CONDITIONS_CIECAM02["Average"]),
-        "Dim": InductionFactors_ZCAM(0.59, *VIEWING_CONDITIONS_CIECAM02["Dim"]),
-        "Dark": InductionFactors_ZCAM(0.525, *VIEWING_CONDITIONS_CIECAM02["Dark"]),
+        "Average": InductionFactors_ZCAM(
+            0.69, *VIEWING_CONDITIONS_CIECAM02["Average"].values
+        ),
+        "Dim": InductionFactors_ZCAM(0.59, *VIEWING_CONDITIONS_CIECAM02["Dim"].values),
+        "Dark": InductionFactors_ZCAM(
+            0.525, *VIEWING_CONDITIONS_CIECAM02["Dark"].values
+        ),
     }
 )
 VIEWING_CONDITIONS_ZCAM.__doc__ = """
@@ -424,7 +432,7 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
     L_A = as_float_array(L_A)
     Y_b = as_float_array(Y_b)
 
-    F_s, F, _c, _N_c = surround
+    F_s, F, _c, _N_c = surround.values
 
     # Step 0 (Forward) - Chromatic adaptation from reference illuminant to
     # "CIE Standard Illuminant D65" illuminant using "CAT02".
@@ -641,7 +649,7 @@ def ZCAM_to_XYZ(
     L_A = as_float_array(L_A)
     Y_b = as_float_array(Y_b)
 
-    F_s, F, c, N_c = surround
+    F_s, F, c, N_c = surround.values
 
     # Step 0 (Forward) - Chromatic adaptation from reference illuminant to
     # "CIE Standard Illuminant D65" illuminant using "CAT02".
