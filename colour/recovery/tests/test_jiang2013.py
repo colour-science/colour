@@ -60,7 +60,7 @@ class TestPCA_Jiang2013:
             camera: msds.copy().align(shape)
             for camera, msds in MSDS_CAMERA_SENSITIVITIES.items()
         }
-        w, v = PCA_Jiang2013(  # pyright: ignore
+        w, v = PCA_Jiang2013(
             camera_sensitivities,
             3,
             additional_data=True,

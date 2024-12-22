@@ -26,12 +26,10 @@ import numpy as np
 
 if typing.TYPE_CHECKING:
     from colour.colorimetry import SpectralDistribution
-    from colour.hints import ArrayLike, NDArrayFloat, NDArrayInt, Tuple
+    from colour.hints import ArrayLike, Literal, NDArrayFloat, NDArrayInt, Tuple
 
-from colour.hints import cast
 from colour.quality import colour_fidelity_index_CIE2017
 from colour.quality.cfi2017 import (
-    ColourRendering_Specification_CIE2017,
     DataColorimetry_TCS_CIE2017,
     delta_E_to_R_f,
 )
@@ -100,13 +98,27 @@ class ColourQuality_Specification_ANSIIESTM3018:
     R_hs: NDArrayFloat
 
 
+@typing.overload
+def colour_fidelity_index_ANSIIESTM3018(
+    sd_test: SpectralDistribution, additional_data: Literal[True] = True
+) -> ColourQuality_Specification_ANSIIESTM3018: ...
+
+
+@typing.overload
+def colour_fidelity_index_ANSIIESTM3018(
+    sd_test: SpectralDistribution, *, additional_data: Literal[False]
+) -> float: ...
+
+
+@typing.overload
+def colour_fidelity_index_ANSIIESTM3018(
+    sd_test: SpectralDistribution, additional_data: Literal[False]
+) -> float: ...
+
+
 def colour_fidelity_index_ANSIIESTM3018(
     sd_test: SpectralDistribution, additional_data: bool = False
-) -> (
-    float
-    | ColourQuality_Specification_ANSIIESTM3018
-    | ColourRendering_Specification_CIE2017
-):
+) -> float | ColourQuality_Specification_ANSIIESTM3018:
     """
     Return the *ANSI/IES TM-30-18 Colour Fidelity Index* (CFI) :math:`R_f`
     of given spectral distribution.
@@ -139,10 +151,7 @@ def colour_fidelity_index_ANSIIESTM3018(
     if not additional_data:
         return colour_fidelity_index_CIE2017(sd_test, False)
 
-    specification = cast(
-        ColourRendering_Specification_CIE2017,
-        colour_fidelity_index_CIE2017(sd_test, True),
-    )
+    specification = colour_fidelity_index_CIE2017(sd_test, True)
 
     # Setup bins based on where the reference a'b' points are located.
     bins = as_int_array(np.floor(specification.colorimetry_data[1].JMh[:, 2] / 22.5))

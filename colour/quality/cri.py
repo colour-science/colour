@@ -36,7 +36,7 @@ from colour.colorimetry import (
 )
 
 if typing.TYPE_CHECKING:
-    from colour.hints import Dict, NDArrayFloat, Tuple
+    from colour.hints import Dict, Literal, NDArrayFloat, Tuple
 
 from colour.hints import cast
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
@@ -108,6 +108,24 @@ class ColourRendering_Specification_CRI:
     colorimetry_data: Tuple[
         Tuple[DataColorimetry_TCS, ...], Tuple[DataColorimetry_TCS, ...]
     ]
+
+
+@typing.overload
+def colour_rendering_index(
+    sd_test: SpectralDistribution, additional_data: Literal[True] = True
+) -> ColourRendering_Specification_CRI: ...
+
+
+@typing.overload
+def colour_rendering_index(
+    sd_test: SpectralDistribution, *, additional_data: Literal[False]
+) -> float: ...
+
+
+@typing.overload
+def colour_rendering_index(
+    sd_test: SpectralDistribution, additional_data: Literal[False]
+) -> float: ...
 
 
 def colour_rendering_index(

@@ -37,6 +37,7 @@ if typing.TYPE_CHECKING:
     from colour.hints import (
         ArrayLike,
         Mapping,
+        Literal,
         NDArrayFloat,
         Tuple,
     )
@@ -57,6 +58,34 @@ __all__ = [
     "RGB_to_sd_camera_sensitivity_Jiang2013",
     "RGB_to_msds_camera_sensitivities_Jiang2013",
 ]
+
+
+@typing.overload
+def PCA_Jiang2013(
+    msds_camera_sensitivities: Mapping[str, MultiSpectralDistributions],
+    eigen_w_v_count: int | None = ...,
+    additional_data: Literal[True] = True,
+) -> Tuple[
+    Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat],
+    Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat],
+]: ...
+
+
+@typing.overload
+def PCA_Jiang2013(
+    msds_camera_sensitivities: Mapping[str, MultiSpectralDistributions],
+    eigen_w_v_count: int | None = ...,
+    *,
+    additional_data: Literal[False],
+) -> Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]: ...
+
+
+@typing.overload
+def PCA_Jiang2013(
+    msds_camera_sensitivities: Mapping[str, MultiSpectralDistributions],
+    eigen_w_v_count: int | None,
+    additional_data: Literal[False],
+) -> Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]: ...
 
 
 def PCA_Jiang2013(

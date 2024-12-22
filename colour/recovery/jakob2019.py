@@ -46,6 +46,7 @@ if typing.TYPE_CHECKING:
     from colour.hints import (
         ArrayLike,
         Callable,
+        Literal,
         NDArrayFloat,
         Tuple,
     )
@@ -200,6 +201,40 @@ def sd_Jakob2019(
     name = f"{coefficients!r} (COEFF) - Jakob (2019)"
 
     return SpectralDistribution(R, wl, name=name)
+
+
+@typing.overload
+def error_function(
+    coefficients: ArrayLike,
+    target: ArrayLike,
+    cmfs: MultiSpectralDistributions,
+    illuminant: SpectralDistribution,
+    max_error: float | None = ...,
+    additional_data: Literal[True] = True,
+) -> Tuple[float, NDArrayFloat, NDArrayFloat, NDArrayFloat, NDArrayFloat]: ...
+
+
+@typing.overload
+def error_function(
+    coefficients: ArrayLike,
+    target: ArrayLike,
+    cmfs: MultiSpectralDistributions,
+    illuminant: SpectralDistribution,
+    max_error: float | None = ...,
+    *,
+    additional_data: Literal[False],
+) -> Tuple[float, NDArrayFloat]: ...
+
+
+@typing.overload
+def error_function(
+    coefficients: ArrayLike,
+    target: ArrayLike,
+    cmfs: MultiSpectralDistributions,
+    illuminant: SpectralDistribution,
+    max_error: float | None,
+    additional_data: Literal[False],
+) -> Tuple[float, NDArrayFloat]: ...
 
 
 def error_function(
@@ -487,6 +522,37 @@ def find_coefficients_Jakob2019(
         coefficients = dimensionalise_coefficients(coefficients, cmfs.shape)
 
     return coefficients, error
+
+
+@typing.overload
+def XYZ_to_sd_Jakob2019(
+    XYZ: ArrayLike,
+    cmfs: MultiSpectralDistributions | None = ...,
+    illuminant: SpectralDistribution | None = ...,
+    optimisation_kwargs: dict | None = ...,
+    additional_data: Literal[True] = True,
+) -> Tuple[SpectralDistribution, float]: ...
+
+
+@typing.overload
+def XYZ_to_sd_Jakob2019(
+    XYZ: ArrayLike,
+    cmfs: MultiSpectralDistributions | None = ...,
+    illuminant: SpectralDistribution | None = ...,
+    optimisation_kwargs: dict | None = ...,
+    *,
+    additional_data: Literal[False],
+) -> SpectralDistribution: ...
+
+
+@typing.overload
+def XYZ_to_sd_Jakob2019(
+    XYZ: ArrayLike,
+    cmfs: MultiSpectralDistributions | None,
+    illuminant: SpectralDistribution | None,
+    optimisation_kwargs: dict | None,
+    additional_data: Literal[False],
+) -> SpectralDistribution: ...
 
 
 def XYZ_to_sd_Jakob2019(

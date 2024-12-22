@@ -329,6 +329,41 @@ def convert_bit_depth(
     return a
 
 
+@typing.overload
+@required("OpenImageIO")
+def read_image_OpenImageIO(
+    path: str | Path,
+    bit_depth: Literal[
+        "uint8", "uint16", "float16", "float32", "float64", "float128"
+    ] = ...,
+    additional_data: Literal[True] = True,
+    **kwargs: Any,
+) -> Tuple[NDArrayReal, Tuple[Image_Specification_Attribute, ...]]: ...
+
+
+@typing.overload
+@required("OpenImageIO")
+def read_image_OpenImageIO(
+    path: str | Path,
+    bit_depth: Literal[
+        "uint8", "uint16", "float16", "float32", "float64", "float128"
+    ] = ...,
+    *,
+    additional_data: Literal[False],
+    **kwargs: Any,
+) -> NDArrayReal: ...
+
+
+@typing.overload
+@required("OpenImageIO")
+def read_image_OpenImageIO(
+    path: str | Path,
+    bit_depth: Literal["uint8", "uint16", "float16", "float32", "float64", "float128"],
+    additional_data: Literal[False],
+    **kwargs: Any,
+) -> NDArrayReal: ...
+
+
 @required("OpenImageIO")
 def read_image_OpenImageIO(
     path: str | Path,

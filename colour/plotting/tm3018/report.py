@@ -27,7 +27,6 @@ from colour.colorimetry import SpectralDistribution, sd_to_XYZ
 if typing.TYPE_CHECKING:
     from colour.hints import Any, Dict, Literal, Tuple
 
-from colour.hints import cast
 from colour.io import SpectralDistribution_IESTM2714
 from colour.models import Luv_to_uv, XYZ_to_Luv, XYZ_to_xy
 from colour.plotting import CONSTANTS_COLOUR_STYLE, override_style, render
@@ -40,8 +39,6 @@ from colour.plotting.tm3018.components import (
     plot_spectra_ANSIIESTM3018,
 )
 from colour.quality import (
-    ColourQuality_Specification_ANSIIESTM3018,
-    ColourRendering_Specification_CRI,
     colour_fidelity_index_ANSIIESTM3018,
     colour_rendering_index,
 )
@@ -306,10 +303,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
 
     report_box_padding = optional(report_box_padding, CONSTANT_REPORT_PADDING_FULL)
 
-    specification: ColourQuality_Specification_ANSIIESTM3018 = cast(
-        ColourQuality_Specification_ANSIIESTM3018,
-        colour_fidelity_index_ANSIIESTM3018(sd, True),
-    )
+    specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
 
     sd = (
         SpectralDistribution_IESTM2714(data=sd, name=sd.name)
@@ -483,10 +477,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
 
     gridspec_CRI = gridspec_chromaticities_CRI[1].subgridspec(1, 1)
 
-    CRI_spec: ColourRendering_Specification_CRI = cast(
-        ColourRendering_Specification_CRI,
-        colour_rendering_index(specification.sd_test, additional_data=True),
-    )
+    CRI_spec = colour_rendering_index(specification.sd_test, additional_data=True)
 
     axes_CRI = figure.add_subplot(gridspec_CRI[0])
     axes_CRI.set_xticks([])
@@ -597,10 +588,7 @@ Plot_Single_SD_Colour_Rendition_Report_Intermediate.png
         report_box_padding, CONSTANT_REPORT_PADDING_INTERMEDIATE
     )
 
-    specification: ColourQuality_Specification_ANSIIESTM3018 = cast(
-        ColourQuality_Specification_ANSIIESTM3018,
-        colour_fidelity_index_ANSIIESTM3018(sd, True),
-    )
+    specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
 
     figure = plt.figure(figsize=report_size, constrained_layout=True)
 
@@ -692,10 +680,7 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
 
     report_box_padding = optional(report_box_padding, CONSTANT_REPORT_PADDING_SIMPLE)
 
-    specification: ColourQuality_Specification_ANSIIESTM3018 = cast(
-        ColourQuality_Specification_ANSIIESTM3018,
-        colour_fidelity_index_ANSIIESTM3018(sd, True),
-    )
+    specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
 
     figure = plt.figure(figsize=report_size, constrained_layout=True)
 

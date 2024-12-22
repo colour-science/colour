@@ -40,7 +40,7 @@ from colour.colorimetry import (
 )
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, List, Tuple
+    from colour.hints import ArrayLike, List, Literal, Tuple
 
 from colour.hints import NDArrayFloat, cast
 from colour.models import JMh_CIECAM02_to_CAM02UCS, UCS_to_uv, XYZ_to_UCS
@@ -137,6 +137,24 @@ class ColourRendering_Specification_CIE2017:
     D_uv: float
     colorimetry_data: Tuple[DataColorimetry_TCS_CIE2017, DataColorimetry_TCS_CIE2017]
     delta_E_s: NDArrayFloat
+
+
+@typing.overload
+def colour_fidelity_index_CIE2017(
+    sd_test: SpectralDistribution, additional_data: Literal[True] = True
+) -> ColourRendering_Specification_CIE2017: ...
+
+
+@typing.overload
+def colour_fidelity_index_CIE2017(
+    sd_test: SpectralDistribution, *, additional_data: Literal[False]
+) -> float: ...
+
+
+@typing.overload
+def colour_fidelity_index_CIE2017(
+    sd_test: SpectralDistribution, additional_data: Literal[False]
+) -> float: ...
 
 
 def colour_fidelity_index_CIE2017(

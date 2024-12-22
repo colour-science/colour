@@ -1017,10 +1017,11 @@ class TestMatrixIdt:
             atol=0.0001,
         )
 
-        M, RGB_w = matrix_idt(  # pyright: ignore
+        M, RGB_w = matrix_idt(
             MSDS_CANON_EOS_5DMARK_II,
             SDS_ILLUMINANTS["D55"],
             optimisation_factory=optimisation_factory_Jzazbz,
+            additional_data=False,
         )
         np.testing.assert_allclose(
             M,
@@ -1038,10 +1039,11 @@ class TestMatrixIdt:
             np.array([2.34141541, 1.00000000, 1.51633759]),
             atol=0.0001,
         )
-        M, RGB_w = matrix_idt(  # pyright: ignore
+        M, RGB_w = matrix_idt(
             MSDS_CANON_EOS_5DMARK_II,
             SDS_ILLUMINANTS["D55"],
             optimisation_factory=optimisation_factory_Oklab_15,
+            additional_data=False,
         )
         np.testing.assert_allclose(
             M,
@@ -1081,10 +1083,11 @@ class TestMatrixIdt:
             atol=0.0001,
         )
 
-        M, RGB_w = matrix_idt(  # pyright: ignore
+        M, RGB_w = matrix_idt(
             MSDS_CANON_EOS_5DMARK_II,
             SDS_ILLUMINANTS["D55"],
             optimisation_kwargs={"method": "Nelder-Mead"},
+            additional_data=False,
         )
         np.testing.assert_allclose(
             M,
@@ -1128,7 +1131,7 @@ class TestMatrixIdt:
 
         np.testing.assert_allclose(
             matrix_idt(
-                MSDS_CANON_EOS_5DMARK_II,  # pyright: ignore
+                MSDS_CANON_EOS_5DMARK_II,
                 SDS_ILLUMINANTS["D55"],
                 chromatic_adaptation_transform="Bradford",
             )[0],
@@ -1142,8 +1145,8 @@ class TestMatrixIdt:
             atol=0.0001,
         )
 
-        _M, RGB_w, XYZ, RGB = matrix_idt(  # pyright: ignore
-            MSDS_CANON_EOS_5DMARK_II,  # pyright: ignore
+        _M, RGB_w, XYZ, RGB = matrix_idt(
+            MSDS_CANON_EOS_5DMARK_II,
             SDS_ILLUMINANTS["D55"],
             additional_data=True,
         )

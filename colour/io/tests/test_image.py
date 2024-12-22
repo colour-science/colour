@@ -11,7 +11,6 @@ import numpy as np
 import pytest
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.hints import NDArrayReal, Tuple, cast
 from colour.io import (
     Image_Specification_Attribute,
     as_3_channels_image,
@@ -279,57 +278,48 @@ class TestReadImageOpenImageIO:
         if not is_openimageio_installed():
             return
 
-        image = cast(
-            NDArrayReal,
-            read_image_OpenImageIO(
-                os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
-            ),
+        image = read_image_OpenImageIO(
+            os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr"),
+            additional_data=False,
         )
         assert image.shape == (1267, 1274, 3)
         assert image.dtype is np.dtype("float32")
 
-        image = cast(
-            NDArrayReal,
-            read_image_OpenImageIO(
-                os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr"),
-                "float16",
-            ),
+        image = read_image_OpenImageIO(
+            os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr"),
+            "float16",
+            additional_data=False,
         )
         assert image.dtype is np.dtype("float16")
 
-        image, attributes = cast(
-            Tuple[NDArrayReal, Tuple[Image_Specification_Attribute]],
-            read_image_OpenImageIO(
-                os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr"),
-                additional_data=True,
-            ),
+        image, attributes = read_image_OpenImageIO(
+            os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr"),
+            additional_data=True,
         )
         assert image.shape == (1267, 1274, 3)
         assert attributes[0].name == "oiio:ColorSpace"
         assert attributes[0].value in ("Linear", "lin_rec709")
 
-        image = cast(
-            NDArrayReal,
-            read_image_OpenImageIO(os.path.join(ROOT_RESOURCES, "Single_Channel.exr")),
+        image = read_image_OpenImageIO(
+            os.path.join(ROOT_RESOURCES, "Single_Channel.exr"),
+            additional_data=False,
         )
         assert image.shape == (256, 256)
 
-        image = cast(
-            NDArrayReal,
-            read_image_OpenImageIO(
-                os.path.join(ROOT_RESOURCES, "Colour_Logo.png"), "uint8"
-            ),
+        image = read_image_OpenImageIO(
+            os.path.join(ROOT_RESOURCES, "Colour_Logo.png"),
+            "uint8",
+            additional_data=False,
         )
         assert image.shape == (128, 256, 4)
         assert image.dtype is np.dtype("uint8")
         assert np.min(image) == 0
         assert np.max(image) == 255
 
-        image = cast(
-            NDArrayReal,
-            read_image_OpenImageIO(
-                os.path.join(ROOT_RESOURCES, "Colour_Logo.png"), "uint16"
-            ),
+        image = read_image_OpenImageIO(
+            os.path.join(ROOT_RESOURCES, "Colour_Logo.png"),
+            "uint16",
+            additional_data=False,
         )
         assert image.shape == (128, 256, 4)
         assert image.dtype is np.dtype("uint16")
@@ -343,11 +333,10 @@ class TestReadImageOpenImageIO:
         # self.assertEqual(np.min(image), 0.0)
         # self.assertEqual(np.max(image), 1.0)
 
-        image = cast(
-            NDArrayReal,
-            read_image_OpenImageIO(
-                os.path.join(ROOT_RESOURCES, "Colour_Logo.png"), "float32"
-            ),
+        image = read_image_OpenImageIO(
+            os.path.join(ROOT_RESOURCES, "Colour_Logo.png"),
+            "float32",
+            additional_data=False,
         )
         assert image.dtype is np.dtype("float32")
         assert np.min(image) == 0.0
@@ -401,9 +390,15 @@ class TestWriteImageOpenImageIO:
 
         source_path = os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
         target_path = os.path.join(self._temporary_directory, "CMS_Test_Pattern.exr")
-        image = cast(NDArrayReal, read_image_OpenImageIO(source_path))
+        image = read_image_OpenImageIO(
+            source_path,
+            additional_data=False,
+        )
         write_image_OpenImageIO(image, target_path)
-        image = cast(NDArrayReal, read_image_OpenImageIO(target_path))
+        image = read_image_OpenImageIO(
+            target_path,
+            additional_data=False,
+        )
         assert image.shape == (1267, 1274, 3)
         assert image.dtype is np.dtype("float32")
 

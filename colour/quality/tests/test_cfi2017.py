@@ -19,10 +19,8 @@ from colour.colorimetry import (
     reshape_sd,
     sd_blackbody,
 )
-from colour.hints import cast
 from colour.quality.cfi2017 import (
     CCT_reference_illuminant,
-    ColourRendering_Specification_CIE2017,
     colour_fidelity_index_CIE2017,
     sd_reference_illuminant,
 )
@@ -561,10 +559,7 @@ class TestColourFidelityIndexCIE2017:
         """
 
         for sd in [SD_SAMPLE_5NM, SD_SAMPLE_1NM]:
-            specification = cast(
-                ColourRendering_Specification_CIE2017,
-                colour_fidelity_index_CIE2017(sd, additional_data=True),
-            )
+            specification = colour_fidelity_index_CIE2017(sd, additional_data=True)
             np.testing.assert_allclose(specification.R_f, 81.6, atol=0.1)
             np.testing.assert_allclose(
                 specification.R_s,
@@ -672,9 +667,8 @@ class TestColourFidelityIndexCIE2017:
                 atol=0.1,
             )
 
-        specification = cast(
-            ColourRendering_Specification_CIE2017,
-            colour_fidelity_index_CIE2017(SDS_ILLUMINANTS["FL1"], additional_data=True),
+        specification = colour_fidelity_index_CIE2017(
+            SDS_ILLUMINANTS["FL1"], additional_data=True
         )
         np.testing.assert_allclose(specification.R_f, 80.6, atol=0.1)
         np.testing.assert_allclose(
@@ -783,9 +777,8 @@ class TestColourFidelityIndexCIE2017:
             atol=0.1,
         )
 
-        specification = cast(
-            ColourRendering_Specification_CIE2017,
-            colour_fidelity_index_CIE2017(SDS_ILLUMINANTS["FL2"], additional_data=True),
+        specification = colour_fidelity_index_CIE2017(
+            SDS_ILLUMINANTS["FL2"], additional_data=True
         )
         np.testing.assert_allclose(specification.R_f, 70.1, atol=0.1)
         np.testing.assert_allclose(

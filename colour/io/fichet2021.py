@@ -425,6 +425,34 @@ Default *Fichet et al. (2021)* spectral image specification.
 """
 
 
+@typing.overload
+@required("OpenImageIO")
+def read_spectral_image_Fichet2021(
+    path: str | Path,
+    bit_depth: Literal["float16", "float32"] = ...,
+    additional_data: Literal[True] = True,
+) -> Tuple[ComponentsFichet2021, Specification_Fichet2021]: ...
+
+
+@typing.overload
+@required("OpenImageIO")
+def read_spectral_image_Fichet2021(
+    path: str | Path,
+    bit_depth: Literal["float16", "float32"] = ...,
+    *,
+    additional_data: Literal[False],
+) -> ComponentsFichet2021: ...
+
+
+@typing.overload
+@required("OpenImageIO")
+def read_spectral_image_Fichet2021(
+    path: str | Path,
+    bit_depth: Literal["float16", "float32"],
+    additional_data: bool = False,
+) -> ComponentsFichet2021: ...
+
+
 @required("OpenImageIO")
 def read_spectral_image_Fichet2021(
     path: str | Path,

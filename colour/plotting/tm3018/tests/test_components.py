@@ -6,7 +6,6 @@ from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
 from colour.colorimetry import SDS_ILLUMINANTS
-from colour.hints import cast
 from colour.plotting.tm3018.components import (
     plot_16_bin_bars,
     plot_colour_fidelity_indexes,
@@ -17,7 +16,6 @@ from colour.plotting.tm3018.components import (
     plot_spectra_ANSIIESTM3018,
 )
 from colour.quality import (
-    ColourQuality_Specification_ANSIIESTM3018,
     colour_fidelity_index_ANSIIESTM3018,
 )
 
@@ -38,9 +36,8 @@ __all__ = [
     "TestPlotColourFidelityIndexes",
 ]
 
-SPECIFICATION_ANSIIESTM3018: ColourQuality_Specification_ANSIIESTM3018 = cast(
-    ColourQuality_Specification_ANSIIESTM3018,
-    colour_fidelity_index_ANSIIESTM3018(SDS_ILLUMINANTS["FL2"], True),
+SPECIFICATION_ANSIIESTM3018 = colour_fidelity_index_ANSIIESTM3018(
+    SDS_ILLUMINANTS["FL2"], True
 )
 
 

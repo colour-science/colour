@@ -175,7 +175,7 @@ class TestXYZ_to_sd_Jakob2019:
 
         XYZ_i = np.array([0.20654008, 0.12197225, 0.05136952])
         XYZ_o = sd_to_XYZ(
-            XYZ_to_sd_Jakob2019(XYZ_i, self._cmfs, self._sd_D65, additional_data=False),  # pyright: ignore
+            XYZ_to_sd_Jakob2019(XYZ_i, self._cmfs, self._sd_D65, additional_data=False),
             self._cmfs,
             self._sd_D65,
         )
@@ -183,14 +183,14 @@ class TestXYZ_to_sd_Jakob2019:
         d_r = (("reference", 1, 1), ("1", 1, 0.01), ("100", 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(  # pyright: ignore
+                np.testing.assert_allclose(
                     sd_to_XYZ(
                         XYZ_to_sd_Jakob2019(
                             XYZ_i * factor_a,
                             self._cmfs,
                             self._sd_D65,
                             additional_data=False,
-                        ),  # pyright: ignore
+                        ),
                         self._cmfs,
                         self._sd_D65,
                     ),

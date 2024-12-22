@@ -13,9 +13,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.colorimetry import SDS_ILLUMINANTS
-from colour.hints import cast
 from colour.quality.tm3018 import (
-    ColourQuality_Specification_ANSIIESTM3018,
     averages_area,
     colour_fidelity_index_ANSIIESTM3018,
 )
@@ -46,11 +44,8 @@ class TestColourFidelityIndexANSIIESTM3018:
         definition.
         """
 
-        specification = cast(
-            ColourQuality_Specification_ANSIIESTM3018,
-            colour_fidelity_index_ANSIIESTM3018(
-                SDS_ILLUMINANTS["FL2"], additional_data=True
-            ),
+        specification = colour_fidelity_index_ANSIIESTM3018(
+            SDS_ILLUMINANTS["FL2"], additional_data=True
         )
 
         np.testing.assert_allclose(specification.R_f, 70, atol=2e-1)

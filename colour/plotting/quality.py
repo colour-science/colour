@@ -41,7 +41,6 @@ if typing.TYPE_CHECKING:
         Tuple,
     )
 
-from colour.hints import List, cast
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
     XYZ_to_plotting_colourspace,
@@ -348,10 +347,9 @@ Plot_Multi_SDS_Colour_Rendering_Indexes_Bars.png
     settings: Dict[str, Any] = dict(kwargs)
     settings.update({"show": False})
 
-    specifications = cast(
-        List[ColourRendering_Specification_CRI],
-        [colour_rendering_index(sd, additional_data=True) for sd in sds_converted],
-    )
+    specifications = [
+        colour_rendering_index(sd, additional_data=True) for sd in sds_converted
+    ]
 
     # *colour rendering index* colorimetry data tristimulus values are
     # computed in [0, 100] domain however `plot_colour_quality_bars` expects
@@ -487,10 +485,7 @@ Plot_Multi_SDS_Colour_Quality_Scales_Bars.png
     settings: Dict[str, Any] = dict(kwargs)
     settings.update({"show": False})
 
-    specifications = cast(
-        List[ColourRendering_Specification_CQS],
-        [colour_quality_scale(sd, True, method) for sd in sds_converted],
-    )
+    specifications = [colour_quality_scale(sd, True, method) for sd in sds_converted]
 
     _figure, axes = plot_colour_quality_bars(specifications, **settings)
 

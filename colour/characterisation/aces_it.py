@@ -87,6 +87,7 @@ if typing.TYPE_CHECKING:
         Any,
         ArrayLike,
         Callable,
+        Literal,
         LiteralChromaticAdaptationTransform,
         Mapping,
         NDArrayFloat,
@@ -939,6 +940,50 @@ finaliser_function at 0x...>)
         XYZ_to_optimization_colour_model,
         finaliser_function,
     )
+
+
+@typing.overload
+def matrix_idt(
+    sensitivities: RGB_CameraSensitivities,
+    illuminant: SpectralDistribution,
+    training_data: MultiSpectralDistributions | None = ...,
+    cmfs: MultiSpectralDistributions | None = ...,
+    optimisation_factory: Callable = ...,
+    optimisation_kwargs: dict | None = ...,
+    chromatic_adaptation_transform: (
+        LiteralChromaticAdaptationTransform | str | None
+    ) = ...,
+    additional_data: Literal[True] = True,
+) -> Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat, NDArrayFloat]: ...
+
+
+@typing.overload
+def matrix_idt(
+    sensitivities: ...,
+    illuminant: ...,
+    training_data: MultiSpectralDistributions | None = ...,
+    cmfs: MultiSpectralDistributions | None = ...,
+    optimisation_factory: Callable = ...,
+    optimisation_kwargs: dict | None = ...,
+    chromatic_adaptation_transform: (
+        LiteralChromaticAdaptationTransform | str | None
+    ) = ...,
+    *,
+    additional_data: Literal[False],
+) -> Tuple[NDArrayFloat, NDArrayFloat]: ...
+
+
+@typing.overload
+def matrix_idt(
+    sensitivities: RGB_CameraSensitivities,
+    illuminant: SpectralDistribution,
+    training_data: MultiSpectralDistributions | None,
+    cmfs: MultiSpectralDistributions | None,
+    optimisation_factory: Callable,
+    optimisation_kwargs: dict | None,
+    chromatic_adaptation_transform: (LiteralChromaticAdaptationTransform | str | None),
+    additional_data: Literal[False],
+) -> Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat, NDArrayFloat]: ...
 
 
 def matrix_idt(

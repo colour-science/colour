@@ -16,9 +16,8 @@ from colour.colorimetry import (
     sds_and_msds_to_msds,
 )
 from colour.constants import CONSTANT_LIGHT_SPEED, TOLERANCE_ABSOLUTE_TESTS
-from colour.hints import NDArrayFloat, Tuple, cast
+from colour.hints import NDArrayFloat, cast
 from colour.io import (
-    ComponentsFichet2021,
     Specification_Fichet2021,
     read_spectral_image_Fichet2021,
     sd_to_spectrum_attribute_Fichet2021,
@@ -296,7 +295,7 @@ class TestComponentsToSRGBFichet2021:
 def _test_spectral_image_D65(path: str) -> None:
     """Test the *D65* spectral image."""
 
-    components = cast(ComponentsFichet2021, read_spectral_image_Fichet2021(path))
+    components = read_spectral_image_Fichet2021(path, additional_data=False)
 
     assert "S0" in components
 
@@ -312,11 +311,8 @@ def _test_spectral_image_D65(path: str) -> None:
         atol=0.05,
     )
 
-    components, specification = cast(
-        Tuple[ComponentsFichet2021, Specification_Fichet2021],
-        read_spectral_image_Fichet2021(
-            os.path.join(ROOT_RESOURCES, "D65.exr"), additional_data=True
-        ),
+    components, specification = read_spectral_image_Fichet2021(
+        os.path.join(ROOT_RESOURCES, "D65.exr"), additional_data=True
     )
 
     assert specification.is_emissive is True
@@ -357,9 +353,8 @@ def _test_spectral_image_D65(path: str) -> None:
 def _test_spectral_image_Ohta1997(path: str) -> None:
     """Test the *Ohta (1997)* spectral image."""
 
-    components, specification = cast(
-        Tuple[ComponentsFichet2021, Specification_Fichet2021],
-        read_spectral_image_Fichet2021(path, additional_data=True),
+    components, specification = read_spectral_image_Fichet2021(
+        path, additional_data=True
     )
 
     assert "T" in components
@@ -391,9 +386,8 @@ def _test_spectral_image_Ohta1997(path: str) -> None:
 def _test_spectral_image_Polarised(path: str) -> None:
     """Test the *Polarised* spectral image."""
 
-    components, specification = cast(
-        Tuple[ComponentsFichet2021, Specification_Fichet2021],
-        read_spectral_image_Fichet2021(path, additional_data=True),
+    components, specification = read_spectral_image_Fichet2021(
+        path, additional_data=True
     )
 
     assert list(components.keys()) == ["S0", "S1", "S2", "S3"]
@@ -406,9 +400,8 @@ def _test_spectral_image_Polarised(path: str) -> None:
 def _test_spectral_image_BiSpectral(path: str) -> None:
     """Test the *Bi-Spectral* image."""
 
-    components, specification = cast(
-        Tuple[ComponentsFichet2021, Specification_Fichet2021],
-        read_spectral_image_Fichet2021(path, additional_data=True),
+    components, specification = read_spectral_image_Fichet2021(
+        path, additional_data=True
     )
 
     assert list(components.keys()) == [
@@ -531,11 +524,8 @@ class TestWriteSpectralImageFichet2021:
             ("Polarised.exr", _test_spectral_image_Polarised),
             ("BiSpectral.exr", _test_spectral_image_BiSpectral),
         ]:
-            components, specification = cast(
-                Tuple[ComponentsFichet2021, Specification_Fichet2021],
-                read_spectral_image_Fichet2021(
-                    os.path.join(ROOT_RESOURCES, basename), additional_data=True
-                ),
+            components, specification = read_spectral_image_Fichet2021(
+                os.path.join(ROOT_RESOURCES, basename), additional_data=True
             )
             path = os.path.join(self._temporary_directory, basename)
             write_spectral_image_Fichet2021(components, path, "float16", specification)

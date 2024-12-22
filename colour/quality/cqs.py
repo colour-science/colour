@@ -174,6 +174,31 @@ References
 """
 
 
+@typing.overload
+def colour_quality_scale(
+    sd_test: SpectralDistribution,
+    *,
+    additional_data: Literal[False],
+    method: Literal["NIST CQS 7.4", "NIST CQS 9.0"] | str = ...,
+) -> float: ...
+
+
+@typing.overload
+def colour_quality_scale(
+    sd_test: SpectralDistribution,
+    additional_data: Literal[True] = True,
+    method: Literal["NIST CQS 7.4", "NIST CQS 9.0"] | str = ...,
+) -> ColourRendering_Specification_CQS: ...
+
+
+@typing.overload
+def colour_quality_scale(
+    sd_test: SpectralDistribution,
+    additional_data: Literal[False],
+    method: Literal["NIST CQS 7.4", "NIST CQS 9.0"] | str = ...,
+) -> float: ...
+
+
 def colour_quality_scale(
     sd_test: SpectralDistribution,
     additional_data: bool = False,

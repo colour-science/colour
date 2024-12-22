@@ -6,7 +6,6 @@ import numpy as np
 
 from colour.colorimetry import SDS_ILLUMINANTS, SpectralDistribution
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.hints import cast
 from colour.quality import ColourRendering_Specification_CRI, colour_rendering_index
 from colour.quality.cri import DataColorimetry_TCS, DataColourQualityScale_TCS
 
@@ -116,25 +115,27 @@ class TestColourRenderingIndex:
         """Test :func:`colour.quality.cri.colour_rendering_index` definition."""
 
         np.testing.assert_allclose(
-            cast(float, colour_rendering_index(SDS_ILLUMINANTS["FL1"])),
+            colour_rendering_index(SDS_ILLUMINANTS["FL1"], additional_data=False),
             75.852827992149358,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            cast(float, colour_rendering_index(SDS_ILLUMINANTS["FL2"])),
+            colour_rendering_index(SDS_ILLUMINANTS["FL2"], additional_data=False),
             64.233724121664778,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            cast(float, colour_rendering_index(SDS_ILLUMINANTS["A"])),
+            colour_rendering_index(SDS_ILLUMINANTS["A"], additional_data=False),
             99.996230290506887,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            cast(float, colour_rendering_index(SpectralDistribution(DATA_SAMPLE))),
+            colour_rendering_index(
+                SpectralDistribution(DATA_SAMPLE), additional_data=False
+            ),
             70.815265381660197,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -334,9 +335,8 @@ class TestColourRenderingIndex:
             ),
         )
 
-        specification_t = cast(
-            ColourRendering_Specification_CRI,
-            colour_rendering_index(SDS_ILLUMINANTS["FL1"], additional_data=True),
+        specification_t = colour_rendering_index(
+            SDS_ILLUMINANTS["FL1"], additional_data=True
         )
 
         np.testing.assert_allclose(

@@ -6,7 +6,6 @@ import numpy as np
 
 from colour.colorimetry import SDS_ILLUMINANTS, SDS_LIGHT_SOURCES
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.hints import cast
 from colour.quality import ColourRendering_Specification_CQS, colour_quality_scale
 from colour.quality.cqs import DataColorimetry_VS, DataColourQualityScale_VS
 
@@ -32,71 +31,64 @@ class TestColourQualityScale:
         """Test :func:`colour.quality.cqs.colour_quality_scale` definition."""
 
         np.testing.assert_allclose(
-            cast(float, colour_quality_scale(SDS_ILLUMINANTS["FL1"])),
+            colour_quality_scale(SDS_ILLUMINANTS["FL1"], additional_data=False),
             74.982585798279914,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            cast(
-                float,
-                colour_quality_scale(SDS_ILLUMINANTS["FL1"], method="NIST CQS 7.4"),
+            colour_quality_scale(
+                SDS_ILLUMINANTS["FL1"], additional_data=False, method="NIST CQS 7.4"
             ),
             75.377089740493361,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            cast(float, colour_quality_scale(SDS_ILLUMINANTS["FL2"])),
+            colour_quality_scale(SDS_ILLUMINANTS["FL2"], additional_data=False),
             64.111822015662852,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            cast(
-                float,
-                colour_quality_scale(SDS_ILLUMINANTS["FL2"], method="NIST CQS 7.4"),
+            colour_quality_scale(
+                SDS_ILLUMINANTS["FL2"], additional_data=False, method="NIST CQS 7.4"
             ),
             64.774586908581369,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            cast(
-                float, colour_quality_scale(SDS_LIGHT_SOURCES["Neodimium Incandescent"])
+            colour_quality_scale(
+                SDS_LIGHT_SOURCES["Neodimium Incandescent"], additional_data=False
             ),
             89.737456186836681,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            cast(
-                float,
-                colour_quality_scale(
-                    SDS_LIGHT_SOURCES["Neodimium Incandescent"],
-                    method="NIST CQS 7.4",
-                ),
+            colour_quality_scale(
+                SDS_LIGHT_SOURCES["Neodimium Incandescent"],
+                additional_data=False,
+                method="NIST CQS 7.4",
             ),
             87.700300087538821,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            cast(
-                float,
-                colour_quality_scale(SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"]),
+            colour_quality_scale(
+                SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"], additional_data=False
             ),
             84.934928463428903,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            cast(
-                float,
-                colour_quality_scale(
-                    SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"],
-                    method="NIST CQS 7.4",
-                ),
+            colour_quality_scale(
+                SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"],
+                additional_data=False,
+                method="NIST CQS 7.4",
             ),
             83.255457439460713,
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -404,11 +396,8 @@ class TestColourQualityScale:
             ),
         )
 
-        specification_t = cast(
-            ColourRendering_Specification_CQS,
-            colour_quality_scale(
-                SDS_ILLUMINANTS["FL1"], additional_data=True, method="NIST CQS 7.4"
-            ),
+        specification_t = colour_quality_scale(
+            SDS_ILLUMINANTS["FL1"], additional_data=True, method="NIST CQS 7.4"
         )
 
         np.testing.assert_allclose(
@@ -719,11 +708,8 @@ class TestColourQualityScale:
             ),
         )
 
-        specification_t = cast(
-            ColourRendering_Specification_CQS,
-            colour_quality_scale(
-                SDS_ILLUMINANTS["FL1"], additional_data=True, method="NIST CQS 9.0"
-            ),
+        specification_t = colour_quality_scale(
+            SDS_ILLUMINANTS["FL1"], additional_data=True, method="NIST CQS 9.0"
         )
 
         np.testing.assert_allclose(
