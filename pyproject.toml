@@ -154,6 +154,7 @@ select = [
     "ANN", # flake8-annotations
     "ASYNC", # flake8-async
     "B", # flake8-bugbear
+    # "C", # Pylint - Convention
     "BLE", # flake8-blind-except
     "C4", # flake8-comprehensions
     # "C90", # mccabe
@@ -161,11 +162,12 @@ select = [
     "CPY", # flake8-copyright
     "DTZ", # flake8-datetimez
     "D", # pydocstyle
-    "E", # pydocstyle
+    "E", # Pylint - Error
     # "ERA", # eradicate
     "EM", # flake8-errmsg
     "EXE", # flake8-executable
     "F", # flake8
+    # "FIX", # flake8-fixme
     "FA", # flake8-future-annotations
     # "FBT", # flake8-boolean-trap
     "G", # flake8-logging-format
@@ -194,10 +196,11 @@ select = [
     "T10", # flake8-debugger
     "T20", # flake8-print
     "TC", # flake8-type-checking
+    # "TD", # flake8-todos
     "TID", # flake8-tidy-imports
     "TRY", # tryceratops
     "UP", # pyupgrade
-    "W", # pydocstyle
+    "W", # Pylint - Warning
     "YTT", # flake8-2020
 ]
 ignore = [
