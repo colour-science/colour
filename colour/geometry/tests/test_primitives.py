@@ -5,11 +5,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.geometry import (
-    MAPPING_PLANE_TO_AXIS,
-    primitive_cube,
-    primitive_grid,
-)
+from colour.geometry import MAPPING_PLANE_TO_AXIS, primitive_cube, primitive_grid
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

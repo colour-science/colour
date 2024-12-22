@@ -72,9 +72,7 @@ from colour.models.rgb.transfer_functions import (
     oetf_inverse_ARIBSTDB67,
     oetf_inverse_BT709,
 )
-from colour.models.rgb.transfer_functions.arib_std_b67 import (
-    CONSTANTS_ARIBSTDB67,
-)
+from colour.models.rgb.transfer_functions.arib_std_b67 import CONSTANTS_ARIBSTDB67
 from colour.utilities import (
     CanonicalMapping,
     Structure,

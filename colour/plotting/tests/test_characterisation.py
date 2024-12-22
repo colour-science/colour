@@ -5,10 +5,7 @@ from __future__ import annotations
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
-from colour.plotting import (
-    plot_multi_colour_checkers,
-    plot_single_colour_checker,
-)
+from colour.plotting import plot_multi_colour_checkers, plot_single_colour_checker
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

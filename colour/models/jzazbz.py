@@ -32,10 +32,7 @@ from colour.algebra import vecmul
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Literal, NDArrayFloat
 
-from colour.models.rgb.transfer_functions import (
-    eotf_inverse_ST2084,
-    eotf_ST2084,
-)
+from colour.models.rgb.transfer_functions import eotf_inverse_ST2084, eotf_ST2084
 from colour.models.rgb.transfer_functions.st_2084 import CONSTANTS_ST2084
 from colour.utilities import (
     Structure,
@@ -46,10 +43,7 @@ from colour.utilities import (
     tstack,
     validate_method,
 )
-from colour.utilities.documentation import (
-    DocstringTuple,
-    is_documentation_building,
-)
+from colour.utilities.documentation import DocstringTuple, is_documentation_building
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

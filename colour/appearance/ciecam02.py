@@ -69,10 +69,7 @@ from colour.utilities import (
     tstack,
     zeros,
 )
-from colour.utilities.documentation import (
-    DocstringDict,
-    is_documentation_building,
-)
+from colour.utilities.documentation import DocstringDict, is_documentation_building
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

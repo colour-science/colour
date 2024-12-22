@@ -11,10 +11,7 @@ from colour.colorimetry import (
     yellowness_ASTME313,
     yellowness_ASTME313_alternative,
 )
-from colour.colorimetry.yellowness import (
-    YELLOWNESS_COEFFICIENTS_ASTME313,
-    yellowness,
-)
+from colour.colorimetry.yellowness import YELLOWNESS_COEFFICIENTS_ASTME313, yellowness
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 

@@ -23,11 +23,7 @@ from colour.colorimetry import CCS_ILLUMINANTS
 if typing.TYPE_CHECKING:
     from colour.hints import NDArrayFloat
 
-from colour.models.rgb import (
-    RGB_Colourspace,
-    log_decoding_VLog,
-    log_encoding_VLog,
-)
+from colour.models.rgb import RGB_Colourspace, log_decoding_VLog, log_encoding_VLog
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

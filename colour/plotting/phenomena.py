@@ -19,10 +19,7 @@ if typing.TYPE_CHECKING:
     from matplotlib.axes import Axes
 
 from colour.algebra import normalise_maximum
-from colour.colorimetry import (
-    MultiSpectralDistributions,
-    sd_to_XYZ,
-)
+from colour.colorimetry import MultiSpectralDistributions, sd_to_XYZ
 
 if typing.TYPE_CHECKING:
     from colour.hints import Any, ArrayLike, Dict, Sequence, Tuple

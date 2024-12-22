@@ -8,11 +8,7 @@ import numpy as np
 
 from colour.appearance import XYZ_to_Nayatani95
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.utilities import (
-    as_float_array,
-    domain_range_scale,
-    ignore_numpy_errors,
-)
+from colour.utilities import as_float_array, domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

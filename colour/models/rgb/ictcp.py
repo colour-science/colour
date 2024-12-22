@@ -49,11 +49,7 @@ from colour.models.rgb.transfer_functions import (
     oetf_BT2100_HLG,
     oetf_inverse_BT2100_HLG,
 )
-from colour.utilities import (
-    as_float_array,
-    domain_range_scale,
-    validate_method,
-)
+from colour.utilities import as_float_array, domain_range_scale, validate_method
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

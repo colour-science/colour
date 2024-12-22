@@ -115,20 +115,15 @@ from colour.plotting.models import (
     plot_RGB_colourspaces_in_chromaticity_diagram,
 )
 from colour.plotting.quality import plot_colour_quality_bars
-from colour.plotting.section import (
-    plot_hull_section_colours,
-    plot_hull_section_contour,
-)
+from colour.plotting.section import plot_hull_section_colours, plot_hull_section_contour
 from colour.plotting.temperature import (
     plot_daylight_locus,
     plot_planckian_locus,
     plot_planckian_locus_in_chromaticity_diagram,
 )
 from colour.quality import colour_quality_scale
-from colour.utilities import (  # ; noqa: RUF100
-    domain_range_scale,
-    filter_warnings,
-)
+from colour.utilities import domain_range_scale  # ; noqa: RUF100
+from colour.utilities import filter_warnings
 
 __copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"

@@ -50,9 +50,7 @@ if typing.TYPE_CHECKING:
         NDArrayFloat,
     )
 
-from colour.hints import (
-    cast,
-)
+from colour.hints import cast
 from colour.utilities import (
     as_float,
     as_float_array,

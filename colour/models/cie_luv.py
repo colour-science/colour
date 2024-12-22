@@ -35,11 +35,7 @@ import typing
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode
-from colour.colorimetry import (
-    CCS_ILLUMINANTS,
-    lightness_CIE1976,
-    luminance_CIE1976,
-)
+from colour.colorimetry import CCS_ILLUMINANTS, lightness_CIE1976, luminance_CIE1976
 
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat

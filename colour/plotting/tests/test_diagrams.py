@@ -6,12 +6,7 @@ import pytest
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
-from colour.colorimetry import (
-    MSDS_CMFS,
-    SDS_ILLUMINANTS,
-    SpectralShape,
-    reshape_msds,
-)
+from colour.colorimetry import MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape, reshape_msds
 from colour.plotting import (
     lines_spectral_locus,
     plot_chromaticity_diagram_CIE1931,

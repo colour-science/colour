@@ -5,11 +5,7 @@ import os
 import numpy as np
 
 import colour
-from colour.plotting import (
-    colour_style,
-    plot_cvd_simulation_Machado2009,
-    plot_image,
-)
+from colour.plotting import colour_style, plot_cvd_simulation_Machado2009, plot_image
 from colour.utilities.verbose import message_box
 
 ROOT_RESOURCES = os.path.join(os.path.dirname(__file__), "resources")

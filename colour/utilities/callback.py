@@ -11,7 +11,7 @@ import typing
 from collections import defaultdict
 from dataclasses import dataclass
 
-if typing.TYPE_CHECKING:  # pragma: no cover
+if typing.TYPE_CHECKING:
     from colour.hints import Any, Callable, List
 
 __author__ = "Colour Developers"

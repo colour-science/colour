@@ -7,10 +7,7 @@ import numpy as np
 from colour.colorimetry import SDS_ILLUMINANTS, SpectralDistribution
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.hints import cast
-from colour.quality import (
-    ColourRendering_Specification_CRI,
-    colour_rendering_index,
-)
+from colour.quality import ColourRendering_Specification_CRI, colour_rendering_index
 from colour.quality.cri import DataColorimetry_TCS, DataColourQualityScale_TCS
 
 __author__ = "Colour Developers"

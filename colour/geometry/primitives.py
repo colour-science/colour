@@ -36,10 +36,7 @@ if typing.TYPE_CHECKING:
         Type,
     )
 
-from colour.hints import (
-    NDArrayFloat,
-    cast,
-)
+from colour.hints import NDArrayFloat, cast
 from colour.utilities import (
     CanonicalMapping,
     as_int_array,

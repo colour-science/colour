@@ -2,11 +2,7 @@
 
 import numpy as np
 
-from colour.plotting import (
-    colour_style,
-    plot_RGB_colourspaces_gamuts,
-    plot_RGB_scatter,
-)
+from colour.plotting import colour_style, plot_RGB_colourspaces_gamuts, plot_RGB_scatter
 from colour.utilities import message_box
 
 message_box("Colour Models Volume and Gamut Plots")

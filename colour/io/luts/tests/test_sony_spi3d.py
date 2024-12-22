@@ -9,12 +9,7 @@ import tempfile
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.io import (
-    LUT3D,
-    LUTSequence,
-    read_LUT_SonySPI3D,
-    write_LUT_SonySPI3D,
-)
+from colour.io import LUT3D, LUTSequence, read_LUT_SonySPI3D, write_LUT_SonySPI3D
 from colour.utilities import as_int_array
 
 __author__ = "Colour Developers"

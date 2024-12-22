@@ -7,12 +7,7 @@ from itertools import product
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.models import (
-    LMS_to_Yrg,
-    XYZ_to_Yrg,
-    Yrg_to_LMS,
-    Yrg_to_XYZ,
-)
+from colour.models import LMS_to_Yrg, XYZ_to_Yrg, Yrg_to_LMS, Yrg_to_XYZ
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"

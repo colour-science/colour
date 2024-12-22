@@ -79,12 +79,7 @@ if typing.TYPE_CHECKING:
         Tuple,
     )
 
-from colour.hints import (
-    ArrayLike,
-    List,
-    TypedDict,
-    cast,
-)
+from colour.hints import ArrayLike, List, TypedDict, cast
 from colour.models import RGB_COLOURSPACES, RGB_Colourspace, XYZ_to_RGB
 from colour.utilities import (
     CanonicalMapping,

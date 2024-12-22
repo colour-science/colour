@@ -18,11 +18,7 @@ if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Literal, NDArrayFloat
 
 from colour.models import xyY_to_XYZ
-from colour.utilities import (
-    CACHE_REGISTRY,
-    is_caching_enabled,
-    validate_method,
-)
+from colour.utilities import CACHE_REGISTRY, is_caching_enabled, validate_method
 from colour.volume import OPTIMAL_COLOUR_STIMULI_ILLUMINANTS
 
 __author__ = "Colour Developers"

@@ -20,11 +20,7 @@ from colour.colorimetry import CCS_ILLUMINANTS, SpectralDistribution
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
-from colour.models import (
-    RGB_Colourspace,
-    RGB_COLOURSPACE_sRGB,
-    XYZ_to_RGB,
-)
+from colour.models import RGB_Colourspace, RGB_COLOURSPACE_sRGB, XYZ_to_RGB
 from colour.recovery import SDS_SMITS1999
 from colour.utilities import to_domain_1
 

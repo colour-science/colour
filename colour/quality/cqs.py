@@ -52,29 +52,13 @@ if typing.TYPE_CHECKING:
         Tuple,
     )
 
-from colour.hints import (
-    cast,
-)
+from colour.hints import cast
 from colour.models import Lab_to_LCHab  # pyright: ignore
-from colour.models import (
-    UCS_to_uv,
-    XYZ_to_Lab,
-    XYZ_to_UCS,
-    XYZ_to_xy,
-    xy_to_XYZ,
-)
+from colour.models import UCS_to_uv, XYZ_to_Lab, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ
 from colour.quality.datasets.vs import INDEXES_TO_NAMES_VS, SDS_VS
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
-from colour.utilities import (
-    as_float_array,
-    domain_range_scale,
-    tsplit,
-    validate_method,
-)
-from colour.utilities.documentation import (
-    DocstringTuple,
-    is_documentation_building,
-)
+from colour.utilities import as_float_array, domain_range_scale, tsplit, validate_method
+from colour.utilities.documentation import DocstringTuple, is_documentation_building
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

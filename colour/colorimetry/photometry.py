@@ -17,11 +17,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.colorimetry import (
-    SDS_LEFS_PHOTOPIC,
-    SpectralDistribution,
-    reshape_sd,
-)
+from colour.colorimetry import SDS_LEFS_PHOTOPIC, SpectralDistribution, reshape_sd
 from colour.constants import CONSTANT_K_M
 from colour.utilities import as_float_scalar, optional
 

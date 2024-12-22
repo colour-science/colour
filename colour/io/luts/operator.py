@@ -26,14 +26,7 @@ if typing.TYPE_CHECKING:
         Sequence,
     )
 
-from colour.utilities import (
-    as_float_array,
-    attest,
-    is_iterable,
-    ones,
-    optional,
-    zeros,
-)
+from colour.utilities import as_float_array, attest, is_iterable, ones, optional, zeros
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

@@ -30,10 +30,7 @@ from dataclasses import astuple, dataclass, field
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode, spow, vecmul
-from colour.appearance.cam16 import (
-    MATRIX_16,
-    MATRIX_INVERSE_16,
-)
+from colour.appearance.cam16 import MATRIX_16, MATRIX_INVERSE_16
 from colour.appearance.ciecam02 import (
     VIEWING_CONDITIONS_CIECAM02,
     InductionFactors_CIECAM02,

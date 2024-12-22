@@ -7,11 +7,7 @@ import pytest
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.geometry import hull_section, primitive_cube
-from colour.geometry.section import (
-    close_chord,
-    edges_to_chord,
-    unique_vertices,
-)
+from colour.geometry.section import close_chord, edges_to_chord, unique_vertices
 from colour.utilities import is_trimesh_installed
 
 __author__ = "Colour Developers"

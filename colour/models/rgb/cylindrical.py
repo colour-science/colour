@@ -57,13 +57,7 @@ if typing.TYPE_CHECKING:
     from colour.hints import NDArrayFloat
 
 from colour.hints import ArrayLike, cast
-from colour.utilities import (
-    as_float_array,
-    from_range_1,
-    to_domain_1,
-    tsplit,
-    tstack,
-)
+from colour.utilities import as_float_array, from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

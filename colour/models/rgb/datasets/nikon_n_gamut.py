@@ -21,11 +21,7 @@ import typing
 if typing.TYPE_CHECKING:
     from colour.hints import NDArrayFloat
 
-from colour.models.rgb import (
-    RGB_Colourspace,
-    log_decoding_NLog,
-    log_encoding_NLog,
-)
+from colour.models.rgb import RGB_Colourspace, log_decoding_NLog, log_encoding_NLog
 from colour.models.rgb.datasets.itur_bt_2020 import (
     CCS_WHITEPOINT_BT2020,
     MATRIX_BT2020_TO_XYZ,

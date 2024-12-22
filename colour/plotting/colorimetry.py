@@ -41,12 +41,7 @@ if typing.TYPE_CHECKING:
     from matplotlib.figure import Figure
     from matplotlib.axes import Axes
 
-from colour.algebra import (
-    LinearInterpolator,
-    normalise_maximum,
-    sdiv,
-    sdiv_mode,
-)
+from colour.algebra import LinearInterpolator, normalise_maximum, sdiv, sdiv_mode
 from colour.colorimetry import (
     CCS_ILLUMINANTS,
     LIGHTNESS_METHODS,
@@ -71,10 +66,7 @@ if typing.TYPE_CHECKING:
         Tuple,
     )
 
-from colour.hints import (
-    List,
-    cast,
-)
+from colour.hints import List, cast
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
     XYZ_to_plotting_colourspace,

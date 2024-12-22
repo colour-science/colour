@@ -15,10 +15,7 @@ from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 if typing.TYPE_CHECKING:
     from colour.hints import Any
 
-from colour.io import (
-    SpectralDistribution_Sekonic,
-    SpectralDistribution_UPRTek,
-)
+from colour.io import SpectralDistribution_Sekonic, SpectralDistribution_UPRTek
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

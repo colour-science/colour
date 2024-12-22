@@ -24,10 +24,7 @@ if typing.TYPE_CHECKING:
     from colour.hints import NDArrayFloat, Tuple
 
 from colour.utilities import MixinDataclassIterable, as_float_array
-from colour.utilities.documentation import (
-    DocstringDict,
-    is_documentation_building,
-)
+from colour.utilities.documentation import DocstringDict, is_documentation_building
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

@@ -5,10 +5,7 @@ from __future__ import annotations
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
-from colour.plotting import (
-    plot_single_sd_rayleigh_scattering,
-    plot_the_blue_sky,
-)
+from colour.plotting import plot_single_sd_rayleigh_scattering, plot_the_blue_sky
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

@@ -43,14 +43,9 @@ if typing.TYPE_CHECKING:
         NDArrayFloat,
     )
 
-from colour.hints import (
-    cast,
-)
+from colour.hints import cast
 from colour.models import xy_to_xyY, xy_to_XYZ, xyY_to_XYZ
-from colour.models.rgb import (
-    chromatically_adapted_primaries,
-    normalised_primary_matrix,
-)
+from colour.models.rgb import chromatically_adapted_primaries, normalised_primary_matrix
 from colour.utilities import (
     as_float_array,
     attest,

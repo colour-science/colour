@@ -29,13 +29,7 @@ if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Literal
 
 from colour.hints import NDArrayFloat, cast
-from colour.utilities import (
-    CanonicalMapping,
-    ones,
-    tsplit,
-    tstack,
-    validate_method,
-)
+from colour.utilities import CanonicalMapping, ones, tsplit, tstack, validate_method
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

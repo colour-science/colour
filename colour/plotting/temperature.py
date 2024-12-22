@@ -47,13 +47,8 @@ if typing.TYPE_CHECKING:
         Tuple,
     )
 
-from colour.hints import (
-    cast,
-)
-from colour.models import (
-    UCS_uv_to_xy,
-    xy_to_XYZ,
-)
+from colour.hints import cast
+from colour.models import UCS_uv_to_xy, xy_to_XYZ
 from colour.plotting import (
     CONSTANTS_ARROW_STYLE,
     CONSTANTS_COLOUR_STYLE,

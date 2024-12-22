@@ -79,10 +79,7 @@ if typing.TYPE_CHECKING:
         Tuple,
     )
 
-from colour.hints import (
-    List,
-    cast,
-)
+from colour.hints import List, cast
 from colour.models import LCHab_to_Lab  # pyright: ignore
 from colour.models import (
     CCS_ILLUMINANT_POINTER_GAMUT,

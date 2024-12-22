@@ -55,10 +55,7 @@ if typing.TYPE_CHECKING:
         Sequence,
     )
 
-from colour.hints import (
-    Tuple,
-    cast,
-)
+from colour.hints import Tuple, cast
 from colour.models import (
     Luv_to_uv,
     Luv_uv_to_xy,

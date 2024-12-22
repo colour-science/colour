@@ -43,12 +43,7 @@ if typing.TYPE_CHECKING:
         NDArrayFloat,
     )
 
-from colour.utilities import (
-    CACHE_REGISTRY,
-    is_caching_enabled,
-    validate_method,
-    zeros,
-)
+from colour.utilities import CACHE_REGISTRY, is_caching_enabled, validate_method, zeros
 from colour.volume import is_within_mesh_volume
 
 __author__ = "Colour Developers"

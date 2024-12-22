@@ -1,10 +1,7 @@
 """Showcase *ANSI/IES TM-30-18 Colour Rendition Report* plotting examples."""
 
 import colour
-from colour.plotting import (
-    colour_style,
-    plot_single_sd_colour_rendition_report,
-)
+from colour.plotting import colour_style, plot_single_sd_colour_rendition_report
 from colour.utilities import message_box
 
 message_box("ANSI/IES TM-30-18 Colour Rendition Report")

@@ -16,17 +16,7 @@ import typing
 from abc import ABC, abstractmethod
 from copy import deepcopy
 from operator import pow  # noqa: A004
-from operator import (
-    add,
-    iadd,
-    imul,
-    ipow,
-    isub,
-    itruediv,
-    mul,
-    sub,
-    truediv,
-)
+from operator import add, iadd, imul, ipow, isub, itruediv, mul, sub, truediv
 
 import numpy as np
 from scipy.spatial import KDTree
@@ -49,10 +39,7 @@ if typing.TYPE_CHECKING:
         Type,
     )
 
-from colour.hints import (
-    List,
-    cast,
-)
+from colour.hints import List, cast
 from colour.utilities import (
     as_array,
     as_float_array,

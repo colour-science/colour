@@ -62,10 +62,7 @@ import numpy as np
 from scipy.optimize import minimize
 
 from colour.adaptation import matrix_chromatic_adaptation_VonKries
-from colour.algebra import (
-    euclidean_distance,
-    vecmul,
-)
+from colour.algebra import euclidean_distance, vecmul
 from colour.characterisation import (
     MSDS_ACES_RICD,
     RGB_CameraSensitivities,
@@ -98,13 +95,7 @@ if typing.TYPE_CHECKING:
 
 from colour.hints import cast
 from colour.io import read_sds_from_csv_file
-from colour.models import (
-    XYZ_to_Jzazbz,
-    XYZ_to_Lab,
-    XYZ_to_Oklab,
-    XYZ_to_xy,
-    xy_to_XYZ,
-)
+from colour.models import XYZ_to_Jzazbz, XYZ_to_Lab, XYZ_to_Oklab, XYZ_to_xy, xy_to_XYZ
 from colour.models.rgb import (
     RGB_COLOURSPACE_ACES2065_1,
     RGB_Colourspace,

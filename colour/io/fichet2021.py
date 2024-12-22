@@ -40,12 +40,7 @@ if typing.TYPE_CHECKING:
         Literal,
     )
 
-from colour.hints import (
-    Dict,
-    NDArrayFloat,
-    Sequence,
-    Tuple,
-)
+from colour.hints import Dict, NDArrayFloat, Sequence, Tuple
 from colour.io.image import (
     MAPPING_BIT_DEPTH,
     Image_Specification_Attribute,

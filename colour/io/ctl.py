@@ -29,16 +29,9 @@ if typing.TYPE_CHECKING:
         NDArrayFloat,
     )
 
-from colour.hints import (
-    Sequence,
-)
+from colour.hints import Sequence
 from colour.io import as_3_channels_image, read_image, write_image
-from colour.utilities import (
-    as_float,
-    as_float_array,
-    optional,
-    required,
-)
+from colour.utilities import as_float, as_float_array, optional, required
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

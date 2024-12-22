@@ -23,9 +23,7 @@ if typing.TYPE_CHECKING:
         Sequence,
     )
 
-from colour.hints import (
-    ProtocolLUTSequenceItem,
-)
+from colour.hints import ProtocolLUTSequenceItem
 from colour.utilities import as_float_array, attest, is_iterable
 
 __author__ = "Colour Developers"

@@ -29,12 +29,7 @@ if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
 from colour.models.rgb.transfer_functions import oetf_BT709, oetf_inverse_BT709
-from colour.utilities import (
-    as_float,
-    domain_range_scale,
-    from_range_1,
-    to_domain_1,
-)
+from colour.utilities import as_float, domain_range_scale, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

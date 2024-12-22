@@ -20,10 +20,7 @@ from mpl_toolkits.mplot3d.axes3d import Axes3D
 
 from colour.colorimetry import MultiSpectralDistributions
 from colour.constants import EPSILON
-from colour.geometry import (
-    primitive_vertices_cube_mpl,
-    primitive_vertices_grid_mpl,
-)
+from colour.geometry import primitive_vertices_cube_mpl, primitive_vertices_grid_mpl
 from colour.graph import convert
 
 if typing.TYPE_CHECKING:
@@ -36,12 +33,7 @@ if typing.TYPE_CHECKING:
         NDArrayFloat,
     )
 
-from colour.hints import (
-    List,
-    Sequence,
-    Tuple,
-    cast,
-)
+from colour.hints import List, Sequence, Tuple, cast
 from colour.models import RGB_Colourspace, RGB_to_XYZ
 from colour.models.common import COLOURSPACE_MODELS_AXIS_LABELS
 from colour.plotting import (

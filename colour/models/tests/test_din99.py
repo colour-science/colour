@@ -7,12 +7,7 @@ from itertools import product
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.models import (
-    DIN99_to_Lab,
-    DIN99_to_XYZ,
-    Lab_to_DIN99,
-    XYZ_to_DIN99,
-)
+from colour.models import DIN99_to_Lab, DIN99_to_XYZ, Lab_to_DIN99, XYZ_to_DIN99
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"

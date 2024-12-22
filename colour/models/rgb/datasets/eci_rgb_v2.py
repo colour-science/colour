@@ -20,11 +20,7 @@ from functools import partial
 
 import numpy as np
 
-from colour.colorimetry import (
-    CCS_ILLUMINANTS,
-    lightness_CIE1976,
-    luminance_CIE1976,
-)
+from colour.colorimetry import CCS_ILLUMINANTS, lightness_CIE1976, luminance_CIE1976
 
 if typing.TYPE_CHECKING:
     from colour.hints import (

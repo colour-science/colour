@@ -25,12 +25,7 @@ from colour.algebra import sdiv, sdiv_mode
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Literal, NDArrayFloat
 
-from colour.utilities import (
-    as_float,
-    as_float_array,
-    validate_method,
-    zeros,
-)
+from colour.utilities import as_float, as_float_array, validate_method, zeros
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

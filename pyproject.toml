@@ -148,68 +148,17 @@ filterwarnings = [
 [tool.ruff]
 target-version = "py310"
 line-length = 88
-select = [
-    "A", # flake8-builtins
-    "ARG", # flake8-unused-arguments
-    "ANN", # flake8-annotations
-    "ASYNC", # flake8-async
-    "B", # flake8-bugbear
-    # "C", # Pylint - Convention
-    "BLE", # flake8-blind-except
-    "C4", # flake8-comprehensions
-    # "C90", # mccabe
-    # "COM", # flake8-commas
-    "CPY", # flake8-copyright
-    "DTZ", # flake8-datetimez
-    "D", # pydocstyle
-    "DOC", # pydoclint
-    "E", # Pylint - Error
-    # "ERA", # eradicate
-    "EM", # flake8-errmsg
-    "EXE", # flake8-executable
-    "F", # flake8
-    # "FIX", # flake8-fixme
-    "FA", # flake8-future-annotations
-    # "FBT", # flake8-boolean-trap
-    "FLY", # flynt
-    "FURB", # Refurb
-    "G", # flake8-logging-format
-    "I", # isort
-    "ICN", # flake8-import-conventions
-    "INP", # flake8-no-pep420
-    "INT", # flake8-gettext
-    "ISC", # flake8-implicit-str-concat
-    "LOG", # flake8-logging
-    "N", # pep8-naming
-    "NPY", # Numpy
-    "PD", # pandas-vet
-    "PERF", # Perflint
-    "PIE", # flake8-pie
-    "PGH", # pygrep-hooks
-    "PL", # pylint
-    # "PT", # flake8-pytest-style
-    # "PTH", # flake8-use-pathlib [Enable]
-    "PYI", # flake8-pyi
-    "Q", # flake8-quotes
-    "R", # pylint-refactor
-    "RET", # flake8-return
-    "RSE", # flake8-raise
-    "RUF", # Ruff
-    "S", # flake8-bandit
-    "SLF", # flake8-self
-    "SLOT", # flake8-slots
-    "SIM", # flake8-simplify
-    "T10", # flake8-debugger
-    "T20", # flake8-print
-    "TC", # flake8-type-checking
-    # "TD", # flake8-todos
-    "TID", # flake8-tidy-imports
-    "TRY", # tryceratops
-    "UP", # pyupgrade
-    "W", # Pylint - Warning
-    "YTT", # flake8-2020
-]
+select = ["ALL"]
 ignore = [
+    "C", # Pylint - Convention
+    "C90", # mccabe
+    "COM", # flake8-commas
+    "ERA", # eradicate
+    "FBT", # flake8-boolean-trap
+    "FIX", # flake8-fixme
+    "PT", # flake8-pytest-style
+    "PTH", # flake8-use-pathlib [Enable]
+    "TD", # flake8-todos
     "ANN401", # Dynamically typed expressions (typing.Any) are disallowed in `**kwargs`
     "D200", # One-line docstring should fit on one line
     "D202", # No blank lines allowed after function docstring

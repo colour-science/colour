@@ -7,10 +7,7 @@ from itertools import product
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.notation.hexadecimal import (
-    HEX_to_RGB,
-    RGB_to_HEX,
-)
+from colour.notation.hexadecimal import HEX_to_RGB, RGB_to_HEX
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"

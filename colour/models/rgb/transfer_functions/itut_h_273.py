@@ -42,12 +42,7 @@ from colour.models.rgb.transfer_functions import (
     eotf_inverse_sRGB,
     eotf_sRGB,
 )
-from colour.utilities import (
-    as_float,
-    as_float_array,
-    from_range_1,
-    to_domain_1,
-)
+from colour.utilities import as_float, as_float_array, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

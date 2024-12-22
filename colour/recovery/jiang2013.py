@@ -41,9 +41,7 @@ if typing.TYPE_CHECKING:
         Tuple,
     )
 
-from colour.hints import (
-    cast,
-)
+from colour.hints import cast
 from colour.recovery import BASIS_FUNCTIONS_DYER2017
 from colour.utilities import as_float_array, optional, runtime_warning, tsplit
 

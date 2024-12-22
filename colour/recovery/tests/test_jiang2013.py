@@ -7,10 +7,7 @@ import platform
 import numpy as np
 import pytest
 
-from colour.characterisation import (
-    MSDS_CAMERA_SENSITIVITIES,
-    SDS_COLOURCHECKERS,
-)
+from colour.characterisation import MSDS_CAMERA_SENSITIVITIES, SDS_COLOURCHECKERS
 from colour.colorimetry import (
     SDS_ILLUMINANTS,
     SpectralDistribution,

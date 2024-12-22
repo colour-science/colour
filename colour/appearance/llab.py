@@ -32,13 +32,7 @@ from dataclasses import dataclass, field
 
 import numpy as np
 
-from colour.algebra import (
-    polar_to_cartesian,
-    sdiv,
-    sdiv_mode,
-    spow,
-    vecmul,
-)
+from colour.algebra import polar_to_cartesian, sdiv, sdiv_mode, spow, vecmul
 
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat

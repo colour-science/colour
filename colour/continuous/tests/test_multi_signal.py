@@ -8,11 +8,7 @@ import textwrap
 import numpy as np
 import pytest
 
-from colour.algebra import (
-    CubicSplineInterpolator,
-    Extrapolator,
-    KernelInterpolator,
-)
+from colour.algebra import CubicSplineInterpolator, Extrapolator, KernelInterpolator
 from colour.constants import DTYPE_FLOAT_DEFAULT, TOLERANCE_ABSOLUTE_TESTS
 from colour.continuous import MultiSignals, Signal
 from colour.utilities import (

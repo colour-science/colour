@@ -26,10 +26,7 @@ import typing
 import numpy as np
 
 from colour.algebra import euclidean_distance, sdiv, sdiv_mode
-from colour.colorimetry import (
-    MultiSpectralDistributions,
-    handle_spectral_arguments,
-)
+from colour.colorimetry import MultiSpectralDistributions, handle_spectral_arguments
 
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat

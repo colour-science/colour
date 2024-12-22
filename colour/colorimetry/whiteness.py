@@ -48,6 +48,7 @@ import typing
 
 if typing.TYPE_CHECKING:
     from colour.hints import Any, ArrayLike, Literal, NDArrayFloat
+
 from colour.utilities import (
     CanonicalMapping,
     as_float,

@@ -32,13 +32,7 @@ import numpy as np
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat, NDArrayReal
 
-from colour.utilities import (
-    Structure,
-    as_float,
-    as_int,
-    from_range_1,
-    to_domain_1,
-)
+from colour.utilities import Structure, as_float, as_int, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

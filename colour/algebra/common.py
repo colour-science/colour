@@ -24,13 +24,7 @@ if typing.TYPE_CHECKING:
     )
 
 from colour.hints import Literal, cast
-from colour.utilities import (
-    as_float,
-    as_float_array,
-    optional,
-    tsplit,
-    validate_method,
-)
+from colour.utilities import as_float, as_float_array, optional, tsplit, validate_method
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

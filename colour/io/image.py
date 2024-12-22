@@ -25,10 +25,7 @@ if typing.TYPE_CHECKING:
         Type,
     )
 
-from colour.hints import (
-    NDArrayReal,
-    cast,
-)
+from colour.hints import NDArrayReal, cast
 from colour.utilities import (
     CanonicalMapping,
     as_float_array,

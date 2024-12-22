@@ -9,11 +9,7 @@ import typing
 if typing.TYPE_CHECKING:
     from colour.hints import Any
 
-from colour.utilities.deprecation import (
-    ModuleAPI,
-    ObjectRemoved,
-    ObjectRenamed,
-)
+from colour.utilities.deprecation import ModuleAPI, ObjectRemoved, ObjectRenamed
 
 
 class deprecated(ModuleAPI):

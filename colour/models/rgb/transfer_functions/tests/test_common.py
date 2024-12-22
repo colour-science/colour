@@ -6,11 +6,7 @@ Define the unit tests for the
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.models.rgb.transfer_functions import (
-    CV_range,
-    full_to_legal,
-    legal_to_full,
-)
+from colour.models.rgb.transfer_functions import CV_range, full_to_legal, legal_to_full
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"

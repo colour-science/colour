@@ -22,11 +22,7 @@ if typing.TYPE_CHECKING:
     from colour.hints import Any, Callable, Dict, Sequence, Tuple
 
 from colour.notation import MUNSELL_VALUE_METHODS
-from colour.plotting import (
-    filter_passthrough,
-    override_style,
-    plot_multi_functions,
-)
+from colour.plotting import filter_passthrough, override_style, plot_multi_functions
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

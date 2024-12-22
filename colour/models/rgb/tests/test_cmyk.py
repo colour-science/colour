@@ -7,12 +7,7 @@ from itertools import product
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.models.rgb.cmyk import (
-    CMY_to_CMYK,
-    CMY_to_RGB,
-    CMYK_to_CMY,
-    RGB_to_CMY,
-)
+from colour.models.rgb.cmyk import CMY_to_CMYK, CMY_to_RGB, CMYK_to_CMY, RGB_to_CMY
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"

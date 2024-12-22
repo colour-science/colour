@@ -53,10 +53,7 @@ from colour.utilities import (
     to_domain_100,
     validate_method,
 )
-from colour.utilities.documentation import (
-    DocstringTuple,
-    is_documentation_building,
-)
+from colour.utilities.documentation import DocstringTuple, is_documentation_building
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

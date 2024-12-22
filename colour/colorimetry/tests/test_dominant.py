@@ -14,9 +14,7 @@ from colour.colorimetry import (
     dominant_wavelength,
     excitation_purity,
 )
-from colour.colorimetry.dominant import (
-    closest_spectral_locus_wavelength,
-)
+from colour.colorimetry.dominant import closest_spectral_locus_wavelength
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models import XYZ_to_xy
 from colour.utilities import ignore_numpy_errors

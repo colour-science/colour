@@ -206,7 +206,7 @@ class TestMixinDataclassIterable(unittest.TestCase):
         method.
         """
 
-        assert {key: value for key, value in self._data} == (  # noqa: C416
+        assert {key: value for key, value in self._data} == (
             {"a": "Foo", "b": "Bar", "c": "Baz"}
         )
 
@@ -669,10 +669,7 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
             CAM_Specification_Kim2009,
             CAM_Specification_ZCAM,
         )
-        from colour.graph.conversion import (
-            CONVERSION_SPECIFICATIONS_DATA,
-            convert,
-        )
+        from colour.graph.conversion import CONVERSION_SPECIFICATIONS_DATA, convert
 
         try:
             dtype = np.float32

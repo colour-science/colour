@@ -148,10 +148,7 @@ from colour.models.rgb.transfer_functions import (
     oetf_SMPTE240M,
 )
 from colour.utilities import message_box, multiline_str
-from colour.utilities.documentation import (
-    DocstringDict,
-    is_documentation_building,
-)
+from colour.utilities.documentation import DocstringDict, is_documentation_building
 
 __all__ = [
     "COLOUR_PRIMARIES_ITUTH273",

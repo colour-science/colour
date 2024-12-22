@@ -27,12 +27,7 @@ from colour.algebra import sdiv, sdiv_mode, vecmul
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
-from colour.utilities import (
-    from_range_1,
-    to_domain_1,
-    tsplit,
-    tstack,
-)
+from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

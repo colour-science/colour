@@ -8,10 +8,7 @@ from copy import deepcopy
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.models import (
-    RGB_COLOURSPACES,
-    normalised_primary_matrix,
-)
+from colour.models import RGB_COLOURSPACES, normalised_primary_matrix
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"

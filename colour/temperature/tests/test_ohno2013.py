@@ -14,9 +14,7 @@ from colour.temperature import (
     XYZ_to_CCT_Ohno2013,
     uv_to_CCT_Ohno2013,
 )
-from colour.temperature.ohno2013 import (
-    planckian_table,
-)
+from colour.temperature.ohno2013 import planckian_table
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"

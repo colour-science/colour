@@ -24,13 +24,7 @@ from colour.colorimetry import CCS_ILLUMINANTS
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
-from colour.models import (
-    UCS_uv_to_xy,
-    XYZ_to_xy,
-    xy_to_UCS_uv,
-    xyY_to_xy,
-    xyY_to_XYZ,
-)
+from colour.models import UCS_uv_to_xy, XYZ_to_xy, xy_to_UCS_uv, xyY_to_xy, xyY_to_XYZ
 from colour.utilities import from_range_100, to_domain_100, tsplit, tstack
 
 __author__ = "Colour Developers"

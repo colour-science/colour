@@ -1,9 +1,6 @@
 """Showcase corresponding chromaticities prediction plotting examples."""
 
-from colour.plotting import (
-    colour_style,
-    plot_corresponding_chromaticities_prediction,
-)
+from colour.plotting import colour_style, plot_corresponding_chromaticities_prediction
 from colour.utilities import message_box
 
 message_box("Corresponding Chromaticities Prediction Plots")

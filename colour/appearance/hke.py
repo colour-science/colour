@@ -34,12 +34,7 @@ from colour.algebra import spow
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Literal, NDArrayFloat
 
-from colour.utilities import (
-    CanonicalMapping,
-    as_float_array,
-    tsplit,
-    validate_method,
-)
+from colour.utilities import CanonicalMapping, as_float_array, tsplit, validate_method
 
 __author__ = "Ilia Sibiryakov"
 __copyright__ = "Copyright 2013 Colour Developers"

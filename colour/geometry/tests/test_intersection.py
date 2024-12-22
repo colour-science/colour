@@ -5,10 +5,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.geometry import (
-    extend_line_segment,
-    intersect_line_segments,
-)
+from colour.geometry import extend_line_segment, intersect_line_segments
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

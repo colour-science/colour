@@ -76,10 +76,7 @@ if typing.TYPE_CHECKING:
         Literal,
     )
 
-from colour.hints import (
-    NDArrayFloat,
-    cast,
-)
+from colour.hints import NDArrayFloat, cast
 from colour.models import (
     COLOURSPACE_MODELS_POLAR_CONVERSIONS,
     CAM02LCD_to_JMh_CIECAM02,

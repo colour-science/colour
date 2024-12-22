@@ -28,19 +28,9 @@ import typing
 import numpy as np
 import scipy.spatial.distance
 
-from colour.algebra import (
-    euclidean_distance,
-    sdiv,
-    sdiv_mode,
-)
-from colour.colorimetry import (
-    MultiSpectralDistributions,
-    handle_spectral_arguments,
-)
-from colour.geometry import (
-    extend_line_segment,
-    intersect_line_segments,
-)
+from colour.algebra import euclidean_distance, sdiv, sdiv_mode
+from colour.colorimetry import MultiSpectralDistributions, handle_spectral_arguments
+from colour.geometry import extend_line_segment, intersect_line_segments
 
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat, NDArrayInt, Tuple

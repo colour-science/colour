@@ -20,12 +20,7 @@ if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Literal, NDArrayFloat
 
 from colour.hints import List, cast
-from colour.utilities import (
-    as_float_array,
-    as_float_scalar,
-    required,
-    validate_method,
-)
+from colour.utilities import as_float_array, as_float_scalar, required, validate_method
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

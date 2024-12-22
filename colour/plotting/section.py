@@ -47,10 +47,7 @@ if typing.TYPE_CHECKING:
         Tuple,
     )
 
-from colour.hints import (
-    Real,
-    cast,
-)
+from colour.hints import Real, cast
 from colour.models import (
     COLOURSPACE_MODELS_AXIS_LABELS,
     COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE,

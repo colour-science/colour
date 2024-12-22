@@ -13,9 +13,7 @@ from colour.adaptation import (
     chromatic_adaptation_vK20,
     matrix_chromatic_adaptation_vk20,
 )
-from colour.adaptation.fairchild2020 import (
-    CONDITIONS_DEGREE_OF_ADAPTATION_VK20,
-)
+from colour.adaptation.fairchild2020 import CONDITIONS_DEGREE_OF_ADAPTATION_VK20
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 

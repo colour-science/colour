@@ -38,11 +38,7 @@ from colour.blindness import CVD_MATRICES_MACHADO2010
 if typing.TYPE_CHECKING:
     from colour.characterisation import RGB_DisplayPrimaries
 
-from colour.colorimetry import (
-    LMS_ConeFundamentals,
-    SpectralShape,
-    reshape_msds,
-)
+from colour.colorimetry import LMS_ConeFundamentals, SpectralShape, reshape_msds
 
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Literal, NDArrayFloat

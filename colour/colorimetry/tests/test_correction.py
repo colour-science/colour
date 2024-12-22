@@ -4,10 +4,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.colorimetry import (
-    SpectralDistribution,
-    bandpass_correction_Stearns1988,
-)
+from colour.colorimetry import SpectralDistribution, bandpass_correction_Stearns1988
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 
 __author__ = "Colour Developers"

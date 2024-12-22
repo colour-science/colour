@@ -13,10 +13,7 @@ import os
 import typing
 
 import colour
-from colour.graph import (
-    CONVERSION_GRAPH_NODE_LABELS,
-    describe_conversion_path,
-)
+from colour.graph import CONVERSION_GRAPH_NODE_LABELS, describe_conversion_path
 
 if typing.TYPE_CHECKING:
     from colour.hints import Literal

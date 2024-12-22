@@ -41,10 +41,7 @@ if typing.TYPE_CHECKING:
         Tuple,
     )
 
-from colour.hints import (
-    List,
-    cast,
-)
+from colour.hints import List, cast
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
     XYZ_to_plotting_colourspace,
