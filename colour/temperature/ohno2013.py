@@ -21,6 +21,8 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import euclidean_distance, sdiv, sdiv_mode
@@ -28,7 +30,10 @@ from colour.colorimetry import (
     MultiSpectralDistributions,
     handle_spectral_arguments,
 )
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.models import UCS_to_uv, UCS_to_XYZ, XYZ_to_UCS, uv_to_UCS
 from colour.temperature import CCT_to_uv_Planck1900
 from colour.utilities import (

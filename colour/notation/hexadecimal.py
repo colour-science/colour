@@ -10,10 +10,15 @@ Define the objects for hexadecimal notation:
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import normalise_maximum
-from colour.hints import ArrayLike, NDArrayFloat, NDArrayStr
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat, NDArrayStr
+
 from colour.models import eotf_inverse_sRGB, eotf_sRGB
 from colour.utilities import (
     as_float_array,

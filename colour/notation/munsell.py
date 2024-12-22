@@ -115,6 +115,7 @@ MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html
 from __future__ import annotations
 
 import re
+import typing
 
 import numpy as np
 
@@ -135,13 +136,18 @@ from colour.constants import (
     TOLERANCE_ABSOLUTE_DEFAULT,
     TOLERANCE_RELATIVE_DEFAULT,
 )
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Dict,
+        Literal,
+        NDArrayFloat,
+        NDArrayStr,
+        Tuple,
+    )
+
 from colour.hints import (
     ArrayLike,
-    Dict,
-    Literal,
-    NDArrayFloat,
-    NDArrayStr,
-    Tuple,
     cast,
 )
 from colour.models import Lab_to_LCHab  # pyright: ignore

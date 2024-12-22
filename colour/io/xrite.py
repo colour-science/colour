@@ -11,10 +11,15 @@ from __future__ import annotations
 
 import codecs
 import re
-from pathlib import Path
+import typing
+
+if typing.TYPE_CHECKING:
+    from pathlib import Path
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import Dict
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Dict
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

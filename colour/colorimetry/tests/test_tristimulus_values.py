@@ -11,6 +11,8 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 import pytest
 
@@ -42,7 +44,10 @@ from colour.colorimetry import (
     wavelength_to_XYZ,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.hints import NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
+
 from colour.utilities import domain_range_scale
 
 __author__ = "Colour Developers"

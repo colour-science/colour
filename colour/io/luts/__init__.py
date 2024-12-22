@@ -16,9 +16,15 @@ References
 from __future__ import annotations
 
 import os
-from pathlib import Path
 
-from colour.hints import Any, LiteralLUTReadMethod, LiteralLUTWriteMethod
+import typing
+
+if typing.TYPE_CHECKING:
+    from pathlib import Path
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, LiteralLUTReadMethod, LiteralLUTWriteMethod
+
 from colour.utilities import (
     CanonicalMapping,
     filter_kwargs,

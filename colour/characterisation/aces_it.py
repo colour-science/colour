@@ -56,6 +56,7 @@ References
 from __future__ import annotations
 
 import os
+import typing
 
 import numpy as np
 from scipy.optimize import minimize
@@ -83,16 +84,19 @@ from colour.colorimetry import (
     sd_to_XYZ,
     sds_and_msds_to_msds,
 )
-from colour.hints import (
-    Any,
-    ArrayLike,
-    Callable,
-    LiteralChromaticAdaptationTransform,
-    Mapping,
-    NDArrayFloat,
-    Tuple,
-    cast,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Callable,
+        LiteralChromaticAdaptationTransform,
+        Mapping,
+        NDArrayFloat,
+        Tuple,
+    )
+
+from colour.hints import cast
 from colour.io import read_sds_from_csv_file
 from colour.models import (
     XYZ_to_Jzazbz,

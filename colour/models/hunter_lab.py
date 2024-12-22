@@ -20,10 +20,15 @@ an02_02.pdf
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.colorimetry import TVS_ILLUMINANTS_HUNTERLAB
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.utilities import from_range_100, to_domain_100, tsplit, tstack
 
 __author__ = "Colour Developers"

@@ -28,17 +28,25 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import vecmul
 from colour.blindness import CVD_MATRICES_MACHADO2010
-from colour.characterisation import RGB_DisplayPrimaries
+
+if typing.TYPE_CHECKING:
+    from colour.characterisation import RGB_DisplayPrimaries
+
 from colour.colorimetry import (
     LMS_ConeFundamentals,
     SpectralShape,
     reshape_msds,
 )
-from colour.hints import ArrayLike, Literal, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, Literal, NDArrayFloat
+
 from colour.utilities import (
     as_float_array,
     as_int_scalar,

@@ -14,12 +14,16 @@ References
 
 from __future__ import annotations
 
+import typing
 from functools import partial
 
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
+
 from colour.models.rgb import RGB_Colourspace, gamma_function
 
 __author__ = "Colour Developers"

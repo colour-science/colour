@@ -10,18 +10,22 @@ Define the *LUT* operator classes:
 
 from __future__ import annotations
 
+import typing
 from abc import ABC, abstractmethod
 
 import numpy as np
 
 from colour.algebra import vecmul
-from colour.hints import (
-    Any,
-    ArrayLike,
-    List,
-    NDArrayFloat,
-    Sequence,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        List,
+        NDArrayFloat,
+        Sequence,
+    )
+
 from colour.utilities import (
     as_float_array,
     attest,

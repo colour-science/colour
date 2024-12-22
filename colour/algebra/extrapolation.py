@@ -18,20 +18,25 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import NullInterpolator, sdiv, sdiv_mode
 from colour.constants import DTYPE_FLOAT_DEFAULT
-from colour.hints import (
-    Any,
-    ArrayLike,
-    DTypeReal,
-    Literal,
-    NDArrayFloat,
-    ProtocolInterpolator,
-    Real,
-    Type,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        DTypeReal,
+        Literal,
+        NDArrayFloat,
+        ProtocolInterpolator,
+        Real,
+        Type,
+    )
+
 from colour.utilities import (
     as_float,
     as_float_array,

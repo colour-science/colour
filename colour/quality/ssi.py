@@ -16,12 +16,17 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 from scipy.ndimage import convolve1d
 
 from colour.algebra import LinearInterpolator, sdiv, sdiv_mode
 from colour.colorimetry import SpectralDistribution, SpectralShape, reshape_sd
-from colour.hints import NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
+
 from colour.utilities import zeros
 
 __author__ = "Colour Developers"

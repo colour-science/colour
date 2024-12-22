@@ -22,13 +22,17 @@ References
 
 from __future__ import annotations
 
+import typing
 from dataclasses import dataclass
 
 import numpy as np
 
 from colour.adaptation import CAT_CMCCAT2000
 from colour.algebra import vecmul
-from colour.hints import ArrayLike, Literal, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, Literal, NDArrayFloat
+
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassIterable,

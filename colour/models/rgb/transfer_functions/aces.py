@@ -49,9 +49,13 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
-from colour.hints import ArrayLike, Literal, NDArrayFloat, NDArrayInt
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, Literal, NDArrayFloat, NDArrayInt
+
 from colour.utilities import (
     Structure,
     as_float,

@@ -21,10 +21,15 @@ DCI_DCinema_System_Spec_v1_1.pdf
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import ArrayLike, NDArrayFloat, NDArrayReal
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat, NDArrayReal
+
 from colour.utilities import as_float, as_float_array, as_int
 
 __author__ = "Colour Developers"

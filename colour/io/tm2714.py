@@ -17,13 +17,17 @@ from __future__ import annotations
 
 import os
 import re
+import typing
 from dataclasses import dataclass, field
 from pathlib import Path
 from xml.dom import minidom
 from xml.etree import ElementTree as ET
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import Any, Callable, Literal
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, Callable, Literal
+
 from colour.utilities import (
     Structure,
     as_float_array,

@@ -9,30 +9,31 @@ Define the class implementing support for multi-continuous signals:
 
 from __future__ import annotations
 
+import typing
 from collections.abc import Iterator, KeysView, Mapping, ValuesView
 
 import numpy as np
 
 from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.continuous import AbstractContinuousFunction, Signal
-from colour.hints import (
-    TYPE_CHECKING,
-    Any,
-    ArrayLike,
-    Callable,
-    Dict,
-    DTypeFloat,
-    List,
-    Literal,
-    NDArrayFloat,
-    ProtocolExtrapolator,
-    ProtocolInterpolator,
-    Real,
-    Self,
-    Sequence,
-    Type,
-    cast,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        Dict,
+        DTypeFloat,
+        List,
+        Literal,
+        NDArrayFloat,
+        ProtocolExtrapolator,
+        ProtocolInterpolator,
+        Real,
+        Self,
+        Sequence,
+        Type,
+    )
+
+from colour.hints import ArrayLike, Callable, Sequence, cast
 from colour.utilities import (
     as_float_array,
     attest,
@@ -49,7 +50,7 @@ from colour.utilities import (
 )
 from colour.utilities.documentation import is_documentation_building
 
-if TYPE_CHECKING or is_pandas_installed():
+if typing.TYPE_CHECKING or is_pandas_installed():
     from pandas import DataFrame, Series  # pragma: no cover
 else:  # pragma: no cover
     from unittest import mock

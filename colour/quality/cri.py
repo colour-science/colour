@@ -17,6 +17,7 @@ usp=sharing
 
 from __future__ import annotations
 
+import typing
 from dataclasses import dataclass
 
 import numpy as np
@@ -33,7 +34,11 @@ from colour.colorimetry import (
     sd_CIE_illuminant_D_series,
     sd_to_XYZ,
 )
-from colour.hints import Dict, NDArrayFloat, Tuple, cast
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Dict, NDArrayFloat, Tuple
+
+from colour.hints import cast
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
 from colour.quality.datasets.tcs import INDEXES_TO_NAMES_TCS, SDS_TCS
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Robertson1968

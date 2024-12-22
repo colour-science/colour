@@ -19,10 +19,15 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import cartesian_to_polar, polar_to_cartesian, vecmul
-from colour.hints import ArrayLike, Callable, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, Callable, NDArrayFloat
+
 from colour.utilities import (
     CanonicalMapping,
     attest,

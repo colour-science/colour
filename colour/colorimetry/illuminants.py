@@ -26,6 +26,8 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import LinearInterpolator
@@ -36,7 +38,10 @@ from colour.colorimetry import (
     SpectralShape,
     reshape_sd,
 )
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.utilities import as_float, as_float_array, tsplit
 
 __author__ = "Colour Developers"

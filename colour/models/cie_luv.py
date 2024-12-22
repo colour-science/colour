@@ -30,6 +30,8 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode
@@ -38,7 +40,10 @@ from colour.colorimetry import (
     lightness_CIE1976,
     luminance_CIE1976,
 )
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import (
     domain_range_scale,

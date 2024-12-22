@@ -23,6 +23,8 @@ whitepaper_howtocalculateluminositywavelengthandpurity.pdf
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 import scipy.spatial.distance
 
@@ -39,7 +41,10 @@ from colour.geometry import (
     extend_line_segment,
     intersect_line_segments,
 )
-from colour.hints import ArrayLike, NDArrayFloat, NDArrayInt, Tuple
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat, NDArrayInt, Tuple
+
 from colour.models import XYZ_to_xy
 from colour.utilities import as_float_array
 

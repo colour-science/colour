@@ -10,10 +10,10 @@ imports.
 from __future__ import annotations
 
 import re
+import typing
 from collections.abc import Generator, Iterable, Iterator, Mapping, Sequence
 from types import ModuleType
 from typing import (  # noqa: UP035
-    TYPE_CHECKING,
     Any,
     Callable,
     ClassVar,
@@ -66,7 +66,6 @@ __all__ = [
     "Sequence",
     "Set",
     "SupportsIndex",
-    "TYPE_CHECKING",
     "TextIO",
     "Tuple",
     "Type",
@@ -668,7 +667,7 @@ del a, b, c, d, e, s_a, s_b, s_c
 # ----------------------------------------------------------------------------#
 # ---                API Changes and Deprecation Management                ---#
 # ----------------------------------------------------------------------------#
-if not TYPE_CHECKING:
+if not typing.TYPE_CHECKING:
     DTypeFloating = DTypeFloat
     DTypeInteger = DTypeInt
     DTypeNumber = DTypeReal

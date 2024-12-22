@@ -20,13 +20,17 @@ References
 
 from __future__ import annotations
 
+import typing
 from dataclasses import dataclass, field
 
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode, spow, vecmul
 from colour.appearance.hunt import MATRIX_XYZ_TO_HPE, XYZ_to_rgb
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArray,

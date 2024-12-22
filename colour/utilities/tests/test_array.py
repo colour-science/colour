@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import typing
 import unittest
 from copy import deepcopy
 from dataclasses import dataclass, field, fields
@@ -14,7 +15,10 @@ from colour.constants import (
     DTYPE_INT_DEFAULT,
     TOLERANCE_ABSOLUTE_TESTS,
 )
-from colour.hints import ArrayLike, DType, NDArray, NDArrayFloat, Type
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, DType, NDArray, NDArrayFloat, Type
+
 from colour.utilities import (
     MixinDataclassArithmetic,
     MixinDataclassArray,

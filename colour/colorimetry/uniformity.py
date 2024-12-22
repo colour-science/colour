@@ -15,7 +15,10 @@ References
 
 from __future__ import annotations
 
-from collections.abc import ValuesView
+import typing
+
+if typing.TYPE_CHECKING:
+    from collections.abc import ValuesView
 
 import numpy as np
 
@@ -24,7 +27,9 @@ from colour.colorimetry import (
     SpectralDistribution,
     sds_and_msds_to_msds,
 )
-from colour.hints import NDArrayFloat, Sequence
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat, Sequence
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

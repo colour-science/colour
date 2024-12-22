@@ -17,6 +17,8 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 from scipy.linalg import block_diag
 from scipy.optimize import Bounds, LinearConstraint, minimize
@@ -26,8 +28,11 @@ from colour.colorimetry import (
     SpectralDistribution,
     handle_spectral_arguments,
 )
-from colour.hints import ArrayLike, Callable
-from colour.models import RGB_Colourspace
+
+if typing.TYPE_CHECKING:
+    from colour.models import RGB_Colourspace
+    from colour.hints import ArrayLike, Callable
+
 from colour.recovery import MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019
 from colour.utilities import to_domain_1
 

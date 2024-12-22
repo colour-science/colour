@@ -27,6 +27,7 @@ References
 
 from __future__ import annotations
 
+import typing
 from collections.abc import KeysView, Mapping, ValuesView
 
 import numpy as np
@@ -40,24 +41,25 @@ from colour.algebra import (
 )
 from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.continuous import MultiSignals, Signal
-from colour.hints import (
-    TYPE_CHECKING,
-    Any,
-    ArrayLike,
-    DTypeFloat,
-    Generator,
-    List,
-    Literal,
-    NDArrayFloat,
-    ProtocolExtrapolator,
-    ProtocolInterpolator,
-    Real,
-    Self,
-    Sequence,
-    Type,
-    TypeVar,
-    cast,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        ArrayLike,
+        DTypeFloat,
+        Generator,
+        List,
+        Literal,
+        NDArrayFloat,
+        ProtocolExtrapolator,
+        ProtocolInterpolator,
+        Real,
+        Self,
+        Sequence,
+        Type,
+        TypeVar,
+    )
+
+from colour.hints import Any, TypeVar, cast
 from colour.utilities import (
     CACHE_REGISTRY,
     as_float_array,
@@ -77,7 +79,7 @@ from colour.utilities import (
     validate_method,
 )
 
-if TYPE_CHECKING or is_pandas_installed():
+if typing.TYPE_CHECKING or is_pandas_installed():
     from pandas import DataFrame, Series  # pragma: no cover
 else:  # pragma: no cover
     from unittest import mock

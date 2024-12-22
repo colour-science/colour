@@ -10,16 +10,21 @@ Define the *LUT* sequence class:
 from __future__ import annotations
 
 import re
+import typing
 from collections.abc import MutableSequence
 from copy import deepcopy
 
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        List,
+        NDArrayFloat,
+        Sequence,
+    )
+
 from colour.hints import (
-    Any,
-    ArrayLike,
-    List,
-    NDArrayFloat,
     ProtocolLUTSequenceItem,
-    Sequence,
 )
 from colour.utilities import as_float_array, attest, is_iterable
 

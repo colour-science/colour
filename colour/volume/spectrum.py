@@ -22,6 +22,8 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.colorimetry import (
@@ -32,12 +34,15 @@ from colour.colorimetry import (
     msds_to_XYZ,
 )
 from colour.constants import DTYPE_FLOAT_DEFAULT, EPSILON
-from colour.hints import (
-    Any,
-    ArrayLike,
-    Literal,
-    NDArrayFloat,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Literal,
+        NDArrayFloat,
+    )
+
 from colour.utilities import (
     CACHE_REGISTRY,
     is_caching_enabled,

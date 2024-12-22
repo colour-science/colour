@@ -36,6 +36,8 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import lagrange_coefficients, sdiv, sdiv_mode
@@ -47,15 +49,17 @@ from colour.colorimetry import (
     reshape_msds,
     reshape_sd,
 )
-from colour.hints import (
-    Any,
-    ArrayLike,
-    Literal,
-    NDArrayFloat,
-    Real,
-    Tuple,
-    cast,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Literal,
+        NDArrayFloat,
+        Tuple,
+    )
+
+from colour.hints import Real, cast
 from colour.utilities import (
     CACHE_REGISTRY,
     CanonicalMapping,

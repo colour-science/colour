@@ -27,7 +27,6 @@ Annotation Type Hints
     Sequence
     Set
     SupportsIndex
-    TYPE_CHECKING
     TextIO
     Tuple
     Type

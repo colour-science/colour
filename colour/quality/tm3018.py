@@ -19,12 +19,16 @@ References
 
 from __future__ import annotations
 
+import typing
 from dataclasses import dataclass
 
 import numpy as np
 
-from colour.colorimetry import SpectralDistribution
-from colour.hints import ArrayLike, NDArrayFloat, NDArrayInt, Tuple, cast
+if typing.TYPE_CHECKING:
+    from colour.colorimetry import SpectralDistribution
+    from colour.hints import ArrayLike, NDArrayFloat, NDArrayInt, Tuple
+
+from colour.hints import cast
 from colour.quality import colour_fidelity_index_CIE2017
 from colour.quality.cfi2017 import (
     ColourRendering_Specification_CIE2017,

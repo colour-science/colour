@@ -23,6 +23,8 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import vecmul
@@ -32,7 +34,10 @@ from colour.colorimetry import (
     luminance_Fairchild2010,
     luminance_Fairchild2011,
 )
-from colour.hints import ArrayLike, Literal, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, Literal, NDArrayFloat
+
 from colour.models.ipt import (
     MATRIX_IPT_IPT_TO_LMS_P,
     MATRIX_IPT_LMS_P_TO_IPT,

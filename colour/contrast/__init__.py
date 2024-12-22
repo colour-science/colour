@@ -20,7 +20,11 @@ References
 
 from __future__ import annotations
 
-from colour.hints import Any, NDArrayFloat, Literal
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, NDArrayFloat, Literal
+
 from colour.utilities import (
     CanonicalMapping,
     filter_kwargs,

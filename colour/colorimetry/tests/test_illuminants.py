@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.colorimetry import (
@@ -12,7 +14,10 @@ from colour.colorimetry import (
     sd_CIE_standard_illuminant_A,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.hints import NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
+
 from colour.temperature import CCT_to_xy_CIE_D
 from colour.utilities import ignore_numpy_errors
 

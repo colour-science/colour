@@ -16,12 +16,21 @@ Define the *CIE* chromaticity diagrams plotting objects:
 from __future__ import annotations
 
 import bisect
-from collections.abc import ValuesView
+import typing
 
 import numpy as np
-from matplotlib.axes import Axes
+
+if typing.TYPE_CHECKING:
+    from collections.abc import ValuesView
+
+if typing.TYPE_CHECKING:
+    from matplotlib.axes import Axes
+
 from matplotlib.collections import LineCollection
-from matplotlib.figure import Figure
+
+if typing.TYPE_CHECKING:
+    from matplotlib.figure import Figure
+
 from matplotlib.patches import Polygon
 
 from colour.algebra import normalise_maximum, normalise_vector
@@ -33,15 +42,20 @@ from colour.colorimetry import (
     sds_and_msds_to_sds,
 )
 from colour.constants import DTYPE_FLOAT_DEFAULT
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Callable,
+        Dict,
+        List,
+        Literal,
+        NDArray,
+        Sequence,
+    )
+
 from colour.hints import (
-    Any,
-    ArrayLike,
-    Callable,
-    Dict,
-    List,
-    Literal,
-    NDArray,
-    Sequence,
     Tuple,
     cast,
 )

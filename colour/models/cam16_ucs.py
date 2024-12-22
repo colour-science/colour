@@ -29,9 +29,13 @@ References
 from __future__ import annotations
 
 import re
+import typing
 from functools import partial
 
-from colour.hints import Any, ArrayLike, Callable, NDArrayFloat, cast
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, ArrayLike, Callable
+
+from colour.hints import NDArrayFloat, cast
 from colour.models.cam02_ucs import (
     COEFFICIENTS_UCS_LUO2006,
     CAM02LCD_to_JMh_CIECAM02,

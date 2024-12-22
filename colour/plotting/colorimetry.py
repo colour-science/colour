@@ -26,14 +26,20 @@ References
 
 from __future__ import annotations
 
-from collections.abc import ValuesView
+import typing
 from functools import reduce
 
 import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.axes import Axes
-from matplotlib.figure import Figure
+
+if typing.TYPE_CHECKING:
+    from collections.abc import ValuesView
+
 from matplotlib.patches import Polygon
+
+if typing.TYPE_CHECKING:
+    from matplotlib.figure import Figure
+    from matplotlib.axes import Axes
 
 from colour.algebra import (
     LinearInterpolator,
@@ -55,13 +61,18 @@ from colour.colorimetry import (
     sds_and_msds_to_sds,
     wavelength_to_XYZ,
 )
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        Callable,
+        Dict,
+        Sequence,
+        Tuple,
+    )
+
 from colour.hints import (
-    Any,
-    Callable,
-    Dict,
     List,
-    Sequence,
-    Tuple,
     cast,
 )
 from colour.plotting import (

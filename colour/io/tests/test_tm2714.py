@@ -7,6 +7,7 @@ import re
 import shutil
 import tempfile
 import textwrap
+import typing
 from copy import deepcopy
 
 import numpy as np
@@ -14,7 +15,11 @@ import pytest
 
 from colour.colorimetry import SpectralDistribution
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.hints import List, Tuple, cast
+
+if typing.TYPE_CHECKING:
+    from colour.hints import List, Tuple
+
+from colour.hints import cast
 from colour.io.tm2714 import Header_IESTM2714, SpectralDistribution_IESTM2714
 from colour.utilities import optional
 

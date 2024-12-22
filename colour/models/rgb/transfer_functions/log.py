@@ -37,13 +37,20 @@ ACESutil.Log2_to_Lin_param.ctl
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        ArrayLike,
+        Literal,
+        NDArrayFloat,
+    )
+
 from colour.hints import (
-    ArrayLike,
-    Literal,
-    NDArrayFloat,
     cast,
 )
 from colour.utilities import (

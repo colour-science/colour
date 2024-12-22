@@ -24,6 +24,7 @@ References
 
 from __future__ import annotations
 
+import typing
 from dataclasses import astuple, dataclass, field
 
 import numpy as np
@@ -48,7 +49,10 @@ from colour.appearance.ciecam02 import (
     post_adaptation_non_linear_response_compression_inverse,
 )
 from colour.appearance.hunt import luminance_level_adaptation_factor
-from colour.hints import ArrayLike, NDArrayFloat, Tuple
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat, Tuple
+
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,

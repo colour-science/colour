@@ -60,6 +60,7 @@ References
 from __future__ import annotations
 
 import itertools
+import typing
 from collections.abc import Mapping
 from functools import reduce
 
@@ -72,17 +73,19 @@ from colour.constants import (
     TOLERANCE_ABSOLUTE_DEFAULT,
     TOLERANCE_RELATIVE_DEFAULT,
 )
-from colour.hints import (
-    Any,
-    ArrayLike,
-    Callable,
-    DTypeReal,
-    Literal,
-    NDArrayFloat,
-    Tuple,
-    Type,
-    cast,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Callable,
+        DTypeReal,
+        Literal,
+        Tuple,
+        Type,
+    )
+
+from colour.hints import NDArrayFloat, cast
 from colour.utilities import (
     CanonicalMapping,
     as_array,

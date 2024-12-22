@@ -15,10 +15,16 @@ import csv
 import json
 import os
 import re
+import typing
 from collections import defaultdict
-from pathlib import Path
 
-from colour.hints import Any, cast
+if typing.TYPE_CHECKING:
+    from pathlib import Path
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any
+
+from colour.hints import cast
 from colour.io import SpectralDistribution_IESTM2714
 from colour.utilities import as_float_array, as_float_scalar
 

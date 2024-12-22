@@ -23,11 +23,16 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import spow
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import ArrayLike, Literal, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, Literal, NDArrayFloat
+
 from colour.models import Lab_to_XYZ, XYZ_to_Lab
 from colour.utilities import (
     CanonicalMapping,

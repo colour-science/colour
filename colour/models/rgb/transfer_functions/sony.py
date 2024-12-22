@@ -24,12 +24,16 @@ large-sensor-camera-F5-F55/12359/2/TechnicalSummary_for_S-Gamut3Cine_S-Gamut3_S-
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
-from colour.hints import (
-    ArrayLike,
-    NDArrayFloat,
-)
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        ArrayLike,
+        NDArrayFloat,
+    )
+
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import (
     as_float,

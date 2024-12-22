@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
-from colour.colorimetry import SpectralDistribution
-from colour.hints import Literal
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.colorimetry import SpectralDistribution
+    from colour.hints import Literal
 
 from .datasets import *  # noqa: F403
 from . import datasets

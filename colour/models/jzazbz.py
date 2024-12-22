@@ -23,10 +23,15 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import vecmul
-from colour.hints import ArrayLike, Literal, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, Literal, NDArrayFloat
+
 from colour.models.rgb.transfer_functions import (
     eotf_inverse_ST2084,
     eotf_ST2084,

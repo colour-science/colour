@@ -56,12 +56,16 @@ SupportID=5884#
 
 from __future__ import annotations
 
+import typing
 from dataclasses import dataclass
 
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
+
 from colour.models import Lab_to_XYZ, XYZ_to_xyY
 from colour.utilities import CanonicalMapping
 

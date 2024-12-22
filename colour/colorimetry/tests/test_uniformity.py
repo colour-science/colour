@@ -2,11 +2,15 @@
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.colorimetry import spectral_uniformity
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.hints import NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

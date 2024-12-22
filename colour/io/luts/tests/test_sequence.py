@@ -3,11 +3,15 @@
 from __future__ import annotations
 
 import textwrap
+import typing
 
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.hints import Any, ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, ArrayLike, NDArrayFloat
+
 from colour.io.luts import (
     LUT1D,
     LUT3D,

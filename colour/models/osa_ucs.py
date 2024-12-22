@@ -20,11 +20,16 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 from scipy.optimize import fmin
 
 from colour.algebra import sdiv, sdiv_mode, spow, vecmul
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.models import XYZ_to_xyY
 from colour.utilities import (
     as_float,

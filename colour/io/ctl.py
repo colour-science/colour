@@ -16,15 +16,20 @@ import os
 import subprocess
 import tempfile
 import textwrap
-from pathlib import Path
+import typing
 
 import numpy as np
 
+if typing.TYPE_CHECKING:
+    from pathlib import Path
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Dict,
+        NDArrayFloat,
+    )
+
 from colour.hints import (
-    Any,
-    ArrayLike,
-    Dict,
-    NDArrayFloat,
     Sequence,
 )
 from colour.io import as_3_channels_image, read_image, write_image

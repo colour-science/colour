@@ -28,15 +28,17 @@ fb5a498d0bd00fc2b42fbd19b6ef18e1dfeee47e/sklearn/utils/__init__.py#L65
 from __future__ import annotations
 
 import re
+import typing
 from collections import Counter
 from collections.abc import MutableMapping
 
-from colour.hints import (
-    Any,
-    Generator,
-    Iterable,
-    Mapping,
-)
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        Generator,
+        Iterable,
+    )
+from colour.hints import Mapping
 from colour.utilities.documentation import is_documentation_building
 
 __author__ = "Colour Developers"

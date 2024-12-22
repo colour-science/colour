@@ -4,8 +4,11 @@ from __future__ import annotations
 
 import contextlib
 import sys
+import typing
 
-from colour.hints import Any
+if typing.TYPE_CHECKING:
+    from colour.hints import Any
+
 from colour.utilities.deprecation import (
     ModuleAPI,
     ObjectRemoved,

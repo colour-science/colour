@@ -1,11 +1,16 @@
 # isort: skip_file
 
+from __future__ import annotations
+
 import sys
 
 from colour.utilities.deprecation import ModuleAPI, build_API_changes
 from colour.utilities.documentation import is_documentation_building
 
-from colour.hints import Any
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any
 
 from .common import (
     get_sdiv_mode,

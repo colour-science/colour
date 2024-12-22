@@ -8,11 +8,14 @@ Define various deprecation management related objects.
 from __future__ import annotations
 
 import sys
+import typing
 from dataclasses import dataclass
 from importlib import import_module
 from operator import attrgetter
 
-from colour.hints import Any, ModuleType
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, ModuleType
+
 from colour.utilities import MixinDataclassIterable, attest, optional, usage_warning
 
 __author__ = "Colour Developers"

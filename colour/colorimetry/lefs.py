@@ -13,6 +13,8 @@ References
 
 from __future__ import annotations
 
+import typing
+
 from colour.colorimetry import (
     SDS_LEFS_PHOTOPIC,
     SDS_LEFS_SCOTOPIC,
@@ -20,7 +22,10 @@ from colour.colorimetry import (
     SpectralShape,
 )
 from colour.colorimetry.datasets.lefs import DATA_MESOPIC_X
-from colour.hints import ArrayLike, Literal, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, Literal, NDArrayFloat
+
 from colour.utilities import closest, optional, validate_method
 
 __author__ = "Colour Developers"

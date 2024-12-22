@@ -30,10 +30,10 @@ from __future__ import annotations
 import contextlib
 import functools
 import itertools
+import typing
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from functools import partial
-from pathlib import Path
 
 import matplotlib.cm
 import matplotlib.font_manager
@@ -44,8 +44,14 @@ from cycler import cycler
 from matplotlib.axes import Axes
 from matplotlib.colors import LinearSegmentedColormap
 from matplotlib.figure import Figure, SubFigure
-from matplotlib.patches import Patch
+
+if typing.TYPE_CHECKING:
+    from matplotlib.patches import Patch
+
 from mpl_toolkits.mplot3d.axes3d import Axes3D
+
+if typing.TYPE_CHECKING:
+    from pathlib import Path
 
 from colour.characterisation import CCS_COLOURCHECKERS, ColourChecker
 from colour.colorimetry import (
@@ -55,22 +61,27 @@ from colour.colorimetry import (
     MultiSpectralDistributions,
     SpectralDistribution,
 )
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        Callable,
+        Dict,
+        Generator,
+        Literal,
+        LiteralChromaticAdaptationTransform,
+        LiteralFontScaling,
+        LiteralRGBColourspace,
+        Mapping,
+        NDArrayFloat,
+        Real,
+        Sequence,
+        Tuple,
+    )
+
 from colour.hints import (
-    Any,
     ArrayLike,
-    Callable,
-    Dict,
-    Generator,
     List,
-    Literal,
-    LiteralChromaticAdaptationTransform,
-    LiteralFontScaling,
-    LiteralRGBColourspace,
-    Mapping,
-    NDArrayFloat,
-    Real,
-    Sequence,
-    Tuple,
     TypedDict,
     cast,
 )

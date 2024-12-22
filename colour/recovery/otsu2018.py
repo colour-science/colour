@@ -18,8 +18,11 @@ References
 
 from __future__ import annotations
 
+import typing
 from dataclasses import dataclass
-from pathlib import Path
+
+if typing.TYPE_CHECKING:
+    from pathlib import Path
 
 import numpy as np
 
@@ -33,17 +36,19 @@ from colour.colorimetry import (
     reshape_msds,
     sd_to_XYZ,
 )
-from colour.hints import (
-    Any,
-    ArrayLike,
-    Callable,
-    Dict,
-    NDArrayFloat,
-    Self,
-    Sequence,
-    Tuple,
-    cast,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Callable,
+        Dict,
+        Self,
+        Sequence,
+        Tuple,
+    )
+
+from colour.hints import NDArrayFloat, cast
 from colour.models import XYZ_to_xy
 from colour.recovery import (
     BASIS_FUNCTIONS_OTSU2018,

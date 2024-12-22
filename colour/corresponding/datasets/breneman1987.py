@@ -15,11 +15,14 @@ References
 
 from __future__ import annotations
 
+import typing
 from dataclasses import dataclass, field
 
 import numpy as np
 
-from colour.hints import NDArrayFloat, Tuple
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat, Tuple
+
 from colour.utilities import MixinDataclassIterable, as_float_array
 from colour.utilities.documentation import (
     DocstringDict,

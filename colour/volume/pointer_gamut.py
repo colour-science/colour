@@ -7,8 +7,13 @@ Define the objects related to *Pointer's Gamut* volume computations.
 
 from __future__ import annotations
 
+import typing
+
 from colour.constants import EPSILON
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.models import LCHab_to_Lab  # pyright: ignore
 from colour.models import (
     CCS_ILLUMINANT_POINTER_GAMUT,

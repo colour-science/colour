@@ -62,6 +62,8 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import spow
@@ -69,7 +71,10 @@ from colour.biochemistry import (
     reaction_rate_MichaelisMenten_Abebe2017,
     reaction_rate_MichaelisMenten_Michaelis1913,
 )
-from colour.hints import Any, ArrayLike, Literal, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, ArrayLike, Literal, NDArrayFloat
+
 from colour.utilities import (
     CanonicalMapping,
     as_float,

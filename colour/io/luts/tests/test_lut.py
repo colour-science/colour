@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import os
 import textwrap
+import typing
 
 import numpy as np
 import pytest
@@ -17,13 +18,16 @@ from colour.algebra import (
     table_interpolation_trilinear,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.hints import (
-    Any,
-    Callable,
-    NDArrayFloat,
-    ProtocolInterpolator,
-    Type,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        Callable,
+        NDArrayFloat,
+        ProtocolInterpolator,
+        Type,
+    )
+
 from colour.io.luts import LUT1D, LUT3D, LUT3x1D, LUT_to_LUT
 from colour.io.luts.lut import AbstractLUT
 from colour.utilities import as_float_array, tsplit, tstack

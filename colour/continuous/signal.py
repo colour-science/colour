@@ -9,6 +9,7 @@ Define the class implementing support for continuous signal:
 
 from __future__ import annotations
 
+import typing
 from collections.abc import Iterator, KeysView, Mapping, Sequence, ValuesView
 from operator import pow  # noqa: A004
 from operator import (
@@ -28,21 +29,21 @@ import numpy as np
 from colour.algebra import Extrapolator, KernelInterpolator
 from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.continuous import AbstractContinuousFunction
-from colour.hints import (
-    TYPE_CHECKING,
-    Any,
-    ArrayLike,
-    Callable,
-    DTypeFloat,
-    Literal,
-    NDArrayFloat,
-    ProtocolExtrapolator,
-    ProtocolInterpolator,
-    Real,
-    Self,
-    Type,
-    cast,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Literal,
+        NDArrayFloat,
+        ProtocolExtrapolator,
+        ProtocolInterpolator,
+        Real,
+        Self,
+        Type,
+    )
+
+from colour.hints import Callable, DTypeFloat, cast
 from colour.utilities import (
     as_float_array,
     attest,
@@ -62,7 +63,7 @@ from colour.utilities import (
 from colour.utilities.common import int_digest
 from colour.utilities.documentation import is_documentation_building
 
-if TYPE_CHECKING or is_pandas_installed():
+if typing.TYPE_CHECKING or is_pandas_installed():
     from pandas import Series  # pragma: no cover
 else:  # pragma: no cover
     from unittest import mock

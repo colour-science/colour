@@ -16,15 +16,20 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
 from colour.algebra import sdiv, sdiv_mode, vecmul
-from colour.hints import (
-    ArrayLike,
-    LiteralChromaticAdaptationTransform,
-    NDArrayFloat,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        ArrayLike,
+        LiteralChromaticAdaptationTransform,
+        NDArrayFloat,
+    )
+
 from colour.utilities import (
     as_float_array,
     from_range_1,

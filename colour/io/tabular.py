@@ -14,13 +14,18 @@ from __future__ import annotations
 import csv
 import os
 import tempfile
-from pathlib import Path
+import typing
 
 import numpy as np
 
 from colour.colorimetry import SpectralDistribution
 from colour.constants import DTYPE_FLOAT_DEFAULT
-from colour.hints import Any, Dict, NDArrayFloat, cast
+
+if typing.TYPE_CHECKING:
+    from pathlib import Path
+    from colour.hints import Any, Dict, NDArrayFloat
+
+from colour.hints import cast
 from colour.utilities import filter_kwargs
 
 __author__ = "Colour Developers"

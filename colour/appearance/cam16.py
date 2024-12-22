@@ -20,6 +20,7 @@ References
 
 from __future__ import annotations
 
+import typing
 from dataclasses import astuple, dataclass, field
 
 import numpy as np
@@ -49,7 +50,10 @@ from colour.appearance.ciecam02 import (
     temporary_magnitude_quantity_inverse,
     viewing_conditions_dependent_parameters,
 )
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,

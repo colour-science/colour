@@ -18,15 +18,20 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode
-from colour.hints import (
-    ArrayLike,
-    NDArrayFloat,
-    Real,
-    Tuple,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        ArrayLike,
+        NDArrayFloat,
+        Real,
+        Tuple,
+    )
+
 from colour.utilities import as_float, as_float_array, zeros
 
 __author__ = "Colour Developers"

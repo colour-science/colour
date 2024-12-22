@@ -23,6 +23,7 @@ usp=sharing
 
 from __future__ import annotations
 
+import typing
 from dataclasses import dataclass
 
 import numpy as np
@@ -41,12 +42,17 @@ from colour.colorimetry import (
     sd_CIE_illuminant_D_series,
     sd_to_XYZ,
 )
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        ArrayLike,
+        Dict,
+        Literal,
+        NDArrayFloat,
+        Tuple,
+    )
+
 from colour.hints import (
-    ArrayLike,
-    Dict,
-    Literal,
-    NDArrayFloat,
-    Tuple,
     cast,
 )
 from colour.models import Lab_to_LCHab  # pyright: ignore

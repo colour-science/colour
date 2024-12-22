@@ -19,9 +19,13 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
-from colour.hints import ArrayLike, NDArrayFloat
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.models.rgb.transfer_functions import gamma_function
 from colour.utilities import (
     Structure,

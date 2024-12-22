@@ -12,6 +12,7 @@ Define the classes and definitions handling *LUT* processing:
 
 from __future__ import annotations
 
+import typing
 from abc import ABC, abstractmethod
 from copy import deepcopy
 from operator import pow  # noqa: A004
@@ -36,15 +37,20 @@ from colour.algebra import (
     linear_conversion,
     table_interpolation_trilinear,
 )
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Literal,
+        NDArrayFloat,
+        Self,
+        Sequence,
+        Type,
+    )
+
 from colour.hints import (
-    Any,
-    ArrayLike,
     List,
-    Literal,
-    NDArrayFloat,
-    Self,
-    Sequence,
-    Type,
     cast,
 )
 from colour.utilities import (

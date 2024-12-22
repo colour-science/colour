@@ -14,10 +14,10 @@ References
 from __future__ import annotations
 
 import re
+import typing
 from collections import defaultdict
 from collections.abc import ValuesView
 from dataclasses import dataclass, field
-from pathlib import Path
 
 import numpy as np
 
@@ -31,11 +31,17 @@ from colour.colorimetry import (
     sds_and_msds_to_msds,
 )
 from colour.constants import CONSTANT_LIGHT_SPEED
+
+if typing.TYPE_CHECKING:
+    from pathlib import Path
+    from colour.hints import (
+        Any,
+        Callable,
+        Literal,
+    )
+
 from colour.hints import (
-    Any,
-    Callable,
     Dict,
-    Literal,
     NDArrayFloat,
     Sequence,
     Tuple,

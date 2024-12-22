@@ -21,6 +21,7 @@ References
 
 from __future__ import annotations
 
+import typing
 from dataclasses import astuple, dataclass, field
 
 import numpy as np
@@ -37,7 +38,10 @@ from colour.appearance.ciecam02 import (
     hue_quadrature,
     rgb_to_RGB,
 )
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,

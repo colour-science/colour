@@ -27,6 +27,7 @@ Colour_Appearance_and_Gamut_Mapping
 
 from __future__ import annotations
 
+import typing
 from dataclasses import dataclass, field
 
 import numpy as np
@@ -38,7 +39,10 @@ from colour.algebra import (
     spow,
     vecmul,
 )
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,

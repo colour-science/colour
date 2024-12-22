@@ -7,11 +7,15 @@ Define the helpers objects related to volume computations.
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 from scipy.spatial import Delaunay
 
 from colour.constants import EPSILON
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

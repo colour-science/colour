@@ -32,6 +32,7 @@ References
 
 from __future__ import annotations
 
+import typing
 from dataclasses import astuple, dataclass, field
 
 import numpy as np
@@ -45,7 +46,11 @@ from colour.appearance.hunt import (
 )
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.constants import EPSILON
-from colour.hints import ArrayLike, NDArrayFloat, Tuple, cast
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, Tuple
+
+from colour.hints import NDArrayFloat, cast
 from colour.models import xy_to_XYZ
 from colour.utilities import (
     CanonicalMapping,

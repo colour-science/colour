@@ -3,10 +3,13 @@
 from __future__ import annotations
 
 import re
+import typing
 
 import numpy as np
 
-from colour.hints import Any
+if typing.TYPE_CHECKING:
+    from colour.hints import Any
+
 from colour.utilities import (
     ExecutionNode,
     For,

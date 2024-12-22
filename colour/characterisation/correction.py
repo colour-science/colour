@@ -68,10 +68,15 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import least_square_mapping_MoorePenrose, spow
-from colour.hints import Any, ArrayLike, Literal, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, ArrayLike, Literal, NDArrayFloat
+
 from colour.utilities import (
     CanonicalMapping,
     as_float,

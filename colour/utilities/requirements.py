@@ -10,12 +10,15 @@ from __future__ import annotations
 import functools
 import shutil
 import subprocess
+import typing
 
-from colour.hints import (
-    Any,
-    Callable,
-    Literal,
-)
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        Callable,
+        Literal,
+    )
+
 from colour.utilities import CanonicalMapping
 
 __author__ = "Colour Developers"

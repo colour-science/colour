@@ -46,12 +46,16 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
 
 from __future__ import annotations
 
+import typing
 from dataclasses import astuple, dataclass, field
 
 import numpy as np
 
 from colour.algebra import euclidean_distance
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.utilities import (
     MixinDataclassArithmetic,
     as_float,

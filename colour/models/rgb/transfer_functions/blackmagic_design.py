@@ -16,9 +16,13 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
-from colour.hints import ArrayLike, NDArrayFloat
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.utilities import Structure, as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"

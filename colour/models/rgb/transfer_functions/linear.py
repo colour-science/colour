@@ -10,7 +10,11 @@ related objects:
 
 from __future__ import annotations
 
-from colour.hints import ArrayLike, NDArrayFloat
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.utilities import as_float
 
 __author__ = "Colour Developers"

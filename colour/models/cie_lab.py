@@ -16,12 +16,17 @@ References
 
 from __future__ import annotations
 
+import typing
+
 from colour.colorimetry import (
     CCS_ILLUMINANTS,
     intermediate_lightness_function_CIE1976,
     intermediate_luminance_function_CIE1976,
 )
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import (
     from_range_1,

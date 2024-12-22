@@ -20,9 +20,13 @@ References
 from __future__ import annotations
 
 import struct
-from pathlib import Path
+import typing
 
 import numpy as np
+
+if typing.TYPE_CHECKING:
+    from pathlib import Path
+
 from scipy.interpolate import RegularGridInterpolator
 from scipy.optimize import minimize
 
@@ -37,12 +41,15 @@ from colour.colorimetry import (
 )
 from colour.constants import DTYPE_INT_DEFAULT
 from colour.difference import JND_CIE1976
-from colour.hints import (
-    ArrayLike,
-    Callable,
-    NDArrayFloat,
-    Tuple,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        ArrayLike,
+        Callable,
+        NDArrayFloat,
+        Tuple,
+    )
+
 from colour.models import RGB_Colourspace, RGB_to_XYZ, XYZ_to_Lab, XYZ_to_xy
 from colour.utilities import (
     as_float_array,

@@ -16,10 +16,15 @@ pm-65976-210914__L-Log_Reference_Manual_EN.pdf
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import Structure, as_float, from_range_1, to_domain_1
 

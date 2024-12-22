@@ -17,15 +17,23 @@ objects:
 from __future__ import annotations
 
 import os
+import typing
 
 import numpy as np
-from matplotlib.axes import Axes
-from matplotlib.figure import Figure
+
+if typing.TYPE_CHECKING:
+    from matplotlib.axes import Axes
+    from matplotlib.figure import Figure
+
 from matplotlib.patches import Circle
 
 from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import sd_to_XYZ
-from colour.hints import Any, ArrayLike, Dict, Literal, Tuple
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, ArrayLike, Dict, Literal, Tuple
+    from colour.quality import ColourQuality_Specification_ANSIIESTM3018
+
 from colour.io import read_image
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
@@ -34,7 +42,6 @@ from colour.plotting import (
     plot_image,
     render,
 )
-from colour.quality import ColourQuality_Specification_ANSIIESTM3018
 from colour.utilities import as_float_array, validate_method
 
 __author__ = "Colour Developers"

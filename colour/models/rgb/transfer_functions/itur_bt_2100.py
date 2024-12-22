@@ -53,10 +53,15 @@ R-REC-BT.2100-2-201807-I!!PDF-E.pdf
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import ArrayLike, Literal, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, Literal, NDArrayFloat
+
 from colour.models.rgb.transfer_functions import (
     eotf_BT1886,
     eotf_inverse_BT1886,

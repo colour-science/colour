@@ -17,25 +17,37 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1976UCS`
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
-from matplotlib.axes import Axes
+
+if typing.TYPE_CHECKING:
+    from matplotlib.axes import Axes
+
 from matplotlib.collections import LineCollection
-from matplotlib.figure import Figure
+
+if typing.TYPE_CHECKING:
+    from matplotlib.figure import Figure
 
 from colour.algebra import normalise_maximum, normalise_vector
 from colour.colorimetry import CCS_ILLUMINANTS, MSDS_CMFS
 from colour.constants import DTYPE_FLOAT_DEFAULT
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Callable,
+        Dict,
+        List,
+        Literal,
+        NDArray,
+        NDArrayFloat,
+        Sequence,
+        Tuple,
+    )
+
 from colour.hints import (
-    Any,
-    ArrayLike,
-    Callable,
-    Dict,
-    List,
-    Literal,
-    NDArray,
-    NDArrayFloat,
-    Sequence,
-    Tuple,
     cast,
 )
 from colour.models import (

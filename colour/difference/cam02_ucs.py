@@ -18,9 +18,13 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
-from colour.hints import ArrayLike, NDArrayFloat
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.models.cam02_ucs import COEFFICIENTS_UCS_LUO2006, Coefficients_UCS_Luo2006
 from colour.utilities import as_float, tsplit
 

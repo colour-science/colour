@@ -20,6 +20,7 @@ References
 
 from __future__ import annotations
 
+import typing
 from dataclasses import dataclass, field
 
 import numpy as np
@@ -31,7 +32,11 @@ from colour.adaptation.cie1994 import (
     intermediate_values,
 )
 from colour.algebra import spow, vecmul
-from colour.hints import ArrayLike, NDArrayFloat, cast
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike
+
+from colour.hints import NDArrayFloat, cast
 from colour.models import XYZ_to_xy
 from colour.utilities import (
     MixinDataclassArithmetic,

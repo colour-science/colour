@@ -9,14 +9,21 @@ Define the corresponding chromaticities prediction plotting objects:
 
 from __future__ import annotations
 
-from matplotlib.axes import Axes
-from matplotlib.figure import Figure
+import typing
+
+if typing.TYPE_CHECKING:
+    from matplotlib.figure import Figure
+    from matplotlib.axes import Axes
 
 from colour.corresponding import (
     CorrespondingColourDataset,
     corresponding_chromaticities_prediction,
 )
-from colour.hints import Any, Dict, Literal, Tuple, cast
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, Dict, Literal, Tuple
+
+from colour.hints import cast
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
     artist,

@@ -10,6 +10,8 @@ Define the colour models volume and gamut plotting objects:
 
 from __future__ import annotations
 
+import typing
+
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.figure import Figure
@@ -23,14 +25,19 @@ from colour.geometry import (
     primitive_vertices_grid_mpl,
 )
 from colour.graph import convert
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Literal,
+        LiteralColourspaceModel,
+        LiteralRGBColourspace,
+        NDArrayFloat,
+    )
+
 from colour.hints import (
-    Any,
-    ArrayLike,
     List,
-    Literal,
-    LiteralColourspaceModel,
-    LiteralRGBColourspace,
-    NDArrayFloat,
     Sequence,
     Tuple,
     cast,

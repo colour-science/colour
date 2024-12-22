@@ -7,22 +7,26 @@ Define the image related input / output utilities objects.
 
 from __future__ import annotations
 
+import typing
 from dataclasses import dataclass, field
-from pathlib import Path
 
 import numpy as np
 
+if typing.TYPE_CHECKING:
+    from pathlib import Path
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        DTypeReal,
+        Literal,
+        NDArrayFloat,
+        Sequence,
+        Tuple,
+        Type,
+    )
+
 from colour.hints import (
-    TYPE_CHECKING,
-    Any,
-    ArrayLike,
-    DTypeReal,
-    Literal,
-    NDArrayFloat,
     NDArrayReal,
-    Sequence,
-    Tuple,
-    Type,
     cast,
 )
 from colour.utilities import (
@@ -121,7 +125,7 @@ if is_openimageio_installed():  # pragma: no cover
             "float64": Image_Specification_BitDepth("float64", np.float64, DOUBLE),
         }
     )
-    if not TYPE_CHECKING and hasattr(np, "float128"):  # pragma: no cover
+    if not typing.TYPE_CHECKING and hasattr(np, "float128"):  # pragma: no cover
         MAPPING_BIT_DEPTH["float128"] = Image_Specification_BitDepth(
             "float128", np.float128, DOUBLE
         )
@@ -139,7 +143,7 @@ else:  # pragma: no cover
             "float64": Image_Specification_BitDepth("float64", np.float64, None),
         }
     )
-    if not TYPE_CHECKING and hasattr(np, "float128"):  # pragma: no cover
+    if not typing.TYPE_CHECKING and hasattr(np, "float128"):  # pragma: no cover
         MAPPING_BIT_DEPTH["float128"] = Image_Specification_BitDepth(
             "float128", np.float128, None
         )

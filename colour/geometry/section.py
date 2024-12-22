@@ -9,11 +9,17 @@ Define various objects to compute hull sections:
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import linear_conversion
 from colour.constants import DTYPE_FLOAT_DEFAULT
-from colour.hints import Any, ArrayLike, List, Literal, NDArrayFloat, cast
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, Literal, NDArrayFloat
+
+from colour.hints import List, cast
 from colour.utilities import (
     as_float_array,
     as_float_scalar,
@@ -135,7 +141,7 @@ def close_chord(vertices: ArrayLike) -> NDArrayFloat:
 
 def unique_vertices(
     vertices: ArrayLike,
-    decimals: int = np.finfo(cast(Any, DTYPE_FLOAT_DEFAULT)).precision - 1,
+    decimals: int = np.finfo(DTYPE_FLOAT_DEFAULT).precision - 1,  # pyright: ignore
 ) -> NDArrayFloat:
     """
     Return the unique vertices from given vertices.

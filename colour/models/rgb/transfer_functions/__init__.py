@@ -4,22 +4,26 @@ from __future__ import annotations
 
 from functools import partial
 
-from colour.hints import (
-    Any,
-    ArrayLike,
-    NDArrayFloat,
-    NDArrayInt,
-    LiteralLogEncoding,
-    LiteralLogDecoding,
-    LiteralOETF,
-    LiteralOETFInverse,
-    LiteralEOTF,
-    LiteralEOTFInverse,
-    LiteralCCTFEncoding,
-    LiteralCCTFDecoding,
-    LiteralOOTF,
-    LiteralOOTFInverse,
-)
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        NDArrayFloat,
+        NDArrayInt,
+        LiteralLogEncoding,
+        LiteralLogDecoding,
+        LiteralOETF,
+        LiteralOETFInverse,
+        LiteralEOTF,
+        LiteralEOTFInverse,
+        LiteralCCTFEncoding,
+        LiteralCCTFDecoding,
+        LiteralOOTF,
+        LiteralOOTFInverse,
+    )
+
 from colour.utilities import (
     CanonicalMapping,
     filter_kwargs,

@@ -17,8 +17,13 @@ an-1016-hunter-rd-a-b-color-scale-update-12-07-03.pdf
 
 from __future__ import annotations
 
+import typing
+
 from colour.colorimetry import TVS_ILLUMINANTS_HUNTERLAB
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.models import XYZ_to_K_ab_HunterLab1966
 from colour.utilities import from_range_100, to_domain_100, tsplit, tstack
 

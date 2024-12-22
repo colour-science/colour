@@ -15,6 +15,7 @@ import itertools
 import re
 import sys
 import textwrap
+import typing
 from copy import copy
 from dataclasses import dataclass
 from functools import partial
@@ -65,12 +66,17 @@ from colour.colorimetry import (
     whiteness,
     yellowness,
 )
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Callable,
+        List,
+        Literal,
+    )
+
 from colour.hints import (
-    Any,
-    ArrayLike,
-    Callable,
-    List,
-    Literal,
     NDArrayFloat,
     cast,
 )

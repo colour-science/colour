@@ -14,11 +14,16 @@ Define various geometry primitive vertices generation methods:
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import spherical_to_cartesian
 from colour.geometry import MAPPING_PLANE_TO_AXIS
-from colour.hints import Any, ArrayLike, Literal, NDArrayFloat, Sequence
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, ArrayLike, Literal, NDArrayFloat, Sequence
+
 from colour.utilities import (
     CanonicalMapping,
     as_float_array,

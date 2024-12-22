@@ -16,6 +16,8 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 from scipy.optimize import minimize
 
@@ -27,7 +29,11 @@ from colour.colorimetry import (
     sd_ones,
     sd_to_XYZ_integration,
 )
-from colour.hints import ArrayLike, NDArrayFloat, cast
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike
+
+from colour.hints import NDArrayFloat, cast
 from colour.utilities import from_range_100, to_domain_1
 
 __author__ = "Colour Developers"

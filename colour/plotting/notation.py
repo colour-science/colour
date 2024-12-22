@@ -10,11 +10,17 @@ Define the colour notation systems plotting objects:
 
 from __future__ import annotations
 
-import numpy as np
-from matplotlib.axes import Axes
-from matplotlib.figure import Figure
+import typing
 
-from colour.hints import Any, Callable, Dict, Sequence, Tuple
+import numpy as np
+
+if typing.TYPE_CHECKING:
+    from matplotlib.axes import Axes
+    from matplotlib.figure import Figure
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, Callable, Dict, Sequence, Tuple
+
 from colour.notation import MUNSELL_VALUE_METHODS
 from colour.plotting import (
     filter_passthrough,

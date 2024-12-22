@@ -3,13 +3,17 @@
 from __future__ import annotations
 
 import contextlib
+import typing
 from itertools import product
 
 import numpy as np
 import pytest
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.hints import NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
+
 from colour.notation import (
     munsell_value_ASTMD1535,
     munsell_value_Ladd1955,

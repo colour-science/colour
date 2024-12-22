@@ -16,23 +16,26 @@ the :mod:`colour.colorimetry.datasets.cmfs` module:
 
 from __future__ import annotations
 
-from collections.abc import KeysView, ValuesView
+import typing
 
 from colour.colorimetry import (
     MultiSpectralDistributions,
     SpectralDistribution,
     SpectralShape,
 )
-from colour.continuous import MultiSignals, Signal
-from colour.hints import (
-    TYPE_CHECKING,
-    Any,
-    ArrayLike,
-    Sequence,
-)
+
+if typing.TYPE_CHECKING:
+    from collections.abc import KeysView, ValuesView
+    from colour.continuous import MultiSignals, Signal
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Sequence,
+    )
+
 from colour.utilities import is_pandas_installed
 
-if TYPE_CHECKING or is_pandas_installed():
+if typing.TYPE_CHECKING or is_pandas_installed():
     from pandas import DataFrame, Series  # pragma: no cover
 else:  # pragma: no cover
     from unittest import mock

@@ -7,14 +7,12 @@ Define the callback management objects.
 
 from __future__ import annotations
 
+import typing
 from collections import defaultdict
 from dataclasses import dataclass
 
-from colour.hints import (
-    Any,
-    Callable,
-    List,
-)
+if typing.TYPE_CHECKING:  # pragma: no cover
+    from colour.hints import Any, Callable, List
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

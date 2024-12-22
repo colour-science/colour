@@ -32,6 +32,8 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import vecmul
@@ -41,7 +43,10 @@ from colour.colorimetry import (
     SDS_LEFS_PHOTOPIC,
     reshape_sd,
 )
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.utilities import tstack
 
 __author__ = "Colour Developers"

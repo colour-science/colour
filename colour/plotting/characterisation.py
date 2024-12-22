@@ -10,12 +10,18 @@ Define the characterisation plotting objects:
 
 from __future__ import annotations
 
-import numpy as np
-from matplotlib.axes import Axes
-from matplotlib.figure import Figure
+import typing
 
-from colour.characterisation import ColourChecker
-from colour.hints import Any, Dict, Sequence, Tuple
+if typing.TYPE_CHECKING:
+    from matplotlib.figure import Figure
+    from matplotlib.axes import Axes
+
+import numpy as np
+
+if typing.TYPE_CHECKING:
+    from colour.characterisation import ColourChecker
+    from colour.hints import Any, Dict, Sequence, Tuple
+
 from colour.models import xyY_to_XYZ
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,

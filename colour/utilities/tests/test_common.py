@@ -2,13 +2,16 @@
 
 from __future__ import annotations
 
+import typing
 import unicodedata
 from functools import partial
 
 import numpy as np
 import pytest
 
-from colour.hints import Any, Real, Tuple
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, Real, Tuple
+
 from colour.utilities import (
     CacheRegistry,
     CanonicalMapping,

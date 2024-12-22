@@ -38,6 +38,7 @@ References
 
 from __future__ import annotations
 
+import typing
 from dataclasses import dataclass
 
 import numpy as np
@@ -53,14 +54,17 @@ from colour.corresponding import (
     BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES,
     BRENEMAN_EXPERIMENTS,
 )
-from colour.hints import (
-    Any,
-    ArrayLike,
-    Literal,
-    LiteralChromaticAdaptationTransform,
-    NDArrayFloat,
-    Tuple,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Literal,
+        LiteralChromaticAdaptationTransform,
+        NDArrayFloat,
+        Tuple,
+    )
+
 from colour.models import (
     Luv_to_uv,
     Luv_uv_to_xy,

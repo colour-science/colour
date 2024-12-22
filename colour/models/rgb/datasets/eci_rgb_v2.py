@@ -15,6 +15,7 @@ References
 
 from __future__ import annotations
 
+import typing
 from functools import partial
 
 import numpy as np
@@ -24,11 +25,14 @@ from colour.colorimetry import (
     lightness_CIE1976,
     luminance_CIE1976,
 )
-from colour.hints import (
-    ArrayLike,
-    Callable,
-    NDArrayFloat,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        ArrayLike,
+        Callable,
+        NDArrayFloat,
+    )
+
 from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
 from colour.utilities import as_float_array
 

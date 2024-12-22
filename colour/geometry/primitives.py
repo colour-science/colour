@@ -19,18 +19,25 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.constants import DTYPE_FLOAT_DEFAULT, DTYPE_INT_DEFAULT
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        DTypeFloat,
+        DTypeInt,
+        Literal,
+        NDArray,
+        Tuple,
+        Type,
+    )
+
 from colour.hints import (
-    Any,
-    DTypeFloat,
-    DTypeInt,
-    Literal,
-    NDArray,
     NDArrayFloat,
-    Tuple,
-    Type,
     cast,
 )
 from colour.utilities import (

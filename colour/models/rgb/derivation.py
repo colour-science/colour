@@ -25,15 +25,20 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.adaptation import chromatic_adaptation_VonKries
-from colour.hints import (
-    ArrayLike,
-    LiteralChromaticAdaptationTransform,
-    NDArrayFloat,
-    Tuple,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        ArrayLike,
+        LiteralChromaticAdaptationTransform,
+        NDArrayFloat,
+        Tuple,
+    )
+
 from colour.models import XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ
 from colour.utilities import as_float, as_float_array, ones, tsplit
 

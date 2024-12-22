@@ -12,6 +12,7 @@ import logging
 import os
 import sys
 import traceback
+import typing
 import warnings
 from collections import defaultdict
 from contextlib import contextmanager, suppress
@@ -21,21 +22,22 @@ from warnings import filterwarnings, formatwarning, warn
 
 import numpy as np
 
-from colour.hints import (
-    Any,
-    Callable,
-    ClassVar,
-    Dict,
-    Generator,
-    List,
-    Literal,
-    LiteralWarning,
-    Mapping,
-    Self,
-    TextIO,
-    Type,
-    cast,
-)
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        Callable,
+        ClassVar,
+        Dict,
+        Generator,
+        List,
+        Literal,
+        Mapping,
+        Self,
+        TextIO,
+        Type,
+    )
+
+from colour.hints import LiteralWarning, cast
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

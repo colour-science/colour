@@ -16,6 +16,8 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.colorimetry import (
@@ -24,7 +26,10 @@ from colour.colorimetry import (
     SpectralShape,
 )
 from colour.constants import CONSTANT_BOLTZMANN, CONSTANT_LIGHT_SPEED
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.utilities import as_float, as_float_array
 from colour.utilities.common import attest
 

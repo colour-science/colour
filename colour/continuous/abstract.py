@@ -10,24 +10,27 @@ function:
 
 from __future__ import annotations
 
+import typing
 from abc import ABC, abstractmethod
 from copy import deepcopy
 
 import numpy as np
 
-from colour.hints import (
-    ArrayLike,
-    Callable,
-    DTypeFloat,
-    Generator,
-    Literal,
-    NDArrayFloat,
-    ProtocolExtrapolator,
-    ProtocolInterpolator,
-    Real,
-    Self,
-    Type,
-)
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        ArrayLike,
+        Callable,
+        DTypeFloat,
+        Generator,
+        Literal,
+        NDArrayFloat,
+        ProtocolExtrapolator,
+        ProtocolInterpolator,
+        Real,
+        Self,
+        Type,
+    )
+
 from colour.utilities import (
     MixinCallback,
     as_float,

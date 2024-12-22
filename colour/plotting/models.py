@@ -43,11 +43,11 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 import scipy.optimize
-from matplotlib.axes import Axes
 from matplotlib.collections import LineCollection
-from matplotlib.figure import Figure
 from matplotlib.patches import Ellipse
 from matplotlib.path import Path
 
@@ -61,19 +61,26 @@ from colour.geometry import (
     point_at_angle_on_ellipse,
 )
 from colour.graph import convert
+
+if typing.TYPE_CHECKING:
+    from matplotlib.axes import Axes
+    from matplotlib.figure import Figure
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Callable,
+        Dict,
+        Literal,
+        LiteralColourspaceModel,
+        LiteralRGBColourspace,
+        NDArray,
+        NDArrayFloat,
+        Sequence,
+        Tuple,
+    )
+
 from colour.hints import (
-    Any,
-    ArrayLike,
-    Callable,
-    Dict,
     List,
-    Literal,
-    LiteralColourspaceModel,
-    LiteralRGBColourspace,
-    NDArray,
-    NDArrayFloat,
-    Sequence,
-    Tuple,
     cast,
 )
 from colour.models import LCHab_to_Lab  # pyright: ignore

@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import contextlib
 import platform
+import typing
 from itertools import product
 
 import numpy as np
@@ -28,7 +29,10 @@ from colour.characterisation.correction import (
     polynomial_expansion_Vandermonde,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.hints import NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
+
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"

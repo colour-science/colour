@@ -21,12 +21,16 @@ extend-a-line-segment-a-specific-distance
 
 from __future__ import annotations
 
+import typing
 from dataclasses import dataclass
 
 import numpy as np
 
 from colour.algebra import euclidean_distance, sdiv, sdiv_mode
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.utilities import as_float_array, tsplit, tstack
 
 __author__ = "Colour Developers"

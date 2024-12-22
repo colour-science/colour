@@ -10,7 +10,10 @@ from __future__ import annotations
 
 import os
 import re
-from pathlib import Path
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

@@ -43,7 +43,11 @@ Set_xy_coord. https://www.adobe.com/support/downloads/dng/dng_sdk.html
 
 from __future__ import annotations
 
-from colour.hints import Any, ArrayLike, NDArrayFloat, Literal
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, ArrayLike, NDArrayFloat, Literal
+
 from colour.utilities import (
     CanonicalMapping,
     filter_kwargs,

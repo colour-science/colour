@@ -4,13 +4,17 @@ from __future__ import annotations
 
 import json
 import os
+import typing
 
 import numpy as np
 import pytest
 
 from colour.colorimetry import SpectralDistribution
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.hints import Any
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any
+
 from colour.io import (
     SpectralDistribution_Sekonic,
     SpectralDistribution_UPRTek,

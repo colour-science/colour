@@ -34,6 +34,8 @@ usp=sharing
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra.interpolation import LinearInterpolator
@@ -43,13 +45,16 @@ from colour.colorimetry import (
     SpectralDistribution,
     SpectralShape,
 )
-from colour.hints import (
-    Any,
-    ArrayLike,
-    Literal,
-    NDArrayFloat,
-    Sequence,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Literal,
+        NDArrayFloat,
+        Sequence,
+    )
+
 from colour.utilities import (
     CanonicalMapping,
     as_float_array,

@@ -9,19 +9,21 @@ category.
 from __future__ import annotations
 
 import functools
+import typing
 
 import numpy as np
 
-from colour.hints import (
-    Any,
-    ArrayLike,
-    Callable,
-    Literal,
-    NDArrayFloat,
-    Self,
-    Tuple,
-    cast,
-)
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Callable,
+        NDArrayFloat,
+        Self,
+        Tuple,
+    )
+
+from colour.hints import Literal, cast
 from colour.utilities import (
     as_float,
     as_float_array,

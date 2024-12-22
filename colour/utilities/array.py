@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import functools
 import sys
+import typing
 from collections.abc import KeysView, ValuesView
 from contextlib import contextmanager
 from dataclasses import fields, is_dataclass, replace
@@ -28,27 +29,27 @@ from operator import add, mul, pow, sub, truediv  # noqa: A004
 import numpy as np
 
 from colour.constants import DTYPE_FLOAT_DEFAULT, DTYPE_INT_DEFAULT, EPSILON
-from colour.hints import (
-    Any,
-    ArrayLike,
-    Callable,
-    Dataclass,
-    DType,
-    DTypeBoolean,
-    DTypeFloat,
-    DTypeInt,
-    DTypeReal,
-    Generator,
-    Literal,
-    NDArray,
-    NDArrayFloat,
-    NDArrayInt,
-    Real,
-    Self,
-    Sequence,
-    Type,
-    cast,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        Callable,
+        Dataclass,
+        DType,
+        DTypeBoolean,
+        DTypeReal,
+        Generator,
+        Literal,
+        NDArray,
+        NDArrayFloat,
+        NDArrayInt,
+        Real,
+        Self,
+        Sequence,
+        Type,
+    )
+
+from colour.hints import ArrayLike, DTypeFloat, DTypeInt, cast
 from colour.utilities import (
     CACHE_REGISTRY,
     attest,

@@ -4,7 +4,10 @@ from __future__ import annotations
 
 import sys
 
-from colour.hints import Any
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any
 
 from .verbose import (
     MixinLogging,

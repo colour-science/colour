@@ -22,10 +22,15 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.utilities import as_float_array, from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = "Colour Developers"

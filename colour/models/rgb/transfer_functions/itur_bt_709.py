@@ -20,7 +20,11 @@ R-REC-BT.709-6-201506-I!!PDF-E.pdf
 
 from __future__ import annotations
 
-from colour.hints import ArrayLike, NDArrayFloat
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.models.rgb.transfer_functions import oetf_BT601, oetf_inverse_BT601
 
 __author__ = "Colour Developers"

@@ -12,12 +12,18 @@ Define the colour quality plotting objects:
 
 from __future__ import annotations
 
-from collections.abc import ValuesView
+import typing
+
+if typing.TYPE_CHECKING:
+    from collections.abc import ValuesView
+
 from itertools import cycle
 
+if typing.TYPE_CHECKING:
+    from matplotlib.figure import Figure
+    from matplotlib.axes import Axes
+
 import numpy as np
-from matplotlib.axes import Axes
-from matplotlib.figure import Figure
 
 from colour.colorimetry import (
     MultiSpectralDistributions,
@@ -25,13 +31,18 @@ from colour.colorimetry import (
     sds_and_msds_to_sds,
 )
 from colour.constants import DTYPE_FLOAT_DEFAULT
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        Dict,
+        Literal,
+        Sequence,
+        Tuple,
+    )
+
 from colour.hints import (
-    Any,
-    Dict,
     List,
-    Literal,
-    Sequence,
-    Tuple,
     cast,
 )
 from colour.plotting import (

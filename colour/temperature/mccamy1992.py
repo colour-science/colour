@@ -20,12 +20,17 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 from scipy.optimize import minimize
 
 from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.utilities import as_float, as_float_array, tsplit, usage_warning
 
 __author__ = "Colour Developers"

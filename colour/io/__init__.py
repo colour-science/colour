@@ -5,6 +5,7 @@ import sys
 from colour.utilities.deprecation import ModuleAPI, build_API_changes
 from colour.utilities.documentation import is_documentation_building
 
+
 from colour.hints import Any
 
 from .luts import *  # noqa: F403

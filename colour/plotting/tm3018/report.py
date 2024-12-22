@@ -14,12 +14,20 @@ tm3018.plot_single_sd_colour_rendition_report_simple`
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from matplotlib.figure import Figure
+    from matplotlib.axes import Axes
+
 import matplotlib.pyplot as plt
-from matplotlib.axes import Axes
-from matplotlib.figure import Figure
 
 from colour.colorimetry import SpectralDistribution, sd_to_XYZ
-from colour.hints import Any, Dict, Literal, Tuple, cast
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, Dict, Literal, Tuple
+
+from colour.hints import cast
 from colour.io import SpectralDistribution_IESTM2714
 from colour.models import Luv_to_uv, XYZ_to_Luv, XYZ_to_xy
 from colour.plotting import CONSTANTS_COLOUR_STYLE, override_style, render

@@ -22,11 +22,14 @@ an02_02.pdf
 
 from __future__ import annotations
 
+import typing
 from dataclasses import dataclass
 
 import numpy as np
 
-from colour.hints import NDArrayFloat
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
+
 from colour.utilities import CanonicalMapping
 
 __author__ = "Colour Developers"

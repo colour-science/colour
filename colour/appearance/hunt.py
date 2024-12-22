@@ -19,12 +19,17 @@ References
 
 from __future__ import annotations
 
+import typing
 from dataclasses import dataclass, field
 
 import numpy as np
 
 from colour.algebra import spow, vecmul
-from colour.hints import ArrayLike, NDArrayFloat, cast
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike
+
+from colour.hints import NDArrayFloat, cast
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,

@@ -7,12 +7,17 @@ Define various RGB colour models common utilities.
 
 from __future__ import annotations
 
+import typing
+
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import (
-    ArrayLike,
-    LiteralChromaticAdaptationTransform,
-    NDArrayFloat,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        ArrayLike,
+        LiteralChromaticAdaptationTransform,
+        NDArrayFloat,
+    )
+
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 
 __author__ = "Colour Developers"

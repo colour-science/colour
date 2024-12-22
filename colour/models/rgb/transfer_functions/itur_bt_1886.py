@@ -20,10 +20,15 @@ R-REC-BT.1886-0-201103-I!!PDF-E.pdf
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"

@@ -27,16 +27,21 @@ R-REC-BT.2100-2-201807-I!!PDF-E.pdf
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import vecmul
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import (
-    ArrayLike,
-    Literal,
-    LiteralChromaticAdaptationTransform,
-    NDArrayFloat,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        ArrayLike,
+        Literal,
+        LiteralChromaticAdaptationTransform,
+        NDArrayFloat,
+    )
+
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 from colour.models.rgb.transfer_functions import (
     eotf_inverse_ST2084,

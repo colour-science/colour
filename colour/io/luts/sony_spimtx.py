@@ -10,13 +10,16 @@ Define *Sony* *.spimtx* *LUT* format related input / output utilities objects.
 
 from __future__ import annotations
 
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 import numpy as np
 
 from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.io.luts import LUTOperatorMatrix
 from colour.io.luts.common import path_to_title
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

@@ -19,6 +19,8 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import eigen_decomposition
@@ -30,11 +32,16 @@ from colour.colorimetry import (
     reshape_msds,
     reshape_sd,
 )
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        ArrayLike,
+        Mapping,
+        NDArrayFloat,
+        Tuple,
+    )
+
 from colour.hints import (
-    ArrayLike,
-    Mapping,
-    NDArrayFloat,
-    Tuple,
     cast,
 )
 from colour.recovery import BASIS_FUNCTIONS_DYER2017

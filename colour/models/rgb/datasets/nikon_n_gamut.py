@@ -16,7 +16,11 @@ N-Log_Specification_(En)01.pdf
 
 from __future__ import annotations
 
-from colour.hints import NDArrayFloat
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
+
 from colour.models.rgb import (
     RGB_Colourspace,
     log_decoding_NLog,

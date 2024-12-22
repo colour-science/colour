@@ -16,8 +16,13 @@ References
 
 from __future__ import annotations
 
+import typing
+
 from colour.algebra import euclidean_distance
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.models import Lab_to_DIN99
 from colour.utilities import get_domain_range_scale
 

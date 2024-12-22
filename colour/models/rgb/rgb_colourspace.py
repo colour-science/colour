@@ -25,19 +25,25 @@ References
 
 from __future__ import annotations
 
+import typing
 from copy import deepcopy
 
 import numpy as np
 
 from colour.adaptation import matrix_chromatic_adaptation_VonKries
 from colour.algebra import vecmul
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Callable,
+        LiteralChromaticAdaptationTransform,
+        LiteralRGBColourspace,
+        NDArrayFloat,
+    )
+
 from colour.hints import (
-    Any,
-    ArrayLike,
-    Callable,
-    LiteralChromaticAdaptationTransform,
-    LiteralRGBColourspace,
-    NDArrayFloat,
     cast,
 )
 from colour.models import xy_to_xyY, xy_to_XYZ, xyY_to_XYZ

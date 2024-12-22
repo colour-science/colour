@@ -53,9 +53,14 @@ INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/s240m.pdf
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
-from colour.hints import Any, ArrayLike, NDArrayFloat, NDArrayReal, cast
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, ArrayLike, NDArrayReal
+
+from colour.hints import NDArrayFloat, cast
 from colour.models.rgb.transfer_functions import (
     CV_range,
     oetf_BT2020,

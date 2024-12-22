@@ -26,6 +26,7 @@ References
 
 from __future__ import annotations
 
+import typing
 from dataclasses import astuple, dataclass, field
 
 import numpy as np
@@ -38,7 +39,10 @@ from colour.appearance.ciecam02 import (
     hue_angle,
 )
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.models import Izazbz_to_XYZ, XYZ_to_Izazbz, xy_to_XYZ
 from colour.utilities import (
     CanonicalMapping,

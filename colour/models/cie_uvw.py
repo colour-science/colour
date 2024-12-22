@@ -16,9 +16,14 @@ References
 
 from __future__ import annotations
 
+import typing
+
 from colour.algebra import sdiv, sdiv_mode, spow
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.models import (
     UCS_uv_to_xy,
     XYZ_to_xy,

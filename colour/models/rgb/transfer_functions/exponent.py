@@ -18,8 +18,13 @@ References
 
 from __future__ import annotations
 
+import typing
+
 from colour.algebra import sdiv, sdiv_mode
-from colour.hints import ArrayLike, Literal, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, Literal, NDArrayFloat
+
 from colour.utilities import (
     as_float,
     as_float_array,

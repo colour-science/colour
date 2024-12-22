@@ -16,6 +16,7 @@ References
 from __future__ import annotations
 
 import os
+import typing
 from dataclasses import dataclass
 
 import numpy as np
@@ -37,7 +38,11 @@ from colour.colorimetry import (
     sd_CIE_illuminant_D_series,
     sd_to_XYZ,
 )
-from colour.hints import ArrayLike, List, NDArrayFloat, Tuple, cast
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, List, Tuple
+
+from colour.hints import NDArrayFloat, cast
 from colour.models import JMh_CIECAM02_to_CAM02UCS, UCS_to_uv, XYZ_to_UCS
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
 from colour.utilities import (

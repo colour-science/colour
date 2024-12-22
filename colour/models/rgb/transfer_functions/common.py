@@ -7,9 +7,13 @@ Define various transfer functions common utilities.
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
-from colour.hints import ArrayLike, NDArrayReal
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayReal
+
 from colour.utilities import as_float, as_float_array, as_int, as_int_array
 
 __author__ = "Colour Developers"

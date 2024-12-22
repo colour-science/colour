@@ -5,6 +5,7 @@ from __future__ import annotations
 import os
 import shutil
 import tempfile
+import typing
 
 import numpy as np
 import pytest
@@ -13,7 +14,10 @@ from colour.characterisation import SDS_COLOURCHECKERS
 from colour.colorimetry import handle_spectral_arguments, sd_to_XYZ
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.difference import JND_CIE1976, delta_E_CIE1976
-from colour.hints import Type
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Type
+
 from colour.models import (
     RGB_COLOURSPACE_sRGB,
     RGB_to_XYZ,

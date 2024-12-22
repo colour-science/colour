@@ -14,7 +14,11 @@ References
 
 from __future__ import annotations
 
-from colour.hints import NDArrayFloat
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
+
 from colour.notation import CSS_COLOR_3, HEX_to_RGB
 from colour.utilities import attest
 

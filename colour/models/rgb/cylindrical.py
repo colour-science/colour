@@ -47,10 +47,16 @@ fileexchange/100878-rgb-to-hcl-and-hcl-to-rgb-color-conversion
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode
-from colour.hints import ArrayLike, NDArrayFloat, cast
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
+
+from colour.hints import ArrayLike, cast
 from colour.utilities import (
     as_float_array,
     from_range_1,

@@ -39,7 +39,11 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
 
 from __future__ import annotations
 
-from colour.hints import Any, ArrayLike, NDArrayFloat, LiteralDeltaEMethod
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, ArrayLike, NDArrayFloat, LiteralDeltaEMethod
+
 from colour.utilities import (
     CanonicalMapping,
     filter_kwargs,

@@ -10,6 +10,7 @@ import fnmatch
 import inspect
 import os
 import re
+import typing
 import uuid
 
 import biblib.bib
@@ -20,7 +21,9 @@ from colour.utilities import message_box
 if not hasattr(inspect, "getargspec"):
     inspect.getargspec = inspect.getfullargspec  # pyright: ignore
 
-from invoke.context import Context
+if typing.TYPE_CHECKING:
+    from invoke.context import Context
+
 from invoke.tasks import task
 
 __author__ = "Colour Developers"

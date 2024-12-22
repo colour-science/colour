@@ -54,13 +54,18 @@ blob/c469c3c3b18fbacd6ee0165573034d2a0408b83f/libavutil/pixfmt.h#L532
     https://www.itu.int/rec/T-REC-H.273-202107-I/en
 """
 
+from __future__ import annotations
+
 import functools
+import typing
 from dataclasses import dataclass
 from enum import IntEnum, auto
 
 import numpy as np
 
-from colour.hints import Any, ArrayLike, Callable, Dict, NDArrayFloat, NoReturn
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, ArrayLike, Callable, Dict, NDArrayFloat, NoReturn
+
 from colour.models.rgb.datasets.dcdm_xyz import (
     CCS_WHITEPOINT_DCDM_XYZ,
     MATRIX_DCDM_XYZ_TO_XYZ,

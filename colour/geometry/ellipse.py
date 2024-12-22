@@ -21,9 +21,14 @@ jsessionid=BEEAFC85DE53308286D626302F4A3E3C?doi=10.1.1.1.7559&rep=rep1&type=pdf
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
-from colour.hints import ArrayLike, Literal, NDArrayFloat, cast
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, Literal
+
+from colour.hints import NDArrayFloat, cast
 from colour.utilities import (
     CanonicalMapping,
     ones,

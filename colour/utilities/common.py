@@ -23,6 +23,7 @@ import inspect
 import os
 import re
 import types
+import typing
 import unicodedata
 import warnings
 from contextlib import contextmanager
@@ -32,18 +33,21 @@ from pprint import pformat
 import numpy as np
 
 from colour.constants import THRESHOLD_INTEGER
-from colour.hints import (
-    Any,
-    Callable,
-    DTypeBoolean,
-    Generator,
-    Iterable,
-    Literal,
-    Mapping,
-    Self,
-    Sequence,
-    TypeVar,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        Callable,
+        DTypeBoolean,
+        Generator,
+        Iterable,
+        Literal,
+        Mapping,
+        Self,
+        Sequence,
+    )
+
+from colour.hints import TypeVar
 from colour.utilities import CanonicalMapping, Lookup, is_xxhash_installed
 
 __author__ = "Colour Developers"
@@ -1097,7 +1101,8 @@ if is_xxhash_installed():
     int_digest = xxhash.xxh3_64_intdigest
 
     if is_documentation_building():  # pragma: no cover
-        import array
+        if typing.TYPE_CHECKING:
+            import array
 
         def int_digest(
             args: (  # noqa: ARG001

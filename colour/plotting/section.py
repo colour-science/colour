@@ -12,10 +12,18 @@ Define the gamut section plotting objects:
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
-from matplotlib.axes import Axes
+
+if typing.TYPE_CHECKING:
+    from matplotlib.axes import Axes
+
 from matplotlib.collections import LineCollection
-from matplotlib.figure import Figure
+
+if typing.TYPE_CHECKING:
+    from matplotlib.figure import Figure
+
 from matplotlib.patches import Polygon
 
 from colour.colorimetry import (
@@ -26,16 +34,21 @@ from colour.colorimetry import (
 )
 from colour.geometry import hull_section, primitive_cube
 from colour.graph import convert
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Dict,
+        Literal,
+        LiteralColourspaceModel,
+        LiteralRGBColourspace,
+        Sequence,
+        Tuple,
+    )
+
 from colour.hints import (
-    Any,
-    ArrayLike,
-    Dict,
-    Literal,
-    LiteralColourspaceModel,
-    LiteralRGBColourspace,
     Real,
-    Sequence,
-    Tuple,
     cast,
 )
 from colour.models import (

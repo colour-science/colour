@@ -17,9 +17,13 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
-from colour.hints import ArrayLike, NDArrayFloat
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.utilities import as_float_array, tstack
 
 __author__ = "Colour Developers"

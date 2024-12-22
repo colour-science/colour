@@ -22,8 +22,12 @@ References
 
 from __future__ import annotations
 
-from colour.colorimetry import SpectralDistribution
-from colour.hints import Any, ArrayLike, Literal
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.colorimetry import SpectralDistribution
+    from colour.hints import Any, ArrayLike, Literal
+
 from colour.utilities import (
     CanonicalMapping,
     as_float_array,

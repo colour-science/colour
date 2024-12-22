@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -16,7 +18,9 @@ from colour.corresponding.prediction import (
     CorrespondingColourDataset,
     convert_experiment_results_Breneman1987,
 )
-from colour.hints import NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

@@ -16,10 +16,15 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import as_float_array, from_range_1, ones, to_domain_1
 

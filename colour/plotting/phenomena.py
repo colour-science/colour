@@ -10,16 +10,24 @@ Define the optical phenomena plotting objects:
 
 from __future__ import annotations
 
+import typing
+
 import matplotlib.pyplot as plt
-from matplotlib.axes import Axes
-from matplotlib.figure import Figure
+
+if typing.TYPE_CHECKING:
+    from matplotlib.figure import Figure
+    from matplotlib.axes import Axes
 
 from colour.algebra import normalise_maximum
 from colour.colorimetry import (
     MultiSpectralDistributions,
     sd_to_XYZ,
 )
-from colour.hints import Any, ArrayLike, Dict, Sequence, Tuple, cast
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, ArrayLike, Dict, Sequence, Tuple
+
+from colour.hints import cast
 from colour.phenomena import sd_rayleigh_scattering
 from colour.phenomena.rayleigh import (
     CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,

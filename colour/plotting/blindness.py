@@ -9,18 +9,24 @@ Define the colour blindness plotting objects:
 
 from __future__ import annotations
 
-from matplotlib.axes import Axes
-from matplotlib.figure import Figure
+import typing
+
+if typing.TYPE_CHECKING:
+    from matplotlib.figure import Figure
+    from matplotlib.axes import Axes
 
 from colour.algebra import vecmul
 from colour.blindness import matrix_cvd_Machado2009
-from colour.hints import (
-    Any,
-    ArrayLike,
-    Dict,
-    Literal,
-    Tuple,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Dict,
+        Literal,
+        Tuple,
+    )
+
 from colour.plotting import CONSTANTS_COLOUR_STYLE, override_style, plot_image
 from colour.utilities import optional
 

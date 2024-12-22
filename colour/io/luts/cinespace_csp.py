@@ -17,11 +17,16 @@ References
 
 from __future__ import annotations
 
-from pathlib import Path
+import typing
+
+if typing.TYPE_CHECKING:
+    from pathlib import Path
 
 import numpy as np
 
-from colour.hints import ArrayLike, List, NDArrayFloat, NDArrayInt
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, List, NDArrayFloat, NDArrayInt
+
 from colour.io.luts import LUT1D, LUT3D, LUT3x1D, LUTSequence
 from colour.utilities import (
     as_float_array,

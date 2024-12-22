@@ -31,17 +31,20 @@ from __future__ import annotations
 import concurrent.futures
 import os
 import threading
+import typing
 
-from colour.hints import (
-    Any,
-    Dict,
-    Generator,
-    List,
-    Self,
-    Sequence,
-    Tuple,
-    Type,
-)
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        Dict,
+        Generator,
+        List,
+        Self,
+        Sequence,
+        Tuple,
+        Type,
+    )
+
 from colour.utilities import MixinLogging, attest, optional, required
 
 __author__ = "Colour Developers"

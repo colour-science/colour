@@ -10,13 +10,18 @@ Define the automatic colour conversion graph plotting objects:
 from __future__ import annotations
 
 import os
+import typing
 
 import colour
 from colour.graph import (
     CONVERSION_GRAPH_NODE_LABELS,
     describe_conversion_path,
 )
-from colour.hints import Literal, cast
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Literal
+
+from colour.hints import cast
 from colour.utilities import required, validate_method
 
 __author__ = "Colour Developers"

@@ -14,18 +14,22 @@ Define various RGB colourspace volume computation objects:
 from __future__ import annotations
 
 import itertools
+import typing
 
 import numpy as np
 
 from colour.algebra import random_triplet_generator
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.constants import DTYPE_INT_DEFAULT
-from colour.hints import (
-    ArrayLike,
-    Callable,
-    LiteralChromaticAdaptationTransform,
-    NDArrayFloat,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        ArrayLike,
+        Callable,
+        LiteralChromaticAdaptationTransform,
+        NDArrayFloat,
+    )
+
 from colour.models import (
     Lab_to_XYZ,
     RGB_Colourspace,
