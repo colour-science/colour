@@ -30,6 +30,7 @@ from __future__ import annotations
 
 import atexit
 import concurrent.futures
+import functools
 import multiprocessing
 import os
 import threading
@@ -38,6 +39,7 @@ import typing
 if typing.TYPE_CHECKING:
     from colour.hints import (
         Any,
+        Callable,
         Dict,
         Generator,
         List,
@@ -47,7 +49,7 @@ if typing.TYPE_CHECKING:
         Type,
     )
 
-from colour.utilities import MixinLogging, attest, optional, required
+from colour.utilities import Delegate, MixinLogging, attest, optional, required
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -59,6 +61,7 @@ __status__ = "Production"
 __all__ = [
     "TreeNode",
     "Port",
+    "notify_process_state",
     "PortNode",
     "ControlFlowNode",
     "PortGraph",
@@ -940,6 +943,39 @@ class Port(MixinLogging):
         return f"<{self._name}> {self.name}"
 
 
+def notify_process_state(function: Callable) -> Any:
+    """
+    Define a decorator to notify about the process state.
+
+    Parameters
+    ----------
+    function
+        Function to decorate.
+    """
+
+    @functools.wraps(function)
+    def wrapper(*args: Any, **kwargs: Any) -> Any:
+        self = next(iter(args)) if args else None
+
+        if self is not None and hasattr(self, "on_process_started"):
+            self.on_process_started.notify(self)
+
+        try:
+            result = function(*args, **kwargs)
+        except:
+            if self is not None and hasattr(self, "on_process_exception"):
+                self.on_process_exception.notify(self)
+
+            raise
+
+        if self is not None and hasattr(self, "on_process_ended"):
+            self.on_process_ended.notify(self)
+
+        return result
+
+    return wrapper
+
+
 class PortNode(TreeNode, MixinLogging):
     """
     Define a node with support for input and output ports.
@@ -973,6 +1009,14 @@ class PortNode(TreeNode, MixinLogging):
     -   :meth:`~colour.utilities.PortNode.process`
     -   :meth:`~colour.utilities.PortNode.to_graphviz`
 
+    Delegates
+    ---------
+    -   :attr:`~colour.utilities.PortNode.on_connected`
+    -   :attr:`~colour.utilities.PortNode.on_disconnected`
+    -   :attr:`~colour.utilities.PortNode.on_process_started`
+    -   :attr:`~colour.utilities.PortNode.on_process_ended`
+    -   :attr:`~colour.utilities.PortNode.on_process_failed`
+
     Examples
     --------
     >>> class NodeAdd(PortNode):
@@ -985,6 +1029,7 @@ class PortNode(TreeNode, MixinLogging):
     ...         self.add_input_port("b")
     ...         self.add_output_port("output")
     ...
+    ...     @notify_process_state
     ...     def process(self):
     ...         a = self.get_input("a")
     ...         b = self.get_input("b")
@@ -1010,6 +1055,12 @@ class PortNode(TreeNode, MixinLogging):
         self._input_ports = {}
         self._output_ports = {}
         self._dirty = True
+
+        self.on_connected: Delegate = Delegate()
+        self.on_disconnected: Delegate = Delegate()
+        self.on_process_started: Delegate = Delegate()
+        self.on_process_ended: Delegate = Delegate()
+        self.on_process_exception: Delegate = Delegate()
 
     @property
     def input_ports(self) -> Dict[str, Port]:
@@ -1458,6 +1509,8 @@ class PortNode(TreeNode, MixinLogging):
 
         port_source.connect(port_target)
 
+        self.on_connected.notify((self, source_port, target_node, target_port))
+
     def disconnect(
         self,
         source_port: str,
@@ -1506,6 +1559,9 @@ class PortNode(TreeNode, MixinLogging):
 
         port_source.disconnect(port_target)
 
+        self.on_disconnected.notify((self, source_port, target_node, target_port))
+
+    @notify_process_state
     def process(self) -> None:
         """
         Process the node, must be reimplemented by sub-classes.
@@ -1527,6 +1583,7 @@ class PortNode(TreeNode, MixinLogging):
         ...         self.add_input_port("b")
         ...         self.add_output_port("output")
         ...
+        ...     @notify_process_state
         ...     def process(self):
         ...         a = self.get_input("a")
         ...         b = self.get_input("b")
@@ -1615,6 +1672,7 @@ class PortGraph(PortNode):
     ...         self.add_input_port("b")
     ...         self.add_output_port("output")
     ...
+    ...     @notify_process_state
     ...     def process(self):
     ...         a = self.get_input("a")
     ...         b = self.get_input("b")
@@ -1894,6 +1952,7 @@ class PortGraph(PortNode):
 
             raise error  # noqa: TRY201
 
+    @notify_process_state
     def process(self, **kwargs: Any) -> None:
         """
         Process the node-graph by traversing it and executing the
@@ -2128,6 +2187,7 @@ class For(ControlFlowNode):
         self.add_output_port("element", None, "Current element of the array")
         self.add_output_port("loop_output", None, "Port for loop Output", ExecutionPort)
 
+    @notify_process_state
     def process(self) -> None:
         """Process the *for* loop node execution."""
 
@@ -2301,6 +2361,7 @@ class ParallelForThread(ControlFlowNode):
         self.add_output_port("results", [], "Results from the parallel loop")
         self.add_output_port("loop_output", None, "Port for loop output", ExecutionPort)
 
+    @notify_process_state
     def process(self) -> None:
         """
         Process the parallel loop node execution.
@@ -2479,6 +2540,7 @@ class ParallelForMultiprocess(ControlFlowNode):
         self.add_output_port("results", [], "Results from the parallel loop")
         self.add_output_port("loop_output", None, "Port for loop output", ExecutionPort)
 
+    @notify_process_state
     def process(self) -> None:
         """
         Process the ``for`` loop node execution.

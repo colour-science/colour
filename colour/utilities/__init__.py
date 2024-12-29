@@ -149,12 +149,14 @@ from .array import (
     zeros,
 )
 from .common import download_url, hash_sha256
+from .delegate import Delegate
 from .metrics import metric_mse, metric_psnr
 from .network import (
     ControlFlowNode,
     ExecutionNode,
     ExecutionPort,
     For,
+    notify_process_state,
     ParallelForMultiprocess,
     ParallelForThread,
     Port,
@@ -298,6 +300,7 @@ __all__ += [
     "tstack",
     "zeros",
 ]
+__all__ += ["Delegate"]
 __all__ += [
     "metric_mse",
     "metric_psnr",
@@ -311,6 +314,7 @@ __all__ += [
     "ExecutionNode",
     "ExecutionPort",
     "For",
+    "notify_process_state",
     "ParallelForMultiprocess",
     "ParallelForThread",
     "Port",
