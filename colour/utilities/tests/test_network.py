@@ -13,6 +13,7 @@ if sys.version_info >= (3, 14, 1):
     )
 
 import re
+import time
 import typing
 
 import networkx as nx
@@ -24,6 +25,10 @@ if typing.TYPE_CHECKING:
 from colour.utilities import (
     ExecutionNode,
     For,
+    NodeLog,
+    NodePassthrough,
+    NodeSetGraphOutputPort,
+    NodeSleep,
     ParallelForMultiprocess,
     ParallelForThread,
     Port,
@@ -31,12 +36,12 @@ from colour.utilities import (
     PortNode,
     TreeNode,
     is_pydot_installed,
+    notify_process_state,
 )
 from colour.utilities.network import (
     ExecutionPort,
     ProcessPoolExecutorManager,
     ThreadPoolExecutorManager,
-    notify_process_state,
 )
 
 __author__ = "Colour Developers"
@@ -56,6 +61,10 @@ __all__ = [
     "TestParallelForThread",
     "TestProcessPoolExecutorManager",
     "TestParallelForMultiProcess",
+    "TestNodePassthrough",
+    "TestNodeLog",
+    "TestNodeSleep",
+    "TestNodeSetGraphOutputPort",
 ]
 
 
@@ -1519,3 +1528,70 @@ class TestParallelForMultiProcess:
         loop_exec_none.output_ports["execution_output"].connect(orphan_exec_port)
         loop_exec_none.set_input("array", [1, 2, 3])
         loop_exec_none.process()
+
+
+class TestNodePassthrough:
+    """
+    Define :class:`colour.utilities.network.NodePassthrough` class unit tests
+    methods.
+    """
+
+    def test_NodePassthrough(self) -> None:
+        """Test the :class:`colour.utilities.network.NodePassthrough` class."""
+
+        node = NodePassthrough()
+        node.set_input("input", 1)
+        node.process()
+
+        assert node.get_output("output") == 1
+
+
+class TestNodeLog:
+    """
+    Define :class:`colour.utilities.network.NodeLog` class unit tests
+    methods.
+    """
+
+    def test_NodeLog(self) -> None:
+        """Test the :class:`colour.utilities.network.NodeLog` class."""
+
+        node = NodeLog()
+        node.set_input("input", "Foo")
+        node.process()
+
+
+class TestNodeSleep:
+    """
+    Define :class:`colour.utilities.network.NodeSleep` class unit tests
+    methods.
+    """
+
+    def test_NodeSleep(self) -> None:
+        """Test the :class:`colour.utilities.network.NodeSleep` class."""
+
+        node = NodeSleep()
+        node.set_input("duration", 1)
+        then = time.time()
+        node.process()
+
+        assert 1.25 > time.time() - then > 0.75
+
+
+class TestNodeSetGraphOutputPort:
+    """
+    Define :class:`colour.utilities.network.NodeSetGraphOutputPort` class unit tests
+    methods.
+    """
+
+    def test_NodeSetGraphOutputPort(self) -> None:
+        """Test the :class:`colour.utilities.network.NodeSetGraphOutputPort` class."""
+
+        graph = PortGraph()
+        graph.add_output_port("result")
+        node = NodeSetGraphOutputPort()
+        node.set_input("name", "result")
+        node.set_input("value", 1)
+        graph.add_node(node)
+        graph.process()
+
+        assert graph.get_output("result") == 1

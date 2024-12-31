@@ -24,6 +24,11 @@ Node-graph and network infrastructure for computational workflows.
     in parallel in the node-graph using threads.
 -   :class:`colour.utilities.ParallelForMultiprocess`: Node performing for
     loops in parallel in the node-graph using multiprocessing.
+-   :class:`colour.utilities.NodePassthrough`: A node passing the input data
+    through.
+-   :class:`colour.utilities.NodeLog`: A node logging the input data.
+-   :class:`colour.utilities.NodeSleep`: A node sleeping for given duration in
+    seconds.
 """
 
 from __future__ import annotations
@@ -34,6 +39,7 @@ import functools
 import multiprocessing
 import os
 import threading
+import time
 import typing
 
 if typing.TYPE_CHECKING:
@@ -73,6 +79,10 @@ __all__ = [
     "ParallelForThread",
     "ProcessPoolExecutorManager",
     "ParallelForMultiprocess",
+    "NodePassthrough",
+    "NodeLog",
+    "NodeSleep",
+    "NodeSetGraphOutputPort",
 ]
 
 
@@ -886,7 +896,10 @@ class Port(MixinLogging):
 
         attest(isinstance(port, Port), f'"{port}" is not a "Port" instance!')
 
-        self.log(f'Connecting "{self.name}" to "{port.name}".', "debug")
+        self.log(
+            f'Connecting "{self.node}.{self.name}" to "{port.node}.{port.name}".',
+            "debug",
+        )
 
         self.connections[port] = None
         port.connections[self] = None
@@ -2588,5 +2601,123 @@ class ParallelForMultiprocess(ControlFlowNode):
             return
 
         execution_output_node.process()
+
+        self.dirty = False
+
+
+class NodePassthrough(PortNode):
+    """
+    Pass the input data through.
+
+    Methods
+    -------
+    -   :meth:`~colour.utilities.NodePassthrough.__init__`
+    -   :meth:`~colour.utilities.NodePassthrough.process`
+    """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+        self.description = "Pass the input data through"
+
+        self.add_input_port("input")
+        self.add_output_port("output")
+
+    @notify_process_state
+    def process(self, **kwargs: Any) -> None:  # noqa: ARG002
+        """
+        Process the node.
+        """
+
+        self.set_output("output", self.get_input("input"))
+
+        self.dirty = False
+
+
+class NodeLog(ExecutionNode):
+    """
+    Log the input data.
+
+    Methods
+    -------
+    -   :meth:`~colour.utilities.NodeLog.__init__`
+    -   :meth:`~colour.utilities.NodeLog.process`
+    """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+        self.description = "Log the input data"
+
+        self.add_input_port("input")
+        self.add_input_port("verbosity", "info")
+
+    @notify_process_state
+    def process(self, **kwargs: Any) -> None:  # noqa: ARG002
+        """
+        Process the node.
+        """
+
+        self.log(self.get_input("input"), self.get_input("verbosity"))
+
+        self.dirty = False
+
+
+class NodeSleep(ExecutionNode):
+    """
+    Sleep for given duration in seconds.
+
+    Methods
+    -------
+    -   :meth:`~colour.utilities.NodeLog.__init__`
+    -   :meth:`~colour.utilities.NodeLog.process`
+    """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+        self.description = "Sleep for given duration in seconds"
+
+        self.add_input_port("duration", 0)
+
+    @notify_process_state
+    def process(self, **kwargs: Any) -> None:  # noqa: ARG002
+        """
+        Process the node.
+        """
+
+        time.sleep(self.get_input("duration"))
+
+        self.dirty = False
+
+
+class NodeSetGraphOutputPort(ExecutionNode):
+    """
+    Set the parent graph output port with given name with given value.
+
+    Methods
+    -------
+    -   :meth:`~colour.utilities.NodeSetGraphOutputPort.__init__`
+    -   :meth:`~colour.utilities.NodeSetGraphOutputPort.process`
+    """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+        self.description = (
+            "Set the parent graph output port with given name with given value"
+        )
+
+        self.add_input_port("name")
+        self.add_input_port("value")
+
+    @notify_process_state
+    def process(self, **kwargs: Any) -> None:  # noqa: ARG002
+        """
+        Process the node.
+        """
+
+        if self.parent is not None:
+            self.parent.set_output(self.get_input("name"), self.get_input("value"))
 
         self.dirty = False
