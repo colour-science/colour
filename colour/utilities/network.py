@@ -1473,7 +1473,7 @@ class PortNode(TreeNode, MixinLogging):
 
         attest(
             name in self._output_ports,
-            f'"{name}" is not a member of "{self._name}" input ports!',
+            f'"{name}" is not a member of "{self._name}" output ports!',
         )
 
         self._output_ports[name].value = value
