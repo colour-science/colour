@@ -1,3 +1,10 @@
+# The pre-commit steps used by colour are:
+# * codespell
+# * isort
+# * ruff-format
+# * ruff --fix
+# * blacken-docs
+# * prettier (with specific fixes)
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: "v5.0.0"
