@@ -1417,6 +1417,21 @@ class TestSpectralShape:
             np.arange(0, 10 + 0.1, 0.1),
         )
 
+    def test_from_data(self) -> None:
+        """Test :func:`colour.colorimetry.spectrum.SpectralShape.from_array`"""
+        data = np.arange(400, 700 + 1, 10)  # arange generates [start, stop)
+        shape = SpectralShape.from_array(data)
+
+        assert shape.start == 400
+        assert shape.end == 700
+        assert shape.interval == 10
+
+        assert shape == SpectralShape(400, 700, 10)
+
+        with pytest.raises(RuntimeError):
+            data = [400, 450, 500, 555, 600, 650, 700]
+            SpectralShape.from_array(data)
+
 
 class TestSpectralDistribution:
     """
