@@ -1,5 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.io.clf` module."""
+
 import os
 import unittest
 
@@ -27,7 +28,7 @@ class TestHelpers:
     :func:`colour.io.luts.clf.from_f16_to_uint16` unit tests methods.
     """
 
-    def test_uint16_to_f16(self):
+    def test_uint16_to_f16(self) -> None:
         """
         Test :func:`colour.io.luts.clf.from_uint16_to_f16` method.
         """
@@ -36,7 +37,7 @@ class TestHelpers:
         expected = np.array([0, 1.0])
         np.testing.assert_almost_equal(output, expected)
 
-    def test_f16_to_uint16(self):
+    def test_f16_to_uint16(self) -> None:
         """
         Test :func:`colour.io.luts.clf.from_f16_to_uint16` method.
         """
@@ -45,7 +46,7 @@ class TestHelpers:
         expected = np.array([0, 15360])
         np.testing.assert_almost_equal(output, expected)
 
-    def test_conversion_reversible(self):
+    def test_conversion_reversible(self) -> None:
         """
         Test :func:`colour.io.luts.clf.from_uint16_to_f16` method with
         :func:`colour.io.luts.clf.from_f16_to_uint16`.
@@ -84,7 +85,7 @@ class TestLUT1DWithBitDepth:
         </LUT1D>
     """
 
-    def test_ocio_consistency_simple(self, bit_depth):
+    def test_ocio_consistency_simple(self, bit_depth: str) -> None:
         """
         Test that the execution of a simple 1D LUT is consistent with `ociochecklut`.
         """
@@ -122,7 +123,7 @@ class TestLUT1DWithBitDepth:
         </LUT1D>
     """
 
-    def test_ocio_consistency_multi_table(self, bit_depth):
+    def test_ocio_consistency_multi_table(self, bit_depth: str) -> None:
         """
         Test that the execution of multiple 1D LUTs is consistent with `ociochecklut`.
         """
@@ -140,7 +141,7 @@ class TestLUT1DWithBitDepth:
         </LUT1D>
     """
 
-    def test_ocio_consistency_raw_halfs(self, bit_depth):
+    def test_ocio_consistency_raw_halfs(self, bit_depth: str) -> None:
         """
         Test that the execution of a 1D LUT with the `raw_halfs` attribute is
         consistent with `ociochecklut`.
@@ -156,7 +157,7 @@ class TestLUT1D:
     Define test for applying 1D LUTSs from a CLF file.
     """
 
-    def test_ocio_consistency_half_domain(self):
+    def test_ocio_consistency_half_domain(self) -> None:
         """
         Test that the execution of a 1D LUT with the `half_domain` attribute is
         consistent with `ociochecklut`.

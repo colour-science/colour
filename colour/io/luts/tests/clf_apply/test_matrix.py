@@ -1,5 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.io.clf` module."""
+
 import unittest
 
 __author__ = "Colour Developers"
@@ -22,7 +23,7 @@ class TestMatrix:
     Define test for applying Matrix nodes from a CLF file.
     """
 
-    def test_ocio_consistency_simple(self):
+    def test_ocio_consistency_simple(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """

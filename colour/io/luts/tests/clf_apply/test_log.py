@@ -1,5 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.io.clf` module."""
+
 import unittest
 
 __author__ = "Colour Developers"
@@ -17,7 +18,7 @@ from colour.io.luts.tests.test_clf_common import (
 )
 
 
-def assert_snippet_consistency(snippet):
+def assert_snippet_consistency(snippet: str) -> None:
     """
     Evaluate the snippet with multiple values anc check that they are the same as the
     `ociochecklut` tools output.
@@ -34,7 +35,7 @@ class TestLog:
     Define test for applying Log nodes from a CLF file.
     """
 
-    def test_ocio_consistency_log_10(self):
+    def test_ocio_consistency_log_10(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
@@ -45,7 +46,7 @@ class TestLog:
         """
         assert_snippet_consistency(example)
 
-    def test_ocio_consistency_anti_log_10(self):
+    def test_ocio_consistency_anti_log_10(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
@@ -56,7 +57,7 @@ class TestLog:
         """
         assert_snippet_consistency(example)
 
-    def test_ocio_consistency_log_2(self):
+    def test_ocio_consistency_log_2(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
@@ -67,7 +68,7 @@ class TestLog:
         """
         assert_snippet_consistency(example)
 
-    def test_ocio_consistency_anti_log_2(self):
+    def test_ocio_consistency_anti_log_2(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
@@ -78,7 +79,7 @@ class TestLog:
         """
         assert_snippet_consistency(example)
 
-    def test_ocio_consistency_lin_to_log(self):
+    def test_ocio_consistency_lin_to_log(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
@@ -92,7 +93,7 @@ class TestLog:
         """
         assert_snippet_consistency(example)
 
-    def test_ocio_consistency_log_to_lin(self):
+    def test_ocio_consistency_log_to_lin(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
@@ -106,7 +107,7 @@ class TestLog:
         """
         assert_snippet_consistency(example)
 
-    def test_ocio_consistency_camera_lin_to_log(self):
+    def test_ocio_consistency_camera_lin_to_log(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
@@ -121,7 +122,7 @@ class TestLog:
         """
         assert_snippet_consistency(example)
 
-    def test_ocio_consistency_camera_log_to_lin(self):
+    def test_ocio_consistency_camera_log_to_lin(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """

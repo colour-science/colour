@@ -1,5 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.io.clf` module."""
+
 import unittest
 
 __author__ = "Colour Developers"
@@ -17,7 +18,7 @@ from colour.io.luts.tests.test_clf_common import (
 )
 
 
-def assert_snippet_consistency(snippet):
+def assert_snippet_consistency(snippet: str) -> None:
     """
     Evaluate the snippet with multiple values anc check that they are the same as the
     `ociochecklut` tools output.
@@ -34,7 +35,7 @@ class TestASC_CDL:
     Define test for applying Exponent nodes from a CLF file.
     """
 
-    def test_ocio_consistency_fwd(self):
+    def test_ocio_consistency_fwd(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
@@ -53,7 +54,7 @@ class TestASC_CDL:
         """
         assert_snippet_consistency(example)
 
-    def test_ocio_consistency_rev(self):
+    def test_ocio_consistency_rev(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
@@ -72,7 +73,7 @@ class TestASC_CDL:
         """
         assert_snippet_consistency(example)
 
-    def test_ocio_consistency_fwd_no_clamp(self):
+    def test_ocio_consistency_fwd_no_clamp(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
@@ -91,7 +92,7 @@ class TestASC_CDL:
         """
         assert_snippet_consistency(example)
 
-    def test_ocio_consistency_rev_no_clamp(self):
+    def test_ocio_consistency_rev_no_clamp(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
@@ -110,7 +111,7 @@ class TestASC_CDL:
         """
         assert_snippet_consistency(example)
 
-    def test_ocio_consistency_default_args(self):
+    def test_ocio_consistency_default_args(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """

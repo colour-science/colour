@@ -1,5 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.io.clf` module."""
+
 import unittest
 
 __author__ = "Colour Developers"
@@ -17,7 +18,7 @@ from colour.io.luts.tests.test_clf_common import (
 )
 
 
-def assert_snippet_consistency(snippet):
+def assert_snippet_consistency(snippet: str) -> None:
     """
     Evaluate the snippet with multiple values anc check that they are the same as the
     `ociochecklut` tools output.
@@ -37,7 +38,7 @@ class TestExponent:
     Define test for applying Exponent nodes from a CLF file.
     """
 
-    def test_ocio_consistency_fwd(self):
+    def test_ocio_consistency_fwd(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
@@ -49,7 +50,7 @@ class TestExponent:
         """
         assert_snippet_consistency(example)
 
-    def test_ocio_consistency_rev(self):
+    def test_ocio_consistency_rev(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
@@ -61,7 +62,7 @@ class TestExponent:
         """
         assert_snippet_consistency(example)
 
-    def test_ocio_consistency_mirror_fwd(self):
+    def test_ocio_consistency_mirror_fwd(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
@@ -73,7 +74,7 @@ class TestExponent:
         """
         assert_snippet_consistency(example)
 
-    def test_ocio_consistency_basic_mirror_rev(self):
+    def test_ocio_consistency_basic_mirror_rev(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
@@ -85,7 +86,7 @@ class TestExponent:
         """
         assert_snippet_consistency(example)
 
-    def test_ocio_consistency_basic_pass_thru_fwd(self):
+    def test_ocio_consistency_basic_pass_thru_fwd(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
@@ -97,7 +98,7 @@ class TestExponent:
         """
         assert_snippet_consistency(example)
 
-    def test_ocio_consistency_basic_pass_thru_rev(self):
+    def test_ocio_consistency_basic_pass_thru_rev(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
@@ -109,7 +110,7 @@ class TestExponent:
         """
         assert_snippet_consistency(example)
 
-    def test_ocio_consistency_mon_curve_fwd(self):
+    def test_ocio_consistency_mon_curve_fwd(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
@@ -121,7 +122,7 @@ class TestExponent:
         """
         assert_snippet_consistency(example)
 
-    def test_ocio_consistency_mon_curve_rev(self):
+    def test_ocio_consistency_mon_curve_rev(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
@@ -133,7 +134,7 @@ class TestExponent:
         """
         assert_snippet_consistency(example)
 
-    def test_ocio_consistency_mon_curve_rev_2(self):
+    def test_ocio_consistency_mon_curve_rev_2(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
@@ -145,7 +146,7 @@ class TestExponent:
         """
         assert_snippet_consistency(example)
 
-    def test_ocio_consistency_mon_curve_mirror_fwd(self):
+    def test_ocio_consistency_mon_curve_mirror_fwd(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
@@ -157,7 +158,7 @@ class TestExponent:
         """
         assert_snippet_consistency(example)
 
-    def test_ocio_consistency_mon_curve_mirror_rev(self):
+    def test_ocio_consistency_mon_curve_mirror_rev(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
@@ -169,7 +170,7 @@ class TestExponent:
         """
         assert_snippet_consistency(example)
 
-    def test_ocio_consistency_single_channel_application(self):
+    def test_ocio_consistency_single_channel_application(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
@@ -181,7 +182,7 @@ class TestExponent:
         """
         assert_snippet_consistency(example)
 
-    def test_ocio_consistency_multi_channel_application(self):
+    def test_ocio_consistency_multi_channel_application(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """

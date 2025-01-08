@@ -1,5 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.io.clf` module."""
+
 import unittest
 
 __author__ = "Colour Developers"
@@ -20,7 +21,7 @@ class TestHelpers:
     :func:`colour.io.luts.clf.from_f16_to_uint16` unit tests methods.
     """
 
-    def test_uint16_to_f16(self):
+    def test_uint16_to_f16(self) -> None:
         """
         Test :func:`colour.io.luts.clf.from_uint16_to_f16` method.
         """
@@ -29,7 +30,7 @@ class TestHelpers:
         expected = np.array([0, 1.0])
         np.testing.assert_almost_equal(output, expected)
 
-    def test_f16_to_uint16(self):
+    def test_f16_to_uint16(self) -> None:
         """
         Test :func:`colour.io.luts.clf.from_f16_to_uint16` method.
         """
@@ -38,7 +39,7 @@ class TestHelpers:
         expected = np.array([0, 15360])
         np.testing.assert_almost_equal(output, expected)
 
-    def test_conversion_reversible(self):
+    def test_conversion_reversible(self) -> None:
         """
         Test :func:`colour.io.luts.clf.from_uint16_to_f16` method with
         :func:`colour.io.luts.clf.from_f16_to_uint16`.

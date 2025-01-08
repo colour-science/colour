@@ -1,5 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.io.clf` module."""
+
 import unittest
 
 __author__ = "Colour Developers"
@@ -44,14 +45,14 @@ class TestLUT3D:
     </LUT3D>
     """
 
-    def test_ocio_consistency_simple(self):
+    def test_ocio_consistency_simple(self) -> None:
         """
         Test that the execution of a simple 1D LUT is consistent with `ociochecklut`.
         """
         value_rgb = np.array([1.0, 0.5, 0.0])
         assert_ocio_consistency(value_rgb, self.EXAMPLE_SIMPLE)
 
-    def test_ocio_consistency_tetrahedral_interpolation(self):
+    def test_ocio_consistency_tetrahedral_interpolation(self) -> None:
         """
         Test that the execution of a 1D LUT with tetrahedral interpolation is
         consistent with `ociochecklut`.

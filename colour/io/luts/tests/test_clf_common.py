@@ -1,9 +1,11 @@
 """
 Defines helper functionality for CLF tests.
 """
+
 import os
 import subprocess
 import tempfile
+from collections.abc import Generator
 
 import colour_clf_io as clf
 import numpy as np
@@ -16,6 +18,7 @@ __all__ = [
     "snippet_to_process_list",
 ]
 
+from hints import NDArrayFloat
 
 EXAMPLE_WRAPPER = """<?xml version="1.0" ?>
 <ProcessList id="Example Wrapper" compCLFversion="3.0">
@@ -45,7 +48,7 @@ def snippet_to_process_list(snippet: str) -> clf.ProcessList:
     return clf.parse_clf(doc)
 
 
-def snippet_as_tmp_file(snippet):
+def snippet_as_tmp_file(snippet: str) -> str:
     doc = wrap_snippet(snippet)
     tmp_folder = tempfile.gettempdir()
     tmp_file_name = tempfile.mktemp(suffix=".clf")  # noqa: S306
@@ -55,32 +58,38 @@ def snippet_as_tmp_file(snippet):
     return file_name
 
 
-def ocio_outout_for_file(path: str, rgb: tuple[float, float, float] | None = None):
+def ocio_output_for_file(path: str, rgb: NDArrayFloat | None = None) -> str:
     if rgb is None:
-        return subprocess.check_output(["ociochecklut", "--gpu", f"{path}"])  # noqa: S603 S607
+        content = subprocess.check_output(["ociochecklut", "--gpu", f"{path}"])  # noqa: S603 S607
     else:
-        return subprocess.check_output(
-            ["ociochecklut", f"{path}", f"{rgb[0]}", f"{rgb[1]}", f"{rgb[2]}"]  # noqa: S603 S607
+        content = subprocess.check_output(  # noqa: S603
+            ["ociochecklut", f"{path}", f"{rgb[0]}", f"{rgb[1]}", f"{rgb[2]}"]  # noqa: S607
         )
+    return content.decode("utf-8")
 
 
-def ocio_output_for_snippet(snippet, rgb=tuple[float, float, float]):
+def ocio_output_for_snippet(
+    snippet: str, rgb: tuple[float, float, float]
+) -> NDArrayFloat:
     f = snippet_as_tmp_file(snippet)
     try:
-        return result_as_array(ocio_outout_for_file(f, rgb))
+        return result_as_array(ocio_output_for_file(f, rgb))
     finally:
         os.remove(f)
 
 
-def result_as_array(result_text):
-    result_parts = result_text.decode("utf-8").strip().split()
+def result_as_array(result_text: str) -> NDArrayFloat:
+    result_parts = result_text.strip().split()
     if len(result_parts) != 3:
-        raise RuntimeError(f"Invalid OCIO result: {result_text}")
+        message = f"Invalid OCIO result: {result_text}"
+        raise RuntimeError(message)
     result_values = list(map(float, result_parts))
     return np.array(result_values)
 
 
-def assert_ocio_consistency(value, snippet: str, err_msg=""):
+def assert_ocio_consistency(
+    value: NDArrayFloat, snippet: str, err_msg: str = ""
+) -> None:
     """Assert that the colour library calculates the same output os the `ociocheclut`
     tool for the given input.
     """
@@ -90,10 +99,10 @@ def assert_ocio_consistency(value, snippet: str, err_msg=""):
     ocio_output = ocio_output_for_snippet(snippet, value_tuple)
     np.testing.assert_array_almost_equal(
         process_list_output, ocio_output, err_msg=err_msg, decimal=4
-    )  # TODO investighate why thete is a difference in the 5/6th digit for log and exp
+    )  # TODO investigate why there is a difference in the 5/6th digit for log and exp
 
 
-def assert_ocio_consistency_for_file(value_rgb, clf_path):
+def assert_ocio_consistency_for_file(value_rgb: NDArrayFloat, clf_path: str) -> None:
     """Assert that the colour library calculates the same output os the `ociocheclut`
     tool for the given input.
     """
@@ -101,11 +110,11 @@ def assert_ocio_consistency_for_file(value_rgb, clf_path):
 
     clf_data = read_clf(clf_path)
     process_list_output = apply(clf_data, value_rgb, normalised_values=True)
-    ocio_output = result_as_array(ocio_outout_for_file(clf_path, value_rgb))
+    ocio_output = result_as_array(ocio_output_for_file(clf_path, value_rgb))
     np.testing.assert_array_almost_equal(process_list_output, ocio_output)
 
 
-def rgb_sample_iter(step=0.2):
+def rgb_sample_iter(step: float = 0.2) -> Generator[tuple[float, float, float]]:
     for r in np.arange(0.0, 1.0, step):
         for g in np.arange(0.0, 1.0, step):
             for b in np.arange(0.0, 1.0, step):

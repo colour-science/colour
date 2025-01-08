@@ -1,5 +1,6 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.io.clf` module."""
+
 import unittest
 
 __author__ = "Colour Developers"
@@ -22,7 +23,7 @@ class TestRange:
     Define test for applying Range nodes from a CLF file.
     """
 
-    def test_ocio_consistency_simple(self):
+    def test_ocio_consistency_simple(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
@@ -40,7 +41,7 @@ class TestRange:
             value_rgb = np.array(rgb)
             assert_ocio_consistency(value_rgb, example, f"Input value was {rgb}")
 
-    def test_ocio_consistency_no_clamp(self):
+    def test_ocio_consistency_no_clamp(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
@@ -57,7 +58,7 @@ class TestRange:
             value_rgb = np.array(rgb)
             assert_ocio_consistency(value_rgb, example, f"Input value was {rgb}")
 
-    def test_ocio_consistency_only_max_values(self):
+    def test_ocio_consistency_only_max_values(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
@@ -72,7 +73,7 @@ class TestRange:
             value_rgb = np.array(rgb)
             assert_ocio_consistency(value_rgb, example, f"Input value was {rgb}")
 
-    def test_ocio_consistency_only_min_values(self):
+    def test_ocio_consistency_only_min_values(self) -> None:
         """
         Test that the execution is consistent with `ociochecklut`.
         """
