@@ -1177,17 +1177,10 @@ class SpectralDistribution(Signal):
             ]
         )
 
-        # Defining proper interpolation bounds.
-        # TODO: Provide support for fractional interval like 0.1, etc...
-        if np.around(shape_start) != shape_start or np.around(shape_end) != shape_end:
-            runtime_warning("Fractional bound encountered, rounding will occur!")
-
-        shape.start = max([shape.start, np.ceil(shape_start)])
-        shape.end = min([shape.end, np.floor(shape_end)])
+        shape.start = max([shape.start, shape_start])
+        shape.end = min([shape.end, shape_end])
 
         if interpolator is None:
-            # User has specifically chosen the interpolator thus it is used
-            # instead of those from *CIE 167:2005* recommendation.
             if self.interpolator not in (
                 SpragueInterpolator,
                 CubicSplineInterpolator,
@@ -1199,8 +1192,6 @@ class SpectralDistribution(Signal):
                 interpolator = CubicSplineInterpolator
 
         if interpolator_kwargs is None:
-            # User has specifically chosen the interpolator thus its keyword
-            # arguments are used.
             if self.interpolator not in (
                 SpragueInterpolator,
                 CubicSplineInterpolator,
@@ -1209,12 +1200,19 @@ class SpectralDistribution(Signal):
             else:
                 interpolator_kwargs = {}
 
-        wavelengths, values = self.wavelengths, self.values
+        self_interpolator, self.interpolator = self.interpolator, interpolator
+        self_interpolator_kwargs, self.interpolator_kwargs = (
+            self.interpolator_kwargs,
+            interpolator_kwargs,
+        )
+
+        values = self[shape.wavelengths]
 
         self.domain = shape.wavelengths
-        self.range = interpolator(wavelengths, values, **interpolator_kwargs)(
-            self.domain
-        )
+        self.values = values
+
+        self.interpolator = self_interpolator
+        self.interpolator_kwargs = self_interpolator_kwargs
 
         return self
 
