@@ -60,7 +60,7 @@ optional = [
     "pydot>=3,<4",
     "tqdm>=4,<5",
     "xxhash>=3,<4",
-    "colour-clf-io>=0.1.0,<0.2.0"
+    "colour-clf-io>=0.1.1,<0.2.0"
 ]
 docs = [
     "biblib-simple",
