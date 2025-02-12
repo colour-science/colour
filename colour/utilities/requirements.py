@@ -435,6 +435,42 @@ def is_xxhash_installed(raise_exception: bool = False) -> bool:
         return True
 
 
+def is_clf_io_installed(raise_exception: bool = False) -> bool:
+    """
+    Return whether *colour_clf_io* is installed and available.
+
+    Parameters
+    ----------
+    raise_exception
+        Whether to raise an exception if *xxhash* is unavailable.
+
+    Returns
+    -------
+    :class:`bool`
+        Whether *colour_clf_io* is installed.
+
+    Raises
+    ------
+    :class:`ImportError`
+        If *colour_clf_io* is not installed.
+    """
+    try:  # pragma: no cover
+        import colour_clf_io  # noqa: F401
+    except ImportError as exception:  # pragma: no cover
+        if raise_exception:
+            error = (
+                '"colour_clf_io" related API features are not available: '
+                f'"{exception}".\nSee the installation guide for more information: '
+                "https://www.colour-science.org/installation-guide/"
+            )
+
+            raise ImportError(error) from exception
+
+        return False
+    else:
+        return True
+
+
 REQUIREMENTS_TO_CALLABLE: CanonicalMapping = CanonicalMapping(
     {
         "ctlrender": is_ctlrender_installed,
@@ -447,6 +483,7 @@ REQUIREMENTS_TO_CALLABLE: CanonicalMapping = CanonicalMapping(
         "tqdm": is_tqdm_installed,
         "trimesh": is_trimesh_installed,
         "xxhash": is_xxhash_installed,
+        "colour_clf_io": is_clf_io_installed,
     }
 )
 """
@@ -466,6 +503,7 @@ def required(
         "tqdm",
         "trimesh",
         "xxhash",
+        "colour_clf_io",
     ],
 ) -> Callable:
     """

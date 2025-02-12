@@ -824,6 +824,7 @@ def describe_environment(
             "scipy",
             "tqdm",
             "trimesh",
+            "colour_clf_io",
         ]:
             with suppress(ImportError):
                 namespace = __import__(package)

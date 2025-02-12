@@ -35,6 +35,7 @@ from colour.models.rgb.transfer_functions import (
     logarithmic_function_camera,
     logarithmic_function_quasilog,
 )
+from colour.utilities import required
 
 
 def from_uint16_to_f16(array: npt.NDArray[np.uint16]) -> npt.NDArray[np.float16]:
@@ -436,22 +437,22 @@ class ASC_CDL(CLFNode):
             return np.clip(x, 0.0, 1.0)
 
         match node.style:
-            case clf.ASC_CDL_Style.FWD:
+            case clf.ASC_CDLStyle.FWD:
                 value: NDArrayFloat = RGB  # Needed to satisfy pywright,
                 out_sop = clamp(value * slope + offset) ** power
                 luma = asc_cdl_luma(out_sop)
                 out = clamp(luma + saturation * (out_sop - luma))
-            case clf.ASC_CDL_Style.FWD_NO_CLAMP:
+            case clf.ASC_CDLStyle.FWD_NO_CLAMP:
                 lin = as_float_array(RGB * slope + offset)
                 out_sop = np.where(lin >= 0, lin**power, lin)
                 luma = asc_cdl_luma(out_sop)
                 out = luma + saturation * (out_sop - luma)
-            case clf.ASC_CDL_Style.REV:
+            case clf.ASC_CDLStyle.REV:
                 in_clamp = clamp(RGB)
                 luma = asc_cdl_luma(in_clamp)
                 out_sat = luma + (in_clamp - luma) / saturation
                 out = clamp((clamp(out_sat) ** (1.0 / power) - offset) / slope)
-            case clf.ASC_CDL_Style.REV_NO_CLAMP:
+            case clf.ASC_CDLStyle.REV_NO_CLAMP:
                 luma = asc_cdl_luma(RGB)
                 out_sat = luma + (RGB - luma) / saturation
                 out_pw = np.where(out_sat >= 0, (out_sat) ** (1 / power), out_sat)
@@ -483,6 +484,7 @@ def as_LUT_sequence_item(  # noqa: PLR0911
     raise RuntimeError(message)
 
 
+@required("colour_clf_io")
 def apply(
     process_list: clf.ProcessList,
     value: NDArrayFloat,

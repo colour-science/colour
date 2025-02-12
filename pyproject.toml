@@ -49,11 +49,7 @@ dependencies = [
     "numpy>=1.24,<3",
     "scipy>=1.10,<2",
     "typing-extensions>=4,<5",
-    "colour-clf-io"
 ]
-
-[tool.uv.sources]
-colour-clf-io = {git = 'https://github.com/colour-science/colour-clf-io.git'}
 
 [project.optional-dependencies]
 optional = [
@@ -64,6 +60,7 @@ optional = [
     "pydot>=3,<4",
     "tqdm>=4,<5",
     "xxhash>=3,<4",
+    "colour-clf-io>=0.1.0,<0.2.0"
 ]
 docs = [
     "biblib-simple",
