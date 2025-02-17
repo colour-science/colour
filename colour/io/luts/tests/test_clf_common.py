@@ -3,12 +3,13 @@ Defines helper functionality for CLF tests.
 """
 
 import os
-import subprocess
 import tempfile
 from collections.abc import Generator
+from typing import Any
 
 import colour_clf_io as clf
 import numpy as np
+import PyOpenColorIO as ocio
 
 from colour.io.luts.clf import apply
 
@@ -39,7 +40,7 @@ def wrap_snippet(snippet: str) -> str:
     return EXAMPLE_WRAPPER.format(snippet)
 
 
-def snippet_to_process_list(snippet: str) -> clf.ProcessList:
+def snippet_to_process_list(snippet: str) -> clf.ProcessList | None:
     """# noqa: D401
     Takes a string that should contain a valid body for a XML Process List and
     returns the parsed `ProcessList`.
@@ -58,14 +59,21 @@ def snippet_as_tmp_file(snippet: str) -> str:
     return file_name
 
 
-def ocio_output_for_file(path: str, rgb: NDArrayFloat | None = None) -> str:
-    if rgb is None:
-        content = subprocess.check_output(["ociochecklut", "--gpu", f"{path}"])  # noqa: S603 S607
-    else:
-        content = subprocess.check_output(  # noqa: S603
-            ["ociochecklut", f"{path}", f"{rgb[0]}", f"{rgb[1]}", f"{rgb[2]}"]  # noqa: S607
-        )
-    return content.decode("utf-8")
+def ocio_output_for_file(
+    path: str, rgb: NDArrayFloat | None = None
+) -> tuple[float, float, float]:
+    """Apply a color transform file to a flattened, one-dimensional list of
+    R,G,B values.
+    """
+    xform = ocio.FileTransform(src=path)
+    cpu = ocio.GetCurrentConfig().getProcessor(xform).getDefaultCPUProcessor()
+    result = cpu.applyRGB(rgb)
+    # Note: depending on the input, `applyRGB` will either return the result data, or
+    # modify the data in place. If the return value was `None` the data was modified
+    # in place and we use that instead.
+    if result is None:
+        result = rgb
+    return (result[0], result[1], result[2])
 
 
 def ocio_output_for_snippet(
@@ -73,7 +81,7 @@ def ocio_output_for_snippet(
 ) -> NDArrayFloat:
     f = snippet_as_tmp_file(snippet)
     try:
-        return result_as_array(ocio_output_for_file(f, rgb))
+        return np.array(ocio_output_for_file(f, rgb))
     finally:
         os.remove(f)
 
@@ -94,6 +102,9 @@ def assert_ocio_consistency(
     tool for the given input.
     """
     process_list = snippet_to_process_list(snippet)
+    if process_list is None:
+        err = "Invalid CLF snippet."
+        raise AssertionError(err)
     process_list_output = apply(process_list, value, normalised_values=True)
     value_tuple = value[0], value[1], value[2]
     ocio_output = ocio_output_for_snippet(snippet, value_tuple)
@@ -109,12 +120,17 @@ def assert_ocio_consistency_for_file(value_rgb: NDArrayFloat, clf_path: str) -> 
     from colour_clf_io import read_clf
 
     clf_data = read_clf(clf_path)
+    if clf_data is None:
+        err = "Invalid CLF snippet."
+        raise AssertionError(err)
     process_list_output = apply(clf_data, value_rgb, normalised_values=True)
-    ocio_output = result_as_array(ocio_output_for_file(clf_path, value_rgb))
+    ocio_output = ocio_output_for_file(clf_path, value_rgb)
     np.testing.assert_array_almost_equal(process_list_output, ocio_output)
 
 
-def rgb_sample_iter(step: float = 0.2) -> Generator[tuple[float, float, float]]:
+def rgb_sample_iter(
+    step: float = 0.2,
+) -> Generator[tuple[np.floating[Any], np.floating[Any], np.floating[Any]]]:
     for r in np.arange(0.0, 1.0, step):
         for g in np.arange(0.0, 1.0, step):
             for b in np.arange(0.0, 1.0, step):

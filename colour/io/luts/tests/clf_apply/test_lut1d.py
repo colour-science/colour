@@ -162,7 +162,7 @@ class TestLUT1D:
         Test that the execution of a 1D LUT with the `half_domain` attribute is
         consistent with `ociochecklut`.
         """
-        value_rgb = np.array([1.0, 0.5, 0.0])
+        value_rgb = np.array([1.0, 0.5, 0.0], dtype=np.float32)
         path = os.path.abspath("./resources/lut1_with_half_domain_sample.xml")
         assert_ocio_consistency_for_file(value_rgb, path)
 
