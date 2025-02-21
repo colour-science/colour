@@ -39,6 +39,20 @@ from colour.utilities import required
 
 
 def from_uint16_to_f16(array: npt.NDArray[np.uint16]) -> npt.NDArray[np.float16]:
+    """
+    Convert a :class:`numpy.ndarray` with values of type :class:`numpy.uint16`  to
+    values of :class:`numpy.float16` by reinterpreting the bit pattern of the stored
+    numbers.
+
+    Parameters
+    ----------
+    array
+        Array to re-interpret.
+
+    Returns
+    -------
+        :class:`npt.NDArray[np.float16]`
+    """
     values = list(map(int, array))
     array = np.array(values, dtype=np.uint16)
     array.dtype = np.float16  # type: ignore
@@ -46,14 +60,61 @@ def from_uint16_to_f16(array: npt.NDArray[np.uint16]) -> npt.NDArray[np.float16]
 
 
 def from_f16_to_uint16(array: npt.NDArray[np.float16]) -> npt.NDArray[np.uint16]:
+    """
+    Convert a :class:`numpy.ndarray` with values of type :class:`numpy.float16`  to
+    values of :class:`numpy.uint16` by reinterpreting the bit pattern of the stored
+    numbers.
+
+    Parameters
+    ----------
+    array
+        Array to re-interpret.
+
+    Returns
+    -------
+        :class:`npt.NDArray[np.uint16]`
+    """
     array = np.array(array, dtype=np.float16)
     array.dtype = np.uint16  # type: ignore
     return array  # type: ignore
 
 
 def apply_by_channel(
-    value: ArrayLike, f: Callable, params: Any, extra_args: Any = None
+    value: ArrayLike, f: Callable, params: None | list[Any], extra_args: Any = None
 ) -> NDArray:
+    """
+    Apply a callable to the separate colour channels in a numpy array.
+
+    How the callable is applied is determined by the number of parameters supplied:
+        (1) if *params* is empty or *None*, the callable is called once on the input
+            array,
+        (2) if  *params* contains exactly one element, the callable is called once
+            on input array,
+        (3) if *params* contain more elements, the callable is called for each element.
+            In this last case it is expected that the elements in params contain a
+            *channel* attribute of type :class:`clf_io.Channel` that indicates which
+            channel the parameters should be applied to. The input value is then split
+            along the axis, and R,G and B and the callable is called on each channel
+            with the respective parameter item.
+     In addition to *extra_args* are always supplied to the callable as third argument.
+
+    Parameters
+    ----------
+    value
+        Array that the callable is applied to.
+    f
+        Callable that is applied to the input array. Should take three arguments:
+        the input array, the parameters item and the extra arguments.
+    params
+        Optional list of parameters to pass to the callable.
+    extra_args
+        Additional arguments to pass to the callable.
+
+    Returns
+    -------
+        :class:`npt.NDArray`
+            Result of applying the callable to the input array.
+    """
     if params is None or len(params) == 0:
         return f(value, None, extra_args)
     if len(params) == 1 and params[0].channel is None:
@@ -73,6 +134,20 @@ def apply_by_channel(
 def get_interpolator_for_LUT3D(
     node: clf.LUT3D,
 ) -> Callable:
+    """
+    Return the interpolator for the given LUT3D instance. Translates from the *CLF IO*
+    data to the Colour LUT interpolator.
+
+    Parameters
+    ----------
+    node
+        LUT 3D instance to check for its interpolation.
+
+    Returns
+    -------
+    :class:`Callable`
+        Callable compatible with the API for :func:`colour.io.luts.apply`.
+    """
     if node.interpolation is None:
         return lambda x: x
     if node.interpolation == node.interpolation.TRILINEAR:
@@ -83,20 +158,78 @@ def get_interpolator_for_LUT3D(
 
 
 class CLFNode(AbstractLUTSequenceOperator):
+    """
+    Define the base class for *CLF IO* LUTs.
+
+    This is the class that will be inherited by the actual CLF node implementations.
+
+    Parameters
+    ----------
+    node
+        The :class:`clf_io.ProcessNode` instance from which this LUT node is built. `
+
+    Attributes
+    ----------
+    -   :attr:`~colour.io.luts.clf.CLFNode.node`
+    """
+
     node: clf.ProcessNode
 
     def __init__(self, node: clf.ProcessNode) -> None:
         super().__init__(node.name, node.description)
         self.node = node
 
-    def from_input_range(self, value: ArrayLike) -> NDArrayFloat:
+    def __from_input_range(self, value: ArrayLike) -> NDArrayFloat:
+        """
+        Convert the input array to the appropriate format for the internal computations.
+
+        Parameters
+        ----------
+        value
+            Array to convert.
+
+        Returns
+        -------
+            :class:`NDArrayFloat`
+
+        """
         return cast(NDArrayFloat, value)
 
-    def to_output_range(self, value: NDArrayFloat) -> NDArrayFloat:
+    def __to_output_range(self, value: NDArrayFloat) -> NDArrayFloat:
+        """
+        Convert the array from our internal computation format to the result format.
+
+        Parameters
+        ----------
+        value
+            Array to convert.
+
+        Returns
+        -------
+            :class:`NDArrayFloat`
+
+        """
         return value / self.node.out_bit_depth.scale_factor()
 
 
 class LUT3D(CLFNode):
+    """
+    Define define the *LUT* operator based on the clf.LUT3D node.
+
+    Parameters
+    ----------
+    node
+        The :class:`clf_io.LUT3D` instance from which this LUT node is built. `
+
+    Attributes
+    ----------
+    -   :attr:`~clf_io.LUT3D`
+
+    Methods
+    -------
+    -   :meth:`~colour.io.luts.LUT3D.apply`
+    """
+
     node: clf.LUT3D
 
     def __init__(self, node: clf.LUT3D) -> None:
@@ -104,7 +237,7 @@ class LUT3D(CLFNode):
         self.node = node  # type: ignore
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
-        RGB = self.from_input_range(RGB)
+        RGB = self.__from_input_range(RGB)
         node = self.node
         table = node.array.as_array()
         size = node.array.dim[0]
@@ -124,10 +257,27 @@ class LUT3D(CLFNode):
             extrapolator_kwargs=extrapolator_kwargs,
             interpolator=interpolator,
         )
-        return self.to_output_range(out)
+        return self.__to_output_range(out)
 
 
 class LUT1D(CLFNode):
+    """
+    Define define the *LUT* operator based on the clf.LUT1D node.
+
+    Parameters
+    ----------
+    node
+        The :class:`clf_io.LUT1D` instance from which this LUT node is built. `
+
+    Attributes
+    ----------
+    -   :attr:`~colour.io.luts.clf.CLFNode.node`
+
+    Methods
+    -------
+    -   :meth:`~colour.io.luts.LUT1D.apply`
+    """
+
     node: clf.LUT1D
 
     def __init__(self, node: clf.LUT1D) -> None:
@@ -135,7 +285,7 @@ class LUT1D(CLFNode):
         self.node = node  # type: ignore
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
-        RGB = self.from_input_range(RGB)
+        RGB = self.__from_input_range(RGB)
         table = self.node.array.as_array()
         size = self.node.array.dim[0]
         if self.node.raw_halfs:
@@ -150,10 +300,27 @@ class LUT1D(CLFNode):
         lut = luts.LUT1D(table, size=size, domain=domain)
         extrapolator_kwargs = {"method": "Constant"}
         out = lut.apply(value_scaled, extrapolator_kwargs=extrapolator_kwargs)
-        return self.to_output_range(out)
+        return self.__to_output_range(out)
 
 
 class Matrix(CLFNode):
+    """
+    Define define the *LUT* operator based on the clf.Matrix node.
+
+    Parameters
+    ----------
+    node
+        The :class:`clf_io.Matrix` instance from which this LUT node is built. `
+
+    Attributes
+    ----------
+    -   :attr:`~clf_io.Matrix`
+
+    Methods
+    -------
+    -   :meth:`~colour.io.luts.Matrix.apply`
+    """
+
     node: clf.Matrix
 
     def __init__(self, node: clf.Matrix) -> None:
@@ -161,7 +328,7 @@ class Matrix(CLFNode):
         self.node = node  # type: ignore
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
-        RGB = self.from_input_range(RGB)
+        RGB = self.__from_input_range(RGB)
         matrix = self.node.array.as_array()
         return matrix.dot(RGB)
 
@@ -169,6 +336,9 @@ class Matrix(CLFNode):
 def assert_range_correct(
     in_out: tuple[float | None, float | None], bit_depth_scale: float
 ) -> None:
+    """
+    Assert the input and output ranges are consistent.
+    """
     if None not in in_out:
         in_out = cast(tuple[float, float], in_out)
         expected_out_value = in_out[0] * bit_depth_scale
@@ -182,6 +352,23 @@ def assert_range_correct(
 
 
 class Range(CLFNode):
+    """
+    Define define the *LUT* operator based on the clf.Range node.
+
+    Parameters
+    ----------
+    node
+        The :class:`clf_io.Range` instance from which this LUT node is built. `
+
+    Attributes
+    ----------
+    -   :attr:`~clf_io.Range`
+
+    Methods
+    -------
+    -   :meth:`~colour.io.luts.Range.apply`
+    """
+
     node: clf.Range
 
     def __init__(self, node: clf.Range) -> None:
@@ -190,7 +377,7 @@ class Range(CLFNode):
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
         node = self.node
-        RGB = self.from_input_range(RGB)
+        RGB = self.__from_input_range(RGB)
         value = RGB * self.node.in_bit_depth.scale_factor()
         max_in = node.max_in_value
         max_out = node.max_out_value
@@ -225,7 +412,7 @@ class Range(CLFNode):
             if do_clamping:
                 result = np.clip(result, min_out, max_out)
             out = result
-        return self.to_output_range(out)
+        return self.__to_output_range(out)
 
 
 FLT_MIN = 1.175494e-38
@@ -345,6 +532,23 @@ def apply_log_internal(  # noqa: PLR0911
 
 
 class Log(CLFNode):
+    """
+    Define define the *LUT* operator based on the clf.Log node.
+
+    Parameters
+    ----------
+    node
+        The :class:`clf_io.Log` instance from which this LUT node is built. `
+
+    Attributes
+    ----------
+    -   :attr:`~clf_io.Log`
+
+    Methods
+    -------
+    -   :meth:`~colour.io.luts.Log.apply`
+    """
+
     node: clf.Log
 
     def __init__(self, node: clf.Log) -> None:
@@ -352,7 +556,7 @@ class Log(CLFNode):
         self.node = node  # type: ignore
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
-        RGB = self.from_input_range(RGB)
+        RGB = self.__from_input_range(RGB)
         node = self.node
         style = node.style
         params = node.log_params
@@ -363,7 +567,7 @@ class Log(CLFNode):
             params,
             extra_args,
         )
-        return self.to_output_range(out)
+        return self.__to_output_range(out)
 
 
 def mon_curve_forward(x: NDArrayFloat, exponent: float, offset: float) -> NDArrayFloat:
@@ -433,6 +637,23 @@ def apply_exponent_internal(  # noqa: PLR0911
 
 
 class Exponent(CLFNode):
+    """
+    Define define the *LUT* operator based on the clf.Exponent node.
+
+    Parameters
+    ----------
+    node
+        The :class:`clf_io.Exponent` instance from which this LUT node is built. `
+
+    Attributes
+    ----------
+    -   :attr:`~clf_io.Exponent`
+
+    Methods
+    -------
+    -   :meth:`~colour.io.luts.Exponent.apply`
+    """
+
     node: clf.Exponent
 
     def __init__(self, node: clf.Exponent) -> None:
@@ -441,11 +662,11 @@ class Exponent(CLFNode):
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
         node = self.node
-        RGB = self.from_input_range(RGB)
+        RGB = self.__from_input_range(RGB)
         style = node.style
         params = node.exponent_params
         out = apply_by_channel(RGB, apply_exponent_internal, params, extra_args=style)
-        return self.to_output_range(out)
+        return self.__to_output_range(out)
 
 
 def asc_cdl_luma(value: NDArrayFloat) -> NDArrayFloat:
@@ -454,6 +675,23 @@ def asc_cdl_luma(value: NDArrayFloat) -> NDArrayFloat:
 
 
 class ASC_CDL(CLFNode):
+    """
+    Define define the *LUT* operator based on the clf.ASC_CDL node.
+
+    Parameters
+    ----------
+    node
+        The :class:`clf_io.ASC_CDL` instance from which this LUT node is built. `
+
+    Attributes
+    ----------
+    -   :attr:`~clf_io.ASC_CDL`
+
+    Methods
+    -------
+    -   :meth:`~colour.io.luts.ASC_CDL.apply`
+    """
+
     node: clf.ASC_CDL
 
     def __init__(self, node: clf.ASC_CDL) -> None:
@@ -462,7 +700,7 @@ class ASC_CDL(CLFNode):
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
         node = self.node
-        RGB = self.from_input_range(RGB)
+        RGB = self.__from_input_range(RGB)
         sop = node.sopnode
         if sop is None:
             slope = np.array([1.0, 1.0, 1.0])
@@ -501,12 +739,30 @@ class ASC_CDL(CLFNode):
             case _:
                 message = f"Invalid ASC_CDL Style: {node.style}"
                 raise ValueError(message)
-        return self.to_output_range(out)
+        return self.__to_output_range(out)
 
 
 def as_LUT_sequence_item(  # noqa: PLR0911
     node: clf.ProcessNode,
 ) -> ProtocolLUTSequenceItem:
+    """
+    Return the corresponding LUT sequence item for the given CLF node.
+
+    Parameters
+    ----------
+    node
+        Node to convert.
+
+    Returns
+    -------
+    :class:`ProtocolLUTSequenceItem`
+
+    Raises
+    ------
+    :class:`RuntimeError`
+        If there exists no corresponding LUT sequence item for the given CLF node.
+
+    """
     if isinstance(node, clf.LUT1D):
         return LUT1D(node)
     if isinstance(node, clf.LUT3D):
@@ -531,8 +787,32 @@ def apply(
     value: NDArrayFloat,
     normalised_values: bool = False,
 ) -> NDArrayFloat:
-    """Apply the transformation described by the given ProcessList to the given
-    value.
+    """
+    Apply the transformation described by the given :class:`colour_clf_io.ProcessList`
+    to the given value.
+
+    Parameters
+    ----------
+        process_list
+            The :class:`colour_clf_io.ProcessList` instance to apply.
+        value
+            Input value in the form of a array. Shape and data format need to be
+            compatible with the given `process_list`.
+        normalised_values
+            Indicates whether the input values are normalised to the range 0..1. If
+            this is the case, the range will be expanded to the input range expected
+            by the given `process_list`.
+
+    Returns
+    -------
+    :class:`NDArrayFloat`
+        Result of applying the given :class:`colour_clf_io.ProcessList`.
+
+    Raises
+    ------
+    :class:`ValueError`
+        If the given *process_list* is invalid according to the CLF specification
+        (e.g., missing or invalid parameters).
     """
     if not normalised_values:
         value = value / process_list.process_nodes[0].in_bit_depth.scale_factor()
