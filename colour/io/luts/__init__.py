@@ -25,6 +25,7 @@ if typing.TYPE_CHECKING:
 if typing.TYPE_CHECKING:
     from colour.hints import Any, LiteralLUTReadMethod, LiteralLUTWriteMethod
 
+from colour.io.luts import clf
 from colour.utilities import (
     CanonicalMapping,
     filter_kwargs,
@@ -40,6 +41,7 @@ from .sony_spi1d import read_LUT_SonySPI1D, write_LUT_SonySPI1D
 from .sony_spi3d import read_LUT_SonySPI3D, write_LUT_SonySPI3D
 from .sony_spimtx import read_LUT_SonySPImtx, write_LUT_SonySPImtx
 from .cinespace_csp import read_LUT_Cinespace, write_LUT_Cinespace
+
 
 __all__ = [
     "LUT1D",
@@ -78,6 +80,10 @@ __all__ += [
     "read_LUT_Cinespace",
     "write_LUT_Cinespace",
 ]
+__all__ += [
+    "clf",
+]
+
 
 MAPPING_EXTENSION_TO_LUT_FORMAT: CanonicalMapping = CanonicalMapping(
     {

@@ -9,7 +9,6 @@ import colour_clf_io as clf
 import numpy as np
 from numpy.typing import ArrayLike, NDArray
 
-from colour import LUTSequence
 from colour.algebra import (
     table_interpolation_tetrahedral,
     table_interpolation_trilinear,
@@ -19,7 +18,9 @@ from colour.hints import (
     NDArrayFloat,
     ProtocolLUTSequenceItem,
 )
-from colour.io import AbstractLUTSequenceOperator, luts
+from colour.io import luts
+from colour.io.luts.operator import AbstractLUTSequenceOperator
+from colour.io.luts.sequence import LUTSequence
 from colour.utilities import as_float_array, tsplit, tstack
 
 __all__ = ["apply"]
@@ -179,7 +180,7 @@ class CLFNode(AbstractLUTSequenceOperator):
         super().__init__(node.name, node.description)
         self.node = node
 
-    def __from_input_range(self, value: ArrayLike) -> NDArrayFloat:
+    def _from_input_range(self, value: ArrayLike) -> NDArrayFloat:
         """
         Convert the input array to the appropriate format for the internal computations.
 
@@ -195,7 +196,7 @@ class CLFNode(AbstractLUTSequenceOperator):
         """
         return cast(NDArrayFloat, value)
 
-    def __to_output_range(self, value: NDArrayFloat) -> NDArrayFloat:
+    def _to_output_range(self, value: NDArrayFloat) -> NDArrayFloat:
         """
         Convert the array from our internal computation format to the result format.
 
@@ -237,7 +238,7 @@ class LUT3D(CLFNode):
         self.node = node  # type: ignore
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
-        RGB = self.__from_input_range(RGB)
+        RGB = self._from_input_range(RGB)
         node = self.node
         table = node.array.as_array()
         size = node.array.dim[0]
@@ -257,7 +258,23 @@ class LUT3D(CLFNode):
             extrapolator_kwargs=extrapolator_kwargs,
             interpolator=interpolator,
         )
-        return self.__to_output_range(out)
+        return self._to_output_range(out)
+
+
+def apply_lut1D_internal(node: clf.LUT1D, table: NDArray, RGB: NDArray) -> NDArray:
+    size = node.array.dim[0]
+    if node.raw_halfs:
+        table = from_uint16_to_f16(table)
+    if node.half_domain:
+        RGB = np.array(RGB, dtype=np.float16)
+        RGB = from_f16_to_uint16(RGB) / (size - 1)
+    domain = np.min(table), np.max(table)
+    # We need to map to indices, where 1 indicates the last element in the
+    # LUT array.
+    value_scaled = RGB * (size - 1)
+    lut = luts.LUT1D(table, size=size, domain=domain)
+    extrapolator_kwargs = {"method": "Constant"}
+    return lut.apply(value_scaled, extrapolator_kwargs=extrapolator_kwargs)
 
 
 class LUT1D(CLFNode):
@@ -285,22 +302,19 @@ class LUT1D(CLFNode):
         self.node = node  # type: ignore
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
-        RGB = self.__from_input_range(RGB)
+        RGB = self._from_input_range(RGB)
         table = self.node.array.as_array()
-        size = self.node.array.dim[0]
-        if self.node.raw_halfs:
-            table = from_uint16_to_f16(table)
-        if self.node.half_domain:
-            RGB = np.array(RGB, dtype=np.float16)
-            RGB = from_f16_to_uint16(RGB) / (size - 1)
-        domain = np.min(table), np.max(table)
-        # We need to map to indices, where 1 indicates the last element in the
-        # LUT array.
-        value_scaled = RGB * (size - 1)
-        lut = luts.LUT1D(table, size=size, domain=domain)
-        extrapolator_kwargs = {"method": "Constant"}
-        out = lut.apply(value_scaled, extrapolator_kwargs=extrapolator_kwargs)
-        return self.__to_output_range(out)
+        if len(table.shape) > 1:
+            table_r, table_g, table_b = tsplit(table)
+            R, G, B = tsplit(RGB)
+            out_r = apply_lut1D_internal(self.node, table_r, R)
+            out_g = apply_lut1D_internal(self.node, table_g, G)
+            out_b = apply_lut1D_internal(self.node, table_b, B)
+            result = tstack([out_r, out_g, out_b])
+        else:
+            result = apply_lut1D_internal(self.node, table, RGB)
+
+        return self._to_output_range(result)
 
 
 class Matrix(CLFNode):
@@ -328,7 +342,7 @@ class Matrix(CLFNode):
         self.node = node  # type: ignore
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
-        RGB = self.__from_input_range(RGB)
+        RGB = self._from_input_range(RGB)
         matrix = self.node.array.as_array()
         return matrix.dot(RGB)
 
@@ -377,7 +391,7 @@ class Range(CLFNode):
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
         node = self.node
-        RGB = self.__from_input_range(RGB)
+        RGB = self._from_input_range(RGB)
         value = RGB * self.node.in_bit_depth.scale_factor()
         max_in = node.max_in_value
         max_out = node.max_out_value
@@ -412,7 +426,7 @@ class Range(CLFNode):
             if do_clamping:
                 result = np.clip(result, min_out, max_out)
             out = result
-        return self.__to_output_range(out)
+        return self._to_output_range(out)
 
 
 FLT_MIN = 1.175494e-38
@@ -556,7 +570,7 @@ class Log(CLFNode):
         self.node = node  # type: ignore
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
-        RGB = self.__from_input_range(RGB)
+        RGB = self._from_input_range(RGB)
         node = self.node
         style = node.style
         params = node.log_params
@@ -567,7 +581,7 @@ class Log(CLFNode):
             params,
             extra_args,
         )
-        return self.__to_output_range(out)
+        return self._to_output_range(out)
 
 
 def mon_curve_forward(x: NDArrayFloat, exponent: float, offset: float) -> NDArrayFloat:
@@ -662,11 +676,11 @@ class Exponent(CLFNode):
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
         node = self.node
-        RGB = self.__from_input_range(RGB)
+        RGB = self._from_input_range(RGB)
         style = node.style
         params = node.exponent_params
         out = apply_by_channel(RGB, apply_exponent_internal, params, extra_args=style)
-        return self.__to_output_range(out)
+        return self._to_output_range(out)
 
 
 def asc_cdl_luma(value: NDArrayFloat) -> NDArrayFloat:
@@ -700,7 +714,7 @@ class ASC_CDL(CLFNode):
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
         node = self.node
-        RGB = self.__from_input_range(RGB)
+        RGB = self._from_input_range(RGB)
         sop = node.sopnode
         if sop is None:
             slope = np.array([1.0, 1.0, 1.0])
@@ -739,7 +753,7 @@ class ASC_CDL(CLFNode):
             case _:
                 message = f"Invalid ASC_CDL Style: {node.style}"
                 raise ValueError(message)
-        return self.__to_output_range(out)
+        return self._to_output_range(out)
 
 
 def as_LUT_sequence_item(  # noqa: PLR0911

@@ -175,3 +175,15 @@ X-Rite Data
     :toctree: generated/
 
     read_sds_from_xrite_file
+
+Common LUT Format (CLF)
+=======================
+
+``colour.io.luts.clf``
+
+.. currentmodule:: colour.io.luts.clf
+
+.. autosummary::
+    :toctree: generated/
+
+    apply

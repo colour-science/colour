@@ -49,6 +49,7 @@ from .requirements import (
     is_tqdm_installed,
     is_trimesh_installed,
     is_xxhash_installed,
+    is_clf_io_installed,
     required,
 )
 from .callback import (
@@ -190,6 +191,7 @@ __all__ += [
     "is_tqdm_installed",
     "is_trimesh_installed",
     "is_xxhash_installed",
+    "is_clf_io_installed",
     "required",
 ]
 __all__ += [
