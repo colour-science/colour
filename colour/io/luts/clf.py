@@ -55,7 +55,7 @@ def apply_by_channel(
     value: ArrayLike, f: Callable, params: Any, extra_args: Any = None
 ) -> NDArray:
     if params is None or len(params) == 0:
-        return f(value, params, extra_args)
+        return f(value, None, extra_args)
     if len(params) == 1 and params[0].channel is None:
         return f(value, params[0], extra_args)
     R, G, B = tsplit(value)
@@ -73,6 +73,8 @@ def apply_by_channel(
 def get_interpolator_for_LUT3D(
     node: clf.LUT3D,
 ) -> Callable:
+    if node.interpolation is None:
+        return lambda x: x
     if node.interpolation == node.interpolation.TRILINEAR:
         return table_interpolation_trilinear
     if node.interpolation == node.interpolation.TETRAHEDRAL:
@@ -84,13 +86,13 @@ class CLFNode(AbstractLUTSequenceOperator):
     node: clf.ProcessNode
 
     def __init__(self, node: clf.ProcessNode) -> None:
-        super().__init__(node.name, [node.description])
+        super().__init__(node.name, node.description)
         self.node = node
 
     def from_input_range(self, value: ArrayLike) -> NDArrayFloat:
         return cast(NDArrayFloat, value)
 
-    def to_output_range(self, value: ArrayLike) -> NDArrayFloat:
+    def to_output_range(self, value: NDArrayFloat) -> NDArrayFloat:
         return value / self.node.out_bit_depth.scale_factor()
 
 
@@ -99,7 +101,7 @@ class LUT3D(CLFNode):
 
     def __init__(self, node: clf.LUT3D) -> None:
         super().__init__(node)
-        self.node = node
+        self.node = node  # type: ignore
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
         RGB = self.from_input_range(RGB)
@@ -130,7 +132,7 @@ class LUT1D(CLFNode):
 
     def __init__(self, node: clf.LUT1D) -> None:
         super().__init__(node)
-        self.node = node
+        self.node = node  # type: ignore
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
         RGB = self.from_input_range(RGB)
@@ -156,7 +158,7 @@ class Matrix(CLFNode):
 
     def __init__(self, node: clf.Matrix) -> None:
         super().__init__(node)
-        self.node = node
+        self.node = node  # type: ignore
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
         RGB = self.from_input_range(RGB)
@@ -180,14 +182,15 @@ def assert_range_correct(
 
 
 class Range(CLFNode):
-    node: clf.LUT1D
+    node: clf.Range
 
-    def __init__(self, node: clf.LUT1D) -> None:
+    def __init__(self, node: clf.Range) -> None:
         super().__init__(node)
-        self.node = node
+        self.node = node  # type: ignore
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
         node = self.node
+        RGB = self.from_input_range(RGB)
         value = RGB * self.node.in_bit_depth.scale_factor()
         max_in = node.max_in_value
         max_out = node.max_out_value
@@ -213,6 +216,10 @@ class Range(CLFNode):
             scaled_value = value * bit_depth_scale
             out = np.clip(scaled_value, min_out, max_out)
         else:
+            assert max_out is not None  # noqa: S101
+            assert min_out is not None  # noqa: S101
+            assert max_in is not None  # noqa: S101
+            assert min_in is not None  # noqa: S101
             scale = (max_out - min_out) / (max_in - min_in)
             result = value * scale + min_out - min_in * scale
             if do_clamping:
@@ -228,6 +235,35 @@ def apply_log_internal(  # noqa: PLR0911
     value: NDArrayFloat, params: clf.LogParams, extra_args: Any
 ) -> NDArrayFloat:
     style, in_bit_depth, out_bit_depth = extra_args
+
+    params = params if params is not None else clf.LogParams.default()
+    base = params.base if params.base is not None else clf.LogParams.default().base
+    assert base is not None  # noqa: S101
+    base = int(base)
+    log_side_slope = (
+        params.log_side_slope
+        if params.log_side_slope is not None
+        else clf.LogParams.default().log_side_slope
+    )
+    assert log_side_slope is not None  # noqa: S101
+    lin_side_slope = (
+        params.lin_side_slope
+        if params.lin_side_slope is not None
+        else clf.LogParams.default().lin_side_slope
+    )
+    assert lin_side_slope is not None  # noqa: S101
+    log_side_offset = (
+        params.log_side_offset
+        if params.log_side_offset is not None
+        else clf.LogParams.default().log_side_offset
+    )
+    assert log_side_offset is not None  # noqa: S101
+    lin_side_offset = (
+        params.lin_side_offset
+        if params.lin_side_offset is not None
+        else clf.LogParams.default().lin_side_offset
+    )
+    assert lin_side_offset is not None  # noqa: S101
     match style:
         case clf.LogStyle.LOG_10:
             return (
@@ -241,11 +277,6 @@ def apply_log_internal(  # noqa: PLR0911
         case clf.LogStyle.ANTI_LOG_2:
             return logarithmic_function_basic(np.maximum(value, FLT_MIN), "antiLog2")
         case clf.LogStyle.LIN_TO_LOG:
-            log_side_slope = params.log_side_slope
-            lin_side_slope = params.lin_side_slope
-            log_side_offset = params.log_side_offset
-            lin_side_offset = params.lin_side_offset
-            base = params.base
             return logarithmic_function_quasilog(
                 value,
                 "linToLog",
@@ -256,11 +287,6 @@ def apply_log_internal(  # noqa: PLR0911
                 lin_side_offset,
             )
         case clf.LogStyle.LOG_TO_LIN:
-            log_side_slope = params.log_side_slope
-            lin_side_slope = params.lin_side_slope
-            log_side_offset = params.log_side_offset
-            lin_side_offset = params.lin_side_offset
-            base = params.base
             return logarithmic_function_quasilog(
                 value,
                 "logToLin",
@@ -271,13 +297,17 @@ def apply_log_internal(  # noqa: PLR0911
                 lin_side_offset,
             )
         case clf.LogStyle.CAMERA_LIN_TO_LOG:
-            log_side_slope = params.log_side_slope
-            lin_side_slope = params.lin_side_slope
-            log_side_offset = params.log_side_offset
-            lin_side_offset = params.lin_side_offset
             lin_side_break = params.lin_side_break
-            base = params.base
+            if lin_side_break is None:
+                err = """"The `linSideBreak` This is required if
+                style="cameraLinToLog"."""
+                raise ValueError(err)
             linear_slope = params.linear_slope
+            if linear_slope is None:
+                err = (
+                    """"The `linearSlope` This is required if style="cameraLinToLog"."""
+                )
+                raise ValueError(err)
             return logarithmic_function_camera(
                 value,
                 "cameraLinToLog",
@@ -290,13 +320,14 @@ def apply_log_internal(  # noqa: PLR0911
                 linear_slope,
             )
         case clf.LogStyle.CAMERA_LOG_TO_LIN:
-            log_side_slope = params.log_side_slope
-            lin_side_slope = params.lin_side_slope
-            log_side_offset = params.log_side_offset
-            lin_side_offset = params.lin_side_offset
             lin_side_break = params.lin_side_break
-            base = params.base
+            if lin_side_break is None:
+                err = """"The `linSideBreak` This is required if "cameraLogToLin"""
+                raise ValueError(err)
             linear_slope = params.linear_slope
+            if linear_slope is None:
+                err = """"The `linearSlope` This is required if "cameraLogToLin"""
+                raise ValueError(err)
             return logarithmic_function_camera(
                 value,
                 "cameraLogToLin",
@@ -318,7 +349,7 @@ class Log(CLFNode):
 
     def __init__(self, node: clf.Log) -> None:
         super().__init__(node)
-        self.node = node
+        self.node = node  # type: ignore
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
         RGB = self.from_input_range(RGB)
@@ -354,8 +385,18 @@ def mon_curve_reverse(x: NDArrayFloat, exponent: float, offset: float) -> NDArra
 def apply_exponent_internal(  # noqa: PLR0911
     value: NDArrayFloat, params: clf.ExponentParams, extra_args: Any
 ) -> NDArrayFloat:
-    exponent = params.exponent
-    offset = params.offset
+    exponent = (
+        params.exponent
+        if params.exponent is not None
+        else clf.ExponentParams.default().exponent
+    )
+    assert exponent is not None  # noqa: S101
+    offset = (
+        params.offset
+        if params.offset is not None
+        else clf.ExponentParams.default().offset
+    )
+    assert offset is not None  # noqa: S101
     style = extra_args
     match style:
         case ExponentStyle.BASIC_FWD:
@@ -396,7 +437,7 @@ class Exponent(CLFNode):
 
     def __init__(self, node: clf.Exponent) -> None:
         super().__init__(node)
-        self.node = node
+        self.node = node  # type: ignore
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
         node = self.node
@@ -417,7 +458,7 @@ class ASC_CDL(CLFNode):
 
     def __init__(self, node: clf.ASC_CDL) -> None:
         super().__init__(node)
-        self.node = node
+        self.node = node  # type: ignore
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
         node = self.node

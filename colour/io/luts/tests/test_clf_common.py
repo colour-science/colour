@@ -9,7 +9,6 @@ from typing import Any
 
 import colour_clf_io as clf
 import numpy as np
-import PyOpenColorIO as ocio
 
 from colour.io.luts.clf import apply
 
@@ -60,19 +59,22 @@ def snippet_as_tmp_file(snippet: str) -> str:
 
 
 def ocio_output_for_file(
-    path: str, rgb: NDArrayFloat | None = None
+    path: str, rgb: tuple[float, float, float] | NDArrayFloat | None = None
 ) -> tuple[float, float, float]:
     """Apply a color transform file to a flattened, one-dimensional list of
     R,G,B values.
     """
-    xform = ocio.FileTransform(src=path)
-    cpu = ocio.GetCurrentConfig().getProcessor(xform).getDefaultCPUProcessor()
+    from PyOpenColorIO import FileTransform, GetCurrentConfig  # type: ignore
+
+    xform = FileTransform(src=path)
+    cpu = GetCurrentConfig().getProcessor(xform).getDefaultCPUProcessor()
     result = cpu.applyRGB(rgb)
     # Note: depending on the input, `applyRGB` will either return the result data, or
     # modify the data in place. If the return value was `None` the data was modified
     # in place and we use that instead.
     if result is None:
         result = rgb
+    assert result is not None
     return (result[0], result[1], result[2])
 
 
@@ -81,7 +83,8 @@ def ocio_output_for_snippet(
 ) -> NDArrayFloat:
     f = snippet_as_tmp_file(snippet)
     try:
-        return np.array(ocio_output_for_file(f, rgb))
+        r, g, b = ocio_output_for_file(f, rgb)
+        return np.array([r, g, b])
     finally:
         os.remove(f)
 
