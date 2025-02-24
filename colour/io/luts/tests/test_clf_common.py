@@ -18,13 +18,15 @@ __all__ = [
     "snippet_to_process_list",
 ]
 
-from hints import NDArrayFloat
+from colour.hints import NDArrayFloat
 
 EXAMPLE_WRAPPER = """<?xml version="1.0" ?>
 <ProcessList id="Example Wrapper" compCLFversion="3.0">
 {0}
 </ProcessList>
 """
+
+RESOURCES_ROOT: str = os.path.join(os.path.dirname(__file__), "clf_apply", "resources")
 
 
 def wrap_snippet(snippet: str) -> str:
