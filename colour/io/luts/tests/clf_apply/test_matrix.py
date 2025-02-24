@@ -25,7 +25,7 @@ class TestMatrix:
 
     def test_ocio_consistency_simple(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """

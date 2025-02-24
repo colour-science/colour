@@ -37,7 +37,7 @@ class TestASC_CDL:
 
     def test_ocio_consistency_fwd(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """
@@ -56,7 +56,7 @@ class TestASC_CDL:
 
     def test_ocio_consistency_rev(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """
@@ -75,7 +75,7 @@ class TestASC_CDL:
 
     def test_ocio_consistency_fwd_no_clamp(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """
@@ -94,7 +94,7 @@ class TestASC_CDL:
 
     def test_ocio_consistency_rev_no_clamp(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """
@@ -113,7 +113,7 @@ class TestASC_CDL:
 
     def test_ocio_consistency_default_args(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """

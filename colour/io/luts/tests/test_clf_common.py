@@ -101,10 +101,10 @@ def result_as_array(result_text: str) -> NDArrayFloat:
 
 
 def assert_ocio_consistency(
-    value: NDArrayFloat, snippet: str, err_msg: str = ""
+    value: NDArrayFloat, snippet: str, err_msg: str = "", decimals: int = 5
 ) -> None:
-    """Assert that the colour library calculates the same output os the `ociocheclut`
-    tool for the given input.
+    """Assert that the colour library calculates the same output as the OCIO reference
+    implementation for the given CLF snippet.
     """
     process_list = snippet_to_process_list(snippet)
     if process_list is None:
@@ -113,14 +113,15 @@ def assert_ocio_consistency(
     process_list_output = apply(process_list, value, normalised_values=True)
     value_tuple = value[0], value[1], value[2]
     ocio_output = ocio_output_for_snippet(snippet, value_tuple)
+    # Note: OCIO only accepts 16-bit floats so the precision agreement is limited.
     np.testing.assert_array_almost_equal(
-        process_list_output, ocio_output, err_msg=err_msg, decimal=4
-    )  # TODO investigate why there is a difference in the 5/6th digit for log and exp
+        process_list_output, ocio_output, err_msg=err_msg, decimal=decimals
+    )
 
 
 def assert_ocio_consistency_for_file(value_rgb: NDArrayFloat, clf_path: str) -> None:
-    """Assert that the colour library calculates the same output os the `ociocheclut`
-    tool for the given input.
+    """Assert that the colour library calculates the same output as the OCIO reference
+    implementation for the given file.
     """
     from colour_clf_io import read_clf
 

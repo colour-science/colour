@@ -40,7 +40,7 @@ class TestExponent:
 
     def test_ocio_consistency_fwd(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """
@@ -52,7 +52,7 @@ class TestExponent:
 
     def test_ocio_consistency_rev(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """
@@ -64,7 +64,7 @@ class TestExponent:
 
     def test_ocio_consistency_mirror_fwd(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """
@@ -76,7 +76,7 @@ class TestExponent:
 
     def test_ocio_consistency_basic_mirror_rev(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """
@@ -88,7 +88,7 @@ class TestExponent:
 
     def test_ocio_consistency_basic_pass_thru_fwd(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """
@@ -100,7 +100,7 @@ class TestExponent:
 
     def test_ocio_consistency_basic_pass_thru_rev(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """
@@ -112,7 +112,7 @@ class TestExponent:
 
     def test_ocio_consistency_mon_curve_fwd(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """
@@ -124,7 +124,7 @@ class TestExponent:
 
     def test_ocio_consistency_mon_curve_rev(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """
@@ -136,7 +136,7 @@ class TestExponent:
 
     def test_ocio_consistency_mon_curve_rev_2(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """
@@ -148,7 +148,7 @@ class TestExponent:
 
     def test_ocio_consistency_mon_curve_mirror_fwd(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """
@@ -160,7 +160,7 @@ class TestExponent:
 
     def test_ocio_consistency_mon_curve_mirror_rev(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """
@@ -172,7 +172,7 @@ class TestExponent:
 
     def test_ocio_consistency_single_channel_application(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """
@@ -184,7 +184,7 @@ class TestExponent:
 
     def test_ocio_consistency_multi_channel_application(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """

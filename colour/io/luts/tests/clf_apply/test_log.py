@@ -18,7 +18,7 @@ from colour.io.luts.tests.test_clf_common import (
 )
 
 
-def assert_snippet_consistency(snippet: str) -> None:
+def assert_snippet_consistency(snippet: str, decimals: int = 5) -> None:
     """
     Evaluate the snippet with multiple values anc check that they are the same as the
     `ociochecklut` tools output.
@@ -26,7 +26,10 @@ def assert_snippet_consistency(snippet: str) -> None:
     for rgb in rgb_sample_iter():
         value_rgb = np.array(rgb)
         assert_ocio_consistency(
-            value_rgb, snippet, f"Failed to assert consistency for {rgb}"
+            value_rgb,
+            snippet,
+            f"Failed to assert consistency for {rgb}",
+            decimals=decimals,
         )
 
 
@@ -37,7 +40,7 @@ class TestLog:
 
     def test_ocio_consistency_log_10(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """
@@ -48,29 +51,29 @@ class TestLog:
 
     def test_ocio_consistency_anti_log_10(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """
         <Log inBitDepth="16f" outBitDepth="16f" style="antiLog10">
         </Log>
         """
-        assert_snippet_consistency(example)
+        assert_snippet_consistency(example, decimals=4)
 
     def test_ocio_consistency_log_2(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """
         <Log inBitDepth="16f" outBitDepth="16f" style="log2">
         </Log>
         """
-        assert_snippet_consistency(example)
+        assert_snippet_consistency(example, decimals=4)
 
     def test_ocio_consistency_anti_log_2(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """
@@ -81,7 +84,7 @@ class TestLog:
 
     def test_ocio_consistency_lin_to_log(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """
@@ -95,7 +98,7 @@ class TestLog:
 
     def test_ocio_consistency_log_to_lin(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """
@@ -109,7 +112,7 @@ class TestLog:
 
     def test_ocio_consistency_camera_lin_to_log(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """
@@ -124,7 +127,7 @@ class TestLog:
 
     def test_ocio_consistency_camera_log_to_lin(self) -> None:
         """
-        Test that the execution is consistent with `ociochecklut`.
+        Test that the execution is consistent with the OCIO reference.
         """
 
         example = """
