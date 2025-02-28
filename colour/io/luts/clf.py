@@ -39,6 +39,12 @@ from colour.models.rgb.transfer_functions import (
 from colour.utilities import required
 
 
+class CLFExecutionError(Exception):
+    """
+    Exception raised when there is an issue with the execution of a CLF workflow.
+    """
+
+
 def from_uint16_to_f16(array: npt.NDArray[np.uint16]) -> npt.NDArray[np.float16]:
     """
     Convert a :class:`numpy.ndarray` with values of type :class:`numpy.uint16`  to
@@ -362,7 +368,7 @@ def assert_range_correct(
                 f"Input value was {in_out[1]}. "
                 f"Expected output value to be {expected_out_value}, but got {in_out[1]}"
             )
-            raise ValueError(message)
+            raise CLFExecutionError(message)
 
 
 class Range(CLFNode):
@@ -408,7 +414,7 @@ class Range(CLFNode):
                     "Clamping was not set, but not all values to calculate a "
                     "range are supplied. "
                 )
-                raise ValueError(message)
+                raise CLFExecutionError(message)
             bit_depth_scale = (
                 node.out_bit_depth.scale_factor() / node.in_bit_depth.scale_factor()
             )
@@ -502,13 +508,13 @@ def apply_log_internal(  # noqa: PLR0911
             if lin_side_break is None:
                 err = """"The `linSideBreak` This is required if
                 style="cameraLinToLog"."""
-                raise ValueError(err)
+                raise CLFExecutionError(err)
             linear_slope = params.linear_slope
             if linear_slope is None:
                 err = (
                     """"The `linearSlope` This is required if style="cameraLinToLog"."""
                 )
-                raise ValueError(err)
+                raise CLFExecutionError(err)
             return logarithmic_function_camera(
                 value,
                 "cameraLinToLog",
@@ -524,11 +530,11 @@ def apply_log_internal(  # noqa: PLR0911
             lin_side_break = params.lin_side_break
             if lin_side_break is None:
                 err = """"The `linSideBreak` This is required if "cameraLogToLin"""
-                raise ValueError(err)
+                raise CLFExecutionError(err)
             linear_slope = params.linear_slope
             if linear_slope is None:
                 err = """"The `linearSlope` This is required if "cameraLogToLin"""
-                raise ValueError(err)
+                raise CLFExecutionError(err)
             return logarithmic_function_camera(
                 value,
                 "cameraLogToLin",
@@ -542,7 +548,7 @@ def apply_log_internal(  # noqa: PLR0911
             )
         case _:
             message = f"Invalid Log Style: {style}"
-            raise ValueError(message)
+            raise CLFExecutionError(message)
 
 
 class Log(CLFNode):
@@ -647,7 +653,7 @@ def apply_exponent_internal(  # noqa: PLR0911
             )
         case _:
             message = f"Invalid Exponent Style: {style}"
-            raise ValueError(message)
+            raise CLFExecutionError(message)
 
 
 class Exponent(CLFNode):
@@ -752,7 +758,7 @@ class ASC_CDL(CLFNode):
                 out = (out_pw - offset) / slope
             case _:
                 message = f"Invalid ASC_CDL Style: {node.style}"
-                raise ValueError(message)
+                raise CLFExecutionError(message)
         return self._to_output_range(out)
 
 
@@ -810,7 +816,7 @@ def apply(
         process_list
             The :class:`colour_clf_io.ProcessList` instance to apply.
         value
-            Input value in the form of a array. Shape and data format need to be
+            Input value in the form of an array. Shape and data format need to be
             compatible with the given `process_list`.
         normalised_values
             Indicates whether the input values are normalised to the range 0..1. If
@@ -824,7 +830,7 @@ def apply(
 
     Raises
     ------
-    :class:`ValueError`
+    :class:`CLFExecutionError`
         If the given *process_list* is invalid according to the CLF specification
         (e.g., missing or invalid parameters).
     """
