@@ -2,6 +2,7 @@
 Define functionality to execute and run CLF workflows.
 """
 
+from abc import abstractmethod
 from collections.abc import Callable
 from typing import cast
 
@@ -99,10 +100,10 @@ def apply_by_channel(
             on input array,
         (3) if *params* contain more elements, the callable is called for each element.
             In this last case it is expected that the elements in params contain a
-            *channel* attribute of type :class:`clf_io.Channel` that indicates which
-            channel the parameters should be applied to. The input value is then split
-            along the axis, and R,G and B and the callable is called on each channel
-            with the respective parameter item.
+            *channel* attribute of type :class:`colour_clf_io.Channel` that indicates
+            which channel the parameters should be applied to. The input value is then
+            split along the axis, and R,G and B and the callable is called on each
+            channel with the respective parameter item.
      In addition to *extra_args* are always supplied to the callable as third argument.
 
     Parameters
@@ -173,18 +174,28 @@ class CLFNode(AbstractLUTSequenceOperator):
     Parameters
     ----------
     node
-        The :class:`clf_io.ProcessNode` instance from which this LUT node is built. `
+        The :class:`colour_clf_io.ProcessNode` instance from which this LUT node is
+        built. `
 
     Attributes
     ----------
     -   :attr:`~colour.io.luts.clf.CLFNode.node`
     """
 
-    node: clf.ProcessNode
-
     def __init__(self, node: clf.ProcessNode) -> None:
         super().__init__(node.name, node.description)
-        self.node = node
+
+    @property
+    @abstractmethod
+    def node(self) -> clf.ProcessNode:
+        """
+        Getter property for the wrapped process node.
+
+        Returns
+        -------
+        :class:`colour_clf_io.ProcessNode`
+            Process node.
+        """
 
     def _from_input_range(self, value: ArrayLike) -> NDArrayFloat:
         """
@@ -226,22 +237,24 @@ class LUT3D(CLFNode):
     Parameters
     ----------
     node
-        The :class:`clf_io.LUT3D` instance from which this LUT node is built. `
+        The :class:`colour_clf_io.LUT3D` instance from which this LUT node is built. `
 
     Attributes
     ----------
-    -   :attr:`~clf_io.LUT3D`
+    -   :attr:`~colour_clf_io.LUT3D`
 
     Methods
     -------
     -   :meth:`~colour.io.luts.LUT3D.apply`
     """
 
-    node: clf.LUT3D
-
     def __init__(self, node: clf.LUT3D) -> None:
         super().__init__(node)
-        self.node = node  # type: ignore
+        self._node = node
+
+    @property
+    def node(self) -> clf.LUT3D:
+        return self._node
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
         RGB = self._from_input_range(RGB)
@@ -290,7 +303,7 @@ class LUT1D(CLFNode):
     Parameters
     ----------
     node
-        The :class:`clf_io.LUT1D` instance from which this LUT node is built. `
+        The :class:`colour_clf_io.LUT1D` instance from which this LUT node is built. `
 
     Attributes
     ----------
@@ -301,11 +314,13 @@ class LUT1D(CLFNode):
     -   :meth:`~colour.io.luts.LUT1D.apply`
     """
 
-    node: clf.LUT1D
-
     def __init__(self, node: clf.LUT1D) -> None:
         super().__init__(node)
-        self.node = node  # type: ignore
+        self._node = node
+
+    @property
+    def node(self) -> clf.LUT1D:
+        return self._node
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
         RGB = self._from_input_range(RGB)
@@ -330,22 +345,24 @@ class Matrix(CLFNode):
     Parameters
     ----------
     node
-        The :class:`clf_io.Matrix` instance from which this LUT node is built. `
+        The :class:`colour_clf_io.Matrix` instance from which this LUT node is built. `
 
     Attributes
     ----------
-    -   :attr:`~clf_io.Matrix`
+    -   :attr:`~colour_clf_io.Matrix`
 
     Methods
     -------
     -   :meth:`~colour.io.luts.Matrix.apply`
     """
 
-    node: clf.Matrix
-
     def __init__(self, node: clf.Matrix) -> None:
         super().__init__(node)
-        self.node = node  # type: ignore
+        self._node = node
+
+    @property
+    def node(self) -> clf.Matrix:
+        return self._node
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
         RGB = self._from_input_range(RGB)
@@ -378,22 +395,24 @@ class Range(CLFNode):
     Parameters
     ----------
     node
-        The :class:`clf_io.Range` instance from which this LUT node is built. `
+        The :class:`colour_clf_io.Range` instance from which this LUT node is built. `
 
     Attributes
     ----------
-    -   :attr:`~clf_io.Range`
+    -   :attr:`~colour_clf_io.Range`
 
     Methods
     -------
     -   :meth:`~colour.io.luts.Range.apply`
     """
 
-    node: clf.Range
-
     def __init__(self, node: clf.Range) -> None:
         super().__init__(node)
-        self.node = node  # type: ignore
+        self._node = node
+
+    @property
+    def node(self) -> clf.Range:
+        return self._node
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
         node = self.node
@@ -558,22 +577,24 @@ class Log(CLFNode):
     Parameters
     ----------
     node
-        The :class:`clf_io.Log` instance from which this LUT node is built. `
+        The :class:`colour_clf_io.Log` instance from which this LUT node is built. `
 
     Attributes
     ----------
-    -   :attr:`~clf_io.Log`
+    -   :attr:`~colour_clf_io.Log`
 
     Methods
     -------
     -   :meth:`~colour.io.luts.Log.apply`
     """
 
-    node: clf.Log
-
     def __init__(self, node: clf.Log) -> None:
         super().__init__(node)
-        self.node = node  # type: ignore
+        self._node = node
+
+    @property
+    def node(self) -> clf.Log:
+        return self._node
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
         RGB = self._from_input_range(RGB)
@@ -663,22 +684,24 @@ class Exponent(CLFNode):
     Parameters
     ----------
     node
-        The :class:`clf_io.Exponent` instance from which this LUT node is built. `
+        The :class:`colour_clf_io.Exponent` instance from which this LUT node is built.
 
     Attributes
     ----------
-    -   :attr:`~clf_io.Exponent`
+    -   :attr:`~colour_clf_io.Exponent`
 
     Methods
     -------
     -   :meth:`~colour.io.luts.Exponent.apply`
     """
 
-    node: clf.Exponent
-
     def __init__(self, node: clf.Exponent) -> None:
         super().__init__(node)
-        self.node = node  # type: ignore
+        self._node = node
+
+    @property
+    def node(self) -> clf.Exponent:
+        return self._node
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
         node = self.node
@@ -701,22 +724,24 @@ class ASC_CDL(CLFNode):
     Parameters
     ----------
     node
-        The :class:`clf_io.ASC_CDL` instance from which this LUT node is built. `
+        The :class:`colour_clf_io.ASC_CDL` instance from which this LUT node is built. `
 
     Attributes
     ----------
-    -   :attr:`~clf_io.ASC_CDL`
+    -   :attr:`~colour_clf_io.ASC_CDL`
 
     Methods
     -------
     -   :meth:`~colour.io.luts.ASC_CDL.apply`
     """
 
-    node: clf.ASC_CDL
-
     def __init__(self, node: clf.ASC_CDL) -> None:
         super().__init__(node)
-        self.node = node  # type: ignore
+        self._node = node
+
+    @property
+    def node(self) -> clf.ASC_CDL:
+        return self._node
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: ARG002
         node = self.node
