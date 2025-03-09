@@ -34,6 +34,9 @@ __all__ = [
     "INDEXES_TO_NAMES_TCS",
     "APPROXIMATE_MUNSELL_NOTATIONS_TCS",
     "DATA_TCS",
+    "SDS_TCS_CIE_1995",
+    "SDS_TCS_CIE_2024",
+    "SDS_TCS_SETS",
     "SDS_TCS",
 ]
 
@@ -1521,9 +1524,68 @@ DATA_TCS: dict = {
     },
 }
 
-SDS_TCS: CanonicalMapping = CanonicalMapping(
-    {key: SpectralDistribution(value, name=key) for key, value in DATA_TCS.items()}
+SDS_TCS_CIE_1995: CanonicalMapping = CanonicalMapping(
+    {
+        key: SpectralDistribution(value, name=key)
+        for key, value in {
+            x: DATA_TCS[x]
+            for x in [
+                "TCS01",
+                "TCS02",
+                "TCS03",
+                "TCS04",
+                "TCS05",
+                "TCS06",
+                "TCS07",
+                "TCS08",
+                "TCS09",
+                "TCS10",
+                "TCS11",
+                "TCS12",
+                "TCS13",
+                "TCS14",
+            ]
+        }.items()
+    }
 )
+
+SDS_TCS_CIE_2024: CanonicalMapping = CanonicalMapping(
+    {
+        key: SpectralDistribution(value, name=key)
+        for key, value in {
+            x: DATA_TCS[x]
+            for x in [
+                "TCS01",
+                "TCS02",
+                "TCS03",
+                "TCS04",
+                "TCS05",
+                "TCS06",
+                "TCS07",
+                "TCS08",
+                "TCS09",
+                "TCS10",
+                "TCS11",
+                "TCS12",
+                "TCS13",
+                "TCS14",
+                "TCS15",
+            ]
+        }.items()
+    }
+)
+
+SDS_TCS_SETS: CanonicalMapping = CanonicalMapping(
+    {
+        "CIE 1995": SDS_TCS_CIE_1995,
+        "CIE 2024": SDS_TCS_CIE_2024,
+    }
+)
+
+# TODO: deprecate SDS_TCS (was renamed to SDS_TCS_CIE_1995)
+SDS_TCS = SDS_TCS_CIE_1995
+
+
 """
 Test colour samples spectral distributions.
 

@@ -349,6 +349,34 @@ class TestColourRenderingIndex:
         )
 
         specification_t = colour_rendering_index(
+            SDS_ILLUMINANTS["FL1"], additional_data=True, method="CIE 2024"
+        )
+
+        np.testing.assert_allclose(
+            [data.Q_a for _index, data in sorted(specification_r.Q_as.items())],
+            [data.Q_a for _index, data in sorted(specification_t.Q_as.items())],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        # Drop CIE 2024 results to get CIE 1995 results
+        specification_r.Q_as.pop(15)
+        test_col_data = specification_r.colorimetry_data[0][:-1]
+        ref_col_data = specification_r.colorimetry_data[1][:-1]
+        specification_r.colorimetry_data = (test_col_data, ref_col_data)
+
+        # Test for CIE 1995
+        specification_t = colour_rendering_index(
+            SDS_ILLUMINANTS["FL1"], additional_data=True, method="CIE 1995"
+        )
+
+        np.testing.assert_allclose(
+            [data.Q_a for _index, data in sorted(specification_r.Q_as.items())],
+            [data.Q_a for _index, data in sorted(specification_t.Q_as.items())],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        # If method not defined, then CIE 1995 is used
+        specification_t = colour_rendering_index(
             SDS_ILLUMINANTS["FL1"], additional_data=True
         )
 

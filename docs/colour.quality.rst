@@ -36,6 +36,7 @@ Colour Rendering Index
 .. autosummary::
     :toctree: generated/
 
+    COLOUR_RENDERING_INDEX_METHODS
     colour_rendering_index
 
 ``colour.quality``

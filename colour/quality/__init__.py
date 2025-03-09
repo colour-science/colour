@@ -14,7 +14,11 @@ from .cfi2017 import (
     ColourRendering_Specification_CIE2017,
     colour_fidelity_index_CIE2017,
 )
-from .cri import ColourRendering_Specification_CRI, colour_rendering_index
+from .cri import (
+    COLOUR_RENDERING_INDEX_METHODS,
+    ColourRendering_Specification_CRI,
+    colour_rendering_index,
+)
 from .cqs import (
     COLOUR_QUALITY_SCALE_METHODS,
     ColourRendering_Specification_CQS,
@@ -38,6 +42,7 @@ __all__ += [
     "colour_fidelity_index_ANSIIESTM3018",
 ]
 __all__ += [
+    "COLOUR_RENDERING_INDEX_METHODS",
     "ColourRendering_Specification_CRI",
     "colour_rendering_index",
 ]

@@ -40,9 +40,10 @@ if typing.TYPE_CHECKING:
 
 from colour.hints import cast
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
-from colour.quality.datasets.tcs import INDEXES_TO_NAMES_TCS, SDS_TCS
+from colour.quality.datasets.tcs import INDEXES_TO_NAMES_TCS, SDS_TCS_SETS
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Robertson1968
-from colour.utilities import domain_range_scale
+from colour.utilities import domain_range_scale, validate_method
+from colour.utilities.documentation import DocstringTuple, is_documentation_building
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -55,6 +56,7 @@ __all__ = [
     "DataColorimetry_TCS",
     "DataColourQualityScale_TCS",
     "ColourRendering_Specification_CRI",
+    "COLOUR_RENDERING_INDEX_METHODS",
     "colour_rendering_index",
     "tcs_colorimetry_data",
     "colour_rendering_indexes",
@@ -110,26 +112,47 @@ class ColourRendering_Specification_CRI:
     ]
 
 
+COLOUR_RENDERING_INDEX_METHODS: tuple = ("CIE 1995", "CIE 2024")
+if is_documentation_building():  # pragma: no cover
+    COLOUR_RENDERING_INDEX_METHODS = DocstringTuple(COLOUR_RENDERING_INDEX_METHODS)
+    COLOUR_RENDERING_INDEX_METHODS.__doc__ = """
+Supported *Colour Rendering Index* (CRI) computation methods.
+
+References
+----------
+:cite:`Ohno2008a`
+"""
+
+
 @typing.overload
 def colour_rendering_index(
-    sd_test: SpectralDistribution, additional_data: Literal[True] = True
+    sd_test: SpectralDistribution,
+    additional_data: Literal[True] = True,
+    method: Literal["CIE 1995", "CIE 2024"] | str = ...,
 ) -> ColourRendering_Specification_CRI: ...
 
 
 @typing.overload
 def colour_rendering_index(
-    sd_test: SpectralDistribution, *, additional_data: Literal[False]
+    sd_test: SpectralDistribution,
+    *,
+    additional_data: Literal[False],
+    method: Literal["CIE 1995", "CIE 2024"] | str = ...,
 ) -> float: ...
 
 
 @typing.overload
 def colour_rendering_index(
-    sd_test: SpectralDistribution, additional_data: Literal[False]
+    sd_test: SpectralDistribution,
+    additional_data: Literal[False],
+    method: Literal["CIE 1995", "CIE 2024"] | str = ...,
 ) -> float: ...
 
 
 def colour_rendering_index(
-    sd_test: SpectralDistribution, additional_data: bool = False
+    sd_test: SpectralDistribution,
+    additional_data: bool = False,
+    method: Literal["CIE 1995", "CIE 2024"] | str = "CIE 1995",
 ) -> float | ColourRendering_Specification_CRI:
     """
     Return the *Colour Rendering Index* (CRI) :math:`Q_a` of given spectral
@@ -141,6 +164,8 @@ def colour_rendering_index(
         Test spectral distribution.
     additional_data
         Whether to output additional data.
+    method
+        Computation method.
 
     Returns
     -------
@@ -160,6 +185,8 @@ def colour_rendering_index(
     64.2337241...
     """
 
+    method = validate_method(method, tuple(COLOUR_RENDERING_INDEX_METHODS))
+
     cmfs = reshape_msds(
         MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
         SPECTRAL_SHAPE_DEFAULT,
@@ -168,7 +195,8 @@ def colour_rendering_index(
 
     shape = cmfs.shape
     sd_test = reshape_sd(sd_test, shape, copy=False)
-    tcs_sds = {sd.name: reshape_sd(sd, shape, copy=False) for sd in SDS_TCS.values()}
+    sds_tcs = SDS_TCS_SETS[method]
+    tcs_sds = {sd.name: reshape_sd(sd, shape, copy=False) for sd in sds_tcs.values()}
 
     with domain_range_scale("1"):
         XYZ = sd_to_XYZ(sd_test, cmfs)
@@ -250,6 +278,8 @@ def tcs_colorimetry_data(
 
     tcs_data = []
     for _key, value in sorted(INDEXES_TO_NAMES_TCS.items()):
+        if value not in sds_tcs:
+            continue
         sd_tcs = sds_tcs[value]
         XYZ_tcs = sd_to_XYZ(sd_tcs, cmfs, sd_t)
         xyY_tcs = XYZ_to_xyY(XYZ_tcs)
