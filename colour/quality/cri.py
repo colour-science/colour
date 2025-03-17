@@ -40,7 +40,7 @@ if typing.TYPE_CHECKING:
 
 from colour.hints import cast
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
-from colour.quality.datasets.tcs import INDEXES_TO_NAMES_TCS, SDS_TCS_SETS
+from colour.quality.datasets.tcs import INDEXES_TO_NAMES_TCS, SDS_TCS
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Robertson1968
 from colour.utilities import domain_range_scale, validate_method
 from colour.utilities.documentation import DocstringTuple, is_documentation_building
@@ -195,7 +195,7 @@ def colour_rendering_index(
 
     shape = cmfs.shape
     sd_test = reshape_sd(sd_test, shape, copy=False)
-    sds_tcs = SDS_TCS_SETS[method]
+    sds_tcs = SDS_TCS[method]
     tcs_sds = {sd.name: reshape_sd(sd, shape, copy=False) for sd in sds_tcs.values()}
 
     with domain_range_scale("1"):
@@ -212,11 +212,11 @@ def colour_rendering_index(
         sd_reference.align(shape)
 
     test_tcs_colorimetry_data = tcs_colorimetry_data(
-        sd_test, sd_reference, tcs_sds, cmfs, chromatic_adaptation=True
+        sd_test, sd_reference, tcs_sds, cmfs, chromatic_adaptation=True, method=method
     )
 
     reference_tcs_colorimetry_data = tcs_colorimetry_data(
-        sd_reference, sd_reference, tcs_sds, cmfs
+        sd_reference, sd_reference, tcs_sds, cmfs, method=method
     )
 
     Q_as = colour_rendering_indexes(
@@ -245,6 +245,7 @@ def tcs_colorimetry_data(
     sds_tcs: Dict[str, SpectralDistribution],
     cmfs: MultiSpectralDistributions,
     chromatic_adaptation: bool = False,
+    method: Literal["CIE 1995", "CIE 2024"] | str = "CIE 1995",
 ) -> Tuple[DataColorimetry_TCS, ...]:
     """
     Return the *test colour samples* colorimetry data.
@@ -268,6 +269,8 @@ def tcs_colorimetry_data(
         *Test colour samples* colorimetry data.
     """
 
+    method = validate_method(method, tuple(COLOUR_RENDERING_INDEX_METHODS))
+
     XYZ_t = sd_to_XYZ(sd_t, cmfs)
     uv_t = UCS_to_uv(XYZ_to_UCS(XYZ_t))
     u_t, v_t = uv_t[0], uv_t[1]
@@ -277,9 +280,10 @@ def tcs_colorimetry_data(
     u_r, v_r = uv_r[0], uv_r[1]
 
     tcs_data = []
-    for _key, value in sorted(INDEXES_TO_NAMES_TCS.items()):
+    for _key, value in sorted(INDEXES_TO_NAMES_TCS[method].items()):
         if value not in sds_tcs:
             continue
+
         sd_tcs = sds_tcs[value]
         XYZ_tcs = sd_to_XYZ(sd_tcs, cmfs, sd_t)
         xyY_tcs = XYZ_to_xyY(XYZ_tcs)

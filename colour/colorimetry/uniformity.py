@@ -90,7 +90,7 @@ def spectral_uniformity(
     Examples
     --------
     >>> from colour.quality.datasets import SDS_TCS
-    >>> spectral_uniformity(SDS_TCS.values())  # doctest: +ELLIPSIS
+    >>> spectral_uniformity(SDS_TCS["CIE 1995"].values())  # doctest: +ELLIPSIS
     array([  9.5514285...e-06,   1.1482142...e-05,   1.8784285...e-05,
              2.8711428...e-05,   3.1971428...e-05,   3.2342857...e-05,
              3.3850000...e-05,   3.9925714...e-05,   4.1333571...e-05,
