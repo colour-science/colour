@@ -1537,6 +1537,14 @@ Colour Rendering Index
 
     64.233724121664793
 
+.. code-block:: python
+
+    sorted(colour.COLOUR_RENDERING_INDEX_METHODS)
+
+.. code-block:: text
+
+    ['CIE 1995', 'CIE 2024']
+
 Academy Spectral Similarity Index (SSI)
 ***************************************
 

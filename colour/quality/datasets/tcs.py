@@ -2,7 +2,8 @@
 Test Colour Samples Spectral Distributions
 ==========================================
 
-Define the *CIE 1995* test colour samples spectral distributions.
+Define the *CIE 1995* test colour samples spectral distributions
+plus TCS15.
 
 The *CIE 1995* test colour samples data is in the form of a *dict* of
 :class:`colour.SpectralDistribution` classes as follows::
@@ -33,6 +34,9 @@ __all__ = [
     "INDEXES_TO_NAMES_TCS",
     "APPROXIMATE_MUNSELL_NOTATIONS_TCS",
     "DATA_TCS",
+    "SDS_TCS_CIE_1995",
+    "SDS_TCS_CIE_2024",
+    "SDS_TCS_SETS",
     "SDS_TCS",
 ]
 
@@ -51,6 +55,7 @@ INDEXES_TO_NAMES_TCS: dict = {
     12: "TCS12",
     13: "TCS13",
     14: "TCS14",
+    15: "TCS15",
 }
 """Test colour samples indexes to names mapping."""
 
@@ -70,6 +75,7 @@ APPROXIMATE_MUNSELL_NOTATIONS_TCS: CanonicalMapping = CanonicalMapping(
         "TCS12": "3 PB 3/11",
         "TCS13": "5 YR 8/4",
         "TCS14": "5 GY 4/4",
+        "TCS15": "1 YR 6/4",
     }
 )
 """Test colour samples *Munsell* colour approximations."""
@@ -1433,11 +1439,153 @@ DATA_TCS: dict = {
         825: 0.451,
         830: 0.454,
     },
+    "TCS15": {
+        380: 0.131,
+        385: 0.139,
+        390: 0.147,
+        395: 0.153,
+        400: 0.158,
+        405: 0.162,
+        410: 0.164,
+        415: 0.167,
+        420: 0.170,
+        425: 0.175,
+        430: 0.182,
+        435: 0.192,
+        440: 0.203,
+        445: 0.212,
+        450: 0.221,
+        455: 0.229,
+        460: 0.236,
+        465: 0.243,
+        470: 0.249,
+        475: 0.254,
+        480: 0.259,
+        485: 0.264,
+        490: 0.269,
+        495: 0.276,
+        500: 0.284,
+        505: 0.291,
+        510: 0.296,
+        515: 0.298,
+        520: 0.296,
+        525: 0.289,
+        530: 0.282,
+        535: 0.276,
+        540: 0.274,
+        545: 0.276,
+        550: 0.281,
+        555: 0.286,
+        560: 0.291,
+        565: 0.289,
+        570: 0.286,
+        575: 0.280,
+        580: 0.285,
+        585: 0.314,
+        590: 0.354,
+        595: 0.398,
+        600: 0.440,
+        605: 0.470,
+        610: 0.494,
+        615: 0.511,
+        620: 0.524,
+        625: 0.535,
+        630: 0.544,
+        635: 0.552,
+        640: 0.559,
+        645: 0.565,
+        650: 0.571,
+        655: 0.576,
+        660: 0.581,
+        665: 0.586,
+        670: 0.590,
+        675: 0.594,
+        680: 0.599,
+        685: 0.603,
+        690: 0.606,
+        695: 0.610,
+        700: 0.612,
+        705: 0.614,
+        710: 0.616,
+        715: 0.616,
+        720: 0.616,
+        725: 0.616,
+        730: 0.615,
+        735: 0.613,
+        740: 0.612,
+        745: 0.610,
+        750: 0.609,
+        755: 0.608,
+        760: 0.607,
+        765: 0.607,
+        770: 0.609,
+        775: 0.610,
+        780: 0.611,
+    },
 }
 
-SDS_TCS: CanonicalMapping = CanonicalMapping(
-    {key: SpectralDistribution(value, name=key) for key, value in DATA_TCS.items()}
+SDS_TCS_CIE_1995: CanonicalMapping = CanonicalMapping(
+    {
+        key: SpectralDistribution(value, name=key)
+        for key, value in {
+            x: DATA_TCS[x]
+            for x in [
+                "TCS01",
+                "TCS02",
+                "TCS03",
+                "TCS04",
+                "TCS05",
+                "TCS06",
+                "TCS07",
+                "TCS08",
+                "TCS09",
+                "TCS10",
+                "TCS11",
+                "TCS12",
+                "TCS13",
+                "TCS14",
+            ]
+        }.items()
+    }
 )
+
+SDS_TCS_CIE_2024: CanonicalMapping = CanonicalMapping(
+    {
+        key: SpectralDistribution(value, name=key)
+        for key, value in {
+            x: DATA_TCS[x]
+            for x in [
+                "TCS01",
+                "TCS02",
+                "TCS03",
+                "TCS04",
+                "TCS05",
+                "TCS06",
+                "TCS07",
+                "TCS08",
+                "TCS09",
+                "TCS10",
+                "TCS11",
+                "TCS12",
+                "TCS13",
+                "TCS14",
+                "TCS15",
+            ]
+        }.items()
+    }
+)
+
+SDS_TCS_SETS: CanonicalMapping = CanonicalMapping(
+    {
+        "CIE 1995": SDS_TCS_CIE_1995,
+        "CIE 2024": SDS_TCS_CIE_2024,
+    }
+)
+
+# TODO: deprecate SDS_TCS (was renamed to SDS_TCS_CIE_1995)
+SDS_TCS = SDS_TCS_CIE_1995
+
+
 """
 Test colour samples spectral distributions.
 

@@ -443,6 +443,7 @@ from .phenomena import (
 from .quality import (
     COLOUR_FIDELITY_INDEX_METHODS,
     COLOUR_QUALITY_SCALE_METHODS,
+    COLOUR_RENDERING_INDEX_METHODS,
     colour_fidelity_index,
     colour_quality_scale,
     colour_rendering_index,
@@ -838,6 +839,7 @@ __all__ += [
 __all__ += [
     "COLOUR_FIDELITY_INDEX_METHODS",
     "COLOUR_QUALITY_SCALE_METHODS",
+    "COLOUR_RENDERING_INDEX_METHODS",
     "colour_fidelity_index",
     "colour_quality_scale",
     "colour_rendering_index",
