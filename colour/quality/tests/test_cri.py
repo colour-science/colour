@@ -158,6 +158,7 @@ class TestColourRenderingIndex:
                 12: DataColourQualityScale_TCS(name="TCS12", Q_a=74.890093866757994),
                 13: DataColourQualityScale_TCS(name="TCS13", Q_a=72.771930354944615),
                 14: DataColourQualityScale_TCS(name="TCS14", Q_a=94.884867470552663),
+                15: DataColourQualityScale_TCS(name="TCS15", Q_a=59.613744524909143),
             },
             colorimetry_data=(
                 (
@@ -245,6 +246,12 @@ class TestColourRenderingIndex:
                         uv=np.array([0.18328188, 0.35214117]),
                         UVW=np.array([-6.11563143, 19.91896684, 40.34566797]),
                     ),
+                    DataColorimetry_TCS(
+                        name="TCS15",
+                        XYZ=np.array([31.87001132, 31.71897232, 22.84936407]),
+                        uv=np.array([0.22124167, 0.33028974]),
+                        UVW=np.array([20.88976213, 12.62627126, 62.13702346]),
+                    ),
                 ),
                 (
                     DataColorimetry_TCS(
@@ -331,8 +338,39 @@ class TestColourRenderingIndex:
                         uv=np.array([0.18597686, 0.34955284]),
                         UVW=np.array([-6.34991066, 18.99712303, 39.76962229]),
                     ),
+                    DataColorimetry_TCS(
+                        name="TCS15",
+                        XYZ=np.array([35.0651964, 32.69237678, 24.25024725]),
+                        uv=np.array([0.23447077, 0.32790662]),
+                        UVW=np.array([29.62847425, 12.35345214, 62.93841026]),
+                    ),
                 ),
             ),
+        )
+
+        specification_t = colour_rendering_index(
+            SDS_ILLUMINANTS["FL1"], additional_data=True, method="CIE 2024"
+        )
+
+        np.testing.assert_allclose(
+            [data.Q_a for _index, data in sorted(specification_r.Q_as.items())],
+            [data.Q_a for _index, data in sorted(specification_t.Q_as.items())],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        specification_r.Q_as.pop(15)
+        test_col_data = specification_r.colorimetry_data[0][:-1]
+        ref_col_data = specification_r.colorimetry_data[1][:-1]
+        specification_r.colorimetry_data = (test_col_data, ref_col_data)
+
+        specification_t = colour_rendering_index(
+            SDS_ILLUMINANTS["FL1"], additional_data=True, method="CIE 1995"
+        )
+
+        np.testing.assert_allclose(
+            [data.Q_a for _index, data in sorted(specification_r.Q_as.items())],
+            [data.Q_a for _index, data in sorted(specification_t.Q_as.items())],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         specification_t = colour_rendering_index(

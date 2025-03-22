@@ -2,15 +2,18 @@
 Test Colour Samples Spectral Distributions
 ==========================================
 
-Define the *CIE 1995* test colour samples spectral distributions.
+Define the *CIE 1995* and *CIE 2024* test colour samples spectral distributions.
 
-The *CIE 1995* test colour samples data is in the form of a *dict* of
-:class:`colour.SpectralDistribution` classes as follows::
+The *CIE 1995* and *CIE 2024* test colour samples data is in the form of a
+*dict* of :class:`colour.SpectralDistribution` classes as follows::
 
     {'name': SpectralDistribution, ..., 'name': SpectralDistribution}
 
 References
 ----------
+-   :cite:`CIE2024` : CIE. (2024). Spectral radiance factors of test-colour
+    sample #15 of the Japanese skin complexion, 5nm wavelength steps [Data set].
+    International Commission on Illumination (CIE). doi:10.25039/CIE.DS.7chm7z5h
 -   :cite:`Ohno2008a` : Ohno, Yoshiro, & Davis, W. (2008). NIST CQS simulation
     (Version 7.4) [Computer software].
     https://drive.google.com/file/d/1PsuU6QjUJjCX6tQyCud6ul2Tbs8rYWW9/view?\
@@ -30,31 +33,19 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "APPROXIMATE_MUNSELL_NOTATIONS_TCS_CIE1995",
+    "INDEXES_TO_NAMES_TCS_CIE1995",
+    "DATA_TCS_CIE1995",
+    "SDS_TCS_CIE1995",
+    "APPROXIMATE_MUNSELL_NOTATIONS_TCS_CIE2024",
+    "INDEXES_TO_NAMES_TCS_CIE2024",
+    "DATA_TCS_CIE2024",
+    "SDS_TCS_CIE2024",
     "INDEXES_TO_NAMES_TCS",
-    "APPROXIMATE_MUNSELL_NOTATIONS_TCS",
-    "DATA_TCS",
     "SDS_TCS",
 ]
 
-INDEXES_TO_NAMES_TCS: dict = {
-    1: "TCS01",
-    2: "TCS02",
-    3: "TCS03",
-    4: "TCS04",
-    5: "TCS05",
-    6: "TCS06",
-    7: "TCS07",
-    8: "TCS08",
-    9: "TCS09",
-    10: "TCS10",
-    11: "TCS11",
-    12: "TCS12",
-    13: "TCS13",
-    14: "TCS14",
-}
-"""Test colour samples indexes to names mapping."""
-
-APPROXIMATE_MUNSELL_NOTATIONS_TCS: CanonicalMapping = CanonicalMapping(
+APPROXIMATE_MUNSELL_NOTATIONS_TCS_CIE1995: CanonicalMapping = CanonicalMapping(
     {
         "TCS01": "7.5 R 6/4",
         "TCS02": "5 Y 6/4",
@@ -70,11 +61,43 @@ APPROXIMATE_MUNSELL_NOTATIONS_TCS: CanonicalMapping = CanonicalMapping(
         "TCS12": "3 PB 3/11",
         "TCS13": "5 YR 8/4",
         "TCS14": "5 GY 4/4",
+        "TCS15": "1 YR 6/4",
     }
 )
-"""Test colour samples *Munsell* colour approximations."""
+"""
+Test colour samples *Munsell* colour approximations for *CIE 1995*
 
-DATA_TCS: dict = {
+References
+----------
+:cite:`Ohno2008a`
+"""
+
+
+INDEXES_TO_NAMES_TCS_CIE1995: dict = {
+    1: "TCS01",
+    2: "TCS02",
+    3: "TCS03",
+    4: "TCS04",
+    5: "TCS05",
+    6: "TCS06",
+    7: "TCS07",
+    8: "TCS08",
+    9: "TCS09",
+    10: "TCS10",
+    11: "TCS11",
+    12: "TCS12",
+    13: "TCS13",
+    14: "TCS14",
+}
+"""
+Test colour samples indexes to names mapping for *CIE 1995*
+
+References
+----------
+:cite:`Ohno2008a`
+"""
+
+DATA_TCS_CIE1995: dict = {
     "TCS01": {
         360: 0.116,
         365: 0.136,
@@ -1435,13 +1458,184 @@ DATA_TCS: dict = {
     },
 }
 
-SDS_TCS: CanonicalMapping = CanonicalMapping(
-    {key: SpectralDistribution(value, name=key) for key, value in DATA_TCS.items()}
+SDS_TCS_CIE1995: CanonicalMapping = CanonicalMapping(
+    {
+        key: SpectralDistribution(value, name=key)
+        for key, value in DATA_TCS_CIE1995.items()
+    }
 )
 """
-Test colour samples spectral distributions.
+Test colour samples spectral distributions for *CIE 1995*.
 
 References
 ----------
 :cite:`Ohno2008a`
+"""
+
+APPROXIMATE_MUNSELL_NOTATIONS_TCS_CIE2024: CanonicalMapping = CanonicalMapping(
+    {
+        **APPROXIMATE_MUNSELL_NOTATIONS_TCS_CIE1995,
+        "TCS15": "1 YR 6/4",
+    }
+)
+"""
+Test colour samples *Munsell* colour approximations for *CIE 2024*
+
+References
+----------
+:cite:`CIE2024`
+"""
+
+INDEXES_TO_NAMES_TCS_CIE2024: dict = {
+    1: "TCS01",
+    2: "TCS02",
+    3: "TCS03",
+    4: "TCS04",
+    5: "TCS05",
+    6: "TCS06",
+    7: "TCS07",
+    8: "TCS08",
+    9: "TCS09",
+    10: "TCS10",
+    11: "TCS11",
+    12: "TCS12",
+    13: "TCS13",
+    14: "TCS14",
+    15: "TCS15",
+}
+"""
+Test colour samples indexes to names mapping for *CIE 2024*.
+
+References
+----------
+:cite:`CIE2024`
+"""
+
+DATA_TCS_CIE2024: dict = {
+    **DATA_TCS_CIE1995,
+    "TCS15": {
+        380: 0.131,
+        385: 0.139,
+        390: 0.147,
+        395: 0.153,
+        400: 0.158,
+        405: 0.162,
+        410: 0.164,
+        415: 0.167,
+        420: 0.170,
+        425: 0.175,
+        430: 0.182,
+        435: 0.192,
+        440: 0.203,
+        445: 0.212,
+        450: 0.221,
+        455: 0.229,
+        460: 0.236,
+        465: 0.243,
+        470: 0.249,
+        475: 0.254,
+        480: 0.259,
+        485: 0.264,
+        490: 0.269,
+        495: 0.276,
+        500: 0.284,
+        505: 0.291,
+        510: 0.296,
+        515: 0.298,
+        520: 0.296,
+        525: 0.289,
+        530: 0.282,
+        535: 0.276,
+        540: 0.274,
+        545: 0.276,
+        550: 0.281,
+        555: 0.286,
+        560: 0.291,
+        565: 0.289,
+        570: 0.286,
+        575: 0.280,
+        580: 0.285,
+        585: 0.314,
+        590: 0.354,
+        595: 0.398,
+        600: 0.440,
+        605: 0.470,
+        610: 0.494,
+        615: 0.511,
+        620: 0.524,
+        625: 0.535,
+        630: 0.544,
+        635: 0.552,
+        640: 0.559,
+        645: 0.565,
+        650: 0.571,
+        655: 0.576,
+        660: 0.581,
+        665: 0.586,
+        670: 0.590,
+        675: 0.594,
+        680: 0.599,
+        685: 0.603,
+        690: 0.606,
+        695: 0.610,
+        700: 0.612,
+        705: 0.614,
+        710: 0.616,
+        715: 0.616,
+        720: 0.616,
+        725: 0.616,
+        730: 0.615,
+        735: 0.613,
+        740: 0.612,
+        745: 0.610,
+        750: 0.609,
+        755: 0.608,
+        760: 0.607,
+        765: 0.607,
+        770: 0.609,
+        775: 0.610,
+        780: 0.611,
+    },
+}
+
+SDS_TCS_CIE2024: CanonicalMapping = CanonicalMapping(
+    {
+        key: SpectralDistribution(value, name=key)
+        for key, value in DATA_TCS_CIE2024.items()
+    }
+)
+"""
+Test colour samples spectral distributions for *CIE 2024*.
+
+References
+----------
+:cite:`CIE2024`
+"""
+
+INDEXES_TO_NAMES_TCS: CanonicalMapping = CanonicalMapping(
+    {
+        "CIE 1995": INDEXES_TO_NAMES_TCS_CIE1995,
+        "CIE 2024": INDEXES_TO_NAMES_TCS_CIE2024,
+    }
+)
+"""
+Test colour samples indexes to names mapping for *CIE 1995* and *CIE 2024*.
+
+References
+----------
+:cite:`CIE2024`, :cite:`Ohno2008a`
+"""
+
+SDS_TCS: CanonicalMapping = CanonicalMapping(
+    {
+        "CIE 1995": SDS_TCS_CIE1995,
+        "CIE 2024": SDS_TCS_CIE2024,
+    }
+)
+"""
+Test colour samples spectral distributions for *CIE 1995* and *CIE 2024*.
+
+References
+----------
+:cite:`CIE2024`, :cite:`Ohno2008a`
 """

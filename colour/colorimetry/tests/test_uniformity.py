@@ -240,13 +240,15 @@ class TestSpectralUniformity:
         from colour.quality.datasets import SDS_TCS
 
         np.testing.assert_allclose(
-            spectral_uniformity(SDS_TCS.values()),
+            spectral_uniformity(SDS_TCS["CIE 1995"].values()),
             DATA_UNIFORMITY_FIRST_ORDER_DERIVATIVES,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            spectral_uniformity(SDS_TCS.values(), use_second_order_derivatives=True),
+            spectral_uniformity(
+                SDS_TCS["CIE 1995"].values(), use_second_order_derivatives=True
+            ),
             DATA_UNIFORMITY_SECOND_ORDER_DERIVATIVES,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
