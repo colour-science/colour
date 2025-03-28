@@ -29,7 +29,6 @@ from colour.io.fichet2021 import (
     match_groups_to_nm,
     sds_and_msds_to_components_Fichet2021,
 )
-from colour.utilities import is_openimageio_installed
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -179,9 +178,6 @@ class TestComponentsToSRGBFichet2021:
         Test :func:`colour.io.fichet2021.components_to_sRGB_Fichet2021`
         definition.
         """
-
-        if not is_openimageio_installed():
-            return
 
         specification = Specification_Fichet2021(is_emissive=True)
         components = sds_and_msds_to_components_Fichet2021(
@@ -465,9 +461,6 @@ class TestReadSpectralImageFichet2021:
         definition.
         """
 
-        if not is_openimageio_installed():
-            return
-
         _test_spectral_image_D65(os.path.join(ROOT_RESOURCES, "D65.exr"))
 
         _test_spectral_image_Ohta1997(os.path.join(ROOT_RESOURCES, "Ohta1997.exr"))
@@ -498,9 +491,6 @@ class TestWriteSpectralImageFichet2021:
         Test :func:`colour.io.fichet2021.write_spectral_image_Fichet2021`
         definition.
         """
-
-        if not is_openimageio_installed():
-            return
 
         path = os.path.join(self._temporary_directory, "D65.exr")
         specification = Specification_Fichet2021(is_emissive=True)
