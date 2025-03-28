@@ -11,6 +11,14 @@ import typing
 from dataclasses import dataclass, field
 
 import numpy as np
+from OpenImageIO import DOUBLE  # pyright: ignore
+from OpenImageIO import FLOAT  # pyright: ignore
+from OpenImageIO import HALF  # pyright: ignore
+from OpenImageIO import UINT8  # pyright: ignore
+from OpenImageIO import UINT16  # pyright: ignore
+from OpenImageIO import ImageInput  # pyright: ignore
+from OpenImageIO import ImageOutput  # pyright: ignore
+from OpenImageIO import ImageSpec  # pyright: ignore
 
 if typing.TYPE_CHECKING:
     from colour.hints import (
@@ -32,7 +40,7 @@ from colour.utilities import (
     as_int_array,
     attest,
     filter_kwargs,
-    is_openimageio_installed,
+    is_imageio_installed,
     optional,
     required,
     tstack,
@@ -109,41 +117,19 @@ class Image_Specification_Attribute:
     )
 
 
-if is_openimageio_installed():  # pragma: no cover
-    from OpenImageIO import ImageSpec  # pyright: ignore
-    from OpenImageIO import DOUBLE, FLOAT, HALF, UINT8, UINT16  # pyright: ignore
-
-    MAPPING_BIT_DEPTH: CanonicalMapping = CanonicalMapping(
-        {
-            "uint8": Image_Specification_BitDepth("uint8", np.uint8, UINT8),
-            "uint16": Image_Specification_BitDepth("uint16", np.uint16, UINT16),
-            "float16": Image_Specification_BitDepth("float16", np.float16, HALF),
-            "float32": Image_Specification_BitDepth("float32", np.float32, FLOAT),
-            "float64": Image_Specification_BitDepth("float64", np.float64, DOUBLE),
-        }
+MAPPING_BIT_DEPTH: CanonicalMapping = CanonicalMapping(
+    {
+        "uint8": Image_Specification_BitDepth("uint8", np.uint8, UINT8),
+        "uint16": Image_Specification_BitDepth("uint16", np.uint16, UINT16),
+        "float16": Image_Specification_BitDepth("float16", np.float16, HALF),
+        "float32": Image_Specification_BitDepth("float32", np.float32, FLOAT),
+        "float64": Image_Specification_BitDepth("float64", np.float64, DOUBLE),
+    }
+)
+if not typing.TYPE_CHECKING and hasattr(np, "float128"):  # pragma: no cover
+    MAPPING_BIT_DEPTH["float128"] = Image_Specification_BitDepth(
+        "float128", np.float128, DOUBLE
     )
-    if not typing.TYPE_CHECKING and hasattr(np, "float128"):  # pragma: no cover
-        MAPPING_BIT_DEPTH["float128"] = Image_Specification_BitDepth(
-            "float128", np.float128, DOUBLE
-        )
-else:  # pragma: no cover
-
-    class ImageSpec:
-        attribute: Any
-
-    MAPPING_BIT_DEPTH: CanonicalMapping = CanonicalMapping(
-        {
-            "uint8": Image_Specification_BitDepth("uint8", np.uint8, None),
-            "uint16": Image_Specification_BitDepth("uint16", np.uint16, None),
-            "float16": Image_Specification_BitDepth("float16", np.float16, None),
-            "float32": Image_Specification_BitDepth("float32", np.float32, None),
-            "float64": Image_Specification_BitDepth("float64", np.float64, None),
-        }
-    )
-    if not typing.TYPE_CHECKING and hasattr(np, "float128"):  # pragma: no cover
-        MAPPING_BIT_DEPTH["float128"] = Image_Specification_BitDepth(
-            "float128", np.float128, None
-        )
 
 
 def add_attributes_to_image_specification_OpenImageIO(
@@ -194,7 +180,6 @@ def add_attributes_to_image_specification_OpenImageIO(
     return image_specification
 
 
-@required("OpenImageIO")
 def image_specification_OpenImageIO(
     width: int,
     height: int,
@@ -330,7 +315,6 @@ def convert_bit_depth(
 
 
 @typing.overload
-@required("OpenImageIO")
 def read_image_OpenImageIO(
     path: str | PathLike,
     bit_depth: Literal[
@@ -342,7 +326,6 @@ def read_image_OpenImageIO(
 
 
 @typing.overload
-@required("OpenImageIO")
 def read_image_OpenImageIO(
     path: str | PathLike,
     bit_depth: Literal[
@@ -355,7 +338,6 @@ def read_image_OpenImageIO(
 
 
 @typing.overload
-@required("OpenImageIO")
 def read_image_OpenImageIO(
     path: str | PathLike,
     bit_depth: Literal["uint8", "uint16", "float16", "float32", "float64", "float128"],
@@ -364,7 +346,6 @@ def read_image_OpenImageIO(
 ) -> NDArrayReal: ...
 
 
-@required("OpenImageIO")
 def read_image_OpenImageIO(
     path: str | PathLike,
     bit_depth: Literal[
@@ -411,8 +392,6 @@ def read_image_OpenImageIO(
     >>> image = read_image_OpenImageIO(path)  # doctest: +SKIP
     """
 
-    from OpenImageIO import ImageInput  # pyright: ignore
-
     path = str(path)
 
     kwargs = handle_arguments_deprecation(
@@ -454,6 +433,7 @@ def read_image_OpenImageIO(
     return image
 
 
+@required("Imageio")
 def read_image_Imageio(
     path: str | PathLike,
     bit_depth: Literal[
@@ -586,14 +566,14 @@ def read_image(
     dtype('float32')
     """
 
-    method = validate_method(method, tuple(READ_IMAGE_METHODS))
-
-    if method == "openimageio" and not is_openimageio_installed():  # pragma: no cover
+    if method.lower() == "imageio" and not is_imageio_installed():  # pragma: no cover
         usage_warning(
-            '"OpenImageIO" related API features are not available, '
-            'switching to "Imageio"!'
+            '"Imageio" related API features are not available, '
+            'switching to "OpenImageIO"!'
         )
-        method = "Imageio"
+        method = "openimageio"
+
+    method = validate_method(method, tuple(READ_IMAGE_METHODS))
 
     function = READ_IMAGE_METHODS[method]
 
@@ -603,7 +583,6 @@ def read_image(
     return function(path, bit_depth, **kwargs)
 
 
-@required("OpenImageIO")
 def write_image_OpenImageIO(
     image: ArrayLike,
     path: str | PathLike,
@@ -666,7 +645,7 @@ def write_image_OpenImageIO(
 
     Writing an "ACES" compliant "EXR" file:
 
-    >>> if is_openimageio_installed():  # doctest: +SKIP
+    >>> if is_imageio_installed():  # doctest: +SKIP
     ...     from OpenImageIO import TypeDesc
     ...
     ...     chromaticities = (
@@ -688,8 +667,6 @@ def write_image_OpenImageIO(
     ...     ]
     ...     write_image_OpenImageIO(image, path, attributes=attributes)
     """  # noqa: D405, D407, D410, D411
-
-    from OpenImageIO import ImageOutput  # pyright: ignore
 
     image = as_float_array(image)
     path = str(path)
@@ -722,13 +699,14 @@ def write_image_OpenImageIO(
     image_output = ImageOutput.create(path)
 
     image_output.open(path, image_specification)
-    image_output.write_image(image)
+    success = image_output.write_image(image)
 
     image_output.close()
 
-    return True
+    return success
 
 
+@required("Imageio")
 def write_image_Imageio(
     image: ArrayLike,
     path: str | PathLike,
@@ -903,14 +881,14 @@ Source/FreeImage.h
     True
     """  # noqa: D405, D407, D410, D411, D414
 
-    method = validate_method(method, tuple(WRITE_IMAGE_METHODS))
-
-    if method == "openimageio" and not is_openimageio_installed():  # pragma: no cover
+    if method.lower() == "imageio" and not is_imageio_installed():  # pragma: no cover
         usage_warning(
-            '"OpenImageIO" related API features are not available, '
+            '"Imageio" related API features are not available, '
             'switching to "Imageio"!'
         )
-        method = "Imageio"
+        method = "openimageio"
+
+    method = validate_method(method, tuple(WRITE_IMAGE_METHODS))
 
     function = WRITE_IMAGE_METHODS[method]
 

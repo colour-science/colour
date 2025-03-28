@@ -7,9 +7,9 @@ import os
 import tempfile
 
 import colour
-from colour.utilities import is_openimageio_installed, message_box
+from colour.utilities import is_imageio_installed, message_box
 
-if is_openimageio_installed():
+if is_imageio_installed():
     ROOT_RESOURCES = os.path.join(
         os.path.dirname(__file__), "..", "..", "io", "tests", "resources"
     )

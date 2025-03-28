@@ -9,6 +9,7 @@ import tempfile
 
 import numpy as np
 import pytest
+from OpenImageIO import HALF, TypeDesc  # pyright: ignore
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.io import (
@@ -23,7 +24,7 @@ from colour.io import (
     write_image_Imageio,
     write_image_OpenImageIO,
 )
-from colour.utilities import attest, full, is_openimageio_installed
+from colour.utilities import attest, full
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -59,11 +60,6 @@ class TestImageSpecificationOpenImageIO:
         Test :func:`colour.io.image.image_specification_OpenImageIO`
         definition.
         """
-
-        if not is_openimageio_installed():
-            return
-
-        from OpenImageIO import HALF  # pyright: ignore
 
         compression = Image_Specification_Attribute("Compression", "none")
         specification = image_specification_OpenImageIO(
@@ -275,9 +271,6 @@ class TestReadImageOpenImageIO:
     def test_read_image_OpenImageIO(self) -> None:  # pragma: no cover
         """Test :func:`colour.io.image.read_image_OpenImageIO` definition."""
 
-        if not is_openimageio_installed():
-            return
-
         image = read_image_OpenImageIO(
             os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr"),
             additional_data=False,
@@ -361,11 +354,6 @@ class TestWriteImageOpenImageIO:
 
     def test_write_image_OpenImageIO(self) -> None:  # pragma: no cover
         """Test :func:`colour.io.image.write_image_OpenImageIO` definition."""
-
-        if not is_openimageio_installed():
-            return
-
-        from OpenImageIO import TypeDesc  # pyright: ignore
 
         path = os.path.join(self._temporary_directory, "8-bit.png")
         RGB = full((1, 1, 3), 255, np.uint8)
