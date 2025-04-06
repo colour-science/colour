@@ -184,10 +184,7 @@ def IgPgTg_to_XYZ(IgPgTg: ArrayLike) -> NDArrayFloat:
         colourspace array.
         """
 
-        return cast(
-            NDArrayFloat,
-            spow(LMS_p, 1 / 0.427) * np.array([18.36, 21.46, 19435]),
-        )
+        return spow(LMS_p, 1 / 0.427) * np.array([18.36, 21.46, 19435])
 
     return Iab_to_XYZ(
         IgPgTg,
