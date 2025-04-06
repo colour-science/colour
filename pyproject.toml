@@ -128,7 +128,6 @@ reportUnsupportedDunderAll = false
 reportUnusedExpression = false
 
 [tool.pytest.ini_options]
-addopts = "-n auto --dist=loadscope --durations=5"
 filterwarnings = [
     "ignore::RuntimeWarning",
     "ignore::pytest.PytestCollectionWarning",

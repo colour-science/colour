@@ -696,7 +696,21 @@ def write_image_OpenImageIO(
         width, height, channels, bit_depth, attributes
     )
 
-    image_output = ImageOutput.create(path)
+    import threading
+
+    with open("oiio-write-image-log", "a") as log_file:
+        log_file.write("*" * 80 + "\n")
+        log_file.write("*" * 80 + "\n")
+        log_file.write(str(threading.get_native_id()) + "\n")
+        log_file.write(str(image_specification) + "\n")
+        image_output = ImageOutput.create(path)
+
+        log_file.write(str(image_output) + "\n")
+
+        if not image_output:
+            log_file.write(str(image_output.geterror()) + "\n")
+
+        log_file.write("*" * 80 + "\n")
 
     image_output.open(path, image_specification)
     success = image_output.write_image(image)

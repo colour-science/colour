@@ -7,7 +7,7 @@ jobs:
     name: ${{ matrix.os }} - Python ${{ matrix.python-version }}
     strategy:
       matrix:
-        os: [macOS-latest, ubuntu-latest, windows-latest]
+        os: [windows-latest]
         python-version: ["3.10", 3.11, 3.12, 3.13]
       fail-fast: false
     runs-on: ${{ matrix.os }}
@@ -60,9 +60,13 @@ jobs:
           uv run python -OO -c "import $CI_PACKAGE"
         shell: bash
       - name: Test with Pytest
+        continue-on-error: true
         run: |
-          uv run python -W ignore -m pytest --doctest-modules --ignore=$CI_PACKAGE/examples --cov=$CI_PACKAGE $CI_PACKAGE
+          uv run python -W ignore -m pytest -s --doctest-modules --ignore=$CI_PACKAGE/examples --cov=$CI_PACKAGE $CI_PACKAGE
         shell: bash
+      - name: Check OIIO Log
+        run: |
+          cat oiio-write-image-log
       - name: Upload Coverage to coveralls.io
         if: matrix.os == 'macOS-latest' && matrix.python-version == '3.13'
         run: |
