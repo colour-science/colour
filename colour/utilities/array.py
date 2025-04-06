@@ -582,12 +582,17 @@ def as_array(
 
     return np.asarray(a, dtype)
 
+
 @typing.overload
 def as_int(a: float | DTypeFloat, dtype: Type[DTypeInt] | None = None) -> DTypeInt: ...
 @typing.overload
-def as_int(a: NDArray | Sequence[int], dtype: Type[DTypeInt] | None = None) -> NDArrayInt: ...
+def as_int(
+    a: NDArray | Sequence[int], dtype: Type[DTypeInt] | None = None
+) -> NDArrayInt: ...
 @typing.overload
-def as_int(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> DTypeInt | NDArrayInt: ...
+def as_int(
+    a: ArrayLike, dtype: Type[DTypeInt] | None = None
+) -> DTypeInt | NDArrayInt: ...
 def as_int(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> DTypeInt | NDArrayInt:
     """
     Attempt to convert given variable :math:`a` to :class:`numpy.integer`
@@ -627,13 +632,22 @@ def as_int(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> DTypeInt | NDAr
 
     return dtype(a)  # pyright: ignore
 
+
 @typing.overload
-def as_float(a: float | DTypeFloat, dtype: Type[DTypeFloat] | None = None) -> DTypeFloat: ...
+def as_float(
+    a: float | DTypeFloat, dtype: Type[DTypeFloat] | None = None
+) -> DTypeFloat: ...
 @typing.overload
-def as_float(a: NDArray | Sequence[float], dtype: Type[DTypeFloat] | None = None) -> NDArrayFloat: ...
+def as_float(
+    a: NDArray | Sequence[float], dtype: Type[DTypeFloat] | None = None
+) -> NDArrayFloat: ...
 @typing.overload
-def as_float(a: ArrayLike, dtype: Type[DTypeFloat] | None = None) -> DTypeFloat | NDArrayFloat: ...
-def as_float(a: ArrayLike, dtype: Type[DTypeFloat] | None = None) -> DTypeFloat | NDArrayFloat:
+def as_float(
+    a: ArrayLike, dtype: Type[DTypeFloat] | None = None
+) -> DTypeFloat | NDArrayFloat: ...
+def as_float(
+    a: ArrayLike, dtype: Type[DTypeFloat] | None = None
+) -> DTypeFloat | NDArrayFloat:
     """
     Attempt to convert given variable :math:`a` to :class:`numpy.floating`
     using given :class:`numpy.dtype`. If variable :math:`a` is not a scalar or

@@ -831,9 +831,7 @@ finaliser_function at 0x...>)
 
     x_0 = as_float_array([1, 0, 0, 1, 0, 0])
 
-    def objective_function(
-        M: ArrayLike, RGB: ArrayLike, Jab: ArrayLike
-    ) -> DTypeFloat:
+    def objective_function(M: ArrayLike, RGB: ArrayLike, Jab: ArrayLike) -> DTypeFloat:
         """:math:`J_za_zb_z` colourspace based objective function."""
 
         M = finaliser_function(M)
@@ -902,9 +900,7 @@ finaliser_function at 0x...>)
 
     x_0 = as_float_array([1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1])
 
-    def objective_function(
-        M: ArrayLike, RGB: ArrayLike, Jab: ArrayLike
-    ) -> DTypeFloat:
+    def objective_function(M: ArrayLike, RGB: ArrayLike, Jab: ArrayLike) -> DTypeFloat:
         """*Oklab* colourspace based objective function."""
 
         M = finaliser_function(M)

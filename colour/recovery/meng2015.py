@@ -31,9 +31,8 @@ from colour.colorimetry import (
 )
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, DTypeFloat
+    from colour.hints import ArrayLike, DTypeFloat, NDArrayFloat
 
-from colour.hints import NDArrayFloat, cast
 from colour.utilities import from_range_100, to_domain_1
 
 __author__ = "Colour Developers"

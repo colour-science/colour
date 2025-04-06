@@ -438,8 +438,9 @@ class spow_enable:
 
         return wrapper
 
+
 @typing.overload
-def spow(a:  float | DTypeFloat, p:  float | DTypeFloat) -> DTypeFloat: ...
+def spow(a: float | DTypeFloat, p: float | DTypeFloat) -> DTypeFloat: ...
 @typing.overload
 def spow(a: NDArray, p: ArrayLike) -> NDArrayFloat: ...
 @typing.overload
