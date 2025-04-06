@@ -28,7 +28,7 @@ from scipy.optimize import fmin
 from colour.algebra import sdiv, sdiv_mode, spow, vecmul
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
+    from colour.hints import ArrayLike, DTypeFloat, NDArrayFloat
 
 from colour.models import XYZ_to_xyY
 from colour.utilities import (
@@ -210,11 +210,11 @@ def OSA_UCS_to_XYZ(
     shape = Ljg.shape
     Ljg = np.atleast_1d(np.reshape(Ljg, (-1, 3)))
 
-    optimisation_settings = {"disp": False}
+    optimisation_settings: dict[str, typing.Any] = {"disp": False}
     if optimisation_kwargs is not None:
         optimisation_settings.update(optimisation_kwargs)
 
-    def error_function(XYZ: NDArrayFloat, Ljg: NDArrayFloat) -> NDArrayFloat:
+    def error_function(XYZ: NDArrayFloat, Ljg: NDArrayFloat) -> DTypeFloat:
         """Error function."""
 
         # Error must be computed in "reference" domain and range.

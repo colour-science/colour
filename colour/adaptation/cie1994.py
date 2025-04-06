@@ -24,7 +24,7 @@ from colour.adaptation import CAT_VON_KRIES
 from colour.algebra import sdiv, sdiv_mode, spow, vecmul
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
+    from colour.hints import ArrayLike, DTypeFloat, NDArray, NDArrayFloat
 
 from colour.utilities import (
     as_float_array,
@@ -290,7 +290,13 @@ def effective_adapting_responses(
     return ((Y_o[..., None] * E_o[..., None]) / (100 * np.pi)) * xez
 
 
-def beta_1(x: ArrayLike) -> NDArrayFloat:
+@typing.overload
+def beta_1(x: float | DTypeFloat) -> DTypeFloat: ...
+@typing.overload
+def beta_1(x: NDArray) -> NDArrayFloat: ...
+@typing.overload
+def beta_1(x: ArrayLike) -> DTypeFloat | NDArrayFloat: ...
+def beta_1(x: ArrayLike) -> DTypeFloat | NDArrayFloat:
     """
     Compute the exponent :math:`\\beta_1` for the middle and long-wavelength
     sensitive cones.
@@ -316,7 +322,13 @@ def beta_1(x: ArrayLike) -> NDArrayFloat:
     return (6.469 + 6.362 * x_p) / (6.469 + x_p)
 
 
-def beta_2(x: ArrayLike) -> NDArrayFloat:
+@typing.overload
+def beta_2(x: float | DTypeFloat) -> DTypeFloat: ...
+@typing.overload
+def beta_2(x: NDArray) -> NDArrayFloat: ...
+@typing.overload
+def beta_2(x: ArrayLike) -> DTypeFloat | NDArrayFloat: ...
+def beta_2(x: ArrayLike) -> DTypeFloat | NDArrayFloat:
     """
     Compute the exponent :math:`\\beta_2` for the short-wavelength sensitive
     cones.

@@ -582,8 +582,13 @@ def as_array(
 
     return np.asarray(a, dtype)
 
-
-def as_int(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> NDArrayInt:
+@typing.overload
+def as_int(a: float | DTypeFloat, dtype: Type[DTypeInt] | None = None) -> DTypeInt: ...
+@typing.overload
+def as_int(a: NDArray | Sequence[int], dtype: Type[DTypeInt] | None = None) -> NDArrayInt: ...
+@typing.overload
+def as_int(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> DTypeInt | NDArrayInt: ...
+def as_int(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> DTypeInt | NDArrayInt:
     """
     Attempt to convert given variable :math:`a` to :class:`numpy.integer`
     using given :class:`numpy.dtype`. If variable :math:`a` is not a scalar or
@@ -622,8 +627,13 @@ def as_int(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> NDArrayInt:
 
     return dtype(a)  # pyright: ignore
 
-
-def as_float(a: ArrayLike, dtype: Type[DTypeFloat] | None = None) -> NDArrayFloat:
+@typing.overload
+def as_float(a: float | DTypeFloat, dtype: Type[DTypeFloat] | None = None) -> DTypeFloat: ...
+@typing.overload
+def as_float(a: NDArray | Sequence[float], dtype: Type[DTypeFloat] | None = None) -> NDArrayFloat: ...
+@typing.overload
+def as_float(a: ArrayLike, dtype: Type[DTypeFloat] | None = None) -> DTypeFloat | NDArrayFloat: ...
+def as_float(a: ArrayLike, dtype: Type[DTypeFloat] | None = None) -> DTypeFloat | NDArrayFloat:
     """
     Attempt to convert given variable :math:`a` to :class:`numpy.floating`
     using given :class:`numpy.dtype`. If variable :math:`a` is not a scalar or
@@ -1399,7 +1409,7 @@ def to_domain_int(
 
     a = as_float_array(a, dtype).copy()
 
-    maximum_code_value = np.power(2, bit_depth) - 1
+    maximum_code_value: NDArray[DTypeInt] = np.power(2, bit_depth) - 1
     if _DOMAIN_RANGE_SCALE == "1":
         a *= maximum_code_value
 
@@ -1749,7 +1759,7 @@ def from_range_int(
 
     a = as_float_array(a, dtype)
 
-    maximum_code_value = np.power(2, bit_depth) - 1
+    maximum_code_value: NDArray[DTypeInt] = np.power(2, bit_depth) - 1
     if _DOMAIN_RANGE_SCALE == "1":
         a /= maximum_code_value
 

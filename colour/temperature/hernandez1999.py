@@ -31,7 +31,7 @@ from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import CCS_ILLUMINANTS
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
+    from colour.hints import ArrayLike, DTypeFloat, NDArrayFloat
 
 from colour.utilities import as_float, as_float_array, tsplit, usage_warning
 
@@ -151,7 +151,7 @@ def CCT_to_xy_Hernandez1999(
     shape = list(CCT.shape)
     CCT = np.atleast_1d(np.reshape(CCT, (-1, 1)))
 
-    def objective_function(xy: NDArrayFloat, CCT: NDArrayFloat) -> NDArrayFloat:
+    def objective_function(xy: NDArrayFloat, CCT: NDArrayFloat) -> DTypeFloat:
         """Objective function."""
 
         objective = np.linalg.norm(xy_to_CCT_Hernandez1999(xy) - CCT)

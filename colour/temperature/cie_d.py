@@ -30,7 +30,7 @@ from scipy.optimize import minimize
 from colour.colorimetry import daylight_locus_function
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
+    from colour.hints import ArrayLike, DTypeFloat, NDArrayFloat
 
 from colour.utilities import as_float, as_float_array, tstack, usage_warning
 
@@ -89,7 +89,7 @@ def xy_to_CCT_CIE_D(
     shape = xy.shape
     xy = np.atleast_1d(np.reshape(xy, (-1, 2)))
 
-    def objective_function(CCT: NDArrayFloat, xy: NDArrayFloat) -> NDArrayFloat:
+    def objective_function(CCT: NDArrayFloat, xy: NDArrayFloat) -> DTypeFloat:
         """Objective function."""
 
         objective = np.linalg.norm(CCT_to_xy_CIE_D(CCT) - xy)

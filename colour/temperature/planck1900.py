@@ -30,7 +30,7 @@ from colour.colorimetry import (
 )
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
+    from colour.hints import ArrayLike, DTypeFloat, NDArrayFloat
 
 from colour.models import UCS_to_uv, XYZ_to_UCS
 from colour.utilities import as_float, as_float_array
@@ -96,7 +96,7 @@ def uv_to_CCT_Planck1900(
     shape = uv.shape
     uv = np.atleast_1d(np.reshape(uv, (-1, 2)))
 
-    def objective_function(CCT: NDArrayFloat, uv: NDArrayFloat) -> NDArrayFloat:
+    def objective_function(CCT: NDArrayFloat, uv: NDArrayFloat) -> DTypeFloat:
         """Objective function."""
 
         objective = np.linalg.norm(CCT_to_uv_Planck1900(CCT, cmfs) - uv)

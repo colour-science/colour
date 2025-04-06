@@ -273,6 +273,7 @@ b=-52.6142956...)
     M = np.matmul(np.matmul(MATRIX_R, row_as_diagonal(LMS_a_L)), MATRIX_XYZ_TO_HPE)
     XYZ_ref = vecmul(M, XYZ)
 
+    Y_ref: NDArrayFloat
     X_ref, Y_ref, Z_ref = tsplit(XYZ_ref)
 
     # Computing the correlate of *Lightness* :math:`L^R`.

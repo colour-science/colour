@@ -18,6 +18,8 @@ if typing.TYPE_CHECKING:
         Any,
         ArrayLike,
         Callable,
+        DTypeFloat,
+        NDArray,
         NDArrayFloat,
         Self,
         Tuple,
@@ -436,8 +438,15 @@ class spow_enable:
 
         return wrapper
 
-
-def spow(a: ArrayLike, p: ArrayLike) -> NDArrayFloat:
+@typing.overload
+def spow(a:  float | DTypeFloat, p:  float | DTypeFloat) -> DTypeFloat: ...
+@typing.overload
+def spow(a: NDArray, p: ArrayLike) -> NDArrayFloat: ...
+@typing.overload
+def spow(a: ArrayLike, p: NDArray) -> NDArrayFloat: ...
+@typing.overload
+def spow(a: ArrayLike, p: ArrayLike) -> DTypeFloat | NDArrayFloat: ...
+def spow(a: ArrayLike, p: ArrayLike) -> DTypeFloat | NDArrayFloat:
     """
     Raise given array :math:`a` to the power :math:`p` as follows:
     :math:`sign(a) * |a|^p`.

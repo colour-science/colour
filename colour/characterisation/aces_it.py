@@ -87,6 +87,7 @@ if typing.TYPE_CHECKING:
         Any,
         ArrayLike,
         Callable,
+        DTypeFloat,
         Literal,
         LiteralChromaticAdaptationTransform,
         Mapping,
@@ -768,7 +769,7 @@ def optimisation_factory_rawtoaces_v1() -> (
 
     def objective_function(
         M: NDArrayFloat, RGB: NDArrayFloat, Lab: NDArrayFloat
-    ) -> NDArrayFloat:
+    ) -> DTypeFloat:
         """Objective function according to *RAW to ACES* v1."""
 
         M = finaliser_function(M)
@@ -832,7 +833,7 @@ finaliser_function at 0x...>)
 
     def objective_function(
         M: ArrayLike, RGB: ArrayLike, Jab: ArrayLike
-    ) -> NDArrayFloat:
+    ) -> DTypeFloat:
         """:math:`J_za_zb_z` colourspace based objective function."""
 
         M = finaliser_function(M)
@@ -903,7 +904,7 @@ finaliser_function at 0x...>)
 
     def objective_function(
         M: ArrayLike, RGB: ArrayLike, Jab: ArrayLike
-    ) -> NDArrayFloat:
+    ) -> DTypeFloat:
         """*Oklab* colourspace based objective function."""
 
         M = finaliser_function(M)
@@ -1124,7 +1125,8 @@ def matrix_idt(
         XYZ_to_optimization_colour_model,
         finaliser_function,
     ) = optimisation_factory()
-    optimisation_settings = {
+
+    optimisation_settings: dict[str, Any] = {
         "method": "BFGS",
         "jac": "2-point",
     }
