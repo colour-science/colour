@@ -1292,7 +1292,7 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
     """
 
     def __init__(self, x: ArrayLike, y: ArrayLike, *args: Any, **kwargs: Any) -> None:
-        super().__init__(x, y, *args, **kwargs)
+        super().__init__(as_float_array(x), as_float_array(y), *args, **kwargs)
 
         self._y: NDArrayFloat = as_float_array(y)
 

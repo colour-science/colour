@@ -13,6 +13,7 @@ import numpy as np
 from scipy.spatial import Delaunay
 
 from colour.constants import EPSILON
+from colour.utilities import as_float_array
 
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
@@ -68,8 +69,8 @@ def is_within_mesh_volume(
     array([ True, False], dtype=bool)
     """
 
-    triangulation = Delaunay(mesh)
+    triangulation = Delaunay(as_float_array(mesh))
 
-    simplex = triangulation.find_simplex(points, tol=tolerance)
+    simplex = triangulation.find_simplex(as_float_array(points), tol=tolerance)
 
     return np.where(simplex >= 0, True, False)
