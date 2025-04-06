@@ -147,6 +147,7 @@ rfc3986-validator==0.1.1
 rich==13.9.4
 rpds-py==0.22.3
 scipy==1.14.1
+scipy-stubs==1.14.1.6
 secretstorage==3.3.3 ; sys_platform == 'linux'
 send2trash==1.8.3
 setuptools==75.6.0
