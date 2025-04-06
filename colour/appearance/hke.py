@@ -237,6 +237,7 @@ def coefficient_q_Nayatani1997(
         - 0.00764 * np.sin(theta_4)
     )
 
+
 @typing.overload
 def coefficient_K_Br_Nayatani1997(L_a: float | DTypeFloat) -> DTypeFloat: ...
 @typing.overload
