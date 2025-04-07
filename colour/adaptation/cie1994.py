@@ -319,7 +319,7 @@ def beta_1(x: ArrayLike) -> DTypeFloat | NDArrayFloat:
 
     x_p = spow(x, 0.4495)
 
-    return (6.469 + 6.362 * x_p) / (6.469 + x_p)
+    return (x_p * 6.362 + 6.469) / (x_p + 6.469)
 
 
 @typing.overload
@@ -351,7 +351,7 @@ def beta_2(x: ArrayLike) -> DTypeFloat | NDArrayFloat:
 
     x_p = spow(x, 0.5128)
 
-    return 0.7844 * (8.414 + 8.091 * x_p) / (8.414 + x_p)
+    return (x_p * 8.091 + 8.414) * 0.7844 / (x_p + 8.414)
 
 
 def exponential_factors(RGB_o: ArrayLike) -> NDArrayFloat:

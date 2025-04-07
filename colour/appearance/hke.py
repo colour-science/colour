@@ -280,4 +280,4 @@ def coefficient_K_Br_Nayatani1997(L_a: ArrayLike) -> DTypeFloat | NDArrayFloat:
 
     L_a_4495 = spow(L_a, 0.4495)
 
-    return 0.2717 * (6.469 + 6.362 * L_a_4495) / (6.469 + L_a_4495)
+    return (L_a_4495 * 6.362 + 6.469) * 0.2717 / (L_a_4495 + 6.469)

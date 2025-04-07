@@ -1438,10 +1438,10 @@ def temporary_magnitude_quantity_inverse(
     """
 
     C = as_float_array(C)
-    J = np.maximum(J, EPSILON)
+    J_prime = np.maximum(J, EPSILON)
     n = as_float_array(n)
 
-    return spow(C / (np.sqrt(J / 100) * spow(1.64 - 0.29**n, 0.73)), 1 / 0.9)
+    return spow(C / (np.sqrt(J_prime / 100) * spow(1.64 - 0.29**n, 0.73)), 1 / 0.9)
 
 
 def chroma_correlate(
