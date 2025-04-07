@@ -76,7 +76,7 @@ def maximise_spatial_frequency(L: ArrayLike) -> NDArrayFloat:
                         **settings_BT2246,
                     )
                 ).item(),
-                0,
+                [0],
                 disp=False,
             )[0]
         )

@@ -116,7 +116,7 @@ def uv_to_CCT_Planck1900(
         [
             minimize(
                 objective_function,
-                x0=6500,
+                x0=[6500],
                 args=(uv_i,),
                 **optimisation_settings,
             ).x

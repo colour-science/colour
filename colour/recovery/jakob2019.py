@@ -792,10 +792,10 @@ class LUT3D_Jakob2019:
                          {'method': 'Constant', 'left': None, 'right': None})
     """
 
+    _interpolator: RegularGridInterpolator[np.float64]
+
     def __init__(self) -> None:
-        self._interpolator: RegularGridInterpolator = RegularGridInterpolator(
-            np.array([]), np.array([])
-        )
+        self._interpolator = RegularGridInterpolator((), np.array([]))
 
         self._size: int = 0
         self._lightness_scale: NDArrayFloat = np.array([])

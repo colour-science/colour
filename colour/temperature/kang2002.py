@@ -106,7 +106,7 @@ def xy_to_CCT_Kang2002(
         [
             minimize(
                 objective_function,
-                x0=6500,
+                x0=[6500],
                 args=(xy_i,),
                 **optimisation_settings,
             ).x
