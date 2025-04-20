@@ -13,7 +13,7 @@ from __future__ import annotations
 import typing
 
 if typing.TYPE_CHECKING:
-    from _typeshed import StrPath
+    from os import PathLike
 
 import numpy as np
 
@@ -34,7 +34,7 @@ __all__ = [
 ]
 
 
-def read_LUT_SonySPImtx(path: StrPath) -> LUTOperatorMatrix:
+def read_LUT_SonySPImtx(path: str | PathLike[str]) -> LUTOperatorMatrix:
     """
     Read given *Sony* *.spimtx* *LUT* file.
 
@@ -82,7 +82,9 @@ def read_LUT_SonySPImtx(path: StrPath) -> LUTOperatorMatrix:
 
 
 def write_LUT_SonySPImtx(
-    LUT: LUTOperatorMatrix, path: StrPath | typing.IO[typing.Any], decimals: int = 7
+    LUT: LUTOperatorMatrix,
+    path: str | PathLike[str] | typing.IO[typing.Any],
+    decimals: int = 7,
 ) -> bool:
     """
     Write given *LUT* to given *Sony* *.spimtx* *LUT* file.
