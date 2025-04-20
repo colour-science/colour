@@ -23,9 +23,8 @@ import numpy as np
 from colour.algebra import spow
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike
+    from colour.hints import ArrayLike, NDArrayFloat
 
-from colour.hints import NDArrayFloat, cast
 from colour.models import Iab_to_XYZ, XYZ_to_Iab
 
 __author__ = "Colour Developers"
@@ -184,10 +183,7 @@ def IgPgTg_to_XYZ(IgPgTg: ArrayLike) -> NDArrayFloat:
         colourspace array.
         """
 
-        return cast(
-            NDArrayFloat,
-            spow(LMS_p, 1 / 0.427) * np.array([18.36, 21.46, 19435]),
-        )
+        return spow(LMS_p, 1 / 0.427) * np.array([18.36, 21.46, 19435])
 
     return Iab_to_XYZ(
         IgPgTg,

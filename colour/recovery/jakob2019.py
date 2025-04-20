@@ -212,8 +212,6 @@ def error_function(
     max_error: float | None = ...,
     additional_data: Literal[True] = True,
 ) -> Tuple[float, NDArrayFloat, NDArrayFloat, NDArrayFloat, NDArrayFloat]: ...
-
-
 @typing.overload
 def error_function(
     coefficients: ArrayLike,
@@ -224,8 +222,6 @@ def error_function(
     *,
     additional_data: Literal[False],
 ) -> Tuple[float, NDArrayFloat]: ...
-
-
 @typing.overload
 def error_function(
     coefficients: ArrayLike,
@@ -235,8 +231,6 @@ def error_function(
     max_error: float | None,
     additional_data: Literal[False],
 ) -> Tuple[float, NDArrayFloat]: ...
-
-
 def error_function(
     coefficients: ArrayLike,
     target: ArrayLike,
@@ -470,8 +464,8 @@ def find_coefficients_Jakob2019(
     )
 
     def optimize(
-        target_o: ArrayLike, coefficients_0_o: ArrayLike
-    ) -> Tuple[NDArrayFloat, float]:
+        target_o: NDArrayFloat, coefficients_0_o: NDArrayFloat
+    ) -> Tuple[NDArrayFloat, float | np.float64]:
         """Minimise the error function using *L-BFGS-B* method."""
 
         try:
@@ -522,7 +516,7 @@ def find_coefficients_Jakob2019(
     if dimensionalise:
         coefficients = dimensionalise_coefficients(coefficients, cmfs.shape)
 
-    return coefficients, error
+    return coefficients, float(error)
 
 
 @typing.overload
@@ -798,10 +792,10 @@ class LUT3D_Jakob2019:
                          {'method': 'Constant', 'left': None, 'right': None})
     """
 
+    _interpolator: RegularGridInterpolator[np.float64]
+
     def __init__(self) -> None:
-        self._interpolator: RegularGridInterpolator = RegularGridInterpolator(
-            np.array([]), np.array([])
-        )
+        self._interpolator = RegularGridInterpolator((), np.array([]))
 
         self._size: int = 0
         self._lightness_scale: NDArrayFloat = np.array([])

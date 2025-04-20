@@ -13,7 +13,7 @@ from __future__ import annotations
 import typing
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
+    from colour.hints import ArrayLike, DTypeFloat, NDArray, NDArrayFloat
 
 from colour.utilities import as_float
 
@@ -29,7 +29,13 @@ __all__ = [
 ]
 
 
-def linear_function(a: ArrayLike) -> NDArrayFloat:
+@typing.overload
+def linear_function(a: float | DTypeFloat) -> DTypeFloat: ...
+@typing.overload
+def linear_function(a: NDArray) -> NDArrayFloat: ...
+@typing.overload
+def linear_function(a: ArrayLike) -> DTypeFloat | NDArrayFloat: ...
+def linear_function(a: ArrayLike) -> DTypeFloat | NDArrayFloat:
     """
     Define a typical linear encoding / decoding function, essentially a
     pass-through function.

@@ -27,7 +27,7 @@ import numpy as np
 from scipy.optimize import minimize
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
+    from colour.hints import ArrayLike, DTypeFloat, NDArrayFloat
 
 from colour.utilities import as_float, as_float_array, tstack, usage_warning
 
@@ -86,7 +86,7 @@ def xy_to_CCT_Kang2002(
     shape = xy.shape
     xy = np.atleast_1d(np.reshape(xy, (-1, 2)))
 
-    def objective_function(CCT: NDArrayFloat, xy: NDArrayFloat) -> NDArrayFloat:
+    def objective_function(CCT: NDArrayFloat, xy: NDArrayFloat) -> DTypeFloat:
         """Objective function."""
 
         objective = np.linalg.norm(CCT_to_xy_Kang2002(CCT) - xy)
@@ -106,7 +106,7 @@ def xy_to_CCT_Kang2002(
         [
             minimize(
                 objective_function,
-                x0=6500,
+                x0=[6500],
                 args=(xy_i,),
                 **optimisation_settings,
             ).x

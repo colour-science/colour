@@ -27,7 +27,7 @@ import numpy as np
 from scipy.optimize import minimize
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
+    from colour.hints import ArrayLike, DTypeFloat, NDArrayFloat
 
 from colour.utilities import as_float, as_float_array, tstack
 
@@ -92,7 +92,7 @@ def uv_to_CCT_Krystek1985(
     shape = uv.shape
     uv = np.atleast_1d(np.reshape(uv, (-1, 2)))
 
-    def objective_function(CCT: NDArrayFloat, uv: NDArrayFloat) -> NDArrayFloat:
+    def objective_function(CCT: NDArrayFloat, uv: NDArrayFloat) -> DTypeFloat:
         """Objective function."""
 
         objective = np.linalg.norm(CCT_to_uv_Krystek1985(CCT) - uv)
@@ -112,7 +112,7 @@ def uv_to_CCT_Krystek1985(
         [
             minimize(
                 objective_function,
-                x0=6500,
+                x0=[6500],
                 args=(uv_i,),
                 **optimisation_settings,
             ).x

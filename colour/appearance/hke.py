@@ -32,7 +32,7 @@ import numpy as np
 from colour.algebra import spow
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, Literal, NDArrayFloat
+    from colour.hints import ArrayLike, DTypeFloat, Literal, NDArray, NDArrayFloat
 
 from colour.utilities import CanonicalMapping, as_float_array, tsplit, validate_method
 
@@ -238,9 +238,13 @@ def coefficient_q_Nayatani1997(
     )
 
 
-def coefficient_K_Br_Nayatani1997(
-    L_a: ArrayLike,
-) -> NDArrayFloat:
+@typing.overload
+def coefficient_K_Br_Nayatani1997(L_a: float | DTypeFloat) -> DTypeFloat: ...
+@typing.overload
+def coefficient_K_Br_Nayatani1997(L_a: NDArray) -> NDArrayFloat: ...
+@typing.overload
+def coefficient_K_Br_Nayatani1997(L_a: ArrayLike) -> DTypeFloat | NDArrayFloat: ...
+def coefficient_K_Br_Nayatani1997(L_a: ArrayLike) -> DTypeFloat | NDArrayFloat:
     """
     Return the :math:`K_{Br}` coefficient for *Nayatani (1997)* *HKE*
     computations.
@@ -276,4 +280,4 @@ def coefficient_K_Br_Nayatani1997(
 
     L_a_4495 = spow(L_a, 0.4495)
 
-    return 0.2717 * (6.469 + 6.362 * L_a_4495) / (6.469 + L_a_4495)
+    return (L_a_4495 * 6.362 + 6.469) * 0.2717 / (L_a_4495 + 6.469)

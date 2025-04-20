@@ -1438,7 +1438,7 @@ class TestPchipInterpolator:
 
         interpolator.y = np.linspace(0, 1, 10)
 
-        assert interpolator(5) == 5
+        assert interpolator(np.array(5)) == 5
 
 
 class TestNullInterpolator:

@@ -31,9 +31,8 @@ from colour.colorimetry import (
 )
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike
+    from colour.hints import ArrayLike, DTypeFloat, NDArrayFloat
 
-from colour.hints import NDArrayFloat, cast
 from colour.utilities import from_range_100, to_domain_1
 
 __author__ = "Colour Developers"
@@ -177,12 +176,12 @@ def XYZ_to_sd_Meng2015(
 
     sd = sd_ones(cmfs.shape)
 
-    def objective_function(a: ArrayLike) -> NDArrayFloat:
+    def objective_function(a: NDArrayFloat) -> DTypeFloat:
         """Define the objective function."""
 
-        return cast(NDArrayFloat, np.sum(np.diff(a) ** 2))
+        return np.sum(np.square(np.diff(a)))
 
-    def constraint_function(a: ArrayLike) -> NDArrayFloat:
+    def constraint_function(a: NDArrayFloat) -> NDArrayFloat:
         """Define the constraint function."""
 
         sd[:] = a
