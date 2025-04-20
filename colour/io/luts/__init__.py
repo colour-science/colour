@@ -20,10 +20,7 @@ import os
 import typing
 
 if typing.TYPE_CHECKING:
-    from pathlib import Path
-
-if typing.TYPE_CHECKING:
-    from colour.hints import Any, LiteralLUTReadMethod, LiteralLUTWriteMethod
+    from colour.hints import Any, LiteralLUTReadMethod, LiteralLUTWriteMethod, PathLike
 
 from colour.utilities import (
     CanonicalMapping,
@@ -110,7 +107,7 @@ References
 
 
 def read_LUT(
-    path: str | Path,
+    path: str | PathLike,
     method: LiteralLUTReadMethod | str | None = None,
     **kwargs: Any,
 ) -> LUT1D | LUT3x1D | LUT3D | LUTSequence | LUTOperatorMatrix:
@@ -259,7 +256,7 @@ References
 
 def write_LUT(
     LUT: LUT1D | LUT3x1D | LUT3D | LUTSequence | LUTOperatorMatrix,
-    path: str | Path,
+    path: str | PathLike,
     decimals: int = 7,
     method: LiteralLUTWriteMethod | str | None = None,
     **kwargs: Any,

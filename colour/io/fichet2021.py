@@ -33,11 +33,11 @@ from colour.colorimetry import (
 from colour.constants import CONSTANT_LIGHT_SPEED
 
 if typing.TYPE_CHECKING:
-    from pathlib import Path
     from colour.hints import (
         Any,
         Callable,
         Literal,
+        PathLike,
     )
 
 from colour.hints import Dict, NDArrayFloat, Sequence, Tuple
@@ -318,7 +318,7 @@ class Specification_Fichet2021:
 
     @staticmethod
     @required("OpenImageIO")
-    def from_spectral_image(path: str | Path) -> Specification_Fichet2021:
+    def from_spectral_image(path: str | PathLike) -> Specification_Fichet2021:
         """
         Create a *Fichet et al. (2021)* spectral image specification from given
         image path.
@@ -424,7 +424,7 @@ Default *Fichet et al. (2021)* spectral image specification.
 @typing.overload
 @required("OpenImageIO")
 def read_spectral_image_Fichet2021(
-    path: str | Path,
+    path: str | PathLike,
     bit_depth: Literal["float16", "float32"] = ...,
     additional_data: Literal[True] = True,
 ) -> Tuple[ComponentsFichet2021, Specification_Fichet2021]: ...
@@ -433,7 +433,7 @@ def read_spectral_image_Fichet2021(
 @typing.overload
 @required("OpenImageIO")
 def read_spectral_image_Fichet2021(
-    path: str | Path,
+    path: str | PathLike,
     bit_depth: Literal["float16", "float32"] = ...,
     *,
     additional_data: Literal[False],
@@ -443,7 +443,7 @@ def read_spectral_image_Fichet2021(
 @typing.overload
 @required("OpenImageIO")
 def read_spectral_image_Fichet2021(
-    path: str | Path,
+    path: str | PathLike,
     bit_depth: Literal["float16", "float32"],
     additional_data: bool = False,
 ) -> ComponentsFichet2021: ...
@@ -451,7 +451,7 @@ def read_spectral_image_Fichet2021(
 
 @required("OpenImageIO")
 def read_spectral_image_Fichet2021(
-    path: str | Path,
+    path: str | PathLike,
     bit_depth: Literal["float16", "float32"] = "float32",
     additional_data: bool = False,
 ) -> ComponentsFichet2021 | Tuple[ComponentsFichet2021, Specification_Fichet2021]:
@@ -751,7 +751,7 @@ def write_spectral_image_Fichet2021(
     | MultiSpectralDistributions
     | ComponentsFichet2021
     | ValuesView,
-    path: str | Path,
+    path: str | PathLike,
     bit_depth: Literal["float16", "float32"] = "float32",
     specification: Specification_Fichet2021 = SPECIFICATION_FICHET2021_DEFAULT,
     components_to_RGB_callable: Callable = components_to_sRGB_Fichet2021,

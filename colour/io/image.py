@@ -13,13 +13,13 @@ from dataclasses import dataclass, field
 import numpy as np
 
 if typing.TYPE_CHECKING:
-    from pathlib import Path
     from colour.hints import (
         Any,
         ArrayLike,
         DTypeReal,
         Literal,
         NDArrayFloat,
+        PathLike,
         Sequence,
         Tuple,
         Type,
@@ -332,7 +332,7 @@ def convert_bit_depth(
 @typing.overload
 @required("OpenImageIO")
 def read_image_OpenImageIO(
-    path: str | Path,
+    path: str | PathLike,
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = ...,
@@ -344,7 +344,7 @@ def read_image_OpenImageIO(
 @typing.overload
 @required("OpenImageIO")
 def read_image_OpenImageIO(
-    path: str | Path,
+    path: str | PathLike,
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = ...,
@@ -357,7 +357,7 @@ def read_image_OpenImageIO(
 @typing.overload
 @required("OpenImageIO")
 def read_image_OpenImageIO(
-    path: str | Path,
+    path: str | PathLike,
     bit_depth: Literal["uint8", "uint16", "float16", "float32", "float64", "float128"],
     additional_data: Literal[False],
     **kwargs: Any,
@@ -366,7 +366,7 @@ def read_image_OpenImageIO(
 
 @required("OpenImageIO")
 def read_image_OpenImageIO(
-    path: str | Path,
+    path: str | PathLike,
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
@@ -455,7 +455,7 @@ def read_image_OpenImageIO(
 
 
 def read_image_Imageio(
-    path: str | Path,
+    path: str | PathLike,
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
@@ -526,7 +526,7 @@ Supported image read methods.
 
 
 def read_image(
-    path: str | Path,
+    path: str | PathLike,
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
@@ -606,7 +606,7 @@ def read_image(
 @required("OpenImageIO")
 def write_image_OpenImageIO(
     image: ArrayLike,
-    path: str | Path,
+    path: str | PathLike,
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
@@ -731,7 +731,7 @@ def write_image_OpenImageIO(
 
 def write_image_Imageio(
     image: ArrayLike,
-    path: str | Path,
+    path: str | PathLike,
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
@@ -824,7 +824,7 @@ Supported image write methods.
 
 def write_image(
     image: ArrayLike,
-    path: str | Path,
+    path: str | PathLike,
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",

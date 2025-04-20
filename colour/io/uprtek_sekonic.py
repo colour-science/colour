@@ -19,10 +19,7 @@ import typing
 from collections import defaultdict
 
 if typing.TYPE_CHECKING:
-    from pathlib import Path
-
-if typing.TYPE_CHECKING:
-    from colour.hints import Any
+    from colour.hints import Any, PathLike
 
 from colour.hints import cast
 from colour.io import SpectralDistribution_IESTM2714
@@ -167,7 +164,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
     _SPECTRAL_SECTION: str = "380"
     _SPECTRAL_DATA_PATTERN: str = "(\\d{3})nm"
 
-    def __init__(self, path: str | Path, **kwargs: Any) -> None:
+    def __init__(self, path: str | PathLike, **kwargs: Any) -> None:
         self._metadata: dict = {}
 
         super().__init__(path, **kwargs)
@@ -543,7 +540,7 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
     _SPECTRAL_SECTION: str = "380"
     _SPECTRAL_DATA_PATTERN: str = "Spectral Data (\\d{3})\\[nm\\]"
 
-    def __init__(self, path: str | Path, **kwargs: Any) -> None:
+    def __init__(self, path: str | PathLike, **kwargs: Any) -> None:
         super().__init__(path, **kwargs)
 
     def __str__(self) -> str:

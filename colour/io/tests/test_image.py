@@ -63,7 +63,7 @@ class TestImageSpecificationOpenImageIO:
         if not is_openimageio_installed():
             return
 
-        from OpenImageIO import HALF
+        from OpenImageIO import HALF  # pyright: ignore
 
         compression = Image_Specification_Attribute("Compression", "none")
         specification = image_specification_OpenImageIO(
@@ -365,7 +365,7 @@ class TestWriteImageOpenImageIO:
         if not is_openimageio_installed():
             return
 
-        from OpenImageIO import TypeDesc
+        from OpenImageIO import TypeDesc  # pyright: ignore
 
         path = os.path.join(self._temporary_directory, "8-bit.png")
         RGB = full((1, 1, 3), 255, np.uint8)

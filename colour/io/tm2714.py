@@ -26,7 +26,7 @@ from xml.etree import ElementTree as ET
 from colour.colorimetry import SpectralDistribution
 
 if typing.TYPE_CHECKING:
-    from colour.hints import Any, Callable, Literal
+    from colour.hints import Any, Callable, Literal, PathLike
 
 from colour.utilities import (
     Structure,
@@ -870,7 +870,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
     def __init__(
         self,
-        path: str | Path | None = None,
+        path: str | PathLike | None = None,
         header: Header_IESTM2714 | None = None,
         spectral_quantity: (
             Literal[
@@ -1032,7 +1032,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         return self._path
 
     @path.setter
-    def path(self, value: str | Path | None) -> None:
+    def path(self, value: str | PathLike | None) -> None:
         """Setter for the **self.path** property."""
 
         if value is not None:

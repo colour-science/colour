@@ -22,8 +22,7 @@ from colour.colorimetry import SpectralDistribution
 from colour.constants import DTYPE_FLOAT_DEFAULT
 
 if typing.TYPE_CHECKING:
-    from pathlib import Path
-    from colour.hints import Any, Dict, NDArrayFloat
+    from colour.hints import Any, Dict, NDArrayFloat, PathLike
 
 from colour.hints import cast
 from colour.utilities import filter_kwargs
@@ -43,7 +42,7 @@ __all__ = [
 
 
 def read_spectral_data_from_csv_file(
-    path: str | Path, **kwargs: Any
+    path: str | PathLike, **kwargs: Any
 ) -> Dict[str, NDArrayFloat]:
     """
     Read the spectral data from given *CSV* file in the following form::
@@ -160,7 +159,7 @@ def read_spectral_data_from_csv_file(
 
 
 def read_sds_from_csv_file(
-    path: str | Path, **kwargs: Any
+    path: str | PathLike, **kwargs: Any
 ) -> Dict[str, SpectralDistribution]:
     """
     Read the spectral data from given *CSV* file and returns its content as a
@@ -301,7 +300,7 @@ def read_sds_from_csv_file(
 
 
 def write_sds_to_csv_file(
-    sds: Dict[str, SpectralDistribution], path: str | Path
+    sds: Dict[str, SpectralDistribution], path: str | PathLike
 ) -> bool:
     """
     Write the given spectral distributions to given *CSV* file.

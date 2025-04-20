@@ -21,12 +21,12 @@ import typing
 import numpy as np
 
 if typing.TYPE_CHECKING:
-    from pathlib import Path
     from colour.hints import (
         Any,
         ArrayLike,
         Dict,
         NDArrayFloat,
+        PathLike,
     )
 
 from colour.hints import Sequence
@@ -66,8 +66,8 @@ ARGUMENTS_CTL_RENDER_DEFAULTS: tuple = ("-verbose", "-force")
 
 @required("ctlrender")
 def ctl_render(
-    path_input: str | Path,
-    path_output: str | Path,
+    path_input: str | PathLike,
+    path_output: str | PathLike,
     ctl_transforms: Sequence[str] | Dict[str, Sequence[str]],
     *args: Any,
     **kwargs: Any,

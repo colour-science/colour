@@ -13,13 +13,10 @@ import codecs
 import re
 import typing
 
-if typing.TYPE_CHECKING:
-    from pathlib import Path
-
 from colour.colorimetry import SpectralDistribution
 
 if typing.TYPE_CHECKING:
-    from colour.hints import Dict
+    from colour.hints import Dict, PathLike
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -37,7 +34,7 @@ XRITE_FILE_ENCODING: str = "utf-8"
 
 
 def read_sds_from_xrite_file(
-    path: str | Path,
+    path: str | PathLike,
 ) -> Dict[str, SpectralDistribution]:
     """
     Read the spectral data from given *X-Rite* file and returns it as a

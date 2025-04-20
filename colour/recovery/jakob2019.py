@@ -23,10 +23,6 @@ import struct
 import typing
 
 import numpy as np
-
-if typing.TYPE_CHECKING:
-    from pathlib import Path
-
 from scipy.interpolate import RegularGridInterpolator
 from scipy.optimize import minimize
 
@@ -48,6 +44,7 @@ if typing.TYPE_CHECKING:
         Callable,
         Literal,
         NDArrayFloat,
+        PathLike,
         Tuple,
     )
 
@@ -792,8 +789,6 @@ class LUT3D_Jakob2019:
                          {'method': 'Constant', 'left': None, 'right': None})
     """
 
-    _interpolator: RegularGridInterpolator[np.float64]
-
     def __init__(self) -> None:
         self._interpolator = RegularGridInterpolator((), np.array([]))
 
@@ -1174,7 +1169,7 @@ class LUT3D_Jakob2019:
 
         return sd
 
-    def read(self, path: str | Path) -> LUT3D_Jakob2019:
+    def read(self, path: str | PathLike) -> LUT3D_Jakob2019:
         """
         Load a lookup table from a *\\*.coeff* file.
 
@@ -1237,7 +1232,7 @@ class LUT3D_Jakob2019:
 
         return self
 
-    def write(self, path: str | Path) -> bool:
+    def write(self, path: str | PathLike) -> bool:
         """
         Write the lookup table to a *\\*.coeff* file.
 
