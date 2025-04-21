@@ -13,10 +13,10 @@ from __future__ import annotations
 
 import typing
 
-if typing.TYPE_CHECKING:
-    from pathlib import Path
-
 import numpy as np
+
+if typing.TYPE_CHECKING:
+    from colour.hints import PathLike
 
 from colour.io.luts import LUT1D, LUT3x1D, LUTSequence
 from colour.io.luts.common import path_to_title
@@ -41,7 +41,7 @@ __all__ = [
 ]
 
 
-def read_LUT_SonySPI1D(path: str | Path) -> LUT1D | LUT3x1D:
+def read_LUT_SonySPI1D(path: str | PathLike) -> LUT1D | LUT3x1D:
     """
     Read given *Sony* *.spi1d* *LUT* file.
 
@@ -159,7 +159,7 @@ def read_LUT_SonySPI1D(path: str | Path) -> LUT1D | LUT3x1D:
 
 
 def write_LUT_SonySPI1D(
-    LUT: LUT1D | LUT3x1D | LUTSequence, path: str | Path, decimals: int = 7
+    LUT: LUT1D | LUT3x1D | LUTSequence, path: str | PathLike, decimals: int = 7
 ) -> bool:
     """
     Write given *LUT* to given *Sony* *.spi1d* *LUT* file.

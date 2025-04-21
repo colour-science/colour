@@ -12,6 +12,7 @@ from __future__ import annotations
 import re
 import typing
 from collections.abc import Generator, Iterable, Iterator, Mapping, Sequence
+from os import PathLike
 from types import ModuleType
 from typing import (  # noqa: UP035
     Any,
@@ -64,6 +65,7 @@ __all__ = [
     "NewType",
     "Protocol",
     "Sequence",
+    "PathLike",
     "Set",
     "SupportsIndex",
     "TextIO",

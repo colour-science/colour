@@ -50,9 +50,6 @@ if typing.TYPE_CHECKING:
 
 from mpl_toolkits.mplot3d.axes3d import Axes3D
 
-if typing.TYPE_CHECKING:
-    from pathlib import Path
-
 from colour.characterisation import CCS_COLOURCHECKERS, ColourChecker
 from colour.colorimetry import (
     MSDS_CMFS,
@@ -74,6 +71,7 @@ if typing.TYPE_CHECKING:
         LiteralRGBColourspace,
         Mapping,
         NDArrayFloat,
+        PathLike,
         Real,
         Sequence,
         Tuple,
@@ -663,7 +661,7 @@ class KwargsRender(TypedDict):
 
     figure: Figure
     axes: Axes
-    filename: str | Path
+    filename: str | PathLike
     show: bool
     block: bool
     aspect: Literal["auto", "equal"] | float

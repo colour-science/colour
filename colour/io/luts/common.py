@@ -13,7 +13,7 @@ import re
 import typing
 
 if typing.TYPE_CHECKING:
-    from pathlib import Path
+    from colour.hints import PathLike
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -27,7 +27,7 @@ __all__ = [
 ]
 
 
-def path_to_title(path: str | Path) -> str:
+def path_to_title(path: str | PathLike) -> str:
     """
     Convert given file path to title.
 

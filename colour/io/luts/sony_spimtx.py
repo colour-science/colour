@@ -12,12 +12,13 @@ from __future__ import annotations
 
 import typing
 
-if typing.TYPE_CHECKING:
-    from os import PathLike
-
 import numpy as np
 
 from colour.constants import DTYPE_FLOAT_DEFAULT
+
+if typing.TYPE_CHECKING:
+    from colour.hints import PathLike
+
 from colour.io.luts import LUTOperatorMatrix
 from colour.io.luts.common import path_to_title
 

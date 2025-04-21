@@ -21,9 +21,6 @@ from __future__ import annotations
 import typing
 from dataclasses import dataclass
 
-if typing.TYPE_CHECKING:
-    from pathlib import Path
-
 import numpy as np
 
 from colour.algebra import eigen_decomposition
@@ -43,6 +40,7 @@ if typing.TYPE_CHECKING:
         ArrayLike,
         Callable,
         Dict,
+        PathLike,
         Self,
         Sequence,
         Tuple,
@@ -324,7 +322,7 @@ class Dataset_Otsu2018:
 
         raise ValueError(error)
 
-    def read(self, path: str | Path) -> None:
+    def read(self, path: str | PathLike) -> None:
         """
         Read and loads a dataset from an *.npz* file.
 
@@ -367,7 +365,7 @@ class Dataset_Otsu2018:
         self._means = data["means"]
         self._selector_array = data["selector_array"]
 
-    def write(self, path: str | Path) -> None:
+    def write(self, path: str | PathLike) -> None:
         """
         Write the dataset to an *.npz* file at given path.
 

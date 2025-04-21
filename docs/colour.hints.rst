@@ -23,6 +23,7 @@ Annotation Type Hints
     Mapping
     NoReturn
     NewType
+    PathLike
     Protocol
     Sequence
     Set

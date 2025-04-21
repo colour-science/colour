@@ -19,10 +19,10 @@ from __future__ import annotations
 
 import typing
 
-if typing.TYPE_CHECKING:
-    from pathlib import Path
-
 import numpy as np
+
+if typing.TYPE_CHECKING:
+    from colour.hints import PathLike
 
 from colour.io.luts import LUT1D, LUT3D, LUT3x1D, LUTSequence
 from colour.io.luts.common import path_to_title
@@ -47,7 +47,7 @@ __all__ = [
 ]
 
 
-def read_LUT_ResolveCube(path: str | Path) -> LUT3x1D | LUT3D | LUTSequence:
+def read_LUT_ResolveCube(path: str | PathLike) -> LUT3x1D | LUT3D | LUTSequence:
     """
     Read given *Resolve* *.cube* *LUT* file.
 
@@ -241,7 +241,7 @@ def read_LUT_ResolveCube(path: str | Path) -> LUT3x1D | LUT3D | LUTSequence:
 
 def write_LUT_ResolveCube(
     LUT: LUT1D | LUT3x1D | LUT3D | LUTSequence,
-    path: str | Path,
+    path: str | PathLike,
     decimals: int = 7,
 ) -> bool:
     """
