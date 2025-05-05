@@ -763,7 +763,7 @@ def write_image_Imageio(
 
     Notes
     -----
-    -   It is possible to control how the image are saved by the *Freeimage*
+    -   It is possible to control how the images are saved by the *Freeimage*
         backend by using the ``flags`` keyword argument and passing a desired
         value. See the *Load / Save flag constants* section in
         https://sourceforge.net/p/freeimage/svn/HEAD/tree/FreeImage/trunk/\
@@ -865,7 +865,7 @@ def write_image(
         writing will be performed by *Imageio*.
     -   If the given method is *Imageio*, ``kwargs`` is passed directly to the
         wrapped definition.
-    -   It is possible to control how the image are saved by the *Freeimage*
+    -   It is possible to control how the images are saved by the *Freeimage*
         backend by using the ``flags`` keyword argument and passing a desired
         value. See the *Load / Save flag constants* section in
         https://sourceforge.net/p/freeimage/svn/HEAD/tree/FreeImage/trunk/\
