@@ -11,14 +11,6 @@ import typing
 from dataclasses import dataclass, field
 
 import numpy as np
-from OpenImageIO import DOUBLE  # pyright: ignore
-from OpenImageIO import FLOAT  # pyright: ignore
-from OpenImageIO import HALF  # pyright: ignore
-from OpenImageIO import UINT8  # pyright: ignore
-from OpenImageIO import UINT16  # pyright: ignore
-from OpenImageIO import ImageInput  # pyright: ignore
-from OpenImageIO import ImageOutput  # pyright: ignore
-from OpenImageIO import ImageSpec  # pyright: ignore
 
 if typing.TYPE_CHECKING:
     from colour.hints import (
@@ -41,6 +33,7 @@ from colour.utilities import (
     attest,
     filter_kwargs,
     is_imageio_installed,
+    is_openimageio_installed,
     optional,
     required,
     tstack,
@@ -117,19 +110,41 @@ class Image_Specification_Attribute:
     )
 
 
-MAPPING_BIT_DEPTH: CanonicalMapping = CanonicalMapping(
-    {
-        "uint8": Image_Specification_BitDepth("uint8", np.uint8, UINT8),
-        "uint16": Image_Specification_BitDepth("uint16", np.uint16, UINT16),
-        "float16": Image_Specification_BitDepth("float16", np.float16, HALF),
-        "float32": Image_Specification_BitDepth("float32", np.float32, FLOAT),
-        "float64": Image_Specification_BitDepth("float64", np.float64, DOUBLE),
-    }
-)
-if not typing.TYPE_CHECKING and hasattr(np, "float128"):  # pragma: no cover
-    MAPPING_BIT_DEPTH["float128"] = Image_Specification_BitDepth(
-        "float128", np.float128, DOUBLE
+if is_openimageio_installed():  # pragma: no cover
+    from OpenImageIO import ImageSpec  # pyright: ignore
+    from OpenImageIO import DOUBLE, FLOAT, HALF, UINT8, UINT16  # pyright: ignore
+
+    MAPPING_BIT_DEPTH: CanonicalMapping = CanonicalMapping(
+        {
+            "uint8": Image_Specification_BitDepth("uint8", np.uint8, UINT8),
+            "uint16": Image_Specification_BitDepth("uint16", np.uint16, UINT16),
+            "float16": Image_Specification_BitDepth("float16", np.float16, HALF),
+            "float32": Image_Specification_BitDepth("float32", np.float32, FLOAT),
+            "float64": Image_Specification_BitDepth("float64", np.float64, DOUBLE),
+        }
     )
+    if not typing.TYPE_CHECKING and hasattr(np, "float128"):  # pragma: no cover
+        MAPPING_BIT_DEPTH["float128"] = Image_Specification_BitDepth(
+            "float128", np.float128, DOUBLE
+        )
+else:  # pragma: no cover
+
+    class ImageSpec:
+        attribute: Any
+
+    MAPPING_BIT_DEPTH: CanonicalMapping = CanonicalMapping(
+        {
+            "uint8": Image_Specification_BitDepth("uint8", np.uint8, None),
+            "uint16": Image_Specification_BitDepth("uint16", np.uint16, None),
+            "float16": Image_Specification_BitDepth("float16", np.float16, None),
+            "float32": Image_Specification_BitDepth("float32", np.float32, None),
+            "float64": Image_Specification_BitDepth("float64", np.float64, None),
+        }
+    )
+    if not typing.TYPE_CHECKING and hasattr(np, "float128"):  # pragma: no cover
+        MAPPING_BIT_DEPTH["float128"] = Image_Specification_BitDepth(
+            "float128", np.float128, None
+        )
 
 
 def add_attributes_to_image_specification_OpenImageIO(
@@ -315,6 +330,7 @@ def convert_bit_depth(
 
 
 @typing.overload
+@required("OpenImageIO")
 def read_image_OpenImageIO(
     path: str | PathLike,
     bit_depth: Literal[
@@ -326,6 +342,7 @@ def read_image_OpenImageIO(
 
 
 @typing.overload
+@required("OpenImageIO")
 def read_image_OpenImageIO(
     path: str | PathLike,
     bit_depth: Literal[
@@ -338,6 +355,7 @@ def read_image_OpenImageIO(
 
 
 @typing.overload
+@required("OpenImageIO")
 def read_image_OpenImageIO(
     path: str | PathLike,
     bit_depth: Literal["uint8", "uint16", "float16", "float32", "float64", "float128"],
@@ -346,6 +364,7 @@ def read_image_OpenImageIO(
 ) -> NDArrayReal: ...
 
 
+@required("OpenImageIO")
 def read_image_OpenImageIO(
     path: str | PathLike,
     bit_depth: Literal[
@@ -391,6 +410,8 @@ def read_image_OpenImageIO(
     ... )
     >>> image = read_image_OpenImageIO(path)  # doctest: +SKIP
     """
+
+    from OpenImageIO import ImageInput  # pyright: ignore
 
     path = str(path)
 
@@ -583,6 +604,7 @@ def read_image(
     return function(path, bit_depth, **kwargs)
 
 
+@required("OpenImageIO")
 def write_image_OpenImageIO(
     image: ArrayLike,
     path: str | PathLike,
@@ -667,6 +689,8 @@ def write_image_OpenImageIO(
     ...     ]
     ...     write_image_OpenImageIO(image, path, attributes=attributes)
     """  # noqa: D405, D407, D410, D411
+
+    from OpenImageIO import ImageOutput  # pyright: ignore
 
     image = as_float_array(image)
     path = str(path)

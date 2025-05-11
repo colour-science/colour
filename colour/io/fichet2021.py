@@ -20,10 +20,6 @@ from collections.abc import ValuesView
 from dataclasses import dataclass, field
 
 import numpy as np
-from OpenImageIO import ImageBuf  # pyright: ignore
-from OpenImageIO import ImageBufAlgo  # pyright: ignore
-from OpenImageIO import ImageInput  # pyright: ignore
-from OpenImageIO import TypeDesc  # pyright: ignore
 
 from colour.colorimetry import (
     MSDS_CMFS,
@@ -54,6 +50,7 @@ from colour.models import RGB_COLOURSPACE_sRGB, XYZ_to_RGB
 from colour.utilities import (
     as_float_array,
     interval,
+    required,
     usage_warning,
     validate_method,
 )
@@ -320,6 +317,7 @@ class Specification_Fichet2021:
     attributes: Tuple = field(default_factory=lambda: ())
 
     @staticmethod
+    @required("OpenImageIO")
     def from_spectral_image(path: str | PathLike) -> Specification_Fichet2021:
         """
         Create a *Fichet et al. (2021)* spectral image specification from given
@@ -351,6 +349,8 @@ class Specification_Fichet2021:
         >>> specification.is_emissive  # doctest: +SKIP
         True
         """
+
+        from OpenImageIO import ImageInput  # pyright: ignore
 
         path = str(path)
 
@@ -425,6 +425,7 @@ Default *Fichet et al. (2021)* spectral image specification.
 
 
 @typing.overload
+@required("OpenImageIO")
 def read_spectral_image_Fichet2021(
     path: str | PathLike,
     bit_depth: Literal["float16", "float32"] = ...,
@@ -433,6 +434,7 @@ def read_spectral_image_Fichet2021(
 
 
 @typing.overload
+@required("OpenImageIO")
 def read_spectral_image_Fichet2021(
     path: str | PathLike,
     bit_depth: Literal["float16", "float32"] = ...,
@@ -442,6 +444,7 @@ def read_spectral_image_Fichet2021(
 
 
 @typing.overload
+@required("OpenImageIO")
 def read_spectral_image_Fichet2021(
     path: str | PathLike,
     bit_depth: Literal["float16", "float32"],
@@ -449,6 +452,7 @@ def read_spectral_image_Fichet2021(
 ) -> ComponentsFichet2021: ...
 
 
+@required("OpenImageIO")
 def read_spectral_image_Fichet2021(
     path: str | PathLike,
     bit_depth: Literal["float16", "float32"] = "float32",
@@ -507,6 +511,8 @@ def read_spectral_image_Fichet2021(
     >>> specification.is_emissive  # doctest: +SKIP
     True
     """
+
+    from OpenImageIO import ImageInput  # pyright: ignore
 
     path = str(path)
 
@@ -606,6 +612,7 @@ def sds_and_msds_to_components_Fichet2021(
     return {component: (wavelengths, values)}
 
 
+@required("OpenImageIO")
 def components_to_sRGB_Fichet2021(
     components: ComponentsFichet2021,
     specification: Specification_Fichet2021 = SPECIFICATION_FICHET2021_DEFAULT,
@@ -663,6 +670,8 @@ def components_to_sRGB_Fichet2021(
     chromaticities
     EV
     """
+
+    from OpenImageIO import TypeDesc  # pyright: ignore
 
     component = components.get("S0", components.get("T"))
 
@@ -740,6 +749,7 @@ def components_to_sRGB_Fichet2021(
     return RGB, attributes
 
 
+@required("OpenImageIO")
 def write_spectral_image_Fichet2021(
     components: Sequence[SpectralDistribution | MultiSpectralDistributions]
     | SpectralDistribution
@@ -804,6 +814,8 @@ def write_spectral_image_Fichet2021(
     ... )  # doctest: +SKIP
     True
     """
+
+    from OpenImageIO import ImageBuf, ImageBufAlgo  # pyright: ignore
 
     path = str(path)
 

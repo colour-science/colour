@@ -193,6 +193,7 @@ Requirements
 
     is_ctlrender_installed
     is_imageio_installed
+    is_openimageio_installed
     is_matplotlib_installed
     is_networkx_installed
     is_opencolorio_installed

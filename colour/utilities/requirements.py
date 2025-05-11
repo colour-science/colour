@@ -31,6 +31,7 @@ __status__ = "Production"
 __all__ = [
     "is_ctlrender_installed",
     "is_imageio_installed",
+    "is_openimageio_installed",
     "is_matplotlib_installed",
     "is_networkx_installed",
     "is_opencolorio_installed",
@@ -114,6 +115,43 @@ def is_imageio_installed(raise_exception: bool = False) -> bool:
         if raise_exception:
             error = (
                 '"Imageio" related API features are not available: '
+                f'"{exception}".\nSee the installation guide for more information: '
+                "https://www.colour-science.org/installation-guide/"
+            )
+
+            raise ImportError(error) from exception
+
+        return False
+    else:
+        return True
+
+
+def is_openimageio_installed(raise_exception: bool = False) -> bool:
+    """
+    Return whether *OpenImageIO* is installed and available.
+
+    Parameters
+    ----------
+    raise_exception
+        Whether to raise an exception if *OpenImageIO* is unavailable.
+
+    Returns
+    -------
+    :class:`bool`
+        Whether *OpenImageIO* is installed.
+
+    Raises
+    ------
+    :class:`ImportError`
+        If *OpenImageIO* is not installed.
+    """
+
+    try:  # pragma: no cover
+        import OpenImageIO  # noqa: F401
+    except ImportError as exception:  # pragma: no cover
+        if raise_exception:
+            error = (
+                '"OpenImageIO" related API features are not available: '
                 f'"{exception}".\nSee the installation guide for more information: '
                 "https://www.colour-science.org/installation-guide/"
             )
@@ -439,6 +477,7 @@ REQUIREMENTS_TO_CALLABLE: CanonicalMapping = CanonicalMapping(
     {
         "ctlrender": is_ctlrender_installed,
         "Imageio": is_imageio_installed,
+        "OpenImageIO": is_openimageio_installed,
         "Matplotlib": is_matplotlib_installed,
         "NetworkX": is_networkx_installed,
         "OpenColorIO": is_opencolorio_installed,
@@ -458,6 +497,7 @@ def required(
     *requirements: Literal[
         "ctlrender",
         "Imageio",
+        "OpenImageIO",
         "Matplotlib",
         "NetworkX",
         "OpenColorIO",
