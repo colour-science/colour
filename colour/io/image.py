@@ -32,6 +32,7 @@ from colour.utilities import (
     as_int_array,
     attest,
     filter_kwargs,
+    is_imageio_installed,
     is_openimageio_installed,
     optional,
     required,
@@ -194,7 +195,6 @@ def add_attributes_to_image_specification_OpenImageIO(
     return image_specification
 
 
-@required("OpenImageIO")
 def image_specification_OpenImageIO(
     width: int,
     height: int,
@@ -454,6 +454,7 @@ def read_image_OpenImageIO(
     return image
 
 
+@required("Imageio")
 def read_image_Imageio(
     path: str | PathLike,
     bit_depth: Literal[
@@ -586,14 +587,14 @@ def read_image(
     dtype('float32')
     """
 
-    method = validate_method(method, tuple(READ_IMAGE_METHODS))
-
-    if method == "openimageio" and not is_openimageio_installed():  # pragma: no cover
+    if method.lower() == "imageio" and not is_imageio_installed():  # pragma: no cover
         usage_warning(
-            '"OpenImageIO" related API features are not available, '
-            'switching to "Imageio"!'
+            '"Imageio" related API features are not available, '
+            'switching to "OpenImageIO"!'
         )
-        method = "Imageio"
+        method = "openimageio"
+
+    method = validate_method(method, tuple(READ_IMAGE_METHODS))
 
     function = READ_IMAGE_METHODS[method]
 
@@ -666,7 +667,7 @@ def write_image_OpenImageIO(
 
     Writing an "ACES" compliant "EXR" file:
 
-    >>> if is_openimageio_installed():  # doctest: +SKIP
+    >>> if is_imageio_installed():  # doctest: +SKIP
     ...     from OpenImageIO import TypeDesc
     ...
     ...     chromaticities = (
@@ -722,13 +723,14 @@ def write_image_OpenImageIO(
     image_output = ImageOutput.create(path)
 
     image_output.open(path, image_specification)
-    image_output.write_image(image)
+    success = image_output.write_image(image)
 
     image_output.close()
 
-    return True
+    return success
 
 
+@required("Imageio")
 def write_image_Imageio(
     image: ArrayLike,
     path: str | PathLike,
@@ -903,14 +905,14 @@ Source/FreeImage.h
     True
     """  # noqa: D405, D407, D410, D411, D414
 
-    method = validate_method(method, tuple(WRITE_IMAGE_METHODS))
-
-    if method == "openimageio" and not is_openimageio_installed():  # pragma: no cover
+    if method.lower() == "imageio" and not is_imageio_installed():  # pragma: no cover
         usage_warning(
-            '"OpenImageIO" related API features are not available, '
+            '"Imageio" related API features are not available, '
             'switching to "Imageio"!'
         )
-        method = "Imageio"
+        method = "openimageio"
+
+    method = validate_method(method, tuple(WRITE_IMAGE_METHODS))
 
     function = WRITE_IMAGE_METHODS[method]
 

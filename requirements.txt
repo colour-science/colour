@@ -100,6 +100,7 @@ notebook==7.3.1
 notebook-shim==0.2.4
 numpy==2.2.0
 opencolorio==2.4.1
+openimageio==3.0.4.0
 overrides==7.7.0
 packaging==24.2
 pandas==2.2.3

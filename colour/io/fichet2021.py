@@ -365,7 +365,8 @@ class Specification_Fichet2021:
             rf"^T\.*{PATTERN_FICHET2021}\.*{PATTERN_FICHET2021}$"
         )
 
-        image_specification = ImageInput.open(path).spec()
+        image_input = ImageInput.open(path)
+        image_specification = image_input.spec()
         channels = image_specification.channelnames
 
         for i, channel in enumerate(channels):
@@ -404,6 +405,8 @@ class Specification_Fichet2021:
             )
             for attribute in image_specification.extra_attribs
         ]
+
+        image_input.close()
 
         return Specification_Fichet2021(
             path,
@@ -516,7 +519,9 @@ def read_spectral_image_Fichet2021(
     bit_depth_specification = MAPPING_BIT_DEPTH[bit_depth]
 
     specification = Specification_Fichet2021.from_spectral_image(path)
-    image = ImageInput.open(path).read_image(bit_depth_specification.openimageio)
+    image_input = ImageInput.open(path)
+    image = image_input.read_image(bit_depth_specification.openimageio)
+    image_input.close()
 
     components = {}
     for component, wavelengths_indexes in specification.components.items():
@@ -870,6 +875,4 @@ def write_spectral_image_Fichet2021(
         image_buffer.specmod(), [*specification.attributes, *attributes]
     )
 
-    image_buffer.write(path)
-
-    return True
+    return image_buffer.write(path)

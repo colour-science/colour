@@ -23,7 +23,7 @@ from colour.io import (
     write_image_Imageio,
     write_image_OpenImageIO,
 )
-from colour.utilities import attest, full, is_openimageio_installed
+from colour.utilities import attest, full
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -59,9 +59,6 @@ class TestImageSpecificationOpenImageIO:
         Test :func:`colour.io.image.image_specification_OpenImageIO`
         definition.
         """
-
-        if not is_openimageio_installed():
-            return
 
         from OpenImageIO import HALF  # pyright: ignore
 
@@ -275,9 +272,6 @@ class TestReadImageOpenImageIO:
     def test_read_image_OpenImageIO(self) -> None:  # pragma: no cover
         """Test :func:`colour.io.image.read_image_OpenImageIO` definition."""
 
-        if not is_openimageio_installed():
-            return
-
         image = read_image_OpenImageIO(
             os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr"),
             additional_data=False,
@@ -362,9 +356,6 @@ class TestWriteImageOpenImageIO:
     def test_write_image_OpenImageIO(self) -> None:  # pragma: no cover
         """Test :func:`colour.io.image.write_image_OpenImageIO` definition."""
 
-        if not is_openimageio_installed():
-            return
-
         from OpenImageIO import TypeDesc  # pyright: ignore
 
         path = os.path.join(self._temporary_directory, "8-bit.png")
@@ -380,27 +371,30 @@ class TestWriteImageOpenImageIO:
         np.testing.assert_equal(np.squeeze(RGB), image)
 
         source_path = os.path.join(ROOT_RESOURCES, "Overflowing_Gradient.png")
+        source_image = read_image_OpenImageIO(source_path, bit_depth="uint8")
         target_path = os.path.join(
             self._temporary_directory, "Overflowing_Gradient.png"
         )
         RGB = np.arange(0, 256, 1, dtype=np.uint8)[None] * 2
         write_image_OpenImageIO(RGB, target_path, bit_depth="uint8")
-        image = read_image_OpenImageIO(source_path, bit_depth="uint8")
-        np.testing.assert_equal(np.squeeze(RGB), image)
+        target_image = read_image_OpenImageIO(source_path, bit_depth="uint8")
+        np.testing.assert_equal(source_image, target_image)
+        np.testing.assert_equal(np.squeeze(RGB), target_image)
 
         source_path = os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
-        target_path = os.path.join(self._temporary_directory, "CMS_Test_Pattern.exr")
-        image = read_image_OpenImageIO(
+        source_image = read_image_OpenImageIO(
             source_path,
             additional_data=False,
         )
-        write_image_OpenImageIO(image, target_path)
-        image = read_image_OpenImageIO(
+        target_path = os.path.join(self._temporary_directory, "CMS_Test_Pattern.exr")
+        write_image_OpenImageIO(source_image, target_path)
+        target_image = read_image_OpenImageIO(
             target_path,
             additional_data=False,
         )
-        assert image.shape == (1267, 1274, 3)
-        assert image.dtype is np.dtype("float32")
+        np.testing.assert_equal(source_image, target_image)
+        assert target_image.shape == (1267, 1274, 3)
+        assert target_image.dtype is np.dtype("float32")
 
         chromaticities = (
             0.73470,
@@ -419,8 +413,8 @@ class TestWriteImageOpenImageIO:
             ),
             Image_Specification_Attribute("compression", "none"),
         ]
-        write_image_OpenImageIO(image, target_path, attributes=write_attributes)
-        image, read_attributes = read_image_OpenImageIO(
+        write_image_OpenImageIO(target_image, target_path, attributes=write_attributes)
+        target_image, read_attributes = read_image_OpenImageIO(
             target_path, additional_data=True
         )
         for write_attribute in write_attributes:
@@ -517,35 +511,41 @@ class TestWriteImageImageio:
         """Test :func:`colour.io.image.write_image_Imageio` definition."""
 
         source_path = os.path.join(ROOT_RESOURCES, "Overflowing_Gradient.png")
+        source_image = read_image_Imageio(source_path, bit_depth="uint8")
         target_path = os.path.join(
             self._temporary_directory, "Overflowing_Gradient.png"
         )
         RGB = np.arange(0, 256, 1, dtype=np.uint8)[None] * 2
         write_image_Imageio(RGB, target_path, bit_depth="uint8")
-        image = read_image_Imageio(source_path, bit_depth="uint8")
-        np.testing.assert_equal(np.squeeze(RGB), image)
+        target_image = read_image_Imageio(target_path, bit_depth="uint8")
+        np.testing.assert_equal(np.squeeze(RGB), target_image)
+        np.testing.assert_equal(source_image, target_image)
 
-        source_path = os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
-        target_path = os.path.join(self._temporary_directory, "CMS_Test_Pattern.exr")
-        image = read_image_Imageio(source_path)
-        write_image_Imageio(image, target_path)
-        image = read_image_Imageio(target_path)
-        assert image.shape == (1267, 1274, 3)
-        assert image.dtype is np.dtype("float32")
-
-        # NOTE: Those unit tests are breaking unpredictably on Linux, skipping
-        # for now.
+        # NOTE: Those unit tests are breaking on Linux, skipping for now.
         if platform.system() != "Linux":  # pragma: no cover
-            target_path = os.path.join(self._temporary_directory, "Full_White.exr")
-            image = full((32, 16, 3), 1e6, dtype=np.float16)
-            write_image_Imageio(image, target_path)
-            image = read_image_Imageio(target_path)
-            assert np.max(image) == np.inf
+            source_path = os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
+            source_image = read_image_Imageio(source_path)
+            target_path = os.path.join(
+                self._temporary_directory, "CMS_Test_Pattern.exr"
+            )
+            write_image_Imageio(source_image, target_path)
+            target_image = read_image_Imageio(target_path)
+            np.testing.assert_allclose(
+                source_image, target_image, atol=TOLERANCE_ABSOLUTE_TESTS
+            )
+            assert target_image.shape == (1267, 1274, 3)
+            assert target_image.dtype is np.dtype("float32")
 
-            image = full((32, 16, 3), 1e6)
-            write_image_Imageio(image, target_path)
-            image = read_image_Imageio(target_path)
-            assert np.max(image) == 1e6
+            target_path = os.path.join(self._temporary_directory, "Full_White.exr")
+            target_image = full((32, 16, 3), 1e6, dtype=np.float16)
+            write_image_Imageio(target_image, target_path)
+            target_image = read_image_Imageio(target_path)
+            assert np.max(target_image) == np.inf
+
+            target_image = full((32, 16, 3), 1e6)
+            write_image_Imageio(target_image, target_path)
+            target_image = read_image_Imageio(target_path)
+            assert np.max(target_image) == 1e6
 
 
 class TestReadImage:
@@ -582,12 +582,15 @@ class TestWriteImage:
         """Test :func:`colour.io.image.write_image` definition."""
 
         source_path = os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
+        source_image = read_image(source_path)
         target_path = os.path.join(self._temporary_directory, "CMS_Test_Pattern.exr")
-        image = read_image(source_path)
-        write_image(image, target_path)
-        image = read_image(target_path)
-        assert image.shape == (1267, 1274, 3)
-        assert image.dtype is np.dtype("float32")
+        write_image(source_image, target_path)
+        target_image = read_image(target_path)
+        np.testing.assert_allclose(
+            source_image, target_image, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+        assert target_image.shape == (1267, 1274, 3)
+        assert target_image.dtype is np.dtype("float32")
 
 
 class TestAs3ChannelsImage:
