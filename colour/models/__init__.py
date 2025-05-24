@@ -99,6 +99,7 @@ from .osa_ucs import XYZ_to_OSA_UCS, OSA_UCS_to_XYZ
 from .prolab import XYZ_to_ProLab, ProLab_to_XYZ
 from .ragoo2021 import XYZ_to_IPT_Ragoo2021, IPT_Ragoo2021_to_XYZ
 from .yrg import LMS_to_Yrg, Yrg_to_LMS, XYZ_to_Yrg, Yrg_to_XYZ
+from .sucs import XYZ_to_sUCS, sUCS_to_XYZ
 from .datasets import (
     DATA_MACADAM_1942_ELLIPSES,
     CCS_ILLUMINANT_POINTER_GAMUT,
@@ -642,6 +643,10 @@ __all__ += [
 __all__ += [
     "XYZ_to_ProLab",
     "ProLab_to_XYZ",
+]
+__all__ += [
+    "XYZ_to_sUCS",
+    "sUCS_to_XYZ",
 ]
 __all__ += [
     "DATA_MACADAM_1942_ELLIPSES",
