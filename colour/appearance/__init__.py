@@ -72,6 +72,14 @@ from .zcam import (
     ZCAM_to_XYZ,
 )
 
+from .scam import (
+    InductionFactors_sCAM,
+    VIEWING_CONDITIONS_sCAM,
+    CAM_Specification_sCAM,
+    XYZ_to_sCAM,
+    sCAM_to_XYZ,
+)
+
 __all__ = [
     "InductionFactors_Hunt",
     "VIEWING_CONDITIONS_HUNT",
@@ -151,4 +159,12 @@ __all__ += [
     "CAM_Specification_ZCAM",
     "XYZ_to_ZCAM",
     "ZCAM_to_XYZ",
+]
+
+__all__ += [
+    "InductionFactors_sCAM",
+    "VIEWING_CONDITIONS_sCAM",
+    "CAM_Specification_sCAM",
+    "XYZ_to_sCAM",
+    "sCAM_to_XYZ",
 ]
