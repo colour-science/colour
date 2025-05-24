@@ -136,7 +136,7 @@ def XYZ_to_sUCS(XYZ: ArrayLike) -> NDArrayFloat:
     array([ 42.62923...,  37.75997...,  14.42227...])
     >>> XYZ_d65_white = np.array([0.95047, 1.00000, 1.08883])  # D65 Y=1
     >>> XYZ_to_sUCS(XYZ_d65_white)  # doctest: +ELLIPSIS
-    array([ 99.99925...,   0.02791...,  -0.00090...])
+    array([  9.99992575e+01,   2.79134110e-02,  -9.03996769e-04])
     """
     XYZ_arr = to_domain_1(XYZ)
 
@@ -217,7 +217,7 @@ def sUCS_to_XYZ(sUCS: ArrayLike) -> NDArrayFloat:
     >>> # Round trip for D65 white
     >>> sUCS_white_input = np.array([99.9992575, 0.0279134, -0.0009040])
     >>> sUCS_to_XYZ(sUCS_white_input)  # doctest: +ELLIPSIS
-    array([ 0.95047...,  1.        ...,  1.08883...])
+    array([ 0.95047,  1.     ,  1.08883])
     """
     I_S, A_S, B_S = tsplit(to_domain_1(sUCS))
 
