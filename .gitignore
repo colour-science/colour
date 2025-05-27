@@ -4,6 +4,7 @@
 *.pyo
 .DS_Store
 .coverage*
+CLAUDE.md
 uv.lock
 
 # Common Directories
