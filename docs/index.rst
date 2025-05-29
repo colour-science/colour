@@ -267,7 +267,7 @@ Spectral Computations
 
 .. code-block:: python
 
-    sorted(colour.SPECTRAL_TO_XYZ_METHODS)
+    sorted(colour.SD_TO_XYZ_METHODS)
 
 .. code-block:: text
 
@@ -769,11 +769,11 @@ CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
 
     XYZ = [0.20654008, 0.12197225, 0.05136952]
     XYZ_w = [95.05 / 100, 100.00 / 100, 108.88 / 100]
-    colour.XYZ_to_CAM02UCS(XYZ, XYZ_w=XYZ_w, L_A=L_A, Y_b=Y_b)
+    colour.XYZ_to_CAM02UCS(XYZ)
 
 .. code-block:: text
 
-    array([ 47.16899898,  38.72623785,  15.8663383 ])
+    array([ 46.61386154,  29.88310013,  12.12351683])
 
 CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
 *******************************************************************
@@ -801,7 +801,7 @@ CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
 
 .. code-block:: text
 
-    array([ 46.55542238,  40.22460974,  14.25288392])
+    array([ 46.06586037,  31.02161199,  10.95854228])
 
 DIN99 Colourspace and DIN99b, DIN99c, DIN99d Refined Formulas
 *************************************************************
@@ -820,7 +820,7 @@ ICaCb Colourspace
 
 .. code-block:: python
 
-    XYZ_to_ICaCb(np.array([0.20654008, 0.12197225, 0.05136952]))
+    colour.XYZ_to_ICaCb(np.array([0.20654008, 0.12197225, 0.05136952]))
 
 .. code-block:: text
 
@@ -879,7 +879,7 @@ hdr-IPT Colourspace
 
 .. code-block:: text
 
-    array([ 25.18261761, -22.62111297,   3.18511729])
+    array([ 48.39376346,  42.44990202,  22.01954033])
 
 Hunter L,a,b Colour Scale
 *************************
@@ -937,7 +937,7 @@ ProLab Colourspace
 
 .. code-block:: text
 
-    array([1.24610688, 2.39525236, 0.41902126])
+    array([  59.8466286 ,  115.0396354 ,   20.12510352])
 
 Ragoo and Farup (2021) Optimised IPT Colourspace
 ************************************************
@@ -1091,7 +1091,6 @@ RGB Colourspaces
      'Beta RGB',
      'Blackmagic Wide Gamut',
      'CIE RGB',
-     'CIE XYZ-D65 - Scene-referred',
      'Cinema Gamut',
      'ColorMatch RGB',
      'DCDM XYZ',
@@ -1108,22 +1107,13 @@ RGB Colourspaces
      'ERIMM RGB',
      'Ekta Space PS 5',
      'F-Gamut',
-     'F-Gamut C',
      'FilmLight E-Gamut',
-     'Gamma 1.8 Encoded Rec.709',
-     'Gamma 2.2 Encoded AP1',
-     'Gamma 2.2 Encoded AdobeRGB',
-     'Gamma 2.2 Encoded Rec.709',
      'ITU-R BT.2020',
      'ITU-R BT.470 - 525',
      'ITU-R BT.470 - 625',
      'ITU-R BT.709',
      'ITU-T H.273 - 22 Unspecified',
      'ITU-T H.273 - Generic Film',
-     'Linear AdobeRGB',
-     'Linear P3-D65',
-     'Linear Rec.2020',
-     'Linear Rec.709 (sRGB)',
      'Max RGB',
      'N-Gamut',
      'NTSC (1953)',
@@ -1153,25 +1143,8 @@ RGB Colourspaces
      'Xtreme RGB',
      'aces',
      'adobe1998',
-     'g18_rec709_scene',
-     'g22_adobergb_scene',
-     'g22_ap1_scene',
-     'g22_rec709_scene',
-     'lin_adobergb_scene',
-     'lin_ap0_scene',
-     'lin_ap1_scene',
-     'lin_ciexyzd65_scene',
-     'lin_p3d65_scene',
-     'lin_rec2020_scene',
-     'lin_rec709_scene',
      'prophoto',
-     'sRGB',
-     'sRGB Encoded AP1',
-     'sRGB Encoded P3-D65',
-     'sRGB Encoded Rec.709 (sRGB)',
-     'srgb_ap1_scene',
-     'srgb_p3d65_scene',
-     'srgb_rec709_scene']
+     'sRGB']
 
 OETFs
 *****
@@ -1535,10 +1508,12 @@ Colour Rendering Index
 
 .. code-block:: text
 
-    64.233724121664793
+    64.233724121665006
 
 .. code-block:: python
 
+    # in my installation this did not seem to exhist but have not figured out why
+    # I still found in the code so I'm not sure what to do with it
     sorted(colour.COLOUR_RENDERING_INDEX_METHODS)
 
 .. code-block:: text
@@ -1581,14 +1556,6 @@ Reflectance Recovery
                          {},
                          Extrapolator,
                          {'method': 'Constant', 'left': None, 'right': None})
-
-.. code-block:: python
-
-    sorted(colour.REFLECTANCE_RECOVERY_METHODS)
-
-.. code-block:: text
-
-    ['Jakob 2019', 'Mallett 2019', 'Meng 2015', 'Otsu 2018', 'Smits 1999']
 
 Camera RGB Sensitivities Recovery
 *********************************
@@ -1678,6 +1645,8 @@ Colour Volume - ``colour.volume``
 
 .. code-block:: python
 
+    # colour.RGB_COLOURSPACE_RGB no longer seems to exhist
+    # Tried with colour.RGB_COLOURSPACES["sRGB"] but that did not seem correct
     colour.RGB_colourspace_volume_MonteCarlo(colour.RGB_COLOURSPACE_RGB["sRGB"])
 
 .. code-block:: text
@@ -1697,7 +1666,7 @@ Geometry Primitives Generation - ``colour.geometry``
            ([ 0.5,  0.5,  0. ], [ 1.,  1.], [ 0.,  0.,  1.], [ 1.,  1.,  0.,  1.]),
            ([-0.5, -0.5,  0. ], [ 0.,  0.], [ 0.,  0.,  1.], [ 0.,  0.,  0.,  1.]),
            ([ 0.5, -0.5,  0. ], [ 1.,  0.], [ 0.,  0.,  1.], [ 1.,  0.,  0.,  1.])],
-          dtype=[('position', '<f4', (3,)), ('uv', '<f4', (2,)), ('normal', '<f4', (3,)), ('colour', '<f4', (4,))]), array([[0, 2, 1],
+          dtype=[('position', '<f8', (3,)), ('uv', '<f8', (2,)), ('normal', '<f8', (3,)), ('colour', '<f8', (4,))]), array([[0, 2, 1],
            [2, 3, 1]], dtype=uint32), array([[0, 2],
            [2, 3],
            [3, 1],
@@ -1721,7 +1690,13 @@ Geometry Primitives Generation - ``colour.geometry``
            [ 1.,  0.,  0.],
            [ 1.,  1.,  0.],
            [ 0.,  1.,  0.]])
+
+.. code-block:: python
+
     sorted(colour.PRIMITIVE_VERTICES_METHODS)
+
+.. code-block:: text
+
     ['Cube MPL', 'Grid MPL', 'Quad MPL', 'Sphere']
 
 Plotting - ``colour.plotting``
@@ -1765,7 +1740,7 @@ Blackbody
     plot_multi_sds(
         blackbody_sds,
         y_label="W / (sr m$^2$) / m",
-        plot_kwargs={"use_sd_colours": True, "normalise_sd_colours": True},
+        plot_kwargs={"use_sd_colours": False, "normalise_sd_colours": True, "color": "orangered"},
         legend_location="upper right",
         bounding_box=(0, 1250, 0, 2.5e6),
     )
@@ -1812,16 +1787,16 @@ Colour Checker
 .. code-block:: python
 
     from colour.characterisation.dataset.colour_checkers.sds import (
-        COLOURCHECKER_INDEXES_TO_NAMES_MAPPING,
+        DATA_BABELCOLOR_AVERAGE,
     )
 
     plot_multi_sds(
         [
-            colour.SDS_COLOURCHECKERS["BabelColor Average"][value]
-            for key, value in sorted(COLOURCHECKER_INDEXES_TO_NAMES_MAPPING.items())
+            colour.SDS_COLOURCHECKERS["BabelColor Average"][key]
+            for key, value in sorted(DATA_BABELCOLOR_AVERAGE.items())
         ],
         plot_kwargs={
-            "use_sd_colours": True,
+            "use_sd_colours": False, "color": "black"
         },
         title=("BabelColor Average - " "Spectral Distributions"),
     )
@@ -1839,7 +1814,7 @@ Chromaticities Prediction
 
 .. code-block:: python
 
-    plot_corresponding_chromaticities_prediction(2, "Von Kries", "Bianco 2010")
+    plot_corresponding_chromaticities_prediction(2, "Von Kries")
 
 ..  image:: _static/Examples_Plotting_Chromaticities_Prediction.png
 
