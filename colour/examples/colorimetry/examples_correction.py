@@ -1,4 +1,9 @@
-"""Showcase colour spectral bandpass dependence correction computations."""
+"""
+Demonstrate colour spectral bandpass dependence correction computations.
+
+This module provides examples of spectral bandpass dependence correction
+using various methods.
+"""
 
 import numpy as np
 

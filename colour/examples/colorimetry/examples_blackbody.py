@@ -1,4 +1,10 @@
-"""Showcase blackbody / planckian radiator computations."""
+"""
+Demonstrate blackbody / planckian radiator computations.
+
+This module provides examples of blackbody radiator spectral distribution
+computations and related colorimetric calculations, illustrating planckian
+locus operations and correlated colour temperature determinations.
+"""
 
 import colour
 from colour.utilities import message_box

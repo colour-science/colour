@@ -1,4 +1,9 @@
-"""Showcase colour models computations."""
+"""
+Demonstrate colour models computations.
+
+This module provides examples of various colour model transformations
+and conversions between different colourspaces.
+"""
 
 import numpy as np
 

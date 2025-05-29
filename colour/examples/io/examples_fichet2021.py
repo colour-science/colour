@@ -1,6 +1,8 @@
 """
-Showcases *Fichet, Pacanowski and Wilkie (2021)*
-*OpenEXR Layout for Spectral Images* related examples.
+Demonstrate *Fichet, Pacanowski and Wilkie (2021)* OpenEXR Layout for Spectral Images.
+
+This module provides examples of reading and writing spectral images
+using the OpenEXR layout format.
 """
 
 import os

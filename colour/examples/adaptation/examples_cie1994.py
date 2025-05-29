@@ -1,4 +1,10 @@
-"""Showcase *CIE 1994* chromatic adaptation model computations."""
+"""
+Demonstrate *CIE 1994* chromatic adaptation model computations.
+
+This module provides examples of chromatic adaptation computations using the
+*CIE 1994* chromatic adaptation model, illustrating forward adaptation
+calculations between different illumination conditions.
+"""
 
 import numpy as np
 
@@ -14,7 +20,7 @@ Y_o = 20
 E_o1 = 1000
 E_o2 = 1000
 message_box(
-    f'Computing chromatic adaptation using "CIE 1994" chromatic adaptation '
+    f'Compute chromatic adaptation using "CIE 1994" chromatic adaptation '
     f"model.\n\n"
     f'\t"XYZ_1": {XYZ_1}\n'
     f'\t"xy_o1": {xy_o1}\n'

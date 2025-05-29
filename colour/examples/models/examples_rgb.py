@@ -1,4 +1,9 @@
-"""Showcase *RGB* *colourspaces* computations."""
+"""
+Demonstrate RGB colourspaces computations.
+
+This module provides examples of RGB colourspace transformations
+and conversions between different RGB colourspaces.
+"""
 
 from pprint import pprint
 

@@ -1,4 +1,10 @@
-"""Showcase overall *Colour* examples."""
+"""
+Demonstrate overall *Colour* usage examples.
+
+This module provides examples of *Colour's* core functionality, including the
+automatic colour conversion graph system, N-dimensional array support,
+domain-range scale management, and warning filtering mechanisms.
+"""
 
 import warnings
 

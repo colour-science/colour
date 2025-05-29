@@ -1,4 +1,10 @@
-"""Showcase colour correction computations."""
+"""
+Demonstrate colour correction computations.
+
+This module demonstrates various colour correction methods including
+*Cheung et al. (2004)*, *Finlayson et al. (2015)*, and *Vandermonde* matrix
+approaches for correcting colour rendition chart measurements.
+"""
 
 import numpy as np
 
@@ -66,7 +72,7 @@ M_R = np.array(
 )
 
 message_box(
-    'Computing the colour correction matrix correcting a "M_T" "ColorChecker"'
+    'Compute the colour correction matrix correcting a "M_T" "ColorChecker"'
     'colour rendition chart to a "M_R" one using '
     '"Cheung, Westland, Connah and Ripamonti (2004)" method '
     "with 3 terms polynomial."
@@ -78,7 +84,7 @@ print(colour.matrix_colour_correction(M_T, M_R, method="Cheung 2004"))
 print("\n")
 
 message_box(
-    'Computing the colour correction matrix correcting a "M_T" "ColorChecker"'
+    'Compute the colour correction matrix correcting a "M_T" "ColorChecker"'
     'colour rendition chart to a "M_R" one using '
     '"Cheung, Westland, Connah and Ripamonti (2004)" method '
     "with 7 terms polynomial."
@@ -90,7 +96,7 @@ print(colour.matrix_colour_correction(M_T, M_R, method="Cheung 2004", terms=7))
 print("\n")
 
 message_box(
-    'Computing the colour correction matrix correcting a "M_T" "ColorChecker"'
+    'Compute the colour correction matrix correcting a "M_T" "ColorChecker"'
     'colour rendition chart to a "M_R" one using '
     '"Finlayson, MacKiewicz and Hurlbert (2015)" method '
     "with polynomial of degree 1."
@@ -102,7 +108,7 @@ print(colour.matrix_colour_correction(M_T, M_R, method="Finlayson 2015"))
 print("\n")
 
 message_box(
-    'Computing the colour correction matrix correcting a "M_T" "ColorChecker"'
+    'Compute the colour correction matrix correcting a "M_T" "ColorChecker"'
     'colour rendition chart to a "M_R" one using '
     '"Finlayson, MacKiewicz and Hurlbert (2015)" method '
     "with polynomial of degree 3."
@@ -114,7 +120,7 @@ print(colour.matrix_colour_correction(M_T, M_R, method="Finlayson 2015", degree=
 print("\n")
 
 message_box(
-    'Computing the colour correction matrix correcting a "M_T" "ColorChecker"'
+    'Compute the colour correction matrix correcting a "M_T" "ColorChecker"'
     'colour rendition chart to a "M_R" one using '
     '"Vandermonde" method with polynomial of degree 1.'
 )
@@ -125,7 +131,7 @@ print(colour.matrix_colour_correction(M_T, M_R, method="Vandermonde"))
 print("\n")
 
 message_box(
-    'Computing the colour correction matrix correcting a "M_T" "ColorChecker"'
+    'Compute the colour correction matrix correcting a "M_T" "ColorChecker"'
     'colour rendition chart to a "M_R" one using '
     '"Vandermonde" method with polynomial of degree 3.'
 )

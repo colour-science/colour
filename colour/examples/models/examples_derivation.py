@@ -1,4 +1,9 @@
-"""Showcase *RGB* colourspace derivation."""
+"""
+Demonstrate RGB colourspace derivation.
+
+This module provides examples of RGB colourspace derivation including
+primary matrix computations and chromatic adaptation.
+"""
 
 import numpy as np
 

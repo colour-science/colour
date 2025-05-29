@@ -1,4 +1,9 @@
-"""Showcase colour models plotting examples."""
+"""
+Demonstrate colour models plotting.
+
+This module provides examples of plotting RGB colourspaces and
+colour component transfer functions in chromaticity diagrams.
+"""
 
 from pprint import pprint
 

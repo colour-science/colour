@@ -1,4 +1,9 @@
-"""Showcase reflectance recovery computations using *Meng et al. (2015)* method."""
+"""
+Demonstrate reflectance recovery computations using *Meng et al. (2015)* method.
+
+This module provides examples of reflectance recovery from tristimulus
+values using the *Meng et al. (2015)* method.
+"""
 
 import numpy as np
 

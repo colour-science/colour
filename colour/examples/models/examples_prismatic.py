@@ -1,4 +1,9 @@
-"""Showcase *Prismatic* colourspace computations."""
+"""
+Demonstrate Prismatic colourspace computations.
+
+This module provides examples of conversions between RGB and Prismatic
+colourspaces, including desaturation operations.
+"""
 
 import numpy as np
 

@@ -1,6 +1,8 @@
 """
-Showcases colour temperature and correlated colour temperature plotting
-examples.
+Demonstrate colour temperature and correlated colour temperature plotting.
+
+This module provides examples of plotting planckian locus in various
+chromaticity diagrams.
 """
 
 from colour.plotting import (

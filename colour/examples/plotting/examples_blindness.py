@@ -1,4 +1,9 @@
-"""Showcase corresponding colour blindness plotting examples."""
+"""
+Demonstrate colour blindness plotting.
+
+This module provides examples of colour vision deficiency simulation
+using the *Machado et al. (2009)* model.
+"""
 
 import os
 

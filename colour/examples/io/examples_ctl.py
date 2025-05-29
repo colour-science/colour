@@ -1,4 +1,9 @@
-"""Showcase Color Transformation Language (CTL) related examples."""
+"""
+Demonstrate Color Transformation Language (CTL) operations.
+
+This module provides examples of CTL transform operations including
+template generation and image processing.
+"""
 
 import os
 import tempfile

@@ -1,4 +1,9 @@
-"""Showcase *CIE* chromaticity diagrams plotting examples."""
+"""
+Demonstrate CIE chromaticity diagrams plotting.
+
+This module provides examples of plotting various CIE chromaticity
+diagrams and spectral distributions.
+"""
 
 from colour import SDS_ILLUMINANTS
 from colour.plotting import (

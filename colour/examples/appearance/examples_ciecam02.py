@@ -1,11 +1,17 @@
-"""Showcase *CIECAM02* colour appearance model computations."""
+"""
+Demonstrate *CIECAM02* colour appearance model computations.
+
+This module provides examples of colour appearance model computations using the
+*CIECAM02* model, illustrating both forward and inverse transformations between
+tristimulus values and colour appearance correlates.
+"""
 
 import numpy as np
 
 import colour
 from colour.utilities import message_box
 
-message_box('"CIECAM02" Colour Appearance Model Computations')
+message_box('Compute "CIECAM02" Colour Appearance Model Correlates')
 
 XYZ = np.array([19.01, 20.00, 21.78])
 XYZ_w = np.array([95.05, 100.00, 108.88])
@@ -13,7 +19,7 @@ L_A = 318.31
 Y_b = 20.0
 surround = colour.VIEWING_CONDITIONS_CIECAM02["Average"]
 message_box(
-    f'Converting to the "CIECAM02" colour appearance model specification '
+    f'Convert to the "CIECAM02" colour appearance model specification '
     f"using given parameters:\n\n"
     f"\tXYZ: {XYZ}\n"
     f"\tXYZ_w: {XYZ_w}\n"
@@ -31,7 +37,7 @@ C = 0.10470776
 h = 219.04843266
 specification = colour.CAM_Specification_CIECAM02(J, C, h)
 message_box(
-    f'Converting to "CIE XYZ" tristimulus values using given parameters:\n\n'
+    f'Convert to "CIE XYZ" tristimulus values using given parameters:\n\n'
     f"\tJ: {J}\n"
     f"\tC: {C}\n"
     f"\th: {h}\n"

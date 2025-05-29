@@ -1,4 +1,9 @@
-"""Showcase reflectance recovery computations using *Smits (1999)* method."""
+"""
+Demonstrate reflectance recovery computations using *Smits (1999)* method.
+
+This module provides examples of reflectance recovery from RGB colourspace
+values using the *Smits (1999)* method.
+"""
 
 import numpy as np
 

@@ -1,4 +1,9 @@
-"""Showcase *ANSI/IES TM-30-18 Colour Rendition Report* plotting examples."""
+"""
+Demonstrate *ANSI/IES TM-30-18* Colour Rendition Report plotting.
+
+This module provides examples of generating colour rendition reports
+using the *ANSI/IES TM-30-18* standard.
+"""
 
 import colour
 from colour.plotting import colour_style, plot_single_sd_colour_rendition_report

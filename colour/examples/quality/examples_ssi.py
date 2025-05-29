@@ -1,4 +1,9 @@
-"""Showcase *Academy Spectral Similarity Index* (SSI) computations."""
+"""
+Demonstrate *Academy Spectral Similarity Index* (SSI) computations.
+
+This module provides examples of spectral similarity index calculations
+for comparing light sources.
+"""
 
 import colour
 from colour.utilities import message_box

@@ -1,4 +1,9 @@
-"""Showcase cylindrical and spherical colour models computations."""
+"""
+Demonstrate cylindrical and spherical colour models computations.
+
+This module provides examples of colour transformations between RGB
+and cylindrical colour models like HSV, HSL and HCL.
+"""
 
 import numpy as np
 

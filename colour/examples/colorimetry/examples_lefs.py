@@ -1,4 +1,9 @@
-"""Showcase luminous efficiency functions computations."""
+"""
+Demonstrate luminous efficiency functions computations.
+
+This module provides examples of luminous efficiency functions and mesopic
+luminous efficiency function calculations.
+"""
 
 from pprint import pprint
 

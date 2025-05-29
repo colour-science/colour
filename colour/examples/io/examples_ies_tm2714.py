@@ -1,4 +1,9 @@
-"""Showcase *IES TM-27-14* spectral data *XML* files input / output examples."""
+"""
+Demonstrate *IES TM-27-14* spectral data XML file input/output.
+
+This module provides examples of reading and writing spectral data
+from XML files following the *IES TM-27-14* standard.
+"""
 
 import os
 

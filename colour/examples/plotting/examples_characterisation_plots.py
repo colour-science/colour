@@ -1,4 +1,9 @@
-"""Showcase characterisation plotting examples."""
+"""
+Demonstrate characterisation plotting.
+
+This module provides examples of plotting colour rendition charts and
+spectral distributions for colour characterisation.
+"""
 
 from pprint import pprint
 

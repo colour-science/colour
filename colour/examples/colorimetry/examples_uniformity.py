@@ -1,4 +1,9 @@
-"""Showcase spectral uniformity computations."""
+"""
+Demonstrate spectral uniformity computations.
+
+This module provides examples of spectral uniformity (or flatness)
+calculations for test colour samples.
+"""
 
 import colour
 from colour.quality.cfi2017 import load_TCS_CIE2017

@@ -1,4 +1,9 @@
-"""Showcase common plotting examples."""
+"""
+Demonstrate common plotting operations.
+
+This module provides examples of basic plotting operations including
+colour swatches and common plot elements.
+"""
 
 from colour.plotting import (
     ColourSwatch,

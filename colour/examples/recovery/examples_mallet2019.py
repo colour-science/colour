@@ -1,5 +1,8 @@
 """
-Showcases reflectance recovery computations using *Mallett et al. (2019)*
+Demonstrate reflectance recovery computations using *Mallett et al. (2019)* method.
+
+This module provides examples of reflectance recovery from tristimulus
+values and spectral primary decomposition using the *Mallett et al. (2019)*
 method.
 """
 

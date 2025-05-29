@@ -1,4 +1,10 @@
-"""Showcase colour rendition charts computations."""
+"""
+Demonstrate colour rendition chart computations.
+
+This module demonstrates the usage of colour rendition chart datasets,
+including chromaticity coordinates and spectral distributions, and
+their conversion to various colourspaces.
+"""
 
 from pprint import pprint
 
@@ -30,7 +36,7 @@ for name, xyY in data.items():
 print("\n")
 
 message_box(
-    'Converting the "ColorChecker 2005" colour rendition chart "CIE xyY" '
+    'Convert the "ColorChecker 2005" colour rendition chart "CIE xyY" '
     'colourspace values to "sRGB" colourspace "RGB" values:\n\n'
     '\t("Patch Name", ["R", "G", "B"])'
 )

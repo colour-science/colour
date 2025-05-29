@@ -1,4 +1,9 @@
-"""Showcase colour models volume and gamut plotting examples."""
+"""
+Demonstrate colour models volume and gamut plotting.
+
+This module provides examples of plotting RGB colourspace volumes and
+gamuts in various reference colourspaces.
+"""
 
 import numpy as np
 

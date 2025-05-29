@@ -1,4 +1,9 @@
-"""Showcase Look Up Table (LUT) data related examples."""
+"""
+Demonstrate Look Up Table (LUT) data operations.
+
+This module provides examples of reading and applying various LUT
+formats including *Cinespace*, *Iridas* and *Sony* formats.
+"""
 
 import os
 

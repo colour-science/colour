@@ -1,4 +1,10 @@
-"""Showcase *Delta E* colour difference computations."""
+"""
+Demonstrate *Delta E* colour difference computations.
+
+This module demonstrates various colour difference computations including
+*CIE 1976*, *CIE 1994*, *CIE 2000*, *CAM02-UCS*, *CAM16-UCS*, and other colour
+difference metrics for perceptual colour evaluation.
+"""
 
 import numpy as np
 
@@ -10,7 +16,7 @@ message_box('"Delta E" Computations')
 Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
 Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
 message_box(
-    f'Computing "Delta E" with "CIE 1976" method from given "CIE L*a*b*" '
+    f'Compute "Delta E" with "CIE 1976" method from given "CIE L*a*b*" '
     f"colourspace matrices:\n\n"
     f"\t{Lab_1}\n"
     f"\t{Lab_2}"

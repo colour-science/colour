@@ -1,4 +1,9 @@
-"""Showcase *CIE XYZ* tristimulus values computations."""
+"""
+Demonstrate CIE XYZ tristimulus values computations.
+
+This module provides examples of tristimulus values calculations for
+spectral distributions and multi-spectral images.
+"""
 
 import numpy as np
 
