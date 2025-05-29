@@ -1,4 +1,9 @@
-"""Showcase *whiteness* computations."""
+"""
+Demonstrate whiteness computations.
+
+This module provides examples of whiteness calculations using various
+standard methods.
+"""
 
 import numpy as np
 

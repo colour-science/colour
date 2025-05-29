@@ -1,4 +1,9 @@
-"""Showcase *Colour Quality Scale* (CQS) computations."""
+"""
+Demonstrate *Colour Quality Scale* (CQS) computations.
+
+This module provides examples of colour quality scale calculations for
+various light sources.
+"""
 
 from pprint import pprint
 

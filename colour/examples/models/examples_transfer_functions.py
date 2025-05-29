@@ -1,4 +1,9 @@
-"""Showcase colour component transfer functions (CCTF) relates computations."""
+"""
+Demonstrate colour component transfer functions (CCTF) computations.
+
+This module provides examples of colour component transfer functions
+encoding and decoding operations.
+"""
 
 import colour
 from colour.utilities import message_box

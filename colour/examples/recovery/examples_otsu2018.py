@@ -1,4 +1,9 @@
-"""Showcase reflectance recovery computations using *Otsu et al. (2018)* method."""
+"""
+Demonstrate reflectance recovery computations using *Otsu et al. (2018)* method.
+
+This module provides examples of reflectance recovery from tristimulus
+values using the *Otsu et al. (2018)* method.
+"""
 
 import numpy as np
 

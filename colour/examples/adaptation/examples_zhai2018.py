@@ -1,4 +1,11 @@
-"""Showcase *Zhai and Luo (2018)* chromatic adaptation model computations."""
+"""
+Demonstrate *Zhai and Luo (2018)* chromatic adaptation model computations.
+
+This module provides examples of chromatic adaptation computations using the
+*Zhai and Luo (2018)* chromatic adaptation model, illustrating advanced
+colour transformation techniques under varying degree of adaptation
+conditions.
+"""
 
 import numpy as np
 
@@ -14,7 +21,7 @@ D_b = 0.9407
 D_d = 0.9800
 XYZ_wo = np.array([1, 1, 1])
 message_box(
-    f'Computing chromatic adaptation using "Zhai and Luo (2018)" chromatic '
+    f'Compute chromatic adaptation using "Zhai and Luo (2018)" chromatic '
     f"adaptation model.\n\n"
     f'\t"XYZ_b": {XYZ_b}\n'
     f'\t"XYZ_wb": {XYZ_wb}\n'

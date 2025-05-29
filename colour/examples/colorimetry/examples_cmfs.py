@@ -1,4 +1,9 @@
-"""Showcase colour matching functions computations."""
+"""
+Demonstrate colour matching functions computations.
+
+This module provides examples of colour matching functions operations and
+conversions between different standard observers.
+"""
 
 from pprint import pprint
 

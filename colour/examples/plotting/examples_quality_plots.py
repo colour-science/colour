@@ -1,4 +1,9 @@
-"""Showcase colour quality plotting examples."""
+"""
+Demonstrate colour quality plotting.
+
+This module provides examples of plotting colour rendering indices
+and colour quality scales for various light sources.
+"""
 
 import colour
 from colour.plotting import (

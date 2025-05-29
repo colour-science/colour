@@ -1,4 +1,10 @@
-"""Showcase *LLAB(l:c)* colour appearance model computations."""
+"""
+Demonstrate *LLAB(l:c)* colour appearance model computations.
+
+This module provides examples of colour appearance model computations using the
+*LLAB(l:c)* model, illustrating forward transformations from tristimulus values
+to colour appearance correlates with reference specification broadcasting.
+"""
 
 import numpy as np
 
@@ -6,7 +12,7 @@ import colour
 from colour.appearance.llab import CAM_ReferenceSpecification_LLAB
 from colour.utilities import message_box
 
-message_box('"LLAB(l:c)" Colour Appearance Model Computations')
+message_box('Compute "LLAB(l:c)" Colour Appearance Model Correlates')
 
 XYZ = np.array([19.01, 20.00, 21.78])
 XYZ_0 = np.array([95.05, 100.00, 108.88])
@@ -14,7 +20,7 @@ Y_b = 20.0
 L = 318.31
 surround = colour.VIEWING_CONDITIONS_LLAB["ref_average_4_minus"]
 message_box(
-    f'Converting to the  "LLAB(l:c)" colour appearance model specification '
+    f'Convert to the  "LLAB(l:c)" colour appearance model specification '
     f"using given parameters:\n\n"
     f"\tXYZ: {XYZ}\n"
     f"\tXYZ_0: {XYZ_0}\n"
@@ -28,7 +34,7 @@ print(specification)
 print("\n")
 
 message_box(
-    'Broadcasting the current output "LLAB(l:c)" colour appearance '
+    'Broadcast the current output "LLAB(l:c)" colour appearance '
     "model specification to the reference specification.\n"
     "The intent of this reference specification is to provide names "
     'as closest as possible to the "Mark D. Fairchild" reference.\n'

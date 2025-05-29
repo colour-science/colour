@@ -1,4 +1,9 @@
-"""Showcase *Colour Fidelity Index* (CFI) computations."""
+"""
+Demonstrate *Colour Fidelity Index* (CFI) computations.
+
+This module provides examples of colour fidelity index calculations
+using various standard methods.
+"""
 
 from pprint import pprint
 

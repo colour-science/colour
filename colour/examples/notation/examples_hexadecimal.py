@@ -1,4 +1,9 @@
-"""Showcase hexadecimal computations."""
+"""
+Demonstrate hexadecimal colour notation computations.
+
+This module demonstrates conversions between RGB colourspace values and
+hexadecimal colour notation representations.
+"""
 
 import numpy as np
 
@@ -9,7 +14,7 @@ message_box("Hexadecimal Computations")
 
 RGB = np.array([0.45620519, 0.03081071, 0.04091952])
 message_box(
-    f'Converting to the "hexadecimal" representation from given "RGB"'
+    f'Convert to the "hexadecimal" representation from given "RGB"'
     f"colourspace values:\n\n\t{RGB}"
 )
 print(colour.notation.hexadecimal.RGB_to_HEX(RGB))
@@ -18,7 +23,7 @@ print("\n")
 
 hex_triplet = "#74070a"
 message_box(
-    f'Converting to the "RGB" colourspace from given "hexadecimal" '
+    f'Convert to the "RGB" colourspace from given "hexadecimal" '
     f"representation:\n\n\t{hex_triplet}"
 )
 print(colour.notation.hexadecimal.HEX_to_RGB(hex_triplet))

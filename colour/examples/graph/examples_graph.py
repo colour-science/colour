@@ -1,4 +1,10 @@
-"""Showcase *Automatic Colour Conversion Graph* computations."""
+"""
+Demonstrate *Automatic Colour Conversion Graph* computations.
+
+This module demonstrates the automatic colour conversion graph functionality,
+showing conversions between spectral distributions, colourspaces, and colour
+appearance models using the unified conversion interface.
+"""
 
 import numpy as np
 
@@ -8,7 +14,7 @@ from colour.utilities import message_box
 message_box("Automatic Colour Conversion Graph")
 
 message_box(
-    'Converting a "ColorChecker" "dark skin" sample spectral distribution to '
+    'Convert a "ColorChecker" "dark skin" sample spectral distribution to '
     '"Output-Referred" "sRGB" colourspace.'
 )
 
@@ -24,7 +30,7 @@ print("\n")
 
 RGB = np.array([0.45675795, 0.30986982, 0.24861924])
 message_box(
-    f'Converting to the "CAM16-UCS" colourspace from given "Output-Referred" '
+    f'Convert to the "CAM16-UCS" colourspace from given "Output-Referred" '
     f'"sRGB" colourspace values:\n\n\t{RGB}'
 )
 print(colour.convert(RGB, "Output-Referred RGB", "CAM16UCS"))
@@ -54,7 +60,7 @@ print("\n")
 
 Jpapbp = np.array([0.39994811, 0.09206558, 0.0812752])
 message_box(
-    f'Converting to the "Output-Referred" "sRGB" colourspace from given '
+    f'Convert to the "Output-Referred" "sRGB" colourspace from given '
     f'"CAM16-UCS" colourspace colourspace values:\n\n\t{RGB}'
 )
 print(

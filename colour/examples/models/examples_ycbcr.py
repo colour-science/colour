@@ -1,4 +1,10 @@
-"""Showcase *Y'CbCr* *colour encoding* computations."""
+"""
+Demonstrate *Y'CbCr* colour encoding computations.
+
+This module provides examples of conversions between RGB colourspaces
+and *Y'CbCr
+ 8colour encodings.
+"""
 
 import numpy as np
 

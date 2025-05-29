@@ -1,4 +1,9 @@
-"""Showcase illuminants datasets."""
+"""
+Demonstrate illuminants datasets.
+
+This module provides examples of illuminants spectral distributions
+and chromaticity coordinates datasets.
+"""
 
 from pprint import pprint
 

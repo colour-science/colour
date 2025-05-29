@@ -1,4 +1,9 @@
-"""Showcase *Luminance* computations."""
+"""
+Demonstrate luminance computations.
+
+This module provides examples of luminance calculations using various
+standard methods.
+"""
 
 import colour
 from colour.utilities import message_box

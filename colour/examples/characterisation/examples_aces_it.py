@@ -1,6 +1,9 @@
 """
-Showcases *Academy Color Encoding System* *Input Transform* related
-computations.
+Demonstrate *Academy Color Encoding System* *Input Transform* computations.
+
+This module demonstrates the computation of ACES relative exposure values
+from spectral distributions and the creation of input device transforms
+for cameras using various optimisation methods.
 """
 
 import os
@@ -12,7 +15,7 @@ from colour.utilities import message_box
 message_box('"ACES" "Input Transform" Computations')
 
 message_box(
-    'Computing "ACES" relative exposure values for some colour rendition '
+    'Compute "ACES" relative exposure values for some colour rendition '
     "chart spectral distributions:\n\n"
     '\t("dark skin", "blue sky")'
 )
@@ -30,7 +33,7 @@ print(
 print("\n")
 
 message_box(
-    'Computing "ACES" relative exposure values for various ideal '
+    'Compute "ACES" relative exposure values for various ideal '
     "reflectors:\n\n"
     '\t("18%", "100%")'
 )
@@ -48,7 +51,7 @@ print(colour.sd_to_aces_relative_exposure_values(perfect_reflector))
 print("\n")
 
 message_box(
-    'Computing an "ACES" input device transform for a "CANON EOS 5DMark II" '
+    'Compute an "ACES" input device transform for a "CANON EOS 5DMark II" '
     "and and *CIE Illuminant D Series* *D55*:"
 )
 
@@ -69,7 +72,7 @@ print(
 )
 
 message_box(
-    'Optimising in "Oklab" colourspace using "Finlayson et al. (2015)" '
+    'Optimise in "Oklab" colourspace using "Finlayson et al. (2015)" '
     "root-polynomials colour correction:"
 )
 

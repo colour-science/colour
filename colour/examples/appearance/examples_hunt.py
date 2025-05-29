@@ -1,4 +1,10 @@
-"""Showcase *Hunt* colour appearance model computations."""
+"""
+Demonstrate *Hunt* colour appearance model computations.
+
+This module provides examples of colour appearance model computations using the
+*Hunt* model, illustrating forward transformations from tristimulus values to
+colour appearance correlates and reference specification broadcasting.
+"""
 
 import numpy as np
 
@@ -6,7 +12,7 @@ import colour
 from colour.appearance.hunt import CAM_ReferenceSpecification_Hunt
 from colour.utilities import message_box
 
-message_box('"Hunt" Colour Appearance Model Computations')
+message_box('Compute "Hunt" Colour Appearance Model Correlates')
 
 XYZ = np.array([19.01, 20.00, 21.78])
 XYZ_w = np.array([95.05, 100.00, 108.88])
@@ -15,7 +21,7 @@ L_A = 318.31
 surround = colour.VIEWING_CONDITIONS_HUNT["Normal Scenes"]
 CCT_w = 6504.0
 message_box(
-    f'Converting to the "Hunt" colour appearance model specification using '
+    f'Convert to the "Hunt" colour appearance model specification using '
     f"given parameters:\n\n"
     f"\tXYZ: {XYZ}\n"
     f"\tXYZ_w: {XYZ_w}\n"
@@ -31,7 +37,7 @@ print(specification)
 print("\n")
 
 message_box(
-    'Broadcasting the current output "Hunt" colour appearance '
+    'Broadcast the current output "Hunt" colour appearance '
     "model specification to the reference specification.\n"
     "The intent of this reference specification is to provide names "
     'as closest as possible to the "Mark D. Fairchild" reference.\n'

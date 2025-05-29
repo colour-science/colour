@@ -1,4 +1,9 @@
-"""Showcase optical phenomena plotting examples."""
+"""
+Demonstrate optical phenomena plotting.
+
+This module provides examples of plotting Rayleigh scattering and
+other optical phenomena.
+"""
 
 from colour.phenomena import sd_rayleigh_scattering
 from colour.plotting import (

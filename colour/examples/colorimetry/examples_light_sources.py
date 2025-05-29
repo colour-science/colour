@@ -1,4 +1,9 @@
-"""Showcase light sources datasets."""
+"""
+Demonstrate light sources datasets.
+
+This module provides examples of light sources spectral distributions
+and chromaticity coordinates datasets.
+"""
 
 from pprint import pprint
 

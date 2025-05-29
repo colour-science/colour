@@ -1,4 +1,10 @@
-"""Showcase *Von Kries* chromatic adaptation model computations."""
+"""
+Demonstrate *Von Kries* chromatic adaptation model computations.
+
+This module provides examples of chromatic adaptation computations using the
+*Von Kries* chromatic adaptation model and various chromatic adaptation
+transforms.
+"""
 
 import numpy as np
 
@@ -10,7 +16,7 @@ message_box('"Von Kries" Chromatic Adaptation Model Computations')
 XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
 XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
 message_box(
-    f'Computing the chromatic adaptation matrix from two source "CIE XYZ" '
+    f'Compute the chromatic adaptation matrix from two source "CIE XYZ" '
     f'tristimulus values arrays, default CAT is "CAT02".\n\n'
     f'\t"XYZ_w": {XYZ_w}\n'
     f'\t"XYZ_wr": {XYZ_wr}'
@@ -19,7 +25,7 @@ print(colour.adaptation.matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr))
 
 print("\n")
 
-message_box('Using "Bradford" CAT.')
+message_box('Use "Bradford" CAT.')
 print(
     colour.adaptation.matrix_chromatic_adaptation_VonKries(
         XYZ_w, XYZ_wr, transform="Bradford"
@@ -29,7 +35,7 @@ print(
 print("\n")
 
 message_box(
-    "Computing the chromatic adaptation matrix from "
+    "Compute the chromatic adaptation matrix from "
     'the "CIE Standard Illuminant A" to '
     'the "CIE Standard Illuminant D Series D65" using the "Von Kries" CAT.'
 )
@@ -45,7 +51,7 @@ print("\n")
 
 XYZ = np.array([1.14176346, 1.00000000, 0.49815206])
 message_box(
-    f'Adapting given "CIE XYZ" tristimulus values from '
+    f'Adapt given "CIE XYZ" tristimulus values from '
     f'the "CIE Standard Illuminant A" to the '
     f'"CIE Standard Illuminant D Series D65" using the "Sharp" CAT.\n\n'
     f'\t"XYZ": {XYZ}'

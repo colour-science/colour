@@ -1,4 +1,9 @@
-"""Showcase Cyan-Magenta-Yellow (Black) (CMY(K)) colour transformations."""
+"""
+Demonstrate Cyan-Magenta-Yellow (Black) (CMY(K)) colour transformations.
+
+This module provides examples of colour transformations between RGB,
+CMY and CMYK colour models.
+"""
 
 import numpy as np
 

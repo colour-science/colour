@@ -1,4 +1,9 @@
-"""Showcase gamut section plotting examples."""
+"""
+Demonstrate gamut section plotting.
+
+This module provides examples of plotting visible spectrum and RGB
+colourspace sections in various colour models.
+"""
 
 import numpy as np
 from matplotlib.lines import Line2D

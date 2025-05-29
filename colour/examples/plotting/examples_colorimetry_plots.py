@@ -1,4 +1,9 @@
-"""Showcase colorimetry plotting examples."""
+"""
+Demonstrate colorimetry plotting.
+
+This module provides examples of plotting colorimetric data including
+illuminants, spectral distributions and colour matching functions.
+"""
 
 from pprint import pprint
 
