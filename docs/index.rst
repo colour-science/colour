@@ -1740,7 +1740,11 @@ Blackbody
     plot_multi_sds(
         blackbody_sds,
         y_label="W / (sr m$^2$) / m",
-        plot_kwargs={"use_sd_colours": False, "normalise_sd_colours": True, "color": "orangered"},
+        plot_kwargs={
+            "use_sd_colours": False,
+            "normalise_sd_colours": True,
+            "color": "orangered",
+        },
         legend_location="upper right",
         bounding_box=(0, 1250, 0, 2.5e6),
     )
@@ -1795,9 +1799,7 @@ Colour Checker
             colour.SDS_COLOURCHECKERS["BabelColor Average"][key]
             for key, value in sorted(DATA_BABELCOLOR_AVERAGE.items())
         ],
-        plot_kwargs={
-            "use_sd_colours": False, "color": "black"
-        },
+        plot_kwargs={"use_sd_colours": False, "color": "black"},
         title=("BabelColor Average - " "Spectral Distributions"),
     )
 
