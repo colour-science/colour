@@ -2,7 +2,7 @@
 Multi Signals
 =============
 
-Define the class implementing support for multi-continuous signals:
+Define a class implementing support for multi-continuous signals:
 
 -   :class:`colour.continuous.MultiSignals`
 """
@@ -98,7 +98,7 @@ class MultiSignals(AbstractContinuousFunction):
     Other Parameters
     ----------------
     dtype
-        float point data type.
+        Floating point data type.
     extrapolator
         Extrapolator class type to use as extrapolating function for the
         :class:`colour.continuous.Signal` sub-class instances.
@@ -942,8 +942,8 @@ class MultiSignals(AbstractContinuousFunction):
 
     def __contains__(self, x: ArrayLike | slice) -> bool:
         """
-        Return whether the multi-continuous signals contains given independent
-        domain variable :math:`x`.
+        Return whether the multi-continuous signals contains specified
+        independent domain variable :math:`x`.
 
         Parameters
         ----------
@@ -971,8 +971,8 @@ class MultiSignals(AbstractContinuousFunction):
 
     def __eq__(self, other: object) -> bool:
         """
-        Return whether the multi-continuous signals is equal to given other
-        object.
+        Return whether the multi-continuous signals is equal to specified
+        other object.
 
         Parameters
         ----------
@@ -982,7 +982,7 @@ class MultiSignals(AbstractContinuousFunction):
         Returns
         -------
         :class:`bool`
-            Whether given object is equal to the multi-continuous signals.
+            Whether specified object is equal to the multi-continuous signals.
 
         Examples
         --------
@@ -1022,7 +1022,7 @@ class MultiSignals(AbstractContinuousFunction):
 
     def __ne__(self, other: object) -> bool:
         """
-        Return whether the multi-continuous signals is not equal to given
+        Return whether the multi-continuous signals is not equal to specified
         other object.
 
         Parameters
@@ -1034,7 +1034,8 @@ class MultiSignals(AbstractContinuousFunction):
         Returns
         -------
         :class:`bool`
-            Whether given object is not equal to the multi-continuous signals.
+            Whether specified object is not equal to the multi-continuous
+            signals.
 
         Examples
         --------
@@ -1064,7 +1065,7 @@ class MultiSignals(AbstractContinuousFunction):
         in_place: bool = False,
     ) -> MultiSignals:
         """
-        Perform given arithmetical operation with operand :math:`a`, the
+        Perform specified arithmetical operation with operand :math:`a`, the
         operation can be either performed on a copy or in-place.
 
         Parameters
@@ -1228,7 +1229,7 @@ class MultiSignals(AbstractContinuousFunction):
         **kwargs: Any,
     ) -> Dict[str, Signal]:
         """
-        Unpack given data for multi-continuous signals instantiation.
+        Unpack specified data for multi-continuous signals instantiation.
 
         Parameters
         ----------
@@ -1244,7 +1245,7 @@ class MultiSignals(AbstractContinuousFunction):
             Names to use for the :class:`colour.continuous.Signal` sub-class
             instances.
         dtype
-            float point data type.
+            Floating point data type.
         signal_type
             A :class:`colour.continuous.Signal` sub-class type.
 
@@ -1546,7 +1547,7 @@ class MultiSignals(AbstractContinuousFunction):
     ) -> MultiSignals:
         """
         Fill NaNs in independent domain variable :math:`x` and corresponding
-        range variable :math:`y` using given method.
+        range variable :math:`y` using specified method.
 
         Parameters
         ----------

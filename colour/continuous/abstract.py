@@ -2,7 +2,7 @@
 Abstract Continuous Function
 ============================
 
-Define the abstract class implementing support for abstract continuous
+Define an abstract class implementing support for abstract continuous
 function:
 
 -   :class:`colour.continuous.AbstractContinuousFunction`.
@@ -54,7 +54,7 @@ __all__ = [
 
 class AbstractContinuousFunction(ABC, MixinCallback):
     """
-    Define the base class for abstract continuous function.
+    Define the base class for an abstract continuous function.
 
     This is an :class:`ABCMeta` abstract class that must be inherited by
     sub-classes.
@@ -472,7 +472,7 @@ arithmetical_operation`
     @abstractmethod
     def __contains__(self, x: ArrayLike | slice) -> bool:
         """
-        Return whether the abstract continuous function contains given
+        Return whether the abstract continuous function contains specified
         independent domain variable :math:`x`, must be reimplemented by
         sub-classes.
 
@@ -518,7 +518,7 @@ arithmetical_operation`
     @abstractmethod
     def __eq__(self, other: object) -> bool:
         """
-        Return whether the abstract continuous function is equal to given
+        Return whether the abstract continuous function is equal to specified
         other object, must be reimplemented by sub-classes.
 
         Parameters
@@ -530,7 +530,8 @@ arithmetical_operation`
         Returns
         -------
         :class:`bool`
-            Whether given object is equal to the abstract continuous function.
+            Whether specified object is equal to the abstract continuous
+            function.
         """
 
         ...  # pragma: no cover
@@ -538,8 +539,8 @@ arithmetical_operation`
     @abstractmethod
     def __ne__(self, other: object) -> bool:
         """
-        Return whether the abstract continuous function is not equal to given
-        other object, must be reimplemented by sub-classes.
+        Return whether the abstract continuous function is not equal to
+        specified other object, must be reimplemented by sub-classes.
 
         Parameters
         ----------
@@ -550,7 +551,7 @@ arithmetical_operation`
         Returns
         -------
         :class:`bool`
-            Whether given object is not equal to the abstract continuous
+            Whether specified object is not equal to the abstract continuous
             function.
         """
 
@@ -737,7 +738,7 @@ arithmetical_operation`
         in_place: bool = False,
     ) -> Self:
         """
-        Perform given arithmetical operation with operand :math:`a`, the
+        Perform specified arithmetical operation with operand :math:`a`, the
         operation can be either performed on a copy or in-place, must be
         reimplemented by sub-classes.
 
@@ -766,8 +767,8 @@ arithmetical_operation`
     ) -> Self:
         """
         Fill NaNs in independent domain variable :math:`x` and corresponding
-        range variable :math:`y` using given method, must be reimplemented by
-        sub-classes.
+        range variable :math:`y` using specified method, must be reimplemented
+        by sub-classes.
 
         Parameters
         ----------
@@ -787,7 +788,7 @@ arithmetical_operation`
 
     def domain_distance(self, a: ArrayLike) -> NDArrayFloat:
         """
-        Return the euclidean distance between given array and independent
+        Return the euclidean distance between specified array and independent
         domain :math:`x` closest element.
 
         Parameters
@@ -800,7 +801,7 @@ arithmetical_operation`
         -------
         :class:`numpy.ndarray`
             Euclidean distance between independent domain variable :math:`x`
-            and given variable :math:`a`.
+            and specified variable :math:`a`.
         """
 
         n = closest(self.domain, a)
