@@ -69,7 +69,7 @@ def contrast_sensitivity_function(
 ) -> NDArrayFloat:
     """
     Return the contrast sensitivity :math:`S` of the human eye according to
-    the contrast sensitivity function (CSF) described by given method.
+    the contrast sensitivity function (CSF) described by specified method.
 
     Parameters
     ----------

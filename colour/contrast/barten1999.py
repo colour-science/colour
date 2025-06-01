@@ -98,7 +98,7 @@ def pupil_diameter_Barten1999(
     Y_0: ArrayLike | None = None,
 ) -> NDArrayFloat:
     """
-    Return the pupil diameter for given luminance and object or stimulus
+    Return the pupil diameter for specified luminance and object or stimulus
     angular size using *Barten (1999)* method.
 
     Parameters
@@ -172,11 +172,11 @@ def sigma_Barten1999(
 
     Warnings
     --------
-    This definition expects :math:`\\sigma_{0}` and :math:`C_{ab}` to be given
-    in degrees and :math:`degrees\\div mm` respectively. However, in the
-    literature, the values for :math:`\\sigma_{0}` and
-    :math:`C_{ab}` are usually given in :math:`arc min` and
-    :math:`arc min\\div mm` respectively, thus they need to be divided by 60.
+    This definition expects :math:`\\sigma_{0}` and :math:`C_{ab}` to be
+    specified in degrees and :math:`degrees\\div mm` respectively. However, in
+    the literature, the values for :math:`\\sigma_{0}` and :math:`C_{ab}` are
+    usually specified in :math:`arc min` and :math:`arc min\\div mm`
+    respectively, thus they need to be divided by 60.
 
     References
     ----------
@@ -202,9 +202,9 @@ def retinal_illuminance_Barten1999(
     apply_stiles_crawford_effect_correction: bool = True,
 ) -> NDArrayFloat:
     """
-    Return the retinal illuminance :math:`E` in Trolands for given average
-    luminance :math:`L` and pupil diameter :math:`d` using *Barten (1999)*
-    method.
+    Return the retinal illuminance :math:`E` in Trolands for specified
+    average luminance :math:`L` and pupil diameter :math:`d` using
+    *Barten (1999)* method.
 
     Parameters
     ----------
@@ -386,9 +386,9 @@ def contrast_sensitivity_function_Barten1999(
     Warnings
     --------
     This definition expects :math:`\\sigma_{0}` and :math:`C_{ab}` used in the
-    computation of :math:`\\sigma` to be given in degrees and
+    computation of :math:`\\sigma` to be specified in degrees and
     :math:`degrees\\div mm` respectively. However, in the literature, the
-    values for :math:`\\sigma_{0}` and :math:`C_{ab}` are usually given in
+    values for :math:`\\sigma_{0}` and :math:`C_{ab}` are usually specified in
     :math:`arc min` and :math:`arc min\\div mm` respectively, thus they need to
     be divided by 60.
 
