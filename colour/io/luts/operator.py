@@ -136,7 +136,7 @@ class AbstractLUTSequenceOperator(ABC):
     @abstractmethod
     def apply(self, RGB: ArrayLike, *args: Any, **kwargs: Any) -> NDArrayFloat:
         """
-        Apply the *LUT* sequence operator to given *RGB* colourspace array.
+        Apply the *LUT* sequence operator to the specified *RGB* colourspace array.
 
         Parameters
         ----------
@@ -346,7 +346,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         """
 
         def _format(a: ArrayLike) -> str:
-            """Format given array string representation."""
+            """Format specified array string representation."""
 
             return str(a).replace(" [", " " * 14 + "[")
 
@@ -410,7 +410,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
     def __eq__(self, other: object) -> bool:
         """
-        Return whether the *LUT* operator is equal to given other object.
+        Return whether the *LUT* operator is equal to specified other object.
 
         Parameters
         ----------
@@ -420,7 +420,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         Returns
         -------
         :class:`bool`
-            Whether given object equal to the *LUT* operator.
+            Whether specified object equal to the *LUT* operator.
 
         Examples
         --------
@@ -437,7 +437,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
     def __ne__(self, other: object) -> bool:
         """
-        Return whether the *LUT* operator is not equal to given other object.
+        Return whether the *LUT* operator is not equal to specified other object.
 
         Parameters
         ----------
@@ -447,7 +447,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         Returns
         -------
         :class:`bool`
-            Whether given object is not equal to the *LUT* operator.
+            Whether specified object is not equal to the *LUT* operator.
 
         Examples
         --------
@@ -466,7 +466,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         **kwargs: Any,
     ) -> NDArrayFloat:
         """
-        Apply the *LUT* operator to given *RGB* array.
+        Apply the *LUT* operator to specified *RGB* array.
 
         Parameters
         ----------

@@ -353,7 +353,7 @@ class AbstractLUT(ABC):
 
     def __eq__(self, other: object) -> bool:
         """
-        Return whether the *LUT* is equal to given other object.
+        Return whether the *LUT* is equal to specified other object.
 
         Parameters
         ----------
@@ -363,7 +363,7 @@ class AbstractLUT(ABC):
         Returns
         -------
         :class:`bool`
-            Whether given object is equal to the *LUT*.
+            Whether specified object is equal to the *LUT*.
         """
 
         return isinstance(other, AbstractLUT) and all(
@@ -375,7 +375,7 @@ class AbstractLUT(ABC):
 
     def __ne__(self, other: object) -> bool:
         """
-        Return whether the *LUT* is not equal to given other object.
+        Return whether the *LUT* is not equal to specified other object.
 
         Parameters
         ----------
@@ -385,7 +385,7 @@ class AbstractLUT(ABC):
         Returns
         -------
         :class:`bool`
-            Whether given object is not equal to the *LUT*.
+            Whether specified object is not equal to the *LUT*.
         """
 
         return not (self == other)
@@ -570,7 +570,7 @@ class AbstractLUT(ABC):
         in_place: bool = False,
     ) -> Self:
         """
-        Perform given arithmetical operation with :math:`a` operand, the
+        Perform specified arithmetical operation with :math:`a` operand, the
         operation can be either performed on a copy or in-place, must be
         reimplemented by sub-classes.
 
@@ -609,7 +609,7 @@ class AbstractLUT(ABC):
     @abstractmethod
     def _validate_table(self, table: ArrayLike) -> NDArrayFloat:
         """
-        Validate given table according to *LUT* dimensions.
+        Validate specified table according to *LUT* dimensions.
 
         Parameters
         ----------
@@ -625,7 +625,7 @@ class AbstractLUT(ABC):
     @abstractmethod
     def _validate_domain(self, domain: ArrayLike) -> NDArrayFloat:
         """
-        Validate given domain according to *LUT* dimensions.
+        Validate specified domain according to *LUT* dimensions.
 
         Parameters
         ----------
@@ -672,7 +672,7 @@ class AbstractLUT(ABC):
         domain: ArrayLike | None = None,
     ) -> NDArrayFloat:
         """
-        Return a linear table of given size according to *LUT* dimensions.
+        Return a linear table of specified size according to *LUT* dimensions.
 
         Parameters
         ----------
@@ -706,7 +706,7 @@ class AbstractLUT(ABC):
     @abstractmethod
     def invert(self, **kwargs: Any) -> AbstractLUT:
         """
-        Compute and returns an inverse copy of the *LUT*.
+        Compute and return an inverse copy of the *LUT*.
 
         Other Parameters
         ----------------
@@ -722,7 +722,7 @@ class AbstractLUT(ABC):
     @abstractmethod
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArrayFloat:
         """
-        Apply the *LUT* to given *RGB* colourspace array using given method.
+        Apply the *LUT* to specified *RGB* colourspace array using specified method.
 
         Parameters
         ----------
@@ -758,7 +758,7 @@ class AbstractLUT(ABC):
         **kwargs: Any,
     ) -> AbstractLUT:
         """
-        Convert the *LUT* to given ``cls`` class instance.
+        Convert the *LUT* to specified ``cls`` class instance.
 
         Parameters
         ----------
@@ -887,7 +887,7 @@ class LUT1D(AbstractLUT):
 
     def _validate_table(self, table: ArrayLike) -> NDArrayFloat:
         """
-        Validate given table is a 1D array.
+        Validate specified table is a 1D array.
 
         Parameters
         ----------
@@ -908,7 +908,7 @@ class LUT1D(AbstractLUT):
 
     def _validate_domain(self, domain: ArrayLike) -> NDArrayFloat:
         """
-        Validate given domain.
+        Validate specified domain.
 
         Parameters
         ----------
@@ -1001,12 +1001,12 @@ class LUT1D(AbstractLUT):
 
     def invert(self, **kwargs: Any) -> LUT1D:  # noqa: ARG002
         """
-        Compute and returns an inverse copy of the *LUT*.
+        Compute and return an inverse copy of the *LUT*.
 
         Other Parameters
         ----------------
         kwargs
-            Keywords arguments, only given for signature compatibility with
+            Keywords arguments, only specified for signature compatibility with
             the :meth:`AbstractLUT.invert` method.
 
         Returns
@@ -1050,7 +1050,7 @@ class LUT1D(AbstractLUT):
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArrayFloat:
         """
-        Apply the *LUT* to given *RGB* colourspace array using given method.
+        Apply the *LUT* to specified *RGB* colourspace array using specified method.
 
         Parameters
         ----------
@@ -1082,7 +1082,7 @@ class LUT1D(AbstractLUT):
         >>> LUT = LUT1D(LUT1D.linear_table() ** (1 / 2.2))
         >>> RGB = np.array([0.18, 0.18, 0.18])
 
-        *LUT* applied to the given *RGB* colourspace in the forward direction:
+        *LUT* applied to the specified *RGB* colourspace in the forward direction:
 
         >>> LUT.apply(RGB)  # doctest: +ELLIPSIS
         array([ 0.4529220...,  0.4529220...,  0.4529220...])
@@ -1210,7 +1210,7 @@ class LUT3x1D(AbstractLUT):
 
     def _validate_table(self, table: ArrayLike) -> NDArrayFloat:
         """
-        Validate given table is a 3x1D array.
+        Validate specified table is a 3x1D array.
 
         Parameters
         ----------
@@ -1231,7 +1231,7 @@ class LUT3x1D(AbstractLUT):
 
     def _validate_domain(self, domain: ArrayLike) -> NDArrayFloat:
         """
-        Validate given domain.
+        Validate specified domain.
 
         Parameters
         ----------
@@ -1388,12 +1388,12 @@ class LUT3x1D(AbstractLUT):
 
     def invert(self, **kwargs: Any) -> LUT3x1D:  # noqa: ARG002
         """
-        Compute and returns an inverse copy of the *LUT*.
+        Compute and return an inverse copy of the *LUT*.
 
         Other Parameters
         ----------------
         kwargs
-            Keywords arguments, only given for signature compatibility with
+            Keywords arguments, only specified for signature compatibility with
             the :meth:`AbstractLUT.invert` method.
 
         Returns
@@ -1462,7 +1462,7 @@ class LUT3x1D(AbstractLUT):
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArrayFloat:
         """
-        Apply the *LUT* to given *RGB* colourspace array using given method.
+        Apply the *LUT* to specified *RGB* colourspace array using specified method.
 
         Parameters
         ----------
@@ -1653,7 +1653,7 @@ class LUT3D(AbstractLUT):
 
     def _validate_table(self, table: ArrayLike) -> NDArrayFloat:
         """
-        Validate given table is a 4D array and that its dimensions are equal.
+        Validate specified table is a 4D array and that its dimensions are equal.
 
         Parameters
         ----------
@@ -1674,7 +1674,7 @@ class LUT3D(AbstractLUT):
 
     def _validate_domain(self, domain: ArrayLike) -> NDArrayFloat:
         """
-        Validate given domain.
+        Validate specified domain.
 
         Parameters
         ----------
@@ -1904,7 +1904,7 @@ class LUT3D(AbstractLUT):
 
     def invert(self, **kwargs: Any) -> LUT3D:
         """
-        Compute and returns an inverse copy of the *LUT*.
+        Compute and return an inverse copy of the *LUT*.
 
         Other Parameters
         ----------------
@@ -1919,9 +1919,9 @@ class LUT3D(AbstractLUT):
             Number of points to query in the KDTree, their mean is computed,
             resulting in a smoother result.
         size
-            Size of the inverse *LUT*. With the given implementation, it is
+            Size of the inverse *LUT*. With the specified implementation, it is
             good practise to double the size of the inverse *LUT* to provide a
-            smoother result. If ``size`` is not given,
+            smoother result. If ``size`` is not specified,
             :math:`2^{\\sqrt{size_{LUT}} + 1} + 1` will be used instead.
 
         Returns
@@ -2007,7 +2007,7 @@ class LUT3D(AbstractLUT):
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArrayFloat:
         """
-        Apply the *LUT* to given *RGB* colourspace array using given method.
+        Apply the *LUT* to specified *RGB* colourspace array using specified method.
 
         Parameters
         ----------
@@ -2031,9 +2031,9 @@ class LUT3D(AbstractLUT):
             Number of points to query in the KDTree, their mean is computed,
             resulting in a smoother result.
         size
-            Size of the inverse *LUT*. With the given implementation, it is
+            Size of the inverse *LUT*. With the specified implementation, it is
             good practise to double the size of the inverse *LUT* to provide a
-            smoother result. If ``size`` is not given,
+            smoother result. If ``size`` is not specified,
             :math:`2^{\\sqrt{size_{LUT}} + 1} + 1` will be used instead.
 
         Returns
@@ -2109,7 +2109,7 @@ def LUT_to_LUT(
     **kwargs: Any,
 ) -> AbstractLUT:
     """
-    Convert given *LUT* to given ``cls`` class instance.
+    Convert specified *LUT* to specified ``cls`` class instance.
 
     Parameters
     ----------

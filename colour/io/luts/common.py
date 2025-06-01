@@ -29,7 +29,7 @@ __all__ = [
 
 def path_to_title(path: str | PathLike) -> str:
     """
-    Convert given file path to title.
+    Convert the specified file path to a title.
 
     Parameters
     ----------

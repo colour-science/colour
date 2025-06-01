@@ -112,23 +112,29 @@ def read_LUT(
     **kwargs: Any,
 ) -> LUT1D | LUT3x1D | LUT3D | LUTSequence | LUTOperatorMatrix:
     """
-    Read given *LUT* file using given method.
+    Read the specified *LUT* file using the specified method.
 
     Parameters
     ----------
     path
         *LUT* path.
     method
-        Reading method, if *None*, the method will be auto-detected according
-        to extension.
+        Reading method, if *None*, the method will be auto-detected
+        according to extension.
 
     Returns
     -------
-    :class:`colour.LUT1D` or :class:`colour.LUT3x1D` or :class:`colour.LUT3D` \
-or :class:`colour.LUTSequence` or :class:`colour.LUTOperatorMatrix`
+    :class:`colour.LUT1D` or :class:`colour.LUT3x1D` or \
+:class:`colour.LUT3D` or :class:`colour.LUTSequence` or \
+:class:`colour.LUTOperatorMatrix`
         :class:`colour.LUT1D` or :class:`colour.LUT3x1D` or
         :class:`colour.LUT3D` or :class:`colour.LUTSequence` or
         :class:`colour.LUTOperatorMatrix` class instance.
+
+    Raises
+    ------
+    ValueError
+        If the *LUT* file format is not supported or if reading fails.
 
     References
     ----------
@@ -262,22 +268,22 @@ def write_LUT(
     **kwargs: Any,
 ) -> bool:
     """
-    Write given *LUT* to given file using given method.
+    Write the specified *LUT* to the specified file using the specified method.
 
     Parameters
     ----------
     LUT
         :class:`colour.LUT1D` or :class:`colour.LUT3x1D` or
         :class:`colour.LUT3D` or :class:`colour.LUTSequence` or
-        :class:`colour.LUTOperatorMatrix` class instance to write at given
+        :class:`colour.LUTOperatorMatrix` class instance to write at specified
         path.
     path
         *LUT* path.
     decimals
         Formatting decimals.
     method
-        Writing method, if *None*, the method will be auto-detected according
-        to extension.
+        Writing method, if *None*, the method will be auto-detected
+        according to extension.
 
     Returns
     -------

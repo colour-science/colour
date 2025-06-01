@@ -144,7 +144,7 @@ def match_groups_to_nm(
     units: Literal["m", "Hz"] | str,
 ) -> float:
     """
-    Convert match groups of a wavelength (or frequency) to the nanometer value.
+    Convert wavelength or frequency match groups to nanometer values.
 
     Parameters
     ----------
@@ -159,6 +159,11 @@ def match_groups_to_nm(
     -------
     :class:`float`
         Nanometer value.
+
+    Raises
+    ------
+    ValueError
+        If the multiplier or units are not supported.
 
     Examples
     --------
@@ -196,8 +201,8 @@ def sd_to_spectrum_attribute_Fichet2021(
     sd: SpectralDistribution, decimals: int = 7
 ) -> str:
     """
-    Convert a spectral distribution to a spectrum attribute value according to
-    *Fichet et al. (2021)*.
+    Convert the specified spectral distribution to a spectrum attribute value
+    according to *Fichet et al. (2021)*.
 
     Parameters
     ----------
@@ -231,8 +236,8 @@ def spectrum_attribute_to_sd_Fichet2021(
     spectrum_attribute: str,
 ) -> SpectralDistribution:
     """
-    Convert a spectrum attribute value to a spectral distribution according to
-    *Fichet et al. (2021)*.
+    Convert the specified spectrum attribute value to a spectral distribution
+    according to *Fichet et al. (2021)*.
 
     Parameters
     ----------
@@ -320,8 +325,8 @@ class Specification_Fichet2021:
     @required("OpenImageIO")
     def from_spectral_image(path: str | PathLike) -> Specification_Fichet2021:
         """
-        Create a *Fichet et al. (2021)* spectral image specification from given
-        image path.
+        Create a *Fichet et al. (2021)* spectral image specification from the
+        specified image path.
 
         Parameters
         ----------
@@ -459,7 +464,7 @@ def read_spectral_image_Fichet2021(
     additional_data: bool = False,
 ) -> ComponentsFichet2021 | Tuple[ComponentsFichet2021, Specification_Fichet2021]:
     """
-    Read the *Fichet et al. (2021)* spectral image at given path using
+    Read the *Fichet et al. (2021)* spectral image at the specified path using
     *OpenImageIO*.
 
     Parameters
@@ -481,8 +486,8 @@ def read_spectral_image_Fichet2021(
     Notes
     -----
     -   Spectrum attributes are not parsed but can be converted to spectral
-        distribution using the :func:`colour.io.spectrum_attribute_to_sd_Fichet2021`
-        definition.
+        distribution using the
+        :func:`colour.io.spectrum_attribute_to_sd_Fichet2021` definition.
 
     References
     ----------
@@ -550,7 +555,7 @@ def sds_and_msds_to_components_Fichet2021(
     **kwargs: Any,
 ) -> ComponentsFichet2021:
     """
-    Convert given spectral and multi-spectral distributions to
+    Convert the specified spectral and multi-spectral distributions to
     *Fichet et al. (2021)* components.
 
     The spectral and multi-spectral distributions will be aligned to the
@@ -562,16 +567,16 @@ def sds_and_msds_to_components_Fichet2021(
         Spectral and multi-spectral distributions to convert to
         *Fichet et al. (2021)* components.
     specification
-        *Fichet et al. (2021)* spectral image specification, used to generate
-        the proper component type, i.e., emissive or other.
+        *Fichet et al. (2021)* spectral image specification, used to
+        generate the proper component type, i.e., emissive or other.
 
     Other Parameters
     ----------------
     shape
-        Optional shape the *Fichet et al. (2021)* components should take: Used
-        when converting spectral distributions of a colour
-        rendition chart to create a rectangular image rather than a single
-        line of values.
+        Optional shape the *Fichet et al. (2021)* components should take:
+        Used when converting spectral distributions of a colour rendition
+        chart to create a rectangular image rather than a single line of
+        values.
 
     Returns
     -------
@@ -618,7 +623,8 @@ def components_to_sRGB_Fichet2021(
     specification: Specification_Fichet2021 = SPECIFICATION_FICHET2021_DEFAULT,
 ) -> Tuple[NDArrayFloat | None, Sequence[Image_Specification_Attribute]]:
     """
-    Convert given *Fichet et al. (2021)* components to *sRGB* colourspace values.
+    Convert the specified *Fichet et al. (2021)* components to *sRGB*
+    colourspace values.
 
     Parameters
     ----------
@@ -637,13 +643,13 @@ def components_to_sRGB_Fichet2021(
     Warnings
     --------
     -   This definition currently assumes a uniform wavelength interval.
-    -   This definition currently does not support integration of bi-spectral
-        component.
+    -   This definition currently does not support integration of
+        bi-spectral component.
 
     Notes
     -----
-    -   When an emissive component is given, its exposure will be normalised so
-        that its median is 0.18.
+    -   When an emissive component is specified, its exposure will be
+        normalised so that its median is 0.18.
 
     References
     ----------
@@ -763,7 +769,8 @@ def write_spectral_image_Fichet2021(
     **kwargs: Any,
 ) -> bool:
     """
-    Write given *Fichet et al. (2021)* components to given path using *OpenImageIO*.
+    Write the specified *Fichet et al. (2021)* components to the specified
+    path using *OpenImageIO*.
 
     Parameters
     ----------
@@ -772,8 +779,8 @@ def write_spectral_image_Fichet2021(
     path
         Image path.
     bit_depth
-        Bit-depth to write the image at, the bit-depth conversion behaviour is
-        ruled directly by *OpenImageIO*.
+        Bit-depth to write the image at, the bit-depth conversion behaviour
+        is ruled directly by *OpenImageIO*.
     specification
         *Fichet et al. (2021)* spectral image specification.
     components_to_RGB_callable
@@ -782,14 +789,14 @@ def write_spectral_image_Fichet2021(
     Other Parameters
     ----------------
     shape
-        Optional shape the *Fichet et al. (2021)* components should take: Used
-        when converting spectral distributions of a colour
-        rendition chart to create a rectangular image rather than a single
-        line of values.
+        Optional shape the *Fichet et al. (2021)* components should take:
+        Used when converting spectral distributions of a colour rendition
+        chart to create a rectangular image rather than a single line of
+        values.
 
     Returns
     -------
-    :class:`bool`:
+    :class:`bool`
         Definition success.
 
     Examples

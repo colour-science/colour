@@ -151,7 +151,7 @@ def add_attributes_to_image_specification_OpenImageIO(
     image_specification: ImageSpec, attributes: Sequence
 ) -> ImageSpec:
     """
-    Add given attributes to given *OpenImageIO* image specification.
+    Add the specified attributes to the specified *OpenImageIO* image specification.
 
     Parameters
     ----------
@@ -164,7 +164,7 @@ def add_attributes_to_image_specification_OpenImageIO(
     Returns
     -------
     :class:`ImageSpec`
-        *OpenImageIO*. image specification.
+        *OpenImageIO* image specification.
 
     Examples
     --------
@@ -225,7 +225,7 @@ def image_specification_OpenImageIO(
     Returns
     -------
     :class:`ImageSpec`
-        *OpenImageIO*. image specification.
+        *OpenImageIO* image specification.
 
     Examples
     --------
@@ -260,20 +260,25 @@ def convert_bit_depth(
     ] = "float32",
 ) -> NDArrayReal:
     """
-    Convert given array to given bit-depth, the current bit-depth of the array
-    is used to determine the appropriate conversion path.
+    Convert the specified array to the specified bit-depth, using the current
+    bit-depth of the array to determine the appropriate conversion path.
 
     Parameters
     ----------
     a
-        Array to convert to given bit-depth.
+        Array to convert to specified bit-depth.
     bit_depth
         Bit-depth.
 
     Returns
     -------
-    :class`numpy.ndarray`
+    :class:`numpy.ndarray`
         Converted array.
+
+    Raises
+    ------
+    AssertionError
+        If the bit-depth or image bit-depth is not supported.
 
     Examples
     --------
@@ -374,7 +379,7 @@ def read_image_OpenImageIO(
     **kwargs: Any,
 ) -> NDArrayReal | Tuple[NDArrayReal, Tuple[Image_Specification_Attribute, ...]]:
     """
-    Read the image data at given path using *OpenImageIO*.
+    Read the image data at the specified path using *OpenImageIO*.
 
     Parameters
     ----------
@@ -389,7 +394,7 @@ def read_image_OpenImageIO(
 
     Returns
     -------
-    :class`numpy.ndarray` or :class:`tuple`
+    :class:`numpy.ndarray` or :class:`tuple`
         Image data or tuple of image data and list of
         :class:`colour.io.Image_Specification_Attribute` class instances.
 
@@ -463,7 +468,7 @@ def read_image_Imageio(
     **kwargs: Any,
 ) -> NDArrayReal:
     """
-    Read the image data at given path using *Imageio*.
+    Read the image data at the specified path using *Imageio*.
 
     Parameters
     ----------
@@ -481,7 +486,7 @@ def read_image_Imageio(
 
     Returns
     -------
-    :class`numpy.ndarray`
+    :class:`numpy.ndarray`
         Image data.
 
     Notes
@@ -535,7 +540,7 @@ def read_image(
     **kwargs: Any,
 ) -> NDArrayReal:
     """
-    Read the image data at given path using given method.
+    Read the image data at the specified path using the specified method.
 
     Parameters
     ----------
@@ -558,14 +563,14 @@ def read_image(
 
     Returns
     -------
-    :class`numpy.ndarray`
+    :class:`numpy.ndarray`
         Image data.
 
     Notes
     -----
-    -   If the given method is *OpenImageIO* but the library is not available
+    -   If the specified method is *OpenImageIO* but the library is not available
         writing will be performed by *Imageio*.
-    -   If the given method is *Imageio*, ``kwargs`` is passed directly to the
+    -   If the specified method is *Imageio*, ``kwargs`` is passed directly to the
         wrapped definition.
     -   For convenience, single channel images are squeezed to 2D arrays.
 
@@ -614,7 +619,7 @@ def write_image_OpenImageIO(
     attributes: Sequence | None = None,
 ) -> bool:
     """
-    Write given image data at given path using *OpenImageIO*.
+    Write the specified image data at the specified path using *OpenImageIO*.
 
     Parameters
     ----------
@@ -740,7 +745,7 @@ def write_image_Imageio(
     **kwargs: Any,
 ) -> bytes | None:
     """
-    Write given image data at given path using *Imageio*.
+    Write the specified image data at the specified path using *Imageio*.
 
     Parameters
     ----------
@@ -834,7 +839,7 @@ def write_image(
     **kwargs: Any,
 ) -> bool:
     """
-    Write given image data at given path using given method.
+    Write the specified image data at the specified path using the specified method.
 
     Parameters
     ----------
@@ -863,9 +868,9 @@ def write_image(
 
     Notes
     -----
-    -   If the given method is *OpenImageIO* but the library is not available
+    -   If the specified method is *OpenImageIO* but the library is not available
         writing will be performed by *Imageio*.
-    -   If the given method is *Imageio*, ``kwargs`` is passed directly to the
+    -   If the specified method is *Imageio*, ``kwargs`` is passed directly to the
         wrapped definition.
     -   It is possible to control how the images are saved by the *Freeimage*
         backend by using the ``flags`` keyword argument and passing a desired
@@ -924,17 +929,25 @@ Source/FreeImage.h
 
 def as_3_channels_image(a: ArrayLike) -> NDArrayFloat:
     """
-    Convert given array :math:`a` to a 3-channels image-like representation.
+    Convert the specified array :math:`a` to a 3-channels image-like
+    representation.
 
     Parameters
     ----------
     a
-         Array :math:`a` to convert to a 3-channels image-like representation.
+         Array :math:`a` to convert to a 3-channels image-like
+         representation.
 
     Returns
     -------
-    :class`numpy.ndarray`
+    :class:`numpy.ndarray`
         3-channels image-like representation of array :math:`a`.
+
+    Raises
+    ------
+    ValueError
+        If the array has more than 3 dimensions or more than 1 or 3
+        channels.
 
     Examples
     --------

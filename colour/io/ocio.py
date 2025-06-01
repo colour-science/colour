@@ -34,7 +34,7 @@ __all__ = [
 @required("OpenColorIO")
 def process_image_OpenColorIO(a: ArrayLike, *args: Any, **kwargs: Any) -> NDArrayFloat:
     """
-    Process given image data with *OpenColorIO*.
+    Process the specified image data with *OpenColorIO*.
 
     Parameters
     ----------
@@ -48,14 +48,19 @@ def process_image_OpenColorIO(a: ArrayLike, *args: Any, **kwargs: Any) -> NDArra
         *OpenColorIO* set defined by the ``$OCIO`` environment variable is
         used.
     args
-        Arguments for `Config.getProcessor` method.
-        See https://opencolorio.readthedocs.io/en/latest/api/config.html for
+        Arguments for `Config.getProcessor` method. See
+        https://opencolorio.readthedocs.io/en/latest/api/config.html for
         more information.
 
     Returns
     -------
     :class:`numpy.ndarray`
         Processed image data.
+
+    Raises
+    ------
+    RuntimeError
+        If *OpenColorIO* is not available.
 
     Examples
     --------

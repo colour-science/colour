@@ -48,7 +48,7 @@ __all__ = [
 
 def read_LUT_IridasCube(path: str | PathLike) -> LUT3x1D | LUT3D:
     """
-    Read given *Iridas* *.cube* *LUT* file.
+    Read the specified *Iridas* *.cube* *LUT* file.
 
     Parameters
     ----------
@@ -57,7 +57,7 @@ def read_LUT_IridasCube(path: str | PathLike) -> LUT3x1D | LUT3D:
 
     Returns
     -------
-    :class:`LUT3x1D` or :class:`LUT3D`.
+    :class:`LUT3x1D` or :class:`LUT3D`
         :class:`LUT3x1D` or :class:`LUT3D` class instance.
 
     References
@@ -190,13 +190,13 @@ def write_LUT_IridasCube(
     LUT: LUT1D | LUT3x1D | LUT3D | LUTSequence, path: str | PathLike, decimals: int = 7
 ) -> bool:
     """
-    Write given *LUT* to given  *Iridas* *.cube* *LUT* file.
+    Write the specified *LUT* to the specified *Iridas* *.cube* *LUT* file.
 
     Parameters
     ----------
     LUT
         :class:`LUT1D`, :class:`LUT3x1D`, :class:`LUT3D` or :class:`LUTSequence`
-        class instance to write at given path.
+        class instance to write at specified path.
     path
         *LUT* path.
     decimals

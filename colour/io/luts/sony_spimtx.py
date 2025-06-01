@@ -37,7 +37,7 @@ __all__ = [
 
 def read_LUT_SonySPImtx(path: str | PathLike[str]) -> LUTOperatorMatrix:
     """
-    Read given *Sony* *.spimtx* *LUT* file.
+    Read specified *Sony* *.spimtx* *LUT* file.
 
     Parameters
     ----------
@@ -88,12 +88,12 @@ def write_LUT_SonySPImtx(
     decimals: int = 7,
 ) -> bool:
     """
-    Write given *LUT* to given *Sony* *.spimtx* *LUT* file.
+    Write specified *LUT* to specified *Sony* *.spimtx* *LUT* file.
 
     Parameters
     ----------
     LUT
-        :class:`colour.LUTOperatorMatrix` class instance to write at given
+        :class:`colour.LUTOperatorMatrix` class instance to write at specified
         path.
     path
         *LUT* path.
