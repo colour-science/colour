@@ -7,7 +7,7 @@ dataset for the *CIE 1931 2 Degree Standard Observer* and
 *CIE 1964 10 Degree Standard Observer*.
 
 The currently implemented data has been extracted from :cite:`HunterLab2008b`,
-however you may want to use different data according to the tables given in
+however you may want to use different data according to the tables specified in
 :cite:`HunterLab2008c`.
 
 References

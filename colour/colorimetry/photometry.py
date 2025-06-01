@@ -41,7 +41,7 @@ def luminous_flux(
     K_m: float = CONSTANT_K_M,
 ) -> float:
     """
-    Return the *luminous flux* for given spectral distribution using given
+    Compute the *luminous flux* for specified spectral distribution using specified
     luminous efficiency function.
 
     Parameters
@@ -89,8 +89,8 @@ def luminous_efficiency(
     sd: SpectralDistribution, lef: SpectralDistribution | None = None
 ) -> float:
     """
-    Return the *luminous efficiency* of given spectral distribution using
-    given luminous efficiency function.
+    Compute the *luminous efficiency* of specified spectral distribution using
+    specified luminous efficiency function.
 
     Parameters
     ----------
@@ -139,8 +139,8 @@ def luminous_efficacy(
     sd: SpectralDistribution, lef: SpectralDistribution | None = None
 ) -> float:
     """
-    Return the *luminous efficacy* in :math:`lm\\cdot W^{-1}` of given
-    spectral distribution using given luminous efficiency function.
+    Compute the *luminous efficacy* in :math:`lm\\cdot W^{-1}` of specified
+    spectral distribution using specified luminous efficiency function.
 
     Parameters
     ----------

@@ -416,8 +416,8 @@ computed as follows::
 
 -   *CIE Illuminant D Series D50* illuminant and
     *CIE Standard Illuminant D Series D65* chromaticity coordinates are rounded
-    to 4 decimals as given in the typical RGB colourspaces literature. Their
-    chromaticity coordinates as given in :cite:`CIETC1-482004h` are
+    to 4 decimals as specified in the typical RGB colourspaces literature. Their
+    chromaticity coordinates as specified in :cite:`CIETC1-482004h` are
     (0.34567, 0.35851) and (0.31272, 0.32903) respectively.
 -   *CIE* illuminants with chromaticity coordinates not defined in the
     reference :cite:`Wikipedia2006a` have been calculated using their
@@ -427,7 +427,7 @@ computed as follows::
     :func:`colour.sd_to_XYZ` definitions.
 -   *ICC D50* chromaticity coordinates were computed with
     :func:`colour.XYZ_to_xy` definition from the *CIE XYZ* tristimulus values
-    as given by *ICC*: [96.42, 100.00, 82.49].
+    as specified by *ICC*: [96.42, 100.00, 82.49].
 
 References
 ----------

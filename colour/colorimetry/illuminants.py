@@ -147,8 +147,8 @@ def sd_CIE_illuminant_D_series(
     shape: SpectralShape | None = None,
 ) -> SpectralDistribution:
     """
-    Return the spectral distribution of given *CIE Illuminant D Series* using
-    given *CIE xy* chromaticity coordinates.
+    Return the spectral distribution of specified *CIE Illuminant D Series* using
+    specified *CIE xy* chromaticity coordinates.
 
     Parameters
     ----------
@@ -169,7 +169,7 @@ def sd_CIE_illuminant_D_series(
     Notes
     -----
     -   The nominal *CIE xy* chromaticity coordinates which have been computed
-        with :func:`colour.temperature.CCT_to_xy_CIE_D` must be given according
+        with :func:`colour.temperature.CCT_to_xy_CIE_D` must be specified according
         to *CIE 015:2004* recommendation and thus multiplied by
         1.4388 / 1.4380.
     -   :math:`M1` and :math:`M2` variables are rounded to 3 decimal places

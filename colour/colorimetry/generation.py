@@ -94,7 +94,7 @@ def sd_constant(
     k: float, shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT, **kwargs: Any
 ) -> SpectralDistribution:
     """
-    Return a spectral distribution of given spectral shape filled with
+    Generate a spectral distribution of specified spectral shape filled with
     constant :math:`k` values.
 
     Parameters
@@ -117,7 +117,7 @@ def sd_constant(
 
     Notes
     -----
-    -   By default, the spectral distribution will use the shape given by
+    -   By default, the spectral distribution will use the shape specified by
         :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
     -   The interpolator is set to :class:`colour.LinearInterpolator` class.
 
@@ -142,7 +142,8 @@ def sd_zeros(
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT, **kwargs: Any
 ) -> SpectralDistribution:
     """
-    Return a spectral distribution of given spectral shape filled with zeros.
+    Generate a spectral distribution of specified spectral shape filled with
+    zeros.
 
     Parameters
     ----------
@@ -162,7 +163,7 @@ def sd_zeros(
 
     Notes
     -----
-    -   By default, the spectral distribution will use the shape given by
+    -   By default, the spectral distribution will use the shape specified by
         :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
     -   The interpolator is set to :class:`colour.LinearInterpolator` class.
 
@@ -182,7 +183,8 @@ def sd_ones(
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT, **kwargs: Any
 ) -> SpectralDistribution:
     """
-    Return a spectral distribution of given spectral shape filled with ones.
+    Generate a spectral distribution of specified spectral shape filled with
+    ones.
 
     Parameters
     ----------
@@ -202,7 +204,7 @@ def sd_ones(
 
     Notes
     -----
-    -   By default, the spectral distribution will use the shape given by
+    -   By default, the spectral distribution will use the shape specified by
         :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
     -   The interpolator is set to :class:`colour.LinearInterpolator` class.
 
@@ -225,7 +227,7 @@ def msds_constant(
     **kwargs: Any,
 ) -> MultiSpectralDistributions:
     """
-    Return the multi-spectral distributions with given labels and given
+    Generate multi-spectral distributions with specified labels and specified
     spectral shape filled with constant :math:`k` values.
 
     Parameters
@@ -251,7 +253,7 @@ def msds_constant(
 
     Notes
     -----
-    -   By default, the multi-spectral distributions will use the shape given
+    -   By default, the multi-spectral distributions will use the shape specified
         by :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
     -   The interpolator is set to :class:`colour.LinearInterpolator` class.
 
@@ -281,7 +283,7 @@ def msds_zeros(
     **kwargs: Any,
 ) -> MultiSpectralDistributions:
     """
-    Return the multi-spectral distributionss with given labels and given
+    Generate multi-spectral distributions with specified labels and specified
     spectral shape filled with zeros.
 
     Parameters
@@ -305,7 +307,7 @@ def msds_zeros(
 
     Notes
     -----
-    -   By default, the multi-spectral distributions will use the shape given
+    -   By default, the multi-spectral distributions will use the shape specified
         by :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
     -   The interpolator is set to :class:`colour.LinearInterpolator` class.
 
@@ -329,7 +331,7 @@ def msds_ones(
     **kwargs: Any,
 ) -> MultiSpectralDistributions:
     """
-    Return the multi-spectral distributionss with given labels and given
+    Generate multi-spectral distributions with specified labels and specified
     spectral shape filled with ones.
 
     Parameters
@@ -353,7 +355,7 @@ def msds_ones(
 
     Notes
     -----
-    -   By default, the multi-spectral distributions will use the shape given
+    -   By default, the multi-spectral distributions will use the shape specified
         by :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
     -   The interpolator is set to :class:`colour.LinearInterpolator` class.
 
@@ -378,8 +380,9 @@ def sd_gaussian_normal(
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
-    Return a gaussian spectral distribution of given spectral shape at
-    given mean wavelength :math:`\\mu` and standard deviation :math:`sigma`.
+    Generate a gaussian spectral distribution of specified spectral shape at
+    specified mean wavelength :math:`\\mu` and standard deviation
+    :math:`sigma`.
 
     Parameters
     ----------
@@ -404,7 +407,7 @@ def sd_gaussian_normal(
 
     Notes
     -----
-    -   By default, the spectral distribution will use the shape given by
+    -   By default, the spectral distribution will use the shape specified by
         :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
 
     Examples
@@ -433,8 +436,8 @@ def sd_gaussian_fwhm(
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
-    Return a gaussian spectral distribution of given spectral shape at given
-    peak wavelength and full width at half maximum.
+    Generate a gaussian spectral distribution of specified spectral shape at
+    specified peak wavelength and full width at half maximum.
 
     Parameters
     ----------
@@ -460,7 +463,7 @@ def sd_gaussian_fwhm(
 
     Notes
     -----
-    -   By default, the spectral distribution will use the shape given by
+    -   By default, the spectral distribution will use the shape specified by
         :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
 
     Examples
@@ -499,8 +502,8 @@ def sd_gaussian(
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
-    Return a gaussian spectral distribution of given spectral shape using
-    given method.
+    Return a gaussian spectral distribution of specified spectral shape using
+    specified method.
 
     Parameters
     ----------
@@ -531,7 +534,7 @@ def sd_gaussian(
 
     Notes
     -----
-    -   By default, the spectral distribution will use the shape given by
+    -   By default, the spectral distribution will use the shape specified by
         :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
 
     Examples
@@ -564,8 +567,8 @@ def sd_single_led_Ohno2005(
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
-    Return a single *LED* spectral distribution of given spectral shape at
-    given peak wavelength and half spectral width :math:`\\Delta\\lambda_{0.5}`
+    Return a single *LED* spectral distribution of specified spectral shape at
+    specified peak wavelength and half spectral width :math:`\\Delta\\lambda_{0.5}`
     according to *Ohno (2005)* method.
 
     Parameters
@@ -590,7 +593,7 @@ def sd_single_led_Ohno2005(
 
     Notes
     -----
-    -   By default, the spectral distribution will use the shape given by
+    -   By default, the spectral distribution will use the shape specified by
         :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
 
     References
@@ -637,8 +640,8 @@ def sd_single_led(
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
-    Return a single *LED* spectral distribution of given spectral shape at
-    given peak wavelength according to given method.
+    Return a single *LED* spectral distribution of specified spectral shape at
+    specified peak wavelength according to specified method.
 
     Parameters
     ----------
@@ -662,7 +665,7 @@ def sd_single_led(
 
     Notes
     -----
-    -   By default, the spectral distribution will use the shape given by
+    -   By default, the spectral distribution will use the shape specified by
         :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
 
     References
@@ -692,8 +695,8 @@ def sd_multi_leds_Ohno2005(
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
-    Return a multi *LED* spectral distribution of given spectral shape at
-    given peak wavelengths, half spectral widths :math:`\\Delta\\lambda_{0.5}`
+    Return a multi *LED* spectral distribution of specified spectral shape at
+    specified peak wavelengths, half spectral widths :math:`\\Delta\\lambda_{0.5}`
     and peak power ratios according to *Ohno (2005)* method.
 
     The multi *LED* spectral distribution is generated using many single *LED*
@@ -726,7 +729,7 @@ def sd_multi_leds_Ohno2005(
 
     Notes
     -----
-    -   By default, the spectral distribution will use the shape given by
+    -   By default, the spectral distribution will use the shape specified by
         :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
 
     References
@@ -764,7 +767,7 @@ def sd_multi_leds_Ohno2005(
         )
 
     def _format_array(a: NDArrayFloat) -> str:
-        """Format given array :math:`a`."""
+        """Format specified array :math:`a`."""
 
         return ", ".join([str(e) for e in a])
 
@@ -795,8 +798,8 @@ def sd_multi_leds(
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
-    Return a multi *LED* spectral distribution of given spectral shape at
-    given peak wavelengths.
+    Return a multi *LED* spectral distribution of specified spectral shape at
+    specified peak wavelengths.
 
     Parameters
     ----------
@@ -821,7 +824,7 @@ def sd_multi_leds(
 
     Notes
     -----
-    -   By default, the spectral distribution will use the shape given by
+    -   By default, the spectral distribution will use the shape specified by
         :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
 
     References

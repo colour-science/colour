@@ -68,8 +68,8 @@ def planck_law(
     n: float = CONSTANT_N,
 ) -> NDArrayFloat:
     """
-    Return the spectral radiance of a blackbody as a function of wavelength at
-    thermodynamic temperature :math:`T[K]` in a medium having index of
+    Compute the spectral radiance of a blackbody as a function of wavelength at
+    specified thermodynamic temperature :math:`T[K]` in a medium with index of
     refraction :math:`n`.
 
     Parameters
@@ -151,9 +151,9 @@ def sd_blackbody(
     n: float = CONSTANT_N,
 ) -> SpectralDistribution:
     """
-    Return the spectral distribution of the planckian radiator for given
-    temperature :math:`T[K]` with values in
-    *watts per steradian per square metre per nanometer* (:math:`W/sr/m^2/nm`).
+    Generate the spectral distribution of the planckian radiator for specified
+    temperature :math:`T[K]` with values in *watts per steradian per square
+    metre per nanometer* (:math:`W/sr/m^2/nm`).
 
     Parameters
     ----------
@@ -222,9 +222,9 @@ def sd_blackbody(
 
 def rayleigh_jeans_law(wavelength: ArrayLike, temperature: ArrayLike) -> NDArrayFloat:
     """
-    Return the approximation of the spectral radiance of a blackbody as a
-    function of wavelength at thermodynamic temperature :math:`T[K]` according
-    to *Rayleigh-Jeans* law.
+    Approximate the spectral radiance of a blackbody as a function of
+    wavelength at specified thermodynamic temperature :math:`T[K]` according to
+    *Rayleigh-Jeans* law.
 
     Parameters
     ----------
@@ -290,10 +290,10 @@ def sd_rayleigh_jeans(
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
 ) -> SpectralDistribution:
     """
-    Return the spectral distribution of the planckian radiator for given
-    temperature :math:`T[K]` with values in
-    *watts per steradian per square metre per nanometer* (:math:`W/sr/m^2/nm`)
-    according to *Rayleigh-Jeans* law.
+    Generate the spectral distribution of the planckian radiator for specified
+    temperature :math:`T[K]` with values in *watts per steradian per square
+    metre per nanometer* (:math:`W/sr/m^2/nm`) according to
+    *Rayleigh-Jeans* law.
 
     Parameters
     ----------

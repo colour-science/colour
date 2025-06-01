@@ -1553,7 +1553,7 @@ class TestAbsoluteIntegrationToXYZ:
 
     def test_absolute_integration_to_TVS_1nm(self) -> None:
         """
-        Test the absolute, i.e., user given :math:`k` value, integration to
+        Test the absolute, i.e., user specified :math:`k` value, integration to
         tristimulus values for 1nm interval.
         """
 
@@ -1599,7 +1599,7 @@ class TestAbsoluteIntegrationToXYZ:
 
     def test_absolute_integration_to_TVS_5nm(self) -> None:
         """
-        Test the absolute, i.e., user given :math:`k` value, integration to
+        Test the absolute, i.e., user specified :math:`k` value, integration to
         tristimulus values for 5nm interval by ensuring that the *Riemann Sum*
         accounts for the :math:`\\delta w` term.
         """

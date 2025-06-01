@@ -366,7 +366,7 @@ class SpectralShape:
 
     def __contains__(self, wavelength: ArrayLike) -> bool:
         """
-        Return if the spectral shape contains given wavelength
+        Return if the spectral shape contains specified wavelength
         :math:`\\lambda`.
 
         Parameters
@@ -430,7 +430,7 @@ class SpectralShape:
 
     def __eq__(self, other: object) -> bool:
         """
-        Return whether the spectral shape is equal to given other object.
+        Return whether the spectral shape is equal to specified other object.
 
         Parameters
         ----------
@@ -440,7 +440,7 @@ class SpectralShape:
         Returns
         -------
         :class:`bool`
-            Whether given object is equal to the spectral shape.
+            Whether specified object is equal to the spectral shape.
 
         Examples
         --------
@@ -457,7 +457,7 @@ class SpectralShape:
 
     def __ne__(self, other: object) -> bool:
         """
-        Return whether the spectral shape is not equal to given other object.
+        Return whether the spectral shape is not equal to specified other object.
 
         Parameters
         ----------
@@ -467,7 +467,7 @@ class SpectralShape:
         Returns
         -------
         :class:`bool`
-            Whether given object is not equal to the spectral shape.
+            Whether specified object is not equal to the spectral shape.
 
         Examples
         --------
@@ -865,10 +865,10 @@ class SpectralDistribution(Signal):
         """
         Interpolate the spectral distribution in-place according to
         *CIE 167:2005* recommendation (if the interpolator has not been changed
-        at instantiation time) or given interpolation arguments.
+        at instantiation time) or specified interpolation arguments.
 
         The logic for choosing the interpolator class when ``interpolator`` is
-        not given is as follows:
+        not specified is as follows:
 
         .. code-block:: python
 
@@ -883,7 +883,7 @@ class SpectralDistribution(Signal):
                 interpolator = CubicSplineInterpolator
 
         The logic for choosing the interpolator keyword arguments when
-        ``interpolator_kwargs`` is not given is as follows:
+        ``interpolator_kwargs`` is not specified is as follows:
 
         .. code-block:: python
 
@@ -1224,7 +1224,7 @@ class SpectralDistribution(Signal):
     ) -> Self:
         """
         Extrapolate the spectral distribution in-place according to
-        *CIE 15:2004* and *CIE 167:2005* recommendations or given extrapolation
+        *CIE 15:2004* and *CIE 167:2005* recommendations or specified extrapolation
         arguments.
 
         Parameters
@@ -1324,15 +1324,15 @@ class SpectralDistribution(Signal):
         extrapolator_kwargs: dict | None = None,
     ) -> Self:
         """
-        Align the spectral distribution in-place to given spectral shape:
-        Interpolates first then extrapolates to fit the given range.
+        Align the spectral distribution in-place to specified spectral shape:
+        Interpolates first then extrapolates to fit the specified range.
 
         Interpolation is performed according to *CIE 167:2005* recommendation
         (if the interpolator has not been changed at instantiation time) or
-        given interpolation arguments.
+        specified interpolation arguments.
 
         The logic for choosing the interpolator class when ``interpolator`` is
-        not given is as follows:
+        not specified is as follows:
 
         .. code-block:: python
 
@@ -1347,7 +1347,7 @@ class SpectralDistribution(Signal):
                 interpolator = CubicSplineInterpolator
 
         The logic for choosing the interpolator keyword arguments when
-        ``interpolator_kwargs`` is not given is as follows:
+        ``interpolator_kwargs`` is not specified is as follows:
 
         .. code-block:: python
 
@@ -1462,7 +1462,7 @@ class SpectralDistribution(Signal):
 
     def trim(self, shape: SpectralShape) -> Self:
         """
-        Trim the spectral distribution wavelengths to given spectral shape.
+        Trim the spectral distribution wavelengths to specified spectral shape.
 
         Parameters
         ----------
@@ -1573,7 +1573,7 @@ class SpectralDistribution(Signal):
 
     def normalise(self, factor: Real = 1) -> Self:
         """
-        Normalise the spectral distribution using given normalization factor.
+        Normalise the spectral distribution using specified normalization factor.
 
         Parameters
         ----------
@@ -2006,10 +2006,10 @@ class MultiSpectralDistributions(MultiSignals):
         """
         Interpolate the multi-spectral distributions in-place according to
         *CIE 167:2005* recommendation (if the interpolator has not been changed
-        at instantiation time) or given interpolation arguments.
+        at instantiation time) or specified interpolation arguments.
 
         The logic for choosing the interpolator class when ``interpolator`` is
-        not given is as follows:
+        not specified is as follows:
 
         .. code-block:: python
 
@@ -2024,7 +2024,7 @@ class MultiSpectralDistributions(MultiSignals):
                 interpolator = CubicSplineInterpolator
 
         The logic for choosing the interpolator keyword arguments when
-        ``interpolator_kwargs`` is not given is as follows:
+        ``interpolator_kwargs`` is not specified is as follows:
 
         .. code-block:: python
 
@@ -2231,7 +2231,7 @@ class MultiSpectralDistributions(MultiSignals):
     ) -> Self:
         """
         Extrapolate the multi-spectral distributions in-place according to
-        *CIE 15:2004* and *CIE 167:2005* recommendations or given extrapolation
+        *CIE 15:2004* and *CIE 167:2005* recommendations or specified extrapolation
         arguments.
 
         Parameters
@@ -2318,15 +2318,15 @@ class MultiSpectralDistributions(MultiSignals):
         extrapolator_kwargs: dict | None = None,
     ) -> Self:
         """
-        Align the multi-spectral distributions in-place to given spectral
-        shape: Interpolates first then extrapolates to fit the given range.
+        Align the multi-spectral distributions in-place to specified spectral
+        shape: Interpolates first then extrapolates to fit the specified range.
 
         Interpolation is performed according to *CIE 167:2005* recommendation
         (if the interpolator has not been changed at instantiation time) or
-        given interpolation arguments.
+        specified interpolation arguments.
 
         The logic for choosing the interpolator class when ``interpolator`` is
-        not given is as follows:
+        not specified is as follows:
 
         .. code-block:: python
 
@@ -2341,7 +2341,7 @@ class MultiSpectralDistributions(MultiSignals):
                 interpolator = CubicSplineInterpolator
 
         The logic for choosing the interpolator keyword arguments when
-        ``interpolator_kwargs`` is not given is as follows:
+        ``interpolator_kwargs`` is not specified is as follows:
 
         .. code-block:: python
 
@@ -2463,7 +2463,7 @@ class MultiSpectralDistributions(MultiSignals):
 
     def trim(self, shape: SpectralShape) -> Self:
         """
-        Trim the multi-spectral distributions wavelengths to given shape.
+        Trim the multi-spectral distributions wavelengths to specified shape.
 
         Parameters
         ----------
@@ -2542,7 +2542,7 @@ class MultiSpectralDistributions(MultiSignals):
 
     def normalise(self, factor: Real = 1) -> Self:
         """
-        Normalise the multi-spectral distributions with given normalization
+        Normalise the multi-spectral distributions with specified normalization
         factor.
 
         Parameters
@@ -2661,7 +2661,7 @@ def reshape_sd(
     **kwargs: Any,
 ) -> TypeSpectralDistribution:
     """
-    Reshape given spectral distribution with given spectral shape.
+    Reshape specified spectral distribution with specified spectral shape.
 
     The reshaped object is cached, thus another call to the definition with the
     same arguments will yield the cached object immediately.
@@ -2735,7 +2735,7 @@ def reshape_msds(
     **kwargs: Any,
 ) -> TypeMultiSpectralDistributions:
     """
-    Reshape given multi-spectral distributions with given spectral shape.
+    Reshape specified multi-spectral distributions with specified spectral shape.
 
     The reshaped object is cached, thus another call to the definition with the
     same arguments will yield the cached object immediately.
@@ -2783,7 +2783,7 @@ def sds_and_msds_to_sds(
     ),
 ) -> List[SpectralDistribution]:
     """
-    Convert given spectral and multi-spectral distributions to a list of
+    Convert specified spectral and multi-spectral distributions to a list of
     spectral distributions.
 
     Parameters
@@ -2849,7 +2849,7 @@ def sds_and_msds_to_msds(
     ),
 ) -> MultiSpectralDistributions:
     """
-    Convert given spectral and multi-spectral distributions to
+    Convert specified spectral and multi-spectral distributions to
     multi-spectral distributions.
 
     The spectral and multi-spectral distributions will be aligned to the

@@ -5,13 +5,12 @@ Colour Matching Functions
 Define the colour matching functions classes for the datasets from
 the :mod:`colour.colorimetry.datasets.cmfs` module:
 
--   :class:`colour.colorimetry.LMS_ConeFundamentals`: Implements support for
-    the *Stockman and Sharpe* *LMS* cone fundamentals colour matching
-    functions.
--   :class:`colour.colorimetry.RGB_ColourMatchingFunctions`: Implements support
-    for the *CIE RGB* colour matching functions.
--   :class:`colour.colorimetry.XYZ_ColourMatchingFunctions`: Implements support
-    for the *CIE Standard Observers* *XYZ* colour matching functions.
+-   :class:`colour.colorimetry.LMS_ConeFundamentals`: Define support for
+    *Stockman and Sharpe* *LMS* cone fundamentals colour matching functions.
+-   :class:`colour.colorimetry.RGB_ColourMatchingFunctions`: Define support
+    for *CIE RGB* colour matching functions.
+-   :class:`colour.colorimetry.XYZ_ColourMatchingFunctions`: Define support
+    for *CIE Standard Observers* *XYZ* colour matching functions.
 """
 
 from __future__ import annotations
@@ -59,8 +58,8 @@ __all__ = [
 
 class LMS_ConeFundamentals(MultiSpectralDistributions):
     """
-    Implement support for the Stockman and Sharpe *LMS* cone fundamentals
-    colour matching functions.
+    Provide support for *Stockman and Sharpe* *LMS* cone fundamentals colour
+    matching functions.
 
     Parameters
     ----------
@@ -128,7 +127,7 @@ class LMS_ConeFundamentals(MultiSpectralDistributions):
 
 class RGB_ColourMatchingFunctions(MultiSpectralDistributions):
     """
-    Implement support for the *CIE RGB* colour matching functions.
+    Provide support for *CIE RGB* colour matching functions.
 
     Parameters
     ----------
@@ -196,7 +195,7 @@ class RGB_ColourMatchingFunctions(MultiSpectralDistributions):
 
 class XYZ_ColourMatchingFunctions(MultiSpectralDistributions):
     """
-    Implement support for the *CIE* Standard Observers *XYZ* colour matching
+    Provide support for *CIE* Standard Observers *XYZ* colour matching
     functions.
 
     Parameters
