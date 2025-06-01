@@ -94,15 +94,16 @@ class InductionFactors_Hunt(MixinDataclassIterable):
     N_c
         Chromatic surround induction factor :math:`N_c`.
     N_b
-        *Brightness* surround induction factor :math:`N_b`.
+        Brightness surround induction factor :math:`N_b`.
     N_cb
         Chromatic background induction factor :math:`N_{cb}`, approximated
         using tristimulus values :math:`Y_w` and :math:`Y_b` of
         respectively the reference white and the background if not specified.
     N_bb
-        *Brightness* background induction factor :math:`N_{bb}`, approximated
+        Brightness background induction factor :math:`N_{bb}`, approximated
         using tristimulus values :math:`Y_w` and :math:`Y_b` of
-        respectively the reference white and the background if not specified.
+        respectively the reference white and the background if not
+        specified.
 
     References
     ----------
@@ -301,11 +302,11 @@ def XYZ_to_Hunt(
         Scotopic luminance :math:`L_{AS}` of the illuminant, approximated if
         not specified.
     CCT_w
-        Correlated color temperature :math:`T_{cp}`: of the illuminant, needed
-        to approximate :math:`L_{AS}`.
+        Correlated color temperature :math:`T_{cp}` of the illuminant,
+        needed to approximate :math:`L_{AS}`.
     XYZ_p
-        *CIE XYZ* tristimulus values of proximal field, assumed to be equal to
-        background if not specified.
+        *CIE XYZ* tristimulus values of proximal field, assumed to be equal
+        to background if not specified.
     p
         Simultaneous contrast / assimilation factor :math:`p` with value
         normalised to domain [-1, 0] when simultaneous contrast occurs and
@@ -315,13 +316,13 @@ def XYZ_to_Hunt(
         tristimulus values :math:`Y` of the stimulus if not specified.
     S_w
         Scotopic response :math:`S_w` for the reference white, approximated
-        using the tristimulus values :math:`Y_w` of the reference white if not
-        specified.
+        using the tristimulus values :math:`Y_w` of the reference white if
+        not specified.
     helson_judd_effect
         Truth value indicating whether the *Helson-Judd* effect should be
         accounted for.
     discount_illuminant
-       Truth value indicating if the illuminant should be discounted.
+        Truth value indicating if the illuminant should be discounted.
 
     Returns
     -------
@@ -544,7 +545,7 @@ def luminance_level_adaptation_factor(
     L_A: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the *luminance* level adaptation factor :math:`F_L`.
+    Compute the *luminance* level adaptation factor :math:`F_L`.
 
     Parameters
     ----------
@@ -554,7 +555,7 @@ def luminance_level_adaptation_factor(
     Returns
     -------
     :class:`numpy.ndarray`
-        *Luminance* level adaptation factor :math:`F_L`
+        *Luminance* level adaptation factor :math:`F_L`.
 
     Examples
     --------
@@ -573,7 +574,7 @@ def luminance_level_adaptation_factor(
 
 def illuminant_scotopic_luminance(L_A: ArrayLike, CCT: ArrayLike) -> NDArrayFloat:
     """
-    Return the approximate scotopic luminance :math:`L_{AS}` of the
+    Compute the approximate scotopic luminance :math:`L_{AS}` of the
     illuminant.
 
     Parameters
@@ -604,7 +605,7 @@ def illuminant_scotopic_luminance(L_A: ArrayLike, CCT: ArrayLike) -> NDArrayFloa
 
 def XYZ_to_rgb(XYZ: ArrayLike) -> NDArrayFloat:
     """
-    Convert from *CIE XYZ* tristimulus values to *Hunt-Pointer-Estevez*
+    Convert *CIE XYZ* tristimulus values to *Hunt-Pointer-Estevez*
     :math:`\\rho\\gamma\\beta` colourspace.
 
     Parameters
@@ -668,7 +669,7 @@ def chromatic_adaptation(
     discount_illuminant: bool = True,
 ) -> NDArrayFloat:
     """
-    Apply chromatic adaptation to given *CIE XYZ* tristimulus values.
+    Apply chromatic adaptation to the specified *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -683,17 +684,17 @@ def chromatic_adaptation(
     F_L
         Luminance adaptation factor :math:`F_L`.
     XYZ_p
-        *CIE XYZ* tristimulus values of proximal field, assumed to be equal to
-        background if not specified.
+        *CIE XYZ* tristimulus values of proximal field, assumed to be equal
+        to background if not specified.
     p
         Simultaneous contrast / assimilation factor :math:`p` with value
-        normalised to  domain [-1, 0] when simultaneous contrast occurs and
+        normalised to domain [-1, 0] when simultaneous contrast occurs and
         normalised to domain [0, 1] when assimilation occurs.
     helson_judd_effect
         Truth value indicating whether the *Helson-Judd* effect should be
         accounted for.
     discount_illuminant
-       Truth value indicating if the illuminant should be discounted.
+        Truth value indicating if the illuminant should be discounted.
 
     Returns
     -------
@@ -783,8 +784,8 @@ def adjusted_reference_white_signals(
         Cone signals *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta`
         colourspace array of the background.
     rgb_w
-        Cone signals array *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta`
-        colourspace array of the reference white.
+        Cone signals array *Hunt-Pointer-Estevez*
+        :math:`\\rho\\gamma\\beta` colourspace array of the reference white.
     p
         Simultaneous contrast / assimilation factor :math:`p` with value
         normalised to domain [-1, 0] when simultaneous contrast occurs and
@@ -793,8 +794,8 @@ def adjusted_reference_white_signals(
     Returns
     -------
     :class:`numpy.ndarray`
-        Adjusted cone signals *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta`
-        colourspace array of the reference white.
+        Adjusted cone signals *Hunt-Pointer-Estevez*
+        :math:`\\rho\\gamma\\beta` colourspace array of the reference white.
 
     Examples
     --------
@@ -822,7 +823,7 @@ def adjusted_reference_white_signals(
 
 def achromatic_post_adaptation_signal(rgb: ArrayLike) -> NDArrayFloat:
     """
-    Return the achromatic post adaptation signal :math:`A` from given
+    Compute the achromatic post adaptation signal :math:`A` from the specified
     *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta` colourspace array.
 
     Parameters
@@ -849,9 +850,9 @@ def achromatic_post_adaptation_signal(rgb: ArrayLike) -> NDArrayFloat:
 
 def colour_difference_signals(rgb: ArrayLike) -> NDArrayFloat:
     """
-    Return the colour difference signals :math:`C_1`, :math:`C_2` and
-    :math:`C_3` from given *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta`
-    colourspace array.
+    Compute the colour difference signals :math:`C_1`, :math:`C_2` and
+    :math:`C_3` from the specified *Hunt-Pointer-Estevez*
+    :math:`\\rho\\gamma\\beta` colourspace array.
 
     Parameters
     ----------
@@ -881,8 +882,8 @@ def colour_difference_signals(rgb: ArrayLike) -> NDArrayFloat:
 
 def hue_angle(C: ArrayLike) -> NDArrayFloat:
     """
-    Return the *hue* angle :math:`h` in degrees from given colour difference
-    signals :math:`C`.
+    Compute the *hue* angle :math:`h` in degrees from the specified colour
+    difference signals :math:`C`.
 
     Parameters
     ----------
@@ -910,8 +911,8 @@ def hue_angle(C: ArrayLike) -> NDArrayFloat:
 
 def eccentricity_factor(hue: ArrayLike) -> NDArrayFloat:
     """
-    Return eccentricity factor :math:`e_s` from given hue angle :math:`h`
-    in degrees.
+    Compute eccentricity factor :math:`e_s` from the specified hue angle
+    :math:`h` in degrees.
 
     Parameters
     ----------
@@ -945,8 +946,8 @@ def low_luminance_tritanopia_factor(
     L_A: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the low luminance tritanopia factor :math:`F_t` from given adapting
-    field *luminance* :math:`L_A` in :math:`cd/m^2`.
+    Compute the low luminance tritanopia factor :math:`F_t` from the specified
+    adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
 
     Parameters
     ----------
@@ -979,7 +980,7 @@ def yellowness_blueness_response(
     F_t: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the yellowness / blueness response :math:`M_{yb}`.
+    Compute the yellowness / blueness response :math:`M_{yb}`.
 
     Parameters
     ----------
@@ -988,9 +989,9 @@ def yellowness_blueness_response(
     e_s
         Eccentricity factor :math:`e_s`.
     N_c
-         Chromatic surround induction factor :math:`N_c`.
+        Chromatic surround induction factor :math:`N_c`.
     N_cb
-         Chromatic background induction factor :math:`N_{cb}`.
+        Chromatic background induction factor :math:`N_{cb}`.
     F_t
         Low luminance tritanopia factor :math:`F_t`.
 
@@ -1029,7 +1030,7 @@ def redness_greenness_response(
     N_cb: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the redness / greenness response :math:`M_{yb}`.
+    Compute the redness / greenness response :math:`M_{rg}`.
 
     Parameters
     ----------
@@ -1038,9 +1039,9 @@ def redness_greenness_response(
     e_s
         Eccentricity factor :math:`e_s`.
     N_c
-         Chromatic surround induction factor :math:`N_c`.
+        Chromatic surround induction factor :math:`N_c`.
     N_cb
-         Chromatic background induction factor :math:`N_{cb}`.
+        Chromatic background induction factor :math:`N_{cb}`.
 
     Returns
     -------
@@ -1069,14 +1070,14 @@ def redness_greenness_response(
 
 def overall_chromatic_response(M_yb: ArrayLike, M_rg: ArrayLike) -> NDArrayFloat:
     """
-    Return the overall chromatic response :math:`M`.
+    Compute the overall chromatic response :math:`M`.
 
     Parameters
     ----------
     M_yb
-         Yellowness / blueness response :math:`M_{yb}`.
+        Yellowness / blueness response :math:`M_{yb}`.
     M_rg
-         Redness / greenness response :math:`M_{rg}`.
+        Redness / greenness response :math:`M_{rg}`.
 
     Returns
     -------
@@ -1099,15 +1100,15 @@ def overall_chromatic_response(M_yb: ArrayLike, M_rg: ArrayLike) -> NDArrayFloat
 
 def saturation_correlate(M: ArrayLike, rgb_a: ArrayLike) -> NDArrayFloat:
     """
-    Return the *saturation* correlate :math:`s`.
+    Compute the *saturation* correlate :math:`s`.
 
     Parameters
     ----------
     M
-         Overall chromatic response :math:`M`.
+        Overall chromatic response :math:`M`.
     rgb_a
-        Adapted *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta` colourspace
-        array.
+        Adapted *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta`
+        colourspace array.
 
     Returns
     -------
@@ -1138,7 +1139,7 @@ def achromatic_signal(
     A_a: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the achromatic signal :math:`A`.
+    Compute the achromatic signal :math:`A`.
 
     Parameters
     ----------
@@ -1205,7 +1206,7 @@ def brightness_correlate(
     N_b: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the *brightness* correlate :math:`Q`.
+    Compute the *brightness* correlate :math:`Q`.
 
     Parameters
     ----------
@@ -1251,7 +1252,7 @@ def lightness_correlate(
     Q_w: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the *Lightness* correlate :math:`J`.
+    Compute the *lightness* correlate :math:`J`.
 
     Parameters
     ----------
@@ -1297,7 +1298,7 @@ def chroma_correlate(
     Q_w: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the *chroma* correlate :math:`C_94`.
+    Compute the *chroma* correlate :math:`C_94`.
 
     Parameters
     ----------
@@ -1343,7 +1344,7 @@ def chroma_correlate(
 
 def colourfulness_correlate(F_L: ArrayLike, C_94: ArrayLike) -> NDArrayFloat:
     """
-    Return the *colourfulness* correlate :math:`M_94`.
+    Compute the *colourfulness* correlate :math:`M_94`.
 
     Parameters
     ----------

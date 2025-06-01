@@ -137,7 +137,7 @@ class CAM_Specification_CIECAM16(MixinDataclassArithmetic):
     Parameters
     ----------
     J
-        Correlate of *Lightness* :math:`J`.
+        Correlate of *lightness* :math:`J`.
     C
         Correlate of *chroma* :math:`C`.
     h
@@ -180,7 +180,7 @@ def XYZ_to_CIECAM16(
     compute_H: bool = True,
 ) -> CAM_Specification_CIECAM16:
     """
-    Compute the *CIECAM16* colour appearance model correlates from given
+    Compute the *CIECAM16* colour appearance model correlates from the specified
     *CIE XYZ* tristimulus values.
 
     Parameters
@@ -373,13 +373,13 @@ def CIECAM16_to_XYZ(
     discount_illuminant: bool = False,
 ) -> NDArrayFloat:
     """
-    Convert from *CIECAM16* specification to *CIE XYZ* tristimulus values.
+    Convert *CIECAM16* specification to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
     specification
         *CIECAM16* colour appearance model specification. Correlate of
-        *Lightness* :math:`J`, correlate of *chroma* :math:`C` or correlate of
+        *lightness* :math:`J`, correlate of *chroma* :math:`C` or correlate of
         *colourfulness* :math:`M` and *hue* angle :math:`h` in degrees must be
         specified, e.g., :math:`JCh` or :math:`JMh`.
     XYZ_w

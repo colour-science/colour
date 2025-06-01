@@ -226,7 +226,7 @@ def XYZ_to_Kim2009(
 ) -> CAM_Specification_Kim2009:
     """
     Compute the *Kim, Weyrich and Kautz (2009)* colour appearance model
-    correlates from given *CIE XYZ* tristimulus values.
+    correlates from the specified *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -392,7 +392,7 @@ def Kim2009_to_XYZ(
     discount_illuminant: bool = False,
 ) -> NDArrayFloat:
     """
-    Convert from *Kim, Weyrich and Kautz (2009)* specification to *CIE XYZ*
+    Convert *Kim, Weyrich and Kautz (2009)* specification to *CIE XYZ*
     tristimulus values.
 
     Parameters

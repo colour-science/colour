@@ -146,7 +146,7 @@ class CAM_Specification_Hellwig2022(MixinDataclassArithmetic):
     Parameters
     ----------
     J
-        Correlate of *Lightness* :math:`J`.
+        Correlate of *lightness* :math:`J`.
     C
         Correlate of *chroma* :math:`C`.
     h
@@ -162,7 +162,7 @@ class CAM_Specification_Hellwig2022(MixinDataclassArithmetic):
     HC
         *Hue* :math:`h` composition :math:`H^C`.
     J_HK
-        Correlate of *Lightness* :math:`J_{HK}` accounting for
+        Correlate of *lightness* :math:`J_{HK}` accounting for
         *Helmholtz-Kohlrausch* effect.
     Q_HK
         Correlate of *brightness* :math:`Q_{HK}` accounting for
@@ -198,7 +198,7 @@ def XYZ_to_Hellwig2022(
 ) -> CAM_Specification_Hellwig2022:
     """
     Compute the *Hellwig and Fairchild (2022)* colour appearance model
-    correlates from given *CIE XYZ* tristimulus values.
+    correlates from the specified *CIE XYZ* tristimulus values.
 
     This implementation supports the *Helmholtz-Kohlrausch* effect extension
     from :cite:`Hellwig2022a`.
@@ -408,7 +408,7 @@ def Hellwig2022_to_XYZ(
     discount_illuminant: bool = False,
 ) -> NDArrayFloat:
     """
-    Convert from *Hellwig and Fairchild (2022)* specification to *CIE XYZ*
+    Convert *Hellwig and Fairchild (2022)* specification to *CIE XYZ*
     tristimulus values.
 
     This implementation supports the *Helmholtz-Kohlrausch* effect extension
@@ -418,7 +418,7 @@ def Hellwig2022_to_XYZ(
     ----------
     specification
         *Hellwig and Fairchild (2022)* colour appearance model specification.
-        Correlate of *Lightness* :math:`J`, correlate of *chroma* :math:`C` or
+        Correlate of *lightness* :math:`J`, correlate of *chroma* :math:`C` or
         correlate of *colourfulness* :math:`M` and *hue* angle :math:`h` in
         degrees must be specified, e.g., :math:`JCh` or :math:`JMh`.
     XYZ_w
@@ -625,7 +625,7 @@ def viewing_conditions_dependent_parameters(
     L_A: ArrayLike,
 ) -> Tuple[NDArrayFloat, NDArrayFloat]:
     """
-    Return the viewing condition dependent parameters.
+    Compute the viewing condition dependent parameters.
 
     Parameters
     ----------
@@ -662,7 +662,7 @@ def viewing_conditions_dependent_parameters(
 
 def achromatic_response_forward(RGB: ArrayLike) -> NDArrayFloat:
     """
-    Return the achromatic response :math:`A` from given compressed
+    Compute the achromatic response :math:`A` from the specified compressed
     *CAM16* transform sharpened *RGB* array and :math:`N_{bb}` chromatic
     induction factor for forward *Hellwig and Fairchild (2022)* implementation.
 
@@ -692,7 +692,7 @@ def opponent_colour_dimensions_inverse(
     P_p_1: ArrayLike, h: ArrayLike, M: ArrayLike
 ) -> NDArrayFloat:
     """
-    Return opponent colour dimensions from given point :math:`P'_1`, hue
+    Compute opponent colour dimensions from the specified point :math:`P'_1`, hue
     :math:`h` in degrees and correlate of *colourfulness* :math:`M` for
     inverse *Hellwig and Fairchild (2022)* implementation.
 
@@ -735,7 +735,7 @@ def opponent_colour_dimensions_inverse(
 
 def eccentricity_factor(h: ArrayLike) -> NDArrayFloat:
     """
-    Return the eccentricity factor :math:`e_t` from given hue :math:`h` angle
+    Compute the eccentricity factor :math:`e_t` from the specified hue :math:`h` angle
     in degrees for forward *CIECAM02* implementation.
 
     Parameters
@@ -782,7 +782,7 @@ def brightness_correlate(
     A_w: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the *brightness* correlate :math:`Q`.
+    Compute the *brightness* correlate :math:`Q`.
 
     Parameters
     ----------
@@ -822,7 +822,7 @@ def colourfulness_correlate(
     b: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the *colourfulness* correlate :math:`M`.
+    Compute the *colourfulness* correlate :math:`M`.
 
     Parameters
     ----------
@@ -863,7 +863,7 @@ def chroma_correlate(
     A_w: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the *chroma* correlate :math:`C`.
+    Compute the *chroma* correlate :math:`C`.
 
     Parameters
     ----------
@@ -894,7 +894,7 @@ def chroma_correlate(
 
 def saturation_correlate(M: ArrayLike, Q: ArrayLike) -> NDArrayFloat:
     """
-    Return the *saturation* correlate :math:`s`.
+    Compute the *saturation* correlate :math:`s`.
 
     Parameters
     ----------
@@ -929,7 +929,7 @@ def P_p(
     A: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the points :math:`P'_1` and :math:`P'_2`.
+    Compute the points :math:`P'_1` and :math:`P'_2`.
 
     Parameters
     ----------

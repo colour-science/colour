@@ -114,7 +114,7 @@ class CAM_ReferenceSpecification_RLAB(MixinDataclassArray):
     Parameters
     ----------
     LR
-        Correlate of *Lightness* :math:`L^R`.
+        Correlate of *lightness* :math:`L^R`.
     CR
         Correlate of *achromatic chroma* :math:`C^R`.
     hR
@@ -154,7 +154,7 @@ class CAM_Specification_RLAB(MixinDataclassArray):
     Parameters
     ----------
     J
-        Correlate of *Lightness* :math:`L^R`.
+        Correlate of *lightness* :math:`L^R`.
     C
         Correlate of *achromatic chroma* :math:`C^R`.
     h

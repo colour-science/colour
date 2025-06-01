@@ -384,7 +384,7 @@ s=0.0002395..., M=0.0190185..., HC=None, a=..., b=-0.0190185...)
 
 def XYZ_to_RGB_LLAB(XYZ: ArrayLike) -> NDArrayFloat:
     """
-    Convert from *CIE XYZ* tristimulus values to normalised cone responses.
+    Convert *CIE XYZ* tristimulus values to normalised cone responses.
 
     Parameters
     ----------
@@ -417,7 +417,7 @@ def chromatic_adaptation(
     D: ArrayLike = 1,
 ) -> NDArrayFloat:
     """
-    Apply chromatic adaptation to given *RGB* normalised cone responses
+    Apply chromatic adaptation to the specified *RGB* normalised cone responses
     array.
 
     Parameters
@@ -514,7 +514,7 @@ def opponent_colour_dimensions(
     F_L: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return opponent colour dimensions from given adapted *CIE XYZ* tristimulus
+    Compute opponent colour dimensions from the specified adapted *CIE XYZ* tristimulus
     values.
 
     The opponent colour dimensions are based on a modified *CIE L\\*a\\*b\\**
@@ -564,7 +564,7 @@ def opponent_colour_dimensions(
 
 def hue_angle(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     """
-    Return the *hue* angle :math:`h_L` in degrees.
+    Compute the *hue* angle :math:`h_L` in degrees.
 
     Parameters
     ----------
@@ -594,7 +594,7 @@ def hue_angle(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
 
 def chroma_correlate(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     """
-    Return the correlate of *chroma* :math:`Ch_L`.
+    Compute the correlate of *chroma* :math:`Ch_L`.
 
     Parameters
     ----------
@@ -632,7 +632,7 @@ def colourfulness_correlate(
     F_C: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the correlate of *colourfulness* :math:`C_L`.
+    Compute the correlate of *colourfulness* :math:`C_L`.
 
     Parameters
     ----------
@@ -674,7 +674,7 @@ def colourfulness_correlate(
 
 def saturation_correlate(Ch_L: ArrayLike, L_L: ArrayLike) -> NDArrayFloat:
     """
-    Return the correlate of *saturation* :math:`S_L`.
+    Compute the correlate of *saturation* :math:`S_L`.
 
     Parameters
     ----------
@@ -704,7 +704,7 @@ def saturation_correlate(Ch_L: ArrayLike, L_L: ArrayLike) -> NDArrayFloat:
 
 def final_opponent_signals(C_L: ArrayLike, h_L: ArrayLike) -> NDArrayFloat:
     """
-    Return the final opponent signals :math:`A_L` and :math:`B_L`.
+    Compute the final opponent signals :math:`A_L` and :math:`B_L`.
 
     Parameters
     ----------
