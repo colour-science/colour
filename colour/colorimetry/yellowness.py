@@ -5,17 +5,17 @@ Yellowness Index :math:`Y`
 Define the *yellowness* index :math:`Y` computation objects:
 
 -   :func:`colour.colorimetry.yellowness_ASTMD1925`: *Yellowness* index
-    :math:`YI` computation of given sample *CIE XYZ* tristimulus values using
+    :math:`YI` computation of specified sample *CIE XYZ* tristimulus values using
     *ASTM D1925* method.
 -   :func:`colour.colorimetry.yellowness_ASTME313_alternative`: *Yellowness*
-    index :math:`YI` computation of given sample *CIE XYZ* tristimulus values
+    index :math:`YI` computation of specified sample *CIE XYZ* tristimulus values
     using the alternative *ASTM E313* method.
 -   :func:`colour.colorimetry.yellowness_ASTME313`: *Yellowness*
-    index :math:`YI` computation of given sample *CIE XYZ* tristimulus values
+    index :math:`YI` computation of specified sample *CIE XYZ* tristimulus values
     using the recommended *ASTM E313* method.
 -   :attr:`colour.YELLOWNESS_METHODS`: Supported *yellowness* computations
     methods.
--   :func:`colour.yellownes`: *Yellowness* :math:`YI` computation using given
+-   :func:`colour.yellownes`: *Yellowness* :math:`YI` computation using specified
     method.
 
 References
@@ -69,7 +69,7 @@ __all__ = [
 
 def yellowness_ASTMD1925(XYZ: ArrayLike) -> NDArrayFloat:
     """
-    Return the *yellowness* index :math:`YI` of given sample *CIE XYZ*
+    Return the *yellowness* index :math:`YI` of specified sample *CIE XYZ*
     tristimulus values using *ASTM D1925* method.
 
     ASTM D1925 has been specifically developed for the definition of the
@@ -126,7 +126,7 @@ def yellowness_ASTMD1925(XYZ: ArrayLike) -> NDArrayFloat:
 
 def yellowness_ASTME313_alternative(XYZ: ArrayLike) -> NDArrayFloat:
     """
-    Return the *yellowness* index :math:`YI` of given sample *CIE XYZ*
+    Return the *yellowness* index :math:`YI` of specified sample *CIE XYZ*
     tristimulus values using the alternative *ASTM E313* method.
 
     In the original form of *Test Method E313*, an alternative equation was
@@ -227,7 +227,7 @@ def yellowness_ASTME313(
     ]["D65"],
 ) -> NDArrayFloat:
     """
-    Return the *yellowness* index :math:`YI` of given sample *CIE XYZ*
+    Return the *yellowness* index :math:`YI` of specified sample *CIE XYZ*
     tristimulus values using *ASTM E313* method.
 
     ASTM E313 has successfully been used for a variety of white or near white
@@ -306,7 +306,7 @@ def yellowness(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Return the *yellowness* :math:`W` using given method.
+    Return the *yellowness* :math:`W` using specified method.
 
     Parameters
     ----------

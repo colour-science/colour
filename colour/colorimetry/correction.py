@@ -12,7 +12,7 @@ The following correction methods are available:
 -   :attr:`colour.BANDPASS_CORRECTION_METHODS`: Supported spectral bandpass
     dependence correction methods.
 -   :func:`colour.bandpass_correction`: Spectral bandpass dependence
-    correction using given method.
+    correction using specified method.
 
 References
 ----------
@@ -54,8 +54,8 @@ def bandpass_correction_Stearns1988(
     sd: SpectralDistribution,
 ) -> SpectralDistribution:
     """
-    Implement spectral bandpass dependence correction on given spectral
-    distribution using *Stearns and Stearns (1988)* method.
+    Perform spectral bandpass dependence correction on spectral distribution
+    using *Stearns and Stearns (1988)* method.
 
     Parameters
     ----------
@@ -126,8 +126,8 @@ def bandpass_correction(
     method: Literal["Stearns 1988"] | str = "Stearns 1988",
 ) -> SpectralDistribution:
     """
-    Implement spectral bandpass dependence correction on given spectral
-    distribution using given method.
+    Perform spectral bandpass dependence correction on spectral distribution
+    using specified method.
 
     Parameters
     ----------

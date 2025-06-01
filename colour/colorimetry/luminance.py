@@ -7,27 +7,27 @@ Define the *luminance* :math:`Y` computation objects.
 The following methods are available:
 
 -   :func:`colour.colorimetry.luminance_Newhall1943`: *luminance* :math:`Y`
-    computation of given *Munsell* value :math:`V` using
+    computation of specified *Munsell* value :math:`V` using
     *Newhall, Nickerson and Judd (1943)* method.
 -   :func:`colour.colorimetry.luminance_ASTMD1535`: *luminance* :math:`Y`
-    computation of given *Munsell* value :math:`V` using *ASTM D1535-08e1*
+    computation of specified *Munsell* value :math:`V` using *ASTM D1535-08e1*
     method.
 -   :func:`colour.colorimetry.luminance_CIE1976`: *luminance* :math:`Y`
-    computation of given *Lightness* :math:`L^*` as per *CIE 1976*
+    computation of specified *Lightness* :math:`L^*` as per *CIE 1976*
     recommendation.
 -   :func:`colour.colorimetry.luminance_Fairchild2010`: *luminance* :math:`Y`
-    computation of given *Lightness* :math:`L_{hdr}` using
+    computation of specified *Lightness* :math:`L_{hdr}` using
     *Fairchild and Wyble (2010)* method.
 -   :func:`colour.colorimetry.luminance_Fairchild2011`: *luminance* :math:`Y`
-    computation of given *Lightness* :math:`L_{hdr}` using
+    computation of specified *Lightness* :math:`L_{hdr}` using
     *Fairchild and Chen (2011)* method.
 -   :func:`colour.colorimetry.luminance_Abebe2017`: *Luminance* :math:`Y`
-    computation of given *Lightness* :math:`L` using
+    computation of specified *Lightness* :math:`L` using
     *Abebe, Pouli, Larabi and Reinhard (2017)* method.
 -   :attr:`colour.LUMINANCE_METHODS`: Supported *luminance* :math:`Y`
     computation methods.
--   :func:`colour.luminance`: *Luminance* :math:`Y` computation of given
-    *Lightness* :math:`L^*` or given *Munsell* value :math:`V` using given
+-   :func:`colour.luminance`: *Luminance* :math:`Y` computation of specified
+    *Lightness* :math:`L^*` or specified *Munsell* value :math:`V` using specified
     method.
 
 References
@@ -111,7 +111,7 @@ __all__ = [
 
 def luminance_Newhall1943(V: ArrayLike) -> NDArrayFloat:
     """
-    Return the *luminance* :math:`R_Y` of given *Munsell* value :math:`V`
+    Compute the *luminance* :math:`R_Y` of specified *Munsell* value :math:`V`
     using *Newhall et al. (1943)* method.
 
     Parameters
@@ -163,7 +163,7 @@ def luminance_Newhall1943(V: ArrayLike) -> NDArrayFloat:
 
 def luminance_ASTMD1535(V: ArrayLike) -> NDArrayFloat:
     """
-    Return the *luminance* :math:`Y` of given *Munsell* value :math:`V` using
+    Compute the *luminance* :math:`Y` of specified *Munsell* value :math:`V` using
     *ASTM D1535-08e1* method.
 
     Parameters
@@ -217,8 +217,8 @@ def intermediate_luminance_function_CIE1976(
     f_Y_Y_n: ArrayLike, Y_n: ArrayLike = 100
 ) -> NDArrayFloat:
     """
-    Return the *luminance* :math:`Y` in the *luminance* :math:`Y`
-    computation for given intermediate value :math:`f(Y/Yn)` using given
+    Compute the *luminance* :math:`Y` in the *luminance* :math:`Y`
+    computation for specified intermediate value :math:`f(Y/Yn)` using specified
     reference white *luminance* :math:`Y_n` as per *CIE 1976* recommendation.
 
     Parameters
@@ -275,8 +275,8 @@ def intermediate_luminance_function_CIE1976(
 
 def luminance_CIE1976(L_star: ArrayLike, Y_n: ArrayLike = 100) -> NDArrayFloat:
     """
-    Return the *luminance* :math:`Y` of given *Lightness* :math:`L^*` with
-    given reference white *luminance* :math:`Y_n`.
+    Compute the *luminance* :math:`Y` of specified *Lightness* :math:`L^*` with
+    specified reference white *luminance* :math:`Y_n`.
 
     Parameters
     ----------
@@ -330,7 +330,7 @@ def luminance_Fairchild2010(
     L_hdr: ArrayLike, epsilon: ArrayLike = 1.836
 ) -> NDArrayFloat:
     """
-    Compute *luminance* :math:`Y` of given *Lightness* :math:`L_{hdr}` using
+    Compute *luminance* :math:`Y` of specified *Lightness* :math:`L_{hdr}` using
     *Fairchild and Wyble (2010)* method according to *Michaelis-Menten*
     kinetics.
 
@@ -391,7 +391,7 @@ def luminance_Fairchild2011(
     method: Literal["hdr-CIELAB", "hdr-IPT"] | str = "hdr-CIELAB",
 ) -> NDArrayFloat:
     """
-    Compute *luminance* :math:`Y` of given *Lightness* :math:`L_{hdr}` using
+    Compute *luminance* :math:`Y` of specified *Lightness* :math:`L_{hdr}` using
     *Fairchild and Chen (2011)* method according to *Michaelis-Menten*
     kinetics.
 
@@ -585,7 +585,7 @@ def luminance(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Return the *luminance* :math:`Y` of given *Lightness* :math:`L^*` or given
+    Compute the *luminance* :math:`Y` of specified *Lightness* :math:`L^*` or specified
     *Munsell* value :math:`V`.
 
     Parameters

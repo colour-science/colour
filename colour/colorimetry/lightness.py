@@ -7,26 +7,26 @@ Define the *Lightness* :math:`L` computation objects.
 The following methods are available:
 
 -   :func:`colour.colorimetry.lightness_Glasser1958`: *Lightness* :math:`L`
-    computation of given *luminance* :math:`Y` using
+    computation of specified *luminance* :math:`Y` using
     *Glasser, Mckinney, Reilly and Schnelle (1958)* method.
 -   :func:`colour.colorimetry.lightness_Wyszecki1963`: *Lightness* :math:`W`
-    computation of given *luminance* :math:`Y` using *Wyszecki (1963)* method.
+    computation of specified *luminance* :math:`Y` using *Wyszecki (1963)* method.
 -   :func:`colour.colorimetry.lightness_CIE1976`: *Lightness* :math:`L^*`
-    computation of given *luminance* :math:`Y` as per *CIE 1976*
+    computation of specified *luminance* :math:`Y` as per *CIE 1976*
     recommendation.
 -   :func:`colour.colorimetry.lightness_Fairchild2010`: *Lightness*
-    :math:`L_{hdr}` computation of given *luminance* :math:`Y` using
+    :math:`L_{hdr}` computation of specified *luminance* :math:`Y` using
     *Fairchild and Wyble (2010)* method.
 -   :func:`colour.colorimetry.lightness_Fairchild2011`: *Lightness*
-    :math:`L_{hdr}` computation of given *luminance* :math:`Y` using
+    :math:`L_{hdr}` computation of specified *luminance* :math:`Y` using
     *Fairchild and Chen (2011)* method.
 -   :func:`colour.colorimetry.lightness_Abebe2017`: *Lightness* :math:`L`
-    computation of given *luminance* :math:`Y` using
+    computation of specified *luminance* :math:`Y` using
     *Abebe, Pouli, Larabi and Reinhard (2017)* method.
 -   :attr:`colour.LIGHTNESS_METHODS`: Supported *Lightness* :math:`L`
     computation methods.
--   :func:`colour.lightness`: *Lightness* :math:`L` computation of given
-    *luminance* :math:`Y` using given method.
+-   :func:`colour.lightness`: *Lightness* :math:`L` computation of specified
+    *luminance* :math:`Y` using specified method.
 
 References
 ----------
@@ -110,7 +110,7 @@ __all__ = [
 
 def lightness_Glasser1958(Y: ArrayLike) -> NDArrayFloat:
     """
-    Return the *Lightness* :math:`L` of given *luminance* :math:`Y` using
+    Compute the *Lightness* :math:`L` of specified *luminance* :math:`Y` using
     *Glasser et al. (1958)* method.
 
     Parameters
@@ -156,7 +156,7 @@ def lightness_Glasser1958(Y: ArrayLike) -> NDArrayFloat:
 
 def lightness_Wyszecki1963(Y: ArrayLike) -> NDArrayFloat:
     """
-    Return the *Lightness* :math:`W` of given *luminance* :math:`Y` using
+    Compute the *Lightness* :math:`W` of specified *luminance* :math:`Y` using
     *Wyszecki (1963)* method.
 
 
@@ -211,8 +211,8 @@ def intermediate_lightness_function_CIE1976(
     Y: ArrayLike, Y_n: ArrayLike = 100
 ) -> NDArrayFloat:
     """
-    Return the intermediate value :math:`f(Y/Yn)` in the *Lightness*
-    :math:`L^*` computation for given *luminance* :math:`Y` using given
+    Compute the intermediate value :math:`f(Y/Yn)` in the *Lightness*
+    :math:`L^*` computation for specified *luminance* :math:`Y` using specified
     reference white *luminance* :math:`Y_n` as per *CIE 1976* recommendation.
 
     Parameters
@@ -271,8 +271,8 @@ def intermediate_lightness_function_CIE1976(
 
 def lightness_CIE1976(Y: ArrayLike, Y_n: ArrayLike = 100) -> NDArrayFloat:
     """
-    Return the *Lightness* :math:`L^*` of given *luminance* :math:`Y` using
-    given reference white *luminance* :math:`Y_n` as per *CIE 1976*
+    Compute the *Lightness* :math:`L^*` of specified *luminance* :math:`Y` using
+    specified reference white *luminance* :math:`Y_n` as per *CIE 1976*
     recommendation.
 
     Parameters
@@ -321,7 +321,7 @@ def lightness_CIE1976(Y: ArrayLike, Y_n: ArrayLike = 100) -> NDArrayFloat:
 
 def lightness_Fairchild2010(Y: ArrayLike, epsilon: ArrayLike = 1.836) -> NDArrayFloat:
     """
-    Compute *Lightness* :math:`L_{hdr}` of given *luminance* :math:`Y` using
+    Compute *Lightness* :math:`L_{hdr}` of specified *luminance* :math:`Y` using
     *Fairchild and Wyble (2010)* method according to *Michaelis-Menten*
     kinetics.
 
@@ -381,7 +381,7 @@ def lightness_Fairchild2011(
     method: Literal["hdr-CIELAB", "hdr-IPT"] | str = "hdr-CIELAB",
 ) -> NDArrayFloat:
     """
-    Compute *Lightness* :math:`L_{hdr}` of given *luminance* :math:`Y` using
+    Compute *Lightness* :math:`L_{hdr}` of specified *luminance* :math:`Y` using
     *Fairchild and Chen (2011)* method according to *Michaelis-Menten*
     kinetics.
 
@@ -447,7 +447,7 @@ def lightness_Abebe2017(
     method: Literal["Michaelis-Menten", "Stevens"] | str = "Michaelis-Menten",
 ) -> NDArrayFloat:
     """
-    Compute *Lightness* :math:`L` of given *luminance* :math:`Y` using
+    Compute *Lightness* :math:`L` of specified *luminance* :math:`Y` using
     *Abebe, Pouli, Larabi and Reinhard (2017)* method according to
     *Michaelis-Menten* kinetics or *Stevens's Power Law*.
 
@@ -565,8 +565,8 @@ def lightness(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Return the *Lightness* :math:`L` of given *luminance* :math:`Y` using
-    given method.
+    Compute the *Lightness* :math:`L` of specified *luminance* :math:`Y` using
+    specified method.
 
     Parameters
     ----------

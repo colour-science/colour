@@ -133,13 +133,13 @@ def handle_spectral_arguments(
     Handle the spectral arguments of various *Colour* definitions performing
     spectral computations.
 
-    -   If ``cmfs`` is not given, one is chosen according to ``cmfs_default``.
-        The returned colour matching functions adopt the spectral shape given
+    -   If ``cmfs`` is not specified, one is chosen according to ``cmfs_default``.
+        The returned colour matching functions adopt the spectral shape specified
         by ``shape_default``.
-    -   If ``illuminant`` is not given, one is chosen according to
+    -   If ``illuminant`` is not specified, one is chosen according to
         ``illuminant_default``. The returned illuminant adopts the spectral
         shape of the returned colour matching functions.
-    -   If ``illuminant`` is given, the returned illuminant spectral shape is
+    -   If ``illuminant`` is specified, the returned illuminant spectral shape is
         aligned to that of the returned colour matching functions.
 
     Parameters
@@ -151,9 +151,9 @@ def handle_spectral_arguments(
         Illuminant spectral distribution, default to
         *CIE Standard Illuminant D65*.
     cmfs_default
-        The default colour matching functions to use if ``cmfs`` is not given.
+        The default colour matching functions to use if ``cmfs`` is not specified.
     illuminant_default
-        The default illuminant to use if ``illuminant`` is not given.
+        The default illuminant to use if ``illuminant`` is not specified.
     shape_default
         The default spectral shape to align the final colour matching functions
         and illuminant.
@@ -205,7 +205,7 @@ def lagrange_coefficients_ASTME2022(
     interval_type: Literal["Boundary", "Inner"] | str = "Inner",
 ) -> NDArrayFloat:
     """
-    Compute the *Lagrange Coefficients* for given interval size using practise
+    Compute the *Lagrange Coefficients* for specified interval size using practise
     *ASTM E2022-11* method.
 
     Parameters
@@ -284,7 +284,7 @@ def tristimulus_weighting_factors_ASTME2022(
     k: Real | None = None,
 ) -> NDArrayFloat:
     """
-    Return a table of tristimulus weighting factors for given colour matching
+    Return a table of tristimulus weighting factors for specified colour matching
     functions and illuminant using practise *ASTM E2022-11* method.
 
     The computed table of tristimulus weighting factors should be used with
@@ -459,7 +459,7 @@ def adjust_tristimulus_weighting_factors_ASTME308(
     W: ArrayLike, shape_r: SpectralShape, shape_t: SpectralShape
 ) -> NDArrayFloat:
     """
-    Adjust given table of tristimulus weighting factors to account for a
+    Adjust specified table of tristimulus weighting factors to account for a
     shorter wavelengths range of the test spectral shape compared to the
     reference spectral shape using practise *ASTM E308-15* method:
     Weights at the wavelengths for which data are not available are added to
@@ -542,8 +542,8 @@ def sd_to_XYZ_integration(
     shape: SpectralShape | None = None,
 ) -> NDArrayFloat:
     """
-    Convert given spectral distribution to *CIE XYZ* tristimulus values
-    using given colour matching functions and illuminant according to classical
+    Convert specified spectral distribution to *CIE XYZ* tristimulus values
+    using specified colour matching functions and illuminant according to classical
     integration method.
 
     The spectral distribution can be either a
@@ -600,7 +600,7 @@ def sd_to_XYZ_integration(
         results different to the code path using a
         :class:`colour.SpectralDistribution` class instance: the former
         favours execution speed by aligning the colour matching functions and
-        illuminant to the given spectral shape while the latter favours
+        illuminant to the specified spectral shape while the latter favours
         precision by aligning the spectral distribution to the colour matching
         functions.
 
@@ -738,8 +738,8 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
     k: Real | None = None,
 ) -> NDArrayFloat:
     """
-    Convert given spectral distribution to *CIE XYZ* tristimulus values
-    using given colour matching functions and illuminant using a table of
+    Convert specified spectral distribution to *CIE XYZ* tristimulus values
+    using specified colour matching functions and illuminant using a table of
     tristimulus weighting factors according to practise *ASTM E308-15* method.
 
     Parameters
@@ -884,8 +884,8 @@ def sd_to_XYZ_ASTME308(
     k: Real | None = None,
 ) -> NDArrayFloat:
     """
-    Convert given spectral distribution to *CIE XYZ* tristimulus values using
-    given colour matching functions and illuminant according to practise
+    Convert specified spectral distribution to *CIE XYZ* tristimulus values using
+    specified colour matching functions and illuminant according to practise
     *ASTM E308-15* method.
 
     Parameters
@@ -1109,8 +1109,8 @@ def sd_to_XYZ(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Convert given spectral distribution to *CIE XYZ* tristimulus values using
-    given colour matching functions, illuminant and method.
+    Convert specified spectral distribution to *CIE XYZ* tristimulus values using
+    specified colour matching functions, illuminant and method.
 
     If ``method`` is *Integration*, the spectral distribution can be either a
     :class:`colour.SpectralDistribution` class instance or an `ArrayLike` in
@@ -1188,7 +1188,7 @@ def sd_to_XYZ(
         results different to the code path using a
         :class:`colour.SpectralDistribution` class instance: the former
         favours execution speed by aligning the colour matching functions and
-        illuminant to the given spectral shape while the latter favours
+        illuminant to the specified spectral shape while the latter favours
         precision by aligning the spectral distribution to the colour matching
         functions.
 
@@ -1296,8 +1296,8 @@ def msds_to_XYZ_integration(
     shape: SpectralShape | None = None,
 ) -> NDArrayFloat:
     """
-    Convert given multi-spectral distributions to *CIE XYZ* tristimulus values
-    using given colour matching functions and illuminant.
+    Convert specified multi-spectral distributions to *CIE XYZ* tristimulus values
+    using specified colour matching functions and illuminant.
 
     The multi-spectral distributions can be either a
     :class:`colour.MultiSpectralDistributions` class instance or an
@@ -1354,7 +1354,7 @@ def msds_to_XYZ_integration(
         produces results different to the code path using a
         :class:`colour.MultiSpectralDistributions` class instance: the former
         favours execution speed by aligning the colour matching functions and
-        illuminant to the given spectral shape while the latter favours
+        illuminant to the specified spectral shape while the latter favours
         precision by aligning the multi-spectral distributions to the colour
         matching functions.
     -   If precision is required, it is possible to interpolate the
@@ -1534,8 +1534,8 @@ def msds_to_XYZ_ASTME308(
     mi_20nm_interpolation_method: bool = True,
 ) -> NDArrayFloat:
     """
-    Convert given multi-spectral distributions to *CIE XYZ* tristimulus values
-    using given colour matching functions and illuminant according to practise
+    Convert specified multi-spectral distributions to *CIE XYZ* tristimulus values
+    using specified colour matching functions and illuminant according to practise
     *ASTM E308-15* method.
 
     Parameters
@@ -1786,8 +1786,8 @@ def msds_to_XYZ(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Convert given multi-spectral distributions to *CIE XYZ* tristimulus values
-    using given colour matching functions and illuminant. For the *Integration*
+    Convert specified multi-spectral distributions to *CIE XYZ* tristimulus values
+    using specified colour matching functions and illuminant. For the *Integration*
     method, the multi-spectral distributions can be either a
     :class:`colour.MultiSpectralDistributions` class instance or an
     `ArrayLike` in which case the ``shape`` must be passed.
@@ -1864,7 +1864,7 @@ def msds_to_XYZ(
         produces results different to the code path using a
         :class:`colour.MultiSpectralDistributions` class instance: the former
         favours execution speed by aligning the colour matching functions and
-        illuminant to the given spectral shape while the latter favours
+        illuminant to the specified spectral shape while the latter favours
         precision by aligning the multi-spectral distributions to the colour
         matching functions.
     -   If precision is required, it is possible to interpolate the
@@ -2044,8 +2044,8 @@ def wavelength_to_XYZ(
     cmfs: MultiSpectralDistributions | None = None,
 ) -> NDArrayFloat:
     """
-    Convert given wavelength :math:`\\lambda` to *CIE XYZ* tristimulus values
-    using given colour matching functions.
+    Convert specified wavelength :math:`\\lambda` to *CIE XYZ* tristimulus values
+    using specified colour matching functions.
 
     If the wavelength :math:`\\lambda` is not available in the colour matching
     function, its value will be calculated according to *CIE 15:2004*
