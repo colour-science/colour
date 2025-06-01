@@ -57,15 +57,16 @@ def matrix_chromatic_adaptation_VonKries(
     transform: LiteralChromaticAdaptationTransform | str = "CAT02",
 ) -> NDArrayFloat:
     """
-    Compute the *chromatic adaptation* matrix from test viewing conditions
-    to reference viewing conditions.
+    Compute the chromatic adaptation matrix from test viewing conditions to
+    reference viewing conditions.
 
     Parameters
     ----------
     XYZ_w
-        Test viewing conditions *CIE XYZ* tristimulus values of whitepoint.
+        Test viewing conditions *CIE XYZ* tristimulus values of the
+        whitepoint.
     XYZ_wr
-        Reference viewing conditions *CIE XYZ* tristimulus values of
+        Reference viewing conditions *CIE XYZ* tristimulus values of the
         whitepoint.
     transform
         Chromatic adaptation transform.
@@ -142,17 +143,18 @@ def chromatic_adaptation_VonKries(
     transform: LiteralChromaticAdaptationTransform | str = "CAT02",
 ) -> NDArrayFloat:
     """
-    Adapt given stimulus from test viewing conditions to reference viewing
-    conditions.
+    Adapt the specified stimulus from test viewing conditions to reference
+    viewing conditions.
 
     Parameters
     ----------
     XYZ
-        *CIE XYZ* tristimulus values of stimulus to adapt.
+        *CIE XYZ* tristimulus values of the stimulus to adapt.
     XYZ_w
-        Test viewing conditions *CIE XYZ* tristimulus values of whitepoint.
+        Test viewing conditions *CIE XYZ* tristimulus values of the
+        whitepoint.
     XYZ_wr
-        Reference viewing conditions *CIE XYZ* tristimulus values of
+        Reference viewing conditions *CIE XYZ* tristimulus values of the
         whitepoint.
     transform
         Chromatic adaptation transform.

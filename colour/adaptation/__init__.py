@@ -159,7 +159,7 @@ def chromatic_adaptation(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Adapt given stimulus from test viewing conditions to reference viewing
+    Adapt the specified stimulus from test viewing conditions to reference viewing
     conditions.
 
     Parameters
@@ -187,8 +187,8 @@ def chromatic_adaptation(
         Noise component in fundamental primary system.
     Y_o
         {:func:`colour.adaptation.chromatic_adaptation_CIE1994`},
-        Luminance factor :math:`Y_o` of achromatic background normalised to
-        domain [0.18, 1] in **'Reference'** domain-range scale.
+        Luminance factor :math:`Y_o` of achromatic background normalised
+        to domain [0.18, 1] in **'Reference'** domain-range scale.
     direction
         {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
         Chromatic adaptation direction.
@@ -197,7 +197,8 @@ def chromatic_adaptation(
         Luminance of test adapting field :math:`L_{A1}` in :math:`cd/m^2`.
     L_A2
         {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
-        Luminance of reference adapting field :math:`L_{A2}` in :math:`cd/m^2`.
+        Luminance of reference adapting field :math:`L_{A2}` in
+        :math:`cd/m^2`.
     surround
         {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
         Surround viewing conditions induction factors.

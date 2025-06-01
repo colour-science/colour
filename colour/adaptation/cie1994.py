@@ -80,7 +80,7 @@ def chromatic_adaptation_CIE1994(
     n: ArrayLike = 1,
 ) -> NDArrayFloat:
     """
-    Adapt given stimulus *CIE XYZ_1* tristimulus values from test viewing
+    Adapt the specified stimulus *CIE XYZ_1* tristimulus values from test viewing
     conditions to reference viewing conditions using *CIE 1994* chromatic
     adaptation model.
 
@@ -98,9 +98,9 @@ def chromatic_adaptation_CIE1994(
         Luminance factor :math:`Y_o` of achromatic background as percentage
         normalised to domain [18, 100] in **'Reference'** domain-range scale.
     E_o1
-        Test illuminance :math:`E_{o1}` in :math:`cd/m^2`.
+        Test illuminance :math:`E_{o1}` in lux.
     E_o2
-        Reference illuminance :math:`E_{o2}` in :math:`cd/m^2`.
+        Reference illuminance :math:`E_{o2}` in lux.
     n
         Noise component in fundamental primary system.
 
@@ -174,7 +174,7 @@ def chromatic_adaptation_CIE1994(
 
 def XYZ_to_RGB_CIE1994(XYZ: ArrayLike) -> NDArrayFloat:
     """
-    Convert from *CIE XYZ* tristimulus values to cone responses.
+    Convert *CIE XYZ* tristimulus values to cone responses.
 
     Parameters
     ----------
@@ -198,7 +198,7 @@ def XYZ_to_RGB_CIE1994(XYZ: ArrayLike) -> NDArrayFloat:
 
 def RGB_to_XYZ_CIE1994(RGB: ArrayLike) -> NDArrayFloat:
     """
-    Convert from cone responses to *CIE XYZ* tristimulus values.
+    Convert cone responses to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -222,7 +222,7 @@ def RGB_to_XYZ_CIE1994(RGB: ArrayLike) -> NDArrayFloat:
 
 def intermediate_values(xy_o: ArrayLike) -> NDArrayFloat:
     """
-    Return the intermediate values :math:`\\xi`, :math:`\\eta`,
+    Compute the intermediate values :math:`\\xi`, :math:`\\eta`,
     :math:`\\zeta`.
 
     Parameters
@@ -256,7 +256,7 @@ def effective_adapting_responses(
     xez: ArrayLike, Y_o: ArrayLike, E_o: ArrayLike
 ) -> NDArrayFloat:
     """
-    Derive the effective adapting responses in the fundamental primary system
+    Compute the effective adapting responses in the fundamental primary system
     of the test or reference field.
 
     Parameters
@@ -356,8 +356,9 @@ def beta_2(x: ArrayLike) -> DTypeFloat | NDArrayFloat:
 
 def exponential_factors(RGB_o: ArrayLike) -> NDArrayFloat:
     """
-    Return the chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
-    :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)` of given cone responses.
+    Compute the chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
+    :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)` of the specified cone
+    responses.
 
     Parameters
     ----------
@@ -464,8 +465,8 @@ def corresponding_colour(
     n: ArrayLike = 1,
 ) -> NDArrayFloat:
     """
-    Compute the corresponding colour cone responses of given test sample cone
-    responses :math:`RGB_1`.
+    Compute the corresponding colour cone responses of the specified test sample
+    cone responses :math:`RGB_1`.
 
     Parameters
     ----------
@@ -495,7 +496,7 @@ def corresponding_colour(
     Returns
     -------
     :class:`numpy.ndarray`
-        Corresponding colour cone responses of given test sample cone
+        Corresponding colour cone responses of specified test sample cone
         responses.
 
     Examples

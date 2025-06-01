@@ -54,22 +54,22 @@ def chromatic_adaptation_Zhai2018(
     transform: Literal["CAT02", "CAT16"] | str = "CAT02",
 ) -> NDArrayFloat:
     """
-    Adapt given sample colour :math:`XYZ_{\\beta}` tristimulus values from
-    input viewing conditions under :math:`\\beta` illuminant to output viewing
-    conditions under :math:`\\delta` illuminant using *Zhai and Luo (2018)*
-    chromatic adaptation model.
+    Adapt the specified sample colour :math:`XYZ_{\\beta}` tristimulus values
+    from input viewing conditions under :math:`\\beta` illuminant to output
+    viewing conditions under :math:`\\delta` illuminant using
+    *Zhai and Luo (2018)* chromatic adaptation model.
 
     According to the definition of :math:`D`, a one-step CAT such as CAT02 can
-    only be used to transform colors from an incomplete adapted field into a
+    only be used to transform colours from an incomplete adapted field into a
     complete adapted field. When CAT02 are used to transform an incomplete to
     incomplete case, :math:`D` has no baseline level to refer to.
     *Smet et al. (2017)* proposed a new concept of two-step CAT to replace the
     present CATs such as CAT02 with only one-step transform in order to define
     :math:`D` more clearly. A two-step CAT involves an illuminant representing
     the baseline states between the test and reference illuminants for the
-    calculation. In the first step the test color is transformed from test
+    calculation. In the first step, the test colour is transformed from test
     illuminant to the baseline illuminant (:math:`BI`), and it is then
-    transformed to the reference illuminant Degrees of adaptation under the
+    transformed to the reference illuminant. Degrees of adaptation under the
     other illuminants should be calculated relative to the adaptation under the
     :math:`BI`. When :math:`D` becomes lower towards zero, the adaptation point
     of the observer moves towards the :math:`BI`. Therefore, the chromaticity
@@ -100,7 +100,7 @@ def chromatic_adaptation_Zhai2018(
     -------
     :class:`numpy.ndarray`
         Sample corresponding colour :math:`XYZ_{\\delta}` tristimulus values
-        under output illuminant :math:`D_{\\delta}`.
+        under output illuminant :math:`\\delta`.
 
     Notes
     -----
