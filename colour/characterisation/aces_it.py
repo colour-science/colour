@@ -163,8 +163,8 @@ def sd_to_aces_relative_exposure_values(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Convert given spectral distribution to *ACES2065-1* colourspace relative
-    exposure values.
+    Convert spectral distribution to *ACES2065-1* colourspace relative exposure
+    values.
 
     Parameters
     ----------
@@ -408,8 +408,8 @@ def white_balance_multipliers(
     sensitivities: RGB_CameraSensitivities, illuminant: SpectralDistribution
 ) -> NDArrayFloat:
     """
-    Compute the *RGB* white balance multipliers for given camera *RGB*
-    spectral sensitivities and illuminant.
+    Compute *RGB* white balance multipliers for camera *RGB* spectral
+    sensitivities and illuminant.
 
     Parameters
     ----------
@@ -457,8 +457,8 @@ def best_illuminant(
     illuminants: Mapping,
 ) -> SpectralDistribution:
     """
-    Select the best illuminant for given *RGB* white balance multipliers, and
-    sensitivities in given series of illuminants.
+    Select the best illuminant for *RGB* white balance multipliers and
+    sensitivities in series of illuminants.
 
     Parameters
     ----------
@@ -505,7 +505,7 @@ def normalise_illuminant(
     illuminant: SpectralDistribution, sensitivities: RGB_CameraSensitivities
 ) -> SpectralDistribution:
     """
-    Normalise given illuminant with given camera *RGB* spectral sensitivities.
+    Normalise illuminant with camera *RGB* spectral sensitivities.
 
     The multiplicative inverse scaling factor :math:`k` is computed by
     multiplying the illuminant by the sensitivities channel with the maximum
@@ -555,8 +555,8 @@ def training_data_sds_to_RGB(
     illuminant: SpectralDistribution,
 ) -> Tuple[NDArrayFloat, NDArrayFloat]:
     """
-    Convert given training data to *RGB* tristimulus values using given
-    illuminant and given camera *RGB* spectral sensitivities.
+    Convert training data to *RGB* tristimulus values using illuminant and
+    camera *RGB* spectral sensitivities.
 
     Parameters
     ----------
@@ -625,8 +625,8 @@ def training_data_sds_to_XYZ(
     ) = "CAT02",
 ) -> NDArrayFloat:
     """
-    Convert given training data to *CIE XYZ* tristimulus values using given
-    illuminant and given standard observer colour matching functions.
+    Convert training data to *CIE XYZ* tristimulus values using illuminant
+    and standard observer colour matching functions.
 
     Parameters
     ----------
@@ -702,8 +702,7 @@ def whitepoint_preserving_matrix(
     M: ArrayLike, RGB_w: ArrayLike = (1, 1, 1)
 ) -> NDArrayFloat:
     """
-    Normalise given matrix :math:`M` to preserve given white point
-    :math:`RGB_w`.
+    Normalise matrix :math:`M` to preserve white point :math:`RGB_w`.
 
     Parameters
     ----------
@@ -999,10 +998,10 @@ def matrix_idt(
     | Tuple[NDArrayFloat, NDArrayFloat]
 ):
     """
-    Compute an *Input Device Transform* (IDT) matrix for given camera *RGB*
-    spectral sensitivities, illuminant, training data, standard observer colour
-    matching functions and optimisation settings according to *RAW to ACES* v1
-    and *P-2013-001* procedures.
+    Compute an *Input Device Transform* (IDT) matrix for camera *RGB* spectral
+    sensitivities, illuminant, training data, standard observer colour matching
+    functions and optimisation settings according to *RAW to ACES* v1 and
+    *P-2013-001* procedures.
 
     Parameters
     ----------
@@ -1040,7 +1039,7 @@ def matrix_idt(
     Examples
     --------
     Computing the IDT matrix for a *CANON EOS 5DMark II* and
-    *CIE Illuminant D Series* *D55* using the method given in *RAW to ACES* v1:
+    *CIE Illuminant D Series* *D55* using the method specified in *RAW to ACES* v1:
 
     >>> path = os.path.join(
     ...     ROOT_RESOURCES_RAWTOACES,
@@ -1152,10 +1151,10 @@ def camera_RGB_to_ACES2065_1(
     clip: bool = False,
 ) -> NDArrayFloat:
     """
-    Convert given camera *RGB* colourspace array to *ACES2065-1* colourspace
-    using the *Input Device Transform* (IDT) matrix :math:`B`, the white
-    balance multipliers :math:`b` and the exposure factor :math:`k` according
-    to *P-2013-001* procedure.
+    Convert camera *RGB* colourspace array to *ACES2065-1* colourspace using
+    the *Input Device Transform* (IDT) matrix :math:`B`, the white balance
+    multipliers :math:`b` and the exposure factor :math:`k` according to
+    *P-2013-001* procedure.
 
     Parameters
     ----------

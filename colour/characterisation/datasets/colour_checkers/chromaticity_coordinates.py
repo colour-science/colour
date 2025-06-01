@@ -379,7 +379,7 @@ Reference *ColorChecker Classic* data from *X-Rite (2016)*.
 Notes
 -----
 -   The rounded *ColorChecker24 - Before November 2014* values should match the
-    *ColorChecker Classic 2005* values. They are given for reference of the
+    *ColorChecker Classic 2005* values. They are specified for reference of the
     original *CIE L\\*a\\*b\\** colourspace values.
 """
 
