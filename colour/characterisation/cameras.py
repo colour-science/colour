@@ -5,8 +5,8 @@ Cameras Sensitivities
 Define the spectral distributions classes for the datasets from
 the :mod:`colour.characterisation.datasets.cameras` module:
 
--   :class:`colour.characterisation.RGB_CameraSensitivities`: Implement support
-    for a camera *RGB* sensitivities.
+-   :class:`colour.characterisation.RGB_CameraSensitivities`: Define support
+    for camera *RGB* sensitivities.
 """
 
 from __future__ import annotations
@@ -52,7 +52,7 @@ __all__ = [
 
 class RGB_CameraSensitivities(MultiSpectralDistributions):
     """
-    Implement support for a camera *RGB* sensitivities.
+    Define support for camera *RGB* sensitivities.
 
     Parameters
     ----------

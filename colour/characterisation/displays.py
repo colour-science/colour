@@ -5,8 +5,8 @@ RGB Display Primaries
 Define the spectral distributions classes for the datasets from
 the :mod:`colour.characterisation.datasets.displays` module:
 
--   :class:`colour.characterisation.RGB_DisplayPrimaries`: Implements support
-    for a *RGB* display (such as a *CRT* or *LCD*) primaries multi-spectral
+-   :class:`colour.characterisation.RGB_DisplayPrimaries`: Define support for
+    *RGB* display (such as *CRT* or *LCD*) primaries multi-spectral
     distributions.
 """
 
@@ -53,8 +53,8 @@ __all__ = [
 
 class RGB_DisplayPrimaries(MultiSpectralDistributions):
     """
-    Implement support for a *RGB* display (such as a *CRT* or *LCD*)
-    primaries multi-spectral distributions.
+    Define support for *RGB* display (such as *CRT* or *LCD*) primaries
+    multi-spectral distributions.
 
     Parameters
     ----------
