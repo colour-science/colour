@@ -2,7 +2,7 @@
 CIE Constants
 =============
 
-Define the *CIE* constants.
+Define *CIE* constants.
 
 References
 ----------
