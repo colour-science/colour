@@ -83,8 +83,8 @@ def matrix_RGB_to_WSYBRG(
     cmfs: LMS_ConeFundamentals, primaries: RGB_DisplayPrimaries
 ) -> NDArrayFloat:
     """
-    Compute the matrix transforming from *RGB* colourspace to opponent-colour
-    space using *Machado et al. (2009)* method.
+    Compute the matrix for transforming from *RGB* colourspace to
+    opponent-colour space using *Machado et al. (2009)* method.
 
     Parameters
     ----------
@@ -153,7 +153,7 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(
     cmfs: LMS_ConeFundamentals, d_LMS: ArrayLike
 ) -> LMS_ConeFundamentals:
     """
-    Shift given *LMS* cone fundamentals colour matching functions with given
+    Shift specified *LMS* cone fundamentals colour matching functions with specified
     :math:`\\Delta_{LMS}` shift amount in nanometers to simulate anomalous
     trichromacy using *Machado et al. (2009)* method.
 
@@ -255,10 +255,10 @@ def matrix_anomalous_trichromacy_Machado2009(
     d_LMS: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Compute the *Machado et al. (2009)* *CVD* matrix for given *LMS* cone
-    fundamentals colour matching functions and display primaries tri-spectral
-    distributions with given :math:`\\Delta_{LMS}` shift amount in nanometers
-    to simulate anomalous trichromacy.
+    Compute the *Machado et al. (2009)* colour vision deficiency matrix for
+    specified *LMS* cone fundamentals colour matching functions and display
+    primaries tri-spectral distributions with specified :math:`\\Delta_{LMS}` shift
+    amount in nanometers to simulate anomalous trichromacy.
 
     Parameters
     ----------
@@ -320,8 +320,8 @@ def matrix_cvd_Machado2009(
     severity: float,
 ) -> NDArrayFloat:
     """
-    Compute *Machado et al. (2009)* *CVD* matrix for given deficiency and
-    severity using the pre-computed matrices dataset.
+    Compute *Machado et al. (2009)* colour vision deficiency matrix for specified
+    deficiency and severity using the pre-computed matrices dataset.
 
     Parameters
     ----------
@@ -334,7 +334,7 @@ def matrix_cvd_Machado2009(
         peak of sensitivity moved towards the red sensitive cones. The complete
         absence of M-cones is known as *Deuteranopia*.
         - *Tritanomaly* : defective short-wavelength cones (S-cones), an
-        alleviated form of blue-yellow color blindness. The complete absence of
+        alleviated form of blue-yellow colour blindness. The complete absence of
         S-cones is known as *Tritanopia*.
     severity
         Severity of the colour vision deficiency in domain [0, 1].
@@ -342,7 +342,7 @@ def matrix_cvd_Machado2009(
     Returns
     -------
     :class:`numpy.ndarray`
-        *CVD* matrix.
+        Colour vision deficiency matrix.
 
     References
     ----------
@@ -379,7 +379,7 @@ def matrix_cvd_Machado2009(
     m1, m2 = matrices[a], matrices[b]
 
     if a == b:
-        # 1.0 severity CVD matrix, returning directly.
+        # 1.0 severity colour vision deficiency matrix, returning directly.
         return m1
 
     return m1 + (severity - a) * ((m2 - m1) / (b - a))
