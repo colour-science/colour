@@ -69,7 +69,7 @@ class CAM_ReferenceSpecification_ATD95(MixinDataclassArithmetic):
     """
     Define the *ATD (1995)* colour vision model reference specification.
 
-    This specification has field names consistent with *Fairchild (2013)*
+    This specification has field names consistent with the *Fairchild (2013)*
     reference.
 
     Parameters
@@ -77,11 +77,11 @@ class CAM_ReferenceSpecification_ATD95(MixinDataclassArithmetic):
     H
         *Hue* angle :math:`H` in degrees.
     C
-        Correlate of *saturation* :math:`C`. *Guth (1995)* incorrectly uses the
-        terms saturation and chroma interchangeably. However, :math:`C` is here
-        a measure of saturation rather than chroma since it is measured
-        relative to the achromatic response for the stimulus rather than that
-        of a similarly illuminated white.
+        Correlate of *saturation* :math:`C`. *Guth (1995)* incorrectly uses
+        the terms saturation and chroma interchangeably. However, :math:`C`
+        is here a measure of saturation rather than chroma since it is
+        measured relative to the achromatic response for the stimulus rather
+        than that of a similarly illuminated white.
     Br
         Correlate of *brightness* :math:`Br`.
     A_1
@@ -119,7 +119,7 @@ class CAM_Specification_ATD95(MixinDataclassArithmetic):
     Define the *ATD (1995)* colour vision model specification.
 
     This specification has field names consistent with the remaining colour
-    appearance models in :mod:`colour.appearance` but diverge from
+    appearance models in :mod:`colour.appearance` but diverge from the
     *Fairchild (2013)* reference.
 
     Parameters
@@ -127,11 +127,11 @@ class CAM_Specification_ATD95(MixinDataclassArithmetic):
     h
         *Hue* angle :math:`H` in degrees.
     C
-        Correlate of *saturation* :math:`C`. *Guth (1995)* incorrectly uses the
-        terms saturation and chroma interchangeably. However, :math:`C` is here
-        a measure of saturation rather than chroma since it is measured
-        relative to the achromatic response for the stimulus rather than that
-        of a similarly illuminated white.
+        Correlate of *saturation* :math:`C`. *Guth (1995)* incorrectly uses
+        the terms saturation and chroma interchangeably. However, :math:`C`
+        is here a measure of saturation rather than chroma since it is
+        measured relative to the achromatic response for the stimulus rather
+        than that of a similarly illuminated white.
     Q
         Correlate of *brightness* :math:`Br`.
     A_1
@@ -149,7 +149,8 @@ class CAM_Specification_ATD95(MixinDataclassArithmetic):
 
     Notes
     -----
-    -   This specification is the one used in the current model implementation.
+    -   This specification is the one used in the current model
+        implementation.
 
     References
     ----------
@@ -214,10 +215,10 @@ def XYZ_to_ATD95(
     | ``CAM_Specification_ATD95.h`` | [0, 360]              | [0, 1]        |
     +-------------------------------+-----------------------+---------------+
 
-    -   For unrelated colors, there is only self-adaptation and :math:`k_1` is
-        set to 1.0 while :math:`k_2` is set to 0.0. For related colors such as
-        typical colorimetric applications, :math:`k_1` is set to 0.0 and
-        :math:`k_2` is set to a value between 15 and 50 *(Guth, 1995)*.
+    -   For unrelated colors, there is only self-adaptation and :math:`k_1`
+        is set to 1.0 while :math:`k_2` is set to 0.0. For related colors
+        such as typical colorimetric applications, :math:`k_1` is set to 0.0
+        and :math:`k_2` is set to a value between 15 and 50 *(Guth, 1995)*.
 
     References
     ----------
@@ -281,8 +282,7 @@ T_2=0.0205377..., D_2=0.0107584...)
 
 def luminance_to_retinal_illuminance(XYZ: ArrayLike, Y_c: ArrayLike) -> NDArrayFloat:
     """
-    Convert from luminance in :math:`cd/m^2` to retinal illuminance in
-    trolands.
+    Convert luminance in :math:`cd/m^2` to retinal illuminance in trolands.
 
     Parameters
     ----------
@@ -312,7 +312,7 @@ def luminance_to_retinal_illuminance(XYZ: ArrayLike, Y_c: ArrayLike) -> NDArrayF
 
 def XYZ_to_LMS_ATD95(XYZ: ArrayLike) -> NDArrayFloat:
     """
-    Convert from *CIE XYZ* tristimulus values to *LMS* cone responses.
+    Convert *CIE XYZ* tristimulus values to *LMS* cone responses.
 
     Parameters
     ----------
@@ -349,12 +349,13 @@ def XYZ_to_LMS_ATD95(XYZ: ArrayLike) -> NDArrayFloat:
 
 def opponent_colour_dimensions(LMS_g: ArrayLike) -> NDArrayFloat:
     """
-    Return opponent colour dimensions from given post adaptation cone signals.
+    Compute opponent colour dimensions from the specified post-adaptation cone
+    signals.
 
     Parameters
     ----------
     LMS_g
-        Post adaptation cone signals.
+        Post-adaptation cone signals.
 
     Returns
     -------
@@ -389,12 +390,12 @@ def opponent_colour_dimensions(LMS_g: ArrayLike) -> NDArrayFloat:
 
 def final_response(value: ArrayLike) -> NDArrayFloat:
     """
-    Return the final response of given opponent colour dimension.
+    Compute the final response of the specified opponent colour dimension.
 
     Parameters
     ----------
     value
-         Opponent colour dimension.
+        Opponent colour dimension.
 
     Returns
     -------

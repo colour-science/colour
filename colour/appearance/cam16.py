@@ -109,8 +109,8 @@ class InductionFactors_CAM16(MixinDataclassIterable):
 
     Notes
     -----
-    -   The *CAM16* colour appearance model induction factors are the same as
-        *CIECAM02* colour appearance model.
+    -   The *CAM16* colour appearance model induction factors are the same
+        as *CIECAM02* colour appearance model.
 
     References
     ----------
@@ -142,7 +142,7 @@ class CAM_Specification_CAM16(MixinDataclassArithmetic):
     Parameters
     ----------
     J
-        Correlate of *Lightness* :math:`J`.
+        Correlate of *lightness* :math:`J`.
     C
         Correlate of *chroma* :math:`C`.
     h
@@ -185,7 +185,7 @@ def XYZ_to_CAM16(
     compute_H: bool = True,
 ) -> CAM_Specification_CAM16:
     """
-    Compute the *CAM16* colour appearance model correlates from given
+    Compute the *CAM16* colour appearance model correlates from the specified
     *CIE XYZ* tristimulus values.
 
     Parameters
@@ -195,22 +195,22 @@ def XYZ_to_CAM16(
     XYZ_w
         *CIE XYZ* tristimulus values of reference white.
     L_A
-        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
-        to be 20% of the luminance of a white object in the scene).
+        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often
+        taken to be 20% of the luminance of a white object in the scene).
     Y_b
         Luminous factor of background :math:`Y_b` such as
-        :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of the
-        light source and :math:`L_b` is the luminance of the background. For
-        viewing images, :math:`Y_b` can be the average :math:`Y` value for the
-        pixels in the entire image, or frequently, a :math:`Y` value of 20,
-        approximate an :math:`L^*` of 50 is used.
+        :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of
+        the light source and :math:`L_b` is the luminance of the background.
+        For viewing images, :math:`Y_b` can be the average :math:`Y` value
+        for the pixels in the entire image, or frequently, a :math:`Y` value
+        of 20, approximate an :math:`L^*` of 50 is used.
     surround
         Surround viewing conditions induction factors.
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
     compute_H
-        Whether to compute *Hue* :math:`h` quadrature :math:`H`. :math:`H` is
-        rarely used, and expensive to compute.
+        Whether to compute *Hue* :math:`h` quadrature :math:`H`. :math:`H`
+        is rarely used, and expensive to compute.
 
     Returns
     -------
@@ -361,27 +361,27 @@ def CAM16_to_XYZ(
     discount_illuminant: bool = False,
 ) -> NDArrayFloat:
     """
-    Convert from *CAM16* specification to *CIE XYZ* tristimulus values.
+    Convert *CAM16* specification to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
     specification
         *CAM16* colour appearance model specification. Correlate of
-        *Lightness* :math:`J`, correlate of *chroma* :math:`C` or correlate of
-        *colourfulness* :math:`M` and *hue* angle :math:`h` in degrees must be
-        specified, e.g., :math:`JCh` or :math:`JMh`.
+        *lightness* :math:`J`, correlate of *chroma* :math:`C` or correlate
+        of *colourfulness* :math:`M` and *hue* angle :math:`h` in degrees
+        must be specified, e.g., :math:`JCh` or :math:`JMh`.
     XYZ_w
         *CIE XYZ* tristimulus values of reference white.
     L_A
-        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
-        to be 20% of the luminance of a white object in the scene).
+        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often
+        taken to be 20% of the luminance of a white object in the scene).
     Y_b
         Luminous factor of background :math:`Y_b` such as
-        :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of the
-        light source and :math:`L_b` is the luminance of the background. For
-        viewing images, :math:`Y_b` can be the average :math:`Y` value for the
-        pixels in the entire image, or frequently, a :math:`Y` value of 20,
-        approximate an :math:`L^*` of 50 is used.
+        :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of
+        the light source and :math:`L_b` is the luminance of the background.
+        For viewing images, :math:`Y_b` can be the average :math:`Y` value
+        for the pixels in the entire image, or frequently, a :math:`Y` value
+        of 20, approximate an :math:`L^*` of 50 is used.
     surround
         Surround viewing conditions.
     discount_illuminant
@@ -395,8 +395,8 @@ def CAM16_to_XYZ(
     Raises
     ------
     ValueError
-        If neither :math:`C` or :math:`M` correlates have been defined in the
-        ``specification`` argument.
+        If neither :math:`C` or :math:`M` correlates have been defined in
+        the ``specification`` argument.
 
     Notes
     -----

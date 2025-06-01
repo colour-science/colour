@@ -340,7 +340,7 @@ H=None, HC=None, L_star_N=50.0039154...)
 
 def illuminance_to_luminance(E: ArrayLike, Y_f: ArrayLike) -> NDArrayFloat:
     """
-    Convert given *illuminance* :math:`E` value in lux to *luminance* in
+    Convert the specified *illuminance* :math:`E` value in lux to *luminance* in
     :math:`cd/m^2`.
 
     Parameters
@@ -369,7 +369,7 @@ def illuminance_to_luminance(E: ArrayLike, Y_f: ArrayLike) -> NDArrayFloat:
 
 def XYZ_to_RGB_Nayatani95(XYZ: ArrayLike) -> NDArrayFloat:
     """
-    Convert from *CIE XYZ* tristimulus values to cone responses.
+    Convert *CIE XYZ* tristimulus values to cone responses.
 
     Parameters
     ----------
@@ -393,7 +393,7 @@ def XYZ_to_RGB_Nayatani95(XYZ: ArrayLike) -> NDArrayFloat:
 
 def scaling_coefficient(x: ArrayLike, y: ArrayLike) -> NDArrayFloat:
     """
-    Return the scaling coefficient :math:`e(R)` or :math:`e(G)`.
+    Compute the scaling coefficient :math:`e(R)` or :math:`e(G)`.
 
     Parameters
     ----------
@@ -431,7 +431,7 @@ def achromatic_response(
     n: ArrayLike = 1,
 ) -> NDArrayFloat:
     """
-    Return the achromatic response :math:`Q` from given stimulus cone
+    Compute the achromatic response :math:`Q` from the specified stimulus cone
     responses.
 
     Parameters
@@ -490,7 +490,7 @@ def tritanopic_response(
     RGB: ArrayLike, bRGB_o: ArrayLike, xez: ArrayLike, n: ArrayLike
 ) -> NDArrayFloat:
     """
-    Return the tritanopic response :math:`t` from given stimulus cone
+    Compute the tritanopic response :math:`t` from the specified stimulus cone
     responses.
 
     Parameters
@@ -535,7 +535,7 @@ def protanopic_response(
     RGB: ArrayLike, bRGB_o: ArrayLike, xez: ArrayLike, n: ArrayLike
 ) -> NDArrayFloat:
     """
-    Return the protanopic response :math:`p` from given stimulus cone
+    Compute the protanopic response :math:`p` from the specified stimulus cone
     responses.
 
     Parameters
@@ -580,7 +580,7 @@ def brightness_correlate(
     bRGB_o: ArrayLike, bL_or: ArrayLike, Q: ArrayLike
 ) -> NDArrayFloat:
     """
-    Return the *brightness* correlate :math:`B_r`.
+    Compute the *brightness* correlate :math:`B_r`.
 
     Parameters
     ----------
@@ -623,7 +623,7 @@ def ideal_white_brightness_correlate(
     n: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the ideal white *brightness* correlate :math:`B_{rw}`.
+    Compute the ideal white *brightness* correlate :math:`B_{rw}`.
 
     Parameters
     ----------
@@ -671,7 +671,7 @@ def achromatic_lightness_correlate(
     Q: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the *achromatic Lightness* correlate :math:`L_p^\\star`.
+    Compute the *achromatic lightness* correlate :math:`L_p^\\star`.
 
     Parameters
     ----------
@@ -681,7 +681,7 @@ def achromatic_lightness_correlate(
     Returns
     -------
     :class:`numpy.ndarray`
-        *Achromatic Lightness* correlate :math:`L_p^\\star`.
+        *Achromatic lightness* correlate :math:`L_p^\\star`.
 
     Examples
     --------
@@ -699,7 +699,7 @@ def normalised_achromatic_lightness_correlate(
     B_r: ArrayLike, B_rw: ArrayLike
 ) -> NDArrayFloat:
     """
-    Return the *normalised achromatic Lightness* correlate :math:`L_n^\\star`.
+    Compute the *normalised achromatic lightness* correlate :math:`L_n^\\star`.
 
     Parameters
     ----------
@@ -711,7 +711,7 @@ def normalised_achromatic_lightness_correlate(
     Returns
     -------
     :class:`numpy.ndarray`
-        *Normalised achromatic Lightness* correlate :math:`L_n^\\star`.
+        *Normalised achromatic lightness* correlate :math:`L_n^\\star`.
 
     Examples
     --------
@@ -730,7 +730,7 @@ def normalised_achromatic_lightness_correlate(
 
 def hue_angle(p: ArrayLike, t: ArrayLike) -> NDArrayFloat:
     """
-    Return the *hue* angle :math:`h` in degrees.
+    Compute the *hue* angle :math:`h` in degrees.
 
     Parameters
     ----------
@@ -807,7 +807,7 @@ def saturation_components(
     p: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the *saturation* components :math:`S_{RG}` and :math:`S_{YB}`.
+    Compute the *saturation* components :math:`S_{RG}` and :math:`S_{YB}`.
 
     Parameters
     ----------
@@ -850,7 +850,7 @@ def saturation_components(
 
 def saturation_correlate(S_RG: ArrayLike, S_YB: ArrayLike) -> NDArrayFloat:
     """
-    Return the correlate of *saturation* :math:`S`.
+    Compute the correlate of *saturation* :math:`S`.
 
     Parameters
     ----------
@@ -886,12 +886,12 @@ def chroma_components(
     S_YB: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the *chroma* components :math:`C_{RG}` and :math:`C_{YB}`.
+    Compute the *chroma* components :math:`C_{RG}` and :math:`C_{YB}`.
 
     Parameters
     ----------
     L_star_P
-        *Achromatic Lightness* correlate :math:`L_p^\\star`.
+        *Achromatic lightness* correlate :math:`L_p^\\star`.
     S_RG
         *Saturation* component :math:`S_{RG}`.
     S_YB
@@ -923,12 +923,12 @@ def chroma_components(
 
 def chroma_correlate(L_star_P: ArrayLike, S: ArrayLike) -> NDArrayFloat:
     """
-    Return the correlate of *chroma* :math:`C`.
+    Compute the correlate of *chroma* :math:`C`.
 
     Parameters
     ----------
     L_star_P
-        *Achromatic Lightness* correlate :math:`L_p^\\star`.
+        *Achromatic lightness* correlate :math:`L_p^\\star`.
     S
         Correlate of *saturation* :math:`S`.
 
@@ -957,7 +957,7 @@ def colourfulness_components(
     B_rw: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the *colourfulness* components :math:`M_{RG}` and :math:`M_{YB}`.
+    Compute the *colourfulness* components :math:`M_{RG}` and :math:`M_{YB}`.
 
     Parameters
     ----------
@@ -994,7 +994,7 @@ def colourfulness_components(
 
 def colourfulness_correlate(C: ArrayLike, B_rw: ArrayLike) -> NDArrayFloat:
     """
-    Return the correlate of *colourfulness* :math:`M`.
+    Compute the correlate of *colourfulness* :math:`M`.
 
     Parameters
     ----------

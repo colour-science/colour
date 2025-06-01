@@ -147,7 +147,7 @@ class CAM_ReferenceSpecification_ZCAM(MixinDataclassArithmetic):
     Parameters
     ----------
     J_z
-        Correlate of *Lightness* :math:`J_z`.
+        Correlate of *lightness* :math:`J_z`.
     C_z
         Correlate of *chroma* :math:`C_z`.
     h_z
@@ -318,7 +318,7 @@ def XYZ_to_ZCAM(
     compute_H: bool = True,
 ) -> CAM_Specification_ZCAM:
     """
-    Compute the *ZCAM* colour appearance model correlates from given *CIE XYZ*
+    Compute the *ZCAM* colour appearance model correlates from the specified *CIE XYZ*
     tristimulus values.
 
     Parameters
@@ -522,13 +522,13 @@ def ZCAM_to_XYZ(
     discount_illuminant: bool = False,
 ) -> NDArrayFloat:
     """
-    Convert from *ZCAM* specification to *CIE XYZ* tristimulus values.
+    Convert *ZCAM* specification to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
     specification
          *ZCAM* colour appearance model specification.
-         Correlate of *Lightness* :math:`J`, correlate of *chroma* :math:`C` or
+         Correlate of *lightness* :math:`J`, correlate of *chroma* :math:`C` or
          correlate of *colourfulness* :math:`M` and *hue* angle :math:`h` in
          degrees must be specified, e.g., :math:`JCh` or :math:`JMh`.
     XYZ_w
@@ -581,7 +581,7 @@ def ZCAM_to_XYZ(
         *Zhai and Luo (2018)* two-steps chromatic adaptation transform but then
         the *ZCAM* colour appearance model does not round-trip properly.
     -   *Step 4* of the inverse model uses a rounded exponent of 1.3514
-        preventing the model to round-trip properly. Given that this
+        preventing the model to round-trip properly. specified that this
         implementation takes some liberties with respect to the chromatic
         adaptation transform to use, it was deemed appropriate to use an
         exponent value that enables the *ZCAM* colour appearance model to
@@ -726,7 +726,7 @@ def ZCAM_to_XYZ(
 
 def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
     """
-    Return the hue quadrature from given hue :math:`h` angle in degrees.
+    Compute the hue quadrature from the specified hue :math:`h` angle in degrees.
 
     Parameters
     ----------
