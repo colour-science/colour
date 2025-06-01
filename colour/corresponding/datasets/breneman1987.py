@@ -1234,7 +1234,7 @@ BRENEMAN_EXPERIMENT_11_RESULTS = (
     ),
 )
 """
-*Breneman (1987)* experiment 1 results.
+*Breneman (1987)* experiment 11 results.
 
 Notes
 -----
