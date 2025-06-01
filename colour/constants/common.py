@@ -2,7 +2,7 @@
 Common Constants
 ================
 
-Define the common constants objects that don't belong to any specific
+Define common constants objects that don't belong to any specific
 category.
 """
 
@@ -41,8 +41,8 @@ THRESHOLD_INTEGER: float = 1e-3
 if is_documentation_building():  # pragma: no cover
     THRESHOLD_INTEGER = DocstringFloat(THRESHOLD_INTEGER)
     THRESHOLD_INTEGER.__doc__ = """
-Integer threshold value when checking if a float point number is almost an
-int.
+Integer threshold value when checking if a floating point number is almost an
+integer.
 """
 
 EPSILON: float = cast(float, np.finfo(np.double).eps)
