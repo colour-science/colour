@@ -2,7 +2,7 @@
 Signal
 ======
 
-Define the class implementing support for continuous signal:
+Define a class implementing support for continuous signal:
 
 -   :class:`colour.continuous.Signal`
 """
@@ -74,7 +74,7 @@ __all__ = [
 
 class Signal(AbstractContinuousFunction):
     """
-    Define the base class for continuous signal.
+    Define the base class for a continuous signal.
 
     The class implements the :meth:`Signal.function` method so that evaluating
     the function for any independent domain variable :math:`x \\in\\mathbb{R}`
@@ -98,13 +98,13 @@ class Signal(AbstractContinuousFunction):
     domain
         Values to initialise the :attr:`colour.continuous.Signal.domain`
         attribute with. If both ``data`` and ``domain`` arguments are defined,
-        the latter with be used to initialise the
+        the latter will be used to initialise the
         :attr:`colour.continuous.Signal.domain` property.
 
     Other Parameters
     ----------------
     dtype
-        float point data type.
+        Floating point data type.
     extrapolator
         Extrapolator class type to use as extrapolating function.
     extrapolator_kwargs
@@ -802,8 +802,8 @@ class Signal(AbstractContinuousFunction):
 
     def __contains__(self, x: ArrayLike | slice) -> bool:
         """
-        Return whether the continuous signal contains given independent domain
-        variable :math:`x`.
+        Return whether the continuous signal contains specified independent
+        domain variable :math:`x`.
 
         Parameters
         ----------
@@ -843,7 +843,8 @@ class Signal(AbstractContinuousFunction):
     @ndarray_copy_enable(False)
     def __eq__(self, other: object) -> bool:
         """
-        Return whether the continuous signal is equal to given other object.
+        Return whether the continuous signal is equal to specified other
+        object.
 
         Parameters
         ----------
@@ -853,7 +854,7 @@ class Signal(AbstractContinuousFunction):
         Returns
         -------
         :class:`bool`
-            Whether given object is equal to the continuous signal.
+            Whether specified object is equal to the continuous signal.
 
         Examples
         --------
@@ -892,7 +893,7 @@ class Signal(AbstractContinuousFunction):
 
     def __ne__(self, other: object) -> bool:
         """
-        Return whether the continuous signal is not equal to given other
+        Return whether the continuous signal is not equal to specified other
         object.
 
         Parameters
@@ -903,7 +904,7 @@ class Signal(AbstractContinuousFunction):
         Returns
         -------
         :class:`bool`
-            Whether given object is not equal to the continuous signal.
+            Whether specified object is not equal to the continuous signal.
 
         Examples
         --------
@@ -933,7 +934,8 @@ class Signal(AbstractContinuousFunction):
         default: Real = 0,
     ) -> None:
         """
-        Fill NaNs in independent domain variable :math:`x` using given method.
+        Fill NaNs in independent domain variable :math:`x` using specified
+        method.
 
         Parameters
         ----------
@@ -959,7 +961,8 @@ class Signal(AbstractContinuousFunction):
         default: Real = 0,
     ) -> None:
         """
-        Fill NaNs in corresponding range variable :math:`y` using given method.
+        Fill NaNs in corresponding range variable :math:`y` using specified
+        method.
 
         Parameters
         ----------
@@ -986,7 +989,7 @@ class Signal(AbstractContinuousFunction):
         in_place: bool = False,
     ) -> AbstractContinuousFunction:
         """
-        Perform given arithmetical operation with operand :math:`a`, the
+        Perform specified arithmetical operation with operand :math:`a`, the
         operation can be either performed on a copy or in-place.
 
         Parameters
@@ -1091,7 +1094,7 @@ class Signal(AbstractContinuousFunction):
         dtype: Type[DTypeFloat] | None = None,
     ) -> tuple:
         """
-        Unpack given data for continuous signal instantiation.
+        Unpack specified data for continuous signal instantiation.
 
         Parameters
         ----------
@@ -1218,7 +1221,7 @@ class Signal(AbstractContinuousFunction):
     ) -> Signal:
         """
         Fill NaNs in independent domain variable :math:`x` and corresponding
-        range variable :math:`y` using given method.
+        range variable :math:`y` using specified method.
 
         Parameters
         ----------
