@@ -535,7 +535,7 @@ def corresponding_chromaticities_prediction_VonKries(
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
     Return the corresponding chromaticities prediction for *Von Kries*
-    chromatic adaptation model using given transform.
+    chromatic adaptation model using specified transform.
 
     Parameters
     ----------
@@ -608,7 +608,7 @@ def corresponding_chromaticities_prediction_Zhai2018(
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
     Return the corresponding chromaticities prediction for
-    *Zhai and Luo (2018)* chromatic adaptation model using given transform.
+    *Zhai and Luo (2018)* chromatic adaptation model using specified transform.
 
     Parameters
     ----------
@@ -724,7 +724,7 @@ def corresponding_chromaticities_prediction(
     **kwargs: Any,
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
-    Return the corresponding chromaticities prediction for given chromatic
+    Return the corresponding chromaticities prediction for specified chromatic
     adaptation model.
 
     Parameters
