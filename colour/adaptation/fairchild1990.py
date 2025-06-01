@@ -73,7 +73,7 @@ def chromatic_adaptation_Fairchild1990(
     discount_illuminant: bool = False,
 ) -> NDArrayFloat:
     """
-    Adapt given stimulus *CIE XYZ_1* tristimulus values from test viewing
+    Adapt the specified stimulus *CIE XYZ_1* tristimulus values from test viewing
     conditions to reference viewing conditions using *Fairchild (1990)*
     chromatic adaptation model.
 
@@ -82,19 +82,20 @@ def chromatic_adaptation_Fairchild1990(
     XYZ_1
         *CIE XYZ_1* tristimulus values of test sample / stimulus.
     XYZ_n
-        Test viewing condition *CIE XYZ_n* tristimulus values of whitepoint.
+        Test viewing condition *CIE XYZ_n* tristimulus values of the
+        whitepoint.
     XYZ_r
-        Reference viewing condition *CIE XYZ_r* tristimulus values of
+        Reference viewing condition *CIE XYZ_r* tristimulus values of the
         whitepoint.
     Y_n
-        Luminance :math:`Y_n` of test adapting stimulus in :math:`cd/m^2`.
+        luminance :math:`Y_n` of test adapting stimulus in :math:`cd/m^2`.
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Adapted *CIE XYZ_2* tristimulus values of stimulus.
+        Adapted *CIE XYZ_2* tristimulus values of the stimulus.
 
     Notes
     -----
@@ -162,7 +163,7 @@ def chromatic_adaptation_Fairchild1990(
 
 def XYZ_to_RGB_Fairchild1990(XYZ: ArrayLike) -> NDArrayFloat:
     """
-    Convert from *CIE XYZ* tristimulus values to cone responses.
+    Convert *CIE XYZ* tristimulus values to cone responses.
 
     Parameters
     ----------
@@ -186,7 +187,7 @@ def XYZ_to_RGB_Fairchild1990(XYZ: ArrayLike) -> NDArrayFloat:
 
 def RGB_to_XYZ_Fairchild1990(RGB: ArrayLike) -> NDArrayFloat:
     """
-    Convert from cone responses to *CIE XYZ* tristimulus values.
+    Convert cone responses to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -223,7 +224,7 @@ def degrees_of_adaptation(
     LMS
         Cone responses.
     Y_n
-        Luminance :math:`Y_n` of test adapting stimulus in :math:`cd/m^2`.
+        luminance :math:`Y_n` of test adapting stimulus in :math:`cd/m^2`.
     v
         Exponent :math:`v`.
     discount_illuminant

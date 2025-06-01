@@ -136,17 +136,19 @@ def matrix_chromatic_adaptation_vk20(
     ),
 ) -> NDArrayFloat:
     """
-    Compute the *chromatic adaptation* matrix from previous viewing conditions
+    Compute the chromatic adaptation matrix from previous viewing conditions
     to adapting viewing conditions using *Von Kries 2020* (*vK20*) method.
 
     Parameters
     ----------
     XYZ_p
-        Previous viewing conditions *CIE XYZ* tristimulus values of whitepoint.
+        Previous viewing conditions *CIE XYZ* tristimulus values of the
+        whitepoint.
     XYZ_n
-        Adapting viewing conditions *CIE XYZ* tristimulus values of whitepoint.
+        Adapting viewing conditions *CIE XYZ* tristimulus values of the
+        whitepoint.
     XYZ_r
-        Reference viewing conditions *CIE XYZ* tristimulus values of
+        Reference viewing conditions *CIE XYZ* tristimulus values of the
         whitepoint.
     transform
         Chromatic adaptation transform.
@@ -247,19 +249,21 @@ def chromatic_adaptation_vK20(
     ),
 ) -> NDArrayFloat:
     """
-    Adapt given stimulus from previous viewing conditions to adapting viewing
-    conditions using *Von Kries 2020* (*vK20*) method.
+    Adapt the specified stimulus from previous viewing conditions to adapting
+    viewing conditions using *Von Kries 2020* (*vK20*) method.
 
     Parameters
     ----------
     XYZ
-        *CIE XYZ* tristimulus values of stimulus to adapt.
+        *CIE XYZ* tristimulus values of the stimulus to adapt.
     XYZ_p
-        Previous viewing conditions *CIE XYZ* tristimulus values of whitepoint.
+        Previous viewing conditions *CIE XYZ* tristimulus values of the
+        whitepoint.
     XYZ_n
-        Adapting viewing conditions *CIE XYZ* tristimulus values of whitepoint.
+        Adapting viewing conditions *CIE XYZ* tristimulus values of the
+        whitepoint.
     XYZ_r
-        Reference viewing conditions *CIE XYZ* tristimulus values of
+        Reference viewing conditions *CIE XYZ* tristimulus values of the
         whitepoint.
     transform
         Chromatic adaptation transform.

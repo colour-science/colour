@@ -109,7 +109,7 @@ def chromatic_adaptation_forward_CMCCAT2000(
     surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000["Average"],
 ) -> NDArrayFloat:
     """
-    Adapt given stimulus *CIE XYZ* tristimulus values from test viewing
+    Adapt the specified stimulus *CIE XYZ* tristimulus values from test viewing
     conditions to reference viewing conditions using *CMCCAT2000* forward
     chromatic adaptation model.
 
@@ -202,8 +202,8 @@ def chromatic_adaptation_inverse_CMCCAT2000(
     surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000["Average"],
 ) -> NDArrayFloat:
     """
-    Adapt given stimulus corresponding colour *CIE XYZ* tristimulus values
-    from reference viewing conditions to test viewing conditions using
+    Adapt the specified stimulus corresponding colour *CIE XYZ* tristimulus
+    values from reference viewing conditions to test viewing conditions using
     *CMCCAT2000* inverse chromatic adaptation model.
 
     Parameters
@@ -296,8 +296,8 @@ def chromatic_adaptation_CMCCAT2000(
     direction: Literal["Forward", "Inverse"] | str = "Forward",
 ) -> NDArrayFloat:
     """
-    Adapt given stimulus *CIE XYZ* tristimulus values using given viewing
-    conditions.
+    Adapt the specified stimulus *CIE XYZ* tristimulus values using the specified
+    viewing conditions.
 
     This definition is a convenient wrapper around
     :func:`colour.adaptation.chromatic_adaptation_forward_CMCCAT2000` and
