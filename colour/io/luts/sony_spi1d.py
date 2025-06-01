@@ -43,7 +43,7 @@ __all__ = [
 
 def read_LUT_SonySPI1D(path: str | PathLike) -> LUT1D | LUT3x1D:
     """
-    Read given *Sony* *.spi1d* *LUT* file.
+    Read the specified *Sony* *.spi1d* *LUT* file.
 
     Parameters
     ----------
@@ -162,13 +162,13 @@ def write_LUT_SonySPI1D(
     LUT: LUT1D | LUT3x1D | LUTSequence, path: str | PathLike, decimals: int = 7
 ) -> bool:
     """
-    Write given *LUT* to given *Sony* *.spi1d* *LUT* file.
+    Write the specified *LUT* to the specified *Sony* *.spi1d* *LUT* file.
 
     Parameters
     ----------
     LUT
         :class:`LUT1D`, :class:`LUT3x1D` or :class:`LUTSequence` class instance
-        to write at given path.
+        to write at specified path.
     path
         *LUT* path.
     decimals

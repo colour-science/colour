@@ -184,7 +184,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
 
     def __str__(self) -> str:
         """
-        Return a formatted string representation of the *UPRTek* spectral
+        Generate formatted string representation of the *UPRTek* spectral
         distribution.
 
         Returns
@@ -285,12 +285,17 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
 
     def read(self) -> SpectralDistribution_UPRTek:
         """
-        Read and parses the spectral data from a given *UPRTek* *CSV* file.
+        Read and parse the spectral data from a specified *UPRTek* *CSV* file.
 
         Returns
         -------
         :class:`colour.SpectralDistribution_UPRTek`
             *UPRTek* spectral distribution.
+
+        Raises
+        ------
+        IOError
+            If the file cannot be read.
 
         Examples
         --------
@@ -545,7 +550,7 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
 
     def __str__(self) -> str:
         """
-        Return a formatted string representation of the *Sekonic* spectral
+        Generate formatted string representation of the *Sekonic* spectral
         distribution.
 
         Returns
@@ -643,13 +648,18 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
 
     def read(self) -> SpectralDistribution_Sekonic:
         """
-        Read and parses the spectral data from a given *Sekonic* *Pseudo-XLS*
+        Read and parse the spectral data from a specified *Sekonic* *Pseudo-XLS*
         file.
 
         Returns
         -------
         :class:`colour.SpectralDistribution_Sekonic`
             *Sekonic* spectral distribution.
+
+        Raises
+        ------
+        IOError
+            If the file cannot be read.
 
         Examples
         --------

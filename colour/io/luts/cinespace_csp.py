@@ -49,7 +49,7 @@ __all__ = [
 
 def read_LUT_Cinespace(path: str | PathLike) -> LUT3x1D | LUT3D | LUTSequence:
     """
-    Read given *Cinespace* *.csp* *LUT* file.
+    Read the specified *Cinespace* *.csp* *LUT* file.
 
     Parameters
     ----------
@@ -110,12 +110,12 @@ def read_LUT_Cinespace(path: str | PathLike) -> LUT3x1D | LUT3D | LUTSequence:
     unity_range = np.array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]])
 
     def _parse_metadata_section(metadata: list) -> tuple:
-        """Parse the metadata at given lines."""
+        """Parse the metadata at specified lines."""
 
         return (metadata[0], metadata[1:]) if len(metadata) > 0 else ("", [])
 
     def _parse_domain_section(lines: List[str]) -> NDArrayFloat:
-        """Parse the domain at given lines."""
+        """Parse the domain at specified lines."""
 
         pre_LUT_size = max(int(lines[i]) for i in [0, 3, 6])
         pre_LUT = [as_float_array(lines[i].split()) for i in [1, 2, 4, 5, 7, 8]]
@@ -137,7 +137,7 @@ def read_LUT_Cinespace(path: str | PathLike) -> LUT3x1D | LUT3D | LUTSequence:
         return np.asarray(pre_LUT_padded)
 
     def _parse_table_section(lines: list[str]) -> tuple[NDArrayInt, NDArrayFloat]:
-        """Parse the table at given lines."""
+        """Parse the table at specified lines."""
 
         size = as_int_array(lines[0].split())
         table = as_float_array([line.split() for line in lines[1:]])
@@ -247,13 +247,13 @@ def write_LUT_Cinespace(
     LUT: LUT1D | LUT3x1D | LUT3D | LUTSequence, path: str | PathLike, decimals: int = 7
 ) -> bool:
     """
-    Write given *LUT* to given  *Cinespace* *.csp* *LUT* file.
+    Write the specified *LUT* to the specified *Cinespace* *.csp* *LUT* file.
 
     Parameters
     ----------
     LUT
         :class:`LUT1D`, :class:`LUT3x1D` or :class:`LUT3D` or
-        :class:`LUTSequence` class instance to write at given path.
+        :class:`LUTSequence` class instance to write at specified path.
     path
         *LUT* path.
     decimals
@@ -339,7 +339,7 @@ def write_LUT_Cinespace(
         attest(2 <= LUT[1].size <= 256, "Cube size must be in domain [2, 256]!")
 
     def _ragged_size(table: ArrayLike) -> list:
-        """Return the ragged size of given table."""
+        """Return the ragged size of specified table."""
 
         R, G, B = tsplit(table)
 

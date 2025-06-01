@@ -45,7 +45,7 @@ def read_spectral_data_from_csv_file(
     path: str | PathLike, **kwargs: Any
 ) -> Dict[str, NDArrayFloat]:
     """
-    Read the spectral data from given *CSV* file in the following form::
+    Read spectral data from the specified *CSV* file in the following form::
 
         390, 4.15003e-04, 3.68349e-04, 9.54729e-03
         395, 1.05192e-03, 9.58658e-04, 2.38250e-02
@@ -53,7 +53,7 @@ def read_spectral_data_from_csv_file(
         ...
         830, 9.74306e-07, 9.53411e-08, 0.00000
 
-    and returns it as an *dict* as follows::
+    and convert it to a *dict* as follows::
 
         {
             'wavelength': ndarray,
@@ -77,6 +77,11 @@ def read_spectral_data_from_csv_file(
     -------
     :class:`dict`
         *CSV* file content.
+
+    Raises
+    ------
+    IOError
+        If the file cannot be read.
 
     Notes
     -----
@@ -162,7 +167,7 @@ def read_sds_from_csv_file(
     path: str | PathLike, **kwargs: Any
 ) -> Dict[str, SpectralDistribution]:
     """
-    Read the spectral data from given *CSV* file and returns its content as a
+    Read spectral data from the specified *CSV* file and convert its content to a
     *dict* of :class:`colour.SpectralDistribution` class instances.
 
     Parameters
@@ -179,6 +184,11 @@ def read_sds_from_csv_file(
     -------
     :class:`dict`
         *dict* of :class:`colour.SpectralDistribution` class instances.
+
+    Raises
+    ------
+    IOError
+        If the file cannot be read.
 
     Examples
     --------
@@ -303,12 +313,12 @@ def write_sds_to_csv_file(
     sds: Dict[str, SpectralDistribution], path: str | PathLike
 ) -> bool:
     """
-    Write the given spectral distributions to given *CSV* file.
+    Write the specified spectral distributions to the specified *CSV* file.
 
     Parameters
     ----------
     sds
-        Spectral distributions to write to given *CSV* file.
+        Spectral distributions to write to specified *CSV* file.
     path
         *CSV* file path.
 
@@ -320,7 +330,7 @@ def write_sds_to_csv_file(
     Raises
     ------
     ValueError
-        If the given spectral distributions have different shapes.
+        If the specified spectral distributions have different shapes.
     """
 
     path = str(path)

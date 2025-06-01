@@ -37,7 +37,7 @@ def read_sds_from_xrite_file(
     path: str | PathLike,
 ) -> Dict[str, SpectralDistribution]:
     """
-    Read the spectral data from given *X-Rite* file and returns it as a
+    Read spectral data from the specified *X-Rite* file and convert it to a
     *dict* of :class:`colour.SpectralDistribution` class instances.
 
     Parameters
@@ -49,6 +49,11 @@ def read_sds_from_xrite_file(
     -------
     :class:`dict`
         *dict* of :class:`colour.SpectralDistribution` class instances.
+
+    Raises
+    ------
+    IOError
+        If the file cannot be read.
 
     Notes
     -----

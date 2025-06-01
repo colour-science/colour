@@ -49,7 +49,7 @@ __all__ = [
 
 def read_LUT_ResolveCube(path: str | PathLike) -> LUT3x1D | LUT3D | LUTSequence:
     """
-    Read given *Resolve* *.cube* *LUT* file.
+    Read the specified *Resolve* *.cube* *LUT* file.
 
     Parameters
     ----------
@@ -245,13 +245,13 @@ def write_LUT_ResolveCube(
     decimals: int = 7,
 ) -> bool:
     """
-    Write given *LUT* to given  *Resolve* *.cube* *LUT* file.
+    Write the specified *LUT* to specified the *Resolve* *.cube* *LUT* file.
 
     Parameters
     ----------
     LUT
         :class:`LUT1D`, :class:`LUT3x1D` or :class:`LUT3D` or
-        :class:`LUTSequence` class instance to write at given path.
+        :class:`LUTSequence` class instance to write at specified path.
     path
         *LUT* path.
     decimals

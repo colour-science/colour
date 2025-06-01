@@ -625,7 +625,7 @@ class Header_IESTM2714:
 
     def __repr__(self) -> str:
         """
-        Return an evaluable string representation of the header.
+        Generate an evaluable string representation of the header.
 
         Returns
         -------
@@ -667,7 +667,7 @@ class Header_IESTM2714:
 
     def __hash__(self) -> int:
         """
-        Return the header hash.
+        Generate the header hash.
 
         Returns
         -------
@@ -693,7 +693,7 @@ class Header_IESTM2714:
 
     def __eq__(self, other: object) -> bool:
         """
-        Return whether the header is equal to given other object.
+        Determine whether the header is equal to specified other object.
 
         Parameters
         ----------
@@ -703,7 +703,7 @@ class Header_IESTM2714:
         Returns
         -------
         :class:`bool`
-            Whether given object is equal to the header.
+            Whether specified object is equal to the header.
 
         Examples
         --------
@@ -734,7 +734,7 @@ class Header_IESTM2714:
 
     def __ne__(self, other: object) -> bool:
         """
-        Return whether the header is not equal to given other object.
+        Determine whether the header is not equal to specified other object.
 
         Parameters
         ----------
@@ -744,7 +744,7 @@ class Header_IESTM2714:
         Returns
         -------
         :class:`bool`
-            Whether given object is not equal to the header.
+            Whether specified object is not equal to the header.
 
         Examples
         --------
@@ -1481,7 +1481,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
     def __repr__(self) -> str:
         """
-        Return an evaluable string representation of the *IES TM-27-14*
+        Generate an evaluable string representation of the *IES TM-27-14*
         spectral distribution.
 
         Returns
@@ -1640,7 +1640,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
     def read(self) -> SpectralDistribution_IESTM2714:
         """
-        Read and parses the spectral data *XML* file path.
+        Read and parse the spectral data from the *XML* file path.
 
         Returns
         -------
@@ -1732,12 +1732,17 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
     def write(self) -> bool:
         """
-        Write the spectral distribution spectral data to *XML* file path.
+        Write the spectral distribution spectral data to the *XML* file path.
 
         Returns
         -------
         :class:`bool`
             Definition success.
+
+        Raises
+        ------
+        ValueError
+            If the *IES TM-27-14* spectral distribution path is undefined.
 
         Examples
         --------
