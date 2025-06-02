@@ -348,17 +348,17 @@ def CAM16_to_JMh_CAM16(specification: CAM_Specification_CAM16) -> NDArrayFloat:
 
 def JMh_CAM16_to_CAM16(JMh: ArrayLike) -> CAM_Specification_CAM16:
     """
-    Convert from *CAM6* :math:`JMh` correlates to *CAM6* specification.
+    Convert from *CAM16* :math:`JMh` correlates to *CAM16* specification.
 
     Parameters
     ----------
     JMh
-         *CAM6* :math:`JMh` correlates.
+         *CAM16* :math:`JMh` correlates.
 
     Returns
     -------
-    :class:`colour.CAM6_Specification`
-        *CAM6* colour appearance model specification.
+    :class:`colour.CAM_Specification_CAM16`
+        *CAM16* colour appearance model specification.
 
     Examples
     --------
@@ -402,17 +402,17 @@ def CIECAM16_to_JMh_CIECAM16(specification: CAM_Specification_CIECAM16) -> NDArr
 
 def JMh_CIECAM16_to_CIECAM16(JMh: ArrayLike) -> CAM_Specification_CIECAM16:
     """
-    Convert from *CAM6* :math:`JMh` correlates to *CAM6* specification.
+    Convert from *CIECAM16* :math:`JMh` correlates to *CIECAM16* specification.
 
     Parameters
     ----------
     JMh
-         *CAM6* :math:`JMh` correlates.
+         *CIECAM16* :math:`JMh` correlates.
 
     Returns
     -------
-    :class:`colour.CAM6_Specification`
-        *CAM6* colour appearance model specification.
+    :class:`colour.CAM_Specification_CIECAM16`
+        *CIECAM16* colour appearance model specification.
 
     Examples
     --------
@@ -471,7 +471,7 @@ def JMh_Hellwig2022_to_Hellwig2022(
 
     Returns
     -------
-    :class:`colour.CAM6_Specification`
+    :class:`colour.CAM_Specification_Hellwig2022`
         *Hellwig and Fairchild (2022)* colour appearance model specification.
 
     Examples
@@ -542,7 +542,7 @@ def RGB_luminance_to_RGB(Y: ArrayLike) -> NDArrayFloat:
 
 def CCT_D_uv_to_mired(CCT_D_uv: ArrayLike) -> NDArrayFloat:
     """
-    Convert given correlated colour temperature :math:`T_{cp}` and
+    Convert specified correlated colour temperature :math:`T_{cp}` and
     :math:`\\Delta_{uv}` to micro reciprocal degree (mired).
 
     Parameters
@@ -569,13 +569,13 @@ def CCT_D_uv_to_mired(CCT_D_uv: ArrayLike) -> NDArrayFloat:
 
 def mired_to_CCT_D_uv(mired: ArrayLike) -> NDArrayFloat:
     """
-    Convert given micro reciprocal degree (mired) to correlated colour
+    Convert specified micro reciprocal degree (mired) to correlated colour
     temperature :math:`T_{cp}` and :math:`\\Delta_{uv}`.
 
     Parameters
     ----------
-    Micro reciprocal degree (mired).
-
+    mired
+        Micro reciprocal degree (mired).
 
     Returns
     -------
@@ -981,7 +981,7 @@ the edge in the graph.
 
 
 def _format_node_name(name: str) -> str:
-    """Format given name by applying a series of substitutions."""
+    """Format specified name by applying a series of substitutions."""
 
     for pattern, substitution in [
         ("hdr_", "hdr-"),
@@ -1066,8 +1066,8 @@ CONVERSION_GRAPH: nx.DiGraph | None = None  # pyright: ignore # noqa: F821
 @required("NetworkX")
 def _conversion_path(source: str, target: str) -> List[Callable]:
     """
-    Return the conversion path from the source node to the target node in the
-    automatic colour conversion graph.
+    Generate the conversion path from the source node to the target node in
+    the automatic colour conversion graph.
 
     Parameters
     ----------
@@ -1108,18 +1108,18 @@ def _conversion_path(source: str, target: str) -> List[Callable]:
 
 def _lower_order_function(callable_: Callable) -> Callable:
     """
-    Return the lower order function associated with given callable, i.e.,
-    the function wrapped by a partial object.
+    Generate the lower order function associated with specified callable,
+    i.e., the function wrapped by a partial object.
 
     Parameters
     ----------
     callable_
-        Callable to return the lower order function.
+        Callable to generate the lower order function.
 
     Returns
     -------
     Callable
-        Lower order function or given callable if no lower order function
+        Lower order function or specified callable if no lower order function
         exists.
     """
 
@@ -1163,6 +1163,14 @@ def describe_conversion_path(
     kwargs
         {:func:`colour.convert`},
         See the documentation of the previously listed definition.
+
+    Raises
+    ------
+    ValueError
+        If the mode is not one of the supported values.
+    NetworkXNoPath
+        If no conversion path exists between the source and target colour
+        representations.
 
     Examples
     --------
@@ -1246,8 +1254,8 @@ def describe_conversion_path(
 
 def convert(a: Any, source: str, target: str, **kwargs: Any) -> Any:
     """
-    Convert given object :math:`a` from source colour representation to target
-    colour representation using the automatic colour conversion graph.
+    Convert specified object :math:`a` from source colour representation to
+    target colour representation using the automatic colour conversion graph.
 
     The conversion is performed by finding the shortest path in a
     `NetworkX <https://networkx.github.io>`__ :class:`DiGraph` class instance.
@@ -1353,6 +1361,12 @@ verbose={"mode": "Long"})
     -------
     Any
         Converted object :math:`a`.
+
+    Raises
+    ------
+    NetworkXNoPath
+        If no conversion path exists between the source and target colour
+        representations.
 
     Warnings
     --------
