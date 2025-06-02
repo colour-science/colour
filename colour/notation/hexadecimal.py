@@ -127,7 +127,7 @@ def HEX_to_RGB(HEX: ArrayLike) -> NDArrayFloat:
     HEX = np.char.lstrip(HEX, "#")  # pyright: ignore
 
     def to_RGB(x: list) -> list:
-        """Convert given hexadecimal representation to *RGB*."""
+        """Convert specified hexadecimal representation to *RGB*."""
 
         l_x = len(x)
 

@@ -5,29 +5,29 @@ Munsell Renotation System
 Define various objects for *Munsell Renotation System* computations:
 
 -   :func:`colour.notation.munsell_value_Priest1920`: *Munsell* value :math:`V`
-    computation of given *luminance* :math:`Y` using
+    computation of specified *luminance* :math:`Y` using
     *Priest, Gibson and MacNicholas (1920)* method.
 -   :func:`colour.notation.munsell_value_Munsell1933`: *Munsell* value
-    :math:`V` computation of given *luminance* :math:`Y` using
+    :math:`V` computation of specified *luminance* :math:`Y` using
     *Munsell, Sloan and Godlove (1933)* method.
 -   :func:`colour.notation.munsell_value_Moon1943`: *Munsell* value :math:`V`
-    computation of given *luminance* :math:`Y` using
+    computation of specified *luminance* :math:`Y` using
     *Moon and Spencer (1943)* method.
 -   :func:`colour.notation.munsell_value_Saunderson1944`: *Munsell* value
-    :math:`V` computation of given *luminance* :math:`Y` using
+    :math:`V` computation of specified *luminance* :math:`Y` using
     *Saunderson and Milner (1944)* method.
 -   :func:`colour.notation.munsell_value_Ladd1955`: *Munsell* value :math:`V`
-    computation of given *luminance* :math:`Y` using *Ladd and Pinney (1955)*
+    computation of specified *luminance* :math:`Y` using *Ladd and Pinney (1955)*
     method.
 -   :func:`colour.notation.munsell_value_McCamy1987`: *Munsell* value :math:`V`
-    computation of given *luminance* :math:`Y` using *McCamy (1987)* method.
+    computation of specified *luminance* :math:`Y` using *McCamy (1987)* method.
 -   :func:`colour.notation.munsell_value_ASTMD1535`: *Munsell* value
-    :math:`V` computation of given *luminance* :math:`Y` using
+    :math:`V` computation of specified *luminance* :math:`Y` using
     *ASTM D1535-08e1* method.
 -   :attr:`colour.MUNSELL_VALUE_METHODS`: Supported *Munsell* value
     computation methods.
 -   :func:`colour.munsell_value`: *Munsell* value :math:`V` computation of
-    given *luminance* :math:`Y` using given method.
+    specified *luminance* :math:`Y` using specified method.
 -   :func:`colour.munsell_colour_to_xyY`
 -   :func:`colour.xyY_to_munsell_colour`
 
@@ -398,13 +398,13 @@ def _munsell_maximum_chromas_from_renotation() -> (
 
 def munsell_value_Priest1920(Y: ArrayLike) -> NDArrayFloat:
     """
-    Return the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
+    Compute the *Munsell* value :math:`V` of specified *luminance* :math:`Y` using
     *Priest et al. (1920)* method.
 
     Parameters
     ----------
     Y
-        *luminance* :math:`Y`.
+        *Luminance* :math:`Y`.
 
     Returns
     -------
@@ -444,13 +444,13 @@ def munsell_value_Priest1920(Y: ArrayLike) -> NDArrayFloat:
 
 def munsell_value_Munsell1933(Y: ArrayLike) -> NDArrayFloat:
     """
-    Return the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
+    Compute the *Munsell* value :math:`V` of specified *luminance* :math:`Y` using
     *Munsell et al. (1933)* method.
 
     Parameters
     ----------
     Y
-        *luminance* :math:`Y`.
+        *Luminance* :math:`Y`.
 
     Returns
     -------
@@ -490,14 +490,14 @@ def munsell_value_Munsell1933(Y: ArrayLike) -> NDArrayFloat:
 
 def munsell_value_Moon1943(Y: ArrayLike) -> NDArrayFloat:
     """
-    Return the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
+    Compute the *Munsell* value :math:`V` of specified *luminance* :math:`Y` using
     *Moon and Spencer (1943)* method.
 
 
     Parameters
     ----------
     Y
-        *luminance* :math:`Y`.
+        *Luminance* :math:`Y`.
 
     Returns
     -------
@@ -537,13 +537,13 @@ def munsell_value_Moon1943(Y: ArrayLike) -> NDArrayFloat:
 
 def munsell_value_Saunderson1944(Y: ArrayLike) -> NDArrayFloat:
     """
-    Return the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
+    Compute the *Munsell* value :math:`V` of specified *luminance* :math:`Y` using
     *Saunderson and Milner (1944)* method.
 
     Parameters
     ----------
     Y
-        *luminance* :math:`Y`.
+        *Luminance* :math:`Y`.
 
     Returns
     -------
@@ -583,13 +583,13 @@ def munsell_value_Saunderson1944(Y: ArrayLike) -> NDArrayFloat:
 
 def munsell_value_Ladd1955(Y: ArrayLike) -> NDArrayFloat:
     """
-    Return the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
+    Compute the *Munsell* value :math:`V` of specified *luminance* :math:`Y` using
     *Ladd and Pinney (1955)* method.
 
     Parameters
     ----------
     Y
-        *luminance* :math:`Y`.
+        *Luminance* :math:`Y`.
 
     Returns
     -------
@@ -629,13 +629,13 @@ def munsell_value_Ladd1955(Y: ArrayLike) -> NDArrayFloat:
 
 def munsell_value_McCamy1987(Y: ArrayLike) -> NDArrayFloat:
     """
-    Return the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
+    Compute the *Munsell* value :math:`V` of specified *luminance* :math:`Y` using
     *McCamy (1987)* method.
 
     Parameters
     ----------
     Y
-        *luminance* :math:`Y`.
+        *Luminance* :math:`Y`.
 
     Returns
     -------
@@ -686,13 +686,13 @@ def munsell_value_McCamy1987(Y: ArrayLike) -> NDArrayFloat:
 
 def munsell_value_ASTMD1535(Y: ArrayLike) -> NDArrayFloat:
     """
-    Return the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
+    Compute the *Munsell* value :math:`V` of specified *luminance* :math:`Y` using
     an inverse lookup table from *ASTM D1535-08e1* method.
 
     Parameters
     ----------
     Y
-        *luminance* :math:`Y`
+        *Luminance* :math:`Y`
 
     Returns
     -------
@@ -774,13 +774,13 @@ def munsell_value(
     ) = "ASTM D1535",
 ) -> NDArrayFloat:
     """
-    Return the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    given method.
+    Compute the *Munsell* value :math:`V` of specified *luminance* :math:`Y` using
+    specified method.
 
     Parameters
     ----------
     Y
-        *luminance* :math:`Y`.
+        *Luminance* :math:`Y`.
     method
         Computation method.
 
@@ -846,7 +846,7 @@ def _munsell_scale_factor() -> NDArrayFloat:
 
 def _munsell_specification_to_xyY(specification: ArrayLike) -> NDArrayFloat:
     """
-    Convert given *Munsell* *Colorlab* specification to *CIE xyY* colourspace.
+    Convert specified *Munsell* *Colorlab* specification to *CIE xyY* colourspace.
 
     Parameters
     ----------
@@ -926,7 +926,7 @@ def _munsell_specification_to_xyY(specification: ArrayLike) -> NDArrayFloat:
 
 def munsell_specification_to_xyY(specification: ArrayLike) -> NDArrayFloat:
     """
-    Convert given *Munsell* *Colorlab* specification to *CIE xyY* colourspace.
+    Convert specified *Munsell* *Colorlab* specification to *CIE xyY* colourspace.
 
     Parameters
     ----------
@@ -984,7 +984,7 @@ def munsell_specification_to_xyY(specification: ArrayLike) -> NDArrayFloat:
 
 def munsell_colour_to_xyY(munsell_colour: ArrayLike) -> NDArrayFloat:
     """
-    Convert given *Munsell* colour to *CIE xyY* colourspace.
+    Convert specified *Munsell* colour to *CIE xyY* colourspace.
 
     Parameters
     ----------
@@ -1045,7 +1045,7 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArrayFloat:
     Raises
     ------
     ValueError
-        If the given *CIE xyY* colourspace array is not within MacAdam
+        If the specified *CIE xyY* colourspace array is not within MacAdam
         limits.
     RuntimeError
         If the maximum iterations count has been reached without converging to
@@ -1352,7 +1352,7 @@ def xyY_to_munsell_specification(xyY: ArrayLike) -> NDArrayFloat:
     Raises
     ------
     ValueError
-        If the given *CIE xyY* colourspace array is not within MacAdam
+        If the specified *CIE xyY* colourspace array is not within MacAdam
         limits.
     RuntimeError
         If the maximum iterations count has been reached without converging to
@@ -1464,7 +1464,7 @@ def xyY_to_munsell_colour(
 
 def parse_munsell_colour(munsell_colour: str) -> NDArrayFloat:
     """
-    Parse given *Munsell* colour and returns an intermediate *Munsell*
+    Parse specified *Munsell* colour and return an intermediate *Munsell*
     *Colorlab* specification.
 
     Parameters
@@ -1480,7 +1480,7 @@ def parse_munsell_colour(munsell_colour: str) -> NDArrayFloat:
     Raises
     ------
     ValueError
-        If the given specification is not a valid *Munsell Renotation System*
+        If the specified specification is not a valid *Munsell Renotation System*
         colour specification.
 
     Examples
@@ -1523,7 +1523,7 @@ def parse_munsell_colour(munsell_colour: str) -> NDArrayFloat:
 
 def is_grey_munsell_colour(specification: ArrayLike) -> bool:
     """
-    Return if given *Munsell* *Colorlab* specification is a grey colour.
+    Return whether specified *Munsell* *Colorlab* specification is a grey colour.
 
     Parameters
     ----------
@@ -1552,7 +1552,7 @@ def is_grey_munsell_colour(specification: ArrayLike) -> bool:
 
 def normalise_munsell_specification(specification: ArrayLike) -> NDArrayFloat:
     """
-    Normalise given *Munsell* *Colorlab* specification.
+    Normalise specified *Munsell* *Colorlab* specification.
 
     Parameters
     ----------
@@ -1593,7 +1593,7 @@ def munsell_colour_to_munsell_specification(
     munsell_colour: str,
 ) -> NDArrayFloat:
     """
-    Retrieve a normalised *Munsell* *Colorlab* specification from given
+    Retrieve a normalised *Munsell* *Colorlab* specification from specified
     *Munsell* colour.
 
     Parameters
@@ -1624,7 +1624,7 @@ def munsell_specification_to_munsell_colour(
     chroma_decimals: int = 1,
 ) -> str:
     """
-    Convert from *Munsell* *Colorlab* specification to given *Munsell* colour.
+    Convert from *Munsell* *Colorlab* specification to specified *Munsell* colour.
 
     Parameters
     ----------
@@ -1705,7 +1705,7 @@ def xyY_from_renotation(
     relative_tolerance: float = TOLERANCE_RELATIVE_DEFAULT,
 ) -> NDArrayFloat:
     """
-    Return given existing *Munsell* *Colorlab* specification *CIE xyY*
+    Return specified existing *Munsell* *Colorlab* specification *CIE xyY*
     colourspace vector from *Munsell Renotation System* data.
 
     Parameters
@@ -1727,7 +1727,7 @@ def xyY_from_renotation(
     Raises
     ------
     ValueError
-        If the given specification doesn't exist in *Munsell Renotation System*
+        If the specified specification doesn't exist in *Munsell Renotation System*
         data.
 
     Examples
@@ -1764,7 +1764,7 @@ def xyY_from_renotation(
 
 def is_specification_in_renotation(specification: ArrayLike) -> bool:
     """
-    Return whether given *Munsell* *Colorlab* specification is in
+    Return whether specified *Munsell* *Colorlab* specification is in
     *Munsell Renotation System* data.
 
     Parameters
@@ -1795,7 +1795,7 @@ def is_specification_in_renotation(specification: ArrayLike) -> bool:
 
 def bounding_hues_from_renotation(hue_and_code: ArrayLike) -> NDArrayFloat:
     """
-    Return for a given *Munsell* *Colorlab* specification hue and *Munsell*
+    Return for a specified *Munsell* *Colorlab* specification hue and *Munsell*
     *Colorlab* specification code the two bounding hues from
     *Munsell Renotation System* data.
 
@@ -1997,7 +1997,7 @@ def interpolation_method_from_renotation_ovoid(
 ) -> Literal["Linear", "Radial"] | None:
     """
     Return whether to use linear or radial interpolation when drawing ovoids
-    through data points in the *Munsell Renotation System* data from given
+    through data points in the *Munsell Renotation System* data from specified
     specification.
 
     Parameters
@@ -2273,7 +2273,7 @@ def interpolation_method_from_renotation_ovoid(
 
 def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArrayFloat:
     """
-    Convert given *Munsell* *Colorlab* specification to *CIE xy* chromaticity
+    Convert specified *Munsell* *Colorlab* specification to *CIE xy* chromaticity
     coordinates on *Munsell Renotation System* ovoid.
     The *CIE xy* point will be on the ovoid about the achromatic point,
     corresponding to the *Munsell* *Colorlab* specification
@@ -2343,7 +2343,7 @@ def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArrayFloat:
     chroma = 2 * round(chroma / 2)
 
     # Checking if renotation data is available without interpolation using
-    # given threshold.
+    # specified threshold.
     if (
         abs(hue) < THRESHOLD_INTEGER
         or abs(hue - 2.5) < THRESHOLD_INTEGER
@@ -2490,7 +2490,7 @@ def LCHab_to_munsell_specification(LCHab: ArrayLike) -> NDArrayFloat:
 def maximum_chroma_from_renotation(hue_and_value_and_code: ArrayLike) -> float:
     """
     Return the maximum *Munsell* chroma from *Munsell Renotation System* data
-    using given *Munsell* *Colorlab* specification hue, *Munsell* *Colorlab*
+    using specified *Munsell* *Colorlab* specification hue, *Munsell* *Colorlab*
     specification value and *Munsell* *Colorlab* specification code.
 
     Parameters
@@ -2579,7 +2579,7 @@ def maximum_chroma_from_renotation(hue_and_value_and_code: ArrayLike) -> float:
 
 def munsell_specification_to_xy(specification: ArrayLike) -> NDArrayFloat:
     """
-    Convert given *Munsell* *Colorlab* specification to *CIE xy* chromaticity
+    Convert specified *Munsell* *Colorlab* specification to *CIE xy* chromaticity
     coordinates by interpolating over *Munsell Renotation System* data.
 
     Parameters

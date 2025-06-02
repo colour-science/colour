@@ -2,7 +2,7 @@
 CSS Color Module Level 3 - Web Colours
 ======================================
 
-Define the lists of colour keywords as given by *CSS Color Module Level 3*
+Define the lists of colour keywords as specified by *CSS Color Module Level 3*
 *W3C Recommendation*.
 
 -   :attr:`colour.notation.CSS_COLOR_3_BASIC`
@@ -225,7 +225,7 @@ References
 
 CSS_COLOR_3: CanonicalMapping = CanonicalMapping(CSS_COLOR_3_BASIC)
 CSS_COLOR_3.__doc__ = """
-List of colour keywords as given by as given by *CSS Color Module Level 3*
+List of colour keywords as specified by *CSS Color Module Level 3*
 *W3C Recommendation*.
 
 References

@@ -36,7 +36,7 @@ __all__ = [
 
 def keyword_to_RGB_CSSColor3(keyword: str) -> NDArrayFloat:
     """
-    Convert given colour keyword to *RGB* colourspace according to
+    Convert specified colour keyword to *RGB* colourspace according to
     *CSS Color Module Level 3* *W3C Recommendation*.
 
     Parameters
