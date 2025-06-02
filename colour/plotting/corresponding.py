@@ -62,7 +62,7 @@ def plot_corresponding_chromaticities_prediction(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given chromatic adaptation model corresponding chromaticities
+    Plot specified chromatic adaptation model corresponding chromaticities
     prediction.
 
     Parameters

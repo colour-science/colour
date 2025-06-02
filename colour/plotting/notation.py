@@ -42,7 +42,7 @@ def plot_single_munsell_value_function(
     function: Callable | str, **kwargs: Any
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given *Lightness* function.
+    Plot specified *Lightness* function.
 
     Parameters
     ----------
@@ -86,7 +86,7 @@ def plot_multi_munsell_value_functions(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given *Munsell* value functions.
+    Plot specified *Munsell* value functions.
 
     Parameters
     ----------

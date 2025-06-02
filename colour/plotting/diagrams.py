@@ -229,7 +229,7 @@ def lines_spectral_locus(
 ) -> Tuple[NDArray, NDArray]:
     """
     Return the *Spectral Locus* line vertices, i.e., positions, normals and
-    colours, according to given method.
+    colours, according to specified method.
 
     Parameters
     ----------
@@ -380,7 +380,7 @@ def plot_spectral_locus(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the *Spectral Locus* according to given method.
+    Plot the *Spectral Locus* according to specified method.
 
     Parameters
     ----------
@@ -512,7 +512,7 @@ def plot_chromaticity_diagram_colours(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the *Chromaticity Diagram* colours according to given method.
+    Plot the *Chromaticity Diagram* colours according to specified method.
 
     Parameters
     ----------
@@ -632,7 +632,7 @@ def plot_chromaticity_diagram(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the *Chromaticity Diagram* according to given method.
+    Plot the *Chromaticity Diagram* according to specified method.
 
     Parameters
     ----------
@@ -905,8 +905,8 @@ def plot_sds_in_chromaticity_diagram(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given spectral distribution chromaticity coordinates into the
-    *Chromaticity Diagram* using given method.
+    Plot specified spectral distribution chromaticity coordinates into the
+    *Chromaticity Diagram* using specified method.
 
     Parameters
     ----------
@@ -1131,7 +1131,7 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given spectral distribution chromaticity coordinates into the
+    Plot specified spectral distribution chromaticity coordinates into the
     *CIE 1931 Chromaticity Diagram*.
 
     Parameters
@@ -1243,7 +1243,7 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given spectral distribution chromaticity coordinates into the
+    Plot specified spectral distribution chromaticity coordinates into the
     *CIE 1960 UCS Chromaticity Diagram*.
 
     Parameters
@@ -1356,7 +1356,7 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given spectral distribution chromaticity coordinates into the
+    Plot specified spectral distribution chromaticity coordinates into the
     *CIE 1976 UCS Chromaticity Diagram*.
 
     Parameters

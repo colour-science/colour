@@ -62,7 +62,7 @@ def plot_single_colour_checker(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given colour checker.
+    Plot specified colour checker.
 
     Parameters
     ----------
@@ -111,7 +111,7 @@ def plot_multi_colour_checkers(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot and compares given colour checkers.
+    Plot and compares specified colour checkers.
 
     Parameters
     ----------

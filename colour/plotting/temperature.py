@@ -103,7 +103,7 @@ def lines_daylight_locus(
 ) -> Tuple[NDArray]:
     """
     Return the *Daylight Locus* line vertices, i.e., positions, normals and
-    colours, according to given method.
+    colours, according to specified method.
 
     Parameters
     ----------
@@ -133,7 +133,7 @@ def lines_daylight_locus(
 
     def CCT_to_plotting_colourspace(CCT: ArrayLike) -> NDArrayFloat:
         """
-        Convert given correlated colour temperature :math:`T_{cp}` to the
+        Convert specified correlated colour temperature :math:`T_{cp}` to the
         default plotting colourspace.
         """
 
@@ -174,7 +174,7 @@ def plot_daylight_locus(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the *Daylight Locus* according to given method.
+    Plot the *Daylight Locus* according to specified method.
 
     Parameters
     ----------
@@ -266,7 +266,7 @@ def lines_planckian_locus(
 ) -> Tuple[NDArray, NDArray]:
     """
     Return the *Planckian Locus* line vertices, i.e., positions, normals and
-    colours, according to given method.
+    colours, according to specified method.
 
     Parameters
     ----------
@@ -315,7 +315,7 @@ def lines_planckian_locus(
 
     def CCT_D_uv_to_plotting_colourspace(CCT_D_uv: ArrayLike) -> NDArrayFloat:
         """
-        Convert given correlated colour temperature :math:`T_{cp}` and
+        Convert specified correlated colour temperature :math:`T_{cp}` and
         :math:`\\Delta_{uv}` to the default plotting colourspace.
         """
 
@@ -397,7 +397,7 @@ def plot_planckian_locus(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the *Planckian Locus* according to given method.
+    Plot the *Planckian Locus* according to specified method.
 
     Parameters
     ----------
@@ -536,8 +536,8 @@ def plot_planckian_locus_in_chromaticity_diagram(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the *Planckian Locus* and given illuminants in the
-    *Chromaticity Diagram* according to given method.
+    Plot the *Planckian Locus* and specified illuminants in the
+    *Chromaticity Diagram* according to specified method.
 
     Parameters
     ----------
@@ -730,7 +730,7 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the *Planckian Locus* and given illuminants in
+    Plot the *Planckian Locus* and specified illuminants in
     *CIE 1931 Chromaticity Diagram*.
 
     Parameters
@@ -809,7 +809,7 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the *Planckian Locus* and given illuminants in
+    Plot the *Planckian Locus* and specified illuminants in
     *CIE 1960 UCS Chromaticity Diagram*.
 
     Parameters
@@ -890,7 +890,7 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1976UCS(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the *Planckian Locus* and given illuminants in
+    Plot the *Planckian Locus* and specified illuminants in
     *CIE 1976 UCS Chromaticity Diagram*.
 
     Parameters
