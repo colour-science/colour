@@ -120,8 +120,8 @@ def colour_fidelity_index_ANSIIESTM3018(
     sd_test: SpectralDistribution, additional_data: bool = False
 ) -> float | ColourQuality_Specification_ANSIIESTM3018:
     """
-    Return the *ANSI/IES TM-30-18 Colour Fidelity Index* (CFI) :math:`R_f`
-    of given spectral distribution.
+    Compute the *ANSI/IES TM-30-18 Colour Fidelity Index* (CFI) :math:`R_f`
+    of specified spectral distribution.
 
     Parameters
     ----------
