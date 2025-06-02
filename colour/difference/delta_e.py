@@ -111,7 +111,7 @@ References
 
 def delta_E_CIE1976(Lab_1: ArrayLike, Lab_2: ArrayLike) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E_{76}` between two given
+    Return the difference :math:`\\Delta E_{76}` between two specified
     *CIE L\\*a\\*b\\** colourspace arrays using *CIE 1976* recommendation.
 
     Parameters
@@ -163,7 +163,7 @@ def delta_E_CIE1994(
     Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: bool = False
 ) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E_{94}` between two given
+    Return the difference :math:`\\Delta E_{94}` between two specified
     *CIE L\\*a\\*b\\** colourspace arrays using *CIE 1994* recommendation.
 
     Parameters
@@ -261,7 +261,7 @@ class Attributes_Specification_CIE2000(MixinDataclassArithmetic):
     Parameters
     ----------
     J
-        Correlate of *Lightness* :math:`J`.
+        Correlate of *lightness* :math:`J`.
     C
         Correlate of *chroma* :math:`C`.
     h
@@ -292,7 +292,7 @@ def intermediate_attributes_CIE2000(
 ) -> Attributes_Specification_CIE2000:
     """
     Return the intermediate attributes to compute the difference
-    :math:`\\Delta E_{00}` between two given *CIE L\\*a\\*b\\** colourspace
+    :math:`\\Delta E_{00}` between two specified *CIE L\\*a\\*b\\** colourspace
     arrays using *CIE 2000* recommendation.
 
     Parameters
@@ -430,7 +430,7 @@ def delta_E_CIE2000(
     Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: bool = False
 ) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E_{00}` between two given
+    Return the difference :math:`\\Delta E_{00}` between two specified
     *CIE L\\*a\\*b\\** colourspace arrays using *CIE 2000* recommendation.
 
     Parameters
@@ -444,7 +444,7 @@ def delta_E_CIE2000(
         :math:`k_L=2,\\ k_C=k_H=1` weights are used instead of
         :math:`k_L=k_C=k_H=1`.
 
-    Returns
+    Return
     -------
     :class:`numpy.ndarray`
         Colour difference :math:`\\Delta E_{00}`.
@@ -520,11 +520,11 @@ def delta_E_CMC(
     c: float = 1,
 ) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E_{CMC}` between two given
+    Return the difference :math:`\\Delta E_{CMC}` between two specified
     *CIE L\\*a\\*b\\** colourspace arrays using *Colour Measurement Committee*
     recommendation.
 
-    The quasimetric has two parameters: *Lightness* (l) and *chroma* (c),
+    The quasimetric has two parameters: *lightness* (l) and *chroma* (c),
     allowing the users to weight the difference based on the ratio of l:c.
     Commonly used values are 2:1 for acceptability and 1:1 for the threshold of
     imperceptibility.
@@ -611,7 +611,7 @@ def delta_E_CMC(
 
 def delta_E_ITP(ICtCp_1: ArrayLike, ICtCp_2: ArrayLike) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E_{ITP}` between two given
+    Return the difference :math:`\\Delta E_{ITP}` between two specified
     :math:`IC_TC_P` colour encoding arrays using
     *Recommendation ITU-R BT.2124*.
 

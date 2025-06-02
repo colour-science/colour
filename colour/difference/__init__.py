@@ -143,9 +143,9 @@ def delta_E(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E_{ab}` between two given
+    Return the difference :math:`\\Delta E_{ab}` between two specified
     *CIE L\\*a\\*b\\**, :math:`IC_TC_P`, or :math:`J'a'b'` colourspace arrays
-    using given method.
+    using specified method.
 
     Parameters
     ----------
@@ -165,7 +165,7 @@ def delta_E(
         Chroma weighting factor.
     l
         {:func:`colour.difference.delta_E_CIE2000`},
-        Lightness weighting factor.
+        lightness weighting factor.
     textiles
         {:func:`colour.difference.delta_E_CIE1994`,
         :func:`colour.difference.delta_E_CIE2000`,
@@ -175,8 +175,8 @@ def delta_E(
 \\ k_CH=0.5` weights are used instead of
         :math:`k_L=k_C=k_H=1,\\ k_1=0.045,\\ k_2=0.015,\\ k_E=k_CH=1.0`.
 
-    Returns
-    -------
+    Return
+    ------
     :class:`numpy.ndarray`
         Colour difference :math:`\\Delta E_{ab}`.
 

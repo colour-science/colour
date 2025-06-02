@@ -7,8 +7,8 @@ index:
 
 -   :func:`colour.index_stress_Garcia2007`: :math:`STRESS` index computation
     according to *García, Huertas, Melgosa and Cui (2007)* method.
--   :func:`colour.index_stress`: *Lightness* :math:`STRESS` index computation
-    according to given method.
+-   :func:`colour.index_stress`: *lightness* :math:`STRESS` index computation
+    according to specified method.
 
 References
 ----------
@@ -108,7 +108,7 @@ def index_stress(
     """
     Compute the
     *Kruskal's Standardized Residual Sum of Squares (:math:`STRESS`)*
-    index according to given method.
+    index according to specified method.
 
     Parameters
     ----------
