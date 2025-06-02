@@ -39,7 +39,7 @@ __all__ = [
 
 def edges_to_chord(edges: ArrayLike, index: int = 0) -> NDArrayFloat:
     """
-    Convert given edges to a chord, starting at given index.
+    Convert specified edges to a chord, starting at specified index.
 
     Parameters
     ----------
@@ -139,7 +139,7 @@ def unique_vertices(
     decimals: int = np.finfo(DTYPE_FLOAT_DEFAULT).precision - 1,  # pyright: ignore
 ) -> NDArrayFloat:
     """
-    Return the unique vertices from given vertices.
+    Generate the unique vertices from specified vertices.
 
     Parameters
     ----------
@@ -155,7 +155,7 @@ def unique_vertices(
 
     Notes
     -----
-    -   The vertices are rounded at given ``decimals``.
+    -   The vertices are rounded at specified ``decimals``.
 
     Examples
     --------
@@ -181,7 +181,7 @@ def hull_section(
     normalise: bool = False,
 ) -> NDArrayFloat:
     """
-    Compute the hull section for given axis at given origin.
+    Compute the hull section for specified axis at specified origin.
 
     Parameters
     ----------
@@ -198,6 +198,11 @@ def hull_section(
     -------
     :class:`numpy.ndarray`
         Hull section vertices.
+
+    Raises
+    ------
+    ValueError
+        If no section exists on the specified axis at the given origin.
 
     Examples
     --------

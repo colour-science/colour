@@ -61,7 +61,7 @@ def primitive_vertices_quad_mpl(
     axis: Literal["+z", "+x", "+y", "yz", "xz", "xy"] | str = "+z",
 ) -> NDArrayFloat:
     """
-    Return the vertices of a quad primitive for use with *Matplotlib*
+    Generate the vertices of a quad primitive for use with *Matplotlib*
     :class:`mpl_toolkits.mplot3d.art3d.Poly3DCollection` class.
 
     Parameters
@@ -134,8 +134,8 @@ def primitive_vertices_grid_mpl(
     axis: Literal["+z", "+x", "+y", "yz", "xz", "xy"] | str = "+z",
 ) -> NDArrayFloat:
     """
-    Return the vertices of a grid primitive made of quad primitives for use
-    with *Matplotlib* :class:`mpl_toolkits.mplot3d.art3d.Poly3DCollection`
+    Generate the vertices of a grid primitive made of quad primitives for
+    use with *Matplotlib* :class:`mpl_toolkits.mplot3d.art3d.Poly3DCollection`
     class.
 
     Parameters
@@ -230,8 +230,8 @@ def primitive_vertices_cube_mpl(
     ) = None,
 ) -> NDArrayFloat:
     """
-    Return the vertices of a cube primitive made of grid primitives for use
-    with *Matplotlib* :class:`mpl_toolkits.mplot3d.art3d.Poly3DCollection`
+    Generate the vertices of a cube primitive made of grid primitives for
+    use with *Matplotlib* :class:`mpl_toolkits.mplot3d.art3d.Poly3DCollection`
     class.
 
     Parameters
@@ -347,7 +347,7 @@ def primitive_vertices_sphere(
     axis: Literal["+z", "+x", "+y", "yz", "xz", "xy"] | str = "+z",
 ) -> NDArrayFloat:
     """
-    Return the vertices of a latitude-longitude sphere primitive.
+    Generate the vertices of a latitude-longitude sphere primitive.
 
     Parameters
     ----------
@@ -480,7 +480,7 @@ def primitive_vertices(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Return the vertices of a geometry primitive using given method.
+    Generate the vertices of a geometry primitive using specified method.
 
     Parameters
     ----------

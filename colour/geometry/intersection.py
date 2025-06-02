@@ -52,7 +52,7 @@ def extend_line_segment(
 ) -> NDArrayFloat:
     """
     Extend the line segment defined by point arrays :math:`a` and :math:`b` by
-    given distance and return the new end point.
+    specified distance and generate the new end point.
 
     Parameters
     ----------
