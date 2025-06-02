@@ -55,7 +55,7 @@ def eotf_inverse_DCDM(XYZ: ArrayLike, out_int: bool = False) -> NDArrayReal:
         *CIE XYZ* tristimulus values.
     out_int
         Whether to return value as int code value or float equivalent of a
-        code value at a given bit-depth.
+        code value at a specified bit-depth.
 
     Returns
     -------
@@ -85,7 +85,7 @@ def eotf_inverse_DCDM(XYZ: ArrayLike, out_int: bool = False) -> NDArrayReal:
     +----------------+-----------------------+---------------+
 
     \\* This definition has an output int switch, thus the domain-range
-    scale information is only given for the floating point mode.
+    scale information is only specified for the floating point mode.
 
     References
     ----------
@@ -122,7 +122,7 @@ def eotf_DCDM(
         Non-linear *CIE XYZ'* tristimulus values.
     in_int
         Whether to treat the input value as int code value or float
-        equivalent of a code value at a given bit-depth.
+        equivalent of a code value at a specified bit-depth.
 
     Returns
     -------
@@ -152,7 +152,7 @@ def eotf_DCDM(
     +----------------+-----------------------+---------------+
 
     \\* This definition has an input int switch, thus the domain-range
-    scale information is only given for the floating point mode.
+    scale information is only specified for the floating point mode.
 
     References
     ----------

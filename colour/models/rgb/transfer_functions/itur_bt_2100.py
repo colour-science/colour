@@ -429,7 +429,7 @@ References
 
 def gamma_function_BT2100_HLG(L_W: float = 1000) -> float:
     """
-    Return the *Reference HLG* system gamma value for given display nominal
+    Return the *Reference HLG* system gamma value for specified display nominal
     peak luminance.
 
     Parameters
@@ -563,7 +563,7 @@ def black_level_lift_BT2100_HLG(
     L_B: float = 0, L_W: float = 1000, gamma: float | None = None
 ) -> float:
     """
-    Return the *Reference HLG* black level lift :math:`\\beta` for given
+    Return the *Reference HLG* black level lift :math:`\\beta` for specified
     display luminance for black, nominal peak luminance and system gamma value.
 
     Parameters
@@ -610,7 +610,7 @@ def eotf_BT2100_HLG_1(
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
-    transfer function (EOTF) as given in *ITU-R BT.2100-1*.
+    transfer function (EOTF) as specified in *ITU-R BT.2100-1*.
 
     The EOTF maps the non-linear *HLG* signal into display light.
 
@@ -677,7 +677,7 @@ def eotf_BT2100_HLG_2(
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
-    transfer function (EOTF) as given in *ITU-R BT.2100-2* with the
+    transfer function (EOTF) as specified in *ITU-R BT.2100-2* with the
     modified black level behaviour.
 
     The EOTF maps the non-linear *HLG* signal into display light.
@@ -843,7 +843,7 @@ def eotf_inverse_BT2100_HLG_1(
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse
-    electro-optical transfer function (EOTF) as given in
+    electro-optical transfer function (EOTF) as specified in
     *ITU-R BT.2100-1*.
 
     Parameters
@@ -911,7 +911,7 @@ def eotf_inverse_BT2100_HLG_2(
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse
-    electro-optical transfer function (EOTF) as given in
+    electro-optical transfer function (EOTF) as specified in
     *ITU-R BT.2100-2* with the modified black level behaviour.
 
     Parameters
@@ -1072,7 +1072,7 @@ def ootf_BT2100_HLG_1(
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
-    transfer function (OOTF / OOCF) as given in *ITU-R BT.2100-1*.
+    transfer function (OOTF / OOCF) as specified in *ITU-R BT.2100-1*.
 
     The OOTF maps relative scene linear light to display linear light.
 
@@ -1132,7 +1132,7 @@ def ootf_BT2100_HLG_1(
         usage_warning(
             '"Recommendation ITU-R BT.2100" "Reference HLG OOTF" uses '
             "RGB Luminance in computations and expects a vector input, thus "
-            "the given input array will be stacked to compose a vector for "
+            "the specified input array will be stacked to compose a vector for "
             "internal computations but a single component will be output."
         )
         R_S = G_S = B_S = E
@@ -1165,7 +1165,7 @@ def ootf_BT2100_HLG_2(
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
-    transfer function (OOTF / OOCF) as given in *ITU-R BT.2100-2*.
+    transfer function (OOTF / OOCF) as specified in *ITU-R BT.2100-2*.
 
     The OOTF maps relative scene linear light to display linear light.
 
@@ -1220,7 +1220,7 @@ def ootf_BT2100_HLG_2(
         usage_warning(
             '"Recommendation ITU-R BT.2100" "Reference HLG OOTF" uses '
             "RGB Luminance in computations and expects a vector input, thus "
-            "the given input array will be stacked to compose a vector for "
+            "the specified input array will be stacked to compose a vector for "
             "internal computations but a single component will be output."
         )
         R_S = G_S = B_S = E
@@ -1343,7 +1343,7 @@ def ootf_inverse_BT2100_HLG_1(
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse opto-optical
-    transfer function (OOTF / OOCF) as given in *ITU-R BT.2100-1*.
+    transfer function (OOTF / OOCF) as specified in *ITU-R BT.2100-1*.
 
     Parameters
     ----------
@@ -1401,7 +1401,7 @@ def ootf_inverse_BT2100_HLG_1(
         usage_warning(
             '"Recommendation ITU-R BT.2100" "Reference HLG OOTF" uses '
             "RGB Luminance in computations and expects a vector input, thus "
-            "the given input array will be stacked to compose a vector for "
+            "the specified input array will be stacked to compose a vector for "
             "internal computations but a single component will be output."
         )
         R_D = G_D = B_D = F_D
@@ -1448,7 +1448,7 @@ def ootf_inverse_BT2100_HLG_2(
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse opto-optical
-    transfer function (OOTF / OOCF) as given in *ITU-R BT.2100-2*.
+    transfer function (OOTF / OOCF) as specified in *ITU-R BT.2100-2*.
 
     Parameters
     ----------
@@ -1501,7 +1501,7 @@ def ootf_inverse_BT2100_HLG_2(
         usage_warning(
             '"Recommendation ITU-R BT.2100" "Reference HLG OOTF" uses '
             "RGB Luminance in computations and expects a vector input, thus "
-            "the given input array will be stacked to compose a vector for "
+            "the specified input array will be stacked to compose a vector for "
             "internal computations but a single component will be output."
         )
         R_D = G_D = B_D = F_D

@@ -129,7 +129,7 @@ def log_encoding_ACESproxy(
         *ACESproxy* bit-depth.
     out_in
         Whether to return value as int code value or float equivalent of a
-        code value at a given bit-depth.
+        code value at a specified bit-depth.
     constants
         *ACESproxy* constants.
 
@@ -153,7 +153,7 @@ def log_encoding_ACESproxy(
     +----------------+-----------------------+---------------+
 
     \\* This definition has an output int switch, thus the domain-range
-    scale information is only given for the floating point mode.
+    scale information is only specified for the floating point mode.
 
     References
     ----------
@@ -179,7 +179,7 @@ def log_encoding_ACESproxy(
     steps_per_stop = constants[bit_depth].steps_per_stop
 
     def float_2_cv(x: float) -> float:
-        """Convert given numeric to code value."""
+        """Convert specified numeric to code value."""
 
         return np.maximum(CV_min, np.minimum(CV_max, np.round(x)))
 
@@ -215,7 +215,7 @@ def log_decoding_ACESproxy(
         *ACESproxy* bit-depth.
     in_int
         Whether to treat the input value as int code value or float
-        equivalent of a code value at a given bit-depth.
+        equivalent of a code value at a specified bit-depth.
     constants
         *ACESproxy* constants.
 
@@ -239,7 +239,7 @@ def log_decoding_ACESproxy(
     +----------------+-----------------------+---------------+
 
     \\* This definition has an input int switch, thus the domain-range
-    scale information is only given for the floating point mode.
+    scale information is only specified for the floating point mode.
 
     References
     ----------

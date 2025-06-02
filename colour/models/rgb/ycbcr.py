@@ -119,7 +119,7 @@ References
 
 def round_BT2100(a: ArrayLike) -> NDArrayFloat:
     """
-    Round given array :math:`a` to the nearest int using the method define
+    Round specified array :math:`a` to the nearest int using the method define
     as `Round` in *RecommendationITU-R BT.2100*.
 
     Parameters
@@ -147,7 +147,7 @@ def round_BT2100(a: ArrayLike) -> NDArrayFloat:
 
 def ranges_YCbCr(bits: int, is_legal: bool, is_int: bool) -> NDArrayFloat:
     """
-    Return the *Y'CbCr* colour encoding ranges array for given bit-depth,
+    Return the *Y'CbCr* colour encoding ranges array for specified bit-depth,
     range legality and representation.
 
     Parameters
@@ -206,7 +206,7 @@ def matrix_YCbCr(
     is_int: bool = False,
 ) -> NDArrayFloat:
     """
-    Compute the *Y'CbCr* to *R'G'B'* matrix for given weights, bit-depth,
+    Compute the *Y'CbCr* to *R'G'B'* matrix for specified weights, bit-depth,
     range legality and representation.
 
     The related offset for the *R'G'B'* to *Y'CbCr* matrix can be computed with
@@ -290,7 +290,7 @@ def offset_YCbCr(
     bits: int = 8, is_legal: bool = False, is_int: bool = False
 ) -> NDArrayFloat:
     """
-    Compute the *R'G'B'* to *Y'CbCr* offsets for given bit-depth, range
+    Compute the *R'G'B'* to *Y'CbCr* offsets for specified bit-depth, range
     legality and representation.
 
     The related *R'G'B'* to *Y'CbCr* matrix can be computed with the
@@ -414,7 +414,7 @@ def RGB_to_YCbCr(
     +----------------+-----------------------+---------------+
 
     \\* This definition has input and output int switches, thus the
-    domain-range scale information is only given for the floating point mode.
+    domain-range scale information is only specified for the floating point mode.
 
     -   The default arguments, ``**{'in_bits': 10, 'in_legal': False,
         'in_int': False, 'out_bits': 8, 'out_legal': True, 'out_int': False}``
@@ -605,7 +605,7 @@ def YCbCr_to_RGB(
     +----------------+-----------------------+---------------+
 
     \\* This definition has input and output int switches, thus the
-    domain-range scale information is only given for the floating point mode.
+    domain-range scale information is only specified for the floating point mode.
 
     Warnings
     --------
@@ -718,7 +718,7 @@ def RGB_to_YcCbcCrc(
     +----------------+-----------------------+---------------+
 
     \\* This definition has input and output int switches, thus the
-    domain-range scale information is only given for the floating point mode.
+    domain-range scale information is only specified for the floating point mode.
 
     Warnings
     --------
@@ -830,7 +830,7 @@ def YcCbcCrc_to_RGB(
     +----------------+-----------------------+---------------+
 
     \\* This definition has input and output int switches, thus the
-    domain-range scale information is only given for the floating point mode.
+    domain-range scale information is only specified for the floating point mode.
 
     Warnings
     --------

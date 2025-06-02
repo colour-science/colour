@@ -653,7 +653,7 @@ def XYZ_to_UCS_Luo2006(
     Warnings
     --------
     The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    given in the same domain-range scale than the ``XYZ`` parameter.
+    specified in the same domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----
@@ -740,7 +740,7 @@ def UCS_Luo2006_to_XYZ(
     Warnings
     --------
     The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    given in the same domain-range scale than the ``XYZ`` parameter.
+    specified in the same domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----
@@ -822,7 +822,7 @@ def XYZ_to_CAM02LCD(XYZ: ArrayLike, **kwargs: Any) -> NDArrayFloat:
     Warnings
     --------
     The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    given in the same domain-range scale than the ``XYZ`` parameter.
+    specified in the same domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----
@@ -887,7 +887,7 @@ def CAM02LCD_to_XYZ(Jpapbp: ArrayLike, **kwargs: Any) -> NDArrayFloat:
     Warnings
     --------
     The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    given in the same domain-range scale than the ``XYZ`` parameter.
+    specified in the same domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----
@@ -952,7 +952,7 @@ def XYZ_to_CAM02SCD(XYZ: ArrayLike, **kwargs: Any) -> NDArrayFloat:
     Warnings
     --------
     The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    given in the same domain-range scale than the ``XYZ`` parameter.
+    specified in the same domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----
@@ -1017,7 +1017,7 @@ def CAM02SCD_to_XYZ(Jpapbp: ArrayLike, **kwargs: Any) -> NDArrayFloat:
     Warnings
     --------
     The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    given in the same domain-range scale than the ``XYZ`` parameter.
+    specified in the same domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----
@@ -1082,7 +1082,7 @@ def XYZ_to_CAM02UCS(XYZ: ArrayLike, **kwargs: Any) -> NDArrayFloat:
     Warnings
     --------
     The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    given in the same domain-range scale than the ``XYZ`` parameter.
+    specified in the same domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----
@@ -1147,7 +1147,7 @@ def CAM02UCS_to_XYZ(Jpapbp: ArrayLike, **kwargs: Any) -> NDArrayFloat:
     Warnings
     --------
     The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    given in the same domain-range scale than the ``XYZ`` parameter.
+    specified in the same domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----

@@ -448,8 +448,8 @@ def eotf_inverse_H273_ST428_1(L_o: ArrayLike) -> NDArrayFloat:
 
     Notes
     -----
-    -   The function given in :cite:`InternationalTelecommunicationUnion2021`
-        multiplies :math:`L_o` by 48 contrary to what is given in
+    -   The function specified in :cite:`InternationalTelecommunicationUnion2021`
+        multiplies :math:`L_o` by 48 contrary to what is specified in
         :cite:`SocietyofMotionPictureandTelevisionEngineers2019` and
         :func:`colour.models.eotf_inverse_DCDM`.
 
@@ -497,8 +497,8 @@ def eotf_H273_ST428_1(V: ArrayLike) -> NDArrayFloat:
 
     Notes
     -----
-    -   The function given in :cite:`InternationalTelecommunicationUnion2021`
-        divides :math:`L_o` by 48 contrary to what is given in
+    -   The function specified in :cite:`InternationalTelecommunicationUnion2021`
+        divides :math:`L_o` by 48 contrary to what is specified in
         :cite:`SocietyofMotionPictureandTelevisionEngineers2019` and
         :func:`colour.models.eotf_DCDM`.
 

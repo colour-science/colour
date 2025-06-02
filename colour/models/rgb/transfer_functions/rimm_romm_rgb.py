@@ -78,7 +78,7 @@ def cctf_encoding_ROMMRGB(
         Bit-depth used for conversion.
     out_int
         Whether to return value as int code value or float equivalent of a
-        code value at a given bit-depth.
+        code value at a specified bit-depth.
 
     Returns
     -------
@@ -100,7 +100,7 @@ def cctf_encoding_ROMMRGB(
     +----------------+-----------------------+---------------+
 
     \\* This definition has an output int switch, thus the domain-range
-    scale information is only given for the floating point mode.
+    scale information is only specified for the floating point mode.
 
     References
     ----------
@@ -145,7 +145,7 @@ def cctf_decoding_ROMMRGB(
         Bit-depth used for conversion.
     in_int
         Whether to treat the input value as int code value or float
-        equivalent of a code value at a given bit-depth.
+        equivalent of a code value at a specified bit-depth.
 
     Returns
     -------
@@ -167,7 +167,7 @@ def cctf_decoding_ROMMRGB(
     +----------------+-----------------------+---------------+
 
     \\* This definition has an input int switch, thus the domain-range
-    scale information is only given for the floating point mode.
+    scale information is only specified for the floating point mode.
 
     References
     ----------
@@ -238,7 +238,7 @@ def cctf_encoding_RIMMRGB(
         Bit-depth used for conversion.
     out_int
         Whether to return value as int code value or float equivalent of a
-        code value at a given bit-depth.
+        code value at a specified bit-depth.
     E_clip
         Maximum exposure level.
 
@@ -262,7 +262,7 @@ def cctf_encoding_RIMMRGB(
     +----------------+-----------------------+---------------+
 
     \\* This definition has an output int switch, thus the domain-range
-    scale information is only given for the floating point mode.
+    scale information is only specified for the floating point mode.
 
     References
     ----------
@@ -312,7 +312,7 @@ def cctf_decoding_RIMMRGB(
         Bit-depth used for conversion.
     in_int
         Whether to treat the input value as int code value or float
-        equivalent of a code value at a given bit-depth.
+        equivalent of a code value at a specified bit-depth.
     E_clip
         Maximum exposure level.
 
@@ -336,7 +336,7 @@ def cctf_decoding_RIMMRGB(
     +----------------+-----------------------+---------------+
 
     \\* This definition has an input int switch, thus the domain-range
-    scale information is only given for the floating point mode.
+    scale information is only specified for the floating point mode.
 
     References
     ----------
@@ -390,7 +390,7 @@ def log_encoding_ERIMMRGB(
         Bit-depth used for conversion.
     out_int
         Whether to return value as int code value or float equivalent of a
-        code value at a given bit-depth.
+        code value at a specified bit-depth.
     E_min
         Minimum exposure limit.
     E_clip
@@ -416,7 +416,7 @@ def log_encoding_ERIMMRGB(
     +----------------+-----------------------+---------------+
 
     \\* This definition has an output int switch, thus the domain-range
-    scale information is only given for the floating point mode.
+    scale information is only specified for the floating point mode.
 
     References
     ----------
@@ -479,7 +479,7 @@ def log_decoding_ERIMMRGB(
         Bit-depth used for conversion.
     in_int
         Whether to treat the input value as int code value or float
-        equivalent of a code value at a given bit-depth.
+        equivalent of a code value at a specified bit-depth.
     E_min
         Minimum exposure limit.
     E_clip
@@ -505,7 +505,7 @@ def log_decoding_ERIMMRGB(
     +----------------+-----------------------+---------------+
 
     \\* This definition has an input int switch, thus the domain-range
-    scale information is only given for the floating point mode.
+    scale information is only specified for the floating point mode.
 
     References
     ----------
