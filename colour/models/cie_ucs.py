@@ -152,7 +152,7 @@ def UCS_to_XYZ(UVW: ArrayLike) -> NDArrayFloat:
 
 def UCS_to_uv(UVW: ArrayLike) -> NDArrayFloat:
     """
-    Return the *uv* chromaticity coordinates from given *CIE 1960 UCS*
+    Return the *uv* chromaticity coordinates from specified *CIE 1960 UCS*
     :math:`UVW` colourspace array.
 
     Parameters
@@ -195,7 +195,7 @@ def UCS_to_uv(UVW: ArrayLike) -> NDArrayFloat:
 
 def uv_to_UCS(uv: ArrayLike, V: ArrayLike = 1) -> NDArrayFloat:
     """
-    Return the *CIE 1960 UCS* :math:`UVW` colourspace array from given *uv*
+    Return the *CIE 1960 UCS* :math:`UVW` colourspace array from specified *uv*
     chromaticity coordinates.
 
     Parameters
@@ -235,7 +235,7 @@ def uv_to_UCS(uv: ArrayLike, V: ArrayLike = 1) -> NDArrayFloat:
 
 def UCS_uv_to_xy(uv: ArrayLike) -> NDArrayFloat:
     """
-    Return the *CIE xy* chromaticity coordinates from given *CIE 1960 UCS*
+    Return the *CIE xy* chromaticity coordinates from specified *CIE 1960 UCS*
     :math:`UVW` colourspace *uv* chromaticity coordinates.
 
     Parameters
@@ -271,7 +271,7 @@ def UCS_uv_to_xy(uv: ArrayLike) -> NDArrayFloat:
 def xy_to_UCS_uv(xy: ArrayLike) -> NDArrayFloat:
     """
     Return the *CIE 1960 UCS* :math:`UVW` colourspace *uv* chromaticity
-    coordinates from given *CIE xy* chromaticity coordinates.
+    coordinates from specified *CIE xy* chromaticity coordinates.
 
     Parameters
     ----------
@@ -310,7 +310,7 @@ def XYZ_to_CIE1960UCS(
     Convert from *CIE XYZ* tristimulus values to :math:`uvV` colourspace.
 
     This colourspace combines the *CIE 1960 UCS* :math:`UVW` colourspace *uv*
-    chromaticity coordinates with the *luminance* :math:`V` from the
+    chromaticity coordinates with the luminance :math:`V` from the
     *CIE 1960 UCS* :math:`UVW` colourspace.
 
     It is a convenient definition for use with the
@@ -366,7 +366,7 @@ def CIE1960UCS_to_XYZ(
     Convert from *CIE XYZ* tristimulus values to :math:`uvV` colourspace.
 
     This colourspace combines the *CIE 1960 UCS* :math:`UVW` colourspace *uv*
-    chromaticity coordinates with the *luminance* :math:`V` from the
+    chromaticity coordinates with the luminance :math:`V` from the
     *CIE 1960 UCS* :math:`UVW` colourspace.
 
     It is a convenient definition for use with the

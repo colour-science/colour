@@ -66,7 +66,7 @@ PRIMARIES_SHARP_RGB: NDArrayFloat = np.array(
 Notes
 -----
 The primaries were originally derived from the :math:`M_{Sharp}` matrix as
-given in *Ward and Eydelberg-Vileshin (2002)*:
+specified in *Ward and Eydelberg-Vileshin (2002)*:
 
     M_Sharp = np.array(
         [[1.2694, -0.0988, -0.1706],

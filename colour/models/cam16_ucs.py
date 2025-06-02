@@ -91,7 +91,7 @@ __all__ = [
 
 def _UCS_Luo2006_callable_to_UCS_Li2017_docstring(callable_: Callable) -> str:
     """
-    Convert given *Luo et al. (2006)* callable docstring to
+    Convert specified *Luo et al. (2006)* callable docstring to
     *Li et al. (2017)* docstring.
 
     Parameters
@@ -211,7 +211,7 @@ def XYZ_to_UCS_Li2017(
     Warnings
     --------
     The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    given in the same domain-range scale than the ``XYZ`` parameter.
+    specified in the same domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----
@@ -305,7 +305,7 @@ def UCS_Li2017_to_XYZ(
     Warnings
     --------
     The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    given in the same domain-range scale than the ``XYZ`` parameter.
+    specified in the same domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----

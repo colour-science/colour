@@ -207,7 +207,7 @@ def xyY_to_xy(xyY: ArrayLike) -> NDArrayFloat:
 def xy_to_xyY(xy: ArrayLike, Y: ArrayLike = 1) -> NDArrayFloat:
     """
     Convert from *CIE xy* chromaticity coordinates to *CIE xyY* colourspace by
-    extending the array last dimension with given :math:`Y` *luminance*.
+    extending the array last dimension with specified :math:`Y` *luminance*.
 
     ``xy`` argument with last dimension being equal to 3 will be assumed to be
     a *CIE xyY* colourspace array argument and will be returned directly by the
@@ -241,7 +241,7 @@ def xy_to_xyY(xy: ArrayLike, Y: ArrayLike = 1) -> NDArrayFloat:
     +------------+-----------------------+---------------+
 
     -   This definition is a convenient object provided to implement support of
-        illuminant argument *luminance* value in various :mod:`colour.models`
+        illuminant argument luminance value in various :mod:`colour.models`
         package objects such as :func:`colour.Lab_to_XYZ` or
         :func:`colour.Luv_to_XYZ`.
 
@@ -279,7 +279,7 @@ def xy_to_xyY(xy: ArrayLike, Y: ArrayLike = 1) -> NDArrayFloat:
 
 def XYZ_to_xy(XYZ: ArrayLike) -> NDArrayFloat:
     """
-    Return the *CIE xy* chromaticity coordinates from given *CIE XYZ*
+    Return the *CIE xy* chromaticity coordinates from specified *CIE XYZ*
     tristimulus values.
 
     Parameters
@@ -316,7 +316,7 @@ def XYZ_to_xy(XYZ: ArrayLike) -> NDArrayFloat:
 
 def xy_to_XYZ(xy: ArrayLike) -> NDArrayFloat:
     """
-    Return the *CIE XYZ* tristimulus values from given *CIE xy* chromaticity
+    Return the *CIE XYZ* tristimulus values from specified *CIE xy* chromaticity
     coordinates.
 
     Parameters

@@ -233,7 +233,7 @@ def Luv_to_uv(
     ],
 ) -> NDArrayFloat:
     """
-    Return the :math:`uv^p` chromaticity coordinates from given
+    Return the :math:`uv^p` chromaticity coordinates from specified
     *CIE L\\*u\\*v\\** colourspace array.
 
     Parameters
@@ -293,8 +293,8 @@ def uv_to_Luv(
     L: ArrayLike = 100,
 ) -> NDArrayFloat:
     """
-    Return the *CIE L\\*u\\*v\\** colourspace array from given :math:`uv^p`
-    chromaticity coordinates by extending the array last dimension with given
+    Return the *CIE L\\*u\\*v\\** colourspace array from specified :math:`uv^p`
+    chromaticity coordinates by extending the array last dimension with specified
     :math:`L` *Lightness*.
 
     Parameters
@@ -359,7 +359,7 @@ def uv_to_Luv(
 
 def Luv_uv_to_xy(uv: ArrayLike) -> NDArrayFloat:
     """
-    Return the *CIE xy* chromaticity coordinates from given *CIE L\\*u\\*v\\**
+    Return the *CIE xy* chromaticity coordinates from specified *CIE L\\*u\\*v\\**
     colourspace :math:`uv^p` chromaticity coordinates.
 
     Parameters
@@ -395,7 +395,7 @@ def Luv_uv_to_xy(uv: ArrayLike) -> NDArrayFloat:
 def xy_to_Luv_uv(xy: ArrayLike) -> NDArrayFloat:
     """
     Return the *CIE L\\*u\\*v\\** colourspace :math:`uv^p` chromaticity
-    coordinates from given *CIE xy* chromaticity coordinates.
+    coordinates from specified *CIE xy* chromaticity coordinates.
 
     Parameters
     ----------

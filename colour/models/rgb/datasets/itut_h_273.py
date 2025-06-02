@@ -145,7 +145,7 @@ PRIMARIES_H273_22_UNSPECIFIED: NDArrayFloat = np.array(
     ]
 )
 """
-Colourspace primaries for row *22* as given in
+Colourspace primaries for row *22* as specified in
 *Table 2 - Interpretation of colour primaries (ColourPrimaries) value*.
 
 References
@@ -155,7 +155,7 @@ References
 
 WHITEPOINT_NAME_H273_22_UNSPECIFIED: str = "D65"
 """
-Whitepoint name for row *22* as given in
+Whitepoint name for row *22* as specified in
 *Table 2 - Interpretation of colour primaries (ColourPrimaries) value*.
 
 References
@@ -165,7 +165,7 @@ References
 
 CCS_WHITEPOINT_H273_22_UNSPECIFIED: NDArrayFloat = np.array([0.3127, 0.3290])
 """
-Whitepoint chromaticity coordinates for row *22* as given in
+Whitepoint chromaticity coordinates for row *22* as specified in
 *Table 2 - Interpretation of colour primaries (ColourPrimaries) value*.
 
 References
@@ -177,7 +177,7 @@ MATRIX_H273_22_UNSPECIFIED_RGB_TO_XYZ: NDArrayFloat = normalised_primary_matrix(
     PRIMARIES_H273_22_UNSPECIFIED, CCS_WHITEPOINT_H273_22_UNSPECIFIED
 )
 """
-Row *22* colourspace as given in
+Row *22* colourspace as specified in
 *Table 2 - Interpretation of colour primaries (ColourPrimaries) value* to
 *CIE XYZ* tristimulus values matrix.
 
@@ -190,7 +190,7 @@ MATRIX_XYZ_TO_H273_22_UNSPECIFIED_RGB: NDArrayFloat = np.linalg.inv(
     MATRIX_H273_22_UNSPECIFIED_RGB_TO_XYZ
 )
 """
-*CIE XYZ* tristimulus values to row *22* colourspace as given in
+*CIE XYZ* tristimulus values to row *22* colourspace as specified in
 *Table 2 - Interpretation of colour primaries (ColourPrimaries) value* matrix.
 
 References
@@ -209,7 +209,7 @@ RGB_COLOURSPACE_H273_22_UNSPECIFIED: RGB_Colourspace = RGB_Colourspace(
     linear_function,
 )
 RGB_COLOURSPACE_H273_22_UNSPECIFIED.__doc__ = """
-*Recommendation ITU-T H.273* row *22* colourspace as given in
+*Recommendation ITU-T H.273* row *22* colourspace as specified in
 *Table 2 - Interpretation of colour primaries (ColourPrimaries) value*.
 
 References

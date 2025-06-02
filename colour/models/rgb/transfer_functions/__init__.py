@@ -429,7 +429,7 @@ def log_encoding(
 ) -> NDArrayFloat | NDArrayInt:
     """
     Encode *scene-referred* exposure values to :math:`R'G'B'` video component
-    signal value using given *log* encoding function.
+    signal value using specified *log* encoding function.
 
     Parameters
     ----------
@@ -550,7 +550,7 @@ def log_decoding(
 ) -> NDArrayFloat:
     """
     Decode :math:`R'G'B'` video component signal value to *scene-referred*
-    exposure values using given *log* decoding function.
+    exposure values using specified *log* decoding function.
 
     Parameters
     ----------
@@ -661,7 +661,7 @@ def oetf(
 ) -> NDArrayFloat:
     """
     Encode estimated tristimulus values in a scene to :math:`R'G'B'` video
-    component signal value using given opto-electronic transfer function
+    component signal value using specified opto-electronic transfer function
     (OETF).
 
     Parameters
@@ -736,7 +736,7 @@ def oetf_inverse(
 ) -> NDArrayFloat:
     """
     Decode :math:`R'G'B'` video component signal value to tristimulus values
-    at the display using given inverse opto-electronic transfer function
+    at the display using specified inverse opto-electronic transfer function
     (OETF).
 
     Parameters
@@ -811,7 +811,7 @@ def eotf(
 ) -> NDArrayFloat:
     """
     Decode :math:`R'G'B'` video component signal value to tristimulus values
-    at the display using given electro-optical transfer function (EOTF).
+    at the display using specified electro-optical transfer function (EOTF).
 
     Parameters
     ----------
@@ -882,7 +882,7 @@ def eotf_inverse(
 ) -> NDArrayFloat | NDArrayInt:
     """
     Encode estimated tristimulus values in a scene to :math:`R'G'B'` video
-    component signal value using given inverse electro-optical transfer
+    component signal value using specified inverse electro-optical transfer
     function (EOTF).
 
     Parameters
@@ -979,7 +979,7 @@ def cctf_encoding(
 ) -> NDArrayFloat | NDArrayInt:
     """
     Encode linear :math:`RGB` values to non-linear :math:`R'G'B'` values using
-    given encoding colour component transfer function (Encoding CCTF).
+    specified encoding colour component transfer function (Encoding CCTF).
 
     Parameters
     ----------
@@ -1083,7 +1083,7 @@ def cctf_decoding(
 ) -> NDArrayFloat:
     """
     Decode non-linear :math:`R'G'B'` values to linear :math:`RGB` values using
-    given decoding colour component transfer function (Decoding CCTF).
+    specified decoding colour component transfer function (Decoding CCTF).
 
     Parameters
     ----------
@@ -1170,7 +1170,7 @@ def ootf(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Map relative scene linear light to display linear light using given
+    Map relative scene linear light to display linear light using specified
     opto-optical transfer function (OOTF / OOCF).
 
     Parameters
@@ -1228,7 +1228,7 @@ def ootf_inverse(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Map relative display linear light to scene linear light using given
+    Map relative display linear light to scene linear light using specified
     inverse opto-optical transfer function (OOTF / OOCF).
 
     Parameters

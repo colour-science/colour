@@ -393,7 +393,7 @@ def RGB_to_HCL(RGB: ArrayLike, gamma: float = 3, Y_0: float = 100) -> NDArrayFlo
     | ``HCL``    | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
-    -   This implementation used the equations given in
+    -   This implementation used the equations specified in
         :cite:`Sarifuddin2005a` and the corrections from
         :cite:`Sarifuddin2021`.
 
@@ -485,7 +485,7 @@ def HCL_to_RGB(HCL: ArrayLike, gamma: float = 3, Y_0: float = 100) -> NDArrayFlo
     | ``RGB``    | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
-    -   This implementation used the equations given in
+    -   This implementation used the equations specified in
         :cite:`Sarifuddin2005a` and the corrections from
         :cite:`Sarifuddin2021`.
 
@@ -519,7 +519,7 @@ def HCL_to_RGB(HCL: ArrayLike, gamma: float = 3, Y_0: float = 100) -> NDArrayFlo
     r_n120 = np.radians(-120)
 
     def _1_2_3(a: ArrayLike) -> NDArrayFloat:
-        """Tail-stack given :math:`a` array as a *bool* dtype."""
+        """Tail-stack specified :math:`a` array as a *bool* dtype."""
 
         return tstack(cast(ArrayLike, [a, a, a]), dtype=np.bool_)
 

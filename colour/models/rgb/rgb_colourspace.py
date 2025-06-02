@@ -119,7 +119,7 @@ class RGB_Colourspace:
         -   Derived transformation matrices
 
     Upon instantiation, the :class:`colour.RGB_Colourspace` class stores the
-    given ``matrix_RGB_to_XYZ`` and ``matrix_XYZ_to_RGB`` arguments and also
+    specified ``matrix_RGB_to_XYZ`` and ``matrix_XYZ_to_RGB`` arguments and also
     computes their derived counterpart using the ``primaries`` and
     ``whitepoint`` arguments.
 
@@ -1075,7 +1075,7 @@ def RGB_to_XYZ(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Convert given *RGB* colourspace array to *CIE XYZ* tristimulus values.
+    Convert specified *RGB* colourspace array to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -1205,8 +1205,8 @@ def matrix_RGB_to_RGB(
     ) = "CAT02",
 ) -> NDArrayFloat:
     """
-    Compute the matrix :math:`M` converting from given input *RGB*
-    colourspace to output *RGB* colourspace using given *chromatic
+    Compute the matrix :math:`M` converting from specified input *RGB*
+    colourspace to output *RGB* colourspace using specified *chromatic
     adaptation* method.
 
     Parameters
@@ -1286,8 +1286,8 @@ def RGB_to_RGB(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Convert given *RGB* colourspace array from given input *RGB* colourspace
-    to output *RGB* colourspace using given *chromatic adaptation* method.
+    Convert specified *RGB* colourspace array from specified input *RGB* colourspace
+    to output *RGB* colourspace using specified *chromatic adaptation* method.
 
     Parameters
     ----------

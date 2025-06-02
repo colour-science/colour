@@ -198,9 +198,9 @@ def Jab_to_JCh(Jab: ArrayLike) -> NDArrayFloat:
 
     This definition is used to perform conversion from *CIE L\\*a\\*b\\**
     colourspace to *CIE L\\*C\\*Hab* colourspace and for other similar
-    conversions. It implements a generic transformation from *Lightness*
+    conversions. It implements a generic transformation from *lightness*
     :math:`J`, :math:`a` and :math:`b` opponent colour dimensions to the
-    correlates of *Lightness* :math:`J`, chroma :math:`C` and hue angle
+    correlates of *lightness* :math:`J`, chroma :math:`C` and hue angle
     :math:`h`.
 
     Parameters
@@ -260,8 +260,8 @@ def JCh_to_Jab(JCh: ArrayLike) -> NDArrayFloat:
     This definition is used to perform conversion from *CIE L\\*C\\*Hab*
     colourspace to *CIE L\\*a\\*b\\** colourspace and for other similar
     conversions. It implements a generic transformation from the correlates of
-    *Lightness* :math:`J`, chroma :math:`C` and hue angle :math:`h` to
-    *Lightness* :math:`J`, :math:`a` and :math:`b` opponent colour dimensions.
+    *lightness* :math:`J`, chroma :math:`C` and hue angle :math:`h` to
+    *lightness* :math:`J`, :math:`a` and :math:`b` opponent colour dimensions.
 
     Parameters
     ----------
@@ -326,7 +326,7 @@ def XYZ_to_Iab(
     This definition is used to perform conversion from *CIE XYZ* tristimulus
     values to *IPT* colourspace and for other similar conversions. It
     implements a generic transformation from *CIE XYZ* tristimulus values to
-    *Lightness* :math:`I`, :math:`a` and :math:`b` representing
+    *lightness* :math:`I`, :math:`a` and :math:`b` representing
     red-green dimension, i.e., the dimension lost by protanopes and
     the yellow-blue dimension, i.e., the dimension lost by tritanopes,
     respectively.
@@ -412,7 +412,7 @@ def Iab_to_XYZ(
 
     This definition is used to perform conversion from *IPT* colourspace to
     *CIE XYZ* tristimulus values and for other similar conversions. It
-    implements a generic transformation from *Lightness* :math:`I`, :math:`a`
+    implements a generic transformation from *lightness* :math:`I`, :math:`a`
     and :math:`b` representing red-green dimension, i.e., the dimension lost by
     protanopes and the yellow-blue dimension, i.e., the dimension lost by
     tritanopes, respectively to *CIE XYZ* tristimulus values.

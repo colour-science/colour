@@ -78,7 +78,7 @@ def RGB_to_Prismatic(RGB: ArrayLike) -> NDArrayFloat:
     >>> RGB_to_Prismatic(RGB)  # doctest: +ELLIPSIS
     array([ 0.75...   ,  0.1666666...,  0.3333333...,  0.5...   ])
 
-    Adjusting saturation of given *RGB* colourspace array:
+    Adjusting saturation of specified *RGB* colourspace array:
     >>> saturation = 0.5
     >>> Lrgb = RGB_to_Prismatic(RGB)
     >>> Lrgb[..., 1:] = 1 / 3 + saturation * (Lrgb[..., 1:] - 1 / 3)

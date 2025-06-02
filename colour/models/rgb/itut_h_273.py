@@ -192,8 +192,8 @@ def _clipped_domain_function(
     function: Callable, domain: list | tuple = (0, 1)
 ) -> Callable:
     """
-    Wrap given function and produce a new callable clipping the input value to
-    given domain.
+    Wrap specified function and produce a new callable clipping the input value to
+    specified domain.
 
     Parameters
     ----------
@@ -211,7 +211,7 @@ def _clipped_domain_function(
 
     @functools.wraps(function)
     def wrapped(x: ArrayLike, *args: Any, **kwargs: Any) -> Any:
-        """Wrap given function."""
+        """Wrap specified function."""
 
         return function(np.clip(x, *domain), *args, **kwargs)
 
@@ -495,7 +495,7 @@ Notes
 -----
 -   For simplicity, no clipping is implemented for *TransferCharacteristics 13*
     as it is a function of whether the context is *sRGB* or *sYCC*.
--   For TransferCharacteristics equal to 18, the equations given in Table 3 are
+-   For TransferCharacteristics equal to 18, the equations specified in Table 3 are
     normalized for a source input linear optical intensity Lc with a nominal
     real-valued range of 0 to 1. An alternative scaling that is mathematically
     equivalent is used in ARIB STD-B67 (2015) with the source input linear
@@ -896,7 +896,7 @@ def describe_video_signal_colour_primaries(
     code_point: int, print_description: bool = True, **kwargs: Any
 ) -> str:
     """
-    Describe given video signal colour primaries code point.
+    Describe specified video signal colour primaries code point.
 
     Parameters
     ----------
@@ -1052,7 +1052,7 @@ def describe_video_signal_transfer_characteristics(
     code_point: int, print_description: bool = True, **kwargs: Any
 ) -> str:
     """
-    Describe given video signal transfer characteristics code point.
+    Describe specified video signal transfer characteristics code point.
 
     Parameters
     ----------
@@ -1176,7 +1176,7 @@ def describe_video_signal_matrix_coefficients(
     code_point: int, print_description: bool = True, **kwargs: Any
 ) -> str:
     """
-    Describe given video signal matrix coefficients code point.
+    Describe specified video signal matrix coefficients code point.
 
     Parameters
     ----------

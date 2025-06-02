@@ -58,7 +58,7 @@ MATRIX_INVERSE_Q: NDArrayFloat = np.linalg.inv(MATRIX_Q)
 
 def projective_transformation(a: ArrayLike, Q: ArrayLike) -> NDArrayFloat:
     """
-    Transform given array :math:`a` with the projective transformation matrix
+    Transform specified array :math:`a` with the projective transformation matrix
     :math:`Q`.
 
     Parameters

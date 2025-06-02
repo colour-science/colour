@@ -122,7 +122,7 @@ MATRIX_ICTCP_LMS_P_TO_ICTCP_BT2100_HLG_2: NDArrayFloat = (
 )
 """
 :math:`LMS_p` *SMPTE ST 2084:2014* encoded normalised cone responses to
-:math:`IC_TC_P` colour encoding matrix as given in *ITU-R BT.2100-2*.
+:math:`IC_TC_P` colour encoding matrix as specified in *ITU-R BT.2100-2*.
 """
 
 MATRIX_ICTCP_ICTCP_TO_LMS_P_BT2100_HLG_2: NDArrayFloat = np.linalg.inv(
@@ -130,7 +130,7 @@ MATRIX_ICTCP_ICTCP_TO_LMS_P_BT2100_HLG_2: NDArrayFloat = np.linalg.inv(
 )
 """
 :math:`IC_TC_P` colour encoding to :math:`LMS_p` *SMPTE ST 2084:2014* encoded
-normalised cone responses matrix as given in *ITU-R BT.2100-2*.
+normalised cone responses matrix as specified in *ITU-R BT.2100-2*.
 """
 
 
