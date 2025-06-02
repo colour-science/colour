@@ -205,8 +205,8 @@ def colour_quality_scale(
     method: Literal["NIST CQS 7.4", "NIST CQS 9.0"] | str = "NIST CQS 9.0",
 ) -> float | ColourRendering_Specification_CQS:
     """
-    Return the *Colour Quality Scale* (CQS) of given spectral distribution
-    using given method.
+    Compute the *Colour Quality Scale* (CQS) of specified spectral distribution
+    using specified method.
 
     Parameters
     ----------
@@ -328,7 +328,7 @@ def colour_quality_scale(
 
 def gamut_area(Lab: ArrayLike) -> float:
     """
-    Return the gamut area :math:`G` covered by given *CIE L\\*a\\*b\\**
+    Compute the gamut area :math:`G` covered by specified *CIE L\\*a\\*b\\**
     matrices.
 
     Parameters
@@ -387,7 +387,7 @@ def vs_colorimetry_data(
     chromatic_adaptation: bool = False,
 ) -> Tuple[DataColorimetry_VS, ...]:
     """
-    Return the *VS test colour samples* colorimetry data.
+    Compute the *VS test colour samples* colorimetry data.
 
     Parameters
     ----------
@@ -444,7 +444,7 @@ def CCT_factor(
     reference_data: Tuple[DataColorimetry_VS, ...], XYZ_r: ArrayLike
 ) -> float:
     """
-    Return the correlated colour temperature factor penalizing lamps with
+    Compute the correlated colour temperature factor penalizing lamps with
     extremely low correlated colour temperatures.
 
     Parameters
@@ -480,8 +480,8 @@ def CCT_factor(
 
 def scale_conversion(D_E_ab: float, CCT_f: float, scaling_f: float) -> float:
     """
-    Return the *Colour Quality Scale* (CQS) for given :math:`\\Delta E_{ab}`
-    value and given correlated colour temperature penalizing factor.
+    Compute the *Colour Quality Scale* (CQS) for specified :math:`\\Delta E_{ab}`
+    value and specified correlated colour temperature penalizing factor.
 
     Parameters
     ----------
@@ -505,7 +505,7 @@ def delta_E_RMS(
     CQS_data: Dict[int, DataColourQualityScale_VS], attribute: str
 ) -> float:
     """
-    Compute the root-mean-square average for given *Colour Quality Scale*
+    Compute the root-mean-square average for specified *Colour Quality Scale*
     (CQS) data.
 
     Parameters
@@ -538,7 +538,7 @@ def colour_quality_scales(
     CCT_f: float,
 ) -> Dict[int, DataColourQualityScale_VS]:
     """
-    Return the *VS test colour samples* rendering scales.
+    Compute the *VS test colour samples* rendering scales.
 
     Parameters
     ----------

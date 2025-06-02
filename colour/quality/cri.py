@@ -155,7 +155,7 @@ def colour_rendering_index(
     method: Literal["CIE 1995", "CIE 2024"] | str = "CIE 1995",
 ) -> float | ColourRendering_Specification_CRI:
     """
-    Return the *Colour Rendering Index* (CRI) :math:`Q_a` of given spectral
+    Compute the *Colour Rendering Index* (CRI) :math:`Q_a` of specified spectral
     distribution.
 
     Parameters
@@ -248,7 +248,7 @@ def tcs_colorimetry_data(
     method: Literal["CIE 1995", "CIE 2024"] | str = "CIE 1995",
 ) -> Tuple[DataColorimetry_TCS, ...]:
     """
-    Return the *test colour samples* colorimetry data.
+    Compute the *test colour samples* colorimetry data.
 
     Parameters
     ----------
@@ -335,7 +335,7 @@ def colour_rendering_indexes(
     reference_data: Tuple[DataColorimetry_TCS, ...],
 ) -> Dict[int, DataColourQualityScale_TCS]:
     """
-    Return the *test colour samples* rendering indexes :math:`Q_a`.
+    Compute the *test colour samples* rendering indexes :math:`Q_a`.
 
     Parameters
     ----------

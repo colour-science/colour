@@ -55,8 +55,8 @@ def spectral_similarity_index(
     round_result: bool = True,
 ) -> NDArrayFloat:
     """
-    Return the *Academy Spectral Similarity Index* (SSI) of given test
-    spectral distribution with given reference spectral distribution.
+    Compute the *Academy Spectral Similarity Index* (SSI) of specified test
+    spectral distribution with specified reference spectral distribution.
 
     Parameters
     ----------
