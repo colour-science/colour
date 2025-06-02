@@ -161,7 +161,7 @@ _VALUE_NOT_APPLICABLE: str = "N/A"
 
 def _plot_report_header(axes: Axes) -> Axes:
     """
-    Plot the report header, i.e., the title, on given axes.
+    Plot the report header, i.e., the title, on specified axes.
 
     Parameters
     ----------
@@ -191,7 +191,7 @@ def _plot_report_header(axes: Axes) -> Axes:
 
 def _plot_report_footer(axes: Axes) -> Axes:
     """
-    Plot the report footer on given axes.
+    Plot the report footer on specified axes.
 
     Parameters
     ----------
@@ -240,7 +240,7 @@ def plot_single_sd_colour_rendition_report_full(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Generate the full *ANSI/IES TM-30-18 Colour Rendition Report* for given
+    Generate the full *ANSI/IES TM-30-18 Colour Rendition Report* for specified
     spectral distribution.
 
     Parameters
@@ -544,7 +544,7 @@ def plot_single_sd_colour_rendition_report_intermediate(
 ) -> Tuple[Figure, Axes]:
     """
     Generate the intermediate *ANSI/IES TM-30-18 Colour Rendition Report* for
-    given spectral distribution.
+    specified spectral distribution.
 
     Parameters
     ----------
@@ -637,7 +637,7 @@ def plot_single_sd_colour_rendition_report_simple(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Generate the simple *ANSI/IES TM-30-18 Colour Rendition Report* for given
+    Generate the simple *ANSI/IES TM-30-18 Colour Rendition Report* for specified
     spectral distribution.
 
     Parameters
@@ -719,8 +719,8 @@ def plot_single_sd_colour_rendition_report(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Generate the *ANSI/IES TM-30-18 Colour Rendition Report* for given
-    spectral distribution according to given method.
+    Generate the *ANSI/IES TM-30-18 Colour Rendition Report* for specified
+    spectral distribution according to specified method.
 
     Parameters
     ----------

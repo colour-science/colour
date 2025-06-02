@@ -83,7 +83,7 @@ def nadir_grid(
     """
     Return a grid on *CIE xy* plane made of quad geometric elements and its
     associated faces and edges colours. Ticks and labels are added to the
-    given axes according to the extended grid settings.
+    specified axes according to the extended grid settings.
 
     Parameters
     ----------
@@ -433,7 +433,7 @@ def plot_RGB_colourspaces_gamuts(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes3D]:
     """
-    Plot given *RGB* colourspaces gamuts in given reference colourspace.
+    Plot specified *RGB* colourspaces gamuts in specified reference colourspace.
 
     Parameters
     ----------
@@ -459,7 +459,7 @@ def plot_RGB_colourspaces_gamuts(
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.common.filter_cmfs` definition.
     chromatically_adapt
-        Whether to chromatically adapt the *RGB* colourspaces given in
+        Whether to chromatically adapt the *RGB* colourspaces specified in
         ``colourspaces`` to the whitepoint of the default plotting colourspace.
     convert_kwargs
         Keyword arguments for the :func:`colour.convert` definition.
@@ -675,7 +675,7 @@ def plot_RGB_scatter(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes3D]:
     """
-    Plot given *RGB* colourspace array in a scatter plot.
+    Plot specified *RGB* colourspace array in a scatter plot.
 
     Parameters
     ----------
@@ -709,7 +709,7 @@ def plot_RGB_scatter(
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.common.filter_cmfs` definition.
     chromatically_adapt
-        Whether to chromatically adapt the *RGB* colourspaces given in
+        Whether to chromatically adapt the *RGB* colourspaces specified in
         ``colourspaces`` to the whitepoint of the default plotting colourspace.
     convert_kwargs
         Keyword arguments for the :func:`colour.convert` definition.

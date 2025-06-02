@@ -115,7 +115,7 @@ def plot_hull_section_colours(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the section colours of given *trimesh* hull along given axis and
+    Plot the section colours of specified *trimesh* hull along specified axis and
     origin.
 
     Parameters
@@ -285,7 +285,7 @@ def plot_hull_section_contour(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the section contour of given *trimesh* hull along given axis and
+    Plot the section contour of specified *trimesh* hull along specified axis and
     origin.
 
     Parameters
@@ -420,7 +420,7 @@ def plot_visible_spectrum_section(
 ) -> Tuple[Figure, Axes]:
     """
     Plot the visible spectrum volume, i.e., *Rösch-MacAdam* colour solid,
-    section colours along given axis and origin.
+    section colours along specified axis and origin.
 
     Parameters
     ----------
@@ -566,7 +566,7 @@ def plot_RGB_colourspace_section(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given *RGB* colourspace section colours along given axis and origin.
+    Plot specified *RGB* colourspace section colours along specified axis and origin.
 
     Parameters
     ----------

@@ -125,7 +125,7 @@ def plot_single_sd(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given spectral distribution.
+    Plot specified spectral distribution.
 
     Parameters
     ----------
@@ -279,7 +279,7 @@ def plot_multi_sds(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given spectral distributions.
+    Plot specified spectral distributions.
 
     Parameters
     ----------
@@ -443,7 +443,7 @@ def plot_single_cmfs(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given colour matching functions.
+    Plot specified colour matching functions.
 
     Parameters
     ----------
@@ -493,7 +493,7 @@ def plot_multi_cmfs(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given colour matching functions.
+    Plot specified colour matching functions.
 
     Parameters
     ----------
@@ -590,7 +590,7 @@ def plot_single_illuminant_sd(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given single illuminant spectral distribution.
+    Plot specified single illuminant spectral distribution.
 
     Parameters
     ----------
@@ -650,7 +650,7 @@ def plot_multi_illuminant_sds(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given illuminants spectral distributions.
+    Plot specified illuminants spectral distributions.
 
     Parameters
     ----------
@@ -722,7 +722,7 @@ def plot_visible_spectrum(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the visible colours spectrum using given standard observer *CIE XYZ*
+    Plot the visible colours spectrum using specified standard observer *CIE XYZ*
     colour matching functions.
 
     Parameters
@@ -797,7 +797,7 @@ def plot_single_lightness_function(
     function: Callable | str, **kwargs: Any
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given *Lightness* function.
+    Plot specified *Lightness* function.
 
     Parameters
     ----------
@@ -840,7 +840,7 @@ def plot_multi_lightness_functions(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given *Lightness* functions.
+    Plot specified *Lightness* functions.
 
     Parameters
     ----------
@@ -893,7 +893,7 @@ def plot_single_luminance_function(
     function: Callable | str, **kwargs: Any
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given *Luminance* function.
+    Plot specified *Luminance* function.
 
     Parameters
     ----------
@@ -935,7 +935,7 @@ def plot_multi_luminance_functions(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given *Luminance* functions.
+    Plot specified *Luminance* functions.
 
     Parameters
     ----------
@@ -993,7 +993,7 @@ def plot_blackbody_spectral_radiance(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given blackbody spectral radiance.
+    Plot specified blackbody spectral radiance.
 
     Parameters
     ----------

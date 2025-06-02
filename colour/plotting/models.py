@@ -211,7 +211,7 @@ def colourspace_model_axis_reorder(
     direction: Literal["Forward", "Inverse"] | str = "Forward",
 ) -> NDArrayFloat:
     """
-    Reorder the axes of given colourspace model :math:`a` array according to
+    Reorder the axes of specified colourspace model :math:`a` array according to
     the most common volume plotting axes order.
 
     Parameters
@@ -272,7 +272,7 @@ def lines_pointer_gamut(
 ) -> tuple[NDArray, NDArray]:
     """
     Return the *Pointer's Gamut* line vertices, i.e., positions, normals and
-    colours, according to given method.
+    colours, according to specified method.
 
     Parameters
     ----------
@@ -363,7 +363,7 @@ def plot_pointer_gamut(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot *Pointer's Gamut* according to given method.
+    Plot *Pointer's Gamut* according to specified method.
 
     Parameters
     ----------
@@ -467,8 +467,8 @@ def plot_RGB_colourspaces_in_chromaticity_diagram(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given *RGB* colourspaces in the *Chromaticity Diagram* according
-    to given method.
+    Plot specified *RGB* colourspaces in the *Chromaticity Diagram* according
+    to specified method.
 
     Parameters
     ----------
@@ -489,7 +489,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram(
     show_pointer_gamut
         Whether to display the *Pointer's Gamut*.
     chromatically_adapt
-        Whether to chromatically adapt the *RGB* colourspaces given in
+        Whether to chromatically adapt the *RGB* colourspaces specified in
         ``colourspaces`` to the whitepoint of the default plotting colourspace.
     plot_kwargs
         Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
@@ -677,7 +677,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given *RGB* colourspaces in the *CIE 1931 Chromaticity Diagram*.
+    Plot specified *RGB* colourspaces in the *CIE 1931 Chromaticity Diagram*.
 
     Parameters
     ----------
@@ -696,7 +696,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
     show_pointer_gamut
         Whether to display the *Pointer's Gamut*.
     chromatically_adapt
-        Whether to chromatically adapt the *RGB* colourspaces given in
+        Whether to chromatically adapt the *RGB* colourspaces specified in
         ``colourspaces`` to the whitepoint of the default plotting colourspace.
     plot_kwargs
         Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
@@ -772,7 +772,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given *RGB* colourspaces in the *CIE 1960 UCS Chromaticity Diagram*.
+    Plot specified *RGB* colourspaces in the *CIE 1960 UCS Chromaticity Diagram*.
 
     Parameters
     ----------
@@ -792,7 +792,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
     show_pointer_gamut
         Whether to display the *Pointer's Gamut*.
     chromatically_adapt
-        Whether to chromatically adapt the *RGB* colourspaces given in
+        Whether to chromatically adapt the *RGB* colourspaces specified in
         ``colourspaces`` to the whitepoint of the default plotting colourspace.
     plot_kwargs
         Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
@@ -868,7 +868,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given *RGB* colourspaces in the *CIE 1976 UCS Chromaticity Diagram*.
+    Plot specified *RGB* colourspaces in the *CIE 1976 UCS Chromaticity Diagram*.
 
     Parameters
     ----------
@@ -888,7 +888,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
     show_pointer_gamut
         Whether to display the *Pointer's Gamut*.
     chromatically_adapt
-        Whether to chromatically adapt the *RGB* colourspaces given in
+        Whether to chromatically adapt the *RGB* colourspaces specified in
         ``colourspaces`` to the whitepoint of the default plotting colourspace.
     plot_kwargs
         Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
@@ -957,8 +957,8 @@ def plot_RGB_chromaticities_in_chromaticity_diagram(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given *RGB* colourspace array in the *Chromaticity Diagram* according
-    to given method.
+    Plot specified *RGB* colourspace array in the *Chromaticity Diagram* according
+    to specified method.
 
     Parameters
     ----------
@@ -977,7 +977,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram(
         The following special keyword arguments can also be used:
 
         -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the colours
-            as given by the ``RGB`` argument.
+            as specified by the ``RGB`` argument.
         -   ``apply_cctf_encoding`` : If ``apply_cctf_encoding`` is set to
             *False*, the encoding colour component transfer function /
             opto-electronic transfer function is not applied when encoding the
@@ -1087,7 +1087,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given *RGB* colourspace array in the *CIE 1931 Chromaticity Diagram*.
+    Plot specified *RGB* colourspace array in the *CIE 1931 Chromaticity Diagram*.
 
     Parameters
     ----------
@@ -1104,7 +1104,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
         The following special keyword arguments can also be used:
 
         -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the colours
-            as given by the ``RGB`` argument.
+            as specified by the ``RGB`` argument.
         -   ``apply_cctf_encoding`` : If ``apply_cctf_encoding`` is set to
             *False*, the encoding colour component transfer function /
             opto-electronic transfer function is not applied when encoding the
@@ -1165,7 +1165,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given *RGB* colourspace array in the
+    Plot specified *RGB* colourspace array in the
     *CIE 1960 UCS Chromaticity Diagram*.
 
     Parameters
@@ -1184,7 +1184,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
         The following special keyword arguments can also be used:
 
         -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the colours
-            as given by the ``RGB`` argument.
+            as specified by the ``RGB`` argument.
         -   ``apply_cctf_encoding`` : If ``apply_cctf_encoding`` is set to
             *False*, the encoding colour component transfer function /
             opto-electronic transfer function is not applied when encoding the
@@ -1245,7 +1245,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given *RGB* colourspace array in the
+    Plot specified *RGB* colourspace array in the
     *CIE 1976 UCS Chromaticity Diagram*.
 
     Parameters
@@ -1264,7 +1264,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
         The following special keyword arguments can also be used:
 
         -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the colours
-            as given by the ``RGB`` argument.
+            as specified by the ``RGB`` argument.
         -   ``apply_cctf_encoding`` : If ``apply_cctf_encoding`` is set to
             *False*, the encoding colour component transfer function /
             opto-electronic transfer function is not applied when encoding the
@@ -1317,7 +1317,7 @@ def ellipses_MacAdam1942(
 ) -> List[NDArrayFloat]:
     """
     Return *MacAdam (1942) Ellipses (Observer PGN)* coefficients according to
-    given method.
+    specified method.
 
     Parameters
     ----------
@@ -1366,7 +1366,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram(
 ) -> Tuple[Figure, Axes]:
     """
     Plot *MacAdam (1942) Ellipses (Observer PGN)* in the
-    *Chromaticity Diagram* according to given method.
+    *Chromaticity Diagram* according to specified method.
 
     Parameters
     ----------
@@ -1677,7 +1677,7 @@ def plot_single_cctf(
     cctf: Callable | str, cctf_decoding: bool = False, **kwargs: Any
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given colourspace colour component transfer function.
+    Plot specified colourspace colour component transfer function.
 
     Parameters
     ----------
@@ -1726,7 +1726,7 @@ def plot_multi_cctfs(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given colour component transfer functions.
+    Plot specified colour component transfer functions.
 
     Parameters
     ----------
@@ -1789,7 +1789,7 @@ def plot_constant_hue_loci(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given constant hue loci colour matches data such as that from
+    Plot specified constant hue loci colour matches data such as that from
     :cite:`Hung1995` or :cite:`Ebner1998` that are easily loaded with
     `Colour - Datasets <https://github.com/colour-science/colour-datasets>`__.
 
@@ -1823,7 +1823,7 @@ def plot_constant_hue_loci(
         The following special keyword arguments can also be used:
 
         -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the colours
-            as given by the ``RGB`` argument.
+            as specified by the ``RGB`` argument.
     convert_kwargs
         Keyword arguments for the :func:`colour.convert` definition.
 

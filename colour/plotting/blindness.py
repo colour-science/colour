@@ -53,7 +53,7 @@ def plot_cvd_simulation_Machado2009(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Perform colour vision deficiency simulation on given *RGB* colourspace
+    Perform colour vision deficiency simulation on specified *RGB* colourspace
     array using *Machado et al. (2009)* model.
 
     Parameters

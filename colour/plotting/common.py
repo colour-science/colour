@@ -241,7 +241,7 @@ CONSTANTS_ARROW_STYLE: Structure = Structure(
 
 def colour_style(use_style: bool = True) -> dict:
     """
-    Return *Colour* plotting style.
+    Get *Colour* plotting style.
 
     Parameters
     ----------
@@ -347,11 +347,11 @@ def override_style(**kwargs: Any) -> Callable:
     keywords = dict(kwargs)
 
     def wrapper(function: Callable) -> Callable:
-        """Wrap given function wrapper."""
+        """Wrap specified function wrapper."""
 
         @functools.wraps(function)
         def wrapped(*args: Any, **kwargs: Any) -> Any:
-            """Wrap given function."""
+            """Wrap specified function."""
 
             keywords.update(kwargs)
 
@@ -466,7 +466,7 @@ class ColourSwatch:
 
 def colour_cycle(**kwargs: Any) -> itertools.cycle:
     """
-    Return a colour cycle iterator using given colour map.
+    Create a colour cycle iterator using specified colour map.
 
     Other Parameters
     ----------------
@@ -515,7 +515,7 @@ class KwargsArtist(TypedDict):
 
 def artist(**kwargs: KwargsArtist | Any) -> Tuple[Figure, Axes]:
     """
-    Return the current figure and its axes or creates a new one.
+    Get the current figure and its axes or create a new one.
 
     Other Parameters
     ----------------
@@ -616,7 +616,7 @@ class KwargsRender(TypedDict):
     axes
         Axes to apply the render elements onto.
     filename
-        Figure will be saved using given ``filename`` argument.
+        Figure will be saved using specified ``filename`` argument.
     show
         Whether to show the figure and call :func:`matplotlib.pyplot.show`
         definition.
@@ -773,7 +773,7 @@ def label_rectangles(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Add labels above given rectangles.
+    Add labels above specified rectangles.
 
     Parameters
     ----------
@@ -838,7 +838,7 @@ def label_rectangles(
 
 def uniform_axes3d(**kwargs: Any) -> Tuple[Figure, Axes3D]:
     """
-    Set equal aspect ratio to given 3d axes.
+    Set equal aspect ratio to specified 3d axes.
 
     Other Parameters
     ----------------
@@ -878,7 +878,7 @@ def filter_passthrough(
     allow_non_siblings: bool = True,
 ) -> dict:
     """
-    Return mapping objects matching given filterers while passing through
+    Filter mapping objects matching specified filterers while passing through
     class instances whose type is one of the mapping element types.
 
     This definition allows passing custom but compatible objects to the various
@@ -1001,7 +1001,7 @@ def filter_RGB_colourspaces(
     allow_non_siblings: bool = True,
 ) -> Dict[str, RGB_Colourspace]:
     """
-    Return the *RGB* colourspaces matching given filterers.
+    Filter the *RGB* colourspaces matching specified filterers.
 
     Parameters
     ----------
@@ -1030,7 +1030,7 @@ def filter_cmfs(
     allow_non_siblings: bool = True,
 ) -> Dict[str, MultiSpectralDistributions]:
     """
-    Return the colour matching functions matching given filterers.
+    Filter the colour matching functions matching specified filterers.
 
     Parameters
     ----------
@@ -1059,7 +1059,7 @@ def filter_illuminants(
     allow_non_siblings: bool = True,
 ) -> Dict[str, SpectralDistribution]:
     """
-    Return the illuminants matching given filterers.
+    Filter the illuminants matching specified filterers.
 
     Parameters
     ----------
@@ -1096,7 +1096,7 @@ def filter_colour_checkers(
     allow_non_siblings: bool = True,
 ) -> Dict[str, ColourChecker]:
     """
-    Return the colour checkers matching given filterers.
+    Filter the colour checkers matching specified filterers.
 
     Parameters
     ----------
@@ -1124,8 +1124,8 @@ def update_settings_collection(
     expected_count: int,
 ) -> None:
     """
-    Update given settings collection, *in-place*, with given keyword arguments
-    and expected count of settings collection elements.
+    Update specified settings collection, *in-place*, with specified keyword
+    arguments and expected count of settings collection elements.
 
     Parameters
     ----------
@@ -1177,7 +1177,7 @@ def plot_single_colour_swatch(
     colour_swatch: ArrayLike | ColourSwatch, **kwargs: Any
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given colour swatch.
+    Plot specified colour swatch.
 
     Parameters
     ----------
@@ -1234,7 +1234,7 @@ def plot_multi_colour_swatches(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given colours swatches.
+    Plot specified colours swatches.
 
     Parameters
     ----------
@@ -1442,7 +1442,7 @@ def plot_single_function(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given function.
+    Plot specified function.
 
     Parameters
     ----------
@@ -1511,7 +1511,7 @@ def plot_multi_functions(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given functions.
+    Plot specified functions.
 
     Parameters
     ----------
@@ -1624,7 +1624,7 @@ def plot_image(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given image.
+    Plot specified image.
 
     Parameters
     ----------

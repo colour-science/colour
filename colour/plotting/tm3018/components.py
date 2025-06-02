@@ -437,7 +437,7 @@ def plot_colour_vector_graphic(
     )
 
     def corner_label_and_text(label: str, text: str, ha: str, va: str) -> None:
-        """Draw a label and text in given corner."""
+        """Draw a label and text in specified corner."""
 
         x = -1.45 if ha == "left" else 1.45
         y = 1.45 if va == "top" else -1.45
@@ -484,7 +484,7 @@ def plot_16_bin_bars(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the 16 bin bars for given values according to
+    Plot the 16 bin bars for specified values according to
     *ANSI/IES TM-30-18 Colour Rendition Report*.
 
     Parameters
