@@ -461,7 +461,7 @@ def primitive(
     method: Literal["Cube", "Grid"] | str = "Cube", **kwargs: Any
 ) -> Tuple[NDArray, NDArray, NDArray]:
     """
-    Return a geometry primitive using given method.
+    Generate a geometry primitive using specified method.
 
     Parameters
     ----------
