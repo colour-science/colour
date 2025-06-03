@@ -61,7 +61,7 @@ def XYZ_to_sd_Meng2015(
     optimisation_kwargs: dict | None = None,
 ) -> SpectralDistribution:
     """
-    Recover the spectral distribution of given *CIE XYZ* tristimulus values
+    Recover the spectral distribution of specified *CIE XYZ* tristimulus values
     using *Meng et al. (2015)* method.
 
     Parameters
@@ -84,6 +84,11 @@ def XYZ_to_sd_Meng2015(
     -------
     :class:`colour.SpectralDistribution`
         Recovered spectral distribution.
+
+    Raises
+    ------
+    RuntimeError
+        If the optimisation failed.
 
     Notes
     -----

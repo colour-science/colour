@@ -59,7 +59,7 @@ def spectral_primary_decomposition_Mallett2019(
 ) -> MultiSpectralDistributions:
     """
     Perform the spectral primary decomposition as described in *Mallett and
-    Yuksel (2019)* for given *RGB* colourspace.
+    Yuksel (2019)* for specified *RGB* colourspace.
 
     Parameters
     ----------
@@ -86,7 +86,7 @@ def spectral_primary_decomposition_Mallett2019(
     Returns
     -------
     :class:`colour.MultiSpectralDistributions`
-        Basis functions for given *RGB* colourspace.
+        Basis functions for specified *RGB* colourspace.
 
     References
     ----------
@@ -222,7 +222,7 @@ def RGB_to_sd_Mallett2019(
     basis_functions: MultiSpectralDistributions = MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019,
 ) -> SpectralDistribution:
     """
-    Recover the spectral distribution of given *RGB* colourspace array using
+    Recover the spectral distribution of specified *RGB* colourspace array using
     *Mallett and Yuksel (2019)* method.
 
     Parameters
