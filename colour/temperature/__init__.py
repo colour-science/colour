@@ -144,9 +144,9 @@ def uv_to_CCT(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Return the correlated colour temperature :math:`T_{cp}` and
-    :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
-    coordinates using given method.
+    Compute the correlated colour temperature :math:`T_{cp}` and
+    :math:`\\Delta_{uv}` from specified *CIE UCS* colourspace *uv* chromaticity
+    coordinates using specified method.
 
     Parameters
     ----------
@@ -237,8 +237,8 @@ def CCT_to_uv(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Return the *CIE UCS* colourspace *uv* chromaticity coordinates from given
-    correlated colour temperature :math:`T_{cp}` using given method.
+    Compute the *CIE UCS* colourspace *uv* chromaticity coordinates from specified
+    correlated colour temperature :math:`T_{cp}` using specified method.
 
     Parameters
     ----------
@@ -332,8 +332,8 @@ def xy_to_CCT(
     ) = "CIE Illuminant D Series",
 ) -> NDArrayFloat:
     """
-    Return the correlated colour temperature :math:`T_{cp}` from given
-    *CIE xy* chromaticity coordinates using given method.
+    Compute the correlated colour temperature :math:`T_{cp}` from specified
+    *CIE xy* chromaticity coordinates using specified method.
 
     Parameters
     ----------
@@ -417,8 +417,8 @@ def CCT_to_xy(
     ) = "CIE Illuminant D Series",
 ) -> NDArrayFloat:
     """
-    Return the *CIE xy* chromaticity coordinates from given correlated colour
-    temperature :math:`T_{cp}` using given method.
+    Compute the *CIE xy* chromaticity coordinates from specified correlated colour
+    temperature :math:`T_{cp}` using specified method.
 
     Parameters
     ----------

@@ -48,7 +48,7 @@ def uv_to_CCT_Krystek1985(
     uv: ArrayLike, optimisation_kwargs: dict | None = None
 ) -> NDArrayFloat:
     """
-    Return the correlated colour temperature :math:`T_{cp}` from given
+    Compute the correlated colour temperature :math:`T_{cp}` from specified
     *CIE UCS* colourspace *uv* chromaticity coordinates using *Krystek (1985)*
     method.
 
@@ -125,7 +125,7 @@ def uv_to_CCT_Krystek1985(
 
 def CCT_to_uv_Krystek1985(CCT: ArrayLike) -> NDArrayFloat:
     """
-    Return the *CIE UCS* colourspace *uv* chromaticity coordinates from given
+    Compute the *CIE UCS* colourspace *uv* chromaticity coordinates from specified
     correlated colour temperature :math:`T_{cp}` using *Krystek (1985)* method.
 
     Parameters

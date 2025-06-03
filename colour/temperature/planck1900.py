@@ -54,8 +54,8 @@ def uv_to_CCT_Planck1900(
     optimisation_kwargs: dict | None = None,
 ) -> NDArrayFloat:
     """
-    Return the correlated colour temperature :math:`T_{cp}` of a blackbody from
-    given *CIE UCS* colourspace *uv* chromaticity coordinates and colour
+    Compute the correlated colour temperature :math:`T_{cp}` of a blackbody from
+    specified *CIE UCS* colourspace *uv* chromaticity coordinates and colour
     matching functions.
 
     Parameters
@@ -131,9 +131,9 @@ def CCT_to_uv_Planck1900(
     CCT: ArrayLike, cmfs: MultiSpectralDistributions | None = None
 ) -> NDArrayFloat:
     """
-    Return the *CIE UCS* colourspace *uv* chromaticity coordinates from given
+    Compute the *CIE UCS* colourspace *uv* chromaticity coordinates from specified
     correlated colour temperature :math:`T_{cp}` and colour matching functions
-    using the spectral radiance of a blackbody at the given thermodynamic
+    using the spectral radiance of a blackbody at the specified thermodynamic
     temperature.
 
     Parameters

@@ -6,10 +6,10 @@ Define the *Hernandez-Andres et al. (1999)* correlated colour temperature
 :math:`T_{cp}` computations objects:
 
 -   :func:`colour.temperature.xy_to_CCT_Hernandez1999`: Correlated colour
-    temperature :math:`T_{cp}` computation of given *CIE xy* chromaticity
+    temperature :math:`T_{cp}` computation of specified *CIE xy* chromaticity
     coordinates using *Hernandez-Andres, Lee and Romero (1999)* method.
 -   :func:`colour.temperature.CCT_to_xy_Hernandez1999`: *CIE xy* chromaticity
-    coordinates computation of given correlated colour temperature
+    coordinates computation of specified correlated colour temperature
     :math:`T_{cp}` using *Hernandez-Andres, Lee and Romero (1999)* method.
 
 References
@@ -50,7 +50,7 @@ __all__ = [
 
 def xy_to_CCT_Hernandez1999(xy: ArrayLike) -> NDArrayFloat:
     """
-    Return the correlated colour temperature :math:`T_{cp}` from given
+    Compute the correlated colour temperature :math:`T_{cp}` from specified
     *CIE xy* chromaticity coordinates using *Hernandez-Andres et al. (1999)*
     method.
 
@@ -104,7 +104,7 @@ def CCT_to_xy_Hernandez1999(
     CCT: ArrayLike, optimisation_kwargs: dict | None = None
 ) -> NDArrayFloat:
     """
-    Return the *CIE xy* chromaticity coordinates from given correlated colour
+    Compute the *CIE xy* chromaticity coordinates from specified correlated colour
     temperature :math:`T_{cp}` using *Hernandez-Andres et al. (1999)* method.
 
     Parameters
