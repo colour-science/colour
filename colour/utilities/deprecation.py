@@ -2,7 +2,7 @@
 Deprecation Utilities
 =====================
 
-Define various deprecation management related objects.
+Various deprecation management related objects.
 """
 
 from __future__ import annotations
@@ -366,7 +366,7 @@ class ModuleAPI:
 
     def __getattr__(self, attribute: str) -> Any:
         """
-        Return given attribute value while handling deprecation.
+        Return specified attribute value while handling deprecation.
 
         Parameters
         ----------
@@ -420,7 +420,7 @@ class ModuleAPI:
 
 def get_attribute(attribute: str) -> Any:
     """
-    Return given attribute value.
+    Return specified attribute value.
 
     Parameters
     ----------

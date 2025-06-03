@@ -2,7 +2,7 @@
 Requirements Utilities
 ======================
 
-Define the requirements utilities objects.
+Requirements utilities objects.
 """
 
 from __future__ import annotations
@@ -523,11 +523,11 @@ def required(
     """
 
     def wrapper(function: Callable) -> Callable:
-        """Wrap given function wrapper."""
+        """Wrap specified function wrapper."""
 
         @functools.wraps(function)
         def wrapped(*args: Any, **kwargs: Any) -> Any:
-            """Wrap given function."""
+            """Wrap specified function."""
 
             for requirement in requirements:
                 REQUIREMENTS_TO_CALLABLE[requirement](raise_exception=True)

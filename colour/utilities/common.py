@@ -2,7 +2,7 @@
 Common Utilities
 ================
 
-Define the common utilities objects that don't fall in any specific category.
+Common utilities objects that don't fall in any specific category.
 
 References
 ----------
@@ -255,7 +255,7 @@ class CacheRegistry:
 
     def register_cache(self, name: str) -> dict:
         """
-        Register a new cache with given name in the registry.
+        Register a new cache with specified name in the registry.
 
         Parameters
         ----------
@@ -285,7 +285,7 @@ class CacheRegistry:
 
     def unregister_cache(self, name: str) -> None:
         """
-        Unregister cache with given name in the registry.
+        Unregister cache with specified name in the registry.
 
         Parameters
         ----------
@@ -319,7 +319,7 @@ class CacheRegistry:
 
     def clear_cache(self, name: str) -> None:
         """
-        Clear the cache with given name.
+        Clear the cache with specified name.
 
         Parameters
         ----------
@@ -399,11 +399,11 @@ def handle_numpy_errors(**kwargs: Any) -> Callable:
     keyword_arguments = kwargs
 
     def wrapper(function: Callable) -> Callable:
-        """Wrap given function wrapper."""
+        """Wrap specified function wrapper."""
 
         @functools.wraps(function)
         def wrapped(*args: Any, **kwargs: Any) -> Any:
-            """Wrap given function."""
+            """Wrap specified function."""
 
             with np.errstate(**keyword_arguments):
                 return function(*args, **kwargs)
@@ -442,7 +442,7 @@ def ignore_python_warnings(function: Callable) -> Callable:
 
     @functools.wraps(function)
     def wrapper(*args: Any, **kwargs: Any) -> Any:
-        """Wrap given function."""
+        """Wrap specified function."""
 
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
@@ -471,7 +471,7 @@ def attest(condition: bool | DTypeBoolean, message: str = "") -> None:
 
 def batch(sequence: Sequence, k: int | Literal[3] = 3) -> Generator:
     """
-    Return a batch generator from given sequence.
+    Generate batches from specified sequence.
 
     Parameters
     ----------
@@ -532,7 +532,7 @@ class disable_multiprocessing:
 
         @functools.wraps(function)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
-            """Wrap given function."""
+            """Wrap specified function."""
 
             with self:
                 return function(*args, **kwargs)
@@ -624,7 +624,7 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
             iterable: Sequence,
             chunksize: int | None = None,  # noqa: ARG002
         ) -> list[Any]:
-            """Apply given function to each element of given iterable."""
+            """Apply specified function to each element of specified iterable."""
 
             return [func(a) for a in iterable]
 
@@ -658,7 +658,7 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
 
 def is_iterable(a: Any) -> bool:
     """
-    Return whether given variable :math:`a` is iterable.
+    Determine whether specified variable :math:`a` is iterable.
 
     Parameters
     ----------
@@ -683,7 +683,7 @@ def is_iterable(a: Any) -> bool:
 
 def is_numeric(a: Any) -> bool:
     """
-    Return whether given variable :math:`a` is a :class:`Real`-like
+    Determine whether specified variable :math:`a` is a :class:`Real`-like
     variable.
 
     Parameters
@@ -732,8 +732,8 @@ def is_numeric(a: Any) -> bool:
 
 def is_integer(a: Any) -> bool:
     """
-    Return whether given variable :math:`a` is an :class:`numpy.integer`-like
-    variable under given threshold.
+    Return whether specified variable :math:`a` is an :class:`numpy.integer`-like
+    variable under specified threshold.
 
     Parameters
     ----------
@@ -763,7 +763,7 @@ def is_integer(a: Any) -> bool:
 
 def is_sibling(element: Any, mapping: Mapping) -> bool:
     """
-    Return whether given element type is present in given mapping types.
+    Return whether specified element type is present in specified mapping types.
 
     Parameters
     ----------
@@ -775,7 +775,7 @@ def is_sibling(element: Any, mapping: Mapping) -> bool:
     Returns
     -------
     :class:`bool`
-        Whether given element type is present in given mapping types.
+        Whether specified element type is present in specified mapping types.
     """
 
     return isinstance(element, tuple({type(element) for element in mapping.values()}))
@@ -783,7 +783,7 @@ def is_sibling(element: Any, mapping: Mapping) -> bool:
 
 def filter_kwargs(function: Callable, **kwargs: Any) -> dict:
     """
-    Filter keyword arguments incompatible with the given function signature.
+    Filter keyword arguments incompatible with the specified function signature.
 
     Parameters
     ----------
@@ -831,14 +831,14 @@ def filter_kwargs(function: Callable, **kwargs: Any) -> dict:
 
 def filter_mapping(mapping: Mapping, names: str | Sequence[str]) -> dict:
     """
-    Filter given mapping with given names.
+    Filter specified mapping with specified names.
 
     Parameters
     ----------
     mapping
         Mapping to filter.
     names
-        Name for given mapping elements or a list of names.
+        Name for specified mapping elements or a list of names.
 
     Returns
     -------
@@ -869,14 +869,14 @@ def filter_mapping(mapping: Mapping, names: str | Sequence[str]) -> dict:
 
     def filter_mapping_with_name(mapping: Mapping, name: str) -> dict:
         """
-        Filter given mapping with given name.
+        Filter specified mapping with specified name.
 
         Parameters
         ----------
         mapping
             Mapping to filter.
         name
-            Name for given mapping elements.
+            Name for specified mapping elements.
 
         Returns
         -------
@@ -909,7 +909,7 @@ def filter_mapping(mapping: Mapping, names: str | Sequence[str]) -> dict:
 
 def first_item(a: Iterable) -> Any:
     """
-    Return the first item of given iterable.
+    Return the first item of specified iterable.
 
     Parameters
     ----------
@@ -973,7 +973,7 @@ def validate_method(
     as_lowercase: bool = True,
 ) -> str:
     """
-    Validate whether given method exists in the given valid methods and
+    Validate whether specified method exists in the specified valid methods and
     optionally returns the method lower cased.
 
     Parameters
@@ -985,7 +985,7 @@ def validate_method(
     message
         Message for the exception.
     as_lowercase
-        Whether to convert the given method to lower case or not.
+        Whether to convert the specified method to lower case or not.
 
     Returns
     -------
@@ -1049,7 +1049,7 @@ def optional(value: T | None, default: T) -> T:
 
 def slugify(object_: Any, allow_unicode: bool = False) -> str:
     """
-    Generate a *SEO* friendly and human-readable slug from given object.
+    Generate a *SEO* friendly and human-readable slug from specified object.
 
     Convert to ASCII if ``allow_unicode`` is *False*. Convert spaces or
     repeated dashes to single dashes. Remove characters that aren't
@@ -1112,7 +1112,7 @@ if is_xxhash_installed():
             seed: int = 0,  # noqa: ARG001
         ) -> int:
             """
-            Generate an integer digest for given argument using *xxhash* if
+            Generate an integer digest for specified argument using *xxhash* if
             available or falling back to :func:`hash` if not.
 
             Parameters

@@ -2,7 +2,7 @@
 Callback Management
 ===================
 
-Define the callback management objects.
+Callback management objects.
 """
 
 from __future__ import annotations
@@ -95,7 +95,7 @@ class MixinCallback:
 
     def __setattr__(self, name: str, value: Any) -> None:
         """
-        Set given value to the attribute with given name.
+        Set specified value to the attribute with specified name.
 
         Parameters
         ----------
@@ -113,7 +113,7 @@ class MixinCallback:
 
     def register_callback(self, attribute: str, name: str, function: Callable) -> None:
         """
-        Register the callback with given name for given attribute.
+        Register the callback with specified name for specified attribute.
 
         Parameters
         ----------
@@ -144,7 +144,7 @@ class MixinCallback:
 
     def unregister_callback(self, attribute: str, name: str) -> None:
         """
-        Unregister the callback with given name for given attribute.
+        Unregister the callback with specified name for specified attribute.
 
         Parameters
         ----------
