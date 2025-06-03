@@ -78,7 +78,7 @@ def planckian_table(
     spacing: float,
 ) -> NDArrayFloat:
     """
-    Return a planckian table from given *CIE UCS* colourspace *uv*
+    Generate a planckian table from specified *CIE UCS* colourspace *uv*
     chromaticity coordinates, colour matching functions and temperature range
     using *Ohno (2013)* method.
 
@@ -153,8 +153,8 @@ def uv_to_CCT_Ohno2013(
     spacing: float | None = None,
 ) -> NDArrayFloat:
     """
-    Return the correlated colour temperature :math:`T_{cp}` and
-    :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
+    Compute the correlated colour temperature :math:`T_{cp}` and
+    :math:`\\Delta_{uv}` from specified *CIE UCS* colourspace *uv* chromaticity
     coordinates, colour matching functions and temperature range using
     *Ohno (2013)* method.
 
@@ -279,7 +279,7 @@ def CCT_to_uv_Ohno2013(
     CCT_D_uv: ArrayLike, cmfs: MultiSpectralDistributions | None = None
 ) -> NDArrayFloat:
     """
-    Return the *CIE UCS* colourspace *uv* chromaticity coordinates from given
+    Compute the *CIE UCS* colourspace *uv* chromaticity coordinates from specified
     correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}` and
     colour matching functions using *Ohno (2013)* method.
 
@@ -345,8 +345,8 @@ def XYZ_to_CCT_Ohno2013(
     spacing: float | None = None,
 ) -> NDArrayFloat:
     """
-    Return the correlated colour temperature :math:`T_{cp}` and
-    :math:`\\Delta_{uv}` from given *CIE XYZ* tristimulus values, colour
+    Compute the correlated colour temperature :math:`T_{cp}` and
+    :math:`\\Delta_{uv}` from specified *CIE XYZ* tristimulus values, colour
     matching functions and temperature range using *Ohno (2013)* method.
 
     Parameters
@@ -396,7 +396,7 @@ def CCT_to_XYZ_Ohno2013(
     CCT_D_uv: ArrayLike, cmfs: MultiSpectralDistributions | None = None
 ) -> NDArrayFloat:
     """
-    Return the *CIE XYZ* tristimulus values from given correlated colour
+    Compute the *CIE XYZ* tristimulus values from specified correlated colour
     temperature :math:`T_{cp}`, :math:`\\Delta_{uv}` and colour matching
     functions using *Ohno (2013)* method.
 

@@ -51,7 +51,7 @@ def xy_to_CCT_CIE_D(
     xy: ArrayLike, optimisation_kwargs: dict | None = None
 ) -> NDArrayFloat:
     """
-    Return the correlated colour temperature :math:`T_{cp}` of a
+    Compute the correlated colour temperature :math:`T_{cp}` of a
     *CIE Illuminant D Series* from its *CIE xy* chromaticity coordinates.
 
     Parameters
@@ -122,7 +122,7 @@ def xy_to_CCT_CIE_D(
 
 def CCT_to_xy_CIE_D(CCT: ArrayLike) -> NDArrayFloat:
     """
-    Return the *CIE xy* chromaticity coordinates of a
+    Compute the *CIE xy* chromaticity coordinates of a
     *CIE Illuminant D Series* from its correlated colour temperature
     :math:`T_{cp}`.
 
