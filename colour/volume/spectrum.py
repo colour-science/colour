@@ -2,7 +2,7 @@
 Rösch-MacAdam colour solid - Visible Spectrum Volume Computations
 =================================================================
 
-Define the objects related to *Rösch-MacAdam* colour solid, visible spectrum
+Objects related to *Rösch-MacAdam* colour solid, visible spectrum
 volume computations.
 
 References
@@ -82,7 +82,7 @@ def generate_pulse_waves(
     filter_jagged_pulses: bool = False,
 ) -> NDArrayFloat:
     """
-    Generate the pulse waves of given number of bins necessary to totally
+    Generate the pulse waves of specified number of bins necessary to totally
     stimulate the colour matching functions and produce the *Rösch-MacAdam*
     colour solid.
 
@@ -252,7 +252,7 @@ def XYZ_outer_surface(
 ) -> NDArrayFloat:
     """
     Generate the *Rösch-MacAdam* colour solid, i.e., *CIE XYZ* colourspace
-    outer surface, for given colour matching functions using multi-spectral
+    outer surface, for specified colour matching functions using multi-spectral
     conversion of pulse waves to *CIE XYZ* tristimulus values.
 
     Parameters
@@ -391,8 +391,8 @@ def is_within_visible_spectrum(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Return whether given *CIE XYZ* tristimulus values are within the visible
-    spectrum volume, i.e., *Rösch-MacAdam* colour solid, for given colour
+    Return whether specified *CIE XYZ* tristimulus values are within the visible
+    spectrum volume, i.e., *Rösch-MacAdam* colour solid, for specified colour
     matching functions and illuminant.
 
     Parameters

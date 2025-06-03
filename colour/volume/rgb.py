@@ -2,7 +2,7 @@
 RGB Colourspace Volume Computation
 ==================================
 
-Define various RGB colourspace volume computation objects:
+Various RGB colourspace volume computation objects:
 
 -   :func:`colour.RGB_colourspace_limits`
 -   :func:`colour.RGB_colourspace_volume_MonteCarlo`
@@ -91,7 +91,7 @@ def sample_RGB_colourspace_volume_MonteCarlo(
 ) -> int:
     """
     Randomly sample the *CIE L\\*a\\*b\\** colourspace volume and returns the
-    ratio of samples within the given *RGB* colourspace volume.
+    ratio of samples within the specified *RGB* colourspace volume.
 
     Parameters
     ----------
@@ -152,7 +152,7 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 
 def RGB_colourspace_limits(colourspace: RGB_Colourspace) -> NDArrayFloat:
     """
-    Compute given *RGB* colourspace volume limits in *CIE L\\*a\\*b\\**
+    Compute specified *RGB* colourspace volume limits in *CIE L\\*a\\*b\\**
     colourspace.
 
     Parameters
@@ -167,7 +167,7 @@ def RGB_colourspace_limits(colourspace: RGB_Colourspace) -> NDArrayFloat:
 
     Notes
     -----
-    The limits are computed for the given *RGB* colourspace illuminant. This is
+    The limits are computed for the specified *RGB* colourspace illuminant. This is
     important to account for, if the intent is to compare various *RGB*
     colourspaces together. In this instance, they must be chromatically adapted
     to the same illuminant before-hand.
@@ -212,7 +212,7 @@ def RGB_colourspace_volume_MonteCarlo(
     random_state: np.random.RandomState | None = None,
 ) -> float:
     """
-    Perform given *RGB* colourspace volume computation using *Monte Carlo*
+    Perform specified *RGB* colourspace volume computation using *Monte Carlo*
     method and multiprocessing.
 
     Parameters
@@ -296,7 +296,7 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
     random_state: np.random.RandomState | None = None,
 ) -> float:
     """
-    Return given *RGB* colourspace percentage coverage of an arbitrary volume.
+    Return specified *RGB* colourspace percentage coverage of an arbitrary volume.
 
     Parameters
     ----------
@@ -347,7 +347,7 @@ def RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
     random_state: np.random.RandomState | None = None,
 ) -> float:
     """
-    Return given *RGB* colourspace percentage coverage of Pointer's Gamut
+    Return specified *RGB* colourspace percentage coverage of Pointer's Gamut
     volume using *Monte Carlo* method.
 
     Parameters
@@ -393,7 +393,7 @@ def RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
     random_state: np.random.RandomState | None = None,
 ) -> float:
     """
-    Return given *RGB* colourspace percentage coverage of visible spectrum
+    Return specified *RGB* colourspace percentage coverage of visible spectrum
     volume using *Monte Carlo* method.
 
     Parameters

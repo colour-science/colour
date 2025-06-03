@@ -2,7 +2,7 @@
 Optimal Colour Stimuli - MacAdam Limits
 =======================================
 
-Define the objects related to *Optimal Colour Stimuli* computations.
+Objects related to *Optimal Colour Stimuli* computations.
 """
 
 from __future__ import annotations
@@ -45,7 +45,7 @@ def _XYZ_optimal_colour_stimuli(
     illuminant: Literal["A", "C", "D65"] | str = "D65",
 ) -> NDArrayFloat:
     """
-    Return given illuminant *Optimal Colour Stimuli* in *CIE XYZ* tristimulus
+    Return specified illuminant *Optimal Colour Stimuli* in *CIE XYZ* tristimulus
     values and caches it if not existing.
 
     Parameters
@@ -85,8 +85,8 @@ def is_within_macadam_limits(
     tolerance: float = 100 * EPSILON,
 ) -> NDArrayFloat:
     """
-    Return whether given *CIE xyY* colourspace array is within MacAdam limits
-    of given illuminant.
+    Return whether specified *CIE xyY* colourspace array is within MacAdam limits
+    of specified illuminant.
 
     Parameters
     ----------
@@ -100,7 +100,7 @@ def is_within_macadam_limits(
     Returns
     -------
     :class:`numpy.ndarray`
-        Whether given *CIE xyY* colourspace array is within MacAdam limits.
+        Whether specified *CIE xyY* colourspace array is within MacAdam limits.
 
     Notes
     -----
