@@ -119,8 +119,8 @@ def XYZ_to_sd(
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
-    Recover the spectral distribution of given *CIE XYZ* tristimulus
-    values using given method.
+    Recover the spectral distribution of specified *CIE XYZ* tristimulus
+    values using specified method.
 
     Parameters
     ----------
@@ -186,7 +186,7 @@ def XYZ_to_sd(
     | ``XYZ``    | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
-    -   *Smits (1999)* method will internally convert given *CIE XYZ*
+    -   *Smits (1999)* method will internally convert specified *CIE XYZ*
         tristimulus values to *sRGB* colourspace array assuming equal energy
         illuminant *E*.
 

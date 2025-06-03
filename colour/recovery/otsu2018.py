@@ -251,7 +251,7 @@ class Dataset_Otsu2018:
 
     def select(self, xy: ArrayLike) -> int:
         """
-        Return the cluster index appropriate for the given *CIE xy*
+        Determine the cluster index appropriate for the specified *CIE xy*
         coordinates.
 
         Parameters
@@ -294,7 +294,7 @@ class Dataset_Otsu2018:
 
     def cluster(self, xy: ArrayLike) -> Tuple[NDArrayFloat, NDArrayFloat]:
         """
-        Return the basis functions and dataset mean for the given *CIE xy*
+        Retrieve the basis functions and dataset mean for the specified *CIE xy*
         coordinates.
 
         Parameters
@@ -367,7 +367,7 @@ class Dataset_Otsu2018:
 
     def write(self, path: str | PathLike) -> None:
         """
-        Write the dataset to an *.npz* file at given path.
+        Write the dataset to an *.npz* file at specified path.
 
         Parameters
         ----------
@@ -444,7 +444,7 @@ def XYZ_to_sd_Otsu2018(
     clip: bool = True,
 ) -> SpectralDistribution:
     """
-    Recover the spectral distribution of given *CIE XYZ* tristimulus values
+    Recover the spectral distribution of specified *CIE XYZ* tristimulus values
     using *Otsu et al. (2018)* method.
 
     Parameters
@@ -786,7 +786,7 @@ class Data_Otsu2018:
 
     def __len__(self) -> int:
         """
-        Return the number of colours in the data.
+        Determine the number of colours in the data.
 
         Returns
         -------
@@ -798,8 +798,8 @@ class Data_Otsu2018:
 
     def origin(self, i: int, direction: int) -> float:
         """
-        Return the origin *CIE x* or *CIE y* chromaticity coordinate for given
-        index and direction.
+        Retrieve the origin *CIE x* or *CIE y* chromaticity coordinate for
+        specified index and direction.
 
         Parameters
         ----------
@@ -828,7 +828,7 @@ class Data_Otsu2018:
 
     def partition(self, axis: PartitionAxis) -> Tuple[Data_Otsu2018, Data_Otsu2018]:
         """
-        Partition the data using given partition axis.
+        Partition the data using specified partition axis.
 
         Parameters
         ----------
@@ -904,7 +904,7 @@ class Data_Otsu2018:
 
     def reconstruct(self, XYZ: ArrayLike) -> SpectralDistribution:
         """
-        Reconstruct the reflectance for the given *CIE XYZ* tristimulus
+        Reconstruct the reflectance for the specified *CIE XYZ* tristimulus
         values.
 
         Parameters
@@ -947,7 +947,7 @@ class Data_Otsu2018:
 
     def reconstruction_error(self) -> float:
         """
-        Return the reconstruction error of the data. The error is computed by
+        Compute the reconstruction error of the data. The error is computed by
         reconstructing the reflectances for the reference *CIE XYZ* tristimulus
         values using PCA and, comparing the reconstructed reflectances against
         the reference reflectances.
@@ -1076,7 +1076,7 @@ class Node_Otsu2018(TreeNode):
 
     def split(self, children: Sequence[Self], axis: PartitionAxis) -> None:
         """
-        Convert the leaf node into an inner node using given children and
+        Convert the leaf node into an inner node using specified children and
         partition axis.
 
         Parameters
@@ -1110,7 +1110,7 @@ class Node_Otsu2018(TreeNode):
         Returns
         -------
         :class:`tuple`
-            Tuple of tuple of nodes created by splitting a node with a given
+            Tuple of tuple of nodes created by splitting a node with a specified
             partition, partition axis, i.e., the horizontal or vertical line,
             partitioning the 2D space in two half-planes and partition error.
         """
@@ -1172,7 +1172,7 @@ class Node_Otsu2018(TreeNode):
 
     def leaf_reconstruction_error(self) -> float:
         """
-        Return the reconstruction error of the node data. The error is
+        Compute the reconstruction error of the node data. The error is
         computed by reconstructing the reflectances for the data reference
         *CIE XYZ* tristimulus values using PCA and, comparing the reconstructed
         reflectances against the data reference reflectances.
@@ -1584,7 +1584,7 @@ the initial error.
         else:
 
             def add_rows(node: Node_Otsu2018, data: dict | None = None) -> dict | None:
-                """Add rows for given node and its children."""
+                """Add rows for specified node and its children."""
 
                 data = optional(data, {"rows": [], "node_to_leaf_id": {}, "leaf_id": 0})
 

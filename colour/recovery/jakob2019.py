@@ -142,7 +142,7 @@ def sd_Jakob2019(
     coefficients: ArrayLike, shape: SpectralShape = SPECTRAL_SHAPE_JAKOB2019
 ) -> SpectralDistribution:
     """
-    Return a spectral distribution following the spectral model given by
+    Generate a spectral distribution following the spectral model specified by
     *Jakob and Hanika (2019)*.
 
     Parameters
@@ -241,7 +241,7 @@ def error_function(
 ):
     """
     Compute :math:`\\Delta E_{76}` between the target colour and the colour
-    defined by given spectral model, along with its gradient.
+    defined by specified spectral model, along with its gradient.
 
     Parameters
     ----------
@@ -340,7 +340,7 @@ def dimensionalise_coefficients(
     coefficients: ArrayLike, shape: SpectralShape
 ) -> NDArrayFloat:
     """
-    Rescale the dimensionless coefficients to given spectral shape.
+    Rescale the dimensionless coefficients to specified spectral shape.
 
     A dimensionless form of the reflectance spectral model is used in the
     optimisation process. Instead of the usual spectral shape, specified in
@@ -437,7 +437,7 @@ def find_coefficients_Jakob2019(
     Returns
     -------
     :class:`tuple`
-        Tuple of computed coefficients that best fit the given colour and
+        Tuple of computed coefficients that best fit the specified colour and
         :math:`\\Delta E_{76}` between the target colour and the colour
         corresponding to the computed coefficients.
 
@@ -555,8 +555,8 @@ def XYZ_to_sd_Jakob2019(
     additional_data: bool = False,
 ) -> Tuple[SpectralDistribution, float] | SpectralDistribution:
     """
-    Recover the spectral distribution of given *CIE XYZ* tristimulus values
-    using *Jakob and Hanika (2019)* method.
+    Recover the spectral distribution of specified *CIE XYZ* tristimulus
+    values using *Jakob and Hanika (2019)* method.
 
     Parameters
     ----------
@@ -873,8 +873,8 @@ class LUT3D_Jakob2019:
         print_callable: Callable = print,
     ) -> None:
         """
-        Generate the lookup table data for given *RGB* colourspace, colour
-        matching functions, illuminant and given size.
+        Generate the lookup table data for specified *RGB* colourspace, colour
+        matching functions, illuminant and specified size.
 
         Parameters
         ----------
@@ -1023,7 +1023,7 @@ class LUT3D_Jakob2019:
 
     def RGB_to_coefficients(self, RGB: ArrayLike) -> NDArrayFloat:
         """
-        Look up a given *RGB* colourspace array and return corresponding
+        Look up a specified *RGB* colourspace array and return corresponding
         coefficients. Interpolation is used for colours not on the table grid.
 
         Parameters
@@ -1083,7 +1083,7 @@ class LUT3D_Jakob2019:
         self, RGB: ArrayLike, shape: SpectralShape = SPECTRAL_SHAPE_JAKOB2019
     ) -> SpectralDistribution:
         """
-        Look up a given *RGB* colourspace array and return the corresponding
+        Look up a specified *RGB* colourspace array and return the corresponding
         spectral distribution.
 
         Parameters

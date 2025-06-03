@@ -100,7 +100,7 @@ def PCA_Jiang2013(
     | Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]
 ):
     """
-    Perform the *Principal Component Analysis* (PCA) on given camera *RGB*
+    Perform the *Principal Component Analysis* (PCA) on specified camera *RGB*
     sensitivities.
 
     Parameters
@@ -138,7 +138,7 @@ def PCA_Jiang2013(
     def normalised_sensitivity(
         msds: MultiSpectralDistributions, channel: str
     ) -> NDArrayFloat:
-        """Return a normalised camera *RGB* sensitivity."""
+        """Generate a normalised camera *RGB* sensitivity."""
 
         sensitivity = cast(SpectralDistribution, msds.signals[channel].copy())
 
@@ -176,7 +176,7 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
     shape: SpectralShape | None = None,
 ) -> SpectralDistribution:
     """
-    Recover a single camera *RGB* sensitivity for given camera *RGB* values
+    Recover a single camera *RGB* sensitivity for specified camera *RGB* values
     using *Jiang et al. (2013)* method.
 
     Parameters
@@ -308,8 +308,8 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
     shape: SpectralShape | None = None,
 ) -> MultiSpectralDistributions:
     """
-    Recover the camera *RGB* sensitivities for given camera *RGB* values using
-    *Jiang et al. (2013)* method.
+    Recover the camera *RGB* sensitivities for specified camera *RGB* values
+    using *Jiang et al. (2013)* method.
 
     Parameters
     ----------

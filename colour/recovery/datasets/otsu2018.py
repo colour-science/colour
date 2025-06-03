@@ -1320,6 +1320,6 @@ SELECTOR_ARRAY_OTSU2018: NDArrayFloat = np.array(
     ]
 )
 """
-Array describing how to select the appropriate cluster for given *CIE xy*
+Array describing how to select the appropriate cluster for specified *CIE xy*
 chromaticity coordinates.
 """
