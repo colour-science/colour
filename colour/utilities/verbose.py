@@ -2,7 +2,7 @@
 Verbose
 =======
 
-Define the verbose related objects.
+Verbose related objects.
 """
 
 from __future__ import annotations
@@ -107,7 +107,7 @@ class MixinLogging:
         ] = "info",
     ) -> None:
         """
-        Log given message using given verbosity level.
+        Log specified message using specified verbosity level.
 
         Parameters
         ----------
@@ -126,7 +126,7 @@ class MixinLogging:
 
 class ColourWarning(Warning):
     """
-    Define the base class of *Colour* warnings.
+    Base class of *Colour* warnings.
 
     It is a subclass of the :class:`Warning` class.
     """
@@ -134,7 +134,7 @@ class ColourWarning(Warning):
 
 class ColourUsageWarning(Warning):
     """
-    Define the base class of *Colour* usage warnings.
+    Base class of *Colour* usage warnings.
 
     It is a subclass of the :class:`colour.utilities.ColourWarning` class.
     """
@@ -142,7 +142,7 @@ class ColourUsageWarning(Warning):
 
 class ColourRuntimeWarning(Warning):
     """
-    Define the base class of *Colour* runtime warnings.
+    Base class of *Colour* runtime warnings.
 
     It is a subclass of the :class:`colour.utilities.ColourWarning` class.
     """
@@ -453,7 +453,7 @@ def filter_warnings(
 
 def as_bool(a: str) -> bool:
     """
-    Convert given string to bool.
+    Convert specified string to bool.
 
     The following string values evaluate to *True*: "1", "On", and "True".
 
@@ -465,7 +465,7 @@ def as_bool(a: str) -> bool:
     Returns
     -------
     :class:`bool`
-        Whether the given string is *True*.
+        Whether the specified string is *True*.
 
     Examples
     --------
@@ -529,7 +529,7 @@ def suppress_warnings(
     python_warnings: bool | LiteralWarning | None = None,
 ) -> Generator:
     """
-    Define a context manager filtering *Colour* and also optionally overall
+    Context manager filtering *Colour* and also optionally overall
     Python warnings.
 
     The possible values for all the actions, i.e., each argument, are as
@@ -579,7 +579,7 @@ def suppress_warnings(
 
 class suppress_stdout:
     """
-    Define a context manager and decorator temporarily suppressing standard
+    Context manager and decorator temporarily suppressing standard
     output.
 
     Examples
@@ -618,7 +618,7 @@ class suppress_stdout:
 @contextmanager
 def numpy_print_options(*args: Any, **kwargs: Any) -> Generator:
     """
-    Define a context manager implementing context changes to *Numpy* print
+    Context manager implementing context changes to *Numpy* print
     behaviour.
 
     Other Parameters
@@ -842,7 +842,7 @@ def describe_environment(
         environment["Runtime"].update(ANCILLARY_RUNTIME_PACKAGES)
 
     def _get_package_version(package: str, mapping: Mapping) -> str:
-        """Return given package version."""
+        """Return specified package version."""
 
         namespace = __import__(package)
 
@@ -943,7 +943,7 @@ def multiline_str(
     separator: str = " : ",
 ) -> str:
     """
-    Return a formatted string representation of the given object.
+    Return a formatted string representation of the specified object.
 
     Parameters
     ----------
@@ -1088,7 +1088,7 @@ def multiline_repr(
     reduce_array_representation: bool = True,
 ) -> str:
     """
-    Return an (almost) evaluable string representation of the given object.
+    Return an (almost) evaluable string representation of the specified object.
 
     Parameters
     ----------
@@ -1137,7 +1137,7 @@ def multiline_repr(
     justify = len(f"{object_.__class__.__name__}") + 1
 
     def _format(attribute: dict) -> str:
-        """Format given attribute and its value."""
+        """Format specified attribute and its value."""
 
         if attribute["name"] is not None:
             value = attribute["formatter"](getattr(object_, attribute["name"]))

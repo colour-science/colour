@@ -54,7 +54,7 @@ def metric_mse(
 ) -> NDArrayFloat:
     """
     Compute the mean squared error (MSE) or mean squared deviation (MSD)
-    between given variables :math:`a` and :math:`b`.
+    between specified variables :math:`a` and :math:`b`.
 
     Parameters
     ----------
@@ -95,7 +95,7 @@ def metric_psnr(
     axis: int | Tuple[int] | None = None,
 ) -> NDArrayFloat:
     """
-    Compute the peak signal-to-noise ratio (PSNR) between given variables
+    Compute the peak signal-to-noise ratio (PSNR) between specified variables
     :math:`a` and :math:`b`.
 
     Parameters

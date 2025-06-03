@@ -2,7 +2,7 @@
 Data Structures
 ===============
 
-Define various data structures classes:
+Various data structures classes:
 
 -   :class:`colour.utilities.Structure`: An object similar to C/C++ structured
     type.
@@ -58,7 +58,7 @@ __all__ = [
 
 class Structure(dict):
     """
-    Define a :class:`dict`-like object allowing to access key values using dot
+    :class:`dict`-like object allowing to access key values using dot
     syntax.
 
     Other Parameters
@@ -97,7 +97,7 @@ class Structure(dict):
 
     def __setattr__(self, name: str, value: Any) -> None:
         """
-        Assign given value to the attribute with given name.
+        Assign specified value to the attribute with specified name.
 
         Parameters
         ----------
@@ -111,7 +111,7 @@ class Structure(dict):
 
     def __delattr__(self, name: str) -> None:
         """
-        Delete the attribute with given name.
+        Delete the attribute with specified name.
 
         Parameters
         ----------
@@ -135,7 +135,7 @@ class Structure(dict):
 
     def __getattr__(self, name: str) -> Any:
         """
-        Return the value from the attribute with given name.
+        Return the value from the attribute with specified name.
 
         Parameters
         ----------
@@ -188,7 +188,7 @@ class Lookup(dict):
 
     def keys_from_value(self, value: Any) -> list:
         """
-        Get the keys associated with given value.
+        Get the keys associated with specified value.
 
         Parameters
         ----------
@@ -198,7 +198,7 @@ class Lookup(dict):
         Returns
         -------
         :class:`list`
-            Keys associated with given value.
+            Keys associated with specified value.
         """
 
         keys = []
@@ -217,7 +217,7 @@ class Lookup(dict):
 
     def first_key_from_value(self, value: Any) -> Any:
         """
-        Get the first key associated with given value.
+        Get the first key associated with specified value.
 
         Parameters
         ----------
@@ -227,7 +227,7 @@ class Lookup(dict):
         Returns
         -------
         :class:`object`
-            First key associated with given value.
+            First key associated with specified value.
         """
 
         return self.keys_from_value(value)[0]
@@ -240,7 +240,7 @@ class CanonicalMapping(MutableMapping):
     keys but also canonical keys, i.e., slugified keys without delimiters.
 
     The item keys are expected to be :class:`str`-like objects thus supporting
-    the :meth:`str.lower` method. Setting items is done by using the given
+    the :meth:`str.lower` method. Setting items is done by using the specified
     keys. Retrieving or deleting an item and testing whether an item exist is
     done by transforming the item's key in a sequence as follows:
 
@@ -345,7 +345,7 @@ class CanonicalMapping(MutableMapping):
 
     def __setitem__(self, item: str | Any, value: Any) -> None:
         """
-        Set given item with given value in the delimiter and case-insensitive
+        Set specified item with specified value in the delimiter and case-insensitive
         :class:`dict`-like object.
 
         Parameters
@@ -362,7 +362,7 @@ class CanonicalMapping(MutableMapping):
 
     def __getitem__(self, item: str | Any) -> Any:
         """
-        Return the value of given item from the delimiter and case-insensitive
+        Return the value of specified item from the delimiter and case-insensitive
         :class:`dict`-like object.
 
         Parameters
@@ -407,7 +407,7 @@ class CanonicalMapping(MutableMapping):
 
     def __delitem__(self, item: str | Any) -> None:
         """
-        Delete given item from the delimiter and case-insensitive
+        Delete specified item from the delimiter and case-insensitive
         :class:`dict`-like object.
 
         Parameters
@@ -452,7 +452,7 @@ class CanonicalMapping(MutableMapping):
     def __contains__(self, item: str | Any) -> bool:
         """
         Return whether the delimiter and case-insensitive :class:`dict`-like
-        object contains given item.
+        object contains specified item.
 
         Parameters
         ----------
@@ -463,7 +463,7 @@ class CanonicalMapping(MutableMapping):
         Returns
         -------
         :class:`bool`
-            Whether given item is in the delimiter and case-insensitive
+            Whether specified item is in the delimiter and case-insensitive
             :class:`dict`-like object.
 
         Notes
@@ -515,7 +515,7 @@ class CanonicalMapping(MutableMapping):
     def __eq__(self, other: object) -> bool:
         """
         Return whether the delimiter and case-insensitive :class:`dict`-like
-        object is equal to given other object.
+        object is equal to specified other object.
 
         Parameters
         ----------
@@ -526,7 +526,7 @@ class CanonicalMapping(MutableMapping):
         Returns
         -------
         :class:`bool`
-            Whether given object is equal to the delimiter and case-insensitive
+            Whether specified object is equal to the delimiter and case-insensitive
             :class:`dict`-like object.
         """
 
@@ -545,7 +545,7 @@ class CanonicalMapping(MutableMapping):
     def __ne__(self, other: object) -> bool:
         """
         Return whether the delimiter and case-insensitive :class:`dict`-like
-        object is not equal to given other object.
+        object is not equal to specified other object.
 
         Parameters
         ----------
@@ -556,7 +556,7 @@ class CanonicalMapping(MutableMapping):
         Returns
         -------
         :class:`bool`
-            Whether given object is not equal to the delimiter and
+            Whether specified object is not equal to the delimiter and
             case-insensitive :class:`dict`-like object.
         """
 
@@ -565,7 +565,7 @@ class CanonicalMapping(MutableMapping):
     @staticmethod
     def _collision_warning(keys: list) -> None:
         """
-        Issue a runtime warning when given keys are colliding.
+        Issue a runtime warning when specified keys are colliding.
 
         Parameters
         ----------
@@ -729,7 +729,7 @@ class LazyCanonicalMapping(CanonicalMapping):
 
     def __getitem__(self, item: str | Any) -> Any:
         """
-        Return the value of given item from the lazy delimiter and
+        Return the value of specified item from the lazy delimiter and
         case-insensitive :class:`dict`-like object.
 
         Parameters
