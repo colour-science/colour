@@ -2,7 +2,7 @@
 Extrapolation
 =============
 
-Define the classes for extrapolating variables:
+Classes for extrapolating variables:
 
 -   :class:`colour.Extrapolator`: 1-D function extrapolation.
 
@@ -60,21 +60,21 @@ __all__ = [
 
 class Extrapolator:
     """
-    Extrapolate the 1-D function of given interpolator.
+    Extrapolate the 1-D function of specified interpolator.
 
     The :class:`colour.Extrapolator` class acts as a wrapper around a given
     *Colour* or *scipy* interpolator class instance with compatible signature.
     Two extrapolation methods are available:
 
-    -   *Linear*: Linearly extrapolates given points using the slope defined by
-        the interpolator boundaries (xi[0], xi[1]) if x < xi[0] and
+    -   *Linear*: Linearly extrapolates specified points using the slope defined
+        by the interpolator boundaries (xi[0], xi[1]) if x < xi[0] and
         (xi[-1], xi[-2]) if x > xi[-1].
-    -   *Constant*: Extrapolates given points by assigning the interpolator
+    -   *Constant*: Extrapolates specified points by assigning the interpolator
         boundaries values xi[0] if x < xi[0] and xi[-1] if x > xi[-1].
 
     Specifying the *left* and *right* arguments takes precedence on the chosen
     extrapolation method and will assign the respective *left* and *right*
-    values to the given points.
+    values to the specified points.
 
     Parameters
     ----------
@@ -292,7 +292,7 @@ class Extrapolator:
 
     def __call__(self, x: ArrayLike) -> NDArrayFloat:
         """
-        Evaluate the Extrapolator at given point(s).
+        Evaluate the Extrapolator at specified point(s).
 
         Parameters
         ----------
@@ -313,7 +313,7 @@ class Extrapolator:
 
     def _evaluate(self, x: NDArrayFloat) -> NDArrayFloat:
         """
-        Perform the extrapolating evaluation at given points.
+        Perform the extrapolating evaluation at specified points.
 
         Parameters
         ----------
