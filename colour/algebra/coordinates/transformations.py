@@ -2,7 +2,7 @@
 Coordinates System Transformations
 ==================================
 
-Define the objects to apply transformations on coordinates systems.
+Objects to apply transformations on coordinates systems.
 
 The following transformations are available:
 
@@ -60,7 +60,7 @@ __all__ = [
 
 def cartesian_to_spherical(a: ArrayLike) -> NDArrayFloat:
     """
-    Transform given cartesian coordinates array :math:`xyz` to spherical
+    Transform specified cartesian coordinates array :math:`xyz` to spherical
     coordinates array :math:`\\rho\\theta\\phi` (radial distance, inclination
     or elevation and azimuth).
 
@@ -100,7 +100,7 @@ def cartesian_to_spherical(a: ArrayLike) -> NDArrayFloat:
 
 def spherical_to_cartesian(a: ArrayLike) -> NDArrayFloat:
     """
-    Transform given spherical coordinates array :math:`\\rho\\theta\\phi`
+    Transform specified spherical coordinates array :math:`\\rho\\theta\\phi`
     (radial distance, inclination or elevation and azimuth) to cartesian
     coordinates array :math:`xyz`.
 
@@ -139,7 +139,7 @@ def spherical_to_cartesian(a: ArrayLike) -> NDArrayFloat:
 
 def cartesian_to_polar(a: ArrayLike) -> NDArrayFloat:
     """
-    Transform given cartesian coordinates array :math:`xy` to polar
+    Transform specified cartesian coordinates array :math:`xy` to polar
     coordinates array :math:`\\rho\\phi` (radial coordinate, angular
     coordinate).
 
@@ -176,7 +176,7 @@ def cartesian_to_polar(a: ArrayLike) -> NDArrayFloat:
 
 def polar_to_cartesian(a: ArrayLike) -> NDArrayFloat:
     """
-    Transform given polar coordinates array :math:`\\rho\\phi` (radial
+    Transform specified polar coordinates array :math:`\\rho\\phi` (radial
     coordinate, angular coordinate) to cartesian coordinates array :math:`xy`.
 
     Parameters
@@ -212,7 +212,7 @@ def polar_to_cartesian(a: ArrayLike) -> NDArrayFloat:
 
 def cartesian_to_cylindrical(a: ArrayLike) -> NDArrayFloat:
     """
-    Transform given cartesian coordinates array :math:`xyz` to cylindrical
+    Transform specified cartesian coordinates array :math:`xyz` to cylindrical
     coordinates array :math:`\\rho\\phi z` (radial distance, azimuth and
     height).
 
@@ -248,7 +248,7 @@ def cartesian_to_cylindrical(a: ArrayLike) -> NDArrayFloat:
 
 def cylindrical_to_cartesian(a: ArrayLike) -> NDArrayFloat:
     """
-    Transform given cylindrical coordinates array :math:`\\rho\\phi z`
+    Transform specified cylindrical coordinates array :math:`\\rho\\phi z`
     (radial distance, azimuth and height) to cartesian coordinates array
     :math:`xyz`.
 

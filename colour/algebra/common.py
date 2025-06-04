@@ -2,7 +2,7 @@
 Common Utilities
 ================
 
-Define the common algebra utilities objects that don't fall in any specific
+Common algebra utilities objects that don't fall in any specific
 category.
 """
 
@@ -172,7 +172,7 @@ def set_sdiv_mode(
 
 class sdiv_mode:
     """
-    Define a context manager and decorator temporarily setting *Colour* safe
+    A context manager and decorator temporarily setting *Colour* safe
     division function mode.
 
     Parameters
@@ -232,7 +232,7 @@ class sdiv_mode:
 
 def sdiv(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     """
-    Divide given array :math:`b` with array :math:`b` while handling
+    Divide specified array :math:`b` with array :math:`b` while handling
     zero-division.
 
     This definition avoids NaNs and +/- infs generation when array :math:`b`
@@ -396,7 +396,7 @@ def set_spow_enable(enable: bool) -> None:
 
 class spow_enable:
     """
-    Define a context manager and decorator temporarily setting *Colour* safe /
+    A context manager and decorator temporarily setting *Colour* safe /
     symmetrical power function enabled state.
 
     Parameters
@@ -449,7 +449,7 @@ def spow(a: ArrayLike, p: NDArray) -> NDArrayFloat: ...
 def spow(a: ArrayLike, p: ArrayLike) -> DTypeFloat | NDArrayFloat: ...
 def spow(a: ArrayLike, p: ArrayLike) -> DTypeFloat | NDArrayFloat:
     """
-    Raise given array :math:`a` to the power :math:`p` as follows:
+    Raise specified array :math:`a` to the power :math:`p` as follows:
     :math:`sign(a) * |a|^p`.
 
     This definition avoids NaNs generation when array :math:`a` is negative and
@@ -492,7 +492,7 @@ def spow(a: ArrayLike, p: ArrayLike) -> DTypeFloat | NDArrayFloat:
 
 def normalise_vector(a: ArrayLike) -> NDArrayFloat:
     """
-    Normalise given vector :math:`a`.
+    Normalise specified vector :math:`a`.
 
     Parameters
     ----------
@@ -524,7 +524,7 @@ def normalise_maximum(
     clip: bool = True,
 ) -> NDArrayFloat:
     """
-    Normalise given array :math:`a` values by :math:`a` maximum value and
+    Normalise specified array :math:`a` values by :math:`a` maximum value and
     optionally clip them between.
 
     Parameters
@@ -674,7 +674,7 @@ def linear_conversion(
     a: ArrayLike, old_range: ArrayLike, new_range: ArrayLike
 ) -> NDArrayFloat:
     """
-    Perform a simple linear conversion of given array :math:`a` between the
+    Perform a simple linear conversion of specified array :math:`a` between the
     old and new ranges.
 
     Parameters
@@ -713,7 +713,7 @@ def linstep_function(
     clip: bool = False,
 ) -> NDArrayFloat:
     """
-    Perform a simple linear interpolation between given array :math:`a` and
+    Perform a simple linear interpolation between specified array :math:`a` and
     array :math:`b` using :math:`x` array.
 
     Parameters
@@ -829,8 +829,8 @@ def eigen_decomposition(
     covariance_matrix: bool = False,
 ) -> Tuple[NDArrayFloat, NDArrayFloat]:
     """
-    Return the eigen-values :math:`w` and eigen-vectors :math:`v` of given
-    array :math:`a` in given order.
+    Return the eigen-values :math:`w` and eigen-vectors :math:`v` of specified
+    array :math:`a` in specified order.
 
     Parameters
     ----------
@@ -851,7 +851,7 @@ def eigen_decomposition(
     -------
     :class:`tuple`
         Tuple of eigen-values :math:`w` and eigen-vectors :math:`v`. The
-        eigenv-alues are in given order, each repeated according to
+        eigenv-alues are in specified order, each repeated according to
         its multiplicity. The column ``v[:, i]`` is the normalized eigen-vector
         corresponding to the eige-nvalue ``w[i]``.
 

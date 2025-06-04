@@ -2,7 +2,7 @@
 Interpolation
 =============
 
-Define the classes and definitions for interpolating variables.
+Classes and definitions for interpolating variables.
 
 -   :class:`colour.KernelInterpolator`: 1-D function generic interpolation with
     arbitrary kernel.
@@ -24,8 +24,8 @@ Define the classes and definitions for interpolating variables.
     interpolation with table.
 -   :attr:`colour.TABLE_INTERPOLATION_METHODS`: Supported table interpolation
     methods.
--   :func:`colour.table_interpolation`: Interpolation with table using given
-    method.
+-   :func:`colour.table_interpolation`: Interpolation with table using
+    specified method.
 
 References
 ----------
@@ -134,7 +134,7 @@ __all__ = [
 
 def kernel_nearest_neighbour(x: ArrayLike) -> NDArrayFloat:
     """
-    Return the *nearest-neighbour* kernel evaluated at given samples.
+    Return the *nearest-neighbour* kernel evaluated at specified samples.
 
     Parameters
     ----------
@@ -144,7 +144,7 @@ def kernel_nearest_neighbour(x: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        The *nearest-neighbour* kernel evaluated at given samples.
+        The *nearest-neighbour* kernel evaluated at specified samples.
 
     References
     ----------
@@ -161,7 +161,7 @@ def kernel_nearest_neighbour(x: ArrayLike) -> NDArrayFloat:
 
 def kernel_linear(x: ArrayLike) -> NDArrayFloat:
     """
-    Return the *linear* kernel evaluated at given samples.
+    Return the *linear* kernel evaluated at specified samples.
 
     Parameters
     ----------
@@ -171,7 +171,7 @@ def kernel_linear(x: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        The *linear* kernel evaluated at given samples.
+        The *linear* kernel evaluated at specified samples.
 
     References
     ----------
@@ -191,7 +191,7 @@ def kernel_linear(x: ArrayLike) -> NDArrayFloat:
 
 def kernel_sinc(x: ArrayLike, a: float = 3) -> NDArrayFloat:
     """
-    Return the *sinc* kernel evaluated at given samples.
+    Return the *sinc* kernel evaluated at specified samples.
 
     Parameters
     ----------
@@ -203,7 +203,7 @@ def kernel_sinc(x: ArrayLike, a: float = 3) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        The *sinc* kernel evaluated at given samples.
+        The *sinc* kernel evaluated at specified samples.
 
     References
     ----------
@@ -227,7 +227,7 @@ def kernel_sinc(x: ArrayLike, a: float = 3) -> NDArrayFloat:
 
 def kernel_lanczos(x: ArrayLike, a: float = 3) -> NDArrayFloat:
     """
-    Return the *lanczos* kernel evaluated at given samples.
+    Return the *lanczos* kernel evaluated at specified samples.
 
     Parameters
     ----------
@@ -239,7 +239,7 @@ def kernel_lanczos(x: ArrayLike, a: float = 3) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        The *lanczos* kernel evaluated at given samples.
+        The *lanczos* kernel evaluated at specified samples.
 
     References
     ----------
@@ -265,7 +265,7 @@ def kernel_cardinal_spline(
     x: ArrayLike, a: float = 0.5, b: float = 0.0
 ) -> NDArrayFloat:
     """
-    Return the *cardinal spline* kernel evaluated at given samples.
+    Return the *cardinal spline* kernel evaluated at specified samples.
 
     Notable *cardinal spline* :math:`a` and :math:`b` parameterizations:
 
@@ -285,7 +285,7 @@ def kernel_cardinal_spline(
     Returns
     -------
     :class:`numpy.ndarray`
-        The *cardinal spline* kernel evaluated at given samples.
+        The *cardinal spline* kernel evaluated at specified samples.
 
     References
     ----------
@@ -323,7 +323,7 @@ class KernelInterpolator:
 
     The reconstruction of a continuous signal can be described as a linear
     convolution operation. Interpolation can be expressed as a convolution of
-    the given discrete function :math:`g(x)` with some continuous interpolation
+    the specified discrete function :math:`g(x)` with some continuous interpolation
     kernel :math:`k(w)`::
 
         :math:`\\hat{g}(w_0) = [k * g](w_0) = \
@@ -648,7 +648,7 @@ class KernelInterpolator:
 
     def __call__(self, x: ArrayLike) -> NDArrayFloat:
         """
-        Evaluate the interpolator at given point(s).
+        Evaluate the interpolator at specified point(s).
 
         Parameters
         ----------
@@ -669,7 +669,7 @@ class KernelInterpolator:
 
     def _evaluate(self, x: NDArrayFloat) -> NDArrayFloat:
         """
-        Perform the interpolator evaluation at given points.
+        Perform the interpolator evaluation at specified points.
 
         Parameters
         ----------
@@ -715,7 +715,7 @@ class KernelInterpolator:
             raise ValueError(error)
 
     def _validate_interpolation_range(self, x: NDArrayFloat) -> None:
-        """Validate given point to be in interpolation range."""
+        """Validate specified point to be in interpolation range."""
 
         below_interpolation_range = x < self._x[0]
         above_interpolation_range = x > self._x[-1]
@@ -894,7 +894,7 @@ class LinearInterpolator:
 
     def __call__(self, x: ArrayLike) -> NDArrayFloat:
         """
-        Evaluate the interpolating polynomial at given point(s).
+        Evaluate the interpolating polynomial at specified point(s).
 
 
         Parameters
@@ -916,7 +916,7 @@ class LinearInterpolator:
 
     def _evaluate(self, x: NDArrayFloat) -> NDArrayFloat:
         """
-        Perform the interpolating polynomial evaluation at given points.
+        Perform the interpolating polynomial evaluation at specified points.
 
         Parameters
         ----------
@@ -946,7 +946,7 @@ class LinearInterpolator:
             raise ValueError(error)
 
     def _validate_interpolation_range(self, x: NDArrayFloat) -> None:
-        """Validate given point to be in interpolation range."""
+        """Validate specified point to be in interpolation range."""
 
         below_interpolation_range = x < self._x[0]
         above_interpolation_range = x > self._x[-1]
@@ -1161,7 +1161,7 @@ class SpragueInterpolator:
 
     def __call__(self, x: ArrayLike) -> NDArrayFloat:
         """
-        Evaluate the interpolating polynomial at given point(s).
+        Evaluate the interpolating polynomial at specified point(s).
 
         Parameters
         ----------
@@ -1182,7 +1182,7 @@ class SpragueInterpolator:
 
     def _evaluate(self, x: NDArrayFloat) -> NDArrayFloat:
         """
-        Perform the interpolating polynomial evaluation at given point.
+        Perform the interpolating polynomial evaluation at specified point.
 
         Parameters
         ----------
@@ -1238,7 +1238,7 @@ class SpragueInterpolator:
             raise ValueError(error)
 
     def _validate_interpolation_range(self, x: NDArrayFloat) -> None:
-        """Validate given point to be in interpolation range."""
+        """Validate specified point to be in interpolation range."""
 
         below_interpolation_range = x < self._x[0]
         above_interpolation_range = x > self._x[-1]
@@ -1325,7 +1325,7 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
 
 class NullInterpolator:
     """
-    Perform 1-D function null interpolation, i.e., a call within given
+    Perform 1-D function null interpolation, i.e., a call within specified
     tolerances will return existing :math:`y` variable values and ``default``
     if outside tolerances.
 
@@ -1552,7 +1552,7 @@ class NullInterpolator:
 
     def __call__(self, x: ArrayLike) -> NDArrayFloat:
         """
-        Evaluate the interpolator at given point(s).
+        Evaluate the interpolator at specified point(s).
 
 
         Parameters
@@ -1574,7 +1574,7 @@ class NullInterpolator:
 
     def _evaluate(self, x: NDArrayFloat) -> NDArrayFloat:
         """
-        Perform the interpolator evaluation at given points.
+        Perform the interpolator evaluation at specified points.
 
         Parameters
         ----------
@@ -1615,7 +1615,7 @@ class NullInterpolator:
             raise ValueError(error)
 
     def _validate_interpolation_range(self, x: NDArrayFloat) -> None:
-        """Validate given point to be in interpolation range."""
+        """Validate specified point to be in interpolation range."""
 
         below_interpolation_range = x < self._x[0]
         above_interpolation_range = x > self._x[-1]
@@ -1633,7 +1633,7 @@ class NullInterpolator:
 
 def lagrange_coefficients(r: float, n: int = 4) -> NDArrayFloat:
     """
-    Compute the *Lagrange Coefficients* at given point :math:`r` for degree
+    Compute the *Lagrange Coefficients* at specified point :math:`r` for degree
     :math:`n`.
 
     Parameters
@@ -1671,7 +1671,7 @@ def vertices_and_relative_coordinates(
 ) -> Tuple[NDArrayFloat, NDArrayFloat]:
     """
     Compute the vertices coordinates and indexes relative :math:`V_{xyzr}`
-    coordinates from given :math:`V_{xyzr}` values and interpolation table.
+    coordinates from specified :math:`V_{xyzr}` values and interpolation table.
 
     Parameters
     ----------
@@ -1752,9 +1752,9 @@ def vertices_and_relative_coordinates(
 
     V_xyz = np.reshape(V_xyz, (-1, 3))
 
-    # Indexes computations where ``i_m`` is the maximum index value on a given
-    # table axis, ``i_f`` and ``i_c`` respectively the floor and ceiling
-    # indexes encompassing a given V_xyz value.
+    # Indexes computations where ``i_m`` is the maximum index value on a
+    # specified table axis, ``i_f`` and ``i_c`` respectively the floor and
+    # ceiling indexes encompassing a specified V_xyz value.
     i_m = np.array(table.shape[0:-1]) - 1
     i_f = as_int_array(np.floor(V_xyz * i_m))
     i_f = np.clip(i_f, 0, i_m)
@@ -1766,7 +1766,7 @@ def vertices_and_relative_coordinates(
     i_f_c = i_f, i_c
 
     # Vertices computations by indexing ``table`` with the ``i_f`` and ``i_c``
-    # indexes. 8 encompassing vertices are computed for a given V_xyz value
+    # indexes. 8 encompassing vertices are computed for a specified V_xyz value
     # forming a cube around it:
     vertices = np.array(
         [
@@ -1780,8 +1780,8 @@ def vertices_and_relative_coordinates(
 
 def table_interpolation_trilinear(V_xyz: ArrayLike, table: ArrayLike) -> NDArrayFloat:
     """
-    Perform the trilinear interpolation of given :math:`V_{xyz}` values using
-    given interpolation table.
+    Perform the trilinear interpolation of specified :math:`V_{xyz}` values
+    using specified interpolation table.
 
     Parameters
     ----------
@@ -1856,8 +1856,8 @@ def table_interpolation_trilinear(V_xyz: ArrayLike, table: ArrayLike) -> NDArray
 
 def table_interpolation_tetrahedral(V_xyz: ArrayLike, table: ArrayLike) -> NDArrayFloat:
     """
-    Perform the tetrahedral interpolation of given :math:`V_{xyz}` values using
-    given interpolation table.
+    Perform the tetrahedral interpolation of specified :math:`V_{xyz}` values
+    using specified interpolation table.
 
     Parameters
     ----------
@@ -1954,7 +1954,7 @@ def table_interpolation(
     method: Literal["Trilinear", "Tetrahedral"] | str = "Trilinear",
 ) -> NDArrayFloat:
     """
-    Perform interpolation of given :math:`V_{xyz}` values using given
+    Perform interpolation of specified :math:`V_{xyz}` values using specified
     interpolation table.
 
     Parameters

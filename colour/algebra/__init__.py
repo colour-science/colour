@@ -117,10 +117,10 @@ __all__ += [
 # ---                API Changes and Deprecation Management                ---#
 # ----------------------------------------------------------------------------#
 class algebra(ModuleAPI):
-    """Define a class acting like the *algebra* module."""
+    """A class acting like the *algebra* module."""
 
     def __getattr__(self, attribute: str) -> Any:
-        """Return the value from the attribute with given name."""
+        """Return the value from the attribute with specified name."""
 
         return super().__getattr__(attribute)
 
@@ -134,7 +134,7 @@ API_CHANGES: dict = {
         ],
     ]
 }
-"""Defines the *colour.algebra* sub-package API changes."""
+"""*colour.algebra* sub-package API changes."""
 
 
 API_CHANGES["ObjectRemoved"] = [  # pyright: ignore
