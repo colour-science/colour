@@ -128,7 +128,7 @@ DTypeInt = (
 )
 DTypeFloat = np.float16 | np.float32 | np.float64
 DTypeReal = DTypeInt | DTypeFloat
-DTypeComplex = np.csingle | np.cdouble
+DTypeComplex = np.complex64 | np.complex128
 DTypeBoolean = np.bool_
 DType = DTypeBoolean | DTypeReal | DTypeComplex
 
