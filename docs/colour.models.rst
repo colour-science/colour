@@ -1,8 +1,11 @@
 Colour Models
 =============
 
-Tristimulus Values, CIE xyY Colourspace and Chromaticity Coordinates
---------------------------------------------------------------------
+CIE Models
+----------
+
+CIE xyY Colourspace
+~~~~~~~~~~~~~~~~~~~
 
 ``colour``
 
@@ -18,32 +21,8 @@ Tristimulus Values, CIE xyY Colourspace and Chromaticity Coordinates
     xyY_to_xy
     xy_to_xyY
 
-Common Models
--------------
-
-``colour``
-
-.. currentmodule:: colour
-
-.. autosummary::
-    :toctree: generated/
-
-    COLOURSPACE_MODELS
-
-``colour.models``
-
-.. currentmodule:: colour.models
-
-.. autosummary::
-    :toctree: generated/
-
-    Jab_to_JCh
-    JCh_to_Jab
-    XYZ_to_Iab
-    Iab_to_XYZ
-
 CIE L*a*b* Colourspace
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~
 
 ``colour``
 
@@ -56,7 +35,7 @@ CIE L*a*b* Colourspace
     Lab_to_XYZ
 
 CIE L*u*v* Colourspace
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~
 
 ``colour``
 
@@ -75,7 +54,7 @@ CIE L*u*v* Colourspace
     CIE1976UCS_to_XYZ
 
 CIE 1960 UCS Colourspace
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 ``colour``
 
@@ -94,7 +73,7 @@ CIE 1960 UCS Colourspace
     CIE1960UCS_to_XYZ
 
 CIE 1964 U*V*W* Colourspace
----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ``colour``
 
@@ -106,8 +85,8 @@ CIE 1964 U*V*W* Colourspace
     XYZ_to_UVW
     UVW_to_XYZ
 
-Hunter L,a,b Colour Scale
--------------------------
+Colourspace Models
+------------------
 
 ``colour``
 
@@ -116,40 +95,10 @@ Hunter L,a,b Colour Scale
 .. autosummary::
     :toctree: generated/
 
-    XYZ_to_Hunter_Lab
-    Hunter_Lab_to_XYZ
-    XYZ_to_K_ab_HunterLab1966
-
-Hunter Rd,a,b Colour Scale
---------------------------
-
-``colour``
-
-.. currentmodule:: colour
-
-.. autosummary::
-    :toctree: generated/
-
-    XYZ_to_Hunter_Rdab
-    Hunter_Rdab_to_XYZ
-
-DIN99 Colourspace and DIN99b, DIN99c, DIN99d Refined Formulas
--------------------------------------------------------------
-
-``colour``
-
-.. currentmodule:: colour
-
-.. autosummary::
-    :toctree: generated/
-
-    Lab_to_DIN99
-    DIN99_to_Lab
-    XYZ_to_DIN99
-    DIN99_to_XYZ
+    COLOURSPACE_MODELS
 
 CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
--------------------------------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ``colour``
 
@@ -172,7 +121,7 @@ CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
     CAM02UCS_to_XYZ
 
 CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
--------------------------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ``colour``
 
@@ -194,8 +143,50 @@ CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
     XYZ_to_CAM16UCS
     CAM16UCS_to_XYZ
 
+DIN99 Colourspace and DIN99b, DIN99c, DIN99d Refined Formulas
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    Lab_to_DIN99
+    DIN99_to_Lab
+    XYZ_to_DIN99
+    DIN99_to_XYZ
+
+Hunter L,a,b Colour Scale
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_Hunter_Lab
+    Hunter_Lab_to_XYZ
+    XYZ_to_K_ab_HunterLab1966
+
+Hunter Rd,a,b Colour Scale
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_Hunter_Rdab
+    Hunter_Rdab_to_XYZ
+
 :math:`IC_AC_B` Colourspace
----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ``colour``
 
@@ -208,7 +199,7 @@ CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
     ICaCb_to_XYZ
 
 :math:`I_GP_GT_G` Colourspace
------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ``colour``
 
@@ -221,7 +212,7 @@ CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
     IgPgTg_to_XYZ
 
 IPT Colourspace
----------------
+~~~~~~~~~~~~~~~
 
 ``colour``
 
@@ -244,21 +235,8 @@ IPT Colourspace
 
     IPT_hue_angle
 
-Ragoo and Farup (2021) Optimised IPT Colourspace
-------------------------------------------------
-
-``colour``
-
-.. currentmodule:: colour
-
-.. autosummary::
-    :toctree: generated/
-
-    XYZ_to_IPT_Ragoo2021
-    IPT_Ragoo2021_to_XYZ
-
 hdr-CIELAB Colourspace
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~
 
 ``colour``
 
@@ -272,7 +250,7 @@ hdr-CIELAB Colourspace
     HDR_CIELAB_METHODS
 
 hdr-IPT Colourspace
--------------------
+~~~~~~~~~~~~~~~~~~~
 
 ``colour``
 
@@ -285,70 +263,8 @@ hdr-IPT Colourspace
     hdr_IPT_to_XYZ
     HDR_IPT_METHODS
 
-Oklab Colourspace
------------------
-
-``colour``
-
-.. currentmodule:: colour
-
-.. autosummary::
-    :toctree: generated/
-
-    XYZ_to_Oklab
-    Oklab_to_XYZ
-
-OSA UCS Colourspace
--------------------
-
-``colour``
-
-.. currentmodule:: colour
-
-.. autosummary::
-    :toctree: generated/
-
-    XYZ_to_OSA_UCS
-    OSA_UCS_to_XYZ
-
-ProLab Colourspace
-------------------
-
-``colour``
-
-.. currentmodule:: colour
-
-.. autosummary::
-    :toctree: generated/
-
-    XYZ_to_ProLab
-    ProLab_to_XYZ
-
-Yrg Colourspace - Kirk (2019)
------------------------------
-
-``colour``
-
-.. currentmodule:: colour
-
-.. autosummary::
-    :toctree: generated/
-
-    XYZ_to_Yrg
-    Yrg_to_XYZ
-
-``colour.models``
-
-.. currentmodule:: colour.models
-
-.. autosummary::
-    :toctree: generated/
-
-    LMS_to_Yrg
-    Yrg_to_LMS
-
 :math:`Jzazbz` Colourspace
---------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ``colour``
 
@@ -373,8 +289,83 @@ Yrg Colourspace - Kirk (2019)
     XYZ_to_Izazbz
     Izazbz_to_XYZ
 
-Polar Conversions
------------------
+Oklab Colourspace
+~~~~~~~~~~~~~~~~~
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_Oklab
+    Oklab_to_XYZ
+
+OSA UCS Colourspace
+~~~~~~~~~~~~~~~~~~~
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_OSA_UCS
+    OSA_UCS_to_XYZ
+
+ProLab Colourspace
+~~~~~~~~~~~~~~~~~~
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_ProLab
+    ProLab_to_XYZ
+
+Ragoo and Farup (2021) Optimised IPT Colourspace
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_IPT_Ragoo2021
+    IPT_Ragoo2021_to_XYZ
+
+Yrg Colourspace - Kirk (2019)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_Yrg
+    Yrg_to_XYZ
+
+``colour.models``
+
+.. currentmodule:: colour.models
+
+.. autosummary::
+    :toctree: generated/
+
+    LMS_to_Yrg
+    Yrg_to_LMS
+
+Polar Transformations
+---------------------
 
 ``colour``
 
@@ -414,6 +405,21 @@ Polar Conversions
     ProLCHab_to_ProLab
     IPT_Ragoo2021_to_ICH_Ragoo2021
     ICH_Ragoo2021_to_IPT_Ragoo2021
+
+Helper Functions
+----------------
+
+``colour.models``
+
+.. currentmodule:: colour.models
+
+.. autosummary::
+    :toctree: generated/
+
+    Jab_to_JCh
+    JCh_to_Jab
+    XYZ_to_Iab
+    Iab_to_XYZ
 
 RGB Colourspace and Transformations
 -----------------------------------
