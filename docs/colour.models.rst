@@ -232,6 +232,16 @@ IPT Colourspace
 
     XYZ_to_IPT
     IPT_to_XYZ
+
+**Ancillary Objects**
+
+``colour.models``
+
+.. currentmodule:: colour.models
+
+.. autosummary::
+    :toctree: generated/
+
     IPT_hue_angle
 
 Ragoo and Farup (2021) Optimised IPT Colourspace
