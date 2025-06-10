@@ -173,20 +173,20 @@ class TestIPTHueAngle:
         """Test :func:`colour.models.ipt.IPT_hue_angle` definition."""
 
         np.testing.assert_allclose(
-            IPT_hue_angle(np.array([0.20654008, 0.12197225, 0.05136952])),
-            22.838754548625527,
+            IPT_hue_angle(np.array([0.38426191, 0.38487306, 0.18886838])),
+            26.138526939899490,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            IPT_hue_angle(np.array([0.14222010, 0.23042768, 0.10495772])),
-            24.488834912466245,
+            IPT_hue_angle(np.array([0.49437481, -0.19251742, 0.18080304])),
+            136.797287973958500,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            IPT_hue_angle(np.array([0.07818780, 0.06157201, 0.28099326])),
-            77.640533743711813,
+            IPT_hue_angle(np.array([0.35167774, -0.07525627, -0.30921279])),
+            256.321284526533300,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -196,7 +196,7 @@ class TestIPTHueAngle:
         support.
         """
 
-        IPT = np.array([0.20654008, 0.12197225, 0.05136952])
+        IPT = np.array([0.38426191, 0.38487306, 0.18886838])
         hue = IPT_hue_angle(IPT)
 
         IPT = np.tile(IPT, (6, 1))
@@ -217,7 +217,7 @@ class TestIPTHueAngle:
         range scale support.
         """
 
-        IPT = np.array([0.20654008, 0.12197225, 0.05136952])
+        IPT = np.array([0.38426191, 0.38487306, 0.18886838])
         hue = IPT_hue_angle(IPT)
 
         d_r = (("reference", 1, 1), ("1", 1, 1 / 360), ("100", 100, 1 / 3.6))
