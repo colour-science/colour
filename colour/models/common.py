@@ -57,7 +57,6 @@ __all__ = [
     "Iab_to_XYZ",
 ]
 
-
 COLOURSPACE_MODELS: tuple = (
     "CAM02LCD",
     "CAM02SCD",
@@ -76,6 +75,8 @@ COLOURSPACE_MODELS: tuple = (
     "CIE xyY",
     "DIN99",
     "HCL",
+    "hdr-CIELAB",
+    "hdr-IPT",
     "HSL",
     "HSV",
     "Hunter Lab",
@@ -90,11 +91,10 @@ COLOURSPACE_MODELS: tuple = (
     "OSA UCS",
     "Oklab",
     "RGB",
+    "sUCS",
     "YCbCr",
     "YCoCg",
     "Yrg",
-    "hdr-CIELAB",
-    "hdr-IPT",
 )
 if is_documentation_building():  # pragma: no cover
     COLOURSPACE_MODELS = DocstringTuple(COLOURSPACE_MODELS)
@@ -122,6 +122,8 @@ COLOURSPACE_MODELS_AXIS_LABELS: CanonicalMapping = CanonicalMapping(
         "CIE xyY": ("x", "y", "Y"),
         "DIN99": ("$L_{99}$", "$a_{99}$", "$b_{99}$"),
         "HCL": ("H", "C", "L"),
+        "hdr-CIELAB": ("L hdr", "a hdr", "b hdr"),
+        "hdr-IPT": ("I hdr", "P hdr", "T hdr"),
         "HSL": ("H", "S", "L"),
         "HSV": ("H", "S", "V"),
         "Hunter Lab": ("$L^*$", "$a^*$", "$b^*$"),
@@ -136,11 +138,10 @@ COLOURSPACE_MODELS_AXIS_LABELS: CanonicalMapping = CanonicalMapping(
         "OSA UCS": ("L", "j", "g"),
         "Oklab": ("$L$", "$a$", "$b$"),
         "RGB": ("R", "G", "B"),
+        "sUCS": ("I", "a", "b"),
         "YCbCr": ("Y", "$C_b$", "$C_r$"),
         "YCoCg": ("Y", "$C_o$", "$C_g$"),
         "Yrg": ("Y", "r", "g"),
-        "hdr-CIELAB": ("L hdr", "a hdr", "b hdr"),
-        "hdr-IPT": ("I hdr", "P hdr", "T hdr"),
     }
 )
 """Colourspace models labels mapping."""
@@ -167,6 +168,8 @@ COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE: CanonicalMapping = (
             "CIE xyY": np.array([1, 1, 1]),
             "DIN99": np.array([100, 100, 100]),
             "HCL": np.array([1, 1, 1]),
+            "hdr-CIELAB": np.array([100, 100, 100]),
+            "hdr-IPT": np.array([100, 100, 100]),
             "HSL": np.array([1, 1, 1]),
             "HSV": np.array([1, 1, 1]),
             "Hunter Lab": np.array([100, 100, 100]),
@@ -181,11 +184,10 @@ COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE: CanonicalMapping = (
             "OSA UCS": np.array([100, 100, 100]),
             "Oklab": np.array([1, 1, 1]),
             "RGB": np.array([1, 1, 1]),
+            "sUCS": np.array([100, 100, 100]),
             "YCbCr": np.array([1, 1, 1]),
             "YCoCg": np.array([1, 1, 1]),
             "Yrg": np.array([1, 1, 1]),
-            "hdr-CIELAB": np.array([100, 100, 100]),
-            "hdr-IPT": np.array([100, 100, 100]),
         }
     )
 )

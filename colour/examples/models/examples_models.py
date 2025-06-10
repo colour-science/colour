@@ -445,6 +445,26 @@ print(colour.ProLab_to_XYZ(ProLab))
 
 print("\n")
 
+XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+message_box(
+    'Converting to the "Simple Uniform Colourspace" from given "CIE XYZ" '
+    "tristimulus values:\n\n"
+    f"\t{XYZ}"
+)
+print(colour.XYZ_to_sUCS(XYZ))
+
+print("\n")
+
+Iab = np.array([42.62923653, 36.97646831, 14.12301358])
+message_box(
+    'Converting to "CIE XYZ" tristimulus values from given '
+    '"Simple Uniform Colourspace" values:\n\n'
+    f"\t{Iab}"
+)
+print(colour.sUCS_to_XYZ(Iab))
+
+print("\n")
+
 XYZ = np.array([19.01, 20.00, 21.78])
 XYZ_w = np.array([95.05, 100.00, 108.88])
 L_A = 318.31
