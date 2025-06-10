@@ -17,7 +17,7 @@ References
 ----------
 -   :cite:`Li2024` : Li, M., & Luo, M. R. (2024). Simple color appearance model
     (sCAM) based on simple uniform color space (sUCS). Optics Express, 32(3),
-    3100-3122. doi:10.1364/OE.510196
+    3100. doi:10.1364/OE.510196
 """
 
 from __future__ import annotations

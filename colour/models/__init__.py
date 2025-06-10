@@ -98,8 +98,15 @@ from .oklab import XYZ_to_Oklab, Oklab_to_XYZ
 from .osa_ucs import XYZ_to_OSA_UCS, OSA_UCS_to_XYZ
 from .prolab import XYZ_to_ProLab, ProLab_to_XYZ
 from .ragoo2021 import XYZ_to_IPT_Ragoo2021, IPT_Ragoo2021_to_XYZ
+from .sucs import (
+    XYZ_to_sUCS,
+    sUCS_to_XYZ,
+    sUCS_chroma,
+    sUCS_hue_angle,
+    sUCS_Iab_to_sUCS_ICh,
+    sUCS_ICh_to_sUCS_Iab,
+)
 from .yrg import LMS_to_Yrg, Yrg_to_LMS, XYZ_to_Yrg, Yrg_to_XYZ
-from .sucs import XYZ_to_sUCS, sUCS_to_XYZ
 from .datasets import (
     DATA_MACADAM_1942_ELLIPSES,
     CCS_ILLUMINANT_POINTER_GAMUT,
@@ -389,21 +396,22 @@ __all__ = []
 
 # Programmatically defining the colourspace models polar conversions.
 COLOURSPACE_MODELS_POLAR_CONVERSIONS = (
-    ("Lab", "LCHab"),
-    ("Luv", "LCHuv"),
     ("hdr_CIELab", "hdr_CIELCHab"),
+    ("hdr_IPT", "hdr_ICH"),
     ("Hunter_Lab", "Hunter_LCHab"),
     ("Hunter_Rdab", "Hunter_RdCHab"),
     ("ICaCb", "ICHab"),
     ("ICtCp", "ICHtp"),
-    ("IgPgTg", "IgCHpt"),
     ("IPT", "ICH"),
+    ("IPT_Ragoo2021", "ICH_Ragoo2021"),
+    ("IgPgTg", "IgCHpt"),
     ("Izazbz", "IzCHab"),
     ("Jzazbz", "JzCHab"),
-    ("hdr_IPT", "hdr_ICH"),
+    ("Lab", "LCHab"),
+    ("Luv", "LCHuv"),
     ("Oklab", "Oklch"),
     ("ProLab", "ProLCHab"),
-    ("IPT_Ragoo2021", "ICH_Ragoo2021"),
+    ("sUCS", "sUCSICH"),
 )
 
 _DOCSTRING_JAB_TO_JCH = """
@@ -421,28 +429,6 @@ Returns
 -------
 :class:`numpy.ndarray`
     *{JCh}* colourspace array.
-
-Notes
------
-+------------+-----------------------+-----------------+
-| **Domain** | **Scale - Reference** | **Scale - 1**   |
-+============+=======================+=================+
-| ``Jab``    | ``J`` : [0, 100]      | ``J`` : [0, 1]  |
-|            |                       |                 |
-|            | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
-|            |                       |                 |
-|            | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
-+------------+-----------------------+-----------------+
-
-+------------+-----------------------+-----------------+
-| **Range**  | **Scale - Reference** | **Scale - 1**   |
-+============+=======================+=================+
-| ``JCh``    | ``J``  : [0, 100]     | ``J`` : [0, 1]  |
-|            |                       |                 |
-|            | ``C``  : [0, 100]     | ``C`` : [0, 1]  |
-|            |                       |                 |
-|            | ``h`` : [0, 360]      | ``h`` : [0, 1]  |
-+------------+-----------------------+-----------------+
 """
 
 _DOCSTRING_JCH_TO_JAB = """
@@ -460,28 +446,6 @@ Returns
 -------
 :class:`numpy.ndarray`
     *{Jab}* colourspace array.
-
-Notes
------
-+-------------+-----------------------+-----------------+
-| **Domain**  | **Scale - Reference** | **Scale - 1**   |
-+=============+=======================+=================+
-| ``JCh``     | ``J``  : [0, 100]     | ``J``  : [0, 1] |
-|             |                       |                 |
-|             | ``C``  : [0, 100]     | ``C``  : [0, 1] |
-|             |                       |                 |
-|             | ``h`` : [0, 360]      | ``h`` : [0, 1]  |
-+-------------+-----------------------+-----------------+
-
-+-------------+-----------------------+-----------------+
-| **Range**   | **Scale - Reference** | **Scale - 1**   |
-+=============+=======================+=================+
-| ``Jab``     | ``J`` : [0, 100]      | ``J`` : [0, 1]  |
-|             |                       |                 |
-|             | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
-|             |                       |                 |
-|             | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
-+-------------+-----------------------+-----------------+
 """
 
 for _Jab, _JCh in COLOURSPACE_MODELS_POLAR_CONVERSIONS:
@@ -622,6 +586,14 @@ __all__ += [
     "IPT_Ragoo2021_to_XYZ",
 ]
 __all__ += [
+    "XYZ_to_sUCS",
+    "sUCS_to_XYZ",
+    "sUCS_chroma",
+    "sUCS_hue_angle",
+    "sUCS_Iab_to_sUCS_ICh",
+    "sUCS_ICh_to_sUCS_Iab",
+]
+__all__ += [
     "LMS_to_Yrg",
     "Yrg_to_LMS",
     "XYZ_to_Yrg",
@@ -644,10 +616,7 @@ __all__ += [
     "XYZ_to_ProLab",
     "ProLab_to_XYZ",
 ]
-__all__ += [
-    "XYZ_to_sUCS",
-    "sUCS_to_XYZ",
-]
+
 __all__ += [
     "DATA_MACADAM_1942_ELLIPSES",
     "CCS_ILLUMINANT_POINTER_GAMUT",

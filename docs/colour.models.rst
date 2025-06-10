@@ -341,6 +341,33 @@ Ragoo and Farup (2021) Optimised IPT Colourspace
     XYZ_to_IPT_Ragoo2021
     IPT_Ragoo2021_to_XYZ
 
+sUCS Colourspace
+~~~~~~~~~~~~~~~~
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_sUCS
+    sUCS_to_XYZ
+
+**Ancillary Objects**
+
+``colour.models``
+
+.. currentmodule:: colour.models
+
+.. autosummary::
+    :toctree: generated/
+
+    sUCS_chroma
+    sUCS_hue_angle
+    sUCS_Iab_to_sUCS_ICh
+    sUCS_ICh_to_sUCS_Iab
+
 Yrg Colourspace - Kirk (2019)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -1,6 +1,4 @@
-"""
-Define the unit tests for the :mod:`colour.models.sucs` module.
-"""
+"""Define the unit tests for the :mod:`colour.models.sucs` module."""
 
 from __future__ import annotations
 
@@ -8,13 +6,19 @@ from itertools import product
 
 import numpy as np
 
-from colour.models import XYZ_to_sUCS, sUCS_to_XYZ
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
+from colour.models import (
+    XYZ_to_sUCS,
+    sUCS_chroma,
+    sUCS_hue_angle,
+    sUCS_Iab_to_sUCS_ICh,
+    sUCS_ICh_to_sUCS_Iab,
+    sUCS_to_XYZ,
+)
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
-TOLERANCE_ABSOLUTE_TESTS = 1e-7
-
-__author__ = "Colour Developers, UltraMo114(Molin Li)"
-__copyright__ = "Copyright 2024 Colour Developers"
+__author__ = "UltraMo114(Molin Li), Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -22,182 +26,412 @@ __status__ = "Production"
 
 __all__ = [
     "TestXYZ_to_sUCS",
-    "TestSUCS_to_XYZ",
+    "TestsUCS_to_XYZ",
+    "TestsUCSChroma",
+    "TestsUCSHueAngle",
+    "TestsUCS_Iab_to_sUCS_ICh",
+    "TestsUCS_ICh_to_sUCS_Iab",
 ]
 
 
 class TestXYZ_to_sUCS:
-    """
-    Define :func:`colour.models.sucs.XYZ_to_sUCS` definition unit
-    tests methods.
-    """
+    """Define :func:`colour.models.sucs.XYZ_to_sUCS` definition unit tests methods."""
 
     def test_XYZ_to_sUCS(self) -> None:
-        """
-        Test :func:`colour.models.sucs.XYZ_to_sUCS` definition.
-        Input XYZ values are D65-adapted and in [0, 1] range.
-        """
-        # Example 1
-        xyz_in1 = np.array([0.20654008, 0.12197225, 0.05136952])
-        sucs_expected1 = np.array(
-            [42.629236534849696, 37.759976239968240, 14.422271284176796]
-        )
+        """Test :func:`colour.models.sucs.XYZ_to_sUCS` definition."""
+
         np.testing.assert_allclose(
-            XYZ_to_sUCS(xyz_in1),
-            sucs_expected1,
+            XYZ_to_sUCS(np.array([0.20654008, 0.12197225, 0.05136952])),
+            np.array([42.62923653, 36.97646831, 14.12301358]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
-            err_msg="Test Case 1 for XYZ_to_sUCS failed.",
         )
 
-        # Example 2: D65 White
-        xyz_in2 = np.array([0.95047, 1.00000, 1.08883])  # D65 Y=1
-        sucs_expected2 = np.array(
-            [99.999257497377670, 0.027913411036824, -9.039967686374366e-04]
-        )
         np.testing.assert_allclose(
-            XYZ_to_sUCS(xyz_in2),
-            sucs_expected2,
+            XYZ_to_sUCS(np.array([0.14222010, 0.23042768, 0.10495772])),
+            np.array([51.93649255, -18.89245582, 15.76112395]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
-            err_msg="Test Case 2 (D65 White) for XYZ_to_sUCS failed.",
+        )
+
+        np.testing.assert_allclose(
+            XYZ_to_sUCS(np.array([0.07818780, 0.06157201, 0.28099326])),
+            np.array([29.79456846, -6.83806757, -25.33884097]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_XYZ_to_sUCS(self) -> None:
         """
-        Test :func:`colour.models.sucs.XYZ_to_sUCS` definition
-        n-dimensional support.
+        Test :func:`colour.models.sucs.XYZ_to_sUCS` definition n-dimensional
+        support.
         """
-        xyz_single = np.array([0.20654008, 0.12197225, 0.05136952])
-        sucs_single = XYZ_to_sUCS(xyz_single)
 
-        xyz_nd = np.tile(xyz_single, (6, 1))
-        sucs_nd_expected = np.tile(sucs_single, (6, 1))
-        np.testing.assert_allclose(
-            XYZ_to_sUCS(xyz_nd), sucs_nd_expected, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+        Iab = XYZ_to_sUCS(XYZ)
 
-        xyz_nd_reshaped = np.reshape(xyz_nd, (2, 3, 3))
-        sucs_nd_expected_reshaped = np.reshape(sucs_nd_expected, (2, 3, 3))
-        np.testing.assert_allclose(
-            XYZ_to_sUCS(xyz_nd_reshaped),
-            sucs_nd_expected_reshaped,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
+        XYZ = np.tile(XYZ, (6, 1))
+        Iab = np.tile(Iab, (6, 1))
+        np.testing.assert_allclose(XYZ_to_sUCS(XYZ), Iab, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        Iab = np.reshape(Iab, (2, 3, 3))
+        np.testing.assert_allclose(XYZ_to_sUCS(XYZ), Iab, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_XYZ_to_sUCS(self) -> None:
         """
         Test :func:`colour.models.sucs.XYZ_to_sUCS` definition domain and
         range scale support.
-        This test checks `func(input * factor)` vs `output_ref * factor_output`.
-        The sUCS model does not currently implement internal scaling based on
-        `domain_range_scale` context; scaling factors here reflect this.
         """
-        xyz_ref = np.array([0.20654008, 0.12197225, 0.05136952])  # Input in [0,1]
-        sucs_ref = XYZ_to_sUCS(xyz_ref)  # Output I_S is ~[0,100]
 
-        d_r = (("reference", 1), ("1", 1), ("100", 100))
-        for scale, factor in d_r:
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+        Iab = XYZ_to_sUCS(XYZ)
+
+        d_r = (("reference", 1, 1), ("1", 1, 0.01), ("100", 100, 1))
+        for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_allclose(
-                    XYZ_to_sUCS(xyz_ref * factor),
-                    sucs_ref * factor,
+                    XYZ_to_sUCS(XYZ * factor_a),
+                    Iab * factor_b,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_sUCS(self) -> None:
-        """
-        Test :func:`colour.models.sucs.XYZ_to_sUCS` definition nan
-        support.
-        """
+        """Test :func:`colour.models.sucs.XYZ_to_sUCS` definition nan support."""
+
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        xyz_cases = np.array(list(set(product(cases, repeat=3))))
-        XYZ_to_sUCS(xyz_cases)  # Expects NaNs to propagate or handle gracefully
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_sUCS(cases)
 
 
-class TestSUCS_to_XYZ:
+class TestsUCS_to_XYZ:
     """
     Define :func:`colour.models.sucs.sUCS_to_XYZ` definition unit tests
     methods.
     """
 
     def test_sUCS_to_XYZ(self) -> None:
-        """
-        Test :func:`colour.models.sucs.sUCS_to_XYZ` definition.
-        This is effectively a round-trip test.
-        """
-        # Round-trip for Example 1
-        sucs_in1 = np.array([35.65885236, 22.10004031, 9.01985036])
-        xyz_expected1 = np.array(
-            [0.113190936179253, 0.084693604651780, 0.056091522673190]
-        )
+        """Test :func:`colour.models.sucs.sUCS_to_XYZ` definition."""
+
         np.testing.assert_allclose(
-            sUCS_to_XYZ(sucs_in1),
-            xyz_expected1,
+            sUCS_to_XYZ(np.array([42.62923653, 36.97646831, 14.12301358])),
+            np.array([0.20654008, 0.12197225, 0.05136952]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
-            # Higher atol might be needed for some round trips
-            err_msg="Test Case 1 for sUCS_to_XYZ (round-trip) failed.",
         )
 
-        # Round-trip for Example 2 (D65 White)
-        sucs_in2 = np.array(
-            [99.999257497377670, 0.027913411036824, -9.039967686374366e-04]
-        )
-        xyz_expected2 = np.array([0.95047, 1.00000, 1.08883])
         np.testing.assert_allclose(
-            sUCS_to_XYZ(sucs_in2),
-            xyz_expected2,
+            sUCS_to_XYZ(np.array([51.93649255, -18.89245582, 15.76112395])),
+            np.array([0.14222010, 0.23042768, 0.10495772]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
-            err_msg="Test Case 2 (D65 White round-trip) for sUCS_to_XYZ failed.",
+        )
+
+        np.testing.assert_allclose(
+            sUCS_to_XYZ(np.array([29.79456846, -6.83806757, -25.33884097])),
+            np.array([0.07818780, 0.06157201, 0.28099326]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_sUCS_to_XYZ(self) -> None:
         """
-        Test :func:`colour.models.sucs.sUCS_to_XYZ` definition
-        n-dimensional support.
+        Test :func:`colour.models.sucs.sUCS_to_XYZ` definition n-dimensional
+        support.
         """
-        sucs_single = np.array([35.65885236, 22.10004031, 9.01985036])
-        xyz_single = sUCS_to_XYZ(sucs_single)
 
-        sucs_nd = np.tile(sucs_single, (6, 1))
-        xyz_nd_expected = np.tile(xyz_single, (6, 1))
-        np.testing.assert_allclose(
-            sUCS_to_XYZ(sucs_nd), xyz_nd_expected, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        Iab = np.array([42.62923653, 36.97646831, 14.12301358])
+        XYZ = sUCS_to_XYZ(Iab)
 
-        sucs_nd_reshaped = np.reshape(sucs_nd, (2, 3, 3))
-        xyz_nd_expected_reshaped = np.reshape(xyz_nd_expected, (2, 3, 3))
-        np.testing.assert_allclose(
-            sUCS_to_XYZ(sucs_nd_reshaped),
-            xyz_nd_expected_reshaped,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
+        Iab = np.tile(Iab, (6, 1))
+        XYZ = np.tile(XYZ, (6, 1))
+        np.testing.assert_allclose(sUCS_to_XYZ(Iab), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+        Iab = np.reshape(Iab, (2, 3, 3))
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        np.testing.assert_allclose(sUCS_to_XYZ(Iab), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_sUCS_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.sucs.sUCS_to_XYZ` definition domain and
         range scale support.
-        sUCS_to_XYZ, like XYZ_to_sUCS, doesn't internally adjust scale based on
-        `domain_range_scale` context. This test checks `func(input * factor)`
-        vs `output_ref * factor_output`.
         """
-        sucs_ref = np.array([35.65885236, 22.10004031, 9.01985036])  # I_S ~0-100
-        xyz_ref = sUCS_to_XYZ(sucs_ref)  # Output XYZ is ~[0,1]
 
-        d_r = (("reference", 1), ("1", 1), ("100", 100))
-        for scale, factor in d_r:
+        Iab = np.array([42.62923653, 36.97646831, 14.12301358])
+        XYZ = sUCS_to_XYZ(Iab)
+
+        d_r = (("reference", 1, 1), ("1", 0.01, 1), ("100", 1, 100))
+        for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_allclose(
-                    sUCS_to_XYZ(sucs_ref * factor),
-                    xyz_ref * factor,
+                    sUCS_to_XYZ(Iab * factor_a),
+                    XYZ * factor_b,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
     def test_nan_sUCS_to_XYZ(self) -> None:
+        """Test :func:`colour.models.sucs.sUCS_to_XYZ` definition nan support."""
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = np.array(list(set(product(cases, repeat=3))))
+        sUCS_to_XYZ(cases)
+
+
+class TestsUCSChroma:
+    """
+    Define :func:`colour.models.sucs.sUCS_chroma` definition unit tests
+    methods.
+    """
+
+    def test_sUCS_hue_angle(self) -> None:
+        """Test :func:`colour.models.sucs.sUCS_chroma` definition."""
+
+        np.testing.assert_allclose(
+            sUCS_chroma(np.array([42.62923653, 36.97646831, 14.12301358])),
+            40.420511061137226,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            sUCS_chroma(np.array([51.93649255, -18.89245582, 15.76112395])),
+            29.437831501432590,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            sUCS_chroma(np.array([29.79456846, -6.83806757, -25.33884097])),
+            30.800979756091614,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    def test_n_dimensional_sUCS_hue_angle(self) -> None:
         """
-        Test :func:`colour.models.sucs.sUCS_to_XYZ` definition nan
+        Test :func:`colour.models.sucs.sUCS_chroma` definition n-dimensional
         support.
         """
+
+        Iab = np.array([42.62923653, 36.97646831, 14.12301358])
+        C = sUCS_chroma(Iab)
+
+        Iab = np.tile(Iab, (6, 1))
+        C = np.tile(C, 6)
+        np.testing.assert_allclose(sUCS_chroma(Iab), C, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+        Iab = np.reshape(Iab, (2, 3, 3))
+        C = np.reshape(C, (2, 3))
+        np.testing.assert_allclose(sUCS_chroma(Iab), C, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+    def test_domain_range_scale_sUCS_chroma(self) -> None:
+        """
+        Test :func:`colour.models.sucs.sUCS_chroma` definition domain and
+        range scale support.
+        """
+
+        Iab = np.array([42.62923653, 36.97646831, 14.12301358])
+        C = sUCS_chroma(Iab)
+
+        d_r = (("reference", 1, 1), ("1", 0.01, 0.01), ("100", 1, 1))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_allclose(
+                    sUCS_chroma(Iab * factor_a),
+                    C * factor_b,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+
+    @ignore_numpy_errors
+    def test_nan_sUCS_hue_angle(self) -> None:
+        """Test :func:`colour.models.sucs.sUCS_chroma` definition nan support."""
+
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        sucs_cases = np.array(list(set(product(cases, repeat=3))))
-        sUCS_to_XYZ(sucs_cases)  # Expects NaNs to propagate or handle gracefully
+        cases = np.array(list(set(product(cases, repeat=3))))
+        sUCS_chroma(cases)
+
+
+class TestsUCSHueAngle:
+    """
+    Define :func:`colour.models.sucs.sUCS_hue_angle` definition unit tests
+    methods.
+    """
+
+    def test_sUCS_hue_angle(self) -> None:
+        """Test :func:`colour.models.sucs.sUCS_hue_angle` definition."""
+
+        np.testing.assert_allclose(
+            sUCS_hue_angle(np.array([42.62923653, 36.97646831, 14.12301358])),
+            20.904156072136217,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            sUCS_hue_angle(np.array([51.93649255, -18.89245582, 15.76112395])),
+            140.163281067124470,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            sUCS_hue_angle(np.array([29.79456846, -6.83806757, -25.33884097])),
+            254.897631851863850,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    def test_n_dimensional_sUCS_hue_angle(self) -> None:
+        """
+        Test :func:`colour.models.sucs.sUCS_hue_angle` definition n-dimensional
+        support.
+        """
+
+        Iab = np.array([42.62923653, 36.97646831, 14.12301358])
+        hue = sUCS_hue_angle(Iab)
+
+        Iab = np.tile(Iab, (6, 1))
+        hue = np.tile(hue, 6)
+        np.testing.assert_allclose(
+            sUCS_hue_angle(Iab), hue, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+        Iab = np.reshape(Iab, (2, 3, 3))
+        hue = np.reshape(hue, (2, 3))
+        np.testing.assert_allclose(
+            sUCS_hue_angle(Iab), hue, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+    def test_domain_range_scale_sUCS_hue_angle(self) -> None:
+        """
+        Test :func:`colour.models.sucs.sUCS_hue_angle` definition domain and
+        range scale support.
+        """
+
+        Iab = np.array([42.62923653, 36.97646831, 14.12301358])
+        hue = sUCS_hue_angle(Iab)
+
+        d_r = (("reference", 1, 1), ("1", 1, 1 / 360), ("100", 100, 1 / 3.6))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_allclose(
+                    sUCS_hue_angle(Iab * factor_a),
+                    hue * factor_b,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+
+    @ignore_numpy_errors
+    def test_nan_sUCS_hue_angle(self) -> None:
+        """Test :func:`colour.models.sucs.sUCS_hue_angle` definition nan support."""
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = np.array(list(set(product(cases, repeat=3))))
+        sUCS_hue_angle(cases)
+
+
+class TestsUCS_Iab_to_sUCS_ICh:
+    """
+    Define :func:`colour.models.sucs.sUCS_Iab_to_sUCS_ICh` definition unit tests
+    methods.
+    """
+
+    def test_sUCS_Iab_to_sUCS_ICh(self) -> None:
+        """Test :func:`colour.models.sucs.sUCS_Iab_to_sUCS_ICh` definition."""
+
+        np.testing.assert_allclose(
+            sUCS_Iab_to_sUCS_ICh(np.array([42.62923653, 36.97646831, 14.12301358])),
+            np.array([42.62923653, 40.42051106, 20.90415607]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            sUCS_Iab_to_sUCS_ICh(np.array([51.93649255, -18.89245582, 15.76112395])),
+            np.array([51.93649255, 29.43783150, 140.16328107]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            sUCS_Iab_to_sUCS_ICh(np.array([29.79456846, -6.83806757, -25.33884097])),
+            np.array([29.79456846, 30.80097976, 254.89763185]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    def test_n_dimensional_sUCS_Iab_to_sUCS_ICh(self) -> None:
+        """
+        Test :func:`colour.models.sucs.sUCS_Iab_to_sUCS_ICh` definition
+        n-dimensional support.
+        """
+
+        Iab = np.array([42.62923653, 36.97646831, 14.12301358])
+        ICh = sUCS_Iab_to_sUCS_ICh(Iab)
+
+        Iab = np.tile(Iab, (6, 1))
+        ICh = np.tile(ICh, (6, 1))
+        np.testing.assert_allclose(
+            sUCS_Iab_to_sUCS_ICh(Iab), ICh, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+        Iab = np.reshape(Iab, (2, 3, 3))
+        ICh = np.reshape(ICh, (2, 3, 3))
+        np.testing.assert_allclose(
+            sUCS_Iab_to_sUCS_ICh(Iab), ICh, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+    @ignore_numpy_errors
+    def test_nan_sUCS_Iab_to_sUCS_ICh(self) -> None:
+        """
+        Test :func:`colour.models.sucs.sUCS_Iab_to_sUCS_ICh` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = np.array(list(set(product(cases, repeat=3))))
+        sUCS_Iab_to_sUCS_ICh(cases)
+
+
+class TestsUCS_ICh_to_sUCS_Iab:
+    """
+    Define :func:`colour.models.sucs.sUCS_ICh_to_sUCS_Iab` definition unit tests
+    methods.
+    """
+
+    def test_sUCS_ICh_to_sUCS_Iab(self) -> None:
+        """Test :func:`colour.models.sucs.sUCS_ICh_to_sUCS_Iab` definition."""
+
+        np.testing.assert_allclose(
+            sUCS_ICh_to_sUCS_Iab(np.array([42.62923653, 40.42051106, 20.90415607])),
+            np.array([42.62923653, 36.97646831, 14.12301358]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            sUCS_ICh_to_sUCS_Iab(np.array([51.93649255, 29.43783150, 140.16328107])),
+            np.array([51.93649255, -18.89245582, 15.76112395]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            sUCS_ICh_to_sUCS_Iab(np.array([29.79456846, 30.80097976, 254.89763185])),
+            np.array([29.79456846, -6.83806757, -25.33884097]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    def test_n_dimensional_sUCS_ICh_to_sUCS_Iab(self) -> None:
+        """
+        Test :func:`colour.models.sucs.sUCS_ICh_to_sUCS_Iab` definition
+        n-dimensional support.
+        """
+
+        ICh = np.array([42.62923653, 40.42051106, 20.90415607])
+        Iab = sUCS_ICh_to_sUCS_Iab(ICh)
+
+        ICh = np.tile(ICh, (6, 1))
+        Iab = np.tile(Iab, (6, 1))
+        np.testing.assert_allclose(
+            sUCS_ICh_to_sUCS_Iab(ICh), Iab, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+        ICh = np.reshape(ICh, (2, 3, 3))
+        Iab = np.reshape(Iab, (2, 3, 3))
+        np.testing.assert_allclose(
+            sUCS_ICh_to_sUCS_Iab(ICh), Iab, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+    @ignore_numpy_errors
+    def test_nan_sUCS_ICh_to_sUCS_Iab(self) -> None:
+        """
+        Test :func:`colour.models.sucs.sUCS_ICh_to_sUCS_Iab` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = np.array(list(set(product(cases, repeat=3))))
+        sUCS_ICh_to_sUCS_Iab(cases)
