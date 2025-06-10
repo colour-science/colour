@@ -322,7 +322,6 @@ from .models import (
     ICtCp_to_XYZ,
     IgPgTg_to_XYZ,
     IHLS_to_RGB,
-    IPT_hue_angle,
     IPT_Ragoo2021_to_XYZ,
     IPT_to_XYZ,
     JMh_CAM16_to_CAM16LCD,
@@ -465,7 +464,8 @@ from .utilities.array import (
     get_domain_range_scale,
     set_domain_range_scale,
 )
-from .utilities.deprecation import ModuleAPI
+from .utilities.deprecation import ModuleAPI, build_API_changes
+from .utilities.documentation import is_documentation_building
 from .volume import (
     OPTIMAL_COLOUR_STIMULI_ILLUMINANTS,
     RGB_colourspace_limits,
@@ -696,7 +696,6 @@ __all__ += [
     "ICtCp_to_XYZ",
     "IHLS_to_RGB",
     "IPT_Ragoo2021_to_XYZ",
-    "IPT_hue_angle",
     "IPT_to_XYZ",
     "IgPgTg_to_XYZ",
     "JMh_CAM16_to_CAM16LCD",
@@ -944,6 +943,29 @@ __disable_lazy_load__ = colour.__disable_lazy_load__  # pyright: ignore
 Ensures that the lazy loaded datasets are not transformed during import.
 See :class:`colour.utilities.LazyCanonicalMapping` for more information.
 """
+
+
+# v0.4.7
+API_CHANGES = {
+    "ObjectFutureAccessChange": [
+        [
+            "colour.IPT_hue_angle",
+            "colour.models.IPT_hue_angle",
+        ],
+    ]
+}
+"""
+Defines *colour* package API changes.
+
+API_CHANGES : dict
+"""
+
+if not is_documentation_building():
+    sys.modules["colour"] = colour(
+        sys.modules["colour"], build_API_changes(API_CHANGES)
+    )
+
+    del ModuleAPI, is_documentation_building, build_API_changes
 
 # NOTE: We are solving the clash with https://github.com/vaab/colour by loading
 # a known subset of the objects given by vaab/colour-0.1.5 into our namespace
