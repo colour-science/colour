@@ -1195,32 +1195,6 @@ Jzazbz Colourspace
 
     [ 0.00535048  0.00924302  0.00526007]
 
-hdr-CIELAB Colourspace
-**********************
-
-.. code-block:: python
-
-    import colour
-
-    colour.XYZ_to_hdr_CIELab([0.20654008, 0.12197225, 0.05136952])
-
-.. code-block:: text
-
-    [ 51.87002062  60.4763385  32.14551912]
-
-hdr-IPT Colourspace
-*******************
-
-.. code-block:: python
-
-    import colour
-
-    colour.XYZ_to_hdr_IPT([0.20654008, 0.12197225, 0.05136952])
-
-.. code-block:: text
-
-    [ 25.18261761 -22.62111297  3.18511729]
-
 Hunter L,a,b Colour Scale
 *************************
 
@@ -1320,22 +1294,26 @@ hdr-CIELAB Colourspace
 
 .. code-block:: python
 
+    import colour
+
     colour.XYZ_to_hdr_CIELab([0.20654008, 0.12197225, 0.05136952])
 
 .. code-block:: text
 
-    array([ 51.87002062,  60.4763385 ,  32.14551912])
+    [ 51.87002062  60.4763385  32.14551912]
 
 hdr-IPT Colourspace
 *******************
 
 .. code-block:: python
 
+    import colour
+
     colour.XYZ_to_hdr_IPT([0.20654008, 0.12197225, 0.05136952])
 
 .. code-block:: text
 
-    array([ 25.18261761, -22.62111297,   3.18511729])
+    [ 25.18261761 -22.62111297  3.18511729]
 
 Y'CbCr Colour Encoding
 **********************
