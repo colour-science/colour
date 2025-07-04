@@ -667,6 +667,7 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
             CAM_Specification_CIECAM16,
             CAM_Specification_Hellwig2022,
             CAM_Specification_Kim2009,
+            CAM_Specification_sCAM,
             CAM_Specification_ZCAM,
         )
         from colour.graph.conversion import CONVERSION_SPECIFICATIONS_DATA, convert
@@ -704,6 +705,9 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
 
                 if source == "Kim 2009":
                     a = CAM_Specification_Kim2009(J=0.25, M=0.5, h=0.25)
+
+                if source == "sCAM":
+                    a = CAM_Specification_sCAM(J=0.25, M=0.5, h=0.25)
 
                 if source == "ZCAM":
                     a = CAM_Specification_ZCAM(J=0.25, M=0.5, h=0.25)
@@ -743,6 +747,7 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
                         "LLAB",
                         "Nayatani95",
                         "RLAB",
+                        "sCAM",
                         "ZCAM",
                     ):
                         if target.endswith(specification):  # noqa: B023
