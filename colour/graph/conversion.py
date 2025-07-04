@@ -31,6 +31,7 @@ from colour.appearance import (
     CAM_Specification_CIECAM02,
     CAM_Specification_CIECAM16,
     CAM_Specification_Hellwig2022,
+    CAM_Specification_sCAM,
     CIECAM02_to_XYZ,
     CIECAM16_to_XYZ,
     Hellwig2022_to_XYZ,
@@ -45,8 +46,10 @@ from colour.appearance import (
     XYZ_to_LLAB,
     XYZ_to_Nayatani95,
     XYZ_to_RLAB,
+    XYZ_to_sCAM,
     XYZ_to_ZCAM,
     ZCAM_to_XYZ,
+    sCAM_to_XYZ,
 )
 from colour.appearance.ciecam02 import CAM_KWARGS_CIECAM02_sRGB
 from colour.colorimetry import (
@@ -218,6 +221,8 @@ __all__ = [
     "JMh_CAM16_to_CAM16",
     "Hellwig2022_to_JMh_Hellwig2022",
     "JMh_Hellwig2022_to_Hellwig2022",
+    "sCAM_to_JMh_sCAM",
+    "JMh_sCAM_to_sCAM",
     "XYZ_to_luminance",
     "RGB_luminance_to_RGB",
     "CCT_D_uv_to_mired",
@@ -488,6 +493,60 @@ s=None, Q=None, M=0.0293828..., H=None, HC=None, J_HK=None, Q_HK=None)
     J, M, h = tsplit(JMh)
 
     return CAM_Specification_Hellwig2022(J=J, M=M, h=h)
+
+
+def sCAM_to_JMh_sCAM(specification: CAM_Specification_sCAM) -> NDArrayFloat:
+    """
+    Convert from *sCAM* specification to *sCAM* :math:`JMh` correlates.
+
+    Parameters
+    ----------
+    specification
+        *sCAM* colour appearance model specification.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        *sCAM* :math:`JMh` correlates.
+
+    Examples
+    --------
+    >>> specification = CAM_Specification_sCAM(
+    ...     J=41.731207905126638, M=0.107436772335905, h=217.067959767393010
+    ... )
+    >>> sCAM_to_JMh_sCAM(specification)  # doctest: +ELLIPSIS
+    array([  4.1731207...e+01,   1.0743677...e-01,   2.1706796...e+02])
+    """
+
+    return tstack([specification.J, specification.M, specification.h])  # pyright: ignore
+
+
+def JMh_sCAM_to_sCAM(JMh: ArrayLike) -> CAM_Specification_sCAM:
+    """
+    Convert from *sCAM* :math:`JMh` correlates to *sCAM* specification.
+
+    Parameters
+    ----------
+    JMh
+         *sCAM* :math:`JMh` correlates.
+
+    Returns
+    -------
+    :class:`colour.CAM_Specification_sCAM`
+        *sCAM* colour appearance model specification.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> JMh = np.array([4.17312079e01, 1.07436772e-01, 2.17067960e02])
+    >>> JMh_sCAM_to_sCAM(JMh)  # doctest: +ELLIPSIS
+    CAM_Specification_sCAM(J=41.7312079..., C=None, h=217.06796..., Q=None, \
+M=0.1074367..., H=None, HC=None, V=None, K=None, W=None, D=None)
+    """
+
+    J, M, h = tsplit(JMh)
+
+    return CAM_Specification_sCAM(J=J, M=M, h=h)
 
 
 def XYZ_to_luminance(XYZ: ArrayLike) -> NDArrayFloat:
@@ -942,6 +1001,18 @@ CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
         "RLAB",
         partial(XYZ_to_RLAB, XYZ_n=_TVS_ILLUMINANT_DEFAULT, Y_n=20),
     ),
+    (
+        "CIE XYZ",
+        "sCAM",
+        partial(XYZ_to_sCAM, **_CAM_KWARGS_CIECAM02_sRGB),
+    ),
+    (
+        "sCAM",
+        "CIE XYZ",
+        partial(sCAM_to_XYZ, **_CAM_KWARGS_CIECAM02_sRGB),
+    ),
+    ("sCAM", "sCAM JMh", sCAM_to_JMh_sCAM),
+    ("sCAM JMh", "sCAM", JMh_sCAM_to_sCAM),
     (
         "CIE XYZ",
         "ZCAM",

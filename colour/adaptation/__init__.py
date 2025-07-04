@@ -19,6 +19,9 @@ References
 -   :cite:`Li2002a` : Li, C., Luo, M. R., Rigg, B., & Hunt, R. W. G. (2002).
     CMC 2000 chromatic adaptation transform: CMCCAT2000. Color Research &
     Application, 27(1), 49-58. doi:10.1002/col.10005
+-   :cite:`Li2025` :Li, M. (2025). One Step CAT16 Chromatic Adaptation
+    Transform. https://github.com/colour-science/colour/pull/1349\
+#issuecomment-3058339414
 -   :cite:`Westland2012k` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
     CMCCAT2000. In Computational Colour Science Using MATLAB (2nd ed., pp.
     83-86). ISBN:978-0-470-66569-5
@@ -77,6 +80,7 @@ from .cmccat2000 import (
 )
 from .cie1994 import chromatic_adaptation_CIE1994
 from .zhai2018 import chromatic_adaptation_Zhai2018
+from .li2025 import CAT_CAT16_INVERSE, chromatic_adaptation_Li2025
 from colour.utilities import validate_method
 
 __all__ = ["CHROMATIC_ADAPTATION_TRANSFORMS"]
@@ -119,12 +123,17 @@ __all__ += [
 __all__ += [
     "chromatic_adaptation_Zhai2018",
 ]
+__all__ += [
+    "CAT_CAT16_INVERSE",
+    "chromatic_adaptation_Li2025",
+]
 
 CHROMATIC_ADAPTATION_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "CIE 1994": chromatic_adaptation_CIE1994,
         "CMCCAT2000": chromatic_adaptation_CMCCAT2000,
         "Fairchild 1990": chromatic_adaptation_Fairchild1990,
+        "Li 2025": chromatic_adaptation_Li2025,
         "Von Kries": chromatic_adaptation_VonKries,
         "Zhai 2018": chromatic_adaptation_Zhai2018,
         "vK20": chromatic_adaptation_vK20,
@@ -136,7 +145,7 @@ Supported chromatic adaptation methods.
 References
 ----------
 :cite:`CIETC1-321994b`, :cite:`Fairchild1991a`, :cite:`Fairchild2013s`,
-:cite:`Fairchild2013t`, :cite:`Fairchild2020`, :cite:`Li2002a`,
+:cite:`Fairchild2013t`, :cite:`Fairchild2020`, :cite:`Li2002a`, :cite:`Li2025`,
 :cite:`Westland2012k`, :cite:`Zhai2018`
 """
 
@@ -150,6 +159,7 @@ def chromatic_adaptation(
             "CIE 1994",
             "CMCCAT2000",
             "Fairchild 1990",
+            "Li 2025",
             "Von Kries",
             "Zhai 2018",
             "vK20",
@@ -208,6 +218,15 @@ def chromatic_adaptation(
     Y_n
         {:func:`colour.adaptation.chromatic_adaptation_Fairchild1990`},
         Luminance :math:`Y_n` of test adapting stimulus in :math:`cd/m^2`.
+    L_A
+        {:func:`colour.adaptation.chromatic_adaptation_Li2025`},
+        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
+    F_surround
+        {:func:`colour.adaptation.chromatic_adaptation_Li2025`},
+        Maximum degree of adaptation :math:`F` from surround viewing conditions.
+    discount_illuminant
+        {:func:`colour.adaptation.chromatic_adaptation_Li2025`},
+        Truth value indicating if the illuminant should be discounted.
     D_b
         {:func:`colour.adaptation.chromatic_adaptation_Zhai2018`},
         Degree of adaptation :math:`D_\\beta` of input illuminant
@@ -262,7 +281,7 @@ def chromatic_adaptation(
     References
     ----------
     :cite:`CIETC1-321994b`, :cite:`Fairchild1991a`, :cite:`Fairchild2013s`,
-    :cite:`Fairchild2013t`, :cite:`Li2002a`, :cite:`Westland2012k`
+    :cite:`Fairchild2013t`, :cite:`Li2002a`,:cite:`Li2025`, :cite:`Westland2012k`
 
     Examples
     --------
@@ -317,6 +336,13 @@ def chromatic_adaptation(
     ... # doctest: +ELLIPSIS
     array([ 0.2332526...,  0.2332455...,  0.7611593...])
 
+    *Li (2025)* chromatic adaptation:
+
+    >>> XYZ = np.array([0.1953, 0.2307, 0.2497])
+    >>> chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method="Fairchild 1990", Y_n=Y_n)
+    ... # doctest: +ELLIPSIS
+    array([ 0.2332526...,  0.2332455...,  0.7611593...])
+
     *Zhai and Luo (2018)* chromatic adaptation:
 
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
@@ -346,6 +372,7 @@ def chromatic_adaptation(
         chromatic_adaptation_CIE1994,
         chromatic_adaptation_CMCCAT2000,
         chromatic_adaptation_Fairchild1990,
+        chromatic_adaptation_Li2025,
         chromatic_adaptation_Zhai2018,
     )
 
@@ -368,6 +395,8 @@ def chromatic_adaptation(
         kwargs.update({"xy_o1": XYZ_to_xy(XYZ_w), "xy_o2": XYZ_to_xy(XYZ_wr)})
     elif function is chromatic_adaptation_Fairchild1990:
         kwargs.update({"XYZ_n": XYZ_w, "XYZ_r": XYZ_wr})
+    elif function is chromatic_adaptation_Li2025:
+        kwargs.update({"XYZ_ws": XYZ_w, "XYZ_wd": XYZ_wr})
     elif function is chromatic_adaptation_Zhai2018:
         kwargs.update({"XYZ_wb": XYZ_w, "XYZ_wd": XYZ_wr})
     elif function is chromatic_adaptation_vK20:

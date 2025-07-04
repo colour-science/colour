@@ -224,6 +224,32 @@ RLAB
 
     D_FACTOR_RLAB
 
+sCAM
+-----
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_sCAM
+    sCAM_to_XYZ
+    CAM_Specification_sCAM
+    VIEWING_CONDITIONS_sCAM
+
+**Ancillary Objects**
+
+``colour.appearance``
+
+.. currentmodule:: colour.appearance
+
+.. autosummary::
+    :toctree: generated/
+
+    InductionFactors_sCAM
+
 ZCAM
 ----
 

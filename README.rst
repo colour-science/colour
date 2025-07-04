@@ -374,7 +374,7 @@ Chromatic Adaptation - ``colour.adaptation``
 
 .. code-block:: text
 
-    ['CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries', 'Zhai 2018', 'vK20']
+    ['CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Li 2025', 'Von Kries', 'Zhai 2018', 'vK20']
 
 Algebra - ``colour.algebra``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -430,6 +430,10 @@ Colour Appearance Models - ``colour.appearance``
 
     import colour
 
+    XYZ = [0.20654008 * 100, 0.12197225 * 100, 0.05136952 * 100]
+    XYZ_w = [95.05, 100.00, 108.88]
+    L_A = 318.31
+    Y_b = 20.0
     colour.XYZ_to_CIECAM16(XYZ, XYZ_w, L_A, Y_b)
 
 .. code-block:: text
@@ -440,6 +444,10 @@ Colour Appearance Models - ``colour.appearance``
 
     import colour
 
+    XYZ = [0.20654008 * 100, 0.12197225 * 100, 0.05136952 * 100]
+    XYZ_w = [95.05, 100.00, 108.88]
+    L_A = 318.31
+    Y_b = 20.0
     colour.XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b)
 
 .. code-block:: text
@@ -450,6 +458,10 @@ Colour Appearance Models - ``colour.appearance``
 
     import colour
 
+    XYZ = [0.20654008 * 100, 0.12197225 * 100, 0.05136952 * 100]
+    XYZ_w = [95.05, 100.00, 108.88]
+    L_A = 318.31
+    Y_b = 20.0
     colour.XYZ_to_Hellwig2022(XYZ, XYZ_w, L_A, Y_b)
 
 .. code-block:: text
@@ -460,6 +472,10 @@ Colour Appearance Models - ``colour.appearance``
 
     import colour
 
+    XYZ = [0.20654008 * 100, 0.12197225 * 100, 0.05136952 * 100]
+    XYZ_w = [95.05, 100.00, 108.88]
+    L_A = 318.31
+    Y_b = 20.0
     colour.XYZ_to_Kim2009(XYZ, XYZ_w, L_A)
 
 .. code-block:: text
@@ -470,6 +486,24 @@ Colour Appearance Models - ``colour.appearance``
 
     import colour
 
+    XYZ = [0.20654008 * 100, 0.12197225 * 100, 0.05136952 * 100]
+    XYZ_w = [95.05, 100.00, 108.88]
+    L_A = 318.31
+    Y_b = 20.0
+    colour.XYZ_to_sCAM(XYZ, XYZ_w, L_A, Y_b)
+
+.. code-block:: text
+
+    CAM_Specification_sCAM(J=42.550992142462782, C=40.419439198593302, h=20.904455433026421, Q=175.74578999778015, M=14.325369984981474, H=7.1106008503613021, HC=None, V=81.92545469934403, K=18.07454530065597, W=0.023675944970833029, D=99.976324055029167)
+
+.. code-block:: python
+
+    import colour
+
+    XYZ = [0.20654008 * 100, 0.12197225 * 100, 0.05136952 * 100]
+    XYZ_w = [95.05, 100.00, 108.88]
+    L_A = 318.31
+    Y_b = 20.0
     colour.XYZ_to_ZCAM(XYZ, XYZ_w, L_A, Y_b)
 
 .. code-block:: text
