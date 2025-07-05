@@ -28,7 +28,7 @@ from colour.algebra import (
     vecmul,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import ColourRuntimeWarning, ignore_numpy_errors
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -198,6 +198,17 @@ class TestSdiv:
         with sdiv_mode("Warning Limit Conversion"):
             pytest.warns(RuntimeWarning, sdiv, a, b)
             np.testing.assert_equal(sdiv(a, b), np.nan_to_num(np.array([0, 1, np.inf])))
+
+        with sdiv_mode("Replace With Epsilon"):
+            np.testing.assert_allclose(
+                sdiv(a, b), np.array([0, 1, 2 / np.finfo(np.double).eps])
+            )
+
+        with sdiv_mode("Warning Replace With Epsilon"):
+            pytest.warns(ColourRuntimeWarning, sdiv, a, b)
+            np.testing.assert_allclose(
+                sdiv(a, b), np.array([0, 1, 2 / np.finfo(np.double).eps])
+            )
 
 
 class TestIsSpowEnabled:
