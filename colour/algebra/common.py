@@ -25,8 +25,16 @@ if typing.TYPE_CHECKING:
         Tuple,
     )
 
+from colour.constants import EPSILON
 from colour.hints import Literal, cast
-from colour.utilities import as_float, as_float_array, optional, tsplit, validate_method
+from colour.utilities import (
+    as_float,
+    as_float_array,
+    optional,
+    runtime_warning,
+    tsplit,
+    validate_method,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -67,6 +75,8 @@ _SDIV_MODE: Literal[
     "Warning Zero Conversion",
     "Ignore Limit Conversion",
     "Warning Limit Conversion",
+    "Replace With Epsilon",
+    "Warning Replace With Epsilon",
 ] = "Ignore Zero Conversion"
 """
 Global variable storing the current *Colour* safe division function mode.
@@ -83,6 +93,8 @@ def get_sdiv_mode() -> (
         "Warning Zero Conversion",
         "Ignore Limit Conversion",
         "Warning Limit Conversion",
+        "Replace With Epsilon",
+        "Warning Replace With Epsilon",
     ]
 ):
     """
@@ -118,6 +130,8 @@ def set_sdiv_mode(
             "Warning Zero Conversion",
             "Ignore Limit Conversion",
             "Warning Limit Conversion",
+            "Replace With Epsilon",
+            "Warning Replace With Epsilon",
         ]
         | str
     ),
@@ -153,6 +167,8 @@ def set_sdiv_mode(
             "Warning Zero Conversion",
             "Ignore Limit Conversion",
             "Warning Limit Conversion",
+            "Replace With Epsilon",
+            "Warning Replace With Epsilon",
         ],
         validate_method(
             mode,
@@ -165,6 +181,8 @@ def set_sdiv_mode(
                 "Warning Zero Conversion",
                 "Ignore Limit Conversion",
                 "Warning Limit Conversion",
+                "Replace With Epsilon",
+                "Warning Replace With Epsilon",
             ),
         ),
     )
@@ -194,6 +212,8 @@ class sdiv_mode:
                 "Warning Zero Conversion",
                 "Ignore Limit Conversion",
                 "Warning Limit Conversion",
+                "Replace With Epsilon",
+                "Warning Replace With Epsilon",
             ]
             | None
         ) = None,
@@ -254,10 +274,16 @@ def sdiv(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
         finite floating point values representable by the division result
         :class:`numpy.dtype`. See :func:`numpy.nan_to_num` definition for more
         details.
-    -   ``Warning Limit Conversion``: Zero-division occurs  with a warning and
+    -   ``Warning Limit Conversion``: Zero-division occurs with a warning and
         NaNs or +/- infs values are converted to zeros or the largest +/-
         finite floating point values representable by the division result
         :class:`numpy.dtype`.
+    -   ``Replace With Epsilon``: Zero-division is avoided by replacing zero
+        denominators with the machine epsilon value from
+        :attr:`colour.constants.EPSILON`.
+    -   ``Warning Replace With Epsilon``: Zero-division is avoided by replacing
+        zero denominators with the machine epsilon value from
+        :attr:`colour.constants.EPSILON` with a warning.
 
     Parameters
     ----------
@@ -295,6 +321,12 @@ def sdiv(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     >>> with sdiv_mode("Warning Limit Conversion"):
     ...     sdiv(a, b)  # doctest: +SKIP
     array([  0.00000000e+000,   1.00000000e+000,   1.79769313e+308])
+    >>> with sdiv_mode("Replace With Epsilon"):
+    ...     sdiv(a, b)  # doctest: +ELLIPSIS
+    array([  0.00000000e+00,   1.00000000e+00,  ...])
+    >>> with sdiv_mode("Warning Replace With Epsilon"):
+    ...     sdiv(a, b)  # doctest: +ELLIPSIS
+    array([  0.00000000e+00,   1.00000000e+00,  ...])
     """
 
     a = as_float_array(a)
@@ -311,6 +343,8 @@ def sdiv(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
             "Warning Zero Conversion",
             "Ignore Limit Conversion",
             "Warning Limit Conversion",
+            "Replace With Epsilon",
+            "Warning Replace With Epsilon",
         ),
     )
 
@@ -337,6 +371,14 @@ def sdiv(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     elif mode == "warning limit conversion":
         with np.errstate(divide="warn", invalid="warn"):
             c = np.nan_to_num(a / b)
+    elif mode == "replace with epsilon":
+        b = np.where(b == 0, EPSILON, b)
+        c = a / b
+    elif mode == "warning replace with epsilon":
+        if np.any(b == 0):
+            runtime_warning("Zero(s) detected in denominator, replacing with EPSILON.")
+        b = np.where(b == 0, EPSILON, b)
+        c = a / b
 
     return c
 
