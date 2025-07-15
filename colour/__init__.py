@@ -961,7 +961,7 @@ API_CHANGES : dict
 """
 
 if not is_documentation_building():
-    sys.modules["colour"] = colour(
+    sys.modules["colour"] = colour(  # pyright: ignore
         sys.modules["colour"], build_API_changes(API_CHANGES)
     )
 
