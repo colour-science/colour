@@ -384,16 +384,16 @@ H=275.5949861..., HC=None, J_HK=41.8802782..., Q_HK=56.0518358...)
     Q_HK = (2 / surround.c) * (J_HK / 100) * A_w
 
     return CAM_Specification_Hellwig2022(
-        as_float(from_range_100(J)),
-        as_float(from_range_100(C)),
-        as_float(from_range_degrees(h)),
-        as_float(from_range_100(s)),
-        as_float(from_range_100(Q)),
-        as_float(from_range_100(M)),
-        as_float(from_range_degrees(H, 400)),
-        None,
-        as_float(from_range_100(J_HK)),
-        as_float(from_range_100(Q_HK)),
+        J=as_float(from_range_100(J)),
+        C=as_float(from_range_100(C)),
+        h=as_float(from_range_degrees(h)),
+        s=as_float(from_range_100(s)),
+        Q=as_float(from_range_100(Q)),
+        M=as_float(from_range_100(M)),
+        H=as_float(from_range_degrees(H, 400)),
+        HC=None,
+        J_HK=as_float(from_range_100(J_HK)),
+        Q_HK=as_float(from_range_100(Q_HK)),
     )
 
 

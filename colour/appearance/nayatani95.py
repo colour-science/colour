@@ -326,15 +326,15 @@ H=None, HC=None, L_star_N=50.0039154...)
     M = colourfulness_correlate(C, brightness_ideal_white)
 
     return CAM_Specification_Nayatani95(
-        L_star_P,
-        C,
-        as_float(from_range_degrees(theta)),
-        S,
-        B_r,
-        M,
-        None,
-        None,
-        L_star_N,
+        L_star_P=L_star_P,
+        C=C,
+        h=as_float(from_range_degrees(theta)),
+        s=S,
+        Q=B_r,
+        M=M,
+        H=None,
+        HC=None,
+        L_star_N=L_star_N,
     )
 
 

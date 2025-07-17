@@ -530,14 +530,14 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     M_94 = colourfulness_correlate(F_L, C_94)
 
     return CAM_Specification_Hunt(
-        J,
-        C_94,
-        as_float(from_range_degrees(h)),
-        s,
-        Q,
-        M_94,
-        None,
-        None,
+        J=J,
+        C=C_94,
+        h=as_float(from_range_degrees(h)),
+        s=s,
+        Q=Q,
+        M=M_94,
+        H=None,
+        HC=None,
     )
 
 

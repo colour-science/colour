@@ -396,14 +396,14 @@ H=278.0607358..., HC=None)
     s = saturation_correlate(M, Q)
 
     return CAM_Specification_CIECAM02(
-        as_float(from_range_100(J)),
-        as_float(from_range_100(C)),
-        as_float(from_range_degrees(h)),
-        as_float(from_range_100(s)),
-        as_float(from_range_100(Q)),
-        as_float(from_range_100(M)),
-        as_float(from_range_degrees(H, 400)),
-        None,
+        J=as_float(from_range_100(J)),
+        C=as_float(from_range_100(C)),
+        h=as_float(from_range_degrees(h)),
+        s=as_float(from_range_100(s)),
+        Q=as_float(from_range_100(Q)),
+        M=as_float(from_range_100(M)),
+        H=as_float(from_range_degrees(H, 400)),
+        HC=None,
     )
 
 

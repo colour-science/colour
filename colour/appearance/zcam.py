@@ -499,17 +499,17 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
     W_z = 100 - np.sqrt((100 - J_z) ** 2 + C_z**2)
 
     return CAM_Specification_ZCAM(
-        as_float(from_range_1(J_z)),
-        as_float(from_range_1(C_z)),
-        as_float(from_range_degrees(h_z)),
-        as_float(from_range_1(S_z)),
-        as_float(from_range_1(Q_z)),
-        as_float(from_range_1(M_z)),
-        as_float(from_range_degrees(H, 400)),
-        None,
-        as_float(from_range_1(V_z)),
-        as_float(from_range_1(K_z)),
-        as_float(from_range_1(W_z)),
+        J=as_float(from_range_1(J_z)),
+        C=as_float(from_range_1(C_z)),
+        h=as_float(from_range_degrees(h_z)),
+        s=as_float(from_range_1(S_z)),
+        Q=as_float(from_range_1(Q_z)),
+        M=as_float(from_range_1(M_z)),
+        H=as_float(from_range_degrees(H, 400)),
+        HC=None,
+        V=as_float(from_range_1(V_z)),
+        K=as_float(from_range_1(K_z)),
+        W=as_float(from_range_1(W_z)),
     )
 
 
