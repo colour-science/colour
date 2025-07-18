@@ -149,8 +149,8 @@ RGB_COLOURSPACE_LIN_CIEXYZD65_SCENE: RGB_Colourspace = RGB_Colourspace(
             [0.0, 0.0],
         ]
     ),
-    CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"],
-    "D65",
+    CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["E"],
+    "E",
     cctf_encoding=linear_function,
     cctf_decoding=linear_function,
     use_derived_matrix_RGB_to_XYZ=True,
