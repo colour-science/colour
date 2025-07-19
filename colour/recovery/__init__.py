@@ -56,8 +56,7 @@ from .meng2015 import XYZ_to_sd_Meng2015
 from .otsu2018 import Dataset_Otsu2018, Tree_Otsu2018, XYZ_to_sd_Otsu2018
 from .smits1999 import RGB_to_sd_Smits1999
 
-__all__ = []
-__all__ += datasets.__all__
+__all__ = datasets.__all__
 __all__ += [
     "sd_Jakob2019",
     "find_coefficients_Jakob2019",

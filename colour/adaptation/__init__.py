@@ -83,7 +83,9 @@ from .zhai2018 import chromatic_adaptation_Zhai2018
 from .li2025 import CAT_CAT16_INVERSE, chromatic_adaptation_Li2025
 from colour.utilities import validate_method
 
-__all__ = ["CHROMATIC_ADAPTATION_TRANSFORMS"]
+__all__ = [
+    "CHROMATIC_ADAPTATION_TRANSFORMS",
+]
 __all__ += [
     "CAT_BIANCO2010",
     "CAT_BRADFORD",

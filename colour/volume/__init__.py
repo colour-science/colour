@@ -19,8 +19,7 @@ from .rgb import (
     RGB_colourspace_visible_spectrum_coverage_MonteCarlo,
 )
 
-__all__ = []
-__all__ += datasets.__all__
+__all__ = datasets.__all__
 __all__ += [
     "is_within_macadam_limits",
 ]

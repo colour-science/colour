@@ -151,6 +151,7 @@ __all__ += [
 ]
 __all__ += [
     "CCS_ILLUMINANTS",
+    "CCS_LIGHT_SOURCES",
     "MSDS_CMFS",
     "MSDS_CMFS_LMS",
     "MSDS_CMFS_RGB",
@@ -160,10 +161,9 @@ __all__ += [
     "SDS_LEFS",
     "SDS_LEFS_PHOTOPIC",
     "SDS_LEFS_SCOTOPIC",
+    "SDS_LIGHT_SOURCES",
     "TVS_ILLUMINANTS",
     "TVS_ILLUMINANTS_HUNTERLAB",
-    "CCS_LIGHT_SOURCES",
-    "SDS_LIGHT_SOURCES",
 ]
 __all__ += [
     "sd_constant",

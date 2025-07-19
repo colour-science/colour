@@ -31,15 +31,10 @@ from .tm3018 import (
 )
 from colour.utilities import CanonicalMapping, validate_method
 
-__all__ = []
-__all__ += datasets.__all__
+__all__ = datasets.__all__
 __all__ += [
     "ColourRendering_Specification_CIE2017",
     "colour_fidelity_index_CIE2017",
-]
-__all__ += [
-    "ColourQuality_Specification_ANSIIESTM3018",
-    "colour_fidelity_index_ANSIIESTM3018",
 ]
 __all__ += [
     "COLOUR_RENDERING_INDEX_METHODS",
@@ -47,12 +42,16 @@ __all__ += [
     "colour_rendering_index",
 ]
 __all__ += [
-    "ColourRendering_Specification_CQS",
     "COLOUR_QUALITY_SCALE_METHODS",
+    "ColourRendering_Specification_CQS",
     "colour_quality_scale",
 ]
 __all__ += [
     "spectral_similarity_index",
+]
+__all__ += [
+    "ColourQuality_Specification_ANSIIESTM3018",
+    "colour_fidelity_index_ANSIIESTM3018",
 ]
 
 COLOUR_FIDELITY_INDEX_METHODS = CanonicalMapping(

@@ -59,8 +59,7 @@ from .extrapolation import Extrapolator
 from .prng import random_triplet_generator
 from .regression import least_square_mapping_MoorePenrose
 
-__all__ = []
-__all__ += [
+__all__ = [
     "get_sdiv_mode",
     "set_sdiv_mode",
     "sdiv_mode",
