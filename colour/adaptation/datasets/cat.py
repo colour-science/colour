@@ -4,19 +4,9 @@ Chromatic Adaptation Transforms
 
 Define various chromatic adaptation transforms (CAT):
 
--   :attr:`colour.adaptation.CAT_XYZ_SCALING`: *XYZ Scaling* chromatic
-    adaptation transform.
--   :attr:`colour.adaptation.CAT_VON_KRIES`: *Von Kries* chromatic adaptation
-    transform.
+-   :attr:`colour.adaptation.CAT_BIANCO2010`: *Bianco and Schettini (2010)*
+    chromatic adaptation transform.
 -   :attr:`colour.adaptation.CAT_BRADFORD`: *Bradford* chromatic adaptation
-    transform.
--   :attr:`colour.adaptation.CAT_SHARP`: *Sharp* chromatic adaptation
-    transform.
--   :attr:`colour.adaptation.CAT_FAIRCHILD`: *Fairchild* chromatic adaptation
-    transform.
--   :attr:`colour.adaptation.CAT_CMCCAT97`: *CMCCAT97* chromatic adaptation
-    transform.
--   :attr:`colour.adaptation.CAT_CMCCAT2000`: *CMCCAT2000* chromatic adaptation
     transform.
 -   :attr:`colour.adaptation.CAT_CAT02`: *CAT02* chromatic adaptation
     transform.
@@ -24,10 +14,20 @@ Define various chromatic adaptation transforms (CAT):
     corrected CAT02 chromatic adaptation transform.
 -   :attr:`colour.adaptation.CAT_CAT16`: *CAT16* chromatic adaptation
     transform.
--   :attr:`colour.adaptation.CAT_BIANCO2010`: *Bianco and Schettini (2010)*
-    chromatic adaptation transform.
+-   :attr:`colour.adaptation.CAT_CMCCAT2000`: *CMCCAT2000* chromatic adaptation
+    transform.
+-   :attr:`colour.adaptation.CAT_CMCCAT97`: *CMCCAT97* chromatic adaptation
+    transform.
+-   :attr:`colour.adaptation.CAT_FAIRCHILD`: *Fairchild* chromatic adaptation
+    transform.
 -   :attr:`colour.adaptation.CAT_PC_BIANCO2010`:
     *Bianco and Schettini PC (2010)* chromatic adaptation transform.
+-   :attr:`colour.adaptation.CAT_SHARP`: *Sharp* chromatic adaptation
+    transform.
+-   :attr:`colour.adaptation.CAT_VON_KRIES`: *Von Kries* chromatic adaptation
+    transform.
+-   :attr:`colour.adaptation.CAT_XYZ_SCALING`: *XYZ Scaling* chromatic
+    adaptation transform.
 
 References
 ----------
@@ -90,44 +90,34 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "CAT_XYZ_SCALING",
-    "CAT_VON_KRIES",
+    "CAT_BIANCO2010",
     "CAT_BRADFORD",
-    "CAT_SHARP",
-    "CAT_FAIRCHILD",
-    "CAT_CMCCAT97",
-    "CAT_CMCCAT2000",
     "CAT_CAT02",
     "CAT_CAT02_BRILL2008",
     "CAT_CAT16",
-    "CAT_BIANCO2010",
+    "CAT_CMCCAT2000",
+    "CAT_CMCCAT97",
+    "CAT_FAIRCHILD",
     "CAT_PC_BIANCO2010",
+    "CAT_SHARP",
+    "CAT_VON_KRIES",
+    "CAT_XYZ_SCALING",
     "CHROMATIC_ADAPTATION_TRANSFORMS",
 ]
 
-CAT_XYZ_SCALING: NDArrayFloat = np.reshape(np.array(np.identity(3)), (3, 3))
-"""
-*XYZ Scaling* chromatic adaptation transform.
-
-References
-----------
-:cite:`Lindbloom2009g`
-"""
-
-CAT_VON_KRIES: NDArrayFloat = np.array(
+CAT_BIANCO2010: NDArrayFloat = np.array(
     [
-        [0.4002400, 0.7076000, -0.0808100],
-        [-0.2263000, 1.1653200, 0.0457000],
-        [0.0000000, 0.0000000, 0.9182200],
+        [0.8752, 0.2787, -0.1539],
+        [-0.8904, 1.8709, 0.0195],
+        [-0.0061, 0.0162, 0.9899],
     ]
 )
 """
-*Von Kries* chromatic adaptation transform.
+*Bianco and Schettini (2010)* chromatic adaptation transform.
 
 References
 ----------
-:cite:`CIETC1-321994b`, :cite:`Fairchild2013ba`, :cite:`Lindbloom2009g`,
-:cite:`Nayatani1995a`
+:cite:`Bianco2010a`
 """
 
 CAT_BRADFORD: NDArrayFloat = np.array(
@@ -143,66 +133,6 @@ CAT_BRADFORD: NDArrayFloat = np.array(
 References
 ----------
 :cite:`Lindbloom2009g`
-"""
-
-CAT_SHARP: NDArrayFloat = np.array(
-    [
-        [1.2694, -0.0988, -0.1706],
-        [-0.8364, 1.8006, 0.0357],
-        [0.0297, -0.0315, 1.0018],
-    ]
-)
-"""
-*Sharp* chromatic adaptation transform.
-
-References
-----------
-:cite:`Bianco2010a`
-"""
-
-CAT_FAIRCHILD: NDArrayFloat = np.array(
-    [
-        [0.8562, 0.3372, -0.1934],
-        [-0.8360, 1.8327, 0.0033],
-        [0.0357, -0.0469, 1.0112],
-    ]
-)
-"""
-*Fairchild* chromatic adaptation transform.
-
-References
-----------
-:cite:`Fairchildb`
-"""
-
-CAT_CMCCAT97: NDArrayFloat = np.array(
-    [
-        [0.8951, -0.7502, 0.0389],
-        [0.2664, 1.7135, 0.0685],
-        [-0.1614, 0.0367, 1.0296],
-    ]
-)
-"""
-*CMCCAT97* chromatic adaptation transform.
-
-References
-----------
-:cite:`Westland2012g`
-"""
-
-CAT_CMCCAT2000: NDArrayFloat = np.array(
-    [
-        [0.7982, 0.3389, -0.1371],
-        [-0.5918, 1.5512, 0.0406],
-        [0.0008, 0.0239, 0.9753],
-    ]
-)
-"""
-*CMCCAT2000* chromatic adaptation transform.
-
-References
-----------
-:cite:`Westland2012k`
 """
 
 CAT_CAT02: NDArrayFloat = np.array(
@@ -251,19 +181,49 @@ References
 :cite:`Li2017`
 """
 
-CAT_BIANCO2010: NDArrayFloat = np.array(
+CAT_CMCCAT2000: NDArrayFloat = np.array(
     [
-        [0.8752, 0.2787, -0.1539],
-        [-0.8904, 1.8709, 0.0195],
-        [-0.0061, 0.0162, 0.9899],
+        [0.7982, 0.3389, -0.1371],
+        [-0.5918, 1.5512, 0.0406],
+        [0.0008, 0.0239, 0.9753],
     ]
 )
 """
-*Bianco and Schettini (2010)* chromatic adaptation transform.
+*CMCCAT2000* chromatic adaptation transform.
 
 References
 ----------
-:cite:`Bianco2010a`
+:cite:`Westland2012k`
+"""
+
+CAT_CMCCAT97: NDArrayFloat = np.array(
+    [
+        [0.8951, -0.7502, 0.0389],
+        [0.2664, 1.7135, 0.0685],
+        [-0.1614, 0.0367, 1.0296],
+    ]
+)
+"""
+*CMCCAT97* chromatic adaptation transform.
+
+References
+----------
+:cite:`Westland2012g`
+"""
+
+CAT_FAIRCHILD: NDArrayFloat = np.array(
+    [
+        [0.8562, 0.3372, -0.1934],
+        [-0.8360, 1.8327, 0.0033],
+        [0.0357, -0.0469, 1.0112],
+    ]
+)
+"""
+*Fairchild* chromatic adaptation transform.
+
+References
+----------
+:cite:`Fairchildb`
 """
 
 CAT_PC_BIANCO2010: NDArrayFloat = np.array(
@@ -285,20 +245,60 @@ Notes
 -   This chromatic adaptation transform has no negative lobes.
 """
 
+CAT_SHARP: NDArrayFloat = np.array(
+    [
+        [1.2694, -0.0988, -0.1706],
+        [-0.8364, 1.8006, 0.0357],
+        [0.0297, -0.0315, 1.0018],
+    ]
+)
+"""
+*Sharp* chromatic adaptation transform.
+
+References
+----------
+:cite:`Bianco2010a`
+"""
+
+CAT_VON_KRIES: NDArrayFloat = np.array(
+    [
+        [0.4002400, 0.7076000, -0.0808100],
+        [-0.2263000, 1.1653200, 0.0457000],
+        [0.0000000, 0.0000000, 0.9182200],
+    ]
+)
+"""
+*Von Kries* chromatic adaptation transform.
+
+References
+----------
+:cite:`CIETC1-321994b`, :cite:`Fairchild2013ba`, :cite:`Lindbloom2009g`,
+:cite:`Nayatani1995a`
+"""
+
+CAT_XYZ_SCALING: NDArrayFloat = np.reshape(np.array(np.identity(3)), (3, 3))
+"""
+*XYZ Scaling* chromatic adaptation transform.
+
+References
+----------
+:cite:`Lindbloom2009g`
+"""
+
 CHROMATIC_ADAPTATION_TRANSFORMS: CanonicalMapping = CanonicalMapping(
     {
-        "XYZ Scaling": CAT_XYZ_SCALING,
-        "Von Kries": CAT_VON_KRIES,
+        "Bianco 2010": CAT_BIANCO2010,
+        "Bianco PC 2010": CAT_PC_BIANCO2010,
         "Bradford": CAT_BRADFORD,
-        "Sharp": CAT_SHARP,
-        "Fairchild": CAT_FAIRCHILD,
-        "CMCCAT97": CAT_CMCCAT97,
-        "CMCCAT2000": CAT_CMCCAT2000,
         "CAT02": CAT_CAT02,
         "CAT02 Brill 2008": CAT_CAT02_BRILL2008,
         "CAT16": CAT_CAT16,
-        "Bianco 2010": CAT_BIANCO2010,
-        "Bianco PC 2010": CAT_PC_BIANCO2010,
+        "CMCCAT2000": CAT_CMCCAT2000,
+        "CMCCAT97": CAT_CMCCAT97,
+        "Fairchild": CAT_FAIRCHILD,
+        "Sharp": CAT_SHARP,
+        "Von Kries": CAT_VON_KRIES,
+        "XYZ Scaling": CAT_XYZ_SCALING,
     }
 )
 CHROMATIC_ADAPTATION_TRANSFORMS.__doc__ = """
