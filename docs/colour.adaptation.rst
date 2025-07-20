@@ -46,9 +46,9 @@ Fairchild (2020)
 .. autosummary::
     :toctree: generated/
 
+    chromatic_adaptation_vK20
     CONDITIONS_DEGREE_OF_ADAPTATION_VK20
     matrix_chromatic_adaptation_vk20
-    chromatic_adaptation_vK20
 
 CIE 1994
 --------
@@ -96,8 +96,8 @@ Von Kries
 .. autosummary::
     :toctree: generated/
 
-    chromatic_adaptation_VonKries
     CHROMATIC_ADAPTATION_TRANSFORMS
+    chromatic_adaptation_VonKries
 
 **Dataset**
 
@@ -106,15 +106,15 @@ Von Kries
 .. autosummary::
     :toctree: generated/
 
-    CAT_BRADFORD
     CAT_BIANCO2010
-    CAT_PC_BIANCO2010
-    CAT_CAT02_BRILL2008
+    CAT_BRADFORD
     CAT_CAT02
+    CAT_CAT02_BRILL2008
     CAT_CAT16
     CAT_CMCCAT2000
     CAT_CMCCAT97
     CAT_FAIRCHILD
+    CAT_PC_BIANCO2010
     CAT_SHARP
     CAT_VON_KRIES
     CAT_XYZ_SCALING

@@ -27,8 +27,8 @@ Jakob and Hanika (2019)
 .. autosummary::
     :toctree: generated/
 
-    XYZ_to_sd_Jakob2019
     LUT3D_Jakob2019
+    XYZ_to_sd_Jakob2019
 
 **Ancillary Objects**
 
@@ -39,8 +39,8 @@ Jakob and Hanika (2019)
 .. autosummary::
     :toctree: generated/
 
-    sd_Jakob2019
     find_coefficients_Jakob2019
+    sd_Jakob2019
 
 Mallett and Yuksel (2019)
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -64,8 +64,8 @@ Mallett and Yuksel (2019)
     :toctree: generated/
 
     MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019
-    SPECTRAL_SHAPE_sRGB_MALLETT2019
     spectral_primary_decomposition_Mallett2019
+    SPECTRAL_SHAPE_sRGB_MALLETT2019
 
 Meng, Simon and Hanika (2015)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -129,8 +129,8 @@ Jiang, Liu, Gu and Süsstrunk (2013)
 .. autosummary::
     :toctree: generated/
 
-    RGB_to_sd_camera_sensitivity_Jiang2013
     RGB_to_msds_camera_sensitivities_Jiang2013
+    RGB_to_sd_camera_sensitivity_Jiang2013
 
 **Ancillary Objects**
 

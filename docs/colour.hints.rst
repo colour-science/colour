@@ -8,68 +8,68 @@ Annotation Type Hints
 .. autosummary::
     :toctree: generated/
 
-    ArrayLike
-    NDArray
-    ModuleType
     Any
+    ArrayLike
     Callable
+    cast
     ClassVar
+    Dataclass
     Dict
+    DType
+    DTypeBoolean
+    DTypeComplex
+    DTypeFloat
+    DTypeInt
+    DTypeReal
     Generator
     Iterable
     Iterator
     List
     Literal
+    LiteralCCTFDecoding
+    LiteralCCTFEncoding
+    LiteralChromaticAdaptationTransform
+    LiteralColourspaceModel
+    LiteralDeltaEMethod
+    LiteralEOTF
+    LiteralEOTFInverse
+    LiteralFontScaling
+    LiteralLogDecoding
+    LiteralLogEncoding
+    LiteralLUTReadMethod
+    LiteralLUTWriteMethod
+    LiteralOETF
+    LiteralOETFInverse
+    LiteralOOTF
+    LiteralOOTFInverse
+    LiteralRGBColourspace
+    LiteralWarning
     Mapping
-    NoReturn
+    ModuleType
+    NDArray
+    NDArrayBoolean
+    NDArrayComplex
+    NDArrayFloat
+    NDArrayInt
+    NDArrayReal
+    NDArrayStr
     NewType
+    NoReturn
+    overload
     PathLike
     Protocol
+    ProtocolExtrapolator
+    ProtocolInterpolator
+    ProtocolLUTSequenceItem
+    Real
+    RegexFlag
+    runtime_checkable
+    Self
     Sequence
     Set
     SupportsIndex
     TextIO
     Tuple
     Type
-    TypeVar
     TypedDict
-    cast
-    overload
-    runtime_checkable
-    Self
-    RegexFlag
-    DTypeInt
-    DTypeFloat
-    DTypeReal
-    DTypeComplex
-    DTypeBoolean
-    DType
-    Real
-    Dataclass
-    NDArrayInt
-    NDArrayFloat
-    NDArrayReal
-    NDArrayComplex
-    NDArrayBoolean
-    NDArrayStr
-    ProtocolInterpolator
-    ProtocolExtrapolator
-    ProtocolLUTSequenceItem
-    LiteralWarning
-    LiteralChromaticAdaptationTransform
-    LiteralColourspaceModel
-    LiteralRGBColourspace
-    LiteralLogEncoding
-    LiteralLogDecoding
-    LiteralOETF
-    LiteralOETFInverse
-    LiteralEOTF
-    LiteralEOTFInverse
-    LiteralCCTFEncoding
-    LiteralCCTFDecoding
-    LiteralOOTF
-    LiteralOOTFInverse
-    LiteralLUTReadMethod
-    LiteralLUTWriteMethod
-    LiteralDeltaEMethod
-    LiteralFontScaling
+    TypeVar

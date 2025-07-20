@@ -11,8 +11,8 @@ Colour Fidelity Index
 .. autosummary::
     :toctree: generated/
 
-    COLOUR_FIDELITY_INDEX_METHODS
     colour_fidelity_index
+    COLOUR_FIDELITY_INDEX_METHODS
 
 ``colour.quality``
 
@@ -21,10 +21,10 @@ Colour Fidelity Index
 .. autosummary::
     :toctree: generated/
 
-    ColourRendering_Specification_CIE2017
+    colour_fidelity_index_ANSIIESTM3018
     colour_fidelity_index_CIE2017
     ColourQuality_Specification_ANSIIESTM3018
-    colour_fidelity_index_ANSIIESTM3018
+    ColourRendering_Specification_CIE2017
 
 Colour Rendering Index
 ----------------------
@@ -36,8 +36,8 @@ Colour Rendering Index
 .. autosummary::
     :toctree: generated/
 
-    COLOUR_RENDERING_INDEX_METHODS
     colour_rendering_index
+    COLOUR_RENDERING_INDEX_METHODS
 
 ``colour.quality``
 
@@ -58,8 +58,8 @@ Colour Quality Scale
 .. autosummary::
     :toctree: generated/
 
-    COLOUR_QUALITY_SCALE_METHODS
     colour_quality_scale
+    COLOUR_QUALITY_SCALE_METHODS
 
 ``colour.quality``
 
