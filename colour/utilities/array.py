@@ -277,7 +277,7 @@ class MixinDataclassArray(MixinDataclassIterable):
 
         return tstack(
             cast(
-                ArrayLike,
+                "ArrayLike",
                 [value if value is not None else default for value in self.values],
             ),
             dtype=dtype,
@@ -802,7 +802,7 @@ def as_int_scalar(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> int:
     attest(a.ndim == 0, f'"{a}" cannot be converted to "int" scalar!')
 
     # TODO: Revisit when Numpy types are well established.
-    return cast(int, as_int(a, dtype))
+    return cast("int", as_int(a, dtype))
 
 
 def as_float_scalar(a: ArrayLike, dtype: Type[DTypeFloat] | None = None) -> float:
@@ -841,7 +841,7 @@ def as_float_scalar(a: ArrayLike, dtype: Type[DTypeFloat] | None = None) -> floa
     attest(a.ndim == 0, f'"{a}" cannot be converted to "float" scalar!')
 
     # TODO: Revisit when Numpy types are well established.
-    return cast(float, as_float(a, dtype))
+    return cast("float", as_float(a, dtype))
 
 
 def set_default_int_dtype(

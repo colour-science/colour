@@ -167,7 +167,7 @@ class TestWriteLUTIridasCube:
             os.path.join(ROOT_LUTS, "ACES_Proxy_10_to_ACES.cube")
         )
         write_LUT_IridasCube(
-            cast(LUT1D, LUT_4_r.convert(LUT1D, force_conversion=True)),
+            cast("LUT1D", LUT_4_r.convert(LUT1D, force_conversion=True)),
             os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"),
         )
         LUT_4_t = read_LUT_IridasCube(

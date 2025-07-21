@@ -186,7 +186,7 @@ class TestComponentsToSRGBFichet2021:
         RGB, attributes = components_to_sRGB_Fichet2021(components, specification)
 
         np.testing.assert_allclose(
-            cast(NDArrayFloat, RGB),
+            cast("NDArrayFloat", RGB),
             np.array([[[0.17998291, 0.18000802, 0.18000908]]]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -236,7 +236,7 @@ class TestComponentsToSRGBFichet2021:
         RGB, attributes = components_to_sRGB_Fichet2021(components, specification)
 
         np.testing.assert_allclose(
-            cast(NDArrayFloat, RGB),
+            cast("NDArrayFloat", RGB),
             np.array(
                 [
                     [

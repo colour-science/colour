@@ -112,7 +112,7 @@ Plot_Corresponding_Chromaticities_Prediction.png
     name = (
         f"Experiment {experiment}"
         if is_numeric(experiment)
-        else cast(CorrespondingColourDataset, experiment).name
+        else cast("CorrespondingColourDataset", experiment).name
     )
     title = (
         f"Corresponding Chromaticities Prediction - {model} - {name} - "

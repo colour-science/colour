@@ -45,14 +45,14 @@ Integer threshold value when checking if a floating point number is almost an
 integer.
 """
 
-EPSILON: float = cast(float, np.finfo(np.double).eps)
+EPSILON: float = cast("float", np.finfo(np.double).eps)
 """
 Default epsilon value for tolerance and singularities avoidance in various
 computations.
 """
 
 DTYPE_INT_DEFAULT: Type[np.int32 | np.int64] = cast(
-    Type[np.int32 | np.int64],
+    "Type[np.int32 | np.int64]",
     np.sctypeDict.get(
         os.environ.get("COLOUR_SCIENCE__DEFAULT_INT_DTYPE", "int64"), np.int64
     ),
@@ -61,7 +61,7 @@ DTYPE_INT_DEFAULT: Type[np.int32 | np.int64] = cast(
 
 
 DTYPE_FLOAT_DEFAULT: Type[DTypeFloat] = cast(
-    Type[DTypeFloat],
+    "Type[DTypeFloat]",
     np.sctypeDict.get(
         os.environ.get("COLOUR_SCIENCE__DEFAULT_FLOAT_DTYPE", "float64"),
         np.float64,

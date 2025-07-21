@@ -483,7 +483,7 @@ LAGRANGE_COEFFICIENTS_B: NDArrayFloat = np.array(
 )
 
 LUT_TABLE: NDArrayFloat = cast(
-    LUT3D,
+    "LUT3D",
     read_LUT(
         os.path.join(
             os.path.dirname(__file__),

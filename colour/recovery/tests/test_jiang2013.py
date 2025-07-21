@@ -204,7 +204,7 @@ class FixtureJiang2013:
         reflectances = list(SDS_COLOURCHECKERS["BabelColor Average"].values())
         self._reflectances = sds_and_msds_to_msds(reflectances)
         self._RGB = msds_to_XYZ(
-            cast(SpectralDistribution, self._reflectances.copy()).align(
+            cast("SpectralDistribution", self._reflectances.copy()).align(
                 SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017
             ),
             method="Integration",

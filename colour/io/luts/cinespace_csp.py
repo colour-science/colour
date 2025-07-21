@@ -361,12 +361,10 @@ def write_LUT_Cinespace(
         csp_file.write(f"{name}\n")
 
         if LUT[0].comments:
-            for comment in LUT[0].comments:
-                csp_file.write(f"{comment}\n")
+            csp_file.writelines(f"{comment}\n" for comment in LUT[0].comments)
 
         if LUT[1].comments:
-            for comment in LUT[1].comments:
-                csp_file.write(f"{comment}\n")
+            csp_file.writelines(f"{comment}\n" for comment in LUT[1].comments)
 
         csp_file.write("END METADATA\n\n")
 
@@ -418,8 +416,9 @@ def write_LUT_Cinespace(
             )
             table = np.reshape(LUT[1].table, (-1, 3), order="F")
 
-            for array in table:
-                csp_file.write(f"{format_array_as_row(array, decimals)}\n")
+            csp_file.writelines(
+                f"{format_array_as_row(array, decimals)}\n" for array in table
+            )
         else:
             for i in range(3):
                 csp_file.write("2\n")
@@ -431,7 +430,8 @@ def write_LUT_Cinespace(
             csp_file.write(f"\n{LUT[0].size}\n")
             table = LUT[0].table
 
-            for array in table:
-                csp_file.write(f"{format_array_as_row(array, decimals)}\n")
+            csp_file.writelines(
+                f"{format_array_as_row(array, decimals)}\n" for array in table
+            )
 
     return True

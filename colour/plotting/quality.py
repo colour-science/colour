@@ -490,8 +490,7 @@ Plot_Multi_SDS_Colour_Quality_Scales_Bars.png
     _figure, axes = plot_colour_quality_bars(specifications, **settings)
 
     title = (
-        f"Colour Quality Scale - "
-        f"{', '.join([sd.display_name for sd in sds_converted])}"
+        f"Colour Quality Scale - {', '.join([sd.display_name for sd in sds_converted])}"
     )
 
     settings = {"axes": axes, "title": title}

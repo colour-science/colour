@@ -661,7 +661,7 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
         if not is_networkx_installed():  # pragma: no cover
             return
 
-        from colour.appearance import (
+        from colour.appearance import (  # noqa: PLC0415
             CAM_Specification_CAM16,
             CAM_Specification_CIECAM02,
             CAM_Specification_CIECAM16,
@@ -670,7 +670,10 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
             CAM_Specification_sCAM,
             CAM_Specification_ZCAM,
         )
-        from colour.graph.conversion import CONVERSION_SPECIFICATIONS_DATA, convert
+        from colour.graph.conversion import (  # noqa: PLC0415
+            CONVERSION_SPECIFICATIONS_DATA,
+            convert,
+        )
 
         try:
             dtype = np.float32

@@ -276,10 +276,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
         representation = super().__str__()
 
         return representation.replace(
-            (
-                "IES TM-27-14 Spectral Distribution\n"
-                "=================================="
-            ),
+            ("IES TM-27-14 Spectral Distribution\n=================================="),
             "UPRTek\n======",
         )
 
@@ -378,7 +375,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
          [  7.80000000e+02   4.11766000e-01]]
         """
 
-        path = cast(str, self.path)
+        path = cast("str", self.path)
 
         def as_array(a: Any) -> list:
             """

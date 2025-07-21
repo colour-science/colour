@@ -319,7 +319,7 @@ def logarithmic_function_camera(
 
     with sdiv_mode():
         linear_slope = cast(
-            float,
+            "float",
             optional(
                 linear_slope,
                 (

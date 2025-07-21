@@ -512,11 +512,11 @@ def XYZ_to_sd(
     function = XYZ_TO_SD_METHODS[method]
 
     if function is RGB_to_sd_Smits1999:
-        from colour.recovery.smits1999 import XYZ_to_RGB_Smits1999
+        from colour.recovery.smits1999 import XYZ_to_RGB_Smits1999  # noqa: PLC0415
 
         a = XYZ_to_RGB_Smits1999(XYZ)
     elif function is RGB_to_sd_Mallett2019:
-        from colour.models import XYZ_to_sRGB
+        from colour.models import XYZ_to_sRGB  # noqa: PLC0415
 
         a = XYZ_to_sRGB(XYZ, apply_cctf_encoding=False)
 

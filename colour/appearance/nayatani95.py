@@ -787,7 +787,7 @@ def chromatic_strength_function(
 
     theta = np.radians(theta)
 
-    E_s = cast(NDArrayFloat, 0.9394)
+    E_s = cast("NDArrayFloat", 0.9394)
     E_s += -0.2478 * np.sin(1 * theta)
     E_s += -0.0743 * np.sin(2 * theta)
     E_s += +0.0666 * np.sin(3 * theta)

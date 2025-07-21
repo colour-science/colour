@@ -134,7 +134,7 @@ def process_image_OpenColorIO(a: ArrayLike, *args: Any, **kwargs: Any) -> NDArra
             [ 0.3559542...,  0.3559542...,  0.3559542...]]])
     """
 
-    import PyOpenColorIO as ocio
+    import PyOpenColorIO as ocio  # noqa: PLC0415
 
     config = kwargs.get("config")
     config = (

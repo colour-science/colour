@@ -155,7 +155,7 @@ class AbstractLUT(ABC):
         self._domain: NDArrayFloat = np.array([])
         self.domain = optional(domain, self._domain)
         self._comments: list = []
-        self.comments = cast(list, optional(comments, self._comments))
+        self.comments = cast("list", optional(comments, self._comments))
 
     @property
     def table(self) -> NDArrayFloat:
@@ -327,7 +327,7 @@ class AbstractLUT(ABC):
                 }
             )
 
-        return multiline_str(self, cast(List[dict], attributes))
+        return multiline_str(self, cast("List[dict]", attributes))
 
     def __repr__(self) -> str:
         """
@@ -350,6 +350,8 @@ class AbstractLUT(ABC):
             attributes.append({"name": "comments"})
 
         return multiline_repr(self, attributes)
+
+    __hash__ = None
 
     def __eq__(self, other: object) -> bool:
         """
@@ -2195,12 +2197,10 @@ def LUT_to_LUT(
         LUT.name = name
     else:
         size = kwargs.get("size", 33 if cls is LUT3D else 10)
-        if "size" in kwargs:
-            del kwargs["size"]
+        kwargs.pop("size", None)
 
         channel_weights = as_float_array(kwargs.get("channel_weights", full(3, 1 / 3)))
-        if "channel_weights" in kwargs:
-            del kwargs["channel_weights"]
+        kwargs.pop("channel_weights", None)
 
         if isinstance(LUT, LUT1D):
             if cls is LUT3x1D:

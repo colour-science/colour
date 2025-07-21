@@ -112,7 +112,13 @@ class Image_Specification_Attribute:
 
 if is_openimageio_installed():  # pragma: no cover
     from OpenImageIO import ImageSpec  # pyright: ignore
-    from OpenImageIO import DOUBLE, FLOAT, HALF, UINT8, UINT16  # pyright: ignore
+    from OpenImageIO import (  # pyright: ignore
+        DOUBLE,
+        FLOAT,
+        HALF,
+        UINT8,
+        UINT16,
+    )
 
     MAPPING_BIT_DEPTH: CanonicalMapping = CanonicalMapping(
         {
@@ -177,7 +183,7 @@ def add_attributes_to_image_specification_OpenImageIO(
     ... )  # doctest: +SKIP
     >>> image_specification.extra_attribs[0].value  # doctest: +SKIP
     'none'
-    """  # noqa: D405, D407, D410, D411
+    """
 
     for attribute in attributes:
         name = str(attribute.name)
@@ -234,11 +240,11 @@ def image_specification_OpenImageIO(
     ...     1920, 1080, 3, "float16", [compression]
     ... )  # doctest: +SKIP
     <OpenImageIO.ImageSpec object at 0x...>
-    """  # noqa: D405, D407, D410, D411
+    """
 
-    from OpenImageIO import ImageSpec  # pyright: ignore
+    from OpenImageIO import ImageSpec  # pyright: ignore  # noqa: PLC0415
 
-    attributes = cast(list, optional(attributes, []))
+    attributes = cast("list", optional(attributes, []))
 
     bit_depth_specification = MAPPING_BIT_DEPTH[bit_depth]
 
@@ -416,7 +422,7 @@ def read_image_OpenImageIO(
     >>> image = read_image_OpenImageIO(path)  # doctest: +SKIP
     """
 
-    from OpenImageIO import ImageInput  # pyright: ignore
+    from OpenImageIO import ImageInput  # pyright: ignore  # noqa: PLC0415
 
     path = str(path)
 
@@ -444,7 +450,7 @@ def read_image_OpenImageIO(
     image_input.close()
 
     image = np.reshape(np.array(image, dtype=bit_depth_specification.numpy), shape)
-    image = cast(NDArrayReal, np.squeeze(image))
+    image = cast("NDArrayReal", np.squeeze(image))
 
     if additional_data:
         extra_attributes = [
@@ -511,7 +517,7 @@ def read_image_Imageio(
     dtype('float32')
     """
 
-    from imageio.v2 import imread
+    from imageio.v2 import imread  # noqa: PLC0415
 
     path = str(path)
 
@@ -693,14 +699,14 @@ def write_image_OpenImageIO(
     ...         Image_Specification_Attribute("compression", "none"),
     ...     ]
     ...     write_image_OpenImageIO(image, path, attributes=attributes)
-    """  # noqa: D405, D407, D410, D411
+    """
 
-    from OpenImageIO import ImageOutput  # pyright: ignore
+    from OpenImageIO import ImageOutput  # pyright: ignore  # noqa: PLC0415
 
     image = as_float_array(image)
     path = str(path)
 
-    attributes = cast(list, optional(attributes, []))
+    attributes = cast("list", optional(attributes, []))
 
     bit_depth_specification = MAPPING_BIT_DEPTH[bit_depth]
 
@@ -799,7 +805,7 @@ Source/FreeImage.h
     True
     """
 
-    from imageio.v2 import imwrite
+    from imageio.v2 import imwrite  # noqa: PLC0415
 
     path = str(path)
 
@@ -908,12 +914,11 @@ Source/FreeImage.h
     >>> write_image(image, path, bit_depth="uint8", attributes=[compression])
     ... # doctest: +SKIP
     True
-    """  # noqa: D405, D407, D410, D411, D414
+    """
 
     if method.lower() == "imageio" and not is_imageio_installed():  # pragma: no cover
         usage_warning(
-            '"Imageio" related API features are not available, '
-            'switching to "Imageio"!'
+            '"Imageio" related API features are not available, switching to "Imageio"!'
         )
         method = "openimageio"
 

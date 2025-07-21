@@ -224,7 +224,7 @@ def colour_rendering_index(
     )
 
     Q_a = cast(
-        float,
+        "float",
         np.average([v.Q_a for k, v in Q_as.items() if k in (1, 2, 3, 4, 5, 6, 7, 8)]),
     )
 
@@ -357,7 +357,7 @@ def colour_rendering_indexes(
             100
             - 4.6
             * cast(
-                float,
+                "float",
                 euclidean_distance(reference_data[i].UVW, test_data[i].UVW),
             ),
         )

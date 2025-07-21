@@ -278,7 +278,7 @@ class TestSignal:
         np.testing.assert_array_equal(signal.range, self._range)
 
         if is_pandas_installed():
-            from pandas import Series
+            from pandas import Series  # noqa: PLC0415
 
             signal = Signal(Series(dict(zip(self._domain, self._range, strict=True))))
             np.testing.assert_array_equal(signal.domain, self._domain)
@@ -703,7 +703,7 @@ class TestSignal:
         np.testing.assert_array_equal(domain, self._domain)
 
         if is_pandas_installed():
-            from pandas import Series
+            from pandas import Series  # noqa: PLC0415
 
             domain, range_ = Signal.signal_unpack_data(
                 Series(dict(zip(self._domain, self._range, strict=True)))
@@ -751,7 +751,7 @@ class TestSignal:
         """Test :func:`colour.continuous.signal.Signal.to_series` method."""
 
         if is_pandas_installed():
-            from pandas import Series
+            from pandas import Series  # noqa: PLC0415
 
             assert (
                 Signal(self._range, self._domain).to_series().all()

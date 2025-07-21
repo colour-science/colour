@@ -352,9 +352,9 @@ def _munsell_value_ASTMD1535_interpolator() -> Extrapolator:
     return extrapolator
 
 
-def _munsell_maximum_chromas_from_renotation() -> (
-    Tuple[Tuple[Tuple[float, float], float], ...]
-):
+def _munsell_maximum_chromas_from_renotation() -> Tuple[
+    Tuple[Tuple[float, float], float], ...
+]:
     """
     Return the maximum *Munsell* chromas from *Munsell Renotation System* data
     and caches them if not existing.
@@ -385,7 +385,7 @@ def _munsell_maximum_chromas_from_renotation() -> (
         if index in chromas:
             chroma = max([chromas[index], chroma])
 
-        chromas[index] = cast(float, chroma)
+        chromas[index] = cast("float", chroma)
 
     maximum_chromas_from_renotation = tuple(chromas.items())
 
@@ -1215,7 +1215,7 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArrayFloat:
             % 360
         )
         hue_angle_new = cast(
-            float, (hue_angle_current + hue_angle_difference_new) % 360
+            "float", (hue_angle_current + hue_angle_difference_new) % 360
         )
 
         hue_new, code_new = hue_angle_to_hue(hue_angle_new)
@@ -1658,8 +1658,7 @@ def munsell_specification_to_munsell_colour(
     hue = round(hue, hue_decimals)
     attest(
         0 <= hue <= 10,
-        f'"{specification!r}" specification hue must be normalised to '
-        f"domain [0, 10]!",
+        f'"{specification!r}" specification hue must be normalised to domain [0, 10]!',
     )
 
     value = round(value, value_decimals)
@@ -1955,7 +1954,7 @@ def hue_angle_to_hue(hue_angle: float) -> NDArrayFloat:
     if hue == 0:
         hue = 10
 
-    return tstack(cast(ArrayLike, [hue, code]))
+    return tstack(cast("ArrayLike", [hue, code]))
 
 
 def hue_to_ASTM_hue(hue_and_code: ArrayLike) -> float:
@@ -2055,8 +2054,7 @@ def interpolation_method_from_renotation_ovoid(
 
         attest(
             abs(2 * (chroma / 2 - round(chroma / 2))) <= THRESHOLD_INTEGER,
-            f'"{specification}" specification chroma must be an int and '
-            f"multiple of 2!",
+            f'"{specification}" specification chroma must be an int and multiple of 2!',
         )
 
         chroma = 2 * round(chroma / 2)
@@ -2318,8 +2316,7 @@ def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArrayFloat:
 
     attest(
         1 <= value <= 9,
-        f'"{specification}" specification value must be normalised to '
-        f"domain [1, 9]!",
+        f'"{specification}" specification value must be normalised to domain [1, 9]!',
     )
 
     attest(
@@ -2331,8 +2328,7 @@ def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArrayFloat:
 
     attest(
         2 <= chroma <= 50,
-        f'"{specification}" specification chroma must be normalised to '
-        f"domain [2, 50]!",
+        f'"{specification}" specification chroma must be normalised to domain [2, 50]!',
     )
 
     attest(
@@ -2398,7 +2394,7 @@ def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArrayFloat:
 
     attest(
         interpolation_method is not None,
-        f"Interpolation method must be one of: \"{'Linear, Radial'}\"",
+        f'Interpolation method must be one of: "{"Linear, Radial"}"',
     )
 
     hue_angle_lower_upper = np.squeeze([hue_angle_lower, hue_angle_upper])
@@ -2484,7 +2480,7 @@ def LCHab_to_munsell_specification(LCHab: ArrayLike) -> NDArrayFloat:
     value = L / 10
     chroma = C / 5
 
-    return tstack(cast(ArrayLike, [hue, value, chroma, code]))
+    return tstack(cast("ArrayLike", [hue, value, chroma, code]))
 
 
 def maximum_chroma_from_renotation(hue_and_value_and_code: ArrayLike) -> float:
@@ -2615,8 +2611,7 @@ def munsell_specification_to_xy(specification: ArrayLike) -> NDArrayFloat:
 
     attest(
         0 <= value <= 10,
-        f'"{specification}" specification value must be normalised to '
-        f"domain [0, 10]!",
+        f'"{specification}" specification value must be normalised to domain [0, 10]!',
     )
 
     attest(

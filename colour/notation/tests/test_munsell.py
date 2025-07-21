@@ -113,7 +113,7 @@ def _generate_unit_tests_specifications() -> tuple:  # pragma: no cover
         *CIE xyY* colourspace values.
     """
 
-    from colour.notation import MUNSELL_COLOURS
+    from colour.notation import MUNSELL_COLOURS  # noqa: PLC0415
 
     np.random.seed(16)
 

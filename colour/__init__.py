@@ -470,8 +470,6 @@ from .utilities.array import (
     get_domain_range_scale,
     set_domain_range_scale,
 )
-from .utilities.deprecation import ModuleAPI, build_API_changes
-from .utilities.documentation import is_documentation_building
 from .volume import (
     OPTIMAL_COLOUR_STIMULI_ILLUMINANTS,
     RGB_colourspace_limits,
@@ -898,13 +896,6 @@ __all__ += [
     "set_domain_range_scale",
 ]
 __all__ += [
-    "ModuleAPI",
-    "build_API_changes",
-]
-__all__ += [
-    "is_documentation_building",
-]
-__all__ += [
     "OPTIMAL_COLOUR_STIMULI_ILLUMINANTS",
     "RGB_colourspace_limits",
     "RGB_colourspace_pointer_gamut_coverage_MonteCarlo",
@@ -943,6 +934,10 @@ with contextlib.suppress(TypeError):
 # ----------------------------------------------------------------------------#
 # ---                API Changes and Deprecation Management                ---#
 # ----------------------------------------------------------------------------#
+from .utilities.deprecation import ModuleAPI, build_API_changes
+from .utilities.documentation import is_documentation_building
+
+
 class colour(ModuleAPI):
     """Define a class acting like the *colour* module."""
 
@@ -1002,8 +997,11 @@ for _path in sys.path:  # pragma: no cover
     _module_path = os.path.join(_path, "colour.py")
     if os.path.exists(_module_path):
         import colour  # pyright: ignore
+        from colour.utilities import as_bool
 
-        if not os.environ.get("COLOUR_SCIENCE__COLOUR__IMPORT_VAAB_COLOUR"):
+        if as_bool(
+            os.environ.get("COLOUR_SCIENCE__COLOUR__IMPORT_VAAB_COLOUR"), "False"
+        ):
             colour.utilities.runtime_warning(  # pyright: ignore
                 '"vaab/colour" was detected in "sys.path", please define a '
                 '"COLOUR_SCIENCE__COLOUR__IMPORT_VAAB_COLOUR=True" environment '

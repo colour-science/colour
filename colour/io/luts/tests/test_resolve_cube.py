@@ -49,7 +49,7 @@ class TestReadLUTResolveCube:
         """
 
         LUT_1 = cast(
-            LUT3x1D,
+            "LUT3x1D",
             read_LUT_ResolveCube(os.path.join(ROOT_LUTS, "ACES_Proxy_10_to_ACES.cube")),
         )
 
@@ -100,13 +100,13 @@ class TestReadLUTResolveCube:
         assert LUT_1.comments == []
 
         LUT_2 = cast(
-            LUT3x1D, read_LUT_ResolveCube(os.path.join(ROOT_LUTS, "Demo.cube"))
+            "LUT3x1D", read_LUT_ResolveCube(os.path.join(ROOT_LUTS, "Demo.cube"))
         )
         assert LUT_2.comments == ["Comments can't go anywhere"]
         np.testing.assert_array_equal(LUT_2.domain, np.array([[0, 0, 0], [3, 3, 3]]))
 
         LUT_3 = cast(
-            LUT3D,
+            "LUT3D",
             read_LUT_ResolveCube(
                 os.path.join(ROOT_LUTS, "Three_Dimensional_Table.cube")
             ),
@@ -115,7 +115,7 @@ class TestReadLUTResolveCube:
         assert LUT_3.size == 2
 
         LUT_4 = cast(
-            LUTSequence,
+            "LUTSequence",
             read_LUT_ResolveCube(os.path.join(ROOT_LUTS, "LogC_Video.cube")),
         )
         np.testing.assert_allclose(
@@ -183,7 +183,7 @@ class TestWriteLUTResolveCube:
         assert LUT_1_r == LUT_1_t
 
         LUT_2_r = cast(
-            LUT3x1D, read_LUT_ResolveCube(os.path.join(ROOT_LUTS, "Demo.cube"))
+            "LUT3x1D", read_LUT_ResolveCube(os.path.join(ROOT_LUTS, "Demo.cube"))
         )
 
         write_LUT_ResolveCube(
@@ -191,7 +191,7 @@ class TestWriteLUTResolveCube:
         )
 
         LUT_2_t = cast(
-            LUT3x1D,
+            "LUT3x1D",
             read_LUT_ResolveCube(os.path.join(self._temporary_directory, "Demo.cube")),
         )
 
@@ -199,7 +199,7 @@ class TestWriteLUTResolveCube:
         assert LUT_2_r.comments == LUT_2_t.comments
 
         LUT_3_r = cast(
-            LUT3D,
+            "LUT3D",
             read_LUT_ResolveCube(
                 os.path.join(ROOT_LUTS, "Three_Dimensional_Table.cube")
             ),
@@ -211,7 +211,7 @@ class TestWriteLUTResolveCube:
         )
 
         LUT_3_t = cast(
-            LUT3D,
+            "LUT3D",
             read_LUT_ResolveCube(
                 os.path.join(self._temporary_directory, "Three_Dimensional_Table.cube")
             ),
@@ -219,7 +219,7 @@ class TestWriteLUTResolveCube:
         assert LUT_3_r == LUT_3_t
 
         LUT_4_r = cast(
-            LUTSequence,
+            "LUTSequence",
             read_LUT_ResolveCube(
                 os.path.join(ROOT_LUTS, "Three_Dimensional_Table_With_Shaper.cube")
             ),
@@ -238,7 +238,7 @@ class TestWriteLUTResolveCube:
         )
 
         LUT_4_t = cast(
-            LUTSequence,
+            "LUTSequence",
             read_LUT_ResolveCube(
                 os.path.join(
                     self._temporary_directory,
@@ -248,7 +248,7 @@ class TestWriteLUTResolveCube:
         )
 
         LUT_4_r = cast(
-            LUTSequence,
+            "LUTSequence",
             read_LUT_ResolveCube(
                 os.path.join(ROOT_LUTS, "Three_Dimensional_Table_With_Shaper.cube")
             ),
@@ -257,17 +257,17 @@ class TestWriteLUTResolveCube:
         assert LUT_4_r == LUT_4_t
 
         LUT_5_r = cast(
-            LUT3x1D,
+            "LUT3x1D",
             read_LUT_ResolveCube(os.path.join(ROOT_LUTS, "ACES_Proxy_10_to_ACES.cube")),
         )
 
         write_LUT_ResolveCube(
-            cast(LUT1D, LUT_5_r.convert(LUT1D, force_conversion=True)),
+            cast("LUT1D", LUT_5_r.convert(LUT1D, force_conversion=True)),
             os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"),
         )
 
         LUT_5_t = cast(
-            LUT3x1D,
+            "LUT3x1D",
             read_LUT_ResolveCube(
                 os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.cube")
             ),

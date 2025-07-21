@@ -41,7 +41,7 @@ class TestPlotHullSectionColours:
         if not is_trimesh_installed():  # pragma: no cover
             return
 
-        import trimesh
+        import trimesh  # noqa: PLC0415
 
         vertices, faces, _outline = primitive_cube(1, 1, 1, 64, 64, 64)
         XYZ_vertices = RGB_to_XYZ(vertices["position"] + 0.5, RGB_COLOURSPACE_sRGB)
@@ -78,7 +78,7 @@ class TestPlotHullSectionContour:
         if not is_trimesh_installed():  # pragma: no cover
             return
 
-        import trimesh
+        import trimesh  # noqa: PLC0415
 
         vertices, faces, _outline = primitive_cube(1, 1, 1, 64, 64, 64)
         XYZ_vertices = RGB_to_XYZ(vertices["position"] + 0.5, RGB_COLOURSPACE_sRGB)

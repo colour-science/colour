@@ -390,7 +390,7 @@ def generate_illuminants_rawtoaces_v1() -> CanonicalMapping:
 
         # Blackbody from 1000K to 4000K.
         for i in np.arange(1000, 4000, 500):
-            sd = sd_blackbody(cast(float, i), SPECTRAL_SHAPE_RAWTOACES)
+            sd = sd_blackbody(cast("float", i), SPECTRAL_SHAPE_RAWTOACES)
             illuminants[sd.name] = sd
 
         # A.M.P.A.S. variant of ISO 7589 Studio Tungsten.
@@ -498,7 +498,7 @@ def best_illuminant(
             sse = sse_c
             illuminant_b = illuminant
 
-    return cast(SpectralDistribution, illuminant_b)
+    return cast("SpectralDistribution", illuminant_b)
 
 
 def normalise_illuminant(
@@ -733,9 +733,9 @@ def whitepoint_preserving_matrix(
     return M
 
 
-def optimisation_factory_rawtoaces_v1() -> (
-    Tuple[NDArrayFloat, Callable, Callable, Callable]
-):
+def optimisation_factory_rawtoaces_v1() -> Tuple[
+    NDArrayFloat, Callable, Callable, Callable
+]:
     """
     Produce the objective function and *CIE XYZ* colourspace to optimisation
     colourspace/colour model function according to *RAW to ACES* v1.
@@ -860,9 +860,9 @@ finaliser_function at 0x...>)
     )
 
 
-def optimisation_factory_Oklab_15() -> (
-    Tuple[NDArrayFloat, Callable, Callable, Callable]
-):
+def optimisation_factory_Oklab_15() -> Tuple[
+    NDArrayFloat, Callable, Callable, Callable
+]:
     """
     Produce the objective function and *CIE XYZ* colourspace to optimisation
     colourspace/colour model function based on the *Oklab* colourspace.

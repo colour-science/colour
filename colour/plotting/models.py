@@ -53,7 +53,6 @@ from matplotlib.path import Path
 
 from colour.adaptation import chromatic_adaptation_VonKries
 from colour.algebra import normalise_maximum
-from colour.colorimetry import MultiSpectralDistributions
 from colour.constants import DTYPE_FLOAT_DEFAULT, EPSILON
 from colour.geometry import (
     ellipse_coefficients_canonical_form,
@@ -65,6 +64,7 @@ from colour.graph import convert
 if typing.TYPE_CHECKING:
     from matplotlib.axes import Axes
     from matplotlib.figure import Figure
+    from colour.colorimetry import MultiSpectralDistributions
     from colour.hints import (
         Any,
         ArrayLike,
@@ -535,7 +535,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
     method = validate_method(method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"))
 
     colourspaces = cast(
-        List[RGB_Colourspace],
+        "List[RGB_Colourspace]",
         list(filter_RGB_colourspaces(colourspaces).values()),
     )  # pyright: ignore
 
@@ -544,7 +544,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
 
     _figure, axes = artist(**settings)
 
-    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
+    cmfs = cast("MultiSpectralDistributions", first_item(filter_cmfs(cmfs).values()))
 
     title = (
         f"{', '.join([colourspace.name for colourspace in colourspaces])}\n"
@@ -632,10 +632,10 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
             W_p = np.vstack([W, W])
             axes.plot(W_p[..., 0], W_p[..., 1], **plot_settings)
 
-        x_limit_min.append(cast(float, np.amin(P[..., 0]) - 0.1))
-        y_limit_min.append(cast(float, np.amin(P[..., 1]) - 0.1))
-        x_limit_max.append(cast(float, np.amax(P[..., 0]) + 0.1))
-        y_limit_max.append(cast(float, np.amax(P[..., 1]) + 0.1))
+        x_limit_min.append(cast("float", np.amin(P[..., 0]) - 0.1))
+        y_limit_min.append(cast("float", np.amin(P[..., 1]) - 0.1))
+        x_limit_max.append(cast("float", np.amax(P[..., 0]) + 0.1))
+        y_limit_max.append(cast("float", np.amax(P[..., 1]) + 0.1))
 
     bounding_box = (
         min(x_limit_min),
@@ -1034,7 +1034,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
     settings.update({"axes": axes, "show": False})
 
     colourspace = cast(
-        RGB_Colourspace,
+        "RGB_Colourspace",
         first_item(filter_RGB_colourspaces(colourspace).values()),
     )
 

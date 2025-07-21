@@ -186,7 +186,7 @@ def plot_single_sd(
 
     _figure, axes = artist(**kwargs)
 
-    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
+    cmfs = cast("MultiSpectralDistributions", first_item(filter_cmfs(cmfs).values()))
 
     sd = sd.copy()
     sd.interpolator = LinearInterpolator
@@ -388,11 +388,11 @@ def plot_multi_sds(
         plot_settings = plot_settings_collection[i]
 
         cmfs = cast(
-            MultiSpectralDistributions,
+            "MultiSpectralDistributions",
             first_item(filter_cmfs(plot_settings.pop("cmfs")).values()),
         )
         illuminant = cast(
-            SpectralDistribution,
+            "SpectralDistribution",
             first_item(filter_illuminants(plot_settings.pop("illuminant")).values()),
         )
         normalise_sd_colours = plot_settings.pop("normalise_sd_colours")
@@ -475,7 +475,7 @@ def plot_single_cmfs(
         :alt: plot_single_cmfs
     """
 
-    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
+    cmfs = cast("MultiSpectralDistributions", first_item(filter_cmfs(cmfs).values()))
 
     settings: Dict[str, Any] = {
         "title": f"{cmfs.display_name} - Colour Matching Functions"
@@ -527,7 +527,7 @@ def plot_multi_cmfs(
         :alt: plot_multi_cmfs
     """
 
-    cmfs = cast(List[MultiSpectralDistributions], list(filter_cmfs(cmfs).values()))  # pyright: ignore
+    cmfs = cast("List[MultiSpectralDistributions]", list(filter_cmfs(cmfs).values()))  # pyright: ignore
 
     _figure, axes = artist(**kwargs)
 
@@ -629,12 +629,12 @@ def plot_single_illuminant_sd(
         :alt: plot_single_illuminant_sd
     """
 
-    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
+    cmfs = cast("MultiSpectralDistributions", first_item(filter_cmfs(cmfs).values()))
 
     title = f"Illuminant {illuminant} - {cmfs.display_name}"
 
     illuminant = cast(
-        SpectralDistribution,
+        "SpectralDistribution",
         first_item(filter_illuminants(illuminant).values()),
     )
 
@@ -693,7 +693,7 @@ def plot_multi_illuminant_sds(
             kwargs["plot_kwargs"][i]["illuminant"] = SD_E
 
     illuminants = cast(
-        List[SpectralDistribution],
+        "List[SpectralDistribution]",
         list(filter_illuminants(illuminants).values()),
     )  # pyright: ignore
 
@@ -763,7 +763,7 @@ def plot_visible_spectrum(
         :alt: plot_visible_spectrum
     """
 
-    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
+    cmfs = cast("MultiSpectralDistributions", first_item(filter_cmfs(cmfs).values()))
 
     bounding_box = (min(cmfs.wavelengths), max(cmfs.wavelengths), 0, 1)
 
@@ -1034,7 +1034,7 @@ def plot_blackbody_spectral_radiance(
 
     figure.subplots_adjust(hspace=CONSTANTS_COLOUR_STYLE.geometry.short / 2)
 
-    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
+    cmfs = cast("MultiSpectralDistributions", first_item(filter_cmfs(cmfs).values()))
 
     sd = sd_blackbody(temperature, cmfs.shape)
 
@@ -1127,7 +1127,7 @@ def plot_blackbody_colours(
 
     _figure, axes = artist(**kwargs)
 
-    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
+    cmfs = cast("MultiSpectralDistributions", first_item(filter_cmfs(cmfs).values()))
 
     RGB = []
     temperatures = []

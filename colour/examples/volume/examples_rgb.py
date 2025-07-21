@@ -21,8 +21,7 @@ if __name__ == "__main__":
 
     samples = int(10e4)
     message_box(
-        f'Compute the "ProPhoto RGB" RGB colourspace volume using {samples} '
-        f"samples."
+        f'Compute the "ProPhoto RGB" RGB colourspace volume using {samples} samples.'
     )
     print(
         colour.RGB_colourspace_volume_MonteCarlo(

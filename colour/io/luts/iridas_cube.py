@@ -274,8 +274,7 @@ def write_LUT_IridasCube(
         cube_file.write(f'TITLE "{LUTxD.name}"\n')
 
         if LUTxD.comments:
-            for comment in LUTxD.comments:
-                cube_file.write(f"# {comment}\n")
+            cube_file.writelines(f"# {comment}\n" for comment in LUTxD.comments)
 
         cube_file.write(
             f"{'LUT_1D_SIZE' if is_3x1D else 'LUT_3D_SIZE'} {LUTxD.table.shape[0]}\n"
@@ -294,7 +293,8 @@ def write_LUT_IridasCube(
             np.reshape(LUTxD.table, (-1, 3), order="F") if not is_3x1D else LUTxD.table
         )
 
-        for array in table:
-            cube_file.write(f"{format_array_as_row(array, decimals)}\n")
+        cube_file.writelines(
+            f"{format_array_as_row(array, decimals)}\n" for array in table
+        )
 
     return True

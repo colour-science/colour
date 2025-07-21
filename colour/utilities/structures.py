@@ -512,6 +512,8 @@ class CanonicalMapping(MutableMapping):
 
         return len(self._data)
 
+    __hash__ = None
+
     def __eq__(self, other: object) -> bool:
         """
         Return whether the delimiter and case-insensitive :class:`dict`-like
@@ -572,7 +574,7 @@ class CanonicalMapping(MutableMapping):
         keys
         """
 
-        from colour.utilities import usage_warning
+        from colour.utilities import usage_warning  # noqa: PLC0415
 
         collisions = [key for (key, value) in Counter(keys).items() if value > 1]
 
@@ -638,7 +640,7 @@ class CanonicalMapping(MutableMapping):
             Item generator.
         """
 
-        from colour.utilities import slugify
+        from colour.utilities import slugify  # noqa: PLC0415
 
         slugified_keys = [slugify(key) for key in self.lower_keys()]
 
@@ -744,7 +746,7 @@ class LazyCanonicalMapping(CanonicalMapping):
             Item value.
         """
 
-        import colour
+        import colour  # noqa: PLC0415
 
         value = super().__getitem__(item)
 

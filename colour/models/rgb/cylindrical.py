@@ -521,7 +521,7 @@ def HCL_to_RGB(HCL: ArrayLike, gamma: float = 3, Y_0: float = 100) -> NDArrayFlo
     def _1_2_3(a: ArrayLike) -> NDArrayFloat:
         """Tail-stack specified :math:`a` array as a *bool* dtype."""
 
-        return tstack(cast(ArrayLike, [a, a, a]), dtype=np.bool_)
+        return tstack(cast("ArrayLike", [a, a, a]), dtype=np.bool_)
 
     with sdiv_mode():
         RGB = np.select(

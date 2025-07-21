@@ -1147,7 +1147,7 @@ def generate_documentation_plots(output_directory: str) -> None:
     arguments["filename"] = os.path.join(
         output_directory, "Tutorial_CIE_1931_Chromaticity_Diagram.png"
     )
-    xy = cast(tuple[float, float], XYZ_to_xy(XYZ))
+    xy = cast("tuple[float, float]", XYZ_to_xy(XYZ))
     plot_chromaticity_diagram_CIE1931(standalone=False)
     plt.plot(xy[0], xy[1], "o-", color="white")
     # Annotating the plot.

@@ -586,7 +586,7 @@ SpectralDistribution_IESTM2714(...,
         """
 
         sd = cast(
-            SpectralDistribution_IESTM2714,
+            "SpectralDistribution_IESTM2714",
             optional(
                 sd,
                 SpectralDistribution_IESTM2714(

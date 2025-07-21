@@ -413,9 +413,9 @@ class Dataset_Otsu2018:
                         self._shape.interval,
                     ]
                 ),
-                basis_functions=cast(NDArrayFloat, self._basis_functions),
-                means=cast(NDArrayFloat, self._means),
-                selector_array=cast(NDArrayFloat, self._selector_array),
+                basis_functions=cast("NDArrayFloat", self._basis_functions),
+                means=cast("NDArrayFloat", self._means),
+                selector_array=cast("NDArrayFloat", self._selector_array),
             )
         else:
             error = 'The "shape" is undefined!'
@@ -857,14 +857,14 @@ class Data_Otsu2018:
         ):
             mask = self._xy[:, axis.direction] <= axis.origin
 
-            lesser._reflectances = self._reflectances[mask, :]  # noqa: SLF001
-            greater._reflectances = self._reflectances[~mask, :]  # noqa: SLF001
+            lesser._reflectances = self._reflectances[mask, :]
+            greater._reflectances = self._reflectances[~mask, :]
 
-            lesser._XYZ = self._XYZ[mask, :]  # noqa: SLF001
-            greater._XYZ = self._XYZ[~mask, :]  # noqa: SLF001
+            lesser._XYZ = self._XYZ[mask, :]
+            greater._XYZ = self._XYZ[~mask, :]
 
-            lesser._xy = self._xy[mask, :]  # noqa: SLF001
-            greater._xy = self._xy[~mask, :]  # noqa: SLF001
+            lesser._xy = self._xy[mask, :]
+            greater._xy = self._xy[~mask, :]
 
             return lesser, greater
 
@@ -887,7 +887,7 @@ class Data_Otsu2018:
 
             self._mean = np.mean(self._reflectances, axis=0)
             self._XYZ_mu = (
-                msds_to_XYZ_integration(cast(NDArrayFloat, self._mean), **settings)
+                msds_to_XYZ_integration(cast("NDArrayFloat", self._mean), **settings)
                 / 100
             )
 
@@ -980,7 +980,7 @@ class Data_Otsu2018:
                 XYZ = self._XYZ[i, :]
                 recovered_sd = self.reconstruct(XYZ)
                 reconstruction_error += cast(
-                    float, np.sum((sd - recovered_sd.values) ** 2)
+                    "float", np.sum((sd - recovered_sd.values) ** 2)
                 )
 
             self._reconstruction_error = reconstruction_error
@@ -1477,7 +1477,7 @@ the initial error.
 
         default_cluster_size = len(self.data) / iterations // 2
         minimum_cluster_size = max(
-            cast(int, optional(minimum_cluster_size, default_cluster_size)), 3
+            cast("int", optional(minimum_cluster_size, default_cluster_size)), 3
         )
 
         initial_branch_error = self.branch_reconstruction_error()
@@ -1601,7 +1601,7 @@ the initial error.
 
                 return data
 
-            data = cast(dict, add_rows(self))
+            data = cast("dict", add_rows(self))
             rows = data["rows"]
 
             for i, row in enumerate(rows):

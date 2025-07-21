@@ -778,7 +778,7 @@ def full_chromatic_adaptation_forward(
     with sdiv_mode():
         RGB_c = (Y_w[..., None] * sdiv(D[..., None], RGB_w) + 1 - D[..., None]) * RGB
 
-    return cast(NDArrayFloat, RGB_c)
+    return cast("NDArrayFloat", RGB_c)
 
 
 def full_chromatic_adaptation_inverse(
@@ -826,7 +826,7 @@ def full_chromatic_adaptation_inverse(
     with sdiv_mode():
         RGB_c = RGB / (Y_w[..., None] * sdiv(D[..., None], RGB_w) + 1 - D[..., None])
 
-    return cast(NDArrayFloat, RGB_c)
+    return cast("NDArrayFloat", RGB_c)
 
 
 def RGB_to_rgb(RGB: ArrayLike) -> NDArrayFloat:

@@ -246,7 +246,10 @@ def XYZ_to_UCS_Li2017(
     array([ 46.0658603...,  41.0758649...,  14.5102582...])
     """
 
-    from colour.appearance import CAM_KWARGS_CIECAM02_sRGB, XYZ_to_CAM16
+    from colour.appearance import (  # noqa: PLC0415
+        CAM_KWARGS_CIECAM02_sRGB,
+        XYZ_to_CAM16,
+    )
 
     domain_range_reference = get_domain_range_scale() == "reference"
 
@@ -262,9 +265,9 @@ def XYZ_to_UCS_Li2017(
     specification = XYZ_to_CAM16(XYZ, **settings)
     JMh = tstack(
         [
-            cast(NDArrayFloat, specification.J),
-            cast(NDArrayFloat, specification.M),
-            cast(NDArrayFloat, specification.h),
+            cast("NDArrayFloat", specification.J),
+            cast("NDArrayFloat", specification.M),
+            cast("NDArrayFloat", specification.h),
         ]
     )
 
@@ -342,7 +345,7 @@ def UCS_Li2017_to_XYZ(
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 
-    from colour.appearance import (
+    from colour.appearance import (  # noqa: PLC0415
         CAM16_to_XYZ,
         CAM_KWARGS_CIECAM02_sRGB,
         CAM_Specification_CAM16,

@@ -888,7 +888,7 @@ class TestPortGraph:
         if not is_pydot_installed():
             return
 
-        import pydot
+        import pydot  # noqa: PLC0415
 
         assert isinstance(self._graph.to_graphviz(), pydot.Dot)
 

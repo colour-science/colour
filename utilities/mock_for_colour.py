@@ -25,7 +25,7 @@ __all__ = [
 def mock_scipy_for_colour() -> None:
     """Mock *Scipy* for *Colour*."""
 
-    import sys
+    import sys  # noqa: PLC0415
 
     for module in (
         "scipy",

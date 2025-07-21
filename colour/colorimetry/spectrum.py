@@ -394,7 +394,7 @@ class SpectralShape:
         False
         """
 
-        decimals = np.finfo(cast(Any, DTYPE_FLOAT_DEFAULT)).precision
+        decimals = np.finfo(cast("Any", DTYPE_FLOAT_DEFAULT)).precision
 
         return bool(
             np.all(
@@ -531,7 +531,7 @@ class SpectralShape:
         _CACHE_SHAPE_RANGE[hash_key] = range_
 
         if interval_effective != self._interval:
-            self._interval = cast(float, interval_effective)
+            self._interval = cast("float", interval_effective)
             runtime_warning(
                 f'"{(start, end, interval)}" shape could not be honoured, '
                 f'using "{self}"!'
@@ -717,7 +717,7 @@ class SpectralDistribution(Signal):
         """Invalidate *sd._shape* when *sd._domain* is changed."""
 
         if name == "_domain":
-            sd._shape = None  # noqa: SLF001
+            sd._shape = None
 
         return value
 
@@ -1883,8 +1883,7 @@ class MultiSpectralDistributions(MultiSignals):
 
         attest(
             is_iterable(value),
-            f'"display_labels" property: "{value}" is not an "iterable" like '
-            f"object!",
+            f'"display_labels" property: "{value}" is not an "iterable" like object!',
         )
 
         attest(
@@ -1899,7 +1898,7 @@ class MultiSpectralDistributions(MultiSignals):
 
         self._display_labels = [str(label) for label in value]
         for i, signal in enumerate(self.signals.values()):
-            cast(SpectralDistribution, signal).display_name = self._display_labels[i]
+            cast("SpectralDistribution", signal).display_name = self._display_labels[i]
 
     @property
     def wavelengths(self) -> NDArrayFloat:
@@ -2217,7 +2216,7 @@ class MultiSpectralDistributions(MultiSignals):
         """
 
         for signal in self.signals.values():
-            cast(SpectralDistribution, signal).interpolate(
+            cast("SpectralDistribution", signal).interpolate(
                 shape, interpolator, interpolator_kwargs
             )
 
@@ -2303,7 +2302,7 @@ class MultiSpectralDistributions(MultiSignals):
         """
 
         for signal in self.signals.values():
-            cast(SpectralDistribution, signal).extrapolate(
+            cast("SpectralDistribution", signal).extrapolate(
                 shape, extrapolator, extrapolator_kwargs
             )
 
@@ -2451,7 +2450,7 @@ class MultiSpectralDistributions(MultiSignals):
         """
 
         for signal in self.signals.values():
-            cast(SpectralDistribution, signal).align(
+            cast("SpectralDistribution", signal).align(
                 shape,
                 interpolator,
                 interpolator_kwargs,
@@ -2536,7 +2535,7 @@ class MultiSpectralDistributions(MultiSignals):
         """
 
         for signal in self.signals.values():
-            cast(SpectralDistribution, signal).trim(shape)
+            cast("SpectralDistribution", signal).trim(shape)
 
         return self
 
@@ -2585,7 +2584,7 @@ class MultiSpectralDistributions(MultiSignals):
         """
 
         for signal in self.signals.values():
-            cast(SpectralDistribution, signal).normalise(factor)
+            cast("SpectralDistribution", signal).normalise(factor)
 
         return self
 
@@ -2639,7 +2638,7 @@ class MultiSpectralDistributions(MultiSignals):
         """
 
         return [
-            cast(SpectralDistribution, signal.copy())
+            cast("SpectralDistribution", signal.copy())
             for signal in self.signals.values()
         ]
 

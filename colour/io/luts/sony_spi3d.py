@@ -228,7 +228,6 @@ def write_LUT_SonySPI3D(
             spi3d_file.write(f" {format_array_as_row(table[i], decimals)}\n")
 
         if LUTxD.comments:
-            for comment in LUTxD.comments:
-                spi3d_file.write(f"# {comment}\n")
+            spi3d_file.writelines(f"# {comment}\n" for comment in LUTxD.comments)
 
     return True

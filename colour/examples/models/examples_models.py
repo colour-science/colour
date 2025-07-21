@@ -418,8 +418,7 @@ print("\n")
 
 Lab = np.array([0.51634019, 0.15469500, 0.06289579])
 message_box(
-    f'Converting to "CIE XYZ" tristimulus values from "Oklab" colourspace:\n\n'
-    f"\t{Lab}"
+    f'Converting to "CIE XYZ" tristimulus values from "Oklab" colourspace:\n\n\t{Lab}'
 )
 print(colour.Oklab_to_XYZ(Lab))
 

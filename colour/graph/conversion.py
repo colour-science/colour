@@ -291,9 +291,9 @@ def CIECAM02_to_JMh_CIECAM02(
 
     return tstack(
         [
-            cast(NDArrayFloat, specification.J),
-            cast(NDArrayFloat, specification.M),
-            cast(NDArrayFloat, specification.h),
+            cast("NDArrayFloat", specification.J),
+            cast("NDArrayFloat", specification.M),
+            cast("NDArrayFloat", specification.h),
         ]
     )
 
@@ -1120,7 +1120,7 @@ def _build_graph() -> networkx.DiGraph:  # pyright: ignore  # noqa: F821
          Automatic colour conversion graph.
     """
 
-    import networkx as nx
+    import networkx as nx  # noqa: PLC0415
 
     graph = nx.DiGraph()
 
@@ -1165,7 +1165,7 @@ def _conversion_path(source: str, target: str) -> List[Callable]:
 <function UCS_to_uv at 0x...>, <function uv_to_CCT at 0x...>]
     """
 
-    import networkx as nx
+    import networkx as nx  # noqa: PLC0415
 
     global CONVERSION_GRAPH  # noqa: PLW0603
 
@@ -1173,7 +1173,7 @@ def _conversion_path(source: str, target: str) -> List[Callable]:
         # Updating the :attr:`CONVERSION_GRAPH` attributes.
         colour.graph.CONVERSION_GRAPH = CONVERSION_GRAPH = _build_graph()
 
-    path = nx.shortest_path(cast(nx.DiGraph, CONVERSION_GRAPH), source, target)
+    path = nx.shortest_path(cast("nx.DiGraph", CONVERSION_GRAPH), source, target)
 
     return [
         CONVERSION_GRAPH.get_edge_data(a, b)["conversion_function"]  # pyright: ignore
