@@ -11,9 +11,9 @@ Machado, Oliveira and Fernandes (2009)
 .. autosummary::
     :toctree: generated/
 
-    msds_cmfs_anomalous_trichromacy_Machado2009
     matrix_anomalous_trichromacy_Machado2009
     matrix_cvd_Machado2009
+    msds_cmfs_anomalous_trichromacy_Machado2009
 
 **Dataset**
 

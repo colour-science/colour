@@ -299,7 +299,7 @@ def plot_single_sd_colour_rendition_report_full(
 Plot_Single_SD_Colour_Rendition_Report_Full.png
         :align: center
         :alt: plot_single_sd_colour_rendition_report_full
-    """  # noqa: D405, D407, D410, D411
+    """
 
     report_box_padding = optional(report_box_padding, CONSTANT_REPORT_PADDING_FULL)
 

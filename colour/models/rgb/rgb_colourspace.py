@@ -911,7 +911,7 @@ class RGB_Colourspace:
 
         colourspace.name = (
             f"{colourspace.name} - Chromatically Adapted to "
-            f"{cast(str, optional(whitepoint_name, whitepoint))!r}"
+            f"{cast('str', optional(whitepoint_name, whitepoint))!r}"
         )
 
         return colourspace
@@ -1002,7 +1002,7 @@ def XYZ_to_RGB(
     array([ 0.4559528...,  0.0304078...,  0.0408731...])
     """
 
-    from colour.models import RGB_COLOURSPACES
+    from colour.models import RGB_COLOURSPACES  # noqa: PLC0415
 
     XYZ = to_domain_1(XYZ)
 
@@ -1136,7 +1136,7 @@ def RGB_to_XYZ(
     array([ 0.2163881...,  0.1257    ,  0.0384749...])
     """
 
-    from colour.models import RGB_COLOURSPACES
+    from colour.models import RGB_COLOURSPACES  # noqa: PLC0415
 
     RGB = to_domain_1(RGB)
 
@@ -1242,7 +1242,7 @@ def matrix_RGB_to_RGB(
            [ 0.0163599...,  0.1066124...,  0.8772485...]])
     """
 
-    from colour.models import RGB_COLOURSPACES
+    from colour.models import RGB_COLOURSPACES  # noqa: PLC0415
 
     if isinstance(input_colourspace, str):
         input_colourspace = validate_method(
@@ -1250,7 +1250,7 @@ def matrix_RGB_to_RGB(
             tuple(RGB_COLOURSPACES),
             '"{0}" "RGB" colourspace is invalid, it must be one of {1}!',
         )
-        input_colourspace = cast(RGB_Colourspace, RGB_COLOURSPACES[input_colourspace])
+        input_colourspace = cast("RGB_Colourspace", RGB_COLOURSPACES[input_colourspace])
 
     if isinstance(output_colourspace, str):
         output_colourspace = validate_method(
@@ -1258,7 +1258,9 @@ def matrix_RGB_to_RGB(
             tuple(RGB_COLOURSPACES),
             '"{0}" "RGB" colourspace is invalid, it must be one of {1}!',
         )
-        output_colourspace = cast(RGB_Colourspace, RGB_COLOURSPACES[output_colourspace])
+        output_colourspace = cast(
+            "RGB_Colourspace", RGB_COLOURSPACES[output_colourspace]
+        )
 
     M = input_colourspace.matrix_RGB_to_XYZ
 
@@ -1346,7 +1348,7 @@ def RGB_to_RGB(
     array([ 0.2568891...,  0.0721446...,  0.0465553...])
     """
 
-    from colour.models import RGB_COLOURSPACES
+    from colour.models import RGB_COLOURSPACES  # noqa: PLC0415
 
     if isinstance(input_colourspace, str):
         input_colourspace = validate_method(
@@ -1354,7 +1356,7 @@ def RGB_to_RGB(
             tuple(RGB_COLOURSPACES),
             '"{0}" "RGB" colourspace is invalid, it must be one of {1}!',
         )
-        input_colourspace = cast(RGB_Colourspace, RGB_COLOURSPACES[input_colourspace])
+        input_colourspace = cast("RGB_Colourspace", RGB_COLOURSPACES[input_colourspace])
 
     if isinstance(output_colourspace, str):
         output_colourspace = validate_method(
@@ -1362,7 +1364,9 @@ def RGB_to_RGB(
             tuple(RGB_COLOURSPACES),
             '"{0}" "RGB" colourspace is invalid, it must be one of {1}!',
         )
-        output_colourspace = cast(RGB_Colourspace, RGB_COLOURSPACES[output_colourspace])
+        output_colourspace = cast(
+            "RGB_Colourspace", RGB_COLOURSPACES[output_colourspace]
+        )
 
     RGB = to_domain_1(RGB)
 

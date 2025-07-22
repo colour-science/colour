@@ -140,7 +140,7 @@ def PCA_Jiang2013(
     ) -> NDArrayFloat:
         """Generate a normalised camera *RGB* sensitivity."""
 
-        sensitivity = cast(SpectralDistribution, msds.signals[channel].copy())
+        sensitivity = cast("SpectralDistribution", msds.signals[channel].copy())
 
         return sensitivity.normalise().values
 

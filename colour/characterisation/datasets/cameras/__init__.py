@@ -25,5 +25,5 @@ References
 """
 
 __all__ = [
-    "MSDS_CAMERA_SENSITIVITIES",
+    "MSDS_CAMERA_SENSITIVITIES_DSLR",
 ]

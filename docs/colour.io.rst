@@ -11,10 +11,10 @@ Image IO
 .. autosummary::
     :toctree: generated/
 
-    READ_IMAGE_METHODS
     read_image
-    WRITE_IMAGE_METHODS
+    READ_IMAGE_METHODS
     write_image
+    WRITE_IMAGE_METHODS
 
 **Ancillary Objects**
 
@@ -25,15 +25,15 @@ Image IO
 .. autosummary::
     :toctree: generated/
 
-    Image_Specification_Attribute
-    MAPPING_BIT_DEPTH
-    image_specification_OpenImageIO
-    convert_bit_depth
-    read_image_OpenImageIO
-    write_image_OpenImageIO
-    read_image_Imageio
-    write_image_Imageio
     as_3_channels_image
+    convert_bit_depth
+    Image_Specification_Attribute
+    image_specification_OpenImageIO
+    MAPPING_BIT_DEPTH
+    read_image_Imageio
+    read_image_OpenImageIO
+    write_image_Imageio
+    write_image_OpenImageIO
 
 Spectral Image - Fichet et al. (2021)
 =====================================
@@ -45,8 +45,8 @@ Spectral Image - Fichet et al. (2021)
 .. autosummary::
     :toctree: generated/
 
-    Specification_Fichet2021
     read_spectral_image_Fichet2021
+    Specification_Fichet2021
     write_spectral_image_Fichet2021
 
 **Ancillary Objects**
@@ -86,8 +86,8 @@ Look Up Table (LUT) Data
     :template: class.rst
 
     LUT1D
-    LUT3x1D
     LUT3D
+    LUT3x1D
     LUTOperatorMatrix
     LUTSequence
 
@@ -114,12 +114,12 @@ Look Up Table (LUT) Data
 
     LUT_to_LUT
     read_LUT_Cinespace
-    write_LUT_Cinespace
     read_LUT_IridasCube
-    write_LUT_IridasCube
     read_LUT_SonySPI1D
-    write_LUT_SonySPI1D
     read_LUT_SonySPI3D
+    write_LUT_Cinespace
+    write_LUT_IridasCube
+    write_LUT_SonySPI1D
     write_LUT_SonySPI3D
 
 CSV Tabular Data
@@ -161,8 +161,8 @@ UPRTek and Sekonic Spectral Data
     :toctree: generated/
     :template: class.rst
 
-    SpectralDistribution_UPRTek
     SpectralDistribution_Sekonic
+    SpectralDistribution_UPRTek
 
 X-Rite Data
 -----------

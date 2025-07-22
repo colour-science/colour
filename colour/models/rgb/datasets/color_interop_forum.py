@@ -135,6 +135,7 @@ RGB_COLOURSPACE_LIN_ADOBERGB_SCENE.name = "Linear AdobeRGB"
 RGB_COLOURSPACE_LIN_ADOBERGB_SCENE.__doc__ = """
 *Linear AdobeRGB* colourspace.
 
+References
 ----------
 :cite:`ASWFColorInteropForum2024`
 """
@@ -148,8 +149,8 @@ RGB_COLOURSPACE_LIN_CIEXYZD65_SCENE: RGB_Colourspace = RGB_Colourspace(
             [0.0, 0.0],
         ]
     ),
-    CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"],
-    "D65",
+    CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["E"],
+    "E",
     cctf_encoding=linear_function,
     cctf_decoding=linear_function,
     use_derived_matrix_RGB_to_XYZ=True,
@@ -166,6 +167,7 @@ spectral material models, diffraction effects, etc. When such data is used,
 this colourspace provides a bridge to convert it into one of the other
 colourspace encodings.
 
+References
 ----------
 :cite:`ASWFColorInteropForum2024`
 """
@@ -177,6 +179,7 @@ RGB_COLOURSPACE_SRGB_REC709_SCENE.name = "sRGB Encoded Rec.709 (sRGB)"
 RGB_COLOURSPACE_SRGB_REC709_SCENE.__doc__ = """
 *sRGB Encoded Rec.709 (sRGB)* colourspace.
 
+References
 ----------
 :cite:`ASWFColorInteropForum2024`
 """
@@ -190,6 +193,7 @@ RGB_COLOURSPACE_G22_REC709_SCENE.name = "Gamma 2.2 Encoded Rec.709"
 RGB_COLOURSPACE_G22_REC709_SCENE.__doc__ = """
 *Gamma 2.2 Encoded Rec.709* colourspace.
 
+References
 ----------
 :cite:`ASWFColorInteropForum2024`
 """
@@ -203,6 +207,7 @@ RGB_COLOURSPACE_G18_REC709_SCENE.name = "Gamma 1.8 Encoded Rec.709"
 RGB_COLOURSPACE_G18_REC709_SCENE.__doc__ = """
 *Gamma 1.8 Encoded Rec.709* colourspace.
 
+References
 ----------
 :cite:`ASWFColorInteropForum2024`
 """
@@ -218,6 +223,7 @@ This colourspace is used in game engines that implement texture decoding on the
 GPU using the sRGB piece-wise transfer function and when the working
 colourspace is *ACEScg*.
 
+References
 ----------
 :cite:`ASWFColorInteropForum2024`
 """
@@ -229,6 +235,7 @@ RGB_COLOURSPACE_G22_AP1_SCENE.name = "Gamma 2.2 Encoded AP1"
 RGB_COLOURSPACE_G22_AP1_SCENE.__doc__ = """
 *Gamma 2.2 Encoded AP1* colourspace.
 
+References
 ----------
 :cite:`ASWFColorInteropForum2024`
 """
@@ -238,6 +245,7 @@ RGB_COLOURSPACE_SRGB_P3D65_SCENE.name = "sRGB Encoded P3-D65"
 RGB_COLOURSPACE_SRGB_P3D65_SCENE.__doc__ = """
 *sRGB Encoded P3-D65* colourspace.
 
+References
 ----------
 :cite:`ASWFColorInteropForum2024`
 """
@@ -253,6 +261,7 @@ RGB_COLOURSPACE_G22_ADOBERGB_SCENE.name = "Gamma 2.2 Encoded AdobeRGB"
 RGB_COLOURSPACE_G22_ADOBERGB_SCENE.__doc__ = """
 *Gamma 2.2 Encoded AdobeRGB* colourspace.
 
+References
 ----------
 :cite:`ASWFColorInteropForum2024`
 """

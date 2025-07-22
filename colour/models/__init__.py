@@ -316,6 +316,7 @@ from .rgb import (
     RGB_COLOURSPACE_FILMLIGHT_E_GAMUT,
     RGB_COLOURSPACE_FILMLIGHT_E_GAMUT_2,
     RGB_COLOURSPACE_F_GAMUT,
+    RGB_COLOURSPACE_F_GAMUT_C,
     RGB_COLOURSPACE_G18_REC709_SCENE,
     RGB_COLOURSPACE_G22_ADOBERGB_SCENE,
     RGB_COLOURSPACE_G22_AP1_SCENE,
@@ -392,82 +393,7 @@ from .rgb import (
     describe_video_signal_matrix_coefficients,
 )
 
-__all__ = []
-
-# Programmatically defining the colourspace models polar conversions.
-COLOURSPACE_MODELS_POLAR_CONVERSIONS = (
-    ("hdr_CIELab", "hdr_CIELCHab"),
-    ("hdr_IPT", "hdr_ICH"),
-    ("Hunter_Lab", "Hunter_LCHab"),
-    ("Hunter_Rdab", "Hunter_RdCHab"),
-    ("ICaCb", "ICHab"),
-    ("ICtCp", "ICHtp"),
-    ("IPT", "ICH"),
-    ("IPT_Ragoo2021", "ICH_Ragoo2021"),
-    ("IgPgTg", "IgCHpt"),
-    ("Izazbz", "IzCHab"),
-    ("Jzazbz", "JzCHab"),
-    ("Lab", "LCHab"),
-    ("Luv", "LCHuv"),
-    ("Oklab", "Oklch"),
-    ("ProLab", "ProLCHab"),
-    ("sUCS", "sUCSICH"),
-)
-
-_DOCSTRING_JAB_TO_JCH = """
-Convert from *{Jab}* colourspace to *{JCh}* colourspace.
-
-This is a convenient definition wrapping :func:`colour.models.Jab_to_JCh`
-definition.
-
-Parameters
-----------
-Jab
-    *{Jab}* colourspace array.
-
-Returns
--------
-:class:`numpy.ndarray`
-    *{JCh}* colourspace array.
-"""
-
-_DOCSTRING_JCH_TO_JAB = """
-Convert from *{JCh}* colourspace to *{Jab}* colourspace.
-
-This is a convenient definition wrapping :func:`colour.models.JCh_to_Jab`
-definition.
-
-Parameters
-----------
-JCh
-    *{JCh}* colourspace array.
-
-Returns
--------
-:class:`numpy.ndarray`
-    *{Jab}* colourspace array.
-"""
-
-for _Jab, _JCh in COLOURSPACE_MODELS_POLAR_CONVERSIONS:
-    name = f"{_Jab}_to_{_JCh}"
-    _callable = copy_definition(Jab_to_JCh, name)
-    _callable.__doc__ = _DOCSTRING_JAB_TO_JCH.format(Jab=_Jab, JCh=_JCh)
-    _module = sys.modules["colour.models"]
-    setattr(_module, name, _callable)
-    __all__.append(name)
-
-    name = f"{_JCh}_to_{_Jab}"
-    _callable = copy_definition(JCh_to_Jab, name)
-    _callable.__doc__ = _DOCSTRING_JCH_TO_JAB.format(JCh=_JCh, Jab=_Jab)
-    _module = sys.modules["colour.models"]
-    setattr(_module, name, _callable)
-    __all__.append(name)
-
-del _DOCSTRING_JAB_TO_JCH, _DOCSTRING_JCH_TO_JAB, _JCh, _Jab, _callable, _module
-
-__all__ += ["COLOURSPACE_MODELS_POLAR"]
-
-__all__ += [
+__all__ = [
     "COLOURSPACE_MODELS",
     "COLOURSPACE_MODELS_AXIS_LABELS",
     "COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE",
@@ -555,7 +481,6 @@ __all__ += [
     "XYZ_to_K_ab_HunterLab1966",
     "XYZ_to_Hunter_Lab",
     "Hunter_Lab_to_XYZ",
-    "XYZ_to_Hunter_Rdab",
 ]
 __all__ += [
     "XYZ_to_Hunter_Rdab",
@@ -582,6 +507,23 @@ __all__ += [
     "Jzazbz_to_XYZ",
 ]
 __all__ += [
+    "HDR_IPT_METHODS",
+    "XYZ_to_hdr_IPT",
+    "hdr_IPT_to_XYZ",
+]
+__all__ += [
+    "XYZ_to_Oklab",
+    "Oklab_to_XYZ",
+]
+__all__ += [
+    "XYZ_to_OSA_UCS",
+    "OSA_UCS_to_XYZ",
+]
+__all__ += [
+    "XYZ_to_ProLab",
+    "ProLab_to_XYZ",
+]
+__all__ += [
     "XYZ_to_IPT_Ragoo2021",
     "IPT_Ragoo2021_to_XYZ",
 ]
@@ -600,24 +542,6 @@ __all__ += [
     "Yrg_to_XYZ",
 ]
 __all__ += [
-    "HDR_IPT_METHODS",
-    "XYZ_to_hdr_IPT",
-    "hdr_IPT_to_XYZ",
-]
-__all__ += [
-    "XYZ_to_Oklab",
-    "Oklab_to_XYZ",
-]
-__all__ += [
-    "XYZ_to_OSA_UCS",
-    "OSA_UCS_to_XYZ",
-]
-__all__ += [
-    "XYZ_to_ProLab",
-    "ProLab_to_XYZ",
-]
-
-__all__ += [
     "DATA_MACADAM_1942_ELLIPSES",
     "CCS_ILLUMINANT_POINTER_GAMUT",
     "DATA_POINTER_GAMUT_VOLUME",
@@ -630,9 +554,17 @@ __all__ += [
     "RGB_luminance_equation",
     "RGB_luminance",
 ]
-__all__ += ["RGB_Colourspace"]
-__all__ += ["XYZ_to_RGB", "RGB_to_XYZ"]
-__all__ += ["matrix_RGB_to_RGB", "RGB_to_RGB"]
+__all__ += [
+    "RGB_Colourspace",
+]
+__all__ += [
+    "XYZ_to_RGB",
+    "RGB_to_XYZ",
+]
+__all__ += [
+    "matrix_RGB_to_RGB",
+    "RGB_to_RGB",
+]
 __all__ += [
     "CV_range",
     "legal_to_full",
@@ -870,7 +802,10 @@ __all__ += [
     "RGB_COLOURSPACE_XTREME_RGB",
     "RGB_COLOURSPACE_sRGB",
 ]
-__all__ += ["XYZ_to_sRGB", "sRGB_to_XYZ"]
+__all__ += [
+    "XYZ_to_sRGB",
+    "sRGB_to_XYZ",
+]
 __all__ += [
     "RGB_to_HSV",
     "HSV_to_RGB",
@@ -879,9 +814,20 @@ __all__ += [
     "RGB_to_HCL",
     "HCL_to_RGB",
 ]
-__all__ += ["RGB_to_CMY", "CMY_to_RGB", "CMY_to_CMYK", "CMYK_to_CMY"]
-__all__ += ["RGB_to_IHLS", "IHLS_to_RGB"]
-__all__ += ["RGB_to_Prismatic", "Prismatic_to_RGB"]
+__all__ += [
+    "RGB_to_CMY",
+    "CMY_to_RGB",
+    "CMY_to_CMYK",
+    "CMYK_to_CMY",
+]
+__all__ += [
+    "RGB_to_IHLS",
+    "IHLS_to_RGB",
+]
+__all__ += [
+    "RGB_to_Prismatic",
+    "Prismatic_to_RGB",
+]
 __all__ += [
     "WEIGHTS_YCBCR",
     "matrix_YCbCr",
@@ -891,8 +837,16 @@ __all__ += [
     "RGB_to_YcCbcCrc",
     "YcCbcCrc_to_RGB",
 ]
-__all__ += ["RGB_to_YCoCg", "YCoCg_to_RGB"]
-__all__ += ["RGB_to_ICtCp", "ICtCp_to_RGB", "XYZ_to_ICtCp", "ICtCp_to_XYZ"]
+__all__ += [
+    "RGB_to_YCoCg",
+    "YCoCg_to_RGB",
+]
+__all__ += [
+    "RGB_to_ICtCp",
+    "ICtCp_to_RGB",
+    "XYZ_to_ICtCp",
+    "ICtCp_to_XYZ",
+]
 __all__ += [
     "COLOUR_PRIMARIES_ITUTH273",
     "TRANSFER_CHARACTERISTICS_ITUTH273",
@@ -901,3 +855,76 @@ __all__ += [
     "describe_video_signal_transfer_characteristics",
     "describe_video_signal_matrix_coefficients",
 ]
+
+# Programmatically defining the colourspace models polar conversions.
+COLOURSPACE_MODELS_POLAR_CONVERSIONS = (
+    ("hdr_CIELab", "hdr_CIELCHab"),
+    ("hdr_IPT", "hdr_ICH"),
+    ("Hunter_Lab", "Hunter_LCHab"),
+    ("Hunter_Rdab", "Hunter_RdCHab"),
+    ("ICaCb", "ICHab"),
+    ("ICtCp", "ICHtp"),
+    ("IPT", "ICH"),
+    ("IPT_Ragoo2021", "ICH_Ragoo2021"),
+    ("IgPgTg", "IgCHpt"),
+    ("Izazbz", "IzCHab"),
+    ("Jzazbz", "JzCHab"),
+    ("Lab", "LCHab"),
+    ("Luv", "LCHuv"),
+    ("Oklab", "Oklch"),
+    ("ProLab", "ProLCHab"),
+    ("sUCS", "sUCSICH"),
+)
+
+_DOCSTRING_JAB_TO_JCH = """
+Convert from *{Jab}* colourspace to *{JCh}* colourspace.
+
+This is a convenient definition wrapping :func:`colour.models.Jab_to_JCh`
+definition.
+
+Parameters
+----------
+Jab
+    *{Jab}* colourspace array.
+
+Returns
+-------
+:class:`numpy.ndarray`
+    *{JCh}* colourspace array.
+"""
+
+_DOCSTRING_JCH_TO_JAB = """
+Convert from *{JCh}* colourspace to *{Jab}* colourspace.
+
+This is a convenient definition wrapping :func:`colour.models.JCh_to_Jab`
+definition.
+
+Parameters
+----------
+JCh
+    *{JCh}* colourspace array.
+
+Returns
+-------
+:class:`numpy.ndarray`
+    *{Jab}* colourspace array.
+"""
+
+for _Jab, _JCh in COLOURSPACE_MODELS_POLAR_CONVERSIONS:
+    name = f"{_Jab}_to_{_JCh}"
+    _callable = copy_definition(Jab_to_JCh, name)
+    _callable.__doc__ = _DOCSTRING_JAB_TO_JCH.format(Jab=_Jab, JCh=_JCh)
+    _module = sys.modules["colour.models"]
+    setattr(_module, name, _callable)
+    __all__.append(name)
+
+    name = f"{_JCh}_to_{_Jab}"
+    _callable = copy_definition(JCh_to_Jab, name)
+    _callable.__doc__ = _DOCSTRING_JCH_TO_JAB.format(JCh=_JCh, Jab=_Jab)
+    _module = sys.modules["colour.models"]
+    setattr(_module, name, _callable)
+    __all__.append(name)
+
+del _DOCSTRING_JAB_TO_JCH, _DOCSTRING_JCH_TO_JAB, _JCh, _Jab, _callable, _module
+
+__all__ += ["COLOURSPACE_MODELS_POLAR"]

@@ -60,7 +60,7 @@ class TestImageSpecificationOpenImageIO:
         definition.
         """
 
-        from OpenImageIO import HALF  # pyright: ignore
+        from OpenImageIO import HALF  # pyright: ignore  # noqa: PLC0415
 
         compression = Image_Specification_Attribute("Compression", "none")
         specification = image_specification_OpenImageIO(
@@ -356,7 +356,7 @@ class TestWriteImageOpenImageIO:
     def test_write_image_OpenImageIO(self) -> None:  # pragma: no cover
         """Test :func:`colour.io.image.write_image_OpenImageIO` definition."""
 
-        from OpenImageIO import TypeDesc  # pyright: ignore
+        from OpenImageIO import TypeDesc  # pyright: ignore  # noqa: PLC0415
 
         path = os.path.join(self._temporary_directory, "8-bit.png")
         RGB = full((1, 1, 3), 255, np.uint8)

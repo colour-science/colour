@@ -3,5 +3,7 @@ from .sds import SDS_LIGHT_SOURCES
 
 __all__ = [
     "CCS_LIGHT_SOURCES",
+]
+__all__ += [
     "SDS_LIGHT_SOURCES",
 ]

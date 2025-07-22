@@ -80,8 +80,7 @@ colour.models.describe_video_signal_colour_primaries(1)
 print("\n")
 
 message_box(
-    f"Transfer Characteristics: "
-    f"{list(colour.TRANSFER_CHARACTERISTICS_ITUTH273.keys())}"
+    f"Transfer Characteristics: {list(colour.TRANSFER_CHARACTERISTICS_ITUTH273.keys())}"
 )
 colour.models.describe_video_signal_transfer_characteristics(1)
 

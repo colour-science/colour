@@ -228,7 +228,7 @@ def plot_hull_section_colours(
         ij = tstack([ii, jj])
         ijk_section = full(
             (samples, samples, 3),
-            cast(Real, np.median(section[..., index_origin])),
+            cast("Real", np.median(section[..., index_origin])),
         )
         ijk_section[..., plane] = ij
         ijk_section /= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
@@ -474,8 +474,8 @@ def plot_visible_spectrum_section(
         :alt: plot_visible_spectrum_section
     """
 
-    import trimesh.convex
-    from trimesh import Trimesh
+    import trimesh.convex  # noqa: PLC0415
+    from trimesh import Trimesh  # noqa: PLC0415
 
     settings: Dict[str, Any] = {"uniform": True}
     settings.update(kwargs)
@@ -483,7 +483,7 @@ def plot_visible_spectrum_section(
     _figure, axes = artist(**settings)
 
     cmfs = cast(
-        MultiSpectralDistributions,
+        "MultiSpectralDistributions",
         reshape_msds(
             first_item(filter_cmfs(cmfs).values()),
             SpectralShape(360, 780, 1),
@@ -491,7 +491,7 @@ def plot_visible_spectrum_section(
         ),
     )
     illuminant = cast(
-        SpectralDistribution,
+        "SpectralDistribution",
         first_item(filter_illuminants(illuminant).values()),
     )
 
@@ -622,7 +622,7 @@ def plot_RGB_colourspace_section(
         :alt: plot_RGB_colourspace_section
     """
 
-    from trimesh import Trimesh
+    from trimesh import Trimesh  # noqa: PLC0415
 
     settings: Dict[str, Any] = {"uniform": True}
     settings.update(kwargs)
@@ -630,7 +630,7 @@ def plot_RGB_colourspace_section(
     _figure, axes = artist(**settings)
 
     colourspace = cast(
-        RGB_Colourspace,
+        "RGB_Colourspace",
         first_item(filter_RGB_colourspaces(colourspace).values()),
     )
 

@@ -316,7 +316,7 @@ class TestModuleAPI:
         method.
         """
 
-        import colour.utilities.tests.test_deprecated
+        import colour.utilities.tests.test_deprecated  # noqa: PLC0415
 
         assert colour.utilities.tests.test_deprecated.NAME is None
 
@@ -335,7 +335,7 @@ class TestModuleAPI:
         method raised exception.
         """
 
-        import colour.utilities.tests.test_deprecated
+        import colour.utilities.tests.test_deprecated  # noqa: PLC0415
 
         pytest.raises(
             AttributeError,
@@ -356,15 +356,15 @@ class TestGetAttribute:
     def test_get_attribute(self) -> None:
         """Test :func:`colour.utilities.deprecation.get_attribute` definition."""
 
-        from colour import adaptation
+        from colour import adaptation  # noqa: PLC0415
 
         assert get_attribute("colour.adaptation") is adaptation
 
-        from colour.models import eotf_inverse_sRGB
+        from colour.models import eotf_inverse_sRGB  # noqa: PLC0415
 
         assert get_attribute("colour.models.eotf_inverse_sRGB") is eotf_inverse_sRGB
 
-        from colour.utilities.array import as_float
+        from colour.utilities.array import as_float  # noqa: PLC0415
 
         assert get_attribute("colour.utilities.array.as_float") is as_float
 
@@ -373,7 +373,7 @@ class TestGetAttribute:
 
         attribute = get_attribute("colour.utilities.tests.test_deprecated.NEW_NAME")
 
-        import colour.utilities.tests.test_deprecated
+        import colour.utilities.tests.test_deprecated  # noqa: PLC0415
 
         assert attribute is colour.utilities.tests.test_deprecated.NEW_NAME
         del sys.modules["colour.utilities.tests.test_deprecated"]

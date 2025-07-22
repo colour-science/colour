@@ -247,7 +247,7 @@ def colour_fidelity_index_CIE2017(
     )
 
     R_s = delta_E_to_R_f(delta_E_s)
-    R_f = cast(float, delta_E_to_R_f(np.average(delta_E_s)))
+    R_f = cast("float", delta_E_to_R_f(np.average(delta_E_s)))
 
     if additional_data:
         return ColourRendering_Specification_CIE2017(
@@ -516,9 +516,9 @@ def tcs_colorimetry_data(
 
     JMh = tstack(
         [
-            cast(NDArrayFloat, specification.J),
-            cast(NDArrayFloat, specification.M),
-            cast(NDArrayFloat, specification.h),
+            cast("NDArrayFloat", specification.J),
+            cast("NDArrayFloat", specification.M),
+            cast("NDArrayFloat", specification.h),
         ]
     )
     Jpapbp = JMh_CIECAM02_to_CAM02UCS(JMh)

@@ -237,7 +237,7 @@ class TestSpectralUniformity:
         definition.
         """
 
-        from colour.quality.datasets import SDS_TCS
+        from colour.quality.datasets import SDS_TCS  # noqa: PLC0415
 
         np.testing.assert_allclose(
             spectral_uniformity(SDS_TCS["CIE 1995"].values()),

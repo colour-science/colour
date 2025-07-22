@@ -86,7 +86,7 @@ def edges_to_chord(edges: ArrayLike, index: int = 0) -> NDArrayFloat:
            [-0. , -0.5,  0. ]])
     """
 
-    edge_list = cast(List[List[float]], as_float_array(edges).tolist())
+    edge_list = cast("List[List[float]]", as_float_array(edges).tolist())
 
     edges_ordered = [edge_list.pop(index)]
     segment = np.array(edges_ordered[0][1])
@@ -225,7 +225,7 @@ def hull_section(
            [-0. , -0.5,  0. ]])
     """
 
-    import trimesh.intersections
+    import trimesh.intersections  # noqa: PLC0415
 
     axis = validate_method(
         axis,

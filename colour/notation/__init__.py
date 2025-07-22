@@ -34,10 +34,10 @@ __all__ = [
     "MUNSELL_COLOURS",
 ]
 __all__ += [
-    "munsell_value",
+    "MUNSELL_VALUE_METHODS",
 ]
 __all__ += [
-    "MUNSELL_VALUE_METHODS",
+    "munsell_value",
 ]
 __all__ += [
     "munsell_value_Priest1920",
@@ -56,4 +56,6 @@ __all__ += [
     "RGB_to_HEX",
     "HEX_to_RGB",
 ]
-__all__ += ["keyword_to_RGB_CSSColor3"]
+__all__ += [
+    "keyword_to_RGB_CSSColor3",
+]

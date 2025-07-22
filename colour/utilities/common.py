@@ -33,6 +33,7 @@ from pprint import pformat
 import numpy as np
 
 from colour.constants import THRESHOLD_INTEGER
+from colour.utilities import as_bool
 
 if typing.TYPE_CHECKING:
     from colour.hints import (
@@ -87,7 +88,9 @@ __all__ = [
     "int_digest",
 ]
 
-_CACHING_ENABLED: bool = not os.environ.get("COLOUR_SCIENCE__DISABLE_CACHING", False)
+_CACHING_ENABLED: bool = not as_bool(
+    os.environ.get("COLOUR_SCIENCE__DISABLE_CACHING", "False")
+)
 """
 Global variable storing the current *Colour* caching enabled state.
 """
@@ -556,13 +559,13 @@ def _initializer(kwargs: Any) -> None:
     # NOTE: No coverage information is available as this code is executed in
     # sub-processes.
 
-    import colour.utilities.array  # pragma: no cover
+    import colour.utilities.array  # pragma: no cover  # noqa: PLC0415
 
     colour.utilities.array._DOMAIN_RANGE_SCALE = kwargs.get(  # noqa: SLF001
         "scale", "reference"
     )  # pragma: no cover
 
-    import colour.algebra.common  # pragma: no cover
+    import colour.algebra.common  # pragma: no cover  # noqa: PLC0415
 
     colour.algebra.common._SDIV_MODE = kwargs.get(  # noqa: SLF001
         "sdiv_mode", "Ignore Zero Conversion"
@@ -600,8 +603,8 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
     [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
     """
 
-    from colour.algebra import get_sdiv_mode, is_spow_enabled
-    from colour.utilities import get_domain_range_scale
+    from colour.algebra import get_sdiv_mode, is_spow_enabled  # noqa: PLC0415
+    from colour.utilities import get_domain_range_scale  # noqa: PLC0415
 
     class _DummyPool:
         """
@@ -642,7 +645,7 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
 
     pool_factory: Callable
     if _MULTIPROCESSING_ENABLED:
-        import multiprocessing
+        import multiprocessing  # noqa: PLC0415
 
         pool_factory = multiprocessing.Pool
     else:

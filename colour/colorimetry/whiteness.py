@@ -556,7 +556,7 @@ def whiteness(
     function = WHITENESS_METHODS[method]
 
     if function is whiteness_Stensby1968:
-        from colour.models import XYZ_to_Lab, XYZ_to_xy
+        from colour.models import XYZ_to_Lab, XYZ_to_xy  # noqa: PLC0415
 
         if get_domain_range_scale() == "reference":
             XYZ = XYZ / 100
@@ -564,7 +564,7 @@ def whiteness(
 
         kwargs.update({"Lab": XYZ_to_Lab(XYZ, XYZ_to_xy(XYZ_0))})
     elif function in (whiteness_Ganz1979, whiteness_CIE2004):
-        from colour.models import XYZ_to_xy
+        from colour.models import XYZ_to_xy  # noqa: PLC0415
 
         _X_0, Y_0, _Z_0 = tsplit(XYZ_0)
         kwargs.update({"xy": XYZ_to_xy(XYZ), "Y": Y_0, "xy_n": XYZ_to_xy(XYZ_0)})

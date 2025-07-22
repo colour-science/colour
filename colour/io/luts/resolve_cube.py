@@ -376,12 +376,10 @@ def write_LUT_ResolveCube(
         cube_file.write(f'TITLE "{name}"\n')
 
         if LUT[0].comments:
-            for comment in LUT[0].comments:
-                cube_file.write(f"# {comment}\n")
+            cube_file.writelines(f"# {comment}\n" for comment in LUT[0].comments)
 
         if LUT[1].comments:
-            for comment in LUT[1].comments:
-                cube_file.write(f"# {comment}\n")
+            cube_file.writelines(f"# {comment}\n" for comment in LUT[1].comments)
 
         default_domain = np.array([[0, 0, 0], [1, 1, 1]])
 
@@ -403,13 +401,15 @@ def write_LUT_ResolveCube(
 
         if has_3x1D:
             table = LUT[0].table
-            for vector in table:
-                cube_file.write(f"{format_array_as_row(vector, decimals)}\n")
+            cube_file.writelines(
+                f"{format_array_as_row(vector, decimals)}\n" for vector in table
+            )
             cube_file.write("\n")
 
         if has_3D:
             table = np.reshape(LUT[1].table, (-1, 3), order="F")
-            for vector in table:
-                cube_file.write(f"{format_array_as_row(vector, decimals)}\n")
+            cube_file.writelines(
+                f"{format_array_as_row(vector, decimals)}\n" for vector in table
+            )
 
     return True

@@ -66,7 +66,7 @@ illuminant = colour.SDS_ILLUMINANTS["D55"]
 
 print(
     colour.matrix_idt(
-        cast(colour.characterisation.RGB_CameraSensitivities, sensitivities),
+        cast("colour.characterisation.RGB_CameraSensitivities", sensitivities),
         illuminant,
     )
 )
@@ -77,7 +77,7 @@ message_box(
 )
 
 M, RGB_w = colour.matrix_idt(  # pyright: ignore
-    cast(colour.characterisation.RGB_CameraSensitivities, sensitivities),
+    cast("colour.characterisation.RGB_CameraSensitivities", sensitivities),
     illuminant,
     optimisation_factory=colour.characterisation.optimisation_factory_Oklab_15,
 )

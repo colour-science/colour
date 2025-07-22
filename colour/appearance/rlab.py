@@ -295,11 +295,11 @@ b=-52.6142956...)
         sR = sdiv(CR, LR)
 
     return CAM_Specification_RLAB(
-        LR,
-        CR,
-        as_float(from_range_degrees(hR)),
-        sR,
-        None,
-        as_float(aR),
-        as_float(bR),
+        J=LR,
+        C=CR,
+        h=as_float(from_range_degrees(hR)),
+        s=sR,
+        HC=None,
+        a=as_float(aR),
+        b=as_float(bR),
     )

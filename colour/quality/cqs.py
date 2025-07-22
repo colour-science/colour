@@ -305,7 +305,7 @@ def colour_quality_scale(
         Q_p = Q_d = None
     else:
         p_delta_C = cast(
-            float,
+            "float",
             np.average([max(0, sample_data.D_C_ab) for sample_data in Q_as.values()]),
         )
         Q_p = 100 - 3.6 * (D_Ep_RMS - p_delta_C)
@@ -560,11 +560,13 @@ def colour_quality_scales(
 
     Q_as = {}
     for i in range(len(test_data)):
-        D_C_ab = cast(float, test_data[i].C - reference_data[i].C)
+        D_C_ab = cast("float", test_data[i].C - reference_data[i].C)
         D_E_ab = cast(
-            float, euclidean_distance(test_data[i].Lab, reference_data[i].Lab)
+            "float", euclidean_distance(test_data[i].Lab, reference_data[i].Lab)
         )
-        D_Ep_ab = cast(float, np.sqrt(D_E_ab**2 - D_C_ab**2) if D_C_ab > 0 else D_E_ab)
+        D_Ep_ab = cast(
+            "float", np.sqrt(D_E_ab**2 - D_C_ab**2) if D_C_ab > 0 else D_E_ab
+        )
 
         Q_a = scale_conversion(D_Ep_ab, CCT_f, scaling_f)
         Q_as[i + 1] = DataColourQualityScale_VS(

@@ -249,12 +249,12 @@ def write_LUT_SonySPI1D(
         spi1d_file.write(f"Components {1 if is_1D else 3}\n")
 
         spi1d_file.write("{\n")
-        for array in LUTxD.table:
-            spi1d_file.write(f" {format_array_as_row(array, decimals)}\n")
+        spi1d_file.writelines(
+            f" {format_array_as_row(array, decimals)}\n" for array in LUTxD.table
+        )
         spi1d_file.write("}\n")
 
         if LUTxD.comments:
-            for comment in LUTxD.comments:
-                spi1d_file.write(f"# {comment}\n")
+            spi1d_file.writelines(f"# {comment}\n" for comment in LUTxD.comments)
 
     return True

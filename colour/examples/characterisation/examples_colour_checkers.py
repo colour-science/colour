@@ -49,5 +49,5 @@ for name, xyY in data.items():
         apply_cctf_encoding=True,
     )
 
-    RGB_i = [int(round(x * 255)) if x >= 0 else 0 for x in np.ravel(RGB)]
+    RGB_i = [round(x * 255) if x >= 0 else 0 for x in np.ravel(RGB)]
     print(f'"{name}": {RGB_i}')

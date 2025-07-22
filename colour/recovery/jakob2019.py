@@ -595,7 +595,7 @@ def XYZ_to_sd_Jakob2019(
     ...     XYZ_to_sRGB,
     ... )
     >>> from colour.colorimetry import sd_to_XYZ_integration
-    >>> from colour.utilities import numpy_print_options
+    >>> from colour.utilities import numpy_print_options  # noqa: PLC0415
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> cmfs = (
     ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]

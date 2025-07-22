@@ -12,9 +12,9 @@ Spectral Data Structure
     :toctree: generated/
     :template: class.rst
 
-    SpectralShape
-    SpectralDistribution
     MultiSpectralDistributions
+    SpectralDistribution
+    SpectralShape
 
 .. autosummary::
     :toctree: generated/
@@ -31,10 +31,10 @@ Spectral Data Structure
 .. autosummary::
     :toctree: generated/
 
-    reshape_sd
     reshape_msds
-    sds_and_msds_to_sds
+    reshape_sd
     sds_and_msds_to_msds
+    sds_and_msds_to_sds
 
 Spectral Data Generation
 ------------------------
@@ -46,22 +46,22 @@ Spectral Data Generation
 .. autosummary::
     :toctree: generated/
 
-    sd_CIE_standard_illuminant_A
-    sd_CIE_illuminant_D_series
-    sd_blackbody
-    sd_rayleigh_jeans
-    sd_constant
-    sd_ones
-    sd_zeros
     msds_constant
     msds_ones
     msds_zeros
-    SD_GAUSSIAN_METHODS
+    sd_blackbody
+    sd_CIE_illuminant_D_series
+    sd_CIE_standard_illuminant_A
+    sd_constant
     sd_gaussian
-    SD_SINGLE_LED_METHODS
-    sd_single_led
-    SD_MULTI_LEDS_METHODS
+    SD_GAUSSIAN_METHODS
     sd_multi_leds
+    SD_MULTI_LEDS_METHODS
+    sd_ones
+    sd_rayleigh_jeans
+    sd_single_led
+    SD_SINGLE_LED_METHODS
+    sd_zeros
 
 ``colour.colorimetry``
 
@@ -71,13 +71,13 @@ Spectral Data Generation
     :toctree: generated/
 
     blackbody_spectral_radiance
+    daylight_locus_function
     planck_law
     rayleigh_jeans_law
-    daylight_locus_function
-    sd_gaussian_normal
     sd_gaussian_fwhm
-    sd_single_led_Ohno2005
+    sd_gaussian_normal
     sd_multi_leds_Ohno2005
+    sd_single_led_Ohno2005
 
 
 **Aliases**
@@ -101,10 +101,10 @@ Conversion to Tristimulus Values
 .. autosummary::
     :toctree: generated/
 
-    sd_to_XYZ
-    SD_TO_XYZ_METHODS
     msds_to_XYZ
     MSDS_TO_XYZ_METHODS
+    sd_to_XYZ
+    SD_TO_XYZ_METHODS
     wavelength_to_XYZ
 
 **Ancillary Objects**
@@ -128,8 +128,8 @@ ASTM E308-15
 .. autosummary::
     :toctree: generated/
 
-    sd_to_XYZ_ASTME308
     msds_to_XYZ_ASTME308
+    sd_to_XYZ_ASTME308
 
 **Ancillary Objects**
 
@@ -140,9 +140,9 @@ ASTM E308-15
 .. autosummary::
     :toctree: generated/
 
-    sd_to_XYZ_tristimulus_weighting_factors_ASTME308
     adjust_tristimulus_weighting_factors_ASTME308
     lagrange_coefficients_ASTME2022
+    sd_to_XYZ_tristimulus_weighting_factors_ASTME308
     tristimulus_weighting_factors_ASTME2022
 
 Integration
@@ -155,8 +155,8 @@ Integration
 .. autosummary::
     :toctree: generated/
 
-    sd_to_XYZ_integration
     msds_to_XYZ_integration
+    sd_to_XYZ_integration
 
 Spectral Bandpass Dependence Correction
 ---------------------------------------
@@ -235,11 +235,11 @@ Colour Matching Functions Transformations
 .. autosummary::
     :toctree: generated/
 
-    RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs
-    RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs
-    RGB_10_degree_cmfs_to_LMS_10_degree_cmfs
-    LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs
     LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs
+    LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs
+    RGB_10_degree_cmfs_to_LMS_10_degree_cmfs
+    RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs
+    RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs
 
 Illuminants and Light Sources
 -----------------------------
@@ -254,8 +254,8 @@ Illuminants and Light Sources
     :toctree: generated/
 
     CCS_ILLUMINANTS
-    SDS_ILLUMINANTS
     CCS_LIGHT_SOURCES
+    SDS_ILLUMINANTS
     SDS_LIGHT_SOURCES
     TVS_ILLUMINANTS
     TVS_ILLUMINANTS_HUNTERLAB
@@ -281,10 +281,10 @@ Dominant Wavelength and Purity
 .. autosummary::
     :toctree: generated/
 
-    dominant_wavelength
-    complementary_wavelength
-    excitation_purity
     colorimetric_purity
+    complementary_wavelength
+    dominant_wavelength
+    excitation_purity
 
 Luminous Efficiency Functions
 -----------------------------
@@ -382,8 +382,8 @@ CIE 1976
 .. autosummary::
     :toctree: generated/
 
-    lightness_CIE1976
     intermediate_lightness_function_CIE1976
+    lightness_CIE1976
 
 Fairchild and Wyble (2010)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -456,8 +456,8 @@ CIE 1976
 .. autosummary::
     :toctree: generated/
 
-    luminance_CIE1976
     intermediate_luminance_function_CIE1976
+    luminance_CIE1976
 
 ASTM D1535-08e1
 ~~~~~~~~~~~~~~~
@@ -615,6 +615,6 @@ ASTM E313
 .. autosummary::
     :toctree: generated/
 
+    yellowness_ASTME313
     yellowness_ASTME313_alternative
     YELLOWNESS_COEFFICIENTS_ASTME313
-    yellowness_ASTME313

@@ -379,7 +379,7 @@ function` property raised exception.
         np.testing.assert_array_equal(multi_signals.range, self._range_1[:, None])
 
         if is_pandas_installed():
-            from pandas import DataFrame, Series
+            from pandas import DataFrame, Series  # noqa: PLC0415
 
             multi_signals = MultiSignals(
                 Series(dict(zip(self._domain_2, self._range_1, strict=True)))
@@ -1012,7 +1012,7 @@ multi_signals_unpack_data` method.
         assert list(signals.keys()) == ["0 - 0", "0 - 1", "0 - 2"]
 
         if is_pandas_installed():
-            from pandas import DataFrame, Series
+            from pandas import DataFrame, Series  # noqa: PLC0415
 
             signals = MultiSignals.multi_signals_unpack_data(
                 Series(dict(zip(self._domain_1, self._range_1, strict=True)))
@@ -1105,7 +1105,7 @@ domain_distance` method.
         """
 
         if is_pandas_installed():
-            from pandas import DataFrame
+            from pandas import DataFrame  # noqa: PLC0415
 
             data = dict(zip(["a", "b", "c"], tsplit(self._range_2), strict=True))
 

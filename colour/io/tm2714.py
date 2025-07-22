@@ -1676,8 +1676,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                 namespace = match.group(1)
             else:
                 error = (
-                    'The "IES TM-27-14" spectral distribution namespace '
-                    "was not found!"
+                    'The "IES TM-27-14" spectral distribution namespace was not found!'
                 )
 
                 raise ValueError(error)

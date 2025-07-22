@@ -77,7 +77,7 @@ def plot_automatic_colour_conversion_graph(
         :alt: plot_automatic_colour_conversion_graph
     """
 
-    import networkx as nx
+    import networkx as nx  # noqa: PLC0415
 
     prog = validate_method(
         prog,
@@ -88,7 +88,9 @@ def plot_automatic_colour_conversion_graph(
     # TODO: Investigate API to trigger the conversion graph build.
     describe_conversion_path("RGB", "RGB", print_callable=lambda x: x)
 
-    dot = nx.drawing.nx_pydot.to_pydot(cast(nx.DiGraph, colour.graph.CONVERSION_GRAPH))
+    dot = nx.drawing.nx_pydot.to_pydot(
+        cast("nx.DiGraph", colour.graph.CONVERSION_GRAPH)
+    )
 
     for node in dot.get_nodes():
         label = CONVERSION_GRAPH_NODE_LABELS.get(node.get_name())

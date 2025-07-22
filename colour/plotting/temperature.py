@@ -303,7 +303,7 @@ def lines_planckian_locus(
     method = validate_method(method, ("CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"))
 
     labels = cast(
-        tuple,
+        "tuple",
         optional(
             labels,
             LABELS_PLANCKIAN_LOCUS_DEFAULT["Mireds" if mireds else "Default"],
@@ -448,7 +448,7 @@ def plot_planckian_locus(
     use_RGB_planckian_locus_colours = str(planckian_locus_colours).upper() == "RGB"
 
     labels = cast(
-        tuple,
+        "tuple",
         optional(
             planckian_locus_labels,
             LABELS_PLANCKIAN_LOCUS_DEFAULT[
@@ -512,7 +512,7 @@ def plot_planckian_locus(
         axes.text(
             lines_itl[i][-1, 0],
             lines_itl[i][-1, 1],
-            f'{as_int_scalar(label)}{"M" if planckian_locus_mireds else "K"}',
+            f"{as_int_scalar(label)}{'M' if planckian_locus_mireds else 'K'}",
             clip_on=True,
             ha="left",
             va="bottom",
@@ -683,7 +683,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
     for i, (illuminant, xy) in enumerate(illuminants_filtered.items()):
         plot_settings = plot_settings_collection[i]
 
-        ij = cast(tuple[float, float], xy_to_ij(xy))
+        ij = cast("tuple[float, float]", xy_to_ij(xy))
 
         axes.plot(ij[0], ij[1], **plot_settings)
 

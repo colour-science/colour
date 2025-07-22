@@ -188,7 +188,10 @@ __all__ += [
     "log_encoding_ACEScct",
     "log_decoding_ACEScct",
 ]
-__all__ += ["log_encoding_AppleLogProfile", "log_decoding_AppleLogProfile"]
+__all__ += [
+    "log_encoding_AppleLogProfile",
+    "log_decoding_AppleLogProfile",
+]
 __all__ += [
     "oetf_ARIBSTDB67",
     "oetf_inverse_ARIBSTDB67",
@@ -320,8 +323,8 @@ __all__ += [
 __all__ += [
     "log_encoding_FLog",
     "log_decoding_FLog",
-    "log_encoding_FLog2",
     "log_decoding_FLog2",
+    "log_encoding_FLog2",
 ]
 __all__ += [
     "log_encoding_NLog",

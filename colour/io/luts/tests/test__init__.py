@@ -39,7 +39,8 @@ class TestReadLUT:
         """Test :func:`colour.io.luts.__init__.read_LUT` definition."""
 
         LUT_1 = cast(
-            LUT1D, read_LUT(os.path.join(ROOT_LUTS, "sony_spi1d", "eotf_sRGB_1D.spi1d"))
+            "LUT1D",
+            read_LUT(os.path.join(ROOT_LUTS, "sony_spi1d", "eotf_sRGB_1D.spi1d")),
         )
 
         np.testing.assert_allclose(
@@ -76,7 +77,7 @@ class TestReadLUT:
         ]
 
         LUT_2 = cast(
-            LUTSequence,
+            "LUTSequence",
             read_LUT(os.path.join(ROOT_LUTS, "resolve_cube", "LogC_Video.cube")),
         )
         np.testing.assert_allclose(

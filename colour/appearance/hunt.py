@@ -507,8 +507,8 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     # Computing the correlate of *brightness* :math:`Q`.
     # -------------------------------------------------------------------------
     # Computing achromatic signal :math:`A`.
-    A = achromatic_signal(cast(NDArrayFloat, L_AS), S_p, S_w_p, N_bb, A_a)
-    A_w = achromatic_signal(cast(NDArrayFloat, L_AS), S_w_p, S_w_p, N_bb, A_aw)
+    A = achromatic_signal(cast("NDArrayFloat", L_AS), S_p, S_w_p, N_bb, A_a)
+    A_w = achromatic_signal(cast("NDArrayFloat", L_AS), S_w_p, S_w_p, N_bb, A_aw)
 
     Q = brightness_correlate(A, A_w, M, surround.N_b)
     brightness_w = brightness_correlate(A_w, A_w, M_w, surround.N_b)
@@ -530,14 +530,14 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     M_94 = colourfulness_correlate(F_L, C_94)
 
     return CAM_Specification_Hunt(
-        J,
-        C_94,
-        as_float(from_range_degrees(h)),
-        s,
-        Q,
-        M_94,
-        None,
-        None,
+        J=J,
+        C=C_94,
+        h=as_float(from_range_degrees(h)),
+        s=s,
+        Q=Q,
+        M=M_94,
+        H=None,
+        HC=None,
     )
 
 
@@ -743,9 +743,9 @@ def chromatic_adaptation(
     # Computing chromatic adaptation factors.
     if not discount_illuminant:
         L_A_p = spow(L_A, 1 / 3)
-        F_rgb = cast(NDArrayFloat, (1 + L_A_p + h_rgb) / (1 + L_A_p + (1 / h_rgb)))
+        F_rgb = cast("NDArrayFloat", (1 + L_A_p + h_rgb) / (1 + L_A_p + (1 / h_rgb)))
     else:
-        F_rgb = ones(cast(NDArrayFloat, h_rgb).shape)
+        F_rgb = ones(cast("NDArrayFloat", h_rgb).shape)
 
     # Computing Helson-Judd effect parameters.
     if helson_judd_effect:

@@ -39,7 +39,7 @@ class TestProcessImageOpenColorIO:
         if not is_opencolorio_installed():  # pragma: no cover
             return
 
-        import PyOpenColorIO as ocio
+        import PyOpenColorIO as ocio  # noqa: PLC0415
 
         config = os.path.join(ROOT_RESOURCES, "config-aces-reference.ocio.yaml")
 

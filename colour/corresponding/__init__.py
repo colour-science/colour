@@ -14,8 +14,7 @@ from .prediction import (
     corresponding_chromaticities_prediction,
 )
 
-__all__ = []
-__all__ += datasets.__all__
+__all__ = datasets.__all__
 __all__ += [
     "CorrespondingColourDataset",
     "CorrespondingChromaticitiesPrediction",

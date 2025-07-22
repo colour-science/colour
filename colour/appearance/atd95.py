@@ -268,15 +268,15 @@ T_2=0.0205377..., D_2=0.0107584...)
     H = T_2 / D_2
 
     return CAM_Specification_ATD95(
-        as_float(from_range_degrees(H)),
-        C,
-        Br,
-        A_1,
-        T_1,
-        D_1,
-        A_2,
-        T_2,
-        D_2,
+        h=as_float(from_range_degrees(H)),
+        C=C,
+        Q=Br,
+        A_1=A_1,
+        T_1=T_1,
+        D_1=D_1,
+        A_2=A_2,
+        T_2=T_2,
+        D_2=D_2,
     )
 
 

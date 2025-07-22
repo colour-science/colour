@@ -262,7 +262,7 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
     8...
     """
 
-    import multiprocessing
+    import multiprocessing  # noqa: PLC0415
 
     processes = multiprocessing.cpu_count()
     process_samples = DTYPE_INT_DEFAULT(np.round(samples / processes))

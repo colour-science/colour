@@ -26,8 +26,8 @@ Interpolation
     :template: class.rst
 
     KernelInterpolator
-    NearestNeighbourInterpolator
     LinearInterpolator
+    NearestNeighbourInterpolator
     NullInterpolator
     PchipInterpolator
     SpragueInterpolator
@@ -36,8 +36,8 @@ Interpolation
     :toctree: generated/
 
     lagrange_coefficients
-    TABLE_INTERPOLATION_METHODS
     table_interpolation
+    TABLE_INTERPOLATION_METHODS
 
 **Interpolation Kernels**
 
@@ -46,11 +46,11 @@ Interpolation
 .. autosummary::
     :toctree: generated/
 
-    kernel_nearest_neighbour
-    kernel_linear
-    kernel_sinc
-    kernel_lanczos
     kernel_cardinal_spline
+    kernel_lanczos
+    kernel_linear
+    kernel_nearest_neighbour
+    kernel_sinc
 
 **Ancillary Objects**
 
@@ -61,8 +61,8 @@ Interpolation
 .. autosummary::
     :toctree: generated/
 
-    table_interpolation_trilinear
     table_interpolation_tetrahedral
+    table_interpolation_trilinear
 
 Coordinates
 -----------
@@ -74,12 +74,12 @@ Coordinates
 .. autosummary::
     :toctree: generated/
 
-    cartesian_to_spherical
-    spherical_to_cartesian
-    cartesian_to_polar
-    polar_to_cartesian
     cartesian_to_cylindrical
+    cartesian_to_polar
+    cartesian_to_spherical
     cylindrical_to_cartesian
+    polar_to_cartesian
+    spherical_to_cartesian
 
 Random
 ------
@@ -115,23 +115,23 @@ Common
 .. autosummary::
     :toctree: generated/
 
-    get_sdiv_mode
-    set_sdiv_mode
-    sdiv_mode
-    sdiv
-    is_spow_enabled
-    set_spow_enable
-    spow_enable
-    spow
-    normalise_vector
-    normalise_maximum
-    vecmul
+    eigen_decomposition
     euclidean_distance
-    manhattan_distance
+    get_sdiv_mode
+    is_identity
+    is_spow_enabled
+    lerp
     linear_conversion
     linstep_function
-    lerp
-    smoothstep_function
+    manhattan_distance
+    normalise_maximum
+    normalise_vector
+    sdiv
+    sdiv_mode
+    set_sdiv_mode
+    set_spow_enable
     smooth
-    is_identity
-    eigen_decomposition
+    smoothstep_function
+    spow
+    spow_enable
+    vecmul

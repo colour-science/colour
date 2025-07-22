@@ -48,8 +48,7 @@ from .uprtek_sekonic import (
 )
 from .xrite import read_sds_from_xrite_file
 
-__all__ = []
-__all__ += luts.__all__
+__all__ = luts.__all__
 __all__ += [
     "Image_Specification_Attribute",
     "MAPPING_BIT_DEPTH",
@@ -73,12 +72,6 @@ __all__ += [
     "write_image",
 ]
 __all__ += [
-    "ctl_render",
-    "process_image_ctl",
-    "template_ctl_transform_float",
-    "template_ctl_transform_float3",
-]
-__all__ += [
     "as_3_channels_image",
 ]
 __all__ += [
@@ -90,6 +83,12 @@ __all__ += [
     "write_spectral_image_Fichet2021",
 ]
 __all__ += [
+    "ctl_render",
+    "process_image_ctl",
+    "template_ctl_transform_float",
+    "template_ctl_transform_float3",
+]
+__all__ += [
     "process_image_OpenColorIO",
 ]
 __all__ += [
@@ -98,12 +97,12 @@ __all__ += [
     "write_sds_to_csv_file",
 ]
 __all__ += [
-    "SpectralDistribution_UPRTek",
-    "SpectralDistribution_Sekonic",
-]
-__all__ += [
     "Header_IESTM2714",
     "SpectralDistribution_IESTM2714",
+]
+__all__ += [
+    "SpectralDistribution_UPRTek",
+    "SpectralDistribution_Sekonic",
 ]
 __all__ += [
     "read_sds_from_xrite_file",

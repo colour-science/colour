@@ -11,11 +11,11 @@ Ellipse
 .. autosummary::
     :toctree: generated/
 
-    ellipse_coefficients_general_form
     ellipse_coefficients_canonical_form
-    point_at_angle_on_ellipse
-    ELLIPSE_FITTING_METHODS
+    ellipse_coefficients_general_form
     ellipse_fitting
+    ELLIPSE_FITTING_METHODS
+    point_at_angle_on_ellipse
 
 **Ancillary Objects**
 
@@ -58,8 +58,8 @@ Primitives
 .. autosummary::
     :toctree: generated/
 
-    PRIMITIVE_METHODS
     primitive
+    PRIMITIVE_METHODS
 
 **Ancillary Objects**
 
@@ -71,8 +71,8 @@ Primitives
     :toctree: generated/
 
     MAPPING_PLANE_TO_AXIS
-    primitive_grid
     primitive_cube
+    primitive_grid
 
 Primitive Vertices
 ------------------
@@ -84,8 +84,8 @@ Primitive Vertices
 .. autosummary::
     :toctree: generated/
 
-    PRIMITIVE_VERTICES_METHODS
     primitive_vertices
+    PRIMITIVE_VERTICES_METHODS
 
 ``colour.geometry``
 
@@ -94,9 +94,9 @@ Primitive Vertices
 .. autosummary::
     :toctree: generated/
 
-    primitive_vertices_quad_mpl
-    primitive_vertices_grid_mpl
     primitive_vertices_cube_mpl
+    primitive_vertices_grid_mpl
+    primitive_vertices_quad_mpl
     primitive_vertices_sphere
 
 Hull Section

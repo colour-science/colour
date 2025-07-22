@@ -207,9 +207,9 @@ def message_box(
         """Format and pads inner text for the message box."""
 
         return (
-            f'*{" " * padding}'
-            f'{text}{" " * (width - len(text) - padding * 2 - 2)}'
-            f'{" " * padding}*'
+            f"*{' ' * padding}"
+            f"{text}{' ' * (width - len(text) - padding * 2 - 2)}"
+            f"{' ' * padding}*"
         )
 
     print_callable("=" * width)
@@ -322,7 +322,7 @@ def warning(*args: Any, **kwargs: Any) -> None:
 
     kwargs["category"] = kwargs.get("category", ColourWarning)
 
-    warn(*args, **kwargs)  # noqa: B028
+    warn(*args, **kwargs)
 
 
 def runtime_warning(*args: Any, **kwargs: Any) -> None:
@@ -444,7 +444,7 @@ def filter_warnings(
             continue
 
         if isinstance(action, str):
-            action = cast(LiteralWarning, str(action))  # noqa: PLW2901
+            action = cast("LiteralWarning", str(action))  # noqa: PLW2901
         else:
             action = "ignore" if action else "default"  # noqa: PLW2901
 
@@ -791,16 +791,16 @@ def describe_environment(
 
     environment["Interpreter"]["python"] = sys.version
 
-    import subprocess
+    import subprocess  # noqa: PLC0415
 
-    import colour
+    import colour  # noqa: PLC0415
 
     # TODO: Implement support for "pyproject.toml" file whenever "TOML" is
     # supported in the standard library.
     # NOTE: A few clauses are not reached and a few packages are not available
     # during continuous integration and are thus ignored for coverage.
     try:  # pragma: no cover
-        output = subprocess.check_output(  # noqa: S603
+        output = subprocess.check_output(
             ["git", "describe"],  # noqa: S607
             cwd=colour.__path__[0],  # pyright: ignore
             stderr=subprocess.STDOUT,
@@ -847,7 +847,7 @@ def describe_environment(
         namespace = __import__(package)
 
         if package in mapping:
-            import pkg_resources
+            import pkg_resources  # noqa: PLC0415
 
             distributions = list(pkg_resources.working_set)
 
@@ -1016,7 +1016,7 @@ def multiline_str(
     List
     ----
     List "c"    : John; Doe
-    """  # noqa: D405, D407, D410, D411
+    """
 
     attribute_defaults = {
         "name": None,
@@ -1130,7 +1130,7 @@ def multiline_repr(
     Data('Foo',
          1,
          ('John', 'Doe'))
-    """  # noqa: D405, D407, D410, D411
+    """
 
     attribute_defaults = {"name": None, "formatter": repr}
 

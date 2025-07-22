@@ -44,11 +44,11 @@ __all__ += [
     "primitive_cube",
 ]
 __all__ += [
-    "hull_section",
-]
-__all__ += [
     "PRIMITIVE_METHODS",
     "primitive",
+]
+__all__ += [
+    "hull_section",
 ]
 __all__ += [
     "primitive_vertices_quad_mpl",

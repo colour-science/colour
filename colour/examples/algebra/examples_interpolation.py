@@ -178,7 +178,7 @@ path = os.path.join(
     "iridas_cube",
     "Colour_Correct.cube",
 )
-table = cast(colour.LUT3D, colour.read_LUT(path)).table
+table = cast("colour.LUT3D", colour.read_LUT(path)).table
 print(colour.table_interpolation(V_xyz, table, method="Trilinear"))
 print(colour.algebra.table_interpolation_trilinear(V_xyz, table))
 

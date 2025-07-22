@@ -262,7 +262,7 @@ def lines_spectral_locus(
 ('colour', '<f8', (3,))])
     """
 
-    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
+    cmfs = cast("MultiSpectralDistributions", first_item(filter_cmfs(cmfs).values()))
 
     labels = optional(labels, LABELS_CHROMATICITY_DIAGRAM_DEFAULT[method])
 
@@ -309,7 +309,7 @@ def lines_spectral_locus(
     # Labels Normals
     ij_n, colour_l, normal_l = [], [], []
     wl_ij_cmfs = dict(zip(wavelengths, ij_cmfs, strict=True))
-    for label in cast(Tuple, labels):
+    for label in cast("Tuple", labels):
         ij_l = wl_ij_cmfs.get(label)
 
         if ij_l is None:
@@ -439,7 +439,7 @@ def plot_spectral_locus(
 
     _figure, axes = artist(**settings)
 
-    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
+    cmfs = cast("MultiSpectralDistributions", first_item(filter_cmfs(cmfs).values()))
 
     lines_sl, lines_w = lines_spectral_locus(cmfs, spectral_locus_labels, method)
 
@@ -567,7 +567,7 @@ def plot_chromaticity_diagram_colours(
         diagram_colours, HEX_to_RGB(CONSTANTS_COLOUR_STYLE.colour.average)
     )
 
-    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
+    cmfs = cast("MultiSpectralDistributions", first_item(filter_cmfs(cmfs).values()))
 
     illuminant = CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint
 
@@ -678,7 +678,7 @@ def plot_chromaticity_diagram(
 
     _figure, axes = artist(**settings)
 
-    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
+    cmfs = cast("MultiSpectralDistributions", first_item(filter_cmfs(cmfs).values()))
 
     if show_diagram_colours:
         settings = {"axes": axes, "method": method, "diagram_colours": "RGB"}
@@ -1077,11 +1077,11 @@ def plot_sds_in_chromaticity_diagram(
         plot_settings = plot_settings_collection[i]
 
         cmfs = cast(
-            MultiSpectralDistributions,
+            "MultiSpectralDistributions",
             first_item(filter_cmfs(plot_settings.pop("cmfs")).values()),
         )
         illuminant = cast(
-            SpectralDistribution,
+            "SpectralDistribution",
             first_item(filter_illuminants(plot_settings.pop("illuminant")).values()),
         )
         normalise_sd_colours = plot_settings.pop("normalise_sd_colours")
@@ -1096,7 +1096,7 @@ def plot_sds_in_chromaticity_diagram(
 
             plot_settings["color"] = np.clip(XYZ_to_plotting_colourspace(XYZ), 0, 1)
 
-        ij = cast(tuple[float, float], XYZ_to_ij(XYZ))
+        ij = cast("tuple[float, float]", XYZ_to_ij(XYZ))
 
         axes.plot(ij[0], ij[1], **plot_settings)
 

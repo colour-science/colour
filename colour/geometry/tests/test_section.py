@@ -153,7 +153,7 @@ class TestHullSection:
         if not is_trimesh_installed():  # pragma: no cover
             return
 
-        import trimesh
+        import trimesh  # noqa: PLC0415
 
         vertices, faces, _outline = primitive_cube(1, 1, 1, 2, 2, 2)
         hull = trimesh.Trimesh(vertices["position"], faces, process=False)

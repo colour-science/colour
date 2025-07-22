@@ -136,7 +136,7 @@ class TreeNode:
     _INSTANCE_ID
     """
 
-    def __new__(cls, *args: Any, **kwargs: Any) -> Self:  # noqa: ARG003
+    def __new__(cls, *args: Any, **kwargs: Any) -> Self:  # noqa: ARG004
         """
         Return a new instance of the :class:`colour.utilities.Node` class.
 
@@ -150,7 +150,7 @@ class TreeNode:
 
         instance = super().__new__(cls)
 
-        instance._id = TreeNode._INSTANCE_ID  # pyright: ignore # noqa: SLF001
+        instance._id = TreeNode._INSTANCE_ID  # pyright: ignore
         TreeNode._INSTANCE_ID += 1
 
         return instance
@@ -234,7 +234,7 @@ class TreeNode:
     def parent(self, value: Self | None) -> None:
         """Setter for the **self.parent** property."""
 
-        from colour.utilities import attest
+        from colour.utilities import attest  # noqa: PLC0415
 
         if value is not None:
             attest(
@@ -269,7 +269,7 @@ class TreeNode:
     def children(self, value: List[Self]) -> None:
         """Setter for the **self.children** property."""
 
-        from colour.utilities import attest
+        from colour.utilities import attest  # noqa: PLC0415
 
         attest(
             isinstance(value, list),
@@ -741,8 +741,7 @@ class Port(MixinLogging):
 
         attest(
             value is None or isinstance(value, PortNode),
-            f'"node" property: "{value}" is not "None" or '
-            f'its type is not "PortNode"!',
+            f'"node" property: "{value}" is not "None" or its type is not "PortNode"!',
         )
 
         self._node = value
@@ -1776,7 +1775,7 @@ class PortGraph(PortNode):
         [<...PortNode object at 0x...>, <...PortNode object at 0x...>]
         """
 
-        import networkx as nx
+        import networkx as nx  # noqa: PLC0415
 
         graph = nx.DiGraph()
 
@@ -1951,7 +1950,7 @@ class PortGraph(PortNode):
         if self._parent is not None:
             return PortNode.to_graphviz(self)
 
-        import pydot
+        import pydot  # noqa: PLC0415
 
         dot = pydot.Dot(
             "digraph", graph_type="digraph", rankdir="LR", splines="polyline"

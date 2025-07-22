@@ -371,14 +371,14 @@ s=0.0002395..., M=0.0190185..., HC=None, a=..., b=-0.0190185...)
     A_L, B_L = tsplit(final_opponent_signals(C_L, h_L))
 
     return CAM_Specification_LLAB(
-        L_L,
-        Ch_L,
-        as_float(from_range_degrees(h_L)),
-        s_L,
-        C_L,
-        None,
-        A_L,
-        B_L,
+        J=L_L,
+        C=Ch_L,
+        h=as_float(from_range_degrees(h_L)),
+        s=s_L,
+        M=C_L,
+        HC=None,
+        a=A_L,
+        b=B_L,
     )
 
 

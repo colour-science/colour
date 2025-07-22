@@ -83,7 +83,9 @@ from .zhai2018 import chromatic_adaptation_Zhai2018
 from .li2025 import CAT_CAT16_INVERSE, chromatic_adaptation_Li2025
 from colour.utilities import validate_method
 
-__all__ = ["CHROMATIC_ADAPTATION_TRANSFORMS"]
+__all__ = [
+    "CHROMATIC_ADAPTATION_TRANSFORMS",
+]
 __all__ += [
     "CAT_BIANCO2010",
     "CAT_BRADFORD",
@@ -390,7 +392,7 @@ def chromatic_adaptation(
     kwargs.update({"XYZ_w": XYZ_w, "XYZ_wr": XYZ_wr})
 
     if function is chromatic_adaptation_CIE1994:
-        from colour import XYZ_to_xy
+        from colour import XYZ_to_xy  # noqa: PLC0415
 
         kwargs.update({"xy_o1": XYZ_to_xy(XYZ_w), "xy_o2": XYZ_to_xy(XYZ_wr)})
     elif function is chromatic_adaptation_Fairchild1990:

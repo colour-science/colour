@@ -556,9 +556,9 @@ class Signal(AbstractContinuousFunction):
 
                     raise ValueError(error)
 
-                self._function = cast(Callable, _undefined_function)
+                self._function = cast("Callable", _undefined_function)
 
-        return cast(Callable, self._function)
+        return cast("Callable", self._function)
 
     @ndarray_copy_enable(False)
     def __str__(self) -> str:
@@ -1177,7 +1177,7 @@ class Signal(AbstractContinuousFunction):
             data, (tuple, list, np.ndarray, Iterator, ValuesView)
         ):
             data_array = (
-                tsplit(list(cast(Sequence, data)))
+                tsplit(list(cast("Sequence", data)))
                 if not isinstance(data, np.ndarray)
                 else data
             )
@@ -1190,7 +1190,7 @@ class Signal(AbstractContinuousFunction):
             )
         elif issubclass(type(data), Mapping) or isinstance(data, dict):  # pyright: ignore
             domain_unpacked, range_unpacked = tsplit(
-                sorted(cast(Mapping, data).items())
+                sorted(cast("Mapping", data).items())
             )
         elif is_pandas_installed() and isinstance(data, Series):
             domain_unpacked = as_float_array(data.index.values, dtype)  # pyright: ignore

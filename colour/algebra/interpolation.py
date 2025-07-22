@@ -758,8 +758,7 @@ class NearestNeighbourInterpolator(KernelInterpolator):
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         kwargs["kernel"] = kernel_nearest_neighbour
-        if "kernel_kwargs" in kwargs:
-            del kwargs["kernel_kwargs"]
+        kwargs.pop("kernel_kwargs", None)
 
         super().__init__(*args, **kwargs)
 
@@ -850,7 +849,7 @@ class LinearInterpolator:
     def x(self, value: ArrayLike) -> None:
         """Setter for the **self.x** property."""
 
-        value = cast(NDArrayFloat, np.atleast_1d(value).astype(self._dtype))
+        value = cast("NDArrayFloat", np.atleast_1d(value).astype(self._dtype))
 
         attest(
             value.ndim == 1,
@@ -883,7 +882,7 @@ class LinearInterpolator:
     def y(self, value: ArrayLike) -> None:
         """Setter for the **self.y** property."""
 
-        value = cast(NDArrayFloat, np.atleast_1d(value).astype(self._dtype))
+        value = cast("NDArrayFloat", np.atleast_1d(value).astype(self._dtype))
 
         attest(
             value.ndim == 1,
@@ -1136,8 +1135,7 @@ class SpragueInterpolator:
 
         attest(
             len(value) >= 6,
-            '"y" dependent variable values count must be equal to or '
-            "greater than 6!",
+            '"y" dependent variable values count must be equal to or greater than 6!',
         )
 
         self._y = value
@@ -1423,7 +1421,7 @@ class NullInterpolator:
     def x(self, value: ArrayLike) -> None:
         """Setter for the **self.x** property."""
 
-        value = cast(NDArrayFloat, np.atleast_1d(value).astype(self._dtype))
+        value = cast("NDArrayFloat", np.atleast_1d(value).astype(self._dtype))
 
         attest(
             value.ndim == 1,
@@ -1456,7 +1454,7 @@ class NullInterpolator:
     def y(self, value: ArrayLike) -> None:
         """Setter for the **self.y** property."""
 
-        value = cast(NDArrayFloat, np.atleast_1d(value).astype(self._dtype))
+        value = cast("NDArrayFloat", np.atleast_1d(value).astype(self._dtype))
 
         attest(
             value.ndim == 1,

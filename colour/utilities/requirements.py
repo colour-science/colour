@@ -66,7 +66,7 @@ def is_ctlrender_installed(raise_exception: bool = False) -> bool:
     """
 
     try:  # pragma: no cover
-        stdout = subprocess.run(  # noqa: S603
+        stdout = subprocess.run(
             ["ctlrender", "-help"],  # noqa: S607
             capture_output=True,
             check=False,
@@ -110,7 +110,7 @@ def is_imageio_installed(raise_exception: bool = False) -> bool:
     """
 
     try:  # pragma: no cover
-        import imageio  # noqa: F401
+        import imageio  # noqa: F401, PLC0415
     except ImportError as exception:  # pragma: no cover
         if raise_exception:
             error = (
@@ -147,7 +147,7 @@ def is_openimageio_installed(raise_exception: bool = False) -> bool:
     """
 
     try:  # pragma: no cover
-        import OpenImageIO  # noqa: F401
+        import OpenImageIO  # noqa: F401, PLC0415
     except ImportError as exception:  # pragma: no cover
         if raise_exception:
             error = (
@@ -184,7 +184,7 @@ def is_matplotlib_installed(raise_exception: bool = False) -> bool:
     """
 
     try:  # pragma: no cover
-        import matplotlib as mpl  # noqa: F401
+        import matplotlib as mpl  # noqa: F401, PLC0415
     except ImportError as exception:  # pragma: no cover
         if raise_exception:
             error = (
@@ -221,7 +221,7 @@ def is_networkx_installed(raise_exception: bool = False) -> bool:
     """
 
     try:  # pragma: no cover
-        import networkx as nx  # noqa: F401
+        import networkx as nx  # noqa: F401, PLC0415
     except ImportError as exception:  # pragma: no cover
         if raise_exception:
             error = (
@@ -259,7 +259,7 @@ def is_opencolorio_installed(raise_exception: bool = False) -> bool:
     """
 
     try:  # pragma: no cover
-        import PyOpenColorIO  # noqa: F401
+        import PyOpenColorIO  # noqa: F401, PLC0415
     except ImportError as exception:  # pragma: no cover
         if raise_exception:
             error = (
@@ -296,7 +296,7 @@ def is_pandas_installed(raise_exception: bool = False) -> bool:
     """
 
     try:  # pragma: no cover
-        import pandas  # noqa: F401, ICN001
+        import pandas  # noqa: F401, ICN001, PLC0415
     except ImportError as exception:  # pragma: no cover
         if raise_exception:
             error = (
@@ -334,7 +334,7 @@ def is_pydot_installed(raise_exception: bool = False) -> bool:
     """
 
     try:  # pragma: no cover
-        import pydot  # noqa: F401
+        import pydot  # noqa: F401, PLC0415
 
     except ImportError as exception:  # pragma: no cover
         if raise_exception:
@@ -383,7 +383,7 @@ def is_tqdm_installed(raise_exception: bool = False) -> bool:
     """
 
     try:  # pragma: no cover
-        import tqdm  # noqa: F401
+        import tqdm  # noqa: F401, PLC0415
     except ImportError as exception:  # pragma: no cover
         if raise_exception:
             error = (
@@ -420,7 +420,7 @@ def is_trimesh_installed(raise_exception: bool = False) -> bool:
     """
 
     try:  # pragma: no cover
-        import trimesh  # noqa: F401
+        import trimesh  # noqa: F401, PLC0415
     except ImportError as exception:  # pragma: no cover
         if raise_exception:
             error = (
@@ -457,7 +457,7 @@ def is_xxhash_installed(raise_exception: bool = False) -> bool:
     """
 
     try:  # pragma: no cover
-        import xxhash  # noqa: F401
+        import xxhash  # noqa: F401, PLC0415
     except ImportError as exception:  # pragma: no cover
         if raise_exception:
             error = (

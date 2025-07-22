@@ -142,7 +142,7 @@ def round_BT2100(a: ArrayLike) -> NDArrayFloat:
     array([ 0.,  1.,  1.])
     """
 
-    return cast(NDArrayFloat, np.sign(a) * np.floor(np.abs(a) + 0.5))
+    return cast("NDArrayFloat", np.sign(a) * np.floor(np.abs(a) + 0.5))
 
 
 def ranges_YCbCr(bits: int, is_legal: bool, is_int: bool) -> NDArrayFloat:
