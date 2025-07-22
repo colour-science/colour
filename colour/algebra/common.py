@@ -156,7 +156,7 @@ def set_sdiv_mode(
     global _SDIV_MODE  # noqa: PLW0603
 
     _SDIV_MODE = cast(
-        "Literal['Numpy', 'Ignore', 'Warning', 'Raise', "
+        "Literal['Numpy', 'Ignore', 'Warning', 'Raise', "  # pyright: ignore
         "'Ignore Zero Conversion', 'Warning Zero Conversion', "
         "'Ignore Limit Conversion', 'Warning Limit Conversion', "
         "'Replace With Epsilon', 'Warning Replace With Epsilon']",

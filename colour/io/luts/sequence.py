@@ -263,7 +263,7 @@ class LUTSequence(MutableSequence):
 
         return f"{self.__class__.__name__}(\n{operations}\n)"
 
-    __hash__ = None
+    __hash__ = None  # pyright: ignore
 
     def __eq__(self, other: object) -> bool:
         """

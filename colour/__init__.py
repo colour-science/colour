@@ -1000,7 +1000,7 @@ for _path in sys.path:  # pragma: no cover
         from colour.utilities import as_bool
 
         if as_bool(
-            os.environ.get("COLOUR_SCIENCE__COLOUR__IMPORT_VAAB_COLOUR"), "False"
+            os.environ.get("COLOUR_SCIENCE__COLOUR__IMPORT_VAAB_COLOUR", "False")
         ):
             colour.utilities.runtime_warning(  # pyright: ignore
                 '"vaab/colour" was detected in "sys.path", please define a '

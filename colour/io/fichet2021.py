@@ -355,9 +355,7 @@ class Specification_Fichet2021:
         True
         """
 
-        from OpenImageIO import (  # pyright: ignore  # noqa: PLC0415  # noqa: PLC0415
-            ImageInput,
-        )
+        from OpenImageIO import ImageInput  # pyright: ignore # noqa: PLC0415
 
         path = str(path)
 

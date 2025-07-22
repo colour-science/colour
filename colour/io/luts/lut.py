@@ -351,7 +351,7 @@ class AbstractLUT(ABC):
 
         return multiline_repr(self, attributes)
 
-    __hash__ = None
+    __hash__ = None  # pyright: ignore
 
     def __eq__(self, other: object) -> bool:
         """
