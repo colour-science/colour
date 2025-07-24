@@ -116,10 +116,10 @@ __all__ += [
 # ---                API Changes and Deprecation Management                ---#
 # ----------------------------------------------------------------------------#
 class algebra(ModuleAPI):
-    """A class acting like the *algebra* module."""
+    """Define a class acting like the *algebra* module."""
 
     def __getattr__(self, attribute: str) -> Any:
-        """Return the value from the attribute with specified name."""
+        """Return the value from the attribute with given name."""
 
         return super().__getattr__(attribute)
 
