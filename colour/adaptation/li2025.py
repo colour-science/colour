@@ -2,13 +2,14 @@
 Li (2025) Chromatic Adaptation Model
 ====================================
 
-Define the *Li (2025)* chromatic adaptation model object:
+Define the *Li (2025)* chromatic adaptation model  for predicting corresponding
+colours under different viewing conditions.
 
 -   :func:`colour.adaptation.chromatic_adaptation_Li2025`
 
 References
 ----------
--   :cite:`Li2025` :Li, M. (2025). One Step CAT16 Chromatic Adaptation
+-   :cite:`Li2025` : Li, M. (2025). One Step CAT16 Chromatic Adaptation
     Transform. https://github.com/colour-science/colour/pull/1349\
 #issuecomment-3058339414
 """
@@ -55,13 +56,13 @@ def chromatic_adaptation_Li2025(
     discount_illuminant: bool = False,
 ) -> NDArrayFloat:
     """
-    Adapt the specified stimulus :math:`XYZ_{s}` tristimulus values from source
-    viewing conditions to destination viewing conditions using *Li (2025)*
-    one-step CAT16 chromatic adaptation model.
+    Adapt the specified stimulus *CIE XYZ* tristimulus values from test
+    viewing conditions to reference viewing conditions using the
+    *Li (2025)* chromatic adaptation model.
 
     This one-step chromatic adaptation transform is based on *CAT16* and
     includes the degree of adaptation calculation from the viewing conditions
-    as given by *CIECAM02* colour appearance model.
+    as specified by *CIECAM02* colour appearance model.
 
     Parameters
     ----------
@@ -74,15 +75,15 @@ def chromatic_adaptation_Li2025(
     L_A
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
     F_surround
-        Maximum degree of adaptation :math:`F` from surround viewing conditions.
+        Maximum degree of adaptation :math:`F` from surround viewing
+        conditions.
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Chromatically adapted *CIE XYZ* tristimulus values under destination
-        illuminant.
+        *CIE XYZ* tristimulus values of the stimulus corresponding colour.
 
     Notes
     -----

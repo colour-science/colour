@@ -1,4 +1,7 @@
 """
+Provide chromatic adaptation models that predict how colours appear under
+different illumination conditions.
+
 References
 ----------
 -   :cite:`CIETC1-321994b` : CIE TC 1-32. (1994). CIE 109-1994 A Method of
@@ -19,7 +22,7 @@ References
 -   :cite:`Li2002a` : Li, C., Luo, M. R., Rigg, B., & Hunt, R. W. G. (2002).
     CMC 2000 chromatic adaptation transform: CMCCAT2000. Color Research &
     Application, 27(1), 49-58. doi:10.1002/col.10005
--   :cite:`Li2025` :Li, M. (2025). One Step CAT16 Chromatic Adaptation
+-   :cite:`Li2025` : Li, M. (2025). One Step CAT16 Chromatic Adaptation
     Transform. https://github.com/colour-science/colour/pull/1349\
 #issuecomment-3058339414
 -   :cite:`Westland2012k` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
@@ -147,8 +150,8 @@ Supported chromatic adaptation methods.
 References
 ----------
 :cite:`CIETC1-321994b`, :cite:`Fairchild1991a`, :cite:`Fairchild2013s`,
-:cite:`Fairchild2013t`, :cite:`Fairchild2020`, :cite:`Li2002a`, :cite:`Li2025`,
-:cite:`Westland2012k`, :cite:`Zhai2018`
+:cite:`Fairchild2013t`, :cite:`Fairchild2020`, :cite:`Li2002a`,
+:cite:`Li2025`, :cite:`Westland2012k`, :cite:`Zhai2018`
 """
 
 
@@ -171,15 +174,17 @@ def chromatic_adaptation(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Adapt the specified stimulus from test viewing conditions to reference viewing
-    conditions.
+    Adapt the specified stimulus *CIE XYZ* tristimulus values from test
+    viewing conditions to reference viewing conditions using the specified
+    chromatic adaptation method.
 
     Parameters
     ----------
     XYZ
         *CIE XYZ* tristimulus values of stimulus to adapt.
     XYZ_w
-        Test viewing condition *CIE XYZ* tristimulus values of the whitepoint.
+        Test viewing condition *CIE XYZ* tristimulus values of the
+        whitepoint.
     XYZ_wr
         Reference viewing condition *CIE XYZ* tristimulus values of the
         whitepoint.
@@ -190,10 +195,10 @@ def chromatic_adaptation(
     ----------------
     E_o1
         {:func:`colour.adaptation.chromatic_adaptation_CIE1994`},
-        Test illuminance :math:`E_{o1}` in :math:`cd/m^2`.
+        Test illuminance :math:`E_{o1}` in :math:`lux`.
     E_o2
         {:func:`colour.adaptation.chromatic_adaptation_CIE1994`},
-        Reference illuminance :math:`E_{o2}` in :math:`cd/m^2`.
+        Reference illuminance :math:`E_{o2}` in :math:`lux`.
     n
         {:func:`colour.adaptation.chromatic_adaptation_CIE1994`},
         Noise component in fundamental primary system.
@@ -206,7 +211,8 @@ def chromatic_adaptation(
         Chromatic adaptation direction.
     L_A1
         {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
-        Luminance of test adapting field :math:`L_{A1}` in :math:`cd/m^2`.
+        Luminance of test adapting field :math:`L_{A1}` in
+        :math:`cd/m^2`.
     L_A2
         {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
         Luminance of reference adapting field :math:`L_{A2}` in
@@ -219,13 +225,15 @@ def chromatic_adaptation(
         Truth value indicating if the illuminant should be discounted.
     Y_n
         {:func:`colour.adaptation.chromatic_adaptation_Fairchild1990`},
-        Luminance :math:`Y_n` of test adapting stimulus in :math:`cd/m^2`.
+        Luminance :math:`Y_n` of test adapting stimulus in
+        :math:`cd/m^2`.
     L_A
         {:func:`colour.adaptation.chromatic_adaptation_Li2025`},
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
     F_surround
         {:func:`colour.adaptation.chromatic_adaptation_Li2025`},
-        Maximum degree of adaptation :math:`F` from surround viewing conditions.
+        Maximum degree of adaptation :math:`F` from surround viewing
+        conditions.
     discount_illuminant
         {:func:`colour.adaptation.chromatic_adaptation_Li2025`},
         Truth value indicating if the illuminant should be discounted.
@@ -256,7 +264,7 @@ def chromatic_adaptation(
     Returns
     -------
     :class:`numpy.ndarray`
-        *CIE XYZ_c* tristimulus values of the stimulus corresponding colour.
+        *CIE XYZ* tristimulus values of the stimulus corresponding colour.
 
     Notes
     -----
@@ -282,8 +290,9 @@ def chromatic_adaptation(
 
     References
     ----------
-    :cite:`CIETC1-321994b`, :cite:`Fairchild1991a`, :cite:`Fairchild2013s`,
-    :cite:`Fairchild2013t`, :cite:`Li2002a`,:cite:`Li2025`, :cite:`Westland2012k`
+    :cite:`CIETC1-321994b`, :cite:`Fairchild1991a`,
+    :cite:`Fairchild2013s`, :cite:`Fairchild2013t`, :cite:`Li2002a`,
+    :cite:`Li2025`, :cite:`Westland2012k`
 
     Examples
     --------
@@ -341,9 +350,13 @@ def chromatic_adaptation(
     *Li (2025)* chromatic adaptation:
 
     >>> XYZ = np.array([0.1953, 0.2307, 0.2497])
-    >>> chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method="Fairchild 1990", Y_n=Y_n)
+    >>> L_A = 64
+    >>> F_surround = 1.0
+    >>> chromatic_adaptation(
+    ...     XYZ, XYZ_w, XYZ_wr, method="Li 2025", L_A=L_A, F_surround=F_surround
+    ... )
     ... # doctest: +ELLIPSIS
-    array([ 0.2332526...,  0.2332455...,  0.7611593...])
+    array([ 0.2039701...,  0.2304747...,  0.6783065...])
 
     *Zhai and Luo (2018)* chromatic adaptation:
 
