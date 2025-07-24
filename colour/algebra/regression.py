@@ -52,7 +52,7 @@ def least_square_mapping_MoorePenrose(y: ArrayLike, x: ArrayLike) -> NDArrayFloa
     Returns
     -------
     :class:`numpy.ndarray`
-        *Least-squares* mapping.
+        *Least-squares* mapping matrix.
 
     References
     ----------
