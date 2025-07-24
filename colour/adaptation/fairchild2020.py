@@ -2,7 +2,8 @@
 Von Kries 2020 (vK20) Chromatic Adaptation Model
 ================================================
 
-Define the *Von Kries 2020* (*vK20*) chromatic adaptation model objects:
+Define the *Von Kries 2020* (*vK20*) chromatic adaptation model for predicting
+corresponding colours under different viewing conditions.
 
 -   :attr:`colour.adaptation.CONDITIONS_DEGREE_OF_ADAPTATION_VK20`
 -   :func:`colour.adaptation.matrix_chromatic_adaptation_vk20`
@@ -10,9 +11,9 @@ Define the *Von Kries 2020* (*vK20*) chromatic adaptation model objects:
 
 References
 ----------
--   :cite:`Fairchild2020` : Fairchild, M. D. (2020). Von Kries 2020: Evolution
-    of degree of chromatic adaptation. Color and Imaging Conference, 28(1),
-    252-257. doi:10.2352/issn.2169-2629.2020.28.40
+-   :cite:`Fairchild2020` : Fairchild, M. D. (2020). Von Kries 2020:
+    Evolution of degree of chromatic adaptation. Color and Imaging
+    Conference, 28(1), 252-257. doi:10.2352/issn.2169-2629.2020.28.40
 """
 
 from __future__ import annotations
@@ -57,7 +58,8 @@ __all__ = [
 @dataclass(frozen=True)
 class Coefficients_DegreeOfAdaptation_vK20(MixinDataclassIterable):
     """
-    *Von Kries 2020* (*vK20*) degree of adaptation coefficients.
+    Define the degree of adaptation coefficients for the *Von Kries 2020*
+    (*vK20*) chromatic adaptation model.
 
     Parameters
     ----------
@@ -94,7 +96,8 @@ CONDITIONS_DEGREE_OF_ADAPTATION_VK20: CanonicalMapping = CanonicalMapping(
     }
 )
 CONDITIONS_DEGREE_OF_ADAPTATION_VK20.__doc__ = """
-Conditions for the *Von Kries 2020* (*vK20*) degree of adaptation coefficients.
+Define the degree of adaptation coefficient conditions for the *Von Kries 2020*
+(*vK20*) chromatic adaptation model.
 
 References
 ----------
@@ -137,19 +140,20 @@ def matrix_chromatic_adaptation_vk20(
 ) -> NDArrayFloat:
     """
     Compute the chromatic adaptation matrix from previous viewing conditions
-    to adapting viewing conditions using *Von Kries 2020* (*vK20*) method.
+    to adapting viewing conditions using the *Von Kries 2020* (*vK20*)
+    method.
 
     Parameters
     ----------
     XYZ_p
-        Previous viewing conditions *CIE XYZ* tristimulus values of the
-        whitepoint.
+        *CIE XYZ* tristimulus values of the whitepoint under previous viewing
+        conditions.
     XYZ_n
-        Adapting viewing conditions *CIE XYZ* tristimulus values of the
-        whitepoint.
+        *CIE XYZ* tristimulus values of the whitepoint under adapting viewing
+        conditions.
     XYZ_r
-        Reference viewing conditions *CIE XYZ* tristimulus values of the
-        whitepoint.
+        *CIE XYZ* tristimulus values of the whitepoint under reference viewing
+        conditions.
     transform
         Chromatic adaptation transform.
     coefficients
@@ -249,8 +253,9 @@ def chromatic_adaptation_vK20(
     ),
 ) -> NDArrayFloat:
     """
-    Adapt the specified stimulus from previous viewing conditions to adapting
-    viewing conditions using *Von Kries 2020* (*vK20*) method.
+    Adapt the specified stimulus *CIE XYZ* tristimulus values from test
+    viewing conditions to reference viewing conditions using the
+    *Von Kries 2020* (*vK20*) chromatic adaptation model.
 
     Parameters
     ----------
@@ -273,7 +278,7 @@ def chromatic_adaptation_vK20(
     Returns
     -------
     :class:`numpy.ndarray`
-        *CIE XYZ_c* tristimulus values of the stimulus corresponding colour.
+        *CIE XYZ* tristimulus values of the stimulus corresponding colour.
 
     Notes
     -----

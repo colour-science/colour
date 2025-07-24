@@ -10,18 +10,18 @@ Define various chromatic adaptation transforms (CAT):
     transform.
 -   :attr:`colour.adaptation.CAT_CAT02`: *CAT02* chromatic adaptation
     transform.
--   :attr:`colour.adaptation.CAT_CAT02_BRILL2008`: *Brill and Susstrunk (2008)*
-    corrected CAT02 chromatic adaptation transform.
+-   :attr:`colour.adaptation.CAT_CAT02_BRILL2008`: *Brill and Susstrunk
+    (2008)* corrected CAT02 chromatic adaptation transform.
 -   :attr:`colour.adaptation.CAT_CAT16`: *CAT16* chromatic adaptation
     transform.
--   :attr:`colour.adaptation.CAT_CMCCAT2000`: *CMCCAT2000* chromatic adaptation
-    transform.
+-   :attr:`colour.adaptation.CAT_CMCCAT2000`: *CMCCAT2000* chromatic
+    adaptation transform.
 -   :attr:`colour.adaptation.CAT_CMCCAT97`: *CMCCAT97* chromatic adaptation
     transform.
 -   :attr:`colour.adaptation.CAT_FAIRCHILD`: *Fairchild* chromatic adaptation
     transform.
--   :attr:`colour.adaptation.CAT_PC_BIANCO2010`:
-    *Bianco and Schettini PC (2010)* chromatic adaptation transform.
+-   :attr:`colour.adaptation.CAT_PC_BIANCO2010`: *Bianco and Schettini PC
+    (2010)* chromatic adaptation transform.
 -   :attr:`colour.adaptation.CAT_SHARP`: *Sharp* chromatic adaptation
     transform.
 -   :attr:`colour.adaptation.CAT_VON_KRIES`: *Von Kries* chromatic adaptation
@@ -31,12 +31,13 @@ Define various chromatic adaptation transforms (CAT):
 
 References
 ----------
--   :cite:`Bianco2010a` : Bianco, S., & Schettini, R. (2010). Two new von Kries
-    based chromatic adaptation transforms found by numerical optimization.
-    Color Research & Application, 35(3), 184-192. doi:10.1002/col.20573
--   :cite:`Brill2008a` : Brill, M. H., & Susstrunk, S. (2008). Repairing gamut
-    problems in CIECAM02: A progress report. Color Research & Application,
-    33(5), 424-426. doi:10.1002/col.20432
+-   :cite:`Bianco2010a` : Bianco, S., & Schettini, R. (2010). Two new von
+    Kries based chromatic adaptation transforms found by numerical
+    optimization. Color Research & Application, 35(3), 184-192.
+    doi:10.1002/col.20573
+-   :cite:`Brill2008a` : Brill, M. H., & Susstrunk, S. (2008). Repairing
+    gamut problems in CIECAM02: A progress report. Color Research &
+    Application, 33(5), 424-426. doi:10.1002/col.20432
 -   :cite:`CIETC1-321994b` : CIE TC 1-32. (1994). CIE 109-1994 A Method of
     Predicting Corresponding Colours under Different Chromatic and Illuminance
     Adaptations. Commission Internationale de l'Eclairage.
@@ -48,8 +49,7 @@ References
     http://rit-mcsl.org/fairchild//files/FairchildYSh.zip
 -   :cite:`Li2007e` : Li, C., Perales, E., Luo, M. R., & Martinez-verdu, F.
     (2007). The Problem with CAT02 and Its Correction.
-    https://pdfs.semanticscholar.org/b5a9/\
-0215ad9a1fb6b01f310b3d64305f7c9feb3a.pdf
+    https://pdfs.semanticscholar.org/b5a9/0215ad9a1fb6b01f310b3d64305f7c9feb3a.pdf
 -   :cite:`Li2017` : Li, C., Li, Z., Wang, Z., Xu, Y., Luo, M. R., Cui, G.,
     Melgosa, M., Brill, M. H., & Pointer, M. (2017). Comprehensive color
     solutions: CAM16, CAT16, and CAM16-UCS. Color Research & Application,
@@ -61,12 +61,12 @@ References
     (1995). Lightness dependency of chroma scales of a nonlinear
     color-appearance model and its latest formulation. Color Research &
     Application, 20(3), 156-167. doi:10.1002/col.5080200305
--   :cite:`Westland2012g` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
-    CMCCAT97. In Computational Colour Science Using MATLAB (2nd ed., p. 80).
-    ISBN:978-0-470-66569-5
--   :cite:`Westland2012k` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
-    CMCCAT2000. In Computational Colour Science Using MATLAB (2nd ed., pp.
-    83-86). ISBN:978-0-470-66569-5
+-   :cite:`Westland2012g` : Westland, S., Ripamonti, C., & Cheung, V.
+    (2012). CMCCAT97. In Computational Colour Science Using MATLAB (2nd ed.,
+    p. 80). ISBN:978-0-470-66569-5
+-   :cite:`Westland2012k` : Westland, S., Ripamonti, C., & Cheung, V.
+    (2012). CMCCAT2000. In Computational Colour Science Using MATLAB (2nd
+    ed., pp. 83-86). ISBN:978-0-470-66569-5
 -   :cite:`Wikipedia2007` : Wikipedia. (2007). CAT02. Retrieved February 24,
     2014, from http://en.wikipedia.org/wiki/CIECAM02#CAT02
 """
@@ -302,11 +302,11 @@ CHROMATIC_ADAPTATION_TRANSFORMS: CanonicalMapping = CanonicalMapping(
     }
 )
 CHROMATIC_ADAPTATION_TRANSFORMS.__doc__ = """
-Chromatic adaptation transforms.
+Supported chromatic adaptation transforms.
 
 References
 ----------
-:cite:`Bianco2010a`, :cite:`Brill2008a`, :cite:`Fairchildb`, :cite:`Li2007e`,
-:cite:`Li2017`, :cite:`Lindbloom2009g`, :cite:`Westland2012g`,
-:cite:`Westland2012k`, :cite:`Wikipedia2007`
+:cite:`Bianco2010a`, :cite:`Brill2008a`, :cite:`Fairchildb`,
+:cite:`Li2007e`, :cite:`Li2017`, :cite:`Lindbloom2009g`,
+:cite:`Westland2012g`, :cite:`Westland2012k`, :cite:`Wikipedia2007`
 """
