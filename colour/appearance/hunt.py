@@ -2,7 +2,8 @@
 Hunt Colour Appearance Model
 ============================
 
-Define the *Hunt* colour appearance model objects:
+Define the *Hunt* colour appearance model for predicting perceptual colour
+attributes under varying viewing conditions.
 
 -   :class:`colour.appearance.InductionFactors_Hunt`
 -   :attr:`colour.VIEWING_CONDITIONS_HUNT`
@@ -87,7 +88,7 @@ __all__ = [
 @dataclass(frozen=True)
 class InductionFactors_Hunt(MixinDataclassIterable):
     """
-    *Hunt* colour appearance model induction factors.
+    Define the *Hunt* colour appearance model induction factors.
 
     Parameters
     ----------
@@ -126,7 +127,7 @@ VIEWING_CONDITIONS_HUNT: CanonicalMapping = CanonicalMapping(
     }
 )
 VIEWING_CONDITIONS_HUNT.__doc__ = """
-Reference *Hunt* colour appearance model viewing conditions.
+Define the reference *Hunt* colour appearance model viewing conditions.
 
 References
 ----------
@@ -139,7 +140,6 @@ Aliases:
 -   'tv_dim': 'Television & CRT, Dim Surrounds'
 -   'light_boxes': 'Large Transparencies On Light Boxes'
 -   'projected_dark': 'Projected Transparencies, Dark Surrounds'
-
 """
 VIEWING_CONDITIONS_HUNT["small_uniform"] = VIEWING_CONDITIONS_HUNT[
     "Small Areas, Uniform Background & Surrounds"
@@ -184,15 +184,15 @@ class CAM_ReferenceSpecification_Hunt(MixinDataclassArithmetic):
     """
     Define the *Hunt* colour appearance model reference specification.
 
-    This specification has field names consistent with *Fairchild (2013)*
-    reference.
+    This specification contains field names consistent with the *Fairchild
+    (2013)* reference.
 
     Parameters
     ----------
     J
         Correlate of *Lightness* :math:`J`.
     C_94
-        Correlate of *chroma* :math:`C_94`.
+        Correlate of *chroma* :math:`C_{94}`.
     h_S
         *Hue* angle :math:`h_S` in degrees.
     s
@@ -200,7 +200,7 @@ class CAM_ReferenceSpecification_Hunt(MixinDataclassArithmetic):
     Q
         Correlate of *brightness* :math:`Q`.
     M_94
-        Correlate of *colourfulness* :math:`M_94`.
+        Correlate of *colourfulness* :math:`M_{94}`.
     H
         *Hue* :math:`h` quadrature :math:`H`.
     H_C
@@ -226,24 +226,26 @@ class CAM_Specification_Hunt(MixinDataclassArithmetic):
     """
     Define the *Hunt* colour appearance model specification.
 
-    This specification has field names consistent with the remaining colour
-    appearance models in :mod:`colour.appearance` but diverge from
-    *Fairchild (2013)* reference.
+    This specification provides a standardized interface for the *Hunt* model
+    with field names consistent across all colour appearance models in
+    :mod:`colour.appearance`. While the field names differ from the original
+    *Fairchild (2013)* reference notation, they map directly to the model's
+    perceptual correlates.
 
     Parameters
     ----------
     J
-        Correlate of *Lightness* :math:`J`.
+        Correlate of *lightness* :math:`J`.
     C
-        Correlate of *chroma* :math:`C_94`.
+        Correlate of *chroma* :math:`C_{94}`.
     h
-        *Hue* angle :math:`h_S` in degrees.
+        *Hue* angle :math:`h_s` in degrees.
     s
         Correlate of *saturation* :math:`s`.
     Q
         Correlate of *brightness* :math:`Q`.
     M
-        Correlate of *colourfulness* :math:`M_94`.
+        Correlate of *colourfulness* :math:`M_{94}`.
     H
         *Hue* :math:`h` quadrature :math:`H`.
     HC
@@ -251,7 +253,8 @@ class CAM_Specification_Hunt(MixinDataclassArithmetic):
 
     Notes
     -----
-    -   This specification is the one used in the current model implementation.
+    -   This specification is the one used in the current model
+        implementation.
 
     References
     ----------
@@ -284,7 +287,8 @@ def XYZ_to_Hunt(
     discount_illuminant: bool = True,
 ) -> CAM_Specification_Hunt:
     """
-    Compute the *Hunt* colour appearance model correlates.
+    Compute the *Hunt* colour appearance model correlates from the specified
+    *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -297,32 +301,31 @@ def XYZ_to_Hunt(
     L_A
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
     surround
-         Surround viewing conditions induction factors.
+        Surround viewing conditions induction factors.
     L_AS
-        Scotopic luminance :math:`L_{AS}` of the illuminant, approximated if
-        not specified.
+        Scotopic luminance :math:`L_{AS}` of the illuminant,
+        approximated if not specified.
     CCT_w
-        Correlated color temperature :math:`T_{cp}` of the illuminant,
-        needed to approximate :math:`L_{AS}`.
+        Correlated colour temperature :math:`T_{cp}` of the illuminant,
+        required to approximate :math:`L_{AS}` when not specified.
     XYZ_p
-        *CIE XYZ* tristimulus values of proximal field, assumed to be equal
-        to background if not specified.
+        *CIE XYZ* tristimulus values of proximal field, assumed to equal
+        background if not specified.
     p
         Simultaneous contrast / assimilation factor :math:`p` with value
-        normalised to domain [-1, 0] when simultaneous contrast occurs and
-        normalised to domain [0, 1] when assimilation occurs.
+        normalised to domain [-1, 0] for simultaneous contrast and
+        normalised to domain [0, 1] for assimilation.
     S
         Scotopic response :math:`S` to the stimulus, approximated using
-        tristimulus values :math:`Y` of the stimulus if not specified.
+        tristimulus value :math:`Y` of the stimulus if not specified.
     S_w
-        Scotopic response :math:`S_w` for the reference white, approximated
-        using the tristimulus values :math:`Y_w` of the reference white if
-        not specified.
+        Scotopic response :math:`S_w` for the reference white,
+        approximated using tristimulus value :math:`Y_w` of the
+        reference white if not specified.
     helson_judd_effect
-        Truth value indicating whether the *Helson-Judd* effect should be
-        accounted for.
+        Whether to account for the *Helson-Judd* effect.
     discount_illuminant
-        Truth value indicating if the illuminant should be discounted.
+        Whether to discount the illuminant.
 
     Returns
     -------
@@ -575,14 +578,14 @@ def luminance_level_adaptation_factor(
 def illuminant_scotopic_luminance(L_A: ArrayLike, CCT: ArrayLike) -> NDArrayFloat:
     """
     Compute the approximate scotopic luminance :math:`L_{AS}` of the
-    illuminant.
+    specified illuminant.
 
     Parameters
     ----------
     L_A
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
     CCT
-        Correlated color temperature :math:`T_{cp}` of the illuminant.
+        Correlated colour temperature :math:`T_{cp}` of the illuminant.
 
     Returns
     -------
@@ -605,7 +608,7 @@ def illuminant_scotopic_luminance(L_A: ArrayLike, CCT: ArrayLike) -> NDArrayFloa
 
 def XYZ_to_rgb(XYZ: ArrayLike) -> NDArrayFloat:
     """
-    Convert *CIE XYZ* tristimulus values to *Hunt-Pointer-Estevez*
+    Convert from *CIE XYZ* tristimulus values to *Hunt-Pointer-Estevez*
     :math:`\\rho\\gamma\\beta` colourspace.
 
     Parameters
@@ -616,7 +619,7 @@ def XYZ_to_rgb(XYZ: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta` colourspace.
+        *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta` colourspace values.
 
     Examples
     --------
@@ -642,7 +645,6 @@ def f_n(x: ArrayLike) -> NDArrayFloat:
     -------
     :class:`numpy.ndarray`
         Modeled visual response variable :math:`x`.
-
 
     Examples
     --------
@@ -687,7 +689,7 @@ def chromatic_adaptation(
         *CIE XYZ* tristimulus values of proximal field, assumed to be equal
         to background if not specified.
     p
-        Simultaneous contrast / assimilation factor :math:`p` with value
+        Simultaneous contrast/assimilation factor :math:`p` with value
         normalised to domain [-1, 0] when simultaneous contrast occurs and
         normalised to domain [0, 1] when assimilation occurs.
     helson_judd_effect
@@ -773,7 +775,12 @@ def adjusted_reference_white_signals(
     p: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Adjust the white point for simultaneous chromatic contrast.
+    Adjust reference white signals for simultaneous chromatic
+    contrast/assimilation effects.
+
+    Compute adjusted cone signals in the Hunt-Pointer-Estevez
+    :math:`\\rho\\gamma\\beta` colourspace based on the proximal field,
+    background, and simultaneous contrast/assimilation factor.
 
     Parameters
     ----------
@@ -911,7 +918,7 @@ def hue_angle(C: ArrayLike) -> NDArrayFloat:
 
 def eccentricity_factor(hue: ArrayLike) -> NDArrayFloat:
     """
-    Compute eccentricity factor :math:`e_s` from the specified hue angle
+    Compute the eccentricity factor :math:`e_s` from the specified hue angle
     :math:`h` in degrees.
 
     Parameters
@@ -980,7 +987,7 @@ def yellowness_blueness_response(
     F_t: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Compute the yellowness / blueness response :math:`M_{yb}`.
+    Compute the yellowness-blueness response :math:`M_{yb}`.
 
     Parameters
     ----------
@@ -998,7 +1005,7 @@ def yellowness_blueness_response(
     Returns
     -------
     :class:`numpy.ndarray`
-        Yellowness / blueness response :math:`M_{yb}`.
+        Yellowness-blueness response :math:`M_{yb}`.
 
     Examples
     --------
@@ -1030,7 +1037,7 @@ def redness_greenness_response(
     N_cb: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Compute the redness / greenness response :math:`M_{rg}`.
+    Compute the redness-greenness response :math:`M_{rg}`.
 
     Parameters
     ----------
@@ -1046,7 +1053,7 @@ def redness_greenness_response(
     Returns
     -------
     :class:`numpy.ndarray`
-        Redness / greenness response :math:`M_{rg}`.
+        Redness-greenness response :math:`M_{rg}`.
 
     Examples
     --------
@@ -1211,13 +1218,13 @@ def brightness_correlate(
     Parameters
     ----------
     A
-         Achromatic signal :math:`A`.
+        Achromatic signal :math:`A`.
     A_w
         Achromatic post adaptation signal of the reference white :math:`A_w`.
     M
         Overall chromatic response :math:`M`.
     N_b
-         Brightness surround induction factor :math:`N_b`.
+        Brightness surround induction factor :math:`N_b`.
 
     Returns
     -------
@@ -1257,13 +1264,13 @@ def lightness_correlate(
     Parameters
     ----------
     Y_b
-         Tristimulus values :math:`Y_b` the background.
+        Tristimulus value :math:`Y_b` of the background.
     Y_w
-         Tristimulus values :math:`Y_b` the reference white.
+        Tristimulus value :math:`Y_w` of the reference white.
     Q
         *Brightness* correlate :math:`Q` of the stimulus.
     Q_w
-        *Brightness* correlate :math:`Q` of the reference white.
+        *Brightness* correlate :math:`Q_w` of the reference white.
 
     Returns
     -------
@@ -1298,25 +1305,25 @@ def chroma_correlate(
     Q_w: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Compute the *chroma* correlate :math:`C_94`.
+    Compute the *chroma* correlate :math:`C_{94}`.
 
     Parameters
     ----------
     s
         *Saturation* correlate :math:`s`.
     Y_b
-         Tristimulus values :math:`Y_b` the background.
+        Tristimulus value :math:`Y_b` of the background.
     Y_w
-         Tristimulus values :math:`Y_b` the reference white.
+        Tristimulus value :math:`Y_w` of the reference white.
     Q
         *Brightness* correlate :math:`Q` of the stimulus.
     Q_w
-        *Brightness* correlate :math:`Q` of the reference white.
+        *Brightness* correlate :math:`Q_w` of the reference white.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *Chroma* correlate :math:`C_94`.
+        *Chroma* correlate :math:`C_{94}`.
 
     Examples
     --------
@@ -1344,19 +1351,19 @@ def chroma_correlate(
 
 def colourfulness_correlate(F_L: ArrayLike, C_94: ArrayLike) -> NDArrayFloat:
     """
-    Compute the *colourfulness* correlate :math:`M_94`.
+    Compute the *colourfulness* correlate :math:`M_{94}`.
 
     Parameters
     ----------
     F_L
         Luminance adaptation factor :math:`F_L`.
     C_94
-        *Chroma* correlate :math:`C_94`.
+        *Chroma* correlate :math:`C_{94}`.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *Colourfulness* correlate :math:`M_94`.
+        *Colourfulness* correlate :math:`M_{94}`.
 
     Examples
     --------

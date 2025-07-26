@@ -2,7 +2,8 @@
 CIECAM16 Colour Appearance Model
 ================================
 
-Define the *CIECAM16* colour appearance model objects:
+Define the *CIECAM16* colour appearance model for predicting perceptual colour
+attributes under varying viewing conditions.
 
 -   :class:`colour.appearance.InductionFactors_CIECAM16`
 -   :attr:`colour.VIEWING_CONDITIONS_CIECAM16`
@@ -91,7 +92,7 @@ __all__ = [
 @dataclass(frozen=True)
 class InductionFactors_CIECAM16(MixinDataclassIterable):
     """
-    *CIECAM16* colour appearance model induction factors.
+    Define the *CIECAM16* colour appearance model induction factors.
 
     Parameters
     ----------
@@ -121,7 +122,7 @@ VIEWING_CONDITIONS_CIECAM16: CanonicalMapping = CanonicalMapping(
     VIEWING_CONDITIONS_CIECAM02
 )
 VIEWING_CONDITIONS_CIECAM16.__doc__ = """
-Reference *CIECAM16* colour appearance model viewing conditions.
+Define the reference *CIECAM16* colour appearance model viewing conditions.
 
 References
 ----------
@@ -180,8 +181,8 @@ def XYZ_to_CIECAM16(
     compute_H: bool = True,
 ) -> CAM_Specification_CIECAM16:
     """
-    Compute the *CIECAM16* colour appearance model correlates from the specified
-    *CIE XYZ* tristimulus values.
+    Compute the *CIECAM16* colour appearance model correlates from the
+    specified *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -190,22 +191,22 @@ def XYZ_to_CIECAM16(
     XYZ_w
         *CIE XYZ* tristimulus values of reference white.
     L_A
-        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
-        to be 20% of the luminance of a white object in the scene).
+        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often
+        taken to be 20% of the luminance of a white object in the scene).
     Y_b
         Luminous factor of background :math:`Y_b` such as
-        :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of the
-        light source and :math:`L_b` is the luminance of the background. For
-        viewing images, :math:`Y_b` can be the average :math:`Y` value for the
-        pixels in the entire image, or frequently, a :math:`Y` value of 20,
-        approximate an :math:`L^*` of 50 is used.
+        :math:`Y_b = 100 \\times L_b / L_w` where :math:`L_w` is the
+        luminance of the light source and :math:`L_b` is the luminance of
+        the background. For viewing images, :math:`Y_b` can be the average
+        :math:`Y` value for the pixels in the entire image, or frequently,
+        a :math:`Y` value of 20, approximate an :math:`L^*` of 50 is used.
     surround
         Surround viewing conditions induction factors.
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
     compute_H
-        Whether to compute *Hue* :math:`h` quadrature :math:`H`. :math:`H` is
-        rarely used, and expensive to compute.
+        Whether to compute *Hue* :math:`h` quadrature :math:`H`.
+        :math:`H` is rarely used, and expensive to compute.
 
     Returns
     -------
@@ -373,7 +374,8 @@ def CIECAM16_to_XYZ(
     discount_illuminant: bool = False,
 ) -> NDArrayFloat:
     """
-    Convert *CIECAM16* specification to *CIE XYZ* tristimulus values.
+    Convert the *CIECAM16* colour appearance model specification to *CIE XYZ*
+    tristimulus values.
 
     Parameters
     ----------
@@ -389,11 +391,11 @@ def CIECAM16_to_XYZ(
         to be 20% of the luminance of a white object in the scene).
     Y_b
         Luminous factor of background :math:`Y_b` such as
-        :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of the
-        light source and :math:`L_b` is the luminance of the background. For
-        viewing images, :math:`Y_b` can be the average :math:`Y` value for the
-        pixels in the entire image, or frequently, a :math:`Y` value of 20,
-        approximate an :math:`L^*` of 50 is used.
+        :math:`Y_b = 100 \\times L_b / L_w` where :math:`L_w` is the luminance
+        of the light source and :math:`L_b` is the luminance of the background.
+        For viewing images, :math:`Y_b` can be the average :math:`Y` value for
+        the pixels in the entire image, or frequently, a :math:`Y` value of 20,
+        approximating an :math:`L^*` of 50 is used.
     surround
         Surround viewing conditions.
     discount_illuminant
@@ -571,8 +573,8 @@ def f_e_forward(RGB_c: ArrayLike, F_L: ArrayLike) -> NDArrayFloat:
     Notes
     -----
     -   This definition is different from :cite:`Li2017` and provides linear
-        extensions under 0.26 and above 150. It also omits the 0.1 offset that
-        is now part of the general model.
+        extensions under 0.26 and above 150. It also omits the 0.1 offset
+        that is now part of the general model.
 
     Examples
     --------
@@ -608,7 +610,8 @@ def f_e_forward(RGB_c: ArrayLike, F_L: ArrayLike) -> NDArrayFloat:
 
 def f_e_inverse(RGB_a: ArrayLike, F_L: ArrayLike) -> NDArrayFloat:
     """
-    Compute the modified cone-like responses.
+    Compute the inverse of the forward eccentricity factor modified cone-like
+    responses.
 
     Parameters
     ----------
@@ -625,8 +628,8 @@ def f_e_inverse(RGB_a: ArrayLike, F_L: ArrayLike) -> NDArrayFloat:
     Notes
     -----
     -   This definition is different from :cite:`Li2017` and provides linear
-        extensions under 0.26 and above 150. It also omits the 0.1 offset that
-        is now part of the general model.
+        extensions under 0.26 and above 150. It also omits the 0.1 offset
+        that is now part of the general model.
 
     Examples
     --------
@@ -661,7 +664,7 @@ def f_e_inverse(RGB_a: ArrayLike, F_L: ArrayLike) -> NDArrayFloat:
 
 def f_q(F_L: ArrayLike, q: ArrayLike) -> NDArrayFloat:
     """
-    Define the :math:`f(q)` function.
+    Evaluate the :math:`f(q)` function for chromatic adaptation.
 
     Parameters
     ----------
@@ -673,7 +676,7 @@ def f_q(F_L: ArrayLike, q: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Evaluated :math:`f(q)` function.
+        Evaluated :math:`f(q)` function result.
 
     Examples
     --------
@@ -691,7 +694,7 @@ def f_q(F_L: ArrayLike, q: ArrayLike) -> NDArrayFloat:
 
 def d_f_q(F_L: ArrayLike, q: ArrayLike) -> NDArrayFloat:
     """
-    Define the :math:`f'(q)` function derivative.
+    Compute the :math:`f'(q)` function derivative.
 
     Parameters
     ----------

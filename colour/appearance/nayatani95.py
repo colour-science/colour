@@ -2,7 +2,8 @@
 Nayatani (1995) Colour Appearance Model
 =======================================
 
-Define the *Nayatani (1995)* colour appearance model objects:
+Define the *Nayatani (1995)* colour appearance model for predicting
+perceptual colour attributes under varying viewing conditions.
 
 -   :class:`colour.CAM_Specification_Nayatani95`
 -   :func:`colour.XYZ_to_Nayatani95`
@@ -93,13 +94,13 @@ class CAM_ReferenceSpecification_Nayatani95(MixinDataclassArithmetic):
     Define the *Nayatani (1995)* colour appearance model reference
     specification.
 
-    This specification has field names consistent with *Fairchild (2013)*
-    reference.
+    This specification contains field names consistent with the *Fairchild
+    (2013)* reference.
 
     Parameters
     ----------
     L_star_P
-        Correlate of *achromatic Lightness* :math:`L_p^\\star`.
+        Correlate of *achromatic lightness* :math:`L_p^\\star`.
     C
         Correlate of *chroma* :math:`C`.
     theta
@@ -115,7 +116,7 @@ class CAM_ReferenceSpecification_Nayatani95(MixinDataclassArithmetic):
     H_C
         *Hue* :math:`h` composition :math:`H_C`.
     L_star_N
-        Correlate of *normalised achromatic Lightness* :math:`L_n^\\star`.
+        Correlate of *normalised achromatic lightness* :math:`L_n^\\star`.
 
     References
     ----------
@@ -138,14 +139,16 @@ class CAM_Specification_Nayatani95(MixinDataclassArithmetic):
     """
     Define the *Nayatani (1995)* colour appearance model specification.
 
-    This specification has field names consistent with the remaining colour
-    appearance models in :mod:`colour.appearance` but diverge from
-    *Fairchild (2013)* reference.
+    This specification provides a standardized interface for the
+    *Nayatani (1995)* model with field names consistent across all colour
+    appearance models in :mod:`colour.appearance`. While the field names differ
+    from the original *Fairchild (2013)* reference notation, they map directly
+    to the model's perceptual correlates.
 
     Parameters
     ----------
     L_star_P
-        Correlate of *achromatic Lightness* :math:`L_p^\\star`.
+        Correlate of *achromatic lightness* :math:`L_p^\\star`.
     C
         Correlate of *chroma* :math:`C`.
     h
@@ -161,11 +164,12 @@ class CAM_Specification_Nayatani95(MixinDataclassArithmetic):
     HC
         *Hue* :math:`h` composition :math:`H_C`.
     L_star_N
-        Correlate of *normalised achromatic Lightness* :math:`L_n^\\star`.
+        Correlate of *normalised achromatic lightness* :math:`L_n^\\star`.
 
     Notes
     -----
-    -   This specification is the one used in the current model implementation.
+    -   This specification is the one used in the current model
+        implementation.
 
     References
     ----------
@@ -192,7 +196,8 @@ def XYZ_to_Nayatani95(
     n: ArrayLike = 1,
 ) -> CAM_Specification_Nayatani95:
     """
-    Compute the *Nayatani (1995)* colour appearance model correlates.
+    Compute the *Nayatani (1995)* colour appearance model correlates from the
+    specified *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -202,7 +207,8 @@ def XYZ_to_Nayatani95(
         *CIE XYZ* tristimulus values of reference white.
     Y_o
         Luminance factor :math:`Y_o` of achromatic background as percentage
-        normalised to domain [0.18, 1.0] in **'Reference'** domain-range scale.
+        normalised to domain [0.18, 1.0] in **'Reference'** domain-range
+        scale.
     E_o
         Illuminance :math:`E_o` of the viewing field in lux.
     E_or
@@ -340,8 +346,8 @@ H=None, HC=None, L_star_N=50.0039154...)
 
 def illuminance_to_luminance(E: ArrayLike, Y_f: ArrayLike) -> NDArrayFloat:
     """
-    Convert the specified *illuminance* :math:`E` value in lux to *luminance* in
-    :math:`cd/m^2`.
+    Convert the specified *illuminance* :math:`E` value in lux to *luminance*
+    :math:`Y` in :math:`cd/m^2`.
 
     Parameters
     ----------
@@ -431,25 +437,25 @@ def achromatic_response(
     n: ArrayLike = 1,
 ) -> NDArrayFloat:
     """
-    Compute the achromatic response :math:`Q` from the specified stimulus cone
-    responses.
+    Compute the achromatic response :math:`Q` from the specified stimulus
+    cone responses.
 
     Parameters
     ----------
     RGB
-         Stimulus cone responses.
+        Stimulus cone responses.
     bRGB_o
-         Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
-         :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
+        Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
+        :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
     xez
         Intermediate values :math:`\\xi`, :math:`\\eta`, :math:`\\zeta`.
     bL_or
-         Normalising chromatic adaptation exponential factor
-         :math:`\\beta_1(B_or)`.
+        Normalising chromatic adaptation exponential factor
+        :math:`\\beta_1(B_{or})`.
     eR
-         Scaling coefficient :math:`e(R)`.
+        Scaling coefficient :math:`e(R)`.
     eG
-         Scaling coefficient :math:`e(G)`.
+        Scaling coefficient :math:`e(G)`.
     n
         Noise term used in the non-linear chromatic adaptation model.
 
@@ -496,10 +502,10 @@ def tritanopic_response(
     Parameters
     ----------
     RGB
-         Stimulus cone responses.
+        Stimulus cone responses.
     bRGB_o
-         Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
-         :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
+        Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
+        :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
     xez
         Intermediate values :math:`\\xi`, :math:`\\eta`, :math:`\\zeta`.
     n
@@ -541,10 +547,10 @@ def protanopic_response(
     Parameters
     ----------
     RGB
-         Stimulus cone responses.
+        Stimulus cone responses.
     bRGB_o
-         Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
-         :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
+        Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
+        :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
     xez
         Intermediate values :math:`\\xi`, :math:`\\eta`, :math:`\\zeta`.
     n
@@ -585,11 +591,11 @@ def brightness_correlate(
     Parameters
     ----------
     bRGB_o
-         Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
-         :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
+        Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
+        :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
     bL_or
-         Normalising chromatic adaptation exponential factor
-         :math:`\\beta_1(B_or)`.
+        Normalising chromatic adaptation exponential factor
+        :math:`\\beta_1(B_{or})`.
     Q
         Achromatic response :math:`Q`.
 
@@ -628,13 +634,13 @@ def ideal_white_brightness_correlate(
     Parameters
     ----------
     bRGB_o
-         Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
-         :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
+        Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
+        :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
     xez
         Intermediate values :math:`\\xi`, :math:`\\eta`, :math:`\\zeta`.
     bL_or
-         Normalising chromatic adaptation exponential factor
-         :math:`\\beta_1(B_or)`.
+        Normalising chromatic adaptation exponential factor
+        :math:`\\beta_1(B_{or})`.
     n
         Noise term used in the non-linear chromatic adaptation model.
 
@@ -699,7 +705,8 @@ def normalised_achromatic_lightness_correlate(
     B_r: ArrayLike, B_rw: ArrayLike
 ) -> NDArrayFloat:
     """
-    Compute the *normalised achromatic lightness* correlate :math:`L_n^\\star`.
+    Compute the *normalised achromatic lightness* correlate
+    :math:`L_n^\\star`.
 
     Parameters
     ----------
@@ -730,7 +737,8 @@ def normalised_achromatic_lightness_correlate(
 
 def hue_angle(p: ArrayLike, t: ArrayLike) -> NDArrayFloat:
     """
-    Compute the *hue* angle :math:`h` in degrees.
+    Compute the *hue* angle :math:`h` in degrees from the specified
+    protanopic and tritanopic responses.
 
     Parameters
     ----------
@@ -765,7 +773,7 @@ def chromatic_strength_function(
 ) -> NDArrayFloat:
     """
     Define the chromatic strength function :math:`E_s(\\theta)` used to
-    correct saturation scale as function of hue angle :math:`\\theta` in
+    correct saturation scale as a function of hue angle :math:`\\theta` in
     degrees.
 
     Parameters
