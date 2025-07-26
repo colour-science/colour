@@ -4,8 +4,9 @@ Spectral Distributions of Filters
 
 Define the spectral distributions of filters.
 
-Each filter data is in the form of :class:`dict` class instance of
-:class:`colour.SpectralDistribution` classes as follows::
+Each filter dataset is provided as a :class:`dict` mapping filter names to
+:class:`colour.SpectralDistribution` class instances with the following
+structure::
 
     {'name': SpectralDistribution, ..., 'name': SpectralDistribution}
 

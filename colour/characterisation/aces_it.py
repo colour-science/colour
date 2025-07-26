@@ -2,7 +2,8 @@
 Academy Color Encoding System - Input Transform
 ===============================================
 
-Define the *Academy Color Encoding System* (ACES) *Input Transform* utilities:
+Define the *Academy Color Encoding System* (ACES) *Input Transform* utilities
+for camera RAW data processing and colour space transformations:
 
 -   :func:`colour.sd_to_aces_relative_exposure_values`
 -   :func:`colour.sd_to_ACES2065_1`
@@ -163,8 +164,8 @@ def sd_to_aces_relative_exposure_values(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Convert spectral distribution to *ACES2065-1* colourspace relative exposure
-    values.
+    Convert spectral distribution to *ACES2065-1* colourspace relative
+    exposure values.
 
     Parameters
     ----------
@@ -191,8 +192,8 @@ def sd_to_aces_relative_exposure_values(
 
     -   The chromatic adaptation method implemented here is a bit unusual
         as it involves building a new colourspace based on *ACES2065-1*
-        colourspace primaries but using the whitepoint of the illuminant that
-        the spectral distribution was measured under.
+        colourspace primaries but using the whitepoint of the illuminant
+        that the spectral distribution was measured under.
 
     References
     ----------
@@ -302,12 +303,13 @@ _TRAINING_DATA_RAWTOACES_V1: MultiSpectralDistributions | None = None
 
 def read_training_data_rawtoaces_v1() -> MultiSpectralDistributions:
     """
-    Read the *RAW to ACES* v1 190 patches.
+    Read the *RAW to ACES* v1 training data comprising 190 reflectance
+    patches.
 
     Returns
     -------
     :class:`colour.MultiSpectralDistributions`
-        *RAW to ACES* v1 190 patches.
+        *RAW to ACES* v1 190 patches multi-spectral distributions.
 
     References
     ----------
@@ -409,12 +411,12 @@ def white_balance_multipliers(
 ) -> NDArrayFloat:
     """
     Compute *RGB* white balance multipliers for camera *RGB* spectral
-    sensitivities and illuminant.
+    sensitivities and the specified illuminant spectral distribution.
 
     Parameters
     ----------
     sensitivities
-         Camera *RGB* spectral sensitivities.
+        Camera *RGB* spectral sensitivities.
     illuminant
         Illuminant spectral distribution.
 
@@ -457,22 +459,27 @@ def best_illuminant(
     illuminants: Mapping,
 ) -> SpectralDistribution:
     """
-    Select the best illuminant for *RGB* white balance multipliers and
-    sensitivities in series of illuminants.
+    Select the best illuminant for the specified *RGB* white balance
+    multipliers from a series of candidate illuminants based on camera
+    sensitivities.
+
+    The best illuminant is determined by finding the illuminant that produces
+    white balance multipliers closest to the specified values, minimizing the
+    sum of squared errors after normalization.
 
     Parameters
     ----------
     RGB_w
         *RGB* white balance multipliers.
     sensitivities
-         Camera *RGB* spectral sensitivities.
+        Camera *RGB* spectral sensitivities.
     illuminants
         Illuminant spectral distributions to choose the best illuminant from.
 
     Returns
     -------
     :class:`colour.SpectralDistribution`
-        Best illuminant.
+        Best illuminant spectral distribution.
 
     Examples
     --------
@@ -505,7 +512,8 @@ def normalise_illuminant(
     illuminant: SpectralDistribution, sensitivities: RGB_CameraSensitivities
 ) -> SpectralDistribution:
     """
-    Normalise illuminant with camera *RGB* spectral sensitivities.
+    Normalise the specified illuminant with camera *RGB* spectral
+    sensitivities.
 
     The multiplicative inverse scaling factor :math:`k` is computed by
     multiplying the illuminant by the sensitivities channel with the maximum
@@ -516,7 +524,7 @@ def normalise_illuminant(
     illuminant
         Illuminant spectral distribution.
     sensitivities
-         Camera *RGB* spectral sensitivities.
+        Camera *RGB* spectral sensitivities.
 
     Returns
     -------
@@ -555,15 +563,15 @@ def training_data_sds_to_RGB(
     illuminant: SpectralDistribution,
 ) -> Tuple[NDArrayFloat, NDArrayFloat]:
     """
-    Convert training data to *RGB* tristimulus values using illuminant and
-    camera *RGB* spectral sensitivities.
+    Convert training data to *RGB* tristimulus values using the specified
+    illuminant and camera *RGB* spectral sensitivities.
 
     Parameters
     ----------
     training_data
         Training data multi-spectral distributions.
     sensitivities
-         Camera *RGB* spectral sensitivities.
+        Camera *RGB* spectral sensitivities.
     illuminant
         Illuminant spectral distribution.
 
@@ -625,8 +633,8 @@ def training_data_sds_to_XYZ(
     ) = "CAT02",
 ) -> NDArrayFloat:
     """
-    Convert training data to *CIE XYZ* tristimulus values using illuminant
-    and standard observer colour matching functions.
+    Convert training data to *CIE XYZ* tristimulus values using the specified
+    illuminant and standard observer colour matching functions.
 
     Parameters
     ----------
@@ -637,8 +645,8 @@ def training_data_sds_to_XYZ(
     illuminant
         Illuminant spectral distribution.
     chromatic_adaptation_transform
-        *Chromatic adaptation* transform, if *None* no chromatic adaptation is
-        performed.
+        *Chromatic adaptation* transform, if *None* no chromatic adaptation
+        is performed.
 
     Returns
     -------
@@ -702,7 +710,8 @@ def whitepoint_preserving_matrix(
     M: ArrayLike, RGB_w: ArrayLike = (1, 1, 1)
 ) -> NDArrayFloat:
     """
-    Normalise matrix :math:`M` to preserve white point :math:`RGB_w`.
+    Normalise the specified matrix :math:`M` to preserve the white point
+    :math:`RGB_w`.
 
     Parameters
     ----------
@@ -737,14 +746,14 @@ def optimisation_factory_rawtoaces_v1() -> Tuple[
     NDArrayFloat, Callable, Callable, Callable
 ]:
     """
-    Produce the objective function and *CIE XYZ* colourspace to optimisation
-    colourspace/colour model function according to *RAW to ACES* v1.
+    Generate the objective function and *CIE XYZ* colourspace to optimisation
+    colourspace/colour model function based according to *RAW to ACES* v1.
 
-    The objective function returns the Euclidean distance between the training
-    data *RGB* tristimulus values and the training data *CIE XYZ* tristimulus
-    values** in *CIE L\\*a\\*b\\** colourspace.
+    The objective function computes the Euclidean distance between the
+    training data *RGB* tristimulus values and the training data *CIE XYZ*
+    tristimulus values in the *CIE L\\*a\\*b\\** colourspace.
 
-    It implements whitepoint preservation as an optimisation constraint.
+    Implement whitepoint preservation as an optimisation constraint.
 
     Returns
     -------
@@ -800,15 +809,15 @@ def optimisation_factory_rawtoaces_v1() -> Tuple[
 
 def optimisation_factory_Jzazbz() -> Tuple[NDArrayFloat, Callable, Callable, Callable]:
     """
-    Produce the objective function and *CIE XYZ* colourspace to optimisation
+    Generate the objective function and *CIE XYZ* colourspace to optimisation
     colourspace/colour model function based on the :math:`J_za_zb_z`
     colourspace.
 
-    The objective function returns the Euclidean distance between the training
-    data *RGB* tristimulus values and the training data *CIE XYZ* tristimulus
-    values** in the :math:`J_za_zb_z` colourspace.
+    The objective function computes the Euclidean distance between the
+    training data *RGB* tristimulus values and the training data *CIE XYZ*
+    tristimulus values in the :math:`J_za_zb_z` colourspace.
 
-    It implements whitepoint preservation as a post-optimisation step.
+    Implement whitepoint preservation as a post-optimisation step.
 
     Returns
     -------
@@ -864,15 +873,15 @@ def optimisation_factory_Oklab_15() -> Tuple[
     NDArrayFloat, Callable, Callable, Callable
 ]:
     """
-    Produce the objective function and *CIE XYZ* colourspace to optimisation
+    Generate the objective function and *CIE XYZ* colourspace to optimisation
     colourspace/colour model function based on the *Oklab* colourspace.
 
-    The objective function returns the Euclidean distance between the training
-    data *RGB* tristimulus values and the training data *CIE XYZ* tristimulus
-    values** in the *Oklab* colourspace.
+    The objective function computes the Euclidean distance between the
+    training data *RGB* tristimulus values and the training data *CIE XYZ*
+    tristimulus values in the *Oklab* colourspace.
 
-    It implements support for *Finlayson et al. (2015)* root-polynomials of
-    degree 2 and produces 15 terms.
+    Implement support for *Finlayson et al. (2015)* root-polynomials of
+    degree 2 and produce 15 terms.
 
     Returns
     -------
@@ -998,15 +1007,15 @@ def matrix_idt(
     | Tuple[NDArrayFloat, NDArrayFloat]
 ):
     """
-    Compute an *Input Device Transform* (IDT) matrix for camera *RGB* spectral
-    sensitivities, illuminant, training data, standard observer colour matching
-    functions and optimisation settings according to *RAW to ACES* v1 and
-    *P-2013-001* procedures.
+    Compute an *Input Device Transform* (IDT) matrix for camera *RGB*
+    spectral sensitivities, illuminant, training data, standard observer
+    colour matching functions and optimisation settings according to
+    *RAW to ACES* v1 and *P-2013-001* procedures.
 
     Parameters
     ----------
     sensitivities
-         Camera *RGB* spectral sensitivities.
+        Camera *RGB* spectral sensitivities.
     illuminant
         Illuminant spectral distribution.
     training_data
@@ -1021,16 +1030,18 @@ def matrix_idt(
     optimisation_kwargs
         Parameters for :func:`scipy.optimize.minimize` definition.
     chromatic_adaptation_transform
-        *Chromatic adaptation* transform, if *None* no chromatic adaptation is
-        performed.
+        *Chromatic adaptation* transform, if *None* no chromatic adaptation
+        is performed.
     additional_data
-        If *True*, the *XYZ* and *RGB* tristimulus values are also returned.
+        If *True*, the *XYZ* and *RGB* tristimulus values are also
+        returned.
 
     Returns
     -------
     :class:`tuple`
         Tuple of IDT matrix and white balance multipliers or tuple of IDT
-        matrix, white balance multipliers, *XYZ* and *RGB* tristimulus values.
+        matrix, white balance multipliers, *XYZ* and *RGB* tristimulus
+        values.
 
     References
     ----------
@@ -1152,25 +1163,25 @@ def camera_RGB_to_ACES2065_1(
 ) -> NDArrayFloat:
     """
     Convert camera *RGB* colourspace array to *ACES2065-1* colourspace using
-    the *Input Device Transform* (IDT) matrix :math:`B`, the white balance
-    multipliers :math:`b` and the exposure factor :math:`k` according to
-    *P-2013-001* procedure.
+    the specified *Input Device Transform* (IDT) matrix :math:`B`, white
+    balance multipliers :math:`b`, and exposure factor :math:`k` according to
+    the *P-2013-001* procedure.
 
     Parameters
     ----------
     RGB
         Camera *RGB* colourspace array.
     B
-         *Input Device Transform* (IDT) matrix :math:`B`.
+        *Input Device Transform* (IDT) matrix :math:`B`.
     b
-         White balance multipliers :math:`b`.
+        White balance multipliers :math:`b`.
     k
-        Exposure factor :math:`k` that results in a nominally "18% gray" object
-        in the scene producing ACES values [0.18, 0.18, 0.18].
+        Exposure factor :math:`k` that results in a nominally "18% gray"
+        object in the scene producing ACES values [0.18, 0.18, 0.18].
     clip
         Whether to clip the white balanced camera *RGB* colourspace array
-        between :math:`-\\infty` and 1. The intent is to keep sensor saturated
-        values achromatic after white balancing.
+        between :math:`-\\infty` and 1. The intent is to keep sensor
+        saturated values achromatic after white balancing.
 
     Returns
     -------

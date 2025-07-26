@@ -4,12 +4,12 @@ Spectral Distributions of the Colour Checkers
 
 Define the spectral distributions of the colour checkers.
 
-Each colour checker data is in the form of :class:`dict` class instance of
+Each colour checker data is in the form of a :class:`dict` instance of
 :class:`colour.SpectralDistribution` classes as follows::
 
     {'name': SpectralDistribution, ..., 'name': SpectralDistribution}
 
-The following the colour checkers are available:
+The following colour checkers are available:
 
 -   :attr:`colour.characterisation.datasets.colour_checkers.sds.\
 SDS_BABELCOLOR_AVERAGE`: Average data derived from measurements
@@ -4022,24 +4022,24 @@ SDS_COLOURCHECKERS: CanonicalMapping = CanonicalMapping(
     }
 )
 SDS_COLOURCHECKERS.__doc__ = """
-Spectral distributions of the colour checkers.
-
-References
-----------
-:cite:`BabelColor2012b`, :cite:`BabelColor2012c`,
-:cite:`InternationalOrganizationforStandardization2012`, :cite:`Luo2024`,
-:cite:`MunsellColorScienceb`, :cite:`Ohta1997a`,
+Spectral distributions of available colour checkers.
 
 Notes
 -----
--   Data from :cite:`InternationalOrganizationforStandardization2012` and
-    :cite:`Ohta1997a` has been verified to be the same.
+-   Data from :cite:`InternationalOrganizationforStandardization2012`
+    and :cite:`Ohta1997a` has been verified to be identical.
 
 Aliases:
 
 -   'babel_average': 'BabelColor Average'
 -   'cc_ohta': 'ColorChecker N Ohta'
 -   'ISO 17321-1': 'ColorChecker N Ohta'
+
+References
+----------
+:cite:`BabelColor2012b`, :cite:`BabelColor2012c`,
+:cite:`InternationalOrganizationforStandardization2012`, :cite:`Luo2024`,
+:cite:`MunsellColorScienceb`, :cite:`Ohta1997a`
 """
 SDS_COLOURCHECKERS["babel_average"] = SDS_COLOURCHECKERS["BabelColor Average"]
 SDS_COLOURCHECKERS["cc_ohta"] = SDS_COLOURCHECKERS["ColorChecker N Ohta"]

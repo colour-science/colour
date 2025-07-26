@@ -2,8 +2,8 @@
 Cameras Sensitivities
 =====================
 
-Define the spectral distributions classes for the datasets from
-the :mod:`colour.characterisation.datasets.cameras` module:
+Define spectral distribution classes for camera sensor characterisation
+datasets from the :mod:`colour.characterisation.datasets.cameras` module.
 
 -   :class:`colour.characterisation.RGB_CameraSensitivities`: Define support
     for camera *RGB* sensitivities.
@@ -52,17 +52,18 @@ __all__ = [
 
 class RGB_CameraSensitivities(MultiSpectralDistributions):
     """
-    Define support for camera *RGB* sensitivities.
+    Define a container for camera *RGB* spectral sensitivities.
 
     Parameters
     ----------
     data
         Data to be stored in the multi-spectral distributions.
     domain
-        Values to initialise the multiple :class:`colour.SpectralDistribution`
-        class instances :attr:`colour.continuous.Signal.wavelengths` attribute
-        with. If both ``data`` and ``domain`` arguments are defined, the latter
-        will be used to initialise the
+        Values to initialise the multiple
+        :class:`colour.SpectralDistribution` class instances
+        :attr:`colour.continuous.Signal.wavelengths` attribute with. If
+        both ``data`` and ``domain`` arguments are defined, the latter will
+        be used to initialise the
         :attr:`colour.continuous.Signal.wavelengths` property.
     labels
         Names to use for the :class:`colour.SpectralDistribution` class
@@ -74,16 +75,16 @@ class RGB_CameraSensitivities(MultiSpectralDistributions):
         Extrapolator class type to use as extrapolating function for the
         :class:`colour.SpectralDistribution` class instances.
     extrapolator_kwargs
-        Arguments to use when instantiating the extrapolating function
-        of the :class:`colour.SpectralDistribution` class instances.
+        Arguments to use when instantiating the extrapolating function of
+        the :class:`colour.SpectralDistribution` class instances.
     interpolator
         Interpolator class type to use as interpolating function for the
         :class:`colour.SpectralDistribution` class instances.
     interpolator_kwargs
-        Arguments to use when instantiating the interpolating function
-        of the :class:`colour.SpectralDistribution` class instances.
+        Arguments to use when instantiating the interpolating function of
+        the :class:`colour.SpectralDistribution` class instances.
     name
-       Multi-spectral distributions name.
+        Multi-spectral distributions name.
     display_labels
         Multi-spectral distributions labels for figures, default to
         :attr:`colour.colorimetry.RGB_CameraSensitivities.labels` property

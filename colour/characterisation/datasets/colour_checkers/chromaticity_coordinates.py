@@ -4,8 +4,8 @@ Chromaticity Coordinates of the Colour Checkers
 
 Define the chromaticity coordinates of the colour checkers.
 
-Each colour checker data is in the form of an :class:`dict` class instance of
-24 samples as follows::
+Each colour checker data is in the form of a :class:`dict` class instance
+of 24 or more samples as follows::
 
     {'name': 'xyY', ..., 'name': 'xyY'}
 

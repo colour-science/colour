@@ -2,51 +2,52 @@
 Colour Correction
 =================
 
-Define various objects for colour correction, like colour matching two images:
+Define objects for colour correction, including methods for colour matching
+between images:
 
--   :func:`colour.characterisation.matrix_augmented_Cheung2004` : Polynomial
-    expansion using *Cheung, Westland, Connah and Ripamonti (2004)* method.
--   :func:`colour.characterisation.polynomial_expansion_Finlayson2015` :
-    Polynomial expansion using *Finlayson, MacKiewicz and Hurlbert (2015)*
+-   :func:`colour.characterisation.matrix_augmented_Cheung2004`: Perform
+    polynomial expansion using *Cheung, Westland, Connah and Ripamonti (2004)*
     method.
--   :func:`colour.characterisation.polynomial_expansion_Vandermonde` :
-    Polynomial expansion using *Vandermonde* method.
--   :attr:`colour.POLYNOMIAL_EXPANSION_METHODS` : Supported polynomial
+-   :func:`colour.characterisation.polynomial_expansion_Finlayson2015`:
+    Perform polynomial expansion using *Finlayson, MacKiewicz and Hurlbert
+    (2015)* method.
+-   :func:`colour.characterisation.polynomial_expansion_Vandermonde`: Perform
+    polynomial expansion using *Vandermonde* method.
+-   :attr:`colour.POLYNOMIAL_EXPANSION_METHODS`: Supported polynomial
     expansion methods.
--   :func:`colour.polynomial_expansion`: Polynomial expansion of
+-   :func:`colour.polynomial_expansion`: Perform polynomial expansion of
     :math:`a` array.
--   :func:`colour.characterisation.matrix_colour_correction_Cheung2004` :
-    Colour correction matrix computation using *Cheung et al. (2004)* method.
--   :func:`colour.characterisation.matrix_colour_correction_Finlayson2015` :
-    Colour correction matrix computation using *Finlayson et al. (2015)*
-    method.
--   :func:`colour.characterisation.matrix_colour_correction_Vandermonde` :
-    Colour correction matrix computation using *Vandermonde* method.
--   :attr:`colour.MATRIX_COLOUR_CORRECTION_METHODS` : Supported colour
+-   :func:`colour.characterisation.matrix_colour_correction_Cheung2004`:
+    Compute colour correction matrix using *Cheung et al. (2004)* method.
+-   :func:`colour.characterisation.matrix_colour_correction_Finlayson2015`:
+    Compute colour correction matrix using *Finlayson et al. (2015)* method.
+-   :func:`colour.characterisation.matrix_colour_correction_Vandermonde`:
+    Compute colour correction matrix using *Vandermonde* method.
+-   :attr:`colour.MATRIX_COLOUR_CORRECTION_METHODS`: Supported colour
     correction matrix methods.
--   :func:`colour.matrix_colour_correction` : Colour correction matrix
-    computation from :math:`M_T` colour array to :math:`M_R` colour array.
--   :func:`colour.apply_matrix_colour_correction_Cheung2004` : Apply a colour
+-   :func:`colour.matrix_colour_correction`: Compute colour correction matrix
+    from :math:`M_T` colour array to :math:`M_R` colour array.
+-   :func:`colour.apply_matrix_colour_correction_Cheung2004`: Apply colour
     correction matrix computed using *Cheung et al. (2004)* method.
--   :func:`colour.apply_matrix_colour_correction_Finlayson2015 `: Apply a
-    colour correction matrix computed using *Finlayson et al. (2015)* method.
--   :func:`colour.apply_matrix_colour_correction_Vandermonde` : Apply a colour
+-   :func:`colour.apply_matrix_colour_correction_Finlayson2015`: Apply colour
+    correction matrix computed using *Finlayson et al. (2015)* method.
+-   :func:`colour.apply_matrix_colour_correction_Vandermonde`: Apply colour
     correction matrix computed using *Vandermonde* method.
--   :attr:`colour.APPLY_MATRIX_COLOUR_CORRECTION_METHODS` : Supported methods
-    to apply a colour correction matrix .
--   :func:`colour.apply_matrix_colour_correction` : Apply a colour correction
+-   :attr:`colour.APPLY_MATRIX_COLOUR_CORRECTION_METHODS`: Supported methods
+    to apply colour correction matrices.
+-   :func:`colour.apply_matrix_colour_correction`: Apply colour correction
     matrix.
--   :func:`colour.characterisation.colour_correction_Cheung2004` :
-    Colour correction using *Cheung et al. (2004)* method.
--   :func:`colour.characterisation.colour_correction_Finlayson2015` :
-    Colour correction using *Finlayson et al. (2015)* method.
--   :func:`colour.characterisation.colour_correction_Vandermonde` :
-    Colour correction using *Vandermonde* method.
--   :attr:`colour.COLOUR_CORRECTION_METHODS` : Supported colour correction
+-   :func:`colour.characterisation.colour_correction_Cheung2004`: Perform
+    colour correction using *Cheung et al. (2004)* method.
+-   :func:`colour.characterisation.colour_correction_Finlayson2015`: Perform
+    colour correction using *Finlayson et al. (2015)* method.
+-   :func:`colour.characterisation.colour_correction_Vandermonde`: Perform
+    colour correction using *Vandermonde* method.
+-   :attr:`colour.COLOUR_CORRECTION_METHODS`: Supported colour correction
     methods.
--   :func:`colour.colour_correction` : Colour correction of *RGB*
-    colourspace array using the colour correction matrix from :math:`M_T`
-    colour array to :math:`M_R` colour array.
+-   :func:`colour.colour_correction`: Perform colour correction of *RGB*
+    colourspace array using colour correction matrix from :math:`M_T` colour
+    array to :math:`M_R` colour array.
 
 References
 ----------
@@ -131,14 +132,14 @@ def matrix_augmented_Cheung2004(
     Parameters
     ----------
     RGB
-        *RGB* colourspace array to expand.
+        *RGB* colourspace array to expand using polynomial expansion.
     terms
         Number of terms of the expanded polynomial.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Expanded *RGB* colourspace array.
+        Polynomial-expanded *RGB* colourspace array.
 
     Notes
     -----
@@ -430,13 +431,13 @@ def polynomial_expansion_Finlayson2015(
     root_polynomial_expansion: bool = True,
 ) -> NDArrayFloat:
     """
-    Perform polynomial expansion of *RGB* colourspace array using
-    *Finlayson et al. (2015)* method.
+    Perform polynomial expansion of the specified *RGB* colourspace
+    array using the *Finlayson et al. (2015)* method.
 
     Parameters
     ----------
     RGB
-        *RGB* colourspace array to expand.
+        *RGB* colourspace array to expand using polynomial expansion.
     degree
         Expanded polynomial degree.
     root_polynomial_expansion
@@ -445,7 +446,7 @@ def polynomial_expansion_Finlayson2015(
     Returns
     -------
     :class:`numpy.ndarray`
-        Expanded *RGB* colourspace array.
+        Polynomial-expanded *RGB* colourspace array.
 
     References
     ----------
@@ -621,20 +622,20 @@ def polynomial_expansion_Finlayson2015(
 
 def polynomial_expansion_Vandermonde(a: ArrayLike, degree: int = 1) -> NDArrayFloat:
     """
-    Perform polynomial expansion of :math:`a` array using *Vandermonde*
-    method.
+    Perform polynomial expansion of the specified :math:`a` array using the
+    *Vandermonde* method.
 
     Parameters
     ----------
     a
-        :math:`a` array to expand.
+        Array :math:`a` to expand using polynomial expansion.
     degree
-        Expanded polynomial degree.
+        Degree of the expanded polynomial.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Expanded :math:`a` array.
+        Polynomial-expanded :math:`a` array.
 
     References
     ----------
@@ -680,14 +681,14 @@ def polynomial_expansion(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Perform polynomial expansion of :math:`a` array.
+    Perform polynomial expansion of the :math:`a` array.
 
     Parameters
     ----------
     a
-        :math:`a` array to expand.
+        Array to expand using polynomial expansion.
     method
-        Computation method.
+        Computation method for the polynomial expansion.
 
     Other Parameters
     ----------------
@@ -707,7 +708,7 @@ def polynomial_expansion(
     Returns
     -------
     :class:`numpy.ndarray`
-        Expanded :math:`a` array.
+        Polynomial-expanded :math:`a` array.
 
     References
     ----------
@@ -736,22 +737,27 @@ def matrix_colour_correction_Cheung2004(
     terms: Literal[3, 4, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22, 35] | int = 3,
 ) -> NDArrayFloat:
     """
-    Compute a colour correction matrix from :math:`M_T` colour array to
-    :math:`M_R` colour array using *Cheung et al. (2004)* method.
+    Compute a colour correction matrix from test array :math:`M_T` to
+    reference array :math:`M_R` using the *Cheung et al. (2004)* polynomial
+    expansion method.
 
     Parameters
     ----------
     M_T
-        Test array :math:`M_T` to fit onto array :math:`M_R`.
+        Test array :math:`M_T` to fit onto reference array :math:`M_R`.
     M_R
-        Reference array the array :math:`M_T` will be colour fitted against.
+        Reference array that the test array :math:`M_T` will be colour
+        fitted against.
     terms
-        Number of terms of the expanded polynomial.
+        Number of terms of the expanded polynomial. The value must be one
+        of the supported term counts: 3, 4, 5, 7, 8, 10, 11, 14, 16, 17,
+        19, 20, 22, or 35.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Colour correction matrix.
+        Colour correction matrix mapping expanded test colours to reference
+        colours.
 
     References
     ----------
@@ -780,24 +786,29 @@ def matrix_colour_correction_Finlayson2015(
     root_polynomial_expansion: bool = True,
 ) -> NDArrayFloat:
     """
-    Compute a colour correction matrix from :math:`M_T` colour array to
-    :math:`M_R` colour array using *Finlayson et al. (2015)* method.
+    Compute a colour correction matrix from test colour array :math:`M_T` to
+    reference colour array :math:`M_R` using *Finlayson et al. (2015)*
+    root-polynomial colour correction method.
 
     Parameters
     ----------
     M_T
-        Test array :math:`M_T` to fit onto array :math:`M_R`.
+        Test array :math:`M_T` to fit onto reference array :math:`M_R`.
     M_R
-        Reference array the array :math:`M_T` will be colour fitted against.
+        Reference array the test array :math:`M_T` will be colour fitted
+        against.
     degree
-        Expanded polynomial degree.
+        Polynomial expansion degree for the root-polynomial basis. The value
+        must be one of the degrees: 1, 2, 3, 4.
     root_polynomial_expansion
-        Whether to use the root-polynomials set for the expansion.
+        Whether to use the root-polynomial basis set for the expansion. If
+        *False*, uses standard polynomial expansion.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Colour correction matrix.
+        Colour correction matrix mapping expanded test colours to reference
+        colours.
 
     References
     ----------
@@ -824,8 +835,8 @@ def matrix_colour_correction_Vandermonde(
     M_T: ArrayLike, M_R: ArrayLike, degree: int = 1
 ) -> NDArrayFloat:
     """
-    Compute a colour correction matrix from :math:`M_T` colour array to
-    :math:`M_R` colour array using *Vandermonde* method.
+    Compute a colour correction matrix from :math:`M_T` test colour array
+    to :math:`M_R` reference colour array using the *Vandermonde* method.
 
     Parameters
     ----------
@@ -839,7 +850,8 @@ def matrix_colour_correction_Vandermonde(
     Returns
     -------
     :class:`numpy.ndarray`
-        Colour correction matrix.
+        Colour correction matrix mapping expanded test colours to reference
+        colours.
 
     References
     ----------
@@ -869,7 +881,7 @@ MATRIX_COLOUR_CORRECTION_METHODS: CanonicalMapping = CanonicalMapping(
     }
 )
 MATRIX_COLOUR_CORRECTION_METHODS.__doc__ = """
-Supported colour correction matrix methods.
+Supported colour correction matrix computation methods.
 
 References
 ----------
@@ -890,10 +902,10 @@ def matrix_colour_correction(
     Compute a colour correction matrix from :math:`M_T` colour array to
     :math:`M_R` colour array.
 
-    The resulting colour correction matrix is computed using multiple linear or
-    polynomial regression using specified method. The purpose of that object
-    is for example the matching of two *ColorChecker* colour rendition charts
-    together.
+    Compute the colour correction matrix using multiple linear or polynomial
+    regression with the specified method. The resulting matrix enables colour
+    matching between two arrays, such as matching two *ColorChecker* colour
+    rendition charts together.
 
     Parameters
     ----------
@@ -907,22 +919,23 @@ def matrix_colour_correction(
     Other Parameters
     ----------------
     degree
-        {:func:`colour.characterisation.polynomial_expansion_Finlayson2015`,
-        :func:`colour.characterisation.polynomial_expansion_Vandermonde`},
+        {:func:`colour.characterisation.matrix_colour_correction_Finlayson2015`,
+        :func:`colour.characterisation.matrix_colour_correction_Vandermonde`},
         Expanded polynomial degree, must be one of *[1, 2, 3, 4]* for
-        :func:`colour.characterisation.polynomial_expansion_Finlayson2015`
+        :func:`colour.characterisation.matrix_colour_correction_Finlayson2015`
         definition.
     root_polynomial_expansion
-        {:func:`colour.characterisation.polynomial_expansion_Finlayson2015`},
+        {:func:`colour.characterisation.matrix_colour_correction_Finlayson2015`},
         Whether to use the root-polynomials set for the expansion.
     terms
-        {:func:`colour.characterisation.matrix_augmented_Cheung2004`},
+        {:func:`colour.characterisation.matrix_colour_correction_Cheung2004`},
         Number of terms of the expanded polynomial.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Colour correction matrix.
+        Colour correction matrix mapping expanded test colours to reference
+        colours.
 
     References
     ----------
@@ -1006,14 +1019,14 @@ def apply_matrix_colour_correction_Cheung2004(
     terms: Literal[3, 4, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22, 35] | int = 3,
 ) -> NDArrayFloat:
     """
-    Apply colour correction matrix :math:`CCM` computed using
-    *Cheung et al. (2004)* method to *RGB* colourspace array.
+    Apply colour correction matrix :math:`CCM` computed using *Cheung et al.
+    (2004)* method to the specified *RGB* colourspace array.
 
     Parameters
     ----------
     RGB
-        *RGB* colourspace array to apply the colour correction matrix
-        :math:`CCM` to.
+        *RGB* colourspace array to which the colour correction matrix
+        :math:`CCM` is applied.
     CCM
         Colour correction matrix :math:`CCM`.
     terms
@@ -1060,13 +1073,13 @@ def apply_matrix_colour_correction_Finlayson2015(
 ) -> NDArrayFloat:
     """
     Apply colour correction matrix :math:`CCM` computed using
-    *Finlayson et al. (2015)* method to *RGB* colourspace array.
+    *Finlayson et al. (2015)* method to the specified *RGB* colourspace array.
 
     Parameters
     ----------
     RGB
-        *RGB* colourspace array to apply the colour correction matrix
-        :math:`CCM` to.
+        *RGB* colourspace array to which the colour correction matrix
+        :math:`CCM` is applied.
     CCM
         Colour correction matrix :math:`CCM`.
     degree
@@ -1111,14 +1124,14 @@ def apply_matrix_colour_correction_Vandermonde(
     RGB: ArrayLike, CCM: ArrayLike, degree: int = 1
 ) -> NDArrayFloat:
     """
-    Apply colour correction matrix :math:`CCM` computed using
-    *Vandermonde* method to *RGB* colourspace array.
+    Apply colour correction matrix :math:`CCM` computed using the
+    *Vandermonde* method to the specified *RGB* colourspace array.
 
     Parameters
     ----------
     RGB
-        *RGB* colourspace array to apply the colour correction matrix
-        :math:`CCM` to.
+        *RGB* colourspace array to which the colour correction matrix
+        :math:`CCM` is applied.
     CCM
         Colour correction matrix :math:`CCM`.
     degree
@@ -1183,13 +1196,19 @@ def apply_matrix_colour_correction(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Apply colour correction matrix :math:`CCM` to *RGB* colourspace array.
+    Apply colour correction matrix :math:`CCM` to the specified *RGB*
+    colourspace array.
+
+    The colour correction matrix transforms the input *RGB* values through
+    polynomial expansion and matrix multiplication to produce colour
+    corrected output values. The computation method determines the
+    polynomial expansion approach used before applying the matrix.
 
     Parameters
     ----------
     RGB
-        *RGB* colourspace array to apply the colour correction matrix
-        :math:`CCM` to.
+        *RGB* colourspace array to which the colour correction matrix
+        :math:`CCM` is applied.
     CCM
         Colour correction matrix :math:`CCM`.
     method
@@ -1198,16 +1217,16 @@ def apply_matrix_colour_correction(
     Other Parameters
     ----------------
     degree
-        {:func:`colour.characterisation.polynomial_expansion_Finlayson2015`,
-        :func:`colour.characterisation.polynomial_expansion_Vandermonde`},
+        {:func:`colour.characterisation.apply_matrix_colour_correction_Finlayson2015`,
+        :func:`colour.characterisation.apply_matrix_colour_correction_Vandermonde`},
         Expanded polynomial degree, must be one of *[1, 2, 3, 4]* for
-        :func:`colour.characterisation.polynomial_expansion_Finlayson2015`
+        :func:`colour.characterisation.apply_matrix_colour_correction_Finlayson2015`
         definition.
     root_polynomial_expansion
-        {:func:`colour.characterisation.polynomial_expansion_Finlayson2015`},
+        {:func:`colour.characterisation.apply_matrix_colour_correction_Finlayson2015`},
         Whether to use the root-polynomials set for the expansion.
     terms
-        {:func:`colour.characterisation.matrix_augmented_Cheung2004`},
+        {:func:`colour.characterisation.apply_matrix_colour_correction_Cheung2004`},
         Number of terms of the expanded polynomial.
 
     Returns
@@ -1248,18 +1267,19 @@ def colour_correction_Cheung2004(
     terms: Literal[3, 4, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22, 35] | int = 3,
 ) -> NDArrayFloat:
     """
-    Perform colour correction of *RGB* colourspace array using the colour
-    correction matrix from :math:`M_T` colour array to :math:`M_R` colour
-    array using *Cheung et al. (2004)* method.
+    Perform colour correction of the specified *RGB* colourspace array using
+    the colour correction matrix derived from test array :math:`M_T` to
+    reference array :math:`M_R` using the *Cheung et al. (2004)* method.
 
     Parameters
     ----------
     RGB
         *RGB* colourspace array to colour correct.
     M_T
-        Test array :math:`M_T` to fit onto array :math:`M_R`.
+        Test array :math:`M_T` to fit onto reference array :math:`M_R`.
     M_R
-        Reference array the array :math:`M_T` will be colour fitted against.
+        Reference array that the test array :math:`M_T` will be colour
+        fitted against.
     terms
         Number of terms of the expanded polynomial.
 
@@ -1296,21 +1316,22 @@ def colour_correction_Finlayson2015(
 ) -> NDArrayFloat:
     """
     Perform colour correction of *RGB* colourspace array using the colour
-    correction matrix from :math:`M_T` colour array to :math:`M_R` colour
-    array using *Finlayson et al. (2015)* method.
+    correction matrix from test array :math:`M_T` to reference array
+    :math:`M_R` using the *Finlayson et al. (2015)* method.
 
     Parameters
     ----------
     RGB
         *RGB* colourspace array to colour correct.
     M_T
-        Test array :math:`M_T` to fit onto array :math:`M_R`.
+        Test array :math:`M_T` to fit onto reference array :math:`M_R`.
     M_R
-        Reference array the array :math:`M_T` will be colour fitted against.
+        Reference array that the test array :math:`M_T` will be fitted
+        against.
     degree
-        Expanded polynomial degree.
+        Polynomial expansion degree.
     root_polynomial_expansion
-        Whether to use the root-polynomials set for the expansion.
+        Whether to use the root-polynomial set for the expansion.
 
     Returns
     -------
@@ -1392,7 +1413,7 @@ COLOUR_CORRECTION_METHODS = CanonicalMapping(
     }
 )
 COLOUR_CORRECTION_METHODS.__doc__ = """
-Supported colour correction methods.
+Define the supported colour correction methods.
 
 References
 ----------
@@ -1429,16 +1450,16 @@ def colour_correction(
     Other Parameters
     ----------------
     degree
-        {:func:`colour.characterisation.polynomial_expansion_Finlayson2015`,
-        :func:`colour.characterisation.polynomial_expansion_Vandermonde`},
+        {:func:`colour.characterisation.colour_correction_Finlayson2015`,
+        :func:`colour.characterisation.colour_correction_Vandermonde`},
         Expanded polynomial degree, must be one of *[1, 2, 3, 4]* for
-        :func:`colour.characterisation.polynomial_expansion_Finlayson2015`
+        :func:`colour.characterisation.colour_correction_Finlayson2015`
         definition.
     root_polynomial_expansion
-        {:func:`colour.characterisation.polynomial_expansion_Finlayson2015`},
+        {:func:`colour.characterisation.colour_correction_Finlayson2015`},
         Whether to use the root-polynomials set for the expansion.
     terms
-        {:func:`colour.characterisation.matrix_augmented_Cheung2004`},
+        {:func:`colour.characterisation.colour_correction_Cheung2004`},
         Number of terms of the expanded polynomial.
 
     Returns
