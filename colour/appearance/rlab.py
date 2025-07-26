@@ -2,7 +2,8 @@
 RLAB Colour Appearance Model
 ============================
 
-Define the *RLAB* colour appearance model objects:
+Define the *RLAB* colour appearance model for predicting perceptual colour
+attributes under varying viewing conditions.
 
 -   :attr:`colour.VIEWING_CONDITIONS_RLAB`
 -   :attr:`colour.D_FACTOR_RLAB`
@@ -71,7 +72,7 @@ VIEWING_CONDITIONS_RLAB: CanonicalMapping = CanonicalMapping(
     {"Average": 1 / 2.3, "Dim": 1 / 2.9, "Dark": 1 / 3.5}
 )
 VIEWING_CONDITIONS_RLAB.__doc__ = """
-Reference *RLAB* colour appearance model viewing conditions.
+Define the reference *RLAB* colour appearance model viewing conditions.
 
 References
 ----------
@@ -86,7 +87,8 @@ D_FACTOR_RLAB: CanonicalMapping = CanonicalMapping(
     }
 )
 D_FACTOR_RLAB.__doc__ = """
-*RLAB* colour appearance model *Discounting-the-Illuminant* factor values.
+Define the *RLAB* colour appearance model *Discounting-the-Illuminant*
+factor values for the specified media types.
 
 References
 ----------
@@ -108,8 +110,8 @@ class CAM_ReferenceSpecification_RLAB(MixinDataclassArray):
     """
     Define the *RLAB* colour appearance model reference specification.
 
-    This specification has field names consistent with *Fairchild (2013)*
-    reference.
+    This specification contains field names consistent with the *Fairchild
+    (2013)* reference.
 
     Parameters
     ----------
@@ -147,9 +149,11 @@ class CAM_Specification_RLAB(MixinDataclassArray):
     """
     Define the *RLAB* colour appearance model specification.
 
-    This specification has field names consistent with the remaining colour
-    appearance models in :mod:`colour.appearance` but diverge from
-    *Fairchild (2013)* reference.
+    This specification provides a standardized interface for the *RLAB* model
+    with field names consistent across all colour appearance models in
+    :mod:`colour.appearance`. While the field names differ from the original
+    *Fairchild (2013)* reference notation, they map directly to the model's
+    perceptual correlates.
 
     Parameters
     ----------
@@ -170,7 +174,8 @@ class CAM_Specification_RLAB(MixinDataclassArray):
 
     Notes
     -----
-    -   This specification is the one used in the current model implementation.
+    -   This specification is the one used in the current model
+        implementation.
 
     References
     ----------
@@ -194,7 +199,8 @@ def XYZ_to_RLAB(
     D: ArrayLike = D_FACTOR_RLAB["Hard Copy Images"],
 ) -> CAM_Specification_RLAB:
     """
-    Compute the *RLAB* model color appearance correlates.
+    Compute the *RLAB* colour appearance model correlates from the specified
+    *CIE XYZ* tristimulus values.
 
     Parameters
     ----------

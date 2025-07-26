@@ -2,7 +2,7 @@
 ATD (1995) Colour Vision Model
 ==============================
 
-Define the *ATD (1995)* colour vision model objects:
+Define the *ATD (1995)* colour vision model.
 
 -   :class:`colour.CAM_Specification_ATD95`
 -   :func:`colour.XYZ_to_ATD95`
@@ -11,8 +11,8 @@ Notes
 -----
 -   According to *CIE TC1-34* definition of a colour appearance model, the
     *ATD (1995)* model cannot be considered as a colour appearance model.
-    It was developed with different aims and is described as a model of colour
-    vision.
+    It was developed with different aims and is described as a model of
+    colour vision.
 
 References
 ----------
@@ -69,8 +69,8 @@ class CAM_ReferenceSpecification_ATD95(MixinDataclassArithmetic):
     """
     Define the *ATD (1995)* colour vision model reference specification.
 
-    This specification has field names consistent with the *Fairchild (2013)*
-    reference.
+    This specification contains field names consistent with the *Fairchild
+    (2013)* reference.
 
     Parameters
     ----------
@@ -79,9 +79,9 @@ class CAM_ReferenceSpecification_ATD95(MixinDataclassArithmetic):
     C
         Correlate of *saturation* :math:`C`. *Guth (1995)* incorrectly uses
         the terms saturation and chroma interchangeably. However, :math:`C`
-        is here a measure of saturation rather than chroma since it is
-        measured relative to the achromatic response for the stimulus rather
-        than that of a similarly illuminated white.
+        represents a measure of saturation rather than chroma since it is
+        calculated relative to the achromatic response for the stimulus
+        rather than that of a similarly illuminated white.
     Br
         Correlate of *brightness* :math:`Br`.
     A_1
@@ -118,9 +118,11 @@ class CAM_Specification_ATD95(MixinDataclassArithmetic):
     """
     Define the *ATD (1995)* colour vision model specification.
 
-    This specification has field names consistent with the remaining colour
-    appearance models in :mod:`colour.appearance` but diverge from the
-    *Fairchild (2013)* reference.
+    This specification provides a standardized interface for the *ATD (1995)*
+    model with field names consistent across all colour appearance models in
+    :mod:`colour.appearance`. While the field names differ from the original
+    *Fairchild (2013)* reference notation, they map directly to the model's
+    perceptual correlates.
 
     Parameters
     ----------
@@ -129,7 +131,7 @@ class CAM_Specification_ATD95(MixinDataclassArithmetic):
     C
         Correlate of *saturation* :math:`C`. *Guth (1995)* incorrectly uses
         the terms saturation and chroma interchangeably. However, :math:`C`
-        is here a measure of saturation rather than chroma since it is
+        represents a measure of saturation rather than chroma since it is
         measured relative to the achromatic response for the stimulus rather
         than that of a similarly illuminated white.
     Q
@@ -143,7 +145,7 @@ class CAM_Specification_ATD95(MixinDataclassArithmetic):
     A_2
         Second stage :math:`A_2` response.
     T_2
-        Second stage :math:`A_2` response.
+        Second stage :math:`T_2` response.
     D_2
         Second stage :math:`D_2` response.
 
@@ -177,7 +179,8 @@ def XYZ_to_ATD95(
     sigma: ArrayLike = 300,
 ) -> CAM_Specification_ATD95:
     """
-    Compute the *ATD (1995)* colour vision model correlates.
+    Compute the *ATD (1995)* colour vision model correlates from the specified
+    *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -215,8 +218,8 @@ def XYZ_to_ATD95(
     | ``CAM_Specification_ATD95.h`` | [0, 360]              | [0, 1]        |
     +-------------------------------+-----------------------+---------------+
 
-    -   For unrelated colors, there is only self-adaptation and :math:`k_1`
-        is set to 1.0 while :math:`k_2` is set to 0.0. For related colors
+    -   For unrelated colours, there is only self-adaptation and :math:`k_1`
+        is set to 1.0 while :math:`k_2` is set to 0.0. For related colours
         such as typical colorimetric applications, :math:`k_1` is set to 0.0
         and :math:`k_2` is set to a value between 15 and 50 *(Guth, 1995)*.
 
@@ -284,17 +287,22 @@ def luminance_to_retinal_illuminance(XYZ: ArrayLike, Y_c: ArrayLike) -> NDArrayF
     """
     Convert luminance in :math:`cd/m^2` to retinal illuminance in trolands.
 
+    This function converts photometric luminance values to retinal illuminance
+    by applying a power transformation that accounts for pupil area effects
+    under the specified adapting field luminance conditions.
+
     Parameters
     ----------
     XYZ
-        *CIE XYZ* tristimulus values.
+        *CIE XYZ* tristimulus values in photometric units.
     Y_c
         Absolute adapting field luminance in :math:`cd/m^2`.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Converted *CIE XYZ* tristimulus values in trolands.
+        Retinal illuminance values in trolands corresponding to the
+        tristimulus values.
 
     Examples
     --------
@@ -312,7 +320,8 @@ def luminance_to_retinal_illuminance(XYZ: ArrayLike, Y_c: ArrayLike) -> NDArrayF
 
 def XYZ_to_LMS_ATD95(XYZ: ArrayLike) -> NDArrayFloat:
     """
-    Convert *CIE XYZ* tristimulus values to *LMS* cone responses.
+    Convert *CIE XYZ* tristimulus values to *LMS* cone responses using the
+    *ATD95* colour appearance model.
 
     Parameters
     ----------
@@ -400,7 +409,7 @@ def final_response(value: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Final response of opponent colour dimension.
+        Final response of the opponent colour dimension.
 
     Examples
     --------
