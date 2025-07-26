@@ -2,7 +2,8 @@
 Michaelis-Menten Kinetics
 =========================
 
-Define *Michaelis-Menten* kinetics, a model of enzyme kinetics:
+Define the *Michaelis-Menten* kinetics model for enzyme-catalyzed reactions,
+describing the relationship between reaction rate and substrate concentration:
 
 -   :func:`colour.biochemistry.reaction_rate_MichaelisMenten_Michaelis1913`
 -   :func:`colour.biochemistry.reaction_rate_MichaelisMenten_Abebe2017`
@@ -66,18 +67,20 @@ def reaction_rate_MichaelisMenten_Michaelis1913(
 ) -> NDArrayFloat:
     """
     Compute the rate of enzymatic reactions by relating reaction rate
-    :math:`v` to the concentration of a substrate :math:`S`.
+    :math:`v` to substrate concentration :math:`S` using the
+    *Michaelis-Menten* kinetics equation.
 
     Parameters
     ----------
     S
-        Concentration of a substrate :math:`S`.
+        Substrate concentration :math:`S`.
     V_max
-        Maximum rate :math:`V_{max}` achieved by the system at saturating
-        substrate concentration.
+        Maximum reaction rate :math:`V_{max}` achieved by the system at
+        saturating substrate concentration.
     K_m
-        Substrate concentration :math:`K_m` at which the reaction rate is
-        half of :math:`V_{max}`.
+        Michaelis constant :math:`K_m` representing the substrate
+        concentration at which the reaction rate is half of
+        :math:`V_{max}`.
 
     Returns
     -------
@@ -111,9 +114,9 @@ def reaction_rate_MichaelisMenten_Abebe2017(
 ) -> NDArrayFloat:
     """
     Compute the rate of enzymatic reactions by relating reaction rate
-    :math:`v` to the concentration of a substrate :math:`S` according to the
-    modified *Michaelis-Menten* kinetics equation as specified by
-    *Abebe, Pouli, Larabi and Reinhard (2017)*.
+    :math:`v` to the concentration of a substrate :math:`S` using the
+    modified *Michaelis-Menten* kinetics equation as specified by *Abebe,
+    Pouli, Larabi and Reinhard (2017)*.
 
     Parameters
     ----------
@@ -180,19 +183,19 @@ def reaction_rate_MichaelisMenten(
 ) -> NDArrayFloat:
     """
     Compute the rate of enzymatic reactions by relating reaction rate
-    :math:`v` to the concentration of a substrate :math:`S` according to the
-    specified method.
+    :math:`v` to substrate concentration :math:`S` using the
+    *Michaelis-Menten* kinetics equation using the specified method.
 
     Parameters
     ----------
     S
-        Concentration of a substrate :math:`S`.
+        Concentration of substrate :math:`S`.
     V_max
-        Maximum rate :math:`V_{max}` achieved by the system at saturating
-        substrate concentration.
+        Maximum reaction rate :math:`V_{max}` achieved at saturating substrate
+        concentration.
     K_m
-        Substrate concentration :math:`K_m` at which the reaction rate is
-        half of :math:`V_{max}`.
+        Michaelis constant :math:`K_m` representing substrate concentration at
+        which reaction rate equals half of :math:`V_{max}`.
     method
         Computation method.
 
@@ -234,8 +237,9 @@ def substrate_concentration_MichaelisMenten_Michaelis1913(
     K_m: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Compute the substrate concentration by relating the concentration of a
-    substrate :math:`S` to the reaction rate :math:`v`.
+    Compute substrate concentration by relating the concentration of a
+    substrate :math:`S` to the reaction rate :math:`v` using the
+    *Michaelis-Menten* kinetics equation..
 
     Parameters
     ----------
@@ -280,10 +284,10 @@ def substrate_concentration_MichaelisMenten_Abebe2017(
     b_m: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Compute the substrate concentration by relating the concentration of a
-    substrate :math:`S` to the reaction rate :math:`v` according to the
-    modified *Michaelis-Menten* kinetics equation as specified by
-    *Abebe, Pouli, Larabi and Reinhard (2017)*.
+    Compute substrate concentration by relating the concentration of a
+    substrate :math:`S` to the reaction rate :math:`v` using the
+    *Michaelis-Menten* kinetics equation as specified by *Abebe, Pouli, Larabi
+    and Reinhard (2017)*.
 
     Parameters
     ----------
@@ -349,9 +353,9 @@ def substrate_concentration_MichaelisMenten(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Compute the substrate concentration by relating the concentration of a
-    substrate :math:`S` to the reaction rate :math:`v` according to the specified
-    method.
+    Compute substrate concentration by relating the concentration of a
+    substrate :math:`S` to the reaction rate :math:`v` using the
+    *Michaelis-Menten* kinetics equation using the specified method.
 
     Parameters
     ----------
