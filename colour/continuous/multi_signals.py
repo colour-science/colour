@@ -1,8 +1,12 @@
 """
-Multi Signals
+Multi-Signals
 =============
 
-Define a class implementing support for multi-continuous signals:
+Define multi-continuous signal support for colour science computations.
+
+This module provides the :class:`colour.continuous.MultiSignals` class for
+representing and operating on multiple continuous signals simultaneously,
+supporting interpolation and extrapolation operations.
 
 -   :class:`colour.continuous.MultiSignals`
 """
@@ -72,25 +76,25 @@ __all__ = [
 
 class MultiSignals(AbstractContinuousFunction):
     """
-    Define the base class for multi-continuous signals, a container for
+    Define the base class for multi-signals, a container for
     multiple :class:`colour.continuous.Signal` sub-class instances.
 
     .. important::
 
-        Specific documentation about getting, setting, indexing and slicing the
-        multi-continuous signals values is available in the
+        Specific documentation about getting, setting, indexing and slicing
+        the multi-signals values is available in the
         :ref:`spectral-representation-and-continuous-signal` section.
 
     Parameters
     ----------
     data
-        Data to be stored in the multi-continuous signals.
+        Data to be stored in the multi-signals.
     domain
         Values to initialise the multiple :class:`colour.continuous.Signal`
-        sub-class instances :attr:`colour.continuous.Signal.domain` attribute
-        with. If both ``data`` and ``domain`` arguments are defined, the latter
-        will be used to initialise the :attr:`colour.continuous.Signal.domain`
-        attribute.
+        sub-class instances :attr:`colour.continuous.Signal.domain`
+        attribute with. If both ``data`` and ``domain`` arguments are
+        defined, the latter will be used to initialise the
+        :attr:`colour.continuous.Signal.domain` attribute.
     labels
         Names to use for the :class:`colour.continuous.Signal` sub-class
         instances.
@@ -103,16 +107,16 @@ class MultiSignals(AbstractContinuousFunction):
         Extrapolator class type to use as extrapolating function for the
         :class:`colour.continuous.Signal` sub-class instances.
     extrapolator_kwargs
-        Arguments to use when instantiating the extrapolating function
-        of the :class:`colour.continuous.Signal` sub-class instances.
+        Arguments to use when instantiating the extrapolating function of
+        the :class:`colour.continuous.Signal` sub-class instances.
     interpolator
         Interpolator class type to use as interpolating function for the
         :class:`colour.continuous.Signal` sub-class instances.
     interpolator_kwargs
-        Arguments to use when instantiating the interpolating function
-        of the :class:`colour.continuous.Signal` sub-class instances.
+        Arguments to use when instantiating the interpolating function of
+        the :class:`colour.continuous.Signal` sub-class instances.
     name
-        multi-continuous signals name.
+        Multi-signals name.
     signal_type
         The :class:`colour.continuous.Signal` sub-class type used for
         instances.
@@ -326,17 +330,17 @@ class MultiSignals(AbstractContinuousFunction):
     @property
     def dtype(self) -> Type[DTypeFloat]:
         """
-        Getter and setter property for the continuous signal dtype.
+        Getter and setter for the multi-signals dtype.
 
         Parameters
         ----------
         value
-            Value to set the continuous signal dtype with.
+            Value to set the multi-signals dtype with.
 
         Returns
         -------
         Type[DTypeFloat]
-            Continuous signal dtype.
+            Multi-signals dtype.
         """
 
         return first_item(self._signals.values()).dtype
@@ -351,20 +355,20 @@ class MultiSignals(AbstractContinuousFunction):
     @property
     def domain(self) -> NDArrayFloat:
         """
-        Getter and setter property for the :class:`colour.continuous.Signal`
-        sub-class instances independent domain variable :math:`x`.
+        Getter and setter for the multi-signals' independent
+        domain variable :math:`x`.
 
         Parameters
         ----------
         value
-            Value to set the :class:`colour.continuous.Signal` sub-class
-            instances independent domain variable :math:`x` with.
+            Value to set the multi-signals independent domain
+            variable :math:`x` with.
 
         Returns
         -------
         :class:`numpy.ndarray`
-            :class:`colour.continuous.Signal` sub-class instances independent
-            domain variable :math:`x`.
+            Multi-signals independent domain variable
+            :math:`x`.
         """
 
         return first_item(self._signals.values()).domain
@@ -379,20 +383,19 @@ class MultiSignals(AbstractContinuousFunction):
     @property
     def range(self) -> NDArrayFloat:
         """
-        Getter and setter property for the :class:`colour.continuous.Signal`
-        sub-class instances corresponding range variable :math:`y`.
+        Getter and setter for the multi-signals' range
+        variable :math:`y`.
 
         Parameters
         ----------
         value
-            Value to set the :class:`colour.continuous.Signal` sub-class
-            instances corresponding range variable :math:`y` with.
+            Value to set the multi-signals' range variable
+            :math:`y` with.
 
         Returns
         -------
         :class:`numpy.ndarray`
-            :class:`colour.continuous.Signal` sub-class instances corresponding
-            range variable :math:`y`.
+            Multi-signals' range variable :math:`y`.
         """
 
         return tstack([signal.range for signal in self._signals.values()])
@@ -419,20 +422,19 @@ class MultiSignals(AbstractContinuousFunction):
     @property
     def interpolator(self) -> Type[ProtocolInterpolator]:
         """
-        Getter and setter property for the :class:`colour.continuous.Signal`
-        sub-class instances interpolator type.
+        Getter and setter for the multi-signals interpolator
+        type.
 
         Parameters
         ----------
         value
-            Value to set the :class:`colour.continuous.Signal` sub-class
-            instances interpolator type with.
+            Value to set the multi-signals interpolator type
+            with.
 
         Returns
         -------
         Type[ProtocolInterpolator]
-            :class:`colour.continuous.Signal` sub-class instances interpolator
-            type.
+            Multi-signals interpolator type.
         """
 
         return first_item(self._signals.values()).interpolator
@@ -448,20 +450,19 @@ class MultiSignals(AbstractContinuousFunction):
     @property
     def interpolator_kwargs(self) -> dict:
         """
-        Getter and setter property for the :class:`colour.continuous.Signal`
-        sub-class instances interpolator instantiation time arguments.
+        Getter and setter for the interpolator instantiation time arguments.
 
         Parameters
         ----------
         value
-            Value to set the :class:`colour.continuous.Signal` sub-class
-            instances interpolator instantiation time arguments to.
+            Value to set the multi-signals interpolator
+            instantiation time arguments to.
 
         Returns
         -------
         :class:`dict`
-            :class:`colour.continuous.Signal` sub-class instances interpolator
-            instantiation time arguments.
+            Multi-signals interpolator instantiation time
+            arguments.
         """
 
         return first_item(self._signals.values()).interpolator_kwargs
@@ -476,20 +477,19 @@ class MultiSignals(AbstractContinuousFunction):
     @property
     def extrapolator(self) -> Type[ProtocolExtrapolator]:
         """
-        Getter and setter property for the :class:`colour.continuous.Signal`
-        sub-class instances extrapolator type.
+        Getter and setter for the multi-signals extrapolator
+        type.
 
         Parameters
         ----------
         value
-            Value to set the :class:`colour.continuous.Signal` sub-class
-            instances extrapolator type with.
+            Value to set the multi-signals extrapolator type
+            with.
 
         Returns
         -------
         Type[ProtocolExtrapolator]
-            :class:`colour.continuous.Signal` sub-class instances extrapolator
-            type.
+            Multi-signals extrapolator type.
         """
 
         return first_item(self._signals.values()).extrapolator
@@ -504,20 +504,20 @@ class MultiSignals(AbstractContinuousFunction):
     @property
     def extrapolator_kwargs(self) -> dict:
         """
-        Getter and setter property for the :class:`colour.continuous.Signal`
-        sub-class instances extrapolator instantiation time arguments.
+        Getter and setter for the multi-signals extrapolator
+        instantiation time arguments.
 
         Parameters
         ----------
         value
-            Value to set the :class:`colour.continuous.Signal` sub-class
-            instances extrapolator instantiation time arguments to.
+            Value to set the multi-signals extrapolator
+            instantiation time arguments to.
 
         Returns
         -------
         :class:`dict`
-            :class:`colour.continuous.Signal` sub-class instances extrapolator
-            instantiation time arguments.
+            Multi-signals extrapolator instantiation time
+            arguments.
         """
 
         return first_item(self._signals.values()).extrapolator_kwargs
@@ -532,13 +532,12 @@ class MultiSignals(AbstractContinuousFunction):
     @property
     def function(self) -> Callable:
         """
-        Getter property for the :class:`colour.continuous.Signal` sub-class
-        instances callable.
+        Getter for the multi-signals callable.
 
         Returns
         -------
         Callable
-            :class:`colour.continuous.Signal` sub-class instances callable.
+            Multi-signals callable.
         """
 
         return first_item(self._signals.values()).function
@@ -546,17 +545,19 @@ class MultiSignals(AbstractContinuousFunction):
     @property
     def signals(self) -> Dict[str, Signal]:
         """
-        Getter and setter property for the :class:`colour.continuous.Signal`
-        sub-class instances.
+        Getter and setter for the dictionary of
+        :class:`colour.continuous.Signal` sub-class instances.
 
         Parameters
         ----------
         value
-            Attribute value.
+            Dictionary of :class:`colour.continuous.Signal` sub-class
+            instances to set.
 
         Returns
         -------
         :class:`dict`
+            Dictionary mapping signal names to their corresponding
             :class:`colour.continuous.Signal` sub-class instances.
         """
 
@@ -576,8 +577,8 @@ class MultiSignals(AbstractContinuousFunction):
     @property
     def labels(self) -> List[str]:
         """
-        Getter and setter property for the :class:`colour.continuous.Signal`
-        sub-class instance names.
+        Getter and setter for the :class:`colour.continuous.Signal` sub-class
+        instance names.
 
         Parameters
         ----------
@@ -619,21 +620,21 @@ class MultiSignals(AbstractContinuousFunction):
     @property
     def signal_type(self) -> Type[Signal]:
         """
-        Getter property for the :class:`colour.continuous.Signal` sub-class
-        instances type.
+        Getter for the type of :class:`colour.continuous.Signal`
+        sub-class instances.
 
         Returns
         -------
         Type[Signal]
-            :class:`colour.continuous.Signal` sub-class instances type.
+            Type of :class:`colour.continuous.Signal` sub-class
+            instances used in this multi-signal collection.
         """
 
         return self._signal_type
 
     def __str__(self) -> str:
         """
-        Return a formatted string representation of the multi-continuous
-        signals.
+        Return a formatted string representation of the multi-signals.
 
         Returns
         -------
@@ -662,8 +663,7 @@ class MultiSignals(AbstractContinuousFunction):
 
     def __repr__(self) -> str:
         """
-        Return an evaluable string representation of the multi-continuous
-        signals.
+        Return an evaluable string representation of the multi-signals.
 
         Returns
         -------
@@ -724,7 +724,7 @@ class MultiSignals(AbstractContinuousFunction):
 
     def __hash__(self) -> int:
         """
-        Return the abstract continuous function hash.
+        Compute the hash of the multi-signals.
 
         Returns
         -------
@@ -745,8 +745,8 @@ class MultiSignals(AbstractContinuousFunction):
 
     def __getitem__(self, x: ArrayLike | slice) -> NDArrayFloat:
         """
-        Return the corresponding range variable :math:`y` for independent
-        domain variable :math:`x`.
+        Return the corresponding range variable :math:`y` for the specified
+        independent domain variable :math:`x`.
 
         Parameters
         ----------
@@ -811,8 +811,8 @@ class MultiSignals(AbstractContinuousFunction):
 
     def __setitem__(self, x: ArrayLike | slice, y: ArrayLike) -> None:
         """
-        Set the corresponding range variable :math:`y` for independent domain
-        variable :math:`x`.
+        Set the corresponding range variable :math:`y` for the specified
+        independent domain variable :math:`x`.
 
         Parameters
         ----------
@@ -942,8 +942,8 @@ class MultiSignals(AbstractContinuousFunction):
 
     def __contains__(self, x: ArrayLike | slice) -> bool:
         """
-        Return whether the multi-continuous signals contains specified
-        independent domain variable :math:`x`.
+        Determine whether the multi-signals contains the
+        specified independent domain variable :math:`x`.
 
         Parameters
         ----------
@@ -971,18 +971,18 @@ class MultiSignals(AbstractContinuousFunction):
 
     def __eq__(self, other: object) -> bool:
         """
-        Return whether the multi-continuous signals is equal to specified
-        other object.
+        Determine whether the multi-signals equals the specified
+        object.
 
         Parameters
         ----------
         other
-            Object to test whether it is equal to the multi-continuous signals.
+            Object to determine for equality with the multi-signals.
 
         Returns
         -------
         :class:`bool`
-            Whether specified object is equal to the multi-continuous signals.
+            Whether the specified object is equal to the multi-signals.
 
         Examples
         --------
@@ -1022,20 +1022,18 @@ class MultiSignals(AbstractContinuousFunction):
 
     def __ne__(self, other: object) -> bool:
         """
-        Return whether the multi-continuous signals is not equal to specified
-        other object.
+        Determine whether the multi-signals is not equal to the
+        specified object.
 
         Parameters
         ----------
         other
-            Object to test whether it is not equal to the multi-continuous
-            signals.
+            Object to test whether it is not equal to the multi-signals.
 
         Returns
         -------
         :class:`bool`
-            Whether specified object is not equal to the multi-continuous
-            signals.
+            Whether the specified object is not equal to the multi-signals.
 
         Examples
         --------
@@ -1065,13 +1063,14 @@ class MultiSignals(AbstractContinuousFunction):
         in_place: bool = False,
     ) -> MultiSignals:
         """
-        Perform specified arithmetical operation with operand :math:`a`, the
-        operation can be either performed on a copy or in-place.
+        Perform the specified arithmetical operation with operand :math:`a`,
+        either on a copy or in-place.
 
         Parameters
         ----------
         a
-            Operand :math:`a`.
+            Operand :math:`a`. Can be a numeric value, array-like object, or
+            another continuous function instance.
         operation
             Operation to perform.
         in_place
@@ -1080,7 +1079,7 @@ class MultiSignals(AbstractContinuousFunction):
         Returns
         -------
         :class:`colour.continuous.MultiSignals`
-            multi-continuous signals.
+            Multi-signals.
 
         Examples
         --------
@@ -1229,12 +1228,12 @@ class MultiSignals(AbstractContinuousFunction):
         **kwargs: Any,
     ) -> Dict[str, Signal]:
         """
-        Unpack specified data for multi-continuous signals instantiation.
+        Unpack specified data for multi-signals instantiation.
 
         Parameters
         ----------
         data
-            Data to unpack for multi-continuous signals instantiation.
+            Data to unpack for multi-signals instantiation.
         domain
             Values to initialise the multiple :class:`colour.continuous.Signal`
             sub-class instances :attr:`colour.continuous.Signal.domain`
@@ -1264,7 +1263,7 @@ class MultiSignals(AbstractContinuousFunction):
             Arguments to use when instantiating the interpolating function
             of the :class:`colour.continuous.Signal` sub-class instances.
         name
-            multi-continuous signals name.
+            Multi-signals name.
 
         Returns
         -------
@@ -1546,7 +1545,7 @@ class MultiSignals(AbstractContinuousFunction):
     ) -> MultiSignals:
         """
         Fill NaNs in independent domain variable :math:`x` and corresponding
-        range variable :math:`y` using specified method.
+        range variable :math:`y` using the specified method.
 
         Parameters
         ----------
@@ -1559,8 +1558,10 @@ class MultiSignals(AbstractContinuousFunction):
         Returns
         -------
         :class:`colour.continuous.MultiSignals`
-            NaNs filled multi-continuous signals.
+            Multi-signals with NaN values filled.
 
+        Examples
+        --------
         >>> domain = np.arange(0, 10, 1)
         >>> range_ = tstack([np.linspace(10, 100, 10)] * 3)
         >>> range_ += np.array([0, 10, 20])

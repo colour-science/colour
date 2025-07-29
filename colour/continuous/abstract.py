@@ -2,10 +2,10 @@
 Abstract Continuous Function
 ============================
 
-Define an abstract class implementing support for abstract continuous
-function:
+Define an abstract base class for continuous mathematical functions with
+support for interpolation, extrapolation, and arithmetical operations:
 
--   :class:`colour.continuous.AbstractContinuousFunction`.
+-   :class:`colour.continuous.AbstractContinuousFunction`
 """
 
 from __future__ import annotations
@@ -61,12 +61,12 @@ class AbstractContinuousFunction(ABC, MixinCallback):
 
     The sub-classes are expected to implement the
     :meth:`colour.continuous.AbstractContinuousFunction.function` method so
-    that evaluating the function for any independent domain
-    variable :math:`x \\in\\mathbb{R}` returns a corresponding range variable
+    that evaluating the function for any independent domain variable
+    :math:`x \\in\\mathbb{R}` returns a corresponding range variable
     :math:`y \\in\\mathbb{R}`. A conventional implementation adopts an
     interpolating function encapsulated inside an extrapolating function.
-    The resulting function independent domain, stored as discrete values in the
-    :attr:`colour.continuous.AbstractContinuousFunction.domain` attribute
+    The resulting function independent domain, stored as discrete values in
+    the :attr:`colour.continuous.AbstractContinuousFunction.domain` attribute,
     corresponds with the function dependent and already known range stored in
     the :attr:`colour.continuous.AbstractContinuousFunction.range` property.
 
@@ -129,7 +129,7 @@ arithmetical_operation`
     @property
     def name(self) -> str:
         """
-        Getter and setter property for the abstract continuous function name.
+        Getter and setter for the abstract continuous function name.
 
         Parameters
         ----------
@@ -159,8 +159,9 @@ arithmetical_operation`
     @abstractmethod
     def dtype(self) -> Type[DTypeFloat]:
         """
-        Getter and setter property for the abstract continuous function dtype,
-        must be reimplemented by sub-classes.
+        Getter and setter for the abstract continuous function dtype.
+
+        This property must be reimplemented by sub-classes.
 
         Parameters
         ----------
@@ -189,9 +190,10 @@ arithmetical_operation`
     @abstractmethod
     def domain(self) -> NDArrayFloat:
         """
-        Getter and setter property for the abstract continuous function
-        independent domain variable :math:`x`, must be reimplemented by
-        sub-classes.
+        Getter and setter for the abstract continuous function's independent
+        domain variable :math:`x`.
+
+        This property must be reimplemented by sub-classes.
 
         Parameters
         ----------
@@ -202,7 +204,8 @@ arithmetical_operation`
         Returns
         -------
         :class:`numpy.ndarray`
-            Abstract continuous function independent domain variable :math:`x`.
+            Abstract continuous function independent domain variable
+            :math:`x`.
         """
 
         ...  # pragma: no cover
@@ -221,21 +224,21 @@ arithmetical_operation`
     @abstractmethod
     def range(self) -> NDArrayFloat:
         """
-        Getter and setter property for the abstract continuous function
-        corresponding range variable :math:`y`, must be reimplemented by
-        sub-classes.
+        Getter and setter for the abstract continuous function's range
+        variable :math:`y`.
+
+        This property must be reimplemented by sub-classes.
 
         Parameters
         ----------
         value
-            Value to set the abstract continuous function corresponding range
-            variable :math:`y` with.
+            Value to set the abstract continuous function's range variable
+            :math:`y` with.
 
         Returns
         -------
         :class:`numpy.ndarray`
-            Abstract continuous function corresponding range variable
-            :math:`y`.
+            Abstract continuous function's range variable :math:`y`.
         """
 
         ...  # pragma: no cover
@@ -254,8 +257,10 @@ arithmetical_operation`
     @abstractmethod
     def interpolator(self) -> Type[ProtocolInterpolator]:
         """
-        Getter and setter property for the abstract continuous function
-        interpolator type, must be reimplemented by sub-classes.
+        Getter and setter for the abstract continuous function interpolator
+        type.
+
+        This property must be reimplemented by sub-classes.
 
         Parameters
         ----------
@@ -285,9 +290,9 @@ arithmetical_operation`
     @abstractmethod
     def interpolator_kwargs(self) -> dict:
         """
-        Getter and setter property for the abstract continuous function
-        interpolator instantiation time arguments, must be reimplemented by
-        sub-classes.
+        Getter and setter for the interpolator instantiation time arguments.
+
+        This property must be reimplemented by sub-classes.
 
         Parameters
         ----------
@@ -318,8 +323,10 @@ arithmetical_operation`
     @abstractmethod
     def extrapolator(self) -> Type[ProtocolExtrapolator]:
         """
-        Getter and setter property for the abstract continuous function
-        extrapolator type, must be reimplemented by sub-classes.
+        Getter and setter for the abstract continuous function extrapolator
+        type.
+
+        This property must be reimplemented by sub-classes.
 
         Parameters
         ----------
@@ -349,9 +356,10 @@ arithmetical_operation`
     @abstractmethod
     def extrapolator_kwargs(self) -> dict:
         """
-        Getter and setter property for the abstract continuous function
-        extrapolator instantiation time arguments, must be reimplemented by
-        sub-classes.
+        Getter and setter for the abstract continuous function extrapolator
+        instantiation time arguments.
+
+        This property must be reimplemented by sub-classes.
 
         Parameters
         ----------
@@ -382,8 +390,9 @@ arithmetical_operation`
     @abstractmethod
     def function(self) -> Callable:
         """
-        Getter property for the abstract continuous function callable, must be
-        reimplemented by sub-classes.
+        Getter for the abstract continuous function callable.
+
+        This property must be reimplemented by sub-classes.
 
         Returns
         -------
@@ -397,7 +406,9 @@ arithmetical_operation`
     def __str__(self) -> str:
         """
         Return a formatted string representation of the abstract continuous
-        function, must be reimplemented by sub-classes.
+        function.
+
+        This method must be reimplemented by sub-classes.
 
         Returns
         -------
@@ -424,7 +435,7 @@ arithmetical_operation`
     @abstractmethod
     def __hash__(self) -> int:
         """
-        Return the abstract continuous function hash.
+        Compute the hash of the abstract continuous function.
 
         Returns
         -------
@@ -437,8 +448,10 @@ arithmetical_operation`
     @abstractmethod
     def __getitem__(self, x: ArrayLike | slice) -> NDArrayFloat:
         """
-        Return the corresponding range variable :math:`y` for independent
-        domain variable :math:`x`, must be reimplemented by sub-classes.
+        Return the corresponding range variable :math:`y` for the specified
+        independent domain variable :math:`x`.
+
+        This abstract method must be reimplemented by sub-classes.
 
         Parameters
         ----------
@@ -456,8 +469,10 @@ arithmetical_operation`
     @abstractmethod
     def __setitem__(self, x: ArrayLike | slice, y: ArrayLike) -> None:
         """
-        Set the corresponding range variable :math:`y` for independent domain
-        variable :math:`x`, must be reimplemented by sub-classes.
+        Set the corresponding range variable :math:`y` for the specified
+        independent domain variable :math:`x`.
+
+        This abstract method must be reimplemented by sub-classes.
 
         Parameters
         ----------
@@ -472,9 +487,10 @@ arithmetical_operation`
     @abstractmethod
     def __contains__(self, x: ArrayLike | slice) -> bool:
         """
-        Return whether the abstract continuous function contains specified
-        independent domain variable :math:`x`, must be reimplemented by
-        sub-classes.
+        Determine whether the abstract continuous function contains the
+        specified independent domain variable :math:`x`.
+
+        This abstract method must be reimplemented by sub-classes.
 
         Parameters
         ----------
@@ -496,21 +512,20 @@ arithmetical_operation`
         Yields
         ------
         Generator
-           Abstract continuous function generator.
+            Abstract continuous function generator.
         """
 
         yield from np.column_stack([self.domain, self.range])
 
     def __len__(self) -> int:
         """
-        Return the abstract continuous function independent domain :math:`x`
-        variable elements count.
-
+        Return the number of elements in the abstract continuous function's
+        independent domain variable :math:`x`.
 
         Returns
         -------
         :class:`int`
-            Independent domain variable :math:`x` elements count.
+            Number of elements in the independent domain variable :math:`x`.
         """
 
         return len(self.domain)
@@ -518,19 +533,20 @@ arithmetical_operation`
     @abstractmethod
     def __eq__(self, other: object) -> bool:
         """
-        Return whether the abstract continuous function is equal to specified
-        other object, must be reimplemented by sub-classes.
+        Determine whether the abstract continuous function equals the specified
+        object.
+
+        This abstract method must be reimplemented by sub-classes.
 
         Parameters
         ----------
         other
-            Object to test whether it is equal to the abstract continuous
-            function.
+            Object to determine for equality with the abstract continuous function.
 
         Returns
         -------
         :class:`bool`
-            Whether specified object is equal to the abstract continuous
+            Whether the specified object is equal to the abstract continuous
             function.
         """
 
@@ -539,20 +555,22 @@ arithmetical_operation`
     @abstractmethod
     def __ne__(self, other: object) -> bool:
         """
-        Return whether the abstract continuous function is not equal to
-        specified other object, must be reimplemented by sub-classes.
+        Determine whether the abstract continuous function is not equal to the
+        specified object.
+
+        This method must be reimplemented by sub-classes.
 
         Parameters
         ----------
         other
-            Object to test whether it is not equal to the abstract continuous
+            Object to determine whether it is not equal to the abstract continuous
             function.
 
         Returns
         -------
         :class:`bool`
-            Whether specified object is not equal to the abstract continuous
-            function.
+            Whether the specified object is not equal to the abstract
+            continuous function.
         """
 
         ...  # pragma: no cover
@@ -564,12 +582,13 @@ arithmetical_operation`
         Parameters
         ----------
         a
-            Variable :math:`a` to add.
+            Variable :math:`a` to add to the continuous function.
 
         Returns
         -------
         :class:`colour.continuous.AbstractContinuousFunction`
-            Variable added abstract continuous function.
+            Abstract continuous function with the specified variable
+            added.
         """
 
         return self.arithmetical_operation(a, "+")
@@ -581,12 +600,13 @@ arithmetical_operation`
         Parameters
         ----------
         a
-            Variable :math:`a` to add in-place.
+            Variable :math:`a` to add in-place to the abstract continuous
+            function.
 
         Returns
         -------
         :class:`colour.continuous.AbstractContinuousFunction`
-            In-place variable added abstract continuous function.
+            Abstract continuous function with in-place addition applied.
         """
 
         return self.arithmetical_operation(a, "+", True)
@@ -598,12 +618,13 @@ arithmetical_operation`
         Parameters
         ----------
         a
-            Variable :math:`a` to subtract.
+            Variable :math:`a` to subtract from the continuous function.
 
         Returns
         -------
         :class:`colour.continuous.AbstractContinuousFunction`
-            Variable subtracted abstract continuous function.
+            Abstract continuous function with the specified variable
+            subtracted.
         """
 
         return self.arithmetical_operation(a, "-")
@@ -615,12 +636,13 @@ arithmetical_operation`
         Parameters
         ----------
         a
-            Variable :math:`a` to subtract in-place.
+            Variable :math:`a` to subtract in-place from the abstract continuous
+            function.
 
         Returns
         -------
         :class:`colour.continuous.AbstractContinuousFunction`
-            In-place variable subtracted abstract continuous function.
+            Abstract continuous function with in-place subtraction applied.
         """
 
         return self.arithmetical_operation(a, "-", True)
@@ -632,12 +654,13 @@ arithmetical_operation`
         Parameters
         ----------
         a
-            Variable :math:`a` to multiply by.
+            Variable :math:`a` to multiply the continuous function by.
 
         Returns
         -------
         :class:`colour.continuous.AbstractContinuousFunction`
-            Variable multiplied abstract continuous function.
+            Abstract continuous function with the specified variable
+            multiplied.
         """
 
         return self.arithmetical_operation(a, "*")
@@ -649,12 +672,13 @@ arithmetical_operation`
         Parameters
         ----------
         a
-            Variable :math:`a` to multiply by in-place.
+            Variable :math:`a` to multiply in-place by the abstract continuous
+            function.
 
         Returns
         -------
         :class:`colour.continuous.AbstractContinuousFunction`
-            In-place variable multiplied abstract continuous function.
+            Abstract continuous function with in-place multiplication applied.
         """
 
         return self.arithmetical_operation(a, "*", True)
@@ -666,12 +690,13 @@ arithmetical_operation`
         Parameters
         ----------
         a
-            Variable :math:`a` to divide by.
+            Variable :math:`a` to divide the continuous function by.
 
         Returns
         -------
         :class:`colour.continuous.AbstractContinuousFunction`
-            Variable divided abstract continuous function.
+            Abstract continuous function with the specified variable
+            divided.
         """
 
         return self.arithmetical_operation(a, "/")
@@ -683,12 +708,13 @@ arithmetical_operation`
         Parameters
         ----------
         a
-            Variable :math:`a` to divide by in-place.
+            Variable :math:`a` to divide in-place by the abstract continuous
+            function.
 
         Returns
         -------
         :class:`colour.continuous.AbstractContinuousFunction`
-            In-place variable divided abstract continuous function.
+            Abstract continuous function with in-place division applied.
         """
 
         return self.arithmetical_operation(a, "/", True)
@@ -703,12 +729,13 @@ arithmetical_operation`
         Parameters
         ----------
         a
-            Variable :math:`a` to exponentiate by.
+            Variable :math:`a` to raise the continuous function to the power of.
 
         Returns
         -------
         :class:`colour.continuous.AbstractContinuousFunction`
-            Variable exponentiated abstract continuous function.
+            Abstract continuous function with the specified variable
+            exponentiated.
         """
 
         return self.arithmetical_operation(a, "**")
@@ -720,12 +747,13 @@ arithmetical_operation`
         Parameters
         ----------
         a
-            Variable :math:`a` to exponentiate by in-place.
+            Variable :math:`a` to raise in-place the abstract continuous
+            function to the power of.
 
         Returns
         -------
         :class:`colour.continuous.AbstractContinuousFunction`
-            In-place variable exponentiated abstract continuous function.
+            Abstract continuous function with in-place exponentiation applied.
         """
 
         return self.arithmetical_operation(a, "**", True)
@@ -738,14 +766,16 @@ arithmetical_operation`
         in_place: bool = False,
     ) -> Self:
         """
-        Perform specified arithmetical operation with operand :math:`a`, the
-        operation can be either performed on a copy or in-place, must be
-        reimplemented by sub-classes.
+        Perform the specified arithmetical operation with operand :math:`a`,
+        either on a copy or in-place.
+
+        This method must be reimplemented by sub-classes.
 
         Parameters
         ----------
         a
-            Operand :math:`a`.
+            Operand :math:`a`. Can be a numeric value, array-like object, or
+            another continuous function instance.
         operation
             Operation to perform.
         in_place
@@ -767,8 +797,9 @@ arithmetical_operation`
     ) -> Self:
         """
         Fill NaNs in independent domain variable :math:`x` and corresponding
-        range variable :math:`y` using specified method, must be reimplemented
-        by sub-classes.
+        range variable :math:`y` using the specified method.
+
+        This abstract method must be reimplemented by sub-classes.
 
         Parameters
         ----------
@@ -788,13 +819,13 @@ arithmetical_operation`
 
     def domain_distance(self, a: ArrayLike) -> NDArrayFloat:
         """
-        Return the euclidean distance between specified array and independent
-        domain :math:`x` closest element.
+        Return the Euclidean distance between specified array and the closest
+        element of the independent domain :math:`x`.
 
         Parameters
         ----------
         a
-            Variable :math:`a` to compute the euclidean distance with
+            Variable :math:`a` to compute the Euclidean distance with the
             independent domain variable :math:`x`.
 
         Returns
@@ -810,12 +841,12 @@ arithmetical_operation`
 
     def is_uniform(self) -> bool:
         """
-        Return if independent domain variable :math:`x` is uniform.
+        Return whether the independent domain variable :math:`x` is uniform.
 
         Returns
         -------
         :class:`bool`
-            Is independent domain variable :math:`x` uniform.
+            Whether the independent domain variable :math:`x` is uniform.
         """
 
         return is_uniform(self.domain)
@@ -827,7 +858,7 @@ arithmetical_operation`
         Returns
         -------
         :class:`colour.continuous.AbstractContinuousFunction`
-            Abstract continuous function copy.
+            Copy of the abstract continuous function.
         """
 
         return deepcopy(self)
