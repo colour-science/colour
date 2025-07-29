@@ -2,7 +2,11 @@
 Signal
 ======
 
-Define a class implementing support for continuous signal:
+Define support for continuous signal representation and manipulation.
+
+This module provides the :class:`colour.continuous.Signal` class for
+representing and operating on continuous signals with the specified domain and
+range values, supporting interpolation and extrapolation operations.
 
 -   :class:`colour.continuous.Signal`
 """
@@ -78,17 +82,17 @@ class Signal(AbstractContinuousFunction):
 
     The class implements the :meth:`Signal.function` method so that evaluating
     the function for any independent domain variable :math:`x \\in\\mathbb{R}`
-    returns a corresponding range variable :math:`y \\in\\mathbb{R}`.
-    It adopts an interpolating function encapsulated inside an extrapolating
-    function. The resulting function independent domain, stored as discrete
-    values in the :attr:`colour.continuous.Signal.domain` property corresponds
-    with the function dependent and already known range stored in the
+    returns a corresponding range variable :math:`y \\in\\mathbb{R}`. It adopts
+    an interpolating function encapsulated inside an extrapolating function.
+    The resulting function independent domain, stored as discrete values in
+    the :attr:`colour.continuous.Signal.domain` property corresponds with the
+    function dependent and already known range stored in the
     :attr:`colour.continuous.Signal.range` property.
 
     .. important::
 
-        Specific documentation about getting, setting, indexing and slicing the
-        continuous signal values is available in the
+        Specific documentation about getting, setting, indexing and slicing
+        the continuous signal values is available in the
         :ref:`spectral-representation-and-continuous-signal` section.
 
     Parameters
@@ -97,8 +101,8 @@ class Signal(AbstractContinuousFunction):
         Data to be stored in the continuous signal.
     domain
         Values to initialise the :attr:`colour.continuous.Signal.domain`
-        attribute with. If both ``data`` and ``domain`` arguments are defined,
-        the latter will be used to initialise the
+        attribute with. If both ``data`` and ``domain`` arguments are
+        defined, the latter will be used to initialise the
         :attr:`colour.continuous.Signal.domain` property.
 
     Other Parameters
@@ -269,7 +273,7 @@ class Signal(AbstractContinuousFunction):
     @property
     def dtype(self) -> Type[DTypeFloat]:
         """
-        Getter and setter property for the continuous signal dtype.
+        Getter and setter for the continuous signal dtype.
 
         Parameters
         ----------
@@ -278,7 +282,7 @@ class Signal(AbstractContinuousFunction):
 
         Returns
         -------
-        DTypeFloat
+        Type[DTypeFloat]
             Continuous signal dtype.
         """
 
@@ -304,7 +308,7 @@ class Signal(AbstractContinuousFunction):
     @property
     def domain(self) -> NDArrayFloat:
         """
-        Getter and setter property for the continuous signal independent
+        Getter and setter for the continuous signal's independent
         domain variable :math:`x`.
 
         Parameters
@@ -316,7 +320,8 @@ class Signal(AbstractContinuousFunction):
         Returns
         -------
         :class:`numpy.ndarray`
-            Continuous signal independent domain variable :math:`x`.
+            Continuous signal independent domain variable
+            :math:`x`.
         """
 
         return ndarray_copy(self._domain)
@@ -347,19 +352,19 @@ class Signal(AbstractContinuousFunction):
     @property
     def range(self) -> NDArrayFloat:
         """
-        Getter and setter property for the continuous signal corresponding
-        range variable :math:`y`.
+        Getter and setter for the continuous signal's range
+        variable :math:`y`.
 
         Parameters
         ----------
         value
-            Value to set the continuous signal corresponding range :math:`y`
-            variable with.
+            Value to set the continuous signal's range variable
+            :math:`y` with.
 
         Returns
         -------
         :class:`numpy.ndarray`
-            Continuous signal corresponding range variable :math:`y`.
+            Continuous signal's range variable :math:`y`.
         """
 
         return ndarray_copy(self._range)
@@ -388,7 +393,8 @@ class Signal(AbstractContinuousFunction):
     @property
     def interpolator(self) -> Type[ProtocolInterpolator]:
         """
-        Getter and setter property for the continuous signal interpolator type.
+        Getter and setter for the continuous signal interpolator
+        type.
 
         Parameters
         ----------
@@ -415,14 +421,13 @@ class Signal(AbstractContinuousFunction):
     @property
     def interpolator_kwargs(self) -> dict:
         """
-        Getter and setter property for the continuous signal interpolator
-        instantiation time arguments.
+        Getter and setter for the interpolator instantiation time arguments.
 
         Parameters
         ----------
         value
-            Value to set the continuous signal interpolator instantiation
-            time arguments to.
+            Value to set the continuous signal interpolator
+            instantiation time arguments to.
 
         Returns
         -------
@@ -448,13 +453,12 @@ class Signal(AbstractContinuousFunction):
     @property
     def extrapolator(self) -> Type[ProtocolExtrapolator]:
         """
-        Getter and setter property for the continuous signal extrapolator type.
+        Getter and setter for the continuous signal extrapolator type.
 
         Parameters
         ----------
         value
-            Value to set the continuous signal extrapolator type
-            with.
+            Value to set the continuous signal extrapolator type with.
 
         Returns
         -------
@@ -475,14 +479,14 @@ class Signal(AbstractContinuousFunction):
     @property
     def extrapolator_kwargs(self) -> dict:
         """
-        Getter and setter property for the continuous signal extrapolator
+        Getter and setter for the continuous signal extrapolator
         instantiation time arguments.
 
         Parameters
         ----------
         value
-            Value to set the continuous signal extrapolator instantiation
-            time arguments to.
+            Value to set the continuous signal extrapolator
+            instantiation time arguments to.
 
         Returns
         -------
@@ -509,7 +513,7 @@ class Signal(AbstractContinuousFunction):
     @ndarray_copy_enable(False)
     def function(self) -> Callable:
         """
-        Getter property for the continuous signal callable.
+        Getter for the continuous signal callable.
 
         Returns
         -------
@@ -645,7 +649,7 @@ class Signal(AbstractContinuousFunction):
     @ndarray_copy_enable(False)
     def __hash__(self) -> int:
         """
-        Return the abstract continuous function hash.
+        Compute the hash of the continuous signal.
 
         Returns
         -------
@@ -666,8 +670,8 @@ class Signal(AbstractContinuousFunction):
 
     def __getitem__(self, x: ArrayLike | slice) -> NDArrayFloat:
         """
-        Return the corresponding range variable :math:`y` for independent
-        domain variable :math:`x`.
+        Return the corresponding range variable :math:`y` for the specified
+        independent domain variable :math:`x`.
 
         Parameters
         ----------
@@ -712,8 +716,8 @@ class Signal(AbstractContinuousFunction):
 
     def __setitem__(self, x: ArrayLike | slice, y: ArrayLike) -> None:
         """
-        Set the corresponding range variable :math:`y` for independent domain
-        variable :math:`x`.
+        Set the corresponding range variable :math:`y` for the specified
+        independent domain variable :math:`x`.
 
         Parameters
         ----------
@@ -802,8 +806,8 @@ class Signal(AbstractContinuousFunction):
 
     def __contains__(self, x: ArrayLike | slice) -> bool:
         """
-        Return whether the continuous signal contains specified independent
-        domain variable :math:`x`.
+        Determine whether the continuous signal contains the specified
+        independent domain variable :math:`x`.
 
         Parameters
         ----------
@@ -843,18 +847,17 @@ class Signal(AbstractContinuousFunction):
     @ndarray_copy_enable(False)
     def __eq__(self, other: object) -> bool:
         """
-        Return whether the continuous signal is equal to specified other
-        object.
+        Determine whether the continuous signal equals the specified object.
 
         Parameters
         ----------
         other
-            Object to test whether it is equal to the continuous signal.
+            Object to determine for equality with the continuous signal.
 
         Returns
         -------
         :class:`bool`
-            Whether specified object is equal to the continuous signal.
+            Whether the specified object is equal to the continuous signal.
 
         Examples
         --------
@@ -893,18 +896,19 @@ class Signal(AbstractContinuousFunction):
 
     def __ne__(self, other: object) -> bool:
         """
-        Return whether the continuous signal is not equal to specified other
-        object.
+        Determine whether the continuous signal is not equal to the specified
+        other object.
 
         Parameters
         ----------
         other
-            Object to test whether it is not equal to the continuous signal.
+            Object to determine whether it is not equal to the continuous signal.
 
         Returns
         -------
         :class:`bool`
-            Whether specified object is not equal to the continuous signal.
+            Whether the specified object is not equal to the continuous
+            signal.
 
         Examples
         --------
@@ -934,22 +938,20 @@ class Signal(AbstractContinuousFunction):
         default: Real = 0,
     ) -> None:
         """
-        Fill NaNs in independent domain variable :math:`x` using specified
-        method.
+        Fill NaNs in the signal's independent domain variable :math:`x` using the
+        specified method.
+
+        This private method modifies the domain values in-place, replacing NaN
+        values according to the chosen filling strategy.
 
         Parameters
         ----------
         method
-            *Interpolation* method linearly interpolates through the NaNs,
-            *Constant* method replaces NaNs with ``default``.
+            Filling method to apply. *Interpolation* linearly interpolates
+            through the NaN values, while *Constant* replaces NaN values with
+            the specified ``default`` value.
         default
-            Value to use with the *Constant* method.
-
-        Returns
-        -------
-        :class:`colour.continuous.Signal`
-            NaNs filled continuous signal independent domain :math:`x`
-            variable.
+            Value to use when ``method`` is *Constant*.
         """
 
         self.domain = fill_nan(self._domain, method, default)
@@ -961,8 +963,8 @@ class Signal(AbstractContinuousFunction):
         default: Real = 0,
     ) -> None:
         """
-        Fill NaNs in corresponding range variable :math:`y` using specified
-        method.
+        Fill NaNs in the continuous signal's range variable :math:`y` using
+        the specified method.
 
         Parameters
         ----------
@@ -975,7 +977,7 @@ class Signal(AbstractContinuousFunction):
         Returns
         -------
         :class:`colour.continuous.Signal`
-            NaNs filled continuous signal i corresponding range :math:`y`
+            NaNs filled continuous signal in corresponding range :math:`y`
             variable.
         """
 
@@ -989,22 +991,30 @@ class Signal(AbstractContinuousFunction):
         in_place: bool = False,
     ) -> AbstractContinuousFunction:
         """
-        Perform specified arithmetical operation with operand :math:`a`, the
-        operation can be either performed on a copy or in-place.
+        Perform the specified arithmetical operation with operand :math:`a`.
+
+        The operation can be performed either on a copy of the signal or
+        in-place.
 
         Parameters
         ----------
         a
-            Operand :math:`a`.
+            Operand :math:`a`. Can be a numeric value, array-like object, or
+            another continuous function instance.
         operation
-            Operation to perform.
+            Arithmetical operation to perform. Supported operations are
+            addition (``"+"``), subtraction (``"-"``), multiplication
+            (``"*"``), division (``"/"``), and exponentiation (``"**"``).
         in_place
-            Operation happens in place.
+            Whether the operation is performed in-place on the current
+            signal instance. Default is ``False``.
 
         Returns
         -------
         :class:`colour.continuous.Signal`
-            Continuous signal.
+            Continuous signal after the arithmetical operation. If
+            ``in_place`` is ``True``, returns the modified instance;
+            otherwise returns a new instance.
 
         Examples
         --------
@@ -1106,7 +1116,7 @@ class Signal(AbstractContinuousFunction):
             defined, the latter will be used to initialise the
             :attr:`colour.continuous.Signal.domain` property.
         dtype
-            float point data type.
+            Floating point data type.
 
         Returns
         -------
@@ -1221,7 +1231,7 @@ class Signal(AbstractContinuousFunction):
     ) -> Signal:
         """
         Fill NaNs in independent domain variable :math:`x` and corresponding
-        range variable :math:`y` using specified method.
+        range variable :math:`y` using the specified method.
 
         Parameters
         ----------
@@ -1234,7 +1244,7 @@ class Signal(AbstractContinuousFunction):
         Returns
         -------
         :class:`colour.continuous.Signal`
-            NaNs filled continuous signal.
+            Continuous signal with NaN values filled.
 
         Examples
         --------
@@ -1293,7 +1303,7 @@ class Signal(AbstractContinuousFunction):
         Returns
         -------
         :class:`pandas.Series`
-            Continuous signal as a *Pandas*:class:`pandas.Series` class
+            Continuous signal as a *Pandas* :class:`pandas.Series` class
             instance.
 
         Examples
