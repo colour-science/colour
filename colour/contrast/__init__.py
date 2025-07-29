@@ -55,7 +55,7 @@ CONTRAST_SENSITIVITY_METHODS: CanonicalMapping = CanonicalMapping(
     }
 )
 CONTRAST_SENSITIVITY_METHODS.__doc__ = """
-Supported contrast sensitivity methods.
+Supported contrast sensitivity function computation methods.
 
 References
 ----------
@@ -68,8 +68,7 @@ def contrast_sensitivity_function(
     method: Literal["Barten 1999"] | str = "Barten 1999", **kwargs: Any
 ) -> NDArrayFloat:
     """
-    Return the contrast sensitivity :math:`S` of the human eye according to
-    the contrast sensitivity function (CSF) described by specified method.
+    Compute the contrast sensitivity :math:`S` of the human eye.
 
     Parameters
     ----------
