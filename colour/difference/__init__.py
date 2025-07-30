@@ -117,7 +117,7 @@ DELTA_E_METHODS: CanonicalMapping = CanonicalMapping(
     }
 )
 DELTA_E_METHODS.__doc__ = """
-Supported :math:`\\Delta E_{ab}` computation methods.
+Supported :math:`\\Delta E_{ab}` colour difference computation methods.
 
 References
 ----------
@@ -143,9 +143,9 @@ def delta_E(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E_{ab}` between two specified
-    *CIE L\\*a\\*b\\**, :math:`IC_TC_P`, or :math:`J'a'b'` colourspace arrays
-    using specified method.
+    Compute the colour difference :math:`\\Delta E_{ab}` between two
+    specified *CIE L\\*a\\*b\\**, :math:`IC_TC_P`, or :math:`J'a'b'`
+    colourspace arrays.
 
     Parameters
     ----------
@@ -161,22 +161,22 @@ def delta_E(
     Other Parameters
     ----------------
     c
-        {:func:`colour.difference.delta_E_CIE2000`},
-        Chroma weighting factor.
+        {:func:`colour.difference.delta_E_CMC`},
+        *Chroma* weighting factor.
     l
-        {:func:`colour.difference.delta_E_CIE2000`},
-        lightness weighting factor.
+        {:func:`colour.difference.delta_E_CMC`},
+        *Lightness* weighting factor.
     textiles
         {:func:`colour.difference.delta_E_CIE1994`,
         :func:`colour.difference.delta_E_CIE2000`,
         :func:`colour.difference.delta_E_DIN99`},
         Textiles application specific parametric factors
-        :math:`k_L=2,\\ k_C=k_H=1,\\ k_1=0.048,\\ k_2=0.014,\\ k_E=2,\
-\\ k_CH=0.5` weights are used instead of
-        :math:`k_L=k_C=k_H=1,\\ k_1=0.045,\\ k_2=0.015,\\ k_E=k_CH=1.0`.
+        :math:`k_L=2,\\ k_C=k_H=1,\\ k_1=0.048,\\ k_2=0.014,\\ k_E=2,\\ k_{CH}=0.5`
+        weights are used instead of
+        :math:`k_L=k_C=k_H=1,\\ k_1=0.045,\\ k_2=0.015,\\ k_E=k_{CH}=1.0`.
 
-    Return
-    ------
+    Returns
+    -------
     :class:`numpy.ndarray`
         Colour difference :math:`\\Delta E_{ab}`.
 

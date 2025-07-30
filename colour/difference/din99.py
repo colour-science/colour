@@ -2,7 +2,7 @@
 :math:`\\Delta E_{99}` DIN99 - Colour Difference Formula
 ========================================================
 
-Define the :math:`\\Delta E_{99}` *DIN99* colour difference formula:
+Define the :math:`\\Delta E_{99}` *DIN99* colour difference formula.
 
 -   :func:`colour.difference.delta_E_DIN99`
 
@@ -42,8 +42,8 @@ def delta_E_DIN99(
     Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: bool = False
 ) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E_{DIN99}` between two specified
-    *CIE L\\*a\\*b\\** colourspace arrays using *DIN99* formula.
+    Compute the colour difference :math:`\\Delta E_{DIN99}` between two
+    specified *CIE L\\*a\\*b\\** colourspace arrays using the *DIN99* formula.
 
     Parameters
     ----------
