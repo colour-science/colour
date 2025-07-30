@@ -2,9 +2,7 @@
 :math:`\\Delta E^*_{ab}` - Delta E Colour Difference
 ====================================================
 
-Define the :math:`\\Delta E^*_{ab}` colour difference computation objects:
-
-The following attributes and methods are available:
+Define the :math:`\\Delta E^*_{ab}` colour difference computation objects.
 
 -   :attr:`colour.difference.JND_CIE1976`
 -   :func:`colour.difference.delta_E_CIE1976`
@@ -111,8 +109,9 @@ References
 
 def delta_E_CIE1976(Lab_1: ArrayLike, Lab_2: ArrayLike) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E_{76}` between two specified
-    *CIE L\\*a\\*b\\** colourspace arrays using *CIE 1976* recommendation.
+    Compute the colour difference :math:`\\Delta E_{76}` between two
+    specified *CIE L\\*a\\*b\\** colourspace arrays using the *CIE 1976*
+    recommendation.
 
     Parameters
     ----------
@@ -163,8 +162,8 @@ def delta_E_CIE1994(
     Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: bool = False
 ) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E_{94}` between two specified
-    *CIE L\\*a\\*b\\** colourspace arrays using *CIE 1994* recommendation.
+    Compute the colour difference :math:`\\Delta E_{94}` between two specified
+    *CIE L\\*a\\*b\\** colourspace arrays using the *CIE 1994* recommendation.
 
     Parameters
     ----------
@@ -256,7 +255,7 @@ def delta_E_CIE1994(
 @dataclass
 class Attributes_Specification_CIE2000(MixinDataclassArithmetic):
     """
-    Define the *CAM16* colour appearance model specification.
+    Define the *CIE 2000* colour-difference formula attribute specification.
 
     Parameters
     ----------
@@ -291,9 +290,13 @@ def intermediate_attributes_CIE2000(
     Lab_1: ArrayLike, Lab_2: ArrayLike
 ) -> Attributes_Specification_CIE2000:
     """
-    Return the intermediate attributes to compute the difference
-    :math:`\\Delta E_{00}` between two specified *CIE L\\*a\\*b\\** colourspace
-    arrays using *CIE 2000* recommendation.
+    Compute intermediate attributes for CIE 2000 colour difference calculation
+    between two specified *CIE L\\*a\\*b\\** colourspace arrays.
+
+    The intermediate attributes include the lightness, chroma, and hue
+    weighting functions (S_L, S_C, S_H), as well as the adjusted colour
+    differences (delta_L_p, delta_C_p, delta_H_p) and the rotation term (R_T)
+    required for computing :math:`\\Delta E_{00}`.
 
     Parameters
     ----------
@@ -430,8 +433,8 @@ def delta_E_CIE2000(
     Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: bool = False
 ) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E_{00}` between two specified
-    *CIE L\\*a\\*b\\** colourspace arrays using *CIE 2000* recommendation.
+    Compute the colour difference :math:`\\Delta E_{00}` between two specified
+    *CIE L\\*a\\*b\\** colourspace arrays using the *CIE 2000* recommendation.
 
     Parameters
     ----------
@@ -444,7 +447,7 @@ def delta_E_CIE2000(
         :math:`k_L=2,\\ k_C=k_H=1` weights are used instead of
         :math:`k_L=k_C=k_H=1`.
 
-    Return
+    Returns
     -------
     :class:`numpy.ndarray`
         Colour difference :math:`\\Delta E_{00}`.
@@ -520,14 +523,14 @@ def delta_E_CMC(
     c: float = 1,
 ) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E_{CMC}` between two specified
-    *CIE L\\*a\\*b\\** colourspace arrays using *Colour Measurement Committee*
-    recommendation.
+    Compute the colour difference :math:`\\Delta E_{CMC}` between two
+    specified *CIE L\\*a\\*b\\** colourspace arrays using the *Colour
+    Measurement Committee* recommendation.
 
     The quasimetric has two parameters: *lightness* (l) and *chroma* (c),
-    allowing the users to weight the difference based on the ratio of l:c.
-    Commonly used values are 2:1 for acceptability and 1:1 for the threshold of
-    imperceptibility.
+    allowing users to weight the difference based on the ratio of l:c.
+    Commonly used values are 2:1 for acceptability and 1:1 for the
+    threshold of imperceptibility.
 
     Parameters
     ----------
@@ -536,9 +539,9 @@ def delta_E_CMC(
     Lab_2
         *CIE L\\*a\\*b\\** colourspace array 2.
     l
-        Lightness weighting factor.
+        *Lightness* weighting factor.
     c
-        Chroma weighting factor.
+        *Chroma* weighting factor.
 
     Returns
     -------
@@ -611,8 +614,8 @@ def delta_E_CMC(
 
 def delta_E_ITP(ICtCp_1: ArrayLike, ICtCp_2: ArrayLike) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E_{ITP}` between two specified
-    :math:`IC_TC_P` colour encoding arrays using
+    Compute the colour difference :math:`\\Delta E_{ITP}` between two specified
+    :math:`IC_TC_P` colour encoding arrays using the
     *Recommendation ITU-R BT.2124*.
 
     Parameters
@@ -659,12 +662,12 @@ def delta_E_ITP(ICtCp_1: ArrayLike, ICtCp_2: ArrayLike) -> NDArrayFloat:
 
 def delta_E_HyAB(Lab_1: ArrayLike, Lab_2: ArrayLike) -> NDArrayFloat:
     """
-    Return the difference between two *CIE L\\*a\\*b\\** colourspace arrays
+    Compute the colour difference between two *CIE L\\*a\\*b\\** colourspace arrays
     using a combination of a Euclidean metric in hue and chroma with a
     city-block metric to incorporate lightness differences.
 
     This metric is intended for large colour differences, on the order of 10
-    CIE L\\*a\\*b\\** units or greater.
+    *CIE L\\*a\\*b\\** units or greater.
 
     Parameters
     ----------
@@ -676,7 +679,7 @@ def delta_E_HyAB(Lab_1: ArrayLike, Lab_2: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Colour difference HyAB.
+        Colour difference :math:`\\Delta E_{HyAB}`.
 
     Notes
     -----
@@ -719,14 +722,13 @@ def delta_E_HyCH(
     Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: bool = False
 ) -> NDArrayFloat:
     """
-    Return the difference between two *CIE L\\*a\\*b\\** colourspace arrays
-    using a combination of a Euclidean metric in hue and chroma with a
+    Compute the colour difference between two *CIE L\\*a\\*b\\** colourspace
+    arrays using a combination of Euclidean metric in hue and chroma with a
     city-block metric to incorporate lightness differences based on
     *CIE 2000* recommendation attributes.
 
     This metric is intended for large colour differences, on the order of 10
-    CIE L\\*a\\*b\\** units or greater.
-
+    *CIE L\\*a\\*b\\** units or greater.
 
     Parameters
     ----------
@@ -734,11 +736,13 @@ def delta_E_HyCH(
         *CIE L\\*a\\*b\\** colourspace array 1.
     Lab_2
         *CIE L\\*a\\*b\\** colourspace array 2.
+    textiles
+        Whether to use the textile-specific parametrization.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Colour difference HyCH.
+        Colour difference :math:`\\Delta E_{HyCH}`.
 
     Notes
     -----
