@@ -2,8 +2,8 @@
 Spectral Uniformity
 ===================
 
-Define the objects to compute the *spectral uniformity*
-(or *spectral flatness*) of spectral distributions.
+Define objects to compute the *spectral uniformity* (or *spectral flatness*)
+of spectral distributions.
 
 References
 ----------
@@ -53,12 +53,12 @@ def spectral_uniformity(
     use_second_order_derivatives: bool = False,
 ) -> NDArrayFloat:
     """
-    Compute the *spectral uniformity* (or *spectral flatness*) of specified
+    Compute the *spectral uniformity* (or *spectral flatness*) of the specified
     spectral distributions.
 
     Spectral uniformity :math:`(r')^2` is computed as follows:
 
-    :math:`mean((r'_1)^2, (r'_2)^2, ..., (r'_n)^2)`
+    :math:`\\text{mean}((r'_1)^2, (r'_2)^2, ..., (r'_n)^2)`
 
     where :math:`(r'_i)^2` is the first-order derivative, squared, of the
     reflectance :math:`r_i` of a test sample.
@@ -66,11 +66,11 @@ def spectral_uniformity(
     Parameters
     ----------
     sds
-        Spectral distributions or multi-spectral distributions to
-        compute the spectral uniformity of. `sds` can be a single
+        Spectral distributions or multi-spectral distributions to compute
+        the spectral uniformity of. `sds` can be a single
         :class:`colour.MultiSpectralDistributions` class instance, a list
-        of :class:`colour.MultiSpectralDistributions` class instances or a
-        List of :class:`colour.SpectralDistribution` class instances.
+        of :class:`colour.MultiSpectralDistributions` class instances or
+        a list of :class:`colour.SpectralDistribution` class instances.
     use_second_order_derivatives
         Whether to use the second-order derivatives in the computations.
 

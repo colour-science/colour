@@ -2,7 +2,7 @@
 Photometry
 ==========
 
-Define the photometric quantities computation related objects.
+Define photometric quantities computation objects.
 
 References
 ----------
@@ -41,23 +41,23 @@ def luminous_flux(
     K_m: float = CONSTANT_K_M,
 ) -> float:
     """
-    Compute the *luminous flux* for specified spectral distribution using specified
-    luminous efficiency function.
+    Compute the *luminous flux* for the specified spectral distribution
+    using the specified *luminous efficiency* function.
 
     Parameters
     ----------
     sd
-        test spectral distribution
+        Spectral distribution to compute the *luminous flux* for.
     lef
-        :math:`V(\\lambda)` luminous efficiency function, default to the
+        :math:`V(\\lambda)` *luminous efficiency* function, defaults to the
         *CIE 1924 Photopic Standard Observer*.
     K_m
-        :math:`lm\\cdot W^{-1}` maximum photopic luminous efficiency.
+        :math:`lm\\cdot W^{-1}` maximum photopic luminous efficacy.
 
     Returns
     -------
     :class:`float`
-        Luminous flux.
+        *Luminous flux* in lumens.
 
     References
     ----------
@@ -89,21 +89,26 @@ def luminous_efficiency(
     sd: SpectralDistribution, lef: SpectralDistribution | None = None
 ) -> float:
     """
-    Compute the *luminous efficiency* of specified spectral distribution using
+    Compute the *luminous efficiency* of the specified spectral distribution using
     specified luminous efficiency function.
+
+    The *luminous efficiency* quantifies the ratio of *luminous flux* to
+    *radiant flux* for a light source, representing how efficiently radiant
+    energy is converted to luminous energy as perceived by the human visual
+    system.
 
     Parameters
     ----------
     sd
-        test spectral distribution
+        Test spectral distribution to evaluate.
     lef
-        :math:`V(\\lambda)` luminous efficiency function, default to the
+        :math:`V(\\lambda)` *luminous efficiency* function, defaults to the
         *CIE 1924 Photopic Standard Observer*.
 
     Returns
     -------
     :class:`float`
-        Luminous efficiency.
+        *Luminous efficiency*.
 
     References
     ----------
@@ -137,21 +142,26 @@ def luminous_efficacy(
     sd: SpectralDistribution, lef: SpectralDistribution | None = None
 ) -> float:
     """
-    Compute the *luminous efficacy* in :math:`lm\\cdot W^{-1}` of specified
-    spectral distribution using specified luminous efficiency function.
+    Compute the *luminous efficacy* in :math:`lm\\cdot W^{-1}` of the
+    specified spectral distribution using the specified *luminous efficiency*
+    function.
+
+    *Luminous efficacy* quantifies how effectively a light source converts
+    radiant power into *luminous flux* as perceived by the human visual
+    system.
 
     Parameters
     ----------
     sd
-        test spectral distribution
+        Test spectral distribution to evaluate.
     lef
-        :math:`V(\\lambda)` luminous efficiency function, default to the
+        :math:`V(\\lambda)` *luminous efficiency* function, defaults to the
         *CIE 1924 Photopic Standard Observer*.
 
     Returns
     -------
     :class:`float`
-        Luminous efficacy in :math:`lm\\cdot W^{-1}`.
+        *Luminous efficacy* in :math:`lm\\cdot W^{-1}`.
 
     References
     ----------

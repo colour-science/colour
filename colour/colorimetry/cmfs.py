@@ -58,18 +58,19 @@ __all__ = [
 
 class LMS_ConeFundamentals(MultiSpectralDistributions):
     """
-    Provide support for *Stockman and Sharpe* *LMS* cone fundamentals colour
-    matching functions.
+    Define a container for *Stockman and Sharpe* *LMS* cone fundamentals
+    colour matching functions.
 
     Parameters
     ----------
     data
         Data to be stored in the multi-spectral distributions.
     domain
-        Values to initialise the multiple :class:`colour.SpectralDistribution`
-        class instances :attr:`colour.continuous.Signal.wavelengths` attribute
-        with. If both ``data`` and ``domain`` arguments are defined, the latter
-        will be used to initialise the
+        Values to initialise the multiple
+        :class:`colour.SpectralDistribution` class instances
+        :attr:`colour.continuous.Signal.wavelengths` attribute with. If
+        both ``data`` and ``domain`` arguments are defined, the latter will
+        be used to initialise the
         :attr:`colour.continuous.Signal.wavelengths` property.
     labels
         Names to use for the :class:`colour.SpectralDistribution` class
@@ -81,16 +82,16 @@ class LMS_ConeFundamentals(MultiSpectralDistributions):
         Extrapolator class type to use as extrapolating function for the
         :class:`colour.SpectralDistribution` class instances.
     extrapolator_kwargs
-        Arguments to use when instantiating the extrapolating function
-        of the :class:`colour.SpectralDistribution` class instances.
+        Arguments to use when instantiating the extrapolating function of
+        the :class:`colour.SpectralDistribution` class instances.
     interpolator
         Interpolator class type to use as interpolating function for the
         :class:`colour.SpectralDistribution` class instances.
     interpolator_kwargs
-        Arguments to use when instantiating the interpolating function
-        of the :class:`colour.SpectralDistribution` class instances.
+        Arguments to use when instantiating the interpolating function of
+        the :class:`colour.SpectralDistribution` class instances.
     name
-       Multi-spectral distributions name.
+        Multi-spectral distributions name.
     display_labels
         Multi-spectral distributions labels for figures, default to
         :attr:`colour.colorimetry.LMS_ConeFundamentals.labels` property
@@ -127,17 +128,18 @@ class LMS_ConeFundamentals(MultiSpectralDistributions):
 
 class RGB_ColourMatchingFunctions(MultiSpectralDistributions):
     """
-    Provide support for *CIE RGB* colour matching functions.
+    Define a container for *CIE RGB* colour matching functions.
 
     Parameters
     ----------
     data
         Data to be stored in the multi-spectral distributions.
     domain
-        Values to initialise the multiple :class:`colour.SpectralDistribution`
-        class instances :attr:`colour.continuous.Signal.wavelengths` attribute
-        with. If both ``data`` and ``domain`` arguments are defined, the latter
-        will be used to initialise the
+        Values to initialise the multiple
+        :class:`colour.SpectralDistribution` class instances
+        :attr:`colour.continuous.Signal.wavelengths` attribute with. If
+        both ``data`` and ``domain`` arguments are defined, the latter will
+        be used to initialise the
         :attr:`colour.continuous.Signal.wavelengths` property.
     labels
         Names to use for the :class:`colour.SpectralDistribution` class
@@ -149,16 +151,16 @@ class RGB_ColourMatchingFunctions(MultiSpectralDistributions):
         Extrapolator class type to use as extrapolating function for the
         :class:`colour.SpectralDistribution` class instances.
     extrapolator_kwargs
-        Arguments to use when instantiating the extrapolating function
-        of the :class:`colour.SpectralDistribution` class instances.
+        Arguments to use when instantiating the extrapolating function of
+        the :class:`colour.SpectralDistribution` class instances.
     interpolator
         Interpolator class type to use as interpolating function for the
         :class:`colour.SpectralDistribution` class instances.
     interpolator_kwargs
-        Arguments to use when instantiating the interpolating function
-        of the :class:`colour.SpectralDistribution` class instances.
+        Arguments to use when instantiating the interpolating function of
+        the :class:`colour.SpectralDistribution` class instances.
     name
-       Multi-spectral distributions name.
+        Multi-spectral distributions name.
     display_labels
         Multi-spectral distributions labels for figures, default to
         :attr:`colour.colorimetry.RGB_ColourMatchingFunctions.labels` property
@@ -195,7 +197,7 @@ class RGB_ColourMatchingFunctions(MultiSpectralDistributions):
 
 class XYZ_ColourMatchingFunctions(MultiSpectralDistributions):
     """
-    Provide support for *CIE* Standard Observers *XYZ* colour matching
+    Define a container for *CIE* Standard Observers *XYZ* colour matching
     functions.
 
     Parameters
@@ -203,10 +205,11 @@ class XYZ_ColourMatchingFunctions(MultiSpectralDistributions):
     data
         Data to be stored in the multi-spectral distributions.
     domain
-        Values to initialise the multiple :class:`colour.SpectralDistribution`
-        class instances :attr:`colour.continuous.Signal.wavelengths` attribute
-        with. If both ``data`` and ``domain`` arguments are defined, the latter
-        will be used to initialise the
+        Values to initialise the multiple
+        :class:`colour.SpectralDistribution` class instances
+        :attr:`colour.continuous.Signal.wavelengths` attribute with. If
+        both ``data`` and ``domain`` arguments are defined, the latter will
+        be used to initialise the
         :attr:`colour.continuous.Signal.wavelengths` property.
     labels
         Names to use for the :class:`colour.SpectralDistribution` class
@@ -218,16 +221,16 @@ class XYZ_ColourMatchingFunctions(MultiSpectralDistributions):
         Extrapolator class type to use as extrapolating function for the
         :class:`colour.SpectralDistribution` class instances.
     extrapolator_kwargs
-        Arguments to use when instantiating the extrapolating function
-        of the :class:`colour.SpectralDistribution` class instances.
+        Arguments to use when instantiating the extrapolating function of
+        the :class:`colour.SpectralDistribution` class instances.
     interpolator
         Interpolator class type to use as interpolating function for the
         :class:`colour.SpectralDistribution` class instances.
     interpolator_kwargs
-        Arguments to use when instantiating the interpolating function
-        of the :class:`colour.SpectralDistribution` class instances.
+        Arguments to use when instantiating the interpolating function of
+        the :class:`colour.SpectralDistribution` class instances.
     name
-       Multi-spectral distributions name.
+        Multi-spectral distributions name.
     display_labels
         Multi-spectral distributions labels for figures, default to
         :attr:`colour.colorimetry.XYZ_ColourMatchingFunctions.labels` property

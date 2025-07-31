@@ -60,7 +60,7 @@ def closest_spectral_locus_wavelength(
     """
     Compute the coordinates and closest spectral locus wavelength index to the
     point where the line defined by the achromatic stimulus :math:`xy_n` to
-    colour stimulus :math:`xy_n` *CIE xy* chromaticity coordinates intersects
+    colour stimulus :math:`xy` *CIE xy* chromaticity coordinates intersects
     the spectral locus.
 
     Parameters
@@ -136,12 +136,12 @@ def dominant_wavelength(
     intersection coordinates with the spectral locus.
 
     In the eventuality where the :math:`xy_wl` first intersection coordinates
-    are on the line of purples, the *complementary wavelength* will be computed
-    in lieu.
+    are on the line of purples, the *complementary wavelength* will be
+    computed in lieu.
 
     The *complementary wavelength* is indicated by a negative sign and the
-    :math:`xy_{cw}` second intersection coordinates which are set by default to
-    the same value as :math:`xy_wl` first intersection coordinates will be
+    :math:`xy_{cw}` second intersection coordinates which are set by default
+    to the same value as :math:`xy_wl` first intersection coordinates will be
     set to the *complementary dominant wavelength* intersection coordinates
     with the spectral locus.
 
@@ -225,19 +225,20 @@ def complementary_wavelength(
     cmfs: MultiSpectralDistributions | None = None,
 ) -> Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]:
     """
-    Compute the *complementary wavelength* :math:`\\lambda_c` for colour
-    stimulus :math:`xy` and the related :math:`xy_wl` first and :math:`xy_{cw}`
-    second intersection coordinates with the spectral locus.
+    Compute the *complementary wavelength* :math:`\\lambda_c` for the
+    specified colour stimulus :math:`xy` and the related :math:`xy_wl` first
+    and :math:`xy_{cw}` second intersection coordinates with the spectral
+    locus.
 
     In the eventuality where the :math:`xy_wl` first intersection coordinates
     are on the line of purples, the *dominant wavelength* will be computed in
     lieu.
 
     The *dominant wavelength* is indicated by a negative sign and the
-    :math:`xy_{cw}` second intersection coordinates which are set by default to
-    the same value as :math:`xy_wl` first intersection coordinates will be
-    set to the *dominant wavelength* intersection coordinates with the spectral
-    locus.
+    :math:`xy_{cw}` second intersection coordinates which are set by default
+    to the same value as :math:`xy_wl` first intersection coordinates will be
+    set to the *dominant wavelength* intersection coordinates with the
+    spectral locus.
 
     Parameters
     ----------
@@ -293,7 +294,8 @@ def excitation_purity(
     cmfs: MultiSpectralDistributions | None = None,
 ) -> NDArrayFloat:
     """
-    Compute the *excitation purity* :math:`P_e` for colour stimulus :math:`xy`.
+    Compute the *excitation purity* :math:`P_e` for the specified colour
+    stimulus :math:`xy`.
 
     Parameters
     ----------
@@ -339,8 +341,8 @@ def colorimetric_purity(
     cmfs: MultiSpectralDistributions | None = None,
 ) -> NDArrayFloat:
     """
-    Compute the *colorimetric purity* :math:`P_c` for colour stimulus
-    :math:`xy`.
+    Compute the *colorimetric purity* :math:`P_c` for the specified
+    colour stimulus :math:`xy`.
 
     Parameters
     ----------
