@@ -2,7 +2,8 @@
 Intersection Utilities
 ======================
 
-Define the geometry intersection utilities objects.
+Define utilities for computing geometric intersections and line segment
+operations in two-dimensional space.
 
 References
 ----------
@@ -52,7 +53,7 @@ def extend_line_segment(
 ) -> NDArrayFloat:
     """
     Extend the line segment defined by point arrays :math:`a` and :math:`b` by
-    specified distance and generate the new end point.
+    the specified distance and generate the new end point.
 
     Parameters
     ----------
@@ -100,18 +101,18 @@ def extend_line_segment(
 class LineSegmentsIntersections_Specification:
     """
     Define the specification for intersection of line segments :math:`l_1` and
-    :math:`l_2` returned by :func:`colour.algebra.intersect_line_segments`
-    definition.
+    :math:`l_2` returned by the
+    :func:`colour.algebra.intersect_line_segments` definition.
 
     Parameters
     ----------
     xy
         Array of :math:`l_1` and :math:`l_2` line segments intersections
-        coordinates. Non existing segments intersections coordinates are set
+        coordinates. Non-existing segments intersections coordinates are set
         with `np.nan`.
     intersect
-        Array of *bool* indicating if line segments :math:`l_1` and :math:`l_2`
-        intersect.
+        Array of *bool* indicating if line segments :math:`l_1` and
+        :math:`l_2` intersect.
     parallel
         Array of :class:`bool` indicating if line segments :math:`l_1` and
         :math:`l_2` are parallel.
