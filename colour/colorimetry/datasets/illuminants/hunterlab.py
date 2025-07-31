@@ -7,8 +7,8 @@ dataset for the *CIE 1931 2 Degree Standard Observer* and
 *CIE 1964 10 Degree Standard Observer*.
 
 The currently implemented data has been extracted from :cite:`HunterLab2008b`,
-however you may want to use different data according to the tables specified in
-:cite:`HunterLab2008c`.
+however you may want to use different data according to the tables specified
+in :cite:`HunterLab2008c`.
 
 References
 ----------
@@ -57,11 +57,12 @@ class Illuminant_Specification_HunterLab:
     Parameters
     ----------
     name
-        Illuminant name
+        Illuminant name.
     XYZ_n
-        Illuminant *CIE XYZ* tristimulus values
+        Illuminant *CIE XYZ* tristimulus values.
     K_ab
-        Illuminant :math:`K_{a}` and :math:`K_{b}` chromaticity coefficients.
+        Illuminant :math:`K_{a}` and :math:`K_{b}` chromaticity
+        coefficients.
     """
 
     name: str

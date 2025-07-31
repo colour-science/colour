@@ -9,8 +9,8 @@ The following light sources are available:
 -   *RIT* *PointerData.xls* spreadsheet light sources: Natural,
     Philips TL-84, T8 Luxline Plus White, SA, SC, T8 Polylux 3000,
     T8 Polylux 4000, Thorn Kolor-rite
--   *NIST* *NIST CQS simulation 7.4.xls* spreadsheet traditional light sources:
-    Cool White FL, Daylight FL, HPS, Incandescent, LPS, Mercury,
+-   *NIST* *NIST CQS simulation 7.4.xls* spreadsheet traditional light
+    sources: Cool White FL, Daylight FL, HPS, Incandescent, LPS, Mercury,
     Metal Halide, Neodimium Incandescent, Super HPS, Triphosphor FL
 -   *NIST* *NIST CQS simulation 7.4.xls* spreadsheet LED light sources:
     3-LED-1 (457/540/605), 3-LED-2 (473/545/616), 3-LED-2 Yellow,
