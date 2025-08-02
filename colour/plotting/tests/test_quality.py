@@ -54,7 +54,7 @@ class TestPlotColourQualityBars:
         cqs_i = colour_quality_scale(illuminant, additional_data=True)
         cqs_l = colour_quality_scale(light_source, additional_data=True)
 
-        figure, axes = plot_colour_quality_bars([cqs_i, cqs_l])  # pyright: ignore
+        figure, axes = plot_colour_quality_bars([cqs_i, cqs_l])
 
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)

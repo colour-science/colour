@@ -139,7 +139,7 @@ def primitive_grid(
      [1 0]]
     """
 
-    axis = MAPPING_PLANE_TO_AXIS.get(axis, axis).lower()  # pyright: ignore
+    axis = MAPPING_PLANE_TO_AXIS.get(axis, axis).lower()
 
     dtype_vertices = optional(dtype_vertices, DTYPE_FLOAT_DEFAULT)
     dtype_indexes = optional(dtype_indexes, DTYPE_INT_DEFAULT)

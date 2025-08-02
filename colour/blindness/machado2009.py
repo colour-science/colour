@@ -124,17 +124,17 @@ def matrix_RGB_to_WSYBRG(
 
     R, G, B = tsplit(primaries.values)
 
-    WS_R = np.trapezoid(R * WS, wavelengths)  # pyright: ignore
-    WS_G = np.trapezoid(G * WS, wavelengths)  # pyright: ignore
-    WS_B = np.trapezoid(B * WS, wavelengths)  # pyright: ignore
+    WS_R = np.trapezoid(R * WS, wavelengths)
+    WS_G = np.trapezoid(G * WS, wavelengths)
+    WS_B = np.trapezoid(B * WS, wavelengths)
 
-    YB_R = np.trapezoid(R * YB, wavelengths)  # pyright: ignore
-    YB_G = np.trapezoid(G * YB, wavelengths)  # pyright: ignore
-    YB_B = np.trapezoid(B * YB, wavelengths)  # pyright: ignore
+    YB_R = np.trapezoid(R * YB, wavelengths)
+    YB_G = np.trapezoid(G * YB, wavelengths)
+    YB_B = np.trapezoid(B * YB, wavelengths)
 
-    RG_R = np.trapezoid(R * RG, wavelengths)  # pyright: ignore
-    RG_G = np.trapezoid(G * RG, wavelengths)  # pyright: ignore
-    RG_B = np.trapezoid(B * RG, wavelengths)  # pyright: ignore
+    RG_R = np.trapezoid(R * RG, wavelengths)
+    RG_G = np.trapezoid(G * RG, wavelengths)
+    RG_B = np.trapezoid(B * RG, wavelengths)
 
     M_G = as_float_array(
         [
@@ -223,8 +223,8 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(
             "deuteranomaly simulation."
         )
 
-    area_L = np.trapezoid(L, cmfs.wavelengths)  # pyright: ignore
-    area_M = np.trapezoid(M, cmfs.wavelengths)  # pyright: ignore
+    area_L = np.trapezoid(L, cmfs.wavelengths)
+    area_M = np.trapezoid(M, cmfs.wavelengths)
 
     def alpha(x: NDArrayFloat) -> NDArrayFloat:
         """Compute :math:`alpha` factor."""

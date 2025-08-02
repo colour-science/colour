@@ -795,12 +795,7 @@ class AbstractLUT(ABC):
             If the conversion is destructive.
         """
 
-        return LUT_to_LUT(
-            self,
-            cls,
-            force_conversion,
-            **kwargs,  # pyright: ignore
-        )
+        return LUT_to_LUT(self, cls, force_conversion, **kwargs)
 
 
 class LUT1D(AbstractLUT):
@@ -2177,7 +2172,7 @@ def LUT_to_LUT(
     """
 
     ranks = {LUT1D: 1, LUT3x1D: 2, LUT3D: 3}
-    path = (ranks[LUT.__class__], ranks[cls])  # pyright: ignore
+    path = (ranks[LUT.__class__], ranks[cls])
     path_verbose = [f"{element}D" if element != 2 else "3x1D" for element in path]
     if path in ((1, 3), (2, 1), (2, 3), (3, 1), (3, 2)) and not force_conversion:
         error = (
@@ -2235,6 +2230,6 @@ def LUT_to_LUT(
             domain=domain,
             size=table.shape[0],
             comments=LUT.comments,
-        )  # pyright: ignore
+        )
 
     return LUT

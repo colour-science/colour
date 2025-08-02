@@ -136,7 +136,7 @@ API_CHANGES: dict = {
 """*colour.algebra* sub-package API changes."""
 
 
-API_CHANGES["ObjectRemoved"] = [  # pyright: ignore
+API_CHANGES["ObjectRemoved"] = [
     "colour.algebra.matrix_dot",
 ]
 

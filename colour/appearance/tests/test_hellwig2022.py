@@ -327,7 +327,7 @@ class TestHellwig2022_to_XYZ:
         XYZ = Hellwig2022_to_XYZ(specification, XYZ_w, L_A, Y_b, surround)
 
         specification = CAM_Specification_Hellwig2022(
-            *np.transpose(np.tile(tsplit(specification), (6, 1))).tolist()  # pyright: ignore
+            *np.transpose(np.tile(tsplit(specification), (6, 1))).tolist()
         )
         XYZ = np.tile(XYZ, (6, 1))
         np.testing.assert_allclose(
@@ -344,7 +344,7 @@ class TestHellwig2022_to_XYZ:
         )
 
         specification = CAM_Specification_Hellwig2022(
-            *tsplit(np.reshape(specification, (2, 3, 10))).tolist()  # pyright: ignore
+            *tsplit(np.reshape(specification, (2, 3, 10))).tolist()
         )
         XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))

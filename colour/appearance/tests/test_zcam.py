@@ -399,7 +399,7 @@ class TestZCAM_to_XYZ:
         XYZ = ZCAM_to_XYZ(specification, XYZ_w, L_a, Y_b, surround)
 
         specification = CAM_Specification_ZCAM(
-            *np.transpose(np.tile(tsplit(specification), (6, 1))).tolist()  # pyright: ignore
+            *np.transpose(np.tile(tsplit(specification), (6, 1))).tolist()
         )
         XYZ = np.tile(XYZ, (6, 1))
         np.testing.assert_almost_equal(
@@ -412,7 +412,7 @@ class TestZCAM_to_XYZ:
         )
 
         specification = CAM_Specification_ZCAM(
-            *tsplit(np.reshape(specification, (2, 3, 11))).tolist()  # pyright: ignore
+            *tsplit(np.reshape(specification, (2, 3, 11))).tolist()
         )
         XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
