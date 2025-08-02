@@ -2,7 +2,7 @@
 Panalog Encoding
 ================
 
-Define the *Panalog* encoding:
+Define the *Panalog* encoding.
 
 -   :func:`colour.models.log_encoding_Panalog`
 -   :func:`colour.models.log_decoding_Panalog`
@@ -44,8 +44,7 @@ def log_encoding_Panalog(
     black_offset: ArrayLike = 10 ** ((64 - 681) / 444),
 ) -> NDArrayFloat:
     """
-    Define the *Panalog* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Panalog* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -57,7 +56,7 @@ def log_encoding_Panalog(
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear data :math:`y`.
+        *Panalog* non-linear encoded data :math:`y`.
 
     Warnings
     --------
@@ -101,13 +100,12 @@ def log_decoding_Panalog(
     black_offset: ArrayLike = 10 ** ((64 - 681) / 444),
 ) -> NDArrayFloat:
     """
-    Define the *Panalog* log decoding curve / electro-optical transfer
-    function.
+    Apply the *Panalog* log decoding inverse opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     y
-        Non-linear data :math:`y`.
+        *Panalog* non-linear encoded data :math:`y`.
     black_offset
         Black offset.
 
@@ -118,8 +116,8 @@ def log_decoding_Panalog(
 
     Warnings
     --------
-    These are estimations known to be close enough, the actual log encoding
-    curves are not published.
+    These are estimations known to be close enough, the actual log
+    encoding curves are not published.
 
     Notes
     -----

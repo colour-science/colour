@@ -2,7 +2,7 @@
 Optical Society of America Uniform Colour Scales (OSA UCS)
 ==========================================================
 
-Define the *OSA UCS* colourspace:
+Define the *OSA UCS* colourspace transformations.
 
 -   :func:`colour.XYZ_to_OSA_UCS`
 -   :func:`colour.OSA_UCS_to_XYZ`
@@ -71,9 +71,10 @@ def XYZ_to_OSA_UCS(XYZ: ArrayLike) -> NDArrayFloat:
     Convert from *CIE XYZ* tristimulus values under the
     *CIE 1964 10 Degree Standard Observer* to *OSA UCS* colourspace.
 
-    The lightness axis, *L* is usually in range [-9, 5] and centered around
-    middle gray (Munsell N/6). The yellow-blue axis, *j* is usually in range
-    [-15, 15]. The red-green axis, *g* is usually in range [-20, 15].
+    The lightness axis, *L*, is typically in range [-9, 5] and centered
+    around middle gray (Munsell N/6). The yellow-blue axis, *j*, is
+    typically in range [-15, 15]. The red-green axis, *g*, is typically in
+    range [-20, 15].
 
     Parameters
     ----------
@@ -153,6 +154,11 @@ def OSA_UCS_to_XYZ(
     Convert from *OSA UCS* colourspace to *CIE XYZ* tristimulus values under
     the *CIE 1964 10 Degree Standard Observer*.
 
+    The lightness axis, *L*, is typically in range [-9, 5] and centered
+    around middle gray (Munsell N/6). The yellow-blue axis, *j*, is
+    typically in range [-15, 15]. The red-green axis, *g*, is typically in
+    range [-20, 15].
+
     Parameters
     ----------
     Ljg
@@ -168,11 +174,11 @@ def OSA_UCS_to_XYZ(
 
     Warnings
     --------
-    There is no analytical inverse transformation from *OSA UCS* to :math:`Ljg`
+    There is no analytical inverse transformation from *OSA UCS* :math:`Ljg`
     lightness, jaune (yellowness), and greenness to *CIE XYZ* tristimulus
-    values, the current implementation relies on optimisation using
-    :func:`scipy.optimize.fmin` definition and thus has reduced precision and
-    poor performance.
+    values. The current implementation relies on optimisation using
+    :func:`scipy.optimize.fmin` definition and thus exhibits reduced
+    precision and poor performance.
 
     Notes
     -----

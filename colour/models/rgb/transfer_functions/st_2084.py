@@ -3,7 +3,7 @@ SMPTE ST 2084:2014
 ==================
 
 Define the *SMPTE ST 2084:2014* electro-optical transfer function (EOTF) and
-its inverse:
+its inverse.
 
 -   :func:`colour.models.eotf_inverse_ST2084`
 -   :func:`colour.models.eotf_ST2084`
@@ -65,8 +65,8 @@ def eotf_inverse_ST2084(
     constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
-    Define *SMPTE ST 2084:2014* optimised perceptual inverse electro-optical
-    transfer function (EOTF).
+    Apply the *SMPTE ST 2084:2014* perceptual quantizer (PQ) inverse
+    electro-optical transfer function (EOTF).
 
     Parameters
     ----------
@@ -74,18 +74,19 @@ def eotf_inverse_ST2084(
         Target optical output :math:`C` in :math:`cd/m^2` of the ideal
         reference display.
     L_p
-        System peak luminance :math:`cd/m^2`, this parameter should stay at its
-        default :math:`10000 cd/m^2` value for practical applications. It is
-        exposed so that the definition can be used as a fitting function.
+        System peak luminance in :math:`cd/m^2`. This parameter should remain
+        at its default value of :math:`10000 cd/m^2` for practical
+        applications. It is exposed to enable the definition's use as a
+        fitting function.
     constants
         *SMPTE ST 2084:2014* constants.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Color value abbreviated as :math:`N`, that is directly proportional to
-        the encoded signal representation, and which is not directly
-        proportional to the optical output of a display device.
+        Colour value abbreviated as :math:`N`, directly proportional to the
+        encoded signal representation and not directly proportional to the
+        optical output of a display device.
 
     Warnings
     --------
@@ -93,11 +94,11 @@ def eotf_inverse_ST2084(
 
     Notes
     -----
-    -   *SMPTE ST 2084:2014* is an absolute transfer function, thus the
+    -   *SMPTE ST 2084:2014* is an absolute transfer function; thus, the
         domain and range values for the *Reference* and *1* scales are only
         indicative that the data is not affected by scale transformations.
-        The effective domain of *SMPTE ST 2084:2014* inverse electro-optical
-        transfer function (EOTF) is [0.0001, 10000].
+        The effective domain of the *SMPTE ST 2084:2014* inverse
+        electro-optical transfer function (EOTF) is [0.0001, 10000].
 
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
@@ -144,30 +145,28 @@ def eotf_ST2084(
     constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
-    Define *SMPTE ST 2084:2014* optimised perceptual electro-optical transfer
-    function (EOTF).
-
-    This perceptual quantizer (PQ) has been modeled by Dolby Laboratories
-    using *Barten (1999)* contrast sensitivity function.
+    Apply the *SMPTE ST 2084:2014* perceptual quantizer (PQ) electro-optical
+    transfer function (EOTF).
 
     Parameters
     ----------
     N
-        Color value abbreviated as :math:`N`, that is directly proportional to
-        the encoded signal representation, and which is not directly
-        proportional to the optical output of a display device.
+        Colour value abbreviated as :math:`N`, directly proportional to the
+        encoded signal representation and not directly proportional to the
+        optical output of a display device.
     L_p
-        System peak luminance :math:`cd/m^2`, this parameter should stay at its
-        default :math:`10000 cd/m^2` value for practical applications. It is
-        exposed so that the definition can be used as a fitting function.
+        System peak luminance in :math:`cd/m^2`. This parameter should remain
+        at its default value of :math:`10000 cd/m^2` for practical
+        applications. It is exposed to enable the definition's use as a
+        fitting function.
     constants
         *SMPTE ST 2084:2014* constants.
 
     Returns
     -------
     :class:`numpy.ndarray`
-          Target optical output :math:`C` in :math:`cd/m^2` of the ideal
-          reference display.
+        Target optical output :math:`C` in :math:`cd/m^2` of the ideal
+        reference display.
 
     Warnings
     --------

@@ -2,18 +2,16 @@
 sUCS Colourspace
 ================
 
-Define the *sUCS* colourspace transformations:
+Define the *sUCS* colourspace transformations.
 
 -   :func:`colour.XYZ_to_sUCS`
 -   :func:`colour.sUCS_to_XYZ`
-
-And computation of correlates:
-
 -   :func:`colour.sUCS_chroma`
 -   :func:`colour.sUCS_hue_angle`
 
-The sUCS (Simple Uniform Colour Space) is designed for simplicity and perceptual
-uniformity. This implementation is based on the work by *Li & Luo (2024)*.
+The *sUCS* (Simple Uniform Colour Space) is designed for simplicity and
+perceptual uniformity. This implementation is based on the work by
+*Li & Luo (2024)*.
 
 References
 ----------
@@ -110,7 +108,7 @@ def XYZ_to_sUCS(XYZ: ArrayLike) -> NDArrayFloat:
     Parameters
     ----------
     XYZ
-        *CIE XYZ* tristimulus values, assumed to be adapted to
+        *CIE XYZ* tristimulus values, adapted to
         *CIE Standard Illuminant D65* and in domain [0, 1] (where white
         :math:`Y` is 1.0).
 
@@ -134,7 +132,7 @@ def XYZ_to_sUCS(XYZ: ArrayLike) -> NDArrayFloat:
     |            |                       |                  |
     |            | ``a`` : [-100, +100]  | ``a`` : [-1, +1] |
     |            |                       |                  |
-    |            | ``b`` : [-100,+100]   | ``b`` : [-1, +1] |
+    |            | ``b`` : [-100, +100]  | ``b`` : [-1, +1] |
     +------------+-----------------------+------------------+
 
     -   Input *CIE XYZ* tristimulus values must be adapted to
@@ -176,8 +174,9 @@ def sUCS_to_XYZ(Iab: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        *CIE XYZ* tristimulus values, adapted to *CIE Standard Illuminant D65*
-        and in domain [0, 1] (where white :math:`Y` is 1.0).
+        *CIE XYZ* tristimulus values, adapted to
+        *CIE Standard Illuminant D65* and in domain [0, 1] (where white
+        :math:`Y` is 1.0).
 
     Notes
     -----
@@ -223,7 +222,7 @@ def sUCS_to_XYZ(Iab: ArrayLike) -> NDArrayFloat:
 
 def sUCS_chroma(Iab: ArrayLike) -> NDArrayFloat:
     """
-    Compute the chroma component from *sUCS* colourspace.
+    Compute the chroma component from the *sUCS* colourspace.
 
     Parameters
     ----------
@@ -233,7 +232,7 @@ def sUCS_chroma(Iab: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-         Chroma component.
+        Chroma component.
 
     Notes
     -----
@@ -244,7 +243,7 @@ def sUCS_chroma(Iab: ArrayLike) -> NDArrayFloat:
     |            |                       |                  |
     |            | ``a`` : [-100, +100]  | ``a`` : [-1, +1] |
     |            |                       |                  |
-    |            | ``b`` : [-100,+100]   | ``b`` : [-1, +1] |
+    |            | ``b`` : [-100, +100]  | ``b`` : [-1, +1] |
     +------------+-----------------------+------------------+
 
     +------------+-----------------------+-----------------+
@@ -273,7 +272,7 @@ def sUCS_chroma(Iab: ArrayLike) -> NDArrayFloat:
 
 def sUCS_hue_angle(Iab: ArrayLike) -> NDArrayFloat:
     """
-    Compute the hue angle in degrees from *sUCS* colourspace.
+    Compute the hue angle in degrees from the *sUCS* colourspace.
 
     Parameters
     ----------
@@ -294,7 +293,7 @@ def sUCS_hue_angle(Iab: ArrayLike) -> NDArrayFloat:
     |            |                       |                  |
     |            | ``a`` : [-100, +100]  | ``a`` : [-1, +1] |
     |            |                       |                  |
-    |            | ``b`` : [-100,+100]   | ``b`` : [-1, +1] |
+    |            | ``b`` : [-100, +100]  | ``b`` : [-1, +1] |
     +------------+-----------------------+------------------+
 
     +------------+-----------------------+-----------------+
@@ -323,8 +322,8 @@ def sUCS_hue_angle(Iab: ArrayLike) -> NDArrayFloat:
 
 def sUCS_Iab_to_sUCS_ICh(Iab: ArrayLike) -> NDArrayFloat:
     """
-    Convert from *sUCS* :math:`Iab` rectangular coordinates to *sUCS* :math:`ICh`
-    cylindrical coordinates.
+    Convert from *sUCS* :math:`Iab` rectangular coordinates to *sUCS*
+    :math:`ICh` cylindrical coordinates.
 
     Parameters
     ----------
@@ -380,8 +379,8 @@ def sUCS_Iab_to_sUCS_ICh(Iab: ArrayLike) -> NDArrayFloat:
 
 def sUCS_ICh_to_sUCS_Iab(ICh: ArrayLike) -> NDArrayFloat:
     """
-    Convert from *sUCS* :math:`ICh` cylindrical coordinates to *sUCS* :math:`Iab`
-    rectangular coordinates.
+    Convert from *sUCS* :math:`ICh` cylindrical coordinates to *sUCS*
+    :math:`Iab` rectangular coordinates.
 
     Parameters
     ----------

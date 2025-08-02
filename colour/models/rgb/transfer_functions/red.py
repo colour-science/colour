@@ -2,7 +2,7 @@
 RED Log Encodings
 =================
 
-Define the *RED* log encodings:
+Define the *RED* log encodings.
 
 -   :func:`colour.models.log_encoding_REDLog`
 -   :func:`colour.models.log_decoding_REDLog`
@@ -88,20 +88,19 @@ def log_encoding_REDLog(
     black_offset: ArrayLike = 10 ** ((0 - 1023) / 511),
 ) -> NDArrayFloat:
     """
-    Define the *REDLog* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *REDLog* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     x
         Linear data :math:`x`.
     black_offset
-        Black offset.
+        Black offset value.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear data :math:`y`.
+        *REDLog* non-linear encoded data :math:`y`.
 
     Notes
     -----
@@ -140,15 +139,14 @@ def log_decoding_REDLog(
     black_offset: ArrayLike = 10 ** ((0 - 1023) / 511),
 ) -> NDArrayFloat:
     """
-    Define the *REDLog* log decoding curve / electro-optical transfer
-    function.
+    Apply the *REDLog* log decoding inverse opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     y
-        Non-linear data :math:`y`.
+        *REDLog* non-linear encoded data :math:`y`.
     black_offset
-        Black offset.
+        Black offset value.
 
     Returns
     -------
@@ -192,20 +190,19 @@ def log_encoding_REDLogFilm(
     black_offset: ArrayLike = 10 ** ((95 - 685) / 300),
 ) -> NDArrayFloat:
     """
-    Define the *REDLogFilm* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *REDLogFilm* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     x
         Linear data :math:`x`.
     black_offset
-        Black offset.
+        Black offset value.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear data :math:`y`.
+        *REDLogFilm* non-linear encoded data :math:`y`.
 
     Notes
     -----
@@ -239,15 +236,15 @@ def log_decoding_REDLogFilm(
     black_offset: ArrayLike = 10 ** ((95 - 685) / 300),
 ) -> NDArrayFloat:
     """
-    Define the *REDLogFilm* log decoding curve / electro-optical transfer
-    function.
+    Apply the *REDLogFilm* log decoding inverse opto-electronic transfer
+    function (OETF).
 
     Parameters
     ----------
     y
-        Non-linear data :math:`y`.
+        *REDLogFilm* non-linear encoded data :math:`y`.
     black_offset
-        Black offset.
+        Black offset value.
 
     Returns
     -------
@@ -283,8 +280,9 @@ def log_decoding_REDLogFilm(
 
 def log_encoding_Log3G10_v1(x: ArrayLike) -> NDArrayFloat:
     """
-    Define the *Log3G10* *v1* log encoding curve / opto-electronic transfer
-    function, the curve used in *REDCINE-X PRO Beta 42* and *Resolve 12.5.2*.
+    Apply the *Log3G10* *v1* log encoding opto-electronic transfer function (OETF).
+
+    From *REDCINE-X PRO Beta 42* and *Resolve 12.5.2*.
 
     Parameters
     ----------
@@ -294,7 +292,7 @@ def log_encoding_Log3G10_v1(x: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear data :math:`y`.
+        *Log3G10* *v1* non-linear encoded data :math:`y`.
 
     Notes
     -----
@@ -329,13 +327,15 @@ def log_encoding_Log3G10_v1(x: ArrayLike) -> NDArrayFloat:
 
 def log_decoding_Log3G10_v1(y: ArrayLike) -> NDArrayFloat:
     """
-    Define the *Log3G10* *v1* log decoding curve / electro-optical transfer
-    function, the curve used in *REDCINE-X PRO Beta 42* and *Resolve 12.5.2*.
+    Apply the *Log3G10* *v1* log decoding inverse opto-electronic transfer
+    function (OETF).
+
+    From *REDCINE-X PRO Beta 42* and *Resolve 12.5.2*.
 
     Parameters
     ----------
     y
-        Non-linear data :math:`y`.
+        *Log3G10* *v1* non-linear encoded data :math:`y`.
 
     Returns
     -------
@@ -375,8 +375,9 @@ def log_decoding_Log3G10_v1(y: ArrayLike) -> NDArrayFloat:
 
 def log_encoding_Log3G10_v2(x: ArrayLike) -> NDArrayFloat:
     """
-    Define the *Log3G10* *v2* log encoding curve / opto-electronic transfer
-    function, the current curve in *REDCINE-X PRO*.
+    Apply the *Log3G10* *v2* log encoding opto-electronic transfer function (OETF).
+
+    Current curve used in *REDCINE-X PRO*.
 
     Parameters
     ----------
@@ -386,7 +387,7 @@ def log_encoding_Log3G10_v2(x: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear data :math:`y`.
+       *Log3G10* *v2* non-linear encoded data :math:`y`.
 
     Notes
     -----
@@ -421,13 +422,15 @@ def log_encoding_Log3G10_v2(x: ArrayLike) -> NDArrayFloat:
 
 def log_decoding_Log3G10_v2(y: ArrayLike) -> NDArrayFloat:
     """
-    Define the *Log3G10* *v2* log decoding curve / electro-optical transfer
-    function, the current curve in *REDCINE-X PRO*.
+    Apply the *Log3G10* *v2* log decoding inverse opto-electronic transfer
+    function (OETF).
+
+    Current curve used in *REDCINE-X PRO*.
 
     Parameters
     ----------
     y
-        Non-linear data :math:`y`.
+       *Log3G10* *v2* non-linear encoded data :math:`y`.
 
     Returns
     -------
@@ -467,8 +470,9 @@ def log_decoding_Log3G10_v2(y: ArrayLike) -> NDArrayFloat:
 
 def log_encoding_Log3G10_v3(x: ArrayLike) -> NDArrayFloat:
     """
-    Define the *Log3G10* *v3* log encoding curve / opto-electronic transfer
-    function, the curve described in the *RedLog3G10* Whitepaper.
+    Apply the *Log3G10* *v3* log encoding opto-electronic transfer function (OETF).
+
+    As described in the *RedLog3G10* whitepaper.
 
     Parameters
     ----------
@@ -478,7 +482,7 @@ def log_encoding_Log3G10_v3(x: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear data :math:`y`.
+        *Log3G10* *v3* non-linear encoded data :math:`y`.
 
     Notes
     -----
@@ -520,18 +524,20 @@ def log_encoding_Log3G10_v3(x: ArrayLike) -> NDArrayFloat:
 
 def log_decoding_Log3G10_v3(y: ArrayLike) -> NDArrayFloat:
     """
-    Define the *Log3G10* *v3* log decoding curve / electro-optical transfer
-    function, the curve described in the *RedLog3G10* whitepaper.
+    Apply the *Log3G10* *v3* log decoding inverse opto-electronic transfer
+    function (OETF).
+
+    As described in the *RedLog3G10* whitepaper.
 
     Parameters
     ----------
     y
-        Non-linear data :math:`y`.
+        *Log3G10* *v3* non-linear encoded data :math:`y`.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Linear data :math:`x`.
+        Linear *Log3G10* *v3* data :math:`x`.
 
     Notes
     -----
@@ -581,8 +587,8 @@ LOG3G10_ENCODING_METHODS: CanonicalMapping = CanonicalMapping(
     }
 )
 LOG3G10_ENCODING_METHODS.__doc__ = """
-Supported *Log3G10* log encoding curve / opto-electronic transfer function
-methods.
+Supported *Log3G10* log encoding curve / opto-electronic transfer (OETF)
+function methods.
 
 References
 ----------
@@ -595,8 +601,7 @@ def log_encoding_Log3G10(
     method: Literal["v1", "v2", "v3"] | str = "v3",
 ) -> NDArrayFloat:
     """
-    Define the *Log3G10* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Log3G10* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -608,7 +613,7 @@ def log_encoding_Log3G10(
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear data :math:`y`.
+        *Log3G10* non-linear encoded data :math:`y`.
 
     Notes
     -----
@@ -625,13 +630,13 @@ def log_encoding_Log3G10(
     +------------+-----------------------+---------------+
 
     -   The *Log3G10* *v1* log encoding curve is the one used in
-        *REDCINE-X Beta 42*. *Resolve 12.5.2* also uses the *v1* curve. *RED*
-        is planning to use the *Log3G10* *v2* log encoding curve in the release
-        version of the *RED SDK*.
-    -   The intent of the *Log3G10* *v1* log encoding curve is that zero maps
-        to zero, 0.18 maps to 1/3, and 10 stops above 0.18 maps to 1.0.
-        The name indicates this in a similar way to the naming conventions of
-        *Sony HyperGamma* curves.
+        *REDCINE-X Beta 42*. *Resolve 12.5.2* also uses the *v1* curve.
+        *RED* is planning to use the *Log3G10* *v2* log encoding curve in
+        the release version of the *RED SDK*.
+    -   The intent of the *Log3G10* *v1* log encoding curve is that zero
+        maps to zero, 0.18 maps to 1/3, and 10 stops above 0.18 maps to
+        1.0. The name indicates this in a similar way to the naming
+        conventions of *Sony HyperGamma* curves.
 
         The constants used in the functions do not in fact quite hit these
         values, but rather than use corrected constants, the functions here
@@ -679,8 +684,8 @@ LOG3G10_DECODING_METHODS = CanonicalMapping(
     }
 )
 LOG3G10_DECODING_METHODS.__doc__ = """
-Supported *Log3G10* log decoding curve / electro-optical transfer function
-methods.
+Supported *Log3G10* log decoding curve / electro-optical transfer (EOTF)
+function methods.
 
 References
 ----------
@@ -692,13 +697,12 @@ def log_decoding_Log3G10(
     y: ArrayLike, method: Literal["v1", "v2", "v3"] | str = "v3"
 ) -> NDArrayFloat:
     """
-    Define the *Log3G10* log decoding curve / electro-optical transfer
-    function.
+    Apply the *Log3G10* log decoding inverse opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     y
-        Non-linear data :math:`y`.
+        *Log3G10* non-linear encoded data :math:`y`.
     method
         Computation method.
 
@@ -740,8 +744,7 @@ def log_decoding_Log3G10(
 
 def log_encoding_Log3G12(x: ArrayLike) -> NDArrayFloat:
     """
-    Define the *Log3G12* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Log3G12* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -751,7 +754,7 @@ def log_encoding_Log3G12(x: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear data :math:`y`.
+        *Log3G12* non-linear encoded data :math:`y`.
 
     Notes
     -----
@@ -786,13 +789,12 @@ def log_encoding_Log3G12(x: ArrayLike) -> NDArrayFloat:
 
 def log_decoding_Log3G12(y: ArrayLike) -> NDArrayFloat:
     """
-    Define the *Log3G12* log decoding curve / electro-optical transfer
-    function.
+    Apply the *Log3G12* log decoding inverse opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     y
-        Non-linear data :math:`y`.
+        *Log3G12* non-linear encoded data :math:`y`.
 
     Returns
     -------

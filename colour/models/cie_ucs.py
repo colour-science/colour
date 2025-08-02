@@ -2,7 +2,7 @@
 CIE 1960 UCS Colourspace
 ========================
 
-Define the *CIE 1960 UCS* colourspace transformations:
+Define the *CIE 1960 UCS* colourspace transformations.
 
 -   :func:`colour.XYZ_to_UCS`
 -   :func:`colour.UCS_to_XYZ`
@@ -104,8 +104,8 @@ def XYZ_to_UCS(XYZ: ArrayLike) -> NDArrayFloat:
 
 def UCS_to_XYZ(UVW: ArrayLike) -> NDArrayFloat:
     """
-    Convert from *CIE 1960 UCS* :math:`UVW` colourspace to *CIE XYZ* tristimulus
-    values.
+    Convert from *CIE 1960 UCS* :math:`UVW` colourspace to *CIE XYZ*
+    tristimulus values.
 
     Parameters
     ----------
@@ -152,8 +152,8 @@ def UCS_to_XYZ(UVW: ArrayLike) -> NDArrayFloat:
 
 def UCS_to_uv(UVW: ArrayLike) -> NDArrayFloat:
     """
-    Return the *uv* chromaticity coordinates from specified *CIE 1960 UCS*
-    :math:`UVW` colourspace array.
+    Convert from *CIE 1960 UCS* colourspace to *uv* chromaticity
+    coordinates.
 
     Parameters
     ----------
@@ -163,7 +163,7 @@ def UCS_to_uv(UVW: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        *uv* chromaticity coordinates.
+        *CIE UCS uv* chromaticity coordinates.
 
     Notes
     -----
@@ -195,13 +195,13 @@ def UCS_to_uv(UVW: ArrayLike) -> NDArrayFloat:
 
 def uv_to_UCS(uv: ArrayLike, V: ArrayLike = 1) -> NDArrayFloat:
     """
-    Return the *CIE 1960 UCS* :math:`UVW` colourspace array from specified *uv*
-    chromaticity coordinates.
+    Convert from *uv* chromaticity coordinates to *CIE 1960 UCS*
+    colourspace.
 
     Parameters
     ----------
     uv
-        *uv* chromaticity coordinates.
+        *CIE UCS uv* chromaticity coordinates.
     V
         Optional :math:`V` *luminance* value used to construct the
         *CIE 1960 UCS* :math:`UVW` colourspace array, the default :math:`V`
@@ -235,8 +235,8 @@ def uv_to_UCS(uv: ArrayLike, V: ArrayLike = 1) -> NDArrayFloat:
 
 def UCS_uv_to_xy(uv: ArrayLike) -> NDArrayFloat:
     """
-    Return the *CIE xy* chromaticity coordinates from specified *CIE 1960 UCS*
-    :math:`UVW` colourspace *uv* chromaticity coordinates.
+    Convert from *CIE 1960 UCS* :math:`UVW` colourspace *uv* chromaticity
+    coordinates to *CIE xy* chromaticity coordinates.
 
     Parameters
     ----------
@@ -270,8 +270,8 @@ def UCS_uv_to_xy(uv: ArrayLike) -> NDArrayFloat:
 
 def xy_to_UCS_uv(xy: ArrayLike) -> NDArrayFloat:
     """
-    Return the *CIE 1960 UCS* :math:`UVW` colourspace *uv* chromaticity
-    coordinates from specified *CIE xy* chromaticity coordinates.
+    Convert from *CIE xy* chromaticity coordinates to *CIE 1960 UCS*
+    :math:`UVW` colourspace *uv* chromaticity coordinates.
 
     Parameters
     ----------
@@ -307,11 +307,12 @@ def XYZ_to_CIE1960UCS(
     XYZ: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Convert from *CIE XYZ* tristimulus values to :math:`uvV` colourspace.
+    Convert from *CIE XYZ* tristimulus values to *CIE 1960 UCS* :math:`uvV`
+    colourspace.
 
-    This colourspace combines the *CIE 1960 UCS* :math:`UVW` colourspace *uv*
-    chromaticity coordinates with the luminance :math:`V` from the
-    *CIE 1960 UCS* :math:`UVW` colourspace.
+    This colourspace combines the *CIE 1960 UCS* :math:`UVW` colourspace
+    :math:`uv` chromaticity coordinates with the luminance :math:`V` from
+    the *CIE 1960 UCS* :math:`UVW` colourspace.
 
     It is a convenient definition for use with the
     *CIE 1960 UCS Chromaticity Diagram*.
@@ -332,8 +333,6 @@ def XYZ_to_CIE1960UCS(
     | **Domain**     | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
     | ``XYZ``        | [0, 1]                | [0, 1]          |
-    +----------------+-----------------------+-----------------+
-    | ``illuminant`` | [0, 1]                | [0, 1]          |
     +----------------+-----------------------+-----------------+
 
     +----------------+-----------------------+-----------------+
@@ -363,11 +362,12 @@ def CIE1960UCS_to_XYZ(
     uvV: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Convert from *CIE XYZ* tristimulus values to :math:`uvV` colourspace.
+    Convert from *CIE 1960 UCS* :math:`uvV` colourspace to *CIE XYZ*
+    tristimulus values.
 
-    This colourspace combines the *CIE 1960 UCS* :math:`UVW` colourspace *uv*
-    chromaticity coordinates with the luminance :math:`V` from the
-    *CIE 1960 UCS* :math:`UVW` colourspace.
+    This colourspace combines the *CIE 1960 UCS* :math:`UVW` colourspace
+    :math:`uv` chromaticity coordinates with the luminance :math:`V` from
+    the *CIE 1960 UCS* :math:`UVW` colourspace.
 
     It is a convenient definition for use with the
     *CIE 1960 UCS Chromaticity Diagram*.
@@ -380,7 +380,7 @@ def CIE1960UCS_to_XYZ(
     Returns
     -------
     :class:`numpy.ndarray`
-        :math:`uvV` colourspace array.
+        *CIE XYZ* tristimulus values.
 
     Notes
     -----
@@ -388,8 +388,6 @@ def CIE1960UCS_to_XYZ(
     | **Domain**     | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
     | ``uvV``        | [0, 1]                | [0, 1]          |
-    +----------------+-----------------------+-----------------+
-    | ``illuminant`` | [0, 1]                | [0, 1]          |
     +----------------+-----------------------+-----------------+
 
     +----------------+-----------------------+-----------------+

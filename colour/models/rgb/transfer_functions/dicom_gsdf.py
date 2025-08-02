@@ -3,7 +3,7 @@ DICOM - Grayscale Standard Display Function
 ===========================================
 
 Define the *DICOM - Grayscale Standard Display Function* electro-optical
-transfer function (EOTF) and its inverse:
+transfer function (EOTF) and its inverse.
 
 -   :func:`colour.models.eotf_inverse_DICOMGSDF`
 -   :func:`colour.models.eotf_DICOMGSDF`
@@ -84,7 +84,7 @@ def eotf_inverse_DICOMGSDF(
     constants: Structure | None = None,
 ) -> NDArrayReal:
     """
-    Define the *DICOM - Grayscale Standard Display Function* inverse
+    Apply the *DICOM - Grayscale Standard Display Function* inverse
     electro-optical transfer function (EOTF).
 
     Parameters
@@ -92,8 +92,8 @@ def eotf_inverse_DICOMGSDF(
     L
         *Luminance* :math:`L`.
     out_int
-        Whether to return value as int code value or float equivalent of a
-        code value at a specified bit-depth.
+        Whether to return value as integer code value or float equivalent
+        of a code value at a specified bit-depth.
     constants
         *DICOM - Grayscale Standard Display Function* constants.
 
@@ -167,7 +167,7 @@ def eotf_DICOMGSDF(
     constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
-    Define the *DICOM - Grayscale Standard Display Function* electro-optical
+    Apply the *DICOM - Grayscale Standard Display Function* electro-optical
     transfer function (EOTF).
 
     Parameters
@@ -175,7 +175,7 @@ def eotf_DICOMGSDF(
     J
         Just-Noticeable Difference (JND) Index, :math:`j`.
     in_int
-        Whether to treat the input value as int code value or float
+        Whether to treat the input value as integer code value or float
         equivalent of a code value at a specified bit-depth.
     constants
         *DICOM - Grayscale Standard Display Function* constants.
@@ -183,7 +183,7 @@ def eotf_DICOMGSDF(
     Returns
     -------
     :class:`numpy.ndarray`
-        Corresponding *luminance* :math:`L`.
+        *Luminance* :math:`L`.
 
     Notes
     -----

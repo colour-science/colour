@@ -2,7 +2,7 @@
 Leica L-Log Log Encoding
 ========================
 
-Define the *Leica L-Log* log encoding:
+Define the *Leica L-Log* log encoding.
 
 -   :func:`colour.models.log_encoding_LLog`
 -   :func:`colour.models.log_decoding_LLog`
@@ -62,8 +62,7 @@ def log_encoding_LLog(
     constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
-    Define the *Leica L-Log* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Leica L-Log* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -72,10 +71,10 @@ def log_encoding_LLog(
     bit_depth
         Bit-depth used for conversion.
     out_normalised_code_value
-        Whether the non-linear *Leica L-Log* data :math:`L-Log` is encoded as
-        normalised code values.
+        Whether the *Leica L-Log* non-linear data :math:`L-Log` is encoded
+        as normalised code values.
     in_reflection
-        Whether the light level :math`in` to a camera is reflection.
+        Whether the light level :math:`in` to a camera is reflection.
     constants
         *Leica L-Log* constants.
 
@@ -141,8 +140,8 @@ def log_decoding_LLog(
     constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
-    Define the *Leica L-Log* log decoding curve / electro-optical transfer
-    function.
+    Apply the *Leica L-Log* log decoding inverse opto-electronic transfer
+    function (OETF).
 
     Parameters
     ----------
@@ -151,10 +150,10 @@ def log_decoding_LLog(
     bit_depth
         Bit-depth used for conversion.
     in_normalised_code_value
-        Whether the non-linear *Leica L-Log* data :math:`L-Log` is encoded as
-        normalised code values.
+        Whether the *Leica L-Log* non-linear data :math:`L-Log` is encoded
+        as normalised code values.
     out_reflection
-        Whether the light level :math`in` to a camera is reflection.
+        Whether the light level :math:`in` to a camera is reflection.
     constants
         *Leica L-Log* constants.
 

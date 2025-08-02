@@ -3,7 +3,7 @@ SMPTE 240M
 ==========
 
 Define the *SMPTE 240M* opto-electrical transfer function (OETF) and
-electro-optical transfer function (EOTF):
+electro-optical transfer function (EOTF).
 
 -   :func:`colour.models.oetf_SMPTE240M`
 -   :func:`colour.models.eotf_SMPTE240M`
@@ -45,7 +45,7 @@ __all__ = [
 
 def oetf_SMPTE240M(L_c: ArrayLike) -> NDArrayFloat:
     """
-    Define *SMPTE 240M* opto-electrical transfer function (OETF).
+    Apply the *SMPTE 240M* opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -56,8 +56,8 @@ def oetf_SMPTE240M(L_c: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Video signal output :math:`V_c` of the reference camera normalised to
-        the system reference white.
+        Video signal output :math:`V_c` of the reference camera normalised
+        to the system reference white.
 
     Notes
     -----
@@ -92,7 +92,7 @@ def oetf_SMPTE240M(L_c: ArrayLike) -> NDArrayFloat:
 
 def eotf_SMPTE240M(V_r: ArrayLike) -> NDArrayFloat:
     """
-    Define *SMPTE 240M* electro-optical transfer function (EOTF).
+    Apply the *SMPTE 240M* electro-optical transfer function (EOTF).
 
     Parameters
     ----------
@@ -103,21 +103,21 @@ def eotf_SMPTE240M(V_r: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-         Light output :math:`L_r` from the reference reproducer normalised to
-         the system reference white.
+        Light output :math:`L_r` from the reference reproducer normalised
+        to the system reference white.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V_c``    | [0, 1]                | [0, 1]        |
+    | ``V_r``    | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L_c``    | [0, 1]                | [0, 1]        |
+    | ``L_r``    | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
     References

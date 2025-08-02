@@ -2,7 +2,7 @@
 Oklab Colourspace
 =================
 
-Define the *Oklab* colourspace transformations:
+Define the *Oklab* colourspace transformations.
 
 -   :func:`colour.XYZ_to_Oklab`
 -   :func:`colour.Oklab_to_XYZ`

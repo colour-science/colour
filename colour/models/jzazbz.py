@@ -2,7 +2,7 @@
 :math:`J_za_zb_z` Colourspace
 =============================
 
-Define the :math:`J_za_zb_z` colourspace:
+Define the :math:`J_za_zb_z` colourspace transformations.
 
 -   :func:`colour.models.IZAZBZ_METHODS`
 -   :func:`colour.models.XYZ_to_Izazbz`
@@ -187,9 +187,9 @@ def XYZ_to_Izazbz(
     Returns
     -------
     :class:`numpy.ndarray`
-        :math:`I_za_zb_z` colourspace array where :math:`I_z` is the achromatic
-        response, :math:`a_z` is redness-greenness and :math:`b_z` is
-        yellowness-blueness.
+        :math:`I_za_zb_z` colourspace array where :math:`I_z` is the
+        achromatic response, :math:`a_z` is redness-greenness and
+        :math:`b_z` is yellowness-blueness.
 
     Warnings
     --------
@@ -198,12 +198,12 @@ def XYZ_to_Izazbz(
 
     Notes
     -----
-    -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
-        transfer function, thus the domain and range values for the *Reference*
-        and *1* scales are only indicative that the data is not affected by
-        scale transformations. The effective domain of *SMPTE ST 2084:2014*
-        inverse electro-optical transfer function (EOTF) is
-        [0.0001, 10000].
+    -   The underlying *SMPTE ST 2084:2014* transfer function is an
+        absolute transfer function, thus the domain and range values for
+        the *Reference* and *1* scales are only indicative that the data
+        is not affected by scale transformations. The effective domain of
+        *SMPTE ST 2084:2014* inverse electro-optical transfer function
+        (EOTF) is [0.0001, 10000].
 
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
@@ -297,10 +297,12 @@ def Izazbz_to_XYZ(
 
     Notes
     -----
-    -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
-        transfer function, thus the domain and range values for the *Reference*
-        and *1* scales are only indicative that the data is not affected by
-        scale transformations.
+    -   The underlying *SMPTE ST 2084:2014* transfer function is an
+        absolute transfer function, thus the domain and range values for
+        the *Reference* and *1* scales are only indicative that the data
+        is not affected by scale transformations. The effective domain of
+        *SMPTE ST 2084:2014* inverse electro-optical transfer function
+        (EOTF) is [0.0001, 10000].
 
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
@@ -363,63 +365,65 @@ def XYZ_to_Jzazbz(
     XYZ_D65: ArrayLike, constants: Structure = CONSTANTS_JZAZBZ_SAFDAR2017
 ) -> NDArrayFloat:
     """
-    Convert from *CIE XYZ* tristimulus values to :math:`J_za_zb_z`
-    colourspace.
+        Convert from *CIE XYZ* tristimulus values to :math:`J_za_zb_z`
+        colourspace.
 
     Parameters
     ----------
-    XYZ_D65
-        *CIE XYZ* tristimulus values under
-        *CIE Standard Illuminant D Series D65*.
-    constants
-        :math:`J_za_zb_z` colourspace constants.
+        XYZ_D65
+            *CIE XYZ* tristimulus values under
+            *CIE Standard Illuminant D Series D65*.
+        constants
+            :math:`J_za_zb_z` colourspace constants.
 
     Returns
     -------
-    :class:`numpy.ndarray`
-        :math:`J_za_zb_z` colourspace array where :math:`J_z` is Lightness,
-        :math:`a_z` is redness-greenness and :math:`b_z` is
-        yellowness-blueness.
+        :class:`numpy.ndarray`
+            :math:`J_za_zb_z` colourspace array where :math:`J_z` is
+            Lightness, :math:`a_z` is redness-greenness and :math:`b_z` is
+            yellowness-blueness.
 
-    Warnings
-    --------
-    The underlying *SMPTE ST 2084:2014* transfer function is an absolute
-    transfer function.
+        Warnings
+        --------
+        The underlying *SMPTE ST 2084:2014* transfer function is an absolute
+        transfer function.
 
     Notes
     -----
-    -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
-        transfer function, thus the domain and range values for the *Reference*
-        and *1* scales are only indicative that the data is not affected by
-        scale transformations. The effective domain of *SMPTE ST 2084:2014*
-        inverse electro-optical transfer function (EOTF) is
-        [0.0001, 10000].
+        -   The underlying *SMPTE ST 2084:2014* transfer function is an
+            absolute transfer function, thus the domain and range values for
+            the *Reference* and *1* scales are only indicative that the data
+            is not affected by scale transformations. The effective domain of
+            *SMPTE ST 2084:2014* inverse electro-optical transfer function
+            (EOTF) is [0.0001, 10000].
+    domain of *SMPTE ST 2084:2014* inverse electro-optical transfer
+            function (EOTF) is [0.0001, 10000].
 
-    +------------+-----------------------+------------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1**    |
-    +============+=======================+==================+
-    | ``XYZ``    | ``UN``                | ``UN``           |
-    +------------+-----------------------+------------------+
+        +------------+-----------------------+------------------+
+        | **Domain** | **Scale - Reference** | **Scale - 1**    |
+        +============+=======================+==================+
+        | ``XYZ``    | ``UN``                | ``UN``           |
+        +------------+-----------------------+------------------+
 
-    +------------+-----------------------+------------------+
-    | **Range**  | **Scale - Reference** | **Scale - 1**    |
-    +============+=======================+==================+
-    | ``Jzazbz`` | ``Jz`` : [0, 1]       | ``Jz`` : [0, 1]  |
-    |            |                       |                  |
-    |            | ``az`` : [-1, 1]      | ``az`` : [-1, 1] |
-    |            |                       |                  |
-    |            | ``bz`` : [-1, 1]      | ``bz`` : [-1, 1] |
-    +------------+-----------------------+------------------+
+        +------------+-----------------------+------------------+
+        | **Range**  | **Scale - Reference** | **Scale - 1**    |
+        +============+=======================+==================+
+        | ``Jzazbz`` | ``Jz`` : [0, 1]       | ``Jz`` : [0, 1]  |
+        |            |                       |                  |
+        |            | ``az`` : [-1, 1]      | ``az`` : [-1, 1] |
+        |            |                       |                  |
+        |            | ``bz`` : [-1, 1]      | ``bz`` : [-1, 1] |
+        +------------+-----------------------+------------------+
 
     References
     ----------
-    :cite:`Safdar2017`
+        :cite:`Safdar2017`
 
     Examples
     --------
-    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-    >>> XYZ_to_Jzazbz(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.0053504...,  0.0092430...,  0.0052600...])
+        >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+        >>> XYZ_to_Jzazbz(XYZ)  # doctest: +ELLIPSIS
+        array([ 0.0053504...,  0.0092430...,  0.0052600...])
     """
 
     XYZ_D65 = as_float_array(XYZ_D65)
@@ -444,7 +448,7 @@ def Jzazbz_to_XYZ(
     Parameters
     ----------
     Jzazbz
-        :math:`J_za_zb_z` colourspace array  where :math:`J_z` is Lightness,
+        :math:`J_za_zb_z` colourspace array where :math:`J_z` is Lightness,
         :math:`a_z` is redness-greenness and :math:`b_z` is
         yellowness-blueness.
     constants
@@ -463,10 +467,12 @@ def Jzazbz_to_XYZ(
 
     Notes
     -----
-    -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
-        transfer function, thus the domain and range values for the *Reference*
-        and *1* scales are only indicative that the data is not affected by
-        scale transformations.
+    -   The underlying *SMPTE ST 2084:2014* transfer function is an
+        absolute transfer function, thus the domain and range values for
+        the *Reference* and *1* scales are only indicative that the data
+        is not affected by scale transformations. The effective domain of
+        *SMPTE ST 2084:2014* inverse electro-optical transfer function
+        (EOTF) is [0.0001, 10000].
 
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |

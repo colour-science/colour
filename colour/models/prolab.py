@@ -2,7 +2,7 @@
 ProLab Colourspace
 ==================
 
-Define the *ProLab* colourspace transformations:
+Define the *ProLab* colourspace transformations.
 
 -   :func:`colour.XYZ_to_ProLab`
 -   :func:`colour.ProLab_to_XYZ`
@@ -58,8 +58,8 @@ MATRIX_INVERSE_Q: NDArrayFloat = np.linalg.inv(MATRIX_Q)
 
 def projective_transformation(a: ArrayLike, Q: ArrayLike) -> NDArrayFloat:
     """
-    Transform specified array :math:`a` with the projective transformation matrix
-    :math:`Q`.
+    Apply the specified projective transformation matrix :math:`Q` to the
+    array :math:`a`.
 
     Parameters
     ----------

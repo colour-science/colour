@@ -2,7 +2,10 @@
 IHLS Colour Encoding
 ====================
 
-Define the :math:`IHLS` (Improved HLS) colourspace related transformations:
+Define the :math:`IHLS` (Improved HLS) colourspace encoding and decoding
+transformations. The :math:`IHLS` colourspace provides a 3D-polar coordinate
+colour representation that improves upon the standard HLS model for image
+analysis applications.
 
 -   :func:`colour.RGB_to_IHLS`
 -   :func:`colour.IHLS_to_RGB`

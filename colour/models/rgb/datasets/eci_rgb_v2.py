@@ -76,7 +76,7 @@ MATRIX_XYZ_TO_ECI_RGB_V2: NDArrayFloat = np.linalg.inv(MATRIX_ECI_RGB_V2_TO_XYZ)
 
 def _scale_domain_0_100_range_0_1(a: ArrayLike, callable_: Callable) -> NDArrayFloat:
     """
-    Scale the input domain of specified *luminance* :math:`Y` or *Lightness*
+    Scale the input domain of the specified *luminance* :math:`Y` or *Lightness*
     :math:`L^*` array to [0, 100], call the specified callable, and
     scales the output range to [0, 1].
 

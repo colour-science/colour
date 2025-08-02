@@ -3,7 +3,7 @@ DaVinci Intermediate
 ====================
 
 Define the *DaVinci Intermediate* opto-electrical transfer function
-(OETF) and its inverse:
+(OETF) and its inverse.
 
 -   :func:`colour.models.oetf_DaVinciIntermediate`
 -   :func:`colour.models.oetf_inverse_DaVinciIntermediate`
@@ -56,12 +56,12 @@ def oetf_DaVinciIntermediate(
     constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
-    Define the *DaVinci Intermediate* opto-electronic transfer function.
+    Apply the *DaVinci Intermediate* opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     L
-        Linear light value :math`L`.
+        Linear light value :math:`L`.
     constants
         *DaVinci Intermediate* colour component transfer function constants.
 
@@ -117,7 +117,7 @@ def oetf_inverse_DaVinciIntermediate(
     constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
-    Define the *DaVinci Intermediate* inverse opto-electronic transfer
+    Apply the *DaVinci Intermediate* inverse opto-electronic transfer
     function (OETF).
 
     Parameters
@@ -130,20 +130,20 @@ def oetf_inverse_DaVinciIntermediate(
     Returns
     -------
     :class:`numpy.ndarray`
-        Linear light value :math`L`.
+        Linear light value :math:`L`.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``V``      | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``L``      | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
     References

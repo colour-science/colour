@@ -2,7 +2,7 @@
 Kodak Cineon Encoding
 =====================
 
-Define the *Kodak Cineon* encoding:
+Define the *Kodak Cineon* encoding.
 
 -   :func:`colour.models.log_encoding_Cineon`
 -   :func:`colour.models.log_decoding_Cineon`
@@ -44,8 +44,7 @@ def log_encoding_Cineon(
     black_offset: ArrayLike = 10 ** ((95 - 685) / 300),
 ) -> NDArrayFloat:
     """
-    Define the *Cineon* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Cineon* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -57,7 +56,7 @@ def log_encoding_Cineon(
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear data :math:`y`.
+        *Cineon* non-linear encoded data :math:`y`.
 
     Notes
     -----
@@ -96,13 +95,12 @@ def log_decoding_Cineon(
     black_offset: ArrayLike = 10 ** ((95 - 685) / 300),
 ) -> NDArrayFloat:
     """
-    Define the *Cineon* log decoding curve / electro-optical transfer
-    function.
+    Apply the *Cineon* log decoding inverse opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     y
-        Non-linear data :math:`y`.
+        *Cineon* non-linear encoded data :math:`y`.
     black_offset
         Black offset.
 

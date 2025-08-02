@@ -2,7 +2,7 @@
 Apple Log Profile Log Encoding
 ==============================
 
-Define the *Apple Log Profile* log encoding:
+Define the *Apple Log Profile* log encoding.
 
 -   :func:`colour.models.log_encoding_AppleLogProfile`
 -   :func:`colour.models.log_decoding_AppleLogProfile`
@@ -60,29 +60,30 @@ def log_encoding_AppleLogProfile(
     constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
-    Define the *Apple Log Profile* log encoding curve.
+    Apply the *Apple Log Profile* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     R
-        Linear reflection data :math`R`.
+        Linear reflection data :math:`R`.
     constants
         *Apple Log Profile* constants.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *Apple Log Profile* captured pixel value :math:`P`
+        Logarithmically encoded value :math:`P`.
 
     References
     ----------
-    :cite:`AppleInc.2023`, :cite:`TheAcademyofMotionPictureArtsandSciences2023`
+    :cite:`AppleInc.2023`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2023`
 
     Notes
     -----
     -   The scene reflection signal :math:`R` captured by the camera is
-        represented using a floating point encoding. The :math:`R` value of
-        0.18 corresponds to the signal produced by an 18% reflectance;
+        represented using a floating point encoding. The :math:`R` value
+        of 0.18 corresponds to the signal produced by an 18% reflectance
         reference gray chart.
 
     +------------+-----------------------+---------------+
@@ -134,28 +135,29 @@ def log_decoding_AppleLogProfile(
     constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
-    Define the *Apple Log Profile* log decoding curve.
+    Apply the *Apple Log Profile* log decoding inverse opto-electronic transfer
+    function (OETF).
 
     Parameters
     ----------
     P
-        *Apple Log Profile* captured pixel value :math:`P`
+        Logarithmically encoded value :math:`P`.
     constants
         *Apple Log Profile* constants.
 
     Returns
     -------
     :class:`numpy.ndarray`
-         Linear reflection data :math`R`.
-
+        Linear reflection data :math:`R`.
 
     References
     ----------
-    :cite:`AppleInc.2023`, :cite:`TheAcademyofMotionPictureArtsandSciences2023`
+    :cite:`AppleInc.2023`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2023`
 
     Notes
     -----
-    -   The captured pixel :math:`P` value is using a floating point encoding
+    -   The captured pixel :math:`P` value uses floating point encoding
         normalized to the [0, 1] range.
 
     +------------+-----------------------+---------------+

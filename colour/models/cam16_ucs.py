@@ -3,7 +3,7 @@ CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
 ===================================================================
 
 Define the *Li, Li, Wang, Zu, Luo, Cui, Melgosa, Brill and Pointer (2017)*
-*CAM16-LCD*, *CAM16-SCD*, and *CAM16-UCS* colourspaces transformations:
+*CAM16-LCD*, *CAM16-SCD*, and *CAM16-UCS* colourspaces transformations.
 
 -   :func:`colour.JMh_CAM16_to_CAM16LCD`
 -   :func:`colour.CAM16LCD_to_JMh_CAM16`
@@ -91,18 +91,18 @@ __all__ = [
 
 def _UCS_Luo2006_callable_to_UCS_Li2017_docstring(callable_: Callable) -> str:
     """
-    Convert specified *Luo et al. (2006)* callable docstring to
-    *Li et al. (2017)* docstring.
+    Convert the docstring of the specified *Luo et al. (2006)* callable to
+    conform to *Li et al. (2017)* conventions.
 
     Parameters
     ----------
     callable_
-        Callable to use the docstring from.
+        Callable whose docstring will be adapted.
 
     Returns
     -------
     :class:`str`
-        Docstring.
+        Converted docstring following *Li et al. (2017)* conventions.
     """
 
     docstring = callable_.__doc__
@@ -182,25 +182,27 @@ def XYZ_to_UCS_Li2017(
     XYZ: ArrayLike, coefficients: ArrayLike, **kwargs: Any
 ) -> NDArrayFloat:
     """
-    Convert from *CIE XYZ* tristimulus values to one of the *Li et al. (2017)*
-    *CAM16-LCD*, *CAM16-SCD*, or *CAM16-UCS* colourspaces :math:`J'a'b'` array.
+    Convert from *CIE XYZ* tristimulus values to one of the *Li et al.
+    (2017)* *CAM16-LCD*, *CAM16-SCD*, or *CAM16-UCS* colourspaces
+    :math:`J'a'b'` array.
 
     Parameters
     ----------
     XYZ
         *CIE XYZ* tristimulus values.
     coefficients
-        Coefficients of one of the *Li et al. (2017)* *CAM16-LCD*, *CAM16-SCD*,
-        or *CAM16-UCS* colourspaces.
+        Coefficients of one of the *Li et al. (2017)* *CAM16-LCD*,
+        *CAM16-SCD*, or *CAM16-UCS* colourspaces.
 
     Other Parameters
     ----------------
     kwargs
         {:func:`colour.XYZ_to_CAM16`},
-        See the documentation of the previously listed definition. The default
-        viewing conditions are that of *IEC 61966-2-1:1999*, i.e., *sRGB* 64 Lux
-        ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
-        20% of a white object in the scene.
+        See the documentation of the previously listed definition. The
+        default viewing conditions are those of *IEC 61966-2-1:1999*,
+        i.e., *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`,
+        adapting field luminance about 20% of a white object in the
+        scene.
 
     Returns
     -------
@@ -210,8 +212,8 @@ def XYZ_to_UCS_Li2017(
 
     Warnings
     --------
-    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    specified in the same domain-range scale than the ``XYZ`` parameter.
+    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must
+    be specified in the same domain-range scale as the ``XYZ`` parameter.
 
     Notes
     -----
@@ -288,17 +290,18 @@ def UCS_Li2017_to_XYZ(
         *Li et al. (2017)* *CAM16-LCD*, *CAM16-SCD*, or *CAM16-UCS*
         colourspaces :math:`J'a'b'` array.
     coefficients
-        Coefficients of one of the *Li et al. (2017)* *CAM16-LCD*, *CAM16-SCD*,
-        or *CAM16-UCS* colourspaces.
+        Coefficients of one of the *Li et al. (2017)* *CAM16-LCD*,
+        *CAM16-SCD*, or *CAM16-UCS* colourspaces.
 
     Other Parameters
     ----------------
     kwargs
         {:func:`colour.CAM16_to_XYZ`},
-        See the documentation of the previously listed definition. The default
-        viewing conditions are that of *IEC 61966-2-1:1999*, i.e., *sRGB* 64 Lux
-        ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
-        20% of a white object in the scene.
+        See the documentation of the previously listed definition. The
+        default viewing conditions are those of *IEC 61966-2-1:1999*,
+        i.e., *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`,
+        adapting field luminance about 20% of a white object in the
+        scene.
 
     Returns
     -------
@@ -307,8 +310,8 @@ def UCS_Li2017_to_XYZ(
 
     Warnings
     --------
-    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    specified in the same domain-range scale than the ``XYZ`` parameter.
+    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must
+    be specified in the same domain-range scale as the ``XYZ`` parameter.
 
     Notes
     -----

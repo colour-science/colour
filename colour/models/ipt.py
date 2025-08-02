@@ -2,13 +2,10 @@
 IPT Colourspace
 ===============
 
-Define the *IPT* colourspace transformations:
+Define the *IPT* colourspace transformations and correlate computations.
 
 -   :func:`colour.XYZ_to_IPT`
 -   :func:`colour.IPT_to_XYZ`
-
-And computation of correlates:
-
 -   :func:`colour.IPT_hue_angle`
 
 References
@@ -160,6 +157,9 @@ def IPT_to_XYZ(IPT: ArrayLike) -> NDArrayFloat:
     | ``XYZ``    | [0, 1]                | [0, 1]          |
     +------------+-----------------------+-----------------+
 
+    -   Output *CIE XYZ* tristimulus values are adapted to
+        *CIE Standard Illuminant D Series* *D65*.
+
     References
     ----------
     :cite:`Fairchild2013y`
@@ -181,7 +181,7 @@ def IPT_to_XYZ(IPT: ArrayLike) -> NDArrayFloat:
 
 def IPT_hue_angle(IPT: ArrayLike) -> NDArrayFloat:
     """
-    Compute the hue angle in degrees from *IPT* colourspace.
+    Compute the hue angle in degrees from the *IPT* colourspace array.
 
     Parameters
     ----------

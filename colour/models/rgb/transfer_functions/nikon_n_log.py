@@ -2,7 +2,7 @@
 Nikon N-Log Log Encoding
 ========================
 
-Define the *Nikon N-Log* log encoding:
+Define the *Nikon N-Log* log encoding.
 
 -   :func:`colour.models.log_encoding_NLog`
 -   :func:`colour.models.log_decoding_NLog`
@@ -61,20 +61,20 @@ def log_encoding_NLog(
     constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
-    Define the *Nikon N-Log* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Nikon N-Log* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     y
-        Reflectance :math:`y`, "y = 0.18" is equivalent to Stop 0.
+        Linear light reflectance :math:`y`, where :math:`y = 0.18` represents
+        middle grey at Stop 0.
     bit_depth
         Bit-depth used for conversion.
     out_normalised_code_value
-        Whether the non-linear *Nikon N-Log* data :math:`x` is encoded as
+        Whether to return the *Nikon N-Log* encoded data :math:`x` as
         normalised code values.
     in_reflection
-        Whether the light level :math`in` to a camera is reflection.
+        Whether the input light level represents reflected light.
     constants
         *Nikon N-Log* constants.
 
@@ -138,27 +138,28 @@ def log_decoding_NLog(
     constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
-    Define the *Nikon N-Log* log decoding curve / electro-optical transfer
-    function.
+    Apply the *Nikon N-Log* log decoding inverse opto-electronic transfer
+    function (OETF).
 
     Parameters
     ----------
     x
-        *N-Log* 10-bit equivalent code value :math:`x`
+        *N-Log* 10-bit equivalent code value :math:`x`.
     bit_depth
         Bit-depth used for conversion.
     in_normalised_code_value
         Whether the non-linear *Nikon N-Log* data :math:`x` is encoded as
         normalised code values.
     out_reflection
-        Whether the light level :math`in` to a camera is reflection.
+        Whether the light level :math:`y` to a camera is reflection.
     constants
         *Nikon N-Log* constants.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Reflectance :math:`y`.
+        Linear light reflectance :math:`y`, where :math:`y = 0.18` represents
+        middle grey at Stop 0.
 
     Notes
     -----

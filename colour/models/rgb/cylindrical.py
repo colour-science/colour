@@ -11,11 +11,13 @@ Define various cylindrical and spherical colour models:
 -   :func:`colour.RGB_to_HCL`
 -   :func:`colour.HCL_to_RGB`
 
-These colour models trade off perceptual relevance for computation speed.
-They should not be used in the colour science domain, although they are useful
-for image analysis and provide end user software colour selection tools.
+These colour models prioritise computational efficiency over perceptual
+uniformity. While unsuitable for rigorous colour science applications, they
+serve effectively in image analysis workflows and provide intuitive colour
+selection interfaces for end-user applications.
 
-They are provided for convenience and completeness.
+These transformations are included for practical utility and comprehensive
+coverage of colour space conversions.
 
 References
 ----------
@@ -88,7 +90,7 @@ def RGB_to_HSV(RGB: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        *HSV* array.
+        *HSV* colourspace array.
 
     Notes
     -----
@@ -393,8 +395,8 @@ def RGB_to_HCL(RGB: ArrayLike, gamma: float = 3, Y_0: float = 100) -> NDArrayFlo
     | ``HCL``    | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
-    -   This implementation used the equations specified in
-        :cite:`Sarifuddin2005a` and the corrections from
+    -   This implementation uses the equations specified in
+        :cite:`Sarifuddin2005a` with the corrections from
         :cite:`Sarifuddin2021`.
 
     References
@@ -485,8 +487,8 @@ def HCL_to_RGB(HCL: ArrayLike, gamma: float = 3, Y_0: float = 100) -> NDArrayFlo
     | ``RGB``    | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
-    -   This implementation used the equations specified in
-        :cite:`Sarifuddin2005a` and the corrections from
+    -   This implementation uses the equations specified in
+        :cite:`Sarifuddin2005a` with the corrections from
         :cite:`Sarifuddin2021`.
 
     References

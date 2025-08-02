@@ -3,7 +3,7 @@ ARIB STD-B67 (Hybrid Log-Gamma)
 ===============================
 
 Define the *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electrical transfer function
-(OETF) and its inverse:
+(OETF) and its inverse.
 
 -   :func:`colour.models.oetf_ARIBSTDB67`
 -   :func:`colour.models.oetf_inverse_ARIBSTDB67`
@@ -60,7 +60,7 @@ def oetf_ARIBSTDB67(
     constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
-    Define *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electrical transfer
+    Apply the *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electronic transfer
     function (OETF).
 
     Parameters
@@ -68,7 +68,7 @@ def oetf_ARIBSTDB67(
     E
         Voltage normalised by the reference white level and proportional to
         the implicit light intensity that would be detected with a reference
-        camera color channel R, G, B.
+        camera colour channel R, G, B.
     r
         Video level corresponding to reference white level.
     constants
@@ -77,7 +77,7 @@ def oetf_ARIBSTDB67(
     Returns
     -------
     :class:`numpy.ndarray`
-        Resulting non-linear signal :math:`E'`.
+        Non-linear signal :math:`E'`.
 
     Notes
     -----
@@ -94,8 +94,8 @@ def oetf_ARIBSTDB67(
     +------------+-----------------------+---------------+
 
     -   This definition uses the *mirror* negative number handling mode of
-        :func:`colour.models.gamma_function` definition to the sign of negative
-        numbers.
+        :func:`colour.models.gamma_function` definition to preserve the sign
+        of negative numbers.
 
     References
     ----------
@@ -126,8 +126,8 @@ def oetf_inverse_ARIBSTDB67(
     constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
-    Define *ARIB STD-B67 (Hybrid Log-Gamma)* inverse opto-electrical transfer
-    function (OETF).
+    Apply the *ARIB STD-B67 (Hybrid Log-Gamma)* inverse opto-electronic
+    transfer function (OETF).
 
     Parameters
     ----------
@@ -141,9 +141,9 @@ def oetf_inverse_ARIBSTDB67(
     Returns
     -------
     :class:`numpy.ndarray`
-        Voltage :math:`E` normalised by the reference white level and
-        proportional to the implicit light intensity that would be detected
-        with a reference camera color channel R, G, B.
+        Voltage normalised by the reference white level and proportional to
+        the implicit light intensity that would be detected with a reference
+        camera colour channel R, G, B.
 
     Notes
     -----
@@ -159,9 +159,9 @@ def oetf_inverse_ARIBSTDB67(
     | ``E``      | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
-    -   This definition uses the *mirror* negative number handling mode of
-        :func:`colour.models.gamma_function` definition to the sign of negative
-        numbers.
+    -   This definition uses the *mirror* negative number handling mode
+        of :func:`colour.models.gamma_function` definition to preserve
+        the sign of negative numbers.
 
     References
     ----------

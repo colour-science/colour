@@ -2,7 +2,8 @@
 MacAdam (1942) Ellipses (Observer PGN)
 ======================================
 
-Define the *MacAdam (1942) Ellipses (Observer PGN)* ellipses data.
+Define the *MacAdam (1942) Ellipses (Observer PGN)* ellipses data for colour
+discrimination threshold analysis.
 
 References
 ----------

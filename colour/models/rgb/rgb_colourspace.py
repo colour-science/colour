@@ -78,53 +78,52 @@ __all__ = [
 
 class RGB_Colourspace:
     """
-    Implement support for the *RGB* colourspaces datasets from
-    :mod:`colour.models.datasets.aces_rgb`, etc....
+    Implement support for *RGB* colourspace datasets from modules including
+    :mod:`colour.models.datasets.aces_rgb`.
 
     Colour science literature related to *RGB* colourspaces and encodings
-    defines their dataset using different degree of precision or rounding.
-    While instances where a whitepoint is being defined with a value
-    different from its canonical agreed one are rare, it is however very
-    common to have normalised primary matrices rounded at different
-    decimals. This can yield large discrepancies in computations.
+    defines datasets using different degrees of precision or rounding. While
+    instances where a whitepoint differs from its canonical agreed value are
+    rare, normalised primary matrices are commonly rounded at different
+    decimal places. This can yield large discrepancies in computations.
 
-    Such an occurrence is the *V-Gamut* colourspace white paper, that defines
-    the *V-Gamut* to *ITU-R BT.709* conversion matrix as follows::
+    Such an occurrence is the *V-Gamut* colourspace white paper, which
+    defines the *V-Gamut* to *ITU-R BT.709* conversion matrix as follows::
 
         [[ 1.806576 -0.695697 -0.110879]
          [-0.170090  1.305955 -0.135865]
          [-0.025206 -0.154468  1.179674]]
 
-    Computing this matrix using *ITU-R BT.709* colourspace derived normalised
-    primary matrix yields::
+    Computing this matrix using *ITU-R BT.709* colourspace derived
+    normalised primary matrix yields::
 
         [[ 1.8065736 -0.6956981 -0.1108786]
          [-0.1700890  1.3059548 -0.1358648]
          [-0.0252057 -0.1544678  1.1796737]]
 
-    The latter matrix is almost equals with the former, however performing the
-    same computation using *IEC 61966-2-1:1999* *sRGB* colourspace normalised
-    primary matrix introduces severe disparities::
+    The latter matrix is almost equal to the former, however performing the
+    same computation using *IEC 61966-2-1:1999* *sRGB* colourspace
+    normalised primary matrix introduces severe disparities::
 
         [[ 1.8063853 -0.6956147 -0.1109453]
          [-0.1699311  1.3058387 -0.1358616]
          [-0.0251630 -0.1544899  1.1797117]]
 
-    In order to provide support for both literature defined dataset and
-    accurate computations enabling transformations without loss of precision,
-    the :class:`colour.RGB_Colourspace` class provides two sets of
-    transformation matrices:
+    To provide support for both literature-defined datasets and accurate
+    computations enabling transformations without loss of precision, the
+    :class:`colour.RGB_Colourspace` class provides two sets of transformation
+    matrices:
 
         -   Instantiation transformation matrices
         -   Derived transformation matrices
 
     Upon instantiation, the :class:`colour.RGB_Colourspace` class stores the
-    specified ``matrix_RGB_to_XYZ`` and ``matrix_XYZ_to_RGB`` arguments and also
-    computes their derived counterpart using the ``primaries`` and
+    specified ``matrix_RGB_to_XYZ`` and ``matrix_XYZ_to_RGB`` arguments and
+    also computes their derived counterparts using the ``primaries`` and
     ``whitepoint`` arguments.
 
-    Whether the initialisation or derived matrices are used in subsequent
-    computations is dependent on the
+    Whether instantiation or derived matrices are used in subsequent
+    computations depends on the
     :attr:`colour.RGB_Colourspace.use_derived_matrix_RGB_to_XYZ` and
     :attr:`colour.RGB_Colourspace.use_derived_matrix_XYZ_to_RGB` attribute
     values.
@@ -140,14 +139,16 @@ class RGB_Colourspace:
     whitepoint_name
         *RGB* colourspace whitepoint name.
     matrix_RGB_to_XYZ
-        Transformation matrix from colourspace to *CIE XYZ* tristimulus values.
+        Transformation matrix from colourspace to *CIE XYZ* tristimulus
+        values.
     matrix_XYZ_to_RGB
-        Transformation matrix from *CIE XYZ* tristimulus values to colourspace.
+        Transformation matrix from *CIE XYZ* tristimulus values to
+        colourspace.
     cctf_encoding
         Encoding colour component transfer function (Encoding CCTF) /
         opto-electronic transfer function (OETF) that maps estimated
-        tristimulus values in a scene to :math:`R'G'B'` video component signal
-        value.
+        tristimulus values in a scene to :math:`R'G'B'` video component
+        signal value.
     cctf_decoding
         Decoding colour component transfer function (Decoding CCTF) /
         electro-optical transfer function (EOTF) that maps an
@@ -158,7 +159,8 @@ class RGB_Colourspace:
         use a computed derived normalised primary matrix.
     use_derived_matrix_XYZ_to_RGB
         Whether to use the instantiation time inverse normalised primary
-        matrix or to use a computed derived inverse normalised primary matrix.
+        matrix or to use a computed derived inverse normalised primary
+        matrix.
 
     Attributes
     ----------
@@ -187,10 +189,10 @@ class RGB_Colourspace:
     -   The normalised primary matrix defined by
         :attr:`colour.RGB_Colourspace.matrix_RGB_to_XYZ` property is treated
         as the prime matrix from which the inverse will be calculated as
-        required by the internal derivation mechanism. This behaviour has been
-        chosen in accordance with literature where commonly a *RGB* colourspace
-        is defined by its normalised primary matrix as it is directly computed
-        from the chosen primaries and whitepoint.
+        required by the internal derivation mechanism. This behaviour has
+        been chosen in accordance with literature where commonly a *RGB*
+        colourspace is defined by its normalised primary matrix as it is
+        directly computed from the chosen primaries and whitepoint.
 
     References
     ----------
@@ -280,7 +282,7 @@ class RGB_Colourspace:
     @property
     def name(self) -> str:
         """
-        Getter and setter property for the name.
+        Getter and setter for the *RGB* colourspace name.
 
         Parameters
         ----------
@@ -309,7 +311,7 @@ class RGB_Colourspace:
     @property
     def primaries(self) -> NDArrayFloat:
         """
-        Getter and setter property for the primaries.
+        Getter and setter for the *RGB* colourspace primaries.
 
         Parameters
         ----------
@@ -330,7 +332,7 @@ class RGB_Colourspace:
 
         attest(
             isinstance(value, (tuple, list, np.ndarray, np.matrix)),
-            f'"matrix_XYZ_to_RGB" property: "{value!r}" is not a "tuple", '
+            f'"primaries" property: "{value!r}" is not a "tuple", '
             f'"list", "ndarray" or "matrix" instance!',
         )
 
@@ -346,7 +348,7 @@ class RGB_Colourspace:
     @property
     def whitepoint(self) -> NDArrayFloat:
         """
-        Getter and setter property for the whitepoint.
+        Getter and setter for the *RGB* colourspace whitepoint.
 
         Parameters
         ----------
@@ -367,7 +369,7 @@ class RGB_Colourspace:
 
         attest(
             isinstance(value, (tuple, list, np.ndarray, np.matrix)),
-            f'"matrix_XYZ_to_RGB" property: "{value!r}" is not a "tuple", '
+            f'"whitepoint" property: "{value!r}" is not a "tuple", '
             f'"list", "ndarray" or "matrix" instance!',
         )
 
@@ -380,17 +382,24 @@ class RGB_Colourspace:
     @property
     def whitepoint_name(self) -> str | None:
         """
-        Getter and setter property for the whitepoint_name.
+        Getter and setter for the *RGB* colourspace whitepoint name.
+
+        Define or retrieve the name identifier for the reference illuminant
+        (whitepoint) used by this *RGB* colourspace. This property allows
+        tracking of standardized illuminant names such as 'D65', 'D50', or
+        custom whitepoint identifiers.
 
         Parameters
         ----------
         value
-            Value to set the whitepoint_name with.
+            Name identifier to set for the *RGB* colourspace whitepoint. Can
+            be a standard illuminant name or custom identifier.
 
         Returns
         -------
         :class:`str` or :py:data:`None`
-            *RGB* colourspace whitepoint name.
+            *RGB* colourspace whitepoint name identifier. Returns
+            :py:data:`None` if no name has been specified.
         """
 
         return self._whitepoint_name
@@ -410,20 +419,20 @@ class RGB_Colourspace:
     @property
     def matrix_RGB_to_XYZ(self) -> NDArrayFloat:
         """
-        Getter and setter property for the transformation matrix from
-        colourspace to *CIE XYZ* tristimulus values.
+        Getter and setter for the transformation matrix from RGB colourspace
+        to *CIE XYZ* tristimulus values.
 
         Parameters
         ----------
         value
-            Transformation matrix from colourspace to *CIE XYZ* tristimulus
-            values.
+            Transformation matrix from RGB colourspace to *CIE XYZ*
+            tristimulus values.
 
         Returns
         -------
         :class:`numpy.ndarray`
-            Transformation matrix from colourspace to *CIE XYZ* tristimulus
-            values.
+            Transformation matrix from RGB colourspace to *CIE XYZ*
+            tristimulus values.
         """
 
         if self._matrix_RGB_to_XYZ is None or self._use_derived_matrix_RGB_to_XYZ:
@@ -452,19 +461,19 @@ class RGB_Colourspace:
     @property
     def matrix_XYZ_to_RGB(self) -> NDArrayFloat:
         """
-        Getter and setter property for the transformation matrix from *CIE XYZ*
-        tristimulus values to colourspace.
+        Getter and setter for the transformation matrix from *CIE XYZ*
+        tristimulus values to RGB colourspace.
 
         Parameters
         ----------
         value
-            Transformation matrix from *CIE XYZ* tristimulus values to
+            Transformation matrix from *CIE XYZ* tristimulus values to the
             colourspace.
 
         Returns
         -------
         :class:`numpy.ndarray`
-            Transformation matrix from *CIE XYZ* tristimulus values to
+            Transformation matrix from *CIE XYZ* tristimulus values to the
             colourspace.
         """
 
@@ -494,9 +503,8 @@ class RGB_Colourspace:
     @property
     def cctf_encoding(self) -> Callable | None:
         """
-        Getter and setter property for the encoding colour component transfer
-        function (Encoding CCTF) / opto-electronic transfer function
-        (OETF).
+        Getter and setter for the encoding colour component transfer
+        function (Encoding CCTF) / opto-electronic transfer function (OETF).
 
         Parameters
         ----------
@@ -528,7 +536,7 @@ class RGB_Colourspace:
     @property
     def cctf_decoding(self) -> Callable | None:
         """
-        Getter and setter property for the decoding colour component transfer
+        Getter and setter for the decoding colour component transfer
         function (Decoding CCTF) / electro-optical transfer function
         (EOTF).
 
@@ -562,9 +570,12 @@ class RGB_Colourspace:
     @property
     def use_derived_matrix_RGB_to_XYZ(self) -> bool:
         """
-        Getter and setter property for whether to use the instantiation time
-        normalised primary matrix or to use a computed derived normalised
-        primary matrix.
+        Getter and setter for whether to use the instantiation time normalised
+        primary matrix or to use a computed derived normalised primary matrix.
+
+        Control whether the RGB to XYZ transformation uses the pre-computed
+        normalised primary matrix from instantiation or derives it dynamically
+        from the current primaries and whitepoint.
 
         Parameters
         ----------
@@ -595,23 +606,25 @@ class RGB_Colourspace:
     @property
     def use_derived_matrix_XYZ_to_RGB(self) -> bool:
         """
-        Getter and setter property for Whether to use the instantiation time
-        inverse normalised primary matrix or to use a computed derived inverse
-        normalised primary matrix.
+        Getter and setter for whether to use the instantiation time inverse
+        normalised primary matrix or to compute a derived inverse normalised
+        primary matrix.
+
+        Control whether the XYZ to RGB transformation uses the pre-computed
+        inverse matrix from instantiation or derives it dynamically from the
+        current primary matrix.
 
         Parameters
         ----------
         value
             Whether to use the instantiation time inverse normalised primary
-            matrix or to use a computed derived inverse normalised primary
-            matrix.
+            matrix or to compute a derived inverse normalised primary matrix.
 
         Returns
         -------
         :class:`bool`
             Whether to use the instantiation time inverse normalised primary
-            matrix or to use a computed derived inverse normalised primary
-            matrix.
+            matrix or to compute a derived inverse normalised primary matrix.
         """
 
         return self._use_derived_matrix_XYZ_to_RGB
@@ -629,12 +642,14 @@ class RGB_Colourspace:
 
     def __str__(self) -> str:
         """
-        Return a formatted string representation of the *RGB* colourspace.
+        Generate a formatted string representation of the *RGB* colourspace.
 
         Returns
         -------
         :class:`str`
-            Formatted string representation.
+            Formatted string representation displaying colourspace properties
+            including primaries, whitepoint, encoding/decoding CCTFs, and
+            normalised primary matrices.
 
         Examples
         --------
@@ -726,13 +741,15 @@ class RGB_Colourspace:
 
     def __repr__(self) -> str:
         """
-        Return an (almost) evaluable string representation of the *RGB*
-        colourspace.
+        Return an evaluable string representation of the *RGB* colourspace.
+
+        The representation includes all parameters needed to reconstruct the
+        colourspace instance.
 
         Returns
         -------
-        :class`str`
-            (Almost) evaluable string representation.
+        :class:`str`
+            Evaluable string representation.
 
         Examples
         --------
@@ -810,8 +827,11 @@ class RGB_Colourspace:
 
     def _derive_transformation_matrices(self) -> None:
         """
-        Compute the derived transformations matrices, the normalised primary
-        matrix and its inverse.
+        Derive transformation matrices from the RGB colourspace specification.
+
+        Compute the normalised primary matrix and its inverse matrix that are
+        used for transformations between the RGB colourspace and CIE XYZ
+        tristimulus values.
         """
 
         if self._primaries is not None and self._whitepoint is not None:
@@ -822,14 +842,14 @@ class RGB_Colourspace:
 
     def use_derived_transformation_matrices(self, usage: bool = True) -> None:
         """
-        Enable or disables usage of both derived transformations matrices,
+        Enable or disable usage of both derived transformation matrices,
         the normalised primary matrix and its inverse in subsequent
         computations.
 
         Parameters
         ----------
         usage
-            Whether to use the derived transformations matrices.
+            Whether to use the derived transformation matrices.
         """
 
         self.use_derived_matrix_RGB_to_XYZ = usage
@@ -845,8 +865,8 @@ class RGB_Colourspace:
     ) -> RGB_Colourspace:
         """
         Chromatically adapt the *RGB* colourspace *primaries* :math:`xy`
-        chromaticity coordinates from *RGB* colourspace whitepoint to reference
-        ``whitepoint``.
+        chromaticity coordinates from *RGB* colourspace whitepoint to the
+        specified reference whitepoint.
 
         Parameters
         ----------
@@ -918,12 +938,16 @@ class RGB_Colourspace:
 
     def copy(self) -> RGB_Colourspace:
         """
-        Return a copy of the *RGB* colourspace.
+        Create a deep copy of the *RGB* colourspace instance.
+
+        Generate an independent copy of this *RGB* colourspace with all
+        attributes duplicated, including primaries, whitepoint, matrices,
+        and transfer functions.
 
         Returns
         -------
         :class:`colour.RGB_Colourspace`
-            *RGB* colourspace copy.
+            Independent deep copy of the *RGB* colourspace instance.
         """
 
         return deepcopy(self)
@@ -950,11 +974,11 @@ def XYZ_to_RGB(
     colourspace
         Output *RGB* colourspace.
     illuminant
-        *CIE xy* chromaticity coordinates or *CIE xyY* colourspace array of the
-        *illuminant* for the input *CIE XYZ* tristimulus values.
+        *CIE xy* chromaticity coordinates or *CIE xyY* colourspace array of
+        the *illuminant* for the input *CIE XYZ* tristimulus values.
     chromatic_adaptation_transform
-        *Chromatic adaptation* transform, if *None* no chromatic adaptation is
-        performed.
+        *Chromatic adaptation* transform. If *None*, no chromatic adaptation
+        is performed.
     apply_cctf_encoding
         Apply the *RGB* colourspace encoding colour component transfer
         function / opto-electronic transfer function.
@@ -1084,11 +1108,11 @@ def RGB_to_XYZ(
     colourspace
         Input *RGB* colourspace.
     illuminant
-        *CIE xy* chromaticity coordinates or *CIE xyY* colourspace array of the
-        *illuminant* for the output *CIE XYZ* tristimulus values.
+        *CIE xy* chromaticity coordinates or *CIE xyY* colourspace array of
+        the *illuminant* for the output *CIE XYZ* tristimulus values.
     chromatic_adaptation_transform
-        *Chromatic adaptation* transform, if *None* no chromatic adaptation is
-        performed.
+        *Chromatic adaptation* transform, if *None* no chromatic adaptation
+        is performed.
     apply_cctf_decoding
         Apply the *RGB* colourspace decoding colour component transfer
         function / opto-electronic transfer function.
@@ -1205,9 +1229,9 @@ def matrix_RGB_to_RGB(
     ) = "CAT02",
 ) -> NDArrayFloat:
     """
-    Compute the matrix :math:`M` converting from specified input *RGB*
-    colourspace to output *RGB* colourspace using specified *chromatic
-    adaptation* method.
+    Compute the matrix :math:`M` converting from the specified input *RGB*
+    colourspace to the specified output *RGB* colourspace using the
+    specified *chromatic adaptation* method.
 
     Parameters
     ----------
@@ -1216,8 +1240,8 @@ def matrix_RGB_to_RGB(
     output_colourspace
         *RGB* output colourspace.
     chromatic_adaptation_transform
-        *Chromatic adaptation* transform, if *None* no chromatic adaptation is
-        performed.
+        *Chromatic adaptation* transform. If *None*, no chromatic
+        adaptation is performed.
 
     Returns
     -------
@@ -1288,8 +1312,9 @@ def RGB_to_RGB(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Convert specified *RGB* colourspace array from specified input *RGB* colourspace
-    to output *RGB* colourspace using specified *chromatic adaptation* method.
+    Convert *RGB* colourspace array from the specified input *RGB* colourspace to
+    specified output *RGB* colourspace using the specified *chromatic adaptation*
+    method.
 
     Parameters
     ----------
@@ -1300,11 +1325,11 @@ def RGB_to_RGB(
     output_colourspace
         *RGB* output colourspace.
     chromatic_adaptation_transform
-        *Chromatic adaptation* transform, if *None* no chromatic adaptation is
-        performed.
+        *Chromatic adaptation* transform, if *None* no chromatic adaptation
+        is performed.
     apply_cctf_decoding
-        Apply the input colourspace decoding colour component transfer function
-        / electro-optical transfer function.
+        Apply the input colourspace decoding colour component transfer
+        function / electro-optical transfer function.
     apply_cctf_encoding
         Apply the output colourspace encoding colour component transfer
         function / opto-electronic transfer function.
