@@ -2,7 +2,7 @@
 OpenColorIO Processing
 ======================
 
-Define the object for *OpenColorIO* processing:
+Define the object for *OpenColorIO* processing.
 
 -   :func:`colour.io.process_image_OpenColorIO`
 """
@@ -44,11 +44,11 @@ def process_image_OpenColorIO(a: ArrayLike, *args: Any, **kwargs: Any) -> NDArra
     Other Parameters
     ----------------
     config
-        *OpenColorIO* config to use for processing. If not defined, the
-        *OpenColorIO* set defined by the ``$OCIO`` environment variable is
-        used.
+        *OpenColorIO* configuration to use for processing. If not specified,
+        the *OpenColorIO* configuration defined by the ``$OCIO`` environment
+        variable is used.
     args
-        Arguments for `Config.getProcessor` method. See
+        Arguments for the ``Config.getProcessor`` method. See
         https://opencolorio.readthedocs.io/en/latest/api/config.html for
         more information.
 

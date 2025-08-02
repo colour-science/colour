@@ -1,4 +1,18 @@
 """
+Look-Up Table (LUT) I/O
+=======================
+
+Implement support for reading and writing industry-standard Look-Up Table
+(LUT) formats used in colour pipelines and digital intermediate workflows.
+
+-   :class:`colour.LUT1D`: 1D LUT for single-channel transformations
+-   :class:`colour.LUT3x1D`: Three separate 1D LUTs for per-channel operations
+-   :class:`colour.LUT3D`: 3D LUT for complex colour transformations
+-   :class:`colour.LUTSequence`: Sequential LUT operations
+-   :class:`colour.LUTOperatorMatrix`: Matrix-based LUT operations
+-   :func:`colour.io.read_LUT`: Auto-detect and read LUT files
+-   :func:`colour.io.write_LUT`: Write LUT files in specified formats
+
 References
 ----------
 -   :cite:`AdobeSystems2013b` : Adobe Systems. (2013). Cube LUT Specification.
@@ -112,7 +126,7 @@ def read_LUT(
     **kwargs: Any,
 ) -> LUT1D | LUT3x1D | LUT3D | LUTSequence | LUTOperatorMatrix:
     """
-    Read the specified *LUT* file using the specified method.
+    Read the specified *LUT* file.
 
     Parameters
     ----------
@@ -252,7 +266,7 @@ LUT_WRITE_METHODS = CanonicalMapping(
     }
 )
 LUT_WRITE_METHODS.__doc__ = """
-Supported *LUT* reading methods.
+Supported *LUT* writing methods.
 
 References
 ----------
@@ -268,22 +282,22 @@ def write_LUT(
     **kwargs: Any,
 ) -> bool:
     """
-    Write the specified *LUT* to the specified file using the specified method.
+    Write the specified *LUT* to the specified file.
 
     Parameters
     ----------
     LUT
         :class:`colour.LUT1D` or :class:`colour.LUT3x1D` or
         :class:`colour.LUT3D` or :class:`colour.LUTSequence` or
-        :class:`colour.LUTOperatorMatrix` class instance to write at specified
-        path.
+        :class:`colour.LUTOperatorMatrix` class instance to write at the
+        specified path.
     path
-        *LUT* path.
+        *LUT* file path.
     decimals
-        Formatting decimals.
+        Number of decimal places for formatting numeric values.
     method
         Writing method, if *None*, the method will be auto-detected
-        according to extension.
+        according to the file extension.
 
     Returns
     -------

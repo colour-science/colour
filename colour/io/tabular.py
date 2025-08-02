@@ -2,7 +2,8 @@
 CSV Tabular Data Input / Output
 ===============================
 
-Define various input / output objects for *CSV* tabular data files:
+Define input / output utilities for reading and writing spectral data and
+spectral distributions from/to *CSV* tabular data files.
 
 -   :func:`colour.read_spectral_data_from_csv_file`
 -   :func:`colour.read_sds_from_csv_file`
@@ -85,8 +86,8 @@ def read_spectral_data_from_csv_file(
 
     Notes
     -----
-    -   A *CSV* spectral data file should define at least define two fields:
-        one for the wavelengths and one for the associated values of one
+    -   A *CSV* spectral data file should at least define two fields: one
+        for the wavelengths and one for the associated values of one
         spectral distribution.
 
     Examples
@@ -167,8 +168,8 @@ def read_sds_from_csv_file(
     path: str | PathLike, **kwargs: Any
 ) -> Dict[str, SpectralDistribution]:
     """
-    Read spectral data from the specified *CSV* file and convert its content to a
-    *dict* of :class:`colour.SpectralDistribution` class instances.
+    Read spectral data from the specified *CSV* file and convert its content
+    to a *dict* of :class:`colour.SpectralDistribution` class instances.
 
     Parameters
     ----------
@@ -178,7 +179,7 @@ def read_sds_from_csv_file(
     Other Parameters
     ----------------
     kwargs
-        Keywords arguments passed to :func:`numpy.recfromcsv` definition.
+        Keywords arguments passed to :func:`numpy.genfromtxt` definition.
 
     Returns
     -------
@@ -313,14 +314,14 @@ def write_sds_to_csv_file(
     sds: Dict[str, SpectralDistribution], path: str | PathLike
 ) -> bool:
     """
-    Write the specified spectral distributions to the specified *CSV* file.
+    Write spectral distributions to a CSV file.
 
     Parameters
     ----------
     sds
-        Spectral distributions to write to specified *CSV* file.
+        Spectral distributions to write to the specified CSV file.
     path
-        *CSV* file path.
+        CSV file path.
 
     Returns
     -------
