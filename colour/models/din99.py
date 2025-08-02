@@ -3,7 +3,7 @@ DIN99 Colourspace and DIN99b, DIN99c, DIN99d Refined Formulas
 =============================================================
 
 Define the *DIN99* colourspace and *DIN99b*, *DIN99c*, *DIN99d* refined
-formulas transformations:
+formulas transformations.
 
 -   :func:`colour.Lab_to_DIN99`
 -   :func:`colour.DIN99_to_Lab`
@@ -70,8 +70,8 @@ DIN99_METHODS: CanonicalMapping = CanonicalMapping(
     }
 )
 """
-*DIN99* colourspace methods, i.e., the coefficients for the *DIN99b*, *DIN99c*,
-and *DIN99d* refined formulas according to *Cui et al. (2002)*.
+Supported *DIN99* colourspace methods, i.e., the coefficients for the *DIN99b*,
+*DIN99c*, and *DIN99d* refined formulas according to *Cui et al. (2002)*.
 
 References
 ----------
@@ -88,23 +88,22 @@ def Lab_to_DIN99(
     ) = "DIN99",
 ) -> NDArrayFloat:
     """
-    Convert from *CIE L\\*a\\*b\\** colourspace to *DIN99* colourspace or
-    one of the *DIN99b*, *DIN99c*, *DIN99d* refined formulas according
-    to *Cui et al. (2002)*.
+    Convert from *CIE L\\*a\\*b\\** colourspace to *DIN99* colourspace or one
+    of the *DIN99b*, *DIN99c*, *DIN99d* refined formulas according to
+    *Cui et al. (2002)*.
 
     Parameters
     ----------
     Lab
         *CIE L\\*a\\*b\\** colourspace array.
     k_E
-        Parametric factor :math:`K_E` used to compensate for texture and other
-        specimen presentation effects.
-    k_CH
-        Parametric factor :math:`K_{CH}` used to compensate for texture and
+        Parametric factor :math:`K_E` used to compensate for texture and
         other specimen presentation effects.
+    k_CH
+        Parametric factor :math:`K_{CH}` used to compensate for texture
+        and other specimen presentation effects.
     method
-        Computation method to choose between the :cite:`ASTMInternational2007`
-        formula and the refined formulas according to *Cui et al. (2002)*.
+        Computation method.
 
     Returns
     -------
@@ -180,23 +179,22 @@ def DIN99_to_Lab(
     ) = "DIN99",
 ) -> NDArrayFloat:
     """
-    Convert from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*,
-    *DIN99d* refined formulas according to *Cui et al. (2002)* to
-    *CIE L\\*a\\*b\\** colourspace.
+    Convert from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*, *DIN99d*
+    refined formulas according to *Cui et al. (2002)* to *CIE L\\*a\\*b\\**
+    colourspace.
 
     Parameters
     ----------
     Lab_99
         *DIN99* colourspace array.
     k_E
-        Parametric factor :math:`K_E` used to compensate for texture and other
-        specimen presentation effects.
+        Parametric factor :math:`K_E` used to compensate for texture
+        and other specimen presentation effects.
     k_CH
-        Parametric factor :math:`K_{CH}` used to compensate for texture and
-        other specimen presentation effects.
+        Parametric factor :math:`K_{CH}` used to compensate for texture
+        and other specimen presentation effects.
     method
-        Computation method to choose between the :cite:`ASTMInternational2007`
-        formula and the refined formulas according to *Cui et al. (2002)*.
+        Computation method.
 
     Returns
     -------
@@ -275,9 +273,9 @@ def XYZ_to_DIN99(
     ) = "DIN99",
 ) -> NDArrayFloat:
     """
-    Convert from *CIE XYZ* tristimulus values to *DIN99* colourspace or
-    one of the *DIN99b*, *DIN99c*, *DIN99d* refined formulas according
-    to *Cui et al. (2002)*.
+    Convert from *CIE XYZ* tristimulus values to *DIN99* colourspace or one
+    of the *DIN99b*, *DIN99c*, *DIN99d* refined formulas according to
+    *Cui et al. (2002)*.
 
     Parameters
     ----------
@@ -287,14 +285,13 @@ def XYZ_to_DIN99(
         Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
     k_E
-        Parametric factor :math:`K_E` used to compensate for texture and other
-        specimen presentation effects.
+        Parametric factor :math:`K_E` used to compensate for texture and
+        other specimen presentation effects.
     k_CH
         Parametric factor :math:`K_{CH}` used to compensate for texture and
         other specimen presentation effects.
     method
-        Computation method to choose between the :cite:`ASTMInternational2007`
-        formula and the refined formulas according to *Cui et al. (2002)*.
+        Computation method.
 
     Returns
     -------
@@ -351,8 +348,8 @@ def DIN99_to_XYZ(
 ) -> NDArrayFloat:
     """
     Convert from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*,
-    *DIN99d* refined formulas according to *Cui et al. (2002)* to *CIE XYZ*
-    tristimulus values.
+    *DIN99d* refined formulas according to *Cui et al. (2002)* to
+    *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -362,14 +359,13 @@ def DIN99_to_XYZ(
         Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
     k_E
-        Parametric factor :math:`K_E` used to compensate for texture and other
-        specimen presentation effects.
+        Parametric factor :math:`K_E` used to compensate for texture
+        and other specimen presentation effects.
     k_CH
-        Parametric factor :math:`K_{CH}` used to compensate for texture and
-        other specimen presentation effects.
+        Parametric factor :math:`K_{CH}` used to compensate for texture
+        and other specimen presentation effects.
     method
-        Computation method to choose between the :cite:`ASTMInternational2007`
-        formula and the refined formulas according to *Cui et al. (2002)*.
+        Computation method.
 
     Returns
     -------

@@ -2,7 +2,7 @@
 :math:`I_GP_GT_G` Colourspace
 =============================
 
-Define the :math:`I_GP_GT_G` colourspace transformations:
+Define the :math:`I_GP_GT_G` colourspace transformations.
 
 -   :func:`colour.XYZ_to_IgPgTg`
 -   :func:`colour.IgPgTg_to_XYZ`
@@ -165,6 +165,9 @@ def IgPgTg_to_XYZ(IgPgTg: ArrayLike) -> NDArrayFloat:
     +============+=======================+=================+
     | ``XYZ``    | [0, 1]                | [0, 1]          |
     +------------+-----------------------+-----------------+
+
+    -   Output *CIE XYZ* tristimulus values are adapted to
+        *CIE Standard Illuminant D Series* *D65*.
 
     References
     ----------

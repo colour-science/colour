@@ -2,7 +2,7 @@
 Yrg Colourspace - Kirk (2019)
 =============================
 
-Define the *Kirk (2019)* *Yrg* colourspace:
+Define the *Kirk (2019)* *Yrg* colourspace transformations.
 
 -   :func:`colour.models.LMS_to_Yrg`
 -   :func:`colour.models.Yrg_to_LMS`
@@ -64,17 +64,19 @@ values.
 
 def LMS_to_Yrg(LMS: ArrayLike) -> NDArrayFloat:
     """
-    Convert from *LMS* colourspace to *Kirk (2019)* *Yrg* colourspace.
+    Convert from *LMS* cone fundamentals colourspace to *Kirk (2019)* *Yrg*
+    colourspace.
 
     Parameters
     ----------
     LMS
-        *LMS* colourspace values.
+        *LMS* cone fundamentals colourspace values.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *Kirk (2019)* *Yrg* :math:`Yrg` luminance, redness, and greenness.
+        *Kirk (2019)* *Yrg* colourspace array with :math:`Y` luminance,
+        :math:`r` redness, and :math:`g` greenness components.
 
     Notes
     -----
@@ -126,17 +128,19 @@ def LMS_to_Yrg(LMS: ArrayLike) -> NDArrayFloat:
 
 def Yrg_to_LMS(Yrg: ArrayLike) -> NDArrayFloat:
     """
-    Convert from *Kirk (2019)* *Yrg* colourspace to *LMS* colourspace.
+    Convert from *Kirk (2019)* *Yrg* colourspace to *LMS* cone
+    fundamentals colourspace.
 
     Parameters
     ----------
     Yrg
-        *Kirk (2019)* *Yrg* :math:`Yrg` luminance, redness, and greenness.
+        *Kirk (2019)* *Yrg* colourspace array with :math:`Y` luminance,
+        :math:`r` redness, and :math:`g` greenness components.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *LMS* colourspace values.
+        *LMS* cone fundamentals colourspace values.
 
     Notes
     -----
@@ -190,12 +194,13 @@ def XYZ_to_Yrg(XYZ: ArrayLike) -> NDArrayFloat:
     Parameters
     ----------
     XYZ
-        *CIE XYZ* tristimulus values values.
+        *CIE XYZ* tristimulus values.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *Kirk (2019)* *Yrg* :math:`Yrg` luminance, redness, and greenness.
+        *Kirk (2019)* *Yrg* colourspace array with :math:`Y` luminance,
+        :math:`r` redness, and :math:`g` greenness components.
 
     Notes
     -----
@@ -232,17 +237,19 @@ def XYZ_to_Yrg(XYZ: ArrayLike) -> NDArrayFloat:
 
 def Yrg_to_XYZ(Yrg: ArrayLike) -> NDArrayFloat:
     """
-    Convert from *Kirk (2019)* *Yrg* colourspace to *CIE XYZ* tristimulus values.
+    Convert from *Kirk (2019)* *Yrg* colourspace to *CIE XYZ* tristimulus
+    values.
 
     Parameters
     ----------
     Yrg
-        *Kirk (2019)* *Yrg* :math:`Yrg` luminance, redness, and greenness.
+        *Kirk (2019)* *Yrg* colourspace array with :math:`Y` luminance,
+        :math:`r` redness, and :math:`g` greenness components.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *CIE XYZ* tristimulus values values.
+        *CIE XYZ* tristimulus values.
 
     Notes
     -----

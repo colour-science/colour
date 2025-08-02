@@ -3,7 +3,7 @@ Digital Cinema Distribution Master (DCDM)
 =========================================
 
 Define the *DCDM* electro-optical transfer function (EOTF) and its
-inverse:
+inverse.
 
 -   :func:`colour.models.eotf_inverse_DCDM`
 -   :func:`colour.models.eotf_DCDM`
@@ -47,15 +47,15 @@ __all__ = [
 
 def eotf_inverse_DCDM(XYZ: ArrayLike, out_int: bool = False) -> NDArrayReal:
     """
-    Define the *DCDM* inverse electro-optical transfer function (EOTF).
+    Apply the *DCDM* inverse electro-optical transfer function (EOTF).
 
     Parameters
     ----------
     XYZ
         *CIE XYZ* tristimulus values.
     out_int
-        Whether to return value as int code value or float equivalent of a
-        code value at a specified bit-depth.
+        Whether to return value as integer code value or float equivalent
+        of a code value at a specified bit-depth.
 
     Returns
     -------
@@ -69,8 +69,8 @@ def eotf_inverse_DCDM(XYZ: ArrayLike, out_int: bool = False) -> NDArrayReal:
     Notes
     -----
     -   *DCDM* is an absolute transfer function, thus the domain and range
-        values for the *Reference* and *1* scales are only indicative that the
-        data is not affected by scale transformations.
+        values for the *Reference* and *1* scales are only indicative that
+        the data is not affected by scale transformations.
 
     +----------------+-----------------------+---------------+
     | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
@@ -114,14 +114,14 @@ def eotf_DCDM(
     in_int: bool = False,
 ) -> NDArrayFloat:
     """
-    Define the *DCDM* electro-optical transfer function (EOTF).
+    Apply the *DCDM* electro-optical transfer function (EOTF).
 
     Parameters
     ----------
     XYZ_p
         Non-linear *CIE XYZ'* tristimulus values.
     in_int
-        Whether to treat the input value as int code value or float
+        Whether to treat the input value as integer code value or float
         equivalent of a code value at a specified bit-depth.
 
     Returns
@@ -136,8 +136,8 @@ def eotf_DCDM(
     Notes
     -----
     -   *DCDM* is an absolute transfer function, thus the domain and range
-        values for the *Reference* and *1* scales are only indicative that the
-        data is not affected by scale transformations.
+        values for the *Reference* and *1* scales are only indicative that
+        the data is not affected by scale transformations.
 
     +----------------+-----------------------+---------------+
     | **Domain \\***  | **Scale - Reference** | **Scale - 1** |

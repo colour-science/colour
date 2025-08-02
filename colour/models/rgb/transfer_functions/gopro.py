@@ -2,7 +2,7 @@
 GoPro Encoding
 ==============
 
-Define the *GoPro* *Protune* encoding:
+Define the *GoPro* *Protune* encoding.
 
 -   :func:`colour.models.log_encoding_Protune`
 -   :func:`colour.models.log_decoding_Protune`
@@ -41,8 +41,7 @@ __all__ = [
 
 def log_encoding_Protune(x: ArrayLike) -> NDArrayFloat:
     """
-    Define the *Protune* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Protune* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -52,7 +51,7 @@ def log_encoding_Protune(x: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear data :math:`y`.
+        Non-linear encoded data :math:`y`.
 
     Notes
     -----
@@ -87,13 +86,12 @@ def log_encoding_Protune(x: ArrayLike) -> NDArrayFloat:
 
 def log_decoding_Protune(y: ArrayLike) -> NDArrayFloat:
     """
-    Define the *Protune* log decoding curve / electro-optical transfer
-    function.
+    Apply the *Protune* log decoding inverse opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     y
-        Non-linear data :math:`y`.
+        Non-linear encoded data :math:`y`.
 
     Returns
     -------

@@ -3,7 +3,7 @@ Recommendation ITU-R BT.2020
 ============================
 
 Define the *Recommendation ITU-R BT.2020* opto-electrical transfer function
-(OETF) and its inverse:
+(OETF) and its inverse.
 
 -   :func:`colour.models.oetf_BT2020`
 -   :func:`colour.models.oetf_inverse_BT2020`
@@ -78,7 +78,7 @@ def oetf_BT2020(
     constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
-    Define *Recommendation ITU-R BT.2020* opto-electronic transfer function
+    Apply the *Recommendation ITU-R BT.2020* opto-electronic transfer function
     (OETF).
 
     Parameters
@@ -88,14 +88,15 @@ def oetf_BT2020(
         proportional to the implicit light intensity that would be detected
         with a reference camera colour channel R, G, B.
     is_12_bits_system
-        *BT.709* *alpha* and *beta* constants are used if system is not 12-bit.
+        *BT.709* *alpha* and *beta* constants are used if system is not
+        12-bit.
     constants
         *Recommendation ITU-R BT.2020* constants.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Resulting non-linear signal :math:`E'`.
+        Non-linear signal :math:`E'`.
 
     Notes
     -----
@@ -138,22 +139,25 @@ def oetf_inverse_BT2020(
     constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
-    Define *Recommendation ITU-R BT.2020* inverse opto-electronic transfer
-    function (OETF).
+    Apply the *Recommendation ITU-R BT.2020* inverse opto-electronic transfer function
+    (OETF).
 
     Parameters
     ----------
     E_p
         Non-linear signal :math:`E'`.
     is_12_bits_system
-        *BT.709* *alpha* and *beta* constants are used if system is not 12-bit.
+        *BT.709* *alpha* and *beta* constants are used if system is not
+        12-bit.
     constants
         *Recommendation ITU-R BT.2020* constants.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Resulting voltage :math:`E`.
+        Voltage :math:`E` normalised by the reference white level and
+        proportional to the implicit light intensity that would be detected
+        with a reference camera colour channel R, G, B.
 
     Notes
     -----

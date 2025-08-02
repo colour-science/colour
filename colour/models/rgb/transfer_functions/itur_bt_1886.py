@@ -3,7 +3,7 @@ Recommendation ITU-R BT.1886
 ============================
 
 Define the *Recommendation ITU-R BT.1886* electro-optical transfer function
-(EOTF) and its inverse:
+(EOTF) and its inverse.
 
 -   :func:`colour.models.eotf_inverse_BT1886`
 -   :func:`colour.models.eotf_BT1886`
@@ -46,23 +46,26 @@ __all__ = [
 
 def eotf_inverse_BT1886(L: ArrayLike, L_B: float = 0, L_W: float = 1) -> NDArrayFloat:
     """
-    Define *Recommendation ITU-R BT.1886* inverse electro-optical transfer
-    function (EOTF).
+    Apply the *Recommendation ITU-R BT.1886* inverse electro-optical
+    transfer function (EOTF) for flat panel displays.
 
     Parameters
     ----------
     L
         Screen luminance in :math:`cd/m^2`.
     L_B
-        Screen luminance for black.
+        Screen luminance for black in :math:`cd/m^2`.
     L_W
-        Screen luminance for white.
+        Screen luminance for white in :math:`cd/m^2`.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Input video signal level (normalised, black at :math:`V = 0`, to white
-        at :math:`V = 1`.
+        Input video signal level (normalised, with black at :math:`V = 0`
+        and white at :math:`V = 1`). For content mastered per
+        *Recommendation ITU-R BT.709*, 10-bit digital code values
+        :math:`D` map into values of :math:`V` per the following equation:
+        :math:`V = (D-64)/876`
 
     Notes
     -----
@@ -104,21 +107,21 @@ def eotf_inverse_BT1886(L: ArrayLike, L_B: float = 0, L_W: float = 1) -> NDArray
 
 def eotf_BT1886(V: ArrayLike, L_B: float = 0, L_W: float = 1) -> NDArrayFloat:
     """
-    Define *Recommendation ITU-R BT.1886* electro-optical transfer function
-    (EOTF).
+    Apply the *Recommendation ITU-R BT.1886* electro-optical transfer
+    function (EOTF) for flat panel displays.
 
     Parameters
     ----------
     V
-        Input video signal level (normalised, black at :math:`V = 0`, to white
-        at :math:`V = 1`. For content mastered per
-        *Recommendation ITU-R BT.709*, 10-bit digital code values :math:`D` map
-        into values of :math:`V` per the following equation:
+        Input video signal level (normalised, with black at :math:`V = 0`
+        and white at :math:`V = 1`). For content mastered per
+        *Recommendation ITU-R BT.709*, 10-bit digital code values
+        :math:`D` map into values of :math:`V` per the following equation:
         :math:`V = (D-64)/876`
     L_B
-        Screen luminance for black.
+        Screen luminance for black in :math:`cd/m^2`.
     L_W
-        Screen luminance for white.
+        Screen luminance for white in :math:`cd/m^2`.
 
     Returns
     -------

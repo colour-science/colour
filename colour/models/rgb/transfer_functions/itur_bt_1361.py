@@ -3,7 +3,7 @@ Recommendation ITU-R BT.1361
 ============================
 
 Define the *Recommendation ITU-R BT.1361* opto-electrical transfer function
-(OETF) and its inverse:
+(OETF) and its inverse.
 
 -   :func:`colour.models.oetf_BT1361`
 -   :func:`colour.models.oetf_inverse_BT1361`
@@ -46,7 +46,7 @@ __all__ = [
 
 def oetf_BT1361(L: ArrayLike) -> NDArrayFloat:
     """
-    Define *Recommendation ITU-R BT.1361* extended color gamut system
+    Apply the *Recommendation ITU-R BT.1361* extended colour gamut system
     opto-electronic transfer function (OETF).
 
     Parameters
@@ -57,7 +57,7 @@ def oetf_BT1361(L: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Corresponding non-linear primary signal :math:`E'`.
+        Non-linear primary signal :math:`E'`.
 
     Notes
     -----
@@ -67,11 +67,11 @@ def oetf_BT1361(L: ArrayLike) -> NDArrayFloat:
     | ``L``      | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
-    +------------+-----------------------+-------------------+
-    | **Range**  | **Scale - Reference** | **Scale - 1**     |
-    +============+=======================+===================+
-    | ``E_p'``   | [0, 1]                | [0, 1]            |
-    +------------+-----------------------+-------------------+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E_p'``   | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -107,8 +107,8 @@ def oetf_BT1361(L: ArrayLike) -> NDArrayFloat:
 
 def oetf_inverse_BT1361(E_p: ArrayLike) -> NDArrayFloat:
     """
-    Define *Recommendation ITU-R BT.1361* extended color gamut system inverse
-    opto-electronic transfer functions (OETF).
+    Apply the *Recommendation ITU-R BT.1361* extended colour gamut system
+    inverse opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -118,7 +118,7 @@ def oetf_inverse_BT1361(E_p: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Corresponding scene *Luminance* :math:`L`.
+        Scene *Luminance* :math:`L`.
 
     Notes
     -----
@@ -133,7 +133,6 @@ def oetf_inverse_BT1361(E_p: ArrayLike) -> NDArrayFloat:
     +============+=======================+===============+
     | ``L``      | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
-
 
     References
     ----------

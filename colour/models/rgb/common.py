@@ -2,7 +2,8 @@
 Common RGB Colour Models Utilities
 ==================================
 
-Define various RGB colour models common utilities.
+Define utilities for RGB colour models including transformations,
+chromaticity coordinates, and primaries matrices.
 """
 
 from __future__ import annotations
@@ -55,8 +56,8 @@ def XYZ_to_sRGB(
     chromatic_adaptation_transform
         *Chromatic adaptation* transform.
     apply_cctf_encoding
-        Whether to apply the *sRGB* encoding colour component transfer function
-        / inverse electro-optical transfer function.
+        Whether to apply the *sRGB* encoding colour component transfer
+        function / inverse electro-optical transfer function.
 
     Returns
     -------
@@ -116,8 +117,8 @@ def sRGB_to_XYZ(
     chromatic_adaptation_transform
         *Chromatic adaptation* transform.
     apply_cctf_decoding
-        Whether to apply the *sRGB* decoding colour component transfer function
-        / electro-optical transfer function.
+        Whether to apply the *sRGB* decoding colour component transfer
+        function / electro-optical transfer function.
 
     Returns
     -------

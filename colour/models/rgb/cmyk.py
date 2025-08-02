@@ -93,7 +93,7 @@ def RGB_to_CMY(RGB: ArrayLike) -> NDArrayFloat:
 
 def CMY_to_RGB(CMY: ArrayLike) -> NDArrayFloat:
     """
-    Convert from *CMY* colourspace to *CMY* colourspace.
+    Convert from *CMY* colourspace to *RGB* colourspace.
 
     Parameters
     ----------

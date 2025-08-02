@@ -2,7 +2,7 @@
 CIE L*u*v* Colourspace
 ======================
 
-Define the *CIE L\\*u\\*v\\** colourspace transformations:
+Define the *CIE L\\*u\\*v\\** colourspace transformations.
 
 -   :func:`colour.XYZ_to_Luv`
 -   :func:`colour.Luv_to_XYZ`
@@ -233,8 +233,8 @@ def Luv_to_uv(
     ],
 ) -> NDArrayFloat:
     """
-    Return the :math:`uv^p` chromaticity coordinates from specified
-    *CIE L\\*u\\*v\\** colourspace array.
+    Convert from *CIE L\\*u\\*v\\** colourspace to :math:`uv^p` chromaticity
+    coordinates.
 
     Parameters
     ----------
@@ -293,9 +293,9 @@ def uv_to_Luv(
     L: ArrayLike = 100,
 ) -> NDArrayFloat:
     """
-    Return the *CIE L\\*u\\*v\\** colourspace array from specified :math:`uv^p`
-    chromaticity coordinates by extending the array last dimension with specified
-    :math:`L` *Lightness*.
+    Convert from :math:`uv^p` chromaticity coordinates to *CIE L\\*u\\*v\\**
+    colourspace by extending the array's last dimension with the specified
+    :math:`L^*` *Lightness*.
 
     Parameters
     ----------
@@ -305,9 +305,9 @@ def uv_to_Luv(
         Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
     L
-        Optional :math:`L^*` *Lightness* value used to construct the intermediate
-        *CIE XYZ* colourspace array, the default :math:`L^*` *Lightness* value is
-        100.
+        Optional :math:`L^*` *Lightness* value used to construct the
+        intermediate *CIE XYZ* colourspace array, the default :math:`L^*`
+        *Lightness* value is 100.
 
     Returns
     -------
@@ -359,8 +359,8 @@ def uv_to_Luv(
 
 def Luv_uv_to_xy(uv: ArrayLike) -> NDArrayFloat:
     """
-    Return the *CIE xy* chromaticity coordinates from specified *CIE L\\*u\\*v\\**
-    colourspace :math:`uv^p` chromaticity coordinates.
+    Convert from *CIE L\\*u\\*v\\** colourspace :math:`u'v'` chromaticity
+    coordinates to *CIE xy* chromaticity coordinates.
 
     Parameters
     ----------
@@ -394,8 +394,8 @@ def Luv_uv_to_xy(uv: ArrayLike) -> NDArrayFloat:
 
 def xy_to_Luv_uv(xy: ArrayLike) -> NDArrayFloat:
     """
-    Return the *CIE L\\*u\\*v\\** colourspace :math:`uv^p` chromaticity
-    coordinates from specified *CIE xy* chromaticity coordinates.
+    Convert from *CIE xy* chromaticity coordinates to *CIE L\\*u\\*v\\**
+    colourspace :math:`u'v'` chromaticity coordinates.
 
     Parameters
     ----------
@@ -434,10 +434,11 @@ def XYZ_to_CIE1976UCS(
     ],
 ) -> NDArrayFloat:
     """
-    Convert from *CIE XYZ* tristimulus values to :math:`uv^pL\\*` colourspace.
+    Convert from *CIE XYZ* tristimulus values to :math:`uv^pL^*` colourspace.
 
-    This colourspace combines the :math:`uv^p` chromaticity coordinates with
-    the *Lightness* :math:`L\\*` from the *CIE L\\*u\\*v\\** colourspace.
+    This colourspace combines the :math:`uv^p` chromaticity
+    coordinates with the *Lightness* :math:`L^{*}` from the
+    *CIE L*u*v** colourspace.
 
     It is a convenient definition for use with the
     *CIE 1976 UCS Chromaticity Diagram*.
@@ -453,7 +454,7 @@ def XYZ_to_CIE1976UCS(
     Returns
     -------
     :class:`numpy.ndarray`
-        :math:`uv^pL\\*` colourspace array.
+        :math:`uv^pL^*` colourspace array.
 
     Notes
     -----
@@ -499,10 +500,11 @@ def CIE1976UCS_to_XYZ(
     ],
 ) -> NDArrayFloat:
     """
-    Convert from *CIE XYZ* tristimulus values to :math:`uv^pL\\*` colourspace.
+    Convert from :math:`uv^pL^*` colourspace to *CIE XYZ* tristimulus values.
 
-    This colourspace combines the :math:`uv^p` chromaticity coordinates with
-    the *Lightness* :math:`L\\*` from the *CIE L\\*u\\*v\\** colourspace.
+    This colourspace combines the :math:`uv^p` chromaticity
+    coordinates with the *Lightness* :math:`L^{*}` from the
+    *CIE L*u*v** colourspace.
 
     It is a convenient definition for use with the
     *CIE 1976 UCS Chromaticity Diagram*.
@@ -510,7 +512,7 @@ def CIE1976UCS_to_XYZ(
     Parameters
     ----------
     uvL
-        :math:`uv^pL\\*` colourspace array.
+        :math:`uv^pL^*` colourspace array.
     illuminant
         Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
@@ -518,7 +520,7 @@ def CIE1976UCS_to_XYZ(
     Returns
     -------
     :class:`numpy.ndarray`
-        :math:`uv^pL\\*` colourspace array.
+        *CIE XYZ* tristimulus values.
 
     Notes
     -----

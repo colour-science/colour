@@ -3,7 +3,7 @@ Gamma Colour Component Transfer Function
 ========================================
 
 Define the gamma encoding / decoding colour component transfer function
-related objects:
+related objects.
 
 - :func:`colour.gamma_function`
 """
@@ -41,32 +41,32 @@ def gamma_function(
     ) = "Indeterminate",
 ) -> NDArrayFloat:
     """
-    Define a typical gamma encoding / decoding function.
+    Apply a gamma encoding or decoding transformation to the specified array.
 
     Parameters
     ----------
     a
-        Array to encode / decode.
+        Array to encode or decode.
     exponent
-        Encoding / decoding exponent.
+        Encoding or decoding exponent.
     negative_number_handling
-        Defines the behaviour for ``a`` negative numbers and / or the
-        definition return value:
+        Behaviour for ``a`` negative numbers and the definition return
+        value:
 
-        -   *Indeterminate*: The behaviour will be indeterminate and
+        -   *Indeterminate*: The behaviour will be indeterminate and the
             definition return value might contain *nans*.
         -   *Mirror*: The definition return value will be mirrored around
-            abscissa and ordinate axis, i.e., Blackmagic Design: Davinci Resolve
-            behaviour.
-        -   *Preserve*: The definition will preserve any negative number in
-            ``a``, i.e., The Foundry Nuke behaviour.
-        -   *Clamp*: The definition will clamp any negative number in ``a`` to
-            0.
+            the abscissa and ordinate axes, i.e., Blackmagic Design:
+            Davinci Resolve behaviour.
+        -   *Preserve*: The definition will preserve any negative number
+            in ``a``, i.e., The Foundry Nuke behaviour.
+        -   *Clamp*: The definition will clamp any negative number in
+            ``a`` to 0.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Encoded / decoded array.
+        Encoded or decoded array.
 
     Examples
     --------

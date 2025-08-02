@@ -2,9 +2,9 @@
 RGB Colourspace Derivation
 ==========================
 
-Define the objects related to *RGB* colourspace derivation, essentially
-calculating the normalised primary matrix for specified *RGB* colourspace primaries
-and whitepoint:
+Define objects for *RGB* colourspace derivation, primarily focused on
+calculating the normalised primary matrix from the specified *RGB* colourspace
+primaries and whitepoint.
 
 -   :func:`colour.normalised_primary_matrix`
 -   :func:`colour.chromatically_adapted_primaries`
@@ -61,7 +61,8 @@ __all__ = [
 
 def xy_to_z(xy: ArrayLike) -> float:
     """
-    Return the *z* coordinate using specified :math:`xy` chromaticity coordinates.
+    Return the *z* coordinate using the specified :math:`xy` chromaticity
+    coordinates.
 
     Parameters
     ----------
@@ -89,8 +90,8 @@ def normalised_primary_matrix(
 ) -> NDArrayFloat:
     """
     Compute the *Normalised Primary Matrix* (NPM) converting a *RGB*
-    colourspace array to *CIE XYZ* tristimulus values using specified *primaries*
-    and *whitepoint* :math:`xy` chromaticity coordinates.
+    colourspace array to *CIE XYZ* tristimulus values using the specified
+    *primaries* and *whitepoint* :math:`xy` chromaticity coordinates.
 
     Parameters
     ----------
@@ -140,8 +141,8 @@ def chromatically_adapted_primaries(
     ) = "CAT02",
 ) -> NDArrayFloat:
     """
-    Chromatically adapt specified *primaries* :math:`xy` chromaticity coordinates
-    from test ``whitepoint_t`` to reference ``whitepoint_r``.
+    Chromatically adapt specified *primaries* :math:`xy` chromaticity
+    coordinates from test ``whitepoint_t`` to reference ``whitepoint_r``.
 
     Parameters
     ----------
@@ -150,14 +151,16 @@ def chromatically_adapted_primaries(
     whitepoint_t
         Test illuminant / whitepoint :math:`xy` chromaticity coordinates.
     whitepoint_r
-        Reference illuminant / whitepoint :math:`xy` chromaticity coordinates.
+        Reference illuminant / whitepoint :math:`xy` chromaticity
+        coordinates.
     chromatic_adaptation_transform
         *Chromatic adaptation* transform.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Chromatically adapted primaries :math:`xy` chromaticity coordinates.
+        Chromatically adapted primaries :math:`xy` chromaticity
+        coordinates.
 
     Examples
     --------
@@ -187,7 +190,7 @@ def chromatically_adapted_primaries(
 def primaries_whitepoint(npm: ArrayLike) -> Tuple[NDArrayFloat, NDArrayFloat]:
     """
     Compute the *primaries* and *whitepoint* :math:`xy` chromaticity
-    coordinates using specified *Normalised Primary Matrix* (NPM).
+    coordinates using the specified *Normalised Primary Matrix* (NPM).
 
     Parameters
     ----------
@@ -233,7 +236,8 @@ def primaries_whitepoint(npm: ArrayLike) -> Tuple[NDArrayFloat, NDArrayFloat]:
 
 def RGB_luminance_equation(primaries: ArrayLike, whitepoint: ArrayLike) -> str:
     """
-    Return the *luminance equation* from specified *primaries* and *whitepoint*.
+    Return the *luminance equation* from the specified *primaries* and
+    *whitepoint*.
 
     Parameters
     ----------
@@ -264,17 +268,17 @@ def RGB_luminance(
     RGB: ArrayLike, primaries: ArrayLike, whitepoint: ArrayLike
 ) -> NDArrayFloat:
     """
-    Return the *luminance* :math:`Y` of specified *RGB* components from specified
-    *primaries* and *whitepoint*.
+    Calculate the *luminance* :math:`Y` of the specified *RGB* components using
+    the specified *primaries* and *whitepoint* chromaticity coordinates.
 
     Parameters
     ----------
     RGB
-        *RGB* chromaticity coordinate matrix.
+        *RGB* colour components array.
     primaries
-        Primaries chromaticity coordinate matrix.
+        Primaries :math:`xy` chromaticity coordinates array.
     whitepoint
-        Illuminant / whitepoint chromaticity coordinates.
+        Illuminant / whitepoint :math:`xy` chromaticity coordinates.
 
     Returns
     -------

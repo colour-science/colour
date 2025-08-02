@@ -2,7 +2,7 @@
 Panasonic V-Log Log Encoding
 ============================
 
-Define the *Panasonic V-Log* log encoding:
+Define the *Panasonic V-Log* log encoding.
 
 -   :func:`colour.models.log_encoding_VLog`
 -   :func:`colour.models.log_decoding_VLog`
@@ -53,27 +53,26 @@ def log_encoding_VLog(
     constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
-    Define the *Panasonic V-Log* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Panasonic V-Log* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     L_in
-        Linear reflection data :math`L_{in}`.
+        Linear reflection data :math:`L_{in}`.
     bit_depth
         Bit-depth used for conversion.
     out_normalised_code_value
-        Whether the non-linear *Panasonic V-Log* data :math:`V_{out}` is
+        Whether the *Panasonic V-Log* non-linear data :math:`V_{out}` is
         encoded as normalised code values.
     in_reflection
-        Whether the light level :math`L_{in}` to a camera is reflection.
+        Whether the light level :math:`L_{in}` to a camera is reflection.
     constants
         *Panasonic V-Log* constants.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear data :math:`V_{out}`.
+        *Panasonic V-Log* mon-linear encoded data :math:`V_{out}`.
 
     Notes
     -----
@@ -144,27 +143,28 @@ def log_decoding_VLog(
     constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
-    Define the *Panasonic V-Log* log decoding curve / electro-optical transfer
-    function.
+    Apply the *Panasonic V-Log* log decoding inverse opto-electronic transfer
+
+    function (OETF).
 
     Parameters
     ----------
     V_out
-        Non-linear data :math:`V_{out}`.
+        *Panasonic V-Log* mon-linear encoded data :math:`V_{out}`.
     bit_depth
         Bit-depth used for conversion.
     in_normalised_code_value
-        Whether the non-linear *Panasonic V-Log* data :math:`V_{out}` is
+        Whether the *Panasonic V-Log* non-linear data :math:`V_{out}` is
         encoded as normalised code values.
     out_reflection
-        Whether the light level :math`L_{in}` to a camera is reflection.
+        Whether the light level :math:`L_{in}` to a camera is reflection.
     constants
         *Panasonic V-Log* constants.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Linear reflection data :math`L_{in}`.
+        Linear reflection data :math:`L_{in}`.
 
     Notes
     -----

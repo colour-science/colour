@@ -2,7 +2,7 @@
 Blackmagic Design Transfer Functions
 ====================================
 
-Define the *Blackmagic Design* colour component transfer functions:
+Define the *Blackmagic Design* colour component transfer functions.
 
 -   :func:`colour.models.oetf_BlackmagicFilmGeneration5`
 -   :func:`colour.models.oetf_inverse_BlackmagicFilmGeneration5`
@@ -54,13 +54,13 @@ def oetf_BlackmagicFilmGeneration5(
     constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
-    Define the *Blackmagic Film Generation 5* opto-electronic transfer
-    function (OETF).
+    Apply the *Blackmagic Film Generation 5* opto-electronic transfer function
+    (OETF).
 
     Parameters
     ----------
     x
-        Linear light value :math`x`.
+        Linear light value :math:`x`.
     constants
         *Blackmagic Film Generation 5* constants.
 
@@ -117,8 +117,8 @@ def oetf_inverse_BlackmagicFilmGeneration5(
     constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
-    Define the *Blackmagic Film Generation 5* inverse opto-electronic transfer
-    function (OETF).
+    Apply the *Blackmagic Film Generation 5* inverse opto-electronic
+    transfer function (OETF).
 
     Parameters
     ----------
@@ -130,7 +130,7 @@ def oetf_inverse_BlackmagicFilmGeneration5(
     Returns
     -------
     :class:`numpy.ndarray`
-        Linear light value :math`x`.
+        Linear light value :math:`x`.
 
     Notes
     -----
