@@ -2,7 +2,9 @@
 CTL Processing
 ==============
 
-Define the object for the *Color Transformation Language* (CTL) processing:
+Define objects and functions for *Color Transformation Language* (CTL)
+processing, enabling programmatic colour transformations through the Academy
+Color Encoding System (ACES) CTL interpreter.
 
 -   :func:`colour.io.ctl_render`
 -   :func:`colour.io.process_image_ctl`
@@ -85,8 +87,8 @@ def ctl_render(
     ctl_transforms
         Sequence of *CTL* transforms to apply on the image, either paths to
         existing *CTL* transforms, multi-line *CTL* code transforms or a mix
-        of both or dictionary of sequence of *CTL* transforms to apply on the
-        image and their sequence of parameters.
+        of both, or dictionary of sequence of *CTL* transforms to apply on
+        the image and their sequence of parameters.
 
     Other Parameters
     ----------------
@@ -221,10 +223,10 @@ def process_image_ctl(
     a
         Image data to process with *ctlrender*.
     ctl_transforms
-        Sequence of *CTL* transforms to apply on the image, either paths to
-        existing *CTL* transforms, multi-line *CTL* code transforms or a mix
-        of both or dictionary of sequence of *CTL* transforms to apply on the
-        image and their sequence of parameters.
+        Sequence of *CTL* transforms to apply to the image, either paths to
+        existing *CTL* transform files, multi-line *CTL* code transforms, or
+        a combination of both. Alternatively, a dictionary mapping sequences
+        of *CTL* transforms to their corresponding parameter sequences.
 
     Other Parameters
     ----------------

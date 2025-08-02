@@ -420,7 +420,7 @@ LUTSequence(
                 **kwargs: Any,
             ) -> NDArrayFloat:
                 """
-                Apply the *LUT* sequence operator to specified *RGB* colourspace
+                Apply the *LUT* sequence operator to the specified *RGB* colourspace
                 array.
 
                 Parameters

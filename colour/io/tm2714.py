@@ -2,8 +2,12 @@
 IES TM-27-14 Data Input / Output
 ================================
 
-Define the :class:`colour.SpectralDistribution_IESTM2714` class handling *IES
-TM-27-14* spectral data *XML* files.
+Define classes and utilities for handling *IES TM-27-14* spectral data *XML*
+files.
+
+This module provides the :class:`colour.SpectralDistribution_IESTM2714` class
+for reading and writing spectral distribution data according to the *IES
+TM-27-14* standard format for electronic transfer of spectral data.
 
 References
 ----------
@@ -63,7 +67,7 @@ NAMESPACE_IESTM2714: str = "http://www.ies.org/iestm2714"
 @dataclass
 class Element_Specification_IESTM2714:
     """
-    *IES TM-27-14* spectral data *XML* file element specification.
+    Define *IES TM-27-14* spectral data *XML* file element specification.
 
     Parameters
     ----------
@@ -93,7 +97,7 @@ class Element_Specification_IESTM2714:
 
 class Header_IESTM2714:
     """
-    Define the header object for a *IES TM-27-14* spectral distribution.
+    Define the header object for an *IES TM-27-14* spectral distribution.
 
     Parameters
     ----------
@@ -104,15 +108,16 @@ class Header_IESTM2714:
     description
         Description of the spectral data in the spectral data *XML* file.
     document_creator
-        Creator of the spectral data *XML* file, which may be a test lab, a
-        research group, a standard body, a company or an individual.
+        Creator of the spectral data *XML* file, which may be a test lab,
+        a research group, a standard body, a company or an individual.
     unique_identifier
-        Unique identifier to the product under test or the spectral data in the
-        document.
+        Unique identifier to the product under test or the spectral data
+        in the document.
     measurement_equipment
         Description of the equipment used to measure the spectral data.
     laboratory
-        Testing laboratory name that performed the spectral data measurements.
+        Testing laboratory name that performed the spectral data
+        measurements.
     report_number
         Testing laboratory report number.
     report_date
@@ -235,7 +240,7 @@ class Header_IESTM2714:
     @property
     def mapping(self) -> Structure:
         """
-        Getter property for the mapping structure.
+        Getter for the mapping structure.
 
         Returns
         -------
@@ -248,7 +253,7 @@ class Header_IESTM2714:
     @property
     def manufacturer(self) -> str | None:
         """
-        Getter and setter property for the manufacturer.
+        Getter and setter for the manufacturer name.
 
         Parameters
         ----------
@@ -258,7 +263,7 @@ class Header_IESTM2714:
         Returns
         -------
         :class:`str` or :py:data:`None`
-            Manufacturer.
+            Manufacturer name.
         """
 
         return self._manufacturer
@@ -278,7 +283,7 @@ class Header_IESTM2714:
     @property
     def catalog_number(self) -> str | None:
         """
-        Getter and setter property for the catalog number.
+        Getter and setter for the catalog number.
 
         Parameters
         ----------
@@ -308,7 +313,7 @@ class Header_IESTM2714:
     @property
     def description(self) -> str | None:
         """
-        Getter and setter property for the description.
+        Getter and setter for the description.
 
         Parameters
         ----------
@@ -338,7 +343,7 @@ class Header_IESTM2714:
     @property
     def document_creator(self) -> str | None:
         """
-        Getter and setter property for the document creator.
+        Getter and setter for the document creator.
 
         Parameters
         ----------
@@ -368,7 +373,7 @@ class Header_IESTM2714:
     @property
     def unique_identifier(self) -> str | None:
         """
-        Getter and setter property for the unique identifier.
+        Getter and setter for the unique identifier.
 
         Parameters
         ----------
@@ -398,7 +403,7 @@ class Header_IESTM2714:
     @property
     def measurement_equipment(self) -> str | None:
         """
-        Getter and setter property for the measurement equipment.
+        Getter and setter for the measurement equipment.
 
         Parameters
         ----------
@@ -428,7 +433,7 @@ class Header_IESTM2714:
     @property
     def laboratory(self) -> str | None:
         """
-        Getter and setter property for the laboratory.
+        Getter and setter for the laboratory information.
 
         Parameters
         ----------
@@ -445,7 +450,7 @@ class Header_IESTM2714:
 
     @laboratory.setter
     def laboratory(self, value: str | None) -> None:
-        """Setter for the **self.measurement_equipment** property."""
+        """Setter for the **self.laboratory** property."""
 
         if value is not None:
             attest(
@@ -458,7 +463,7 @@ class Header_IESTM2714:
     @property
     def report_number(self) -> str | None:
         """
-        Getter and setter property for the report number.
+        Getter and setter for the report number.
 
         Parameters
         ----------
@@ -488,7 +493,7 @@ class Header_IESTM2714:
     @property
     def report_date(self) -> str | None:
         """
-        Getter and setter property for the report date.
+        Getter and setter for the report date.
 
         Parameters
         ----------
@@ -518,7 +523,7 @@ class Header_IESTM2714:
     @property
     def document_creation_date(self) -> str | None:
         """
-        Getter and setter property for the document creation date.
+        Getter and setter for the document creation date.
 
         Parameters
         ----------
@@ -548,7 +553,7 @@ class Header_IESTM2714:
     @property
     def comments(self) -> str | None:
         """
-        Getter and setter property for the comments.
+        Getter and setter for the comments associated with the object.
 
         Parameters
         ----------
@@ -577,12 +582,12 @@ class Header_IESTM2714:
 
     def __str__(self) -> str:
         """
-        Return a formatted string representation of the header.
+        Return a formatted string representation of the *IES TM-27-14* header.
 
         Returns
         -------
         :class:`str`
-            Formatted string representation.
+            Formatted string representation displaying the header attributes.
 
         Examples
         --------
@@ -625,7 +630,7 @@ class Header_IESTM2714:
 
     def __repr__(self) -> str:
         """
-        Generate an evaluable string representation of the header.
+        Return an evaluable string representation of the header.
 
         Returns
         -------
@@ -667,7 +672,7 @@ class Header_IESTM2714:
 
     def __hash__(self) -> int:
         """
-        Generate the header hash.
+        Return the header hash.
 
         Returns
         -------
@@ -693,7 +698,11 @@ class Header_IESTM2714:
 
     def __eq__(self, other: object) -> bool:
         """
-        Determine whether the header is equal to specified other object.
+        Determine whether the header is equal to the specified other object.
+
+        Compare all header attributes to determine equality between this header
+        and the specified object. Two headers are considered equal when all
+        their attributes match exactly.
 
         Parameters
         ----------
@@ -703,7 +712,7 @@ class Header_IESTM2714:
         Returns
         -------
         :class:`bool`
-            Whether specified object is equal to the header.
+            Whether the specified object is equal to the header.
 
         Examples
         --------
@@ -734,7 +743,7 @@ class Header_IESTM2714:
 
     def __ne__(self, other: object) -> bool:
         """
-        Determine whether the header is not equal to specified other object.
+        Determine whether the header is not equal to the specified other object.
 
         Parameters
         ----------
@@ -759,18 +768,24 @@ class Header_IESTM2714:
 
 class SpectralDistribution_IESTM2714(SpectralDistribution):
     """
-    Define a *IES TM-27-14* spectral distribution.
+    Define an *IES TM-27-14* spectral distribution for electronic transfer of
+    spectral data.
 
-    This class can read and write *IES TM-27-14* spectral data *XML* files.
+    This class provides functionality to read and write spectral distribution
+    data using the *IES TM-27-14* standard format. The standard defines
+    an *XML* schema for exchanging spectral measurement data between systems,
+    ensuring consistent representation of wavelength-dependent measurements
+    across different applications and instruments.
 
     Parameters
     ----------
     path
         Spectral data *XML* file path.
     header
-        *IES TM-27-14* spectral distribution header.
+        *IES TM-27-14* spectral distribution header containing metadata.
     spectral_quantity
-        Quantity of measurement for each element of the spectral data.
+        Quantity of measurement for each element of the spectral data (e.g.,
+        "reflectance", "transmittance", "radiance").
     reflection_geometry
         Spectral reflectance factors geometric conditions.
     transmission_geometry
@@ -1003,7 +1018,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     @property
     def mapping(self) -> Structure:
         """
-        Getter property for the mapping structure.
+        Getter for the structure containing file mappings.
 
         Returns
         -------
@@ -1016,7 +1031,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     @property
     def path(self) -> str | None:
         """
-        Getter and setter property for the path.
+        Getter and setter for the resource path.
 
         Parameters
         ----------
@@ -1026,7 +1041,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         Returns
         -------
         :class:`str` or :py:data:`None`
-            Path.
+            Path to the resource.
         """
 
         return self._path
@@ -1048,7 +1063,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     @property
     def header(self) -> Header_IESTM2714:
         """
-        Getter and setter property for the header.
+        Getter and setter for the *IES TM-27-14* spectral distribution header.
 
         Parameters
         ----------
@@ -1058,7 +1073,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         Returns
         -------
         :class:`colour.io.tm2714.Header_IESTM2714`
-            Header.
+            Header object containing spectral distribution metadata.
         """
 
         return self._header
@@ -1095,7 +1110,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         | None
     ):
         """
-        Getter and setter property for the spectral quantity.
+        Getter and setter for the spectral quantity.
 
         Parameters
         ----------
@@ -1162,7 +1177,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         | None
     ):
         """
-        Getter and setter property for the reflection geometry.
+        Getter and setter for the reflection geometry.
 
         Parameters
         ----------
@@ -1213,7 +1228,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         self,
     ) -> Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"] | None:
         """
-        Getter and setter property for the transmission geometry.
+        Getter and setter for the transmission geometry.
 
         Parameters
         ----------
@@ -1246,7 +1261,8 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     @property
     def bandwidth_FWHM(self) -> float | None:
         """
-        Getter and setter property for the full-width half-maximum bandwidth.
+        Getter and setter for the full-width half-maximum (FWHM) bandwidth of
+        the spectral measurement.
 
         Parameters
         ----------
@@ -1278,18 +1294,20 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     @property
     def bandwidth_corrected(self) -> bool | None:
         """
-        Getter and setter property for whether bandwidth correction has been
-        applied to the measured data.
+        Getter and setter for whether bandwidth correction has been applied to
+        the measured data.
 
         Parameters
         ----------
         value
-            Whether bandwidth correction has been applied to the measured data.
+            Whether bandwidth correction has been applied to the measured
+            data.
 
         Returns
         -------
         :class:`bool` or :py:data:`None`
-            Whether bandwidth correction has been applied to the measured data.
+            Whether bandwidth correction has been applied to the measured
+            data.
         """
 
         return self._bandwidth_corrected
@@ -1308,13 +1326,14 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
     def __str__(self) -> str:
         """
-        Return a formatted string representation of the *IES TM-27-14*
+        Generate a formatted string representation of the *IES TM-27-14*
         spectral distribution.
 
         Returns
         -------
         :class:`str`
-            Formatted string representation.
+            Formatted string representation containing path, spectral
+            metadata, header details, and spectral data values.
 
         Examples
         --------
@@ -1481,7 +1500,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
     def __repr__(self) -> str:
         """
-        Generate an evaluable string representation of the *IES TM-27-14*
+        Return an evaluable string representation of the *IES TM-27-14*
         spectral distribution.
 
         Returns
@@ -1640,7 +1659,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
     def read(self) -> SpectralDistribution_IESTM2714:
         """
-        Read and parse the spectral data from the *XML* file path.
+        Read and parse the spectral data from the specified *XML* file path.
 
         Returns
         -------
@@ -1731,7 +1750,8 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
     def write(self) -> bool:
         """
-        Write the spectral distribution spectral data to the *XML* file path.
+        Write the spectral distribution spectral data to the specified *XML*
+        file path.
 
         Returns
         -------

@@ -2,8 +2,9 @@
 UPRTek and Sekonic Spectral Data
 ================================
 
-Define the input and output objects for *UPRTek* and *Sekonic*
-*Pseudo-XLS*/*CSV* spectral data files.
+Define input and output objects for parsing and handling *UPRTek* and
+*Sekonic* spectral measurement data stored in *Pseudo-XLS* and *CSV* file
+formats.
 
 -   :class:`colour.SpectralDistribution_UPRTek`
 -   :class:`colour.SpectralDistribution_Sekonic`
@@ -40,13 +41,18 @@ __all__ = [
 
 class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
     """
-    Implement support to read and write *IES TM-27-14* spectral data XML file
-    from a *UPRTek* *Pseudo-XLS* file.
+    Implement support to read and write *IES TM-27-14* spectral data XML
+    files from *UPRTek* *Pseudo-XLS* files.
+
+    This class extends :class:`SpectralDistribution_IESTM2714` to handle
+    the specific *Pseudo-XLS* format used by *UPRTek* spectral measurement
+    devices. The implementation parses metadata embedded in the file and
+    converts it to the standard *IES TM-27-14* XML format.
 
     Parameters
     ----------
     path
-        Path for *UPRTek* *Pseudo-XLS* file.
+        Absolute or relative path to the *UPRTek* *Pseudo-XLS* file.
 
     Attributes
     ----------
@@ -172,19 +178,20 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
     @property
     def metadata(self) -> dict:
         """
-        Getter property for the metadata.
+        Getter for the dataset metadata.
 
         Returns
         -------
         :class:`dict`
-            Metadata.
+            Dataset metadata containing information about the data source,
+            structure, and properties.
         """
 
         return self._metadata
 
     def __str__(self) -> str:
         """
-        Generate formatted string representation of the *UPRTek* spectral
+        Return a formatted string representation of the *UPRTek* spectral
         distribution.
 
         Returns
@@ -282,7 +289,8 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
 
     def read(self) -> SpectralDistribution_UPRTek:
         """
-        Read and parse the spectral data from a specified *UPRTek* *CSV* file.
+        Read and parse the spectral data from the specified *UPRTek* *CSV*
+        file.
 
         Returns
         -------
@@ -437,8 +445,12 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
 
 class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
     """
-    Implement support to read and write *IES TM-27-14* spectral data XML file
-    from a *Sekonic* *CSV* file.
+    Provide support for reading and writing *IES TM-27-14* spectral data XML
+    files from *Sekonic* *CSV* files.
+
+    This class extends the *UPRTek* spectral distribution functionality to
+    handle *Sekonic* spectrometer data files. It enables conversion between
+    *Sekonic* *CSV* format and the standardized *IES TM-27-14* XML format.
 
     Parameters
     ----------
@@ -547,7 +559,7 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
 
     def __str__(self) -> str:
         """
-        Generate formatted string representation of the *Sekonic* spectral
+        Return a formatted string representation of the *Sekonic* spectral
         distribution.
 
         Returns
@@ -645,8 +657,8 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
 
     def read(self) -> SpectralDistribution_Sekonic:
         """
-        Read and parse the spectral data from a specified *Sekonic* *Pseudo-XLS*
-        file.
+        Read and parse the spectral data from the specified *Sekonic*
+        *Pseudo-XLS* file.
 
         Returns
         -------
