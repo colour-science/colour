@@ -356,7 +356,7 @@ class TestCIECAM16_to_XYZ:
         XYZ = CIECAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround)
 
         specification = CAM_Specification_CIECAM16(
-            *np.transpose(np.tile(tsplit(specification), (6, 1))).tolist()  # pyright: ignore
+            *np.transpose(np.tile(tsplit(specification), (6, 1))).tolist()
         )
         XYZ = np.tile(XYZ, (6, 1))
         np.testing.assert_allclose(
@@ -373,7 +373,7 @@ class TestCIECAM16_to_XYZ:
         )
 
         specification = CAM_Specification_CIECAM16(
-            *tsplit(np.reshape(specification, (2, 3, 8))).tolist()  # pyright: ignore
+            *tsplit(np.reshape(specification, (2, 3, 8))).tolist()
         )
         XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))

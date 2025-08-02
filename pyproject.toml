@@ -123,7 +123,7 @@ reportMissingImports = false
 reportMissingModuleSource = false
 reportUnboundVariable = false
 reportUnnecessaryCast = true
-reportUnnecessaryTypeIgnorComment = true
+reportUnnecessaryTypeIgnoreComment = true
 reportUnsupportedDunderAll = false
 reportUnusedExpression = false
 

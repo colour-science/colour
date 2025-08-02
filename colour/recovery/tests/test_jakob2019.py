@@ -83,7 +83,7 @@ class TestErrorFunction:
         ]
 
         for coefficients in coefficient_list:
-            error, _derror, R, XYZ, Lab = error_function(  # pyright: ignore
+            error, _derror, R, XYZ, Lab = error_function(
                 coefficients,
                 self._Lab_e,
                 self._cmfs,

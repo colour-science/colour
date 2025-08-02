@@ -1258,8 +1258,8 @@ def sd_to_XYZ(
             (
                 sd
                 if isinstance(sd, (SpectralDistribution, MultiSpectralDistributions))
-                else int_digest(np.asarray(sd).tobytes())  # pyright: ignore
-            ),  # pyright: ignore
+                else int_digest(np.asarray(sd).tobytes())
+            ),
             cmfs,
             illuminant,
             k,

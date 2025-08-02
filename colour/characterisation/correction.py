@@ -123,7 +123,7 @@ __all__ = [
 def matrix_augmented_Cheung2004(
     RGB: ArrayLike,
     terms: Literal[3, 4, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22, 35] | int = 3,
-) -> NDArrayFloat:  # pyright: ignore
+) -> NDArrayFloat:
     """
     Perform polynomial expansion of *RGB* colourspace array using
     *Cheung et al. (2004)* method.
@@ -428,7 +428,7 @@ def polynomial_expansion_Finlayson2015(
     RGB: ArrayLike,
     degree: Literal[1, 2, 3, 4] | int = 1,
     root_polynomial_expansion: bool = True,
-) -> NDArrayFloat:  # pyright: ignore
+) -> NDArrayFloat:
     """
     Perform polynomial expansion of *RGB* colourspace array using
     *Finlayson et al. (2015)* method.

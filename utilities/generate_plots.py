@@ -470,7 +470,7 @@ def generate_documentation_plots(output_directory: str) -> None:
 
     arguments["filename"] = os.path.join(output_directory, "Plotting_Plot_Image.png")
     path = os.path.join(
-        colour.__path__[0],  # pyright: ignore
+        colour.__path__[0],
         "examples",
         "plotting",
         "resources",
@@ -802,12 +802,7 @@ def generate_documentation_plots(output_directory: str) -> None:
     light_source = light_source.copy().align(SpectralShape(360, 830, 1))
     cqs_i = colour_quality_scale(illuminant, additional_data=True)
     cqs_l = colour_quality_scale(light_source, additional_data=True)
-    plt.close(
-        plot_colour_quality_bars(
-            [cqs_i, cqs_l],  # pyright: ignore
-            **arguments,  # pyright: ignore
-        )[0]
-    )
+    plt.close(plot_colour_quality_bars([cqs_i, cqs_l], **arguments)[0])
 
     arguments["filename"] = os.path.join(
         output_directory,

@@ -340,8 +340,8 @@ class TestXYZ_to_RGB:
         )
 
         # TODO: Remove tests when dropping deprecated signature support.
-        np.testing.assert_allclose(  # pyright: ignore
-            XYZ_to_RGB(  # pyright: ignore
+        np.testing.assert_allclose(
+            XYZ_to_RGB(
                 np.array([0.21638819, 0.12570000, 0.03847493]),
                 np.array([0.34570, 0.35850]),  # pyright: ignore
                 np.array([0.31270, 0.32900]),
@@ -359,8 +359,8 @@ class TestXYZ_to_RGB:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(  # pyright: ignore
-            XYZ_to_RGB(  # pyright: ignore
+        np.testing.assert_allclose(
+            XYZ_to_RGB(
                 np.array([0.21638819, 0.12570000, 0.03847493]),
                 np.array([0.34570, 0.35850]),  # pyright: ignore
                 np.array([0.31270, 0.32900]),
@@ -378,8 +378,8 @@ class TestXYZ_to_RGB:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(  # pyright: ignore
-            XYZ_to_RGB(  # pyright: ignore
+        np.testing.assert_allclose(
+            XYZ_to_RGB(
                 np.array([0.21638819, 0.12570000, 0.03847493]),
                 np.array([0.34570, 0.35850]),  # pyright: ignore
                 np.array([0.32168, 0.33767]),
@@ -395,8 +395,8 @@ class TestXYZ_to_RGB:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(  # pyright: ignore
-            XYZ_to_RGB(  # pyright: ignore
+        np.testing.assert_allclose(
+            XYZ_to_RGB(
                 np.array([0.21638819, 0.12570000, 0.03847493]),
                 np.array([0.34570, 0.35850]),  # pyright: ignore
                 np.array([0.31270, 0.32900, 1.00000]),
@@ -540,8 +540,8 @@ class TestRGB_to_XYZ:
         )
 
         # TODO: Remove tests when dropping deprecated signature support.
-        np.testing.assert_allclose(  # pyright: ignore
-            RGB_to_XYZ(  # pyright: ignore
+        np.testing.assert_allclose(
+            RGB_to_XYZ(
                 np.array([0.70556599, 0.19109268, 0.22340812]),
                 np.array([0.31270, 0.32900]),  # pyright: ignore
                 np.array([0.34570, 0.35850]),
@@ -559,8 +559,8 @@ class TestRGB_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(  # pyright: ignore
-            RGB_to_XYZ(  # pyright: ignore
+        np.testing.assert_allclose(
+            RGB_to_XYZ(
                 np.array([0.72794579, 0.18180021, 0.17951580]),
                 np.array([0.31270, 0.32900]),  # pyright: ignore
                 np.array([0.34570, 0.35850]),
@@ -578,8 +578,8 @@ class TestRGB_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(  # pyright: ignore
-            RGB_to_XYZ(  # pyright: ignore
+        np.testing.assert_allclose(
+            RGB_to_XYZ(
                 np.array([0.21959099, 0.06985815, 0.04703704]),
                 np.array([0.32168, 0.33767]),  # pyright: ignore
                 np.array([0.34570, 0.35850]),
@@ -595,8 +595,8 @@ class TestRGB_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(  # pyright: ignore
-            RGB_to_XYZ(  # pyright: ignore
+        np.testing.assert_allclose(
+            RGB_to_XYZ(
                 np.array([0.45620801, 0.03079991, 0.04091883]),
                 np.array([0.31270, 0.32900, 1.00000]),  # pyright: ignore
                 np.array([0.34570, 0.35850]),

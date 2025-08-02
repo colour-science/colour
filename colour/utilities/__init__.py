@@ -309,7 +309,7 @@ class utilities(ModuleAPI):
 
 # v0.4.5
 API_CHANGES: dict = {
-    "ObjectRemoved": [  # pyright: ignore
+    "ObjectRemoved": [
         "colour.utilities.is_string",
     ]
 }

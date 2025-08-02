@@ -289,8 +289,8 @@ class Signal(AbstractContinuousFunction):
         """Setter for the **self.dtype** property."""
 
         attest(
-            value in DTypeFloat.__args__,  # pyright: ignore
-            f'"dtype" must be one of the following types: {DTypeFloat.__args__}',  # pyright: ignore
+            value in DTypeFloat.__args__,
+            f'"dtype" must be one of the following types: {DTypeFloat.__args__}',
         )
 
         self._dtype = value
@@ -785,7 +785,7 @@ class Signal(AbstractContinuousFunction):
             y = np.resize(y, x.shape)
 
             # Matching domain, updating existing `self._range` values.
-            mask = np.isin(x, self._domain)  # pyright: ignore
+            mask = np.isin(x, self._domain)
             x_m = x[mask]
             indexes = np.searchsorted(self._domain, x_m)
             self._range[indexes] = y[mask]
@@ -1173,7 +1173,7 @@ class Signal(AbstractContinuousFunction):
         if isinstance(data, Signal):
             domain_unpacked = data.domain
             range_unpacked = data.range
-        elif issubclass(type(data), Sequence) or isinstance(  # pyright: ignore
+        elif issubclass(type(data), Sequence) or isinstance(
             data, (tuple, list, np.ndarray, Iterator, ValuesView)
         ):
             data_array = (
@@ -1188,7 +1188,7 @@ class Signal(AbstractContinuousFunction):
                 np.arange(0, data_array.size, dtype=dtype),
                 data_array,
             )
-        elif issubclass(type(data), Mapping) or isinstance(data, dict):  # pyright: ignore
+        elif issubclass(type(data), Mapping) or isinstance(data, dict):
             domain_unpacked, range_unpacked = tsplit(
                 sorted(cast("Mapping", data).items())
             )
