@@ -398,7 +398,7 @@ class SpectralShape:
 
         return bool(
             np.all(
-                np.isin(  # pyright: ignore
+                np.isin(
                     np.around(
                         wavelength,  # pyright: ignore
                         decimals,

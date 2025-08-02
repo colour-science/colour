@@ -32,6 +32,6 @@ if is_imageio_installed():
 
     message_box("Writing a spectral image.")
     _descriptor, path = tempfile.mkstemp(suffix=".exr")
-    colour.write_spectral_image_Fichet2021(components, path)  # pyright: ignore
+    colour.write_spectral_image_Fichet2021(components, path)
     components = colour.read_spectral_image_Fichet2021(path)
     print(components)

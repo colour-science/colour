@@ -1089,7 +1089,7 @@ class Node_Otsu2018(TreeNode):
         """
 
         self.data = None
-        self.children = list(children)  # pyright: ignore
+        self.children = list(children)
 
         self._best_partition = None
         self._partition_axis = axis

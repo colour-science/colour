@@ -1249,7 +1249,7 @@ class TestLUT3D:
             Size       : (33, 33, 33, 3)
             """
         ).strip()
-        self._repr = None  # pyright: ignore
+        self._repr = None
         self._inverted_apply_1 = np.array(
             [
                 [

@@ -802,7 +802,7 @@ def describe_environment(
     try:  # pragma: no cover
         output = subprocess.check_output(
             ["git", "describe"],  # noqa: S607
-            cwd=colour.__path__[0],  # pyright: ignore
+            cwd=colour.__path__[0],
             stderr=subprocess.STDOUT,
         ).strip()
         version = output.decode("utf-8")

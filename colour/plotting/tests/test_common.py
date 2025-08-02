@@ -589,11 +589,7 @@ class TestPlotImage:
         """Test :func:`colour.plotting.common.plot_image` definition."""
 
         path = os.path.join(
-            colour.__path__[0],  # pyright: ignore
-            "..",
-            "docs",
-            "_static",
-            "Logo_Medium_001.png",
+            colour.__path__[0], "..", "docs", "_static", "Logo_Medium_001.png"
         )
 
         # Distribution does not ship the documentation thus we are skipping

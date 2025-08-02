@@ -537,11 +537,11 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
 # NOTE : The following messages are pre-generated for performance reasons.
 _ASSERTION_MESSAGE_DTYPE_INT = (
-    f'"dtype" must be one of the following types: "{DTypeInt.__args__}"'  # pyright: ignore
+    f'"dtype" must be one of the following types: "{DTypeInt.__args__}"'
 )
 
 _ASSERTION_MESSAGE_DTYPE_FLOAT = (
-    f'"dtype" must be one of the following types: "{DTypeFloat.__args__}"'  # pyright: ignore
+    f'"dtype" must be one of the following types: "{DTypeFloat.__args__}"'
 )
 
 
@@ -625,10 +625,7 @@ def as_int(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> DTypeInt | NDAr
 
     dtype = optional(dtype, DTYPE_INT_DEFAULT)
 
-    attest(
-        dtype in DTypeInt.__args__,  # pyright: ignore
-        _ASSERTION_MESSAGE_DTYPE_INT,
-    )
+    attest(dtype in DTypeInt.__args__, _ASSERTION_MESSAGE_DTYPE_INT)
 
     return dtype(a)  # pyright: ignore
 
@@ -679,10 +676,7 @@ def as_float(
 
     dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
-    attest(
-        dtype in DTypeFloat.__args__,  # pyright: ignore
-        _ASSERTION_MESSAGE_DTYPE_FLOAT,
-    )
+    attest(dtype in DTypeFloat.__args__, _ASSERTION_MESSAGE_DTYPE_FLOAT)
 
     # NOTE: "np.float64" reduces dimensionality:
     # >>> np.int64(np.array([[1]]))
@@ -723,10 +717,7 @@ def as_int_array(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> NDArrayIn
 
     dtype = optional(dtype, DTYPE_INT_DEFAULT)
 
-    attest(
-        dtype in DTypeInt.__args__,  # pyright: ignore
-        _ASSERTION_MESSAGE_DTYPE_INT,
-    )
+    attest(dtype in DTypeInt.__args__, _ASSERTION_MESSAGE_DTYPE_INT)
 
     return as_array(a, dtype)
 
@@ -758,10 +749,7 @@ def as_float_array(a: ArrayLike, dtype: Type[DTypeFloat] | None = None) -> NDArr
 
     dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
-    attest(
-        dtype in DTypeFloat.__args__,  # pyright: ignore
-        _ASSERTION_MESSAGE_DTYPE_FLOAT,
-    )
+    attest(dtype in DTypeFloat.__args__, _ASSERTION_MESSAGE_DTYPE_FLOAT)
 
     return as_array(a, dtype)
 
