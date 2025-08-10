@@ -25,7 +25,7 @@ import numpy as np
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
-from colour.utilities import Structure, as_float, from_range_1, to_domain_1
+from colour.utilities import Structure, as_float, from_range_1, optional, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -53,7 +53,7 @@ CONSTANTS_DAVINCI_INTERMEDIATE: Structure = Structure(
 
 def oetf_DaVinciIntermediate(
     L: ArrayLike,
-    constants: Structure = CONSTANTS_DAVINCI_INTERMEDIATE,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
     Define the *DaVinci Intermediate* opto-electronic transfer function.
@@ -95,6 +95,7 @@ def oetf_DaVinciIntermediate(
     """
 
     L = to_domain_1(L)
+    constants = optional(constants, CONSTANTS_DAVINCI_INTERMEDIATE)
 
     DI_LIN_CUT = constants.DI_LIN_CUT
     DI_A = constants.DI_A
@@ -113,7 +114,7 @@ def oetf_DaVinciIntermediate(
 
 def oetf_inverse_DaVinciIntermediate(
     V: ArrayLike,
-    constants: Structure = CONSTANTS_DAVINCI_INTERMEDIATE,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
     Define the *DaVinci Intermediate* inverse opto-electronic transfer
@@ -157,6 +158,7 @@ def oetf_inverse_DaVinciIntermediate(
     """
 
     V = to_domain_1(V)
+    constants = optional(constants, CONSTANTS_DAVINCI_INTERMEDIATE)
 
     DI_LOG_CUT = constants.DI_LOG_CUT
     DI_A = constants.DI_A

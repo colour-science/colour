@@ -33,6 +33,7 @@ from colour.utilities import (
     Structure,
     as_float,
     from_range_1,
+    optional,
     to_domain_1,
     validate_method,
 )
@@ -708,7 +709,7 @@ del _a, _b, _c
 
 def log_encoding_ARRILogC4(
     E_scene: ArrayLike,
-    constants: Structure = CONSTANTS_ARRILOGC4,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
     Define the *ARRI LogC4* log encoding curve / opto-electronic transfer
@@ -751,6 +752,7 @@ def log_encoding_ARRILogC4(
     """
 
     E_scene = to_domain_1(E_scene)
+    constants = optional(constants, CONSTANTS_ARRILOGC4)
 
     a = constants.a
     b = constants.b
@@ -769,7 +771,7 @@ def log_encoding_ARRILogC4(
 
 def log_decoding_ARRILogC4(
     E_p: ArrayLike,
-    constants: Structure = CONSTANTS_ARRILOGC4,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
     Define the *ARRI LogC4* log decoding curve / electro-optical transfer
@@ -812,6 +814,7 @@ def log_decoding_ARRILogC4(
     """
 
     E_p = to_domain_1(E_p)
+    constants = optional(constants, CONSTANTS_ARRILOGC4)
 
     a = constants.a
     b = constants.b

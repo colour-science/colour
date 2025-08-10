@@ -29,7 +29,7 @@ import numpy as np
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
-from colour.utilities import Structure, as_float, from_range_1, to_domain_1
+from colour.utilities import Structure, as_float, from_range_1, optional, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -57,7 +57,7 @@ CONSTANTS_APPLE_LOG_PROFILE: Structure = Structure(
 
 def log_encoding_AppleLogProfile(
     R: ArrayLike,
-    constants: Structure = CONSTANTS_APPLE_LOG_PROFILE,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
     Define the *Apple Log Profile* log encoding curve.
@@ -104,6 +104,7 @@ def log_encoding_AppleLogProfile(
     """
 
     R = to_domain_1(R)
+    constants = optional(constants, CONSTANTS_APPLE_LOG_PROFILE)
 
     R_0 = constants.R_0
     R_t = constants.R_t
@@ -130,7 +131,7 @@ def log_encoding_AppleLogProfile(
 
 def log_decoding_AppleLogProfile(
     P: ArrayLike,
-    constants: Structure = CONSTANTS_APPLE_LOG_PROFILE,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
     Define the *Apple Log Profile* log decoding curve.
@@ -176,6 +177,7 @@ def log_decoding_AppleLogProfile(
     """
 
     P = to_domain_1(P)
+    constants = optional(constants, CONSTANTS_APPLE_LOG_PROFILE)
 
     R_0 = constants.R_0
     R_t = constants.R_t

@@ -27,7 +27,7 @@ if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
-from colour.utilities import Structure, as_float, from_range_1, to_domain_1
+from colour.utilities import Structure, as_float, from_range_1, optional, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -58,7 +58,7 @@ def log_encoding_NLog(
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
-    constants: Structure = CONSTANTS_NLOG,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
     Define the *Nikon N-Log* log encoding curve / opto-electronic transfer
@@ -108,6 +108,7 @@ def log_encoding_NLog(
     """
 
     y = to_domain_1(y)
+    constants = optional(constants, CONSTANTS_NLOG)
 
     if not in_reflection:
         y = y * 0.9
@@ -134,7 +135,7 @@ def log_decoding_NLog(
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
-    constants: Structure = CONSTANTS_NLOG,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
     Define the *Nikon N-Log* log decoding curve / electro-optical transfer
@@ -184,6 +185,7 @@ def log_decoding_NLog(
     """
 
     x = to_domain_1(x)
+    constants = optional(constants, CONSTANTS_NLOG)
 
     x = x if in_normalised_code_value else full_to_legal(x, bit_depth)
 

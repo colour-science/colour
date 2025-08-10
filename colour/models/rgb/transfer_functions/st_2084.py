@@ -31,7 +31,7 @@ from colour.algebra import spow
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
-from colour.utilities import Structure, as_float, as_float_array
+from colour.utilities import Structure, as_float, as_float_array, optional
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -62,7 +62,7 @@ Constants for *SMPTE ST 2084:2014* inverse electro-optical transfer function
 def eotf_inverse_ST2084(
     C: ArrayLike,
     L_p: float = 10000,
-    constants: Structure = CONSTANTS_ST2084,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
     Define *SMPTE ST 2084:2014* optimised perceptual inverse electro-optical
@@ -123,6 +123,7 @@ def eotf_inverse_ST2084(
     """
 
     C = as_float_array(C)
+    constants = optional(constants, CONSTANTS_ST2084)
 
     c_1 = constants.c_1
     c_2 = constants.c_2
@@ -140,7 +141,7 @@ def eotf_inverse_ST2084(
 def eotf_ST2084(
     N: ArrayLike,
     L_p: float = 10000,
-    constants: Structure = CONSTANTS_ST2084,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
     Define *SMPTE ST 2084:2014* optimised perceptual electro-optical transfer
@@ -202,6 +203,7 @@ def eotf_ST2084(
     """
 
     N = as_float_array(N)
+    constants = optional(constants, CONSTANTS_ST2084)
 
     c_1 = constants.c_1
     c_2 = constants.c_2

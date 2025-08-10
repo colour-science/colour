@@ -24,7 +24,7 @@ if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
-from colour.utilities import Structure, as_float, from_range_1, to_domain_1
+from colour.utilities import Structure, as_float, from_range_1, optional, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -50,7 +50,7 @@ def log_encoding_VLog(
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
-    constants: Structure = CONSTANTS_VLOG,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
     Define the *Panasonic V-Log* log encoding curve / opto-electronic transfer
@@ -115,6 +115,7 @@ def log_encoding_VLog(
     """
 
     L_in = to_domain_1(L_in)
+    constants = optional(constants, CONSTANTS_VLOG)
 
     if not in_reflection:
         L_in = L_in * 0.9
@@ -140,7 +141,7 @@ def log_decoding_VLog(
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
-    constants: Structure = CONSTANTS_VLOG,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
     Define the *Panasonic V-Log* log decoding curve / electro-optical transfer
@@ -190,6 +191,7 @@ def log_decoding_VLog(
     """
 
     V_out = to_domain_1(V_out)
+    constants = optional(constants, CONSTANTS_VLOG)
 
     V_out = V_out if in_normalised_code_value else full_to_legal(V_out, bit_depth)
 

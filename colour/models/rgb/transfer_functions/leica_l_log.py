@@ -26,7 +26,7 @@ if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
-from colour.utilities import Structure, as_float, from_range_1, to_domain_1
+from colour.utilities import Structure, as_float, from_range_1, optional, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -59,7 +59,7 @@ def log_encoding_LLog(
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
-    constants: Structure = CONSTANTS_LLOG,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
     Define the *Leica L-Log* log encoding curve / opto-electronic transfer
@@ -109,6 +109,7 @@ def log_encoding_LLog(
     """
 
     LSR = to_domain_1(LSR)
+    constants = optional(constants, CONSTANTS_LLOG)
 
     if not in_reflection:
         LSR = LSR * 0.9
@@ -137,7 +138,7 @@ def log_decoding_LLog(
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
-    constants: Structure = CONSTANTS_LLOG,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
     Define the *Leica L-Log* log decoding curve / electro-optical transfer
@@ -187,6 +188,7 @@ def log_decoding_LLog(
     """
 
     LLog = to_domain_1(LLog)
+    constants = optional(constants, CONSTANTS_LLOG)
 
     LLog = LLog if in_normalised_code_value else full_to_legal(LLog, bit_depth)
 

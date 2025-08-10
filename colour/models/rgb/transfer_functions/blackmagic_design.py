@@ -23,7 +23,7 @@ import numpy as np
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
-from colour.utilities import Structure, as_float, from_range_1, to_domain_1
+from colour.utilities import Structure, as_float, from_range_1, optional, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -51,7 +51,7 @@ CONSTANTS_BLACKMAGIC_FILM_GENERATION_5: Structure = Structure(
 
 def oetf_BlackmagicFilmGeneration5(
     x: ArrayLike,
-    constants: Structure = CONSTANTS_BLACKMAGIC_FILM_GENERATION_5,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
     Define the *Blackmagic Film Generation 5* opto-electronic transfer
@@ -94,6 +94,7 @@ def oetf_BlackmagicFilmGeneration5(
     """
 
     x = to_domain_1(x)
+    constants = optional(constants, CONSTANTS_BLACKMAGIC_FILM_GENERATION_5)
 
     A = constants.A
     B = constants.B
@@ -113,7 +114,7 @@ def oetf_BlackmagicFilmGeneration5(
 
 def oetf_inverse_BlackmagicFilmGeneration5(
     y: ArrayLike,
-    constants: Structure = CONSTANTS_BLACKMAGIC_FILM_GENERATION_5,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
     Define the *Blackmagic Film Generation 5* inverse opto-electronic transfer
@@ -157,6 +158,7 @@ def oetf_inverse_BlackmagicFilmGeneration5(
     """
 
     y = to_domain_1(y)
+    constants = optional(constants, CONSTANTS_BLACKMAGIC_FILM_GENERATION_5)
 
     A = constants.A
     B = constants.B
