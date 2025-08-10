@@ -458,9 +458,7 @@ def gamma_function_BT2100_HLG(L_W: float = 1000) -> float:
     return as_float_scalar(gamma)
 
 
-def oetf_BT2100_HLG(
-    E: ArrayLike, constants: Structure = CONSTANTS_BT2100_HLG
-) -> NDArrayFloat:
+def oetf_BT2100_HLG(E: ArrayLike, constants: Structure | None = None) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
     transfer function (OETF).
@@ -512,7 +510,7 @@ def oetf_BT2100_HLG(
 
 
 def oetf_inverse_BT2100_HLG(
-    E_p: ArrayLike, constants: Structure = CONSTANTS_BT2100_HLG
+    E_p: ArrayLike, constants: Structure | None = None
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse
@@ -555,6 +553,8 @@ def oetf_inverse_BT2100_HLG(
     >>> oetf_inverse_BT2100_HLG(0.212132034355964)  # doctest: +ELLIPSIS
     0.0149999...
     """
+
+    constants = optional(constants, CONSTANTS_BT2100_HLG)
 
     return oetf_inverse_ARIBSTDB67(E_p, constants=constants) / 12
 
@@ -606,7 +606,7 @@ def eotf_BT2100_HLG_1(
     L_B: float = 0,
     L_W: float = 1000,
     gamma: float | None = None,
-    constants: Structure = CONSTANTS_BT2100_HLG,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
@@ -663,6 +663,8 @@ def eotf_BT2100_HLG_1(
     6.4859750...
     """
 
+    constants = optional(constants, CONSTANTS_BT2100_HLG)
+
     return ootf_BT2100_HLG_1(
         oetf_inverse_ARIBSTDB67(E_p, constants=constants) / 12, L_B, L_W, gamma
     )
@@ -673,7 +675,7 @@ def eotf_BT2100_HLG_2(
     L_B: float = 0,
     L_W: float = 1000,
     gamma: float | None = None,
-    constants: Structure = CONSTANTS_BT2100_HLG,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
@@ -732,6 +734,7 @@ def eotf_BT2100_HLG_2(
     """
 
     E_p = as_float_array(E_p)
+    constants = optional(constants, CONSTANTS_BT2100_HLG)
 
     beta = black_level_lift_BT2100_HLG(L_B, L_W, gamma)
 
@@ -764,7 +767,7 @@ def eotf_BT2100_HLG(
     L_B: float = 0,
     L_W: float = 1000,
     gamma: float | None = None,
-    constants: Structure = CONSTANTS_BT2100_HLG,
+    constants: Structure | None = None,
     method: (Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"] | str) = "ITU-R BT.2100-2",
 ) -> NDArrayFloat:
     """
@@ -829,6 +832,7 @@ def eotf_BT2100_HLG(
     7.3321975...
     """
 
+    constants = optional(constants, CONSTANTS_BT2100_HLG)
     method = validate_method(method, tuple(BT2100_HLG_EOTF_METHODS))
 
     return BT2100_HLG_EOTF_METHODS[method](E_p, L_B, L_W, gamma, constants)
@@ -839,7 +843,7 @@ def eotf_inverse_BT2100_HLG_1(
     L_B: float = 0,
     L_W: float = 1000,
     gamma: float | None = None,
-    constants: Structure = CONSTANTS_BT2100_HLG,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse
@@ -896,6 +900,8 @@ def eotf_inverse_BT2100_HLG_1(
     0.2121320...
     """
 
+    constants = optional(constants, CONSTANTS_BT2100_HLG)
+
     return oetf_ARIBSTDB67(
         ootf_inverse_BT2100_HLG_1(F_D, L_B, L_W, gamma) * 12,
         constants=constants,
@@ -907,7 +913,7 @@ def eotf_inverse_BT2100_HLG_2(
     L_B: float = 0,
     L_W: float = 1000,
     gamma: float | None = None,
-    constants: Structure = CONSTANTS_BT2100_HLG,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse
@@ -964,6 +970,8 @@ def eotf_inverse_BT2100_HLG_2(
     0.2121320...
     """
 
+    constants = optional(constants, CONSTANTS_BT2100_HLG)
+
     beta = black_level_lift_BT2100_HLG(L_B, L_W, gamma)
 
     return (
@@ -997,7 +1005,7 @@ def eotf_inverse_BT2100_HLG(
     L_B: float = 0,
     L_W: float = 1000,
     gamma: float | None = None,
-    constants: Structure = CONSTANTS_BT2100_HLG,
+    constants: Structure | None = None,
     method: (Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"] | str) = "ITU-R BT.2100-2",
 ) -> NDArrayFloat:
     """
@@ -1059,6 +1067,7 @@ def eotf_inverse_BT2100_HLG(
     0.2121320...
     """
 
+    constants = optional(constants, CONSTANTS_BT2100_HLG)
     method = validate_method(method, tuple(BT2100_HLG_EOTF_INVERSE_METHODS))
 
     return BT2100_HLG_EOTF_INVERSE_METHODS[method](F_D, L_B, L_W, gamma, constants)

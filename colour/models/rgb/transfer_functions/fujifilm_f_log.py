@@ -27,7 +27,7 @@ if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
-from colour.utilities import Structure, as_float, from_range_1, to_domain_1
+from colour.utilities import Structure, as_float, from_range_1, optional, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -75,7 +75,7 @@ def log_encoding_FLog(
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
-    constants: Structure = CONSTANTS_FLOG,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
     Define the *Fujifilm F-Log* log encoding curve / opto-electronic transfer
@@ -134,6 +134,7 @@ def log_encoding_FLog(
     """
 
     in_r = to_domain_1(in_r)
+    constants = optional(constants, CONSTANTS_FLOG)
 
     if not in_reflection:
         in_r = in_r * 0.9
@@ -162,7 +163,7 @@ def log_decoding_FLog(
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
-    constants: Structure = CONSTANTS_FLOG,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
     Define the *Fujifilm F-Log* log decoding curve / electro-optical transfer
@@ -212,6 +213,7 @@ def log_decoding_FLog(
     """
 
     out_r = to_domain_1(out_r)
+    constants = optional(constants, CONSTANTS_FLOG)
 
     out_r = out_r if in_normalised_code_value else full_to_legal(out_r, bit_depth)
 
@@ -240,7 +242,7 @@ def log_encoding_FLog2(
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
-    constants: Structure = CONSTANTS_FLOG2,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
     Define the *Fujifilm F-Log2* log encoding curve / opto-electronic transfer
@@ -298,6 +300,8 @@ def log_encoding_FLog2(
     array([ 95, 400, 570])
     """
 
+    constants = optional(constants, CONSTANTS_FLOG2)
+
     return log_encoding_FLog(
         in_r, bit_depth, out_normalised_code_value, in_reflection, constants
     )
@@ -308,7 +312,7 @@ def log_decoding_FLog2(
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
-    constants: Structure = CONSTANTS_FLOG2,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
     Define the *Fujifilm F-Log2* log decoding curve / electro-optical transfer
@@ -356,6 +360,8 @@ def log_decoding_FLog2(
     >>> log_decoding_FLog2(0.39100724189123004)  # doctest: +ELLIPSIS
     0.1799999...
     """
+
+    constants = optional(constants, CONSTANTS_FLOG2)
 
     return log_decoding_FLog(
         out_r, bit_depth, in_normalised_code_value, out_reflection, constants

@@ -34,6 +34,7 @@ from colour.utilities import (
     as_float,
     domain_range_scale,
     from_range_1,
+    optional,
     to_domain_1,
 )
 
@@ -74,7 +75,7 @@ References
 def oetf_BT2020(
     E: ArrayLike,
     is_12_bits_system: bool = False,
-    constants: Structure = CONSTANTS_BT2020,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2020* opto-electronic transfer function
@@ -121,6 +122,7 @@ def oetf_BT2020(
     """
 
     E = to_domain_1(E)
+    constants = optional(constants, CONSTANTS_BT2020)
 
     a = constants.alpha(is_12_bits_system)
     b = constants.beta(is_12_bits_system)
@@ -133,7 +135,7 @@ def oetf_BT2020(
 def oetf_inverse_BT2020(
     E_p: ArrayLike,
     is_12_bits_system: bool = False,
-    constants: Structure = CONSTANTS_BT2020,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
     Define *Recommendation ITU-R BT.2020* inverse opto-electronic transfer
@@ -178,6 +180,7 @@ def oetf_inverse_BT2020(
     """
 
     E_p = to_domain_1(E_p)
+    constants = optional(constants, CONSTANTS_BT2020)
 
     a = constants.alpha(is_12_bits_system)
     b = constants.beta(is_12_bits_system)

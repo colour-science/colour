@@ -56,7 +56,14 @@ import numpy as np
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Literal, NDArrayFloat, NDArrayInt
 
-from colour.utilities import Structure, as_float, as_int, from_range_1, to_domain_1
+from colour.utilities import (
+    Structure,
+    as_float,
+    as_int,
+    from_range_1,
+    optional,
+    to_domain_1,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -115,7 +122,7 @@ def log_encoding_ACESproxy(
     lin_AP1: ArrayLike,
     bit_depth: Literal[10, 12] = 10,
     out_int: bool = False,
-    constants: dict = CONSTANTS_ACES_PROXY,
+    constants: dict | None = None,
 ) -> NDArrayFloat | NDArrayInt:
     """
     Define the *ACESproxy* colourspace log encoding curve / opto-electronic
@@ -171,6 +178,7 @@ def log_encoding_ACESproxy(
     """
 
     lin_AP1 = to_domain_1(lin_AP1)
+    constants = optional(constants, CONSTANTS_ACES_PROXY)
 
     CV_min = constants[bit_depth].CV_min
     CV_max = constants[bit_depth].CV_max
@@ -256,10 +264,8 @@ def log_decoding_ACESproxy(
     0.1...
     """
 
-    if constants is None:
-        constants = CONSTANTS_ACES_PROXY
-
     ACESproxy = to_domain_1(ACESproxy)
+    constants = optional(constants, CONSTANTS_ACES_PROXY)
 
     mid_CV_offset = constants[bit_depth].mid_CV_offset
     mid_log_offset = constants[bit_depth].mid_log_offset
@@ -390,7 +396,7 @@ def log_decoding_ACEScc(ACEScc: ArrayLike) -> NDArrayFloat:
 
 
 def log_encoding_ACEScct(
-    lin_AP1: ArrayLike, constants: Structure = CONSTANTS_ACES_CCT
+    lin_AP1: ArrayLike, constants: Structure | None = None
 ) -> NDArrayFloat:
     """
     Define the *ACEScct* colourspace log encoding / opto-electronic transfer
@@ -436,6 +442,7 @@ def log_encoding_ACEScct(
     """
 
     lin_AP1 = to_domain_1(lin_AP1)
+    constants = optional(constants, CONSTANTS_ACES_CCT)
 
     ACEScct = np.where(
         lin_AP1 <= constants.X_BRK,
@@ -447,7 +454,7 @@ def log_encoding_ACEScct(
 
 
 def log_decoding_ACEScct(
-    ACEScct: ArrayLike, constants: Structure = CONSTANTS_ACES_CCT
+    ACEScct: ArrayLike, constants: Structure | None = None
 ) -> NDArrayFloat:
     """
     Define the *ACEScct* colourspace log decoding / electro-optical transfer
@@ -493,6 +500,7 @@ def log_decoding_ACEScct(
     """
 
     ACEScct = to_domain_1(ACEScct)
+    constants = optional(constants, CONSTANTS_ACES_CCT)
 
     lin_AP1 = np.where(
         ACEScct > constants.Y_BRK,
