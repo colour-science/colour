@@ -2,7 +2,8 @@
 CSS Color Module Level 3 - Web Colours
 ======================================
 
-Define the conversion of colour keywords to *RGB* colourspace:
+Define the conversion utilities for CSS Color Module Level 3 colour keywords
+to *RGB* colourspace representations.
 
 -   :attr:`colour.notation.keyword_to_RGB_CSSColor3`
 
@@ -51,8 +52,8 @@ def keyword_to_RGB_CSSColor3(keyword: str) -> NDArrayFloat:
 
     Notes
     -----
-    -   All the RGB colors are specified in the *IEC 61966-2-1:1999* *sRGB*
-        colourspace.
+    -   All the RGB colors are specified in the *IEC 61966-2-1:1999*
+        *sRGB* colourspace.
 
     Examples
     --------
