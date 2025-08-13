@@ -2,7 +2,8 @@
 Hexadecimal Notation
 ====================
 
-Define the objects for hexadecimal notation:
+Define objects for converting between RGB colour values and hexadecimal
+notation.
 
 -   :func:`colour.notation.RGB_to_HEX`
 -   :func:`colour.notation.HEX_to_RGB`
@@ -48,12 +49,12 @@ def RGB_to_HEX(RGB: ArrayLike) -> NDArrayStr:
     Parameters
     ----------
     RGB
-        *RGB* colourspace array.
+        *RGB* colourspace array with values typically normalised to [0, 1].
 
     Returns
     -------
     :class:`str` or :class:`numpy.array`
-        Hexadecimal representation.
+        Hexadecimal representation as a string in the format '#RRGGBB'.
 
     Notes
     -----
@@ -102,12 +103,12 @@ def HEX_to_RGB(HEX: ArrayLike) -> NDArrayFloat:
     Parameters
     ----------
     HEX
-        Hexadecimal representation.
+        Hexadecimal representation as a string in the format '#RRGGBB'.
 
     Returns
     -------
     :class:`numpy.array`
-        *RGB* colourspace array.
+        *RGB* colourspace array with values typically normalised to [0, 1].
 
     Notes
     -----
