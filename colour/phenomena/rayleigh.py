@@ -2,7 +2,8 @@
 Rayleigh Optical Depth - Scattering in the Atmosphere
 =====================================================
 
-Implement *Rayleigh* scattering / optical depth in the atmosphere computation:
+Implement *Rayleigh* scattering and optical depth computation in the
+atmosphere.
 
 -   :func:`colour.scattering_cross_section`
 -   :func:`colour.phenomena.rayleigh_optical_depth`
@@ -89,9 +90,9 @@ def air_refraction_index_Penndorf1957(
     wavelength: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Compute the air refraction index :math:`n_s` from specified wavelength
-    :math:`\\lambda` in  micrometers (:math:`\\mu m`) using *Penndorf (1957)*
-    method.
+    Compute the air refraction index :math:`n_s` from the specified wavelength
+    :math:`\\lambda` in micrometers (:math:`\\mu m`) using the
+    *Penndorf (1957)* method.
 
     Parameters
     ----------
@@ -122,9 +123,9 @@ def air_refraction_index_Edlen1966(
     wavelength: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Compute the air refraction index :math:`n_s` from specified wavelength
-    :math:`\\lambda` in micrometers (:math:`\\mu m`) using *Edlen (1966)*
-    method.
+    Compute the air refraction index :math:`n_s` from the specified wavelength
+    :math:`\\lambda` in micrometers (:math:`\\mu m`) using the
+    *Edlen (1966)* method.
 
     Parameters
     ----------
@@ -155,8 +156,8 @@ def air_refraction_index_Peck1972(
     wavelength: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Compute the air refraction index :math:`n_s` from specified wavelength
-    :math:`\\lambda` in micrometers (:math:`\\mu m`) using
+    Compute the air refraction index :math:`n_s` from the specified wavelength
+    :math:`\\lambda` in micrometers (:math:`\\mu m`) using the
     *Peck and Reeder (1972)* method.
 
     Parameters
@@ -189,8 +190,8 @@ def air_refraction_index_Bodhaine1999(
     CO2_concentration: ArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
 ) -> NDArrayFloat:
     """
-    Compute the air refraction index :math:`n_s` from specified wavelength
-    :math:`\\lambda` in micrometers (:math:`\\mu m`) using
+    Compute the air refraction index :math:`n_s` from the specified wavelength
+    :math:`\\lambda` in micrometers (:math:`\\mu m`) using the
     *Bodhaine, Wood, Dutton and Slusser (1999)* method.
 
     Parameters
@@ -224,7 +225,7 @@ def air_refraction_index_Bodhaine1999(
 
 def N2_depolarisation(wavelength: ArrayLike) -> NDArrayFloat:
     """
-    Compute the depolarisation of nitrogen :math:`N_2` as function of
+    Compute the depolarisation of nitrogen :math:`N_2` as a function of
     wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
 
     Parameters
@@ -250,7 +251,7 @@ def N2_depolarisation(wavelength: ArrayLike) -> NDArrayFloat:
 
 def O2_depolarisation(wavelength: ArrayLike) -> NDArrayFloat:
     """
-    Compute the depolarisation of oxygen :math:`O_2` as function of
+    Compute the depolarisation of oxygen :math:`O_2` as a function of
     wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
 
     Parameters
@@ -276,8 +277,8 @@ def O2_depolarisation(wavelength: ArrayLike) -> NDArrayFloat:
 
 def F_air_Penndorf1957(wavelength: ArrayLike) -> NDArrayFloat:
     """
-    Compute :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
-    *King Factor* using *Penndorf (1957)* method.
+    Compute the depolarisation term :math:`F(air)` or *King Factor* using
+    the *Penndorf (1957)* method.
 
     Parameters
     ----------
@@ -287,13 +288,13 @@ def F_air_Penndorf1957(wavelength: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Air depolarisation.
+        Air depolarisation term.
 
     Notes
     -----
-    -   The argument *wavelength* is only provided for consistency with the
-        other air depolarisation methods but is actually not used as this
-        definition is essentially a constant in its current implementation.
+    -   The *wavelength* parameter is provided for consistency with other
+        air depolarisation methods but is not used in this implementation,
+        which returns a constant value.
 
     Examples
     --------
@@ -308,8 +309,8 @@ def F_air_Penndorf1957(wavelength: ArrayLike) -> NDArrayFloat:
 
 def F_air_Young1981(wavelength: ArrayLike) -> NDArrayFloat:
     """
-    Compute :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
-    *King Factor* using *Young (1981)* method.
+    Compute the depolarisation term :math:`F(air)` or *King Factor* using
+    the *Young (1981)* method.
 
     Parameters
     ----------
@@ -319,13 +320,13 @@ def F_air_Young1981(wavelength: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Air depolarisation.
+        Air depolarisation term.
 
     Notes
     -----
-    -   The argument *wavelength* is only provided for consistency with the
-        other air depolarisation methods but is actually not used as this
-        definition is essentially a constant in its current implementation.
+    -   The *wavelength* parameter is provided for consistency with other
+        air depolarisation methods but is not used in this implementation,
+        which returns a constant value.
 
     Examples
     --------
@@ -340,8 +341,8 @@ def F_air_Young1981(wavelength: ArrayLike) -> NDArrayFloat:
 
 def F_air_Bates1984(wavelength: ArrayLike) -> NDArrayFloat:
     """
-    Compute :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
-    *King Factor* as function of wavelength :math:`\\lambda` in micrometers
+    Compute the depolarisation term :math:`F(air)` or *King Factor* using
+    the *Bates (1984)* method.
     (:math:`\\mu m`) using *Bates (1984)* method.
 
     Parameters
@@ -352,7 +353,7 @@ def F_air_Bates1984(wavelength: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Air depolarisation.
+        Air depolarisation term.
 
     Examples
     --------
@@ -373,10 +374,10 @@ def F_air_Bodhaine1999(
     CO2_concentration: ArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
 ) -> NDArrayFloat:
     """
-    Compute :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
-    *King Factor* as function of wavelength :math:`\\lambda` in micrometers
-    (:math:`\\mu m`) and :math:`CO_2` concentration in parts per million (ppm)
-    using *Bodhaine, Wood, Dutton and Slusser (1999)* method.
+    Compute the depolarisation term :math:`F(air)` or *King Factor* as a
+    function of wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`)
+    and :math:`CO_2` concentration in parts per million (ppm) using the
+    *Bodhaine, Wood, Dutton and Slusser (1999)* method.
 
     Parameters
     ----------
@@ -388,7 +389,7 @@ def F_air_Bodhaine1999(
     Returns
     -------
     :class:`numpy.ndarray`
-        Air depolarisation.
+        Air depolarisation term.
 
     Examples
     --------
@@ -430,10 +431,11 @@ def molecular_density(
 
     Notes
     -----
-    -   The *Avogadro*'s number used in this implementation is the one given by
-        by the Committee on Data for Science and Technology (CODATA):
-        :math:`6.02214179x10^{23}`, which is different from the reference
-        :cite:`Bodhaine1999a` value :math:`6.0221367x10^{23}`.
+    -   The *Avogadro*'s number used in this implementation is the one
+        specified by the Committee on Data for Science and Technology
+        (CODATA): :math:`6.02214179 \\times 10^{23}`, which differs from
+        the reference :cite:`Bodhaine1999a` value
+        :math:`6.0221367 \\times 10^{23}`.
 
     Examples
     --------
@@ -454,8 +456,8 @@ def mean_molecular_weights(
     CO2_concentration: ArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
 ) -> NDArrayFloat:
     """
-    Compute the mean molecular weights :math:`m_a` for dry air as function of
-    :math:`CO_2` concentration in parts per million (ppm).
+    Compute the mean molecular weights :math:`m_a` for dry air as a function
+    of :math:`CO_2` concentration in parts per million (ppm).
 
     Parameters
     ----------
@@ -485,9 +487,9 @@ def gravity_List1968(
     altitude: ArrayLike = CONSTANT_DEFAULT_ALTITUDE,
 ) -> NDArrayFloat:
     """
-    Compute the gravity :math:`g` in :math:`cm/s_2` (gal) representative of the
-    mass-weighted column of air molecules above the site of specified latitude
-    and altitude using *list (1968)* method.
+    Compute the gravity :math:`g` in :math:`cm/s^2` (gal) representative of
+    the mass-weighted column of air molecules above the site at the specified
+    latitude and altitude using the *List (1968)* method.
 
     Parameters
     ----------
@@ -499,7 +501,7 @@ def gravity_List1968(
     Returns
     -------
     :class:`numpy.ndarray`
-        Gravity :math:`g` in :math:`cm/s_2` (gal).
+        Gravity :math:`g` in :math:`cm/s^2` (gal).
 
     Examples
     --------
@@ -540,10 +542,10 @@ def scattering_cross_section(
 ) -> NDArrayFloat:
     """
     Compute the scattering cross-section per molecule :math:`\\sigma` of dry
-    air as function of wavelength :math:`\\lambda` in centimeters (cm) using
-    specified :math:`CO_2` concentration in parts per million (ppm) and
-    temperature :math:`T[K]` in kelvin degrees following *Van de Hulst (1957)*
-    method.
+    air as a function of wavelength :math:`\\lambda` in centimeters (cm)
+    using the specified :math:`CO_2` concentration in parts per million
+    (ppm) and temperature :math:`T[K]` in kelvin degrees following the
+    *Van de Hulst (1957)* method.
 
     Parameters
     ----------
@@ -569,8 +571,8 @@ def scattering_cross_section(
     Warnings
     --------
     Unlike most objects of :mod:`colour.phenomena.rayleigh` module,
-    :func:`colour.scattering_cross_section` expects wavelength :math:`\\lambda`
-    to be expressed in centimeters (cm).
+    :func:`colour.scattering_cross_section` expects wavelength
+    :math:`\\lambda` to be expressed in centimeters (cm).
 
     References
     ----------
@@ -616,8 +618,8 @@ def rayleigh_optical_depth(
     F_air_function: Callable = F_air_Bodhaine1999,
 ) -> NDArrayFloat:
     """
-    Compute the *Rayleigh* optical depth :math:`T_r(\\lambda)` as function of
-    wavelength :math:`\\lambda` in centimeters (cm).
+    Compute the *Rayleigh* optical depth :math:`T_r(\\lambda)` as a function
+    of wavelength :math:`\\lambda` in centimeters (cm).
 
     Parameters
     ----------
@@ -638,8 +640,8 @@ def rayleigh_optical_depth(
     n_s_function
         Air refraction index :math:`n_s` computation method.
     F_air_function
-        :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
-        *King Factor* computation method.
+        :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)`
+        or *King Factor* computation method.
 
     Returns
     -------
@@ -703,7 +705,8 @@ def sd_rayleigh_scattering(
     F_air_function: Callable = F_air_Bodhaine1999,
 ) -> SpectralDistribution:
     """
-    Compute the *Rayleigh* spectral distribution for specified spectral shape.
+    Generate *Rayleigh* scattering spectral distribution for the specified
+    spectral shape.
 
     Parameters
     ----------
