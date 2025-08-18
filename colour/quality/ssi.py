@@ -1,16 +1,16 @@
 """
 Academy Spectral Similarity Index (SSI)
-=======================================
+========================================
 
-Define the *Academy Spectral Similarity Index* (SSI) computation objects:
+Define the *Academy Spectral Similarity Index* (SSI) computation objects.
 
 -   :func:`colour.spectral_similarity_index`
 
 References
 ----------
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2020a` : The Academy of
-    Motion Picture Arts and Sciences. (2020). Academy Spectral Similarity Index
-    (SSI): Overview (pp. 1-7). Retrieved June 5, 2023, from
+    Motion Picture Arts and Sciences. (2020). Academy Spectral Similarity
+    Index (SSI): Overview (pp. 1-7). Retrieved June 5, 2023, from
     https://www.oscars.org/sites/oscars/files/ssi_overview_2020-09-16.pdf
 """
 
@@ -55,8 +55,9 @@ def spectral_similarity_index(
     round_result: bool = True,
 ) -> NDArrayFloat:
     """
-    Compute the *Academy Spectral Similarity Index* (SSI) of specified test
-    spectral distribution with specified reference spectral distribution.
+    Compute the *Academy Spectral Similarity Index* (SSI) of the specified
+    test spectral distribution with the specified reference spectral
+    distribution.
 
     Parameters
     ----------

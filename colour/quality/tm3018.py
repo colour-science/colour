@@ -3,7 +3,7 @@ ANSI/IES TM-30-18 Colour Fidelity Index
 =======================================
 
 Define the *ANSI/IES TM-30-18 Colour Fidelity Index* (CFI) computation
-objects:
+objects.
 
 - :class:`colour.quality.ColourQuality_Specification_ANSIIESTM3018`
 - :func:`colour.quality.colour_fidelity_index_ANSIIESTM3018`
@@ -39,8 +39,8 @@ from colour.utilities import as_float_array, as_float_scalar, as_int_array
 @dataclass
 class ColourQuality_Specification_ANSIIESTM3018:
     """
-    Define the *ANSI/IES TM-30-18 Colour Fidelity Index* (CFI) colour quality
-    specification.
+    Define the *ANSI/IES TM-30-18 Colour Fidelity Index* (CFI) colour
+    quality specification.
 
     Parameters
     ----------
@@ -63,11 +63,11 @@ class ColourQuality_Specification_ANSIIESTM3018:
     R_g
         Gamut index :math:`R_g`.
     bins
-        List of 16 lists, each containing the indexes of colour samples that
-        lie in the respective hue bin.
+        List of 16 lists, each containing the indexes of colour samples
+        that lie in the respective hue bin.
     averages_test
-        Averages of *CAM02-UCS* a', b' coordinates for each hue bin for test
-        samples.
+        Averages of *CAM02-UCS* a', b' coordinates for each hue bin for
+        test samples.
     averages_reference
         Averages for reference samples.
     average_norms
@@ -121,7 +121,7 @@ def colour_fidelity_index_ANSIIESTM3018(
 ) -> float | ColourQuality_Specification_ANSIIESTM3018:
     """
     Compute the *ANSI/IES TM-30-18 Colour Fidelity Index* (CFI) :math:`R_f`
-    of specified spectral distribution.
+    for the specified test spectral distribution.
 
     Parameters
     ----------
@@ -133,7 +133,7 @@ def colour_fidelity_index_ANSIIESTM3018(
     Returns
     -------
     :class:`float` or \
-:class:`colour.quality.ColourQuality_Specification_ANSIIESTM3018`
+    :class:`colour.quality.ColourQuality_Specification_ANSIIESTM3018`
         *ANSI/IES TM-30-18 Colour Fidelity Index* (CFI).
 
     References
