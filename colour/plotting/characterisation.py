@@ -2,7 +2,7 @@
 Characterisation Plotting
 =========================
 
-Define the characterisation plotting objects:
+Define the characterisation plotting objects.
 
 -   :func:`colour.plotting.plot_single_colour_checker`
 -   :func:`colour.plotting.plot_multi_colour_checkers`
@@ -62,13 +62,13 @@ def plot_single_colour_checker(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot specified colour checker.
+    Plot the specified colour checker.
 
     Parameters
     ----------
     colour_checker
-        Color checker to plot. ``colour_checker`` can be of any type or form
-        supported by the
+        Colour checker to plot. ``colour_checker`` can be of any type or
+        form supported by the
         :func:`colour.plotting.common.filter_colour_checkers` definition.
 
     Other Parameters
@@ -111,14 +111,15 @@ def plot_multi_colour_checkers(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot and compares specified colour checkers.
+    Plot and compare the specified colour checkers.
 
     Parameters
     ----------
     colour_checkers
-        Color checker to plot, count must be less than or equal to 2.
-        ``colour_checkers`` elements can be of any type or form supported by
-        the :func:`colour.plotting.common.filter_colour_checkers` definition.
+        Colour checkers to plot, count must be less than or equal to 2.
+        ``colour_checkers`` elements can be of any type or form supported
+        by the :func:`colour.plotting.common.filter_colour_checkers`
+        definition.
 
     Other Parameters
     ----------------

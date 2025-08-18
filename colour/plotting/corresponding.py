@@ -2,7 +2,7 @@
 Corresponding Chromaticities Prediction Plotting
 ================================================
 
-Define the corresponding chromaticities prediction plotting objects:
+Define the corresponding chromaticities prediction plotting objects.
 
 -   :func:`colour.plotting.plot_corresponding_chromaticities_prediction`
 """
@@ -62,8 +62,8 @@ def plot_corresponding_chromaticities_prediction(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot specified chromatic adaptation model corresponding chromaticities
-    prediction.
+    Plot the corresponding chromaticities prediction for the specified
+    chromatic adaptation model.
 
     Parameters
     ----------
@@ -73,8 +73,8 @@ def plot_corresponding_chromaticities_prediction(
     model
         Corresponding chromaticities prediction model name.
     corresponding_chromaticities_prediction_kwargs
-        Keyword arguments for the :func:`colour.\
-corresponding_chromaticities_prediction` definition.
+        Keyword arguments for the
+        :func:`colour.corresponding_chromaticities_prediction` definition.
 
     Other Parameters
     ----------------

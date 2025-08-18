@@ -2,7 +2,7 @@
 Colour Blindness Plotting
 =========================
 
-Define the colour blindness plotting objects:
+Define the colour blindness plotting objects.
 
 -   :func:`colour.plotting.plot_cvd_simulation_Machado2009`
 """
@@ -53,8 +53,8 @@ def plot_cvd_simulation_Machado2009(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Perform colour vision deficiency simulation on specified *RGB* colourspace
-    array using *Machado et al. (2009)* model.
+    Perform colour vision deficiency simulation on the specified *RGB*
+    colourspace array using the *Machado et al. (2009)* model.
 
     Parameters
     ----------
@@ -65,7 +65,7 @@ def plot_cvd_simulation_Machado2009(
     severity
         Severity of the colour vision deficiency in domain [0, 1].
     M_a
-        Anomalous trichromacy matrix to use instead of Machado (2010)
+        Anomalous trichromacy matrix to use instead of the Machado (2010)
         pre-computed matrix.
 
     Other Parameters

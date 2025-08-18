@@ -2,7 +2,7 @@
 CIE Chromaticity Diagrams Plotting
 ==================================
 
-Define the *CIE* chromaticity diagrams plotting objects:
+Define the *CIE* chromaticity diagrams plotting objects.
 
 -   :func:`colour.plotting.lines_spectral_locus`
 -   :func:`colour.plotting.plot_chromaticity_diagram_CIE1931`
@@ -228,19 +228,20 @@ def lines_spectral_locus(
     method: (Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"] | str) = "CIE 1931",
 ) -> Tuple[NDArray, NDArray]:
     """
-    Return the *Spectral Locus* line vertices, i.e., positions, normals and
-    colours, according to specified method.
+    Return the *Spectral Locus* line vertices, i.e., positions, normals
+    and colours, using the specified method.
 
     Parameters
     ----------
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs`
+        definition.
     labels
-        Array of wavelength labels used to customise which labels will be drawn
-        around the spectral locus. Passing an empty array will result in no
-        wavelength labels being drawn.
+        Array of wavelength labels used to customise which labels will be
+        drawn around the spectral locus. Passing an empty array will
+        result in no wavelength labels being drawn.
     method
         *Chromaticity Diagram* method.
 
@@ -380,31 +381,33 @@ def plot_spectral_locus(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the *Spectral Locus* according to specified method.
+    Plot the *Spectral Locus* using the specified method.
 
     Parameters
     ----------
     cmfs
-        Standard observer colour matching functions used for computing the
-        spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
+        Standard observer colour matching functions used for computing
+        the spectral locus boundaries. ``cmfs`` can be of any type or
+        form supported by the :func:`colour.plotting.common.filter_cmfs`
+        definition.
     spectral_locus_colours
-        Colours of the *Spectral Locus*, if ``spectral_locus_colours`` is set
-        to *RGB*, the colours will be computed according to the corresponding
-        chromaticity coordinates.
+        Colours of the *Spectral Locus*, if ``spectral_locus_colours``
+        is set to *RGB*, the colours will be computed using the
+        corresponding chromaticity coordinates.
     spectral_locus_opacity
         Opacity of the *Spectral Locus*.
     spectral_locus_labels
-        Array of wavelength labels used to customise which labels will be drawn
-        around the spectral locus. Passing an empty array will result in no
-        wavelength labels being drawn.
+        Array of wavelength labels used to customise which labels will
+        be drawn around the spectral locus. Passing an empty array will
+        result in no wavelength labels being drawn.
     method
         *Chromaticity Diagram* method.
 
     Other Parameters
     ----------------
     kwargs
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
 
     Returns
@@ -512,17 +515,17 @@ def plot_chromaticity_diagram_colours(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the *Chromaticity Diagram* colours according to specified method.
+    Plot the *Chromaticity Diagram* colours using the specified method.
 
     Parameters
     ----------
     samples
-        Sample count on one axis when computing the *Chromaticity Diagram*
-        colours.
+        Sample count on one axis when computing the *Chromaticity
+        Diagram* colours.
     diagram_colours
-        Colours of the *Chromaticity Diagram*, if ``diagram_colours`` is set
-        to *RGB*, the colours will be computed according to the corresponding
-        coordinates.
+        Colours of the *Chromaticity Diagram*, if ``diagram_colours``
+        is set to *RGB*, the colours will be computed using the
+        corresponding coordinates.
     diagram_opacity
         Opacity of the *Chromaticity Diagram*.
     diagram_clipping_path
@@ -530,14 +533,16 @@ def plot_chromaticity_diagram_colours(
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs`
+        definition.
     method
         *Chromaticity Diagram* method.
 
     Other Parameters
     ----------------
     kwargs
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
 
     Returns
@@ -632,14 +637,15 @@ def plot_chromaticity_diagram(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the *Chromaticity Diagram* according to specified method.
+    Plot the *Chromaticity Diagram* using the specified method.
 
     Parameters
     ----------
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs`
+        definition.
     show_diagram_colours
         Whether to display the *Chromaticity Diagram* background colours.
     show_spectral_locus
@@ -742,7 +748,8 @@ def plot_chromaticity_diagram_CIE1931(
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs`
+        definition.
     show_diagram_colours
         Whether to display the *Chromaticity Diagram* background colours.
     show_spectral_locus
@@ -796,7 +803,8 @@ def plot_chromaticity_diagram_CIE1960UCS(
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs`
+        definition.
     show_diagram_colours
         Whether to display the *Chromaticity Diagram* background colours.
     show_spectral_locus
@@ -850,7 +858,8 @@ def plot_chromaticity_diagram_CIE1976UCS(
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs`
+        definition.
     show_diagram_colours
         Whether to display the *Chromaticity Diagram* background colours.
     show_spectral_locus
@@ -906,20 +915,21 @@ def plot_sds_in_chromaticity_diagram(
 ) -> Tuple[Figure, Axes]:
     """
     Plot specified spectral distribution chromaticity coordinates into the
-    *Chromaticity Diagram* using specified method.
+    *Chromaticity Diagram* using the specified method.
 
     Parameters
     ----------
     sds
-        Spectral distributions or multi-spectral distributions to
-        plot. `sds` can be a single
-        :class:`colour.MultiSpectralDistributions` class instance, a list
-        of :class:`colour.MultiSpectralDistributions` class instances or a
-        List of :class:`colour.SpectralDistribution` class instances.
+        Spectral distributions or multi-spectral distributions to plot.
+        ``sds`` can be a single :class:`colour.MultiSpectralDistributions`
+        class instance, a list of :class:`colour.MultiSpectralDistributions`
+        class instances or a list of :class:`colour.SpectralDistribution` class
+        instances.
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs`
+        definition.
     chromaticity_diagram_callable
         Callable responsible for drawing the *Chromaticity Diagram*.
     method
@@ -927,38 +937,39 @@ def plot_sds_in_chromaticity_diagram(
     annotate_kwargs
         Keyword arguments for the :func:`matplotlib.pyplot.annotate`
         definition, used to annotate the resulting chromaticity coordinates
-        with their respective spectral distribution names. ``annotate_kwargs``
-        can be either a single dictionary applied to all the arrows with same
-        settings or a sequence of dictionaries with different settings for each
-        spectral distribution. The following special keyword arguments can also
-        be used:
+        with their respective spectral distribution names.
+        ``annotate_kwargs`` can be either a single dictionary applied to
+        all the arrows with same settings or a sequence of dictionaries
+        with different settings for each spectral distribution. The
+        following special keyword arguments can also be used:
 
         -   ``annotate`` : Whether to annotate the spectral distributions.
     plot_kwargs
-        Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
-        used to control the style of the plotted spectral distributions.
-        `plot_kwargs`` can be either a single dictionary applied to all the
-        plotted spectral distributions with the same settings or a sequence of
-        dictionaries with different settings for each plotted spectral
-        distributions. The following special keyword arguments can also be
-        used:
+        Keyword arguments for the :func:`matplotlib.pyplot.plot`
+        definition, used to control the style of the plotted spectral
+        distributions. ``plot_kwargs`` can be either a single dictionary
+        applied to all the plotted spectral distributions with the same
+        settings or a sequence of dictionaries with different settings for
+        each plotted spectral distribution. The following special keyword
+        arguments can also be used:
 
         -   ``illuminant`` : The illuminant used to compute the spectral
-            distributions colours. The default is the illuminant associated
-            with the whitepoint of the default plotting colourspace.
-            ``illuminant`` can be of any type or form supported by the
-            :func:`colour.plotting.common.filter_cmfs` definition.
-        -   ``cmfs`` : The standard observer colour matching functions used for
-            computing the spectral distributions colours. ``cmfs`` can be of
-            any type or form supported by the
+            distributions colours. The default is the illuminant
+            associated with the whitepoint of the default plotting
+            colourspace. ``illuminant`` can be of any type or form
+            supported by the :func:`colour.plotting.common.filter_cmfs`
+            definition.
+        -   ``cmfs`` : The standard observer colour matching functions
+            used for computing the spectral distributions colours.
+            ``cmfs`` can be of any type or form supported by the
             :func:`colour.plotting.common.filter_cmfs` definition.
         -   ``normalise_sd_colours`` : Whether to normalise the computed
             spectral distributions colours. The default is *True*.
         -   ``use_sd_colours`` : Whether to use the computed spectral
-            distributions colours under the plotting colourspace illuminant.
-            Alternatively, it is possible to use the
-            :func:`matplotlib.pyplot.plot` definition ``color`` argument with
-            pre-computed values. The default is *True*.
+            distributions colours under the plotting colourspace
+            illuminant. Alternatively, it is possible to use the
+            :func:`matplotlib.pyplot.plot` definition ``color`` argument
+            with pre-computed values. The default is *True*.
 
     Other Parameters
     ----------------
@@ -1131,58 +1142,62 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot specified spectral distribution chromaticity coordinates into the
+    Plot specified spectral distribution chromaticity coordinates in the
     *CIE 1931 Chromaticity Diagram*.
 
     Parameters
     ----------
     sds
-        Spectral distributions or multi-spectral distributions to
-        plot. `sds` can be a single :class:`colour.MultiSpectralDistributions`
+        Spectral distributions or multi-spectral distributions to plot.
+        ``sds`` can be a single :class:`colour.MultiSpectralDistributions`
         class instance, a list of :class:`colour.MultiSpectralDistributions`
         class instances or a list of :class:`colour.SpectralDistribution` class
         instances.
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs`
+        definition.
     chromaticity_diagram_callable_CIE1931
-        Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
+        Callable responsible for drawing the *CIE 1931 Chromaticity
+        Diagram*.
     annotate_kwargs
         Keyword arguments for the :func:`matplotlib.pyplot.annotate`
-        definition, used to annotate the resulting chromaticity coordinates
-        with their respective spectral distribution names. ``annotate_kwargs``
-        can be either a single dictionary applied to all the arrows with same
-        settings or a sequence of dictionaries with different settings for each
-        spectral distribution. The following special keyword arguments can also
-        be used:
+        definition, used to annotate the resulting chromaticity
+        coordinates with their respective spectral distribution names.
+        ``annotate_kwargs`` can be either a single dictionary applied to
+        all the arrows with same settings or a sequence of dictionaries
+        with different settings for each spectral distribution. The
+        following special keyword arguments can also be used:
 
-        -   ``annotate`` : Whether to annotate the spectral distributions.
+        -   ``annotate`` : Whether to annotate the spectral
+            distributions.
     plot_kwargs
-        Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
-        used to control the style of the plotted spectral distributions.
-        `plot_kwargs`` can be either a single dictionary applied to all the
-        plotted spectral distributions with the same settings or a sequence of
-        dictionaries with different settings for each plotted spectral
-        distributions. The following special keyword arguments can also be
-        used:
+        Keyword arguments for the :func:`matplotlib.pyplot.plot`
+        definition, used to control the style of the plotted spectral
+        distributions. ``plot_kwargs`` can be either a single dictionary
+        applied to all the plotted spectral distributions with the same
+        settings or a sequence of dictionaries with different settings for
+        each plotted spectral distribution. The following special keyword
+        arguments can also be used:
 
         -   ``illuminant`` : The illuminant used to compute the spectral
-            distributions colours. The default is the illuminant associated
-            with the whitepoint of the default plotting colourspace.
-            ``illuminant`` can be of any type or form supported by the
-            :func:`colour.plotting.common.filter_cmfs` definition.
-        -   ``cmfs`` : The standard observer colour matching functions used for
-            computing the spectral distributions colours. ``cmfs`` can be of
-            any type or form supported by the
+            distributions colours. The default is the illuminant
+            associated with the whitepoint of the default plotting
+            colourspace. ``illuminant`` can be of any type or form
+            supported by the :func:`colour.plotting.common.filter_cmfs`
+            definition.
+        -   ``cmfs`` : The standard observer colour matching functions
+            used for computing the spectral distributions colours.
+            ``cmfs`` can be of any type or form supported by the
             :func:`colour.plotting.common.filter_cmfs` definition.
         -   ``normalise_sd_colours`` : Whether to normalise the computed
             spectral distributions colours. The default is *True*.
         -   ``use_sd_colours`` : Whether to use the computed spectral
-            distributions colours under the plotting colourspace illuminant.
-            Alternatively, it is possible to use the
-            :func:`matplotlib.pyplot.plot` definition ``color`` argument with
-            pre-computed values. The default is *True*.
+            distributions colours under the plotting colourspace
+            illuminant. Alternatively, it is possible to use the
+            :func:`matplotlib.pyplot.plot` definition ``color`` argument
+            with pre-computed values. The default is *True*.
 
     Other Parameters
     ----------------
@@ -1243,59 +1258,62 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot specified spectral distribution chromaticity coordinates into the
+    Plot spectral distribution chromaticity coordinates in the
     *CIE 1960 UCS Chromaticity Diagram*.
 
     Parameters
     ----------
     sds
-        Spectral distributions or multi-spectral distributions to
-        plot. `sds` can be a single :class:`colour.MultiSpectralDistributions`
+        Spectral distributions or multi-spectral distributions to plot.
+        ``sds`` can be a single :class:`colour.MultiSpectralDistributions`
         class instance, a list of :class:`colour.MultiSpectralDistributions`
         class instances or a list of :class:`colour.SpectralDistribution` class
         instances.
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs`
+        definition.
     chromaticity_diagram_callable_CIE1960UCS
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
     annotate_kwargs
         Keyword arguments for the :func:`matplotlib.pyplot.annotate`
-        definition, used to annotate the resulting chromaticity coordinates
-        with their respective spectral distribution names. ``annotate_kwargs``
-        can be either a single dictionary applied to all the arrows with same
-        settings or a sequence of dictionaries with different settings for each
-        spectral distribution. The following special keyword arguments can also
-        be used:
+        definition, used to annotate the resulting chromaticity
+        coordinates with their respective spectral distribution names.
+        ``annotate_kwargs`` can be either a single dictionary applied to
+        all the arrows with same settings or a sequence of dictionaries
+        with different settings for each spectral distribution. The
+        following special keyword arguments can also be used:
 
-        -   ``annotate`` : Whether to annotate the spectral distributions.
+        -   ``annotate`` : Whether to annotate the spectral
+            distributions.
     plot_kwargs
-        Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
-        used to control the style of the plotted spectral distributions.
-        `plot_kwargs`` can be either a single dictionary applied to all the
-        plotted spectral distributions with the same settings or a sequence of
-        dictionaries with different settings for each plotted spectral
-        distributions. The following special keyword arguments can also be
-        used:
+        Keyword arguments for the :func:`matplotlib.pyplot.plot`
+        definition, used to control the style of the plotted spectral
+        distributions. ``plot_kwargs`` can be either a single dictionary
+        applied to all the plotted spectral distributions with the same
+        settings or a sequence of dictionaries with different settings for
+        each plotted spectral distribution. The following special keyword
+        arguments can also be used:
 
         -   ``illuminant`` : The illuminant used to compute the spectral
-            distributions colours. The default is the illuminant associated
-            with the whitepoint of the default plotting colourspace.
-            ``illuminant`` can be of any type or form supported by the
-            :func:`colour.plotting.common.filter_cmfs` definition.
-        -   ``cmfs`` : The standard observer colour matching functions used for
-            computing the spectral distributions colours. ``cmfs`` can be of
-            any type or form supported by the
+            distributions colours. The default is the illuminant
+            associated with the whitepoint of the default plotting
+            colourspace. ``illuminant`` can be of any type or form
+            supported by the :func:`colour.plotting.common.filter_cmfs`
+            definition.
+        -   ``cmfs`` : The standard observer colour matching functions
+            used for computing the spectral distributions colours.
+            ``cmfs`` can be of any type or form supported by the
             :func:`colour.plotting.common.filter_cmfs` definition.
         -   ``normalise_sd_colours`` : Whether to normalise the computed
             spectral distributions colours. The default is *True*.
         -   ``use_sd_colours`` : Whether to use the computed spectral
-            distributions colours under the plotting colourspace illuminant.
-            Alternatively, it is possible to use the
-            :func:`matplotlib.pyplot.plot` definition ``color`` argument with
-            pre-computed values. The default is *True*.
+            distributions colours under the plotting colourspace
+            illuminant. Alternatively, it is possible to use the
+            :func:`matplotlib.pyplot.plot` definition ``color`` argument
+            with pre-computed values. The default is *True*.
 
     Other Parameters
     ----------------
@@ -1356,59 +1374,62 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot specified spectral distribution chromaticity coordinates into the
+    Plot specified spectral distribution chromaticity coordinates in the
     *CIE 1976 UCS Chromaticity Diagram*.
 
     Parameters
     ----------
     sds
-        Spectral distributions or multi-spectral distributions to
-        plot. `sds` can be a single :class:`colour.MultiSpectralDistributions`
+        Spectral distributions or multi-spectral distributions to plot.
+        ``sds`` can be a single :class:`colour.MultiSpectralDistributions`
         class instance, a list of :class:`colour.MultiSpectralDistributions`
         class instances or a list of :class:`colour.SpectralDistribution` class
         instances.
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs`
+        definition.
     chromaticity_diagram_callable_CIE1976UCS
         Callable responsible for drawing the
         *CIE 1976 UCS Chromaticity Diagram*.
     annotate_kwargs
         Keyword arguments for the :func:`matplotlib.pyplot.annotate`
-        definition, used to annotate the resulting chromaticity coordinates
-        with their respective spectral distribution names. ``annotate_kwargs``
-        can be either a single dictionary applied to all the arrows with same
-        settings or a sequence of dictionaries with different settings for each
-        spectral distribution. The following special keyword arguments can also
-        be used:
+        definition, used to annotate the resulting chromaticity
+        coordinates with their respective spectral distribution names.
+        ``annotate_kwargs`` can be either a single dictionary applied to
+        all the arrows with same settings or a sequence of dictionaries
+        with different settings for each spectral distribution. The
+        following special keyword arguments can also be used:
 
-        -   ``annotate`` : Whether to annotate the spectral distributions.
+        -   ``annotate`` : Whether to annotate the spectral
+            distributions.
     plot_kwargs
-        Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
-        used to control the style of the plotted spectral distributions.
-        `plot_kwargs`` can be either a single dictionary applied to all the
-        plotted spectral distributions with the same settings or a sequence of
-        dictionaries with different settings for each plotted spectral
-        distributions. The following special keyword arguments can also be
-        used:
+        Keyword arguments for the :func:`matplotlib.pyplot.plot`
+        definition, used to control the style of the plotted spectral
+        distributions. ``plot_kwargs`` can be either a single dictionary
+        applied to all the plotted spectral distributions with the same
+        settings or a sequence of dictionaries with different settings for
+        each plotted spectral distribution. The following special keyword
+        arguments can also be used:
 
         -   ``illuminant`` : The illuminant used to compute the spectral
-            distributions colours. The default is the illuminant associated
-            with the whitepoint of the default plotting colourspace.
-            ``illuminant`` can be of any type or form supported by the
-            :func:`colour.plotting.common.filter_cmfs` definition.
-        -   ``cmfs`` : The standard observer colour matching functions used for
-            computing the spectral distributions colours. ``cmfs`` can be of
-            any type or form supported by the
+            distributions colours. The default is the illuminant
+            associated with the whitepoint of the default plotting
+            colourspace. ``illuminant`` can be of any type or form
+            supported by the :func:`colour.plotting.common.filter_cmfs`
+            definition.
+        -   ``cmfs`` : The standard observer colour matching functions
+            used for computing the spectral distributions colours.
+            ``cmfs`` can be of any type or form supported by the
             :func:`colour.plotting.common.filter_cmfs` definition.
         -   ``normalise_sd_colours`` : Whether to normalise the computed
             spectral distributions colours. The default is *True*.
         -   ``use_sd_colours`` : Whether to use the computed spectral
-            distributions colours under the plotting colourspace illuminant.
-            Alternatively, it is possible to use the
-            :func:`matplotlib.pyplot.plot` definition ``color`` argument with
-            pre-computed values. The default is *True*.
+            distributions colours under the plotting colourspace
+            illuminant. Alternatively, it is possible to use the
+            :func:`matplotlib.pyplot.plot` definition ``color`` argument
+            with pre-computed values. The default is *True*.
 
     Other Parameters
     ----------------
