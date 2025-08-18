@@ -211,23 +211,23 @@ def colourspace_model_axis_reorder(
     direction: Literal["Forward", "Inverse"] | str = "Forward",
 ) -> NDArrayFloat:
     """
-    Reorder the axes of specified colourspace model :math:`a` array according to
-    the most common volume plotting axes order.
+    Reorder the axes of the specified colourspace model array :math:`a` to
+    match the standard axes order used for volume plotting.
 
     Parameters
     ----------
     a
-        Colourspace model :math:`a` array.
+        Colourspace model array :math:`a` to be reordered.
     model
-        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
-        the list of supported colourspace models.
+        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute
+        for the list of supported colourspace models.
     direction
         Reordering direction.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Reordered colourspace model :math:`a` array.
+        Reordered colourspace model array :math:`a`.
 
     Examples
     --------
@@ -271,8 +271,8 @@ def lines_pointer_gamut(
     method: (Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"] | str) = "CIE 1931",
 ) -> tuple[NDArray, NDArray]:
     """
-    Return the *Pointer's Gamut* line vertices, i.e., positions, normals and
-    colours, according to specified method.
+    Return the *Pointer's Gamut* line vertices, i.e., positions, normals,
+    and colours, using the specified chromaticity diagram method.
 
     Parameters
     ----------
@@ -363,21 +363,22 @@ def plot_pointer_gamut(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot *Pointer's Gamut* according to specified method.
+    Plot *Pointer's Gamut* using the specified plotting method.
 
     Parameters
     ----------
     pointer_gamut_colours
-       Colours of the *Pointer's Gamut*.
+        Colours of *Pointer's Gamut*.
     pointer_gamut_opacity
-       Opacity of the *Pointer's Gamut*.
+        Opacity of *Pointer's Gamut*.
     method
         Plotting method.
 
     Other Parameters
     ----------------
     kwargs
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
 
     Returns
@@ -467,19 +468,20 @@ def plot_RGB_colourspaces_in_chromaticity_diagram(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot specified *RGB* colourspaces in the *Chromaticity Diagram* according
-    to specified method.
+    Plot specified *RGB* colourspaces in the *Chromaticity Diagram* using
+    the specified method.
 
     Parameters
     ----------
     colourspaces
-        *RGB* colourspaces to plot. ``colourspaces`` elements
-        can be of any type or form supported by the
+        *RGB* colourspaces to plot. ``colourspaces`` elements can be of any
+        type or form supported by the
         :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs`
+        definition.
     chromaticity_diagram_callable
         Callable responsible for drawing the *Chromaticity Diagram*.
     method
@@ -490,14 +492,15 @@ def plot_RGB_colourspaces_in_chromaticity_diagram(
         Whether to display the *Pointer's Gamut*.
     chromatically_adapt
         Whether to chromatically adapt the *RGB* colourspaces specified in
-        ``colourspaces`` to the whitepoint of the default plotting colourspace.
-    plot_kwargs
-        Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
-        used to control the style of the plotted *RGB* colourspaces.
-        ``plot_kwargs`` can be either a single dictionary applied to all the
-        plotted *RGB* colourspaces with the same settings or a sequence of
-        dictionaries with different settings for each plotted *RGB*
+        ``colourspaces`` to the whitepoint of the default plotting
         colourspace.
+    plot_kwargs
+        Keyword arguments for the :func:`matplotlib.pyplot.plot`
+        definition, used to control the style of the plotted *RGB*
+        colourspaces. ``plot_kwargs`` can be either a single dictionary
+        applied to all the plotted *RGB* colourspaces with the same
+        settings or a sequence of dictionaries with different settings for
+        each plotted *RGB* colourspace.
 
     Other Parameters
     ----------------
@@ -682,22 +685,25 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
     Parameters
     ----------
     colourspaces
-        *RGB* colourspaces to plot. ``colourspaces`` elements
-        can be of any type or form supported by the
+        *RGB* colourspaces to plot. ``colourspaces`` elements can be of any
+        type or form supported by the
         :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs`
+        definition.
     chromaticity_diagram_callable_CIE1931
-        Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
+        Callable responsible for drawing the *CIE 1931 Chromaticity
+        Diagram*.
     show_whitepoints
         Whether to display the *RGB* colourspaces whitepoints.
     show_pointer_gamut
         Whether to display the *Pointer's Gamut*.
     chromatically_adapt
         Whether to chromatically adapt the *RGB* colourspaces specified in
-        ``colourspaces`` to the whitepoint of the default plotting colourspace.
+        ``colourspaces`` to the whitepoint of the default plotting
+        colourspace.
     plot_kwargs
         Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
         used to control the style of the plotted *RGB* colourspaces.
@@ -772,18 +778,20 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot specified *RGB* colourspaces in the *CIE 1960 UCS Chromaticity Diagram*.
+    Plot specified *RGB* colourspaces in the
+    *CIE 1960 UCS Chromaticity Diagram*.
 
     Parameters
     ----------
     colourspaces
-        *RGB* colourspaces to plot. ``colourspaces`` elements
-        can be of any type or form supported by the
+        *RGB* colourspaces to plot. ``colourspaces`` elements can be of any
+        type or form supported by the
         :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs`
+        definition.
     chromaticity_diagram_callable_CIE1960UCS
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
@@ -793,14 +801,15 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
         Whether to display the *Pointer's Gamut*.
     chromatically_adapt
         Whether to chromatically adapt the *RGB* colourspaces specified in
-        ``colourspaces`` to the whitepoint of the default plotting colourspace.
-    plot_kwargs
-        Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
-        used to control the style of the plotted *RGB* colourspaces.
-        ``plot_kwargs`` can be either a single dictionary applied to all the
-        plotted *RGB* colourspaces with the same settings or a sequence of
-        dictionaries with different settings for each plotted *RGB*
+        ``colourspaces`` to the whitepoint of the default plotting
         colourspace.
+    plot_kwargs
+        Keyword arguments for the :func:`matplotlib.pyplot.plot`
+        definition, used to control the style of the plotted *RGB*
+        colourspaces. ``plot_kwargs`` can be either a single dictionary
+        applied to all the plotted *RGB* colourspaces with the same
+        settings or a sequence of dictionaries with different settings for
+        each plotted *RGB* colourspace.
 
     Other Parameters
     ----------------
@@ -868,18 +877,20 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot specified *RGB* colourspaces in the *CIE 1976 UCS Chromaticity Diagram*.
+    Plot the specified *RGB* colourspaces in the
+    *CIE 1976 UCS Chromaticity Diagram*.
 
     Parameters
     ----------
     colourspaces
-        *RGB* colourspaces to plot. ``colourspaces`` elements
-        can be of any type or form supported by the
+        *RGB* colourspaces to plot. ``colourspaces`` elements can be of any
+        type or form supported by the
         :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs`
+        definition.
     chromaticity_diagram_callable_CIE1976UCS
         Callable responsible for drawing the
         *CIE 1976 UCS Chromaticity Diagram*.
@@ -889,7 +900,8 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
         Whether to display the *Pointer's Gamut*.
     chromatically_adapt
         Whether to chromatically adapt the *RGB* colourspaces specified in
-        ``colourspaces`` to the whitepoint of the default plotting colourspace.
+        ``colourspaces`` to the whitepoint of the default plotting
+        colourspace.
     plot_kwargs
         Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
         used to control the style of the plotted *RGB* colourspaces.
@@ -957,8 +969,8 @@ def plot_RGB_chromaticities_in_chromaticity_diagram(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot specified *RGB* colourspace array in the *Chromaticity Diagram* according
-    to specified method.
+    Plot the specified *RGB* colourspace array in the *Chromaticity Diagram*
+    using the specified method.
 
     Parameters
     ----------
@@ -973,15 +985,15 @@ def plot_RGB_chromaticities_in_chromaticity_diagram(
     method
         *Chromaticity Diagram* method.
     scatter_kwargs
-        Keyword arguments for the :func:`matplotlib.pyplot.scatter` definition.
-        The following special keyword arguments can also be used:
+        Keyword arguments for the :func:`matplotlib.pyplot.scatter`
+        definition. The following special keyword arguments can also be used:
 
-        -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the colours
-            as specified by the ``RGB`` argument.
+        -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the
+            colours as specified by the ``RGB`` argument.
         -   ``apply_cctf_encoding`` : If ``apply_cctf_encoding`` is set to
             *False*, the encoding colour component transfer function /
-            opto-electronic transfer function is not applied when encoding the
-            samples to the plotting space.
+            opto-electronic transfer function is not applied when encoding
+            the samples to the plotting space.
 
     Other Parameters
     ----------------
@@ -1087,7 +1099,8 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot specified *RGB* colourspace array in the *CIE 1931 Chromaticity Diagram*.
+    Plot specified *RGB* colourspace array in the *CIE 1931 Chromaticity
+    Diagram*.
 
     Parameters
     ----------
@@ -1098,17 +1111,19 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
         type or form supported by the
         :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     chromaticity_diagram_callable_CIE1931
-        Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
+        Callable responsible for drawing the *CIE 1931 Chromaticity
+        Diagram*.
     scatter_kwargs
-        Keyword arguments for the :func:`matplotlib.pyplot.scatter` definition.
-        The following special keyword arguments can also be used:
+        Keyword arguments for the :func:`matplotlib.pyplot.scatter`
+        definition. The following special keyword arguments can also be
+        used:
 
-        -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the colours
-            as specified by the ``RGB`` argument.
+        -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the
+            colours as specified by the ``RGB`` argument.
         -   ``apply_cctf_encoding`` : If ``apply_cctf_encoding`` is set to
             *False*, the encoding colour component transfer function /
-            opto-electronic transfer function is not applied when encoding the
-            samples to the plotting space.
+            opto-electronic transfer function is not applied when encoding
+            the samples to the plotting space.
 
     Other Parameters
     ----------------
@@ -1165,7 +1180,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot specified *RGB* colourspace array in the
+    Plot the specified *RGB* colourspace array in the
     *CIE 1960 UCS Chromaticity Diagram*.
 
     Parameters
@@ -1180,15 +1195,16 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
     scatter_kwargs
-        Keyword arguments for the :func:`matplotlib.pyplot.scatter` definition.
-        The following special keyword arguments can also be used:
+        Keyword arguments for the :func:`matplotlib.pyplot.scatter`
+        definition. The following special keyword arguments can also be
+        used:
 
-        -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the colours
-            as specified by the ``RGB`` argument.
+        -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the
+            colours as specified by the ``RGB`` argument.
         -   ``apply_cctf_encoding`` : If ``apply_cctf_encoding`` is set to
             *False*, the encoding colour component transfer function /
-            opto-electronic transfer function is not applied when encoding the
-            samples to the plotting space.
+            opto-electronic transfer function is not applied when encoding
+            the samples to the plotting space.
 
     Other Parameters
     ----------------
@@ -1245,7 +1261,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot specified *RGB* colourspace array in the
+    Plot the specified *RGB* colourspace array in the
     *CIE 1976 UCS Chromaticity Diagram*.
 
     Parameters
@@ -1260,15 +1276,16 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
         Callable responsible for drawing the
         *CIE 1976 UCS Chromaticity Diagram*.
     scatter_kwargs
-        Keyword arguments for the :func:`matplotlib.pyplot.scatter` definition.
-        The following special keyword arguments can also be used:
+        Keyword arguments for the :func:`matplotlib.pyplot.scatter`
+        definition. The following special keyword arguments can also be
+        used:
 
-        -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the colours
-            as specified by the ``RGB`` argument.
+        -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the
+            colours as specified by the ``RGB`` argument.
         -   ``apply_cctf_encoding`` : If ``apply_cctf_encoding`` is set to
             *False*, the encoding colour component transfer function /
-            opto-electronic transfer function is not applied when encoding the
-            samples to the plotting space.
+            opto-electronic transfer function is not applied when encoding
+            the samples to the plotting space.
 
     Other Parameters
     ----------------
@@ -1316,7 +1333,7 @@ def ellipses_MacAdam1942(
     method: (Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"] | str) = "CIE 1931",
 ) -> List[NDArrayFloat]:
     """
-    Return *MacAdam (1942) Ellipses (Observer PGN)* coefficients according to
+    Return *MacAdam (1942) Ellipses (Observer PGN)* coefficients using the
     specified method.
 
     Parameters
@@ -1366,7 +1383,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram(
 ) -> Tuple[Figure, Axes]:
     """
     Plot *MacAdam (1942) Ellipses (Observer PGN)* in the
-    *Chromaticity Diagram* according to specified method.
+    *Chromaticity Diagram* using the specified method.
 
     Parameters
     ----------
@@ -1375,12 +1392,13 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram(
     method
         *Chromaticity Diagram* method.
     chromaticity_diagram_clipping
-        Whether to clip the *Chromaticity Diagram* colours with the ellipses.
+        Whether to clip the *Chromaticity Diagram* colours with the
+        ellipses.
     ellipse_kwargs
-        Parameters for the :class:`Ellipse` class, ``ellipse_kwargs`` can
-        be either a single dictionary applied to all the ellipses with same
-        settings or a sequence of dictionaries with different settings for each
-        ellipse.
+        Parameters for the :class:`Ellipse` class. ``ellipse_kwargs``
+        can be either a single dictionary applied to all the ellipses
+        with the same settings or a sequence of dictionaries with
+        different settings for each ellipse.
 
     Other Parameters
     ----------------
@@ -1499,10 +1517,10 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931(
         Whether to clip the *CIE 1931 Chromaticity Diagram* colours with the
         ellipses.
     ellipse_kwargs
-        Parameters for the :class:`Ellipse` class, ``ellipse_kwargs`` can
-        be either a single dictionary applied to all the ellipses with same
-        settings or a sequence of dictionaries with different settings for each
-        ellipse.
+        Parameters for the :class:`Ellipse` class. ``ellipse_kwargs``
+        can be either a single dictionary applied to all the ellipses
+        with the same settings or a sequence of dictionaries with
+        different settings for each ellipse.
 
     Other Parameters
     ----------------
@@ -1561,13 +1579,13 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS(
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
     chromaticity_diagram_clipping
-        Whether to clip the *CIE 1960 UCS Chromaticity Diagram* colours with
-        the ellipses.
+        Whether to clip the *CIE 1960 UCS Chromaticity Diagram* colours
+        with the ellipses.
     ellipse_kwargs
-        Parameters for the :class:`Ellipse` class, ``ellipse_kwargs`` can
-        be either a single dictionary applied to all the ellipses with same
-        settings or a sequence of dictionaries with different settings for each
-        ellipse.
+        Parameters for the :class:`Ellipse` class. ``ellipse_kwargs``
+        can be either a single dictionary applied to all the ellipses
+        with the same settings or a sequence of dictionaries with
+        different settings for each ellipse.
 
     Other Parameters
     ----------------
@@ -1626,13 +1644,13 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS(
         Callable responsible for drawing the
         *CIE 1976 UCS Chromaticity Diagram*.
     chromaticity_diagram_clipping
-        Whether to clip the *CIE 1976 UCS Chromaticity Diagram* colours with
-        the ellipses.
+        Whether to clip the *CIE 1976 UCS Chromaticity Diagram* colours
+        with the ellipses.
     ellipse_kwargs
-        Parameters for the :class:`Ellipse` class, ``ellipse_kwargs`` can
-        be either a single dictionary applied to all the ellipses with same
-        settings or a sequence of dictionaries with different settings for each
-        ellipse.
+        Parameters for the :class:`Ellipse` class. ``ellipse_kwargs``
+        can be either a single dictionary applied to all the ellipses
+        with the same settings or a sequence of dictionaries with
+        different settings for each ellipse.
 
     Other Parameters
     ----------------
@@ -1682,8 +1700,8 @@ def plot_single_cctf(
     Parameters
     ----------
     cctf
-        Colour component transfer function to plot. ``function`` can be of any
-        type or form supported by the
+        Colour component transfer function to plot. ``function`` can be of
+        any type or form supported by the
         :func:`colour.plotting.common.filter_passthrough` definition.
     cctf_decoding
         Plot the decoding colour component transfer function instead.
@@ -1726,7 +1744,7 @@ def plot_multi_cctfs(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot specified colour component transfer functions.
+    Plot the specified colour component transfer functions.
 
     Parameters
     ----------
@@ -1822,8 +1840,8 @@ def plot_constant_hue_loci(
         Keyword arguments for the :func:`matplotlib.pyplot.scatter` definition.
         The following special keyword arguments can also be used:
 
-        -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the colours
-            as specified by the ``RGB`` argument.
+        -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the
+            colours as specified by the ``RGB`` argument.
     convert_kwargs
         Keyword arguments for the :func:`colour.convert` definition.
 

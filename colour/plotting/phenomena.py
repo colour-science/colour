@@ -2,7 +2,7 @@
 Optical Phenomenon Plotting
 ===========================
 
-Define the optical phenomena plotting objects:
+Define the optical phenomena plotting objects.
 
 -   :func:`colour.plotting.plot_single_sd_rayleigh_scattering`
 -   :func:`colour.plotting.plot_the_blue_sky`
@@ -81,15 +81,16 @@ def plot_single_sd_rayleigh_scattering(
     temperature
         Air temperature :math:`T[K]` in kelvin degrees.
     pressure
-        Surface pressure :math:`P` of the measurement site.
+        Surface pressure :math:`P` at the measurement site.
     latitude
         Latitude of the site in degrees.
     altitude
         Altitude of the site in meters.
     cmfs
-        Standard observer colour matching functions used for computing the
-        spectrum domain and colours. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
+        Standard observer colour matching functions used for computing
+        the spectrum domain and colours. ``cmfs`` can be of any type or
+        form supported by the :func:`colour.plotting.common.filter_cmfs`
+        definition.
 
     Other Parameters
     ----------------
@@ -141,14 +142,15 @@ def plot_the_blue_sky(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the blue sky.
+    Plot the blue sky spectral radiance distribution.
 
     Parameters
     ----------
     cmfs
         Standard observer colour matching functions used for computing the
         spectrum domain and colours. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs`
+        definition.
 
     Other Parameters
     ----------------

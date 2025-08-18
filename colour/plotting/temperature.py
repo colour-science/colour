@@ -3,7 +3,7 @@ Colour Temperature & Correlated Colour Temperature Plotting
 ===========================================================
 
 Define the colour temperature and correlated colour temperature plotting
-objects:
+objects.
 
 -   :func:`colour.plotting.lines_daylight_locus`
 -   :func:`colour.plotting.lines_planckian_locus`
@@ -102,20 +102,22 @@ def lines_daylight_locus(
     method: (Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"] | str) = "CIE 1931",
 ) -> Tuple[NDArray]:
     """
-    Return the *Daylight Locus* line vertices, i.e., positions, normals and
-    colours, according to specified method.
+    Return the *Daylight Locus* line vertices including positions, normals,
+    and colours using the specified chromaticity diagram method.
 
     Parameters
     ----------
     mireds
-        Whether to use micro reciprocal degrees for the iso-temperature lines.
+        Whether to use micro reciprocal degrees for the iso-temperature
+        lines.
     method
-        *Daylight Locus* method.
+        *Daylight Locus* chromaticity diagram method.
 
     Returns
     -------
     :class:`tuple`
-        Tuple of *Spectral Locus* vertices.
+        Tuple of *Daylight Locus* line vertices containing position,
+        normal, and colour data.
 
     Examples
     --------
@@ -174,18 +176,19 @@ def plot_daylight_locus(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the *Daylight Locus* according to specified method.
+    Plot the *Daylight Locus* using the specified chromaticity diagram
+    method.
 
     Parameters
     ----------
     daylight_locus_colours
-        Colours of the *Daylight Locus*, if ``daylight_locus_colours`` is set
-        to *RGB*, the colours will be computed according to the corresponding
-        chromaticity coordinates.
+        Colours of the *Daylight Locus*. If set to *RGB*, the colours will
+        be computed from the corresponding chromaticity coordinates.
     daylight_locus_opacity
-       Opacity of the *Daylight Locus*.
+        Opacity of the *Daylight Locus*.
     daylight_locus_mireds
-        Whether to use micro reciprocal degrees for the iso-temperature lines.
+        Whether to use micro reciprocal degrees for the iso-temperature
+        lines.
     method
         *Chromaticity Diagram* method.
 
@@ -265,20 +268,21 @@ def lines_planckian_locus(
     method: (Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"] | str) = "CIE 1931",
 ) -> Tuple[NDArray, NDArray]:
     """
-    Return the *Planckian Locus* line vertices, i.e., positions, normals and
-    colours, according to specified method.
+    Return the *Planckian Locus* line vertices with positions, normals, and
+    colours using the specified chromaticity diagram method.
 
     Parameters
     ----------
     labels
-        Array of labels used to customise which iso-temperature lines will be
-        drawn along the *Planckian Locus*. Passing an empty array will result
-        in no iso-temperature lines being drawn.
+        Array of labels used to customise which iso-temperature lines will
+        be drawn along the *Planckian Locus*. Passing an empty array will
+        result in no iso-temperature lines being drawn.
     mireds
-        Whether to use micro reciprocal degrees for the iso-temperature lines.
+        Whether to use micro reciprocal degrees for the iso-temperature
+        lines.
     iso_temperature_lines_D_uv
-        Iso-temperature lines :math:`\\Delta_{uv}` length on each side of the
-        *Planckian Locus*.
+        Iso-temperature lines :math:`\\Delta_{uv}` length on each side of
+        the *Planckian Locus*.
     method
         *Planckian Locus* method.
 
@@ -397,25 +401,26 @@ def plot_planckian_locus(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the *Planckian Locus* according to specified method.
+    Plot the *Planckian Locus* using the specified method.
 
     Parameters
     ----------
     planckian_locus_colours
-        Colours of the *Planckian Locus*, if ``planckian_locus_colours`` is set
-        to *RGB*, the colours will be computed according to the corresponding
+        Colours of the *Planckian Locus*, if ``planckian_locus_colours`` is
+        set to *RGB*, the colours will be computed using the corresponding
         chromaticity coordinates.
     planckian_locus_opacity
        Opacity of the *Planckian Locus*.
     planckian_locus_labels
-        Array of labels used to customise which iso-temperature lines will be
-        drawn along the *Planckian Locus*. Passing an empty array will result
-        in no iso-temperature lines being drawn.
+        Array of labels used to customise which iso-temperature lines will
+        be drawn along the *Planckian Locus*. Passing an empty array will
+        result in no iso-temperature lines being drawn.
     planckian_locus_mireds
-        Whether to use micro reciprocal degrees for the iso-temperature lines.
+        Whether to use micro reciprocal degrees for the iso-temperature
+        lines.
     planckian_locus_iso_temperature_lines_D_uv
-        Iso-temperature lines :math:`\\Delta_{uv}` length on each side of the
-        *Planckian Locus*.
+        Iso-temperature lines :math:`\\Delta_{uv}` length on each side of
+        the *Planckian Locus*.
     method
         *Chromaticity Diagram* method.
 
@@ -537,7 +542,7 @@ def plot_planckian_locus_in_chromaticity_diagram(
 ) -> Tuple[Figure, Axes]:
     """
     Plot the *Planckian Locus* and specified illuminants in the
-    *Chromaticity Diagram* according to specified method.
+    *Chromaticity Diagram* using the specified method.
 
     Parameters
     ----------
@@ -551,20 +556,22 @@ def plot_planckian_locus_in_chromaticity_diagram(
         *Chromaticity Diagram* method.
     annotate_kwargs
         Keyword arguments for the :func:`matplotlib.pyplot.annotate`
-        definition, used to annotate the resulting chromaticity coordinates
-        with their respective spectral distribution names. ``annotate_kwargs``
-        can be either a single dictionary applied to all the arrows with same
-        settings or a sequence of dictionaries with different settings for each
-        spectral distribution. The following special keyword arguments can also
+        definition, used to annotate the resulting chromaticity
+        coordinates with their respective spectral distribution names.
+        ``annotate_kwargs`` can be either a single dictionary applied
+        to all the arrows with same settings or a sequence of
+        dictionaries with different settings for each spectral
+        distribution. The following special keyword arguments can also
         be used:
 
         -   ``annotate`` : Whether to annotate the spectral distributions.
     plot_kwargs
-        Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
-        used to control the style of the plotted illuminants. ``plot_kwargs``
-        can be either a single dictionary applied to all the plotted
-        illuminants with the same settings or a sequence of dictionaries with
-        different settings for eachplotted illuminant.
+        Keyword arguments for the :func:`matplotlib.pyplot.plot`
+        definition, used to control the style of the plotted
+        illuminants. ``plot_kwargs`` can be either a single dictionary
+        applied to all the plotted illuminants with the same settings
+        or a sequence of dictionaries with different settings for each
+        plotted illuminant.
 
     Other Parameters
     ----------------
@@ -730,24 +737,25 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the *Planckian Locus* and specified illuminants in
+    Plot the *Planckian Locus* and specified illuminants in the
     *CIE 1931 Chromaticity Diagram*.
 
     Parameters
     ----------
     illuminants
-        Illuminants to plot. ``illuminants`` elements can be of any
-        type or form supported by the
+        Illuminants to plot. ``illuminants`` elements can be of any type or
+        form supported by the
         :func:`colour.plotting.common.filter_passthrough` definition.
     chromaticity_diagram_callable_CIE1931
         Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
     annotate_kwargs
         Keyword arguments for the :func:`matplotlib.pyplot.annotate`
-        definition, used to annotate the resulting chromaticity coordinates
-        with their respective spectral distribution names. ``annotate_kwargs``
-        can be either a single dictionary applied to all the arrows with same
-        settings or a sequence of dictionaries with different settings for each
-        spectral distribution. The following special keyword arguments can also
+        definition, used to annotate the resulting chromaticity
+        coordinates with their respective spectral distribution names.
+        ``annotate_kwargs`` can be either a single dictionary applied
+        to all the arrows with same settings or a sequence of
+        dictionaries with different settings for each spectral
+        distribution. The following special keyword arguments can also
         be used:
 
         -   ``annotate`` : Whether to annotate the spectral distributions.
@@ -756,7 +764,7 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
         used to control the style of the plotted illuminants. ``plot_kwargs``
         can be either a single dictionary applied to all the plotted
         illuminants with the same settings or a sequence of dictionaries with
-        different settings for eachplotted illuminant.
+        different settings for each plotted illuminant.
 
     Other Parameters
     ----------------
@@ -809,34 +817,35 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the *Planckian Locus* and specified illuminants in
+    Plot the *Planckian Locus* and specified illuminants in the
     *CIE 1960 UCS Chromaticity Diagram*.
 
     Parameters
     ----------
     illuminants
-        Illuminants to plot. ``illuminants`` elements can be of any
-        type or form supported by the
+        Illuminants to plot. ``illuminants`` elements can be of any type or
+        form supported by the
         :func:`colour.plotting.common.filter_passthrough` definition.
     chromaticity_diagram_callable_CIE1960UCS
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
     annotate_kwargs
         Keyword arguments for the :func:`matplotlib.pyplot.annotate`
-        definition, used to annotate the resulting chromaticity coordinates
-        with their respective spectral distribution names. ``annotate_kwargs``
-        can be either a single dictionary applied to all the arrows with same
-        settings or a sequence of dictionaries with different settings for each
-        spectral distribution. The following special keyword arguments can also
+        definition, used to annotate the resulting chromaticity
+        coordinates with their respective spectral distribution names.
+        ``annotate_kwargs`` can be either a single dictionary applied
+        to all the arrows with same settings or a sequence of
+        dictionaries with different settings for each spectral
+        distribution. The following special keyword arguments can also
         be used:
 
         -   ``annotate`` : Whether to annotate the spectral distributions.
     plot_kwargs
-        Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
-        used to control the style of the plotted illuminants. ``plot_kwargs``
-        can be either a single dictionary applied to all the plotted
-        illuminants with the same settings or a sequence of dictionaries with
-        different settings for eachplotted illuminant.
+        Keyword arguments for the :func:`matplotlib.pyplot.plot`
+        definition, used to control the style of the plotted illuminants.
+        ``plot_kwargs`` can be either a single dictionary applied to all
+        the plotted illuminants with the same settings or a sequence of
+        dictionaries with different settings for each plotted illuminant.
 
     Other Parameters
     ----------------
@@ -890,34 +899,35 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1976UCS(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the *Planckian Locus* and specified illuminants in
+    Plot the *Planckian Locus* and specified illuminants in the
     *CIE 1976 UCS Chromaticity Diagram*.
 
     Parameters
     ----------
     illuminants
-        Illuminants to plot. ``illuminants`` elements can be of any
-        type or form supported by the
+        Illuminants to plot. ``illuminants`` elements can be of any type
+        or form supported by the
         :func:`colour.plotting.common.filter_passthrough` definition.
     chromaticity_diagram_callable_CIE1976UCS
         Callable responsible for drawing the
         *CIE 1976 UCS Chromaticity Diagram*.
     annotate_kwargs
         Keyword arguments for the :func:`matplotlib.pyplot.annotate`
-        definition, used to annotate the resulting chromaticity coordinates
-        with their respective spectral distribution names. ``annotate_kwargs``
-        can be either a single dictionary applied to all the arrows with same
-        settings or a sequence of dictionaries with different settings for each
-        spectral distribution. The following special keyword arguments can also
+        definition, used to annotate the resulting chromaticity
+        coordinates with their respective spectral distribution names.
+        ``annotate_kwargs`` can be either a single dictionary applied
+        to all the arrows with same settings or a sequence of
+        dictionaries with different settings for each spectral
+        distribution. The following special keyword arguments can also
         be used:
 
         -   ``annotate`` : Whether to annotate the spectral distributions.
     plot_kwargs
-        Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
-        used to control the style of the plotted illuminants. ``plot_kwargs``
-        can be either a single dictionary applied to all the plotted
-        illuminants with the same settings or a sequence of dictionaries with
-        different settings for eachplotted illuminant.
+        Keyword arguments for the :func:`matplotlib.pyplot.plot`
+        definition, used to control the style of the plotted illuminants.
+        ``plot_kwargs`` can be either a single dictionary applied to all
+        the plotted illuminants with the same settings or a sequence of
+        dictionaries with different settings for each plotted illuminant.
 
     Other Parameters
     ----------------

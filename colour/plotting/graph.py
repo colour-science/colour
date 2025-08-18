@@ -2,7 +2,7 @@
 Automatic Colour Conversion Graph Plotting
 ==========================================
 
-Define the automatic colour conversion graph plotting objects:
+Define the automatic colour conversion graph plotting objects.
 
 -   :func:`colour.plotting.plot_automatic_colour_conversion_graph`
 """
@@ -58,8 +58,8 @@ def plot_automatic_colour_conversion_graph(
 
     Notes
     -----
-    -   This definition does not directly plot the *Colour* automatic colour
-        conversion graph but instead write it to an image.
+    -   This definition does not directly plot the *Colour* automatic
+        colour conversion graph but instead writes it to an image.
 
     Examples
     --------

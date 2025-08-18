@@ -2,7 +2,7 @@
 Colour Notation Systems Plotting
 ================================
 
-Define the colour notation systems plotting objects:
+Define the colour notation systems plotting objects.
 
 -   :func:`colour.plotting.plot_single_munsell_value_function`
 -   :func:`colour.plotting.plot_multi_munsell_value_functions`
@@ -42,14 +42,14 @@ def plot_single_munsell_value_function(
     function: Callable | str, **kwargs: Any
 ) -> Tuple[Figure, Axes]:
     """
-    Plot specified *Lightness* function.
+    Plot the specified *Munsell* value function.
 
     Parameters
     ----------
     function
-        *Munsell* value function to plot. ``function`` can be of any type or
-        form supported by the :func:`colour.plotting.common.filter_passthrough`
-        definition.
+        *Munsell* value function to plot. ``function`` can be of any type
+        or form supported by the
+        :func:`colour.plotting.common.filter_passthrough` definition.
 
     Other Parameters
     ----------------
@@ -86,13 +86,13 @@ def plot_multi_munsell_value_functions(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot specified *Munsell* value functions.
+    Plot the specified *Munsell* value functions.
 
     Parameters
     ----------
     functions
-        *Munsell* value functions to plot. ``functions`` elements can be of any
-        type or form supported by the
+        *Munsell* value functions to plot. ``functions`` elements can be of
+        any type or form supported by the
         :func:`colour.plotting.common.filter_passthrough` definition.
 
     Other Parameters

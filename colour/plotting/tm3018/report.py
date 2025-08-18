@@ -5,10 +5,8 @@ ANSI/IES TM-30-18 Colour Rendition Report
 Define the *ANSI/IES TM-30-18 Colour Rendition Report* plotting objects:
 
 -   :func:`colour.plotting.tm3018.plot_single_sd_colour_rendition_report_full`
--   :func:`colour.plotting.
-tm3018.plot_single_sd_colour_rendition_report_intermediate`
--   :func:`colour.plotting.
-tm3018.plot_single_sd_colour_rendition_report_simple`
+-   :func:`colour.plotting.tm3018.plot_single_sd_colour_rendition_report_intermediate`
+-   :func:`colour.plotting.tm3018.plot_single_sd_colour_rendition_report_simple`
 -   :func:`colour.plotting.plot_single_sd_colour_rendition_report`
 """
 
@@ -161,7 +159,7 @@ _VALUE_NOT_APPLICABLE: str = "N/A"
 
 def _plot_report_header(axes: Axes) -> Axes:
     """
-    Plot the report header, i.e., the title, on specified axes.
+    Plot the report header on the specified axes.
 
     Parameters
     ----------
@@ -171,7 +169,7 @@ def _plot_report_header(axes: Axes) -> Axes:
     Returns
     -------
     :class:`matplotlib.axes._axes.Axes`
-        Axes the report header was added to.
+        Axes with the report header added.
     """
 
     axes.set_axis_off()
@@ -191,7 +189,7 @@ def _plot_report_header(axes: Axes) -> Axes:
 
 def _plot_report_footer(axes: Axes) -> Axes:
     """
-    Plot the report footer on specified axes.
+    Plot the report footer on the specified axes.
 
     Parameters
     ----------
@@ -201,7 +199,7 @@ def _plot_report_footer(axes: Axes) -> Axes:
     Returns
     -------
     :class:`matplotlib.axes._axes.Axes`
-        Axes the report footer was added to.
+        Axes with the report footer added.
     """
 
     try:
@@ -240,8 +238,8 @@ def plot_single_sd_colour_rendition_report_full(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Generate the full *ANSI/IES TM-30-18 Colour Rendition Report* for specified
-    spectral distribution.
+    Generate the full *ANSI/IES TM-30-18 Colour Rendition Report* for the
+    specified spectral distribution.
 
     Parameters
     ----------
@@ -249,32 +247,32 @@ def plot_single_sd_colour_rendition_report_full(
         Spectral distribution of the emission source to generate the report
         for.
     source
-        Emission source name, defaults to
+        Emission source name, defaults to the
         `colour.SpectralDistribution_IESTM2714.header.description` or
-        `colour.SpectralDistribution_IESTM2714.name` properties value.
+        `colour.SpectralDistribution_IESTM2714.name` property value.
     date
-        Emission source measurement date, defaults to
+        Emission source measurement date, defaults to the
         `colour.SpectralDistribution_IESTM2714.header.report_date` property
         value.
     manufacturer
-        Emission source manufacturer, defaults to
+        Emission source manufacturer, defaults to the
         `colour.SpectralDistribution_IESTM2714.header.manufacturer` property
         value.
     model
-        Emission source model, defaults to
-        `colour.SpectralDistribution_IESTM2714.header.catalog_number` property
-        value.
+        Emission source model, defaults to the
+        `colour.SpectralDistribution_IESTM2714.header.catalog_number`
+        property value.
     notes
-        Notes pertaining to the emission source, defaults to
+        Notes pertaining to the emission source, defaults to the
         `colour.SpectralDistribution_IESTM2714.header.comments` property
         value.
     report_size
-        Report size, default to A4 paper size in inches.
+        Report size, defaults to A4 paper size in inches.
     report_row_height_ratios
         Report size row height ratios.
     report_box_padding
-        Report box padding, tries to define the padding around the figure and
-        in-between the axes.
+        Report box padding, defines the padding around the figure and
+        between the axes.
 
     Other Parameters
     ----------------
@@ -543,8 +541,8 @@ def plot_single_sd_colour_rendition_report_intermediate(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Generate the intermediate *ANSI/IES TM-30-18 Colour Rendition Report* for
-    specified spectral distribution.
+    Generate the intermediate *ANSI/IES TM-30-18 Colour Rendition Report*
+    for the specified spectral distribution.
 
     Parameters
     ----------
@@ -552,12 +550,12 @@ def plot_single_sd_colour_rendition_report_intermediate(
         Spectral distribution of the emission source to generate the report
         for.
     report_size
-        Report size, default to A4 paper size in inches.
+        Report size, defaults to A4 paper size in inches.
     report_row_height_ratios
         Report size row height ratios.
     report_box_padding
-        Report box padding, tries to define the padding around the figure and
-        in-between the axes.
+        Report box padding, defines the padding around the figure and
+        between the axes.
 
     Other Parameters
     ----------------
@@ -637,8 +635,8 @@ def plot_single_sd_colour_rendition_report_simple(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Generate the simple *ANSI/IES TM-30-18 Colour Rendition Report* for specified
-    spectral distribution.
+    Generate the simple *ANSI/IES TM-30-18 Colour Rendition Report* for the
+    specified spectral distribution.
 
     Parameters
     ----------
@@ -646,12 +644,12 @@ def plot_single_sd_colour_rendition_report_simple(
         Spectral distribution of the emission source to generate the report
         for.
     report_size
-        Report size, default to A4 paper size in inches.
+        Report size, defaults to A4 paper size in inches.
     report_row_height_ratios
         Report size row height ratios.
     report_box_padding
-        Report box padding, tries to define the padding around the figure and
-        in-between the axes.
+        Report box padding, defines the padding around the figure and
+        between the axes.
 
     Other Parameters
     ----------------
@@ -719,14 +717,14 @@ def plot_single_sd_colour_rendition_report(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Generate the *ANSI/IES TM-30-18 Colour Rendition Report* for specified
-    spectral distribution according to specified method.
+    Generate the *ANSI/IES TM-30-18 Colour Rendition Report* for the
+    specified spectral distribution using the specified method.
 
     Parameters
     ----------
     sd
-        Spectral distribution of the emission source to generate the report
-        for.
+        Spectral distribution of the emission source to generate the
+        report for.
     method
         Report plotting method.
 

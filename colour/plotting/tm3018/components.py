@@ -3,7 +3,7 @@ ANSI/IES TM-30-18 Colour Rendition Report Components
 ====================================================
 
 Define the *ANSI/IES TM-30-18 Colour Rendition Report* components plotting
-objects:
+objects for comprehensive colour rendition evaluation and visualization.
 
 -   :func:`colour.plotting.tm3018.components.plot_spectra_ANSIIESTM3018`
 -   :func:`colour.plotting.tm3018.components.plot_colour_vector_graphic`
@@ -211,8 +211,8 @@ def plot_spectra_ANSIIESTM3018(
     specification: ColourQuality_Specification_ANSIIESTM3018, **kwargs: Any
 ) -> Tuple[Figure, Axes]:
     """
-    Plot a comparison of the spectral distributions of a test emission source
-    and a reference illuminant for *ANSI/IES TM-30-18 Colour Rendition Report*.
+    Plot the spectral distributions of a test emission source and reference
+    illuminant for *ANSI/IES TM-30-18 Colour Rendition Report*.
 
     Parameters
     ----------
@@ -228,7 +228,7 @@ def plot_spectra_ANSIIESTM3018(
     Returns
     -------
     :class:`tuple`
-        Current figure and axes
+        Current figure and axes.
 
     Examples
     --------
@@ -285,8 +285,8 @@ def plot_colour_vector_graphic(
     specification: ColourQuality_Specification_ANSIIESTM3018, **kwargs: Any
 ) -> Tuple[Figure, Axes]:
     """
-    Plot *Color Vector Graphic* according to
-    *ANSI/IES TM-30-18 Colour Rendition Report*.
+    Plot *Color Vector Graphic* using the *ANSI/IES TM-30-18 Colour
+    Rendition Report*.
 
     Parameters
     ----------
@@ -302,7 +302,7 @@ def plot_colour_vector_graphic(
     Returns
     -------
     :class:`tuple`
-        Current figure and axes
+        Current figure and axes.
 
     Examples
     --------
@@ -484,8 +484,8 @@ def plot_16_bin_bars(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the 16 bin bars for specified values according to
-    *ANSI/IES TM-30-18 Colour Rendition Report*.
+    Plot 16 bin bars for the specified values using *ANSI/IES TM-30-18 Colour
+    Rendition Report*.
 
     Parameters
     ----------
@@ -507,7 +507,7 @@ def plot_16_bin_bars(
     Returns
     -------
     :class:`tuple`
-        Current figure and axes
+        Current figure and axes.
 
     Examples
     --------
@@ -581,8 +581,8 @@ def plot_local_chroma_shifts(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the local chroma shifts according to
-    *ANSI/IES TM-30-18 Colour Rendition Report*.
+    Plot the local chroma shifts using the *ANSI/IES TM-30-18 Colour
+    Rendition Report*.
 
     Parameters
     ----------
@@ -600,7 +600,7 @@ def plot_local_chroma_shifts(
     Returns
     -------
     :class:`tuple`
-        Current figure and axes
+        Current figure and axes.
 
     Examples
     --------
@@ -639,8 +639,8 @@ def plot_local_hue_shifts(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the local hue shifts according to
-    *ANSI/IES TM-30-18 Colour Rendition Report*.
+    Plot the local hue shifts using *ANSI/IES TM-30-18 Colour Rendition
+    Report*.
 
     Parameters
     ----------
@@ -658,7 +658,7 @@ def plot_local_hue_shifts(
     Returns
     -------
     :class:`tuple`
-        Current figure and axes
+        Current figure and axes.
 
     Examples
     --------
@@ -693,15 +693,15 @@ def plot_local_colour_fidelities(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the local colour fidelities according to
-    *ANSI/IES TM-30-18 Colour Rendition Report*.
+    Plot local colour fidelities using the *ANSI/IES TM-30-18 Colour
+    Rendition Report* specification.
 
     Parameters
     ----------
     specification
         *ANSI/IES TM-30-18 Colour Rendition Report* specification.
     x_ticker
-        Whether to show the *X* axis ticker and the associated label.
+        Whether to display the *X* axis ticker and its associated label.
 
     Other Parameters
     ----------------
@@ -712,7 +712,7 @@ def plot_local_colour_fidelities(
     Returns
     -------
     :class:`tuple`
-        Current figure and axes
+        Current figure and axes.
 
     Examples
     --------
@@ -745,8 +745,8 @@ def plot_colour_fidelity_indexes(
     specification: ColourQuality_Specification_ANSIIESTM3018, **kwargs: Any
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the local chroma shifts according to
-    *ANSI/IES TM-30-18 Colour Rendition Report*.
+    Plot colour fidelity indexes using *ANSI/IES TM-30-18 Colour Rendition
+    Report*.
 
     Parameters
     ----------
@@ -762,7 +762,7 @@ def plot_colour_fidelity_indexes(
     Returns
     -------
     :class:`tuple`
-        Current figure and axes
+        Current figure and axes.
 
     Examples
     --------
