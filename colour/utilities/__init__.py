@@ -299,10 +299,10 @@ __all__ += [
 # ---                API Changes and Deprecation Management                ---#
 # ----------------------------------------------------------------------------#
 class utilities(ModuleAPI):
-    """Class acting like the *utilities* module."""
+    """Define a class acting like the *utilities* module."""
 
     def __getattr__(self, attribute: str) -> Any:
-        """Retrieve the value from the specified attribute."""
+        """Return the value from the specified attribute."""
 
         return super().__getattr__(attribute)
 
