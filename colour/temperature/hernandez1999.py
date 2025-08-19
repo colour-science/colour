@@ -2,14 +2,14 @@
 Hernandez-Andres, Lee and Romero (1999) Correlated Colour Temperature
 =====================================================================
 
-Define the *Hernandez-Andres et al. (1999)* correlated colour temperature
-:math:`T_{cp}` computations objects:
+Define *Hernandez-Andres et al. (1999)* correlated colour temperature
+:math:`T_{cp}` computation objects.
 
--   :func:`colour.temperature.xy_to_CCT_Hernandez1999`: Correlated colour
-    temperature :math:`T_{cp}` computation of specified *CIE xy* chromaticity
+-   :func:`colour.temperature.xy_to_CCT_Hernandez1999`: Compute correlated
+    colour temperature :math:`T_{cp}` from specified *CIE xy* chromaticity
     coordinates using *Hernandez-Andres, Lee and Romero (1999)* method.
--   :func:`colour.temperature.CCT_to_xy_Hernandez1999`: *CIE xy* chromaticity
-    coordinates computation of specified correlated colour temperature
+-   :func:`colour.temperature.CCT_to_xy_Hernandez1999`: Compute *CIE xy*
+    chromaticity coordinates from specified correlated colour temperature
     :math:`T_{cp}` using *Hernandez-Andres, Lee and Romero (1999)* method.
 
 References
@@ -50,9 +50,9 @@ __all__ = [
 
 def xy_to_CCT_Hernandez1999(xy: ArrayLike) -> NDArrayFloat:
     """
-    Compute the correlated colour temperature :math:`T_{cp}` from specified
-    *CIE xy* chromaticity coordinates using *Hernandez-Andres et al. (1999)*
-    method.
+    Compute the correlated colour temperature :math:`T_{cp}` from the
+    specified *CIE xy* chromaticity coordinates using
+    *Hernandez-Andres et al. (1999)* method.
 
     Parameters
     ----------
@@ -104,8 +104,9 @@ def CCT_to_xy_Hernandez1999(
     CCT: ArrayLike, optimisation_kwargs: dict | None = None
 ) -> NDArrayFloat:
     """
-    Compute the *CIE xy* chromaticity coordinates from specified correlated colour
-    temperature :math:`T_{cp}` using *Hernandez-Andres et al. (1999)* method.
+    Compute the *CIE xy* chromaticity coordinates from the specified
+    correlated colour temperature :math:`T_{cp}` using
+    *Hernandez-Andres et al. (1999)* method.
 
     Parameters
     ----------
@@ -121,13 +122,14 @@ def CCT_to_xy_Hernandez1999(
 
     Warnings
     --------
-    *Hernandez-Andres et al. (1999)* method for computing *CIE xy* chromaticity
-    coordinates from given correlated colour temperature is not a bijective
-    function and might produce unexpected results. It is given for consistency
-    with other correlated colour temperature computation methods but should be
-    avoided for practical applications. The current implementation relies on
-    optimisation using :func:`scipy.optimize.minimize` definition and thus has
-    reduced precision and poor performance.
+    *Hernandez-Andres et al. (1999)* method for computing *CIE xy*
+    chromaticity coordinates from the specified correlated colour temperature
+    is not a bijective function and might produce unexpected results. It is
+    provided for consistency with other correlated colour temperature
+    computation methods but should be avoided for practical applications. The
+    current implementation relies on optimisation using
+    :func:`scipy.optimize.minimize` definition and thus has reduced precision
+    and poor performance.
 
     References
     ----------

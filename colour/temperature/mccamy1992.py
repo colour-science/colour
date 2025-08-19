@@ -3,14 +3,14 @@ McCamy (1992) Correlated Colour Temperature
 ===========================================
 
 Define the *McCamy (1992)* correlated colour temperature :math:`T_{cp}`
-computations objects:
+computation objects.
 
--   :func:`colour.temperature.xy_to_CCT_McCamy1992`: Correlated colour
-    temperature :math:`T_{cp}` computation of given *CIE xy* chromaticity
-    coordinates using *McCamy (1992)* method.
--   :func:`colour.temperature.xy_to_CCT_McCamy1992`: *CIE xy* chromaticity
-    coordinates computation of given correlated colour temperature
-    :math:`T_{cp}` using *McCamy (1992)* method.
+-   :func:`colour.temperature.xy_to_CCT_McCamy1992`: Compute correlated
+    colour temperature :math:`T_{cp}` from specified *CIE xy* chromaticity
+    coordinates using the *McCamy (1992)* method.
+-   :func:`colour.temperature.CCT_to_xy_McCamy1992`: Compute *CIE xy*
+    chromaticity coordinates from specified correlated colour temperature
+    :math:`T_{cp}` using the *McCamy (1992)* method.
 
 References
 ----------
@@ -48,8 +48,9 @@ __all__ = [
 
 def xy_to_CCT_McCamy1992(xy: ArrayLike) -> NDArrayFloat:
     """
-    Compute the correlated colour temperature :math:`T_{cp}` from specified
-    *CIE xy* chromaticity coordinates using *McCamy (1992)* method.
+    Compute the correlated colour temperature :math:`T_{cp}` from the
+    specified *CIE xy* chromaticity coordinates using the *McCamy (1992)*
+    method.
 
     Parameters
     ----------
@@ -87,8 +88,9 @@ def CCT_to_xy_McCamy1992(
     CCT: ArrayLike, optimisation_kwargs: dict | None = None
 ) -> NDArrayFloat:
     """
-    Compute the *CIE xy* chromaticity coordinates from specified correlated colour
-    temperature :math:`T_{cp}` using *McCamy (1992)* method.
+    Compute the *CIE xy* chromaticity coordinates from the specified
+    correlated colour temperature :math:`T_{cp}` using the *McCamy (1992)*
+    method.
 
     Parameters
     ----------
@@ -104,13 +106,14 @@ def CCT_to_xy_McCamy1992(
 
     Warnings
     --------
-    *McCamy (1992)* method for computing *CIE xy* chromaticity coordinates
-    from given correlated colour temperature is not a bijective function and
-    might produce unexpected results. It is given for consistency with other
-    correlated colour temperature computation methods but should be avoided
-    for practical applications. The current implementation relies on
-    optimisation using :func:`scipy.optimize.minimize` definition and thus has
-    reduced precision and poor performance.
+    The *McCamy (1992)* method for computing *CIE xy* chromaticity coordinates
+    from the specified correlated colour temperature is not a bijective
+    function and might produce unexpected results. It is provided for
+    consistency with other correlated colour temperature computation methods
+    but should be avoided for practical applications. The current
+    implementation relies on optimisation using
+    :func:`scipy.optimize.minimize` definition and thus has reduced precision
+    and poor performance.
 
     References
     ----------

@@ -124,8 +124,9 @@ colour temperature :math:`T_{cp}` computation methods.
 
 References
 ----------
-:cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`, :cite:`CIETC1-482004i`,
-:cite:`Krystek1985b`, :cite:`Ohno2014a`, :cite:`Wyszecki2000y`
+:cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`,
+:cite:`CIETC1-482004i`, :cite:`Krystek1985b`, :cite:`Ohno2014a`,
+:cite:`Wyszecki2000y`
 
 Aliases:
 
@@ -145,8 +146,8 @@ def uv_to_CCT(
 ) -> NDArrayFloat:
     """
     Compute the correlated colour temperature :math:`T_{cp}` and
-    :math:`\\Delta_{uv}` from specified *CIE UCS* colourspace *uv* chromaticity
-    coordinates using specified method.
+    :math:`\\Delta_{uv}` from the specified *CIE UCS* colourspace *uv*
+    chromaticity coordinates using the specified method.
 
     Parameters
     ----------
@@ -217,8 +218,9 @@ Supported correlated colour temperature :math:`T_{cp}` to *CIE UCS* colourspace
 
 References
 ----------
-:cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`, :cite:`CIETC1-482004i`,
-:cite:`Krystek1985b`, :cite:`Ohno2014a`, :cite:`Wyszecki2000y`
+:cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`,
+:cite:`CIETC1-482004i`, :cite:`Krystek1985b`, :cite:`Ohno2014a`,
+:cite:`Wyszecki2000y`
 
 Aliases:
 
@@ -237,8 +239,9 @@ def CCT_to_uv(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Compute the *CIE UCS* colourspace *uv* chromaticity coordinates from specified
-    correlated colour temperature :math:`T_{cp}` using specified method.
+    Compute the *CIE UCS* colourspace *uv* chromaticity coordinates from the
+    specified correlated colour temperature :math:`T_{cp}` and
+    :math:`\\Delta_{uv}` using the specified method.
 
     Parameters
     ----------
@@ -332,8 +335,8 @@ def xy_to_CCT(
     ) = "CIE Illuminant D Series",
 ) -> NDArrayFloat:
     """
-    Compute the correlated colour temperature :math:`T_{cp}` from specified
-    *CIE xy* chromaticity coordinates using specified method.
+    Compute the correlated colour temperature :math:`T_{cp}` from the
+    specified *CIE xy* chromaticity coordinates using the specified method.
 
     Parameters
     ----------
@@ -417,8 +420,8 @@ def CCT_to_xy(
     ) = "CIE Illuminant D Series",
 ) -> NDArrayFloat:
     """
-    Compute the *CIE xy* chromaticity coordinates from specified correlated colour
-    temperature :math:`T_{cp}` using specified method.
+    Compute the *CIE xy* chromaticity coordinates from the specified
+    correlated colour temperature :math:`T_{cp}` using the specified method.
 
     Parameters
     ----------

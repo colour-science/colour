@@ -3,14 +3,14 @@ CIE Illuminant D Series Correlated Colour Temperature
 =====================================================
 
 Define the *CIE Illuminant D Series* correlated colour temperature
-:math:`T_{cp} computations objects:
+:math:`T_{cp}` computation objects.
 
--   :func:`colour.temperature.xy_to_CCT_CIE_D`: Correlated colour temperature
-    :math:`T_{cp}` computation of a *CIE Illuminant D Series* from its *CIE xy*
-    chromaticity coordinates.
--   :func:`colour.temperature.CCT_to_xy_CIE_D`: *CIE xy* chromaticity
-    coordinates computation of a *CIE Illuminant D Series* from its correlated
-    colour temperature :math:`T_{cp}`.
+-   :func:`colour.temperature.xy_to_CCT_CIE_D`: Compute correlated colour
+    temperature :math:`T_{cp}` of a *CIE Illuminant D Series* from its
+    *CIE xy* chromaticity coordinates.
+-   :func:`colour.temperature.CCT_to_xy_CIE_D`: Compute *CIE xy*
+    chromaticity coordinates of a *CIE Illuminant D Series* from its
+    correlated colour temperature :math:`T_{cp}`.
 
 References
 ----------
@@ -52,7 +52,8 @@ def xy_to_CCT_CIE_D(
 ) -> NDArrayFloat:
     """
     Compute the correlated colour temperature :math:`T_{cp}` of a
-    *CIE Illuminant D Series* from its *CIE xy* chromaticity coordinates.
+    *CIE Illuminant D Series* from the specified *CIE xy* chromaticity
+    coordinates.
 
     Parameters
     ----------
@@ -68,11 +69,11 @@ def xy_to_CCT_CIE_D(
 
     Warnings
     --------
-    The *CIE Illuminant D Series* method does not give an analytical inverse
+    The *CIE Illuminant D Series* method does not provide an analytical inverse
     transformation to compute the correlated colour temperature :math:`T_{cp}`
-    from given *CIE xy* chromaticity coordinates, the current implementation
-    relies on optimisation using :func:`scipy.optimize.minimize` definition and
-    thus has reduced precision and poor performance.
+    from the specified *CIE xy* chromaticity coordinates. The current
+    implementation relies on optimisation using :func:`scipy.optimize.minimize`
+    definition and thus has reduced precision and poor performance.
 
     References
     ----------
@@ -123,7 +124,7 @@ def xy_to_CCT_CIE_D(
 def CCT_to_xy_CIE_D(CCT: ArrayLike) -> NDArrayFloat:
     """
     Compute the *CIE xy* chromaticity coordinates of a
-    *CIE Illuminant D Series* from its correlated colour temperature
+    *CIE Illuminant D Series* from the specified correlated colour temperature
     :math:`T_{cp}`.
 
     Parameters
@@ -139,7 +140,8 @@ def CCT_to_xy_CIE_D(CCT: ArrayLike) -> NDArrayFloat:
     Raises
     ------
     ValueError
-        If the correlated colour temperature is not in appropriate domain.
+        If the correlated colour temperature is not in the appropriate
+        domain.
 
     References
     ----------
