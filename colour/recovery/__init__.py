@@ -118,8 +118,8 @@ def XYZ_to_sd(
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
-    Recover the spectral distribution of specified *CIE XYZ* tristimulus
-    values using specified method.
+    Recover the spectral distribution of the specified *CIE XYZ* tristimulus
+    values using the specified method.
 
     Parameters
     ----------
@@ -133,7 +133,8 @@ def XYZ_to_sd(
     ----------------
     additional_data
         {:func:`colour.recovery.XYZ_to_sd_Jakob2019`},
-        If *True*, ``error`` will be returned alongside ``sd``.
+        If *True*, ``error`` will be returned alongside the recovered
+        spectral distribution.
     basis_functions
         {:func:`colour.recovery.RGB_to_sd_Mallett2019`},
         Basis functions for the method. The default is to use the built-in
@@ -142,30 +143,22 @@ def XYZ_to_sd(
     clip
         {:func:`colour.recovery.XYZ_to_sd_Otsu2018`},
         If *True*, the default, values below zero and above unity in the
-        recovered spectral distributions will be clipped. This ensures that the
-        returned reflectance is physical and conserves energy, but will cause
-        noticeable colour differences in case of very saturated colours.
+        recovered spectral distributions will be clipped. This ensures that
+        the returned reflectance is physical and conserves energy, but will
+        cause noticeable colour differences in case of very saturated
+        colours.
     cmfs
         {:func:`colour.recovery.XYZ_to_sd_Meng2015`},
         Standard observer colour matching functions.
-    colourspace
-        {:func:`colour.recovery.XYZ_to_sd_Jakob2019`},
-        *RGB* colourspace of the target colour. Note that no chromatic
-        adaptation is performed between ``illuminant`` and the colourspace
-        whitepoint.
     dataset
         {:func:`colour.recovery.XYZ_to_sd_Otsu2018`},
-        Dataset to use for reconstruction. The default is to use the published
-        data.
+        Dataset to use for reconstruction. The default is to use the
+        published data.
     illuminant
         {:func:`colour.recovery.XYZ_to_sd_Jakob2019`,
         :func:`colour.recovery.XYZ_to_sd_Meng2015`},
         Illuminant spectral distribution, default to
         *CIE Standard Illuminant D65*.
-    interval
-        {:func:`colour.recovery.XYZ_to_sd_Meng2015`},
-        Wavelength :math:`\\lambda_{i}` range interval in nm. The smaller
-        ``interval`` is, the longer the computations will be.
     optimisation_kwargs
         {:func:`colour.recovery.XYZ_to_sd_Jakob2019`,
         :func:`colour.recovery.XYZ_to_sd_Meng2015`},
@@ -186,8 +179,8 @@ def XYZ_to_sd(
     +------------+-----------------------+---------------+
 
     -   *Smits (1999)* method will internally convert specified *CIE XYZ*
-        tristimulus values to *sRGB* colourspace array assuming equal energy
-        illuminant *E*.
+        tristimulus values to *sRGB* colourspace array assuming equal
+        energy illuminant *E*.
 
     References
     ----------

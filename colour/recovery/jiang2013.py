@@ -2,8 +2,8 @@
 Jiang et al. (2013) - Camera RGB Sensitivities Recovery
 =======================================================
 
-Define the objects for camera *RGB* sensitivities recovery using
-*Jiang, Liu, Gu and Süsstrunk (2013)* method:
+Define the objects for camera *RGB* sensitivities recovery using the
+*Jiang, Liu, Gu and Süsstrunk (2013)* method.
 
 -   :func:`colour.recovery.PCA_Jiang2013`
 -   :func:`colour.recovery.RGB_to_sd_camera_sensitivity_Jiang2013`
@@ -100,7 +100,7 @@ def PCA_Jiang2013(
     | Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]
 ):
     """
-    Perform the *Principal Component Analysis* (PCA) on specified camera *RGB*
+    Perform *Principal Component Analysis* (PCA) on specified camera *RGB*
     sensitivities.
 
     Parameters
@@ -110,8 +110,8 @@ def PCA_Jiang2013(
     eigen_w_v_count
         Eigen-values :math:`w` and eigen-vectors :math:`v` count.
     additional_data
-        Whether to return both the eigen-values :math:`w` and eigen-vectors
-        :math:`v`.
+        Whether to return both the eigen-values :math:`w` and
+        eigen-vectors :math:`v`.
 
     Returns
     -------
@@ -176,8 +176,8 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
     shape: SpectralShape | None = None,
 ) -> SpectralDistribution:
     """
-    Recover a single camera *RGB* sensitivity for specified camera *RGB* values
-    using *Jiang et al. (2013)* method.
+    Recover a single camera *RGB* sensitivity for the specified camera *RGB*
+    values using *Jiang et al. (2013)* method.
 
     Parameters
     ----------
@@ -187,15 +187,15 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
         Illuminant spectral distribution used to produce the camera *RGB*
         values.
     reflectances
-        Reflectance spectral distributions used to produce the camera *RGB*
-        values.
+        Reflectance spectral distributions used to produce the camera
+        *RGB* values.
     eigen_w
-        Eigen-vectors :math:`v` for the particular camera *RGB* sensitivity
-        being recovered.
+        Eigen-vectors :math:`v` for the particular camera *RGB*
+        sensitivity being recovered.
     shape
         Spectral shape of the recovered camera *RGB* sensitivity,
-        ``illuminant`` and ``reflectances`` will be aligned to it if passed,
-        otherwise, ``illuminant`` shape is used.
+        ``illuminant`` and ``reflectances`` will be aligned to it if
+        passed, otherwise, ``illuminant`` shape is used.
 
     Returns
     -------
@@ -308,8 +308,8 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
     shape: SpectralShape | None = None,
 ) -> MultiSpectralDistributions:
     """
-    Recover the camera *RGB* sensitivities for specified camera *RGB* values
-    using *Jiang et al. (2013)* method.
+    Recover the camera *RGB* sensitivities for the specified camera *RGB*
+    values using *Jiang et al. (2013)* method.
 
     Parameters
     ----------
@@ -319,16 +319,16 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
         Illuminant spectral distribution used to produce the camera *RGB*
         values.
     reflectances
-        Reflectance spectral distributions used to produce the camera *RGB*
-        values.
+        Reflectance spectral distributions used to produce the camera
+        *RGB* values.
     basis_functions
-        Basis functions for the method. The default is to use the built-in
-        *sRGB* basis functions, i.e.,
+        Basis functions for the method. The default is to use the
+        built-in *sRGB* basis functions, i.e.,
         :attr:`colour.recovery.BASIS_FUNCTIONS_DYER2017`.
     shape
-        Spectral shape of the recovered camera *RGB* sensitivities,
-        ``illuminant`` and ``reflectances`` will be aligned to it if passed,
-        otherwise, ``illuminant`` shape is used.
+        Spectral shape of the recovered camera *RGB* sensitivities.
+        The ``illuminant`` and ``reflectances`` will be aligned to it if
+        passed, otherwise, the ``illuminant`` shape is used.
 
     Returns
     -------
