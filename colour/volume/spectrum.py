@@ -1,9 +1,9 @@
 """
-Rösch-MacAdam colour solid - Visible Spectrum Volume Computations
+Rösch-MacAdam Colour Solid - Visible Spectrum Volume Computations
 =================================================================
 
-Objects related to *Rösch-MacAdam* colour solid, visible spectrum
-volume computations.
+Define objects for computing and analyzing the *Rösch-MacAdam* colour
+solid and visible spectrum volume boundaries.
 
 References
 ----------
@@ -82,8 +82,8 @@ def generate_pulse_waves(
     filter_jagged_pulses: bool = False,
 ) -> NDArrayFloat:
     """
-    Generate the pulse waves of specified number of bins necessary to totally
-    stimulate the colour matching functions and produce the *Rösch-MacAdam*
+    Generate pulse waves of the specified number of bins necessary to fully
+    stimulate the colour matching functions and produce the *Rösch-MacAdam*
     colour solid.
 
     Assuming 5 bins, a first set of SPDs would be as follows::
@@ -117,16 +117,17 @@ def generate_pulse_waves(
     bins
         Number of bins of the pulse waves.
     pulse_order
-        Method for ordering the pulse waves. *Bins* is the default order, with
-        *Pulse Wave Width* ordering, instead of iterating over the pulse wave
-        widths first, iteration occurs over the bins, producing blocks of pulse
-        waves with increasing width.
+        Method for ordering the pulse waves. *Bins* is the default order,
+        with *Pulse Wave Width* ordering, instead of iterating over the
+        pulse wave widths first, iteration occurs over the bins, producing
+        blocks of pulse waves with increasing width.
     filter_jagged_pulses
         Whether to filter jagged pulses. When ``pulse_order`` is set to
-        *Pulse Wave Width*, the pulses are ordered by increasing width. Because
-        of the discrete nature of the underlying signal, the resulting pulses
-        will be jagged. For example assuming 5 bins, the center block with
-        the two extreme values added would be as follows::
+        *Pulse Wave Width*, the pulses are ordered by increasing width.
+        Because of the discrete nature of the underlying signal, the
+        resulting pulses will be jagged. For example assuming 5 bins, the
+        center block with the two extreme values added would be as
+        follows::
 
             0 0 0 0 0
             0 0 1 0 0
@@ -135,9 +136,10 @@ def generate_pulse_waves(
             0 1 1 1 1 <--
             1 1 1 1 1
 
-        Setting the ``filter_jagged_pulses`` parameter to `True` will result
-        in the removal of the two marked pulse waves above thus avoiding jagged
-        lines when plotting and having to resort to excessive ``bins`` values.
+        Setting the ``filter_jagged_pulses`` parameter to `True` will
+        result in the removal of the two marked pulse waves above thus
+        avoiding jagged lines when plotting and having to resort to
+        excessive ``bins`` values.
 
     Returns
     -------
@@ -146,7 +148,8 @@ def generate_pulse_waves(
 
     References
     ----------
-    :cite:`Lindbloom2015`, :cite:`Mansencal2018`, :cite:`Martinez-Verdu2007`
+    :cite:`Lindbloom2015`, :cite:`Mansencal2018`,
+    :cite:`Martinez-Verdu2007`
 
     Examples
     --------
@@ -251,9 +254,10 @@ def XYZ_outer_surface(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Generate the *Rösch-MacAdam* colour solid, i.e., *CIE XYZ* colourspace
-    outer surface, for specified colour matching functions using multi-spectral
-    conversion of pulse waves to *CIE XYZ* tristimulus values.
+    Generate the *Rösch-MacAdam* colour solid, i.e., *CIE XYZ*
+    colourspace outer surface, for the specified colour matching functions
+    using multi-spectral conversion of pulse waves to *CIE XYZ*
+    tristimulus values.
 
     Parameters
     ----------
@@ -263,17 +267,18 @@ def XYZ_outer_surface(
     illuminant
         Illuminant spectral distribution, default to *CIE Illuminant E*.
     point_order
-        Method for ordering the underlying pulse waves used to generate the
-        *Rösch-MacAdam* colour solid. *Bins* is the default order, with
-        *Pulse Wave Width* ordering, instead of iterating over the pulse wave
-        widths first, iteration occurs over the bins, producing blocks of pulse
-        waves with increasing width.
+        Method for ordering the underlying pulse waves used to generate
+        the *Rösch-MacAdam* colour solid. *Bins* is the default order,
+        with *Pulse Wave Width* ordering, instead of iterating over the
+        pulse wave widths first, iteration occurs over the bins,
+        producing blocks of pulse waves with increasing width.
     filter_jagged_points
-        Whether to filter the underlying jagged pulses. When ``point_order`` is
-        set to *Pulse Wave Width*, the pulses are ordered by increasing width.
-        Because of the discrete nature of the underlying signal, the resulting
-        pulses will be jagged. For example assuming 5 bins, the center block
-        with the two extreme values added would be as follows::
+        Whether to filter the underlying jagged pulses. When
+        ``point_order`` is set to *Pulse Wave Width*, the pulses are
+        ordered by increasing width. Because of the discrete nature of the
+        underlying signal, the resulting pulses will be jagged. For
+        example assuming 5 bins, the center block with the two extreme
+        values added would be as follows::
 
             0 0 0 0 0
             0 0 1 0 0
@@ -282,9 +287,10 @@ def XYZ_outer_surface(
             0 1 1 1 1 <--
             1 1 1 1 1
 
-        Setting the ``filter_jagged_points`` parameter to `True` will result
-        in the removal of the two marked pulse waves above thus avoiding jagged
-        lines when plotting and having to resort to excessive ``bins`` values.
+        Setting the ``filter_jagged_points`` parameter to `True` will
+        result in the removal of the two marked pulse waves above thus
+        avoiding jagged lines when plotting and having to resort to
+        excessive ``bins`` values.
 
     Other Parameters
     ----------------
@@ -295,12 +301,13 @@ def XYZ_outer_surface(
     Returns
     -------
     :class:`numpy.ndarray`
-        *Rösch-MacAdam* colour solid, *CIE XYZ* outer surface tristimulus
-        values.
+        *Rösch-MacAdam* colour solid, *CIE XYZ* outer surface
+        tristimulus values.
 
     References
     ----------
-    :cite:`Lindbloom2015`, :cite:`Mansencal2018`, :cite:`Martinez-Verdu2007`
+    :cite:`Lindbloom2015`, :cite:`Mansencal2018`,
+    :cite:`Martinez-Verdu2007`
 
     Examples
     --------
@@ -391,9 +398,9 @@ def is_within_visible_spectrum(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Return whether specified *CIE XYZ* tristimulus values are within the visible
-    spectrum volume, i.e., *Rösch-MacAdam* colour solid, for specified colour
-    matching functions and illuminant.
+    Determine whether the specified *CIE XYZ* tristimulus values are within the
+    visible spectrum volume (*Rösch-MacAdam* colour solid) for the specified
+    colour matching functions and illuminant.
 
     Parameters
     ----------
@@ -416,8 +423,8 @@ def is_within_visible_spectrum(
     Returns
     -------
     :class:`numpy.ndarray`
-        Are *CIE XYZ* tristimulus values within the visible spectrum volume,
-        i.e., *Rösch-MacAdam* colour solid.
+        Boolean array indicating whether *CIE XYZ* tristimulus values are
+        within the visible spectrum volume (*Rösch-MacAdam* colour solid).
 
     Notes
     -----
