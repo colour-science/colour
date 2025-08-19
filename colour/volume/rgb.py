@@ -2,7 +2,7 @@
 RGB Colourspace Volume Computation
 ==================================
 
-Various RGB colourspace volume computation objects:
+Define RGB colourspace volume computation functionality.
 
 -   :func:`colour.RGB_colourspace_limits`
 -   :func:`colour.RGB_colourspace_volume_MonteCarlo`
@@ -59,13 +59,14 @@ __all__ = [
 
 def _wrapper_RGB_colourspace_volume_MonteCarlo(arguments: tuple) -> int:
     """
-    Call the :func:`colour.volume.rgb.sample_RGB_colourspace_volume_MonteCarlo`
-    definition with multiple arguments.
+    Wrap the
+    :func:`colour.volume.rgb.sample_RGB_colourspace_volume_MonteCarlo`
+    function for parallel processing with multiple arguments.
 
     Parameters
     ----------
     arguments
-        Arguments.
+        Arguments to pass to the wrapped function.
 
     Returns
     -------
@@ -90,7 +91,7 @@ def sample_RGB_colourspace_volume_MonteCarlo(
     random_state: np.random.RandomState | None = None,
 ) -> int:
     """
-    Randomly sample the *CIE L\\*a\\*b\\** colourspace volume and returns the
+    Randomly sample the *CIE L\\*a\\*b\\** colourspace volume and return the
     ratio of samples within the specified *RGB* colourspace volume.
 
     Parameters
@@ -119,10 +120,10 @@ def sample_RGB_colourspace_volume_MonteCarlo(
 
     Notes
     -----
-    -   The doctest is assuming that :func:`np.random.RandomState` definition
-        will return the same sequence no matter which *OS* or *Python*
-        version is used. There is however no formal promise about the *prng*
-        sequence reproducibility of either *Python* or *Numpy*
+    -   The doctest is assuming that :func:`np.random.RandomState`
+        definition will return the same sequence no matter which *OS* or
+        *Python* version is used. There is however no formal promise about
+        the *prng* sequence reproducibility of either *Python* or *Numpy*
         implementations: Laurent. (2012). Reproducibility of python
         pseudo-random numbers across systems and versions? Retrieved January
         20, 2015, from http://stackoverflow.com/questions/8786084/\
@@ -152,8 +153,8 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 
 def RGB_colourspace_limits(colourspace: RGB_Colourspace) -> NDArrayFloat:
     """
-    Compute specified *RGB* colourspace volume limits in *CIE L\\*a\\*b\\**
-    colourspace.
+    Compute the specified *RGB* colourspace volume limits in
+    *CIE L\\*a\\*b\\** colourspace.
 
     Parameters
     ----------
@@ -167,11 +168,11 @@ def RGB_colourspace_limits(colourspace: RGB_Colourspace) -> NDArrayFloat:
 
     Notes
     -----
-    The limits are computed for the specified *RGB* colourspace illuminant. This is
-    important to account for, if the intent is to compare various *RGB*
-    colourspaces together. In this instance, they must be chromatically adapted
-    to the same illuminant before-hand.
-    See :meth:`colour.RGB_Colourspace.chromatically_adapt` method for more
+    The limits are computed for the specified *RGB* colourspace illuminant.
+    This is important to account for if the intent is to compare various
+    *RGB* colourspaces together. In this instance, they must be
+    chromatically adapted to the same illuminant beforehand. See
+    :meth:`colour.RGB_Colourspace.chromatically_adapt` method for more
     information.
 
     Examples
@@ -212,27 +213,28 @@ def RGB_colourspace_volume_MonteCarlo(
     random_state: np.random.RandomState | None = None,
 ) -> float:
     """
-    Perform specified *RGB* colourspace volume computation using *Monte Carlo*
-    method and multiprocessing.
+    Compute the specified *RGB* colourspace volume using the *Monte Carlo*
+    method with multiprocessing.
 
     Parameters
     ----------
-    colourspace\
+    colourspace
         *RGB* colourspace to compute the volume of.
-    samples\
+    samples
         Sample count.
-    limits\
-        *CIE L\\*a\\*b\\** colourspace volume.
-    illuminant_Lab\
-        *CIE L\\*a\\*b\\** colourspace *illuminant* chromaticity coordinates.
-    chromatic_adaptation_transform\
+    limits
+        *CIE L\\*a\\*b\\** colourspace volume boundaries.
+    illuminant_Lab
+        *CIE L\\*a\\*b\\** colourspace *illuminant* chromaticity
+        coordinates.
+    chromatic_adaptation_transform
         *Chromatic adaptation* method.
-    random_generator\
+    random_generator
         Random triplet generator providing the random samples within the
         *CIE L\\*a\\*b\\** colourspace volume.
-    random_state\
-        Mersenne Twister pseudo-random number generator to use in the random
-        number generator.
+    random_state
+        Mersenne Twister pseudo-random number generator to use in the
+        random number generator.
 
     Returns
     -------
@@ -241,10 +243,10 @@ def RGB_colourspace_volume_MonteCarlo(
 
     Notes
     -----
-    -   The doctest is assuming that :func:`np.random.RandomState` definition
-        will return the same sequence no matter which *OS* or *Python*
-        version is used. There is however no formal promise about the *prng*
-        sequence reproducibility of either *Python* or *Numpy*
+    -   The doctest is assuming that :func:`np.random.RandomState`
+        definition will return the same sequence no matter which *OS* or
+        *Python* version is used. There is however no formal promise about
+        the *prng* sequence reproducibility of either *Python* or *Numpy*
         implementations: Laurent. (2012). Reproducibility of python
         pseudo-random numbers across systems and versions? Retrieved January
         20, 2015, from http://stackoverflow.com/questions/8786084/\
@@ -296,7 +298,8 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
     random_state: np.random.RandomState | None = None,
 ) -> float:
     """
-    Return specified *RGB* colourspace percentage coverage of an arbitrary volume.
+    Compute the specified *RGB* colourspace percentage coverage of an
+    arbitrary volume.
 
     Parameters
     ----------
@@ -309,8 +312,8 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
     random_generator
         Random triplet generator providing the random samples.
     random_state
-        Mersenne Twister pseudo-random number generator to use in the random
-        number generator.
+        Mersenne Twister pseudo-random number generator to use in the
+        random number generator.
 
     Returns
     -------
@@ -347,20 +350,21 @@ def RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
     random_state: np.random.RandomState | None = None,
 ) -> float:
     """
-    Return specified *RGB* colourspace percentage coverage of Pointer's Gamut
-    volume using *Monte Carlo* method.
+    Compute the specified *RGB* colourspace percentage coverage of
+    *Pointer's Gamut* volume using the *Monte Carlo* method.
 
     Parameters
     ----------
     colourspace
-        *RGB* colourspace to compute the *Pointer's Gamut* coverage percentage.
+        *RGB* colourspace to compute the *Pointer's Gamut* coverage
+        percentage.
     samples
         Sample count.
     random_generator
         Random triplet generator providing the random samples.
     random_state
-        Mersenne Twister pseudo-random number generator to use in the random
-        number generator.
+        Mersenne Twister pseudo-random number generator to use in the
+        random number generator.
 
     Returns
     -------
@@ -393,8 +397,8 @@ def RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
     random_state: np.random.RandomState | None = None,
 ) -> float:
     """
-    Return specified *RGB* colourspace percentage coverage of visible spectrum
-    volume using *Monte Carlo* method.
+    Compute the specified *RGB* colourspace percentage coverage of the visible
+    spectrum volume using the *Monte Carlo* method.
 
     Parameters
     ----------
