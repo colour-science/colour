@@ -2,8 +2,8 @@
 Meng et al. (2015) - Reflectance Recovery
 =========================================
 
-Define the objects for reflectance recovery using
-*Meng, Simon and Hanika (2015)* method:
+Define the objects for reflectance recovery using the *Meng, Simon and
+Hanika (2015)* method.
 
 -   :func:`colour.recovery.XYZ_to_sd_Meng2015`
 
@@ -61,24 +61,25 @@ def XYZ_to_sd_Meng2015(
     optimisation_kwargs: dict | None = None,
 ) -> SpectralDistribution:
     """
-    Recover the spectral distribution of specified *CIE XYZ* tristimulus values
-    using *Meng et al. (2015)* method.
+    Recover the spectral distribution from the specified *CIE XYZ* tristimulus
+    values using the *Meng et al. (2015)* method.
 
     Parameters
     ----------
     XYZ
-        *CIE XYZ* tristimulus values to recover the spectral distribution from.
+        *CIE XYZ* tristimulus values from which to recover the spectral
+        distribution.
     cmfs
         Standard observer colour matching functions. The wavelength
         :math:`\\lambda_{i}` range interval of the colour matching functions
-        affects directly the time the computations take. The current default
-        interval of 5 is a good compromise between precision and time spent,
-        default to the *CIE 1931 2 Degree Standard Observer*.
+        directly affects the computation time. The current default interval
+        of 5 provides a good compromise between precision and computation
+        time. Defaults to the *CIE 1931 2 Degree Standard Observer*.
     illuminant
-        Illuminant spectral distribution, default to
+        Illuminant spectral distribution. Defaults to
         *CIE Standard Illuminant D65*.
     optimisation_kwargs
-        Parameters for :func:`scipy.optimize.minimize` definition.
+        Parameters for the :func:`scipy.optimize.minimize` definition.
 
     Returns
     -------
@@ -88,7 +89,7 @@ def XYZ_to_sd_Meng2015(
     Raises
     ------
     RuntimeError
-        If the optimisation failed.
+        If the optimisation fails.
 
     Notes
     -----
@@ -100,9 +101,9 @@ def XYZ_to_sd_Meng2015(
 
     -   The definition used to convert spectrum to *CIE XYZ* tristimulus
         values is :func:`colour.colorimetry.spectral_to_XYZ_integration`
-        definition because it processes any measurement interval opposed to
-        :func:`colour.colorimetry.sd_to_XYZ_ASTME308` definition that
-        handles only measurement interval of 1, 5, 10 or 20nm.
+        because it processes any measurement interval, as opposed to
+        :func:`colour.colorimetry.sd_to_XYZ_ASTME308` which handles only
+        measurement intervals of 1, 5, 10 or 20nm.
 
     References
     ----------

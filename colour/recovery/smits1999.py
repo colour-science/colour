@@ -2,7 +2,7 @@
 Smits (1999) - Reflectance Recovery
 ===================================
 
-Define the objects for reflectance recovery using *Smits (1999)* method.
+Define objects for reflectance recovery using the *Smits (1999)* method.
 
 References
 ----------
@@ -68,8 +68,9 @@ References
 
 def XYZ_to_RGB_Smits1999(XYZ: ArrayLike) -> NDArrayFloat:
     """
-    Convert from *CIE XYZ* tristimulus values to *RGB* colourspace with
-    conditions required by the current *Smits (1999)* method implementation.
+    Convert from *CIE XYZ* tristimulus values to *RGB* colourspace using
+    the conditions required by the current *Smits (1999)* method
+    implementation.
 
     Parameters
     ----------
@@ -94,8 +95,8 @@ def XYZ_to_RGB_Smits1999(XYZ: ArrayLike) -> NDArrayFloat:
 
 def RGB_to_sd_Smits1999(RGB: ArrayLike) -> SpectralDistribution:
     """
-    Recover the spectral distribution of specified *RGB* colourspace array using
-    *Smits (1999)* method.
+    Recover the spectral distribution of the specified *RGB* colourspace array
+    using the *Smits (1999)* method.
 
     Parameters
     ----------
