@@ -3,14 +3,14 @@ Krystek (1985) Correlated Colour Temperature
 ============================================
 
 Define the *Krystek (1985)* correlated colour temperature :math:`T_{cp}`
-computations objects:
+computation objects.
 
--   :func:`colour.temperature.uv_to_CCT_Krystek1985`: Correlated colour
-    temperature :math:`T_{cp}` computation of given *CIE UCS* colourspace *uv*
-    chromaticity coordinates using *Krystek (1985)* method.
--   :func:`colour.temperature.CCT_to_uv_Krystek1985`: *CIE UCS* colourspace
-    *uv* chromaticity coordinates computation of given correlated colour
-    temperature :math:`T_{cp}` using *Krystek (1985)* method.
+-   :func:`colour.temperature.uv_to_CCT_Krystek1985`: Compute correlated
+    colour temperature :math:`T_{cp}` from specified *CIE UCS* colourspace
+    *uv* chromaticity coordinates using the *Krystek (1985)* method.
+-   :func:`colour.temperature.CCT_to_uv_Krystek1985`: Compute *CIE UCS*
+    colourspace *uv* chromaticity coordinates from specified correlated
+    colour temperature :math:`T_{cp}` using the *Krystek (1985)* method.
 
 References
 ----------
@@ -48,9 +48,9 @@ def uv_to_CCT_Krystek1985(
     uv: ArrayLike, optimisation_kwargs: dict | None = None
 ) -> NDArrayFloat:
     """
-    Compute the correlated colour temperature :math:`T_{cp}` from specified
-    *CIE UCS* colourspace *uv* chromaticity coordinates using *Krystek (1985)*
-    method.
+    Compute the correlated colour temperature :math:`T_{cp}` from the
+    specified *CIE UCS* colourspace *uv* chromaticity coordinates using
+    *Krystek (1985)* method.
 
     Parameters
     ----------
@@ -66,16 +66,18 @@ def uv_to_CCT_Krystek1985(
 
     Warnings
     --------
-    *Krystek (1985)* does not give an analytical inverse transformation to
-    compute the correlated colour temperature :math:`T_{cp}` from given
-    *CIE UCS* colourspace *uv* chromaticity coordinates, the current
-    implementation relies on optimisation using :func:`scipy.optimize.minimize`
-    definition and thus has reduced precision and poor performance.
+    *Krystek (1985)* does not provide an analytical inverse transformation
+    to compute the correlated colour temperature :math:`T_{cp}` from the
+    specified *CIE UCS* colourspace *uv* chromaticity coordinates. The
+    current implementation relies on optimisation using
+    :func:`scipy.optimize.minimize` definition and thus has reduced
+    precision and poor performance.
 
     Notes
     -----
-    -   *Krystek (1985)* method computations are valid for correlated colour
-        temperature :math:`T_{cp}` normalised to domain [1000, 15000].
+    -   *Krystek (1985)* method computations are valid for correlated
+        colour temperature :math:`T_{cp}` normalised to domain
+        [1000, 15000].
 
     References
     ----------
@@ -125,8 +127,9 @@ def uv_to_CCT_Krystek1985(
 
 def CCT_to_uv_Krystek1985(CCT: ArrayLike) -> NDArrayFloat:
     """
-    Compute the *CIE UCS* colourspace *uv* chromaticity coordinates from specified
-    correlated colour temperature :math:`T_{cp}` using *Krystek (1985)* method.
+    Compute the *CIE UCS* colourspace *uv* chromaticity coordinates from the
+    specified correlated colour temperature :math:`T_{cp}` using the
+    *Krystek (1985)* method.
 
     Parameters
     ----------

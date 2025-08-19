@@ -3,20 +3,20 @@ Robertson (1968) Correlated Colour Temperature
 ==============================================
 
 Define the *Robertson (1968)* correlated colour temperature :math:`T_{cp}`
-computations objects:
+computation objects.
 
--   :func:`colour.temperature.mired_to_CCT`: Micro reciprocal degree to
-    correlated colour temperature :math:`T_{cp}` computation.
--   :func:`colour.temperature.CCT_to_mired`: Correlated colour
-    temperature :math:`T_{cp}` to micro reciprocal degree computation.
--   :func:`colour.temperature.uv_to_CCT_Robertson1968`: Correlated colour
-    temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` computation of given
-    *CIE UCS* colourspace *uv* chromaticity coordinates using *Robertson
-    (1968)* method.
--   :func:`colour.temperature.CCT_to_uv_Robertson1968`: *CIE UCS* colourspace
-    *uv* chromaticity coordinates computation of given correlated colour
-    temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` using *Robertson
-    (1968)* method.
+-   :func:`colour.temperature.mired_to_CCT`: Convert micro reciprocal
+    degrees to correlated colour temperature :math:`T_{cp}`.
+-   :func:`colour.temperature.CCT_to_mired`: Convert correlated colour
+    temperature :math:`T_{cp}` to micro reciprocal degrees.
+-   :func:`colour.temperature.uv_to_CCT_Robertson1968`: Compute correlated
+    colour temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` from
+    specified *CIE UCS* colourspace *uv* chromaticity coordinates using
+    the *Robertson (1968)* method.
+-   :func:`colour.temperature.CCT_to_uv_Robertson1968`: Compute *CIE UCS*
+    colourspace *uv* chromaticity coordinates from specified correlated
+    colour temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` using the
+    *Robertson (1968)* method.
 
 References
 ----------
@@ -126,7 +126,7 @@ References
 @dataclass
 class ISOTemperatureLine_Specification_Robertson1968:
     """
-    Define the data for a *Roberston (1968)* iso-temperature line.
+    Define a data structure for a *Robertson (1968)* iso-temperature line.
 
     Parameters
     ----------
@@ -154,13 +154,13 @@ ISOTEMPERATURE_LINES_ROBERTSON1968: list = [
 
 def mired_to_CCT(mired: ArrayLike) -> NDArrayFloat:
     """
-    Convert specified micro reciprocal degree to correlated colour temperature
-    :math:`T_{cp}`.
+    Convert specified micro reciprocal degree (mired) to correlated colour
+    temperature :math:`T_{cp}`.
 
     Parameters
     ----------
     mired
-         Micro reciprocal degree (mired).
+         Micro reciprocal degree.
 
     Returns
     -------
@@ -187,12 +187,12 @@ def CCT_to_mired(CCT: ArrayLike) -> NDArrayFloat:
     Parameters
     ----------
     CCT
-         Correlated colour temperature :math:`T_{cp}`.
+        Correlated colour temperature :math:`T_{cp}`.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Micro reciprocal degree (mired).
+        Micro reciprocal degree.
 
     Examples
     --------
@@ -209,8 +209,8 @@ def CCT_to_mired(CCT: ArrayLike) -> NDArrayFloat:
 def _uv_to_CCT_Robertson1968(uv: ArrayLike) -> NDArrayFloat:
     """
     Compute the correlated colour temperature :math:`T_{cp}` and
-    :math:`\\Delta_{uv}` from specified *CIE UCS* colourspace *uv* chromaticity
-    coordinates using *Roberston (1968)* method.
+    :math:`\\Delta_{uv}` from the specified *CIE UCS* colourspace *uv*
+    chromaticity coordinates using the *Robertson (1968)* method.
 
     Parameters
     ----------
@@ -277,8 +277,8 @@ def _uv_to_CCT_Robertson1968(uv: ArrayLike) -> NDArrayFloat:
 def uv_to_CCT_Robertson1968(uv: ArrayLike) -> NDArrayFloat:
     """
     Compute the correlated colour temperature :math:`T_{cp}` and
-    :math:`\\Delta_{uv}` from specified *CIE UCS* colourspace *uv* chromaticity
-    coordinates using *Roberston (1968)* method.
+    :math:`\\Delta_{uv}` from the specified *CIE UCS* colourspace *uv*
+    chromaticity coordinates using *Robertson (1968)* method.
 
     Parameters
     ----------
@@ -310,9 +310,9 @@ def uv_to_CCT_Robertson1968(uv: ArrayLike) -> NDArrayFloat:
 
 def _CCT_to_uv_Robertson1968(CCT_D_uv: ArrayLike) -> NDArrayFloat:
     """
-    Compute the *CIE UCS* colourspace *uv* chromaticity coordinates from specified
-    correlated colour temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` using
-    *Roberston (1968)* method.
+    Compute the *CIE UCS* colourspace *uv* chromaticity coordinates from
+    the specified correlated colour temperature :math:`T_{cp}` and
+    :math:`\\Delta_{uv}` using *Robertson (1968)* method.
 
     Parameters
     ----------
@@ -370,9 +370,9 @@ def _CCT_to_uv_Robertson1968(CCT_D_uv: ArrayLike) -> NDArrayFloat:
 
 def CCT_to_uv_Robertson1968(CCT_D_uv: ArrayLike) -> NDArrayFloat:
     """
-    Compute the *CIE UCS* colourspace *uv* chromaticity coordinates from specified
-    correlated colour temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` using
-    *Roberston (1968)* method.
+    Return the *CIE UCS* colourspace *uv* chromaticity coordinates from the
+    specified correlated colour temperature :math:`T_{cp}` and
+    :math:`\\Delta_{uv}` using *Robertson (1968)* method.
 
     Parameters
     ----------
