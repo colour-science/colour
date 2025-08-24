@@ -1046,7 +1046,7 @@ DATA_TE226_V2_CIE_XYZ: dict = {
         "neutral 7": [0.0628, 0.0665, 0.0701],
         "neutral 2": [0.0190, 0.0202, 0.0202],
         "neutral < 0.1": [0.0000, 0.0001, 0.0000],
-    }
+    }.items()
 }
 
 DATA_TE226_V2: dict = dict(
